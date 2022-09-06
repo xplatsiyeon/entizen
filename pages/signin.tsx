@@ -10,6 +10,7 @@ import {
 import Link from 'next/link';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
+import { calcPts } from '../utils/ptCalc';
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -204,12 +205,11 @@ const Signin = (props: Props) => {
         >
           <Button
             sx={{
-              // background: '#FFFFFF',
               backgroundColor: '{`${colors.gold}`}',
               boxShadow: '0px 0px 10px rgba(137, 163, 201, 0.2)',
               borderRadius: '8px',
               width: '100%',
-              padding: 'calc(0.75*20pt) calc(0.75*80pt)',
+              padding: `${calcPts(20)} ${calcPts(80)}`,
             }}
           >
             <Typography
@@ -218,7 +218,7 @@ const Signin = (props: Props) => {
                 fontWeight: 700,
                 textAlign: 'center',
                 letterSpacing: '-0.02em',
-                backgroundColor: "'${colors.lightDark}'",
+                backgroundColor: `${colors.lightDark}`,
                 color: '#595757',
               }}
             >
