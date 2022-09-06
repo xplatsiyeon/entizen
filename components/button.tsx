@@ -1,19 +1,16 @@
+import styled from '@emotion/styled';
 import { Button } from '@mui/material';
-import { Box } from '@mui/system';
+import colors from '../styles/colors';
 interface Props {
-  text: string;
+  text?: string;
   isClick?: boolean;
   marginTop: string;
+  [key: string]: any; // 필요한 props 작성하세요.
 }
 
-export default function Btn({ text = '확인', isClick, marginTop }: Props) {
+const Btn = ({ text = '확인', isClick, marginTop }: Props) => {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
+    <Wrapper>
       <Button
         sx={{
           fontWeight: '700',
@@ -24,12 +21,23 @@ export default function Btn({ text = '확인', isClick, marginTop }: Props) {
           height: '42pt',
           borderRadius: '6pt',
           alignItems: 'center',
-          background: '#5a2dc9',
+          background: `${isClick ? '#5a2dc9' : '#E2E5ED'}`,
           color: 'white',
+          ':hover': {
+            outline: `2pt solid ${colors.main}`,
+            borderRadius: '0',
+          },
         }}
       >
         {text}
       </Button>
-    </Box>
+    </Wrapper>
   );
-}
+};
+
+export default Btn;
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;

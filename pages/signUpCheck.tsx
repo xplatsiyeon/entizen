@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Btn from 'components/button';
 
-export default function signUpCheck() {
+const signUpCheck = () => {
   return (
     <>
       <Header isHome={true} />
@@ -43,7 +43,9 @@ export default function signUpCheck() {
       <Btn text="가입 완료" marginTop="111" />
     </>
   );
-}
+};
+
+export default signUpCheck;
 
 const Info = styled.p`
   padding-top: 6pt;

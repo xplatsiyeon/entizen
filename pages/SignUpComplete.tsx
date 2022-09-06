@@ -4,7 +4,8 @@ import Image from 'next/image';
 import Btn from 'components/button';
 import ExitImg from '../public/images/X.svg';
 import CheckImg from '../public/images/CheckCircle.svg';
-export default function SignUpComplete() {
+
+const SignUpComplete = () => {
   return (
     <>
       <Nav>
@@ -32,7 +33,9 @@ export default function SignUpComplete() {
       <Btn text="홈으로" marginTop="32" />
     </>
   );
-}
+};
+
+export default SignUpComplete;
 
 const Nav = styled.div`
   display: flex;
