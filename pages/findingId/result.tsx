@@ -24,10 +24,12 @@ export default function findingId2() {
         <Button
           sx={{
             fontWeight: '700',
-            margin: '80pt 20pt 0 20pt',
+            margin: '60pt 15pt 0 15pt',
             width: '100%',
-            height: '56pt',
-            borderRadius: '8pt',
+            height: '42pt',
+            padding: '15pt 0',
+            fontSize: '12pt',
+            borderRadius: '6pt',
             alignItems: 'center',
             background: '#5a2dc9',
             color: 'white',
@@ -40,10 +42,11 @@ export default function findingId2() {
       <Password>
         <Box
           sx={{
-            fontSize: '10pt',
+            fontSize: '10.5pt',
             fontWeight: '400',
+            lineHeight: '12pt',
             cursor: 'pointer',
-            paddingBottom: '2pt',
+            paddingBottom: '1.5pt',
             letterSpacing: '-0.02em',
             textDecorationLine: 'underline',
             textUnderlinePosition: 'under',
@@ -58,23 +61,23 @@ export default function findingId2() {
 }
 
 const Inform = styled.div`
-  margin-top: 16pt;
-  margin-left: 20pt;
+  margin-top: 12pt;
+  margin-left: 15pt;
   & > div {
-    font-size: 24pt;
+    font-size: 18pt;
     font-weight: 700;
-    line-height: 32pt;
+    line-height: 24pt;
     color: ${colors.main2};
   }
 `;
 const UserId = styled.div`
-  margin-top: 72pt;
+  margin-top: 54pt;
   text-align: center;
   font-weight: 700;
   color: ${colors.main};
 `;
 const Password = styled.div`
-  margin-top: 35pt;
-  padding: 5pt 0;
+  margin-top: 26.25pt;
+  padding: 3.75pt 0;
   text-align: center;
 `;
