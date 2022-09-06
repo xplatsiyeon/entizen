@@ -1,19 +1,35 @@
 import { Button } from '@mui/material';
-export default function Btn(text: string = '확인', isClick?: string) {
+import { Box } from '@mui/system';
+interface Props {
+  text: string;
+  isClick?: boolean;
+  marginTop: string;
+}
+
+export default function Btn({ text = '확인', isClick, marginTop }: Props) {
   return (
-    <Button
+    <Box
       sx={{
-        fontWeight: '700',
-        margin: '80pt 20pt 0 20pt',
-        width: '100%',
-        height: '56pt',
-        borderRadius: '8pt',
-        alignItems: 'center',
-        background: '#5a2dc9',
-        color: 'white',
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
-      {text}
-    </Button>
+      <Button
+        sx={{
+          fontWeight: '700',
+          marginTop: `${parseInt(marginTop)}pt`,
+          marginLeft: '20pt',
+          marginRight: '20pt',
+          width: '100%',
+          height: '56pt',
+          borderRadius: '8pt',
+          alignItems: 'center',
+          background: '#5a2dc9',
+          color: 'white',
+        }}
+      >
+        {text}
+      </Button>
+    </Box>
   );
 }
