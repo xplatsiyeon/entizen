@@ -3,7 +3,7 @@ import colors from '../../styles/colors';
 import { Box, Button } from '@mui/material';
 import Header from 'components/header';
 
-export default function findingId2() {
+const findingId2 = () => {
   return (
     <>
       <Header />
@@ -58,7 +58,9 @@ export default function findingId2() {
       </Password>
     </>
   );
-}
+};
+
+export default findingId2;
 
 const Inform = styled.div`
   margin-top: 12pt;

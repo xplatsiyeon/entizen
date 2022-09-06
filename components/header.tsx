@@ -4,8 +4,9 @@ import btnImg from '../public/images/back-btn.svg';
 import home from '../public/images/home.png';
 interface Props {
   isHome?: boolean;
+  [key: string]: any; // 필요한 props 작성하세요.
 }
-export default function Header({ isHome = false }: Props) {
+const Header = ({ isHome = false }: Props) => {
   return (
     <Box
       sx={{
@@ -37,4 +38,6 @@ export default function Header({ isHome = false }: Props) {
       )}
     </Box>
   );
-}
+};
+
+export default Header;
