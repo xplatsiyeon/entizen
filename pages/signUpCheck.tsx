@@ -7,7 +7,7 @@ import Btn from 'components/button';
 export default function signUpCheck() {
   return (
     <>
-      <Header />
+      <Header isHome={true} />
       <Info>
         가입하실 아이디와
         <br />
@@ -18,7 +18,7 @@ export default function signUpCheck() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          marginTop: 'calc(0.75*32pt)',
+          marginTop: '18pt',
           width: '100%',
           position: 'relative',
         }}
@@ -32,7 +32,7 @@ export default function signUpCheck() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          marginTop: 'calc(0.75*40pt)',
+          marginTop: '22.5pt',
           width: '100%',
         }}
       >
@@ -46,27 +46,27 @@ export default function signUpCheck() {
 }
 
 const Info = styled.p`
-  padding-top: 8pt;
-  margin-left: 20pt;
+  padding-top: 6pt;
+  margin-left: 15pt;
   font-weight: 700;
-  font-size: 24pt;
-  line-height: 32pt;
+  font-size: 18pt;
+  line-height: 24pt;
   color: ${colors.main2};
 `;
 const Label = styled.label`
   font-weight: 500;
-  font-size: 16pt;
-  line-height: 16pt;
+  font-size: 12pt;
+  line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  margin-left: 20pt;
+  margin-left: 15pt;
 `;
 const Input = styled.input`
-  border: calc(0.75 * 1pt) solid ${colors.gray};
-  border-radius: calc(0.75 * 8pt);
-  margin: 12pt 20pt 0 20pt;
-  height: calc(0.75 * 52pt);
-  padding-left: calc(0.75 * 16pt);
+  border: 0.75pt solid ${colors.gray};
+  border-radius: 6pt;
+  margin: 9pt 15pt 0 15pt;
+  padding: 13.5pt 0;
+  padding-left: 12pt;
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;
@@ -74,10 +74,13 @@ const Input = styled.input`
 `;
 const OverlapBtn = styled.button`
   position: absolute;
-  right: calc(0.75 * 36pt);
-  top: calc(0.75 * 46pt);
+  right: 21pt;
+  top: 27pt;
   background: #e2e5ed;
   color: #ffffff;
-  border-radius: calc(0.75 * 8pt);
-  padding: calc(0.75 * 10pt) calc(0.75 * 12pt);
+  border-radius: 6pt;
+  padding: 7.5pt 9pt;
+  font-size: 10.5pt;
+  font-weight: 500;
+  line-height: 12pt;
 `;
