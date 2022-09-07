@@ -8,7 +8,7 @@ import CheckOnImg from 'public/images/check-box-on.svg';
 import SmallCheckImg from 'public/images/check-small.svg';
 import SmallCheckOnImg from 'public/images/check-small-on.svg';
 import Btn from 'components/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const signUpTerms = () => {
   const [fullTerms, setFullTerms] = useState(false);
@@ -17,15 +17,20 @@ const signUpTerms = () => {
   const [nextBtn, setNextBtn] = useState(false);
 
   const fullTermsHandler = () => {
-    setFullTerms(true);
-    setRequiredTerms(true);
-    setSelectTerms(true);
-    setNextBtn(true);
+    if (fullTerms) {
+      setFullTerms(false);
+      setRequiredTerms(false);
+      setSelectTerms(false);
+    } else {
+      setFullTerms(true);
+      setRequiredTerms(true);
+      setSelectTerms(true);
+    }
   };
-  const requiredTermsHandler = () => {
-    setNextBtn(true);
-    setRequiredTerms(true);
-  };
+
+  useEffect(() => {
+    requiredTerms ? setNextBtn(true) : setNextBtn(false);
+  }, [requiredTerms]);
 
   return (
     <Wrapper>
@@ -44,7 +49,7 @@ const signUpTerms = () => {
         <p>전체 약관에 동의합니다.</p>
       </Terms>
       <Form isterms={requiredTerms.toString()}>
-        <Box className="box" onClick={requiredTermsHandler}>
+        <Box className="box" onClick={() => setRequiredTerms((prev) => !prev)}>
           <Image alt="check" src={requiredTerms ? CheckOnImg : CheckImg} />
           <p>필수 약관에 동의합니다.</p>
         </Box>

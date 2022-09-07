@@ -10,31 +10,47 @@ import userOnImg from 'public/images/user_on.svg';
 import { useState } from 'react';
 
 const signUpSelect = () => {
-  const [isCompany, setIsCompany] = useState(false);
-  const [isUser, setIsUser] = useState(false);
+  const [userType, setUserType] = useState<number>(-1);
+  const UserTypeList: string[] = ['기업회원', '일반회원'];
   return (
     <Wrapper>
       <Header />
       <Notice variant="h3">어떤 용무로 오셨나요?</Notice>
       <SelectWrapper>
-        <Select
-          isclick={isCompany.toString()}
-          onClick={() => {
-            setIsCompany((prev) => !prev);
-          }}
-        >
-          <Image src={isCompany ? companyOnImg : companyImg} alt="" />
-          <div>기업회원</div>
-        </Select>
-        <Select
-          isclick={isUser.toString()}
-          onClick={() => {
-            setIsUser((prev) => !prev);
-          }}
-        >
-          <Image src={isUser ? userOnImg : userImg} alt="" />
-          <div>일반회원</div>
-        </Select>
+        {UserTypeList.map((type, index) => (
+          <div key={index}>
+            {type === '기업회원' && (
+              <Select
+                type={userType.toString()}
+                idx={index.toString()}
+                onClick={() => {
+                  setUserType(index);
+                }}
+              >
+                <Image
+                  src={userType === index ? companyOnImg : companyImg}
+                  alt="company"
+                />
+                <div>{type}</div>
+              </Select>
+            )}
+            {type === '일반회원' && (
+              <Select
+                type={userType.toString()}
+                idx={index.toString()}
+                onClick={() => {
+                  setUserType(index);
+                }}
+              >
+                <Image
+                  src={userType === index ? userOnImg : userImg}
+                  alt="user"
+                />
+                <div>{type}</div>
+              </Select>
+            )}
+          </div>
+        ))}
       </SelectWrapper>
     </Wrapper>
   );
@@ -56,7 +72,7 @@ const Notice = styled(Typography)`
 const SelectWrapper = styled(Box)`
   margin-top: 45pt;
 `;
-const Select = styled(Box)<{ isclick: string }>`
+const Select = styled(Box)<{ type: string; idx: string }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,10 +80,11 @@ const Select = styled(Box)<{ isclick: string }>`
   gap: 18pt;
   padding: 21pt 0;
   border: 0.75pt solid
-    ${({ isclick }) => (isclick === 'true' ? colors.main : colors.lightGray)};
+    ${({ type, idx }) => (type === idx ? colors.main : colors.lightGray)};
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 8px;
-  color: ${({ isclick }) => isclick === 'true' && colors.main};
+  color: ${({ type, idx }) => type === idx && colors.main};
+  background-color: ${({ type, idx }) => type === idx && '#f8f6ff'};
   :nth-of-type(1) {
     margin-bottom: 21pt;
   }
