@@ -4,8 +4,9 @@ import Image from 'next/image';
 import Btn from 'components/button';
 import ExitImg from '../public/images/X.svg';
 import CheckImg from '../public/images/CheckCircle.svg';
+import colors from 'styles/colors';
 
-const SignUpComplete = () => {
+const signUpComplete = () => {
   return (
     <>
       <Nav>
@@ -35,7 +36,7 @@ const SignUpComplete = () => {
   );
 };
 
-export default SignUpComplete;
+export default signUpComplete;
 
 const Nav = styled.div`
   display: flex;
@@ -63,6 +64,6 @@ const Input = styled.input`
   width: 100%;
   padding: 13.5pt 44.25pt;
   font-size: 10.5pt;
-  border: 0.75pt solid #e9eaee;
+  border: 0.75pt solid ${colors.lightGray};
   border-radius: 6pt;
 `;

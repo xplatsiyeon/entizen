@@ -28,7 +28,7 @@ const signUpTerms = () => {
   };
 
   return (
-    <>
+    <Wrapper>
       <Header />
       <Notice variant="h3">
         엔티즌 약관에
@@ -100,15 +100,17 @@ const signUpTerms = () => {
         </Box>
       </BottomForm>
       <Btn text="다음" isClick={nextBtn} marginTop="63" />
-    </>
+    </Wrapper>
   );
 };
 
 export default signUpTerms;
 
+const Wrapper = styled.div`
+  padding: 0 15pt 15pt 15pt;
+`;
 const Notice = styled(Typography)`
   margin-top: 6pt;
-  margin-left: 15pt;
   font-weight: 700;
   font-size: 18pt;
   line-height: 24pt;
@@ -117,7 +119,6 @@ const Notice = styled(Typography)`
 const Terms = styled(Box)`
   display: flex;
   align-items: center;
-  margin-left: 15pt;
   margin-top: 45pt;
   & > p {
     margin-left: 12pt;
@@ -125,9 +126,9 @@ const Terms = styled(Box)`
 `;
 const Form = styled(Box)<{ isterms: string }>`
   border: 0.75pt solid
-    ${({ isterms }) => (isterms === 'true' ? colors.main : '#e9eaee')};
+    ${({ isterms }) => (isterms === 'true' ? colors.main : colors.lightGray)};
   border-radius: 6pt;
-  margin: 15pt 15pt 0 15pt;
+  margin-top: 15pt;
   padding: 15pt 11.25pt;
   .box {
     display: flex;
@@ -168,9 +169,9 @@ const Item = styled(Box)`
 `;
 const BottomForm = styled(Box)<{ isterms: string }>`
   border: 0.75pt solid
-    ${({ isterms }) => (isterms === 'true' ? colors.main : '#e9eaee')};
+    ${({ isterms }) => (isterms === 'true' ? colors.main : colors.lightGray)};
   border-radius: 6pt;
-  margin: 15pt 15pt 0 15pt;
+  margin-top: 15pt;
   padding: 15pt 11.25pt;
   & > p {
     margin-left: 12pt;

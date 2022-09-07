@@ -3,7 +3,7 @@ const colors = {
   main2: '#222222',
   dark: '#222831',
   lightDark: '#393E46',
-  lightGray: '#747780',
+  lightGray: '#e9eaee',
   gray: '#E2E5ED',
   gold: '#FFD369',
   white: '#EEEEEE',
