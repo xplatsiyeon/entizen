@@ -18,7 +18,6 @@ export default Input;
 const Box = styled.input`
   border: 0.75pt solid ${colors.gray};
   border-radius: 6pt;
-  /* margin: 9pt 15pt 0 15pt; */
   margin-top: 9pt;
   padding: 13.5pt 0;
   padding-left: 12pt;
