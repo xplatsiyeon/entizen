@@ -6,6 +6,7 @@ import Input from 'components/input';
 import colors from 'styles/colors';
 import AddImg from 'public/images/add-img.svg';
 import Image from 'next/image';
+import CloseImg from 'public/images/XCircle.svg';
 
 const signUpCompanyDetail = () => {
   return (
@@ -40,6 +41,16 @@ const signUpCompanyDetail = () => {
           </File>
         </div>
       </Form>
+      {/* img preview */}
+      {/* <Preview>
+        {[1, 2, 3].map((item, index) => (
+          <span key={index}>
+            <div>
+              <Image className="exit" src={CloseImg} alt="exit" />
+            </div>
+          </span>
+        ))}
+      </Preview> */}
       <Btn text="다음" isClick={false} marginTop="30" />
     </Wrapper>
   );
@@ -82,8 +93,6 @@ const OverlapBtn = styled.button`
   position: absolute;
   right: 8pt;
   top: 52.5pt;
-  /* right: 0; */
-  /* top: 0; */
   background: #e2e5ed;
   color: #ffffff;
   border-radius: 6pt;
@@ -111,5 +120,19 @@ const File = styled.label`
     font-size: 12pt;
     line-height: 12pt;
     color: #caccd1;
+  }
+`;
+const Preview = styled.div`
+  display: flex;
+  gap: 6pt;
+  width: 100%;
+  margin-top: 15pt;
+  & > span {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 60pt;
+    height: 60pt;
+    border-radius: 6pt;
+    border: 1px solid red;
   }
 `;
