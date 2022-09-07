@@ -14,6 +14,18 @@ const signUpTerms = () => {
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
   const [selectTerms, setSelectTerms] = useState(false);
+  const [nextBtn, setNextBtn] = useState(false);
+
+  const fullTermsHandler = () => {
+    setFullTerms(true);
+    setRequiredTerms(true);
+    setSelectTerms(true);
+    setNextBtn(true);
+  };
+  const requiredTermsHandler = () => {
+    setNextBtn(true);
+    setRequiredTerms(true);
+  };
 
   return (
     <>
@@ -27,12 +39,12 @@ const signUpTerms = () => {
         <Image
           alt="check"
           src={fullTerms ? CheckOnImg : CheckImg}
-          onClick={() => setFullTerms((prev) => !prev)}
+          onClick={fullTermsHandler}
         />
         <p>전체 약관에 동의합니다.</p>
       </Terms>
       <Form isterms={requiredTerms.toString()}>
-        <Box className="box" onClick={() => setRequiredTerms((prev) => !prev)}>
+        <Box className="box" onClick={requiredTermsHandler}>
           <Image alt="check" src={requiredTerms ? CheckOnImg : CheckImg} />
           <p>필수 약관에 동의합니다.</p>
         </Box>
@@ -87,7 +99,7 @@ const signUpTerms = () => {
           </Item>
         </Box>
       </BottomForm>
-      <Btn text="다음" isClick={false} marginTop="63" />
+      <Btn text="다음" isClick={nextBtn} marginTop="63" />
     </>
   );
 };
