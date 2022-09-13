@@ -214,7 +214,7 @@ const CheckBox = styled(Box)`
     font-size: 9pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
-    color: #a6a9b0;
+    color: ${colors.lightGray2};
   }
 `;
 const Line = styled.div`
