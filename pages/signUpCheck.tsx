@@ -6,7 +6,7 @@ import Btn from 'components/button';
 
 const signUpCheck = () => {
   return (
-    <>
+    <Wrapper>
       <Header isHome={true} />
       <Info>
         가입하실 아이디와
@@ -41,15 +41,17 @@ const signUpCheck = () => {
         <Input placeholder="비밀번호 재입력" />
       </Box>
       <Btn text="가입 완료" marginTop="111" />
-    </>
+    </Wrapper>
   );
 };
 
 export default signUpCheck;
 
+const Wrapper = styled.div`
+  padding: 0 15pt 15pt 15pt;
+`;
 const Info = styled.p`
   padding-top: 6pt;
-  margin-left: 15pt;
   font-weight: 700;
   font-size: 18pt;
   line-height: 24pt;
@@ -61,12 +63,11 @@ const Label = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  margin-left: 15pt;
 `;
 const Input = styled.input`
   border: 0.75pt solid ${colors.gray};
   border-radius: 6pt;
-  margin: 9pt 15pt 0 15pt;
+  margin-top: 9pt;
   padding: 13.5pt 0;
   padding-left: 12pt;
   ::placeholder {
@@ -76,8 +77,8 @@ const Input = styled.input`
 `;
 const OverlapBtn = styled.button`
   position: absolute;
-  right: 21pt;
-  top: 27pt;
+  right: 8pt;
+  top: 28.5pt;
   background: #e2e5ed;
   color: #ffffff;
   border-radius: 6pt;

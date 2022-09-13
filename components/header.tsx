@@ -13,8 +13,6 @@ const Header = ({ isHome = false }: Props) => {
         display: 'flex',
         alignItems: 'center',
         height: '36pt',
-        marginLeft: '15pt',
-        marginRight: '15pt',
         justifyContent: 'space-between',
       }}
     >

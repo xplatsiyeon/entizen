@@ -6,7 +6,7 @@ import Btn from 'components/button';
 
 const findPassword = () => {
   return (
-    <>
+    <Wrapper>
       <Header />
       <Text>새 비밀번호를 설정해주세요</Text>
       <InputBox>
@@ -14,15 +14,17 @@ const findPassword = () => {
         <Input placeholder="비밀번호 재입력" />
       </InputBox>
       <Btn marginTop="191.25" isClick={false} />
-    </>
+    </Wrapper>
   );
 };
 
 export default findPassword;
 
+const Wrapper = styled.div`
+  padding: 0 15pt 15pt 15pt;
+`;
 const Text = styled.p`
   margin-top: 6pt;
-  margin-left: 15pt;
   font-weight: 700;
   font-size: 18pt;
   line-height: 24pt;
