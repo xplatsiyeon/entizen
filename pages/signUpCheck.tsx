@@ -1,10 +1,104 @@
 import Header from '../components/header';
-import { Box } from '@mui/material';
+import React, { useEffect, useRef } from 'react';
+import { Box, InputAdornment, TextField, Typography } from '@mui/material';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Btn from 'components/button';
+import { useState } from 'react';
+import useDebounce from 'hooks/useDebounce';
+
+interface State {
+  pwInput: string;
+  showPassword: boolean;
+}
 
 const signUpCheck = () => {
+  const [checkPwShow, setCheckPwShow] = useState<boolean>(false);
+  const [idInput, setIdInput] = useState<string>('');
+  const [pwInput, setPwInput] = useState<string>('');
+  const [pwShow, setPwShow] = useState<boolean>(false);
+  const [pwSelected, setPwSelected] = useState<boolean>(false);
+  const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
+  const [checkPw, setCheckPw] = useState<string>('');
+
+  const [checkedPw, setCheckedPw] = useState<boolean>(false);
+  const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
+
+  const password = useDebounce(pwInput, 500);
+  const checkPassword = useDebounce(checkPw, 500);
+
+  useEffect(() => {
+    let num = password.search(/[0-9]/g);
+    let eng = password.search(/[a-z]/gi);
+    let spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+    if (password) {
+      if (password.length < 10 || password.length > 20) setCheckedPw(false);
+      else if (password.search(/₩s/) != -1) setCheckedPw(false);
+      else if (
+        (num < 0 && eng < 0) ||
+        (eng < 0 && spe < 0) ||
+        (spe < 0 && num < 0)
+      )
+        setCheckedPw(false);
+      else setCheckedPw(true);
+    }
+    if (checkPassword) {
+      if (password !== checkPassword) setCheckSamePw(false);
+      else setCheckSamePw(true);
+    }
+    console.log(password, checkPassword);
+  }, [password, checkPassword]);
+
+  const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let overLap = document.querySelector('.overlap');
+    if (e.target.name === 'id') {
+      setIdInput((idInput) => e.target.value);
+      if (idInput.length > 4) {
+        overLap?.classList.add('changeColor');
+      } else {
+        overLap?.classList.remove('changeColor');
+      }
+    }
+    if (e.target.name === 'pw') {
+      setPwInput(e.target.value);
+    }
+    if (e.target.name === 'checkPw') {
+      setCheckPw(e.target.value);
+    }
+  };
+
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.preventDefault();
+  };
+  const iconAdorment = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CancelRoundedIcon
+          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+        />
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+          }}
+          variant="subtitle1"
+          onClick={() => setPwShow(!pwShow)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+  const iconAdornment = pwSelected ? iconAdorment : {};
+  const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+
   return (
     <Wrapper>
       <Header isHome={true} />
@@ -18,29 +112,105 @@ const signUpCheck = () => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          marginTop: '18pt',
+          marginTop: '24pt',
           width: '100%',
           position: 'relative',
         }}
       >
         <Label>아이디</Label>
-        <Input placeholder="아이디 입력" />
-        <OverlapBtn>중복 확인</OverlapBtn>
+        <Input
+          placeholder="아이디 입력"
+          onChange={handleIdChange}
+          value={idInput}
+          name="id"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <OverlapBtn className="overlap">
+                  <Typography className="checkOverlap">중복확인</Typography>
+                </OverlapBtn>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Box>
+          <Typography
+            sx={{
+              color: '#F75015',
+              fontSize: '9pt',
+              lineHeight: '12pt',
+              marginTop: '9pt',
+            }}
+          >
+            이미 사용중인 아이디입니다.
+          </Typography>
+        </Box>
       </Box>
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          marginTop: '22.5pt',
+          marginTop: '30pt',
           width: '100%',
         }}
       >
         <Label>비밀번호</Label>
-        <Input placeholder="비밀번호 입력" />
-        <Input placeholder="비밀번호 재입력" />
+        <Input
+          placeholder="비밀번호 입력"
+          onChange={handleIdChange}
+          type={pwShow ? 'text' : 'password'}
+          value={pwInput}
+          name="pw"
+          hiddenLabel
+          InputProps={iconAdornment}
+          onFocus={(e) => setPwSelected(true)}
+          onBlur={(e) => setPwSelected(false)}
+        />
+        {!checkedPw && pwInput.length > 4 ? (
+          <Box>
+            <Typography
+              sx={{
+                color: '#F75015',
+                fontSize: '9pt',
+              }}
+            >
+              영문,숫자,특수문자 조합 10자 이상
+            </Typography>
+          </Box>
+        ) : (
+          <></>
+        )}
+        <Input
+          placeholder="비밀번호 재입력"
+          onChange={handleIdChange}
+          type={pwShow ? 'text' : 'password'}
+          value={checkPw}
+          name="checkPw"
+          InputProps={secondIconAdornment}
+          onFocus={(e) => setCheckPwSelected(true)}
+          onBlur={(e) => setCheckPwSelected(false)}
+        />
+        {!checkSamePw && checkPw.length > 4 ? (
+          <Box>
+            <Typography
+              sx={{
+                color: '#F75015',
+                fontSize: '9pt',
+              }}
+            >
+              비밀번호를 확인해주세요
+            </Typography>
+          </Box>
+        ) : (
+          <></>
+        )}
       </Box>
-      <Btn text="가입 완료" marginTop="111" />
+      <Btn
+        isClick={checkedPw && checkSamePw && idInput.length > 6 ? true : false}
+        text="가입 완료"
+        marginTop="30"
+      />
     </Wrapper>
   );
 };
@@ -64,26 +234,64 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
-const Input = styled.input`
+const Input = styled(TextField)`
   border: 0.75pt solid ${colors.gray};
   border-radius: 6pt;
   margin-top: 9pt;
-  padding: 13.5pt 0;
-  padding-left: 12pt;
+  & input {
+    padding: 13.5pt 0 13.5pt 12pt;
+    font-size: 12pt;
+    line-height: 12pt;
+  }
+
+  & .MuiInputBase-root {
+    padding-right: 9pt;
+  }
+
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;
   }
+  & .remove {
+    display: none;
+  }
+  :focus > .remove {
+    display: block;
+  }
+  /* margin-top: 9pt;
+  padding: 13.5pt 0;
+  padding-left: 12pt; */
+  /* ::placeholder {
+    color: ${colors.gray};
+    font-weight: 500;
+  }
+  font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  &::-webkit-input-placeholder {
+    transform: scale(0.77);
+    transform-origin: 0 50%;
+  }
+  &::-moz-placeholder {
+    font-size: 14px;
+    opacity: 1;
+  }
+  &:-ms-input-placeholder {
+    font-size: 14px;
+    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  } */
 `;
 const OverlapBtn = styled.button`
-  position: absolute;
-  right: 8pt;
-  top: 28.5pt;
+  & .checkOverlap {
+    padding: 7.5pt 9pt;
+  }
+  margin-right: 0;
   background: #e2e5ed;
   color: #ffffff;
   border-radius: 6pt;
-  padding: 7.5pt 9pt;
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 12pt;
+  &.changeColor {
+    background-color: ${colors.main};
+  }
 `;

@@ -59,7 +59,7 @@ const signUpManagerInfo = () => {
           확인
         </OverlapBtn>
       </Form>
-      <Btn marginTop="30" isClick={false} />
+      <Btn marginTop="30" text={'다음'} isClick={false} />
     </Wrapper>
   );
 };
@@ -131,7 +131,7 @@ const PhoneSelect = styled(Box)`
     }
     :hover {
       outline: 2pt solid ${colors.main};
-      border-radius: 0;
+      border-radius: 8px;
     }
   }
 `;
