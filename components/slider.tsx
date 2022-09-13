@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import colors from 'styles/colors';
 
 interface Props {
-  img: any;
+  img: StaticImageData;
   text1: string;
   text2: string;
 }
@@ -20,7 +20,7 @@ const Slider = ({ img, text1, text2 }: Props) => {
           {text1}
           <br />
         </Text>
-        <Text1 variant="h3">{text2}</Text1>
+        <Text2 variant="h3">{text2}</Text2>
       </TextBox>
     </>
   );
@@ -34,10 +34,12 @@ const ImgBox = styled(Box)`
   justify-content: center;
   padding-top: 27pt;
   height: 252pt;
+  /* height: 50.3748vh; */
   overflow: hidden;
 `;
 const TextBox = styled(Box)`
   padding-top: 27pt;
+  padding-top: 5.4vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -51,7 +53,7 @@ const Text = styled(Typography)`
   text-align: center;
   letter-spacing: -0.02em;
 `;
-const Text1 = styled(Typography)`
+const Text2 = styled(Typography)`
   font-weight: 700;
   font-size: 18pt;
   line-height: 28.5pt;
