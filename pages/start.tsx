@@ -11,32 +11,34 @@ import MaskImg2 from 'public/images/Mask_group2.png';
 import MaskImg3 from 'public/images/Mask_group3.png';
 const start = () => {
   return (
-    <SliderWrapper>
-      <Swiper pagination={true} modules={[Pagination]} className="mySwiper">
-        <SwiperSlide>
-          <Slider
-            img={MaskImg1}
-            text1="어려운 충전기를 알기쉽게,"
-            text2="엔티즌 도서관"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider
-            img={MaskImg2}
-            text1="미리 알아보는 내 충전기"
-            text2="비용과 수익"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Slider
-            img={MaskImg3}
-            text1="한 눈에 비교하는"
-            text2="나만의 역경매"
-          />
-        </SwiperSlide>
-      </Swiper>
+    <>
+      <SliderWrapper>
+        <Swiper modules={[Pagination]} pagination={true} loop={true}>
+          <SwiperSlide>
+            <Slider
+              img={MaskImg1}
+              text1="어려운 충전기를 알기쉽게,"
+              text2="엔티즌 도서관"
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <Slider
+              img={MaskImg2}
+              text1="미리 알아보는 내 충전기"
+              text2="비용과 수익"
+            />
+          </SwiperSlide>
+          <SwiperSlide>
+            <Slider
+              img={MaskImg3}
+              text1="한 눈에 비교하는"
+              text2="나만의 역경매"
+            />
+          </SwiperSlide>
+        </Swiper>
+      </SliderWrapper>
       <Btn>시작하기</Btn>
-    </SliderWrapper>
+    </>
   );
 };
 
@@ -53,7 +55,6 @@ const Btn = styled.div`
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
-  text-align: center;
   letter-spacing: -0.02em;
   margin-top: 33pt;
 `;
