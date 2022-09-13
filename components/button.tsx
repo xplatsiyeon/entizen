@@ -8,7 +8,7 @@ interface Props {
   [key: string]: any; // 필요한 props 작성하세요.
 }
 
-const Btn = ({ text = '확인', isClick, marginTop }: Props) => {
+const Btn = ({ text, isClick, marginTop }: Props) => {
   return (
     <Wrapper>
       <Button
