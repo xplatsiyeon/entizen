@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
-import BackImg from '../public/images/back-btn.svg';
+import BackImg from 'public/images/back-btn.svg';
 import Nut from 'public/images/Nut.svg';
 import Bell from 'public/images/bell.svg';
 import Loader from 'components/Loader';
@@ -234,6 +234,7 @@ const ContensBox = styled(Box)`
     left: 0;
     right: 0;
     bottom: 0;
+
     border-bottom: 1px solid ${colors.gray};
   }
 `;
