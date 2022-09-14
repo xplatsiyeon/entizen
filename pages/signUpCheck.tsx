@@ -111,15 +111,19 @@ const signUpCheck = () => {
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
   return (
     <>
-      {/* {modalOpen ? ( */}
-      <TwoBtnModal
-        text={'비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.'}
-        // setModalOpen={setModalOpen}
-        // modalOpen={modalOpen}
-      />
-      {/* ) : (
+      {modalOpen ? (
+        <TwoBtnModal
+          text={'로그아웃하시겠습니까?'}
+          rightBtnText={'예'}
+          leftBtnText={'아니오'}
+          rightBtnColor={'#222222'}
+          leftBtnColor={'#FF1B2D'}
+          setModalOpen={setModalOpen}
+          modalOpen={modalOpen}
+        />
+      ) : (
         <></>
-      )} */}
+      )}
       <Wrapper>
         <Header isHome={true} />
         <Info>

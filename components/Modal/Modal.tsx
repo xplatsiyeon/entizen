@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Container, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
 
@@ -10,6 +11,7 @@ type Props = {
 };
 
 const Modal = (props: Props) => {
+  const Router = useRouter();
   const { text, setModalOpen, modalOpen } = props;
   const handleOnClick = () => {
     if (setModalOpen) {
