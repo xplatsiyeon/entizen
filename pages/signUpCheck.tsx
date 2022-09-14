@@ -7,6 +7,9 @@ import colors from 'styles/colors';
 import Btn from 'components/button';
 import { useState } from 'react';
 import useDebounce from 'hooks/useDebounce';
+import Modal from 'components/Modal/Modal';
+import OneModal from 'components/Modal/OneModal';
+import TwoBtnModal from 'components/Modal/TwoBtnModal';
 
 interface State {
   pwInput: string;
@@ -14,20 +17,25 @@ interface State {
 }
 
 const signUpCheck = () => {
-  const [checkPwShow, setCheckPwShow] = useState<boolean>(false);
+  // id pw pw확인 상태
   const [idInput, setIdInput] = useState<string>('');
   const [pwInput, setPwInput] = useState<string>('');
-  const [pwShow, setPwShow] = useState<boolean>(false);
-  const [pwSelected, setPwSelected] = useState<boolean>(false);
-  const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkPw, setCheckPw] = useState<string>('');
 
+  // 패스워드 보여주기 true false
+  const [pwShow, setPwShow] = useState<boolean>(false);
+
+  const [pwSelected, setPwSelected] = useState<boolean>(false);
+  const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
 
+  // 모달 on / off
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  // 디바운스를 이용한 유효성 검사
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
-
   useEffect(() => {
     let num = password.search(/[0-9]/g);
     let eng = password.search(/[a-z]/gi);
@@ -51,6 +59,7 @@ const signUpCheck = () => {
     console.log(password, checkPassword);
   }, [password, checkPassword]);
 
+  // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let overLap = document.querySelector('.overlap');
     if (e.target.name === 'id') {
@@ -72,6 +81,8 @@ const signUpCheck = () => {
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
   };
+
+  // 인풋 안의 x , 표시
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
@@ -98,120 +109,134 @@ const signUpCheck = () => {
   };
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
-
   return (
-    <Wrapper>
-      <Header isHome={true} />
-      <Info>
-        가입하실 아이디와
-        <br />
-        비밀번호를 설정해주세요
-      </Info>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginTop: '24pt',
-          width: '100%',
-          position: 'relative',
-        }}
-      >
-        <Label>아이디</Label>
-        <Input
-          placeholder="아이디 입력"
-          onChange={handleIdChange}
-          value={idInput}
-          name="id"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <OverlapBtn className="overlap">
-                  <Typography className="checkOverlap">중복확인</Typography>
-                </OverlapBtn>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <Box>
-          <Typography
-            sx={{
-              color: '#F75015',
-              fontSize: '9pt',
-              lineHeight: '12pt',
-              marginTop: '9pt',
-            }}
-          >
-            이미 사용중인 아이디입니다.
-          </Typography>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginTop: '30pt',
-          width: '100%',
-        }}
-      >
-        <Label>비밀번호</Label>
-        <Input
-          placeholder="비밀번호 입력"
-          onChange={handleIdChange}
-          type={pwShow ? 'text' : 'password'}
-          value={pwInput}
-          name="pw"
-          hiddenLabel
-          InputProps={iconAdornment}
-          onFocus={(e) => setPwSelected(true)}
-          onBlur={(e) => setPwSelected(false)}
-        />
-        {!checkedPw && pwInput.length > 4 ? (
-          <Box>
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-              }}
-            >
-              영문,숫자,특수문자 조합 10자 이상
-            </Typography>
-          </Box>
-        ) : (
-          <></>
-        )}
-        <Input
-          placeholder="비밀번호 재입력"
-          onChange={handleIdChange}
-          type={pwShow ? 'text' : 'password'}
-          value={checkPw}
-          name="checkPw"
-          InputProps={secondIconAdornment}
-          onFocus={(e) => setCheckPwSelected(true)}
-          onBlur={(e) => setCheckPwSelected(false)}
-        />
-        {!checkSamePw && checkPw.length > 4 ? (
-          <Box>
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-              }}
-            >
-              비밀번호를 확인해주세요
-            </Typography>
-          </Box>
-        ) : (
-          <></>
-        )}
-      </Box>
-      <Btn
-        isClick={checkedPw && checkSamePw && idInput.length > 6 ? true : false}
-        text="가입 완료"
-        marginTop="30"
+    <>
+      {/* {modalOpen ? ( */}
+      <TwoBtnModal
+        text={'비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.'}
+        // setModalOpen={setModalOpen}
+        // modalOpen={modalOpen}
       />
-    </Wrapper>
+      {/* ) : (
+        <></>
+      )} */}
+      <Wrapper>
+        <Header isHome={true} />
+        <Info>
+          가입하실 아이디와
+          <br />
+          비밀번호를 설정해주세요
+        </Info>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            marginTop: '24pt',
+            width: '100%',
+            position: 'relative',
+          }}
+        >
+          <Label>아이디</Label>
+          <Input
+            placeholder="아이디 입력"
+            onChange={handleIdChange}
+            value={idInput}
+            name="id"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <OverlapBtn className="overlap">
+                    <Typography className="checkOverlap">중복확인</Typography>
+                  </OverlapBtn>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Box>
+            <Typography
+              sx={{
+                color: '#F75015',
+                fontSize: '9pt',
+                lineHeight: '12pt',
+                marginTop: '9pt',
+              }}
+            >
+              이미 사용중인 아이디입니다.
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            marginTop: '30pt',
+            width: '100%',
+          }}
+        >
+          <Label>비밀번호</Label>
+          <Input
+            placeholder="비밀번호 입력"
+            onChange={handleIdChange}
+            type={pwShow ? 'text' : 'password'}
+            value={pwInput}
+            name="pw"
+            hiddenLabel
+            InputProps={iconAdornment}
+            onFocus={(e) => setPwSelected(true)}
+            onBlur={(e) => setPwSelected(false)}
+          />
+          {!checkedPw && pwInput.length > 4 ? (
+            <Box>
+              <Typography
+                sx={{
+                  color: '#F75015',
+                  fontSize: '9pt',
+                }}
+              >
+                영문,숫자,특수문자 조합 10자 이상
+              </Typography>
+            </Box>
+          ) : (
+            <></>
+          )}
+          <Input
+            placeholder="비밀번호 재입력"
+            onChange={handleIdChange}
+            type={pwShow ? 'text' : 'password'}
+            value={checkPw}
+            name="checkPw"
+            InputProps={secondIconAdornment}
+            onFocus={(e) => setCheckPwSelected(true)}
+            onBlur={(e) => setCheckPwSelected(false)}
+          />
+          {!checkSamePw && checkPw.length > 4 ? (
+            <Box>
+              <Typography
+                sx={{
+                  color: '#F75015',
+                  fontSize: '9pt',
+                }}
+              >
+                비밀번호를 확인해주세요
+              </Typography>
+            </Box>
+          ) : (
+            <></>
+          )}
+        </Box>
+        <Btn
+          isClick={
+            checkedPw && checkSamePw && idInput.length > 6 ? true : false
+          }
+          text="가입 완료"
+          marginTop="30"
+          setModalOpen={setModalOpen}
+          modalOpen={modalOpen}
+        />
+      </Wrapper>
+    </>
   );
 };
 
