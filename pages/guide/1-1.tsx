@@ -16,7 +16,7 @@ interface Components {
   [key: number]: JSX.Element;
 }
 
-const guide1_1 = () => {
+const Guide1_1 = () => {
   const [tabNumber, setTabNumber] = useState<number>(0);
   const TabType = ['정보확인', '비교/선택', '설치 모니터링', '운영/관리'];
   const components: Components = {
@@ -78,7 +78,7 @@ const guide1_1 = () => {
   );
 };
 
-export default guide1_1;
+export default Guide1_1;
 
 const Wrapper = styled.div`
   padding-bottom: 20pt;

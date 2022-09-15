@@ -7,8 +7,10 @@ const colors = {
   lightGray2: '#a6a9b0',
   lightGray3: '#caccd1',
   gray: '#E2E5ED',
+  gray2: '#747780',
   gold: '#FFD369',
   white: '#EEEEEE',
+  lightWhite: '#FFFFFF',
   start: '#f1f2f6',
 };
 
