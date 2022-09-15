@@ -150,7 +150,7 @@ const findPassword = () => {
       </Box>
       <Btn
         isClick={
-          checkPw.length > 10 && pwInput.length > 10 && pwInput === checkPw
+          checkPw.length > 9 && pwInput.length > 9 && pwInput === checkPw
             ? true
             : false
         }
