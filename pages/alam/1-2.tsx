@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import Image from 'next/image';
 import BackImg from 'public/images/back-btn.svg';
 import colors from 'styles/colors';
-const alamNotice = () => {
+const AlamNotice = () => {
   return (
     <Wrapper>
       <Header>
@@ -50,7 +50,7 @@ const alamNotice = () => {
   );
 };
 
-export default alamNotice;
+export default AlamNotice;
 const Wrapper = styled.div`
   padding-bottom: 20pt;
 `;

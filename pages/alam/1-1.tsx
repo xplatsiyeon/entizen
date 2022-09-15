@@ -11,7 +11,7 @@ const arr = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2,
   3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
 ];
-const alam1 = () => {
+const Alam1 = () => {
   const [tab, setTab] = useState<number>(0);
   const tabList: string[] = ['전체 알림', '공지사항'];
   const [list, setList] = useState(arr.slice(0, 5));
@@ -127,7 +127,7 @@ const alam1 = () => {
   );
 };
 
-export default alam1;
+export default Alam1;
 
 const Wrapper = styled.div`
   padding-bottom: 20pt;

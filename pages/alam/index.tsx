@@ -5,7 +5,7 @@ import { useState } from 'react';
 import colors from 'styles/colors';
 import BackImg from 'public/images/back-btn.svg';
 
-const alam = () => {
+const Alam = () => {
   const [checked, setChecked] = useState({
     appPush: false,
     kakao: false,
@@ -156,7 +156,7 @@ const alam = () => {
   );
 };
 
-export default alam;
+export default Alam;
 
 const Wrapper = styled.div`
   padding-bottom: 20pt;

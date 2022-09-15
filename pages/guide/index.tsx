@@ -13,7 +13,7 @@ import subscribe_icon from 'public/guide/subscribe-icon.svg';
 import arrow_small from 'public/images/arrow.svg';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
-const guide1 = () => {
+const Guide1 = () => {
   const router = useRouter();
 
   // 필요한 인자 값 받아와서 페이지 이동
@@ -87,7 +87,7 @@ const guide1 = () => {
   );
 };
 
-export default guide1;
+export default Guide1;
 
 const Wrapper = styled.div`
   padding: 0 20pt;
