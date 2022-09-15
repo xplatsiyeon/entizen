@@ -9,7 +9,7 @@ import { Pagination } from 'swiper';
 import MaskImg1 from 'public/images/Mask_group.png';
 import MaskImg2 from 'public/images/Mask_group2.png';
 import MaskImg3 from 'public/images/Mask_group3.png';
-const start = () => {
+const Start = () => {
   return (
     <>
       <SliderWrapper>
@@ -42,7 +42,7 @@ const start = () => {
   );
 };
 
-export default start;
+export default Start;
 
 const Btn = styled.div`
   position: fixed;

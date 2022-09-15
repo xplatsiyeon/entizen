@@ -4,7 +4,7 @@ import React from 'react';
 
 type Props = {};
 
-const findId = (props: Props) => {
+const FindId = (props: Props) => {
   const findAccountTypeList: string[] = ['아이디 찾기', '비밀번호 찾기'];
   return (
     <React.Fragment>
@@ -81,4 +81,4 @@ const BackBtn = styled.img`
   margin: auto 0;
 `;
 
-export default findId;
+export default FindId;

@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Btn from 'components/button';
 
-const signUpCheck = () => {
+const SignUpCheck = () => {
   return (
     <Wrapper>
       <Header isHome={true} />
@@ -45,7 +45,7 @@ const signUpCheck = () => {
   );
 };
 
-export default signUpCheck;
+export default SignUpCheck;
 
 const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;

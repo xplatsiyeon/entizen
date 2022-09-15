@@ -6,7 +6,7 @@ import CheckImg from '../public/images/CheckCircle.svg';
 import btnImg from '../public/images/back-btn.svg';
 import colors from 'styles/colors';
 
-const signUpComplete = () => {
+const SignUpComplete = () => {
   return (
     <>
       <Nav>
@@ -47,7 +47,7 @@ const signUpComplete = () => {
   );
 };
 
-export default signUpComplete;
+export default SignUpComplete;
 
 // const ContentWrapper = styled(Box)``;
 

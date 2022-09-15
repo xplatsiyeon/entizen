@@ -9,7 +9,7 @@ import userImg from 'public/images/user.svg';
 import userOnImg from 'public/images/user_on.svg';
 import { useState } from 'react';
 
-const signUpSelect = () => {
+const SignUpSelect = () => {
   const [userType, setUserType] = useState<number>(-1);
   const UserTypeList: string[] = ['기업회원', '일반회원'];
   return (
@@ -56,7 +56,7 @@ const signUpSelect = () => {
   );
 };
 
-export default signUpSelect;
+export default SignUpSelect;
 const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;
 `;

@@ -6,7 +6,7 @@ import ExitImg from '../public/images/X.svg';
 import CheckImg from '../public/images/CheckCircle.svg';
 import colors from 'styles/colors';
 
-const signUpComplete = () => {
+const SignUpComplete = () => {
   return (
     <>
       <Nav>
@@ -36,7 +36,7 @@ const signUpComplete = () => {
   );
 };
 
-export default signUpComplete;
+export default SignUpComplete;
 
 const Nav = styled.div`
   display: flex;
