@@ -5,6 +5,7 @@ const colors = {
   lightDark: '#393E46',
   lightGray: '#e9eaee',
   lightGray2: '#a6a9b0',
+  lightGray3: '#caccd1',
   gray: '#E2E5ED',
   gold: '#FFD369',
   white: '#EEEEEE',

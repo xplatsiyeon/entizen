@@ -5,11 +5,11 @@ import colors from 'styles/colors';
 import bell from 'public/images/guide-bell.svg';
 import list from 'public/images/list-bar.svg';
 import banner from 'public/images/platform-banner.png';
-import subsidy_icon from 'public/images/subsidy-icon.svg';
-import fee_icon from 'public/images/fee-icon.svg';
 import arrow from 'public/images/right-arrow.svg';
-import charger_icon from 'public/images/charger-icon.svg';
-import subscribe_icon from 'public/images/subscribe-icon.svg';
+import fee_icon from 'public/guide/fee-icon.svg';
+import subsidy_icon from 'public/guide/subsidy-icon.svg';
+import charger_icon from 'public/guide/charger-icon.svg';
+import subscribe_icon from 'public/guide/subscribe-icon.svg';
 import arrow_small from 'public/images/arrow.svg';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -31,7 +31,7 @@ const guide1 = () => {
         </div>
       </Header>
       <Platform onClick={() => pageHandler('')}>
-        <Image src={banner} alt="platform" layout="fill" />
+        <Image src={banner} alt="platform" />
       </Platform>
       <SubsidyBox>
         <Subsidy onClick={() => pageHandler('')}>
@@ -55,13 +55,15 @@ const guide1 = () => {
             모든 것을 한 눈에!
           </p>
         </span>
-        <Image src={charger_icon} alt="img" />
+        <div className="img-box">
+          <Image src={charger_icon} alt="charger_icon" />
+        </div>
       </GuideBox>
       <GuideBox onClick={() => pageHandler('')}>
         <span>
           <div className="name_box">
             <h2 className="name">충전기 가이드</h2>
-            <Image src="" alt="img" />
+            <Image src={arrow} alt="img" />
           </div>
           <p className="text">
             나에게 딱 맞는
@@ -69,7 +71,9 @@ const guide1 = () => {
             충전기는?
           </p>
         </span>
-        <Image src={subscribe_icon} alt="img" />
+        <div className="img-box">
+          <Image src={subscribe_icon} alt="subscribe_icon" />
+        </div>
       </GuideBox>
       <EntizenLibrary onClick={() => pageHandler('')}>
         <Btn>
@@ -108,8 +112,10 @@ const Header = styled(Box)`
 `;
 const Platform = styled(Button)`
   width: 100%;
-  padding-top: 15.75pt;
-  height: 31.7841vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15.75pt;
 `;
 const SubsidyBox = styled(Box)`
   display: flex;
@@ -152,6 +158,7 @@ const GuideBox = styled(Button)`
   justify-content: space-between;
   align-items: center;
   background: #ffffff;
+  position: relative;
   width: 100%;
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
@@ -178,6 +185,12 @@ const GuideBox = styled(Button)`
     color: ${colors.lightGray2};
     text-align: start;
   }
+  .img-box {
+    position: absolute;
+    bottom: 15pt;
+    right: 15pt;
+    /* border: 1px solid red; */
+  }
 `;
 const EntizenLibrary = styled.div`
   display: flex;
@@ -195,6 +208,7 @@ const Btn = styled(Button)`
   display: flex;
   justify-content: center;
   gap: 3pt;
+  color: ${colors.main2};
   .img {
     position: relative;
     width: 9pt;
