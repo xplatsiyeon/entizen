@@ -92,6 +92,7 @@ export default guide1;
 const Wrapper = styled.div`
   padding: 0 20pt;
   padding-bottom: 30pt;
+  background-color: #fafcff;
 `;
 const Header = styled(Box)`
   display: flex;
@@ -187,8 +188,8 @@ const GuideBox = styled(Button)`
   }
   .img-box {
     position: absolute;
-    bottom: 15pt;
-    right: 15pt;
+    bottom: 16.5pt;
+    right: 15.75pt;
     /* border: 1px solid red; */
   }
 `;
