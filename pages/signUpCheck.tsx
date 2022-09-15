@@ -8,7 +8,6 @@ import Btn from 'components/button';
 import { useState } from 'react';
 import useDebounce from 'hooks/useDebounce';
 import Modal from 'components/Modal/Modal';
-import OneModal from 'components/Modal/OneModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 
 interface State {
@@ -16,7 +15,7 @@ interface State {
   showPassword: boolean;
 }
 
-const signUpCheck = () => {
+const SignUpCheck = () => {
   // id pw pw확인 상태
   const [idInput, setIdInput] = useState<string>('');
   const [pwInput, setPwInput] = useState<string>('');
@@ -244,7 +243,7 @@ const signUpCheck = () => {
   );
 };
 
-export default signUpCheck;
+export default SignUpCheck;
 
 const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;

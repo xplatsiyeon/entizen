@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
-import { TextField, Typography } from '@mui/material';
+import { InputAdornment, TextField, Typography } from '@mui/material';
+import Image from 'next/image';
 import React from 'react';
 import colors from 'styles/colors';
+import searchImg from 'public/images/address.png';
 
 type Props = {};
 
@@ -14,7 +16,17 @@ const SalesProjection = (props: Props) => {
           <br /> 확인해보세요!
         </TextArea>
         <SearchMapArea>
-          <Input></Input>
+          <Input
+            placeholder="주소 입력 후 간단 체크!"
+            // type=""
+            // hiddenLabel
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">kg</InputAdornment>
+              ),
+              endAdornment: <InputAdornment position="end">hi</InputAdornment>,
+            }}
+          />
         </SearchMapArea>
       </SearchMapWrapper>
     </>
@@ -42,10 +54,19 @@ const TextArea = styled(Typography)`
 
 const SearchMapArea = styled.div`
   width: 100%;
+  position: relative;
   margin-top: 10.5pt;
 `;
 
 const Input = styled(TextField)`
   width: 100%;
+  border-radius: 6pt;
+  border: 2.5pt solid ${colors.main};
+  display: flex;
+  justify-content: center;
+  & fieldset {
+    border: none;
+  }
 `;
+
 export default SalesProjection;

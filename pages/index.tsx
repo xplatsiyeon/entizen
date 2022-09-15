@@ -1,11 +1,12 @@
 import { NextPage } from 'next';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import MainPage from 'components/Main';
 
 type Props = {};
 
 const Home: NextPage = () => {
-  return <ItemWrapper>index</ItemWrapper>;
+  return <MainPage />;
 };
 
 export default Home;

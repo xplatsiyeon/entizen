@@ -8,7 +8,7 @@ import colors from 'styles/colors';
 
 const phoneCompany: string[] = ['SKT', 'KT', 'LGU+', '알뜰폰'];
 
-const signUpManagerInfo = () => {
+const SignUpManagerInfo = () => {
   return (
     <Wrapper>
       <Header isHome={true} />
@@ -64,7 +64,7 @@ const signUpManagerInfo = () => {
   );
 };
 
-export default signUpManagerInfo;
+export default SignUpManagerInfo;
 
 const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;
