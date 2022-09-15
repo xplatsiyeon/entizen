@@ -63,8 +63,11 @@ const SliderWrapper = styled.div`
     position: absolute;
     display: flex;
     flex-direction: row;
+  }
+  .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
     bottom: 15pt;
-    left: 20pt;
+    left: 15pt;
   }
 `;
 

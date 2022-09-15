@@ -17,7 +17,7 @@ interface Terms {
   selected: boolean;
 }
 
-const signUpTerms = () => {
+const SignUpTerms = () => {
   const route = useRouter();
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
@@ -130,7 +130,7 @@ const signUpTerms = () => {
   );
 };
 
-export default signUpTerms;
+export default SignUpTerms;
 
 const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;

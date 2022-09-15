@@ -8,7 +8,7 @@ import AddImg from 'public/images/add-img.svg';
 import Image from 'next/image';
 import CloseImg from 'public/images/XCircle.svg';
 
-const signUpCompanyDetail = () => {
+const SignUpCompanyDetail = () => {
   return (
     <Wrapper>
       <Header isHome={true} />
@@ -56,7 +56,7 @@ const signUpCompanyDetail = () => {
   );
 };
 
-export default signUpCompanyDetail;
+export default SignUpCompanyDetail;
 
 const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;

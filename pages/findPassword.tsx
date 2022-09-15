@@ -7,7 +7,7 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { useEffect, useState } from 'react';
 import useDebounce from 'hooks/useDebounce';
 
-const findPassword = () => {
+const FindPassword = () => {
   const [pwInput, setPwInput] = useState<string>('');
   const [pwShow, setPwShow] = useState<boolean>(false);
   const [pwSelected, setPwSelected] = useState<boolean>(false);
@@ -161,7 +161,7 @@ const findPassword = () => {
   );
 };
 
-export default findPassword;
+export default FindPassword;
 
 const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;
