@@ -5,7 +5,7 @@ import React from 'react';
 import colors from 'styles/colors';
 import searchImg from 'public/images/address.png';
 import search from 'public/images/search.png';
-import mapPin from 'public/images/Mappin.png';
+import mapPin from 'public/images/MapPin.png';
 
 type Props = {};
 
@@ -19,8 +19,8 @@ const SalesProjection = (props: Props) => {
         </TextArea>
         <SearchMapArea>
           <Input
-            placeholder="주소 입력 후 간단 체크!"
-            // type="submit"
+            value="주소 입력 후 간단 체크!"
+            type="submit"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -87,6 +87,8 @@ const Input = styled(TextField)`
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -2%;
+    color: ${colors.lightGray3};
+    text-align: left;
     padding: 0;
   }
 
