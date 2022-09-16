@@ -15,7 +15,7 @@ const Carousel = () => {
     <>
       <SliderWrapper>
         <Swiper
-          spaceBetween={30}
+          spaceBetween={0}
           pagination={{
             clickable: true,
           }}
