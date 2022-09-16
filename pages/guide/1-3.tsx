@@ -119,9 +119,8 @@ const Line = styled.div<{ tab: string; index: string }>`
   width: 100%;
   border-radius: 3pt;
   border-bottom: ${({ tab, index }) =>
-    tab === index && `4.5pt solid ${colors.main}`};
+    tab === index && `3pt solid ${colors.main}`};
 `;
 const Main = styled.div`
-  padding-top: 27pt;
   padding: 27pt 8.25pt 0 8.25pt;
 `;
