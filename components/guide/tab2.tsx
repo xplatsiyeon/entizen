@@ -84,22 +84,24 @@ const Tab2 = () => {
       <Label>계절별 시간대별 구분</Label>
       <Table3>
         <Header3>
-          <th className="start">구분</th>
-          <th>
-            여름철
-            <br />
-            (6월~8월)
-          </th>
-          <th>
-            봄·가을철
-            <br />
-            (3~5월,9~10월)
-          </th>
-          <th className="last">
-            겨울철
-            <br />
-            (11월~2월)
-          </th>
+          <tr>
+            <th className="start">구분</th>
+            <th>
+              여름철
+              <br />
+              (6월~8월)
+            </th>
+            <th>
+              봄·가을철
+              <br />
+              (3~5월,9~10월)
+            </th>
+            <th className="last">
+              겨울철
+              <br />
+              (11월~2월)
+            </th>
+          </tr>
         </Header3>
         <Body3>
           <Row>
@@ -164,7 +166,7 @@ const Tab2 = () => {
 export default Tab2;
 
 const Container = styled.div`
-  padding-bottom: 37.5pt;
+  padding-bottom: 138.75pt;
 `;
 const Label = styled.div`
   display: block;
@@ -181,7 +183,7 @@ const Label = styled.div`
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 `;
-const Table = styled.div`
+const Table = styled.table`
   width: 100%;
   margin-top: 12pt;
 `;
@@ -209,7 +211,7 @@ const Header = styled.thead`
   }
 `;
 
-const Body = styled.div`
+const Body = styled.tbody`
   .row {
     display: flex;
     justify-content: space-between;
