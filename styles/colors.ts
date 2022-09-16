@@ -13,6 +13,7 @@ const colors = {
   white: '#EEEEEE',
   lightWhite: '#FFFFFF',
   start: '#f1f2f6',
+  borderColor: '#f8f7fe',
 };
 
 export type Colors = typeof colors;
