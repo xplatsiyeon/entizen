@@ -49,7 +49,7 @@ const LogoBox = styled.div`
 const IconBox = styled.div`
   margin-top: 9pt;
   margin-bottom: 9pt;
-  :first-child {
+  :first-of-type {
     margin-right: 9pt;
   }
 `;
