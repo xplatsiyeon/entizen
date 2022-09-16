@@ -2,6 +2,7 @@ const colors = {
   main: '#5a2dc9',
   main2: '#222222',
   dark: '#222831',
+  darkGray: '#595757',
   lightDark: '#393E46',
   lightGray: '#e9eaee',
   lightGray2: '#a6a9b0',
@@ -12,6 +13,7 @@ const colors = {
   white: '#EEEEEE',
   lightWhite: '#FFFFFF',
   start: '#f1f2f6',
+  borderColor: '#f8f7fe',
 };
 
 export type Colors = typeof colors;
