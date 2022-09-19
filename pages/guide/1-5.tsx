@@ -6,39 +6,44 @@ import MediumSpeedGraph from 'components/guide/mediumSpeedGraph';
 import ExpressSpeedGraph from 'components/guide/expressSpeedGraph';
 import Common from 'components/guide/common';
 
+interface Components {
+  [key: number]: JSX.Element;
+}
+
 const Guide1_5 = () => {
-  const [Tab, setTab] = useState(0);
+  const [tabNumber, setTabNumber] = useState(0);
   const TabType: string[] = ['완속/중속', '급속/초급속', '공통사항'];
-  const handleTab = (index: number) => setTab(index);
+  const components: Components = {
+    0: <MediumSpeedGraph />,
+    1: <ExpressSpeedGraph />,
+    2: <Common />,
+  };
+  const handleTab = (index: number) => setTabNumber(index);
 
   return (
-    <Wrapper>
+    <>
       <GuideHeader title="요금정보" />
       <TabContainer>
         {TabType.map((tab, index) => (
           <TabItem
             key={index}
-            tab={Tab.toString()}
+            tab={tabNumber.toString()}
             index={index.toString()}
             onClick={() => handleTab(index)}
           >
             {tab}
-            <Line tab={Tab.toString()} index={index.toString()}></Line>
+            <Line tab={tabNumber.toString()} index={index.toString()}></Line>
           </TabItem>
         ))}
       </TabContainer>
-      <Main>
-        {Tab === 0 && <MediumSpeedGraph />}
-        {Tab === 1 && <ExpressSpeedGraph />}
-        {Tab === 2 && <Common />}
-      </Main>
-    </Wrapper>
+      {/* 메인 */}
+      <Main>{components[tabNumber]}</Main>
+    </>
   );
 };
 
 export default Guide1_5;
 
-const Wrapper = styled.div``;
 const TabContainer = styled.div`
   display: flex;
   justify-content: center;

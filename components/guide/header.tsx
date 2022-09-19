@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Box } from '@mui/system';
 import Image from 'next/image';
 import BackImg from 'public/images/back-btn.svg';
 import Home from 'public/images/home.svg';
@@ -25,12 +24,11 @@ const GuideHeader = ({ title }: Props) => {
 
 export default GuideHeader;
 
-const Header = styled(Box)`
+const Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 36pt;
-  padding: 9pt 15pt;
   .back-img {
     position: absolute;
     left: 7pt;

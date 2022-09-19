@@ -5,12 +5,18 @@ import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
 import Estimate from 'components/mypage/request/estimate';
 import { useRouter } from 'next/router';
+interface Components {
+  [key: number]: JSX.Element;
+}
 
 const request = () => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [userName, setUserName] = useState<string>('윤세아');
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
+  const components: Components = {
+    0: <Estimate />,
+  };
 
   return (
     <Wrapper>
@@ -44,7 +50,8 @@ const request = () => {
             </TabItem>
           ))}
         </TabContainer>
-        {tabNumber === 0 && <Estimate />}
+        {/* 탭 */}
+        {components[tabNumber]}
       </Body>
     </Wrapper>
   );

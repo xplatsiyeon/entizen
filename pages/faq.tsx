@@ -5,13 +5,17 @@ import { useState } from 'react';
 import colors from 'styles/colors';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import CommunicationIcon from 'public/images/communication-icon.svg';
 
 export interface Contents {
   id: number;
   name: string;
   text: string;
 }
-
+interface Components {
+  [key: number]: JSX.Element;
+}
 const contents: Contents[] = [
   {
     id: 0,
@@ -110,9 +114,15 @@ const report: Contents[] = [
 ];
 
 const Faq = () => {
-  const [Tab, setTab] = useState(0);
+  const route = useRouter();
+  const [tabNumber, setTabNumber] = useState<number>(0);
   const TabType: string[] = ['서비스 이용', '회원 정보', '신고'];
-  const handleTab = (index: number) => setTab(index);
+  const components: Components = {
+    0: <FaqInfomation data={contents} />,
+    1: <FaqInfomation data={userInfo} />,
+    2: <FaqInfomation data={report} />,
+  };
+  const handleTab = (index: number) => setTabNumber(index);
   return (
     <>
       <GuideHeader title="자주 묻는 질문" />
@@ -120,28 +130,27 @@ const Faq = () => {
         {TabType.map((tab, index) => (
           <TabItem
             key={index}
-            tab={Tab.toString()}
+            tab={tabNumber.toString()}
             index={index.toString()}
             onClick={() => handleTab(index)}
           >
             {tab}
-            <Dot tab={Tab.toString()} index={index.toString()} />
+            <Dot tab={tabNumber.toString()} index={index.toString()} />
           </TabItem>
         ))}
       </TabContainer>
-      <Main>
-        {Tab === 0 && <FaqInfomation data={contents} />}
-        {Tab === 1 && <FaqInfomation data={userInfo} />}
-        {Tab === 2 && <FaqInfomation data={report} />}
-      </Main>
+      <Main>{components[tabNumber]}</Main>
       <TextBox>
         <div>더 자세한 문의 사항은?</div>
-        <button>
-          엔티즌과 소통하기
-          <div className="img-box">
-            <Image src={RightArrow} alt="img" />
+        <Button onClick={() => route.push('/chatting/1')}>
+          <div>
+            <Image src={CommunicationIcon} alt="right-arrow" />
           </div>
-        </button>
+          엔티즌과 소통하기
+          <div>
+            <Image src={RightArrow} alt="right-arrow" />
+          </div>
+        </Button>
       </TextBox>
     </>
   );
@@ -187,28 +196,25 @@ const TextBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  & div {
+  & > div {
     font-weight: 500;
     font-size: 12pt;
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
   }
-  & button {
-    position: relative;
-    margin-top: 15pt;
-    padding: 9pt 27pt 9pt 12pt;
-    border-radius: 21.75pt;
-    font-weight: 500;
-    font-size: 12pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    background: #f3f4f7;
-    color: ${colors.main2};
-  }
-  .img-box {
-    position: absolute;
-    top: 8pt;
-    right: 12pt;
-  }
+`;
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15pt;
+  padding: 10.5pt 12pt;
+  border-radius: 21.75pt;
+  font-weight: 500;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  background: #f3f4f7;
+  color: ${colors.main2};
 `;
