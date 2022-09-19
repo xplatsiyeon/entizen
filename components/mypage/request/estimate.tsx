@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import colors from 'styles/colors';
-
 import NoHistory from './noHistory';
 
 interface Data {
@@ -69,6 +69,7 @@ const temphisTory: Data[] = [
 ];
 
 const Estimate = () => {
+  const route = useRouter();
   const HandleColor = (badge: string): string => {
     if (badge.includes('마감')) return '#F75015';
     else if (badge.includes('대기 중')) return '#FFC043';
@@ -91,7 +92,10 @@ const Estimate = () => {
           </Label>
           <Carousel length={tempProceeding.length}>
             {tempProceeding.map((data, index) => (
-              <CarouselItem key={data.id}>
+              <CarouselItem
+                key={data.id}
+                onClick={() => route.push('/mypage/request/1-3')}
+              >
                 <Badge className="badge" color={HandleColor(data.badge)}>
                   {data.badge}
                 </Badge>
@@ -110,7 +114,10 @@ const Estimate = () => {
           </Label>
           <Carousel length={temphisTory.length}>
             {temphisTory.map((data, index) => (
-              <CarouselItem key={data.id}>
+              <CarouselItem
+                key={data.id}
+                onClick={() => route.push('/mypage/request/1-3')}
+              >
                 <Badge className="badge" color={HandleColor(data.badge)}>
                   {data.badge}
                 </Badge>

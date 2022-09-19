@@ -15,6 +15,7 @@ const colors = {
   lightWhite: '#FFFFFF',
   start: '#f1f2f6',
   borderColor: '#f8f7fe',
+  orange: '#f75015',
 };
 
 export type Colors = typeof colors;
