@@ -98,7 +98,6 @@ const Wrapper = styled.div`
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-
   tr {
     border-bottom: 0.75pt solid ${colors.borderColor};
   }

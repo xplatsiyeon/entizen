@@ -5,8 +5,8 @@ import styled from '@emotion/styled';
 import { Box } from '@mui/system';
 import colors from 'styles/colors';
 import { useState } from 'react';
-import Tab1 from 'components/guide/tab1';
-import Tab2 from 'components/guide/tab2';
+import RateInfoTab1 from 'components/guide/RateInfoTab-1';
+import RateInfoTab2 from 'components/guide/RateInfoTab-2';
 
 const Guide1_3 = () => {
   const [Tab, setTab] = useState(0);
@@ -54,8 +54,8 @@ const Guide1_3 = () => {
         ))}
       </TabContainer>
       <Main>
-        {Tab === 0 && <Tab1 />}
-        {Tab === 1 && <Tab2 />}
+        {Tab === 0 && <RateInfoTab1 />}
+        {Tab === 1 && <RateInfoTab2 />}
       </Main>
     </Wrapper>
   );
