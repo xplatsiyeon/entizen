@@ -5,7 +5,11 @@ import BackImg from 'public/images/back-btn.svg';
 import Home from 'public/images/home.svg';
 import colors from 'styles/colors';
 
-const GuideHeader = () => {
+interface Props {
+  title: string;
+}
+
+const GuideHeader = ({ title }: Props) => {
   return (
     <Header>
       <div className="back-img">
@@ -19,7 +23,7 @@ const GuideHeader = () => {
           alt="btn"
         />
       </div>
-      <span className="text">요금정보</span>
+      <span className="text">{title}</span>
       <div className="setting-img">
         <Image
           style={{

@@ -13,7 +13,7 @@ const Guide1_4 = () => {
 
   return (
     <Wrapper>
-      <GuideHeader />
+      <GuideHeader title={'요금정보'} />
       <TabContainer>
         {TabType.map((tab, index) => (
           <TabItem

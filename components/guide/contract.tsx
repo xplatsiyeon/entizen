@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import Image from 'next/image';
 import colors from 'styles/colors';
@@ -20,7 +19,6 @@ interface List {
   contetns: string;
   notice?: string;
 }
-
 const list: List[] = [
   {
     id: 0,
@@ -66,21 +64,14 @@ const list: List[] = [
       '개인 사정에 의한 구독계약 파기를 요청할 경우, 구독계약에 따른 위약금과 철거비용 등이 청구될 수 있습니다.',
   },
 ];
-
 const Contract = () => {
-  const [open, setOpen] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-
+  const [open, setOpen] = useState<boolean[]>(
+    Array.from({ length: list.length }, () => false),
+  );
   const handleClick = (id: number) => {
-    let test = [...open];
-    test[id] = !test[id];
-    setOpen(test);
+    let temp = [...open];
+    temp[id] = !temp[id];
+    setOpen(temp);
   };
 
   return (
