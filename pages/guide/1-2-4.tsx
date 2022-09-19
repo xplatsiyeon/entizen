@@ -1,38 +1,11 @@
-import BackImg from 'public/images/back-btn.svg';
-import Home from 'public/images/home.svg';
-import Image from 'next/image';
 import styled from '@emotion/styled';
-import { Box } from '@mui/system';
 import colors from 'styles/colors';
+import GuideHeader from 'components/guide/header';
 
 const Guide1_2_4 = () => {
   return (
     <Wrapper>
-      <Header>
-        <div className="back-img">
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={BackImg}
-            alt="btn"
-          />
-        </div>
-        <span className="text">보조금 가이드</span>
-        <div className="setting-img">
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={Home}
-            alt="home"
-          />
-        </div>
-      </Header>
+      <GuideHeader title={'보조금 가이드'} />
       <SubsidyResult>
         <p>
           <span className="accent">윤세아</span>님이
@@ -68,32 +41,6 @@ const Wrapper = styled.div`
   padding-bottom: 100pt;
   padding-left: 15pt;
   padding-right: 15pt;
-`;
-const Header = styled(Box)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 36pt;
-  padding: 9pt 0;
-  padding: 0 15pt;
-  .back-img {
-    position: absolute;
-    left: 7pt;
-    padding: 5px;
-  }
-  .text {
-    font-weight: 700;
-    font-size: 12pt;
-    line-height: 18pt;
-    text-align: center;
-    letter-spacing: -0.02em;
-    color: ${colors.main2};
-  }
-  .setting-img {
-    position: absolute;
-    right: 7pt;
-    padding: 5px;
-  }
 `;
 const SubsidyResult = styled.div`
   padding-top: 66pt;

@@ -6,10 +6,20 @@ import SubcribeGraph from 'components/guide/subcribeGraph';
 import Share from 'components/guide/share';
 import Contract from 'components/guide/contract';
 
+interface Components {
+  [key: number]: JSX.Element;
+}
+
 const Guide1_4 = () => {
-  const [Tab, setTab] = useState(0);
+  const [tabNumber, setTabNumber] = useState(0);
   const TabType: string[] = ['구독상품', '수익지분', '계약'];
-  const handleTab = (index: number) => setTab(index);
+  const components: Components = {
+    0: <SubcribeGraph />,
+    1: <Share />,
+    2: <Contract />,
+  };
+
+  const handleTab = (index: number) => setTabNumber(index);
 
   return (
     <Wrapper>
@@ -18,20 +28,17 @@ const Guide1_4 = () => {
         {TabType.map((tab, index) => (
           <TabItem
             key={index}
-            tab={Tab.toString()}
+            tab={tabNumber.toString()}
             index={index.toString()}
             onClick={() => handleTab(index)}
           >
             {tab}
-            <Line tab={Tab.toString()} index={index.toString()}></Line>
+            <Line tab={tabNumber.toString()} index={index.toString()}></Line>
           </TabItem>
         ))}
       </TabContainer>
-      <Main>
-        {Tab === 0 && <SubcribeGraph />}
-        {Tab === 1 && <Share />}
-        {Tab === 2 && <Contract />}
-      </Main>
+      {/* 메인 */}
+      <Main>{components[tabNumber]}</Main>
     </Wrapper>
   );
 };

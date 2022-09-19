@@ -1,95 +1,45 @@
-import BackImg from 'public/images/back-btn.svg';
-import Home from 'public/images/home.svg';
-import Image from 'next/image';
 import styled from '@emotion/styled';
-import { Box } from '@mui/system';
 import colors from 'styles/colors';
 import { useState } from 'react';
 import RateInfoTab1 from 'components/guide/RateInfoTab-1';
 import RateInfoTab2 from 'components/guide/RateInfoTab-2';
-
+import GuideHeader from 'components/guide/header';
+interface Components {
+  [key: number]: JSX.Element;
+}
 const Guide1_3 = () => {
-  const [Tab, setTab] = useState(0);
+  const [tabNumber, setTabNumber] = useState(0);
   const TabType: string[] = ['충전전력요금', '일반사향'];
-  const handleTab = (index: number) => setTab(index);
+  const components: Components = {
+    0: <RateInfoTab1 />,
+    1: <RateInfoTab2 />,
+  };
+  const handleTab = (index: number) => setTabNumber(index);
 
   return (
-    <Wrapper>
-      <Header>
-        <div className="back-img">
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={BackImg}
-            alt="btn"
-          />
-        </div>
-        <span className="text">요금정보</span>
-        <div className="setting-img">
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={Home}
-            alt="home"
-          />
-        </div>
-      </Header>
+    <>
+      <GuideHeader title={'요금정보'} />
       <TabContainer>
         {TabType.map((tab, index) => (
           <TabItem
             key={index}
-            tab={Tab.toString()}
+            tab={tabNumber.toString()}
             index={index.toString()}
             onClick={() => handleTab(index)}
           >
             {tab}
-            <Line tab={Tab.toString()} index={index.toString()}></Line>
+            <Line tab={tabNumber.toString()} index={index.toString()}></Line>
           </TabItem>
         ))}
       </TabContainer>
-      <Main>
-        {Tab === 0 && <RateInfoTab1 />}
-        {Tab === 1 && <RateInfoTab2 />}
-      </Main>
-    </Wrapper>
+      {/* 메인 */}
+      <Main>{components[tabNumber]}</Main>
+    </>
   );
 };
 
 export default Guide1_3;
 
-const Wrapper = styled.div``;
-const Header = styled(Box)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 36pt;
-  padding: 9pt 0;
-  padding: 0 15pt;
-  .back-img {
-    position: absolute;
-    left: 7pt;
-    padding: 5px;
-  }
-  .text {
-    font-weight: 700;
-    font-size: 12pt;
-    line-height: 18pt;
-    text-align: center;
-    letter-spacing: -0.02em;
-    color: ${colors.main2};
-  }
-  .setting-img {
-    position: absolute;
-    right: 7pt;
-    padding: 5px;
-  }
-`;
 const TabContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -99,7 +49,6 @@ const TabContainer = styled.div`
   padding-right: 15pt;
   border-bottom: 0.75pt solid #f3f4f7;
 `;
-
 const TabItem = styled.div<{ tab: string; index: string }>`
   text-align: center;
   width: 100%;
