@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import React, { Dispatch, SetStateAction } from 'react';
-import colors from 'styles/colors';
 
 type Props = {
   text: string;
@@ -9,20 +8,24 @@ type Props = {
   leftBtnColor: string;
   rightBtnText: string;
   rightBtnColor: string;
-  setModalOpen?: Dispatch<SetStateAction<boolean>> | undefined;
   modalOpen?: boolean;
+  setModalOpen?: Dispatch<SetStateAction<boolean>> | undefined;
+  leftBtnControll?: () => void;
+  rightBtnControll?: () => void;
 };
 
-const TwoBtnModal = (props: Props) => {
-  const {
-    text,
-    leftBtnText,
-    rightBtnText,
-    leftBtnColor,
-    rightBtnColor,
-    setModalOpen,
-    modalOpen,
-  } = props;
+const TwoBtnModal = ({
+  text,
+  leftBtnText,
+  rightBtnText,
+  leftBtnColor,
+  rightBtnColor,
+  modalOpen,
+  setModalOpen,
+  leftBtnControll,
+  rightBtnControll,
+}: Props) => {
+  // 수정해야할것같아용..
   const handleOnClick = () => {
     if (setModalOpen) {
       setModalOpen(!modalOpen);
@@ -37,12 +40,14 @@ const TwoBtnModal = (props: Props) => {
         </Content>
         <BtnBox>
           <BtnLeft>
-            <BtnText onClick={handleOnClick} color={leftBtnColor}>
+            <BtnText onClick={leftBtnControll} color={leftBtnColor}>
               {leftBtnText}
             </BtnText>
           </BtnLeft>
           <BtnRight>
-            <BtnText color={rightBtnColor}>{rightBtnText}</BtnText>
+            <BtnText onClick={rightBtnControll} color={rightBtnColor}>
+              {rightBtnText}
+            </BtnText>
           </BtnRight>
         </BtnBox>
       </ModalBox>
@@ -81,17 +86,14 @@ const ModalBox = styled(Box)`
   justify-content: center;
   align-items: center;
 `;
-
 const Content = styled(Box)`
   width: 100%;
 `;
-
 const BtnBox = styled(Box)`
   width: 100%;
   position: relative;
   display: flex;
 `;
-
 const BtnLeft = styled(Box)`
   width: 100%;
   display: flex;
@@ -107,14 +109,13 @@ const BtnRight = styled(Box)`
   border-left: 1px solid #f3f4f7;
   border-top: 1px solid #f3f4f7;
 `;
-
 const BtnText = styled.div`
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
   justify-content: center;
-  padding: 15pt 39pt;
+  padding: 15pt 0;
   font-size: 12pt;
   font-weight: 400;
   line-height: 12pt;

@@ -1,35 +1,40 @@
 import styled from '@emotion/styled';
-import { Box } from '@mui/system';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import BackImg from 'public/images/back-btn.svg';
-import Home from 'public/images/home.svg';
 import colors from 'styles/colors';
 
 interface Props {
   title: string;
+  cancel?: string;
+  handleOnClick?: () => void;
 }
 
-const GuideHeader = ({ title }: Props) => {
+const MypageHeader = ({ title, cancel, handleOnClick }: Props) => {
+  const route = useRouter();
+
   return (
     <Header>
-      <div className="back-img">
+      <div className="back-img" onClick={() => route.back()}>
         <Image src={BackImg} alt="btn" />
       </div>
       <span className="text">{title}</span>
-      <div className="setting-img">
-        <Image src={Home} alt="home" />
+      <div className="cancel" onClick={handleOnClick}>
+        {cancel}
       </div>
     </Header>
   );
 };
 
-export default GuideHeader;
+export default MypageHeader;
 
-const Header = styled(Box)`
+const Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 36pt;
+  position: relative;
+  background-color: ${colors.lightWhite};
+
   padding: 9pt 15pt;
   .back-img {
     position: absolute;
@@ -44,9 +49,14 @@ const Header = styled(Box)`
     letter-spacing: -0.02em;
     color: ${colors.main2};
   }
-  .setting-img {
+  .cancel {
     position: absolute;
-    right: 7pt;
-    padding: 5px;
+    font-weight: 500;
+    font-size: 12pt;
+    right: 15pt;
+    line-height: 18pt;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
   }
 `;

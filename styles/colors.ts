@@ -9,11 +9,13 @@ const colors = {
   lightGray3: '#caccd1',
   gray: '#E2E5ED',
   gray2: '#747780',
+  gray3: '#F3F4F7',
   gold: '#FFD369',
   white: '#EEEEEE',
   lightWhite: '#FFFFFF',
   start: '#f1f2f6',
   borderColor: '#f8f7fe',
+  orange: '#f75015',
 };
 
 export type Colors = typeof colors;
