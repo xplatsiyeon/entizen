@@ -169,11 +169,10 @@ const TabItem = styled.div<{ tab: string; index: string }>`
     tab === index ? colors.main : colors.lightGray};
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
-  margin-top: 6pt;
   width: 3pt;
   height: 3pt;
   border-radius: 50%;
-  margin: 0 auto;
+  margin: 6pt auto 0 auto;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;
 const Main = styled.div`
