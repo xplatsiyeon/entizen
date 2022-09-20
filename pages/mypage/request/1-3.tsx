@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import EstimateContainer from 'components/mypage/request/EstimateContainer';
+import EstimateContainer from 'components/mypage/request/estimateContainer';
 import MypageHeader from 'components/mypage/request/header';
 import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
 import RightArrow from 'public/images/black-right-arrow.svg';
@@ -28,7 +28,6 @@ const Mypage1_3 = ({ data }: any) => {
           leftBtnColor={colors.orange}
           rightBtnText="아니오"
           rightBtnColor={colors.main2}
-          modalOpen={modalOpen}
           leftBtnControll={backPage}
           rightBtnControll={handleOnClick}
         />

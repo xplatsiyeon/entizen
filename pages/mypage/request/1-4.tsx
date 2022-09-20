@@ -1,5 +1,4 @@
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import EstimateContainer from 'components/mypage/request/EstimateContainer';
 import MypageHeader from 'components/mypage/request/header';
 import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
 import { useRouter } from 'next/router';
@@ -17,7 +16,7 @@ const Mypage1_4 = ({ data }: any) => {
 
   return (
     <>
-      <MypageHeader title="내 견적서" handleOnClick={handleOnClick} />
+      <MypageHeader title="상세내용" handleOnClick={handleOnClick} />
     </>
   );
 };
