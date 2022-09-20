@@ -6,6 +6,7 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document';
+import Script from 'next/script';
 // import '../styles/globals.css';
 
 class MyDocument extends Document {
@@ -17,7 +18,12 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head></Head>
+        <Head>
+          <Script
+            type="text/javascript"
+            src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}
+          ></Script>
+        </Head>
         <body>
           <Main />
           <NextScript />

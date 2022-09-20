@@ -21,8 +21,6 @@ const WhyEntizen = (props: Props) => {
     color: string;
     bigIcon: StaticImageData;
     menuText: string;
-    // width: number;
-    // height: number;
   }[] = [
     {
       headText: '플랫폼 가이드',
@@ -31,8 +29,6 @@ const WhyEntizen = (props: Props) => {
       color: '#222222',
       bigIcon: bulb,
       menuText: '핵심 정보만\n쏙쏙 뽑아드려요',
-      // width: 42,
-      // height: 42.75,
     },
     {
       headText: '구독 가이드',
@@ -41,8 +37,6 @@ const WhyEntizen = (props: Props) => {
       color: '#FFFFFF',
       bigIcon: mail,
       menuText: '다양한 견적서\n무료로 비교해요',
-      // width: 51,
-      // height: 42.75,
     },
     {
       headText: '충전기 가이드',
@@ -51,8 +45,6 @@ const WhyEntizen = (props: Props) => {
       color: '#FFFFFF',
       bigIcon: message,
       menuText: '구독?\n급속? 완속?\n무엇이든 물어보세요',
-      // width: 52.5,
-      // height: 39,
     },
     {
       headText: '보조금 가이드',
@@ -61,8 +53,6 @@ const WhyEntizen = (props: Props) => {
       color: '#222222',
       bigIcon: carnation,
       menuText: '전기차 충전소\nA 부터 Z까지',
-      // width: 32.25,
-      // height: 42.75,
     },
   ];
   return (
@@ -113,7 +103,7 @@ const GridBox = styled.div`
 `;
 
 const GridElement = styled.div`
-  width: 120pt;
+  width: 100%;
   height: 120pt;
   background-color: ${(props) => props.color};
   border-radius: 6pt;

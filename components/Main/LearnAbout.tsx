@@ -122,9 +122,9 @@ const LearnCarousel = styled.div`
 `;
 
 const TabBox = styled.div`
-  display: flex;
+  display: grid;
   gap: 12pt;
-  width: 185%;
+  grid-template-columns: repeat(4, 1fr);
 `;
 
 const Item = styled.div`

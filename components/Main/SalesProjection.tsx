@@ -3,13 +3,17 @@ import { InputAdornment, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
 import colors from 'styles/colors';
-import searchImg from 'public/images/address.png';
 import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 const SalesProjection = (props: Props) => {
+  const router = useRouter();
+  const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    router.push('/searchAddress');
+  };
   return (
     <>
       <SearchMapWrapper>
@@ -21,6 +25,7 @@ const SalesProjection = (props: Props) => {
           <Input
             value="주소 입력 후 간단 체크!"
             type="submit"
+            onClick={handleOnClick}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

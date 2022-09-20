@@ -7,11 +7,18 @@ import companyImg from 'public/images/company.svg';
 import companyOnImg from 'public/images/company_on.svg';
 import userImg from 'public/images/user.svg';
 import userOnImg from 'public/images/user_on.svg';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import Btn from 'components/button';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const SignUpSelect = () => {
+  const router = useRouter();
   const [userType, setUserType] = useState<number>(-1);
   const UserTypeList: string[] = ['기업회원', '일반회원'];
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    router.push('/signUpTerms');
+  };
   return (
     <Wrapper>
       <Header />
@@ -52,6 +59,14 @@ const SignUpSelect = () => {
           </div>
         ))}
       </SelectWrapper>
+      <Link href={'/signUpTerms'}>
+        <Btn
+          text={'다음'}
+          handleClick={handleClick}
+          marginTop={'42.75'}
+          isClick={userType !== -1 && true}
+        />
+      </Link>
     </Wrapper>
   );
 };
@@ -61,7 +76,7 @@ const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;
 `;
 const Notice = styled(Typography)`
-  margin-top: 51pt;
+  margin-top: 28.5pt;
   font-weight: 700;
   font-size: 21pt;
   line-height: 33pt;
@@ -70,7 +85,7 @@ const Notice = styled(Typography)`
   color: ${colors.main2};
 `;
 const SelectWrapper = styled(Box)`
-  margin-top: 45pt;
+  margin-top: 30pt;
 `;
 const Select = styled(Box)<{ type: string; idx: string }>`
   display: flex;
@@ -86,7 +101,7 @@ const Select = styled(Box)<{ type: string; idx: string }>`
   color: ${({ type, idx }) => type === idx && colors.main};
   background-color: ${({ type, idx }) => type === idx && '#f8f6ff'};
   :nth-of-type(1) {
-    margin-bottom: 21pt;
+    margin-bottom: 15pt;
   }
   & > div {
     font-weight: 400;
