@@ -9,6 +9,7 @@ import { useState } from 'react';
 import useDebounce from 'hooks/useDebounce';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
+import { useRouter } from 'next/router';
 
 interface State {
   pwInput: string;
@@ -16,6 +17,7 @@ interface State {
 }
 
 const SignUpCheck = () => {
+  const route = useRouter();
   // id pw pw확인 상태
   const [idInput, setIdInput] = useState<string>('');
   const [pwInput, setPwInput] = useState<string>('');
@@ -80,6 +82,11 @@ const SignUpCheck = () => {
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
   };
+  // 모달 핸들러
+  const leftBtnControll = () => {
+    if (setModalOpen) setModalOpen(!modalOpen);
+  };
+  const rightBtnControll = () => route.push('/');
 
   // 인풋 안의 x , 표시
   const iconAdorment = {
@@ -117,8 +124,8 @@ const SignUpCheck = () => {
           leftBtnText={'아니오'}
           rightBtnColor={'#222222'}
           leftBtnColor={'#FF1B2D'}
-          setModalOpen={setModalOpen}
-          modalOpen={modalOpen}
+          leftBtnControll={leftBtnControll}
+          rightBtnControll={rightBtnControll}
         />
       ) : (
         <></>

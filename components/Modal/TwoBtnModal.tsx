@@ -8,8 +8,6 @@ type Props = {
   leftBtnColor: string;
   rightBtnText: string;
   rightBtnColor: string;
-  modalOpen?: boolean;
-  setModalOpen?: Dispatch<SetStateAction<boolean>> | undefined;
   leftBtnControll?: () => void;
   rightBtnControll?: () => void;
 };
@@ -20,18 +18,9 @@ const TwoBtnModal = ({
   rightBtnText,
   leftBtnColor,
   rightBtnColor,
-  modalOpen,
-  setModalOpen,
   leftBtnControll,
   rightBtnControll,
 }: Props) => {
-  // 수정해야할것같아용..
-  const handleOnClick = () => {
-    if (setModalOpen) {
-      setModalOpen(!modalOpen);
-    }
-  };
-
   return (
     <ModalWrapper>
       <ModalBox>
