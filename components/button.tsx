@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
-import { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import colors from '../styles/colors';
 interface Props {
   text?: string;
@@ -9,18 +9,20 @@ interface Props {
   [key: string]: any; // 필요한 props 작성하세요.
   setModalOpen?: Dispatch<SetStateAction<boolean>> | undefined;
   modalOpen?: boolean;
+  handleClick?: (x: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Btn = ({ text, isClick, marginTop, setModalOpen, modalOpen }: Props) => {
-  const handleClick = () => {
-    if (setModalOpen) {
-      setModalOpen(!modalOpen);
-    }
-  };
+const Btn = ({ text, isClick, marginTop, handleClick, modalOpen }: Props) => {
+  // const handleClick = () => {
+  //   if (setModalOpen) {
+  //     setModalOpen(!modalOpen);
+  //   }
+  // };
   return (
     <Wrapper>
       <Button
         onClick={handleClick}
+        disabled={!isClick}
         sx={{
           fontWeight: '700',
           marginTop: `${parseInt(marginTop)}pt`,

@@ -81,6 +81,10 @@ const SignUpCheck = () => {
     e.preventDefault();
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setModalOpen(!modalOpen);
+  };
+
   // 인풋 안의 x , 표시
   const iconAdorment = {
     endAdornment: (
@@ -235,8 +239,7 @@ const SignUpCheck = () => {
           }
           text="가입 완료"
           marginTop="30"
-          setModalOpen={setModalOpen}
-          modalOpen={modalOpen}
+          handleClick={handleClick}
         />
       </Wrapper>
     </>

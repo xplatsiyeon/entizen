@@ -1,5 +1,7 @@
 import { Box } from '@mui/system';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import React from 'react';
 import btnImg from '../public/images/back-btn.svg';
 import home from '../public/images/home.png';
 interface Props {
@@ -7,6 +9,10 @@ interface Props {
   [key: string]: any; // 필요한 props 작성하세요.
 }
 const Header = ({ isHome = false }: Props) => {
+  const router = useRouter();
+  const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    router.back();
+  };
   return (
     <Box
       sx={{
@@ -17,6 +23,7 @@ const Header = ({ isHome = false }: Props) => {
       }}
     >
       <Image
+        onClick={handleOnClick}
         style={{
           cursor: 'pointer',
         }}
