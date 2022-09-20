@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
-import NoHistory from './noHistory';
+import NoHistory from './NoHistory';
 
 interface Data {
   id: number;
@@ -153,12 +153,10 @@ const Proceeding = styled.section`
 `;
 const History = styled.section``;
 const Carousel = styled.div<{ length: number }>`
-  overflow-x: scroll;
   display: grid;
   overflow-x: scroll;
   grid-template-columns: ${({ length }) => `repeat(${length}, 1fr)`};
   gap: 12pt;
-  overflow-x: scroll;
   padding: 6pt 15pt 30pt 15pt;
 `;
 const CarouselItem = styled.div`

@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import EstimateContainer from 'components/mypage/request/estimateContainer';
-import MypageHeader from 'components/mypage/request/header';
-import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
+import EstimateContainer from 'components/mypage/request/EstimateContainer';
+import MypageHeader from 'components/mypage/request/Header';
+import SubscriptionProduct from 'components/mypage/request/SubscriptionProduct';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import CommunicationIcon from 'public/images/communication-icon.svg';
 import { useRouter } from 'next/router';
@@ -21,6 +21,7 @@ const Mypage1_3 = ({ data }: any) => {
 
   return (
     <>
+      {/* 모달 */}
       {modalOpen && (
         <TwoBtnModal
           text="견적을 취소하시겠습니까?"
@@ -35,6 +36,7 @@ const Mypage1_3 = ({ data }: any) => {
       <MypageHeader
         title="내 견적서"
         cancel="견적 취소"
+        back={true}
         handleOnClick={handleOnClick}
       />
       <EstimateContainer />

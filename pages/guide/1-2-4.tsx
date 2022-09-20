@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import GuideHeader from 'components/guide/header';
+import GuideHeader from 'components/guide/Header';
 
 const Guide1_2_4 = () => {
   return (

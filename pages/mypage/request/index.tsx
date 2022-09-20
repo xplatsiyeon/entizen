@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
-import Estimate from 'components/mypage/request/estimate';
+import Estimate from 'components/mypage/request/Estimate';
 import { useRouter } from 'next/router';
 interface Components {
   [key: number]: JSX.Element;

@@ -3,7 +3,7 @@ import colors from 'styles/colors';
 import { useState } from 'react';
 import RateInfoTab1 from 'components/guide/RateInfoTab-1';
 import RateInfoTab2 from 'components/guide/RateInfoTab-2';
-import GuideHeader from 'components/guide/header';
+import GuideHeader from 'components/guide/Header';
 interface Components {
   [key: number]: JSX.Element;
 }
