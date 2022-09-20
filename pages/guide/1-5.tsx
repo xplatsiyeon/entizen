@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import { useState } from 'react';
-import GuideHeader from 'components/guide/header';
-import MediumSpeedGraph from 'components/guide/mediumSpeedGraph';
-import ExpressSpeedGraph from 'components/guide/expressSpeedGraph';
-import Common from 'components/guide/common';
+import GuideHeader from 'components/guide/Header';
+import MediumSpeedGraph from 'components/guide/MediumSpeedGraph';
+import ExpressSpeedGraph from 'components/guide/ExpressSpeedGraph';
+import Common from 'components/guide/Common';
 
 interface Components {
   [key: number]: JSX.Element;

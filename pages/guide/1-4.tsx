@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import { useState } from 'react';
-import GuideHeader from 'components/guide/header';
-import SubcribeGraph from 'components/guide/subcribeGraph';
-import Share from 'components/guide/share';
-import Contract from 'components/guide/contract';
+import GuideHeader from 'components/guide/Header';
+import SubcribeGraph from 'components/guide/SubcribeGraph';
+import Share from 'components/guide/Share';
+import Contract from 'components/guide/Contract';
 
 interface Components {
   [key: number]: JSX.Element;
