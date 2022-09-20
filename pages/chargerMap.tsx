@@ -170,7 +170,6 @@ const ChargerMap = (props: Props) => {
 const WholeMap = styled.div`
   width: 100vw;
   height: 100vh;
-  border: 1px solid red;
   position: relative;
   overflow: hidden;
 `;
