@@ -21,6 +21,7 @@ const Mypage1_3 = ({ data }: any) => {
 
   return (
     <>
+      {/* 모달 */}
       {modalOpen && (
         <TwoBtnModal
           text="견적을 취소하시겠습니까?"
@@ -35,6 +36,7 @@ const Mypage1_3 = ({ data }: any) => {
       <MypageHeader
         title="내 견적서"
         cancel="견적 취소"
+        back={true}
         handleOnClick={handleOnClick}
       />
       <EstimateContainer />

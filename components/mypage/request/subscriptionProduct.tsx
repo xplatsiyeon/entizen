@@ -106,5 +106,6 @@ const PriceBox = styled.div`
     position: relative;
     width: 12pt;
     height: 12pt;
+    right: 9pt;
   }
 `;

@@ -2,26 +2,46 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import BackImg from 'public/images/back-btn.svg';
+import ExitImg from 'public/images/X.svg';
 import colors from 'styles/colors';
 
 interface Props {
   title: string;
+  back?: boolean;
   cancel?: string;
+  exitBtn?: boolean;
   handleOnClick?: () => void;
 }
 
-const MypageHeader = ({ title, cancel, handleOnClick }: Props) => {
+const MypageHeader = ({
+  title,
+  back = false,
+  cancel,
+  exitBtn = false,
+  handleOnClick,
+}: Props) => {
   const route = useRouter();
 
   return (
     <Header>
-      <div className="back-img" onClick={() => route.back()}>
-        <Image src={BackImg} alt="btn" />
-      </div>
+      {/* 뒤로가기 버튼 */}
+      {back && (
+        <div className="back-img" onClick={() => route.back()}>
+          <Image src={BackImg} alt="btn-icon" />
+        </div>
+      )}
+      {/* 제목 */}
       <span className="text">{title}</span>
+      {/* 취소 버튼 */}
       <div className="cancel" onClick={handleOnClick}>
         {cancel}
       </div>
+      {/* 닫기 이미지 */}
+      {exitBtn && (
+        <div className="exit" onClick={handleOnClick}>
+          <Image src={ExitImg} alt="exit-icon" />
+        </div>
+      )}
     </Header>
   );
 };
@@ -58,5 +78,9 @@ const Header = styled.div`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+  }
+  .exit {
+    position: absolute;
+    right: 15pt;
   }
 `;
