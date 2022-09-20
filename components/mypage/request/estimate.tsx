@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
-import NoHistory from './NoHistory';
+import NoHistory from './noHistory';
 
 interface Data {
   id: number;
