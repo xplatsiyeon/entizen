@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import EstimateContainer from 'components/mypage/request/EstimateContainer';
-import MypageHeader from 'components/mypage/request/Header';
-import SubscriptionProduct from 'components/mypage/request/SubscriptionProduct';
+import EstimateContainer from 'components/mypage/request/estimateContainer';
+import MypageHeader from 'components/mypage/request/header';
+import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import CommunicationIcon from 'public/images/communication-icon.svg';
 import { useRouter } from 'next/router';

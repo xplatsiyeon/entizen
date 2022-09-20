@@ -4,9 +4,9 @@ import colors from 'styles/colors';
 import { useEffect, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material/Select';
 import arrow_small from 'public/guide/Arrow.svg';
-import Step1 from 'components/guide/Step1';
-import Step2 from 'components/guide/Step2';
-import GuideHeader from 'components/guide/Header';
+import Step1 from 'components/guide/step1';
+import Step2 from 'components/guide/step2';
+import GuideHeader from 'components/guide/header';
 
 interface Option {
   m5: string;

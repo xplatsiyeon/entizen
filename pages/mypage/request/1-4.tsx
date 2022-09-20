@@ -1,4 +1,4 @@
-import MypageHeader from 'components/mypage/request/Header';
+import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import colors from 'styles/colors';

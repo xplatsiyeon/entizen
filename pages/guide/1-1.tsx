@@ -4,11 +4,11 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 import Platform from 'public/guide/platform_guide.png';
 import { useState } from 'react';
-import Infom from 'components/guide/Infomation';
-import Compare from 'components/guide/Compare';
-import Monitoring from 'components/guide/Monitoring';
-import ManageMent from 'components/guide/Management';
-import GuideHeader from 'components/guide/Header';
+import Infom from 'components/guide/infomation';
+import Compare from 'components/guide/compare';
+import Monitoring from 'components/guide/monitoring';
+import ManageMent from 'components/guide/management';
+import GuideHeader from 'components/guide/header';
 
 interface Components {
   [key: number]: JSX.Element;

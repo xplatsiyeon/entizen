@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import FaqInfomation from 'components/FAQ/FaqInfomation';
-import GuideHeader from 'components/guide/Header';
+import GuideHeader from 'components/guide/header';
 import { useState } from 'react';
 import colors from 'styles/colors';
 import RightArrow from 'public/images/black-right-arrow.svg';
