@@ -2,17 +2,82 @@ import styled from '@emotion/styled';
 import { TextField } from '@mui/material';
 import Image from 'next/image';
 import btnImg from 'public/images/back-btn.svg';
-import React, { useState } from 'react';
+import xBtn from 'public/images/XCircle.svg';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import whiteMapPin from 'public/images/mapPinWhite.png';
+import useDebounce from 'hooks/useDebounce';
+import axios from 'axios';
 
 type Props = {};
 
+export interface addressType {
+  admCd: string;
+  jibunAddr: string;
+  roadAddr: string;
+  roadAddrPart1: string;
+  bdKdcd?: string;
+  bdMgtSn?: string;
+  bdNm?: string;
+  buldMnnm?: string;
+  buldSlno?: string;
+  detBdNmList?: string;
+  emdNm?: string;
+  emdNo?: string;
+  engAddr?: string;
+  liNm?: string;
+  lnbrMnnm?: string;
+  lnbrSlno?: string;
+  mtYn?: string;
+  rn?: string;
+  rnMgtSn?: string;
+  roadAddrPart2?: string;
+  sggNm?: string;
+  siNm?: string;
+  udrtYn?: string;
+  zipNo?: string;
+}
+
 const SearchAddress = (props: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
+  const [results, setResults] = useState<addressType[]>([]);
+
+  const keyWord = useDebounce(searchWord, 700);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchWord(e.target.value);
+    setSearchWord(() => e.target.value);
   };
+  useEffect(() => {
+    const findAddresss = async () => {
+      if (searchWord == '') {
+        setResults([]);
+      }
+      if (searchWord !== '') {
+        try {
+          const { data } = await axios.get(
+            `https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do?currentPage=1&countPerPage=50&keyword=${keyWord}&confmKey=${process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY}&resultType=json`,
+          );
+          const match = await data.match(/\((.*)\)/);
+
+          let jsonResult = await JSON.parse(match[1].toString()).results.juso;
+          let cc: any = [];
+          setResults(cc);
+          let aa = await jsonResult?.map((el: any, index: number) => {
+            cc.push(el);
+          });
+
+          setResults(cc);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    };
+    findAddresss();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keyWord]);
+  useEffect(() => {
+    console.log(results !== undefined && results);
+  }, [results]);
+
   return (
     <Container>
       <HeaderBox>
@@ -22,16 +87,22 @@ const SearchAddress = (props: Props) => {
           onChange={handleChange}
           value={searchWord}
         />
+        {searchWord.length > 0 && (
+          <Image onClick={() => setSearchWord('')} src={xBtn} alt="xButton" />
+        )}
       </HeaderBox>
-      <SearchResult>
-        <IconBox>
-          <Image src={whiteMapPin} alt="mapPin" />
-        </IconBox>
-        <AddressBox>
-          <div>dd</div>
-          <div>dd</div>
-        </AddressBox>
-      </SearchResult>
+
+      {results.map((el, index) => (
+        <SearchResult key={index}>
+          <IconBox>
+            <Image src={whiteMapPin} alt="mapPin" />
+          </IconBox>
+          <AddressBox>
+            <div>{el.roadAddrPart1}</div>
+            <div>{el.jibunAddr}</div>
+          </AddressBox>
+        </SearchResult>
+      ))}
     </Container>
   );
 };
@@ -43,6 +114,7 @@ const Container = styled.div`
 
 const HeaderBox = styled.div`
   padding-left: 15pt;
+  padding-right: 12pt;
   border-bottom: 1px solid #e9eaee;
   display: flex;
 `;
@@ -79,6 +151,7 @@ const FindAddress = styled(TextField)`
 
 const SearchResult = styled.div`
   display: flex;
+  /* position: fixed; */
   padding-left: 15pt;
   padding-top: 15pt;
   padding-bottom: 15pt;
@@ -111,7 +184,14 @@ const AddressBox = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
+    color: #747780;
   }
 `;
 
 export default SearchAddress;
+
+{
+  /* {results?.map((el, index) => ( */
+}
+// ))}
+// <div key={index}>{el?.juso}</div>
