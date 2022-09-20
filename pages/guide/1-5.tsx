@@ -1,24 +1,28 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import { useState } from 'react';
-import RateInfoTab1 from 'components/guide/RateInfoTab-1';
-import RateInfoTab2 from 'components/guide/RateInfoTab-2';
 import GuideHeader from 'components/guide/header';
+import MediumSpeedGraph from 'components/guide/mediumSpeedGraph';
+import ExpressSpeedGraph from 'components/guide/expressSpeedGraph';
+import Common from 'components/guide/common';
+
 interface Components {
   [key: number]: JSX.Element;
 }
-const Guide1_3 = () => {
+
+const Guide1_5 = () => {
   const [tabNumber, setTabNumber] = useState(0);
-  const TabType: string[] = ['충전전력요금', '일반사향'];
+  const TabType: string[] = ['완속/중속', '급속/초급속', '공통사항'];
   const components: Components = {
-    0: <RateInfoTab1 />,
-    1: <RateInfoTab2 />,
+    0: <MediumSpeedGraph />,
+    1: <ExpressSpeedGraph />,
+    2: <Common />,
   };
   const handleTab = (index: number) => setTabNumber(index);
 
   return (
     <>
-      <GuideHeader title={'요금정보'} />
+      <GuideHeader title="요금정보" />
       <TabContainer>
         {TabType.map((tab, index) => (
           <TabItem
@@ -38,7 +42,7 @@ const Guide1_3 = () => {
   );
 };
 
-export default Guide1_3;
+export default Guide1_5;
 
 const TabContainer = styled.div`
   display: flex;
@@ -71,5 +75,5 @@ const Line = styled.div<{ tab: string; index: string }>`
     tab === index && `3pt solid ${colors.main}`};
 `;
 const Main = styled.div`
-  padding: 27pt 8.25pt 0 8.25pt;
+  padding: 0 15pt;
 `;

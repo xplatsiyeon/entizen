@@ -4,7 +4,7 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 import CompareImg from 'public/guide/Compare.png';
 
-const compare = () => {
+const Contract = () => {
   return (
     <Main>
       <Image src={CompareImg} alt="info" />
@@ -28,7 +28,7 @@ const compare = () => {
   );
 };
 
-export default compare;
+export default Contract;
 
 const Main = styled.div`
   display: flex;

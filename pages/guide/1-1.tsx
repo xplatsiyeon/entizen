@@ -2,15 +2,13 @@ import styled from '@emotion/styled';
 import { Box } from '@mui/system';
 import Image from 'next/image';
 import colors from 'styles/colors';
-import BackImg from 'public/images/back-btn.svg';
-import Home from 'public/images/home.svg';
 import Platform from 'public/guide/platform_guide.png';
 import { useState } from 'react';
-import InfoImg from 'public/images/Information.png';
 import Infom from 'components/guide/infomation';
 import Compare from 'components/guide/compare';
 import Monitoring from 'components/guide/monitoring';
 import ManageMent from 'components/guide/management';
+import GuideHeader from 'components/guide/header';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -30,31 +28,7 @@ const Guide1_1 = () => {
 
   return (
     <Wrapper>
-      <Header>
-        <div className="back-img">
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={BackImg}
-            alt="btn"
-          />
-        </div>
-        <span className="text">알림함</span>
-        <div className="setting-img">
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={Home}
-            alt="home"
-          />
-        </div>
-      </Header>
+      <GuideHeader title={'알림함'} />
       <PlatformImgBox>
         <Image src={Platform} alt="platform" />
       </PlatformImgBox>
@@ -83,32 +57,6 @@ export default Guide1_1;
 const Wrapper = styled.div`
   padding-bottom: 20pt;
 `;
-const Header = styled(Box)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 36pt;
-  padding: 9pt 0;
-  padding: 0 15pt;
-  .back-img {
-    position: absolute;
-    left: 7pt;
-    padding: 5px;
-  }
-  .text {
-    font-weight: 700;
-    font-size: 12pt;
-    line-height: 18pt;
-    text-align: center;
-    letter-spacing: -0.02em;
-    color: ${colors.main2};
-  }
-  .setting-img {
-    position: absolute;
-    right: 7pt;
-    padding: 5px;
-  }
-`;
 const PlatformImgBox = styled(Box)`
   display: flex;
   justify-content: center;
@@ -119,7 +67,6 @@ const PlatformImgBox = styled(Box)`
 `;
 const ModalBox = styled(Box)`
   padding-top: 60pt;
-
   overflow-x: scroll;
 `;
 const TabBox = styled.div`
@@ -129,7 +76,6 @@ const TabBox = styled.div`
   padding-bottom: 12pt;
   border-bottom: 1px solid #f3f4f7;
 `;
-
 const Item = styled.div<{ idx: string; num: string }>`
   font-weight: 700;
   font-size: 12pt;
@@ -147,27 +93,5 @@ const Item = styled.div<{ idx: string; num: string }>`
     border-bottom: ${({ idx, num }) =>
       idx === num && `  4px solid ${colors.main};`};
     border-radius: 10pt;
-  }
-`;
-
-const Main = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 27pt 15pt 0 15pt;
-`;
-const TextBox = styled(Box)`
-  margin-top: 24pt;
-  padding: 0 10px;
-  .text-item {
-    padding-bottom: 15pt;
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 16.5pt;
-    letter-spacing: -0.02em;
-  }
-  .accent {
-    color: ${colors.main};
   }
 `;
