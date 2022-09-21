@@ -6,7 +6,7 @@ import ExitImg from 'public/images/X.svg';
 import colors from 'styles/colors';
 
 interface Props {
-  title: string;
+  title?: string;
   back?: boolean;
   cancel?: string;
   exitBtn?: boolean;
@@ -31,7 +31,7 @@ const MypageHeader = ({
         </div>
       )}
       {/* 제목 */}
-      <span className="text">{title}</span>
+      <span className="text">{title ? title : <br />}</span>
       {/* 취소 버튼 */}
       <div className="cancel" onClick={handleOnClick}>
         {cancel}
@@ -54,7 +54,6 @@ const Header = styled.div`
   align-items: center;
   position: relative;
   background-color: ${colors.lightWhite};
-
   padding: 9pt 15pt;
   .back-img {
     position: absolute;
