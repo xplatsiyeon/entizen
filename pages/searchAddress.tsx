@@ -8,6 +8,9 @@ import colors from 'styles/colors';
 import whiteMapPin from 'public/images/mapPinWhite.png';
 import useDebounce from 'hooks/useDebounce';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { locationAction } from 'store/store';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
@@ -41,10 +44,22 @@ export interface addressType {
 const SearchAddress = (props: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
-
+  const router = useRouter();
+  const dispatch = useDispatch();
   const keyWord = useDebounce(searchWord, 700);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(() => e.target.value);
+  };
+  const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { jibun, roadad } = e.currentTarget.dataset;
+
+    dispatch(
+      locationAction.load({
+        jibunAddr: jibun,
+        roadAddrPart: roadad,
+      }),
+    );
+    router.push('/chargerMap');
   };
   useEffect(() => {
     const findAddresss = async () => {
@@ -93,7 +108,12 @@ const SearchAddress = (props: Props) => {
       </HeaderBox>
 
       {results.map((el, index) => (
-        <SearchResult key={index}>
+        <SearchResult
+          data-jibun={el.jibunAddr}
+          data-roadad={el.roadAddrPart1}
+          key={index}
+          onClick={handleOnClick}
+        >
           <IconBox>
             <Image src={whiteMapPin} alt="mapPin" />
           </IconBox>
