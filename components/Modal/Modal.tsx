@@ -1,23 +1,15 @@
 import styled from '@emotion/styled';
-import { Box, Container, Typography } from '@mui/material';
-import { useRouter } from 'next/router';
-import React, { Dispatch, SetStateAction } from 'react';
+import { Box, Typography } from '@mui/material';
+import React from 'react';
 import colors from 'styles/colors';
 
 type Props = {
   text: string;
-  setModalOpen?: Dispatch<SetStateAction<boolean>> | undefined;
-  modalOpen?: boolean;
+  click: () => void;
+  color?: string;
 };
 
-const Modal = (props: Props) => {
-  const Router = useRouter();
-  const { text, setModalOpen, modalOpen } = props;
-  const handleOnClick = () => {
-    if (setModalOpen) {
-      setModalOpen(!modalOpen);
-    }
-  };
+const Modal = ({ text, click, color }: Props) => {
   return (
     <ModalWrapper>
       <ModalBox>
@@ -25,26 +17,21 @@ const Modal = (props: Props) => {
           <ContentText>{text}</ContentText>
         </Content>
         <BtnBox>
-          <BtnText onClick={handleOnClick}>확인</BtnText>
+          <BtnText color={color} onClick={click}>
+            확인
+          </BtnText>
         </BtnBox>
       </ModalBox>
     </ModalWrapper>
   );
 };
-const ContentText = styled(Typography)`
-  white-space: pre-wrap;
-  font-size: 12pt;
-  font-weight: 500;
-  line-height: 18pt;
-  letter-spacing: -2%;
-  padding-left: 15pt;
-  padding-top: 21pt;
-  padding-bottom: 21pt;
-`;
 
 const ModalWrapper = styled(Box)`
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.65);
   display: flex;
   position: fixed;
@@ -63,6 +50,16 @@ const ModalBox = styled(Box)`
   justify-content: center;
   align-items: center;
 `;
+const ContentText = styled(Typography)`
+  white-space: pre-wrap;
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 18pt;
+  letter-spacing: -2%;
+  padding-left: 15pt;
+  padding-top: 21pt;
+  padding-bottom: 21pt;
+`;
 
 const Content = styled(Box)`
   width: 100%;
@@ -73,7 +70,7 @@ const BtnBox = styled(Box)`
   position: relative;
 `;
 
-const BtnText = styled(Typography)`
+const BtnText = styled(Typography)<{ color?: string }>`
   position: relative;
   margin-right: 15pt;
   margin-bottom: 21pt;
@@ -82,7 +79,7 @@ const BtnText = styled(Typography)`
   line-height: 12pt;
   letter-spacing: -2%;
   text-align: right;
-  color: ${colors.main};
+  color: ${({ color }) => (color ? color : colors.main)};
 `;
 
 export default Modal;
