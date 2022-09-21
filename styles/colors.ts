@@ -16,6 +16,7 @@ const colors = {
   start: '#f1f2f6',
   borderColor: '#f8f7fe',
   orange: '#f75015',
+  calendarWeek: '#aaaaaa',
 };
 
 export type Colors = typeof colors;
