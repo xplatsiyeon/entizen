@@ -23,6 +23,11 @@ class MyDocument extends Document {
             strategy="beforeInteractive"
             src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}
           ></Script>
+          <Script
+            // type="text/javascript"
+            strategy="beforeInteractive"
+            src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}&submodules=geocoder`}
+          ></Script>
         </Head>
         <body>
           <Main />

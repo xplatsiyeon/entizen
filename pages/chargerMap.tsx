@@ -9,10 +9,17 @@ import whiteArrow from 'public/images/whiteArrow16.png';
 import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import useMap from 'utils/useMap';
+import { useSelector } from 'react-redux';
+import { coordinateAction, RootState } from 'store/store';
+import { useDispatch } from 'react-redux';
 
 type Props = {};
 
 const ChargerMap = (props: Props) => {
+  const { locationList } = useSelector(
+    (state: RootState) => state.locationList,
+  );
+  const dispatch = useDispatch();
   useMap();
   const [changeHeight, setChangeHeight] = useState<boolean>(false);
   const [selectedCharger, setSelectedCharger] = useState<number>(0);
@@ -43,6 +50,39 @@ const ChargerMap = (props: Props) => {
       }
     }
   }, [checkHeight, changeHeight]);
+
+  useEffect(() => {
+    if (locationList.roadAddrPart) {
+      naver.maps.Service.geocode(
+        {
+          query: locationList.roadAddrPart,
+        },
+        function (status, response) {
+          if (status === naver.maps.Service.Status.ERROR) {
+            if (locationList.roadAddrPart) {
+              return alert('Geocode Error, Please check address');
+            }
+            return alert('Geocode Error, address:' + locationList.roadAddrPart);
+          }
+
+          if (response.v2.meta.totalCount === 0) {
+            return alert('No result.');
+          }
+
+          let item = response.v2.addresses[0];
+          dispatch(
+            coordinateAction.set({
+              lng: item.x,
+              lat: item.y,
+            }),
+          );
+        },
+      );
+    }
+
+    // searchAddressToCoordinate(locationList.roadAddrPart);
+  }, [locationList]);
+
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const predictList: {
     year: string;
@@ -81,7 +121,7 @@ const ChargerMap = (props: Props) => {
         </Header>
         <SearchMapArea>
           <Input
-            value="난곡로 40길 30"
+            value={locationList.roadAddrPart}
             type="submit"
             className="searchInput"
             onClick={handleOnClick}
@@ -401,7 +441,7 @@ const QuotationBtn = styled.div`
   text-align: left;
   border-radius: 21.75pt;
 
-  & > span:first-child {
+  & > span:first-of-type {
     position: relative;
     top: 1pt;
   }
