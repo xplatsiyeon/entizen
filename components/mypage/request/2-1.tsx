@@ -15,23 +15,6 @@ const Mypage2_1 = () => {
   const route = useRouter();
   const [partnerModal, setPartnerModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
-  // 모달 text
-  const partnerTitle = () => {
-    return (
-      <>
-        다른 파트너에게 <br />
-        재견적을 받아보시겠습니까?
-      </>
-    );
-  };
-  const cofirmTitle = () => {
-    return (
-      <>
-        Charge Point로 <br />
-        확정하시겠습니까?
-      </>
-    );
-  };
 
   return (
     <>
@@ -57,7 +40,7 @@ const Mypage2_1 = () => {
       {/* 파트너 모달 */}
       {partnerModal && (
         <RequestModal
-          title={partnerTitle}
+          title={'다른 파트너에게\n 재견적을 받아보시겠습니까?'}
           leftControl={() => setPartnerModal((prev) => !prev)}
           rightControl={() => route.push('/mypage/request')}
         />
@@ -65,7 +48,7 @@ const Mypage2_1 = () => {
       {/* 확정 모달 */}
       {confirmModal && (
         <RequestModal
-          title={cofirmTitle}
+          title={'Charge Point로\n 확정하시겠습니까?'}
           leftControl={() => setConfirmModal((prev) => !prev)}
           rightControl={() => route.push('/mypage/request')}
         />

@@ -15,28 +15,14 @@ const Mypage1_4 = ({ data }: any) => {
   const onClcikModal = () => setModal((prev) => !prev);
   const rightControl = () => route.push('/mypage/request/1-5');
 
-  const title = () => {
-    return (
-      <>
-        Charge Point 의 구독상품으로 <br />
-        선택하시겠습니까?
-      </>
-    );
-  };
-  const subtitle = () => {
-    return (
-      <>
-        선택 후 정확한 견적을 위해 현장실사가 진행되며,
-        <br /> 고객님의 연락처가 전달됩니다.{' '}
-      </>
-    );
-  };
   return (
     <>
       {isModal && (
         <RequestModal
-          title={title}
-          subtitle={subtitle}
+          title={'Charge Point의 \n 구독상품으로 선택하시겠습니까?'}
+          subtitle={
+            '선택 후 정확한 견적을 위해 현장실사가 진행되며, \n고객님의 연락처가 전달됩니다.'
+          }
           leftControl={onClcikModal}
           rightControl={rightControl}
         />

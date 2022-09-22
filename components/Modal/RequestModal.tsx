@@ -5,8 +5,8 @@ import colors from 'styles/colors';
 interface Props {
   leftControl?: () => void;
   rightControl?: () => void;
-  title: () => JSX.Element;
-  subtitle?: () => JSX.Element;
+  title: string;
+  subtitle?: string;
 }
 
 const RequestModal = ({
@@ -18,8 +18,8 @@ const RequestModal = ({
   return (
     <ModalBackground>
       <Modal>
-        <H1>{title()}</H1>
-        <Text>{subtitle && subtitle()}</Text>
+        <H1>{title}</H1>
+        <Text>{subtitle}</Text>
         <BtnBox>
           <LeftBtn onClick={leftControl}>취소</LeftBtn>
           <RightBtn onClick={rightControl}>확인</RightBtn>
@@ -50,6 +50,7 @@ const Modal = styled.div`
   padding: 30pt 15pt;
 `;
 const H1 = styled.h1`
+  white-space: pre-wrap;
   font-weight: 700;
   font-size: 15pt;
   line-height: 21pt;
@@ -58,6 +59,7 @@ const H1 = styled.h1`
   color: ${colors.main2};
 `;
 const Text = styled.p`
+  white-space: pre-wrap;
   font-weight: 400;
   font-size: 12pt;
   line-height: 18pt;
@@ -86,6 +88,7 @@ const LeftBtn = styled(Button)`
 `;
 const RightBtn = styled(Button)`
   background: ${colors.main};
+  border-radius: 6pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
