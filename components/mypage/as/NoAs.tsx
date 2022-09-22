@@ -10,7 +10,7 @@ type Props = {};
 
 const NoAs = (props: Props) => {
   const router = useRouter();
-  const handlerBtn = () => router.push('quotation/request/1-2');
+  const handlerBtn = () => router.push('/mypage/request/1-2');
   return (
     <Wrapper>
       <ImgBox>
@@ -46,7 +46,7 @@ const Message = styled.h1`
 const Btn = styled(Button)`
   background: ${colors.main};
   color: ${colors.lightWhite};
-  margin-top: 44pt;
+  margin-top: 33pt;
   border-radius: 6pt;
   padding: 9pt 30pt;
 `;

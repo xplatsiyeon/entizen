@@ -42,7 +42,7 @@ const SignUpCompanyDetail = () => {
         </div>
       </Form>
       {/* img preview */}
-      {/* <Preview>
+      <Preview>
         {[1, 2, 3].map((item, index) => (
           <span key={index}>
             <div>
@@ -50,7 +50,7 @@ const SignUpCompanyDetail = () => {
             </div>
           </span>
         ))}
-      </Preview> */}
+      </Preview>
       <Btn text="다음" isClick={false} marginTop="30" />
     </Wrapper>
   );

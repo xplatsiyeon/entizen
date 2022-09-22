@@ -19,6 +19,7 @@ const colors = {
   calendarWeek: '#aaaaaa',
   blue: '#0057ff',
   blue2: '#007AFE',
+  blue3: '#B096EF',
 };
 
 export type Colors = typeof colors;
