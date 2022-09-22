@@ -12,7 +12,7 @@ const Mypage1_5 = () => {
   const router = useRouter();
   const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
   const [isModal, setIsModal] = useState(false); // 모달
-  const HandleModal = () => router.push('/mypage/request/1-4');
+  const HandleModal = () => router.push('/mypage/request');
 
   return (
     <Wrapper>

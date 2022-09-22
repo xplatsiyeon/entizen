@@ -5,20 +5,21 @@ import colors from 'styles/colors';
 interface Props {
   leftControl?: () => void;
   rightControl?: () => void;
+  title: () => JSX.Element;
+  subtitle?: () => JSX.Element;
 }
 
-const RequestModal = ({ leftControl, rightControl }: Props) => {
+const RequestModal = ({
+  title,
+  subtitle,
+  leftControl,
+  rightControl,
+}: Props) => {
   return (
     <ModalBackground>
       <Modal>
-        <H1>
-          Charge Point 의 구독상품으로 <br />
-          선택하시겠습니까?
-        </H1>
-        <Text>
-          선택 후 정확한 견적을 위해 현장실사가 진행되며,
-          <br /> 고객님의 연락처가 전달됩니다.
-        </Text>
+        <H1>{title()}</H1>
+        <Text>{subtitle && subtitle()}</Text>
         <BtnBox>
           <LeftBtn onClick={leftControl}>취소</LeftBtn>
           <RightBtn onClick={rightControl}>확인</RightBtn>
@@ -44,7 +45,6 @@ const ModalBackground = styled.div`
 `;
 const Modal = styled.div`
   background: ${colors.lightWhite};
-  width: 100%;
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 22.5pt 22.5pt 0 0;
   padding: 30pt 15pt;

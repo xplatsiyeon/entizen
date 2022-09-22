@@ -13,6 +13,7 @@ import ScheduleChange from 'components/mypage/request/ScheduleChange';
 import ManagerInfo from 'components/mypage/request/ManagerInfo';
 import CommunicationBox from 'components/CommunicationBox';
 import Mypage2_1 from 'components/mypage/request/2-1';
+import Button from 'components/mypage/request/Button';
 
 const Mypage1_3 = ({ data }: any) => {
   const route = useRouter();
@@ -22,8 +23,6 @@ const Mypage1_3 = ({ data }: any) => {
   // 모달 왼쪽, 오른쪽 버튼 핸들러
   const backPage = () => route.back();
   const handleOnClick = () => setModalOpen(!modalOpen);
-  const clickHandler = (url: string) => route.push(url);
-
   return (
     <>
       {/* 모달 */}
@@ -51,18 +50,12 @@ const Mypage1_3 = ({ data }: any) => {
         <div>선택하기 어려우신가요?</div>
         <CommunicationBox
           text="엔티즌과 소통하기"
-          clickHandler={() => clickHandler('/chatting/1')}
+          clickHandler={() => route.push('/chatting/1')}
         />
       </TextBox> */}
 
       {/* request 2-3 */}
       <Mypage2_1 />
-      <TextBox>
-        <CommunicationBox
-          text="파트너와 소통하기"
-          clickHandler={() => clickHandler('/chatting/1-3')}
-        />
-      </TextBox>
     </>
   );
 };
