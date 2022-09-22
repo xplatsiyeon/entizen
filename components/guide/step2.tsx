@@ -103,7 +103,7 @@ const Step2 = ({
               IconComponent={() => <SelectIcon />}
             >
               <MenuItem value="">
-                <em>충전기 종류</em>
+                <em>충전소</em>
               </MenuItem>
               {M5_LIST.map((option, index) => (
                 <MenuItem key={index} value={option}>
