@@ -8,7 +8,11 @@ import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
 
-const BiddingQuote = () => {
+interface Props {
+  pb?: number;
+}
+
+const BiddingQuote = ({ pb }: Props) => {
   // 파일 다운로드 함수
   const DownloadFile = useCallback(() => {
     let fileName = 'Charge Point 카탈로그_7 KW';
@@ -52,6 +56,14 @@ const BiddingQuote = () => {
           <span className="value">LS ELECTRIC</span>
         </Item>
       </List>
+      {/* 현장실사 결과 */}
+      <Section>
+        <Subtitle>현장실사 결과</Subtitle>
+        <Contents>
+          투자금 및 수익지분을 5:5로 조정하기로 합의하였으며, 구독료 또한 비중에
+          맞게 조정되었음.
+        </Contents>
+      </Section>
       <Section>
         <Subtitle>특장점</Subtitle>
         <Label>구독 상품</Label>
@@ -83,7 +95,7 @@ const BiddingQuote = () => {
           </GridItem>
         </GridImg>
       </Section>
-      <Section>
+      <Section pb={pb}>
         <Subtitle>충전기 카탈로그</Subtitle>
         <FileBtn onClick={DownloadFile}>
           <Image src={fileImg} alt="file-icon" />
@@ -108,17 +120,15 @@ const Title = styled.h1`
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
-const Section = styled.section<{ grid?: boolean }>`
+const Section = styled.section<{ grid?: boolean; pb?: number }>`
   padding: 18pt 15pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
-  :nth-last-of-type(1) {
-    padding-bottom: 101.25pt;
-  }
+  padding-bottom: ${({ pb }) => pb + 'pt'};
   ${({ grid }) =>
     grid &&
     css`
       padding-right: 0;
-    `}
+    `};
 `;
 const List = styled.ul`
   padding: 30pt 15pt 18pt 15pt;
@@ -204,4 +214,12 @@ const FileBtn = styled(Button)`
   border: 0.75pt solid ${colors.lightGray3};
   color: ${colors.gray2};
   border-radius: 8px;
+`;
+const Contents = styled.p`
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  padding-top: 15pt;
+  color: ${colors.main2};
 `;
