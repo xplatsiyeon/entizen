@@ -5,7 +5,7 @@ import search from 'public/images/search.png';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import React from 'react';
 import colors from 'styles/colors';
-import NoAs from './noAs';
+import NoAs from './NoAs';
 
 type Props = {};
 
@@ -94,7 +94,7 @@ const AsIndex = (props: Props) => {
           }}
         />
       </div>
-      {menuList && <NoAs />}
+      {!menuList && <NoAs />}
     </Wrapper>
   );
 };
