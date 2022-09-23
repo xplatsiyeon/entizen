@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Footer from 'components/quotationRequest/Footer';
-import Header from 'components/quotationRequest/Header';
+import Footer from 'components/quotation/request/Footer';
+import Header from 'components/quotation/request/Header';
 
 type Props = {};
 
