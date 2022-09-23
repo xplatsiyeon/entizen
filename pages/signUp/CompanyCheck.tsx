@@ -1,8 +1,8 @@
-import Header from '../components/header';
 import { Box } from '@mui/material';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Btn from 'components/button';
+import Header from 'components/header';
 
 const SignUpCheck = () => {
   return (
