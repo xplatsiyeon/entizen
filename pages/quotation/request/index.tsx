@@ -3,18 +3,21 @@ import Header from 'components/mypage/request/header';
 import FirstStep from 'components/quotation/request/FirstStep';
 import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
-import Arrow from 'public/guide/Arrow.svg';
+
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
+import SecondStep from 'components/quotation/request/SecondStep';
+import Third from 'components/quotation/request/Third';
+import { width } from '@mui/system';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 const components: Components = {
   0: <FirstStep />,
-  1: <div>1</div>,
-  2: <div>2</div>,
+  1: <SecondStep />,
+  2: <Third />,
   3: <div>3</div>,
   4: <div>4</div>,
   5: <div>5</div>,
@@ -31,6 +34,9 @@ const Quotation1_1 = () => {
   const HandleBtn = () => {
     if (tabNumber !== 5) setTabNumber(tabNumber + 1);
     else route.push('/');
+  };
+  const HandlePrevBtn = () => {
+    if (tabNumber > 0) setTabNumber(tabNumber - 1);
   };
 
   return (
@@ -63,15 +69,24 @@ const Quotation1_1 = () => {
         {components[tabNumber]}
       </Body>
       <Footer>
-        <ChargeGuide>
-          <span className="text">충전기 가이드</span>
-          <div className="arrow-icon">
-            <Image src={Arrow} alt="arrow_icon" />
-          </div>
-        </ChargeGuide>
-        <Btn buttonActivate={buttonActivate} onClick={HandleBtn}>
-          다음
-        </Btn>
+        {tabNumber === 0 ? (
+          <Btn
+            buttonActivate={buttonActivate}
+            onClick={HandleBtn}
+            tabNumber={0}
+          >
+            다음
+          </Btn>
+        ) : (
+          <TwoBtn>
+            <PrevBtn buttonActivate={buttonActivate} onClick={HandlePrevBtn}>
+              이전
+            </PrevBtn>
+            <Btn buttonActivate={buttonActivate} onClick={HandleBtn}>
+              다음
+            </Btn>
+          </TwoBtn>
+        )}
       </Footer>
     </>
   );
@@ -90,7 +105,7 @@ const TabBox = styled.div`
 const TabLine = styled.div<{ idx: string; num: string }>`
   border-style: solid;
   border-bottom-width: 3pt;
-  border-color: ${({ idx, num }) => (idx === num ? colors.main : colors.gray4)};
+  border-color: ${({ idx, num }) => (idx <= num ? colors.main : colors.gray4)};
   border-radius: 2px;
   width: 100%;
 `;
@@ -100,25 +115,9 @@ const Footer = styled.div`
   left: 0;
   width: 100%;
 `;
-const ChargeGuide = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3pt;
-  color: ${colors.gray2};
-  .text {
-    letter-spacing: -0.02em;
-    border-bottom: 1px solid ${colors.gray2};
-  }
-  .arrow-icon {
-    position: relative;
-    width: 12pt;
-    height: 12pt;
-  }
-`;
-const Btn = styled.div<{ buttonActivate: boolean }>`
+const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   color: ${colors.lightWhite};
-  width: 100%;
+  width: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '64%')};
   padding: 15pt 0 39pt 0;
   text-align: center;
   font-weight: 700;
@@ -128,4 +127,21 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   margin-top: 30pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
+`;
+
+const PrevBtn = styled.div<{ buttonActivate: boolean }>`
+  color: ${colors.lightWhite};
+  width: 36%;
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${({ buttonActivate }) =>
+    buttonActivate ? colors.main : colors.gray};
+`;
+const TwoBtn = styled.div`
+  display: flex;
 `;
