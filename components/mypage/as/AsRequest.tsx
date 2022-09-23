@@ -12,13 +12,13 @@ import MypageHeader from '../request/header';
 type Props = {};
 
 const AsRequest = (props: Props) => {
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleClick = () => setOpen(!open);
 
   return (
     <>
-      <MypageHeader title={'A/S'} back={true} />
+      <MypageHeader title={'A/S'} back={false} />
       <Wrapper>
         {/* Close */}
         <ItemButton onClick={handleClick}>

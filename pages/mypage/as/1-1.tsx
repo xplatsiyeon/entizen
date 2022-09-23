@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import AsRequest from 'components/mypage/as/AsRequest';
+import AsRequestFooter from 'components/mypage/as/AsRequestFooter';
 import AsRequestPartner from 'components/mypage/as/AsRequestPartner';
 import React from 'react';
 
@@ -10,13 +11,9 @@ const AsShow = (props: Props) => {
     <>
       <AsRequest />
       <AsRequestPartner />
+      <AsRequestFooter />
     </>
   );
 };
-
-const Container = styled.div`
-  padding-left: 15pt;
-  padding-right: 15pt;
-`;
 
 export default AsShow;

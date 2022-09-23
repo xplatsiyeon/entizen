@@ -56,24 +56,24 @@ const AsRequestPartner = ({ pb }: Props) => {
       </List>
       <ReceiptTitle>접수내용</ReceiptTitle>
       <SecondList>
-        <Item>
+        <Items>
           <span className="name">제목</span>
           <span className="value">
             100kW 충전기의 충전 건이 파손되었습니다.
           </span>
-        </Item>
-        <Item>
+        </Items>
+        <Items>
           <span className="name">담당자</span>
           <span className="value">
             사용자의 실수로 충전 건이 파손되었습니다.
             <br />
             수리 또는 교체 해주세요.
           </span>
-        </Item>
-        <Item>
+        </Items>
+        <Items>
           <span className="name">접수일자</span>
           <span className="value">2022.05.17 18:13 </span>
-        </Item>
+        </Items>
         <Items>
           <div className="name">첨부파일</div>
           <div className="value">
@@ -88,52 +88,41 @@ const AsRequestPartner = ({ pb }: Props) => {
           </div>
         </Items>
       </SecondList>
-      {/* 현장실사 결과 */}
-      <Section>
-        <Subtitle>현장실사 결과</Subtitle>
-        <Contents>
-          투자금 및 수익지분을 5:5로 조정하기로 합의하였으며, 구독료 또한 비중에
-          맞게 조정되었음.
-        </Contents>
-      </Section>
-      <Section>
-        <Subtitle>특장점</Subtitle>
-        <Label>구독 상품</Label>
-        <FeaturesList>
-          <li>QR인증, RFID 인증을 이용한 편리한 결제 시스템</li>
-          <li>앱을 통한 충전기 사용현황 확인 및 사용 예약</li>
-          <li>24시간 콜센터 운영</li>
-        </FeaturesList>
-        <Label>7 kW 충전기 (공용)</Label>
-        <FeaturesList>
-          <li>LS ELECTRIC 충전기</li>
-          <li>수려한 디자인</li>
-        </FeaturesList>
-      </Section>
-      <Section grid={true}>
-        <Subtitle>충전기 이미지</Subtitle>
-        <GridImg>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
-        </GridImg>
-      </Section>
-      <Section pb={pb}>
-        <Subtitle>충전기 카탈로그</Subtitle>
-        <FileBtn onClick={DownloadFile}>
-          <Image src={fileImg} alt="file-icon" />
-          Charge Point 카탈로그_7 KW
-        </FileBtn>
-      </Section>
+      <ReceiptTitle>접수확인</ReceiptTitle>
+      <SecondList>
+        <Items>
+          <span className="name">내용</span>
+          <span className="value">
+            파손 정도 파악 및 수리/교체를 위해
+            <br />
+            금주 중 방문하도록 하겠습니다.
+          </span>
+        </Items>
+        <Items>
+          <span className="name">접수일자</span>
+          <span className="value">2022.05.18 20:21 </span>
+        </Items>
+      </SecondList>
+      <ReceiptTitle>A/S결과</ReceiptTitle>
+      <SecondList>
+        <Items>
+          <span className="name">내용</span>
+          <span className="value">충전 건 교체</span>
+        </Items>
+        <Items>
+          <span className="name">A/S일자</span>
+          <span className="value">2022/05.20 14:52</span>
+        </Items>
+        <Items>
+          <div className="name">첨부파일</div>
+          <div className="value">
+            <FileBtn onClick={DownloadFile}>
+              <Image src={fileImg} alt="file-icon" />
+              DSFJEIFKSL.jpg
+            </FileBtn>
+          </div>
+        </Items>
+      </SecondList>
     </Wrapper>
   );
 };
@@ -167,7 +156,6 @@ const ReceiptTitle = styled.h1`
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
-const Section = styled.section<{ grid?: boolean; pb?: number }>``;
 
 const List = styled.ul`
   margin-top: 15pt;
@@ -179,7 +167,6 @@ const SecondList = styled.ul`
   margin-top: 15pt;
   padding-bottom: 18pt;
   gap: 12pt;
-  border-bottom: 0.75pt solid ${colors.lightGray};
 `;
 const Item = styled.li`
   display: flex;
@@ -215,6 +202,7 @@ const Items = styled.li`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    width: 41.25pt;
   }
   .value {
     font-size: 10.5pt;
@@ -229,8 +217,6 @@ const Items = styled.li`
     gap: 6pt;
     flex-direction: column;
     justify-content: start;
-  }
-  & button {
   }
 `;
 const Subtitle = styled.h2`
