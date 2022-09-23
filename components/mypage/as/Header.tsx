@@ -19,7 +19,7 @@ const Header = (props: Props) => {
         <Image src={BackImg} alt="btn" />
       </div>
       <span className="text">{text}</span>
-      <RightText colorSelect={colorSelect}>완료</RightText>
+      <RightText colorSelect={colorSelect}></RightText>
     </HeaderBox>
   );
 };

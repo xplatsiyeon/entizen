@@ -1,4 +1,3 @@
-import Header from '../components/header';
 import React, { useEffect, useRef } from 'react';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
@@ -10,6 +9,7 @@ import useDebounce from 'hooks/useDebounce';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
+import Header from 'components/header';
 
 interface State {
   pwInput: string;

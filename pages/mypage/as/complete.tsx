@@ -1,4 +1,4 @@
-import AsComplete from 'components/mypage/as/AsComplete';
+import AsComplete from 'components/mypage/as/AsWriteComplete';
 import React from 'react';
 
 type Props = {};

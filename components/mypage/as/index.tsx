@@ -90,7 +90,7 @@ const AsIndex = (props: Props) => {
     };
   const router = useRouter();
   const menuList: {} = [];
-  const handlerBtn = () => router.push('/mypage/request/1-2');
+  const handlerBtn = () => router.push('/mypage/as/1-2');
   const handleAsListClick = () => router.push('/mypage/as/1-1');
 
   return (

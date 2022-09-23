@@ -52,11 +52,6 @@ export interface DateType {
 const AsRequestWrite = (props: Props) => {
   const imgRef = useRef<any>(null);
   const [checkAll, setCheckAll] = useState<boolean>(false);
-  // const [checkAll, setCheckAll] = useState<CheckType>({
-  //   1: false,
-  //   2: false,
-  //   3: false,
-  // });
   const [selectedOption, setSelectedOption] = useState<Option>({
     m5: '',
   });
