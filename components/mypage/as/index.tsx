@@ -33,7 +33,7 @@ const AsIndex = (props: Props) => {
   const [checkedFilterIndex, setCheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] = useState<string>('등록일순 보기');
   const filterList: string[] = ['등록일순 보기', '현장별 보기', '상태순 보기'];
-  // const .MuiBox-root
+
   useEffect(() => {
     setCheckedFilter(filterList[checkedFilterIndex]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -91,6 +91,7 @@ const AsIndex = (props: Props) => {
   const router = useRouter();
   const menuList: {} = [];
   const handlerBtn = () => router.push('/mypage/request/1-2');
+  const handleAsListClick = () => router.push('/mypage/as/1-1');
 
   return (
     <Wrapper>
@@ -130,7 +131,7 @@ const AsIndex = (props: Props) => {
         />
       </div>
       <ContentsContainer>
-        <ContentsWrapper>
+        <ContentsWrapper onClick={handleAsListClick}>
           <ContentTop>
             <ContentTitle>LS안양주유소</ContentTitle>
           </ContentTop>
