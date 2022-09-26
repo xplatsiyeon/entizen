@@ -10,6 +10,7 @@ import ThirdStep from 'components/quotation/request/ThirdStep';
 import FourthStep from 'components/quotation/request/FourthStep';
 import FifthStep from 'components/quotation/request/FifthStep';
 import SixthStep from 'components/quotation/request/SixthStep';
+import Request1_7 from './1-7';
 
 interface Components {
   [key: number]: JSX.Element;

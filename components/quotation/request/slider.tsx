@@ -35,7 +35,9 @@ export default SliderSizes;
 
 const SliderCustom = styled(Box)`
   position: relative;
-  padding: 6pt 0;
+  padding-top: 6pt;
+  padding-bottom: 10.5pt;
+
   .css-187mznn-MuiSlider-root {
     color: #e2e5ed;
     border-radius: 2px;
@@ -56,7 +58,7 @@ const SliderCustom = styled(Box)`
 const PersentBadge = styled.span<{ persent: number; client: boolean }>`
   position: absolute;
   left: ${({ persent }) => `calc(${persent}% - 15pt)`};
-  bottom: -10.5pt;
+  bottom: 0;
   color: ${colors.lightWhite};
   background-color: ${({ client }) => (client ? colors.main : colors.gray)};
   border-radius: 6pt;

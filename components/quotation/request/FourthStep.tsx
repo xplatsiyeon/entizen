@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import Arrow from 'public/guide/Arrow.svg';
 import useMap from 'utils/useMap';
@@ -19,15 +19,20 @@ const FourthStep = () => {
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
+  const { lnglatList } = useSelector((state: RootState) => state.lnglatList);
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [tabNumber, setTabNumber] = useState(-1);
   const tabType: string[] = ['건물 안', '건물 밖'];
+  const { myLocation } = useMap();
 
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
     setIsSearch((prev) => !prev);
   };
   // 지도맵 훅
-  useMap();
+  useEffect(() => {
+    myLocation;
+  }, [lnglatList]);
+
   // useMap 업데이트
   useEffect(() => {
     if (locationList.roadAddrPart) {
@@ -63,6 +68,7 @@ const FourthStep = () => {
   if (isSearch) {
     return <SearchAddress isSearch={isSearch} setIsSearch={setIsSearch} />;
   }
+
   return (
     <Wrraper>
       <Title>

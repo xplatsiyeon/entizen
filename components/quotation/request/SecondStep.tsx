@@ -10,7 +10,6 @@ import SliderSizes from './slider';
 
 const SecondStep = () => {
   const [tabNumber, setTabNumber] = useState(-1);
-  const [progressValue, setProgressValue] = useState(60);
   const subscribeType: string[] = ['전체구독', '부분구독'];
   return (
     <Wrraper>
