@@ -6,7 +6,7 @@ import colors from 'styles/colors';
 
 import Arrow from 'public/guide/Arrow.svg';
 
-const Third = () => {
+const ThirdStep = () => {
   const [tabNumber, setTabNumber] = useState(-1);
   const [isMessage, setIsMessage] = useState(false);
   const subscribeType: string[] = ['24개월', '36개월', '48개월', '60개월'];
@@ -45,11 +45,12 @@ const Third = () => {
   );
 };
 
-export default Third;
+export default ThirdStep;
 
 const Wrraper = styled.div`
   position: relative;
   padding-bottom: 96pt;
+  padding: 0 15pt;
 `;
 const Title = styled.h1`
   padding-top: 24pt;

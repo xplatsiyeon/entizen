@@ -6,6 +6,7 @@ import colors from 'styles/colors';
 import LinearProgressWithLabel from './progress';
 import LinearWithValueLabel from './progress';
 import Arrow from 'public/guide/Arrow.svg';
+import SliderSizes from './slider';
 
 const SecondStep = () => {
   const [tabNumber, setTabNumber] = useState(-1);
@@ -38,10 +39,9 @@ const SecondStep = () => {
         <SubTitle>내 수익/투자</SubTitle>
         <SubTitle>판매자</SubTitle>
       </SubTitleBox>
-      <ProgressBar>
-        <LinearProgressWithLabel value={progressValue} />
-      </ProgressBar>
-      <Notice pt={15}>* 홈 충전기는 수익지분과 무관한 상품입니다.</Notice>
+      {/* slider  */}
+      <SliderSizes />
+      {/* <Notice pt={15}>* 홈 충전기는 수익지분과 무관한 상품입니다.</Notice> */}
       <ChargeGuide>
         <span className="text">구독 가이드</span>
         <div className="arrow-icon">
@@ -57,6 +57,7 @@ export default SecondStep;
 const Wrraper = styled.div`
   position: relative;
   padding-bottom: 96pt;
+  padding: 0 15pt;
 `;
 const Title = styled.h1`
   padding-top: 24pt;
@@ -116,9 +117,28 @@ const SubTitleBox = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const ProgressBar = styled.div`
-  padding-top: 6pt;
-`;
+// const ProgressBar = styled.div`
+//   border: 1px solid red;
+//   padding: 6pt 0;
+//   position: relative;
+//   .css-187mznn-MuiSlider-root {
+//     /* color: red; */
+//     color: #e2e5ed;
+//     border-radius: 2px;
+//   }
+//   .css-1gv0vcd-MuiSlider-track {
+//     color: ${colors.main};
+//   }
+//   .css-eg0mwd-MuiSlider-thumb::after {
+//     background: #ffffff;
+//     box-shadow: 0px 0px 5px rgba(117, 130, 149, 0.6);
+//     width: 15pt;
+//     height: 15pt;
+//   }
+//   .css-14pt78w-MuiSlider-rail {
+//   }
+// `;
+
 const ChargeGuide = styled.div`
   display: flex;
   justify-content: center;

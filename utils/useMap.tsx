@@ -6,11 +6,13 @@ import { RootState } from 'store/store';
 
 function useMap() {
   const mapRef = useRef<HTMLElement | null | any>(null);
-  const markerRef = useRef<any | null>(null);
   const [myLocation, setMyLocation] = useState<
     { latitude: number; longitude: number } | string
   >({ latitude: 37.4862618, longitude: 127.1222903 });
   const { lnglatList } = useSelector((state: RootState) => state.lnglatList);
+  const { locationList } = useSelector(
+    (state: RootState) => state.locationList,
+  );
   // let HOME_PATH = window.HOME_PATH || '.';
   const markerHtml = (text: string) => {
     return (
@@ -35,21 +37,28 @@ function useMap() {
       let currentPosition = [lnglatList.lat, lnglatList.lng];
 
       // Naver Map 생성
-      let map = (mapRef.current = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
-        zoomControl: false,
-      }));
-      new naver.maps.Marker({
-        position: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
-        map: map,
-        icon: {
-          content: contentString,
-          size: new naver.maps.Size(20, 20),
-          anchor: new naver.maps.Point(20, 40),
-        },
-      });
+      if (locationList && lnglatList) {
+        console.log('test');
+
+        let map = (mapRef.current = new naver.maps.Map('map', {
+          center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
+          zoomControl: false,
+        }));
+        new naver.maps.Marker({
+          position: new naver.maps.LatLng(
+            currentPosition[0],
+            currentPosition[1],
+          ),
+          map: map,
+          icon: {
+            content: contentString,
+            size: new naver.maps.Size(20, 20),
+            anchor: new naver.maps.Point(20, 40),
+          },
+        });
+      }
     }
-  }, [lnglatList]);
+  }, [lnglatList, locationList]);
 
   return {
     myLocation,

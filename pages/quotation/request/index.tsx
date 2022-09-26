@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import FirstStep from 'components/quotation/request/FirstStep';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
-
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import SecondStep from 'components/quotation/request/SecondStep';
-import Third from 'components/quotation/request/Third';
-import { width } from '@mui/system';
+import ThirdStep from 'components/quotation/request/ThirdStep';
+import FourthStep from 'components/quotation/request/FourthStep';
+import FifthStep from 'components/quotation/request/FifthStep';
+import SixthStep from 'components/quotation/request/SixthStep';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -17,10 +17,10 @@ interface Components {
 const components: Components = {
   0: <FirstStep />,
   1: <SecondStep />,
-  2: <Third />,
-  3: <div>3</div>,
-  4: <div>4</div>,
-  5: <div>5</div>,
+  2: <ThirdStep />,
+  3: <FourthStep />,
+  4: <FifthStep />,
+  5: <SixthStep />,
 };
 const Quotation1_1 = () => {
   const route = useRouter();
@@ -95,7 +95,7 @@ const Quotation1_1 = () => {
 export default Quotation1_1;
 
 const Body = styled.div`
-  padding: 12pt 15pt 0 15pt;
+  padding-top: 12pt;
 `;
 
 const TabBox = styled.div`
