@@ -7,7 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MenuItem } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
-const M5_LIST = [
+export const M5_LIST = [
   '3.5 kW 과금형 콘센트',
   '7 kW 홈 충전기 (가정용)',
   '7 kW 충전기 (공용, 경제형)',
@@ -26,9 +26,9 @@ const M5_LIST = [
   '350 kW 충전기 (버스)',
   '400 kW 충전기 (버스)',
 ];
-const M6_LIST = ['-', '벽걸이', '스탠드', '키오스크'];
-const M7_LIST = ['-', '싱글', '듀얼', '3모드'];
-const M8_LIST = [
+export const M6_LIST = ['-', '벽걸이', '스탠드', '키오스크'];
+export const M7_LIST = ['-', '싱글', '듀얼', '3모드'];
+export const M8_LIST = [
   '1대',
   '2대',
   '3대',
@@ -103,7 +103,7 @@ const Step2 = ({
               IconComponent={() => <SelectIcon />}
             >
               <MenuItem value="">
-                <em>충전소</em>
+                <em>충전기 종류</em>
               </MenuItem>
               {M5_LIST.map((option, index) => (
                 <MenuItem key={index} value={option}>
