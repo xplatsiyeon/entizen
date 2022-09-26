@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import AsRequest from 'components/mypage/as/AsRequest';
 import AsRequestFooter from 'components/mypage/as/AsRequestFooter';
 import AsRequestPartner from 'components/mypage/as/AsRequestPartner';

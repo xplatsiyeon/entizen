@@ -1,10 +1,15 @@
+import AsRequestEndReview from 'components/mypage/as/AsRequestEndReview';
+import AsRequestWriteReview from 'components/mypage/as/AsRequestWriteReview';
 import React from 'react';
-import AsRequest from './1-2';
 
 type Props = {};
 
-const AsRequestEndReview = (props: Props) => {
-  return <AsRequest />;
+const AsReviewWrite = (props: Props) => {
+  return (
+    <>
+      <AsRequestEndReview />
+    </>
+  );
 };
 
 export default AsRequestEndReview;

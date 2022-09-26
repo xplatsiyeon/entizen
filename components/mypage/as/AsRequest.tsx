@@ -18,7 +18,7 @@ const AsRequest = (props: Props) => {
 
   return (
     <>
-      <MypageHeader title={'A/S'} back={false} />
+      <MypageHeader title={'A/S'} back={true} />
       <Wrapper>
         {/* Close */}
         <ItemButton onClick={handleClick}>
