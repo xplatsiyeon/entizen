@@ -34,7 +34,12 @@ const BottomNavigation = (props: Props) => {
           <Image src={guide} alt="guide" width={32} height={32} />
           <h3 className="name">가이드</h3>
         </div>
-        <div className="img-wrapper">
+        <div
+          className="img-wrapper"
+          onClick={() => {
+            router.push('/quotation/request');
+          }}
+        >
           <Image src={estimate} alt="estimate" width={32} height={32} />
           <h3 className="name">간편견적</h3>
         </div>
