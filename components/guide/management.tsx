@@ -8,7 +8,7 @@ const management = () => {
   return (
     <Main>
       <Image src={ManagementImg} alt="info" />
-      <TextBox style={{ listStyleType: 'disc;' }}>
+      <TextBox>
         <li className="text-item">
           <span className="accent">A/S</span>에서 편리하고 빠르게 충전기 이슈
           해결을 요청해보세요.
@@ -45,6 +45,7 @@ const Main = styled.div`
 const TextBox = styled(Box)`
   margin-top: 24pt;
   padding: 0 10px;
+  list-style-type: disc;
   .text-item {
     padding-bottom: 15pt;
     font-weight: 500;

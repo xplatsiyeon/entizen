@@ -5,12 +5,14 @@ import GuideHeader from 'components/guide/header';
 import SubcribeGraph from 'components/guide/subcribeGraph';
 import Share from 'components/guide/share';
 import Contract from 'components/guide/contract';
+import { useRouter } from 'next/router';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
 const Guide1_4 = () => {
+  const router = useRouter();
   const [tabNumber, setTabNumber] = useState(0);
   const TabType: string[] = ['구독상품', '수익지분', '계약'];
   const components: Components = {
@@ -23,7 +25,11 @@ const Guide1_4 = () => {
 
   return (
     <Wrapper>
-      <GuideHeader title={'요금정보'} />
+      <GuideHeader
+        title={'요금정보'}
+        leftOnClick={() => router.back()}
+        rightOnClick={() => router.push('/')}
+      />
       <TabContainer>
         {TabType.map((tab, index) => (
           <TabItem

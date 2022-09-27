@@ -34,7 +34,7 @@ const Request = () => {
       <Body>
         <span
           className="profile-icon"
-          onClick={() => route.push('profile/editing/1')}
+          onClick={() => route.push('profile/editing')}
         >
           프로필 변경
         </span>

@@ -9,10 +9,11 @@ interface Props {
   title?: string;
   text?: string;
   buttonText?: string;
+  HandleOnClick?: () => void;
   [key: string]: any;
 }
 
-const Complete = ({ text, title, buttonText }: Props) => {
+const Complete = ({ text, title, buttonText, HandleOnClick }: Props) => {
   return (
     <Wrapper>
       <Nav>
@@ -24,7 +25,7 @@ const Complete = ({ text, title, buttonText }: Props) => {
       <Title>{title}</Title>
       <Footer>
         <TextBox>{text}</TextBox>
-        <Btn>{buttonText}</Btn>
+        <Btn onClick={HandleOnClick}>{buttonText}</Btn>
       </Footer>
     </Wrapper>
   );

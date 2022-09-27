@@ -8,18 +8,25 @@ import colors from 'styles/colors';
 import Image from 'next/image';
 import { Button } from '@mui/material';
 import Modal from 'components/Modal/Modal';
+import { useDispatch } from 'react-redux';
+import { requestAction } from 'store/requestSlice';
 
 const Mypage2_4 = () => {
-  const route = useRouter();
+  const router = useRouter();
+  const dispatch = useDispatch();
   const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
   const [isModal, setModal] = useState(false);
-
+  // 리덕스
+  const HandleModal = () => {
+    // router.push('/mypage');
+    router.push('/mypage/request/2-1');
+    dispatch(requestAction.addDate(selectedDays)); //임시
+    dispatch(requestAction.addPick(selectedDays[0])); // 임시
+  };
   return (
     <Wrapper>
       {/* 모달 / 라우터 수정  */}
-      {isModal && (
-        <Modal text="변경 요청 되었습니다." click={() => route.push('/')} />
-      )}
+      {isModal && <Modal text="변경 요청 되었습니다." click={HandleModal} />}
       <MypageHeader title="다른 날짜 선택" exitBtn={true} back={true} />
       <Title>가능한 날짜를 선택해주세요</Title>
       <Calendar selectedDays={selectedDays} SetSelectedDays={SetSelectedDays} />

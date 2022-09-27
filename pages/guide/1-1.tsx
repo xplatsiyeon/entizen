@@ -9,12 +9,14 @@ import Compare from 'components/guide/compare';
 import Monitoring from 'components/guide/monitoring';
 import ManageMent from 'components/guide/management';
 import GuideHeader from 'components/guide/header';
+import { useRouter } from 'next/router';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
 const Guide1_1 = () => {
+  const router = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const TabType = ['정보확인', '비교/선택', '설치 모니터링', '운영/관리'];
   const components: Components = {
@@ -28,7 +30,11 @@ const Guide1_1 = () => {
 
   return (
     <Wrapper>
-      <GuideHeader title={'알림함'} />
+      <GuideHeader
+        title={'알림함'}
+        leftOnClick={() => router.back()}
+        rightOnClick={() => router.push('/')}
+      />
       <PlatformImgBox>
         <Image src={Platform} alt="platform" />
       </PlatformImgBox>

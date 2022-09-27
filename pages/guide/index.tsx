@@ -18,7 +18,7 @@ const Guide1 = () => {
 
   // 필요한 인자 값 받아와서 페이지 이동
   const pageHandler = (page: string) => {
-    router.push(`/${page}`);
+    router.push(`${page}`);
   };
 
   return (
@@ -26,24 +26,24 @@ const Guide1 = () => {
       <Header>
         <span className="left">가이드</span>
         <div className="right">
-          <Image onClick={() => pageHandler('')} src={bell} alt="bell" />
+          <Image onClick={() => pageHandler('/alam')} src={bell} alt="bell" />
           <Image onClick={() => pageHandler('')} src={list} alt="hamburger" />
         </div>
       </Header>
-      <Platform onClick={() => pageHandler('')}>
+      <Platform onClick={() => pageHandler('/guide/1-1')}>
         <Image src={banner} alt="platform" />
       </Platform>
       <SubsidyBox>
-        <Subsidy onClick={() => pageHandler('')}>
+        <Subsidy onClick={() => pageHandler('/guide/1-2')}>
           <span className="text">보조금 가이드</span>
           <Image src={subsidy_icon} alt="subsidy_icon" />
         </Subsidy>
-        <Fee onClick={() => pageHandler('')}>
+        <Fee onClick={() => pageHandler('/guide/1-3')}>
           <span className="text">요금 정보</span>
           <Image src={fee_icon} alt="fee_icon" />
         </Fee>
       </SubsidyBox>
-      <GuideBox onClick={() => pageHandler('')}>
+      <GuideBox onClick={() => pageHandler('/guide/1-4')}>
         <span>
           <div className="name_box">
             <h2 className="name">구독 가이드</h2>
@@ -59,7 +59,7 @@ const Guide1 = () => {
           <Image src={charger_icon} alt="charger_icon" />
         </div>
       </GuideBox>
-      <GuideBox onClick={() => pageHandler('')}>
+      <GuideBox onClick={() => pageHandler('/guide/1-5')}>
         <span>
           <div className="name_box">
             <h2 className="name">충전기 가이드</h2>

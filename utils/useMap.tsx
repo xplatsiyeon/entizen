@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import mapPin from 'public/images/blueMapPin.png';
 import { useSelector } from 'react-redux';
@@ -6,11 +6,13 @@ import { RootState } from 'store/store';
 
 function useMap() {
   const mapRef = useRef<HTMLElement | null | any>(null);
-  const markerRef = useRef<any | null>(null);
   const [myLocation, setMyLocation] = useState<
     { latitude: number; longitude: number } | string
   >({ latitude: 37.4862618, longitude: 127.1222903 });
   const { lnglatList } = useSelector((state: RootState) => state.lnglatList);
+  const { locationList } = useSelector(
+    (state: RootState) => state.locationList,
+  );
   // let HOME_PATH = window.HOME_PATH || '.';
   const markerHtml = (text: string) => {
     return (
@@ -49,7 +51,7 @@ function useMap() {
         },
       });
     }
-  }, [lnglatList]);
+  }, [lnglatList, locationList]);
 
   return {
     myLocation,

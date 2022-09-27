@@ -56,14 +56,6 @@ const BiddingQuote = ({ pb }: Props) => {
           <span className="value">LS ELECTRIC</span>
         </Item>
       </List>
-      {/* 현장실사 결과 */}
-      <Section>
-        <Subtitle>현장실사 결과</Subtitle>
-        <Contents>
-          투자금 및 수익지분을 5:5로 조정하기로 합의하였으며, 구독료 또한 비중에
-          맞게 조정되었음.
-        </Contents>
-      </Section>
       <Section>
         <Subtitle>특장점</Subtitle>
         <Label>구독 상품</Label>
