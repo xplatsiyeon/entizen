@@ -6,16 +6,18 @@ import colors from 'styles/colors';
 
 interface Props {
   title: string;
+  leftOnClick?: () => void;
+  rightOnClick?: () => void;
 }
 
-const GuideHeader = ({ title }: Props) => {
+const GuideHeader = ({ title, leftOnClick, rightOnClick }: Props) => {
   return (
     <Header>
-      <div className="back-img">
+      <div className="back-img" onClick={leftOnClick}>
         <Image src={BackImg} alt="btn" />
       </div>
       <span className="text">{title}</span>
-      <div className="setting-img">
+      <div className="setting-img" onClick={rightOnClick}>
         <Image src={Home} alt="home" />
       </div>
     </Header>

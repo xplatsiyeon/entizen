@@ -8,7 +8,7 @@ const monitoring = () => {
   return (
     <Main>
       <Image src={Monitoring} alt="info" />
-      <TextBox style={{ listStyleType: 'disc;' }}>
+      <TextBox>
         <li className="text-item">
           <span className="accent">내 프로젝트</span>에서 계약과 설치 프로세스
           모니터링을 할 수 있습니다.
@@ -46,6 +46,7 @@ const Main = styled.div`
   padding: 27pt 15pt 0 15pt;
 `;
 const TextBox = styled(Box)`
+  list-style-type: disc;
   margin-top: 24pt;
   padding: 0 10px;
   .text-item {

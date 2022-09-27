@@ -9,7 +9,9 @@ import { Pagination } from 'swiper';
 import MaskImg1 from 'public/images/Mask_group.png';
 import MaskImg2 from 'public/images/Mask_group2.png';
 import MaskImg3 from 'public/images/Mask_group3.png';
+import { useRouter } from 'next/router';
 const Start = () => {
+  const router = useRouter();
   return (
     <>
       <SliderWrapper>
@@ -37,7 +39,13 @@ const Start = () => {
           </SwiperSlide>
         </Swiper>
       </SliderWrapper>
-      <Btn>시작하기</Btn>
+      <Btn
+        onClick={() => {
+          router.push('/');
+        }}
+      >
+        시작하기
+      </Btn>
     </>
   );
 };

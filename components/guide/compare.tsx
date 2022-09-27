@@ -8,7 +8,7 @@ const Contract = () => {
   return (
     <Main>
       <Image src={CompareImg} alt="info" />
-      <TextBox style={{ listStyleType: 'disc;' }}>
+      <TextBox>
         <li className="text-item">
           파트너들에게서 온 맞춤 견적들을
           <span className="accent">내 견적서</span>에서 꼼꼼하게 비교해보세요.
@@ -40,6 +40,7 @@ const Main = styled.div`
 const TextBox = styled(Box)`
   margin-top: 24pt;
   padding: 0 10px;
+  list-style-type: disc;
   .text-item {
     padding-bottom: 15pt;
     font-weight: 500;

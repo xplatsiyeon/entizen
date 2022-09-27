@@ -1,13 +1,20 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import BackImg from 'public/images/back-btn.svg';
 import colors from 'styles/colors';
-const AlamNotice = () => {
+const Alam1_2 = () => {
+  const router = useRouter();
   return (
     <Wrapper>
       <Header>
-        <div className="img-item">
+        <div
+          className="img-item"
+          onClick={() => {
+            router.back();
+          }}
+        >
           <Image
             style={{
               cursor: 'pointer',
@@ -50,7 +57,7 @@ const AlamNotice = () => {
   );
 };
 
-export default AlamNotice;
+export default Alam1_2;
 const Wrapper = styled.div`
   padding-bottom: 20pt;
 `;
