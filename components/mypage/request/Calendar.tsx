@@ -1,11 +1,10 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import LeftArrow from 'public/mypage/left-arrow.svg';
-import RightArrow from 'public/mypage/right-arrow.svg';
+import LeftArrow from 'public/mypage/left-arrow.png';
+import RightArrow from 'public/mypage/right-arrow.png';
 import Image from 'next/image';
 import { css } from '@emotion/react';
-
 interface Props {
   selectedDays: string[];
   SetSelectedDays: Dispatch<SetStateAction<string[]>>;
@@ -77,22 +76,31 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
   const selectedDay = (day: number): boolean => {
     // 년,월,일 날짜
     const date = selectedYear + '.' + selectedMonth + '.' + day;
+
     return selectedDays.includes(date) ? true : false;
   };
   // 날짜 선택하기
   const HandleSelectedDay = (day: number) => {
+    // 오늘 날짜
+    const { year, month, date } = today;
+    const todayAdd = parseInt('' + year + month + date);
+    const selectedAdd = parseInt('' + selectedYear + selectedMonth + day);
+
+    // 이전 날짜 클릭 금지 조건문
+    if (selectedAdd < todayAdd) return;
+
     // 년,월,일 날짜
-    const date = selectedYear + '.' + selectedMonth + '.' + day;
+    const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
     // 클릭 취소
-    if (selectedDays.includes(date)) {
+    if (selectedDays.includes(selectedDate)) {
       const temp = [...selectedDays];
-      const index = temp.indexOf(date);
+      const index = temp.indexOf(selectedDate);
       temp.splice(index, 1);
       SetSelectedDays(temp);
       // 최대 5개까지 선택 가능
     } else if (selectedDays.length < 5) {
       day;
-      SetSelectedDays([...selectedDays, date]);
+      SetSelectedDays([...selectedDays, selectedDate]);
     }
   };
 
@@ -128,7 +136,7 @@ const Title = styled.div`
 `;
 const Pagenation = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: center;
   .left-btn {
     position: relative;
     width: 12pt;
@@ -140,7 +148,7 @@ const Pagenation = styled.div`
     height: 12pt;
   }
   .name {
-    width: 83px;
+    width: 62.25pt;
     font-weight: 700;
     font-size: 15pt;
     line-height: 15pt;
