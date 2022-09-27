@@ -10,49 +10,36 @@ import Button from 'components/mypage/request/Button';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
+import { useDispatch } from 'react-redux';
+import { requestAction } from 'store/requestSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 const Mypage2_1 = () => {
-  const route = useRouter();
+  const router = useRouter();
+  const { pickDate, selectedDate } = useSelector(
+    (state: RootState) => state.requestList,
+  );
   const [partnerModal, setPartnerModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
 
   return (
     <>
       {/* 일정 확정 */}
-      <ScheduleConfirm />
+      <ScheduleConfirm date={pickDate ? pickDate : selectedDate[0]} />
       {/* 일정 변경 요청 */}
-      <ScheduleChange />
+      {/* <ScheduleChange /> */}
       {/* 일정 변경 확인 중 */}
-      <Checking />
+      {/* <Checking /> */}
       <BiddingQuote />
       {/* 담당자 정보 */}
       <ManagerInfo />
       <TextBox>
         <CommunicationBox
           text="파트너와 소통하기"
-          clickHandler={() => route.push('/chatting/1-3')}
+          clickHandler={() => router.push('/chatting/1-3')}
         />
       </TextBox>
-      <Button
-        setPartnerModal={setPartnerModal}
-        setConfirmModal={setConfirmModal}
-      />
-      {/* 파트너 모달 */}
-      {partnerModal && (
-        <RequestModal
-          title={'다른 파트너에게\n 재견적을 받아보시겠습니까?'}
-          leftControl={() => setPartnerModal((prev) => !prev)}
-          rightControl={() => route.push('/mypage/request/3-2')}
-        />
-      )}
-      {/* 확정 모달 */}
-      {confirmModal && (
-        <RequestModal
-          title={'Charge Point로\n 확정하시겠습니까?'}
-          leftControl={() => setConfirmModal((prev) => !prev)}
-          rightControl={() => route.push('/mypage/request/3-2')}
-        />
-      )}
     </>
   );
 };

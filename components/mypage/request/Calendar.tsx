@@ -76,21 +76,24 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
   const selectedDay = (day: number): boolean => {
     // 년,월,일 날짜
     const date = selectedYear + '.' + selectedMonth + '.' + day;
-
     return selectedDays.includes(date) ? true : false;
+  };
+  // 날짜 차이 계산
+  const CalculateDifference = (day: number) => {
+    const { year, month, date } = today;
+    const todayAdd = new Date(year, month, date);
+    const selectedAdd = new Date(selectedYear, selectedMonth, day);
+    const btMs = todayAdd.getTime() - selectedAdd.getTime();
+    const btDay = btMs / (1000 * 60 * 60 * 24);
+    return btDay;
   };
   // 날짜 선택하기
   const HandleSelectedDay = (day: number) => {
-    // 오늘 날짜
-    const { year, month, date } = today;
-    const todayAdd = parseInt('' + year + month + date);
-    const selectedAdd = parseInt('' + selectedYear + selectedMonth + day);
-
-    // 이전 날짜 클릭 금지 조건문
-    if (selectedAdd < todayAdd) return;
-
+    const differencerDate = CalculateDifference(day);
     // 년,월,일 날짜
     const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
+    // 이전 날짜 클릭 금지 조건문
+    if (differencerDate > 0) return;
     // 클릭 취소
     if (selectedDays.includes(selectedDate)) {
       const temp = [...selectedDays];

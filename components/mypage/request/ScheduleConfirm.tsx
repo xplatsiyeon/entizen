@@ -3,12 +3,17 @@ import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 
-const ScheduleConfirm = () => {
+interface Props {
+  date: string;
+}
+
+const ScheduleConfirm = ({ date }: Props) => {
+  console.log(date);
   const route = useRouter();
   return (
     <Wrapper>
       <P>현장실사 일정이 확정되었습니다.</P>
-      <Date>2022.01.12</Date>
+      <Date>{date}</Date>
       <Btn
         onClick={() => {
           route.push('/mypage/request/2-3');

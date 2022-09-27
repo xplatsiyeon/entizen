@@ -3,15 +3,30 @@ import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import colors from 'styles/colors';
-
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { useDispatch } from 'react-redux';
+import { requestAction } from 'store/requestSlice';
 const Mypage2_3 = () => {
   const route = useRouter();
+  const dispatch = useDispatch();
+  const { selectedDate } = useSelector((state: RootState) => state.requestList);
   const [tabNumber, setTabNumber] = useState<number>(-1);
 
+  // 수락하기 버튼
   const acceptModal = () => {
-    console.log('수락하기 모달? ');
+    dispatch(requestAction.addPick(selectedDate[tabNumber]));
+    route.push('/mypage/request/2-1');
   };
-  const HandleDateChange = () => route.push('mypage/request/2-4');
+  // 다른 날짜 제안 버튼
+  const HandleDateChange = () => route.push('/mypage/request/2-4');
+  // 해당 일자 요일 구하기
+  function getDayOfWeek(target: string) {
+    const week = ['일', '월', '화', '수', '목', '금', '토'];
+    const dayOfWeek = week[new Date(target).getDay()];
+    return dayOfWeek;
+  }
+
   return (
     <Wrapper>
       <MypageHeader exitBtn={true} />
@@ -21,19 +36,19 @@ const Mypage2_3 = () => {
       </H1>
       <Notice>변경하실 날짜를 선택해주세요.</Notice>
       <List>
-        {[1, 1, 1].map((_, index) => (
+        {selectedDate.map((date, index) => (
           <Item
             check={tabNumber.toString()}
             idx={index.toString()}
             key={index}
             onClick={() => setTabNumber(index)}
           >
-            <div className="date">2022.01.21</div>
-            <div className="day">토요일</div>
+            <div className="date">{date}</div>
+            <div className="day">{getDayOfWeek(date)}요일</div>
           </Item>
         ))}
       </List>
-      <Btn>
+      <Btn tabNumber={tabNumber}>
         <button className="left" onClick={HandleDateChange}>
           다른 날짜 제안
         </button>
@@ -47,7 +62,9 @@ const Mypage2_3 = () => {
 
 export default Mypage2_3;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  padding-bottom: 75pt;
+`;
 const H1 = styled.h1`
   padding-left: 15pt;
   font-weight: 500;
@@ -99,11 +116,11 @@ const Item = styled.li<{ idx: string; check: string }>`
     color: ${colors.lightGray2};
   }
 `;
-const Btn = styled.div`
+const Btn = styled.div<{ tabNumber: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -122,6 +139,7 @@ const Btn = styled.div`
     background: rgba(90, 45, 201, 0.5);
   }
   .right {
-    background: #5a2dc9;
+    background: ${({ tabNumber }) =>
+      tabNumber !== -1 ? colors.main : colors.gray};
   }
 `;

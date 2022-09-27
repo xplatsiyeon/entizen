@@ -9,7 +9,7 @@ import whiteMapPin from 'public/images/mapPinWhite.png';
 import useDebounce from 'hooks/useDebounce';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { locationAction } from 'store/store';
+import { locationAction } from 'store/locationSlice';
 import { useRouter } from 'next/router';
 
 type Props = {};
