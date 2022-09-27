@@ -38,8 +38,10 @@ const ImgBox = styled(Box)`
   overflow: hidden;
 `;
 const TextBox = styled(Box)`
+  /* border: 1px solid red; */
+  height: 25vh;
   padding-top: 27pt;
-  padding-top: 5.4vh;
+
   width: 100%;
   display: flex;
   flex-direction: column;
