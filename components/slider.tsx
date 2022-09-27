@@ -14,7 +14,7 @@ const Slider = ({ img, text1, text2 }: Props) => {
     <Wrapper>
       <ImgBg>
         <ImgBox>
-          <Image src={img} alt="img" layout="fill" />
+          <Image src={img} alt="img" />
         </ImgBox>
       </ImgBg>
       <TextBox>
@@ -30,7 +30,7 @@ const Slider = ({ img, text1, text2 }: Props) => {
 export default Slider;
 
 const Wrapper = styled.div`
-  height: calc(100vh - 66pt);
+  height: calc(100vh - 100pt);
 `;
 const ImgBg = styled.div`
   height: 290.25pt;
@@ -39,7 +39,10 @@ const ImgBg = styled.div`
 `;
 const ImgBox = styled(Box)`
   position: relative;
-  margin: 60pt 56.25pt 0 56.25pt;
+  /* margin: 60pt 56.25pt 0 56.25pt; */
+  margin-top: 60pt;
+  display: flex;
+  justify-content: center;
   height: 100%;
 `;
 const TextBox = styled(Box)`
