@@ -12,7 +12,9 @@ import { useDispatch } from 'react-redux';
 import { locationAction } from 'store/store';
 import { useRouter } from 'next/router';
 
-type Props = {};
+type Props = {
+  setType: React.Dispatch<React.SetStateAction<boolean>>
+};
 
 export interface addressType {
   admCd: string;
@@ -61,6 +63,7 @@ const SearchAddress = (props: Props) => {
     );
     router.push('/chargerMap');
   };
+  const {setType} = props;
   useEffect(() => {
     const findAddresss = async () => {
       if (searchWord == '') {
@@ -93,10 +96,14 @@ const SearchAddress = (props: Props) => {
     console.log(results !== undefined && results);
   }, [results]);
 
+  const back =()=>{
+    setType(false);
+  }
+
   return (
     <Container>
       <HeaderBox>
-        <Image src={btnImg} alt="backBtn" />
+        <Image src={btnImg} alt="backBtn" onClick={back} />
         <FindAddress
           placeholder="상호명 또는 주소 검색"
           onChange={handleChange}

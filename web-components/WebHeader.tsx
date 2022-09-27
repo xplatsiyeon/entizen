@@ -11,6 +11,7 @@ const WebHeader =()=>{
 
     return(
     <Wrapper>
+      <Inner>
         <Box1>
         <LogoBox>
               <Link href='/' >
@@ -28,7 +29,7 @@ const WebHeader =()=>{
             <DivBox><Link href='/'><a>마이페이지</a></Link></DivBox>
         </Box1>
         <Box2>
-            <input type="text" placeholder="서비스를 검색해보세요" /> {/*emotion styled input type*/}
+            <DivBox2><input type="text" placeholder="서비스를 검색해보세요" /> {/*emotion styled input type*/}</DivBox2>
             <IconBox>  
               <Image
                 src={Chat}
@@ -44,6 +45,7 @@ const WebHeader =()=>{
             <DivBox2><Link href='/'><a>로그인</a></Link></DivBox2>
             <DivBox2><Link href='/'><a>회원가입</a></Link></DivBox2>
         </Box2>    
+      </Inner>
     </Wrapper>
     )
 
@@ -53,16 +55,25 @@ export default WebHeader;
 
 const Wrapper = styled.div`
 position:relative;
-margin: 0 auto;
-display: flex;
-justify-content: space-between;
-max-width:900pt;
-max-height: 81pt;  
+width:100%;
+height:70pt;
+margin-bottom: 27.75pt;
+border-bottom: 1px solid #e9eaee;
 
-@media (max-width:576pt) {
-    display:none;
-  }
+@media (max-width:899pt) {
+  display:none;
+}
 `
+
+const Inner = styled.div`
+display:flex;
+justify-content: space-between;
+margin: 0 auto;
+max-width: 900pt;
+height:100%;
+//max-height: 81pt;
+`
+
 const Box1 = styled.div`
 display: flex;
 }
@@ -81,8 +92,9 @@ margin-right:15pt;
 `;
 
 const DivBox = styled.div`
-  padding: 33.75pt 0;
   margin-right: 30pt;
+  display: flex;
+  align-items: center;
   a{
     font-weight: bold;
     font-size: 13.5pt;
@@ -118,8 +130,9 @@ input[type='text']{
 }
 `
 const DivBox2 = styled.div`
-  padding:34pt 0 ;  
-  margin-right:18pt;   
+  margin-right:18pt;
+  display: flex;
+  align-items: center;   
   
   a{
     font-weight: nomal;

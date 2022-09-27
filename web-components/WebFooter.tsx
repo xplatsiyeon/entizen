@@ -37,9 +37,9 @@ return(
             <Address>(주)엔티즌 대표: 윤민호,오성흠  사업자등록번호 0000-000-0000 
               <br/>호스칭 사업자 : 블라블라  총신판매업: 2021-서울강남-2345
               <br/>이메일: 블라블라@entizen.com  고객센터: 0000-0000
-              <br/>운영시간: 평일 10:00 ~ 17:00 (점심시간 12:00 / 주일 및 공휴일 제외)
+              <br/>운영시간: 평일 10:00 ~ 17:00 &#40;점심시간 12:00 / 주일 및 공휴일 제외&#41;
               <br/>주소: 서울 강남구 테헤란로 393 LS 빌딩 
-              <br/><br/>  Copyright sjdljsdfnjfkjskls </Address>
+              <br/><br/>  Copyright &copy;  2022 Entizen Inc. All rights reserve. </Address>
         </Box1>
 
         <Box2>
@@ -47,7 +47,7 @@ return(
             <p>고객센터</p>
             <p>9818-8856</p>
           </CallNumber>
-          <Time><p> 평일 10:00~17:00</p><p>(점심시간 12:00 ~ 13:00 / 주말 및 공휴일 제외)</p></Time>
+          <Time><p> 평일 10:00~17:00</p><p>&#40;점심시간 12:00 ~ 13:00 / 주말 및 공휴일 제외&#41;</p></Time>
           <ButtonBox>
             <Button>App Store</Button>
             <Button>Goocle Play</Button>
@@ -61,7 +61,12 @@ export default WebFooter;
 
 const Wrapper = styled.footer`
   width:100%;
-  @media (max-width:576pt) {
+  height: 187.5pt;
+  border-top: 1px solid #e9eaee;
+  margin-top: 27.75pt;
+  padding-top:10pt;
+
+  @media (max-width:899pt) {
     display:none;
   }
 `
@@ -70,8 +75,10 @@ const Inner = styled.div`
 display:flex;
 justify-content: space-between;
 max-width: 900pt;
-height: 203.35pt;
-margin: 48.75pt auto;
+//height: 203.35pt;
+margin: 0 auto;
+
+//border:1px solid black;
 `
 
 const Box1 = styled.div`
@@ -81,10 +88,11 @@ const Box1 = styled.div`
 const Box2 = styled.div`
 
 `
-const List = styled.li`
+const List = styled.ul`
   list-style: none;
   display:flex;
-  margin-bottom: 39.75pt;
+  margin-bottom: 10.75pt;
+
   li{
     padding: 6pt 0;
     margin-right:30pt;
@@ -102,14 +110,14 @@ const List = styled.li`
 `
 
 const Address = styled.address`
-font-weight: normal;
+font-weight: 400;
 font-size: 12pt;
-line-height: 19.5pt;
+line-height: 18.5pt;
 font-family: Spoqa Han Sans Neo;
 color: #A6A9B0;
 `
 const CallNumber = styled.div`
-  margin-bottom: 18pt;
+  margin: 10pt 0 18pt;
   p{
     &:nth-of-type(1){
       font-weight: bold;

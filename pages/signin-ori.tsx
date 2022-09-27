@@ -10,8 +10,6 @@ import {
 import Link from 'next/link';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -20,17 +18,22 @@ const Signin = (props: Props) => {
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   return (
     <React.Fragment>
-      <Body>
-      <WebHeader/>
-      <Inner>
-      <Wrapper>
       <Container
         disableGutters
-        sx={{ width: '100%', height: '609pt',overflow: 'scroll !important' }}
-      > 
-        <BackBox>
+        sx={{ width: '100%', height: '609pt', overflow: 'scroll !important' }}
+      >
+        <Container
+          disableGutters
+          sx={{
+            width: '100%',
+            paddingTop: '9pt',
+            paddingBottom: '9pt',
+            paddingLeft: '15pt',
+            paddingRight: '15pt',
+          }}
+        >
           <BackBtn src="/images/back-btn.svg" />
-        </BackBox> 
+        </Container>
         <Container
           disableGutters
           sx={{
@@ -39,60 +42,61 @@ const Signin = (props: Props) => {
             paddingRight: '9pt',
           }}
         >
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            marginTop: '6pt',
-          }}
-        >
-          {loginTypeList.map((loginType, index) => (
-            <Box key={index} sx={{ marginRight: '24pt' }}>
-              <Typography
-                variant="h6"
-                key={index}
-                onClick={() => {
-                  setSelectedLoginType(index);
-                }}
-                sx={{
-                  fontWeight: '700',
-                  fontSize: '12pt',
-                  lineHeight: '15pt',
-                  padding: '6pt',
-                  letterSpacing: '-0.02em',
-                  color: selectedLoginType == index ? '#5A2DC9' : '#CACCD1',
-                }}
-              >
-                {loginType}
-              </Typography>
-              <Box
-                sx={{
-                  width: '3pt',
-                  height: '3pt',
-                  background: selectedLoginType == index ? '#5A2DC9' : '#fff',
-                  margin: '6pt auto 0 auto',
-                  borderRadius: '100%',
-                }}
-              ></Box>
-            </Box>
-          ))}
-        </Box>
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              marginTop: '6pt',
+            }}
+          >
+            {loginTypeList.map((loginType, index) => (
+              <Box key={index} sx={{ marginRight: '24pt' }}>
+                <Typography
+                  variant="h6"
+                  key={index}
+                  onClick={() => {
+                    setSelectedLoginType(index);
+                  }}
+                  sx={{
+                    fontWeight: '700',
+                    fontSize: '12pt',
+                    lineHeight: '15pt',
+                    padding: '6pt',
+                    letterSpacing: '-0.02em',
+                    color: selectedLoginType == index ? '#5A2DC9' : '#CACCD1',
+                  }}
+                >
+                  {loginType}
+                </Typography>
+                <Box
+                  sx={{
+                    width: '3pt',
+                    height: '3pt',
+                    background: selectedLoginType == index ? '#5A2DC9' : '#fff',
+                    margin: '6pt auto 0 auto',
+                    borderRadius: '100%',
+                  }}
+                ></Box>
+              </Box>
+            ))}
+          </Box>
         </Container>
         <Container
           disableGutters
           sx={{
             width: '100%',
+            paddingLeft: '15pt',
+            paddingRight: '15pt',
             marginTop: '42pt',
-            padding: '0 25pt'
           }}
         >
-          <Box sx={{textAlign:'center'}}>
+          <Box>
             <TextField
               id="outlined-basic"
               placeholder="아이디 입력"
               sx={{
-                width: '100%',  
+                width: '100%',
                 fontWeight: '400',
                 border: '1px solid #E2E5ED',
                 fontSize: '12pt',
@@ -143,20 +147,19 @@ const Signin = (props: Props) => {
           </Box>
           <Box
             sx={{
-              width: 'calc(100% - 37.5pt)',
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              margin: '102pt auto 0',
+              margin: '102pt 37.5pt 0 37.5pt',
             }}
           >
-            <Box sx={{ height: '33pt', marginRight: '15pt'}}>
+            <Box sx={{ height: '33pt' }}>
               <img src="/images/kakao.svg"></img>
             </Box>
-            <Box sx={{ height: '33pt' , marginRight: '15pt', }}>
+            <Box sx={{ height: '33pt' }}>
               <img src="/images/apple.svg"></img>
             </Box>
-            <Box sx={{ height: '33pt' , marginRight: '15pt', }}>
+            <Box sx={{ height: '33pt' }}>
               <img src="/images/naver.svg"></img>
             </Box>
             <Box sx={{ height: '33pt' }}>
@@ -210,83 +213,11 @@ const Signin = (props: Props) => {
           </Box>
         </Container>
       </Container>
-      </Wrapper>
-      </Inner>
-      <WebFooter/>
-      </Body>
     </React.Fragment>
   );
 };
 
-{/* 덜 된 부분: 글자크기, 간격 */}
-
 export default Signin;
-
-const Body = styled.div`
-display:flex;
-flex-direction:column;
-justify-content: space-between;
-width: 1440pt;
-height: 100vh;
-margin:0 auto;
-//height: 810pt;
-//background:#fcfcfc;
-
-@media (max-width:1439pt) { 
-  width:100%;
-}
-@media (max-height:800pt) { 
-  display:block;
-}
-`
-const Inner = styled.div`
-position:relative;
-width:100%;
-
-`
-
-const Text = styled.p` // h2?
-margin-top: 66pt;
-text-align: center;
-position: relative;
-font-size: 21pt;
-font-weight: 700;
-line-height: 21pt;
-color: #222;
-
-@media (max-width:899pt) { 
-  display: none;
-}
-` 
-const Wrapper = styled.div`
-position: absolute;
-top:50%;
-left:50%;
-transform: translate(-50%,-50%);
-//width:345pt;
-width: 281.25pt;
-height: 500.25pt;
-overflow-y:scroll;
-box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-border-radius: 12pt;
-
-@media (max-width:899pt) { 
-  width:100%;
-  height:100vh;
-  position:relative;
-  top:0;
-  left:0%;
-  transform: none;
-}
-@media (max-height:809pt) { 
-  display:block;
-  position:relative;
-  top:0;
-  left:0;
-  transform:none;
-  margin:0 auto;
-}
-`
 
 const BackBtn = styled.img`
   margin: auto 0;
@@ -319,45 +250,3 @@ const IdRegist = styled.button`
 `;
 
 const IdRegistBtnSpan = styled.span``;
-
-const BackBox = styled(Box)`
-display:none;
-
-@media (max-width:899pt) { 
-display:block;
-width: 100%;
-padding-top: 9pt;
-padding-bottom: 9pt;
-padding-left: 15pt;
-padding-right: 15pt;
-}
-`
-const TabBox = styled(Box)`
-  width: 100%;
-  display: flex;
-  alignItems: center;
-  background: #f9f7ff;
-
-@media (max-width:899pt) { 
-  width: 100%;
-  display: flex;
-  align-items: center;
-  margin-top: 6pt;
-  }
-`
-const Tab = styled(Box)`
-  width:50%;
-  padding-top:18pt;
-  padding-bottom:8pt;
-  background: selectedLoginType == index? '#ffff' : '#f9f7ff';
-  border-radius: '8pt 8pt 0 0';
-  
-  @media (max-width:899pt) { 
-    width:auto;
-    padding-top:0;
-    padding-bottom:0;
-    background:#ffff;
-    border-radius:0;
-    margin-right:24pt;
-  }
-`
