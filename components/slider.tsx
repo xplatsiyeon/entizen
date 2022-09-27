@@ -30,7 +30,7 @@ const Slider = ({ img, text1, text2 }: Props) => {
 export default Slider;
 
 const Wrapper = styled.div`
-  height: calc(100vh - 100pt);
+  height: calc(100vh - 85pt);
 `;
 const ImgBg = styled.div`
   height: 290.25pt;
