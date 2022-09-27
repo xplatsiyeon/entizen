@@ -33,20 +33,18 @@ const Wrapper = styled.div`
   height: calc(100vh - 85pt);
 `;
 const ImgBg = styled.div`
-  height: 290.25pt;
-  background-color: ${colors.start};
-  overflow: hidden;
   display: flex;
   justify-content: center;
+  background-color: ${colors.start};
+  height: 290.25pt;
+  overflow: hidden;
 `;
 const ImgBox = styled(Box)`
-  width: 224px;
-
-  position: relative;
-  /* margin: 60pt 56.25pt 0 56.25pt; */
-  margin-top: 60pt;
   display: flex;
   justify-content: center;
+  position: relative;
+  width: 168pt;
+  margin-top: 60pt;
   height: 100%;
 `;
 const TextBox = styled(Box)`
