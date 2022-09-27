@@ -67,8 +67,6 @@ const Btn = styled.div`
   margin-top: 33pt;
 `;
 const SliderWrapper = styled.div`
-  /* border: 2px solid blue; */
-  /* height: 100vh; */
   .swiper-pagination-bullet-active {
     background-color: #5a2dc9;
     width: 18pt;
