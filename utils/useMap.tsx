@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import mapPin from 'public/images/blueMapPin.png';
 import { useSelector } from 'react-redux';
@@ -37,26 +37,19 @@ function useMap() {
       let currentPosition = [lnglatList.lat, lnglatList.lng];
 
       // Naver Map 생성
-      if (locationList && lnglatList) {
-        console.log('test');
-
-        let map = (mapRef.current = new naver.maps.Map('map', {
-          center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
-          zoomControl: false,
-        }));
-        new naver.maps.Marker({
-          position: new naver.maps.LatLng(
-            currentPosition[0],
-            currentPosition[1],
-          ),
-          map: map,
-          icon: {
-            content: contentString,
-            size: new naver.maps.Size(20, 20),
-            anchor: new naver.maps.Point(20, 40),
-          },
-        });
-      }
+      let map = (mapRef.current = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
+        zoomControl: false,
+      }));
+      new naver.maps.Marker({
+        position: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
+        map: map,
+        icon: {
+          content: contentString,
+          size: new naver.maps.Size(20, 20),
+          anchor: new naver.maps.Point(20, 40),
+        },
+      });
     }
   }, [lnglatList, locationList]);
 

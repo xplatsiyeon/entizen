@@ -45,17 +45,17 @@ const Mypage1_3 = ({ data }: any) => {
       />
       <EstimateContainer />
       {/* request 1-3 */}
-      {/* <SubscriptionProduct />
+      <SubscriptionProduct />
       <TextBox>
         <div>선택하기 어려우신가요?</div>
         <CommunicationBox
           text="엔티즌과 소통하기"
           clickHandler={() => route.push('/chatting/1')}
         />
-      </TextBox> */}
+      </TextBox>
 
       {/* request 2-3 */}
-      <Mypage2_1 />
+      {/* <Mypage2_1 /> */}
     </>
   );
 };

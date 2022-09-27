@@ -10,6 +10,7 @@ import ThirdStep from 'components/quotation/request/ThirdStep';
 import FourthStep from 'components/quotation/request/FourthStep';
 import FifthStep from 'components/quotation/request/FifthStep';
 import SixthStep from 'components/quotation/request/SixthStep';
+import Request1_7 from './1-7';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -55,6 +56,7 @@ const Quotation1_1 = () => {
         />
       )}
       <Header title="간편견적" exitBtn={true} handleOnClick={HandleModal} />
+      {/* 메인 */}
       <Body>
         <TabBox>
           {Object.keys(components).map((tab, index) => (
@@ -68,6 +70,7 @@ const Quotation1_1 = () => {
         </TabBox>
         {components[tabNumber]}
       </Body>
+      {/* 버튼 */}
       <Footer>
         {tabNumber === 0 ? (
           <Btn
