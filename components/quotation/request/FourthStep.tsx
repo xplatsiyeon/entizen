@@ -11,7 +11,8 @@ import mapPin from 'public/images/MapPin.png';
 import { useRouter } from 'next/router';
 import SearchAddress from 'components/quotation/request/searchAddress';
 import { useSelector } from 'react-redux';
-import { coordinateAction, RootState } from 'store/store';
+import { coordinateAction } from 'store/lnglatSlice';
+import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 
 const FourthStep = () => {

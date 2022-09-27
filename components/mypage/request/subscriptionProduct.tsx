@@ -39,7 +39,7 @@ const SubscriptionProduct = () => {
 export default SubscriptionProduct;
 
 const Wrapper = styled.div`
-  padding: 6pt 15pt 69pt 6pt;
+  padding: 6pt 15pt 69pt 15pt;
 `;
 const H1 = styled.h1`
   font-weight: 700;

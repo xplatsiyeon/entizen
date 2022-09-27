@@ -7,15 +7,26 @@ import colors from 'styles/colors';
 import ScheduleIcon from 'public/mypage/schedule-icon.svg';
 import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { requestAction } from 'store/requestSlice';
 
 const Mypage1_5 = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
   const [isModal, setIsModal] = useState(false); // 모달
-  const HandleModal = () => router.push('/mypage/request');
-
+  // 리덕스
+  const HandleModal = () => {
+    // router.push('/mypage');
+    router.push('/mypage/request/2-1');
+    dispatch(requestAction.addDate(selectedDays));
+  };
   return (
     <Wrapper>
+      {/* 모달 */}
+      {isModal && (
+        <Modal click={HandleModal} text="전송이 완료되었습니다." color="red" />
+      )}
       <MypageHeader title="날짜 선택" back={true} />
       <H1>
         현장실사 방문이
@@ -49,10 +60,6 @@ const Mypage1_5 = () => {
         </UL>
       </Schedule>
       <Btn onClick={() => setIsModal((prev) => !prev)}>보내기</Btn>
-      {/* 모달 */}
-      {isModal && (
-        <Modal click={HandleModal} text="전송이 완료되었습니다." color="red" />
-      )}
     </Wrapper>
   );
 };

@@ -5,12 +5,13 @@ import Script from 'next/script';
 import Head from 'next/head';
 import { createStore } from '@reduxjs/toolkit';
 import { PersistGate } from 'redux-persist/integration/react';
-import {
-  persistedReducer,
-  persistor,
-  RootState,
-  wrapper,
-} from '../store/store';
+import { persistedReducer, persistor, wrapper } from 'store';
+// import {
+//   persistedReducer,
+//   persistor,
+//   RootState,
+//   wrapper,
+// } from '../store/store';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const store = createStore(persistedReducer);
