@@ -226,7 +226,7 @@ const Body = styled.div`
 display:flex;
 flex-direction:column;
 justify-content: space-between;
-width: 1440pt;
+width: 100%;
 height: 100vh;
 margin:0 auto;
 //height: 810pt;
