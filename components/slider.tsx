@@ -14,7 +14,7 @@ const Slider = ({ img, text1, text2 }: Props) => {
     <Wrapper>
       <ImgBg>
         <ImgBox>
-          <Image src={img} alt="img" />
+          <Image src={img} alt="img" layout="fill" />
         </ImgBox>
       </ImgBg>
       <TextBox>
@@ -36,8 +36,12 @@ const ImgBg = styled.div`
   height: 290.25pt;
   background-color: ${colors.start};
   overflow: hidden;
+  display: flex;
+  justify-content: center;
 `;
 const ImgBox = styled(Box)`
+  width: 224px;
+
   position: relative;
   /* margin: 60pt 56.25pt 0 56.25pt; */
   margin-top: 60pt;

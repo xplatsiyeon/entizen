@@ -7,7 +7,7 @@ import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper';
 import MaskImg1 from 'public/images/Mask_group.png';
-import MaskImg2 from 'public/images/Mask_group2.png';
+import MaskImg2 from 'public/images/Mask-group-test.png';
 import MaskImg3 from 'public/images/Mask_group3.png';
 import { useRouter } from 'next/router';
 const Start = () => {
