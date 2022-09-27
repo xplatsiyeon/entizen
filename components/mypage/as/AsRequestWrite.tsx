@@ -7,6 +7,7 @@ import camera from 'public/images/gray_camera.png';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Image from 'next/image';
 import CloseImg from 'public/images/XCircle.svg';
+import { Router, useRouter } from 'next/router';
 const M5_LIST = [
   '3.5 kW 과금형 콘센트',
   '7 kW 홈 충전기 (가정용)',
@@ -50,6 +51,7 @@ export interface DateType {
 }
 
 const AsRequestWrite = (props: Props) => {
+  const router = useRouter();
   const imgRef = useRef<any>(null);
   const [checkAll, setCheckAll] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<Option>({
@@ -147,7 +149,7 @@ const AsRequestWrite = (props: Props) => {
   return (
     <>
       <Container>
-        <Header text={'A/S 요청하기'} colorSelect={checkAll} />
+        <Header text={'A/S 요청하기'} colorselect={checkAll} />
         <TitleInputBox>
           <Label>제목</Label>
           <Input value={title} onChange={titleChange} type="text" required />
@@ -234,7 +236,12 @@ const AsRequestWrite = (props: Props) => {
           </PhotosBox>
         </RemainderInputBox>
       </Container>
-      <NextBtn checkAll={checkAll}>A/S 요청하기</NextBtn>
+      <NextBtn
+        onClick={() => router.push('/mypage/as/complete')}
+        checkAll={checkAll}
+      >
+        A/S 요청하기
+      </NextBtn>
     </>
   );
 };
@@ -370,8 +377,8 @@ const AddPhotos = styled.button`
 const NextBtn = styled.button<{ checkAll: boolean }>`
   width: 100%;
   margin-top: 40.6875pt;
-  padding-top: 27pt;
-  padding-bottom: 27pt;
+  padding-top: 15pt;
+  padding-bottom: 39pt;
   background-color: ${({ checkAll }) =>
     checkAll ? `${colors.main}` : `${colors.blue3}`};
   font-family: Spoqa Han Sans Neo;
@@ -379,7 +386,7 @@ const NextBtn = styled.button<{ checkAll: boolean }>`
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
-
+  color: #ffffff;
   text-align: center;
 `;
 

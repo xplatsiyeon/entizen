@@ -3,6 +3,7 @@ import React from 'react';
 
 type Props = {};
 
+// AS 요청
 const AsRequest = (props: Props) => {
   return <AsRequestWrite />;
 };

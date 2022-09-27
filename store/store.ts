@@ -1,5 +1,4 @@
 import { combineReducers } from '@reduxjs/toolkit';
-
 import { locationSlice } from './locationSlice';
 import { lnglatSlice } from './lnglatSlice';
 import { requestSlice } from './requestSlice';

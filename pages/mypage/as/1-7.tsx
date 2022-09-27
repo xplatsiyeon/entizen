@@ -4,6 +4,8 @@ import React from 'react';
 
 type Props = {};
 
+// 리뷰 작성
+
 const AsReviewWrite = (props: Props) => {
   return (
     <>

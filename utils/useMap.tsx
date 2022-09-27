@@ -6,9 +6,9 @@ import { RootState } from 'store/store';
 
 function useMap() {
   const mapRef = useRef<HTMLElement | null | any>(null);
-  const [myLocation, setMyLocation] = useState<
-    { latitude: number; longitude: number } | string
-  >({ latitude: 37.4862618, longitude: 127.1222903 });
+  // const [myLocation, setMyLocation] = useState<
+  //   { latitude: number; longitude: number } | string
+  // >({ latitude: 37.4862618, longitude: 127.1222903 });
   const { lnglatList } = useSelector((state: RootState) => state.lnglatList);
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
@@ -29,11 +29,7 @@ function useMap() {
   ].join('');
 
   useEffect(() => {
-    setMyLocation({ latitude: 37.4862618, longitude: 127.1222903 });
-  }, []);
-
-  useEffect(() => {
-    if (typeof myLocation !== 'string') {
+    if (typeof lnglatList !== 'string') {
       let currentPosition = [lnglatList.lat, lnglatList.lng];
 
       // Naver Map 생성
@@ -54,7 +50,7 @@ function useMap() {
   }, [lnglatList, locationList]);
 
   return {
-    myLocation,
+    lnglatList,
   };
 }
 

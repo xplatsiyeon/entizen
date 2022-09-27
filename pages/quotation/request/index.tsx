@@ -51,8 +51,8 @@ const Quotation1_1 = () => {
           leftBtnText={'그만하기'}
           rightBtnColor={colors.main}
           rightBtnText={'계속 작성하기'}
-          leftBtnControll={() => route.push('/')}
-          rightBtnControll={HandleModal}
+          leftBtnControl={() => route.push('/')}
+          rightBtnControl={HandleModal}
         />
       )}
       <Header title="간편견적" exitBtn={true} handleOnClick={HandleModal} />

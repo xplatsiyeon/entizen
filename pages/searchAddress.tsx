@@ -13,7 +13,7 @@ import { locationAction } from 'store/locationSlice';
 import { useRouter } from 'next/router';
 
 type Props = {
-  setType: React.Dispatch<React.SetStateAction<boolean>>
+  setType: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export interface addressType {
@@ -63,7 +63,7 @@ const SearchAddress = (props: Props) => {
     );
     router.push('/chargerMap');
   };
-  const {setType} = props;
+  const { setType } = props;
   useEffect(() => {
     const findAddresss = async () => {
       if (searchWord == '') {
@@ -75,6 +75,7 @@ const SearchAddress = (props: Props) => {
             `https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do?currentPage=1&countPerPage=50&keyword=${keyWord}&confmKey=${process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY}&resultType=json`,
           );
           const match = await data.match(/\((.*)\)/);
+          console.log(data);
 
           let jsonResult = await JSON.parse(match[1].toString()).results.juso;
           let cc: any = [];
@@ -92,18 +93,15 @@ const SearchAddress = (props: Props) => {
     findAddresss();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyWord]);
-  useEffect(() => {
-    console.log(results !== undefined && results);
-  }, [results]);
 
-  const back =()=>{
+  const back = () => {
     setType(false);
-  }
+  };
 
   return (
     <Container>
       <HeaderBox>
-        <Image src={btnImg} alt="backBtn" onClick={back} />
+        <Image onClick={() => router.back()} src={btnImg} alt="backBtn" />
         <FindAddress
           placeholder="상호명 또는 주소 검색"
           onChange={handleChange}
@@ -216,9 +214,3 @@ const AddressBox = styled.div`
 `;
 
 export default SearchAddress;
-
-{
-  /* {results?.map((el, index) => ( */
-}
-// ))}
-// <div key={index}>{el?.juso}</div>

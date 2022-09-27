@@ -1,14 +1,15 @@
 import styled from '@emotion/styled';
-import { Box } from '@mui/material';
 import React from 'react';
 import Logos from 'public/images/entizenLogo.png';
 import Ring from 'public/images/guide-bell.svg';
 import Hamburger from 'public/images/list-bar.svg';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 const Header = (props: Props) => {
+  const router = useRouter();
   return (
     <HeadWrapper>
       <LogoBox>
@@ -32,6 +33,7 @@ const Header = (props: Props) => {
         </IconBox>
       </IconWrapper>
     </HeadWrapper>
+    //  onClick={() => router.push("/")}
   );
 };
 
