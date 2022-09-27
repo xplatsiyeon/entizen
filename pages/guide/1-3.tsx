@@ -4,10 +4,12 @@ import { useState } from 'react';
 import RateInfoTab1 from 'components/guide/RateInfoTab-1';
 import RateInfoTab2 from 'components/guide/RateInfoTab-2';
 import GuideHeader from 'components/guide/header';
+import { useRouter } from 'next/router';
 interface Components {
   [key: number]: JSX.Element;
 }
 const Guide1_3 = () => {
+  const router = useRouter();
   const [tabNumber, setTabNumber] = useState(0);
   const TabType: string[] = ['충전전력요금', '일반사향'];
   const components: Components = {
@@ -18,7 +20,11 @@ const Guide1_3 = () => {
 
   return (
     <>
-      <GuideHeader title={'요금정보'} />
+      <GuideHeader
+        title={'요금정보'}
+        leftOnClick={() => router.back()}
+        rightOnClick={() => router.push('/')}
+      />
       <TabContainer>
         {TabType.map((tab, index) => (
           <TabItem

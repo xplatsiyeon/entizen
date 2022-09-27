@@ -7,7 +7,9 @@ const Tab2 = () => {
       {/* 1번째 테이블 */}
       <Table shadow={true}>
         <Caption shadow={true}>선택요금제도</Caption>
-        <col className="fisrt-col" />
+        <colgroup>
+          <col className="fisrt-col" />
+        </colgroup>
         <TableHeader>
           <tr>
             <th className="row-one">구분</th>

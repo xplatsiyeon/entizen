@@ -8,7 +8,7 @@ const infomation = () => {
   return (
     <Main>
       <Image src={InfoImg} alt="info" />
-      <TextBox style={{ listStyleType: 'disc;' }}>
+      <TextBox>
         <li className="text-item">
           <span className="accent">엔티즌 도서관</span>에서 전기차와 충전기에
           대해 쉽고 간단하게 알려드려요.
@@ -46,6 +46,7 @@ const Main = styled.div`
 const TextBox = styled(Box)`
   margin-top: 24pt;
   padding: 0 10px;
+  list-style-type: disc;
   .text-item {
     padding-bottom: 15pt;
     font-weight: 500;
