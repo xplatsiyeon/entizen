@@ -2,12 +2,11 @@ import { NextPage } from 'next';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
-import Start from './start';
 
 type Props = {};
 
 const Home: NextPage = () => {
-  return <Start />;
+  return <MainPage />;
 };
 
 export default Home;
