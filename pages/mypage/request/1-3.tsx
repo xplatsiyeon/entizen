@@ -33,8 +33,8 @@ const Mypage1_3 = ({ data }: any) => {
           leftBtnColor={colors.orange}
           rightBtnText="아니오"
           rightBtnColor={colors.main2}
-          leftBtnControll={backPage}
-          rightBtnControll={handleOnClick}
+          leftBtnControl={backPage}
+          rightBtnControl={handleOnClick}
         />
       )}
       <MypageHeader

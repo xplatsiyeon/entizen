@@ -35,7 +35,7 @@ const AsComplete = ({ text, title, buttonText }: Props) => {
             <CommunicationBox text={'소통하기'} clickHandler={clickHandler} />
           </div>
         </TextBox>
-        <Btn>{buttonText}</Btn>
+        <Btn onClick={() => router.push('/mypage/request')}>{buttonText}</Btn>
       </Footer>
     </Wrapper>
   );
@@ -89,7 +89,7 @@ const TextBox = styled.div`
   border-radius: 6pt;
   color: ${colors.gray2};
   border: 0.75pt solid ${colors.lightGray};
-  & > div:nth-child(2) {
+  & > div:nth-of-type(2) {
     display: flex;
     justify-content: center;
   }

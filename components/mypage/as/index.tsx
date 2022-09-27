@@ -49,9 +49,9 @@ const AsIndex = (props: Props) => {
       <ListBox>
         <FilterHeader>정렬</FilterHeader>
         {filterList.map((text, index) => (
-          <>
+          <React.Fragment key={index}>
             <ListItems
-              key={text}
+              key={index}
               disablePadding
               onClick={() => setCheckedFilterIndex(index)}
             >
@@ -69,7 +69,7 @@ const AsIndex = (props: Props) => {
               </ListItemButtons>
             </ListItems>
             {/* <Dividers /> */}
-          </>
+          </React.Fragment>
         ))}
       </ListBox>
     </FilterBox>
@@ -143,7 +143,7 @@ const AsIndex = (props: Props) => {
             <DateText>2022.05.17 18:13</DateText>
           </ContentBottom>
         </ContentsWrapper>
-        <ContentsWrapper>
+        <ContentsWrapper onClick={() => router.push('/mypage/as/asGoReview')}>
           <ContentTop>
             <ContentTitle>LS안양주유소</ContentTitle>
           </ContentTop>
@@ -151,11 +151,11 @@ const AsIndex = (props: Props) => {
             <ContentCenterText></ContentCenterText>
           </ContentCenter>
           <ContentBottom>
-            <CommonBtn text={'접수요청 D+3'} backgroundColor={'#F75015'} />
+            <CommonBtn text={'완료대기'} backgroundColor={'#FFC043'} />
             <DateText>2022.05.17 18:13</DateText>
           </ContentBottom>
         </ContentsWrapper>
-        <ContentsWrapper>
+        <ContentsWrapper onClick={() => router.push('/mypage/as/asReviewEnd')}>
           <ContentTop>
             <ContentTitle>LS안양주유소</ContentTitle>
           </ContentTop>
@@ -163,7 +163,7 @@ const AsIndex = (props: Props) => {
             <ContentCenterText></ContentCenterText>
           </ContentCenter>
           <ContentBottom>
-            <CommonBtn text={'접수요청 D+3'} backgroundColor={'#F75015'} />
+            <CommonBtn text={'A/S완료'} backgroundColor={'#222222'} />
             <DateText>2022.05.17 18:13</DateText>
           </ContentBottom>
         </ContentsWrapper>
@@ -339,7 +339,7 @@ const ListItems = styled(ListItem)`
   padding-bottom: 15pt;
   border-bottom: 1px solid #e2e5ed;
   margin: 0;
-  &:nth-child(4) {
+  &:nth-of-type(4) {
     border-bottom: none;
   }
 `;

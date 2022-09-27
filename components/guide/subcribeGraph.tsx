@@ -151,7 +151,7 @@ const Label = styled.h3`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  :not(:nth-child(1)) {
+  :not(:nth-of-type(1)) {
     padding-top: 27pt;
   }
 `;

@@ -83,10 +83,10 @@ const SignUpCheck = () => {
     e.preventDefault();
   };
   // 모달 핸들러
-  const leftBtnControll = () => {
+  const leftBtnControl = () => {
     if (setModalOpen) setModalOpen(!modalOpen);
   };
-  const rightBtnControll = () => route.push('/');
+  const rightBtnControl = () => route.push('/');
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setModalOpen(!modalOpen);
@@ -128,8 +128,8 @@ const SignUpCheck = () => {
           leftBtnText={'아니오'}
           rightBtnColor={'#222222'}
           leftBtnColor={'#FF1B2D'}
-          leftBtnControll={leftBtnControll}
-          rightBtnControll={rightBtnControll}
+          leftBtnControl={leftBtnControl}
+          rightBtnControl={rightBtnControl}
         />
       ) : (
         <></>

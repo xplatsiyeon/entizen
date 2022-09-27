@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import BackImg from 'public/images/back-btn.svg';
 import ExitImg from 'public/images/X.svg';
 import colors from 'styles/colors';

@@ -8,8 +8,8 @@ type Props = {
   leftBtnColor: string;
   rightBtnText: string;
   rightBtnColor: string;
-  leftBtnControll?: () => void;
-  rightBtnControll?: () => void;
+  leftBtnControl?: () => void;
+  rightBtnControl?: () => void;
 };
 
 const TwoBtnModal = ({
@@ -18,8 +18,8 @@ const TwoBtnModal = ({
   rightBtnText,
   leftBtnColor,
   rightBtnColor,
-  leftBtnControll,
-  rightBtnControll,
+  leftBtnControl,
+  rightBtnControl,
 }: Props) => {
   return (
     <ModalWrapper>
@@ -29,12 +29,12 @@ const TwoBtnModal = ({
         </Content>
         <BtnBox>
           <BtnLeft>
-            <BtnText onClick={leftBtnControll} color={leftBtnColor}>
+            <BtnText onClick={leftBtnControl} color={leftBtnColor}>
               {leftBtnText}
             </BtnText>
           </BtnLeft>
           <BtnRight>
-            <BtnText onClick={rightBtnControll} color={rightBtnColor}>
+            <BtnText onClick={rightBtnControl} color={rightBtnColor}>
               {rightBtnText}
             </BtnText>
           </BtnRight>

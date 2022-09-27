@@ -1,25 +1,29 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import BackImg from 'public/images/back-btn.svg';
-import Home from 'public/images/home.svg';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import { Typography } from '@mui/material';
 
 type Props = {
   text: string;
-  colorSelect: boolean;
+  colorselect: boolean;
 };
 
 const Header = (props: Props) => {
-  const { text, colorSelect } = props;
+  const { text, colorselect } = props;
+  console.log(colorselect);
   return (
     <HeaderBox>
       <div className="back-img">
         <Image src={BackImg} alt="btn" />
       </div>
       <span className="text">{text}</span>
-      <RightText colorSelect={colorSelect}></RightText>
+      {colorselect ? (
+        <RightText colorselect={colorselect}></RightText>
+      ) : (
+        <RightText></RightText>
+      )}
     </HeaderBox>
   );
 };
@@ -41,13 +45,13 @@ const HeaderBox = styled.div`
   }
 `;
 
-const RightText = styled(Typography)<{ colorSelect: boolean }>`
+const RightText = styled(Typography)<{ colorselect?: boolean }>`
   font-family: Spoqa Han Sans Neo;
   font-size: 12pt;
   line-height: 18pt;
   font-weight: 500;
   letter-spacing: -0.02em;
-  color: ${({ colorSelect }) => (colorSelect ? `${colors.main}` : '#747780')};
+  color: ${({ colorselect }) => (colorselect ? `${colors.main}` : '#747780')};
   text-align: right;
 `;
 

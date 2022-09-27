@@ -16,9 +16,6 @@ const AsRequestFooter = (props: Props) => {
         text="파트너와 소통하기"
         clickHandler={() => router.push('/chatting/1-3')}
       />
-      <BtnBox>
-        <Btn onClick={handlerBtn}>A/S 요청하기</Btn>
-      </BtnBox>
     </FooterBox>
   );
 };
@@ -26,6 +23,7 @@ const AsRequestFooter = (props: Props) => {
 const FooterBox = styled.div`
   margin-top: 60pt;
   margin-bottom: 68.25pt;
+  margin: 60pt auto 68.25pt auto;
   display: flex;
   justify-content: center;
 `;

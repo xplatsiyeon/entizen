@@ -7,6 +7,7 @@ interface Props {
   rightControl?: () => void;
   title: string;
   subtitle?: string;
+  border?: boolean | undefined;
 }
 
 const RequestModal = ({
@@ -14,17 +15,31 @@ const RequestModal = ({
   subtitle,
   leftControl,
   rightControl,
+  border,
 }: Props) => {
   return (
     <ModalBackground>
-      <Modal>
-        <H1>{title}</H1>
-        <Text>{subtitle}</Text>
-        <BtnBox>
-          <LeftBtn onClick={leftControl}>취소</LeftBtn>
-          <RightBtn onClick={rightControl}>확인</RightBtn>
-        </BtnBox>
-      </Modal>
+      {border ? (
+        <Modal border={border}>
+          <H1>{title}</H1>
+          <Text>{subtitle}</Text>
+          <BtnBox>
+            <LeftBtn onClick={leftControl}>탈퇴</LeftBtn>
+            <RightBtn border={border} onClick={rightControl}>
+              다시 생각해 볼게요
+            </RightBtn>
+          </BtnBox>
+        </Modal>
+      ) : (
+        <Modal>
+          <H1>{title}</H1>
+          <Text>{subtitle}</Text>
+          <BtnBox>
+            <LeftBtn onClick={leftControl}>취소</LeftBtn>
+            <RightBtn onClick={rightControl}>확인</RightBtn>
+          </BtnBox>
+        </Modal>
+      )}
     </ModalBackground>
   );
 };
@@ -43,10 +58,10 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const Modal = styled.div`
+const Modal = styled.div<{ border?: boolean }>`
   background: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
-  border-radius: 22.5pt 22.5pt 0 0;
+  border-radius: ${({ border }) => (border ? '' : '22.5pt 22.5pt 0 0')};
   padding: 30pt 15pt;
 `;
 const H1 = styled.h1`
@@ -86,7 +101,7 @@ const LeftBtn = styled(Button)`
   color: ${colors.darkGray};
   padding: 15pt 26.25pt;
 `;
-const RightBtn = styled(Button)`
+const RightBtn = styled(Button)<{ border?: boolean }>`
   background: ${colors.main};
   border-radius: 6pt;
   font-weight: 700;
@@ -95,5 +110,5 @@ const RightBtn = styled(Button)`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-  padding: 15pt 72.75pt;
+  padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')}; ;
 `;
