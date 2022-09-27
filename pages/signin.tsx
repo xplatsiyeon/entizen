@@ -9,13 +9,13 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import styled from '@emotion/styled';
-import colors from 'styles/colors';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
 type Props = {};
 
-const Signin = (props: Props) => {
+const Signin = (props: Props) => { 
   const [password, setPassword] = useState<string>('');
+  
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   return (
