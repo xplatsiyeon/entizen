@@ -10,8 +10,9 @@ import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import useMap from 'utils/useMap';
 import { useSelector } from 'react-redux';
-import { coordinateAction, RootState } from 'store/store';
+import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
+import { coordinateAction } from 'store/lnglatSlice';
 
 type Props = {};
 
