@@ -14,7 +14,7 @@ const Header = ({ isHome = false }: Props) => {
     router.back();
   };
   return (
-    <Box
+    <Box 
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -46,3 +46,4 @@ const Header = ({ isHome = false }: Props) => {
 };
 
 export default Header;
+

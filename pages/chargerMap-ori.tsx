@@ -10,12 +10,8 @@ import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import useMap from 'utils/useMap';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
-import { coordinateAction } from 'store/lnglatSlice';
+import { coordinateAction, RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
-import SearchAddress from './searchAddress';
 
 type Props = {};
 
@@ -29,9 +25,6 @@ const ChargerMap = (props: Props) => {
   const [selectedCharger, setSelectedCharger] = useState<number>(0);
   const [checkHeight, setCheckHeight] = useState<number>(0);
   const [scrollHeight, setScrollHeight] = useState<number>(0);
-
-  const [type, setType] = useState<boolean>(false);
-
   useEffect(() => {
     let calcHeight;
     let findHeight;
@@ -56,7 +49,7 @@ const ChargerMap = (props: Props) => {
         );
       }
     }
-  }, [checkHeight, changeHeight]); 
+  }, [checkHeight, changeHeight]);
 
   useEffect(() => {
     if (locationList.roadAddrPart) {
@@ -118,13 +111,10 @@ const ChargerMap = (props: Props) => {
     router.back();
   };
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    //router.push('/searchAddress'); 
-  setType(!type);
+    router.push('/searchAddress');
   };
   return (
     <>
-      <WebHeader/>
-      <Wrapper>
       <WholeMap id="map">
         <Header onClick={handleBack}>
           <Image src={btnImg} alt="backBtn" />
@@ -153,9 +143,7 @@ const ChargerMap = (props: Props) => {
             }}
           />
         </SearchMapArea>
-
-       {type ? <WrapAddress><SearchAddress setType={setType}/></WrapAddress>
-       : <InfoBox clicked={changeHeight} checkHeight={checkHeight?.toString()}>
+        <InfoBox clicked={changeHeight} checkHeight={checkHeight?.toString()}>
           <GoUp onClick={() => setChangeHeight(!changeHeight)}></GoUp>
           <SelectChargerBox className="forScroll">
             <ChargerList>
@@ -178,7 +166,7 @@ const ChargerMap = (props: Props) => {
               ))}
             </ChargerList>
           </SelectChargerBox>
-          <ScrollBox scrollHeight={scrollHeight.toString()}>
+          <ScrollBox className="dddd" scrollHeight={scrollHeight.toString()}>
             <ChargerTypeNCountBox>
               <ChargerTypeNCount>
                 {selectedCharger == 0
@@ -213,93 +201,39 @@ const ChargerMap = (props: Props) => {
               </span>
             </QuotationBtn>
           </ScrollBox>
-        </InfoBox> }
-
+        </InfoBox>
       </WholeMap>
-      </Wrapper>
-      <WebFooter/>
     </>
   );
 };
 
-const Wrapper = styled.div`
-width: 900pt;
-margin: 0 auto;
-height: 639pt;
-@media (max-width:899pt) {
-  width:100%;
-  height:100%;
-}
-
-`
-const WrapAddress = styled.div`
-position: relative;
-overflow-y: scroll;
-display: flex;
-flex-direction: column;
-align-items: center;
-z-index: 1000;
-width:281.25pt;
-height: 100%;
-background-color: #ffffff;
-box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
-z-index:1002;
-`
-
 const WholeMap = styled.div`
-  position:relative;
-  width: 100%;
-  height: 495pt;
-  display:flex;
-  margin-top:54pt;
-  border-radius: 12px;
-  border:0.75pt solid #e2e5ed;
-  
-  @media (max-width:899pt) {
-    display: block;
-    width: 100vw;
-    height: 100vh;
-    margin-top:0;
-    position: relative;
-    overflow: hidden;
-}
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
 `;
 
 const Header = styled.div`
-
-display:none;
-@media (max-width:899pt) {
-  display:block;
   position: relative;
   width: 100%;
   z-index: 1000;
   padding-top: 9pt;
   padding-left: 15pt;
-  padding-bottom: 10.5pt;  
-}
+  padding-bottom: 10.5pt;
 `;
 
 const SearchMapArea = styled.div`
-  
-position:absolute;
-width:281.25pt;
-top:0;
-z-index:1001;
-  @media (max-width:899pt) {
-    position:relative;
-    height: 50pt;
-    width:100%;
-    position: relative;
-    z-index: 1000;
-    padding-left: 15pt;
-    padding-right: 15pt;
-
-  }
+  height: 50pt;
+  position: relative;
+  z-index: 1000;
+  padding-left: 15pt;
+  padding-right: 15pt;
 `;
 
 const Input = styled(TextField)`
   display: flex;
-  margin: 18pt 15pt 0pt;
+  width: 100%;
   border-radius: 6pt;
   background-color: #ffffff;
   border: 1px solid #e9eaee;
@@ -316,7 +250,7 @@ const Input = styled(TextField)`
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -2%;
-    //color: ${colors.main2};
+    color: ${colors.main2};
     text-align: left;
     padding: 0;
   }
@@ -328,11 +262,6 @@ const Input = styled(TextField)`
   & fieldset {
     border: none;
   }
-
-  @media (max-width:899pt) {
-    width: calc(100% - 30pt);
-    margin: 0;
-  }
 `;
 
 const InfoBox = styled.div<{ clicked: boolean; checkHeight: string }>`
@@ -342,16 +271,14 @@ const InfoBox = styled.div<{ clicked: boolean; checkHeight: string }>`
   flex-direction: column;
   align-items: center;
   z-index: 1000;
-  width:281.25pt;
-  height: 100%;
+  height: ${({ checkHeight }) => checkHeight + 'pt'};
+  margin-top: ${({ clicked }) => (clicked ? '12pt' : '204pt')};
   background-color: #ffffff;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
-
-  @media (max-width:899pt) {
-    width:100%;
-    height: ${({ checkHeight }) => checkHeight + 'pt'};
-    margin-top: ${({ clicked }) => (clicked ? '12pt' : '204pt')};
-  }
+  padding-left: 15pt;
+  padding-right: 15pt;
+  padding-top: 9pt;
+  border-radius: 36px 36px 0px 0px;
 `;
 
 const ScrollBox = styled.div<{ scrollHeight: string }>`
@@ -363,30 +290,23 @@ const ScrollBox = styled.div<{ scrollHeight: string }>`
 `;
 
 const GoUp = styled.div`
-width: 45pt;
-border: 2px solid #caccd1;
+  width: 45pt;
+  border: 2px solid #caccd1;
 `;
 
 const SelectChargerBox = styled.div`
-  margin-top: 60pt;
+  margin-top: 9pt;
   padding-left: 24pt;
   padding-right: 24pt;
-  @media (max-width:899pt) {
-    margin-top: 9pt;
-  }
 `;
 
 const ChargerList = styled.div`
   width: 100%;
   display: flex;
   height: 36pt;
-  margin-top:30pt;
+  padding: 3pt;
   background: #f3f4f7;
   border-radius: 21.375pt;
-  
-  @media (max-width:899pt) {
-    padding: 3pt;
-  }
 `;
 
 const Charger = styled.div`
@@ -411,38 +331,22 @@ const ChargerTypeNCount = styled(Typography)`
   line-height: 21pt;
   letter-spacing: -0.02em;
   text-align: center;
-  margin-bottom: 15pt;
-
-  @media (max-width:899pt) {
-    margin-bottom: 0;
-  }
 `;
 
 const ChargerNotice = styled(Typography)`
-  font-size: 10.5pt;
+  font-size: 7.5pt;
   font-weight: 500;
-  line-height: 15pt;
+  line-height: 9pt;
   letter-spacing: -0.18pt;
   text-align: center;
   color: #a6a9b0;
-  margin: 0 52.5pt; 
-  
-  @media (max-width:899pt) { 
-    font-size: 7.5pt;
-    line-height: 9pt;
-    margin:0;
-  }
 `;
 
 const PredictBoxWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  margin: 39pt 15pt 0;
+  margin-top: 30pt;
   gap: 11.25pt;
-
-  @media (max-width:899pt) { 
-    margin: 30pt 0 0;
-  }
 `;
 
 const PredictBox = styled.div`
@@ -505,16 +409,12 @@ const PredictBox = styled.div`
 `;
 
 const DidHelp = styled.div`
-  margin-top: 48pt;
+  margin-top: 30pt;
   font-size: 15pt;
   font-weight: 700;
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
-  
-  @media (max-width:899pt) { 
-    margin-top: 30pt;
-  }
 `;
 
 const Guide = styled(Typography)`
