@@ -42,7 +42,7 @@ const Mypage2_1 = () => {
         <RequestModal
           title={'다른 파트너에게\n 재견적을 받아보시겠습니까?'}
           leftControl={() => setPartnerModal((prev) => !prev)}
-          rightControl={() => route.push('/mypage/request')}
+          rightControl={() => route.push('/mypage/request/3-2')}
         />
       )}
       {/* 확정 모달 */}
@@ -50,7 +50,7 @@ const Mypage2_1 = () => {
         <RequestModal
           title={'Charge Point로\n 확정하시겠습니까?'}
           leftControl={() => setConfirmModal((prev) => !prev)}
-          rightControl={() => route.push('/mypage/request')}
+          rightControl={() => route.push('/mypage/request/3-2')}
         />
       )}
     </>

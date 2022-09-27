@@ -34,7 +34,7 @@ const FirstStep = () => {
   };
   // 셀렉터 추가
   const onClickAdd = () => {
-    if (selectedOption.length === 10) return;
+    if (selectedOption.length === 5) return;
     const temp = selectedOption.concat({
       m5: '',
       m6: '',

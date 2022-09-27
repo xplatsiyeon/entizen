@@ -39,7 +39,9 @@ const SecondStep = () => {
         <SubTitle>판매자</SubTitle>
       </SubTitleBox>
       {/* slider  */}
-      <SliderSizes />
+      <SliderBox>
+        <SliderSizes />
+      </SliderBox>
       {/* <Notice pt={15}>* 홈 충전기는 수익지분과 무관한 상품입니다.</Notice> */}
       <ChargeGuide>
         <span className="text">구독 가이드</span>
@@ -52,7 +54,9 @@ const SecondStep = () => {
 };
 
 export default SecondStep;
-
+const SliderBox = styled.div`
+  padding: 0 3pt;
+`;
 const Wrraper = styled.div`
   position: relative;
   padding-bottom: 96pt;

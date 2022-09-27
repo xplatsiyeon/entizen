@@ -73,7 +73,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blacklist: ['lnglatList'],
+  blacklist: ['lnglatList', 'locationList'],
 };
 
 export const persistedReducer = persistReducer(persistConfig, rootReducer);

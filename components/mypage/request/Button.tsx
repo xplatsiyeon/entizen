@@ -15,7 +15,10 @@ const Button = ({ setPartnerModal, setConfirmModal }: Props) => {
       <Btn onClick={() => setPartnerModal((prev) => !prev)}>
         다른파트너 선정
       </Btn>
-      <Btn onClick={() => setConfirmModal((prev) => !prev)} puple={true}>
+      <Btn
+        onClick={() => setConfirmModal((prev) => !prev)}
+        puple={true.toString()}
+      >
         확정하기
       </Btn>
     </BtnBox>
@@ -30,7 +33,7 @@ const BtnBox = styled.div`
   gap: 11.25pt;
   padding: 54pt 0;
 `;
-const Btn = styled(ButtonBase)<{ puple?: boolean }>`
+const Btn = styled(ButtonBase)<{ puple?: string }>`
   width: 100%;
   border-radius: 8px;
   font-weight: 700;
@@ -42,7 +45,7 @@ const Btn = styled(ButtonBase)<{ puple?: boolean }>`
   color: ${colors.main};
   border: 1px solid #5a2dc9;
   ${({ puple }) =>
-    puple &&
+    puple === 'true' &&
     css`
       background: ${colors.main};
       color: ${colors.lightWhite};

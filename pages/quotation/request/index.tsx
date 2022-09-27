@@ -56,6 +56,7 @@ const Quotation1_1 = () => {
         />
       )}
       <Header title="간편견적" exitBtn={true} handleOnClick={HandleModal} />
+      {/* 메인 */}
       <Body>
         <TabBox>
           {Object.keys(components).map((tab, index) => (
@@ -69,6 +70,7 @@ const Quotation1_1 = () => {
         </TabBox>
         {components[tabNumber]}
       </Body>
+      {/* 버튼 */}
       <Footer>
         {tabNumber === 0 ? (
           <Btn
