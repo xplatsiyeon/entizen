@@ -6,6 +6,8 @@ import colors from 'styles/colors';
 import Estimate from 'components/mypage/request/estimate';
 import { useRouter } from 'next/router';
 import AsIndex from 'components/mypage/as';
+import BottomNavigation from 'components/BottomNavigation';
+
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -55,6 +57,7 @@ const Request = () => {
         {/* 탭 */}
         {components[tabNumber]}
       </Body>
+      <BottomNavigation />
     </Wrapper>
   );
 };

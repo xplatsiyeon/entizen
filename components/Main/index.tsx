@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import BottomNavigation from 'components/BottomNavigation';
 import React from 'react';
 import Carousel from './Carousel';
 import EntizenLibrary from './EntizenLibrary';
@@ -28,6 +29,7 @@ const MainPage = (props: Props) => {
       <Box>
         <Footer />
       </Box>
+      <BottomNavigation />
     </>
   );
 };

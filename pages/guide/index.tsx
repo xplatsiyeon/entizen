@@ -13,6 +13,7 @@ import subscribe_icon from 'public/guide/subscribe-icon.svg';
 import arrow_small from 'public/images/arrow.svg';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
+import BottomNavigation from 'components/BottomNavigation';
 const Guide1 = () => {
   const router = useRouter();
 
@@ -83,6 +84,7 @@ const Guide1 = () => {
           </div>
         </Btn>
       </EntizenLibrary>
+      <BottomNavigation />
     </Wrapper>
   );
 };
