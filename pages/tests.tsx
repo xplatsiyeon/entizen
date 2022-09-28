@@ -50,6 +50,10 @@ const Tests = (props: Props) => {
       });
   }, []);
 
+  function decryptResult(decryptResult: any) {
+    console.log(decryptResult);
+  }
+
   useEffect(() => {
     console.log(data);
   }, [data]);
