@@ -4,7 +4,7 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 import bell from 'public/images/guide-bell.svg';
 import list from 'public/images/list-bar.svg';
-import banner from 'public/images/platform-banner.png';
+import banner from 'public/guide/guide-main-banner.png';
 import arrow from 'public/images/right-arrow.svg';
 import fee_icon from 'public/guide/fee-icon.svg';
 import subsidy_icon from 'public/guide/subsidy-icon.svg';
@@ -14,6 +14,7 @@ import arrow_small from 'public/images/arrow.svg';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
+
 const Guide1 = () => {
   const router = useRouter();
 

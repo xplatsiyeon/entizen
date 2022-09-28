@@ -7,6 +7,7 @@ import arrow_small from 'public/guide/Arrow.svg';
 import Step1 from 'components/guide/step1';
 import Step2 from 'components/guide/step2';
 import GuideHeader from 'components/guide/header';
+import { useRouter } from 'next/router';
 
 interface Option {
   m5: string;
@@ -18,6 +19,7 @@ interface Option {
 }
 
 const Guide1_2 = () => {
+  const router = useRouter();
   const [clicked, setClicked] = useState(-1);
   const [selectCharger, setSelectCharger] = useState<boolean>(false);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -51,7 +53,15 @@ const Guide1_2 = () => {
 
   return (
     <Wrapper>
-      <GuideHeader title={'보조금 가이드'} />
+      <GuideHeader
+        title={'보조금 가이드'}
+        leftOnClick={() => {
+          router.back();
+        }}
+        rightOnClick={() => {
+          router.push('/');
+        }}
+      />
       <Step1 clicked={clicked} handlePurposeOnClick={handlePurposeOnClick} />
       <Step2
         selectedOption={selectedOption}

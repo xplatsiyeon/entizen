@@ -84,11 +84,11 @@ const Contract = () => {
             <ListItemText primary={item.name} />
             {open[item.id] ? (
               <ArrowImg>
-                <Image src={UpArrow} alt="up_arrow" />
+                <Image src={DownArrow} alt="down_arrow" />
               </ArrowImg>
             ) : (
               <ArrowImg>
-                <Image src={DownArrow} alt="down_arrow" />
+                <Image src={UpArrow} alt="up_arrow" />
               </ArrowImg>
             )}
           </ItemButton>

@@ -1,12 +1,12 @@
-import BgImg from 'public/guide/share-background.svg';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import colors from 'styles/colors';
+import Banner from 'public/guide/share-banner.png';
 const Share = () => {
   return (
     <Wrapper>
       <ImgBox>
-        <Image src={BgImg} alt="banner" />
+        <Image src={Banner} alt="banner" />
       </ImgBox>
       <ContentsBox>
         <Label>1. 수익지분: 0%</Label>

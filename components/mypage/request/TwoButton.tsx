@@ -25,10 +25,12 @@ const TwoButton = ({ onClcikModal }: Props) => {
 export default TwoButton;
 
 const Wrapper = styled.div`
+  background-color: ${colors.lightWhite};
   position: fixed;
   z-index: 10;
   bottom: 0;
   left: 0;
+  padding-bottom: 30pt;
   width: 100%;
 `;
 const BtnBox = styled.div`
@@ -66,6 +68,6 @@ const Blur = styled.div`
   bottom: 22.5pt;
   left: 0;
   background: #ffffff;
-  filter: blur(10px);
-  height: 37.5pt;
+  filter: blur(7.5pt);
+  height: 67.5pt;
 `;
