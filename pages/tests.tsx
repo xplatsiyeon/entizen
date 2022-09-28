@@ -37,7 +37,7 @@ const Tests = (props: Props) => {
 
     axios({
       method: 'post',
-      url: 'http://3.39.207.234:4000/auth/nice',
+      url: 'http://localhost:4000/auth/nice',
       data: { memberType },
     })
       .then((res) => {
