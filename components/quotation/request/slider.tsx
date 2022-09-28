@@ -57,8 +57,8 @@ const SliderCustom = styled(Box)<{ disabled: boolean; client: string }>`
     box-sizing: border-box;
   }
   .css-1gv0vcd-MuiSlider-track {
-    border: none;
-    color: ${({ client }) => (client ? colors.main : colors.gray)};
+    color: ${({ client }) => (client ? colors.main : colors.gray)} !important;
+    /* border: 0; */
     right: 0;
     /* 초기값 */
     ${({ disabled }) =>
