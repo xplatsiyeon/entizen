@@ -21,6 +21,8 @@ const WhyEntizen = (props: Props) => {
     color: string;
     bigIcon: StaticImageData;
     menuText: string;
+    width: string;
+    height: string;
   }[] = [
     {
       headText: '플랫폼 가이드',
@@ -29,6 +31,8 @@ const WhyEntizen = (props: Props) => {
       color: '#222222',
       bigIcon: bulb,
       menuText: '핵심 정보만\n쏙쏙 뽑아드려요',
+      width: '42pt',
+      height: '42.75pt',
     },
     {
       headText: '구독 가이드',
@@ -37,6 +41,8 @@ const WhyEntizen = (props: Props) => {
       color: '#FFFFFF',
       bigIcon: mail,
       menuText: '다양한 견적서\n무료로 비교해요',
+      width: '51pt',
+      height: '42.75pt',
     },
     {
       headText: '충전기 가이드',
@@ -45,6 +51,8 @@ const WhyEntizen = (props: Props) => {
       color: '#FFFFFF',
       bigIcon: message,
       menuText: '구독?\n급속? 완속?\n무엇이든 물어보세요',
+      width: '52.5pt',
+      height: '39pt',
     },
     {
       headText: '보조금 가이드',
@@ -53,6 +61,8 @@ const WhyEntizen = (props: Props) => {
       color: '#222222',
       bigIcon: carnation,
       menuText: '전기차 충전소\nA 부터 Z까지',
+      width: '32.25pt',
+      height: '42.75pt',
     },
   ];
   return (
@@ -68,7 +78,7 @@ const WhyEntizen = (props: Props) => {
               <ArrowImgBox>
                 <Image src={el.arrowIcon} alt="icon" />
               </ArrowImgBox>
-              <IconImgBox>
+              <IconImgBox width={el.width} height={el.height}>
                 <Image src={el.bigIcon} alt="icon" />
               </IconImgBox>
             </GridElement>
@@ -128,8 +138,10 @@ const ArrowImgBox = styled.div`
   top: 12pt;
 `;
 
-const IconImgBox = styled.div`
+const IconImgBox = styled.div<{ width: string; height: string }>`
   position: absolute;
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
   left: 12pt;
   bottom: 12pt;
 `;

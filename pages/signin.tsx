@@ -11,11 +11,17 @@ import Link from 'next/link';
 import styled from '@emotion/styled';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
+import { useRouter } from 'next/router';
+import kakao from 'public/images/kakao.svg';
+import naver from 'public/images/naver.svg';
+import google from 'public/images/google.svg';
+import apple from 'public/images/apple.svg';
+import Image from 'next/image';
 type Props = {};
 
 const Signin = (props: Props) => {
+  const router = useRouter();
   const [password, setPassword] = useState<string>('');
-
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   return (
@@ -32,7 +38,7 @@ const Signin = (props: Props) => {
                 overflow: 'scroll !important',
               }}
             >
-              <BackBox>
+              <BackBox onClick={() => router.back()}>
                 <BackBtn src="/images/back-btn.svg" />
               </BackBox>
               <Container
@@ -157,16 +163,16 @@ const Signin = (props: Props) => {
                   }}
                 >
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
-                    <img src="/images/kakao.svg"></img>
+                    <Image src={kakao} alt="kakao" />
                   </Box>
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
-                    <img src="/images/apple.svg"></img>
+                    <Image src={apple} alt="apple" />
                   </Box>
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
-                    <img src="/images/naver.svg"></img>
+                    <Image src={naver} alt="naver" />
                   </Box>
                   <Box sx={{ height: '33pt' }}>
-                    <img src="/images/google.svg"></img>
+                    <Image src={google} alt="google" />
                   </Box>
                 </Box>
                 <Box
@@ -211,7 +217,11 @@ const Signin = (props: Props) => {
                   }}
                 >
                   <IdRegist>
-                    <IdRegistBtnSpan>아이디로 가입하기</IdRegistBtnSpan>
+                    <IdRegistBtnSpan
+                      onClick={() => router.push('/signUp/Select')}
+                    >
+                      아이디로 가입하기
+                    </IdRegistBtnSpan>
                   </IdRegist>
                 </Box>
               </Container>
@@ -343,7 +353,7 @@ const BackBox = styled(Box)`
 const TabBox = styled(Box)`
   width: 100%;
   display: flex;
-  alignitems: center;
+  align-items: center;
   background: #f9f7ff;
 
   @media (max-width: 899pt) {

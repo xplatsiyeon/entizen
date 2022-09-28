@@ -15,6 +15,11 @@ import colors from 'styles/colors';
 import xBtn from 'public/images/X.png';
 import whiteRight from 'public/images/whiteRight20.png';
 import simpleEstimate from 'public/images/simpleEstimate.png';
+import mypageIcon from 'public/images/mypageIcon.png';
+import guide from 'public/images/guide.png';
+import conversation from 'public/images/conversation.png';
+import grayInsta from 'public/images/grayCircleInsta.png';
+import grayNaver from 'public/images/grayCircleNaver.png';
 import Image from 'next/image';
 import { Divider, Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -50,19 +55,81 @@ const MainPage = (props: Props) => {
         <XBtnWrapper>
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
-        <WhetherLogin>
+        <WhetherLogin onClick={() => router.push('/signin')}>
           <span>로그인 해주세요</span>
           <span>
             <Image src={whiteRight} alt="arrow" />
           </span>
         </WhetherLogin>
+
         <WhiteArea>
-          <WhiteAreaMenus>
+          <WhiteAreaMenus onClick={() => router.push('/quotation/request')}>
             <span>
               <Image src={simpleEstimate} alt="간편견적" />
             </span>
             <span>간편견적</span>
           </WhiteAreaMenus>
+          <WhiteAreaMenus>
+            <span>
+              <Image src={guide} alt="가이드" />
+            </span>
+            <span>가이드</span>
+          </WhiteAreaMenus>
+          <WhiteAreaMenus>
+            <span>
+              <Image src={conversation} alt="소통하기" />
+            </span>
+            <span>소통하기</span>
+          </WhiteAreaMenus>
+          <WhiteAreaMenus>
+            <span>
+              <Image src={mypageIcon} alt="마이페이지" />
+            </span>
+            <span>마이페이지</span>
+          </WhiteAreaMenus>
+
+          <Divider
+            sx={{
+              width: '100%',
+              marginTop: '15pt',
+              marginBottom: '3pt',
+              borderTop: '1px solid #E2E5ED',
+            }}
+          />
+          <WhiteAreaMenus onClick={() => router.push('/notice')}>
+            <span>공지사항</span>
+          </WhiteAreaMenus>
+          <WhiteAreaMenus onClick={() => router.push('/setting/ring')}>
+            <span>알림 설정</span>
+          </WhiteAreaMenus>
+          <WhiteAreaMenus onClick={() => router.push('/faq')}>
+            <span>1:1 문의</span>
+          </WhiteAreaMenus>
+          <WhiteAreaMenus onClick={() => router.push('/faq')}>
+            <span>자주 묻는 질문</span>
+          </WhiteAreaMenus>
+          <WhiteAreaMenus onClick={() => router.push('/associate')}>
+            <span>제휴문의</span>
+          </WhiteAreaMenus>
+          <Divider
+            sx={{
+              width: '100%',
+              marginTop: '3pt',
+              borderTop: '1px solid #E2E5ED',
+            }}
+          />
+          <WhiteAreaBottomMenus>
+            <span>
+              <Image src={grayInsta} alt="인스타"></Image>
+            </span>
+            <span>
+              <Image src={grayNaver} alt="네이버"></Image>
+            </span>
+          </WhiteAreaBottomMenus>
+          <WhiteAreaBottomText>
+            <span>고객센터 | 9818-8856</span>
+            <span onClick={() => router.push('/setting')}>설정</span>
+          </WhiteAreaBottomText>
         </WhiteArea>
       </ListBox>
     </WholeBox>
@@ -168,6 +235,8 @@ const WholeBox = styled(Box)`
 const ListBox = styled.div`
   position: relative;
   width: 179pt;
+  padding-left: 24pt;
+  padding-right: 24pt;
   height: 100vh;
 
   background-color: ${colors.main};
@@ -176,16 +245,13 @@ const XBtnWrapper = styled.div`
   display: flex;
   justify-content: end;
   margin-top: 44.25pt;
-  padding-left: 24pt;
-  padding-right: 24pt;
 `;
 
 const WhetherLogin = styled.div`
   display: flex;
   align-items: center;
   margin-top: 27.75pt;
-  padding-left: 24pt;
-  padding-right: 24pt;
+
   & span {
   }
   & span:first-of-type {
@@ -206,7 +272,9 @@ const WhiteArea = styled.div`
   position: absolute;
   width: 100%;
   border-radius: 15pt 15pt 0 0;
-  padding: 27pt 24pt 34.5pt 24pt;
+  width: 179pt;
+  padding: 15pt 24pt 34.5pt 24pt;
+  left: 0;
   top: 127.5pt;
   background-color: #ffffff;
 `;
@@ -216,8 +284,36 @@ const HamburgerOn = styled.div``;
 const WhiteAreaMenus = styled.div`
   display: flex;
   align-items: center;
+  padding-top: 12pt;
+  padding-bottom: 12pt;
   & span:first-of-type {
     margin-right: 6pt;
+  }
+`;
+const WhiteAreaBottomMenus = styled.div`
+  display: flex;
+  align-items: center;
+  z-index: 10000;
+  margin-top: 51pt;
+  & span:first-of-type {
+    margin-right: 15pt;
+  }
+`;
+const WhiteAreaBottomText = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15pt;
+  & span {
+    font-family: Spoqa Han Sans Neo;
+    font-size: 10.5pt;
+    font-weight: 400;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #a6a9b0;
+  }
+  & span:first-of-type {
   }
 `;
 

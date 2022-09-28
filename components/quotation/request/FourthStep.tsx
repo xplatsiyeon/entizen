@@ -63,6 +63,7 @@ const FourthStep = () => {
         },
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationList]);
 
   // 주소 검색 컴포넌트 on/off

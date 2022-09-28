@@ -7,7 +7,7 @@ import arrowImg from 'public/images/blueArrow16.png';
 import newImg from 'public/images/new-label.png';
 import { useRouter } from 'next/router';
 
-const library = () => {
+const Library = () => {
   const route = useRouter();
   const HandleOnClick = () => {
     // 어디로..?
@@ -19,7 +19,7 @@ const library = () => {
       <MypageHeader back={true} title={'엔티즌 도서관'} />
       <Body>
         {[1, 1, 1, 1, 1, 1, 1].map((_, index) => (
-          <List onClick={HandleOnClick}>
+          <List key={index} onClick={HandleOnClick}>
             <div className="badge-img">
               {/* <Image src={} alt="badge" /> */}
             </div>
@@ -43,7 +43,7 @@ const library = () => {
   );
 };
 
-export default library;
+export default Library;
 
 const Body = styled.ul`
   padding-top: 12pt;

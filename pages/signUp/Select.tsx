@@ -17,7 +17,7 @@ const SignUpSelect = () => {
   const [userType, setUserType] = useState<number>(-1);
   const UserTypeList: string[] = ['기업회원', '일반회원'];
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    router.push('/signUpTerms');
+    router.push('/signUp/Terms');
   };
   return (
     <Wrapper>

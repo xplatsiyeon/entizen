@@ -9,7 +9,7 @@ import SmallCheckImg from 'public/images/check-small.svg';
 import SmallCheckOnImg from 'public/images/check-small-on.svg';
 import Btn from 'components/button';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 
 interface Terms {
   all: boolean;
@@ -49,84 +49,97 @@ const SignUpTerms = () => {
     if (!requiredTerms || !selectTerms) setFullTerms(false);
     if (requiredTerms && selectTerms) setFullTerms(true);
   }, [requiredTerms, selectTerms]);
+  const handleClick = () => {
+    route.push('/signUp/Check');
+  };
 
   return (
-    <Wrapper>
-      <Header />
-      <Notice variant="h3">
-        엔티즌 약관에
-        <br />
-        동의해주세요
-      </Notice>
-      <Terms>
-        <Image
-          onClick={fullTermsHandler}
-          alt="check"
-          src={fullTerms ? CheckOnImg : CheckImg}
+    <>
+      <Wrapper>
+        <Header />
+        <Notice variant="h3">
+          엔티즌 약관에
+          <br />
+          동의해주세요
+        </Notice>
+        <Terms>
+          <Image
+            onClick={fullTermsHandler}
+            alt="check"
+            src={fullTerms ? CheckOnImg : CheckImg}
+          />
+          <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
+        </Terms>
+        <Form
+          isterms={requiredTerms.toString()}
+          onClick={() => setRequiredTerms((prev) => !prev)}
+        >
+          <Box className="box">
+            <span>
+              <Image alt="check" src={requiredTerms ? CheckOnImg : CheckImg} />
+            </span>
+            <p>필수 약관에 동의합니다.</p>
+          </Box>
+          <Check>
+            <Item>
+              <div>
+                <Image
+                  alt="smallCheck"
+                  src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                />
+                <p>[필수]사용자 이용약관</p>
+              </div>
+              <span onClick={TermsofServiceHandler}>보기</span>
+            </Item>
+          </Check>
+          <Check>
+            <Item>
+              <div>
+                <Image
+                  alt="smallCheck"
+                  src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                />
+                <p>[필수] 만 14세 이상</p>
+              </div>
+              <span onClick={TermsofServiceHandler}>보기</span>
+            </Item>
+          </Check>
+          <Check>
+            <Item>
+              <div>
+                <Image
+                  alt="smallCheck"
+                  src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                />
+                <p>[필수]개인정보 처리방침 동의</p>
+              </div>
+              <span onClick={TermsofServiceHandler}>보기</span>
+            </Item>
+          </Check>
+        </Form>
+        <BottomForm isterms={selectTerms.toString()}>
+          <Box>
+            <Item onClick={() => setSelectTerms((prev) => !prev)}>
+              <div>
+                <Image
+                  alt="smallCheck"
+                  src={selectTerms ? SmallCheckOnImg : SmallCheckImg}
+                />
+                <p>[선택]위치정보 서비스 약관</p>
+              </div>
+              <span onClick={TermsofServiceHandler}>보기</span>
+            </Item>
+          </Box>
+        </BottomForm>
+        <Btn
+          text="본인인증하기"
+          name="form_chk"
+          handleClick={handleClick}
+          isClick={nextBtn}
+          marginTop="63"
         />
-        <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
-      </Terms>
-      <Form
-        isterms={requiredTerms.toString()}
-        onClick={() => setRequiredTerms((prev) => !prev)}
-      >
-        <Box className="box">
-          <Image alt="check" src={requiredTerms ? CheckOnImg : CheckImg} />
-          <p>필수 약관에 동의합니다.</p>
-        </Box>
-        <Check>
-          <Item>
-            <div>
-              <Image
-                alt="smallCheck"
-                src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
-              />
-              <p>[필수]사용자 이용약관</p>
-            </div>
-            <span onClick={TermsofServiceHandler}>보기</span>
-          </Item>
-        </Check>
-        <Check>
-          <Item>
-            <div>
-              <Image
-                alt="smallCheck"
-                src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
-              />
-              <p>[필수] 만 14세 이상</p>
-            </div>
-            <span onClick={TermsofServiceHandler}>보기</span>
-          </Item>
-        </Check>
-        <Check>
-          <Item>
-            <div>
-              <Image
-                alt="smallCheck"
-                src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
-              />
-              <p>[필수]개인정보 처리방침 동의</p>
-            </div>
-            <span onClick={TermsofServiceHandler}>보기</span>
-          </Item>
-        </Check>
-      </Form>
-      <BottomForm isterms={selectTerms.toString()}>
-        <Box>
-          <Item onClick={() => setSelectTerms((prev) => !prev)}>
-            <div>
-              <Image
-                alt="smallCheck"
-                src={selectTerms ? SmallCheckOnImg : SmallCheckImg}
-              />
-              <p>[선택]위치정보 서비스 약관</p>
-            </div>
-            <span onClick={TermsofServiceHandler}>보기</span>
-          </Item>
-        </Box>
-      </BottomForm>
-      <Btn text="다음" isClick={nextBtn} marginTop="63" />
-    </Wrapper>
+      </Wrapper>
+    </>
   );
 };
 
@@ -166,6 +179,8 @@ const Form = styled(Box)<{ isterms: string }>`
 `;
 const Check = styled(Box)`
   margin-top: 15pt;
+  /* display: flex;
+  align-items: center; */
 `;
 const Item = styled(Box)`
   display: flex;
