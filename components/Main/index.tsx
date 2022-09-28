@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import BottomNavigation from 'components/BottomNavigation';
 import React, { useState } from 'react';
 import Carousel from './Carousel';
 import EntizenLibrary from './EntizenLibrary';
@@ -18,6 +17,7 @@ import xBtn from 'public/images/X.png';
 import whiteRight from 'public/images/whiteRight20.png';
 import Image from 'next/image';
 import { Drawer } from '@mui/material';
+import BottomNavigation from 'components/BottomNavigation';
 
 type Props = {};
 
