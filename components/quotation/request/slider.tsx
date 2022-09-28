@@ -14,7 +14,6 @@ const SliderSizes = () => {
     setValue(newValue as number);
   };
 
-  useEffect(() => {});
   return (
     <SliderCustom width={'100%'} disabled={disabled} client={true.toString()}>
       {/* 슬라이더 */}
@@ -50,15 +49,15 @@ const SliderCustom = styled(Box)<{ disabled: boolean; client: string }>`
   position: relative;
   padding-top: 6pt;
   padding-bottom: 10.5pt;
-  .css-187mznn-MuiSlider-root {
+  .MuiSlider-root {
     color: ${colors.gray};
     border-radius: 2px;
     width: 100%;
     box-sizing: border-box;
   }
-  .css-1gv0vcd-MuiSlider-track {
-    color: ${({ client }) => (client ? colors.main : colors.gray)} !important;
-    /* border: 0; */
+  .MuiSlider-track {
+    color: ${({ client }) => (client ? colors.main : colors.gray)};
+    border: 0;
     right: 0;
     /* 초기값 */
     ${({ disabled }) =>
@@ -67,7 +66,7 @@ const SliderCustom = styled(Box)<{ disabled: boolean; client: string }>`
         color: ${colors.lightGray2};
       `}
   }
-  .css-eg0mwd-MuiSlider-thumb::after {
+  .MuiSlider-thumb::after {
     background: #ffffff;
     box-shadow: 0px 0px 5px rgba(117, 130, 149, 0.6);
     width: 15pt;

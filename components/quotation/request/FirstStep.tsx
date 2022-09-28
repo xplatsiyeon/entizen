@@ -29,6 +29,15 @@ const FirstStep = () => {
   const handleChange = (event: SelectChangeEvent<unknown>, index: number) => {
     const { name, value } = event.target;
     const copy: any = [...selectedOption];
+    // m5 바뀌면 초기화 시켜줌
+    if (name === 'm5') {
+      copy[index] = {
+        m5: '',
+        m6: '',
+        m7: '',
+        m8: '',
+      };
+    }
     copy[index][name] = value;
     setSelectedOption(copy);
   };
