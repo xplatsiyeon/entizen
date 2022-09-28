@@ -8,12 +8,12 @@ const KaKaApi = async (data: any) => {
   try {
     await axios({
       method: 'post',
-      url: `https://test-api.entizen.kr/api`,
+      url: `https://test-api.entizen.kr/api/members/login/sns`,
       data: {
         data,
-        id: data.id,
-        email: data.kakao_account.email,
-        type: 'kakao',
+        // id: data.id,
+        // email: data.kakao_account.email,
+        // type: 'kakao',
       },
       headers: {
         ContentType: 'application/json',
