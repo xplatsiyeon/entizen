@@ -24,15 +24,15 @@ const FourthStep = () => {
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [tabNumber, setTabNumber] = useState(-1);
   const tabType: string[] = ['건물 안', '건물 밖'];
-  const { myLocation } = useMap();
+  useMap();
 
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
     setIsSearch((prev) => !prev);
   };
   // 지도맵 훅
-  useEffect(() => {
-    myLocation;
-  }, [lnglatList]);
+  // useEffect(() => {
+  //   myLocation;
+  // }, [lnglatList]);
 
   // useMap 업데이트
   useEffect(() => {
