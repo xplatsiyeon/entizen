@@ -8,8 +8,8 @@ import banner from 'public/guide/guide-main-banner.png';
 import arrow from 'public/images/right-arrow.svg';
 import fee_icon from 'public/guide/fee-icon.svg';
 import subsidy_icon from 'public/guide/subsidy-icon.svg';
-import charger_icon from 'public/guide/charger-icon.svg';
-import subscribe_icon from 'public/guide/subscribe-icon.svg';
+import charger_icon from 'public/guide/charger_icon.png';
+import subscribe_icon from 'public/guide/subscribe_icon.png';
 import arrow_small from 'public/images/arrow.svg';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -28,12 +28,14 @@ const Guide1 = () => {
       <Header>
         <span className="left">가이드</span>
         <div className="right">
-          <Image onClick={() => pageHandler('/alam')} src={bell} alt="bell" />
+          <Image onClick={() => pageHandler('/alarm')} src={bell} alt="bell" />
           <Image onClick={() => pageHandler('')} src={list} alt="hamburger" />
         </div>
       </Header>
       <Platform onClick={() => pageHandler('/guide/1-1')}>
-        <Image src={banner} alt="platform" />
+        <div className="img-box">
+          <Image src={banner} alt="platform" layout="fill" />
+        </div>
       </Platform>
       <SubsidyBox>
         <Subsidy onClick={() => pageHandler('/guide/1-2')}>
@@ -120,6 +122,11 @@ const Platform = styled(Button)`
   justify-content: center;
   align-items: center;
   margin-top: 15.75pt;
+  .img-box {
+    position: relative;
+    width: 251.25pt;
+    height: 159pt;
+  }
 `;
 const SubsidyBox = styled(Box)`
   display: flex;
@@ -193,7 +200,8 @@ const GuideBox = styled(Button)`
     position: absolute;
     bottom: 16.5pt;
     right: 15.75pt;
-    /* border: 1px solid red; */
+    width: 45pt;
+    height: 45pt;
   }
 `;
 const EntizenLibrary = styled.div`
