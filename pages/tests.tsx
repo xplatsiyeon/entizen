@@ -12,15 +12,19 @@ const Tests = (props: Props) => {
       'popupChk',
       'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
     );
-    form_chk.action =
+    document.form_chk.action =
       'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-    form_chk.target = 'popupChk';
-    form_chk.submit();
+    document.form_chk.target = 'popupChk';
+    document.form_chk.submit();
+    // form_chk.action =
+    //   'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+    // form_chk.target = 'popupChk';
+    // form_chk.submit();
   };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    form_chk = document.querySelector('.form_chk');
+    form_chk = document.getElementsByName('form_chk');
     const memberType = 'USER';
 
     axios({
@@ -44,10 +48,15 @@ const Tests = (props: Props) => {
 
   return (
     <div>
-      <form className="form_chk" method="post">
+      <form name="form_chk" method="post">
         <input type="hidden" name="m" value="checkplusService" />
         {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
-        <input type="hidden" id="encodeData" name="EncodeData" value={data} />
+        <input
+          type="hidden"
+          id="encodeData"
+          name="EncodeData"
+          value={data !== undefined && data}
+        />
         {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
 
         {/* <button onClick={(e) => Go(e)}>CheckPlus 안심본인인증 Click</button> */}
