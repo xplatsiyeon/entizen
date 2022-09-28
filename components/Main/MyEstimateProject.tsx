@@ -4,14 +4,16 @@ import { Box, Typography } from '@mui/material';
 import rightArrow from 'public/images/rightArrow.png';
 import Image from 'next/image';
 import { display } from '@mui/system';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 const MyEstimateProject = (props: Props) => {
+  const router = useRouter();
   return (
     <Wrapper>
       <BoxWrapper>
-        <Box>
+        <Box onClick={() => router.push('/mypage/request')}>
           <BoxName>
             <Typography
               sx={{
