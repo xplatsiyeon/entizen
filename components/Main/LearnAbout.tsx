@@ -3,16 +3,16 @@ import { Typography } from '@mui/material';
 import React from 'react';
 import lightBox from '/public/images/boxLight.png';
 import arrow from '/public/images/arrow.png';
-import whiteRight from '/public/images/whiteRight.png';
+import whiteBlueRight from '/public/images/whiteBlueRight.png';
+import blueWhiteRight from '/public/images/blueWhiteRight.png';
+import whiteGreenRight from '/public/images/whiteGreenRight.png';
 import moneyMan from '/public/images/moneyMan.png';
-import blueRight from '/public/images/blueRight.png';
 import charger from '/public/images/charger.png';
 import Image, { StaticImageData } from 'next/image';
 
 type Props = {};
 
 const LearnAbout = (props: Props) => {
-  // box-shadow: 0px 0px 10px 0px #89A3C933;
   const menuList: {
     headText: string;
     leftImg: StaticImageData;
@@ -26,24 +26,22 @@ const LearnAbout = (props: Props) => {
   }[] = [
     {
       headText: '플랫폼 가이드',
-      //   leftImg: 'public/images/boxLight.png',
       leftImg: lightBox,
       background: '#ffffff',
       topTextColor: '#747780',
       color: '#5A2DC9',
-      rightImg: blueRight,
+      rightImg: blueWhiteRight,
       menuText: '엔티즌을\n더 잘 쓰는\n꿀팁 확인하기',
       width: 30,
       height: 30,
     },
     {
       headText: '구독 가이드',
-      //   leftImg: 'public/images/arrow.png',
       leftImg: arrow,
       background: '#5A2DC9',
       topTextColor: 'rgba(255, 255, 255, 0.5)',
       color: '#FFFFFF',
-      rightImg: whiteRight,
+      rightImg: whiteBlueRight,
       menuText: '구독에 대한\n모든 것을\n한 눈에!',
       width: 30,
       height: 30,
@@ -54,7 +52,7 @@ const LearnAbout = (props: Props) => {
       background: '#FFC043',
       topTextColor: 'rgba(255, 255, 255, 0.5)',
       color: '#FFFFFF',
-      rightImg: whiteRight,
+      rightImg: whiteGreenRight,
       menuText: '나에게 딱 맞는\n충전기는?',
       width: 30,
       height: 30,
@@ -65,7 +63,7 @@ const LearnAbout = (props: Props) => {
       background: '#FFFFFF',
       topTextColor: '#747780',
       color: '#5A2DC9',
-      rightImg: blueRight,
+      rightImg: blueWhiteRight,
       menuText: '보조금은\n최대 얼마?',
       width: 32.8275,
       height: 35.52749,
@@ -152,6 +150,8 @@ const LeftImgBox = styled.div`
 
 const RightImgBox = styled.div`
   position: absolute;
+  width: 24pt;
+  height: 24pt;
   right: 9.75pt;
   bottom: 12pt;
 `;

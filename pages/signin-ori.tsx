@@ -154,16 +154,16 @@ const Signin = (props: Props) => {
             }}
           >
             <Box sx={{ height: '33pt' }}>
-              <img src="/images/kakao.svg"></img>
+              {/* <img src="/images/kakao.svg"></img> */}
             </Box>
             <Box sx={{ height: '33pt' }}>
-              <img src="/images/apple.svg"></img>
+              {/* <img src="/images/apple.svg"></img> */}
             </Box>
             <Box sx={{ height: '33pt' }}>
-              <img src="/images/naver.svg"></img>
+              {/* <img src="/images/naver.svg"></img> */}
             </Box>
             <Box sx={{ height: '33pt' }}>
-              <img src="/images/google.svg"></img>
+              {/* <img src="/images/google.svg"></img> */}
             </Box>
           </Box>
           <Box

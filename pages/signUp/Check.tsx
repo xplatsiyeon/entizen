@@ -89,7 +89,8 @@ const SignUpCheck = () => {
   const rightBtnControl = () => route.push('/');
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setModalOpen(!modalOpen);
+    // setModalOpen(!modalOpen);
+    route.push('/signUp/Complete');
   };
 
   // 인풋 안의 x , 표시

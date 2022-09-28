@@ -36,6 +36,7 @@ const Alam = () => {
         observer.observe(entry[0].target);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [arr],
   );
   // 무한 스크롤
@@ -53,6 +54,7 @@ const Alam = () => {
       setIsScroll(false);
       observerRef.current && observerRef.current.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list, arr, isScroll, isLoading, onIntersect]);
 
   return (

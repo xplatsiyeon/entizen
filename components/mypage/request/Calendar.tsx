@@ -29,6 +29,7 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
     } else {
       setSelectedMonth(selectedMonth - 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMonth]);
   //다음 달 보기 버튼
   const nextMonth = useCallback(() => {
@@ -38,6 +39,7 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
     } else {
       setSelectedMonth(selectedMonth + 1);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMonth]);
   //요일 반환
   const returnWeek = useCallback(() => {
@@ -46,6 +48,7 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
       weekArr.push(<Week key={item}>{item}</Week>);
     });
     return weekArr;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   //알짜 반화
   const returnDay = useCallback(() => {
@@ -71,6 +74,7 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
       }
     }
     return dayArr;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDays, selectedYear, selectedMonth, dateTotalCount]);
   // 선택된 날짜 컬러 커스텀
   const selectedDay = (day: number): boolean => {
