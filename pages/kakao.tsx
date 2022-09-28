@@ -10,10 +10,14 @@ const KaKaApi = async (data: any) => {
       method: 'post',
       url: `https://test-api.entizen.kr/api/members/login/sns`,
       data: {
-        data,
+        // data,
         // id: data.id,
         // email: data.kakao_account.email,
         // type: 'kakao',
+        uuid: data.id,
+        snsType: 'KAKAO',
+        snsResponse: data,
+        email: data.kakao_account.email,
       },
       headers: {
         ContentType: 'application/json',
