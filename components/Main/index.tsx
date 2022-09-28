@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Carousel from './Carousel';
 import EntizenLibrary from './EntizenLibrary';
 import Footer from './Footer';
-import Header from './Header';
 import LearnAbout from './LearnAbout';
 import MyEstimateProject from './MyEstimateProject';
 import SalesProjection from './SalesProjection';
@@ -15,13 +14,16 @@ import Hamburger from 'public/images/list-bar.svg';
 import colors from 'styles/colors';
 import xBtn from 'public/images/X.png';
 import whiteRight from 'public/images/whiteRight20.png';
+import simpleEstimate from 'public/images/simpleEstimate.png';
 import Image from 'next/image';
-import { Drawer } from '@mui/material';
+import { Divider, Drawer } from '@mui/material';
+import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 
 type Props = {};
 
 const MainPage = (props: Props) => {
+  const router = useRouter();
   const [state, setState] = useState({
     right: false,
   });
@@ -54,7 +56,14 @@ const MainPage = (props: Props) => {
             <Image src={whiteRight} alt="arrow" />
           </span>
         </WhetherLogin>
-        <WhiteArea></WhiteArea>
+        <WhiteArea>
+          <WhiteAreaMenus>
+            <span>
+              <Image src={simpleEstimate} alt="간편견적" />
+            </span>
+            <span>간편견적</span>
+          </WhiteAreaMenus>
+        </WhiteArea>
       </ListBox>
     </WholeBox>
   );
@@ -76,7 +85,7 @@ const MainPage = (props: Props) => {
             />
           </LogoBox>
           <IconWrapper>
-            <FirstIconBox>
+            <FirstIconBox onClick={() => router.push('/alarm')}>
               <Image src={Ring} alt="alarmIcon" />
             </FirstIconBox>
 
@@ -151,26 +160,32 @@ const Box = styled.div`
 
 const WholeBox = styled(Box)`
   display: flex;
+  flex-direction: column;
+  position: relative;
   /* height: 100vh; */
 `;
 
 const ListBox = styled.div`
+  position: relative;
   width: 179pt;
   height: 100vh;
-  padding-left: 24pt;
-  padding-right: 24pt;
+
   background-color: ${colors.main};
 `;
 const XBtnWrapper = styled.div`
   display: flex;
   justify-content: end;
   margin-top: 44.25pt;
+  padding-left: 24pt;
+  padding-right: 24pt;
 `;
 
 const WhetherLogin = styled.div`
   display: flex;
   align-items: center;
   margin-top: 27.75pt;
+  padding-left: 24pt;
+  padding-right: 24pt;
   & span {
   }
   & span:first-of-type {
@@ -188,11 +203,22 @@ const WhetherLogin = styled.div`
 `;
 
 const WhiteArea = styled.div`
+  position: absolute;
+  width: 100%;
   border-radius: 15pt 15pt 0 0;
-  margin-top: 22.5pt;
+  padding: 27pt 24pt 34.5pt 24pt;
+  top: 127.5pt;
   background-color: #ffffff;
 `;
 
 const HamburgerOn = styled.div``;
+
+const WhiteAreaMenus = styled.div`
+  display: flex;
+  align-items: center;
+  & span:first-of-type {
+    margin-right: 6pt;
+  }
+`;
 
 export default MainPage;
