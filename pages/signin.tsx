@@ -343,7 +343,7 @@ const BackBox = styled(Box)`
 const TabBox = styled(Box)`
   width: 100%;
   display: flex;
-  alignitems: center;
+  align-items: center;
   background: #f9f7ff;
 
   @media (max-width: 899pt) {

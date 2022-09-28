@@ -1,9 +1,13 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import chatting from 'public/navigation/chatting-icon.png';
+import chattingOn from 'public/navigation/chatting-on-icon.png';
 import home from 'public/navigation/home-icon.png';
+import homeOn from 'public/navigation/home-on-icon.png';
 import estimate from 'public/navigation/estimate-icon.png';
+import mypageOn from 'public/navigation/mypage-on-icon.png';
 import guide from 'public/navigation/guide-icon.png';
+import guideOn from 'public/navigation/guide-on-icon.png';
 import mypage from 'public/navigation/mypage-icon.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -13,6 +17,26 @@ type Props = {};
 
 const BottomNavigation = (props: Props) => {
   const router = useRouter();
+  const { pathname } = router;
+  const [tabNumber, setTabNumber] = useState(0);
+
+  useEffect(() => {
+    switch (pathname) {
+      case '/':
+        return setTabNumber(0);
+      case '/guide':
+        return setTabNumber(1);
+      case '/estimate':
+        return setTabNumber(2);
+      case '/chatting':
+        return setTabNumber(3);
+      case '/mypage':
+        return setTabNumber(4);
+      default:
+        break;
+    }
+  }, []);
+
   return (
     <Wrapper>
       <BoxBg>
@@ -22,8 +46,14 @@ const BottomNavigation = (props: Props) => {
             router.push('/');
           }}
         >
-          <Image src={home} alt="home" width={32} height={32} />
-          <h3 className="name">홈</h3>
+          <ImgBox>
+            <Image
+              src={tabNumber === 0 ? homeOn : home}
+              alt="home"
+              layout="fill"
+            />
+          </ImgBox>
+          <H3 clicked={tabNumber === 0 ? true : false}>홈</H3>
         </div>
         <div
           className="img-wrapper"
@@ -31,8 +61,14 @@ const BottomNavigation = (props: Props) => {
             router.push('/guide');
           }}
         >
-          <Image src={guide} alt="guide" width={32} height={32} />
-          <h3 className="name">가이드</h3>
+          <ImgBox>
+            <Image
+              src={tabNumber === 1 ? guideOn : guide}
+              alt="guide"
+              layout="fill"
+            />
+          </ImgBox>
+          <H3 clicked={tabNumber === 1 ? true : false}>가이드</H3>
         </div>
         <div
           className="img-wrapper"
@@ -41,11 +77,17 @@ const BottomNavigation = (props: Props) => {
           }}
         >
           <Image src={estimate} alt="estimate" width={32} height={32} />
-          <h3 className="name">간편견적</h3>
+          <H3 clicked={false}>간편견적</H3>
         </div>
         <div className="img-wrapper">
-          <Image src={chatting} alt="chatting" width={32} height={32} />
-          <h3 className="name">소통하기</h3>
+          <ImgBox>
+            <Image
+              src={tabNumber === 3 ? chattingOn : chatting}
+              alt="chatting"
+              layout="fill"
+            />
+          </ImgBox>
+          <H3 clicked={tabNumber === 3 ? true : false}>소통하기</H3>
         </div>
         <div
           className="img-wrapper"
@@ -53,8 +95,14 @@ const BottomNavigation = (props: Props) => {
             router.push('/mypage');
           }}
         >
-          <Image src={mypage} alt="mypage" width={32} height={32} />
-          <h3 className="name">마이페이지</h3>
+          <ImgBox>
+            <Image
+              src={tabNumber === 4 ? mypageOn : mypage}
+              alt="mypage"
+              layout="fill"
+            />
+          </ImgBox>
+          <H3 clicked={tabNumber === 4 ? true : false}>마이페이지</H3>
         </div>
       </BoxBg>
     </Wrapper>
@@ -79,13 +127,6 @@ const Wrapper = styled.div`
     align-items: center;
     gap: 3pt;
   }
-  .name {
-    font-weight: 500;
-    font-size: 7.5pt;
-    line-height: 9pt;
-    letter-spacing: -0.02em;
-    color: #dcdde1;
-  }
 `;
 const BoxBg = styled.div`
   display: flex;
@@ -94,4 +135,16 @@ const BoxBg = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   height: 66pt;
+`;
+const ImgBox = styled.div`
+  position: relative;
+  height: 24pt;
+  width: 24pt;
+`;
+const H3 = styled.h3<{ clicked: boolean }>`
+  font-weight: 500;
+  font-size: 7.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${({ clicked }) => (clicked ? colors.main2 : colors.lightGray4)};
 `;
