@@ -11,9 +11,7 @@ type Props = {
   modalOpen: boolean;
 };
 const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
-  const { reviewContent } = useSelector(
-    (state: RootState) => state.reviewContent,
-  );
+  const { reviewContent } = useSelector((state: RootState) => state.reviewList);
   const ratings = [1, 2, 3, 4, 5];
   const handleOnClick = () => {
     if (setModalOpen) {

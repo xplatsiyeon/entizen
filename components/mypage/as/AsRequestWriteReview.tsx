@@ -7,6 +7,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import RatingBar from './RatingBar';
 import colors from 'styles/colors';
 import { useDispatch } from 'react-redux';
+import { reviewAction } from 'store/reviewSlice';
 
 export interface Rating {
   kind: number;
@@ -41,15 +42,15 @@ const AsRequestWriteReview = ({ setModalOpen, modalOpen }: Props) => {
         4 &&
       reqeustText.length > 5
     ) {
-      // dispatch(
-      //   reviewAction.write({
-      //     kind: ratingScore.kind,
-      //     speed: ratingScore.speed,
-      //     pro: ratingScore.pro,
-      //     satisfy: ratingScore.satisfy,
-      //     reviewText: reqeustText,
-      //   }),
-      // );
+      dispatch(
+        reviewAction.write({
+          kind: ratingScore.kind,
+          speed: ratingScore.speed,
+          pro: ratingScore.pro,
+          satisfy: ratingScore.satisfy,
+          reviewText: reqeustText,
+        }),
+      );
       setCheckedRequired(true);
     } else {
       setCheckedRequired(false);
