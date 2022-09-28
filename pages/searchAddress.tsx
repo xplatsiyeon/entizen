@@ -76,6 +76,8 @@ const SearchAddress = (props: Props) => {
           );
           const match = await data.match(/\((.*)\)/);
           console.log(data);
+          console.log(keyWord);
+          console.log(process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY);
 
           let jsonResult = await JSON.parse(match[1].toString()).results.juso;
           let cc: any = [];
