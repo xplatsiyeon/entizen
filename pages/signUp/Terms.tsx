@@ -25,22 +25,6 @@ const SignUpTerms = () => {
   const [selectTerms, setSelectTerms] = useState(false);
   const [nextBtn, setNextBtn] = useState(false);
 
-  const NaverLogout = async () => {
-    // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
-    const res = await axios.get('/oauth2.0/token', {
-      params: {
-        grant_type: 'delete',
-        client_id: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // Client ID
-        client_secret: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_SECRET, // Client Secret
-        access_token: route.query.token, // 발급된 Token 정보
-        service_provider: 'NAVER',
-      },
-    });
-    if (res) {
-      route.push('/signin'); // 로그인 페이지로 이동
-    }
-  };
-
   const fullTermsHandler = () => {
     if (fullTerms) {
       setFullTerms(false);
@@ -155,9 +139,6 @@ const SignUpTerms = () => {
             </Item>
           </Box>
         </BottomForm>
-        <Buttons onClick={NaverLogout}>
-          <ButtonText>Logout</ButtonText>
-        </Buttons>
         <Btn
           text="본인인증하기"
           name="form_chk"

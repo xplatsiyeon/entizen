@@ -19,10 +19,13 @@ import apple from 'public/images/apple.svg';
 import Image from 'next/image';
 import { kakaoLogin } from 'api/auth/kakao';
 import { getToken, login } from 'api/auth/naver';
+import { useDispatch } from 'react-redux';
+import { naverAction } from 'store/naverSlice';
 type Props = {};
 
 const Signin = (props: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const naverRef = useRef<HTMLElement | null | any>(null);
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
@@ -34,7 +37,9 @@ const Signin = (props: Props) => {
   }, []);
   const handleNaver = async () => {
     naverRef.current.children[0].click();
-    getToken(naverLogin);
+    getToken(naverLogin, function (result) {
+      dispatch(naverAction.load({ result }));
+    });
   };
   return (
     <React.Fragment>
