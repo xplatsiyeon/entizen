@@ -103,7 +103,7 @@ const SearchAddress = (props: Props) => {
   return (
     <Container>
       <HeaderBox>
-        <Image onClick={() => router.back()} src={btnImg} alt="backBtn" />
+        <Image onClick={() =>back()} src={btnImg} alt="backBtn" />
         <FindAddress
           placeholder="상호명 또는 주소 검색"
           onChange={handleChange}
