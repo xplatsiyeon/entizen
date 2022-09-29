@@ -16,6 +16,8 @@ const Request1_7 = (props: Props) => {
   const [textValue, setTextValue] = useState('');
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const [isModal, setIsModal] = useState<boolean>(false);
+  const [value, setValue] = useState(50);
+  const [disabled, setDisabled] = useState(true);
 
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
@@ -47,7 +49,12 @@ const Request1_7 = (props: Props) => {
           <span className="name">내 수익/투자</span>
           <span className="name">판매자</span>
         </NameBox>
-        <SliderSizes />
+        <SliderSizes
+          value={value}
+          setValue={setValue}
+          disabled={disabled}
+          setDisabled={setDisabled}
+        />
         <ContentsWrapper>
           <div className="contents-box">
             <span className="name">

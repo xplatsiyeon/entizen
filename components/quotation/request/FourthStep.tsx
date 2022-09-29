@@ -1,39 +1,66 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
-import Arrow from 'public/guide/Arrow.svg';
 import useMap from 'utils/useMap';
 import { InputAdornment, TextField } from '@mui/material';
 import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
-import { useRouter } from 'next/router';
 import SearchAddress from 'components/quotation/request/searchAddress';
 import { useSelector } from 'react-redux';
 import { coordinateAction } from 'store/lnglatSlice';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
 
-const FourthStep = () => {
+interface Props {
+  tabNumber: number;
+  setTabNumber: Dispatch<SetStateAction<number>>;
+}
+const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
-  const { lnglatList } = useSelector((state: RootState) => state.lnglatList);
+  const { installationLocation } = useSelector(
+    (state: RootState) => state.quotationData,
+  );
   const [isSearch, setIsSearch] = useState<boolean>(false);
-  const [tabNumber, setTabNumber] = useState(-1);
+  const [buildingNumber, setBuildingNumber] = useState(-1);
+  const [buttonActivate, setButtonActivate] = useState<boolean>(false);
+  const location: string[] = ['OUTSIDE', 'INSIDE'];
   const tabType: string[] = ['건물 안', '건물 밖'];
+  // 지도 실행
   useMap();
-
+  // 지도 모달창 열기
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
     setIsSearch((prev) => !prev);
   };
-  // 지도맵 훅
-  // useEffect(() => {
-  //   myLocation;
-  // }, [lnglatList]);
-
+  // 이전버튼
+  const HandlePrevBtn = () => {
+    setTabNumber(tabNumber - 1);
+  };
+  // 다음버튼
+  const HandleNextBtn = () => {
+    if (buttonActivate) {
+      dispatch(quotationAction.setStep4(location[buildingNumber]));
+      setTabNumber(tabNumber + 1);
+    }
+  };
+  // 버튼 활성화
+  useEffect(() => {
+    if (locationList.roadAddrPart.length > 1 && buildingNumber !== -1) {
+      setButtonActivate(true);
+    }
+  }, [locationList, buildingNumber]);
+  // 데이터 기억
+  useEffect(() => {
+    const locationIndex = location.indexOf(installationLocation);
+    if (locationIndex !== -1) {
+      setBuildingNumber(locationIndex);
+    }
+  }, []);
   // useMap 업데이트
   useEffect(() => {
     if (locationList.roadAddrPart) {
@@ -111,13 +138,19 @@ const FourthStep = () => {
           <Tab
             key={index}
             idx={index.toString()}
-            tabNumber={tabNumber.toString()}
-            onClick={() => setTabNumber(index)}
+            tabNumber={buildingNumber.toString()}
+            onClick={() => setBuildingNumber(index)}
           >
             {type}
           </Tab>
         ))}
       </TypeBox>
+      <TwoBtn>
+        <PrevBtn onClick={HandlePrevBtn}>이전</PrevBtn>
+        <NextBtn buttonActivate={buttonActivate} onClick={HandleNextBtn}>
+          다음
+        </NextBtn>
+      </TwoBtn>
     </Wrraper>
   );
 };
@@ -222,4 +255,39 @@ const Input = styled(TextField)`
   & fieldset {
     border: none;
   }
+`;
+const NextBtn = styled.div<{
+  buttonActivate: boolean;
+  subscribeNumber?: number;
+}>`
+  color: ${colors.lightWhite};
+  width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${({ buttonActivate }) =>
+    buttonActivate ? colors.main : colors.blue3};
+`;
+const PrevBtn = styled.div`
+  color: ${colors.lightWhite};
+  width: 36%;
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${colors.gray};
+`;
+const TwoBtn = styled.div`
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 `;

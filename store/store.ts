@@ -3,6 +3,7 @@ import { locationSlice } from './locationSlice';
 import { lnglatSlice } from './lnglatSlice';
 import { requestSlice } from './requestSlice';
 import { reviewContents } from './reviewSlice';
+import { quotationSlice } from './quotationSlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   lnglatList: lnglatSlice.reducer,
   requestList: requestSlice.reducer,
   reviewList: reviewContents.reducer,
+  quotationData: quotationSlice.reducer,
 });
 
 export default rootReducer;

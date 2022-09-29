@@ -1,16 +1,84 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
-import LinearProgressWithLabel from './progress';
-import LinearWithValueLabel from './progress';
 import Arrow from 'public/guide/Arrow.svg';
 import SliderSizes from './slider';
+import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
-const SecondStep = () => {
-  const [tabNumber, setTabNumber] = useState(-1);
-  const subscribeType: string[] = ['전체구독', '부분구독'];
+interface Props {
+  setTabNumber: Dispatch<SetStateAction<number>>;
+  tabNumber: number;
+}
+
+const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
+  const dispatch = useDispatch();
+  const { subscribeProduct, investRate } = useSelector(
+    (state: RootState) => state.quotationData,
+  );
+  const [value, setValue] = useState(50);
+  const [disabled, setDisabled] = useState(true);
+  const [buttonActivate, setButtonActivate] = useState<boolean>(false);
+  const [subscribeNumber, setSubscribeNumber] = useState(-1);
+  const subscribeType: any[] = ['전체구독', '부분구독'];
+
+  // 이전
+  const HandlePrevBtn = () => {
+    if (tabNumber > 0) setTabNumber(tabNumber - 1);
+  };
+
+  // 다음버튼
+  const HandleNextBtn = () => {
+    if (buttonActivate) {
+      // 전체 구독
+      if (subscribeNumber === 0) {
+        dispatch(
+          quotationAction.setStep2({
+            subscribeProduct: 'ENTIRETY',
+            investRate: value,
+          }),
+        );
+      }
+      // 부분 구독
+      if (subscribeNumber === 1) {
+        dispatch(
+          quotationAction.setStep2({
+            subscribeProduct: 'PART',
+            investRate: '',
+          }),
+        );
+      }
+      setTabNumber(tabNumber + 1);
+    }
+  };
+
+  useEffect(() => {
+    setButtonActivate(false);
+    // 전체 구독
+    if (subscribeNumber === 0) {
+      if (!disabled) {
+        setButtonActivate(true);
+      }
+    }
+    // 부분 구독
+    if (subscribeNumber === 1) {
+      setButtonActivate(true);
+    }
+  }, [subscribeNumber, disabled]);
+
+  // 데이터 기억
+  useEffect(() => {
+    if (subscribeProduct === 'ENTIRETY') {
+      setSubscribeNumber(0);
+      setValue(parseInt(investRate!));
+      setDisabled(false);
+    } else if (subscribeProduct === 'PART') setSubscribeNumber(1);
+  }, []);
+
   return (
     <Wrraper>
       <Title>구독상품을 선택해주세요</Title>
@@ -20,8 +88,8 @@ const SecondStep = () => {
           <Tab
             key={index}
             idx={index.toString()}
-            tabNumber={tabNumber.toString()}
-            onClick={() => setTabNumber(index)}
+            subscribeNumber={subscribeNumber.toString()}
+            onClick={() => setSubscribeNumber(index)}
           >
             {type}
           </Tab>
@@ -39,16 +107,30 @@ const SecondStep = () => {
         <SubTitle>판매자</SubTitle>
       </SubTitleBox>
       {/* slider  */}
-      <SliderBox>
-        <SliderSizes />
-      </SliderBox>
-      {/* <Notice pt={15}>* 홈 충전기는 수익지분과 무관한 상품입니다.</Notice> */}
+      {subscribeNumber !== 1 ? (
+        <SliderBox>
+          <SliderSizes
+            value={value}
+            setValue={setValue}
+            disabled={disabled}
+            setDisabled={setDisabled}
+          />
+        </SliderBox>
+      ) : (
+        <Notice pt={15}>* 홈 충전기는 수익지분과 무관한 상품입니다.</Notice>
+      )}
       <ChargeGuide>
         <span className="text">구독 가이드</span>
         <div className="arrow-icon">
           <Image src={Arrow} alt="arrow_icon" />
         </div>
       </ChargeGuide>
+      <TwoBtn>
+        <PrevBtn onClick={HandlePrevBtn}>이전</PrevBtn>
+        <NextBtn buttonActivate={buttonActivate} onClick={HandleNextBtn}>
+          다음
+        </NextBtn>
+      </TwoBtn>
     </Wrraper>
   );
 };
@@ -89,7 +171,7 @@ const TypeBox = styled.div`
   gap: 11.25pt;
   padding-top: 9pt;
 `;
-const Tab = styled.span<{ idx: string; tabNumber: string }>`
+const Tab = styled.span<{ idx: string; subscribeNumber: string }>`
   font-weight: 400;
   font-size: 12pt;
   line-height: 12pt;
@@ -100,8 +182,8 @@ const Tab = styled.span<{ idx: string; tabNumber: string }>`
   border-radius: 6pt;
   padding: 13.5pt 0;
   text-align: center;
-  ${({ idx, tabNumber }) =>
-    idx === tabNumber &&
+  ${({ idx, subscribeNumber }) =>
+    idx === subscribeNumber &&
     css`
       border: 0.75pt solid ${colors.main};
       color: ${colors.main};
@@ -120,28 +202,6 @@ const SubTitleBox = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-// const ProgressBar = styled.div`
-//   border: 1px solid red;
-//   padding: 6pt 0;
-//   position: relative;
-//   .css-187mznn-MuiSlider-root {
-//     /* color: red; */
-//     color: #e2e5ed;
-//     border-radius: 2px;
-//   }
-//   .css-1gv0vcd-MuiSlider-track {
-//     color: ${colors.main};
-//   }
-//   .css-eg0mwd-MuiSlider-thumb::after {
-//     background: #ffffff;
-//     box-shadow: 0px 0px 5px rgba(117, 130, 149, 0.6);
-//     width: 15pt;
-//     height: 15pt;
-//   }
-//   .css-14pt78w-MuiSlider-rail {
-//   }
-// `;
-
 const ChargeGuide = styled.div`
   display: flex;
   justify-content: center;
@@ -158,4 +218,39 @@ const ChargeGuide = styled.div`
     width: 12pt;
     height: 12pt;
   }
+`;
+const NextBtn = styled.div<{
+  buttonActivate: boolean;
+  subscribeNumber?: number;
+}>`
+  color: ${colors.lightWhite};
+  width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${({ buttonActivate }) =>
+    buttonActivate ? colors.main : colors.blue3};
+`;
+const PrevBtn = styled.div`
+  color: ${colors.lightWhite};
+  width: 36%;
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${colors.gray};
+`;
+const TwoBtn = styled.div`
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 `;
