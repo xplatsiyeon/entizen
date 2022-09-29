@@ -7,7 +7,8 @@ export const login = (naverLogin: any) => {
 
   naverLogin = new naver.LoginWithNaverId({
     clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
-    callbackUrl: 'https://test-api.entizen.kr/signUp/Terms', // Callback URL
+    // callbackUrl: 'https://test-api.entizen.kr/signUp/Terms', // Callback URL
+    callbackUrl: 'https://test-api.entizen.kr/signin', // Callback URL
     isPopup: false, // 팝업 형태로 인증 여부
     callbackHandle: true,
     loginButton: {
@@ -27,15 +28,15 @@ export const getToken = (naverLogin: any, callBack: (result: any) => void) => {
     naverLogin.getLoginStatus((status: any) => {
       if (status) {
         // 로그인 상태 값이 있을 경우
-        console.log(status);
-
+        console.log('[로그인상태값] 네이버 => ' + status);
+        console.log('[whj] 네이버 로그인 데이터 => ' + naverLogin);
         let email = naverLogin.user.getEmail();
         NaverApi(naverLogin, function (result) {
           callBack(result);
         });
         // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
         Router.push({
-          pathname: '/signUp/Terms',
+          pathname: '/signin',
           query: {
             token: token,
           },
@@ -65,7 +66,10 @@ const NaverApi = async (data: any, callBack: (result: any) => void) => {
         ContentType: 'application/json',
       },
       withCredentials: true,
-    }).then((res) => callBack(res));
+    }).then((res) => {
+      console.log('[axios] 리스폰스 => ' + res);
+      callBack(res);
+    });
   } catch (error) {
     console.log('post 요청 실패');
     console.log(error);
