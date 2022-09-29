@@ -1,5 +1,10 @@
+let mDecryptResult;
+
 function decryptResult(decryptResult) {
   console.log(decryptResult);
+
+  mDecryptResult = decryptResult;
+
   const first = document.querySelector('.firstNextPage');
   const nameInput = document.querySelector('.nameInput');
   const phoneInput = document.querySelector('.phoneInput');
@@ -16,4 +21,8 @@ function decryptResult(decryptResult) {
     first.click();
     console.log('클릭안돼?');
   }
+}
+
+export function test11() {
+  return mDecryptResult;
 }

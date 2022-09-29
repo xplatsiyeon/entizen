@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
 import axios from 'axios';
+import { test11 } from 'public/testsss';
 
 type Props = {
   level: number;
@@ -21,6 +22,7 @@ export function CallTest() {
 }
 
 const TermContent = ({ level, setLevel }: Props) => {
+  console.log('테스트11입니다 => ' + test11());
   const route = useRouter();
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
@@ -47,6 +49,8 @@ const TermContent = ({ level, setLevel }: Props) => {
   };
 
   useEffect(() => {
+    console.log('테스트11입니다 => ' + test11());
+
     const memberType = 'USER';
 
     axios({
