@@ -35,21 +35,24 @@ const Signin = (props: Props) => {
   let naverResponse: any;
 
   useEffect(() => {
-    login(naverLogin);
+    login(naverLogin, function (naverLogin) {
+      const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
+      console.log('hash -> ' + hash);
+    });
 
-    naverResponse === undefined
-      ? console.log('네이버 리스폰스 =>  undefined')
-      : console.log('네이버 리스폰스 =>  ' + naverResponse);
+    // naverResponse === undefined
+    //   ? console.log('네이버 리스폰스 =>  undefined')
+    //   : console.log('네이버 리스폰스 =>  ' + naverResponse);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleNaver = async () => {
     naverRef.current.children[0].click();
-    getToken(naverLogin, function (result) {
-      naverResponse = result;
-      // console.log('네이버 리스폰스 =>  ' + result);
-      dispatch(naverAction.load({ result }));
-    });
+    // getToken(naverLogin, function (result) {
+    //   naverResponse = result;
+    //   // console.log('네이버 리스폰스 =>  ' + result);
+    //   dispatch(naverAction.load({ result }));
+    // });
   };
   return (
     <React.Fragment>
@@ -197,6 +200,7 @@ const Signin = (props: Props) => {
                   </Box>
                   <NaverBox>
                     <Box id="naverIdLogin" ref={naverRef}></Box>
+                    {/* <Image onClick={handleNaver} src={naver} alt="naver" /> */}
                     <Image onClick={handleNaver} src={naver} alt="naver" />
                   </NaverBox>
                   <Box sx={{ height: '33pt' }}>
@@ -294,7 +298,7 @@ const NaverBox = styled(Box)`
   height: 33pt;
   margin-right: 15pt;
   & #naverIdLogin_loginButton {
-    display: none;
+    /* display: none; */
   }
 `;
 
