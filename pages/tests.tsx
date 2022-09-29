@@ -45,9 +45,11 @@ const Tests = (props: Props) => {
   }, []);
 
   useEffect(() => {
+    // var inputValue = document.querySelector('phoneInput').value;
     const test: any = document.querySelector('phoneInput');
+    console.log(test);
     setUserInfo(test);
-  }, []);
+  }, [userInfo]);
 
   useEffect(() => {
     console.log('유저 데이터 -> ' + userInfo);
@@ -71,7 +73,9 @@ const Tests = (props: Props) => {
         <button onClick={() => fnPopup()}>CheckPlus 안심본인인증 Click</button>
         <div>1123</div>
         <input className="nameInput" type="text" />
-        <input className="phoneInput" type="text" />
+        <input className="phoneInput" type="text"
+         onChange={(event:any) => setUserInfo(event.target.value)}></input>
+        />
         <input className="firstNextPage" type="text" />
         {/* <a href="javascript:fnPopup();"> CheckPlus 안심본인인증 Click</a> */}
       </form>
