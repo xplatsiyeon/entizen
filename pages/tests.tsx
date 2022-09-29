@@ -9,6 +9,7 @@ interface Window {
 
 const Tests = (props: Props) => {
   const [data, setData] = useState<any>();
+  const [userInfo, setUserInfo] = useState();
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -42,6 +43,15 @@ const Tests = (props: Props) => {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    const test: any = document.querySelector('phoneInput');
+    setUserInfo(test);
+  }, []);
+
+  useEffect(() => {
+    console.log('유저 데이터 -> ' + userInfo);
+  }, [userInfo]);
 
   return (
     <div>
