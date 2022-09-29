@@ -31,13 +31,23 @@ const Signin = (props: Props) => {
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   let naverLogin: any;
+
+  let naverResponse: any;
+
   useEffect(() => {
     login(naverLogin);
+
+    naverResponse === undefined
+      ? console.log('네이버 리스폰스 =>  undefined')
+      : console.log('네이버 리스폰스 =>  ' + naverResponse);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleNaver = async () => {
     naverRef.current.children[0].click();
     getToken(naverLogin, function (result) {
+      naverResponse = result;
+      // console.log('네이버 리스폰스 =>  ' + result);
       dispatch(naverAction.load({ result }));
     });
   };
