@@ -47,10 +47,18 @@ const TermContent = ({ level, setLevel }: Props) => {
       cloneDocument.form_chk.submit();
     }
   };
+  const handleForceClick = () => {
+    setLevel(level + 1);
+    let a;
+    if (localStorage.getItem('key') !== null) {
+      a = localStorage.getItem('key') as string;
+      JSON.parse(a);
+      console.log('로컬스토리지 데이터입니다 => ' + a);
+    }
+  };
 
   useEffect(() => {
     console.log(localStorage.getItem('key'));
-
     const memberType = 'USER';
 
     axios({
@@ -210,7 +218,7 @@ const TermContent = ({ level, setLevel }: Props) => {
             marginTop={42.5}
           /> */}
         </form>
-        <Buttons className="firstNextPage" onClick={() => setLevel(level + 1)}>
+        <Buttons className="firstNextPage" onClick={handleForceClick}>
           아아
         </Buttons>
       </div>
