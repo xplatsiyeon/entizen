@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import MypageHeader from './header';
+import IdPwInput from './IdPwInput';
 import TermContent from './TermContent';
 
 type Props = {};
@@ -14,6 +15,14 @@ const SignUpContainer = (props: Props) => {
           <MypageHeader back={true} homeBtn={true} title={''} exitBtn={true} />
           <Wrapper>
             <TermContent setLevel={setLevel} level={level} />
+          </Wrapper>
+        </>
+      )}
+      {level === 1 && (
+        <>
+          <MypageHeader back={true} homeBtn={true} title={''} exitBtn={true} />
+          <Wrapper>
+            <IdPwInput />
           </Wrapper>
         </>
       )}
