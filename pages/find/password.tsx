@@ -6,8 +6,13 @@ import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { useEffect, useState } from 'react';
 import useDebounce from 'hooks/useDebounce';
+import MypageHeader from 'components/mypage/request/header';
+import { useRouter } from 'next/router';
+import Modal from 'components/Modal/Modal';
 
 const FindPassword = () => {
+  const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
+  const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
   const [pwInput, setPwInput] = useState<string>('');
   const [pwShow, setPwShow] = useState<boolean>(false);
   const [pwSelected, setPwSelected] = useState<boolean>(false);
@@ -16,8 +21,11 @@ const FindPassword = () => {
   const [checkPw, setCheckPw] = useState<string>('');
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
   const [btnActive, setBtnActive] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
+
+  const router = useRouter();
 
   useEffect(() => {
     let num = password.search(/[0-9]/g);
@@ -48,6 +56,9 @@ const FindPassword = () => {
     }
     if (e.target.name === 'checkPw') {
       setCheckPw(e.target.value);
+    }
+    if (e.target.name === 'beforePw') {
+      setBeforePasswordInput(e.target.value);
     }
 
     if (pwInput.length > 10 && checkPw === pwInput) {
@@ -82,22 +93,51 @@ const FindPassword = () => {
       </InputAdornment>
     ),
   };
+
+  const handleClick = () => {
+    setOpenModal(true);
+  };
+  const handleModalYes = () => {
+    setOpenModal(false);
+    router.push('/signin');
+  };
+  const beforeAdornment = beforePwSelected ? iconAdorment : {};
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
   return (
     <Wrapper>
-      <Header />
-      <Text>새 비밀번호를 설정해주세요</Text>
+      {openModal && (
+        <Modal
+          text={'비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.'}
+          click={handleModalYes}
+        />
+      )}
+      <MypageHeader back={true} title={'비밀번호 변경'} />
+
       <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          marginTop: '45pt',
+          marginTop: '27pt',
           width: '100%',
         }}
       >
+        <BeforePassword>기존 비밀번호</BeforePassword>
+        <Input
+          placeholder="기존 비밀번호 입력"
+          onChange={handleIdChange}
+          type={pwShow ? 'text' : 'password'}
+          value={beforePasswordInput}
+          name="beforePw"
+          hiddenLabel
+          InputProps={beforeAdornment}
+          onFocus={(e) => setBeforePwSelected(true)}
+          onBlur={(e) => setBeforePwSelected(false)}
+        />
+
+        <NewPassword>기존 비밀번호</NewPassword>
         <Input
           placeholder="비밀번호 입력"
           onChange={handleIdChange}
@@ -154,8 +194,9 @@ const FindPassword = () => {
             ? true
             : false
         }
+        handleClick={handleClick}
         marginTop="33.75"
-        text={'확인'}
+        text={'수정 완료'}
       />
     </Wrapper>
   );
@@ -166,12 +207,22 @@ export default FindPassword;
 const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;
 `;
-const Text = styled.p`
-  margin-top: 6pt;
-  font-weight: 700;
-  font-size: 18pt;
-  line-height: 24pt;
-  color: ${colors.main2};
+const BeforePassword = styled.p`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+`;
+const NewPassword = styled.p`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 12pt;
+  font-weight: 500;
+  margin-top: 30pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
 `;
 
 const Input = styled(TextField)`

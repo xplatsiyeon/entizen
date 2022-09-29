@@ -40,6 +40,12 @@ const SignUpTerms = () => {
     event.stopPropagation();
     // route("/") 어디로?
   };
+  useEffect(() => {
+    console.log();
+    if (route.asPath.includes('Canceled')) {
+      route.push('/signin');
+    }
+  }, []);
   // 다음 버튼 활성화
   useEffect(() => {
     requiredTerms ? setNextBtn(true) : setNextBtn(false);
