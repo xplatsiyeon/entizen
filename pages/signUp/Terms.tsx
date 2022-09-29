@@ -10,6 +10,7 @@ import SmallCheckOnImg from 'public/images/check-small-on.svg';
 import Btn from 'components/button';
 import { useEffect, useState } from 'react';
 import { Router, useRouter } from 'next/router';
+import axios from 'axios';
 
 interface Terms {
   all: boolean;
@@ -23,6 +24,22 @@ const SignUpTerms = () => {
   const [requiredTerms, setRequiredTerms] = useState(false);
   const [selectTerms, setSelectTerms] = useState(false);
   const [nextBtn, setNextBtn] = useState(false);
+
+  const NaverLogout = async () => {
+    // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
+    const res = await axios.get('/oauth2.0/token', {
+      params: {
+        grant_type: 'delete',
+        client_id: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // Client ID
+        client_secret: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_SECRET, // Client Secret
+        access_token: route.query.token, // 발급된 Token 정보
+        service_provider: 'NAVER',
+      },
+    });
+    if (res) {
+      route.push('/signin'); // 로그인 페이지로 이동
+    }
+  };
 
   const fullTermsHandler = () => {
     if (fullTerms) {
@@ -45,6 +62,7 @@ const SignUpTerms = () => {
     if (route.asPath.includes('Canceled')) {
       route.push('/signin');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // 다음 버튼 활성화
   useEffect(() => {
@@ -137,6 +155,9 @@ const SignUpTerms = () => {
             </Item>
           </Box>
         </BottomForm>
+        <Buttons onClick={NaverLogout}>
+          <ButtonText>Logout</ButtonText>
+        </Buttons>
         <Btn
           text="본인인증하기"
           name="form_chk"
@@ -150,6 +171,28 @@ const SignUpTerms = () => {
 };
 
 export default SignUpTerms;
+
+const Buttons = styled.button`
+  background-color: #19ce60;
+
+  width: 360px;
+  height: 40px;
+
+  margin: 6px 0;
+
+  border: none;
+  border-radius: 6px;
+
+  cursor: pointer;
+`;
+
+const ButtonText = styled.h4`
+  margin: 0;
+  padding: 0;
+
+  font-size: 18px;
+  color: #ffffff;
+`;
 
 const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;
