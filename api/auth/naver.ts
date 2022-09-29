@@ -9,7 +9,7 @@ export const login = (naverLogin: any) => {
     clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
     // callbackUrl: 'https://test-api.entizen.kr/signUp/Terms', // Callback URL
     callbackUrl: 'https://test-api.entizen.kr/signin', // Callback URL
-    isPopup: false, // 팝업 형태로 인증 여부
+    isPopup: true, // 팝업 형태로 인증 여부
     callbackHandle: true,
     loginButton: {
       color: 'green', // 색상
