@@ -35,6 +35,7 @@ const Index: NextPage = () => {
 
       naverLogin.init();
     };
+
     const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     const NaverApi = async (data: any) => {
       try {
@@ -90,7 +91,7 @@ const Index: NextPage = () => {
       }
     };
     login();
-    getToken();
+    // getToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

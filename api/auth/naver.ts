@@ -1,8 +1,13 @@
 import { Route } from '@mui/icons-material';
 import axios from 'axios';
 import Router, { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-export const login = (naverLogin: any) => {
+export const login = (
+  naverLogin: any,
+  callBack: (_naverLogin: any) => void,
+) => {
   const naver = (window as any).naver;
 
   naverLogin = new naver.LoginWithNaverId({
@@ -19,6 +24,8 @@ export const login = (naverLogin: any) => {
   });
 
   naverLogin.init();
+
+  callBack(naverLogin);
 };
 
 export const getToken = (naverLogin: any, callBack: (result: any) => void) => {
@@ -49,7 +56,6 @@ export const getToken = (naverLogin: any, callBack: (result: any) => void) => {
     Router.push('/signin');
   }
 };
-
 const NaverApi = async (data: any, callBack: (result: any) => void) => {
   const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
   try {
