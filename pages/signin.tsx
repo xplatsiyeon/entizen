@@ -17,6 +17,7 @@ import naver from 'public/images/naver.svg';
 import google from 'public/images/google.svg';
 import apple from 'public/images/apple.svg';
 import Image from 'next/image';
+import { kakaoLogin } from 'api/auth/kakao';
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -163,7 +164,7 @@ const Signin = (props: Props) => {
                   }}
                 >
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
-                    <Image src={kakao} alt="kakao" />
+                    <Image onClick={kakaoLogin} src={kakao} alt="kakao" />
                   </Box>
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
                     <Image src={apple} alt="apple" />
