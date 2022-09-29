@@ -49,7 +49,7 @@ const TermContent = ({ level, setLevel }: Props) => {
   };
 
   useEffect(() => {
-    console.log('로컬스토리지입니다 => ' + localStorage.getItem('key'));
+    console.log(localStorage.getItem('key'));
 
     const memberType = 'USER';
 
