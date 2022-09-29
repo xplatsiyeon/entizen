@@ -44,11 +44,6 @@ const MypageHeader = ({
       {/* 닫기 이미지 */}
       {exitBtn && (
         <div className="exit" onClick={handleOnClick}>
-          <Image src={ExitImg} alt="exit-icon" />
-        </div>
-      )}
-      {homeBtn && (
-        <div className="home" onClick={handleHomeClick}>
           <Image src={Home} alt="home-icon" />
         </div>
       )}

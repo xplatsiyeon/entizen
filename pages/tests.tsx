@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react';
 
 type Props = {};
 
+interface Window {
+  MyNamespace: any;
+}
+
 const Tests = (props: Props) => {
   const [data, setData] = useState<any>();
-  // let form_chk: any;
-
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -20,24 +22,10 @@ const Tests = (props: Props) => {
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
       cloneDocument.form_chk.submit();
-      // document.form_chk.action =
-      //   'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-      // document.form_chk.target = 'popupChk';
-      // document.form_chk.submit();
-      //   form_chk.action =
-      //     'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-      //   form_chk.target = 'popupChk';
-      //   form_chk.submit();
-
-      cloneDocument.decryptResult = (decryptResult: any) => {
-        console.log(decryptResult);
-      };
     }
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    // form_chk = document.getElementsByName('form_chk') as any as HTMLElement;
     const memberType = 'USER';
 
     axios({
@@ -54,10 +42,6 @@ const Tests = (props: Props) => {
         console.error(error);
       });
   }, []);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <div>
