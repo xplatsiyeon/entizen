@@ -1,4 +1,3 @@
-
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import FirstStep from 'components/quotation/request/FirstStep';
@@ -12,8 +11,6 @@ import FourthStep from 'components/quotation/request/FourthStep';
 import FifthStep from 'components/quotation/request/FifthStep';
 import SixthStep from 'components/quotation/request/SixthStep';
 import Request1_7 from './1-7';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -57,29 +54,25 @@ const Quotation1_1 = () => {
           leftBtnControl={() => route.push('/')}
           rightBtnControl={HandleModal}
         />
-      )}  
-      <WebBody>
-        <WebHeader />
-          <Inner>
-            <Wrapper>
-              <Header title="간편견적" exitBtn={true} handleOnClick={HandleModal} />
-              {/* 메인 */}
-              <Body>
-              <TabBox>
-                {Object.keys(components).map((tab, index) => (
-                  <TabLine
-                  idx={index.toString()}
-                  num={tabNumber.toString()}
-                  key={tab}
-                  onClick={() => tabHandler(index)}
-                  />
-                ))}
-              </TabBox>
-              {components[tabNumber]}
-              </Body>
-              {/* 버튼 */}
-              <Footer>
-              {tabNumber === 0 ? (
+      )}
+      <Header title="간편견적" exitBtn={true} handleOnClick={HandleModal} />
+      {/* 메인 */}
+      <Body>
+        <TabBox>
+          {Object.keys(components).map((tab, index) => (
+            <TabLine
+              idx={index.toString()}
+              num={tabNumber.toString()}
+              key={tab}
+              onClick={() => tabHandler(index)}
+            />
+          ))}
+        </TabBox>
+        {components[tabNumber]}
+      </Body>
+      {/* 버튼 */}
+      <Footer>
+        {tabNumber === 0 ? (
           <Btn
             buttonActivate={buttonActivate}
             onClick={HandleBtn}
@@ -87,71 +80,22 @@ const Quotation1_1 = () => {
           >
             다음
           </Btn>
-              ) : (
-              <TwoBtn>
-                <PrevBtn buttonActivate={buttonActivate} onClick={HandlePrevBtn}>
-                  이전
-                </PrevBtn>
-                <Btn buttonActivate={buttonActivate} onClick={HandleBtn}>
-                  다음
-                </Btn>
-              </TwoBtn>
-              )}
-              </Footer>
-            </Wrapper>
-          </Inner>  
-        <WebFooter />
-      </WebBody>
+        ) : (
+          <TwoBtn>
+            <PrevBtn buttonActivate={buttonActivate} onClick={HandlePrevBtn}>
+              이전
+            </PrevBtn>
+            <Btn buttonActivate={buttonActivate} onClick={HandleBtn}>
+              다음
+            </Btn>
+          </TwoBtn>
+        )}
+      </Footer>
     </>
   );
 };
 
 export default Quotation1_1;
-
-const WebBody = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-width: 100%;
-height: 100vh;
-margin: 0 auto;
-background:#fcfcfc;
-
-@media (max-height: 809pt) {
-  display: block;
-  height: 100%;
-}
-`;
-
-const Inner = styled.div`
-display: block;
-position: relative;
-margin: 0 auto;
-width: 345pt;
-//width: 281.25pt;  
-background:#ffff;
-box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-border-radius: 12pt;
-
-@media (max-width: 899pt) {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  top: 0;
-  left: 0%;
-  transform: none;
-}
-`;
-
-const Wrapper = styled.div`
-  position:relative;  
-  margin: 0 31.875pt;
-  height: 580.5pt;
-
-  @media (max-width: 899pt) {
-    height: 100%;
-  }
-`;
 
 const Body = styled.div`
   padding-top: 12pt;
@@ -169,34 +113,23 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   width: 100%;
 `;
 const Footer = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  margin-bottom: 42pt;
-  
-  @media (max-width: 899pt) {
-    position: fixed;
-    margin-bottom: 0pt;
-  }
 `;
 const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   color: ${colors.lightWhite};
   width: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '64%')};
-  padding: 15pt 0;
+  padding: 15pt 0 39pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   margin-top: 30pt;
-  border-radius: 8px;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
-
-  @media (max-width: 899pt) {
-    padding: 15pt 0 39pt 0;
-  }
 `;
 
 const PrevBtn = styled.div<{ buttonActivate: boolean }>`

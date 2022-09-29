@@ -87,9 +87,13 @@ const AsRequest = (props: Props) => {
 export default AsRequest;
 
 const Wrapper = styled.div`
+  display: none;
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
   padding-left: 15pt;
   padding-right: 15pt;
+  @media (max-width: 899pt) {
+  display: block;
+  }
 `;
 const Badge = styled.span`
   background: ${colors.orange};

@@ -29,7 +29,7 @@ const WebHeader =()=>{
             <DivBox><Link href='/'><a>마이페이지</a></Link></DivBox>
         </Box1>
         <Box2>
-            <DivBox2><input type="text" placeholder="서비스를 검색해보세요" /> {/*emotion styled input type*/}</DivBox2>
+          {/* <DivBox2><input type="text" placeholder="서비스를 검색해보세요" /> </DivBox2> */}
             <IconBox>  
               <Image
                 src={Chat}
@@ -56,9 +56,9 @@ export default WebHeader;
 const Wrapper = styled.div`
 position:relative;
 width:100%;
-height:70pt;
-margin-bottom: 27.75pt;
+margin-bottom: 45.75pt;
 border-bottom: 1px solid #e9eaee;
+background: #ffff;
 
 @media (max-width:899pt) {
   display:none;
@@ -76,6 +76,7 @@ height:100%;
 
 const Box1 = styled.div`
 display: flex;
+height:70pt;
 }
 `
 
@@ -106,27 +107,9 @@ const DivBox = styled.div`
 `;
 
 
-
 const Box2 = styled.div`
 display: flex;
-
-input[type='text']{
-  width: 184.5pt;
-  height: 24pt;
-  margin-right:18pt;
-  margin-top: 28.5pt ;
-  margin-bottom: 28.5pt ;
-  border: 1px solid ${colors.main};
-  font-weight: normal;
-  font-size: 10.5pt;
-  line-height: 12pt;
-  font-family: Spoqa Han Sans Neo;
-  color: #caccd1;
-  padding-left: 7.5pt;
-  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
-  border-radius: 6pt;
-}
-
+height:70pt;
 }
 `
 const DivBox2 = styled.div`
