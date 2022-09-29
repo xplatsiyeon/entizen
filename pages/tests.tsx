@@ -55,6 +55,7 @@ const Tests = (props: Props) => {
     console.log('유저 데이터 -> ' + userInfo);
   }, [userInfo]);
 
+  const buttonHanlder = () => {};
   return (
     <div>
       <form name="form_chk" method="post">
@@ -76,10 +77,14 @@ const Tests = (props: Props) => {
         <input
           className="phoneInput"
           type="text"
+          value={userInfo}
           onChange={(event: any) => setUserInfo(event.target.value)}
         />
         <input className="firstNextPage" type="text" />
         {/* <a href="javascript:fnPopup();"> CheckPlus 안심본인인증 Click</a> */}
+        <button className="button" onClick={buttonHanlder}>
+          시도
+        </button>
       </form>
     </div>
   );
