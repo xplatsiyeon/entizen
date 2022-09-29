@@ -68,17 +68,24 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
       };
     } else if (name === 'standType') {
       const idx = M6_LIST.indexOf(value);
-      valueEn = M6_LIST_EN[idx];
+      if (value === '-') {
+        valueEn = '';
+      } else {
+        valueEn = M6_LIST_EN[idx];
+      }
     } else if (name === 'channel') {
       const idx = M7_LIST.indexOf(value);
-      valueEn = M7_LIST_EN[idx];
+      if (value === '-') {
+        valueEn = '';
+      } else {
+        valueEn = M7_LIST_EN[idx];
+      }
     } else if (name === 'count') {
       const idx = M8_LIST.indexOf(value);
       valueEn = M8_LIST_EN[idx];
     }
     copy[index][name] = value;
     copyEn[index][name] = valueEn;
-    console.log(copyEn);
     setSelectedOption(copy);
     setSelectedOptionEn(copyEn);
   };
