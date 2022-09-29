@@ -54,10 +54,15 @@ const Tests = (props: Props) => {
           name="EncodeData"
           value={data !== undefined && data}
         />
+
         {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
 
         {/* <button onClick={(e) => Go(e)}>CheckPlus 안심본인인증 Click</button> */}
         <button onClick={() => fnPopup()}>CheckPlus 안심본인인증 Click</button>
+        <div>1123</div>
+        <input className="nameInput" type="text" />
+        <input className="phoneInput" type="text" />
+        <input className="firstNextPage" type="text" />
         {/* <a href="javascript:fnPopup();"> CheckPlus 안심본인인증 Click</a> */}
       </form>
     </div>
