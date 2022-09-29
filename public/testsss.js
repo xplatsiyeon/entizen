@@ -2,7 +2,8 @@ let mDecryptResult;
 
 function decryptResult(decryptResult) {
   console.log(decryptResult);
-  localStorage.setItem('key', decryptResult);
+  let cc = JSON.stringify(decryptResult);
+  localStorage.setItem('key', cc);
 
   mDecryptResult = decryptResult;
 
