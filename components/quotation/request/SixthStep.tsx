@@ -101,7 +101,7 @@ const SixthStep = ({ tabNumber, setTabNumber }: Props) => {
           subscribePeriod: quotationData.subscribePeriod,
           installationAddress: locationList.locationList.roadAddrPart,
           installationLocation: quotationData.installationLocation,
-          installationPoints: quotationData.installationPoints,
+          // installationPoints: quotationData.installationPoints,
           installationPurpose: quotationData.installationPurpose,
         },
         headers: {
