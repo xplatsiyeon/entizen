@@ -21,6 +21,9 @@ import { kakaoLogin } from 'api/auth/kakao';
 import { getToken, login } from 'api/auth/naver';
 import { useDispatch } from 'react-redux';
 import { naverAction } from 'store/naverSlice';
+
+import axios from 'axios';
+
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -47,11 +50,10 @@ const Signin = (props: Props) => {
             // 로그인 상태 값이 있을 경우
             console.log('[로그인상태값] 네이버 => ' + status);
             console.log('[whj] 네이버 로그인 데이터 => ' + naverLogin);
+            console.log(naverLogin);
             // let email = naverLogin.user.getEmail();
-            // NaverApi(naverLogin, function (result) {
-            //   callBack(result);
-            // });
-            // // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
+            NaverApi(naverLogin);
+            // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
             // Router.push({
             //   pathname: '/signin',
             //   query: {
@@ -442,3 +444,29 @@ const TabBox = styled(Box)`
 //     margin-right:24pt;
 //   }
 // `
+
+const NaverApi = async (data: any) => {
+  const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+  try {
+    await axios({
+      method: 'post',
+      url: NAVER_POST,
+      data: {
+        uuid: '' + data.user.id,
+        snsType: 'NAVER',
+        snsResponse: JSON.stringify(data),
+        email: data.user.email,
+      },
+      headers: {
+        ContentType: 'application/json',
+      },
+      withCredentials: true,
+    }).then((res) => {
+      console.log('[axios] 리스폰스 => ' + res);
+      // callBack(res);
+    });
+  } catch (error) {
+    console.log('post 요청 실패');
+    console.log(error);
+  }
+};
