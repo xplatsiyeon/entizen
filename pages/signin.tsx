@@ -462,7 +462,8 @@ const NaverApi = async (data: any) => {
       },
       withCredentials: true,
     }).then((res) => {
-      console.log('[axios] 리스폰스 => ' + res);
+      console.log('[axios] 리스폰스 => ');
+      console.log(res);
       // callBack(res);
     });
   } catch (error) {
