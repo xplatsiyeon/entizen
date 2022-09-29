@@ -28,6 +28,10 @@ const Tests = (props: Props) => {
       //     'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       //   form_chk.target = 'popupChk';
       //   form_chk.submit();
+
+      cloneDocument.decryptResult = (decryptResult: any) => {
+        console.log(decryptResult);
+      };
     }
   };
 
