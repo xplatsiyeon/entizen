@@ -13,7 +13,7 @@ export const KaKaApi = async (data: any) => {
       data: {
         uuid: '' + data.id,
         snsType: 'KAKAO',
-        snsResponse: data, // json
+        snsResponse: JSON.stringify(data),
         email: data.kakao_account.email,
       },
       headers: {
