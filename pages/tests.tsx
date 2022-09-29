@@ -2,19 +2,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 type Props = {};
-function decryptResult(decryptResult: any) {
-  console.log('111' + decryptResult);
-}
+
 const Tests = (props: Props) => {
   const [data, setData] = useState<any>();
   // let form_chk: any;
-  function decryptResult(decryptResult: any) {
-    console.log('2222' + decryptResult);
-  }
+
   const fnPopup = () => {
-    function decryptResult(decryptResult: any) {
-      console.log('333' + decryptResult);
-    }
     if (typeof window !== 'object') return;
     else {
       window.open(
