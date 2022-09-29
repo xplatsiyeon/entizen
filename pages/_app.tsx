@@ -20,7 +20,6 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>Next Naver maps</title>
-        <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
       </Head>
       <Component {...pageProps} />
     </PersistGate>
