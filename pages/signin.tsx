@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Box,
   Container,
@@ -18,13 +18,23 @@ import google from 'public/images/google.svg';
 import apple from 'public/images/apple.svg';
 import Image from 'next/image';
 import { kakaoLogin } from 'api/auth/kakao';
+import { getToken, login } from 'api/auth/naver';
 type Props = {};
 
 const Signin = (props: Props) => {
   const router = useRouter();
+  const naverRef = useRef<HTMLElement | null | any>(null);
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
+  let naverLogin: any;
+  useEffect(() => {
+    login(naverLogin);
+  }, []);
+  const handleNaver = async () => {
+    naverRef.current.children[0].click();
+    getToken(naverLogin);
+  };
   return (
     <React.Fragment>
       <Body>
@@ -169,9 +179,10 @@ const Signin = (props: Props) => {
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
                     <Image src={apple} alt="apple" />
                   </Box>
-                  <Box sx={{ height: '33pt', marginRight: '15pt' }}>
-                    <Image src={naver} alt="naver" />
-                  </Box>
+                  <NaverBox>
+                    <Box id="naverIdLogin" ref={naverRef}></Box>
+                    <Image onClick={handleNaver} src={naver} alt="naver" />
+                  </NaverBox>
                   <Box sx={{ height: '33pt' }}>
                     <Image src={google} alt="google" />
                   </Box>
@@ -261,6 +272,14 @@ const Body = styled.div`
 const Inner = styled.div`
   position: relative;
   width: 100%;
+`;
+
+const NaverBox = styled(Box)`
+  height: 33pt;
+  margin-right: 15pt;
+  & #naverIdLogin_loginButton {
+    display: none;
+  }
 `;
 
 const Text = styled.p`
