@@ -15,14 +15,7 @@ import Request1_7 from './1-7';
 interface Components {
   [key: number]: JSX.Element;
 }
-const components: Components = {
-  0: <FirstStep />,
-  1: <SecondStep />,
-  2: <ThirdStep />,
-  3: <FourthStep />,
-  4: <FifthStep />,
-  5: <SixthStep />,
-};
+
 const Quotation1_1 = () => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
@@ -40,6 +33,14 @@ const Quotation1_1 = () => {
     if (tabNumber > 0) setTabNumber(tabNumber - 1);
   };
 
+  const components: Components = {
+    0: <FirstStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    1: <SecondStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    2: <ThirdStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    3: <FourthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    4: <FifthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    5: <SixthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+  };
   return (
     <>
       {isModal && (
@@ -71,26 +72,25 @@ const Quotation1_1 = () => {
         {components[tabNumber]}
       </Body>
       {/* 버튼 */}
-      <Footer>
+      {/* <Footer>
         {tabNumber === 0 ? (
-          <Btn
-            buttonActivate={buttonActivate}
-            onClick={HandleBtn}
-            tabNumber={0}
-          >
-            다음
-          </Btn>
+          <></>
         ) : (
+          // <Btn
+          //   buttonActivate={buttonActivate}
+          //   onClick={HandleBtn}
+          //   tabNumber={0}
+          // >
+          //   다음
+          // </Btn>
           <TwoBtn>
-            <PrevBtn buttonActivate={buttonActivate} onClick={HandlePrevBtn}>
-              이전
-            </PrevBtn>
+            <PrevBtn onClick={HandlePrevBtn}>이전</PrevBtn>
             <Btn buttonActivate={buttonActivate} onClick={HandleBtn}>
               다음
             </Btn>
           </TwoBtn>
         )}
-      </Footer>
+      </Footer> */}
     </>
   );
 };
@@ -112,39 +112,38 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   border-radius: 2px;
   width: 100%;
 `;
-const Footer = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-`;
-const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
-  color: ${colors.lightWhite};
-  width: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '64%')};
-  padding: 15pt 0 39pt 0;
-  text-align: center;
-  font-weight: 700;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  margin-top: 30pt;
-  background-color: ${({ buttonActivate }) =>
-    buttonActivate ? colors.main : colors.blue3};
-`;
+// const Footer = styled.div`
+//   position: fixed;
+//   bottom: 0;
+//   left: 0;
+//   width: 100%;
+// `;
+// const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
+//   color: ${colors.lightWhite};
+//   width: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '64%')};
+//   padding: 15pt 0 39pt 0;
+//   text-align: center;
+//   font-weight: 700;
+//   font-size: 12pt;
+//   line-height: 12pt;
+//   letter-spacing: -0.02em;
+//   margin-top: 30pt;
+//   background-color: ${({ buttonActivate }) =>
+//     buttonActivate ? colors.main : colors.blue3};
+// `;
 
-const PrevBtn = styled.div<{ buttonActivate: boolean }>`
-  color: ${colors.lightWhite};
-  width: 36%;
-  padding: 15pt 0 39pt 0;
-  text-align: center;
-  font-weight: 700;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  margin-top: 30pt;
-  background-color: ${({ buttonActivate }) =>
-    buttonActivate ? colors.main : colors.gray};
-`;
-const TwoBtn = styled.div`
-  display: flex;
-`;
+// const PrevBtn = styled.div`
+//   color: ${colors.lightWhite};
+//   width: 36%;
+//   padding: 15pt 0 39pt 0;
+//   text-align: center;
+//   font-weight: 700;
+//   font-size: 12pt;
+//   line-height: 12pt;
+//   letter-spacing: -0.02em;
+//   margin-top: 30pt;
+//   background-color: ${colors.gray};
+// `;
+// const TwoBtn = styled.div`
+//   display: flex;
+// `;

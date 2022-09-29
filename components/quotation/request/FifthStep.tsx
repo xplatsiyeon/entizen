@@ -1,12 +1,21 @@
 import styled from '@emotion/styled';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 interface Option {
   fisrt: string;
   second: string;
+}
+
+interface Props {
+  tabNumber: number;
+  setTabNumber: Dispatch<SetStateAction<number>>;
 }
 
 export const M11_LIST = [
@@ -18,20 +27,82 @@ export const M11_LIST = [
   '납기',
   '보증기간',
 ];
+export const M11_LIST_EN = [
+  'PRICE',
+  'AS',
+  'QUALITY',
+  'CONVENIENCE',
+  'DESIGN',
+  'DEADLINE',
+  'GUARANTEE',
+];
 
-const FifthStep = () => {
+const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
+  const dispatch = useDispatch();
+  const { installationPoints } = useSelector(
+    (state: RootState) => state.quotationData,
+  );
+  const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<Option>({
     fisrt: '',
     second: '',
   });
+  const [selectedOptionEn, setSelectedOptionEn] = useState<Option>({
+    fisrt: '',
+    second: '',
+  });
   // 셀렉터 옵션 체인지
-  const handleChange = (event: SelectChangeEvent<unknown>) => {
+  const handleChange = (event: any) => {
     const { name, value } = event.target;
+    const index = M11_LIST.indexOf(value);
+    console.log(M11_LIST_EN[index]);
+
+    setSelectedOptionEn(() => ({
+      ...selectedOptionEn,
+      [name]: M11_LIST_EN[index],
+    }));
     setSelectedOption(() => ({
       ...selectedOption,
       [name]: value,
     }));
   };
+
+  // 이전버튼
+  const HandlePrevBtn = () => {
+    setTabNumber(tabNumber - 1);
+  };
+  // 다음버튼
+  const HandleNextBtn = () => {
+    if (buttonActivate) {
+      dispatch(
+        quotationAction.setStep5([
+          selectedOptionEn.fisrt,
+          selectedOptionEn.second,
+        ]),
+      );
+      setTabNumber(tabNumber + 1);
+    }
+  };
+
+  // 데이터 기억
+  useEffect(() => {
+    if (installationPoints[0] && installationPoints[1]) {
+      const index1 = M11_LIST_EN.indexOf(installationPoints[0]);
+      const index2 = M11_LIST_EN.indexOf(installationPoints[1]);
+      setSelectedOption({
+        fisrt: M11_LIST[index1],
+        second: M11_LIST[index2],
+      });
+    }
+  }, []);
+  // 버튼 활성화
+  useEffect(() => {
+    if (selectedOption.fisrt) {
+      if (selectedOption.fisrt.length > 1 && selectedOption.second.length > 1) {
+        setButtonActivate(true);
+      }
+    }
+  }, [selectedOption]);
 
   return (
     <Wrraper>
@@ -80,6 +151,12 @@ const FifthStep = () => {
           </SelectBox>
         </InputBox>
       </SelectSection>
+      <TwoBtn>
+        <PrevBtn onClick={HandlePrevBtn}>이전</PrevBtn>
+        <NextBtn buttonActivate={buttonActivate} onClick={HandleNextBtn}>
+          다음
+        </NextBtn>
+      </TwoBtn>
     </Wrraper>
   );
 };
@@ -158,4 +235,39 @@ const Placeholder = styled.em`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.lightGray3};
+`;
+const NextBtn = styled.div<{
+  buttonActivate: boolean;
+  subscribeNumber?: number;
+}>`
+  color: ${colors.lightWhite};
+  width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${({ buttonActivate }) =>
+    buttonActivate ? colors.main : colors.blue3};
+`;
+const PrevBtn = styled.div`
+  color: ${colors.lightWhite};
+  width: 36%;
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${colors.gray};
+`;
+const TwoBtn = styled.div`
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 `;

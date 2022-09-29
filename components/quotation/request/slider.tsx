@@ -2,13 +2,17 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 
-const SliderSizes = () => {
-  const [value, setValue] = useState(50);
-  const [disabled, setDisabled] = useState(true);
+interface Props {
+  value: number;
+  setValue: Dispatch<SetStateAction<number>>;
+  disabled: boolean;
+  setDisabled: Dispatch<SetStateAction<boolean>>;
+}
 
+const SliderSizes = ({ value, setValue, disabled, setDisabled }: Props) => {
   const handleChange = (event: Event, newValue: number | number[]) => {
     setDisabled(false);
     setValue(newValue as number);

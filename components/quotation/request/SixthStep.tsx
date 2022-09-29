@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ElectricCar from 'public/guide/ElectricCar.svg';
 import Convenience from 'public/guide/Convenience.svg';
@@ -12,6 +12,13 @@ import CafeOn from 'public/guide/Cafe-on.svg';
 import PersonalOn from 'public/guide/Personal-on.svg';
 import EtcOn from 'public/guide/Etc-on.svg';
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
+import { RootState } from 'store/store';
+import { quotationAction } from 'store/quotationSlice';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { predictionApi } from 'api/quotations/prediction';
+import axios from 'axios';
 
 interface Purpose {
   id: number;
@@ -22,13 +29,13 @@ interface Purpose {
   onImg: string;
 }
 interface Props {
-  clicked: number;
-  handlePurposeOnClick: (x: number) => void;
+  tabNumber: number;
+  setTabNumber: Dispatch<SetStateAction<number>>;
 }
 const purpose: Purpose[] = [
   {
     id: 0,
-    name: 'ElectricCar',
+    name: 'BUSINESS',
     text: '전기차 충전 사업',
     subtitle: '(주유소, 휴게소 등)',
     img: ElectricCar,
@@ -36,7 +43,7 @@ const purpose: Purpose[] = [
   },
   {
     id: 1,
-    name: 'Convenience',
+    name: 'WELFARE',
     text: '편의, 복지 제공',
     subtitle: '(아파트, 직장 등)',
     img: Convenience,
@@ -44,7 +51,7 @@ const purpose: Purpose[] = [
   },
   {
     id: 2,
-    name: 'Cafe',
+    name: 'MARKETING',
     text: '모객 효과',
     subtitle: '(카페, 쇼핑몰 등)',
     img: Cafe,
@@ -52,7 +59,7 @@ const purpose: Purpose[] = [
   },
   {
     id: 3,
-    name: 'Personal',
+    name: 'PERSONAL',
     text: '개인 용도',
     subtitle: '(단독주택 등)',
     img: Personal,
@@ -60,17 +67,74 @@ const purpose: Purpose[] = [
   },
   {
     id: 4,
-    name: 'Etc',
+    name: 'ETC',
     text: '기타',
     img: Etc,
     onImg: EtcOn,
   },
 ];
 
-const SixthStep = () => {
+const SixthStep = ({ tabNumber, setTabNumber }: Props) => {
+  const router = useRouter();
   const [clicked, setClicked] = useState(-1);
-  const handlePurposeOnClick = (index: number) => setClicked(index);
+  const dispatch = useDispatch();
+  const { installationPurpose } = useSelector(
+    (state: RootState) => state.quotationData,
+  );
 
+  const handlePurposeOnClick = (index: number) => setClicked(index);
+  const [buttonActivate, setButtonActivate] = useState<boolean>(false);
+  const { quotationData, locationList } = useSelector(
+    (state: RootState) => state,
+  );
+
+  const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
+  const predictionApi = async () => {
+    try {
+      await axios({
+        method: 'post',
+        url: PREDICTION_POST,
+        data: {
+          chargers: quotationData.chargers,
+          subscribeProduct: quotationData.subscribeProduct,
+          investRate: quotationData.investRate,
+          subscribePeriod: quotationData.subscribePeriod,
+          installationAddress: locationList.locationList.roadAddrPart,
+          installationLocation: quotationData.installationLocation,
+          installationPoints: quotationData.installationPoints,
+          installationPurpose: quotationData.installationPurpose,
+        },
+        headers: {
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => console.log(res));
+    } catch (error) {
+      console.log('post 요청 실패');
+      console.log(error);
+    }
+  };
+  // 이전버튼
+  const HandlePrevBtn = () => {
+    setTabNumber((prev) => prev - 1);
+  };
+  // 다음버튼
+  const HandleNextBtn = async () => {
+    if (buttonActivate) {
+      const name = purpose[clicked].name;
+      dispatch(quotationAction.setStep6(name));
+      await predictionApi();
+      // router.push('/quotation/request/1-7');
+    }
+  };
+
+  // 버튼 활성화
+  useEffect(() => {
+    if (clicked !== -1) {
+      setButtonActivate(true);
+      console.log(purpose[clicked].name);
+    }
+  }, [clicked]);
   return (
     <Wrraper>
       <Title>충전기 설치 목적을 알려주세요</Title>
@@ -93,6 +157,12 @@ const SixthStep = () => {
           </GridItem>
         ))}
       </Intersection>
+      <TwoBtn>
+        <PrevBtn onClick={HandlePrevBtn}>이전</PrevBtn>
+        <NextBtn buttonActivate={buttonActivate} onClick={HandleNextBtn}>
+          예상견적 확인
+        </NextBtn>
+      </TwoBtn>
     </Wrraper>
   );
 };
@@ -134,4 +204,39 @@ const GridItem = styled.div<{ index: string; clicked: string }>`
     index === clicked ? `${colors.main}` : `${colors.lightGray2}`};
   color: ${({ index, clicked }) =>
     index === clicked ? `${colors.main}` : `${colors.lightGray2}`};
+`;
+const NextBtn = styled.div<{
+  buttonActivate: boolean;
+  subscribeNumber?: number;
+}>`
+  color: ${colors.lightWhite};
+  width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${({ buttonActivate }) =>
+    buttonActivate ? colors.main : colors.blue3};
+`;
+const PrevBtn = styled.div`
+  color: ${colors.lightWhite};
+  width: 36%;
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${colors.gray};
+`;
+const TwoBtn = styled.div`
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 `;

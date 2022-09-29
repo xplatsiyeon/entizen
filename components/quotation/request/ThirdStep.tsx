@@ -1,15 +1,56 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 
 import Arrow from 'public/guide/Arrow.svg';
+import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
-const ThirdStep = () => {
-  const [tabNumber, setTabNumber] = useState(-1);
+interface Props {
+  tabNumber: number;
+  setTabNumber: Dispatch<SetStateAction<number>>;
+}
+
+const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
+  const dispatch = useDispatch();
+  const { subscribeProduct, subscribePeriod } = useSelector(
+    (state: RootState) => state.quotationData,
+  );
+  const [monthNumber, setMonthNumber] = useState(-1);
   const [isMessage, setIsMessage] = useState(false);
-  const subscribeType: string[] = ['24개월', '36개월', '48개월', '60개월'];
+  const [buttonActivate, setButtonActivate] = useState<boolean>(false);
+  const subscribeType: string[] = ['24', '36', '48', '60'];
+  // 이전버튼
+  const HandlePrevBtn = () => setTabNumber(tabNumber - 1);
+  // 다음버튼
+  const HandleNextBtn = () => {
+    if (buttonActivate) {
+      dispatch(quotationAction.setStep3(subscribeType[monthNumber]));
+      setTabNumber(tabNumber + 1);
+    }
+  };
+  // 클릭한 값 기억하기
+  useEffect(() => {
+    if (subscribePeriod) {
+      setMonthNumber(subscribeType.indexOf(subscribePeriod));
+    }
+  }, []);
+  // 전체 구독 버튼 활성화
+  useEffect(() => {
+    if (subscribeProduct === 'PART' || monthNumber !== -1) {
+      setButtonActivate(true);
+    }
+  }, [monthNumber, subscribeProduct]);
+  // 부분 구독 선택 불가
+  useEffect(() => {
+    if (subscribeProduct === 'PART') {
+      setIsMessage(true);
+    }
+  }, [subscribeProduct]);
   return (
     <Wrraper>
       {/* 선택불가 메세지 */}
@@ -28,10 +69,10 @@ const ThirdStep = () => {
           <Tab
             key={index}
             idx={index.toString()}
-            tabNumber={tabNumber.toString()}
-            onClick={() => setTabNumber(index)}
+            tabNumber={monthNumber.toString()}
+            onClick={() => setMonthNumber(index)}
           >
-            {type}
+            {type}개월
           </Tab>
         ))}
       </TypeBox>
@@ -41,6 +82,12 @@ const ThirdStep = () => {
           <Image src={Arrow} alt="arrow_icon" />
         </div>
       </ChargeGuide>
+      <TwoBtn>
+        <PrevBtn onClick={HandlePrevBtn}>이전</PrevBtn>
+        <NextBtn buttonActivate={buttonActivate} onClick={HandleNextBtn}>
+          다음
+        </NextBtn>
+      </TwoBtn>
     </Wrraper>
   );
 };
@@ -132,4 +179,39 @@ const Contents = styled.p`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
+`;
+const NextBtn = styled.div<{
+  buttonActivate: boolean;
+  subscribeNumber?: number;
+}>`
+  color: ${colors.lightWhite};
+  width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${({ buttonActivate }) =>
+    buttonActivate ? colors.main : colors.blue3};
+`;
+const PrevBtn = styled.div`
+  color: ${colors.lightWhite};
+  width: 36%;
+  padding: 15pt 0 39pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${colors.gray};
+`;
+const TwoBtn = styled.div`
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 `;
