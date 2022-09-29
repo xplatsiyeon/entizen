@@ -2,7 +2,7 @@ import axios from 'axios';
 import Router from 'next/router';
 import { kakaoInit } from 'utils/kakao';
 
-const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+const KAKAO_POST = `https://test-api.entizen.kr/path/api/members/login/sns`;
 
 // 백엔드로 데이터 전송
 export const KaKaApi = async (data: any) => {
@@ -20,7 +20,7 @@ export const KaKaApi = async (data: any) => {
         ContentType: 'application/json',
       },
       withCredentials: true,
-    }).then((res) => Router.push('/'));
+    }).then((res) => console.log(res));
   } catch (error) {
     console.log('post 요청 실패');
     console.log(error);
