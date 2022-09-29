@@ -1,7 +1,9 @@
 function decryptResult(decryptResult) {
   console.log(decryptResult);
-  let first = document.querySelector('.firstNextPage');
+  const first = document.querySelector('.firstNextPage');
+  console.log(first);
   if (decryptResult) {
     first.click();
+    console.log('클릭안돼?');
   }
 }
