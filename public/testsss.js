@@ -2,6 +2,7 @@ let mDecryptResult;
 
 function decryptResult(decryptResult) {
   console.log(decryptResult);
+  localStorage.setItem('key', decryptResult);
 
   mDecryptResult = decryptResult;
 
@@ -23,6 +24,6 @@ function decryptResult(decryptResult) {
   }
 }
 
-export function test11() {
+function test11() {
   return mDecryptResult;
 }
