@@ -16,6 +16,10 @@ type Props = {
   setLevel: Dispatch<SetStateAction<number>>;
 };
 
+export function CallTest() {
+  console.log('call Test');
+}
+
 const TermContent = ({ level, setLevel }: Props) => {
   const route = useRouter();
   const [fullTerms, setFullTerms] = useState(false);
