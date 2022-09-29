@@ -13,11 +13,6 @@ interface Props {
 }
 
 const Btn = ({ text, isClick, marginTop, handleClick, modalOpen }: Props) => {
-  // const handleClick = () => {
-  //   if (setModalOpen) {
-  //     setModalOpen(!modalOpen);
-  //   }
-  // };
   return (
     <Wrapper>
       <Button

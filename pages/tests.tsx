@@ -5,31 +5,44 @@ type Props = {};
 
 const Tests = (props: Props) => {
   const [data, setData] = useState<any>();
-  let form_chk: any;
+  // let form_chk: any;
+
   const fnPopup = () => {
-    window.open(
-      '',
-      'popupChk',
-      'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
-    );
-    document.form_chk.action =
-      'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-    document.form_chk.target = 'popupChk';
-    document.form_chk.submit();
-    // form_chk.action =
-    //   'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-    // form_chk.target = 'popupChk';
-    // form_chk.submit();
+    if (typeof window !== 'object') return;
+    else {
+      window.open(
+        '',
+        'popupChk',
+        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+      );
+      let cloneDocument = document as any;
+      cloneDocument.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      cloneDocument.form_chk.target = 'popupChk';
+      cloneDocument.form_chk.submit();
+      // document.form_chk.action =
+      //   'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      // document.form_chk.target = 'popupChk';
+      // document.form_chk.submit();
+      //   form_chk.action =
+      //     'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      //   form_chk.target = 'popupChk';
+      //   form_chk.submit();
+
+      cloneDocument.decryptResult = (decryptResult: any) => {
+        console.log(decryptResult);
+      };
+    }
   };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    form_chk = document.getElementsByName('form_chk');
+    // form_chk = document.getElementsByName('form_chk') as any as HTMLElement;
     const memberType = 'USER';
 
     axios({
       method: 'post',
-      url: 'http://3.39.207.234:4000/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {

@@ -10,6 +10,7 @@ import SmallCheckOnImg from 'public/images/check-small-on.svg';
 import Btn from 'components/button';
 import { useEffect, useState } from 'react';
 import { Router, useRouter } from 'next/router';
+import axios from 'axios';
 
 interface Terms {
   all: boolean;
@@ -40,6 +41,13 @@ const SignUpTerms = () => {
     event.stopPropagation();
     // route("/") 어디로?
   };
+  useEffect(() => {
+    console.log();
+    if (route.asPath.includes('Canceled')) {
+      route.push('/signin');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // 다음 버튼 활성화
   useEffect(() => {
     requiredTerms ? setNextBtn(true) : setNextBtn(false);
@@ -144,6 +152,28 @@ const SignUpTerms = () => {
 };
 
 export default SignUpTerms;
+
+const Buttons = styled.button`
+  background-color: #19ce60;
+
+  width: 360px;
+  height: 40px;
+
+  margin: 6px 0;
+
+  border: none;
+  border-radius: 6px;
+
+  cursor: pointer;
+`;
+
+const ButtonText = styled.h4`
+  margin: 0;
+  padding: 0;
+
+  font-size: 18px;
+  color: #ffffff;
+`;
 
 const Wrapper = styled.div`
   padding: 0 15pt 15pt 15pt;
