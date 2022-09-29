@@ -73,8 +73,10 @@ const Tests = (props: Props) => {
         <button onClick={() => fnPopup()}>CheckPlus 안심본인인증 Click</button>
         <div>1123</div>
         <input className="nameInput" type="text" />
-        <input className="phoneInput" type="text"
-         onChange={(event:any) => setUserInfo(event.target.value)}></input>
+        <input
+          className="phoneInput"
+          type="text"
+          onChange={(event: any) => setUserInfo(event.target.value)}
         />
         <input className="firstNextPage" type="text" />
         {/* <a href="javascript:fnPopup();"> CheckPlus 안심본인인증 Click</a> */}
