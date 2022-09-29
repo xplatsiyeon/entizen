@@ -30,6 +30,7 @@ const Signin = (props: Props) => {
   let naverLogin: any;
   useEffect(() => {
     login(naverLogin);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleNaver = async () => {
     naverRef.current.children[0].click();
