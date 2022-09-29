@@ -94,6 +94,9 @@ const TermContent = ({ level, setLevel }: Props) => {
     if (requiredTerms && selectTerms) setFullTerms(true);
   }, [requiredTerms, selectTerms]);
   const handleOnClick = () => {};
+  const testClick = () => {
+    setLevel(level + 1);
+  };
   return (
     <>
       <Notice variant="h3">
@@ -188,8 +191,16 @@ const TermContent = ({ level, setLevel }: Props) => {
             text="본인인증하기"
             name={'form_chk'}
             handleClick={fnPopup}
+            marginTop={42.5}
             isClick={nextBtn}
           />
+          {/* <Btn
+            text="본인인증하기"
+            name={'form_chk'}
+            handleClick={testClick}
+            isClick={nextBtn}
+            marginTop={42.5}
+          /> */}
         </form>
         <Buttons className="firstNextPage" onClick={() => setLevel(level + 1)}>
           아아

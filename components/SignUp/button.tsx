@@ -7,30 +7,18 @@ interface Props {
   name?: string;
   setModalOpen?: Dispatch<SetStateAction<boolean>> | undefined;
   modalOpen?: boolean;
+  marginTop: number;
   handleClick?: (x: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Btn = ({ text, isClick, name, handleClick }: Props) => {
+const Btn = ({ text, isClick, marginTop, name, handleClick }: Props) => {
   return (
     <Button
       onClick={handleClick}
       disabled={!isClick}
       name={name}
+      marginTop={marginTop}
       isClick={isClick}
-      // sx={{
-      //   fontWeight: '700',
-      //   marginTop: `${parseInt(marginTop)}pt`,
-      //   width: '100%',
-      //   height: '42pt',
-      //   borderRadius: '6pt',
-      //   alignItems: 'center',
-      //   background: `${isClick ? '#5a2dc9' : '#E2E5ED'}`,
-      //   color: 'white',
-      //   ':hover': {
-      //     outline: `2pt solid ${colors.main}`,
-      //     borderRadius: '0',
-      //   },
-      // }}
     >
       {text}
     </Button>
@@ -39,9 +27,9 @@ const Btn = ({ text, isClick, name, handleClick }: Props) => {
 
 export default Btn;
 
-const Button = styled.button<{ isClick: boolean }>`
+const Button = styled.button<{ isClick: boolean; marginTop: number }>`
   font-weight: 700;
-  margin-top: 47.25pt;
+  margin-top: ${({ marginTop }) => marginTop && marginTop}pt;
   width: 100%;
   padding-top: 15pt;
   padding-bottom: 15pt;
