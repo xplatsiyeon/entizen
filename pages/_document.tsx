@@ -41,7 +41,7 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <script type="text/javascript" src="public/testsss.js"></script>
+          <script type="text/javascript" src="/testsss.js"></script>
           <NextScript />
         </body>
       </Html>
