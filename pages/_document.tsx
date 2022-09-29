@@ -37,10 +37,11 @@ class MyDocument extends Document {
             src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"
             charSet="utf-8"
           ></Script>
-          <Script type="text/javascript" src="public/testsss"></Script>
+          <Script type="text/javascript" src="public/testsss.js"></Script>
         </Head>
         <body>
           <Main />
+          <script type="text/javascript" src="public/testsss.js"></script>
           <NextScript />
         </body>
       </Html>
