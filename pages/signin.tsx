@@ -63,7 +63,7 @@ const Signin = (props: Props) => {
           console.log(res);
           // const match = res.config.data.match(/\((.*)\)/);
           let c = JSON.parse(res.config.data);
-          console.log('signin.tsx 65번째줄 axio 부분입니다 ! ======');
+          console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
           console.log(c);
           dispatch(
             userAction.add({
@@ -76,7 +76,7 @@ const Signin = (props: Props) => {
           );
         })
         .then((res) => {
-          router.push('/signUp/Terms');
+          // router.push('/signUp/Terms');
         });
     } catch (error) {
       console.log('post 요청 실패');
