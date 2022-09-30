@@ -23,12 +23,16 @@ import { useDispatch } from 'react-redux';
 import { naverAction } from 'store/naverSlice';
 
 import axios from 'axios';
+import { userAction } from 'store/userSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {};
 
 const Signin = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.userList);
   const naverRef = useRef<HTMLElement | null | any>(null);
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
@@ -36,6 +40,44 @@ const Signin = (props: Props) => {
   let naverLogin: any;
 
   let naverResponse: any;
+
+  const NaverApi = async (data: any) => {
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+    try {
+      await axios({
+        method: 'post',
+        url: NAVER_POST,
+        data: {
+          uuid: '' + data.user.id,
+          snsType: 'NAVER',
+          snsResponse: JSON.stringify(data),
+          email: data.user.email,
+        },
+        headers: {
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => {
+        console.log('[axios] 리스폰스 => ');
+        console.log(res);
+        // const match = res.config.data.match(/\((.*)\)/);
+        let c = JSON.parse(res.config.data);
+        console.log('signin.tsx 65번째줄 axio 부분입니다 ! ======');
+        console.log(c);
+        dispatch(
+          userAction.add({
+            ...user,
+            uuid: c.uuid,
+            email: c.email,
+            snsType: c.snsType,
+          }),
+        );
+      });
+    } catch (error) {
+      console.log('post 요청 실패');
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     login(naverLogin, function (naverLogin) {
@@ -54,12 +96,12 @@ const Signin = (props: Props) => {
             // let email = naverLogin.user.getEmail();
             NaverApi(naverLogin);
             // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
-            // Router.push({
-            //   pathname: '/signin',
-            //   query: {
-            //     token: token,
-            //   },
-            // });
+            router.push({
+              pathname: '/signUp/Terms',
+              query: {
+                token: token,
+              },
+            });
           }
         });
       }
@@ -444,30 +486,3 @@ const TabBox = styled(Box)`
 //     margin-right:24pt;
 //   }
 // `
-
-const NaverApi = async (data: any) => {
-  const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
-  try {
-    await axios({
-      method: 'post',
-      url: NAVER_POST,
-      data: {
-        uuid: '' + data.user.id,
-        snsType: 'NAVER',
-        snsResponse: JSON.stringify(data),
-        email: data.user.email,
-      },
-      headers: {
-        ContentType: 'application/json',
-      },
-      withCredentials: true,
-    }).then((res) => {
-      console.log('[axios] 리스폰스 => ');
-      console.log(res);
-      // callBack(res);
-    });
-  } catch (error) {
-    console.log('post 요청 실패');
-    console.log(error);
-  }
-};

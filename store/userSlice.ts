@@ -1,9 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState: any = {
+interface NaverLoginTypes {
+  uuid: string;
+  email: string;
+  snsType: string;
+  name: string;
+  phone: string;
+  term: boolean;
+}
+
+interface NaverLoginType {
+  user: NaverLoginTypes;
+}
+
+const initialState: NaverLoginType = {
   user: {
+    uuid: '',
+    email: '',
+    snsType: '',
     name: '',
     phone: '',
+    term: false,
   },
 };
 
@@ -11,11 +28,8 @@ const slice = createSlice({
   name: 'userList',
   initialState,
   reducers: {
-    getname(state, action) {
-      state.user.name = action.payload;
-    },
-    getphone(state, action) {
-      state.user.phone = action.payload;
+    add(state, action) {
+      state.user = action.payload;
     },
   },
 });

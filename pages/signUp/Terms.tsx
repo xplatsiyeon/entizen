@@ -7,10 +7,15 @@ import CheckImg from 'public/images/check-box.svg';
 import CheckOnImg from 'public/images/check-box-on.svg';
 import SmallCheckImg from 'public/images/check-small.svg';
 import SmallCheckOnImg from 'public/images/check-small-on.svg';
-import Btn from 'components/button';
+
 import { useEffect, useState } from 'react';
 import { Router, useRouter } from 'next/router';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { userAction } from 'store/userSlice';
+import Btn from 'components/SignUp/button';
 
 interface Terms {
   all: boolean;
@@ -21,9 +26,58 @@ interface Terms {
 const SignUpTerms = () => {
   const route = useRouter();
   const [fullTerms, setFullTerms] = useState(false);
+  const [name, setName] = useState<string>('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [requiredTerms, setRequiredTerms] = useState(false);
   const [selectTerms, setSelectTerms] = useState(false);
   const [nextBtn, setNextBtn] = useState(false);
+  const [data, setData] = useState<any>();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.userList);
+
+  // ========================== 본인인증 창 띄우기
+  const fnPopup = () => {
+    if (typeof window !== 'object') return;
+    else {
+      window.open(
+        '',
+        'popupChk',
+        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+      );
+      let cloneDocument = document as any;
+      cloneDocument.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      cloneDocument.form_chk.target = 'popupChk';
+      cloneDocument.form_chk.submit();
+    }
+  };
+  useEffect(() => {
+    // console.log(localStorage.getItem('key'));
+    const memberType = 'USER';
+
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        // console.log(res.data);
+        setData(res.data.executedData);
+        console.log('엑시오스 데이터 66번째 줄입니다   =>   ');
+        console.log(res.data.executedData);
+        // encodeData = res.data.executedData;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (route.asPath.includes('Canceled')) {
+      route.push('/signin');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fullTermsHandler = () => {
     if (fullTerms) {
@@ -36,13 +90,81 @@ const SignUpTerms = () => {
       setSelectTerms(true);
     }
   };
+
+  const handleForceClick = async () => {
+    let c = localStorage.getItem('key');
+
+    if (c !== null) {
+      let a = JSON.parse(c);
+      console.log('98번째줄 JSONPARSE된 곳입니다 !!  =>   ');
+      console.log(a);
+      setName(a.name);
+      setPhoneNumber(a.phone);
+    }
+    if (fullTerms) {
+      dispatch(
+        userAction.add({
+          ...user,
+          snsType: fullTerms,
+          name: name,
+          phone: phoneNumber,
+        }),
+      );
+
+      try {
+        await axios({
+          method: 'post',
+          url: 'https://test-api.entizen.kr/api/members/join/sns',
+          data: {
+            name: user.name,
+            phone: user.phone,
+            optionalTermsConsentStatus: [
+              {
+                optionalTermsType: 'LOCATION',
+                consentStatus: fullTerms,
+              },
+            ],
+            snsLoginIdx: 2,
+          },
+          headers: {
+            ContentType: 'application/json',
+          },
+          withCredentials: true,
+        }).then((res) => {
+          console.log('서버에 sns 로그인결과 보내는 곳입니다. ======');
+          console.log(res);
+        });
+      } catch (error) {
+        console.log('post 실패!!!!!!');
+        console.log(error);
+      }
+      // try {
+      //   await axios({
+      //     method: 'post',
+      //     url: 'https://test-api.entizen.kr/api/members/join/sns',
+      //     data: {
+      //       uuid: '' + user.uuid,
+      //       snsType: 'NAVER',
+      //       snsResponse: {},
+      //       email: data.kakao_account.email,
+      //     },
+      //     headers: {
+      //       ContentType: 'application/json',
+      //     },
+      //     withCredentials: true,
+      //   }).then((res) => console.log(res));
+      // } catch (error) {
+      //   console.log('post 요청 실패');
+      //   console.log(error);
+      // }
+    }
+  };
   // 보기 이벤트
   const TermsofServiceHandler = (event: any) => {
     event.stopPropagation();
     // route("/") 어디로?
   };
   useEffect(() => {
-    console.log();
     if (route.asPath.includes('Canceled')) {
       route.push('/signin');
     }
@@ -57,9 +179,9 @@ const SignUpTerms = () => {
     if (!requiredTerms || !selectTerms) setFullTerms(false);
     if (requiredTerms && selectTerms) setFullTerms(true);
   }, [requiredTerms, selectTerms]);
-  const handleClick = () => {
-    route.push('/signUp/Check');
-  };
+  // const handleClick = () => {
+  //   route.push('/signUp/Check');
+  // };
 
   return (
     <>
@@ -139,13 +261,39 @@ const SignUpTerms = () => {
             </Item>
           </Box>
         </BottomForm>
-        <Btn
-          text="본인인증하기"
-          name="form_chk"
-          handleClick={handleClick}
-          isClick={nextBtn}
-          marginTop="63"
-        />
+        {/* <div className="nextPage" onClick={handleOnClick}></div> */}
+        <div>
+          <form name="form_chk" method="post">
+            <input type="hidden" name="m" value="checkplusService" />
+            {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+            <input
+              type="hidden"
+              id="encodeData"
+              name="EncodeData"
+              value={data !== undefined && data}
+            />
+            {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+
+            {/* <button onClick={(e) => Go(e)}>CheckPlus 안심본인인증 Click</button> */}
+            <Btn
+              text="본인인증하기"
+              name={'form_chk'}
+              handleClick={fnPopup}
+              marginTop={42.5}
+              isClick={nextBtn}
+            />
+            {/* <Btn
+            text="본인인증하기"
+            name={'form_chk'}
+            handleClick={testClick}
+            isClick={nextBtn}
+            marginTop={42.5}
+          /> */}
+          </form>
+          <Buttons className="firstNextPage" onClick={handleForceClick}>
+            아아
+          </Buttons>
+        </div>
       </Wrapper>
     </>
   );
@@ -153,19 +301,19 @@ const SignUpTerms = () => {
 
 export default SignUpTerms;
 
-const Buttons = styled.button`
-  background-color: #19ce60;
+// const Buttons = styled.button`
+//   background-color: #19ce60;
 
-  width: 360px;
-  height: 40px;
+//   width: 360px;
+//   height: 40px;
 
-  margin: 6px 0;
+//   margin: 6px 0;
 
-  border: none;
-  border-radius: 6px;
+//   border: none;
+//   border-radius: 6px;
 
-  cursor: pointer;
-`;
+//   cursor: pointer;
+// `;
 
 const ButtonText = styled.h4`
   margin: 0;
@@ -247,4 +395,7 @@ const BottomForm = styled(Box)<{ isterms: string }>`
   & > p {
     margin-left: 12pt;
   }
+`;
+const Buttons = styled.button`
+  display: none;
 `;
