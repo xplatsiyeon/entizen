@@ -95,6 +95,13 @@ const Signin = (props: Props) => {
             console.log(naverLogin);
             // let email = naverLogin.user.getEmail();
             NaverApi(naverLogin);
+            dispatch(
+              userAction.add({
+                ...user,
+                email: naverLogin.email,
+                snsType: naverLogin.snsType,
+              }),
+            );
             // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
             router.push({
               pathname: '/signUp/Terms',
