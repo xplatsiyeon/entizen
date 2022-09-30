@@ -107,6 +107,9 @@ const SignUpTerms = () => {
           snsType: fullTerms,
         }),
       );
+      console.log('이름 =>   ' + user.name);
+      console.log('이름 =>   ' + user.phone);
+
       try {
         await axios({
           method: 'post',
@@ -120,7 +123,7 @@ const SignUpTerms = () => {
                 consentStatus: fullTerms,
               },
             ],
-            snsLoginIdx: 1,
+            snsLoginIdx: 2,
           },
           headers: {
             ContentType: 'application/json',
