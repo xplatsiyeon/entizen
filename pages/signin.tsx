@@ -23,12 +23,16 @@ import { useDispatch } from 'react-redux';
 import { naverAction } from 'store/naverSlice';
 
 import axios from 'axios';
+import { userAction } from 'store/userSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {};
 
 const Signin = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.userList);
   const naverRef = useRef<HTMLElement | null | any>(null);
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
@@ -59,9 +63,14 @@ const Signin = (props: Props) => {
         // const match = res.config.data.match(/\((.*)\)/);
         let c = JSON.parse(res.config.data);
         console.log(c);
-
-        // console.log(match);
-        // callBack(res);
+        dispatch(
+          userAction.add({
+            ...user,
+            uuid: c.uuid,
+            email: c.email,
+            snsType: c.snsType,
+          }),
+        );
       });
     } catch (error) {
       console.log('post 요청 실패');

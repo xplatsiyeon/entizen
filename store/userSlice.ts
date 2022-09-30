@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface NaverLoginTypes {
-  kind: number;
-  speed: number;
-  pro: number;
-  satisfy: number;
-  reviewText: string;
   uuid: string;
+  email: string;
+  snsType: string;
+  name: string;
+  phone: string;
+  term: boolean;
 }
 
 interface NaverLoginType {
