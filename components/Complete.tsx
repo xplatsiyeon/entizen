@@ -17,7 +17,7 @@ const Complete = ({ text, title, buttonText, handleOnClick }: Props) => {
   return (
     <Wrapper>
       <Nav>
-        <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
+        {/* <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} /> */}
       </Nav>
       <ContainerBox disableGutters>
         <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
@@ -33,8 +33,7 @@ const Complete = ({ text, title, buttonText, handleOnClick }: Props) => {
 
 export default Complete;
 
-const Wrapper = styled.div`
-`
+const Wrapper = styled.div``;
 const Nav = styled.div`
   display: none;
   justify-content: end;
@@ -51,7 +50,7 @@ const ContainerBox = styled(Container)`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  
+
   @media (max-width: 899pt) {
     margin-top: 90pt;
   }
@@ -94,7 +93,7 @@ const TextBox = styled.div`
   color: ${colors.gray2};
 
   @media (max-width: 899pt) {
-  border: 0.75pt solid ${colors.lightGray};
+    border: 0.75pt solid ${colors.lightGray};
   }
 `;
 const Btn = styled(Button)`
@@ -103,12 +102,12 @@ const Btn = styled(Button)`
   width: 30%;
   font-weight: 700;
   font-size: 10.5pt;
-  line-height: 12pt; 
+  line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   margin-bottom: 30pt;
-  padding: 9pt 12pt ;
+  padding: 9pt 12pt;
 
   @media (max-width: 899pt) {
     border-radius: 6pt;

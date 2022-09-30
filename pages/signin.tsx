@@ -69,6 +69,8 @@ const Signin = (props: Props) => {
         .then((res) => {
           console.log('response 데이터 ->');
           console.log(res);
+          router.push('/');
+          localStorage.setItem('USER_TOKEN', JSON.stringify(res.data));
         })
         .catch((error) => {
           console.log('api 에러 발생!!');

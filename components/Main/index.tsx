@@ -56,7 +56,12 @@ const MainPage = (props: Props) => {
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
         <WhetherLogin onClick={() => router.push('/signin')}>
-          <span>로그인 해주세요</span>
+          {localStorage.getItem('USER_TOKEN') ? (
+            <span>로그인 해주세요</span>
+          ) : (
+            <span>로그아웃</span>
+          )}
+
           <span>
             <Image src={whiteRight} alt="arrow" />
           </span>
