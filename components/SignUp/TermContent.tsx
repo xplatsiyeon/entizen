@@ -54,12 +54,13 @@ const TermContent = ({ level, setLevel, setName, setPhoneNumber }: Props) => {
     setLevel(level + 1);
 
     let c = localStorage.getItem('key');
-    let a: any;
+    // let a: any;
     if (c !== null) {
-      a = JSON.parse(a);
+      let a = JSON.parse(c);
+      console.log(a);
     }
     // a = localStorage.getItem('key');
-    console.log(a);
+
     // setName(a);
     // set
     // console.log('여기입니다!!!  =>    ' + a);
