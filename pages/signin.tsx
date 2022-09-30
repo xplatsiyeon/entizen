@@ -26,6 +26,7 @@ import axios from 'axios';
 import { userAction } from 'store/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { originUserAction } from 'store/userInfoSlice';
 
 type Props = {};
 
@@ -69,8 +70,15 @@ const Signin = (props: Props) => {
         .then((res) => {
           console.log('response 데이터 ->');
           console.log(res);
+          // localStorage.setItem('USER_TOKEN', JSON.stringify(res.data));
+          dispatch(
+            originUserAction.set({
+              userId: userId,
+              accessToken: res.data.accessToken,
+              refreshToken: res.data.refreshToken,
+            }),
+          );
           router.push('/');
-          localStorage.setItem('USER_TOKEN', JSON.stringify(res.data));
         })
         .catch((error) => {
           console.log('api 에러 발생!!');
