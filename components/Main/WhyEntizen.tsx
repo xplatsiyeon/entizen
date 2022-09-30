@@ -71,7 +71,7 @@ const WhyEntizen = () => {
   const movePage = (el: MenuList) => {
     switch (el.headText) {
       case '플랫폼 가이드':
-        return router.push('/searchAddress');
+        return router.push('/guide');
       case '구독 가이드':
         return router.push('/mypage');
       case '충전기 가이드':
@@ -128,21 +128,20 @@ const WhyBox = styled(Typography)`
   }
 
   @media (max-width: 899pt) {
-  text-align: left;
-  margin-bottom:0;
+    text-align: left;
+    margin-bottom: 0;
   }
 `;
 
-const GridBox = styled.div` 
+const GridBox = styled.div`
+  display: flex;
 
-display: flex;
-
-@media (max-width: 899pt) {
-  margin-top: 12pt;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 11.25pt;
-}
+  @media (max-width: 899pt) {
+    margin-top: 12pt;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 11.25pt;
+  }
 `;
 
 const GridElement = styled.div`
@@ -154,14 +153,14 @@ const GridElement = styled.div`
   box-shadow: 0px 0px 11.25pt rgba(137, 163, 201, 0.2);
 
   margin-right: 22.5pt;
-  &:nth-of-type(4){
+  &:nth-of-type(4) {
     margin-right: 0;
   }
   @media (max-width: 899pt) {
-  margin-right: 0;
-  height: 120pt;
-  box-shadow: none;
-  border-radius: 6pt;
+    margin-right: 0;
+    height: 120pt;
+    box-shadow: none;
+    border-radius: 6pt;
   }
 `;
 
@@ -176,13 +175,13 @@ const TextArea = styled.div`
   text-align: left;
   color: ${(props) => props.color};
   @media (max-width: 899pt) {
-  margin-left: 12pt;
-  margin-top: 12pt;
+    margin-left: 12pt;
+    margin-top: 12pt;
   }
 `;
 
 const ArrowImgBox = styled.div`
-display: none;
+  display: none;
   position: absolute;
   right: 12pt;
   top: 12pt;
@@ -200,8 +199,8 @@ const IconImgBox = styled.div<{ width: string; height: string }>`
   bottom: 22.5pt;
 
   @media (max-width: 899pt) {
-  left: 12pt;
-  bottom: 12pt;
+    left: 12pt;
+    bottom: 12pt;
   }
 `;
 
