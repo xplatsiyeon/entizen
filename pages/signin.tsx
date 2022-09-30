@@ -334,9 +334,7 @@ const Signin = (props: Props) => {
                   }}
                 >
                   <IdRegist>
-                    <IdRegistBtnSpan
-                      onClick={() => router.push('/signUp/Select')}
-                    >
+                    <IdRegistBtnSpan onClick={() => router.push('/testTest')}>
                       아이디로 가입하기
                     </IdRegistBtnSpan>
                   </IdRegist>
