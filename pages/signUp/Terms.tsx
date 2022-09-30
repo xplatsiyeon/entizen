@@ -93,11 +93,14 @@ const SignUpTerms = () => {
 
   const handleForceClick = async () => {
     let c = localStorage.getItem('key');
+    console.log(c);
 
     if (c !== null) {
       let a = JSON.parse(c);
       console.log('98번째줄 JSONPARSE된 곳입니다 !!  =>   ');
       console.log(a);
+      console.log(a.name);
+      console.log(a.phone);
       setName(a.name);
       setPhoneNumber(a.phone);
     }

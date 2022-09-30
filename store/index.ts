@@ -9,9 +9,15 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blacklist: ['lnglatList', 'locationList', 'requestList', 'quotationData'],
+  blacklist: [
+    'lnglatList',
+    'locationList',
+    'requestList',
+    'quotationData',
+    // 'userList',
+  ],
 };
-
+// userList
 export const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const makeConfiguredStore = (reducer: Reducer) =>
