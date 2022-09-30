@@ -5,16 +5,22 @@ import rightArrow from 'public/images/littleRightArrow.png';
 import blackRightArrow from 'public/images/blackLittleRightArrow.png';
 import React from 'react';
 import colors from 'styles/colors';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 const EntizenLibrary = (props: Props) => {
+  const router = useRouter();
   return (
     <>
       <Wrapper>
         <LearnText>엔티즌 도서관</LearnText>
         <BoardBox>
-          <LibraryList>
+          <LibraryList
+            onClick={() =>
+              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
+            }
+          >
             <ProfileImg>
               <div></div>
             </ProfileImg>
@@ -28,7 +34,11 @@ const EntizenLibrary = (props: Props) => {
               </DetailView>
             </TitleNDetail>
           </LibraryList>
-          <LibraryList>
+          <LibraryList
+            onClick={() =>
+              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
+            }
+          >
             <ProfileImg>
               <div></div>
             </ProfileImg>
@@ -42,7 +52,11 @@ const EntizenLibrary = (props: Props) => {
               </DetailView>
             </TitleNDetail>
           </LibraryList>
-          <LibraryList>
+          <LibraryList
+            onClick={() =>
+              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
+            }
+          >
             <ProfileImg>
               <div></div>
             </ProfileImg>
@@ -56,7 +70,11 @@ const EntizenLibrary = (props: Props) => {
               </DetailView>
             </TitleNDetail>
           </LibraryList>
-          <LibraryList>
+          <LibraryList
+            onClick={() =>
+              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
+            }
+          >
             <ProfileImg>
               <div></div>
             </ProfileImg>
@@ -72,7 +90,7 @@ const EntizenLibrary = (props: Props) => {
           </LibraryList>
         </BoardBox>
         <ShowAllBtnBox>
-          <ShowAllBtn>
+          <ShowAllBtn onClick={() => router.push('/library')}>
             <div>도서관</div>
             <div>&nbsp;전체보기</div>
             <div>

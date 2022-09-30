@@ -4,6 +4,13 @@ import { kakaoInit } from 'utils/kakao';
 
 const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
 
+interface Data {
+  accessToken: string;
+  isMember: boolean;
+  isSuccess: boolean;
+  refreshToken: string;
+  snsLoginIdx: number;
+}
 // 백엔드로 데이터 전송
 export const KaKaApi = async (data: any) => {
   try {

@@ -40,6 +40,13 @@ const Signin = (props: Props) => {
   let naverLogin: any;
 
   let naverResponse: any;
+  interface Data {
+    accessToken: string;
+    isMember: boolean;
+    isSuccess: boolean;
+    refreshToken: string;
+    snsLoginIdx: number;
+  }
 
   const NaverApi = async (data: any) => {
     const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;

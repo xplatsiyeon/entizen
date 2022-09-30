@@ -10,8 +10,7 @@ import { useRouter } from 'next/router';
 const Library = () => {
   const route = useRouter();
   const HandleOnClick = () => {
-    // 어디로..?
-    route.push('');
+    window.open('http://post.naver.com/entizen_ev', 'entizen_post');
   };
 
   return (
@@ -33,9 +32,9 @@ const Library = () => {
               </div>
             </div>
             {/* 뉴 아이콘 */}
-            <NewIcon>
+            {/* <NewIcon>
               <Image src={newImg} alt="new-icon" />
-            </NewIcon>
+            </NewIcon> */}
           </List>
         ))}
       </Body>
