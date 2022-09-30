@@ -67,18 +67,19 @@ const Signin = (props: Props) => {
         },
         withCredentials: true,
       })
-        .then((res) => {
+        .then(async (res) => {
           console.log('response 데이터 ->');
-          console.log(res);
+          console.log(res.data.accessToken);
+          console.log(res.data.refreshToken);
           // localStorage.setItem('USER_TOKEN', JSON.stringify(res.data));
-          dispatch(
+          await dispatch(
             originUserAction.set({
               userId: userId,
               accessToken: res.data.accessToken,
               refreshToken: res.data.refreshToken,
             }),
           );
-          router.push('/');
+          await router.push('/');
         })
         .catch((error) => {
           console.log('api 에러 발생!!');
