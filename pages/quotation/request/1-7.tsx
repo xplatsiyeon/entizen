@@ -20,10 +20,29 @@ const Request1_7 = (props: Props) => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [value, setValue] = useState(50);
   const [disabled, setDisabled] = useState(true);
-
+  const { locationList } = useSelector(
+    (state: RootState) => state.locationList,
+  );
   const { requestData } = useSelector(
     (state: RootState) => state.quotationData,
   );
+
+  const maxSubscribePricePerMonth = requestData?.maxSubscribePricePerMonth
+    .toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+    .slice(0, -3);
+  const maxTotalSubscribePrice = requestData?.maxTotalSubscribePrice
+    .toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+    .slice(0, -3);
+  const minSubscribePricePerMonth = requestData?.minSubscribePricePerMonth
+    .toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+    .slice(0, -3);
+  const minTotalSubscribePrice = requestData?.minTotalSubscribePrice
+    .toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+    .slice(0, -3);
 
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
@@ -48,7 +67,7 @@ const Request1_7 = (props: Props) => {
           <div className="mapPin-icon">
             <Image src={mapPin} alt="mapPin-icon" layout="fill" />
           </div>
-          <AddressName>LS 카페 신림점</AddressName>
+          <AddressName>${locationList.roadAddrPart}</AddressName>
         </AddressBox>
         <SubTitle>수익지분</SubTitle>
         <NameBox>
@@ -64,30 +83,22 @@ const Request1_7 = (props: Props) => {
         <ContentsWrapper>
           <div className="contents-box">
             <span className="name">
-              운영서비스 <span className="accent">월</span> 구독료
+              <span className="accent">월</span> 구독료
             </span>
             <span>
               <span className="price">
-                {`${requestData?.minSubscribePricePerMonth
-                  .toString()
-                  .substring(0, 3)} ~ ${requestData?.maxSubscribePricePerMonth
-                  .toString()
-                  .substring(0, 3)}`}
+                {`${minSubscribePricePerMonth} ~ ${maxSubscribePricePerMonth}`}
               </span>
             </span>
           </div>
           <div className="line" />
           <div className="contents-box">
             <span className="name">
-              EV충전소 설치비용 <span className="accent">월</span> 구독료
+              <span className="accent">총</span> 구독료
             </span>
             <span>
               <span className="price">
-                {`${requestData?.minTotalSubscribePrice
-                  .toString()
-                  .substring(0, 3)} ~ ${requestData?.maxTotalSubscribePrice
-                  .toString()
-                  .substring(0, 3)}`}
+                {`${minTotalSubscribePrice} ~ ${maxTotalSubscribePrice}`}
               </span>
             </span>
           </div>

@@ -111,6 +111,7 @@ const SixthStep = ({ setTabNumber }: Props) => {
         withCredentials: true,
       }).then((res) => {
         dispatch(quotationAction.setRequestData(res.data));
+        dispatch(quotationAction.init());
         router.push('/quotation/request/1-7');
       });
     } catch (error) {
