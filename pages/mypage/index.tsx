@@ -29,7 +29,7 @@ const Request = () => {
           <h1>{`${userName}님,`}</h1>
           <h2>안녕하세요!</h2>
         </span>
-        <div className="img" onClick={() => route.push('/setting/1')}>
+        <div className="img" onClick={() => route.push('/setting')}>
           <Image src={Nut} alt="nut-icon" />
         </div>
       </Header>
