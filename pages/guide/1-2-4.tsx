@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import GuideHeader from 'components/guide/header';
-<<<<<<< HEAD
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -25,10 +24,8 @@ const data = [
     overlap: true,
   },
 ];
-=======
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
->>>>>>> bd8c8513ac16be53441e29b1d0db343b3c879587
 
 const Guide1_2_4 = () => {
   const router = useRouter();

@@ -8,7 +8,6 @@ import Step1 from 'components/guide/step1';
 import Step2 from 'components/guide/step2';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
-<<<<<<< HEAD
 import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
 import {
@@ -23,10 +22,8 @@ import {
 } from 'assets/selectList';
 import { useDispatch } from 'react-redux';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
-=======
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
->>>>>>> bd8c8513ac16be53441e29b1d0db343b3c879587
 
 export interface Option {
   kind: string;
