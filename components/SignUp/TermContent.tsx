@@ -55,8 +55,7 @@ const TermContent = ({ level, setLevel, setName, setPhoneNumber }: Props) => {
     let a;
     if (localStorage.getItem('key') !== null) {
       a = localStorage.getItem('key') as string;
-      JSON.parse(a);
-      console.log(a[0]);
+
       // setName(a);
       // set
       console.log('여기입니다!!!  =>    ' + a);
