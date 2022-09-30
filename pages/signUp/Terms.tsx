@@ -64,7 +64,7 @@ const SignUpTerms = () => {
         // console.log(res.data);
         setData(res.data.executedData);
         console.log('엑시오스 데이터 66번째 줄입니다   =>   ');
-        console.log(data);
+        console.log(res.data.executedData);
         // encodeData = res.data.executedData;
       })
       .catch((error) => {
