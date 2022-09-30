@@ -6,16 +6,12 @@ import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { useEffect, useState } from 'react';
 import useDebounce from 'hooks/useDebounce';
-<<<<<<< HEAD
 import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
-=======
 import React from 'react';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
-
->>>>>>> bd8c8513ac16be53441e29b1d0db343b3c879587
 
 const FindPassword = () => {
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
@@ -254,7 +250,6 @@ const Inner = styled.div`
     transform: none;
   }
 `;
-<<<<<<< HEAD
 const BeforePassword = styled.p`
   font-family: Spoqa Han Sans Neo;
   font-size: 12pt;
@@ -271,8 +266,7 @@ const NewPassword = styled.p`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
-=======
-
+  `
 
 const Wrapper = styled.div`
   position:relative;  
@@ -289,7 +283,6 @@ const Text = styled.p`
   font-size: 18pt;
   line-height: 24pt;
   color: ${colors.main2};
->>>>>>> bd8c8513ac16be53441e29b1d0db343b3c879587
 `;
 
 const Input = styled(TextField)`
