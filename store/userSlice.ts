@@ -7,6 +7,7 @@ interface NaverLoginTypes {
   name: string;
   phone: string;
   term: boolean;
+  snsLoginIdx: number;
 }
 
 interface NaverLoginType {
@@ -21,6 +22,7 @@ const initialState: NaverLoginType = {
     name: '',
     phone: '',
     term: false,
+    snsLoginIdx: 0,
   },
 };
 

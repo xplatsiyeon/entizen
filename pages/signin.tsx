@@ -71,6 +71,7 @@ const Signin = (props: Props) => {
               uuid: c.uuid,
               email: c.email,
               snsType: c.snsType,
+              snsLoginIdx: c.snsLoginIdx,
             }),
           );
         })

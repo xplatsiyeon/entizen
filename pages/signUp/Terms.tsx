@@ -94,16 +94,6 @@ const SignUpTerms = () => {
   const handleForceClick = async () => {
     let c = localStorage.getItem('key');
     console.log(c);
-
-    // if () {
-    //   let a = JSON.parse(c);
-    //   console.log('98번째줄 JSONPARSE된 곳입니다 !!  =>   ');
-    //   console.log(a);
-    //   console.log(a.name);
-    //   console.log(a.phone);
-    //   setName(a.name);
-    //   setPhoneNumber(a.phone);
-    // }
     if (fullTerms && c !== null) {
       let a = JSON.parse(c);
 
@@ -151,25 +141,6 @@ const SignUpTerms = () => {
         console.log('post 실패!!!!!!');
         console.log(error);
       }
-      // try {
-      //   await axios({
-      //     method: 'post',
-      //     url: 'https://test-api.entizen.kr/api/members/join/sns',
-      //     data: {
-      //       uuid: '' + user.uuid,
-      //       snsType: 'NAVER',
-      //       snsResponse: {},
-      //       email: data.kakao_account.email,
-      //     },
-      //     headers: {
-      //       ContentType: 'application/json',
-      //     },
-      //     withCredentials: true,
-      //   }).then((res) => console.log(res));
-      // } catch (error) {
-      //   console.log('post 요청 실패');
-      //   console.log(error);
-      // }
     }
   };
   // 보기 이벤트
