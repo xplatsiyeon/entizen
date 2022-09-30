@@ -37,6 +37,35 @@ const Signin = (props: Props) => {
 
   let naverResponse: any;
 
+  const NaverApi = async (data: any) => {
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+    try {
+      await axios({
+        method: 'post',
+        url: NAVER_POST,
+        data: {
+          uuid: '' + data.user.id,
+          snsType: 'NAVER',
+          snsResponse: JSON.stringify(data),
+          email: data.user.email,
+        },
+        headers: {
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => {
+        console.log('[axios] 리스폰스 => ');
+        console.log(res);
+        const match = res.config.data.match(/\((.*)\)/);
+        console.log(match);
+        // callBack(res);
+      });
+    } catch (error) {
+      console.log('post 요청 실패');
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     login(naverLogin, function (naverLogin) {
       const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
@@ -444,30 +473,3 @@ const TabBox = styled(Box)`
 //     margin-right:24pt;
 //   }
 // `
-
-const NaverApi = async (data: any) => {
-  const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
-  try {
-    await axios({
-      method: 'post',
-      url: NAVER_POST,
-      data: {
-        uuid: '' + data.user.id,
-        snsType: 'NAVER',
-        snsResponse: JSON.stringify(data),
-        email: data.user.email,
-      },
-      headers: {
-        ContentType: 'application/json',
-      },
-      withCredentials: true,
-    }).then((res) => {
-      console.log('[axios] 리스폰스 => ');
-      console.log(res);
-      // callBack(res);
-    });
-  } catch (error) {
-    console.log('post 요청 실패');
-    console.log(error);
-  }
-};
