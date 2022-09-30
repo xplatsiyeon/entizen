@@ -17,20 +17,36 @@ type Props = {
   setLevel: Dispatch<SetStateAction<number>>;
   setName: Dispatch<SetStateAction<string>>;
   setPhoneNumber: Dispatch<SetStateAction<string>>;
+  fullTerms: boolean;
+  setFullTerms: Dispatch<SetStateAction<boolean>>;
+  requiredTerms: boolean;
+  setRequiredTerms: Dispatch<SetStateAction<boolean>>;
+  selectTerms: boolean;
+  setSelectTerms: Dispatch<SetStateAction<boolean>>;
+  nextBtn: boolean;
+  setNextBtn: Dispatch<SetStateAction<boolean>>;
 };
 
 export function CallTest() {
   console.log('call Test');
 }
 
-const TermContent = ({ level, setLevel, setName, setPhoneNumber }: Props) => {
+const TermContent = ({
+  level,
+  setLevel,
+  setName,
+  setPhoneNumber,
+  fullTerms,
+  setFullTerms,
+  requiredTerms,
+  setRequiredTerms,
+  selectTerms,
+  setSelectTerms,
+  nextBtn,
+  setNextBtn,
+}: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const route = useRouter();
-
-  const [fullTerms, setFullTerms] = useState(false);
-  const [requiredTerms, setRequiredTerms] = useState(false);
-  const [selectTerms, setSelectTerms] = useState(false);
-  const [nextBtn, setNextBtn] = useState(false);
 
   const [data, setData] = useState<any>();
 
@@ -58,6 +74,8 @@ const TermContent = ({ level, setLevel, setName, setPhoneNumber }: Props) => {
     if (c !== null) {
       let a = JSON.parse(c);
       console.log(a);
+      setName(a.name);
+      setPhoneNumber(a.phone);
     }
     // a = localStorage.getItem('key');
 
@@ -80,6 +98,7 @@ const TermContent = ({ level, setLevel, setName, setPhoneNumber }: Props) => {
       .then((res) => {
         // console.log(res.data);
         setData(res.data.executedData);
+        console.log(data);
         // encodeData = res.data.executedData;
       })
       .catch((error) => {
@@ -114,11 +133,13 @@ const TermContent = ({ level, setLevel, setName, setPhoneNumber }: Props) => {
   // 다음 버튼 활성화
   useEffect(() => {
     requiredTerms ? setNextBtn(true) : setNextBtn(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredTerms]);
   // 전체 약관 동의 활성화
   useEffect(() => {
     if (!requiredTerms || !selectTerms) setFullTerms(false);
     if (requiredTerms && selectTerms) setFullTerms(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredTerms, selectTerms]);
   const handleOnClick = () => {};
   const testClick = () => {

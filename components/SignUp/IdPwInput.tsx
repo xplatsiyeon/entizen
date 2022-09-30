@@ -2,30 +2,56 @@ import styled from '@emotion/styled';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import useDebounce from 'hooks/useDebounce';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import colors from 'styles/colors';
 import Btn from './button';
+import axios from 'axios';
 
-type Props = {};
+type Props = {
+  idInput: string;
+  setIdInput: Dispatch<SetStateAction<string>>;
+  pwInput: string;
+  setPwInput: Dispatch<SetStateAction<string>>;
+  checkPw: string;
+  setCheckPw: Dispatch<SetStateAction<string>>;
+  pwShow: string;
+  setPwShow: Dispatch<SetStateAction<boolean>>;
+  pwSelected: boolean;
+  setPwSelected: Dispatch<SetStateAction<boolean>>;
+  checkPwSelected: boolean;
+  setCheckPwSelected: Dispatch<SetStateAction<boolean>>;
+  checkedPw: boolean;
+  setCheckedPw: Dispatch<SetStateAction<boolean>>;
+  checkSamePw: boolean;
+  setCheckSamePw: Dispatch<SetStateAction<boolean>>;
+  name: string;
+  phoneNumber: string;
+  fullTerms: boolean;
+};
 
-const IdPwInput = (props: Props) => {
+const IdPwInput = ({
+  idInput,
+  setIdInput,
+  pwInput,
+  setPwInput,
+  checkPw,
+  setCheckPw,
+  pwShow,
+  setPwShow,
+  pwSelected,
+  setPwSelected,
+  checkPwSelected,
+  setCheckPwSelected,
+  checkedPw,
+  setCheckedPw,
+  checkSamePw,
+  setCheckSamePw,
+  name,
+  phoneNumber,
+  fullTerms,
+}: Props) => {
   const route = useRouter();
-  // id pw pw확인 상태
-  const [idInput, setIdInput] = useState<string>('');
-  const [pwInput, setPwInput] = useState<string>('');
-  const [checkPw, setCheckPw] = useState<string>('');
-
-  // 패스워드 보여주기 true false
-  const [pwShow, setPwShow] = useState<boolean>(false);
-
-  const [pwSelected, setPwSelected] = useState<boolean>(false);
-  const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
-  const [checkedPw, setCheckedPw] = useState<boolean>(false);
-  const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
-
-  // 모달 on / off
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   // 디바운스를 이용한 유효성 검사
   const password = useDebounce(pwInput, 500);
@@ -101,10 +127,38 @@ const IdPwInput = (props: Props) => {
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // setModalOpen(!modalOpen);
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (checkSamePw) {
+      try {
+        await axios({
+          method: 'post',
+          url: 'https://test-api.entizen.kr/api/members/join',
+          data: {
+            memberType: 'USER',
+            name: name,
+            phone: phoneNumber,
+            id: idInput,
+            password: checkPw,
+            optionalTermsConsentStatus: [
+              {
+                optionalTermsType: 'LOCATION',
+                consentStatus: fullTerms,
+              },
+            ],
+          },
+          headers: {
+            ContentType: 'application/json',
+          },
+          withCredentials: true,
+        }).then((res) => console.log(res));
+      } catch (error) {
+        console.log('post 실패!!!!!!');
+        console.log(error);
+      }
+    }
     route.push('/signUp/Complete');
   };
+
   return (
     <>
       <Info>
