@@ -383,7 +383,7 @@ const NaverBox = styled(Box)`
   height: 33pt;
   margin-right: 15pt;
   & #naverIdLogin_loginButton {
-    /* display: none; */
+    display: none;
   }
 `;
 
