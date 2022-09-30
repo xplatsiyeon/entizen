@@ -79,11 +79,8 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
       }
     } else if (name === 'channel') {
       const idx = M7_LIST.indexOf(value);
-      if (value === '-') {
-        valueEn = '';
-      } else {
-        valueEn = M7_LIST_EN[idx];
-      }
+
+      valueEn = M7_LIST_EN[idx];
     } else if (name === 'count') {
       const idx = M8_LIST.indexOf(value);
       valueEn = M8_LIST_EN[idx];

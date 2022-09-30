@@ -29,9 +29,12 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   // 다음버튼
   const HandleNextBtn = () => {
     if (buttonActivate) {
-      if (!isMessage) {
+      if (isMessage) {
+        dispatch(quotationAction.setStep3(subscribeType[0]));
+      } else {
         dispatch(quotationAction.setStep3(subscribeType[monthNumber]));
       }
+
       setTabNumber(tabNumber + 1);
     }
   };
