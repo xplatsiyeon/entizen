@@ -1,26 +1,17 @@
-import { useDispatch } from 'react-redux';
-import { userAction } from 'store/quotationSlice';
+let mDecryptResult;
 
 function decryptResult(decryptResult) {
-  const dispatch = useDispatch();
-
   console.log(decryptResult);
+  let cc = JSON.stringify(decryptResult);
+  localStorage.setItem('key', cc);
+  mDecryptResult = decryptResult;
   const first = document.querySelector('.firstNextPage');
-  const nameInput = document.querySelector('.nameInput');
-  const phoneInput = document.querySelector('.phoneInput');
-  console.log(first);
-  if (nameInput) {
-    nameInput.value = decryptResult.name;
-    console.log(nameInput.value);
-    dispatch(userAction.getname(nameInput.value));
-  }
-  if (phoneInput) {
-    phoneInput.value = decryptResult.phone;
-    console.log(phoneInput.value);
-    dispatch(userAction.getphon(phoneInput.value));
-  }
   if (decryptResult) {
     first.click();
     console.log('클릭안돼?');
   }
+}
+
+function test11() {
+  return mDecryptResult;
 }

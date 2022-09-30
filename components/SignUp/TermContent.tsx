@@ -10,14 +10,23 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
 import axios from 'axios';
+// import { test11 } from 'public/testsss';
 
 type Props = {
   level: number;
   setLevel: Dispatch<SetStateAction<number>>;
+  setName: Dispatch<SetStateAction<string>>;
+  setPhoneNumber: Dispatch<SetStateAction<string>>;
 };
 
-const TermContent = ({ level, setLevel }: Props) => {
+export function CallTest() {
+  console.log('call Test');
+}
+
+const TermContent = ({ level, setLevel, setName, setPhoneNumber }: Props) => {
+  // console.log('테스트11입니다 => ' + test11());
   const route = useRouter();
+
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
   const [selectTerms, setSelectTerms] = useState(false);
@@ -41,8 +50,23 @@ const TermContent = ({ level, setLevel }: Props) => {
       cloneDocument.form_chk.submit();
     }
   };
+  const handleForceClick = () => {
+    setLevel(level + 1);
+    let a: any;
+    if (localStorage.getItem('key') !== null) {
+      a = localStorage.getItem('key');
+      JSON.parse(a);
+
+      // setName(a);
+      // set
+      console.log('여기입니다!!!  =>    ' + a);
+      // JSON.stringify(a);
+      // console.log('로컬스토리지 데이터입니다 => ' + a);
+    }
+  };
 
   useEffect(() => {
+    console.log(localStorage.getItem('key'));
     const memberType = 'USER';
 
     axios({
@@ -202,7 +226,7 @@ const TermContent = ({ level, setLevel }: Props) => {
             marginTop={42.5}
           /> */}
         </form>
-        <Buttons className="firstNextPage" onClick={() => setLevel(level + 1)}>
+        <Buttons className="firstNextPage" onClick={handleForceClick}>
           아아
         </Buttons>
       </div>
