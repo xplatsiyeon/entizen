@@ -95,15 +95,15 @@ const SignUpTerms = () => {
     let c = localStorage.getItem('key');
     console.log(c);
 
-    if () {
-      let a = JSON.parse(c);
-      console.log('98번째줄 JSONPARSE된 곳입니다 !!  =>   ');
-      console.log(a);
-      console.log(a.name);
-      console.log(a.phone);
-      setName(a.name);
-      setPhoneNumber(a.phone);
-    }
+    // if () {
+    //   let a = JSON.parse(c);
+    //   console.log('98번째줄 JSONPARSE된 곳입니다 !!  =>   ');
+    //   console.log(a);
+    //   console.log(a.name);
+    //   console.log(a.phone);
+    //   setName(a.name);
+    //   setPhoneNumber(a.phone);
+    // }
     if (fullTerms && c !== null) {
       let a = JSON.parse(c);
 
@@ -116,8 +116,10 @@ const SignUpTerms = () => {
         }),
       );
 
-
       try {
+        console.log('이름 =>   ' + a.name);
+        console.log('번호 =>   ' + a.phone);
+
         await axios({
           method: 'post',
           url: 'https://test-api.entizen.kr/api/members/join/sns',
