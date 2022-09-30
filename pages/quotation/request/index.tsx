@@ -10,7 +10,6 @@ import ThirdStep from 'components/quotation/request/ThirdStep';
 import FourthStep from 'components/quotation/request/FourthStep';
 import FifthStep from 'components/quotation/request/FifthStep';
 import SixthStep from 'components/quotation/request/SixthStep';
-import Request1_7 from './1-7';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -19,19 +18,9 @@ interface Components {
 const Quotation1_1 = () => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
-  const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const [isModal, setIsModal] = useState(false);
 
   const HandleModal = () => setIsModal((prev) => !prev);
-
-  const tabHandler = (index: number) => setTabNumber(index);
-  const HandleBtn = () => {
-    if (tabNumber !== 5) setTabNumber(tabNumber + 1);
-    else route.push('/');
-  };
-  const HandlePrevBtn = () => {
-    if (tabNumber > 0) setTabNumber(tabNumber - 1);
-  };
 
   const components: Components = {
     0: <FirstStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
@@ -65,7 +54,6 @@ const Quotation1_1 = () => {
               idx={index.toString()}
               num={tabNumber.toString()}
               key={tab}
-              onClick={() => tabHandler(index)}
             />
           ))}
         </TabBox>

@@ -60,7 +60,7 @@ export const M5_TYPE_SET = [
 ];
 
 export const M5_CHANNEL_SET = [
-  ['-'],
+  ['-', '싱글'],
   ['-', '싱글'],
   ['-', '싱글'],
   ['-', '싱글'],
