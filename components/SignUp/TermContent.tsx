@@ -15,15 +15,18 @@ import axios from 'axios';
 type Props = {
   level: number;
   setLevel: Dispatch<SetStateAction<number>>;
+  setName: Dispatch<SetStateAction<string>>;
+  setPhoneNumber: Dispatch<SetStateAction<string>>;
 };
 
 export function CallTest() {
   console.log('call Test');
 }
 
-const TermContent = ({ level, setLevel }: Props) => {
+const TermContent = ({ level, setLevel, setName, setPhoneNumber }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const route = useRouter();
+
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
   const [selectTerms, setSelectTerms] = useState(false);
@@ -53,6 +56,9 @@ const TermContent = ({ level, setLevel }: Props) => {
     if (localStorage.getItem('key') !== null) {
       a = localStorage.getItem('key') as string;
       JSON.parse(a);
+      console.log(a[0]);
+      // setName(a);
+      // set
       console.log('여기입니다!!!  =>    ' + a);
       // JSON.stringify(a);
       // console.log('로컬스토리지 데이터입니다 => ' + a);
