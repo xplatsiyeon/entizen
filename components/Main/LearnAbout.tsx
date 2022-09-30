@@ -9,21 +9,25 @@ import whiteGreenRight from '/public/images/whiteGreenRight.png';
 import moneyMan from '/public/images/moneyMan.png';
 import charger from '/public/images/charger.png';
 import Image, { StaticImageData } from 'next/image';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
+interface MenuList {
+  headText: string;
+  leftImg: StaticImageData;
+  background: string;
+  topTextColor: string;
+  color: string;
+  rightImg: StaticImageData;
+  menuText: string;
+  width: number;
+  height: number;
+}
+
 const LearnAbout = (props: Props) => {
-  const menuList: {
-    headText: string;
-    leftImg: StaticImageData;
-    background: string;
-    topTextColor: string;
-    color: string;
-    rightImg: StaticImageData;
-    menuText: string;
-    width: number;
-    height: number;
-  }[] = [
+  const router = useRouter();
+  const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',
       leftImg: lightBox,
@@ -69,6 +73,21 @@ const LearnAbout = (props: Props) => {
       height: 35.52749,
     },
   ];
+
+  const movePage = (el: MenuList) => {
+    switch (el.headText) {
+      case '플랫폼 가이드':
+        return router.push('/guide/1-1');
+      case '구독 가이드':
+        return router.push('/guide/1-4');
+      case '충전기 가이드':
+        return router.push('/guide/1-5');
+      case '보조금 가이드':
+        return router.push('/guide/1-2'); //로그인 전후
+      default:
+        break;
+    }
+  };
   return (
     <>
       <Wrapper>
@@ -76,7 +95,11 @@ const LearnAbout = (props: Props) => {
         <LearnCarousel>
           <TabBox>
             {menuList.map((el, index) => (
-              <Item color={el.background} key={index}>
+              <Item
+                color={el.background}
+                key={index}
+                onClick={() => movePage(el)}
+              >
                 <ItemTitle color={el.topTextColor}>{el.headText}</ItemTitle>
                 <ContentText color={el.color}>{el.menuText}</ContentText>
                 <LeftImgBox>

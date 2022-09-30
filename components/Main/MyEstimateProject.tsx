@@ -12,8 +12,13 @@ const MyEstimateProject = (props: Props) => {
   const router = useRouter();
   return (
     <Wrapper>
+<<<<<<< HEAD
+      <BoxWrapper onClick={() => router.push('/mypage')}>
+        <Box>
+=======
       <BoxWrapper>
         <Box onClick={() => router.push('/mypage')}>
+>>>>>>> 896fce63b90ff803e6226c34c8f078fff2d2a752
           <BoxName>
             <Typography
               sx={{
@@ -36,11 +41,11 @@ const MyEstimateProject = (props: Props) => {
           </BoxName>
         </Box>
         <CountBox>
-          <Count>0</Count>
+          <Count>3</Count>
           <Amount>건</Amount>
         </CountBox>
       </BoxWrapper>
-      <BoxWrapper>
+      <BoxWrapper onClick={() => alert('2차 작업 범위 페이지입니다.')}>
         <Box>
           <BoxName>
             <Typography
@@ -64,7 +69,7 @@ const MyEstimateProject = (props: Props) => {
           </BoxName>
         </Box>
         <CountBox>
-          <Count>0</Count>
+          <Count>2</Count>
           <Amount>건</Amount>
         </CountBox>
       </BoxWrapper>

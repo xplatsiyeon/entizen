@@ -17,4 +17,5 @@ const ItemWrapper = styled.div`
   margin: 7.5% auto;
   overflow: auto;
   background-color: #eeeeee;
+  /* border: #eeeeee; */
 `;

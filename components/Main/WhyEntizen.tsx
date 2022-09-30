@@ -10,20 +10,22 @@ import bulb from 'public/images/bulb.png';
 import message from 'public/images/message.png';
 import mail from 'public/images/mail.png';
 import carnation from 'public/images/carnation.png';
+import { useRouter } from 'next/router';
 
-type Props = {};
+interface MenuList {
+  headText: string;
+  arrowIcon: StaticImageData;
+  background: string;
+  color: string;
+  bigIcon: StaticImageData;
+  menuText: string;
+  width: string;
+  height: string;
+}
 
-const WhyEntizen = (props: Props) => {
-  const menuList: {
-    headText: string;
-    arrowIcon: StaticImageData;
-    background: string;
-    color: string;
-    bigIcon: StaticImageData;
-    menuText: string;
-    width: string;
-    height: string;
-  }[] = [
+const WhyEntizen = () => {
+  const router = useRouter();
+  const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',
       arrowIcon: blackWhiteArrow,
@@ -65,6 +67,21 @@ const WhyEntizen = (props: Props) => {
       height: '42.75pt',
     },
   ];
+
+  const movePage = (el: MenuList) => {
+    switch (el.headText) {
+      case '플랫폼 가이드':
+        return router.push('/searchAddress');
+      case '구독 가이드':
+        return router.push('/mypage');
+      case '충전기 가이드':
+        return alert('2차 작업 범위 페이지입니다.');
+      case '보조금 가이드':
+        return router.push('/quotation/request');
+      default:
+        break;
+    }
+  };
   return (
     <>
       <Wrapper>
@@ -73,7 +90,11 @@ const WhyEntizen = (props: Props) => {
         </WhyBox>
         <GridBox>
           {menuList.map((el, index) => (
-            <GridElement color={el.background} key={index}>
+            <GridElement
+              color={el.background}
+              key={index}
+              onClick={() => movePage(el)}
+            >
               <TextArea color={el.color}>{el.menuText}</TextArea>
               <ArrowImgBox>
                 <Image src={el.arrowIcon} alt="icon" />

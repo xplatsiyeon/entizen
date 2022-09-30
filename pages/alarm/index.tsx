@@ -24,7 +24,7 @@ const Alam = () => {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const tabHandler = (num: number) => setTab(num);
   const onClicklist = () => {
-    router.push('/alam/1-2');
+    router.push('/alarm/1-2');
   };
   // 무한 스크롤
   const onIntersect = useCallback(
@@ -72,7 +72,7 @@ const Alam = () => {
           />
         </div>
         <span className="text">알림함</span>
-        <div className="setting-img" onClick={() => router.push('/alam/1-1')}>
+        <div className="setting-img" onClick={() => router.push('/alarm/1-1')}>
           <Image
             style={{
               cursor: 'pointer',

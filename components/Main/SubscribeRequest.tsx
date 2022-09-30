@@ -4,12 +4,16 @@ import React from 'react';
 import colors from 'styles/colors';
 import blueArrow from 'public/images/blueArrow16.png';
 import Image from 'next/image';
+import Banner from 'public/images/Main-Banner.png';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 const SubscribeRequest = (props: Props) => {
+  const router = useRouter();
   return (
-    <ImageBox>
+    <ImageBox onClick={() => router.push('/quotation/request')}>
+      <Image src={Banner} layout="fill" />
       <ButtonBox>
         <BtnText>나만의 구독상품 요청하기</BtnText>
         <BtnIcon>

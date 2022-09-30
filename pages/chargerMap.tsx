@@ -20,6 +20,7 @@ import SearchAddress from './searchAddress';
 type Props = {};
 
 const ChargerMap = (props: Props) => {
+  const router = useRouter();
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
@@ -56,7 +57,7 @@ const ChargerMap = (props: Props) => {
         );
       }
     }
-  }, [checkHeight, changeHeight]); 
+  }, [checkHeight, changeHeight]);
 
   useEffect(() => {
     if (locationList.roadAddrPart) {
@@ -113,194 +114,204 @@ const ChargerMap = (props: Props) => {
       money: '583,263 원',
     },
   ];
-  const router = useRouter();
+
   const handleBack = () => {
     router.back();
   };
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    //router.push('/searchAddress'); 
-  setType(!type);
+    //router.push('/searchAddress');
+    setType(!type);
   };
   return (
     <>
-      <WebHeader/>
+      <WebHeader />
       <Wrapper>
-      <WholeMap id="map">
-        <Header onClick={handleBack}>
-          <Image src={btnImg} alt="backBtn" />
-        </Header>
-        <SearchMapArea>
-          <Input
-            value={locationList.roadAddrPart}
-            type="submit"
-            className="searchInput"
-            onClick={handleOnClick}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <div style={{ width: '15pt', height: '15pt' }}>
-                    <Image src={search} alt="searchIcon" layout="intrinsic" />
-                  </div>
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <div style={{ width: '15pt', height: '15pt' }}>
-                    <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
-                  </div>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </SearchMapArea>
+        <WholeMap id="map">
+          <Header onClick={handleBack}>
+            <Image src={btnImg} alt="backBtn" />
+          </Header>
+          <SearchMapArea>
+            <Input
+              value={locationList.roadAddrPart}
+              type="submit"
+              className="searchInput"
+              onClick={handleOnClick}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={search} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </SearchMapArea>
 
-       {type ? <WrapAddress><SearchAddress setType={setType}/></WrapAddress>
-       : <InfoBox clicked={changeHeight} checkHeight={checkHeight?.toString()}>
-          <GoUp onClick={() => setChangeHeight(!changeHeight)}></GoUp>
-          <SelectChargerBox className="forScroll">
-            <ChargerList>
-              {clickType.map((el, index) => (
-                <Charger
-                  key={index}
-                  onClick={() => setSelectedCharger(() => index)}
-                  style={{
-                    color: selectedCharger === index ? '#595757' : '#A6A9B0',
-                    backgroundColor:
-                      selectedCharger === index ? '#ffffff' : '#F3F4F7',
-                    boxShadow:
-                      selectedCharger === index
-                        ? '0px 0px 6pt rgba(137, 163, 201, 0.2)'
-                        : 'none',
-                  }}
-                >
-                  {el}
-                </Charger>
-              ))}
-            </ChargerList>
-          </SelectChargerBox>
-          <ScrollBox scrollHeight={scrollHeight.toString()}>
-            <ChargerTypeNCountBox>
-              <ChargerTypeNCount>
-                {selectedCharger == 0
-                  ? '완속 충전기 7kW / 1대'
-                  : '급속 충전기 5kW / 1대'}
-              </ChargerTypeNCount>
-              <ChargerNotice>
-                * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로 사용해주시기
-                바랍니다.
-              </ChargerNotice>
-            </ChargerTypeNCountBox>
-            <PredictBoxWrapper>
-              {predictList.map((el, index) => (
-                <PredictBox key={index}>
-                  <div>{el.year}</div>
-                  <div>{el.amount}</div>
-                  <div>{el.howMuch}</div>
-                  <div>{el.revenue}</div>
-                  <div>{el.money}</div>
-                </PredictBox>
-              ))}
-            </PredictBoxWrapper>
-            <DidHelp>도움이 되셨나요?</DidHelp>
-            <Guide>
-              간편견적 확인하고, 상품 비교뷰터 충전 사업까지
-              <br />A to Z 서비스를 받아보세요!
-            </Guide>
-            <QuotationBtn>
-              <span>간편견적 확인하기</span>
-              <span>
-                <Image src={whiteArrow} alt="arrow" />
-              </span>
-            </QuotationBtn>
-          </ScrollBox>
-        </InfoBox> }
-
-      </WholeMap>
+          {type ? (
+            <WrapAddress>
+              <SearchAddress setType={setType} />
+            </WrapAddress>
+          ) : (
+            <InfoBox
+              clicked={changeHeight}
+              checkHeight={checkHeight?.toString()}
+            >
+              <GoUp onClick={() => setChangeHeight(!changeHeight)}></GoUp>
+              <SelectChargerBox className="forScroll">
+                <ChargerList>
+                  {clickType.map((el, index) => (
+                    <Charger
+                      key={index}
+                      onClick={() => setSelectedCharger(() => index)}
+                      style={{
+                        color:
+                          selectedCharger === index ? '#595757' : '#A6A9B0',
+                        backgroundColor:
+                          selectedCharger === index ? '#ffffff' : '#F3F4F7',
+                        boxShadow:
+                          selectedCharger === index
+                            ? '0px 0px 6pt rgba(137, 163, 201, 0.2)'
+                            : 'none',
+                      }}
+                    >
+                      {el}
+                    </Charger>
+                  ))}
+                </ChargerList>
+              </SelectChargerBox>
+              <ScrollBox scrollHeight={scrollHeight.toString()}>
+                <ChargerTypeNCountBox>
+                  <ChargerTypeNCount>
+                    {selectedCharger == 0
+                      ? '완속 충전기 7kW / 1대'
+                      : '급속 충전기 5kW / 1대'}
+                  </ChargerTypeNCount>
+                  <ChargerNotice>
+                    * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
+                    사용해주시기 바랍니다.
+                  </ChargerNotice>
+                </ChargerTypeNCountBox>
+                <PredictBoxWrapper>
+                  {predictList.map((el, index) => (
+                    <PredictBox key={index}>
+                      <div>{el.year}</div>
+                      <div>{el.amount}</div>
+                      <div>{el.howMuch}</div>
+                      <div>{el.revenue}</div>
+                      <div>{el.money}</div>
+                    </PredictBox>
+                  ))}
+                </PredictBoxWrapper>
+                <DidHelp>도움이 되셨나요?</DidHelp>
+                <Guide>
+                  간편견적 확인하고, 상품 비교뷰터 충전 사업까지
+                  <br />A to Z 서비스를 받아보세요!
+                </Guide>
+                <QuotationBtn>
+                  <span
+                    onClick={() => {
+                      router.push('/quotation/request');
+                    }}
+                  >
+                    간편견적 확인하기
+                  </span>
+                  <span>
+                    <Image src={whiteArrow} alt="arrow" />
+                  </span>
+                </QuotationBtn>
+              </ScrollBox>
+            </InfoBox>
+          )}
+        </WholeMap>
       </Wrapper>
-      <WebFooter/>
+      <WebFooter />
     </>
   );
 };
 
 const Wrapper = styled.div`
-width: 900pt;
-margin: 0 auto;
-height: 639pt;
-@media (max-width:899pt) {
-  width:100%;
-  height:100%;
-}
-
-`
+  width: 900pt;
+  margin: 0 auto;
+  height: 639pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100%;
+  }
+`;
 const WrapAddress = styled.div`
-position: relative;
-overflow-y: scroll;
-display: flex;
-flex-direction: column;
-align-items: center;
-z-index: 1000;
-width:281.25pt;
-height: 100%;
-background-color: #ffffff;
-box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
-z-index:1002;
-
-@media (max-width:899pt) {
-  width: 100%;
+  position: relative;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000;
+  width: 281.25pt;
   height: 100%;
-  position: fixed;
-  top:0;
-}
-`
+  background-color: #ffffff;
+  box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
+  z-index: 1002;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+  }
+`;
 
 const WholeMap = styled.div`
-  position:relative;
+  position: relative;
   width: 100%;
   height: 495pt;
-  display:flex;
-  margin-top:54pt;
+  display: flex;
+  margin-top: 54pt;
   border-radius: 12px;
-  border:0.75pt solid #e2e5ed;
-  
-  @media (max-width:899pt) {
+  border: 0.75pt solid #e2e5ed;
+
+  @media (max-width: 899pt) {
     display: block;
     width: 100vw;
     height: 100vh;
-    margin-top:0;
+    margin-top: 0;
     position: relative;
     overflow: hidden;
-}
+  }
 `;
 
 const Header = styled.div`
-
-display:none;
-@media (max-width:899pt) {
-  display:block;
-  position: relative;
-  width: 100%;
-  z-index: 1000;
-  padding-top: 9pt;
-  padding-left: 15pt;
-  padding-bottom: 10.5pt;  
-}
+  display: none;
+  @media (max-width: 899pt) {
+    display: block;
+    position: relative;
+    width: 100%;
+    z-index: 1000;
+    padding-top: 9pt;
+    padding-left: 15pt;
+    padding-bottom: 10.5pt;
+  }
 `;
 
 const SearchMapArea = styled.div`
-  
-position:absolute;
-width:281.25pt;
-top:0;
-z-index:1001;
-  @media (max-width:899pt) {
-    position:relative;
+  position: absolute;
+  width: 281.25pt;
+  top: 0;
+  z-index: 1001;
+  @media (max-width: 899pt) {
+    position: relative;
     height: 50pt;
-    width:100%;
+    width: 100%;
     position: relative;
     z-index: 1000;
     padding-left: 15pt;
     padding-right: 15pt;
-
   }
 `;
 
@@ -336,7 +347,7 @@ const Input = styled(TextField)`
     border: none;
   }
 
-  @media (max-width:899pt) {
+  @media (max-width: 899pt) {
     width: calc(100% - 30pt);
     margin: 0;
   }
@@ -349,13 +360,13 @@ const InfoBox = styled.div<{ clicked: boolean; checkHeight: string }>`
   flex-direction: column;
   align-items: center;
   z-index: 1000;
-  width:281.25pt;
+  width: 281.25pt;
   height: 100%;
   background-color: #ffffff;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
 
-  @media (max-width:899pt) {
-    width:100%;
+  @media (max-width: 899pt) {
+    width: 100%;
     height: ${({ checkHeight }) => checkHeight + 'pt'};
     margin-top: ${({ clicked }) => (clicked ? '12pt' : '204pt')};
   }
@@ -370,15 +381,16 @@ const ScrollBox = styled.div<{ scrollHeight: string }>`
 `;
 
 const GoUp = styled.div`
-width: 45pt;
-border: 2px solid #caccd1;
+  width: 45pt;
+  border: 1.5pt solid #caccd1;
+  margin: 0pt 5pt 5pt 5pt;
 `;
 
 const SelectChargerBox = styled.div`
   margin-top: 60pt;
   padding-left: 24pt;
   padding-right: 24pt;
-  @media (max-width:899pt) {
+  @media (max-width: 899pt) {
     margin-top: 9pt;
   }
 `;
@@ -387,11 +399,11 @@ const ChargerList = styled.div`
   width: 100%;
   display: flex;
   height: 36pt;
-  margin-top:30pt;
+  margin-top: 30pt;
   background: #f3f4f7;
   border-radius: 21.375pt;
-  
-  @media (max-width:899pt) {
+
+  @media (max-width: 899pt) {
     padding: 3pt;
   }
 `;
@@ -420,7 +432,7 @@ const ChargerTypeNCount = styled(Typography)`
   text-align: center;
   margin-bottom: 15pt;
 
-  @media (max-width:899pt) {
+  @media (max-width: 899pt) {
     margin-bottom: 0;
   }
 `;
@@ -432,12 +444,12 @@ const ChargerNotice = styled(Typography)`
   letter-spacing: -0.18pt;
   text-align: center;
   color: #a6a9b0;
-  margin: 0 52.5pt; 
-  
-  @media (max-width:899pt) { 
+  margin: 0 52.5pt;
+
+  @media (max-width: 899pt) {
     font-size: 7.5pt;
     line-height: 9pt;
-    margin:0;
+    margin: 0;
   }
 `;
 
@@ -447,7 +459,7 @@ const PredictBoxWrapper = styled.div`
   margin: 39pt 15pt 0;
   gap: 11.25pt;
 
-  @media (max-width:899pt) { 
+  @media (max-width: 899pt) {
     margin: 30pt 0 0;
   }
 `;
@@ -518,8 +530,8 @@ const DidHelp = styled.div`
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
-  
-  @media (max-width:899pt) { 
+
+  @media (max-width: 899pt) {
     margin-top: 30pt;
   }
 `;
