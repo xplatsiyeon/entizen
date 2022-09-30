@@ -61,8 +61,9 @@ const Signin = (props: Props) => {
         .then((res) => {
           console.log('[axios] 리스폰스 => ');
           console.log(res);
+          console.log(res.data);
           // const match = res.config.data.match(/\((.*)\)/);
-          let c = JSON.parse(res.data);
+          let c = res.data;
           console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
           console.log(c);
           dispatch(
@@ -76,7 +77,7 @@ const Signin = (props: Props) => {
           );
         })
         .then((res) => {
-          // router.push('/signUp/Terms');
+          router.push('/signUp/Terms');
         });
     } catch (error) {
       console.log('post 요청 실패');

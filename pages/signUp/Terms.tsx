@@ -123,7 +123,7 @@ const SignUpTerms = () => {
                 consentStatus: fullTerms,
               },
             ],
-            snsLoginIdx: 2,
+            snsLoginIdx: user.snsLoginIdx,
           },
           headers: {
             ContentType: 'application/json',
@@ -284,20 +284,6 @@ const SignUpTerms = () => {
 };
 
 export default SignUpTerms;
-
-// const Buttons = styled.button`
-//   background-color: #19ce60;
-
-//   width: 360px;
-//   height: 40px;
-
-//   margin: 6px 0;
-
-//   border: none;
-//   border-radius: 6px;
-
-//   cursor: pointer;
-// `;
 
 const ButtonText = styled.h4`
   margin: 0;
