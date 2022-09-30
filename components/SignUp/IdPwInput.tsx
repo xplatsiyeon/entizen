@@ -15,7 +15,7 @@ type Props = {
   setPwInput: Dispatch<SetStateAction<string>>;
   checkPw: string;
   setCheckPw: Dispatch<SetStateAction<string>>;
-  pwShow: string;
+  pwShow: boolean;
   setPwShow: Dispatch<SetStateAction<boolean>>;
   pwSelected: boolean;
   setPwSelected: Dispatch<SetStateAction<boolean>>;
