@@ -59,7 +59,7 @@ const Signin = (props: Props) => {
         data: {
           memberType: 'USER',
           id: userId,
-          password,
+          password: password,
         },
         headers: {
           ContentType: 'application/json',
