@@ -18,6 +18,7 @@ import {
   M8_LIST,
   M8_LIST_EN,
 } from 'assets/selectList';
+import { M5_CHANNEL_SET, M5_TYPE_SET } from 'assets/selectList';
 import { useDispatch } from 'react-redux';
 import { Option, quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
@@ -32,6 +33,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
   const { chargersKo } = useSelector((state: RootState) => state.quotationData);
   const [isValid, setIsValid] = useState(false);
+  const [m5Index, setM5Index] = useState(0);
   const [selectedOption, setSelectedOption] = useState<Option[]>([
     {
       kind: '',
@@ -57,8 +59,10 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
     const copyEn: any = [...selectedOptionEn];
     // 영어 값 추출
     let valueEn;
+
     if (name === 'kind') {
       const idx = M5_LIST.indexOf(value);
+      setM5Index(idx);
       valueEn = M5_LIST_EN[idx];
       copy[index] = {
         kind: '',
@@ -195,7 +199,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               <MenuItem value="">
                 <Placeholder>타입</Placeholder>
               </MenuItem>
-              {M6_LIST.map((option, index) => (
+              {M5_TYPE_SET[m5Index].map((option, index) => (
                 <MenuItem key={index} value={option}>
                   {option}
                 </MenuItem>
@@ -211,7 +215,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               <MenuItem value="">
                 <Placeholder>채널</Placeholder>
               </MenuItem>
-              {M7_LIST.map((option, index) => (
+              {M5_CHANNEL_SET[m5Index].map((option, index) => (
                 <MenuItem key={index} value={option}>
                   {option}
                 </MenuItem>
