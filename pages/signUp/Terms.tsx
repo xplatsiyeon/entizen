@@ -119,8 +119,8 @@ const SignUpTerms = () => {
           method: 'post',
           url: 'https://test-api.entizen.kr/api/members/join/sns',
           data: {
-            name: user.name,
-            phone: user.phone,
+            name: name,
+            phone: phone,
             optionalTermsConsentStatus: [
               {
                 optionalTermsType: 'LOCATION',
