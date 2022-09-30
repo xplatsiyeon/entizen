@@ -139,10 +139,14 @@ const SignUpTerms = () => {
             ContentType: 'application/json',
           },
           withCredentials: true,
-        }).then((res) => {
-          console.log('서버에 sns 로그인결과 보내는 곳입니다. ======');
-          console.log(res);
-        });
+        })
+          .then((res) => {
+            console.log('서버에 sns 로그인결과 보내는 곳입니다. ======');
+            console.log(res);
+          })
+          .then((res) => {
+            route.push('/signUp/Complete');
+          });
       } catch (error) {
         console.log('post 실패!!!!!!');
         console.log(error);
