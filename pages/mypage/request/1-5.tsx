@@ -9,6 +9,10 @@ import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { requestAction } from 'store/requestSlice';
+import React from 'react';
+import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'web-components/WebHeader';
+
 
 const Mypage1_5 = () => {
   const router = useRouter();
@@ -22,7 +26,11 @@ const Mypage1_5 = () => {
     dispatch(requestAction.addDate(selectedDays));
   };
   return (
-    <Wrapper>
+    <React.Fragment>
+      <Body>
+        <WebHeader />
+          <Inner>
+            <Wrapper>
       {/* 모달 */}
       {isModal && (
         <Modal click={HandleModal} text="전송이 완료되었습니다." color="red" />
@@ -60,14 +68,63 @@ const Mypage1_5 = () => {
         </UL>
       </Schedule>
       <Btn onClick={() => setIsModal((prev) => !prev)}>보내기</Btn>
-    </Wrapper>
+            </Wrapper>
+        </Inner>  
+      <WebFooter />
+    </Body>
+  </React.Fragment>
   );
 };
 
 export default Mypage1_5;
 
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  //height: 810pt;
+  background:#fcfcfc;
+
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  width: 345pt;
+  //width: 281.25pt;  
+  background:#ffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+  }
+`;
+
 const Wrapper = styled.div`
-  padding-bottom: 225pt;
+  position:relative;  
+  margin: 0 31.875pt;
+  height: 667.5pt;
+
+  @media (max-width: 899pt) {
+    padding-bottom: 225pt;
+    height: 100%;
+  }
+
+
 `;
 const H1 = styled.h1`
   padding-top: 27pt;
@@ -130,18 +187,23 @@ const UL = styled.ul`
   }
 `;
 const Btn = styled.button`
-  position: fixed;
+  position: absolute;
   bottom: 0;
-  left: 0;
   background-color: ${colors.main};
   width: 100%;
   text-align: center;
   padding-top: 15pt;
-  padding-bottom: 39pt;
+  padding-bottom: 15pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
+
+  @media (max-width: 899pt) {
+    position: fixed;
+    left: 0;
+    padding-bottom: 39pt;
+  }
 `;

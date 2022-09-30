@@ -378,7 +378,7 @@ const NextBtn = styled.button<{ checkAll: boolean }>`
   width: 100%;
   margin-top: 40.6875pt;
   padding-top: 15pt;
-  padding-bottom: 39pt;
+  padding-bottom: 15pt;
   background-color: ${({ checkAll }) =>
     checkAll ? `${colors.main}` : `${colors.blue3}`};
   font-family: Spoqa Han Sans Neo;
@@ -388,6 +388,10 @@ const NextBtn = styled.button<{ checkAll: boolean }>`
   letter-spacing: -0.02em;
   color: #ffffff;
   text-align: center;
+
+  @media (max-width: 899pt) {
+    padding-bottom: 39pt;
+  }
 `;
 
 const ImgSpan = styled.div`

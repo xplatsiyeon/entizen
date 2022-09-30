@@ -64,7 +64,10 @@ const Request = () => {
 
 export default Request;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+position: relative;
+width: 100%;
+`;
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
@@ -90,6 +93,7 @@ const Header = styled.header`
     height: 22.5pt;
     text-align: end;
   }
+
 `;
 const Body = styled.div`
   padding-top: 15pt;

@@ -109,7 +109,9 @@ const Contract = () => {
 export default Contract;
 
 const Wrapper = styled.div`
+  @media (max-width: 899pt) {
   padding-bottom: 180.75pt;
+  }
 `;
 const ListBox = styled.div`
   position: relative;

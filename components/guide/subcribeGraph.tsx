@@ -92,7 +92,10 @@ const SubcribeGraph = () => {
 export default SubcribeGraph;
 
 const Wrapper = styled.div`
+
+  @media (max-width: 899pt) {
   padding-bottom: 180.75pt;
+  }
 `;
 
 const Table = styled.table`

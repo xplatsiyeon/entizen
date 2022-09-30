@@ -140,6 +140,18 @@ const DownArrowBox = styled.div`
   justify-content: center;
 `;
 
+/*
+const Wrap = styled.div`
+width : 100% ;
+height: 410pt;
+overflow-y: scroll;
+
+@media (max-width: 899pt) {
+  height: 100%;
+  overflow-y: auto;
+}
+` */
+
 const Title = styled.h1`
   font-weight: 700;
   font-size: 15pt;

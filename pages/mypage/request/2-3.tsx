@@ -7,6 +7,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { requestAction } from 'store/requestSlice';
+import React from 'react';
+import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'web-components/WebHeader';
+
 const Mypage2_3 = () => {
   const route = useRouter();
   const dispatch = useDispatch();
@@ -28,7 +32,11 @@ const Mypage2_3 = () => {
   }
 
   return (
-    <Wrapper>
+    <React.Fragment>
+      <Body>
+        <WebHeader />
+          <Inner>
+            <Wrapper>
       <MypageHeader exitBtn={true} />
       <H1>
         일정 변경 요청을 <br />
@@ -56,14 +64,62 @@ const Mypage2_3 = () => {
           수락하기
         </button>
       </Btn>
-    </Wrapper>
+            </Wrapper>
+        </Inner>  
+      <WebFooter />
+    </Body>
+  </React.Fragment>
   );
 };
 
 export default Mypage2_3;
 
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  //height: 810pt;
+  background:#fcfcfc;
+
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  width: 345pt;
+  //width: 281.25pt;  
+  background:#ffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+  }
+`;
+
+
 const Wrapper = styled.div`
-  padding-bottom: 75pt;
+  position:relative;  
+  margin: 0 31.875pt;
+  height: 434.25pt;
+
+  @media (max-width: 899pt) {
+    height: 100%;
+    padding-bottom: 75pt;
+  }
 `;
 const H1 = styled.h1`
   padding-left: 15pt;
@@ -120,8 +176,7 @@ const Btn = styled.div<{ tabNumber: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  left: 0;
+  position: absolute;
   bottom: 0;
   width: 100%;
   & button {
@@ -133,7 +188,7 @@ const Btn = styled.div<{ tabNumber: number }>`
     color: ${colors.lightWhite};
     width: 100%;
     padding-top: 15pt;
-    padding-bottom: 39pt;
+    padding-bottom: 15pt;
   }
   .left {
     background: rgba(90, 45, 201, 0.5);
@@ -141,5 +196,11 @@ const Btn = styled.div<{ tabNumber: number }>`
   .right {
     background: ${({ tabNumber }) =>
       tabNumber !== -1 ? colors.main : colors.gray};
+  }
+
+  @media (max-width: 899pt) {
+    position: fixed;
+    left: 0;
+    padding-bottom: 39pt;
   }
 `;
