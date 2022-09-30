@@ -118,43 +118,14 @@ const SixthStep = ({ setTabNumber }: Props) => {
       console.log(error);
     }
   };
-  // 간편 견적 포스트
-  const predictionApiPart = async () => {
-    try {
-      await axios({
-        method: 'post',
-        url: PREDICTION_POST,
-        data: {
-          chargers: quotationData.chargers,
-          subscribeProduct: quotationData.subscribeProduct,
-          subscribePeriod: quotationData.subscribePeriod,
-          installationAddress: locationList.locationList.roadAddrPart,
-          installationLocation: quotationData.installationLocation,
-        },
-        headers: {
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
-        dispatch(quotationAction.setRequestData(res.data));
-        router.push('/quotation/request/1-7');
-      });
-    } catch (error) {
-      console.log('post 요청 실패');
-      console.log(error);
-    }
-  };
 
   // 다음버튼
   const HandleNextBtn = async () => {
     if (buttonActivate) {
       const name = purpose[clicked].name;
       dispatch(quotationAction.setStep6(name));
-      if (quotationData.investRate === '') {
-        await predictionApiPart();
-      } else {
-        await predictionApiEntirety();
-      }
+      // console.log('파트');
+      await predictionApiEntirety();
     }
   };
 
