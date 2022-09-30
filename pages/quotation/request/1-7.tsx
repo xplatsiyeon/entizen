@@ -27,22 +27,40 @@ const Request1_7 = (props: Props) => {
     (state: RootState) => state.quotationData,
   );
 
-  const maxSubscribePricePerMonth = requestData?.maxSubscribePricePerMonth
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-    .slice(0, -3);
-  const maxTotalSubscribePrice = requestData?.maxTotalSubscribePrice
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-    .slice(0, -3);
-  const minSubscribePricePerMonth = requestData?.minSubscribePricePerMonth
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-    .slice(0, -3);
-  const minTotalSubscribePrice = requestData?.minTotalSubscribePrice
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-    .slice(0, -3);
+  // const maxSubscribePricePerMonth = requestData?.maxSubscribePricePerMonth
+  //   .toString()
+  //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+  //   .slice(0, -3);
+  // const maxTotalSubscribePrice = requestData?.maxTotalSubscribePrice
+  //   .toString()
+  //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+  //   .slice(0, -3);
+  // const minSubscribePricePerMonth = requestData?.minSubscribePricePerMonth
+  //   .toString()
+  //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+  //   .slice(0, -3);
+  // const minTotalSubscribePrice = requestData?.minTotalSubscribePrice
+  //   .toString()
+  //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+  //   .slice(0, -3);
+
+  const PriceCalculation = (price: number) => {
+    if (price) {
+      let stringPrice = price.toString();
+      let calculatedPrice;
+
+      if (stringPrice.length <= 6) {
+        calculatedPrice = stringPrice
+          .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+          .slice(0, -3);
+      } else {
+        calculatedPrice = stringPrice
+          .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+          .slice(0, -5);
+      }
+      return calculatedPrice;
+    }
+  };
 
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
@@ -67,7 +85,7 @@ const Request1_7 = (props: Props) => {
           <div className="mapPin-icon">
             <Image src={mapPin} alt="mapPin-icon" layout="fill" />
           </div>
-          <AddressName>${locationList.roadAddrPart}</AddressName>
+          <AddressName>{locationList.jibunAddr}</AddressName>
         </AddressBox>
         <SubTitle>수익지분</SubTitle>
         <NameBox>
@@ -87,7 +105,11 @@ const Request1_7 = (props: Props) => {
             </span>
             <span>
               <span className="price">
-                {`${minSubscribePricePerMonth} ~ ${maxSubscribePricePerMonth}`}
+                {`${PriceCalculation(
+                  requestData?.minSubscribePricePerMonth!,
+                )} ~ ${PriceCalculation(
+                  requestData?.maxSubscribePricePerMonth!,
+                )}`}
               </span>
             </span>
           </div>
@@ -98,7 +120,9 @@ const Request1_7 = (props: Props) => {
             </span>
             <span>
               <span className="price">
-                {`${minTotalSubscribePrice} ~ ${maxTotalSubscribePrice}`}
+                {`${PriceCalculation(
+                  requestData?.minTotalSubscribePrice!,
+                )} ~ ${PriceCalculation(requestData?.maxTotalSubscribePrice!)}`}
               </span>
             </span>
           </div>
