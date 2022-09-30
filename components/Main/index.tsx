@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel from './Carousel';
 import EntizenLibrary from './EntizenLibrary';
 import Footer from './Footer';
@@ -24,11 +24,17 @@ import Image from 'next/image';
 import { Divider, Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {};
 
 const MainPage = (props: Props) => {
   const router = useRouter();
+  const { accessToken, refreshToken, userId } = useSelector(
+    (state: RootState) => state.originUserData,
+  );
+  const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
   });
@@ -55,12 +61,21 @@ const MainPage = (props: Props) => {
         <XBtnWrapper>
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
-        <WhetherLogin onClick={() => router.push('/signin')}>
-          <span>로그인 해주세요</span>
-          <span>
-            <Image src={whiteRight} alt="arrow" />
-          </span>
-        </WhetherLogin>
+        {isLogin ? (
+          <WhetherLogin onClick={() => router.push('/signin')}>
+            <span>{userId}</span>
+            <span>
+              <Image src={whiteRight} alt="arrow" />
+            </span>
+          </WhetherLogin>
+        ) : (
+          <WhetherLogin onClick={() => router.push('/signin')}>
+            <span>로그인 해주세요</span>
+            <span>
+              <Image src={whiteRight} alt="arrow" />
+            </span>
+          </WhetherLogin>
+        )}
 
         <WhiteArea>
           <WhiteAreaMenus onClick={() => router.push('/quotation/request')}>
@@ -135,6 +150,17 @@ const MainPage = (props: Props) => {
     </WholeBox>
   );
 
+  useEffect(() => {
+    console.log('업데이트 확인');
+    if (userId) {
+      if (userId?.length > 1) {
+        console.log('accessToken check !');
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
+    }
+  }, [userId]);
   return (
     <>
       <Container>

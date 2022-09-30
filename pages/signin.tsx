@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Box,
@@ -27,6 +26,7 @@ import axios from 'axios';
 import { userAction } from 'store/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { originUserAction } from 'store/userInfoSlice';
 
 type Props = {};
 
@@ -35,6 +35,7 @@ const Signin = (props: Props) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.userList);
   const naverRef = useRef<HTMLElement | null | any>(null);
+  const [userId, setUserId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
@@ -48,6 +49,46 @@ const Signin = (props: Props) => {
     refreshToken: string;
     snsLoginIdx: number;
   }
+
+  const originLogin = async () => {
+    console.log('로그인 온클릭');
+    const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
+    try {
+      await axios({
+        method: 'post',
+        url: ORIGIN_API,
+        data: {
+          memberType: 'USER',
+          id: userId,
+          password: password,
+        },
+        headers: {
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      })
+        .then(async (res) => {
+          console.log('response 데이터 ->');
+          console.log(res.data.accessToken);
+          console.log(res.data.refreshToken);
+          localStorage.setItem('USER_TOKEN', JSON.stringify(res.data));
+          dispatch(
+            originUserAction.set(userId),
+            // userId: userId,
+            // accessToken: res.data.accessToken,
+            // refreshToken: res.data.refreshToken,
+          );
+          await router.push('/');
+        })
+        .catch((error) => {
+          console.log('api 에러 발생!!');
+          console.log(error);
+        });
+    } catch (error) {
+      console.log('에러가 발생했다!!!');
+      console.log(error);
+    }
+  };
 
   const NaverApi = async (data: any) => {
     const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
@@ -141,11 +182,6 @@ const Signin = (props: Props) => {
   }, []);
   const handleNaver = async () => {
     naverRef.current.children[0].click();
-    // getToken(naverLogin, function (result) {
-    //   naverResponse = result;
-    //   // console.log('네이버 리스폰스 =>  ' + result);
-    //   dispatch(naverAction.load({ result }));
-    // });
   };
   return (
     <React.Fragment>
@@ -226,6 +262,9 @@ const Signin = (props: Props) => {
                   <TextField
                     id="outlined-basic"
                     placeholder="아이디 입력"
+                    onChange={(e) => {
+                      setUserId(e.target.value);
+                    }}
                     sx={{
                       width: '100%',
                       fontWeight: '400',
@@ -255,7 +294,7 @@ const Signin = (props: Props) => {
                     }}
                   />
                 </Box>
-                <LoginBtn>
+                <LoginBtn onClick={originLogin}>
                   <BtnSpan>로그인</BtnSpan>
                 </LoginBtn>
                 <Box
@@ -371,10 +410,10 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
   @media (max-height: 809pt) {
     display: block;
-    height:100%;
+    height: 100%;
   }
 `;
 
@@ -383,7 +422,7 @@ const Inner = styled.div`
   position: relative;
   margin: 45.75pt auto 0;
   width: 345pt;
-  //width: 281.25pt;  
+  //width: 281.25pt;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;
@@ -395,16 +434,16 @@ const Inner = styled.div`
     top: 0;
     left: 0%;
     transform: none;
-    padding:0;
+    padding: 0;
     box-shadow: none;
     background: none;
   }
 `;
 
 const WebWrapper = styled.div`
-  position:relative;  
+  position: relative;
   margin: 0 31.875pt;
-  
+
   @media (max-width: 899pt) {
     margin: 0;
   }
