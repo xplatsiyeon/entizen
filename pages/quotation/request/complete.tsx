@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 const Complete = () => {
   const route = useRouter();
   const HandleOnClick = () => {
-    route.push('/mypage/request');
+    route.push('/mypage');
   };
   return (
     <Wrapper>
