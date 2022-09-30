@@ -57,22 +57,26 @@ const Signin = (props: Props) => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      }).then((res) => {
-        console.log('[axios] 리스폰스 => ');
-        console.log(res);
-        // const match = res.config.data.match(/\((.*)\)/);
-        let c = JSON.parse(res.config.data);
-        console.log('signin.tsx 65번째줄 axio 부분입니다 ! ======');
-        console.log(c);
-        dispatch(
-          userAction.add({
-            ...user,
-            uuid: c.uuid,
-            email: c.email,
-            snsType: c.snsType,
-          }),
-        );
-      });
+      })
+        .then((res) => {
+          console.log('[axios] 리스폰스 => ');
+          console.log(res);
+          // const match = res.config.data.match(/\((.*)\)/);
+          let c = JSON.parse(res.config.data);
+          console.log('signin.tsx 65번째줄 axio 부분입니다 ! ======');
+          console.log(c);
+          dispatch(
+            userAction.add({
+              ...user,
+              uuid: c.uuid,
+              email: c.email,
+              snsType: c.snsType,
+            }),
+          );
+        })
+        .then((res) => {
+          router.push('/signUp/Terms');
+        });
     } catch (error) {
       console.log('post 요청 실패');
       console.log(error);
