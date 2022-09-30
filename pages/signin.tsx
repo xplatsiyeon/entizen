@@ -74,6 +74,7 @@ const Signin = (props: Props) => {
               email: d.email,
               snsType: d.snsType,
               snsLoginIdx: c.snsLoginIdx,
+              isMember: c.isMember,
             }),
           );
           if (c.isMember) {
@@ -382,7 +383,7 @@ const NaverBox = styled(Box)`
   height: 33pt;
   margin-right: 15pt;
   & #naverIdLogin_loginButton {
-    /* display: none; */
+    display: none;
   }
 `;
 
