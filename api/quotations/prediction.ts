@@ -26,8 +26,6 @@ export const predictionApi = async (
         subscribePeriod: quotationData.subscribePeriod,
         installationAddress: locationList.locationList.roadAddrPart,
         installationLocation: quotationData.installationLocation,
-        installationPoints: quotationData.installationPoints,
-        installationPurpose: quotationData.installationPurpose,
       },
       headers: {
         ContentType: 'application/json',
