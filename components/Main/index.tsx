@@ -61,13 +61,21 @@ const MainPage = (props: Props) => {
         <XBtnWrapper>
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
-        <WhetherLogin onClick={() => router.push('/signin')}>
-          {isLogin ? <span>{userId}</span> : <span>로그인 해주세요</span>}
-
-          <span>
-            <Image src={whiteRight} alt="arrow" />
-          </span>
-        </WhetherLogin>
+        {isLogin ? (
+          <WhetherLogin onClick={() => router.push('/signin')}>
+            <span>{userId}</span>
+            <span>
+              <Image src={whiteRight} alt="arrow" />
+            </span>
+          </WhetherLogin>
+        ) : (
+          <WhetherLogin onClick={() => router.push('/signin')}>
+            <span>로그인 해주세요</span>
+            <span>
+              <Image src={whiteRight} alt="arrow" />
+            </span>
+          </WhetherLogin>
+        )}
 
         <WhiteArea>
           <WhiteAreaMenus onClick={() => router.push('/quotation/request')}>
