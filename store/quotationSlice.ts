@@ -22,7 +22,7 @@ export interface Data {
   chargersKo: Option[];
   subscribeProduct: '' | 'ENTIRETY' | 'PART';
   investRate: string;
-  subscribePeriod: '24' | '26' | '48' | '60';
+  subscribePeriod: '' | '24' | '26' | '48' | '60';
   installationLocation: '' | 'OUTSIDE' | 'INSIDE';
   installationPoints: string[];
   installationPurpose: '' | string;
@@ -47,7 +47,7 @@ const initialState: Data = {
     },
   ],
   investRate: '1',
-  subscribePeriod: '24',
+  subscribePeriod: '',
   subscribeProduct: '',
   installationLocation: '',
   installationPoints: [],
