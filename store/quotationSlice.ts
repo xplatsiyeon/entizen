@@ -22,7 +22,7 @@ export interface Data {
   chargersKo: Option[];
   subscribeProduct: '' | 'ENTIRETY' | 'PART';
   investRate: string;
-  subscribePeriod: '1' | '24' | '26' | '48' | '60';
+  subscribePeriod: '24' | '26' | '48' | '60';
   installationLocation: '' | 'OUTSIDE' | 'INSIDE';
   installationPoints: string[];
   installationPurpose: '' | string;
@@ -47,7 +47,7 @@ const initialState: Data = {
     },
   ],
   investRate: '1',
-  subscribePeriod: '1',
+  subscribePeriod: '24',
   subscribeProduct: '',
   installationLocation: '',
   installationPoints: [],
@@ -82,6 +82,33 @@ const slice = createSlice({
     },
     setStep6(state, action) {
       state.installationPurpose = action.payload;
+    },
+    init(state) {
+      state = {
+        requestData: undefined,
+        chargers: [
+          {
+            kind: '',
+            standType: '',
+            channel: '',
+            count: '',
+          },
+        ],
+        chargersKo: [
+          {
+            kind: '',
+            standType: '',
+            channel: '',
+            count: '',
+          },
+        ],
+        investRate: '1',
+        subscribePeriod: '24',
+        subscribeProduct: '',
+        installationLocation: '',
+        installationPoints: [],
+        installationPurpose: '',
+      };
     },
   },
 });
