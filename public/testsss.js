@@ -5,6 +5,7 @@ function decryptResult(decryptResult) {
   let cc = JSON.stringify(decryptResult);
   localStorage.setItem('key', cc);
   mDecryptResult = decryptResult;
+  const first = document.querySelector('.firstNextPage');
   if (decryptResult) {
     first.click();
     console.log('클릭안돼?');
