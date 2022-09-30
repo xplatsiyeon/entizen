@@ -62,7 +62,7 @@ const Signin = (props: Props) => {
           console.log('[axios] 리스폰스 => ');
           console.log(res);
           // const match = res.config.data.match(/\((.*)\)/);
-          let c = JSON.parse(res.config.data);
+          let c = JSON.parse(res.data);
           console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
           console.log(c);
           dispatch(
