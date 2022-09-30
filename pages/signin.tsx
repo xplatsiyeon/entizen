@@ -64,14 +64,15 @@ const Signin = (props: Props) => {
           console.log(res.data);
           // const match = res.config.data.match(/\((.*)\)/);
           let c = res.data;
+          let d = JSON.parse(res.config.data);
           console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
           console.log(c);
           dispatch(
             userAction.add({
               ...user,
-              uuid: c.uuid,
-              email: c.email,
-              snsType: c.snsType,
+              uuid: d.uuid,
+              email: d.email,
+              snsType: d.snsType,
               snsLoginIdx: c.snsLoginIdx,
             }),
           );
