@@ -18,7 +18,6 @@ import { quotationAction } from 'store/quotationSlice';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { predictionApi } from 'api/quotations/prediction';
-import axios from 'axios';
 
 interface Purpose {
   id: number;
@@ -74,13 +73,10 @@ const purpose: Purpose[] = [
   },
 ];
 
-const SixthStep = ({ tabNumber, setTabNumber }: Props) => {
+const SixthStep = ({ setTabNumber }: Props) => {
   const router = useRouter();
   const [clicked, setClicked] = useState(-1);
   const dispatch = useDispatch();
-  const { installationPurpose } = useSelector(
-    (state: RootState) => state.quotationData,
-  );
 
   const handlePurposeOnClick = (index: number) => setClicked(index);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -88,32 +84,6 @@ const SixthStep = ({ tabNumber, setTabNumber }: Props) => {
     (state: RootState) => state,
   );
 
-  const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
-  const predictionApi = async () => {
-    try {
-      await axios({
-        method: 'post',
-        url: PREDICTION_POST,
-        data: {
-          chargers: quotationData.chargers,
-          subscribeProduct: quotationData.subscribeProduct,
-          investRate: quotationData.investRate,
-          subscribePeriod: quotationData.subscribePeriod,
-          installationAddress: locationList.locationList.roadAddrPart,
-          installationLocation: quotationData.installationLocation,
-          // installationPoints: quotationData.installationPoints,
-          // installationPurpose: quotationData.installationPurpose,
-        },
-        headers: {
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => console.log(res));
-    } catch (error) {
-      console.log('post 요청 실패');
-      console.log(error);
-    }
-  };
   // 이전버튼
   const HandlePrevBtn = () => {
     setTabNumber((prev) => prev - 1);
@@ -123,8 +93,9 @@ const SixthStep = ({ tabNumber, setTabNumber }: Props) => {
     if (buttonActivate) {
       const name = purpose[clicked].name;
       dispatch(quotationAction.setStep6(name));
+      // await predictionApi(quotationData, locationList);
       await predictionApi();
-      // router.push('/quotation/request/1-7');
+      router.push('/quotation/request/1-7');
     }
   };
 

@@ -1,13 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export interface RequesQuotationtData {
+  investRate: string;
+  isSuccess: boolean;
+  maxSubscribePricePerMonth: number;
+  maxTotalSubscribePrice: number;
+  minSubscribePricePerMonth: number;
+  minTotalSubscribePrice: number;
+  predictedProfitTime: string;
+}
+
 export interface Option {
   kind: string;
   standType: string;
   channel: string;
   count: string;
 }
-
-interface Data {
+export interface Data {
+  requestData?: RequesQuotationtData;
   chargers: Option[];
   chargersKo: Option[];
   subscribeProduct: '' | 'ENTIRETY' | 'PART';
@@ -19,6 +29,7 @@ interface Data {
 }
 
 const initialState: Data = {
+  requestData: undefined,
   chargers: [
     {
       kind: '',
@@ -45,6 +56,9 @@ const slice = createSlice({
   name: 'quotationData',
   initialState,
   reducers: {
+    setRequestData(state, action) {
+      state.requestData = action.payload;
+    },
     setChargers(state, action) {
       state.chargers = action.payload;
     },
