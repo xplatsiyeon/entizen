@@ -51,9 +51,9 @@ const TermContent = ({ level, setLevel }: Props) => {
     setLevel(level + 1);
     let a;
     if (localStorage.getItem('key') !== null) {
-      a = localStorage.getItem('key') as string;
+      a = localStorage.getItem('key');
       console.log(a);
-      JSON.parse(a);
+      JSON.stringify(a);
       // console.log('로컬스토리지 데이터입니다 => ' + a);
     }
   };
