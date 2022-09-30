@@ -7,7 +7,7 @@ export interface Option {
   count: string;
 }
 
-interface Data {
+export interface Data {
   chargers: Option[];
   chargersKo: Option[];
   subscribeProduct: '' | 'ENTIRETY' | 'PART';

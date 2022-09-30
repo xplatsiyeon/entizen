@@ -71,26 +71,6 @@ const Quotation1_1 = () => {
         </TabBox>
         {components[tabNumber]}
       </Body>
-      {/* 버튼 */}
-      {/* <Footer>
-        {tabNumber === 0 ? (
-          <></>
-        ) : (
-          // <Btn
-          //   buttonActivate={buttonActivate}
-          //   onClick={HandleBtn}
-          //   tabNumber={0}
-          // >
-          //   다음
-          // </Btn>
-          <TwoBtn>
-            <PrevBtn onClick={HandlePrevBtn}>이전</PrevBtn>
-            <Btn buttonActivate={buttonActivate} onClick={HandleBtn}>
-              다음
-            </Btn>
-          </TwoBtn>
-        )}
-      </Footer> */}
     </>
   );
 };
@@ -112,38 +92,3 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   border-radius: 2px;
   width: 100%;
 `;
-// const Footer = styled.div`
-//   position: fixed;
-//   bottom: 0;
-//   left: 0;
-//   width: 100%;
-// `;
-// const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
-//   color: ${colors.lightWhite};
-//   width: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '64%')};
-//   padding: 15pt 0 39pt 0;
-//   text-align: center;
-//   font-weight: 700;
-//   font-size: 12pt;
-//   line-height: 12pt;
-//   letter-spacing: -0.02em;
-//   margin-top: 30pt;
-//   background-color: ${({ buttonActivate }) =>
-//     buttonActivate ? colors.main : colors.blue3};
-// `;
-
-// const PrevBtn = styled.div`
-//   color: ${colors.lightWhite};
-//   width: 36%;
-//   padding: 15pt 0 39pt 0;
-//   text-align: center;
-//   font-weight: 700;
-//   font-size: 12pt;
-//   line-height: 12pt;
-//   letter-spacing: -0.02em;
-//   margin-top: 30pt;
-//   background-color: ${colors.gray};
-// `;
-// const TwoBtn = styled.div`
-//   display: flex;
-// `;
