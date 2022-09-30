@@ -11,6 +11,9 @@ import QuotationModal from 'components/Modal/QuotationModal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
+import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'web-components/WebHeader';
+
 type Props = {};
 
 const Request1_7 = (props: Props) => {
@@ -58,7 +61,11 @@ const Request1_7 = (props: Props) => {
     console.log('버튼 컨트롤');
   };
   return (
-    <Wrapper>
+    <React.Fragment>
+      <WebBody>
+        <WebHeader />
+          <Inner>
+            <Wrapper>
       {isModal && <QuotationModal isModal={isModal} setIsModal={setIsModal} />}
       <Header
         title="간편견적"
@@ -131,15 +138,73 @@ const Request1_7 = (props: Props) => {
       <Btn buttonActivate={buttonActivate} onClick={handleButton}>
         구독상품 견적요청
       </Btn>
-    </Wrapper>
+            </Wrapper>
+          </Inner>  
+        <WebFooter />
+      </WebBody>
+    </React.Fragment>
   );
 };
 
 export default Request1_7;
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  //height: 810pt;
+  background:#fcfcfc;
 
-const Wrapper = styled.div``;
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  width: 345pt;
+  //width: 281.25pt;  
+  background:#ffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;  
+  padding: 32.25pt 0 42pt;
+
+@media (max-width: 899pt) {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  top: 0;
+  left: 0%;
+  transform: none;
+  padding:0;
+  box-shadow: none;
+  background: none;
+}
+@media (max-height: 500pt) {
+  height: 100%;
+}
+`;
+
+const Wrapper = styled.div`
+position:relative;  
+margin: 0 31.875pt;
+
+@media (max-width: 899pt) {
+  height: 100%;
+  margin: 0;
+}
+`
 const Body = styled.div`
-  padding: 27pt 15pt 111pt 15pt;
+  padding: 27pt 15pt 45pt 15pt;
+
+  @media (max-width: 899pt) {
+    padding: 27pt 15pt 111pt 15pt;
+  }
 `;
 const AddressBox = styled.div`
   display: flex;
@@ -251,11 +316,10 @@ const RequestForm = styled.form`
 `;
 const Btn = styled.div<{ buttonActivate: boolean }>`
   white-space: pre-wrap;
-  position: fixed;
+  position: ablsolute;
   bottom: 0;
-  left: 0;
   width: 100%;
-  padding: 15pt 0 39pt 0;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -263,4 +327,13 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   background-color: ${colors.main};
+  border-radius: 8px;
+  //margin-bottom: 20pt;
+
+  @media (max-width: 899pt) { 
+  position: fixed;
+  left: 0;
+  padding: 15pt 0 39pt 0;
+  margin-bottom: 0pt;
+  }
 `;

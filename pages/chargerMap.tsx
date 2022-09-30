@@ -244,6 +244,13 @@ height: 100%;
 background-color: #ffffff;
 box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
 z-index:1002;
+
+@media (max-width:899pt) {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top:0;q
+}
 `
 
 const WholeMap = styled.div`

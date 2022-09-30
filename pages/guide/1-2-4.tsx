@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import GuideHeader from 'components/guide/header';
+<<<<<<< HEAD
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -24,11 +25,17 @@ const data = [
     overlap: true,
   },
 ];
+=======
+import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'web-components/WebHeader';
+>>>>>>> bd8c8513ac16be53441e29b1d0db343b3c879587
 
 const Guide1_2_4 = () => {
   const router = useRouter();
 
   return (
+      <Body>
+      <WebHeader />
     <Wrapper>
       <GuideHeader
         title={'보조금 가이드'}
@@ -73,10 +80,29 @@ const Guide1_2_4 = () => {
       </Notice>
       <Btn> 보조금 확인하기</Btn>
     </Wrapper>
+      <WebFooter />
+    </Body>
   );
 };
 
 export default Guide1_2_4;
+
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  //height: 810pt;
+  background:#fcfcfc;
+
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100vh;
+  }
+`;
+
 
 const Wrapper = styled.div`
   padding-bottom: 100pt;
@@ -157,6 +183,7 @@ const Notice = styled.p`
   padding-top: 72pt;
 `;
 const Btn = styled.div`
+  display: none;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -170,4 +197,8 @@ const Btn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 33pt;
   background-color: ${colors.main};
+
+  @media (max-width: 899pt) {
+    display: block;
+  }
 `;

@@ -20,8 +20,14 @@ const BtnBox = styled.div`
   position: relative;
   padding-left: 15pt;
   padding-right: 15pt;
+  margin-top: 25pt;
+  margin-bottom: 15pt;
+
+  @media (max-width: 899pt) {
   margin-top: 45pt;
   margin-bottom: 36pt;
+}
+
 `;
 const ReviewCheck = styled.button`
   width: 100%;

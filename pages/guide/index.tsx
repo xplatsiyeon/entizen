@@ -5,6 +5,7 @@ import colors from 'styles/colors';
 import bell from 'public/images/guide-bell.svg';
 import list from 'public/images/list-bar.svg';
 import banner from 'public/guide/guide-main-banner.png';
+import banner2 from 'public/guide/guide0.png';
 import arrow from 'public/images/right-arrow.svg';
 import fee_icon from 'public/guide/fee-icon.svg';
 import subsidy_icon from 'public/guide/subsidy-icon.svg';
@@ -14,6 +15,8 @@ import arrow_small from 'public/images/arrow.svg';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
+import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'web-components/WebFooter';
 
 const Guide1 = () => {
   const router = useRouter();
@@ -24,6 +27,9 @@ const Guide1 = () => {
   };
 
   return (
+    <Body>
+      <WebHeader />
+        <Inner>
     <Wrapper>
       <Header>
         <span className="left">가이드</span>
@@ -32,9 +38,15 @@ const Guide1 = () => {
           <Image onClick={() => pageHandler('')} src={list} alt="hamburger" />
         </div>
       </Header>
+      <Wrap>
       <Platform onClick={() => pageHandler('/guide/1-1')}>
         <div className="img-box">
           <Image src={banner} alt="platform" layout="fill" />
+        </div>
+      </Platform>
+      <Platform onClick={() => pageHandler('/guide/1-1')}>
+        <div className="img-box">
+          <Image src={banner2} alt="platform" layout="fill" />
         </div>
       </Platform>
       <SubsidyBox>
@@ -47,6 +59,9 @@ const Guide1 = () => {
           <Image src={fee_icon} alt="fee_icon" />
         </Fee>
       </SubsidyBox>
+      </Wrap>
+      <Wrap>
+
       <GuideBox onClick={() => pageHandler('/guide/1-4')}>
         <span>
           <div className="name_box">
@@ -79,6 +94,7 @@ const Guide1 = () => {
           <Image src={subscribe_icon} alt="subscribe_icon" />
         </div>
       </GuideBox>
+      </Wrap>
       <EntizenLibrary onClick={() => pageHandler('')}>
         <Btn>
           &nbsp; 보러가기
@@ -88,16 +104,59 @@ const Guide1 = () => {
         </Btn>
       </EntizenLibrary>
       <BottomNavigation />
-    </Wrapper>
+    </Wrapper>  
+          </Inner>
+        <WebFooter />
+      </Body>
   );
 };
 
 export default Guide1;
 
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  //height: 810pt;
+  background:#fcfcfc;
+
+  @media (max-height: 809pt) {
+    display: block;
+    height:100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  width:900pt;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+  }
+@media (max-height: 500pt) {
+  height: 100%;
+}
+`;
+
 const Wrapper = styled.div`
   padding: 0 20pt;
   padding-bottom: 30pt;
+
+  @media (max-width: 899pt) {
+  height: 100%;
   background-color: #fafcff;
+  }
+
 `;
 const Header = styled(Box)`
   display: flex;
@@ -116,16 +175,44 @@ const Header = styled(Box)`
     gap: 9.75pt;
   }
 `;
-const Platform = styled(Button)`
-  width: 100%;
+
+const Wrap = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+  @media (max-width: 899pt) {
+    display: block;
+  }
+`
+
+const Platform = styled(Button)`
+  display: block;
   margin-top: 15.75pt;
+  padding: 0;
   .img-box {
     position: relative;
+    width: 589.5pt;
+    height: 210pt;
+    object-fit: cover;
+  }
+  &:nth-of-type(1){
+    display: none;
+  }
+
+  @media (max-width: 899pt) {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+    .img-box{
     width: 251.25pt;
     height: 159pt;
+    }
+  &:nth-of-type(1){
+    display: block;
+  }
+  &:nth-of-type(2){
+    display: none;
+  }
   }
 `;
 const SubsidyBox = styled(Box)`
@@ -166,6 +253,7 @@ const Fee = styled(Button)`
 `;
 const GuideBox = styled(Button)`
   display: flex;
+  //height:이미지 높이 만큼 줘야함.
   justify-content: space-between;
   align-items: center;
   background: #ffffff;
@@ -175,6 +263,9 @@ const GuideBox = styled(Button)`
   border-radius: 6pt;
   margin-top: 15pt;
   padding: 14.25pt 15pt;
+  &:nth-of-type(1){
+    margin-right: 22.5pt;
+  }
   .name_box {
     display: flex;
     justify-content: center;

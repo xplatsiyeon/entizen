@@ -19,7 +19,7 @@ import apple from 'public/images/apple.svg';
 import Image from 'next/image';
 import { kakaoLogin } from 'api/auth/kakao';
 import { getToken, login } from 'api/auth/naver';
-import { useDispatch } from 'react-redux';
+import { useDispatch, } from 'react-redux';
 import { naverAction } from 'store/naverSlice';
 
 import axios from 'axios';
@@ -32,7 +32,7 @@ type Props = {};
 const Signin = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.userList);
+  //const { user } = useSelector((state: RootState) => state.userList);
   const naverRef = useRef<HTMLElement | null | any>(null);
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
@@ -349,12 +349,7 @@ const Signin = (props: Props) => {
   );
 };
 
-{
-  /* 덜 된 부분: 글자크기, 간격 */
-}
-
 export default Signin;
-
 const Body = styled.div`
   display: flex;
   flex-direction: column;
@@ -363,19 +358,61 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  //background:#fcfcfc;
-
-  @media (max-width: 1439pt) {
-    width: 100%;
-  }
-  @media (max-height: 800pt) {
+  background:#fcfcfc;
+  @media (max-height: 809pt) {
     display: block;
+    height:100%;
   }
 `;
+
 const Inner = styled.div`
+  display: block;
   position: relative;
-  width: 100%;
+  margin: 0 auto;
+  width: 345pt;
+  //width: 281.25pt;  
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;
+  background: #ffff;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding:0;
+    box-shadow: none;
+    background: none;
+  }
 `;
+
+const Wrapper = styled.div`
+  position:relative;  
+  margin: 0 31.875pt;
+  
+  @media (max-width: 899pt) {
+    margin: 0;
+  }
+`;
+
+const BackBtn = styled.img`
+margin: auto 0;
+`;
+
+const LoginBtn = styled.button`
+background: #5a2dc9;
+width: 100%;
+color: #fff;
+margin-top: 28.5pt;
+padding: 15pt 0;
+border-radius: 6pt;
+font-weight: 700;
+font-size: 12pt;
+`;
+
+const BtnSpan = styled.span``;
 
 const NaverBox = styled(Box)`
   height: 33pt;
@@ -384,121 +421,41 @@ const NaverBox = styled(Box)`
     display: none;
   }
 `;
-
-const Text = styled.p`
-  // h2?
-  margin-top: 66pt;
-  text-align: center;
-  position: relative;
-  font-size: 21pt;
-  font-weight: 700;
-  line-height: 21pt;
-  color: #222;
-
-  @media (max-width: 899pt) {
-    display: none;
-  }
-`;
-const Wrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  //width:345pt;
-  width: 281.25pt;
-  height: 500.25pt;
-  overflow-y: scroll;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  border-radius: 12pt;
-
-  @media (max-width: 899pt) {
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-  }
-  @media (max-height: 809pt) {
-    display: block;
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    margin: 0 auto;
-  }
-`;
-
-const BackBtn = styled.img`
-  margin: auto 0;
-`;
-
-const LoginBtn = styled.button`
-  background: #5a2dc9;
-  width: 100%;
-  color: #fff;
-  margin-top: 28.5pt;
-  padding: 15pt 0;
-  border-radius: 6pt;
-  font-weight: 700;
-  font-size: 12pt;
-`;
-
-const BtnSpan = styled.span``;
-
 /* background-color: '{`${colors.gold}`}', */
 const IdRegist = styled.button`
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  border-radius: 8px;
-  width: 100%;
-  padding: 15pt 0;
-  font-weight: 700;
-  font-size: 12pt;
-  text-align: center;
-  letter-spacing: -0.02em;
-  color: #595757;
+box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+border-radius: 8px;
+width: 100%;
+padding: 15pt 0;
+font-weight: 700;
+font-size: 12pt;
+text-align: center;
+letter-spacing: -0.02em;
+color: #595757;
 `;
 
 const IdRegistBtnSpan = styled.span``;
 
 const BackBox = styled(Box)`
-  display: none;
-
-  @media (max-width: 899pt) {
-    display: block;
-    width: 100%;
-    padding-top: 9pt;
-    padding-bottom: 9pt;
-    padding-left: 15pt;
-    padding-right: 15pt;
-  }
+display: none;
+@media (max-width: 899pt) {
+  display: block;
+  width: 100%;
+  padding-top: 9pt;
+  padding-bottom: 9pt;
+  padding-left: 15pt;
+  padding-right: 15pt;
+}
 `;
 const TabBox = styled(Box)`
+width: 100%;
+display: flex;
+align-items: center;
+background: #f9f7ff;
+@media (max-width: 899pt) {
   width: 100%;
   display: flex;
   align-items: center;
-  background: #f9f7ff;
-
-  @media (max-width: 899pt) {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-top: 6pt;
-  }
+  margin-top: 6pt;
+}
 `;
-// const Tab = styled(Box)`
-//   width:50%;
-//   padding-top:18pt;
-//   padding-bottom:8pt;
-//   background: selectedLoginType == index? '#ffff' : '#f9f7ff';
-//   border-radius: '8pt 8pt 0 0';
-
-//   @media (max-width:899pt) {
-//     width:auto;
-//     padding-top:0;
-//     padding-bottom:0;
-//     background:#ffff;
-//     border-radius:0;
-//     margin-right:24pt;
-//   }
-// `

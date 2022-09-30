@@ -21,11 +21,13 @@ const AsRequestFooter = (props: Props) => {
 };
 
 const FooterBox = styled.div`
-  margin-top: 60pt;
-  margin-bottom: 68.25pt;
-  margin: 60pt auto 68.25pt auto;
+  margin: 30pt auto 38.25pt auto;
   display: flex;
   justify-content: center;
+  
+  @media (max-width: 899pt) {
+  margin: 60pt auto 68.25pt auto;
+  }
 `;
 
 const BtnBox = styled.div`
