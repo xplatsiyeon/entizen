@@ -95,7 +95,7 @@ const SignUpTerms = () => {
     let c = localStorage.getItem('key');
     console.log(c);
 
-    if (c !== null) {
+    if () {
       let a = JSON.parse(c);
       console.log('98번째줄 JSONPARSE된 곳입니다 !!  =>   ');
       console.log(a);
@@ -104,23 +104,26 @@ const SignUpTerms = () => {
       setName(a.name);
       setPhoneNumber(a.phone);
     }
-    if (fullTerms) {
+    if (fullTerms && c !== null) {
+      let a = JSON.parse(c);
+
       dispatch(
         userAction.add({
           ...user,
           snsType: fullTerms,
-          name: name,
-          phone: phoneNumber,
+          name: a.name,
+          phone: a.phone,
         }),
       );
+
 
       try {
         await axios({
           method: 'post',
           url: 'https://test-api.entizen.kr/api/members/join/sns',
           data: {
-            name: name,
-            phone: phoneNumber,
+            name: a.name,
+            phone: a.phone,
             optionalTermsConsentStatus: [
               {
                 optionalTermsType: 'LOCATION',
