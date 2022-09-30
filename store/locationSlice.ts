@@ -4,7 +4,7 @@ export interface LocationType {
   jibunAddr: string;
   roadAddrPart: string;
 }
-interface LocationListTypes {
+export interface LocationListTypes {
   locationList: LocationType;
 }
 

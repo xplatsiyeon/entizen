@@ -1,15 +1,20 @@
 import axios from 'axios';
 
 import { useSelector } from 'react-redux';
+import { LocationListTypes } from 'store/locationSlice';
+import { Data } from 'store/quotationSlice';
 import { RootState } from 'store/store';
 
-const { quotationData, locationList } = useSelector(
-  (state: RootState) => state,
-);
+// const { quotationData, locationList } = useSelector(
+//   (state: RootState) => state,
+// );
 
 const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
 
-export const predictionApi = async () => {
+export const predictionApi = async (
+  quotationData: Data,
+  locationList: LocationListTypes,
+) => {
   try {
     await axios({
       method: 'post',
