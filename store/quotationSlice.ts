@@ -83,6 +83,33 @@ const slice = createSlice({
     setStep6(state, action) {
       state.installationPurpose = action.payload;
     },
+    init(state) {
+      state = {
+        requestData: undefined,
+        chargers: [
+          {
+            kind: '',
+            standType: '',
+            channel: '',
+            count: '',
+          },
+        ],
+        chargersKo: [
+          {
+            kind: '',
+            standType: '',
+            channel: '',
+            count: '',
+          },
+        ],
+        investRate: '1',
+        subscribePeriod: '24',
+        subscribeProduct: '',
+        installationLocation: '',
+        installationPoints: [],
+        installationPurpose: '',
+      };
+    },
   },
 });
 
