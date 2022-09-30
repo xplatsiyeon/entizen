@@ -8,6 +8,8 @@ import colors from 'styles/colors';
 
 import SliderSizes from 'components/quotation/request/slider';
 import QuotationModal from 'components/Modal/QuotationModal';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {};
 
@@ -18,6 +20,10 @@ const Request1_7 = (props: Props) => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [value, setValue] = useState(50);
   const [disabled, setDisabled] = useState(true);
+
+  const { requestData } = useSelector(
+    (state: RootState) => state.quotationData,
+  );
 
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
@@ -50,7 +56,7 @@ const Request1_7 = (props: Props) => {
           <span className="name">판매자</span>
         </NameBox>
         <SliderSizes
-          value={value}
+          value={parseInt(requestData?.investRate!)}
           setValue={setValue}
           disabled={disabled}
           setDisabled={setDisabled}
@@ -61,7 +67,13 @@ const Request1_7 = (props: Props) => {
               운영서비스 <span className="accent">월</span> 구독료
             </span>
             <span>
-              <span className="price">7.5 ~ 9.7</span>
+              <span className="price">
+                {`${requestData?.minSubscribePricePerMonth
+                  .toString()
+                  .substring(0, 3)} ~ ${requestData?.maxSubscribePricePerMonth
+                  .toString()
+                  .substring(0, 3)}`}
+              </span>
             </span>
           </div>
           <div className="line" />
@@ -70,7 +82,13 @@ const Request1_7 = (props: Props) => {
               EV충전소 설치비용 <span className="accent">월</span> 구독료
             </span>
             <span>
-              <span className="price">283 ~ 363</span>
+              <span className="price">
+                {`${requestData?.minTotalSubscribePrice
+                  .toString()
+                  .substring(0, 3)} ~ ${requestData?.maxTotalSubscribePrice
+                  .toString()
+                  .substring(0, 3)}`}
+              </span>
             </span>
           </div>
         </ContentsWrapper>
