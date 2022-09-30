@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel from './Carousel';
 import EntizenLibrary from './EntizenLibrary';
 import Footer from './Footer';
@@ -24,11 +24,17 @@ import Image from 'next/image';
 import { Divider, Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {};
 
 const MainPage = (props: Props) => {
   const router = useRouter();
+  const { accessToken, refreshToken, userId } = useSelector(
+    (state: RootState) => state.originUserData,
+  );
+  const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
   });
@@ -56,11 +62,7 @@ const MainPage = (props: Props) => {
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
         <WhetherLogin onClick={() => router.push('/signin')}>
-          {localStorage.getItem('USER_TOKEN') ? (
-            <span>로그인 해주세요</span>
-          ) : (
-            <span>로그아웃</span>
-          )}
+          {isLogin ? <span>로그인 해주세요</span> : <span>{userId}</span>}
 
           <span>
             <Image src={whiteRight} alt="arrow" />
@@ -140,6 +142,13 @@ const MainPage = (props: Props) => {
     </WholeBox>
   );
 
+  useEffect(() => {
+    if (accessToken) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [accessToken]);
   return (
     <>
       <Container>
