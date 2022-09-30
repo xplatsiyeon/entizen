@@ -5,6 +5,7 @@ import { requestSlice } from './requestSlice';
 import { reviewContents } from './reviewSlice';
 import { quotationSlice } from './quotationSlice';
 import { naverSlice } from './naverSlice';
+import { userSlice } from './userSlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   reviewList: reviewContents.reducer,
   quotationData: quotationSlice.reducer,
   navernaver: naverSlice.reducer,
+  userList: userSlice.reducer,
 });
 
 export default rootReducer;
