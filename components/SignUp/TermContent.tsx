@@ -27,10 +27,6 @@ type Props = {
   setNextBtn: Dispatch<SetStateAction<boolean>>;
 };
 
-export function CallTest() {
-  console.log('call Test');
-}
-
 const TermContent = ({
   level,
   setLevel,
@@ -77,13 +73,6 @@ const TermContent = ({
       setName(a.name);
       setPhoneNumber(a.phone);
     }
-    // a = localStorage.getItem('key');
-
-    // setName(a);
-    // set
-    // console.log('여기입니다!!!  =>    ' + a);
-    // JSON.stringify(a);
-    // console.log('로컬스토리지 데이터입니다 => ' + a);
   };
 
   useEffect(() => {
@@ -142,7 +131,7 @@ const TermContent = ({
     if (requiredTerms && selectTerms) setFullTerms(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredTerms, selectTerms]);
-  const handleOnClick = () => {};
+  // const handleOnClick = () => {};
   const testClick = () => {
     setLevel(level + 1);
   };
@@ -222,7 +211,7 @@ const TermContent = ({
           </Item>
         </Box>
       </BottomForm>
-      <div className="nextPage" onClick={handleOnClick}></div>
+      {/* <div className="nextPage" onClick={handleOnClick}></div> */}
       <div>
         <form name="form_chk" method="post">
           <input type="hidden" name="m" value="checkplusService" />

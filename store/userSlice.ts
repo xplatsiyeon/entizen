@@ -10,11 +10,18 @@ interface NaverLoginTypes {
 }
 
 interface NaverLoginType {
-  user: NaverLoginTypes[];
+  user: NaverLoginTypes;
 }
 
 const initialState: NaverLoginType = {
-  user: [],
+  user: {
+    uuid: '',
+    email: '',
+    snsType: '',
+    name: '',
+    phone: '',
+    term: false,
+  },
 };
 
 const slice = createSlice({
