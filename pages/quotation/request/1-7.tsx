@@ -29,6 +29,7 @@ const Request1_7 = (props: Props) => {
 
   // 가격 콤마 계산
   const PriceCalculation = (price: number) => {
+    if (price === 0) return 0;
     if (price) {
       let stringPrice = price.toString();
       let calculatedPrice;
