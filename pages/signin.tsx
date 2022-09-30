@@ -420,7 +420,7 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto 0;
   width: 345pt;
   //width: 281.25pt;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
