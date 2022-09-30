@@ -62,7 +62,7 @@ const MainPage = (props: Props) => {
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
         <WhetherLogin onClick={() => router.push('/signin')}>
-          {isLogin ? <span>로그인 해주세요</span> : <span>{userId}</span>}
+          {isLogin ? <span>{userId}</span> : <span>로그인 해주세요</span>}
 
           <span>
             <Image src={whiteRight} alt="arrow" />
@@ -143,7 +143,9 @@ const MainPage = (props: Props) => {
   );
 
   useEffect(() => {
-    if (accessToken) {
+    console.log('업데이트 확인');
+    if (accessToken !== undefined) {
+      console.log('accessToken check !');
       setIsLogin(true);
     } else {
       setIsLogin(false);

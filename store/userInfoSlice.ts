@@ -1,15 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface OriginUserInfo {
-  userId: string;
-  accessToken: string;
-  refreshToken: string;
+  userId: undefined | string;
+  accessToken: undefined | string;
+  refreshToken: undefined | string;
 }
 
 const initialState: OriginUserInfo = {
-  userId: '',
-  accessToken: '',
-  refreshToken: '',
+  userId: undefined,
+  accessToken: undefined,
+  refreshToken: undefined,
 };
 
 const slice = createSlice({
