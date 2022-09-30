@@ -11,24 +11,23 @@ const SignUpComplete = () => {
   return (
     <Body>
       <WebHeader />
-          <Inner>
-    <Complete
-      title={'엔티즌 가입을 환영합니다!'}
-      text={'내 충전기의 예상 매출을 확인해보세요.'}
-      buttonText={'홈으로'}
-      handleOnClick={() => router.push('/')}
-    />
-    <Wrap>
-      <WhyEntizen/>
-    </Wrap>
-    </Inner>
-    <WebFooter />
-  </Body>
+      <Inner>
+        <Complete
+          title={'엔티즌 가입을 환영합니다!'}
+          text={'내 충전기의 예상 매출을 확인해보세요.'}
+          buttonText={'홈으로'}
+          handleOnClick={() => router.push('/')}
+        />
+        <Wrap>
+          <WhyEntizen />
+        </Wrap>
+      </Inner>
+      <WebFooter />
+    </Body>
   );
 };
 
 export default SignUpComplete;
-
 
 const Body = styled.div`
   display: flex;
@@ -38,11 +37,11 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
-  @media (max-height: 809pt) { 
+  @media (max-height: 809pt) {
     display: block;
-    height:100%;
+    height: 100%;
   }
 `;
 
@@ -65,8 +64,7 @@ const Inner = styled.div`
 `;
 
 const Wrap = styled.div`
-
-@media (max-width: 899pt) {
-  display: none;
-}
-`
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`;
