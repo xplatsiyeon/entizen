@@ -144,6 +144,7 @@ table {
 body {
   -ms-overflow-style: none;
   /* overflow: hidden; */
+  background-color: #fcfcfc;
 }
 
 ::-webkit-scrollbar {

@@ -95,8 +95,6 @@ const Wrapper = styled.div`
 `;
 
 const WhyBox = styled(Typography)`
-  text-align: center;
-  margin-bottom: 30pt;
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
@@ -105,83 +103,47 @@ const WhyBox = styled(Typography)`
   & span {
     color: ${colors.main};
   }
-
-  @media (max-width: 899pt) {
-  text-align: left;
-  margin-bottom:0;
-  }
 `;
 
-const GridBox = styled.div` 
-
-display: flex;
-
-@media (max-width: 899pt) {
+const GridBox = styled.div`
   margin-top: 12pt;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 11.25pt;
-}
 `;
 
 const GridElement = styled.div`
   width: 100%;
-  height: 255pt;
-  background-color: ${(props) => props.color};
-  border-radius: 12pt;
-  position: relative;
-  box-shadow: 0px 0px 11.25pt rgba(137, 163, 201, 0.2);
-
-  margin-right: 22.5pt;
-  &:nth-of-type(4){
-    margin-right: 0;
-  }
-  @media (max-width: 899pt) {
-  margin-right: 0;
   height: 120pt;
-  box-shadow: none;
+  background-color: ${(props) => props.color};
   border-radius: 6pt;
-  }
+  position: relative;
 `;
 
 const TextArea = styled.div`
   white-space: pre-wrap;
-  margin-left: 22.5pt;
-  margin-top: 22.5pt;
+  margin-left: 12pt;
+  margin-top: 12pt;
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
   letter-spacing: -0.02em;
   text-align: left;
   color: ${(props) => props.color};
-  @media (max-width: 899pt) {
-  margin-left: 12pt;
-  margin-top: 12pt;
-  }
 `;
 
 const ArrowImgBox = styled.div`
-display: none;
   position: absolute;
   right: 12pt;
   top: 12pt;
-  @media (max-width: 899pt) {
-    display: block;
-  }
 `;
 
 const IconImgBox = styled.div<{ width: string; height: string }>`
   position: absolute;
   width: ${({ width }) => width};
   height: ${({ height }) => height};
-
-  left: 22.5pt;
-  bottom: 22.5pt;
-
-  @media (max-width: 899pt) {
   left: 12pt;
   bottom: 12pt;
-  }
 `;
 
 export default WhyEntizen;

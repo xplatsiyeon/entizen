@@ -64,7 +64,7 @@ const Wrapper = styled.footer`
   height: 187.5pt;
   border-top: 1px solid #e9eaee;
   margin-top: 45.75pt;
-  padding-top:10pt;
+  padding:10pt 0;
   background: #ffff;
 
   @media (max-width:899pt) {

@@ -3,17 +3,11 @@ import { Box } from '@mui/system';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import InfoImg from 'public/guide/Information.png';
-import InfoImg2 from 'public/guide/info2.png';
 
 const infomation = () => {
   return (
     <Main>
-      <ImageWrap>
-        <Image src={InfoImg} alt="info" />
-      </ImageWrap>
-      <ImageWrap2>
-        <Image src={InfoImg2} alt="info" />
-      </ImageWrap2>
+      <Image src={InfoImg} alt="info" />
       <TextBox>
         <li className="text-item">
           <span className="accent">엔티즌 도서관</span>에서 전기차와 충전기에
@@ -47,48 +41,19 @@ const Main = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 45pt 15pt 0 15pt;
-
-  @media (max-width: 899pt) {
-    padding: 27pt 15pt 0 15pt;
-  }
-`;
-const ImageWrap = styled.div`
-  display: none;
-  @media (max-width: 899pt) {
-    display: block;
-  }
-`;
-const ImageWrap2 = styled.div`
-  display: block;
-  width: 645pt;
-  @media (max-width: 899pt) {
-    display: none;
-  }
+  padding: 27pt 15pt 0 15pt;
 `;
 const TextBox = styled(Box)`
-  margin: 30pt auto 0pt;
-  width: 645pt;
+  margin-top: 24pt;
   padding: 0 10px;
   list-style-type: disc;
-
   .text-item {
     padding-bottom: 15pt;
     font-weight: 500;
-    font-size: 12pt;
-    line-height: 30pt;
+    font-size: 10.5pt;
+    line-height: 16.5pt;
     letter-spacing: -0.02em;
   }
-
-  @media (max-width: 899pt) {
-    width: 100%;
-    margin: 24pt auto 0;
-    .text-item {
-      font-size: 10.5pt;
-      line-height: 16.5pt;
-    }
-  }
-
   .accent {
     color: ${colors.main};
   }

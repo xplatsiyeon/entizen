@@ -85,9 +85,10 @@ const Inner = styled.div`
     top: 0;
     left: 0%;
     transform: none;
+    box-shadow: none;
+    background: none;
   }
 `;
-
 
 const Wrapper = styled.div`
   height: 557.25pt;
@@ -96,6 +97,7 @@ const Wrapper = styled.div`
 
   @media (max-width: 899pt) {
     height: 100%;
+    margin: 0;
   }
   `
 
@@ -174,5 +176,5 @@ const Btn = styled(Button)`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   padding: 15pt 0;
-  //margin-bottom: 30pt;
+  margin-bottom: 30pt;
 `;

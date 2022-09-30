@@ -77,7 +77,6 @@ height:100%;
 const Box1 = styled.div`
 display: flex;
 height:70pt;
-}
 `
 
 const LogoBox = styled.div`
@@ -110,7 +109,6 @@ const DivBox = styled.div`
 const Box2 = styled.div`
 display: flex;
 height:70pt;
-}
 `
 const DivBox2 = styled.div`
   margin-right:18pt;

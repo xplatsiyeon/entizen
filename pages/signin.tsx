@@ -249,7 +249,7 @@ const Body = styled.div`
 
   @media (max-height: 809pt) {
     display: block;
-    height: 100%;
+    height:100%;
   }
 `;
 
@@ -262,6 +262,7 @@ const Inner = styled.div`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;
+  padding: 32.25pt 0 42pt;
 
   @media (max-width: 899pt) {
     width: 100%;
@@ -270,11 +271,19 @@ const Inner = styled.div`
     top: 0;
     left: 0%;
     transform: none;
+    padding:0;
+    box-shadow: none;
+    background: none;
   }
 `;
+
 const Wrapper = styled.div`
-position:relative;  
-margin: 0 31.875pt;
+  position:relative;  
+  margin: 0 31.875pt;
+  
+  @media (max-width: 899pt) {
+    margin: 0;
+  }
 `;
 
 const BackBtn = styled.img`

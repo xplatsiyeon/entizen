@@ -8,8 +8,6 @@ import Step1 from 'components/guide/step1';
 import Step2 from 'components/guide/step2';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
 
 export interface Option {
   m5: string;
@@ -119,9 +117,6 @@ const Guide1_2 = () => {
     }
   }, [clicked, selectedOption, selectedRegion, isValid]);
   return (
-    <Body>
-    <WebHeader/>
-    <Inner>
     <Wrapper>
       <GuideHeader
         title={'보조금 가이드'}
@@ -147,57 +142,15 @@ const Guide1_2 = () => {
         보조금 확인하기
       </Btn>
     </Wrapper>
-      </Inner>
-    <WebFooter/>
-    </Body>
   );
 };
 
 export default Guide1_2;
 
-
-const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  //height: 810pt;
-  background:#fcfcfc;
-
-  @media (max-height: 809pt) {
-    display: block;
-    height: 100%;
-  }
-`;
-
-const Inner = styled.div`
-  display: block;
-  position: relative;
-  margin: 0 auto;
-  width: 345pt;
-  //width: 281.25pt;  
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  border-radius: 12pt;
-  background: #ffff;
-
-  @media (max-width: 899pt) {
-    width: 100%;
-    position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-  }
-`;
-
 const Wrapper = styled.div`
-
   padding-bottom: 100pt;
   padding-left: 15pt;
   padding-right: 15pt;
-  position: relative;
-  margin: 0 31.875pt;
 `;
 const ChargeGuide = styled.div`
   display: flex;
@@ -217,12 +170,12 @@ const ChargeGuide = styled.div`
   }
 `;
 const Btn = styled.div<{ buttonActivate: boolean }>`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
   color: ${colors.lightWhite};
-  padding: 15pt 0 15pt 0;
+  width: 100%;
+  padding: 15pt 0 39pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -231,10 +184,4 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   margin-top: 33pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : '#e2e5ed'};
-
-  @media (max-width: 899pt) {
-    position: fixed;
-    padding: 15pt 0 39pt 0;
-    width: 100%;
-  }
 `;

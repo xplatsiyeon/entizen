@@ -49,7 +49,7 @@ const MypageHeader = ({
 export default MypageHeader;
 
 const Header = styled.div`
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -81,5 +81,9 @@ const Header = styled.div`
   .exit {
     position: absolute;
     right: 15pt;
+  }
+
+  @media (max-width:899pt) {
+    display: flex;
   }
 `;

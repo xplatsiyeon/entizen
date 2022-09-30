@@ -2,34 +2,31 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import { useState } from 'react';
 import GuideHeader from 'components/guide/header';
-import MediumSpeedGraph from 'components/guide/mediumSpeedGraph';
-import ExpressSpeedGraph from 'components/guide/expressSpeedGraph';
-import Common from 'components/guide/common';
+import SubcribeGraph from 'components/guide/subcribeGraph';
+import Share from 'components/guide/share';
+import Contract from 'components/guide/contract';
 import { useRouter } from 'next/router';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
-const Guide1_5 = () => {
+const Guide1_4 = () => {
   const router = useRouter();
   const [tabNumber, setTabNumber] = useState(0);
-  const TabType: string[] = ['완속/중속', '급속/초급속', '공통사항'];
+  const TabType: string[] = ['구독상품', '수익지분', '계약'];
   const components: Components = {
-    0: <MediumSpeedGraph />,
-    1: <ExpressSpeedGraph />,
-    2: <Common />,
+    0: <SubcribeGraph />,
+    1: <Share />,
+    2: <Contract />,
   };
+
   const handleTab = (index: number) => setTabNumber(index);
 
   return (
-    <Body>
-    <WebHeader />
-      <Inner>
+    <Wrapper>
       <GuideHeader
-        title="요금정보"
+        title={'요금정보'}
         leftOnClick={() => router.back()}
         rightOnClick={() => router.push('/')}
       />
@@ -48,48 +45,13 @@ const Guide1_5 = () => {
       </TabContainer>
       {/* 메인 */}
       <Main>{components[tabNumber]}</Main>
-      </Inner>  
-      <WebFooter />
-    </Body>
+    </Wrapper>
   );
 };
 
-export default Guide1_5;
+export default Guide1_4;
 
-const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  background:#fcfcfc;
-
-  @media (max-height: 809pt) {
-    display: block;
-    height: 100%;
-  }
-`;
-
-const Inner = styled.div`
-  display: block;
-  position: relative;
-  width:645pt;
-  margin: 0 auto ; 
-
-  @media (max-width: 899pt) {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-    padding:0;
-    margin: 0;
-  }
-`;
-
-
+const Wrapper = styled.div``;
 const TabContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -121,5 +83,6 @@ const Line = styled.div<{ tab: string; index: string }>`
     tab === index && `3pt solid ${colors.main}`};
 `;
 const Main = styled.div`
-  padding: 0 15pt;
+  padding-top: 27pt;
+  padding: 27pt 15pt 0 15pt;
 `;

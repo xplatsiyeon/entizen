@@ -4,15 +4,12 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 import Platform from 'public/guide/platform_guide.png';
 import { useState } from 'react';
-import Infom from 'components/guide/infomation';
+import Infom from 'components/guide/infomation-copy';
 import Compare from 'components/guide/compare';
 import Monitoring from 'components/guide/monitoring';
 import ManageMent from 'components/guide/management';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
-import Guide from 'public/guide/guide1.png';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -32,75 +29,47 @@ const Guide1_1 = () => {
   const tabHandler = (index: number) => setTabNumber(index);
 
   return (
-    <>
-      <WebHeader />
-      <Wrapper>
-        {/* 링크 리스트 */}
-        <GuideHeader
-          title={'알림함'}
-          leftOnClick={() => router.back()}
-          rightOnClick={() => router.push('/')}
-        />
-        <PlatformImgBox>
-          <Image src={Platform} alt="platform" />
-        </PlatformImgBox>
-        <GuideImgBox>
-          <Image src={Guide} alt="guide" />
-        </GuideImgBox>
-        <ModalBox>
-          <TabBox>
-            {TabType.map((tab, index) => (
-              <Item
-                idx={index.toString()}
-                num={tabNumber.toString()}
-                key={tab}
-                onClick={() => tabHandler(index)}
-              >
-                {tab}
-                <div className="line" />
-              </Item>
-            ))}
-          </TabBox>
-        </ModalBox>
-        {components[tabNumber]}
-      </Wrapper>
-      <WebFooter />
-    </>
+    <Wrapper>
+      <GuideHeader
+        title={'알림함'}
+        leftOnClick={() => router.back()}
+        rightOnClick={() => router.push('/')}
+      />
+      <PlatformImgBox>
+        <Image src={Platform} alt="platform" />
+      </PlatformImgBox>
+      <ModalBox>
+        <TabBox>
+          {TabType.map((tab, index) => (
+            <Item
+              idx={index.toString()}
+              num={tabNumber.toString()}
+              key={tab}
+              onClick={() => tabHandler(index)}
+            >
+              {tab}
+              <div className="line" />
+            </Item>
+          ))}
+        </TabBox>
+      </ModalBox>
+      {components[tabNumber]}
+    </Wrapper>
   );
 };
 
 export default Guide1_1;
 
 const Wrapper = styled.div`
-  padding-bottom: 48pt;
-
-  @media (max-width: 899pt) {
-    padding-bottom: 20pt;
-  }
+  padding-bottom: 20pt;
 `;
 const PlatformImgBox = styled(Box)`
-  display: none;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  padding-top: 15.75pt;
-
-  @media (max-width: 899pt) {
-    margin: 12pt 15pt 0 15pt;
-    display: flex;
-  }
-`;
-const GuideImgBox = styled(Box)`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 12pt 15pt 0 15pt;
   position: relative;
   padding-top: 15.75pt;
-
-  @media (max-width: 899pt) {
-    margin: 12pt 15pt 0 15pt;
-    display: none;
-  }
 `;
 const ModalBox = styled(Box)`
   padding-top: 60pt;
@@ -108,15 +77,10 @@ const ModalBox = styled(Box)`
 `;
 const TabBox = styled.div`
   display: flex;
-  justify-content: center;
   width: 105%;
+  padding-left: 15pt;
   padding-bottom: 12pt;
   border-bottom: 1px solid #f3f4f7;
-
-  @media (max-width: 899pt) {
-    padding-left: 15pt;
-    justify-content: start;
-  }
 `;
 const Item = styled.div<{ idx: string; num: string }>`
   font-weight: 700;
@@ -124,7 +88,7 @@ const Item = styled.div<{ idx: string; num: string }>`
   line-height: 15pt;
   text-align: center;
   letter-spacing: -0.02em;
-  padding: 0 30pt;
+  padding: 0 11.25pt;
   color: ${({ idx, num }) => (idx === num ? colors.main : '#caccd1')};
   position: relative;
   .line {
@@ -135,9 +99,5 @@ const Item = styled.div<{ idx: string; num: string }>`
     border-bottom: ${({ idx, num }) =>
       idx === num && `  4px solid ${colors.main};`};
     border-radius: 10pt;
-  }
-
-  @media (max-width: 899pt) {
-  padding: 0 11.25pt;
   }
 `;

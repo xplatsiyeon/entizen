@@ -289,6 +289,7 @@ const Inner = styled.div`
   background:#ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
 
   @media (max-width: 899pt) {
     width: 100%;
@@ -297,13 +298,25 @@ const Inner = styled.div`
     top: 0;
     left: 0%;
     transform: none;
+    padding:0;
+    box-shadow: none;
+    background: none;
   }
-`;
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
 
+`;
 
 const Wrapper = styled.div`
   position:relative;  
   margin: 0 31.875pt;
+
+  @media (max-width: 899pt) {
+    height: 100%;
+    margin: 0;
+    padding: 0 15pt;
+  }
 `;
 const Info = styled.p`
   padding-top: 6pt;

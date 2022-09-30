@@ -9,7 +9,8 @@ const Share = () => {
         <Image src={Banner} alt="banner" />
       </ImgBox>
       <ContentsBox>
-        <Label>1. 수익지분: 0%</Label>
+        <Wrap>   
+          <Label>1. 수익지분: 0%</Label>
         <Contents>
           <p>
             충전기 설치비 최저! <br />
@@ -22,6 +23,8 @@ const Share = () => {
             <li>회사, 아파트, 오피스텔 등</li>
           </ul>
         </Contents>
+        </Wrap>
+        <Wrap>
         <Label>2. 수익지분: 1~99%</Label>
         <Contents>
           <label>추전대상:</label>
@@ -31,6 +34,8 @@ const Share = () => {
             <li>카페,세차장,쇼핑몰,영화관 등</li>
           </ul>
         </Contents>
+        </Wrap>
+        <Wrap>
         <Label>3. 수익지분: 100%</Label>
         <Contents>
           <p>
@@ -43,7 +48,7 @@ const Share = () => {
             <li>수익 Simul 결과가 만족스러울 경우</li>
             <li>주유소, 충전소, 휴게소 등</li>
           </ul>
-        </Contents>
+        </Contents></Wrap>
         <Notice>
           * 홈 충전기는 수익지분과 무관한 상품입니다. <br />
         </Notice>
@@ -55,8 +60,16 @@ const Share = () => {
 export default Share;
 
 const Wrapper = styled.div`
-  padding-bottom: 180.75pt;
+@media (max-width: 899pt) {
+padding-bottom: 180.75pt;
+}
 `;
+const Wrap = styled.div`
+display: flex;
+@media (max-width: 899pt) {
+  display: block;
+}
+`
 const ImgBox = styled.div`
   display: flex;
   justify-content: center;
@@ -66,6 +79,7 @@ const ContentsBox = styled.div`
   padding-top: 7.5pt;
 `;
 const Label = styled.label`
+  flex: 1;
   display: block;
   font-weight: 700;
   font-size: 12pt;
@@ -75,8 +89,13 @@ const Label = styled.label`
   color: ${colors.main2};
 
   margin-top: 27pt;
+
+  @media (max-width: 899pt) {
+    display: block;
+  }
 `;
 const Contents = styled.div`
+  flex:2;
   padding-top: 12pt;
   font-weight: 400;
   font-size: 10.5pt;
