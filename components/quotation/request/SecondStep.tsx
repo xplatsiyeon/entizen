@@ -48,7 +48,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
         dispatch(
           quotationAction.setStep2({
             subscribeProduct: 'PART',
-            investRate: '',
+            investRate: '1',
           }),
         );
       }
