@@ -56,8 +56,11 @@ const Signin = (props: Props) => {
       }).then((res) => {
         console.log('[axios] 리스폰스 => ');
         console.log(res);
-        const match = res.config.data.match(/\((.*)\)/);
-        console.log(match);
+        // const match = res.config.data.match(/\((.*)\)/);
+        let c = JSON.parse(res.config.data);
+        console.log(c);
+
+        // console.log(match);
         // callBack(res);
       });
     } catch (error) {
