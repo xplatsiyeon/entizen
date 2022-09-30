@@ -1,11 +1,40 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import GuideHeader from 'components/guide/header';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+
+const data = [
+  {
+    id: 0,
+    name: '환경부',
+    price: 4000,
+    overlap: false,
+  },
+  {
+    id: 1,
+    name: '한국에너지공단',
+    price: 3500,
+    overlap: true,
+  },
+  {
+    id: 2,
+    name: '안양시청',
+    price: 1000,
+    overlap: true,
+  },
+];
 
 const Guide1_2_4 = () => {
+  const router = useRouter();
+
   return (
     <Wrapper>
-      <GuideHeader title={'보조금 가이드'} />
+      <GuideHeader
+        title={'보조금 가이드'}
+        leftOnClick={() => router.push('/guide')}
+        rightOnClick={() => router.push('/')}
+      />
       <SubsidyResult>
         <p>
           <span className="accent">윤세아</span>님이
@@ -15,10 +44,22 @@ const Guide1_2_4 = () => {
         </p>
       </SubsidyResult>
       <ResultContainer>
-        {[1, 2, 3].map((_, index) => (
-          <div className="box" key={index}>
-            <div className="name">환경부</div>
-            <div className="price">4,500만원</div>
+        {data.map((item, index) => (
+          <div className="box" key={item.id}>
+            {item.overlap ? (
+              <>
+                <div className="name overlap">{item.name}</div>
+                <div className="price overlap">
+                  {item.price}만원
+                  <div className="badge">중복 신청 가능</div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="name">{item.name}</div>
+                <div className="price">{item.price}만원</div>
+              </>
+            )}
           </div>
         ))}
       </ResultContainer>
@@ -58,6 +99,7 @@ const ResultContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   gap: 4.5pt;
   .box {
     padding-top: 45pt;
@@ -66,7 +108,7 @@ const ResultContainer = styled.div`
     background: ${colors.lightWhite};
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 8px;
-    padding: 12pt 25.875pt;
+    padding: 12pt 0;
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -75,6 +117,7 @@ const ResultContainer = styled.div`
     color: ${colors.main2};
   }
   .price {
+    position: relative;
     background: ${colors.lightWhite};
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 8px;
@@ -86,6 +129,22 @@ const ResultContainer = styled.div`
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.darkGray};
+  }
+  .overlap {
+    border: 0.75pt solid rgba(90, 45, 201, 0.5);
+  }
+  .badge {
+    position: absolute;
+    bottom: 10pt;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    font-weight: 700;
+    font-size: 9pt;
+    line-height: 12pt;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: ${colors.main};
+    width: 100%;
   }
 `;
 const Notice = styled.p`

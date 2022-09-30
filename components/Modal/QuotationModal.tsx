@@ -41,7 +41,7 @@ const QuotationModal = ({ setIsModal, isModal }: Props) => {
           <BtnLeft onClick={() => setIsModal(!isModal)}>
             <BtnText>취소</BtnText>
           </BtnLeft>
-          <BtnRight onClick={() => router.push('/quotation/request/2-1')}>
+          <BtnRight onClick={() => router.push('/quotation/request/complete')}>
             <BtnText>확인</BtnText>
           </BtnRight>
         </BtnBox>

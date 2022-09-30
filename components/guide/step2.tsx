@@ -25,28 +25,10 @@ import {
   Jeonnam,
   Sejong,
   Ulsan,
+  M9_LIST,
 } from 'assets/region';
-export const M5_LIST = [
-  '3.5 kW 과금형 콘센트',
-  '7 kW 홈 충전기 (가정용)',
-  '7 kW 충전기 (공용, 경제형)',
-  '7 kW 충전기 (공용)',
-  '11 kW 충전기',
-  '14 kW 충전기',
-  '17.6 kW 충전기',
-  '20 kW 충전기',
-  '50 kW 충전기',
-  '100 kW 충전기',
-  '200 kW 충전기',
-  '300 kW 충전기',
-  '350 kW 충전기',
-  '400 kW 충전기',
-  '300 kW 충전기 (버스)',
-  '350 kW 충전기 (버스)',
-  '400 kW 충전기 (버스)',
-];
-export const M6_LIST = ['-', '벽걸이', '스탠드', '키오스크'];
-export const M7_LIST = ['-', '싱글', '듀얼', '3모드'];
+import { M5_LIST, M5_TYPE_SET, M5_CHANNEL_SET } from 'assets/selectList';
+import { useState } from 'react';
 export const M8_LIST = [
   '1대',
   '2대',
@@ -59,27 +41,6 @@ export const M8_LIST = [
   '9대',
   '10대',
 ];
-const M9_LIST = [
-  '서울',
-  '경기',
-  '부산',
-  '대구',
-  '인천',
-  '광주',
-  '대전',
-  '울산',
-  '세종',
-  '세종',
-  '경기',
-  '강원',
-  '충북',
-  '충남',
-  '전북',
-  '전남',
-  '경북',
-  '경남',
-  '제주',
-];
 
 interface Props {
   selectedOption: Option[];
@@ -91,6 +52,7 @@ interface Props {
   selectedRegion: Region;
   onClickAdd: () => void;
   onClickMinus: (index: number) => void;
+  m5Index: number;
 }
 
 const Step2 = ({
@@ -100,6 +62,7 @@ const Step2 = ({
   HandleRegionChange,
   onClickAdd,
   onClickMinus,
+  m5Index,
 }: Props) => {
   // 지역에 따라 도시 변환 함수
   const HandleM10 = () => {
@@ -166,8 +129,8 @@ const Step2 = ({
           </QuantityBox>
           <SelectContainer>
             <SelectBox
-              value={option.m5}
-              name="m5"
+              value={option.kind}
+              name="kind"
               displayEmpty
               onChange={(event) => handleOptionChange(event, index)}
               IconComponent={() => <SelectIcon />}
@@ -185,8 +148,8 @@ const Step2 = ({
 
           <SelectContainer>
             <SelectSmall
-              value={option.m6}
-              name="m6"
+              value={option.standType}
+              name="standType"
               onChange={(event) => handleOptionChange(event, index)}
               displayEmpty
               IconComponent={() => <SelectIcon />}
@@ -194,15 +157,15 @@ const Step2 = ({
               <MenuItem value="">
                 <Placeholder>타입</Placeholder>
               </MenuItem>
-              {M6_LIST.map((option, index) => (
+              {M5_TYPE_SET[m5Index].map((option, index) => (
                 <MenuItem key={index} value={option}>
                   {option}
                 </MenuItem>
               ))}
             </SelectSmall>
             <SelectSmall
-              value={option.m7}
-              name="m7"
+              value={option.channel}
+              name="channel"
               onChange={(event) => handleOptionChange(event, index)}
               IconComponent={() => <SelectIcon />}
               displayEmpty
@@ -210,15 +173,15 @@ const Step2 = ({
               <MenuItem value="">
                 <Placeholder>타입</Placeholder>
               </MenuItem>
-              {M7_LIST.map((option, index) => (
+              {M5_CHANNEL_SET[m5Index].map((option, index) => (
                 <MenuItem key={index} value={option}>
                   {option}
                 </MenuItem>
               ))}
             </SelectSmall>
             <SelectSmall
-              value={option.m8}
-              name="m8"
+              value={option.count}
+              name="count"
               onChange={(event) => handleOptionChange(event, index)}
               IconComponent={() => <SelectIcon />}
               displayEmpty
