@@ -52,9 +52,10 @@ const TermContent = ({ level, setLevel, setName, setPhoneNumber }: Props) => {
   };
   const handleForceClick = () => {
     setLevel(level + 1);
-    let a;
+    let a: any;
     if (localStorage.getItem('key') !== null) {
-      a = localStorage.getItem('key') as string;
+      a = localStorage.getItem('key');
+      JSON.parse(a);
 
       // setName(a);
       // set
