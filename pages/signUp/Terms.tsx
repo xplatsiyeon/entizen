@@ -32,7 +32,7 @@ type Props = {};
 const Signin = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  //const { user } = useSelector((state: RootState) => state.userList);
+  const { user } = useSelector((state: RootState) => state.userList);
   const naverRef = useRef<HTMLElement | null | any>(null);
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
