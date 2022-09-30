@@ -125,6 +125,7 @@ const SignUpTerms = () => {
           url: 'https://test-api.entizen.kr/api/members/join/sns',
           data: {
             name: a.name,
+            email: user.email,
             phone: a.phone,
             optionalTermsConsentStatus: [
               {
