@@ -112,7 +112,6 @@ const SignUpTerms = () => {
           method: 'post',
           url: 'https://test-api.entizen.kr/api/members/join/sns',
           data: {
-            memberType: 'USER',
             name: user.name,
             phone: user.phone,
             optionalTermsConsentStatus: [
@@ -121,6 +120,7 @@ const SignUpTerms = () => {
                 consentStatus: fullTerms,
               },
             ],
+            snsLoginIdx: 1,
           },
           headers: {
             ContentType: 'application/json',
