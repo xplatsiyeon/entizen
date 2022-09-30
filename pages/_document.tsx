@@ -31,23 +31,18 @@ class MyDocument extends Document {
           <Script src="https://unpkg.com/axios/dist/axios.min.js"></Script>
           <Script src="https://developers.kakao.com/sdk/js/kakao.js"></Script>
           {/* <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> */}
-          <Script
-            defer
+          {/* <Script
+            strategy="beforeInteractive"
             type="text/javascript"
             src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"
             charSet="utf-8"
-          ></Script>
+          ></Script> */}
           <Script type="text/javascript" src="public/testsss.js"></Script>
         </Head>
         <body>
           <Main />
           <script type="text/javascript" src="/testsss.js"></script>
-          <script
-            defer
-            type="text/javascript"
-            src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"
-            charSet="utf-8"
-          ></script>
+
           <NextScript />
         </body>
       </Html>
