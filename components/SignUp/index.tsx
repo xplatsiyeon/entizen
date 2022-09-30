@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import MypageHeader from './header';
 import IdPwInput from './IdPwInput';
@@ -7,7 +8,8 @@ import TermContent from './TermContent';
 type Props = {};
 
 const SignUpContainer = (props: Props) => {
-  const [level, setLevel] = useState<number>(0);
+  const router = useRouter();
+  const [level, setLevel] = useState<number>(1);
   const [name, setName] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [fullTerms, setFullTerms] = useState(false);
@@ -51,7 +53,13 @@ const SignUpContainer = (props: Props) => {
       )}
       {level === 1 && (
         <>
-          <MypageHeader back={true} homeBtn={true} title={''} exitBtn={true} />
+          <MypageHeader
+            back={true}
+            homeBtn={true}
+            title={''}
+            exitBtn={true}
+            handleHomeClick={() => console.log('111')}
+          />
           <Wrapper>
             <IdPwInput
               idInput={idInput}

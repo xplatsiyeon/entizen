@@ -202,7 +202,7 @@ const IdPwInput = ({
               marginTop: '9pt',
             }}
           >
-            이미 사용중인 아이디입니다.
+            {/* 이미 사용중인 아이디입니다. */}
           </Typography>
         </Box>
       </Box>
