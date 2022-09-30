@@ -33,19 +33,24 @@ function useMap() {
       let currentPosition = [lnglatList.lat, lnglatList.lng];
 
       // Naver Map 생성
-      let map = (mapRef.current = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
-        zoomControl: false,
-      }));
-      new naver.maps.Marker({
-        position: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
-        map: map,
-        icon: {
-          content: contentString,
-          size: new naver.maps.Size(20, 20),
-          anchor: new naver.maps.Point(20, 40),
-        },
-      });
+      if (naver.maps) {
+        let map = (mapRef.current = new naver.maps.Map('map', {
+          center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
+          zoomControl: false,
+        }));
+        new naver.maps.Marker({
+          position: new naver.maps.LatLng(
+            currentPosition[0],
+            currentPosition[1],
+          ),
+          map: map,
+          icon: {
+            content: contentString,
+            size: new naver.maps.Size(20, 20),
+            anchor: new naver.maps.Point(20, 40),
+          },
+        });
+      }
     }
   }, [lnglatList, locationList]);
 

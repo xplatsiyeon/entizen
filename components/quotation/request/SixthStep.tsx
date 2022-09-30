@@ -17,7 +17,8 @@ import { RootState } from 'store/store';
 import { quotationAction } from 'store/quotationSlice';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { predictionApi } from 'api/quotations/prediction';
+// import { predictionApi } from 'api/quotations/prediction';
+import axios from 'axios';
 
 interface Purpose {
   id: number;
@@ -73,6 +74,8 @@ const purpose: Purpose[] = [
   },
 ];
 
+const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
+
 const SixthStep = ({ setTabNumber }: Props) => {
   const router = useRouter();
   const [clicked, setClicked] = useState(-1);
@@ -88,12 +91,70 @@ const SixthStep = ({ setTabNumber }: Props) => {
   const HandlePrevBtn = () => {
     setTabNumber((prev) => prev - 1);
   };
+  // 간편 견적 포스트
+  const predictionApiEntirety = async () => {
+    try {
+      await axios({
+        method: 'post',
+        url: PREDICTION_POST,
+        data: {
+          chargers: quotationData.chargers,
+          subscribeProduct: quotationData.subscribeProduct,
+          investRate: quotationData.investRate,
+          subscribePeriod: quotationData.subscribePeriod,
+          installationAddress: locationList.locationList.roadAddrPart,
+          installationLocation: quotationData.installationLocation,
+        },
+        headers: {
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => {
+        dispatch(quotationAction.setRequestData(res.data));
+        router.push('/quotation/request/1-7');
+      });
+    } catch (error) {
+      console.log('post 요청 실패');
+      console.log(error);
+    }
+  };
+  // 간편 견적 포스트
+  const predictionApiPart = async () => {
+    try {
+      await axios({
+        method: 'post',
+        url: PREDICTION_POST,
+        data: {
+          chargers: quotationData.chargers,
+          subscribeProduct: quotationData.subscribeProduct,
+          subscribePeriod: quotationData.subscribePeriod,
+          installationAddress: locationList.locationList.roadAddrPart,
+          installationLocation: quotationData.installationLocation,
+        },
+        headers: {
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => {
+        dispatch(quotationAction.setRequestData(res.data));
+        router.push('/quotation/request/1-7');
+      });
+    } catch (error) {
+      console.log('post 요청 실패');
+      console.log(error);
+    }
+  };
+
   // 다음버튼
   const HandleNextBtn = async () => {
     if (buttonActivate) {
       const name = purpose[clicked].name;
       dispatch(quotationAction.setStep6(name));
-      await predictionApi(quotationData, locationList, dispatch);
+      if (quotationData.investRate === '') {
+        await predictionApiPart();
+      } else {
+        await predictionApiEntirety();
+      }
     }
   };
 

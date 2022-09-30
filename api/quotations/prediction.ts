@@ -28,10 +28,39 @@ export const predictionApi = async (
       withCredentials: true,
     }).then((res) => {
       dispatch(quotationAction.setRequestData(res.data));
-      // return res;
     });
   } catch (error) {
     console.log('post 요청 실패');
     console.log(error);
   }
 };
+// export const predictionApi = async (
+//   quotationData: Data,
+//   locationList: LocationListTypes,
+//   dispatch: any,
+// ) => {
+//   try {
+//     await axios({
+//       method: 'post',
+//       url: PREDICTION_POST,
+//       data: {
+//         chargers: quotationData.chargers,
+//         subscribeProduct: quotationData.subscribeProduct,
+//         investRate: quotationData.investRate,
+//         subscribePeriod: quotationData.subscribePeriod,
+//         installationAddress: locationList.locationList.roadAddrPart,
+//         installationLocation: quotationData.installationLocation,
+//       },
+//       headers: {
+//         ContentType: 'application/json',
+//       },
+//       withCredentials: true,
+//     }).then((res) => {
+//       dispatch(quotationAction.setRequestData(res.data));
+//       // return res;
+//     });
+//   } catch (error) {
+//     console.log('post 요청 실패');
+//     console.log(error);
+//   }
+// };
