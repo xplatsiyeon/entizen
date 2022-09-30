@@ -76,6 +76,9 @@ const Signin = (props: Props) => {
               snsLoginIdx: c.snsLoginIdx,
             }),
           );
+          if (c.isMember) {
+            router.push('/');
+          }
         })
         .then((res) => {
           router.push('/signUp/Terms');
