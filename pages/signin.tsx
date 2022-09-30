@@ -62,6 +62,7 @@ const Signin = (props: Props) => {
         console.log(res);
         // const match = res.config.data.match(/\((.*)\)/);
         let c = JSON.parse(res.config.data);
+        console.log('signin.tsx 65번째줄 axio 부분입니다 ! ======');
         console.log(c);
         dispatch(
           userAction.add({

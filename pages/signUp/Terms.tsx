@@ -52,7 +52,7 @@ const SignUpTerms = () => {
     }
   };
   useEffect(() => {
-    console.log(localStorage.getItem('key'));
+    // console.log(localStorage.getItem('key'));
     const memberType = 'USER';
 
     axios({
@@ -63,6 +63,7 @@ const SignUpTerms = () => {
       .then((res) => {
         // console.log(res.data);
         setData(res.data.executedData);
+        console.log('엑시오스 데이터 66번째 줄입니다   =>   ');
         console.log(data);
         // encodeData = res.data.executedData;
       })
@@ -72,7 +73,6 @@ const SignUpTerms = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    console.log();
     if (route.asPath.includes('Canceled')) {
       route.push('/signin');
     }
@@ -96,6 +96,7 @@ const SignUpTerms = () => {
 
     if (c !== null) {
       let a = JSON.parse(c);
+      console.log('98번째줄 JSONPARSE된 곳입니다 !!  =>   ');
       console.log(a);
       setName(a.name);
       setPhoneNumber(a.phone);
@@ -129,7 +130,10 @@ const SignUpTerms = () => {
             ContentType: 'application/json',
           },
           withCredentials: true,
-        }).then((res) => console.log(res));
+        }).then((res) => {
+          console.log('서버에 sns 로그인결과 보내는 곳입니다. ======');
+          console.log(res);
+        });
       } catch (error) {
         console.log('post 실패!!!!!!');
         console.log(error);
@@ -161,7 +165,6 @@ const SignUpTerms = () => {
     // route("/") 어디로?
   };
   useEffect(() => {
-    console.log();
     if (route.asPath.includes('Canceled')) {
       route.push('/signin');
     }
