@@ -1,4 +1,3 @@
-
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import FirstStep from 'components/quotation/request/FirstStep';
@@ -11,12 +10,10 @@ import ThirdStep from 'components/quotation/request/ThirdStep';
 import FourthStep from 'components/quotation/request/FourthStep';
 import FifthStep from 'components/quotation/request/FifthStep';
 import SixthStep from 'components/quotation/request/SixthStep';
-<<<<<<< HEAD
-=======
+
 import Request1_7 from './1-7';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
->>>>>>> bd8c8513ac16be53441e29b1d0db343b3c879587
 
 interface Components {
   [key: number]: JSX.Element;
@@ -39,6 +36,10 @@ const Quotation1_1 = () => {
   };
   return (
     <>
+    <WebBody>
+      <WebHeader />
+        <Inner>
+          <Wrapper>
       {isModal && (
         <TwoBtnModal
           text={
@@ -51,7 +52,6 @@ const Quotation1_1 = () => {
           leftBtnControl={() => route.push('/')}
           rightBtnControl={HandleModal}
         />
-<<<<<<< HEAD
       )}
       <Header title="간편견적" exitBtn={true} handleOnClick={HandleModal} />
       {/* 메인 */}
@@ -67,54 +67,11 @@ const Quotation1_1 = () => {
         </TabBox>
         {components[tabNumber]}
       </Body>
-=======
-      )}  
-      <WebBody>
-        <WebHeader />
-          <Inner>
-            <Wrapper>
-              <Header title="간편견적" exitBtn={true} handleOnClick={HandleModal} />
-              {/* 메인 */}
-              <Body>
-              <TabBox>
-                {Object.keys(components).map((tab, index) => (
-                  <TabLine
-                  idx={index.toString()}
-                  num={tabNumber.toString()}
-                  key={tab}
-                  onClick={() => tabHandler(index)}
-                  />
-                ))}
-              </TabBox>
-              {components[tabNumber]}
-              </Body>
-              {/* 버튼 */}
-              <Footer>
-              {tabNumber === 0 ? (
-          <Btn
-            buttonActivate={buttonActivate}
-            onClick={HandleBtn}
-            tabNumber={0}
-          >
-            다음
-          </Btn>
-              ) : (
-              <TwoBtn>
-                <PrevBtn buttonActivate={buttonActivate} onClick={HandlePrevBtn}>
-                  이전
-                </PrevBtn>
-                <Btn buttonActivate={buttonActivate} onClick={HandleBtn}>
-                  다음
-                </Btn>
-              </TwoBtn>
-              )}
-              </Footer>
             </Wrapper>
           </Inner>  
         <WebFooter />
       </WebBody>
->>>>>>> bd8c8513ac16be53441e29b1d0db343b3c879587
-    </>
+      </>
   );
 };
 
@@ -128,7 +85,6 @@ width: 100%;
 height: 100vh;
 margin: 0 auto;
 background:#fcfcfc;
-
 @media (max-height: 809pt) {
   display: block;
   height: 100%;
@@ -145,7 +101,6 @@ background:#ffff;
 box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
 border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-
 @media (max-width: 899pt) {
   width: 100%;
   height: 100vh;
@@ -165,7 +120,6 @@ border-radius: 12pt;
 const Wrapper = styled.div`
 position:relative;  
 margin: 0 31.875pt;
-
 @media (max-width: 899pt) {
   height: 100%;
   margin: 0;
@@ -187,8 +141,6 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   border-radius: 2px;
   width: 100%;
 `;
-<<<<<<< HEAD
-=======
 const Footer = styled.div`
   position: absolute;
   bottom: 0;
@@ -236,4 +188,3 @@ const PrevBtn = styled.div<{ buttonActivate: boolean }>`
 const TwoBtn = styled.div`
   display: flex;
 `;
->>>>>>> bd8c8513ac16be53441e29b1d0db343b3c879587
