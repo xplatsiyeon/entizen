@@ -83,7 +83,6 @@ const PlatformImgBox = styled(Box)`
   justify-content: center;
   align-items: center;
   position: relative;
-  padding-top: 15.75pt;
 
   @media (max-width: 899pt) {
     margin: 12pt 15pt 0 15pt;
@@ -95,7 +94,6 @@ const GuideImgBox = styled(Box)`
   justify-content: center;
   align-items: center;
   position: relative;
-  padding-top: 15.75pt;
 
   @media (max-width: 899pt) {
     margin: 12pt 15pt 0 15pt;

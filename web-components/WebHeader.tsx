@@ -1,3 +1,4 @@
+import React, {useState} from "react";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
@@ -5,12 +6,16 @@ import colors from 'styles/colors';
 import Logos from 'public/images/webLogo.png';
 import Chat from 'public/images/chat.png';
 import Bell from 'public/images/bell.png';
+import GuideLink from "components/GuideLink";
 
 const WebHeader =()=>{
 
+  const [linklist, setLinklist] = useState<boolean>(false)
 
     return(
+    <>
     <Wrapper>
+      <MainLink>
       <Inner>
         <Box1>
         <LogoBox>
@@ -23,10 +28,10 @@ const WebHeader =()=>{
                     /></a>
               </Link>
             </LogoBox>
-            <DivBox><Link href='/'><a>간편견적</a></Link></DivBox>
-            <DivBox><Link href='/'><a>가이드</a></Link></DivBox>
+            <DivBox><Link href='/quotation/request'><a>간편견적</a></Link></DivBox>
+            <DivBox onClick={()=>setLinklist(!linklist)}>가이드</DivBox>
             <DivBox><Link href='/'><a>소통하기</a></Link></DivBox>
-            <DivBox><Link href='/'><a>마이페이지</a></Link></DivBox>
+            <DivBox><Link href='/mypage/as/1-1'><a>마이페이지</a></Link></DivBox>
         </Box1>
         <Box2>
           {/* <DivBox2><input type="text" placeholder="서비스를 검색해보세요" /> </DivBox2> */}
@@ -42,11 +47,14 @@ const WebHeader =()=>{
                 alt="alram"
                 />
             </IconBox>
-            <DivBox2><Link href='/'><a>로그인</a></Link></DivBox2>
-            <DivBox2><Link href='/'><a>회원가입</a></Link></DivBox2>
+            <DivBox2><Link href='/signin'><a>로그인</a></Link></DivBox2>
+            <DivBox2><Link href='/signUp/Terms'><a>회원가입</a></Link></DivBox2>
         </Box2>    
       </Inner>
+      </MainLink>
+    {linklist? <GuideLink/> : null }
     </Wrapper>
+    </>
     )
 
 }
@@ -56,13 +64,19 @@ export default WebHeader;
 const Wrapper = styled.div`
 position:relative;
 width:100%;
-margin-bottom: 45.75pt;
+//margin-bottom: 45.75pt;
 border-bottom: 1px solid #e9eaee;
 background: #ffff;
+box-sizing: border-box;
 
 @media (max-width:899pt) {
   display:none;
 }
+`
+const MainLink = styled.div`
+  width: 100%;
+  border-bottom: 1px solid #e9eaee;
+    box-sizing: border-box;
 `
 
 const Inner = styled.div`
@@ -95,6 +109,14 @@ const DivBox = styled.div`
   margin-right: 30pt;
   display: flex;
   align-items: center;
+  cursor: pointer;
+
+  font-weight: bold;
+    font-size: 13.5pt;
+    line-height: 13.5pt;
+    font-family: Spoqa Han Sans Neo;
+    color: ${colors.main2};
+    text-decoration:none;
   a{
     font-weight: bold;
     font-size: 13.5pt;

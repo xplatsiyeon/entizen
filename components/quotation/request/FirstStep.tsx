@@ -255,9 +255,8 @@ export default FirstStep;
 const Wrraper = styled.div`
   position: relative;
   padding: 0 15pt;
+
   @media (max-width: 899pt) {
-  position: fixed;
-  padding: 15pt 0 39pt 0;
   margin-bottom: 96pt;
   }
 `;
@@ -385,7 +384,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
 
 
   @media (max-width: 899pt) {
-  position: fixed;
+    position: fixed;
     padding: 15pt 0 39pt 0;
   }
 `;
