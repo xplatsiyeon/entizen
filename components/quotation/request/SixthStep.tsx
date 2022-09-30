@@ -92,7 +92,7 @@ const SixthStep = ({ setTabNumber }: Props) => {
     setTabNumber((prev) => prev - 1);
   };
   // 간편 견적 포스트
-  const predictionApiEntirety = async () => {
+  const predictionApi = async () => {
     try {
       await axios({
         method: 'post',
@@ -111,7 +111,7 @@ const SixthStep = ({ setTabNumber }: Props) => {
         withCredentials: true,
       }).then((res) => {
         dispatch(quotationAction.setRequestData(res.data));
-        dispatch(quotationAction.init());
+        // dispatch(quotationAction.init());
         router.push('/quotation/request/1-7');
       });
     } catch (error) {
@@ -126,7 +126,7 @@ const SixthStep = ({ setTabNumber }: Props) => {
       const name = purpose[clicked].name;
       dispatch(quotationAction.setStep6(name));
       // console.log('파트');
-      await predictionApiEntirety();
+      await predictionApi();
     }
   };
 

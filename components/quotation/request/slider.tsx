@@ -4,18 +4,103 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
+import { useRouter } from 'next/router';
 
 interface Props {
   value: number;
   setValue: Dispatch<SetStateAction<number>>;
   disabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
+  difaultValue?: number;
 }
 
-const SliderSizes = ({ value, setValue, disabled, setDisabled }: Props) => {
+const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
+
+const SliderSizes = ({
+  value,
+  setValue,
+  disabled,
+  setDisabled,
+  difaultValue,
+}: Props) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { quotationData, locationList } = useSelector(
+    (state: RootState) => state,
+  );
+
+  // // 간편 견적 포스트
+  // const predictionApiEntirety = async () => {
+  //   try {
+  //     await axios({
+  //       method: 'post',
+  //       url: PREDICTION_POST,
+  //       data: {
+  //         chargers: quotationData.chargers,
+  //         subscribeProduct: quotationData.subscribeProduct,
+  //         investRate: quotationData.investRate,
+  //         subscribePeriod: quotationData.subscribePeriod,
+  //         installationAddress: locationList.locationList.roadAddrPart,
+  //         installationLocation: quotationData.installationLocation,
+  //         installationPoints: quotationData.installationPoints,
+  //         installationPurpose: quotationData.installationPurpose,
+  //         etcRequest: '',
+  //       },
+  //       headers: {
+  //         ContentType: 'application/json',
+  //       },
+  //       withCredentials: true,
+  //     }).then((res) => {
+  //       dispatch(quotationAction.setRequestData(res.data));
+  //       dispatch(quotationAction.init());
+  //       router.push('/quotation/request/1-7');
+  //     });
+  //   } catch (error) {
+  //     console.log('post 요청 실패');
+  //     console.log(error);
+  //   }
+  // };
+
+  // 간편 견적 포스트
+  const predictionApi = async () => {
+    try {
+      await axios({
+        method: 'post',
+        url: PREDICTION_POST,
+        data: {
+          chargers: quotationData.chargers,
+          subscribeProduct: quotationData.subscribeProduct,
+          investRate: quotationData.investRate,
+          subscribePeriod: quotationData.subscribePeriod,
+          installationAddress: locationList.locationList.roadAddrPart,
+          installationLocation: quotationData.installationLocation,
+        },
+        headers: {
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => {
+        dispatch(quotationAction.setRequestData(res.data));
+        // dispatch(quotationAction.init());
+        // router.push('/quotation/request/1-7');
+      });
+    } catch (error) {
+      console.log('post 요청 실패');
+      console.log(error);
+    }
+  };
+
   const handleChange = (event: Event, newValue: number | number[]) => {
     setDisabled(false);
     setValue(newValue as number);
+    if (difaultValue) {
+      predictionApi();
+    }
   };
 
   return (
@@ -25,7 +110,7 @@ const SliderSizes = ({ value, setValue, disabled, setDisabled }: Props) => {
         step={5}
         value={value}
         onChange={handleChange}
-        defaultValue={50}
+        defaultValue={difaultValue ? difaultValue : 50}
         valueLabelDisplay="auto"
       />
       {/* 하단 뱃지 */}
