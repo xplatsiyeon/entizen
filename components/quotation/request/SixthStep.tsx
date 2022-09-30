@@ -93,7 +93,8 @@ const SixthStep = ({ setTabNumber }: Props) => {
     if (buttonActivate) {
       const name = purpose[clicked].name;
       dispatch(quotationAction.setStep6(name));
-      await predictionApi(quotationData, locationList);
+      // await predictionApi(quotationData, locationList);
+      await predictionApi();
       router.push('/quotation/request/1-7');
     }
   };
