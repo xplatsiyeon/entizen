@@ -74,6 +74,7 @@ const Signin = (props: Props) => {
               email: d.email,
               snsType: d.snsType,
               snsLoginIdx: c.snsLoginIdx,
+              isMember: c.isMember,
             }),
           );
           if (c.isMember) {

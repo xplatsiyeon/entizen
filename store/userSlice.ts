@@ -8,6 +8,7 @@ interface NaverLoginTypes {
   phone: string;
   term: boolean;
   snsLoginIdx: number;
+  isMember: boolean;
 }
 
 interface NaverLoginType {
@@ -23,6 +24,7 @@ const initialState: NaverLoginType = {
     phone: '',
     term: false,
     snsLoginIdx: 0,
+    isMember: false,
   },
 };
 
