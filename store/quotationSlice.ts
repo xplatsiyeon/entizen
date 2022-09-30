@@ -110,6 +110,9 @@ const slice = createSlice({
         installationPurpose: '',
       };
     },
+    investRateControl(state, action) {
+      state.investRate = action.payload;
+    },
   },
 });
 

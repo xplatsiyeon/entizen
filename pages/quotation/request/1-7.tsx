@@ -27,23 +27,7 @@ const Request1_7 = (props: Props) => {
     (state: RootState) => state.quotationData,
   );
 
-  // const maxSubscribePricePerMonth = requestData?.maxSubscribePricePerMonth
-  //   .toString()
-  //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-  //   .slice(0, -3);
-  // const maxTotalSubscribePrice = requestData?.maxTotalSubscribePrice
-  //   .toString()
-  //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-  //   .slice(0, -3);
-  // const minSubscribePricePerMonth = requestData?.minSubscribePricePerMonth
-  //   .toString()
-  //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-  //   .slice(0, -3);
-  // const minTotalSubscribePrice = requestData?.minTotalSubscribePrice
-  //   .toString()
-  //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-  //   .slice(0, -3);
-
+  // 가격 콤마 계산
   const PriceCalculation = (price: number) => {
     if (price) {
       let stringPrice = price.toString();
@@ -93,7 +77,8 @@ const Request1_7 = (props: Props) => {
           <span className="name">판매자</span>
         </NameBox>
         <SliderSizes
-          value={parseInt(requestData?.investRate!)}
+          difaultValue={parseInt(requestData?.investRate!)}
+          value={value}
           setValue={setValue}
           disabled={disabled}
           setDisabled={setDisabled}
