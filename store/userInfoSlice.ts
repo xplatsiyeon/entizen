@@ -17,7 +17,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     set(state, action) {
-      state = action.payload;
+      state.userId = action.payload;
     },
     logout(state) {
       state = { userId: '', accessToken: '', refreshToken: '' };

@@ -71,13 +71,12 @@ const Signin = (props: Props) => {
           console.log('response 데이터 ->');
           console.log(res.data.accessToken);
           console.log(res.data.refreshToken);
-          // localStorage.setItem('USER_TOKEN', JSON.stringify(res.data));
-          await dispatch(
-            originUserAction.set({
-              userId: userId,
-              accessToken: res.data.accessToken,
-              refreshToken: res.data.refreshToken,
-            }),
+          localStorage.setItem('USER_TOKEN', JSON.stringify(res.data));
+          dispatch(
+            originUserAction.set(userId),
+            // userId: userId,
+            // accessToken: res.data.accessToken,
+            // refreshToken: res.data.refreshToken,
           );
           await router.push('/');
         })

@@ -144,15 +144,15 @@ const MainPage = (props: Props) => {
 
   useEffect(() => {
     console.log('업데이트 확인');
-    if (accessToken) {
-      if (accessToken?.length > 1) {
+    if (userId) {
+      if (userId?.length > 1) {
         console.log('accessToken check !');
         setIsLogin(true);
       } else {
         setIsLogin(false);
       }
     }
-  }, [accessToken, userId]);
+  }, [userId]);
   return (
     <>
       <Container>
