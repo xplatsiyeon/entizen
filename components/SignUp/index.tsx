@@ -70,6 +70,9 @@ const SignUpContainer = (props: Props) => {
               setCheckedPw={setCheckedPw}
               checkSamePw={checkSamePw}
               setCheckSamePw={setCheckSamePw}
+              name={name}
+              phoneNumber={phoneNumber}
+              fullTerms={fullTerms}
             />
           </Wrapper>
         </>
