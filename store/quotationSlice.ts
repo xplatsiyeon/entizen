@@ -21,7 +21,7 @@ export interface Data {
   chargers: Option[];
   chargersKo: Option[];
   subscribeProduct: '' | 'ENTIRETY' | 'PART';
-  investRate?: string;
+  investRate: string;
   subscribePeriod?: '24' | '26' | '48' | '60';
   installationLocation: '' | 'OUTSIDE' | 'INSIDE';
   installationPoints: string[];
@@ -46,6 +46,7 @@ const initialState: Data = {
       count: '',
     },
   ],
+  investRate: '1',
   subscribeProduct: '',
   installationLocation: '',
   installationPoints: [],
