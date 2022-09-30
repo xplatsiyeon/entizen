@@ -53,6 +53,7 @@ const TermContent = ({ level, setLevel }: Props) => {
     if (localStorage.getItem('key') !== null) {
       a = localStorage.getItem('key') as string;
       JSON.parse(a);
+      console.log('여기입니다!!!  =>    ' + a);
       // JSON.stringify(a);
       // console.log('로컬스토리지 데이터입니다 => ' + a);
     }
