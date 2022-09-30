@@ -13,7 +13,7 @@ const MyEstimateProject = (props: Props) => {
   return (
     <Wrapper>
       <BoxWrapper>
-        <Box onClick={() => router.push('/mypage/request')}>
+        <Box onClick={() => router.push('/mypage')}>
           <BoxName>
             <Typography
               sx={{
