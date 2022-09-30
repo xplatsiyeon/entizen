@@ -105,10 +105,10 @@ const SignUpTerms = () => {
         userAction.add({
           ...user,
           snsType: fullTerms,
+          name: name,
+          phone: phoneNumber,
         }),
       );
-      console.log('이름 =>   ' + user.name);
-      console.log('이름 =>   ' + user.phone);
 
       try {
         await axios({
@@ -134,6 +134,25 @@ const SignUpTerms = () => {
         console.log('post 실패!!!!!!');
         console.log(error);
       }
+      // try {
+      //   await axios({
+      //     method: 'post',
+      //     url: 'https://test-api.entizen.kr/api/members/join/sns',
+      //     data: {
+      //       uuid: '' + user.uuid,
+      //       snsType: 'NAVER',
+      //       snsResponse: {},
+      //       email: data.kakao_account.email,
+      //     },
+      //     headers: {
+      //       ContentType: 'application/json',
+      //     },
+      //     withCredentials: true,
+      //   }).then((res) => console.log(res));
+      // } catch (error) {
+      //   console.log('post 요청 실패');
+      //   console.log(error);
+      // }
     }
   };
   // 보기 이벤트
