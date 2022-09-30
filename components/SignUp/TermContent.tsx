@@ -52,19 +52,19 @@ const TermContent = ({ level, setLevel, setName, setPhoneNumber }: Props) => {
   };
   const handleForceClick = () => {
     setLevel(level + 1);
+
+    let c = localStorage.getItem('key');
     let a: any;
-    let c: any;
-    if (localStorage.getItem('key') !== null) {
-      a = localStorage.getItem('key');
-
+    if (c !== null) {
       a = JSON.parse(a);
-
-      // setName(a);
-      // set
-      console.log('여기입니다!!!  =>    ' + a);
-      // JSON.stringify(a);
-      // console.log('로컬스토리지 데이터입니다 => ' + a);
     }
+    // a = localStorage.getItem('key');
+    console.log(a);
+    // setName(a);
+    // set
+    // console.log('여기입니다!!!  =>    ' + a);
+    // JSON.stringify(a);
+    // console.log('로컬스토리지 데이터입니다 => ' + a);
   };
 
   useEffect(() => {
