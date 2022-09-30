@@ -9,7 +9,7 @@ type Props = {};
 
 const SignUpContainer = (props: Props) => {
   const router = useRouter();
-  const [level, setLevel] = useState<number>(1);
+  const [level, setLevel] = useState<number>(0);
   const [name, setName] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [fullTerms, setFullTerms] = useState(false);
