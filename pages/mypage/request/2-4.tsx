@@ -10,6 +10,9 @@ import { Button } from '@mui/material';
 import Modal from 'components/Modal/Modal';
 import { useDispatch } from 'react-redux';
 import { requestAction } from 'store/requestSlice';
+import React from 'react';
+import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'web-components/WebHeader';
 
 const Mypage2_4 = () => {
   const router = useRouter();
@@ -24,7 +27,11 @@ const Mypage2_4 = () => {
     dispatch(requestAction.addPick(selectedDays[0])); // 임시
   };
   return (
-    <Wrapper>
+    <React.Fragment>
+      <Body>
+        <WebHeader />
+          <Inner>
+            <Wrapper>
       {/* 모달 / 라우터 수정  */}
       {isModal && <Modal text="변경 요청 되었습니다." click={HandleModal} />}
       <MypageHeader title="다른 날짜 선택" exitBtn={true} back={true} />
@@ -44,14 +51,64 @@ const Mypage2_4 = () => {
         ))}
       </UL>
       <Btn onClick={() => setModal((prev) => !prev)}>변경 요청</Btn>
-    </Wrapper>
+            </Wrapper>
+        </Inner>  
+      <WebFooter />
+    </Body>
+  </React.Fragment>
   );
 };
 
 export default Mypage2_4;
 
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  //height: 810pt;
+  background:#fcfcfc;
+
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  width: 345pt;
+  //width: 281.25pt;  
+  background:#ffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding:0;
+  }
+`;
+
 const Wrapper = styled.div`
-  padding-bottom: 225pt;
+  position:relative;    
+  margin: 0 31.875pt 0;
+  height: 664.5pt;
+
+  @media (max-width: 899pt) {
+    height: 100%;
+    padding-bottom: 225pt;
+    margin: 0;
+  }
 `;
 const Title = styled.h1`
   font-weight: 500;
@@ -85,8 +142,7 @@ const UL = styled.ul`
   }
 `;
 const Btn = styled(Button)`
-  position: fixed;
-  left: 0;
+  position: absolute;
   bottom: 0;
   width: 100%;
   font-weight: 700;
@@ -97,5 +153,11 @@ const Btn = styled(Button)`
   color: ${colors.lightWhite};
   background: ${colors.main};
   padding-top: 15pt;
-  padding-bottom: 39pt;
+  padding-bottom: 15pt;
+
+  @media (max-width: 899pt) {
+    position: fixed;
+    left: 0;
+    padding-bottom: 39pt;
+  }
 `;

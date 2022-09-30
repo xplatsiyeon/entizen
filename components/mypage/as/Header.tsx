@@ -4,6 +4,7 @@ import BackImg from 'public/images/back-btn.svg';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import { Typography } from '@mui/material';
+import { useRouter } from 'next/router';
 
 type Props = {
   text: string;
@@ -11,11 +12,12 @@ type Props = {
 };
 
 const Header = (props: Props) => {
+  const router = useRouter();
   const { text, colorselect } = props;
   console.log(colorselect);
   return (
     <HeaderBox>
-      <div className="back-img">
+      <div className="back-img" onClick={() => router.back()}>
         <Image src={BackImg} alt="btn" />
       </div>
       <span className="text">{text}</span>

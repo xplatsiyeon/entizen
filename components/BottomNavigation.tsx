@@ -112,6 +112,7 @@ const BottomNavigation = (props: Props) => {
 export default BottomNavigation;
 
 const Wrapper = styled.div`
+display: none;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -126,6 +127,10 @@ const Wrapper = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 3pt;
+  }
+  
+  @media (max-width: 899pt) {
+    display:block;
   }
 `;
 const BoxBg = styled.div`

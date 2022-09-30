@@ -28,7 +28,7 @@ const GuideHeader = ({ title, leftOnClick, rightOnClick }: Props) => {
 export default GuideHeader;
 
 const Header = styled.div`
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   height: 36pt;
@@ -49,5 +49,8 @@ const Header = styled.div`
     position: absolute;
     right: 7pt;
     padding: 5px;
+  }
+  @media (max-width: 899pt) {
+    display: flex;
   }
 `;

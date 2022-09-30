@@ -29,7 +29,7 @@ const Request = () => {
           <h1>{`${userName}님,`}</h1>
           <h2>안녕하세요!</h2>
         </span>
-        <div className="img" onClick={() => route.push('/setting/1')}>
+        <div className="img" onClick={() => route.push('/setting')}>
           <Image src={Nut} alt="nut-icon" />
         </div>
       </Header>
@@ -64,7 +64,10 @@ const Request = () => {
 
 export default Request;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+position: relative;
+width: 100%;
+`;
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
@@ -90,6 +93,7 @@ const Header = styled.header`
     height: 22.5pt;
     text-align: end;
   }
+
 `;
 const Body = styled.div`
   padding-top: 15pt;

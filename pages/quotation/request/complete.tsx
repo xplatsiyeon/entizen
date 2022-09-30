@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { Button, Container } from '@mui/material';
 import Image from 'next/image';
@@ -5,6 +6,8 @@ import CheckImg from '/public/images/CheckCircle.svg';
 import colors from 'styles/colors';
 import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
+import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'web-components/WebHeader';
 
 const Complete = () => {
   const route = useRouter();
@@ -12,7 +15,11 @@ const Complete = () => {
     route.push('/mypage');
   };
   return (
-    <Wrapper>
+    <React.Fragment>
+      <Body>
+        <WebHeader />
+          <Inner>
+            <Wrapper>
       <MypageHeader
         exitBtn={true}
         title={'간편견적'}
@@ -35,13 +42,65 @@ const Complete = () => {
         </TextBox>
         <Btn onClick={HandleOnClick}>내 견적서 바로가기</Btn>
       </Footer>
-    </Wrapper>
+            </Wrapper>
+          </Inner>
+        <WebFooter />
+      </Body>
+    </React.Fragment>
   );
 };
 
 export default Complete;
 
-const Wrapper = styled.div``;
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  //height: 810pt;
+  background:#fcfcfc;
+
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  width: 345pt;
+  //width: 281.25pt;  
+  background:#ffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    box-shadow: none;
+    background: none;
+  }
+`;
+
+const Wrapper = styled.div`
+  height: 557.25pt;
+  position:relative;  
+  margin: 0 31.875pt;
+
+  @media (max-width: 899pt) {
+    height: 100%;
+    margin: 0;
+  }
+  `
+
 const Nav = styled.div`
   display: flex;
   /* justify-content: end; */

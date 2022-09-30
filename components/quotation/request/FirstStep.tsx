@@ -254,8 +254,12 @@ export default FirstStep;
 
 const Wrraper = styled.div`
   position: relative;
-  margin-bottom: 96pt;
   padding: 0 15pt;
+  @media (max-width: 899pt) {
+  position: fixed;
+  padding: 15pt 0 39pt 0;
+  margin-bottom: 96pt;
+  }
 `;
 const Title = styled.h1`
   padding-top: 24pt;
@@ -363,13 +367,13 @@ const ChargeGuide = styled.div`
   }
 `;
 const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   color: ${colors.lightWhite};
   width: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '64%')};
-  padding: 15pt 0 39pt 0;
+  padding: 15pt 0 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -378,4 +382,10 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   margin-top: 30pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
+
+
+  @media (max-width: 899pt) {
+  position: fixed;
+    padding: 15pt 0 39pt 0;
+  }
 `;
