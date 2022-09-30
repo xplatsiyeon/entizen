@@ -8,12 +8,26 @@ import Step1 from 'components/guide/step1';
 import Step2 from 'components/guide/step2';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
+import { RootState } from 'store/store';
+import { useSelector } from 'react-redux';
+import {
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+  M8_LIST,
+  M8_LIST_EN,
+} from 'assets/selectList';
+import { useDispatch } from 'react-redux';
+import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 
 export interface Option {
-  m5: string;
-  m6: string;
-  m7: string;
-  m8: string;
+  kind: string;
+  standType: string;
+  channel: string;
+  count: string;
 }
 export interface Region {
   m9: string;
@@ -22,15 +36,34 @@ export interface Region {
 
 const Guide1_2 = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { subsidyGuideData } = useSelector((state: RootState) => state);
+  const InstallationPurposeType = [
+    'BUSINESS',
+    'WELFARE',
+    'MARKETING',
+    'PERSONAL',
+    'ETC',
+  ];
   const [clicked, setClicked] = useState(-1);
   const [isValid, setIsValid] = useState(true);
+  const [m5Index, setM5Index] = useState(0);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<Option[]>([
     {
-      m5: '',
-      m6: '',
-      m7: '',
-      m8: '',
+      kind: '',
+      standType: '',
+      channel: '',
+      count: '',
+    },
+  ]);
+  // 백엔드에 보내줄 이름
+  const [selectedOptionEn, setSelectedOptionEn] = useState<Option[]>([
+    {
+      kind: '',
+      standType: '',
+      channel: '',
+      count: '',
     },
   ]);
   const [selectedRegion, setSelectedRegion] = useState<Region>({
@@ -41,33 +74,52 @@ const Guide1_2 = () => {
   // STEP 1 탭기능
   const handlePurposeOnClick = (index: number) => setClicked(index);
   // STEP 2 충전기 옵션 체인지
-  const handleOptionChange = (
-    event: SelectChangeEvent<unknown>,
-    index: number,
-  ) => {
+  const handleChange = (event: any, index: number) => {
     const { name, value } = event.target;
     const copy: any = [...selectedOption];
-    // m5 바뀌면 초기화 시켜줌
-    if (name === 'm5') {
+    const copyEn: any = [...selectedOptionEn];
+    // 영어 값 추출
+    let valueEn;
+
+    if (name === 'kind') {
+      const idx = M5_LIST.indexOf(value);
+      setM5Index(idx);
+      valueEn = M5_LIST_EN[idx];
       copy[index] = {
-        m5: '',
-        m6: '',
-        m7: '',
-        m8: '',
+        kind: '',
+        standType: '',
+        channel: '',
+        count: '',
       };
+    } else if (name === 'standType') {
+      const idx = M6_LIST.indexOf(value);
+      if (value === '-') {
+        valueEn = '';
+      } else {
+        valueEn = M6_LIST_EN[idx];
+      }
+    } else if (name === 'channel') {
+      const idx = M7_LIST.indexOf(value);
+
+      valueEn = M7_LIST_EN[idx];
+    } else if (name === 'count') {
+      const idx = M8_LIST.indexOf(value);
+      valueEn = M8_LIST_EN[idx];
     }
-    // 객체 key에 value 값 추가
     copy[index][name] = value;
+    copyEn[index][name] = valueEn;
     setSelectedOption(copy);
+    setSelectedOptionEn(copyEn);
   };
+
   // 셀렉터 추가
   const onClickAdd = () => {
     if (selectedOption.length === 5) return;
     const temp = selectedOption.concat({
-      m5: '',
-      m6: '',
-      m7: '',
-      m8: '',
+      kind: '',
+      standType: '',
+      channel: '',
+      count: '',
     });
     setSelectedOption(temp);
   };
@@ -92,6 +144,14 @@ const Guide1_2 = () => {
   };
   // 버튼 온클릭
   const onClickButton = () => {
+    dispatch(
+      subsidyGuideAction.addDate({
+        installationPurpose: InstallationPurposeType[clicked],
+        chargers: selectedOptionEn,
+        region: selectedRegion.m9,
+        region2: selectedRegion.m10,
+      }),
+    );
     console.log('버튼 클릭');
   };
   // 버튼 유효성 검사
@@ -116,6 +176,13 @@ const Guide1_2 = () => {
       setButtonActivate(false);
     }
   }, [clicked, selectedOption, selectedRegion, isValid]);
+
+  useEffect(() => {
+    console.log('영어 ->');
+    console.log(selectedOptionEn);
+    console.log('한글 ->');
+    console.log(selectedOption);
+  }, [selectedOptionEn, selectedOption]);
   return (
     <Wrapper>
       <GuideHeader
@@ -127,10 +194,11 @@ const Guide1_2 = () => {
       <Step2
         selectedRegion={selectedRegion}
         selectedOption={selectedOption}
-        handleOptionChange={handleOptionChange}
+        handleOptionChange={handleChange}
         HandleRegionChange={HandleRegionChange}
         onClickAdd={onClickAdd}
         onClickMinus={onClickMinus}
+        m5Index={m5Index}
       />
       <ChargeGuide>
         <span className="text">충전기 가이드</span>
