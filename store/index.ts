@@ -14,7 +14,7 @@ const persistConfig = {
     'locationList',
     'requestList',
     'quotationData',
-    'userList',
+    // 'userList',
   ],
 };
 // userList
