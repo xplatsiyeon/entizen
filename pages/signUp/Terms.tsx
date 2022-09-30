@@ -93,70 +93,54 @@ const SignUpTerms = () => {
 
   const handleForceClick = async () => {
     let c = localStorage.getItem('key');
-
-    if (c !== null) {
+    console.log(c);
+    if (fullTerms && c !== null) {
       let a = JSON.parse(c);
-      console.log('98번째줄 JSONPARSE된 곳입니다 !!  =>   ');
-      console.log(a);
-      setName(a.name);
-      setPhoneNumber(a.phone);
-    }
-    if (fullTerms) {
+
       dispatch(
         userAction.add({
           ...user,
           snsType: fullTerms,
-          name: name,
-          phone: phoneNumber,
+          name: a.name,
+          phone: a.phone,
         }),
       );
 
       try {
+        console.log('이름 =>   ' + a.name);
+        console.log('번호 =>   ' + a.phone);
+
         await axios({
           method: 'post',
           url: 'https://test-api.entizen.kr/api/members/join/sns',
           data: {
-            name: user.name,
-            phone: user.phone,
+            name: a.name,
+            email: user.email,
+            phone: a.phone,
             optionalTermsConsentStatus: [
               {
                 optionalTermsType: 'LOCATION',
                 consentStatus: fullTerms,
               },
             ],
-            snsLoginIdx: 2,
+            snsLoginIdx: user.snsLoginIdx,
           },
           headers: {
             ContentType: 'application/json',
           },
           withCredentials: true,
-        }).then((res) => {
-          console.log('서버에 sns 로그인결과 보내는 곳입니다. ======');
-          console.log(res);
-        });
+        })
+          .then((res) => {
+            console.log('서버에 sns 로그인결과 보내는 곳입니다. ======');
+            console.log(res);
+          })
+          .then((res) => {
+            route.push('/signUp/Complete');
+          });
       } catch (error) {
         console.log('post 실패!!!!!!');
         console.log(error);
       }
-      // try {
-      //   await axios({
-      //     method: 'post',
-      //     url: 'https://test-api.entizen.kr/api/members/join/sns',
-      //     data: {
-      //       uuid: '' + user.uuid,
-      //       snsType: 'NAVER',
-      //       snsResponse: {},
-      //       email: data.kakao_account.email,
-      //     },
-      //     headers: {
-      //       ContentType: 'application/json',
-      //     },
-      //     withCredentials: true,
-      //   }).then((res) => console.log(res));
-      // } catch (error) {
-      //   console.log('post 요청 실패');
-      //   console.log(error);
-      // }
     }
   };
   // 보기 이벤트
@@ -300,20 +284,6 @@ const SignUpTerms = () => {
 };
 
 export default SignUpTerms;
-
-// const Buttons = styled.button`
-//   background-color: #19ce60;
-
-//   width: 360px;
-//   height: 40px;
-
-//   margin: 6px 0;
-
-//   border: none;
-//   border-radius: 6px;
-
-//   cursor: pointer;
-// `;
 
 const ButtonText = styled.h4`
   margin: 0;

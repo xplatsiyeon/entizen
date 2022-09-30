@@ -57,22 +57,32 @@ const Signin = (props: Props) => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      }).then((res) => {
-        console.log('[axios] 리스폰스 => ');
-        console.log(res);
-        // const match = res.config.data.match(/\((.*)\)/);
-        let c = JSON.parse(res.config.data);
-        console.log('signin.tsx 65번째줄 axio 부분입니다 ! ======');
-        console.log(c);
-        dispatch(
-          userAction.add({
-            ...user,
-            uuid: c.uuid,
-            email: c.email,
-            snsType: c.snsType,
-          }),
-        );
-      });
+      })
+        .then((res) => {
+          console.log('[axios] 리스폰스 => ');
+          console.log(res);
+          console.log(res.data);
+          // const match = res.config.data.match(/\((.*)\)/);
+          let c = res.data;
+          let d = JSON.parse(res.config.data);
+          console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
+          console.log(c);
+          dispatch(
+            userAction.add({
+              ...user,
+              uuid: d.uuid,
+              email: d.email,
+              snsType: d.snsType,
+              snsLoginIdx: c.snsLoginIdx,
+            }),
+          );
+          if (c.isMember) {
+            router.push('/');
+          }
+        })
+        .then((res) => {
+          router.push('/signUp/Terms');
+        });
     } catch (error) {
       console.log('post 요청 실패');
       console.log(error);
@@ -95,6 +105,13 @@ const Signin = (props: Props) => {
             console.log(naverLogin);
             // let email = naverLogin.user.getEmail();
             NaverApi(naverLogin);
+            dispatch(
+              userAction.add({
+                ...user,
+                email: naverLogin.user.email,
+                snsType: naverLogin.user.snsType,
+              }),
+            );
             // /naver 페이지로 token값과 함께 전달 (서비스할 땐 token 전달을 하지 않고 상태 관리를 사용하는 것이 바람직할 것으로 보임)
             router.push({
               pathname: '/signUp/Terms',
