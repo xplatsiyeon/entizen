@@ -104,33 +104,70 @@ const EntizenLibrary = (props: Props) => {
 };
 
 const Wrapper = styled.div`
-  margin-top: 30pt;
+width: 900pt;
+margin: 90pt auto 48pt;
+
+@media (max-width: 899pt) {
+  margin: 30pt 0;
   width: 100%;
+}
 `;
 
 const LearnText = styled(Typography)`
+font-family: 'Spoqa Han Sans Neo';
+font-size: 30pt;
+font-weight: 700;
+line-height: 30pt;
+letter-spacing: -0.02em;
+color: #222222;
+margin-bottom: 48pt;
+
+@media (max-width: 899pt) {
   font-size: 12pt;
-  font-weight: 700;
   line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: #222222;
-`;
+  margin-bottom: 0%;
+}
+  `;
 
 const BoardBox = styled.div`
   margin-top: 12.75pt;
-  box-shadow: 0px 0px 10px 0px #89a3c933;
-  border-radius: 6pt;
   padding-left: 9.75pt;
   padding-right: 10.5pt;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  @media (max-width: 899pt) {
+
+  box-shadow: 0px 0px 10px 0px #89a3c933;
+  border-radius: 6pt;
+  display: block;
+}
 `;
 
 const LibraryList = styled.div`
-  border-top: 1px solid #e9eaee;
   display: flex;
-  padding-left: 6pt;
+  width: 436.5pt;
+  height: 120pt;
+  margin: 0 22.5pt 22.5pt 0;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 16px;
   &:first-of-type {
     border-top: none;
   }
+  &:nth-of-type(even){
+    margin-right:0;
+  }
+
+@media (max-width: 899pt) {
+  width: 100%;
+  height: auto;
+  border-top: 1px solid #e9eaee;
+  box-shadow: none;
+  border-radius: 0;
+  margin: 0;
+  padding-left: 6pt;
+}
+
 `;
 
 const ProfileImg = styled.div`

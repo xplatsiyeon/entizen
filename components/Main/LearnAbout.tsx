@@ -107,8 +107,15 @@ const LearnAbout = (props: Props) => {
                     src={el.leftImg}
                     alt="icon"
                     layout="intrinsic"
-                    width={`${el.width}pt`}
-                    height={`${el.height}pt`}
+                  />
+                </LeftImgBox>
+                <LeftImgBox>
+                  <Image
+                    src={el.leftImg}
+                    alt="icon"
+                    layout="intrinsic"
+                    width={el.width}
+                    height={el.height}
                   />
                 </LeftImgBox>
                 <RightImgBox>
@@ -124,22 +131,41 @@ const LearnAbout = (props: Props) => {
 };
 
 const Wrapper = styled.div`
-  margin-top: 30pt;
-  width: 100%;
+width:  900pt;
+margin : 90pt auto;
+  @media (max-width: 899pt) {
+    width: 100%;
+ 
+  margin: 30pt 0 0;
+}
 `;
 
 const LearnText = styled(Typography)`
   width: 100%;
-  font-size: 12pt;
-  font-weight: 700;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
   color: #222222;
+  font-family: 'Spoqa Han Sans Neo';
+font-size: 30pt;
+font-weight: 700;
+line-height: 30pt;
+letter-spacing: -0.02em;
+text-align: left;
+
+
+  @media (max-width: 899pt) {
+
+  font-size: 12pt;
+  line-height: 12pt;
+  }
 `;
 
 const LearnCarousel = styled.div`
-  margin-top: 12pt;
+  margin-top: 48pt;
   overflow-x: scroll;
+  padding: 10pt 7.5pt;
+  @media (max-width: 899pt) {
+    margin-top: 12pt;
+ padding: 0;
+ }
 `;
 
 const TabBox = styled.div`
@@ -149,26 +175,63 @@ const TabBox = styled.div`
 `;
 
 const Item = styled.div`
-  width: 105pt;
-  height: 153.75pt;
-  padding-left: 12pt;
-  padding-top: 12pt;
+  width: 207pt;
+  height: 237pt;
+  //padding-left: 12pt;
   border-radius: 6pt;
   background-color: ${(props) => props.color};
-  box-shadow: 0px 0px 10px 0px #89a3c933;
+  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   position: relative;
+  @media (max-width: 899pt) {
+
+  width: 105pt;
+  height: 153.75pt;
+  padding-top: 12pt;
+  padding-left: 12pt;
+}
 `;
 
 const ItemTitle = styled(Typography)`
+font-family: 'Spoqa Han Sans No';
+font-size: 13.5pt;
+font-weight: 500;
+line-height: 24.75pt;;
+letter-spacing: -0.02em;
+margin: 25.5pt 0 6pt 28.5pt;
+text-align: left;
+
+@media (max-width: 899pt) {
   font-size: 9pt;
   line-height: 15pt;
-  font-weight: 500;
+  margin:0;
+}
 `;
 
 const LeftImgBox = styled.div`
   position: absolute;
+
+  bottom: 24.75pt;
+  left: 28.5pt;
+  width: 57pt;
+  height: 57pt;
+
+  &:nth-of-type(2){
+    display: none;
+  }
+@media (max-width: 899pt) {
+
+  width: auto;
+  height: auto;
   bottom: 11.25pt;
   left: 12pt;
+  &:nth-of-type(1){
+    display: none;
+  }
+  &:nth-of-type(2){
+    display: block;
+  }
+  
+}
 `;
 
 const RightImgBox = styled.div`
@@ -177,15 +240,28 @@ const RightImgBox = styled.div`
   height: 24pt;
   right: 9.75pt;
   bottom: 12pt;
+display: none;
+@media (max-width: 899pt) {
+display: block;
+}
 `;
 
 const ContentText = styled(Typography)`
+font-family: 'Spoqa Han Sans Neo';
+font-size: 26px;
+font-weight: 400;
+line-height: 40px;
+letter-spacing: -0.02em;
+margin-left:28.5pt;
+
+@media (max-width: 899pt) {
   margin-top: 6pt;
+margin-left:0;
   white-space: pre-wrap;
   font-weight: 400;
   font-size: 12pt;
   line-height: 18pt;
-  letter-spacing: -0.02em;
+}
 `;
 
 export default LearnAbout;
