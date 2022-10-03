@@ -103,11 +103,7 @@ const LearnAbout = (props: Props) => {
                 <ItemTitle color={el.topTextColor}>{el.headText}</ItemTitle>
                 <ContentText color={el.color}>{el.menuText}</ContentText>
                 <LeftImgBox>
-                  <Image
-                    src={el.leftImg}
-                    alt="icon"
-                    layout="intrinsic"
-                  />
+                  <Image src={el.leftImg} alt="icon" layout="intrinsic" />
                 </LeftImgBox>
                 <LeftImgBox>
                   <Image
@@ -131,30 +127,28 @@ const LearnAbout = (props: Props) => {
 };
 
 const Wrapper = styled.div`
-width:  900pt;
-margin : 90pt auto;
+  width: 900pt;
+  margin: 90pt auto;
   @media (max-width: 899pt) {
     width: 100%;
- 
-  margin: 30pt 0 0;
-}
+
+    margin: 30pt 0 0;
+  }
 `;
 
 const LearnText = styled(Typography)`
   width: 100%;
   color: #222222;
   font-family: 'Spoqa Han Sans Neo';
-font-size: 30pt;
-font-weight: 700;
-line-height: 30pt;
-letter-spacing: -0.02em;
-text-align: left;
-
+  font-size: 30pt;
+  font-weight: 700;
+  line-height: 30pt;
+  letter-spacing: -0.02em;
+  text-align: left;
 
   @media (max-width: 899pt) {
-
-  font-size: 12pt;
-  line-height: 12pt;
+    font-size: 12pt;
+    line-height: 12pt;
   }
 `;
 
@@ -164,8 +158,8 @@ const LearnCarousel = styled.div`
   padding: 10pt 7.5pt;
   @media (max-width: 899pt) {
     margin-top: 12pt;
- padding: 0;
- }
+    padding: 0;
+  }
 `;
 
 const TabBox = styled.div`
@@ -176,35 +170,34 @@ const TabBox = styled.div`
 
 const Item = styled.div`
   width: 207pt;
-  height: 237pt;
+  height: 273pt;
   //padding-left: 12pt;
   border-radius: 6pt;
   background-color: ${(props) => props.color};
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   position: relative;
   @media (max-width: 899pt) {
-
-  width: 105pt;
-  height: 153.75pt;
-  padding-top: 12pt;
-  padding-left: 12pt;
-}
+    width: 105pt;
+    height: 153.75pt;
+    padding-top: 12pt;
+    padding-left: 12pt;
+  }
 `;
 
 const ItemTitle = styled(Typography)`
-font-family: 'Spoqa Han Sans No';
-font-size: 13.5pt;
-font-weight: 500;
-line-height: 24.75pt;;
-letter-spacing: -0.02em;
-margin: 25.5pt 0 6pt 28.5pt;
-text-align: left;
+  font-family: 'Spoqa Han Sans No';
+  font-size: 13.5pt;
+  font-weight: 500;
+  line-height: 24.75pt;
+  letter-spacing: -0.02em;
+  margin: 25.5pt 0 6pt 28.5pt;
+  text-align: left;
 
-@media (max-width: 899pt) {
-  font-size: 9pt;
-  line-height: 15pt;
-  margin:0;
-}
+  @media (max-width: 899pt) {
+    font-size: 9pt;
+    line-height: 15pt;
+    margin: 0;
+  }
 `;
 
 const LeftImgBox = styled.div`
@@ -215,23 +208,21 @@ const LeftImgBox = styled.div`
   width: 57pt;
   height: 57pt;
 
-  &:nth-of-type(2){
+  &:nth-of-type(2) {
     display: none;
   }
-@media (max-width: 899pt) {
-
-  width: auto;
-  height: auto;
-  bottom: 11.25pt;
-  left: 12pt;
-  &:nth-of-type(1){
-    display: none;
+  @media (max-width: 899pt) {
+    width: auto;
+    height: auto;
+    bottom: 11.25pt;
+    left: 12pt;
+    &:nth-of-type(1) {
+      display: none;
+    }
+    &:nth-of-type(2) {
+      display: block;
+    }
   }
-  &:nth-of-type(2){
-    display: block;
-  }
-  
-}
 `;
 
 const RightImgBox = styled.div`
@@ -240,28 +231,28 @@ const RightImgBox = styled.div`
   height: 24pt;
   right: 9.75pt;
   bottom: 12pt;
-display: none;
-@media (max-width: 899pt) {
-display: block;
-}
+  display: none;
+  @media (max-width: 899pt) {
+    display: block;
+  }
 `;
 
 const ContentText = styled(Typography)`
-font-family: 'Spoqa Han Sans Neo';
-font-size: 26px;
-font-weight: 400;
-line-height: 40px;
-letter-spacing: -0.02em;
-margin-left:28.5pt;
-
-@media (max-width: 899pt) {
-  margin-top: 6pt;
-margin-left:0;
-  white-space: pre-wrap;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 19.5pt;
   font-weight: 400;
-  font-size: 12pt;
-  line-height: 18pt;
-}
+  line-height: 30pt;
+  letter-spacing: -0.02em;
+  margin-left: 28.5pt;
+  white-space: pre-wrap;
+
+  @media (max-width: 899pt) {
+    margin-top: 6pt;
+    margin-left: 0;
+    white-space: pre-wrap;
+    font-size: 12pt;
+    line-height: 18pt;
+  }
 `;
 
 export default LearnAbout;

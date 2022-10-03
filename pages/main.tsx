@@ -14,6 +14,13 @@ import EntizenLibrary from 'components/Main/EntizenLibrary';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import main2 from 'public/images/main2.png';
+import main3 from 'public/images/main3.png';
+import main4 from 'public/images/main4.png';
+import main5 from 'public/images/main5.png';
+import main6 from 'public/images/main6.png';
+import main7 from 'public/images/main7.png';
+import main8 from 'public/images/main8.png';
+import main9 from 'public/images/main9.png';
 
 const Main = () => {
   return (
@@ -33,11 +40,22 @@ const Main = () => {
         </ProjectWrap>
       </ContentWrap>
       <ImageWrap>
-        <Image src={main2} />
+        <Image src={main2} alt="main image" />
       </ImageWrap>
       <WhyEntizen />
       <LearnAbout />
       <EntizenLibrary />
+      <ImageWrap2>
+        <Image src={main3} />
+        <Image src={main4} />
+        <Image src={main5} />
+        <Image src={main6} />
+        <Image src={main7} />
+        <Image src={main8} />
+        <Wrap>
+          <Image src={main9} />
+        </Wrap>
+      </ImageWrap2>
       <WebFooter />
     </>
   );
@@ -110,4 +128,15 @@ const ProjectWrap = styled.div`
 
 const ImageWrap = styled.section`
   margin: 90pt 0;
+`;
+
+const ImageWrap2 = styled.section``;
+
+const Wrap = styled.div`
+  width: 900pt;
+  margin: 60pt auto 90pt;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+  }
 `;

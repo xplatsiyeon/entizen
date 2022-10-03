@@ -104,44 +104,43 @@ const EntizenLibrary = (props: Props) => {
 };
 
 const Wrapper = styled.div`
-width: 900pt;
-margin: 90pt auto 48pt;
+  width: 900pt;
+  margin: 90pt auto 48pt;
 
-@media (max-width: 899pt) {
-  margin: 30pt 0;
-  width: 100%;
-}
+  @media (max-width: 899pt) {
+    margin: 30pt 0;
+    width: 100%;
+  }
 `;
 
 const LearnText = styled(Typography)`
-font-family: 'Spoqa Han Sans Neo';
-font-size: 30pt;
-font-weight: 700;
-line-height: 30pt;
-letter-spacing: -0.02em;
-color: #222222;
-margin-bottom: 48pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 30pt;
+  font-weight: 700;
+  line-height: 30pt;
+  letter-spacing: -0.02em;
+  color: #222222;
+  margin-bottom: 48pt;
 
-@media (max-width: 899pt) {
-  font-size: 12pt;
-  line-height: 12pt;
-  margin-bottom: 0%;
-}
-  `;
+  @media (max-width: 899pt) {
+    font-size: 12pt;
+    line-height: 12pt;
+    margin-bottom: 0%;
+  }
+`;
 
 const BoardBox = styled.div`
   margin-top: 12.75pt;
-  padding-left: 9.75pt;
   padding-right: 10.5pt;
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   @media (max-width: 899pt) {
-
-  box-shadow: 0px 0px 10px 0px #89a3c933;
-  border-radius: 6pt;
-  display: block;
-}
+    padding-left: 9.75pt;
+    box-shadow: 0px 0px 10px 0px #89a3c933;
+    border-radius: 6pt;
+    display: block;
+  }
 `;
 
 const LibraryList = styled.div`
@@ -154,41 +153,55 @@ const LibraryList = styled.div`
   &:first-of-type {
     border-top: none;
   }
-  &:nth-of-type(even){
-    margin-right:0;
+  &:nth-of-type(even) {
+    margin-right: 0;
   }
 
-@media (max-width: 899pt) {
-  width: 100%;
-  height: auto;
-  border-top: 1px solid #e9eaee;
-  box-shadow: none;
-  border-radius: 0;
-  margin: 0;
-  padding-left: 6pt;
-}
-
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: auto;
+    border-top: 1px solid #e9eaee;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+    padding-left: 6pt;
+  }
 `;
 
 const ProfileImg = styled.div`
-  padding-top: 13.5pt;
-  padding-bottom: 13.5pt;
-  padding-right: 12pt;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 32.5pt;
   & > div {
-    width: 33pt;
-    height: 33pt;
+    width: 75pt;
+    height: 75pt;
     border: 1px solid #e2e5ed;
     border-radius: 50%;
+    margin-right: 15pt;
+  }
+  @media (max-width: 899pt) {
+    padding-top: 13.5pt;
+    padding-bottom: 13.5pt;
+    padding-right: 12pt;
+    padding-left: 0pt;
+    & > div {
+      width: 33pt;
+      height: 33pt;
+      margin-right: 0;
+    }
   }
 `;
 
 const TitleNDetail = styled.div`
-  padding-top: 12pt;
-  padding-bottom: 12pt;
+  padding: 22.5pt 32.25pt 22.5pt 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 3pt;
+  @media (max-width: 899pt) {
+    padding: 12pt 0;
+  }
 `;
 
 const LibraryTitle = styled(Typography)`

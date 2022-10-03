@@ -60,92 +60,95 @@ const SignUpTerms = () => {
     <React.Fragment>
       <Body>
         <WebHeader />
-          <Inner>
-            <Wrapper>
-        <Header />
-        <Notice variant="h3">
-          엔티즌 약관에
-          <br />
-          동의해주세요
-        </Notice>
-        <StyledTerms>
-          <Image
-            onClick={fullTermsHandler}
-            alt="check"
-            src={fullTerms ? CheckOnImg : CheckImg}
-          />
-          <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
-        </StyledTerms>
-        <Form
-          isterms={requiredTerms.toString()}
-          onClick={() => setRequiredTerms((prev) => !prev)}
-        >
-          <Box className="box">
-            <span>
-              <Image alt="check" src={requiredTerms ? CheckOnImg : CheckImg} />
-            </span>
-            <p>필수 약관에 동의합니다.</p>
-          </Box>
-          <Check>
-            <Item>
-              <div>
-                <Image
-                  alt="smallCheck"
-                  src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
-                />
-                <p>[필수]사용자 이용약관</p>
-              </div>
-              <span onClick={TermsofServiceHandler}>보기</span>
-            </Item>
-          </Check>
-          <Check>
-            <Item>
-              <div>
-                <Image
-                  alt="smallCheck"
-                  src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
-                />
-                <p>[필수] 만 14세 이상</p>
-              </div>
-              <span onClick={TermsofServiceHandler}>보기</span>
-            </Item>
-          </Check>
-          <Check>
-            <Item>
-              <div>
-                <Image
-                  alt="smallCheck"
-                  src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
-                />
-                <p>[필수]개인정보 처리방침 동의</p>
-              </div>
-              <span onClick={TermsofServiceHandler}>보기</span>
-            </Item>
-          </Check>
-        </Form>
-        <BottomForm isterms={selectTerms.toString()}>
-          <Box>
-            <Item onClick={() => setSelectTerms((prev) => !prev)}>
-              <div>
-                <Image
-                  alt="smallCheck"
-                  src={selectTerms ? SmallCheckOnImg : SmallCheckImg}
-                />
-                <p>[선택]위치정보 서비스 약관</p>
-              </div>
-              <span onClick={TermsofServiceHandler}>보기</span>
-            </Item>
-          </Box>
-        </BottomForm>
-        <Btn
-          text="본인인증하기"
-          name="form_chk"
-          handleClick={handleClick}
-          isClick={nextBtn}
-          marginTop="63"
-        />
-            </Wrapper>
-          </Inner>  
+        <Inner>
+          <Wrapper>
+            <Header />
+            <Notice variant="h3">
+              엔티즌 약관에
+              <br />
+              동의해주세요
+            </Notice>
+            <StyledTerms>
+              <Image
+                onClick={fullTermsHandler}
+                alt="check"
+                src={fullTerms ? CheckOnImg : CheckImg}
+              />
+              <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
+            </StyledTerms>
+            <Form
+              isterms={requiredTerms.toString()}
+              onClick={() => setRequiredTerms((prev) => !prev)}
+            >
+              <Box className="box">
+                <span>
+                  <Image
+                    alt="check"
+                    src={requiredTerms ? CheckOnImg : CheckImg}
+                  />
+                </span>
+                <p>필수 약관에 동의합니다.</p>
+              </Box>
+              <Check>
+                <Item>
+                  <div>
+                    <Image
+                      alt="smallCheck"
+                      src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                    />
+                    <p>[필수]사용자 이용약관</p>
+                  </div>
+                  <span onClick={TermsofServiceHandler}>보기</span>
+                </Item>
+              </Check>
+              <Check>
+                <Item>
+                  <div>
+                    <Image
+                      alt="smallCheck"
+                      src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                    />
+                    <p>[필수] 만 14세 이상</p>
+                  </div>
+                  <span onClick={TermsofServiceHandler}>보기</span>
+                </Item>
+              </Check>
+              <Check>
+                <Item>
+                  <div>
+                    <Image
+                      alt="smallCheck"
+                      src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                    />
+                    <p>[필수]개인정보 처리방침 동의</p>
+                  </div>
+                  <span onClick={TermsofServiceHandler}>보기</span>
+                </Item>
+              </Check>
+            </Form>
+            <BottomForm isterms={selectTerms.toString()}>
+              <Box>
+                <Item onClick={() => setSelectTerms((prev) => !prev)}>
+                  <div>
+                    <Image
+                      alt="smallCheck"
+                      src={selectTerms ? SmallCheckOnImg : SmallCheckImg}
+                    />
+                    <p>[선택]위치정보 서비스 약관</p>
+                  </div>
+                  <span onClick={TermsofServiceHandler}>보기</span>
+                </Item>
+              </Box>
+            </BottomForm>
+            <Btn
+              text="본인인증하기"
+              name="form_chk"
+              handleClick={handleClick}
+              isClick={nextBtn}
+              marginTop="63"
+            />
+          </Wrapper>
+        </Inner>
         <WebFooter />
       </Body>
     </React.Fragment>
@@ -162,7 +165,7 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -172,10 +175,10 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
@@ -183,12 +186,10 @@ const Inner = styled.div`
     width: 100%;
     height: 100vh;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-    padding:0;
+    padding: 0;
     box-shadow: none;
     background: none;
+    margin: 0;
   }
   @media (max-height: 500pt) {
     height: 100%;
@@ -196,7 +197,7 @@ const Inner = styled.div`
 `;
 
 const Wrapper = styled.div`
-  position:relative;  
+  position: relative;
   margin: 0 31.875pt;
   @media (max-width: 899pt) {
     height: 100%;

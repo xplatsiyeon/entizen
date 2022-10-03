@@ -113,8 +113,10 @@ const AsRequestWriteReview = ({ setModalOpen, modalOpen }: Props) => {
 
 const Wrapper = styled.div`
   position: relative;
-  padding-left: 15pt;
-  padding-right: 15pt;
+  @media (max-width: 899pt) {
+    padding-left: 15pt;
+    padding-right: 15pt;
+  }
 `;
 
 const DownArrowBox = styled.div`

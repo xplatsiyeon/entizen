@@ -33,64 +33,64 @@ const ProfileEditing = () => {
     <React.Fragment>
       <WebBody>
         <WebHeader />
-          <Inner>
-            <Wrapper>
+        <Inner>
+          <Wrapper>
             <Header back={true} title="프로필 변경" />
-      <Body>
-        <Avatar>
-          <div className="img-bg">
-            {/* 아바타 */}
-            <div className="avatar-bg">
-              <Image
-                src={avatar.length > 1 ? avatar : AvatarIcon}
-                alt="avatar"
-                layout="fill"
-                className="test"
-              />
-            </div>
-            {/* 포토 이미지 */}
-            <label className="avatar-photo">
-              <input
-                className="file-input"
-                type={'file'}
-                accept="image/*"
-                onChange={onImgInputBtnClick}
-              />
-              <Image src={AvatarPhoto} alt="avatar-photo" />
-            </label>
-          </div>
-        </Avatar>
-        <Label mt={33}>아이디</Label>
-        <InputBox type="text" readOnly placeholder="test" />
-        <Label mt={30}>이름</Label>
-        <InputBox type="text" value={name} onChange={HandleOnChange} />
-        <Form>
-          <TitleSection>
-            <Label mt={0}>휴대폰 번호</Label>
-            <div>
-              <Image src={Arrow} alt="arrow-img" />
-            </div>
-          </TitleSection>
-          <Text>
-            휴대폰 번호 변경 시 가입하신 분의 명의로 된 번호로만 변경이
-            가능합니다.
-          </Text>
-        </Form>
-        <Form>
-          <TitleSection>
-            <Label mt={0}>비밀번호 변경</Label>
-            <div>
-              <Image src={Arrow} alt="arrow-img" />
-            </div>
-          </TitleSection>
-        </Form>
-      </Body>
-      <BtnBox>
-        <Blur />
-        <Btn>수정 완료</Btn>
-      </BtnBox> 
-            </Wrapper>
-          </Inner>  
+            <Body>
+              <Avatar>
+                <div className="img-bg">
+                  {/* 아바타 */}
+                  <div className="avatar-bg">
+                    <Image
+                      src={avatar.length > 1 ? avatar : AvatarIcon}
+                      alt="avatar"
+                      layout="fill"
+                      className="test"
+                    />
+                  </div>
+                  {/* 포토 이미지 */}
+                  <label className="avatar-photo">
+                    <input
+                      className="file-input"
+                      type={'file'}
+                      accept="image/*"
+                      onChange={onImgInputBtnClick}
+                    />
+                    <Image src={AvatarPhoto} alt="avatar-photo" />
+                  </label>
+                </div>
+              </Avatar>
+              <Label mt={33}>아이디</Label>
+              <InputBox type="text" readOnly placeholder="test" />
+              <Label mt={30}>이름</Label>
+              <InputBox type="text" value={name} onChange={HandleOnChange} />
+              <Form>
+                <TitleSection>
+                  <Label mt={0}>휴대폰 번호</Label>
+                  <div>
+                    <Image src={Arrow} alt="arrow-img" />
+                  </div>
+                </TitleSection>
+                <Text>
+                  휴대폰 번호 변경 시 가입하신 분의 명의로 된 번호로만 변경이
+                  가능합니다.
+                </Text>
+              </Form>
+              <Form>
+                <TitleSection>
+                  <Label mt={0}>비밀번호 변경</Label>
+                  <div>
+                    <Image src={Arrow} alt="arrow-img" />
+                  </div>
+                </TitleSection>
+              </Form>
+            </Body>
+            <BtnBox>
+              <Blur />
+              <Btn>수정 완료</Btn>
+            </BtnBox>
+          </Wrapper>
+        </Inner>
         <WebFooter />
       </WebBody>
     </React.Fragment>
@@ -106,7 +106,7 @@ const WebBody = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 800pt) {
     display: block;
@@ -116,36 +116,34 @@ const WebBody = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
 
-@media (max-width: 899pt) {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  top: 0;
-  left: 0%;
-  transform: none;
-  padding:0;
-  box-shadow: none;
-  background: none;
-}
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    background: none;
+  }
 `;
 
 const Wrapper = styled.div`
-position:relative;  
-margin: 0 31.875pt;
+  position: relative;
+  margin: 0 31.875pt;
 
-@media (max-width: 899pt) {
-  height: 100%;
-  margin: 0;
-}
-`
+  @media (max-width: 899pt) {
+    height: 100%;
+    margin: 0;
+  }
+`;
 const Body = styled.div`
   padding: 27pt 15pt 96pt 15pt;
 `;
@@ -214,7 +212,7 @@ const Text = styled.p`
   color: ${colors.gray2};
 `;
 const BtnBox = styled.div`
-  display:none;
+  display: none;
   position: fixed;
   box-sizing: border-box;
   bottom: 0;
@@ -223,7 +221,7 @@ const BtnBox = styled.div`
   width: 100%;
 
   @media (max-width: 899pt) {
-    display:block;
+    display: block;
   }
 `;
 const Btn = styled.div`

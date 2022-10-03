@@ -64,82 +64,86 @@ const Request1_7 = (props: Props) => {
     <React.Fragment>
       <WebBody>
         <WebHeader />
-          <Inner>
-            <Wrapper>
-      {isModal && <QuotationModal isModal={isModal} setIsModal={setIsModal} />}
-      <Header
-        title="간편견적"
-        exitBtn={true}
-        handleOnClick={() => router.push('/')}
-      />
-      <Body>
-        <AddressBox>
-          <div className="mapPin-icon">
-            <Image src={mapPin} alt="mapPin-icon" layout="fill" />
-          </div>
-          <AddressName>{locationList.jibunAddr}</AddressName>
-        </AddressBox>
-        <SubTitle>수익지분</SubTitle>
-        <NameBox>
-          <span className="name">내 수익/투자</span>
-          <span className="name">판매자</span>
-        </NameBox>
-        <SliderSizes
-          difaultValue={parseInt(requestData?.investRate!)}
-          value={value}
-          setValue={setValue}
-          disabled={disabled}
-          setDisabled={setDisabled}
-        />
-        <ContentsWrapper>
-          <div className="contents-box">
-            <span className="name">
-              <span className="accent">월</span> 구독료
-            </span>
-            <span>
-              <span className="price">
-                {`${PriceCalculation(
-                  requestData?.minSubscribePricePerMonth!,
-                )} ~ ${PriceCalculation(
-                  requestData?.maxSubscribePricePerMonth!,
-                )}`}
-              </span>
-            </span>
-          </div>
-          <div className="line" />
-          <div className="contents-box">
-            <span className="name">
-              <span className="accent">총</span> 구독료
-            </span>
-            <span>
-              <span className="price">
-                {`${PriceCalculation(
-                  requestData?.minTotalSubscribePrice!,
-                )} ~ ${PriceCalculation(requestData?.maxTotalSubscribePrice!)}`}
-              </span>
-            </span>
-          </div>
-        </ContentsWrapper>
-        <RequestForm>
-          <div className="name">
-            <span>기타 요청사항 (선택)</span>
-            <span>{textValue.length}/500</span>
-          </div>
-          <textarea
-            className="text"
-            value={textValue}
-            onChange={HandleTextValue}
-            placeholder={`예시1) 광고 LCD가 설치된 충전기로 견적주세요.\n예시2) 7kW는 실내, 50kW는 실외에 설치하려 합니다.\n예시3) 충전요금은 제가 정하고 싶어요.`}
-            maxLength={500}
-            rows={3}
-          ></textarea>
-        </RequestForm>
-      </Body>
-      <Btn buttonActivate={buttonActivate} onClick={handleButton}>
-        구독상품 견적요청
-      </Btn>
-            </Wrapper>
-          </Inner>  
+        <Inner>
+          <Wrapper>
+            {isModal && (
+              <QuotationModal isModal={isModal} setIsModal={setIsModal} />
+            )}
+            <Header
+              title="간편견적"
+              exitBtn={true}
+              handleOnClick={() => router.push('/')}
+            />
+            <Body>
+              <AddressBox>
+                <div className="mapPin-icon">
+                  <Image src={mapPin} alt="mapPin-icon" layout="fill" />
+                </div>
+                <AddressName>{locationList.jibunAddr}</AddressName>
+              </AddressBox>
+              <SubTitle>수익지분</SubTitle>
+              <NameBox>
+                <span className="name">내 수익/투자</span>
+                <span className="name">판매자</span>
+              </NameBox>
+              <SliderSizes
+                difaultValue={parseInt(requestData?.investRate!)}
+                value={value}
+                setValue={setValue}
+                disabled={disabled}
+                setDisabled={setDisabled}
+              />
+              <ContentsWrapper>
+                <div className="contents-box">
+                  <span className="name">
+                    <span className="accent">월</span> 구독료
+                  </span>
+                  <span>
+                    <span className="price">
+                      {`${PriceCalculation(
+                        requestData?.minSubscribePricePerMonth!,
+                      )} ~ ${PriceCalculation(
+                        requestData?.maxSubscribePricePerMonth!,
+                      )}`}
+                    </span>
+                  </span>
+                </div>
+                <div className="line" />
+                <div className="contents-box">
+                  <span className="name">
+                    <span className="accent">총</span> 구독료
+                  </span>
+                  <span>
+                    <span className="price">
+                      {`${PriceCalculation(
+                        requestData?.minTotalSubscribePrice!,
+                      )} ~ ${PriceCalculation(
+                        requestData?.maxTotalSubscribePrice!,
+                      )}`}
+                    </span>
+                  </span>
+                </div>
+              </ContentsWrapper>
+              <RequestForm>
+                <div className="name">
+                  <span>기타 요청사항 (선택)</span>
+                  <span>{textValue.length}/500</span>
+                </div>
+                <textarea
+                  className="text"
+                  value={textValue}
+                  onChange={HandleTextValue}
+                  placeholder={`예시1) 광고 LCD가 설치된 충전기로 견적주세요.\n예시2) 7kW는 실내, 50kW는 실외에 설치하려 합니다.\n예시3) 충전요금은 제가 정하고 싶어요.`}
+                  maxLength={500}
+                  rows={3}
+                ></textarea>
+              </RequestForm>
+            </Body>
+            <Btn buttonActivate={buttonActivate} onClick={handleButton}>
+              구독상품 견적요청
+            </Btn>
+          </Wrapper>
+        </Inner>
         <WebFooter />
       </WebBody>
     </React.Fragment>
@@ -155,7 +159,7 @@ const WebBody = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
@@ -166,39 +170,37 @@ const WebBody = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  border-radius: 12pt;  
+  border-radius: 12pt;
   padding: 32.25pt 0 42pt;
 
-@media (max-width: 899pt) {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  top: 0;
-  left: 0%;
-  transform: none;
-  padding:0;
-  box-shadow: none;
-  background: none;
-}
-@media (max-height: 500pt) {
-  height: 100%;
-}
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
 `;
 
 const Wrapper = styled.div`
-position:relative;  
-margin: 0 31.875pt;
+  position: relative;
+  margin: 0 31.875pt;
 
-@media (max-width: 899pt) {
-  height: 100%;
-  margin: 0;
-}
-`
+  @media (max-width: 899pt) {
+    height: 100%;
+    margin: 0;
+  }
+`;
 const Body = styled.div`
   padding: 27pt 15pt 45pt 15pt;
 
@@ -330,10 +332,10 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   border-radius: 8px;
   //margin-bottom: 20pt;
 
-  @media (max-width: 899pt) { 
-  position: fixed;
-  left: 0;
-  padding: 15pt 0 39pt 0;
-  margin-bottom: 0pt;
+  @media (max-width: 899pt) {
+    position: fixed;
+    left: 0;
+    padding: 15pt 0 39pt 0;
+    margin-bottom: 0pt;
   }
 `;

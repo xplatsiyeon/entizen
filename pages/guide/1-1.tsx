@@ -33,7 +33,7 @@ const Guide1_1 = () => {
 
   return (
     <>
-      <WebHeader />
+      <WebHeader num={0} now={'guide'} />
       <Wrapper>
         {/* 링크 리스트 */}
         <GuideHeader
@@ -136,6 +136,6 @@ const Item = styled.div<{ idx: string; num: string }>`
   }
 
   @media (max-width: 899pt) {
-  padding: 0 11.25pt;
+    padding: 0 11.25pt;
   }
 `;
