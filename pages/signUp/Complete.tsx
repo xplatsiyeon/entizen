@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
-import WhyEntizen from 'components/Main/WhyEntizen';
+import WhyEntizen from 'components/Main/WebWhyEntizen';
 
 const SignUpComplete = () => {
   const router = useRouter();

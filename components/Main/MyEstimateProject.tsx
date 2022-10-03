@@ -73,10 +73,16 @@ const MyEstimateProject = (props: Props) => {
 };
 
 const Wrapper = styled.div`
-  margin-top: 60pt;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 11.25pt;
+  gap: 22.5pt;
+  height: 165pt;
+  @media (max-width: 899pt) {
+    gap: 11.25pt;
+    flex: none;
+    margin-top: 60pt;
+    height: auto;
+  }
 `;
 
 const BoxWrapper = styled.div`

@@ -10,20 +10,22 @@ import bulb from 'public/images/bulb.png';
 import message from 'public/images/message.png';
 import mail from 'public/images/mail.png';
 import carnation from 'public/images/carnation.png';
+import { useRouter } from 'next/router';
 
-type Props = {};
+interface MenuList {
+  headText: string;
+  arrowIcon: StaticImageData;
+  background: string;
+  color: string;
+  bigIcon: StaticImageData;
+  menuText: string;
+  width: string;
+  height: string;
+}
 
-const WhyEntizen = (props: Props) => {
-  const menuList: {
-    headText: string;
-    arrowIcon: StaticImageData;
-    background: string;
-    color: string;
-    bigIcon: StaticImageData;
-    menuText: string;
-    width: string;
-    height: string;
-  }[] = [
+const WhyEntizen = () => {
+  const router = useRouter();
+  const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',
       arrowIcon: blackWhiteArrow,
@@ -65,6 +67,21 @@ const WhyEntizen = (props: Props) => {
       height: '42.75pt',
     },
   ];
+
+  const movePage = (el: MenuList) => {
+    switch (el.headText) {
+      case '플랫폼 가이드':
+        return router.push('/guide');
+      case '구독 가이드':
+        return router.push('/mypage');
+      case '충전기 가이드':
+        return alert('2차 작업 범위 페이지입니다.');
+      case '보조금 가이드':
+        return router.push('/quotation/request');
+      default:
+        break;
+    }
+  };
   return (
     <>
       <Wrapper>
@@ -73,7 +90,11 @@ const WhyEntizen = (props: Props) => {
         </WhyBox>
         <GridBox>
           {menuList.map((el, index) => (
-            <GridElement color={el.background} key={index}>
+            <GridElement
+              color={el.background}
+              key={index}
+              onClick={() => movePage(el)}
+            >
               <TextArea color={el.color}>{el.menuText}</TextArea>
               <ArrowImgBox>
                 <Image src={el.arrowIcon} alt="icon" />
@@ -91,15 +112,12 @@ const WhyEntizen = (props: Props) => {
 
 const Wrapper = styled.div`
   margin-top: 30pt;
-  width: 900pt;
-  margin: 0 auto;
-
-  @media (max-width: 899pt) {
-    width: 100%;
-  }
+  width: 100%;
 `;
 
 const WhyBox = styled(Typography)`
+  text-align: center;
+  margin-bottom: 30pt;
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
@@ -108,59 +126,82 @@ const WhyBox = styled(Typography)`
   & span {
     color: ${colors.main};
   }
+
+  @media (max-width: 899pt) {
+    text-align: left;
+    margin-bottom: 0;
+  }
 `;
 
 const GridBox = styled.div`
-  margin-top: 12pt;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 22.5pt;
+  display: flex;
 
   @media (max-width: 899pt) {
+    margin-top: 12pt;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 11.25pt;
   }
 `;
 
 const GridElement = styled.div`
   width: 100%;
-  height: 352.5pt;
+  height: 255pt;
   background-color: ${(props) => props.color};
-  border-radius: 6pt;
+  border-radius: 12pt;
   position: relative;
-  border: 1.5pt solid #e2e5ed;
-  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
+  box-shadow: 0px 0px 11.25pt rgba(137, 163, 201, 0.2);
+
+  margin-right: 22.5pt;
+  &:nth-of-type(4) {
+    margin-right: 0;
+  }
   @media (max-width: 899pt) {
+    margin-right: 0;
     height: 120pt;
-    border: none;
     box-shadow: none;
+    border-radius: 6pt;
   }
 `;
 
 const TextArea = styled.div`
   white-space: pre-wrap;
-  margin-left: 12pt;
-  margin-top: 12pt;
+  margin-left: 22.5pt;
+  margin-top: 22.5pt;
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
   letter-spacing: -0.02em;
   text-align: left;
   color: ${(props) => props.color};
+  @media (max-width: 899pt) {
+    margin-left: 12pt;
+    margin-top: 12pt;
+  }
 `;
 
 const ArrowImgBox = styled.div`
+  display: none;
   position: absolute;
   right: 12pt;
   top: 12pt;
+  @media (max-width: 899pt) {
+    display: block;
+  }
 `;
 
 const IconImgBox = styled.div<{ width: string; height: string }>`
   position: absolute;
   width: ${({ width }) => width};
   height: ${({ height }) => height};
-  left: 12pt;
-  bottom: 12pt;
-  object-fit: cover;
+
+  left: 22.5pt;
+  bottom: 22.5pt;
+
+  @media (max-width: 899pt) {
+    left: 12pt;
+    bottom: 12pt;
+  }
 `;
 
 export default WhyEntizen;
