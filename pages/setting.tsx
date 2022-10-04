@@ -34,7 +34,7 @@ const Setting = (props: Props) => {
         service_provider: 'NAVER',
       },
     });
-    console.log(res);
+    console.log('여기에요 여기  =>    ' + res);
 
     if (res) {
       router.push('/'); // 로그인 페이지로 이동
