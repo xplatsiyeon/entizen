@@ -24,28 +24,28 @@ const Setting = (props: Props) => {
   };
   const handleLogoutOnClickModalClick = async () => {
     const LOG_OUT = `https://test-api.entizen.kr/api/members/logout`;
-    const accessToken = localStorage.getItem('ACCESS_TOKEN');
-    console.log(accessToken);
-    console.log(JSON.parse(accessToken!));
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const refreshToken = localStorage.getItem('REFRESH_TOKEN');
     const userID = localStorage.getItem('USER_ID');
-
-    console.log('check');
     try {
       await axios({
         method: 'post',
         url: LOG_OUT,
         headers: {
-          Authorization: `Bearer ${JSON.parse(accessToken!)}`,
+          Authorization: `Bearer ${accessToken}`,
           ContentType: 'application/json',
         },
         withCredentials: true,
-      }).then((res) => {
-        console.log(res);
-        localStorage.removeItem('ACCESS_TOKEN');
-        localStorage.removeItem('REFRESH_TOKEN');
-        localStorage.removeItem('USER_ID');
-      });
+      })
+        .then((res) => {
+          localStorage.removeItem('ACCESS_TOKEN');
+          localStorage.removeItem('REFRESH_TOKEN');
+          localStorage.removeItem('USER_ID');
+        })
+        .then((res) => {
+          setLogoutModal(false);
+          router.push('/');
+        });
     } catch (error) {
       console.log('요청 실패');
       console.log(error);
