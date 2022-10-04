@@ -84,31 +84,7 @@ const slice = createSlice({
       state.installationPurpose = action.payload;
     },
     init(state) {
-      state = {
-        requestData: undefined,
-        chargers: [
-          {
-            kind: '',
-            standType: '',
-            channel: '',
-            count: '',
-          },
-        ],
-        chargersKo: [
-          {
-            kind: '',
-            standType: '',
-            channel: '',
-            count: '',
-          },
-        ],
-        investRate: '1',
-        subscribePeriod: '24',
-        subscribeProduct: '',
-        installationLocation: '',
-        installationPoints: [],
-        installationPurpose: '',
-      };
+      Object.assign(state, initialState);
     },
     investRateControl(state, action) {
       state.investRate = action.payload;
