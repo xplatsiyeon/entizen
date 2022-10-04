@@ -41,7 +41,7 @@ const MyEstimateProject = (props: Props) => {
           </BoxName>
         </Box>
         <CountBox>
-          <Count>{userID ? '3' : '로그인해주세요'}</Count>
+          <Count>{userID ? '3' : ''}</Count>
           <Amount>{userID && '건'}</Amount>
         </CountBox>
       </BoxWrapper>
@@ -69,7 +69,7 @@ const MyEstimateProject = (props: Props) => {
           </BoxName>
         </Box>
         <CountBox>
-          <Count>{userID ? '2' : '로그인해주세요'}</Count>
+          <Count>{userID ? '2' : ''}</Count>
           <Amount>{userID && '건'}</Amount>
         </CountBox>
       </BoxWrapper>
