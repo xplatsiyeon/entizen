@@ -213,7 +213,7 @@ const NextBtn = styled.div<{
 }>`
   color: ${colors.lightWhite};
   width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
-  padding: 15pt 0 ;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -229,7 +229,7 @@ const NextBtn = styled.div<{
 const PrevBtn = styled.div`
   color: ${colors.lightWhite};
   width: 36%;
-  padding: 15pt 0 ;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;

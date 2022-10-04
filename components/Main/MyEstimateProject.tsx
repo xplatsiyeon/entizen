@@ -41,8 +41,8 @@ const MyEstimateProject = (props: Props) => {
           </BoxName>
         </Box>
         <CountBox>
-          <Count>3</Count>
-          <Amount>건</Amount>
+          <Count>{userID ? '3' : ''}</Count>
+          <Amount>{userID && '건'}</Amount>
         </CountBox>
       </BoxWrapper>
       <BoxWrapper onClick={() => alert('2차 작업 범위 페이지입니다.')}>
@@ -69,8 +69,8 @@ const MyEstimateProject = (props: Props) => {
           </BoxName>
         </Box>
         <CountBox>
-          <Count>2</Count>
-          <Amount>건</Amount>
+          <Count>{userID ? '2' : ''}</Count>
+          <Amount>{userID && '건'}</Amount>
         </CountBox>
       </BoxWrapper>
     </Wrapper>

@@ -19,6 +19,11 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <link
+            href="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css"
+            rel="stylesheet"
+            type="text/css"
+          />
           <Script
             strategy="beforeInteractive"
             src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}
@@ -34,6 +39,7 @@ class MyDocument extends Document {
           {/* <Script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></Script> */}
           <Script type="text/javascript" src="public/testsss.js"></Script>
         </Head>
+
         <body>
           <Main />
           <script

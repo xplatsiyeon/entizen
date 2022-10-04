@@ -14,12 +14,12 @@ const SubscribeRequest = (props: Props) => {
   return (
     <ImageBox onClick={() => router.push('/quotation/request')}>
       <Image src={Banner} layout="fill" />
-      <ButtonBox>
+      {/* <ButtonBox>
         <BtnText>나만의 구독상품 요청하기</BtnText>
         <BtnIcon>
           <Image src={blueArrow} alt="icon" />
         </BtnIcon>
-      </ButtonBox>
+      </ButtonBox> */}
     </ImageBox>
   );
 };

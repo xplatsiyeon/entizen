@@ -16,10 +16,17 @@ export interface Option {
   channel: string;
   count: string;
 }
+export interface OptionKo {
+  idx: number;
+  kind: string;
+  standType: string;
+  channel: string;
+  count: string;
+}
 export interface Data {
   requestData?: RequesQuotationtData;
   chargers: Option[];
-  chargersKo: Option[];
+  chargersKo: OptionKo[];
   subscribeProduct: '' | 'ENTIRETY' | 'PART';
   investRate: string;
   subscribePeriod: '' | '24' | '26' | '48' | '60';
@@ -40,6 +47,7 @@ const initialState: Data = {
   ],
   chargersKo: [
     {
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',
@@ -84,31 +92,7 @@ const slice = createSlice({
       state.installationPurpose = action.payload;
     },
     init(state) {
-      state = {
-        requestData: undefined,
-        chargers: [
-          {
-            kind: '',
-            standType: '',
-            channel: '',
-            count: '',
-          },
-        ],
-        chargersKo: [
-          {
-            kind: '',
-            standType: '',
-            channel: '',
-            count: '',
-          },
-        ],
-        investRate: '1',
-        subscribePeriod: '24',
-        subscribeProduct: '',
-        installationLocation: '',
-        installationPoints: [],
-        installationPurpose: '',
-      };
+      Object.assign(state, initialState);
     },
     investRateControl(state, action) {
       state.investRate = action.payload;

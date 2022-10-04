@@ -85,10 +85,10 @@ const ProfileEditing = () => {
                 </TitleSection>
               </Form>
             </Body>
-            <BtnBox>
-              <Blur />
-              <Btn>수정 완료</Btn>
-            </BtnBox>
+            {/* <BtnBox>
+        <Blur />
+        <Btn>수정 완료</Btn>
+      </BtnBox>  */}
           </Wrapper>
         </Inner>
         <WebFooter />

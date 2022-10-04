@@ -17,7 +17,6 @@ import naver from 'public/images/naver.svg';
 import google from 'public/images/google.svg';
 import apple from 'public/images/apple.svg';
 import Image from 'next/image';
-import { kakaoLogin } from 'api/auth/kakao';
 import { getToken, login } from 'api/auth/naver';
 import { useDispatch } from 'react-redux';
 import { naverAction } from 'store/naverSlice';
@@ -27,6 +26,7 @@ import { userAction } from 'store/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { originUserAction } from 'store/userInfoSlice';
+import { kakaoInit } from 'utils/kakao';
 
 type Props = {};
 
@@ -49,6 +49,94 @@ const Signin = (props: Props) => {
     refreshToken: string;
     snsLoginIdx: number;
   }
+
+  const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+  const KaKaApi = async (data: any) => {
+    try {
+      await axios({
+        method: 'post',
+        url: KAKAO_POST,
+        data: {
+          uuid: '' + data.id,
+          snsType: 'KAKAO',
+          snsResponse: JSON.stringify(data),
+          email: data.kakao_account.email,
+        },
+        headers: {
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      })
+        .then((res) => {
+          console.log('카카오로그인 KaKaAPI =>  ' + res);
+          console.log(res);
+          console.log(res.data);
+          // const match = res.config.data.match(/\((.*)\)/);
+          let c = res.data;
+          let d = JSON.parse(res.config.data);
+          console.log('카카오 로그인 axios 부분입니다 ! ======');
+          console.log(c);
+          dispatch(
+            userAction.add({
+              ...userAction,
+              uuid: d.uuid,
+              email: d.email,
+              snsType: d.snsType,
+              snsLoginIdx: c.snsLoginIdx,
+              isMember: c.isMember,
+            }),
+          );
+          if (c.isMemeber === true) {
+            localStorage.setItem('USER_ID', data.user.email);
+            console.log(user.email);
+            localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+            localStorage.setItem(
+              'REFRESH_TOKEN',
+              JSON.stringify(c.refreshToken),
+            );
+            dispatch(originUserAction.set(data.user.email));
+            router.push('/');
+          }
+        })
+        .then((res) => {
+          router.push('/signUp/Terms');
+        });
+    } catch (error) {
+      console.log('post 요청 실패');
+      console.log('카카오로그인 에러  =>   ' + error);
+      console.log(error);
+    }
+  };
+
+  // 카카오 로그인 버튼
+  const kakaoLogin = async () => {
+    // 카카오 초기화
+    const kakao = kakaoInit();
+    // 카카오 로그인 구현
+    kakao.Auth.login({
+      success: () => {
+        kakao.API.request({
+          url: '/v2/user/me', // 사용자 정보 가져오기
+          success: (res: any) => {
+            // 로그인 성공할 경우 정보 확인 후 /kakao 페이지로 push
+            KaKaApi(res);
+            console.log('아래는 카카오로그인 성공시 데이터입니다.');
+            console.log(res);
+          },
+          fail: (error: any) => {
+            console.log(error);
+            console.log('아래는 카카오로그인 실패시 데이터입니다.');
+            console.log(error);
+          },
+        });
+      },
+      fail: (error: any) => {
+        console.log(error);
+        console.log('아래는 마지막 카카오로그인 완전 실패데이터입니다.');
+        console.log(error);
+      },
+    });
+  };
 
   const originLogin = async () => {
     console.log('로그인 온클릭');
@@ -445,7 +533,7 @@ const Inner = styled.div`
   border-radius: 12pt;
   background: #ffff;
   padding: 32.25pt 0 42pt;
-        margin: 45.75pt auto 0;
+  margin: 45.75pt auto 0;
 
   @media (max-width: 899pt) {
     width: 100%;
