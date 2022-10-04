@@ -90,14 +90,14 @@ const Signin = (props: Props) => {
           // console.log(c);
           // console.log(c.isMember);
           if (c.isMember) {
-            localStorage.setItem('USER_ID', c.user.email);
+            localStorage.setItem('USER_ID', d.email);
             // console.log(user.email);
             localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
             localStorage.setItem(
               'REFRESH_TOKEN',
               JSON.stringify(c.refreshToken),
             );
-            dispatch(originUserAction.set(c.user.email));
+            dispatch(originUserAction.set(d.email));
             router.push('/');
           }
         })
