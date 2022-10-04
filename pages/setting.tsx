@@ -22,6 +22,24 @@ const Setting = (props: Props) => {
   const handleLogoutModalClick = () => {
     setLogoutModal(false);
   };
+  const NaverLogout = async () => {
+    // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
+    const localToken = localStorage.get('com.naver.nid.access_token');
+    const res = await axios.get('/oauth2.0/token', {
+      params: {
+        grant_type: 'delete',
+        client_id: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // Client ID
+        client_secret: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_SECRET, // Client Secret
+        access_token: localToken, // 발급된 Token 정보
+        service_provider: 'NAVER',
+      },
+    });
+    console.log(res);
+
+    if (res) {
+      router.push('/'); // 로그인 페이지로 이동
+    }
+  };
   const handleLogoutOnClickModalClick = async () => {
     const LOG_OUT = `https://test-api.entizen.kr/api/members/logout`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
@@ -48,24 +66,6 @@ const Setting = (props: Props) => {
       console.log(error);
     }
     NaverLogout();
-  };
-
-  const NaverLogout = async () => {
-    // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
-    const res = await axios.get('/oauth2.0/token', {
-      params: {
-        grant_type: 'delete',
-        client_id: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // Client ID
-        client_secret: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_SECRET, // Client Secret
-        access_token: router.query.token, // 발급된 Token 정보
-        service_provider: 'NAVER',
-      },
-    });
-    console.log(res);
-
-    if (res) {
-      router.push('/'); // 로그인 페이지로 이동
-    }
   };
 
   const handleOnClick = () => {
