@@ -86,7 +86,7 @@ const Signin = (props: Props) => {
               isMember: c.isMember,
             }),
           );
-          if (c.isMemeber === true) {
+          if (c.isMember === true) {
             localStorage.setItem('USER_ID', data.user.email);
             console.log(user.email);
             localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
@@ -429,8 +429,8 @@ const Signin = (props: Props) => {
                   }}
                 >
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
-                    {/* <Image onClick={kakaoLogin} src={kakao} alt="kakao" /> */}
-                    <Image onClick={handleAlert} src={kakao} alt="kakao" />
+                    <Image onClick={kakaoLogin} src={kakao} alt="kakao" />
+                    {/* <Image onClick={handleAlert} src={kakao} alt="kakao" /> */}
                   </Box>
                   <Box
                     sx={{ height: '33pt', marginRight: '15pt' }}
