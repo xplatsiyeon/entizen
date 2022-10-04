@@ -68,7 +68,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
     const copy: any = [...selectedOption];
     const copyEn: any = [...selectedOptionEn];
     // 영어 값 추출
-    let valueEn;
+    let valueEn: any;
 
     if (name === 'kind') {
       const idx = M5_LIST.indexOf(value);
@@ -98,6 +98,10 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
     }
     copy[index][name] = value;
     copyEn[index][name] = valueEn;
+    console.log('카피 입니다.');
+    console.log(copy);
+    console.log('카피 영어입니다..');
+    console.log(copyEn);
     setSelectedOption(copy);
     setSelectedOptionEn(copyEn);
   };
