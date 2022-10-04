@@ -88,7 +88,7 @@ const Signin = (props: Props) => {
           );
           // console.log('c 확인');
           // console.log(c);
-          // console.log(c.isMember);
+          console.log(user.isMember);
           if (user.isMember === true) {
             console.log('멤버 확인');
             localStorage.setItem('USER_ID', data.user.email);
