@@ -75,8 +75,6 @@ const Setting = (props: Props) => {
     const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     console.log('탈퇴');
-    // setSecessionFirstModal(false);
-    // setPasswordModal(true);
     try {
       await axios({
         method: 'post',
