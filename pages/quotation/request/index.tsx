@@ -66,6 +66,7 @@ const Quotation1_1 = () => {
                     idx={index.toString()}
                     num={tabNumber.toString()}
                     key={tab}
+                    // onClick={() => setTabNumber(index)}
                   />
                 ))}
               </TabBox>
