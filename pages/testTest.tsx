@@ -7,19 +7,19 @@ import styled from '@emotion/styled';
 type Props = {};
 
 const TestTest = (props: Props) => {
-
   return (
-  <>
-  <Body>
-    <WebHeader />
-    <Inner>
-      <Wrapper>
-  <SignUpContainer />
+    <>
+      <Body>
+        <WebHeader />
+        <Inner>
+          <Wrapper>
+            <SignUpContainer />
           </Wrapper>
         </Inner>
         <WebFooter />
       </Body>
-  </>)
+    </>
+  );
 };
 
 export default TestTest;
