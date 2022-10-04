@@ -307,7 +307,7 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 345pt;
   //width: 281.25pt;
   background: #ffff;
@@ -324,6 +324,7 @@ const Inner = styled.div`
     padding: 0;
     box-shadow: none;
     background: none;
+    margin: 0;
   }
   @media (max-height: 500pt) {
     height: 100%;

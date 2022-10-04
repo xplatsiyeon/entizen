@@ -78,39 +78,60 @@ const MyEstimateProject = (props: Props) => {
 };
 
 const Wrapper = styled.div`
-  margin-top: 60pt;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 11.25pt;
+  gap: 22.5pt;
+  height: 165pt;
+  @media (max-width: 899pt) {
+    gap: 11.25pt;
+    flex: none;
+    margin-top: 60pt;
+    height: auto;
+  }
 `;
 
 const BoxWrapper = styled.div`
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
   box-shadow: 0px 0px 10px 0px #89a3c933;
-  padding-top: 15pt;
-  padding-left: 12pt;
-  padding-right: 12.75pt;
-  padding-bottom: 12.75pt;
+  padding: 33pt 28.5pt 26.25pt;
   & div:nth-of-type(2) {
     display: flex;
     justify-content: end;
   }
+  @media (max-width: 899pt) {
+    padding-top: 15pt;
+    padding-left: 12pt;
+    padding-right: 12.75pt;
+    padding-bottom: 12.75pt;
+  }
 `;
 
 const BoxName = styled.div`
-  margin-bottom: 21pt;
+  margin-bottom: 58.5pt;
   display: flex;
   align-items: center;
   position: relative;
   & p {
     position: relative;
-    font-size: 12pt;
-    line-height: 12pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 21pt;
+    font-weight: 700;
+    line-height: 21pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
   & p:nth-of-type(3) {
     position: relative;
     bottom: 0.3pt;
+  }
+
+  @media (max-width: 899pt) {
+    margin-bottom: 21pt;
+    & P {
+      font-size: 12pt;
+      line-height: 12pt;
+    }
   }
 `;
 
@@ -121,21 +142,38 @@ const CountBox = styled(Box)`
 `;
 
 const Count = styled(Typography)`
-  margin-right: 3pt;
-  font-weight: 700;
-  font-size: 15pt;
-  line-height: 15pt;
-  letter-spacing: -0.02em;
   color: #caccd1;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 27pt;
+  font-weight: 700;
+  line-height: 25.5pt;
+  letter-spacing: -0.02em;
+  text-align: right;
+
+  @media (max-width: 899pt) {
+    margin-right: 3pt;
+    font-size: 15pt;
+    line-height: 15pt;
+  }
 `;
 
 const Amount = styled(Typography)`
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
+  margin-top: 6pt;
   color: #595757;
   vertical-align: middle;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 16.5pt;
+  font-weight: 500;
+  line-height: 21pt;
+  text-align: left;
+
+  @media (max-width: 899pt) {
+    font-weight: 400;
+    font-size: 12pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    margin-top: 0;
+  }
 `;
 
 export default MyEstimateProject;

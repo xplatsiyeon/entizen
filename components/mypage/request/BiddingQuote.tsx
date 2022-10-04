@@ -58,17 +58,21 @@ const BiddingQuote = ({ pb }: Props) => {
       </List>
       <Section>
         <Subtitle>특장점</Subtitle>
-        <Label>구독 상품</Label>
-        <FeaturesList>
-          <li>QR인증, RFID 인증을 이용한 편리한 결제 시스템</li>
-          <li>앱을 통한 충전기 사용현황 확인 및 사용 예약</li>
-          <li>24시간 콜센터 운영</li>
-        </FeaturesList>
-        <Label>7 kW 충전기 (공용)</Label>
-        <FeaturesList>
-          <li>LS ELECTRIC 충전기</li>
-          <li>수려한 디자인</li>
-        </FeaturesList>
+        <FlexWrap>
+          <Label>구독 상품</Label>
+          <FeaturesList>
+            <li>QR인증, RFID 인증을 이용한 편리한 결제 시스템</li>
+            <li>앱을 통한 충전기 사용현황 확인 및 사용 예약</li>
+            <li>24시간 콜센터 운영</li>
+          </FeaturesList>
+        </FlexWrap>
+        <FlexWrap>
+          <Label>7 kW 충전기 (공용)</Label>
+          <FeaturesList>
+            <li>LS ELECTRIC 충전기</li>
+            <li>수려한 디자인</li>
+          </FeaturesList>
+        </FlexWrap>
       </Section>
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
@@ -101,19 +105,29 @@ const BiddingQuote = ({ pb }: Props) => {
 export default BiddingQuote;
 
 const Wrapper = styled.div`
-  padding-top: 21pt;
+  padding-top: 60pt;
+  @media (max-width: 899pt) {
+    padding-top: 21pt;
+  }
 `;
 
 const Title = styled.h1`
   font-weight: 700;
   font-size: 15pt;
   line-height: 15pt;
-  padding: 0 15pt;
+  padding: 0;
+  margin-top: 21pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+
+  @media (max-width: 899pt) {
+    margin-top: 0pt;
+    padding: 0 15pt;
+  }
 `;
+
 const Section = styled.section<{ grid?: boolean; pb?: number }>`
-  padding: 18pt 15pt;
+  padding: 18pt 0pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
   padding-bottom: ${({ pb }) => pb + 'pt'};
   ${({ grid }) =>
@@ -121,15 +135,21 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
     css`
       padding-right: 0;
     `};
+
+  @media (max-width: 899pt) {
+    padding: 18pt 15pt;
+  }
 `;
 const List = styled.ul`
-  padding: 30pt 15pt 18pt 15pt;
+  padding: 30pt 0 51pt;
   gap: 12pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
+  @media (max-width: 899pt) {
+    padding: 30pt 15pt 18pt 15pt;
+  }
 `;
 const Item = styled.li`
   display: flex;
-  justify-content: space-between;
   :not(:nth-of-type(1)) {
     padding-top: 12pt;
   }
@@ -139,14 +159,27 @@ const Item = styled.li`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    flex: 1;
   }
   .value {
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
-    text-align: right;
+    text-align: left;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    flex: 2;
+  }
+
+  @media (max-width: 899pt) {
+    justify-content: space-between;
+    .name {
+      flex: none;
+    }
+    .value {
+      flex: none;
+      text-align: right;
+    }
   }
 `;
 const Subtitle = styled.h2`
@@ -156,23 +189,41 @@ const Subtitle = styled.h2`
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
+const FlexWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  &:nth-of-type(2) {
+    margin-top: 61pt;
+  }
+  @media (max-width: 899pt) {
+    display: block;
+    &:nth-of-type(2) {
+      margin-top: 0;
+    }
+  }
+`;
 const Label = styled.h3`
   font-weight: 500;
   font-size: 10.5pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.gray2};
+  flex: 1;
   :nth-of-type(1) {
     padding-top: 15pt;
   }
   :nth-of-type(2) {
     padding-top: 24pt;
   }
+  @media (max-width: 899pt) {
+    flex: none;
+  }
 `;
 const FeaturesList = styled.ol`
   padding-top: 6pt;
   list-style-type: decimal;
   list-style-position: inside;
+  flex: 2;
   & li {
     font-weight: 500;
     font-size: 10.5pt;
@@ -182,6 +233,9 @@ const FeaturesList = styled.ol`
     :not(:nth-of-type(1)) {
       padding-top: 2pt;
     }
+  }
+  @media (max-width: 899pt) {
+    flex: none;
   }
 `;
 const GridImg = styled.div`

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Router from 'next/router';
+import { userAction } from 'store/userSlice';
 import { kakaoInit } from 'utils/kakao';
 
 const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
@@ -27,9 +28,37 @@ export const KaKaApi = async (data: any) => {
         ContentType: 'application/json',
       },
       withCredentials: true,
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      console.log('카카오로그인 KaKaAPI =>  ' + res);
+      console.log(res);
+      console.log(res.data);
+      // const match = res.config.data.match(/\((.*)\)/);
+      let c = res.data;
+      let d = JSON.parse(res.config.data);
+      console.log('카카오 로그인 axios 부분입니다 ! ======');
+      console.log(c);
+      // dispatch(
+      //   userAction.add({
+      //     ...userAction,
+      //     uuid: d.uuid,
+      //     email: d.email,
+      //     snsType: d.snsType,
+      //     snsLoginIdx: c.snsLoginIdx,
+      //     isMember: c.isMember,
+      //   }),
+      // );
+      // if ((c.isMemeber = true)) {
+      //   localStorage.setItem('USER_ID', data.user.email);
+      //   console.log(user.email);
+      //   localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+      //   localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+      //   dispatch(originUserAction.set(data.user.email));
+      //   router.push('/');
+      // }
+    });
   } catch (error) {
     console.log('post 요청 실패');
+    console.log('카카오로그인 에러  =>   ' + error);
     console.log(error);
   }
 };

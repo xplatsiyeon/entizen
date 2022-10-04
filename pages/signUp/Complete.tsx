@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
-import WhyEntizen from 'components/Main/WhyEntizen';
+import WhyEntizen from 'components/Main/WebWhyEntizen';
 
 const SignUpComplete = () => {
   const router = useRouter();
@@ -50,16 +50,14 @@ const Inner = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 900pt;
 
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
+    margin: 0;
   }
 `;
 

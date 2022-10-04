@@ -27,11 +27,15 @@ const SubscribeRequest = (props: Props) => {
 const ImageBox = styled.div`
   position: relative;
   width: 100%;
-  height: 117pt;
-  margin-top: 30pt;
+  height: 165pt;
   background-color: ${colors.main};
   border-radius: 6pt;
   border: 1px solid silver;
+  object-fit: cover;
+  @media (max-width: 899pt) {
+    height: 117pt;
+    margin-top: 30pt;
+  }
 `;
 
 const ButtonBox = styled.div`
@@ -45,6 +49,11 @@ const ButtonBox = styled.div`
   justify-content: center;
   border-radius: 21.75pt;
   background-color: #ffffff;
+  display: none;
+
+  @media (max-width: 899pt) {
+    display: block;
+  }
 `;
 
 const BtnText = styled.div`

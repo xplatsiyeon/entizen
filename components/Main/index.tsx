@@ -96,7 +96,7 @@ const MainPage = (props: Props) => {
           </WhetherLoginComplete>
         ) : (
           <WhetherLogin onClick={() => router.push('/signin')}>
-            <span> 로그인 해주세요</span>
+            <span>로그인 해주세요</span>
             <span>
               <Image src={whiteRight} alt="arrow" />
             </span>

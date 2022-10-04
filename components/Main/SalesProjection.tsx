@@ -51,19 +51,32 @@ const SalesProjection = (props: Props) => {
 
 const SearchMapWrapper = styled.div`
   width: 100%;
-  margin-top: 24pt;
+  margin-top: 52.5pt;
+
+  @media (max-width: 899pt) {
+    margin-top: 24pt;
+  }
 `;
 
 const TextArea = styled(Typography)`
   text-align: center;
-  margin: auto;
-  font-weight: 500;
-  font-size: 15pt;
-  line-height: 21pt;
-  letter-spacing: -2%;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 25.5pt;
+  font-weight: 700;
+  line-height: 37.5pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin: 0 auto 58.5pt;
   & span {
     color: ${colors.main};
     font-weight: 700;
+    letter-spacing: -2%;
+  }
+  @media (max-width: 899pt) {
+    margin: 0 auto;
+    font-weight: 500;
+    font-size: 15pt;
+    line-height: 21pt;
     letter-spacing: -2%;
   }
 `;

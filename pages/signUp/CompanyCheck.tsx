@@ -9,48 +9,47 @@ import WebFooter from 'web-components/WebFooter';
 
 const SignUpCheck = () => {
   return (
-
     <React.Fragment>
       <Body>
         <WebHeader />
-          <Inner>
-            <Wrapper>
-      <Header isHome={true} />
-      <Info>
-        가입하실 아이디와
-        <br />
-        비밀번호를 설정해주세요
-      </Info>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginTop: '18pt',
-          width: '100%',
-          position: 'relative',
-        }}
-      >
-        <Label>아이디</Label>
-        <Input placeholder="아이디 입력" />
-        <OverlapBtn>중복 확인</OverlapBtn>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginTop: '22.5pt',
-          width: '100%',
-        }}
-      >
-        <Label>비밀번호</Label>
-        <Input placeholder="비밀번호 입력" />
-        <Input placeholder="비밀번호 재입력" />
-      </Box>
-      <Btn text="가입 승인 받기" marginTop="111" />
-            </Wrapper>
-          </Inner>
+        <Inner>
+          <Wrapper>
+            <Header isHome={true} />
+            <Info>
+              가입하실 아이디와
+              <br />
+              비밀번호를 설정해주세요
+            </Info>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                marginTop: '18pt',
+                width: '100%',
+                position: 'relative',
+              }}
+            >
+              <Label>아이디</Label>
+              <Input placeholder="아이디 입력" />
+              <OverlapBtn>중복 확인</OverlapBtn>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                marginTop: '22.5pt',
+                width: '100%',
+              }}
+            >
+              <Label>비밀번호</Label>
+              <Input placeholder="비밀번호 입력" />
+              <Input placeholder="비밀번호 재입력" />
+            </Box>
+            <Btn text="가입 승인 받기" marginTop="111" />
+          </Wrapper>
+        </Inner>
         <WebFooter />
       </Body>
     </React.Fragment>
@@ -77,10 +76,10 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
@@ -89,12 +88,10 @@ const Inner = styled.div`
     width: 100%;
     height: 100vh;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-    padding:0;
+    padding: 0;
     box-shadow: none;
     background: none;
+    margin: 0;
   }
   @media (max-height: 500pt) {
     height: 100%;
@@ -102,7 +99,7 @@ const Inner = styled.div`
 `;
 
 const Wrapper = styled.div`
-  position:relative;  
+  position: relative;
   margin: 0 31.875pt;
 
   @media (max-width: 899pt) {

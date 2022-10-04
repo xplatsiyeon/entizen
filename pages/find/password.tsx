@@ -112,104 +112,104 @@ const FindPassword = () => {
     <React.Fragment>
       <WebBody>
         <WebHeader />
-          <Inner>
-    <Wrapper>
-      {openModal && (
-        <Modal
-          text={'비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.'}
-          click={handleModalYes}
-        />
-      )}
-      <MypageHeader back={true} title={'비밀번호 변경'} />
+        <Inner>
+          <Wrapper>
+            {openModal && (
+              <Modal
+                text={'비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.'}
+                click={handleModalYes}
+              />
+            )}
+            <MypageHeader back={true} title={'비밀번호 변경'} />
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginTop: '27pt',
-          width: '100%',
-        }}
-      >
-        <BeforePassword>기존 비밀번호</BeforePassword>
-        <Input
-          placeholder="기존 비밀번호 입력"
-          onChange={handleIdChange}
-          type={pwShow ? 'text' : 'password'}
-          value={beforePasswordInput}
-          name="beforePw"
-          hiddenLabel
-          InputProps={beforeAdornment}
-          onFocus={(e) => setBeforePwSelected(true)}
-          onBlur={(e) => setBeforePwSelected(false)}
-        />
-
-        <NewPassword>기존 비밀번호</NewPassword>
-        <Input
-          placeholder="비밀번호 입력"
-          onChange={handleIdChange}
-          type={pwShow ? 'text' : 'password'}
-          value={pwInput}
-          name="pw"
-          hiddenLabel
-          InputProps={iconAdornment}
-          onFocus={(e) => setPwSelected(true)}
-          onBlur={(e) => setPwSelected(false)}
-        />
-        {!checkedPw && pwInput.length > 4 ? (
-          <Box>
-            <Typography
+            <Box
               sx={{
-                color: '#F75015',
-                fontSize: '9pt',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                marginTop: '27pt',
+                width: '100%',
               }}
             >
-              영문,숫자,특수문자 조합 10자 이상
-            </Typography>
-          </Box>
-        ) : (
-          <></>
-        )}
-        <Input
-          placeholder="비밀번호 재입력"
-          onChange={handleIdChange}
-          type={pwShow ? 'text' : 'password'}
-          value={checkPw}
-          name="checkPw"
-          InputProps={secondIconAdornment}
-          onFocus={(e) => setCheckPwSelected(true)}
-          onBlur={(e) => setCheckPwSelected(false)}
-        />
-        {!checkSamePw && checkPw.length > 4 ? (
-          <Box>
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-              }}
-            >
-              비밀번호를 확인해주세요
-            </Typography>
-          </Box>
-        ) : (
-          <></>
-        )}
-      </Box>
-      <Btn
-        isClick={
-          checkPw.length > 9 && pwInput.length > 9 && pwInput === checkPw
-            ? true
-            : false
-        }
-        handleClick={handleClick}
-        marginTop="33.75"
-        text={'수정 완료'}
-      />
-    </Wrapper>
-        </Inner>  
-      <WebFooter />
-    </WebBody>
-  </React.Fragment>
+              <BeforePassword>기존 비밀번호</BeforePassword>
+              <Input
+                placeholder="기존 비밀번호 입력"
+                onChange={handleIdChange}
+                type={pwShow ? 'text' : 'password'}
+                value={beforePasswordInput}
+                name="beforePw"
+                hiddenLabel
+                InputProps={beforeAdornment}
+                onFocus={(e) => setBeforePwSelected(true)}
+                onBlur={(e) => setBeforePwSelected(false)}
+              />
+
+              <NewPassword>기존 비밀번호</NewPassword>
+              <Input
+                placeholder="비밀번호 입력"
+                onChange={handleIdChange}
+                type={pwShow ? 'text' : 'password'}
+                value={pwInput}
+                name="pw"
+                hiddenLabel
+                InputProps={iconAdornment}
+                onFocus={(e) => setPwSelected(true)}
+                onBlur={(e) => setPwSelected(false)}
+              />
+              {!checkedPw && pwInput.length > 4 ? (
+                <Box>
+                  <Typography
+                    sx={{
+                      color: '#F75015',
+                      fontSize: '9pt',
+                    }}
+                  >
+                    영문,숫자,특수문자 조합 10자 이상
+                  </Typography>
+                </Box>
+              ) : (
+                <></>
+              )}
+              <Input
+                placeholder="비밀번호 재입력"
+                onChange={handleIdChange}
+                type={pwShow ? 'text' : 'password'}
+                value={checkPw}
+                name="checkPw"
+                InputProps={secondIconAdornment}
+                onFocus={(e) => setCheckPwSelected(true)}
+                onBlur={(e) => setCheckPwSelected(false)}
+              />
+              {!checkSamePw && checkPw.length > 4 ? (
+                <Box>
+                  <Typography
+                    sx={{
+                      color: '#F75015',
+                      fontSize: '9pt',
+                    }}
+                  >
+                    비밀번호를 확인해주세요
+                  </Typography>
+                </Box>
+              ) : (
+                <></>
+              )}
+            </Box>
+            <Btn
+              isClick={
+                checkPw.length > 9 && pwInput.length > 9 && pwInput === checkPw
+                  ? true
+                  : false
+              }
+              handleClick={handleClick}
+              marginTop="33.75"
+              text={'수정 완료'}
+            />
+          </Wrapper>
+        </Inner>
+        <WebFooter />
+      </WebBody>
+    </React.Fragment>
   );
 };
 
@@ -223,7 +223,7 @@ const WebBody = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
@@ -234,20 +234,20 @@ const WebBody = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
 
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
+    margin: 0;
+    padding: 0;
   }
 `;
 const BeforePassword = styled.p`
@@ -266,17 +266,18 @@ const NewPassword = styled.p`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
-  `
+`;
 
 const Wrapper = styled.div`
-  position:relative;  
-  margin: 32.25pt 31.875pt 42pt;
+  position: relative;
+  margin: 0pt 31.875pt;
 
   @media (max-width: 899pt) {
     height: 100%;
     padding: 0 15pt 15pt 15pt;
+    margin: 0;
   }
-`
+`;
 const Text = styled.p`
   margin-top: 6pt;
   font-weight: 700;
