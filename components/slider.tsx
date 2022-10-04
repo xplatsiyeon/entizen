@@ -11,10 +11,12 @@ interface Props {
 
 const Slider = ({ img, text1, text2 }: Props) => {
   return (
-    <>
-      <ImgBox>
-        <Image src={img} alt="img" />
-      </ImgBox>
+    <Wrapper>
+      <ImgBg>
+        <ImgBox>
+          <Image src={img} alt="img" layout="fill" />
+        </ImgBox>
+      </ImgBg>
       <TextBox>
         <Text variant="h3">
           {text1}
@@ -22,24 +24,32 @@ const Slider = ({ img, text1, text2 }: Props) => {
         </Text>
         <Text2 variant="h3">{text2}</Text2>
       </TextBox>
-    </>
+    </Wrapper>
   );
 };
 export default Slider;
 
-const ImgBox = styled(Box)`
-  background-color: ${colors.start};
-  width: 100%;
+const Wrapper = styled.div`
+  height: calc(100vh - 85pt);
+`;
+const ImgBg = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 27pt;
-  height: 252pt;
-  /* height: 50.3748vh; */
+  background-color: ${colors.start};
+  height: 290.25pt;
   overflow: hidden;
 `;
+const ImgBox = styled(Box)`
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 168pt;
+  margin-top: 60pt;
+  height: 100%;
+`;
 const TextBox = styled(Box)`
+  height: calc(100% - 290.25pt);
   padding-top: 27pt;
-  padding-top: 5.4vh;
   width: 100%;
   display: flex;
   flex-direction: column;

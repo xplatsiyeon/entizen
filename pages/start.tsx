@@ -9,11 +9,13 @@ import { Pagination } from 'swiper';
 import MaskImg1 from 'public/images/Mask_group.png';
 import MaskImg2 from 'public/images/Mask_group2.png';
 import MaskImg3 from 'public/images/Mask_group3.png';
-const start = () => {
+import { useRouter } from 'next/router';
+const Start = () => {
+  const router = useRouter();
   return (
     <>
       <SliderWrapper>
-        <Swiper modules={[Pagination]} pagination={true} loop={true}>
+        <Swiper modules={[Pagination]} pagination={true}>
           <SwiperSlide>
             <Slider
               img={MaskImg1}
@@ -37,12 +39,18 @@ const start = () => {
           </SwiperSlide>
         </Swiper>
       </SliderWrapper>
-      <Btn>시작하기</Btn>
+      <Btn
+        onClick={() => {
+          router.push('/');
+        }}
+      >
+        시작하기
+      </Btn>
     </>
   );
 };
 
-export default start;
+export default Start;
 
 const Btn = styled.div`
   position: fixed;
