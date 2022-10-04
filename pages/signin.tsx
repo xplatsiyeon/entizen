@@ -135,7 +135,7 @@ const Signin = (props: Props) => {
             }),
           );
           if (c.isMember === true) {
-            localStorage.setItem('USER_ID', user.email);
+            localStorage.setItem('USER_ID', data.user.email);
             console.log(user.email);
             localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
             localStorage.setItem(
@@ -143,7 +143,7 @@ const Signin = (props: Props) => {
               JSON.stringify(c.refreshToken),
             );
             dispatch(
-              originUserAction.set(userId),
+              originUserAction.set(user.email),
               // userId: userId,
               // accessToken: res.data.accessToken,
               // refreshToken: res.data.refreshToken,
