@@ -50,7 +50,25 @@ const Setting = (props: Props) => {
       console.log('요청 실패');
       console.log(error);
     }
+    NaverLogout();
   };
+
+  const NaverLogout = async () => {
+    // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
+    const res = await axios.get('/oauth2.0/token', {
+      params: {
+        grant_type: 'delete',
+        client_id: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // Client ID
+        client_secret: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_SECRET, // Client Secret
+        access_token: router.query.token, // 발급된 Token 정보
+        service_provider: 'NAVER',
+      },
+    });
+    if (res) {
+      router.push('/'); // 로그인 페이지로 이동
+    }
+  };
+
   const handleOnClick = () => {
     router.back();
   };
