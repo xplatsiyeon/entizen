@@ -76,30 +76,30 @@ const Signin = (props: Props) => {
           let d = JSON.parse(res.config.data);
           console.log('카카오 로그인 axios 부분입니다 ! ======');
           console.log(c);
-          dispatch(
-            userAction.add({
-              ...userAction,
-              uuid: d.uuid,
-              email: d.email,
-              snsType: d.snsType,
-              snsLoginIdx: c.snsLoginIdx,
-              isMember: c.isMember,
-            }),
-          );
-          console.log('c 확인');
-          console.log(c);
-          console.log(c.isMember);
-          // if (c.isMember) {
-          //   localStorage.setItem('USER_ID', data.user.email);
-          //   console.log(user.email);
-          //   localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-          //   localStorage.setItem(
-          //     'REFRESH_TOKEN',
-          //     JSON.stringify(c.refreshToken),
-          //   );
-          //   dispatch(originUserAction.set(data.user.email));
-          //   router.push('/');
-          // }
+          // dispatch(
+          //   userAction.add({
+          //     ...userAction,
+          //     uuid: d.uuid,
+          //     email: d.email,
+          //     snsType: d.snsType,
+          //     snsLoginIdx: c.snsLoginIdx,
+          //     isMember: c.isMember,
+          //   }),
+          // );
+          // console.log('c 확인');
+          // console.log(c);
+          // console.log(c.isMember);
+          if (c.isMember) {
+            localStorage.setItem('USER_ID', data.user.email);
+            console.log(user.email);
+            localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+            localStorage.setItem(
+              'REFRESH_TOKEN',
+              JSON.stringify(c.refreshToken),
+            );
+            dispatch(originUserAction.set(data.user.email));
+            router.push('/');
+          }
         })
         .then((res) => {
           router.push('/signUp/Terms');
