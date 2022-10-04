@@ -126,136 +126,138 @@ const SignUpCheck = () => {
     <React.Fragment>
       <Body>
         <WebHeader />
-          <Inner>
-            {modalOpen ? (
-        <TwoBtnModal
-          text={'로그아웃하시겠습니까?'}
-          rightBtnText={'예'}
-          leftBtnText={'아니오'}
-          rightBtnColor={'#222222'}
-          leftBtnColor={'#FF1B2D'}
-          leftBtnControl={leftBtnControl}
-          rightBtnControl={rightBtnControl}
-        />
-            ) : (
+        <Inner>
+          {modalOpen ? (
+            <TwoBtnModal
+              text={'로그아웃하시겠습니까?'}
+              rightBtnText={'예'}
+              leftBtnText={'아니오'}
+              rightBtnColor={'#222222'}
+              leftBtnColor={'#FF1B2D'}
+              leftBtnControl={leftBtnControl}
+              rightBtnControl={rightBtnControl}
+            />
+          ) : (
             <></>
-            )}
-            <Wrapper>
-        <Header isHome={true} />
-        <Info>
-          가입하실 아이디와
-          <br />
-          비밀번호를 설정해주세요
-        </Info>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            marginTop: '24pt',
-            width: '100%',
-            position: 'relative',
-          }}
-        >
-          <Label>아이디</Label>
-          <Input
-            placeholder="아이디 입력"
-            onChange={handleIdChange}
-            value={idInput}
-            name="id"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <OverlapBtn className="overlap">
-                    <Typography className="checkOverlap">중복확인</Typography>
-                  </OverlapBtn>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Box>
-            <Typography
+          )}
+          <Wrapper>
+            <Header isHome={true} />
+            <Info>
+              가입하실 아이디와
+              <br />
+              비밀번호를 설정해주세요
+            </Info>
+            <Box
               sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-                lineHeight: '12pt',
-                marginTop: '9pt',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                marginTop: '24pt',
+                width: '100%',
+                position: 'relative',
               }}
             >
-              이미 사용중인 아이디입니다.
-            </Typography>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            marginTop: '30pt',
-            width: '100%',
-          }}
-        >
-          <Label>비밀번호</Label>
-          <Input
-            placeholder="비밀번호 입력"
-            onChange={handleIdChange}
-            type={pwShow ? 'text' : 'password'}
-            value={pwInput}
-            name="pw"
-            hiddenLabel
-            InputProps={iconAdornment}
-            onFocus={(e) => setPwSelected(true)}
-            onBlur={(e) => setPwSelected(false)}
-          />
-          {!checkedPw && pwInput.length > 4 ? (
-            <Box>
-              <Typography
-                sx={{
-                  color: '#F75015',
-                  fontSize: '9pt',
+              <Label>아이디</Label>
+              <Input
+                placeholder="아이디 입력"
+                onChange={handleIdChange}
+                value={idInput}
+                name="id"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <OverlapBtn className="overlap">
+                        <Typography className="checkOverlap">
+                          중복확인
+                        </Typography>
+                      </OverlapBtn>
+                    </InputAdornment>
+                  ),
                 }}
-              >
-                영문,숫자,특수문자 조합 10자 이상
-              </Typography>
+              />
+              <Box>
+                <Typography
+                  sx={{
+                    color: '#F75015',
+                    fontSize: '9pt',
+                    lineHeight: '12pt',
+                    marginTop: '9pt',
+                  }}
+                >
+                  이미 사용중인 아이디입니다.
+                </Typography>
+              </Box>
             </Box>
-          ) : (
-            <></>
-          )}
-          <Input
-            placeholder="비밀번호 재입력"
-            onChange={handleIdChange}
-            type={pwShow ? 'text' : 'password'}
-            value={checkPw}
-            name="checkPw"
-            InputProps={secondIconAdornment}
-            onFocus={(e) => setCheckPwSelected(true)}
-            onBlur={(e) => setCheckPwSelected(false)}
-          />
-          {!checkSamePw && checkPw.length > 4 ? (
-            <Box>
-              <Typography
-                sx={{
-                  color: '#F75015',
-                  fontSize: '9pt',
-                }}
-              >
-                비밀번호를 확인해주세요
-              </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                marginTop: '30pt',
+                width: '100%',
+              }}
+            >
+              <Label>비밀번호</Label>
+              <Input
+                placeholder="비밀번호 입력"
+                onChange={handleIdChange}
+                type={pwShow ? 'text' : 'password'}
+                value={pwInput}
+                name="pw"
+                hiddenLabel
+                InputProps={iconAdornment}
+                onFocus={(e) => setPwSelected(true)}
+                onBlur={(e) => setPwSelected(false)}
+              />
+              {!checkedPw && pwInput.length > 4 ? (
+                <Box>
+                  <Typography
+                    sx={{
+                      color: '#F75015',
+                      fontSize: '9pt',
+                    }}
+                  >
+                    영문,숫자,특수문자 조합 10자 이상
+                  </Typography>
+                </Box>
+              ) : (
+                <></>
+              )}
+              <Input
+                placeholder="비밀번호 재입력"
+                onChange={handleIdChange}
+                type={pwShow ? 'text' : 'password'}
+                value={checkPw}
+                name="checkPw"
+                InputProps={secondIconAdornment}
+                onFocus={(e) => setCheckPwSelected(true)}
+                onBlur={(e) => setCheckPwSelected(false)}
+              />
+              {!checkSamePw && checkPw.length > 4 ? (
+                <Box>
+                  <Typography
+                    sx={{
+                      color: '#F75015',
+                      fontSize: '9pt',
+                    }}
+                  >
+                    비밀번호를 확인해주세요
+                  </Typography>
+                </Box>
+              ) : (
+                <></>
+              )}
             </Box>
-          ) : (
-            <></>
-          )}
-        </Box>
-        <Btn
-          isClick={
-            checkedPw && checkSamePw && idInput.length > 6 ? true : false
-          }
-          text="가입 완료"
-          marginTop="30"
-          handleClick={handleClick}
-        />
-            </Wrapper>
-          </Inner>  
+            <Btn
+              isClick={
+                checkedPw && checkSamePw && idInput.length > 6 ? true : false
+              }
+              text="가입 완료"
+              marginTop="30"
+              handleClick={handleClick}
+            />
+          </Wrapper>
+        </Inner>
         <WebFooter />
       </Body>
     </React.Fragment>
@@ -272,7 +274,7 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
@@ -285,8 +287,8 @@ const Inner = styled.div`
   position: relative;
   margin: 0 auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
@@ -298,18 +300,17 @@ const Inner = styled.div`
     top: 0;
     left: 0%;
     transform: none;
-    padding:0;
+    padding: 0;
     box-shadow: none;
     background: none;
   }
   @media (max-height: 500pt) {
     height: 100%;
   }
-
 `;
 
 const Wrapper = styled.div`
-  position:relative;  
+  position: relative;
   margin: 0 31.875pt;
 
   @media (max-width: 899pt) {

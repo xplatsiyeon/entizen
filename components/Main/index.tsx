@@ -31,6 +31,7 @@ type Props = {};
 
 const MainPage = (props: Props) => {
   const router = useRouter();
+  const userID = localStorage.getItem('USER_ID');
   const { accessToken, refreshToken, userId } = useSelector(
     (state: RootState) => state.originUserData,
   );
@@ -101,19 +102,23 @@ const MainPage = (props: Props) => {
             </span>
             <span>간편견적</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus>
+          <WhiteAreaMenus onClick={() => router.push('/guide')}>
             <span>
               <Image src={guide} alt="가이드" />
             </span>
             <span>가이드</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus>
+          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
             <span>
               <Image src={conversation} alt="소통하기" />
             </span>
             <span>소통하기</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus>
+          <WhiteAreaMenus
+            onClick={() =>
+              userID ? router.push('/mypage') : router.push('/signin')
+            }
+          >
             <span>
               <Image src={mypageIcon} alt="마이페이지" />
             </span>
@@ -134,13 +139,17 @@ const MainPage = (props: Props) => {
           <WhiteAreaMenus onClick={() => router.push('/setting/ring')}>
             <span>알림 설정</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/faq')}>
+          <WhiteAreaMenus
+            onClick={() =>
+              userID ? router.push('/faq') : router.push('/signin')
+            }
+          >
             <span>1:1 문의</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => router.push('/faq')}>
             <span>자주 묻는 질문</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/associate')}>
+          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
             <span>제휴문의</span>
           </WhiteAreaMenus>
           <Divider
@@ -360,6 +369,7 @@ const WhiteAreaMenus = styled.div`
   align-items: center;
   padding-top: 12pt;
   padding-bottom: 12pt;
+
   & span:first-of-type {
     margin-right: 6pt;
   }
