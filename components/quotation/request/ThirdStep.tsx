@@ -200,14 +200,14 @@ const NextBtn = styled.div<{
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
 
-@media (max-width: 899pt) {
-    position: fixed;
+  @media (max-width: 899pt) {
+  padding: 15pt 0 39pt 0;
   }
 `;
 const PrevBtn = styled.div`
   color: ${colors.lightWhite};
   width: 36%;
-  padding: 15pt 0;
+  padding: 15pt 0 ;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -215,9 +215,8 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 30pt;
   background-color: ${colors.gray};
-
   @media (max-width: 899pt) {
-    position: fixed;
+  padding: 15pt 0 39pt 0;
   }
 `;
 const TwoBtn = styled.div`

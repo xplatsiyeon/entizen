@@ -14,6 +14,9 @@ import ManagerInfo from 'components/mypage/request/ManagerInfo';
 import CommunicationBox from 'components/CommunicationBox';
 import Mypage2_1 from 'components/mypage/request/2-1';
 import Button from 'components/mypage/request/Button';
+import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'web-components/WebFooter';
+import Request from '..';
 
 const Mypage1_3 = ({ data }: any) => {
   const route = useRouter();
@@ -36,7 +39,14 @@ const Mypage1_3 = ({ data }: any) => {
           leftBtnControl={backPage}
           rightBtnControl={handleOnClick}
         />
-      )}
+      )}<Body>
+      <WebHeader num={0} now={'mypage'} />
+      <Inner>
+        <FlexBox>
+          <Wrap1>
+            <Request />
+          </Wrap1>
+          <Wrap2>
       <MypageHeader
         title="내 견적서"
         cancel="견적 취소"
@@ -53,6 +63,11 @@ const Mypage1_3 = ({ data }: any) => {
           clickHandler={() => route.push('/chatting/1')}
         />
       </TextBox>
+      </Wrap2>
+        </FlexBox>
+      </Inner>
+      <WebFooter />
+    </Body>
 
       {/* request 2-3 */}
       {/* <Mypage2_1 /> */}
@@ -62,9 +77,65 @@ const Mypage1_3 = ({ data }: any) => {
 
 export default Mypage1_3;
 
+
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  //height: 810pt;
+  background: #fcfcfc;
+
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  width: 900pt;
+  margin: 45.75pt auto 0;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: 0 auto;
+  }
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+  position: relative;
+`;
+
+const Wrap1 = styled.div`
+  width: 255pt;
+  border: 1px solid #e9eaee;
+  border-radius: 6pt;
+  height: 100%;
+
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`;
+const Wrap2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-left: 60pt;
+
+  @media (max-width: 899pt) {
+    padding-left: 0pt;
+  }
+`;
+
 const TextBox = styled.div`
   width: 100%;
-  padding-top: 75pt;
   margin-bottom: 9pt;
   text-align: center;
   display: flex;
@@ -77,5 +148,8 @@ const TextBox = styled.div`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
+  }
+  @media (max-width: 899pt) {
+  padding-top: 75pt;
   }
 `;
