@@ -51,6 +51,21 @@ const MainPage = (props: Props) => {
 
       setState({ ...state, [anchor]: open });
     };
+
+  useEffect(() => {
+    console.log('업데이트 확인');
+    console.log(userId);
+    console.log(isLogin);
+    if (userId) {
+      if (userId?.length > 1) {
+        console.log('login check !');
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
+    }
+  }, [userId]);
+
   const list = (anchor: string) => (
     <WholeBox
       role="presentation"
@@ -62,15 +77,18 @@ const MainPage = (props: Props) => {
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLogin onClick={() => router.push('/signin')}>
-            <span>{userId}</span>
+          <WhetherLoginComplete onClick={() => router.push('/signin')}>
             <span>
-              <Image src={whiteRight} alt="arrow" />
+              <label className="label">일반회원</label>
+              {userId}
             </span>
-          </WhetherLogin>
+            <span className="arrow-img">
+              <Image src={whiteRight} alt="arrow" layout="fill" />
+            </span>
+          </WhetherLoginComplete>
         ) : (
           <WhetherLogin onClick={() => router.push('/signin')}>
-            <span>로그인 해주세요</span>
+            <span> 로그인 해주세요</span>
             <span>
               <Image src={whiteRight} alt="arrow" />
             </span>
@@ -150,17 +168,6 @@ const MainPage = (props: Props) => {
     </WholeBox>
   );
 
-  useEffect(() => {
-    console.log('업데이트 확인');
-    if (userId) {
-      if (userId?.length > 1) {
-        console.log('accessToken check !');
-        setIsLogin(true);
-      } else {
-        setIsLogin(false);
-      }
-    }
-  }, [userId]);
   return (
     <>
       <Container>
@@ -277,7 +284,6 @@ const WhetherLogin = styled.div`
   display: flex;
   align-items: center;
   margin-top: 27.75pt;
-
   & span {
   }
   & span:first-of-type {
@@ -291,6 +297,49 @@ const WhetherLogin = styled.div`
     margin-right: 6pt;
   }
   & span {
+  }
+  .label {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray3};
+  }
+  .arrow-img {
+    position: relative;
+    width: 15pt;
+    height: 15pt;
+  }
+`;
+const WhetherLoginComplete = styled.div`
+  display: flex;
+  align-items: flex-end;
+  margin-top: 9.75pt;
+  position: relative;
+  & span:first-of-type {
+    font-family: Spoqa Han Sans Neo;
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #ffffff;
+    margin-right: 6pt;
+    display: flex;
+    flex-direction: column;
+    gap: 6pt;
+  }
+  .label {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray3};
+  }
+  .arrow-img {
+    position: relative;
+    width: 15pt;
+    height: 15pt;
   }
 `;
 

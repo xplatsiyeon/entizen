@@ -71,7 +71,14 @@ const Signin = (props: Props) => {
           console.log('response 데이터 ->');
           console.log(res.data.accessToken);
           console.log(res.data.refreshToken);
-          localStorage.setItem('USER_TOKEN', JSON.stringify(res.data));
+          localStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(res.data.accessToken),
+          );
+          localStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(res.data.refreshToken),
+          );
           dispatch(
             originUserAction.set(userId),
             // userId: userId,
