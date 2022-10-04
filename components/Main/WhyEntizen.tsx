@@ -127,6 +127,7 @@ const WhyBox = styled(Typography)`
   @media (max-width: 899pt) {
     font-size: 12pt;
     line-height: 12pt;
+    margin-top: 30pt;
     margin-bottom: 0;
   }
 `;
