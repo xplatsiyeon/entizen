@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,7 +6,11 @@ import colors from 'styles/colors';
 import Logos from 'public/images/webLogo.png';
 import Chat from 'public/images/chat.png';
 import Bell from 'public/images/bell.png';
+import BellOutline from 'public/images/Bell_outline.png';
+import Frame from 'public/images/Frame.png';
+import Vector from 'public/images/Vector.png';
 import GuideLink from 'components/GuideLink';
+
 
 type Props = {
   num?: number;
@@ -16,6 +20,17 @@ type Props = {
 const WebHeader = ({ num, now }: Props) => {
   const [linklist, setLinklist] = useState<boolean>(false);
   const [type, setType] = useState<string>('');
+  const [user, setUser] = useState<boolean>();
+
+  useEffect(()=>{
+
+   const isUser= localStorage.getItem('USER_ID');
+   console.log('user', isUser)
+   if(isUser){setUser(true)}
+   /*else{
+    localStorage.setItem('USER_ID','user')
+   } */ //테스트용코드.
+  },[])
 
   return (
     <>
@@ -60,6 +75,19 @@ const WebHeader = ({ num, now }: Props) => {
             <Box2>
               {/* <DivBox2><input type="text" placeholder="서비스를 검색해보세요" /> </DivBox2> */}
 
+              {user?
+              <>
+              <DivBox2>
+              <IconBox>
+                <Image src={BellOutline} alt="bell on" />
+              </IconBox>
+              <IconBox>
+                <Image src={Frame} alt="frame" />
+                <Image src={Vector} alt="" />
+              </IconBox>
+              </DivBox2>
+              </>
+              :<>
               <DivBox2>
               <IconBox>
                 <Image src={Chat} alt="question" />
@@ -78,6 +106,7 @@ const WebHeader = ({ num, now }: Props) => {
                   <a>회원가입</a>
                 </Link>
               </DivBox2>
+              </>}
             </Box2>
           </Inner>
         </MainLink>
@@ -128,9 +157,14 @@ const LogoBox = styled.div`
 `;
 
 const IconBox = styled.div`
+  display: flex;
+  flex: 1;
   margin-right: 15pt;
-    width: 21pt;
-    height:21pt; 
+  width: 21pt;
+  height:21pt; 
+  &:nth-last-of-type(1){
+    margin-right: 0;
+  }
 `;
 
 const DivBox = styled.div`
