@@ -30,6 +30,7 @@ interface Props {
 }
 
 const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
+  console.log('check');
   const dispatch = useDispatch();
   const { chargersKo } = useSelector((state: RootState) => state.quotationData);
   const [isValid, setIsValid] = useState(false);
@@ -120,6 +121,8 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   };
   // 버튼 온클릭
   const buttonOnClick = () => {
+    console.log('check');
+    // dispatch(quotationAction.init());
     if (isValid && tabNumber !== 5) {
       dispatch(quotationAction.setChargers(selectedOptionEn));
       dispatch(quotationAction.setChargersKo(selectedOption));
@@ -144,7 +147,8 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   }, [selectedOption]);
   // 내용 기억
   useEffect(() => {
-    console.log(selectedOption);
+    console.log('check');
+    console.log(chargersKo);
     setSelectedOption(chargersKo);
   }, []);
   return (

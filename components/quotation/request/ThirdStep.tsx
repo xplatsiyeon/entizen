@@ -34,7 +34,6 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
       } else {
         dispatch(quotationAction.setStep3(subscribeType[monthNumber]));
       }
-
       setTabNumber(tabNumber + 1);
     }
   };

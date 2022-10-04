@@ -26,11 +26,14 @@ import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { quotationAction } from 'store/quotationSlice';
+import { useDispatch } from 'react-redux';
 
 type Props = {};
 
 const MainPage = (props: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const userID = localStorage.getItem('USER_ID');
   const { accessToken, refreshToken, userId } = useSelector(
     (state: RootState) => state.originUserData,
@@ -66,6 +69,10 @@ const MainPage = (props: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
+
+  useEffect(() => {
+    dispatch(quotationAction.init());
+  }, []);
 
   const list = (anchor: string) => (
     <WholeBox

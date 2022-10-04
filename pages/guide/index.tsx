@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
+import HambuguerBar from 'components/hamburgerBar';
 
 const Guide1 = () => {
   const router = useRouter();
@@ -29,85 +30,92 @@ const Guide1 = () => {
   return (
     <Body>
       <WebHeader />
-        <Inner>
-    <Wrapper>
-      <Header>
-        <span className="left">가이드</span>
-        <div className="right">
-          <Image onClick={() => pageHandler('/alarm')} src={bell} alt="bell" />
-          <Image onClick={() => pageHandler('')} src={list} alt="hamburger" />
-        </div>
-      </Header>
-      <Wrap>
-      <Platform onClick={() => pageHandler('/guide/1-1')}>
-        <div className="img-box">
-          <Image src={banner} alt="platform" layout="fill" />
-        </div>
-      </Platform>
-      <Platform onClick={() => pageHandler('/guide/1-1')}>
-        <div className="img-box">
-          <Image src={banner2} alt="platform" layout="fill" />
-        </div>
-      </Platform>
-      <SubsidyBox>
-        <Subsidy onClick={() => pageHandler('/guide/1-2')}>
-          <span className="text">보조금 가이드</span>
-          <Image src={subsidy_icon} alt="subsidy_icon" />
-        </Subsidy>
-        <Fee onClick={() => pageHandler('/guide/1-3')}>
-          <span className="text">요금 정보</span>
-          <Image src={fee_icon} alt="fee_icon" />
-        </Fee>
-      </SubsidyBox>
-      </Wrap>
-      <Wrap>
-
-      <GuideBox onClick={() => pageHandler('/guide/1-4')}>
-        <span>
-          <div className="name_box">
-            <h2 className="name">구독 가이드</h2>
-            <Image src={arrow} alt="img" />
-          </div>
-          <p className="text">
-            구독에 대한
-            <br />
-            모든 것을 한 눈에!
-          </p>
-        </span>
-        <div className="img-box">
-          <Image src={charger_icon} alt="charger_icon" />
-        </div>
-      </GuideBox>
-      <GuideBox onClick={() => pageHandler('/guide/1-5')}>
-        <span>
-          <div className="name_box">
-            <h2 className="name">충전기 가이드</h2>
-            <Image src={arrow} alt="img" />
-          </div>
-          <p className="text">
-            나에게 딱 맞는
-            <br />
-            충전기는?
-          </p>
-        </span>
-        <div className="img-box">
-          <Image src={subscribe_icon} alt="subscribe_icon" />
-        </div>
-      </GuideBox>
-      </Wrap>
-      <EntizenLibrary onClick={() => pageHandler('')}>
-        <Btn>
-          &nbsp; 보러가기
-          <div className="img">
-            <Image src={arrow_small} alt="arrow_small" layout="fill" />
-          </div>
-        </Btn>
-      </EntizenLibrary>
-      <BottomNavigation />
-    </Wrapper>  
-          </Inner>
-        <WebFooter />
-      </Body>
+      <Inner>
+        <Wrapper>
+          <Header>
+            <span className="left">가이드</span>
+            <div className="right">
+              <Image
+                onClick={() => pageHandler('/alarm')}
+                src={bell}
+                alt="bell"
+              />
+              <Image
+                onClick={() => pageHandler('')}
+                src={list}
+                alt="hamburger"
+              />
+            </div>
+          </Header>
+          <Wrap>
+            <Platform onClick={() => pageHandler('/guide/1-1')}>
+              <div className="img-box">
+                <Image src={banner} alt="platform" layout="fill" />
+              </div>
+            </Platform>
+            <Platform onClick={() => pageHandler('/guide/1-1')}>
+              <div className="img-box">
+                <Image src={banner2} alt="platform" layout="fill" />
+              </div>
+            </Platform>
+            <SubsidyBox>
+              <Subsidy onClick={() => pageHandler('/guide/1-2')}>
+                <span className="text">보조금 가이드</span>
+                <Image src={subsidy_icon} alt="subsidy_icon" />
+              </Subsidy>
+              <Fee onClick={() => pageHandler('/guide/1-3')}>
+                <span className="text">요금 정보</span>
+                <Image src={fee_icon} alt="fee_icon" />
+              </Fee>
+            </SubsidyBox>
+          </Wrap>
+          <Wrap>
+            <GuideBox onClick={() => pageHandler('/guide/1-4')}>
+              <span>
+                <div className="name_box">
+                  <h2 className="name">구독 가이드</h2>
+                  <Image src={arrow} alt="img" />
+                </div>
+                <p className="text">
+                  구독에 대한
+                  <br />
+                  모든 것을 한 눈에!
+                </p>
+              </span>
+              <div className="img-box">
+                <Image src={charger_icon} alt="charger_icon" />
+              </div>
+            </GuideBox>
+            <GuideBox onClick={() => pageHandler('/guide/1-5')}>
+              <span>
+                <div className="name_box">
+                  <h2 className="name">충전기 가이드</h2>
+                  <Image src={arrow} alt="img" />
+                </div>
+                <p className="text">
+                  나에게 딱 맞는
+                  <br />
+                  충전기는?
+                </p>
+              </span>
+              <div className="img-box">
+                <Image src={subscribe_icon} alt="subscribe_icon" />
+              </div>
+            </GuideBox>
+          </Wrap>
+          <EntizenLibrary onClick={() => pageHandler('')}>
+            <Btn>
+              &nbsp; 보러가기
+              <div className="img">
+                <Image src={arrow_small} alt="arrow_small" layout="fill" />
+              </div>
+            </Btn>
+          </EntizenLibrary>
+          <BottomNavigation />
+        </Wrapper>
+      </Inner>
+      <WebFooter />
+    </Body>
   );
 };
 
@@ -121,11 +129,11 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
-    height:100%;
+    height: 100%;
   }
 `;
 
@@ -133,7 +141,7 @@ const Inner = styled.div`
   display: block;
   position: relative;
   margin: 0 auto;
-  width:900pt;
+  width: 900pt;
 
   @media (max-width: 899pt) {
     width: 100%;
@@ -143,9 +151,9 @@ const Inner = styled.div`
     left: 0%;
     transform: none;
   }
-@media (max-height: 500pt) {
-  height: 100%;
-}
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -153,10 +161,9 @@ const Wrapper = styled.div`
   padding-bottom: 30pt;
 
   @media (max-width: 899pt) {
-  height: 100%;
-  background-color: #fafcff;
+    height: 100%;
+    background-color: #fafcff;
   }
-
 `;
 const Header = styled(Box)`
   display: flex;
@@ -182,7 +189,7 @@ const Wrap = styled.div`
   @media (max-width: 899pt) {
     display: block;
   }
-`
+`;
 
 const Platform = styled(Button)`
   display: block;
@@ -195,26 +202,25 @@ const Platform = styled(Button)`
     height: 210pt;
     object-fit: cover;
   }
-  &:nth-of-type(1){
+  &:nth-of-type(1) {
     display: none;
   }
 
   @media (max-width: 899pt) {
-  display: flex;
-  width: 100%;
-  height: auto;
-  justify-content: center;
-  align-items: center;
-    .img-box{
-    width: 251.25pt;
-    height: 159pt;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    .img-box {
+      width: 251.25pt;
+      height: 159pt;
     }
-  &:nth-of-type(1){
-    display: block;
-  }
-  &:nth-of-type(2){
-    display: none;
-  }
+    &:nth-of-type(1) {
+      display: block;
+    }
+    &:nth-of-type(2) {
+      display: none;
+    }
   }
 `;
 const SubsidyBox = styled(Box)`
@@ -246,9 +252,8 @@ const Subsidy = styled(Button)`
   border-radius: 8px;
   width: 100%;
   @media (max-width: 899pt) {
-  height: 36pt;
+    height: 36pt;
   }
-
 `;
 const Fee = styled(Button)`
   display: flex;
@@ -261,7 +266,7 @@ const Fee = styled(Button)`
   border-radius: 8px;
   width: 100%;
   @media (max-width: 899pt) {
-  height: 36pt;
+    height: 36pt;
   }
 `;
 const GuideBox = styled(Button)`
@@ -276,7 +281,7 @@ const GuideBox = styled(Button)`
   border-radius: 6pt;
   margin-top: 15pt;
   padding: 14.25pt 15pt;
-  &:nth-of-type(1){
+  &:nth-of-type(1) {
     margin-right: 22.5pt;
   }
   .name_box {
