@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { useRouter } from 'next/router';
 
 interface Props {
   tabNumber: number;
@@ -17,6 +18,7 @@ interface Props {
 
 const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { subscribeProduct, subscribePeriod, investRate } = useSelector(
     (state: RootState) => state.quotationData,
   );
@@ -81,7 +83,9 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
         ))}
       </TypeBox>
       <ChargeGuide>
-        <span className="text">구독 가이드</span>
+        <span className="text" onClick={() => router.push('/guide/1-4')}>
+          구독 가이드
+        </span>
         <div className="arrow-icon">
           <Image src={Arrow} alt="arrow_icon" />
         </div>
@@ -158,6 +162,7 @@ const ChargeGuide = styled.div`
   .text {
     letter-spacing: -0.02em;
     border-bottom: 1px solid ${colors.gray2};
+    cursor: pointer;
   }
   .arrow-icon {
     position: relative;
