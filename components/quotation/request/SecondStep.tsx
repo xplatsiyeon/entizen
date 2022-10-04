@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { useRouter } from 'next/router';
 //import { useRouter } from 'next/router';
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const { subscribeProduct, investRate, chargersKo } = useSelector(
@@ -141,7 +143,14 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
         <Notice pt={15}>* 홈 충전기는 수익지분과 무관한 상품입니다.</Notice>
       )}
       <ChargeGuide>
-        <span className="text">구독 가이드</span>
+        <span
+          className="text"
+          onClick={() => {
+            router.push('/guide/1-4');
+          }}
+        >
+          구독 가이드
+        </span>
         <div className="arrow-icon">
           <Image src={Arrow} alt="arrow_icon" />
         </div>
@@ -233,6 +242,7 @@ const ChargeGuide = styled.div`
   .text {
     letter-spacing: -0.02em;
     border-bottom: 1px solid ${colors.gray2};
+    cursor: pointer;
   }
   .arrow-icon {
     position: relative;
