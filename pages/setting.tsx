@@ -42,7 +42,7 @@ const Setting = (props: Props) => {
     }
   };
   const handleLogoutOnClickModalClick = async () => {
-    const LOG_OUT_API = `https://test-api.entizen.kr/api/members/logout`;
+    const LOG_OUT_API = `https://api.entizen.kr/api/members/logout`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const refreshToken = localStorage.getItem('REFRESH_TOKEN');
     const userID = localStorage.getItem('USER_ID');
@@ -73,7 +73,7 @@ const Setting = (props: Props) => {
     router.back();
   };
   const ModalLeftControl = async () => {
-    const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
+    const WITHDRAWAL_API = `https://api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     console.log('탈퇴');
     try {

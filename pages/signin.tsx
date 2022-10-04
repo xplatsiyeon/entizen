@@ -50,7 +50,7 @@ const Signin = (props: Props) => {
     snsLoginIdx: number;
   }
 
-  const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+  const KAKAO_POST = `https://api.entizen.kr/api/members/login/sns`;
   const KaKaApi = async (data: any) => {
     try {
       await axios({
@@ -127,7 +127,7 @@ const Signin = (props: Props) => {
 
   const originLogin = async () => {
     console.log('로그인 온클릭');
-    const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
+    const ORIGIN_API = `https://api.entizen.kr/api/members/login`;
     try {
       await axios({
         method: 'post',
@@ -169,7 +169,7 @@ const Signin = (props: Props) => {
   };
 
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
     try {
       await axios({
         method: 'post',
