@@ -34,8 +34,8 @@ const Setting = (props: Props) => {
         method: 'post',
         url: LOG_OUT,
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           ContentType: 'application/json',
-          Token: LOG_OUT,
         },
         withCredentials: true,
       }).then((res) => {
