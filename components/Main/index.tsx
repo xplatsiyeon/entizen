@@ -54,15 +54,14 @@ const MainPage = (props: Props) => {
 
   useEffect(() => {
     console.log('업데이트 확인');
-    console.log(userId);
+    console.log(localStorage.getItem('USER_ID'));
     console.log(isLogin);
-    if (userId) {
-      if (userId?.length > 1) {
-        console.log('login check !');
-        setIsLogin(true);
-      } else {
-        setIsLogin(false);
-      }
+
+    if (localStorage.getItem('USER_ID')) {
+      console.log('login check !');
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
     }
   }, [userId]);
 
@@ -77,7 +76,7 @@ const MainPage = (props: Props) => {
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLoginComplete onClick={() => router.push('/signin')}>
+          <WhetherLoginComplete>
             <span>
               <label className="label">일반회원</label>
               {userId}

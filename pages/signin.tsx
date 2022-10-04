@@ -79,6 +79,7 @@ const Signin = (props: Props) => {
             'REFRESH_TOKEN',
             JSON.stringify(res.data.refreshToken),
           );
+          localStorage.setItem('USER_ID', JSON.stringify(userId));
           dispatch(
             originUserAction.set(userId),
             // userId: userId,
