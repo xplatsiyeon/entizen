@@ -135,7 +135,7 @@ const Signin = (props: Props) => {
             }),
           );
           if (c.isMember) {
-            localStorage.setItem('USER_ID', d.email);
+            localStorage.setItem('USER_ID', user.email);
             localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
             localStorage.setItem(
               'REFRESH_TOKEN',
