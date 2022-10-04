@@ -118,7 +118,7 @@ const SignUpTerms = () => {
           url: 'https://test-api.entizen.kr/api/members/join/sns',
           data: {
             name: a.name,
-            email: user.email,
+            // email: user.email,
             phone: a.phone,
             optionalTermsConsentStatus: [
               {
@@ -297,7 +297,6 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
   @media (max-height: 809pt) {
     display: block;
