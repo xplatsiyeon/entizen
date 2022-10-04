@@ -36,95 +36,97 @@ const Quotation1_1 = () => {
   };
   return (
     <>
-    <WebBody>
-      <WebHeader />
+      <WebBody>
+        <WebHeader />
         <Inner>
           <Wrapper>
-      {isModal && (
-        <TwoBtnModal
-          text={
-            '지금 나가시면 \n 작성하신 내용이 삭제됩니다. \n 그래도 괜찮으시겠습니까?'
-          }
-          leftBtnColor={colors.lightGray2}
-          leftBtnText={'그만하기'}
-          rightBtnColor={colors.main}
-          rightBtnText={'계속 작성하기'}
-          leftBtnControl={() => route.push('/')}
-          rightBtnControl={HandleModal}
-        />
-      )}
-      <Header title="간편견적" exitBtn={true} handleOnClick={HandleModal} />
-      {/* 메인 */}
-      <Body>
-        <TabBox>
-          {Object.keys(components).map((tab, index) => (
-            <TabLine
-              idx={index.toString()}
-              num={tabNumber.toString()}
-              key={tab}
+            {isModal && (
+              <TwoBtnModal
+                text={
+                  '지금 나가시면 \n 작성하신 내용이 삭제됩니다. \n 그래도 괜찮으시겠습니까?'
+                }
+                leftBtnColor={colors.lightGray2}
+                leftBtnText={'그만하기'}
+                rightBtnColor={colors.main}
+                rightBtnText={'계속 작성하기'}
+                leftBtnControl={() => route.push('/')}
+                rightBtnControl={HandleModal}
+              />
+            )}
+            <Header
+              title="간편견적"
+              exitBtn={true}
+              handleOnClick={HandleModal}
             />
-          ))}
-        </TabBox>
-        {components[tabNumber]}
-      </Body>
-            </Wrapper>
-          </Inner>  
+            {/* 메인 */}
+            <Body>
+              <TabBox>
+                {Object.keys(components).map((tab, index) => (
+                  <TabLine
+                    idx={index.toString()}
+                    num={tabNumber.toString()}
+                    key={tab}
+                  />
+                ))}
+              </TabBox>
+              {components[tabNumber]}
+            </Body>
+          </Wrapper>
+        </Inner>
         <WebFooter />
       </WebBody>
-      </>
+    </>
   );
 };
 
 export default Quotation1_1;
 
 const WebBody = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-width: 100%;
-height: 100vh;
-margin: 0 auto;
-background:#fcfcfc;
-@media (max-height: 809pt) {
-  display: block;
-  height: 100%;
-}
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
 `;
 
 const Inner = styled.div`
-display: block;
-position: relative;
-margin: 0 auto;
-width: 345pt;
-//width: 281.25pt;  
-background:#ffff;
-box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
-@media (max-width: 899pt) {
-  width: 100%;
-  height: 100vh;
+  display: block;
   position: relative;
-  top: 0;
-  left: 0%;
-  transform: none;
-  padding:0;
-  box-shadow: none;
-  background: none;
-}
-@media (max-height: 500pt) {
-  height: 100%;
-}
+  margin: 45.75pt auto;
+  width: 345pt;
+  //width: 281.25pt;
+  background: #ffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
 `;
 
 const Wrapper = styled.div`
-position:relative;  
-margin: 0 31.875pt;
-@media (max-width: 899pt) {
-  height: 100%;
-  margin: 0;
-}
-`
+  position: relative;
+  margin: 0 31.875pt;
+  @media (max-width: 899pt) {
+    height: 100%;
+    margin: 0;
+  }
+`;
 
 const Body = styled.div`
   padding-top: 12pt;
@@ -147,7 +149,7 @@ const Footer = styled.div`
   left: 0;
   width: 100%;
   margin-bottom: 42pt;
-  
+
   @media (max-width: 899pt) {
     position: fixed;
     margin-bottom: 0pt;

@@ -21,68 +21,67 @@ const SignUpSelect = () => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push('/signUp/Terms');
   };
-  return (    
+  return (
     <React.Fragment>
       <Body>
         <WebHeader />
-          <Inner>
-            <Wrapper>
-      <Header />
-      <Notice variant="h3">어떤 용무로 오셨나요?</Notice>
-      <SelectWrapper>
-        {UserTypeList.map((type, index) => (
-          <div key={index}>
-            {type === '기업회원' && (
-              <Select
-                type={userType.toString()}
-                idx={index.toString()}
-                onClick={() => {
-                  setUserType(index);
-                }}
-              >
-                <Image
-                  src={userType === index ? companyOnImg : companyImg}
-                  alt="company"
-                />
-                <div>{type}</div>
-              </Select>
-            )}
-            {type === '일반회원' && (
-              <Select
-                type={userType.toString()}
-                idx={index.toString()}
-                onClick={() => {
-                  setUserType(index);
-                }}
-              >
-                <Image
-                  src={userType === index ? userOnImg : userImg}
-                  alt="user"
-                />
-                <div>{type}</div>
-              </Select>
-            )}
-          </div>
-        ))}
-      </SelectWrapper>
-      <Link href={'/signUpTerms'}>
-        <Btn
-          text={'다음'}
-          handleClick={handleClick}
-          marginTop={'42.75'}
-          isClick={userType !== -1 && true}
-        />
-      </Link>
-            </Wrapper>
-          </Inner>
+        <Inner>
+          <Wrapper>
+            <Header />
+            <Notice variant="h3">어떤 용무로 오셨나요?</Notice>
+            <SelectWrapper>
+              {UserTypeList.map((type, index) => (
+                <div key={index}>
+                  {type === '기업회원' && (
+                    <Select
+                      type={userType.toString()}
+                      idx={index.toString()}
+                      onClick={() => {
+                        setUserType(index);
+                      }}
+                    >
+                      <Image
+                        src={userType === index ? companyOnImg : companyImg}
+                        alt="company"
+                      />
+                      <div>{type}</div>
+                    </Select>
+                  )}
+                  {type === '일반회원' && (
+                    <Select
+                      type={userType.toString()}
+                      idx={index.toString()}
+                      onClick={() => {
+                        setUserType(index);
+                      }}
+                    >
+                      <Image
+                        src={userType === index ? userOnImg : userImg}
+                        alt="user"
+                      />
+                      <div>{type}</div>
+                    </Select>
+                  )}
+                </div>
+              ))}
+            </SelectWrapper>
+            <Link href={'/signUpTerms'}>
+              <Btn
+                text={'다음'}
+                handleClick={handleClick}
+                marginTop={'42.75'}
+                isClick={userType !== -1 && true}
+              />
+            </Link>
+          </Wrapper>
+        </Inner>
         <WebFooter />
       </Body>
-    </React.Fragment>  
+    </React.Fragment>
   );
 };
 
 export default SignUpSelect;
-
 
 const Body = styled.div`
   display: flex;
@@ -91,7 +90,7 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
@@ -102,10 +101,10 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
@@ -114,10 +113,8 @@ const Inner = styled.div`
     width: 100%;
     height: 100vh;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-    padding:0;
+    padding: 0;
+    margin: 0;
     box-shadow: none;
     background: none;
   }
@@ -127,7 +124,7 @@ const Inner = styled.div`
 `;
 
 const Wrapper = styled.div`
-  position:relative;  
+  position: relative;
   margin: 0 31.875pt;
 
   @media (max-width: 899pt) {
