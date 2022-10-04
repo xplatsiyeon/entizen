@@ -140,10 +140,10 @@ const Guide1 = () => {
               borderTop: '1px solid #E2E5ED',
             }}
           />
-          <WhiteAreaMenus onClick={() => router.push('/notice')}>
+          <WhiteAreaMenus onClick={() => router.push('/alarm')}>
             <span>공지사항</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/setting/ring')}>
+          <WhiteAreaMenus onClick={() => router.push('/alarm/1-1')}>
             <span>알림 설정</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus

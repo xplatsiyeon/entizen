@@ -145,7 +145,7 @@ const MainPage = (props: Props) => {
           <WhiteAreaMenus onClick={() => router.push('/alarm')}>
             <span>공지사항</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/alarm')}>
+          <WhiteAreaMenus onClick={() => router.push('/alarm/1-1')}>
             <span>알림 설정</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus
