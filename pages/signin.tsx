@@ -136,6 +136,7 @@ const Signin = (props: Props) => {
           );
           if (c.isMember) {
             localStorage.setItem('USER_ID', user.email);
+            console.log(user.email);
             localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
             localStorage.setItem(
               'REFRESH_TOKEN',
