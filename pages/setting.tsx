@@ -27,6 +27,7 @@ const Setting = (props: Props) => {
     const accessToken = localStorage.getItem('ACCESS_TOKEN');
     const refreshToken = localStorage.getItem('REFRESH_TOKEN');
     const userID = localStorage.getItem('USER_ID');
+
     console.log('check');
     try {
       await axios({
