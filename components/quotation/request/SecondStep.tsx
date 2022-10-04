@@ -45,7 +45,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
         dispatch(
           quotationAction.setStep2({
             subscribeProduct: 'ENTIRETY',
-            investRate: value.toString(),
+            investRate: (value / 100).toString(),
           }),
         );
       }
@@ -63,7 +63,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
         dispatch(
           quotationAction.setStep2({
             subscribeProduct: 'PART',
-            investRate: value.toString(),
+            investRate: (value / 100).toString(),
           }),
         );
       }
