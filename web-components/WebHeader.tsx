@@ -59,12 +59,15 @@ const WebHeader = ({ num, now }: Props) => {
             </Box1>
             <Box2>
               {/* <DivBox2><input type="text" placeholder="서비스를 검색해보세요" /> </DivBox2> */}
+
+              <DivBox2>
               <IconBox>
                 <Image src={Chat} alt="question" />
               </IconBox>
               <IconBox>
                 <Image src={Bell} alt="alram" />
               </IconBox>
+              </DivBox2>
               <DivBox2>
                 <Link href="/signin">
                   <a>로그인</a>
@@ -125,9 +128,9 @@ const LogoBox = styled.div`
 `;
 
 const IconBox = styled.div`
-  display: flex;
-  align-items: center;
   margin-right: 15pt;
+    width: 21pt;
+    height:21pt; 
 `;
 
 const DivBox = styled.div`

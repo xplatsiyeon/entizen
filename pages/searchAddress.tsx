@@ -13,7 +13,7 @@ import { locationAction } from 'store/locationSlice';
 import { useRouter } from 'next/router';
 
 type Props = {
-  setType: React.Dispatch<React.SetStateAction<boolean>>;
+  setType?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export interface addressType {
@@ -97,7 +97,7 @@ const SearchAddress = (props: Props) => {
   }, [keyWord]);
 
   const back = () => {
-    setType(false);
+    if(setType)setType(false);
   };
 
   return (

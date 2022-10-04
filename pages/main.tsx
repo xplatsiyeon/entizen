@@ -21,8 +21,11 @@ import main6 from 'public/images/main6.png';
 import main7 from 'public/images/main7.png';
 import main8 from 'public/images/main8.png';
 import main9 from 'public/images/main9.png';
+import { useRouter } from 'next/router';
+
 
 const Main = () => {
+  const router = useRouter();
   return (
     <>
       <WebHeader />
@@ -52,7 +55,7 @@ const Main = () => {
         <Image src={main6} />
         <Image src={main7} />
         <Image src={main8} />
-        <Wrap>
+        <Wrap onClick={()=>router.push('/signin')}>
           <Image src={main9} />
         </Wrap>
       </ImageWrap2>

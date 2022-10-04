@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { InputAdornment, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
 import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
@@ -14,6 +14,7 @@ const SalesProjection = (props: Props) => {
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
     router.push('/searchAddress');
   };
+
   return (
     <>
       <SearchMapWrapper>
