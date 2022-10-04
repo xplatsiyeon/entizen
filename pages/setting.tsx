@@ -36,16 +36,13 @@ const Setting = (props: Props) => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      })
-        .then((res) => {
-          localStorage.removeItem('ACCESS_TOKEN');
-          localStorage.removeItem('REFRESH_TOKEN');
-          localStorage.removeItem('USER_ID');
-        })
-        .then((res) => {
-          setLogoutModal(false);
-          router.push('/');
-        });
+      }).then((res) => {
+        localStorage.removeItem('ACCESS_TOKEN');
+        localStorage.removeItem('REFRESH_TOKEN');
+        localStorage.removeItem('USER_ID');
+        setLogoutModal(false);
+        router.push('/');
+      });
     } catch (error) {
       console.log('요청 실패');
       console.log(error);
