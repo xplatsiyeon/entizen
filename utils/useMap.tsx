@@ -52,6 +52,8 @@ function useMap() {
         });
       }
     }
+
+    console.log('useMap useEffect 입니다.');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lnglatList, locationList]);
 
