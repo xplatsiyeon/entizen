@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { createStore } from '@reduxjs/toolkit';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistedReducer, persistor, wrapper } from 'store';
+
 // import {
 //   persistedReducer,
 //   persistor,

@@ -99,7 +99,11 @@ const WhyEntizen = () => {
         </WhyBox>
         <GridBox>
           {menuList.map((el, index) => (
-            <GridElement color={el.background} key={index}>
+            <GridElement
+              onClick={() => movePage(el)}
+              color={el.background}
+              key={index}
+            >
               <TextArea color={el.color}>{el.menuText}</TextArea>
               <ArrowImgBox className="arrow">
                 <Image className="mob" src={el.arrowIcon} alt="icon" />

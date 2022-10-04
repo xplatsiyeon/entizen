@@ -190,7 +190,7 @@ const NextBtn = styled.div<{
 }>`
   color: ${colors.lightWhite};
   width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
-  padding: 15pt 0 ;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -201,13 +201,13 @@ const NextBtn = styled.div<{
     buttonActivate ? colors.main : colors.blue3};
 
   @media (max-width: 899pt) {
-  padding: 15pt 0 39pt 0;
+    padding: 15pt 0 39pt 0;
   }
 `;
 const PrevBtn = styled.div`
   color: ${colors.lightWhite};
   width: 36%;
-  padding: 15pt 0 ;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -216,7 +216,7 @@ const PrevBtn = styled.div`
   margin-top: 30pt;
   background-color: ${colors.gray};
   @media (max-width: 899pt) {
-  padding: 15pt 0 39pt 0;
+    padding: 15pt 0 39pt 0;
   }
 `;
 const TwoBtn = styled.div`
@@ -225,7 +225,6 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-
   @media (max-width: 899pt) {
     position: fixed;
   }
