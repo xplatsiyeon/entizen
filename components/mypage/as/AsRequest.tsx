@@ -91,9 +91,10 @@ const Wrapper = styled.div`
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
   padding-left: 15pt;
   padding-right: 15pt;
-    @media (max-width:899pt) {
+  @media (max-width: 899pt) {
     display: flex;
-    }
+    flex-direction: column;
+  }
 `;
 
 const Badge = styled.span`
