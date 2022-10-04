@@ -135,6 +135,18 @@ const Signin = (props: Props) => {
             }),
           );
           if (c.isMember) {
+            localStorage.setItem('USER_ID', user.email);
+            localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+            localStorage.setItem(
+              'REFRESH_TOKEN',
+              JSON.stringify(c.refreshToken),
+            );
+            dispatch(
+              originUserAction.set(userId),
+              // userId: userId,
+              // accessToken: res.data.accessToken,
+              // refreshToken: res.data.refreshToken,
+            );
             router.push('/');
           }
         })
@@ -166,6 +178,7 @@ const Signin = (props: Props) => {
             console.log('[whj] 네이버 로그인 데이터 => ' + naverLogin);
             console.log(naverLogin);
             // let email = naverLogin.user.getEmail();
+            // localStorage.setItem();
             NaverApi(naverLogin);
             dispatch(
               userAction.add({
