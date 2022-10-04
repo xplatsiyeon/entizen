@@ -8,6 +8,10 @@ import Nut from 'public/images/Nut.svg';
 import Bell from 'public/images/bell.svg';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
+
+import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'web-components/WebHeader';
+
 const arr = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2,
   3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -58,6 +62,9 @@ const Alam = () => {
   }, [list, arr, isScroll, isLoading, onIntersect]);
 
   return (
+    <WebBody>
+      <WebHeader />
+      <Inner>
     <Wrapper>
       <Header>
         <div className="back-img" onClick={() => router.back()}>
@@ -130,16 +137,61 @@ const Alam = () => {
 
       <div ref={loadRef}>{isScroll && !isLoading && <Loader />}</div>
     </Wrapper>
+        </Inner>
+        <WebFooter />
+      </WebBody>
   );
 };
 
 export default Alam;
 
+
+const Buttons = styled.button`
+  display: none;
+`;
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  width: 900pt;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+`;
+
 const Wrapper = styled.div`
   padding-bottom: 20pt;
 `;
 const Header = styled(Box)`
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   height: 36pt;
@@ -162,6 +214,10 @@ const Header = styled(Box)`
     position: absolute;
     right: 7pt;
     padding: 5px;
+  }
+
+  @media (max-width: 899pt) {
+    display: flex;
   }
 `;
 const Tab = styled(Box)`

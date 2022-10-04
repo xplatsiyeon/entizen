@@ -29,8 +29,8 @@ const WebHeader = ({ num, now }: Props) => {
 
    const isUser= localStorage.getItem('USER_ID');
    console.log('user', isUser)
-   if(isUser){setUser(true)}
-   /*else{
+   if(isUser){setUser(true)} /*
+   else{
     localStorage.setItem('USER_ID','user')
    } */ //테스트용코드.
   },[])
@@ -82,11 +82,13 @@ const WebHeader = ({ num, now }: Props) => {
               <>
               <DivBox2>
               <IconBox>
+                <Image src={Chat} alt="question" />
+              </IconBox>
+              <IconBox>
                 <Image src={BellOutline} alt="bell on" onClick={()=>route.push('/alarm')}/>
               </IconBox>
               <IconBox>
                 <Image src={Frame} alt="frame" />
-                <Image src={Vector} alt="" />
               </IconBox>
               </DivBox2>
               </>
