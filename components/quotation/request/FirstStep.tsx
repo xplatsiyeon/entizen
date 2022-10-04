@@ -68,7 +68,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
     const copy: any = [...selectedOption];
     const copyEn: any = [...selectedOptionEn];
     // 영어 값 추출
-    let valueEn;
+    let valueEn: any;
 
     if (name === 'kind') {
       const idx = M5_LIST.indexOf(value);
