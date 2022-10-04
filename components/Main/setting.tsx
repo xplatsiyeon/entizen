@@ -23,7 +23,7 @@ const Setting = (props: Props) => {
     setLogoutModal(false);
   };
   const handleLogoutOnClickModalClick = async () => {
-    const LOG_OUT = `https://api.entizen.kr/api/members/logout`;
+    const LOG_OUT = `https://test-api.entizen.kr/api/members/logout`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const refreshToken = localStorage.getItem('REFRESH_TOKEN');
     const userID = localStorage.getItem('USER_ID');

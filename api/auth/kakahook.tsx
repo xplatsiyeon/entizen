@@ -8,7 +8,7 @@ type Props = {};
 const kakaoHook = (props: Props) => {
   const router = useRouter();
 
-  const KAKAO_POST = `https://api.entizen.kr/api/members/login/sns`;
+  const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
 
   interface Data {
     accessToken: string;

@@ -3,7 +3,7 @@ import { LocationListTypes } from 'store/locationSlice';
 import { Data, quotationAction } from 'store/quotationSlice';
 import { RootState } from 'store/store';
 
-const PREDICTION_POST = `https://api.entizen.kr/api/quotations/prediction`;
+const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
 
 export const predictionApi = async (
   quotationData: Data,

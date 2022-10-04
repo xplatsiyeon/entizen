@@ -133,7 +133,7 @@ const IdPwInput = ({
       try {
         await axios({
           method: 'post',
-          url: 'https://api.entizen.kr/api/members/join',
+          url: 'https://test-api.entizen.kr/api/members/join',
           data: {
             memberType: 'USER',
             name: name,
