@@ -86,16 +86,21 @@ const Signin = (props: Props) => {
               isMember: c.isMember,
             }),
           );
-          if (c.isMember === true) {
-            localStorage.setItem('USER_ID', data.user.email);
-            console.log(user.email);
-            localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-            localStorage.setItem(
-              'REFRESH_TOKEN',
-              JSON.stringify(c.refreshToken),
-            );
-            dispatch(originUserAction.set(data.user.email));
-            router.push('/');
+          if (c) {
+            if (c.isMember) {
+              localStorage.setItem('USER_ID', data.user.email);
+              console.log(user.email);
+              localStorage.setItem(
+                'ACCESS_TOKEN',
+                JSON.stringify(c.accessToken),
+              );
+              localStorage.setItem(
+                'REFRESH_TOKEN',
+                JSON.stringify(c.refreshToken),
+              );
+              dispatch(originUserAction.set(data.user.email));
+              router.push('/');
+            }
           }
         })
         .then((res) => {
