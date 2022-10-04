@@ -18,7 +18,7 @@ const RequestMain = () => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [userName, setUserName] = useState<string>('윤세아');
-  const [on, setOn] =useState<number>();
+  const [on, setOn] =useState<boolean>();
 
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
@@ -57,13 +57,13 @@ const RequestMain = () => {
               key={index}
               tab={tabNumber.toString()}
               index={index.toString()}
-              onClick={() => {setTabNumber(index); setOn(index)}}
+              onClick={() => {setTabNumber(index); setOn(!on)}}
             >
               {tab}
             </TabItem>
             <Dot tab={tabNumber.toString()} index={index.toString()} />
             </Wrap>
-          {on === index ? (components[tabNumber]) :null}  {/* 접었다 폈다?? */}
+          {tabNumber === index && on ? (components[tabNumber]) :null}  {/* 접었다 폈다?? */}
           </>
           ))}
         </TabContainer>
@@ -133,6 +133,7 @@ const TabContainer = styled.div`
   flex-direction: column;
   gap: 30pt;
   padding:0 28.5pt;
+  margin: 20pt 0;
 `;
 const Wrap = styled.div`
   display: flex;
