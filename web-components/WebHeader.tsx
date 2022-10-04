@@ -29,10 +29,10 @@ const WebHeader = ({ num, now }: Props) => {
 
    const isUser= localStorage.getItem('USER_ID');
    console.log('user', isUser)
-   if(isUser){setUser(true)}
+   if(isUser){setUser(true)} /*
    else{
     localStorage.setItem('USER_ID','user')
-   }  //테스트용코드.
+   } */ //테스트용코드.
   },[])
 
   return (
