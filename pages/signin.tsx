@@ -76,17 +76,20 @@ const Signin = (props: Props) => {
           let d = JSON.parse(res.config.data);
           console.log('카카오 로그인 axios 부분입니다 ! ======');
           console.log(c);
-          dispatch(
-            userAction.add({
-              ...userAction,
-              uuid: d.uuid,
-              email: d.email,
-              snsType: d.snsType,
-              snsLoginIdx: c.snsLoginIdx,
-              isMember: c.isMember,
-            }),
-          );
-          if (c.isMemeber === true) {
+          // dispatch(
+          //   userAction.add({
+          //     ...userAction,
+          //     uuid: d.uuid,
+          //     email: d.email,
+          //     snsType: d.snsType,
+          //     snsLoginIdx: c.snsLoginIdx,
+          //     isMember: c.isMember,
+          //   }),
+          // );
+          // console.log('c 확인');
+          // console.log(c);
+          // console.log(c.isMember);
+          if (c.isMember) {
             localStorage.setItem('USER_ID', data.user.email);
             console.log(user.email);
             localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
@@ -430,6 +433,7 @@ const Signin = (props: Props) => {
                 >
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
                     <Image onClick={kakaoLogin} src={kakao} alt="kakao" />
+                    {/* <Image onClick={handleAlert} src={kakao} alt="kakao" /> */}
                   </Box>
                   <Box
                     sx={{ height: '33pt', marginRight: '15pt' }}
