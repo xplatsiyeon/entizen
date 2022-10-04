@@ -22,33 +22,15 @@ const Setting = (props: Props) => {
   const handleLogoutModalClick = () => {
     setLogoutModal(false);
   };
-  const NaverLogout = async () => {
-    // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
-    const localToken = localStorage.get('com.naver.nid.access_token');
-    const res = await axios.get('/oauth2.0/token', {
-      params: {
-        grant_type: 'delete',
-        client_id: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // Client ID
-        client_secret: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_SECRET, // Client Secret
-        access_token: localToken, // 발급된 Token 정보
-        service_provider: 'NAVER',
-      },
-    });
-    console.log('여기에요 여기  =>    ' + res);
-
-    if (res) {
-      router.push('/'); // 로그인 페이지로 이동
-    }
-  };
   const handleLogoutOnClickModalClick = async () => {
-    const LOG_OUT_API = `https://test-api.entizen.kr/api/members/logout`;
+    const LOG_OUT = `https://test-api.entizen.kr/api/members/logout`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const refreshToken = localStorage.getItem('REFRESH_TOKEN');
     const userID = localStorage.getItem('USER_ID');
     try {
       await axios({
         method: 'post',
-        url: LOG_OUT_API,
+        url: LOG_OUT,
         headers: {
           Authorization: `Bearer ${accessToken}`,
           ContentType: 'application/json',
@@ -65,36 +47,13 @@ const Setting = (props: Props) => {
       console.log('요청 실패');
       console.log(error);
     }
-    NaverLogout();
   };
-
   const handleOnClick = () => {
     router.back();
   };
-  const ModalLeftControl = async () => {
-    const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    console.log('탈퇴');
-    try {
-      await axios({
-        method: 'post',
-        url: WITHDRAWAL_API,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
-        localStorage.removeItem('ACCESS_TOKEN');
-        localStorage.removeItem('REFRESH_TOKEN');
-        localStorage.removeItem('USER_ID');
-        setLogoutModal(false);
-        router.push('/');
-      });
-    } catch (error) {
-      console.log('요청 실패');
-      console.log(error);
-    }
+  const ModalLeftControl = () => {
+    setSecessionFirstModal(false);
+    setPasswordModal(true);
   };
   const ModalRightControl = () => {
     setSecessionFirstModal(!secessionFirstModal);
@@ -129,7 +88,7 @@ const Setting = (props: Props) => {
       )}
       {secessionFirstModal && (
         <RequestModal
-          title={'정말 탈퇴하시겠습니까?'}
+          title={'?'}
           subtitle={
             '사용하고 계신 아이디(useridhere)는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.'
           }
