@@ -63,6 +63,7 @@ const MainPage = (props: Props) => {
     } else {
       setIsLogin(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const list = (anchor: string) => (

@@ -147,6 +147,10 @@ const Signin = (props: Props) => {
     }
   };
 
+  const handleAlert = () => {
+    alert('현재 개발 중 입니다.');
+  };
+
   useEffect(() => {
     login(naverLogin, function (naverLogin) {
       const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
@@ -335,7 +339,10 @@ const Signin = (props: Props) => {
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
                     <Image onClick={kakaoLogin} src={kakao} alt="kakao" />
                   </Box>
-                  <Box sx={{ height: '33pt', marginRight: '15pt' }}>
+                  <Box
+                    sx={{ height: '33pt', marginRight: '15pt' }}
+                    onClick={handleAlert}
+                  >
                     <Image src={apple} alt="apple" />
                   </Box>
                   <NaverBox>
@@ -343,7 +350,7 @@ const Signin = (props: Props) => {
                     {/* <Image onClick={handleNaver} src={naver} alt="naver" /> */}
                     <Image onClick={handleNaver} src={naver} alt="naver" />
                   </NaverBox>
-                  <Box sx={{ height: '33pt' }}>
+                  <Box sx={{ height: '33pt' }} onClick={handleAlert}>
                     <Image src={google} alt="google" />
                   </Box>
                 </Box>
