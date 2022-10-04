@@ -86,9 +86,9 @@ const MainPage = (props: Props) => {
     >
       <ListBox>
         <XBtnWrapper>
-          <Imagewrap>
+          <Imagewrap onClick={()=>router.push('/alarm')}>
             <Image src={Bell} alt="bellBtn" /></Imagewrap>
-          <Imagewrap>
+          <Imagewrap onClick={()=>router.push('/alarm/1-1')}>
             <Image src={Nut} alt="NutBtn" /></Imagewrap>
           <Imagewrap>
             <Image src={xBtn} alt="xBtn" /></Imagewrap>
