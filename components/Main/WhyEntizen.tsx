@@ -13,21 +13,24 @@ import carnation from 'public/images/carnation.png';
 import mainArrow1 from 'public/images/mainArrow1.png';
 import mainArrow2 from 'public/images/mainArrow2.png';
 import mainArrow3 from 'public/images/mainArrow3.png';
+import { useRouter } from 'next/router';
 
-type Props = {};
+interface MenuList {
+  headText: string;
+  arrowIcon: StaticImageData;
+  arrowIcon2: StaticImageData;
+  background: string;
+  color: string;
+  bigIcon: StaticImageData;
+  menuText: string;
+  width: string;
+  height: string;
+}
 
-const WhyEntizen = (props: Props) => {
-  const menuList: {
-    headText: string;
-    arrowIcon: StaticImageData;
-    arrowIcon2: StaticImageData;
-    background: string;
-    color: string;
-    bigIcon: StaticImageData;
-    menuText: string;
-    width: string;
-    height: string;
-  }[] = [
+const WhyEntizen = () => {
+  const userID = localStorage.getItem('USER_ID');
+  const router = useRouter();
+  const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',
       arrowIcon: blackWhiteArrow,
@@ -73,6 +76,21 @@ const WhyEntizen = (props: Props) => {
       height: '42.75pt',
     },
   ];
+
+  const movePage = (el: MenuList) => {
+    switch (el.headText) {
+      case '플랫폼 가이드':
+        return router.push('/guide');
+      case '구독 가이드':
+        return userID ? router.push('/mypage') : router.push('/signin');
+      case '충전기 가이드':
+        return alert('2차 작업 범위 페이지입니다.');
+      case '보조금 가이드':
+        return router.push('/quotation/request');
+      default:
+        break;
+    }
+  };
   return (
     <>
       <Wrapper>

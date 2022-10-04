@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
+import axios from 'axios';
 import PasswordModal from 'components/Modal/PasswordModal';
 import RequestModal from 'components/Modal/RequestModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
@@ -21,6 +22,52 @@ const Setting = (props: Props) => {
   const handleLogoutModalClick = () => {
     setLogoutModal(false);
   };
+  const handleLogoutOnClickModalClick = async () => {
+    const LOG_OUT = `https://test-api.entizen.kr/api/members/logout`;
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    const refreshToken = localStorage.getItem('REFRESH_TOKEN');
+    const userID = localStorage.getItem('USER_ID');
+    try {
+      await axios({
+        method: 'post',
+        url: LOG_OUT,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => {
+        localStorage.removeItem('ACCESS_TOKEN');
+        localStorage.removeItem('REFRESH_TOKEN');
+        localStorage.removeItem('USER_ID');
+        setLogoutModal(false);
+        router.push('/');
+      });
+    } catch (error) {
+      console.log('요청 실패');
+      console.log(error);
+    }
+    NaverLogout();
+  };
+
+  const NaverLogout = async () => {
+    // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
+    const res = await axios.get('/oauth2.0/token', {
+      params: {
+        grant_type: 'delete',
+        client_id: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // Client ID
+        client_secret: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_SECRET, // Client Secret
+        access_token: router.query.token, // 발급된 Token 정보
+        service_provider: 'NAVER',
+      },
+    });
+    console.log(res);
+
+    if (res) {
+      router.push('/'); // 로그인 페이지로 이동
+    }
+  };
+
   const handleOnClick = () => {
     router.back();
   };
@@ -55,7 +102,7 @@ const Setting = (props: Props) => {
           rightBtnText={'네'}
           leftBtnColor={'#FF1B2D'}
           rightBtnColor={'#222222'}
-          rightBtnControl={handleLogoutModalClick}
+          rightBtnControl={handleLogoutOnClickModalClick}
           leftBtnControl={handleLogoutModalClick}
         />
       )}

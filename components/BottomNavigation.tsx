@@ -79,7 +79,12 @@ const BottomNavigation = (props: Props) => {
           <Image src={estimate} alt="estimate" width={32} height={32} />
           <H3 clicked={false}>간편견적</H3>
         </div>
-        <div className="img-wrapper">
+        <div
+          className="img-wrapper"
+          onClick={() => {
+            alert('2차 작업 범위 페이지입니다.');
+          }}
+        >
           <ImgBox>
             <Image
               src={tabNumber === 3 ? chattingOn : chatting}
@@ -112,7 +117,7 @@ const BottomNavigation = (props: Props) => {
 export default BottomNavigation;
 
 const Wrapper = styled.div`
-display: none;
+  display: none;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -128,9 +133,9 @@ display: none;
     align-items: center;
     gap: 3pt;
   }
-  
+
   @media (max-width: 899pt) {
-    display:block;
+    display: block;
   }
 `;
 const BoxBg = styled.div`

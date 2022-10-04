@@ -31,6 +31,7 @@ type Props = {};
 
 const MainPage = (props: Props) => {
   const router = useRouter();
+  const userID = localStorage.getItem('USER_ID');
   const { accessToken, refreshToken, userId } = useSelector(
     (state: RootState) => state.originUserData,
   );
@@ -51,6 +52,21 @@ const MainPage = (props: Props) => {
 
       setState({ ...state, [anchor]: open });
     };
+
+  useEffect(() => {
+    console.log('업데이트 확인');
+    console.log(localStorage.getItem('USER_ID'));
+    console.log(isLogin);
+
+    if (localStorage.getItem('USER_ID')) {
+      console.log('login check !');
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
+
   const list = (anchor: string) => (
     <WholeBox
       role="presentation"
@@ -62,15 +78,18 @@ const MainPage = (props: Props) => {
           <Image src={xBtn} alt="xBtn" />
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLogin onClick={() => router.push('/signin')}>
-            <span>{userId}</span>
+          <WhetherLoginComplete>
             <span>
-              <Image src={whiteRight} alt="arrow" />
+              <label className="label">일반회원</label>
+              {userId}
             </span>
-          </WhetherLogin>
+            <span className="arrow-img">
+              <Image src={whiteRight} alt="arrow" layout="fill" />
+            </span>
+          </WhetherLoginComplete>
         ) : (
           <WhetherLogin onClick={() => router.push('/signin')}>
-            <span>로그인 해주세요</span>
+            <span> 로그인 해주세요</span>
             <span>
               <Image src={whiteRight} alt="arrow" />
             </span>
@@ -84,19 +103,23 @@ const MainPage = (props: Props) => {
             </span>
             <span>간편견적</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus>
+          <WhiteAreaMenus onClick={() => router.push('/guide')}>
             <span>
               <Image src={guide} alt="가이드" />
             </span>
             <span>가이드</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus>
+          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
             <span>
               <Image src={conversation} alt="소통하기" />
             </span>
             <span>소통하기</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus>
+          <WhiteAreaMenus
+            onClick={() =>
+              userID ? router.push('/mypage') : router.push('/signin')
+            }
+          >
             <span>
               <Image src={mypageIcon} alt="마이페이지" />
             </span>
@@ -117,13 +140,17 @@ const MainPage = (props: Props) => {
           <WhiteAreaMenus onClick={() => router.push('/setting/ring')}>
             <span>알림 설정</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/faq')}>
+          <WhiteAreaMenus
+            onClick={() =>
+              userID ? router.push('/faq') : router.push('/signin')
+            }
+          >
             <span>1:1 문의</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => router.push('/faq')}>
             <span>자주 묻는 질문</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/associate')}>
+          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
             <span>제휴문의</span>
           </WhiteAreaMenus>
           <Divider
@@ -150,17 +177,6 @@ const MainPage = (props: Props) => {
     </WholeBox>
   );
 
-  useEffect(() => {
-    console.log('업데이트 확인');
-    if (userId) {
-      if (userId?.length > 1) {
-        console.log('accessToken check !');
-        setIsLogin(true);
-      } else {
-        setIsLogin(false);
-      }
-    }
-  }, [userId]);
   return (
     <>
       <Container>
@@ -277,7 +293,6 @@ const WhetherLogin = styled.div`
   display: flex;
   align-items: center;
   margin-top: 27.75pt;
-
   & span {
   }
   & span:first-of-type {
@@ -291,6 +306,49 @@ const WhetherLogin = styled.div`
     margin-right: 6pt;
   }
   & span {
+  }
+  .label {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray3};
+  }
+  .arrow-img {
+    position: relative;
+    width: 15pt;
+    height: 15pt;
+  }
+`;
+const WhetherLoginComplete = styled.div`
+  display: flex;
+  align-items: flex-end;
+  margin-top: 9.75pt;
+  position: relative;
+  & span:first-of-type {
+    font-family: Spoqa Han Sans Neo;
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #ffffff;
+    margin-right: 6pt;
+    display: flex;
+    flex-direction: column;
+    gap: 6pt;
+  }
+  .label {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray3};
+  }
+  .arrow-img {
+    position: relative;
+    width: 15pt;
+    height: 15pt;
   }
 `;
 
@@ -312,6 +370,7 @@ const WhiteAreaMenus = styled.div`
   align-items: center;
   padding-top: 12pt;
   padding-bottom: 12pt;
+
   & span:first-of-type {
     margin-right: 6pt;
   }

@@ -89,6 +89,7 @@ const ChargerMap = (props: Props) => {
     }
 
     // searchAddressToCoordinate(locationList.roadAddrPart);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationList]);
 
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
