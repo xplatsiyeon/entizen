@@ -25,6 +25,8 @@ const Setting = (props: Props) => {
   const handleLogoutOnClickModalClick = async () => {
     const LOG_OUT = `https://test-api.entizen.kr/api/members/logout`;
     const accessToken = localStorage.getItem('ACCESS_TOKEN');
+    console.log(accessToken);
+    console.log(JSON.parse(accessToken!));
     const refreshToken = localStorage.getItem('REFRESH_TOKEN');
     const userID = localStorage.getItem('USER_ID');
 
@@ -34,7 +36,7 @@ const Setting = (props: Props) => {
         method: 'post',
         url: LOG_OUT,
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${JSON.parse(accessToken!)}`,
           ContentType: 'application/json',
         },
         withCredentials: true,
