@@ -29,6 +29,7 @@ import { useDispatch } from 'react-redux';
 import { Option, quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { useRouter } from 'next/router';
 
 interface Props {
   tabNumber: number;
@@ -45,6 +46,7 @@ export interface SelectedOption {
 
 const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { chargersKo, chargers } = useSelector(
     (state: RootState) => state.quotationData,
   );
@@ -290,7 +292,9 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
         </div>
       ))}
       <ChargeGuide>
-        <span className="text">충전기 가이드</span>
+        <span className="text" onClick={() => router.push('/guide/1-5')}>
+          충전기 가이드
+        </span>
         <div className="arrow-icon">
           <Image src={Arrow} alt="arrow_icon" />
         </div>
@@ -407,6 +411,7 @@ const ChargeGuide = styled.div`
   gap: 3pt;
   color: ${colors.gray2};
   margin-top: 75pt;
+  cursor: pointer;
   .text {
     letter-spacing: -0.02em;
     border-bottom: 1px solid ${colors.gray2};

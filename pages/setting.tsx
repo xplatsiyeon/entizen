@@ -165,8 +165,10 @@ const Setting = (props: Props) => {
           <VersionInfoText>버전 정보</VersionInfoText>
           <VersionNumber>V.8.33</VersionNumber>
         </Version>
-        <SettingList>알림 설정</SettingList>
-        <SettingList>1:1 문의</SettingList>
+        <SettingList onClick={() => router.push('/alarm/1-1')}>
+          알림 설정
+        </SettingList>
+        <SettingList onClick={() => router.push('/faq')}>1:1 문의</SettingList>
         <SettingList onClick={() => router.push('/faq')}>
           자주 묻는 질문
         </SettingList>

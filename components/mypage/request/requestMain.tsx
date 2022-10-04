@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import AsIndex from 'components/mypage/as';
 import BottomNavigation from 'components/BottomNavigation';
 import WebEstimate from './webEstimate';
+import { useRef } from 'react';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -17,7 +18,7 @@ const RequestMain = () => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [userName, setUserName] = useState<string>('윤세아');
-  const [on, setOn] =useState<number>();
+  const [on, setOn] =useState<boolean>();
 
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
@@ -26,8 +27,11 @@ const RequestMain = () => {
     2: <AsIndex />,
   };
 
+  const myPageIndex = useRef<HTMLDivElement>(null);
+
   return (
-    <Wrapper>
+    <Wrapper ref={myPageIndex} onClick={()=>{
+      if(myPageIndex.current)myPageIndex.current.style.height='auto'}}>
       <Header>
         <span>
           <h1>{`${userName}님,`}</h1>
@@ -53,13 +57,13 @@ const RequestMain = () => {
               key={index}
               tab={tabNumber.toString()}
               index={index.toString()}
-              onClick={() => {setTabNumber(index); setOn(index)}}
+              onClick={() => {setTabNumber(index); setOn(!on)}}
             >
               {tab}
             </TabItem>
             <Dot tab={tabNumber.toString()} index={index.toString()} />
             </Wrap>
-          {on === index ? (components[tabNumber]) :null}  {/* 접었다 폈다?? */}
+          {tabNumber === index && on ? (components[tabNumber]) :null}  {/* 접었다 폈다?? */}
           </>
           ))}
         </TabContainer>
@@ -75,6 +79,8 @@ export default RequestMain;
 const Wrapper = styled.div`
 position: relative;
 width: 255pt;
+height: 424.5pt;
+overflow: hidden;
 `;
 const Header = styled.header`
   display: flex;
@@ -119,14 +125,15 @@ const Body = styled.div`
 `;
 const Line = styled.div`
   width: 90%;
-  margin: 21pt auto;
+  margin: 21pt auto 60pt;
   border-bottom: 3pt solid ${colors.gray3};
 `;
 const TabContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15pt;
-  padding-left: 15pt;
+  gap: 30pt;
+  padding:0 28.5pt;
+  margin: 20pt 0;
 `;
 const Wrap = styled.div`
   display: flex;
@@ -147,6 +154,6 @@ const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
   height: 3pt;
   border-radius: 50%;
- //margin: 6pt auto 0 auto;
+ margin: 0 9pt ;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;

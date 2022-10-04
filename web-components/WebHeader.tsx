@@ -10,6 +10,7 @@ import BellOutline from 'public/images/Bell_outline.png';
 import Frame from 'public/images/Frame.png';
 import Vector from 'public/images/Vector.png';
 import GuideLink from 'components/GuideLink';
+import { Router, useRouter } from 'next/router';
 
 
 type Props = {
@@ -22,12 +23,14 @@ const WebHeader = ({ num, now }: Props) => {
   const [type, setType] = useState<string>('');
   const [user, setUser] = useState<boolean>();
 
+  const route = useRouter();
+
   useEffect(()=>{
 
    const isUser= localStorage.getItem('USER_ID');
    console.log('user', isUser)
-   if(isUser){setUser(true)}
-   /*else{
+   if(isUser){setUser(true)} /*
+   else{
     localStorage.setItem('USER_ID','user')
    } */ //테스트용코드.
   },[])
@@ -79,11 +82,13 @@ const WebHeader = ({ num, now }: Props) => {
               <>
               <DivBox2>
               <IconBox>
-                <Image src={BellOutline} alt="bell on" />
+                <Image src={Chat} alt="question" />
+              </IconBox>
+              <IconBox>
+                <Image src={BellOutline} alt="bell on" onClick={()=>route.push('/alarm')}/>
               </IconBox>
               <IconBox>
                 <Image src={Frame} alt="frame" />
-                <Image src={Vector} alt="" />
               </IconBox>
               </DivBox2>
               </>

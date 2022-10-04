@@ -63,16 +63,23 @@ const TermContent = ({
     }
   };
   const handleForceClick = () => {
-    setLevel(level + 1);
-
     let c = localStorage.getItem('key');
     // let a: any;
+    let a: any;
     if (c !== null) {
       let a = JSON.parse(c);
       console.log(a);
+      console.log(a.isMember);
       setName(a.name);
       setPhoneNumber(a.phone);
+      if (a.isMember) {
+        alert('이미 회원가입 하셨습니다.');
+        route.push('/signin');
+      }
     }
+
+    // if(a && a.isMember)
+    setLevel(level + 1);
   };
 
   useEffect(() => {

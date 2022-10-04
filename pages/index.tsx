@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
-import Main from './main';
+import Main from '../components/Main/mainWeb';
 
 type Props = {};
 

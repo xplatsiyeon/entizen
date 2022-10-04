@@ -123,9 +123,20 @@ const Faq = () => {
     2: <FaqInfomation data={report} />,
   };
   const handleTab = (index: number) => setTabNumber(index);
+  const leftOnClick = () => {
+    route.back();
+  };
+  const rightOnClick = () => {
+    route.push('/');
+  };
+
   return (
     <>
-      <GuideHeader title="자주 묻는 질문" />
+      <GuideHeader
+        title="자주 묻는 질문"
+        leftOnClick={leftOnClick}
+        rightOnClick={rightOnClick}
+      />
       <TabContainer>
         {TabType.map((tab, index) => (
           <TabItem

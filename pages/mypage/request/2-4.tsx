@@ -80,7 +80,7 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 345pt;
   //width: 281.25pt;  
   background:#ffff;
@@ -91,10 +91,8 @@ const Inner = styled.div`
   @media (max-width: 899pt) {
     width: 100%;
     height: 100%;
+    margin: 0 auto;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
     padding:0;
   }
 `;
