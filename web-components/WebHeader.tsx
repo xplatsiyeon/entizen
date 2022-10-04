@@ -102,7 +102,9 @@ const WebHeader = ({ num, now }: Props) => {
                 </Link>
               </DivBox2>
               <DivBox2>
-                <Link href="/signUp/Terms">
+                {/*
+                <Link href="/signUp/Terms"> */}
+                <Link href="/testTest"> 
                   <a>회원가입</a>
                 </Link>
               </DivBox2>

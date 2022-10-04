@@ -48,6 +48,7 @@ const RequestMain = () => {
         <TabContainer>
           {TabType.map((tab, index) => (
             <>
+            <Wrap>
             <TabItem
               key={index}
               tab={tabNumber.toString()}
@@ -55,8 +56,9 @@ const RequestMain = () => {
               onClick={() => {setTabNumber(index); setOn(index)}}
             >
               {tab}
-              <Dot tab={tabNumber.toString()} index={index.toString()} />
             </TabItem>
+            <Dot tab={tabNumber.toString()} index={index.toString()} />
+            </Wrap>
           {on === index ? (components[tabNumber]) :null}  {/* 접었다 폈다?? */}
           </>
           ))}
@@ -116,8 +118,8 @@ const Body = styled.div`
   }
 `;
 const Line = styled.div`
-  margin-top: 21pt;
-  width: 100%;
+  width: 90%;
+  margin: 21pt auto;
   border-bottom: 3pt solid ${colors.gray3};
 `;
 const TabContainer = styled.div`
@@ -126,8 +128,14 @@ const TabContainer = styled.div`
   gap: 15pt;
   padding-left: 15pt;
 `;
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 24pt;
+`
 const TabItem = styled.span<{ tab: string; index: string }>`
-  padding-top: 21pt;
+  //padding-top: 21pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 15pt;
@@ -139,6 +147,6 @@ const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
   height: 3pt;
   border-radius: 50%;
-  margin: 6pt auto 0 auto;
+ //margin: 6pt auto 0 auto;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;

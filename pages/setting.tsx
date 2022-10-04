@@ -8,6 +8,7 @@ import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
+import { kakaoInit } from 'utils/kakao';
 
 type Props = {};
 
@@ -41,6 +42,24 @@ const Setting = (props: Props) => {
       router.push('/'); // 로그인 페이지로 이동
     }
   };
+  const KakaoLogout = () => {
+    const kakao = kakaoInit();
+    console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)
+    // 카카오 로그인 링크 해제
+    kakao.API.request({
+      url: '/v1/user/unlink',
+      success: (res: any) => {
+        // 로그인 성공할 경우 정보 확인 후 / 페이지로 push
+        console.log('세팅 카카오로그아웃 부분입니다.');
+        console.log(res);
+        router.push('/');
+      },
+      fail: (error: any) => {
+        console.log(error);
+      },
+    });
+  };
+
   const handleLogoutOnClickModalClick = async () => {
     const LOG_OUT_API = `https://test-api.entizen.kr/api/members/logout`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
@@ -67,6 +86,7 @@ const Setting = (props: Props) => {
       console.log(error);
     }
     NaverLogout();
+    KakaoLogout();
   };
 
   const handleOnClick = () => {
