@@ -10,6 +10,7 @@ import BellOutline from 'public/images/Bell_outline.png';
 import Frame from 'public/images/Frame.png';
 import Vector from 'public/images/Vector.png';
 import GuideLink from 'components/GuideLink';
+import { Router, useRouter } from 'next/router';
 
 
 type Props = {
@@ -21,6 +22,8 @@ const WebHeader = ({ num, now }: Props) => {
   const [linklist, setLinklist] = useState<boolean>(false);
   const [type, setType] = useState<string>('');
   const [user, setUser] = useState<boolean>();
+
+  const route = useRouter();
 
   useEffect(()=>{
 
@@ -79,7 +82,7 @@ const WebHeader = ({ num, now }: Props) => {
               <>
               <DivBox2>
               <IconBox>
-                <Image src={BellOutline} alt="bell on" />
+                <Image src={BellOutline} alt="bell on" onClick={()=>route.push('/alarm')}/>
               </IconBox>
               <IconBox>
                 <Image src={Frame} alt="frame" />
