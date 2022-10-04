@@ -35,6 +35,7 @@ const Setting = (props: Props) => {
       },
     });
     console.log('여기에요 여기  =>    ' + res);
+    console.log(res);
 
     if (res) {
       router.push('/'); // 로그인 페이지로 이동
