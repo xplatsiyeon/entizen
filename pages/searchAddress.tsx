@@ -52,16 +52,18 @@ const SearchAddress = (props: Props) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(() => e.target.value);
   };
-  const handleOnClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad } = e.currentTarget.dataset;
-
-    dispatch(
+    console.log('지도 온클릭 리스트 =>    ' + jibun);
+    await dispatch(
       locationAction.load({
         jibunAddr: jibun,
         roadAddrPart: roadad,
       }),
     );
+    console.log('여기를 안타요 1번 ');
     router.push('/chargerMap');
+    console.log('여기를 안타요 2번 ');
   };
   const { setType } = props;
   useEffect(() => {
@@ -81,12 +83,13 @@ const SearchAddress = (props: Props) => {
 
           let jsonResult = await JSON.parse(match[1].toString()).results.juso;
           let cc: any = [];
-          setResults(cc);
+          // setResults(cc);
           let aa = await jsonResult?.map((el: any, index: number) => {
             cc.push(el);
           });
 
           setResults(cc);
+          console.log(cc);
         } catch (err) {
           console.log(err);
         }

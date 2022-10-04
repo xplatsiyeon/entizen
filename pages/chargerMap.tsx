@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { InputAdornment, TextField, Typography } from '@mui/material';
+import { useMediaQuery } from 'react-responsive';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import mapPin from 'public/images/MapPin.png';
@@ -21,10 +22,24 @@ type Props = {};
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
   const dispatch = useDispatch();
+  // const responsiveWeb = useMediaQuery({ query: '(min-width: 1040px)' });
+  const mobile = useMediaQuery({
+    query: '(min-width:810pt)',
+  });
+
+  // useEffect(() => {
+  //   // mobile 쿼리로 인해 값이 바뀔 때 수행
+  //   if (mobile) setIsMobile(true);
+  //   console.log('모바일    => ' + mobile);
+  // }, [mobile]);
+
+  console.log('모바일    => ' + mobile);
+
   useMap();
   const [changeHeight, setChangeHeight] = useState<boolean>(false);
   const [selectedCharger, setSelectedCharger] = useState<number>(0);
@@ -63,7 +78,7 @@ const ChargerMap = (props: Props) => {
     if (locationList.roadAddrPart) {
       naver.maps.Service.geocode(
         {
-          query: locationList.roadAddrPart,
+          query: locationList.jibunAddr,
         },
         function (status, response) {
           if (status === naver.maps.Service.Status.ERROR) {
@@ -72,7 +87,7 @@ const ChargerMap = (props: Props) => {
             }
             return alert('Geocode Error, address:' + locationList.roadAddrPart);
           }
-
+          console.log(response);
           if (response.v2.meta.totalCount === 0) {
             return alert('No result.');
           }
@@ -132,31 +147,73 @@ const ChargerMap = (props: Props) => {
             <Image src={btnImg} alt="backBtn" />
           </Header>
           <SearchMapArea>
-            <Input
-              value={locationList.roadAddrPart}
-              type="submit"
-              className="searchInput"
-              onClick={handleOnClick}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <div style={{ width: '15pt', height: '15pt' }}>
-                      <Image src={search} alt="searchIcon" layout="intrinsic" />
-                    </div>
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <div style={{ width: '15pt', height: '15pt' }}>
-                      <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
-                    </div>
-                  </InputAdornment>
-                ),
-              }}
-            />
+            {mobile && (
+              <Input
+                value={locationList.roadAddrPart}
+                type="submit"
+                className="searchInput"
+                onClick={handleOnClick}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        <Image
+                          src={search}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      </div>
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        <Image
+                          src={mapPin}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      </div>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+            {!mobile && (
+              <Input
+                value={locationList.roadAddrPart}
+                type="submit"
+                className="searchInput"
+                onClick={() => router.push('/searchAddress')}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        <Image
+                          src={search}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      </div>
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        <Image
+                          src={mapPin}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      </div>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
           </SearchMapArea>
 
-          {type ? (
+          {mobile ? (
             <WrapAddress>
               <SearchAddress setType={setType} />
             </WrapAddress>
@@ -193,7 +250,7 @@ const ChargerMap = (props: Props) => {
                   <ChargerTypeNCount>
                     {selectedCharger == 0
                       ? '완속 충전기 7kW / 1대'
-                      : '급속 충전기 5kW / 1대'}
+                      : '급속 충전기 100kW / 1대'}
                   </ChargerTypeNCount>
                   <ChargerNotice>
                     * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
