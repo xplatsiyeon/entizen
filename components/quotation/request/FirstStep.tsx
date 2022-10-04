@@ -1,6 +1,12 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import colors from 'styles/colors';
 import AddIcon from 'public/images/add-img.svg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -39,12 +45,12 @@ export interface SelectedOption {
 }
 
 const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
-  console.log('check');
   const dispatch = useDispatch();
   const router = useRouter();
-  const { chargersKo } = useSelector((state: RootState) => state.quotationData);
+  const { chargersKo, chargers } = useSelector(
+    (state: RootState) => state.quotationData,
+  );
   const [isValid, setIsValid] = useState(false);
-  const [m5Index, setM5Index] = useState(0);
   const [selectedOption, setSelectedOption] = useState<SelectedOption[]>([
     {
       idx: 0,
@@ -67,14 +73,13 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   // 셀렉터 옵션 체인지
   const handleChange = (event: any, index: number) => {
     const { name, value } = event.target;
-    const copy: any = [...selectedOption];
-    const copyEn: any = [...selectedOptionEn];
+    let copy: SelectedOption[] = [...selectedOption];
+    let copyEn: Option[] = [...selectedOptionEn];
     // 영어 값 추출
-    let valueEn: any;
-
+    let valueEn: string;
+    // 충전기 종류
     if (name === 'kind') {
       const idx = M5_LIST.indexOf(value);
-      setM5Index(idx);
       valueEn = M5_LIST_EN[idx];
       copy[index] = {
         idx: idx,
@@ -83,27 +88,56 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
         channel: '',
         count: '',
       };
-    } else if (name === 'standType') {
+      copy[index] = {
+        ...copy[index],
+        kind: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        kind: valueEn,
+      };
+      // 타입
+    } else if (copy[index].kind.length > 1 && name === 'standType') {
       const idx = M6_LIST.indexOf(value);
+      // console.log('index -> ' + idx);
       if (value === '-') {
         valueEn = '';
       } else {
         valueEn = M6_LIST_EN[idx];
       }
-    } else if (name === 'channel') {
+      copy[index] = {
+        ...copy[index],
+        standType: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        standType: valueEn,
+      };
+    } else if (copy[index].kind.length > 1 && name === 'channel') {
       const idx = M7_LIST.indexOf(value);
-
       valueEn = M7_LIST_EN[idx];
-    } else if (name === 'count') {
+      copy[index] = {
+        ...copy[index],
+        channel: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        channel: valueEn,
+      };
+      // 개수
+    } else if (copy[index].kind.length > 1 && name === 'count') {
       const idx = M8_LIST.indexOf(value);
       valueEn = M8_LIST_EN[idx];
+      copy[index] = {
+        ...copy[index],
+        count: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        count: valueEn,
+      };
     }
-    copy[index][name] = value;
-    copyEn[index][name] = valueEn;
-    console.log('카피 입니다.');
-    console.log(copy);
-    console.log('카피 영어입니다..');
-    console.log(copyEn);
+
     setSelectedOption(copy);
     setSelectedOptionEn(copyEn);
   };
@@ -138,8 +172,6 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   };
   // 버튼 온클릭
   const buttonOnClick = () => {
-    console.log('check');
-    // dispatch(quotationAction.init());
     if (isValid && tabNumber !== 5) {
       dispatch(quotationAction.setChargers(selectedOptionEn));
       dispatch(quotationAction.setChargersKo(selectedOption));
@@ -165,7 +197,9 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   // 내용 기억
   useEffect(() => {
     setSelectedOption(chargersKo);
+    setSelectedOptionEn(chargers);
   }, []);
+
   return (
     <Wrraper>
       <Title>
@@ -258,7 +292,9 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
         </div>
       ))}
       <ChargeGuide>
-        <span className="text" onClick={()=>router.push('/guide/1-5')}>충전기 가이드</span>
+        <span className="text" onClick={() => router.push('/guide/1-5')}>
+          충전기 가이드
+        </span>
         <div className="arrow-icon">
           <Image src={Arrow} alt="arrow_icon" />
         </div>
@@ -400,6 +436,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   line-height: 12pt;
   letter-spacing: -0.02em;
   margin-top: 30pt;
+  cursor: pointer;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
 

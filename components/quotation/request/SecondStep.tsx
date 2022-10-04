@@ -18,12 +18,14 @@ interface Props {
 
 const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
-  //const router = useRouter();
-  const { subscribeProduct, investRate } = useSelector(
+
+  const { subscribeProduct, investRate, chargersKo } = useSelector(
     (state: RootState) => state.quotationData,
   );
+
   const [value, setValue] = useState(50);
   const [disabled, setDisabled] = useState(true);
+  const [notCommon, setNotCommon] = useState(false);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const [subscribeNumber, setSubscribeNumber] = useState(-1);
   const subscribeType: any[] = ['전체구독', '부분구독'];
@@ -50,7 +52,16 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
         dispatch(
           quotationAction.setStep2({
             subscribeProduct: 'PART',
-            investRate: '1',
+            investRate: 1,
+          }),
+        );
+      }
+      // 부분 구독
+      if (subscribeNumber === 1 && notCommon === true) {
+        dispatch(
+          quotationAction.setStep2({
+            subscribeProduct: 'PART',
+            investRate: value.toString(),
           }),
         );
       }
@@ -81,6 +92,14 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
     } else if (subscribeProduct === 'PART') setSubscribeNumber(1);
   }, []);
 
+  useEffect(() => {
+    chargersKo.map((item, index) => {
+      if (item.kind === '7 kW 홈 충전기 (가정용)') {
+        setNotCommon(true);
+      }
+    });
+  }, []);
+
   return (
     <Wrraper>
       <Title>구독상품을 선택해주세요</Title>
@@ -109,7 +128,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
         <SubTitle>판매자</SubTitle>
       </SubTitleBox>
       {/* slider  */}
-      {subscribeNumber !== 1 ? (
+      {notCommon || subscribeNumber !== 1 ? (
         <SliderBox>
           <SliderSizes
             value={value}
@@ -227,7 +246,7 @@ const NextBtn = styled.div<{
 }>`
   color: ${colors.lightWhite};
   width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
-  padding: 15pt 0 ;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -236,7 +255,7 @@ const NextBtn = styled.div<{
   margin-top: 30pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
-
+  cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
@@ -252,7 +271,7 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 30pt;
   background-color: ${colors.gray};
-
+  cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }

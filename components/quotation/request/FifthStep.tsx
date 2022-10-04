@@ -268,6 +268,7 @@ const NextBtn = styled.div<{
   line-height: 12pt;
   letter-spacing: -0.02em;
   margin-top: 30pt;
+  cursor: pointer;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
   @media (max-width: 899pt) {
@@ -285,6 +286,7 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 30pt;
   background-color: ${colors.gray};
+  cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }

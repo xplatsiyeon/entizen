@@ -134,7 +134,7 @@ const SixthStep = ({ setTabNumber }: Props) => {
   useEffect(() => {
     if (clicked !== -1) {
       setButtonActivate(true);
-      console.log(purpose[clicked].name);
+      // console.log(purpose[clicked].name);
     }
   }, [clicked]);
   return (
@@ -202,6 +202,7 @@ const GridItem = styled.div<{ index: string; clicked: string }>`
   padding: 15.75pt 0 9.75pt 0;
   border: 0.75pt;
   border-style: solid;
+  cursor: pointer;
   border-color: ${({ index, clicked }) =>
     index === clicked ? `${colors.main}` : `${colors.lightGray2}`};
   color: ${({ index, clicked }) =>
@@ -222,6 +223,7 @@ const NextBtn = styled.div<{
   margin-top: 30pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
+  cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
@@ -237,6 +239,7 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 30pt;
   background-color: ${colors.gray};
+  cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
