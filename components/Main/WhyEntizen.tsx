@@ -24,6 +24,7 @@ interface MenuList {
 }
 
 const WhyEntizen = () => {
+  const userID = localStorage.getItem('USER_ID');
   const router = useRouter();
   const menuList: MenuList[] = [
     {
@@ -73,7 +74,7 @@ const WhyEntizen = () => {
       case '플랫폼 가이드':
         return router.push('/guide');
       case '구독 가이드':
-        return router.push('/mypage');
+        return userID ? router.push('/mypage') : router.push('/signin');
       case '충전기 가이드':
         return alert('2차 작업 범위 페이지입니다.');
       case '보조금 가이드':

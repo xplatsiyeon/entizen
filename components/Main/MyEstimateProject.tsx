@@ -9,10 +9,15 @@ import { useRouter } from 'next/router';
 type Props = {};
 
 const MyEstimateProject = (props: Props) => {
+  const userID = localStorage.getItem('USER_ID');
   const router = useRouter();
   return (
     <Wrapper>
-      <BoxWrapper onClick={() => router.push('/mypage')}>
+      <BoxWrapper
+        onClick={() =>
+          userID ? router.push('/mypage') : router.push('/signin')
+        }
+      >
         <Box>
           <BoxName>
             <Typography
