@@ -17,6 +17,8 @@ import Button from 'components/mypage/request/Button';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
 import Request from '..';
+import RequestMain from 'components/mypage/request/requestMain';
+
 
 const Mypage1_3 = ({ data }: any) => {
   const route = useRouter();
@@ -44,7 +46,7 @@ const Mypage1_3 = ({ data }: any) => {
       <Inner>
         <FlexBox>
           <Wrap1>
-            <Request />
+            <RequestMain />
           </Wrap1>
           <Wrap2>
       <MypageHeader
@@ -114,7 +116,7 @@ const FlexBox = styled.div`
 `;
 
 const Wrap1 = styled.div`
-  width: 255pt;
+  //width: 255pt;
   border: 1px solid #e9eaee;
   border-radius: 6pt;
   height: 100%;
