@@ -17,7 +17,6 @@ import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
-import HambuguerBar from 'components/hamburgerBar';
 
 const Guide1 = () => {
   const router = useRouter();
