@@ -92,14 +92,14 @@ const Signin = (props: Props) => {
           if (c.isMember === true) {
             console.log('멤버 확인');
             console.log(data);
-            localStorage.setItem('USER_ID', data.user.email);
+            localStorage.setItem('USER_ID', data.kakao_account.email);
             // console.log(user.email);
             localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
             localStorage.setItem(
               'REFRESH_TOKEN',
               JSON.stringify(c.refreshToken),
             );
-            dispatch(originUserAction.set(data.user.email));
+            dispatch(originUserAction.set(data.kakao_account.email));
             router.push('/');
           }
         })
