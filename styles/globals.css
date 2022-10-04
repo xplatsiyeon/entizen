@@ -145,6 +145,8 @@ body {
   -ms-overflow-style: none;
   /* overflow: hidden; */
   background-color: #fcfcfc;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
 }
 
 ::-webkit-scrollbar {

@@ -257,7 +257,7 @@ const Wrraper = styled.div`
   padding: 0 15pt;
 
   @media (max-width: 899pt) {
-  margin-bottom: 96pt;
+    margin-bottom: 96pt;
   }
 `;
 const Title = styled.h1`
@@ -381,7 +381,6 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   margin-top: 30pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
-
 
   @media (max-width: 899pt) {
     position: fixed;
