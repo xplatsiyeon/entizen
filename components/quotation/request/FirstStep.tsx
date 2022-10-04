@@ -29,14 +29,23 @@ interface Props {
   setTabNumber: Dispatch<SetStateAction<number>>;
 }
 
+export interface SelectedOption {
+  idx: number;
+  kind: string;
+  standType: string;
+  channel: string;
+  count: string;
+}
+
 const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   console.log('check');
   const dispatch = useDispatch();
   const { chargersKo } = useSelector((state: RootState) => state.quotationData);
   const [isValid, setIsValid] = useState(false);
   const [m5Index, setM5Index] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<Option[]>([
+  const [selectedOption, setSelectedOption] = useState<SelectedOption[]>([
     {
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',
@@ -66,6 +75,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
       setM5Index(idx);
       valueEn = M5_LIST_EN[idx];
       copy[index] = {
+        idx: idx,
         kind: '',
         standType: '',
         channel: '',
@@ -95,6 +105,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   const onClickAdd = () => {
     if (selectedOption.length === 5 && selectedOptionEn.length === 5) return;
     const temp = selectedOption.concat({
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',
@@ -147,8 +158,6 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   }, [selectedOption]);
   // 내용 기억
   useEffect(() => {
-    console.log('check');
-    console.log(chargersKo);
     setSelectedOption(chargersKo);
   }, []);
   return (
@@ -157,7 +166,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
         어떤 종류의 충전기를 <br />
         설치하고 싶으세요?
       </Title>
-      {selectedOption?.map((option, index) => (
+      {selectedOption?.map((item, index) => (
         <div key={index}>
           <SubTitle>
             <h3 className="name">충전기 종류 및 수량 선택</h3>
@@ -173,7 +182,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
           </SubTitle>
           {/* 충전기 종류 옵션 박스 */}
           <SelectBox
-            value={option.kind}
+            value={item.kind}
             name="kind"
             onChange={(event) => handleChange(event, index)}
             IconComponent={() => <SelectIcon />}
@@ -182,6 +191,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
             <MenuItem value="">
               <Placeholder>충전기 종류</Placeholder>
             </MenuItem>
+
             {M5_LIST.map((option, index) => (
               <MenuItem key={index} value={option}>
                 {option}
@@ -191,7 +201,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
           {/* 타입,채널,수량 옵션 박스 */}
           <SelectContainer>
             <SelectSmall
-              value={option.standType}
+              value={item.standType}
               name="standType"
               onChange={(event) => handleChange(event, index)}
               displayEmpty
@@ -200,14 +210,14 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               <MenuItem value="">
                 <Placeholder>타입</Placeholder>
               </MenuItem>
-              {M5_TYPE_SET[m5Index].map((option, index) => (
+              {M5_TYPE_SET[item.idx].map((option, index) => (
                 <MenuItem key={index} value={option}>
                   {option}
                 </MenuItem>
               ))}
             </SelectSmall>
             <SelectSmall
-              value={option.channel}
+              value={item.channel}
               name="channel"
               onChange={(event) => handleChange(event, index)}
               IconComponent={() => <SelectIcon />}
@@ -216,14 +226,14 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               <MenuItem value="">
                 <Placeholder>채널</Placeholder>
               </MenuItem>
-              {M5_CHANNEL_SET[m5Index].map((option, index) => (
+              {M5_CHANNEL_SET[item.idx].map((option, index) => (
                 <MenuItem key={index} value={option}>
                   {option}
                 </MenuItem>
               ))}
             </SelectSmall>
             <SelectSmall
-              value={option.count}
+              value={item.count}
               name="count"
               onChange={(event) => handleChange(event, index)}
               IconComponent={() => <SelectIcon />}
