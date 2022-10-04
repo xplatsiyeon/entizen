@@ -80,12 +80,7 @@ const Signin = (props: Props) => {
             JSON.stringify(res.data.refreshToken),
           );
           localStorage.setItem('USER_ID', JSON.stringify(userId));
-          dispatch(
-            originUserAction.set(userId),
-            // userId: userId,
-            // accessToken: res.data.accessToken,
-            // refreshToken: res.data.refreshToken,
-          );
+          dispatch(originUserAction.set(userId));
           await router.push('/');
         })
         .catch((error) => {
@@ -135,19 +130,14 @@ const Signin = (props: Props) => {
             }),
           );
           if (c.isMember === true) {
-            localStorage.setItem('USER_ID', user.email);
+            localStorage.setItem('USER_ID', data.user.email);
             console.log(user.email);
             localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
             localStorage.setItem(
               'REFRESH_TOKEN',
               JSON.stringify(c.refreshToken),
             );
-            dispatch(
-              originUserAction.set(userId),
-              // userId: userId,
-              // accessToken: res.data.accessToken,
-              // refreshToken: res.data.refreshToken,
-            );
+            dispatch(originUserAction.set(data.user.email));
             router.push('/');
           }
         })
