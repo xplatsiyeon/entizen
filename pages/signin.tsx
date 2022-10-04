@@ -113,13 +113,19 @@ const Signin = (props: Props) => {
           success: (res: any) => {
             // 로그인 성공할 경우 정보 확인 후 /kakao 페이지로 push
             KaKaApi(res);
+            console.log('아래는 카카오로그인 성공시 데이터입니다.');
+            console.log(res);
           },
           fail: (error: any) => {
+            console.log(error);
+            console.log('아래는 카카오로그인 실패시 데이터입니다.');
             console.log(error);
           },
         });
       },
       fail: (error: any) => {
+        console.log(error);
+        console.log('아래는 마지막 카카오로그인 완전 실패데이터입니다.');
         console.log(error);
       },
     });
