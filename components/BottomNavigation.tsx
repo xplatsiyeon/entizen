@@ -17,6 +17,7 @@ type Props = {};
 
 const BottomNavigation = (props: Props) => {
   const router = useRouter();
+  const user_ID = localStorage.getItem('USER_ID');
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
 
@@ -97,7 +98,7 @@ const BottomNavigation = (props: Props) => {
         <div
           className="img-wrapper"
           onClick={() => {
-            router.push('/mypage');
+            user_ID ? router.push('/mypage') : router.push('/signin');
           }}
         >
           <ImgBox>
