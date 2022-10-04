@@ -120,6 +120,10 @@ section {
 }
 body {
   line-height: 1;
+  font-family: '';
+  /* font-family: 'Spoqa Han Sans Neo'; */
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
 }
 ol,
 ul {
@@ -145,8 +149,6 @@ body {
   -ms-overflow-style: none;
   /* overflow: hidden; */
   background-color: #fcfcfc;
-  font-family: 'Spoqa Han Sans Neo';
-  font-style: normal;
 }
 
 ::-webkit-scrollbar {

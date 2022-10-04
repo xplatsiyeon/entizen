@@ -19,6 +19,18 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          {/* <link
+            href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css"
+            rel="stylesheet"
+            type="text/css"
+          /> */}
+          <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
+            rel="stylesheet"
+            type="text/css"
+          ></link>
+          <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+
           <Script
             strategy="beforeInteractive"
             src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_KEY}`}
@@ -34,6 +46,7 @@ class MyDocument extends Document {
           {/* <Script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></Script> */}
           <Script type="text/javascript" src="public/testsss.js"></Script>
         </Head>
+
         <body>
           <Main />
           <script
