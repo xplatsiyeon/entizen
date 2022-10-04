@@ -135,6 +135,18 @@ const Signin = (props: Props) => {
             }),
           );
           if (c.isMember) {
+            localStorage.setItem('USER_ID', user.email);
+            localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+            localStorage.setItem(
+              'REFRESH_TOKEN',
+              JSON.stringify(c.refreshToken),
+            );
+            dispatch(
+              originUserAction.set(userId),
+              // userId: userId,
+              // accessToken: res.data.accessToken,
+              // refreshToken: res.data.refreshToken,
+            );
             router.push('/');
           }
         })
@@ -145,6 +157,10 @@ const Signin = (props: Props) => {
       console.log('post 요청 실패');
       console.log(error);
     }
+  };
+
+  const handleAlert = () => {
+    alert('현재 개발 중 입니다.');
   };
 
   useEffect(() => {
@@ -162,6 +178,7 @@ const Signin = (props: Props) => {
             console.log('[whj] 네이버 로그인 데이터 => ' + naverLogin);
             console.log(naverLogin);
             // let email = naverLogin.user.getEmail();
+            // localStorage.setItem();
             NaverApi(naverLogin);
             dispatch(
               userAction.add({
@@ -335,7 +352,10 @@ const Signin = (props: Props) => {
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
                     <Image onClick={kakaoLogin} src={kakao} alt="kakao" />
                   </Box>
-                  <Box sx={{ height: '33pt', marginRight: '15pt' }}>
+                  <Box
+                    sx={{ height: '33pt', marginRight: '15pt' }}
+                    onClick={handleAlert}
+                  >
                     <Image src={apple} alt="apple" />
                   </Box>
                   <NaverBox>
@@ -343,7 +363,7 @@ const Signin = (props: Props) => {
                     {/* <Image onClick={handleNaver} src={naver} alt="naver" /> */}
                     <Image onClick={handleNaver} src={naver} alt="naver" />
                   </NaverBox>
-                  <Box sx={{ height: '33pt' }}>
+                  <Box sx={{ height: '33pt' }} onClick={handleAlert}>
                     <Image src={google} alt="google" />
                   </Box>
                 </Box>

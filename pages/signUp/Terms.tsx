@@ -8,11 +8,17 @@ import CheckImg from 'public/images/check-box.svg';
 import CheckOnImg from 'public/images/check-box-on.svg';
 import SmallCheckImg from 'public/images/check-small.svg';
 import SmallCheckOnImg from 'public/images/check-small-on.svg';
-import Btn from 'components/button';
+
 import { useEffect, useState } from 'react';
 import { Router, useRouter } from 'next/router';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
+import Btn from 'components/SignUp/button';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import axios from 'axios';
+import { userAction } from 'store/userSlice';
 
 interface Terms {
   all: boolean;
@@ -23,9 +29,58 @@ interface Terms {
 const SignUpTerms = () => {
   const route = useRouter();
   const [fullTerms, setFullTerms] = useState(false);
+  const [name, setName] = useState<string>('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [requiredTerms, setRequiredTerms] = useState(false);
   const [selectTerms, setSelectTerms] = useState(false);
   const [nextBtn, setNextBtn] = useState(false);
+  const [data, setData] = useState<any>();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.userList);
+
+  // ========================== 본인인증 창 띄우기
+  const fnPopup = () => {
+    if (typeof window !== 'object') return;
+    else {
+      window.open(
+        '',
+        'popupChk',
+        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+      );
+      let cloneDocument = document as any;
+      cloneDocument.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      cloneDocument.form_chk.target = 'popupChk';
+      cloneDocument.form_chk.submit();
+    }
+  };
+  useEffect(() => {
+    // console.log(localStorage.getItem('key'));
+    const memberType = 'USER';
+
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        // console.log(res.data);
+        setData(res.data.executedData);
+        console.log('엑시오스 데이터 66번째 줄입니다   =>   ');
+        console.log(res.data.executedData);
+        // encodeData = res.data.executedData;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (route.asPath.includes('Canceled')) {
+      route.push('/signin');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fullTermsHandler = () => {
     if (fullTerms) {
@@ -38,11 +93,70 @@ const SignUpTerms = () => {
       setSelectTerms(true);
     }
   };
+
+  const handleForceClick = async () => {
+    let c = localStorage.getItem('key');
+    console.log(c);
+    if (fullTerms && c !== null) {
+      let a = JSON.parse(c);
+
+      dispatch(
+        userAction.add({
+          ...user,
+          snsType: fullTerms,
+          name: a.name,
+          phone: a.phone,
+        }),
+      );
+
+      try {
+        console.log('이름 =>   ' + a.name);
+        console.log('번호 =>   ' + a.phone);
+
+        await axios({
+          method: 'post',
+          url: 'https://test-api.entizen.kr/api/members/join/sns',
+          data: {
+            name: a.name,
+            // email: user.email,
+            phone: a.phone,
+            optionalTermsConsentStatus: [
+              {
+                optionalTermsType: 'LOCATION',
+                consentStatus: fullTerms,
+              },
+            ],
+            snsLoginIdx: user.snsLoginIdx,
+          },
+          headers: {
+            ContentType: 'application/json',
+          },
+          withCredentials: true,
+        })
+          .then((res) => {
+            console.log('서버에 sns 로그인결과 보내는 곳입니다. ======');
+            console.log(res);
+          })
+          .then((res) => {
+            route.push('/signUp/Complete');
+          });
+      } catch (error) {
+        console.log('post 실패!!!!!!');
+        console.log(error);
+      }
+    }
+  };
   // 보기 이벤트
   const TermsofServiceHandler = (event: any) => {
     event.stopPropagation();
     // route("/") 어디로?
   };
+  useEffect(() => {
+    if (route.asPath.includes('Canceled')) {
+      route.push('/signin');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // 다음 버튼 활성화
   useEffect(() => {
     requiredTerms ? setNextBtn(true) : setNextBtn(false);
@@ -52,100 +166,119 @@ const SignUpTerms = () => {
     if (!requiredTerms || !selectTerms) setFullTerms(false);
     if (requiredTerms && selectTerms) setFullTerms(true);
   }, [requiredTerms, selectTerms]);
-  const handleClick = () => {
-    route.push('/signUp/Check');
-  };
+  // const handleClick = () => {
+  //   route.push('/signUp/Check');
+  // };
 
   return (
     <React.Fragment>
       <Body>
         <WebHeader />
-          <Inner>
-            <Wrapper>
-        <Header />
-        <Notice variant="h3">
-          엔티즌 약관에
-          <br />
-          동의해주세요
-        </Notice>
-        <StyledTerms>
-          <Image
-            onClick={fullTermsHandler}
-            alt="check"
-            src={fullTerms ? CheckOnImg : CheckImg}
-          />
-          <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
-        </StyledTerms>
-        <Form
-          isterms={requiredTerms.toString()}
-          onClick={() => setRequiredTerms((prev) => !prev)}
-        >
-          <Box className="box">
-            <span>
-              <Image alt="check" src={requiredTerms ? CheckOnImg : CheckImg} />
-            </span>
-            <p>필수 약관에 동의합니다.</p>
-          </Box>
-          <Check>
-            <Item>
-              <div>
-                <Image
-                  alt="smallCheck"
-                  src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+        <Inner>
+          <Wrapper>
+            <Header />
+            <Notice variant="h3">
+              엔티즌 약관에
+              <br />
+              동의해주세요
+            </Notice>
+            <StyledTerms>
+              <Image
+                onClick={fullTermsHandler}
+                alt="check"
+                src={fullTerms ? CheckOnImg : CheckImg}
+              />
+              <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
+            </StyledTerms>
+            <Form
+              isterms={requiredTerms.toString()}
+              onClick={() => setRequiredTerms((prev) => !prev)}
+            >
+              <Box className="box">
+                <span>
+                  <Image
+                    alt="check"
+                    src={requiredTerms ? CheckOnImg : CheckImg}
+                  />
+                </span>
+                <p>필수 약관에 동의합니다.</p>
+              </Box>
+              <Check>
+                <Item>
+                  <div>
+                    <Image
+                      alt="smallCheck"
+                      src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                    />
+                    <p>[필수]사용자 이용약관</p>
+                  </div>
+                  <span onClick={TermsofServiceHandler}>보기</span>
+                </Item>
+              </Check>
+              <Check>
+                <Item>
+                  <div>
+                    <Image
+                      alt="smallCheck"
+                      src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                    />
+                    <p>[필수] 만 14세 이상</p>
+                  </div>
+                  <span onClick={TermsofServiceHandler}>보기</span>
+                </Item>
+              </Check>
+              <Check>
+                <Item>
+                  <div>
+                    <Image
+                      alt="smallCheck"
+                      src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                    />
+                    <p>[필수]개인정보 처리방침 동의</p>
+                  </div>
+                  <span onClick={TermsofServiceHandler}>보기</span>
+                </Item>
+              </Check>
+            </Form>
+            <BottomForm isterms={selectTerms.toString()}>
+              <Box>
+                <Item onClick={() => setSelectTerms((prev) => !prev)}>
+                  <div>
+                    <Image
+                      alt="smallCheck"
+                      src={selectTerms ? SmallCheckOnImg : SmallCheckImg}
+                    />
+                    <p>[선택]위치정보 서비스 약관</p>
+                  </div>
+                  <span onClick={TermsofServiceHandler}>보기</span>
+                </Item>
+              </Box>
+            </BottomForm>
+            <div>
+              <form name="form_chk" method="post">
+                <input type="hidden" name="m" value="checkplusService" />
+                {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                <input
+                  type="hidden"
+                  id="encodeData"
+                  name="EncodeData"
+                  value={data !== undefined && data}
                 />
-                <p>[필수]사용자 이용약관</p>
-              </div>
-              <span onClick={TermsofServiceHandler}>보기</span>
-            </Item>
-          </Check>
-          <Check>
-            <Item>
-              <div>
-                <Image
-                  alt="smallCheck"
-                  src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+                <Btn
+                  text="본인인증하기"
+                  name={'form_chk'}
+                  handleClick={fnPopup}
+                  marginTop={42.5}
+                  isClick={nextBtn}
                 />
-                <p>[필수] 만 14세 이상</p>
-              </div>
-              <span onClick={TermsofServiceHandler}>보기</span>
-            </Item>
-          </Check>
-          <Check>
-            <Item>
-              <div>
-                <Image
-                  alt="smallCheck"
-                  src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
-                />
-                <p>[필수]개인정보 처리방침 동의</p>
-              </div>
-              <span onClick={TermsofServiceHandler}>보기</span>
-            </Item>
-          </Check>
-        </Form>
-        <BottomForm isterms={selectTerms.toString()}>
-          <Box>
-            <Item onClick={() => setSelectTerms((prev) => !prev)}>
-              <div>
-                <Image
-                  alt="smallCheck"
-                  src={selectTerms ? SmallCheckOnImg : SmallCheckImg}
-                />
-                <p>[선택]위치정보 서비스 약관</p>
-              </div>
-              <span onClick={TermsofServiceHandler}>보기</span>
-            </Item>
-          </Box>
-        </BottomForm>
-        <Btn
-          text="본인인증하기"
-          name="form_chk"
-          handleClick={handleClick}
-          isClick={nextBtn}
-          marginTop="63"
-        />
-            </Wrapper>
-          </Inner>  
+              </form>
+              <Buttons className="firstNextPage" onClick={handleForceClick}>
+                아아
+              </Buttons>
+            </div>
+          </Wrapper>
+        </Inner>
         <WebFooter />
       </Body>
     </React.Fragment>
@@ -154,6 +287,9 @@ const SignUpTerms = () => {
 
 export default SignUpTerms;
 
+const Buttons = styled.button`
+  display: none;
+`;
 const Body = styled.div`
   display: flex;
   flex-direction: column;
@@ -161,8 +297,7 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -174,8 +309,8 @@ const Inner = styled.div`
   position: relative;
   margin: 0 auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
@@ -186,7 +321,7 @@ const Inner = styled.div`
     top: 0;
     left: 0%;
     transform: none;
-    padding:0;
+    padding: 0;
     box-shadow: none;
     background: none;
   }
@@ -196,7 +331,7 @@ const Inner = styled.div`
 `;
 
 const Wrapper = styled.div`
-  position:relative;  
+  position: relative;
   margin: 0 31.875pt;
   @media (max-width: 899pt) {
     height: 100%;
