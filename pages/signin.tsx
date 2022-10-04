@@ -66,39 +66,46 @@ const Signin = (props: Props) => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      }).then((res) => {
-        console.log('카카오로그인 KaKaAPI =>  ' + res);
-        console.log(res);
-        console.log(res.data);
-        // const match = res.config.data.match(/\((.*)\)/);
-        let c = res.data;
-        let d = JSON.parse(res.config.data);
-        console.log('카카오 로그인 axios 부분입니다 ! ======');
-        console.log(c);
-        dispatch(
-          userAction.add({
-            ...userAction,
-            uuid: d.uuid,
-            email: d.email,
-            snsType: d.snsType,
-            snsLoginIdx: c.snsLoginIdx,
-            isMember: c.isMember,
-          }),
-        );
-        if (c) {
-          if (c.isMember) {
-            localStorage.setItem('USER_ID', data.user.email);
-            console.log(user.email);
-            localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-            localStorage.setItem(
-              'REFRESH_TOKEN',
-              JSON.stringify(c.refreshToken),
-            );
-            dispatch(originUserAction.set(data.user.email));
-            router.push('/');
+      })
+        .then((res) => {
+          console.log('카카오로그인 KaKaAPI =>  ' + res);
+          console.log(res);
+          console.log(res.data);
+          // const match = res.config.data.match(/\((.*)\)/);
+          let c = res.data;
+          let d = JSON.parse(res.config.data);
+          console.log('카카오 로그인 axios 부분입니다 ! ======');
+          console.log(c);
+          dispatch(
+            userAction.add({
+              ...userAction,
+              uuid: d.uuid,
+              email: d.email,
+              snsType: d.snsType,
+              snsLoginIdx: c.snsLoginIdx,
+              isMember: c.isMember,
+            }),
+          );
+          if (c) {
+            if (c.isMember) {
+              localStorage.setItem('USER_ID', data.user.email);
+              console.log(user.email);
+              localStorage.setItem(
+                'ACCESS_TOKEN',
+                JSON.stringify(c.accessToken),
+              );
+              localStorage.setItem(
+                'REFRESH_TOKEN',
+                JSON.stringify(c.refreshToken),
+              );
+              dispatch(originUserAction.set(data.user.email));
+              router.push('/');
+            }
           }
-        }
-      });
+        })
+        .then((res) => {
+          router.push('/signUp/Terms');
+        });
     } catch (error) {
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
@@ -428,6 +435,7 @@ const Signin = (props: Props) => {
                 >
                   <Box sx={{ height: '33pt', marginRight: '15pt' }}>
                     <Image onClick={kakaoLogin} src={kakao} alt="kakao" />
+                    {/* <Image onClick={handleAlert} src={kakao} alt="kakao" /> */}
                   </Box>
                   <Box
                     sx={{ height: '33pt', marginRight: '15pt' }}
