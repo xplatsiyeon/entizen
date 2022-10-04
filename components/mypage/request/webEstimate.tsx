@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
 import colors from 'styles/colors';
 import NoHistory from './noHistory';
 
@@ -72,7 +71,6 @@ const temphisTory: Data[] = [
 const WebEstimate = () => {
   const route = useRouter();
 
-  const myPageIndex = useRef<HTMLDivElement>(null);
 
   const HandleColor = (badge: string): string => {
     if (badge.includes('마감')) return '#F75015';
@@ -87,8 +85,7 @@ const WebEstimate = () => {
   }
 
   return (
-    <Wrapper className='???' ref={myPageIndex} onClick={()=>{
-      if(myPageIndex.current)myPageIndex.current.style.height='auto'}}>
+    <Wrapper>
       {/* 진행중 */}
       {tempProceeding.length > 0 && (
         <Proceeding>
@@ -141,9 +138,7 @@ const WebEstimate = () => {
 export default WebEstimate;
 
 const Wrapper = styled.div`
-  padding-top: 21pt;
-  height: 424pt;
-  overflow: hidden;
+  //padding-top: 21pt;
 
 `;
 const Label = styled.label`
@@ -158,7 +153,7 @@ const Label = styled.label`
   }
 `;
 const Proceeding = styled.section`
-  padding-top: 21pt;
+  //padding-top: 21pt;
 `;
 const History = styled.section``;
 const Carousel = styled.div<{ length: number }>`
@@ -167,20 +162,25 @@ const Carousel = styled.div<{ length: number }>`
   overflow-x: scroll;
   grid-template-columns: ${({ length }) => `repeat(${length}, 1fr)`};
   gap: 12pt;
-  padding: 6pt 0 30pt ;
+  padding: 6pt 4pt 30pt ;
 
   @media (max-width: 899pt) {
   display: grid;
   }
 `;
 const CarouselItem = styled.div`
-  height: 135pt;
-  padding-left: 9pt;
-  padding-top: 9pt;
-  border-radius: 6pt;
-  background-color: ${colors.lightWhite};
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  position: relative;
+    height: 66pt;
+    /* padding-left: 9pt; */
+    /* padding-top: 27pt; */
+    justify-content: center;
+    border-radius: 6pt;
+    align-items: flex-start;
+    flex-direction: column;
+    display: flex;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 10px rgb(137 163 201 / 20%);
+    position: relative;
+    padding-left: 15pt;
   .store-name {
     padding-top: 16.5pt;
     font-weight: 700;
