@@ -72,13 +72,13 @@ const WhyEntizen = () => {
   const movePage = (el: MenuList) => {
     switch (el.headText) {
       case '플랫폼 가이드':
-        return router.push('/guide');
+        return router.push('/guide/1-1');
       case '구독 가이드':
-        return userID ? router.push('/mypage') : router.push('/signin');
+        return userID ? router.push('/guide/1-2') : router.push('/signin');
       case '충전기 가이드':
-        return alert('2차 작업 범위 페이지입니다.');
+        return router.push('/guide/1-4');
       case '보조금 가이드':
-        return router.push('/quotation/request');
+        return router.push('/chargerMap');
       default:
         break;
     }
