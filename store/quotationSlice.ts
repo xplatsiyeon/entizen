@@ -16,10 +16,17 @@ export interface Option {
   channel: string;
   count: string;
 }
+export interface OptionKo {
+  idx: number;
+  kind: string;
+  standType: string;
+  channel: string;
+  count: string;
+}
 export interface Data {
   requestData?: RequesQuotationtData;
   chargers: Option[];
-  chargersKo: Option[];
+  chargersKo: OptionKo[];
   subscribeProduct: '' | 'ENTIRETY' | 'PART';
   investRate: string;
   subscribePeriod: '' | '24' | '26' | '48' | '60';
@@ -40,6 +47,7 @@ const initialState: Data = {
   ],
   chargersKo: [
     {
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',
