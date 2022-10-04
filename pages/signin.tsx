@@ -91,6 +91,7 @@ const Signin = (props: Props) => {
           console.log(c.isMember);
           if (c.isMember === true) {
             console.log('멤버 확인');
+            console.log(data);
             localStorage.setItem('USER_ID', data.user.email);
             // console.log(user.email);
             localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
