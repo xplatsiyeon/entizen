@@ -39,6 +39,7 @@ const Signin = (props: Props) => {
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
+  const [wrongPw, setWrongPw] = useState<string>('');
   let naverLogin: any;
 
   let naverResponse: any;
@@ -101,7 +102,10 @@ const Signin = (props: Props) => {
           router.push('/signUp/Terms');
         }
       });
-    } catch (error) {
+    } catch (error: any) {
+      if (error.data.message.include('비밀번호')) {
+        setWrongPw(error.data.message);
+      }
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
       console.log(error);

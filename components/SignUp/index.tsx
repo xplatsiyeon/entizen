@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import ChooseUserType from './chooseUserType';
 import MypageHeader from './header';
 import IdPwInput from './IdPwInput';
 import TermContent from './TermContent';
@@ -9,7 +10,12 @@ type Props = {};
 
 const SignUpContainer = (props: Props) => {
   const router = useRouter();
+
   const [level, setLevel] = useState<number>(0);
+
+  // level 0 일때 일반, 기업 선택
+  const [userType, setUserType] = useState<number>(-1);
+
   const [name, setName] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [fullTerms, setFullTerms] = useState(false);
@@ -32,6 +38,19 @@ const SignUpContainer = (props: Props) => {
     <>
       {level === 0 && (
         <>
+          <MypageHeader back={true} title={''} />
+          <Wrapper>
+            <ChooseUserType
+              userType={userType}
+              setUserType={setUserType}
+              level={level}
+              setLevel={setLevel}
+            />
+          </Wrapper>
+        </>
+      )}
+      {level === 1 && (
+        <>
           <MypageHeader back={true} homeBtn={true} title={''} exitBtn={true} />
           <Wrapper>
             <TermContent
@@ -51,7 +70,7 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
-      {level === 1 && (
+      {level === 2 && (
         <>
           <MypageHeader
             back={true}
