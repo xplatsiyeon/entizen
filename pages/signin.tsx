@@ -78,7 +78,7 @@ const Signin = (props: Props) => {
           console.log(c);
           dispatch(
             userAction.add({
-              ...userAction,
+              ...user,
               uuid: d.uuid,
               email: d.email,
               snsType: d.snsType,
@@ -89,15 +89,15 @@ const Signin = (props: Props) => {
           // console.log('c 확인');
           // console.log(c);
           // console.log(c.isMember);
-          if (c.isMember) {
-            localStorage.setItem('USER_ID', d.email);
+          if (c.isMember === true) {
+            localStorage.setItem('USER_ID', data.user.email);
             // console.log(user.email);
             localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
             localStorage.setItem(
               'REFRESH_TOKEN',
               JSON.stringify(c.refreshToken),
             );
-            dispatch(originUserAction.set(d.email));
+            dispatch(originUserAction.set(data.user.email));
             router.push('/');
           }
         })
