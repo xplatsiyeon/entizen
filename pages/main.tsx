@@ -14,12 +14,11 @@ import EntizenLibrary from 'components/Main/EntizenLibrary';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import main2 from 'public/images/main2.png';
-import main3 from 'public/images/main3_x1.png';
-import main4 from 'public/images/main4_x1.png';
-import main5 from 'public/images/main5_x1.png';
-import main6 from 'public/images/main6_x1.png';
-import main62 from 'public/images/main6-2_x1.png'
-import main7 from 'public/images/main7_x1.png';
+import main3 from 'public/images/main3.png';
+import main4 from 'public/images/main4.png';
+import main5 from 'public/images/main5.png';
+import main6 from 'public/images/main6.png';
+import main7 from 'public/images/main7.png';
 import main8 from 'public/images/main8.png';
 import main9 from 'public/images/main9.png';
 import { useRouter } from 'next/router';
@@ -55,7 +54,7 @@ const Main = () => {
         <Image src={main5} />
         <Image src={main6} />
         <Image src={main7} />
-        <Image src={main62} />
+        <Image src={main8} />
         <Wrap onClick={()=>router.push('/signin')}>
           <Image src={main9} />
         </Wrap>

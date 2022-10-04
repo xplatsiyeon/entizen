@@ -140,7 +140,10 @@ const WithImage = styled.div`
   right: 10pt;
 
   @media (max-width: 899pt) {
-    display: block;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   }
 `;
 
