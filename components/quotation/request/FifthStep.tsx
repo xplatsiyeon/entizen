@@ -43,28 +43,39 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
     (state: RootState) => state.quotationData,
   );
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<Option>({
-    fisrt: '',
-    second: '',
-  });
-  const [selectedOptionEn, setSelectedOptionEn] = useState<Option>({
-    fisrt: '',
-    second: '',
-  });
+
+  const [list1, setList1] = useState(M11_LIST);
+  const [list2, setList2] = useState(M11_LIST);
+
+  const [fisrtData, setFisrtData] = useState<string>('');
+  const [fisrtDataEn, setFisrtDataEn] = useState<string>('');
+  const [secondData, setSendData] = useState<string>('');
+  const [secondDataEn, setSendDataEn] = useState<string>('');
   // 셀렉터 옵션 체인지
   const handleChange = (event: any) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
     const index = M11_LIST.indexOf(value);
-    console.log(M11_LIST_EN[index]);
-
-    setSelectedOptionEn(() => ({
-      ...selectedOptionEn,
-      [name]: M11_LIST_EN[index],
-    }));
-    setSelectedOption(() => ({
-      ...selectedOption,
-      [name]: value,
-    }));
+    const seletedName = M11_LIST_EN[index];
+    if (seletedName !== secondDataEn) {
+      setFisrtData(M11_LIST[index]);
+      setFisrtDataEn(seletedName);
+      const copy = [...M11_LIST];
+      copy.splice(index, 1);
+      setList2(copy);
+    }
+  };
+  // 셀렉터 옵션 체인지2
+  const handleChange2 = (event: any) => {
+    const { value } = event.target;
+    const index = M11_LIST.indexOf(value);
+    const seletedName = M11_LIST_EN[index];
+    if (seletedName !== fisrtDataEn) {
+      setSendData(M11_LIST[index]);
+      setSendDataEn(M11_LIST_EN[index]);
+      const copy = [...M11_LIST];
+      copy.splice(index, 1);
+      setList1(copy);
+    }
   };
 
   // 이전버튼
@@ -74,35 +85,43 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
   // 다음버튼
   const HandleNextBtn = () => {
     if (buttonActivate) {
-      dispatch(
-        quotationAction.setStep5([
-          selectedOptionEn.fisrt,
-          selectedOptionEn.second,
-        ]),
-      );
+      dispatch(quotationAction.setStep5([fisrtDataEn, secondDataEn]));
       setTabNumber(tabNumber + 1);
     }
   };
+
+  useEffect(() => {
+    const copy = [...M11_LIST];
+    if (list2.includes(fisrtData)) {
+      const index = copy.indexOf(fisrtData);
+      copy.splice(index, 1);
+      setList2(copy);
+    }
+  }, [secondData]);
 
   // 데이터 기억
   useEffect(() => {
     if (installationPoints[0] && installationPoints[1]) {
       const index1 = M11_LIST_EN.indexOf(installationPoints[0]);
       const index2 = M11_LIST_EN.indexOf(installationPoints[1]);
-      setSelectedOption({
-        fisrt: M11_LIST[index1],
-        second: M11_LIST[index2],
-      });
+      setFisrtData(M11_LIST[index1]);
+      setSendData(M11_LIST[index2]);
+
+      const copy1 = [...M11_LIST];
+      const copy2 = [...M11_LIST];
+      copy1.splice(index1, 1);
+      copy2.splice(index2, 1);
+
+      setList1(copy2);
+      setList2(copy1);
     }
   }, []);
   // 버튼 활성화
   useEffect(() => {
-    if (selectedOption.fisrt) {
-      if (selectedOption.fisrt.length > 1 && selectedOption.second.length > 1) {
-        setButtonActivate(true);
-      }
+    if (fisrtData.length > 1 && secondData.length > 1) {
+      setButtonActivate(true);
     }
-  }, [selectedOption]);
+  }, [fisrtData, secondData]);
 
   return (
     <Wrraper>
@@ -115,7 +134,7 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
         <InputBox>
           <label>1순위</label>
           <SelectBox
-            value={selectedOption.fisrt}
+            value={fisrtData}
             name="fisrt"
             onChange={handleChange}
             IconComponent={() => <SelectIcon />}
@@ -124,7 +143,7 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
             <MenuItem value="">
               <Placeholder>충전기 종류</Placeholder>
             </MenuItem>
-            {M11_LIST.map((option, index) => (
+            {list1.map((option, index) => (
               <MenuItem key={index} value={option}>
                 {option}
               </MenuItem>
@@ -134,16 +153,16 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
         <InputBox>
           <label>2순위</label>
           <SelectBox
-            value={selectedOption.second}
+            value={secondData}
             name="second"
-            onChange={handleChange}
+            onChange={handleChange2}
             IconComponent={() => <SelectIcon />}
             displayEmpty
           >
             <MenuItem value="">
               <Placeholder>충전기 종류</Placeholder>
             </MenuItem>
-            {M11_LIST.map((option, index) => (
+            {list2.map((option, index) => (
               <MenuItem key={index} value={option}>
                 {option}
               </MenuItem>
