@@ -6,6 +6,10 @@ import RequestModal from 'components/Modal/RequestModal';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import styled from '@emotion/styled';
 
+import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'web-components/WebHeader';
+
+
 const Mypage1_4 = ({ data }: any) => {
   const [isModal, setModal] = useState(false);
   const route = useRouter();
@@ -16,7 +20,10 @@ const Mypage1_4 = ({ data }: any) => {
   const rightControl = () => route.push('/mypage/request/1-5');
 
   return (
-    <>
+    <WebBody>
+      <WebHeader />
+      <Inner>
+    <Wrapper>
       {isModal && (
         <RequestModal
           title={'Charge Point의 \n 구독상품으로 선택하시겠습니까?'}
@@ -34,8 +41,53 @@ const Mypage1_4 = ({ data }: any) => {
       />
       <BiddingQuote pb={101.25} />
       <TwoButton onClcikModal={onClcikModal} />
-    </>
+    </Wrapper>
+        </Inner>
+        <WebFooter />
+      </WebBody>
   );
+  
 };
 
 export default Mypage1_4;
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 54pt auto;
+  width: 900pt;
+  border-radius: 12pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+`;
+
+const Wrapper = styled.div`
+  padding-bottom: 20pt;
+`;

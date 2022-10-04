@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+//import { useRouter } from 'next/router';
 
 interface Props {
   setTabNumber: Dispatch<SetStateAction<number>>;
@@ -17,6 +18,7 @@ interface Props {
 
 const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
+  //const router = useRouter();
   const { subscribeProduct, investRate } = useSelector(
     (state: RootState) => state.quotationData,
   );

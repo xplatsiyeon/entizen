@@ -26,12 +26,14 @@ export default TwoButton;
 
 const Wrapper = styled.div`
   background-color: ${colors.lightWhite};
-  position: fixed;
   z-index: 10;
   bottom: 0;
   left: 0;
   padding-bottom: 30pt;
   width: 100%;
+  @media (max-width: 899pt) {
+  position: fixed;
+    }
 `;
 const BtnBox = styled.div`
   margin: 0 15pt;
