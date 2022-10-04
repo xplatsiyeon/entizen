@@ -9,6 +9,8 @@ import colors from 'styles/colors';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
 import Request from '..';
+import RequestMain from 'components/mypage/request/requestMain';
+
 
 const Mypage2 = ({ data }: any) => {
   const route = useRouter();
@@ -24,7 +26,7 @@ const Mypage2 = ({ data }: any) => {
       <Inner>
         <FlexBox>
           <Wrap1>
-            <Request />
+            <RequestMain />
           </Wrap1>
           <Wrap2>
             <Wrapper>
