@@ -50,6 +50,7 @@ const Setting = (props: Props) => {
       url: '/v1/user/unlink',
       success: (res: any) => {
         // 로그인 성공할 경우 정보 확인 후 / 페이지로 push
+        console.log('세팅 카카오로그아웃 부분입니다.');
         console.log(res);
         router.push('/');
       },
