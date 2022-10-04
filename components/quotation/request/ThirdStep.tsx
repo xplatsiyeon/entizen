@@ -17,7 +17,7 @@ interface Props {
 
 const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
-  const { subscribeProduct, subscribePeriod } = useSelector(
+  const { subscribeProduct, subscribePeriod, investRate } = useSelector(
     (state: RootState) => state.quotationData,
   );
   const [monthNumber, setMonthNumber] = useState(-1);
@@ -51,10 +51,10 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   }, [monthNumber, subscribeProduct]);
   // 부분 구독 선택 불가
   useEffect(() => {
-    if (subscribeProduct === 'PART') {
+    if (subscribeProduct === 'PART' && investRate === '1') {
       setIsMessage(true);
     }
-  }, [subscribeProduct]);
+  }, [subscribeProduct, investRate]);
   return (
     <Wrraper>
       {/* 선택불가 메세지 */}
@@ -140,6 +140,7 @@ const Tab = styled.span<{ idx: string; tabNumber: string }>`
   border-radius: 6pt;
   padding: 13.5pt 0;
   text-align: center;
+  cursor: pointer;
   ${({ idx, tabNumber }) =>
     idx === tabNumber &&
     css`
@@ -199,7 +200,7 @@ const NextBtn = styled.div<{
   margin-top: 30pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
-
+  cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
@@ -215,6 +216,7 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 30pt;
   background-color: ${colors.gray};
+  cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }

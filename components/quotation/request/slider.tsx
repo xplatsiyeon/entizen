@@ -34,38 +34,6 @@ const SliderSizes = ({
     (state: RootState) => state,
   );
 
-  // // 간편 견적 포스트
-  // const predictionApiEntirety = async () => {
-  //   try {
-  //     await axios({
-  //       method: 'post',
-  //       url: PREDICTION_POST,
-  //       data: {
-  //         chargers: quotationData.chargers,
-  //         subscribeProduct: quotationData.subscribeProduct,
-  //         investRate: quotationData.investRate,
-  //         subscribePeriod: quotationData.subscribePeriod,
-  //         installationAddress: locationList.locationList.roadAddrPart,
-  //         installationLocation: quotationData.installationLocation,
-  //         installationPoints: quotationData.installationPoints,
-  //         installationPurpose: quotationData.installationPurpose,
-  //         etcRequest: '',
-  //       },
-  //       headers: {
-  //         ContentType: 'application/json',
-  //       },
-  //       withCredentials: true,
-  //     }).then((res) => {
-  //       dispatch(quotationAction.setRequestData(res.data));
-  //       dispatch(quotationAction.init());
-  //       router.push('/quotation/request/1-7');
-  //     });
-  //   } catch (error) {
-  //     console.log('post 요청 실패');
-  //     console.log(error);
-  //   }
-  // };
-
   // 간편 견적 포스트
   const predictionApi = async () => {
     try {
@@ -96,6 +64,7 @@ const SliderSizes = ({
   };
 
   const handleChange = (event: Event, newValue: number | number[]) => {
+    console.log('1');
     setDisabled(false);
     setValue(newValue as number);
     if (difaultValue) {
