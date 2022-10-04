@@ -143,7 +143,7 @@ const Signin = (props: Props) => {
               JSON.stringify(c.refreshToken),
             );
             dispatch(
-              originUserAction.set(user.email),
+              originUserAction.set(data.user.email),
               // userId: userId,
               // accessToken: res.data.accessToken,
               // refreshToken: res.data.refreshToken,
