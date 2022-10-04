@@ -209,7 +209,7 @@ const Signin = (props: Props) => {
               disableGutters
               sx={{
                 width: '100%',
-                height: '609pt',
+                height: '580.5pt',
                 overflow: 'scroll !important',
               }}
             >
@@ -439,20 +439,19 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 45.75pt auto 0;
   width: 345pt;
   //width: 281.25pt;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;
   padding: 32.25pt 0 42pt;
+        margin: 45.75pt auto 0;
+
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
+    margin: 0 auto;
     padding: 0;
     box-shadow: none;
     background: none;

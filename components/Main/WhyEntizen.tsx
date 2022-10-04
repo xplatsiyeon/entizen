@@ -10,11 +10,15 @@ import bulb from 'public/images/bulb.png';
 import message from 'public/images/message.png';
 import mail from 'public/images/mail.png';
 import carnation from 'public/images/carnation.png';
+import mainArrow1 from 'public/images/mainArrow1.png';
+import mainArrow2 from 'public/images/mainArrow2.png';
+import mainArrow3 from 'public/images/mainArrow3.png';
 import { useRouter } from 'next/router';
 
 interface MenuList {
   headText: string;
   arrowIcon: StaticImageData;
+  arrowIcon2: StaticImageData;
   background: string;
   color: string;
   bigIcon: StaticImageData;
@@ -30,6 +34,7 @@ const WhyEntizen = () => {
     {
       headText: '플랫폼 가이드',
       arrowIcon: blackWhiteArrow,
+      arrowIcon2: mainArrow1,
       background: '#ffffff',
       color: '#222222',
       bigIcon: bulb,
@@ -40,6 +45,7 @@ const WhyEntizen = () => {
     {
       headText: '구독 가이드',
       arrowIcon: whiteBlueArrow,
+      arrowIcon2: mainArrow2,
       background: '#5A2DC9',
       color: '#FFFFFF',
       bigIcon: mail,
@@ -50,6 +56,7 @@ const WhyEntizen = () => {
     {
       headText: '충전기 가이드',
       arrowIcon: whiteGreenArrow,
+      arrowIcon2: mainArrow3,
       background: '#FFC043',
       color: '#FFFFFF',
       bigIcon: message,
@@ -60,6 +67,7 @@ const WhyEntizen = () => {
     {
       headText: '보조금 가이드',
       arrowIcon: blackWhiteArrow,
+      arrowIcon2: mainArrow1,
       background: '#FFFFFF',
       color: '#222222',
       bigIcon: carnation,
@@ -91,14 +99,13 @@ const WhyEntizen = () => {
         </WhyBox>
         <GridBox>
           {menuList.map((el, index) => (
-            <GridElement
-              color={el.background}
-              key={index}
-              onClick={() => movePage(el)}
-            >
+            <GridElement color={el.background} key={index}>
               <TextArea color={el.color}>{el.menuText}</TextArea>
-              <ArrowImgBox>
-                <Image src={el.arrowIcon} alt="icon" />
+              <ArrowImgBox className="arrow">
+                <Image className="mob" src={el.arrowIcon} alt="icon" />
+              </ArrowImgBox>
+              <ArrowImgBox className="arrow">
+                <Image className="web" src={el.arrowIcon2} alt="icon" />
               </ArrowImgBox>
               <IconImgBox width={el.width} height={el.height}>
                 <Image src={el.bigIcon} alt="icon" />
@@ -113,93 +120,114 @@ const WhyEntizen = () => {
 
 const Wrapper = styled.div`
   margin-top: 30pt;
-  width: 100%;
+  width: 900pt;
+  margin: 0 auto;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+  }
 `;
 
 const WhyBox = styled(Typography)`
-  text-align: center;
-  margin-bottom: 30pt;
-  font-size: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 30pt;
   font-weight: 700;
-  line-height: 12pt;
+  line-height: 30pt;
   letter-spacing: -0.02em;
+  text-align: left;
+  margin-bottom: 48pt;
+
   color: #222222;
   & span {
     color: ${colors.main};
   }
 
   @media (max-width: 899pt) {
-    text-align: left;
+    font-size: 12pt;
+    line-height: 12pt;
+    margin-top: 30pt;
     margin-bottom: 0;
   }
 `;
 
 const GridBox = styled.div`
-  display: flex;
+  margin-top: 12pt;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22.5pt;
 
   @media (max-width: 899pt) {
-    margin-top: 12pt;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 11.25pt;
   }
 `;
 
 const GridElement = styled.div`
   width: 100%;
-  height: 255pt;
+  height: 352.5pt;
   background-color: ${(props) => props.color};
-  border-radius: 12pt;
+  border-radius: 6pt;
   position: relative;
-  box-shadow: 0px 0px 11.25pt rgba(137, 163, 201, 0.2);
+  border: 1.5pt solid #e2e5ed;
+  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
 
-  margin-right: 22.5pt;
-  &:nth-of-type(4) {
-    margin-right: 0;
-  }
   @media (max-width: 899pt) {
-    margin-right: 0;
     height: 120pt;
+    border: none;
     box-shadow: none;
-    border-radius: 6pt;
   }
 `;
 
 const TextArea = styled.div`
   white-space: pre-wrap;
-  margin-left: 22.5pt;
-  margin-top: 22.5pt;
-  font-size: 14px;
+  font-size: 25.5pt;
   font-weight: 700;
-  line-height: 20px;
+  line-height: 37.5pt;
   letter-spacing: -0.02em;
   text-align: left;
   color: ${(props) => props.color};
+  margin: 37.5pt 51pt 30pt;
+
   @media (max-width: 899pt) {
     margin-left: 12pt;
     margin-top: 12pt;
+    font-size: 14px;
+    line-height: 20px;
   }
 `;
 
 const ArrowImgBox = styled.div`
-  display: none;
   position: absolute;
-  right: 12pt;
-  top: 12pt;
+  right: 45pt;
+  top: 39pt;
+
+  &:nth-of-type(2) {
+    display: none;
+  }
+
   @media (max-width: 899pt) {
-    display: block;
+    right: 12pt;
+    top: 12pt;
+
+    &:nth-of-type(2) {
+      display: block;
+    }
+    &:nth-of-type(3) {
+      display: none;
+    }
   }
 `;
 
 const IconImgBox = styled.div<{ width: string; height: string }>`
   position: absolute;
-  width: ${({ width }) => width};
-  height: ${({ height }) => height};
-
-  left: 22.5pt;
-  bottom: 22.5pt;
-
+  width: 147pt;
+  height: 150pt;
+  left: 51pt;
+  top: 171pt;
+  object-fit: cover;
   @media (max-width: 899pt) {
+    width: ${({ width }) => width};
+    height: ${({ height }) => height};
+    top: auto;
     left: 12pt;
     bottom: 12pt;
   }

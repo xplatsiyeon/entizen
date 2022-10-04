@@ -98,7 +98,7 @@ const Carousel = () => {
 };
 
 const SliderWrapper = styled.div`
-  margin-top: 12pt;
+  width: 900pt;
   position: relative;
   .swiper {
     border-radius: 8pt;
@@ -117,54 +117,87 @@ const SliderWrapper = styled.div`
     position: absolute;
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    @media (max-width: 899pt) {
+      justify-content: unset;
+    }
   }
   .swiper-horizontal > .swiper-pagination-bullets,
   .swiper-pagination-bullets.swiper-pagination-horizontal {
     bottom: 15pt;
     left: 15pt;
   }
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    margin-top: 12pt;
+  }
 `;
 
 const WithImage = styled.div`
+  display: none;
   position: absolute;
   right: 10pt;
+
+  @media (max-width: 899pt) {
+    display: block;
+  }
 `;
 
 const Top = styled.div`
-  position: absolute;
   top: 16.5pt;
   left: 15pt;
-  font-family: Spoqa Han Sans Neo;
-  font-size: 10.5pt;
+  padding-bottom: 15pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
   font-weight: 500;
-  line-height: 12pt;
+  font-size: 21pt;
+  line-height: 25.5pt;
   letter-spacing: -0.02em;
   text-align: left;
-  color: rgba(255, 255, 255, 0.5); ;
+  color: rgba(255, 255, 255, 0.5);
+
+  @media (max-width: 899pt) {
+    position: absolute;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    padding-bottom: 0;
+  }
 `;
 
 const Center = styled.div`
-  position: absolute;
-  top: 31.5pt;
+  top: 46.5pt;
   left: 15pt;
-  font-family: Spoqa Han Sans Neo;
-  font-size: 15pt;
+  font-style: normal;
   font-weight: 700;
-  line-height: 21pt;
+  font-size: 40px;
+  line-height: 60px;
+  font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   text-align: left;
   color: #fbfcff;
+  @media (max-width: 899pt) {
+    position: absolute;
+    top: 31.5pt;
+    font-size: 15pt;
+    line-height: 21pt;
+  }
 `;
 
 const SliderContent = styled.div`
   width: 100%;
-  height: 99pt;
+  height: 360pt;
   background-color: ${colors.main};
   /* background-color: red; */
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
   border-radius: 8pt;
+
+  @media (max-width: 899pt) {
+    height: 99pt;
+    justify-content: unset;
+  }
 `;
 
 export default Carousel;

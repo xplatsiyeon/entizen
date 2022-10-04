@@ -3,11 +3,17 @@ import { Box } from '@mui/system';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import ManagementImg from 'public/guide/Management.png';
+import ManagementImg2 from 'public/guide/guide1-4.png';
 
 const management = () => {
   return (
     <Main>
+    <ImageWrap>
       <Image src={ManagementImg} alt="info" />
+    </ImageWrap>
+    <ImageWrap>
+      <Image src={ManagementImg2} alt="info" />
+    </ImageWrap>
       <TextBox>
         <li className="text-item">
           <span className="accent">A/S</span>에서 편리하고 빠르게 충전기 이슈
@@ -40,20 +46,51 @@ const Main = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 27pt 15pt 0 15pt;
+  padding: 45pt 15pt 0 15pt;
+
+  @media (max-width: 899pt) {
+    padding: 27pt 15pt 0 15pt;
+  }
 `;
+const ImageWrap = styled.div`
+width: 645pt;
+&:nth-of-type(1){
+  display: none;
+}
+  @media (max-width: 899pt) {
+    width: auto;
+&:nth-of-type(1){
+  display: block;
+}
+&:nth-of-type(2){
+  display: none;
+}
+  }
+`;
+
 const TextBox = styled(Box)`
-  margin-top: 24pt;
+  margin: 30pt auto 0pt;
+  width: 645pt;
   padding: 0 10px;
   list-style-type: disc;
+
   .text-item {
     padding-bottom: 15pt;
     font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 16.5pt;
+    font-size: 12pt;
+    line-height: 30pt;
     letter-spacing: -0.02em;
   }
   .accent {
     color: ${colors.main};
   }
-`;
+
+@media (max-width: 899pt) {
+  width: 100%;
+  margin: 24pt auto 0;
+  .text-item {
+    font-size: 10.5pt;
+    line-height: 16.5pt;
+  }
+}
+`

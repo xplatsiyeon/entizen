@@ -19,24 +19,24 @@ const AsShow = (props: Props) => {
   };
   return (
     <Body>
-      <WebHeader />
-        <Inner>
-            <FlexBox>
-            <Wrap1>
-              <Request/>
-            </Wrap1>
-            <Wrap2>
+      <WebHeader num={0} now={'mypage'} />
+      <Inner>
+        <FlexBox>
+          <Wrap1>
+            <Request />
+          </Wrap1>
+          <Wrap2>
             <AsRequest />
             <AsRequestPartner />
             <Wrap3>
-            <AsRequestFooter />
-            <LookMyReview handleClick={handleClick} text={'수정하기'} />
+              <AsRequestFooter />
+              <LookMyReview handleClick={handleClick} text={'수정하기'} />
             </Wrap3>
-            </Wrap2>
-            </FlexBox>
-          </Inner>
-        <WebFooter />
-      </Body>
+          </Wrap2>
+        </FlexBox>
+      </Inner>
+      <WebFooter />
+    </Body>
   );
 };
 
@@ -50,59 +50,56 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
-    height:100%;
+    height: 100%;
   }
 `;
 
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
   width: 900pt;
-  //width: 281.25pt;  
+  margin: 45.75pt auto 0;
 
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
+    margin: 0 auto;
   }
 `;
 
 const FlexBox = styled.div`
   display: flex;
   position: relative;
-`
+`;
 
 const Wrap1 = styled.div`
-width: 255pt;
-border: 1px solid #E9EAEE;
-border-radius: 6pt;
-height: 100%;
+  width: 255pt;
+  border: 1px solid #e9eaee;
+  border-radius: 6pt;
+  height: 100%;
 
-@media (max-width: 899pt) {
-  display: none;
-}
-`
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`;
 const Wrap2 = styled.div`
-  display: flex; 
+  display: flex;
   flex-direction: column;
   width: 100%;
   padding-left: 60pt;
 
-@media (max-width: 899pt) {
-  padding-left: 0pt;
+  @media (max-width: 899pt) {
+    padding-left: 0pt;
   }
-`
+`;
 
 const Wrap3 = styled.div`
-  display: flex; 
+  display: flex;
   flex-direction: column-reverse;
   width: 100%;
 
@@ -110,4 +107,4 @@ const Wrap3 = styled.div`
     flex-direction: column;
     height: auto;
   }
-`
+`;

@@ -27,31 +27,34 @@ const Guide1_4 = () => {
 
   return (
     <Body>
-    <WebHeader />
+      <WebHeader num={1} now={'guide'} />
       <Inner>
-    <Wrapper>
-      <GuideHeader
-        title={'요금정보'}
-        leftOnClick={() => router.back()}
-        rightOnClick={() => router.push('/')}
-      />
-      <TabContainer>
-        {TabType.map((tab, index) => (
-          <TabItem
-            key={index}
-            tab={tabNumber.toString()}
-            index={index.toString()}
-            onClick={() => handleTab(index)}
-          >
-            {tab}
-            <Line tab={tabNumber.toString()} index={index.toString()}></Line>
-          </TabItem>
-        ))}
-      </TabContainer>
-      {/* 메인 */}
-      <Main>{components[tabNumber]}</Main>
-    </Wrapper>
-        </Inner>  
+        <Wrapper>
+          <GuideHeader
+            title={'요금정보'}
+            leftOnClick={() => router.back()}
+            rightOnClick={() => router.push('/')}
+          />
+          <TabContainer>
+            {TabType.map((tab, index) => (
+              <TabItem
+                key={index}
+                tab={tabNumber.toString()}
+                index={index.toString()}
+                onClick={() => handleTab(index)}
+              >
+                {tab}
+                <Line
+                  tab={tabNumber.toString()}
+                  index={index.toString()}
+                ></Line>
+              </TabItem>
+            ))}
+          </TabContainer>
+          {/* 메인 */}
+          <Main>{components[tabNumber]}</Main>
+        </Wrapper>
+      </Inner>
       <WebFooter />
     </Body>
   );
@@ -66,7 +69,7 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
@@ -77,17 +80,15 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  width:645pt;
-  margin: 0 auto ; 
+  width: 645pt;
+  height: 100%; //
+  margin: 100pt auto 0; //
 
   @media (max-width: 899pt) {
     width: 100%;
     height: 100%;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-    padding:0;
+    padding: 0;
     margin: 0;
   }
 `;

@@ -188,6 +188,7 @@ const Platform = styled(Button)`
   display: block;
   margin-top: 15.75pt;
   padding: 0;
+  height: 210pt;
   .img-box {
     position: relative;
     width: 589.5pt;
@@ -201,6 +202,7 @@ const Platform = styled(Button)`
   @media (max-width: 899pt) {
   display: flex;
   width: 100%;
+  height: auto;
   justify-content: center;
   align-items: center;
     .img-box{
@@ -221,6 +223,7 @@ const SubsidyBox = styled(Box)`
   align-items: center;
   gap: 14.625pt;
   padding-top: 15pt;
+  width: calc(100% - 600pt);
   .text {
     font-weight: 700;
     font-size: 10.5pt;
@@ -228,28 +231,38 @@ const SubsidyBox = styled(Box)`
     letter-spacing: -0.02em;
     color: ${colors.main2};
   }
+  @media (max-width: 899pt) {
+    width: auto;
+  }
 `;
 const Subsidy = styled(Button)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 36pt;
+  height: 100%;
   padding-left: 15pt;
   padding-right: 10.125pt;
   background: #e8e3f8;
   border-radius: 8px;
   width: 100%;
+  @media (max-width: 899pt) {
+  height: 36pt;
+  }
+
 `;
 const Fee = styled(Button)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 36pt;
+  height: 100%;
   padding-right: 15pt;
   padding-left: 10.125pt;
   background: #fff1d5;
   border-radius: 8px;
   width: 100%;
+  @media (max-width: 899pt) {
+  height: 36pt;
+  }
 `;
 const GuideBox = styled(Button)`
   display: flex;

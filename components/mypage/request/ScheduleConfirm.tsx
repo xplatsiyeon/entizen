@@ -28,12 +28,15 @@ const ScheduleConfirm = ({ date }: Props) => {
 export default ScheduleConfirm;
 
 const Wrapper = styled.div`
-  margin: 30pt 15pt 0 15pt;
+  margin: 30pt 0 0;
   padding-bottom: 18pt;
   background: ${colors.lightWhite};
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 8px;
   text-align: center;
+  @media (max-width: 899pt) {
+    margin: 30pt 15pt 0 15pt;
+  }
 `;
 const P = styled.p`
   font-weight: 500;

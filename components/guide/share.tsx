@@ -2,11 +2,15 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import Banner from 'public/guide/share-banner.png';
+import Guide0 from 'public/guide/guide0.png';
 const Share = () => {
   return (
     <Wrapper>
       <ImgBox>
         <Image src={Banner} alt="banner" />
+      </ImgBox>
+      <ImgBox>
+        <Image src={Guide0} alt="banner"/>
       </ImgBox>
       <ContentsBox>
         <Wrap>   
@@ -74,6 +78,19 @@ const ImgBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 60pt;
+  &:nth-of-type(1){
+    display: none;
+  }
+  @media (max-width: 899pt) {
+    margin-bottom: 0;
+  &:nth-of-type(1){
+    display: block;
+  }
+  &:nth-of-type(2){
+    display: none;
+  }
+  }
 `;
 const ContentsBox = styled.div`
   padding-top: 7.5pt;

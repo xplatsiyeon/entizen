@@ -33,7 +33,10 @@ const ManagerInfo = () => {
 export default ManagerInfo;
 
 const Wrapper = styled.div`
-  padding: 0 15pt;
+  padding: 0;
+  @media (max-width: 899pt) {
+    padding: 0 15pt;
+  }
 `;
 const Subtitle = styled.h3`
   padding-top: 18pt;

@@ -18,32 +18,32 @@ const Complete = () => {
     <React.Fragment>
       <Body>
         <WebHeader />
-          <Inner>
-            <Wrapper>
-      <MypageHeader
-        exitBtn={true}
-        title={'간편견적'}
-        handleOnClick={HandleOnClick}
-      />
+        <Inner>
+          <Wrapper>
+            <MypageHeader
+              exitBtn={true}
+              title={'간편견적'}
+              handleOnClick={HandleOnClick}
+            />
 
-      <ContainerBox disableGutters>
-        <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
-      </ContainerBox>
-      <Title>내 견적서 바로가기</Title>
-      <Footer>
-        <TextBox>
-          <h3>읽어주세요!</h3>
-          <h4>고객님 맞춤 구독상품의 역경매가 시작되었습니다.</h4>
-          <p>
-            영업일 기준 5일 후 역경매의 입찰이 마감되며, <br />
-            입찰된 상품들을 꼼꼼히 비교해 보시기 바랍니다. <br />
-            역경매는 ‘내 견적서’에서 확인 가능합니다.
-          </p>
-        </TextBox>
-        <Btn onClick={HandleOnClick}>내 견적서 바로가기</Btn>
-      </Footer>
-            </Wrapper>
-          </Inner>
+            <ContainerBox disableGutters>
+              <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
+            </ContainerBox>
+            <Title>내 견적서 바로가기</Title>
+            <Footer>
+              <TextBox>
+                <h3>읽어주세요!</h3>
+                <h4>고객님 맞춤 구독상품의 역경매가 시작되었습니다.</h4>
+                <p>
+                  영업일 기준 5일 후 역경매의 입찰이 마감되며, <br />
+                  입찰된 상품들을 꼼꼼히 비교해 보시기 바랍니다. <br />
+                  역경매는 ‘내 견적서’에서 확인 가능합니다.
+                </p>
+              </TextBox>
+              <Btn onClick={HandleOnClick}>내 견적서 바로가기</Btn>
+            </Footer>
+          </Wrapper>
+        </Inner>
         <WebFooter />
       </Body>
     </React.Fragment>
@@ -60,7 +60,7 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
@@ -71,20 +71,20 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
 
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
+    margin: 0;
+    padding: 0;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
     box-shadow: none;
     background: none;
   }
@@ -92,14 +92,14 @@ const Inner = styled.div`
 
 const Wrapper = styled.div`
   height: 557.25pt;
-  position:relative;  
+  position: relative;
   margin: 0 31.875pt;
 
   @media (max-width: 899pt) {
     height: 100%;
     margin: 0;
   }
-  `
+`;
 
 const Nav = styled.div`
   display: flex;
