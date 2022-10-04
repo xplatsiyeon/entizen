@@ -99,14 +99,14 @@ const Inner = styled.div`
   background:#ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
 
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
+    margin: 0;
+    padding: 0;
   }
 `;
 
@@ -119,6 +119,7 @@ const Wrapper = styled.div`
   @media (max-width: 899pt) {
     height: 100%;
     padding-bottom: 75pt;
+    margin: 0;
   }
 `;
 const H1 = styled.h1`

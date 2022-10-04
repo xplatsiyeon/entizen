@@ -168,9 +168,12 @@ font-size: 10.5pt;
 line-height: 12pt;
 font-family: Spoqa Han Sans Neo;
 color: ${colors.white};
-margin-right:9pt
+margin-right:9pt;
 ` 
+
 const IconBox = styled.div`
 display: flex;
 align-items: center;
+width: 27pt;
+height: 27pt;
 `

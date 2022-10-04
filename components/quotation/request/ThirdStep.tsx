@@ -199,6 +199,7 @@ const NextBtn = styled.div<{
   margin-top: 30pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
+
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }

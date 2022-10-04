@@ -40,6 +40,11 @@ export default SubscriptionProduct;
 
 const Wrapper = styled.div`
   padding: 6pt 15pt 69pt 15pt;
+  padding-top: 75pt;
+
+  @media (max-width: 899pt) {
+    padding-top: 0pt;
+  }
 `;
 const H1 = styled.h1`
   font-weight: 700;

@@ -8,13 +8,15 @@ type Props = {};
 
 const Home: NextPage = () => {
   return (
-  <>
-  <WebWrap>
-  <Main/></WebWrap>
-  <MobWrap>
-  <MainPage /></MobWrap>
-  </>
-  )
+    <>
+      <WebWrap>
+        <Main />
+      </WebWrap>
+      <MobWrap>
+        <MainPage />
+      </MobWrap>
+    </>
+  );
 };
 
 export default Home;
@@ -28,14 +30,14 @@ const ItemWrapper = styled.div`
   /* border: #eeeeee; */
 `;
 const WebWrap = styled.div`
-display: block;
-@media (max-width: 899pt) {
-  display: none;
-}
-`
-const MobWrap = styled.div`
-display: none;
-@media (max-width: 899pt) {
   display: block;
-}
-`
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`;
+const MobWrap = styled.div`
+  display: none;
+  @media (max-width: 899pt) {
+    display: block;
+  }
+`;
