@@ -43,7 +43,7 @@ const Signin = (props: Props) => {
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   const [isId, setIsId] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-  const [wrongPw, setWrongPw] = useState<string>('');
+  const [loginErr, setLoginErr] = useState<string>('');
   let naverLogin: any;
   // 카카오 API
   const KaKaApi = async (data: any) => {
@@ -99,7 +99,7 @@ const Signin = (props: Props) => {
       });
     } catch (error: any) {
       if (error.data.message.include('비밀번호')) {
-        setWrongPw(error.data.message);
+        setLoginErr(error.data.message);
       }
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
@@ -422,6 +422,7 @@ const Signin = (props: Props) => {
                       borderRadius: '6pt',
                     }}
                   />
+                  {loginErr.length > 3 && <div>{loginErr}</div>}
                   <TextField
                     value={password}
                     id="outlined-basic"
