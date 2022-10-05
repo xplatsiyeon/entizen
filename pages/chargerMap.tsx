@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
 import SearchAddress from './searchAddress';
+import axios from 'axios';
 
 type Props = {};
 
@@ -31,14 +32,6 @@ const ChargerMap = (props: Props) => {
   const mobile = useMediaQuery({
     query: '(min-width:810pt)',
   });
-
-  // useEffect(() => {
-  //   // mobile 쿼리로 인해 값이 바뀔 때 수행
-  //   if (mobile) setIsMobile(true);
-  //   console.log('모바일    => ' + mobile);
-  // }, [mobile]);
-
-  console.log('모바일    => ' + mobile);
 
   useMap();
   const [changeHeight, setChangeHeight] = useState<boolean>(false);
@@ -74,6 +67,26 @@ const ChargerMap = (props: Props) => {
     }
   }, [checkHeight, changeHeight]);
 
+  const callInfo = async () => {
+    try {
+      axios
+        .get('https://test-api.entizen.kr/api/charge', {
+          params: {
+            siDo: locationList.siNm,
+            siGunGu: locationList.sggNm ? locationList.sggNm : '',
+            chargerSpeed: 'SLOW',
+          },
+        })
+        .then((res) => {
+          console.log('요청 응답입니다.');
+          console.log(res);
+        });
+    } catch (error) {
+      console.log('에러입니다.');
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (locationList.roadAddrPart) {
       naver.maps.Service.geocode(
@@ -102,8 +115,29 @@ const ChargerMap = (props: Props) => {
         },
       );
     }
+    if (locationList) {
+      callInfo();
+    }
+    // const fastRes = axios.get('https://test-api.entizen.kr/api/charge', {
+    //   params: {
+    //     siDo: locationList.siNm,
+    //     siGunGu: locationList.sggNm,
+    //     chargerSpeed: 'SLOW',
+    //   },
+    // });
 
-    // searchAddressToCoordinate(locationList.roadAddrPart);
+    // const slowRes = axios.get('https://test-api.entizen.kr/api/charge', {
+    //   params: {
+    //     siDo: locationList.siNm,
+    //     siGunGu: locationList.sggNm,
+    //     chargerSpeed: 'FAST',
+    //   },
+    // });
+
+    // console.log('빠른놈입니다.');
+    // console.log(fastRes);
+    // console.log('느린놈입니다.');
+    // console.log(slowRes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationList]);
 
