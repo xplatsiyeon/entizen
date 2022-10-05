@@ -275,7 +275,7 @@ const Signin = (props: Props) => {
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
     localStorage.getItem('key');
-    router.push('/find/password');
+    router.push('/find/password2');
   };
   // 나이스 인증
   useEffect(() => {
