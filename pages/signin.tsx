@@ -282,7 +282,7 @@ const Signin = (props: Props) => {
     // try {
     //   console.log('이름 =>   ' + data.name);
     //   console.log('번호 =>   ' + data.phone);
-
+    //
     //   await axios({
     //     method: 'post',
     //     url: PROFILE_API,
