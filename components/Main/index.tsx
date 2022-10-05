@@ -65,7 +65,7 @@ const MainPage = (props: Props) => {
     console.log(isLogin);
 
     if (localStorage.getItem('USER_ID')) {
-      console.log('login check !');
+      console.log('login check!');
       setIsLogin(true);
     } else {
       setIsLogin(false);
