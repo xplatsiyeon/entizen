@@ -138,8 +138,13 @@ const Container = styled.div`
 const HeaderBox = styled.div`
   padding-left: 15pt;
   padding-right: 12pt;
-  border-bottom: 1px solid #e9eaee;
+  border: 1px solid #e9eaee;
+  border-radius: 6pt;
   display: flex;
+
+  @media (max-width: 899pt) {
+  border-bottom: 1px solid #e9eaee;
+  }
 `;
 
 const FindAddress = styled(TextField)`
@@ -154,10 +159,11 @@ const FindAddress = styled(TextField)`
     padding-left: 0pt;
   }
   & input {
-    font-size: 10.5pt;
-    font-weight: 400;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
     line-height: 12pt;
-    letter-spacing: -2%;
+    letter-spacing: -0.02em;
     color: ${colors.lightGray3};
     text-align: left;
     padding: 0;
@@ -169,6 +175,16 @@ const FindAddress = styled(TextField)`
   }
   & fieldset {
     border: none;
+  }
+
+  @media (max-width: 899pt) {
+  & input{
+  
+    font-size: 10.5pt;
+    font-weight: 400;
+    line-height: 12pt;
+    letter-spacing: -2%;
+   }
   }
 `;
 

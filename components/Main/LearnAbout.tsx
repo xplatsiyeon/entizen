@@ -130,9 +130,9 @@ const Wrapper = styled.div`
   width: 900pt;
   margin: 90pt auto;
   @media (max-width: 899pt) {
-    width: 100%;
-
+    width: auto;
     margin: 30pt 0 0;
+    overflow-x: scroll;
   }
 `;
 
