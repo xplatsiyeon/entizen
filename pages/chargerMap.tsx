@@ -73,7 +73,7 @@ const ChargerMap = (props: Props) => {
         .get('https://test-api.entizen.kr/api/charge', {
           params: {
             siDo: locationList.siNm,
-            siGunGu: locationList.sggNm,
+            siGunGu: locationList.sggNm ? locationList.sggNm : '',
             chargerSpeed: 'SLOW',
           },
         })
