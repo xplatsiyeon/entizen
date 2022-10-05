@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import Header from 'components/header';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
+import axios from 'axios';
 
 interface State {
   pwInput: string;
@@ -25,6 +26,8 @@ const SignUpCheck = () => {
   const [pwInput, setPwInput] = useState<string>('');
   const [checkPw, setCheckPw] = useState<string>('');
 
+  // 아이디 중복 체크
+  const [checkId, setCheckId] = useState<number>(-1);
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean>(false);
 
@@ -59,7 +62,7 @@ const SignUpCheck = () => {
       if (password !== checkPassword) setCheckSamePw(false);
       else setCheckSamePw(true);
     }
-    console.log(password, checkPassword);
+    // console.log(password, checkPassword);
   }, [password, checkPassword]);
 
   // 인풋 값 변화, 중복확인 색 변경
@@ -93,6 +96,26 @@ const SignUpCheck = () => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     // setModalOpen(!modalOpen);
     route.push('/signUp/Complete');
+  };
+  // 아이디 중복 체크
+  const overlabCheck = () => {
+    const OVERLAB_CHECK_POST = `https://test-api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
+    try {
+      axios({
+        method: 'get',
+        url: OVERLAB_CHECK_POST,
+      }).then((res) => {
+        const check = res.data.isMember;
+        if (check === true) {
+          setCheckId(1);
+        } else {
+          setCheckId(0);
+        }
+      });
+    } catch (error) {
+      console.log('아이디 중복 체크 에러 발생!!');
+      console.log(error);
+    }
   };
 
   // 인풋 안의 x , 표시
@@ -166,7 +189,7 @@ const SignUpCheck = () => {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <OverlapBtn className="overlap">
+                      <OverlapBtn className="overlap" onClick={overlabCheck}>
                         <Typography className="checkOverlap">
                           중복확인
                         </Typography>
@@ -176,16 +199,18 @@ const SignUpCheck = () => {
                 }}
               />
               <Box>
-                <Typography
-                  sx={{
-                    color: '#F75015',
-                    fontSize: '9pt',
-                    lineHeight: '12pt',
-                    marginTop: '9pt',
-                  }}
-                >
-                  이미 사용중인 아이디입니다.
-                </Typography>
+                {checkId === 1 && (
+                  <Typography
+                    sx={{
+                      color: '#F75015',
+                      fontSize: '9pt',
+                      lineHeight: '12pt',
+                      marginTop: '9pt',
+                    }}
+                  >
+                    이미 사용중인 아이디입니다.
+                  </Typography>
+                )}
               </Box>
             </Box>
             <Box
@@ -250,7 +275,9 @@ const SignUpCheck = () => {
             </Box>
             <Btn
               isClick={
-                checkedPw && checkSamePw && idInput.length > 6 ? true : false
+                checkId === 0 && checkedPw && checkSamePw && idInput.length > 6
+                  ? true
+                  : false
               }
               text="가입 완료"
               marginTop="30"

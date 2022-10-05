@@ -65,7 +65,7 @@ const MainPage = (props: Props) => {
     console.log(isLogin);
 
     if (localStorage.getItem('USER_ID')) {
-      console.log('login check !');
+      console.log('login check!');
       setIsLogin(true);
     } else {
       setIsLogin(false);
@@ -77,6 +77,10 @@ const MainPage = (props: Props) => {
     dispatch(quotationAction.init());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  // key 삭제
+  useEffect(() => {
+    localStorage.removeItem('key');
+  }, []);
 
   const list = (anchor: string) => (
     <WholeBox
@@ -86,12 +90,15 @@ const MainPage = (props: Props) => {
     >
       <ListBox>
         <XBtnWrapper>
-          <Imagewrap onClick={()=>router.push('/alarm')}>
-            <Image src={Bell} alt="bellBtn" /></Imagewrap>
-          <Imagewrap onClick={()=>router.push('/alarm/1-1')}>
-            <Image src={Nut} alt="NutBtn" /></Imagewrap>
+          <Imagewrap onClick={() => router.push('/alarm')}>
+            <Image src={Bell} alt="bellBtn" />
+          </Imagewrap>
+          <Imagewrap onClick={() => router.push('/alarm/1-1')}>
+            <Image src={Nut} alt="NutBtn" />
+          </Imagewrap>
           <Imagewrap>
-            <Image src={xBtn} alt="xBtn" /></Imagewrap>
+            <Image src={xBtn} alt="xBtn" />
+          </Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
           <WhetherLoginComplete>
@@ -422,9 +429,9 @@ const Imagewrap = styled.div`
   width: 18pt;
   height: 18pt;
   margin-right: 9pt;
-  &:nth-last-of-type(1){
+  &:nth-last-of-type(1) {
     margin-right: 0;
   }
-`
+`;
 
 export default MainPage;

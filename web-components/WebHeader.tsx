@@ -21,19 +21,17 @@ type Props = {
 const WebHeader = ({ num, now }: Props) => {
   const [linklist, setLinklist] = useState<boolean>(false);
   const [type, setType] = useState<string>('');
-  const [user, setUser] = useState<boolean>();
 
-  const route = useRouter();
-
-  useEffect(()=>{
+  const router = useRouter();
 
    const isUser= localStorage.getItem('USER_ID');
-   console.log('user', isUser)
-   if(isUser){setUser(true)} /*
-   else{
-    localStorage.setItem('USER_ID','user')
-   } */ //테스트용코드.
-  },[])
+   //if(!isUser)localStorage.setItem('USER_ID','user')
+
+   const handleLink =()=>{
+    if(isUser){router.push('/quotation/request')}
+    else{router.push('/signin')}
+   }
+
 
   return (
     <>
@@ -48,10 +46,8 @@ const WebHeader = ({ num, now }: Props) => {
                   </a>
                 </Link>
               </LogoBox>
-              <DivBox>
-                <Link href="/quotation/request">
-                  <a>간편견적</a>
-                </Link>
+              <DivBox onClick={handleLink}>
+                간편견적
               </DivBox>
               <DivBox
                 onClick={() => {
@@ -76,14 +72,14 @@ const WebHeader = ({ num, now }: Props) => {
             <Box2>
               {/* <DivBox2><input type="text" placeholder="서비스를 검색해보세요" /> </DivBox2> */}
 
-              {user?
+              {isUser?
               <>
               <DivBox2>
               <IconBox>
-                <Image src={Chat} alt="question" onClick={()=>route.push('/faq')} />
+                <Image src={Chat} alt="question" onClick={()=>router.push('/faq')} />
               </IconBox>
               <IconBox>
-                <Image src={BellOutline} alt="bell on" onClick={()=>route.push('/alarm')}/>
+                <Image src={BellOutline} alt="bell on" onClick={()=>router.push('/alarm')}/>
               </IconBox>
               <IconBox>
                 <Image src={Frame} alt="frame" />
@@ -93,10 +89,10 @@ const WebHeader = ({ num, now }: Props) => {
               :<>
               <DivBox2>
               <IconBox>
-                <Image src={Chat} alt="question" onClick={()=>route.push('/faq')}/>
+                <Image src={Chat} alt="question" onClick={()=>router.push('/faq')}/>
               </IconBox>
               <IconBox>
-                <Image src={Bell} alt="alram" onClick={()=>route.push('/alarm')}/>
+                <Image src={Bell} alt="alram" onClick={()=>router.push('/alarm')}/>
               </IconBox>
               </DivBox2>
               <DivBox2>
