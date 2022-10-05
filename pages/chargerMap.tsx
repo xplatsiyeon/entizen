@@ -28,13 +28,20 @@ interface SlowFast {
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
-  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([
-    {
-      year: '',
-      chargeQuantity: 0,
-      sales: 0,
-    },
-  ]);
+  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
+  // const [slowCharger, setSlowCharger] = useState<
+  //   {
+  //     year: string;
+  //     chargeQuantity: number;
+  //     sales: number;
+  //   }[]
+  // >([
+  //   {
+  //     year: '',
+  //     chargeQuantity: 0,
+  //     sales: 0,
+  //   },
+  // ]);
 
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
@@ -117,8 +124,13 @@ const ChargerMap = (props: Props) => {
           let data = [];
           data.push(res.data.charge[0]);
           data.push(res.data.charge[1]);
-          setSlowCharger(res.data.charge[0]);
-          setSlowCharger([...data, res.data.charge[1]]);
+
+          console.log('여기서부터 차례대로');
+          console.log(...data);
+          console.log(...data[0]);
+          console.log(...data[1]);
+
+          setSlowCharger({ ...data[0], ...data[1] });
         })
         .then((res) => {
           console.log('여기아래에요');

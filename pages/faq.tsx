@@ -140,7 +140,7 @@ const Faq = () => {
     <WebBody>
       <WebHeader />
       <Inner>
-      <GuideHeader
+      <GuideHeader 
         title="자주 묻는 질문"
         leftOnClick={leftOnClick}
         rightOnClick={rightOnClick}
@@ -210,24 +210,18 @@ const WebBody = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 54pt auto;
+  margin: 100pt auto;
   width: 900pt;
+  height: 100%;
   border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
     padding: 0;
     box-shadow: none;
     background: none;
     margin: 0;
-  }
-  @media (max-height: 500pt) {
-    height: 100%;
   }
 `;
 
@@ -276,7 +270,7 @@ const Main = styled.div`
 const TextBox = styled.div`
   width: 100%;
   padding-top: 75pt;
-  margin-bottom: 60pt; 
+  margin-bottom: 42pt; 
   position: absolute;
   bottom: 0;
   text-align: center;
@@ -331,6 +325,7 @@ position: relative;
 
 &:nth-of-type(2){
 width: 255pt;
+min-height: 312pt;
 box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
 border-radius: 16px;
 }

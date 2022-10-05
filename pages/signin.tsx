@@ -687,6 +687,7 @@ const LoginBtn = styled.button`
   background: #5a2dc9;
   width: 100%;
   color: #fff;
+  cursor: pointer;
   margin-top: 28.5pt;
   padding: 15pt 0;
   border-radius: 6pt;
