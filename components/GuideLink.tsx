@@ -39,6 +39,17 @@ const GuideLink = ({ type, num, now }: Props) => { //나중에 이름 수정.
       return <></>;
   }
 
+  const handleLink = (idx:number)=>{
+    const user = localStorage.getItem('USER_ID');
+    if(!user && type === 'mypage'){ router.push('/signin') }else{
+    if(linkUrl[idx] === '/mypage'){
+      alert('2차 작업 범위입니다')
+    }else{
+      router.push(linkUrl[idx])
+    }
+  }
+}
+
   return (
     <Wrap>
       {linkName.map((i, idx) => {
@@ -46,9 +57,7 @@ const GuideLink = ({ type, num, now }: Props) => { //나중에 이름 수정.
           <StyledLink
             key={idx}
             className={num === idx && type === now ? 'on' : undefined}
-            onClick={() => {
-              if(linkUrl[idx] === '/mypage'){alert('2차 작업 범위입니다')}else{
-              router.push(linkUrl[idx])}}}
+            onClick={() => handleLink(idx)}
           >
             {i}
           </StyledLink>

@@ -55,7 +55,7 @@ const Main = () => {
         <Image src={main6} />
         <Image src={main7} />
         <Image src={main8} />
-        <Wrap onClick={()=>router.push('/signin')}>
+        <Wrap onClick={()=>router.push('/signUp/Terms')}>
           <Image src={main9} />
         </Wrap>
       </ImageWrap2>
