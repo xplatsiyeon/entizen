@@ -473,6 +473,11 @@ const Signin = (props: Props) => {
                           name="EncodeData"
                           value={data !== undefined && data}
                         />
+                        <input
+                          type="hidden"
+                          name="recvMethodType"
+                          value="get"
+                        />
                         {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
                         <FindBtn value="id" name={'form_chk'} onClick={fnPopup}>
                           아이디 찾기&nbsp;
