@@ -27,7 +27,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { originUserAction } from 'store/userInfoSlice';
 import { kakaoInit } from 'utils/kakao';
-
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -36,23 +35,15 @@ const Signin = (props: Props) => {
   const { user } = useSelector((state: RootState) => state.userList);
   const naverRef = useRef<HTMLElement | null | any>(null);
   const [userId, setUserId] = useState<string>('');
+  const [data, setData] = useState<any>();
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   const [wrongPw, setWrongPw] = useState<string>('');
   let naverLogin: any;
-
-  let naverResponse: any;
-  interface Data {
-    accessToken: string;
-    isMember: boolean;
-    isSuccess: boolean;
-    refreshToken: string;
-    snsLoginIdx: number;
-  }
-
-  const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+  // 카카오 API
   const KaKaApi = async (data: any) => {
+    const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
       await axios({
         method: 'post',
@@ -111,8 +102,7 @@ const Signin = (props: Props) => {
       console.log(error);
     }
   };
-
-  // 카카오 로그인 버튼
+  // 카카오 로그인
   const kakaoLogin = async () => {
     // 카카오 초기화
     const kakao = kakaoInit();
@@ -141,7 +131,7 @@ const Signin = (props: Props) => {
       },
     });
   };
-
+  // 기본 로그인
   const originLogin = async () => {
     console.log('로그인 온클릭');
     const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
@@ -184,7 +174,7 @@ const Signin = (props: Props) => {
       console.log(error);
     }
   };
-
+  // 네이버 로그인
   const NaverApi = async (data: any) => {
     const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
@@ -237,10 +227,60 @@ const Signin = (props: Props) => {
     }
   };
 
+  // 구글 로그인
+  // const GoogleLogin = ()=> {}
+
+  // 나이스 인승
+  const fnPopup = () => {
+    if (typeof window !== 'object') return;
+    else {
+      window.open(
+        '',
+        'popupChk',
+        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+      );
+      let cloneDocument = document as any;
+      cloneDocument.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      cloneDocument.form_chk.target = 'popupChk';
+      cloneDocument.form_chk.submit();
+    }
+  };
   const handleAlert = () => {
     alert('현재 개발 중 입니다.');
   };
 
+  const HandleFindId = () => {
+    router.push('/find/id');
+  };
+
+  const HandleFindPassword = () => {
+    router.push('/find/password');
+  };
+  // 나이스 인증
+  useEffect(() => {
+    console.log('나이스 인증 키 확인 ->' + localStorage.getItem('key'));
+    const memberType = 'USER';
+
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        // console.log(res.data);
+        setData(res.data.executedData);
+        console.log('---------');
+        console.log(data);
+        console.log('---------');
+        // encodeData = res.data.executedData;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // 네이버 로그인
   useEffect(() => {
     login(naverLogin, function (naverLogin) {
       const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
@@ -276,11 +316,6 @@ const Signin = (props: Props) => {
         });
       }
     });
-
-    // naverResponse === undefined
-    //   ? console.log('네이버 리스폰스 =>  undefined')
-    //   : console.log('네이버 리스폰스 =>  ' + naverResponse);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleNaver = async () => {
@@ -405,18 +440,34 @@ const Signin = (props: Props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <Link href={`/findAccount`}>
-                    <Typography
-                      sx={{
-                        textAlign: 'center',
-                        textDecorationLine: 'underline',
-                        marginTop: '22.5pt',
-                        color: '#747780',
-                      }}
-                    >
-                      아이디 / 비밀번호 찾기
-                    </Typography>
-                  </Link>
+                  <Typography
+                    sx={{
+                      textAlign: 'center',
+                      textDecorationLine: 'underline',
+                      marginTop: '22.5pt',
+                      color: '#747780',
+                    }}
+                  >
+                    <form name="form_chk" method="post">
+                      <input type="hidden" name="m" value="checkplusService" />
+                      {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                      <input
+                        type="hidden"
+                        id="encodeData"
+                        name="EncodeData"
+                        value={data !== undefined && data}
+                      />
+                      {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+
+                      {/* <button onClick={(e) => Go(e)}>CheckPlus 안심본인인증 Click</button> */}
+                      <FindBtn name={'form_chk'} onClick={fnPopup}>
+                        아이디
+                      </FindBtn>
+                      <FindBtn name={'form_chk'} onClick={fnPopup}>
+                        /비밀번호 찾기
+                      </FindBtn>
+                    </form>
+                  </Typography>
                 </Box>
                 <Box
                   sx={{
@@ -621,8 +672,6 @@ const LoginBtn = styled.button`
 `;
 
 const BtnSpan = styled.span``;
-
-/* background-color: '{`${colors.gold}`}', */
 const IdRegist = styled.button`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 8px;
@@ -660,19 +709,4 @@ const TabBox = styled(Box)`
     margin-top: 6pt;
   }
 `;
-// const Tab = styled(Box)`
-//   width:50%;
-//   padding-top:18pt;
-//   padding-bottom:8pt;
-//   background: selectedLoginType == index? '#ffff' : '#f9f7ff';
-//   border-radius: '8pt 8pt 0 0';
-
-//   @media (max-width:899pt) {
-//     width:auto;
-//     padding-top:0;
-//     padding-bottom:0;
-//     background:#ffff;
-//     border-radius:0;
-//     margin-right:24pt;
-//   }
-// `
+const FindBtn = styled.button``;
