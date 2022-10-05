@@ -187,6 +187,13 @@ const ChargerMap = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationList]);
 
+  useEffect(() => {
+    console.log(
+      '여기여기여깅겨이겨익ㅇㄹㄴ어로러ㅏㅣㅁㅇ로ㅓㅏㄴㅇㅁ롬아너ㅣ롸ㅓㅇ나ㅓ리ㅗ어ㅏㅣㄴ로나ㅣ',
+    );
+    console.log(slowCharger);
+  }, [slowCharger]);
+
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
 
   const handleBack = () => {
