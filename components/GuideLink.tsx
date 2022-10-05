@@ -8,7 +8,7 @@ type Props = {
   now?: string;
 };
 
-const GuideLink = ({ type, num, now }: Props) => {
+const GuideLink = ({ type, num, now }: Props) => { //나중에 이름 수정.
   const router = useRouter();
   let linkName: string[];
   let linkUrl: string[];
@@ -46,7 +46,9 @@ const GuideLink = ({ type, num, now }: Props) => {
           <StyledLink
             key={idx}
             className={num === idx && type === now ? 'on' : undefined}
-            onClick={() => router.push(linkUrl[idx])}
+            onClick={() => {
+              if(linkUrl[idx] === '/mypage'){alert('2차 작업 범위입니다')}else{
+              router.push(linkUrl[idx])}}}
           >
             {i}
           </StyledLink>
