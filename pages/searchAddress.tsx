@@ -53,17 +53,17 @@ const SearchAddress = (props: Props) => {
     setSearchWord(() => e.target.value);
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
-    const { jibun, roadad } = e.currentTarget.dataset;
-    console.log('지도 온클릭 리스트 =>    ' + jibun);
-    await dispatch(
+    const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
+
+    dispatch(
       locationAction.load({
         jibunAddr: jibun,
         roadAddrPart: roadad,
+        sggNm: sggnm,
+        siNm: sinm,
       }),
     );
-    console.log('여기를 안타요 1번 ');
     router.push('/chargerMap');
-    console.log('여기를 안타요 2번 ');
   };
   const { setType } = props;
   useEffect(() => {
@@ -77,10 +77,6 @@ const SearchAddress = (props: Props) => {
             `https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do?currentPage=1&countPerPage=50&keyword=${keyWord}&confmKey=${process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY}&resultType=json`,
           );
           const match = await data.match(/\((.*)\)/);
-          // console.log(data);
-          // console.log(keyWord);
-          // console.log(process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY);
-
           let jsonResult = await JSON.parse(match[1].toString()).results.juso;
           let cc: any = [];
           // setResults(cc);
@@ -121,6 +117,8 @@ const SearchAddress = (props: Props) => {
         <SearchResult
           data-jibun={el.jibunAddr}
           data-roadad={el.roadAddrPart1}
+          data-sggnm={el.sggNm}
+          data-sinm={el.siNm}
           key={index}
           onClick={handleOnClick}
         >
