@@ -66,7 +66,7 @@ const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
     if (locationList.roadAddrPart) {
       naver.maps.Service.geocode(
         {
-          query: locationList.roadAddrPart,
+          query: locationList.jibunAddr,
         },
         function (status, response) {
           if (status === naver.maps.Service.Status.ERROR) {
