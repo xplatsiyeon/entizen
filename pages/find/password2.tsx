@@ -80,7 +80,7 @@ const FindPassword = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     let key = localStorage.getItem('key');
     let data = JSON.parse(key!);
-    router.push('/find/password');
+
     try {
       console.log('이름 =>   ' + data.name);
       console.log('번호 =>   ' + data.phone);
