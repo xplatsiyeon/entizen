@@ -11,8 +11,15 @@ type Props = {};
 
 const SubscribeRequest = (props: Props) => {
   const router = useRouter();
+
+  const handleLink =()=>{
+    const user = localStorage.getItem('USER_ID');
+    if(user){router.push('/quotation/request')}
+    else{router.push('/signin')}
+  }
+
   return (
-    <ImageBox onClick={() => router.push('/quotation/request')}>
+    <ImageBox onClick={handleLink}>
       <Image src={Banner} layout="fill" />
       {/* <ButtonBox>
         <BtnText>나만의 구독상품 요청하기</BtnText>
