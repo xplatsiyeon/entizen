@@ -274,31 +274,8 @@ const Signin = (props: Props) => {
   };
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
-    console.log('비밀번호 함수 실행');
-    // router.push('/find/password');
-    // const PROFILE_API = 'https://test-api.entizen.kr/api/members';
     localStorage.getItem('key');
-    // let data = JSON.parse(key!);
     router.push('/find/password');
-    // try {
-    //   console.log('이름 =>   ' + data.name);
-    //   console.log('번호 =>   ' + data.phone);
-    //
-    //   await axios({
-    //     method: 'post',
-    //     url: PROFILE_API,
-    //     data: {
-    //       password:
-    //     },
-    //     headers: {
-    //       ContentType: 'application/json',
-    //     },
-    //     withCredentials: true,
-    //   }).then((res) => router.push('/find/id'));
-    // } catch (error) {
-    //   console.log('post 실패!!!!!!');
-    //   console.log(error);
-    // }
   };
   // 나이스 인증
   useEffect(() => {
@@ -362,9 +339,6 @@ const Signin = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log(isId);
-  }, [isId]);
   const handleNaver = async () => {
     naverRef.current.children[0].click();
   };
