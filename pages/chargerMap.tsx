@@ -121,7 +121,7 @@ const ChargerMap = (props: Props) => {
       // const data = await res.data.map((el: any) => ({
       //   ...el,
       // }));
-      setSlowCharger(res.data);
+      setSlowCharger(res.data.charge);
 
       // .then((res) => {
       console.log('여기아래에요');
@@ -324,13 +324,13 @@ const ChargerMap = (props: Props) => {
                 </ChargerTypeNCountBox>
                 <PredictBoxWrapper>
                   {selectedCharger == 0 &&
-                    predictList.map((el, index) => (
+                    slowCharger.map((el, index) => (
                       <PredictBox key={index}>
                         <div>{el.year}</div>
-                        <div>{el.amount}</div>
-                        <div>{el.howMuch}</div>
-                        <div>{el.revenue}</div>
-                        <div>{el.money}</div>
+                        <div>충전량 (월)</div>
+                        <div>`${el.chargeQuantity}kW`</div>
+                        <div>매출 (월)</div>
+                        <div>`${el.sales} 원`</div>
                       </PredictBox>
                     ))}
                   {selectedCharger == 1 &&
