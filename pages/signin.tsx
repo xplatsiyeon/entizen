@@ -279,7 +279,6 @@ const Signin = (props: Props) => {
   };
   // 나이스 인증
   useEffect(() => {
-    console.log('나이스 인증 키 확인 ->' + localStorage.getItem('key'));
     const memberType = 'USER';
 
     axios({
@@ -288,14 +287,11 @@ const Signin = (props: Props) => {
       data: { memberType },
     })
       .then((res) => {
-        // console.log(res.data);
         setData(res.data.executedData);
-        console.log('---------');
-        console.log(data);
-        console.log('---------');
         // encodeData = res.data.executedData;
       })
       .catch((error) => {
+        console.error(' 2 곳 입니까?');
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -308,15 +304,8 @@ const Signin = (props: Props) => {
 
       if (hash) {
         const token = hash.split('=')[1].split('&')[0]; // token값 확인
-        console.log('토큰입니다 => ' + token);
         naverLogin.getLoginStatus((status: any) => {
           if (status) {
-            // 로그인 상태 값이 있을 경우
-            console.log('[로그인상태값] 네이버 => ' + status);
-            console.log('[whj] 네이버 로그인 데이터 => ' + naverLogin);
-            console.log(naverLogin);
-            // let email = naverLogin.user.getEmail();
-            // localStorage.setItem();
             NaverApi(naverLogin);
             dispatch(
               userAction.add({
