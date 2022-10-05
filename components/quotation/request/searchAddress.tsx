@@ -49,7 +49,7 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
   const [results, setResults] = useState<addressType[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
-  const keyWord = useDebounce(searchWord, 700);
+  const keyWord = useDebounce(searchWord, 400);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(() => e.target.value);
   };

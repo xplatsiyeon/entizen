@@ -29,6 +29,9 @@ import { RootState } from 'store/store';
 import { quotationAction } from 'store/quotationSlice';
 import { useDispatch } from 'react-redux';
 
+import Nut from 'public/images/Nut.png';
+import Bell from 'public/images/mobBell.png';
+
 type Props = {};
 
 const MainPage = (props: Props) => {
@@ -83,7 +86,12 @@ const MainPage = (props: Props) => {
     >
       <ListBox>
         <XBtnWrapper>
-          <Image src={xBtn} alt="xBtn" />
+          <Imagewrap onClick={()=>router.push('/alarm')}>
+            <Image src={Bell} alt="bellBtn" /></Imagewrap>
+          <Imagewrap onClick={()=>router.push('/alarm/1-1')}>
+            <Image src={Nut} alt="NutBtn" /></Imagewrap>
+          <Imagewrap>
+            <Image src={xBtn} alt="xBtn" /></Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
           <WhetherLoginComplete>
@@ -409,5 +417,14 @@ const WhiteAreaBottomText = styled.div`
   & span:first-of-type {
   }
 `;
+
+const Imagewrap = styled.div`
+  width: 18pt;
+  height: 18pt;
+  margin-right: 9pt;
+  &:nth-last-of-type(1){
+    margin-right: 0;
+  }
+`
 
 export default MainPage;

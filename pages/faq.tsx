@@ -8,6 +8,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CommunicationIcon from 'public/images/communication-icon.svg';
 
+import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'web-components/WebHeader';
+
 export interface Contents {
   id: number;
   name: string;
@@ -131,7 +134,9 @@ const Faq = () => {
   };
 
   return (
-    <>
+    <WebBody>
+      <WebHeader />
+      <Inner>
       <GuideHeader
         title="자주 묻는 질문"
         leftOnClick={leftOnClick}
@@ -162,12 +167,52 @@ const Faq = () => {
             <Image src={RightArrow} alt="right-arrow" />
           </div>
         </Button>
-      </TextBox>
-    </>
+      </TextBox> 
+        </Inner>
+        <WebFooter />
+      </WebBody>
   );
 };
 
 export default Faq;
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 54pt auto;
+  width: 900pt;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+`;
 
 const TabContainer = styled.div`
   display: flex;
