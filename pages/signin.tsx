@@ -274,6 +274,7 @@ const Signin = (props: Props) => {
   };
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
+    console.log('비밀번호 함수 실행');
     // router.push('/find/password');
     // const PROFILE_API = 'https://test-api.entizen.kr/api/members';
     localStorage.getItem('key');
