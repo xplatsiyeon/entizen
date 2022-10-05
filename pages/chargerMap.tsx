@@ -111,31 +111,24 @@ const ChargerMap = (props: Props) => {
 
   const callInfo = async () => {
     try {
-      await axios
-        .get('https://test-api.entizen.kr/api/charge', {
-          params: {
-            siDo: locationList.siNm,
-            siGunGu: locationList.sggNm ? locationList.sggNm : '',
-            chargerSpeed: 'SLOW',
-          },
-        })
-        .then((res) => {
-          console.log('요청 응답입니다.');
-          let data = [];
-          data.push(res.data.charge[0]);
-          data.push(res.data.charge[1]);
+      const res = await axios.get('https://test-api.entizen.kr/api/charge', {
+        params: {
+          siDo: locationList.siNm,
+          siGunGu: locationList.sggNm ? locationList.sggNm : '',
+          chargerSpeed: 'SLOW',
+        },
+      });
+      const data = await res.data.map((el: any) => ({
+        ...el,
+      }));
+      setSlowCharger(data);
 
-          console.log('여기서부터 차례대로');
-          console.log(...data);
-          console.log(...data[0]);
-          console.log(...data[1]);
+      // setSlowCharger({ ...data[0], ...data[1] });
 
-          setSlowCharger({ ...data[0], ...data[1] });
-        })
-        .then((res) => {
-          console.log('여기아래에요');
-          console.log(slowCharger);
-        });
+      // .then((res) => {
+      console.log('여기아래에요');
+      console.log(slowCharger);
+      // });
     } catch (error) {
       console.log('에러입니다.');
       console.log(error);
