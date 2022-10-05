@@ -105,7 +105,6 @@ const Inner = styled.div`
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
@@ -122,7 +121,7 @@ const Inner = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  margin: 0 31.875pt;
+  margin: 32.25pt 46.5pt 29.25pt;
   @media (max-width: 899pt) {
     height: 100%;
     margin: 0;
@@ -130,12 +129,18 @@ const Wrapper = styled.div`
 `;
 
 const Body = styled.div`
+@media (max-width: 899pt) {
   padding-top: 12pt;
+}
 `;
 
 const TabBox = styled.div`
-  display: flex;
+  display: none;
   gap: 3pt;
+  @media (max-width: 899pt) {
+    display: flex;
+  }
+
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
   border-style: solid;
