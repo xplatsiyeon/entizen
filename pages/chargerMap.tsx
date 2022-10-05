@@ -28,18 +28,7 @@ interface SlowFast {
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
-  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([
-    {
-      year: '',
-      chargeQuantity: 0,
-      sales: 0,
-    },
-    {
-      year: '',
-      chargeQuantity: 0,
-      sales: 0,
-    },
-  ]);
+  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
 
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
