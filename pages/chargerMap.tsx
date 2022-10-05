@@ -108,9 +108,10 @@ const ChargerMap = (props: Props) => {
         })
         .then((res) => {
           console.log('요청 응답입니다.');
-          console.log(res.data.charge[0]);
-          console.log(res.data.charge[1]);
-          // setSlowCharger(res.data);
+          let data = [];
+          data.push(res.data.charge[0]);
+          data.push(res.data.charge[1]);
+          setSlowCharger(data);
         });
       console.log(slowCharger);
     } catch (error) {
