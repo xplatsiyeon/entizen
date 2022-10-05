@@ -6,7 +6,6 @@ import Head from 'next/head';
 import { createStore } from '@reduxjs/toolkit';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistedReducer, persistor, wrapper } from 'store';
-import { SessionProvider } from 'next-auth/react';
 
 // import {
 //   persistedReducer,
@@ -18,15 +17,13 @@ import { SessionProvider } from 'next-auth/react';
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   const store = createStore(persistedReducer);
   return (
-    <SessionProvider session={pageProps.session}>
-      <PersistGate persistor={persistor} loading={<div>loading...</div>}>
-        <Head>
-          <meta charSet="utf-8" />
-          <title>Next Naver maps</title>
-        </Head>
-        <Component {...pageProps} />
-      </PersistGate>
-    </SessionProvider>
+    <PersistGate persistor={persistor} loading={<div>loading...</div>}>
+      <Head>
+        <meta charSet="utf-8" />
+        <title>Next Naver maps</title>
+      </Head>
+      <Component {...pageProps} />
+    </PersistGate>
   );
 };
 
