@@ -20,10 +20,22 @@ import SearchAddress from './searchAddress';
 import axios from 'axios';
 
 type Props = {};
+interface SlowFast {
+  year: string;
+  chargeQuantity: number;
+  sales: number;
+}
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
-  const [isMobile, setIsMobile] = useState(false);
+  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([
+    {
+      year: '',
+      chargeQuantity: 0,
+      sales: 0,
+    },
+  ]);
+
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
@@ -40,6 +52,29 @@ const ChargerMap = (props: Props) => {
   const [scrollHeight, setScrollHeight] = useState<number>(0);
 
   const [type, setType] = useState<boolean>(false);
+
+  const predictList: {
+    year: string;
+    amount: string;
+    howMuch: string;
+    revenue: string;
+    money: string;
+  }[] = [
+    {
+      year: '22년 예측치',
+      amount: '충전량 (월)',
+      howMuch: '1,736kW',
+      revenue: '매출 (월)',
+      money: '453,096 원',
+    },
+    {
+      year: '23년 예측치',
+      amount: '충전량 (월)',
+      howMuch: '2,061kW',
+      revenue: '매출 (월)',
+      money: '583,263 원',
+    },
+  ];
 
   useEffect(() => {
     let calcHeight;
@@ -69,7 +104,7 @@ const ChargerMap = (props: Props) => {
 
   const callInfo = async () => {
     try {
-      axios
+      await axios
         .get('https://test-api.entizen.kr/api/charge', {
           params: {
             siDo: locationList.siNm,
@@ -79,7 +114,15 @@ const ChargerMap = (props: Props) => {
         })
         .then((res) => {
           console.log('요청 응답입니다.');
-          console.log(res);
+          let data = [];
+          data.push(res.data.charge[0]);
+          data.push(res.data.charge[1]);
+          setSlowCharger(res.data.charge[0]);
+          setSlowCharger([...data, res.data.charge[1]]);
+        })
+        .then((res) => {
+          console.log('여기아래에요');
+          console.log(slowCharger);
         });
     } catch (error) {
       console.log('에러입니다.');
@@ -115,7 +158,7 @@ const ChargerMap = (props: Props) => {
         },
       );
     }
-    if (locationList) {
+    if (locationList.siNm) {
       callInfo();
     }
     // const fastRes = axios.get('https://test-api.entizen.kr/api/charge', {
@@ -142,28 +185,6 @@ const ChargerMap = (props: Props) => {
   }, [locationList]);
 
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
-  const predictList: {
-    year: string;
-    amount: string;
-    howMuch: string;
-    revenue: string;
-    money: string;
-  }[] = [
-    {
-      year: '22년 예측치',
-      amount: '충전량 (월)',
-      howMuch: '1,736kW',
-      revenue: '매출 (월)',
-      money: '453,096 원',
-    },
-    {
-      year: '23년 예측치',
-      amount: '충전량 (월)',
-      howMuch: '2,061kW',
-      revenue: '매출 (월)',
-      money: '583,263 원',
-    },
-  ];
 
   const handleBack = () => {
     router.back();
@@ -292,15 +313,26 @@ const ChargerMap = (props: Props) => {
                   </ChargerNotice>
                 </ChargerTypeNCountBox>
                 <PredictBoxWrapper>
-                  {predictList.map((el, index) => (
-                    <PredictBox key={index}>
-                      <div>{el.year}</div>
-                      <div>{el.amount}</div>
-                      <div>{el.howMuch}</div>
-                      <div>{el.revenue}</div>
-                      <div>{el.money}</div>
-                    </PredictBox>
-                  ))}
+                  {selectedCharger == 0 &&
+                    predictList.map((el, index) => (
+                      <PredictBox key={index}>
+                        <div>{el.year}</div>
+                        <div>{el.amount}</div>
+                        <div>{el.howMuch}</div>
+                        <div>{el.revenue}</div>
+                        <div>{el.money}</div>
+                      </PredictBox>
+                    ))}
+                  {selectedCharger == 1 &&
+                    predictList.map((el, index) => (
+                      <PredictBox key={index}>
+                        <div>{el.year}</div>
+                        <div>{el.amount}</div>
+                        <div>{el.howMuch}</div>
+                        <div>{el.revenue}</div>
+                        <div>{el.money}</div>
+                      </PredictBox>
+                    ))}
                 </PredictBoxWrapper>
                 <DidHelp>도움이 되셨나요?</DidHelp>
                 <Guide>

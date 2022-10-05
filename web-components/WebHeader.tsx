@@ -61,10 +61,8 @@ const WebHeader = ({ num, now }: Props) => {
               >
                 가이드
               </DivBox>
-              <DivBox>
-                <Link href="/">
-                  <a>소통하기</a>
-                </Link>
+              <DivBox onClick={()=>alert('2차 작업 범위입니다')}>
+                  소통하기
               </DivBox>
               <DivBox
                 onClick={() => {
@@ -95,10 +93,10 @@ const WebHeader = ({ num, now }: Props) => {
               :<>
               <DivBox2>
               <IconBox>
-                <Image src={Chat} alt="question" />
+                <Image src={Chat} alt="question" onClick={()=>route.push('/faq')}/>
               </IconBox>
               <IconBox>
-                <Image src={Bell} alt="alram" />
+                <Image src={Bell} alt="alram" onClick={()=>route.push('/alarm')}/>
               </IconBox>
               </DivBox2>
               <DivBox2>
