@@ -46,7 +46,7 @@ const Mypage1_3 = ({ data }: any) => {
       <Inner>
         <FlexBox>
           <Wrap1>
-            <RequestMain />
+            <RequestMain page={'1-3'} />
           </Wrap1>
           <Wrap2>
       <MypageHeader

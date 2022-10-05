@@ -173,7 +173,7 @@ const Faq = () => {
       </InfoText>
       <TextBox className='ask'>
         <div>더 자세한 문의 사항은?</div>
-        <Button onClick={() => route.push('/chatting/1')}>
+        <Button onClick={() => /*route.push('/chatting/1')*/ alert('2차 작업 범위입니다')}>
           <div>
             <Image src={CommunicationIcon} alt="right-arrow" />
           </div>
