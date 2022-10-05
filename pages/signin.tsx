@@ -42,6 +42,7 @@ const Signin = (props: Props) => {
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   const [isId, setIsId] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
   const [wrongPw, setWrongPw] = useState<string>('');
   let naverLogin: any;
   // 카카오 API
@@ -243,7 +244,7 @@ const Signin = (props: Props) => {
       console.log('id입니다');
     }
     if (value === 'password') {
-      setIsId(false);
+      setIsPassword(true);
       console.log('passowrd입니다');
     }
     if (typeof window !== 'object') return;
@@ -272,21 +273,22 @@ const Signin = (props: Props) => {
     router.push('/find/id');
   };
   // 비밀번호 찾기
-  const HandleFindPassword = () => {
+  const HandleFindPassword = async () => {
     // router.push('/find/password');
-    // const FINT_API = 'https://test-api.entizen.kr/api/';
-    let key = localStorage.getItem('key');
-    console.log(`key -> ${key}`);
-    let data = JSON.parse(key!);
-    console.log(`data -> ${data}`);
+    // const PROFILE_API = 'https://test-api.entizen.kr/api/members';
+    localStorage.getItem('key');
+    // let data = JSON.parse(key!);
+    router.push('/find/password');
     // try {
     //   console.log('이름 =>   ' + data.name);
     //   console.log('번호 =>   ' + data.phone);
-
+    //
     //   await axios({
     //     method: 'post',
-    //     url: FINT_API,
-    //     data: {},
+    //     url: PROFILE_API,
+    //     data: {
+    //       password:
+    //     },
     //     headers: {
     //       ContentType: 'application/json',
     //     },
@@ -519,11 +521,12 @@ const Signin = (props: Props) => {
                         </FindBtn>
                       </form>
                     </div>
-                    {isId ? (
+                    {isId && (
                       <Buttons className="firstNextPage" onClick={HandleFindId}>
                         숨겨진 아이디 버튼
                       </Buttons>
-                    ) : (
+                    )}
+                    {isPassword && (
                       <Buttons
                         className="firstNextPage"
                         onClick={HandleFindPassword}

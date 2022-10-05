@@ -35,6 +35,7 @@ const findingId2 = () => {
                 }}
               >
                 <Button
+                  onClick={() => router.push('/signin')}
                   sx={{
                     fontWeight: '700',
                     margin: '60pt 15pt 0 15pt',
@@ -54,6 +55,7 @@ const findingId2 = () => {
 
               <Password>
                 <Box
+                  onClick={() => alert('작업 중입니다.')}
                   sx={{
                     fontSize: '10.5pt',
                     fontWeight: '400',
