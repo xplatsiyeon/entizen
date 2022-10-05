@@ -6,6 +6,10 @@ import colors from 'styles/colors';
 import CheckIcon from 'public/images/check-small.png';
 import CheckCircleOn from 'public/images/CheckCircle-on.png';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
 
 interface Props {
   isModal: boolean;
@@ -14,6 +18,13 @@ interface Props {
 
 const QuotationModal = ({ setIsModal, isModal }: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const HandleButton = () => {
+    dispatch(quotationAction.init());
+    router.push('/quotation/request/complete');
+  };
+
   return (
     <ModalWrapper>
       <ModalBox>
@@ -41,7 +52,7 @@ const QuotationModal = ({ setIsModal, isModal }: Props) => {
           <BtnLeft onClick={() => setIsModal(!isModal)}>
             <BtnText>취소</BtnText>
           </BtnLeft>
-          <BtnRight onClick={() => router.push('/quotation/request/complete')}>
+          <BtnRight onClick={HandleButton}>
             <BtnText>확인</BtnText>
           </BtnRight>
         </BtnBox>

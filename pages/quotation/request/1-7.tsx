@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from 'components/mypage/request/header';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
@@ -31,7 +31,7 @@ const Request1_7 = (props: Props) => {
   );
 
   console.log('----requestData-----');
-  console.log(requestData);
+  console.log(requestData?.investRate);
   console.log('----------------');
   // 가격 콤마 계산
   const PriceCalculation = (price: number) => {
@@ -63,6 +63,10 @@ const Request1_7 = (props: Props) => {
     setIsModal(!isModal);
     console.log('버튼 컨트롤');
   };
+
+  useEffect(() => {
+    console.log(requestData);
+  }, [requestData]);
   return (
     <React.Fragment>
       <WebBody>
@@ -90,7 +94,7 @@ const Request1_7 = (props: Props) => {
                 <span className="name">판매자</span>
               </NameBox>
               <SliderSizes
-                difaultValue={parseInt(requestData?.investRate!)}
+                difaultValue={Number(requestData?.investRate!)}
                 value={value}
                 setValue={setValue}
                 disabled={disabled}
