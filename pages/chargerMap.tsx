@@ -127,14 +127,10 @@ const ChargerMap = (props: Props) => {
 
           console.log('여기서부터 차례대로');
           console.log(...data);
-          console.log(res.data.charge[0].year);
-          console.log(res.data.charge[0].chargeQuantity);
-          console.log(res.data.charge[0].sales);
+          console.log(...data[0]);
+          console.log(...data[1]);
 
-          setSlowCharger({
-            ...data[0],
-          });
-          setSlowCharger({ ...slowCharger, ...data[1] });
+          setSlowCharger({ ...data[0], ...data[1] });
         })
         .then((res) => {
           console.log('여기아래에요');
