@@ -173,9 +173,9 @@ const Signin = (props: Props) => {
           console.log('api 에러 발생!!');
           console.log(error);
         });
-    } catch (error) {
+    } catch (error: any) {
       console.log('에러가 발생했다!!!');
-      console.log(error);
+      console.log(error.response.data.message);
     }
   };
   // 네이버 로그인
