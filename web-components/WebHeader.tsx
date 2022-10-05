@@ -25,7 +25,7 @@ const WebHeader = ({ num, now }: Props) => {
   const router = useRouter();
 
    const isUser= localStorage.getItem('USER_ID');
-   if(!isUser)localStorage.setItem('USER_ID','user')
+   //if(!isUser)localStorage.setItem('USER_ID','user')
 
    const handleLink =()=>{
     if(isUser){router.push('/quotation/request')}
