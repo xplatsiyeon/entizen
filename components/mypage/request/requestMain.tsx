@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
 import Estimate from 'components/mypage/request/estimate';
@@ -15,30 +15,30 @@ interface Components {
 }
 
 type props ={
-  page?: string
+  page: number
 }
 
-const RequestMain = ({page}:props) => {
+const RequestMain = (props:props) => {
+  const {page} = props
   const route = useRouter();
-  const [tabNumber, setTabNumber] = useState<number>(0);
+  const [tabNumber, setTabNumber] = useState<number>(page);
   const [userName, setUserName] = useState<string>('윤세아');
   const [on, setOn] =useState<boolean>(true);
-
-  //console.log('req',{page})
 
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
   const components: Components = {
-    0: <WebEstimate page={page}/>,
+    0: <WebEstimate page={page}/>,  //얘도 필요할까?
     2: <AsIndex />,
   };
 
   const myPageIndex = useRef<HTMLDivElement>(null);
 
+
   return (
     <Wrapper ref={myPageIndex} onClick={()=>{
      // if(myPageIndex.current)myPageIndex.current.style.height='auto'}}>
-      if(myPageIndex.current && !on)myPageIndex.current.style.height='100%^'}}>
+      if(myPageIndex.current && !on)myPageIndex.current.style.height='auto'}}>
       <Header>
         <span>
           <h1>{`${userName}님,`}</h1>
@@ -64,13 +64,14 @@ const RequestMain = ({page}:props) => {
               key={index}
               tab={tabNumber.toString()}
               index={index.toString()}
-              onClick={() => {setTabNumber(index); setOn(!on)}}
+              onClick={() => {setTabNumber(index); setOn(!on) }
+              }
             >
               {tab}
             </TabItem>
             <Dot tab={tabNumber.toString()} index={index.toString()} />
             </Wrap>
-          {tabNumber === index && on ? (components[tabNumber]) :null}  {/* 접었다 폈다?? */}
+          {tabNumber === index && on? (components[tabNumber]) :null}
           </React.Fragment>
           ))}
         </TabContainer>
@@ -86,7 +87,7 @@ export default RequestMain;
 const Wrapper = styled.div`
 position: relative;
 width: 255pt;
-height: 424.5pt;
+height: 100%;
 overflow: hidden;
 `;
 const Header = styled.header`

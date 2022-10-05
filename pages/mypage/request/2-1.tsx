@@ -26,7 +26,7 @@ const Mypage2 = ({ data }: any) => {
       <Inner>
         <FlexBox>
           <Wrap1>
-            <RequestMain />
+            <RequestMain page={2}/>
           </Wrap1>
           <Wrap2>
             <Wrapper>

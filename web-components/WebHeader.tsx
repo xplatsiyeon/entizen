@@ -166,7 +166,8 @@ const IconBox = styled.div`
   flex: 1;
   margin-right: 15pt;
   width: 21pt;
-  height:21pt; 
+  height:21pt;
+  cursor: pointer; 
   &:nth-last-of-type(1){
     margin-right: 0;
   }

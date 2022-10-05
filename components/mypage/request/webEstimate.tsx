@@ -10,7 +10,7 @@ interface Data {
   date: string;
 }
 type Props = {
-  page?:string
+  page?:number
 }
 
 const tempProceeding: Data[] = [
