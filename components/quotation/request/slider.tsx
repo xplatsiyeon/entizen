@@ -43,7 +43,7 @@ const SliderSizes = ({
         data: {
           chargers: quotationData.chargers,
           subscribeProduct: quotationData.subscribeProduct,
-          investRate: value.toString(),
+          investRate: (value / 100).toString(),
           subscribePeriod: quotationData.subscribePeriod,
           installationAddress: locationList.locationList.roadAddrPart,
           installationLocation: quotationData.installationLocation,
