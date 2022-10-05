@@ -460,7 +460,7 @@ const Signin = (props: Props) => {
                     }}
                   >
                     <div>
-                      <form name="form_chk" method="post">
+                      <form name="form_chk" method="get">
                         <input
                           type="hidden"
                           name="m"
