@@ -28,7 +28,13 @@ interface SlowFast {
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
-  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
+  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([
+    {
+      year: '',
+      chargeQuantity: 0,
+      sales: 0,
+    },
+  ]);
 
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
@@ -113,7 +119,10 @@ const ChargerMap = (props: Props) => {
           data.push(res.data.charge[1]);
           console.log('data 배열입니다.');
           console.log(data);
-          setSlowCharger(data);
+          setSlowCharger({ ...data });
+        })
+        .then((res) => {
+          console.log(slowCharger);
         });
     } catch (error) {
       console.log('에러입니다.');
@@ -151,8 +160,6 @@ const ChargerMap = (props: Props) => {
     }
     if (locationList.siNm) {
       callInfo();
-      console.log('슬로우차저입니다. ');
-      console.log(slowCharger);
     }
     // const fastRes = axios.get('https://test-api.entizen.kr/api/charge', {
     //   params: {
