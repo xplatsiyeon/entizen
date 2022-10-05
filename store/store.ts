@@ -8,6 +8,7 @@ import { quotationSlice } from './quotationSlice';
 import { naverSlice } from './naverSlice';
 import { userSlice } from './userSlice';
 import { originUserInfoSlice } from './userInfoSlice';
+import { findUserInfoSlice } from './findSlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   navernaver: naverSlice.reducer,
   userList: userSlice.reducer,
   originUserData: originUserInfoSlice.reducer,
+  findUserInfo: findUserInfoSlice.reducer,
 });
 
 export default rootReducer;

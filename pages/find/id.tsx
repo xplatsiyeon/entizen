@@ -5,70 +5,79 @@ import Header from 'components/header';
 import React from 'react';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { useRouter } from 'next/router';
 
 const findingId2 = () => {
-  return (
-    <React.Fragment>
-      <Body>
-        <WebHeader />
-        <Inner>
-          <Wrapper>
-            <Header />
-            <Inform>
-              <div>
-                고객님의 정보와
-                <br />
-                일치하는 아이디입니다
-              </div>
-            </Inform>
-            <UserId>sayoon0511</UserId>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <Button
-                sx={{
-                  fontWeight: '700',
-                  margin: '60pt 15pt 0 15pt',
-                  width: '100%',
-                  height: '42pt',
-                  padding: '15pt 0',
-                  fontSize: '12pt',
-                  borderRadius: '6pt',
-                  alignItems: 'center',
-                  background: '#5a2dc9',
-                  color: 'white',
-                }}
-              >
-                로그인
-              </Button>
-            </Box>
-
-            <Password>
+  const router = useRouter();
+  const { id } = useSelector((state: RootState) => state.findUserInfo);
+  if (id) {
+    return (
+      <React.Fragment>
+        <Body>
+          <WebHeader />
+          <Inner>
+            <Wrapper>
+              <Header />
+              <Inform>
+                <div>
+                  고객님의 정보와
+                  <br />
+                  일치하는 아이디입니다
+                </div>
+              </Inform>
+              <UserId>{id}</UserId>
               <Box
                 sx={{
-                  fontSize: '10.5pt',
-                  fontWeight: '400',
-                  lineHeight: '12pt',
-                  cursor: 'pointer',
-                  paddingBottom: '1.5pt',
-                  letterSpacing: '-0.02em',
-                  textDecorationLine: 'underline',
-                  textUnderlinePosition: 'under',
-                  color: '#747780',
+                  display: 'flex',
+                  justifyContent: 'center',
                 }}
               >
-                비밀번호 찾기
+                <Button
+                  sx={{
+                    fontWeight: '700',
+                    margin: '60pt 15pt 0 15pt',
+                    width: '100%',
+                    height: '42pt',
+                    padding: '15pt 0',
+                    fontSize: '12pt',
+                    borderRadius: '6pt',
+                    alignItems: 'center',
+                    background: '#5a2dc9',
+                    color: 'white',
+                  }}
+                >
+                  로그인
+                </Button>
               </Box>
-            </Password>
-          </Wrapper>
-        </Inner>
-        <WebFooter />
-      </Body>
-    </React.Fragment>
-  );
+
+              <Password>
+                <Box
+                  sx={{
+                    fontSize: '10.5pt',
+                    fontWeight: '400',
+                    lineHeight: '12pt',
+                    cursor: 'pointer',
+                    paddingBottom: '1.5pt',
+                    letterSpacing: '-0.02em',
+                    textDecorationLine: 'underline',
+                    textUnderlinePosition: 'under',
+                    color: '#747780',
+                  }}
+                >
+                  비밀번호 찾기
+                </Box>
+              </Password>
+            </Wrapper>
+          </Inner>
+          <WebFooter />
+        </Body>
+      </React.Fragment>
+    );
+  } else {
+    router.push('/');
+  }
 };
 
 export default findingId2;
