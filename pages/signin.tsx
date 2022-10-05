@@ -258,7 +258,6 @@ const Signin = (props: Props) => {
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
-      cloneDocument.form_chk.method = 'post';
       cloneDocument.form_chk.submit();
     }
   };
