@@ -123,12 +123,13 @@ const ChargerMap = (props: Props) => {
           console.log(res.data.charge[0].year);
           console.log(res.data.charge[0].chargeQuantity);
           console.log(res.data.charge[0].sales);
+
           // setSlowCharger({
           //   year: res.data.charge[0].year,
           //   chargeQuatity: res.data.charge[0].chargeQuantity,
           //   sales: res.data.cherge[0].sales,
           // });
-          setSlowCharger([...data, res.data.charge[1]]);
+          setSlowCharger({ ...data });
         })
         .then((res) => {
           console.log('여기아래에요');
