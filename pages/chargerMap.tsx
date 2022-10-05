@@ -119,7 +119,6 @@ const ChargerMap = (props: Props) => {
       console.log('에러입니다.');
       console.log(error);
     }
-    console.log(slowCharger);
   };
 
   useEffect(() => {
@@ -152,6 +151,8 @@ const ChargerMap = (props: Props) => {
     }
     if (locationList.siNm) {
       callInfo();
+      console.log('슬로우차저입니다. ');
+      console.log(slowCharger);
     }
     // const fastRes = axios.get('https://test-api.entizen.kr/api/charge', {
     //   params: {
