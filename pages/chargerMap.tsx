@@ -29,6 +29,7 @@ interface SlowFast {
 const ChargerMap = (props: Props) => {
   const router = useRouter();
   const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
+  const [fastCharger, setFastCharger] = useState<SlowFast[]>([]);
   // const [slowCharger, setSlowCharger] = useState<
   //   {
   //     year: string;
@@ -109,24 +110,21 @@ const ChargerMap = (props: Props) => {
     }
   }, [checkHeight, changeHeight]);
 
-  const callInfo = async () => {
+  const callInfo = async (speed: string) => {
     try {
       const res = await axios.get('https://test-api.entizen.kr/api/charge', {
         params: {
           siDo: locationList.siNm,
           siGunGu: locationList.sggNm ? locationList.sggNm : '',
-          chargerSpeed: 'SLOW',
+          chargerSpeed: speed,
         },
       });
-      // const data = await res.data.map((el: any) => ({
-      //   ...el,
-      // }));
-      setSlowCharger(res.data.charge);
-
-      // .then((res) => {
-      console.log('여기아래에요');
-      console.log(slowCharger);
-      // });
+      if (speed === 'SLOW') {
+        setSlowCharger(res.data.charge);
+      }
+      if (speed === 'FAST') {
+        setFastCharger(res.data.charge);
+      }
     } catch (error) {
       console.log('에러입니다.');
       console.log(error);
@@ -162,7 +160,8 @@ const ChargerMap = (props: Props) => {
       );
     }
     if (locationList.siNm) {
-      callInfo();
+      callInfo('SLOW');
+      callInfo('FAST');
     }
     // const fastRes = axios.get('https://test-api.entizen.kr/api/charge', {
     //   params: {
@@ -328,19 +327,19 @@ const ChargerMap = (props: Props) => {
                       <PredictBox key={index}>
                         <div>{el.year}</div>
                         <div>충전량 (월)</div>
-                        <div>`${el.chargeQuantity}kW`</div>
+                        <div>{el.chargeQuantity}kW</div>
                         <div>매출 (월)</div>
-                        <div>`${el.sales} 원`</div>
+                        <div>{el.sales} 원</div>
                       </PredictBox>
                     ))}
                   {selectedCharger == 1 &&
-                    predictList.map((el, index) => (
+                    fastCharger.map((el, index) => (
                       <PredictBox key={index}>
                         <div>{el.year}</div>
-                        <div>{el.amount}</div>
-                        <div>{el.howMuch}</div>
-                        <div>{el.revenue}</div>
-                        <div>{el.money}</div>
+                        <div>충전량 (월)</div>
+                        <div>{el.chargeQuantity}</div>
+                        <div>매출 (월)</div>
+                        <div>{el.sales} 원</div>
                       </PredictBox>
                     ))}
                 </PredictBoxWrapper>
