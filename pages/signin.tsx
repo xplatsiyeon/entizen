@@ -171,7 +171,7 @@ const Signin = (props: Props) => {
         })
         .catch((error) => {
           console.log('api 에러 발생!!');
-          console.log(error);
+          console.log(error.response.data.message);
         });
     } catch (error: any) {
       console.log('에러가 발생했다!!!');
