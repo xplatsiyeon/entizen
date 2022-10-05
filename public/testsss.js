@@ -5,8 +5,15 @@ function decryptResult(decryptResult) {
 
   const first = document.querySelector('.firstNextPage');
   if (decryptResult) {
-    first.click();
-    console.log('클릭안돼?');
+    if (first) {
+      first.click();
+    }
+  }
+  const second = document.querySelector('.secondNextPage');
+  if (decryptResult) {
+    if (second) {
+      second.click();
+    }
   }
 }
 

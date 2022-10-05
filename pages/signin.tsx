@@ -27,6 +27,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { originUserAction } from 'store/userInfoSlice';
 import { kakaoInit } from 'utils/kakao';
+import colors from 'styles/colors';
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -246,14 +247,36 @@ const Signin = (props: Props) => {
       cloneDocument.form_chk.submit();
     }
   };
+  // 안내문
   const handleAlert = () => {
     alert('현재 개발 중 입니다.');
   };
+  // 아이디 찾기
+  const HandleFindId = async () => {
+    const FINT_API = 'https://test-api.entizen.kr/api/';
+    let key = localStorage.getItem('key');
+    console.log(`key -> ${key}`);
+    let data = JSON.parse(key!);
+    console.log(`data -> ${data}`);
+    try {
+      console.log('이름 =>   ' + data.name);
+      console.log('번호 =>   ' + data.phone);
 
-  const HandleFindId = () => {
-    router.push('/find/id');
+      await axios({
+        method: 'post',
+        url: FINT_API,
+        data: {},
+        headers: {
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => router.push('/find/id'));
+    } catch (error) {
+      console.log('post 실패!!!!!!');
+      console.log(error);
+    }
   };
-
+  // 비밀번호 찾기
   const HandleFindPassword = () => {
     router.push('/find/password');
   };
@@ -440,34 +463,44 @@ const Signin = (props: Props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <Typography
+                  <Box
                     sx={{
                       textAlign: 'center',
-                      textDecorationLine: 'underline',
+                      // textDecorationLine: 'underline',
                       marginTop: '22.5pt',
                       color: '#747780',
                     }}
                   >
-                    <form name="form_chk" method="post">
-                      <input type="hidden" name="m" value="checkplusService" />
-                      {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
-                      <input
-                        type="hidden"
-                        id="encodeData"
-                        name="EncodeData"
-                        value={data !== undefined && data}
-                      />
-                      {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-
-                      {/* <button onClick={(e) => Go(e)}>CheckPlus 안심본인인증 Click</button> */}
-                      <FindBtn name={'form_chk'} onClick={fnPopup}>
-                        아이디
-                      </FindBtn>
-                      <FindBtn name={'form_chk'} onClick={fnPopup}>
-                        /비밀번호 찾기
-                      </FindBtn>
-                    </form>
-                  </Typography>
+                    <div>
+                      <form name="form_chk" method="post">
+                        <input
+                          type="hidden"
+                          name="m"
+                          value="checkplusService"
+                        />
+                        {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                        <input
+                          type="hidden"
+                          id="encodeData"
+                          name="EncodeData"
+                          value={data !== undefined && data}
+                        />
+                        {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+                        <FindBtn name={'form_chk'} onClick={fnPopup}>
+                          아이디 찾기&nbsp;
+                        </FindBtn>
+                        <FindBtn name={'form_chk'} onClick={fnPopup}>
+                          &nbsp;비밀번호 찾기
+                        </FindBtn>
+                      </form>
+                    </div>
+                    <Buttons className="firstNextPage" onClick={HandleFindId}>
+                      아이디 찾기 버튼
+                    </Buttons>
+                    {/* <Buttons className="firstNextPage" onClick={HandleFindId}>
+                      비밀번호 찾기 버튼
+                    </Buttons> */}
+                  </Box>
                 </Box>
                 <Box
                   sx={{
@@ -613,53 +646,9 @@ const NaverBox = styled(Box)`
     display: none;
   }
 `;
-
-const Text = styled.p`
-  // h2?
-  margin-top: 66pt;
-  text-align: center;
-  position: relative;
-  font-size: 21pt;
-  font-weight: 700;
-  line-height: 21pt;
-  color: #222;
-  @media (max-width: 899pt) {
-    display: none;
-  }
-`;
-const Wrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  //width:345pt;
-  width: 281.25pt;
-  height: 500.25pt;
-  overflow-y: scroll;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  border-radius: 12pt;
-  @media (max-width: 899pt) {
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-  }
-  @media (max-height: 809pt) {
-    display: block;
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    margin: 0 auto;
-  }
-`;
-
 const BackBtn = styled.img`
   margin: auto 0;
 `;
-
 const LoginBtn = styled.button`
   background: #5a2dc9;
   width: 100%;
@@ -670,7 +659,6 @@ const LoginBtn = styled.button`
   font-weight: 700;
   font-size: 12pt;
 `;
-
 const BtnSpan = styled.span``;
 const IdRegist = styled.button`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
@@ -683,7 +671,6 @@ const IdRegist = styled.button`
   letter-spacing: -0.02em;
   color: #595757;
 `;
-
 const IdRegistBtnSpan = styled.span``;
 
 const BackBox = styled(Box)`
@@ -697,16 +684,21 @@ const BackBox = styled(Box)`
     padding-right: 15pt;
   }
 `;
-const TabBox = styled(Box)`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  background: #f9f7ff;
-  @media (max-width: 899pt) {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-top: 6pt;
-  }
+const FindBtn = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  margin: 2pt;
+  text-decoration-line: underline;
+  text-underline-position: under;
+  color: ${colors.gray2};
+  cursor: pointer;
 `;
-const FindBtn = styled.button``;
+const Buttons = styled.button`
+  display: none;
+`;
