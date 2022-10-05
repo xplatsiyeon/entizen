@@ -69,21 +69,20 @@ const ChargerMap = (props: Props) => {
 
   const callInfo = async () => {
     try {
-      await axios({
-        method: 'get',
-        url: 'https://test-api.entizen.kr/api/charge',
-        params: {
-          siDo: locationList.siNm,
-          siGunGu: locationList.sggNm,
-          chargerSpeed: 'SLOW',
-        },
-        headers: {
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => console.log(res));
+      axios
+        .get('https://test-api.entizen.kr/api/charge', {
+          params: {
+            siDo: locationList.siNm,
+            siGunGu: locationList.sggNm,
+            chargerSpeed: 'SLOW',
+          },
+        })
+        .then((res) => {
+          console.log('요청 응답입니다.');
+          console.log(res);
+        });
     } catch (error) {
-      console.log('post 요청 실패');
+      console.log('에러입니다.');
       console.log(error);
     }
   };
