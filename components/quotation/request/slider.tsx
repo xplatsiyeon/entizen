@@ -34,7 +34,7 @@ const SliderSizes = ({
     (state: RootState) => state,
   );
 
-  console.log(difaultValue);
+  console.log('벨루 체크 ->' + difaultValue);
   // 간편 견적 포스트
   const predictionApi = async () => {
     try {
