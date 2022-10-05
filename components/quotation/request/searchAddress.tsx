@@ -97,6 +97,7 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
   }, [results]);
 
   return (
+    <Wrap>
     <Container>
       <HeaderBox>
         <Image src={btnImg} alt="backBtn" />
@@ -127,12 +128,31 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
         </SearchResult>
       ))}
     </Container>
+    </Wrap>
   );
 };
 
+const Wrap = styled.div`
+/*  width: 345pt;
+  height: 108pt;
+  border: 1px solid green;
+  position: absolute;
+  top: -33pt;
+  left: -48pt;
+  
+  @media (max-width: 899pt) {
+    position: relative;
+    top: 0;
+    width: auto;
+    height: auto;
+} */
+  `
+
+
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  
+ // border: 1px solid red;
 `;
 
 const HeaderBox = styled.div`
