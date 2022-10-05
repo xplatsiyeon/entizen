@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
 import Estimate from 'components/mypage/request/estimate';
@@ -14,16 +14,22 @@ interface Components {
   [key: number]: JSX.Element;
 }
 
-const RequestMain = () => {
+type props ={
+  page?: string
+}
+
+const RequestMain = ({page}:props) => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [userName, setUserName] = useState<string>('윤세아');
-  const [on, setOn] =useState<boolean>();
+  const [on, setOn] =useState<boolean>(true);
+
+  //console.log('req',{page})
 
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
   const components: Components = {
-    0: <WebEstimate />,
+    0: <WebEstimate page={page}/>,
     2: <AsIndex />,
   };
 
@@ -31,7 +37,8 @@ const RequestMain = () => {
 
   return (
     <Wrapper ref={myPageIndex} onClick={()=>{
-      if(myPageIndex.current)myPageIndex.current.style.height='auto'}}>
+     // if(myPageIndex.current)myPageIndex.current.style.height='auto'}}>
+      if(myPageIndex.current && !on)myPageIndex.current.style.height='100%^'}}>
       <Header>
         <span>
           <h1>{`${userName}님,`}</h1>
@@ -51,7 +58,7 @@ const RequestMain = () => {
         <Line />
         <TabContainer>
           {TabType.map((tab, index) => (
-            <>
+            <React.Fragment key={index}>
             <Wrap>
             <TabItem
               key={index}
@@ -64,7 +71,7 @@ const RequestMain = () => {
             <Dot tab={tabNumber.toString()} index={index.toString()} />
             </Wrap>
           {tabNumber === index && on ? (components[tabNumber]) :null}  {/* 접었다 폈다?? */}
-          </>
+          </React.Fragment>
           ))}
         </TabContainer>
         {/* 탭 */}

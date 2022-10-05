@@ -9,6 +9,10 @@ interface Data {
   storeName: string;
   date: string;
 }
+type Props = {
+  page?:string
+}
+
 const tempProceeding: Data[] = [
   {
     id: 0,
@@ -68,10 +72,8 @@ const temphisTory: Data[] = [
   },
 ];
 
-const WebEstimate = () => {
+const WebEstimate = ({page}:Props) => {
   const route = useRouter();
-
-
   const HandleColor = (badge: string): string => {
     if (badge.includes('마감')) return '#F75015';
     else if (badge.includes('대기 중')) return '#FFC043';
