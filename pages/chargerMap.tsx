@@ -117,11 +117,11 @@ const ChargerMap = (props: Props) => {
           let data = [];
           data.push(res.data.charge[0]);
           data.push(res.data.charge[1]);
-          console.log('data 배열입니다.');
-          console.log(data);
-          setSlowCharger({ ...data });
+          setSlowCharger(res.data.charge[0]);
+          setSlowCharger([...data, res.data.charge[1]]);
         })
         .then((res) => {
+          console.log('여기아래에요');
           console.log(slowCharger);
         });
     } catch (error) {
