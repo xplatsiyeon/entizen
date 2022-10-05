@@ -82,7 +82,7 @@ const WebHeader = ({ num, now }: Props) => {
               <>
               <DivBox2>
               <IconBox>
-                <Image src={Chat} alt="question" />
+                <Image src={Chat} alt="question" onClick={()=>route.push('/faq')} />
               </IconBox>
               <IconBox>
                 <Image src={BellOutline} alt="bell on" onClick={()=>route.push('/alarm')}/>

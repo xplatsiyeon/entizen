@@ -75,3 +75,16 @@ const ItemText = styled(ListItemText)`
   border-bottom: 0.75pt solid ${colors.gray};
   padding: 12.5pt 5.25pt 12pt 12pt;
 `;
+
+
+/*
+import Q from 'public/images/Q.png'
+<IconWrap>
+<Image src={Q} />
+</IconWrap>
+const IconWrap = styled.div`
+  @media (max-width: 899pt) {
+  display: none;
+}
+`
+*/
