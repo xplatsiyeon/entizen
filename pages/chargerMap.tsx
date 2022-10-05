@@ -28,19 +28,20 @@ interface SlowFast {
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
-  const [slowCharger, setSlowCharger] = useState<
-    {
-      year: string;
-      chargeQuantity: number;
-      sales: number;
-    }[]
-  >([
-    {
-      year: '',
-      chargeQuantity: 0,
-      sales: 0,
-    },
-  ]);
+  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
+  // const [slowCharger, setSlowCharger] = useState<
+  //   {
+  //     year: string;
+  //     chargeQuantity: number;
+  //     sales: number;
+  //   }[]
+  // >([
+  //   {
+  //     year: '',
+  //     chargeQuantity: 0,
+  //     sales: 0,
+  //   },
+  // ]);
 
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
@@ -130,7 +131,9 @@ const ChargerMap = (props: Props) => {
           console.log(res.data.charge[0].chargeQuantity);
           console.log(res.data.charge[0].sales);
 
-          setSlowCharger(data[0]);
+          setSlowCharger({
+            ...data[0],
+          });
           setSlowCharger({ ...slowCharger, ...data[1] });
         })
         .then((res) => {
