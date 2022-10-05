@@ -86,7 +86,7 @@ const FindPassword = () => {
       console.log('번호 =>   ' + data.phone);
 
       await axios({
-        method: 'post',
+        method: 'patch',
         url: PROFILE_API,
         data: {
           password: pwInput,
