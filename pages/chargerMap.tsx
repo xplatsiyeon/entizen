@@ -98,7 +98,7 @@ const ChargerMap = (props: Props) => {
 
   const callInfo = async () => {
     try {
-      axios
+      await axios
         .get('https://test-api.entizen.kr/api/charge', {
           params: {
             siDo: locationList.siNm,
@@ -111,13 +111,15 @@ const ChargerMap = (props: Props) => {
           let data = [];
           data.push(res.data.charge[0]);
           data.push(res.data.charge[1]);
+          console.log('data 배열입니다.');
+          console.log(data);
           setSlowCharger(data);
         });
-      console.log(slowCharger);
     } catch (error) {
       console.log('에러입니다.');
       console.log(error);
     }
+    console.log(slowCharger);
   };
 
   useEffect(() => {
@@ -148,7 +150,7 @@ const ChargerMap = (props: Props) => {
         },
       );
     }
-    if (locationList) {
+    if (locationList.siNm) {
       callInfo();
     }
     // const fastRes = axios.get('https://test-api.entizen.kr/api/charge', {
