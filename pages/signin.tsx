@@ -28,6 +28,7 @@ import { RootState } from 'store/store';
 import { originUserAction } from 'store/userInfoSlice';
 import { kakaoInit } from 'utils/kakao';
 import colors from 'styles/colors';
+import { findUserInfoAction } from 'store/findSlice';
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -40,6 +41,7 @@ const Signin = (props: Props) => {
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
+  const [isId, setIsId] = useState(false);
   const [wrongPw, setWrongPw] = useState<string>('');
   let naverLogin: any;
   // 카카오 API
@@ -232,7 +234,18 @@ const Signin = (props: Props) => {
   // const GoogleLogin = ()=> {}
 
   // 나이스 인승
-  const fnPopup = () => {
+  const fnPopup = (event: any) => {
+    console.log('check');
+    console.log(event?.currentTarget.value);
+    const { value } = event.currentTarget;
+    if (value === 'id') {
+      setIsId(true);
+      console.log('id입니다');
+    }
+    if (value === 'password') {
+      setIsId(false);
+      console.log('passowrd입니다');
+    }
     if (typeof window !== 'object') return;
     else {
       window.open(
@@ -253,32 +266,36 @@ const Signin = (props: Props) => {
   };
   // 아이디 찾기
   const HandleFindId = async () => {
-    const FINT_API = 'https://test-api.entizen.kr/api/';
+    let key = localStorage.getItem('key');
+    let data = JSON.parse(key!);
+    dispatch(findUserInfoAction.addId(data.id));
+    router.push('/find/id');
+  };
+  // 비밀번호 찾기
+  const HandleFindPassword = () => {
+    // router.push('/find/password');
+    // const FINT_API = 'https://test-api.entizen.kr/api/';
     let key = localStorage.getItem('key');
     console.log(`key -> ${key}`);
     let data = JSON.parse(key!);
     console.log(`data -> ${data}`);
-    try {
-      console.log('이름 =>   ' + data.name);
-      console.log('번호 =>   ' + data.phone);
+    // try {
+    //   console.log('이름 =>   ' + data.name);
+    //   console.log('번호 =>   ' + data.phone);
 
-      await axios({
-        method: 'post',
-        url: FINT_API,
-        data: {},
-        headers: {
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => router.push('/find/id'));
-    } catch (error) {
-      console.log('post 실패!!!!!!');
-      console.log(error);
-    }
-  };
-  // 비밀번호 찾기
-  const HandleFindPassword = () => {
-    router.push('/find/password');
+    //   await axios({
+    //     method: 'post',
+    //     url: FINT_API,
+    //     data: {},
+    //     headers: {
+    //       ContentType: 'application/json',
+    //     },
+    //     withCredentials: true,
+    //   }).then((res) => router.push('/find/id'));
+    // } catch (error) {
+    //   console.log('post 실패!!!!!!');
+    //   console.log(error);
+    // }
   };
   // 나이스 인증
   useEffect(() => {
@@ -341,6 +358,10 @@ const Signin = (props: Props) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log(isId);
+  }, [isId]);
   const handleNaver = async () => {
     naverRef.current.children[0].click();
   };
@@ -486,20 +507,30 @@ const Signin = (props: Props) => {
                           value={data !== undefined && data}
                         />
                         {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-                        <FindBtn name={'form_chk'} onClick={fnPopup}>
+                        <FindBtn value="id" name={'form_chk'} onClick={fnPopup}>
                           아이디 찾기&nbsp;
                         </FindBtn>
-                        <FindBtn name={'form_chk'} onClick={fnPopup}>
+                        <FindBtn
+                          value="password"
+                          name={'form_chk'}
+                          onClick={fnPopup}
+                        >
                           &nbsp;비밀번호 찾기
                         </FindBtn>
                       </form>
                     </div>
-                    <Buttons className="firstNextPage" onClick={HandleFindId}>
-                      아이디 찾기 버튼
-                    </Buttons>
-                    {/* <Buttons className="firstNextPage" onClick={HandleFindId}>
-                      비밀번호 찾기 버튼
-                    </Buttons> */}
+                    {isId ? (
+                      <Buttons className="firstNextPage" onClick={HandleFindId}>
+                        숨겨진 아이디 버튼
+                      </Buttons>
+                    ) : (
+                      <Buttons
+                        className="firstNextPage"
+                        onClick={HandleFindPassword}
+                      >
+                        숨겨진 비밀번호 버튼
+                      </Buttons>
+                    )}
                   </Box>
                 </Box>
                 <Box
