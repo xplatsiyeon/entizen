@@ -119,7 +119,7 @@ const ChargerMap = (props: Props) => {
           data.push(res.data.charge[1]);
 
           console.log('여기서부터 차례대로');
-          console.log(data);
+          console.log(...data);
           console.log(res.data.charge[0].year);
           console.log(res.data.charge[0].chargeQuantity);
           console.log(res.data.charge[0].sales);
