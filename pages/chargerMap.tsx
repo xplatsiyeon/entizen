@@ -118,12 +118,10 @@ const ChargerMap = (props: Props) => {
           chargerSpeed: 'SLOW',
         },
       });
-      const data = await res.data.map((el: any) => ({
-        ...el,
-      }));
-      setSlowCharger(data);
-
-      // setSlowCharger({ ...data[0], ...data[1] });
+      // const data = await res.data.map((el: any) => ({
+      //   ...el,
+      // }));
+      setSlowCharger(res.data);
 
       // .then((res) => {
       console.log('여기아래에요');
