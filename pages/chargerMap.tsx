@@ -67,6 +67,27 @@ const ChargerMap = (props: Props) => {
     }
   }, [checkHeight, changeHeight]);
 
+  const callInfo = async () => {
+    try {
+      await axios({
+        method: 'get',
+        url: 'https://test-api.entizen.kr/api/charge',
+        params: {
+          siDo: locationList.siNm,
+          siGunGu: locationList.sggNm,
+          chargerSpeed: 'SLOW',
+        },
+        headers: {
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => console.log(res));
+    } catch (error) {
+      console.log('post 요청 실패');
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (locationList.roadAddrPart) {
       naver.maps.Service.geocode(
@@ -95,27 +116,29 @@ const ChargerMap = (props: Props) => {
         },
       );
     }
+    if (locationList) {
+      callInfo();
+    }
+    // const fastRes = axios.get('https://test-api.entizen.kr/api/charge', {
+    //   params: {
+    //     siDo: locationList.siNm,
+    //     siGunGu: locationList.sggNm,
+    //     chargerSpeed: 'SLOW',
+    //   },
+    // });
 
-    const fastRes = axios.get('https://test-api.entizen.kr/api/charge', {
-      params: {
-        siDo: locationList.siNm,
-        siGunGu: locationList.sggNm,
-        chargerSpeed: 'SLOW',
-      },
-    });
+    // const slowRes = axios.get('https://test-api.entizen.kr/api/charge', {
+    //   params: {
+    //     siDo: locationList.siNm,
+    //     siGunGu: locationList.sggNm,
+    //     chargerSpeed: 'FAST',
+    //   },
+    // });
 
-    const slowRes = axios.get('https://test-api.entizen.kr/api/charge', {
-      params: {
-        siDo: locationList.siNm,
-        siGunGu: locationList.sggNm,
-        chargerSpeed: 'FAST',
-      },
-    });
-
-    console.log('빠른놈입니다.');
-    console.log(fastRes);
-    console.log('느린놈입니다.');
-    console.log(slowRes);
+    // console.log('빠른놈입니다.');
+    // console.log(fastRes);
+    // console.log('느린놈입니다.');
+    // console.log(slowRes);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationList]);
 
