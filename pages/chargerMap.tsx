@@ -327,9 +327,9 @@ const ChargerMap = (props: Props) => {
                       <PredictBox key={index}>
                         <div>{el.year}</div>
                         <div>충전량 (월)</div>
-                        <div>{el.chargeQuantity}kW</div>
+                        <div>{el.chargeQuantity.toLocaleString()}kW</div>
                         <div>매출 (월)</div>
-                        <div>{el.sales} 원</div>
+                        <div>{el.sales.toLocaleString()} 원</div>
                       </PredictBox>
                     ))}
                   {selectedCharger == 1 &&
@@ -337,9 +337,9 @@ const ChargerMap = (props: Props) => {
                       <PredictBox key={index}>
                         <div>{el.year}</div>
                         <div>충전량 (월)</div>
-                        <div>{el.chargeQuantity}</div>
+                        <div>{el.chargeQuantity.toLocaleString()} kW</div>
                         <div>매출 (월)</div>
-                        <div>{el.sales} 원</div>
+                        <div>{el.sales.toLocaleString()} 원</div>
                       </PredictBox>
                     ))}
                 </PredictBoxWrapper>
