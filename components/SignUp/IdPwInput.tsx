@@ -116,11 +116,44 @@ const IdPwInput = ({
       console.log(error);
     }
   };
+  const handleDelete = (string: string) => {
+    if (string === 'first') {
+      setPwInput('');
+    } else if (string === 'second') {
+      setCheckPw('');
+    }
+  };
 
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
+          onClick={() => handleDelete('first')}
+          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+        />
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+          }}
+          variant="subtitle1"
+          onClick={() => setPwShow(!pwShow)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+  const secondIconAdorment = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CancelRoundedIcon
+          onClick={() => handleDelete('second')}
           sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
         />
         <Typography
@@ -142,7 +175,7 @@ const IdPwInput = ({
     ),
   };
   const iconAdornment = pwSelected ? iconAdorment : {};
-  const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+  const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
