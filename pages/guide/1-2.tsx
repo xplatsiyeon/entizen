@@ -238,19 +238,6 @@ const Guide1_2 = () => {
     }
   }, [clicked, selectedOption, selectedRegion, isValid]);
 
-  useEffect(() => {
-    console.log('영어 ->');
-    console.log(selectedOptionEn);
-    console.log('한글 ->');
-    console.log(selectedOption);
-  }, [selectedOptionEn, selectedOption]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(subsidyGuideAction.reset());
-  //   };
-  // }, []);
-
   return (
     <Body>
       <WebHeader />

@@ -32,8 +32,7 @@ import { RootState } from 'store/store';
 const Guide1_2_4 = () => {
   const router = useRouter();
   const { subsidyGuideData } = useSelector((state: RootState) => state);
-  const userId = JSON.parse(localStorage.getItem('USER_ID')!);
-  console.log(userId);
+  const userId = localStorage.getItem('USER_ID');
   const changeMoneyUnit = (num: any): string => {
     if (num === 0) {
       return '0';
