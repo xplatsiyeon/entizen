@@ -29,6 +29,7 @@ import { originUserAction } from 'store/userInfoSlice';
 import { kakaoInit } from 'utils/kakao';
 import colors from 'styles/colors';
 import { findUserInfoAction } from 'store/findSlice';
+import Modal from 'components/Modal/Modal';
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -46,6 +47,10 @@ const Signin = (props: Props) => {
   const [loginErr, setLoginErr] = useState<string>('');
   let naverLogin: any;
   // 카카오 API
+
+  const modalHandle = () => {
+    setLoginErr('');
+  };
   const KaKaApi = async (data: any) => {
     const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
@@ -423,10 +428,11 @@ const Signin = (props: Props) => {
                     }}
                   />
                   {loginErr.length > 3 && (
-                    <div>
-                      {loginErr}
-                      입니당ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-                    </div>
+                    <Modal
+                      text={loginErr}
+                      color={'#222831'}
+                      click={modalHandle}
+                    />
                   )}
                   <TextField
                     value={password}
