@@ -46,6 +46,7 @@ const slice = createSlice({
       state.duplicateApplyPrice = action.payload.duplicateApplyPrice;
       state.maxApplyPrice = action.payload.maxApplyPrice;
       state.canDuplicateApply = action.payload.canDuplicateApply;
+      state.memberName = action.payload.memberName;
       state.region1 = action.payload.region1;
       state.region2 = action.payload.region2;
     },
