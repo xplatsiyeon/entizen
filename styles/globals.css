@@ -157,4 +157,8 @@ input,
 textarea:focus {
   outline: none;
   font-weight: 800;
+  color: #222222;
+}
+input::placeholder {
+  color: #caccd1;
 }

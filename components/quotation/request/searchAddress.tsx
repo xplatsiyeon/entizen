@@ -98,36 +98,36 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
 
   return (
     <Wrap>
-    <Container>
-      <HeaderBox>
-        <Image src={btnImg} alt="backBtn" />
-        <FindAddress
-          placeholder="상호명 또는 주소 검색"
-          onChange={handleChange}
-          value={searchWord}
-        />
-        {searchWord.length > 0 && (
-          <Image onClick={() => setSearchWord('')} src={xBtn} alt="xButton" />
-        )}
-      </HeaderBox>
+      <Container>
+        <HeaderBox>
+          <Image src={btnImg} alt="backBtn" />
+          <FindAddress
+            placeholder="상호명 또는 주소 검색"
+            onChange={handleChange}
+            value={searchWord}
+          />
+          {searchWord.length > 0 && (
+            <Image onClick={() => setSearchWord('')} src={xBtn} alt="xButton" />
+          )}
+        </HeaderBox>
 
-      {results.map((el, index) => (
-        <SearchResult
-          data-jibun={el.jibunAddr}
-          data-roadad={el.roadAddrPart1}
-          key={index}
-          onClick={handleOnClick}
-        >
-          <IconBox>
-            <Image src={whiteMapPin} alt="mapPin" />
-          </IconBox>
-          <AddressBox>
-            <div>{el.roadAddrPart1}</div>
-            <div>{el.jibunAddr}</div>
-          </AddressBox>
-        </SearchResult>
-      ))}
-    </Container>
+        {results.map((el, index) => (
+          <SearchResult
+            data-jibun={el.jibunAddr}
+            data-roadad={el.roadAddrPart1}
+            key={index}
+            onClick={handleOnClick}
+          >
+            <IconBox>
+              <Image src={whiteMapPin} alt="mapPin" />
+            </IconBox>
+            <AddressBox>
+              <div>{el.roadAddrPart1}</div>
+              <div>{el.jibunAddr}</div>
+            </AddressBox>
+          </SearchResult>
+        ))}
+      </Container>
     </Wrap>
   );
 };
@@ -135,8 +135,7 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
 // 어떻게 한건지 다시 정리하기.
 
 const Wrap = styled.div`
-
-  width: 252pt ;
+  width: 252pt;
   //border: 1px solid blue;
   z-index: 3;
   position: relative;
@@ -144,9 +143,7 @@ const Wrap = styled.div`
   @media (max-width: 899pt) {
     width: 100%;
   }
-
-  `
-  
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -161,7 +158,7 @@ const HeaderBox = styled.div`
   display: flex;
 
   @media (max-width: 899pt) {
-  border-bottom: 1px solid #e9eaee;
+    border-bottom: 1px solid #e9eaee;
   }
 `;
 
@@ -182,7 +179,7 @@ const FindAddress = styled(TextField)`
     font-weight: 500;
     line-height: 12pt;
     letter-spacing: -0.02em;
-    color: ${colors.lightGray3};
+    /* color: ${colors.lightGray3}; */
     text-align: left;
     padding: 0;
   }
@@ -196,13 +193,12 @@ const FindAddress = styled(TextField)`
   }
 
   @media (max-width: 899pt) {
-  & input{
-  
-    font-size: 10.5pt;
-    font-weight: 400;
-    line-height: 12pt;
-    letter-spacing: -2%;
-   }
+    & input {
+      font-size: 10.5pt;
+      font-weight: 400;
+      line-height: 12pt;
+      letter-spacing: -2%;
+    }
   }
 `;
 

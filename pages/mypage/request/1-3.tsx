@@ -100,7 +100,7 @@ const Inner = styled.div`
   display: block;
   position: relative;
   width: 900pt;
-  margin: 45.75pt auto 0;
+  margin: 45.75pt auto ;
 
   @media (max-width: 899pt) {
     width: 100%;

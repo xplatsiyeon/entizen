@@ -71,12 +71,13 @@ const Body = styled.ul`
   width: 100%;
   justify-content: space-between;
   @media (max-width: 899pt) {
-  padding-top: 12pt;
+  //padding-top: 12pt;
   position: relative;
-    padding-left: 9.75pt;
-    box-shadow: 0px 0px 10px 0px #89a3c933;
-    border-radius: 6pt;
-    display: block;
+  //padding-left: 9.75pt;
+  padding-right: 0pt;
+  box-shadow: 0px 0px 10px 0px #89a3c933;
+  border-radius: 6pt;
+  display: block;
   }
 `;
 
@@ -87,7 +88,7 @@ const Inner = styled.div`
   height: 100%;
   //width: 281.25pt;
   border-radius: 12pt;
-  margin: 45.75pt auto 0;
+  margin: 45.75pt auto ;
 
   @media (max-width: 899pt) {
     width: 100%;
@@ -144,7 +145,6 @@ const List = styled.li`
   }
 
   @media (max-width: 899pt) {
-  padding-left: 15pt;
   width:100% ;
   margin-bottom: 0;
   height: auto;
@@ -154,7 +154,7 @@ const List = styled.li`
   .badge-img {
     width: 44px;
     height: 44px;
-    margin-left: 0;
+    margin-left: 15pt;
   }
   }
   
@@ -162,3 +162,7 @@ const List = styled.li`
 const NewIcon = styled.div`
   position: absolute;
 `;
+
+
+/*
+ */

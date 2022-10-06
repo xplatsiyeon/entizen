@@ -334,6 +334,8 @@ const Inner = styled.div`
     position: relative;
     margin: 0 auto;
     padding: 0;
+    box-shadow: none;
+    background: none;
   }
 `;
 
@@ -343,6 +345,12 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   position: relative;
   margin: 0 31.875pt;
+  
+  @media (max-width: 899pt) {
+    height: 100%;
+    margin: 0;
+    padding: 0 15pt 15pt 15pt;
+  }
 `;
 const ChargeGuide = styled.div`
   display: flex;

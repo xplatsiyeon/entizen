@@ -476,7 +476,7 @@ const Signin = (props: Props) => {
                           name="m"
                           value="checkplusService"
                         />
-                        {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                        {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */} 
                         <input
                           type="hidden"
                           id="encodeData"
@@ -631,7 +631,7 @@ const Inner = styled.div`
   border-radius: 12pt;
   background: #ffff;
   padding: 32.25pt 0 42pt;
-  margin: 45.75pt auto 0;
+  margin: 45.75pt auto;
 
   @media (max-width: 899pt) {
     width: 100%;
@@ -661,7 +661,7 @@ const NaverBox = styled(Box)`
   }
 `;
 const BackBtn = styled.img`
-  margin: auto 0;
+  margin-left:15pt;
 `;
 const LoginBtn = styled.button`
   background: #5a2dc9;
@@ -695,8 +695,8 @@ const BackBox = styled(Box)`
     width: 100%;
     padding-top: 9pt;
     padding-bottom: 9pt;
-    padding-left: 15pt;
-    padding-right: 15pt;
+    //padding-left: 15pt;
+    //padding-right: 15pt;
   }
 `;
 const FindBtn = styled.button`
@@ -717,3 +717,4 @@ const FindBtn = styled.button`
 const Buttons = styled.button`
   display: none;
 `;
+
