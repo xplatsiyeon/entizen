@@ -18,6 +18,7 @@ interface Props {
   setDisabled: Dispatch<SetStateAction<boolean>>;
   difaultValue?: number;
   setCalculatedValue?: Dispatch<SetStateAction<{}>>;
+  calculatedValue?: {};
 }
 
 const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
@@ -29,6 +30,7 @@ const SliderSizes = ({
   setDisabled,
   difaultValue,
   setCalculatedValue,
+  calculatedValue,
 }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -78,6 +80,8 @@ const SliderSizes = ({
     if (setCalculatedValue) {
       setCalculatedValue(ret);
     }
+
+    console.log(calculatedValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 

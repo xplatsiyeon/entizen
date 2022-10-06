@@ -101,6 +101,7 @@ const Request1_7 = (props: Props) => {
                 disabled={disabled}
                 setDisabled={setDisabled}
                 setCalculatedValue={setCalculatedValue}
+                calculatedValue={calculatedValue}
               />
               <ContentsWrapper>
                 <div className="contents-box">
