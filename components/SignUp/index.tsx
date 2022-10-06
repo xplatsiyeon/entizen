@@ -47,20 +47,31 @@ const SignUpContainer = (props: Props) => {
   const stopRegist = () => {
     router.push('/signin');
   };
+  const handleBackClick = () => {
+    setModalOpen(true);
+  };
   return (
     <>
       {modalOpen && (
         <TwoBtnModal
-          text={'회원가입을 멈추시겠습니까?'}
-          leftBtnText={'취소'}
-          rightBtnText={'멈추기'}
-          leftBtnColor={'#5a2dc9'}
-          rightBtnColor={'red'}
+          text={
+            '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
+          }
+          leftBtnText={'그만하기'}
+          rightBtnText={'계속 작성하기'}
+          leftBtnColor={'#A6A9B0'}
+          rightBtnColor={'#5a2dc9'}
+          leftBtnControl={stopRegist}
+          rightBtnControl={gobackQuestion}
         />
       )}
       {level === 0 && (
         <>
-          <MypageHeader back={true} title={''} />
+          <MypageHeader
+            back={true}
+            title={''}
+            handleBackClick={handleBackClick}
+          />
           <Wrapper>
             <ChooseUserType
               userType={userType}
@@ -78,6 +89,7 @@ const SignUpContainer = (props: Props) => {
             homeBtn={true}
             title={''}
             exitBtn={true}
+            handleBackClick={handleBackClick}
             handleHomeClick={handleHomeClick}
           />
           <Wrapper>
@@ -106,6 +118,7 @@ const SignUpContainer = (props: Props) => {
             title={''}
             exitBtn={true}
             handleHomeClick={() => console.log('111')}
+            handleBackClick={handleBackClick}
           />
           <Wrapper>
             <IdPwInput
