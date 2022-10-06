@@ -2,28 +2,7 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-
-const data = [
-  {
-    id: 0,
-    name: '환경부',
-    price: 4000,
-    overlap: false,
-  },
-  {
-    id: 1,
-    name: '한국에너지공단',
-    price: 3500,
-    overlap: true,
-  },
-  {
-    id: 2,
-    name: '안양시청',
-    price: 1000,
-    overlap: true,
-  },
-];
+import { useEffect } from 'react';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
 import { useSelector } from 'react-redux';
@@ -32,8 +11,6 @@ import { RootState } from 'store/store';
 const Guide1_2_4 = () => {
   const router = useRouter();
   const { subsidyGuideData } = useSelector((state: RootState) => state);
-  const userId = JSON.parse(localStorage.getItem('USER_ID')!);
-  console.log(userId);
   const changeMoneyUnit = (num: any): string => {
     if (num === 0) {
       return '0';
@@ -46,7 +23,6 @@ const Guide1_2_4 = () => {
   };
 
   useEffect(() => {
-    console.log(userId);
     console.log('보조금 확인');
     console.log(subsidyGuideData);
   }, [subsidyGuideData]);
@@ -61,7 +37,7 @@ const Guide1_2_4 = () => {
         />
         <SubsidyResult>
           <p>
-            <span className="accent">{userId}</span>님이
+            <span className="accent">윤세영</span>님이
             <br /> 신청 가능한 보조금은 <br />
             최대&nbsp;
             <span className="accent">
@@ -95,7 +71,7 @@ const Guide1_2_4 = () => {
               </div>
               {/* 지자체 */}
               <div className="box">
-                <div className="name overlap">안양시청</div>
+                <div className="name overlap">{`${subsidyGuideData.region1} ${subsidyGuideData.region2}`}</div>
                 <div className="price overlap">
                   {`${changeMoneyUnit(
                     subsidyGuideData.localGovernmentApplyPrice,
@@ -135,7 +111,7 @@ const Guide1_2_4 = () => {
           &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고, <br />
           파트너와 보조금에 대해 상의해보세요!
         </Notice>
-        <Btn> 보조금 확인하기</Btn>
+        <Btn onClick={() => router.push('/')}>홈으로</Btn>
       </Wrapper>
       <WebFooter />
     </Body>
@@ -151,15 +127,12 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100vh;
   }
 `;
-
 const Wrapper = styled.div`
   padding-bottom: 100pt;
   padding-left: 15pt;
@@ -253,7 +226,6 @@ const Btn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 33pt;
   background-color: ${colors.main};
-
   @media (max-width: 899pt) {
     display: block;
   }

@@ -31,7 +31,7 @@ const Guide1_4 = () => {
       <Inner>
         <Wrapper>
           <GuideHeader
-            title={'요금정보'}
+            title={'구독 가이드'}
             leftOnClick={() => router.back()}
             rightOnClick={() => router.push('/')}
           />
