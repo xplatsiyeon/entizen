@@ -95,6 +95,7 @@ const IdPwInput = ({
   };
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
+    e.isPropagationStopped();
   };
 
   const overlabCheck = () => {
