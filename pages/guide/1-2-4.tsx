@@ -7,9 +7,12 @@ import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { useDispatch } from 'react-redux';
+import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 
 const Guide1_2_4 = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { subsidyGuideData } = useSelector((state: RootState) => state);
   const changeMoneyUnit = (num: any): string => {
     if (num === 0) {
@@ -26,6 +29,13 @@ const Guide1_2_4 = () => {
     console.log('보조금 확인');
     console.log(subsidyGuideData);
   }, [subsidyGuideData]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(subsidyGuideAction.reset());
+    };
+  }, []);
+
   return (
     <Body>
       <WebHeader num={3} now={'guide'} />
@@ -37,7 +47,7 @@ const Guide1_2_4 = () => {
         />
         <SubsidyResult>
           <p>
-            <span className="accent">윤세영</span>님이
+            <span className="accent">{subsidyGuideData.memberName}</span>님이
             <br /> 신청 가능한 보조금은 <br />
             최대&nbsp;
             <span className="accent">
