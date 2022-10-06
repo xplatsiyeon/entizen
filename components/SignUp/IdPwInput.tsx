@@ -71,6 +71,8 @@ const IdPwInput = ({
         //   (spe < 0 && num < 0)
         // )
         setCheckedPw(false);
+      } else if (num > 0 && eng > 0 && spe > 0) {
+        setCheckedPw(true);
       }
     }
     if (checkPassword) {
