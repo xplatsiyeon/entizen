@@ -117,22 +117,24 @@ const IdPwInput = ({
       console.log(error);
     }
   };
-  const handleDelete = (string: string) => {
-    if (string === 'first') {
-      console.log('첫번째꺼 ');
-      setPwInput('');
-    } else if (string === 'second') {
-      console.log('두번째꺼 ');
-      setCheckPw('');
-    }
+  const handleDelete = () => {
+    setPwInput('');
+  };
+  const handleTwoDelete = () => {
+    setCheckPw('');
   };
 
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
-          onClick={() => handleDelete('first')}
-          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+          onClick={handleDelete}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
         />
         <Typography
           sx={{
@@ -156,8 +158,13 @@ const IdPwInput = ({
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
-          onClick={() => handleDelete('second')}
-          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+          onClick={handleTwoDelete}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
         />
         <Typography
           sx={{
