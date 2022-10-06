@@ -57,22 +57,20 @@ const IdPwInput = ({
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
   useEffect(() => {
-    let num = password.search(/[0-9]/g);
+    let num = password.search(/[0-9]/gi);
     let eng = password.search(/[a-zA-Z]/gi);
     let spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 
     if (password) {
       if (password.length < 10 || password.length > 20) setCheckedPw(false);
       else if (password.search(/₩s/) != -1) setCheckedPw(false);
-      else if (num === 0 && eng === 0 && spe === 0) {
+      else if (num < 0 && eng < 0 && spe < 0) {
         // else if (
         //   (num < 0 && eng < 0) ||
         //   (eng < 0 && spe < 0) ||
         //   (spe < 0 && num < 0)
         // )
         setCheckedPw(false);
-      } else if (num > 0 && eng > 0 && spe > 0) {
-        setCheckedPw(true);
       }
     }
     if (checkPassword) {
