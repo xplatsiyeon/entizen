@@ -422,7 +422,12 @@ const Signin = (props: Props) => {
                       borderRadius: '6pt',
                     }}
                   />
-                  {loginErr.length > 3 && <div>{loginErr}</div>}
+                  {loginErr.length > 3 && (
+                    <div>
+                      {loginErr}
+                      입니당ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+                    </div>
+                  )}
                   <TextField
                     value={password}
                     id="outlined-basic"
