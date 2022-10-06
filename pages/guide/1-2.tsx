@@ -25,6 +25,7 @@ import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
 import axios from 'axios';
+import Modal from 'components/Modal/Modal';
 
 export interface Option {
   kind: string;
@@ -51,6 +52,8 @@ const Guide1_2 = () => {
     'ETC',
   ];
   const [clicked, setClicked] = useState(-1);
+  const [isModal, setIsModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [isValid, setIsValid] = useState(true);
   const [m5Index, setM5Index] = useState(0);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -216,6 +219,11 @@ const Guide1_2 = () => {
         })
         .then((res) => {
           router.push('/guide/1-2-4');
+        })
+        .catch((error) => {
+          const text = error.response.data.message;
+          setIsModal((prev) => !prev);
+          setErrorMessage(text);
         });
     } catch (error) {
       console.log('보조금 가이드 에러');
@@ -247,6 +255,14 @@ const Guide1_2 = () => {
 
   return (
     <Body>
+      {isModal && (
+        <Modal
+          text={errorMessage}
+          color={colors.main}
+          click={() => setIsModal((prev) => !prev)}
+        />
+      )}
+
       <WebHeader />
       <Inner>
         <Wrapper>
