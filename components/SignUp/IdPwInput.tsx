@@ -224,6 +224,18 @@ const IdPwInput = ({
               이미 사용중인 아이디입니다.
             </Typography>
           )}
+          {checkId === 0 && (
+            <Typography
+              sx={{
+                color: '#F75015',
+                fontSize: '9pt',
+                lineHeight: '12pt',
+                marginTop: '9pt',
+              }}
+            >
+              사용가능한 아이디입니다.
+            </Typography>
+          )}
         </Box>
       </Box>
       <Box
