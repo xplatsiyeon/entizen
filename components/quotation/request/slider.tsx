@@ -17,7 +17,7 @@ interface Props {
   disabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
   difaultValue?: number;
-  setCalculatedValue: Dispatch<SetStateAction<{}>>;
+  setCalculatedValue?: Dispatch<SetStateAction<{}>>;
 }
 
 const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
@@ -75,7 +75,9 @@ const SliderSizes = ({
       investRate: value,
     };
     console.log(ret);
-    setCalculatedValue(ret);
+    if (setCalculatedValue) {
+      setCalculatedValue(ret);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
