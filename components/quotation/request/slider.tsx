@@ -60,91 +60,38 @@ const SliderSizes = ({
   };
 
   useEffect(() => {
-    let a: any;
-    let b: any;
-    let c: any;
-    let d: any;
-    const calc = () => {
-      const mSPM = setPriceByRate(
+    const ret = {
+      maxSubscribePricePerMonth: setPriceByRate(
         quotationData.requestData?.maxSubscribePricePerMonth,
         value,
         quotationData.requestData?.investRate,
-      );
-      a = mSPM;
-      const mTSP = setPriceByRate(
-        res.maxTotalSubscribePrice,
+      ),
+      maxTotalSubscribePrice: setPriceByRate(
+        quotationData.requestData?.maxTotalSubscribePrice,
         value,
         quotationData.requestData?.investRate,
-      );
-      b = mTSP;
-      const mSP = setPriceByRate(
-        res.minSubscribePricePerMonth,
+      ),
+      minSubscribePricePerMonth: setPriceByRate(
+        quotationData.requestData?.minSubscribePricePerMonth,
         value,
         quotationData.requestData?.investRate,
-      );
-      c = mSP;
-      const mTS = setPriceByRate(
-        res.minTotalSubscribePrice,
+      ),
+      minTotalSubscribePrice: setPriceByRate(
+        quotationData.requestData?.minTotalSubscribePrice,
         value,
         quotationData.requestData?.investRate,
-      );
-      d = mTS;
+      ),
+      investRate: value,
     };
-    // const mSPM = setPriceByRate(
-    //   quotationData.requestData?.maxSubscribePricePerMonth,
-    //   value,
-    //   quotationData.requestData?.investRate,
-    // )
-    // const mTSP = setPriceByRate(
-    //   res.maxTotalSubscribePrice,
-    //   value,
-    //   quotationData.requestData?.investRate,
-    // )
-    // const mSP = setPriceByRate(
-    //   res.minSubscribePricePerMonth,
-    //   value,
-    //   quotationData.requestData?.investRate,
-    // )
-    // const mTS = setPriceByRate(
-    //   res.minTotalSubscribePrice,
-    //   value,
-    //   quotationData.requestData?.investRate,
-    // )
-    // const ret = {
-    //   maxSubscribePricePerMonth: setPriceByRate(
-    //     quotationData.requestData?.maxSubscribePricePerMonth,
-    //     value,
-    //     quotationData.requestData?.investRate,
-    //   ),
-    //   maxTotalSubscribePrice: setPriceByRate(
-    //     res.maxTotalSubscribePrice,
-    //     value,
-    //     quotationData.requestData?.investRate,
-    //   ),
-    //   minSubscribePricePerMonth: setPriceByRate(
-    //     res.minSubscribePricePerMonth,
-    //     value,
-    //     quotationData.requestData?.investRate,
-    //   ),
-    //   minTotalSubscribePrice: setPriceByRate(
-    //     res.minTotalSubscribePrice,
-    //     value,
-    //     quotationData.requestData?.investRate,
-    //   ),
-    //   investRate: value,
-    // };
 
     // console.log(ret);
-    console.log(a);
-    console.log(b);
-    console.log(c);
-    console.log(d);
+
     if (setCalculatedValue) {
       setCalculatedValue({
-        maxSubscribePricePerMonth: a,
-        maxTotalSubscribePrice: b,
-        minSubscribePricePerMonth: c,
-        minTotalSubscribePrice: d,
+        maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
+        maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
+        minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
+        minTotalSubscribePrice: ret.minTotalSubscribePrice,
       });
     }
 
