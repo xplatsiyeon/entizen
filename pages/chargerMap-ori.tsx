@@ -250,7 +250,7 @@ const Input = styled(TextField)`
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -2%;
-    color: ${colors.main2};
+    /* color: ${colors.main2}; */
     text-align: left;
     padding: 0;
   }

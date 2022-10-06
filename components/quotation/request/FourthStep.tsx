@@ -60,6 +60,7 @@ const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
     if (locationIndex !== -1) {
       setBuildingNumber(locationIndex);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // useMap 업데이트
   useEffect(() => {
@@ -109,9 +110,10 @@ const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
       {/* 주소 검색 박스 */}
       <SearchMapArea>
         <Input
-          value="상호명 또는 주소 검색"
+          placeholder="상호명 또는 주소 검색"
           type="submit"
           onClick={handleOnClick}
+          value={locationList.roadAddrPart}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -172,7 +174,7 @@ const Title = styled.h1`
   color: ${colors.main2};
 
   @media (max-width: 899pt) {
-  padding: 24pt 15pt 0 15pt;
+    padding: 24pt 15pt 0 15pt;
   }
 `;
 const SubTitle = styled.div<{ pt: number }>`
@@ -198,7 +200,7 @@ const TypeBox = styled.div`
   padding: 9pt 0 0;
 
   @media (max-width: 899pt) {
-  padding: 9pt 15pt 0 15pt;
+    padding: 9pt 15pt 0 15pt;
   }
 `;
 const Tab = styled.span<{ idx: string; tabNumber: string }>`
@@ -233,7 +235,7 @@ const SearchMapArea = styled.div`
   position: relative;
   margin-top: 10.5pt;
   @media (max-width: 899pt) {
-  padding: 0 15pt;
+    padding: 0 15pt;
   }
 `;
 const Input = styled(TextField)`
@@ -254,7 +256,7 @@ const Input = styled(TextField)`
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -2%;
-    color: ${colors.lightGray3};
+    /* color: ${colors.lightGray3}; */
     text-align: left;
     padding: 0;
   }

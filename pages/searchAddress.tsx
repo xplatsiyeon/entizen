@@ -163,7 +163,7 @@ const FindAddress = styled(TextField)`
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -2%;
-    color: ${colors.lightGray3};
+    /* color: ${colors.lightGray3}; */
     text-align: left;
     padding: 0;
   }

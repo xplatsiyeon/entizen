@@ -187,7 +187,7 @@ const InputBox = styled.input`
   line-height: 12pt;
   border-radius: 6pt;
   letter-spacing: -0.02em;
-  color: ${colors.main2};
+  /* color: ${colors.main2}; */
   border: 0.75pt solid ${colors.gray};
   ::placeholder {
     color: ${colors.lightGray3};
