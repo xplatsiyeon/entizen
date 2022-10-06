@@ -104,6 +104,7 @@ const Signin = (props: Props) => {
       });
     } catch (error: any) {
       setLoginErr(error.data.message);
+      console.log(error.data.message);
 
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
