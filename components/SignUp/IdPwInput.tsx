@@ -64,13 +64,13 @@ const IdPwInput = ({
     if (password) {
       if (password.length < 10 || password.length > 20) setCheckedPw(false);
       else if (password.search(/₩s/) != -1) setCheckedPw(false);
-      else if (num > 0 && eng > 0 && spe > 0) {
+      else if (num === 0 && eng === 0 && spe === 0) {
         // else if (
         //   (num < 0 && eng < 0) ||
         //   (eng < 0 && spe < 0) ||
         //   (spe < 0 && num < 0)
         // )
-        setCheckedPw(true);
+        setCheckedPw(false);
       }
     }
     if (checkPassword) {
@@ -228,7 +228,7 @@ const IdPwInput = ({
           onFocus={(e) => setPwSelected(true)}
           onBlur={(e) => setPwSelected(false)}
         />
-        {checkedPw && pwInput.length > 4 ? (
+        {!checkedPw && pwInput.length > 4 ? (
           <Box>
             <Typography
               sx={{
