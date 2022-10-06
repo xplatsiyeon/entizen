@@ -302,7 +302,6 @@ const Body = styled.div`
   margin: 0 auto;
   //height: 810pt;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -319,7 +318,6 @@ const Inner = styled.div`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
@@ -337,7 +335,6 @@ const Inner = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-
   @media (max-width: 899pt) {
     height: 100%;
     margin: 0;
@@ -367,11 +364,9 @@ const Input = styled(TextField)`
     font-size: 12pt;
     line-height: 12pt;
   }
-
   & .MuiInputBase-root {
     padding-right: 9pt;
   }
-
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;

@@ -37,7 +37,7 @@ const Guide1_1 = () => {
       <Wrapper>
         {/* 링크 리스트 */}
         <GuideHeader
-          title={'알림함'}
+          title={'플랫폼 가이드'}
           leftOnClick={() => router.back()}
           rightOnClick={() => router.push('/')}
         />

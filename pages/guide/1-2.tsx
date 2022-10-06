@@ -25,6 +25,7 @@ import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
 import axios from 'axios';
+import Modal from 'components/Modal/Modal';
 
 export interface Option {
   kind: string;
@@ -51,6 +52,8 @@ const Guide1_2 = () => {
     'ETC',
   ];
   const [clicked, setClicked] = useState(-1);
+  const [isModal, setIsModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [isValid, setIsValid] = useState(true);
   const [m5Index, setM5Index] = useState(0);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -181,10 +184,15 @@ const Guide1_2 = () => {
   // 버튼 온클릭
   const onClickButton = async () => {
     const SUBSIDY_URL = 'https://test-api.entizen.kr/api/guide/subsidy';
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     try {
       await axios({
         method: 'post',
         url: SUBSIDY_URL,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
         data: {
           chargers: selectedOptionEn,
           installationPurpose: InstallationPurposeType[clicked],
@@ -204,11 +212,19 @@ const Guide1_2 = () => {
               duplicateApplyPrice: res.data.duplicateApplyPrice,
               maxApplyPrice: res.data.maxApplyPrice,
               canDuplicateApply: res.data.canDuplicateApply,
+              memberName: res.data.memberName,
+              region1: selectedRegion.m9,
+              region2: selectedRegion.m10,
             }),
           );
         })
         .then((res) => {
           router.push('/guide/1-2-4');
+        })
+        .catch((error) => {
+          const text = error.response.data.message;
+          setIsModal((prev) => !prev);
+          setErrorMessage(text);
         });
     } catch (error) {
       console.log('보조금 가이드 에러');
@@ -238,21 +254,16 @@ const Guide1_2 = () => {
     }
   }, [clicked, selectedOption, selectedRegion, isValid]);
 
-  useEffect(() => {
-    console.log('영어 ->');
-    console.log(selectedOptionEn);
-    console.log('한글 ->');
-    console.log(selectedOption);
-  }, [selectedOptionEn, selectedOption]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(subsidyGuideAction.reset());
-  //   };
-  // }, []);
-
   return (
     <Body>
+      {isModal && (
+        <Modal
+          text={errorMessage}
+          color={colors.main}
+          click={() => setIsModal((prev) => !prev)}
+        />
+      )}
+
       <WebHeader />
       <Inner>
         <Wrapper>
@@ -324,6 +335,8 @@ const Inner = styled.div`
     position: relative;
     margin: 0 auto;
     padding: 0;
+    box-shadow: none;
+    background: none;
   }
 `;
 
@@ -333,6 +346,12 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   position: relative;
   margin: 0 31.875pt;
+
+  @media (max-width: 899pt) {
+    height: 100%;
+    margin: 0;
+    padding: 0 15pt 15pt 15pt;
+  }
 `;
 const ChargeGuide = styled.div`
   display: flex;

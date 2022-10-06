@@ -31,7 +31,7 @@ const Guide1_4 = () => {
       <Inner>
         <Wrapper>
           <GuideHeader
-            title={'요금정보'}
+            title={'구독 가이드'}
             leftOnClick={() => router.back()}
             rightOnClick={() => router.push('/')}
           />
@@ -82,7 +82,7 @@ const Inner = styled.div`
   position: relative;
   width: 645pt;
   height: 100%; //
-  margin: 100pt auto 0; //
+  margin: 100pt auto; //
 
   @media (max-width: 899pt) {
     width: 100%;

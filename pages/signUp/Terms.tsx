@@ -177,9 +177,10 @@ const SignUpTerms = () => {
         <Inner>
           <Wrapper>
             <Header />
+            <Wrapper2>
+
             <Notice variant="h3">
               엔티즌 약관에
-              <br />
               동의해주세요
             </Notice>
             <StyledTerms>
@@ -279,6 +280,7 @@ const SignUpTerms = () => {
                 아아
               </Buttons>
             </div>
+            </Wrapper2>
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -339,13 +341,26 @@ const Wrapper = styled.div`
     padding: 0 15pt 15pt 15pt;
   }
 `;
+const Wrapper2 = styled.div`
+  position: relative;
+  padding: 0 15pt 15pt 15pt;
+  @media (max-width: 899pt) {
+    padding: 0;
+  }
+`;
 
 const Notice = styled(Typography)`
-  margin-top: 6pt;
+  margin-top: 45pt;
   font-weight: 700;
   font-size: 18pt;
   line-height: 24pt;
   letter-spacing: -0.02em;
+
+  //아래의 스타일은 바뀔 수도 있음.
+  @media (max-width: 899pt) {
+  width: 40%;
+  margin-top: 6pt;
+  }
 `;
 const StyledTerms = styled(Box)`
   display: flex;
