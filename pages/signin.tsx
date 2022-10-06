@@ -112,6 +112,7 @@ const Signin = (props: Props) => {
     }
   };
   useEffect(() => {
+    console.log('여기입니다.');
     console.log(loginErr);
   }, [loginErr]);
   // 카카오 로그인
