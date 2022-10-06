@@ -141,6 +141,9 @@ const Wrap = styled.div`
   z-index: 3;
   position: relative;
   background-color: #fff;
+  @media (max-width: 899pt) {
+    width: 100%;
+  }
 
   `
   

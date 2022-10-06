@@ -91,10 +91,6 @@ const WebBody = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
-  @media (max-height: 809pt) {
-    display: block;
-    height: 100%;
-  }
 `;
 
 const Inner = styled.div`
@@ -139,13 +135,20 @@ width: 100%;
 `;
 
 const TabBox = styled.div`
-gap: 3pt;
 z-index: 1;
 //display:flex;
 
 position: absolute;
 width: 100%;
 top: 0;
+
+@media (max-width: 899pt) {
+    display: flex;
+    position: relative;
+    gap: 3pt;
+  }
+
+
 
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
@@ -154,8 +157,17 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   border-color: ${({ idx, num }) => (idx <= num ? colors.main : colors.gray4)};
   border-radius: 2px;
   
-  width: calc(100% / 6);
+  width: calc((100% - 15pt) / 6);
   display: inline-block;
+  margin-right: 3pt;
+  &:nth-last-of-type(1){
+    margin-right: 0;
+  }
+
+  @media (max-width: 899pt) {
+    display: block;
+    width: 100%;
+  }
 
 `;
 const Footer = styled.div`

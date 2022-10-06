@@ -163,32 +163,43 @@ const Wrraper = styled.div`
   z-index: 2;
 `;
 const Title = styled.h1`
-  padding: 24pt 15pt 0 15pt;
+  padding: 24pt 0 0;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+
+  @media (max-width: 899pt) {
+  padding: 24pt 15pt 0 15pt;
+  }
 `;
 const SubTitle = styled.div<{ pt: number }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: ${({ pt }) => pt + 'pt'};
-  padding-left: 15pt;
-  padding-right: 15pt;
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+
+  @media (max-width: 899pt) {
+    padding-left: 15pt;
+    padding-right: 15pt;
+  }
 `;
 const TypeBox = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 11.25pt;
+  padding: 9pt 0 0;
+
+  @media (max-width: 899pt) {
   padding: 9pt 15pt 0 15pt;
+  }
 `;
 const Tab = styled.span<{ idx: string; tabNumber: string }>`
   font-weight: 400;
@@ -221,7 +232,9 @@ const SearchMapArea = styled.div`
   height: 50pt;
   position: relative;
   margin-top: 10.5pt;
+  @media (max-width: 899pt) {
   padding: 0 15pt;
+  }
 `;
 const Input = styled(TextField)`
   width: 100%;

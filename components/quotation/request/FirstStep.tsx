@@ -310,10 +310,10 @@ export default FirstStep;
 
 const Wrraper = styled.div`
   position: relative;
-  padding: 0 15pt;
 
   @media (max-width: 899pt) {
     margin-bottom: 96pt;
+    padding: 0 15pt;
   }
 `;
 const Title = styled.h1`

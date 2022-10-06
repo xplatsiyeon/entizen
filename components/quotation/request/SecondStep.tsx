@@ -171,8 +171,10 @@ const SliderBox = styled.div`
 `;
 const Wrraper = styled.div`
   position: relative;
-  padding-bottom: 96pt;
-  padding: 0 15pt;
+  @media (max-width: 899pt) {
+    margin-bottom: 96pt;
+    padding: 0 15pt;
+  }
 `;
 const Title = styled.h1`
   padding-top: 24pt;
