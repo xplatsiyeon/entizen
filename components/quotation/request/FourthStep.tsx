@@ -160,6 +160,7 @@ export default FourthStep;
 const Wrraper = styled.div`
   position: relative;
   padding-bottom: 96pt;
+  z-index: 2;
 `;
 const Title = styled.h1`
   padding: 24pt 15pt 0 15pt;

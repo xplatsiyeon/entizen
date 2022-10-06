@@ -185,8 +185,12 @@ export default FifthStep;
 const Wrraper = styled.div`
   position: relative;
   padding-bottom: 96pt;
+
+  @media (max-width: 899pt) {
   padding-left: 15pt;
   padding-right: 15pt;
+  }
+
 `;
 const Title = styled.h1`
   padding-top: 24pt;
