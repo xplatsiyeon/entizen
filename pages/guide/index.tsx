@@ -332,7 +332,7 @@ const Wrapper = styled.div`
   }
 `;
 const Header = styled(Box)`
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
   padding-top: 11.25pt;
@@ -347,6 +347,9 @@ const Header = styled(Box)`
     display: flex;
     gap: 9.75pt;
   }
+  @media (max-width: 899pt) {
+    display: flex;
+  }
 `;
 
 const Wrap = styled.div`
@@ -358,10 +361,12 @@ const Wrap = styled.div`
 `;
 
 const Platform = styled(Button)`
-  margin-top: 15.75pt;
   padding: 0;
   height: 210pt;
+  flex: 3;
+  margin-right: 7pt; //나중에 수정할 수도.
   .img-box {
+    object-fit: cover;
   }
   &:nth-of-type(1) {
     display: none;
@@ -371,11 +376,16 @@ const Platform = styled(Button)`
     display: flex;
     width: 100%;
     height: auto;
+    flex: none;
     justify-content: center;
     align-items: center;
+    margin-right: 0;
+
+  margin-top: 15.75pt;
     .img-box {
-      width: 251.25pt;
+      width: 100%;
       height: 159pt;
+      object-fit: cover;
     }
     &:nth-of-type(1) {
       display: block;
@@ -387,10 +397,10 @@ const Platform = styled(Button)`
 `;
 const SubsidyBox = styled(Box)`
   display: flex;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
   gap: 14.625pt;
-  padding-top: 15pt;
   width: calc(100% - 600pt);
   .text {
     font-weight: 700;
@@ -401,6 +411,8 @@ const SubsidyBox = styled(Box)`
   }
   @media (max-width: 899pt) {
     width: auto;
+    flex: none;
+  padding-top: 15pt;
   }
 `;
 const Subsidy = styled(Button)`

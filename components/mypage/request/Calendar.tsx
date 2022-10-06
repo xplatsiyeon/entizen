@@ -5,6 +5,7 @@ import LeftArrow from 'public/mypage/left-arrow.png';
 import RightArrow from 'public/mypage/right-arrow.png';
 import Image from 'next/image';
 import { css } from '@emotion/react';
+
 interface Props {
   selectedDays: string[];
   SetSelectedDays: Dispatch<SetStateAction<string[]>>;
