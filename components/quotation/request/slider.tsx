@@ -87,10 +87,14 @@ const SliderSizes = ({
         predictedProfitTime: '',
       });
     }
-    console.log('여깅쇼~~~');
-    console.log(calculatedValue);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
+
+  useEffect(() => {
+    console.log('여깅쇼~~~');
+    console.log(calculatedValue);
+  }, [calculatedValue]);
 
   console.log('벨루 체크 ->' + difaultValue);
   // 간편 견적 포스트
