@@ -17,6 +17,8 @@ interface Props {
   disabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
   difaultValue?: number;
+  setCalculatedValue?: Dispatch<SetStateAction<{}>>;
+  calculatedValue?: {};
 }
 
 const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
@@ -27,12 +29,72 @@ const SliderSizes = ({
   disabled,
   setDisabled,
   difaultValue,
+  setCalculatedValue,
+  calculatedValue,
 }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { quotationData, locationList } = useSelector(
     (state: RootState) => state,
   );
+
+  const setPriceByRate = (target: any, rate: any, standardRate: any) => {
+    Math.round((target * rate) / standardRate);
+  };
+
+  const res = {
+    isSuccess: true,
+    investRate: '0.7',
+    predictedProfitTime: '',
+    maxSubscribePricePerMonth: 3261785,
+    maxTotalSubscribePrice: 78282829,
+    minSubscribePricePerMonth: 2552701,
+    minTotalSubscribePrice: 61264823,
+  };
+
+  useEffect(() => {
+    const ret = {
+      maxSubscribePricePerMonth: setPriceByRate(
+        quotationData.requestData?.maxSubscribePricePerMonth,
+        value,
+        quotationData.requestData?.investRate,
+      ),
+      maxTotalSubscribePrice: setPriceByRate(
+        res.maxTotalSubscribePrice,
+        value,
+        quotationData.requestData?.investRate,
+      ),
+      minSubscribePricePerMonth: setPriceByRate(
+        res.minSubscribePricePerMonth,
+        value,
+        quotationData.requestData?.investRate,
+      ),
+      minTotalSubscribePrice: setPriceByRate(
+        res.minTotalSubscribePrice,
+        value,
+        quotationData.requestData?.investRate,
+      ),
+      investRate: value,
+    };
+
+    console.log(ret);
+    if (setCalculatedValue) {
+      setCalculatedValue({
+        maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
+        maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
+        minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
+        minTotalSubscribePrice: ret.minTotalSubscribePrice,
+        predictedProfitTime: '',
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  useEffect(() => {
+    console.log('여깅쇼~~~');
+    console.log(calculatedValue);
+  }, [calculatedValue]);
 
   console.log('벨루 체크 ->' + difaultValue);
   // 간편 견적 포스트

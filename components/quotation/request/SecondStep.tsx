@@ -92,6 +92,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
       setValue(parseInt(investRate!));
       setDisabled(false);
     } else if (subscribeProduct === 'PART') setSubscribeNumber(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -100,6 +101,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
         setNotCommon(true);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

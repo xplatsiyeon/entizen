@@ -23,6 +23,7 @@ const Request1_7 = (props: Props) => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [value, setValue] = useState(50);
   const [disabled, setDisabled] = useState(true);
+  const [calculatedValue, setCalculatedValue] = useState({});
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
@@ -99,6 +100,8 @@ const Request1_7 = (props: Props) => {
                 setValue={setValue}
                 disabled={disabled}
                 setDisabled={setDisabled}
+                setCalculatedValue={setCalculatedValue}
+                calculatedValue={calculatedValue}
               />
               <ContentsWrapper>
                 <div className="contents-box">
