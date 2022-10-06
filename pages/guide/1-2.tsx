@@ -201,8 +201,6 @@ const Guide1_2 = () => {
         },
       })
         .then((res) => {
-          console.log('res체크');
-          console.log(res);
           dispatch(
             subsidyGuideAction.addDate({
               ministryOfEnvironmentApplyPrice:
@@ -219,7 +217,7 @@ const Guide1_2 = () => {
           );
         })
         .then((res) => {
-          // router.push('/guide/1-2-4');
+          router.push('/guide/1-2-4');
         })
         .catch((error) => {
           const text = error.response.data.message;
