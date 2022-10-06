@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const data = [
   {
@@ -26,46 +26,106 @@ const data = [
 ];
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 const Guide1_2_4 = () => {
   const router = useRouter();
+  const { subsidyGuideData } = useSelector((state: RootState) => state);
+  const userId = JSON.parse(localStorage.getItem('USER_ID')!);
 
+  const changeMoneyUnit = (num: any): string => {
+    if (num === 0) {
+      return '0';
+    }
+
+    return num
+      .toString()
+      .slice(0, -3)
+      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  useEffect(() => {
+    console.log(userId);
+    console.log('보조금 확인');
+    console.log(subsidyGuideData);
+  }, [subsidyGuideData]);
   return (
     <Body>
       <WebHeader num={3} now={'guide'} />
       <Wrapper>
         <GuideHeader
           title={'보조금 가이드'}
-          leftOnClick={() => router.push('/guide')}
+          leftOnClick={() => router.back()}
           rightOnClick={() => router.push('/')}
         />
         <SubsidyResult>
           <p>
-            <span className="accent">윤세아</span>님이
+            <span className="accent">{userId}</span>님이
             <br /> 신청 가능한 보조금은 <br />
-            최대
-            <span className="accent">4,500만원</span> 입니다
+            최대&nbsp;
+            <span className="accent">
+              {`${changeMoneyUnit(subsidyGuideData.maxApplyPrice)}만원`}
+            </span>
+            &nbsp;입니다
           </p>
         </SubsidyResult>
         <ResultContainer>
-          {data.map((item, index) => (
-            <div className="box" key={item.id}>
-              {item.overlap ? (
-                <>
-                  <div className="name overlap">{item.name}</div>
-                  <div className="price overlap">
-                    {item.price}만원
-                    <div className="badge">중복 신청 가능</div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="name">{item.name}</div>
-                  <div className="price">{item.price}만원</div>
-                </>
-              )}
+          {/* 환경부 */}
+          <div className="box">
+            <div className="name">환경부</div>
+            <div className="price">
+              {`${changeMoneyUnit(
+                subsidyGuideData.ministryOfEnvironmentApplyPrice,
+              )}만원`}
             </div>
-          ))}
+          </div>
+
+          {subsidyGuideData.canDuplicateApply ? (
+            <>
+              {/* 한국에너지공단 */}
+              <div className="box">
+                <div className="name overlap">한국에너지공단</div>
+                <div className="price overlap">
+                  {`${changeMoneyUnit(
+                    subsidyGuideData.koreaEnergyAgencyApplyPrice,
+                  )}만원`}
+                  <div className="badge">중복 신청 가능</div>
+                </div>
+              </div>
+              {/* 지자체 */}
+              <div className="box">
+                <div className="name overlap">안양시청</div>
+                <div className="price overlap">
+                  {`${changeMoneyUnit(
+                    subsidyGuideData.localGovernmentApplyPrice,
+                  )}만원`}
+                  <div className="badge">중복 신청 가능</div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* 한국에너지공단 */}
+              <div className="box">
+                <div className="name">한국에너지공단</div>
+                <div className="price">
+                  {`${changeMoneyUnit(
+                    subsidyGuideData.koreaEnergyAgencyApplyPrice,
+                  )}만원`}
+                </div>
+              </div>
+              {/* 지자체 */}
+              <div className="box">
+                <div className="name">안양시청</div>
+                <div className="price">
+                  {`${changeMoneyUnit(
+                    subsidyGuideData.localGovernmentApplyPrice,
+                  )}만원`}
+                </div>
+              </div>
+            </>
+          )}
         </ResultContainer>
         <Notice>
           보조금은 &apos;전기자동차충전사업자&apos;로 등록된 <br />
@@ -121,10 +181,10 @@ const ResultContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   gap: 4.5pt;
   .box {
     padding-top: 45pt;
+    width: 100%;
   }
   .name {
     background: ${colors.lightWhite};
