@@ -67,6 +67,10 @@ export default Request;
 const Wrapper = styled.div`
 position: relative;
 width: 100%;
+
+@media (max-width: 899pt) {
+  padding-bottom: 60pt;
+}
 `;
 const Header = styled.header`
   display: flex;
