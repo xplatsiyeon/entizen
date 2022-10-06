@@ -76,6 +76,7 @@ const IdPwInput = ({
       // } else if (num > 0 && eng > 0 && spe > 0) {
       //   setCheckedPw(true);
       // }
+      console.log(reg.test(password));
       setCheckedPw(reg.test(password));
       if (reg.test(password)) {
       }
