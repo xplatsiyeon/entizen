@@ -76,7 +76,7 @@ const MainPage = (props: Props) => {
 
   useEffect(() => {
     dispatch(quotationAction.init());
-    dispatch(subsidyGuideAction.reset());
+    // dispatch(subsidyGuideAction.reset());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // key 삭제
