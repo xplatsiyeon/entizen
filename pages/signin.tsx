@@ -103,9 +103,6 @@ const Signin = (props: Props) => {
         }
       });
     } catch (error: any) {
-      setLoginErr(error.data.message);
-      console.log(error.data.message);
-
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
       console.log(error);
@@ -181,10 +178,11 @@ const Signin = (props: Props) => {
         .catch((error) => {
           console.log('api 에러 발생!!');
           console.log(error.response.data.message);
+          setLoginErr(error.response.data.message);
         });
     } catch (error: any) {
       console.log('에러가 발생했다!!!');
-      console.log(error.response.data.message);
+      console.log(error);
     }
   };
   // 네이버 로그인
