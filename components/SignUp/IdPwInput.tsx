@@ -53,24 +53,19 @@ const IdPwInput = ({
 }: Props) => {
   const route = useRouter();
 
+  const [checkId, setCheckId] = useState<number>(-1);
+
   // 디바운스를 이용한 유효성 검사
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
   useEffect(() => {
-    let num = password.search(/[0-9]/g);
-    let eng = password.search(/[a-z]/gi);
-    let spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-
     if (password) {
-      if (password.length < 10 || password.length > 20) setCheckedPw(false);
-      else if (password.search(/₩s/) != -1) setCheckedPw(false);
-      else if (
-        (num < 0 && eng < 0) ||
-        (eng < 0 && spe < 0) ||
-        (spe < 0 && num < 0)
-      )
-        setCheckedPw(false);
-      else setCheckedPw(true);
+      let check1 =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
+          password,
+        );
+      console.log(check1);
+      setCheckedPw(check1);
     }
     if (checkPassword) {
       if (password !== checkPassword) setCheckSamePw(false);
@@ -101,6 +96,27 @@ const IdPwInput = ({
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
   };
+
+  const overlabCheck = () => {
+    const OVERLAB_CHECK_POST = `https://test-api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
+    try {
+      axios({
+        method: 'get',
+        url: OVERLAB_CHECK_POST,
+      }).then((res) => {
+        const check = res.data.isMember;
+        if (check === true) {
+          setCheckId(1);
+        } else {
+          setCheckId(0);
+        }
+      });
+    } catch (error) {
+      console.log('아이디 중복 체크 에러 발생!!');
+      console.log(error);
+    }
+  };
+
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
@@ -187,23 +203,27 @@ const IdPwInput = ({
             endAdornment: (
               <InputAdornment position="end">
                 <OverlapBtn className="overlap">
-                  <Typography className="checkOverlap">중복확인</Typography>
+                  <Typography className="checkOverlap" onClick={overlabCheck}>
+                    중복확인
+                  </Typography>
                 </OverlapBtn>
               </InputAdornment>
             ),
           }}
         />
         <Box>
-          <Typography
-            sx={{
-              color: '#F75015',
-              fontSize: '9pt',
-              lineHeight: '12pt',
-              marginTop: '9pt',
-            }}
-          >
-            {/* 이미 사용중인 아이디입니다. */}
-          </Typography>
+          {checkId === 1 && (
+            <Typography
+              sx={{
+                color: '#F75015',
+                fontSize: '9pt',
+                lineHeight: '12pt',
+                marginTop: '9pt',
+              }}
+            >
+              이미 사용중인 아이디입니다.
+            </Typography>
+          )}
         </Box>
       </Box>
       <Box

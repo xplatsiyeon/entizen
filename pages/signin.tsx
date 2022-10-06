@@ -29,6 +29,7 @@ import { originUserAction } from 'store/userInfoSlice';
 import { kakaoInit } from 'utils/kakao';
 import colors from 'styles/colors';
 import { findUserInfoAction } from 'store/findSlice';
+import Modal from 'components/Modal/Modal';
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -43,9 +44,13 @@ const Signin = (props: Props) => {
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   const [isId, setIsId] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-  const [wrongPw, setWrongPw] = useState<string>('');
+  const [loginErr, setLoginErr] = useState<string>('');
   let naverLogin: any;
   // 카카오 API
+
+  const modalHandle = () => {
+    setLoginErr('');
+  };
   const KaKaApi = async (data: any) => {
     const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
@@ -98,14 +103,15 @@ const Signin = (props: Props) => {
         }
       });
     } catch (error: any) {
-      if (error.data.message.include('비밀번호')) {
-        setWrongPw(error.data.message);
-      }
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
       console.log(error);
     }
   };
+  useEffect(() => {
+    console.log('여기입니다.');
+    console.log(loginErr);
+  }, [loginErr]);
   // 카카오 로그인
   const kakaoLogin = async () => {
     // 카카오 초기화
@@ -172,10 +178,11 @@ const Signin = (props: Props) => {
         .catch((error) => {
           console.log('api 에러 발생!!');
           console.log(error.response.data.message);
+          setLoginErr(error.response.data.message);
         });
     } catch (error: any) {
       console.log('에러가 발생했다!!!');
-      console.log(error.response.data.message);
+      console.log(error);
     }
   };
   // 네이버 로그인
@@ -333,6 +340,9 @@ const Signin = (props: Props) => {
   };
   return (
     <React.Fragment>
+      {loginErr.length > 3 && (
+        <Modal text={loginErr} color={'#222831'} click={modalHandle} />
+      )}
       <Body>
         <WebHeader />
         <Inner>
@@ -422,6 +432,7 @@ const Signin = (props: Props) => {
                       borderRadius: '6pt',
                     }}
                   />
+
                   <TextField
                     value={password}
                     id="outlined-basic"
@@ -459,7 +470,7 @@ const Signin = (props: Props) => {
                     }}
                   >
                     <div>
-                      <form name="form_chk" method="post">
+                      <form name="form_chk" method="get">
                         <input
                           type="hidden"
                           name="m"
@@ -471,6 +482,11 @@ const Signin = (props: Props) => {
                           id="encodeData"
                           name="EncodeData"
                           value={data !== undefined && data}
+                        />
+                        <input
+                          type="hidden"
+                          name="recvMethodType"
+                          value="get"
                         />
                         {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
                         <FindBtn value="id" name={'form_chk'} onClick={fnPopup}>

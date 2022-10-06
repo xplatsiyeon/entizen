@@ -16,7 +16,8 @@ return(
                 <li><Link href='/'><a>개인정보 처리방침</a></Link></li>
                 <li><Link href='/'><a>1:1 문의</a></Link></li>
                 <li>
-                  <IconBox>
+                  <IconBox onClick={()=>
+                    window.open('https://www.instagram.com/entizen.ev/')}>
                     <Image
                       src={Insta}
                       alt="instagram"
@@ -25,7 +26,8 @@ return(
                   </IconBox>
                 </li>
                 <li>
-                  <IconBox>
+                  <IconBox onClick={()=>
+                    window.open('https://post.naver.com/entizen_ev/')}>
                     <Image
                       src={Pencil}
                       alt="write"
@@ -63,7 +65,7 @@ const Wrapper = styled.footer`
   width:100%;
   height: 187.5pt;
   border-top: 1px solid #e9eaee;
-  margin-top: 45.75pt;
+  //margin-top: 45.75pt;
   padding:10pt 0;
   background: #ffff;
 

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import ChooseUserType from './chooseUserType';
@@ -34,8 +35,29 @@ const SignUpContainer = (props: Props) => {
   const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const handleHomeClick = () => {
+    router.push('/');
+  };
+
+  const gobackQuestion = () => {
+    setModalOpen(false);
+  };
+
+  const stopRegist = () => {
+    router.push('/signin');
+  };
   return (
     <>
+      {modalOpen && (
+        <TwoBtnModal
+          text={'회원가입을 멈추시겠습니까?'}
+          leftBtnText={'취소'}
+          rightBtnText={'멈추기'}
+          leftBtnColor={'#5a2dc9'}
+          rightBtnColor={'red'}
+        />
+      )}
       {level === 0 && (
         <>
           <MypageHeader back={true} title={''} />
@@ -51,7 +73,13 @@ const SignUpContainer = (props: Props) => {
       )}
       {level === 1 && (
         <>
-          <MypageHeader back={true} homeBtn={true} title={''} exitBtn={true} />
+          <MypageHeader
+            back={true}
+            homeBtn={true}
+            title={''}
+            exitBtn={true}
+            handleHomeClick={handleHomeClick}
+          />
           <Wrapper>
             <TermContent
               setLevel={setLevel}
