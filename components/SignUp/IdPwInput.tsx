@@ -228,7 +228,7 @@ const IdPwInput = ({
           onFocus={(e) => setPwSelected(true)}
           onBlur={(e) => setPwSelected(false)}
         />
-        {!checkedPw && pwInput.length > 4 ? (
+        {checkedPw && pwInput.length > 4 ? (
           <Box>
             <Typography
               sx={{
