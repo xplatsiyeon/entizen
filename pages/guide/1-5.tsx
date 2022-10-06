@@ -29,7 +29,7 @@ const Guide1_5 = () => {
       <WebHeader num={2} now={'guide'} />
       <Inner>
         <GuideHeader
-          title="요금정보"
+          title="충전기 가이드"
           leftOnClick={() => router.back()}
           rightOnClick={() => router.push('/')}
         />
