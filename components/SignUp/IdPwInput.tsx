@@ -95,6 +95,7 @@ const IdPwInput = ({
   };
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
+    e.isPropagationStopped();
   };
 
   const overlabCheck = () => {
@@ -116,12 +117,54 @@ const IdPwInput = ({
       console.log(error);
     }
   };
+  const handleDelete = () => {
+    setPwInput('');
+  };
+  const handleTwoDelete = () => {
+    setCheckPw('');
+  };
 
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
-          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+          onClick={handleDelete}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
+        />
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+          }}
+          variant="subtitle1"
+          onClick={() => setPwShow(!pwShow)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+  const secondIconAdorment = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CancelRoundedIcon
+          onClick={handleTwoDelete}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
         />
         <Typography
           sx={{
@@ -142,7 +185,7 @@ const IdPwInput = ({
     ),
   };
   const iconAdornment = pwSelected ? iconAdorment : {};
-  const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+  const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
@@ -222,6 +265,18 @@ const IdPwInput = ({
               }}
             >
               이미 사용중인 아이디입니다.
+            </Typography>
+          )}
+          {checkId === 0 && (
+            <Typography
+              sx={{
+                color: '#F75015',
+                fontSize: '9pt',
+                lineHeight: '12pt',
+                marginTop: '9pt',
+              }}
+            >
+              사용가능한 아이디입니다.
             </Typography>
           )}
         </Box>
