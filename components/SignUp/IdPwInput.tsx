@@ -64,14 +64,16 @@ const IdPwInput = ({
     if (password) {
       if (password.length < 10 || password.length > 20) setCheckedPw(false);
       else if (password.search(/₩s/) != -1) setCheckedPw(false);
-      else if (num < 0 && eng < 0 && spe < 0) {
+      else if (num > 0 && eng > 0 && spe > 0) {
         // else if (
         //   (num < 0 && eng < 0) ||
         //   (eng < 0 && spe < 0) ||
         //   (spe < 0 && num < 0)
         // )
+        setCheckedPw(true);
+      } else {
         setCheckedPw(false);
-      } else setCheckedPw(true);
+      }
     }
     if (checkPassword) {
       if (password !== checkPassword) setCheckSamePw(false);
