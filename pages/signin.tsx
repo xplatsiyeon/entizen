@@ -111,6 +111,9 @@ const Signin = (props: Props) => {
       console.log(error);
     }
   };
+  useEffect(() => {
+    console.log(loginErr);
+  }, [loginErr]);
   // 카카오 로그인
   const kakaoLogin = async () => {
     // 카카오 초기화
