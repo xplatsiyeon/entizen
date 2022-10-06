@@ -76,11 +76,18 @@ const SliderSizes = ({
       ),
       investRate: value,
     };
+
     console.log(ret);
     if (setCalculatedValue) {
-      setCalculatedValue(ret);
+      setCalculatedValue({
+        maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
+        maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
+        minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
+        minTotalSubscribePrice: ret.minTotalSubscribePrice,
+        predictedProfitTime: '',
+      });
     }
-
+    console.log('여깅쇼~~~');
     console.log(calculatedValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
