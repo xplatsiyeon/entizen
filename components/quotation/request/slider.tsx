@@ -64,26 +64,26 @@ const SliderSizes = ({
     let b: any;
     let c: any;
     let d: any;
-    const calc = async () => {
-      const mSPM = await setPriceByRate(
+    const calc = () => {
+      const mSPM = setPriceByRate(
         quotationData.requestData?.maxSubscribePricePerMonth,
         value,
         quotationData.requestData?.investRate,
       );
       a = mSPM;
-      const mTSP = await setPriceByRate(
+      const mTSP = setPriceByRate(
         res.maxTotalSubscribePrice,
         value,
         quotationData.requestData?.investRate,
       );
       b = mTSP;
-      const mSP = await setPriceByRate(
+      const mSP = setPriceByRate(
         res.minSubscribePricePerMonth,
         value,
         quotationData.requestData?.investRate,
       );
       c = mSP;
-      const mTS = await setPriceByRate(
+      const mTS = setPriceByRate(
         res.minTotalSubscribePrice,
         value,
         quotationData.requestData?.investRate,
@@ -135,6 +135,10 @@ const SliderSizes = ({
     // };
 
     // console.log(ret);
+    console.log(a);
+    console.log(b);
+    console.log(c);
+    console.log(d);
     if (setCalculatedValue) {
       setCalculatedValue({
         maxSubscribePricePerMonth: a,
