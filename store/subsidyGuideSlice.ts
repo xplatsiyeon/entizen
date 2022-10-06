@@ -13,6 +13,8 @@ export interface SubsidyGuideSlice {
   maxApplyPrice: number;
   // 중복 지원 여부
   canDuplicateApply: boolean;
+  // 멤버 이름
+  memberName: string;
   // 지자체 이름
   region1: '';
   region2: '';
@@ -25,6 +27,7 @@ const initialState: SubsidyGuideSlice = {
   duplicateApplyPrice: 0,
   maxApplyPrice: 0,
   canDuplicateApply: false,
+  memberName: '',
   region1: '',
   region2: '',
 };

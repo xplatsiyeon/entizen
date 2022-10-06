@@ -212,6 +212,7 @@ const Guide1_2 = () => {
               duplicateApplyPrice: res.data.duplicateApplyPrice,
               maxApplyPrice: res.data.maxApplyPrice,
               canDuplicateApply: res.data.canDuplicateApply,
+              memberName: res.data.memberName,
               region1: selectedRegion.m9,
               region2: selectedRegion.m10,
             }),
@@ -345,7 +346,7 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   position: relative;
   margin: 0 31.875pt;
-  
+
   @media (max-width: 899pt) {
     height: 100%;
     margin: 0;
