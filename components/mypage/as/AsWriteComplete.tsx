@@ -22,10 +22,12 @@ const AsComplete = ({ text, title, buttonText }: Props) => {
   return (
     <Wrapper>
       <Nav>
-        <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
+        <IconWrap>
+          <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
+        </IconWrap>
       </Nav>
       <ContainerBox disableGutters>
-        <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
+        <Image src={CheckImg} alt="check" style={{ cursor: 'pointer' }} />
       </ContainerBox>
       <Title>{title}</Title>
       <Footer>
@@ -50,6 +52,12 @@ const Nav = styled.div`
   padding-right: 15pt;
   padding-top: 15pt;
 `;
+const IconWrap = styled.div`
+  display: none;
+  @media (max-width: 899pt) {
+  display: block;
+  }
+`
 const ContainerBox = styled(Container)`
   margin-top: 90pt;
   display: flex;
@@ -58,11 +66,19 @@ const ContainerBox = styled(Container)`
   flex-direction: column;
 `;
 const Title = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 25.5pt;
   font-weight: 700;
+  line-height: 37.5pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+
+  @media (max-width: 899pt) {
   font-size: 18pt;
   line-height: 24pt;
   margin-top: 24pt;
   text-align: center;
+  }
 `;
 const Footer = styled.div`
   position: absolute;
