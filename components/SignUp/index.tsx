@@ -49,6 +49,7 @@ const SignUpContainer = (props: Props) => {
   };
   const handleBackClick = () => {
     setModalOpen(true);
+    console.log(' 여기 눌렸습니다. ');
   };
   return (
     <>
