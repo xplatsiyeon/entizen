@@ -130,14 +130,22 @@ const Wrapper = styled.div`
 `;
 
 const Body = styled.div`
+position: relative;
+width: 100%;
+
 @media (max-width: 899pt) {
   padding-top: 12pt;
 }
 `;
 
 const TabBox = styled.div`
-display: flex;
-  gap: 3pt;
+gap: 3pt;
+z-index: 1;
+//display:flex;
+
+position: absolute;
+width: 100%;
+top: 0;
 
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
@@ -145,7 +153,10 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   border-bottom-width: 3pt;
   border-color: ${({ idx, num }) => (idx <= num ? colors.main : colors.gray4)};
   border-radius: 2px;
-  width: 100%;
+  
+  width: calc(100% / 6);
+  display: inline-block;
+
 `;
 const Footer = styled.div`
   position: absolute;

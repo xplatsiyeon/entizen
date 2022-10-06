@@ -8,7 +8,6 @@ import Chat from 'public/images/chat.png';
 import Bell from 'public/images/bell.png';
 import BellOutline from 'public/images/Bell_outline.png';
 import Frame from 'public/images/Frame.png';
-import Vector from 'public/images/Vector.png';
 import GuideLink from 'components/GuideLink';
 import { Router, useRouter } from 'next/router';
 
@@ -25,7 +24,7 @@ const WebHeader = ({ num, now }: Props) => {
   const router = useRouter();
 
    const isUser= localStorage.getItem('USER_ID');
-   //if(!isUser)localStorage.setItem('USER_ID','user')
+   //if(!isUser)localStorage.setItem('USER_ID','user'). 유저 테스트용 코드
 
    const handleLink =()=>{
     if(isUser){router.push('/quotation/request')}
@@ -201,10 +200,10 @@ const DivBox2 = styled.div`
   align-items: center;
 
   a {
-    font-weight: nomal;
+    font-weight: normal;
     font-size: 10.5pt;
     line-height: 12pt;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     color: ${colors.main2};
     text-decoration: none;
   }

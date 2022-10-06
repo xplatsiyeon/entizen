@@ -132,27 +132,22 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
   );
 };
 
-const Wrap = styled.div`
-/*  width: 345pt;
-  height: 108pt;
-  border: 1px solid green;
-  position: absolute;
-  top: -33pt;
-  left: -48pt;
-  
-  @media (max-width: 899pt) {
-    position: relative;
-    top: 0;
-    width: auto;
-    height: auto;
-} */
-  `
+// 어떻게 한건지 다시 정리하기.
 
+const Wrap = styled.div`
+
+  width: 252pt ;
+  //border: 1px solid blue;
+  z-index: 3;
+  position: relative;
+  background-color: #fff;
+
+  `
+  
 
 const Container = styled.div`
   width: 100%;
-  
- // border: 1px solid red;
+  z-index: 2;
 `;
 
 const HeaderBox = styled.div`
