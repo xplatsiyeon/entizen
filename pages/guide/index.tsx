@@ -60,10 +60,6 @@ const Guide1 = () => {
       setState({ ...state, [anchor]: open });
     };
   useEffect(() => {
-    console.log('업데이트 확인');
-    console.log(localStorage.getItem('USER_ID'));
-    console.log(isLogin);
-
     if (localStorage.getItem('USER_ID')) {
       console.log('login check !');
       setIsLogin(true);
@@ -74,7 +70,6 @@ const Guide1 = () => {
   }, [userId]);
 
   const list = (anchor: string) => (
-    
     <WholeBox
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
@@ -228,7 +223,11 @@ const Guide1 = () => {
               </div>
             </Platform>
             <SubsidyBox>
-              <Subsidy onClick={() => pageHandler('/guide/1-2')}>
+              <Subsidy
+                onClick={() => {
+                  isLogin ? pageHandler('/guide/1-2') : pageHandler('/signin');
+                }}
+              >
                 <span className="text">보조금 가이드</span>
                 <Image src={subsidy_icon} alt="subsidy_icon" />
               </Subsidy>
@@ -309,7 +308,7 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 45.75pt auto ;
+  margin: 45.75pt auto;
   width: 900pt;
 
   @media (max-width: 899pt) {
@@ -318,7 +317,7 @@ const Inner = styled.div`
     position: relative;
     margin: 0 auto;
   }
-   /* @media (max-height: 500pt) {
+  /* @media (max-height: 500pt) {
     height: 100%;
   } */
 `;
@@ -359,15 +358,10 @@ const Wrap = styled.div`
 `;
 
 const Platform = styled(Button)`
-  display: block;
   margin-top: 15.75pt;
   padding: 0;
   height: 210pt;
   .img-box {
-    position: relative;
-    width: 589.5pt;
-    height: 210pt;
-    object-fit: cover;
   }
   &:nth-of-type(1) {
     display: none;
