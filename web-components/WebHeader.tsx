@@ -200,10 +200,10 @@ const DivBox2 = styled.div`
   align-items: center;
 
   a {
-    font-weight: nomal;
+    font-weight: normal;
     font-size: 10.5pt;
     line-height: 12pt;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     color: ${colors.main2};
     text-decoration: none;
   }
