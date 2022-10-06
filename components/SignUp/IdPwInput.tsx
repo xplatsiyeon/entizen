@@ -57,34 +57,13 @@ const IdPwInput = ({
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
   useEffect(() => {
-    let num = password.search(/[0-9]/gi);
-    let eng = password.search(/[a-zA-Z]/gi);
-    let spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-    let reg =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/;
-
     if (password) {
-      // if (password.length < 10 || password.length > 20) setCheckedPw(false);
-      // else if (password.search(/₩s/) != -1) setCheckedPw(false);
-      // else if (num < 0 && eng < 0 && spe < 0) {
-      //   // else if (
-      //   //   (num < 0 && eng < 0) ||
-      //   //   (eng < 0 && spe < 0) ||
-      //   //   (spe < 0 && num < 0)
-      //   // )
-      //   setCheckedPw(false);
-      // } else if (num > 0 && eng > 0 && spe > 0) {
-      //   setCheckedPw(true);
-      // }
       let check1 =
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,12}$/.test(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
           password,
         );
-      // console.log(reg.test(password));
       console.log(check1);
       setCheckedPw(check1);
-      if (reg.test(password)) {
-      }
     }
     if (checkPassword) {
       if (password !== checkPassword) setCheckSamePw(false);
