@@ -24,6 +24,7 @@ import { useDispatch } from 'react-redux';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
+import axios from 'axios';
 
 export interface Option {
   kind: string;
@@ -39,7 +40,9 @@ export interface Region {
 const Guide1_2 = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  // SubsidyGuideSlice
   const { subsidyGuideData } = useSelector((state: RootState) => state);
+
   const InstallationPurposeType = [
     'BUSINESS',
     'WELFARE',
@@ -93,23 +96,54 @@ const Guide1_2 = () => {
         channel: '',
         count: '',
       };
+      copy[index] = {
+        ...copy[index],
+        kind: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        kind: valueEn,
+      };
     } else if (name === 'standType') {
       const idx = M6_LIST.indexOf(value);
       if (value === '-') {
         valueEn = '';
       } else {
         valueEn = M6_LIST_EN[idx];
+        copy[index] = {
+          ...copy[index],
+          standType: value,
+        };
+        copyEn[index] = {
+          ...copyEn[index],
+          standType: valueEn,
+        };
       }
     } else if (name === 'channel') {
       const idx = M7_LIST.indexOf(value);
-
       valueEn = M7_LIST_EN[idx];
+      copy[index] = {
+        ...copy[index],
+        channel: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        channel: valueEn,
+      };
     } else if (name === 'count') {
       const idx = M8_LIST.indexOf(value);
       valueEn = M8_LIST_EN[idx];
+      copy[index] = {
+        ...copy[index],
+        count: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        count: valueEn,
+      };
     }
-    copy[index][name] = value;
-    copyEn[index][name] = valueEn;
+    // copy[index][name] = value;
+    // copyEn[index][name] = valueEn;
     setSelectedOption(copy);
     setSelectedOptionEn(copyEn);
   };
@@ -145,16 +179,39 @@ const Guide1_2 = () => {
     }));
   };
   // 버튼 온클릭
-  const onClickButton = () => {
-    dispatch(
-      subsidyGuideAction.addDate({
-        installationPurpose: InstallationPurposeType[clicked],
-        chargers: selectedOptionEn,
-        region: selectedRegion.m9,
-        region2: selectedRegion.m10,
-      }),
-    );
-    console.log('버튼 클릭');
+  const onClickButton = async () => {
+    const SUBSIDY_URL = 'https://test-api.entizen.kr/api/guide/subsidy';
+    try {
+      await axios({
+        method: 'post',
+        url: SUBSIDY_URL,
+        data: {
+          chargers: selectedOptionEn,
+          installationPurpose: InstallationPurposeType[clicked],
+          installationSiDo: selectedRegion.m9,
+          installationSiGunGu: selectedRegion.m10,
+        },
+      })
+        .then((res) => {
+          dispatch(
+            subsidyGuideAction.addDate({
+              ministryOfEnvironmentApplyPrice:
+                res.data.ministryOfEnvironmentApplyPrice,
+              koreaEnergyAgencyApplyPrice: res.data.koreaEnergyAgencyApplyPrice,
+              localGovernmentApplyPrice: res.data.localGovernmentApplyPrice,
+              duplicateApplyPrice: res.data.duplicateApplyPrice,
+              maxApplyPrice: res.data.maxApplyPrice,
+              canDuplicateApply: res.data.canDuplicateApply,
+            }),
+          );
+        })
+        .then((res) => {
+          router.push('/guide/1-2-4');
+        });
+    } catch (error) {
+      console.log('보조금 가이드 에러');
+      console.log(error);
+    }
   };
   // 버튼 유효성 검사
   const validation = () => {
@@ -185,44 +242,53 @@ const Guide1_2 = () => {
     console.log('한글 ->');
     console.log(selectedOption);
   }, [selectedOptionEn, selectedOption]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(subsidyGuideAction.reset());
+    };
+  }, []);
+
   return (
     <Body>
-    <WebHeader/>
-    <Inner>
-    <Wrapper>
-      <GuideHeader
-        title={'보조금 가이드'}
-        leftOnClick={() => router.back()}
-        rightOnClick={() => router.push('/')}
-      />
-      <Step1 clicked={clicked} handlePurposeOnClick={handlePurposeOnClick} />
-      <Step2
-        selectedRegion={selectedRegion}
-        selectedOption={selectedOption}
-        handleOptionChange={handleChange}
-        HandleRegionChange={HandleRegionChange}
-        onClickAdd={onClickAdd}
-        onClickMinus={onClickMinus}
-        m5Index={m5Index}
-      />
-      <ChargeGuide>
-        <span className="text">충전기 가이드</span>
-        <div className="img">
-          <Image src={arrow_small} alt="arrow_small" />
-        </div>
-      </ChargeGuide>
-      <Btn buttonActivate={buttonActivate} onClick={onClickButton}>
-        보조금 확인하기
-      </Btn>
-    </Wrapper>
+      <WebHeader />
+      <Inner>
+        <Wrapper>
+          <GuideHeader
+            title={'보조금 가이드'}
+            leftOnClick={() => router.back()}
+            rightOnClick={() => router.push('/')}
+          />
+          <Step1
+            clicked={clicked}
+            handlePurposeOnClick={handlePurposeOnClick}
+          />
+          <Step2
+            selectedRegion={selectedRegion}
+            selectedOption={selectedOption}
+            handleOptionChange={handleChange}
+            HandleRegionChange={HandleRegionChange}
+            onClickAdd={onClickAdd}
+            onClickMinus={onClickMinus}
+            m5Index={m5Index}
+          />
+          <ChargeGuide>
+            <span className="text">충전기 가이드</span>
+            <div className="img">
+              <Image src={arrow_small} alt="arrow_small" />
+            </div>
+          </ChargeGuide>
+          <Btn buttonActivate={buttonActivate} onClick={onClickButton}>
+            보조금 확인하기
+          </Btn>
+        </Wrapper>
       </Inner>
-    <WebFooter/>
+      <WebFooter />
     </Body>
   );
 };
 
 export default Guide1_2;
-
 
 const Body = styled.div`
   display: flex;
@@ -232,7 +298,7 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
@@ -245,7 +311,7 @@ const Inner = styled.div`
   position: relative;
   margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;  
+  //width: 281.25pt;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;
@@ -260,7 +326,6 @@ const Inner = styled.div`
 `;
 
 const Wrapper = styled.div`
-
   padding-bottom: 100pt;
   padding-left: 15pt;
   padding-right: 15pt;
