@@ -183,6 +183,7 @@ const GridElement = styled.div`
 
 const TextArea = styled.div`
   white-space: pre-wrap;
+  width: 100%;
   font-size: 25.5pt;
   font-weight: 700;
   line-height: 37.5pt;
