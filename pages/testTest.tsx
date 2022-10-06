@@ -42,8 +42,7 @@ const Inner = styled.div`
   display: block;
   position: relative;
   margin: 45.75pt auto;
-  width: 345pt;
-  //width: 281.25pt;
+  width: 345pt; //460px
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
@@ -67,10 +66,8 @@ const Inner = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  margin: 0 31.875pt;
+  margin: 0 31.875pt; //42.5px
   @media (max-width: 899pt) {
-    height: 100%;
     margin: 0;
-    padding: 0 15pt 15pt 15pt;
   }
 `;
