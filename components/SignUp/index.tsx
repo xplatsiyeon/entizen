@@ -34,6 +34,9 @@ const SignUpContainer = (props: Props) => {
   const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
+  const handleHomeClick = () => {
+    router.push('/');
+  };
   return (
     <>
       {level === 0 && (
@@ -51,7 +54,13 @@ const SignUpContainer = (props: Props) => {
       )}
       {level === 1 && (
         <>
-          <MypageHeader back={true} homeBtn={true} title={''} exitBtn={true} />
+          <MypageHeader
+            back={true}
+            homeBtn={true}
+            title={''}
+            exitBtn={true}
+            handleHomeClick={handleHomeClick}
+          />
           <Wrapper>
             <TermContent
               setLevel={setLevel}
