@@ -118,8 +118,10 @@ const IdPwInput = ({
   };
   const handleDelete = (string: string) => {
     if (string === 'first') {
+      console.log('첫번째꺼 ');
       setPwInput('');
     } else if (string === 'second') {
+      console.log('두번째꺼 ');
       setCheckPw('');
     }
   };
