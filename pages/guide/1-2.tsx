@@ -181,10 +181,15 @@ const Guide1_2 = () => {
   // 버튼 온클릭
   const onClickButton = async () => {
     const SUBSIDY_URL = 'https://test-api.entizen.kr/api/guide/subsidy';
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     try {
       await axios({
         method: 'post',
         url: SUBSIDY_URL,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
         data: {
           chargers: selectedOptionEn,
           installationPurpose: InstallationPurposeType[clicked],
@@ -204,6 +209,8 @@ const Guide1_2 = () => {
               duplicateApplyPrice: res.data.duplicateApplyPrice,
               maxApplyPrice: res.data.maxApplyPrice,
               canDuplicateApply: res.data.canDuplicateApply,
+              region1: selectedRegion.m9,
+              region2: selectedRegion.m10,
             }),
           );
         })

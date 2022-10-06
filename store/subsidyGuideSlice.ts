@@ -14,6 +14,8 @@ export interface SubsidyGuideSlice {
   // 중복 지원 여부
   canDuplicateApply: boolean;
   // 지자체 이름
+  region1: '';
+  region2: '';
 }
 
 const initialState: SubsidyGuideSlice = {
@@ -23,6 +25,8 @@ const initialState: SubsidyGuideSlice = {
   duplicateApplyPrice: 0,
   maxApplyPrice: 0,
   canDuplicateApply: false,
+  region1: '',
+  region2: '',
 };
 
 const slice = createSlice({
@@ -39,6 +43,8 @@ const slice = createSlice({
       state.duplicateApplyPrice = action.payload.duplicateApplyPrice;
       state.maxApplyPrice = action.payload.maxApplyPrice;
       state.canDuplicateApply = action.payload.canDuplicateApply;
+      state.region1 = action.payload.region1;
+      state.region2 = action.payload.region2;
     },
     reset(state) {
       Object.assign(state, initialState);
