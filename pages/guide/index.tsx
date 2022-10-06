@@ -299,10 +299,10 @@ const Body = styled.div`
   //height: 810pt;
   background: #fcfcfc;
 
-  @media (max-height: 809pt) {
+  /* @media (max-height: 809pt) {
     display: block;
     height: 100%;
-  }
+  } */
 `;
 
 const Inner = styled.div`
@@ -319,9 +319,9 @@ const Inner = styled.div`
     left: 0%;
     transform: none;
   }
-  @media (max-height: 500pt) {
+   /* @media (max-height: 500pt) {
     height: 100%;
-  }
+  } */
 `;
 
 const Wrapper = styled.div`
