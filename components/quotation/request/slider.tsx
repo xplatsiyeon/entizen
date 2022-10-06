@@ -17,7 +17,14 @@ interface Props {
   disabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
   difaultValue?: number;
-  setCalculatedValue?: Dispatch<SetStateAction<{}>>;
+  setCalculatedValue?: Dispatch<
+    SetStateAction<{
+      maxSubscribePricePerMonth: number;
+      maxTotalSubscribePrice: number;
+      minSubscribePricePerMonth: number;
+      minTotalSubscribePrice: number;
+    }>
+  >;
   calculatedValue?: {};
 }
 
@@ -39,7 +46,7 @@ const SliderSizes = ({
   );
 
   const setPriceByRate = (target: any, rate: any, standardRate: any) => {
-    Math.round((target * rate) / standardRate);
+    return Math.round((target * rate) / standardRate);
   };
 
   const res = {
@@ -53,46 +60,99 @@ const SliderSizes = ({
   };
 
   useEffect(() => {
-    const ret = {
-      maxSubscribePricePerMonth: setPriceByRate(
+    let a: any;
+    let b: any;
+    let c: any;
+    let d: any;
+    const calc = async () => {
+      const mSPM = await setPriceByRate(
         quotationData.requestData?.maxSubscribePricePerMonth,
         value,
         quotationData.requestData?.investRate,
-      ),
-      maxTotalSubscribePrice: setPriceByRate(
+      );
+      a = mSPM;
+      const mTSP = await setPriceByRate(
         res.maxTotalSubscribePrice,
         value,
         quotationData.requestData?.investRate,
-      ),
-      minSubscribePricePerMonth: setPriceByRate(
+      );
+      b = mTSP;
+      const mSP = await setPriceByRate(
         res.minSubscribePricePerMonth,
         value,
         quotationData.requestData?.investRate,
-      ),
-      minTotalSubscribePrice: setPriceByRate(
+      );
+      c = mSP;
+      const mTS = await setPriceByRate(
         res.minTotalSubscribePrice,
         value,
         quotationData.requestData?.investRate,
-      ),
-      investRate: value,
+      );
+      d = mTS;
     };
+    // const mSPM = setPriceByRate(
+    //   quotationData.requestData?.maxSubscribePricePerMonth,
+    //   value,
+    //   quotationData.requestData?.investRate,
+    // )
+    // const mTSP = setPriceByRate(
+    //   res.maxTotalSubscribePrice,
+    //   value,
+    //   quotationData.requestData?.investRate,
+    // )
+    // const mSP = setPriceByRate(
+    //   res.minSubscribePricePerMonth,
+    //   value,
+    //   quotationData.requestData?.investRate,
+    // )
+    // const mTS = setPriceByRate(
+    //   res.minTotalSubscribePrice,
+    //   value,
+    //   quotationData.requestData?.investRate,
+    // )
+    // const ret = {
+    //   maxSubscribePricePerMonth: setPriceByRate(
+    //     quotationData.requestData?.maxSubscribePricePerMonth,
+    //     value,
+    //     quotationData.requestData?.investRate,
+    //   ),
+    //   maxTotalSubscribePrice: setPriceByRate(
+    //     res.maxTotalSubscribePrice,
+    //     value,
+    //     quotationData.requestData?.investRate,
+    //   ),
+    //   minSubscribePricePerMonth: setPriceByRate(
+    //     res.minSubscribePricePerMonth,
+    //     value,
+    //     quotationData.requestData?.investRate,
+    //   ),
+    //   minTotalSubscribePrice: setPriceByRate(
+    //     res.minTotalSubscribePrice,
+    //     value,
+    //     quotationData.requestData?.investRate,
+    //   ),
+    //   investRate: value,
+    // };
 
-    console.log(ret);
+    // console.log(ret);
     if (setCalculatedValue) {
       setCalculatedValue({
-        maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
-        maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
-        minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
-        minTotalSubscribePrice: ret.minTotalSubscribePrice,
-        predictedProfitTime: '',
+        maxSubscribePricePerMonth: a,
+        maxTotalSubscribePrice: b,
+        minSubscribePricePerMonth: c,
+        minTotalSubscribePrice: d,
       });
     }
-    console.log('여깅쇼~~~');
-    console.log(calculatedValue);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  console.log('벨루 체크 ->' + difaultValue);
+  useEffect(() => {
+    console.log('여깅쇼~~~');
+    console.log(calculatedValue);
+  }, [calculatedValue]);
+
+  // console.log('벨루 체크 ->' + difaultValue);
   // 간편 견적 포스트
   const predictionApi = async () => {
     try {
@@ -126,7 +186,7 @@ const SliderSizes = ({
     setDisabled(false);
     setValue(newValue as number);
     if (difaultValue) {
-      console.log('1-7 슬라이더 확인');
+      // console.log('1-7 슬라이더 확인');
       predictionApi();
     }
   };

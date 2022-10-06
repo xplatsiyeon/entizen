@@ -60,10 +60,6 @@ const Guide1 = () => {
       setState({ ...state, [anchor]: open });
     };
   useEffect(() => {
-    console.log('업데이트 확인');
-    console.log(localStorage.getItem('USER_ID'));
-    console.log(isLogin);
-
     if (localStorage.getItem('USER_ID')) {
       console.log('login check !');
       setIsLogin(true);
@@ -74,7 +70,6 @@ const Guide1 = () => {
   }, [userId]);
 
   const list = (anchor: string) => (
-    
     <WholeBox
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
@@ -228,7 +223,11 @@ const Guide1 = () => {
               </div>
             </Platform>
             <SubsidyBox>
-              <Subsidy onClick={() => pageHandler('/guide/1-2')}>
+              <Subsidy
+                onClick={() => {
+                  isLogin ? pageHandler('/guide/1-2') : pageHandler('/signin');
+                }}
+              >
                 <span className="text">보조금 가이드</span>
                 <Image src={subsidy_icon} alt="subsidy_icon" />
               </Subsidy>
@@ -309,7 +308,7 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 45.75pt auto ;
+  margin: 45.75pt auto;
   width: 900pt;
 
   @media (max-width: 899pt) {
@@ -318,7 +317,7 @@ const Inner = styled.div`
     position: relative;
     margin: 0 auto;
   }
-   /* @media (max-height: 500pt) {
+  /* @media (max-height: 500pt) {
     height: 100%;
   } */
 `;
@@ -333,7 +332,7 @@ const Wrapper = styled.div`
   }
 `;
 const Header = styled(Box)`
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
   padding-top: 11.25pt;
@@ -348,6 +347,9 @@ const Header = styled(Box)`
     display: flex;
     gap: 9.75pt;
   }
+  @media (max-width: 899pt) {
+    display: flex;
+  }
 `;
 
 const Wrap = styled.div`
@@ -359,14 +361,11 @@ const Wrap = styled.div`
 `;
 
 const Platform = styled(Button)`
-  display: block;
-  margin-top: 15.75pt;
   padding: 0;
   height: 210pt;
+  flex: 3;
+  margin-right: 7pt; //나중에 수정할 수도.
   .img-box {
-    position: relative;
-    width: 589.5pt;
-    height: 210pt;
     object-fit: cover;
   }
   &:nth-of-type(1) {
@@ -377,11 +376,16 @@ const Platform = styled(Button)`
     display: flex;
     width: 100%;
     height: auto;
+    flex: none;
     justify-content: center;
     align-items: center;
+    margin-right: 0;
+
+  margin-top: 15.75pt;
     .img-box {
-      width: 251.25pt;
+      width: 100%;
       height: 159pt;
+      object-fit: cover;
     }
     &:nth-of-type(1) {
       display: block;
@@ -393,10 +397,10 @@ const Platform = styled(Button)`
 `;
 const SubsidyBox = styled(Box)`
   display: flex;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
   gap: 14.625pt;
-  padding-top: 15pt;
   width: calc(100% - 600pt);
   .text {
     font-weight: 700;
@@ -407,6 +411,8 @@ const SubsidyBox = styled(Box)`
   }
   @media (max-width: 899pt) {
     width: auto;
+    flex: none;
+  padding-top: 15pt;
   }
 `;
 const Subsidy = styled(Button)`

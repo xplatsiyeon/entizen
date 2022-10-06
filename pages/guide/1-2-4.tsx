@@ -25,16 +25,14 @@ const Guide1_2_4 = () => {
       .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
   };
 
+  const onClickButton = () => {
+    // dispatch(subsidyGuideAction.reset());
+    router.push('/');
+  };
   useEffect(() => {
     console.log('보조금 확인');
     console.log(subsidyGuideData);
   }, [subsidyGuideData]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(subsidyGuideAction.reset());
-    };
-  }, []);
 
   return (
     <Body>
@@ -121,7 +119,7 @@ const Guide1_2_4 = () => {
           &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고, <br />
           파트너와 보조금에 대해 상의해보세요!
         </Notice>
-        <Btn onClick={() => router.push('/')}>홈으로</Btn>
+        <Btn onClick={onClickButton}>홈으로</Btn>
       </Wrapper>
       <WebFooter />
     </Body>

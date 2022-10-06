@@ -31,6 +31,7 @@ import { useDispatch } from 'react-redux';
 
 import Nut from 'public/images/Nut.png';
 import Bell from 'public/images/mobBell.png';
+import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 
 type Props = {};
 
@@ -75,6 +76,7 @@ const MainPage = (props: Props) => {
 
   useEffect(() => {
     dispatch(quotationAction.init());
+    // dispatch(subsidyGuideAction.reset());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // key 삭제
