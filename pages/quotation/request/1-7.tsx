@@ -23,7 +23,17 @@ const Request1_7 = (props: Props) => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [value, setValue] = useState(50);
   const [disabled, setDisabled] = useState(true);
-  const [calculatedValue, setCalculatedValue] = useState({});
+  const [calculatedValue, setCalculatedValue] = useState<{
+    maxSubscribePricePerMonth: number;
+    maxTotalSubscribePrice: number;
+    minSubscribePricePerMonth: number;
+    minTotalSubscribePrice: number;
+  }>({
+    maxSubscribePricePerMonth: 0,
+    maxTotalSubscribePrice: 0,
+    minSubscribePricePerMonth: 0,
+    minTotalSubscribePrice: 0,
+  });
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
@@ -31,9 +41,9 @@ const Request1_7 = (props: Props) => {
     (state: RootState) => state.quotationData,
   );
 
-  console.log('----requestData-----');
-  console.log(requestData?.investRate);
-  console.log('----------------');
+  // console.log('----requestData-----');
+  // console.log(requestData?.investRate);
+  // console.log('----------------');
   // 가격 콤마 계산
   const PriceCalculation = (price: number) => {
     if (price === 0) return 0;
@@ -66,7 +76,7 @@ const Request1_7 = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log(requestData);
+    // console.log(requestData);
   }, [requestData]);
   return (
     <React.Fragment>
