@@ -103,9 +103,8 @@ const Signin = (props: Props) => {
         }
       });
     } catch (error: any) {
-      if (error.data.message.include('비밀번호')) {
-        setLoginErr(error.data.message);
-      }
+      setLoginErr(error.data.message);
+
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
       console.log(error);
@@ -338,6 +337,9 @@ const Signin = (props: Props) => {
   };
   return (
     <React.Fragment>
+      {loginErr.length > 3 && (
+        <Modal text={loginErr} color={'#222831'} click={modalHandle} />
+      )}
       <Body>
         <WebHeader />
         <Inner>
@@ -427,13 +429,7 @@ const Signin = (props: Props) => {
                       borderRadius: '6pt',
                     }}
                   />
-                  {loginErr.length > 3 && (
-                    <Modal
-                      text={loginErr}
-                      color={'#222831'}
-                      click={modalHandle}
-                    />
-                  )}
+
                   <TextField
                     value={password}
                     id="outlined-basic"
