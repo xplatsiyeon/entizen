@@ -137,32 +137,17 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
 const Wrap = styled.div`
 
   width: 252pt ;
-  border: 1px solid blue;
+  //border: 1px solid blue;
   z-index: 3;
   position: relative;
   background-color: #fff;
 
- /* width: 345pt;
-  height: 108pt;
-  border: 1px solid green;
-  position: absolute;
-  top: -33pt;
-  left: -48pt;
-  
-  @media (max-width: 899pt) {
-    position: relative;
-    top: 0;
-    width: auto;
-    height: auto;
-} */
   `
   
 
 const Container = styled.div`
   width: 100%;
   z-index: 2;
-  
-  //border: 1px solid red;
 `;
 
 const HeaderBox = styled.div`
