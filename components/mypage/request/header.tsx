@@ -63,7 +63,7 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  background-color: ${colors.lightWhite};
+  //background-color: ${colors.lightWhite};
   padding: 9pt 15pt;
   .back-img {
     position: absolute;

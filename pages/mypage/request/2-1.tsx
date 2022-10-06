@@ -81,7 +81,7 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 45.75pt auto 0;
+  margin: 45.75pt auto ;
   width: 900pt;
   //width: 281.25pt;
 
