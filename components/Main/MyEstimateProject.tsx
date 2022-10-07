@@ -5,6 +5,7 @@ import rightArrow from 'public/images/rightArrow.png';
 import Image from 'next/image';
 import { display } from '@mui/system';
 import { useRouter } from 'next/router';
+import colors from 'styles/colors';
 
 type Props = {};
 
@@ -142,7 +143,7 @@ const CountBox = styled(Box)`
 `;
 
 const Count = styled(Typography)`
-  color: #caccd1;
+  color: ${colors.main};
   font-family: 'Spoqa Han Sans Neo';
   font-size: 27pt;
   font-weight: 700;
@@ -150,7 +151,6 @@ const Count = styled(Typography)`
   letter-spacing: -0.02em;
   margin-right: 3pt;
   text-align: right;
-
   @media (max-width: 899pt) {
     font-size: 15pt;
     line-height: 15pt;

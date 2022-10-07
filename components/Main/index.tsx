@@ -103,7 +103,7 @@ const MainPage = (props: Props) => {
           </Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLoginComplete>
+          <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
             <span>
               <label className="label">일반회원</label>
               {userId}
