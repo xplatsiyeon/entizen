@@ -62,35 +62,6 @@ const ProfileEditing = () => {
       cloneDocument.form_chk.submit();
     }
   };
-  // 나이스 인증
-  // useEffect(() => {
-  //   const memberType = 'USER';
-  //   useEffect(() => {
-  //     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
-  //     if (snsMember) {
-  //       setCheckSns(snsMember);
-  //     }
-  //     console.log('여기임둥');
-  //     console.log(checkSns);
-  //     console.log(snsMember);
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, []);
-
-  //   axios({
-  //     method: 'post',
-  //     url: 'https://test-api.entizen.kr/api/auth/nice',
-  //     data: { memberType },
-  //   })
-  //     .then((res) => {
-  //       setData(res.data.executedData);
-  //       // encodeData = res.data.executedData;
-  //     })
-  //     .catch((error) => {
-  //       console.error(' 2 곳 입니까?');
-  //       console.error(error);
-  //     });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
   // 아이디 찾기
   const HandlePassword = async () => {
     let key = localStorage.getItem('key');
@@ -99,6 +70,40 @@ const ProfileEditing = () => {
     // dispatch(findUserInfoAction.addId(data.id));
     // router.push('/profile/editing/password');
   };
+  // 나이스 인증
+  useEffect(() => {
+    const memberType = 'USER';
+
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        setData(res.data.executedData);
+        // encodeData = res.data.executedData;
+      })
+      .catch((error) => {
+        console.error(' 2 곳 입니까?');
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // sns 체크
+  useEffect(() => {
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    if (snsMember) {
+      setCheckSns(snsMember);
+    }
+    console.log('여기임둥');
+    console.log(checkSns);
+    console.log(snsMember);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   return (
     <React.Fragment>
       <WebBody>
@@ -146,59 +151,41 @@ const ProfileEditing = () => {
                   가능합니다.
                 </Text>
               </Form>
-              <Form>
-                <form name="form_chk" method="get">
-                  <input type="hidden" name="m" value="checkplusService" />
-                  {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
-                  <input
-                    type="hidden"
-                    id="encodeData"
-                    name="EncodeData"
-                    value={data !== undefined && data}
-                  />
-                  <input type="hidden" name="recvMethodType" value="get" />
-                  {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-                  <TitleSection onClick={fnPopup}>
-                    <Label mt={0}>비밀번호 변경</Label>
-                    <div>
-                      <Image src={Arrow} alt="arrow-img" />
-                    </div>
-                  </TitleSection>
-                  {/* <FindBtn value="id" name={'form_chk'} onClick={fnPopup}>
-                    아이디 찾기&nbsp;
-                  </FindBtn>
-                  <FindBtn value="password" name={'form_chk'} onClick={fnPopup}>
-                    &nbsp;비밀번호 찾기
-                  </FindBtn> */}
-                </form>
-              </Form>
-              {isId && (
-                <Buttons className="firstNextPage" onClick={HandlePassword}>
-                  숨겨진 아이디 버튼
-                </Buttons>
-              )}
-              {isPassword && (
-                <Buttons className="firstNextPage" onClick={() => {}}>
-                  숨겨진 비밀번호 버튼
-                </Buttons>
-              )}
               {!checkSns && (
                 <>
                   <Form>
-                    <TitleSection>
-                      <Label mt={0}>비밀번호 변경</Label>
-                      <div>
-                        <Image src={Arrow} alt="arrow-img" />
-                      </div>
-                    </TitleSection>
+                    <form name="form_chk" method="get">
+                      <input type="hidden" name="m" value="checkplusService" />
+                      {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                      <input
+                        type="hidden"
+                        id="encodeData"
+                        name="EncodeData"
+                        value={data !== undefined && data}
+                      />
+                      <input type="hidden" name="recvMethodType" value="get" />
+                      {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+                      <TitleSection onClick={fnPopup}>
+                        <Label mt={0}>비밀번호 변경</Label>
+                        <div>
+                          <Image src={Arrow} alt="arrow-img" />
+                        </div>
+                      </TitleSection>
+                    </form>
                   </Form>
                 </>
               )}
+              {isId && (
+                <Buttons className="firstNextPage" onClick={HandlePassword}>
+                  숨겨진 비밀번호 변경 버튼
+                </Buttons>
+              )}
+              {/* {isPassword && (
+                <Buttons className="firstNextPage" onClick={() => {}}>
+                  숨겨진 비밀번호 버튼
+                </Buttons>
+              )} */}
             </Body>
-            {/* <BtnBox>
-        <Blur />
-        <Btn>수정 완료</Btn>
-      </BtnBox>  */}
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -321,55 +308,6 @@ const Text = styled.p`
   letter-spacing: -0.02em;
   padding-top: 9pt;
   color: ${colors.gray2};
-`;
-const BtnBox = styled.div`
-  display: none;
-  position: fixed;
-  box-sizing: border-box;
-  bottom: 0;
-  left: 0;
-  padding: 15pt;
-  width: 100%;
-
-  @media (max-width: 899pt) {
-    display: block;
-  }
-`;
-const Btn = styled.div`
-  background-color: ${colors.main};
-  color: ${colors.lightWhite};
-  font-weight: 700;
-  font-size: 12pt;
-  line-height: 12pt;
-  text-align: center;
-  letter-spacing: -0.02em;
-  padding: 15pt 0;
-  border-radius: 6pt;
-`;
-const Blur = styled.div`
-  position: absolute;
-  width: 100%;
-  bottom: 32pt;
-  left: 0;
-  background: #ffffff;
-  filter: blur(10px);
-  z-index: -1;
-  height: 37.5pt;
-`;
-const FindBtn = styled.button`
-  border: none;
-  outline: none;
-  background: none;
-  font-weight: 500;
-  font-size: 10.5pt;
-  line-height: 12pt;
-  text-align: center;
-  letter-spacing: -0.02em;
-  margin: 2pt;
-  text-decoration-line: underline;
-  text-underline-position: under;
-  color: ${colors.gray2};
-  cursor: pointer;
 `;
 const Buttons = styled.button`
   display: none;
