@@ -38,9 +38,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 6.75pt;
   z-index: 100;
-  & :nth-of-type(2) > div {
+  /* & :nth-of-type(2) > div {
     padding-bottom: 15pt;
-  }
+  } */
 `;
 const Box = styled.div`
   width: 359px;
