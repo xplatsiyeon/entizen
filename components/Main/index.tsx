@@ -95,7 +95,7 @@ const MainPage = (props: Props) => {
           <Imagewrap onClick={() => router.push('/alarm')}>
             <Image src={Bell} alt="bellBtn" />
           </Imagewrap>
-          <Imagewrap onClick={() => router.push('/alarm/1-1')}>
+          <Imagewrap onClick={() => router.push('/setting')}>
             <Image src={Nut} alt="NutBtn" />
           </Imagewrap>
           <Imagewrap>

@@ -162,9 +162,26 @@ const Notice = styled(Typography)`
 const SelectWrapper = styled(Box)`
   margin-top: 30pt;
   padding: 0 15pt;
+  .webP{
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 500;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color:#747780;
+    margin-bottom: 18pt;
+
+  :nth-of-type(1) {
+    margin-top:30pt;
+  }
+  }
 
   @media (max-width: 899pt) {
     padding: 0;
+    .webP{
+      display: none;
+    }
   }
 `;
 const Select = styled(Box)<{ type: string; idx: string }>`

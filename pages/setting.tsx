@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import axios from 'axios';
+import Modal from 'components/Modal/Modal';
 import PasswordModal from 'components/Modal/PasswordModal';
 import RequestModal from 'components/Modal/RequestModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
@@ -14,11 +15,13 @@ type Props = {};
 
 const Setting = (props: Props) => {
   const [logoutModal, setLogoutModal] = useState<boolean>(false);
+  const [alertModal, setAlertModal] = useState(false);
   const [secessionFirstModal, setSecessionFirstModal] =
     useState<boolean>(false);
   const [passwordModal, setPasswordModal] = useState<boolean>(false);
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<boolean>(false);
+
   const router = useRouter();
   const handleLogoutModalClick = () => {
     setLogoutModal(false);
@@ -92,7 +95,12 @@ const Setting = (props: Props) => {
   const handleOnClick = () => {
     router.back();
   };
-  const ModalLeftControl = async () => {
+  const ModalLeftControl = () => {
+    setSecessionFirstModal(false);
+    setAlertModal(true);
+  };
+
+  const HandleWidthdrawal = async () => {
     const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     console.log('탈퇴');
@@ -110,6 +118,7 @@ const Setting = (props: Props) => {
         localStorage.removeItem('REFRESH_TOKEN');
         localStorage.removeItem('USER_ID');
         setLogoutModal(false);
+        setAlertModal(false);
         router.push('/');
       });
     } catch (error) {
@@ -117,9 +126,8 @@ const Setting = (props: Props) => {
       console.log(error);
     }
   };
-  const ModalRightControl = () => {
-    setSecessionFirstModal(!secessionFirstModal);
-  };
+
+  const ModalRightControl = () => setSecessionFirstModal(!secessionFirstModal);
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
     if (passwordInput.length > 10) {
@@ -159,6 +167,12 @@ const Setting = (props: Props) => {
           border={true}
         />
       )}
+      {alertModal && (
+        <Modal
+          click={HandleWidthdrawal}
+          text="비밀번호 입력 없이 정말 탈퇴하시겠습니까"
+        />
+      )}
       <MypageHeader back={true} title={'설정'} handleOnClick={handleOnClick} />
       <Wrapper>
         <Version>
@@ -168,7 +182,9 @@ const Setting = (props: Props) => {
         <SettingList onClick={() => router.push('/alarm/1-1')}>
           알림 설정
         </SettingList>
-        <SettingList onClick={() => router.push('/faq')}>1:1 문의</SettingList>
+        <SettingList onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+          1:1 문의
+        </SettingList>
         <SettingList onClick={() => router.push('/faq')}>
           자주 묻는 질문
         </SettingList>

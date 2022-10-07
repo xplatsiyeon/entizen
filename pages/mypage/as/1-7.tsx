@@ -59,6 +59,9 @@ const Inner = styled.div`
     position: relative;
     margin: 0;
     padding: 0;
+    background: none;
+    box-shadow: none;
+    border-radius: 0pt;
   }
 `;
 
