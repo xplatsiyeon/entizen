@@ -27,7 +27,7 @@ const Mypage3_1 = () => {
       <TextBox>
         <CommunicationBox
           text="파트너와 소통하기"
-          clickHandler={() => route.push('/chatting/1-3')}
+          clickHandler={() => alert('개발중입니다.')}
         />
       </TextBox>
       <Button

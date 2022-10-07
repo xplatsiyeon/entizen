@@ -26,7 +26,7 @@ const Guide1_2_4 = () => {
   };
 
   const onClickButton = () => {
-    // dispatch(subsidyGuideAction.reset());
+    dispatch(subsidyGuideAction.reset());
     router.push('/');
   };
   useEffect(() => {

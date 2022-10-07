@@ -26,26 +26,20 @@ const FindPassword = () => {
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
   const [btnActive, setBtnActive] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [modalText, setModalText] = useState<string>('');
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
   const router = useRouter();
 
   useEffect(() => {
-    let num = password.search(/[0-9]/g);
-    let eng = password.search(/[a-z]/gi);
-    let spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-
     if (password) {
-      if (password.length < 10 || password.length > 20) setCheckedPw(false);
-      else if (password.search(/₩s/) != -1) setCheckedPw(false);
-      else if (
-        (num < 0 && eng < 0) ||
-        (eng < 0 && spe < 0) ||
-        (spe < 0 && num < 0)
-      )
-        setCheckedPw(false);
-      else setCheckedPw(true);
+      let check1 =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,20}$/.test(
+          password,
+        );
+      console.log(check1);
+      setCheckedPw(check1);
     }
     if (checkPassword) {
       if (password !== checkPassword) setCheckSamePw(false);
@@ -65,7 +59,7 @@ const FindPassword = () => {
       setBeforePasswordInput(e.target.value);
     }
 
-    if (pwInput.length > 10 && checkPw === pwInput) {
+    if (pwInput.length > 9 && checkPw === pwInput) {
       setBtnActive(!btnActive);
     }
   };
@@ -76,10 +70,10 @@ const FindPassword = () => {
 
   const onClickButton = async () => {
     console.log('비밀번호 함수 실행');
-    const PROFILE_API = 'https://test-api.entizen.kr/api/members';
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     let key = localStorage.getItem('key');
     let data = JSON.parse(key!);
+    const PROFILE_API = `https://test-api.entizen.kr/api/members/reset/password/${data.memberIdx}`;
 
     try {
       console.log('이름 =>   ' + data.name);
@@ -88,6 +82,7 @@ const FindPassword = () => {
       await axios({
         method: 'patch',
         url: PROFILE_API,
+        // params: { memberIdx: data.memberIdx },
         data: {
           password: pwInput,
         },
@@ -96,12 +91,28 @@ const FindPassword = () => {
           Authorization: `Bearer ${accessToken}`,
         },
         withCredentials: true,
-      }).then((res) => alert(res));
-    } catch (error) {
+      }).then((res) => {
+        console.log(res);
+        setModalText('비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.');
+        setOpenModal(true);
+        console.log(modalText);
+      });
+    } catch (error: any) {
       console.log('post 실패!!!!!!');
       console.log(error);
+      setModalText(error.response.data.message);
+      setOpenModal(true);
+      console.log(modalText);
     }
   };
+
+  useEffect(() => {
+    console.log('여기요!~!');
+    console.log(modalText);
+    console.log(openModal);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalText, setModalText]);
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
@@ -133,11 +144,31 @@ const FindPassword = () => {
   };
   const handleModalYes = () => {
     setOpenModal(false);
-    router.push('/signin');
+    if (modalText.includes('완료')) {
+      router.push('/signin');
+    } else {
+      setOpenModal(false);
+    }
   };
   const beforeAdornment = beforePwSelected ? iconAdorment : {};
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+
+  useEffect(() => {
+    // if (localStorage.getItem('key')) {
+    //   console.log('여기입니다~!!');
+    //   console.log(localStorage.getItem('key'));
+    //   let data = localStorage.getItem('key');
+    //   let jsonData: any;
+    //   if (data !== null) {
+    //     let jsonData = JSON.parse(data);
+    //   }
+    //   setMemeberIdx(jsonData.memberIdx);
+    // } else {
+    //   console.log('실패');
+    // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <React.Fragment>
@@ -145,12 +176,7 @@ const FindPassword = () => {
         <WebHeader />
         <Inner>
           <Wrapper>
-            {openModal && (
-              <Modal
-                text={'비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.'}
-                click={handleModalYes}
-              />
-            )}
+            {openModal && <Modal text={modalText} click={handleModalYes} />}
             <MypageHeader back={true} title={'비밀번호 변경'} />
 
             <Box

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import axios from 'axios';
+import Modal from 'components/Modal/Modal';
 import PasswordModal from 'components/Modal/PasswordModal';
 import RequestModal from 'components/Modal/RequestModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
@@ -14,12 +15,16 @@ type Props = {};
 
 const Setting = (props: Props) => {
   const [logoutModal, setLogoutModal] = useState<boolean>(false);
+  const [alertModal, setAlertModal] = useState(false);
   const [secessionFirstModal, setSecessionFirstModal] =
     useState<boolean>(false);
   const [passwordModal, setPasswordModal] = useState<boolean>(false);
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<boolean>(false);
+
   const router = useRouter();
+  const userID = localStorage.getItem('USER_ID');
+
   const handleLogoutModalClick = () => {
     setLogoutModal(false);
   };
@@ -75,6 +80,7 @@ const Setting = (props: Props) => {
         },
         withCredentials: true,
       }).then((res) => {
+        localStorage.removeItem('SNS_MEMBER');
         localStorage.removeItem('ACCESS_TOKEN');
         localStorage.removeItem('REFRESH_TOKEN');
         localStorage.removeItem('USER_ID');
@@ -92,7 +98,21 @@ const Setting = (props: Props) => {
   const handleOnClick = () => {
     router.back();
   };
-  const ModalLeftControl = async () => {
+  const ModalLeftControl = () => {
+    setSecessionFirstModal(false);
+
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+
+    if (snsMember) {
+      // sns 회원탈퇴
+      setAlertModal(true);
+    } else {
+      // 일반 회원탈퇴
+      setPasswordModal(true);
+    }
+  };
+
+  const HandleWidthdrawal = async () => {
     const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     console.log('탈퇴');
@@ -105,24 +125,26 @@ const Setting = (props: Props) => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      }).then((res) => {
-        localStorage.removeItem('ACCESS_TOKEN');
-        localStorage.removeItem('REFRESH_TOKEN');
-        localStorage.removeItem('USER_ID');
-        setLogoutModal(false);
-        router.push('/');
-      });
+      })
+        .then((res) => {
+          localStorage.removeItem('SNS_MEMBER');
+          localStorage.removeItem('ACCESS_TOKEN');
+          localStorage.removeItem('REFRESH_TOKEN');
+          localStorage.removeItem('USER_ID');
+          setLogoutModal(false);
+          setAlertModal(false);
+        })
+        .then((res) => router.push('/'));
     } catch (error) {
       console.log('요청 실패');
       console.log(error);
     }
   };
-  const ModalRightControl = () => {
-    setSecessionFirstModal(!secessionFirstModal);
-  };
+
+  const ModalRightControl = () => setSecessionFirstModal(!secessionFirstModal);
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
-    if (passwordInput.length > 10) {
+    if (passwordInput.length > 5) {
       setCheckPassword(true);
     } else {
       setCheckPassword(false);
@@ -159,6 +181,17 @@ const Setting = (props: Props) => {
           border={true}
         />
       )}
+      {alertModal && (
+        <TwoBtnModal
+          leftBtnColor="#FF1B2D"
+          leftBtnText="아니오"
+          leftBtnControl={() => setAlertModal(false)}
+          rightBtnColor={colors.main2}
+          rightBtnText="네"
+          rightBtnControl={HandleWidthdrawal}
+          text="비밀번호 입력 없이 정말 탈퇴하시겠습니까"
+        />
+      )}
       <MypageHeader back={true} title={'설정'} handleOnClick={handleOnClick} />
       <Wrapper>
         <Version>
@@ -168,15 +201,24 @@ const Setting = (props: Props) => {
         <SettingList onClick={() => router.push('/alarm/1-1')}>
           알림 설정
         </SettingList>
-        <SettingList onClick={() => router.push('/faq')}>1:1 문의</SettingList>
+        <SettingList onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+          1:1 문의
+        </SettingList>
         <SettingList onClick={() => router.push('/faq')}>
           자주 묻는 질문
         </SettingList>
         <SettingList onClick={() => router.push('/term')}>이용약관</SettingList>
-        <SettingList onClick={() => setLogoutModal(true)}>로그아웃</SettingList>
-        <Secession onClick={() => setSecessionFirstModal(true)}>
-          탈퇴하기
-        </Secession>
+
+        {userID && (
+          <SettingList onClick={() => setLogoutModal(true)}>
+            로그아웃
+          </SettingList>
+        )}
+        {userID && (
+          <Secession onClick={() => setSecessionFirstModal(true)}>
+            탈퇴하기
+          </Secession>
+        )}
       </Wrapper>
     </>
   );

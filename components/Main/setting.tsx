@@ -37,6 +37,7 @@ const Setting = (props: Props) => {
         },
         withCredentials: true,
       }).then((res) => {
+        localStorage.removeItem('SNS_MEMBER');
         localStorage.removeItem('ACCESS_TOKEN');
         localStorage.removeItem('REFRESH_TOKEN');
         localStorage.removeItem('USER_ID');

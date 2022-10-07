@@ -76,7 +76,7 @@ const MainPage = (props: Props) => {
 
   useEffect(() => {
     dispatch(quotationAction.init());
-    // dispatch(subsidyGuideAction.reset());
+    dispatch(subsidyGuideAction.reset());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // key 삭제
@@ -95,7 +95,7 @@ const MainPage = (props: Props) => {
           <Imagewrap onClick={() => router.push('/alarm')}>
             <Image src={Bell} alt="bellBtn" />
           </Imagewrap>
-          <Imagewrap onClick={() => router.push('/alarm/1-1')}>
+          <Imagewrap onClick={() => router.push('/setting')}>
             <Image src={Nut} alt="NutBtn" />
           </Imagewrap>
           <Imagewrap>
@@ -103,12 +103,15 @@ const MainPage = (props: Props) => {
           </Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLoginComplete>
-            <span>
+          <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
+            <span onClick={() => router.push('/profile/editing')}>
               <label className="label">일반회원</label>
               {userId}
             </span>
-            <span className="arrow-img">
+            <span
+              className="arrow-img"
+              onClick={() => router.push('/profile/editing')}
+            >
               <Image src={whiteRight} alt="arrow" layout="fill" />
             </span>
           </WhetherLoginComplete>
@@ -159,17 +162,13 @@ const MainPage = (props: Props) => {
               borderTop: '1px solid #E2E5ED',
             }}
           />
-          <WhiteAreaMenus onClick={() => router.push('/alarm')}>
+          <WhiteAreaMenus onClick={() => alert('2차 작업페이지입니다.')}>
             <span>공지사항</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => router.push('/alarm/1-1')}>
             <span>알림 설정</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID ? router.push('/faq') : router.push('/signin')
-            }
-          >
+          <WhiteAreaMenus onClick={() => alert('2차 작업 페이지 입니다.')}>
             <span>1:1 문의</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => router.push('/faq')}>
@@ -186,10 +185,24 @@ const MainPage = (props: Props) => {
             }}
           />
           <WhiteAreaBottomMenus>
-            <span>
+            <span
+              onClick={() =>
+                window.open(
+                  'https://www.instagram.com/entizen.ev/',
+                  'entizen_Instagram',
+                )
+              }
+            >
               <Image src={grayInsta} alt="인스타"></Image>
             </span>
-            <span>
+            <span
+              onClick={() =>
+                window.open(
+                  'http://www.post.naver.com/entizen_ev',
+                  'entizen_post',
+                )
+              }
+            >
               <Image src={grayNaver} alt="네이버"></Image>
             </span>
           </WhiteAreaBottomMenus>

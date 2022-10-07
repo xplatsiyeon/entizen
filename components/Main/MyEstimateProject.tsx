@@ -5,6 +5,7 @@ import rightArrow from 'public/images/rightArrow.png';
 import Image from 'next/image';
 import { display } from '@mui/system';
 import { useRouter } from 'next/router';
+import colors from 'styles/colors';
 
 type Props = {};
 
@@ -150,7 +151,6 @@ const Count = styled(Typography)`
   margin-right: 3pt;
   text-align: right;    
   color: #5a2dc9;
-
   @media (max-width: 899pt) {
     font-size: 15pt;
     line-height: 15pt;

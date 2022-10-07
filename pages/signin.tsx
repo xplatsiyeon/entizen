@@ -20,7 +20,7 @@ import Image from 'next/image';
 import { getToken, login } from 'api/auth/naver';
 import { useDispatch } from 'react-redux';
 import { naverAction } from 'store/naverSlice';
-
+import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import { userAction } from 'store/userSlice';
 import { useSelector } from 'react-redux';
@@ -30,7 +30,17 @@ import { kakaoInit } from 'utils/kakao';
 import colors from 'styles/colors';
 import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
+
 type Props = {};
+
+interface JwtTokenType {
+  exp: number;
+  iat: number;
+  isSnsMember: boolean;
+  iss: string;
+  memberIdx: number;
+  memberType: string;
+}
 
 const Signin = (props: Props) => {
   const router = useRouter();
@@ -92,6 +102,8 @@ const Signin = (props: Props) => {
         if (c.isMember === true) {
           console.log('멤버 확인');
           console.log(data);
+          const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
           localStorage.setItem('USER_ID', data.kakao_account.email);
           // console.log(user.email);
           localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
@@ -163,6 +175,8 @@ const Signin = (props: Props) => {
           console.log('response 데이터 ->');
           console.log(res.data.accessToken);
           console.log(res.data.refreshToken);
+          const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
           localStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(res.data.accessToken),
@@ -222,6 +236,8 @@ const Signin = (props: Props) => {
           }),
         );
         if (c.isMember === true) {
+          const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
           localStorage.setItem('USER_ID', data.user.email);
           console.log(user.email);
           localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
@@ -341,7 +357,7 @@ const Signin = (props: Props) => {
   return (
     <React.Fragment>
       {loginErr.length > 3 && (
-        <Modal text={loginErr} color={'#222831'} click={modalHandle} />
+        <Modal text={loginErr} color={'#7e7f81'} click={modalHandle} />
       )}
       <Body>
         <WebHeader />
@@ -476,7 +492,7 @@ const Signin = (props: Props) => {
                           name="m"
                           value="checkplusService"
                         />
-                        {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */} 
+                        {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
                         <input
                           type="hidden"
                           id="encodeData"
@@ -661,7 +677,7 @@ const NaverBox = styled(Box)`
   }
 `;
 const BackBtn = styled.img`
-  margin-left:15pt;
+  margin-left: 15pt;
 `;
 const LoginBtn = styled.button`
   background: #5a2dc9;
@@ -717,4 +733,3 @@ const FindBtn = styled.button`
 const Buttons = styled.button`
   display: none;
 `;
-

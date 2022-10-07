@@ -56,24 +56,24 @@ const IdPwInput = ({
   const [checkId, setCheckId] = useState<number>(-1);
 
   // 디바운스를 이용한 유효성 검사
-  const password = useDebounce(pwInput, 500);
+  const passwords = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
   useEffect(() => {
-    if (password) {
+    if (passwords) {
       let check1 =
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
-          password,
+          passwords,
         );
       console.log(check1);
       setCheckedPw(check1);
     }
     if (checkPassword) {
-      if (password !== checkPassword) setCheckSamePw(false);
+      if (passwords !== checkPassword) setCheckSamePw(false);
       else setCheckSamePw(true);
     }
-    console.log(password, checkPassword);
+    console.log(passwords, checkPassword);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [password, checkPassword]);
+  }, [passwords, checkPassword]);
 
   // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
