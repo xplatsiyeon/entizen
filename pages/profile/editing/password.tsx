@@ -14,6 +14,14 @@ import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
 import axios from 'axios';
 
+interface Key {
+  id: string;
+  isMember: boolean;
+  memberIdx: number;
+  name: string;
+  phone: number;
+}
+
 const FindPassword = () => {
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
@@ -28,6 +36,8 @@ const FindPassword = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
+
+  const key: Key = JSON.parse(localStorage.getItem('key')!);
 
   const router = useRouter();
 
@@ -95,8 +105,8 @@ const FindPassword = () => {
 
   const handleClick = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    const memberIdx = JSON.parse(localStorage.getItem('MEMBER_IDX')!);
-    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${memberIdx}`;
+    // const memberIdx = JSON.parse(localStorage.getItem('MEMBER_IDX')!);
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
 
     try {
       axios({
