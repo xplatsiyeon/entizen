@@ -41,7 +41,7 @@ const Setting = () => {
       router.push('/'); // 로그인 페이지로 이동
     }
   };
-  // 카카오 로그 아웃
+  // 카카오 로그아웃
   const KakaoLogout = () => {
     const kakao = kakaoInit();
     console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)
@@ -59,7 +59,7 @@ const Setting = () => {
       },
     });
   };
-  // 로그아웃 처리
+  // 일반회원 로그아웃
   const handleLogoutOnClickModalClick = async () => {
     const LOG_OUT_API = `https://test-api.entizen.kr/api/members/logout`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
@@ -87,7 +87,7 @@ const Setting = () => {
     NaverLogout();
     KakaoLogout();
   };
-  // 회원탈퇴 함수
+  // 회원탈퇴
   const ModalLeftControl = async () => {
     const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
@@ -191,9 +191,7 @@ const Setting = () => {
       {secessionFirstModal && (
         <RequestModal
           title={'정말 탈퇴하시겠습니까?'}
-          subtitle={
-            '사용하고 계신 아이디(useridhere)는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.'
-          }
+          subtitle={`사용하고 계신 아이디${userID}는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.`}
           leftControl={ModalLeftControl}
           rightControl={() => setSecessionFirstModal(!secessionFirstModal)}
           border={true}
