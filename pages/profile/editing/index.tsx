@@ -12,6 +12,7 @@ import WebHeader from 'web-components/WebHeader';
 const ProfileEditing = () => {
   const [name, setName] = useState('test유저');
   const [avatar, setAvatar] = useState<string>('');
+  const [checkSns, setCheckSns] = useState<boolean>(false);
   // 아이디 변경
   const HandleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -28,7 +29,12 @@ const ProfileEditing = () => {
       }
     };
   };
-  const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+  useEffect(() => {
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    if (snsMember) {
+      setCheckSns(true);
+    }
+  }, []);
 
   return (
     <React.Fragment>
