@@ -37,7 +37,7 @@ const AsComplete = ({ text, title, buttonText }: Props) => {
             <CommunicationBox text={'소통하기'} clickHandler={clickHandler} />
           </div>
         </TextBox>
-        <Btn onClick={() => router.push('/mypage/request')}>{buttonText}</Btn>
+        <Btn onClick={() => router.push('/mypage')}>{buttonText}</Btn>
       </Footer>
     </Wrapper>
   );

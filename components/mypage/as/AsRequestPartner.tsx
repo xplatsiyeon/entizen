@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback, useState } from 'react';
-import CallManeger from 'components/Modal/CallManeger';
+import CallManager from 'components/Modal/CallManager';
 
 interface Props {
   pb?: number;
@@ -37,7 +37,7 @@ const AsRequestPartner = ({ pb }: Props) => {
 
   return (
     <>
-      {modalOpen && <CallManeger HandleModal={HandleModal} />}
+      {modalOpen && <CallManager HandleModal={HandleModal} />}
       <Wrapper>
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />

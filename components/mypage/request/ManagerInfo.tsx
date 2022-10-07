@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import CallManeger from 'components/Modal/CallManeger';
+import CallManager from 'components/Modal/CallManager';
 import { useState } from 'react';
 import colors from 'styles/colors';
 
@@ -8,7 +8,7 @@ const ManagerInfo = () => {
   const HandleModal = () => setIsModal((prev) => !prev);
   return (
     <Wrapper>
-      {isModal && <CallManeger HandleModal={HandleModal} />}
+      {isModal && <CallManager HandleModal={HandleModal} />}
       <Subtitle>담당자 정보</Subtitle>
       <List>
         <Item>

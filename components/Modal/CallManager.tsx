@@ -7,7 +7,7 @@ interface Props {
   HandleModal: () => void;
 }
 
-const CallManeger = ({ HandleModal }: Props) => {
+const CallManager = ({ HandleModal }: Props) => {
   return (
     <Wrapper>
       <Box>
@@ -23,7 +23,7 @@ const CallManeger = ({ HandleModal }: Props) => {
   );
 };
 
-export default CallManeger;
+export default CallManager;
 
 const Wrapper = styled.div`
   position: fixed;
@@ -38,6 +38,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 6.75pt;
   z-index: 100;
+  & :nth-of-type(2) > div {
+    padding-bottom: 15pt;
+  }
 `;
 const Box = styled.div`
   width: 359px;
@@ -59,8 +62,5 @@ const Box = styled.div`
     position: absolute;
     left: 15pt;
     top: 9pt;
-  }
-  & :nth-of-type(2) {
-    padding-bottom: 15pt;
   }
 `;
