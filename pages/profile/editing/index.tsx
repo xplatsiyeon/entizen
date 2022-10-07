@@ -176,11 +176,11 @@ const ProfileEditing = () => {
                   </Form>
                 </>
               )}
-              {isId && (
-                <Buttons className="firstNextPage" onClick={HandlePassword}>
-                  숨겨진 비밀번호 변경 버튼
-                </Buttons>
-              )}
+              {/* {isId && ( */}
+              <Buttons className="firstNextPage" onClick={HandlePassword}>
+                숨겨진 비밀번호 변경 버튼
+              </Buttons>
+              {/* )} */}
               {/* {isPassword && (
                 <Buttons className="firstNextPage" onClick={() => {}}>
                   숨겨진 비밀번호 버튼
