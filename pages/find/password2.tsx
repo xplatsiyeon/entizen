@@ -100,7 +100,7 @@ const FindPassword = () => {
     } catch (error: any) {
       console.log('post 실패!!!!!!');
       console.log(error);
-      setModalText(error.data.message);
+      setModalText(error.response.data.message);
       setOpenModal(true);
       console.log(modalText);
     }
