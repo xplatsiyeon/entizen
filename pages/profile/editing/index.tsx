@@ -66,9 +66,10 @@ const ProfileEditing = () => {
   const HandlePassword = async () => {
     let key = localStorage.getItem('key');
     let data = JSON.parse(key!);
+    console.log('--------- data입니다 ---------');
     console.log(data);
     // dispatch(findUserInfoAction.addId(data.id));
-    // router.push('/profile/editing/password');
+    router.push('/profile/editing/password');
   };
   // 나이스 인증
   useEffect(() => {
@@ -81,7 +82,6 @@ const ProfileEditing = () => {
     })
       .then((res) => {
         setData(res.data.executedData);
-        router.push('/profile/editing/password');
         // encodeData = res.data.executedData;
       })
       .catch((error) => {
