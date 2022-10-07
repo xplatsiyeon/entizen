@@ -30,6 +30,7 @@ import { kakaoInit } from 'utils/kakao';
 import colors from 'styles/colors';
 import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
+import jwt from 'jwt-decode';
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -335,6 +336,11 @@ const Signin = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem('ACCESS_TOKEN');
+    const user = jwt(token!);
+    console.log(user);
+  }, []);
   const handleNaver = async () => {
     naverRef.current.children[0].click();
   };
@@ -476,7 +482,7 @@ const Signin = (props: Props) => {
                           name="m"
                           value="checkplusService"
                         />
-                        {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */} 
+                        {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
                         <input
                           type="hidden"
                           id="encodeData"
@@ -661,7 +667,7 @@ const NaverBox = styled(Box)`
   }
 `;
 const BackBtn = styled.img`
-  margin-left:15pt;
+  margin-left: 15pt;
 `;
 const LoginBtn = styled.button`
   background: #5a2dc9;
@@ -717,4 +723,3 @@ const FindBtn = styled.button`
 const Buttons = styled.button`
   display: none;
 `;
-
