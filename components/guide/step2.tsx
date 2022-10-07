@@ -113,7 +113,7 @@ const Step2 = ({
         보조금 최대 수령을 위해 <br /> 아래 항목을 입력해주세요.
       </Text>
 
-      {selectedOption?.map((option, index) => (
+      {selectedOption?.map((item, index) => (
         <div key={index}>
           <QuantityBox>
             <span className="name">충전기 종류 및 수량 선택</span>
@@ -129,7 +129,7 @@ const Step2 = ({
           </QuantityBox>
           <SelectContainer>
             <SelectBox
-              value={option.kind}
+              value={item.kind}
               name="kind"
               displayEmpty
               onChange={(event) => handleOptionChange(event, index)}
@@ -148,7 +148,7 @@ const Step2 = ({
 
           <SelectContainer>
             <SelectSmall
-              value={option.standType}
+              value={item.standType}
               name="standType"
               onChange={(event) => handleOptionChange(event, index)}
               displayEmpty
@@ -157,14 +157,14 @@ const Step2 = ({
               <MenuItem value="">
                 <Placeholder>타입</Placeholder>
               </MenuItem>
-              {M5_TYPE_SET[m5Index].map((option, index) => (
+              {M5_TYPE_SET[item.idx].map((option, index) => (
                 <MenuItem key={index} value={option}>
                   {option}
                 </MenuItem>
               ))}
             </SelectSmall>
             <SelectSmall
-              value={option.channel}
+              value={item.channel}
               name="channel"
               onChange={(event) => handleOptionChange(event, index)}
               IconComponent={() => <SelectIcon />}
@@ -173,14 +173,14 @@ const Step2 = ({
               <MenuItem value="">
                 <Placeholder>타입</Placeholder>
               </MenuItem>
-              {M5_CHANNEL_SET[m5Index].map((option, index) => (
+              {M5_CHANNEL_SET[item.idx].map((option, index) => (
                 <MenuItem key={index} value={option}>
                   {option}
                 </MenuItem>
               ))}
             </SelectSmall>
             <SelectSmall
-              value={option.count}
+              value={item.count}
               name="count"
               onChange={(event) => handleOptionChange(event, index)}
               IconComponent={() => <SelectIcon />}
