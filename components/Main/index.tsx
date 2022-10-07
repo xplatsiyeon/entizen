@@ -104,11 +104,14 @@ const MainPage = (props: Props) => {
         </XBtnWrapper>
         {isLogin ? (
           <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
-            <span>
+            <span onClick={() => router.push('/profile/editing')}>
               <label className="label">일반회원</label>
               {userId}
             </span>
-            <span className="arrow-img">
+            <span
+              className="arrow-img"
+              onClick={() => router.push('/profile/editing')}
+            >
               <Image src={whiteRight} alt="arrow" layout="fill" />
             </span>
           </WhetherLoginComplete>
