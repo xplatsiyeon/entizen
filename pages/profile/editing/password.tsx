@@ -12,6 +12,7 @@ import Modal from 'components/Modal/Modal';
 import React from 'react';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
+import axios from 'axios';
 
 const FindPassword = () => {
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
@@ -93,7 +94,30 @@ const FindPassword = () => {
   };
 
   const handleClick = () => {
-    setOpenModal(true);
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    const memberIdx = JSON.parse(localStorage.getItem('MEMBER_IDX')!);
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${memberIdx}`;
+
+    try {
+      axios({
+        method: 'patch',
+        url: PASSWORD_CHANGE,
+        data: {
+          oldPassword: beforePasswordInput,
+          newPassword: password,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => {
+        setOpenModal(true);
+      });
+    } catch (error) {
+      console.log('비밀번호 변경 실패');
+      console.log(error);
+    }
   };
   const handleModalYes = () => {
     setOpenModal(false);
@@ -102,6 +126,15 @@ const FindPassword = () => {
   const beforeAdornment = beforePwSelected ? iconAdorment : {};
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+
+  useEffect(() => {
+    console.log('이전 비밀번호');
+    console.log(beforePasswordInput);
+    console.log('새로운 비밀번호');
+    console.log(password);
+    console.log('새로운 비밀번호 체크');
+    console.log(checkPassword);
+  }, [beforePasswordInput, password, checkPassword]);
 
   return (
     <React.Fragment>
