@@ -179,7 +179,6 @@ const Setting = (props: Props) => {
     setPasswordInput(e.target.value);
     if (passwordInput.length > 5) {
       setCheckPassword(true);
-      setSecessionFirstModal(true);
     } else {
       setCheckPassword(false);
     }
@@ -191,6 +190,7 @@ const Setting = (props: Props) => {
           passwordInput={passwordInput}
           onChange={handlePasswordChange}
           checkPassword={checkPassword}
+          click={authPassowrd}
         />
       )}
       {logoutModal && (
@@ -222,7 +222,10 @@ const Setting = (props: Props) => {
           leftBtnControl={() => setAlertModal(false)}
           rightBtnColor={colors.main2}
           rightBtnText="네"
-          rightBtnControl={authPassowrd}
+          rightBtnControl={() => {
+            setAlertModal(false);
+            setSecessionFirstModal(true);
+          }}
           text="비밀번호 입력 없이 정말 탈퇴하시겠습니까"
         />
       )}
