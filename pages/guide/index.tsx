@@ -294,8 +294,8 @@ const Guide1 = () => {
               </div>
             </GuideBox>
           </Wrap>
-          <EntizenLibrary onClick={() => router.push('/library')}>
-            <Btn>
+          <EntizenLibrary>
+            <Btn onClick={() => router.push('/library')}>
               &nbsp; 보러가기
               <div className="img">
                 <Image src={arrow_small} alt="arrow_small" layout="fill" />
