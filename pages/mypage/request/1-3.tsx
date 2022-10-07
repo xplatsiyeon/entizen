@@ -16,7 +16,7 @@ import Mypage2_1 from 'components/mypage/request/2-1';
 import Button from 'components/mypage/request/Button';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
-import Request from '..';
+//import Request from '..';
 import RequestMain from 'components/mypage/request/requestMain';
 
 
