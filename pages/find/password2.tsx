@@ -135,7 +135,10 @@ const FindPassword = () => {
 
   useEffect(() => {
     if (localStorage.getItem('key')) {
+      console.log('여기입니다~!!');
+      console.log(localStorage.getItem('key'));
       let data = localStorage.getItem('key');
+
       let jsonData: any;
       if (data !== null) {
         let jsonData = JSON.parse(data);
@@ -143,8 +146,6 @@ const FindPassword = () => {
       setMemeberIdx(jsonData.memberIdx);
     }
 
-    console.log('여기입니다.');
-    console.log(memberIdx);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
