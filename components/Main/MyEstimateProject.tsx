@@ -142,14 +142,14 @@ const CountBox = styled(Box)`
 `;
 
 const Count = styled(Typography)`
-  color: #caccd1;
   font-family: 'Spoqa Han Sans Neo';
   font-size: 27pt;
   font-weight: 700;
   line-height: 25.5pt;
   letter-spacing: -0.02em;
   margin-right: 3pt;
-  text-align: right;
+  text-align: right;    
+  color: #5a2dc9;
 
   @media (max-width: 899pt) {
     font-size: 15pt;
