@@ -54,9 +54,13 @@ const Box = styled.div`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.blue2};
+
   .img-box {
     position: absolute;
     left: 15pt;
     top: 9pt;
+  }
+  & :nth-of-type(2) {
+    padding-bottom: 15pt;
   }
 `;
