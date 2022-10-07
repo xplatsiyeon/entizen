@@ -59,7 +59,7 @@ const FindPassword = () => {
       setBeforePasswordInput(e.target.value);
     }
 
-    if (pwInput.length > 10 && checkPw === pwInput) {
+    if (pwInput.length > 9 && checkPw === pwInput) {
       setBtnActive(!btnActive);
     }
   };

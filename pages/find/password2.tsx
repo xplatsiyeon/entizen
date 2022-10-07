@@ -26,6 +26,7 @@ const FindPassword = () => {
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
   const [btnActive, setBtnActive] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [memberIdx, setMemeberIdx] = useState<number>();
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
@@ -58,7 +59,7 @@ const FindPassword = () => {
       setBeforePasswordInput(e.target.value);
     }
 
-    if (pwInput.length > 10 && checkPw === pwInput) {
+    if (pwInput.length > 9 && checkPw === pwInput) {
       setBtnActive(!btnActive);
     }
   };
@@ -131,6 +132,21 @@ const FindPassword = () => {
   const beforeAdornment = beforePwSelected ? iconAdorment : {};
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+
+  useEffect(() => {
+    if (localStorage.getItem('key')) {
+      let data = localStorage.getItem('key');
+      let jsonData: any;
+      if (data !== null) {
+        let jsonData = JSON.parse(data);
+      }
+      setMemeberIdx(jsonData.memberIdx);
+    }
+
+    console.log('여기입니다.');
+    console.log(memberIdx);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <React.Fragment>
