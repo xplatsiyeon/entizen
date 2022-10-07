@@ -143,7 +143,7 @@ const SliderSizes = ({
   };
 
   return (
-    <SliderCustom width={'100%'} disabled={disabled} client={true.toString()}>
+    <SliderCustom width={'97%'} disabled={disabled} client={true.toString()}>
       {/* 슬라이더 */}
       <Slider
         step={5}
