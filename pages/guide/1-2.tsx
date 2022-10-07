@@ -283,7 +283,7 @@ const Guide1_2 = () => {
             onClickMinus={onClickMinus}
             m5Index={m5Index}
           />
-          <ChargeGuide>
+          <ChargeGuide onClick={() => router.push('/guide/1-5')}>
             <span className="text">충전기 가이드</span>
             <div className="img">
               <Image src={arrow_small} alt="arrow_small" />
