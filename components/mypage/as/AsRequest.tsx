@@ -23,7 +23,7 @@ const AsRequest = (props: Props) => {
         {/* Close */}
         <ItemButton onClick={handleClick}>
           <StoreName>
-            <Badge>견적마감</Badge>
+            <Badge>접수요청 D-3</Badge>
             <div>
               <h1>LS 카페 신림점</h1>
               {open ? (
