@@ -58,12 +58,7 @@ const phone = () => {
               번호로만 변경이 가능합니다.
             </Notice>
             <InputBox>
-              <Input
-                type="text"
-                placeholder={Number(key.phone)}
-                readOnly
-                value={key.phone}
-              />
+              <Input type="text" readOnly value={key?.phone || '01049988965'} />
               {/* <InputBtn>확인</InputBtn> */}
             </InputBox>
             <BtnBox>
@@ -144,30 +139,14 @@ const Input = styled.input`
   margin-top: 9pt;
   border: 0.75pt solid ${colors.gray};
   border-radius: 6pt;
-  width: 100%;
+  width: calc(100% - 15pt);
   position: relative;
-  ::placeholder {
-    padding-left: 15pt;
-    font-weight: 500;
-    font-size: 12pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: ${colors.lightGray3};
-  }
-`;
-const InputBtn = styled.button`
   font-weight: 500;
-  font-size: 10.5pt;
+  font-size: 12pt;
   line-height: 12pt;
-  text-align: right;
   letter-spacing: -0.02em;
-  color: ${colors.lightWhite};
-  background-color: ${colors.main};
-  padding: 7.5pt 9pt;
-  border-radius: 6pt;
-  position: absolute;
-  right: 21pt;
-  top: 15pt;
+  color: ${colors.lightGray3};
+  padding-left: 15pt;
 `;
 const BtnBox = styled.div`
   position: fixed;
