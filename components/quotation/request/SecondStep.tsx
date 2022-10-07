@@ -30,6 +30,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
   const [notCommon, setNotCommon] = useState(false);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const [subscribeNumber, setSubscribeNumber] = useState(-1);
+  const [disableButton, setDisableButton] = useState(false);
   const subscribeType: any[] = ['전체구독', '부분구독'];
 
   // 이전
@@ -97,12 +98,16 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
 
   useEffect(() => {
     chargersKo.map((item, index) => {
+      if (item.kind === '7 kW 홈 충전기 (가정용)') {
+        setSubscribeNumber(1);
+        setDisableButton(true);
+      }
       if (chargersKo.length > 1 && item.kind === '7 kW 홈 충전기 (가정용)') {
         setNotCommon(true);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [chargersKo]);
 
   return (
     <Wrraper>
@@ -114,7 +119,11 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
             key={index}
             idx={index.toString()}
             subscribeNumber={subscribeNumber.toString()}
-            onClick={() => setSubscribeNumber(index)}
+            onClick={() => {
+              if (!disableButton) {
+                setSubscribeNumber(index);
+              }
+            }}
           >
             {type}
           </Tab>
