@@ -33,7 +33,7 @@ const Wrapper = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.65);
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   flex-direction: column;
   gap: 6.75pt;
@@ -46,7 +46,7 @@ const Box = styled.div`
   border-radius: 9pt;
   position: relative;
   display: flex;
-  justify-content: end;
+  justify-content: center;
   align-items: center;
   font-weight: 400;
   font-size: 13.5pt;
