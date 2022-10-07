@@ -98,21 +98,7 @@ const Setting = (props: Props) => {
   const handleOnClick = () => {
     router.back();
   };
-  const ModalLeftControl = () => {
-    setSecessionFirstModal(false);
-
-    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
-
-    if (snsMember) {
-      // sns 회원탈퇴
-      setAlertModal(true);
-    } else {
-      // 일반 회원탈퇴
-      setPasswordModal(true);
-    }
-  };
-
-  const HandleWidthdrawal = async () => {
+  const ModalLeftControl = async () => {
     const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     console.log('탈퇴');
@@ -138,6 +124,53 @@ const Setting = (props: Props) => {
     } catch (error) {
       console.log('요청 실패');
       console.log(error);
+    }
+  };
+
+  const HandleWidthdrawal = async () => {
+    console.log('check');
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    if (snsMember) {
+      // sns 회원탈퇴
+      setAlertModal(true);
+    } else {
+      // 일반 회원탈퇴
+      setPasswordModal(true);
+    }
+  };
+
+  const authPassowrd = () => {
+    if (checkPassword) {
+      console.log('check');
+      const LOGIN_API = 'https://test-api.entizen.kr/api/members/login';
+      const userId = JSON.parse(localStorage.getItem('USER_ID')!);
+      const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+      try {
+        axios({
+          method: 'post',
+          url: LOGIN_API,
+          data: {
+            memberType: 'USER',
+            id: userId,
+            password: passwordInput,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            ContentType: 'application/json',
+          },
+          withCredentials: true,
+        }).then((res) => {
+          console.log('------');
+          console.log(res);
+          console.log('------');
+          if (res.data.isSuccess === true) {
+            setSecessionFirstModal(true);
+            setPasswordModal(false);
+          }
+        });
+      } catch (error) {
+        console.log('error -->' + error);
+      }
     }
   };
 
@@ -188,7 +221,7 @@ const Setting = (props: Props) => {
           leftBtnControl={() => setAlertModal(false)}
           rightBtnColor={colors.main2}
           rightBtnText="네"
-          rightBtnControl={HandleWidthdrawal}
+          rightBtnControl={authPassowrd}
           text="비밀번호 입력 없이 정말 탈퇴하시겠습니까"
         />
       )}
@@ -214,11 +247,7 @@ const Setting = (props: Props) => {
             로그아웃
           </SettingList>
         )}
-        {userID && (
-          <Secession onClick={() => setSecessionFirstModal(true)}>
-            탈퇴하기
-          </Secession>
-        )}
+        {userID && <Secession onClick={HandleWidthdrawal}>탈퇴하기</Secession>}
       </Wrapper>
     </>
   );
