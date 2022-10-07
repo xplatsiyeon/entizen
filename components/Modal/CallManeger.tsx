@@ -46,7 +46,7 @@ const Box = styled.div`
   border-radius: 9pt;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   font-weight: 400;
   font-size: 13.5pt;
