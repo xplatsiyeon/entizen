@@ -28,7 +28,7 @@ const RequestMain = (props:props) => {
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
   const components: Components = {
-    0: <WebEstimate page={page}/>,  //얘도 필요할까?
+    0: <WebEstimate/>,  //얘도 필요할까?
     2: <AsIndex />,
   };
 

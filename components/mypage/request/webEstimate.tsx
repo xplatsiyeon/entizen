@@ -9,9 +9,6 @@ interface Data {
   storeName: string;
   date: string;
 }
-type Props = {
-  page?:number
-}
 
 const tempProceeding: Data[] = [
   {
@@ -72,7 +69,7 @@ const temphisTory: Data[] = [
   },
 ];
 
-const WebEstimate = ({page}:Props) => {
+const WebEstimate = () => {
   const route = useRouter();
   const HandleColor = (badge: string): string => {
     if (badge.includes('마감')) return '#F75015';

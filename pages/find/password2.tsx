@@ -144,7 +144,7 @@ const FindPassword = () => {
   };
   const handleModalYes = () => {
     setOpenModal(false);
-    if (modalText.includes('완료')) {
+    if (modalText.includes('완료') || modalText.includes('회원가입')) {
       router.push('/signin');
     } else {
       setOpenModal(false);
@@ -155,18 +155,12 @@ const FindPassword = () => {
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
   useEffect(() => {
-    // if (localStorage.getItem('key')) {
-    //   console.log('여기입니다~!!');
-    //   console.log(localStorage.getItem('key'));
-    //   let data = localStorage.getItem('key');
-    //   let jsonData: any;
-    //   if (data !== null) {
-    //     let jsonData = JSON.parse(data);
-    //   }
-    //   setMemeberIdx(jsonData.memberIdx);
-    // } else {
-    //   console.log('실패');
-    // }
+    let key = localStorage.getItem('key');
+    let data = JSON.parse(key!);
+    if (data.snsType) {
+      setModalText(`${data.snsType}으로 회원가입 하셨습니다.`);
+      setOpenModal(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -311,7 +305,7 @@ const Wrapper = styled.div`
 
   @media (max-width: 899pt) {
     height: 100%;
-    padding: 0 15pt 15pt 15pt;
+    /* padding: 0 15pt 15pt 15pt; */
     margin: 0;
   }
 `;

@@ -18,7 +18,7 @@ const ProfileEditing = () => {
   const [data, setData] = useState<any>();
   const [isId, setIsId] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-
+  const [checkSns, setCheckSns] = useState<boolean>(false);
   // 아이디 변경
   const HandleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -65,6 +65,16 @@ const ProfileEditing = () => {
   // 나이스 인증
   useEffect(() => {
     const memberType = 'USER';
+    useEffect(() => {
+      const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+      if (snsMember) {
+        setCheckSns(snsMember);
+      }
+      console.log('여기임둥');
+      console.log(checkSns);
+      console.log(snsMember);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     axios({
       method: 'post',
@@ -171,6 +181,18 @@ const ProfileEditing = () => {
                 <Buttons className="firstNextPage" onClick={() => {}}>
                   숨겨진 비밀번호 버튼
                 </Buttons>
+              )}
+              {!checkSns && (
+                <>
+                  <Form>
+                    <TitleSection>
+                      <Label mt={0}>비밀번호 변경</Label>
+                      <div>
+                        <Image src={Arrow} alt="arrow-img" />
+                      </div>
+                    </TitleSection>
+                  </Form>
+                </>
               )}
             </Body>
             {/* <BtnBox>
