@@ -47,6 +47,7 @@ const Setting = (props: Props) => {
       router.push('/'); // 로그인 페이지로 이동
     }
   };
+
   const KakaoLogout = () => {
     const kakao = kakaoInit();
     console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)

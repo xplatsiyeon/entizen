@@ -28,6 +28,7 @@ const ProfileEditing = () => {
       }
     };
   };
+  const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
 
   return (
     <React.Fragment>
@@ -76,14 +77,18 @@ const ProfileEditing = () => {
                   가능합니다.
                 </Text>
               </Form>
-              <Form>
-                <TitleSection>
-                  <Label mt={0}>비밀번호 변경</Label>
-                  <div>
-                    <Image src={Arrow} alt="arrow-img" />
-                  </div>
-                </TitleSection>
-              </Form>
+              {snsMember && (
+                <>
+                  <Form>
+                    <TitleSection>
+                      <Label mt={0}>비밀번호 변경</Label>
+                      <div>
+                        <Image src={Arrow} alt="arrow-img" />
+                      </div>
+                    </TitleSection>
+                  </Form>
+                </>
+              )}
             </Body>
             {/* <BtnBox>
         <Blur />
