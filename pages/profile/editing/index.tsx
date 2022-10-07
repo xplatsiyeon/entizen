@@ -36,24 +36,23 @@ const ProfileEditing = () => {
     };
   };
 
-  // // 아이디 찾기
-  // const HandlePassword = async () => {
-  //   let key = localStorage.getItem('key');
-  //   let data = JSON.parse(key!);
-  //   console.log('--------- data입니다 ---------');
-  //   console.log(data);
-  //   // dispatch(findUserInfoAction.addId(data.id));
-  //   router.push('/profile/editing/password');
-  // };
-  // // 아이디 찾기
-  // const HandlePassword = async () => {
-  //   let key = localStorage.getItem('key');
-  //   let data = JSON.parse(key!);
-  //   console.log('--------- data입니다 ---------');
-  //   console.log(data);
-  //   // dispatch(findUserInfoAction.addId(data.id));
-  //   router.push('/profile/editing/password');
-  // };
+  // 휴대폰 변경
+  const HandlePhone = async () => {
+    let key = localStorage.getItem('key');
+    let data = JSON.parse(key!);
+    console.log('---------휴대폰 변경 data입니다 ---------');
+    console.log(data);
+
+    router.push('/profile/editing/phone');
+  };
+  // 비밀번호 변경
+  const HandlePassword = async () => {
+    let key = localStorage.getItem('key');
+    let data = JSON.parse(key!);
+    console.log('---------비밀번호 변경 data입니다 ---------');
+    console.log(data);
+    router.push('/profile/editing/password');
+  };
 
   // 나이스 인증
   const fnPopup = (event: any) => {
@@ -183,18 +182,12 @@ const ProfileEditing = () => {
                 </>
               )}
               {isPhone && (
-                <Buttons
-                  className="firstNextPage"
-                  onClick={() => router.push('/profile/editing/password')}
-                >
+                <Buttons className="firstNextPage" onClick={HandlePhone}>
                   숨겨진 비밀번호 버튼
                 </Buttons>
               )}
               {isPassword && (
-                <Buttons
-                  className="firstNextPage"
-                  onClick={() => router.push('/profile/editing/phone')}
-                >
+                <Buttons className="firstNextPage" onClick={HandlePassword}>
                   숨겨진 휴대폰번호 버튼
                 </Buttons>
               )}
