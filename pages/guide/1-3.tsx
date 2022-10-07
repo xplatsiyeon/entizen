@@ -14,7 +14,7 @@ interface Components {
 const Guide1_3 = () => {
   const router = useRouter();
   const [tabNumber, setTabNumber] = useState(0);
-  const TabType: string[] = ['충전전력요금', '일반사향'];
+  const TabType: string[] = ['충전전력요금', '일반사항'];
   const components: Components = {
     0: <RateInfoTab1 />,
     1: <RateInfoTab2 />,
