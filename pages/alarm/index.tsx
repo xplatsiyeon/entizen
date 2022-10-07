@@ -65,86 +65,92 @@ const Alam = () => {
     <WebBody>
       <WebHeader />
       <Inner>
-    <Wrapper>
-      <Header>
-        <div className="back-img" onClick={() => router.back()}>
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={BackImg}
-            alt="btn"
-          />
-        </div>
-        <span className="text">알림함</span>
-        <div className="setting-img" onClick={() => router.push('/alarm/1-1')}>
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={Nut}
-            alt="nut"
-          />
-        </div>
-      </Header>
-      <Tab>
-        {tabList.map((text, index) => (
-          <Text
-            tab={tab.toString()}
-            idx={index.toString()}
-            className="tab-item"
-            key={index}
-            onClick={() => tabHandler(index)}
-          >
-            {text}
-            {tab === index && <Line />}
-          </Text>
-        ))}
-      </Tab>
-      {list.length === 0 && (
-        <Body>
-          <Image src={Bell} alt="bell" />
-          <p className="text">새로운 알림이 없습니다</p>
-        </Body>
-      )}
-      {tab === 0 && (
-        <Main>
-          {list.map((_, index) => (
-            <ContensBox key={index} onClick={onClicklist}>
-              <label className="label">[견적마감]</label>
-              <p className="contents">서비스 이용 약관 개정 안내드립니다.</p>
-              <div className="period">1주 전</div>
-              <div className="line"></div>
-            </ContensBox>
-          ))}
-        </Main>
-      )}
-      {tab === 1 && (
-        <Main>
-          {list.map((_, index) => (
-            <ContensBox key={index} onClick={onClicklist}>
-              <p className="contents">서비스 이용 약관 개정 안내드립니다.</p>
-              <div className="period">1주 전</div>
-              <div className="line"></div>
-            </ContensBox>
-          ))}
-        </Main>
-      )}
+        <Wrapper>
+          <Header>
+            <div className="back-img" onClick={() => router.back()}>
+              <Image
+                style={{
+                  cursor: 'pointer',
+                  width: '18pt',
+                  height: '18pt',
+                }}
+                src={BackImg}
+                alt="btn"
+              />
+            </div>
+            <span className="text">알림함</span>
+            <div
+              className="setting-img"
+              onClick={() => router.push('/setting')}
+            >
+              <Image
+                style={{
+                  cursor: 'pointer',
+                  width: '18pt',
+                  height: '18pt',
+                }}
+                src={Nut}
+                alt="nut"
+              />
+            </div>
+          </Header>
+          <Tab>
+            {tabList.map((text, index) => (
+              <Text
+                tab={tab.toString()}
+                idx={index.toString()}
+                className="tab-item"
+                key={index}
+                onClick={() => tabHandler(index)}
+              >
+                {text}
+                {tab === index && <Line />}
+              </Text>
+            ))}
+          </Tab>
+          {list.length === 0 && (
+            <Body>
+              <Image src={Bell} alt="bell" />
+              <p className="text">새로운 알림이 없습니다</p>
+            </Body>
+          )}
+          {tab === 0 && (
+            <Main>
+              {list.map((_, index) => (
+                <ContensBox key={index} onClick={onClicklist}>
+                  <label className="label">[견적마감]</label>
+                  <p className="contents">
+                    서비스 이용 약관 개정 안내드립니다.
+                  </p>
+                  <div className="period">1주 전</div>
+                  <div className="line"></div>
+                </ContensBox>
+              ))}
+            </Main>
+          )}
+          {tab === 1 && (
+            <Main>
+              {list.map((_, index) => (
+                <ContensBox key={index} onClick={onClicklist}>
+                  <p className="contents">
+                    서비스 이용 약관 개정 안내드립니다.
+                  </p>
+                  <div className="period">1주 전</div>
+                  <div className="line"></div>
+                </ContensBox>
+              ))}
+            </Main>
+          )}
 
-      <div ref={loadRef}>{isScroll && !isLoading && <Loader />}</div>
-    </Wrapper>
-        </Inner>
-        <WebFooter />
-      </WebBody>
+          <div ref={loadRef}>{isScroll && !isLoading && <Loader />}</div>
+        </Wrapper>
+      </Inner>
+      <WebFooter />
+    </WebBody>
   );
 };
 
 export default Alam;
-
 
 const Buttons = styled.button`
   display: none;
