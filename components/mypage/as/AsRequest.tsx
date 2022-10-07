@@ -8,11 +8,14 @@ import { useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
 import MypageHeader from '../request/header';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 const AsRequest = (props: Props) => {
   const [open, setOpen] = useState<boolean>(false);
+  const router = useRouter();
+  console.log(router);
 
   const handleClick = () => setOpen(!open);
 
