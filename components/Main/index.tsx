@@ -162,17 +162,13 @@ const MainPage = (props: Props) => {
               borderTop: '1px solid #E2E5ED',
             }}
           />
-          <WhiteAreaMenus onClick={() => router.push('/alarm')}>
+          <WhiteAreaMenus onClick={() => alert('2차 작업페이지입니다.')}>
             <span>공지사항</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => router.push('/alarm/1-1')}>
             <span>알림 설정</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID ? router.push('/faq') : router.push('/signin')
-            }
-          >
+          <WhiteAreaMenus onClick={() => alert('2차 작업 페이지 입니다.')}>
             <span>1:1 문의</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => router.push('/faq')}>
@@ -197,13 +193,12 @@ const MainPage = (props: Props) => {
                 )
               }
             >
-              post.naver.com/entizen_ev
               <Image src={grayInsta} alt="인스타"></Image>
             </span>
             <span
               onClick={() =>
                 window.open(
-                  'https://www.post.naver.com/entizen_ev',
+                  'http://www.post.naver.com/entizen_ev',
                   'entizen_post',
                 )
               }

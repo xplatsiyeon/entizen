@@ -43,20 +43,13 @@ const SignUpCheck = () => {
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
   useEffect(() => {
-    let num = password.search(/[0-9]/g);
-    let eng = password.search(/[a-z]/gi);
-    let spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-
     if (password) {
-      if (password.length < 10 || password.length > 20) setCheckedPw(false);
-      else if (password.search(/₩s/) != -1) setCheckedPw(false);
-      else if (
-        (num < 0 && eng < 0) ||
-        (eng < 0 && spe < 0) ||
-        (spe < 0 && num < 0)
-      )
-        setCheckedPw(false);
-      else setCheckedPw(true);
+      let check1 =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,20}$/.test(
+          password,
+        );
+      console.log(check1);
+      setCheckedPw(check1);
     }
     if (checkPassword) {
       if (password !== checkPassword) setCheckSamePw(false);
