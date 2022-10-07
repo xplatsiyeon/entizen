@@ -35,8 +35,29 @@ const ProfileEditing = () => {
       }
     };
   };
-  // 나이스 인승
+
+  // // 아이디 찾기
+  // const HandlePassword = async () => {
+  //   let key = localStorage.getItem('key');
+  //   let data = JSON.parse(key!);
+  //   console.log('--------- data입니다 ---------');
+  //   console.log(data);
+  //   // dispatch(findUserInfoAction.addId(data.id));
+  //   router.push('/profile/editing/password');
+  // };
+  // // 아이디 찾기
+  // const HandlePassword = async () => {
+  //   let key = localStorage.getItem('key');
+  //   let data = JSON.parse(key!);
+  //   console.log('--------- data입니다 ---------');
+  //   console.log(data);
+  //   // dispatch(findUserInfoAction.addId(data.id));
+  //   router.push('/profile/editing/password');
+  // };
+
+  // 나이스 인증
   const fnPopup = (event: any) => {
+    console.log('나이스 인증');
     const { value } = event.currentTarget;
     if (value === 'phone') {
       setIsPhone(true);
@@ -76,7 +97,7 @@ const ProfileEditing = () => {
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [data]);
   // sns 체크
   useEffect(() => {
     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
