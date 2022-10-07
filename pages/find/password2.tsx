@@ -144,6 +144,8 @@ const FindPassword = () => {
         let jsonData = JSON.parse(data);
       }
       setMemeberIdx(jsonData.memberIdx);
+    } else {
+      console.log('실패');
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
