@@ -83,7 +83,7 @@ const ProfileEditing = () => {
                   가능합니다.
                 </Text>
               </Form>
-              {snsMember && (
+              {checkSns && (
                 <>
                   <Form>
                     <TitleSection>
