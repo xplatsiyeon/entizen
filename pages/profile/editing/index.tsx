@@ -58,14 +58,14 @@ const ProfileEditing = () => {
   const fnPopup = (event: any) => {
     console.log('나이스 인증');
     console.log(event);
-    const { value } = event.currentTarget;
-    console.log(`value -> ${value}`);
+    const { id } = event.currentTarget;
+    console.log(`id -> ${id}`);
 
-    if (value === 'phone') {
+    if (id === 'phone') {
       setIsPhone(true);
       console.log('phone입니다');
     }
-    if (value === 'password') {
+    if (id === 'password') {
       setIsPassword(true);
       console.log('passowrd입니다');
     }
@@ -162,7 +162,7 @@ const ProfileEditing = () => {
                     <input type="hidden" name="recvMethodType" value="get" />
                     {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
                     <Form>
-                      <TitleSection onClick={(e) => fnPopup(e)}>
+                      <TitleSection id="phone" onClick={fnPopup}>
                         <Label mt={0}>휴대폰 번호</Label>
                         <div>
                           <Image src={Arrow} alt="arrow-img" />
@@ -174,7 +174,7 @@ const ProfileEditing = () => {
                       </Text>
                     </Form>
                     <Form>
-                      <TitleSection onClick={(e) => fnPopup(e)}>
+                      <TitleSection id="password" onClick={fnPopup}>
                         <Label mt={0}>비밀번호 변경</Label>
                         <div>
                           <Image src={Arrow} alt="arrow-img" />
