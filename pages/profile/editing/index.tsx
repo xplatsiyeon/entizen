@@ -32,7 +32,7 @@ const ProfileEditing = () => {
   useEffect(() => {
     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
-      setCheckSns(true);
+      setCheckSns(snsMember);
     }
     console.log('여기임둥');
     console.log(checkSns);
