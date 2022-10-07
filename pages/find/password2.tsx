@@ -95,14 +95,24 @@ const FindPassword = () => {
         console.log(res);
         setModalText('비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.');
         setOpenModal(true);
+        console.log(modalText);
       });
     } catch (error: any) {
       console.log('post 실패!!!!!!');
       console.log(error);
       setModalText(error.data.message);
       setOpenModal(true);
+      console.log(modalText);
     }
   };
+
+  useEffect(() => {
+    console.log('여기요!~!');
+    console.log(modalText);
+    console.log(openModal);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalText, setModalText]);
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
