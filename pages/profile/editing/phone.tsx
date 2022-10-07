@@ -12,13 +12,17 @@ interface Key {
   isMember: boolean;
   memberIdx: number;
   name: string;
-  phone: number;
+  phone: string;
 }
 
 const phone = () => {
   const router = useRouter();
 
   const key: Key = JSON.parse(localStorage.getItem('key')!);
+  const phoneNumber = key?.phone
+    .replace(/[^0-9]/g, '')
+    .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+
   const onClickBtn = () => {
     //수정완료 api
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
@@ -38,7 +42,7 @@ const phone = () => {
       }).then((res) => {
         console.log('백엔드에서 받은 데이터');
         console.log(res);
-        // router.push('/');
+        router.push('/');
       });
     } catch (error) {
       console.log('비밀번호 변경 실패');
@@ -58,9 +62,10 @@ const phone = () => {
               번호로만 변경이 가능합니다.
             </Notice>
             <InputBox>
-              <Input type="text" readOnly value={key?.phone || '01049988965'} />
+              <Input type="text" readOnly value={phoneNumber || ''} />
               {/* <InputBtn>확인</InputBtn> */}
             </InputBox>
+            <AlertMessage>해당 번호로 변경됩니다.</AlertMessage>
             <BtnBox>
               <Btn onClick={onClickBtn}>수정완료</Btn>
             </BtnBox>
@@ -129,6 +134,15 @@ const Notice = styled.p`
   color: ${colors.gray2};
   padding-top: 9pt;
   padding-left: 15pt;
+`;
+const AlertMessage = styled.p`
+  font-weight: 400;
+  font-size: 9pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main};
+  padding-left: 15pt;
+  padding-top: 9pt;
 `;
 const InputBox = styled.div`
   position: relative;
