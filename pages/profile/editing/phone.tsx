@@ -17,11 +17,12 @@ interface Key {
 
 const phone = () => {
   const router = useRouter();
+
   const key: Key = JSON.parse(localStorage.getItem('key')!);
   const onClickBtn = () => {
     //수정완료 api
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members`;
     try {
       axios({
         method: 'patch',
@@ -57,7 +58,12 @@ const phone = () => {
               번호로만 변경이 가능합니다.
             </Notice>
             <InputBox>
-              <Input type="text" placeholder="123123" readOnly />
+              <Input
+                type="text"
+                placeholder={Number(key.phone)}
+                readOnly
+                value={key.phone}
+              />
               {/* <InputBtn>확인</InputBtn> */}
             </InputBox>
             <BtnBox>
