@@ -8,10 +8,17 @@ import colors from 'styles/colors';
 import Arrow from 'public/guide/Arrow.svg';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const ProfileEditing = () => {
+  const router = useRouter();
   const [name, setName] = useState('test유저');
   const [avatar, setAvatar] = useState<string>('');
+  const [data, setData] = useState<any>();
+  const [isId, setIsId] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
+
   // 아이디 변경
   const HandleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -28,7 +35,60 @@ const ProfileEditing = () => {
       }
     };
   };
+  // 나이스 인승
+  const fnPopup = (event: any) => {
+    console.log('check');
+    console.log(event?.currentTarget.value);
+    const { value } = event.currentTarget;
+    if (value === 'id') {
+      setIsId(true);
+      console.log('id입니다');
+    }
+    if (value === 'password') {
+      setIsPassword(true);
+      console.log('passowrd입니다');
+    }
+    if (typeof window !== 'object') return;
+    else {
+      window.open(
+        '',
+        'popupChk',
+        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+      );
+      let cloneDocument = document as any;
+      cloneDocument.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      cloneDocument.form_chk.target = 'popupChk';
+      cloneDocument.form_chk.submit();
+    }
+  };
+  // 나이스 인증
+  useEffect(() => {
+    const memberType = 'USER';
 
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        setData(res.data.executedData);
+        // encodeData = res.data.executedData;
+      })
+      .catch((error) => {
+        console.error(' 2 곳 입니까?');
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // 아이디 찾기
+  const HandlePassword = async () => {
+    let key = localStorage.getItem('key');
+    let data = JSON.parse(key!);
+    console.log(data);
+    // dispatch(findUserInfoAction.addId(data.id));
+    // router.push('/profile/editing/password');
+  };
   return (
     <React.Fragment>
       <WebBody>
@@ -77,13 +137,41 @@ const ProfileEditing = () => {
                 </Text>
               </Form>
               <Form>
-                <TitleSection>
-                  <Label mt={0}>비밀번호 변경</Label>
-                  <div>
-                    <Image src={Arrow} alt="arrow-img" />
-                  </div>
-                </TitleSection>
+                <form name="form_chk" method="get">
+                  <input type="hidden" name="m" value="checkplusService" />
+                  {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                  <input
+                    type="hidden"
+                    id="encodeData"
+                    name="EncodeData"
+                    value={data !== undefined && data}
+                  />
+                  <input type="hidden" name="recvMethodType" value="get" />
+                  {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+                  <TitleSection onClick={fnPopup}>
+                    <Label mt={0}>비밀번호 변경</Label>
+                    <div>
+                      <Image src={Arrow} alt="arrow-img" />
+                    </div>
+                  </TitleSection>
+                  {/* <FindBtn value="id" name={'form_chk'} onClick={fnPopup}>
+                    아이디 찾기&nbsp;
+                  </FindBtn>
+                  <FindBtn value="password" name={'form_chk'} onClick={fnPopup}>
+                    &nbsp;비밀번호 찾기
+                  </FindBtn> */}
+                </form>
               </Form>
+              {isId && (
+                <Buttons className="firstNextPage" onClick={HandlePassword}>
+                  숨겨진 아이디 버튼
+                </Buttons>
+              )}
+              {isPassword && (
+                <Buttons className="firstNextPage" onClick={() => {}}>
+                  숨겨진 비밀번호 버튼
+                </Buttons>
+              )}
             </Body>
             {/* <BtnBox>
         <Blur />
@@ -202,6 +290,7 @@ const TitleSection = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 `;
 const Text = styled.p`
   font-weight: 400;
@@ -244,4 +333,22 @@ const Blur = styled.div`
   filter: blur(10px);
   z-index: -1;
   height: 37.5pt;
+`;
+const FindBtn = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  margin: 2pt;
+  text-decoration-line: underline;
+  text-underline-position: under;
+  color: ${colors.gray2};
+  cursor: pointer;
+`;
+const Buttons = styled.button`
+  display: none;
 `;
