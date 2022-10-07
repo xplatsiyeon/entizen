@@ -33,6 +33,7 @@ const StatusBtn = styled.span<{ backgroundColor: string }>`
   & p {
     position: relative;
     top: 1pt;
+    color: #ffffff;
   }
 `;
 
