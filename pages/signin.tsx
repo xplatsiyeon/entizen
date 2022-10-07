@@ -30,7 +30,7 @@ import { kakaoInit } from 'utils/kakao';
 import colors from 'styles/colors';
 import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
-import jwt from 'jwt-decode';
+
 type Props = {};
 
 const Signin = (props: Props) => {
@@ -336,11 +336,6 @@ const Signin = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    const token = localStorage.getItem('ACCESS_TOKEN');
-    const user = jwt(token!);
-    console.log(user);
-  }, []);
   const handleNaver = async () => {
     naverRef.current.children[0].click();
   };
