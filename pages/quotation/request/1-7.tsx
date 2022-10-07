@@ -16,6 +16,13 @@ import WebHeader from 'web-components/WebHeader';
 
 type Props = {};
 
+interface CalculateValue {
+  maxSubscribePricePerMonth: number;
+  maxTotalSubscribePrice: number;
+  minSubscribePricePerMonth: number;
+  minTotalSubscribePrice: number;
+}
+
 const Request1_7 = (props: Props) => {
   const router = useRouter();
   const [textValue, setTextValue] = useState('');
@@ -23,12 +30,7 @@ const Request1_7 = (props: Props) => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [value, setValue] = useState(50);
   const [disabled, setDisabled] = useState(true);
-  const [calculatedValue, setCalculatedValue] = useState<{
-    maxSubscribePricePerMonth: number;
-    maxTotalSubscribePrice: number;
-    minSubscribePricePerMonth: number;
-    minTotalSubscribePrice: number;
-  }>({
+  const [calculatedValue, setCalculatedValue] = useState<CalculateValue>({
     maxSubscribePricePerMonth: 0,
     maxTotalSubscribePrice: 0,
     minSubscribePricePerMonth: 0,
