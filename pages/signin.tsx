@@ -102,6 +102,8 @@ const Signin = (props: Props) => {
         if (c.isMember === true) {
           console.log('멤버 확인');
           console.log(data);
+          const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
           localStorage.setItem('USER_ID', data.kakao_account.email);
           // console.log(user.email);
           localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
@@ -173,8 +175,8 @@ const Signin = (props: Props) => {
           console.log('response 데이터 ->');
           console.log(res.data.accessToken);
           console.log(res.data.refreshToken);
-          const data: JwtTokenType = jwt_decode(res.data.accessToken);
-          localStorage.setItem('MEBER_TYPE', JSON.stringify(data.isSnsMember));
+          const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
           localStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(res.data.accessToken),
@@ -234,6 +236,8 @@ const Signin = (props: Props) => {
           }),
         );
         if (c.isMember === true) {
+          const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
           localStorage.setItem('USER_ID', data.user.email);
           console.log(user.email);
           localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
@@ -353,7 +357,7 @@ const Signin = (props: Props) => {
   return (
     <React.Fragment>
       {loginErr.length > 3 && (
-        <Modal text={loginErr} color={'#222831'} click={modalHandle} />
+        <Modal text={loginErr} color={'#7e7f81'} click={modalHandle} />
       )}
       <Body>
         <WebHeader />
