@@ -63,34 +63,34 @@ const ProfileEditing = () => {
     }
   };
   // 나이스 인증
-  useEffect(() => {
-    const memberType = 'USER';
-    useEffect(() => {
-      const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
-      if (snsMember) {
-        setCheckSns(snsMember);
-      }
-      console.log('여기임둥');
-      console.log(checkSns);
-      console.log(snsMember);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+  // useEffect(() => {
+  //   const memberType = 'USER';
+  //   useEffect(() => {
+  //     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+  //     if (snsMember) {
+  //       setCheckSns(snsMember);
+  //     }
+  //     console.log('여기임둥');
+  //     console.log(checkSns);
+  //     console.log(snsMember);
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   }, []);
 
-    axios({
-      method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
-      data: { memberType },
-    })
-      .then((res) => {
-        setData(res.data.executedData);
-        // encodeData = res.data.executedData;
-      })
-      .catch((error) => {
-        console.error(' 2 곳 입니까?');
-        console.error(error);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   axios({
+  //     method: 'post',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
+  //     data: { memberType },
+  //   })
+  //     .then((res) => {
+  //       setData(res.data.executedData);
+  //       // encodeData = res.data.executedData;
+  //     })
+  //     .catch((error) => {
+  //       console.error(' 2 곳 입니까?');
+  //       console.error(error);
+  //     });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   // 아이디 찾기
   const HandlePassword = async () => {
     let key = localStorage.getItem('key');
