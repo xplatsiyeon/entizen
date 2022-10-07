@@ -155,10 +155,25 @@ const HambuguerBar = (anchor: string) => {
               }}
             />
             <WhiteAreaBottomMenus>
-              <span>
+              <span
+                onClick={() =>
+                  window.open(
+                    'https://www.instagram.com/entizen.ev/',
+                    'entizen_Instagram',
+                  )
+                }
+              >
+                post.naver.com/entizen_ev
                 <Image src={grayInsta} alt="인스타"></Image>
               </span>
-              <span>
+              <span
+                onClick={() =>
+                  window.open(
+                    'https://www.post.naver.com/entizen_ev',
+                    'entizen_post',
+                  )
+                }
+              >
                 <Image src={grayNaver} alt="네이버"></Image>
               </span>
             </WhiteAreaBottomMenus>
