@@ -100,7 +100,7 @@ const SixthStep = ({ setTabNumber }: Props) => {
         data: {
           chargers: quotationData.chargers,
           subscribeProduct: quotationData.subscribeProduct,
-          investRate: quotationData.investRate,
+          investRate: quotationData.investRate.toString(),
           subscribePeriod: quotationData.subscribePeriod,
           installationAddress: locationList.locationList.roadAddrPart,
           installationLocation: quotationData.installationLocation,
@@ -176,8 +176,8 @@ const Wrraper = styled.div`
   padding-bottom: 96pt;
 
   @media (max-width: 899pt) {
-  padding-left: 15pt;
-  padding-right: 15pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
 `;
 const Title = styled.h1`
