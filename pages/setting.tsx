@@ -179,6 +179,7 @@ const Setting = (props: Props) => {
     setPasswordInput(e.target.value);
     if (passwordInput.length > 5) {
       setCheckPassword(true);
+      setSecessionFirstModal(true);
     } else {
       setCheckPassword(false);
     }
