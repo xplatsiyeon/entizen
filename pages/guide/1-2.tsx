@@ -28,6 +28,13 @@ import axios from 'axios';
 import Modal from 'components/Modal/Modal';
 
 export interface Option {
+  idx: number;
+  kind: string;
+  standType: string;
+  channel: string;
+  count: string;
+}
+export interface OptionEn {
   kind: string;
   standType: string;
   channel: string;
@@ -59,6 +66,7 @@ const Guide1_2 = () => {
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<Option[]>([
     {
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',
@@ -66,7 +74,7 @@ const Guide1_2 = () => {
     },
   ]);
   // 백엔드에 보내줄 이름
-  const [selectedOptionEn, setSelectedOptionEn] = useState<Option[]>([
+  const [selectedOptionEn, setSelectedOptionEn] = useState<OptionEn[]>([
     {
       kind: '',
       standType: '',
@@ -82,18 +90,19 @@ const Guide1_2 = () => {
   // STEP 1 탭기능
   const handlePurposeOnClick = (index: number) => setClicked(index);
   // STEP 2 충전기 옵션 체인지
+  // 셀렉터 옵션 체인지
   const handleChange = (event: any, index: number) => {
     const { name, value } = event.target;
-    const copy: any = [...selectedOption];
-    const copyEn: any = [...selectedOptionEn];
+    let copy: Option[] = [...selectedOption];
+    let copyEn: OptionEn[] = [...selectedOptionEn];
     // 영어 값 추출
-    let valueEn;
-
+    let valueEn: string;
+    // 충전기 종류
     if (name === 'kind') {
       const idx = M5_LIST.indexOf(value);
-      setM5Index(idx);
       valueEn = M5_LIST_EN[idx];
       copy[index] = {
+        idx: idx,
         kind: '',
         standType: '',
         channel: '',
@@ -107,22 +116,24 @@ const Guide1_2 = () => {
         ...copyEn[index],
         kind: valueEn,
       };
-    } else if (name === 'standType') {
+      // 타입
+    } else if (copy[index].kind.length > 1 && name === 'standType') {
       const idx = M6_LIST.indexOf(value);
+      // console.log('index -> ' + idx);
       if (value === '-') {
         valueEn = '';
       } else {
         valueEn = M6_LIST_EN[idx];
-        copy[index] = {
-          ...copy[index],
-          standType: value,
-        };
-        copyEn[index] = {
-          ...copyEn[index],
-          standType: valueEn,
-        };
       }
-    } else if (name === 'channel') {
+      copy[index] = {
+        ...copy[index],
+        standType: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        standType: valueEn,
+      };
+    } else if (copy[index].kind.length > 1 && name === 'channel') {
       const idx = M7_LIST.indexOf(value);
       valueEn = M7_LIST_EN[idx];
       copy[index] = {
@@ -133,7 +144,8 @@ const Guide1_2 = () => {
         ...copyEn[index],
         channel: valueEn,
       };
-    } else if (name === 'count') {
+      // 개수
+    } else if (copy[index].kind.length > 1 && name === 'count') {
       const idx = M8_LIST.indexOf(value);
       valueEn = M8_LIST_EN[idx];
       copy[index] = {
@@ -145,16 +157,15 @@ const Guide1_2 = () => {
         count: valueEn,
       };
     }
-    // copy[index][name] = value;
-    // copyEn[index][name] = valueEn;
+
     setSelectedOption(copy);
     setSelectedOptionEn(copyEn);
   };
-
   // 셀렉터 추가
   const onClickAdd = () => {
     if (selectedOption.length === 5) return;
     const temp = selectedOption.concat({
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',
