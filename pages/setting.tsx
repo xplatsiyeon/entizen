@@ -23,6 +23,8 @@ const Setting = (props: Props) => {
   const [checkPassword, setCheckPassword] = useState<boolean>(false);
 
   const router = useRouter();
+  const userID = localStorage.getItem('USER_ID');
+
   const handleLogoutModalClick = () => {
     setLogoutModal(false);
   };
@@ -113,14 +115,15 @@ const Setting = (props: Props) => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      }).then((res) => {
-        localStorage.removeItem('ACCESS_TOKEN');
-        localStorage.removeItem('REFRESH_TOKEN');
-        localStorage.removeItem('USER_ID');
-        setLogoutModal(false);
-        setAlertModal(false);
-        router.push('/');
-      });
+      })
+        .then((res) => {
+          localStorage.removeItem('ACCESS_TOKEN');
+          localStorage.removeItem('REFRESH_TOKEN');
+          localStorage.removeItem('USER_ID');
+          setLogoutModal(false);
+          setAlertModal(false);
+        })
+        .then((res) => router.push('/'));
     } catch (error) {
       console.log('요청 실패');
       console.log(error);
@@ -168,8 +171,13 @@ const Setting = (props: Props) => {
         />
       )}
       {alertModal && (
-        <Modal
-          click={HandleWidthdrawal}
+        <TwoBtnModal
+          leftBtnColor="#FF1B2D"
+          leftBtnText="아니오"
+          leftBtnControl={() => setAlertModal(false)}
+          rightBtnColor={colors.main2}
+          rightBtnText="네"
+          rightBtnControl={HandleWidthdrawal}
           text="비밀번호 입력 없이 정말 탈퇴하시겠습니까"
         />
       )}
@@ -189,10 +197,17 @@ const Setting = (props: Props) => {
           자주 묻는 질문
         </SettingList>
         <SettingList onClick={() => router.push('/term')}>이용약관</SettingList>
-        <SettingList onClick={() => setLogoutModal(true)}>로그아웃</SettingList>
-        <Secession onClick={() => setSecessionFirstModal(true)}>
-          탈퇴하기
-        </Secession>
+
+        {userID && (
+          <SettingList onClick={() => setLogoutModal(true)}>
+            로그아웃
+          </SettingList>
+        )}
+        {userID && (
+          <Secession onClick={() => setSecessionFirstModal(true)}>
+            탈퇴하기
+          </Secession>
+        )}
       </Wrapper>
     </>
   );
