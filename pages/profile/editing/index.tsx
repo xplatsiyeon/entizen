@@ -16,7 +16,7 @@ const ProfileEditing = () => {
   const [name, setName] = useState('test유저');
   const [avatar, setAvatar] = useState<string>('');
   const [data, setData] = useState<any>();
-  const [isId, setIsId] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [checkSns, setCheckSns] = useState<boolean>(false);
   // 아이디 변경
@@ -37,12 +37,10 @@ const ProfileEditing = () => {
   };
   // 나이스 인승
   const fnPopup = (event: any) => {
-    console.log('check');
-    console.log(event?.currentTarget.value);
     const { value } = event.currentTarget;
-    if (value === 'id') {
-      setIsId(true);
-      console.log('id입니다');
+    if (value === 'phone') {
+      setIsPhone(true);
+      console.log('phone입니다');
     }
     if (value === 'password') {
       setIsPassword(true);
@@ -62,19 +60,9 @@ const ProfileEditing = () => {
       cloneDocument.form_chk.submit();
     }
   };
-  // 아이디 찾기
-  const HandlePassword = async () => {
-    let key = localStorage.getItem('key');
-    let data = JSON.parse(key!);
-    console.log('--------- data입니다 ---------');
-    console.log(data);
-    // dispatch(findUserInfoAction.addId(data.id));
-    router.push('/profile/editing/password');
-  };
   // 나이스 인증
   useEffect(() => {
     const memberType = 'USER';
-
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',
@@ -82,10 +70,9 @@ const ProfileEditing = () => {
     })
       .then((res) => {
         setData(res.data.executedData);
-        // encodeData = res.data.executedData;
       })
       .catch((error) => {
-        console.error(' 2 곳 입니까?');
+        console.error('나이스 인증 에러 발생');
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -102,9 +89,6 @@ const ProfileEditing = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   return (
     <React.Fragment>
       <WebBody>
@@ -140,52 +124,59 @@ const ProfileEditing = () => {
               <InputBox type="text" readOnly placeholder="test" />
               <Label mt={30}>이름</Label>
               <InputBox type="text" value={name} onChange={HandleOnChange} />
-              <Form>
-                <TitleSection>
-                  <Label mt={0}>휴대폰 번호</Label>
-                  <div>
-                    <Image src={Arrow} alt="arrow-img" />
-                  </div>
-                </TitleSection>
-                <Text>
-                  휴대폰 번호 변경 시 가입하신 분의 명의로 된 번호로만 변경이
-                  가능합니다.
-                </Text>
-              </Form>
+
               {!checkSns && (
                 <>
-                  <Form>
-                    <form name="form_chk" method="get">
-                      <input type="hidden" name="m" value="checkplusService" />
-                      {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
-                      <input
-                        type="hidden"
-                        id="encodeData"
-                        name="EncodeData"
-                        value={data !== undefined && data}
-                      />
-                      <input type="hidden" name="recvMethodType" value="get" />
-                      {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+                  <form name="form_chk" method="get">
+                    <input type="hidden" name="m" value="checkplusService" />
+                    {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                    <input
+                      type="hidden"
+                      id="encodeData"
+                      name="EncodeData"
+                      value={data !== undefined && data}
+                    />
+                    <input type="hidden" name="recvMethodType" value="get" />
+                    {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+                    <Form>
+                      <TitleSection onClick={fnPopup}>
+                        <Label mt={0}>휴대폰 번호</Label>
+                        <div>
+                          <Image src={Arrow} alt="arrow-img" />
+                        </div>
+                      </TitleSection>
+                      <Text>
+                        휴대폰 번호 변경 시 가입하신 분의 명의로 된 번호로만
+                        변경이 가능합니다.
+                      </Text>
+                    </Form>
+                    <Form>
                       <TitleSection onClick={fnPopup}>
                         <Label mt={0}>비밀번호 변경</Label>
                         <div>
                           <Image src={Arrow} alt="arrow-img" />
                         </div>
                       </TitleSection>
-                    </form>
-                  </Form>
+                    </Form>
+                  </form>
                 </>
               )}
-              {/* {isId && ( */}
-              <Buttons className="firstNextPage" onClick={HandlePassword}>
-                숨겨진 비밀번호 변경 버튼
-              </Buttons>
-              {/* )} */}
-              {/* {isPassword && (
-                <Buttons className="firstNextPage" onClick={() => {}}>
+              {isPhone && (
+                <Buttons
+                  className="firstNextPage"
+                  onClick={() => router.push('/profile/editing/password')}
+                >
                   숨겨진 비밀번호 버튼
                 </Buttons>
-              )} */}
+              )}
+              {isPassword && (
+                <Buttons
+                  className="firstNextPage"
+                  onClick={() => router.push('/profile/editing/phone')}
+                >
+                  숨겨진 휴대폰번호 버튼
+                </Buttons>
+              )}
             </Body>
           </Wrapper>
         </Inner>
@@ -295,6 +286,7 @@ const Form = styled.div`
   margin-top: 30pt;
   border-bottom: 0.75pt solid ${colors.gray};
   padding-bottom: 18pt;
+  cursor: pointer;
 `;
 const TitleSection = styled.div`
   display: flex;
