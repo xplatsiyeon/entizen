@@ -56,7 +56,7 @@ const PasswordModal = ({ passwordInput, onChange, checkPassword }: Props) => {
         <BtnBox>
           <CheckBtn
             checkPassword={checkPassword}
-            disabled={checkPassword}
+            disabled={!checkPassword}
             onClick={authPassowrd}
           >
             확인
