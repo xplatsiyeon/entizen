@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
@@ -8,11 +8,27 @@ import { useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
 import MypageHeader from '../request/header';
+import { useRouter } from 'next/router';
+import CommonBtn from './CommonBtn';
 
 type Props = {};
 
 const AsRequest = (props: Props) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [text, setText] = useState<string>('');
+  const router = useRouter();
+  useEffect(() => {
+    if (router.pathname.includes('1-1')) {
+      setText('접수요청 D-3');
+    }
+    if (router.pathname.includes('asGoReview')) {
+      setText('완료대기');
+    }
+    if (router.pathname.includes('asReviewEnd')) {
+      setText('A/S완료');
+    }
+  }, [router]);
+  console.log(router);
 
   const handleClick = () => setOpen(!open);
 
@@ -23,7 +39,15 @@ const AsRequest = (props: Props) => {
         {/* Close */}
         <ItemButton onClick={handleClick}>
           <StoreName>
-            <Badge>접수요청 D-3</Badge>
+            {text === '접수요청 D-3' && (
+              <CommonBtn text={'A/S완료'} backgroundColor={'#F75015'} />
+            )}
+            {text === '완료대기' && (
+              <CommonBtn text={'완료대기'} backgroundColor={'#FFC043'} />
+            )}
+            {text === 'A/S완료' && (
+              <CommonBtn text={'A/S완료'} backgroundColor={'#222222'} />
+            )}
             <div>
               <h1>LS 카페 신림점</h1>
               {open ? (
