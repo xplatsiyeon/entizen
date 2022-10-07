@@ -53,10 +53,13 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   }, [monthNumber, subscribeProduct]);
   // 부분 구독 선택 불가
   useEffect(() => {
+    console.log(subscribeProduct);
+    console.log(investRate);
     if (subscribeProduct === 'PART' && investRate === '1') {
       setIsMessage(true);
     }
   }, [subscribeProduct, investRate]);
+
   return (
     <Wrraper>
       {/* 선택불가 메세지 */}
