@@ -238,7 +238,7 @@ const AsRequestWrite = (props: Props) => {
       </Container>
       <NextBtn
         onClick={() => router.push('/mypage/as/complete')}
-        disabled={checkAll}
+        disabled={!checkAll}
         checkAll={checkAll}
       >
         A/S 요청하기
