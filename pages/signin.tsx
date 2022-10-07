@@ -174,7 +174,7 @@ const Signin = (props: Props) => {
           console.log(res.data.accessToken);
           console.log(res.data.refreshToken);
           const data: JwtTokenType = jwt_decode(res.data.accessToken);
-          localStorage.setItem('MEBER_TYPE', JSON.stringify(data));
+          localStorage.setItem('MEBER_TYPE', JSON.stringify(data.isSnsMember));
           localStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(res.data.accessToken),
