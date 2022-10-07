@@ -26,7 +26,7 @@ const FindPassword = () => {
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
   const [btnActive, setBtnActive] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [memberIdx, setMemeberIdx] = useState<number>();
+  const [modalText, setModalText] = useState<string>('');
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
@@ -91,10 +91,16 @@ const FindPassword = () => {
           Authorization: `Bearer ${accessToken}`,
         },
         withCredentials: true,
-      }).then((res) => alert(res));
-    } catch (error) {
+      }).then((res) => {
+        console.log(res);
+        setModalText('비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.');
+        setOpenModal(true);
+      });
+    } catch (error: any) {
       console.log('post 실패!!!!!!');
       console.log(error);
+      setModalText(error.data.message);
+      setOpenModal(true);
     }
   };
   const iconAdorment = {
@@ -128,7 +134,11 @@ const FindPassword = () => {
   };
   const handleModalYes = () => {
     setOpenModal(false);
-    router.push('/signin');
+    if (modalText.includes('완료')) {
+      router.push('/signin');
+    } else {
+      setOpenModal(false);
+    }
   };
   const beforeAdornment = beforePwSelected ? iconAdorment : {};
   const iconAdornment = pwSelected ? iconAdorment : {};
@@ -156,12 +166,7 @@ const FindPassword = () => {
         <WebHeader />
         <Inner>
           <Wrapper>
-            {openModal && (
-              <Modal
-                text={'비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.'}
-                click={handleModalYes}
-              />
-            )}
+            {openModal && <Modal text={modalText} click={handleModalYes} />}
             <MypageHeader back={true} title={'비밀번호 변경'} />
 
             <Box
