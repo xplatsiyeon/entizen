@@ -84,11 +84,11 @@ const MainPage = (props: Props) => {
     localStorage.removeItem('key');
   }, []);
 
-  useEffect(() => {
-    const token = localStorage.getItem('ACCESS_TOKEN');
-    const user = jwt(token!);
-    console.log(user);
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem('ACCESS_TOKEN');
+  //   const user = jwt(token!);
+  //   console.log(user);
+  // }, []);
 
   const list = (anchor: string) => (
     <WholeBox
