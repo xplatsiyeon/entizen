@@ -20,7 +20,7 @@ import Image from 'next/image';
 import { getToken, login } from 'api/auth/naver';
 import { useDispatch } from 'react-redux';
 import { naverAction } from 'store/naverSlice';
-
+import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import { userAction } from 'store/userSlice';
 import { useSelector } from 'react-redux';
@@ -32,6 +32,15 @@ import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
 
 type Props = {};
+
+interface JwtTokenType {
+  exp: number;
+  iat: number;
+  isSnsMember: boolean;
+  iss: string;
+  memberIdx: number;
+  memberType: string;
+}
 
 const Signin = (props: Props) => {
   const router = useRouter();
@@ -164,6 +173,8 @@ const Signin = (props: Props) => {
           console.log('response 데이터 ->');
           console.log(res.data.accessToken);
           console.log(res.data.refreshToken);
+          const data: JwtTokenType = jwt_decode(res.data.accessToken);
+          localStorage.setItem('MEBER_TYPE', JSON.stringify(data.isSnsMember));
           localStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(res.data.accessToken),
