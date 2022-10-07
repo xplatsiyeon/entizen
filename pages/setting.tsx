@@ -100,13 +100,14 @@ const Setting = (props: Props) => {
   const ModalLeftControl = () => {
     setSecessionFirstModal(false);
 
-    const snsMember = localStorage.getItem('SNS_MEMBER');
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
 
     if (snsMember) {
       // sns 회원탈퇴
       setAlertModal(true);
     } else {
       // 일반 회원탈퇴
+      setPasswordModal(true);
     }
   };
 
