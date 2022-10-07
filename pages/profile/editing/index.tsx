@@ -62,35 +62,6 @@ const ProfileEditing = () => {
       cloneDocument.form_chk.submit();
     }
   };
-  // 나이스 인증
-  // useEffect(() => {
-  //   const memberType = 'USER';
-  //   useEffect(() => {
-  //     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
-  //     if (snsMember) {
-  //       setCheckSns(snsMember);
-  //     }
-  //     console.log('여기임둥');
-  //     console.log(checkSns);
-  //     console.log(snsMember);
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, []);
-
-  //   axios({
-  //     method: 'post',
-  //     url: 'https://test-api.entizen.kr/api/auth/nice',
-  //     data: { memberType },
-  //   })
-  //     .then((res) => {
-  //       setData(res.data.executedData);
-  //       // encodeData = res.data.executedData;
-  //     })
-  //     .catch((error) => {
-  //       console.error(' 2 곳 입니까?');
-  //       console.error(error);
-  //     });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
   // 아이디 찾기
   const HandlePassword = async () => {
     let key = localStorage.getItem('key');
@@ -99,6 +70,37 @@ const ProfileEditing = () => {
     // dispatch(findUserInfoAction.addId(data.id));
     // router.push('/profile/editing/password');
   };
+  // 나이스 인증
+  useEffect(() => {
+    const memberType = 'USER';
+
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        setData(res.data.executedData);
+        // encodeData = res.data.executedData;
+      })
+      .catch((error) => {
+        console.error(' 2 곳 입니까?');
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // sns 체크
+  useEffect(() => {
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    if (snsMember) {
+      setCheckSns(snsMember);
+    }
+    console.log('여기임둥');
+    console.log(checkSns);
+    console.log(snsMember);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <React.Fragment>
       <WebBody>
@@ -164,24 +166,18 @@ const ProfileEditing = () => {
                       <Image src={Arrow} alt="arrow-img" />
                     </div>
                   </TitleSection>
-                  {/* <FindBtn value="id" name={'form_chk'} onClick={fnPopup}>
-                    아이디 찾기&nbsp;
-                  </FindBtn>
-                  <FindBtn value="password" name={'form_chk'} onClick={fnPopup}>
-                    &nbsp;비밀번호 찾기
-                  </FindBtn> */}
                 </form>
               </Form>
               {isId && (
                 <Buttons className="firstNextPage" onClick={HandlePassword}>
-                  숨겨진 아이디 버튼
+                  숨겨진 비밀번호 변경 버튼
                 </Buttons>
               )}
-              {isPassword && (
+              {/* {isPassword && (
                 <Buttons className="firstNextPage" onClick={() => {}}>
                   숨겨진 비밀번호 버튼
                 </Buttons>
-              )}
+              )} */}
               {!checkSns && (
                 <>
                   <Form>
