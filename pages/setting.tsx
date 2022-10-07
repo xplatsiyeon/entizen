@@ -80,6 +80,7 @@ const Setting = (props: Props) => {
         },
         withCredentials: true,
       }).then((res) => {
+        localStorage.removeItem('SNS_MEMBER');
         localStorage.removeItem('ACCESS_TOKEN');
         localStorage.removeItem('REFRESH_TOKEN');
         localStorage.removeItem('USER_ID');
@@ -143,7 +144,7 @@ const Setting = (props: Props) => {
   const ModalRightControl = () => setSecessionFirstModal(!secessionFirstModal);
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
-    if (passwordInput.length > 10) {
+    if (passwordInput.length > 5) {
       setCheckPassword(true);
     } else {
       setCheckPassword(false);
