@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import MypageHeader from '../request/header';
 import { useRouter } from 'next/router';
 import CommonBtn from './CommonBtn';
+import CommonBtns from './CommonBtns';
 
 type Props = {};
 
@@ -40,13 +41,13 @@ const AsRequest = (props: Props) => {
         <ItemButton onClick={handleClick}>
           <StoreName>
             {text === '접수요청 D-3' && (
-              <CommonBtn text={'A/S완료'} backgroundColor={'#F75015'} />
+              <CommonBtns text={'접수요청 D-3'} backgroundColor={'#F75015'} />
             )}
             {text === '완료대기' && (
-              <CommonBtn text={'완료대기'} backgroundColor={'#FFC043'} />
+              <CommonBtns text={'완료대기'} backgroundColor={'#FFC043'} />
             )}
             {text === 'A/S완료' && (
-              <CommonBtn text={'A/S완료'} backgroundColor={'#222222'} />
+              <CommonBtns text={'A/S완료'} backgroundColor={'#222222'} />
             )}
             <div>
               <h1>LS 카페 신림점</h1>
