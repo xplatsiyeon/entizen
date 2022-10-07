@@ -28,7 +28,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { quotationAction } from 'store/quotationSlice';
 import { useDispatch } from 'react-redux';
-
+import jwt from 'jwt-decode';
 import Nut from 'public/images/Nut.png';
 import Bell from 'public/images/mobBell.png';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
@@ -82,6 +82,12 @@ const MainPage = (props: Props) => {
   // key 삭제
   useEffect(() => {
     localStorage.removeItem('key');
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem('ACCESS_TOKEN');
+    const user = jwt(token!);
+    console.log(user);
   }, []);
 
   const list = (anchor: string) => (
