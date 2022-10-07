@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import axios from 'axios';
-import Modal from 'components/Modal/Modal';
 import PasswordModal from 'components/Modal/PasswordModal';
 import RequestModal from 'components/Modal/RequestModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
@@ -11,9 +10,9 @@ import React, { useState } from 'react';
 import colors from 'styles/colors';
 import { kakaoInit } from 'utils/kakao';
 
-type Props = {};
-
-const Setting = (props: Props) => {
+const Setting = () => {
+  const router = useRouter();
+  const userID = localStorage.getItem('USER_ID');
   const [logoutModal, setLogoutModal] = useState<boolean>(false);
   const [alertModal, setAlertModal] = useState(false);
   const [secessionFirstModal, setSecessionFirstModal] =
@@ -22,12 +21,7 @@ const Setting = (props: Props) => {
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<boolean>(false);
 
-  const router = useRouter();
-  const userID = localStorage.getItem('USER_ID');
-
-  const handleLogoutModalClick = () => {
-    setLogoutModal(false);
-  };
+  // 네이버 로그아웃
   const NaverLogout = async () => {
     // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
     const localToken = localStorage.getItem('com.naver.nid.access_token');
@@ -47,7 +41,7 @@ const Setting = (props: Props) => {
       router.push('/'); // 로그인 페이지로 이동
     }
   };
-
+  // 카카오 로그아웃
   const KakaoLogout = () => {
     const kakao = kakaoInit();
     console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)
@@ -65,12 +59,10 @@ const Setting = (props: Props) => {
       },
     });
   };
-
+  // 일반회원 로그아웃
   const handleLogoutOnClickModalClick = async () => {
     const LOG_OUT_API = `https://test-api.entizen.kr/api/members/logout`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    const refreshToken = localStorage.getItem('REFRESH_TOKEN');
-    const userID = localStorage.getItem('USER_ID');
     try {
       await axios({
         method: 'post',
@@ -95,25 +87,8 @@ const Setting = (props: Props) => {
     NaverLogout();
     KakaoLogout();
   };
-
-  const handleOnClick = () => {
-    router.back();
-  };
-  const ModalLeftControl = () => {
-    setSecessionFirstModal(false);
-
-    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
-
-    if (snsMember) {
-      // sns 회원탈퇴
-      setAlertModal(true);
-    } else {
-      // 일반 회원탈퇴
-      setPasswordModal(true);
-    }
-  };
-
-  const HandleWidthdrawal = async () => {
+  // 회원탈퇴
+  const ModalLeftControl = async () => {
     const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     console.log('탈퇴');
@@ -141,8 +116,49 @@ const Setting = (props: Props) => {
       console.log(error);
     }
   };
-
-  const ModalRightControl = () => setSecessionFirstModal(!secessionFirstModal);
+  // SNS/일반회원 구별
+  const HandleWidthdrawal = async () => {
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    if (snsMember) {
+      // sns 회원탈퇴
+      setAlertModal(true);
+    } else {
+      // 일반 회원탈퇴
+      setPasswordModal(true);
+    }
+  };
+  // 회원탈퇴 시 original user 비밀번호 체크 함수
+  const authPassowrd = () => {
+    if (checkPassword) {
+      const LOGIN_API = 'https://test-api.entizen.kr/api/members/login';
+      const userId = JSON.parse(localStorage.getItem('USER_ID')!);
+      const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+      try {
+        axios({
+          method: 'post',
+          url: LOGIN_API,
+          data: {
+            memberType: 'USER',
+            id: userId,
+            password: passwordInput,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            ContentType: 'application/json',
+          },
+          withCredentials: true,
+        }).then((res) => {
+          if (res.data.isSuccess === true) {
+            setSecessionFirstModal(true);
+            setPasswordModal(false);
+          }
+        });
+      } catch (error) {
+        console.log('error -->' + error);
+      }
+    }
+  };
+  // 비밀번호 length 체크
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInput(e.target.value);
     if (passwordInput.length > 5) {
@@ -158,6 +174,7 @@ const Setting = (props: Props) => {
           passwordInput={passwordInput}
           onChange={handlePasswordChange}
           checkPassword={checkPassword}
+          click={authPassowrd}
         />
       )}
       {logoutModal && (
@@ -168,17 +185,15 @@ const Setting = (props: Props) => {
           leftBtnColor={'#FF1B2D'}
           rightBtnColor={'#222222'}
           rightBtnControl={handleLogoutOnClickModalClick}
-          leftBtnControl={handleLogoutModalClick}
+          leftBtnControl={() => setLogoutModal(false)}
         />
       )}
       {secessionFirstModal && (
         <RequestModal
           title={'정말 탈퇴하시겠습니까?'}
-          subtitle={
-            '사용하고 계신 아이디(useridhere)는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.'
-          }
+          subtitle={`사용하고 계신 아이디${userID}는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.`}
           leftControl={ModalLeftControl}
-          rightControl={ModalRightControl}
+          rightControl={() => setSecessionFirstModal(!secessionFirstModal)}
           border={true}
         />
       )}
@@ -189,11 +204,18 @@ const Setting = (props: Props) => {
           leftBtnControl={() => setAlertModal(false)}
           rightBtnColor={colors.main2}
           rightBtnText="네"
-          rightBtnControl={HandleWidthdrawal}
+          rightBtnControl={() => {
+            setAlertModal(false);
+            setSecessionFirstModal(true);
+          }}
           text="비밀번호 입력 없이 정말 탈퇴하시겠습니까"
         />
       )}
-      <MypageHeader back={true} title={'설정'} handleOnClick={handleOnClick} />
+      <MypageHeader
+        back={true}
+        title={'설정'}
+        handleOnClick={() => router.back()}
+      />
       <Wrapper>
         <Version>
           <VersionInfoText>버전 정보</VersionInfoText>
@@ -215,22 +237,20 @@ const Setting = (props: Props) => {
             로그아웃
           </SettingList>
         )}
-        {userID && (
-          <Secession onClick={() => setSecessionFirstModal(true)}>
-            탈퇴하기
-          </Secession>
-        )}
+        {userID && <Secession onClick={HandleWidthdrawal}>탈퇴하기</Secession>}
       </Wrapper>
     </>
   );
 };
+
+export default Setting;
+
 const Wrapper = styled.div`
   position: relative;
   height: 100%;
   padding-left: 15pt;
   padding-right: 15pt;
 `;
-
 const Version = styled.div`
   padding-top: 18pt;
   padding-bottom: 18pt;
@@ -240,7 +260,6 @@ const Version = styled.div`
   background-color: #fbfcff;
   margin-bottom: 7.5pt;
 `;
-
 const VersionInfoText = styled(Typography)`
   font-family: Spoqa Han Sans Neo;
   font-size: 12pt;
@@ -249,7 +268,6 @@ const VersionInfoText = styled(Typography)`
   letter-spacing: 0em;
   text-align: left;
 `;
-
 const VersionNumber = styled(Typography)`
   font-family: Noto Sans KR;
   font-size: 12pt;
@@ -258,7 +276,6 @@ const VersionNumber = styled(Typography)`
   letter-spacing: 0em;
   text-align: left;
 `;
-
 const SettingList = styled.div`
   position: relative;
   padding-top: 10.5pt;
@@ -267,7 +284,6 @@ const SettingList = styled.div`
     color: #f75015;
   }
 `;
-
 const Secession = styled.div`
   position: fixed;
   padding-top: 10.5pt;
@@ -283,5 +299,3 @@ const Secession = styled.div`
   text-decoration-line: underline;
   color: #a6a9b0;
 `;
-
-export default Setting;

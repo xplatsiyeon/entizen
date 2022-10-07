@@ -28,6 +28,10 @@ import WebFooter from 'web-components/WebFooter';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import arrowR from 'public/images/arrowR.png'
+import guideIndex1 from 'public/guide/guideIndex1.png'
+import guideIndex2 from 'public/guide/guideIndex2.png'
+
 
 const Guide1 = () => {
   const router = useRouter();
@@ -228,12 +232,20 @@ const Guide1 = () => {
                   isLogin ? pageHandler('/guide/1-2') : pageHandler('/signin');
                 }}
               >
+              <span className='mobIcon'><Image src={subsidy_icon} alt="subsidy_icon" /></span>
+              <span className='webIcon'><Image src={guideIndex1} alt="subsidy_icon" /></span>  
+                <FlexWrap>
                 <span className="text">보조금 가이드</span>
-                <Image src={subsidy_icon} alt="subsidy_icon" />
+                <IconWrap><Image src={arrowR} /></IconWrap>
+                </FlexWrap>
               </Subsidy>
               <Fee onClick={() => pageHandler('/guide/1-3')}>
+                <span className='mobIcon'><Image src={fee_icon} alt="fee_icon" /></span>
+                <span className='webIcon'><Image src={guideIndex2} alt="subsidy_icon" /></span>  
+                <FlexWrap>
                 <span className="text">요금 정보</span>
-                <Image src={fee_icon} alt="fee_icon" />
+                <IconWrap><Image src={arrowR} /></IconWrap>
+                </FlexWrap>
               </Fee>
             </SubsidyBox>
           </Wrap>
@@ -363,7 +375,7 @@ const Wrap = styled.div`
 const Platform = styled(Button)`
   padding: 0;
   height: 210pt;
-  flex: 3;
+  flex: 2.2;
   margin-right: 7pt; //나중에 수정할 수도.
   .img-box {
     object-fit: cover;
@@ -403,46 +415,118 @@ const SubsidyBox = styled(Box)`
   gap: 14.625pt;
   width: calc(100% - 600pt);
   .text {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 19.5pt;
     font-weight: 700;
-    font-size: 10.5pt;
-    line-height: 12pt;
+    line-height: 28.5pt;
     letter-spacing: -0.02em;
-    color: ${colors.main2};
+    color: rgb(34, 34, 34);
+
   }
   @media (max-width: 899pt) {
     width: auto;
     flex: none;
-  padding-top: 15pt;
+    padding-top: 15pt;
+    .text{
+    font-size: 10.5pt;
+    line-height: 12pt;
+    }
   }
 `;
 const Subsidy = styled(Button)`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   height: 100%;
-  padding-left: 15pt;
-  padding-right: 10.125pt;
+  padding: 37.5pt 15pt 24pt 21pt;
   background: #e8e3f8;
   border-radius: 8px;
   width: 100%;
+  text-align: left;
+  .text{
+    width: 70%;
+  }
+    .mobIcon{
+      display: none;
+    }
+    .webIcon{
+      width: 43.5pt;
+      height: 43.5pt;
+    }
   @media (max-width: 899pt) {
-    height: 36pt;
+    height: 36pt; 
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0pt 15pt 0pt 10.125pt;
+    .text{
+      width: auto;
+    }
+    .mobIcon{
+      display: block;
+    }
+    .webIcon{
+      display: none;
+    }
   }
 `;
 const Fee = styled(Button)`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   height: 100%;
-  padding-right: 15pt;
-  padding-left: 10.125pt;
+  padding: 37.5pt 15pt 24pt 21pt;
   background: #fff1d5;
   border-radius: 8px;
   width: 100%;
+  text-align: left;
+  .text{
+    width: 50%;
+  }
+    .mobIcon{
+      display: none;
+    }
+    .webIcon{
+      width: 43.5pt;
+      height: 43.5pt;
+    }
   @media (max-width: 899pt) {
     height: 36pt;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0pt 15pt 0pt 10.125pt;
+    .text{
+      width: auto;
+    }
+    .mobIcon{
+      display: block;
+    }
+    .webIcon{
+      display: none;
+    }
   }
 `;
+const FlexWrap = styled.div`
+position: relative;
+width: 100%;
+display: flex;
+justify-content: space-between;
+
+`
+const IconWrap = styled.div`
+  width: 15pt;
+  height: 15pt;
+  position: absolute;
+  bottom: 3pt;
+  right: 0;
+
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`
 const GuideBox = styled(Button)`
   display: flex;
   //height:이미지 높이 만큼 줘야함.

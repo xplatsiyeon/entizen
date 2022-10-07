@@ -139,12 +139,20 @@ const Body = styled.div`
   @media (max-height: 809pt) {
     display: block;
     height: 100vh;
+    padding: 0 15pt;
   }
 `;
 const Wrapper = styled.div`
+  width: 345pt;
+  margin: 0 auto;
   padding-bottom: 100pt;
   padding-left: 15pt;
   padding-right: 15pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    padding: 0;
+  }
+
 `;
 const SubsidyResult = styled.div`
   padding-top: 66pt;
@@ -163,6 +171,7 @@ const ResultContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 4.5pt;
+
   .box {
     padding-top: 45pt;
     width: 100%;
@@ -208,6 +217,11 @@ const ResultContainer = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.main};
     width: 100%;
+  }
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    padding: 0 15pt;
   }
 `;
 const Notice = styled.p`
