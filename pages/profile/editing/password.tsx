@@ -78,6 +78,38 @@ const FindPassword = () => {
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
   };
+
+  // 비밀번호 변경 api
+  const handleClick = () => {
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    // const memberIdx = JSON.parse(localStorage.getItem('MEMBER_IDX')!);
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
+    try {
+      axios({
+        method: 'patch',
+        url: PASSWORD_CHANGE,
+        data: {
+          oldPassword: beforePasswordInput,
+          newPassword: password,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => {
+        setOpenModal(true);
+      });
+    } catch (error) {
+      console.log('비밀번호 변경 실패');
+      console.log(error);
+    }
+  };
+  const handleModalYes = () => {
+    localStorage.removeItem('key');
+    setOpenModal(false);
+    router.push('/signin');
+  };
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
@@ -102,49 +134,9 @@ const FindPassword = () => {
       </InputAdornment>
     ),
   };
-
-  const handleClick = () => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    // const memberIdx = JSON.parse(localStorage.getItem('MEMBER_IDX')!);
-    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
-
-    try {
-      axios({
-        method: 'patch',
-        url: PASSWORD_CHANGE,
-        data: {
-          oldPassword: beforePasswordInput,
-          newPassword: password,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
-        setOpenModal(true);
-      });
-    } catch (error) {
-      console.log('비밀번호 변경 실패');
-      console.log(error);
-    }
-  };
-  const handleModalYes = () => {
-    setOpenModal(false);
-    router.push('/signin');
-  };
   const beforeAdornment = beforePwSelected ? iconAdorment : {};
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
-
-  useEffect(() => {
-    console.log('이전 비밀번호');
-    console.log(beforePasswordInput);
-    console.log('새로운 비밀번호');
-    console.log(password);
-    console.log('새로운 비밀번호 체크');
-    console.log(checkPassword);
-  }, [beforePasswordInput, password, checkPassword]);
 
   return (
     <React.Fragment>
@@ -182,7 +174,7 @@ const FindPassword = () => {
                 onBlur={(e) => setBeforePwSelected(false)}
               />
 
-              <NewPassword>기존 비밀번호</NewPassword>
+              <NewPassword>새로운 비밀번호</NewPassword>
               <Input
                 placeholder="비밀번호 입력"
                 onChange={handleIdChange}
