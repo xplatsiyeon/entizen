@@ -99,7 +99,16 @@ const Setting = (props: Props) => {
   };
   const ModalLeftControl = () => {
     setSecessionFirstModal(false);
-    setAlertModal(true);
+
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+
+    if (snsMember) {
+      // sns 회원탈퇴
+      setAlertModal(true);
+    } else {
+      // 일반 회원탈퇴
+      setPasswordModal(true);
+    }
   };
 
   const HandleWidthdrawal = async () => {
@@ -117,6 +126,7 @@ const Setting = (props: Props) => {
         withCredentials: true,
       })
         .then((res) => {
+          localStorage.removeItem('SNS_MEMBER');
           localStorage.removeItem('ACCESS_TOKEN');
           localStorage.removeItem('REFRESH_TOKEN');
           localStorage.removeItem('USER_ID');

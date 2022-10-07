@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, TextField, Typography } from '@mui/material';
+import axios from 'axios';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
 
@@ -10,6 +11,37 @@ type Props = {
 };
 
 const PasswordModal = ({ passwordInput, onChange, checkPassword }: Props) => {
+  const authPassowrd = () => {
+    // if (checkPassword) {
+    console.log('check');
+    const LOGIN_API = 'https://test-api.entizen.kr/api/members/login';
+    const userId = JSON.parse(localStorage.getItem('USER_ID')!);
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    try {
+      axios({
+        method: 'post',
+        url: LOGIN_API,
+        data: {
+          memberType: 'USER',
+          id: userId,
+          password: passwordInput,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => {
+        console.log('------');
+        console.log(res);
+        console.log('------');
+      });
+    } catch (error) {
+      console.log('error -->' + error);
+    }
+
+    // }
+  };
   return (
     <ModalWrapper>
       <ModalBox>
@@ -22,7 +54,11 @@ const PasswordModal = ({ passwordInput, onChange, checkPassword }: Props) => {
         </Content>
         <Inputs value={passwordInput} onChange={onChange} type="password" />
         <BtnBox>
-          <CheckBtn checkPassword={checkPassword} disabled={checkPassword}>
+          <CheckBtn
+            checkPassword={checkPassword}
+            disabled={checkPassword}
+            onClick={authPassowrd}
+          >
             확인
           </CheckBtn>
         </BtnBox>
