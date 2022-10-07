@@ -92,10 +92,18 @@ const MainPage = (props: Props) => {
     >
       <ListBox>
         <XBtnWrapper>
-          <Imagewrap onClick={() => router.push('/alarm')}>
+          <Imagewrap
+            onClick={() =>
+              userID ? router.push('/alarm') : router.push('/signin')
+            }
+          >
             <Image src={Bell} alt="bellBtn" />
           </Imagewrap>
-          <Imagewrap onClick={() => router.push('/setting')}>
+          <Imagewrap
+            onClick={() =>
+              userID ? router.push('/alarm/1-1') : router.push('/signin')
+            }
+          >
             <Image src={Nut} alt="NutBtn" />
           </Imagewrap>
           <Imagewrap>
@@ -125,7 +133,13 @@ const MainPage = (props: Props) => {
         )}
 
         <WhiteArea>
-          <WhiteAreaMenus onClick={() => router.push('/quotation/request')}>
+          <WhiteAreaMenus
+            onClick={() =>
+              userID
+                ? router.push('/quotation/request')
+                : router.push('/signin')
+            }
+          >
             <span>
               <Image src={simpleEstimate} alt="간편견적" />
             </span>
@@ -165,7 +179,11 @@ const MainPage = (props: Props) => {
           <WhiteAreaMenus onClick={() => alert('2차 작업페이지입니다.')}>
             <span>공지사항</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/alarm/1-1')}>
+          <WhiteAreaMenus
+            onClick={() =>
+              userID ? router.push('/alarm/1-1') : router.push('/signin')
+            }
+          >
             <span>알림 설정</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => alert('2차 작업 페이지 입니다.')}>

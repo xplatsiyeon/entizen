@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
-import Request from '..';
+import RequestMain from 'components/mypage/request/requestMain';
 
 type Props = {};
 
@@ -19,11 +19,18 @@ const AsShow = (props: Props) => {
   };
   return (
     <Body>
-      <WebHeader num={0} now={'mypage'} />
+      {/* 피그마 마이페이지/A/S/4. 마이페이지 링크바 A/S 부분을 표시하기 위해서 num={2}를 넘긴다. (내 견적서는 0).
+        const components: Components = {
+        0: <WebEstimate/>,  
+        2: <AsIndex />,
+        }; num, page는 이 부분의 인덱스 넘버.
+      */}
+      <WebHeader num={2} now={'mypage'} /> 
       <Inner>
         <FlexBox>
           <Wrap1>
-            <Request />
+            {/* 회원 메뉴에 A/S 카테고리를 펼치기 위해 page={2}를 넘긴다. (내 견적서는 0) */}
+            <RequestMain page={2}/>
           </Wrap1>
           <Wrap2>
             <AsRequest />
@@ -62,7 +69,7 @@ const Inner = styled.div`
   display: block;
   position: relative;
   width: 900pt;
-  margin: 45.75pt auto 0;
+  margin: 45.75pt auto ;
 
   @media (max-width: 899pt) {
     width: 100%;

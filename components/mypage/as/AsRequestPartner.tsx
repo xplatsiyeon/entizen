@@ -6,13 +6,15 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import CallManager from 'components/Modal/CallManager';
 
 interface Props {
   pb?: number;
 }
 
 const AsRequestPartner = ({ pb }: Props) => {
+  const [modalOpen, setModalOpen] = useState<boolean>();
   // 파일 다운로드 함수
   const DownloadFile = useCallback(() => {
     let fileName = 'Charge Point 카탈로그_7 KW';
@@ -29,101 +31,109 @@ const AsRequestPartner = ({ pb }: Props) => {
     element.remove();
     window.URL.revokeObjectURL(url);
   }, []);
+  const HandleModal = () => {
+    setModalOpen(false);
+  };
 
   return (
-    <Wrapper>
-      <DownArrowBox>
-        <Image src={DoubleArrow} alt="double-arrow" />
-      </DownArrowBox>
-      <Title>Charge Point</Title>
-      <List>
-        <Item>
-          <span className="name">회사명</span>
-          <span className="value">Charge Point</span>
-        </Item>
-        <Item>
-          <span className="name">담당자</span>
-          <span className="value">김전기</span>
-        </Item>
-        <Item>
-          <span className="name">이메일</span>
-          <span className="value">Charge@Charge Point.com</span>
-        </Item>
-        <Item>
-          <span className="name">전화번호</span>
-          <span className="value">010-1544-2080</span>
-        </Item>
-      </List>
-      <ReceiptTitle>접수내용</ReceiptTitle>
-      <SecondList>
-        <Items>
-          <span className="name">제목</span>
-          <span className="value">
-            100kW 충전기의 충전 건이 파손되었습니다.
-          </span>
-        </Items>
-        <Items>
-          <span className="name">담당자</span>
-          <span className="value">
-            사용자의 실수로 충전 건이 파손되었습니다.
-            <br />
-            수리 또는 교체 해주세요.
-          </span>
-        </Items>
-        <Items>
-          <span className="name">접수일자</span>
-          <span className="value">2022.05.17 18:13 </span>
-        </Items>
-        <Items>
-          <div className="name">첨부파일</div>
-          <div className="value">
-            <FileBtn onClick={DownloadFile}>
-              <Image src={fileImg} alt="file-icon" />
-              충전건 1.jpg
-            </FileBtn>
-            <FileBtn onClick={DownloadFile}>
-              <Image src={fileImg} alt="file-icon" />
-              충전건 2.jpg
-            </FileBtn>
-          </div>
-        </Items>
-      </SecondList>
-      <ReceiptTitle>접수확인</ReceiptTitle>
-      <SecondList>
-        <Items>
-          <span className="name">내용</span>
-          <span className="value">
-            파손 정도 파악 및 수리/교체를 위해
-            <br />
-            금주 중 방문하도록 하겠습니다.
-          </span>
-        </Items>
-        <Items>
-          <span className="name">접수일자</span>
-          <span className="value">2022.05.18 20:21 </span>
-        </Items>
-      </SecondList>
-      <ReceiptTitle>A/S결과</ReceiptTitle>
-      <SecondList>
-        <Items>
-          <span className="name">내용</span>
-          <span className="value">충전 건 교체</span>
-        </Items>
-        <Items>
-          <span className="name">A/S일자</span>
-          <span className="value">2022/05.20 14:52</span>
-        </Items>
-        <Items>
-          <div className="name">첨부파일</div>
-          <div className="value">
-            <FileBtn onClick={DownloadFile}>
-              <Image src={fileImg} alt="file-icon" />
-              DSFJEIFKSL.jpg
-            </FileBtn>
-          </div>
-        </Items>
-      </SecondList>
-    </Wrapper>
+    <>
+      {modalOpen && <CallManager HandleModal={HandleModal} />}
+      <Wrapper>
+        <DownArrowBox>
+          <Image src={DoubleArrow} alt="double-arrow" />
+        </DownArrowBox>
+        <Title>Charge Point</Title>
+        <List>
+          <Item>
+            <span className="name">회사명</span>
+            <span className="value">Charge Point</span>
+          </Item>
+          <Item>
+            <span className="name">담당자</span>
+            <span className="value">김전기</span>
+          </Item>
+          <Item>
+            <span className="name">이메일</span>
+            <span className="value">Charge@Charge Point.com</span>
+          </Item>
+          <Item>
+            <span className="name">전화번호</span>
+            <span className="value" onClick={() => setModalOpen(true)}>
+              010-1544-2080
+            </span>
+          </Item>
+        </List>
+        <ReceiptTitle>접수내용</ReceiptTitle>
+        <SecondList>
+          <Items>
+            <span className="name">제목</span>
+            <span className="value">
+              100kW 충전기의 충전 건이 파손되었습니다.
+            </span>
+          </Items>
+          <Items>
+            <span className="name">담당자</span>
+            <span className="value">
+              사용자의 실수로 충전 건이 파손되었습니다.
+              <br />
+              수리 또는 교체 해주세요.
+            </span>
+          </Items>
+          <Items>
+            <span className="name">접수일자</span>
+            <span className="value">2022.05.17 18:13 </span>
+          </Items>
+          <Items>
+            <div className="name">첨부파일</div>
+            <div className="value">
+              <FileBtn onClick={DownloadFile}>
+                <Image src={fileImg} alt="file-icon" />
+                충전건 1.jpg
+              </FileBtn>
+              <FileBtn onClick={DownloadFile}>
+                <Image src={fileImg} alt="file-icon" />
+                충전건 2.jpg
+              </FileBtn>
+            </div>
+          </Items>
+        </SecondList>
+        <ReceiptTitle>접수확인</ReceiptTitle>
+        <SecondList>
+          <Items>
+            <span className="name">내용</span>
+            <span className="value">
+              파손 정도 파악 및 수리/교체를 위해
+              <br />
+              금주 중 방문하도록 하겠습니다.
+            </span>
+          </Items>
+          <Items>
+            <span className="name">접수일자</span>
+            <span className="value">2022.05.18 20:21 </span>
+          </Items>
+        </SecondList>
+        <ReceiptTitle>A/S결과</ReceiptTitle>
+        <SecondList>
+          <Items>
+            <span className="name">내용</span>
+            <span className="value">충전 건 교체</span>
+          </Items>
+          <Items>
+            <span className="name">A/S일자</span>
+            <span className="value">2022/05.20 14:52</span>
+          </Items>
+          <Items>
+            <div className="name">첨부파일</div>
+            <div className="value">
+              <FileBtn onClick={DownloadFile}>
+                <Image src={fileImg} alt="file-icon" />
+                DSFJEIFKSL.jpg
+              </FileBtn>
+            </div>
+          </Items>
+        </SecondList>
+      </Wrapper>
+    </>
   );
 };
 

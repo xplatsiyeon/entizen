@@ -21,14 +21,14 @@ type props ={
 const RequestMain = (props:props) => {
   const {page} = props
   const route = useRouter();
-  const [tabNumber, setTabNumber] = useState<number>(page);
+  const [tabNumber, setTabNumber] = useState<number>(page); 
   const [userName, setUserName] = useState<string>('윤세아');
   const [on, setOn] =useState<boolean>(true);
 
 
-  const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
+  const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소']; 
   const components: Components = {
-    0: <WebEstimate/>,  //얘도 필요할까?
+    0: <WebEstimate/>,  
     2: <AsIndex />,
   };
 

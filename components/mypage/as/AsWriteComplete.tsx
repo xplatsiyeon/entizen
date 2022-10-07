@@ -17,12 +17,12 @@ interface Props {
 const AsComplete = ({ text, title, buttonText }: Props) => {
   const router = useRouter();
   const clickHandler = () => {
-    router.push('/chatting1-3');
+    alert('2차 작업 페이지입니다.');
   };
   return (
     <Wrapper>
       <Nav>
-        <IconWrap>
+        <IconWrap onClick={() => router.push('/mypage')}>
           <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
         </IconWrap>
       </Nav>
@@ -37,7 +37,7 @@ const AsComplete = ({ text, title, buttonText }: Props) => {
             <CommunicationBox text={'소통하기'} clickHandler={clickHandler} />
           </div>
         </TextBox>
-        <Btn onClick={() => router.push('/mypage/request')}>{buttonText}</Btn>
+        <Btn onClick={() => router.push('/mypage')}>{buttonText}</Btn>
       </Footer>
     </Wrapper>
   );
@@ -55,9 +55,9 @@ const Nav = styled.div`
 const IconWrap = styled.div`
   display: none;
   @media (max-width: 899pt) {
-  display: block;
+    display: block;
   }
-`
+`;
 const ContainerBox = styled(Container)`
   margin-top: 90pt;
   display: flex;
@@ -74,10 +74,10 @@ const Title = styled.h1`
   text-align: left;
 
   @media (max-width: 899pt) {
-  font-size: 18pt;
-  line-height: 24pt;
-  margin-top: 24pt;
-  text-align: center;
+    font-size: 18pt;
+    line-height: 24pt;
+    margin-top: 24pt;
+    text-align: center;
   }
 `;
 const Footer = styled.div`
