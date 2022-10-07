@@ -81,6 +81,7 @@ const ProfileEditing = () => {
     })
       .then((res) => {
         setData(res.data.executedData);
+        router.push('/profile/editing/password');
         // encodeData = res.data.executedData;
       })
       .catch((error) => {
