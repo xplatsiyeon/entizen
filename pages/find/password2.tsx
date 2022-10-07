@@ -82,6 +82,7 @@ const FindPassword = () => {
       await axios({
         method: 'patch',
         url: PROFILE_API,
+        params: { memberIdx: data.memberIdx },
         data: {
           password: pwInput,
         },
@@ -134,20 +135,18 @@ const FindPassword = () => {
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
   useEffect(() => {
-    if (localStorage.getItem('key')) {
-      console.log('여기입니다~!!');
-      console.log(localStorage.getItem('key'));
-      let data = localStorage.getItem('key');
-
-      let jsonData: any;
-      if (data !== null) {
-        let jsonData = JSON.parse(data);
-      }
-      setMemeberIdx(jsonData.memberIdx);
-    } else {
-      console.log('실패');
-    }
-
+    // if (localStorage.getItem('key')) {
+    //   console.log('여기입니다~!!');
+    //   console.log(localStorage.getItem('key'));
+    //   let data = localStorage.getItem('key');
+    //   let jsonData: any;
+    //   if (data !== null) {
+    //     let jsonData = JSON.parse(data);
+    //   }
+    //   setMemeberIdx(jsonData.memberIdx);
+    // } else {
+    //   console.log('실패');
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
