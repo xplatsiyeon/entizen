@@ -100,6 +100,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
     chargersKo.map((item, index) => {
       if (item.kind === '7 kW 홈 충전기 (가정용)') {
         if (chargersKo.length === 1) {
+          console.log(chargersKo.length);
           setSubscribeNumber(1);
           setDisableButton(true);
         } else {

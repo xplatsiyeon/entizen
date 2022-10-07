@@ -55,7 +55,7 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   useEffect(() => {
     console.log(subscribeProduct);
     console.log(investRate);
-    if (subscribeProduct === 'PART' && investRate === '1') {
+    if (subscribeProduct === 'PART' && investRate.toString() === '1') {
       setIsMessage(true);
     }
   }, [subscribeProduct, investRate]);
