@@ -87,7 +87,7 @@ const ProfileEditing = () => {
                   가능합니다.
                 </Text>
               </Form>
-              {checkSns && (
+              {!checkSns && (
                 <>
                   <Form>
                     <TitleSection>
