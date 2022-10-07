@@ -58,6 +58,8 @@ const ProfileEditing = () => {
   const fnPopup = (event: any) => {
     console.log('나이스 인증');
     const { value } = event.currentTarget;
+    console.log(`value -> ${value}`);
+
     if (value === 'phone') {
       setIsPhone(true);
       console.log('phone입니다');
