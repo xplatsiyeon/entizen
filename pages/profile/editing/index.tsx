@@ -57,6 +57,7 @@ const ProfileEditing = () => {
   // 나이스 인증
   const fnPopup = (event: any) => {
     console.log('나이스 인증');
+    console.log(event);
     const { value } = event.currentTarget;
     console.log(`value -> ${value}`);
 
@@ -161,7 +162,7 @@ const ProfileEditing = () => {
                     <input type="hidden" name="recvMethodType" value="get" />
                     {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
                     <Form>
-                      <TitleSection onClick={fnPopup}>
+                      <TitleSection onClick={(e) => fnPopup(e)}>
                         <Label mt={0}>휴대폰 번호</Label>
                         <div>
                           <Image src={Arrow} alt="arrow-img" />
@@ -173,7 +174,7 @@ const ProfileEditing = () => {
                       </Text>
                     </Form>
                     <Form>
-                      <TitleSection onClick={fnPopup}>
+                      <TitleSection onClick={(e) => fnPopup(e)}>
                         <Label mt={0}>비밀번호 변경</Label>
                         <div>
                           <Image src={Arrow} alt="arrow-img" />
