@@ -37,6 +37,7 @@ const KakaoLogout = () => {
 // 일반회원 로그아웃
 export const handleLogoutOnClickModalClick = async () => {
   const LOG_OUT_API = `https://test-api.entizen.kr/api/members/logout`;
+  const isSns = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   try {
     await axios({
@@ -48,6 +49,10 @@ export const handleLogoutOnClickModalClick = async () => {
       },
       withCredentials: true,
     }).then((res) => {
+      if (isSns) {
+        NaverLogout();
+        KakaoLogout();
+      }
       localStorage.removeItem('SNS_MEMBER');
       localStorage.removeItem('ACCESS_TOKEN');
       localStorage.removeItem('REFRESH_TOKEN');
@@ -57,6 +62,4 @@ export const handleLogoutOnClickModalClick = async () => {
     console.log('요청 실패');
     console.log(error);
   }
-  NaverLogout();
-  KakaoLogout();
 };
