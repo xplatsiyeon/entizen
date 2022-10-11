@@ -1,21 +1,11 @@
 import axios from 'axios';
-// import { url } from 'inspector';
-
-const BASE_URL = 'https://test-api.entizen.kr';
-
-// interface UserInfo {
-//   isSuccess: boolean,
-//   id: string,
-//   name: string,
-//   phone: number
-// }
 
 export const getUserInfo = () => {
   const accessToken = localStorage.getItem('ACCESS_TOKEN');
   try {
     axios({
       method: 'get',
-      url: `${BASE_URL}/api/members/info`,
+      url: 'https://test-api.entizen.kr/api/members/info',
       headers: {
         Authorization: `Bearer ${accessToken}`,
         ContentType: 'application/json',
