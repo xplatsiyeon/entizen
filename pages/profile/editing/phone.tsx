@@ -16,9 +16,16 @@ interface Key {
   phone: string;
 }
 
+interface UserInfo {
+  isSuccess: boolean;
+  id: string;
+  name: string;
+  phone: string;
+}
+
 const phone = () => {
   const router = useRouter();
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState<UserInfo>();
   const key: Key = JSON.parse(localStorage.getItem('key')!);
   const phoneNumber = key?.phone
     .replace(/[^0-9]/g, '')
@@ -51,11 +58,24 @@ const phone = () => {
     }
   };
 
-  useEffect(() => {
-    const data = getUserInfo();
-    console.log(data);
-    // setUserInfo(data);
-  }, []);
+  // useEffect(() => {
+  //   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  //   try {
+  //     axios({
+  //       method: 'get',
+  //       url: 'https://test-api.entizen.kr/api/members/info',
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`,
+  //         ContentType: 'application/json',
+  //       },
+  //       withCredentials: true,
+  //     }).then((res) => setUserInfo(res.data));
+  //   } catch (error) {
+  //     console.log('유저 에러!');
+  //     console.log(error);
+  //   }
+  // }, []);
+
   return (
     <React.Fragment>
       <WebBody>
@@ -69,9 +89,9 @@ const phone = () => {
               번호로만 변경이 가능합니다.
             </Notice>
             <InputBox>
-              <Input type="text" readOnly value={phoneNumber || ''} />
+              <Input type="text" readOnly value={userInfo?.phone} />
 
-              {/* <InputBtn>확인</InputBtn> */}
+              <InputBtn>재설정</InputBtn>
             </InputBox>
             <AlertMessage>해당 번호로 변경됩니다.</AlertMessage>
             <BtnBox>
@@ -193,5 +213,23 @@ const Btn = styled.button`
 
   :hover {
     background-color: ${colors.main};
+  }
+`;
+const InputBtn = styled.span`
+  background: ${colors.gray};
+  border-radius: 6pt;
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  text-align: right;
+  letter-spacing: -0.02em;
+  color: ${colors.lightWhite};
+  padding: 7.5pt 9pt;
+  position: absolute;
+  top: 15pt;
+  right: 21pt;
+  cursor: pointer;
+  :hover {
+    background-color: ${colors.main1};
   }
 `;
