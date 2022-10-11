@@ -58,23 +58,23 @@ const phone = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  //   try {
-  //     axios({
-  //       method: 'get',
-  //       url: 'https://test-api.entizen.kr/api/members/info',
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //         ContentType: 'application/json',
-  //       },
-  //       withCredentials: true,
-  //     }).then((res) => setUserInfo(res.data));
-  //   } catch (error) {
-  //     console.log('유저 에러!');
-  //     console.log(error);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    try {
+      axios({
+        method: 'get',
+        url: 'https://test-api.entizen.kr/api/members/info',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => setUserInfo(res.data));
+    } catch (error) {
+      console.log('유저 에러!');
+      console.log(error);
+    }
+  }, []);
 
   return (
     <React.Fragment>
