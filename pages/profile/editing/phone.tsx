@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import MypageHeader from 'components/mypage/request/header';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { getUserInfo } from 'api/auth/userInfo';
 
 interface Key {
   id: string;
@@ -17,7 +18,7 @@ interface Key {
 
 const phone = () => {
   const router = useRouter();
-
+  const [userInfo, setUserInfo] = useState();
   const key: Key = JSON.parse(localStorage.getItem('key')!);
   const phoneNumber = key?.phone
     .replace(/[^0-9]/g, '')
@@ -49,6 +50,12 @@ const phone = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const data = getUserInfo();
+    console.log(data);
+    // setUserInfo(data);
+  }, []);
   return (
     <React.Fragment>
       <WebBody>
@@ -63,6 +70,7 @@ const phone = () => {
             </Notice>
             <InputBox>
               <Input type="text" readOnly value={phoneNumber || ''} />
+
               {/* <InputBtn>확인</InputBtn> */}
             </InputBox>
             <AlertMessage>해당 번호로 변경됩니다.</AlertMessage>
