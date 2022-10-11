@@ -386,12 +386,13 @@ const Signin = (props: Props) => {
                   sx={{
                     width: '100%',
                     display: 'flex',
+                    gap: '15pt',
                     alignItems: 'center',
                     marginTop: '6pt',
                   }}
                 >
                   {loginTypeList.map((loginType, index) => (
-                    <Box key={index} sx={{ marginRight: '24pt' }}>
+                    <Box key={index}>
                       <Typography
                         variant="h6"
                         key={index}
@@ -433,23 +434,15 @@ const Signin = (props: Props) => {
                 }}
               >
                 <Box sx={{ textAlign: 'center' }}>
-                  <TextField
+                  <TextFields
                     id="outlined-basic"
                     placeholder="아이디 입력"
                     onChange={(e) => {
                       setUserId(e.target.value);
                     }}
-                    sx={{
-                      width: '100%',
-                      fontWeight: '400',
-                      border: '1px solid #E2E5ED',
-                      fontSize: '12pt',
-                      lineHeight: '12pt',
-                      borderRadius: '6pt',
-                    }}
                   />
 
-                  <TextField
+                  <TextFields
                     value={password}
                     id="outlined-basic"
                     placeholder="비밀번호 입력"
@@ -462,10 +455,7 @@ const Signin = (props: Props) => {
                       setPassword(e.target.value);
                     }}
                     sx={{
-                      width: '100%',
                       marginTop: '9pt',
-                      border: '1px solid #E2E5ED',
-                      borderRadius: '6pt',
                     }}
                   />
                 </Box>
@@ -638,6 +628,19 @@ const Body = styled.div`
   }
 `;
 
+const TextFields = styled(TextField)`
+  width: 100%;
+  font-weight: 400;
+  border: 1px solid #ffffff;
+  font-size: 12pt;
+  line-height: 12pt;
+  border-radius: 6pt;
+  & div > input {
+    padding-top: 10.88pt;
+    padding-bottom: 10.8pt;
+  }
+`;
+
 const Inner = styled.div`
   display: block;
   position: relative;
@@ -692,7 +695,8 @@ const LoginBtn = styled.button`
 `;
 const BtnSpan = styled.span``;
 const IdRegist = styled.button`
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  background-color: #ffffff;
   border-radius: 8px;
   width: 100%;
   padding: 15pt 0;

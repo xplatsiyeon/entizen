@@ -44,7 +44,7 @@ export default Btn;
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 0 15pt;
+  /* padding: 0 15pt; */
 
   @media (max-width: 899pt) {
     padding: 0;
