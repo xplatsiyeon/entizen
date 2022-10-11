@@ -27,14 +27,20 @@ const phone = () => {
   const [data, setData] = useState<any>();
   const [userInfo, setUserInfo] = useState<UserInfo>();
   const [checkSns, setCheckSns] = useState<boolean>(false);
-  // const [newPhoneNumber, setNewPhoneNumber] = useState<number>();
+  const [newPhoneNumber, setNewPhoneNumber] = useState<string>();
   const key: Key = JSON.parse(localStorage.getItem('key')!);
   const phoneNumber = userInfo?.phone
     .replace(/[^0-9]/g, '')
     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-  const newPhoneNumber = key?.phone
-    .replace(/[^0-9]/g, '')
-    .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+
+  // 휴대폰 변경
+  const HandlePhone = async () => {
+    const key: Key = JSON.parse(localStorage.getItem('key')!);
+    const newnumber = key?.phone
+      .replace(/[^0-9]/g, '')
+      .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+    setNewPhoneNumber(newnumber);
+  };
 
   const onClickBtn = () => {
     //수정완료 api
@@ -130,7 +136,7 @@ const phone = () => {
       console.log(error);
     }
   }, []);
-
+  // 나이스 인증 테스트
   useEffect(() => {
     console.log('-----key-------');
     console.log(key);
@@ -174,6 +180,11 @@ const phone = () => {
                 </>
               )}
             </InputBox>
+
+            <Buttons className="firstNextPage" onClick={HandlePhone}>
+              숨겨진 비밀번호 버튼
+            </Buttons>
+
             {newPhoneNumber && (
               <AlertMessage>해당 번호로 변경됩니다.</AlertMessage>
             )}
@@ -315,4 +326,7 @@ const InputBtn = styled.span`
   :hover {
     background-color: ${colors.main1};
   }
+`;
+const Buttons = styled.button`
+  display: none;
 `;
