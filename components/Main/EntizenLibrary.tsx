@@ -8,8 +8,8 @@ import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 
 type Props = {
-  fontSize: number;
-  smallFont: number;
+  fontSize?: number;
+  smallFont?: number;
 };
 
 const EntizenLibrary = ({ fontSize, smallFont }: Props) => {
