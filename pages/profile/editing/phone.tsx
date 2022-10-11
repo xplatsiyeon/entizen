@@ -139,6 +139,10 @@ const phone = () => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log();
+  }, []);
+
   return (
     <React.Fragment>
       <WebBody>
@@ -176,7 +180,10 @@ const phone = () => {
                 </>
               )}
             </InputBox>
-            <AlertMessage>해당 번호로 변경됩니다.</AlertMessage>
+            {newPhoneNumber && (
+              <AlertMessage>해당 번호로 변경됩니다.</AlertMessage>
+            )}
+
             <BtnBox>
               <Btn onClick={onClickBtn}>수정완료</Btn>
             </BtnBox>

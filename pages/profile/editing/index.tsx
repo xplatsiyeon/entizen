@@ -36,15 +36,15 @@ const ProfileEditing = () => {
     };
   };
 
-  // 휴대폰 변경
-  const HandlePhone = async () => {
-    let key = localStorage.getItem('key');
-    let data = JSON.parse(key!);
-    console.log('---------휴대폰 변경 data입니다 ---------');
-    console.log(data);
+  // // 휴대폰 변경
+  // const HandlePhone = async () => {
+  //   let key = localStorage.getItem('key');
+  //   let data = JSON.parse(key!);
+  //   console.log('---------휴대폰 변경 data입니다 ---------');
+  //   console.log(data);
 
-    router.push('/profile/editing/phone');
-  };
+  //   router.push('/profile/editing/phone');
+  // };
   // 비밀번호 변경
   const HandlePassword = async () => {
     let key = localStorage.getItem('key');
