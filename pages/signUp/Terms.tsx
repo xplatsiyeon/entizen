@@ -8,7 +8,7 @@ import CheckImg from 'public/images/check-box.svg';
 import CheckOnImg from 'public/images/check-box-on.svg';
 import SmallCheckImg from 'public/images/check-small.svg';
 import SmallCheckOnImg from 'public/images/check-small-on.svg';
-
+import btnImg from 'public/images/back-btn.svg';
 import { useEffect, useState } from 'react';
 import { Router, useRouter } from 'next/router';
 import WebFooter from 'web-components/WebFooter';
@@ -27,7 +27,7 @@ interface Terms {
 }
 
 const SignUpTerms = () => {
-  const route = useRouter();
+  const router = useRouter();
   const [fullTerms, setFullTerms] = useState(false);
   const [name, setName] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -76,8 +76,8 @@ const SignUpTerms = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if (route.asPath.includes('Canceled')) {
-      route.push('/signin');
+    if (router.asPath.includes('Canceled')) {
+      router.push('/signin');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -138,7 +138,7 @@ const SignUpTerms = () => {
             console.log(res);
           })
           .then((res) => {
-            route.push('/signUp/Complete');
+            router.push('/signUp/Complete');
           });
       } catch (error) {
         console.log('post 실패!!!!!!');
@@ -149,11 +149,11 @@ const SignUpTerms = () => {
   // 보기 이벤트
   const TermsofServiceHandler = (event: any) => {
     event.stopPropagation();
-    // route("/") 어디로?
+    // router("/") 어디로?
   };
   useEffect(() => {
-    if (route.asPath.includes('Canceled')) {
-      route.push('/signin');
+    if (router.asPath.includes('Canceled')) {
+      router.push('/signin');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -176,110 +176,111 @@ const SignUpTerms = () => {
         <WebHeader />
         <Inner>
           <Wrapper>
-            <Header />
+            <InnerHeader>
+              <div className="img-box" onClick={() => router.back()}>
+                <Image src={btnImg} alt="back-img" />
+              </div>
+              <h1 className="title">회원가입</h1>
+            </InnerHeader>
             <Wrapper2>
+              <Notice variant="h3">엔티즌 약관에 동의해주세요</Notice>
+              <StyledTerms>
+                <Image
+                  onClick={fullTermsHandler}
+                  alt="check"
+                  src={fullTerms ? CheckOnImg : CheckImg}
+                />
+                <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
+              </StyledTerms>
+              <Form
+                isterms={requiredTerms.toString()}
+                onClick={() => setRequiredTerms((prev) => !prev)}
+              >
+                <Box className="box">
+                  <span>
+                    <Image
+                      alt="check"
+                      src={requiredTerms ? CheckOnImg : CheckImg}
+                    />
+                  </span>
+                  <p>필수 약관에 동의합니다.</p>
+                </Box>
+                <Check>
+                  <Item>
+                    <div>
+                      <Image
+                        alt="smallCheck"
+                        src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                      />
+                      <p>[필수]사용자 이용약관</p>
+                    </div>
+                    <span onClick={TermsofServiceHandler}>보기</span>
+                  </Item>
+                </Check>
+                <Check>
+                  <Item>
+                    <div>
+                      <Image
+                        alt="smallCheck"
+                        src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                      />
+                      <p>[필수] 만 14세 이상</p>
+                    </div>
+                    <span onClick={TermsofServiceHandler}>보기</span>
+                  </Item>
+                </Check>
+                <Check>
+                  <Item>
+                    <div>
+                      <Image
+                        alt="smallCheck"
+                        src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
+                      />
+                      <p>[필수]개인정보 처리방침 동의</p>
+                    </div>
+                    <span onClick={TermsofServiceHandler}>보기</span>
+                  </Item>
+                </Check>
+              </Form>
+              <BottomForm isterms={selectTerms.toString()}>
+                <Box>
+                  <Item onClick={() => setSelectTerms((prev) => !prev)}>
+                    <div>
+                      <Image
+                        alt="smallCheck"
+                        src={selectTerms ? SmallCheckOnImg : SmallCheckImg}
+                      />
+                      <p>[선택]위치정보 서비스 약관</p>
+                    </div>
+                    <span onClick={TermsofServiceHandler}>보기</span>
+                  </Item>
+                </Box>
+              </BottomForm>
+              <div>
+                <form name="form_chk" method="get">
+                  <input type="hidden" name="m" value="checkplusService" />
 
-            <Notice variant="h3">
-              엔티즌 약관에
-              동의해주세요
-            </Notice>
-            <StyledTerms>
-              <Image
-                onClick={fullTermsHandler}
-                alt="check"
-                src={fullTerms ? CheckOnImg : CheckImg}
-              />
-              <p onClick={fullTermsHandler}>전체 약관에 동의합니다.</p>
-            </StyledTerms>
-            <Form
-              isterms={requiredTerms.toString()}
-              onClick={() => setRequiredTerms((prev) => !prev)}
-            >
-              <Box className="box">
-                <span>
-                  <Image
-                    alt="check"
-                    src={requiredTerms ? CheckOnImg : CheckImg}
+                  {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                  <input
+                    type="hidden"
+                    id="encodeData"
+                    name="EncodeData"
+                    value={data !== undefined && data}
                   />
-                </span>
-                <p>필수 약관에 동의합니다.</p>
-              </Box>
-              <Check>
-                <Item>
-                  <div>
-                    <Image
-                      alt="smallCheck"
-                      src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
-                    />
-                    <p>[필수]사용자 이용약관</p>
-                  </div>
-                  <span onClick={TermsofServiceHandler}>보기</span>
-                </Item>
-              </Check>
-              <Check>
-                <Item>
-                  <div>
-                    <Image
-                      alt="smallCheck"
-                      src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
-                    />
-                    <p>[필수] 만 14세 이상</p>
-                  </div>
-                  <span onClick={TermsofServiceHandler}>보기</span>
-                </Item>
-              </Check>
-              <Check>
-                <Item>
-                  <div>
-                    <Image
-                      alt="smallCheck"
-                      src={requiredTerms ? SmallCheckOnImg : SmallCheckImg}
-                    />
-                    <p>[필수]개인정보 처리방침 동의</p>
-                  </div>
-                  <span onClick={TermsofServiceHandler}>보기</span>
-                </Item>
-              </Check>
-            </Form>
-            <BottomForm isterms={selectTerms.toString()}>
-              <Box>
-                <Item onClick={() => setSelectTerms((prev) => !prev)}>
-                  <div>
-                    <Image
-                      alt="smallCheck"
-                      src={selectTerms ? SmallCheckOnImg : SmallCheckImg}
-                    />
-                    <p>[선택]위치정보 서비스 약관</p>
-                  </div>
-                  <span onClick={TermsofServiceHandler}>보기</span>
-                </Item>
-              </Box>
-            </BottomForm>
-            <div>
-              <form name="form_chk" method="get">
-                <input type="hidden" name="m" value="checkplusService" />
-
-                {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
-                <input
-                  type="hidden"
-                  id="encodeData"
-                  name="EncodeData"
-                  value={data !== undefined && data}
-                />
-                <input type="hidden" name="recvMethodType" value="get" />
-                {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-                <Btn
-                  text="본인인증하기"
-                  name={'form_chk'}
-                  handleClick={fnPopup}
-                  marginTop={42.5}
-                  isClick={nextBtn}
-                />
-              </form>
-              <Buttons className="firstNextPage" onClick={handleForceClick}>
-                아아
-              </Buttons>
-            </div>
+                  <input type="hidden" name="recvMethodType" value="get" />
+                  {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+                  <Btn
+                    text="본인인증하기"
+                    name={'form_chk'}
+                    handleClick={fnPopup}
+                    marginTop={42.5}
+                    isClick={nextBtn}
+                  />
+                </form>
+                <Buttons className="firstNextPage" onClick={handleForceClick}>
+                  아아
+                </Buttons>
+              </div>
             </Wrapper2>
           </Wrapper>
         </Inner>
@@ -348,18 +349,44 @@ const Wrapper2 = styled.div`
     padding: 0;
   }
 `;
-
+const InnerHeader = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .img-box {
+    position: absolute;
+    left: 0;
+  }
+  .title {
+    font-weight: 700;
+    font-size: 18pt;
+    line-height: 21pt;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+  }
+  @media (max-width: 899pt) {
+    height: 36pt;
+    .img-box {
+      left: 15pt;
+    }
+    .title {
+      display: none;
+    }
+  }
+`;
 const Notice = styled(Typography)`
   margin-top: 45pt;
   font-weight: 700;
-  font-size: 18pt;
+  font-size: 15pt;
   line-height: 24pt;
   letter-spacing: -0.02em;
 
   //아래의 스타일은 바뀔 수도 있음.
   @media (max-width: 899pt) {
-  width: 40%;
-  margin-top: 6pt;
+    width: 40%;
+    margin-top: 6pt;
+    font-size: 18pt;
   }
 `;
 const StyledTerms = styled(Box)`
