@@ -172,12 +172,13 @@ const GridElement = styled.div`
   border-radius: 6pt;
   position: relative;
   border: 1.5pt solid #e2e5ed;
-  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
+  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
 
   @media (max-width: 899pt) {
     height: 120pt;
     border: none;
     box-shadow: none;
+    box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   }
 `;
 

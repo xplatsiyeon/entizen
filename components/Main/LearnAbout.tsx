@@ -181,6 +181,7 @@ const Item = styled.div<{ borders: number }>`
   position: relative;
   @media (max-width: 899pt) {
     width: 105pt;
+    box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
     height: 153.75pt;
     padding-top: 12pt;
     padding-left: 12pt;
