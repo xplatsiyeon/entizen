@@ -204,6 +204,18 @@ const SignUpCheck = () => {
                     이미 사용중인 아이디입니다.
                   </Typography>
                 )}
+                {checkId === 0 && (
+                  <Typography
+                    sx={{
+                      color: '#5221CB',
+                      fontSize: '9pt',
+                      lineHeight: '12pt',
+                      marginTop: '9pt',
+                    }}
+                  >
+                    사용 가능한 아이디입니다.
+                  </Typography>
+                )}
               </Box>
             </Box>
             <Box
@@ -227,12 +239,13 @@ const SignUpCheck = () => {
                 onFocus={(e) => setPwSelected(true)}
                 onBlur={(e) => setPwSelected(false)}
               />
-              {!checkedPw && pwInput.length > 4 ? (
+              {!checkedPw && pwInput.length > 8 ? (
                 <Box>
                   <Typography
                     sx={{
                       color: '#F75015',
                       fontSize: '9pt',
+                      marginTop: '9pt',
                     }}
                   >
                     영문,숫자,특수문자 조합 10자 이상
@@ -251,15 +264,16 @@ const SignUpCheck = () => {
                 onFocus={(e) => setCheckPwSelected(true)}
                 onBlur={(e) => setCheckPwSelected(false)}
               />
-              {!checkSamePw && checkPw.length > 4 ? (
+              {!checkSamePw && checkPw.length > 8 ? (
                 <Box>
                   <Typography
                     sx={{
                       color: '#F75015',
                       fontSize: '9pt',
+                      marginTop: '9pt',
                     }}
                   >
-                    비밀번호를 확인해주세요
+                    비밀번호가 일치하지 않습니다.
                   </Typography>
                 </Box>
               ) : (
