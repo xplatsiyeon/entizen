@@ -83,7 +83,7 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
-      {level === 1 && (
+      {level === 1 && userType === 1 && (
         <>
           <MypageHeader
             back={true}
@@ -107,6 +107,35 @@ const SignUpContainer = (props: Props) => {
               setSelectTerms={setSelectTerms}
               nextBtn={nextBtn}
               setNextBtn={setNextBtn}
+            />
+          </Wrapper>
+        </>
+      )}
+      {level === 1 && userType === 0 && (
+        <>
+          <MypageHeader
+            back={true}
+            homeBtn={true}
+            title={''}
+            exitBtn={true}
+            handleBackClick={handleBackClick}
+            handleHomeClick={handleHomeClick}
+          />
+          <Wrapper>
+            <TermContent
+              setLevel={setLevel}
+              level={level}
+              setName={setName}
+              setPhoneNumber={setPhoneNumber}
+              fullTerms={fullTerms}
+              setFullTerms={setFullTerms}
+              requiredTerms={requiredTerms}
+              setRequiredTerms={setRequiredTerms}
+              selectTerms={selectTerms}
+              setSelectTerms={setSelectTerms}
+              nextBtn={nextBtn}
+              setNextBtn={setNextBtn}
+              userType={userType}
             />
           </Wrapper>
         </>
@@ -142,6 +171,7 @@ const SignUpContainer = (props: Props) => {
               name={name}
               phoneNumber={phoneNumber}
               fullTerms={fullTerms}
+              userType={userType}
             />
           </Wrapper>
         </>

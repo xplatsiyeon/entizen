@@ -384,27 +384,6 @@ const Input = styled(TextField)`
   :focus > .remove {
     display: block;
   }
-  /* margin-top: 9pt;
-  padding: 13.5pt 0;
-  padding-left: 12pt; */
-  /* ::placeholder {
-    color: ${colors.gray};
-    font-weight: 500;
-  }
-  font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  &::-webkit-input-placeholder {
-    transform: scale(0.77);
-    transform-origin: 0 50%;
-  }
-  &::-moz-placeholder {
-    font-size: 14px;
-    opacity: 1;
-  }
-  &:-ms-input-placeholder {
-    font-size: 14px;
-    font-family: 'Roboto', Helvetica, Arial, sans-serif;
-  } */
 `;
 const OverlapBtn = styled.button`
   & .checkOverlap {

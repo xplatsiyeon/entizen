@@ -28,6 +28,7 @@ type Props = {
   name: string;
   phoneNumber: string;
   fullTerms: boolean;
+  userType: number;
 };
 
 const IdPwInput = ({
@@ -50,9 +51,10 @@ const IdPwInput = ({
   name,
   phoneNumber,
   fullTerms,
+  userType,
 }: Props) => {
   const route = useRouter();
-
+  console.log(userType);
   const [checkId, setCheckId] = useState<number>(-1);
 
   // 디바운스를 이용한 유효성 검사
@@ -194,7 +196,7 @@ const IdPwInput = ({
           method: 'post',
           url: 'https://test-api.entizen.kr/api/members/join',
           data: {
-            memberType: 'USER',
+            memberType: userType === 0 ? 'COMPANY' : 'USER',
             name: name,
             phone: phoneNumber,
             id: idInput,
