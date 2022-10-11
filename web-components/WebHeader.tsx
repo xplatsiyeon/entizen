@@ -39,6 +39,12 @@ const WebHeader = ({ num, now }: Props) => {
     }
   };
 
+  const logout = () => {
+    handleLogoutOnClickModalClick()
+      .then((res) => router.push('/'))
+      .catch((error) => alert(error));
+  };
+
   useEffect(() => {
     console.log(`isUser-> ${isUser}`);
   }, [isUser]);
@@ -110,9 +116,7 @@ const WebHeader = ({ num, now }: Props) => {
                             <li onClick={() => router.push('/setting')}>
                               설정
                             </li>
-                            <li onClick={handleLogoutOnClickModalClick}>
-                              로그아웃
-                            </li>
+                            <li onClick={logout}>로그아웃</li>
                           </ProfileMenu>
                           <Image src={ProfileUp} alt="up" layout="fill" />
                         </UpDown>
