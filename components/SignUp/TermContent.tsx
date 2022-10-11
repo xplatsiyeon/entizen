@@ -224,7 +224,15 @@ const TermContent = ({
           </Item>
         </Box>
       </BottomForm>
-      {userType === 1 ? (
+      {userType === 0 && (
+        <Btn
+          text="다음"
+          handleClick={justNextPage}
+          marginTop={42.5}
+          isClick={nextBtn}
+        />
+      )}
+      {userType === 1 && (
         <div>
           <form name="form_chk" method="get">
             <input type="hidden" name="m" value="checkplusService" />
@@ -258,13 +266,6 @@ const TermContent = ({
             아아
           </Buttons>
         </div>
-      ) : (
-        <Btn
-          text="다음"
-          handleClick={justNextPage}
-          marginTop={42.5}
-          isClick={nextBtn}
-        />
       )}
     </>
   );
