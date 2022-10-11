@@ -14,9 +14,6 @@ type Props = {
 const MyEstimateProject = ({ borders }: Props) => {
   const userID = localStorage.getItem('USER_ID');
   const router = useRouter();
-  useEffect(() => {
-    console.log(borders);
-  }, []);
   return (
     <Wrapper>
       <BoxWrapper

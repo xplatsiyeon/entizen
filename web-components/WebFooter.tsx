@@ -4,6 +4,8 @@ import Link from 'next/link';
 import colors from 'styles/colors';
 import Insta from 'public/images/insta.png';
 import Pencil from 'public/images/pencil.png';
+import apple from 'public/images/appleLogo.png';
+import google from 'public/images/googlePlayIcon.png';
 
 const WebFooter = () => {
   return (
@@ -68,8 +70,14 @@ const WebFooter = () => {
             <p>&#40;점심시간 12:00 ~ 13:00 / 주말 및 공휴일 제외&#41;</p>
           </Time>
           <ButtonBox>
-            <Button>App Store</Button>
-            <Button>Goocle Play</Button>
+            <Button>
+              <Image src={apple} alt="apple" />
+              <span>App Store</span>
+            </Button>
+            <Button>
+              <Image src={google} alt="google" />
+              <span>Google Play</span>
+            </Button>
           </ButtonBox>
         </Box2>
       </Inner>
@@ -159,7 +167,6 @@ const Time = styled.div`
       line-height: 18pt;
       font-family: Spoqa Han Sans Neo;
       color: #a6a9b0;
-      margin-bottom: 9pt;
     }
     &:nth-of-type(2) {
       font-weight: normal;
@@ -171,7 +178,10 @@ const Time = styled.div`
   }
 `;
 
-const ButtonBox = styled.div``;
+const ButtonBox = styled.div`
+  display: flex;
+  gap: 15pt;
+`;
 
 const Button = styled.button`
   background: ${colors.main};
@@ -180,9 +190,17 @@ const Button = styled.button`
   font-weight: bold;
   font-size: 10.5pt;
   line-height: 12pt;
+  display: flex;
+  align-items: center;
   font-family: Spoqa Han Sans Neo;
   color: ${colors.white};
-  margin-right: 9pt;
+  /* margin-right: 9pt; */
+  /* & span:first-of-type {
+    margin-right: 3pt;
+  } */
+  & span {
+    margin-left: 3pt;
+  }
 `;
 
 const IconBox = styled.div`
