@@ -65,12 +65,12 @@ const Request = () => {
 export default Request;
 
 const Wrapper = styled.div`
-position: relative;
-width: 100%;
+  position: relative;
+  width: 100%;
 
-@media (max-width: 899pt) {
-  padding-bottom: 60pt;
-}
+  @media (max-width: 899pt) {
+    padding-bottom: 60pt;
+  }
 `;
 const Header = styled.header`
   display: flex;
@@ -97,7 +97,6 @@ const Header = styled.header`
     height: 22.5pt;
     text-align: end;
   }
-
 `;
 const Body = styled.div`
   padding-top: 15pt;
