@@ -140,8 +140,8 @@ const phone = () => {
   }, []);
 
   useEffect(() => {
-    console.log();
-  }, []);
+    console.log('나이스 인증 폰번호 받아오기 ->' + newPhoneNumber);
+  }, [newPhoneNumber]);
 
   return (
     <React.Fragment>
