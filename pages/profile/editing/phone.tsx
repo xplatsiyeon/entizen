@@ -6,7 +6,6 @@ import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { getUserInfo } from 'api/auth/userInfo';
 
 interface Key {
   id: string;
@@ -28,6 +27,7 @@ const phone = () => {
   const [data, setData] = useState<any>();
   const [userInfo, setUserInfo] = useState<UserInfo>();
   const [checkSns, setCheckSns] = useState<boolean>(false);
+  // const [newPhoneNumber, setNewPhoneNumber] = useState<number>();
   const key: Key = JSON.parse(localStorage.getItem('key')!);
   const phoneNumber = userInfo?.phone
     .replace(/[^0-9]/g, '')
@@ -70,14 +70,6 @@ const phone = () => {
     const { id } = event.currentTarget;
     console.log(`id -> ${id}`);
 
-    if (id === 'phone') {
-      // setIsPhone(true);
-      console.log('phone입니다');
-    }
-    if (id === 'password') {
-      // setIsPassword(true);
-      console.log('passowrd입니다');
-    }
     if (typeof window !== 'object') return;
     else {
       window.open(
@@ -140,8 +132,10 @@ const phone = () => {
   }, []);
 
   useEffect(() => {
+    console.log('-----key-------');
+    console.log(key);
     console.log('나이스 인증 폰번호 받아오기 ->' + newPhoneNumber);
-  }, [newPhoneNumber]);
+  }, [newPhoneNumber, key]);
 
   return (
     <React.Fragment>
@@ -183,7 +177,6 @@ const phone = () => {
             {newPhoneNumber && (
               <AlertMessage>해당 번호로 변경됩니다.</AlertMessage>
             )}
-
             <BtnBox>
               <Btn onClick={onClickBtn}>수정완료</Btn>
             </BtnBox>
