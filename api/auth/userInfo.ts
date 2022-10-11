@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import { url } from 'inspector';
 
-const BASE_URL = 'https://test-api.entizen.kr/api';
+const BASE_URL = 'https://test-api.entizen.kr';
 
 // interface UserInfo {
 //   isSuccess: boolean,
@@ -15,7 +15,7 @@ export const getUserInfo = () => {
   try {
     axios({
       method: 'get',
-      url: `${BASE_URL}members/info`,
+      url: `${BASE_URL}/api/members/info`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         ContentType: 'application/json',
