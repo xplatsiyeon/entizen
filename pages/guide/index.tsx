@@ -3,8 +3,6 @@ import { Box } from '@mui/system';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import bell from 'public/images/guide-bell.svg';
-import banner from 'public/guide/guide-main-banner.png';
-import banner2 from 'public/guide/guide0.png';
 import arrow from 'public/images/right-arrow.svg';
 import fee_icon from 'public/guide/fee-icon.svg';
 import subsidy_icon from 'public/guide/subsidy-icon.svg';
@@ -15,7 +13,7 @@ import Hamburger from 'public/images/list-bar.svg';
 import arrow_small from 'public/images/arrow.svg';
 import guide from 'public/images/guide.png';
 import mypageIcon from 'public/images/mypageIcon.png';
-import { Button, Divider, Drawer } from '@mui/material';
+import { Divider, Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
 import conversation from 'public/images/conversation.png';
 import grayInsta from 'public/images/grayCircleInsta.png';
@@ -31,6 +29,7 @@ import { RootState } from 'store/store';
 import arrowR from 'public/images/arrowR.png';
 import guideIndex1 from 'public/guide/guideIndex1.png';
 import guideIndex2 from 'public/guide/guideIndex2.png';
+import BingGuideBanner from 'public/guide/Big-guide-banner.png';
 
 const Guide1 = () => {
   const router = useRouter();
@@ -190,11 +189,9 @@ const Guide1 = () => {
           <Header>
             <span className="left">가이드</span>
             <div className="right">
-              <Image
-                onClick={() => pageHandler('/alarm')}
-                src={bell}
-                alt="bell"
-              />
+              <div className="bell-img" onClick={() => pageHandler('/alarm')}>
+                <Image src={bell} alt="bell" />
+              </div>
               {(['right'] as const).map((anchor) => (
                 <React.Fragment key={anchor}>
                   <HamburgerOn onClick={toggleDrawer(anchor, true)}>
@@ -206,7 +203,6 @@ const Guide1 = () => {
                     anchor={anchor}
                     open={state[anchor]}
                     onClose={toggleDrawer(anchor, false)}
-                    // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
                   >
                     {list(anchor)}
                   </Drawer>
@@ -216,15 +212,18 @@ const Guide1 = () => {
           </Header>
           <Wrap>
             <Platform onClick={() => pageHandler('/guide/1-1')}>
-              <div className="img-box">
-                <Image src={banner} alt="platform" layout="fill" />
+              <p>플랫폼 가이드</p>
+              <h3>
+                충전의 정석
+                <br />
+                엔티즌
+                <br /> 사용설명서
+              </h3>
+              <div className="banner">
+                <Image src={BingGuideBanner} alt="platform" layout="fill" />
               </div>
             </Platform>
-            <Platform onClick={() => pageHandler('/guide/1-1')}>
-              <div className="img-box">
-                <Image src={banner2} alt="platform" layout="fill" />
-              </div>
-            </Platform>
+
             <SubsidyBox>
               <Subsidy
                 onClick={() => {
@@ -296,7 +295,7 @@ const Guide1 = () => {
           </Wrap>
           <EntizenLibrary>
             <Btn onClick={() => router.push('/library')}>
-              &nbsp; 보러가기
+              보러가기
               <div className="img">
                 <Image src={arrow_small} alt="arrow_small" layout="fill" />
               </div>
@@ -319,13 +318,7 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
-
-  /* @media (max-height: 809pt) {
-    display: block;
-    height: 100%;
-  } */
 `;
 
 const Inner = styled.div`
@@ -340,9 +333,6 @@ const Inner = styled.div`
     position: relative;
     margin: 0 auto;
   }
-  /* @media (max-height: 500pt) {
-    height: 100%;
-  } */
 `;
 
 const Wrapper = styled.div`
@@ -368,7 +358,11 @@ const Header = styled(Box)`
   }
   .right {
     display: flex;
+    align-items: center;
     gap: 9.75pt;
+  }
+  .bell-img {
+    cursor: pointer;
   }
   @media (max-width: 899pt) {
     display: flex;
@@ -383,38 +377,65 @@ const Wrap = styled.div`
   }
 `;
 
-const Platform = styled(Button)`
+const Platform = styled.button`
+  position: relative;
   padding: 0;
-  height: 210pt;
   flex: 2.2;
   margin-right: 7pt; //나중에 수정할 수도.
-  .img-box {
-    object-fit: cover;
+  background-color: ${colors.main1};
+  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+  border-radius: 6pt;
+  width: 100%;
+  height: 210pt;
+  cursor: pointer;
+  .banner {
+    position: absolute;
+    bottom: 6pt;
+    right: 8.25pt;
+    width: 258.06pt;
+    height: 167.7375pt;
   }
-  &:nth-of-type(1) {
-    display: none;
+  & > p {
+    font-weight: 700;
+    font-size: 13.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    top: 33pt;
+    left: 28.5pt;
+    z-index: 1;
   }
-
+  & > h3 {
+    font-weight: 700;
+    font-size: 19.5pt;
+    line-height: 28.5pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightWhite};
+    position: absolute;
+    text-align: left;
+    z-index: 1;
+    left: 28.5pt;
+    bottom: 23.25pt;
+  }
   @media (max-width: 899pt) {
-    display: flex;
-    width: 100%;
-    height: auto;
-    flex: none;
-    justify-content: center;
-    align-items: center;
-    margin-right: 0;
-
-    margin-top: 15.75pt;
-    .img-box {
-      width: 100%;
-      height: 159pt;
-      object-fit: cover;
+    height: 159pt;
+    .banner {
+      width: 195pt;
+      height: 126.75pt;
     }
-    &:nth-of-type(1) {
-      display: block;
+    & > p {
+      font-size: 10.5pt;
+      line-height: 21pt;
+      left: 15pt;
+      top: 15pt;
     }
-    &:nth-of-type(2) {
-      display: none;
+    & > h3 {
+      font-weight: 700;
+      font-size: 15pt;
+      line-height: 21pt;
+      left: 15pt;
+      bottom: 15pt;
     }
   }
 `;
@@ -443,11 +464,12 @@ const SubsidyBox = styled(Box)`
     }
   }
 `;
-const Subsidy = styled(Button)`
+const Subsidy = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
+  cursor: pointer;
   height: 100%;
   padding: 37.5pt 15pt 24pt 21pt;
   background: #e8e3f8;
@@ -481,11 +503,12 @@ const Subsidy = styled(Button)`
     }
   }
 `;
-const Fee = styled(Button)`
+const Fee = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
+  cursor: pointer;
   height: 100%;
   padding: 37.5pt 15pt 24pt 21pt;
   background: #fff1d5;
@@ -536,13 +559,14 @@ const IconWrap = styled.div`
     display: none;
   }
 `;
-const GuideBox = styled(Button)`
+const GuideBox = styled.button`
   display: flex;
   //height:이미지 높이 만큼 줘야함.
   justify-content: space-between;
   align-items: center;
   background: #ffffff;
   position: relative;
+  cursor: pointer;
   width: 100%;
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
@@ -584,7 +608,8 @@ const EntizenLibrary = styled.div`
   display: flex;
   justify-content: center;
 `;
-const Btn = styled(Button)`
+const Btn = styled.button`
+  background-color: ${colors.lightWhite};
   border: 0.75pt solid ${colors.gray};
   border-radius: 29px;
   margin-top: 30pt;
@@ -595,6 +620,7 @@ const Btn = styled(Button)`
   letter-spacing: -0.02em;
   display: flex;
   justify-content: center;
+  cursor: pointer;
   gap: 3pt;
   color: ${colors.main2};
   .img {
@@ -604,7 +630,7 @@ const Btn = styled(Button)`
   }
   ::before {
     content: '앤티즌 도서관';
-    color: ${colors.main};
+    color: ${colors.main1};
   }
 `;
 
@@ -744,6 +770,7 @@ const WhiteAreaBottomText = styled.div`
 `;
 
 const IconBox = styled.div`
+  cursor: pointer;
   margin-top: 9pt;
   margin-bottom: 9pt;
 `;

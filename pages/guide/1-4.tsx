@@ -113,6 +113,7 @@ const TabItem = styled.div<{ tab: string; index: string }>`
   line-height: 15pt;
   letter-spacing: -0.02em;
   position: relative;
+  cursor: pointer;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
 `;
