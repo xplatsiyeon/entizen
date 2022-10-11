@@ -7,9 +7,12 @@ import React from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 
-type Props = {};
+type Props = {
+  fontSize: number;
+  smallFont: number;
+};
 
-const EntizenLibrary = (props: Props) => {
+const EntizenLibrary = ({ fontSize, smallFont }: Props) => {
   const router = useRouter();
   return (
     <>
@@ -25,8 +28,10 @@ const EntizenLibrary = (props: Props) => {
               <div></div>
             </ProfileImg>
             <TitleNDetail>
-              <LibraryTitle>추후 문구 추가</LibraryTitle>
-              <DetailView>
+              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
+                추후 문구 추가
+              </LibraryTitle>
+              <DetailView smallFont={smallFont ? smallFont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -43,8 +48,10 @@ const EntizenLibrary = (props: Props) => {
               <div></div>
             </ProfileImg>
             <TitleNDetail>
-              <LibraryTitle>추후 문구 추가</LibraryTitle>
-              <DetailView>
+              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
+                추후 문구 추가
+              </LibraryTitle>
+              <DetailView smallFont={smallFont ? smallFont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -61,8 +68,10 @@ const EntizenLibrary = (props: Props) => {
               <div></div>
             </ProfileImg>
             <TitleNDetail>
-              <LibraryTitle>추후 문구 추가</LibraryTitle>
-              <DetailView>
+              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
+                추후 문구 추가
+              </LibraryTitle>
+              <DetailView smallFont={smallFont ? smallFont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -79,8 +88,10 @@ const EntizenLibrary = (props: Props) => {
               <div></div>
             </ProfileImg>
             <TitleNDetail>
-              <LibraryTitle>추후 문구 추가</LibraryTitle>
-              <DetailView>
+              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
+                추후 문구 추가
+              </LibraryTitle>
+              <DetailView smallFont={smallFont ? smallFont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -204,17 +215,18 @@ const TitleNDetail = styled.div`
   }
 `;
 
-const LibraryTitle = styled(Typography)`
-  font-size: 12pt;
+const LibraryTitle = styled(Typography)<{ fontSize: number }>`
+  font-size: ${({ fontSize }) => (fontSize !== 0 ? fontSize : 12)}pt;
   font-weight: 400;
   line-height: 18pt;
   letter-spacing: -0.02em;
 `;
 
-const DetailView = styled(Typography)`
+const DetailView = styled(Typography)<{ smallFont: number }>`
   display: flex;
   align-items: center;
-  font-size: 9pt;
+  margin-top: 9.75pt;
+  font-size: ${({ smallFont }) => (smallFont !== 0 ? smallFont : 9)}pt;
   line-height: 15pt;
   font-weight: 500;
   color: ${colors.main};

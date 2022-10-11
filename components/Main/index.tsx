@@ -32,6 +32,7 @@ import { useDispatch } from 'react-redux';
 import Nut from 'public/images/Nut.png';
 import Bell from 'public/images/mobBell.png';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
+import WhyEntizenWeb from './WhyEntizenWeb';
 
 type Props = {};
 
@@ -279,6 +280,7 @@ const MainPage = (props: Props) => {
         <MyEstimateProject />
         <SubscribeRequest />
         <WhyEntizen />
+        {/* <WhyEntizenWeb /> */}
         <LearnAbout />
         <EntizenLibrary />
       </Container>

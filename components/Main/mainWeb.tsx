@@ -22,7 +22,7 @@ import main7 from 'public/images/main7.png';
 import main8 from 'public/images/main8.png';
 import main9 from 'public/images/main9.png';
 import { useRouter } from 'next/router';
-
+import WhyEntizenWeb from './WhyEntizenWeb';
 
 const Main = () => {
   const router = useRouter();
@@ -38,25 +38,25 @@ const Main = () => {
           <Button>검색</Button>
         </SalesWrap>
         <ProjectWrap>
-          <MyEstimateProject />
-          <SubscribeRequest />
+          <MyEstimateProject borders={12} />
+          <SubscribeRequest borders={12} />
         </ProjectWrap>
       </ContentWrap>
       <ImageWrap>
         <Image src={main2} alt="main image" />
       </ImageWrap>
-      <WhyEntizen />
-      <LearnAbout />
-      <EntizenLibrary />
+      <WhyEntizenWeb />
+      <LearnAbout borders={12} />
+      <EntizenLibrary fontSize={19.5} smallFont={13.5} />
       <ImageWrap2>
-        <Image src={main3} />
-        <Image src={main4} />
-        <Image src={main5} />
-        <Image src={main6} />
-        <Image src={main7} />
-        <Image src={main8} />
-        <Wrap onClick={()=>router.push('/signUp/Terms')}>
-          <Image src={main9} />
+        <Image src={main3} alt="사진" />
+        <Image src={main4} alt="사진" />
+        <Image src={main5} alt="사진" />
+        <Image src={main6} alt="사진" />
+        <Image src={main7} alt="사진" />
+        <Image src={main8} alt="사진" />
+        <Wrap onClick={() => router.push('/signUp/Terms')}>
+          <Image src={main9} alt="사진" />
         </Wrap>
       </ImageWrap2>
       <WebFooter />
