@@ -143,7 +143,7 @@ const SignUpCheck = () => {
       <Body>
         <WebHeader />
         <Inner>
-          {modalOpen ? (
+          {/* {modalOpen ? (
             <TwoBtnModal
               text={'로그아웃하시겠습니까?'}
               rightBtnText={'예'}
@@ -155,7 +155,7 @@ const SignUpCheck = () => {
             />
           ) : (
             <></>
-          )}
+          )} */}
           <Wrapper>
             <Header isHome={true} />
             <Info>
@@ -353,7 +353,7 @@ const Input = styled(TextField)`
   border-radius: 6pt;
   margin-top: 9pt;
   & input {
-    padding: 13.5pt 0 13.5pt 12pt;
+    padding: 10.875pt 0 10.875pt 12pt;
     font-size: 12pt;
     line-height: 12pt;
   }
@@ -394,7 +394,7 @@ const Input = styled(TextField)`
 `;
 const OverlapBtn = styled.button`
   & .checkOverlap {
-    padding: 7.5pt 9pt;
+    padding: 4.5pt 9pt;
   }
   margin-right: 0;
   background: #e2e5ed;
