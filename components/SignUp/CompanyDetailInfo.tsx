@@ -6,6 +6,8 @@ import colors from 'styles/colors';
 import Btn from './button';
 
 type Props = {
+  level: number;
+  setLevel: Dispatch<SetStateAction<number>>;
   companyName: string;
   setCompanyName: Dispatch<SetStateAction<string>>;
   postNumber: string;
@@ -14,8 +16,6 @@ type Props = {
   setCompanyAddress: Dispatch<SetStateAction<string>>;
   companyDetailAddress: string;
   setCompanyDetailAddress: Dispatch<SetStateAction<string>>;
-  level: number;
-  setLevel: Dispatch<SetStateAction<number>>;
 };
 
 const CompanyDetailInfo = ({
@@ -93,21 +93,13 @@ const CompanyDetailInfo = ({
         />
         <Input
           placeholder="회사 주소 입력"
-          //   onChange={handleCompanyAddressChange}
-          value={companyName}
+          value={companyAddress}
           name="checkPw"
-          //   InputProps={secondIconAdornment}
-          //   onFocus={(e) => setCheckPwSelected(true)}
-          //   onBlur={(e) => setCheckPwSelected(false)}
         />
         <Input
           placeholder="회사 상세주소 입력"
-          //   onChange={handleCompanyAddressChange}
           value={companyDetailAddress}
           name="checkPw"
-          //   InputProps={secondIconAdornment}
-          //   onFocus={(e) => setCheckPwSelected(true)}
-          //   onBlur={(e) => setCheckPwSelected(false)}
         />
       </Box>
       <Btn
@@ -115,7 +107,6 @@ const CompanyDetailInfo = ({
         text={'다음'}
         marginTop={77.25}
         handleClick={handleNextClick}
-        // handleClick={handleClick}
       />
       <NameInput className="nameInput" />
       <PhoneInput className="phoneInput" />
