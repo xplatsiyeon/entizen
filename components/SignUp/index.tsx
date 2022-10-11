@@ -3,6 +3,7 @@ import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import ChooseUserType from './chooseUserType';
+import CompanyDetailInfo from './CompanyDetailInfo';
 import MypageHeader from './header';
 import IdPwInput from './IdPwInput';
 import TermContent from './TermContent';
@@ -36,6 +37,13 @@ const SignUpContainer = (props: Props) => {
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  // 기업회원 회원가입 플로우
+  const [companyName, setCompanyName] = useState<string>('');
+  const [postNumber, setPostNumber] = useState<string>('');
+  const [companyAddress, setCompanyAddress] = useState<string>('');
+  const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
+
   const handleHomeClick = () => {
     router.push('/');
   };
@@ -140,7 +148,31 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
-      {level === 2 && (
+      {level === 2 && userType === 0 && (
+        <>
+          <MypageHeader
+            back={true}
+            homeBtn={true}
+            title={''}
+            exitBtn={true}
+            handleHomeClick={() => router.push('/signin')}
+            handleBackClick={handleBackClick}
+          />
+          <Wrapper>
+            <CompanyDetailInfo
+              companyName={companyName}
+              setCompanyName={setCompanyName}
+              postNumber={postNumber}
+              setPostNumber={setPostNumber}
+              companyAddress={companyAddress}
+              setCompanyAddress={setCompanyAddress}
+              companyDetailAddress={companyDetailAddress}
+              setCompanyDetailAddress={setCompanyDetailAddress}
+            />
+          </Wrapper>
+        </>
+      )}
+      {level === 2 && userType === 1 && (
         <>
           <MypageHeader
             back={true}

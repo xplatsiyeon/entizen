@@ -245,8 +245,6 @@ const TermContent = ({
             />
             <input type="hidden" name="recvMethodType" value="get" />
             {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-
-            {/* <button onClick={(e) => Go(e)}>CheckPlus 안심본인인증 Click</button> */}
             <Btn
               text="본인인증하기"
               name={'form_chk'}
@@ -254,13 +252,6 @@ const TermContent = ({
               marginTop={42.5}
               isClick={nextBtn}
             />
-            {/* <Btn
-            text="본인인증하기"
-            name={'form_chk'}
-            handleClick={testClick}
-            isClick={nextBtn}
-            marginTop={42.5}
-          /> */}
           </form>
           <Buttons className="firstNextPage" onClick={handleForceClick}>
             아아
