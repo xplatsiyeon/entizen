@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import rightArrow from 'public/images/rightArrow.png';
@@ -7,14 +7,20 @@ import { display } from '@mui/system';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 
-type Props = {};
+type Props = {
+  borders?: number | undefined;
+};
 
-const MyEstimateProject = (props: Props) => {
+const MyEstimateProject = ({ borders }: Props) => {
   const userID = localStorage.getItem('USER_ID');
   const router = useRouter();
+  useEffect(() => {
+    console.log(borders);
+  }, []);
   return (
     <Wrapper>
       <BoxWrapper
+        borders={borders ? borders : 0}
         onClick={() =>
           userID ? router.push('/mypage') : router.push('/signin')
         }
@@ -46,7 +52,10 @@ const MyEstimateProject = (props: Props) => {
           <Amount>{'건'}</Amount>
         </CountBox>
       </BoxWrapper>
-      <BoxWrapper onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+      <BoxWrapper
+        borders={borders ? borders : 0}
+        onClick={() => alert('2차 작업 범위 페이지입니다.')}
+      >
         <Box>
           <BoxName>
             <Typography
@@ -91,9 +100,9 @@ const Wrapper = styled.div`
   }
 `;
 
-const BoxWrapper = styled.div`
+const BoxWrapper = styled.div<{ borders: number }>`
   border: 1px solid #e2e5ed;
-  border-radius: 6pt;
+  border-radius: ${({ borders }) => (borders !== 0 ? borders : 6)}pt;
   box-shadow: 0px 0px 10px 0px #89a3c933;
   padding: 33pt 28.5pt 26.25pt;
   & div:nth-of-type(2) {
@@ -149,7 +158,7 @@ const Count = styled(Typography)`
   line-height: 25.5pt;
   letter-spacing: -0.02em;
   margin-right: 3pt;
-  text-align: right;    
+  text-align: right;
   color: #5a2dc9;
   @media (max-width: 899pt) {
     font-size: 15pt;

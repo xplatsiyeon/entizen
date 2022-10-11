@@ -7,36 +7,41 @@ import Image from 'next/image';
 import Banner from 'public/images/Main-Banner.png';
 import { useRouter } from 'next/router';
 
-type Props = {};
+type Props = {
+  borders?: number | undefined;
+};
 
-const SubscribeRequest = (props: Props) => {
+const SubscribeRequest = ({ borders }: Props) => {
   const router = useRouter();
 
-  const handleLink =()=>{
+  const handleLink = () => {
     const user = localStorage.getItem('USER_ID');
-    if(user){router.push('/quotation/request')}
-    else{router.push('/signin')}
-  }
+    if (user) {
+      router.push('/quotation/request');
+    } else {
+      router.push('/signin');
+    }
+  };
 
   return (
-    <ImageBox onClick={handleLink}>
-      <Image src={Banner} layout="fill" />
-      {/* <ButtonBox>
+    <ImageBox onClick={handleLink} borders={borders ? borders : 0}>
+      {/* <Image src={Banner} layout="fill" /> */}
+      <ButtonBox>
         <BtnText>나만의 구독상품 요청하기</BtnText>
         <BtnIcon>
           <Image src={blueArrow} alt="icon" />
         </BtnIcon>
-      </ButtonBox> */}
+      </ButtonBox>
     </ImageBox>
   );
 };
 
-const ImageBox = styled.div`
+const ImageBox = styled.div<{ borders: number }>`
   position: relative;
   width: 100%;
   height: 165pt;
   background-color: ${colors.main};
-  border-radius: 6pt;
+  border-radius: ${({ borders }) => (borders !== 0 ? borders : 6)}pt;
   border: 1px solid silver;
   object-fit: cover;
   @media (max-width: 899pt) {
@@ -56,7 +61,7 @@ const ButtonBox = styled.div`
   justify-content: center;
   border-radius: 21.75pt;
   background-color: #ffffff;
-  display: none;
+  display: block;
 
   @media (max-width: 899pt) {
     display: block;
