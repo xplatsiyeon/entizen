@@ -16,7 +16,7 @@ const ProfileEditing = () => {
   const [name, setName] = useState('test유저');
   const [avatar, setAvatar] = useState<string>('');
   const [data, setData] = useState<any>();
-  const [isPhone, setIsPhone] = useState(false);
+  // const [isPhone, setIsPhone] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [checkSns, setCheckSns] = useState<boolean>(false);
   // 아이디 변경
@@ -61,10 +61,10 @@ const ProfileEditing = () => {
     const { id } = event.currentTarget;
     console.log(`id -> ${id}`);
 
-    if (id === 'phone') {
-      setIsPhone(true);
-      console.log('phone입니다');
-    }
+    // if (id === 'phone') {
+    //   setIsPhone(true);
+    //   console.log('phone입니다');
+    // }
     if (id === 'password') {
       setIsPassword(true);
       console.log('passowrd입니다');
@@ -184,11 +184,11 @@ const ProfileEditing = () => {
                   </form>
                 </>
               )}
-              {isPhone && (
+              {/* {isPhone && (
                 <Buttons className="firstNextPage" onClick={HandlePhone}>
                   숨겨진 비밀번호 버튼
                 </Buttons>
-              )}
+              )} */}
               {isPassword && (
                 <Buttons className="firstNextPage" onClick={HandlePassword}>
                   숨겨진 휴대폰번호 버튼
