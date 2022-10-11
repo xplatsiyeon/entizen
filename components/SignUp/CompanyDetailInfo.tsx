@@ -141,7 +141,7 @@ const Input = styled(TextField)`
   border-radius: 6pt;
   margin-top: 9pt;
   & input {
-    padding: 13.5pt 0 13.5pt 12pt;
+    padding: 10.875pt 0 10.875pt 12pt;
     font-size: 12pt;
     line-height: 12pt;
   }
