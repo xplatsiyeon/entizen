@@ -160,6 +160,8 @@ const SignUpContainer = (props: Props) => {
           />
           <Wrapper>
             <CompanyDetailInfo
+              setLevel={setLevel}
+              level={level}
               companyName={companyName}
               setCompanyName={setCompanyName}
               postNumber={postNumber}
