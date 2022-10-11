@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const getUserInfo = () => {
-  const accessToken = localStorage.getItem('ACCESS_TOKEN');
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   try {
     axios({
       method: 'get',
