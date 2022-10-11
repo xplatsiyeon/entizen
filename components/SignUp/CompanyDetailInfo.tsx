@@ -163,7 +163,7 @@ const Input = styled(TextField)`
 `;
 const OverlapBtn = styled.button`
   & .checkOverlap {
-    padding: 7.5pt 9pt;
+    padding: 4.5pt 9pt;
   }
   margin-right: 0;
   background: #e2e5ed;
