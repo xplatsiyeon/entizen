@@ -25,9 +25,14 @@ interface UserInfo {
 
 const phone = () => {
   const router = useRouter();
+  const [data, setData] = useState<any>();
   const [userInfo, setUserInfo] = useState<UserInfo>();
+  const [checkSns, setCheckSns] = useState<boolean>(false);
   const key: Key = JSON.parse(localStorage.getItem('key')!);
-  const phoneNumber = key?.phone
+  const phoneNumber = userInfo?.phone
+    .replace(/[^0-9]/g, '')
+    .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+  const newPhoneNumber = key?.phone
     .replace(/[^0-9]/g, '')
     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 
@@ -58,6 +63,64 @@ const phone = () => {
     }
   };
 
+  // 나이스 인증
+  const fnPopup = (event: any) => {
+    console.log('나이스 인증');
+    console.log(event);
+    const { id } = event.currentTarget;
+    console.log(`id -> ${id}`);
+
+    if (id === 'phone') {
+      // setIsPhone(true);
+      console.log('phone입니다');
+    }
+    if (id === 'password') {
+      // setIsPassword(true);
+      console.log('passowrd입니다');
+    }
+    if (typeof window !== 'object') return;
+    else {
+      window.open(
+        '',
+        'popupChk',
+        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+      );
+      let cloneDocument = document as any;
+      cloneDocument.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      cloneDocument.form_chk.target = 'popupChk';
+      cloneDocument.form_chk.submit();
+    }
+  };
+  // 나이스 인증
+  useEffect(() => {
+    const memberType = 'USER';
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        setData(res.data.executedData);
+      })
+      .catch((error) => {
+        console.error('나이스 인증 에러 발생');
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+  // sns 체크
+  useEffect(() => {
+    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    if (snsMember) {
+      setCheckSns(snsMember);
+    }
+    console.log('여기임둥');
+    console.log(checkSns);
+    console.log(snsMember);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // 토큰 추가
   useEffect(() => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     try {
@@ -89,9 +152,29 @@ const phone = () => {
               번호로만 변경이 가능합니다.
             </Notice>
             <InputBox>
-              <Input type="text" readOnly value={userInfo?.phone} />
+              {newPhoneNumber ? (
+                <Input type="text" readOnly value={newPhoneNumber} />
+              ) : (
+                <Input type="text" readOnly value={phoneNumber} />
+              )}
 
-              <InputBtn>재설정</InputBtn>
+              {!checkSns && (
+                <>
+                  <form name="form_chk" method="get">
+                    <input type="hidden" name="m" value="checkplusService" />
+                    {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                    <input
+                      type="hidden"
+                      id="encodeData"
+                      name="EncodeData"
+                      value={data !== undefined && data}
+                    />
+                    <input type="hidden" name="recvMethodType" value="get" />
+                    {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+                    <InputBtn onClick={fnPopup}>재설정</InputBtn>
+                  </form>
+                </>
+              )}
             </InputBox>
             <AlertMessage>해당 번호로 변경됩니다.</AlertMessage>
             <BtnBox>
