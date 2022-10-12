@@ -194,7 +194,7 @@ const CompanyDetailInfo = ({
             className="imageClick"
             type="file"
             accept="image/*"
-            onChange={saveFileImage}
+            onClick={saveFileImage}
             multiple
           />
           {/* <Preview> */}
