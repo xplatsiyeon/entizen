@@ -100,6 +100,7 @@ const CompanyDetailInfo = ({
     copyArr[0].productImg.splice(name, 1);
     setReview({ ...review, productImg: copyArr[0].productImg });
   };
+
   return (
     <>
       <Info>
