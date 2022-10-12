@@ -45,9 +45,6 @@ const WebHeader = ({ num, now }: Props) => {
       .catch((error) => alert(error));
   };
 
-  useEffect(() => {
-    console.log(`isUser-> ${isUser}`);
-  }, [isUser]);
   return (
     <>
       <Wrapper>

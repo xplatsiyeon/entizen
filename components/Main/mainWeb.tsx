@@ -47,7 +47,7 @@ const Main = () => {
       </ImageWrap>
       <WhyEntizenWeb />
       <LearnAbout borders={12} />
-      <EntizenLibrary fontSize={19.5} smallFont={13.5} />
+      <EntizenLibrary fontSize={19.5} smallfont={13.5} />
       <ImageWrap2>
         <Image src={main3} alt="사진" />
         <Image src={main4} alt="사진" />

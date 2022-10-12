@@ -9,10 +9,10 @@ import { useRouter } from 'next/router';
 
 type Props = {
   fontSize?: number;
-  smallFont?: number;
+  smallfont?: number;
 };
 
-const EntizenLibrary = ({ fontSize, smallFont }: Props) => {
+const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
   const router = useRouter();
   return (
     <>
@@ -31,7 +31,7 @@ const EntizenLibrary = ({ fontSize, smallFont }: Props) => {
               <LibraryTitle fontSize={fontSize ? fontSize : 0}>
                 추후 문구 추가
               </LibraryTitle>
-              <DetailView smallFont={smallFont ? smallFont : 0}>
+              <DetailView smallfont={smallfont ? smallfont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -51,7 +51,7 @@ const EntizenLibrary = ({ fontSize, smallFont }: Props) => {
               <LibraryTitle fontSize={fontSize ? fontSize : 0}>
                 추후 문구 추가
               </LibraryTitle>
-              <DetailView smallFont={smallFont ? smallFont : 0}>
+              <DetailView smallfont={smallfont ? smallfont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -71,7 +71,7 @@ const EntizenLibrary = ({ fontSize, smallFont }: Props) => {
               <LibraryTitle fontSize={fontSize ? fontSize : 0}>
                 추후 문구 추가
               </LibraryTitle>
-              <DetailView smallFont={smallFont ? smallFont : 0}>
+              <DetailView smallfont={smallfont ? smallfont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -91,7 +91,7 @@ const EntizenLibrary = ({ fontSize, smallFont }: Props) => {
               <LibraryTitle fontSize={fontSize ? fontSize : 0}>
                 추후 문구 추가
               </LibraryTitle>
-              <DetailView smallFont={smallFont ? smallFont : 0}>
+              <DetailView smallfont={smallfont ? smallfont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -222,11 +222,11 @@ const LibraryTitle = styled(Typography)<{ fontSize: number }>`
   letter-spacing: -0.02em;
 `;
 
-const DetailView = styled(Typography)<{ smallFont: number }>`
+const DetailView = styled(Typography)<{ smallfont: number }>`
   display: flex;
   align-items: center;
   margin-top: 9.75pt;
-  font-size: ${({ smallFont }) => (smallFont !== 0 ? smallFont : 9)}pt;
+  font-size: ${({ smallfont }) => (smallfont !== 0 ? smallfont : 9)}pt;
   line-height: 15pt;
   font-weight: 500;
   color: ${colors.main};
