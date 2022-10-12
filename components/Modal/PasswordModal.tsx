@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useRef } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
@@ -17,8 +17,18 @@ const PasswordModal = ({
   checkPassword,
   click,
 }: Props) => {
+  const outside = useRef();
+
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside.current === e.target) {
+      console.log('check');
+    }
+  };
+
   return (
-    <ModalWrapper>
+    <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <ModalBox>
         <Content>
           <ContentText>
