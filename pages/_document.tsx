@@ -44,11 +44,8 @@ class MyDocument extends Document {
             charSet="utf-8"
           ></script>
           {/* <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> */}
-          <script
-            src={`https://t1.kakaocdn.net/kakao_js_sdk/2/kakao.min.js`}
-            // integrity="${INTEGRITY_VALUE}"
-            // crossorigin="anonymous"
-          ></script>
+
+          <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.0.0/kakao.min.js"></script>
           <script type="text/javascript" src="/testsss.js"></script>
           <NextScript />
         </body>
