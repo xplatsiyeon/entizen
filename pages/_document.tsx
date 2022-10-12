@@ -43,7 +43,12 @@ class MyDocument extends Document {
             src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"
             charSet="utf-8"
           ></script>
-          <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+          {/* <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> */}
+          <script
+            src={`https://t1.kakaocdn.net/kakao_js_sdk/2/kakao.min.js`}
+            // integrity="${INTEGRITY_VALUE}"
+            // crossorigin="anonymous"
+          ></script>
           <script type="text/javascript" src="/testsss.js"></script>
           <NextScript />
         </body>

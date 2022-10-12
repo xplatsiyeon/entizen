@@ -103,7 +103,7 @@ const Signin = (props: Props) => {
           router.push('/');
         } else {
           // 회원가입
-          router.push('/signUp/Terms1');
+          router.push('/signUp/SnsTerms');
         }
       });
     } catch (error: any) {
@@ -123,9 +123,9 @@ const Signin = (props: Props) => {
     // SDK 초기화 여부를 판단합니다.
     console.log(kakao.isInitialized());
     // 카카오 로그인 구현
-    kakao.Auth.login({
+    // kakao.Auth.login({
+    kakao.Auth.authorize({
       success: () => {
-        window.open();
         kakao.API.request({
           url: '/v2/user/me', // 사용자 정보 가져오기
           success: (res: any) => {
@@ -240,7 +240,7 @@ const Signin = (props: Props) => {
           dispatch(originUserAction.set(data.user.email));
           router.push('/');
         } else {
-          router.push('/signUp/Terms');
+          router.push('/signUp/SnsTerms');
         }
       });
     } catch (error) {
