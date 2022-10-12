@@ -10,7 +10,6 @@ import { quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useRouter } from 'next/router';
-//import { useRouter } from 'next/router';
 
 interface Props {
   setTabNumber: Dispatch<SetStateAction<number>>;
@@ -27,11 +26,11 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
 
   const [value, setValue] = useState(50);
   const [disabled, setDisabled] = useState(true);
-  const [notCommon, setNotCommon] = useState(false);
+  const [unavailableGraph, setUnavailableGraph] = useState(false);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const [subscribeNumber, setSubscribeNumber] = useState(-1);
-  const [disableButton, setDisableButton] = useState(false);
-  const subscribeType: any[] = ['전체구독', '부분구독'];
+  const subscribeType: string[] = ['전체구독', '부분구독'];
+  const subscribeTypeEn: string[] = ['ENTIRETY', 'PART'];
 
   // 이전
   const HandlePrevBtn = () => {
@@ -41,29 +40,19 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
   // 다음버튼
   const HandleNextBtn = () => {
     if (buttonActivate) {
-      // 전체 구독
-      if (subscribeNumber === 0) {
+      // 홈충전기 그래프 선택 불가 상품일 경우
+      if (unavailableGraph) {
         dispatch(
           quotationAction.setStep2({
-            subscribeProduct: 'ENTIRETY',
-            investRate: (value / 100).toString(),
+            subscribeProduct: subscribeTypeEn[subscribeNumber],
+            investRate: '1',
           }),
         );
-      }
-      // 부분 구독
-      if (subscribeNumber === 1) {
+        // 일반 경우
+      } else {
         dispatch(
           quotationAction.setStep2({
-            subscribeProduct: 'PART',
-            investRate: 1,
-          }),
-        );
-      }
-      // 부분 구독
-      if (subscribeNumber === 1 && notCommon === true) {
-        dispatch(
-          quotationAction.setStep2({
-            subscribeProduct: 'PART',
+            subscribeProduct: subscribeTypeEn[subscribeNumber],
             investRate: (value / 100).toString(),
           }),
         );
@@ -71,45 +60,56 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
       setTabNumber(tabNumber + 1);
     }
   };
-
+  // 버튼 유효성 검사
   useEffect(() => {
     setButtonActivate(false);
-    // 전체 구독
-    if (subscribeNumber === 0) {
-      if (!disabled) {
+    // 그래프 선택 불가 일 경우
+    if (unavailableGraph) {
+      if (subscribeNumber !== -1) {
+        setButtonActivate(true);
+      }
+      // 그래프 선택 가능 일 경우
+    } else {
+      if (subscribeNumber !== -1 && disabled === false) {
         setButtonActivate(true);
       }
     }
-    // 부분 구독
-    if (subscribeNumber === 1) {
-      setButtonActivate(true);
-    }
-  }, [subscribeNumber, disabled]);
+  }, [disabled, unavailableGraph, subscribeNumber]);
 
-  // 데이터 기억
+  // 컴포넌트 이동 시에도 데이터 기억하기
   useEffect(() => {
+    const newValue = Number(investRate) * 100;
     if (subscribeProduct === 'ENTIRETY') {
-      setSubscribeNumber(0);
-      setValue(parseInt(investRate!));
-      setDisabled(false);
-    } else if (subscribeProduct === 'PART') setSubscribeNumber(1);
+      if (investRate === '1') {
+        setSubscribeNumber(0);
+      } else {
+        setSubscribeNumber(0);
+        setValue(newValue);
+        setDisabled(false);
+      }
+    }
+    if (subscribeProduct === 'PART') {
+      if (investRate === '1') {
+        setSubscribeNumber(1);
+      } else {
+        setSubscribeNumber(1);
+        setValue(newValue);
+        setDisabled(false);
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  // 홈 충전기 수익지분 그래프 on/off
   useEffect(() => {
-    chargersKo.map((item, index) => {
-      if (item.kind === '7 kW 홈 충전기 (가정용)') {
-        if (chargersKo.length === 1) {
-          console.log(chargersKo.length);
-          setSubscribeNumber(1);
-          setDisableButton(true);
-        } else {
-          setNotCommon(true);
-        }
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chargersKo]);
+    if (
+      chargersKo.length === 1 &&
+      chargersKo[0].kind === '7 kW 홈 충전기 (가정용)'
+    ) {
+      setUnavailableGraph(true);
+    } else {
+      setUnavailableGraph(false);
+    }
+  }, [chargersKo, subscribeNumber]);
 
   return (
     <Wrraper>
@@ -121,11 +121,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
             key={index}
             idx={index.toString()}
             subscribeNumber={subscribeNumber.toString()}
-            onClick={() => {
-              if (!disableButton) {
-                setSubscribeNumber(index);
-              }
-            }}
+            onClick={() => setSubscribeNumber(index)}
           >
             {type}
           </Tab>
@@ -142,8 +138,11 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
         <SubTitle>내 수익/투자</SubTitle>
         <SubTitle>판매자</SubTitle>
       </SubTitleBox>
-      {/* slider  */}
-      {notCommon || subscribeNumber !== 1 ? (
+      {/* slider (수익/투자 그래프)  */}
+      {/* 홈충전기 부분구독 일경우 사용 X*/}
+      {unavailableGraph ? (
+        <Notice pt={15}>* 홈 충전기는 수익지분과 무관한 상품입니다.</Notice>
+      ) : (
         <SliderBox>
           <SliderSizes
             value={value}
@@ -152,8 +151,6 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
             setDisabled={setDisabled}
           />
         </SliderBox>
-      ) : (
-        <Notice pt={15}>* 홈 충전기는 수익지분과 무관한 상품입니다.</Notice>
       )}
       <ChargeGuide>
         <span
