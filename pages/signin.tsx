@@ -128,18 +128,29 @@ const Signin = (props: Props) => {
       success: () => {
         kakao.API.request({
           url: '/v2/user/me', // 사용자 정보 가져오기
-          success: (res: any) => {
-            // 로그인 성공할 경우 정보 확인 후 /kakao 페이지로 push
+        })
+          .then((res: any) => {
             KaKaApi(res);
             console.log('아래는 카카오로그인 성공시 데이터입니다.');
             console.log(res);
-          },
-          fail: (error: any) => {
+          })
+          .catch((error: any) => {
             console.log(error);
             console.log('아래는 카카오로그인 실패시 데이터입니다.');
             console.log(error);
-          },
-        });
+          });
+        //   success: (res: any) => {
+        //     // 로그인 성공할 경우 정보 확인 후 /kakao 페이지로 push
+        //     KaKaApi(res);
+        //     console.log('아래는 카카오로그인 성공시 데이터입니다.');
+        //     console.log(res);
+        //   },
+        //   fail: (error: any) => {
+        //     console.log(error);
+        //     console.log('아래는 카카오로그인 실패시 데이터입니다.');
+        //     console.log(error);
+        //   },
+        // });
       },
       fail: (error: any) => {
         console.log(error);
