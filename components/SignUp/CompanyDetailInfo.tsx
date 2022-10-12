@@ -4,6 +4,8 @@ import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
 import Btn from './button';
+import AddImg from 'public/images/add-img.svg';
+import Image from 'next/image';
 
 type Props = {
   level: number;
@@ -102,6 +104,16 @@ const CompanyDetailInfo = ({
           name="checkPw"
         />
       </Box>
+      <Form>
+        <label>사업자 등록증</label>
+        <div>
+          <File>
+            <Image src={AddImg} alt="img" />
+            <div>이미지 또는 파일 업로드</div>
+            <input type="file" />
+          </File>
+        </div>
+      </Form>
       <Btn
         isClick={true}
         text={'다음'}
@@ -174,6 +186,62 @@ const OverlapBtn = styled.button`
   line-height: 12pt;
   &.changeColor {
     background-color: ${colors.main};
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  padding-top: 30pt;
+  position: relative;
+  & > label {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: -0.02em;
+  }
+  & > div {
+    margin-top: 12pt;
+    padding: 15pt 67.5pt;
+    border: 0.75pt dashed ${colors.lightGray};
+    border-radius: 6pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+`;
+const File = styled.label`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9pt;
+  & > input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+  }
+  & > div {
+    font-size: 12pt;
+    line-height: 12pt;
+    color: #caccd1;
+  }
+`;
+const Preview = styled.div`
+  display: flex;
+  gap: 6pt;
+  width: 100%;
+  margin-top: 15pt;
+  & > span {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 60pt;
+    height: 60pt;
+    border-radius: 6pt;
+    border: 1px solid red;
   }
 `;
 
