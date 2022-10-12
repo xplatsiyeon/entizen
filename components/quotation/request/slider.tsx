@@ -46,6 +46,7 @@ const SliderSizes = ({
   };
 
   useEffect(() => {
+    // if(value === 0)
     const ret = {
       maxSubscribePricePerMonth: setPriceByRate(
         quotationData.requestData?.maxSubscribePricePerMonth,

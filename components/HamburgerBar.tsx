@@ -44,10 +44,6 @@ const HambuguerBar = (anchor: string) => {
     };
 
   useEffect(() => {
-    console.log('업데이트 확인');
-    console.log(localStorage.getItem('USER_ID'));
-    console.log(isLogin);
-
     if (localStorage.getItem('USER_ID')) {
       console.log('login check !');
       setIsLogin(true);
