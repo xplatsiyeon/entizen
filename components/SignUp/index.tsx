@@ -6,6 +6,7 @@ import ChooseUserType from './chooseUserType';
 import CompanyDetailInfo from './CompanyDetailInfo';
 import MypageHeader from './header';
 import IdPwInput from './IdPwInput';
+import ManagerInfo from './ManagerInfo';
 import TermContent from './TermContent';
 
 type Props = {};
@@ -212,6 +213,21 @@ const SignUpContainer = (props: Props) => {
               fullTerms={fullTerms}
               userType={userType}
             />
+          </Wrapper>
+        </>
+      )}
+      {level === 3 && userType === 0 && (
+        <>
+          <MypageHeader
+            back={true}
+            homeBtn={true}
+            title={''}
+            exitBtn={true}
+            handleHomeClick={() => router.push('/signin')}
+            handleBackClick={handleBackClick}
+          />
+          <Wrapper>
+            <ManagerInfo />
           </Wrapper>
         </>
       )}
