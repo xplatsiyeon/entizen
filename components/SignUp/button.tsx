@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import React, { Dispatch, SetStateAction } from 'react';
-import colors from 'styles/colors';
 interface Props {
   text: string;
   isClick: boolean;

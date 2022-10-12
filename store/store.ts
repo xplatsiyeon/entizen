@@ -9,6 +9,7 @@ import { naverSlice } from './naverSlice';
 import { userSlice } from './userSlice';
 import { originUserInfoSlice } from './userInfoSlice';
 import { findUserInfoSlice } from './findSlice';
+import { selectSlice } from './loginTypeSlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   userList: userSlice.reducer,
   originUserData: originUserInfoSlice.reducer,
   findUserInfo: findUserInfoSlice.reducer,
+  selectType: selectSlice.reducer,
 });
 
 export default rootReducer;

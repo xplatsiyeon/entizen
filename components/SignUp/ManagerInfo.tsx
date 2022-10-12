@@ -153,7 +153,7 @@ const ManagerInfo = ({ setName, setPhoneNumber }: Props) => {
           {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
           <Btn
             isClick={true}
-            name={'form_chk'}
+            // name={'form_chk'}
             text={'본인인증하기'}
             handleClick={fnPopup}
             marginTop={59.25}

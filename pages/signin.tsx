@@ -31,6 +31,7 @@ import colors from 'styles/colors';
 import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { selectAction } from 'store/loginTypeSlice';
 type Props = {};
 
 interface JwtTokenType {
@@ -353,6 +354,15 @@ const Signin = (props: Props) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (selectedLoginType === 0) {
+      dispatch(selectAction.select('user'));
+    } else if (selectedLoginType === 1) {
+      dispatch(selectAction.select('company'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedLoginType]);
 
   const handleNaver = async () => {
     naverRef.current.children[0].click();

@@ -3,18 +3,28 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {};
 
 const Home: NextPage = () => {
+  const { selectedType } = useSelector((state: RootState) => state.selectType);
+
+  console.log(selectedType);
   return (
     <>
-      <WebWrap>
-        <Main />
-      </WebWrap>
-      <MobWrap>
-        <MainPage />
-      </MobWrap>
+      {selectedType === 'user' && (
+        <>
+          <WebWrap>
+            <Main />
+          </WebWrap>
+          <MobWrap>
+            <MainPage />
+          </MobWrap>
+        </>
+      )}
+      {selectedType === 'company' && <>메롱메롱메롱메롱</>}
     </>
   );
 };
