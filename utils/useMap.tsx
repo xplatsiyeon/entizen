@@ -1,27 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import mapPin from 'public/images/blueMapPin.png';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
 function useMap() {
-  const mapRef = useRef<HTMLElement | null | any>(null);
-  // const [myLocation, setMyLocation] = useState<
-  //   { latitude: number; longitude: number } | string
-  // >({ latitude: 37.4862618, longitude: 127.1222903 });
+  let mapRef = useRef<any>(null);
   const { lnglatList } = useSelector((state: RootState) => state.lnglatList);
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
-  // let HOME_PATH = window.HOME_PATH || '.';
-  const markerHtml = (text: string) => {
-    return (
-      <div>
-        <Image src={mapPin} alt="사진" />
-      </div>
-    );
-  };
 
+  // 마커
   const contentString = [
     '<div>',
     '   <img src="/images/blueMapPin.png" />',
@@ -31,13 +19,14 @@ function useMap() {
   useEffect(() => {
     if (typeof lnglatList !== 'string') {
       let currentPosition = [lnglatList.lat, lnglatList.lng];
-
+      let map;
       // Naver Map 생성
       if (naver.maps) {
-        let map = (mapRef.current = new naver.maps.Map('map', {
+        mapRef.current = new naver.maps.Map('map', {
           center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
           zoomControl: false,
-        }));
+        });
+        map = mapRef.current;
         new naver.maps.Marker({
           position: new naver.maps.LatLng(
             currentPosition[0],
@@ -52,7 +41,8 @@ function useMap() {
         });
       }
     }
-
+    console.log('mapRef 로그 확인');
+    console.log(mapRef);
     console.log('useMap useEffect 입니다.');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lnglatList, locationList]);

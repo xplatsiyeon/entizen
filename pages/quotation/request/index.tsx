@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import FirstStep from 'components/quotation/request/FirstStep';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
@@ -14,6 +14,8 @@ import SixthStep from 'components/quotation/request/SixthStep';
 import Request1_7 from './1-7';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
+import { useDispatch } from 'react-redux';
+import { locationAction } from 'store/locationSlice';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -21,6 +23,7 @@ interface Components {
 
 const Quotation1_1 = () => {
   const route = useRouter();
+  const dispatch = useDispatch();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [isModal, setIsModal] = useState(false);
 
@@ -34,6 +37,10 @@ const Quotation1_1 = () => {
     4: <FifthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
     5: <SixthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
   };
+
+  useEffect(() => {
+    dispatch(locationAction.reset());
+  }, []);
   return (
     <>
       <WebBody>

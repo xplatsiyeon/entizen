@@ -42,10 +42,6 @@ const Request1_7 = (props: Props) => {
   const { requestData } = useSelector(
     (state: RootState) => state.quotationData,
   );
-
-  // console.log('----requestData-----');
-  // console.log(requestData?.investRate);
-  // console.log('----------------');
   // 가격 콤마 계산
   const PriceCalculation = (price: number) => {
     if (price === 0) return 0;
@@ -180,26 +176,21 @@ const WebBody = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
   }
 `;
-
 const Inner = styled.div`
   display: block;
   position: relative;
   margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
@@ -213,11 +204,9 @@ const Inner = styled.div`
     height: 100%;
   }
 `;
-
 const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-
   @media (max-width: 899pt) {
     height: 100%;
     margin: 0;
@@ -225,7 +214,6 @@ const Wrapper = styled.div`
 `;
 const Body = styled.div`
   padding: 27pt 15pt 45pt 15pt;
-
   @media (max-width: 899pt) {
     padding: 27pt 15pt 111pt 15pt;
   }

@@ -26,6 +26,9 @@ const slice = createSlice({
     load(state, action) {
       state.locationList = action.payload;
     },
+    reset(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
