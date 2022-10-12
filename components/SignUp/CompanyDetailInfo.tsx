@@ -1,7 +1,13 @@
 import styled from '@emotion/styled';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 // import Btn from 'components/button';
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import colors from 'styles/colors';
 import Btn from './button';
 import camera from 'public/images/gray_camera.png';
@@ -35,6 +41,8 @@ const CompanyDetailInfo = ({
 }: Props) => {
   const imgRef = useRef<any>(null);
 
+  let doc: any;
+
   const [review, setReview] = useState<{
     productNm: string;
     review: string;
@@ -60,6 +68,9 @@ const CompanyDetailInfo = ({
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log('클릭이 됩니다~!');
+    if (document.querySelector('.imageClick') !== null) {
+      doc.click();
+    }
     imgRef.current.click();
     console.log('왜 안되냐');
   };
@@ -91,10 +102,14 @@ const CompanyDetailInfo = ({
         ...review,
         productImg: newImageURL,
       });
-    }
-
-    // setImgValidation(true);
+    } // setImgValidation(true);
   };
+  useEffect(() => {
+    if (document) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      doc = document.querySelector('.imageClick');
+    }
+  }, []);
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
     const copyArr = [];
@@ -173,6 +188,7 @@ const CompanyDetailInfo = ({
           <input
             style={{ display: 'none' }}
             ref={imgRef}
+            className="imageClick"
             type="file"
             accept="image/*"
             onChange={saveFileImage}
