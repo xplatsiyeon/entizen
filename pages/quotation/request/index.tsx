@@ -1,4 +1,3 @@
-
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import FirstStep from 'components/quotation/request/FirstStep';
@@ -67,6 +66,7 @@ const Quotation1_1 = () => {
                     idx={index.toString()}
                     num={tabNumber.toString()}
                     key={tab}
+                    // 테스트용
                     // onClick={() => setTabNumber(index)}
                   />
                 ))}
@@ -81,7 +81,7 @@ const Quotation1_1 = () => {
   );
 };
 
-export default Quotation1_1; 
+export default Quotation1_1;
 
 const WebBody = styled.div`
   display: flex;
@@ -126,41 +126,38 @@ const Wrapper = styled.div`
 `;
 
 const Body = styled.div`
-position: relative;
-width: 100%;
+  position: relative;
+  width: 100%;
 
-@media (max-width: 899pt) {
-  padding-top: 12pt;
-}
+  @media (max-width: 899pt) {
+    padding-top: 12pt;
+  }
 `;
 
 const TabBox = styled.div`
-z-index: 1;
-//display:flex;
+  z-index: 1;
+  //display:flex;
 
-position: absolute;
-width: 100%;
-top: 0;
+  position: absolute;
+  width: 100%;
+  top: 0;
 
-@media (max-width: 899pt) {
+  @media (max-width: 899pt) {
     display: flex;
     position: relative;
     gap: 3pt;
   }
-
-
-
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
   border-style: solid;
   border-bottom-width: 3pt;
   border-color: ${({ idx, num }) => (idx <= num ? colors.main : colors.gray4)};
   border-radius: 2px;
-  
+
   width: calc((100% - 15pt) / 6);
   display: inline-block;
   margin-right: 3pt;
-  &:nth-last-of-type(1){
+  &:nth-last-of-type(1) {
     margin-right: 0;
   }
 
@@ -168,7 +165,6 @@ const TabLine = styled.div<{ idx: string; num: string }>`
     display: block;
     width: 100%;
   }
-
 `;
 const Footer = styled.div`
   position: absolute;
@@ -217,6 +213,3 @@ const PrevBtn = styled.div<{ buttonActivate: boolean }>`
 const TwoBtn = styled.div`
   display: flex;
 `;
-
-
-

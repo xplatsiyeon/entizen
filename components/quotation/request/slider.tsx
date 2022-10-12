@@ -99,7 +99,7 @@ const SliderSizes = ({
   }, [value]);
 
   useEffect(() => {
-    console.log('여깅쇼~~~');
+    // console.log('여깅쇼~~~');
     console.log(calculatedValue);
   }, [calculatedValue]);
 

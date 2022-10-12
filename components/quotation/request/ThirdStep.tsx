@@ -19,9 +19,8 @@ interface Props {
 const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { subscribeProduct, subscribePeriod, investRate } = useSelector(
-    (state: RootState) => state.quotationData,
-  );
+  const { subscribeProduct, subscribePeriod, investRate, chargersKo } =
+    useSelector((state: RootState) => state.quotationData);
   const [monthNumber, setMonthNumber] = useState(-1);
   const [isMessage, setIsMessage] = useState(false);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -53,12 +52,15 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   }, [monthNumber, subscribeProduct]);
   // 부분 구독 선택 불가
   useEffect(() => {
-    console.log(subscribeProduct);
-    console.log(investRate);
-    if (subscribeProduct === 'PART' && investRate.toString() === '1') {
+    if (
+      chargersKo.length === 1 &&
+      chargersKo[0].kind === '7 kW 홈 충전기 (가정용)' &&
+      subscribeProduct === 'PART'
+    ) {
       setIsMessage(true);
+      setMonthNumber(-1);
     }
-  }, [subscribeProduct, investRate]);
+  }, []);
 
   return (
     <Wrraper>
