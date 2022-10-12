@@ -1,13 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  Button,
-  TextField,
-  Divider,
-} from '@mui/material';
-import Link from 'next/link';
+import { Box, Container, Typography, TextField, Divider } from '@mui/material';
 import styled from '@emotion/styled';
 import WebHeader from 'web-components/WebHeader';
 import WebFooter from 'web-components/WebFooter';
@@ -17,9 +9,8 @@ import naver from 'public/images/naver.svg';
 import google from 'public/images/google.svg';
 import apple from 'public/images/apple.svg';
 import Image from 'next/image';
-import { getToken, login } from 'api/auth/naver';
+import { login } from 'api/auth/naver';
 import { useDispatch } from 'react-redux';
-import { naverAction } from 'store/naverSlice';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import { userAction } from 'store/userSlice';
@@ -30,7 +21,6 @@ import { kakaoInit } from 'utils/kakao';
 import colors from 'styles/colors';
 import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
-import { signIn, signOut, useSession } from 'next-auth/react';
 type Props = {};
 
 interface JwtTokenType {
@@ -100,6 +90,7 @@ const Signin = (props: Props) => {
         // console.log(c);
         console.log(c.isMember);
         if (c.isMember === true) {
+          // 로그인
           console.log('멤버 확인');
           console.log(data);
           const token: JwtTokenType = jwt_decode(res.data.accessToken);
@@ -111,7 +102,8 @@ const Signin = (props: Props) => {
           dispatch(originUserAction.set(data.kakao_account.email));
           router.push('/');
         } else {
-          router.push('/signUp/Terms');
+          // 회원가입
+          router.push('/signUp/Terms1');
         }
       });
     } catch (error: any) {
