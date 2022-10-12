@@ -200,9 +200,9 @@ const Inner = styled.div`
     box-shadow: none;
     background: none;
   }
-  @media (max-height: 500pt) {
+  /* @media (max-height: 500pt) {
     height: 100%;
-  }
+  } */
 `;
 const Wrapper = styled.div`
   position: relative;

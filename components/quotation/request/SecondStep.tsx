@@ -127,10 +127,18 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
           </Tab>
         ))}
       </TypeBox>
-      <Notice pt={15}>
-        전체구독: 충전기 + 운영서비스 구독 <br />
-        부분구독: 운영서비스 구독 (충전기는 일시불 구매)
-      </Notice>
+      {unavailableGraph ? (
+        <Notice pt={15}>
+          전체구독: 충전기 렌탈 구매 (구독기간 종료 후 본인 소유) <br />
+          부분구독: 충전기 일시불 구매
+        </Notice>
+      ) : (
+        <Notice pt={15}>
+          전체구독: 충전기 + 운영서비스 구독 <br />
+          부분구독: 운영서비스 구독 (충전기는 일시불 구매)
+        </Notice>
+      )}
+
       <SubTitle>희망하는 수익지분을 선택해주세요.</SubTitle>
       <Notice pt={6}>* 선택하신 수익지분에 따라 구독료가 상승해요.</Notice>
 

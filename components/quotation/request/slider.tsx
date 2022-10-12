@@ -46,7 +46,6 @@ const SliderSizes = ({
   };
 
   useEffect(() => {
-    // if(value === 0)
     const ret = {
       maxSubscribePricePerMonth: setPriceByRate(
         quotationData.requestData?.maxSubscribePricePerMonth,
@@ -70,8 +69,7 @@ const SliderSizes = ({
       ),
       investRate: value,
     };
-
-    if (setCalculatedValue) {
+    if (value !== 0 && setCalculatedValue) {
       setCalculatedValue({
         maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
         maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
@@ -135,7 +133,7 @@ const SliderSizes = ({
         value={value}
         onChange={handleChange}
         defaultValue={difaultValue ? difaultValue : 50}
-        valueLabelDisplay="auto"
+        // valueLabelDisplay="auto"
       />
       {/* 하단 뱃지 */}
       <PersentBadge
@@ -162,6 +160,7 @@ const SliderCustom = styled(Box)<{ disabled: boolean; client: string }>`
   position: relative;
   padding-top: 6pt;
   padding-bottom: 10.5pt;
+
   .MuiSlider-root {
     color: ${colors.gray};
     border-radius: 2px;
@@ -193,7 +192,7 @@ const PersentBadge = styled.span<{
 }>`
   position: absolute;
   left: ${({ persent }) => `calc(${persent}% - 15pt)`};
-  bottom: 0;
+  bottom: -7.5pt; // 웹 화면에서 뱃지 간격
   color: ${colors.lightWhite};
   background-color: ${({ client }) =>
     client === 'true' ? colors.main : colors.gray};
@@ -224,4 +223,8 @@ const PersentBadge = styled.span<{
           : colors.gray};
       }
     `}
+
+  @media (max-width: 500pt) {
+    bottom: 0;
+  }
 `;
