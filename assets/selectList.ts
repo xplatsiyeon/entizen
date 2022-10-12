@@ -19,7 +19,7 @@ export const M5_LIST = [
   '400 kW 충전기 (버스)',
 ];
 export const M5_LIST_EN = [
-  '3.5-COMMON',
+  '3.5-CHARGING_CONSENT',
   '3.5-CHARGING_CONSENT',
   '7-HOME',
   '7-COMMON_ECONOMY',

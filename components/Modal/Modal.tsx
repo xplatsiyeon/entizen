@@ -71,6 +71,7 @@ const BtnBox = styled(Box)`
 `;
 
 const BtnText = styled(Typography)<{ color?: string }>`
+  cursor: pointer;
   position: relative;
   margin-bottom: 21pt;
   font-size: 12pt;
