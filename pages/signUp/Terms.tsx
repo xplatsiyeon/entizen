@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 
 type Props = {};
 
-const TestTest = (props: Props) => {
+const Terms = (props: Props) => {
   return (
     <>
       <Body>
@@ -22,7 +22,7 @@ const TestTest = (props: Props) => {
   );
 };
 
-export default TestTest;
+export default Terms;
 
 const Body = styled.div`
   display: flex;
