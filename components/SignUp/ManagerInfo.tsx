@@ -1,13 +1,76 @@
 import styled from '@emotion/styled';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
-import React from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import Btn from './button';
 
-type Props = {};
+type Props = {
+  setName: Dispatch<SetStateAction<string>>;
+  setPhoneNumber: Dispatch<SetStateAction<string>>;
+};
 
-const ManagerInfo = (props: Props) => {
+const ManagerInfo = ({ setName, setPhoneNumber }: Props) => {
   const handleNextClick = () => {};
+  const route = useRouter();
+
+  const [data, setData] = useState<any>();
+
+  // ========================== 본인인증 창 띄우기
+  const fnPopup = () => {
+    if (typeof window !== 'object') return;
+    else {
+      window.open(
+        '',
+        'popupChk',
+        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+      );
+      let cloneDocument = document as any;
+      cloneDocument.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      cloneDocument.form_chk.target = 'popupChk';
+      cloneDocument.form_chk.submit();
+    }
+  };
+  const handleForceClick = () => {
+    let c = localStorage.getItem('key');
+    // let a: any;
+    let a: any;
+    if (c !== null) {
+      let a = JSON.parse(c);
+      console.log(a);
+      console.log(a.isMember);
+      setName(a.name);
+      setPhoneNumber(a.phone);
+      if (a.isMember) {
+        alert('이미 회원가입 하셨습니다.');
+        route.push('/signin');
+      }
+    }
+
+    // if(a && a.isMember)
+  };
+  useEffect(() => {
+    console.log(localStorage.getItem('key'));
+    const memberType = 'USER';
+
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        // console.log(res.data);
+        setData(res.data.executedData);
+        console.log(data);
+        // encodeData = res.data.executedData;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <Info>
@@ -76,12 +139,30 @@ const ManagerInfo = (props: Props) => {
         />
       </Box>
 
-      <Btn
-        isClick={true}
-        text={'본인인증하기'}
-        marginTop={59.25}
-        handleClick={handleNextClick}
-      />
+      <div>
+        <form name="form_chk" method="get">
+          <input type="hidden" name="m" value="checkplusService" />
+          {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+          <input
+            type="hidden"
+            id="encodeData"
+            name="EncodeData"
+            value={data !== undefined && data}
+          />
+          <input type="hidden" name="recvMethodType" value="get" />
+          {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+          <Btn
+            isClick={true}
+            name={'form_chk'}
+            text={'본인인증하기'}
+            handleClick={fnPopup}
+            marginTop={59.25}
+          />
+        </form>
+        <Buttons className="firstNextPage" onClick={handleForceClick}>
+          아아
+        </Buttons>
+      </div>
     </>
   );
 };
@@ -175,5 +256,9 @@ const OverlapBtn = styled.button`
   &.changeColor {
     background-color: ${colors.main};
   }
+`;
+
+const Buttons = styled.button`
+  display: none;
 `;
 export default ManagerInfo;

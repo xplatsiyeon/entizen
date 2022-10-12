@@ -227,7 +227,7 @@ const SignUpContainer = (props: Props) => {
             handleBackClick={handleBackClick}
           />
           <Wrapper>
-            <ManagerInfo />
+            <ManagerInfo setName={setName} setPhoneNumber={setPhoneNumber} />
           </Wrapper>
         </>
       )}
