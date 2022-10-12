@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChooseUserType from './chooseUserType';
 import CompanyDetailInfo from './CompanyDetailInfo';
 import MypageHeader from './header';
@@ -59,6 +59,10 @@ const SignUpContainer = (props: Props) => {
     setModalOpen(true);
     console.log(' 여기 눌렸습니다. ');
   };
+
+  useEffect(() => {
+    console.log(userType);
+  }, [userType]);
   return (
     <>
       {modalOpen && (
@@ -115,6 +119,7 @@ const SignUpContainer = (props: Props) => {
               setSelectTerms={setSelectTerms}
               nextBtn={nextBtn}
               setNextBtn={setNextBtn}
+              userType={userType}
             />
           </Wrapper>
         </>
