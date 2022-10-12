@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
+import { locationAction } from 'store/locationSlice';
 
 interface Props {
   isModal: boolean;
@@ -22,6 +23,7 @@ const QuotationModal = ({ setIsModal, isModal }: Props) => {
 
   const HandleButton = () => {
     dispatch(quotationAction.init());
+    dispatch(locationAction.reset());
     router.push('/quotation/request/complete');
   };
 

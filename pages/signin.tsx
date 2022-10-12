@@ -30,7 +30,7 @@ import { kakaoInit } from 'utils/kakao';
 import colors from 'styles/colors';
 import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
-
+import { signIn, signOut, useSession } from 'next-auth/react';
 type Props = {};
 
 interface JwtTokenType {
@@ -56,11 +56,11 @@ const Signin = (props: Props) => {
   const [isPassword, setIsPassword] = useState(false);
   const [loginErr, setLoginErr] = useState<string>('');
   let naverLogin: any;
-  // 카카오 API
 
   const modalHandle = () => {
     setLoginErr('');
   };
+  // 카카오 API
   const KaKaApi = async (data: any) => {
     const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
@@ -128,9 +128,12 @@ const Signin = (props: Props) => {
   const kakaoLogin = async () => {
     // 카카오 초기화
     const kakao = kakaoInit();
+    // SDK 초기화 여부를 판단합니다.
+    console.log(kakao.isInitialized());
     // 카카오 로그인 구현
     kakao.Auth.login({
       success: () => {
+        window.open();
         kakao.API.request({
           url: '/v2/user/me', // 사용자 정보 가져오기
           success: (res: any) => {
