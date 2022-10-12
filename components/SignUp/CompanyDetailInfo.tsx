@@ -68,9 +68,8 @@ const CompanyDetailInfo = ({
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log('클릭이 됩니다~!');
-    if (document.querySelector('.imageClick') !== null) {
-      doc.click();
-    }
+    doc.click();
+
     imgRef.current.click();
     console.log('왜 안되냐');
   };
@@ -108,6 +107,8 @@ const CompanyDetailInfo = ({
     if (document) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       doc = document.querySelector('.imageClick');
+      console.log(doc);
+      console.log('좀되라 제발;');
     }
   }, []);
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
