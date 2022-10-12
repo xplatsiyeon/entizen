@@ -13,6 +13,7 @@ import Btn from './button';
 import camera from 'public/images/gray_camera.png';
 import CloseImg from 'public/images/XCircle.svg';
 import Image from 'next/image';
+import AddImg from 'public/images/add-img.svg';
 
 type Props = {
   level: number;
@@ -41,40 +42,36 @@ const CompanyDetailInfo = ({
 }: Props) => {
   const imgRef = useRef<any>(null);
 
-  let doc: any;
-
+  const [nextPageOn, setNextPageOn] = useState<boolean>(false);
   const [review, setReview] = useState<{
-    productNm: string;
-    review: string;
     productImg: any;
     createDt: number;
   }>({
-    productNm: '',
-    review: '',
     productImg: [],
     createDt: new Date().getTime(),
   });
+
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCompanyName(e.target.value);
   };
   const handleCompanyPostNumberChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    console.log('cc');
+    setPostNumber(e.target.value);
   };
+
+  const handleCompanyAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCompanyAddress(e.target.value);
+  };
+
   const handleNextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLevel(level + 1);
   };
-  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const imgHandler = (e: React.MouseEvent<HTMLLabelElement>) => {
     e.preventDefault();
-    console.log('클릭이 됩니다~!');
-    doc.click();
-
     imgRef.current.click();
-    console.log('왜 안되냐');
   };
   const saveFileImage = (e: any) => {
-    console.log('이것도 됩니다');
     const { files } = e.target;
     const newImageURL = [];
     const maxLength = 3;
@@ -90,9 +87,7 @@ const CompanyDetailInfo = ({
     for (let i = 0; i < newImageURL.length; i++) {
       copyArr[0].productImg.push(newImageURL[i]);
     }
-    console.log('여기도 됩니다');
 
-    console.log(copyArr);
     if (review.productImg.length > 0) {
       setReview({
         ...review,
@@ -103,16 +98,8 @@ const CompanyDetailInfo = ({
         ...review,
         productImg: newImageURL,
       });
-    } // setImgValidation(true);
-  };
-  useEffect(() => {
-    if (document) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      doc = document.querySelector('.imageClick');
-      console.log(doc);
-      console.log('좀되라 제발;');
     }
-  }, []);
+  };
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
     const copyArr = [];
@@ -120,6 +107,20 @@ const CompanyDetailInfo = ({
     copyArr[0].productImg.splice(name, 1);
     setReview({ ...review, productImg: copyArr[0].productImg });
   };
+  useEffect(() => {
+    if (
+      companyName.length > 2 &&
+      postNumber.length > 2 &&
+      companyAddress.length > 2 &&
+      companyDetailAddress.length > 2 &&
+      review.productImg.length > 0
+    ) {
+      setNextPageOn(true);
+    } else {
+      setNextPageOn(false);
+    }
+    console.log(review.productImg[0]);
+  }, [companyName, postNumber, companyAddress, companyDetailAddress, review]);
 
   return (
     <>
@@ -158,7 +159,7 @@ const CompanyDetailInfo = ({
         <Label>주소</Label>
         <Input
           placeholder="회사 우편번호 입력"
-          onChange={handleCompanyPostNumberChange}
+          onChange={(e) => setPostNumber(e.target.value)}
           value={postNumber}
           name="id"
           InputProps={{
@@ -174,68 +175,81 @@ const CompanyDetailInfo = ({
         <Input
           placeholder="회사 주소 입력"
           value={companyAddress}
+          onChange={handleCompanyAddress}
           name="checkPw"
         />
         <Input
           placeholder="회사 상세주소 입력"
           value={companyDetailAddress}
+          onChange={(e) => setCompanyDetailAddress(e.target.value)}
           name="checkPw"
         />
       </Box>
       <RemainderInputBox>
-        <Label>사진첨부</Label>
+        {/* <Label>사진첨부</Label> */}
         <PhotosBox>
-          <AddPhotos onClick={imgHandler}>
+          <Form>
+            <label>사업자 등록증</label>
+            <div>
+              <File onClick={imgHandler}>
+                <Image src={AddImg} alt="img" />
+                <div>이미지 또는 파일 업로드</div>
+                <input type="file" />
+              </File>
+            </div>
+          </Form>
+          {/* <AddPhotos onClick={imgHandler}>
             <Image src={camera} alt="" />
-          </AddPhotos>
+          </AddPhotos> */}
           <input
-            style={{ display: 'hidden' }}
+            style={{ display: 'none' }}
             ref={imgRef}
             className="imageClick"
             type="file"
             accept="image/*"
-            onClick={saveFileImage}
+            onChange={saveFileImage}
             multiple
           />
           {/* <Preview> */}
-          {review.productImg &&
-            review.productImg.map((img: any, index: any) => (
-              <ImgSpan key={index} data-name={index}>
-                <Image
-                  style={{
-                    borderRadius: '6pt',
-                  }}
-                  layout="intrinsic"
-                  alt="preview"
-                  width={74.75}
-                  data-name={index}
-                  height={74.75}
-                  key={index}
-                  src={img}
-                />
-                <Xbox onClick={handlePhotoDelete} data-name={index}>
+          <div className="photos">
+            {review.productImg &&
+              review.productImg.map((img: any, index: any) => (
+                <ImgSpan key={index} data-name={index}>
                   <Image
-                    src={CloseImg}
-                    data-name={index}
+                    style={{
+                      borderRadius: '6pt',
+                    }}
                     layout="intrinsic"
-                    alt="closeBtn"
-                    width={24}
-                    height={24}
+                    alt="preview"
+                    width={80}
+                    data-name={index}
+                    height={80}
+                    key={index}
+                    src={img}
                   />
-                </Xbox>
-              </ImgSpan>
-            ))}
-          {/* </Preview> */}
+                  <Xbox onClick={handlePhotoDelete} data-name={index}>
+                    <Image
+                      src={CloseImg}
+                      data-name={index}
+                      layout="intrinsic"
+                      alt="closeBtn"
+                      width={24}
+                      height={24}
+                    />
+                  </Xbox>
+                </ImgSpan>
+              ))}
+            {/* </Preview> */}
+          </div>
         </PhotosBox>
       </RemainderInputBox>
       <Btn
-        isClick={true}
+        isClick={nextPageOn}
         text={'다음'}
-        marginTop={77.25}
+        marginTop={15}
+        bottom={30}
         handleClick={handleNextClick}
       />
-      <NameInput className="nameInput" />
-      <PhoneInput className="phoneInput" />
     </>
   );
 };
@@ -254,14 +268,6 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
-
-const NameInput = styled.input`
-  display: none;
-`;
-const PhoneInput = styled.input`
-  display: none;
-`;
-
 const Input = styled(TextField)`
   border: 0.75pt solid ${colors.gray};
   border-radius: 6pt;
@@ -287,6 +293,47 @@ const Input = styled(TextField)`
     display: block;
   }
 `;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  & > label {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: -0.02em;
+  }
+  & > div {
+    margin-top: 12pt;
+    padding: 15pt 67.5pt;
+    border: 0.75pt dashed ${colors.lightGray};
+    border-radius: 6pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+`;
+
+const File = styled.label`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9pt;
+  & > input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+  }
+  & > div {
+    font-size: 12pt;
+    line-height: 12pt;
+    color: #caccd1;
+  }
+`;
 const OverlapBtn = styled.button`
   & .checkOverlap {
     padding: 4.5pt 9pt;
@@ -305,16 +352,23 @@ const OverlapBtn = styled.button`
 const RemainderInputBox = styled.div`
   flex-direction: column;
   display: flex;
-  margin-top: 24pt;
+  margin-top: 30pt;
 `;
 
 const PhotosBox = styled.div`
   width: 100%;
-  height: 56.0625pt;
-  margin-top: 9pt;
+  /* height: 56.0625pt; */
+  /* margin-top: 9pt; */
   display: flex;
-  gap: 9.1875pt;
-  align-items: center;
+  flex-direction: column;
+  /* gap: 15pt; */
+  /* align-items: center; */
+  & .photos {
+    display: flex;
+    margin-top: 15pt;
+    /* margin-bottom: 15pt; */
+    gap: 6pt;
+  }
 `;
 
 const AddPhotos = styled.button`
@@ -331,8 +385,8 @@ const ImgSpan = styled.div`
 
 const Xbox = styled.div`
   position: absolute;
-  top: -7pt;
-  right: -7pt;
+  top: 3.75pt;
+  right: 3.75pt;
 `;
 
 export default CompanyDetailInfo;
