@@ -61,6 +61,7 @@ const CompanyDetailInfo = ({
     e.preventDefault();
     console.log('클릭이 됩니다~!');
     imgRef.current.click();
+    console.log('왜 안되냐');
   };
   const saveFileImage = (e: any) => {
     const { files } = e.target;
