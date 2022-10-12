@@ -5,6 +5,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
 import Btn from './button';
 import AddImg from 'public/images/add-img.svg';
+import CloseImg from 'public/images/XCircle.svg';
 import Image from 'next/image';
 
 type Props = {
@@ -114,6 +115,16 @@ const CompanyDetailInfo = ({
           </File>
         </div>
       </Form>
+      {/* img preview */}
+      <Preview>
+        {[1, 2, 3].map((item, index) => (
+          <span key={index}>
+            <div>
+              <Image className="exit" src={CloseImg} alt="exit" />
+            </div>
+          </span>
+        ))}
+      </Preview>
       <Btn
         isClick={true}
         text={'다음'}
