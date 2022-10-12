@@ -2,14 +2,13 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { css } from '@emotion/react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
-import { useRouter } from 'next/router';
 
 interface Props {
   value: number;
@@ -28,8 +27,6 @@ interface Props {
   calculatedValue?: {};
 }
 
-const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
-
 const SliderSizes = ({
   value,
   setValue,
@@ -39,7 +36,6 @@ const SliderSizes = ({
   setCalculatedValue,
   calculatedValue,
 }: Props) => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { quotationData, locationList } = useSelector(
     (state: RootState) => state,
@@ -47,16 +43,6 @@ const SliderSizes = ({
 
   const setPriceByRate = (target: any, rate: any, standardRate: any) => {
     return Math.round((target * rate) / standardRate);
-  };
-
-  const res = {
-    isSuccess: true,
-    investRate: '0.7',
-    predictedProfitTime: '',
-    maxSubscribePricePerMonth: 3261785,
-    maxTotalSubscribePrice: 78282829,
-    minSubscribePricePerMonth: 2552701,
-    minTotalSubscribePrice: 61264823,
   };
 
   useEffect(() => {
@@ -84,8 +70,6 @@ const SliderSizes = ({
       investRate: value,
     };
 
-    // console.log(ret);
-
     if (setCalculatedValue) {
       setCalculatedValue({
         maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
@@ -98,14 +82,9 @@ const SliderSizes = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  useEffect(() => {
-    // console.log('여깅쇼~~~');
-    console.log(calculatedValue);
-  }, [calculatedValue]);
-
-  // console.log('벨루 체크 ->' + difaultValue);
   // 간편 견적 포스트
   const predictionApi = async () => {
+    const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
     try {
       await axios({
         method: 'post',
@@ -141,6 +120,11 @@ const SliderSizes = ({
       predictionApi();
     }
   };
+
+  useEffect(() => {
+    console.log('----calculatedValue-----');
+    console.log(calculatedValue);
+  }, [calculatedValue]);
 
   return (
     <SliderCustom width={'97%'} disabled={disabled} client={true.toString()}>
@@ -201,7 +185,6 @@ const SliderCustom = styled(Box)<{ disabled: boolean; client: string }>`
     height: 15pt;
   }
 `;
-
 const PersentBadge = styled.span<{
   persent: number;
   disabled: boolean;
