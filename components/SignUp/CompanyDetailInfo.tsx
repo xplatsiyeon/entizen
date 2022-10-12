@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 // import Btn from 'components/button';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import Btn from './button';
-import AddImg from 'public/images/add-img.svg';
+import camera from 'public/images/gray_camera.png';
 import CloseImg from 'public/images/XCircle.svg';
 import Image from 'next/image';
 
@@ -33,6 +33,19 @@ const CompanyDetailInfo = ({
   companyDetailAddress,
   setCompanyDetailAddress,
 }: Props) => {
+  const imgRef = useRef<any>(null);
+  const [imgValidation, setImgValidation] = useState(false);
+  const [review, setReview] = useState<{
+    productNm: string;
+    review: string;
+    productImg: any;
+    createDt: number;
+  }>({
+    productNm: '',
+    review: '',
+    productImg: [],
+    createDt: new Date().getTime(),
+  });
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCompanyName(e.target.value);
   };
@@ -43,6 +56,49 @@ const CompanyDetailInfo = ({
   };
   const handleNextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLevel(level + 1);
+  };
+  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    imgRef.current.click();
+  };
+  const saveFileImage = (e: any) => {
+    const { files } = e.target;
+    const newImageURL = [];
+    const maxLength = 3;
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files[i] === undefined) {
+        break;
+      }
+      const nowImageUrl = URL.createObjectURL(files[i]);
+      newImageURL.push(nowImageUrl);
+    }
+    const copyArr = [];
+    copyArr.push(review);
+    for (let i = 0; i < newImageURL.length; i++) {
+      copyArr[0].productImg.push(newImageURL[i]);
+    }
+
+    console.log(copyArr);
+    if (review.productImg.length > 0) {
+      setReview({
+        ...review,
+        productImg: copyArr[0].productImg,
+      });
+    } else if (review.productImg.length === 0) {
+      setReview({
+        ...review,
+        productImg: newImageURL,
+      });
+    }
+
+    setImgValidation(true);
+  };
+  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [];
+    copyArr.push(review);
+    copyArr[0].productImg.splice(name, 1);
+    setReview({ ...review, productImg: copyArr[0].productImg });
   };
   return (
     <>
@@ -105,26 +161,51 @@ const CompanyDetailInfo = ({
           name="checkPw"
         />
       </Box>
-      <Form>
-        <label>사업자 등록증</label>
-        <div>
-          <File>
-            <Image src={AddImg} alt="img" />
-            <div>이미지 또는 파일 업로드</div>
-            <input type="file" />
-          </File>
-        </div>
-      </Form>
-      {/* img preview */}
-      <Preview>
-        {[1, 2, 3].map((item, index) => (
-          <span key={index}>
-            <div>
-              <Image className="exit" src={CloseImg} alt="exit" />
-            </div>
-          </span>
-        ))}
-      </Preview>
+      <RemainderInputBox>
+        <Label>사진첨부</Label>
+        <PhotosBox>
+          <AddPhotos onClick={imgHandler}>
+            <Image src={camera} alt="" />
+          </AddPhotos>
+          <input
+            style={{ display: 'none' }}
+            ref={imgRef}
+            type="file"
+            accept="image/*"
+            onChange={saveFileImage}
+            multiple
+          />
+          {/* <Preview> */}
+          {review.productImg &&
+            review.productImg.map((img: any, index: any) => (
+              <ImgSpan key={index} data-name={index}>
+                <Image
+                  style={{
+                    borderRadius: '6pt',
+                  }}
+                  layout="intrinsic"
+                  alt="preview"
+                  width={74.75}
+                  data-name={index}
+                  height={74.75}
+                  key={index}
+                  src={img}
+                />
+                <Xbox onClick={handlePhotoDelete} data-name={index}>
+                  <Image
+                    src={CloseImg}
+                    data-name={index}
+                    layout="intrinsic"
+                    alt="closeBtn"
+                    width={24}
+                    height={24}
+                  />
+                </Xbox>
+              </ImgSpan>
+            ))}
+          {/* </Preview> */}
+        </PhotosBox>
+      </RemainderInputBox>
       <Btn
         isClick={true}
         text={'다음'}
@@ -199,61 +280,37 @@ const OverlapBtn = styled.button`
     background-color: ${colors.main};
   }
 `;
+const RemainderInputBox = styled.div`
+  flex-direction: column;
+  display: flex;
+  margin-top: 24pt;
+`;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  padding-top: 30pt;
-  position: relative;
-  & > label {
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 16px;
-    letter-spacing: -0.02em;
-  }
-  & > div {
-    margin-top: 12pt;
-    padding: 15pt 67.5pt;
-    border: 0.75pt dashed ${colors.lightGray};
-    border-radius: 6pt;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-`;
-const File = styled.label`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 9pt;
-  & > input {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-  }
-  & > div {
-    font-size: 12pt;
-    line-height: 12pt;
-    color: #caccd1;
-  }
-`;
-const Preview = styled.div`
-  display: flex;
-  gap: 6pt;
+const PhotosBox = styled.div`
   width: 100%;
-  margin-top: 15pt;
-  & > span {
-    display: flex;
-    flex-direction: row-reverse;
-    width: 60pt;
-    height: 60pt;
-    border-radius: 6pt;
-    border: 1px solid red;
-  }
+  height: 56.0625pt;
+  margin-top: 9pt;
+  display: flex;
+  gap: 9.1875pt;
+  align-items: center;
+`;
+
+const AddPhotos = styled.button`
+  display: inline-block;
+  width: 56.0625pt;
+  height: 56.0625pt;
+  border: 1px solid #e2e5ed;
+  border-radius: 6pt;
+`;
+
+const ImgSpan = styled.div`
+  position: relative;
+`;
+
+const Xbox = styled.div`
+  position: absolute;
+  top: -7pt;
+  right: -7pt;
 `;
 
 export default CompanyDetailInfo;
