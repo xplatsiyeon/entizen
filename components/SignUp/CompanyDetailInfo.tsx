@@ -189,7 +189,7 @@ const CompanyDetailInfo = ({
             <Image src={camera} alt="" />
           </AddPhotos>
           <input
-            style={{ display: 'none' }}
+            style={{ display: 'hidden' }}
             ref={imgRef}
             className="imageClick"
             type="file"
