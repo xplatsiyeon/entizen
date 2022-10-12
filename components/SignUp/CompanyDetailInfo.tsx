@@ -74,6 +74,7 @@ const CompanyDetailInfo = ({
     console.log('왜 안되냐');
   };
   const saveFileImage = (e: any) => {
+    console.log('이것도 됩니다');
     const { files } = e.target;
     const newImageURL = [];
     const maxLength = 3;
@@ -89,6 +90,7 @@ const CompanyDetailInfo = ({
     for (let i = 0; i < newImageURL.length; i++) {
       copyArr[0].productImg.push(newImageURL[i]);
     }
+    console.log('여기도 됩니다');
 
     console.log(copyArr);
     if (review.productImg.length > 0) {
