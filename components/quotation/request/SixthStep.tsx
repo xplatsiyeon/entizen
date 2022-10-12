@@ -17,7 +17,7 @@ import { RootState } from 'store/store';
 import { quotationAction } from 'store/quotationSlice';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-// import { predictionApi } from 'api/quotations/prediction';
+import Modal from 'components/Modal/Modal';
 import axios from 'axios';
 
 interface Purpose {
@@ -78,8 +78,10 @@ const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
 
 const SixthStep = ({ setTabNumber }: Props) => {
   const router = useRouter();
-  const [clicked, setClicked] = useState(-1);
   const dispatch = useDispatch();
+  const [clicked, setClicked] = useState(-1);
+  const [errorModal, setErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handlePurposeOnClick = (index: number) => setClicked(index);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -109,11 +111,17 @@ const SixthStep = ({ setTabNumber }: Props) => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      }).then((res) => {
-        dispatch(quotationAction.setRequestData(res.data));
-        // dispatch(quotationAction.init());
-        router.push('/quotation/request/1-7');
-      });
+      })
+        .then((res) => {
+          dispatch(quotationAction.setRequestData(res.data));
+          // dispatch(quotationAction.init());
+          router.push('/quotation/request/1-7');
+        })
+        .catch((error) => {
+          const text = error.response.data.message;
+          setErrorModal((prev) => !prev);
+          setErrorMessage(text);
+        });
     } catch (error) {
       console.log('post 요청 실패');
       console.log(error);
@@ -139,6 +147,13 @@ const SixthStep = ({ setTabNumber }: Props) => {
   }, [clicked]);
   return (
     <Wrraper>
+      {errorModal && (
+        <Modal
+          text={errorMessage}
+          color={colors.main}
+          click={() => setErrorModal((prev) => !prev)}
+        />
+      )}
       <Title>충전기 설치 목적을 알려주세요</Title>
       <Intersection>
         {purpose.map((item, index) => (
