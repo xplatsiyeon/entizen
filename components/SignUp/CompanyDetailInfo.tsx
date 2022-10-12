@@ -34,7 +34,7 @@ const CompanyDetailInfo = ({
   setCompanyDetailAddress,
 }: Props) => {
   const imgRef = useRef<any>(null);
-  const [imgValidation, setImgValidation] = useState(false);
+
   const [review, setReview] = useState<{
     productNm: string;
     review: string;
@@ -59,6 +59,7 @@ const CompanyDetailInfo = ({
   };
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    console.log('클릭이 됩니다~!');
     imgRef.current.click();
   };
   const saveFileImage = (e: any) => {
@@ -91,7 +92,7 @@ const CompanyDetailInfo = ({
       });
     }
 
-    setImgValidation(true);
+    // setImgValidation(true);
   };
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
