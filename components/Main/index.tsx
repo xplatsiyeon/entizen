@@ -83,6 +83,10 @@ const MainPage = (props: Props) => {
     localStorage.removeItem('key');
   }, []);
 
+  useEffect(() => {
+    console.log('??');
+  }, []);
+
   const list = (anchor: string) => (
     <WholeBox
       role="presentation"
