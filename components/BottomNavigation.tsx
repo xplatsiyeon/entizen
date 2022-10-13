@@ -161,7 +161,7 @@ const BottomNavigation = (props: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                router.push('/companyQuotation');
+                router.push('/company/recievedRequest');
               }}
             >
               {myQuotaion > 0 && (

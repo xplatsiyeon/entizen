@@ -15,8 +15,10 @@ const Modal = ({ text, click, color }: Props) => {
   const handleModalClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
-    if (outside.current === e.target) {
-      click();
+    if (outside) {
+      if (outside.current === e.target) {
+        click();
+      }
     }
   };
   return (
