@@ -5,6 +5,7 @@ import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import CompanyMainPage from 'components/Main/companyMain';
 
 type Props = {};
 
@@ -14,7 +15,7 @@ const Home: NextPage = () => {
   console.log(selectedType);
   return (
     <>
-      {selectedType === 'user' && (
+      {(selectedType === 'user' || selectedType === '') && (
         <>
           <WebWrap>
             <Main />
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
           </MobWrap>
         </>
       )}
-      {selectedType === 'company' && <>메롱메롱메롱메롱</>}
+      {selectedType === 'company' && <CompanyMainPage />}
     </>
   );
 };
