@@ -67,6 +67,7 @@ const Header = styled.div`
   padding: 9pt 15pt;
   .back-img {
     position: absolute;
+    cursor: pointer;
     left: 7pt;
     padding: 5px;
   }
@@ -93,7 +94,7 @@ const Header = styled.div`
     right: 15pt;
   }
 
-  @media (max-width:899pt) {
+  @media (max-width: 899pt) {
     display: flex;
   }
 `;
