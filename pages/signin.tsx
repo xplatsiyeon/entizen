@@ -33,6 +33,15 @@ interface JwtTokenType {
   memberType: string;
 }
 
+interface FindKey {
+  id: string;
+  isMember: boolean;
+  memberIdx: number;
+  name: string;
+  phone: string;
+  snsType: string;
+}
+
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
 // const REDIRECT_URI = 'http://localhost:3000/kakaoAuth';
 const REDIRECT_URI = 'https://test-api.entizen.kr/kakaoAuth';
@@ -194,9 +203,12 @@ const Signin = (props: Props) => {
   // 아이디 찾기
   const HandleFindId = async () => {
     let key = localStorage.getItem('key');
-    let data = JSON.parse(key!);
-    dispatch(findUserInfoAction.addId(data.id));
-    router.push('/find/id');
+    let data: FindKey = JSON.parse(key!);
+    if (data.isMember) {
+      dispatch(findUserInfoAction.addId(data.id));
+      router.push('/find/id');
+    }
+    console.log('탈퇴한 회원입니다.');
   };
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
