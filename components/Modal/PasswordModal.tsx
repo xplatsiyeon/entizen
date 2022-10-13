@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import React, { Dispatch, SetStateAction, useRef } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
@@ -31,6 +31,11 @@ const PasswordModal = ({
       setPasswordInput('');
     }
   };
+
+  useEffect(() => {
+    // passwordInput 업데이트
+    console.log(passwordInput);
+  }, [passwordInput]);
 
   return (
     <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
