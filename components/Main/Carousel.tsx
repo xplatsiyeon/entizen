@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
@@ -141,10 +141,10 @@ const WithImage = styled.div`
   right: 10pt;
 
   @media (max-width: 899pt) {
-  display: block;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 `;
 

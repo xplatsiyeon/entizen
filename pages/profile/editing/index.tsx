@@ -278,6 +278,7 @@ const Avatar = styled.div`
   }
   .avatar-photo {
     position: absolute;
+    cursor: pointer;
     bottom: 0;
     right: 0;
   }

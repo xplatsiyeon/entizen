@@ -283,6 +283,7 @@ const MainPage = (props: Props) => {
         <SubscribeRequest />
         <WhyEntizen />
         {/* <WhyEntizenWeb /> */}
+
         <LearnAbout />
         <EntizenLibrary />
       </Container>

@@ -5,10 +5,10 @@ import chattingOn from 'public/navigation/chatting-on-icon.png';
 import home from 'public/navigation/home-icon.png';
 import homeOn from 'public/navigation/home-on-icon.png';
 import estimate from 'public/navigation/estimate-icon.png';
-import mypageOn from 'public/navigation/mypage-on-icon.png';
 import guide from 'public/navigation/guide-icon.png';
 import guideOn from 'public/navigation/guide-on-icon.png';
 import mypage from 'public/navigation/mypage-icon.png';
+import mypageOn from 'public/navigation/mypage-on-icon.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
@@ -128,6 +128,7 @@ const Wrapper = styled.div`
   width: 100%;
   z-index: 999;
   .img-wrapper {
+    cursor: pointer;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -157,5 +158,5 @@ const H3 = styled.h3<{ clicked: boolean }>`
   font-size: 7.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
-  color: ${({ clicked }) => (clicked ? colors.main2 : colors.lightGray4)};
+  color: ${({ clicked }) => (clicked ? colors.main2 : colors.lightGray3)};
 `;
