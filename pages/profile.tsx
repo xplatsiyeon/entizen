@@ -45,7 +45,7 @@ const Profile = () => {
       }).then((res) => {
         console.log('카카오로그인 KaKaAPI =>  ' + res);
         console.log(res.data);
-        let data = res.data;
+        let resData = res.data;
         let jsonData = JSON.parse(res.config.data);
         console.log('카카오 로그인 axios 부분입니다 ! ======');
         console.log(jsonData);
@@ -55,26 +55,26 @@ const Profile = () => {
             uuid: jsonData.uuid,
             email: jsonData.email,
             snsType: jsonData.snsType,
-            snsLoginIdx: data.snsLoginIdx,
-            isMember: data.isMember,
+            snsLoginIdx: resData.snsLoginIdx,
+            isMember: resData.isMember,
           }),
         );
-        if (data.isMember === true) {
+        if (resData.isMember === true) {
           // 로그인
           console.log('멤버 확인');
-          console.log(data);
-          const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          console.log(resData);
+          const token: JwtTokenType = jwt_decode(resData.accessToken);
           localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-          localStorage.setItem('USER_ID', data.kakao_account.email);
+          localStorage.setItem('USER_ID', resData.kakao_account.email);
           localStorage.setItem(
             'ACCESS_TOKEN',
-            JSON.stringify(data.accessToken),
+            JSON.stringify(resData.accessToken),
           );
           localStorage.setItem(
             'REFRESH_TOKEN',
-            JSON.stringify(data.refreshToken),
+            JSON.stringify(resData.refreshToken),
           );
-          dispatch(originUserAction.set(data.kakao_account.email));
+          dispatch(originUserAction.set(resData.kakao_account.email));
           router.push('/');
         } else {
           // 회원가입
