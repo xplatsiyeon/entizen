@@ -21,6 +21,7 @@ import { kakaoInit } from 'utils/kakao';
 import colors from 'styles/colors';
 import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
+import Link from 'next/link';
 type Props = {};
 
 interface JwtTokenType {
@@ -31,6 +32,11 @@ interface JwtTokenType {
   memberIdx: number;
   memberType: string;
 }
+
+const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+// const REDIRECT_URI = 'http://localhost:3000/kakaoAuth';
+const REDIRECT_URI = 'https://test-api.entizen.kr/kakaoAuth';
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = (props: Props) => {
   const router = useRouter();
@@ -50,7 +56,7 @@ const Signin = (props: Props) => {
   const modalHandle = () => {
     setLoginErr('');
   };
-  // 카카오 API
+  // 카카오 백엔드 API
   const KaKaApi = async (data: any) => {
     const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
@@ -112,40 +118,21 @@ const Signin = (props: Props) => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    console.log('여기입니다.');
-    console.log(loginErr);
-  }, [loginErr]);
   // 카카오 로그인
   const kakaoLogin = async () => {
-    // 카카오 초기화
     const kakao = kakaoInit();
-    // SDK 초기화 여부를 판단합니다.
-    console.log('카카오 초기화 여부' + kakao.isInitialized());
-    // 카카오 로그인 구현
-    kakao.Auth.login({
-      success: () => {
-        kakao.API.request({
-          url: '/v2/user/me', // 사용자 정보 가져오기
-          success: (res: any) => {
-            // 로그인 성공할 경우 정보 확인 후 /kakao 페이지로 push
-            KaKaApi(res);
-            console.log('아래는 카카오로그인 성공시 데이터입니다.');
-            console.log(res);
-          },
-          fail: (error: any) => {
-            console.log(error);
-            console.log('아래는 카카오로그인 실패시 데이터입니다.');
-            console.log(error);
-          },
-        });
-      },
-      fail: (error: any) => {
-        console.log(error);
-        console.log('아래는 마지막 카카오로그인 완전 실패데이터입니다.');
-        console.log(error);
-      },
-    });
+    try {
+      // Kakao SDK API를 이용해 사용자 정보 획득
+      let data = await kakao.API.request({
+        url: '/v2/user/me',
+      });
+      console.log('프로필 데이터');
+      console.log(data);
+      // 사용자 정보 변수에 저장
+      KaKaApi(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
   // 기본 로그인
   const originLogin = async () => {
@@ -348,12 +335,19 @@ const Signin = (props: Props) => {
   const handleNaver = async () => {
     naverRef.current.children[0].click();
   };
+
+  // useEffect(() => {
+  //   kakaoLogin();
+  // }, []);
   return (
     <React.Fragment>
       {loginErr.length > 3 && (
         <Modal text={loginErr} color={'#7e7f81'} click={modalHandle} />
       )}
       <Body>
+        <Link href={KAKAO_AUTH_URL}>
+          <a>카카오 로그인 테스트 버튼</a>
+        </Link>
         <WebHeader />
         <Inner>
           <WebWrapper>
