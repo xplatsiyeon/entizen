@@ -11,7 +11,6 @@ const MyApp = ({ Component, pageProps }: AppProps<{}>) => {
         <meta charSet="utf-8" />
         <title>Next Naver maps</title>
       </Head>
-
       <Component {...pageProps} />
     </PersistGate>
   );
