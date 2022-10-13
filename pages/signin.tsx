@@ -43,15 +43,15 @@ interface FindKey {
 }
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-// const REDIRECT_URI = 'http://localhost:3000/kakaoAuth';
 const REDIRECT_URI = 'https://test-api.entizen.kr/kakaoAuth';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.userList);
+  let naverLogin: any;
   const naverRef = useRef<HTMLElement | null | any>(null);
+  const { user } = useSelector((state: RootState) => state.userList);
   const [userId, setUserId] = useState<string>('');
   const [data, setData] = useState<any>();
   const [password, setPassword] = useState<string>('');
@@ -59,12 +59,11 @@ const Signin = (props: Props) => {
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
   const [isId, setIsId] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-  const [loginErr, setLoginErr] = useState<string>('');
-  const [alertModal, setAlertModal] = useState(false);
-  let naverLogin: any;
-
-  const modalHandle = () => {
-    setLoginErr('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errorModal, setErrorModal] = useState(false);
+  // 안내문
+  const handleAlert = () => {
+    alert('현재 개발 중 입니다.');
   };
   // 기본 로그인
   const originLogin = async () => {
@@ -103,9 +102,15 @@ const Signin = (props: Props) => {
           await router.push('/');
         })
         .catch((error) => {
-          console.log('api 에러 발생!!');
-          console.log(error.response.data.message);
-          setLoginErr(error.response.data.message);
+          const { message } = error.response.data;
+          if (message === '탈퇴된 회원입니다.') {
+            setErrorModal(true);
+            setErrorMessage(
+              '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+            );
+          } else {
+            setErrorModal(message);
+          }
         });
     } catch (error: any) {
       console.log('에러가 발생했다!!!');
@@ -166,10 +171,6 @@ const Signin = (props: Props) => {
       console.log(error);
     }
   };
-
-  // 구글 로그인
-  // const GoogleLogin = ()=> {}
-
   // 나이스 인승
   const fnPopup = (event: any) => {
     console.log('check');
@@ -197,10 +198,6 @@ const Signin = (props: Props) => {
       cloneDocument.form_chk.submit();
     }
   };
-  // 안내문
-  const handleAlert = () => {
-    alert('현재 개발 중 입니다.');
-  };
   // 아이디 찾기
   const HandleFindId = async () => {
     let key = localStorage.getItem('key');
@@ -209,7 +206,10 @@ const Signin = (props: Props) => {
       dispatch(findUserInfoAction.addId(data.id));
       router.push('/find/id');
     }
-    setAlertModal(true);
+    setErrorMessage(
+      '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+    );
+    setErrorModal(true);
   };
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
@@ -217,12 +217,14 @@ const Signin = (props: Props) => {
       localStorage.getItem('key');
       router.push('/find/password2');
     }
-    setAlertModal(true);
+    setErrorMessage(
+      '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+    );
+    setErrorModal(true);
   };
   // 나이스 인증
   useEffect(() => {
     const memberType = 'USER';
-
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',
@@ -285,7 +287,8 @@ const Signin = (props: Props) => {
 
   return (
     <React.Fragment>
-      {alertModal && (
+      {/* 탈퇴 회원 모달 */}
+      {/* {alertModal && (
         <Modal
           click={() => {
             setAlertModal(false);
@@ -294,10 +297,14 @@ const Signin = (props: Props) => {
             '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.'
           }
         />
-      )}
-
-      {loginErr.length > 3 && (
-        <Modal text={loginErr} color={'#7e7f81'} click={modalHandle} />
+      )} */}
+      {/* 로그인 에러 모달 */}
+      {errorModal && (
+        <Modal
+          text={errorMessage}
+          color={'#7e7f81'}
+          click={() => setErrorModal(false)}
+        />
       )}
       <Body>
         <WebHeader />
