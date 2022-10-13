@@ -90,9 +90,15 @@ const Profile = () => {
           }
         })
         .catch((error) => {
-          const text = error.response.data.message;
-          setErrorModal((prev) => !prev);
-          setErrorMessage(text);
+          const { message } = error.response.data;
+          if (message === '탈퇴된 회원입니다.') {
+            setErrorModal((prev) => !prev);
+            setErrorMessage(
+              '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+            );
+          } else {
+            setErrorModal(message);
+          }
         });
     } catch (error: any) {
       console.log('post 요청 실패');
