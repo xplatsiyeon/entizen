@@ -10,6 +10,8 @@ import { kakaoInit } from 'utils/kakao';
 import jwt_decode from 'jwt-decode';
 import Loader from 'components/Loader';
 import styled from '@emotion/styled';
+import Modal from 'components/Modal/Modal';
+import colors from 'styles/colors';
 
 const Profile = () => {
   const router = useRouter();
@@ -91,6 +93,9 @@ const Profile = () => {
           const text = error.response.data.message;
           setErrorModal((prev) => !prev);
           setErrorMessage(text);
+          setTimeout(() => {
+            router.push('/');
+          }, 1500);
         });
     } catch (error: any) {
       console.log('post 요청 실패');
@@ -98,6 +103,9 @@ const Profile = () => {
       console.log(error);
       setErrorModal((prev) => !prev);
       setErrorMessage(error);
+      setTimeout(() => {
+        router.push('/');
+      }, 1500);
     }
   };
   // 토큰 보내기
@@ -120,6 +128,13 @@ const Profile = () => {
   }, []);
   return (
     <Wrapper>
+      {errorModal && (
+        <Modal
+          text={errorMessage}
+          color={colors.main}
+          click={() => setErrorModal((prev) => !prev)}
+        />
+      )}
       <Loader />
       <Text>카카오 로그인 중입니다...</Text>
     </Wrapper>
