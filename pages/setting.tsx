@@ -157,7 +157,7 @@ const Setting = () => {
           })
           .catch((res) => {
             console.log('api 에러 발생');
-            setPassowrdValid((prev) => !prev);
+            setPassowrdValid(true);
           });
       } catch (error) {
         console.log('error -->' + error);

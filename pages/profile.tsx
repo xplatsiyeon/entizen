@@ -92,7 +92,7 @@ const Profile = () => {
         .catch((error) => {
           const { message } = error.response.data;
           if (message === '탈퇴된 회원입니다.') {
-            setErrorModal((prev) => !prev);
+            setErrorModal(true);
             setErrorMessage(
               '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
             );
@@ -104,7 +104,7 @@ const Profile = () => {
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
       console.log(error);
-      setErrorModal((prev) => !prev);
+      setErrorModal(true);
       setErrorMessage(error);
     }
   };

@@ -104,12 +104,13 @@ const Signin = (props: Props) => {
         .catch((error) => {
           const { message } = error.response.data;
           if (message === '탈퇴된 회원입니다.') {
-            setErrorModal((prev) => !prev);
+            setErrorModal(true);
             setErrorMessage(
               '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
             );
           } else {
-            setErrorModal(message);
+            setErrorModal(true);
+            setErrorMessage(message);
           }
         });
     } catch (error: any) {
