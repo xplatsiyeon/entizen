@@ -16,7 +16,6 @@ const ProfileEditing = () => {
   const [name, setName] = useState('test유저');
   const [avatar, setAvatar] = useState<string>('');
   const [data, setData] = useState<any>();
-  // const [isPhone, setIsPhone] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [checkSns, setCheckSns] = useState<boolean>(false);
   // 아이디 변경
@@ -35,16 +34,6 @@ const ProfileEditing = () => {
       }
     };
   };
-
-  // // 휴대폰 변경
-  // const HandlePhone = async () => {
-  //   let key = localStorage.getItem('key');
-  //   let data = JSON.parse(key!);
-  //   console.log('---------휴대폰 변경 data입니다 ---------');
-  //   console.log(data);
-
-  //   router.push('/profile/editing/phone');
-  // };
   // 비밀번호 변경
   const HandlePassword = async () => {
     let key = localStorage.getItem('key');
@@ -53,18 +42,12 @@ const ProfileEditing = () => {
     console.log(data);
     router.push('/profile/editing/password');
   };
-
   // 나이스 인증
   const fnPopup = (event: any) => {
     console.log('나이스 인증');
     console.log(event);
     const { id } = event.currentTarget;
     console.log(`id -> ${id}`);
-
-    // if (id === 'phone') {
-    //   setIsPhone(true);
-    //   console.log('phone입니다');
-    // }
     if (id === 'password') {
       setIsPassword(true);
       console.log('passowrd입니다');
@@ -81,6 +64,31 @@ const ProfileEditing = () => {
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
       cloneDocument.form_chk.submit();
+    }
+  };
+  // 유저정보 받아오기
+  const getUserInfo = () => {
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    try {
+      axios({
+        method: 'get',
+        url: 'https://test-api.entizen.kr/api/members/info',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
+      })
+        .then((res) => {
+          console.log('유저 정보');
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log('실패');
+          console.log(error);
+        });
+    } catch (error) {
+      console.log('api 통신 에러');
+      console.log(error);
     }
   };
   // 나이스 인증
@@ -111,7 +119,10 @@ const ProfileEditing = () => {
     console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  // 유저 종보 받아오기
+  useEffect(() => {
+    getUserInfo();
+  }, []);
   return (
     <React.Fragment>
       <WebBody>
@@ -187,11 +198,6 @@ const ProfileEditing = () => {
                   </form>
                 </>
               )}
-              {/* {isPhone && (
-                <Buttons className="firstNextPage" onClick={HandlePhone}>
-                  숨겨진 비밀번호 버튼
-                </Buttons>
-              )} */}
               {isPassword && (
                 <Buttons className="firstNextPage" onClick={HandlePassword}>
                   숨겨진 휴대폰번호 버튼
