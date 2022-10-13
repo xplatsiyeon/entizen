@@ -96,6 +96,8 @@ const Profile = () => {
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
       console.log(error);
+      setErrorModal((prev) => !prev);
+      setErrorMessage(error);
     }
   };
   // 토큰 보내기
