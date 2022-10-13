@@ -104,7 +104,7 @@ const Signin = (props: Props) => {
         .catch((error) => {
           const { message } = error.response.data;
           if (message === '탈퇴된 회원입니다.') {
-            setErrorModal(true);
+            setErrorModal((prev) => !prev);
             setErrorMessage(
               '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
             );
@@ -209,7 +209,7 @@ const Signin = (props: Props) => {
     setErrorMessage(
       '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
     );
-    setErrorModal(true);
+    setErrorModal((prev) => !prev);
   };
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
@@ -220,7 +220,7 @@ const Signin = (props: Props) => {
     setErrorMessage(
       '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
     );
-    setErrorModal(true);
+    setErrorModal((prev) => !prev);
   };
   // 나이스 인증
   useEffect(() => {
@@ -287,23 +287,12 @@ const Signin = (props: Props) => {
 
   return (
     <React.Fragment>
-      {/* 탈퇴 회원 모달 */}
-      {/* {alertModal && (
-        <Modal
-          click={() => {
-            setAlertModal(false);
-          }}
-          text={
-            '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.'
-          }
-        />
-      )} */}
-      {/* 로그인 에러 모달 */}
+      {/* 로그인 에러 안내 모달 */}
       {errorModal && (
         <Modal
           text={errorMessage}
           color={'#7e7f81'}
-          click={() => setErrorModal(false)}
+          click={() => setErrorModal((prev) => !prev)}
         />
       )}
       <Body>
