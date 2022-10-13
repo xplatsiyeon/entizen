@@ -59,6 +59,7 @@ const ContentText = styled(Typography)`
   letter-spacing: -2%;
   padding-top: 21pt;
   padding-bottom: 21pt;
+  text-align: center;
 `;
 
 const Content = styled(Box)`

@@ -60,6 +60,7 @@ const Signin = (props: Props) => {
   const [isId, setIsId] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [loginErr, setLoginErr] = useState<string>('');
+  const [alertModal, setAlertModal] = useState(false);
   let naverLogin: any;
 
   const modalHandle = () => {
@@ -208,12 +209,15 @@ const Signin = (props: Props) => {
       dispatch(findUserInfoAction.addId(data.id));
       router.push('/find/id');
     }
-    console.log('탈퇴한 회원입니다.');
+    setAlertModal(true);
   };
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
-    localStorage.getItem('key');
-    router.push('/find/password2');
+    if (data.isMember) {
+      localStorage.getItem('key');
+      router.push('/find/password2');
+    }
+    setAlertModal(true);
   };
   // 나이스 인증
   useEffect(() => {
@@ -281,6 +285,17 @@ const Signin = (props: Props) => {
 
   return (
     <React.Fragment>
+      {alertModal && (
+        <Modal
+          click={() => {
+            setAlertModal(false);
+          }}
+          text={
+            '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.'
+          }
+        />
+      )}
+
       {loginErr.length > 3 && (
         <Modal text={loginErr} color={'#7e7f81'} click={modalHandle} />
       )}
