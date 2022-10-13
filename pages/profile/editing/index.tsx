@@ -13,15 +13,12 @@ import axios from 'axios';
 
 const ProfileEditing = () => {
   const router = useRouter();
-  const [name, setName] = useState('test유저');
+  const [id, setId] = useState('');
+  const [name, setName] = useState('');
   const [avatar, setAvatar] = useState<string>('');
   const [data, setData] = useState<any>();
   const [isPassword, setIsPassword] = useState(false);
   const [checkSns, setCheckSns] = useState<boolean>(false);
-  // 아이디 변경
-  const HandleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files!;
@@ -66,7 +63,7 @@ const ProfileEditing = () => {
       cloneDocument.form_chk.submit();
     }
   };
-  // 유저정보 받아오기
+  // 유저정보 받아 오는 API
   const getUserInfo = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     try {
@@ -79,14 +76,18 @@ const ProfileEditing = () => {
         },
       })
         .then((res) => {
-          console.log('유저 정보');
-          console.log(res);
+          setId(res.data.id);
+          setName(res.data.name);
         })
         .catch((error) => {
           console.log('실패');
           console.log(error);
+          alert('다시 시도해주세요.');
+          router.push('/');
         });
     } catch (error) {
+      alert('다시 시도해주세요.');
+      router.push('/');
       console.log('api 통신 에러');
       console.log(error);
     }
@@ -155,9 +156,9 @@ const ProfileEditing = () => {
                 </div>
               </Avatar>
               <Label mt={33}>아이디</Label>
-              <InputBox type="text" readOnly placeholder="test" />
+              <InputBox type="text" readOnly placeholder={id} />
               <Label mt={30}>이름</Label>
-              <InputBox type="text" value={name} onChange={HandleOnChange} />
+              <InputBox type="text" readOnly placeholder={name} />
 
               {!checkSns && (
                 <>
