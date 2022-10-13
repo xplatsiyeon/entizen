@@ -96,41 +96,41 @@ const AsIndex = (props: Props) => {
   return (
     <Wrapper>
       <WebWrap>
-      <FilterBtnBox>
-        {(['bottom'] as const).map((anchor) => (
-          <React.Fragment key={anchor}>
-            <FilterBtn onClick={toggleDrawer(anchor, true)}>
-              <span>{checkedFilter}</span>
-              <span>
-                <Image src={blackDownArrow} alt="filterIcon" />
-              </span>
-            </FilterBtn>
-            <Drawer
-              anchor={anchor}
-              open={state[anchor]}
-              onClose={toggleDrawer(anchor, false)}
-              PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
-            >
-              {list(anchor)}
-            </Drawer>
-          </React.Fragment>
-        ))}
-      </FilterBtnBox>
-      <div>
-        <Input
-          placeholder="프로젝트를 검색하세요."
-          type="text"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <div style={{ width: '15pt', height: '15pt' }}>
-                  <Image src={search} alt="searchIcon" layout="intrinsic" />
-                </div>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </div>
+        <FilterBtnBox>
+          {(['bottom'] as const).map((anchor) => (
+            <React.Fragment key={anchor}>
+              <FilterBtn onClick={toggleDrawer(anchor, true)}>
+                <span>{checkedFilter}</span>
+                <span>
+                  <Image src={blackDownArrow} alt="filterIcon" />
+                </span>
+              </FilterBtn>
+              <Drawer
+                anchor={anchor}
+                open={state[anchor]}
+                onClose={toggleDrawer(anchor, false)}
+                PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
+              >
+                {list(anchor)}
+              </Drawer>
+            </React.Fragment>
+          ))}
+        </FilterBtnBox>
+        <div>
+          <Input
+            placeholder="프로젝트를 검색하세요."
+            type="text"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <div style={{ width: '15pt', height: '15pt' }}>
+                    <Image src={search} alt="searchIcon" layout="intrinsic" />
+                  </div>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </div>
       </WebWrap>
       <ContentsContainer>
         <ContentsWrapper onClick={handleAsListClick}>
@@ -222,13 +222,12 @@ const Input = styled(TextField)`
 `;
 
 const WebWrap = styled.div`
-display: none;
+  display: none;
 
-@media (max-width: 899pt) {
-display: block;
-}
-
-`
+  @media (max-width: 899pt) {
+    display: block;
+  }
+`;
 
 const FilterBtnBox = styled.div`
   width: 100%;

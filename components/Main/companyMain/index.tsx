@@ -24,6 +24,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import Carousel from '../Carousel';
 import QuotationCenter from './QuotationCenter';
+import CheckQuotationBtn from './CheckQuotationBtn';
+import Footer from '../Footer';
+import BottomNavigation from 'components/BottomNavigation';
 
 type Props = {};
 
@@ -213,47 +216,54 @@ const CompanyMainPage = (props: Props) => {
   );
 
   return (
-    <Container>
-      <HeadWrapper>
-        <LogoBox>
-          <Image
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            layout="intrinsic"
-            src={Logos}
-            alt="logo"
-          />
-        </LogoBox>
-        <IconWrapper>
-          <FirstIconBox onClick={() => router.push('/alarm')}>
-            <Image src={Ring} alt="alarmIcon" />
-          </FirstIconBox>
+    <>
+      <Container>
+        <HeadWrapper>
+          <LogoBox>
+            <Image
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              layout="intrinsic"
+              src={Logos}
+              alt="logo"
+            />
+          </LogoBox>
+          <IconWrapper>
+            <FirstIconBox onClick={() => router.push('/alarm')}>
+              <Image src={Ring} alt="alarmIcon" />
+            </FirstIconBox>
 
-          {(['right'] as const).map((anchor) => (
-            <React.Fragment key={anchor}>
-              <HamburgerOn onClick={toggleDrawer(anchor, true)}>
-                <IconBox>
-                  <Image src={Hamburger} alt="listIcon" />
-                </IconBox>
-              </HamburgerOn>
-              <Drawer
-                anchor={anchor}
-                open={state[anchor]}
-                onClose={toggleDrawer(anchor, false)}
-                // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
-              >
-                {list(anchor)}
-              </Drawer>
-            </React.Fragment>
-          ))}
-        </IconWrapper>
-      </HeadWrapper>
-      <Carousel />
-      <QuotationCenter />
-    </Container>
+            {(['right'] as const).map((anchor) => (
+              <React.Fragment key={anchor}>
+                <HamburgerOn onClick={toggleDrawer(anchor, true)}>
+                  <IconBox>
+                    <Image src={Hamburger} alt="listIcon" />
+                  </IconBox>
+                </HamburgerOn>
+                <Drawer
+                  anchor={anchor}
+                  open={state[anchor]}
+                  onClose={toggleDrawer(anchor, false)}
+                  // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
+                >
+                  {list(anchor)}
+                </Drawer>
+              </React.Fragment>
+            ))}
+          </IconWrapper>
+        </HeadWrapper>
+
+        <Carousel />
+
+        <QuotationCenter />
+        <CheckQuotationBtn />
+      </Container>
+      <Footer />
+      <BottomNavigation />
+    </>
   );
 };
 
