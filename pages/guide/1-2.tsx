@@ -208,7 +208,8 @@ const Guide1_2 = () => {
           chargers: selectedOptionEn,
           installationPurpose: InstallationPurposeType[clicked],
           installationSiDo: selectedRegion.m9,
-          installationSiGunGu: selectedRegion.m10,
+          installationSiGunGu:
+            selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
         },
       })
         .then((res) => {
@@ -223,7 +224,7 @@ const Guide1_2 = () => {
               canDuplicateApply: res.data.canDuplicateApply,
               memberName: res.data.memberName,
               region1: selectedRegion.m9,
-              region2: selectedRegion.m10,
+              region2: selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
             }),
           );
         })
