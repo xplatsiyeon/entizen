@@ -93,9 +93,6 @@ const Profile = () => {
           const text = error.response.data.message;
           setErrorModal((prev) => !prev);
           setErrorMessage(text);
-          setTimeout(() => {
-            router.push('/');
-          }, 1500);
         });
     } catch (error: any) {
       console.log('post 요청 실패');
@@ -103,9 +100,6 @@ const Profile = () => {
       console.log(error);
       setErrorModal((prev) => !prev);
       setErrorMessage(error);
-      setTimeout(() => {
-        router.push('/');
-      }, 1500);
     }
   };
   // 토큰 보내기
@@ -123,17 +117,20 @@ const Profile = () => {
       console.log(err);
     }
   };
+  // 모달창 핸들러
+  const onClickModal = () => {
+    setErrorModal((prev) => !prev);
+    router.push('/');
+  };
+
+  // 토큰 보내기 함수 실행
   useEffect(() => {
     getProfile();
   }, []);
   return (
     <Wrapper>
       {errorModal && (
-        <Modal
-          text={errorMessage}
-          color={colors.main}
-          click={() => setErrorModal((prev) => !prev)}
-        />
+        <Modal text={errorMessage} color={colors.main} click={onClickModal} />
       )}
       <Loader />
       <Text>카카오 로그인 중입니다...</Text>
