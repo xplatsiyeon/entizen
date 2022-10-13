@@ -11,6 +11,7 @@ type Props = {
   setPasswordModal: Dispatch<SetStateAction<boolean>>;
   setPasswordInput: Dispatch<SetStateAction<string>>;
   click?: () => void;
+  passowrdValid: boolean;
 };
 
 const PasswordModal = ({
@@ -20,6 +21,7 @@ const PasswordModal = ({
   click,
   setPasswordModal,
   setPasswordInput,
+  passowrdValid,
 }: Props) => {
   const outside = useRef();
 
@@ -32,10 +34,8 @@ const PasswordModal = ({
     }
   };
 
-  useEffect(() => {
-    // passwordInput 업데이트
-    console.log(passwordInput);
-  }, [passwordInput]);
+  // passwordInput 업데이트
+  useEffect(() => {}, [passwordInput]);
 
   return (
     <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
@@ -48,6 +48,7 @@ const PasswordModal = ({
           </ContentText>
         </Content>
         <Inputs value={passwordInput} onChange={onChange} type="password" />
+        {passowrdValid && <Alert>올바르지 않는 비밀번호입니다.</Alert>}
         <BtnBox>
           <CheckBtn
             checkPassword={checkPassword}
@@ -90,11 +91,9 @@ const ContentText = styled(Typography)`
   letter-spacing: -2%;
   text-align: center;
 `;
-
 const Content = styled(Box)`
   width: 190.5pt;
 `;
-
 const Inputs = styled(TextField)`
   margin-top: 21pt;
   width: 100%;
@@ -105,12 +104,10 @@ const Inputs = styled(TextField)`
     padding-left: 12pt;
   }
 `;
-
 const BtnBox = styled(Box)`
   width: 100%;
   margin-top: 30pt;
 `;
-
 const CheckBtn = styled.button<{ checkPassword: boolean }>`
   width: 100%;
   padding: 15pt 84pt;
@@ -122,5 +119,13 @@ const CheckBtn = styled.button<{ checkPassword: boolean }>`
   background-color: ${({ checkPassword }) =>
     checkPassword ? `${colors.main}` : `${colors.lightGray}`};
   color: #ffffff;
+`;
+const Alert = styled.p`
+  margin-top: 9pt;
+  color: ${colors.sub4};
+  font-weight: 400;
+  font-size: 9pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
 `;
 export default PasswordModal;

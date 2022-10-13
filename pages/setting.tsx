@@ -20,6 +20,7 @@ const Setting = () => {
   const [passwordModal, setPasswordModal] = useState<boolean>(false);
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<boolean>(false);
+  const [passowrdValid, setPassowrdValid] = useState(false);
 
   // 네이버 로그아웃
   const NaverLogout = async () => {
@@ -147,12 +148,17 @@ const Setting = () => {
             ContentType: 'application/json',
           },
           withCredentials: true,
-        }).then((res) => {
-          if (res.data.isSuccess === true) {
-            setSecessionFirstModal(true);
-            setPasswordModal(false);
-          }
-        });
+        })
+          .then((res) => {
+            if (res.data.isSuccess === true) {
+              setSecessionFirstModal(true);
+              setPasswordModal(false);
+            }
+          })
+          .catch((res) => {
+            console.log('api 에러 발생');
+            setPassowrdValid((prev) => !prev);
+          });
       } catch (error) {
         console.log('error -->' + error);
       }
@@ -171,6 +177,7 @@ const Setting = () => {
     <>
       {passwordModal && (
         <PasswordModal
+          passowrdValid={passowrdValid}
           passwordInput={passwordInput}
           setPasswordInput={setPasswordInput}
           onChange={handlePasswordChange}
