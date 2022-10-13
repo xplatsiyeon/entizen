@@ -65,7 +65,7 @@ const Profile = () => {
           console.log(resData);
           const token: JwtTokenType = jwt_decode(resData.accessToken);
           localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-          localStorage.setItem('USER_ID', resData.kakao_account.email);
+          localStorage.setItem('USER_ID', jsonData.email);
           localStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(resData.accessToken),
@@ -74,7 +74,7 @@ const Profile = () => {
             'REFRESH_TOKEN',
             JSON.stringify(resData.refreshToken),
           );
-          dispatch(originUserAction.set(resData.kakao_account.email));
+          dispatch(originUserAction.set(jsonData.email));
           router.push('/');
         } else {
           // 회원가입
