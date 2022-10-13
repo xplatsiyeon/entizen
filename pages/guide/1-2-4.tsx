@@ -132,14 +132,14 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
   @media (max-height: 809pt) {
     display: block;
-    height: 100vh;
-    padding: 0 15pt;
+    width: 100%;
+    padding: 0;
   }
 `;
 const Wrapper = styled.div`
@@ -152,7 +152,6 @@ const Wrapper = styled.div`
     width: 100%;
     padding: 0;
   }
-
 `;
 const SubsidyResult = styled.div`
   padding-top: 66pt;
@@ -171,7 +170,6 @@ const ResultContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 4.5pt;
-
   .box {
     padding-top: 45pt;
     width: 100%;
@@ -220,8 +218,8 @@ const ResultContainer = styled.div`
   }
 
   @media (max-width: 899pt) {
-    width: 100%;
-    padding: 0 15pt;
+    box-sizing: border-box;
+    margin: 0 15pt;
   }
 `;
 const Notice = styled.p`
