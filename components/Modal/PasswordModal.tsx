@@ -9,7 +9,7 @@ type Props = {
   checkPassword: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setPasswordModal: Dispatch<SetStateAction<boolean>>;
-
+  setPasswordInput: Dispatch<SetStateAction<string>>;
   click?: () => void;
 };
 
@@ -19,6 +19,7 @@ const PasswordModal = ({
   checkPassword,
   click,
   setPasswordModal,
+  setPasswordInput,
 }: Props) => {
   const outside = useRef();
 
@@ -27,6 +28,7 @@ const PasswordModal = ({
   ) => {
     if (outside.current === e.target) {
       setPasswordModal((prev) => !prev);
+      setPasswordInput('');
     }
   };
 

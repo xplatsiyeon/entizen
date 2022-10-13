@@ -172,6 +172,7 @@ const Setting = () => {
       {passwordModal && (
         <PasswordModal
           passwordInput={passwordInput}
+          setPasswordInput={setPasswordInput}
           onChange={handlePasswordChange}
           checkPassword={checkPassword}
           click={authPassowrd}
