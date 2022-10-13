@@ -175,6 +175,7 @@ const Setting = () => {
           onChange={handlePasswordChange}
           checkPassword={checkPassword}
           click={authPassowrd}
+          setPasswordModal={setPasswordModal}
         />
       )}
       {logoutModal && (
