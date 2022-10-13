@@ -66,7 +66,6 @@ const Profile = () => {
           const token: JwtTokenType = jwt_decode(res.data.accessToken);
           localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
           localStorage.setItem('USER_ID', data.kakao_account.email);
-          console.log(user.email);
           localStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(data.accessToken),
