@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { RootState } from 'store/store';
@@ -8,13 +8,13 @@ import { originUserAction } from 'store/userInfoSlice';
 import { userAction } from 'store/userSlice';
 import { kakaoInit } from 'utils/kakao';
 import jwt_decode from 'jwt-decode';
+import Loader from 'components/Loader';
+import styled from '@emotion/styled';
+
 const Profile = () => {
-  const [user_id, setUserId] = useState();
-  const [email, setEmail] = useState();
-  const [profileImage, setProfileImage] = useState();
-  const { user } = useSelector((state: RootState) => state.userList);
-  const dispatch = useDispatch();
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.userList);
 
   interface JwtTokenType {
     exp: number;
@@ -44,27 +44,22 @@ const Profile = () => {
         withCredentials: true,
       }).then((res) => {
         console.log('카카오로그인 KaKaAPI =>  ' + res);
-        console.log(res);
         console.log(res.data);
-        // const match = res.config.data.match(/\((.*)\)/);
-        let c = res.data;
-        let d = JSON.parse(res.config.data);
+        let data = res.data;
+        let jsonData = JSON.parse(res.config.data);
         console.log('카카오 로그인 axios 부분입니다 ! ======');
-        console.log(c);
+        console.log(data);
         dispatch(
           userAction.add({
             ...user,
-            uuid: d.uuid,
-            email: d.email,
-            snsType: d.snsType,
-            snsLoginIdx: c.snsLoginIdx,
-            isMember: c.isMember,
+            uuid: jsonData.uuid,
+            email: jsonData.email,
+            snsType: jsonData.snsType,
+            snsLoginIdx: data.snsLoginIdx,
+            isMember: data.isMember,
           }),
         );
-        // console.log('c 확인');
-        // console.log(c);
-        console.log(c.isMember);
-        if (c.isMember === true) {
+        if (data.isMember === true) {
           // 로그인
           console.log('멤버 확인');
           console.log(data);
@@ -72,8 +67,14 @@ const Profile = () => {
           localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
           localStorage.setItem('USER_ID', data.kakao_account.email);
           // console.log(user.email);
-          localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-          localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+          localStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(data.accessToken),
+          );
+          localStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(data.refreshToken),
+          );
           dispatch(originUserAction.set(data.kakao_account.email));
           router.push('/');
         } else {
@@ -87,9 +88,9 @@ const Profile = () => {
       console.log(error);
     }
   };
+  // 토큰 보내기
   const getProfile = async () => {
     const kakao = kakaoInit();
-
     try {
       // Kakao SDK API를 이용해 사용자 정보 획득
       let data = await kakao.API.request({
@@ -97,9 +98,6 @@ const Profile = () => {
       });
       console.log('프로필 데이터');
       console.log(data);
-      // 사용자 정보 변수에 저장
-      setUserId(data.id);
-      setEmail(data.kakao_account.email);
       KaKaApi(data);
     } catch (err) {
       console.log(err);
@@ -109,10 +107,24 @@ const Profile = () => {
     getProfile();
   }, []);
   return (
-    <div>
-      <h2>{user_id}</h2>
-      <h2>{email}</h2>
-    </div>
+    <Wrapper>
+      <Loader />
+      <Text>카카오 로그인 중입니다...</Text>
+    </Wrapper>
   );
 };
 export default Profile;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+`;
+const Text = styled.div`
+  margin-top: 10pt;
+  font-size: 14pt;
+  font-weight: 700;
+`;
