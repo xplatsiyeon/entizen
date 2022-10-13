@@ -283,7 +283,9 @@ const Signin = (props: Props) => {
   }, [selectedLoginType]);
 
   const handleNaver = async () => {
-    naverRef.current.children[0].click();
+    if (naverRef) {
+      naverRef.current.children[0].click();
+    }
   };
 
   return (
