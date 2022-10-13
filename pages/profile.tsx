@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { RootState } from 'store/store';
@@ -15,6 +15,8 @@ const Profile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.userList);
+  const [errorModal, setErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   interface JwtTokenType {
     exp: number;
@@ -42,45 +44,54 @@ const Profile = () => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      }).then((res) => {
-        console.log('카카오로그인 KaKaAPI =>  ' + res);
-        console.log(res.data);
-        let resData = res.data;
-        let jsonData = JSON.parse(res.config.data);
-        console.log('카카오 로그인 axios 부분입니다 ! ======');
-        console.log(jsonData);
-        dispatch(
-          userAction.add({
-            ...user,
-            uuid: jsonData.uuid,
-            email: jsonData.email,
-            snsType: jsonData.snsType,
-            snsLoginIdx: resData.snsLoginIdx,
-            isMember: resData.isMember,
-          }),
-        );
-        if (resData.isMember === true) {
-          // 로그인
-          console.log('멤버 확인');
-          console.log(resData);
-          const token: JwtTokenType = jwt_decode(resData.accessToken);
-          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-          localStorage.setItem('USER_ID', jsonData.email);
-          localStorage.setItem(
-            'ACCESS_TOKEN',
-            JSON.stringify(resData.accessToken),
+      })
+        .then((res) => {
+          console.log('카카오로그인 KaKaAPI =>  ' + res);
+          console.log(res.data);
+          let resData = res.data;
+          let jsonData = JSON.parse(res.config.data);
+          console.log('카카오 로그인 axios 부분입니다 ! ======');
+          console.log(jsonData);
+          dispatch(
+            userAction.add({
+              ...user,
+              uuid: jsonData.uuid,
+              email: jsonData.email,
+              snsType: jsonData.snsType,
+              snsLoginIdx: resData.snsLoginIdx,
+              isMember: resData.isMember,
+            }),
           );
-          localStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(resData.refreshToken),
-          );
-          dispatch(originUserAction.set(jsonData.email));
-          router.push('/');
-        } else {
-          // 회원가입
-          router.push('/signUp/SnsTerms');
-        }
-      });
+          if (resData.isMember === true) {
+            // 로그인
+            console.log('멤버 확인');
+            console.log(resData);
+            const token: JwtTokenType = jwt_decode(resData.accessToken);
+            localStorage.setItem(
+              'SNS_MEMBER',
+              JSON.stringify(token.isSnsMember),
+            );
+            localStorage.setItem('USER_ID', jsonData.email);
+            localStorage.setItem(
+              'ACCESS_TOKEN',
+              JSON.stringify(resData.accessToken),
+            );
+            localStorage.setItem(
+              'REFRESH_TOKEN',
+              JSON.stringify(resData.refreshToken),
+            );
+            dispatch(originUserAction.set(jsonData.email));
+            router.push('/');
+          } else {
+            // 회원가입
+            router.push('/signUp/SnsTerms');
+          }
+        })
+        .catch((error) => {
+          const text = error.response.data.message;
+          setErrorModal((prev) => !prev);
+          setErrorMessage(text);
+        });
     } catch (error: any) {
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
