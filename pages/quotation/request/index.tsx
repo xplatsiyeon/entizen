@@ -43,6 +43,7 @@ const Quotation1_1 = () => {
           <Wrapper>
             {isModal && (
               <TwoBtnModal
+                exit={HandleModal}
                 text={
                   '지금 나가시면 \n 작성하신 내용이 삭제됩니다. \n 그래도 괜찮으시겠습니까?'
                 }

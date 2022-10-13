@@ -180,6 +180,7 @@ const Setting = () => {
       )}
       {logoutModal && (
         <TwoBtnModal
+          exit={() => setLogoutModal(false)}
           text={'로그아웃하시겠습니까?'}
           leftBtnText={'아니오'}
           rightBtnText={'네'}
@@ -191,6 +192,7 @@ const Setting = () => {
       )}
       {secessionFirstModal && (
         <RequestModal
+          exit={() => setSecessionFirstModal(!secessionFirstModal)}
           title={'정말 탈퇴하시겠습니까?'}
           subtitle={`사용하고 계신 아이디${userID}는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.`}
           leftControl={ModalLeftControl}
@@ -200,6 +202,7 @@ const Setting = () => {
       )}
       {alertModal && (
         <TwoBtnModal
+          exit={() => setAlertModal(false)}
           leftBtnColor="#FF1B2D"
           leftBtnText="아니오"
           leftBtnControl={() => setAlertModal(false)}

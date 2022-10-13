@@ -9,7 +9,6 @@ import styled from '@emotion/styled';
 import WebFooter from 'web-components/WebFooter';
 import WebHeader from 'web-components/WebHeader';
 
-
 const Mypage1_4 = ({ data }: any) => {
   const [isModal, setModal] = useState(false);
   const route = useRouter();
@@ -23,30 +22,30 @@ const Mypage1_4 = ({ data }: any) => {
     <WebBody>
       <WebHeader />
       <Inner>
-    <Wrapper>
-      {isModal && (
-        <RequestModal
-          title={'Charge Point의 \n 구독상품으로 선택하시겠습니까?'}
-          subtitle={
-            '선택 후 정확한 견적을 위해 현장실사가 진행되며, \n고객님의 연락처가 전달됩니다.'
-          }
-          leftControl={onClcikModal}
-          rightControl={rightControl}
-        />
-      )}
-      <MypageHeader
-        title="상세내용"
-        exitBtn={true}
-        handleOnClick={handleOnClick}
-      />
-      <BiddingQuote pb={101.25} />
-      <TwoButton onClcikModal={onClcikModal} />
-    </Wrapper>
-        </Inner>
-        <WebFooter />
-      </WebBody>
+        <Wrapper>
+          {isModal && (
+            <RequestModal
+              exit={() => setModal((prev) => !prev)}
+              title={'Charge Point의 \n 구독상품으로 선택하시겠습니까?'}
+              subtitle={
+                '선택 후 정확한 견적을 위해 현장실사가 진행되며, \n고객님의 연락처가 전달됩니다.'
+              }
+              leftControl={onClcikModal}
+              rightControl={rightControl}
+            />
+          )}
+          <MypageHeader
+            title="상세내용"
+            exitBtn={true}
+            handleOnClick={handleOnClick}
+          />
+          <BiddingQuote pb={101.25} />
+          <TwoButton onClcikModal={onClcikModal} />
+        </Wrapper>
+      </Inner>
+      <WebFooter />
+    </WebBody>
   );
-  
 };
 
 export default Mypage1_4;

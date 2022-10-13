@@ -19,7 +19,6 @@ import WebFooter from 'web-components/WebFooter';
 //import Request from '..';
 import RequestMain from 'components/mypage/request/requestMain';
 
-
 const Mypage1_3 = ({ data }: any) => {
   const route = useRouter();
   // 모달 on / off
@@ -33,6 +32,7 @@ const Mypage1_3 = ({ data }: any) => {
       {/* 모달 */}
       {modalOpen && (
         <TwoBtnModal
+          exit={handleOnClick}
           text="견적을 취소하시겠습니까?"
           leftBtnText="취소하기"
           leftBtnColor={colors.orange}
@@ -41,35 +41,36 @@ const Mypage1_3 = ({ data }: any) => {
           leftBtnControl={backPage}
           rightBtnControl={handleOnClick}
         />
-      )}<Body>
-      <WebHeader num={0} now={'mypage'} />
-      <Inner>
-        <FlexBox>
-          <Wrap1>
-            <RequestMain page={0} />
-          </Wrap1>
-          <Wrap2>
-      <MypageHeader
-        title="내 견적서"
-        cancel="견적 취소"
-        back={true}
-        handleOnClick={handleOnClick}
-      />
-      <EstimateContainer />
-      {/* request 1-3 */}
-      <SubscriptionProduct />
-      <TextBox>
-        <div>선택하기 어려우신가요?</div>
-        <CommunicationBox
-          text="엔티즌과 소통하기"
-          clickHandler={() => route.push('/chatting/1')}
-        />
-      </TextBox>
-      </Wrap2>
-        </FlexBox>
-      </Inner>
-      <WebFooter />
-    </Body>
+      )}
+      <Body>
+        <WebHeader num={0} now={'mypage'} />
+        <Inner>
+          <FlexBox>
+            <Wrap1>
+              <RequestMain page={0} />
+            </Wrap1>
+            <Wrap2>
+              <MypageHeader
+                title="내 견적서"
+                cancel="견적 취소"
+                back={true}
+                handleOnClick={handleOnClick}
+              />
+              <EstimateContainer />
+              {/* request 1-3 */}
+              <SubscriptionProduct />
+              <TextBox>
+                <div>선택하기 어려우신가요?</div>
+                <CommunicationBox
+                  text="엔티즌과 소통하기"
+                  clickHandler={() => route.push('/chatting/1')}
+                />
+              </TextBox>
+            </Wrap2>
+          </FlexBox>
+        </Inner>
+        <WebFooter />
+      </Body>
 
       {/* request 2-3 */}
       {/* <Mypage2_1 /> */}
@@ -78,7 +79,6 @@ const Mypage1_3 = ({ data }: any) => {
 };
 
 export default Mypage1_3;
-
 
 const Body = styled.div`
   display: flex;
@@ -100,7 +100,7 @@ const Inner = styled.div`
   display: block;
   position: relative;
   width: 900pt;
-  margin: 45.75pt auto ;
+  margin: 45.75pt auto;
 
   @media (max-width: 899pt) {
     width: 100%;
@@ -152,6 +152,6 @@ const TextBox = styled.div`
     color: ${colors.lightGray3};
   }
   @media (max-width: 899pt) {
-  padding-top: 75pt;
+    padding-top: 75pt;
   }
 `;

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useRef } from 'react';
 import colors from 'styles/colors';
 import CheckIcon from 'public/images/check-small.png';
 import CheckCircleOn from 'public/images/CheckCircle-on.png';
@@ -20,6 +20,15 @@ interface Props {
 const QuotationModal = ({ setIsModal, isModal }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const outside = useRef();
+
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside.current === e.target) {
+      setIsModal((prev) => !prev);
+    }
+  };
 
   const HandleButton = () => {
     dispatch(quotationAction.init());
@@ -28,7 +37,7 @@ const QuotationModal = ({ setIsModal, isModal }: Props) => {
   };
 
   return (
-    <ModalWrapper>
+    <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <ModalBox>
         <ImageBox>
           <div className="checkCicleOn-icon">

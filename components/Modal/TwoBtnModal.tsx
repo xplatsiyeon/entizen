@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useRef } from 'react';
 
 type Props = {
   text: string;
@@ -10,6 +10,7 @@ type Props = {
   rightBtnColor: string;
   leftBtnControl?: () => void;
   rightBtnControl?: () => void;
+  exit: () => void;
 };
 
 const TwoBtnModal = ({
@@ -20,9 +21,19 @@ const TwoBtnModal = ({
   rightBtnColor,
   leftBtnControl,
   rightBtnControl,
+  exit,
 }: Props) => {
+  const outside = useRef(null);
+
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside.current === e.target) {
+      exit();
+    }
+  };
   return (
-    <ModalWrapper>
+    <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <ModalBox>
         <Content>
           <ContentText>{text}</ContentText>

@@ -68,6 +68,7 @@ const SignUpContainer = (props: Props) => {
     <>
       {modalOpen && (
         <TwoBtnModal
+          exit={gobackQuestion}
           text={
             '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
           }

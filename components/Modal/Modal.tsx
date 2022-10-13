@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
-import React from 'react';
+import React, { useRef } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
@@ -10,8 +10,17 @@ type Props = {
 };
 
 const Modal = ({ text, click, color }: Props) => {
+  const outside = useRef();
+
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside.current === e.target) {
+      click();
+    }
+  };
   return (
-    <ModalWrapper>
+    <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <ModalBox>
         <Content>
           <ContentText>{text}</ContentText>

@@ -145,6 +145,7 @@ const SignUpCheck = () => {
         <Inner>
           {/* {modalOpen ? (
             <TwoBtnModal
+              exit={leftBtnControl}
               text={'로그아웃하시겠습니까?'}
               rightBtnText={'예'}
               leftBtnText={'아니오'}
