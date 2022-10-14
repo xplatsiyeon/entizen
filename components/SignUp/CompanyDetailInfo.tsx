@@ -104,11 +104,11 @@ const CompanyDetailInfo = ({
   // 버튼 유효성 검사
   useEffect(() => {
     if (
-      companyName.length > 2 &&
-      postNumber.length > 2 &&
-      companyAddress.length > 2 &&
-      companyDetailAddress.length > 2 &&
-      businessRegistration.length > 1
+      companyName &&
+      postNumber &&
+      companyAddress &&
+      companyDetailAddress &&
+      businessRegistration.length >= 1
     ) {
       setNextPageOn(true);
     } else {
