@@ -10,9 +10,9 @@ import ManagerInfo from './ManagerInfo';
 import TermContent from './TermContent';
 
 export interface BusinessRegistrationType {
-  name: string;
-  size: number;
   url: any;
+  size: number;
+  originalName: string;
 }
 
 type Props = {};

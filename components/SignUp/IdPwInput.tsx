@@ -137,68 +137,6 @@ const IdPwInput = ({
     setCheckPw('');
   };
 
-  const iconAdorment = {
-    endAdornment: (
-      <InputAdornment position="start">
-        <CancelRoundedIcon
-          onClick={handleDelete}
-          sx={{
-            color: '#E2E5ED',
-            width: '10.5pt',
-            marginRight: '9pt',
-            cursor: 'pointer',
-          }}
-        />
-        <Typography
-          sx={{
-            fontSize: '14px',
-            fontWeight: '400',
-            lineHeight: '16px',
-            letterSpacing: '-0.02em',
-            textAlign: 'left',
-            color: `${colors.main}`,
-          }}
-          variant="subtitle1"
-          onClick={() => setPwShow(!pwShow)}
-          onMouseDown={handleMouseDownPassword}
-        >
-          {pwShow ? '미표시' : '표시'}
-        </Typography>
-      </InputAdornment>
-    ),
-  };
-  const secondIconAdorment = {
-    endAdornment: (
-      <InputAdornment position="start">
-        <CancelRoundedIcon
-          onClick={handleTwoDelete}
-          sx={{
-            color: '#E2E5ED',
-            width: '10.5pt',
-            marginRight: '9pt',
-            cursor: 'pointer',
-          }}
-        />
-        <Typography
-          sx={{
-            fontSize: '14px',
-            fontWeight: '400',
-            lineHeight: '16px',
-            letterSpacing: '-0.02em',
-            textAlign: 'left',
-            color: `${colors.main}`,
-          }}
-          variant="subtitle1"
-          onClick={() => setPwShow(!pwShow)}
-          onMouseDown={handleMouseDownPassword}
-        >
-          {pwShow ? '미표시' : '표시'}
-        </Typography>
-      </InputAdornment>
-    ),
-  };
-  const iconAdornment = pwSelected ? iconAdorment : {};
-  const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
@@ -272,6 +210,69 @@ const IdPwInput = ({
     }
     route.push('/signUp/Complete');
   };
+
+  const iconAdorment = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CancelRoundedIcon
+          onClick={handleDelete}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
+        />
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+          }}
+          variant="subtitle1"
+          onClick={() => setPwShow(!pwShow)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+  const secondIconAdorment = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CancelRoundedIcon
+          onClick={handleTwoDelete}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
+        />
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+          }}
+          variant="subtitle1"
+          onClick={() => setPwShow(!pwShow)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+  const iconAdornment = pwSelected ? iconAdorment : {};
+  const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
 
   return (
     <>

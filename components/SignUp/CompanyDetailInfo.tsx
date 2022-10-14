@@ -81,9 +81,9 @@ const CompanyDetailInfo = ({
       const imageName = files![i].name;
       const imageSize = files![i].size;
       newArr.push({
-        size: imageSize,
-        name: imageName,
         url: imageUrl,
+        size: imageSize,
+        originalName: imageName,
       });
     }
     setBusinessRegistration(newArr);
