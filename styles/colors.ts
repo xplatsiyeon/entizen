@@ -24,6 +24,7 @@ const colors = {
   blue: '#0057ff',
   blue2: '#007AFE',
   blue3: '#B096EF',
+  blue4: '#5278ff',
 };
 
 export type Colors = typeof colors;

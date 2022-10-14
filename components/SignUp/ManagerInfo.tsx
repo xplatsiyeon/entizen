@@ -1,21 +1,24 @@
-import styled from '@emotion/styled';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import axios from 'axios';
+import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import Btn from './button';
 
 type Props = {
+  email: string;
   setName: Dispatch<SetStateAction<string>>;
   setPhoneNumber: Dispatch<SetStateAction<string>>;
+  setEmail: Dispatch<SetStateAction<string>>;
 };
 
-const ManagerInfo = ({ setName, setPhoneNumber }: Props) => {
-  const handleNextClick = () => {};
+const ManagerInfo = ({ email, setName, setEmail, setPhoneNumber }: Props) => {
   const route = useRouter();
 
   const [data, setData] = useState<any>();
+  const [authCode, setAuthCode] = useState<string>('');
+  const [isValid, setIsValid] = useState<boolean>(false);
 
   // ========================== 본인인증 창 띄우기
   const fnPopup = () => {
@@ -51,6 +54,47 @@ const ManagerInfo = ({ setName, setPhoneNumber }: Props) => {
 
     // if(a && a.isMember)
   };
+  // email 상태
+  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setEmail(value);
+  };
+  const onChangeEmailCode = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setAuthCode(value);
+  };
+  // 이메일 인증
+  const certifyEmail = () => {
+    console.log('check');
+    console.log('check');
+    const EMAIL_API = 'https://test-api.entizen.kr/api/mail/auth';
+    axios({
+      method: 'post',
+      url: EMAIL_API,
+      data: {
+        email,
+      },
+    }).then((res) => console.log(res));
+  };
+  // 이메일 인증코드 확인
+  const certifyEmailCode = () => {
+    console.log('check');
+    console.log('check');
+    const EMAIL_API = 'https://test-api.entizen.kr/api/mail/auth/validation';
+    axios({
+      method: 'post',
+      url: EMAIL_API,
+      data: {
+        email,
+        authCode,
+      },
+    }).then((res) => {
+      if (res.data.isValidAuthCode) {
+        setIsValid(true);
+      }
+    });
+  };
+
   useEffect(() => {
     console.log(localStorage.getItem('key'));
     const memberType = 'USER';
@@ -63,7 +107,7 @@ const ManagerInfo = ({ setName, setPhoneNumber }: Props) => {
       .then((res) => {
         // console.log(res.data);
         setData(res.data.executedData);
-        console.log(data);
+        // console.log(data);
         // encodeData = res.data.executedData;
       })
       .catch((error) => {
@@ -79,7 +123,7 @@ const ManagerInfo = ({ setName, setPhoneNumber }: Props) => {
         입력해주세요
       </Info>
       <SpanText>고객에게 전달되는 정보에요!</SpanText>
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -96,7 +140,7 @@ const ManagerInfo = ({ setName, setPhoneNumber }: Props) => {
           //   value={companyName}
           name="companyName"
         />
-      </Box>
+      </Box> */}
       <Box
         sx={{
           display: 'flex',
@@ -109,14 +153,16 @@ const ManagerInfo = ({ setName, setPhoneNumber }: Props) => {
         <Label>담당자 이메일</Label>
         <Input
           placeholder="이메일 입력"
-          //   onChange={handleCompanyPostNumberChange}
-          //   value={postNumber}
+          onChange={onChangeEmail}
+          value={email}
           name="id"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <OverlapBtn className="overlap">
-                  <Typography className="checkOverlap">인증</Typography>
+                  <Typography className="checkOverlap" onClick={certifyEmail}>
+                    인증
+                  </Typography>
                 </OverlapBtn>
               </InputAdornment>
             ),
@@ -124,14 +170,19 @@ const ManagerInfo = ({ setName, setPhoneNumber }: Props) => {
         />
         <Input
           placeholder="이메일 인증번호 입력"
-          //   onChange={handleCompanyPostNumberChange}
-          //   value={postNumber}
+          onChange={onChangeEmailCode}
+          value={authCode}
           name="id"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <OverlapBtn className="overlap">
-                  <Typography className="checkOverlap">확인</Typography>
+                  <Typography
+                    className="checkOverlap"
+                    onClick={certifyEmailCode}
+                  >
+                    확인
+                  </Typography>
                 </OverlapBtn>
               </InputAdornment>
             ),
@@ -152,7 +203,7 @@ const ManagerInfo = ({ setName, setPhoneNumber }: Props) => {
           <input type="hidden" name="recvMethodType" value="get" />
           {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
           <Btn
-            isClick={true}
+            isClick={isValid}
             // name={'form_chk'}
             text={'본인인증하기'}
             handleClick={fnPopup}
@@ -206,11 +257,9 @@ const Input = styled(TextField)`
     font-size: 12pt;
     line-height: 12pt;
   }
-
   & .MuiInputBase-root {
     padding-right: 9pt;
   }
-
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;
@@ -253,6 +302,10 @@ const OverlapBtn = styled.button`
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 12pt;
+  cursor: pointer;
+  :hover {
+    background-color: ${colors.main};
+  }
   &.changeColor {
     background-color: ${colors.main};
   }

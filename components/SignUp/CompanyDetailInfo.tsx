@@ -14,6 +14,8 @@ import camera from 'public/images/gray_camera.png';
 import CloseImg from 'public/images/XCircle.svg';
 import Image from 'next/image';
 import AddImg from 'public/images/add-img.svg';
+import CompanyAddress from './CompanyAddress';
+import FileSelectModal from 'components/Modal/FileSelectModal';
 
 type Props = {
   level: number;
@@ -43,6 +45,8 @@ const CompanyDetailInfo = ({
   const imgRef = useRef<any>(null);
 
   const [nextPageOn, setNextPageOn] = useState<boolean>(false);
+  const [address, setAddress] = useState<boolean>(false);
+  const [fileModal, setFileModal] = useState<boolean>(false);
   const [review, setReview] = useState<{
     productImg: any;
     createDt: number;
@@ -107,6 +111,11 @@ const CompanyDetailInfo = ({
     copyArr[0].productImg.splice(name, 1);
     setReview({ ...review, productImg: copyArr[0].productImg });
   };
+
+  const onClickFile = () => {};
+  const cencleBtn = () => {
+    setFileModal(false);
+  };
   useEffect(() => {
     if (
       companyName.length > 2 &&
@@ -122,8 +131,24 @@ const CompanyDetailInfo = ({
     console.log(review.productImg[0]);
   }, [companyName, postNumber, companyAddress, companyDetailAddress, review]);
 
+  // 주소검색
+  if (address) {
+    return (
+      <CompanyAddress
+        setPostNumber={setPostNumber}
+        setCompanyAddress={setCompanyAddress}
+        setAddress={setAddress}
+      />
+    );
+  }
+
   return (
     <>
+      {/* <FileSelectModal
+        onClickFile={onClickFile}
+        onClickPhoto={imgHandler}
+        cencleBtn={cencleBtn}
+      /> */}
       <Info>
         상세 내용을
         <br />
@@ -159,13 +184,17 @@ const CompanyDetailInfo = ({
         <Label>주소</Label>
         <Input
           placeholder="회사 우편번호 입력"
-          onChange={(e) => setPostNumber(e.target.value)}
+          // onChange={(e) => setPostNumber(e.target.value)}
           value={postNumber}
           name="id"
           InputProps={{
+            readOnly: true,
             endAdornment: (
               <InputAdornment position="end">
-                <OverlapBtn className="overlap">
+                <OverlapBtn
+                  className="overlap"
+                  onClick={() => setAddress(true)}
+                >
                   <Typography className="checkOverlap">주소찾기</Typography>
                 </OverlapBtn>
               </InputAdornment>
@@ -175,8 +204,11 @@ const CompanyDetailInfo = ({
         <Input
           placeholder="회사 주소 입력"
           value={companyAddress}
-          onChange={handleCompanyAddress}
+          // onChange={handleCompanyAddress}
           name="checkPw"
+          InputProps={{
+            readOnly: true,
+          }}
         />
         <Input
           placeholder="회사 상세주소 입력"
@@ -191,6 +223,7 @@ const CompanyDetailInfo = ({
           <Form>
             <label>사업자 등록증</label>
             <div>
+              {/* <File onClick={() => setFileModal(true)}> */}
               <File onClick={imgHandler}>
                 <Image src={AddImg} alt="img" />
                 <div>이미지 또는 파일 업로드</div>
@@ -305,7 +338,6 @@ const Form = styled.form`
   }
   & > div {
     margin-top: 12pt;
-    padding: 15pt 67.5pt;
     border: 0.75pt dashed ${colors.lightGray};
     border-radius: 6pt;
     display: flex;
@@ -320,6 +352,7 @@ const File = styled.label`
   justify-content: center;
   align-items: center;
   gap: 9pt;
+  padding: 15pt 0;
   & > input {
     position: absolute;
     width: 0;
@@ -345,7 +378,11 @@ const OverlapBtn = styled.button`
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 12pt;
+  cursor: pointer;
   &.changeColor {
+    background-color: ${colors.main};
+  }
+  :hover {
     background-color: ${colors.main};
   }
 `;

@@ -20,6 +20,7 @@ const SignUpContainer = (props: Props) => {
   const [userType, setUserType] = useState<number>(-1);
 
   const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
@@ -62,7 +63,7 @@ const SignUpContainer = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log(userType);
+    console.log('유저타입->' + userType);
   }, [userType]);
   return (
     <>
@@ -80,6 +81,7 @@ const SignUpContainer = (props: Props) => {
           rightBtnControl={gobackQuestion}
         />
       )}
+      {/* 일반/기업 선택란 */}
       {level === 0 && (
         <>
           <MypageHeader
@@ -97,6 +99,7 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
+      {/* 일반 약관 */}
       {level === 1 && userType === 1 && (
         <>
           <MypageHeader
@@ -126,6 +129,7 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
+      {/* 기업 약관*/}
       {level === 1 && userType === 0 && (
         <>
           <MypageHeader
@@ -155,32 +159,7 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
-      {level === 2 && userType === 0 && (
-        <>
-          <MypageHeader
-            back={true}
-            homeBtn={true}
-            title={''}
-            exitBtn={true}
-            handleHomeClick={() => router.push('/signin')}
-            handleBackClick={handleBackClick}
-          />
-          <Wrapper>
-            <CompanyDetailInfo
-              setLevel={setLevel}
-              level={level}
-              companyName={companyName}
-              setCompanyName={setCompanyName}
-              postNumber={postNumber}
-              setPostNumber={setPostNumber}
-              companyAddress={companyAddress}
-              setCompanyAddress={setCompanyAddress}
-              companyDetailAddress={companyDetailAddress}
-              setCompanyDetailAddress={setCompanyDetailAddress}
-            />
-          </Wrapper>
-        </>
-      )}
+      {/* 일반 */}
       {level === 2 && userType === 1 && (
         <>
           <MypageHeader
@@ -217,6 +196,34 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
+      {/* 기업 상세 내용*/}
+      {level === 2 && userType === 0 && (
+        <>
+          <MypageHeader
+            back={true}
+            homeBtn={true}
+            title={''}
+            exitBtn={true}
+            handleHomeClick={() => router.push('/signin')}
+            handleBackClick={handleBackClick}
+          />
+          <Wrapper>
+            <CompanyDetailInfo
+              setLevel={setLevel}
+              level={level}
+              companyName={companyName}
+              setCompanyName={setCompanyName}
+              postNumber={postNumber}
+              setPostNumber={setPostNumber}
+              companyAddress={companyAddress}
+              setCompanyAddress={setCompanyAddress}
+              companyDetailAddress={companyDetailAddress}
+              setCompanyDetailAddress={setCompanyDetailAddress}
+            />
+          </Wrapper>
+        </>
+      )}
+      {/* 기업 담당자 정보*/}
       {level === 3 && userType === 0 && (
         <>
           <MypageHeader
@@ -228,7 +235,12 @@ const SignUpContainer = (props: Props) => {
             handleBackClick={handleBackClick}
           />
           <Wrapper>
-            <ManagerInfo setName={setName} setPhoneNumber={setPhoneNumber} />
+            <ManagerInfo
+              setName={setName}
+              setPhoneNumber={setPhoneNumber}
+              email={email}
+              setEmail={setEmail}
+            />
           </Wrapper>
         </>
       )}

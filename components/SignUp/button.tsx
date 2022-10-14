@@ -68,4 +68,5 @@ const Button = styled.button<{
   align-items: center;
   color: white;
   background-color: ${({ isClick }) => (isClick ? '#5a2dc9' : '#E2E5ED')};
+  cursor: ${({ isClick }) => isClick && 'pointer'};
 `;

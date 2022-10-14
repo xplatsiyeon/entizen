@@ -224,6 +224,7 @@ const TermContent = ({
           </Item>
         </Box>
       </BottomForm>
+      {/* 기업 */}
       {userType === 0 && (
         <Btn
           text="다음"
@@ -232,6 +233,7 @@ const TermContent = ({
           isClick={nextBtn}
         />
       )}
+      {/* 일반 */}
       {userType === 1 && (
         <div>
           <form name="form_chk" method="get">
