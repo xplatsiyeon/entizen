@@ -114,7 +114,13 @@ const CompanyDetailInfo = ({
     } else {
       setNextPageOn(false);
     }
-  }, [companyName, postNumber, companyAddress, companyDetailAddress, review]);
+  }, [
+    companyName,
+    postNumber,
+    companyAddress,
+    companyDetailAddress,
+    businessRegistration,
+  ]);
 
   // 테스트용 useeffect
   useEffect(() => {
