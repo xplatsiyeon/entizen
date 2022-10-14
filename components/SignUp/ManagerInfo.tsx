@@ -11,10 +11,19 @@ type Props = {
   setName: Dispatch<SetStateAction<string>>;
   setPhoneNumber: Dispatch<SetStateAction<string>>;
   setEmail: Dispatch<SetStateAction<string>>;
+  level: number;
+  setLevel: Dispatch<SetStateAction<number>>;
 };
 
-const ManagerInfo = ({ email, setName, setEmail, setPhoneNumber }: Props) => {
-  const route = useRouter();
+const ManagerInfo = ({
+  email,
+  setName,
+  setEmail,
+  setPhoneNumber,
+  level,
+  setLevel,
+}: Props) => {
+  const router = useRouter();
 
   const [data, setData] = useState<any>();
   const [authCode, setAuthCode] = useState<string>('');
@@ -38,7 +47,6 @@ const ManagerInfo = ({ email, setName, setEmail, setPhoneNumber }: Props) => {
   };
   const handleForceClick = () => {
     let c = localStorage.getItem('key');
-    // let a: any;
     let a: any;
     if (c !== null) {
       let a = JSON.parse(c);
@@ -48,8 +56,9 @@ const ManagerInfo = ({ email, setName, setEmail, setPhoneNumber }: Props) => {
       setPhoneNumber(a.phone);
       if (a.isMember) {
         alert('이미 회원가입 하셨습니다.');
-        route.push('/signin');
+        router.replace('/signin');
       }
+      setLevel(level + 1);
     }
 
     // if(a && a.isMember)

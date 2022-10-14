@@ -29,9 +29,15 @@ type Props = {
   phoneNumber: string;
   fullTerms: boolean;
   userType: number;
+  email?: string;
+  companyName?: string;
+  postNumber?: string;
+  companyAddress?: string;
+  companyDetailAddress?: string;
 };
 
 const IdPwInput = ({
+  email,
   idInput,
   setIdInput,
   pwInput,
@@ -52,9 +58,12 @@ const IdPwInput = ({
   phoneNumber,
   fullTerms,
   userType,
+  companyName,
+  postNumber,
+  companyAddress,
+  companyDetailAddress,
 }: Props) => {
   const route = useRouter();
-  console.log(userType);
   const [checkId, setCheckId] = useState<number>(-1);
 
   // 디바운스를 이용한 유효성 검사
@@ -66,7 +75,6 @@ const IdPwInput = ({
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
           passwords,
         );
-      console.log(check1);
       setCheckedPw(check1);
     }
     if (checkPassword) {
@@ -188,7 +196,7 @@ const IdPwInput = ({
   };
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
-
+  // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
       try {
@@ -196,7 +204,7 @@ const IdPwInput = ({
           method: 'post',
           url: 'https://test-api.entizen.kr/api/members/join',
           data: {
-            memberType: userType === 0 ? 'COMPANY' : 'USER',
+            memberType: 'USER',
             name: name,
             phone: phoneNumber,
             id: idInput,
@@ -205,6 +213,53 @@ const IdPwInput = ({
               {
                 optionalTermsType: 'LOCATION',
                 consentStatus: fullTerms,
+              },
+            ],
+          },
+          headers: {
+            ContentType: 'application/json',
+          },
+          withCredentials: true,
+        }).then((res) => console.log(res));
+      } catch (error) {
+        console.log('post 실패!!!!!!');
+        console.log(error);
+      }
+    }
+    route.push('/signUp/Complete');
+  };
+  // 기업 회원가입 온클릭
+  const handleCompanyClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (checkSamePw) {
+      try {
+        await axios({
+          method: 'post',
+          url: 'https://test-api.entizen.kr/api/members/join',
+          data: {
+            memberType: 'COMPANY',
+            name: name,
+            phone: phoneNumber,
+            id: idInput,
+            password: checkPw,
+            optionalTermsConsentStatus: [
+              {
+                optionalTermsType: 'LOCATION',
+                consentStatus: fullTerms,
+              },
+            ],
+            // 기업 추가 내용
+            companyName,
+            companyAddress,
+            companyDetailAddress,
+            companyZipCode: postNumber,
+            managerEmail: email,
+
+            // 사업자등록증 파일 목록
+            businessRegistrationFiles: [
+              {
+                url: 'http://test.test.com',
+                size: 12345,
+                originalName: '파일명.txt',
               },
             ],
           },
@@ -347,7 +402,7 @@ const IdPwInput = ({
         isClick={checkedPw && checkSamePw && idInput.length > 6 ? true : false}
         text={'가입 완료'}
         marginTop={77.25}
-        handleClick={handleClick}
+        handleClick={userType === 0 ? handleCompanyClick : handleClick}
       />
       <NameInput className="nameInput" />
       <PhoneInput className="phoneInput" />
@@ -401,27 +456,6 @@ const Input = styled(TextField)`
   :focus > .remove {
     display: block;
   }
-  /* margin-top: 9pt;
-  padding: 13.5pt 0;
-  padding-left: 12pt; */
-  /* ::placeholder {
-    color: ${colors.gray};
-    font-weight: 500;
-  }
-  font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  &::-webkit-input-placeholder {
-    transform: scale(0.77);
-    transform-origin: 0 50%;
-  }
-  &::-moz-placeholder {
-    font-size: 14px;
-    opacity: 1;
-  }
-  &:-ms-input-placeholder {
-    font-size: 14px;
-    font-family: 'Roboto', Helvetica, Arial, sans-serif;
-  } */
 `;
 const OverlapBtn = styled.button`
   & .checkOverlap {

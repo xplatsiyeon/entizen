@@ -40,12 +40,12 @@ export interface addressType {
 type Props = {
   setPostNumber: React.Dispatch<React.SetStateAction<string>>;
   setCompanyAddress: React.Dispatch<React.SetStateAction<string>>;
-  setAddress: React.Dispatch<React.SetStateAction<boolean>>;
+  setAddressOn: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const CompanyAddress = ({
   setPostNumber,
   setCompanyAddress,
-  setAddress,
+  setAddressOn,
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
@@ -58,7 +58,7 @@ const CompanyAddress = ({
     const { roadad, zip } = e.currentTarget.dataset;
     setCompanyAddress(roadad!);
     setPostNumber(zip!);
-    setAddress(false);
+    setAddressOn(false);
   };
   useEffect(() => {
     const findAddresss = async () => {

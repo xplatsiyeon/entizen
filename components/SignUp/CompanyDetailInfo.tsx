@@ -45,7 +45,7 @@ const CompanyDetailInfo = ({
   const imgRef = useRef<any>(null);
 
   const [nextPageOn, setNextPageOn] = useState<boolean>(false);
-  const [address, setAddress] = useState<boolean>(false);
+  const [addressOn, setAddressOn] = useState<boolean>(false);
   const [fileModal, setFileModal] = useState<boolean>(false);
   const [review, setReview] = useState<{
     productImg: any;
@@ -114,8 +114,12 @@ const CompanyDetailInfo = ({
 
   const onClickFile = () => {};
   const cencleBtn = () => {
+    console.log('check');
     setFileModal(false);
   };
+  useEffect(() => {
+    console.log('fileModal ' + fileModal);
+  }, [fileModal]);
   useEffect(() => {
     if (
       companyName.length > 2 &&
@@ -132,23 +136,25 @@ const CompanyDetailInfo = ({
   }, [companyName, postNumber, companyAddress, companyDetailAddress, review]);
 
   // 주소검색
-  if (address) {
+  if (addressOn) {
     return (
       <CompanyAddress
         setPostNumber={setPostNumber}
         setCompanyAddress={setCompanyAddress}
-        setAddress={setAddress}
+        setAddressOn={setAddressOn}
       />
     );
   }
 
   return (
     <>
-      {/* <FileSelectModal
-        onClickFile={onClickFile}
-        onClickPhoto={imgHandler}
-        cencleBtn={cencleBtn}
-      /> */}
+      {/* {fileModal && (
+        <FileSelectModal
+          onClickFile={onClickFile}
+          cencleBtn={cencleBtn}
+          onClickPhoto={imgHandler}
+        />
+      )} */}
       <Info>
         상세 내용을
         <br />
@@ -193,7 +199,7 @@ const CompanyDetailInfo = ({
               <InputAdornment position="end">
                 <OverlapBtn
                   className="overlap"
-                  onClick={() => setAddress(true)}
+                  onClick={() => setAddressOn(true)}
                 >
                   <Typography className="checkOverlap">주소찾기</Typography>
                 </OverlapBtn>

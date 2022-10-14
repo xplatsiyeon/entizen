@@ -99,7 +99,8 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
-      {/* 일반 약관 */}
+      {/* ------------일반---------- */}
+      {/* 약관 동의 */}
       {level === 1 && userType === 1 && (
         <>
           <MypageHeader
@@ -129,37 +130,7 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
-      {/* 기업 약관*/}
-      {level === 1 && userType === 0 && (
-        <>
-          <MypageHeader
-            back={true}
-            homeBtn={true}
-            title={''}
-            exitBtn={true}
-            handleBackClick={handleBackClick}
-            handleHomeClick={handleHomeClick}
-          />
-          <Wrapper>
-            <TermContent
-              setLevel={setLevel}
-              level={level}
-              setName={setName}
-              setPhoneNumber={setPhoneNumber}
-              fullTerms={fullTerms}
-              setFullTerms={setFullTerms}
-              requiredTerms={requiredTerms}
-              setRequiredTerms={setRequiredTerms}
-              selectTerms={selectTerms}
-              setSelectTerms={setSelectTerms}
-              nextBtn={nextBtn}
-              setNextBtn={setNextBtn}
-              userType={userType}
-            />
-          </Wrapper>
-        </>
-      )}
-      {/* 일반 */}
+      {/* 아이디 / 비밀번호 입력*/}
       {level === 2 && userType === 1 && (
         <>
           <MypageHeader
@@ -196,7 +167,38 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
-      {/* 기업 상세 내용*/}
+      {/* ------------기업---------- */}
+      {/* 약관 동의*/}
+      {level === 1 && userType === 0 && (
+        <>
+          <MypageHeader
+            back={true}
+            homeBtn={true}
+            title={''}
+            exitBtn={true}
+            handleBackClick={handleBackClick}
+            handleHomeClick={handleHomeClick}
+          />
+          <Wrapper>
+            <TermContent
+              setLevel={setLevel}
+              level={level}
+              setName={setName}
+              setPhoneNumber={setPhoneNumber}
+              fullTerms={fullTerms}
+              setFullTerms={setFullTerms}
+              requiredTerms={requiredTerms}
+              setRequiredTerms={setRequiredTerms}
+              selectTerms={selectTerms}
+              setSelectTerms={setSelectTerms}
+              nextBtn={nextBtn}
+              setNextBtn={setNextBtn}
+              userType={userType}
+            />
+          </Wrapper>
+        </>
+      )}
+      {/* 상세 내용*/}
       {level === 2 && userType === 0 && (
         <>
           <MypageHeader
@@ -223,7 +225,7 @@ const SignUpContainer = (props: Props) => {
           </Wrapper>
         </>
       )}
-      {/* 기업 담당자 정보*/}
+      {/* 담당자 정보 */}
       {level === 3 && userType === 0 && (
         <>
           <MypageHeader
@@ -236,10 +238,54 @@ const SignUpContainer = (props: Props) => {
           />
           <Wrapper>
             <ManagerInfo
+              level={level}
+              setLevel={setLevel}
               setName={setName}
               setPhoneNumber={setPhoneNumber}
               email={email}
               setEmail={setEmail}
+            />
+          </Wrapper>
+        </>
+      )}
+      {/* 아이디/비밀번호 입력 */}
+      {level === 4 && userType === 0 && (
+        <>
+          <MypageHeader
+            back={true}
+            homeBtn={true}
+            title={''}
+            exitBtn={true}
+            handleHomeClick={() => console.log('111')}
+            handleBackClick={handleBackClick}
+          />
+          <Wrapper>
+            <IdPwInput
+              email={email}
+              companyName={companyName}
+              postNumber={postNumber}
+              companyAddress={companyAddress}
+              companyDetailAddress={companyDetailAddress}
+              idInput={idInput}
+              setIdInput={setIdInput}
+              pwInput={pwInput}
+              setPwInput={setPwInput}
+              checkPw={checkPw}
+              setCheckPw={setCheckPw}
+              pwShow={pwShow}
+              setPwShow={setPwShow}
+              pwSelected={pwSelected}
+              setPwSelected={setPwSelected}
+              checkPwSelected={checkPwSelected}
+              setCheckPwSelected={setCheckPwSelected}
+              checkedPw={checkedPw}
+              setCheckedPw={setCheckedPw}
+              checkSamePw={checkSamePw}
+              setCheckSamePw={setCheckSamePw}
+              name={name}
+              phoneNumber={phoneNumber}
+              fullTerms={fullTerms}
+              userType={userType}
             />
           </Wrapper>
         </>
