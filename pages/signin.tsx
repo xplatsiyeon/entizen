@@ -57,7 +57,7 @@ const Signin = (props: Props) => {
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
-  const loginTypeEnList: string[] = ['USER', 'COMAPNY'];
+  const loginTypeEnList: string[] = ['USER', 'COMPANY'];
   const [isId, setIsId] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
