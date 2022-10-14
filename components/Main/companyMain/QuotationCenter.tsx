@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import lightning from 'public/images/lightning.png';
 import clipboardText from 'public/images/clipboardText.png';
-import emptyClipboardText from 'public/images/emptyClipboardText.png';
+import emptyClipboardText from 'public/images/EmptyClipboardText.png';
 
 import React, { useState } from 'react';
 import colors from 'styles/colors';
