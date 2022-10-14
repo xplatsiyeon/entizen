@@ -102,20 +102,19 @@ const CompanyDetailInfo = ({
   };
 
   // 버튼 유효성 검사
-  // useEffect(() => {
-  //   if (
-  //     companyName.length > 2 &&
-  //     postNumber.length > 2 &&
-  //     companyAddress.length > 2 &&
-  //     companyDetailAddress.length > 2 &&
-  //     review.productImg.length > 0
-  //   ) {
-  //     setNextPageOn(true);
-  //   } else {
-  //     setNextPageOn(false);
-  //   }
-  //   console.log(review.productImg[0]);
-  // }, [companyName, postNumber, companyAddress, companyDetailAddress, review]);
+  useEffect(() => {
+    if (
+      companyName.length > 2 &&
+      postNumber.length > 2 &&
+      companyAddress.length > 2 &&
+      companyDetailAddress.length > 2 &&
+      businessRegistration.length > 1
+    ) {
+      setNextPageOn(true);
+    } else {
+      setNextPageOn(false);
+    }
+  }, [companyName, postNumber, companyAddress, companyDetailAddress, review]);
 
   // 테스트용 useeffect
   useEffect(() => {
