@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
-// import Btn from 'components/button';
 import React, {
   Dispatch,
   SetStateAction,
@@ -10,14 +9,16 @@ import React, {
 } from 'react';
 import colors from 'styles/colors';
 import Btn from './button';
-import camera from 'public/images/gray_camera.png';
 import CloseImg from 'public/images/XCircle.svg';
 import Image from 'next/image';
 import AddImg from 'public/images/add-img.svg';
 import CompanyAddress from './CompanyAddress';
 import FileSelectModal from 'components/Modal/FileSelectModal';
+import { BusinessRegistrationType } from '.';
 
 type Props = {
+  businessRegistration: BusinessRegistrationType[];
+  setBusinessRegistration: Dispatch<SetStateAction<BusinessRegistrationType[]>>;
   level: number;
   setLevel: Dispatch<SetStateAction<number>>;
   companyName: string;
@@ -31,6 +32,8 @@ type Props = {
 };
 
 const CompanyDetailInfo = ({
+  businessRegistration,
+  setBusinessRegistration,
   level,
   setLevel,
   companyName,
@@ -42,98 +45,82 @@ const CompanyDetailInfo = ({
   companyDetailAddress,
   setCompanyDetailAddress,
 }: Props) => {
-  const imgRef = useRef<any>(null);
+  const imgRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const [nextPageOn, setNextPageOn] = useState<boolean>(false);
   const [addressOn, setAddressOn] = useState<boolean>(false);
   const [fileModal, setFileModal] = useState<boolean>(false);
-  const [review, setReview] = useState<{
-    productImg: any;
-    createDt: number;
-  }>({
-    productImg: [],
-    createDt: new Date().getTime(),
-  });
 
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCompanyName(e.target.value);
   };
-  const handleCompanyPostNumberChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setPostNumber(e.target.value);
-  };
-
-  const handleCompanyAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCompanyAddress(e.target.value);
-  };
-
   const handleNextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLevel(level + 1);
   };
-  const imgHandler = (e: React.MouseEvent<HTMLLabelElement>) => {
-    e.preventDefault();
-    imgRef.current.click();
-  };
-  const saveFileImage = (e: any) => {
-    const { files } = e.target;
-    const newImageURL = [];
-    const maxLength = 3;
-    for (let i = 0; i < maxLength; i += 1) {
-      if (files[i] === undefined) {
-        break;
-      }
-      const nowImageUrl = URL.createObjectURL(files[i]);
-      newImageURL.push(nowImageUrl);
-    }
-    const copyArr = [];
-    copyArr.push(review);
-    for (let i = 0; i < newImageURL.length; i++) {
-      copyArr[0].productImg.push(newImageURL[i]);
-    }
-
-    if (review.productImg.length > 0) {
-      setReview({
-        ...review,
-        productImg: copyArr[0].productImg,
-      });
-    } else if (review.productImg.length === 0) {
-      setReview({
-        ...review,
-        productImg: newImageURL,
-      });
-    }
-  };
-  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-    const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [];
-    copyArr.push(review);
-    copyArr[0].productImg.splice(name, 1);
-    setReview({ ...review, productImg: copyArr[0].productImg });
-  };
-
-  const onClickFile = () => {};
-  const cencleBtn = () => {
-    console.log('check');
+  const onClickFile = () => {
+    fileRef?.current?.click();
     setFileModal(false);
   };
-  useEffect(() => {
-    console.log('fileModal ' + fileModal);
-  }, [fileModal]);
-  useEffect(() => {
-    if (
-      companyName.length > 2 &&
-      postNumber.length > 2 &&
-      companyAddress.length > 2 &&
-      companyDetailAddress.length > 2 &&
-      review.productImg.length > 0
-    ) {
-      setNextPageOn(true);
-    } else {
-      setNextPageOn(false);
+  const onClickPhoto = () => {
+    imgRef?.current?.click();
+    setFileModal(false);
+  };
+  // 이미지 저장
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 3;
+    const newArr = [...businessRegistration];
+    // max길이 보다 짧으면 멈춤
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      // 이미지 객체 생성 후 상태에 저장
+      const imageUrl = URL.createObjectURL(files![i]);
+      const imageName = files![i].name;
+      const imageSize = files![i].size;
+      newArr.push({
+        size: imageSize,
+        name: imageName,
+        url: imageUrl,
+      });
     }
-    console.log(review.productImg[0]);
-  }, [companyName, postNumber, companyAddress, companyDetailAddress, review]);
+    setBusinessRegistration(newArr);
+  };
+  // 이미지 삭제
+  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    console.log('delete');
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...businessRegistration];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setBusinessRegistration(copyArr);
+      }
+    }
+  };
+
+  // 버튼 유효성 검사
+  // useEffect(() => {
+  //   if (
+  //     companyName.length > 2 &&
+  //     postNumber.length > 2 &&
+  //     companyAddress.length > 2 &&
+  //     companyDetailAddress.length > 2 &&
+  //     review.productImg.length > 0
+  //   ) {
+  //     setNextPageOn(true);
+  //   } else {
+  //     setNextPageOn(false);
+  //   }
+  //   console.log(review.productImg[0]);
+  // }, [companyName, postNumber, companyAddress, companyDetailAddress, review]);
+
+  // 테스트용 useeffect
+  useEffect(() => {
+    console.log(businessRegistration);
+  }, [businessRegistration]);
 
   // 주소검색
   if (addressOn) {
@@ -145,16 +132,15 @@ const CompanyDetailInfo = ({
       />
     );
   }
-
   return (
     <>
-      {/* {fileModal && (
+      {fileModal && (
         <FileSelectModal
           onClickFile={onClickFile}
-          cencleBtn={cencleBtn}
-          onClickPhoto={imgHandler}
+          onClickPhoto={onClickPhoto}
+          cencleBtn={() => setFileModal(false)}
         />
-      )} */}
+      )}
       <Info>
         상세 내용을
         <br />
@@ -190,7 +176,6 @@ const CompanyDetailInfo = ({
         <Label>주소</Label>
         <Input
           placeholder="회사 우편번호 입력"
-          // onChange={(e) => setPostNumber(e.target.value)}
           value={postNumber}
           name="id"
           InputProps={{
@@ -210,7 +195,6 @@ const CompanyDetailInfo = ({
         <Input
           placeholder="회사 주소 입력"
           value={companyAddress}
-          // onChange={handleCompanyAddress}
           name="checkPw"
           InputProps={{
             readOnly: true,
@@ -224,22 +208,16 @@ const CompanyDetailInfo = ({
         />
       </Box>
       <RemainderInputBox>
-        {/* <Label>사진첨부</Label> */}
         <PhotosBox>
           <Form>
             <label>사업자 등록증</label>
             <div>
-              {/* <File onClick={() => setFileModal(true)}> */}
-              <File onClick={imgHandler}>
+              <File onClick={() => setFileModal(true)}>
                 <Image src={AddImg} alt="img" />
                 <div>이미지 또는 파일 업로드</div>
-                <input type="file" />
               </File>
             </div>
           </Form>
-          {/* <AddPhotos onClick={imgHandler}>
-            <Image src={camera} alt="" />
-          </AddPhotos> */}
           <input
             style={{ display: 'none' }}
             ref={imgRef}
@@ -249,8 +227,47 @@ const CompanyDetailInfo = ({
             onChange={saveFileImage}
             multiple
           />
-          {/* <Preview> */}
+          <input
+            style={{ display: 'none' }}
+            ref={fileRef}
+            className="imageClick"
+            type="file"
+            accept="xlsx"
+            // onChange={saveFileImage}
+            multiple
+          />
+          {/* <Img_Preview> */}
           <div className="photos">
+            {businessRegistration?.map((item, index) => (
+              <ImgSpan key={index} data-name={index}>
+                <Image
+                  style={{
+                    borderRadius: '6pt',
+                  }}
+                  layout="intrinsic"
+                  alt="preview"
+                  width={80}
+                  data-name={index}
+                  height={80}
+                  key={index}
+                  src={item.url}
+                />
+                <Xbox onClick={handlePhotoDelete} data-name={index}>
+                  <Image
+                    src={CloseImg}
+                    data-name={index}
+                    layout="intrinsic"
+                    alt="closeBtn"
+                    width={24}
+                    height={24}
+                  />
+                </Xbox>
+              </ImgSpan>
+            ))}
+          </div>
+
+          {/* <File_Preview> */}
+          {/* <div className="photos">
             {review.productImg &&
               review.productImg.map((img: any, index: any) => (
                 <ImgSpan key={index} data-name={index}>
@@ -278,8 +295,7 @@ const CompanyDetailInfo = ({
                   </Xbox>
                 </ImgSpan>
               ))}
-            {/* </Preview> */}
-          </div>
+          </div> */}
         </PhotosBox>
       </RemainderInputBox>
       <Btn
@@ -351,7 +367,6 @@ const Form = styled.form`
     justify-content: center;
   }
 `;
-
 const File = styled.label`
   display: flex;
   flex-direction: column;
@@ -359,6 +374,7 @@ const File = styled.label`
   align-items: center;
   gap: 9pt;
   padding: 15pt 0;
+  cursor: pointer;
   & > input {
     position: absolute;
     width: 0;
@@ -397,23 +413,16 @@ const RemainderInputBox = styled.div`
   display: flex;
   margin-top: 30pt;
 `;
-
 const PhotosBox = styled.div`
   width: 100%;
-  /* height: 56.0625pt; */
-  /* margin-top: 9pt; */
   display: flex;
   flex-direction: column;
-  /* gap: 15pt; */
-  /* align-items: center; */
   & .photos {
     display: flex;
     margin-top: 15pt;
-    /* margin-bottom: 15pt; */
     gap: 6pt;
   }
 `;
-
 const AddPhotos = styled.button`
   display: inline-block;
   width: 56.0625pt;
@@ -421,13 +430,12 @@ const AddPhotos = styled.button`
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
 `;
-
 const ImgSpan = styled.div`
   position: relative;
 `;
-
 const Xbox = styled.div`
   position: absolute;
+  cursor: pointer;
   top: 3.75pt;
   right: 3.75pt;
 `;

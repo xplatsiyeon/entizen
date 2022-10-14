@@ -9,16 +9,21 @@ import IdPwInput from './IdPwInput';
 import ManagerInfo from './ManagerInfo';
 import TermContent from './TermContent';
 
+export interface BusinessRegistrationType {
+  name: string;
+  size: number;
+  url: any;
+}
+
 type Props = {};
 
 const SignUpContainer = (props: Props) => {
   const router = useRouter();
-
+  // level 각 컴포넌트 세션을 단계를 번호로 표시 ex) 일반 0~2 / 기업 0~4
   const [level, setLevel] = useState<number>(0);
-
-  // level 0 일때 일반, 기업 선택
+  // Type 0 일때 일반, 1 일때 기업 선택
   const [userType, setUserType] = useState<number>(-1);
-
+  // 회원가입 필요한 상태값들
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -39,32 +44,20 @@ const SignUpContainer = (props: Props) => {
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-
   // 기업회원 회원가입 플로우
+  const [businessRegistration, setBusinessRegistration] = useState<
+    BusinessRegistrationType[]
+  >([]);
   const [companyName, setCompanyName] = useState<string>('');
   const [postNumber, setPostNumber] = useState<string>('');
   const [companyAddress, setCompanyAddress] = useState<string>('');
   const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
 
-  const handleHomeClick = () => {
-    router.push('/');
-  };
+  const handleHomeClick = () => router.push('/');
+  const gobackQuestion = () => setModalOpen(false);
+  const stopRegist = () => router.push('/signin');
+  const handleBackClick = () => setModalOpen(true);
 
-  const gobackQuestion = () => {
-    setModalOpen(false);
-  };
-
-  const stopRegist = () => {
-    router.push('/signin');
-  };
-  const handleBackClick = () => {
-    setModalOpen(true);
-    console.log(' 여기 눌렸습니다. ');
-  };
-
-  useEffect(() => {
-    console.log('유저타입->' + userType);
-  }, [userType]);
   return (
     <>
       {modalOpen && (
@@ -211,6 +204,8 @@ const SignUpContainer = (props: Props) => {
           />
           <Wrapper>
             <CompanyDetailInfo
+              businessRegistration={businessRegistration}
+              setBusinessRegistration={setBusinessRegistration}
               setLevel={setLevel}
               level={level}
               companyName={companyName}
@@ -286,6 +281,7 @@ const SignUpContainer = (props: Props) => {
               phoneNumber={phoneNumber}
               fullTerms={fullTerms}
               userType={userType}
+              businessRegistration={businessRegistration}
             />
           </Wrapper>
         </>

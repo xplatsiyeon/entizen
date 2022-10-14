@@ -7,6 +7,7 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import colors from 'styles/colors';
 import Btn from './button';
 import axios from 'axios';
+import { BusinessRegistrationType } from '.';
 
 type Props = {
   idInput: string;
@@ -34,6 +35,7 @@ type Props = {
   postNumber?: string;
   companyAddress?: string;
   companyDetailAddress?: string;
+  businessRegistration?: BusinessRegistrationType[];
 };
 
 const IdPwInput = ({
@@ -62,6 +64,7 @@ const IdPwInput = ({
   postNumber,
   companyAddress,
   companyDetailAddress,
+  businessRegistration,
 }: Props) => {
   const route = useRouter();
   const [checkId, setCheckId] = useState<number>(-1);
@@ -255,13 +258,7 @@ const IdPwInput = ({
             managerEmail: email,
 
             // 사업자등록증 파일 목록
-            businessRegistrationFiles: [
-              {
-                url: 'http://test.test.com',
-                size: 12345,
-                originalName: '파일명.txt',
-              },
-            ],
+            businessRegistrationFiles: businessRegistration,
           },
           headers: {
             ContentType: 'application/json',
