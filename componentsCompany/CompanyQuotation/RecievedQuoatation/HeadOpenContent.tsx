@@ -12,13 +12,28 @@ import { useRouter } from 'next/router';
 import MypageHeader from 'components/SignUp/header';
 import CommonBtns from 'components/mypage/as/CommonBtns';
 import Btn from 'components/SignUp/button';
+import FirstStep from './FirstStep';
 
 type Props = {};
+interface Components {
+  [key: number]: JSX.Element;
+}
 
 const HeadOpenContent = (props: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
+
+  // step 숫자
+  const [request, setRequest] = useState<number>(-1);
   const router = useRouter();
+
+  // step 컴포넌트
+  const components: Components = {
+    0: <FirstStep />,
+    // 1: <SecondStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    // 2: <ThirdStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+  };
+
   useEffect(() => {
     if (router.pathname.includes('1-1')) {
       setText('접수요청 D-3');
@@ -35,6 +50,10 @@ const HeadOpenContent = (props: Props) => {
   const handleClick = () => setOpen(!open);
   const handleBackClick = () => {
     router.back();
+  };
+
+  const changeRequest = () => {
+    setRequest(request + 1);
   };
 
   return (
@@ -105,13 +124,30 @@ const HeadOpenContent = (props: Props) => {
           </List>
         </Collapse>
       </Wrapper>
-
-      <Btn
-        isClick={true}
-        handleClick={handleBackClick}
-        text={'가견적 작성하기'}
-        paddingOn={true}
-      />
+      {request === -1 && (
+        <Btn
+          isClick={true}
+          handleClick={changeRequest}
+          text={'가견적 작성하기'}
+          paddingOn={true}
+        />
+      )}
+      {request >= 0 && (
+        <>
+          <TabBox>
+            {Object.keys(components).map((tab, index) => (
+              <TabLine
+                idx={index.toString()}
+                num={request.toString()}
+                key={tab}
+                // 테스트용
+                // onClick={() => setTabNumber(index)}
+              />
+            ))}
+          </TabBox>
+          {components[request]}
+        </>
+      )}
     </>
   );
 };
@@ -217,6 +253,39 @@ const Contents = styled.div`
     padding-top: 42pt;
     padding-bottom: 24pt;
     text-align: center;
+  }
+`;
+
+const TabBox = styled.div`
+  z-index: 1;
+  //display:flex;
+
+  position: absolute;
+  width: 100%;
+  top: 0;
+
+  @media (max-width: 899pt) {
+    display: flex;
+    position: relative;
+    gap: 3pt;
+  }
+`;
+const TabLine = styled.div<{ idx: string; num: string }>`
+  border-style: solid;
+  border-bottom-width: 3pt;
+  border-color: ${({ idx, num }) => (idx <= num ? colors.main : colors.gray4)};
+  border-radius: 2px;
+
+  width: calc((100% - 15pt) / 6);
+  display: inline-block;
+  margin-right: 3pt;
+  &:nth-last-of-type(1) {
+    margin-right: 0;
+  }
+
+  @media (max-width: 899pt) {
+    display: block;
+    width: 100%;
   }
 `;
 
