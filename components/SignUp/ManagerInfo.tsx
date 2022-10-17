@@ -12,6 +12,7 @@ type Props = {
   setPhoneNumber: Dispatch<SetStateAction<string>>;
   setEmail: Dispatch<SetStateAction<string>>;
   level: number;
+  userType: number;
   setLevel: Dispatch<SetStateAction<number>>;
 };
 
@@ -22,6 +23,7 @@ const ManagerInfo = ({
   setPhoneNumber,
   level,
   setLevel,
+  userType,
 }: Props) => {
   const router = useRouter();
 
@@ -50,7 +52,6 @@ const ManagerInfo = ({
   };
   const handleForceClick = () => {
     let c = localStorage.getItem('key');
-    let a: any;
     if (c !== null) {
       let a = JSON.parse(c);
       console.log(a);
@@ -109,7 +110,7 @@ const ManagerInfo = ({
 
   useEffect(() => {
     console.log(localStorage.getItem('key'));
-    const memberType = 'USER';
+    const memberType = userType === 1 ? 'COMPANY' : 'USER';
 
     axios({
       method: 'post',

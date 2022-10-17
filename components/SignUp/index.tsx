@@ -239,6 +239,7 @@ const SignUpContainer = (props: Props) => {
               setPhoneNumber={setPhoneNumber}
               email={email}
               setEmail={setEmail}
+              userType={userType}
             />
           </Wrapper>
         </>

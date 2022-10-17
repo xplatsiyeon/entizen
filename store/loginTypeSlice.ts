@@ -5,7 +5,7 @@ export interface LoginType {
 }
 
 const initialState: LoginType = {
-  selectedType: '',
+  selectedType: 'company',
 };
 
 const slice = createSlice({
