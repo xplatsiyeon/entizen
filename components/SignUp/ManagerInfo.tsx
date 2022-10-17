@@ -34,7 +34,8 @@ const ManagerInfo = ({
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
   const reg_email =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-  // ========================== 본인인증 창 띄우기
+
+  // --- 본인인증 창 띄우기 ----
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -50,22 +51,19 @@ const ManagerInfo = ({
       cloneDocument.form_chk.submit();
     }
   };
+  // 나이스 인증 온클릭 버튼 (인증 후 자동 실행)
   const handleForceClick = () => {
-    let c = localStorage.getItem('key');
-    if (c !== null) {
-      let a = JSON.parse(c);
-      console.log(a);
-      console.log(a.isMember);
-      setName(a.name);
-      setPhoneNumber(a.phone);
-      if (a.isMember) {
+    let key = localStorage.getItem('key');
+    if (key !== null) {
+      let data = JSON.parse(key);
+      setName(data.name);
+      setPhoneNumber(data.phone);
+      if (data.isMember) {
         alert('이미 회원가입 하셨습니다.');
         router.replace('/signin');
       }
       setLevel(level + 1);
     }
-
-    // if(a && a.isMember)
   };
   // email 상태
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,7 +108,7 @@ const ManagerInfo = ({
 
   useEffect(() => {
     console.log(localStorage.getItem('key'));
-    const memberType = userType === 0 ? 'COMPANY' : 'USER';
+    const memberType = 'COMPANY';
     console.log(memberType);
 
     axios({
@@ -119,10 +117,7 @@ const ManagerInfo = ({
       data: { memberType },
     })
       .then((res) => {
-        // console.log(res.data);
         setData(res.data.executedData);
-        // console.log(data);
-        // encodeData = res.data.executedData;
       })
       .catch((error) => {
         console.error(error);
@@ -130,17 +125,14 @@ const ManagerInfo = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 유효성 검사
   useEffect(() => {
     reg_email.test(email) ? setIsEmailValid(true) : setIsEmailValid(false);
-  }, [email]);
-  useEffect(() => {
     authCode.length === 7
       ? setIsEmailCodeValid(true)
       : setIsEmailCodeValid(false);
-  }, [authCode]);
-  useEffect(() => {
-    console.log(isValid);
-  }, [isValid]);
+  }, [email, authCode]);
+
   return (
     <>
       <Info>
