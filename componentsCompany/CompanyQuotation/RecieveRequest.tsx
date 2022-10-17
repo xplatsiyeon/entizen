@@ -33,7 +33,10 @@ const RecieveRequest = (props: Props) => {
   return (
     <ContentsContainer>
       {tempProceeding.map((el, index) => (
-        <Contents key={index} onClick={() => router.push('/')}>
+        <Contents
+          key={index}
+          onClick={() => router.push('/company/recievedRequest')}
+        >
           <DdayNAddress>
             <DdayBox>
               <CommonBtn

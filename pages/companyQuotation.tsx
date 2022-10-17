@@ -1,4 +1,4 @@
-import CompanyQuotations from 'components/CompanyQuotation';
+import CompanyQuotations from 'componentsCompany/CompanyQuotation';
 import React from 'react';
 
 type Props = {};
