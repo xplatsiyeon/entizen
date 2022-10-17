@@ -13,10 +13,17 @@ import MypageHeader from 'components/SignUp/header';
 import CommonBtns from 'components/mypage/as/CommonBtns';
 import Btn from 'components/SignUp/button';
 import FirstStep from './FirstStep';
+import SecondStep from './SecondStep';
+import ThirdStep from './ThirdStep';
+import { BusinessRegistrationType } from 'components/SignUp';
 
 type Props = {};
 interface Components {
   [key: number]: JSX.Element;
+}
+export interface reviewType {
+  productImg: any;
+  createDt: number;
 }
 
 const HeadOpenContent = (props: Props) => {
@@ -24,13 +31,69 @@ const HeadOpenContent = (props: Props) => {
   const [text, setText] = useState<string>('');
 
   // step 숫자
-  const [request, setRequest] = useState<number>(-1);
+  const [tabNumber, setTabNumber] = useState<number>(-1);
   const router = useRouter();
+
+  // button on off
+  const [canNext, SetCanNext] = useState<boolean>(false);
+
+  // 첫스탭 상태값
+  const [monthlySubscribePrice, setMonthleSubscribePrice] =
+    useState<string>('');
+  const [constructionPeriod, setConstructionPeriod] = useState<string>('');
+  const [firstPageTextArea, setFirstPageTextArea] = useState<string>('');
+
+  // 두번째 스탭 상태값
+  const [customerOwner, setCustomerOwner] = useState<number>(-1);
+  const [review, setReview] = useState<{
+    productImg: any;
+    createDt: number;
+  }>({
+    productImg: [],
+    createDt: new Date().getTime(),
+  });
+  const [businessRegistration, setBusinessRegistration] = useState<
+    BusinessRegistrationType[]
+  >([]);
 
   // step 컴포넌트
   const components: Components = {
-    0: <FirstStep />,
-    // 1: <SecondStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    0: (
+      <FirstStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        monthlySubscribePrice={monthlySubscribePrice}
+        setMonthleSubscribePrice={setMonthleSubscribePrice}
+        constructionPeriod={constructionPeriod}
+        setConstructionPeriod={setConstructionPeriod}
+        firstPageTextArea={firstPageTextArea}
+        setFirstPageTextArea={setFirstPageTextArea}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+      />
+    ),
+    1: (
+      <SecondStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+        customerOwner={customerOwner}
+        setCustomerOwner={setCustomerOwner}
+        review={review}
+        setReview={setReview}
+        businessRegistration={businessRegistration}
+        setBusinessRegistration={setBusinessRegistration}
+      />
+    ),
+    2: (
+      <ThirdStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+      />
+    ),
     // 2: <ThirdStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
   };
 
@@ -45,7 +108,6 @@ const HeadOpenContent = (props: Props) => {
       setText('A/S완료');
     }
   }, [router]);
-  console.log(router);
 
   const handleClick = () => setOpen(!open);
   const handleBackClick = () => {
@@ -53,7 +115,7 @@ const HeadOpenContent = (props: Props) => {
   };
 
   const changeRequest = () => {
-    setRequest(request + 1);
+    setTabNumber(tabNumber + 1);
   };
 
   return (
@@ -124,7 +186,9 @@ const HeadOpenContent = (props: Props) => {
           </List>
         </Collapse>
       </Wrapper>
-      {request === -1 && (
+
+      {/* 가견적 작성하기 부분 */}
+      {tabNumber === -1 && (
         <Btn
           isClick={true}
           handleClick={changeRequest}
@@ -132,20 +196,20 @@ const HeadOpenContent = (props: Props) => {
           paddingOn={true}
         />
       )}
-      {request >= 0 && (
+      {tabNumber >= 0 && (
         <>
           <TabBox>
             {Object.keys(components).map((tab, index) => (
               <TabLine
                 idx={index.toString()}
-                num={request.toString()}
+                num={tabNumber.toString()}
                 key={tab}
                 // 테스트용
                 // onClick={() => setTabNumber(index)}
               />
             ))}
           </TabBox>
-          {components[request]}
+          {components[tabNumber]}
         </>
       )}
     </>
@@ -259,7 +323,10 @@ const Contents = styled.div`
 const TabBox = styled.div`
   z-index: 1;
   //display:flex;
-
+  padding-left: 15pt;
+  padding-right: 15pt;
+  margin-top: 30pt;
+  box-sizing: border-box;
   position: absolute;
   width: 100%;
   top: 0;
@@ -267,7 +334,7 @@ const TabBox = styled.div`
   @media (max-width: 899pt) {
     display: flex;
     position: relative;
-    gap: 3pt;
+    gap: 0.2pt;
   }
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`

@@ -30,25 +30,10 @@ const ChargerMap = (props: Props) => {
   const router = useRouter();
   const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
   const [fastCharger, setFastCharger] = useState<SlowFast[]>([]);
-  // const [slowCharger, setSlowCharger] = useState<
-  //   {
-  //     year: string;
-  //     chargeQuantity: number;
-  //     sales: number;
-  //   }[]
-  // >([
-  //   {
-  //     year: '',
-  //     chargeQuantity: 0,
-  //     sales: 0,
-  //   },
-  // ]);
-
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
   const dispatch = useDispatch();
-  // const responsiveWeb = useMediaQuery({ query: '(min-width: 1040px)' });
   const mobile = useMediaQuery({
     query: '(min-width:810pt)',
   });
