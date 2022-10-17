@@ -8,8 +8,8 @@ import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { requestAction } from 'store/requestSlice';
 import React from 'react';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 const Mypage2_3 = () => {
   const route = useRouter();
@@ -35,40 +35,40 @@ const Mypage2_3 = () => {
     <React.Fragment>
       <Body>
         <WebHeader />
-          <Inner>
-            <Wrapper>
-      <MypageHeader exitBtn={true} />
-      <H1>
-        일정 변경 요청을 <br />
-        수락하시겠습니까?
-      </H1>
-      <Notice>변경하실 날짜를 선택해주세요.</Notice>
-      <List>
-        {selectedDate.map((date, index) => (
-          <Item
-            check={tabNumber.toString()}
-            idx={index.toString()}
-            key={index}
-            onClick={() => setTabNumber(index)}
-          >
-            <div className="date">{date}</div>
-            <div className="day">{getDayOfWeek(date)}요일</div>
-          </Item>
-        ))}
-      </List>
-      <Btn tabNumber={tabNumber}>
-        <button className="left" onClick={HandleDateChange}>
-          다른 날짜 제안
-        </button>
-        <button className="right" onClick={acceptModal}>
-          수락하기
-        </button>
-      </Btn>
-            </Wrapper>
-        </Inner>  
-      <WebFooter />
-    </Body>
-  </React.Fragment>
+        <Inner>
+          <Wrapper>
+            <MypageHeader exitBtn={true} />
+            <H1>
+              일정 변경 요청을 <br />
+              수락하시겠습니까?
+            </H1>
+            <Notice>변경하실 날짜를 선택해주세요.</Notice>
+            <List>
+              {selectedDate.map((date, index) => (
+                <Item
+                  check={tabNumber.toString()}
+                  idx={index.toString()}
+                  key={index}
+                  onClick={() => setTabNumber(index)}
+                >
+                  <div className="date">{date}</div>
+                  <div className="day">{getDayOfWeek(date)}요일</div>
+                </Item>
+              ))}
+            </List>
+            <Btn tabNumber={tabNumber}>
+              <button className="left" onClick={HandleDateChange}>
+                다른 날짜 제안
+              </button>
+              <button className="right" onClick={acceptModal}>
+                수락하기
+              </button>
+            </Btn>
+          </Wrapper>
+        </Inner>
+        <WebFooter />
+      </Body>
+    </React.Fragment>
   );
 };
 
@@ -82,7 +82,7 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
@@ -95,8 +95,8 @@ const Inner = styled.div`
   position: relative;
   margin: 0 auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
@@ -110,9 +110,8 @@ const Inner = styled.div`
   }
 `;
 
-
 const Wrapper = styled.div`
-  position:relative;  
+  position: relative;
   margin: 0 31.875pt;
   height: 434.25pt;
 

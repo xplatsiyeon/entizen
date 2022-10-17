@@ -5,8 +5,8 @@ import RateInfoTab1 from 'components/guide/RateInfoTab-1';
 import RateInfoTab2 from 'components/guide/RateInfoTab-2';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;

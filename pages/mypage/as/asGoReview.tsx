@@ -3,8 +3,8 @@ import AsRequestFooter from 'components/mypage/as/AsRequestFooter';
 import AsRequestPartner from 'components/mypage/as/AsRequestPartner';
 import AsRequestReviewBtn from 'components/mypage/as/AsRequestReviewBtn';
 import React from 'react';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
 import styled from '@emotion/styled';
 
@@ -13,19 +13,19 @@ type Props = {};
 // 리뷰 작성하기
 
 const AsGoReviewPage = (props: Props) => {
-  return ( 
-  <Body>
-    <WebHeader/>
-    <Inner>
-      <FlexBox>
-        <Wrap1>
-          <RequestMain page={2}/>
-        </Wrap1>
-        <Wrap2>
-      <AsRequest />
-      <AsRequestPartner />
-      <AsRequestFooter />
-      <AsRequestReviewBtn />
+  return (
+    <Body>
+      <WebHeader />
+      <Inner>
+        <FlexBox>
+          <Wrap1>
+            <RequestMain page={2} />
+          </Wrap1>
+          <Wrap2>
+            <AsRequest />
+            <AsRequestPartner />
+            <AsRequestFooter />
+            <AsRequestReviewBtn />
           </Wrap2>
         </FlexBox>
       </Inner>

@@ -10,8 +10,8 @@ import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
 import Header from 'components/header';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
 
 interface State {

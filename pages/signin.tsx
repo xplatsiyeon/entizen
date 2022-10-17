@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Container, Typography, TextField, Divider } from '@mui/material';
 import styled from '@emotion/styled';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
 import kakao from 'public/images/kakao.svg';
 import naver from 'public/images/naver.svg';

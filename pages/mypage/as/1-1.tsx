@@ -4,8 +4,8 @@ import AsRequestPartner from 'components/mypage/as/AsRequestPartner';
 import LookMyReview from 'components/mypage/as/LookMyReviewBtn';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
 
 type Props = {};
@@ -25,12 +25,12 @@ const AsShow = (props: Props) => {
         2: <AsIndex />,
         }; num, page는 이 부분의 인덱스 넘버.
       */}
-      <WebHeader num={2} now={'mypage'} /> 
+      <WebHeader num={2} now={'mypage'} />
       <Inner>
         <FlexBox>
           <Wrap1>
             {/* 회원 메뉴에 A/S 카테고리를 펼치기 위해 page={2}를 넘긴다. (내 견적서는 0) */}
-            <RequestMain page={2}/>
+            <RequestMain page={2} />
           </Wrap1>
           <Wrap2>
             <AsRequest />
@@ -69,7 +69,7 @@ const Inner = styled.div`
   display: block;
   position: relative;
   width: 900pt;
-  margin: 45.75pt auto ;
+  margin: 45.75pt auto;
 
   @media (max-width: 899pt) {
     width: 100%;

@@ -1,8 +1,8 @@
 import Complete from 'components/Complete';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import WhyEntizen from 'components/Main/WebWhyEntizen';
 
 const SignUpComplete = () => {

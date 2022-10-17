@@ -2,8 +2,8 @@ import AsRequestEndReview from 'components/mypage/as/AsRequestEndReview';
 import AsRequestWriteReview from 'components/mypage/as/AsRequestWriteReview';
 import React from 'react';
 import styled from '@emotion/styled';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 type Props = {};
 

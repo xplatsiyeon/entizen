@@ -10,8 +10,8 @@ import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import React from 'react';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
 
 interface Key {

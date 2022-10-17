@@ -9,8 +9,8 @@ import Bell from 'public/images/bell.svg';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
 
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 const arr = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2,

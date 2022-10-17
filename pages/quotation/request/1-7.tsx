@@ -11,8 +11,8 @@ import QuotationModal from 'components/Modal/QuotationModal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 type Props = {};
 

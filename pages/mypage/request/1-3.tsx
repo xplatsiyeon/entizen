@@ -14,8 +14,8 @@ import ManagerInfo from 'components/mypage/request/ManagerInfo';
 import CommunicationBox from 'components/CommunicationBox';
 import Mypage2_1 from 'components/mypage/request/2-1';
 import Button from 'components/mypage/request/Button';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 //import Request from '..';
 import RequestMain from 'components/mypage/request/requestMain';
 

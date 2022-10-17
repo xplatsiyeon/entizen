@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Btn from 'components/button';
 import Header from 'components/header';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 
 const SignUpCheck = () => {
   return (

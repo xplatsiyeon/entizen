@@ -6,8 +6,8 @@ import AvatarIcon from 'public/images/avatar.png';
 import AvatarPhoto from 'public/images/avatar-photo.png';
 import colors from 'styles/colors';
 import Arrow from 'public/guide/Arrow.svg';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 

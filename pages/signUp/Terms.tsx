@@ -1,7 +1,7 @@
 import SignUpContainer from 'components/SignUp';
 import React from 'react';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 import styled from '@emotion/styled';
 
 type Props = {};

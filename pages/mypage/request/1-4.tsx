@@ -6,8 +6,8 @@ import RequestModal from 'components/Modal/RequestModal';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import styled from '@emotion/styled';
 
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 const Mypage1_4 = ({ data }: any) => {
   const [isModal, setModal] = useState(false);

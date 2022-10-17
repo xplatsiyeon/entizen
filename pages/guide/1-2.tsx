@@ -22,8 +22,8 @@ import {
 } from 'assets/selectList';
 import { useDispatch } from 'react-redux';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
 import Modal from 'components/Modal/Modal';
 

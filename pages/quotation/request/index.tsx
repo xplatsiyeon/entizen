@@ -12,8 +12,8 @@ import FifthStep from 'components/quotation/request/FifthStep';
 import SixthStep from 'components/quotation/request/SixthStep';
 
 import Request1_7 from './1-7';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;

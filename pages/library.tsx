@@ -5,8 +5,8 @@ import React from 'react';
 import colors from 'styles/colors';
 import arrowImg from 'public/images/blueArrow.png';
 import { useRouter } from 'next/router';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 
 const Library = () => {
   const route = useRouter();

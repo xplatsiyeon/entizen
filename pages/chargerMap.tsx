@@ -14,8 +14,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { coordinateAction } from 'store/lnglatSlice';
 import { useDispatch } from 'react-redux';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import SearchAddress from './searchAddress';
 import axios from 'axios';
 

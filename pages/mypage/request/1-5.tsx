@@ -10,9 +10,8 @@ import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { requestAction } from 'store/requestSlice';
 import React from 'react';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
-
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 const Mypage1_5 = () => {
   const router = useRouter();
@@ -29,50 +28,57 @@ const Mypage1_5 = () => {
     <React.Fragment>
       <Body>
         <WebHeader />
-          <Inner>
-            <Wrapper>
-      {/* 모달 */}
-      {isModal && (
-        <Modal click={HandleModal} text="전송이 완료되었습니다." color="red" />
-      )}
-      <MypageHeader title="날짜 선택" back={true} />
-      <H1>
-        현장실사 방문이
-        <br /> 가능한 날짜를 선택해주세요
-      </H1>
-      <P>
-        현장 검토 및 최종견적을 위해
-        <br /> 담당자가 방문할 예정입니다.
-      </P>
-      {/* 달력 */}
-      <Calendar selectedDays={selectedDays} SetSelectedDays={SetSelectedDays} />
-      <Explanation>
-        * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며,
-        <br />
-        담당자로부터 현장사진을 요청받을 수 있습니다.
-      </Explanation>
-      <Schedule>
-        <h3 className="name">선택된 일정</h3>
-        <UL>
-          {selectedDays.map((day, index) => (
-            <li className="list" key={index}>
-              <div className="img-box">
-                <Image src={ScheduleIcon} alt="img" />
-              </div>
-              <div className="due-date">
-                <div>현장실사 방문 예정일</div>
-                <div>{day}</div>
-              </div>
-            </li>
-          ))}
-        </UL>
-      </Schedule>
-      <Btn onClick={() => setIsModal((prev) => !prev)}>보내기</Btn>
-            </Wrapper>
-        </Inner>  
-      <WebFooter />
-    </Body>
-  </React.Fragment>
+        <Inner>
+          <Wrapper>
+            {/* 모달 */}
+            {isModal && (
+              <Modal
+                click={HandleModal}
+                text="전송이 완료되었습니다."
+                color="red"
+              />
+            )}
+            <MypageHeader title="날짜 선택" back={true} />
+            <H1>
+              현장실사 방문이
+              <br /> 가능한 날짜를 선택해주세요
+            </H1>
+            <P>
+              현장 검토 및 최종견적을 위해
+              <br /> 담당자가 방문할 예정입니다.
+            </P>
+            {/* 달력 */}
+            <Calendar
+              selectedDays={selectedDays}
+              SetSelectedDays={SetSelectedDays}
+            />
+            <Explanation>
+              * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며,
+              <br />
+              담당자로부터 현장사진을 요청받을 수 있습니다.
+            </Explanation>
+            <Schedule>
+              <h3 className="name">선택된 일정</h3>
+              <UL>
+                {selectedDays.map((day, index) => (
+                  <li className="list" key={index}>
+                    <div className="img-box">
+                      <Image src={ScheduleIcon} alt="img" />
+                    </div>
+                    <div className="due-date">
+                      <div>현장실사 방문 예정일</div>
+                      <div>{day}</div>
+                    </div>
+                  </li>
+                ))}
+              </UL>
+            </Schedule>
+            <Btn onClick={() => setIsModal((prev) => !prev)}>보내기</Btn>
+          </Wrapper>
+        </Inner>
+        <WebFooter />
+      </Body>
+    </React.Fragment>
   );
 };
 
@@ -118,16 +124,14 @@ const Inner = styled.div`
 `;
 
 const Wrapper = styled.div`
-  position:relative;
-  padding-bottom: 225pt;  
+  position: relative;
+  padding-bottom: 225pt;
   margin: 0 31.875pt;
   height: 667.5pt;
 
   @media (max-width: 899pt) {
     height: 100%;
   }
-
-
 `;
 const H1 = styled.h1`
   padding-top: 27pt;

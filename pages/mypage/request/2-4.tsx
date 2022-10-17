@@ -11,8 +11,8 @@ import Modal from 'components/Modal/Modal';
 import { useDispatch } from 'react-redux';
 import { requestAction } from 'store/requestSlice';
 import React from 'react';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 const Mypage2_4 = () => {
   const router = useRouter();
@@ -30,32 +30,37 @@ const Mypage2_4 = () => {
     <React.Fragment>
       <Body>
         <WebHeader />
-          <Inner>
-            <Wrapper>
-      {/* 모달 / 라우터 수정  */}
-      {isModal && <Modal text="변경 요청 되었습니다." click={HandleModal} />}
-      <MypageHeader title="다른 날짜 선택" exitBtn={true} back={true} />
-      <Title>가능한 날짜를 선택해주세요</Title>
-      <Calendar selectedDays={selectedDays} SetSelectedDays={SetSelectedDays} />
-      <UL>
-        {selectedDays.map((day, index) => (
-          <li className="list" key={index}>
-            <div className="img-box">
-              <Image src={ScheduleIcon} alt="img" />
-            </div>
-            <div className="due-date">
-              <div>현장실사 방문 예정일</div>
-              <div>{day}</div>
-            </div>
-          </li>
-        ))}
-      </UL>
-      <Btn onClick={() => setModal((prev) => !prev)}>변경 요청</Btn>
-            </Wrapper>
-        </Inner>  
-      <WebFooter />
-    </Body>
-  </React.Fragment>
+        <Inner>
+          <Wrapper>
+            {/* 모달 / 라우터 수정  */}
+            {isModal && (
+              <Modal text="변경 요청 되었습니다." click={HandleModal} />
+            )}
+            <MypageHeader title="다른 날짜 선택" exitBtn={true} back={true} />
+            <Title>가능한 날짜를 선택해주세요</Title>
+            <Calendar
+              selectedDays={selectedDays}
+              SetSelectedDays={SetSelectedDays}
+            />
+            <UL>
+              {selectedDays.map((day, index) => (
+                <li className="list" key={index}>
+                  <div className="img-box">
+                    <Image src={ScheduleIcon} alt="img" />
+                  </div>
+                  <div className="due-date">
+                    <div>현장실사 방문 예정일</div>
+                    <div>{day}</div>
+                  </div>
+                </li>
+              ))}
+            </UL>
+            <Btn onClick={() => setModal((prev) => !prev)}>변경 요청</Btn>
+          </Wrapper>
+        </Inner>
+        <WebFooter />
+      </Body>
+    </React.Fragment>
   );
 };
 
@@ -69,7 +74,7 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   //height: 810pt;
-  background:#fcfcfc;
+  background: #fcfcfc;
 
   @media (max-height: 809pt) {
     display: block;
@@ -82,8 +87,8 @@ const Inner = styled.div`
   position: relative;
   margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;  
-  background:#ffff;
+  //width: 281.25pt;
+  background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
@@ -93,12 +98,12 @@ const Inner = styled.div`
     height: 100%;
     margin: 0 auto;
     position: relative;
-    padding:0;
+    padding: 0;
   }
 `;
 
 const Wrapper = styled.div`
-  position:relative;    
+  position: relative;
   margin: 0 31.875pt 0;
   height: 664.5pt;
 

@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import MypageHeader from 'components/mypage/request/header';
 import React, { useEffect, useState } from 'react';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 

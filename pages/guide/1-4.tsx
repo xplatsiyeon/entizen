@@ -6,8 +6,8 @@ import SubcribeGraph from 'components/guide/subcribeGraph';
 import Share from 'components/guide/share';
 import Contract from 'components/guide/contract';
 import { useRouter } from 'next/router';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;

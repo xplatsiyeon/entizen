@@ -11,8 +11,8 @@ import ManageMent from 'components/guide/management';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
 import Guide from 'public/guide/guide1.png';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;
