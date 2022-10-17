@@ -2,19 +2,46 @@ import styled from '@emotion/styled';
 import colors from '../../styles/colors';
 import { Box, Button } from '@mui/material';
 import Header from 'components/header';
-import React from 'react';
+import React, { useState } from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useRouter } from 'next/router';
+import { FindKey } from 'pages/signin';
+import Modal from 'components/Modal/Modal';
 
 const findingId2 = () => {
   const router = useRouter();
   const { id } = useSelector((state: RootState) => state.findUserInfo);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errorModal, setErrorModal] = useState(false);
+
+  // 비밀번호 찾기
+  const HandleFindPassword = async () => {
+    let key = localStorage.getItem('key');
+    let data: FindKey = JSON.parse(key!);
+    if (data.isMember) {
+      console.log('멤버 확인 -> ' + data.isMember);
+      localStorage.getItem('key');
+      router.push('/find/password2');
+    } else {
+      setErrorMessage(
+        '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+      );
+      setErrorModal((prev) => !prev);
+    }
+  };
   if (id) {
     return (
       <React.Fragment>
+        {errorModal && (
+          <Modal
+            text={errorMessage}
+            color={'#7e7f81'}
+            click={() => setErrorModal((prev) => !prev)}
+          />
+        )}
         <Body>
           <WebHeader />
           <Inner>
@@ -55,7 +82,7 @@ const findingId2 = () => {
 
               <Password>
                 <Box
-                  onClick={() => alert('작업 중입니다.')}
+                  onClick={HandleFindPassword}
                   sx={{
                     fontSize: '10.5pt',
                     fontWeight: '400',

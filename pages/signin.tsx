@@ -33,7 +33,7 @@ interface JwtTokenType {
   memberType: string;
 }
 
-interface FindKey {
+export interface FindKey {
   id: string;
   isMember: boolean;
   memberIdx: number;
@@ -217,7 +217,10 @@ const Signin = (props: Props) => {
   };
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
+    let key = localStorage.getItem('key');
+    let data: FindKey = JSON.parse(key!);
     if (data.isMember) {
+      console.log('멤버 확인 -> ' + data.isMember);
       localStorage.getItem('key');
       router.push('/find/password2');
     } else {
