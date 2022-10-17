@@ -2,7 +2,7 @@ import axios from 'axios';
 import { kakaoInit } from 'utils/kakao';
 
 // 네이버 로그아웃
-const NaverLogout = async () => {
+export const NaverLogout = async () => {
   // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
   const localToken = localStorage.getItem('com.naver.nid.access_token');
   const res = await axios.get('/oauth2.0/token', {
@@ -18,7 +18,7 @@ const NaverLogout = async () => {
   console.log(res);
 };
 // 카카오 로그아웃
-const KakaoLogout = () => {
+export const KakaoLogout = () => {
   const kakao = kakaoInit();
   console.log(kakao.Auth.getAccessToken()); // 카카오 접근 토큰 확인 (로그인 후 해당 토큰을 이용하여 추가 기능 수행 가능)
   // 카카오 로그인 링크 해제

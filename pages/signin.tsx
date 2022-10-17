@@ -204,25 +204,28 @@ const Signin = (props: Props) => {
   const HandleFindId = async () => {
     let key = localStorage.getItem('key');
     let data: FindKey = JSON.parse(key!);
+    console.log(data);
     if (data.isMember) {
       dispatch(findUserInfoAction.addId(data.id));
       router.push('/find/id');
+    } else {
+      setErrorMessage(
+        '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+      );
+      setErrorModal((prev) => !prev);
     }
-    setErrorMessage(
-      '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-    );
-    setErrorModal((prev) => !prev);
   };
   // 비밀번호 찾기
   const HandleFindPassword = async () => {
     if (data.isMember) {
       localStorage.getItem('key');
       router.push('/find/password2');
+    } else {
+      setErrorMessage(
+        '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+      );
+      setErrorModal((prev) => !prev);
     }
-    setErrorMessage(
-      '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-    );
-    setErrorModal((prev) => !prev);
   };
   // 나이스 인증
   useEffect(() => {
