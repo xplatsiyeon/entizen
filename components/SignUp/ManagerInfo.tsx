@@ -111,6 +111,7 @@ const ManagerInfo = ({
   useEffect(() => {
     console.log(localStorage.getItem('key'));
     const memberType = userType === 1 ? 'COMPANY' : 'USER';
+    console.log(memberType);
 
     axios({
       method: 'post',
