@@ -65,23 +65,18 @@ const TermContent = ({
     }
   };
   const handleForceClick = () => {
-    let c = localStorage.getItem('key');
-    // let a: any;
-    let a: any;
-    if (c !== null) {
-      let a = JSON.parse(c);
-      console.log(a);
-      console.log(a.isMember);
-      setName(a.name);
-      setPhoneNumber(a.phone);
-      if (a.isMember) {
+    let key = localStorage.getItem('key');
+    if (key !== null) {
+      let data = JSON.parse(key);
+      setName(data.name);
+      setPhoneNumber(data.phone);
+      if (data.isMember === true) {
         alert('이미 회원가입 하셨습니다.');
         route.push('/signin');
+      } else if (data.isMember === false) {
+        setLevel(level + 1);
       }
     }
-
-    // if(a && a.isMember)
-    setLevel(level + 1);
   };
 
   const justNextPage = () => {
@@ -90,7 +85,6 @@ const TermContent = ({
 
   useEffect(() => {
     const memberType = 'USER';
-
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',

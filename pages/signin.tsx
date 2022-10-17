@@ -355,6 +355,13 @@ const Signin = (props: Props) => {
                             selectedLoginType == index ? '#5A2DC9' : '#CACCD1',
                         }}
                       >
+                        <div
+                          onClick={() => {
+                            alert('야야야.');
+                          }}
+                        >
+                          12312312
+                        </div>
                         {loginType}
                       </Typography>
                       <Box
