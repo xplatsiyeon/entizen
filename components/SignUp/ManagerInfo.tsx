@@ -5,6 +5,8 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   email: string;
@@ -26,7 +28,7 @@ const ManagerInfo = ({
   userType,
 }: Props) => {
   const router = useRouter();
-
+  const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [data, setData] = useState<any>();
   const [authCode, setAuthCode] = useState<string>('');
   const [isValid, setIsValid] = useState<boolean>(false);
@@ -108,12 +110,11 @@ const ManagerInfo = ({
 
   useEffect(() => {
     console.log(localStorage.getItem('key'));
-    const memberType = ['USER', 'COMPANY'];
-
+    const memberType = selectedType;
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',
-      data: memberType[userType],
+      data: memberType,
     })
       .then((res) => {
         setData(res.data.executedData);

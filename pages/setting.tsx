@@ -7,12 +7,15 @@ import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 import colors from 'styles/colors';
 import { kakaoInit } from 'utils/kakao';
 
 const Setting = () => {
   const router = useRouter();
   const userID = localStorage.getItem('USER_ID');
+  const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [logoutModal, setLogoutModal] = useState<boolean>(false);
   const [alertModal, setAlertModal] = useState(false);
   const [secessionFirstModal, setSecessionFirstModal] =
@@ -130,6 +133,7 @@ const Setting = () => {
   };
   // 회원탈퇴 시 original user 비밀번호 체크 함수
   const authPassowrd = () => {
+    const memberType = selectedType;
     if (checkPassword) {
       const LOGIN_API = 'https://test-api.entizen.kr/api/members/login';
       const userId = JSON.parse(localStorage.getItem('USER_ID')!);
@@ -139,7 +143,7 @@ const Setting = () => {
           method: 'post',
           url: LOGIN_API,
           data: {
-            memberType: 'USER',
+            memberType,
             id: userId,
             password: passwordInput,
           },
