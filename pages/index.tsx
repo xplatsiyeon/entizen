@@ -7,15 +7,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import CompanyMainPage from 'components/Main/companyMain';
 
-type Props = {};
-
 const Home: NextPage = () => {
   const { selectedType } = useSelector((state: RootState) => state.selectType);
 
   console.log(selectedType);
   return (
     <>
-      {(selectedType === 'user' || selectedType === '') && (
+      {selectedType === 'USER' && (
         <>
           <WebWrap>
             <Main />
@@ -25,7 +23,7 @@ const Home: NextPage = () => {
           </MobWrap>
         </>
       )}
-      {selectedType === 'company' && <CompanyMainPage />}
+      {selectedType === 'COMPANY' && <CompanyMainPage />}
     </>
   );
 };
