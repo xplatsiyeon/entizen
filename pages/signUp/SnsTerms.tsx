@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import axios from 'axios';
 import { userAction } from 'store/userSlice';
+import Modal from 'components/Modal/Modal';
 
 interface Terms {
   all: boolean;
@@ -36,6 +37,8 @@ const SignUpTerms = () => {
   const [selectTerms, setSelectTerms] = useState(false);
   const [nextBtn, setNextBtn] = useState(false);
   const [data, setData] = useState<any>();
+  const [errorModal, setErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.userList);
 
@@ -55,29 +58,6 @@ const SignUpTerms = () => {
       cloneDocument.form_chk.submit();
     }
   };
-  useEffect(() => {
-    const memberType = selectedType;
-    axios({
-      method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
-      data: { memberType },
-    })
-      .then((res) => {
-        setData(res.data.executedData);
-        console.log('엑시오스 데이터 66번째 줄입니다   =>   ');
-        console.log(res.data.executedData);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    if (router.asPath.includes('Canceled')) {
-      router.push('/signin');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const fullTermsHandler = () => {
     if (fullTerms) {
@@ -96,7 +76,6 @@ const SignUpTerms = () => {
     console.log(c);
     if (fullTerms && c !== null) {
       let a = JSON.parse(c);
-
       dispatch(
         userAction.add({
           ...user,
@@ -105,11 +84,9 @@ const SignUpTerms = () => {
           phone: a.phone,
         }),
       );
-
       try {
         console.log('이름 =>   ' + a.name);
         console.log('번호 =>   ' + a.phone);
-
         await axios({
           method: 'post',
           url: 'https://test-api.entizen.kr/api/members/join/sns',
@@ -136,12 +113,24 @@ const SignUpTerms = () => {
           })
           .then((res) => {
             router.push('/signUp/Complete');
+          })
+          .catch((error) => {
+            const { message } = error.response.data;
+            setErrorMessage(message);
+            setErrorModal(true);
           });
-      } catch (error) {
+      } catch (error: any) {
         console.log('post 실패!!!!!!');
         console.log(error);
+        setErrorMessage(error);
+        setErrorModal(true);
       }
     }
+  };
+  // 모달창 핸들러
+  const onClickModal = () => {
+    setErrorModal((prev) => !prev);
+    router.push('/');
   };
   // 보기 이벤트
   const TermsofServiceHandler = (event: any) => {
@@ -163,12 +152,34 @@ const SignUpTerms = () => {
     if (!requiredTerms || !selectTerms) setFullTerms(false);
     if (requiredTerms && selectTerms) setFullTerms(true);
   }, [requiredTerms, selectTerms]);
-  // const handleClick = () => {
-  //   route.push('/signUp/Check');
-  // };
+
+  useEffect(() => {
+    const memberType = selectedType;
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        setData(res.data.executedData);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (router.asPath.includes('Canceled')) {
+      router.push('/signin');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <React.Fragment>
+      {errorModal && (
+        <Modal text={errorMessage} color={colors.main} click={onClickModal} />
+      )}
       <Body>
         <WebHeader />
         <Inner>
