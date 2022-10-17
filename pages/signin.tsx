@@ -173,7 +173,7 @@ const Signin = (props: Props) => {
       console.log(error);
     }
   };
-  // 나이스 인승
+  // 나이스 인증
   const fnPopup = (event: any) => {
     console.log('check');
     console.log(event?.currentTarget.value);
@@ -229,10 +229,11 @@ const Signin = (props: Props) => {
   };
   // 나이스 인증
   useEffect(() => {
+    const memberType = loginTypeEnList[selectedLoginType];
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',
-      data: loginTypeEnList[selectedLoginType],
+      data: { memberType },
     })
       .then((res) => {
         setData(res.data.executedData);
@@ -243,7 +244,7 @@ const Signin = (props: Props) => {
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selectedLoginType]);
   // 네이버 로그인
   useEffect(() => {
     login(naverLogin, function (naverLogin) {

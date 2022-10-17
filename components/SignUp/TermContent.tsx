@@ -89,7 +89,6 @@ const TermContent = ({
   };
 
   useEffect(() => {
-    console.log(localStorage.getItem('key'));
     const memberType = 'USER';
 
     axios({

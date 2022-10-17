@@ -109,12 +109,11 @@ const ManagerInfo = ({
   };
 
   useEffect(() => {
-    console.log(localStorage.getItem('key'));
     const memberType = selectedType;
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',
-      data: memberType,
+      data: { memberType },
     })
       .then((res) => {
         setData(res.data.executedData);
