@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 
 import MypageHeader from 'components/SignUp/header';
 import CommonBtns from 'components/mypage/as/CommonBtns';
+import Btn from 'components/SignUp/button';
 
 type Props = {};
 
@@ -32,11 +33,19 @@ const HeadOpenContent = (props: Props) => {
   console.log(router);
 
   const handleClick = () => setOpen(!open);
+  const handleBackClick = () => {
+    router.back();
+  };
 
   return (
     <>
+      <MypageHeader
+        back={true}
+        title={'받은 요청'}
+        handleBackClick={handleBackClick}
+      />
+
       <Wrapper>
-        {/* Close */}
         <ItemButton onClick={handleClick}>
           <StoreName>
             <CommonBtns text={'접수요청 D-1'} backgroundColor={'#F75015'} />
@@ -56,7 +65,6 @@ const HeadOpenContent = (props: Props) => {
             <p>서울시 관악구 난곡로40길 30</p>
           </StoreName>
         </ItemButton>
-
         {/* Open */}
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
@@ -97,6 +105,13 @@ const HeadOpenContent = (props: Props) => {
           </List>
         </Collapse>
       </Wrapper>
+
+      <Btn
+        isClick={true}
+        handleClick={handleBackClick}
+        text={'가견적 작성하기'}
+        paddingOn={true}
+      />
     </>
   );
 };
@@ -104,6 +119,7 @@ const HeadOpenContent = (props: Props) => {
 const Wrapper = styled.div`
   display: block;
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
+  /* width: 100%; */
   padding-left: 15pt;
   padding-right: 15pt;
   @media (max-width: 899pt) {

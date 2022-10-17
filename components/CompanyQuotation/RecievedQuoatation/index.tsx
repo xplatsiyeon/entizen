@@ -30,27 +30,13 @@ const DdayRequest = (props: Props) => {
     //     />
     //   )}
     <>
-      <MypageHeader
-        back={true}
-        title={'받은 요청'}
-        handleBackClick={handleBackClick}
-      />
       <HeadOpenContent />
-      <Container>
-        <Btn
-          isClick={true}
-          handleClick={handleBackClick}
-          text={'가견적 작성하기'}
-          paddingOn={true}
-        />
-      </Container>
     </>
   );
 };
 
-const Container = styled.div`
-  position: relative;
-  height: 100vh;
-`;
+// const Container = styled.div`
+//   position: relative;
+// `;
 
 export default DdayRequest;
