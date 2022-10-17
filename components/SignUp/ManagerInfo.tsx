@@ -110,7 +110,7 @@ const ManagerInfo = ({
 
   useEffect(() => {
     console.log(localStorage.getItem('key'));
-    const memberType = userType === 1 ? 'COMPANY' : 'USER';
+    const memberType = userType === 0 ? 'COMPANY' : 'USER';
     console.log(memberType);
 
     axios({
