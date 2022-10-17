@@ -193,6 +193,9 @@ const IdPwInput = ({
       setIsChangeColor(false);
     }
   }, [initIdAlert, idInput]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   // 로딩처리
   if (isLoading) {
     console.log('로딩중...');
@@ -374,7 +377,7 @@ const IdPwInput = ({
         )}
       </Box>
       <Btn
-        isClick={checkedPw && checkSamePw && idInput.length > 6 ? true : false}
+        isClick={checkedPw && checkSamePw && idInput.length > 4 ? true : false}
         text={'가입 완료'}
         marginTop={77.25}
         handleClick={userType === 0 ? handleCompanyClick : handleClick}
