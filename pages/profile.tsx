@@ -97,15 +97,16 @@ const Profile = () => {
               '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
             );
           } else {
-            setErrorModal(message);
+            setErrorModal(true);
+            setErrorMessage(message);
           }
         });
     } catch (error: any) {
       console.log('post 요청 실패');
       console.log('카카오로그인 에러  =>   ' + error);
       console.log(error);
-      setErrorModal(true);
       setErrorMessage(error);
+      setErrorModal(true);
     }
   };
   // 토큰 보내기
