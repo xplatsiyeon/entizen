@@ -8,6 +8,8 @@ import colors from 'styles/colors';
 import Btn from './button';
 import axios from 'axios';
 import { BusinessRegistrationType } from '.';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { onSubmitCompany, ValidIdCheck } from 'api/auth/login';
 
 type Props = {
   idInput: string;
@@ -38,6 +40,11 @@ type Props = {
   businessRegistration?: BusinessRegistrationType[];
 };
 
+interface ValidatedId {
+  isMember: boolean;
+  isSuccess: boolean;
+}
+
 const IdPwInput = ({
   email,
   idInput,
@@ -67,11 +74,103 @@ const IdPwInput = ({
   businessRegistration,
 }: Props) => {
   const route = useRouter();
-  const [checkId, setCheckId] = useState<number>(-1);
+  const queryClient = useQueryClient();
+  const [initIdAlert, setInitIdAlert] = useState(false);
+  const [isChangeColor, setIsChangeColor] = useState(false);
+  const { data, refetch } = useQuery<ValidatedId>(
+    'ValidIdCheck',
+    () => ValidIdCheck(idInput, userType === 0 ? 'USER' : 'COMPANY'),
+    {
+      enabled: false,
+      onError: (error) => {
+        console.log('----아이디 중복체크----');
+        console.log(error);
+        alert('다시 시도해주세요.');
+      },
+    },
+  );
+  const { mutate, isLoading, error } = useMutation(onSubmitCompany, {
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      route.push('/signUp/Complete');
+    },
+    onError: (error) => {
+      console.log('----회원가입 실패----');
+      console.log(error);
+      alert('다시 시도해주세요.');
+    },
+  });
 
   // 디바운스를 이용한 유효성 검사
   const passwords = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
+  // 인풋 값 변화, 중복확인 색 변경
+  const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
+    if (e.target.name === 'id') {
+      setIdInput(e.target.value);
+      idRegExp.test(idInput) ? setIsChangeColor(true) : setIsChangeColor(false);
+    }
+    if (e.target.name === 'pw') setPwInput(e.target.value);
+    if (e.target.name === 'checkPw') setCheckPw(e.target.value);
+  };
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.preventDefault();
+    e.isPropagationStopped();
+  };
+
+  const overlabCheck = () => {
+    setInitIdAlert(true);
+    refetch();
+  };
+  const handleDelete = () => setPwInput('');
+  const handleTwoDelete = () => setCheckPw('');
+
+  // 일반 회원가입 온클릭
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (checkSamePw) {
+      mutate({
+        memberType: 'USER',
+        name: name,
+        phone: phoneNumber,
+        id: idInput,
+        password: checkPw,
+        optionalTermsConsentStatus: [
+          {
+            optionalTermsType: 'LOCATION',
+            consentStatus: fullTerms,
+          },
+        ],
+      });
+    }
+  };
+  // 기업 회원가입 온클릭
+  const handleCompanyClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (checkSamePw)
+      mutate({
+        memberType: 'COMPANY',
+        name: name,
+        phone: phoneNumber,
+        id: idInput,
+        password: checkPw,
+        optionalTermsConsentStatus: [
+          {
+            optionalTermsType: 'LOCATION',
+            consentStatus: fullTerms,
+          },
+        ],
+        // 기업 추가 내용
+        companyName,
+        companyAddress,
+        companyDetailAddress,
+        companyZipCode: postNumber,
+        managerEmail: email,
+
+        // 사업자등록증 파일 목록
+        businessRegistrationFiles: businessRegistration,
+      });
+  };
+  // 유효성 검사
   useEffect(() => {
     if (passwords) {
       let check1 =
@@ -87,129 +186,17 @@ const IdPwInput = ({
     console.log(passwords, checkPassword);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passwords, checkPassword]);
-
-  // 인풋 값 변화, 중복확인 색 변경
-  const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let overLap = document.querySelector('.overlap');
-    if (e.target.name === 'id') {
-      setIdInput((idInput) => e.target.value);
-      if (idInput.length > 4) {
-        overLap?.classList.add('changeColor');
-      } else {
-        overLap?.classList.remove('changeColor');
-      }
+  // 중복확인 버튼 활성화
+  useEffect(() => {
+    if (idInput.length === 0) {
+      setInitIdAlert(false);
+      setIsChangeColor(false);
     }
-    if (e.target.name === 'pw') {
-      setPwInput(e.target.value);
-    }
-    if (e.target.name === 'checkPw') {
-      setCheckPw(e.target.value);
-    }
-  };
-  const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
-    e.preventDefault();
-    e.isPropagationStopped();
-  };
-
-  const overlabCheck = () => {
-    const OVERLAB_CHECK_POST = `https://test-api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
-    try {
-      axios({
-        method: 'get',
-        url: OVERLAB_CHECK_POST,
-      }).then((res) => {
-        const check = res.data.isMember;
-        if (check === true) {
-          setCheckId(1);
-        } else {
-          setCheckId(0);
-        }
-      });
-    } catch (error) {
-      console.log('아이디 중복 체크 에러 발생!!');
-      console.log(error);
-    }
-  };
-  const handleDelete = () => {
-    setPwInput('');
-  };
-  const handleTwoDelete = () => {
-    setCheckPw('');
-  };
-
-  // 일반 회원가입 온클릭
-  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (checkSamePw) {
-      try {
-        await axios({
-          method: 'post',
-          url: 'https://test-api.entizen.kr/api/members/join',
-          data: {
-            memberType: 'USER',
-            name: name,
-            phone: phoneNumber,
-            id: idInput,
-            password: checkPw,
-            optionalTermsConsentStatus: [
-              {
-                optionalTermsType: 'LOCATION',
-                consentStatus: fullTerms,
-              },
-            ],
-          },
-          headers: {
-            ContentType: 'application/json',
-          },
-          withCredentials: true,
-        }).then((res) => console.log(res));
-      } catch (error) {
-        console.log('post 실패!!!!!!');
-        console.log(error);
-      }
-    }
-    route.push('/signUp/Complete');
-  };
-  // 기업 회원가입 온클릭
-  const handleCompanyClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (checkSamePw) {
-      try {
-        await axios({
-          method: 'post',
-          url: 'https://test-api.entizen.kr/api/members/join',
-          data: {
-            memberType: 'COMPANY',
-            name: name,
-            phone: phoneNumber,
-            id: idInput,
-            password: checkPw,
-            optionalTermsConsentStatus: [
-              {
-                optionalTermsType: 'LOCATION',
-                consentStatus: fullTerms,
-              },
-            ],
-            // 기업 추가 내용
-            companyName,
-            companyAddress,
-            companyDetailAddress,
-            companyZipCode: postNumber,
-            managerEmail: email,
-
-            // 사업자등록증 파일 목록
-            businessRegistrationFiles: businessRegistration,
-          },
-          headers: {
-            ContentType: 'application/json',
-          },
-          withCredentials: true,
-        }).then((res) => console.log(res));
-      } catch (error) {
-        console.log('post 실패!!!!!!');
-        console.log(error);
-      }
-    }
-    route.push('/signUp/Complete');
-  };
+  }, [initIdAlert, idInput]);
+  // 로딩처리
+  if (isLoading) {
+    console.log('로딩중...');
+  }
 
   const iconAdorment = {
     endAdornment: (
@@ -273,7 +260,6 @@ const IdPwInput = ({
   };
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
-
   return (
     <>
       <Info>
@@ -300,7 +286,7 @@ const IdPwInput = ({
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <OverlapBtn className="overlap">
+                <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
                   <Typography className="checkOverlap" onClick={overlabCheck}>
                     중복확인
                   </Typography>
@@ -310,30 +296,21 @@ const IdPwInput = ({
           }}
         />
         <Box>
-          {checkId === 1 && (
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-                lineHeight: '12pt',
-                marginTop: '9pt',
-              }}
-            >
-              이미 사용중인 아이디입니다.
-            </Typography>
-          )}
-          {checkId === 0 && (
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-                lineHeight: '12pt',
-                marginTop: '9pt',
-              }}
-            >
-              사용가능한 아이디입니다.
-            </Typography>
-          )}
+          <Typography
+            sx={{
+              color: '#F75015',
+              fontSize: '9pt',
+              lineHeight: '12pt',
+              marginTop: '9pt',
+            }}
+          >
+            {data?.isMember === true &&
+              initIdAlert &&
+              '이미 사용중인 아이디입니다.'}
+            {data?.isMember === false &&
+              initIdAlert &&
+              '사용가능한 아이디입니다.'}
+          </Typography>
         </Box>
       </Box>
       <Box
@@ -422,14 +399,12 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
-
 const NameInput = styled.input`
   display: none;
 `;
 const PhoneInput = styled.input`
   display: none;
 `;
-
 const Input = styled(TextField)`
   border: 0.75pt solid ${colors.gray};
   border-radius: 6pt;
@@ -439,11 +414,9 @@ const Input = styled(TextField)`
     font-size: 12pt;
     line-height: 12pt;
   }
-
   & .MuiInputBase-root {
     padding-right: 9pt;
   }
-
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;
@@ -455,20 +428,20 @@ const Input = styled(TextField)`
     display: block;
   }
 `;
-const OverlapBtn = styled.button`
+const OverlapBtn = styled.button<{ isChangeColor: boolean }>`
   & .checkOverlap {
     padding: 7.5pt 9pt;
+    cursor: pointer;
   }
   margin-right: 0;
-  background: #e2e5ed;
-  color: #ffffff;
+  color: ${colors.lightWhite};
   border-radius: 6pt;
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 12pt;
-  &.changeColor {
-    background-color: ${colors.main};
-  }
+
+  background-color: ${({ isChangeColor }) =>
+    isChangeColor ? colors.main : colors.gray};
 `;
 
 export default IdPwInput;

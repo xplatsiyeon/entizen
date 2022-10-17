@@ -15,6 +15,7 @@ import AddImg from 'public/images/add-img.svg';
 import CompanyAddress from './CompanyAddress';
 import FileSelectModal from 'components/Modal/FileSelectModal';
 import { BusinessRegistrationType } from '.';
+import FileText from 'public/images/FileText.png';
 
 type Props = {
   businessRegistration: BusinessRegistrationType[];
@@ -51,6 +52,8 @@ const CompanyDetailInfo = ({
   const [nextPageOn, setNextPageOn] = useState<boolean>(false);
   const [addressOn, setAddressOn] = useState<boolean>(false);
   const [fileModal, setFileModal] = useState<boolean>(false);
+  const [imgPreview, setImgPreview] = useState<boolean>(false);
+  const [filePreview, setFilePreview] = useState<boolean>(false);
 
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCompanyName(e.target.value);
@@ -61,10 +64,12 @@ const CompanyDetailInfo = ({
   const onClickFile = () => {
     fileRef?.current?.click();
     setFileModal(false);
+    setFilePreview(true);
   };
   const onClickPhoto = () => {
     imgRef?.current?.click();
     setFileModal(false);
+    setImgPreview(true);
   };
   // 이미지 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +95,6 @@ const CompanyDetailInfo = ({
   };
   // 이미지 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log('delete');
     const name = Number(e.currentTarget.dataset.name);
     const copyArr = [...businessRegistration];
     for (let i = 0; i < copyArr.length; i++) {
@@ -99,6 +103,67 @@ const CompanyDetailInfo = ({
         return setBusinessRegistration(copyArr);
       }
     }
+  };
+  // 파일 저장
+  const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 3;
+    const newArr = [...businessRegistration];
+    // max길이 보다 짧으면 멈춤
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      // 이미지 객체 생성 후 상태에 저장
+      const imageUrl = URL.createObjectURL(files![i]);
+      console.log('test');
+      console.log(imageUrl);
+      const imageName = files![i].name;
+      const imageSize = files![i].size;
+      newArr.push({
+        url: imageUrl,
+        size: imageSize,
+        originalName: imageName,
+      });
+    }
+    setBusinessRegistration(newArr);
+  };
+  // 파일 용량 체크
+  const getByteSize = (size: number) => {
+    const byteUnits = ['KB', 'MB', 'GB', 'TB'];
+    for (let i = 0; i < byteUnits.length; i++) {
+      size = Math.floor(size / 1024);
+      if (size < 1024) return size.toFixed(1) + byteUnits[i];
+    }
+  };
+
+  // 파일 삭제
+  const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...businessRegistration];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setBusinessRegistration(copyArr);
+      }
+    }
+  };
+  const handleOnClick = () => {
+    if (!imgPreview && !filePreview) {
+      console.log('처음 클릭');
+      setFileModal(true);
+    }
+    if (imgPreview) {
+      console.log('이미지');
+      onClickPhoto();
+    }
+    if (filePreview) {
+      console.log('파일');
+      onClickFile();
+    }
+  };
+  const closeButton = () => {
+    setFileModal(false);
   };
 
   // 버튼 유효성 검사
@@ -122,9 +187,12 @@ const CompanyDetailInfo = ({
     businessRegistration,
   ]);
 
-  // 테스트용 useeffect
+  // 이미지 or 파일 1개도 없을 땐 리셋
   useEffect(() => {
-    console.log(businessRegistration);
+    if (businessRegistration.length === 0) {
+      setImgPreview(false);
+      setFilePreview(false);
+    }
   }, [businessRegistration]);
 
   // 주소검색
@@ -143,7 +211,7 @@ const CompanyDetailInfo = ({
         <FileSelectModal
           onClickFile={onClickFile}
           onClickPhoto={onClickPhoto}
-          cencleBtn={() => setFileModal(false)}
+          cencleBtn={closeButton}
         />
       )}
       <Info>
@@ -217,12 +285,13 @@ const CompanyDetailInfo = ({
           <Form>
             <label>사업자 등록증</label>
             <div>
-              <File onClick={() => setFileModal(true)}>
+              <File onClick={handleOnClick}>
                 <Image src={AddImg} alt="img" />
                 <div>이미지 또는 파일 업로드</div>
               </File>
             </div>
           </Form>
+          {/* 이미지 input */}
           <input
             style={{ display: 'none' }}
             ref={imgRef}
@@ -232,49 +301,20 @@ const CompanyDetailInfo = ({
             onChange={saveFileImage}
             multiple
           />
+          {/* 파일 input */}
           <input
             style={{ display: 'none' }}
             ref={fileRef}
             className="imageClick"
             type="file"
             accept="xlsx"
-            // onChange={saveFileImage}
+            onChange={saveFile}
             multiple
           />
           {/* <Img_Preview> */}
-          <div className="photos">
-            {businessRegistration?.map((item, index) => (
-              <ImgSpan key={index} data-name={index}>
-                <Image
-                  style={{
-                    borderRadius: '6pt',
-                  }}
-                  layout="intrinsic"
-                  alt="preview"
-                  width={80}
-                  data-name={index}
-                  height={80}
-                  key={index}
-                  src={item.url}
-                />
-                <Xbox onClick={handlePhotoDelete} data-name={index}>
-                  <Image
-                    src={CloseImg}
-                    data-name={index}
-                    layout="intrinsic"
-                    alt="closeBtn"
-                    width={24}
-                    height={24}
-                  />
-                </Xbox>
-              </ImgSpan>
-            ))}
-          </div>
-
-          {/* <File_Preview> */}
-          {/* <div className="photos">
-            {review.productImg &&
-              review.productImg.map((img: any, index: any) => (
+          <div className="img-preview">
+            {imgPreview &&
+              businessRegistration?.map((item, index) => (
                 <ImgSpan key={index} data-name={index}>
                   <Image
                     style={{
@@ -286,7 +326,7 @@ const CompanyDetailInfo = ({
                     data-name={index}
                     height={80}
                     key={index}
-                    src={img}
+                    src={item.url}
                   />
                   <Xbox onClick={handlePhotoDelete} data-name={index}>
                     <Image
@@ -300,7 +340,33 @@ const CompanyDetailInfo = ({
                   </Xbox>
                 </ImgSpan>
               ))}
-          </div> */}
+          </div>
+          {/* <File_Preview> */}
+          <div className="file-preview">
+            {filePreview &&
+              businessRegistration?.map((item, index) => (
+                <FileBox key={index} data-name={index}>
+                  <div className="file">
+                    <div className="file-img">
+                      <Image src={FileText} alt="file-icon" />
+                    </div>
+                    <div className="file-data">
+                      <span className="file-name">{item.originalName}</span>
+                      <span className="file-size">{`용량 ${getByteSize(
+                        item.size,
+                      )}`}</span>
+                    </div>
+                  </div>
+                  <div
+                    className="file-exit"
+                    onClick={handleFileDelete}
+                    data-name={index}
+                  >
+                    <Image src={CloseImg} data-name={index} alt="closeBtn" />
+                  </div>
+                </FileBox>
+              ))}
+          </div>
         </PhotosBox>
       </RemainderInputBox>
       <Btn
@@ -422,18 +488,15 @@ const PhotosBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  & .photos {
+  .img-preview {
     display: flex;
     margin-top: 15pt;
     gap: 6pt;
   }
-`;
-const AddPhotos = styled.button`
-  display: inline-block;
-  width: 56.0625pt;
-  height: 56.0625pt;
-  border: 1px solid #e2e5ed;
-  border-radius: 6pt;
+  .file-preivew {
+    border: 1px solid red;
+    background-color: red;
+  }
 `;
 const ImgSpan = styled.div`
   position: relative;
@@ -443,6 +506,45 @@ const Xbox = styled.div`
   cursor: pointer;
   top: 3.75pt;
   right: 3.75pt;
+`;
+const FileBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: ${colors.lightWhite2}; // 컬러 왜 안나옴?..
+  border-radius: 6pt;
+  padding: 12pt 15pt;
+  .file {
+    display: flex;
+  }
+  .file-img {
+    width: 24pt;
+    height: 24pt;
+  }
+  .file-data {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 9pt;
+    padding-left: 15pt;
+  }
+  .file-name {
+    font-weight: 400;
+    font-size: 10.5pt;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    color: ${colors.dark2};
+  }
+  .file-size {
+    font-weight: 400;
+    font-size: 9pt;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray2};
+  }
+  .file-exit {
+    cursor: pointer;
+  }
 `;
 
 export default CompanyDetailInfo;

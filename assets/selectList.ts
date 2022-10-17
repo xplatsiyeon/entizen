@@ -58,7 +58,6 @@ export const M5_TYPE_SET = [
   ['파워뱅크 분리형'],
   ['파워뱅크 분리형'],
 ];
-
 export const M5_CHANNEL_SET = [
   ['싱글'],
   ['싱글'],
@@ -79,7 +78,6 @@ export const M5_CHANNEL_SET = [
   ['듀얼'],
   ['듀얼'],
 ];
-
 export const M6_LIST = ['벽걸이', '스탠드', '키오스크', '파워뱅크 분리형'];
 export const M6_LIST_EN = ['WALL', 'STAND', 'KIOSK', 'DETACHABLE_POWER_BANK'];
 export const M7_LIST = ['싱글', '듀얼', '3모드'];
