@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 interface Props {
@@ -27,10 +28,11 @@ const Btn = ({
       setPropsGet(true);
     }
     console.log(propsGet);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paddingOn]);
 
   return (
-    <ButtonBox>
+    <ButtonBox propsGet={propsGet === true ? propsGet : false}>
       <Button
         onClick={handleClick}
         disabled={!isClick}
@@ -38,7 +40,8 @@ const Btn = ({
         marginTop={marginTop !== 0 ? marginTop : 0}
         isClick={isClick}
         bottom={bottom !== 0 ? bottom : 0}
-        paddingOn={paddingOn ? paddingOn : false}
+        // paddingOn={paddingOn ? paddingOn : false}
+        propsGet={propsGet === true ? propsGet : false}
       >
         {text}
       </Button>
@@ -48,13 +51,25 @@ const Btn = ({
 
 export default Btn;
 
-const ButtonBox = styled.div``;
+const ButtonBox = styled.div<{ propsGet?: boolean }>`
+  padding-left: ${({ propsGet }) => (propsGet === true ? 15 : 0)}pt;
+  padding-right: ${({ propsGet }) => (propsGet === true ? 15 : 0)}pt;
+
+  ${({ propsGet }) =>
+    propsGet === true &&
+    css`
+      position: fixed;
+      bottom: 30pt;
+      box-sizing: border-box;
+      width: 100%;
+    `}
+`;
 
 const Button = styled.button<{
   isClick: boolean;
   marginTop?: number;
   bottom?: number;
-  paddingOn?: boolean;
+  propsGet?: boolean;
 }>`
   font-weight: 700;
   margin-top: ${({ marginTop }) => marginTop && marginTop}pt;
@@ -63,8 +78,6 @@ const Button = styled.button<{
   padding-bottom: 15pt;
   margin-bottom: ${({ bottom }) => bottom !== 0 && bottom}pt;
   border-radius: 6pt;
-  padding-left: ${({ paddingOn }) => paddingOn === true && 15}pt;
-  padding-right: ${({ paddingOn }) => paddingOn === true && 15}pt;
   align-items: center;
   color: white;
   background-color: ${({ isClick }) => (isClick ? '#5a2dc9' : '#E2E5ED')};
