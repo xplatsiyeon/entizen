@@ -7,6 +7,7 @@ import colors from 'styles/colors';
 import Btn from './button';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import Modal from 'components/Modal/Modal';
 
 type Props = {
   email: string;
@@ -34,6 +35,10 @@ const ManagerInfo = ({
   const [isValid, setIsValid] = useState<boolean>(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isModal, setIsModal] = useState(false);
+
+  // 이메일 유효성 검사
   const reg_email =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
@@ -86,9 +91,14 @@ const ManagerInfo = ({
         data: {
           email,
         },
-      }).then((res) => console.log(res));
+      }).then((res) => {
+        console.log(res);
+        setModalMessage('이메일로 인증번호가 전송되었습니다.');
+        setIsModal(true);
+      });
     }
   };
+
   // 이메일 인증코드 확인
   const certifyEmailCode = () => {
     if (isEmailCodeValid) {
@@ -102,7 +112,12 @@ const ManagerInfo = ({
         },
       }).then((res) => {
         if (res.data.isValidAuthCode) {
+          setModalMessage('인증번호가 확인되었습니다.');
+          setIsModal(true);
           setIsValid(true);
+        } else {
+          setModalMessage('잘못된 인증번호입니다.');
+          setIsModal(true);
         }
       });
     }
@@ -134,6 +149,13 @@ const ManagerInfo = ({
 
   return (
     <>
+      {isModal && (
+        <Modal
+          text={modalMessage}
+          click={() => setIsModal(false)}
+          color={colors.sub4}
+        />
+      )}
       <Info>
         진행할 담당자 정보를
         <br />
@@ -167,6 +189,10 @@ const ManagerInfo = ({
             ),
           }}
         />
+        {!isEmailValid && email.length > 1 && (
+          <AlertMessage>이메일을 형식에 맞게 입력해주세요.</AlertMessage>
+        )}
+
         <Input
           placeholder="이메일 인증번호 입력"
           onChange={onChangeEmailCode}
@@ -288,5 +314,13 @@ const OverlapBtn = styled.button<{
 
 const Buttons = styled.button`
   display: none;
+`;
+const AlertMessage = styled.p`
+  font-weight: 400;
+  font-size: 9pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.sub4};
+  margin-top: 9pt;
 `;
 export default ManagerInfo;

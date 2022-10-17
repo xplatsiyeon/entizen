@@ -17,9 +17,8 @@ interface Props {
   setIsModal: Dispatch<SetStateAction<boolean>>;
 }
 
-const QuotationModal = ({ setIsModal, isModal }: Props) => {
+const CompleteModal = ({ setIsModal, isModal }: Props) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const outside = useRef();
 
   const handleModalClose = (
@@ -28,12 +27,6 @@ const QuotationModal = ({ setIsModal, isModal }: Props) => {
     if (outside.current === e.target) {
       setIsModal((prev) => !prev);
     }
-  };
-
-  const HandleButton = () => {
-    dispatch(quotationAction.init());
-    dispatch(locationAction.reset());
-    router.push('/quotation/request/complete');
   };
 
   return (
@@ -45,34 +38,22 @@ const QuotationModal = ({ setIsModal, isModal }: Props) => {
           </div>
         </ImageBox>
         <ContentText>
-          <h2 className="title">충전소 설치 주의사항</h2>
+          <h2 className="title">회원가입이 완료되었습니다!</h2>
           <div className="text-box">
-            <div className="check-icon">
-              <Image src={CheckIcon} alt="check-icon" />
-            </div>
-            <p className="text">주차공간이 필요해요.</p>
-          </div>
-          <div className="text-box">
-            <div className="check-icon">
-              <Image src={CheckIcon} alt="check-icon" />
-            </div>
-            <p className="text">토지주의 동의가 필요해요.</p>
+            <p className="text">새로운 고객들을 만나보세요</p>
           </div>
         </ContentText>
         <BtnBox>
-          <BtnLeft onClick={() => setIsModal(!isModal)}>
-            <BtnText>취소</BtnText>
-          </BtnLeft>
-          <BtnRight onClick={HandleButton}>
+          <Btn onClick={() => router.push('/')}>
             <BtnText>확인</BtnText>
-          </BtnRight>
+          </Btn>
         </BtnBox>
       </ModalBox>
     </ModalWrapper>
   );
 };
 
-export default QuotationModal;
+export default CompleteModal;
 
 const ModalWrapper = styled(Box)`
   position: fixed;
@@ -82,6 +63,7 @@ const ModalWrapper = styled(Box)`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.65);
   display: flex;
+  position: fixed;
   justify-content: center;
   align-items: flex-end;
   z-index: 100;
@@ -92,6 +74,7 @@ const ModalBox = styled(Box)`
   position: fixed;
   justify-content: center;
   align-items: center;
+  width: 251.25pt;
   border-radius: 20pt 20pt 0 0;
   padding-left: 15pt;
   padding-right: 15pt;
@@ -108,7 +91,7 @@ const ContentText = styled.div`
   font-weight: 500;
   line-height: 18pt;
   letter-spacing: -2%;
-  padding-bottom: 18pt;
+
   .title {
     font-weight: 700;
     font-size: 15pt;
@@ -116,14 +99,14 @@ const ContentText = styled.div`
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-    padding-top: 6pt;
-    padding-bottom: 12pt;
+    padding-top: 12pt;
   }
   .text-box {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 6pt;
+    padding-top: 6pt;
   }
   .text {
     font-weight: 400;
@@ -138,20 +121,14 @@ const BtnBox = styled(Box)`
   width: 100%;
   position: relative;
   display: flex;
-  gap: 9pt;
-  padding-bottom: 30pt;
-`;
-const BtnLeft = styled(Box)`
-  width: 100px;
-  display: flex;
   justify-content: center;
-  align-items: center;
-  color: ${colors.darkGray};
-  background: ${colors.gray};
-  border-radius: 6pt;
+  gap: 9pt;
+  padding: 33pt 15pt 30pt 15pt;
+  box-sizing: border-box;
 `;
-const BtnRight = styled(Box)`
-  width: 223px;
+
+const Btn = styled(Box)`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

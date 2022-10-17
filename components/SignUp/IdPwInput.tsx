@@ -73,7 +73,7 @@ const IdPwInput = ({
   companyDetailAddress,
   businessRegistration,
 }: Props) => {
-  const route = useRouter();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
@@ -92,7 +92,7 @@ const IdPwInput = ({
   const { mutate, isLoading, error } = useMutation(onSubmitCompany, {
     onSuccess: () => {
       queryClient.invalidateQueries();
-      route.push('/signUp/Complete');
+      router.push('/signUp/CompleteCompany');
     },
     onError: (error) => {
       console.log('----회원가입 실패----');
@@ -120,6 +120,8 @@ const IdPwInput = ({
   };
 
   const overlabCheck = () => {
+    console.log('data---------------');
+    console.log(data);
     setInitIdAlert(true);
     refetch();
   };
@@ -299,21 +301,36 @@ const IdPwInput = ({
           }}
         />
         <Box>
-          <Typography
-            sx={{
-              color: '#F75015',
-              fontSize: '9pt',
-              lineHeight: '12pt',
-              marginTop: '9pt',
-            }}
-          >
-            {data?.isMember === true &&
+          {data?.isMember === false && initIdAlert && (
+            <Typography
+              sx={{
+                color: colors.main,
+                fontSize: '9pt',
+                lineHeight: '12pt',
+                marginTop: '9pt',
+              }}
+            >
+              사용가능한 아이디입니다.
+            </Typography>
+          )}
+          {data?.isMember === true && initIdAlert && (
+            <Typography
+              sx={{
+                color: colors.sub4,
+                fontSize: '9pt',
+                lineHeight: '12pt',
+                marginTop: '9pt',
+              }}
+            >
+              이미 사용중인 아이디입니다.
+            </Typography>
+          )}
+          {/* {data?.isMember === true &&
               initIdAlert &&
               '이미 사용중인 아이디입니다.'}
             {data?.isMember === false &&
               initIdAlert &&
-              '사용가능한 아이디입니다.'}
-          </Typography>
+              '사용가능한 아이디입니다.'} */}
         </Box>
       </Box>
       <Box
