@@ -10,9 +10,12 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 const ProfileEditing = () => {
   const router = useRouter();
+  const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState<string>('');
@@ -76,6 +79,8 @@ const ProfileEditing = () => {
         },
       })
         .then((res) => {
+          console.log('---res 데이터---');
+          console.log(res);
           setId(res.data.id);
           setName(res.data.name);
         })
@@ -94,7 +99,7 @@ const ProfileEditing = () => {
   };
   // 나이스 인증
   useEffect(() => {
-    const memberType = 'USER';
+    const memberType = selectedType;
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',

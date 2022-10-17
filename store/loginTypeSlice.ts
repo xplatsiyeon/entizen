@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface LoginType {
-  selectedType: string;
+  selectedType: 'USER' | 'COMPANY';
 }
 
 const initialState: LoginType = {
-  selectedType: 'company',
+  selectedType: 'COMPANY',
 };
 
 const slice = createSlice({

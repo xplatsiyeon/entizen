@@ -28,6 +28,7 @@ interface Terms {
 
 const SignUpTerms = () => {
   const router = useRouter();
+  const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [fullTerms, setFullTerms] = useState(false);
   const [name, setName] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -55,20 +56,16 @@ const SignUpTerms = () => {
     }
   };
   useEffect(() => {
-    // console.log(localStorage.getItem('key'));
-    const memberType = 'USER';
-
+    const memberType = selectedType;
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
-        // console.log(res.data);
         setData(res.data.executedData);
         console.log('엑시오스 데이터 66번째 줄입니다   =>   ');
         console.log(res.data.executedData);
-        // encodeData = res.data.executedData;
       })
       .catch((error) => {
         console.error(error);

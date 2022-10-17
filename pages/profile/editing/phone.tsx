@@ -6,6 +6,8 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 interface Key {
   id: string;
@@ -24,6 +26,7 @@ interface UserInfo {
 
 const phone = () => {
   const router = useRouter();
+  const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [data, setData] = useState<any>();
   const [userInfo, setUserInfo] = useState<UserInfo>();
   const [checkSns, setCheckSns] = useState<boolean>(false);
@@ -92,7 +95,7 @@ const phone = () => {
   };
   // 나이스 인증
   useEffect(() => {
-    const memberType = 'USER';
+    const memberType = selectedType;
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',

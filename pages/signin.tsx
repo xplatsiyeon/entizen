@@ -229,11 +229,10 @@ const Signin = (props: Props) => {
   };
   // 나이스 인증
   useEffect(() => {
-    const memberType = 'USER';
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',
-      data: { memberType },
+      data: loginTypeEnList[selectedLoginType],
     })
       .then((res) => {
         setData(res.data.executedData);
