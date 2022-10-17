@@ -193,6 +193,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   useEffect(() => {
     setIsValid(true);
     validation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption]);
   // 내용 기억
   useEffect(() => {
