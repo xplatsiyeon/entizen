@@ -1,14 +1,13 @@
-import { useEffect } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import qs from 'qs';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { kakaoInit } from 'utils/kakao';
 
 const Auth = () => {
   const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
   // const REDIRECT_URI = 'http://localhost:3000/kakaoAuth';
   const REDIRECT_URI = 'https://test-api.entizen.kr/kakaoAuth';
-  // const CLIENT_SECRET = process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT_KEY;
   const CLIENT_SECRET = 'asdasdakhj1243789123798';
   // calllback으로 받은 인가코드
   const code = new URL(window.location.href).searchParams.get('code');

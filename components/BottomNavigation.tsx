@@ -30,7 +30,7 @@ const BottomNavigation = (props: Props) => {
   const [myQuotaion, setMyQuotation] = useState(0);
 
   useEffect(() => {
-    if (selectedType === 'user' || selectedType === '') {
+    if (selectedType === 'USER') {
       switch (pathname) {
         case '/':
           return setTabNumber(0);
@@ -45,7 +45,7 @@ const BottomNavigation = (props: Props) => {
         default:
           break;
       }
-    } else if (selectedType === 'company') {
+    } else if (selectedType === 'COMPANY') {
       switch (pathname) {
         case '/':
           return setTabNumber(0);
@@ -66,7 +66,7 @@ const BottomNavigation = (props: Props) => {
 
   return (
     <Wrapper>
-      {selectedType === 'user' || selectedType === '' ? (
+      {selectedType === 'USER' ? (
         <>
           <BoxBg>
             <div

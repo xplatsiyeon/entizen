@@ -282,9 +282,9 @@ const Signin = (props: Props) => {
 
   useEffect(() => {
     if (selectedLoginType === 0) {
-      dispatch(selectAction.select('user'));
+      dispatch(selectAction.select('USER'));
     } else if (selectedLoginType === 1) {
-      dispatch(selectAction.select('company'));
+      dispatch(selectAction.select('COMPANY'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
@@ -468,71 +468,75 @@ const Signin = (props: Props) => {
                     )}
                   </Box>
                 </Box>
-                <Box
-                  sx={{
-                    width: 'calc(100% - 37.5pt)',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    margin: '102pt auto 0',
-                  }}
-                >
-                  <Box sx={{ height: '33pt', marginRight: '15pt' }}>
-                    <Link href={KAKAO_AUTH_URL}>
-                      <Image src={kakao} alt="kakao" />
-                    </Link>
-                  </Box>
-                  <Box
-                    sx={{ height: '33pt', marginRight: '15pt' }}
-                    onClick={handleAlert}
-                  >
-                    <Image src={apple} alt="apple" />
-                  </Box>
-                  <NaverBox>
-                    <Box id="naverIdLogin" ref={naverRef}></Box>
-                    {/* <Image onClick={handleNaver} src={naver} alt="naver" /> */}
-                    <Image onClick={handleNaver} src={naver} alt="naver" />
-                  </NaverBox>
-                  <Box sx={{ height: '33pt' }} onClick={handleAlert}>
-                    <Image src={google} alt="google" />
-                  </Box>
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    margin: '18pt 24.75pt 0 24.75pt',
-                  }}
-                >
-                  <Divider
-                    sx={{
-                      background: '#CACCD1',
-                      width: '35%',
-                      height: '0.75pt',
-                    }}
-                  ></Divider>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontWeight: 400,
-                      fontSize: '10.5pt',
-                      lineHeight: '12pt',
-                      textAlign: 'center',
-                      letterSpacing: '-0.02em',
-                      color: '#CACCD1',
-                    }}
-                  >
-                    또는
-                  </Typography>
-                  <Divider
-                    sx={{
-                      background: '#CACCD1',
-                      width: '35%',
-                      height: '0.75pt',
-                    }}
-                  ></Divider>
-                </Box>
+                {selectedLoginType === 0 && (
+                  <>
+                    <Box
+                      sx={{
+                        width: 'calc(100% - 37.5pt)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: '102pt auto 0',
+                      }}
+                    >
+                      <Box sx={{ height: '33pt', marginRight: '15pt' }}>
+                        <Link href={KAKAO_AUTH_URL}>
+                          <Image src={kakao} alt="kakao" />
+                        </Link>
+                      </Box>
+                      <Box
+                        sx={{ height: '33pt', marginRight: '15pt' }}
+                        onClick={handleAlert}
+                      >
+                        <Image src={apple} alt="apple" />
+                      </Box>
+                      <NaverBox>
+                        <Box id="naverIdLogin" ref={naverRef}></Box>
+                        {/* <Image onClick={handleNaver} src={naver} alt="naver" /> */}
+                        <Image onClick={handleNaver} src={naver} alt="naver" />
+                      </NaverBox>
+                      <Box sx={{ height: '33pt' }} onClick={handleAlert}>
+                        <Image src={google} alt="google" />
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        margin: '18pt 24.75pt 0 24.75pt',
+                      }}
+                    >
+                      <Divider
+                        sx={{
+                          background: '#CACCD1',
+                          width: '35%',
+                          height: '0.75pt',
+                        }}
+                      ></Divider>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          fontWeight: 400,
+                          fontSize: '10.5pt',
+                          lineHeight: '12pt',
+                          textAlign: 'center',
+                          letterSpacing: '-0.02em',
+                          color: '#CACCD1',
+                        }}
+                      >
+                        또는
+                      </Typography>
+                      <Divider
+                        sx={{
+                          background: '#CACCD1',
+                          width: '35%',
+                          height: '0.75pt',
+                        }}
+                      ></Divider>
+                    </Box>
+                  </>
+                )}
                 <Box
                   sx={{
                     margin: '18pt 18pt 0 18pt',
