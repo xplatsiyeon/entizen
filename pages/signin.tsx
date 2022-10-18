@@ -114,9 +114,16 @@ const Signin = (props: Props) => {
       //   }
       // });
     } catch (error: any) {
-      // alert('에러 발생');
-      console.log('에러가 발생했다!!!');
-      console.log(error);
+      const { message } = error?.response?.data;
+      if (message === '탈퇴된 회원입니다.') {
+        setErrorModal(true);
+        setErrorMessage(
+          '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+        );
+      } else {
+        setErrorModal(true);
+        setErrorMessage(message);
+      }
     }
   };
   // 네이버 로그인
