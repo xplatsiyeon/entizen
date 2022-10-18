@@ -88,7 +88,27 @@ const IdPwInput = ({
       },
     },
   );
-  const { mutate, isLoading, error } = useMutation(onSubmitCompany, {
+  const {
+    mutate: userMutate,
+    isLoading: userLoading,
+    error: userError,
+  } = useMutation(onSubmitCompany, {
+    onSuccess: () => {
+      console.log('성공');
+      queryClient.invalidateQueries();
+      router.push('/signUp/Complete');
+    },
+    onError: (error) => {
+      console.log('----회원가입 실패----');
+      console.log(error);
+      alert('회원가입 실패했습니다. 다시 시도해주세요.');
+    },
+  });
+  const {
+    mutate: companyMutate,
+    isLoading: companyLoading,
+    error: companyError,
+  } = useMutation(onSubmitCompany, {
     onSuccess: () => {
       console.log('성공');
       queryClient.invalidateQueries();
@@ -97,7 +117,7 @@ const IdPwInput = ({
     onError: (error) => {
       console.log('----회원가입 실패----');
       console.log(error);
-      alert('다시 시도해주세요.');
+      alert('회원가입 실패했습니다. 다시 시도해주세요.');
     },
   });
 
@@ -130,7 +150,7 @@ const IdPwInput = ({
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
-      mutate({
+      userMutate({
         memberType: 'USER',
         name: name,
         phone: phoneNumber,
@@ -148,7 +168,7 @@ const IdPwInput = ({
   // 기업 회원가입 온클릭
   const handleCompanyClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw)
-      mutate({
+      companyMutate({
         memberType: 'COMPANY',
         name: name,
         phone: phoneNumber,
@@ -199,7 +219,7 @@ const IdPwInput = ({
   }, [data]);
 
   // 로딩처리
-  if (isLoading) {
+  if (userLoading || companyLoading) {
     console.log('로딩중...');
   }
 
