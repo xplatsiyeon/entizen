@@ -94,6 +94,10 @@ const Header = styled.div`
     right: 15pt;
   }
 
+  .home {
+    position: absolute;
+    right: 15pt;
+  }
   @media (max-width: 899pt) {
     display: flex;
   }

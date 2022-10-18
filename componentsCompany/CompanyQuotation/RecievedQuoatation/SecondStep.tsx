@@ -152,6 +152,34 @@ const SecondStep = ({
     }
   };
 
+  // 이전
+  const handlePrevBtn = () => {
+    if (tabNumber > 0) setTabNumber(tabNumber - 1);
+  };
+  // 다음
+  const handleNextBtn = () => {
+    // if (buttonActivate) {
+    //   // 홈충전기 그래프 선택 불가 상품일 경우
+    //   if (unavailableGraph) {
+    //     dispatch(
+    //       quotationAction.setStep2({
+    //         subscribeProduct: subscribeTypeEn[subscribeNumber],
+    //         investRate: '1',
+    //       }),
+    //     );
+    //     // 일반 경우
+    //   } else {
+    //     dispatch(
+    //       quotationAction.setStep2({
+    //         subscribeProduct: subscribeTypeEn[subscribeNumber],
+    //         investRate: (value / 100).toString(),
+    //       }),
+    //     );
+    //   }
+    setTabNumber(tabNumber + 1);
+    // }
+  };
+
   return (
     <>
       <Wrapper>
@@ -315,9 +343,7 @@ const SecondStep = ({
                       <Image src={FileText} alt="file-icon" />
                     </div>
                     <div className="file-data">
-                      <span className="file-name">
-                        {item.originalName.slice()}
-                      </span>
+                      <span className="file-name">{item.originalName}</span>
                       <span className="file-size">{`용량 ${getByteSize(
                         item.size,
                       )}`}</span>
@@ -336,6 +362,10 @@ const SecondStep = ({
           </PhotosBoxs>
         </RemainderInputBoxs>
       </SecondWrapper>
+      <TwoBtn>
+        <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
+        <NextBtn onClick={handleNextBtn}>다음</NextBtn>
+      </TwoBtn>
     </>
   );
 };
@@ -649,11 +679,13 @@ const RemainderInputBoxs = styled.div`
   position: relative;
   width: 100%;
   display: flex;
-  height: 100%;
+  /* height: 100%; */
   margin-top: 24pt;
   & .file-preview {
     display: flex;
+    width: 100%;
     flex-direction: column;
+    padding-bottom: 58.6875pt;
     gap: 9pt;
   }
 `;
@@ -683,6 +715,7 @@ const PhotosBoxs = styled.div`
   flex-direction: column;
   gap: 9pt;
   align-items: center;
+  padding-bottom: 58.6875pt;
 `;
 
 const AddPhotos = styled.button`
@@ -704,30 +737,29 @@ const Xbox = styled.div`
 
 const FileBox = styled.div`
   display: flex;
-  /* position: relative; */
-  /* justify-content: space-between; */
   align-items: center;
   background: ${colors.lightWhite2}; // 컬러 왜 안나옴?..
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
-  /* width: 100%; */
+  position: relative;
+  box-sizing: border-box;
   padding: 12pt 15pt;
-  .file {
+  & .file {
     display: flex;
-    justify-content: space-between;
+    width: 100%;
   }
-  .file-img {
+  & .file > .file-img {
     width: 24pt;
     height: 24pt;
   }
-  .file-data {
+  & .file > .file-data {
     display: flex;
     justify-content: center;
     flex-direction: column;
     gap: 9pt;
     padding-left: 15pt;
   }
-  .file-name {
+  & .file > .file-data > .file-name {
     font-weight: 400;
     font-size: 10.5pt;
     line-height: 9pt;
@@ -742,9 +774,13 @@ const FileBox = styled.div`
     color: ${colors.lightGray2};
   }
   .file-exit {
-    position: relative;
-    right: 0;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
     cursor: pointer;
+    position: absolute;
+    top: 16.5pt;
+    right: 15pt;
   }
 `;
 
@@ -793,6 +829,56 @@ const File = styled.label`
     font-size: 12pt;
     line-height: 12pt;
     color: #caccd1;
+  }
+`;
+/* ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')}; */
+/* ${({ buttonActivate }) =>
+    buttonActivate ? colors.main : colors.blue3}; */
+const NextBtn = styled.div<{
+  //   buttonActivate: boolean;
+  //   subscribeNumber?: number;
+}>`
+  color: ${colors.lightWhite};
+  width: 100%;
+
+  padding: 15pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${colors.main};
+
+  cursor: pointer;
+  @media (max-width: 899pt) {
+    padding: 15pt 0 39pt 0;
+  }
+`;
+const PrevBtn = styled.div`
+  color: ${colors.lightWhite};
+  width: 36%;
+  padding: 15pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  background-color: ${colors.gray};
+  cursor: pointer;
+  @media (max-width: 899pt) {
+    padding: 15pt 0 39pt 0;
+  }
+`;
+const TwoBtn = styled.div`
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  @media (max-width: 899pt) {
+    position: fixed;
   }
 `;
 

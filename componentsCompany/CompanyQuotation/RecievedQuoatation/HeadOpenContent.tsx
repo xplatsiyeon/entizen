@@ -16,6 +16,7 @@ import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
 import { BusinessRegistrationType } from 'components/SignUp';
+import TwoBtnModal from 'components/Modal/TwoBtnModal';
 
 type Props = {};
 interface Components {
@@ -55,6 +56,9 @@ const HeadOpenContent = (props: Props) => {
   const [businessRegistration, setBusinessRegistration] = useState<
     BusinessRegistrationType[]
   >([]);
+
+  // 모달
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   // step 컴포넌트
   const components: Components = {
@@ -118,14 +122,40 @@ const HeadOpenContent = (props: Props) => {
     setTabNumber(tabNumber + 1);
   };
 
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
   return (
     <>
-      <MypageHeader
-        back={true}
-        title={'받은 요청'}
-        handleBackClick={handleBackClick}
-      />
-
+      {modalOpen && (
+        <TwoBtnModal
+          text={
+            '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
+          }
+          leftBtnText={'그만하기'}
+          rightBtnText={'계속 작성하기'}
+          leftBtnColor={'#A6A9B0'}
+          rightBtnColor={'#5221CB'}
+          leftBtnControl={() => router.back()}
+          rightBtnControl={() => setModalOpen(false)}
+          exit={() => setModalOpen(false)}
+        />
+      )}
+      {tabNumber === -1 && (
+        <MypageHeader
+          back={true}
+          title={'받은 요청'}
+          handleBackClick={handleBackClick}
+        />
+      )}{' '}
+      {tabNumber >= 0 && (
+        <MypageHeader
+          back={true}
+          title={'가견적 작성'}
+          handleBackClick={handleModalOpen}
+        />
+      )}
       <Wrapper>
         <ItemButton onClick={handleClick}>
           <StoreName>
@@ -186,7 +216,6 @@ const HeadOpenContent = (props: Props) => {
           </List>
         </Collapse>
       </Wrapper>
-
       {/* 가견적 작성하기 부분 */}
       {tabNumber === -1 && (
         <Btn

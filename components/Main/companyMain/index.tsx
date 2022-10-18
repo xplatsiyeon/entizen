@@ -24,9 +24,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import Carousel from '../Carousel';
 import QuotationCenter from './QuotationCenter';
-import CheckQuotationBtn from './CheckQuotationBtn';
+
 import Footer from '../Footer';
 import BottomNavigation from 'components/BottomNavigation';
+import CheckQuotationBtn from './CheckQuotationBtn';
 
 type Props = {};
 
