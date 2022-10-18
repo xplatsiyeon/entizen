@@ -14,7 +14,7 @@ import { RootState } from 'store/store';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
-import { api } from 'api';
+import { api, isTokenApi } from 'api';
 import { useMutation } from 'react-query';
 
 type Props = {};
@@ -29,7 +29,7 @@ interface CalculateValue {
 const Request1_7 = (props: Props) => {
   const TAG = '1-7.tsx';
 
-  const { mutate, error, isLoading } = useMutation(api, {
+  const { mutate, error, isLoading } = useMutation(isTokenApi, {
     onSuccess: (res) => {
       console.log(res);
       console.log('성공 확인');
@@ -123,9 +123,8 @@ const Request1_7 = (props: Props) => {
 
   const testBtn = () => {
     mutate({
-      endpoint: '/quotations/request',
-      isToken: true,
       method: 'POST',
+      endpoint: '/quotations/request',
       Tag: 'quotation/request/1-7 => 간편견적 요청 포스트',
       data: {
         chargers: quotationData.chargers,
