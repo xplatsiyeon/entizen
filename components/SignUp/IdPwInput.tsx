@@ -8,7 +8,7 @@ import colors from 'styles/colors';
 import Btn from './button';
 import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { onSubmitCompany, ValidIdCheck } from 'api/auth/login';
+import { onSubmitSignUp, ValidIdCheck } from 'api/auth/login';
 
 type Props = {
   idInput: string;
@@ -92,7 +92,7 @@ const IdPwInput = ({
     mutate: userMutate,
     isLoading: userLoading,
     error: userError,
-  } = useMutation(onSubmitCompany, {
+  } = useMutation(onSubmitSignUp, {
     onSuccess: () => {
       console.log('성공');
       queryClient.invalidateQueries();
@@ -108,7 +108,7 @@ const IdPwInput = ({
     mutate: companyMutate,
     isLoading: companyLoading,
     error: companyError,
-  } = useMutation(onSubmitCompany, {
+  } = useMutation(onSubmitSignUp, {
     onSuccess: () => {
       console.log('성공');
       queryClient.invalidateQueries();
