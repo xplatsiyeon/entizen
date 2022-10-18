@@ -26,7 +26,7 @@ const CompanyQuotations = (props: Props) => {
           checkedFilter={checkedFilter}
           setCheckedFilter={setCheckedFilter}
         />
-        <RecieveRequest />
+        <RecieveRequest checkedFilter={checkedFilter} />
       </Container>
       <BottomNavigation />
     </>

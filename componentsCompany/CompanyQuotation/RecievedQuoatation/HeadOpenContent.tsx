@@ -61,39 +61,7 @@ const HeadOpenContent = (props: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   // step 컴포넌트
-  // const [components, setComponents] = useState<Components>({
-  //   // 기본
-  //   0: (
-  //     <FirstStep
-  //       tabNumber={tabNumber}
-  //       setTabNumber={setTabNumber}
-  //       monthlySubscribePrice={monthlySubscribePrice}
-  //       setMonthleSubscribePrice={setMonthleSubscribePrice}
-  //       constructionPeriod={constructionPeriod}
-  //       setConstructionPeriod={setConstructionPeriod}
-  //       firstPageTextArea={firstPageTextArea}
-  //       setFirstPageTextArea={setFirstPageTextArea}
-  //       canNext={canNext}
-  //       SetCanNext={SetCanNext}
-  //     />
-  //   ),
-  //   // 스텝 2~6
-  //   1: (
-  //     <SecondStep
-  //       tabNumber={tabNumber}
-  //       setTabNumber={setTabNumber}
-  //       canNext={canNext}
-  //       SetCanNext={SetCanNext}
-  //       customerOwner={customerOwner}
-  //       setCustomerOwner={setCustomerOwner}
-  //       review={review}
-  //       setReview={setReview}
-  //       businessRegistration={businessRegistration}
-  //       setBusinessRegistration={setBusinessRegistration}
-  //     />
-  //   ),
-  // });
-  const [components, setComponents] = useState<Components>({
+  const components: Components = {
     // 기본
     0: (
       <FirstStep
@@ -124,7 +92,7 @@ const HeadOpenContent = (props: Props) => {
         setBusinessRegistration={setBusinessRegistration}
       />
     ),
-  });
+  };
 
   useEffect(() => {
     if (router.pathname.includes('1-1')) {

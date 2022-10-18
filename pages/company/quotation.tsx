@@ -3,7 +3,7 @@ import React from 'react';
 
 type Props = {};
 
-const CompanyQuotation = (props: Props) => {
+const Quotation = (props: Props) => {
   return (
     <>
       <CompanyQuotations />
@@ -11,4 +11,4 @@ const CompanyQuotation = (props: Props) => {
   );
 };
 
-export default CompanyQuotation;
+export default Quotation;

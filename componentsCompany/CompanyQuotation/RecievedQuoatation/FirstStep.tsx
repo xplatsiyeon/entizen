@@ -210,9 +210,9 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   bottom: 0;
   left: 0;
   width: 100%;
+  box-sizing: border-box;
   color: ${colors.lightWhite};
-  width: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '64%')};
-  padding: 15pt 0 15pt 0;
+  padding: 15pt 0 39pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -222,11 +222,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   cursor: pointer;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
-
-  @media (max-width: 899pt) {
-    position: fixed;
-    padding: 15pt 0 39pt 0;
-  }
 `;
 
 export default FirstStep;
+//

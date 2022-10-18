@@ -113,7 +113,6 @@ const SecondStep = ({
   };
 
   //파일
-
   const handleFileClick = () => {
     fileRef?.current?.click();
   };
@@ -160,9 +159,8 @@ const SecondStep = ({
     }
   };
 
-  const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
-    e.target.value;
-    // setSelectedItem(e.target.value);
+  const onChangeSelectBox = (e: any) => {
+    setSelectedItem(e.target.value);
   };
   // 이전
   const handlePrevBtn = () => {
@@ -238,24 +236,25 @@ const SecondStep = ({
           </div>
           <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
         </TopBox>
-        <SelectBox
-          value={selectedItem}
-          placeholder="충전기 종류"
-          name="kind"
-          onChange={(e) => onChangeSelectBox(e)}
-          IconComponent={() => <SelectIcon />}
-          displayEmpty
-        >
-          <MenuItem value="">
-            <Placeholder>충전기 종류</Placeholder>
-          </MenuItem>
-
-          {chargerData.map((el, index) => (
-            <MenuItem key={index} value={el}>
-              {el}
+        <SelectContainer>
+          <SelectBox
+            value={selectedItem}
+            onChange={(e) => onChangeSelectBox(e)}
+            IconComponent={() => <SelectIcon />}
+            displayEmpty
+          >
+            <MenuItem value="">
+              <Placeholder>충전기 종류</Placeholder>
             </MenuItem>
-          ))}
-        </SelectBox>
+
+            {chargerData.map((el, index) => (
+              <MenuItem key={index} value={el}>
+                {el}
+              </MenuItem>
+            ))}
+          </SelectBox>
+        </SelectContainer>
+
         <BottomInputBox>
           <div className="withAfter">제조사</div>
           <div>
@@ -388,7 +387,6 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   padding-bottom: 30pt;
 `;
-
 const SecondWrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
@@ -396,7 +394,6 @@ const SecondWrapper = styled.div`
   margin-top: 30pt;
   padding-bottom: 58.6875pt;
 `;
-
 const TopStep = styled.div`
   margin-top: 24pt;
   display: flex;
@@ -419,7 +416,6 @@ const TopStep = styled.div`
     text-align: left;
   }
 `;
-
 const SubWord = styled.div`
   margin-top: 6pt;
   font-family: Spoqa Han Sans Neo;
@@ -433,7 +429,6 @@ const SubWord = styled.div`
     display: inline-block;
   }
 `;
-
 // 충전요금 버튼, 인풋 부분
 const ChargeMoney = styled.div`
   margin-top: 30pt;
@@ -454,12 +449,10 @@ const ChargeMoney = styled.div`
     color: #f75015;
   }
 `;
-
 const BtnBox = styled.div`
   display: flex;
   gap: 11.25pt;
 `;
-
 const Btn = styled.div`
   font-family: Spoqa Han Sans Neo;
   font-size: 12pt;
@@ -478,12 +471,10 @@ const Btn = styled.div`
     color: ${colors.main};
   }
 `;
-
 const InputBox = styled.div`
   display: flex;
   gap: 9pt;
   flex-direction: column;
-
   &.secondChargerText {
     margin-top: 30pt;
     & div:first-of-type {
@@ -546,7 +537,6 @@ const BottomInputBox = styled.div`
     text-align: left;
   }
 `;
-
 const Input = styled(TextField)`
   width: 100%;
   & input {
@@ -570,7 +560,6 @@ const Input = styled(TextField)`
     display: block;
   }
 `;
-
 // 제조사 input 텍스트 align 달라서 분리
 const Inputs = styled(TextField)`
   width: 100%;
@@ -595,13 +584,11 @@ const Inputs = styled(TextField)`
     display: block;
   }
 `;
-
 const Divide = styled.div`
   width: 100vw;
   height: 3pt;
   background-color: #f3f4f7;
 `;
-
 const TopBox = styled.div`
   & div:first-of-type {
     font-family: Spoqa Han Sans Neo;
@@ -626,7 +613,11 @@ const TopBox = styled.div`
     color: #747780;
   }
 `;
-
+const SelectContainer = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 8.25pt;
+`;
 const SelectBox = styled(Select)`
   width: 100%;
   border: 1px solid #e2e5ed;

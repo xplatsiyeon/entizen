@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 import CommonBtn from 'components/mypage/as/CommonBtn';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-type Props = {};
+type Props = {
+  checkedFilter: string;
+};
 interface Data {
   id: number;
   badge: string;
@@ -13,7 +15,7 @@ interface Data {
   bgColor: string;
 }
 
-const RecieveRequest = (props: Props) => {
+const RecieveRequest = (checkedFilter: Props) => {
   const router = useRouter();
   const tempProceeding: Data[] = [
     {
@@ -29,6 +31,22 @@ const RecieveRequest = (props: Props) => {
       bgColor: '#F75015',
     },
   ];
+
+  // 뱃지 변경
+  const HandleColor = (badge: string): string => {
+    if (badge.includes('마감')) return '#F75015';
+    else if (badge.includes('현장실사') || badge.includes('최종견적'))
+      return '#5221CB';
+    else if (badge.includes('대기')) return '#FFC043';
+    else if (badge.includes('낙찰성공')) return '#222222';
+    else if (badge.includes('견적취소') || badge.includes('낙찰실패'))
+      return '#CACCD1';
+    else return '#5A2DC9';
+  };
+
+  // useEffect(() => {
+  //   if(checkedFilter)
+  // } ,[])
 
   return (
     <ContentsContainer>

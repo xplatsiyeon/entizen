@@ -51,7 +51,7 @@ const BottomNavigation = (props: Props) => {
       switch (pathname) {
         case '/':
           return setTabNumber(0);
-        case '/companyQuotation':
+        case '/company/quotation':
           return setTabNumber(1);
         case '/estimate':
           return setTabNumber(2);
@@ -163,7 +163,7 @@ const BottomNavigation = (props: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                router.push('/companyQuotation');
+                router.push('/company/quotation');
               }}
             >
               {myQuotaion > 0 && (
