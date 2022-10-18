@@ -11,7 +11,7 @@ import { originUserInfoSlice } from './userInfoSlice';
 import { findUserInfoSlice } from './findSlice';
 import { selectSlice } from './loginTypeSlice';
 import { companySignUpSlice } from 'storeCompany/companySignUpSlice';
-import { myEstimateSlice } from 'storeCompany/myEstimate';
+import { myEstimateSlice } from 'storeCompany/myQuotation';
 
 export type RootState = ReturnType<typeof rootReducer>;
 

@@ -9,7 +9,7 @@ type Props = {
 
 const CommonBtn = (props: Props) => {
   const { text, backgroundColor, bottom } = props;
-  console.log(bottom);
+
   return (
     <StatusBtn
       backgroundColor={backgroundColor}

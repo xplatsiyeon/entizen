@@ -7,11 +7,14 @@ import Tab from './Tab';
 
 type Props = {};
 
+export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순 보기';
+
 const CompanyQuotations = (props: Props) => {
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [searchWord, setSearchWord] = useState<string>('');
   const [checkedFilterIndex, setCheckedFilterIndex] = useState<number>(0);
-  const [checkedFilter, setCheckedFilter] = useState<string>('등록일순 보기');
+  const [checkedFilter, setCheckedFilter] =
+    useState<filterType>('마감일순 보기');
   return (
     <>
       <Container>
@@ -26,7 +29,7 @@ const CompanyQuotations = (props: Props) => {
           checkedFilter={checkedFilter}
           setCheckedFilter={setCheckedFilter}
         />
-        <RecieveRequest checkedFilter={checkedFilter} />
+        <RecieveRequest checkedFilterIndex={checkedFilterIndex} />
       </Container>
       <BottomNavigation />
     </>

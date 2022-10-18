@@ -1,17 +1,22 @@
 import axios from 'axios';
 
+interface ApiProps {
+  endpoint: string;
+  data?: any;
+  isToken: boolean;
+  Tag: string;
+  method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+}
+
 const BASE_URL = 'https://test-api.entizen.kr/api';
 const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
 
-// POST API
-export const Postapi = async (
-  endpoint: string,
-  data: any,
-  isToken: boolean,
-  Tag: string,
-) => {
+// API 호출
+export const api = async (apiInfo: ApiProps) => {
+  const { Tag, data, endpoint, isToken, method } = apiInfo;
+
   return await axios({
-    method: 'post',
+    method,
     url: `${BASE_URL}${endpoint}`,
     data,
     headers: {
@@ -19,5 +24,8 @@ export const Postapi = async (
       ContentType: 'application/json',
     },
     withCredentials: true,
+  }).then((res) => {
+    console.log(Tag + '->' + endpoint);
+    console.log(res.data);
   });
 };

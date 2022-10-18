@@ -17,6 +17,7 @@ import search from 'public/images/search.png';
 import colors from 'styles/colors';
 import checkSvg from 'public/images/check-small.png';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
+import { filterType } from '.';
 
 type Props = {
   tabNumber: number;
@@ -25,8 +26,8 @@ type Props = {
   setSearchWord: Dispatch<SetStateAction<string>>;
   checkedFilterIndex: number;
   setCheckedFilterIndex: Dispatch<SetStateAction<number>>;
-  checkedFilter: string;
-  setCheckedFilter: Dispatch<SetStateAction<string>>;
+  checkedFilter: filterType;
+  setCheckedFilter: Dispatch<SetStateAction<filterType>>;
 };
 
 const Tab = ({
@@ -45,10 +46,12 @@ const Tab = ({
     '히스토리',
   ]);
 
-  const [state, setState] = useState({
-    bottom: false,
-  });
-  const filterList: string[] = ['마감일순 보기', '상태순 보기', '날짜순 보기'];
+  const [state, setState] = useState({ bottom: false });
+  const filterList: filterType[] = [
+    '마감일순 보기',
+    '상태순 보기',
+    '날짜순 보기',
+  ];
 
   useEffect(() => {
     setCheckedFilter(filterList[checkedFilterIndex]);
@@ -127,8 +130,8 @@ const Tab = ({
         ))}
       </TabBox>
       <FilterBtnBox>
-        {(['bottom'] as const).map((anchor) => (
-          <React.Fragment key={anchor}>
+        {(['bottom'] as const).map((anchor, index) => (
+          <React.Fragment key={index}>
             <FilterBtn onClick={toggleDrawer(anchor, true)}>
               <span>{checkedFilter}</span>
               <span>

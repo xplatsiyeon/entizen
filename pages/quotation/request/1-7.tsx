@@ -14,6 +14,8 @@ import { RootState } from 'store/store';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
+import { api } from 'api';
+import { useMutation } from 'react-query';
 
 type Props = {};
 
@@ -26,6 +28,17 @@ interface CalculateValue {
 
 const Request1_7 = (props: Props) => {
   const TAG = '1-7.tsx';
+
+  const { mutate, error, isLoading } = useMutation(api, {
+    onSuccess: (res) => {
+      console.log(res);
+      console.log('성공 확인');
+    },
+    onError: (error) => {
+      console.log('실패');
+      console.log(error);
+    },
+  });
 
   const router = useRouter();
   const [textValue, setTextValue] = useState('');
@@ -108,6 +121,25 @@ const Request1_7 = (props: Props) => {
       });
   };
 
+  const testBtn = () => {
+    mutate({
+      endpoint: '/quotations/request',
+      isToken: true,
+      method: 'POST',
+      Tag: 'quotation/request/1-7 => 간편견적 요청 포스트',
+      data: {
+        chargers: quotationData.chargers,
+        subscribeProduct: quotationData.subscribeProduct,
+        investRate: quotationData.investRate.toString(),
+        subscribePeriod: quotationData.subscribePeriod,
+        installationAddress: locationList.locationList.roadAddrPart,
+        installationLocation: quotationData.installationLocation,
+        installationPoints: quotationData.installationPoints,
+        installationPurpose: quotationData.installationPurpose,
+        etcRequest: textValue,
+      },
+    });
+  };
   return (
     <React.Fragment>
       <WebBody>
@@ -189,7 +221,8 @@ const Request1_7 = (props: Props) => {
                 ></textarea>
               </RequestForm>
             </Body>
-            <Btn buttonActivate={buttonActivate} onClick={onClickRequest}>
+            {/* <Btn buttonActivate={buttonActivate} onClick={onClickRequest}> */}
+            <Btn buttonActivate={buttonActivate} onClick={testBtn}>
               구독상품 견적요청
             </Btn>
           </Wrapper>
