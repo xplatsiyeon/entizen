@@ -2,7 +2,7 @@ import axios from 'axios';
 const BASE_URL = 'https://test-api.entizen.kr/api';
 
 // 회원가입 API
-export const onSubmitCompany = async (data: any) => {
+export const onSubmitSignUp = async (data: any) => {
   return await axios({
     method: 'post',
     url: `${BASE_URL}/members/join`,
