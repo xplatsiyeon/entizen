@@ -17,7 +17,6 @@ export const onSubmitCompany = async (data: any) => {
     alert('오류가 발생했습니다. 다시 시도해주세요.');
   }
 };
-
 // 아이디 중복체크
 export const ValidIdCheck = async (
   idInput: string,
