@@ -8,6 +8,8 @@ import userImg from 'public/images/user.svg';
 import userOnImg from 'public/images/user_on.svg';
 import colors from 'styles/colors';
 import Btn from './button';
+import { useDispatch } from 'react-redux';
+import { selectAction } from 'store/loginTypeSlice';
 
 type Props = {
   userType: number;
@@ -17,8 +19,13 @@ type Props = {
 };
 
 const ChooseUserType = ({ userType, setUserType, level, setLevel }: Props) => {
+  const dispatch = useDispatch();
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLevel(level + 1);
+    console.log(userType);
+    if (userType === 1) dispatch(selectAction.select('USER'));
+    if (userType === 0) dispatch(selectAction.select('COMPANY'));
   };
   const UserTypeList: string[] = ['기업회원', '일반회원'];
   return (

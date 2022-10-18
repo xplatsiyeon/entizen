@@ -125,6 +125,7 @@ const ManagerInfo = ({
 
   useEffect(() => {
     const memberType = selectedType;
+    console.log(memberType);
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',
