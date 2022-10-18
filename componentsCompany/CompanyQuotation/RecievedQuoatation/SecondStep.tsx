@@ -54,7 +54,7 @@ const SecondStep = ({
     'LECS-004ADE',
   ];
 
-  const [selectedItem, setSelectedItem] = useState();
+  const [selectedItem, setSelectedItem] = useState('');
 
   useEffect(() => {
     SetCanNext(false);
