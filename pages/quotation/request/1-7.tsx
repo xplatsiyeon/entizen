@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Header from 'components/mypage/request/header';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
@@ -37,13 +37,12 @@ const Request1_7 = (props: Props) => {
     minSubscribePricePerMonth: 0,
     minTotalSubscribePrice: 0,
   });
-  const { locationList } = useSelector(
-    (state: RootState) => state.locationList,
+  const { locationList, quotationData } = useSelector(
+    (state: RootState) => state,
   );
   const { requestData } = useSelector(
     (state: RootState) => state.quotationData,
   );
-  const { quotationData } = useSelector((state: RootState) => state);
   // 가격 콤마 계산
   const PriceCalculation = (price: number) => {
     if (price === 0) return 0;
@@ -63,16 +62,17 @@ const Request1_7 = (props: Props) => {
       return calculatedPrice;
     }
   };
-
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
       currentTarget: { value },
     } = event;
     setTextValue(value);
   };
-  const handleButton = async () => {
+  // 견적요청 api
+  const onClickRequest = async () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const url = `https://test-api.entizen.kr/api/quotations/request`;
+
     await axios({
       method: 'post',
       url,
@@ -81,7 +81,7 @@ const Request1_7 = (props: Props) => {
         subscribeProduct: quotationData.subscribeProduct,
         investRate: quotationData.investRate.toString(),
         subscribePeriod: quotationData.subscribePeriod,
-        installationAddress: locationList.roadAddrPart,
+        installationAddress: locationList.locationList.roadAddrPart,
         installationLocation: quotationData.installationLocation,
         installationPoints: quotationData.installationPoints,
         installationPurpose: quotationData.installationPurpose,
@@ -92,12 +92,12 @@ const Request1_7 = (props: Props) => {
         Authorization: `Bearer ${accessToken}`,
       },
       withCredentials: true,
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      console.log(res);
+      setIsModal(!isModal);
+    });
   };
 
-  useEffect(() => {
-    // console.log(requestData);
-  }, [requestData]);
   return (
     <React.Fragment>
       <WebBody>
@@ -117,7 +117,7 @@ const Request1_7 = (props: Props) => {
                 <div className="mapPin-icon">
                   <Image src={mapPin} alt="mapPin-icon" layout="fill" />
                 </div>
-                <AddressName>{locationList.jibunAddr}</AddressName>
+                <AddressName>{locationList.locationList.jibunAddr}</AddressName>
               </AddressBox>
               <SubTitle>수익지분</SubTitle>
               <NameBox>
@@ -179,7 +179,7 @@ const Request1_7 = (props: Props) => {
                 ></textarea>
               </RequestForm>
             </Body>
-            <Btn buttonActivate={buttonActivate} onClick={handleButton}>
+            <Btn buttonActivate={buttonActivate} onClick={onClickRequest}>
               구독상품 견적요청
             </Btn>
           </Wrapper>
