@@ -45,7 +45,9 @@ const BottomNavigation = (props: Props) => {
         default:
           break;
       }
-    } else if (selectedType === 'COMPANY') {
+    }
+
+    if (selectedType === 'COMPANY') {
       switch (pathname) {
         case '/':
           return setTabNumber(0);

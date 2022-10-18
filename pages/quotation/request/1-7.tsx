@@ -13,6 +13,7 @@ import { RootState } from 'store/store';
 
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import axios from 'axios';
 
 type Props = {};
 
@@ -42,6 +43,7 @@ const Request1_7 = (props: Props) => {
   const { requestData } = useSelector(
     (state: RootState) => state.quotationData,
   );
+  const { quotationData } = useSelector((state: RootState) => state);
   // 가격 콤마 계산
   const PriceCalculation = (price: number) => {
     if (price === 0) return 0;
@@ -68,9 +70,29 @@ const Request1_7 = (props: Props) => {
     } = event;
     setTextValue(value);
   };
-  const handleButton = () => {
-    setIsModal(!isModal);
-    console.log('버튼 컨트롤');
+  const handleButton = async () => {
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    const url = `https://test-api.entizen.kr/api/quotations/request`;
+    await axios({
+      method: 'post',
+      url,
+      data: {
+        chargers: quotationData.chargers,
+        subscribeProduct: quotationData.subscribeProduct,
+        investRate: quotationData.investRate.toString(),
+        subscribePeriod: quotationData.subscribePeriod,
+        installationAddress: locationList.roadAddrPart,
+        installationLocation: quotationData.installationLocation,
+        installationPoints: quotationData.installationPoints,
+        installationPurpose: quotationData.installationPurpose,
+        etcRequest: textValue,
+      },
+      headers: {
+        ContentType: 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      withCredentials: true,
+    }).then((res) => console.log(res));
   };
 
   useEffect(() => {

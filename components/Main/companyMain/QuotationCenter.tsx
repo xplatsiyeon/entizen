@@ -14,22 +14,18 @@ const QuotationCenter = (props: Props) => {
   return (
     <Wrapper>
       <ImgBox>
-        <Image src={lightning} alt="lightning" layout="fill" />
+        <Image src={lightning} alt="lightning" />
       </ImgBox>
 
       {requests === 1 ? (
         <TopImgBox>
-          <Image
-            src={emptyClipboardText}
-            layout="fill"
-            alt="emptyClipboardText"
-          />
+          <Image src={emptyClipboardText} alt="emptyClipboardText" />
         </TopImgBox>
       ) : (
         <TopImgBox>
           <CountCircle>{requests}</CountCircle>
           <BlueIcon>
-            <Image src={clipboardText} layout="fill" alt="clipboardText" />
+            <Image src={clipboardText} alt="clipboardText" />
           </BlueIcon>
         </TopImgBox>
       )}
@@ -55,14 +51,10 @@ const QuotationCenter = (props: Props) => {
 const Wrapper = styled.div`
   position: relative;
   margin-top: 39pt;
-  /* padding-left: 33pt;
-  padding-right: 33pt; */
 `;
 const ImgBox = styled.div`
   position: absolute;
   z-index: -5;
-  /* left: 54pt; */
-  /* right: 54pt; */
   left: 50%;
   width: 143.25pt;
   height: 181.5pt;

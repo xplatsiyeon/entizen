@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import BottomNavigation from 'components/BottomNavigation';
 import React, { useState } from 'react';
 import Header from './Header';
 import RecieveRequest from './RecieveRequest';
@@ -27,6 +28,7 @@ const CompanyQuotations = (props: Props) => {
         />
         <RecieveRequest />
       </Container>
+      <BottomNavigation />
     </>
   );
 };

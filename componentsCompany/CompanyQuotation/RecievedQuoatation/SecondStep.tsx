@@ -1,6 +1,12 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, TextField } from '@mui/material';
-import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import colors from 'styles/colors';
 import Image from 'next/image';
@@ -47,6 +53,8 @@ const SecondStep = ({
     'LECS-005ADE',
     'LECS-004ADE',
   ];
+
+  const [selectedItem, setSelectedItem] = useState();
 
   useEffect(() => {
     SetCanNext(false);
@@ -152,6 +160,10 @@ const SecondStep = ({
     }
   };
 
+  const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
+    e.target.value;
+    // setSelectedItem(e.target.value);
+  };
   // 이전
   const handlePrevBtn = () => {
     if (tabNumber > 0) setTabNumber(tabNumber - 1);
@@ -227,10 +239,10 @@ const SecondStep = ({
           <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
         </TopBox>
         <SelectBox
-          //   value={item.kind}
+          value={selectedItem}
           placeholder="충전기 종류"
           name="kind"
-          //   onChange={(event) => handleChange(event, index)}
+          onChange={(e) => onChangeSelectBox(e)}
           IconComponent={() => <SelectIcon />}
           displayEmpty
         >

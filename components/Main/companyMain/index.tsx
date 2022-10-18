@@ -64,7 +64,8 @@ const CompanyMainPage = (props: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userID]);
-  // 햄버거 바
+
+  // 햄버거바
   const list = (anchor: string) => (
     <WholeBox
       role="presentation"
@@ -235,7 +236,6 @@ const CompanyMainPage = (props: Props) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              layout="intrinsic"
               src={Logos}
               alt="logo"
             />
@@ -293,6 +293,7 @@ const LogoBox = styled.div`
   margin-bottom: 12.015pt;
   display: flex;
   align-items: center;
+  position: relative;
 `;
 const FirstIconBox = styled.div`
   margin-top: 9pt;
