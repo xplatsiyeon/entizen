@@ -64,6 +64,7 @@ const CompanyMainPage = (props: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userID]);
+  // 햄버거 바
   const list = (anchor: string) => (
     <WholeBox
       role="presentation"
@@ -266,7 +267,9 @@ const CompanyMainPage = (props: Props) => {
 
         <Carousel />
 
+        {/* 메인 페이지 컴포넌트*/}
         <QuotationCenter />
+        {/* 메인 페이지 버튼*/}
         <CheckQuotationBtn />
       </Container>
       <Footer />

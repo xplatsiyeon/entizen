@@ -99,17 +99,16 @@ const Carousel = () => {
 };
 
 const SliderWrapper = styled.div`
-  width: 900pt;
+  width: 100%;
   position: relative;
   .swiper {
     border-radius: 8pt;
   }
   .swiper-pagination-bullet {
     position: relative;
-    /* background-color: #eeeeee; */
   }
   .swiper-pagination-bullet-active {
-    background-color: #eeeeee;
+    background-color: ${colors.lightWhite};
     width: 15pt;
     height: 5pt;
     border-radius: 3pt;
@@ -128,9 +127,7 @@ const SliderWrapper = styled.div`
     bottom: 15pt;
     left: 15pt;
   }
-
   @media (max-width: 899pt) {
-    width: 100%;
     margin-top: 12pt;
   }
 `;

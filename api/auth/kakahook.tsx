@@ -19,30 +19,25 @@ const kakaoHook = (props: Props) => {
   }
   // 백엔드로 데이터 전송
   const KaKaApi = async (data: any) => {
-    try {
-      await axios({
-        method: 'post',
-        url: KAKAO_POST,
-        data: {
-          uuid: '' + data.id,
-          snsType: 'KAKAO',
-          snsResponse: JSON.stringify(data),
-          email: data.kakao_account.email,
-        },
-        headers: {
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
-        if (res.data.isMember) {
-          router.push('/');
-        } else {
-        }
-      });
-    } catch (error) {
-      console.log('post 요청 실패');
-      console.log(error);
-    }
+    await axios({
+      method: 'post',
+      url: KAKAO_POST,
+      data: {
+        uuid: '' + data.id,
+        snsType: 'KAKAO',
+        snsResponse: JSON.stringify(data),
+        email: data.kakao_account.email,
+      },
+      headers: {
+        ContentType: 'application/json',
+      },
+      withCredentials: true,
+    }).then((res) => {
+      if (res.data.isMember) {
+        router.push('/');
+      } else {
+      }
+    });
   };
 
   // 카카오 로그인 버튼

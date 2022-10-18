@@ -14,7 +14,7 @@ const QuotationCenter = (props: Props) => {
   return (
     <Wrapper>
       <ImgBox>
-        <Image src={lightning} alt="lightning" />
+        <Image src={lightning} alt="lightning" layout="fill" />
       </ImgBox>
 
       {requests === 1 ? (
@@ -61,10 +61,12 @@ const Wrapper = styled.div`
 const ImgBox = styled.div`
   position: absolute;
   z-index: -5;
-  left: 54pt;
-  right: 54pt;
+  /* left: 54pt; */
+  /* right: 54pt; */
+  left: 50%;
   width: 143.25pt;
   height: 181.5pt;
+  transform: translateX(-50%);
 `;
 
 const TopImgBox = styled.div`
