@@ -8,6 +8,7 @@ export const Postapi = async (
   endpoint: string,
   data: any,
   isToken: boolean,
+  Tag: string,
 ) => {
   return await axios({
     method: 'post',

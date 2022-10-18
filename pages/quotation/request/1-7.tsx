@@ -74,9 +74,7 @@ const Request1_7 = (props: Props) => {
   const onClickRequest = async () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const url = `https://test-api.entizen.kr/api/quotations/request`;
-
     console.log(TAG + 'api/quotations/request');
-
     await axios({
       method: 'post',
       url,
