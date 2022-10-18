@@ -1,5 +1,5 @@
-import MyProductListComponent from 'componentsCompany/MyProductList';
 import React from 'react';
+import MyProductListComponent from 'componentsCompany/MyProductList';
 
 type Props = {};
 
