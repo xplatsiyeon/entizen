@@ -25,6 +25,8 @@ interface CalculateValue {
 }
 
 const Request1_7 = (props: Props) => {
+  const TAG = '1-7.tsx';
+
   const router = useRouter();
   const [textValue, setTextValue] = useState('');
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -73,6 +75,8 @@ const Request1_7 = (props: Props) => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     const url = `https://test-api.entizen.kr/api/quotations/request`;
 
+    console.log(TAG + 'api/quotations/request');
+
     await axios({
       method: 'post',
       url,
@@ -92,10 +96,18 @@ const Request1_7 = (props: Props) => {
         Authorization: `Bearer ${accessToken}`,
       },
       withCredentials: true,
-    }).then((res) => {
-      console.log(res);
-      setIsModal(!isModal);
-    });
+    })
+      .then((res) => {
+        console.log(TAG + 'api/quotations/request' + 'success');
+        console.log(res);
+        setIsModal(!isModal);
+      })
+      .catch((error) => {
+        console.log(TAG + 'api/quotations/request' + 'fail');
+        console.log(error);
+        alert('다시 시도해주세요.');
+        router.push('/');
+      });
   };
 
   return (
