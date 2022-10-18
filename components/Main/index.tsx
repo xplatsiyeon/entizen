@@ -40,10 +40,7 @@ type Props = {};
 const MainPage = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const userID = localStorage.getItem('USER_ID');
-  const { accessToken, refreshToken, userId } = useSelector(
-    (state: RootState) => state.originUserData,
-  );
+  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
@@ -58,7 +55,6 @@ const MainPage = (props: Props) => {
       ) {
         return;
       }
-
       setState({ ...state, [anchor]: open });
     };
 
@@ -70,7 +66,7 @@ const MainPage = (props: Props) => {
       setIsLogin(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
+  }, [userID]);
 
   useEffect(() => {
     dispatch(quotationAction.init());
@@ -117,7 +113,7 @@ const MainPage = (props: Props) => {
           <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
             <span onClick={() => router.push('/profile/editing')}>
               <label className="label">일반회원</label>
-              {userId}
+              {userID}
             </span>
             <span
               className="arrow-img"

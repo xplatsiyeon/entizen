@@ -36,10 +36,8 @@ const CompanyMainPage = (props: Props) => {
   const [state, setState] = useState({
     right: false,
   });
-  const { accessToken, refreshToken, userId } = useSelector(
-    (state: RootState) => state.originUserData,
-  );
-  const userID = localStorage.getItem('USER_ID');
+
+  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const toggleDrawer =
     (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -56,6 +54,15 @@ const CompanyMainPage = (props: Props) => {
   useEffect(() => {
     localStorage.removeItem('key');
   }, []);
+  useEffect(() => {
+    if (localStorage.getItem('USER_ID')) {
+      console.log('login check!');
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userID]);
   const list = (anchor: string) => (
     <WholeBox
       role="presentation"
@@ -86,7 +93,7 @@ const CompanyMainPage = (props: Props) => {
           <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
             <span onClick={() => router.push('/profile/editing')}>
               <label className="label">기업회원</label>
-              {userId}
+              {userID}
             </span>
             <span
               className="arrow-img"

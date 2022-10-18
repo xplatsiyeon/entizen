@@ -16,7 +16,6 @@ const persistConfig = {
     'quotationData',
     'userList',
     'subsidyGuideData',
-    'selectType',
   ],
 };
 // userList
