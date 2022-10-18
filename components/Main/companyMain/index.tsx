@@ -149,7 +149,9 @@ const CompanyMainPage = (props: Props) => {
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID ? router.push('/mypage') : router.push('/signin')
+              userID
+                ? router.push('/company/myProductList')
+                : router.push('/signin')
             }
           >
             <span>

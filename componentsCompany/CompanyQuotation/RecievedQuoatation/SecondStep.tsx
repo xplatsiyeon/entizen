@@ -483,7 +483,6 @@ const InputBox = styled.div`
       text-align: left;
     }
   }
-
   & > div {
     display: flex;
     gap: 12pt;
