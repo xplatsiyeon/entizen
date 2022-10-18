@@ -6,7 +6,6 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import colors from 'styles/colors';
 import Btn from './button';
-import axios from 'axios';
 import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { onSubmitCompany, ValidIdCheck } from 'api/auth/login';
@@ -91,6 +90,7 @@ const IdPwInput = ({
   );
   const { mutate, isLoading, error } = useMutation(onSubmitCompany, {
     onSuccess: () => {
+      console.log('성공');
       queryClient.invalidateQueries();
       router.push('/signUp/CompleteCompany');
     },
@@ -106,28 +106,27 @@ const IdPwInput = ({
   const checkPassword = useDebounce(checkPw, 500);
   // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
     const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
     if (e.target.name === 'id') {
-      setIdInput(e.target.value);
-      idRegExp.test(idInput) ? setIsChangeColor(true) : setIsChangeColor(false);
+      setIdInput(value);
+      idRegExp.test(value) ? setIsChangeColor(true) : setIsChangeColor(false);
     }
-    if (e.target.name === 'pw') setPwInput(e.target.value);
-    if (e.target.name === 'checkPw') setCheckPw(e.target.value);
+    if (e.target.name === 'pw') setPwInput(value);
+    if (e.target.name === 'checkPw') setCheckPw(value);
   };
+
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
     e.isPropagationStopped();
   };
 
   const overlabCheck = () => {
-    console.log('data---------------');
-    console.log(data);
-    setInitIdAlert(true);
-    refetch();
+    if (isChangeColor) {
+      setInitIdAlert(true);
+      refetch();
+    }
   };
-  const handleDelete = () => setPwInput('');
-  const handleTwoDelete = () => setCheckPw('');
-
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
@@ -188,9 +187,9 @@ const IdPwInput = ({
     console.log(passwords, checkPassword);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passwords, checkPassword]);
-  // 중복확인 버튼 활성화
+  // 중복확인 버튼 비활성화
   useEffect(() => {
-    if (idInput.length === 0) {
+    if (idInput.length < 4) {
       setInitIdAlert(false);
       setIsChangeColor(false);
     }
@@ -198,6 +197,7 @@ const IdPwInput = ({
   useEffect(() => {
     console.log(data);
   }, [data]);
+
   // 로딩처리
   if (isLoading) {
     console.log('로딩중...');
@@ -207,7 +207,7 @@ const IdPwInput = ({
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
-          onClick={handleDelete}
+          onClick={() => setPwInput('')}
           sx={{
             color: '#E2E5ED',
             width: '10.5pt',
@@ -237,7 +237,7 @@ const IdPwInput = ({
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
-          onClick={handleTwoDelete}
+          onClick={() => setCheckPw('')}
           sx={{
             color: '#E2E5ED',
             width: '10.5pt',

@@ -10,7 +10,6 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
 import axios from 'axios';
-// import { test11 } from 'public/testsss';
 
 type Props = {
   level: number;
@@ -91,10 +90,7 @@ const TermContent = ({
       data: { memberType },
     })
       .then((res) => {
-        // console.log(res.data);
         setData(res.data.executedData);
-        console.log(data);
-        // encodeData = res.data.executedData;
       })
       .catch((error) => {
         console.error(error);
@@ -117,7 +113,6 @@ const TermContent = ({
   // 보기 이벤트
   const TermsofServiceHandler = (event: any) => {
     event.stopPropagation();
-    // route("/") 어디로?
   };
   useEffect(() => {
     console.log();
@@ -137,10 +132,7 @@ const TermContent = ({
     if (requiredTerms && selectTerms) setFullTerms(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredTerms, selectTerms]);
-  // const handleOnClick = () => {};
-  const testClick = () => {
-    setLevel(level + 1);
-  };
+
   return (
     <>
       <Notice variant="h3">
