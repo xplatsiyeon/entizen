@@ -83,47 +83,36 @@ const Signin = (props: Props) => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      }).then(async (res) => {
-        console.log('response 데이터 ->');
-        console.log(res.data.accessToken);
-        console.log(res.data.refreshToken);
-        const token: JwtTokenType = jwt_decode(res.data.accessToken);
-        localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        localStorage.setItem(
-          'ACCESS_TOKEN',
-          JSON.stringify(res.data.accessToken),
-        );
-        localStorage.setItem(
-          'REFRESH_TOKEN',
-          JSON.stringify(res.data.refreshToken),
-        );
-        localStorage.setItem('USER_ID', JSON.stringify(userId));
-        dispatch(originUserAction.set(userId));
-        await router.push('/');
-      });
-      // .catch((error) => {
-      //   const { message } = error.response.data;
-      //   if (message === '탈퇴된 회원입니다.') {
-      //     setErrorModal(true);
-      //     setErrorMessage(
-      //       '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-      //     );
-      //   } else {
-      //     setErrorModal(true);
-      //     setErrorMessage(message);
-      //   }
-      // });
+      })
+        .then(async (res) => {
+          const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+          localStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(res.data.accessToken),
+          );
+          localStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(res.data.refreshToken),
+          );
+          localStorage.setItem('USER_ID', JSON.stringify(userId));
+          dispatch(originUserAction.set(userId));
+          await router.push('/');
+        })
+        .catch((error) => {
+          const { message } = error.response.data;
+          if (message === '탈퇴된 회원입니다.') {
+            setErrorModal(true);
+            setErrorMessage(
+              '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+            );
+          } else {
+            setErrorModal(true);
+            setErrorMessage(message);
+          }
+        });
     } catch (error: any) {
-      const { message } = error?.response?.data;
-      if (message === '탈퇴된 회원입니다.') {
-        setErrorModal(true);
-        setErrorMessage(
-          '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-        );
-      } else {
-        setErrorModal(true);
-        setErrorMessage(message);
-      }
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
   // 네이버 로그인
