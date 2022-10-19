@@ -6,20 +6,13 @@ import Image from 'next/image';
 import { useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
-
 import { useRouter } from 'next/router';
-
 import MypageHeader from 'components/SignUp/header';
 import CommonBtns from 'components/mypage/as/CommonBtns';
 import Btn from 'components/SignUp/button';
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
-import ThirdStep from './ThirdStep';
-import { BusinessRegistrationType } from 'components/SignUp';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import { Filter } from '@mui/icons-material';
-
-type Props = {};
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -56,9 +49,8 @@ export interface Chargers {
 }
 // 임시값
 const target = 3;
-const TAP =
-  'componentsCompany/CompanyQuotation/RecivedQuoatation/HeadOpenContent';
-const HeadOpenContent = (props: Props) => {
+
+const HeadOpenContent = () => {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
@@ -73,9 +65,8 @@ const HeadOpenContent = (props: Props) => {
   const [firstPageTextArea, setFirstPageTextArea] = useState<string>('');
   // 모달
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  // step 컴포넌트
-
-  let components: Components = {
+  // step별 컴포넌트
+  const components: Components = {
     // 기본
     0: (
       <FirstStep
@@ -147,32 +138,16 @@ const HeadOpenContent = (props: Props) => {
       />
     ),
   };
-  // 실제 데이터 컴포넌트
-  // const [data, setData] = useState<Components>({});
-
   const handleClick = () => setOpen(!open);
   const handleBackClick = () => router.back();
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
 
   useEffect(() => {
-    if (router.pathname.includes('1-1')) {
-      setText('접수요청 D-3');
-    }
-    if (router.pathname.includes('asGoReview')) {
-      setText('완료대기');
-    }
-    if (router.pathname.includes('asReviewEnd')) {
-      setText('A/S완료');
-    }
+    if (router.pathname.includes('1-1')) setText('접수요청 D-3');
+    if (router.pathname.includes('asGoReview')) setText('완료대기');
+    if (router.pathname.includes('asReviewEnd')) setText('A/S완료');
   }, [router]);
-  //  3
-  useEffect(() => {
-    const target = 3;
-    const length = Object.keys(components).length;
-
-    length + 1 === target;
-  }, []);
 
   return (
     <>
@@ -196,7 +171,7 @@ const HeadOpenContent = (props: Props) => {
           title={'받은 요청'}
           handleBackClick={handleBackClick}
         />
-      )}{' '}
+      )}
       {tabNumber >= 0 && (
         <MypageHeader
           back={true}
@@ -208,7 +183,6 @@ const HeadOpenContent = (props: Props) => {
         <ItemButton onClick={handleClick}>
           <StoreName>
             <CommonBtns text={'접수요청 D-1'} backgroundColor={'#F75015'} />
-
             <div>
               <h1>LS 카페 신림점</h1>
               {open ? (

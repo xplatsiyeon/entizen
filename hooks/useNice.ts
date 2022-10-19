@@ -1,13 +1,10 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-type Props = {};
-
-const useNice = (props: Props) => {
+const useNice = () => {
   const [data, setData] = useState<any>();
   const [isId, setIsId] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-
   // 나이스 인승
   const fnPopup = (event: any) => {
     console.log('check');
@@ -38,7 +35,6 @@ const useNice = (props: Props) => {
   // 나이스 인증
   useEffect(() => {
     const memberType = 'USER';
-
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',
@@ -46,15 +42,14 @@ const useNice = (props: Props) => {
     })
       .then((res) => {
         setData(res.data.executedData);
-        // encodeData = res.data.executedData;
       })
       .catch((error) => {
-        console.error(' 2 곳 입니까?');
+        console.error('나이스 인증 에러 발생');
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // return [data, isId, isPassword, fnPopup];
+  return [data, isId, isPassword, fnPopup];
 };
 
 export default useNice;

@@ -18,7 +18,7 @@ import AddImg from 'public/images/add-img.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
-import { myEstimateAction } from 'storeCompany/myQuotation';
+import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
 
 type Props = {
   tabNumber: number;
@@ -41,7 +41,7 @@ const SecondStep = ({
 }: Props) => {
   // 사진을 위한 ref
   const dispatch = useDispatch();
-  const imgRef = useRef<any>(null);
+  const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
   const chargerData: string[] = [
@@ -50,14 +50,14 @@ const SecondStep = ({
     'LECS-005ADE',
     'LECS-004ADE',
   ];
-  const [customerOwner, setCustomerOwner] = useState<number>(-1);
+  const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1);
   const [fee, setFee] = useState<string>('');
-  const [selectedItem, setSelectedItem] = useState('');
+  const [productItem, setProductItem] = useState<chargerData>('');
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
   const [chargeFeatures, setChargeFeatures] = useState<string>('');
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
-  const [isValid, setIsValid] = useState(true);
+
   // 리덕스
   const { charge } = useSelector(
     (state: RootState) => state.companymyEstimateData,
@@ -66,13 +66,13 @@ const SecondStep = ({
     const { value } = e.target;
     setFee(value);
   };
-  const handleCustomerOwner = (index: number) => {
-    setCustomerOwner(index);
+  const handleChargeTypeNumber = (index: number) => {
+    setChargeTypeNumber(index);
   };
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    imgRef.current.click();
+    imgRef?.current?.click();
   };
   // 사진 저장
   const saveFileImage = (e: any) => {
@@ -111,6 +111,7 @@ const SecondStep = ({
   const handleFileClick = () => {
     fileRef?.current?.click();
   };
+
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -123,8 +124,6 @@ const SecondStep = ({
       }
       // 이미지 객체 생성 후 상태에 저장
       const imageUrl = URL.createObjectURL(files![i]);
-      console.log('test');
-      console.log(imageUrl);
       const imageName = files![i].name;
       const imageSize = files![i].size;
       newArr.push({
@@ -154,9 +153,8 @@ const SecondStep = ({
       }
     }
   };
-  const onChangeSelectBox = (e: any) => {
-    setSelectedItem(e.target.value);
-  };
+  // 셀렉트 박스 클릭
+  const onChangeSelectBox = (e: any) => setProductItem(e.target.value);
   // 이전 버튼
   const handlePrevBtn = () => {
     if (tabNumber > 0) {
@@ -164,9 +162,10 @@ const SecondStep = ({
         myEstimateAction.setCharge({
           index: StepIndex,
           data: {
-            chargeType: chargeTypeList[customerOwner],
+            chargeType:
+              chargeTypeNumber !== -1 ? chargeTypeList[chargeTypeNumber] : '',
             fee: fee,
-            productList: selectedItem,
+            productItem: productItem,
             manufacturingCompany: manufacturingCompany,
             chargeFeatures: chargeFeatures,
             chargeImage: imgArr,
@@ -179,15 +178,15 @@ const SecondStep = ({
   };
   // 다음 버튼
   const handleNextBtn = (e: any) => {
-    // isValid
-    if (tabNumber < maxIndex) {
+    if (canNext && tabNumber < maxIndex) {
       dispatch(
         myEstimateAction.setCharge({
           index: StepIndex,
           data: {
-            chargeType: chargeTypeList[customerOwner],
+            chargeType:
+              chargeTypeNumber !== -1 ? chargeTypeList[chargeTypeNumber] : '',
             fee: fee,
-            productList: selectedItem,
+            productItem: productItem,
             manufacturingCompany: manufacturingCompany,
             chargeFeatures: chargeFeatures,
             chargeImage: imgArr,
@@ -199,47 +198,48 @@ const SecondStep = ({
     }
   };
 
+  // 다음버튼 유효성 검사
   useEffect(() => {
-    console.log(TAB + 'tabNumber 테스트중');
-    console.log(tabNumber);
-  }, [tabNumber]);
+    if (chargeTypeNumber !== -1 && fee !== '' && manufacturingCompany !== '') {
+      console.log('잉?');
+      SetCanNext(true);
+    } else {
+      SetCanNext(false);
+    }
 
-  useEffect(() => {
-    SetCanNext(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [chargeTypeNumber, fee, manufacturingCompany]);
 
   // 상태 업데이트 및 초기화 (with 리덕스)
   useEffect(() => {
-    console.log(TAB + '데이터 확인');
-    console.log('StepIndex -> ' + StepIndex);
-    if (charge[StepIndex]?.chargeType !== '') {
-      if ('구매자 자율') setCustomerOwner(0);
-      if ('운영사업자 입력') setCustomerOwner(1);
+    const target = charge[StepIndex];
+    if (target?.chargeType !== '') {
+      if (target?.chargeType === '구매자 자율') setChargeTypeNumber(0);
+      if (target?.chargeType === '운영사업자 입력') setChargeTypeNumber(1);
     }
-    if (charge[StepIndex]?.fee !== '') {
-      setFee(charge[StepIndex]?.fee);
+    if (target?.fee !== '') {
+      setFee(target?.fee);
     }
-    if (charge[StepIndex]?.productList !== '') {
-      setSelectedItem(charge[StepIndex]?.productList);
+    if (target?.productItem !== '') {
+      setProductItem(target?.productItem);
     }
-    if (charge[StepIndex]?.manufacturingCompany !== '') {
-      setManufacturingCompany(charge[StepIndex]?.manufacturingCompany);
+    if (target?.manufacturingCompany !== '') {
+      setManufacturingCompany(target?.manufacturingCompany);
     }
-    if (charge[StepIndex]?.chargeFeatures !== '') {
-      setChargeFeatures(charge[StepIndex]?.chargeFeatures);
+    if (target?.chargeFeatures !== '') {
+      setChargeFeatures(target?.chargeFeatures);
     }
-    if (charge[StepIndex]?.chargeImage?.length >= 1) {
-      setImgArr(charge[StepIndex]?.chargeImage);
+    if (target?.chargeImage?.length >= 1) {
+      setImgArr(target?.chargeImage);
     }
-    if (charge[StepIndex]?.chargeFile?.length >= 1) {
-      setFileArr(charge[StepIndex]?.chargeFile);
+    if (target?.chargeFile?.length >= 1) {
+      setFileArr(target?.chargeFile);
     }
     return () => {
-      setCustomerOwner(-1);
+      setChargeTypeNumber(-1);
       setFee('');
       setManufacturingCompany('');
-      setSelectedItem('');
+      setProductItem('');
       setChargeFeatures('');
       setImgArr([]);
       setFileArr([]);
@@ -264,8 +264,8 @@ const SecondStep = ({
             {chargeTypeList.map((el, index) => (
               <Btn
                 key={index}
-                onClick={() => handleCustomerOwner(index)}
-                className={index == customerOwner ? 'selected' : ''}
+                onClick={() => handleChargeTypeNumber(index)}
+                className={index === chargeTypeNumber ? 'selected' : ''}
               >
                 {el}
               </Btn>
@@ -294,7 +294,7 @@ const SecondStep = ({
         </TopBox>
         <SelectContainer>
           <SelectBox
-            value={selectedItem}
+            value={productItem}
             onChange={(e) => onChangeSelectBox(e)}
             IconComponent={() => <SelectIcon />}
             displayEmpty
@@ -431,7 +431,9 @@ const SecondStep = ({
       </SecondWrapper>
       <TwoBtn>
         <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-        <NextBtn onClick={handleNextBtn}>다음</NextBtn>
+        <NextBtn canNext={canNext} onClick={handleNextBtn}>
+          다음
+        </NextBtn>
       </TwoBtn>
     </>
   );
@@ -705,13 +707,11 @@ const Placeholder = styled.em`
   letter-spacing: -0.02em;
   color: ${colors.lightGray3};
 `;
-
 const SelectIcon = styled(KeyboardArrowDownIcon)`
   width: 18pt;
   height: 18pt;
   color: ${colors.dark};
 `;
-
 const TextArea = styled.textarea`
   resize: none;
   border: 1px solid ${colors.gray};
@@ -728,7 +728,6 @@ const TextArea = styled.textarea`
     color: #caccd1;
   }
 `;
-
 const RemainderInputBox = styled.div`
   flex-direction: column;
   display: flex;
@@ -739,7 +738,6 @@ const RemainderInputBoxs = styled.div`
   position: relative;
   width: 100%;
   display: flex;
-  /* height: 100%; */
   margin-top: 24pt;
   & .file-preview {
     display: flex;
@@ -749,7 +747,6 @@ const RemainderInputBoxs = styled.div`
     gap: 9pt;
   }
 `;
-
 const Label = styled.label`
   font-family: Spoqa Han Sans Neo;
   font-size: 10.5pt;
@@ -758,7 +755,6 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   text-align: left;
 `;
-
 const PhotosBox = styled.div`
   width: 100%;
   height: 56.0625pt;
@@ -768,7 +764,6 @@ const PhotosBox = styled.div`
   align-items: center;
 `;
 const PhotosBoxs = styled.div`
-  /* width: 100%; */
   height: 56.0625pt;
   margin-top: 9pt;
   display: flex;
@@ -777,7 +772,6 @@ const PhotosBoxs = styled.div`
   align-items: center;
   padding-bottom: 58.6875pt;
 `;
-
 const AddPhotos = styled.button`
   display: inline-block;
   width: 56.0625pt;
@@ -785,7 +779,6 @@ const AddPhotos = styled.button`
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
 `;
-
 const ImgSpan = styled.div`
   position: relative;
 `;
@@ -794,7 +787,6 @@ const Xbox = styled.div`
   top: -7pt;
   right: -7pt;
 `;
-
 const FileBox = styled.div`
   display: flex;
   align-items: center;
@@ -891,24 +883,16 @@ const File = styled.label`
     color: #caccd1;
   }
 `;
-/* ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')}; */
-/* ${({ buttonActivate }) =>
-    buttonActivate ? colors.main : colors.blue3}; */
-const NextBtn = styled.div<{
-  //   buttonActivate: boolean;
-  //   subscribeNumber?: number;
-}>`
+const NextBtn = styled.div<{ canNext: boolean }>`
   color: ${colors.lightWhite};
   width: 100%;
-
   padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  background-color: ${colors.main};
-
+  background-color: ${({ canNext }) => (canNext ? colors.main : '#B096EF')};
   cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
@@ -935,7 +919,6 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-
   @media (max-width: 899pt) {
     position: fixed;
   }
