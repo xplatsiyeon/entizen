@@ -1,4 +1,4 @@
-import DdayRequest from 'componentsCompany/CompanyQuotation/RecievedQuoatation';
+import DdayRequest from 'componentsCompany/CompanyQuotation/RecievedQuotation';
 import React from 'react';
 
 type Props = {};
