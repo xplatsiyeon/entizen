@@ -12,16 +12,17 @@ const Home: NextPage = () => {
   console.log(TAB + '멤버타입-> ' + memberType);
   return (
     <>
-      {memberType === null && memberType === 'USER' && (
-        <>
-          <WebWrap>
-            <Main />
-          </WebWrap>
-          <MobWrap>
-            <MainPage />
-          </MobWrap>
-        </>
-      )}
+      {memberType === null ||
+        (memberType === 'USER' && (
+          <>
+            <WebWrap>
+              <Main />
+            </WebWrap>
+            <MobWrap>
+              <MainPage />
+            </MobWrap>
+          </>
+        ))}
       {memberType === 'COMPANY' && <CompanyMainPage />}
     </>
   );
