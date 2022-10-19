@@ -67,83 +67,7 @@ const BottomNavigation = (props: Props) => {
 
   return (
     <Wrapper>
-      {memberType === 'USER' && (
-        <>
-          <BoxBg>
-            <div
-              className="img-wrapper"
-              onClick={() => {
-                router.push('/');
-              }}
-            >
-              <ImgBox>
-                <Image
-                  src={tabNumber === 0 ? homeOn : home}
-                  alt="home"
-                  layout="fill"
-                />
-              </ImgBox>
-              <H3 clicked={tabNumber === 0 ? true : false}>홈</H3>
-            </div>
-            <div
-              className="img-wrapper"
-              onClick={() => {
-                router.push('/guide');
-              }}
-            >
-              <ImgBox>
-                <Image
-                  src={tabNumber === 1 ? guideOn : guide}
-                  alt="guide"
-                  layout="fill"
-                />
-              </ImgBox>
-              <H3 clicked={tabNumber === 1 ? true : false}>가이드</H3>
-            </div>
-            <div
-              className="img-wrapper"
-              onClick={() => {
-                router.push('/quotation/request');
-              }}
-            >
-              <Image src={estimate} alt="estimate" width={32} height={32} />
-              <H3 clicked={false}>간편견적</H3>
-            </div>
-            <div
-              className="img-wrapper"
-              onClick={() => {
-                alert('2차 작업 범위 페이지입니다.');
-              }}
-            >
-              <ImgBox>
-                <Image
-                  src={tabNumber === 3 ? chattingOn : chatting}
-                  alt="chatting"
-                  layout="fill"
-                />
-              </ImgBox>
-              <H3 clicked={tabNumber === 3 ? true : false}>소통하기</H3>
-            </div>
-            <div
-              className="img-wrapper"
-              onClick={() => {
-                user_ID ? router.push('/mypage') : router.push('/signin');
-              }}
-            >
-              <ImgBox>
-                <Image
-                  src={tabNumber === 4 ? mypageOn : mypage}
-                  alt="mypage"
-                  layout="fill"
-                />
-              </ImgBox>
-              <H3 clicked={tabNumber === 4 ? true : false}>마이페이지</H3>
-            </div>
-          </BoxBg>
-        </>
-      )}
-
-      {JSON.parse(memberType!) === 'COMPANY' && (
+      {memberType === 'COMPANY' ? (
         <>
           <BoxBg>
             <div
@@ -236,6 +160,80 @@ const BottomNavigation = (props: Props) => {
                 />
               </ImgBox>
               <H3 clicked={tabNumber === 4 ? true : false}>내 프로젝트</H3>
+            </div>
+          </BoxBg>
+        </>
+      ) : (
+        <>
+          <BoxBg>
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                router.push('/');
+              }}
+            >
+              <ImgBox>
+                <Image
+                  src={tabNumber === 0 ? homeOn : home}
+                  alt="home"
+                  layout="fill"
+                />
+              </ImgBox>
+              <H3 clicked={tabNumber === 0 ? true : false}>홈</H3>
+            </div>
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                router.push('/guide');
+              }}
+            >
+              <ImgBox>
+                <Image
+                  src={tabNumber === 1 ? guideOn : guide}
+                  alt="guide"
+                  layout="fill"
+                />
+              </ImgBox>
+              <H3 clicked={tabNumber === 1 ? true : false}>가이드</H3>
+            </div>
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                router.push('/quotation/request');
+              }}
+            >
+              <Image src={estimate} alt="estimate" width={32} height={32} />
+              <H3 clicked={false}>간편견적</H3>
+            </div>
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                alert('2차 작업 범위 페이지입니다.');
+              }}
+            >
+              <ImgBox>
+                <Image
+                  src={tabNumber === 3 ? chattingOn : chatting}
+                  alt="chatting"
+                  layout="fill"
+                />
+              </ImgBox>
+              <H3 clicked={tabNumber === 3 ? true : false}>소통하기</H3>
+            </div>
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                user_ID ? router.push('/mypage') : router.push('/signin');
+              }}
+            >
+              <ImgBox>
+                <Image
+                  src={tabNumber === 4 ? mypageOn : mypage}
+                  alt="mypage"
+                  layout="fill"
+                />
+              </ImgBox>
+              <H3 clicked={tabNumber === 4 ? true : false}>마이페이지</H3>
             </div>
           </BoxBg>
         </>
