@@ -24,13 +24,28 @@ type Props = {};
 const BottomNavigation = (props: Props) => {
   const router = useRouter();
   const user_ID = localStorage.getItem('USER_ID');
-  const memberType = localStorage.getItem('MEMBER_TYPE');
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
   const [myQuotaion, setMyQuotation] = useState(0);
 
   useEffect(() => {
-    if (memberType === null || JSON.parse(memberType!) === 'USER') {
+    if (memberType === 'COMPANY') {
+      switch (pathname) {
+        case '/':
+          return setTabNumber(0);
+        case '/company/quotation':
+          return setTabNumber(1);
+        case '/company/estimate':
+          return setTabNumber(2);
+        case '/company/chatting':
+          return setTabNumber(3);
+        case '/company/mypage':
+          return setTabNumber(4);
+        default:
+          break;
+      }
+    } else {
       switch (pathname) {
         case '/':
           return setTabNumber(0);
@@ -47,103 +62,86 @@ const BottomNavigation = (props: Props) => {
       }
     }
 
-    if (JSON.parse(memberType!) === 'COMPANY') {
-      switch (pathname) {
-        case '/':
-          return setTabNumber(0);
-        case '/company/quotation':
-          return setTabNumber(1);
-        case '/company/estimate':
-          return setTabNumber(2);
-        case '/company/chatting':
-          return setTabNumber(3);
-        case '/company/mypage':
-          return setTabNumber(4);
-        default:
-          break;
-      }
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [tabNumber]);
 
   return (
     <Wrapper>
-      {memberType === null ||
-        (JSON.parse(memberType!) === 'USER' && (
-          <>
-            <BoxBg>
-              <div
-                className="img-wrapper"
-                onClick={() => {
-                  router.push('/');
-                }}
-              >
-                <ImgBox>
-                  <Image
-                    src={tabNumber === 0 ? homeOn : home}
-                    alt="home"
-                    layout="fill"
-                  />
-                </ImgBox>
-                <H3 clicked={tabNumber === 0 ? true : false}>홈</H3>
-              </div>
-              <div
-                className="img-wrapper"
-                onClick={() => {
-                  router.push('/guide');
-                }}
-              >
-                <ImgBox>
-                  <Image
-                    src={tabNumber === 1 ? guideOn : guide}
-                    alt="guide"
-                    layout="fill"
-                  />
-                </ImgBox>
-                <H3 clicked={tabNumber === 1 ? true : false}>가이드</H3>
-              </div>
-              <div
-                className="img-wrapper"
-                onClick={() => {
-                  router.push('/quotation/request');
-                }}
-              >
-                <Image src={estimate} alt="estimate" width={32} height={32} />
-                <H3 clicked={false}>간편견적</H3>
-              </div>
-              <div
-                className="img-wrapper"
-                onClick={() => {
-                  alert('2차 작업 범위 페이지입니다.');
-                }}
-              >
-                <ImgBox>
-                  <Image
-                    src={tabNumber === 3 ? chattingOn : chatting}
-                    alt="chatting"
-                    layout="fill"
-                  />
-                </ImgBox>
-                <H3 clicked={tabNumber === 3 ? true : false}>소통하기</H3>
-              </div>
-              <div
-                className="img-wrapper"
-                onClick={() => {
-                  user_ID ? router.push('/mypage') : router.push('/signin');
-                }}
-              >
-                <ImgBox>
-                  <Image
-                    src={tabNumber === 4 ? mypageOn : mypage}
-                    alt="mypage"
-                    layout="fill"
-                  />
-                </ImgBox>
-                <H3 clicked={tabNumber === 4 ? true : false}>마이페이지</H3>
-              </div>
-            </BoxBg>
-          </>
-        ))}
+      {memberType === 'USER' && (
+        <>
+          <BoxBg>
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                router.push('/');
+              }}
+            >
+              <ImgBox>
+                <Image
+                  src={tabNumber === 0 ? homeOn : home}
+                  alt="home"
+                  layout="fill"
+                />
+              </ImgBox>
+              <H3 clicked={tabNumber === 0 ? true : false}>홈</H3>
+            </div>
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                router.push('/guide');
+              }}
+            >
+              <ImgBox>
+                <Image
+                  src={tabNumber === 1 ? guideOn : guide}
+                  alt="guide"
+                  layout="fill"
+                />
+              </ImgBox>
+              <H3 clicked={tabNumber === 1 ? true : false}>가이드</H3>
+            </div>
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                router.push('/quotation/request');
+              }}
+            >
+              <Image src={estimate} alt="estimate" width={32} height={32} />
+              <H3 clicked={false}>간편견적</H3>
+            </div>
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                alert('2차 작업 범위 페이지입니다.');
+              }}
+            >
+              <ImgBox>
+                <Image
+                  src={tabNumber === 3 ? chattingOn : chatting}
+                  alt="chatting"
+                  layout="fill"
+                />
+              </ImgBox>
+              <H3 clicked={tabNumber === 3 ? true : false}>소통하기</H3>
+            </div>
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                user_ID ? router.push('/mypage') : router.push('/signin');
+              }}
+            >
+              <ImgBox>
+                <Image
+                  src={tabNumber === 4 ? mypageOn : mypage}
+                  alt="mypage"
+                  layout="fill"
+                />
+              </ImgBox>
+              <H3 clicked={tabNumber === 4 ? true : false}>마이페이지</H3>
+            </div>
+          </BoxBg>
+        </>
+      )}
 
       {JSON.parse(memberType!) === 'COMPANY' && (
         <>
