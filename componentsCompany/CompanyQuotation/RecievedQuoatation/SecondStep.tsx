@@ -157,11 +157,27 @@ const SecondStep = ({
   const onChangeSelectBox = (e: any) => {
     setSelectedItem(e.target.value);
   };
-  // 이전
+  // 이전 버튼
   const handlePrevBtn = () => {
-    if (tabNumber > 0) setTabNumber(tabNumber - 1);
+    if (tabNumber > 0) {
+      dispatch(
+        myEstimateAction.setCharge({
+          index: StepIndex,
+          data: {
+            chargeType: chargeTypeList[customerOwner],
+            fee: fee,
+            productList: selectedItem,
+            manufacturingCompany: manufacturingCompany,
+            chargeFeatures: chargeFeatures,
+            chargeImage: imgArr,
+            chargeFile: fileArr,
+          },
+        }),
+      );
+      setTabNumber(tabNumber - 1);
+    }
   };
-  // 다음
+  // 다음 버튼
   const handleNextBtn = (e: any) => {
     // isValid
     if (tabNumber < maxIndex) {
