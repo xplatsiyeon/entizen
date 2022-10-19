@@ -1,22 +1,21 @@
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
+import React from 'react';
 import colors from 'styles/colors';
 
-interface Props {
-  onClcikModal: () => void;
-}
+type Props = {
+  handleRightBtn: () => void;
+  handleLeftBtn: () => void;
+};
 
-const TwoButton = ({ onClcikModal }: Props) => {
-  const route = useRouter();
-
-  const goToChat = () => route.push('/chatting/1-2');
+const TwoBtn = ({ handleRightBtn, handleLeftBtn }: Props) => {
   return (
     <Wrapper>
       <Blur />
       <BtnBox>
-        <LeftBtn onClick={goToChat}>소통하기</LeftBtn>
-        <RightBtn onClick={onClcikModal}>이 상품으로 진행하기</RightBtn>
+        <LeftBtn onClick={handleRightBtn}>삭제하기</LeftBtn>
+        <RightBtn onClick={handleLeftBtn}>정보 수정하기</RightBtn>
       </BtnBox>
     </Wrapper>
   );
@@ -38,11 +37,12 @@ const BtnBox = styled.div`
   display: flex;
   gap: 9pt;
 `;
-const LeftBtn = styled(Button)`
+const LeftBtn = styled.button`
   padding: 15pt 16.75pt;
+  z-index: 15;
   width: 33%;
-  border: 0.75pt solid ${colors.main};
-  color: ${colors.main};
+  border: 0.75pt solid #e2e5ed;
+  color: #a6a9b0;
   background-color: ${colors.lightWhite};
   border-radius: 6pt;
   font-weight: 700;
@@ -50,8 +50,9 @@ const LeftBtn = styled(Button)`
   line-height: 12pt;
   letter-spacing: -0.02em;
 `;
-const RightBtn = styled(Button)`
+const RightBtn = styled.button`
   padding: 15pt 32.5pt;
+  z-index: 15;
   width: 72%;
   background-color: ${colors.main};
   color: ${colors.lightWhite};
@@ -71,5 +72,4 @@ const Blur = styled.div`
   filter: blur(7.5pt);
   height: 67.5pt;
 `;
-
-export default TwoButton;
+export default TwoBtn;
