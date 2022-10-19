@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   console.log(TAB + '멤버타입-> ' + memberType);
   return (
     <>
-      {memberType === 'USER' && (
+      {memberType === null && memberType === 'USER' && (
         <>
           <WebWrap>
             <Main />
