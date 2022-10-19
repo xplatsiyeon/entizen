@@ -199,6 +199,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   useEffect(() => {
     setSelectedOption(chargersKo);
     setSelectedOptionEn(chargers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

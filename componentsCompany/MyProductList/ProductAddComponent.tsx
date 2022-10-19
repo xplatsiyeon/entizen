@@ -1,41 +1,200 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, TextField } from '@mui/material';
+import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import colors from 'styles/colors';
 import CompanyHeader from './\bHeader';
+import plusIcon from 'public/images/PlusCircle28.png';
+import Xbtn from 'public/images/XCircle28.png';
+import camera from 'public/images/gray_camera.png';
+import CloseImg from 'public/images/XCircle.svg';
+import Image from 'next/image';
+import { M5_LIST, M7_LIST } from 'assets/selectList';
+import { CHARGING_METHOD } from 'companyAssets/selectList';
+import FileText from 'public/images/FileText.png';
+import AddImg from 'public/images/add-img.svg';
+import { BusinessRegistrationType } from 'components/SignUp';
 
 type Props = {};
 
 const ProductAddComponent = (props: Props) => {
   const router = useRouter();
+  const imgRef = useRef<any>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
-  // 임시 데이터
-  const chargerData: string[] = [
-    'LECS-007ADE',
-    'LECS-006ADE',
-    'LECS-005ADE',
-    'LECS-004ADE',
-  ];
+  // 사진
+  const [review, setReview] = useState<{
+    productImg: any;
+    createDt: number;
+  }>({
+    productImg: [],
+    createDt: new Date().getTime(),
+  });
+
+  // 파일
+  const [businessRegistration, setBusinessRegistration] = useState<
+    BusinessRegistrationType[]
+  >([]);
 
   // 모델명
   const [modelName, setModelName] = useState<string>('');
+  // 제조자
+  // const [madeBy, setMadeBy] = use
 
-  // 상단 확인버튼 function
-  const handleCheckClick = () => {
+  // 충전기 종류
+  const [chargerType, setChargerType] = useState<string>('');
+  // 충전 채널
+  const [chargingChannel, setChargingChannel] = useState<string>('');
+  // 충전 방식
+  const [chargingMethod, setChargingMethod] = useState<string[]>(['']);
+  // 제조사
+  const [manufacturer, setManufacturer] = useState<string>('');
+  // 특장점
+  const [advantages, setAdvantages] = useState<string>('');
+
+  // SelectBox 값
+  const onChangeSelectBox = (e: any, index?: number) => {
+    switch (e.target.name) {
+      case 'kind':
+        setChargerType(e.target.value);
+        break;
+      case 'channel':
+        setChargingChannel(e.target.value);
+        break;
+      case 'chargingMethod':
+        let pasteArray: string[] = [];
+        console.log(index);
+        if (index === 0) {
+          pasteArray.push(e.target.value);
+        } else {
+          pasteArray.push(...chargingMethod);
+        }
+
+        console.log(pasteArray);
+        if (index) {
+          console.log(index);
+          pasteArray[index] = e.target.value;
+        }
+        setChargingMethod(pasteArray);
+    }
+  };
+  // 인풋박스 추가 버튼
+  const handlePlusSelect = () => {
+    if (chargingMethod.length === 5) return;
+    let copy: string[] = chargingMethod.concat('');
+    setChargingMethod(copy);
+  };
+  // 인풋박스 삭제 버튼
+  const onClickMinus = (index: number) => {
+    const copy = [...chargingMethod];
+    copy.splice(index, 1);
+    setChargingMethod(copy);
+  };
+
+  // 다음 버튼
+  const buttonOnClick = () => {
     router.push('/company/myProductList');
   };
+
+  // 사진 고를 수 있는 finder 오픈 , 사진 저장 , 사진 삭제
+  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    imgRef.current.click();
+  };
+  const saveFileImage = (e: any) => {
+    const { files } = e.target;
+    const newImageURL = [];
+    const maxLength = 3;
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files[i] === undefined) {
+        break;
+      }
+      const nowImageUrl = URL.createObjectURL(files[i]);
+      newImageURL.push(nowImageUrl);
+    }
+    const copyArr = [];
+    copyArr.push(review);
+    for (let i = 0; i < newImageURL.length; i++) {
+      copyArr[0].productImg.push(newImageURL[i]);
+    }
+
+    if (review.productImg.length > 0) {
+      setReview({
+        ...review,
+        productImg: copyArr[0].productImg,
+      });
+    } else if (review.productImg.length === 0) {
+      setReview({
+        ...review,
+        productImg: newImageURL,
+      });
+    }
+  };
+  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [];
+    copyArr.push(review);
+    copyArr[0].productImg.splice(name, 1);
+    setReview({ ...review, productImg: copyArr[0].productImg });
+  };
+
+  //파일 선택, 저장, 삭제
+  const handleFileClick = () => {
+    fileRef?.current?.click();
+  };
+
+  const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 3;
+    const newArr = [...businessRegistration];
+    // max길이 보다 짧으면 멈춤
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      // 이미지 객체 생성 후 상태에 저장
+      const imageUrl = URL.createObjectURL(files![i]);
+      console.log('test');
+      console.log(imageUrl);
+      const imageName = files![i].name;
+      const imageSize = files![i].size;
+      newArr.push({
+        url: imageUrl,
+        size: imageSize,
+        originalName: imageName,
+      });
+    }
+    setBusinessRegistration(newArr);
+  };
+
+  const getByteSize = (size: number) => {
+    const byteUnits = ['KB', 'MB', 'GB', 'TB'];
+    for (let i = 0; i < byteUnits.length; i++) {
+      size = Math.floor(size / 1024);
+      if (size < 1024) return size.toFixed(1) + byteUnits[i];
+    }
+  };
+  const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...businessRegistration];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setBusinessRegistration(copyArr);
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log('여기 = > ' + chargingMethod);
+    console.log(chargingMethod);
+  }, [chargingMethod]);
 
   return (
     <>
       {/* 헤더 */}
-      <CompanyHeader
-        back={true}
-        title={'제품 추가하기'}
-        check={true}
-        handleCheckClick={handleCheckClick}
-      />
+      <CompanyHeader back={true} title={'제품 추가하기'} />
       {/* 인풋 바디 */}
       <InputContainer>
         <InputBox>
@@ -49,15 +208,16 @@ const ProductAddComponent = (props: Props) => {
             required
           />
         </InputBox>
+        {/* 충전기 종류 */}
         <InputBox>
           <LabelBox>
             <RequiredLabel>충전기 종류</RequiredLabel>
           </LabelBox>
           <SelectBox
-            //   value={item.kind}
+            value={chargerType || ''}
             placeholder="충전기 종류"
             name="kind"
-            //   onChange={(event) => handleChange(event, index)}
+            onChange={(e) => onChangeSelectBox(e)}
             IconComponent={() => <SelectIcon />}
             displayEmpty
           >
@@ -65,32 +225,224 @@ const ProductAddComponent = (props: Props) => {
               <Placeholder>충전기 종류</Placeholder>
             </MenuItem>
 
-            {chargerData.map((el, index) => (
+            {M5_LIST.map((el, index) => (
               <MenuItem key={index} value={el}>
                 {el}
               </MenuItem>
             ))}
           </SelectBox>
         </InputBox>
+        {/* 충전 채널 */}
         <InputBox>
           <LabelBox>
             <RequiredLabel>충전 채널</RequiredLabel>
           </LabelBox>
-          <Input />
+          <SelectBox
+            value={chargingChannel || ''}
+            placeholder="충전기 채널"
+            name="channel"
+            onChange={(e) => onChangeSelectBox(e)}
+            IconComponent={() => <SelectIcon />}
+            displayEmpty
+          >
+            <MenuItem value="">
+              <Placeholder>충전기 채널</Placeholder>
+            </MenuItem>
+
+            {M7_LIST.map((el, index) => (
+              <MenuItem key={index} value={el}>
+                {el}
+              </MenuItem>
+            ))}
+          </SelectBox>
         </InputBox>
+        {/* 충전방식 */}
         <InputBox>
           <LabelBox>
             <RequiredLabel>충전 방식</RequiredLabel>
+            <RightPlus onClick={handlePlusSelect}>
+              <Image src={plusIcon} alt="plusBtn" />
+            </RightPlus>
           </LabelBox>
-          <Input />
+
+          {chargingMethod.length > 0 &&
+            chargingMethod?.map((el, index) => (
+              <>
+                {/* 원래 기본 */}
+                {index === 0 && (
+                  <SelectBox
+                    value={chargingMethod[index] || ''}
+                    placeholder="충전 방식"
+                    name="chargingMethod"
+                    onChange={(e) => onChangeSelectBox(e, index)}
+                    IconComponent={() => <SelectIcon />}
+                    displayEmpty
+                  >
+                    <MenuItem value="">
+                      <Placeholder>충전 방식</Placeholder>
+                    </MenuItem>
+
+                    {CHARGING_METHOD.map((el, index) => (
+                      <MenuItem key={index} value={el}>
+                        {el}
+                      </MenuItem>
+                    ))}
+                  </SelectBox>
+                )}
+                {/* + 버튼 눌러서 추가되는 부분  */}
+                {index > 0 && (
+                  <PlusBox key={index}>
+                    <SelectBox
+                      value={chargingMethod[index] || ''}
+                      placeholder="충전 방식"
+                      name="chargingMethod"
+                      onChange={(e) => onChangeSelectBox(e, index)}
+                      IconComponent={() => <SelectIcon />}
+                      displayEmpty
+                    >
+                      <MenuItem value="">
+                        <Placeholder>충전 방식</Placeholder>
+                      </MenuItem>
+
+                      {CHARGING_METHOD.map((el, index) => (
+                        <MenuItem key={index} value={el}>
+                          {el}
+                        </MenuItem>
+                      ))}
+                    </SelectBox>
+
+                    <DeleteBtn onClick={() => onClickMinus(index)}>
+                      <Image src={Xbtn} alt="delete" />
+                    </DeleteBtn>
+                  </PlusBox>
+                )}
+              </>
+            ))}
         </InputBox>
+        {/* 제조사 부분  */}
         <InputBox>
           <LabelBox>
             <RequiredLabel>제조사</RequiredLabel>
           </LabelBox>
-          <Input />
+          <Input
+            value={manufacturer}
+            onChange={(e) => setManufacturer(e.target.value)}
+            required
+          />
         </InputBox>
+        {/* 특장점 */}
+        <InputBox>
+          <LabelBox>
+            <UnRequired>특장점</UnRequired>
+          </LabelBox>
+          <TextArea
+            name="firstPageTextArea"
+            value={advantages}
+            onChange={(e) => setAdvantages(e.target.value)}
+            placeholder="선택 입력사항"
+            rows={7}
+          />
+        </InputBox>
+        {/* 사진 첨부 부분 */}
+        <RemainderInputBox>
+          <Label>사진첨부</Label>
+          <PhotosBox>
+            <AddPhotos onClick={imgHandler}>
+              <Image src={camera} alt="" />
+            </AddPhotos>
+            <input
+              style={{ display: 'none' }}
+              ref={imgRef}
+              type="file"
+              accept="image/*"
+              onChange={saveFileImage}
+              multiple
+            />
+            {/* <Preview> */}
+            {review.productImg &&
+              review.productImg.map((img: any, index: any) => (
+                <ImgSpan key={index} data-name={index}>
+                  <Image
+                    style={{
+                      borderRadius: '6pt',
+                    }}
+                    layout="intrinsic"
+                    alt="preview"
+                    width={74.75}
+                    data-name={index}
+                    height={74.75}
+                    key={index}
+                    src={img}
+                  />
+                  <Xbox onClick={handlePhotoDelete} data-name={index}>
+                    <Image
+                      src={CloseImg}
+                      data-name={index}
+                      layout="intrinsic"
+                      alt="closeBtn"
+                      width={24}
+                      height={24}
+                    />
+                  </Xbox>
+                </ImgSpan>
+              ))}
+            {/* </Preview> */}
+          </PhotosBox>
+        </RemainderInputBox>
+        {/* 파일 부분 */}
+        <RemainderInputBoxs>
+          <PhotosBoxs>
+            <Form>
+              <label>충전기 카탈로그</label>
+              <div>
+                <File onClick={handleFileClick}>
+                  <Image src={AddImg} alt="img" />
+                  <div>파일 업로드</div>
+                </File>
+              </div>
+            </Form>
+            {/* 파일 input */}
+            <input
+              style={{ display: 'none' }}
+              ref={fileRef}
+              className="imageClick"
+              type="file"
+              accept="xlsx"
+              onChange={saveFile}
+              multiple
+            />
+
+            {/* <File_Preview> */}
+            <div className="file-preview">
+              {businessRegistration?.map((item, index) => (
+                <FileBox key={index} data-name={index}>
+                  <div className="file">
+                    <div className="file-img">
+                      <Image src={FileText} alt="file-icon" />
+                    </div>
+                    <div className="file-data">
+                      <span className="file-name">{item.originalName}</span>
+                      <span className="file-size">{`용량 ${getByteSize(
+                        item.size,
+                      )}`}</span>
+                    </div>
+                    <div
+                      className="file-exit"
+                      onClick={handleFileDelete}
+                      data-name={index}
+                    >
+                      <Image src={CloseImg} data-name={index} alt="closeBtn" />
+                    </div>
+                  </div>
+                </FileBox>
+              ))}
+            </div>
+          </PhotosBoxs>
+        </RemainderInputBoxs>
       </InputContainer>
+      <Btn buttonActivate={true} tabNumber={0} onClick={buttonOnClick}>
+        제품 등록하기
+      </Btn>
     </>
   );
 };
@@ -99,6 +451,7 @@ const InputContainer = styled.div`
   margin-top: 11.25pt;
   padding-left: 15pt;
   padding-right: 15pt;
+  padding-bottom: 126.75pt;
 `;
 
 const InputBox = styled.div`
@@ -143,6 +496,14 @@ const RightLabel = styled.div`
   }
 `;
 
+const RightPlus = styled.div`
+  width: 21pt;
+  height: 21pt;
+  position: absolute;
+  right: 0;
+  top: -4.5pt;
+`;
+
 const Input = styled(TextField)`
   width: 100%;
   & input {
@@ -162,6 +523,10 @@ const Input = styled(TextField)`
   & .remove {
     display: none;
   }
+  & > .MuiInputBase-root > fieldset {
+    border: 1pt solid #e2e5ed !important;
+    border-radius: 6pt !important;
+  }
   :focus > .remove {
     display: block;
   }
@@ -171,7 +536,6 @@ const SelectBox = styled(Select)`
   width: 100%;
   border: 1px solid #e2e5ed;
   border-radius: 8px;
-  margin-top: 9pt;
   font-weight: 400;
   font-size: 12pt;
   line-height: 12pt;
@@ -202,6 +566,232 @@ const Placeholder = styled.em`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.lightGray3};
+`;
+
+const UnRequired = styled.div`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 10.5pt;
+  font-weight: 700;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+`;
+
+const TextArea = styled.textarea`
+  resize: none;
+  border: 1px solid ${colors.gray};
+  width: 100%;
+  padding: 12pt;
+  box-sizing: border-box;
+  border-radius: 6pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12pt;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  &::placeholder {
+    color: #caccd1;
+  }
+`;
+
+const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: ${colors.lightWhite};
+  width: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '64%')};
+  padding: 15pt 0 15pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  cursor: pointer;
+  background-color: ${({ buttonActivate }) =>
+    buttonActivate ? colors.main : colors.blue3};
+
+  @media (max-width: 899pt) {
+    position: fixed;
+    padding: 15pt 0 39pt 0;
+  }
+`;
+
+const PlusBox = styled.div`
+  display: flex;
+  gap: 12pt;
+`;
+
+const DeleteBtn = styled.div`
+  width: 21pt;
+  height: 21pt;
+  padding-top: 10.885pt;
+  padding-bottom: 10.885pt;
+`;
+
+const RemainderInputBox = styled.div`
+  flex-direction: column;
+  display: flex;
+  margin-top: 24pt;
+`;
+const RemainderInputBoxs = styled.div`
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  display: flex;
+  /* height: 100%; */
+  padding-bottom: 58.6875pt;
+  margin-top: 24pt;
+  & .file-preview {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding-bottom: 58.6875pt;
+    gap: 9pt;
+  }
+`;
+const Label = styled.label`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 10.5pt;
+  font-weight: 700;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+`;
+
+const PhotosBox = styled.div`
+  width: 100%;
+  height: 56.0625pt;
+  margin-top: 9pt;
+  display: flex;
+  gap: 9.1875pt;
+  align-items: center;
+`;
+const PhotosBoxs = styled.div`
+  /* width: 100%; */
+  height: 56.0625pt;
+  margin-top: 9pt;
+  display: flex;
+  flex-direction: column;
+  gap: 9pt;
+  align-items: center;
+  padding-bottom: 58.6875pt;
+`;
+
+const AddPhotos = styled.button`
+  display: inline-block;
+  width: 56.0625pt;
+  height: 56.0625pt;
+  border: 1px solid #e2e5ed;
+  border-radius: 6pt;
+`;
+
+const ImgSpan = styled.div`
+  position: relative;
+`;
+const Xbox = styled.div`
+  position: absolute;
+  top: -7pt;
+  right: -7pt;
+`;
+
+const FileBox = styled.div`
+  display: flex;
+  align-items: center;
+  background: ${colors.lightWhite2}; // 컬러 왜 안나옴?..
+  border: 1px solid #e2e5ed;
+  border-radius: 6pt;
+  position: relative;
+  box-sizing: border-box;
+  padding: 12pt 15pt;
+  & .file {
+    display: flex;
+    width: 100%;
+  }
+  & .file > .file-img {
+    width: 24pt;
+    height: 24pt;
+  }
+  & .file > .file-data {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 9pt;
+    padding-left: 15pt;
+  }
+  & .file > .file-data > .file-name {
+    font-weight: 400;
+    font-size: 10.5pt;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    color: ${colors.dark2};
+  }
+  .file-size {
+    font-weight: 400;
+    font-size: 9pt;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray2};
+  }
+  .file-exit {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    cursor: pointer;
+    position: absolute;
+    top: 16.5pt;
+    right: 15pt;
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  /* margin-top: 24pt; */
+  position: relative;
+  & > label {
+    font-family: Spoqa Han Sans Neo;
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+  & > div {
+    margin-top: 9pt;
+    width: 100%;
+    border: 0.75pt dashed ${colors.lightGray};
+    border-radius: 6pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+`;
+
+const File = styled.label`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9pt;
+  padding: 15pt 0;
+  cursor: pointer;
+  & > input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+  }
+  & > div {
+    font-size: 12pt;
+    line-height: 12pt;
+    color: #caccd1;
+  }
 `;
 
 export default ProductAddComponent;
