@@ -16,21 +16,19 @@ import mypageOn from 'public/navigation/mypage-on-icon.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 
 type Props = {};
 
 const BottomNavigation = (props: Props) => {
   const router = useRouter();
   const user_ID = localStorage.getItem('USER_ID');
-  const { selectedType } = useSelector((state: RootState) => state.selectType);
+  const memberType = localStorage.getItem('MEMBER_TYPE');
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
   const [myQuotaion, setMyQuotation] = useState(0);
 
   useEffect(() => {
-    if (selectedType === 'USER') {
+    if (memberType === undefined || memberType === 'USER') {
       switch (pathname) {
         case '/':
           return setTabNumber(0);
@@ -47,7 +45,7 @@ const BottomNavigation = (props: Props) => {
       }
     }
 
-    if (selectedType === 'COMPANY') {
+    if (memberType === 'COMPANY') {
       switch (pathname) {
         case '/':
           return setTabNumber(0);
@@ -68,7 +66,7 @@ const BottomNavigation = (props: Props) => {
 
   return (
     <Wrapper>
-      {selectedType === 'USER' ? (
+      {memberType === undefined || memberType === 'USER' ? (
         <>
           <BoxBg>
             <div
