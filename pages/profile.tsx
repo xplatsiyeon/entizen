@@ -73,6 +73,10 @@ const Profile = () => {
               'SNS_MEMBER',
               JSON.stringify(token.isSnsMember),
             );
+            localStorage.setItem(
+              'MEMBER_TYPE',
+              JSON.stringify(token.memberType),
+            );
             localStorage.setItem('USER_ID', jsonData.email);
             localStorage.setItem(
               'ACCESS_TOKEN',

@@ -6,14 +6,13 @@ import Main from '../components/Main/mainWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import CompanyMainPage from 'components/Main/companyMain';
-
+const TAB = '/index';
 const Home: NextPage = () => {
-  const { selectedType } = useSelector((state: RootState) => state.selectType);
-
-  console.log(selectedType);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  console.log(TAB + '멤버타입-> ' + memberType);
   return (
     <>
-      {selectedType === 'USER' && (
+      {memberType === 'USER' && (
         <>
           <WebWrap>
             <Main />
@@ -23,7 +22,7 @@ const Home: NextPage = () => {
           </MobWrap>
         </>
       )}
-      {selectedType === 'COMPANY' && <CompanyMainPage />}
+      {memberType === 'COMPANY' && <CompanyMainPage />}
     </>
   );
 };

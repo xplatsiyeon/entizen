@@ -57,6 +57,7 @@ export const handleLogoutOnClickModalClick = async () => {
       localStorage.removeItem('ACCESS_TOKEN');
       localStorage.removeItem('REFRESH_TOKEN');
       localStorage.removeItem('USER_ID');
+      localStorage.removeItem('MEMBER_TYPE');
     });
   } catch (error) {
     console.log('요청 실패');

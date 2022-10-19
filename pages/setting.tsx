@@ -81,6 +81,7 @@ const Setting = () => {
         localStorage.removeItem('ACCESS_TOKEN');
         localStorage.removeItem('REFRESH_TOKEN');
         localStorage.removeItem('USER_ID');
+        localStorage.removeItem('MEMBER_TYPE');
         setLogoutModal(false);
         router.push('/');
       });
@@ -111,6 +112,7 @@ const Setting = () => {
           localStorage.removeItem('ACCESS_TOKEN');
           localStorage.removeItem('REFRESH_TOKEN');
           localStorage.removeItem('USER_ID');
+          localStorage.removeItem('MEMBER_TYPE');
           setLogoutModal(false);
           setAlertModal(false);
         })

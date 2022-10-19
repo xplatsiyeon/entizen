@@ -85,11 +85,9 @@ const Signin = (props: Props) => {
         withCredentials: true,
       })
         .then(async (res) => {
-          console.log(TAP + 'login');
-          console.log(res);
           const token: JwtTokenType = jwt_decode(res.data.accessToken);
-          console.log(token);
           localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+          localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
           localStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(res.data.accessToken),
