@@ -1,31 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 type chargerData =
+  | ''
   | 'LECS-007ADE'
   | 'LECS-006ADE'
   | 'LECS-005ADE'
   | 'LECS-004ADE';
 
 // 2스텝
+interface Upload {
+  url: string;
+  size: number;
+  originalName: string;
+}
 interface chargers {
-  chargeType: '구매자 자율' | '운영사업자 입력';
-  fee: number;
+  chargeType: '' | '구매자 자율' | '운영사업자 입력';
+  fee: string;
+  productList: string;
   manufacturingCompany: chargerData;
   chargeFeatures: string;
-  chargeImage: [
-    {
-      url: string;
-      size: number;
-      originalName: string;
-    },
-  ];
-  chargeFile: [
-    {
-      url: string;
-      size: number;
-      originalName: string;
-    },
-  ];
+  chargeImage: Upload[];
+  chargeFile: Upload[];
 }
 
 // 1스텝 + 2스텝
@@ -40,18 +34,71 @@ const initialState: StateType = {
   subscription: 0,
   period: 0,
   features: '',
-  charge: [],
+  charge: [
+    {
+      chargeType: '',
+      fee: '',
+      productList: '',
+      manufacturingCompany: '',
+      chargeFeatures: '',
+      chargeImage: [],
+      chargeFile: [],
+    },
+    {
+      chargeType: '',
+      fee: '',
+      productList: '',
+      manufacturingCompany: '',
+      chargeFeatures: '',
+      chargeImage: [],
+      chargeFile: [],
+    },
+    {
+      chargeType: '',
+      fee: '',
+      productList: '',
+      manufacturingCompany: '',
+      chargeFeatures: '',
+      chargeImage: [],
+      chargeFile: [],
+    },
+    {
+      chargeType: '',
+      fee: '',
+      productList: '',
+      manufacturingCompany: '',
+      chargeFeatures: '',
+      chargeImage: [],
+      chargeFile: [],
+    },
+    {
+      chargeType: '',
+      fee: '',
+      productList: '',
+      manufacturingCompany: '',
+      chargeFeatures: '',
+      chargeImage: [],
+      chargeFile: [],
+    },
+  ],
 };
 
 const slice = createSlice({
-  name: 'findUserInfo',
+  name: 'companymyEstimate',
   initialState,
   reducers: {
-    addId(state, action) {
-      state = action.payload;
+    addCharge(state, action) {
+      state.charge.push(action.payload);
+    },
+    setCharge(state, action) {
+      const { index, data } = action.payload;
+      state.charge[index] = data;
+    },
+    reset(state) {
+      Object.assign(state, initialState);
     },
   },
 });
 
-export const myEstimateActions = slice.actions;
+export const myEstimateAction = slice.actions;
 export const myEstimateSlice = slice;

@@ -28,11 +28,14 @@ import QuotationCenter from './QuotationCenter';
 import Footer from '../Footer';
 import BottomNavigation from 'components/BottomNavigation';
 import CheckQuotationBtn from './CheckQuotationBtn';
+import { useDispatch } from 'react-redux';
+import { myEstimateAction } from 'storeCompany/myQuotation';
 
 type Props = {};
 
 const CompanyMainPage = (props: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
@@ -53,6 +56,7 @@ const CompanyMainPage = (props: Props) => {
       setState({ ...state, [anchor]: open });
     };
   useEffect(() => {
+    dispatch(myEstimateAction.reset());
     localStorage.removeItem('key');
   }, []);
   useEffect(() => {

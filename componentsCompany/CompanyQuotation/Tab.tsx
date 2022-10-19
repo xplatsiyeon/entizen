@@ -113,20 +113,16 @@ const Tab = ({
     <>
       <TabBox>
         {tabs.map((el, index) => (
-          <>
-            <TabLists key={index} onClick={() => setTabNumber(index)}>
-              <TabList
-                className={
-                  tabNumber !== undefined && tabNumber === index
-                    ? 'selected'
-                    : ''
-                }
-              >
-                {el}
-              </TabList>
-              {tabNumber === index && <BottomLine></BottomLine>}
-            </TabLists>
-          </>
+          <TabLists key={index} onClick={() => setTabNumber(index)}>
+            <TabList
+              className={
+                tabNumber !== undefined && tabNumber === index ? 'selected' : ''
+              }
+            >
+              {el}
+            </TabList>
+            {tabNumber === index && <BottomLine></BottomLine>}
+          </TabLists>
         ))}
       </TabBox>
       <FilterBtnBox>

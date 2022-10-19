@@ -136,7 +136,6 @@ const CompanyDetailInfo = ({
       if (size < 1024) return size.toFixed(1) + byteUnits[i];
     }
   };
-
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);

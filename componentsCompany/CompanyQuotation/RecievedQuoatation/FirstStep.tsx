@@ -38,6 +38,7 @@ const FirstStep = ({
   }, [monthlySubscribePrice, constructionPeriod]);
 
   const buttonOnClick = () => {
+    console.log('버튼 클릭');
     setTabNumber(tabNumber + 1);
   };
 

@@ -13,7 +13,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     select(state, action) {
-      state.selectedType = action.payload;
+      console.log(state.selectedType);
     },
     reset(state, action) {
       Object.assign(state, initialState);

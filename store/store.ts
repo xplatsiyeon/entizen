@@ -28,7 +28,7 @@ const rootReducer = combineReducers({
   findUserInfo: findUserInfoSlice.reducer,
   selectType: selectSlice.reducer,
   companySignUpData: companySignUpSlice.reducer,
-  companymyEstimate: myEstimateSlice.reducer,
+  companymyEstimateData: myEstimateSlice.reducer,
 });
 
 export default rootReducer;

@@ -17,6 +17,7 @@ import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
 import { BusinessRegistrationType } from 'components/SignUp';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
+import { Filter } from '@mui/icons-material';
 
 type Props = {};
 interface Components {
@@ -26,42 +27,55 @@ export interface reviewType {
   productImg: any;
   createDt: number;
 }
-
+type ChargeType = '' | '구매자 자율' | '운영사업자 입력';
+type ManufacturingCompany =
+  | ''
+  | 'LECS-007ADE'
+  | 'LECS-006ADE'
+  | 'LECS-005ADE'
+  | 'LECS-004ADE';
+export interface Chargers {
+  chargeType: ChargeType;
+  fee: number;
+  manufacturingCompany: ManufacturingCompany;
+  chargeFeatures: string;
+  chargeImage: [
+    {
+      url: string;
+      size: number;
+      originalName: string;
+    },
+  ];
+  chargeFile: [
+    {
+      url: string;
+      size: number;
+      originalName: string;
+    },
+  ];
+}
+// 임시값
+const target = 3;
+const TAP =
+  'componentsCompany/CompanyQuotation/RecivedQuoatation/HeadOpenContent';
 const HeadOpenContent = (props: Props) => {
+  const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
-
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(-1);
-  const router = useRouter();
-
   // button on off
   const [canNext, SetCanNext] = useState<boolean>(false);
-
   // 첫스탭 상태값
   const [monthlySubscribePrice, setMonthleSubscribePrice] =
     useState<string>('');
   const [constructionPeriod, setConstructionPeriod] = useState<string>('');
   const [firstPageTextArea, setFirstPageTextArea] = useState<string>('');
-
-  // 두번째 스탭 상태값
-  const [customerOwner, setCustomerOwner] = useState<number>(-1);
-  const [review, setReview] = useState<{
-    productImg: any;
-    createDt: number;
-  }>({
-    productImg: [],
-    createDt: new Date().getTime(),
-  });
-  const [businessRegistration, setBusinessRegistration] = useState<
-    BusinessRegistrationType[]
-  >([]);
-
   // 모달
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-
   // step 컴포넌트
-  const components: Components = {
+
+  let components: Components = {
     // 기본
     0: (
       <FirstStep
@@ -77,22 +91,69 @@ const HeadOpenContent = (props: Props) => {
         SetCanNext={SetCanNext}
       />
     ),
-    // 스텝 2~6
+    // 스텝 2
     1: (
       <SecondStep
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        customerOwner={customerOwner}
-        setCustomerOwner={setCustomerOwner}
-        review={review}
-        setReview={setReview}
-        businessRegistration={businessRegistration}
-        setBusinessRegistration={setBusinessRegistration}
+        StepIndex={0}
+        maxIndex={target}
+      />
+    ),
+    // 스텝 3
+    2: (
+      <SecondStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+        StepIndex={1}
+        maxIndex={target}
+      />
+    ),
+    // 스텝 4
+    3: (
+      <SecondStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+        StepIndex={2}
+        maxIndex={target}
+      />
+    ),
+    // 스텝 5
+    4: (
+      <SecondStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+        StepIndex={3}
+        maxIndex={target}
+      />
+    ),
+    // 스텝 6
+    5: (
+      <SecondStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+        StepIndex={4}
+        maxIndex={target}
       />
     ),
   };
+  // 실제 데이터 컴포넌트
+  // const [data, setData] = useState<Components>({});
+
+  const handleClick = () => setOpen(!open);
+  const handleBackClick = () => router.back();
+  const changeRequest = () => setTabNumber(tabNumber + 1);
+  const handleModalOpen = () => setModalOpen(true);
 
   useEffect(() => {
     if (router.pathname.includes('1-1')) {
@@ -105,19 +166,13 @@ const HeadOpenContent = (props: Props) => {
       setText('A/S완료');
     }
   }, [router]);
+  //  3
+  useEffect(() => {
+    const target = 3;
+    const length = Object.keys(components).length;
 
-  const handleClick = () => setOpen(!open);
-  const handleBackClick = () => {
-    router.back();
-  };
-
-  const changeRequest = () => {
-    setTabNumber(tabNumber + 1);
-  };
-
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
+    length + 1 === target;
+  }, []);
 
   return (
     <>
@@ -222,13 +277,17 @@ const HeadOpenContent = (props: Props) => {
         <>
           <TabBox>
             {Object.keys(components).map((tab, index) => (
-              <TabLine
-                idx={index.toString()}
-                num={tabNumber.toString()}
-                key={tab}
-                // 테스트용
-                // onClick={() => setTabNumber(index)}
-              />
+              <React.Fragment key={index}>
+                {index <= target && (
+                  <TabLine
+                    idx={index.toString()}
+                    num={tabNumber.toString()}
+                    key={tab}
+                    // 테스트용
+                    // onClick={() => setTabNumber(index)}
+                  />
+                )}
+              </React.Fragment>
             ))}
           </TabBox>
           {components[tabNumber]}
@@ -241,7 +300,6 @@ const HeadOpenContent = (props: Props) => {
 const Wrapper = styled.div`
   display: block;
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
-  /* width: 100%; */
   padding-left: 15pt;
   padding-right: 15pt;
   @media (max-width: 899pt) {
