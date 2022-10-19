@@ -13,9 +13,9 @@ const ProductList = (props: Props) => {
   return (
     <>
       <Wrapper>
-        <ListBox>
+        <ListBox onClick={() => router.push('/company/showMyProduct')}>
           <ImageBox>
-            <Image src={carImg} alt="carImage" layout="fill" />
+            <Image src={carImg} alt="carImage" layout="fill" priority={true} />
           </ImageBox>
           <TextBox>
             <Title>LECS-007ADE</Title>
