@@ -45,7 +45,7 @@ export interface FindKey {
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
 const REDIRECT_URI = 'https://test-api.entizen.kr/kakaoAuth';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
+const TAP = '/signin';
 const Signin = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -85,7 +85,10 @@ const Signin = (props: Props) => {
         withCredentials: true,
       })
         .then(async (res) => {
+          console.log(TAP + 'login');
+          console.log(res);
           const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          console.log(token);
           localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
           localStorage.setItem(
             'ACCESS_TOKEN',

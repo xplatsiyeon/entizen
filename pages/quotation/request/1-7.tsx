@@ -5,16 +5,13 @@ import { useRouter } from 'next/router';
 import mapPin from 'public/images/MapPin.png';
 import Image from 'next/image';
 import colors from 'styles/colors';
-
 import SliderSizes from 'components/quotation/request/slider';
 import QuotationModal from 'components/Modal/QuotationModal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import axios from 'axios';
-import { api, isTokenApi } from 'api';
+import { isTokenApi } from 'api';
 import { useMutation } from 'react-query';
 
 type Props = {};
@@ -25,21 +22,8 @@ interface CalculateValue {
   minSubscribePricePerMonth: number;
   minTotalSubscribePrice: number;
 }
-
+const TAG = '1-7.tsx';
 const Request1_7 = (props: Props) => {
-  const TAG = '1-7.tsx';
-
-  const { mutate, error, isLoading } = useMutation(isTokenApi, {
-    onSuccess: (res) => {
-      console.log(res);
-      console.log('성공 확인');
-    },
-    onError: (error) => {
-      console.log('실패');
-      console.log(error);
-    },
-  });
-
   const router = useRouter();
   const [textValue, setTextValue] = useState('');
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -52,6 +36,21 @@ const Request1_7 = (props: Props) => {
     minSubscribePricePerMonth: 0,
     minTotalSubscribePrice: 0,
   });
+  // react-query // api 호출
+  const { mutate, error, isError, isLoading } = useMutation(isTokenApi, {
+    onSuccess: (res) => {
+      console.log(TAG + 'api/quotations/request' + 'success');
+      console.log(res);
+      setIsModal(!isModal);
+    },
+    onError: (error) => {
+      console.log(TAG + 'api/quotations/request' + 'fail');
+      console.log(error);
+      alert('다시 시도해주세요.');
+      router.push('/');
+    },
+  });
+  // redux 상태
   const { locationList, quotationData } = useSelector(
     (state: RootState) => state,
   );
@@ -84,48 +83,48 @@ const Request1_7 = (props: Props) => {
     setTextValue(value);
   };
   // 견적요청 api
-  const onClickRequest = async () => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    const url = `https://test-api.entizen.kr/api/quotations/request`;
-    console.log(TAG + 'api/quotations/request');
-    await axios({
-      method: 'post',
-      url,
-      data: {
-        chargers: quotationData.chargers,
-        subscribeProduct: quotationData.subscribeProduct,
-        investRate: quotationData.investRate.toString(),
-        subscribePeriod: quotationData.subscribePeriod,
-        installationAddress: locationList.locationList.roadAddrPart,
-        installationLocation: quotationData.installationLocation,
-        installationPoints: quotationData.installationPoints,
-        installationPurpose: quotationData.installationPurpose,
-        etcRequest: textValue,
-      },
-      headers: {
-        ContentType: 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      withCredentials: true,
-    })
-      .then((res) => {
-        console.log(TAG + 'api/quotations/request' + 'success');
-        console.log(res);
-        setIsModal(!isModal);
-      })
-      .catch((error) => {
-        console.log(TAG + 'api/quotations/request' + 'fail');
-        console.log(error);
-        alert('다시 시도해주세요.');
-        router.push('/');
-      });
-  };
+  // const onClickRequest = async () => {
+  //   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  //   const url = `https://test-api.entizen.kr/api/quotations/request`;
+  //   console.log(TAG + 'api/quotations/request');
+  //   await axios({
+  //     method: 'post',
+  //     url,
+  //     data: {
+  //       chargers: quotationData.chargers,
+  //       subscribeProduct: quotationData.subscribeProduct,
+  //       investRate: quotationData.investRate.toString(),
+  //       subscribePeriod: quotationData.subscribePeriod,
+  //       installationAddress: locationList.locationList.roadAddrPart,
+  //       installationLocation: quotationData.installationLocation,
+  //       installationPoints: quotationData.installationPoints,
+  //       installationPurpose: quotationData.installationPurpose,
+  //       etcRequest: textValue,
+  //     },
+  //     headers: {
+  //       ContentType: 'application/json',
+  //       Authorization: `Bearer ${accessToken}`,
+  //     },
+  //     withCredentials: true,
+  //   })
+  //     .then((res) => {
+  //       console.log(TAG + 'api/quotations/request' + 'success');
+  //       console.log(res);
+  //       setIsModal(!isModal);
+  //     })
+  //     .catch((error) => {
+  //       console.log(TAG + 'api/quotations/request' + 'fail');
+  //       console.log(error);
+  //       alert('다시 시도해주세요.');
+  //       router.push('/');
+  //     });
+  // };
 
-  const testBtn = () => {
+  // quotations/request post 요청
+  const onClickRequest = () => {
     mutate({
       method: 'POST',
       endpoint: '/quotations/request',
-      Tag: 'quotation/request/1-7 => 간편견적 요청 포스트',
       data: {
         chargers: quotationData.chargers,
         subscribeProduct: quotationData.subscribeProduct,
@@ -139,6 +138,10 @@ const Request1_7 = (props: Props) => {
       },
     });
   };
+
+  if (isError) {
+    console.log(error);
+  }
   return (
     <React.Fragment>
       <WebBody>
@@ -220,8 +223,7 @@ const Request1_7 = (props: Props) => {
                 ></textarea>
               </RequestForm>
             </Body>
-            {/* <Btn buttonActivate={buttonActivate} onClick={onClickRequest}> */}
-            <Btn buttonActivate={buttonActivate} onClick={testBtn}>
+            <Btn buttonActivate={buttonActivate} onClick={onClickRequest}>
               구독상품 견적요청
             </Btn>
           </Wrapper>

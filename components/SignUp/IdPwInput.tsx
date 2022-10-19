@@ -8,7 +8,7 @@ import colors from 'styles/colors';
 import Btn from './button';
 import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { onSubmitSignUp, ValidIdCheck } from 'api/auth/login';
+import { api } from 'api';
 
 type Props = {
   idInput: string;
@@ -76,9 +76,14 @@ const IdPwInput = ({
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
+  const test = ['USER', 'COMPANY'];
   const { data, refetch } = useQuery<ValidatedId>(
     'ValidIdCheck',
-    () => ValidIdCheck(idInput, userType === 0 ? 'USER' : 'COMPANY'),
+    () =>
+      api({
+        method: 'GET',
+        endpoint: `/members?id=${idInput}&memberType=${test[userType]}`,
+      }),
     {
       enabled: false,
       onError: (error) => {
@@ -92,7 +97,7 @@ const IdPwInput = ({
     mutate: userMutate,
     isLoading: userLoading,
     error: userError,
-  } = useMutation(onSubmitSignUp, {
+  } = useMutation(api, {
     onSuccess: () => {
       console.log('성공');
       queryClient.invalidateQueries();
@@ -108,7 +113,7 @@ const IdPwInput = ({
     mutate: companyMutate,
     isLoading: companyLoading,
     error: companyError,
-  } = useMutation(onSubmitSignUp, {
+  } = useMutation(api, {
     onSuccess: () => {
       console.log('성공');
       queryClient.invalidateQueries();
@@ -151,45 +156,54 @@ const IdPwInput = ({
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
       userMutate({
-        memberType: 'USER',
-        name: name,
-        phone: phoneNumber,
-        id: idInput,
-        password: checkPw,
-        optionalTermsConsentStatus: [
-          {
-            optionalTermsType: 'LOCATION',
-            consentStatus: fullTerms,
-          },
-        ],
+        method: 'POST',
+        endpoint: '/members/join',
+        data: {
+          memberType: 'USER',
+          name: name,
+          phone: phoneNumber,
+          id: idInput,
+          password: checkPw,
+          optionalTermsConsentStatus: [
+            {
+              optionalTermsType: 'LOCATION',
+              consentStatus: fullTerms,
+            },
+          ],
+        },
       });
     }
   };
   // 기업 회원가입 온클릭
   const handleCompanyClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (checkSamePw)
+    if (checkSamePw) {
       companyMutate({
-        memberType: 'COMPANY',
-        name: name,
-        phone: phoneNumber,
-        id: idInput,
-        password: checkPw,
-        optionalTermsConsentStatus: [
-          {
-            optionalTermsType: 'LOCATION',
-            consentStatus: fullTerms,
-          },
-        ],
-        // 기업 추가 내용
-        companyName,
-        companyAddress,
-        companyDetailAddress,
-        companyZipCode: postNumber,
-        managerEmail: email,
+        method: 'POST',
+        endpoint: '/members/join',
+        data: {
+          memberType: 'COMPANY',
+          name: name,
+          phone: phoneNumber,
+          id: idInput,
+          password: checkPw,
+          optionalTermsConsentStatus: [
+            {
+              optionalTermsType: 'LOCATION',
+              consentStatus: fullTerms,
+            },
+          ],
+          // 기업 추가 내용
+          companyName,
+          companyAddress,
+          companyDetailAddress,
+          companyZipCode: postNumber,
+          managerEmail: email,
 
-        // 사업자등록증 파일 목록
-        businessRegistrationFiles: businessRegistration,
+          // 사업자등록증 파일 목록
+          businessRegistrationFiles: businessRegistration,
+        },
       });
+    }
   };
   // 유효성 검사
   useEffect(() => {
