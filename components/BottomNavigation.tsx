@@ -36,11 +36,11 @@ const BottomNavigation = (props: Props) => {
           return setTabNumber(0);
         case '/company/quotation':
           return setTabNumber(1);
-        case '/company/estimate':
+        case '/chatting':
           return setTabNumber(2);
-        case '/company/chatting':
+        case '/as':
           return setTabNumber(3);
-        case '/company/mypage':
+        case '/mypage':
           return setTabNumber(4);
         default:
           break;
@@ -125,7 +125,7 @@ const BottomNavigation = (props: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                router.push('/quotation/request');
+                alert('작업중입니다.');
               }}
             >
               <Image src={estimate} alt="estimate" width={32} height={32} />
