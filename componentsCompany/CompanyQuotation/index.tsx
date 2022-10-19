@@ -3,6 +3,7 @@ import BottomNavigation from 'components/BottomNavigation';
 import React, { useState } from 'react';
 import Header from './Header';
 import RecieveRequest from './RecieveRequest';
+import SentRequest from './SentRequest';
 import Tab from './Tab';
 
 type Props = {};
@@ -29,7 +30,12 @@ const CompanyQuotations = (props: Props) => {
           checkedFilter={checkedFilter}
           setCheckedFilter={setCheckedFilter}
         />
-        <RecieveRequest checkedFilterIndex={checkedFilterIndex} />
+        {tabNumber === 0 && (
+          <RecieveRequest checkedFilterIndex={checkedFilterIndex} />
+        )}
+        {tabNumber === 1 && (
+          <SentRequest checkedFilterIndex={checkedFilterIndex} />
+        )}
       </Container>
       <BottomNavigation />
     </>
