@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { selectAction } from 'store/loginTypeSlice';
 import { kakaoInit } from 'utils/kakao';
 
 // 네이버 로그아웃

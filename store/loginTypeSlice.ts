@@ -15,6 +15,9 @@ const slice = createSlice({
     select(state, action) {
       state.selectedType = action.payload;
     },
+    reset(state, action) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
