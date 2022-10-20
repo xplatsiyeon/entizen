@@ -15,33 +15,17 @@ import { CHARGING_METHOD } from 'companyAssets/selectList';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { BusinessRegistrationType } from 'components/SignUp';
+import { useMutation } from 'react-query';
+import { isTokenApi } from 'api';
 
 type Props = {};
-
+const TAP = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
 const ProductAddComponent = (props: Props) => {
   const router = useRouter();
-  const imgRef = useRef<any>(null);
+  const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-
-  // 사진
-  const [review, setReview] = useState<{
-    productImg: any;
-    createDt: number;
-  }>({
-    productImg: [],
-    createDt: new Date().getTime(),
-  });
-
-  // 파일
-  const [businessRegistration, setBusinessRegistration] = useState<
-    BusinessRegistrationType[]
-  >([]);
-
   // 모델명
   const [modelName, setModelName] = useState<string>('');
-  // 제조자
-  // const [madeBy, setMadeBy] = use
-
   // 충전기 종류
   const [chargerType, setChargerType] = useState<string>('');
   // 충전 채널
@@ -52,6 +36,19 @@ const ProductAddComponent = (props: Props) => {
   const [manufacturer, setManufacturer] = useState<string>('');
   // 특장점
   const [advantages, setAdvantages] = useState<string>('');
+  // 이미지
+  const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
+  // 파일
+  const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
+
+  // api 호출 (with react-query)
+  const { mutate: addProduct, isLoading } = useMutation(isTokenApi, {
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log('에러발생');
+      console.log(error);
+    },
+  });
 
   // SelectBox 값
   const onChangeSelectBox = (e: any, index?: number) => {
@@ -91,63 +88,36 @@ const ProductAddComponent = (props: Props) => {
     copy.splice(index, 1);
     setChargingMethod(copy);
   };
-
   // 다음 버튼
   const buttonOnClick = () => {
-    router.push('/company/myProductList');
-  };
-
-  // 사진 고를 수 있는 finder 오픈 , 사진 저장 , 사진 삭제
+    // router.push('/company/myProductList');
+    addProduct({
+      method: 'POST',
+      endpoint: 'members/login',
+      data: {
+        memberType: 'COMPANY',
+        id: 'asdasdajsdlkjaslkdjaslk',
+        password: 'asdasdas',
+        // modelName: modelName,
+        // chargerType: chargerType,
+        // chargingChannel: chargingChannel,
+        // chargingMethod: chargingMethod,
+        // manufacturer: manufacturer,
+        // advantages: advantages,
+        // imgArr: imgArr,
+        // fileArr: fileArr,
+      },
+    });
+  }; // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    imgRef.current.click();
+    imgRef?.current?.click();
   };
+  // 사진 저장
   const saveFileImage = (e: any) => {
     const { files } = e.target;
-    const newImageURL = [];
     const maxLength = 3;
-    for (let i = 0; i < maxLength; i += 1) {
-      if (files[i] === undefined) {
-        break;
-      }
-      const nowImageUrl = URL.createObjectURL(files[i]);
-      newImageURL.push(nowImageUrl);
-    }
-    const copyArr = [];
-    copyArr.push(review);
-    for (let i = 0; i < newImageURL.length; i++) {
-      copyArr[0].productImg.push(newImageURL[i]);
-    }
-
-    if (review.productImg.length > 0) {
-      setReview({
-        ...review,
-        productImg: copyArr[0].productImg,
-      });
-    } else if (review.productImg.length === 0) {
-      setReview({
-        ...review,
-        productImg: newImageURL,
-      });
-    }
-  };
-  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-    const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [];
-    copyArr.push(review);
-    copyArr[0].productImg.splice(name, 1);
-    setReview({ ...review, productImg: copyArr[0].productImg });
-  };
-
-  //파일 선택, 저장, 삭제
-  const handleFileClick = () => {
-    fileRef?.current?.click();
-  };
-
-  const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    const maxLength = 3;
-    const newArr = [...businessRegistration];
+    const newArr = [...imgArr];
     // max길이 보다 짧으면 멈춤
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
@@ -155,8 +125,6 @@ const ProductAddComponent = (props: Props) => {
       }
       // 이미지 객체 생성 후 상태에 저장
       const imageUrl = URL.createObjectURL(files![i]);
-      console.log('test');
-      console.log(imageUrl);
       const imageName = files![i].name;
       const imageSize = files![i].size;
       newArr.push({
@@ -165,9 +133,46 @@ const ProductAddComponent = (props: Props) => {
         originalName: imageName,
       });
     }
-    setBusinessRegistration(newArr);
+    setImgArr(newArr);
   };
-
+  // 사진 삭제
+  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...imgArr];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setImgArr(copyArr);
+      }
+    }
+  };
+  //파일 온클릭
+  const handleFileClick = () => {
+    fileRef?.current?.click();
+  };
+  // 파일 저장
+  const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 3;
+    const newArr = [...fileArr];
+    // max길이 보다 짧으면 멈춤
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      // 이미지 객체 생성 후 상태에 저장
+      const imageUrl = URL.createObjectURL(files![i]);
+      const imageName = files![i].name;
+      const imageSize = files![i].size;
+      newArr.push({
+        url: imageUrl,
+        size: imageSize,
+        originalName: imageName,
+      });
+    }
+    setFileArr(newArr);
+  };
+  // 파일 용량 체크
   const getByteSize = (size: number) => {
     const byteUnits = ['KB', 'MB', 'GB', 'TB'];
     for (let i = 0; i < byteUnits.length; i++) {
@@ -175,21 +180,45 @@ const ProductAddComponent = (props: Props) => {
       if (size < 1024) return size.toFixed(1) + byteUnits[i];
     }
   };
+  // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [...businessRegistration];
+    const copyArr = [...fileArr];
     for (let i = 0; i < copyArr.length; i++) {
       if (i === name) {
         copyArr.splice(i, 1);
-        return setBusinessRegistration(copyArr);
+        return setFileArr(copyArr);
       }
     }
   };
 
+  // 테스트 useEffect
   useEffect(() => {
+    console.log(TAP + '--> 제품 리스트 목록 확인');
+
+    console.log('modelName ->' + modelName);
+    console.log('chargerType ->' + chargerType);
+    console.log('chargingChannel ->' + chargingChannel);
+    console.log('chargingMethod ->' + chargingMethod);
+    console.log('manufacturer ->' + manufacturer);
+    console.log('advantages ->' + advantages);
+    console.log('-----------imageFile--------');
+    console.log(imgArr);
+    console.log('---------businessRegistration--------');
+    console.log(fileArr);
+
     console.log('여기 = > ' + chargingMethod);
     console.log(chargingMethod);
-  }, [chargingMethod]);
+  }, [
+    modelName,
+    chargerType,
+    chargingChannel,
+    chargingMethod,
+    manufacturer,
+    advantages,
+    imgArr,
+    fileArr,
+  ]);
 
   return (
     <>
@@ -267,7 +296,7 @@ const ProductAddComponent = (props: Props) => {
 
           {chargingMethod.length > 0 &&
             chargingMethod?.map((el, index) => (
-              <>
+              <React.Fragment key={index}>
                 {/* 원래 기본 */}
                 {index === 0 && (
                   <SelectBox
@@ -316,7 +345,7 @@ const ProductAddComponent = (props: Props) => {
                     </DeleteBtn>
                   </PlusBox>
                 )}
-              </>
+              </React.Fragment>
             ))}
         </InputBox>
         {/* 제조사 부분  */}
@@ -359,33 +388,32 @@ const ProductAddComponent = (props: Props) => {
               multiple
             />
             {/* <Preview> */}
-            {review.productImg &&
-              review.productImg.map((img: any, index: any) => (
-                <ImgSpan key={index} data-name={index}>
+            {imgArr?.map((img, index) => (
+              <ImgSpan key={index} data-name={index}>
+                <Image
+                  style={{
+                    borderRadius: '6pt',
+                  }}
+                  layout="intrinsic"
+                  alt="preview"
+                  width={74.75}
+                  data-name={index}
+                  height={74.75}
+                  key={index}
+                  src={img.url}
+                />
+                <Xbox onClick={handlePhotoDelete} data-name={index}>
                   <Image
-                    style={{
-                      borderRadius: '6pt',
-                    }}
-                    layout="intrinsic"
-                    alt="preview"
-                    width={74.75}
+                    src={CloseImg}
                     data-name={index}
-                    height={74.75}
-                    key={index}
-                    src={img}
+                    layout="intrinsic"
+                    alt="closeBtn"
+                    width={24}
+                    height={24}
                   />
-                  <Xbox onClick={handlePhotoDelete} data-name={index}>
-                    <Image
-                      src={CloseImg}
-                      data-name={index}
-                      layout="intrinsic"
-                      alt="closeBtn"
-                      width={24}
-                      height={24}
-                    />
-                  </Xbox>
-                </ImgSpan>
-              ))}
+                </Xbox>
+              </ImgSpan>
+            ))}
             {/* </Preview> */}
           </PhotosBox>
         </RemainderInputBox>
@@ -414,7 +442,7 @@ const ProductAddComponent = (props: Props) => {
 
             {/* <File_Preview> */}
             <div className="file-preview">
-              {businessRegistration?.map((item, index) => (
+              {fileArr?.map((item, index) => (
                 <FileBox key={index} data-name={index}>
                   <div className="file">
                     <div className="file-img">

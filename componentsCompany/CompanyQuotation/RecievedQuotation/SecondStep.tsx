@@ -111,7 +111,6 @@ const SecondStep = ({
   const handleFileClick = () => {
     fileRef?.current?.click();
   };
-
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -348,7 +347,7 @@ const SecondStep = ({
             />
             {/* <Preview> */}
 
-            {imgArr?.map((item: any, index: any) => (
+            {imgArr?.map((item, index) => (
               <ImgSpan key={index} data-name={index}>
                 <Image
                   style={{
