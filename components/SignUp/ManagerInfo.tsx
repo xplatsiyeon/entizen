@@ -5,8 +5,6 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import Modal from 'components/Modal/Modal';
 
 type Props = {
@@ -30,7 +28,6 @@ const ManagerInfo = ({
 }: Props) => {
   const TAB = 'components/SignUp/ManagerInfo';
   const router = useRouter();
-  const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [data, setData] = useState<any>();
   const [authCode, setAuthCode] = useState<string>('');
   const [isValid, setIsValid] = useState<boolean>(false);

@@ -58,8 +58,6 @@ const SignUpContainer = (props: Props) => {
   const stopRegist = () => router.push('/signin');
   const handleBackClick = () => setModalOpen(true);
 
-  console.log('------------------');
-  console.log(userType);
   return (
     <>
       {modalOpen && (
