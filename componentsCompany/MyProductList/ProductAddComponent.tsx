@@ -43,10 +43,15 @@ const ProductAddComponent = (props: Props) => {
 
   // api 호출 (with react-query)
   const { mutate: addProduct, isLoading } = useMutation(isTokenApi, {
-    onSuccess: () => {},
-    onError: (error) => {
-      console.log('에러발생');
-      console.log(error);
+    onSuccess: () => {
+      router.push('/company/myProductList');
+    },
+    onError: (error: any) => {
+      if (error.response) {
+        alert(error.response.data.message);
+      } else {
+        alert('다시 시도해주세요');
+      }
     },
   });
 
@@ -90,7 +95,6 @@ const ProductAddComponent = (props: Props) => {
   };
   // 다음 버튼
   const buttonOnClick = () => {
-    // router.push('/company/myProductList');
     addProduct({
       method: 'POST',
       endpoint: '/members/login',
