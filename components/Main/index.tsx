@@ -40,7 +40,7 @@ const TAP = 'components/Main/index.tsx';
 const MainPage = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  // const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
@@ -67,7 +67,8 @@ const MainPage = (props: Props) => {
       setIsLogin(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userID]);
+    // }, [userID]);
+  }, []);
 
   useEffect(() => {
     dispatch(quotationAction.init());
@@ -80,154 +81,154 @@ const MainPage = (props: Props) => {
     localStorage.removeItem('key');
   }, []);
 
-  const list = (anchor: string) => (
-    <WholeBox
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <ListBox>
-        <XBtnWrapper>
-          <Imagewrap
-            onClick={() =>
-              userID ? router.push('/alarm') : router.push('/signin')
-            }
-          >
-            <Image src={Bell} alt="bellBtn" />
-          </Imagewrap>
-          <Imagewrap
-            onClick={() =>
-              userID ? router.push('/alarm/1-1') : router.push('/signin')
-            }
-          >
-            <Image src={Nut} alt="NutBtn" />
-          </Imagewrap>
-          <Imagewrap>
-            <Image src={xBtn} alt="xBtn" />
-          </Imagewrap>
-        </XBtnWrapper>
-        {isLogin ? (
-          <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
-            <span onClick={() => router.push('/profile/editing')}>
-              <label className="label">일반회원</label>
-              {userID}
-            </span>
-            <span
-              className="arrow-img"
-              onClick={() => router.push('/profile/editing')}
-            >
-              <Image src={whiteRight} alt="arrow" layout="fill" />
-            </span>
-          </WhetherLoginComplete>
-        ) : (
-          <WhetherLogin onClick={() => router.push('/signin')}>
-            <span>로그인 해주세요</span>
-            <span>
-              <Image src={whiteRight} alt="arrow" />
-            </span>
-          </WhetherLogin>
-        )}
+  // const list = (anchor: string) => (
+  //   <WholeBox
+  //     role="presentation"
+  //     onClick={toggleDrawer(anchor, false)}
+  //     onKeyDown={toggleDrawer(anchor, false)}
+  //   >
+  //     <ListBox>
+  //       <XBtnWrapper>
+  //         <Imagewrap
+  //           onClick={() =>
+  //             userID ? router.push('/alarm') : router.push('/signin')
+  //           }
+  //         >
+  //           <Image src={Bell} alt="bellBtn" />
+  //         </Imagewrap>
+  //         <Imagewrap
+  //           onClick={() =>
+  //             userID ? router.push('/alarm/1-1') : router.push('/signin')
+  //           }
+  //         >
+  //           <Image src={Nut} alt="NutBtn" />
+  //         </Imagewrap>
+  //         <Imagewrap>
+  //           <Image src={xBtn} alt="xBtn" />
+  //         </Imagewrap>
+  //       </XBtnWrapper>
+  //       {isLogin ? (
+  //         <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
+  //           <span onClick={() => router.push('/profile/editing')}>
+  //             <label className="label">일반회원</label>
+  //             {userID}
+  //           </span>
+  //           <span
+  //             className="arrow-img"
+  //             onClick={() => router.push('/profile/editing')}
+  //           >
+  //             <Image src={whiteRight} alt="arrow" layout="fill" />
+  //           </span>
+  //         </WhetherLoginComplete>
+  //       ) : (
+  //         <WhetherLogin onClick={() => router.push('/signin')}>
+  //           <span>로그인 해주세요</span>
+  //           <span>
+  //             <Image src={whiteRight} alt="arrow" />
+  //           </span>
+  //         </WhetherLogin>
+  //       )}
 
-        <WhiteArea>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID
-                ? router.push('/quotation/request')
-                : router.push('/signin')
-            }
-          >
-            <span>
-              <Image src={simpleEstimate} alt="간편견적" />
-            </span>
-            <span>간편견적</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/guide')}>
-            <span>
-              <Image src={guide} alt="가이드" />
-            </span>
-            <span>가이드</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
-            <span>
-              <Image src={conversation} alt="소통하기" />
-            </span>
-            <span>소통하기</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID ? router.push('/mypage') : router.push('/signin')
-            }
-          >
-            <span>
-              <Image src={mypageIcon} alt="마이페이지" />
-            </span>
-            <span>마이페이지</span>
-          </WhiteAreaMenus>
+  //       <WhiteArea>
+  //         <WhiteAreaMenus
+  //           onClick={() =>
+  //             userID
+  //               ? router.push('/quotation/request')
+  //               : router.push('/signin')
+  //           }
+  //         >
+  //           <span>
+  //             <Image src={simpleEstimate} alt="간편견적" />
+  //           </span>
+  //           <span>간편견적</span>
+  //         </WhiteAreaMenus>
+  //         <WhiteAreaMenus onClick={() => router.push('/guide')}>
+  //           <span>
+  //             <Image src={guide} alt="가이드" />
+  //           </span>
+  //           <span>가이드</span>
+  //         </WhiteAreaMenus>
+  //         <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+  //           <span>
+  //             <Image src={conversation} alt="소통하기" />
+  //           </span>
+  //           <span>소통하기</span>
+  //         </WhiteAreaMenus>
+  //         <WhiteAreaMenus
+  //           onClick={() =>
+  //             userID ? router.push('/mypage') : router.push('/signin')
+  //           }
+  //         >
+  //           <span>
+  //             <Image src={mypageIcon} alt="마이페이지" />
+  //           </span>
+  //           <span>마이페이지</span>
+  //         </WhiteAreaMenus>
 
-          <Divider
-            sx={{
-              width: '100%',
-              marginTop: '15pt',
-              marginBottom: '3pt',
-              borderTop: '1px solid #E2E5ED',
-            }}
-          />
-          <WhiteAreaMenus onClick={() => alert('2차 작업페이지입니다.')}>
-            <span>공지사항</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID ? router.push('/alarm/1-1') : router.push('/signin')
-            }
-          >
-            <span>알림 설정</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 페이지 입니다.')}>
-            <span>1:1 문의</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/faq')}>
-            <span>자주 묻는 질문</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
-            <span>제휴문의</span>
-          </WhiteAreaMenus>
-          <Divider
-            sx={{
-              width: '100%',
-              marginTop: '3pt',
-              borderTop: '1px solid #E2E5ED',
-            }}
-          />
-          <WhiteAreaBottomMenus>
-            <span
-              onClick={() =>
-                window.open(
-                  'https://www.instagram.com/entizen.ev/',
-                  'entizen_Instagram',
-                )
-              }
-            >
-              <Image src={grayInsta} alt="인스타"></Image>
-            </span>
-            <span
-              onClick={() =>
-                window.open(
-                  'http://www.post.naver.com/entizen_ev',
-                  'entizen_post',
-                )
-              }
-            >
-              <Image src={grayNaver} alt="네이버"></Image>
-            </span>
-          </WhiteAreaBottomMenus>
-          <WhiteAreaBottomText>
-            <span>고객센터 | 9818-8856</span>
-            <span onClick={() => router.push('/setting')}>설정</span>
-          </WhiteAreaBottomText>
-        </WhiteArea>
-      </ListBox>
-    </WholeBox>
-  );
+  //         <Divider
+  //           sx={{
+  //             width: '100%',
+  //             marginTop: '15pt',
+  //             marginBottom: '3pt',
+  //             borderTop: '1px solid #E2E5ED',
+  //           }}
+  //         />
+  //         <WhiteAreaMenus onClick={() => alert('2차 작업페이지입니다.')}>
+  //           <span>공지사항</span>
+  //         </WhiteAreaMenus>
+  //         <WhiteAreaMenus
+  //           onClick={() =>
+  //             userID ? router.push('/alarm/1-1') : router.push('/signin')
+  //           }
+  //         >
+  //           <span>알림 설정</span>
+  //         </WhiteAreaMenus>
+  //         <WhiteAreaMenus onClick={() => alert('2차 작업 페이지 입니다.')}>
+  //           <span>1:1 문의</span>
+  //         </WhiteAreaMenus>
+  //         <WhiteAreaMenus onClick={() => router.push('/faq')}>
+  //           <span>자주 묻는 질문</span>
+  //         </WhiteAreaMenus>
+  //         <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+  //           <span>제휴문의</span>
+  //         </WhiteAreaMenus>
+  //         <Divider
+  //           sx={{
+  //             width: '100%',
+  //             marginTop: '3pt',
+  //             borderTop: '1px solid #E2E5ED',
+  //           }}
+  //         />
+  //         <WhiteAreaBottomMenus>
+  //           <span
+  //             onClick={() =>
+  //               window.open(
+  //                 'https://www.instagram.com/entizen.ev/',
+  //                 'entizen_Instagram',
+  //               )
+  //             }
+  //           >
+  //             <Image src={grayInsta} alt="인스타"></Image>
+  //           </span>
+  //           <span
+  //             onClick={() =>
+  //               window.open(
+  //                 'http://www.post.naver.com/entizen_ev',
+  //                 'entizen_post',
+  //               )
+  //             }
+  //           >
+  //             <Image src={grayNaver} alt="네이버"></Image>
+  //           </span>
+  //         </WhiteAreaBottomMenus>
+  //         <WhiteAreaBottomText>
+  //           <span>고객센터 | 9818-8856</span>
+  //           <span onClick={() => router.push('/setting')}>설정</span>
+  //         </WhiteAreaBottomText>
+  //       </WhiteArea>
+  //     </ListBox>
+  //   </WholeBox>
+  // );
 
   return (
     <>
@@ -263,7 +264,7 @@ const MainPage = (props: Props) => {
                   onClose={toggleDrawer(anchor, false)}
                   // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
                 >
-                  {list(anchor)}
+                  {/* {list(anchor)} */}
                 </Drawer>
               </React.Fragment>
             ))}
