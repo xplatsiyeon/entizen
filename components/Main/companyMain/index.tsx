@@ -30,6 +30,8 @@ import BottomNavigation from 'components/BottomNavigation';
 import CheckQuotationBtn from './CheckQuotationBtn';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
+import { useQuery } from 'react-query';
+import { isTokenApi } from 'api';
 
 type Props = {};
 
@@ -40,6 +42,14 @@ const CompanyMainPage = (props: Props) => {
   const [state, setState] = useState({
     right: false,
   });
+  const { data, isLoading, isError } = useQuery('receivedRequest', () =>
+    isTokenApi({
+      endpoint: '/quotations/received-request?keyword&sort=deadline',
+      method: 'GET',
+    }),
+  );
+
+  console.log(data);
 
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const toggleDrawer =
