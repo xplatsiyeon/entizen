@@ -36,6 +36,7 @@ import { isTokenApi } from 'api';
 type Props = {};
 
 const CompanyMainPage = (props: Props) => {
+  const keyword = '';
   const router = useRouter();
   const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(false);
@@ -44,7 +45,7 @@ const CompanyMainPage = (props: Props) => {
   });
   const { data, isLoading, isError } = useQuery('receivedRequest', () =>
     isTokenApi({
-      endpoint: '/quotations/received-request?keyword&sort=deadline',
+      endpoint: `/quotations/received-request?keyword=${keyword}&sort=deadline`,
       method: 'GET',
     }),
   );
