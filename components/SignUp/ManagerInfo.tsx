@@ -37,7 +37,7 @@ const ManagerInfo = ({
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isModal, setIsModal] = useState(false);
-
+  const loginTypeEnList: string[] = ['USER', 'COMPANY'];
   // 이메일 유효성 검사
   const reg_email =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
@@ -124,7 +124,7 @@ const ManagerInfo = ({
   };
 
   useEffect(() => {
-    const memberType = selectedType;
+    const memberType = loginTypeEnList[userType];
     console.log(memberType);
     axios({
       method: 'post',
