@@ -377,7 +377,6 @@ const Contents = styled.div`
       padding-top: 12pt;
     }
   }
-
   .name {
     font-weight: 500;
     font-size: 10.5pt;

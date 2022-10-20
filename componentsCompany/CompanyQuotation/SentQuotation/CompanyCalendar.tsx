@@ -11,7 +11,7 @@ interface Props {
   SetSelectedDays: Dispatch<SetStateAction<string[]>>;
 }
 
-const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
+const CompanyCalendar = ({ selectedDays, SetSelectedDays }: Props) => {
   const today = {
     year: new Date().getFullYear(), //오늘 연도
     month: new Date().getMonth() + 1, //오늘 월
@@ -124,7 +124,10 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
             <Image src={RightArrow} alt="right-btn" layout="fill" />
           </div>
         </Pagenation>
-        <Notice>복수 선택 가능*</Notice>
+        <Notice>
+          <span></span>
+          <span>● 고객이 선택한 일정</span>
+        </Notice>
       </Title>
       <Weeks className="Weeks">{returnWeek()}</Weeks>
       <Days className="date">{returnDay()}</Days>
@@ -132,7 +135,7 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
   );
 };
 
-export default Calendar;
+export default CompanyCalendar;
 
 const Container = styled.div`
   padding: 45pt 15pt 0 15pt;
@@ -169,7 +172,7 @@ const Notice = styled.span`
   font-size: 7.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
-  color: ${colors.orange};
+  color: ${colors.main};
 `;
 const Weeks = styled.div`
   padding-top: 25.5pt;

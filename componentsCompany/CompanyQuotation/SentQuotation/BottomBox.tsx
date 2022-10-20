@@ -1,18 +1,19 @@
+import styled from '@emotion/styled';
+import { Button } from '@mui/material';
 import Image from 'next/image';
+import React from 'react';
 import colors from 'styles/colors';
 import temp from 'public/mypage/temp-img.svg';
 import tempCar from 'public/images/temp-car.jpg';
-import styled from '@emotion/styled';
-import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
 
-interface Props {
+type Props = {
   pb?: number;
-}
+};
 
-const BiddingQuote = ({ pb }: Props) => {
+const BottomBox = ({ pb }: Props) => {
   // 파일 다운로드 함수
   const DownloadFile = useCallback(() => {
     let fileName = 'Charge Point 카탈로그_7 KW';
@@ -32,7 +33,9 @@ const BiddingQuote = ({ pb }: Props) => {
 
   return (
     <Wrapper>
-      <Image src={temp} alt="icon" />
+      <ImageBox>
+        <Image src={temp} alt="icon" />
+      </ImageBox>
       <Title>Charge Point</Title>
       <List>
         <Item>
@@ -91,7 +94,7 @@ const BiddingQuote = ({ pb }: Props) => {
           </GridItem>
         </GridImg>
       </Section>
-      <Section pb={pb}>
+      <Section className="underLine" pb={pb}>
         <Subtitle>충전기 카탈로그</Subtitle>
         <FileBtn onClick={DownloadFile}>
           <Image src={fileImg} alt="file-icon" />
@@ -104,9 +107,21 @@ const BiddingQuote = ({ pb }: Props) => {
 
 const Wrapper = styled.div`
   padding-top: 60pt;
+  .underLine {
+    border-bottom: none;
+  }
+
   @media (max-width: 899pt) {
     padding-top: 21pt;
   }
+`;
+
+const ImageBox = styled.div`
+  width: 48pt;
+  height: 48pt;
+  position: relative;
+  margin-left: 15pt;
+  margin-bottom: 15pt;
 `;
 
 const Title = styled.h1`
@@ -128,6 +143,7 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
   padding: 18pt 0pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
   padding-bottom: ${({ pb }) => pb + 'pt'};
+
   ${({ grid }) =>
     grid &&
     css`
@@ -268,4 +284,4 @@ const Contents = styled.p`
   color: ${colors.main2};
 `;
 
-export default BiddingQuote;
+export default BottomBox;

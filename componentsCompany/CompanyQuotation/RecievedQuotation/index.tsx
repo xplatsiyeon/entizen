@@ -16,8 +16,4 @@ const DdayRequest = (props: Props) => {
   );
 };
 
-// const Container = styled.div`
-//   position: relative;
-// `;
-
 export default DdayRequest;
