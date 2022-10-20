@@ -38,9 +38,12 @@ import { locationAction } from 'store/locationSlice';
 type Props = {};
 const TAP = 'components/Main/index.tsx';
 const MainPage = (props: Props) => {
+  console.log(TAP + ' -> 메인 컴포넌트 시작');
   const router = useRouter();
   const dispatch = useDispatch();
-  // const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  console.log('로컬 스토리지 유저 아이디 체크' + userID);
+
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
@@ -67,8 +70,7 @@ const MainPage = (props: Props) => {
       setIsLogin(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [userID]);
-  }, []);
+  }, [userID]);
 
   useEffect(() => {
     dispatch(quotationAction.init());
