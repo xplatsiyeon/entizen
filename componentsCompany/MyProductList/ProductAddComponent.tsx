@@ -93,7 +93,7 @@ const ProductAddComponent = (props: Props) => {
     // router.push('/company/myProductList');
     addProduct({
       method: 'POST',
-      endpoint: 'members/login',
+      endpoint: '/members/login',
       data: {
         memberType: 'COMPANY',
         id: 'asdasdajsdlkjaslkdjaslk',
