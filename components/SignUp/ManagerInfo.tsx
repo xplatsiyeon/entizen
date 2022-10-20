@@ -28,6 +28,7 @@ const ManagerInfo = ({
   setLevel,
   userType,
 }: Props) => {
+  const TAB = 'components/SignUp/ManagerInfo';
   const router = useRouter();
   const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [data, setData] = useState<any>();
@@ -37,7 +38,7 @@ const ManagerInfo = ({
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isModal, setIsModal] = useState(false);
-  const loginTypeEnList: string[] = ['USER', 'COMPANY'];
+  const loginTypeEnList: string[] = ['COMPANY', 'USER'];
   // 이메일 유효성 검사
   const reg_email =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
@@ -125,6 +126,7 @@ const ManagerInfo = ({
 
   useEffect(() => {
     const memberType = loginTypeEnList[userType];
+    console.log(TAB + '->>멤버타입 확인');
     console.log(memberType);
     axios({
       method: 'post',
