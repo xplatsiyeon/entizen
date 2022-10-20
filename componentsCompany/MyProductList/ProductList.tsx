@@ -13,16 +13,26 @@ const ProductList = (props: Props) => {
   return (
     <>
       <Wrapper>
-        <ListBox onClick={() => router.push('/company/showMyProduct')}>
-          <ImageBox>
-            <Image src={carImg} alt="carImage" layout="fill" priority={true} />
-          </ImageBox>
-          <TextBox>
-            <Title>LECS-007ADE</Title>
-            <From>제조사: LS ELECTRIC</From>
-          </TextBox>
-          <KwBox>7 kW</KwBox>
-        </ListBox>
+        {[1, 1, 1, 1, 1].map((_, index) => (
+          <ListBox
+            key={index}
+            onClick={() => router.push('/company/showMyProduct')}
+          >
+            <ImageBox>
+              <Image
+                src={carImg}
+                alt="carImage"
+                layout="fill"
+                priority={true}
+              />
+            </ImageBox>
+            <TextBox>
+              <Title>LECS-007ADE</Title>
+              <From>제조사: LS ELECTRIC</From>
+            </TextBox>
+            <KwBox>7 kW</KwBox>
+          </ListBox>
+        ))}
       </Wrapper>
       <BtnBox>
         <ProductAddBtn onClick={() => router.push('/company/addProduct')}>

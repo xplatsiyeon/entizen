@@ -24,20 +24,17 @@ import Image from 'next/image';
 import { Divider, Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { quotationAction } from 'store/quotationSlice';
 import { useDispatch } from 'react-redux';
-
 import Nut from 'public/images/Nut.png';
 import Bell from 'public/images/mobBell.png';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
-import WhyEntizenWeb from './WhyEntizenWeb';
 import { locationAction } from 'store/locationSlice';
 
 type Props = {};
-
+const TAP = 'components/Main/index.tsx';
 const MainPage = (props: Props) => {
+  console.log(TAP + ' -> 메인 컴포넌트 시작');
   const router = useRouter();
   const dispatch = useDispatch();
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
@@ -59,24 +56,17 @@ const MainPage = (props: Props) => {
     };
 
   useEffect(() => {
-    if (localStorage.getItem('USER_ID')) {
-      console.log('login check!');
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
+    userID ? setIsLogin(true) : setIsLogin(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userID]);
 
+  // 초기화
   useEffect(() => {
+    localStorage.removeItem('key');
     dispatch(quotationAction.init());
     dispatch(subsidyGuideAction.reset());
     dispatch(locationAction.reset());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  // key 삭제
-  useEffect(() => {
-    localStorage.removeItem('key');
   }, []);
 
   const list = (anchor: string) => (
@@ -89,14 +79,14 @@ const MainPage = (props: Props) => {
         <XBtnWrapper>
           <Imagewrap
             onClick={() =>
-              userID ? router.push('/alarm') : router.push('/signin')
+              isLogin ? router.push('/alarm') : router.push('/signin')
             }
           >
             <Image src={Bell} alt="bellBtn" />
           </Imagewrap>
           <Imagewrap
             onClick={() =>
-              userID ? router.push('/alarm/1-1') : router.push('/signin')
+              isLogin ? router.push('/alarm/1-1') : router.push('/signin')
             }
           >
             <Image src={Nut} alt="NutBtn" />
@@ -130,7 +120,7 @@ const MainPage = (props: Props) => {
         <WhiteArea>
           <WhiteAreaMenus
             onClick={() =>
-              userID
+              isLogin
                 ? router.push('/quotation/request')
                 : router.push('/signin')
             }
@@ -154,7 +144,7 @@ const MainPage = (props: Props) => {
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID ? router.push('/mypage') : router.push('/signin')
+              isLogin ? router.push('/mypage') : router.push('/signin')
             }
           >
             <span>
@@ -176,7 +166,7 @@ const MainPage = (props: Props) => {
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID ? router.push('/alarm/1-1') : router.push('/signin')
+              isLogin ? router.push('/alarm/1-1') : router.push('/signin')
             }
           >
             <span>알림 설정</span>

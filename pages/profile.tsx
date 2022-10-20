@@ -77,7 +77,7 @@ const Profile = () => {
               'MEMBER_TYPE',
               JSON.stringify(token.memberType),
             );
-            localStorage.setItem('USER_ID', jsonData.email);
+            localStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
             localStorage.setItem(
               'ACCESS_TOKEN',
               JSON.stringify(resData.accessToken),

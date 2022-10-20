@@ -12,7 +12,7 @@ import GuideLink from 'components/GuideLink';
 import ProfileUp from 'public/images/profile-up.png';
 import ProfileDown from 'public/images/profile-down.png';
 import { Router, useRouter } from 'next/router';
-import { handleLogoutOnClickModalClick } from 'api/auth/logout';
+import { handleLogoutOnClickModalClick } from 'api/logout';
 
 type Props = {
   num?: number;

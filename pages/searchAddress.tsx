@@ -54,7 +54,6 @@ const SearchAddress = (props: Props) => {
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
-
     dispatch(
       locationAction.load({
         jibunAddr: jibun,
@@ -83,7 +82,6 @@ const SearchAddress = (props: Props) => {
           let aa = await jsonResult?.map((el: any, index: number) => {
             cc.push(el);
           });
-
           setResults(cc);
           console.log(cc);
         } catch (err) {
@@ -139,14 +137,12 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
 `;
-
 const HeaderBox = styled.div`
   padding-left: 15pt;
   padding-right: 12pt;
   border-bottom: 1px solid #e9eaee;
   display: flex;
 `;
-
 const FindAddress = styled(TextField)`
   width: 100%;
   padding: 0;
@@ -167,7 +163,6 @@ const FindAddress = styled(TextField)`
     text-align: left;
     padding: 0;
   }
-
   ::placeholder {
     color: ${colors.lightGray3};
     font-weight: 400;
@@ -176,26 +171,20 @@ const FindAddress = styled(TextField)`
     border: none;
   }
 `;
-
 const SearchResult = styled.div`
   display: flex;
-  /* position: fixed; */
   padding-left: 15pt;
   padding-top: 15pt;
   padding-bottom: 15pt;
   border-bottom: 1px solid #e9eaee;
 `;
-
 const IconBox = styled.div`
   position: relative;
   margin-right: 9pt;
 `;
-
 const AddressBox = styled.div`
   display: flex;
-  /* width: 100%; */
   flex-direction: column;
-
   & :first-of-type {
     margin-bottom: 6pt;
     font-size: 10.5pt;
@@ -205,7 +194,6 @@ const AddressBox = styled.div`
     padding-top: 1.5pt;
     text-align: left;
   }
-
   & :nth-of-type(2) {
     font-size: 9pt;
     font-weight: 400;

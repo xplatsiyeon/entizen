@@ -9,7 +9,7 @@ import naver from 'public/images/naver.svg';
 import google from 'public/images/google.svg';
 import apple from 'public/images/apple.svg';
 import Image from 'next/image';
-import { login } from 'api/auth/naver';
+import { login } from 'api/naver';
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
@@ -22,8 +22,6 @@ import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
 import Link from 'next/link';
 import { selectAction } from 'store/loginTypeSlice';
-type Props = {};
-
 interface JwtTokenType {
   exp: number;
   iat: number;
@@ -32,7 +30,6 @@ interface JwtTokenType {
   memberIdx: number;
   memberType: string;
 }
-
 export interface FindKey {
   id: string;
   isMember: boolean;
@@ -45,8 +42,10 @@ export interface FindKey {
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
 const REDIRECT_URI = 'https://test-api.entizen.kr/kakaoAuth';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
 const TAP = '/signin';
-const Signin = (props: Props) => {
+
+const Signin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   let naverLogin: any;
@@ -610,16 +609,13 @@ const Inner = styled.div`
     background: none;
   }
 `;
-
 const WebWrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-
   @media (max-width: 899pt) {
     margin: 0;
   }
 `;
-
 const NaverBox = styled(Box)`
   height: 33pt;
   margin-right: 15pt;
@@ -663,8 +659,6 @@ const BackBox = styled(Box)`
     width: 100%;
     padding-top: 9pt;
     padding-bottom: 9pt;
-    //padding-left: 15pt;
-    //padding-right: 15pt;
   }
 `;
 const FindBtn = styled.button`

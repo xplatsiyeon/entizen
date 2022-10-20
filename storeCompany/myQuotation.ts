@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-type chargerData =
+export type chargerData =
   | ''
   | 'LECS-007ADE'
   | 'LECS-006ADE'
@@ -15,8 +15,8 @@ interface Upload {
 interface chargers {
   chargeType: '' | '구매자 자율' | '운영사업자 입력';
   fee: string;
-  productList: string;
-  manufacturingCompany: chargerData;
+  productItem: chargerData;
+  manufacturingCompany: string;
   chargeFeatures: string;
   chargeImage: Upload[];
   chargeFile: Upload[];
@@ -38,7 +38,7 @@ const initialState: StateType = {
     {
       chargeType: '',
       fee: '',
-      productList: '',
+      productItem: '',
       manufacturingCompany: '',
       chargeFeatures: '',
       chargeImage: [],
@@ -47,7 +47,7 @@ const initialState: StateType = {
     {
       chargeType: '',
       fee: '',
-      productList: '',
+      productItem: '',
       manufacturingCompany: '',
       chargeFeatures: '',
       chargeImage: [],
@@ -56,7 +56,7 @@ const initialState: StateType = {
     {
       chargeType: '',
       fee: '',
-      productList: '',
+      productItem: '',
       manufacturingCompany: '',
       chargeFeatures: '',
       chargeImage: [],
@@ -65,7 +65,7 @@ const initialState: StateType = {
     {
       chargeType: '',
       fee: '',
-      productList: '',
+      productItem: '',
       manufacturingCompany: '',
       chargeFeatures: '',
       chargeImage: [],
@@ -74,7 +74,7 @@ const initialState: StateType = {
     {
       chargeType: '',
       fee: '',
-      productList: '',
+      productItem: '',
       manufacturingCompany: '',
       chargeFeatures: '',
       chargeImage: [],

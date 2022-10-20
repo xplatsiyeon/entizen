@@ -31,15 +31,14 @@ const FirstStep = ({
   useEffect(() => {
     if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
       SetCanNext(true);
-    } else if (monthlySubscribePrice === '' && constructionPeriod === '') {
+    } else {
       SetCanNext(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [monthlySubscribePrice, constructionPeriod]);
 
   const buttonOnClick = () => {
-    console.log('버튼 클릭');
-    setTabNumber(tabNumber + 1);
+    if (canNext) setTabNumber(tabNumber + 1);
   };
 
   return (

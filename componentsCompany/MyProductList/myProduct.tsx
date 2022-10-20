@@ -3,7 +3,7 @@ import { Button, css } from '@mui/material';
 import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 import colors from 'styles/colors';
-import CompanyHeader from './\bHeader';
+import CompanyHeader from './Header';
 import tempCar from 'public/images/temp-car.jpg';
 import temp from 'public/mypage/temp-img.svg';
 import fileImg from 'public/mypage/file-icon.svg';
