@@ -42,7 +42,7 @@ const MainPage = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const userID = localStorage.getItem('USER_ID');
-  console.log(TAP + '-> userID ');
+  console.log(TAP + '->' + userID);
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
@@ -61,8 +61,8 @@ const MainPage = (props: Props) => {
     };
 
   useEffect(() => {
-    console.log(TAP + ' -> 로그인 에러 확인');
-    if (localStorage.getItem('USER_ID')) {
+    console.log(TAP + ' -> 메인페이지 useEffect 실행');
+    if (userID) {
       console.log('login check!');
       console.log(JSON.parse(userID!));
       setIsLogin(true);
@@ -267,7 +267,7 @@ const MainPage = (props: Props) => {
                   onClose={toggleDrawer(anchor, false)}
                   // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
                 >
-                  {/* {list(anchor)} */}
+                  {list(anchor)}
                 </Drawer>
               </React.Fragment>
             ))}
