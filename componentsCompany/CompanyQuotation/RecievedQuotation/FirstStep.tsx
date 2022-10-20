@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { TextField } from '@mui/material';
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { myEstimateAction } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
 
 type Props = {
@@ -28,6 +30,7 @@ const FirstStep = ({
   canNext,
   SetCanNext,
 }: Props) => {
+  const dispatch = useDispatch();
   useEffect(() => {
     if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
       SetCanNext(true);
@@ -38,7 +41,16 @@ const FirstStep = ({
   }, [monthlySubscribePrice, constructionPeriod]);
 
   const buttonOnClick = () => {
-    if (canNext) setTabNumber(tabNumber + 1);
+    if (canNext) {
+      dispatch(
+        myEstimateAction.addFisrtData({
+          subscription: monthlySubscribePrice,
+          period: constructionPeriod,
+          features: firstPageTextArea,
+        }),
+      );
+      setTabNumber(tabNumber + 1);
+    }
   };
 
   return (

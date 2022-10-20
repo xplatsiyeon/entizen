@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
+import { isTokenApi } from 'api';
 import BottomNavigation from 'components/BottomNavigation';
 import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import Header from '../../../componentsCompany/CompanyQuotation/Header';
@@ -12,6 +14,7 @@ type Props = {};
 
 export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순 보기';
 
+const TAP = 'company/quotation/index.tsx';
 const CompanyQuotations = (props: Props) => {
   const dispatch = useDispatch();
   const [tabNumber, setTabNumber] = useState<number>(0);
@@ -19,6 +22,22 @@ const CompanyQuotations = (props: Props) => {
   const [checkedFilterIndex, setCheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
+
+  // api 호출
+  // const { data: queryData, isLoading } = useQuery<any>(
+  //   'get/quotation',
+  //   () =>
+  //     isTokenApi({
+  //       endpoint: '/',
+  //       method: 'GET',
+  //     }),
+  //   {
+  //     onSuccess: () => {},
+  //     onError: (error) => {
+  //       console.log(error);
+  //     },
+  //   },
+  // );
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
@@ -41,7 +60,10 @@ const CompanyQuotations = (props: Props) => {
         />
         {/* 받은 요청 */}
         {tabNumber === 0 && (
-          <RecieveRequest checkedFilterIndex={checkedFilterIndex} />
+          <RecieveRequest
+            // queryData={queryData}
+            checkedFilterIndex={checkedFilterIndex}
+          />
         )}
         {/* 보낸 견적 */}
         {tabNumber === 1 && (

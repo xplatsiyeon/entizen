@@ -13,6 +13,8 @@ import Btn from 'components/SignUp/button';
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
+import { useQuery } from 'react-query';
+import { isTokenApi } from 'api';
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -65,6 +67,7 @@ const HeadOpenContent = () => {
   const [firstPageTextArea, setFirstPageTextArea] = useState<string>('');
   // 모달
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+
   // step별 컴포넌트
   const components: Components = {
     // 기본

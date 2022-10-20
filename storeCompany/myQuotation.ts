@@ -87,6 +87,11 @@ const slice = createSlice({
   name: 'companymyEstimate',
   initialState,
   reducers: {
+    addFisrtData(state, action) {
+      state.subscription = action.payload.subscription;
+      state.period = action.payload.period;
+      state.features = action.payload.features;
+    },
     addCharge(state, action) {
       state.charge.push(action.payload);
     },

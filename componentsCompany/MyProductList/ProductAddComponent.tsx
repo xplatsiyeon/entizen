@@ -217,7 +217,7 @@ const ProductAddComponent = (props: Props) => {
     <>
       {/* 에러 모달 */}
       {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
-      ;{/* 헤더 */}
+      {/* 헤더 */}
       <CompanyHeader back={true} title={'제품 추가하기'} />
       {/* 인풋 바디 */}
       <InputContainer>

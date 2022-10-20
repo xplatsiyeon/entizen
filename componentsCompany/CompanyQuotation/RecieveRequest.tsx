@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 
 type Props = {
+  // queryData: any;
   checkedFilterIndex: number;
 };
 interface Data {

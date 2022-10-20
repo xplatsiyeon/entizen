@@ -19,7 +19,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
-import { numberCommaChange } from 'utils/changeComma';
 import { useMutation } from 'react-query';
 import { isTokenApi } from 'api';
 import { useRouter } from 'next/router';
@@ -34,7 +33,7 @@ type Props = {
   maxIndex: number;
 };
 
-const TAB = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
+const TAP = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
 
 const SecondStep = ({
   tabNumber,
@@ -86,13 +85,13 @@ const SecondStep = ({
         setIsModal(true);
       } else {
         alert('다시 시도해주세요');
-        router.push('/');
+        router.push('/company/quotation');
       }
     },
   });
   // 포스트 버튼
   const onClickPost = () => {
-    console.log(TAB + '-> 포스트');
+    console.log(TAP + '-> 포스트');
     postMutate({
       endpoint: '/abc',
       method: 'POST',

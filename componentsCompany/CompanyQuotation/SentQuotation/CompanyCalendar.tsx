@@ -51,7 +51,7 @@ const CompanyCalendar = ({ selectedDays, SetSelectedDays }: Props) => {
     return weekArr;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  //알짜 반화
+  //일짜 반화
   const returnDay = useCallback(() => {
     let dayArr: JSX.Element[] = [];
     for (const nowDay of week) {

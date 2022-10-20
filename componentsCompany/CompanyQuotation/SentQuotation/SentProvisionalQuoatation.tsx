@@ -3,7 +3,7 @@ import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
-import CenterBox from './\bCenterBox';
+import CenterBox from './CenterBox';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import CommunicationIcon from 'public/images/communication-icon.svg';
 import TopBox from './TopBox';
@@ -35,21 +35,22 @@ const SentQuoatationFirst = (props: Props) => {
         <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
       </BtnBox>
     </>
+    // 고객과 소통하기
+    //  <Button
+    //   onClick={() =>
+    //     /*route.push('/chatting/1')*/ alert('2차 작업 범위입니다')
+    //   }
+    // >
+    //   <div>
+    //     <Image src={CommunicationIcon} alt="right-arrow" />
+    //   </div>
+    //   고객과 소통하기
+    //   <div>
+    //     <Image src={RightArrow} alt="right-arrow" />
+    //   </div>
+    // </Button>
   );
 };
-
-//          onClick={() =>
-//            /*route.push('/chatting/1')*/ alert('2차 작업 범위입니다')
-//            }
-//        >
-//          <div>
-//           <Image src={CommunicationIcon} alt="right-arrow" />
-//          </div>
-//          고객과 소통하기
-//         <div>
-// //           <Image src={RightArrow} alt="right-arrow" />
-//         </div>
-//       </Button>
 
 const CustomerRequestContent = styled.div`
   font-family: Spoqa Han Sans Neo;

@@ -229,6 +229,7 @@ const Signin = () => {
   // 나이스 인증
   useEffect(() => {
     const memberType = loginTypeEnList[selectedLoginType];
+
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',

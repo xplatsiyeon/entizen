@@ -180,7 +180,7 @@ const TabLists = styled.div`
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
-
+  cursor: pointer;
   & .selected {
     color: ${colors.main};
     font-weight: 700;
@@ -254,6 +254,7 @@ const FilterBtn = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   position: relative;
+  cursor: pointer;
   & span:first-of-type {
     position: relative;
     display: flex;
@@ -287,6 +288,7 @@ const ListItems = styled(ListItem)`
   padding-bottom: 12pt;
   border-bottom: 1px solid #e2e5ed;
   margin: 0;
+
   &:nth-of-type(3) {
     border-bottom: none;
     margin-bottom: 49.5pt;
