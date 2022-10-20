@@ -9,9 +9,7 @@ import CompanyMainPage from 'components/Main/companyMain';
 const TAB = '/index';
 const Home: NextPage = () => {
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
-  console.log(TAB + '멤버타입-> ' + memberType);
-  console.log(TAB + '유저 아이디-> ' + userID);
+
   return (
     <>
       {memberType === 'COMPANY' ? (

@@ -41,9 +41,8 @@ const MainPage = (props: Props) => {
   console.log(TAP + ' -> 메인 컴포넌트 시작');
   const router = useRouter();
   const dispatch = useDispatch();
-  // const userID = JSON.parse(localStorage.getItem('USER_ID')!);
-  // console.log('로컬 스토리지 유저 아이디 체크' + userID);
-
+  const userID = localStorage.getItem('USER_ID');
+  console.log(TAP + '-> userID ');
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
@@ -65,6 +64,7 @@ const MainPage = (props: Props) => {
     console.log(TAP + ' -> 로그인 에러 확인');
     if (localStorage.getItem('USER_ID')) {
       console.log('login check!');
+      console.log(JSON.parse(userID!));
       setIsLogin(true);
     } else {
       setIsLogin(false);
