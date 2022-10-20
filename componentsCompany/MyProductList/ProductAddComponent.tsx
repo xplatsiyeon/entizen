@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import colors from 'styles/colors';
-import CompanyHeader from './\bHeader';
+import CompanyHeader from './Header';
 import plusIcon from 'public/images/PlusCircle28.png';
 import Xbtn from 'public/images/XCircle28.png';
 import camera from 'public/images/gray_camera.png';
@@ -17,6 +17,7 @@ import AddImg from 'public/images/add-img.svg';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
 import { isTokenApi } from 'api';
+import Modal from 'components/Modal/Modal';
 
 type Props = {};
 const TAP = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
@@ -40,17 +41,23 @@ const ProductAddComponent = (props: Props) => {
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   // 파일
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
-
+  // 유효성 검사
+  const [isValid, setIsValid] = useState(false);
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   // api 호출 (with react-query)
   const { mutate: addProduct, isLoading } = useMutation(isTokenApi, {
     onSuccess: () => {
       router.push('/company/myProductList');
     },
     onError: (error: any) => {
-      if (error.response) {
-        alert(error.response.data.message);
+      if (error.response.data) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
       } else {
         alert('다시 시도해주세요');
+        router.push('/');
       }
     },
   });
@@ -66,16 +73,12 @@ const ProductAddComponent = (props: Props) => {
         break;
       case 'chargingMethod':
         let pasteArray: string[] = [];
-        console.log(index);
         if (index === 0) {
           pasteArray.push(e.target.value);
         } else {
           pasteArray.push(...chargingMethod);
         }
-
-        console.log(pasteArray);
         if (index) {
-          console.log(index);
           pasteArray[index] = e.target.value;
         }
         setChargingMethod(pasteArray);
@@ -95,23 +98,22 @@ const ProductAddComponent = (props: Props) => {
   };
   // 다음 버튼
   const buttonOnClick = () => {
-    addProduct({
-      method: 'POST',
-      endpoint: '/members/login',
-      data: {
-        memberType: 'COMPANY',
-        id: 'asdasdajsdlkjaslkdjaslk',
-        password: 'asdasdas',
-        // modelName: modelName,
-        // chargerType: chargerType,
-        // chargingChannel: chargingChannel,
-        // chargingMethod: chargingMethod,
-        // manufacturer: manufacturer,
-        // advantages: advantages,
-        // imgArr: imgArr,
-        // fileArr: fileArr,
-      },
-    });
+    if (isValid) {
+      addProduct({
+        method: 'POST',
+        endpoint: '/',
+        data: {
+          modelName: modelName,
+          chargerType: chargerType,
+          chargingChannel: chargingChannel,
+          chargingMethod: chargingMethod,
+          manufacturer: manufacturer,
+          advantages: advantages,
+          imgArr: imgArr,
+          fileArr: fileArr,
+        },
+      });
+    }
   }; // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -195,38 +197,27 @@ const ProductAddComponent = (props: Props) => {
       }
     }
   };
-
+  // 유효성 검사 함수
+  function validFn(value: string[]) {
+    const result = value.filter((e) => e === '');
+    result.length >= 1 ? setIsValid(false) : setIsValid(true);
+  }
   // 테스트 useEffect
   useEffect(() => {
-    console.log(TAP + '--> 제품 리스트 목록 확인');
-
-    console.log('modelName ->' + modelName);
-    console.log('chargerType ->' + chargerType);
-    console.log('chargingChannel ->' + chargingChannel);
-    console.log('chargingMethod ->' + chargingMethod);
-    console.log('manufacturer ->' + manufacturer);
-    console.log('advantages ->' + advantages);
-    console.log('-----------imageFile--------');
-    console.log(imgArr);
-    console.log('---------businessRegistration--------');
-    console.log(fileArr);
-
-    console.log('여기 = > ' + chargingMethod);
-    console.log(chargingMethod);
-  }, [
-    modelName,
-    chargerType,
-    chargingChannel,
-    chargingMethod,
-    manufacturer,
-    advantages,
-    imgArr,
-    fileArr,
-  ]);
+    validFn([
+      modelName,
+      chargerType,
+      chargingChannel,
+      chargingMethod[0],
+      manufacturer,
+    ]);
+  }, [modelName, chargerType, chargingChannel, chargingMethod, manufacturer]);
 
   return (
     <>
-      {/* 헤더 */}
+      {/* 에러 모달 */}
+      {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
+      ;{/* 헤더 */}
       <CompanyHeader back={true} title={'제품 추가하기'} />
       {/* 인풋 바디 */}
       <InputContainer>
@@ -257,7 +248,6 @@ const ProductAddComponent = (props: Props) => {
             <MenuItem value="">
               <Placeholder>충전기 종류</Placeholder>
             </MenuItem>
-
             {M5_LIST.map((el, index) => (
               <MenuItem key={index} value={el}>
                 {el}
@@ -472,7 +462,7 @@ const ProductAddComponent = (props: Props) => {
           </PhotosBoxs>
         </RemainderInputBoxs>
       </InputContainer>
-      <Btn buttonActivate={true} tabNumber={0} onClick={buttonOnClick}>
+      <Btn buttonActivate={isValid} tabNumber={0} onClick={buttonOnClick}>
         제품 등록하기
       </Btn>
     </>

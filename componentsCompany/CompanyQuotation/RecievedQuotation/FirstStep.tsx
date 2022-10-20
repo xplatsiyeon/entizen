@@ -29,7 +29,6 @@ const FirstStep = ({
   SetCanNext,
 }: Props) => {
   useEffect(() => {
-    console.log(canNext);
     if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
       SetCanNext(true);
     } else {

@@ -19,6 +19,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
+import { numberCommaChange } from 'utils/changeComma';
+import { useMutation } from 'react-query';
+import { isTokenApi } from 'api';
+import { useRouter } from 'next/router';
+import Modal from 'components/Modal/Modal';
 
 type Props = {
   tabNumber: number;
@@ -41,6 +46,7 @@ const SecondStep = ({
 }: Props) => {
   // 사진을 위한 ref
   const dispatch = useDispatch();
+  const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
@@ -57,11 +63,48 @@ const SecondStep = ({
   const [chargeFeatures, setChargeFeatures] = useState<string>('');
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
-
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   // 리덕스
-  const { charge } = useSelector(
+  const { charge, features, period, subscription } = useSelector(
     (state: RootState) => state.companymyEstimateData,
   );
+  const newCharge = charge.slice(0, maxIndex);
+
+  // api 호출
+  const { mutate: postMutate, isLoading } = useMutation(isTokenApi, {
+    onSuccess: () => {
+      router.push('/company/recievedRequest/complete');
+    },
+    onError: (error: any) => {
+      const {
+        response: { data },
+      } = error;
+      if (data) {
+        setErrorMessage(data.message);
+        setIsModal(true);
+      } else {
+        alert('다시 시도해주세요');
+        router.push('/');
+      }
+    },
+  });
+  // 포스트 버튼
+  const onClickPost = () => {
+    console.log(TAB + '-> 포스트');
+    postMutate({
+      endpoint: '/abc',
+      method: 'POST',
+      data: {
+        subscription: subscription,
+        period: period,
+        features: features,
+        charge: newCharge,
+      },
+    });
+  };
+
   const onChangeInput = (e: any) => {
     const { value } = e.target;
     setFee(value);
@@ -199,15 +242,19 @@ const SecondStep = ({
 
   // 다음버튼 유효성 검사
   useEffect(() => {
-    if (chargeTypeNumber !== -1 && fee !== '' && manufacturingCompany !== '') {
+    if (chargeTypeNumber === 0 && manufacturingCompany !== '') {
+      SetCanNext(true);
+    } else if (
+      chargeTypeNumber === 1 &&
+      manufacturingCompany !== '' &&
+      fee !== ''
+    ) {
       SetCanNext(true);
     } else {
       SetCanNext(false);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chargeTypeNumber, fee, manufacturingCompany]);
-
   // 상태 업데이트 및 초기화 (with 리덕스)
   useEffect(() => {
     const target = charge[StepIndex];
@@ -243,9 +290,17 @@ const SecondStep = ({
       setFileArr([]);
     };
   }, [StepIndex]);
+  // 금액 초기화
+  useEffect(() => {
+    if (chargeTypeNumber === 0) {
+      setFee('');
+    }
+  }, [chargeTypeNumber]);
 
   return (
     <>
+      {/* 에러 모달 */}
+      {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
       <Wrapper>
         <TopStep>
           <div>STEP {tabNumber + 1}</div>
@@ -276,6 +331,7 @@ const SecondStep = ({
                 placeholder="0"
                 value={fee}
                 name="subscribeMoney"
+                inputProps={{ readOnly: chargeTypeNumber === 0 ? true : false }}
               />
               <div>원/kW</div>
             </div>
@@ -308,7 +364,6 @@ const SecondStep = ({
             ))}
           </SelectBox>
         </SelectContainer>
-
         <BottomInputBox>
           <div className="withAfter">제조사</div>
           <div>
@@ -429,9 +484,15 @@ const SecondStep = ({
       </SecondWrapper>
       <TwoBtn>
         <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-        <NextBtn canNext={canNext} onClick={handleNextBtn}>
-          다음
-        </NextBtn>
+        {tabNumber === maxIndex ? (
+          <NextBtn canNext={canNext} onClick={onClickPost}>
+            보내기
+          </NextBtn>
+        ) : (
+          <NextBtn canNext={canNext} onClick={handleNextBtn}>
+            다음
+          </NextBtn>
+        )}
       </TwoBtn>
     </>
   );

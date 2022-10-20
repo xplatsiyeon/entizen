@@ -24,7 +24,7 @@ const Complete = ({ text, title, buttonText, handleOnClick }: Props) => {
       </ContainerBox>
       <Title>{title}</Title>
       <Footer>
-        <TextBox>{text}</TextBox>
+        {text && <TextBox>{text}</TextBox>}
         <Btn onClick={handleOnClick}>{buttonText}</Btn>
       </Footer>
     </Wrapper>

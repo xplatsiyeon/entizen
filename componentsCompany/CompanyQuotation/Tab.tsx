@@ -17,7 +17,7 @@ import search from 'public/images/search.png';
 import colors from 'styles/colors';
 import checkSvg from 'public/images/check-small.png';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
-import { filterType } from '.';
+import { filterType } from 'pages/company/quotation';
 
 type Props = {
   tabNumber: number;
