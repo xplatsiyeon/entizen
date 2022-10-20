@@ -36,7 +36,7 @@ import WhyEntizenWeb from './WhyEntizenWeb';
 import { locationAction } from 'store/locationSlice';
 
 type Props = {};
-
+const TAP = 'components/Main/index.tsx';
 const MainPage = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -59,6 +59,7 @@ const MainPage = (props: Props) => {
     };
 
   useEffect(() => {
+    console.log(TAP + ' -> 로그인 에러 확인');
     if (localStorage.getItem('USER_ID')) {
       console.log('login check!');
       setIsLogin(true);

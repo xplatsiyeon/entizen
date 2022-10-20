@@ -201,7 +201,6 @@ const SecondStep = ({
   // 다음버튼 유효성 검사
   useEffect(() => {
     if (chargeTypeNumber !== -1 && fee !== '' && manufacturingCompany !== '') {
-      console.log('잉?');
       SetCanNext(true);
     } else {
       SetCanNext(false);
