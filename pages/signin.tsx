@@ -154,7 +154,7 @@ const Signin = () => {
         if (c.isMember === true) {
           const token: JwtTokenType = jwt_decode(res.data.accessToken);
           localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-          localStorage.setItem('USER_ID', data.user.email);
+          localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
           console.log(user.email);
           localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
           localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));

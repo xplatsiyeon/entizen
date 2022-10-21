@@ -65,13 +65,27 @@ const Request1_7 = (props: Props) => {
       let calculatedPrice;
 
       if (stringPrice.length <= 6) {
-        calculatedPrice = stringPrice
-          .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-          .slice(0, -3);
+        calculatedPrice = stringPrice.toString().split('.');
+        calculatedPrice[0] = calculatedPrice[0].replace(
+          /\B(?=(\d{3})+(?!\d))/g,
+          ',',
+        );
+        return calculatedPrice.join('.').slice(0, -3);
+
+        // calculatedPrice = stringPrice
+        //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+        //   .slice(0, -3);
       } else {
-        calculatedPrice = stringPrice
-          .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-          .slice(0, -5);
+        calculatedPrice = stringPrice.toString().split('.');
+        calculatedPrice[0] = calculatedPrice[0].replace(
+          /\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g,
+          ',',
+        );
+        return calculatedPrice.join('.').slice(0, -5);
+
+        // calculatedPrice = stringPrice
+        //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+        //   .slice(0, -5);
       }
       return calculatedPrice;
     }
