@@ -74,7 +74,7 @@ const HeadOpenContent = () => {
   const { data, isError, isLoading } = useQuery('receivedRequest/id', () =>
     isTokenApi({
       method: 'GET',
-      endpoint: `/quotations/received-request/${routerId}`,
+      endpoint: `/quotations/received-request/${router.query.id}`,
     }),
   );
   console.log(TAG + 'router id ->' + routerId);
