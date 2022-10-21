@@ -11,13 +11,21 @@ import { requestAction } from 'store/requestSlice';
 import colors from 'styles/colors';
 import WebFooter from 'componentsWeb/WebFooter';
 import Modal from 'components/Modal/Modal';
+import CompanyCalendar from './CompanyCalendar';
 
 type Props = {};
 
 const AnotherSuggest = (props: Props) => {
+  const days = [
+    '2022.10.20',
+    '2022.10.22',
+    '2022.10.28',
+    '2022.10.29',
+    '2022.10.31',
+  ];
   const router = useRouter();
   const dispatch = useDispatch();
-  const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
+  const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
   const [isModal, setIsModal] = useState(false); // 모달
   // 리덕스
   const HandleModal = () => {
@@ -46,9 +54,11 @@ const AnotherSuggest = (props: Props) => {
               다른 일정 제안
             </P> */}
             {/* 달력 */}
-            <Calendar
+            <CompanyCalendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
+              days={days}
+              types={'company'}
             />
             {/* <Explanation> */}
             {/* * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며,

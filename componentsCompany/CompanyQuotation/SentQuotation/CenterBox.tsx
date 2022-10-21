@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
+import QuotationModal from 'components/Modal/QuotationModal';
+import ReplacePhotoModal from 'components/Modal/ReplacePhotoModal';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
-import React from 'react';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
 
 type Props = {};
@@ -10,32 +12,54 @@ type Props = {};
 // 날짜 정하기
 const CenterBox = (props: Props) => {
   const router = useRouter();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [checkFlow, setCheckFlow] = useState<boolean>(false);
   return (
-    <Wrapper>
-      <DownArrowBox>
-        <Image src={DoubleArrow} alt="double-arrow" />
-      </DownArrowBox>
-      <ReservationDate>
-        <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
-        <div className="btnBox">
-          <div
-            className="btn right"
-            onClick={() => router.push('/company/datePick')}
-          >
-            달력으로 확인하기
-          </div>
-          <div className="btn left">사진으로 대체하기</div>
-        </div>
-      </ReservationDate>
-      <ConfirmedReservation>
-        <div className="text">현장실사 일정이 확정되었습니다.</div>
-        <div className="date">2022.01.12</div>
-      </ConfirmedReservation>
+    <>
+      {modalOpen && (
+        <ReplacePhotoModal isModal={modalOpen} setIsModal={setModalOpen} />
+      )}
+      <Wrapper>
+        <DownArrowBox>
+          <Image src={DoubleArrow} alt="double-arrow" />
+        </DownArrowBox>
+        {!checkFlow && (
+          <ReservationDateCheck>
+            <div className="text">일정 변경 요청이 들어왔습니다.</div>
+            <div className="btnBox">
+              <div className="checkBtn" onClick={() => setCheckFlow(true)}>
+                확인하기
+              </div>
+            </div>
+          </ReservationDateCheck>
+        )}
+        {checkFlow && (
+          <ReservationDate>
+            <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
+            <div className="btnBox">
+              <div
+                className="btn right"
+                onClick={() => router.push('/company/datePick')}
+              >
+                달력으로 확인하기
+              </div>
+              <div className="btn left" onClick={() => setModalOpen(true)}>
+                사진으로 대체하기
+              </div>
+            </div>{' '}
+          </ReservationDate>
+        )}
+        <ConfirmedReservation>
+          <div className="text">현장실사 일정이 확정되었습니다.</div>
+          <div className="date">2022.01.12</div>
+        </ConfirmedReservation>
 
-      <SecondTitle>보낸 가견적서</SecondTitle>
-    </Wrapper>
+        <SecondTitle>보낸 가견적서</SecondTitle>
+      </Wrapper>
+    </>
   );
 };
+
 const Wrapper = styled.div`
   padding-top: 21pt;
   padding-left: 15pt;
@@ -100,6 +124,39 @@ const ReservationDate = styled.div`
     letter-spacing: -0.02em;
     text-align: left;
     border-radius: 12pt;
+  }
+`;
+const ReservationDateCheck = styled.div`
+  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  margin-top: 15pt;
+  border-radius: 6pt;
+  padding: 18pt 24.75pt;
+  .text {
+    font-family: Spoqa Han Sans Neo;
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: ${colors.main};
+  }
+  .btnBox {
+    display: flex;
+    justify-content: center;
+  }
+  .checkBtn {
+    display: inline-block;
+    box-sizing: border-box;
+    margin-top: 18pt;
+    padding: 6pt 9pt;
+    font-family: Spoqa Han Sans Neo;
+    font-size: 10pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    border-radius: 12pt;
+    border: 1px solid ${colors.main};
   }
 `;
 
