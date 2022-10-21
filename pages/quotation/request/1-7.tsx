@@ -58,38 +58,38 @@ const Request1_7 = (props: Props) => {
     (state: RootState) => state.quotationData,
   );
   // 가격 콤마 계산
-  const PriceCalculation = (price: number) => {
-    if (price === 0) return 0;
-    if (price) {
-      let stringPrice = price.toString();
-      let calculatedPrice;
+  // const PriceCalculation = (price: number) => {
+  //   if (price === 0) return 0;
+  //   if (price) {
+  //     let stringPrice = price.toString();
+  //     let calculatedPrice;
 
-      if (stringPrice.length <= 6) {
-        calculatedPrice = stringPrice.toString().split('.');
-        calculatedPrice[0] = calculatedPrice[0].replace(
-          /\B(?=(\d{3})+(?!\d))/g,
-          ',',
-        );
-        return calculatedPrice.join('.').slice(0, -3);
+  //     if (stringPrice.length <= 6) {
+  //       calculatedPrice = stringPrice.toString().split('.');
+  //       calculatedPrice[0] = calculatedPrice[0].replace(
+  //         /\B(?=(\d{3})+(?!\d))/g,
+  //         ',',
+  //       );
+  //       return calculatedPrice.join('.').slice(0, -3);
 
-        // calculatedPrice = stringPrice
-        //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-        //   .slice(0, -3);
-      } else {
-        calculatedPrice = stringPrice.toString().split('.');
-        calculatedPrice[0] = calculatedPrice[0].replace(
-          /\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g,
-          ',',
-        );
-        return calculatedPrice.join('.').slice(0, -5);
+  //       // calculatedPrice = stringPrice
+  //       //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+  //       //   .slice(0, -3);
+  //     } else {
+  //       calculatedPrice = stringPrice.toString().split('.');
+  //       calculatedPrice[0] = calculatedPrice[0].replace(
+  //         /\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g,
+  //         ',',
+  //       );
+  //       return calculatedPrice.join('.').slice(0, -5);
 
-        // calculatedPrice = stringPrice
-        //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-        //   .slice(0, -5);
-      }
-      return calculatedPrice;
-    }
-  };
+  //       // calculatedPrice = stringPrice
+  //       //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
+  //       //   .slice(0, -5);
+  //     }
+  //     return calculatedPrice;
+  //   }
+  // };
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
       currentTarget: { value },
@@ -198,11 +198,14 @@ const Request1_7 = (props: Props) => {
                   </span>
                   <span>
                     <span className="price">
-                      {`${PriceCalculation(
+                      {requestData?.minSubscribePricePerMonth! +
+                        '~' +
+                        requestData?.maxSubscribePricePerMonth!}
+                      {/* {`${PriceCalculation(
                         requestData?.minSubscribePricePerMonth!,
                       )} ~ ${PriceCalculation(
                         requestData?.maxSubscribePricePerMonth!,
-                      )}`}
+                      )}`} */}
                     </span>
                   </span>
                 </div>
@@ -213,11 +216,14 @@ const Request1_7 = (props: Props) => {
                   </span>
                   <span>
                     <span className="price">
-                      {`${PriceCalculation(
+                      {requestData?.minTotalSubscribePrice! +
+                        '~' +
+                        requestData?.maxTotalSubscribePrice!}
+                      {/* {`${PriceCalculation(
                         requestData?.minTotalSubscribePrice!,
                       )} ~ ${PriceCalculation(
                         requestData?.maxTotalSubscribePrice!,
-                      )}`}
+                      )}`} */}
                     </span>
                   </span>
                 </div>
