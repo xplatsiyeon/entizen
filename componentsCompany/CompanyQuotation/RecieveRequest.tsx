@@ -53,10 +53,12 @@ const RecieveRequest = ({ checkedFilterIndex, queryData }: Props) => {
 
   return (
     <ContentsContainer>
-      {queryData.map((el) => (
+      {queryData?.map((el) => (
         <Contents
           key={el.quotationRequestIdx}
-          onClick={() => router.push('/company/recievedRequest')}
+          onClick={() =>
+            router.push(`/company/recievedRequest/${el.quotationRequestIdx}`)
+          }
         >
           <DdayNAddress>
             <DdayBox>
