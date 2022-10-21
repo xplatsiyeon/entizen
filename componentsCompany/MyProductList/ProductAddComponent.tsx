@@ -102,16 +102,14 @@ const ProductAddComponent = (props: Props) => {
   const buttonOnClick = () => {
     if (isValid) {
       addProduct({
-        data: {
-          modelName: modelName,
-          chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
-          chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
-          chargerMethods: chargingMethod,
-          manufacturer: manufacturer,
-          feature: advantages,
-          chargerImageFiles: imgArr,
-          catalogFiles: fileArr,
-        },
+        modelName: modelName,
+        chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
+        chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
+        chargerMethods: chargingMethod,
+        manufacturer: manufacturer,
+        feature: advantages,
+        chargerImageFiles: imgArr,
+        catalogFiles: fileArr,
       });
     }
   }; // 사진 온클릭
