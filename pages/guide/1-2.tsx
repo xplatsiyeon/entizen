@@ -194,51 +194,54 @@ const Guide1_2 = () => {
   };
   // 버튼 온클릭
   const onClickButton = async () => {
-    const SUBSIDY_URL = 'https://test-api.entizen.kr/api/guide/subsidy';
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    try {
-      await axios({
-        method: 'post',
-        url: SUBSIDY_URL,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        data: {
-          chargers: selectedOptionEn,
-          installationPurpose: InstallationPurposeType[clicked],
-          installationSiDo: selectedRegion.m9,
-          installationSiGunGu:
-            selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
-        },
-      })
-        .then((res) => {
-          dispatch(
-            subsidyGuideAction.addDate({
-              ministryOfEnvironmentApplyPrice:
-                res.data.ministryOfEnvironmentApplyPrice,
-              koreaEnergyAgencyApplyPrice: res.data.koreaEnergyAgencyApplyPrice,
-              localGovernmentApplyPrice: res.data.localGovernmentApplyPrice,
-              duplicateApplyPrice: res.data.duplicateApplyPrice,
-              maxApplyPrice: res.data.maxApplyPrice,
-              canDuplicateApply: res.data.canDuplicateApply,
-              memberName: res.data.memberName,
-              region1: selectedRegion.m9,
-              region2: selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
-            }),
-          );
+    if (buttonActivate) {
+      const SUBSIDY_URL = 'https://test-api.entizen.kr/api/guide/subsidy';
+      const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+      try {
+        await axios({
+          method: 'post',
+          url: SUBSIDY_URL,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            ContentType: 'application/json',
+          },
+          data: {
+            chargers: selectedOptionEn,
+            installationPurpose: InstallationPurposeType[clicked],
+            installationSiDo: selectedRegion.m9,
+            installationSiGunGu:
+              selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
+          },
         })
-        .then((res) => {
-          router.push('/guide/1-2-4');
-        })
-        .catch((error) => {
-          const text = error.response.data.message;
-          setIsModal((prev) => !prev);
-          setErrorMessage(text);
-        });
-    } catch (error) {
-      console.log('보조금 가이드 에러');
-      console.log(error);
+          .then((res) => {
+            dispatch(
+              subsidyGuideAction.addDate({
+                ministryOfEnvironmentApplyPrice:
+                  res.data.ministryOfEnvironmentApplyPrice,
+                koreaEnergyAgencyApplyPrice:
+                  res.data.koreaEnergyAgencyApplyPrice,
+                localGovernmentApplyPrice: res.data.localGovernmentApplyPrice,
+                duplicateApplyPrice: res.data.duplicateApplyPrice,
+                maxApplyPrice: res.data.maxApplyPrice,
+                canDuplicateApply: res.data.canDuplicateApply,
+                memberName: res.data.memberName,
+                region1: selectedRegion.m9,
+                region2: selectedRegion.m10 === '-' ? '' : selectedRegion.m10,
+              }),
+            );
+          })
+          .then((res) => {
+            router.push('/guide/1-2-4');
+          })
+          .catch((error) => {
+            const text = error.response.data.message;
+            setIsModal((prev) => !prev);
+            setErrorMessage(text);
+          });
+      } catch (error) {
+        console.log('보조금 가이드 에러');
+        console.log(error);
+      }
     }
   };
   // 버튼 유효성 검사

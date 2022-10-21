@@ -68,7 +68,6 @@ const Request1_7 = (props: Props) => {
         const parts = price.toString().split('.');
         parts[0] = parts[0].replace(/\B(?=(\d{4})+(?!\d))/g, ',');
         return parts.join('.').slice(0, -3);
-
         // calculatedPrice = stringPrice
         //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
         //   .slice(0, -3);
