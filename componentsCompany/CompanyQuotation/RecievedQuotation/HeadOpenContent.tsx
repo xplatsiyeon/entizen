@@ -257,12 +257,12 @@ const HeadOpenContent = ({}: Props) => {
               <div className="text-box">
                 <span className="name">구독상품</span>
                 <span className="text">
-                  {data &&
+                  {/* {data &&
                     convertKo(
                       subscribeType,
                       subscribeTypeEn,
                       data?.data.receivedQuotationRequest.subscribeProduct!,
-                    )}
+                    )} */}
                 </span>
               </div>
               <div className="text-box">
@@ -293,23 +293,23 @@ const HeadOpenContent = ({}: Props) => {
               <div className="text-box">
                 <span className="name">충전기 설치 위치</span>
                 <span className="text">
-                  {data &&
+                  {/* {data &&
                     convertKo(
                       location,
                       locationEn,
                       data?.data.receivedQuotationRequest.installationLocation!,
-                    )}
+                    )} */}
                 </span>
               </div>
               <div className="text-box">
                 <span className="name">충전기 설치 목적</span>
                 <span className="text">
-                  {data &&
+                  {/* {data &&
                     convertKo(
                       InstallationPurposeType,
                       InstallationPurposeTypeEn,
                       data?.data.receivedQuotationRequest.installationPurpose!,
-                    )}
+                    )} */}
                 </span>
               </div>
               <div className="text-box">
