@@ -16,8 +16,14 @@ export const HandleColor = (badge: string): string => {
 };
 
 // 영->한 값 변환
-export const convertKo = (arr: string[], arrEn: string[], value: string) => {
+export const convertKo = (
+  arr: string[],
+  arrEn: string[],
+  value: string | undefined,
+) => {
   // return target.indexOf(value);
-  const index = arrEn.indexOf(value);
-  return arr[index];
+  if (value) {
+    const index = arrEn.indexOf(value);
+    return arr[index];
+  }
 };
