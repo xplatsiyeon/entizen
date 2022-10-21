@@ -31,7 +31,6 @@ interface Test extends ReceivedRequest {
 export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순 보기';
 
 // deadline: 마감일 | status: 상태순 | date: 날짜순
-
 const filterTypeEn = ['deadline', 'status', 'date'];
 
 const TAP = 'company/quotation/index.tsx';
@@ -54,6 +53,7 @@ const CompanyQuotations = (props: Props) => {
         method: 'GET',
       }),
     {
+      enabled: false,
       onSuccess: () => {},
       onError: (error) => {
         console.log(error);
@@ -73,7 +73,7 @@ const CompanyQuotations = (props: Props) => {
   // 필터링 기능
   useEffect(() => {
     refetch();
-  }, [checkedFilterIndex]);
+  }, [checkedFilterIndex, keyword]);
 
   return (
     <>

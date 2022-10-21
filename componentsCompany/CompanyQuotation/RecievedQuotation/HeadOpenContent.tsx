@@ -109,20 +109,6 @@ const HeadOpenContent = ({}: Props) => {
     },
   );
 
-  // const {
-  //   receivedQuotationRequest: {
-  //     badge,
-  //     chargers, // 영->한 변환 필요
-  //     etcRequest,
-  //     installationAddress,
-  //     installationLocation, // 영->한 변환 필요
-  //     installationPurpose, // 영->한 변환 필요
-  //     investRate, // 곱하기 100
-  //     subscribePeriod,
-  //     subscribeProduct, // 영->한 변환 필요
-  //   },
-  // } = data?.data.receivedQuotationRequest;
-
   // step별 컴포넌트
   const components: Components = {
     // 기본
@@ -201,7 +187,6 @@ const HeadOpenContent = ({}: Props) => {
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
 
-  console.log(data?.data);
   return (
     <>
       {modalOpen && (
@@ -292,13 +277,13 @@ const HeadOpenContent = ({}: Props) => {
                   <span className="text">
                     {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                     <br />
-                    {`:${convertKo(
-                      M6_LIST,
-                      M6_LIST_EN,
-                      item.standType,
-                    )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                      item.count
-                    } 대`}
+                    {`:${
+                      item.standType &&
+                      convertKo(M6_LIST, M6_LIST_EN, item.standType)
+                    }, ${
+                      item.standType &&
+                      convertKo(M7_LIST, M7_LIST_EN, item.channel)
+                    }, ${item.count} 대`}
                   </span>
                 </div>
               ))}
