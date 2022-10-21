@@ -5,6 +5,7 @@ import CaretDown24 from 'public/images/CaretDown24.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
+import { HandleColor } from 'utils/changeValue';
 
 type Props = {
   queryData: Data[];
@@ -17,39 +18,6 @@ interface Data {
 }
 const RecieveRequest = ({ checkedFilterIndex, queryData }: Props) => {
   const router = useRouter();
-  // const [data, setData] = useState<Data[]>(tempProceeding);
-
-  // 뱃지 변경
-  const HandleColor = (badge: string): string => {
-    if (badge.includes('마감')) {
-      return colors.sub4;
-    } else if (badge.includes('현장실사') || badge.includes('최종견적')) {
-      return colors.main;
-    } else if (badge.includes('대기')) {
-      return colors.yellow;
-    } else if (badge.includes('낙찰성공')) {
-      return colors.main2;
-    } else if (badge.includes('견적취소') || badge.includes('낙찰실패')) {
-      return colors.lightGray3;
-    } else return colors.main;
-  };
-
-  // // 상태 필터에 따른 데이터 변경
-  // useEffect(() => {
-  //   switch (checkedFilterIndex) {
-  //     case 1: // 상태순
-  //       console.log('1이다');
-  //       setData(tempProceeding.sort((a, b) => b.id - a.id));
-  //       break;
-  //     case 2: // 날짜순
-  //       console.log('2이다');
-  //       break;
-  //     default: // 마감일순
-  //       0;
-  //       setData(tempProceeding.sort((a, b) => a.id - b.id));
-  //       break;
-  //   }
-  // }, [data, checkedFilterIndex]);
 
   return (
     <ContentsContainer>

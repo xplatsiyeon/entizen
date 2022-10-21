@@ -17,16 +17,28 @@ import { useMutation, useQuery } from 'react-query';
 import { isTokenApi } from 'api';
 import { GetServerSideProps } from 'next';
 import { type } from 'os';
+import { convertKo, HandleColor } from 'utils/changeValue';
+import { QuotationsDetail, quotationsDetail } from 'api/company/quotations';
+import {
+  InstallationPurposeType,
+  InstallationPurposeTypeEn,
+  location,
+  locationEn,
+  subscribeType,
+  subscribeTypeEn,
+} from 'assets/selectList';
 
-type Props = {
-  // id: string | string[] | undefined;
-};
+type Props = {};
 interface Components {
   [key: number]: JSX.Element;
 }
 export interface reviewType {
   productImg: any;
   createDt: number;
+}
+
+interface Response {
+  data: QuotationsDetail;
 }
 type ChargeType = '' | '구매자 자율' | '운영사업자 입력';
 type ManufacturingCompany =
@@ -77,22 +89,32 @@ const HeadOpenContent = ({}: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   //  api 요청
-  const { data, isError, isLoading, refetch } = useQuery(
+  const { data, isError, isLoading, refetch } = useQuery<Response>(
     'receivedRequest/id',
-    () =>
-      isTokenApi({
-        method: 'GET',
-        endpoint: `/quotations/received-request/${routerId}`,
-      }),
+    () => quotationsDetail(routerId),
+    // () =>
+    //   isTokenApi({
+    //     method: 'GET',
+    //     endpoint: `/quotations/received-request/${routerId}`,
+    //   }),
     {
       enabled: router.isReady,
     },
   );
 
-  console.log(TAG + 'router id -> ' + routerId);
-  console.log(router);
-  // console.log('서버사이드렌더링' + id);
-  console.log(data);
+  const {
+    receivedQuotationRequest: {
+      badge,
+      chargers, // 영->한 변환 필요
+      etcRequest,
+      installationAddress,
+      installationLocation, // 영->한 변환 필요
+      installationPurpose, // 영->한 변환 필요
+      investRate, // 곱하기 100
+      subscribePeriod,
+      subscribeProduct, // 영->한 변환 필요
+    },
+  } = data?.data!;
 
   // step별 컴포넌트
   const components: Components = {
@@ -178,12 +200,6 @@ const HeadOpenContent = ({}: Props) => {
     if (router.pathname.includes('asReviewEnd')) setText('A/S완료');
   }, [router]);
 
-  // useEffect(() => {
-  //   if (router.isReady) {
-  //     refetch();
-  //   }
-  // }, [router.isReady]);
-
   return (
     <>
       {modalOpen && (
@@ -217,9 +233,9 @@ const HeadOpenContent = ({}: Props) => {
       <Wrapper>
         <ItemButton onClick={handleClick}>
           <StoreName>
-            <CommonBtns text={'접수요청 D-1'} backgroundColor={'#F75015'} />
+            <CommonBtns text={badge} backgroundColor={HandleColor(badge)} />
             <div>
-              <h1>LS 카페 신림점</h1>
+              <h1>{installationAddress}</h1>
               {open ? (
                 <ArrowImg>
                   <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -230,7 +246,6 @@ const HeadOpenContent = ({}: Props) => {
                 </ArrowImg>
               )}
             </div>
-            <p>서울시 관악구 난곡로40길 30</p>
           </StoreName>
         </ItemButton>
         {/* Open */}
@@ -239,35 +254,48 @@ const HeadOpenContent = ({}: Props) => {
             <Contents>
               <div className="text-box">
                 <span className="name">구독상품</span>
-                <span className="text">부분구독</span>
-              </div>
-              <div className="text-box">
-                <span className="name">구독기간</span>
-                <span className="text">60개월</span>
-              </div>
-              <div className="text-box">
-                <span className="name">수익지분</span>
-                <span className="text">100 %</span>
-              </div>
-              <div className="text-box">
-                <span className="name">충전기 종류 및 수량</span>
                 <span className="text">
-                  100 kW 충전기
-                  <br />
-                  :벽걸이, 싱글, 3 대
+                  {convertKo(subscribeType, subscribeTypeEn, subscribeProduct)}
                 </span>
               </div>
               <div className="text-box">
+                <span className="name">구독기간</span>
+                <span className="text">{subscribePeriod}개월</span>
+              </div>
+              <div className="text-box">
+                <span className="name">수익지분</span>
+                <span className="text">{Number(investRate) * 100} %</span>
+              </div>
+              {chargers?.map((e, i) => (
+                <div className="text-box">
+                  <span className="name">충전기 종류 및 수량</span>
+                  <span className="text">
+                    100 kW 충전기
+                    <br />
+                    :벽걸이, 싱글, 3 대
+                  </span>
+                </div>
+              ))}
+
+              <div className="text-box">
                 <span className="name">충전기 설치 위치</span>
-                <span className="text">건물 밖</span>
+                <span className="text">
+                  {convertKo(location, locationEn, installationLocation)}
+                </span>
               </div>
               <div className="text-box">
                 <span className="name">충전기 설치 목적</span>
-                <span className="text">모객 효과</span>
+                <span className="text">
+                  {convertKo(
+                    InstallationPurposeType,
+                    InstallationPurposeTypeEn,
+                    installationPurpose,
+                  )}
+                </span>
               </div>
               <div className="text-box">
                 <span className="name">기타 요청사항</span>
-                <span className="text">없음</span>
+                <span className="text">{etcRequest}</span>
               </div>
             </Contents>
           </List>
@@ -304,16 +332,6 @@ const HeadOpenContent = ({}: Props) => {
       )}
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({
-  query: { id },
-}) => {
-  return {
-    props: {
-      id,
-    },
-  };
 };
 
 const Wrapper = styled.div`

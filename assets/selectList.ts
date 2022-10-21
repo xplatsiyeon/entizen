@@ -95,3 +95,24 @@ export const M8_LIST = [
   '10대',
 ];
 export const M8_LIST_EN = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
+export const subscribeType: string[] = ['전체구독', '부분구독'];
+export const subscribeTypeEn: string[] = ['ENTIRETY', 'PART'];
+
+export const InstallationPurposeType: string[] = [
+  '전기차 충전 사업',
+  '편의, 복지 제공',
+  '모객 효과',
+  '개인 용도',
+  '기타',
+];
+export const InstallationPurposeTypeEn: string[] = [
+  'BUSINESS',
+  'WELFARE',
+  'MARKETING',
+  'PERSONAL',
+  'ETC',
+];
+
+export const location: string[] = ['건물 안', '건물 밖'];
+export const locationEn: string[] = ['OUTSIDE', 'INSIDE'];
