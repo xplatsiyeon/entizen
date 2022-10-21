@@ -285,7 +285,7 @@ const CompanyMainPage = (props: Props) => {
 
         {/* 메인 페이지 컴포넌트*/}
         <QuotationCenter
-          requests1={data?.data.receivedQuotationRequests.length}
+          requests={data?.data.receivedQuotationRequests.length}
         />
         {/* 메인 페이지 버튼*/}
         <CheckQuotationBtn />

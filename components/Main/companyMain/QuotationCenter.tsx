@@ -8,20 +8,19 @@ import React, { useState } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
-  requests1: number;
+  requests: number;
 };
 const TAG = 'commponents/Main/companyMain/QuotationCenter';
-const QuotationCenter = ({ requests1 }: Props) => {
-  console.log(TAG + '-> requests 데이터 확인 ->' + requests1);
+const QuotationCenter = ({ requests }: Props) => {
+  console.log(TAG + '-> requests 데이터 확인 ->' + requests);
 
-  const [requests, setReqeusts] = useState<number>(0);
   return (
     <Wrapper>
       <ImgBox>
         <Image src={lightning} alt="lightning" />
       </ImgBox>
 
-      {requests && requests === 0 ? (
+      {requests! === 0 ? (
         <TopImgBox>
           <Image src={emptyClipboardText} alt="emptyClipboardText" />
         </TopImgBox>
@@ -33,7 +32,7 @@ const QuotationCenter = ({ requests1 }: Props) => {
           </BlueIcon>
         </TopImgBox>
       )}
-      {requests && requests >= 1 ? (
+      {requests! >= 1 ? (
         <>
           <Reqeusts>{requests}건의 견적 요청이 있습니다!</Reqeusts>
           <RequestInfo>
