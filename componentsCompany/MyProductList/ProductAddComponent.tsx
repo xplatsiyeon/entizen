@@ -104,13 +104,13 @@ const ProductAddComponent = (props: Props) => {
       addProduct({
         data: {
           modelName: modelName,
-          chargerType: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
-          chargingChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
-          chargingMethod: chargingMethod,
+          chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
+          chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
+          chargerMethods: chargingMethod,
           manufacturer: manufacturer,
-          advantages: advantages,
-          imgArr: imgArr,
-          fileArr: fileArr,
+          feature: advantages,
+          chargerImageFiles: imgArr,
+          catalogFiles: fileArr,
         },
       });
     }
