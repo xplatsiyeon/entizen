@@ -24,6 +24,12 @@ import {
   InstallationPurposeTypeEn,
   location,
   locationEn,
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
@@ -280,13 +286,19 @@ const HeadOpenContent = ({}: Props) => {
                   %
                 </span>
               </div>
-              {data?.data.receivedQuotationRequest.chargers!?.map((e, i) => (
+              {data?.data.receivedQuotationRequest.chargers!.map((item) => (
                 <div className="text-box">
                   <span className="name">충전기 종류 및 수량</span>
                   <span className="text">
-                    100 kW 충전기
+                    {convertKo(M5_LIST, M5_LIST_EN, item.channel)}
                     <br />
-                    :벽걸이, 싱글, 3 대
+                    {`:${convertKo(
+                      M6_LIST,
+                      M6_LIST_EN,
+                      item.standType,
+                    )}, ${convertKo(M7_LIST, M7_LIST_EN, item.kind)}, ${
+                      item.count
+                    } 대`}
                   </span>
                 </div>
               ))}
