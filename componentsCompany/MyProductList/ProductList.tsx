@@ -21,28 +21,28 @@ interface ProductListResponse {
 const ProductList = (props: Props) => {
   const { data } = useQuery<ProductListResponse>('productList', productList);
   const router = useRouter();
-  console.log(data);
+  console.log(data?.data.products);
   return (
     <>
       <Wrapper>
-        {[1, 1, 1, 1, 1].map((_, index) => (
+        {data?.data.products.map((item, index) => (
           <ListBox
             key={index}
             onClick={() => router.push('/company/showMyProduct')}
           >
             <ImageBox>
               <Image
-                src={carImg}
+                src={item.representationImageUrl}
                 alt="carImage"
                 layout="fill"
                 priority={true}
               />
             </ImageBox>
             <TextBox>
-              <Title>LECS-007ADE</Title>
-              <From>제조사: LS ELECTRIC</From>
+              <Title>{item.modelName}</Title>
+              <From>{`제조사: ${item.manufacturer}`}</From>
             </TextBox>
-            <KwBox>7 kW</KwBox>
+            <KwBox>{`${item.watt} kW`}</KwBox>
           </ListBox>
         ))}
       </Wrapper>
