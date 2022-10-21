@@ -174,6 +174,9 @@ const Input = styled(TextField)`
     font-size: 12pt;
     line-height: 12pt;
   }
+  & fieldset {
+    border: 0.75pt solid ${colors.gray};
+  }
   & .MuiInputBase-root {
     padding-right: 9pt;
   }

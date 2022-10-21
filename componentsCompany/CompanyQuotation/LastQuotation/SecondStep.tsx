@@ -219,24 +219,24 @@ const SecondStep = ({
   };
   // 다음 버튼
   const handleNextBtn = (e: any) => {
-    if (canNext && tabNumber < maxIndex) {
-      dispatch(
-        myEstimateAction.setCharge({
-          index: StepIndex,
-          data: {
-            chargeType:
-              chargeTypeNumber !== -1 ? chargeTypeList[chargeTypeNumber] : '',
-            fee: fee,
-            productItem: productItem,
-            manufacturingCompany: manufacturingCompany,
-            chargeFeatures: chargeFeatures,
-            chargeImage: imgArr,
-            chargeFile: fileArr,
-          },
-        }),
-      );
-      setTabNumber(tabNumber + 1);
-    }
+    // if (canNext && tabNumber < maxIndex) {
+    //   dispatch(
+    //     myEstimateAction.setCharge({
+    //       index: StepIndex,
+    //       data: {
+    //         chargeType:
+    //           chargeTypeNumber !== -1 ? chargeTypeList[chargeTypeNumber] : '',
+    //         fee: fee,
+    //         productItem: productItem,
+    //         manufacturingCompany: manufacturingCompany,
+    //         chargeFeatures: chargeFeatures,
+    //         chargeImage: imgArr,
+    //         chargeFile: fileArr,
+    //       },
+    //     }),
+    //   );
+    setTabNumber(tabNumber + 1);
+    // }
   };
 
   // 다음버튼 유효성 검사
