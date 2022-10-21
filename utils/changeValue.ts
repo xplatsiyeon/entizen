@@ -33,3 +33,17 @@ export const convertKo = (
     return '';
   }
 };
+// 한->영 값 변환
+export const convertEn = (
+  arr: string[],
+  arrEn: string[],
+  value: string | undefined,
+) => {
+  // return target.indexOf(value);
+  if (value) {
+    const index = arr.indexOf(value);
+    return arrEn[index];
+  } else {
+    return '';
+  }
+};

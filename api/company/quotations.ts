@@ -68,3 +68,17 @@ export const productList = () => {
     withCredentials: true,
   }).then((res) => res);
 };
+// 제품 리스트
+export const addProductList = (data: any) => {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  return axios({
+    method: 'post',
+    url: `${BASE_URL}/products`,
+    data: data,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ContentType: 'application/json',
+    },
+    withCredentials: true,
+  }).then((res) => res);
+};

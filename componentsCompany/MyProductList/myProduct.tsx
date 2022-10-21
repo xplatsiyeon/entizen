@@ -10,12 +10,20 @@ import fileImg from 'public/mypage/file-icon.svg';
 import TwoBtn from './TwoBtn';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
+import { ProductListResponse } from './ProductList';
+import { productList } from 'api/company/quotations';
+import Loader from 'components/Loader';
 
 type Props = {};
-
+const TAG = 'componentsCompany/MyProductList/myProduct';
 const MyProduct = (props: Props) => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  // const { data, isLoading, isError } = useQuery<ProductListResponse>(
+  //   'productList',
+  //   productList,
+  // );
 
   const DownloadFile = useCallback(() => {
     let fileName = 'Charge Point 카탈로그_7 KW';
@@ -45,6 +53,14 @@ const MyProduct = (props: Props) => {
   const clickEdit = () => {
     router.push('/company/addProduct');
   };
+
+  // if (isError) {
+  //   console.log(TAG + ' 에러 발생');
+  //   console.log(isError);
+  // }
+  // if (isLoading) {
+  //   <Loader />;
+  // }
   return (
     <>
       {modalOpen && (

@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { productList, Products } from 'api/company/quotations';
+import Loader from 'components/Loader';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import carImg from 'public/images/carImage.png';
@@ -14,14 +15,24 @@ interface ProductList {
   products: Products[];
 }
 
-interface ProductListResponse {
+export interface ProductListResponse {
   data: ProductList;
 }
-
+const TAG = 'componentsCompany/MyProductList/ProductList';
 const ProductList = (props: Props) => {
-  const { data } = useQuery<ProductListResponse>('productList', productList);
+  const { data, isLoading, isError } = useQuery<ProductListResponse>(
+    'productList',
+    productList,
+  );
   const router = useRouter();
-  console.log(data?.data.products);
+
+  if (isError) {
+    console.log(TAG + ' 에러 발생');
+    console.log(isError);
+  }
+  if (isLoading) {
+    <Loader />;
+  }
   return (
     <>
       <Wrapper>

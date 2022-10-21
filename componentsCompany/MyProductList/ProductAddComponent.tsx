@@ -10,7 +10,7 @@ import Xbtn from 'public/images/XCircle28.png';
 import camera from 'public/images/gray_camera.png';
 import CloseImg from 'public/images/XCircle.svg';
 import Image from 'next/image';
-import { M5_LIST, M7_LIST } from 'assets/selectList';
+import { M5_LIST, M5_LIST_EN, M7_LIST, M7_LIST_EN } from 'assets/selectList';
 import { CHARGING_METHOD } from 'companyAssets/selectList';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
@@ -18,6 +18,8 @@ import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
 import { isTokenApi } from 'api';
 import Modal from 'components/Modal/Modal';
+import { addProductList } from 'api/company/quotations';
+import { convertEn } from 'utils/changeValue';
 
 type Props = {};
 const TAP = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
@@ -47,7 +49,7 @@ const ProductAddComponent = (props: Props) => {
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // api 호출 (with react-query)
-  const { mutate: addProduct, isLoading } = useMutation(isTokenApi, {
+  const { mutate: addProduct, isLoading } = useMutation(addProductList, {
     onSuccess: () => {
       router.push('/company/myProductList');
     },
@@ -100,12 +102,10 @@ const ProductAddComponent = (props: Props) => {
   const buttonOnClick = () => {
     if (isValid) {
       addProduct({
-        method: 'POST',
-        endpoint: '/',
         data: {
           modelName: modelName,
-          chargerType: chargerType,
-          chargingChannel: chargingChannel,
+          chargerType: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
+          chargingChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
           chargingMethod: chargingMethod,
           manufacturer: manufacturer,
           advantages: advantages,
