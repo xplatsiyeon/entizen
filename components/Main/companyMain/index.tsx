@@ -49,8 +49,7 @@ const CompanyMainPage = (props: Props) => {
       method: 'GET',
     }),
   );
-
-  console.log(data);
+  const { receivedQuotationRequests } = data?.data;
 
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const toggleDrawer =
@@ -285,12 +284,12 @@ const CompanyMainPage = (props: Props) => {
         <Carousel />
 
         {/* 메인 페이지 컴포넌트*/}
-        <QuotationCenter />
+        <QuotationCenter requests={receivedQuotationRequests.length} />
         {/* 메인 페이지 버튼*/}
         <CheckQuotationBtn />
       </Container>
       <Footer />
-      <BottomNavigation />
+      <BottomNavigation requests={receivedQuotationRequests.length} />
     </>
   );
 };

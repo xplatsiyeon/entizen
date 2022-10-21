@@ -19,15 +19,17 @@ import colors from 'styles/colors';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
-type Props = {};
+type Props = {
+  requests: number;
+};
 
-const BottomNavigation = (props: Props) => {
+const BottomNavigation = ({ requests }: Props) => {
   const router = useRouter();
   const user_ID = localStorage.getItem('USER_ID');
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
-  const [myQuotaion, setMyQuotation] = useState(0);
+  // const [myQuotaion, setMyQuotation] = useState(0);
 
   useEffect(() => {
     if (memberType === 'COMPANY') {
@@ -91,7 +93,7 @@ const BottomNavigation = (props: Props) => {
                 router.push('/company/quotation');
               }}
             >
-              {myQuotaion > 0 && (
+              {requests === 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -104,7 +106,7 @@ const BottomNavigation = (props: Props) => {
                   />
                 </ImgBox>
               )}
-              {myQuotaion === 0 && (
+              {requests > 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -115,7 +117,7 @@ const BottomNavigation = (props: Props) => {
                     alt="guide"
                     layout="fill"
                   />
-                  <CountQuotation>{myQuotaion}</CountQuotation>
+                  <CountQuotation>{requests}</CountQuotation>
                 </ImgBox>
               )}
 

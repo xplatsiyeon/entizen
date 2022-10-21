@@ -7,17 +7,19 @@ import emptyClipboardText from 'public/images/EmptyClipboardText.png';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
 
-type Props = {};
+type Props = {
+  requests: number;
+};
 
-const QuotationCenter = (props: Props) => {
-  const [requests, setReqeusts] = useState<number>(0);
+const QuotationCenter = ({ requests }: Props) => {
+  // const [requests, setReqeusts] = useState<number>(0);
   return (
     <Wrapper>
       <ImgBox>
         <Image src={lightning} alt="lightning" />
       </ImgBox>
 
-      {requests === 1 ? (
+      {requests === 0 ? (
         <TopImgBox>
           <Image src={emptyClipboardText} alt="emptyClipboardText" />
         </TopImgBox>
@@ -29,7 +31,7 @@ const QuotationCenter = (props: Props) => {
           </BlueIcon>
         </TopImgBox>
       )}
-      {requests === 0 ? (
+      {requests >= 1 ? (
         <>
           <Reqeusts>{requests}건의 견적 요청이 있습니다!</Reqeusts>
           <RequestInfo>
