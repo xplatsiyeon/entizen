@@ -49,7 +49,7 @@ const CompanyMainPage = (props: Props) => {
       method: 'GET',
     }),
   );
-  const { receivedQuotationRequests } = data?.data;
+  console.log(data?.data.receivedQuotationRequests.length);
 
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const toggleDrawer =
@@ -284,12 +284,16 @@ const CompanyMainPage = (props: Props) => {
         <Carousel />
 
         {/* 메인 페이지 컴포넌트*/}
-        <QuotationCenter requests={receivedQuotationRequests.length} />
+        <QuotationCenter
+          requests1={data?.data.receivedQuotationRequests.length}
+        />
         {/* 메인 페이지 버튼*/}
         <CheckQuotationBtn />
       </Container>
       <Footer />
-      <BottomNavigation requests={receivedQuotationRequests.length} />
+      <BottomNavigation
+        requests={data?.data.receivedQuotationRequests.length}
+      />
     </>
   );
 };

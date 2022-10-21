@@ -8,10 +8,12 @@ import React, { useState } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
-  requests: number;
+  requests1: number;
 };
+const TAG = 'commponents/Main/companyMain/QuotationCenter';
+const QuotationCenter = ({ requests1 }: Props) => {
+  console.log(TAG + '-> requests 데이터 확인 ->' + requests1);
 
-const QuotationCenter = ({}: Props) => {
   const [requests, setReqeusts] = useState<number>(0);
   return (
     <Wrapper>
