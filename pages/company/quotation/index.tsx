@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { isTokenApi } from 'api';
+import { isTokenApi, isTokenApiT } from 'api/index';
 import BottomNavigation from 'components/BottomNavigation';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
@@ -12,6 +12,16 @@ import Tab from '../../../componentsCompany/CompanyQuotation/Tab';
 
 type Props = {};
 
+interface receivedQuotationRequests {
+  quotationRequestIdx: number;
+  badge: string;
+  installationAddress: string;
+}
+interface ReceivedRequest {
+  isSuccess: boolean;
+  receivedQuotationRequests: receivedQuotationRequests[];
+}
+
 export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순 보기';
 
 const TAP = 'company/quotation/index.tsx';
@@ -22,22 +32,24 @@ const CompanyQuotations = (props: Props) => {
   const [checkedFilterIndex, setCheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
-
+  const [keyword, setKeyword] = useState('');
   // api 호출
-  // const { data: queryData, isLoading } = useQuery<any>(
-  //   'get/quotation',
-  //   () =>
-  //     isTokenApi({
-  //       endpoint: '/',
-  //       method: 'GET',
-  //     }),
-  //   {
-  //     onSuccess: () => {},
-  //     onError: (error) => {
-  //       console.log(error);
-  //     },
-  //   },
-  // );
+  const { data, isLoading } = useQuery<any>(
+    'receivedRequest',
+    () =>
+      isTokenApi({
+        endpoint: `/quotations/received-request?keyword${keyword}=$&sort=deadline`,
+        method: 'GET',
+      }),
+    {
+      onSuccess: () => {},
+      onError: (error) => {
+        console.log(error);
+      },
+    },
+  );
+
+  console.log(data);
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());

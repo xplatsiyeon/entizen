@@ -12,16 +12,12 @@ import whiteRight from 'public/images/whiteRight20.png';
 import simpleEstimate from 'public/images/simpleEstimate.png';
 import mypageIcon from 'public/images/mypageIcon.png';
 import guide from 'public/images/guide.png';
-import conversation from 'public/images/conversation.png';
 import grayInsta from 'public/images/grayCircleInsta.png';
 import grayNaver from 'public/images/grayCircleNaver.png';
 import Nut from 'public/images/Nut.png';
 import Bell from 'public/images/mobBell.png';
 import myProduct from 'public/images/myProductList.png';
 import hamburgerAs from 'public/images/hamburgerAs.png';
-
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import Carousel from '../Carousel';
 import QuotationCenter from './QuotationCenter';
 
@@ -30,8 +26,6 @@ import BottomNavigation from 'components/BottomNavigation';
 import CheckQuotationBtn from './CheckQuotationBtn';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
-import { useQuery } from 'react-query';
-import { isTokenApi } from 'api';
 
 type Props = {};
 

@@ -9,16 +9,24 @@ import colors from 'styles/colors';
 import { isTokenApi } from 'api';
 import { useQuery } from 'react-query';
 import Loader from 'components/Loader';
+import { Router } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 
 type Props = {};
 const TAG = 'commponents/Main/companyMain/QuotationCenter';
 const QuotationCenter = ({}: Props) => {
+  const router = useRouter();
   const { data, isLoading, isError } = useQuery('receivedRequest', () =>
     isTokenApi({
       endpoint: `/quotations/received-request?keyword=&sort=deadline`,
       method: 'GET',
     }),
   );
+
+  if (isError) {
+    alert('잠시 후 다시 시도해주세요.');
+    router.push('/404');
+  }
 
   if (isLoading) {
     return <Loader />;

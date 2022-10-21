@@ -73,6 +73,10 @@ const BottomNavigation = ({}: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabNumber]);
 
+  if (isError) {
+    alert('잠시 후 다시 시도해주세요.');
+    router.push('/404');
+  }
   return (
     <Wrapper>
       {memberType === 'COMPANY' ? (
