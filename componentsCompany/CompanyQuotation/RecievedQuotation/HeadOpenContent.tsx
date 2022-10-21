@@ -51,7 +51,8 @@ export interface Chargers {
 }
 // 임시값
 const target = 3;
-
+const TAG =
+  'componentsCompany/CompanyQuotation/RecivedQuotation/HeadOpenContent';
 const HeadOpenContent = () => {
   const router = useRouter();
   const routerId = router?.query?.id!;
@@ -76,6 +77,7 @@ const HeadOpenContent = () => {
       endpoint: `/quotations/received-request/${routerId}`,
     }),
   );
+  console.log(TAG + 'router id ->' + routerId);
   console.log(data);
 
   // step별 컴포넌트
