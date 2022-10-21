@@ -228,12 +228,12 @@ const HeadOpenContent = ({}: Props) => {
       <Wrapper>
         <ItemButton onClick={handleClick}>
           <StoreName>
-            <CommonBtns
+            {/* <CommonBtns
               text={data?.data.receivedQuotationRequest.badge!}
               backgroundColor={HandleColor(
                 data?.data.receivedQuotationRequest.badge!,
               )}
-            />
+            /> */}
             <div>
               <h1>
                 {data?.data.receivedQuotationRequest.installationAddress!}
@@ -268,18 +268,18 @@ const HeadOpenContent = ({}: Props) => {
               <div className="text-box">
                 <span className="name">구독기간</span>
                 <span className="text">
-                  {data?.data.receivedQuotationRequest.subscribePeriod!}개월
+                  {/* {data?.data.receivedQuotationRequest.subscribePeriod!}개월 */}
                 </span>
               </div>
               <div className="text-box">
                 <span className="name">수익지분</span>
                 <span className="text">
-                  {Number(data?.data.receivedQuotationRequest.investRate!) *
+                  {/* {Number(data?.data.receivedQuotationRequest.investRate!) *
                     100}{' '}
-                  %
+                  % */}
                 </span>
               </div>
-              {data?.data.receivedQuotationRequest.chargers!?.map((e, i) => (
+              {/* {data?.data.receivedQuotationRequest.chargers!?.map((e, i) => (
                 <div className="text-box">
                   <span className="name">충전기 종류 및 수량</span>
                   <span className="text">
@@ -288,7 +288,7 @@ const HeadOpenContent = ({}: Props) => {
                     :벽걸이, 싱글, 3 대
                   </span>
                 </div>
-              ))}
+              ))} */}
 
               <div className="text-box">
                 <span className="name">충전기 설치 위치</span>
