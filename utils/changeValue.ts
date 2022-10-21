@@ -29,5 +29,7 @@ export const convertKo = (
   if (value) {
     const index = arrEn.indexOf(value);
     return arr[index];
+  } else {
+    return '';
   }
 };

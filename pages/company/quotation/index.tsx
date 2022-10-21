@@ -49,7 +49,7 @@ const CompanyQuotations = (props: Props) => {
     'receivedRequest',
     () =>
       isTokenApi({
-        endpoint: `/quotations/received-request?keyword${keyword}=$&sort=${filterTypeEn[checkedFilterIndex]}`,
+        endpoint: `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
         method: 'GET',
       }),
     {
@@ -60,13 +60,6 @@ const CompanyQuotations = (props: Props) => {
       },
     },
   );
-
-  // console.log(TAP + '---> 받은 요청 api 테스트 중입니다');
-  // console.log('checkedFilterIndex 값 -->' + checkedFilterIndex);
-  // console.log('searchWord 값 -->' + searchWord);
-  // console.log('api data 호출 -->');
-  // console.log(data?.data);
-
   useEffect(() => {
     dispatch(myEstimateAction.reset());
   }, []);
