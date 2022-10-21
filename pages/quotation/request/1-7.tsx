@@ -62,30 +62,25 @@ const Request1_7 = (props: Props) => {
     if (price === 0) return 0;
     if (price) {
       let stringPrice = price.toString();
-      let calculatedPrice;
+      // let calculatedPrice;
 
       if (stringPrice.length <= 6) {
-        calculatedPrice = stringPrice.toString().split('.');
-        calculatedPrice[0] = calculatedPrice[0]
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-          .slice(0, -3);
-        calculatedPrice.join('.');
+        const parts = price.toString().split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{4})+(?!\d))/g, ',');
+        return parts.join('.').slice(0, -3);
 
         // calculatedPrice = stringPrice
         //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
         //   .slice(0, -3);
       } else {
-        calculatedPrice = stringPrice.toString().split('.');
-        calculatedPrice[0] = calculatedPrice[0]
-          .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-          .slice(0, -5);
-        calculatedPrice.join('.');
+        const parts = price.toString().split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{4})+(?!\d))/g, ',');
+        return parts.join('.').slice(0, -5);
 
         // calculatedPrice = stringPrice
         //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
         //   .slice(0, -5);
       }
-      return calculatedPrice;
     }
   };
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
