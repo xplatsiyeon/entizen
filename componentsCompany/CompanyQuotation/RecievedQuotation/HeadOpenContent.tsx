@@ -59,7 +59,7 @@ export interface Chargers {
 const target = 3;
 const TAG =
   'componentsCompany/CompanyQuotation/RecivedQuotation/HeadOpenContent';
-const HeadOpenContent = ({}: Props) => {
+const HeadOpenContent = ({ id }: any) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
@@ -77,19 +77,21 @@ const HeadOpenContent = ({}: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   //  api 요청
-  const { data, isError, isLoading, refetch } = useQuery(
-    'receivedRequest/id',
-    () =>
-      isTokenApi({
-        method: 'GET',
-        endpoint: `/quotations/received-request/${routerId}`,
-      }),
-    {
-      enabled: !routerId,
-    },
-  );
+  // const { data, isError, isLoading, refetch } = useQuery(
+  //   'receivedRequest/id',
+  //   () =>
+  //     isTokenApi({
+  //       method: 'GET',
+  //       endpoint: `/quotations/received-request/${routerId}`,
+  //     }),
+  //   {
+  //     enabled: !routerId,
+  //   },
+  // );
   console.log(TAG + 'router id -> ' + routerId);
-  console.log(data);
+  console.log(router);
+  console.log('서버사이드렌더링' + id);
+  // console.log(data);
 
   // step별 컴포넌트
   const components: Components = {
@@ -175,14 +177,14 @@ const HeadOpenContent = ({}: Props) => {
     if (router.pathname.includes('asReviewEnd')) setText('A/S완료');
   }, [router]);
 
-  useEffect(() => {
-    if (router.isReady) {
-      const { id } = router.query;
-      if (id) {
-        refetch();
-      }
-    }
-  }, [router.isReady]);
+  // useEffect(() => {
+  //   if (router.isReady) {
+  //     const { id } = router.query;
+  //     if (id) {
+  //       // refetch();
+  //     }
+  //   }
+  // }, [router.isReady]);
 
   return (
     <>
@@ -306,15 +308,15 @@ const HeadOpenContent = ({}: Props) => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps = async ({
-//   query: { id },
-// }) => {
-//   return {
-//     props: {
-//       id,
-//     },
-//   };
-// };
+export const getServerSideProps: GetServerSideProps = async ({
+  query: { id },
+}) => {
+  return {
+    props: {
+      id,
+    },
+  };
+};
 
 const Wrapper = styled.div`
   display: block;
