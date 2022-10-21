@@ -6,13 +6,23 @@ import emptyClipboardText from 'public/images/EmptyClipboardText.png';
 
 import React, { useState } from 'react';
 import colors from 'styles/colors';
+import { isTokenApi } from 'api';
+import { useQuery } from 'react-query';
+import Loader from 'components/Loader';
 
-type Props = {
-  requests: number;
-};
+type Props = {};
 const TAG = 'commponents/Main/companyMain/QuotationCenter';
-const QuotationCenter = ({ requests }: Props) => {
-  console.log(TAG + '-> requests 데이터 확인 ->' + requests);
+const QuotationCenter = ({}: Props) => {
+  const { data, isLoading, isError } = useQuery('receivedRequest', () =>
+    isTokenApi({
+      endpoint: `/quotations/received-request?keyword=&sort=deadline`,
+      method: 'GET',
+    }),
+  );
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Wrapper>
@@ -20,21 +30,26 @@ const QuotationCenter = ({ requests }: Props) => {
         <Image src={lightning} alt="lightning" />
       </ImgBox>
 
-      {requests! === 0 ? (
+      {data?.data.receivedQuotationRequests.length! === 0 ? (
         <TopImgBox>
           <Image src={emptyClipboardText} alt="emptyClipboardText" />
         </TopImgBox>
       ) : (
         <TopImgBox>
-          <CountCircle>{requests}</CountCircle>
+          <CountCircle>
+            {data?.data.receivedQuotationRequests.length}
+          </CountCircle>
           <BlueIcon>
             <Image src={clipboardText} alt="clipboardText" />
           </BlueIcon>
         </TopImgBox>
       )}
-      {requests! >= 1 ? (
+      {data?.data.receivedQuotationRequests.length! >= 1 ? (
         <>
-          <Reqeusts>{requests}건의 견적 요청이 있습니다!</Reqeusts>
+          <Reqeusts>
+            {data?.data.receivedQuotationRequests.length}건의 견적 요청이
+            있습니다!
+          </Reqeusts>
           <RequestInfo>
             요청서를 확인하고 가견적서를 작성해
             <br />

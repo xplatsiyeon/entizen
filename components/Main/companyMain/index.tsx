@@ -36,19 +36,12 @@ import { isTokenApi } from 'api';
 type Props = {};
 
 const CompanyMainPage = (props: Props) => {
-  const keyword = '';
   const router = useRouter();
   const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
   });
-  const { data, isLoading, isError } = useQuery('receivedRequest', () =>
-    isTokenApi({
-      endpoint: `/quotations/received-request?keyword=${keyword}&sort=deadline`,
-      method: 'GET',
-    }),
-  );
 
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const toggleDrawer =
@@ -283,9 +276,7 @@ const CompanyMainPage = (props: Props) => {
         <Carousel />
 
         {/* 메인 페이지 컴포넌트*/}
-        <QuotationCenter
-          requests={data?.data.receivedQuotationRequests.length}
-        />
+        <QuotationCenter />
         {/* 메인 페이지 버튼*/}
         <CheckQuotationBtn />
       </Container>
