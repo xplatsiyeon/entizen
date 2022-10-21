@@ -257,12 +257,12 @@ const HeadOpenContent = ({}: Props) => {
               <div className="text-box">
                 <span className="name">구독상품</span>
                 <span className="text">
-                  {/* {data &&
+                  {data &&
                     convertKo(
                       subscribeType,
                       subscribeTypeEn,
                       data?.data.receivedQuotationRequest.subscribeProduct!,
-                    )} */}
+                    )}
                 </span>
               </div>
               <div className="text-box">
