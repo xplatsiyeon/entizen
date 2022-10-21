@@ -58,6 +58,10 @@ const CompanyQuotations = (props: Props) => {
     },
   );
 
+  console.log(TAP + '---> 받은 요청 api 테스트 중입니다');
+  console.log('checkedFilterIndex 값 -->' + checkedFilterIndex);
+  console.log('searchWord 값 -->' + searchWord);
+  console.log('api data 호출 -->' + data);
   useEffect(() => {
     dispatch(myEstimateAction.reset());
   }, []);
