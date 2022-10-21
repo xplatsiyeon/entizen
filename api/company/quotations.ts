@@ -24,13 +24,43 @@ export interface QuotationsDetail {
   };
 }
 
-// API 호출 (토큰 O)
+export interface File {
+  url: string;
+  size: number;
+  originalName: string;
+}
+
+export interface Products {
+  representationImageUrl: string;
+  modelName: string;
+  manufacturer: string;
+  watt: string;
+  catalogFiles: File[];
+  chargerProductFile: File[];
+  feature: string;
+}
+
+// 받은요청 상세페이지
 export const quotationsDetail = (routerId: string | string[]) => {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   // const { data, endpoint, method } = apiInfo;
   return axios({
     method: 'get',
     url: `${BASE_URL}/quotations/received-request/${routerId}`,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ContentType: 'application/json',
+    },
+    withCredentials: true,
+  }).then((res) => res);
+};
+
+// 제품 리스트
+export const productList = () => {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  return axios({
+    method: 'get',
+    url: `${BASE_URL}/api/products`,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       ContentType: 'application/json',

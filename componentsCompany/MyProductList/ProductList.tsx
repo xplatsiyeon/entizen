@@ -1,15 +1,27 @@
 import styled from '@emotion/styled';
+import { productList, Products } from 'api/company/quotations';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import carImg from 'public/images/carImage.png';
 import plusBtn from 'public/images/productPlus.png';
 import React from 'react';
+import { useQuery } from 'react-query';
 import colors from 'styles/colors';
 
 type Props = {};
+interface ProductList {
+  isSuccess: true;
+  products: Products[];
+}
+
+interface ProductListResponse {
+  data: ProductList;
+}
 
 const ProductList = (props: Props) => {
+  const { data } = useQuery<ProductListResponse>('productList', productList);
   const router = useRouter();
+  console.log(data);
   return (
     <>
       <Wrapper>
