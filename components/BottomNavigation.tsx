@@ -23,13 +23,13 @@ type Props = {
   requests?: number;
 };
 
-const BottomNavigation = ({ requests }: Props) => {
+const BottomNavigation = ({}: Props) => {
   const router = useRouter();
   const user_ID = localStorage.getItem('USER_ID');
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
-  // const [myQuotaion, setMyQuotation] = useState(0);
+  const [requests, setRequests] = useState(0);
 
   useEffect(() => {
     if (memberType === 'COMPANY') {

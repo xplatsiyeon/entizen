@@ -11,8 +11,8 @@ type Props = {
   requests: number;
 };
 
-const QuotationCenter = ({ requests }: Props) => {
-  // const [requests, setReqeusts] = useState<number>(0);
+const QuotationCenter = ({}: Props) => {
+  const [requests, setReqeusts] = useState<number>(0);
   return (
     <Wrapper>
       <ImgBox>
