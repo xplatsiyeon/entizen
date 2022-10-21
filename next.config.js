@@ -1,12 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: [
+      'https://test-entizen.s3.ap-northeast-2.amazonaws.com',
+      's3.amazonaws.com',
+    ],
+  },
   reactStrictMode: true,
   swcMinify: true,
   env: {
     BASE_URL: process.env.BASE_URL,
-  },
-  images: {
-    domains: ['https://test-entizen.s3.ap-northeast-2.amazonaws.com'],
   },
 
   async rewrites() {

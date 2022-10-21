@@ -36,6 +36,7 @@ const ProductList = (props: Props) => {
                 alt="carImage"
                 layout="fill"
                 priority={true}
+                unoptimized={true}
               />
             </ImageBox>
             <TextBox>
