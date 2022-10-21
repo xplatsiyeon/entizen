@@ -19,7 +19,7 @@ import { GetServerSideProps } from 'next';
 import { type } from 'os';
 
 type Props = {
-  // id: string;
+  // id: string | string[] | undefined;
 };
 interface Components {
   [key: number]: JSX.Element;
@@ -59,7 +59,7 @@ export interface Chargers {
 const target = 3;
 const TAG =
   'componentsCompany/CompanyQuotation/RecivedQuotation/HeadOpenContent';
-const HeadOpenContent = ({ id }: any) => {
+const HeadOpenContent = ({}: Props) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
@@ -77,21 +77,22 @@ const HeadOpenContent = ({ id }: any) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   //  api 요청
-  // const { data, isError, isLoading, refetch } = useQuery(
-  //   'receivedRequest/id',
-  //   () =>
-  //     isTokenApi({
-  //       method: 'GET',
-  //       endpoint: `/quotations/received-request/${routerId}`,
-  //     }),
-  //   {
-  //     enabled: !routerId,
-  //   },
-  // );
+  const { data, isError, isLoading, refetch } = useQuery(
+    'receivedRequest/id',
+    () =>
+      isTokenApi({
+        method: 'GET',
+        endpoint: `/quotations/received-request/${routerId}`,
+      }),
+    {
+      enabled: router.isReady,
+    },
+  );
+
   console.log(TAG + 'router id -> ' + routerId);
   console.log(router);
-  console.log('서버사이드렌더링' + id);
-  // console.log(data);
+  // console.log('서버사이드렌더링' + id);
+  console.log(data);
 
   // step별 컴포넌트
   const components: Components = {
@@ -179,10 +180,7 @@ const HeadOpenContent = ({ id }: any) => {
 
   // useEffect(() => {
   //   if (router.isReady) {
-  //     const { id } = router.query;
-  //     if (id) {
-  //       // refetch();
-  //     }
+  //     refetch();
   //   }
   // }, [router.isReady]);
 
