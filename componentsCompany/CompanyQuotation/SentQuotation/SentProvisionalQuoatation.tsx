@@ -30,6 +30,16 @@ const SentQuoatationFirst = (props: Props) => {
       <TopBox handleClick={handleClick} open={open} setOpen={setOpen} />
       <CenterBox />
       <BottomBox />
+      {/* 최종견적 */}
+      <LastQuotationBtnBox>
+        <Blur />
+        <BlurTwo />
+        <LastBtn
+          onClick={() => router.push('/company/quotation/lastQuotation')}
+        >
+          최종견적 작성
+        </LastBtn>
+      </LastQuotationBtnBox>
       <BtnBox>
         {/*가견적 수정하기*/}
         <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
@@ -219,4 +229,45 @@ const Button = styled.button`
   color: ${colors.main2};
 `;
 
+const LastQuotationBtnBox = styled.div`
+  position: fixed;
+  bottom: 30pt;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 15pt;
+  padding-right: 15pt;
+`;
+
+const LastBtn = styled.div`
+  padding-top: 15pt;
+  z-index: 1000000;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15pt;
+  width: 100%;
+  border-radius: 6pt;
+  background-color: ${colors.main};
+  color: #eeeeee;
+`;
+
+const Blur = styled.div`
+  position: absolute;
+  width: 100%;
+  bottom: -33pt;
+  left: 0;
+  z-index: -1;
+  background: #ffffff;
+  filter: blur(7.5pt);
+  height: 67.5pt;
+`;
+const BlurTwo = styled.div`
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  background: #ffffff;
+  filter: blur(7.5pt);
+  height: 67.5pt;
+`;
 export default SentQuoatationFirst;
