@@ -195,12 +195,6 @@ const HeadOpenContent = ({}: Props) => {
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
 
-  useEffect(() => {
-    if (router.pathname.includes('1-1')) setText('접수요청 D-3');
-    if (router.pathname.includes('asGoReview')) setText('완료대기');
-    if (router.pathname.includes('asReviewEnd')) setText('A/S완료');
-  }, [router]);
-
   return (
     <>
       {modalOpen && (
