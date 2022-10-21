@@ -73,8 +73,7 @@ const SignUpTerms = () => {
 
   const handleForceClick = async () => {
     let key = localStorage.getItem('key');
-    console.log(key);
-    if ((fullTerms || requiredTerms) && key !== null) {
+    if (key !== null) {
       let a = JSON.parse(key);
       dispatch(
         userAction.add({
@@ -85,8 +84,6 @@ const SignUpTerms = () => {
         }),
       );
       try {
-        console.log('이름 =>   ' + a.name);
-        console.log('번호 =>   ' + a.phone);
         await axios({
           method: 'post',
           url: 'https://test-api.entizen.kr/api/members/join/sns',
