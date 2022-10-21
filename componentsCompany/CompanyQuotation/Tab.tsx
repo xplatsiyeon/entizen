@@ -150,7 +150,7 @@ const Tab = ({
         placeholder="용량, 주소, 상호명을 입력하세요."
         type="text"
         className="searchInput"
-        // onClick={handleOnClick}
+        onChange={(e) => setSearchWord(e.target.value)}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

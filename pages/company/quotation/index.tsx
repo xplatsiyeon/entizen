@@ -29,6 +29,10 @@ interface Test extends ReceivedRequest {
 
 export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순 보기';
 
+// deadline: 마감일 | status: 상태순 | date: 날짜순
+
+const filterTypeEn = ['deadline', 'status', 'date'];
+
 const TAP = 'company/quotation/index.tsx';
 const CompanyQuotations = (props: Props) => {
   const dispatch = useDispatch();
@@ -37,13 +41,13 @@ const CompanyQuotations = (props: Props) => {
   const [checkedFilterIndex, setCheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
-  const [keyword, setKeyword] = useState('');
+
   // api 호출
   const { data, isLoading } = useQuery(
     'receivedRequest',
     () =>
       isTokenApi({
-        endpoint: `/quotations/received-request?keyword${keyword}=$&sort=deadline`,
+        endpoint: `/quotations/received-request?keyword${searchWord}=$&sort=${filterTypeEn[checkedFilterIndex]}`,
         method: 'GET',
       }),
     {
