@@ -195,6 +195,7 @@ const HeadOpenContent = ({}: Props) => {
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
 
+  console.log(data?.data);
   return (
     <>
       {modalOpen && (
@@ -228,12 +229,12 @@ const HeadOpenContent = ({}: Props) => {
       <Wrapper>
         <ItemButton onClick={handleClick}>
           <StoreName>
-            {/* <CommonBtns
-              text={data?.data.receivedQuotationRequest.badge}
+            <CommonBtns
+              text={data?.data.receivedQuotationRequest.badge!}
               backgroundColor={HandleColor(
-                data?.data.receivedQuotationRequest.badge,
+                data?.data.receivedQuotationRequest.badge!,
               )}
-            /> */}
+            />
             <div>
               <h1>
                 {data?.data.receivedQuotationRequest.installationAddress!}
@@ -279,7 +280,7 @@ const HeadOpenContent = ({}: Props) => {
                   %
                 </span>
               </div>
-              {/* {data?.data.receivedQuotationRequest.chargers!?.map((e, i) => (
+              {data?.data.receivedQuotationRequest.chargers!?.map((e, i) => (
                 <div className="text-box">
                   <span className="name">충전기 종류 및 수량</span>
                   <span className="text">
@@ -288,28 +289,28 @@ const HeadOpenContent = ({}: Props) => {
                     :벽걸이, 싱글, 3 대
                   </span>
                 </div>
-              ))} */}
+              ))}
 
               <div className="text-box">
                 <span className="name">충전기 설치 위치</span>
                 <span className="text">
-                  {/* {data &&
+                  {data &&
                     convertKo(
                       location,
                       locationEn,
                       data?.data.receivedQuotationRequest.installationLocation!,
-                    )} */}
+                    )}
                 </span>
               </div>
               <div className="text-box">
                 <span className="name">충전기 설치 목적</span>
                 <span className="text">
-                  {/* {data &&
+                  {data &&
                     convertKo(
                       InstallationPurposeType,
                       InstallationPurposeTypeEn,
                       data?.data.receivedQuotationRequest.installationPurpose!,
-                    )} */}
+                    )}
                 </span>
               </div>
               <div className="text-box">
