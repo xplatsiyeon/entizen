@@ -53,9 +53,9 @@ export interface Chargers {
 const target = 3;
 const TAG =
   'componentsCompany/CompanyQuotation/RecivedQuotation/HeadOpenContent';
-const HeadOpenContent = () => {
+const HeadOpenContent = ({ id }: any) => {
   const router = useRouter();
-  const routerId = router?.query?.id!;
+  // const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
   // step 숫자
@@ -74,10 +74,10 @@ const HeadOpenContent = () => {
   const { data, isError, isLoading } = useQuery('receivedRequest/id', () =>
     isTokenApi({
       method: 'GET',
-      endpoint: `/quotations/received-request/${router.query.id}`,
+      endpoint: `/quotations/received-request/${id}`,
     }),
   );
-  console.log(TAG + 'router id ->' + routerId);
+  console.log(TAG + 'router id ->' + id);
   console.log(data);
 
   // step별 컴포넌트
@@ -285,6 +285,14 @@ const HeadOpenContent = () => {
     </>
   );
 };
+
+export async function getServerSideProps({ query: { id } }: any) {
+  return {
+    props: {
+      id,
+    },
+  };
+}
 
 const Wrapper = styled.div`
   display: block;
