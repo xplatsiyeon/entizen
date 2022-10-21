@@ -15,6 +15,12 @@ import SecondStep from './SecondStep';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useMutation, useQuery } from 'react-query';
 import { isTokenApi } from 'api';
+import { GetServerSideProps } from 'next';
+import { type } from 'os';
+
+type Props = {
+  id: string;
+};
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -53,7 +59,7 @@ export interface Chargers {
 const target = 3;
 const TAG =
   'componentsCompany/CompanyQuotation/RecivedQuotation/HeadOpenContent';
-const HeadOpenContent = ({ id }: any) => {
+const HeadOpenContent = ({ id }: Props) => {
   const router = useRouter();
   // const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
@@ -77,7 +83,7 @@ const HeadOpenContent = ({ id }: any) => {
       endpoint: `/quotations/received-request/${id}`,
     }),
   );
-  console.log(TAG + 'router id ->' + id);
+  console.log(TAG + 'router id -> ' + id);
   console.log(data);
 
   // step별 컴포넌트
@@ -286,13 +292,15 @@ const HeadOpenContent = ({ id }: any) => {
   );
 };
 
-export async function getServerSideProps({ query: { id } }: any) {
+export const getServerSideProps: GetServerSideProps = async ({
+  query: { id },
+}) => {
   return {
     props: {
       id,
     },
   };
-}
+};
 
 const Wrapper = styled.div`
   display: block;
