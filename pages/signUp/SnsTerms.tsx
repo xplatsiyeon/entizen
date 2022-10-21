@@ -72,10 +72,10 @@ const SignUpTerms = () => {
   };
 
   const handleForceClick = async () => {
-    let c = localStorage.getItem('key');
-    console.log(c);
-    if (fullTerms && c !== null) {
-      let a = JSON.parse(c);
+    let key = localStorage.getItem('key');
+    console.log(key);
+    if (fullTerms && requiredTerms && key !== null) {
+      let a = JSON.parse(key);
       dispatch(
         userAction.add({
           ...user,
