@@ -229,9 +229,9 @@ const HeadOpenContent = ({}: Props) => {
         <ItemButton onClick={handleClick}>
           <StoreName>
             {/* <CommonBtns
-              text={data?.data.receivedQuotationRequest.badge!}
+              text={data?.data.receivedQuotationRequest.badge}
               backgroundColor={HandleColor(
-                data?.data.receivedQuotationRequest.badge!,
+                data?.data.receivedQuotationRequest.badge,
               )}
             /> */}
             <div>
@@ -268,15 +268,15 @@ const HeadOpenContent = ({}: Props) => {
               <div className="text-box">
                 <span className="name">구독기간</span>
                 <span className="text">
-                  {/* {data?.data.receivedQuotationRequest.subscribePeriod!}개월 */}
+                  {data?.data.receivedQuotationRequest.subscribePeriod!}개월
                 </span>
               </div>
               <div className="text-box">
                 <span className="name">수익지분</span>
                 <span className="text">
-                  {/* {Number(data?.data.receivedQuotationRequest.investRate!) *
+                  {Number(data?.data.receivedQuotationRequest.investRate!) *
                     100}{' '}
-                  % */}
+                  %
                 </span>
               </div>
               {/* {data?.data.receivedQuotationRequest.chargers!?.map((e, i) => (
