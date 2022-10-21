@@ -97,24 +97,25 @@ const HeadOpenContent = ({}: Props) => {
     //     method: 'GET',
     //     endpoint: `/quotations/received-request/${routerId}`,
     //   }),
+
     {
       enabled: router.isReady,
     },
   );
 
-  const {
-    receivedQuotationRequest: {
-      badge,
-      chargers, // 영->한 변환 필요
-      etcRequest,
-      installationAddress,
-      installationLocation, // 영->한 변환 필요
-      installationPurpose, // 영->한 변환 필요
-      investRate, // 곱하기 100
-      subscribePeriod,
-      subscribeProduct, // 영->한 변환 필요
-    },
-  } = data?.data!;
+  // const {
+  //   receivedQuotationRequest: {
+  //     badge,
+  //     chargers, // 영->한 변환 필요
+  //     etcRequest,
+  //     installationAddress,
+  //     installationLocation, // 영->한 변환 필요
+  //     installationPurpose, // 영->한 변환 필요
+  //     investRate, // 곱하기 100
+  //     subscribePeriod,
+  //     subscribeProduct, // 영->한 변환 필요
+  //   },
+  // } = data?.data.receivedQuotationRequest;
 
   // step별 컴포넌트
   const components: Components = {
@@ -233,9 +234,16 @@ const HeadOpenContent = ({}: Props) => {
       <Wrapper>
         <ItemButton onClick={handleClick}>
           <StoreName>
-            <CommonBtns text={badge} backgroundColor={HandleColor(badge)} />
+            <CommonBtns
+              text={data?.data.receivedQuotationRequest.badge!}
+              backgroundColor={HandleColor(
+                data?.data.receivedQuotationRequest.badge!,
+              )}
+            />
             <div>
-              <h1>{installationAddress}</h1>
+              <h1>
+                {data?.data.receivedQuotationRequest.installationAddress!}
+              </h1>
               {open ? (
                 <ArrowImg>
                   <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -255,18 +263,28 @@ const HeadOpenContent = ({}: Props) => {
               <div className="text-box">
                 <span className="name">구독상품</span>
                 <span className="text">
-                  {convertKo(subscribeType, subscribeTypeEn, subscribeProduct)}
+                  {convertKo(
+                    subscribeType,
+                    subscribeTypeEn,
+                    data?.data.receivedQuotationRequest.subscribeProduct!,
+                  )}
                 </span>
               </div>
               <div className="text-box">
                 <span className="name">구독기간</span>
-                <span className="text">{subscribePeriod}개월</span>
+                <span className="text">
+                  {data?.data.receivedQuotationRequest.subscribePeriod!}개월
+                </span>
               </div>
               <div className="text-box">
                 <span className="name">수익지분</span>
-                <span className="text">{Number(investRate) * 100} %</span>
+                <span className="text">
+                  {Number(data?.data.receivedQuotationRequest.investRate!) *
+                    100}{' '}
+                  %
+                </span>
               </div>
-              {chargers?.map((e, i) => (
+              {data?.data.receivedQuotationRequest.chargers!?.map((e, i) => (
                 <div className="text-box">
                   <span className="name">충전기 종류 및 수량</span>
                   <span className="text">
@@ -280,7 +298,11 @@ const HeadOpenContent = ({}: Props) => {
               <div className="text-box">
                 <span className="name">충전기 설치 위치</span>
                 <span className="text">
-                  {convertKo(location, locationEn, installationLocation)}
+                  {convertKo(
+                    location,
+                    locationEn,
+                    data?.data.receivedQuotationRequest.installationLocation!,
+                  )}
                 </span>
               </div>
               <div className="text-box">
@@ -289,13 +311,15 @@ const HeadOpenContent = ({}: Props) => {
                   {convertKo(
                     InstallationPurposeType,
                     InstallationPurposeTypeEn,
-                    installationPurpose,
+                    data?.data.receivedQuotationRequest.installationPurpose!,
                   )}
                 </span>
               </div>
               <div className="text-box">
                 <span className="name">기타 요청사항</span>
-                <span className="text">{etcRequest}</span>
+                <span className="text">
+                  {data?.data.receivedQuotationRequest.etcRequest}
+                </span>
               </div>
             </Contents>
           </List>
