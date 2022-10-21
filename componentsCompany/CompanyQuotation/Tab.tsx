@@ -40,11 +40,7 @@ const Tab = ({
   checkedFilter,
   setCheckedFilter,
 }: Props) => {
-  const [tabs, setTabs] = useState<string[]>([
-    '받은 요청',
-    '보낸 견적',
-    '히스토리',
-  ]);
+  const tabName = ['받은 요청', '보낸 견적', '히스토리'];
 
   const [state, setState] = useState({ bottom: false });
   const filterList: filterType[] = [
@@ -112,7 +108,7 @@ const Tab = ({
   return (
     <>
       <TabBox>
-        {tabs.map((el, index) => (
+        {tabName.map((el, index) => (
           <TabLists key={index} onClick={() => setTabNumber(index)}>
             <TabList
               className={

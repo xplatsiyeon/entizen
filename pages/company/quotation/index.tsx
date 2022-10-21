@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { isTokenApi } from 'api/index';
 import BottomNavigation from 'components/BottomNavigation';
+import useDebounce from 'hooks/useDebounce';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
@@ -42,12 +43,14 @@ const CompanyQuotations = (props: Props) => {
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
 
+  const keyword = useDebounce(searchWord, 3000);
+
   // api 호출
   const { data, isLoading, refetch } = useQuery(
     'receivedRequest',
     () =>
       isTokenApi({
-        endpoint: `/quotations/received-request?keyword${searchWord}=$&sort=${filterTypeEn[checkedFilterIndex]}`,
+        endpoint: `/quotations/received-request?keyword${keyword}=$&sort=${filterTypeEn[checkedFilterIndex]}`,
         method: 'GET',
       }),
     {
@@ -58,16 +61,16 @@ const CompanyQuotations = (props: Props) => {
     },
   );
 
-  console.log(TAP + '---> 받은 요청 api 테스트 중입니다');
-  console.log('checkedFilterIndex 값 -->' + checkedFilterIndex);
-  console.log('searchWord 값 -->' + searchWord);
-  console.log('api data 호출 -->');
-  console.log(data?.data);
+  // console.log(TAP + '---> 받은 요청 api 테스트 중입니다');
+  // console.log('checkedFilterIndex 값 -->' + checkedFilterIndex);
+  // console.log('searchWord 값 -->' + searchWord);
+  // console.log('api data 호출 -->');
+  // console.log(data?.data);
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
   }, []);
-
+  // 필터링 기능
   useEffect(() => {
     refetch();
   }, [checkedFilterIndex]);

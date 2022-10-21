@@ -13,7 +13,7 @@ import Btn from 'components/SignUp/button';
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { isTokenApi } from 'api';
 interface Components {
   [key: number]: JSX.Element;
@@ -54,6 +54,7 @@ const target = 3;
 
 const HeadOpenContent = () => {
   const router = useRouter();
+  const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
   // step 숫자
@@ -67,6 +68,15 @@ const HeadOpenContent = () => {
   const [firstPageTextArea, setFirstPageTextArea] = useState<string>('');
   // 모달
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  //  api 요청
+  const { data, isError, isLoading } = useQuery('receivedRequest/id', () =>
+    isTokenApi({
+      method: 'GET',
+      endpoint: `/quotations/received-request/${routerId}`,
+    }),
+  );
+  console.log(data);
 
   // step별 컴포넌트
   const components: Components = {
