@@ -290,13 +290,13 @@ const HeadOpenContent = ({}: Props) => {
                 <div className="text-box">
                   <span className="name">충전기 종류 및 수량</span>
                   <span className="text">
-                    {convertKo(M5_LIST, M5_LIST_EN, item.channel)}
+                    {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                     <br />
                     {`:${convertKo(
                       M6_LIST,
                       M6_LIST_EN,
                       item.standType,
-                    )}, ${convertKo(M7_LIST, M7_LIST_EN, item.kind)}, ${
+                    )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
                       item.count
                     } 대`}
                   </span>
