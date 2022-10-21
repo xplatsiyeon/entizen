@@ -43,7 +43,7 @@ const CompanyQuotations = (props: Props) => {
     useState<filterType>('마감일순 보기');
 
   // api 호출
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, refetch } = useQuery(
     'receivedRequest',
     () =>
       isTokenApi({
@@ -61,10 +61,16 @@ const CompanyQuotations = (props: Props) => {
   console.log(TAP + '---> 받은 요청 api 테스트 중입니다');
   console.log('checkedFilterIndex 값 -->' + checkedFilterIndex);
   console.log('searchWord 값 -->' + searchWord);
-  console.log('api data 호출 -->' + data);
+  console.log('api data 호출 -->');
+  console.log(data?.data);
+
   useEffect(() => {
     dispatch(myEstimateAction.reset());
   }, []);
+
+  useEffect(() => {
+    refetch();
+  }, [checkedFilterIndex]);
 
   return (
     <>
