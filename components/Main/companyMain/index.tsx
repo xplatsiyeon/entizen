@@ -49,7 +49,6 @@ const CompanyMainPage = (props: Props) => {
       method: 'GET',
     }),
   );
-  console.log(data?.data.receivedQuotationRequests.length);
 
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const toggleDrawer =
@@ -291,9 +290,7 @@ const CompanyMainPage = (props: Props) => {
         <CheckQuotationBtn />
       </Container>
       <Footer />
-      <BottomNavigation
-        requests={data?.data.receivedQuotationRequests.length}
-      />
+      <BottomNavigation />
     </>
   );
 };

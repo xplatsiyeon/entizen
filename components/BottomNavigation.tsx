@@ -18,17 +18,24 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { useQuery } from 'react-query';
+import { isTokenApi } from 'api';
 
-type Props = {
-  requests?: number;
-};
+type Props = {};
 
-const BottomNavigation = ({ requests }: Props) => {
+const BottomNavigation = ({}: Props) => {
   const router = useRouter();
   const user_ID = localStorage.getItem('USER_ID');
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
+
+  const { data, isLoading, isError } = useQuery('receivedRequest', () =>
+    isTokenApi({
+      endpoint: `/quotations/received-request?keyword=$&sort=deadline`,
+      method: 'GET',
+    }),
+  );
 
   useEffect(() => {
     if (memberType === 'COMPANY') {
@@ -92,7 +99,7 @@ const BottomNavigation = ({ requests }: Props) => {
                 router.push('/company/quotation');
               }}
             >
-              {requests && requests === 0 && (
+              {data?.data.receivedQuotationRequests.length === 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -105,7 +112,7 @@ const BottomNavigation = ({ requests }: Props) => {
                   />
                 </ImgBox>
               )}
-              {requests && requests > 0 && (
+              {data?.data.receivedQuotationRequests.length > 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -116,7 +123,9 @@ const BottomNavigation = ({ requests }: Props) => {
                     alt="guide"
                     layout="fill"
                   />
-                  <CountQuotation>{requests}</CountQuotation>
+                  <CountQuotation>
+                    {data?.data.receivedQuotationRequests.length}
+                  </CountQuotation>
                 </ImgBox>
               )}
 
