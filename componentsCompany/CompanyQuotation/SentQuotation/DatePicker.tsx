@@ -17,8 +17,15 @@ type Props = {};
 const DatePicker = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
+  const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
   const [isModal, setIsModal] = useState(false); // 모달
+  const days = [
+    '2022.10.20',
+    '2022.10.22',
+    '2022.10.28',
+    '2022.10.29',
+    '2022.10.31',
+  ];
   // 리덕스
   const HandleModal = () => {
     // router.push('/mypage');
@@ -43,6 +50,8 @@ const DatePicker = (props: Props) => {
             <CompanyCalendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
+              days={days}
+              types={'customer'}
             />
             <Explanation>
               * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며,
@@ -52,16 +61,30 @@ const DatePicker = (props: Props) => {
             <Schedule>
               <h3 className="name">선택된 일정</h3>
               <UL>
-                {selectedDays.map((day, index) => (
-                  <li className="list" key={index}>
-                    <div className="img-box">
-                      <Image src={ScheduleIcon} alt="img" />
-                    </div>
-                    <div className="due-date">
-                      <div>현장실사 방문 예정일</div>
-                      <div>{day}</div>
-                    </div>
-                  </li>
+                {days.map((day, index) => (
+                  <>
+                    {selectedDays !== '' && day == selectedDays ? (
+                      <li className="list selected" key={index}>
+                        <div className="img-box">
+                          <Image src={ScheduleIcon} alt="img" />
+                        </div>
+                        <div className="due-date">
+                          <div>현장실사 방문 예정일</div>
+                          <div>{day}</div>
+                        </div>
+                      </li>
+                    ) : (
+                      <li className="list" key={index}>
+                        <div className="img-box">
+                          <Image src={ScheduleIcon} alt="img" />
+                        </div>
+                        <div className="due-date">
+                          <div>현장실사 방문 예정일</div>
+                          <div>{day}</div>
+                        </div>
+                      </li>
+                    )}
+                  </>
                 ))}
               </UL>
             </Schedule>
@@ -158,7 +181,7 @@ const Explanation = styled.p`
   border-bottom: 1px solid #e9eaee;
 `;
 const Schedule = styled.div`
-  padding: 18pt 15pt 0 15pt;
+  padding: 18pt 15pt 70pt 15pt;
   .name {
     font-weight: 700;
     font-size: 12pt;
@@ -169,7 +192,7 @@ const Schedule = styled.div`
 const UL = styled.ul`
   padding-top: 24pt;
   .list {
-    background-color: rgba(90, 45, 201, 0.7);
+    background-color: #e2e5ed;
     border-radius: 6pt;
     padding: 6pt;
     margin-bottom: 9pt;
@@ -185,7 +208,11 @@ const UL = styled.ul`
     color: ${colors.lightWhite};
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    justify-content: center;
+    gap: 6pt;
+  }
+  .selected {
+    background-color: ${colors.main};
   }
 `;
 const Btn = styled.button`

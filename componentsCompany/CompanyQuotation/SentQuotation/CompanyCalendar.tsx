@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import LeftArrow from 'public/mypage/left-arrow.png';
@@ -7,22 +13,42 @@ import Image from 'next/image';
 import { css } from '@emotion/react';
 
 interface Props {
-  selectedDays: string[];
-  SetSelectedDays: Dispatch<SetStateAction<string[]>>;
+  selectedDays: string;
+  SetSelectedDays: Dispatch<SetStateAction<string>>;
+  days: string[];
+  types: string;
 }
 
-const CompanyCalendar = ({ selectedDays, SetSelectedDays }: Props) => {
+const CompanyCalendar = ({
+  days,
+  selectedDays,
+  SetSelectedDays,
+  types,
+}: Props) => {
   const today = {
     year: new Date().getFullYear(), //오늘 연도
     month: new Date().getMonth() + 1, //오늘 월
     date: new Date().getDate(), //오늘 날짜
     day: new Date().getDay(), //오늘 요일
   };
+
+  let a: any = [];
+  const c = () => {
+    for (let i = 0; i < days.length; i++) {
+      a.push(days[i].split('.'));
+    }
+
+    console.log(a);
+  };
+  c();
   const week = ['일', '월', '화', '수', '목', '금', '토']; //일주일
   const [selectedYear, setSelectedYear] = useState(today.year); //현재 선택된 연도
   const [selectedMonth, setSelectedMonth] = useState(today.month); //현재 선택된 달
   const dateTotalCount = new Date(selectedYear, selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
   //이전 달 보기 보튼
+  useEffect(() => {
+    console.log(selectedDays);
+  }, [selectedDays]);
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
       setSelectedMonth(12);
@@ -57,17 +83,177 @@ const CompanyCalendar = ({ selectedDays, SetSelectedDays }: Props) => {
     for (const nowDay of week) {
       const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
       // 달력 날짜 추가
+
+      // 위에가 고객선택날짜 중에 선택 아래는 날짜 제안
       if (week[day] === nowDay) {
-        for (let i = 0; i < dateTotalCount; i++) {
-          dayArr.push(
-            <Day
-              selectedDay={selectedDay(i + 1)}
-              key={i + 1}
-              onClick={() => HandleSelectedDay(i + 1)}
-            >
-              <div className="item">{i + 1}</div>
-            </Day>,
-          );
+        if (types === 'customer') {
+          for (let i = 0; i < dateTotalCount; i++) {
+            if (
+              a[0].includes(selectedYear.toString()) &&
+              a[0].includes(selectedMonth.toString()) &&
+              a[0][2] === (i + 1).toString()
+            ) {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item customerDate">{i + 1}</div>
+                </Day>,
+              );
+            } else if (
+              a[1].includes(selectedYear.toString()) &&
+              a[1].includes(selectedMonth.toString()) &&
+              a[1][2] === (i + 1).toString()
+            ) {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item customerDate">{i + 1}</div>
+                </Day>,
+              );
+            } else if (
+              a[2].includes(selectedYear.toString()) &&
+              a[2].includes(selectedMonth.toString()) &&
+              a[2][2] === (i + 1).toString()
+            ) {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item customerDate">{i + 1}</div>
+                </Day>,
+              );
+            } else if (
+              a[3].includes(selectedYear.toString()) &&
+              a[3].includes(selectedMonth.toString()) &&
+              a[3][2] === (i + 1).toString()
+            ) {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item customerDate">{i + 1}</div>
+                </Day>,
+              );
+            } else if (
+              a[4].includes(selectedYear.toString()) &&
+              a[4].includes(selectedMonth.toString()) &&
+              a[4][2] === (i + 1).toString()
+            ) {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item customerDate">{i + 1}</div>
+                </Day>,
+              );
+            } else {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  // onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item">{i + 1}</div>
+                </Day>,
+              );
+            }
+          }
+        } else if (types === 'company') {
+          for (let i = 0; i < dateTotalCount; i++) {
+            if (
+              a[0].includes(selectedYear.toString()) &&
+              a[0].includes(selectedMonth.toString()) &&
+              a[0][2] === (i + 1).toString()
+            ) {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item picked">{i + 1}</div>
+                </Day>,
+              );
+            } else if (
+              a[1].includes(selectedYear.toString()) &&
+              a[1].includes(selectedMonth.toString()) &&
+              a[1][2] === (i + 1).toString()
+            ) {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item picked">{i + 1}</div>
+                </Day>,
+              );
+            } else if (
+              a[2].includes(selectedYear.toString()) &&
+              a[2].includes(selectedMonth.toString()) &&
+              a[2][2] === (i + 1).toString()
+            ) {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item picked">{i + 1}</div>
+                </Day>,
+              );
+            } else if (
+              a[3].includes(selectedYear.toString()) &&
+              a[3].includes(selectedMonth.toString()) &&
+              a[3][2] === (i + 1).toString()
+            ) {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item picked">{i + 1}</div>
+                </Day>,
+              );
+            } else if (
+              a[4].includes(selectedYear.toString()) &&
+              a[4].includes(selectedMonth.toString()) &&
+              a[4][2] === (i + 1).toString()
+            ) {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item picked">{i + 1}</div>
+                </Day>,
+              );
+            } else {
+              dayArr.push(
+                <Day
+                  selectedDay={selectedDay(i + 1)}
+                  key={i + 1}
+                  // onClick={() => HandleSelectedDay(i + 1)}
+                >
+                  <div className="item">{i + 1}</div>
+                </Day>,
+              );
+            }
+          }
         }
       } else {
         // 공백 추가
@@ -81,7 +267,7 @@ const CompanyCalendar = ({ selectedDays, SetSelectedDays }: Props) => {
   const selectedDay = (day: number): boolean => {
     // 년,월,일 날짜
     const date = selectedYear + '.' + selectedMonth + '.' + day;
-    return selectedDays.includes(date) ? true : false;
+    return selectedDays === date ? true : false;
   };
   // 날짜 차이 계산
   const CalculateDifference = (day: number) => {
@@ -100,15 +286,15 @@ const CompanyCalendar = ({ selectedDays, SetSelectedDays }: Props) => {
     // 이전 날짜 클릭 금지 조건문
     if (differencerDate > 0) return;
     // 클릭 취소
-    if (selectedDays.includes(selectedDate)) {
-      const temp = [...selectedDays];
-      const index = temp.indexOf(selectedDate);
-      temp.splice(index, 1);
-      SetSelectedDays(temp);
+    if (selectedDays === selectedDate) {
+      // const temp = selectedDays;
+      // const index = temp.indexOf(selectedDate);
+      // temp.splice(index, 1);
+      SetSelectedDays('');
       // 최대 5개까지 선택 가능
-    } else if (selectedDays.length < 5) {
-      day;
-      SetSelectedDays([...selectedDays, selectedDate]);
+    } else {
+      // day;
+      SetSelectedDays(selectedDate);
     }
   };
 
@@ -218,5 +404,13 @@ const Day = styled.div<{ selectedDay?: boolean }>`
         color: ${colors.lightWhite};
         border-radius: 50%;
       `};
+  }
+  .customerDate {
+    border: 1px solid ${colors.main};
+    border-radius: 50%;
+  }
+  .picked {
+    color: #e2e5ed;
+    text-decoration: line-through;
   }
 `;
