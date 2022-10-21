@@ -60,7 +60,7 @@ export const productList = () => {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return axios({
     method: 'get',
-    url: `${BASE_URL}/api/products`,
+    url: `${BASE_URL}/products`,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       ContentType: 'application/json',
