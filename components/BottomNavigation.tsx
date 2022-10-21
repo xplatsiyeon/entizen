@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
 type Props = {
-  requests: number;
+  requests?: number;
 };
 
 const BottomNavigation = ({ requests }: Props) => {
@@ -93,7 +93,7 @@ const BottomNavigation = ({ requests }: Props) => {
                 router.push('/company/quotation');
               }}
             >
-              {requests === 0 && (
+              {requests && requests === 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -106,7 +106,7 @@ const BottomNavigation = ({ requests }: Props) => {
                   />
                 </ImgBox>
               )}
-              {requests > 0 && (
+              {requests && requests > 0 && (
                 <ImgBox>
                   <Image
                     src={
