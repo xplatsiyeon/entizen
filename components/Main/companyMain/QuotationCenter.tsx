@@ -19,7 +19,7 @@ const QuotationCenter = ({ requests }: Props) => {
         <Image src={lightning} alt="lightning" />
       </ImgBox>
 
-      {requests === 0 ? (
+      {requests && requests === 0 ? (
         <TopImgBox>
           <Image src={emptyClipboardText} alt="emptyClipboardText" />
         </TopImgBox>
@@ -31,7 +31,7 @@ const QuotationCenter = ({ requests }: Props) => {
           </BlueIcon>
         </TopImgBox>
       )}
-      {requests >= 1 ? (
+      {requests && requests >= 1 ? (
         <>
           <Reqeusts>{requests}건의 견적 요청이 있습니다!</Reqeusts>
           <RequestInfo>
