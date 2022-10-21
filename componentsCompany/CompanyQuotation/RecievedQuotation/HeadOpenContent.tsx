@@ -19,7 +19,7 @@ import { GetServerSideProps } from 'next';
 import { type } from 'os';
 
 type Props = {
-  id: string;
+  // id: string;
 };
 interface Components {
   [key: number]: JSX.Element;
@@ -59,9 +59,9 @@ export interface Chargers {
 const target = 3;
 const TAG =
   'componentsCompany/CompanyQuotation/RecivedQuotation/HeadOpenContent';
-const HeadOpenContent = ({ id }: Props) => {
+const HeadOpenContent = ({}: Props) => {
   const router = useRouter();
-  // const routerId = router?.query?.id!;
+  const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
   const [text, setText] = useState<string>('');
   // step 숫자
@@ -77,13 +77,18 @@ const HeadOpenContent = ({ id }: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   //  api 요청
-  const { data, isError, isLoading } = useQuery('receivedRequest/id', () =>
-    isTokenApi({
-      method: 'GET',
-      endpoint: `/quotations/received-request/${id}`,
-    }),
+  const { data, isError, isLoading, refetch } = useQuery(
+    'receivedRequest/id',
+    () =>
+      isTokenApi({
+        method: 'GET',
+        endpoint: `/quotations/received-request/${routerId}`,
+      }),
+    {
+      enabled: !routerId,
+    },
   );
-  console.log(TAG + 'router id -> ' + id);
+  console.log(TAG + 'router id -> ' + routerId);
   console.log(data);
 
   // step별 컴포넌트
@@ -169,6 +174,15 @@ const HeadOpenContent = ({ id }: Props) => {
     if (router.pathname.includes('asGoReview')) setText('완료대기');
     if (router.pathname.includes('asReviewEnd')) setText('A/S완료');
   }, [router]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      const { id } = router.query;
+      if (id) {
+        refetch();
+      }
+    }
+  }, [router.isReady]);
 
   return (
     <>
@@ -292,15 +306,15 @@ const HeadOpenContent = ({ id }: Props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  query: { id },
-}) => {
-  return {
-    props: {
-      id,
-    },
-  };
-};
+// export const getServerSideProps: GetServerSideProps = async ({
+//   query: { id },
+// }) => {
+//   return {
+//     props: {
+//       id,
+//     },
+//   };
+// };
 
 const Wrapper = styled.div`
   display: block;
