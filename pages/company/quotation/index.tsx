@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { isTokenApi, isTokenApiT } from 'api/index';
+import { isTokenApi } from 'api/index';
 import BottomNavigation from 'components/BottomNavigation';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
@@ -22,6 +22,11 @@ interface ReceivedRequest {
   receivedQuotationRequests: receivedQuotationRequests[];
 }
 
+interface Test extends ReceivedRequest {
+  data: ReceivedRequest;
+  [key: string]: any;
+}
+
 export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순 보기';
 
 const TAP = 'company/quotation/index.tsx';
@@ -34,7 +39,7 @@ const CompanyQuotations = (props: Props) => {
     useState<filterType>('마감일순 보기');
   const [keyword, setKeyword] = useState('');
   // api 호출
-  const { data, isLoading } = useQuery<any>(
+  const { data, isLoading } = useQuery(
     'receivedRequest',
     () =>
       isTokenApi({
@@ -48,8 +53,6 @@ const CompanyQuotations = (props: Props) => {
       },
     },
   );
-
-  console.log(data);
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
@@ -73,6 +76,7 @@ const CompanyQuotations = (props: Props) => {
         {/* 받은 요청 */}
         {tabNumber === 0 && (
           <RecieveRequest
+            queryData={data?.data.receivedQuotationRequests}
             // queryData={queryData}
             checkedFilterIndex={checkedFilterIndex}
           />

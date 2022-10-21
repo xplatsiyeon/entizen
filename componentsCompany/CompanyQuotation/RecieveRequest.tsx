@@ -7,39 +7,17 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 
 type Props = {
-  // queryData: any;
+  queryData: Data[];
   checkedFilterIndex: number;
 };
 interface Data {
-  id: number;
+  quotationRequestIdx: number;
   badge: string;
-  location: string;
+  installationAddress: string;
 }
-const tempProceeding: Data[] = [
-  {
-    id: 0,
-    badge: '견적마감 D-1',
-    location: '서울시 관악구 난곡로',
-  },
-  {
-    id: 1,
-    badge: '현장실사 D-2',
-    location: '서울시 관악구 난곡로',
-  },
-  {
-    id: 2,
-    badge: '대기 D-3',
-    location: '서울시 관악구1 난곡로',
-  },
-  {
-    id: 3,
-    badge: '낙찰성공',
-    location: '서울시 관악구1 난곡로',
-  },
-];
-const RecieveRequest = ({ checkedFilterIndex }: Props) => {
+const RecieveRequest = ({ checkedFilterIndex, queryData }: Props) => {
   const router = useRouter();
-  const [data, setData] = useState<Data[]>(tempProceeding);
+  // const [data, setData] = useState<Data[]>(tempProceeding);
 
   // 뱃지 변경
   const HandleColor = (badge: string): string => {
@@ -56,28 +34,28 @@ const RecieveRequest = ({ checkedFilterIndex }: Props) => {
     } else return colors.main;
   };
 
-  // 상태 필터에 따른 데이터 변경
-  useEffect(() => {
-    switch (checkedFilterIndex) {
-      case 1: // 상태순
-        console.log('1이다');
-        setData(tempProceeding.sort((a, b) => b.id - a.id));
-        break;
-      case 2: // 날짜순
-        console.log('2이다');
-        break;
-      default: // 마감일순
-        0;
-        setData(tempProceeding.sort((a, b) => a.id - b.id));
-        break;
-    }
-  }, [data, checkedFilterIndex]);
+  // // 상태 필터에 따른 데이터 변경
+  // useEffect(() => {
+  //   switch (checkedFilterIndex) {
+  //     case 1: // 상태순
+  //       console.log('1이다');
+  //       setData(tempProceeding.sort((a, b) => b.id - a.id));
+  //       break;
+  //     case 2: // 날짜순
+  //       console.log('2이다');
+  //       break;
+  //     default: // 마감일순
+  //       0;
+  //       setData(tempProceeding.sort((a, b) => a.id - b.id));
+  //       break;
+  //   }
+  // }, [data, checkedFilterIndex]);
 
   return (
     <ContentsContainer>
-      {data.map((el, index) => (
+      {queryData.map((el) => (
         <Contents
-          key={index}
+          key={el.quotationRequestIdx}
           onClick={() => router.push('/company/recievedRequest')}
         >
           <DdayNAddress>
@@ -88,7 +66,7 @@ const RecieveRequest = ({ checkedFilterIndex }: Props) => {
                 bottom={'12pt'}
               />
             </DdayBox>
-            <AddressBox>{el.location}</AddressBox>
+            <AddressBox>{el.installationAddress}</AddressBox>
           </DdayNAddress>
           <IconBox>
             <ArrowIconBox>
