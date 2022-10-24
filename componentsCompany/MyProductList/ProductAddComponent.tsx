@@ -167,8 +167,8 @@ const ProductAddComponent = (props: Props) => {
 
       const formData = new FormData();
       formData.append('chargerProduct', files[i]);
-      formData.set('chargerProduct', encodeURIComponent(files[i].name));
-      console.log(encodeURIComponent(files[i].name));
+      // formData.set('chargerProduct', encodeURIComponent(files[i].name));
+      // console.log(encodeURIComponent(files[i].name));
       console.log(formData);
       multer(formData);
 
