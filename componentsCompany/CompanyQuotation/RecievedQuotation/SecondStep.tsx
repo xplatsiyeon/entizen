@@ -236,14 +236,14 @@ const SecondStep = ({
         myEstimateAction.setCharge({
           index: StepIndex,
           data: {
-            chargeType:
+            chargePriceType:
               chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            fee: fee,
-            productItem: productItem,
-            manufacturingCompany: manufacturingCompany,
-            chargeFeatures: chargeFeatures,
-            chargeImage: imgArr,
-            chargeFile: fileArr,
+            chargePrice: fee,
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
           },
         }),
       );
