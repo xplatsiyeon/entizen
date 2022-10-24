@@ -165,18 +165,17 @@ const ProductAddComponent = (props: Props) => {
       if (files![i] === undefined) {
         break;
       }
-      // multer s3
-      arr.push(files[i].name);
-      // console.log(formData);
 
+      // formData.append('chargerProduct', files[i], encodeURIComponent(files[i].name)
       formData.append(
         'chargerProduct',
         files[i],
-        encodeURIComponent(files[i].name),
+        files[i].name.toString('utf8'),
       );
-      files[i].name.toString("utf8")
-      
-      formData.append('chargerProduct', files[i]);
+
+      // multer s3
+      // arr.push(files[i].name);
+      // console.log(formData);
 
       // formData.append('chargerProduct', encodeURIComponent(files[i].name));
       // formData.append('chargerProduct', files[i].size);
