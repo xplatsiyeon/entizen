@@ -174,7 +174,9 @@ const ProductAddComponent = (props: Props) => {
         files[i],
         encodeURIComponent(files[i].name),
       );
-      formData.append('chargerProduct', files[i], files[i].name);
+      files[i].name.toString("utf8")
+      
+      formData.append('chargerProduct', files[i]);
 
       // formData.append('chargerProduct', encodeURIComponent(files[i].name));
       // formData.append('chargerProduct', files[i].size);
