@@ -64,15 +64,13 @@ const ProductAddComponent = (props: Props) => {
       }
     },
   });
-  const { mutate: multer, isLoading: multerLoading } = useMutation(multerApi, {
+  const {
+    data,
+    mutate: multer,
+    isLoading: multerLoading,
+  } = useMutation(multerApi, {
     onSuccess: (res) => {
       console.log(res);
-      // router.push('/company/myProductList');
-      // newArr.push({
-      //   url: imageUrl,
-      //   size: imageSize,
-      //   originalName: imageName,
-      // });
     },
     onError: (error: any) => {
       if (error.response.data) {
@@ -165,21 +163,23 @@ const ProductAddComponent = (props: Props) => {
       }
       // multer s3
       const formData = new FormData();
-      formData.append('chargerProduct', files[0]);
+      formData.append('chargerProduct', files[i]);
       multer(formData);
       // console.log(formData);
       // 이미지 객체 생성 후 상태에 저장
       // const imageUrl = URL.createObjectURL(files![i]);
-      // const imageName = files![i].name;
-      // const imageSize = files![i].size;
-
-      // newArr.push({
-      //   url: imageUrl,
-      //   size: imageSize,
-      //   originalName: imageName,
-      // });
+      const imageName = files![i].name;
+      const imageSize = files![i].size;
+      console.log('-----mutate data ------');
+      console.log(data);
+      //   newArr.push({
+      //     url: imageUrl,
+      //     size: imageSize,
+      //     originalName: imageName,
+      //   });
+      // }
+      // setImgArr(newArr);
     }
-    setImgArr(newArr);
   };
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
