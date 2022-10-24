@@ -104,15 +104,38 @@ const SecondStep = ({
   // 포스트 버튼
   const onClickPost = () => {
     console.log(TAP + '-> 포스트');
-    postMutate({
-      url: `/quotations/pre/${routerId}`,
-      data: {
-        subscribePricePerMonth: subscribePricePerMonth,
-        constructionPeriod: constructionPeriod,
-        subscribeProductFeature: subscribeProductFeature,
-        chargers: newCharge,
-      },
-    });
+    // 스텝2까지밖에 없을 때
+    if (maxIndex === 1) {
+      postMutate({
+        url: `/quotations/pre/${routerId}`,
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: subscribeProductFeature,
+          chargers: {
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
+          },
+        },
+      });
+      // 스텝2이상일 때
+    } else {
+      postMutate({
+        url: `/quotations/pre/${routerId}`,
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: subscribeProductFeature,
+          chargers: newCharge.slice(0, maxIndex),
+        },
+      });
+    }
   };
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
