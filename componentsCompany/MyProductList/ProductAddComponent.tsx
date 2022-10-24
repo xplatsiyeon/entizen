@@ -81,8 +81,8 @@ const ProductAddComponent = (props: Props) => {
     isLoading: multerLoading,
   } = useMutation<MulterResponse, AxiosError, FormData>(multerApi, {
     onSuccess: (res) => {
-      // console.log(TAG + 'multer 테스트');
-      // console.log(res);
+      console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      console.log(res);
       const newArr = [...imgArr];
       res?.uploadedFiles.forEach((img) => {
         newArr.push({
