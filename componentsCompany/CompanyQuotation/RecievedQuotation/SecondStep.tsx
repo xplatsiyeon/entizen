@@ -24,6 +24,7 @@ import { isTokenPostApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { inputPriceFormat } from 'utils/changeComma';
+import { AxiosError } from 'axios';
 
 type Props = {
   tabNumber: number;
@@ -85,7 +86,7 @@ const SecondStep = ({
 
   // api 호출
   const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
-    onSuccess: (res) => {
+    onSuccess: () => {
       router.push('/company/recievedRequest/complete');
     },
     onError: (error: any) => {
@@ -103,52 +104,13 @@ const SecondStep = ({
     },
   });
 
+  // 모달 클릭
   const onClickModal = () => {
     if (networkError) {
       setIsModal(false);
       router.push('/company/quotation');
     } else {
       setIsModal(false);
-    }
-  };
-  // 포스트 버튼
-  const onClickPost = () => {
-    console.log(TAP + '-> 포스트');
-    // 스텝2까지밖에 없을 때
-    if (maxIndex === 1) {
-      postMutate({
-        url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: [
-            {
-              chargePriceType:
-                chargeTypeNumber !== -1
-                  ? chargeTypeListEn[chargeTypeNumber]
-                  : '',
-              chargePrice: Number(fee.replaceAll(',', '')),
-              modelName: productItem,
-              manufacturer: manufacturingCompany,
-              feature: chargeFeatures,
-              chargerImageFiles: imgArr,
-              catalogFiles: fileArr,
-            },
-          ],
-        },
-      });
-      // 스텝2이상일 때
-    } else {
-      postMutate({
-        url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: newCharge.slice(0, maxIndex),
-        },
-      });
     }
   };
 
@@ -246,7 +208,6 @@ const SecondStep = ({
   const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
     setProductItem(e.target.value as chargerData);
   };
-
   // 이전 버튼
   const handlePrevBtn = () => {
     if (tabNumber > 0) {
@@ -287,6 +248,46 @@ const SecondStep = ({
         }),
       );
       setTabNumber(tabNumber + 1);
+    }
+  };
+  // 포스트 버튼
+  const onClickPost = () => {
+    console.log(TAP + '-> 포스트');
+    // 스텝2까지밖에 없을 때
+    if (maxIndex === 1) {
+      postMutate({
+        url: `/quotations/pre/${routerId}`,
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: subscribeProductFeature,
+          chargers: [
+            {
+              chargePriceType:
+                chargeTypeNumber !== -1
+                  ? chargeTypeListEn[chargeTypeNumber]
+                  : '',
+              chargePrice: Number(fee.replaceAll(',', '')),
+              modelName: productItem,
+              manufacturer: manufacturingCompany,
+              feature: chargeFeatures,
+              chargerImageFiles: imgArr,
+              catalogFiles: fileArr,
+            },
+          ],
+        },
+      });
+      // 스텝2이상일 때
+    } else {
+      postMutate({
+        url: `/quotations/pre/${routerId}`,
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: subscribeProductFeature,
+          chargers: newCharge.slice(0, maxIndex),
+        },
+      });
     }
   };
 

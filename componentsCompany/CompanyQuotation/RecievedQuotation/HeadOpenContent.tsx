@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
@@ -13,12 +13,11 @@ import Btn from 'components/SignUp/button';
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import { useMutation, useQuery } from 'react-query';
-import { isTokenApi } from 'api';
-import { GetServerSideProps } from 'next';
-import { type } from 'os';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+
 import { convertKo, HandleColor } from 'utils/changeValue';
-import { QuotationsDetail, quotationsDetail } from 'api/company/quotations';
+
 import {
   InstallationPurposeType,
   InstallationPurposeTypeEn,
@@ -33,8 +32,10 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
+import { AxiosError } from 'axios';
+import Modal from 'components/Modal/Modal';
+import Loader from 'components/Loader';
 
-type Props = {};
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -42,7 +43,26 @@ export interface reviewType {
   productImg: any;
   createDt: number;
 }
-
+interface QuotationsDetailChargers {
+  kind: string;
+  standType: string;
+  channel: string;
+  count: number;
+}
+interface QuotationsDetail {
+  isSuccess: boolean;
+  receivedQuotationRequest: {
+    badge: string;
+    installationAddress: string;
+    subscribeProduct: string;
+    subscribePeriod: number;
+    investRate: string;
+    chargers: QuotationsDetailChargers[];
+    installationLocation: string;
+    installationPurpose: string;
+    etcRequest: string;
+  };
+}
 interface Response {
   data: QuotationsDetail;
 }
@@ -73,15 +93,13 @@ export interface Chargers {
     },
   ];
 }
-// 임시값
 
 const TAG =
   'componentsCompany/CompanyQuotation/RecivedQuotation/HeadOpenContent';
-const HeadOpenContent = ({}: Props) => {
+const HeadOpenContent = () => {
   const router = useRouter();
   const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
-  const [text, setText] = useState<string>('');
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(-1);
   // button on off
@@ -95,15 +113,9 @@ const HeadOpenContent = ({}: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   //  api 요청
-  const { data, isError, isLoading, refetch } = useQuery<Response>(
+  const { data, isError, isLoading } = useQuery<Response, AxiosError>(
     'receivedRequest/id',
-    () => quotationsDetail(routerId),
-    // () =>
-    //   isTokenApi({
-    //     method: 'GET',
-    //     endpoint: `/quotations/received-request/${routerId}`,
-    //   }),
-
+    () => isTokenGetApi(`/quotations/received-request/${routerId}`),
     {
       enabled: router.isReady,
     },
@@ -192,6 +204,12 @@ const HeadOpenContent = ({}: Props) => {
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
 
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
+  }
   return (
     <>
       {modalOpen && (

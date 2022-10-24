@@ -80,9 +80,7 @@ const FirstStep = ({
         <div className="withAfter">공사기간</div>
         <div>
           <Input
-            onChange={(e) =>
-              setConstructionPeriod(inputPriceFormat(e.target.value))
-            }
+            onChange={(e) => setConstructionPeriod(e.target.value)}
             value={constructionPeriod}
             name="constructionPeriod"
           />

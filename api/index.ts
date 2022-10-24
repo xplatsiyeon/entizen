@@ -5,7 +5,7 @@ interface ApiProps {
   endpoint: string;
   data?: any;
 }
-interface PostAPi {
+interface PropsApi {
   url: string;
   data?: any;
 }
@@ -74,21 +74,9 @@ export const isTokenGetApi = async (url: string) => {
   }).then((res) => res);
 };
 // -----------------------------post-api--------------------------------------
-// API 호출 (토큰 X)
-export const postApi = async (url: string, data: any) => {
-  return await axios({
-    method: 'POST',
-    url: `${BASE_URL}${url}`,
-    data,
-    headers: {
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
-  }).then((res) => res.data);
-};
 // API 호출 (토큰 O)
 // export const isTokenPostApi = async (url: string, data: any) => {
-export const isTokenPostApi = async (apiInfo: PostAPi) => {
+export const isTokenPostApi = async (apiInfo: PropsApi) => {
   const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return await axios({
@@ -104,7 +92,8 @@ export const isTokenPostApi = async (apiInfo: PostAPi) => {
 };
 // -----------------------------patch/put-api--------------------------------------
 // API 호출 (토큰 O)
-export const isTokenPatchApi = async (url: string, data: string) => {
+export const isTokenPatchApi = async (apiInfo: PropsApi) => {
+  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return await axios({
     method: 'PATCH',
@@ -119,7 +108,8 @@ export const isTokenPatchApi = async (url: string, data: string) => {
 };
 // -----------------------------delete-api--------------------------------------
 // API 호출 (토큰 O)
-export const isTokenDeleteApi = async (url: string, data: string) => {
+export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
+  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return await axios({
     method: 'DELETE',
