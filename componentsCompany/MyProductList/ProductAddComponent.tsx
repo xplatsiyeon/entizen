@@ -16,7 +16,7 @@ import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
-import { isTokenApi, isTokenPostApi } from 'api';
+import { isTokenApi, isTokenPostApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import { convertEn } from 'utils/changeValue';
 
@@ -52,6 +52,27 @@ const ProductAddComponent = (props: Props) => {
   const { mutate: addProduct, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: () => {
       router.push('/company/myProductList');
+    },
+    onError: (error: any) => {
+      if (error.response.data) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+        setNetworkError(true);
+      }
+    },
+  });
+  const { mutate: multer, isLoading: multerLoading } = useMutation(multerApi, {
+    onSuccess: (res) => {
+      console.log(res);
+      // router.push('/company/myProductList');
+      // newArr.push({
+      //   url: imageUrl,
+      //   size: imageSize,
+      //   originalName: imageName,
+      // });
     },
     onError: (error: any) => {
       if (error.response.data) {
@@ -134,6 +155,7 @@ const ProductAddComponent = (props: Props) => {
   // 사진 저장
   const saveFileImage = (e: any) => {
     const { files } = e.target;
+    console.log(files[0]);
     const maxLength = 3;
     const newArr = [...imgArr];
     // max길이 보다 짧으면 멈춤
@@ -141,15 +163,21 @@ const ProductAddComponent = (props: Props) => {
       if (files![i] === undefined) {
         break;
       }
+      // multer s3
+      const formData = new FormData();
+      formData.append('chargerProduct', files[0]);
+      multer(formData);
+      // console.log(formData);
       // 이미지 객체 생성 후 상태에 저장
-      const imageUrl = URL.createObjectURL(files![i]);
-      const imageName = files![i].name;
-      const imageSize = files![i].size;
-      newArr.push({
-        url: imageUrl,
-        size: imageSize,
-        originalName: imageName,
-      });
+      // const imageUrl = URL.createObjectURL(files![i]);
+      // const imageName = files![i].name;
+      // const imageSize = files![i].size;
+
+      // newArr.push({
+      //   url: imageUrl,
+      //   size: imageSize,
+      //   originalName: imageName,
+      // });
     }
     setImgArr(newArr);
   };
