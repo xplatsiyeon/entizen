@@ -132,8 +132,9 @@ export function multerApi(formData: any) {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       // ContentType: 'multipart/form-data; charset=EUC-KR',
-      ContentType: 'multipart/form-data; charset=utf-8',
-      Accept: 'application/json; charset=utf-8',
+      'Content-Type': 'multipart/form-data; charset=utf-8',
+      // Accept: 'application/json; charset=utf-8',
+      Accept: '*/*',
     },
     data: formData,
     withCredentials: true,
