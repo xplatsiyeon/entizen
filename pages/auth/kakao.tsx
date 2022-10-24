@@ -34,7 +34,7 @@ const Auth = () => {
       kakao.isInitialized(REST_API_KEY);
       // access token 설정
       kakao.Auth.setAccessToken(res.data.access_token);
-      router.replace('/profile');
+      router.replace('/auth/kakaoRedirect');
     } catch (err) {
       console.log(err);
     }

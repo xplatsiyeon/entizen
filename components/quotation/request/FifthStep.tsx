@@ -137,7 +137,7 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
             value={fisrtData}
             name="fisrt"
             onChange={handleChange}
-            IconComponent={() => <SelectIcon />}
+            IconComponent={SelectIcon}
             displayEmpty
           >
             <MenuItem value="">
@@ -156,7 +156,7 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
             value={secondData}
             name="second"
             onChange={handleChange2}
-            IconComponent={() => <SelectIcon />}
+            IconComponent={SelectIcon}
             displayEmpty
           >
             <MenuItem value="">
@@ -187,10 +187,9 @@ const Wrraper = styled.div`
   padding-bottom: 96pt;
 
   @media (max-width: 899pt) {
-  padding-left: 15pt;
-  padding-right: 15pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
-
 `;
 const Title = styled.h1`
   padding-top: 24pt;
@@ -244,13 +243,13 @@ const SelectBox = styled(Select)`
     border: none;
   }
   & svg {
-    padding-right: 11.25pt;
+    margin-right: 11.25pt;
   }
 `;
 const SelectIcon = styled(KeyboardArrowDownIcon)`
   width: 18pt;
   height: 18pt;
-  color: ${colors.dark};
+  color: ${colors.dark} !important;
 `;
 const Placeholder = styled.em`
   font-weight: 400;

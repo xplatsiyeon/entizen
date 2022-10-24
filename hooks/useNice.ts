@@ -3,21 +3,10 @@ import { useEffect, useState } from 'react';
 
 const useNice = () => {
   const [data, setData] = useState<any>();
-  const [isId, setIsId] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
   // 나이스 인승
   const fnPopup = (event: any) => {
-    console.log('check');
-    console.log(event?.currentTarget.value);
     const { value } = event.currentTarget;
-    if (value === 'id') {
-      setIsId(true);
-      console.log('id입니다');
-    }
-    if (value === 'password') {
-      setIsPassword(true);
-      console.log('passowrd입니다');
-    }
+
     if (typeof window !== 'object') return;
     else {
       window.open(
@@ -49,7 +38,8 @@ const useNice = () => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return [data, isId, isPassword, fnPopup];
+
+  return [data, fnPopup];
 };
 
 export default useNice;

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, TextField } from '@mui/material';
+import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, {
   Dispatch,
   SetStateAction,
@@ -23,6 +23,7 @@ import { useMutation } from 'react-query';
 import { isTokenApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
+import { inputPriceFormat } from 'utils/changeComma';
 
 type Props = {
   tabNumber: number;
@@ -104,9 +105,9 @@ const SecondStep = ({
     });
   };
 
-  const onChangeInput = (e: any) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setFee(value);
+    setFee(inputPriceFormat(value));
   };
   const handleChargeTypeNumber = (index: number) => {
     setChargeTypeNumber(index);
@@ -195,7 +196,10 @@ const SecondStep = ({
     }
   };
   // 셀렉트 박스 클릭
-  const onChangeSelectBox = (e: any) => setProductItem(e.target.value);
+  const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
+    setProductItem(e.target.value as chargerData);
+  };
+
   // 이전 버튼
   const handlePrevBtn = () => {
     if (tabNumber > 0) {
@@ -349,8 +353,8 @@ const SecondStep = ({
         <SelectContainer>
           <SelectBox
             value={productItem}
-            onChange={(e) => onChangeSelectBox(e)}
-            IconComponent={() => <SelectIcon />}
+            onChange={onChangeSelectBox}
+            IconComponent={SelectIcon}
             displayEmpty
           >
             <MenuItem value="">
@@ -756,7 +760,7 @@ const SelectBox = styled(Select)`
     border: none;
   }
   & svg {
-    padding-right: 11.25pt;
+    margin-right: 11.25pt;
   }
 `;
 const Placeholder = styled.em`
@@ -769,7 +773,7 @@ const Placeholder = styled.em`
 const SelectIcon = styled(KeyboardArrowDownIcon)`
   width: 18pt;
   height: 18pt;
-  color: ${colors.dark};
+  color: ${colors.dark} !important;
 `;
 const TextArea = styled.textarea`
   resize: none;

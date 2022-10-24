@@ -227,7 +227,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
             value={item.kind}
             name="kind"
             onChange={(event) => handleChange(event, index)}
-            IconComponent={() => <SelectIcon />}
+            IconComponent={SelectIcon}
             displayEmpty
           >
             <MenuItem value="">
@@ -246,8 +246,8 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               value={item.standType}
               name="standType"
               onChange={(event) => handleChange(event, index)}
+              IconComponent={SelectIcon}
               displayEmpty
-              IconComponent={() => <SelectIcon />}
             >
               <MenuItem value="">
                 <Placeholder>타입</Placeholder>
@@ -262,7 +262,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               value={item.channel}
               name="channel"
               onChange={(event) => handleChange(event, index)}
-              IconComponent={() => <SelectIcon />}
+              IconComponent={SelectIcon}
               displayEmpty
             >
               <MenuItem value="">
@@ -278,7 +278,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               value={item.count}
               name="count"
               onChange={(event) => handleChange(event, index)}
-              IconComponent={() => <SelectIcon />}
+              IconComponent={SelectIcon}
               displayEmpty
             >
               <MenuItem value="">
@@ -366,12 +366,10 @@ const SelectBox = styled(Select)`
     border: none;
   }
   & svg {
-    padding-right: 11.25pt;
+    margin-right: 11.25pt;
   }
 `;
 const SelectSmall = styled(Select)`
-  display: flex;
-  justify-content: space-between;
   border-radius: 8px;
   margin-top: 9pt;
   font-weight: 400;
@@ -385,10 +383,9 @@ const SelectSmall = styled(Select)`
     padding-left: 12pt;
     padding-top: 13.5pt;
     padding-bottom: 13.5pt;
-    width: 0;
   }
   & svg {
-    padding-right: 12pt;
+    margin-right: 12pt;
   }
   & fieldset {
     border: none;
@@ -397,7 +394,7 @@ const SelectSmall = styled(Select)`
 const SelectIcon = styled(KeyboardArrowDownIcon)`
   width: 18pt;
   height: 18pt;
-  color: ${colors.dark};
+  color: ${colors.dark} !important;
 `;
 const Placeholder = styled.em`
   font-weight: 400;

@@ -9,10 +9,10 @@ function decryptResult(decryptResult) {
       first.click();
     }
   }
-  const second = document.querySelector('.secondNextPage');
-  if (decryptResult) {
-    if (second) {
-      second.click();
-    }
-  }
+  // const second = document.querySelector('.secondNextPage');
+  // if (decryptResult) {
+  //   if (second) {
+  //     second.click();
+  //   }
+  // }
 }

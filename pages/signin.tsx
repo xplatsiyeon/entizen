@@ -40,10 +40,8 @@ export interface FindKey {
 }
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-const REDIRECT_URI = 'https://test-api.entizen.kr/kakaoAuth';
+const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
-const TAP = '/signin';
 
 const Signin = () => {
   const router = useRouter();
@@ -229,7 +227,6 @@ const Signin = () => {
   // 나이스 인증
   useEffect(() => {
     const memberType = loginTypeEnList[selectedLoginType];
-
     axios({
       method: 'post',
       url: 'https://test-api.entizen.kr/api/auth/nice',
@@ -237,7 +234,6 @@ const Signin = () => {
     })
       .then((res) => {
         setData(res.data.executedData);
-        // encodeData = res.data.executedData;
       })
       .catch((error) => {
         console.error(' 2 곳 입니까?');
@@ -245,6 +241,7 @@ const Signin = () => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
+
   // 네이버 로그인
   useEffect(() => {
     login(naverLogin, function (naverLogin) {

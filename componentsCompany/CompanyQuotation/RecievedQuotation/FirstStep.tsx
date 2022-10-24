@@ -4,6 +4,7 @@ import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
+import { inputPriceFormat } from 'utils/changeComma';
 
 type Props = {
   tabNumber: number;
@@ -64,7 +65,9 @@ const FirstStep = ({
         <div className="withAfter">월 구독료</div>
         <div>
           <Input
-            onChange={(e) => setMonthleSubscribePrice(e.target.value)}
+            onChange={(e) =>
+              setMonthleSubscribePrice(inputPriceFormat(e.target.value))
+            }
             value={monthlySubscribePrice}
             name="subscribeMoney"
           />
@@ -75,7 +78,9 @@ const FirstStep = ({
         <div className="withAfter">공사기간</div>
         <div>
           <Input
-            onChange={(e) => setConstructionPeriod(e.target.value)}
+            onChange={(e) =>
+              setConstructionPeriod(inputPriceFormat(e.target.value))
+            }
             value={constructionPeriod}
             name="constructionPeriod"
           />
