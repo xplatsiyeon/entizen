@@ -187,6 +187,14 @@ const ProductAddComponent = (props: Props) => {
       //   size: imageSize,
       //   originalName: imageName,
       // });
+
+      formData.forEach((el) =>
+      console.log(
+        '🚀 ~ file: ProductAddComponent.tsx ~ line 173 ~ saveFileImage ~ el',
+        el,
+      ),
+    );
+    
     }
 
     multer(formData);
