@@ -31,7 +31,7 @@ type Props = {
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   StepIndex: number;
-  maxIndex: number;
+  maxIndex: number | undefined;
   routerId: string | string[];
 };
 
@@ -233,7 +233,7 @@ const SecondStep = ({
   };
   // 다음 버튼
   const handleNextBtn = (e: any) => {
-    if (canNext && tabNumber < maxIndex) {
+    if (canNext && tabNumber < maxIndex!) {
       dispatch(
         myEstimateAction.setCharge({
           index: StepIndex,

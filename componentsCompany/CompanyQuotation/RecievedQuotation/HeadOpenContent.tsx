@@ -74,7 +74,7 @@ export interface Chargers {
   ];
 }
 // 임시값
-const target = 3;
+
 const TAG =
   'componentsCompany/CompanyQuotation/RecivedQuotation/HeadOpenContent';
 const HeadOpenContent = ({}: Props) => {
@@ -108,7 +108,7 @@ const HeadOpenContent = ({}: Props) => {
       enabled: router.isReady,
     },
   );
-
+  // const target =
   console.log(TAG + '받은 요청 id data -->>');
   console.log(data);
 
@@ -137,7 +137,7 @@ const HeadOpenContent = ({}: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={0}
-        maxIndex={target}
+        maxIndex={data?.data.receivedQuotationRequest.chargers.length}
         routerId={routerId}
       />
     ),
@@ -149,7 +149,7 @@ const HeadOpenContent = ({}: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={1}
-        maxIndex={target}
+        maxIndex={data?.data.receivedQuotationRequest.chargers.length}
         routerId={routerId}
       />
     ),
@@ -161,7 +161,7 @@ const HeadOpenContent = ({}: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={2}
-        maxIndex={target}
+        maxIndex={data?.data.receivedQuotationRequest.chargers.length}
         routerId={routerId}
       />
     ),
@@ -173,7 +173,7 @@ const HeadOpenContent = ({}: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={3}
-        maxIndex={target}
+        maxIndex={data?.data.receivedQuotationRequest.chargers.length}
         routerId={routerId}
       />
     ),
@@ -185,7 +185,7 @@ const HeadOpenContent = ({}: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={4}
-        maxIndex={target}
+        maxIndex={data?.data.receivedQuotationRequest.chargers.length}
         routerId={routerId}
       />
     ),
@@ -344,7 +344,8 @@ const HeadOpenContent = ({}: Props) => {
           <TabBox>
             {Object.keys(components).map((tab, index) => (
               <React.Fragment key={index}>
-                {index <= target && (
+                {index <=
+                  data?.data.receivedQuotationRequest.chargers.length! && (
                   <TabLine
                     idx={index.toString()}
                     num={tabNumber.toString()}
