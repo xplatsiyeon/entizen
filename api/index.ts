@@ -128,7 +128,7 @@ export function multerApi(formData: any) {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return axios({
     method: 'POST',
-    url: `${BASE_URL}/profile/upload`,
+    url: `${BASE_URL}/files`,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       ContentType: 'multipart/form-data',
