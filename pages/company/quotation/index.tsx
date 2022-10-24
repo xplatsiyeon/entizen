@@ -4,7 +4,9 @@ import BottomNavigation from 'components/BottomNavigation';
 import useDebounce from 'hooks/useDebounce';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { RootState } from 'store/store';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import Header from '../../../componentsCompany/CompanyQuotation/Header';
 import RecieveRequest from '../../../componentsCompany/CompanyQuotation/RecieveRequest';
@@ -36,7 +38,11 @@ const filterTypeEn = ['deadline', 'status', 'date'];
 const TAP = 'company/quotation/index.tsx';
 const CompanyQuotations = (props: Props) => {
   const dispatch = useDispatch();
-  const [tabNumber, setTabNumber] = useState<number>(0);
+  const { tabNumber } = useSelector(
+    (state: RootState) => state.companyRequestTabNumberData,
+  );
+  // const [tabNumber, setTabNumber] = useState<number>(0);
+
   const [searchWord, setSearchWord] = useState<string>('');
   const [checkedFilterIndex, setCheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
@@ -74,8 +80,6 @@ const CompanyQuotations = (props: Props) => {
         <Header />
         {/* 탭 / 필터링 / 검색창 */}
         <Tab
-          tabNumber={tabNumber}
-          setTabNumber={setTabNumber}
           searchWord={searchWord}
           setSearchWord={setSearchWord}
           checkedFilterIndex={checkedFilterIndex}

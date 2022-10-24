@@ -72,6 +72,7 @@ const SecondStep = ({
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // 리덕스
   const {
@@ -85,8 +86,7 @@ const SecondStep = ({
   // api 호출
   const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (res) => {
-      console.log(res);
-      // router.push('/company/recievedRequest/complete');
+      router.push('/company/recievedRequest/complete');
     },
     onError: (error: any) => {
       const {
@@ -98,10 +98,19 @@ const SecondStep = ({
       } else {
         setErrorMessage('다시 시도해주세요');
         setIsModal(true);
-        // router.push('/company/quotation');
+        setNetworkError(true);
       }
     },
   });
+
+  const onClickModal = () => {
+    if (networkError) {
+      setIsModal(false);
+      router.push('/company/quotation');
+    } else {
+      setIsModal(false);
+    }
+  };
   // 포스트 버튼
   const onClickPost = () => {
     console.log(TAP + '-> 포스트');
@@ -347,7 +356,7 @@ const SecondStep = ({
   return (
     <>
       {/* 에러 모달 */}
-      {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
+      {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <Wrapper>
         <TopStep>
           <div>STEP {tabNumber + 1}</div>
