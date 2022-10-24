@@ -166,8 +166,7 @@ const ProductAddComponent = (props: Props) => {
         break;
       }
 
-      // formData.append('chargerProduct', files[i], encodeURIComponent(files[i].name)
-      formData.append('chargerProduct', files[i]);
+      formData.append('chargerProduct', files[i], encodeURIComponent(files[i].name))
 
       // multer s3
       // arr.push(files[i].name);
@@ -184,13 +183,8 @@ const ProductAddComponent = (props: Props) => {
       //   size: imageSize,
       //   originalName: imageName,
       // });
+      console.log("🚀 ~ file: ProductAddComponent.tsx ~ line 189 ~ saveFileImage ~ formData", formData)
 
-      formData.forEach((el) =>
-        console.log(
-          '🚀 ~ file: ProductAddComponent.tsx ~ line 173 ~ saveFileImage ~ el',
-          el,
-        ),
-      );
     }
 
     multer(formData);
