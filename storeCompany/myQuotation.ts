@@ -13,72 +13,75 @@ interface Upload {
   originalName: string;
 }
 interface chargers {
-  chargeType: '' | '구매자 자율' | '운영사업자 입력';
-  fee: string;
-  productItem: chargerData;
-  manufacturingCompany: string;
-  chargeFeatures: string;
-  chargeImage: Upload[];
-  chargeFile: Upload[];
+  chargePriceType:
+    | ''
+    | 'PURCHASER_AUTONOMY'
+    | 'OPERATION_BUSINESS_CARRIER_INPUT';
+  chargePrice: number;
+  modelName: chargerData;
+  manufacturer: string;
+  feature: string;
+  chargerImageFiles: Upload[];
+  catalogFiles: Upload[];
 }
 
 // 1스텝 + 2스텝
 interface StateType {
-  subscription: number;
-  period: number;
-  features: string;
-  charge: chargers[];
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string;
+  chargers: chargers[];
 }
 
 const initialState: StateType = {
-  subscription: 0,
-  period: 0,
-  features: '',
-  charge: [
+  subscribePricePerMonth: 0,
+  constructionPeriod: 0,
+  subscribeProductFeature: '',
+  chargers: [
     {
-      chargeType: '',
-      fee: '',
-      productItem: '',
-      manufacturingCompany: '',
-      chargeFeatures: '',
-      chargeImage: [],
-      chargeFile: [],
+      chargePriceType: '',
+      chargePrice: 0,
+      modelName: '',
+      manufacturer: '',
+      feature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
     },
     {
-      chargeType: '',
-      fee: '',
-      productItem: '',
-      manufacturingCompany: '',
-      chargeFeatures: '',
-      chargeImage: [],
-      chargeFile: [],
+      chargePriceType: '',
+      chargePrice: 0,
+      modelName: '',
+      manufacturer: '',
+      feature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
     },
     {
-      chargeType: '',
-      fee: '',
-      productItem: '',
-      manufacturingCompany: '',
-      chargeFeatures: '',
-      chargeImage: [],
-      chargeFile: [],
+      chargePriceType: '',
+      chargePrice: 0,
+      modelName: '',
+      manufacturer: '',
+      feature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
     },
     {
-      chargeType: '',
-      fee: '',
-      productItem: '',
-      manufacturingCompany: '',
-      chargeFeatures: '',
-      chargeImage: [],
-      chargeFile: [],
+      chargePriceType: '',
+      chargePrice: 0,
+      modelName: '',
+      manufacturer: '',
+      feature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
     },
     {
-      chargeType: '',
-      fee: '',
-      productItem: '',
-      manufacturingCompany: '',
-      chargeFeatures: '',
-      chargeImage: [],
-      chargeFile: [],
+      chargePriceType: '',
+      chargePrice: 0,
+      modelName: '',
+      manufacturer: '',
+      feature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
     },
   ],
 };
@@ -88,16 +91,16 @@ const slice = createSlice({
   initialState,
   reducers: {
     addFisrtData(state, action) {
-      state.subscription = action.payload.subscription;
-      state.period = action.payload.period;
-      state.features = action.payload.features;
+      state.subscribePricePerMonth = action.payload.subscribePricePerMonth;
+      state.constructionPeriod = action.payload.constructionPeriod;
+      state.subscribeProductFeature = action.payload.subscribeProductFeature;
     },
     addCharge(state, action) {
-      state.charge.push(action.payload);
+      state.chargers.push(action.payload);
     },
     setCharge(state, action) {
       const { index, data } = action.payload;
-      state.charge[index] = data;
+      state.chargers[index] = data;
     },
     reset(state) {
       Object.assign(state, initialState);

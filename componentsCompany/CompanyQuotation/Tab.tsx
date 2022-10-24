@@ -18,10 +18,12 @@ import colors from 'styles/colors';
 import checkSvg from 'public/images/check-small.png';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import { filterType } from 'pages/company/quotation';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { companyRequestTabNumberAction } from 'storeCompany/requestTabSlice';
 
 type Props = {
-  tabNumber: number;
-  setTabNumber: Dispatch<SetStateAction<number>>;
   searchWord: string;
   setSearchWord: Dispatch<SetStateAction<string>>;
   checkedFilterIndex: number;
@@ -29,10 +31,13 @@ type Props = {
   checkedFilter: filterType;
   setCheckedFilter: Dispatch<SetStateAction<filterType>>;
 };
-
+const tabName = ['받은 요청', '보낸 견적', '히스토리'];
+const filterList: filterType[] = [
+  '마감일순 보기',
+  '상태순 보기',
+  '날짜순 보기',
+];
 const Tab = ({
-  tabNumber,
-  setTabNumber,
   searchWord,
   setSearchWord,
   checkedFilterIndex,
@@ -40,14 +45,15 @@ const Tab = ({
   checkedFilter,
   setCheckedFilter,
 }: Props) => {
-  const tabName = ['받은 요청', '보낸 견적', '히스토리'];
-
+  const dispatch = useDispatch();
+  const { tabNumber } = useSelector(
+    (state: RootState) => state.companyRequestTabNumberData,
+  );
   const [state, setState] = useState({ bottom: false });
-  const filterList: filterType[] = [
-    '마감일순 보기',
-    '상태순 보기',
-    '날짜순 보기',
-  ];
+
+  const onClickTab = (index: number) => {
+    dispatch(companyRequestTabNumberAction.setNumber(index));
+  };
 
   useEffect(() => {
     setCheckedFilter(filterList[checkedFilterIndex]);
@@ -109,7 +115,7 @@ const Tab = ({
     <>
       <TabBox>
         {tabName.map((el, index) => (
-          <TabLists key={index} onClick={() => setTabNumber(index)}>
+          <TabLists key={index} onClick={() => onClickTab(index)}>
             <TabList
               className={
                 tabNumber !== undefined && tabNumber === index ? 'selected' : ''

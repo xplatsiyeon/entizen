@@ -5,6 +5,10 @@ interface ApiProps {
   endpoint: string;
   data?: any;
 }
+interface PropsApi {
+  url: string;
+  data?: any;
+}
 
 const BASE_URL = 'https://test-api.entizen.kr/api';
 // get => getApi / isTokenGetApi
@@ -70,20 +74,10 @@ export const isTokenGetApi = async (url: string) => {
   }).then((res) => res);
 };
 // -----------------------------post-api--------------------------------------
-// API 호출 (토큰 X)
-export const postApi = async (url: string, data: any) => {
-  return await axios({
-    method: 'POST',
-    url: `${BASE_URL}${url}`,
-    data,
-    headers: {
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
-  }).then((res) => res.data);
-};
 // API 호출 (토큰 O)
-export const isTokenPostApi = async (url: string, data: any) => {
+// export const isTokenPostApi = async (url: string, data: any) => {
+export const isTokenPostApi = async (apiInfo: PropsApi) => {
+  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return await axios({
     method: 'POST',
@@ -98,7 +92,8 @@ export const isTokenPostApi = async (url: string, data: any) => {
 };
 // -----------------------------patch/put-api--------------------------------------
 // API 호출 (토큰 O)
-export const isTokenPatchApi = async (url: string, data: string) => {
+export const isTokenPatchApi = async (apiInfo: PropsApi) => {
+  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return await axios({
     method: 'PATCH',
@@ -113,7 +108,8 @@ export const isTokenPatchApi = async (url: string, data: string) => {
 };
 // -----------------------------delete-api--------------------------------------
 // API 호출 (토큰 O)
-export const isTokenDeleteApi = async (url: string, data: string) => {
+export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
+  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return await axios({
     method: 'DELETE',

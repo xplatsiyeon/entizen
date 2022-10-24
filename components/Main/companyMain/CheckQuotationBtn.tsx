@@ -1,13 +1,17 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import React from 'react';
 import colors from 'styles/colors';
 
 type Props = {};
 
 const CheckQuotationBtn = (props: Props) => {
+  const router = useRouter();
   return (
     <Box>
-      <Btn>견적 요청서 확인하기</Btn>
+      <Btn onClick={() => router.push('/company/quotation')}>
+        견적 요청서 확인하기
+      </Btn>
     </Box>
   );
 };

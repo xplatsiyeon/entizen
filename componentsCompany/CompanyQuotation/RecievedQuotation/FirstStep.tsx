@@ -45,9 +45,11 @@ const FirstStep = ({
     if (canNext) {
       dispatch(
         myEstimateAction.addFisrtData({
-          subscription: monthlySubscribePrice,
-          period: constructionPeriod,
-          features: firstPageTextArea,
+          subscribePricePerMonth: Number(
+            monthlySubscribePrice.replaceAll(',', ''),
+          ),
+          constructionPeriod: Number(constructionPeriod.replaceAll(',', '')),
+          subscribeProductFeature: firstPageTextArea,
         }),
       );
       setTabNumber(tabNumber + 1);
@@ -78,9 +80,7 @@ const FirstStep = ({
         <div className="withAfter">공사기간</div>
         <div>
           <Input
-            onChange={(e) =>
-              setConstructionPeriod(inputPriceFormat(e.target.value))
-            }
+            onChange={(e) => setConstructionPeriod(e.target.value)}
             value={constructionPeriod}
             name="constructionPeriod"
           />

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
-import { productList, Products } from 'api/company/quotations';
+import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import carImg from 'public/images/carImage.png';
@@ -14,7 +15,21 @@ interface ProductList {
   isSuccess: true;
   products: Products[];
 }
+export interface File {
+  url: string;
+  size: number;
+  originalName: string;
+}
 
+export interface Products {
+  representationImageUrl: string;
+  modelName: string;
+  manufacturer: string;
+  watt: string;
+  catalogFiles: File[];
+  chargerProductFile: File[];
+  feature: string;
+}
 export interface ProductListResponse {
   data: ProductList;
 }
@@ -22,16 +37,24 @@ const TAG = 'componentsCompany/MyProductList/ProductList';
 const ProductList = (props: Props) => {
   const { data, isLoading, isError } = useQuery<ProductListResponse>(
     'productList',
-    productList,
+    () => isTokenGetApi('/products'),
   );
   const router = useRouter();
 
   if (isError) {
     console.log(TAG + ' 에러 발생');
     console.log(isError);
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
   }
   if (isLoading) {
-    <Loader />;
+    return <Loader />;
   }
   return (
     <>

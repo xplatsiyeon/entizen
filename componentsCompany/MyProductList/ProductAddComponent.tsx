@@ -16,9 +16,8 @@ import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
-import { isTokenApi } from 'api';
+import { isTokenApi, isTokenPostApi } from 'api';
 import Modal from 'components/Modal/Modal';
-import { addProductList } from 'api/company/quotations';
 import { convertEn } from 'utils/changeValue';
 
 type Props = {};
@@ -47,9 +46,10 @@ const ProductAddComponent = (props: Props) => {
   const [isValid, setIsValid] = useState(false);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // api 호출 (with react-query)
-  const { mutate: addProduct, isLoading } = useMutation(addProductList, {
+  const { mutate: addProduct, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: () => {
       router.push('/company/myProductList');
     },
@@ -58,11 +58,22 @@ const ProductAddComponent = (props: Props) => {
         setErrorMessage(error.response.data.message);
         setIsModal(true);
       } else {
-        alert('다시 시도해주세요');
-        router.push('/');
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+        setNetworkError(true);
       }
     },
   });
+
+  // 모달 클릭
+  const onClickModal = () => {
+    if (networkError) {
+      setIsModal(false);
+      router.push('/company/quotation');
+    } else {
+      setIsModal(false);
+    }
+  };
 
   // SelectBox 값
   const onChangeSelectBox = (e: any, index?: number) => {
@@ -102,14 +113,17 @@ const ProductAddComponent = (props: Props) => {
   const buttonOnClick = () => {
     if (isValid) {
       addProduct({
-        modelName: modelName,
-        chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
-        chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
-        chargerMethods: chargingMethod,
-        manufacturer: manufacturer,
-        feature: advantages,
-        chargerImageFiles: imgArr,
-        catalogFiles: fileArr,
+        url: '/products',
+        data: {
+          modelName: modelName,
+          chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
+          chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
+          chargerMethods: chargingMethod,
+          manufacturer: manufacturer,
+          feature: advantages,
+          chargerImageFiles: imgArr,
+          catalogFiles: fileArr,
+        },
       });
     }
   }; // 사진 온클릭
@@ -214,7 +228,7 @@ const ProductAddComponent = (props: Props) => {
   return (
     <>
       {/* 에러 모달 */}
-      {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
+      {isModal && <Modal click={onClickModal} text={errorMessage} />}
       {/* 헤더 */}
       <CompanyHeader back={true} title={'제품 추가하기'} />
       {/* 인풋 바디 */}

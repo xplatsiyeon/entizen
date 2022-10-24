@@ -1,15 +1,19 @@
 import Complete from 'components/Complete';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { companyRequestTabNumberAction } from 'storeCompany/requestTabSlice';
 
 type Props = {};
 
 const complete = (props: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const onClickFn = () => {
     // 보낸 견적 바로가기
-    router.replace('/');
+    dispatch(companyRequestTabNumberAction.setNumber(1));
+    router.replace('/company/quotation');
   };
 
   return (

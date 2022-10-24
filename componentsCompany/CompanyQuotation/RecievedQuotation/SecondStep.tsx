@@ -20,10 +20,11 @@ import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
 import { useMutation } from 'react-query';
-import { isTokenApi } from 'api';
+import { isTokenPostApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { inputPriceFormat } from 'utils/changeComma';
+import { AxiosError } from 'axios';
 
 type Props = {
   tabNumber: number;
@@ -31,7 +32,8 @@ type Props = {
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   StepIndex: number;
-  maxIndex: number;
+  maxIndex: number | undefined;
+  routerId: string | string[];
 };
 
 const TAP = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
@@ -43,6 +45,7 @@ const SecondStep = ({
   canNext,
   SetCanNext,
   StepIndex,
+  routerId,
 }: Props) => {
   // 사진을 위한 ref
   const dispatch = useDispatch();
@@ -50,6 +53,11 @@ const SecondStep = ({
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
+  const chargeTypeListEn: string[] = [
+    'PURCHASER_AUTONOMY',
+    'OPERATION_BUSINESS_CARRIER_INPUT',
+  ];
+
   const chargerData: string[] = [
     'LECS-007ADE',
     'LECS-006ADE',
@@ -65,15 +73,19 @@ const SecondStep = ({
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // 리덕스
-  const { charge, features, period, subscription } = useSelector(
-    (state: RootState) => state.companymyEstimateData,
-  );
-  const newCharge = charge.slice(0, maxIndex);
+  const {
+    chargers,
+    subscribeProductFeature,
+    constructionPeriod,
+    subscribePricePerMonth,
+  } = useSelector((state: RootState) => state.companymyEstimateData);
+  const newCharge = chargers.slice(0, maxIndex);
 
   // api 호출
-  const { mutate: postMutate, isLoading } = useMutation(isTokenApi, {
+  const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: () => {
       router.push('/company/recievedRequest/complete');
     },
@@ -85,24 +97,21 @@ const SecondStep = ({
         setErrorMessage(data.message);
         setIsModal(true);
       } else {
-        alert('다시 시도해주세요');
-        router.push('/company/quotation');
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+        setNetworkError(true);
       }
     },
   });
-  // 포스트 버튼
-  const onClickPost = () => {
-    console.log(TAP + '-> 포스트');
-    postMutate({
-      endpoint: '/abc',
-      method: 'POST',
-      data: {
-        subscription: subscription,
-        period: period,
-        features: features,
-        charge: newCharge,
-      },
-    });
+
+  // 모달 클릭
+  const onClickModal = () => {
+    if (networkError) {
+      setIsModal(false);
+      router.push('/company/quotation');
+    } else {
+      setIsModal(false);
+    }
   };
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -199,7 +208,6 @@ const SecondStep = ({
   const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
     setProductItem(e.target.value as chargerData);
   };
-
   // 이전 버튼
   const handlePrevBtn = () => {
     if (tabNumber > 0) {
@@ -207,14 +215,14 @@ const SecondStep = ({
         myEstimateAction.setCharge({
           index: StepIndex,
           data: {
-            chargeType:
-              chargeTypeNumber !== -1 ? chargeTypeList[chargeTypeNumber] : '',
-            fee: fee,
-            productItem: productItem,
-            manufacturingCompany: manufacturingCompany,
-            chargeFeatures: chargeFeatures,
-            chargeImage: imgArr,
-            chargeFile: fileArr,
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
           },
         }),
       );
@@ -223,23 +231,63 @@ const SecondStep = ({
   };
   // 다음 버튼
   const handleNextBtn = (e: any) => {
-    if (canNext && tabNumber < maxIndex) {
+    if (canNext && tabNumber < maxIndex!) {
       dispatch(
         myEstimateAction.setCharge({
           index: StepIndex,
           data: {
-            chargeType:
-              chargeTypeNumber !== -1 ? chargeTypeList[chargeTypeNumber] : '',
-            fee: fee,
-            productItem: productItem,
-            manufacturingCompany: manufacturingCompany,
-            chargeFeatures: chargeFeatures,
-            chargeImage: imgArr,
-            chargeFile: fileArr,
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
           },
         }),
       );
       setTabNumber(tabNumber + 1);
+    }
+  };
+  // 포스트 버튼
+  const onClickPost = () => {
+    console.log(TAP + '-> 포스트');
+    // 스텝2까지밖에 없을 때
+    if (maxIndex === 1) {
+      postMutate({
+        url: `/quotations/pre/${routerId}`,
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: subscribeProductFeature,
+          chargers: [
+            {
+              chargePriceType:
+                chargeTypeNumber !== -1
+                  ? chargeTypeListEn[chargeTypeNumber]
+                  : '',
+              chargePrice: Number(fee.replaceAll(',', '')),
+              modelName: productItem,
+              manufacturer: manufacturingCompany,
+              feature: chargeFeatures,
+              chargerImageFiles: imgArr,
+              catalogFiles: fileArr,
+            },
+          ],
+        },
+      });
+      // 스텝2이상일 때
+    } else {
+      postMutate({
+        url: `/quotations/pre/${routerId}`,
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: subscribeProductFeature,
+          chargers: newCharge.slice(0, maxIndex),
+        },
+      });
     }
   };
 
@@ -260,28 +308,33 @@ const SecondStep = ({
   }, [chargeTypeNumber, fee, manufacturingCompany]);
   // 상태 업데이트 및 초기화 (with 리덕스)
   useEffect(() => {
-    const target = charge[StepIndex];
-    if (target?.chargeType !== '') {
-      if (target?.chargeType === '구매자 자율') setChargeTypeNumber(0);
-      if (target?.chargeType === '운영사업자 입력') setChargeTypeNumber(1);
+    const target = chargers[StepIndex];
+    console.log(TAP + 'target 확인');
+    console.log(StepIndex);
+    console.log(target);
+    if (target?.chargePriceType !== '') {
+      if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
+        setChargeTypeNumber(0);
+      if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
+        setChargeTypeNumber(1);
     }
-    if (target?.fee !== '') {
-      setFee(target?.fee);
+    if (target?.chargePrice !== 0) {
+      setFee(target?.chargePrice.toString());
     }
-    if (target?.productItem !== '') {
-      setProductItem(target?.productItem);
+    if (target?.modelName !== '') {
+      setProductItem(target?.modelName);
     }
-    if (target?.manufacturingCompany !== '') {
-      setManufacturingCompany(target?.manufacturingCompany);
+    if (target?.manufacturer !== '') {
+      setManufacturingCompany(target?.manufacturer);
     }
-    if (target?.chargeFeatures !== '') {
-      setChargeFeatures(target?.chargeFeatures);
+    if (target?.feature !== '') {
+      setChargeFeatures(target?.feature);
     }
-    if (target?.chargeImage?.length >= 1) {
-      setImgArr(target?.chargeImage);
+    if (target?.chargerImageFiles?.length >= 1) {
+      setImgArr(target?.chargerImageFiles);
     }
-    if (target?.chargeFile?.length >= 1) {
-      setFileArr(target?.chargeFile);
+    if (target?.catalogFiles?.length >= 1) {
+      setFileArr(target?.catalogFiles);
     }
     return () => {
       setChargeTypeNumber(-1);
@@ -304,7 +357,7 @@ const SecondStep = ({
   return (
     <>
       {/* 에러 모달 */}
-      {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
+      {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <Wrapper>
         <TopStep>
           <div>STEP {tabNumber + 1}</div>
