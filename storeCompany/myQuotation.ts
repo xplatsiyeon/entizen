@@ -17,7 +17,7 @@ interface chargers {
     | ''
     | 'PURCHASER_AUTONOMY'
     | 'OPERATION_BUSINESS_CARRIER_INPUT';
-  chargePrice: string;
+  chargePrice: number;
   modelName: chargerData;
   manufacturer: string;
   feature: string;
@@ -40,7 +40,7 @@ const initialState: StateType = {
   chargers: [
     {
       chargePriceType: '',
-      chargePrice: '',
+      chargePrice: 0,
       modelName: '',
       manufacturer: '',
       feature: '',
@@ -49,7 +49,7 @@ const initialState: StateType = {
     },
     {
       chargePriceType: '',
-      chargePrice: '',
+      chargePrice: 0,
       modelName: '',
       manufacturer: '',
       feature: '',
@@ -58,7 +58,7 @@ const initialState: StateType = {
     },
     {
       chargePriceType: '',
-      chargePrice: '',
+      chargePrice: 0,
       modelName: '',
       manufacturer: '',
       feature: '',
@@ -67,7 +67,7 @@ const initialState: StateType = {
     },
     {
       chargePriceType: '',
-      chargePrice: '',
+      chargePrice: 0,
       modelName: '',
       manufacturer: '',
       feature: '',
@@ -76,7 +76,7 @@ const initialState: StateType = {
     },
     {
       chargePriceType: '',
-      chargePrice: '',
+      chargePrice: 0,
       modelName: '',
       manufacturer: '',
       feature: '',

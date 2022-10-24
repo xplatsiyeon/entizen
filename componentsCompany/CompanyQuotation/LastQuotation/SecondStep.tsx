@@ -266,8 +266,8 @@ const SecondStep = ({
       if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
         setChargeTypeNumber(1);
     }
-    if (target?.chargePrice !== '') {
-      setFee(target?.chargePrice);
+    if (target?.chargePrice !== 0) {
+      setFee(target?.chargePrice.toString());
     }
     if (target?.modelName !== '') {
       setProductItem(target?.modelName);

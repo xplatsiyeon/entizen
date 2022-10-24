@@ -45,8 +45,10 @@ const FirstStep = ({
     if (canNext) {
       dispatch(
         myEstimateAction.addFisrtData({
-          subscribePricePerMonth: monthlySubscribePrice,
-          constructionPeriod: constructionPeriod,
+          subscribePricePerMonth: Number(
+            monthlySubscribePrice.replaceAll(',', ''),
+          ),
+          constructionPeriod: Number(constructionPeriod.replaceAll(',', '')),
           subscribeProductFeature: firstPageTextArea,
         }),
       );

@@ -146,6 +146,7 @@ const HeadOpenContent = ({}: Props) => {
         SetCanNext={SetCanNext}
         StepIndex={1}
         maxIndex={target}
+        routerId={routerId}
       />
     ),
     // 스텝 4
@@ -157,6 +158,7 @@ const HeadOpenContent = ({}: Props) => {
         SetCanNext={SetCanNext}
         StepIndex={2}
         maxIndex={target}
+        routerId={routerId}
       />
     ),
     // 스텝 5
@@ -168,6 +170,7 @@ const HeadOpenContent = ({}: Props) => {
         SetCanNext={SetCanNext}
         StepIndex={3}
         maxIndex={target}
+        routerId={routerId}
       />
     ),
     // 스텝 6
@@ -179,6 +182,7 @@ const HeadOpenContent = ({}: Props) => {
         SetCanNext={SetCanNext}
         StepIndex={4}
         maxIndex={target}
+        routerId={routerId}
       />
     ),
   };

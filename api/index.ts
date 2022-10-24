@@ -5,6 +5,10 @@ interface ApiProps {
   endpoint: string;
   data?: any;
 }
+interface PostAPi {
+  url: string;
+  data?: any;
+}
 
 const BASE_URL = 'https://test-api.entizen.kr/api';
 // get => getApi / isTokenGetApi
@@ -83,7 +87,9 @@ export const postApi = async (url: string, data: any) => {
   }).then((res) => res.data);
 };
 // API 호출 (토큰 O)
-export const isTokenPostApi = async (url: string, data: any) => {
+// export const isTokenPostApi = async (url: string, data: any) => {
+export const isTokenPostApi = async (apiInfo: PostAPi) => {
+  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return await axios({
     method: 'POST',

@@ -20,7 +20,7 @@ import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
 import { useMutation } from 'react-query';
-import { isTokenApi } from 'api';
+import { isTokenPostApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { inputPriceFormat } from 'utils/changeComma';
@@ -32,6 +32,7 @@ type Props = {
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   StepIndex: number;
   maxIndex: number;
+  routerId: number;
 };
 
 const TAP = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
@@ -43,6 +44,7 @@ const SecondStep = ({
   canNext,
   SetCanNext,
   StepIndex,
+  routerId,
 }: Props) => {
   // 사진을 위한 ref
   const dispatch = useDispatch();
@@ -81,9 +83,10 @@ const SecondStep = ({
   const newCharge = chargers.slice(0, maxIndex);
 
   // api 호출
-  const { mutate: postMutate, isLoading } = useMutation(isTokenApi, {
-    onSuccess: () => {
-      router.push('/company/recievedRequest/complete');
+  const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
+    onSuccess: (res) => {
+      console.log(res);
+      // router.push('/company/recievedRequest/complete');
     },
     onError: (error: any) => {
       const {
@@ -94,7 +97,7 @@ const SecondStep = ({
         setIsModal(true);
       } else {
         alert('다시 시도해주세요');
-        router.push('/company/quotation');
+        // router.push('/company/quotation');
       }
     },
   });
@@ -102,8 +105,7 @@ const SecondStep = ({
   const onClickPost = () => {
     console.log(TAP + '-> 포스트');
     postMutate({
-      endpoint: '/abc',
-      method: 'POST',
+      url: `/quotations/pre/${routerId}`,
       data: {
         subscribePricePerMonth: subscribePricePerMonth,
         constructionPeriod: constructionPeriod,
@@ -217,7 +219,7 @@ const SecondStep = ({
           data: {
             chargePriceType:
               chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: fee,
+            chargePrice: Number(fee),
             modelName: productItem,
             manufacturer: manufacturingCompany,
             feature: chargeFeatures,
@@ -238,7 +240,7 @@ const SecondStep = ({
           data: {
             chargePriceType:
               chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: fee,
+            chargePrice: Number(fee),
             modelName: productItem,
             manufacturer: manufacturingCompany,
             feature: chargeFeatures,
@@ -278,8 +280,8 @@ const SecondStep = ({
       if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
         setChargeTypeNumber(1);
     }
-    if (target?.chargePrice !== '') {
-      setFee(target?.chargePrice);
+    if (target?.chargePrice !== 0) {
+      setFee(target?.chargePrice.toString());
     }
     if (target?.modelName !== '') {
       setProductItem(target?.modelName);
