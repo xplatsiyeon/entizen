@@ -118,7 +118,7 @@ const CompanyMainPage = (props: Props) => {
           <WhiteAreaMenus
             onClick={() =>
               userID
-                ? router.push('/quotation/request')
+                ? router.push('/company/quotation')
                 : router.push('/signin')
             }
           >
@@ -127,7 +127,7 @@ const CompanyMainPage = (props: Props) => {
             </span>
             <span>내 견적</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/company/quotation')}>
+          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
             <span>
               <Image src={guide} alt="가이드" />
             </span>
