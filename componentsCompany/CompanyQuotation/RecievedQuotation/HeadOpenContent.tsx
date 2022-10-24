@@ -108,9 +108,6 @@ const HeadOpenContent = ({}: Props) => {
       enabled: router.isReady,
     },
   );
-  // const target =
-  console.log(TAG + '받은 요청 id data -->>');
-  console.log(data);
 
   // step별 컴포넌트
   const components: Components = {
