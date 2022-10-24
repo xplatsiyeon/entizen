@@ -16,7 +16,7 @@ import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import colors from 'styles/colors';
 import { M5_CHANNEL_SET, M5_TYPE_SET } from 'assets/selectList';
-
+import { Option, quotationAction } from 'store/quotationSlice';
 import Arrow from 'public/guide/Arrow.svg';
 import AddIcon from 'public/images/add-img.svg';
 import XCircle from 'public/guide/XCircle.svg';
@@ -67,6 +67,16 @@ const FirstStep = ({
       count: '',
     },
   ]);
+  // 영어 셀렉트 옵션
+  const [selectedOptionEn, setSelectedOptionEn] = useState<Option[]>([
+    {
+      kind: '',
+      standType: '',
+      channel: '',
+      count: '',
+    },
+  ]);
+
   // 현장실사 결과
   const [visitResult, setVisitResult] = useState<string>('');
   //특장점
@@ -88,7 +98,7 @@ const FirstStep = ({
   const handleChange = (event: any, index: number) => {
     const { name, value } = event.target;
     let copy: SelectedOption[] = [...selectedOption];
-
+    let copyEn: Option[] = [...selectedOptionEn];
     // 영어 값 추출
     let valueEn: string;
     // 충전기 종류
@@ -106,7 +116,10 @@ const FirstStep = ({
         ...copy[index],
         kind: value,
       };
-
+      copyEn[index] = {
+        ...copyEn[index],
+        kind: valueEn,
+      };
       // 타입
     } else if (copy[index].kind.length > 1 && name === 'standType') {
       const idx = M6_LIST.indexOf(value);
@@ -127,7 +140,10 @@ const FirstStep = ({
         ...copy[index],
         channel: value,
       };
-
+      copyEn[index] = {
+        ...copyEn[index],
+        channel: valueEn,
+      };
       // 개수
     } else if (copy[index].kind.length > 1 && name === 'count') {
       const idx = M8_LIST.indexOf(value);
@@ -136,7 +152,13 @@ const FirstStep = ({
         ...copy[index],
         count: value,
       };
+      copyEn[index] = {
+        ...copyEn[index],
+        count: valueEn,
+      };
     }
+    setSelectedOption(copy);
+    setSelectedOptionEn(copyEn);
   };
   const onClickMinus = (index: number) => {
     const copy = [...selectedOption];
@@ -146,14 +168,6 @@ const FirstStep = ({
   };
   const subScribe = ['전체구독', '부분구독'];
   const subscribeType: string[] = ['24', '36', '48', '60'];
-  useEffect(() => {
-    if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
-      SetCanNext(true);
-    } else {
-      SetCanNext(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [monthlySubscribePrice, constructionPeriod]);
 
   const buttonOnClick = () => {
     // if (canNext) {
@@ -164,11 +178,36 @@ const FirstStep = ({
     //       features: firstPageTextArea,
     //     }),
     //   );
-    setTabNumber(tabNumber + 1);
+    if (canNext) {
+      setTabNumber(tabNumber + 1);
+    }
     // }
   };
 
   const onChangeSelectBox = (e: any) => setProductSubscribe(e.target.value);
+
+  useEffect(() => {
+    if (
+      productSubscribe !== '' &&
+      productPeriod !== '' &&
+      customerPercent !== 0 &&
+      companyPercent !== 0 &&
+      constructionPeriod !== '' &&
+      visitResult !== ''
+    ) {
+      SetCanNext(true);
+    } else {
+      SetCanNext(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    productSubscribe,
+    productPeriod,
+    customerPercent,
+    companyPercent,
+    visitResult,
+    constructionPeriod,
+  ]);
 
   return (
     <Wrapper>
@@ -186,7 +225,7 @@ const FirstStep = ({
           <SelectBox
             value={productSubscribe}
             onChange={(e: any) => setProductSubscribe(e.target.value)}
-            IconComponent={() => <SelectIcon />}
+            IconComponent={SelectIcon}
             displayEmpty
           >
             <MenuItem value="">
@@ -207,7 +246,7 @@ const FirstStep = ({
           <SelectBox
             value={productPeriod}
             onChange={(e: any) => setProductPeriod(e.target.value)}
-            IconComponent={() => <SelectIcon />}
+            IconComponent={SelectIcon}
             displayEmpty
           >
             <MenuItem value="">
@@ -292,7 +331,7 @@ const FirstStep = ({
               value={item.kind}
               name="kind"
               onChange={(event) => handleChange(event, index)}
-              IconComponent={() => <SelectIcon />}
+              IconComponent={SelectIcon}
               displayEmpty
             >
               <MenuItem value="">
@@ -312,7 +351,7 @@ const FirstStep = ({
                 name="standType"
                 onChange={(event) => handleChange(event, index)}
                 displayEmpty
-                IconComponent={() => <SelectIcon />}
+                IconComponent={SelectIcon}
               >
                 <MenuItem value="">
                   <Placeholder>타입</Placeholder>
@@ -327,7 +366,7 @@ const FirstStep = ({
                 value={item.channel}
                 name="channel"
                 onChange={(event) => handleChange(event, index)}
-                IconComponent={() => <SelectIcon />}
+                IconComponent={SelectIcon}
                 displayEmpty
               >
                 <MenuItem value="">
@@ -343,7 +382,7 @@ const FirstStep = ({
                 value={item.count}
                 name="count"
                 onChange={(event) => handleChange(event, index)}
-                IconComponent={() => <SelectIcon />}
+                IconComponent={SelectIcon}
                 displayEmpty
               >
                 <MenuItem value="">
@@ -363,8 +402,8 @@ const FirstStep = ({
         <div className="withAfter">공사기간</div>
         <div className="monthFlex">
           <Input
-            onChange={(e) => setMonthleSubscribePrice(e.target.value)}
-            value={monthlySubscribePrice}
+            onChange={(e) => setConstructionPeriod(e.target.value)}
+            value={constructionPeriod}
             name="subscribeMoney"
           />
           <AfterWord>일</AfterWord>
@@ -400,7 +439,11 @@ const FirstStep = ({
           />
         </div>
       </InputBox>
-      <Btn buttonActivate={true} tabNumber={tabNumber} onClick={buttonOnClick}>
+      <Btn
+        buttonActivate={canNext}
+        tabNumber={tabNumber}
+        onClick={buttonOnClick}
+      >
         다음
       </Btn>
     </Wrapper>
@@ -682,7 +725,7 @@ const SelectBox = styled(Select)`
     border: none;
   }
   & svg {
-    padding-right: 11.25pt;
+    margin-right: 12pt;
   }
 `;
 const Placeholder = styled.em`
@@ -695,7 +738,7 @@ const Placeholder = styled.em`
 const SelectIcon = styled(KeyboardArrowDownIcon)`
   width: 18pt;
   height: 18pt;
-  color: ${colors.dark};
+  color: ${colors.dark} !important;
 `;
 const SelectSmall = styled(Select)`
   display: flex;
@@ -713,10 +756,9 @@ const SelectSmall = styled(Select)`
     padding-left: 12pt;
     padding-top: 13.5pt;
     padding-bottom: 13.5pt;
-    width: 0;
   }
   & svg {
-    padding-right: 12pt;
+    margin-right: 12pt;
   }
   & fieldset {
     border: none;

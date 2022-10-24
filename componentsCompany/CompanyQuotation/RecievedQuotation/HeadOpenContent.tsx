@@ -271,24 +271,26 @@ const HeadOpenContent = ({}: Props) => {
                   %
                 </span>
               </div>
-              {data?.data.receivedQuotationRequest.chargers!.map((item) => (
-                <div className="text-box">
-                  <span className="name">충전기 종류 및 수량</span>
-                  <span className="text">
-                    {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-                    <br />
-                    {`:${
-                      item.standType
-                        ? convertKo(M6_LIST, M6_LIST_EN, item.standType)
-                        : ''
-                    }, ${
-                      item.standType
-                        ? convertKo(M7_LIST, M7_LIST_EN, item.channel)
-                        : ''
-                    }, ${item.count} 대`}
-                  </span>
-                </div>
-              ))}
+              {data?.data.receivedQuotationRequest.chargers!.map(
+                (item, index) => (
+                  <div className="text-box" key={index}>
+                    <span className="name">충전기 종류 및 수량</span>
+                    <span className="text">
+                      {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                      <br />
+                      {`:${
+                        item.standType
+                          ? convertKo(M6_LIST, M6_LIST_EN, item.standType)
+                          : ''
+                      }, ${
+                        item.standType
+                          ? convertKo(M7_LIST, M7_LIST_EN, item.channel)
+                          : ''
+                      }, ${item.count} 대`}
+                    </span>
+                  </div>
+                ),
+              )}
 
               <div className="text-box">
                 <span className="name">충전기 설치 위치</span>

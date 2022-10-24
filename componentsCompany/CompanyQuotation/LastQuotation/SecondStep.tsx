@@ -235,13 +235,15 @@ const SecondStep = ({
     //       },
     //     }),
     //   );
-    setTabNumber(tabNumber + 1);
+    if (canNext) {
+      setTabNumber(tabNumber + 1);
+    }
     // }
   };
 
   // 다음버튼 유효성 검사
   useEffect(() => {
-    if (chargeTypeNumber === 0 && manufacturingCompany !== '') {
+    if (chargeTypeNumber !== -1 && manufacturingCompany !== '') {
       SetCanNext(true);
     } else if (
       chargeTypeNumber === 1 &&
@@ -327,11 +329,13 @@ const SecondStep = ({
           <InputBox>
             <div>
               <Input
-                onChange={onChangeInput}
+                onChange={(e: any) => setFee(e.target.value)}
                 placeholder="0"
                 value={fee}
                 name="subscribeMoney"
-                inputProps={{ readOnly: chargeTypeNumber === 0 ? true : false }}
+                inputProps={{
+                  readOnly: chargeTypeNumber === -1 ? true : false,
+                }}
               />
               <div>원/kW</div>
             </div>
@@ -484,15 +488,10 @@ const SecondStep = ({
       </SecondWrapper>
       <TwoBtn>
         <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-        {tabNumber === maxIndex ? (
-          <NextBtn canNext={canNext} onClick={onClickPost}>
-            보내기
-          </NextBtn>
-        ) : (
-          <NextBtn canNext={canNext} onClick={handleNextBtn}>
-            다음
-          </NextBtn>
-        )}
+
+        <NextBtn canNext={canNext} onClick={handleNextBtn}>
+          다음
+        </NextBtn>
       </TwoBtn>
     </>
   );

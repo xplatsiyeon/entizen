@@ -10,14 +10,30 @@ interface Props {
   text?: string;
   buttonText?: string;
   handleOnClick?: () => void;
+  handleExitClick?: () => void;
+  yesExit?: boolean;
   [key: string]: any;
 }
 
-const Complete = ({ text, title, buttonText, handleOnClick }: Props) => {
+const Complete = ({
+  text,
+  title,
+  buttonText,
+  handleOnClick,
+  handleExitClick,
+  yesExit,
+}: Props) => {
   return (
     <Wrapper>
       <Nav>
-        {/* <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} /> */}
+        {yesExit && (
+          <Image
+            onClick={handleExitClick}
+            src={ExitImg}
+            alt="exit"
+            style={{ cursor: 'pointer' }}
+          />
+        )}
       </Nav>
       <ContainerBox disableGutters>
         <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
