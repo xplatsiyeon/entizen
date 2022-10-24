@@ -138,5 +138,5 @@ export async function multerApi(formData: any): Promise<any> {
     },
     data: formData,
     withCredentials: true,
-  }).then((res) => res);
+  }).then((res) => res.data);
 }
