@@ -108,21 +108,25 @@ const SecondStep = ({
     if (maxIndex === 1) {
       postMutate({
         url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: {
-            chargePriceType:
-              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: Number(fee),
-            modelName: productItem,
-            manufacturer: manufacturingCompany,
-            feature: chargeFeatures,
-            chargerImageFiles: imgArr,
-            catalogFiles: fileArr,
+        data: [
+          {
+            subscribePricePerMonth: subscribePricePerMonth,
+            constructionPeriod: constructionPeriod,
+            subscribeProductFeature: subscribeProductFeature,
+            chargers: {
+              chargePriceType:
+                chargeTypeNumber !== -1
+                  ? chargeTypeListEn[chargeTypeNumber]
+                  : '',
+              chargePrice: Number(fee.replaceAll(',', '')),
+              modelName: productItem,
+              manufacturer: manufacturingCompany,
+              feature: chargeFeatures,
+              chargerImageFiles: imgArr,
+              catalogFiles: fileArr,
+            },
           },
-        },
+        ],
       });
       // 스텝2이상일 때
     } else {
@@ -242,7 +246,7 @@ const SecondStep = ({
           data: {
             chargePriceType:
               chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: Number(fee),
+            chargePrice: Number(fee.replaceAll(',', '')),
             modelName: productItem,
             manufacturer: manufacturingCompany,
             feature: chargeFeatures,
@@ -263,7 +267,7 @@ const SecondStep = ({
           data: {
             chargePriceType:
               chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: Number(fee),
+            chargePrice: Number(fee.replaceAll(',', '')),
             modelName: productItem,
             manufacturer: manufacturingCompany,
             feature: chargeFeatures,
