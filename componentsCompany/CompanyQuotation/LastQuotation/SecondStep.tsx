@@ -107,10 +107,6 @@ const SecondStep = ({
     });
   };
 
-  const onChangeInput = (e: any) => {
-    const { value } = e.target;
-    setFee(value);
-  };
   const handleChargeTypeNumber = (index: number) => {
     setChargeTypeNumber(index);
   };
