@@ -160,6 +160,7 @@ const ProductAddComponent = (props: Props) => {
     const newArr = [...imgArr];
     // max길이 보다 짧으면 멈춤
     const arr = [];
+    const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
         break;
@@ -167,7 +168,7 @@ const ProductAddComponent = (props: Props) => {
       // multer s3
       arr.push(files[i].name);
       // console.log(formData);
-      const formData = new FormData();
+
       formData.append('chargerProduct', files[i]);
       formData.append(
         'chargerProduct',
@@ -187,7 +188,7 @@ const ProductAddComponent = (props: Props) => {
       // });
     }
 
-    // multer(formData);
+    multer(formData);
     // setImgArr(newArr);
   };
   // 사진 삭제
