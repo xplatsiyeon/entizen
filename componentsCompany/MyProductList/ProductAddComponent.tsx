@@ -434,14 +434,17 @@ const ProductAddComponent = (props: Props) => {
             <AddPhotos onClick={imgHandler}>
               <Image src={camera} alt="" />
             </AddPhotos>
+            {/* <form action="" accept-charset="UTF-8"> */}
             <input
               style={{ display: 'none' }}
               ref={imgRef}
               type="file"
               accept="image/*"
+              accept-charset="UTF-8"
               onChange={saveFileImage}
               multiple
             />
+            {/* </form> */}
             {/* <Preview> */}
             {imgArr?.map((img, index) => (
               <ImgSpan key={index} data-name={index}>
