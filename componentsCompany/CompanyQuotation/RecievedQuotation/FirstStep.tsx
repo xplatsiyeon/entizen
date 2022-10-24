@@ -45,9 +45,9 @@ const FirstStep = ({
     if (canNext) {
       dispatch(
         myEstimateAction.addFisrtData({
-          subscription: monthlySubscribePrice,
-          period: constructionPeriod,
-          features: firstPageTextArea,
+          subscribePricePerMonth: monthlySubscribePrice,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: firstPageTextArea,
         }),
       );
       setTabNumber(tabNumber + 1);

@@ -66,10 +66,13 @@ const SecondStep = ({
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // 리덕스
-  const { charge, features, period, subscription } = useSelector(
-    (state: RootState) => state.companymyEstimateData,
-  );
-  const newCharge = charge.slice(0, maxIndex);
+  const {
+    chargers,
+    subscribeProductFeature,
+    constructionPeriod,
+    subscribePricePerMonth,
+  } = useSelector((state: RootState) => state.companymyEstimateData);
+  const newCharge = chargers.slice(0, maxIndex);
 
   // api 호출
   const { mutate: postMutate, isLoading } = useMutation(isTokenApi, {
@@ -96,10 +99,10 @@ const SecondStep = ({
       endpoint: '/abc',
       method: 'POST',
       data: {
-        subscription: subscription,
-        period: period,
-        features: features,
-        charge: newCharge,
+        subscribePricePerMonth: subscribePricePerMonth,
+        constructionPeriod: constructionPeriod,
+        subscribeProductFeature: subscribeProductFeature,
+        chargers: chargers,
       },
     });
   };
@@ -256,28 +259,30 @@ const SecondStep = ({
   }, [chargeTypeNumber, fee, manufacturingCompany]);
   // 상태 업데이트 및 초기화 (with 리덕스)
   useEffect(() => {
-    const target = charge[StepIndex];
-    if (target?.chargeType !== '') {
-      if (target?.chargeType === '구매자 자율') setChargeTypeNumber(0);
-      if (target?.chargeType === '운영사업자 입력') setChargeTypeNumber(1);
+    const target = chargers[StepIndex];
+    if (target?.chargePriceType !== '') {
+      if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
+        setChargeTypeNumber(0);
+      if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
+        setChargeTypeNumber(1);
     }
-    if (target?.fee !== '') {
-      setFee(target?.fee);
+    if (target?.chargePrice !== '') {
+      setFee(target?.chargePrice);
     }
-    if (target?.productItem !== '') {
-      setProductItem(target?.productItem);
+    if (target?.modelName !== '') {
+      setProductItem(target?.modelName);
     }
-    if (target?.manufacturingCompany !== '') {
-      setManufacturingCompany(target?.manufacturingCompany);
+    if (target?.manufacturer !== '') {
+      setManufacturingCompany(target?.manufacturer);
     }
-    if (target?.chargeFeatures !== '') {
-      setChargeFeatures(target?.chargeFeatures);
+    if (target?.feature !== '') {
+      setChargeFeatures(target?.feature);
     }
-    if (target?.chargeImage?.length >= 1) {
-      setImgArr(target?.chargeImage);
+    if (target?.chargerImageFiles?.length >= 1) {
+      setImgArr(target?.chargerImageFiles);
     }
-    if (target?.chargeFile?.length >= 1) {
-      setFileArr(target?.chargeFile);
+    if (target?.catalogFiles?.length >= 1) {
+      setFileArr(target?.catalogFiles);
     }
     return () => {
       setChargeTypeNumber(-1);
