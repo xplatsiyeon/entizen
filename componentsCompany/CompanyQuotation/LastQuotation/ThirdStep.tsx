@@ -130,7 +130,7 @@ const ThirdStep = ({
     //       },
     //     }),
     //   );
-    setTabNumber(tabNumber + 1);
+    router.push('/company/quotation/sentProvisionalQuotaionComplete');
     // }
   };
 

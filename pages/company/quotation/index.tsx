@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { isTokenApi } from 'api/index';
 import BottomNavigation from 'components/BottomNavigation';
+import History from 'componentsCompany/CompanyQuotation/History';
 import useDebounce from 'hooks/useDebounce';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
@@ -51,28 +52,28 @@ const CompanyQuotations = (props: Props) => {
   const keyword = useDebounce(searchWord, 3000);
 
   // api 호출
-  const { data, isLoading, refetch } = useQuery(
-    'receivedRequest',
-    () =>
-      isTokenApi({
-        endpoint: `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-        method: 'GET',
-      }),
-    {
-      enabled: false,
-      onSuccess: () => {},
-      onError: (error) => {
-        console.log(error);
-      },
-    },
-  );
-  useEffect(() => {
-    dispatch(myEstimateAction.reset());
-  }, []);
-  // 필터링 기능
-  useEffect(() => {
-    refetch();
-  }, [checkedFilterIndex, keyword]);
+  // const { data, isLoading, refetch } = useQuery(
+  //   'receivedRequest',
+  //   () =>
+  //     isTokenApi({
+  //       endpoint: `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+  //       method: 'GET',
+  //     }),
+  //   {
+  //     enabled: false,
+  //     onSuccess: () => {},
+  //     onError: (error) => {
+  //       console.log(error);
+  //     },
+  //   },
+  // );
+  // useEffect(() => {
+  //   dispatch(myEstimateAction.reset());
+  // }, []);
+  // // 필터링 기능
+  // useEffect(() => {
+  //   refetch();
+  // }, [checkedFilterIndex, keyword]);
 
   return (
     <>
@@ -89,16 +90,19 @@ const CompanyQuotations = (props: Props) => {
         />
         {/* 받은 요청 */}
         {tabNumber === 0 && (
-          <RecieveRequest
-            queryData={data?.data.receivedQuotationRequests}
-            // queryData={queryData}
-            checkedFilterIndex={checkedFilterIndex}
-          />
+          // <RecieveRequest
+          //   queryData={data?.data.receivedQuotationRequests}
+          // queryData={queryData}
+          //   checkedFilterIndex={checkedFilterIndex}
+          // />
+          <></>
         )}
         {/* 보낸 견적 */}
         {tabNumber === 1 && (
           <SentRequest checkedFilterIndex={checkedFilterIndex} />
         )}
+        {/* 히스토리 */}
+        {tabNumber === 2 && <History checkedFilterIndex={checkedFilterIndex} />}
       </Container>
       <BottomNavigation />
     </>
