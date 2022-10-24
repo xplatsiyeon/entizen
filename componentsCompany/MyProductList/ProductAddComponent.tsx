@@ -164,31 +164,33 @@ const ProductAddComponent = (props: Props) => {
         break;
       }
       // multer s3
-      console.log(TAG + '-----mutate data ------');
+
       const formData = new FormData();
       formData.append('chargerProduct', files[i]);
-      multer(formData);
+      // multer(formData);
       // ----axios----
-      // const BASE_URL = 'https://test-api.entizen.kr/api';
-      // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-      // return axios({
-      //   method: 'POST',
-      //   url: `${BASE_URL}/files`,
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //     ContentType: 'multipart/form-data; charset=EUC-KR',
-      //   },
-      //   data: formData,
-      //   withCredentials: true,
-      // }).then((res: any) => {
-      //   const imageName = files![i].name;
-      //   const imageSize = files![i].size;
-      //   newArr.push({
-      //     url: res.uploadedFiles[0].url,
-      //     size: imageSize,
-      //     originalName: imageName,
-      //   });
-      // });
+      const BASE_URL = 'https://test-api.entizen.kr/api';
+      const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+      return axios({
+        method: 'POST',
+        url: `${BASE_URL}/files`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'multipart/form-data; charset=utf-8',
+        },
+        data: formData,
+        withCredentials: true,
+      }).then((res: any) => {
+        console.log(TAG + '-----mutate data ------');
+        console.log(res);
+        // const imageName = files![i].name;
+        // const imageSize = files![i].size;
+        // newArr.push({
+        //   url: res.uploadedFiles[0].url,
+        //   size: imageSize,
+        //   originalName: imageName,
+        // });
+      });
     }
     // setImgArr(newArr);
   };
