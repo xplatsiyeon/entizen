@@ -175,33 +175,17 @@ const ProductAddComponent = (props: Props) => {
       // console.log(encodeURIComponent(files[i].name));
       //
       console.log(formData);
-      // multer(formData);
+      multer(formData);
       // formData.append('chargerProduct', encodeURIComponent(files[i].name));
       // formData.append('chargerProduct', files[i].size);
       // formData.append('chargerProduct', files[i].type);
 
-      // ----axios----
-      // const BASE_URL = 'https://test-api.entizen.kr/api';
-      // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-      // return axios({
-      //   method: 'POST',
-      //   url: `${BASE_URL}/files`,
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //     ContentType: 'multipart/form-data; charset=utf-8',
-      //   },
-      //   data: formData,
-      //   withCredentials: true,
-      // }).then((res: any) => {
-      //   console.log(TAG + '-----mutate data ------');
-      //   console.log(res);
-      //   // const imageName = files![i].name;
-      //   // const imageSize = files![i].size;
-      //   // newArr.push({
-      //   //   url: res.uploadedFiles[0].url,
-      //   //   size: imageSize,
-      //   //   originalName: imageName,
-      //   // });
+      // const imageName = files![i].name;
+      // const imageSize = files![i].size;
+      // newArr.push({
+      //   url: res.uploadedFiles[0].url,
+      //   size: imageSize,
+      //   originalName: imageName,
       // });
     }
     // setImgArr(newArr);
