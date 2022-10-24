@@ -10,7 +10,6 @@ import { userSlice } from './userSlice';
 import { originUserInfoSlice } from './userInfoSlice';
 import { findUserInfoSlice } from './findSlice';
 import { selectSlice } from './loginTypeSlice';
-import { companySignUpSlice } from 'storeCompany/companySignUpSlice';
 import { myEstimateSlice } from 'storeCompany/myQuotation';
 import { companyRequestTabNumberSlice } from 'storeCompany/requestTabSlice';
 
@@ -28,7 +27,6 @@ const rootReducer = combineReducers({
   originUserData: originUserInfoSlice.reducer,
   findUserInfo: findUserInfoSlice.reducer,
   selectType: selectSlice.reducer,
-  companySignUpData: companySignUpSlice.reducer,
   companymyEstimateData: myEstimateSlice.reducer,
   companyRequestTabNumberData: companyRequestTabNumberSlice.reducer,
 });

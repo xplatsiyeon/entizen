@@ -127,7 +127,7 @@ const CompanyMainPage = (props: Props) => {
             </span>
             <span>내 견적</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/guide')}>
+          <WhiteAreaMenus onClick={() => router.push('/company/quotation')}>
             <span>
               <Image src={guide} alt="가이드" />
             </span>
