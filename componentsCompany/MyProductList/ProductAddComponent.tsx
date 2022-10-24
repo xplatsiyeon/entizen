@@ -166,8 +166,12 @@ const ProductAddComponent = (props: Props) => {
       // multer s3
 
       const formData = new FormData();
+      formData.set(
+        'chargerProduct',
+        files[i].name,
+        encodeURIComponent(files[i].name),
+      );
       formData.append('chargerProduct', files[i]);
-      // formData.set('chargerProduct', encodeURIComponent(files[i].name));
       // console.log(encodeURIComponent(files[i].name));
       console.log(formData);
       multer(formData);
