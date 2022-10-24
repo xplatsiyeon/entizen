@@ -124,7 +124,7 @@ export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
 };
 
 // ---------------------------------- multer Img -----------------------------------
-export async function multerApi(formData: any) {
+export async function multerApi(formData: any): Promise<any> {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return axios({
     method: 'POST',

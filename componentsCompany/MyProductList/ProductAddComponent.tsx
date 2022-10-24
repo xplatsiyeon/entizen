@@ -19,7 +19,17 @@ import { useMutation } from 'react-query';
 import { isTokenApi, isTokenPostApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import { convertEn } from 'utils/changeValue';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+
+interface ImgFile {
+  originalName: string;
+  size: number;
+  url: string;
+}
+interface MulterResponse {
+  isSuccess: boolean;
+  uploadedFiles: ImgFile[];
+}
 
 type Props = {};
 const TAG = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
@@ -69,10 +79,20 @@ const ProductAddComponent = (props: Props) => {
     data,
     mutate: multer,
     isLoading: multerLoading,
-  } = useMutation(multerApi, {
+  } = useMutation<MulterResponse, AxiosError, FormData>(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + 'multer 테스트');
-      console.log(res);
+      // console.log(TAG + 'multer 테스트');
+      // console.log(res);
+      const newArr = [...imgArr];
+      res?.uploadedFiles.forEach((img) => {
+        newArr.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+
+      setImgArr(newArr);
     },
     onError: (error: any) => {
       if (error.response.data) {
@@ -157,7 +177,7 @@ const ProductAddComponent = (props: Props) => {
     const { files } = e.target;
     console.log(files);
     const maxLength = 3;
-    const newArr = [...imgArr];
+
     // max길이 보다 짧으면 멈춤
     const arr = [];
     const formData = new FormData();
@@ -166,7 +186,11 @@ const ProductAddComponent = (props: Props) => {
         break;
       }
 
-      formData.append('chargerProduct', files[i], encodeURIComponent(files[i].name))
+      formData.append(
+        'chargerProduct',
+        files[i],
+        encodeURIComponent(files[i].name),
+      );
 
       // multer s3
       // arr.push(files[i].name);
@@ -183,12 +207,13 @@ const ProductAddComponent = (props: Props) => {
       //   size: imageSize,
       //   originalName: imageName,
       // });
-      console.log("🚀 ~ file: ProductAddComponent.tsx ~ line 189 ~ saveFileImage ~ formData", formData)
-
+      console.log(
+        '🚀 ~ file: ProductAddComponent.tsx ~ line 189 ~ saveFileImage ~ formData',
+        formData,
+      );
     }
 
     multer(formData);
-    // setImgArr(newArr);
   };
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -261,6 +286,11 @@ const ProductAddComponent = (props: Props) => {
       manufacturer,
     ]);
   }, [modelName, chargerType, chargingChannel, chargingMethod, manufacturer]);
+
+  useEffect(() => {
+    console.log(`🚀 ~ ${TAG} ~ line 292 ~ imgArr ~ decode`);
+    console.log(imgArr);
+  }, [imgArr]);
 
   return (
     <>
