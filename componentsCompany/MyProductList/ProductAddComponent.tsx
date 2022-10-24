@@ -16,10 +16,11 @@ import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
-import { isTokenApi, isTokenPostApi, multerApi } from 'api';
+import { isTokenPostApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import { convertEn } from 'utils/changeValue';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import { getByteSize } from 'utils/calculatePackage';
 
 interface ImgFile {
   originalName: string;
@@ -75,11 +76,12 @@ const ProductAddComponent = (props: Props) => {
       }
     },
   });
-  const {
-    data,
-    mutate: multer,
-    isLoading: multerLoading,
-  } = useMutation<MulterResponse, AxiosError, FormData>(multerApi, {
+  // image s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
     onSuccess: (res) => {
       console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
       console.log(res);
@@ -91,8 +93,37 @@ const ProductAddComponent = (props: Props) => {
           originalName: decodeURIComponent(img.originalName),
         });
       });
-
       setImgArr(newArr);
+    },
+    onError: (error: any) => {
+      if (error.response.data) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+        setNetworkError(true);
+      }
+    },
+  });
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerFile, isLoading: multerFileLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      console.log(res);
+      const newFile = [...fileArr];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setFileArr(newFile);
     },
     onError: (error: any) => {
       if (error.response.data) {
@@ -173,47 +204,22 @@ const ProductAddComponent = (props: Props) => {
     imgRef?.current?.click();
   };
   // 사진 저장
-  const saveFileImage = (e: any) => {
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    console.log(files);
     const maxLength = 3;
-
     // max길이 보다 짧으면 멈춤
-    const arr = [];
     const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
         break;
       }
-
       formData.append(
         'chargerProduct',
-        files[i],
-        encodeURIComponent(files[i].name),
-      );
-
-      // multer s3
-      // arr.push(files[i].name);
-      // console.log(formData);
-
-      // formData.append('chargerProduct', encodeURIComponent(files[i].name));
-      // formData.append('chargerProduct', files[i].size);
-      // formData.append('chargerProduct', files[i].type);
-
-      // const imageName = files![i].name;
-      // const imageSize = files![i].size;
-      // newArr.push({
-      //   url: res.uploadedFiles[0].url,
-      //   size: imageSize,
-      //   originalName: imageName,
-      // });
-      console.log(
-        '🚀 ~ file: ProductAddComponent.tsx ~ line 189 ~ saveFileImage ~ formData',
-        formData,
+        files![i],
+        encodeURIComponent(files![i].name),
       );
     }
-
-    multer(formData);
+    multerImage(formData);
   };
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -234,32 +240,21 @@ const ProductAddComponent = (props: Props) => {
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 3;
-    const newArr = [...fileArr];
     // max길이 보다 짧으면 멈춤
+    const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
         break;
       }
-      // 이미지 객체 생성 후 상태에 저장
-      const imageUrl = URL.createObjectURL(files![i]);
-      const imageName = files![i].name;
-      const imageSize = files![i].size;
-      newArr.push({
-        url: imageUrl,
-        size: imageSize,
-        originalName: imageName,
-      });
+      formData.append(
+        'chargerProduct',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
     }
-    setFileArr(newArr);
+    multerFile(formData);
   };
-  // 파일 용량 체크
-  const getByteSize = (size: number) => {
-    const byteUnits = ['KB', 'MB', 'GB', 'TB'];
-    for (let i = 0; i < byteUnits.length; i++) {
-      size = Math.floor(size / 1024);
-      if (size < 1024) return size.toFixed(1) + byteUnits[i];
-    }
-  };
+
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
@@ -321,7 +316,7 @@ const ProductAddComponent = (props: Props) => {
             placeholder="충전기 종류"
             name="kind"
             onChange={(e) => onChangeSelectBox(e)}
-            IconComponent={() => <SelectIcon />}
+            IconComponent={SelectIcon}
             displayEmpty
           >
             <MenuItem value="">
@@ -344,7 +339,7 @@ const ProductAddComponent = (props: Props) => {
             placeholder="충전기 채널"
             name="channel"
             onChange={(e) => onChangeSelectBox(e)}
-            IconComponent={() => <SelectIcon />}
+            IconComponent={SelectIcon}
             displayEmpty
           >
             <MenuItem value="">
@@ -377,7 +372,7 @@ const ProductAddComponent = (props: Props) => {
                     placeholder="충전 방식"
                     name="chargingMethod"
                     onChange={(e) => onChangeSelectBox(e, index)}
-                    IconComponent={() => <SelectIcon />}
+                    IconComponent={SelectIcon}
                     displayEmpty
                   >
                     <MenuItem value="">
@@ -399,7 +394,7 @@ const ProductAddComponent = (props: Props) => {
                       placeholder="충전 방식"
                       name="chargingMethod"
                       onChange={(e) => onChangeSelectBox(e, index)}
-                      IconComponent={() => <SelectIcon />}
+                      IconComponent={SelectIcon}
                       displayEmpty
                     >
                       <MenuItem value="">
@@ -648,14 +643,14 @@ const SelectBox = styled(Select)`
     border: none;
   }
   & svg {
-    padding-right: 11.25pt;
+    margin-right: 11.25pt;
   }
 `;
 
 const SelectIcon = styled(KeyboardArrowDownIcon)`
   width: 18pt;
   height: 18pt;
-  color: ${colors.dark};
+  color: ${colors.dark} !important;
 `;
 
 const Placeholder = styled.em`
@@ -788,8 +783,8 @@ const AddPhotos = styled.button`
 
 const ImgSpan = styled.div`
   position: relative;
-  width: 74.75pt;
-  height: 74.75pt;
+  width: 56.0625pt;
+  height: 56.0625pt;
   border-radius: 6pt;
 `;
 const Xbox = styled.div`

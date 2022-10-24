@@ -23,7 +23,7 @@ import { useMutation } from 'react-query';
 import { isTokenPostApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
-import { inputPriceFormat } from 'utils/changeComma';
+import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 
 type Props = {
@@ -184,14 +184,6 @@ const SecondStep = ({
       });
     }
     setFileArr(newArr);
-  };
-  // 파일 용량 체크
-  const getByteSize = (size: number) => {
-    const byteUnits = ['KB', 'MB', 'GB', 'TB'];
-    for (let i = 0; i < byteUnits.length; i++) {
-      size = Math.floor(size / 1024);
-      if (size < 1024) return size.toFixed(1) + byteUnits[i];
-    }
   };
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {

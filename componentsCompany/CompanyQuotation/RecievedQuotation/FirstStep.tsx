@@ -4,7 +4,7 @@ import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
-import { inputPriceFormat } from 'utils/changeComma';
+import { inputPriceFormat } from 'utils/calculatePackage';
 
 type Props = {
   tabNumber: number;
