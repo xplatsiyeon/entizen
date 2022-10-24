@@ -96,7 +96,8 @@ const SecondStep = ({
         setErrorMessage(data.message);
         setIsModal(true);
       } else {
-        alert('다시 시도해주세요');
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
         // router.push('/company/quotation');
       }
     },
@@ -108,12 +109,12 @@ const SecondStep = ({
     if (maxIndex === 1) {
       postMutate({
         url: `/quotations/pre/${routerId}`,
-        data: [
-          {
-            subscribePricePerMonth: subscribePricePerMonth,
-            constructionPeriod: constructionPeriod,
-            subscribeProductFeature: subscribeProductFeature,
-            chargers: {
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: subscribeProductFeature,
+          chargers: [
+            {
               chargePriceType:
                 chargeTypeNumber !== -1
                   ? chargeTypeListEn[chargeTypeNumber]
@@ -125,8 +126,8 @@ const SecondStep = ({
               chargerImageFiles: imgArr,
               catalogFiles: fileArr,
             },
-          },
-        ],
+          ],
+        },
       });
       // 스텝2이상일 때
     } else {
