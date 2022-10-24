@@ -269,6 +269,9 @@ const SecondStep = ({
   // 상태 업데이트 및 초기화 (with 리덕스)
   useEffect(() => {
     const target = chargers[StepIndex];
+    console.log(TAP + 'target 확인');
+    console.log(StepIndex);
+    console.log(target);
     if (target?.chargePriceType !== '') {
       if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
         setChargeTypeNumber(0);
