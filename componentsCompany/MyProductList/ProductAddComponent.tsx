@@ -19,9 +19,10 @@ import { useMutation } from 'react-query';
 import { isTokenApi, isTokenPostApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import { convertEn } from 'utils/changeValue';
+import axios from 'axios';
 
 type Props = {};
-const TAP = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
+const TAG = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
 const ProductAddComponent = (props: Props) => {
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
@@ -70,6 +71,7 @@ const ProductAddComponent = (props: Props) => {
     isLoading: multerLoading,
   } = useMutation(multerApi, {
     onSuccess: (res) => {
+      console.log(TAG + 'multer 테스트');
       console.log(res);
     },
     onError: (error: any) => {
@@ -162,30 +164,33 @@ const ProductAddComponent = (props: Props) => {
         break;
       }
       // multer s3
+      console.log(TAG + '-----mutate data ------');
       const formData = new FormData();
-      console.log('-----mutate data ------');
-      // console.log(encodeURIComponent(files![i].name));
-      // files![i].name = encodeURIComponent(files[i].name);
-
       formData.append('chargerProduct', files[i]);
-
       multer(formData);
-
-      // console.log(formData);
-      // 이미지 객체 생성 후 상태에 저장
-      // const imageUrl = URL.createObjectURL(files![i]);
-      const imageName = files![i].name;
-      const imageSize = files![i].size;
-
-      console.log(data);
+      // ----axios----
+      // const BASE_URL = 'https://test-api.entizen.kr/api';
+      // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+      // return axios({
+      //   method: 'POST',
+      //   url: `${BASE_URL}/files`,
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //     ContentType: 'multipart/form-data; charset=EUC-KR',
+      //   },
+      //   data: formData,
+      //   withCredentials: true,
+      // }).then((res: any) => {
+      //   const imageName = files![i].name;
+      //   const imageSize = files![i].size;
       //   newArr.push({
-      //     url: imageUrl,
+      //     url: res.uploadedFiles[0].url,
       //     size: imageSize,
       //     originalName: imageName,
       //   });
-      // }
-      // setImgArr(newArr);
+      // });
     }
+    // setImgArr(newArr);
   };
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
