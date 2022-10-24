@@ -152,30 +152,28 @@ const ProductAddComponent = (props: Props) => {
     e.preventDefault();
     imgRef?.current?.click();
   };
-  // form 온클릭
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
   // 사진 저장
   const saveFileImage = (e: any) => {
     const { files } = e.target;
-    console.log(files[0]);
+    console.log(files);
     const maxLength = 3;
     const newArr = [...imgArr];
     // max길이 보다 짧으면 멈춤
+    const arr = [];
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
         break;
       }
       // multer s3
-
+      arr.push(files[i].name);
+      // console.log(formData);
       const formData = new FormData();
       formData.append('chargerProduct', files[i]);
-      formData.append('chargerProduct', encodeURIComponent(files[i].name));
-      // console.log(encodeURIComponent(files[i].name));
-      //
-      console.log(formData);
-      multer(formData);
+      formData.append(
+        'chargerProduct',
+        'encodeName',
+        encodeURIComponent(files[i]),
+      );
       // formData.append('chargerProduct', encodeURIComponent(files[i].name));
       // formData.append('chargerProduct', files[i].size);
       // formData.append('chargerProduct', files[i].type);
@@ -188,6 +186,8 @@ const ProductAddComponent = (props: Props) => {
       //   originalName: imageName,
       // });
     }
+
+    // multer(formData);
     // setImgArr(newArr);
   };
   // 사진 삭제
