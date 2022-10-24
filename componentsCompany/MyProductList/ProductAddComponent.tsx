@@ -163,14 +163,20 @@ const ProductAddComponent = (props: Props) => {
       }
       // multer s3
       const formData = new FormData();
+      console.log('-----mutate data ------');
+      // console.log(encodeURIComponent(files![i].name));
+      // files![i].name = encodeURIComponent(files[i].name);
+
       formData.append('chargerProduct', files[i]);
+
       multer(formData);
+
       // console.log(formData);
       // 이미지 객체 생성 후 상태에 저장
       // const imageUrl = URL.createObjectURL(files![i]);
       const imageName = files![i].name;
       const imageSize = files![i].size;
-      console.log('-----mutate data ------');
+
       console.log(data);
       //   newArr.push({
       //     url: imageUrl,
