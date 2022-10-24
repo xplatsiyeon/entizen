@@ -10,10 +10,6 @@ import fileImg from 'public/mypage/file-icon.svg';
 import TwoBtn from './TwoBtn';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
-import { ProductListResponse } from './ProductList';
-import { productList } from 'api/company/quotations';
-import Loader from 'components/Loader';
 
 type Props = {};
 const TAG = 'componentsCompany/MyProductList/myProduct';
