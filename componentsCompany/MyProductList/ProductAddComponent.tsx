@@ -155,7 +155,7 @@ const ProductAddComponent = (props: Props) => {
   // 사진 저장
   const saveFileImage = (e: any) => {
     const { files } = e.target;
-    console.log(files[0]);
+    // console.log(files[0]);
     const maxLength = 3;
     const newArr = [...imgArr];
     // max길이 보다 짧으면 멈춤
@@ -167,7 +167,17 @@ const ProductAddComponent = (props: Props) => {
 
       const formData = new FormData();
       formData.append('chargerProduct', files[i]);
-      multer(formData);
+      formData.set('chargerProduct', encodeURIComponent(files[i].name));
+      console.log(encodeURIComponent(files[i].name));
+      console.log(formData);
+
+      // data.append("thumb_name",encodeURIComponent(name));
+
+      // formData.append('chargerProduct', encodeURIComponent(files[i].name));
+      // formData.append('chargerProduct', files[i].size);
+      // formData.append('chargerProduct', files[i].type);
+
+      // multer(formData);
       // ----axios----
       // const BASE_URL = 'https://test-api.entizen.kr/api';
       // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
