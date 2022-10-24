@@ -170,11 +170,7 @@ const ProductAddComponent = (props: Props) => {
       // console.log(formData);
 
       formData.append('chargerProduct', files[i]);
-      formData.append(
-        'chargerProduct',
-        'encodeName',
-        encodeURIComponent(files[i]),
-      );
+      formData.append('encodeName', encodeURIComponent(files[i]));
       // formData.append('chargerProduct', encodeURIComponent(files[i].name));
       // formData.append('chargerProduct', files[i].size);
       // formData.append('chargerProduct', files[i].type);
