@@ -170,14 +170,12 @@ const ProductAddComponent = (props: Props) => {
       formData.set('chargerProduct', encodeURIComponent(files[i].name));
       console.log(encodeURIComponent(files[i].name));
       console.log(formData);
-
-      // data.append("thumb_name",encodeURIComponent(name));
+      multer(formData);
 
       // formData.append('chargerProduct', encodeURIComponent(files[i].name));
       // formData.append('chargerProduct', files[i].size);
       // formData.append('chargerProduct', files[i].type);
 
-      // multer(formData);
       // ----axios----
       // const BASE_URL = 'https://test-api.entizen.kr/api';
       // const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
