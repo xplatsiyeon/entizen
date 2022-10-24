@@ -152,10 +152,14 @@ const ProductAddComponent = (props: Props) => {
     e.preventDefault();
     imgRef?.current?.click();
   };
+  // form 온클릭
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
   // 사진 저장
   const saveFileImage = (e: any) => {
     const { files } = e.target;
-    // console.log(files[0]);
+    console.log(files[0]);
     const maxLength = 3;
     const newArr = [...imgArr];
     // max길이 보다 짧으면 멈춤
@@ -166,16 +170,12 @@ const ProductAddComponent = (props: Props) => {
       // multer s3
 
       const formData = new FormData();
-      formData.set(
-        'chargerProduct',
-        files[i].name,
-        encodeURIComponent(files[i].name),
-      );
       formData.append('chargerProduct', files[i]);
+      formData.append('chargerProduct', encodeURIComponent(files[i].name));
       // console.log(encodeURIComponent(files[i].name));
+      //
       console.log(formData);
-      multer(formData);
-
+      // multer(formData);
       // formData.append('chargerProduct', encodeURIComponent(files[i].name));
       // formData.append('chargerProduct', files[i].size);
       // formData.append('chargerProduct', files[i].type);
@@ -438,17 +438,14 @@ const ProductAddComponent = (props: Props) => {
             <AddPhotos onClick={imgHandler}>
               <Image src={camera} alt="" />
             </AddPhotos>
-            {/* <form action="" accept-charset="UTF-8"> */}
             <input
               style={{ display: 'none' }}
               ref={imgRef}
               type="file"
               accept="image/*"
-              accept-charset="UTF-8"
               onChange={saveFileImage}
               multiple
             />
-            {/* </form> */}
             {/* <Preview> */}
             {imgArr?.map((img, index) => (
               <ImgSpan key={index} data-name={index}>
