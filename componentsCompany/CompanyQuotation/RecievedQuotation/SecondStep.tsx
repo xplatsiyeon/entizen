@@ -32,7 +32,7 @@ type Props = {
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   StepIndex: number;
   maxIndex: number;
-  routerId: number;
+  routerId: string | string[];
 };
 
 const TAP = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';

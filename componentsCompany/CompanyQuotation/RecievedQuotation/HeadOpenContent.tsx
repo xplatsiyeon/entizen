@@ -109,6 +109,9 @@ const HeadOpenContent = ({}: Props) => {
     },
   );
 
+  console.log(TAG + '받은 요청 id data -->>');
+  console.log(data);
+
   // step별 컴포넌트
   const components: Components = {
     // 기본
@@ -135,6 +138,7 @@ const HeadOpenContent = ({}: Props) => {
         SetCanNext={SetCanNext}
         StepIndex={0}
         maxIndex={target}
+        routerId={routerId}
       />
     ),
     // 스텝 3
