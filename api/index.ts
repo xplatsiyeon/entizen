@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import qs from "qs";
 
 interface ApiProps {
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
@@ -137,7 +136,7 @@ export async function multerApi(formData: any) {
       // Accept: 'application/json; charset=utf-8',
       Accept: '*/*',
     },
-    data: qs.stringify(formData),
+    data: formData,
     withCredentials: true,
   }).then((res) => res);
 }

@@ -168,11 +168,6 @@ const ProductAddComponent = (props: Props) => {
 
       // formData.append('chargerProduct', files[i], encodeURIComponent(files[i].name)
       formData.append('chargerProduct', files[i]);
-      // formData.append(
-      //   'chargerProduct',
-      //   files[i],
-      //   files[i].name.toString('utf8'),
-      // );
 
       // multer s3
       // arr.push(files[i].name);
