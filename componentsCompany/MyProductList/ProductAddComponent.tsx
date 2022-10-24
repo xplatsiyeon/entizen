@@ -464,16 +464,13 @@ const ProductAddComponent = (props: Props) => {
             {imgArr?.map((img, index) => (
               <ImgSpan key={index} data-name={index}>
                 <Image
-                  style={{
-                    borderRadius: '6pt',
-                  }}
-                  layout="intrinsic"
+                  layout="fill"
                   alt="preview"
-                  width={74.75}
                   data-name={index}
-                  height={74.75}
                   key={index}
                   src={img.url}
+                  priority={true}
+                  unoptimized={true}
                 />
                 <Xbox onClick={handlePhotoDelete} data-name={index}>
                   <Image
@@ -791,6 +788,9 @@ const AddPhotos = styled.button`
 
 const ImgSpan = styled.div`
   position: relative;
+  width: 74.75pt;
+  height: 74.75pt;
+  border-radius: 6pt;
 `;
 const Xbox = styled.div`
   position: absolute;
