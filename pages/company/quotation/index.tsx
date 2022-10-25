@@ -44,7 +44,7 @@ const CompanyQuotations = (props: Props) => {
     (state: RootState) => state.companyRequestFilterNumberData,
   );
   // 상단 탭
-  const [tabNumber, setTabNumber] = useState(-1);
+  const [tabNumber, setTabNumber] = useState(0);
   const [searchWord, setSearchWord] = useState<string>('');
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
@@ -67,13 +67,15 @@ const CompanyQuotations = (props: Props) => {
       },
     },
   );
+  console.log(data);
+
   useEffect(() => {
     dispatch(myEstimateAction.reset());
   }, []);
   // 필터링 기능
   useEffect(() => {
     refetch();
-  }, [keyword]);
+  }, [checkedFilterIndex, keyword]);
 
   return (
     <>
