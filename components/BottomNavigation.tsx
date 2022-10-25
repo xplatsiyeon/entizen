@@ -16,19 +16,24 @@ import mypageOn from 'public/navigation/mypage-on-icon.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { useQuery } from 'react-query';
 import { isTokenApi } from 'api';
 
-type Props = { data?: any };
+type Props = {};
 
-const BottomNavigation = ({ data }: Props) => {
+const BottomNavigation = ({}: Props) => {
   const router = useRouter();
   const user_ID = localStorage.getItem('USER_ID');
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
+
+  const { data, isLoading, isError } = useQuery('receivedRequest/bottom', () =>
+    isTokenApi({
+      endpoint: `/quotations/received-request?keyword=&sort=deadline`,
+      method: 'GET',
+    }),
+  );
 
   useEffect(() => {
     if (memberType === 'COMPANY') {

@@ -12,11 +12,25 @@ import Loader from 'components/Loader';
 import { Router } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 
-type Props = { data: any };
+type Props = {};
 const TAG = 'commponents/Main/companyMain/QuotationCenter';
-const QuotationCenter = ({ data }: Props) => {
+const QuotationCenter = ({}: Props) => {
   const router = useRouter();
 
+  const { data, isLoading, isError } = useQuery('receivedRequest', () =>
+    isTokenApi({
+      endpoint: `/quotations/received-request?keyword=&sort=deadline`,
+      method: 'GET',
+    }),
+  );
+
+  if (isError) {
+    alert('잠시 후 다시 시도해주세요.');
+    router.push('/404');
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <Wrapper>
       <ImgBox>

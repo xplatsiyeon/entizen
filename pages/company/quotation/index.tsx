@@ -84,8 +84,6 @@ const CompanyQuotations = (props: Props) => {
   if (isLoading) {
     return <Loader />;
   }
-
-  const { receivedQuotationRequests } = data?.data;
   return (
     <>
       <Container>
@@ -102,7 +100,7 @@ const CompanyQuotations = (props: Props) => {
         />
         {/* 받은 요청 */}
         {tabNumber === 0 && (
-          <RecieveRequest queryData={receivedQuotationRequests} />
+          <RecieveRequest queryData={data?.data.receivedQuotationRequests} />
         )}
         {/* 보낸 견적 */}
         {tabNumber === 1 && (
