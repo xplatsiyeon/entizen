@@ -16,9 +16,12 @@ interface Data {
   badge: string;
   installationAddress: string;
 }
+const TAG = '👀 ~RecieveRequest ~line 25 queryData';
 const RecieveRequest = ({ checkedFilterIndex, queryData }: Props) => {
   const router = useRouter();
 
+  console.log(TAG);
+  console.log(queryData);
   return (
     <ContentsContainer>
       {queryData?.map((el) => (
