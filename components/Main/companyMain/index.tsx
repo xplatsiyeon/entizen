@@ -26,18 +26,27 @@ import BottomNavigation from 'components/BottomNavigation';
 import CheckQuotationBtn from './CheckQuotationBtn';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
+import { useQuery } from 'react-query';
+import { isTokenApi } from 'api';
+import Loader from 'components/Loader';
 
 type Props = {};
 
 const CompanyMainPage = (props: Props) => {
   const router = useRouter();
+  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
   });
 
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  const { data, isLoading, isError } = useQuery('receivedRequest', () =>
+    isTokenApi({
+      endpoint: `/quotations/received-request?keyword=&sort=deadline`,
+      method: 'GET',
+    }),
+  );
   const toggleDrawer =
     (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -227,6 +236,13 @@ const CompanyMainPage = (props: Props) => {
     </WholeBox>
   );
 
+  if (isError) {
+    alert('잠시 후 다시 시도해주세요.');
+    router.push('/404');
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <Container>
@@ -270,12 +286,12 @@ const CompanyMainPage = (props: Props) => {
         <Carousel />
 
         {/* 메인 페이지 컴포넌트*/}
-        <QuotationCenter />
+        <QuotationCenter data={data} />
         {/* 메인 페이지 버튼*/}
         <CheckQuotationBtn />
       </Container>
       <Footer />
-      <BottomNavigation />
+      <BottomNavigation data={data} />
     </>
   );
 };

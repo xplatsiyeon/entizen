@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { isTokenApi } from 'api/index';
 import BottomNavigation from 'components/BottomNavigation';
+import Loader from 'components/Loader';
 import History from 'componentsCompany/CompanyQuotation/History';
 import useDebounce from 'hooks/useDebounce';
 import React, { useEffect, useState } from 'react';
@@ -79,6 +80,10 @@ const CompanyQuotations = (props: Props) => {
   useEffect(() => {
     refetch();
   }, [checkedFilterIndex, keyword]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   const { receivedQuotationRequests } = data?.data;
   return (

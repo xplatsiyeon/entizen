@@ -21,26 +21,14 @@ import { RootState } from 'store/store';
 import { useQuery } from 'react-query';
 import { isTokenApi } from 'api';
 
-type Props = {};
+type Props = { data: any };
 
-const BottomNavigation = ({}: Props) => {
+const BottomNavigation = ({ data }: Props) => {
   const router = useRouter();
   const user_ID = localStorage.getItem('USER_ID');
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
-
-  // const { data, isLoading, isError } = useQuery(
-  //   'receivedRequest',
-  //   () =>
-  //     isTokenApi({
-  //       endpoint: `/quotations/received-request?keyword=$&sort=deadline`,
-  //       method: 'GET',
-  //     }),
-  //   {
-  //     enabled: memberType === 'COMPANY',
-  //   },
-  // );
 
   useEffect(() => {
     if (memberType === 'COMPANY') {
@@ -78,10 +66,6 @@ const BottomNavigation = ({}: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabNumber]);
 
-  // if (isError) {
-  //   alert('잠시 후 다시 시도해주세요.');
-  //   router.push('/404');
-  // }
   return (
     <Wrapper>
       {memberType === 'COMPANY' ? (
@@ -108,7 +92,7 @@ const BottomNavigation = ({}: Props) => {
                 router.push('/company/quotation');
               }}
             >
-              {/* {data?.data.receivedQuotationRequests.length === 0 && (
+              {data?.data.receivedQuotationRequests.length === 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -136,7 +120,7 @@ const BottomNavigation = ({}: Props) => {
                     {data?.data.receivedQuotationRequests.length}
                   </CountQuotation>
                 </ImgBox>
-              )} */}
+              )}
 
               <H3 clicked={tabNumber === 1 ? true : false}>내 견적</H3>
             </div>
