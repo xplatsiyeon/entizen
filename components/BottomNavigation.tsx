@@ -28,11 +28,16 @@ const BottomNavigation = ({}: Props) => {
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
 
-  const { data, isLoading, isError } = useQuery('receivedRequest/bottom', () =>
-    isTokenApi({
-      endpoint: `/quotations/received-request?keyword=&sort=deadline`,
-      method: 'GET',
-    }),
+  const { data, isLoading, isError } = useQuery(
+    'receivedRequest',
+    () =>
+      isTokenApi({
+        endpoint: `/quotations/received-request?keyword=&sort=deadline`,
+        method: 'GET',
+      }),
+    {
+      enabled: memberType === 'COMPANY',
+    },
   );
 
   useEffect(() => {
