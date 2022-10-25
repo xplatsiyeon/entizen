@@ -16,20 +16,46 @@ import Mypage2_1 from 'components/mypage/request/2-1';
 import Button from 'components/mypage/request/Button';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
-//import Request from '..';
 import RequestMain from 'components/mypage/request/requestMain';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
 
-// enabled: router.isReady,
-
-const Mypage1_3 = ({ data }: any) => {
+const TAG = '/page/mypage/request/[id].tsx';
+const Mypage1_3 = ({}: any) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
+  const { data, isError, isLoading } = useQuery(
+    'mypage/request/id',
+    () => isTokenGetApi(`/quotations/received-request/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   // 모달 왼쪽, 오른쪽 버튼 핸들러
   const backPage = () => router.back();
   const handleOnClick = () => setModalOpen(!modalOpen);
+
+  if (isError) {
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
+  console.log(TAG + '⭐️ ~line 53 ~ api data 확인');
+  console.log(data);
+
   return (
     <>
       {/* 모달 */}
