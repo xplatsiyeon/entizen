@@ -30,14 +30,6 @@ interface Response {
     quotationRequests: QuotationRequests;
   };
 }
-
-interface Data {
-  id: number;
-  badge: string;
-  storeName: string;
-  date: string;
-}
-
 const TAG = 'componets/mypage/request/estimate.tsx';
 const Estimate = () => {
   const router = useRouter();
@@ -53,7 +45,7 @@ const Estimate = () => {
   if (isLoading) {
     return <Loader />;
   }
-  console.log(TAG + '⭐️ ~line 58 ~react query data test');
+  // console.log(TAG + '⭐️ ~line 58 ~react query data test');
   const { inProgress, history } = data?.data?.quotationRequests!;
 
   // 견적서가 없는 경우
@@ -72,7 +64,9 @@ const Estimate = () => {
             {inProgress.quotations.map((data, index) => (
               <CarouselItem
                 key={data.quotationRequestIdx}
-                onClick={() => router.push('/mypage/request/1-3')}
+                onClick={() =>
+                  router.push(`/mypage/request/${data.quotationRequestIdx}`)
+                }
               >
                 <Badge className="badge" color={HandleUserColor(data.badge)}>
                   {data.badge}
@@ -96,7 +90,9 @@ const Estimate = () => {
             {history.quotations.map((data, index) => (
               <CarouselItem
                 key={data.quotationRequestIdx}
-                onClick={() => router.push('/mypage/request/1-3')}
+                onClick={() =>
+                  router.push(`/mypage/request/${data.quotationRequestIdx}`)
+                }
               >
                 <Badge className="badge" color={HandleUserColor(data.badge)}>
                   {data.badge}

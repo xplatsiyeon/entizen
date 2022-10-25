@@ -57,19 +57,13 @@ const Tab = ({
   );
   const [state, setState] = useState({ bottom: false });
 
-  const onClickTab = useCallback(
-    (index: number) => {
-      dispatch(companyRequestTabNumberAction.setNumber(index));
-    },
-    [checkedFilterIndex],
-  );
+  const onClickTab = (index: number) => {
+    dispatch(companyRequestTabNumberAction.setNumber(index));
+  };
 
-  const onClickIndex = useCallback(
-    (index: number) => {
-      setCheckedFilterIndex(index);
-    },
-    [checkedFilterIndex],
-  );
+  const onClickIndex = (index: number) => {
+    setCheckedFilterIndex(index);
+  };
 
   useEffect(() => {
     setCheckedFilter(filterList[checkedFilterIndex]);
