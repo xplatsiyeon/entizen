@@ -101,11 +101,6 @@ const Estimate = () => {
     isTokenGetApi('/quotations/request'),
   );
 
-  console.log(TAG + '⭐️ ~line 82 ~react query data test');
-  const { inProgress, history } = data?.data.quotationRequests!;
-  console.log(inProgress);
-  console.log(history);
-
   // 견적서가 없는 경우
   if (tempProceeding.length === 0 && temphisTory.length === 0) {
     return <NoHistory />;
@@ -118,10 +113,15 @@ const Estimate = () => {
   if (isLoading) {
     return <Loader />;
   }
+  console.log(TAG + '⭐️ ~line 82 ~react query data test');
+
+  const { inProgress, history } = data?.data?.quotationRequests!;
+  console.log(inProgress);
+  console.log(history);
   return (
     <Wrapper>
       {/* 진행중 */}
-      {tempProceeding.length > 0 && (
+      {data?.data?.quotationRequests?.inProgress.quotations.length! > 0 && (
         <Proceeding>
           <Label>
             진행 중 <span className="num">{tempProceeding.length}</span>
