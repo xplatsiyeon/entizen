@@ -96,8 +96,11 @@ const ProductAddComponent = (props: Props) => {
       setImgArr(newArr);
     },
     onError: (error: any) => {
-      if (error.response.data) {
+      if (error.response.data.message) {
         setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.state === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
         setIsModal(true);
       } else {
         setErrorMessage('다시 시도해주세요');
@@ -126,8 +129,11 @@ const ProductAddComponent = (props: Props) => {
       setFileArr(newFile);
     },
     onError: (error: any) => {
-      if (error.response.data) {
+      if (error.response.data.message) {
         setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.state === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
         setIsModal(true);
       } else {
         setErrorMessage('다시 시도해주세요');

@@ -92,7 +92,7 @@ const SecondStep = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
       console.log(res);
       const newArr = [...imgArr];
       res?.uploadedFiles.forEach((img) => {
@@ -105,8 +105,11 @@ const SecondStep = ({
       setImgArr(newArr);
     },
     onError: (error: any) => {
-      if (error.response.data) {
+      if (error.response.data.message) {
         setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.state === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
         setIsModal(true);
       } else {
         setErrorMessage('다시 시도해주세요');
@@ -122,7 +125,7 @@ const SecondStep = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      console.log(TAG + ' 👀 ~ line 128 multer onSuccess');
       console.log(res);
       const newFile = [...fileArr];
       res?.uploadedFiles.forEach((img) => {
@@ -135,8 +138,11 @@ const SecondStep = ({
       setFileArr(newFile);
     },
     onError: (error: any) => {
-      if (error.response.data) {
+      if (error.response.data.message) {
         setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.state === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
         setIsModal(true);
       } else {
         setErrorMessage('다시 시도해주세요');
@@ -502,20 +508,16 @@ const SecondStep = ({
               multiple
             />
             {/* <Preview> */}
-
             {imgArr?.map((item, index) => (
               <ImgSpan key={index} data-name={index}>
                 <Image
-                  style={{
-                    borderRadius: '6pt',
-                  }}
-                  layout="intrinsic"
+                  layout="fill"
                   alt="preview"
-                  width={74.75}
                   data-name={index}
-                  height={74.75}
                   key={index}
                   src={item.url}
+                  priority={true}
+                  unoptimized={true}
                 />
                 <Xbox onClick={handlePhotoDelete} data-name={index}>
                   <Image
@@ -941,6 +943,9 @@ const AddPhotos = styled.button`
 `;
 const ImgSpan = styled.div`
   position: relative;
+  width: 56.0625pt;
+  height: 56.0625pt;
+  border-radius: 6pt;
 `;
 const Xbox = styled.div`
   position: absolute;
