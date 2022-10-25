@@ -12,7 +12,13 @@ import {
   Typography,
 } from '@mui/material';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import search from 'public/images/search.png';
 import colors from 'styles/colors';
 import checkSvg from 'public/images/check-small.png';
@@ -51,9 +57,19 @@ const Tab = ({
   );
   const [state, setState] = useState({ bottom: false });
 
-  const onClickTab = (index: number) => {
-    dispatch(companyRequestTabNumberAction.setNumber(index));
-  };
+  const onClickTab = useCallback(
+    (index: number) => {
+      dispatch(companyRequestTabNumberAction.setNumber(index));
+    },
+    [checkedFilterIndex],
+  );
+
+  const onClickIndex = useCallback(
+    (index: number) => {
+      setCheckedFilterIndex(index);
+    },
+    [checkedFilterIndex],
+  );
 
   useEffect(() => {
     setCheckedFilter(filterList[checkedFilterIndex]);
@@ -75,7 +91,7 @@ const Tab = ({
             <ListItems
               key={index}
               disablePadding
-              onClick={() => setCheckedFilterIndex(index)}
+              onClick={() => onClickIndex(index)}
             >
               <ListItemButtons>
                 <ListItemTexts sx={{ textAlign: 'center' }} primary={text} />{' '}
