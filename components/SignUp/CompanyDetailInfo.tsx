@@ -155,49 +155,7 @@ const CompanyDetailInfo = ({
       }
     }
   };
-  // // 파일 저장
-  // const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { files } = e.target;
-  //   const maxLength = 3;
-  //   const newArr = [...businessRegistration];
-  //   // max길이 보다 짧으면 멈춤
-  //   for (let i = 0; i < maxLength; i += 1) {
-  //     if (files![i] === undefined) {
-  //       break;
-  //     }
-  //     // 이미지 객체 생성 후 상태에 저장
-  //     const imageUrl = URL.createObjectURL(files![i]);
-  //     console.log('test');
-  //     console.log(imageUrl);
-  //     const imageName = files![i].name;
-  //     const imageSize = files![i].size;
-  //     newArr.push({
-  //       url: imageUrl,
-  //       size: imageSize,
-  //       originalName: imageName,
-  //     });
-  //   }
-  //   setBusinessRegistration(newArr);
-  // };
-  // // 파일 용량 체크
-  // const getByteSize = (size: number) => {
-  //   const byteUnits = ['KB', 'MB', 'GB', 'TB'];
-  //   for (let i = 0; i < byteUnits.length; i++) {
-  //     size = Math.floor(size / 1024);
-  //     if (size < 1024) return size.toFixed(1) + byteUnits[i];
-  //   }
-  // };
-  // 파일 삭제
-  // const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-  //   const name = Number(e.currentTarget.dataset.name);
-  //   const copyArr = [...businessRegistration];
-  //   for (let i = 0; i < copyArr.length; i++) {
-  //     if (i === name) {
-  //       copyArr.splice(i, 1);
-  //       return setBusinessRegistration(copyArr);
-  //     }
-  //   }
-  // };
+  // 이미지 or 파일 클릭
   const handleOnClick = () => {
     if (!imgPreview && !filePreview) {
       console.log('처음 클릭');
@@ -369,16 +327,13 @@ const CompanyDetailInfo = ({
               businessRegistration?.map((item, index) => (
                 <ImgSpan key={index} data-name={index}>
                   <Image
-                    style={{
-                      borderRadius: '6pt',
-                    }}
-                    layout="intrinsic"
+                    layout="fill"
                     alt="preview"
-                    width={80}
                     data-name={index}
-                    height={80}
                     key={index}
                     src={item.url}
+                    priority={true}
+                    unoptimized={true}
                   />
                   <Xbox onClick={deleteFileImage} data-name={index}>
                     <Image
@@ -552,6 +507,9 @@ const PhotosBox = styled.div`
 `;
 const ImgSpan = styled.div`
   position: relative;
+  width: 60pt;
+  height: 60pt;
+  border-radius: 6pt;
 `;
 const Xbox = styled.div`
   position: absolute;
