@@ -20,11 +20,12 @@ import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
 import { useMutation } from 'react-query';
-import { isTokenPostApi } from 'api';
+import { isTokenPostApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 
 type Props = {
   tabNumber: number;
@@ -36,7 +37,7 @@ type Props = {
   routerId: string | string[];
 };
 
-const TAP = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
+const TAG = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
 
 const SecondStep = ({
   tabNumber,
@@ -84,7 +85,67 @@ const SecondStep = ({
   } = useSelector((state: RootState) => state.companymyEstimateData);
   const newCharge = chargers.slice(0, maxIndex);
 
-  // api 호출
+  // image s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      console.log(res);
+      const newArr = [...imgArr];
+      res?.uploadedFiles.forEach((img) => {
+        newArr.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setImgArr(newArr);
+    },
+    onError: (error: any) => {
+      if (error.response.data) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+        setNetworkError(true);
+      }
+    },
+  });
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerFile, isLoading: multerFileLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      console.log(res);
+      const newFile = [...fileArr];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setFileArr(newFile);
+    },
+    onError: (error: any) => {
+      if (error.response.data) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+        setNetworkError(true);
+      }
+    },
+  });
+  // 보내기 POST API
   const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: () => {
       router.push('/company/recievedRequest/complete');
@@ -103,7 +164,6 @@ const SecondStep = ({
       }
     },
   });
-
   // 모달 클릭
   const onClickModal = () => {
     if (networkError) {
@@ -127,26 +187,22 @@ const SecondStep = ({
     imgRef?.current?.click();
   };
   // 사진 저장
-  const saveFileImage = (e: any) => {
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 3;
-    const newArr = [...imgArr];
     // max길이 보다 짧으면 멈춤
+    const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
         break;
       }
-      // 이미지 객체 생성 후 상태에 저장
-      const imageUrl = URL.createObjectURL(files![i]);
-      const imageName = files![i].name;
-      const imageSize = files![i].size;
-      newArr.push({
-        url: imageUrl,
-        size: imageSize,
-        originalName: imageName,
-      });
+      formData.append(
+        'chargerProduct',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
     }
-    setImgArr(newArr);
+    multerImage(formData);
   };
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -167,23 +223,19 @@ const SecondStep = ({
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 3;
-    const newArr = [...fileArr];
     // max길이 보다 짧으면 멈춤
+    const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
         break;
       }
-      // 이미지 객체 생성 후 상태에 저장
-      const imageUrl = URL.createObjectURL(files![i]);
-      const imageName = files![i].name;
-      const imageSize = files![i].size;
-      newArr.push({
-        url: imageUrl,
-        size: imageSize,
-        originalName: imageName,
-      });
+      formData.append(
+        'chargerProduct',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
     }
-    setFileArr(newArr);
+    multerFile(formData);
   };
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -244,7 +296,7 @@ const SecondStep = ({
   };
   // 포스트 버튼
   const onClickPost = () => {
-    console.log(TAP + '-> 포스트');
+    console.log(TAG + '-> 포스트');
     // 스텝2까지밖에 없을 때
     if (maxIndex === 1) {
       postMutate({
@@ -301,7 +353,7 @@ const SecondStep = ({
   // 상태 업데이트 및 초기화 (with 리덕스)
   useEffect(() => {
     const target = chargers[StepIndex];
-    console.log(TAP + 'target 확인');
+    console.log(TAG + 'target 확인');
     console.log(StepIndex);
     console.log(target);
     if (target?.chargePriceType !== '') {

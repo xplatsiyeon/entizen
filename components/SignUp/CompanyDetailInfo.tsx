@@ -74,7 +74,7 @@ const CompanyDetailInfo = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      console.log(TAG + ' 👀 ~ line 77 multer onSuccess');
       console.log(res);
       const newArr = [...businessRegistration];
       res?.uploadedFiles.forEach((img) => {
