@@ -56,7 +56,8 @@ const CompanyQuotations = (props: Props) => {
     'receivedRequest',
     () =>
       isTokenApi({
-        endpoint: `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        // endpoint: `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        endpoint: `/quotations/received-request?keyword=${keyword}&sort=deadline`,
         method: 'GET',
       }),
     {
