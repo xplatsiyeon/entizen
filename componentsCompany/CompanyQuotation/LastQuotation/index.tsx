@@ -47,6 +47,7 @@ const LastWrite = (props: Props) => {
         SetCanNext={SetCanNext}
         StepIndex={0}
         maxIndex={target}
+        routerId={'1'}
       />
     ),
     // 스텝 3

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, TextField } from '@mui/material';
+import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, {
   Dispatch,
   SetStateAction,
@@ -20,9 +20,12 @@ import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
 import { useMutation } from 'react-query';
-import { isTokenApi } from 'api';
+import { isTokenPostApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
+import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
+import { AxiosError } from 'axios';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 
 type Props = {
   tabNumber: number;
@@ -30,10 +33,11 @@ type Props = {
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   StepIndex: number;
-  maxIndex: number;
+  maxIndex: number | undefined;
+  routerId: string | string[];
 };
 
-const TAP = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
+const TAG = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
 
 const SecondStep = ({
   tabNumber,
@@ -42,6 +46,7 @@ const SecondStep = ({
   canNext,
   SetCanNext,
   StepIndex,
+  routerId,
 }: Props) => {
   // 사진을 위한 ref
   const dispatch = useDispatch();
@@ -49,6 +54,11 @@ const SecondStep = ({
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
+  const chargeTypeListEn: string[] = [
+    'PURCHASER_AUTONOMY',
+    'OPERATION_BUSINESS_CARRIER_INPUT',
+  ];
+
   const chargerData: string[] = [
     'LECS-007ADE',
     'LECS-006ADE',
@@ -64,6 +74,7 @@ const SecondStep = ({
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // 리덕스
   const {
@@ -74,8 +85,72 @@ const SecondStep = ({
   } = useSelector((state: RootState) => state.companymyEstimateData);
   const newCharge = chargers.slice(0, maxIndex);
 
-  // api 호출
-  const { mutate: postMutate, isLoading } = useMutation(isTokenApi, {
+  // image s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
+      console.log(res);
+      const newArr = [...imgArr];
+      res?.uploadedFiles.forEach((img) => {
+        newArr.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setImgArr(newArr);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerFile, isLoading: multerFileLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      console.log(TAG + ' 👀 ~ line 128 multer onSuccess');
+      console.log(res);
+      const newFile = [...fileArr];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setFileArr(newFile);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+  // 보내기 POST API
+  const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: () => {
       router.push('/company/recievedRequest/complete');
     },
@@ -87,26 +162,26 @@ const SecondStep = ({
         setErrorMessage(data.message);
         setIsModal(true);
       } else {
-        alert('다시 시도해주세요');
-        router.push('/company/quotation');
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+        setNetworkError(true);
       }
     },
   });
-  // 포스트 버튼
-  const onClickPost = () => {
-    console.log(TAP + '-> 포스트');
-    postMutate({
-      endpoint: '/abc',
-      method: 'POST',
-      data: {
-        subscribePricePerMonth: subscribePricePerMonth,
-        constructionPeriod: constructionPeriod,
-        subscribeProductFeature: subscribeProductFeature,
-        chargers: chargers,
-      },
-    });
+  // 모달 클릭
+  const onClickModal = () => {
+    if (networkError) {
+      setIsModal(false);
+      router.push('/company/quotation');
+    } else {
+      setIsModal(false);
+    }
   };
 
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setFee(inputPriceFormat(value));
+  };
   const handleChargeTypeNumber = (index: number) => {
     setChargeTypeNumber(index);
   };
@@ -116,26 +191,22 @@ const SecondStep = ({
     imgRef?.current?.click();
   };
   // 사진 저장
-  const saveFileImage = (e: any) => {
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 3;
-    const newArr = [...imgArr];
     // max길이 보다 짧으면 멈춤
+    const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
         break;
       }
-      // 이미지 객체 생성 후 상태에 저장
-      const imageUrl = URL.createObjectURL(files![i]);
-      const imageName = files![i].name;
-      const imageSize = files![i].size;
-      newArr.push({
-        url: imageUrl,
-        size: imageSize,
-        originalName: imageName,
-      });
+      formData.append(
+        'chargerProduct',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
     }
-    setImgArr(newArr);
+    multerImage(formData);
   };
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -156,31 +227,19 @@ const SecondStep = ({
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 3;
-    const newArr = [...fileArr];
     // max길이 보다 짧으면 멈춤
+    const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
         break;
       }
-      // 이미지 객체 생성 후 상태에 저장
-      const imageUrl = URL.createObjectURL(files![i]);
-      const imageName = files![i].name;
-      const imageSize = files![i].size;
-      newArr.push({
-        url: imageUrl,
-        size: imageSize,
-        originalName: imageName,
-      });
+      formData.append(
+        'chargerProduct',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
     }
-    setFileArr(newArr);
-  };
-  // 파일 용량 체크
-  const getByteSize = (size: number) => {
-    const byteUnits = ['KB', 'MB', 'GB', 'TB'];
-    for (let i = 0; i < byteUnits.length; i++) {
-      size = Math.floor(size / 1024);
-      if (size < 1024) return size.toFixed(1) + byteUnits[i];
-    }
+    multerFile(formData);
   };
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -194,7 +253,9 @@ const SecondStep = ({
     }
   };
   // 셀렉트 박스 클릭
-  const onChangeSelectBox = (e: any) => setProductItem(e.target.value);
+  const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
+    setProductItem(e.target.value as chargerData);
+  };
   // 이전 버튼
   const handlePrevBtn = () => {
     if (tabNumber > 0) {
@@ -202,14 +263,14 @@ const SecondStep = ({
         myEstimateAction.setCharge({
           index: StepIndex,
           data: {
-            chargeType:
-              chargeTypeNumber !== -1 ? chargeTypeList[chargeTypeNumber] : '',
-            fee: fee,
-            productItem: productItem,
-            manufacturingCompany: manufacturingCompany,
-            chargeFeatures: chargeFeatures,
-            chargeImage: imgArr,
-            chargeFile: fileArr,
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
           },
         }),
       );
@@ -218,31 +279,69 @@ const SecondStep = ({
   };
   // 다음 버튼
   const handleNextBtn = (e: any) => {
-    // if (canNext && tabNumber < maxIndex) {
-    //   dispatch(
-    //     myEstimateAction.setCharge({
-    //       index: StepIndex,
-    //       data: {
-    //         chargeType:
-    //           chargeTypeNumber !== -1 ? chargeTypeList[chargeTypeNumber] : '',
-    //         fee: fee,
-    //         productItem: productItem,
-    //         manufacturingCompany: manufacturingCompany,
-    //         chargeFeatures: chargeFeatures,
-    //         chargeImage: imgArr,
-    //         chargeFile: fileArr,
-    //       },
-    //     }),
-    //   );
-    if (canNext) {
+    if (canNext && tabNumber < maxIndex!) {
+      dispatch(
+        myEstimateAction.setCharge({
+          index: StepIndex,
+          data: {
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
+          },
+        }),
+      );
       setTabNumber(tabNumber + 1);
     }
-    // }
+  };
+  // 포스트 버튼
+  const onClickPost = () => {
+    console.log(TAG + '-> 포스트');
+    // 스텝2까지밖에 없을 때
+    if (maxIndex === 1) {
+      postMutate({
+        url: `/quotations/pre/${routerId}`,
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: subscribeProductFeature,
+          chargers: [
+            {
+              chargePriceType:
+                chargeTypeNumber !== -1
+                  ? chargeTypeListEn[chargeTypeNumber]
+                  : '',
+              chargePrice: Number(fee.replaceAll(',', '')),
+              modelName: productItem,
+              manufacturer: manufacturingCompany,
+              feature: chargeFeatures,
+              chargerImageFiles: imgArr,
+              catalogFiles: fileArr,
+            },
+          ],
+        },
+      });
+      // 스텝2이상일 때
+    } else {
+      postMutate({
+        url: `/quotations/pre/${routerId}`,
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: subscribeProductFeature,
+          chargers: newCharge.slice(0, maxIndex),
+        },
+      });
+    }
   };
 
   // 다음버튼 유효성 검사
   useEffect(() => {
-    if (chargeTypeNumber !== -1 && manufacturingCompany !== '') {
+    if (chargeTypeNumber === 0 && manufacturingCompany !== '') {
       SetCanNext(true);
     } else if (
       chargeTypeNumber === 1 &&
@@ -258,6 +357,9 @@ const SecondStep = ({
   // 상태 업데이트 및 초기화 (with 리덕스)
   useEffect(() => {
     const target = chargers[StepIndex];
+    console.log(TAG + 'target 확인');
+    console.log(StepIndex);
+    console.log(target);
     if (target?.chargePriceType !== '') {
       if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
         setChargeTypeNumber(0);
@@ -303,7 +405,7 @@ const SecondStep = ({
   return (
     <>
       {/* 에러 모달 */}
-      {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
+      {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <Wrapper>
         <TopStep>
           <div>STEP {tabNumber + 1}</div>
@@ -330,13 +432,11 @@ const SecondStep = ({
           <InputBox>
             <div>
               <Input
-                onChange={(e: any) => setFee(e.target.value)}
+                onChange={onChangeInput}
                 placeholder="0"
                 value={fee}
                 name="subscribeMoney"
-                inputProps={{
-                  readOnly: chargeTypeNumber === -1 ? true : false,
-                }}
+                inputProps={{ readOnly: chargeTypeNumber === 0 ? true : false }}
               />
               <div>원/kW</div>
             </div>
@@ -354,8 +454,8 @@ const SecondStep = ({
         <SelectContainer>
           <SelectBox
             value={productItem}
-            onChange={(e) => onChangeSelectBox(e)}
-            IconComponent={() => <SelectIcon />}
+            onChange={onChangeSelectBox}
+            IconComponent={SelectIcon}
             displayEmpty
           >
             <MenuItem value="">
@@ -406,20 +506,16 @@ const SecondStep = ({
               multiple
             />
             {/* <Preview> */}
-
             {imgArr?.map((item, index) => (
               <ImgSpan key={index} data-name={index}>
                 <Image
-                  style={{
-                    borderRadius: '6pt',
-                  }}
-                  layout="intrinsic"
+                  layout="fill"
                   alt="preview"
-                  width={74.75}
                   data-name={index}
-                  height={74.75}
                   key={index}
                   src={item.url}
+                  priority={true}
+                  unoptimized={true}
                 />
                 <Xbox onClick={handlePhotoDelete} data-name={index}>
                   <Image
@@ -489,10 +585,15 @@ const SecondStep = ({
       </SecondWrapper>
       <TwoBtn>
         <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-
-        <NextBtn canNext={canNext} onClick={handleNextBtn}>
-          다음
-        </NextBtn>
+        {tabNumber === maxIndex ? (
+          <NextBtn canNext={canNext} onClick={onClickPost}>
+            보내기
+          </NextBtn>
+        ) : (
+          <NextBtn canNext={canNext} onClick={handleNextBtn}>
+            다음
+          </NextBtn>
+        )}
       </TwoBtn>
     </>
   );
@@ -756,7 +857,7 @@ const SelectBox = styled(Select)`
     border: none;
   }
   & svg {
-    padding-right: 11.25pt;
+    margin-right: 11.25pt;
   }
 `;
 const Placeholder = styled.em`
@@ -769,7 +870,7 @@ const Placeholder = styled.em`
 const SelectIcon = styled(KeyboardArrowDownIcon)`
   width: 18pt;
   height: 18pt;
-  color: ${colors.dark};
+  color: ${colors.dark} !important;
 `;
 const TextArea = styled.textarea`
   resize: none;
@@ -840,6 +941,9 @@ const AddPhotos = styled.button`
 `;
 const ImgSpan = styled.div`
   position: relative;
+  width: 56.0625pt;
+  height: 56.0625pt;
+  border-radius: 6pt;
 `;
 const Xbox = styled.div`
   position: absolute;

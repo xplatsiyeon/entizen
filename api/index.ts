@@ -11,10 +11,6 @@ interface PropsApi {
 }
 
 const BASE_URL = 'https://test-api.entizen.kr/api';
-// get => getApi / isTokenGetApi
-// put => postApi / isTokenPostApi
-// put => isTokenPutApi
-//delete => isTokenDeleteApi
 
 // API 호출 (토큰 O)
 export const isTokenApi = async (apiInfo: ApiProps) => {
