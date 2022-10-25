@@ -22,12 +22,12 @@ import { convertEn } from 'utils/changeValue';
 import { AxiosError } from 'axios';
 import { getByteSize } from 'utils/calculatePackage';
 
-interface ImgFile {
+export interface ImgFile {
   originalName: string;
   size: number;
   url: string;
 }
-interface MulterResponse {
+export interface MulterResponse {
   isSuccess: boolean;
   uploadedFiles: ImgFile[];
 }

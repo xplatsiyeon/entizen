@@ -16,6 +16,13 @@ import CompanyAddress from './CompanyAddress';
 import FileSelectModal from 'components/Modal/FileSelectModal';
 import { BusinessRegistrationType } from '.';
 import FileText from 'public/images/FileText.png';
+import { getByteSize } from 'utils/calculatePackage';
+import { useMutation } from 'react-query';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
+import { multerApi } from 'api';
+import { useRouter } from 'next/router';
+import Modal from 'components/Modal/Modal';
 
 type Props = {
   businessRegistration: BusinessRegistrationType[];
@@ -31,7 +38,7 @@ type Props = {
   companyDetailAddress: string;
   setCompanyDetailAddress: Dispatch<SetStateAction<string>>;
 };
-
+const TAG = 'CompanyDetailInfo.tsx';
 const CompanyDetailInfo = ({
   businessRegistration,
   setBusinessRegistration,
@@ -46,6 +53,7 @@ const CompanyDetailInfo = ({
   companyDetailAddress,
   setCompanyDetailAddress,
 }: Props) => {
+  const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -54,6 +62,41 @@ const CompanyDetailInfo = ({
   const [fileModal, setFileModal] = useState<boolean>(false);
   const [imgPreview, setImgPreview] = useState<boolean>(false);
   const [filePreview, setFilePreview] = useState<boolean>(false);
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // image s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      console.log(res);
+      const newArr = [...businessRegistration];
+      res?.uploadedFiles.forEach((img) => {
+        newArr.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setBusinessRegistration(newArr);
+    },
+    onError: (error: any) => {
+      if (error.response.data) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+        setNetworkError(true);
+      }
+    },
+  });
 
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCompanyName(e.target.value);
@@ -61,40 +104,48 @@ const CompanyDetailInfo = ({
   const handleNextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLevel(level + 1);
   };
+
+  // 모달 클릭
+  const onClickModal = () => {
+    if (networkError) {
+      setIsModal(false);
+      router.push('/company/quotation');
+    } else {
+      setIsModal(false);
+    }
+  };
+  // 파일 클릭
   const onClickFile = () => {
     fileRef?.current?.click();
     setFileModal(false);
     setFilePreview(true);
   };
+  // 이미지 클릭
   const onClickPhoto = () => {
     imgRef?.current?.click();
     setFileModal(false);
     setImgPreview(true);
   };
-  // 이미지 저장
+  // 사진 || 파일 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 3;
-    const newArr = [...businessRegistration];
     // max길이 보다 짧으면 멈춤
+    const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
         break;
       }
-      // 이미지 객체 생성 후 상태에 저장
-      const imageUrl = URL.createObjectURL(files![i]);
-      const imageName = files![i].name;
-      const imageSize = files![i].size;
-      newArr.push({
-        url: imageUrl,
-        size: imageSize,
-        originalName: imageName,
-      });
+      formData.append(
+        'businessRegistration',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
     }
-    setBusinessRegistration(newArr);
+    multerImage(formData);
   };
-  // 이미지 삭제
-  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+  // 사진 || 파일 삭제
+  const deleteFileImage = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
     const copyArr = [...businessRegistration];
     for (let i = 0; i < copyArr.length; i++) {
@@ -104,49 +155,49 @@ const CompanyDetailInfo = ({
       }
     }
   };
-  // 파일 저장
-  const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    const maxLength = 3;
-    const newArr = [...businessRegistration];
-    // max길이 보다 짧으면 멈춤
-    for (let i = 0; i < maxLength; i += 1) {
-      if (files![i] === undefined) {
-        break;
-      }
-      // 이미지 객체 생성 후 상태에 저장
-      const imageUrl = URL.createObjectURL(files![i]);
-      console.log('test');
-      console.log(imageUrl);
-      const imageName = files![i].name;
-      const imageSize = files![i].size;
-      newArr.push({
-        url: imageUrl,
-        size: imageSize,
-        originalName: imageName,
-      });
-    }
-    setBusinessRegistration(newArr);
-  };
-  // 파일 용량 체크
-  const getByteSize = (size: number) => {
-    const byteUnits = ['KB', 'MB', 'GB', 'TB'];
-    for (let i = 0; i < byteUnits.length; i++) {
-      size = Math.floor(size / 1024);
-      if (size < 1024) return size.toFixed(1) + byteUnits[i];
-    }
-  };
+  // // 파일 저장
+  // const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { files } = e.target;
+  //   const maxLength = 3;
+  //   const newArr = [...businessRegistration];
+  //   // max길이 보다 짧으면 멈춤
+  //   for (let i = 0; i < maxLength; i += 1) {
+  //     if (files![i] === undefined) {
+  //       break;
+  //     }
+  //     // 이미지 객체 생성 후 상태에 저장
+  //     const imageUrl = URL.createObjectURL(files![i]);
+  //     console.log('test');
+  //     console.log(imageUrl);
+  //     const imageName = files![i].name;
+  //     const imageSize = files![i].size;
+  //     newArr.push({
+  //       url: imageUrl,
+  //       size: imageSize,
+  //       originalName: imageName,
+  //     });
+  //   }
+  //   setBusinessRegistration(newArr);
+  // };
+  // // 파일 용량 체크
+  // const getByteSize = (size: number) => {
+  //   const byteUnits = ['KB', 'MB', 'GB', 'TB'];
+  //   for (let i = 0; i < byteUnits.length; i++) {
+  //     size = Math.floor(size / 1024);
+  //     if (size < 1024) return size.toFixed(1) + byteUnits[i];
+  //   }
+  // };
   // 파일 삭제
-  const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-    const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [...businessRegistration];
-    for (let i = 0; i < copyArr.length; i++) {
-      if (i === name) {
-        copyArr.splice(i, 1);
-        return setBusinessRegistration(copyArr);
-      }
-    }
-  };
+  // const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+  //   const name = Number(e.currentTarget.dataset.name);
+  //   const copyArr = [...businessRegistration];
+  //   for (let i = 0; i < copyArr.length; i++) {
+  //     if (i === name) {
+  //       copyArr.splice(i, 1);
+  //       return setBusinessRegistration(copyArr);
+  //     }
+  //   }
+  // };
   const handleOnClick = () => {
     if (!imgPreview && !filePreview) {
       console.log('처음 클릭');
@@ -206,6 +257,8 @@ const CompanyDetailInfo = ({
   }
   return (
     <>
+      {/* 에러 모달 */}
+      {isModal && <Modal click={onClickModal} text={errorMessage} />}
       {fileModal && (
         <FileSelectModal
           onClickFile={onClickFile}
@@ -307,7 +360,7 @@ const CompanyDetailInfo = ({
             className="imageClick"
             type="file"
             accept="xlsx"
-            onChange={saveFile}
+            onChange={saveFileImage}
             multiple
           />
           {/* <Img_Preview> */}
@@ -327,7 +380,7 @@ const CompanyDetailInfo = ({
                     key={index}
                     src={item.url}
                   />
-                  <Xbox onClick={handlePhotoDelete} data-name={index}>
+                  <Xbox onClick={deleteFileImage} data-name={index}>
                     <Image
                       src={CloseImg}
                       data-name={index}
@@ -358,7 +411,7 @@ const CompanyDetailInfo = ({
                   </div>
                   <div
                     className="file-exit"
-                    onClick={handleFileDelete}
+                    onClick={deleteFileImage}
                     data-name={index}
                   >
                     <Image src={CloseImg} data-name={index} alt="closeBtn" />
