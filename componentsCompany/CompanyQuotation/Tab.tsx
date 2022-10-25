@@ -27,15 +27,16 @@ import { filterType } from 'pages/company/quotation';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { companyRequestTabNumberAction } from 'storeCompany/requestTabSlice';
+import { companyRequestFilterNumberAction } from 'storeCompany/requestTabSlice';
 
 type Props = {
   searchWord: string;
   setSearchWord: Dispatch<SetStateAction<string>>;
-  checkedFilterIndex: number;
-  setCheckedFilterIndex: Dispatch<SetStateAction<number>>;
   checkedFilter: filterType;
   setCheckedFilter: Dispatch<SetStateAction<filterType>>;
+  tabNumber: number;
+  setTabNumber: Dispatch<SetStateAction<number>>;
+  checkedFilterIndex: number;
 };
 const tabName = ['받은 요청', '보낸 견적', '히스토리'];
 const filterList: filterType[] = [
@@ -46,23 +47,17 @@ const filterList: filterType[] = [
 const Tab = ({
   searchWord,
   setSearchWord,
-  checkedFilterIndex,
-  setCheckedFilterIndex,
   checkedFilter,
   setCheckedFilter,
+  tabNumber,
+  setTabNumber,
+  checkedFilterIndex,
 }: Props) => {
   const dispatch = useDispatch();
-  const { tabNumber } = useSelector(
-    (state: RootState) => state.companyRequestTabNumberData,
-  );
   const [state, setState] = useState({ bottom: false });
-
-  const onClickTab = (index: number) => {
-    dispatch(companyRequestTabNumberAction.setNumber(index));
-  };
-
+  // 정렬 값 변경 (with 리덕스)
   const onClickIndex = (index: number) => {
-    setCheckedFilterIndex(index);
+    dispatch(companyRequestFilterNumberAction.setNumber(index));
   };
 
   useEffect(() => {
@@ -125,7 +120,7 @@ const Tab = ({
     <>
       <TabBox>
         {tabName.map((el, index) => (
-          <TabLists key={index} onClick={() => onClickTab(index)}>
+          <TabLists key={index} onClick={() => setTabNumber(index)}>
             <TabList
               className={
                 tabNumber !== undefined && tabNumber === index ? 'selected' : ''

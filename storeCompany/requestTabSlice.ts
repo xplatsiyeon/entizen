@@ -1,19 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface TabNumber {
-  tabNumber: number;
+  checkedFilterIndex: number;
 }
 
 const initialState: TabNumber = {
-  tabNumber: 0,
+  checkedFilterIndex: 0,
 };
 
 const slice = createSlice({
-  name: 'companyRequestTabNumber',
+  name: 'companyRequestFilterNumber',
   initialState,
   reducers: {
     setNumber(state, action) {
-      state.tabNumber = action.payload;
+      state.checkedFilterIndex = action.payload;
     },
     reset(state) {
       Object.assign(state, initialState);
@@ -21,5 +21,5 @@ const slice = createSlice({
   },
 });
 
-export const companyRequestTabNumberAction = slice.actions;
-export const companyRequestTabNumberSlice = slice;
+export const companyRequestFilterNumberAction = slice.actions;
+export const companyRequestFilterNumberSlice = slice;

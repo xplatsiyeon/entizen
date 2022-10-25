@@ -39,13 +39,13 @@ const filterTypeEn = ['deadline', 'status', 'date'];
 const TAP = 'company/quotation/index.tsx';
 const CompanyQuotations = (props: Props) => {
   const dispatch = useDispatch();
-  const { tabNumber } = useSelector(
-    (state: RootState) => state.companyRequestTabNumberData,
+  // 필터 sort
+  const { checkedFilterIndex } = useSelector(
+    (state: RootState) => state.companyRequestFilterNumberData,
   );
-  // const [tabNumber, setTabNumber] = useState<number>(0);
-
+  // 상단 탭
+  const [tabNumber, setTabNumber] = useState(-1);
   const [searchWord, setSearchWord] = useState<string>('');
-  const [checkedFilterIndex, setCheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
 
@@ -73,7 +73,7 @@ const CompanyQuotations = (props: Props) => {
   // 필터링 기능
   useEffect(() => {
     refetch();
-  }, [checkedFilterIndex, keyword]);
+  }, [keyword]);
 
   return (
     <>
@@ -81,19 +81,17 @@ const CompanyQuotations = (props: Props) => {
         <Header />
         {/* 탭 / 필터링 / 검색창 */}
         <Tab
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
           searchWord={searchWord}
           setSearchWord={setSearchWord}
-          checkedFilterIndex={checkedFilterIndex}
-          setCheckedFilterIndex={setCheckedFilterIndex}
           checkedFilter={checkedFilter}
           setCheckedFilter={setCheckedFilter}
+          checkedFilterIndex={checkedFilterIndex}
         />
         {/* 받은 요청 */}
         {tabNumber === 0 && (
-          <RecieveRequest
-            checkedFilterIndex={checkedFilterIndex}
-            queryData={data?.data.receivedQuotationRequests}
-          />
+          <RecieveRequest queryData={data?.data.receivedQuotationRequests} />
         )}
         {/* 보낸 견적 */}
         {tabNumber === 1 && (

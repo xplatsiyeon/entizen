@@ -11,7 +11,7 @@ import { originUserInfoSlice } from './userInfoSlice';
 import { findUserInfoSlice } from './findSlice';
 import { selectSlice } from './loginTypeSlice';
 import { myEstimateSlice } from 'storeCompany/myQuotation';
-import { companyRequestTabNumberSlice } from 'storeCompany/requestTabSlice';
+import { companyRequestFilterNumberSlice } from 'storeCompany/requestTabSlice';
 import { finalQuotationSlice } from 'storeCompany/finalQuotation';
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -29,7 +29,7 @@ const rootReducer = combineReducers({
   findUserInfo: findUserInfoSlice.reducer,
   selectType: selectSlice.reducer,
   companymyEstimateData: myEstimateSlice.reducer,
-  companyRequestTabNumberData: companyRequestTabNumberSlice.reducer,
+  companyRequestFilterNumberData: companyRequestFilterNumberSlice.reducer,
   companyFinalQuotationData: finalQuotationSlice.reducer,
 });
 

@@ -9,7 +9,6 @@ import { HandleColor } from 'utils/changeValue';
 
 type Props = {
   queryData: Data[];
-  checkedFilterIndex: number;
 };
 interface Data {
   quotationRequestIdx: number;
@@ -17,7 +16,7 @@ interface Data {
   installationAddress: string;
 }
 const TAG = '👀 ~RecieveRequest ~line 25 queryData';
-const RecieveRequest = ({ checkedFilterIndex, queryData }: Props) => {
+const RecieveRequest = ({ queryData }: Props) => {
   const router = useRouter();
 
   console.log(TAG);
