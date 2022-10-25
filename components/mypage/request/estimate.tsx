@@ -7,6 +7,7 @@ import { useQuery } from 'react-query';
 import colors from 'styles/colors';
 import { HandleUserColor } from 'utils/changeValue';
 import NoHistory from './noHistory';
+import moment from 'moment';
 
 interface Quotations {
   quotationRequestIdx: number;
@@ -36,75 +37,14 @@ interface Data {
   storeName: string;
   date: string;
 }
-const tempProceeding: Data[] = [
-  {
-    id: 0,
-    badge: '현장실사 예약 완료',
-    storeName: 'LS카페 신림점',
-    date: '2021.01.01',
-  },
-  {
-    id: 1,
-    badge: '낙찰대기 중',
-    storeName: 'LS카페 신림점',
-    date: '2021.05.10',
-  },
-  {
-    id: 2,
-    badge: '견적취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.03.10',
-  },
-  {
-    id: 3,
-    badge: '견적마감 D-1',
-    storeName: 'LS카페 신림점',
-    date: '2021.07.23',
-  },
-];
-const temphisTory: Data[] = [
-  {
-    id: 0,
-    badge: '견적마감',
-    storeName: 'LS카페 신림점',
-    date: '2021.03.01',
-  },
-  {
-    id: 1,
-    badge: '낙찰대기 중',
-    storeName: 'LS카페 신림점',
-    date: '2021.06.10',
-  },
-  {
-    id: 2,
-    badge: '견적취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.04.10',
-  },
-  {
-    id: 3,
-    badge: '견적취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.04.10',
-  },
-  {
-    id: 4,
-    badge: '견적취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.04.10',
-  },
-];
+
 const TAG = 'componets/mypage/request/estimate.tsx';
 const Estimate = () => {
   const router = useRouter();
+
   const { data, isError, isLoading } = useQuery<Response>('user-mypage', () =>
     isTokenGetApi('/quotations/request'),
   );
-
-  // 견적서가 없는 경우
-  if (tempProceeding.length === 0 && temphisTory.length === 0) {
-    return <NoHistory />;
-  }
 
   if (isError) {
     return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
@@ -113,52 +53,58 @@ const Estimate = () => {
   if (isLoading) {
     return <Loader />;
   }
-  console.log(TAG + '⭐️ ~line 82 ~react query data test');
-
+  console.log(TAG + '⭐️ ~line 58 ~react query data test');
   const { inProgress, history } = data?.data?.quotationRequests!;
-  console.log(inProgress);
-  console.log(history);
+
+  // 견적서가 없는 경우
+  if (inProgress.quotations.length === 0 && history.quotations.length === 0) {
+    return <NoHistory />;
+  }
   return (
     <Wrapper>
       {/* 진행중 */}
-      {data?.data?.quotationRequests?.inProgress.quotations.length! > 0 && (
+      {inProgress.quotations.length! > 0 && (
         <Proceeding>
           <Label>
-            진행 중 <span className="num">{tempProceeding.length}</span>
+            진행 중 <span className="num">{inProgress.quotations.length}</span>
           </Label>
-          <Carousel length={tempProceeding.length}>
-            {tempProceeding.map((data, index) => (
+          <Carousel length={inProgress.quotations.length}>
+            {inProgress.quotations.map((data, index) => (
               <CarouselItem
-                key={data.id}
+                key={data.quotationRequestIdx}
                 onClick={() => router.push('/mypage/request/1-3')}
               >
                 <Badge className="badge" color={HandleUserColor(data.badge)}>
                   {data.badge}
                 </Badge>
-                <div className="store-name">{data.storeName}</div>
-                <span className="date">{data.date}</span>
+                <div className="store-name">{data.installationAddress}</div>
+                <span className="date">
+                  {moment(data.dateByStatus).format('YYYY.MM.DD')}
+                </span>
               </CarouselItem>
             ))}
           </Carousel>
         </Proceeding>
       )}
       {/* 히스토리 */}
-      {temphisTory.length > 0 && (
+      {history.quotations.length > 0 && (
         <History>
           <Label>
-            히스토리 <span className="num">{temphisTory.length}</span>
+            히스토리 <span className="num">{history.quotations.length}</span>
           </Label>
-          <Carousel length={temphisTory.length}>
-            {temphisTory.map((data, index) => (
+          <Carousel length={history.quotations.length}>
+            {history.quotations.map((data, index) => (
               <CarouselItem
-                key={data.id}
+                key={data.quotationRequestIdx}
                 onClick={() => router.push('/mypage/request/1-3')}
               >
                 <Badge className="badge" color={HandleUserColor(data.badge)}>
                   {data.badge}
                 </Badge>
-                <div className="store-name">{data.storeName}</div>
-                <span className="date">{data.date}</span>
+                <div className="store-name">{data.installationAddress}</div>
+                <span className="date">
+                  {moment(data.dateByStatus).format('YYYY.MM.DD')}
+                </span>
               </CarouselItem>
             ))}
           </Carousel>
