@@ -12,75 +12,79 @@ import {
   M8_LIST,
   M8_LIST_EN,
 } from 'assets/selectList';
-import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
+import { chargerData } from 'storeCompany/myQuotation';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import colors from 'styles/colors';
 import { M5_CHANNEL_SET, M5_TYPE_SET } from 'assets/selectList';
-import { Option, quotationAction } from 'store/quotationSlice';
-import Arrow from 'public/guide/Arrow.svg';
+import { Option } from 'store/quotationSlice';
 import AddIcon from 'public/images/add-img.svg';
 import XCircle from 'public/guide/XCircle.svg';
 import Image from 'next/image';
 import { SelectedOption } from 'components/quotation/request/FirstStep';
+import { inputPriceFormat } from 'utils/calculatePackage';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { finalQuotationAction } from 'storeCompany/finalQuotation';
 
 type Props = {
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
-  monthlySubscribePrice: string;
-  setMonthleSubscribePrice: Dispatch<SetStateAction<string>>;
-  constructionPeriod: string;
-  setConstructionPeriod: Dispatch<SetStateAction<string>>;
-  firstPageTextArea: string;
-  setFirstPageTextArea: Dispatch<SetStateAction<string>>;
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
+  subscribeProduct: chargerData;
+  setSubscribeProduct: Dispatch<SetStateAction<chargerData>>;
+  subscribePeriod: string;
+  setSubscribePeriod: Dispatch<SetStateAction<string>>;
+  profitableInterestUser: string;
+  setProfitableInterestUser: Dispatch<SetStateAction<string>>;
+  chargePoint: string;
+  setChargePoint: Dispatch<SetStateAction<string>>;
+  subscribePricePerMonth: string;
+  setSubscribePricePerMonth: Dispatch<SetStateAction<string>>;
+  selectedOption: SelectedOption[];
+  setSelectedOption: Dispatch<SetStateAction<SelectedOption[]>>;
+  selectedOptionEn: Option[];
+  setSelectedOptionEn: Dispatch<SetStateAction<Option[]>>;
+  constructionPeriod: string;
+  setConstructionPeriod: Dispatch<SetStateAction<string>>;
+  dueDiligenceResult: string;
+  setDueDiligenceResult: Dispatch<SetStateAction<string>>;
+  subscribeProductFeature: string;
+  setSubscribeProductFeature: Dispatch<SetStateAction<string>>;
 };
+const subScribe = ['전체구독', '부분구독'];
+const subscribeType: string[] = ['24', '36', '48', '60'];
 
 const FirstStep = ({
   tabNumber,
   setTabNumber,
-  monthlySubscribePrice,
-  setMonthleSubscribePrice,
-  constructionPeriod,
-  setConstructionPeriod,
-  firstPageTextArea,
-  setFirstPageTextArea,
   canNext,
   SetCanNext,
+  subscribeProduct,
+  setSubscribeProduct,
+  subscribePeriod,
+  setSubscribePeriod,
+  profitableInterestUser,
+  setProfitableInterestUser,
+  chargePoint,
+  setChargePoint,
+  subscribePricePerMonth,
+  setSubscribePricePerMonth,
+  selectedOption,
+  setSelectedOption,
+  selectedOptionEn,
+  setSelectedOptionEn,
+  constructionPeriod,
+  setConstructionPeriod,
+  dueDiligenceResult,
+  setDueDiligenceResult,
+  subscribeProductFeature,
+  setSubscribeProductFeature,
 }: Props) => {
   const dispatch = useDispatch();
-  // 구독상품
-  const [productSubscribe, setProductSubscribe] = useState<chargerData>('');
-  // 구독기간
-  const [productPeriod, setProductPeriod] = useState('');
-  // 고객 퍼센트
-  const [customerPercent, setCustomerPercent] = useState(0);
-  // ChargePoint
-  const [companyPercent, setCompanyPercent] = useState(0);
-  // 충전기 종류 및 수량 선택
-  const [selectedOption, setSelectedOption] = useState<SelectedOption[]>([
-    {
-      idx: 0,
-      kind: '',
-      standType: '',
-      channel: '',
-      count: '',
-    },
-  ]);
-  // 영어 셀렉트 옵션
-  const [selectedOptionEn, setSelectedOptionEn] = useState<Option[]>([
-    {
-      kind: '',
-      standType: '',
-      channel: '',
-      count: '',
-    },
-  ]);
-
-  // 현장실사 결과
-  const [visitResult, setVisitResult] = useState<string>('');
-  //특장점
-  const [chargeFeatures, setChargeFeatures] = useState<string>('');
+  const { companyFinalQuotationData } = useSelector(
+    (state: RootState) => state,
+  );
 
   const onClickAdd = () => {
     if (selectedOption.length === 5) return;
@@ -94,7 +98,6 @@ const FirstStep = ({
 
     setSelectedOption(temp);
   };
-
   const handleChange = (event: any, index: number) => {
     const { name, value } = event.target;
     let copy: SelectedOption[] = [...selectedOption];
@@ -166,34 +169,42 @@ const FirstStep = ({
     copy.splice(index, 1);
     setSelectedOption(copy);
   };
-  const subScribe = ['전체구독', '부분구독'];
-  const subscribeType: string[] = ['24', '36', '48', '60'];
-
+  const onClickChargerAdd = (index: number) => {
+    onClickMinus(index);
+  };
+  const onClickChargerRemove = () => {};
+  // 다음 버튼 클릭
   const buttonOnClick = () => {
-    // if (canNext) {
-    //   dispatch(
-    //     myEstimateAction.addFisrtData({
-    //       subscription: monthlySubscribePrice,
-    //       period: constructionPeriod,
-    //       features: firstPageTextArea,
-    //     }),
-    //   );
     if (canNext) {
+      dispatch(
+        finalQuotationAction.addFirstStep({
+          subscribeProduct: subscribeProduct,
+          subscribePeriod: Number(subscribePeriod),
+          profitableInterestUser: Number(profitableInterestUser),
+          chargePoint: Number(chargePoint),
+          subscribePricePerMonth: Number(
+            subscribePricePerMonth.replaceAll(',', ''),
+          ),
+          selectedOption: selectedOption,
+          selectedOptionEn: selectedOptionEn,
+          constructionPeriod: Number(constructionPeriod),
+          dueDiligenceResult: dueDiligenceResult,
+          subscribeProductFeature: subscribeProductFeature,
+        }),
+      );
       setTabNumber(tabNumber + 1);
     }
-    // }
   };
 
-  const onChangeSelectBox = (e: any) => setProductSubscribe(e.target.value);
-
+  // 유효성 검사
   useEffect(() => {
     if (
-      productSubscribe !== '' &&
-      productPeriod !== '' &&
-      customerPercent !== 0 &&
-      companyPercent !== 0 &&
-      constructionPeriod !== '' &&
-      visitResult !== ''
+      subscribeProduct !== '' &&
+      subscribePeriod !== '' &&
+      profitableInterestUser !== '' &&
+      chargePoint !== '' &&
+      subscribePricePerMonth !== '' &&
+      dueDiligenceResult !== ''
     ) {
       SetCanNext(true);
     } else {
@@ -201,12 +212,12 @@ const FirstStep = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    productSubscribe,
-    productPeriod,
-    customerPercent,
-    companyPercent,
-    visitResult,
-    constructionPeriod,
+    subscribeProduct,
+    subscribePeriod,
+    profitableInterestUser,
+    chargePoint,
+    dueDiligenceResult,
+    subscribePricePerMonth,
   ]);
 
   return (
@@ -223,8 +234,8 @@ const FirstStep = ({
         <div className="withAfter">구독상품</div>
         <SelectContainer>
           <SelectBox
-            value={productSubscribe}
-            onChange={(e: any) => setProductSubscribe(e.target.value)}
+            value={subscribeProduct}
+            onChange={(e: any) => setSubscribeProduct(e.target.value)}
             IconComponent={SelectIcon}
             displayEmpty
           >
@@ -244,8 +255,8 @@ const FirstStep = ({
         <div className="withAfter">구독기간</div>
         <SelectContainer>
           <SelectBox
-            value={productPeriod}
-            onChange={(e: any) => setProductPeriod(e.target.value)}
+            value={subscribePeriod}
+            onChange={(e: any) => setSubscribePeriod(e.target.value)}
             IconComponent={SelectIcon}
             displayEmpty
           >
@@ -268,9 +279,9 @@ const FirstStep = ({
             <SubTitle>고객</SubTitle>
             <SmallInputBox>
               <Input
-                value={customerPercent}
+                value={profitableInterestUser}
                 className="inputTextLeft"
-                onChange={(e: any) => setCustomerPercent(e.target.value)}
+                onChange={(e: any) => setProfitableInterestUser(e.target.value)}
                 type="number"
                 placeholder="0"
                 name="subscribeMoney"
@@ -282,9 +293,9 @@ const FirstStep = ({
             <SubTitle>Charge Point</SubTitle>
             <SmallInputBox>
               <Input
-                value={companyPercent}
+                value={chargePoint}
                 className="inputTextLeft"
-                onChange={(e: any) => setCompanyPercent(e.target.value)}
+                onChange={(e: any) => setChargePoint(e.target.value)}
                 type="number"
                 placeholder="0"
                 name="subscribeMoney"
@@ -298,8 +309,10 @@ const FirstStep = ({
         <div className="withAfter">월 구독료</div>
         <div className="monthFlex">
           <Input
-            onChange={(e) => setMonthleSubscribePrice(e.target.value)}
-            value={monthlySubscribePrice}
+            onChange={(e) =>
+              setSubscribePricePerMonth(inputPriceFormat(e.target.value))
+            }
+            value={subscribePricePerMonth}
             name="subscribeMoney"
           />
           <AfterWord>원</AfterWord>
@@ -316,7 +329,10 @@ const FirstStep = ({
               )}
               {1 <= index ? (
                 <div className="deleteBox">
-                  <div className="x-img" onClick={() => onClickMinus(index)}>
+                  <div
+                    className="x-img"
+                    onClick={() => onClickChargerAdd(index)}
+                  >
                     <Image src={XCircle} alt="add-img" />
                   </div>
                 </div>
@@ -412,12 +428,12 @@ const FirstStep = ({
       <InputBox>
         <div className="withAfter withTextNumber">
           <span>현장실사 결과</span>
-          <span>{visitResult.length}/500</span>
+          <span>{dueDiligenceResult.length}/500</span>
         </div>
         <div className="monthFlex">
           <TextArea
-            onChange={(e) => setVisitResult(e.target.value)}
-            value={visitResult}
+            onChange={(e) => setDueDiligenceResult(e.target.value)}
+            value={dueDiligenceResult}
             name="firstPageTextArea"
             placeholder="현장실사 결과를 입력해주세요."
             rows={7}
@@ -427,12 +443,12 @@ const FirstStep = ({
       <InputBox className="lastInputBox">
         <div className="withTextNumber">
           <span>구독상품 특장점</span>
-          <span>{visitResult.length}/500</span>
+          <span>{dueDiligenceResult.length}/500</span>
         </div>
         <div className="monthFlex">
           <TextArea
-            onChange={(e) => setChargeFeatures(e.target.value)}
-            value={chargeFeatures}
+            onChange={(e) => setSubscribeProductFeature(e.target.value)}
+            value={subscribeProductFeature}
             name="firstPageTextArea"
             placeholder="선택 입력 사항."
             rows={5}

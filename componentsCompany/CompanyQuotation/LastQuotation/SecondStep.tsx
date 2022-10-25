@@ -298,46 +298,6 @@ const SecondStep = ({
       setTabNumber(tabNumber + 1);
     }
   };
-  // 포스트 버튼
-  const onClickPost = () => {
-    console.log(TAG + '-> 포스트');
-    // 스텝2까지밖에 없을 때
-    if (maxIndex === 1) {
-      postMutate({
-        url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: [
-            {
-              chargePriceType:
-                chargeTypeNumber !== -1
-                  ? chargeTypeListEn[chargeTypeNumber]
-                  : '',
-              chargePrice: Number(fee.replaceAll(',', '')),
-              modelName: productItem,
-              manufacturer: manufacturingCompany,
-              feature: chargeFeatures,
-              chargerImageFiles: imgArr,
-              catalogFiles: fileArr,
-            },
-          ],
-        },
-      });
-      // 스텝2이상일 때
-    } else {
-      postMutate({
-        url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: newCharge.slice(0, maxIndex),
-        },
-      });
-    }
-  };
 
   // 다음버튼 유효성 검사
   useEffect(() => {
@@ -355,46 +315,46 @@ const SecondStep = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chargeTypeNumber, fee, manufacturingCompany]);
   // 상태 업데이트 및 초기화 (with 리덕스)
-  useEffect(() => {
-    const target = chargers[StepIndex];
-    console.log(TAG + 'target 확인');
-    console.log(StepIndex);
-    console.log(target);
-    if (target?.chargePriceType !== '') {
-      if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
-        setChargeTypeNumber(0);
-      if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
-        setChargeTypeNumber(1);
-    }
-    if (target?.chargePrice !== 0) {
-      setFee(target?.chargePrice.toString());
-    }
-    if (target?.modelName !== '') {
-      setProductItem(target?.modelName);
-    }
-    if (target?.manufacturer !== '') {
-      setManufacturingCompany(target?.manufacturer);
-    }
-    if (target?.feature !== '') {
-      setChargeFeatures(target?.feature);
-    }
-    if (target?.chargerImageFiles?.length >= 1) {
-      setImgArr(target?.chargerImageFiles);
-    }
-    if (target?.catalogFiles?.length >= 1) {
-      setFileArr(target?.catalogFiles);
-    }
-    return () => {
-      setChargeTypeNumber(-1);
-      setFee('');
-      setManufacturingCompany('');
-      setProductItem('');
-      setChargeFeatures('');
-      setImgArr([]);
-      setFileArr([]);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [StepIndex]);
+  // useEffect(() => {
+  //   const target = chargers[StepIndex];
+  //   console.log(TAG + 'target 확인');
+  //   console.log(StepIndex);
+  //   console.log(target);
+  //   if (target?.chargePriceType !== '') {
+  //     if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
+  //       setChargeTypeNumber(0);
+  //     if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
+  //       setChargeTypeNumber(1);
+  //   }
+  //   if (target?.chargePrice !== 0) {
+  //     setFee(target?.chargePrice.toString());
+  //   }
+  //   if (target?.modelName !== '') {
+  //     setProductItem(target?.modelName);
+  //   }
+  //   if (target?.manufacturer !== '') {
+  //     setManufacturingCompany(target?.manufacturer);
+  //   }
+  //   if (target?.feature !== '') {
+  //     setChargeFeatures(target?.feature);
+  //   }
+  //   if (target?.chargerImageFiles?.length >= 1) {
+  //     setImgArr(target?.chargerImageFiles);
+  //   }
+  //   if (target?.catalogFiles?.length >= 1) {
+  //     setFileArr(target?.catalogFiles);
+  //   }
+  //   return () => {
+  //     setChargeTypeNumber(-1);
+  //     setFee('');
+  //     setManufacturingCompany('');
+  //     setProductItem('');
+  //     setChargeFeatures('');
+  //     setImgArr([]);
+  //     setFileArr([]);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [StepIndex]);
   // 금액 초기화
   useEffect(() => {
     if (chargeTypeNumber === 0) {
@@ -598,15 +558,9 @@ const SecondStep = ({
       </SecondWrapper>
       <TwoBtn>
         <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-        {tabNumber === maxIndex ? (
-          <NextBtn canNext={canNext} onClick={onClickPost}>
-            보내기
-          </NextBtn>
-        ) : (
-          <NextBtn canNext={canNext} onClick={handleNextBtn}>
-            다음
-          </NextBtn>
-        )}
+        <NextBtn canNext={canNext} onClick={handleNextBtn}>
+          다음
+        </NextBtn>
       </TwoBtn>
     </>
   );

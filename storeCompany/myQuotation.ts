@@ -7,12 +7,12 @@ export type chargerData =
   | 'LECS-004ADE';
 
 // 2스텝
-interface Upload {
+export interface Upload {
   url: string;
   size: number;
   originalName: string;
 }
-interface chargers {
+export interface chargers {
   chargePriceType:
     | ''
     | 'PURCHASER_AUTONOMY'

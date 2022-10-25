@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
+import { SelectedOption } from 'components/quotation/request/FirstStep';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+import { Option } from 'store/quotationSlice';
+import { chargerData } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
 
 import FirstStep from './FirstStep';
@@ -17,29 +20,77 @@ const LastWrite = (props: Props) => {
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [canNext, SetCanNext] = useState<boolean>(false);
-  // 첫스탭 상태값
-  const [monthlySubscribePrice, setMonthleSubscribePrice] =
+  // step 1
+  // 구독상품
+  const [subscribeProduct, setSubscribeProduct] = useState<chargerData>('');
+  // 구독기간
+  const [subscribePeriod, setSubscribePeriod] = useState('');
+  // 고객 퍼센트
+  const [profitableInterestUser, setProfitableInterestUser] = useState('');
+  // ChargePoint
+  const [chargePoint, setChargePoint] = useState('');
+  // 월 구독료
+  const [subscribePricePerMonth, setSubscribePricePerMonth] =
     useState<string>('');
+  // 충전기 종류 및 수량 선택
+  const [selectedOption, setSelectedOption] = useState<SelectedOption[]>([
+    {
+      idx: 0,
+      kind: '',
+      standType: '',
+      channel: '',
+      count: '',
+    },
+  ]);
+  // 영어 셀렉트 옵션
+  const [selectedOptionEn, setSelectedOptionEn] = useState<Option[]>([
+    {
+      kind: '',
+      standType: '',
+      channel: '',
+      count: '',
+    },
+  ]);
+  // 공사기간
   const [constructionPeriod, setConstructionPeriod] = useState<string>('');
-  const [firstPageTextArea, setFirstPageTextArea] = useState<string>('');
+  // 현장실사 결과
+  const [dueDiligenceResult, setDueDiligenceResult] = useState<string>('');
+  // 구독상품 특장점
+  const [subscribeProductFeature, setSubscribeProductFeature] =
+    useState<string>('');
+
   const components: Components = {
     // 기본
-    // 0: (
-    //   <FirstStep
-    //     tabNumber={tabNumber}
-    //     setTabNumber={setTabNumber}
-    //     monthlySubscribePrice={monthlySubscribePrice}
-    //     setMonthleSubscribePrice={setMonthleSubscribePrice}
-    //     constructionPeriod={constructionPeriod}
-    //     setConstructionPeriod={setConstructionPeriod}
-    //     firstPageTextArea={firstPageTextArea}
-    //     setFirstPageTextArea={setFirstPageTextArea}
-    //     canNext={canNext}
-    //     SetCanNext={SetCanNext}
-    //   />
-    // ),
-    // 스텝 2
     0: (
+      <FirstStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+        subscribeProduct={subscribeProduct}
+        setSubscribeProduct={setSubscribeProduct}
+        subscribePeriod={subscribePeriod}
+        setSubscribePeriod={setSubscribePeriod}
+        profitableInterestUser={profitableInterestUser}
+        setProfitableInterestUser={setProfitableInterestUser}
+        chargePoint={chargePoint}
+        setChargePoint={setChargePoint}
+        subscribePricePerMonth={subscribePricePerMonth}
+        setSubscribePricePerMonth={setSubscribePricePerMonth}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        selectedOptionEn={selectedOptionEn}
+        setSelectedOptionEn={setSelectedOptionEn}
+        constructionPeriod={constructionPeriod}
+        setConstructionPeriod={setConstructionPeriod}
+        dueDiligenceResult={dueDiligenceResult}
+        setDueDiligenceResult={setDueDiligenceResult}
+        subscribeProductFeature={subscribeProductFeature}
+        setSubscribeProductFeature={setSubscribeProductFeature}
+      />
+    ),
+    // 스텝 2
+    1: (
       <SecondStep
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
@@ -52,6 +103,54 @@ const LastWrite = (props: Props) => {
     ),
     // 스텝 3
     2: (
+      <SecondStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+        StepIndex={0}
+        maxIndex={target}
+        routerId={'1'}
+      />
+    ),
+    // 스텝 4
+    3: (
+      <SecondStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+        StepIndex={0}
+        maxIndex={target}
+        routerId={'1'}
+      />
+    ),
+    // 스텝 5
+    4: (
+      <SecondStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+        StepIndex={0}
+        maxIndex={target}
+        routerId={'1'}
+      />
+    ),
+    // 스텝 6
+    5: (
+      <SecondStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        canNext={canNext}
+        SetCanNext={SetCanNext}
+        StepIndex={0}
+        maxIndex={target}
+        routerId={'1'}
+      />
+    ),
+    // 마지막 스텝
+    6: (
       <ThirdStep
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
@@ -61,7 +160,6 @@ const LastWrite = (props: Props) => {
         maxIndex={target}
       />
     ),
-    // 스텝 4
   };
   return (
     <>

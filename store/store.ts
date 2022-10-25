@@ -12,6 +12,7 @@ import { findUserInfoSlice } from './findSlice';
 import { selectSlice } from './loginTypeSlice';
 import { myEstimateSlice } from 'storeCompany/myQuotation';
 import { companyRequestTabNumberSlice } from 'storeCompany/requestTabSlice';
+import { finalQuotationSlice } from 'storeCompany/finalQuotation';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   selectType: selectSlice.reducer,
   companymyEstimateData: myEstimateSlice.reducer,
   companyRequestTabNumberData: companyRequestTabNumberSlice.reducer,
+  companyFinalQuotationData: finalQuotationSlice.reducer,
 });
 
 export default rootReducer;
