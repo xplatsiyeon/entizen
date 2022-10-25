@@ -44,6 +44,7 @@ const CompanyQuotations = (props: Props) => {
     (state: RootState) => state.companyRequestFilterNumberData,
   );
   // 상단 탭
+  // const [checkedFilterIndex, setcheckedFilterIndex
   const [tabNumber, setTabNumber] = useState(0);
   const [searchWord, setSearchWord] = useState<string>('');
   const [checkedFilter, setCheckedFilter] =
@@ -56,11 +57,12 @@ const CompanyQuotations = (props: Props) => {
     'receivedRequest',
     () =>
       isTokenApi({
-        endpoint: `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        // endpoint: `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        endpoint: `/quotations/received-request?keyword=${keyword}&sort=deadline}`,
         method: 'GET',
       }),
     {
-      enabled: true,
+      // enabled: true,
       onSuccess: () => {},
       onError: (error) => {
         console.log(error);
