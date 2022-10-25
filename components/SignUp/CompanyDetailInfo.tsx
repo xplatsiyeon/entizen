@@ -64,7 +64,6 @@ const CompanyDetailInfo = ({
   const [filePreview, setFilePreview] = useState<boolean>(false);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
-  const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   // image s3 multer 저장 API (with useMutation)
@@ -90,16 +89,19 @@ const CompanyDetailInfo = ({
       if (error.response.data.message) {
         setErrorMessage(error.response.data.message);
         setIsModal(true);
-      } else if (error.response.state === 413) {
+      } else if (error.response.status === 413) {
         setErrorMessage('용량이 너무 큽니다.');
         setIsModal(true);
       } else {
         setErrorMessage('다시 시도해주세요');
         setIsModal(true);
-        setNetworkError(true);
       }
     },
   });
+  // 모달 클릭
+  const onClickModal = () => {
+    setIsModal(false);
+  };
 
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCompanyName(e.target.value);
@@ -108,15 +110,6 @@ const CompanyDetailInfo = ({
     setLevel(level + 1);
   };
 
-  // 모달 클릭
-  const onClickModal = () => {
-    if (networkError) {
-      setIsModal(false);
-      router.push('/company/quotation');
-    } else {
-      setIsModal(false);
-    }
-  };
   // 파일 클릭
   const onClickFile = () => {
     fileRef?.current?.click();
