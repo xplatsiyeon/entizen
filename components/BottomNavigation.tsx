@@ -21,7 +21,7 @@ import { RootState } from 'store/store';
 import { useQuery } from 'react-query';
 import { isTokenApi } from 'api';
 
-type Props = { data: any };
+type Props = { data?: any };
 
 const BottomNavigation = ({ data }: Props) => {
   const router = useRouter();
