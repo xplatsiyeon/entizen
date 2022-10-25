@@ -19,13 +19,16 @@ import WebFooter from 'componentsWeb/WebFooter';
 //import Request from '..';
 import RequestMain from 'components/mypage/request/requestMain';
 
+// enabled: router.isReady,
+
 const Mypage1_3 = ({ data }: any) => {
-  const route = useRouter();
+  const router = useRouter();
+  const routerId = router?.query?.id!;
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   // 모달 왼쪽, 오른쪽 버튼 핸들러
-  const backPage = () => route.back();
+  const backPage = () => router.back();
   const handleOnClick = () => setModalOpen(!modalOpen);
   return (
     <>
@@ -63,7 +66,7 @@ const Mypage1_3 = ({ data }: any) => {
                 <div>선택하기 어려우신가요?</div>
                 <CommunicationBox
                   text="엔티즌과 소통하기"
-                  clickHandler={() => route.push('/chatting/1')}
+                  clickHandler={() => router.push('/chatting/1')}
                 />
               </TextBox>
             </Wrap2>

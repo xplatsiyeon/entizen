@@ -36,7 +36,7 @@ export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순
 // deadline: 마감일 | status: 상태순 | date: 날짜순
 const filterTypeEn = ['deadline', 'status', 'date'];
 
-const TAP = 'company/quotation/index.tsx';
+const TAG = 'company/quotation/index.tsx';
 const CompanyQuotations = (props: Props) => {
   const dispatch = useDispatch();
   // 필터 sort
@@ -57,13 +57,15 @@ const CompanyQuotations = (props: Props) => {
     'receivedRequest',
     () =>
       isTokenApi({
-        // endpoint: `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-        endpoint: `/quotations/received-request?keyword=${keyword}&sort=deadline}`,
+        endpoint: `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
         method: 'GET',
       }),
     {
       // enabled: true,
-      onSuccess: () => {},
+      onSuccess: (res) => {
+        console.log(TAG + '⭐️ 데이터 체크');
+        console.log(res);
+      },
       onError: (error) => {
         console.log(error);
       },
@@ -75,9 +77,9 @@ const CompanyQuotations = (props: Props) => {
     dispatch(myEstimateAction.reset());
   }, []);
   // 필터링 기능
-  useEffect(() => {
-    refetch();
-  }, [checkedFilterIndex, keyword]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [checkedFilterIndex, keyword]);
 
   return (
     <>
