@@ -8,6 +8,28 @@ import colors from 'styles/colors';
 import { HandleUserColor } from 'utils/changeValue';
 import NoHistory from './noHistory';
 
+interface Quotations {
+  quotationRequestIdx: number;
+  quotationStatus: string;
+  installationAddress: string;
+  badge: string;
+  dateByStatus: string;
+}
+interface Quotation {
+  count: number;
+  quotations: Quotations[];
+}
+interface QuotationRequests {
+  inProgress: Quotation;
+  history: Quotation;
+}
+interface Response {
+  data: {
+    isSuccess: boolean;
+    quotationRequests: QuotationRequests;
+  };
+}
+
 interface Data {
   id: number;
   badge: string;
@@ -75,12 +97,14 @@ const temphisTory: Data[] = [
 const TAG = 'componets/mypage/request/estimate.tsx';
 const Estimate = () => {
   const router = useRouter();
-  const { data, isError, isLoading } = useQuery('user-mypage', () =>
+  const { data, isError, isLoading } = useQuery<Response>('user-mypage', () =>
     isTokenGetApi('/quotations/request'),
   );
 
   console.log(TAG + '⭐️ ~line 82 ~react query data test');
-  console.log(data);
+  const { inProgress, history } = data?.data.quotationRequests!;
+  console.log(inProgress);
+  console.log(history);
 
   // 견적서가 없는 경우
   if (tempProceeding.length === 0 && temphisTory.length === 0) {
