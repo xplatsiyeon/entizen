@@ -2,7 +2,7 @@ import Complete from 'components/Complete';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { companyRequestTabNumberAction } from 'storeCompany/requestTabSlice';
+import { companyRequestFilterNumberAction } from 'storeCompany/requestTabSlice';
 
 type Props = {};
 
@@ -12,7 +12,7 @@ const complete = (props: Props) => {
 
   const onClickFn = () => {
     // 보낸 견적 바로가기
-    dispatch(companyRequestTabNumberAction.setNumber(1));
+    dispatch(companyRequestFilterNumberAction.setNumber(1));
     router.replace('/company/quotation');
   };
 
