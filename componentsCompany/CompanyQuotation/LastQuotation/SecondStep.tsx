@@ -54,6 +54,7 @@ const SecondStep = ({
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
+  const chargeLocationTypeList: string[] = ['건물 안', '건물 밖'];
   const chargeTypeListEn: string[] = [
     'PURCHASER_AUTONOMY',
     'OPERATION_BUSINESS_CARRIER_INPUT',
@@ -66,6 +67,8 @@ const SecondStep = ({
     'LECS-004ADE',
   ];
   const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1);
+  const [chargeLocationTypeNumber, setChargeLocationTypeNumber] =
+    useState<number>(-1);
   const [fee, setFee] = useState<string>('');
   const [productItem, setProductItem] = useState<chargerData>('');
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
@@ -181,9 +184,6 @@ const SecondStep = ({
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setFee(inputPriceFormat(value));
-  };
-  const handleChargeTypeNumber = (index: number) => {
-    setChargeTypeNumber(index);
   };
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -412,17 +412,16 @@ const SecondStep = ({
           <div>* 필수 입력</div>
         </TopStep>
         <SubWord>
-          <p>7 kW 충전기 (공용), 벽걸이, 싱글</p> 제품의
-          <br />
-          정보를 입력해주세요.
+          7 kW 충전기 (공용), 벽걸이, 싱글 <br />
+          제품의 정보를 입력해주세요
         </SubWord>
-        <ChargeMoney>
+        <ChargeMoney className="first">
           <div className="withAfter">충전요금</div>
           <BtnBox>
             {chargeTypeList.map((el, index) => (
               <Btn
                 key={index}
-                onClick={() => handleChargeTypeNumber(index)}
+                onClick={() => setChargeTypeNumber(index)}
                 className={index === chargeTypeNumber ? 'selected' : ''}
               >
                 {el}
@@ -441,6 +440,20 @@ const SecondStep = ({
               <div>원/kW</div>
             </div>
           </InputBox>
+        </ChargeMoney>
+        <ChargeMoney>
+          <div className="withAfter">충전기 설치 위치</div>
+          <BtnBox>
+            {chargeLocationTypeList.map((el, index) => (
+              <Btn
+                key={index}
+                onClick={() => setChargeLocationTypeNumber(index)}
+                className={index === chargeLocationTypeNumber ? 'selected' : ''}
+              >
+                {el}
+              </Btn>
+            ))}
+          </BtnBox>
         </ChargeMoney>
       </Wrapper>
       <Divide></Divide>
@@ -492,7 +505,7 @@ const SecondStep = ({
           </div>
         </InputBox>
         <RemainderInputBox>
-          <Label>사진첨부</Label>
+          <Label>충전기 이미지</Label>
           <PhotosBox>
             <AddPhotos onClick={imgHandler}>
               <Image src={camera} alt="" />
@@ -604,6 +617,9 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   box-sizing: border-box;
   padding-bottom: 30pt;
+  .first {
+    margin-top: 45pt;
+  }
 `;
 const SecondWrapper = styled.div`
   padding-left: 15pt;
@@ -636,13 +652,14 @@ const TopStep = styled.div`
   }
 `;
 const SubWord = styled.div`
-  margin-top: 6pt;
+  margin-top: 21pt;
   font-family: Spoqa Han Sans Neo;
-  font-size: 12pt;
-  font-weight: 400;
-  line-height: 18pt;
+  font-size: 18pt;
+  font-weight: 500;
+  line-height: 24pt;
   letter-spacing: -0.02em;
   text-align: left;
+  color: ${colors.main2};
   & p {
     font-weight: 700;
     display: inline-block;

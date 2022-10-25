@@ -24,22 +24,22 @@ const LastWrite = (props: Props) => {
   const [firstPageTextArea, setFirstPageTextArea] = useState<string>('');
   const components: Components = {
     // 기본
-    0: (
-      <FirstStep
-        tabNumber={tabNumber}
-        setTabNumber={setTabNumber}
-        monthlySubscribePrice={monthlySubscribePrice}
-        setMonthleSubscribePrice={setMonthleSubscribePrice}
-        constructionPeriod={constructionPeriod}
-        setConstructionPeriod={setConstructionPeriod}
-        firstPageTextArea={firstPageTextArea}
-        setFirstPageTextArea={setFirstPageTextArea}
-        canNext={canNext}
-        SetCanNext={SetCanNext}
-      />
-    ),
+    // 0: (
+    //   <FirstStep
+    //     tabNumber={tabNumber}
+    //     setTabNumber={setTabNumber}
+    //     monthlySubscribePrice={monthlySubscribePrice}
+    //     setMonthleSubscribePrice={setMonthleSubscribePrice}
+    //     constructionPeriod={constructionPeriod}
+    //     setConstructionPeriod={setConstructionPeriod}
+    //     firstPageTextArea={firstPageTextArea}
+    //     setFirstPageTextArea={setFirstPageTextArea}
+    //     canNext={canNext}
+    //     SetCanNext={SetCanNext}
+    //   />
+    // ),
     // 스텝 2
-    1: (
+    0: (
       <SecondStep
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
