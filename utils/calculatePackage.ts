@@ -20,3 +20,32 @@ export const getByteSize = (size: number) => {
     if (size < 1024) return size.toFixed(1) + byteUnits[i];
   }
 };
+
+//------------- 영->한 값 변환 --------------------
+export const convertKo = (
+  arr: string[],
+  arrEn: string[],
+  value: string | undefined,
+) => {
+  // return target.indexOf(value);
+  if (value) {
+    const index = arrEn.indexOf(value);
+    return arr[index];
+  } else {
+    return '';
+  }
+};
+//----------------- 한->영 값 변환 ------------------
+export const convertEn = (
+  arr: string[],
+  arrEn: string[],
+  value: string | undefined,
+) => {
+  // return target.indexOf(value);
+  if (value) {
+    const index = arr.indexOf(value);
+    return arrEn[index];
+  } else {
+    return '';
+  }
+};

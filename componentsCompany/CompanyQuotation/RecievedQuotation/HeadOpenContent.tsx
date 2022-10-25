@@ -16,7 +16,7 @@ import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 
-import { convertKo, HandleColor } from 'utils/changeValue';
+import { HandleColor } from 'utils/changeValue';
 
 import {
   InstallationPurposeType,
@@ -35,6 +35,7 @@ import {
 import { AxiosError } from 'axios';
 import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader';
+import { convertKo } from 'utils/calculatePackage';
 
 interface Components {
   [key: number]: JSX.Element;

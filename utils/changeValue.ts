@@ -19,31 +19,10 @@ export const HandleColor = (badge: string | undefined): string => {
   }
 };
 
-// 영->한 값 변환
-export const convertKo = (
-  arr: string[],
-  arrEn: string[],
-  value: string | undefined,
-) => {
-  // return target.indexOf(value);
-  if (value) {
-    const index = arrEn.indexOf(value);
-    return arr[index];
-  } else {
-    return '';
-  }
-};
-// 한->영 값 변환
-export const convertEn = (
-  arr: string[],
-  arrEn: string[],
-  value: string | undefined,
-) => {
-  // return target.indexOf(value);
-  if (value) {
-    const index = arr.indexOf(value);
-    return arrEn[index];
-  } else {
-    return '';
-  }
+// 구매자 뱃지 변환
+export const HandleUserColor = (badge: string): string => {
+  if (badge.includes('마감')) return '#F75015';
+  else if (badge.includes('대기 중')) return '#FFC043';
+  else if (badge.includes('취소')) return '#CACCD1';
+  else return '#5A2DC9';
 };

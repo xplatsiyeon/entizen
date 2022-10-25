@@ -18,9 +18,8 @@ import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
 import { isTokenPostApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
-import { convertEn } from 'utils/changeValue';
 import { AxiosError } from 'axios';
-import { getByteSize } from 'utils/calculatePackage';
+import { convertEn, getByteSize } from 'utils/calculatePackage';
 
 export interface ImgFile {
   originalName: string;

@@ -13,6 +13,7 @@ interface Components {
 }
 
 const Request = () => {
+  const userId = JSON.parse(localStorage.getItem('USER_ID')!);
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [userName, setUserName] = useState<string>('윤세아');
@@ -26,7 +27,7 @@ const Request = () => {
     <Wrapper>
       <Header>
         <span>
-          <h1>{`${userName}님,`}</h1>
+          <h1>{`${userId}님,`}</h1>
           <h2>안녕하세요!</h2>
         </span>
         <div className="img" onClick={() => route.push('/setting')}>

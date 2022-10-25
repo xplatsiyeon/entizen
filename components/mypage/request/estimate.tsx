@@ -1,6 +1,11 @@
 import styled from '@emotion/styled';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
 import colors from 'styles/colors';
+import { HandleUserColor } from 'utils/changeValue';
 import NoHistory from './noHistory';
 
 interface Data {
@@ -67,21 +72,28 @@ const temphisTory: Data[] = [
     date: '2021.04.10',
   },
 ];
-
+const TAG = 'componets/mypage/request/estimate.tsx';
 const Estimate = () => {
-  const route = useRouter();
-  const HandleColor = (badge: string): string => {
-    if (badge.includes('마감')) return '#F75015';
-    else if (badge.includes('대기 중')) return '#FFC043';
-    else if (badge.includes('취소')) return '#CACCD1';
-    else return '#5A2DC9';
-  };
+  const router = useRouter();
+  const { data, isError, isLoading } = useQuery('user-mypage', () =>
+    isTokenGetApi('/quotations/request'),
+  );
+
+  console.log(TAG + '⭐️ ~line 82 ~react query data test');
+  console.log(data);
 
   // 견적서가 없는 경우
   if (tempProceeding.length === 0 && temphisTory.length === 0) {
     return <NoHistory />;
   }
 
+  if (isError) {
+    return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <Wrapper>
       {/* 진행중 */}
@@ -94,9 +106,9 @@ const Estimate = () => {
             {tempProceeding.map((data, index) => (
               <CarouselItem
                 key={data.id}
-                onClick={() => route.push('/mypage/request/1-3')}
+                onClick={() => router.push('/mypage/request/1-3')}
               >
-                <Badge className="badge" color={HandleColor(data.badge)}>
+                <Badge className="badge" color={HandleUserColor(data.badge)}>
                   {data.badge}
                 </Badge>
                 <div className="store-name">{data.storeName}</div>
@@ -116,9 +128,9 @@ const Estimate = () => {
             {temphisTory.map((data, index) => (
               <CarouselItem
                 key={data.id}
-                onClick={() => route.push('/mypage/request/1-3')}
+                onClick={() => router.push('/mypage/request/1-3')}
               >
-                <Badge className="badge" color={HandleColor(data.badge)}>
+                <Badge className="badge" color={HandleUserColor(data.badge)}>
                   {data.badge}
                 </Badge>
                 <div className="store-name">{data.storeName}</div>
