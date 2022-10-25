@@ -56,11 +56,11 @@ const CompanyQuotations = (props: Props) => {
     'receivedRequest',
     () =>
       isTokenApi({
-        endpoint: `/quotations/received-request?keyword=${searchWord}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        endpoint: `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
         method: 'GET',
       }),
     {
-      enabled: false,
+      enabled: true,
       onSuccess: () => {},
       onError: (error) => {
         console.log(error);
