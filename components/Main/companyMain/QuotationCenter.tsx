@@ -23,7 +23,7 @@ const QuotationCenter = ({}: Props) => {
   const router = useRouter();
 
   const { data, isLoading, isError } = useQuery<RecivedCountResponse>(
-    'sent-request',
+    'count',
     () => isTokenGetApi('/quotations/received-request/count'),
     {
       staleTime: 5000,

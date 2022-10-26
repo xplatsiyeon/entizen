@@ -3,46 +3,34 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Modal from 'components/Modal/Modal';
+import Loader from 'components/Loader';
 
 type Props = {
   checkedFilterIndex: number;
 };
-
-interface Data {
-  id: number;
+interface SendQuotationRequests {
+  preQuotationIdx: number;
   badge: string;
-  location: string;
+  installationAddress: string;
 }
 
-const tempProceeding: Data[] = [
-  {
-    id: 0,
-    badge: '견적마감 D-1',
-    location: '서울시 관악구 난곡로',
-  },
-  {
-    id: 1,
-    badge: '현장실사 조율 중',
-    location: '서울시 관악구 난곡로',
-  },
-  {
-    id: 2,
-    badge: '대기 D-3',
-    location: '서울시 관악구1 난곡로',
-  },
-  {
-    id: 3,
-    badge: '낙찰대기 중',
-    location: '서울시 관악구1 난곡로',
-  },
-];
-
+interface SentrequestResponse {
+  isSuccess: boolean;
+  sendQuotationRequests: SendQuotationRequests[];
+}
+const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
 const SentRequest = ({ checkedFilterIndex }: Props) => {
   const router = useRouter();
-  const [data, setData] = useState<Data[]>(tempProceeding);
+  const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
+    'sent-request',
+    () => isTokenGetApi('/quotations/sent-request'),
+  );
 
   // 뱃지 변경
   const HandleColor = (badge: string): string => {
@@ -59,29 +47,49 @@ const SentRequest = ({ checkedFilterIndex }: Props) => {
     } else return colors.main;
   };
 
-  // 상태 필터에 따른 데이터 변경
-  useEffect(() => {
-    switch (checkedFilterIndex) {
-      case 1: // 상태순
-        console.log('1이다');
-        setData(tempProceeding.sort((a, b) => b.id - a.id));
-        break;
-      case 2: // 날짜순
-        console.log('2이다');
-        break;
-      default: // 마감일순
-        0;
-        setData(tempProceeding.sort((a, b) => a.id - b.id));
-        break;
-    }
-  }, [data, checkedFilterIndex]);
+  // // 상태 필터에 따른 데이터 변경
+  // useEffect(() => {
+  //   switch (checkedFilterIndex) {
+  //     case 1: // 상태순
+  //       console.log('1이다');
+  //       setData(tempProceeding.sort((a, b) => b.id - a.id));
+  //       break;
+  //     case 2: // 날짜순
+  //       console.log('2이다');
+  //       break;
+  //     default: // 마감일순
+  //       0;
+  //       setData(tempProceeding.sort((a, b) => a.id - b.id));
+  //       break;
+  //   }
+  // }, [data, checkedFilterIndex]);
+
+  if (isError) {
+    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+    console.log(error);
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <ContentsContainer>
-      {data.map((el, index) => (
+      {data?.sendQuotationRequests.map((el, index) => (
         <Contents
           key={index}
-          onClick={() => router.push('/company/sentProvisionalQuotation')}
+          onClick={() =>
+            router.push(
+              `/company/sentProvisionalQuotation${el.preQuotationIdx}`,
+            )
+          }
         >
           <DdayNAddress>
             <DdayBox>
@@ -91,7 +99,7 @@ const SentRequest = ({ checkedFilterIndex }: Props) => {
                 bottom={'12pt'}
               />
             </DdayBox>
-            <AddressBox>{el.location}</AddressBox>
+            <AddressBox>{el.installationAddress}</AddressBox>
           </DdayNAddress>
           <IconBox>
             <ArrowIconBox>

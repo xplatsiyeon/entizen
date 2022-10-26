@@ -30,7 +30,7 @@ const BottomNavigation = ({}: Props) => {
   const [tabNumber, setTabNumber] = useState(0);
 
   const { data, isLoading, isError, error } = useQuery<RecivedCountResponse>(
-    'sent-request',
+    'count',
     () => isTokenGetApi('/quotations/received-request/count'),
     {
       staleTime: 5000,
