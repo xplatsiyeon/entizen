@@ -1,3 +1,20 @@
+// -----------가격 콤마 계산----------------
+export const PriceCalculation = (price: number) => {
+  if (price === 0) return 0;
+  if (price) {
+    let stringPrice = price.toString();
+    if (stringPrice.length <= 6) {
+      const parts = price.toString().split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{4})+(?!\d))/g, ',');
+      return parts.join('.').slice(0, -3);
+    } else {
+      const parts = price.toString().split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{4})+(?!\d))/g, ',');
+      return parts.join('.').slice(0, -5);
+    }
+  }
+};
+
 // --------------- 인풋 계산 함수 ----------------
 export const inputPriceFormat = (str: string) => {
   // 콤마 추가

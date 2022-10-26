@@ -11,8 +11,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import { isTokenApi } from 'api';
+import { isTokenApi, isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
+import { PriceCalculation } from 'utils/calculatePackage';
 
 type Props = {};
 
@@ -37,14 +38,14 @@ const Request1_7 = (props: Props) => {
     minTotalSubscribePrice: 0,
   });
   // react-query // api 호출
-  const { mutate, error, isError, isLoading } = useMutation(isTokenApi, {
+  const { mutate, error, isError, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (res) => {
       console.log(TAG + 'api/quotations/request' + 'success');
       console.log(res);
       setIsModal(!isModal);
     },
     onError: (error) => {
-      console.log(TAG + 'api/quotations/request' + 'fail');
+      console.log(TAG + '🔥 api/quotations/request' + 'fail');
       console.log(error);
       alert('다시 시도해주세요.');
       router.push('/');
@@ -57,80 +58,16 @@ const Request1_7 = (props: Props) => {
   const { requestData } = useSelector(
     (state: RootState) => state.quotationData,
   );
-  // 가격 콤마 계산
-  const PriceCalculation = (price: number) => {
-    if (price === 0) return 0;
-    if (price) {
-      let stringPrice = price.toString();
-      // let calculatedPrice;
-
-      if (stringPrice.length <= 6) {
-        const parts = price.toString().split('.');
-        parts[0] = parts[0].replace(/\B(?=(\d{4})+(?!\d))/g, ',');
-        return parts.join('.').slice(0, -3);
-        // calculatedPrice = stringPrice
-        //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-        //   .slice(0, -3);
-      } else {
-        const parts = price.toString().split('.');
-        parts[0] = parts[0].replace(/\B(?=(\d{4})+(?!\d))/g, ',');
-        return parts.join('.').slice(0, -5);
-
-        // calculatedPrice = stringPrice
-        //   .replace(/\B(?<!\.\d*)(?=(\d{4})+(?!\d))/g, ',')
-        //   .slice(0, -5);
-      }
-    }
-  };
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
       currentTarget: { value },
     } = event;
     setTextValue(value);
   };
-  // 견적요청 api
-  // const onClickRequest = async () => {
-  //   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  //   const url = `https://test-api.entizen.kr/api/quotations/request`;
-  //   console.log(TAG + 'api/quotations/request');
-  //   await axios({
-  //     method: 'post',
-  //     url,
-  //     data: {
-  //       chargers: quotationData.chargers,
-  //       subscribeProduct: quotationData.subscribeProduct,
-  //       investRate: quotationData.investRate.toString(),
-  //       subscribePeriod: quotationData.subscribePeriod,
-  //       installationAddress: locationList.locationList.roadAddrPart,
-  //       installationLocation: quotationData.installationLocation,
-  //       installationPoints: quotationData.installationPoints,
-  //       installationPurpose: quotationData.installationPurpose,
-  //       etcRequest: textValue,
-  //     },
-  //     headers: {
-  //       ContentType: 'application/json',
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //     withCredentials: true,
-  //   })
-  //     .then((res) => {
-  //       console.log(TAG + 'api/quotations/request' + 'success');
-  //       console.log(res);
-  //       setIsModal(!isModal);
-  //     })
-  //     .catch((error) => {
-  //       console.log(TAG + 'api/quotations/request' + 'fail');
-  //       console.log(error);
-  //       alert('다시 시도해주세요.');
-  //       router.push('/');
-  //     });
-  // };
-
   // quotations/request post 요청
   const onClickRequest = () => {
     mutate({
-      method: 'POST',
-      endpoint: '/quotations/request',
+      url: '/quotations/request',
       data: {
         chargers: quotationData.chargers,
         subscribeProduct: quotationData.subscribeProduct,
@@ -371,6 +308,7 @@ const ContentsWrapper = styled.div`
 `;
 const RequestForm = styled.form`
   padding-top: 60pt;
+  resize: none;
   .name {
     display: flex;
     justify-content: space-between;
