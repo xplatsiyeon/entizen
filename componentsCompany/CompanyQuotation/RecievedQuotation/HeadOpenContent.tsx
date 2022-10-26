@@ -297,15 +297,17 @@ const HeadOpenContent = () => {
                   <span className="text">
                     {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                     <br />
-                    {`:${
-                      item.standType
-                        ? convertKo(M6_LIST, M6_LIST_EN, item.standType)
-                        : ''
-                    }, ${
-                      item.standType
-                        ? convertKo(M7_LIST, M7_LIST_EN, item.channel)
-                        : ''
-                    }, ${item.count} 대`}
+                    {item.standType
+                      ? `: ${convertKo(
+                          M6_LIST,
+                          M6_LIST_EN,
+                          item.standType,
+                        )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                          item.count
+                        } 대`
+                      : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                          item.count
+                        } 대`}
                   </span>
                 </div>
               ))}
