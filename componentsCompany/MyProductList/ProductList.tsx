@@ -22,13 +22,16 @@ export interface File {
 }
 
 export interface Products {
-  representationImageUrl: string;
+  chargerProductIdx: number;
   modelName: string;
   manufacturer: string;
   watt: string;
-  catalogFiles: File[];
-  chargerProductFile: File[];
+  representationImageUrl: string;
+  chargerChannel: string;
+  chargerKind: string;
   feature: string;
+  chargerImageFiles: File[];
+  catalogFiles: File[];
 }
 const TAG = 'componentsCompany/MyProductList/ProductList';
 const ProductList = (props: Props) => {
@@ -59,7 +62,7 @@ const ProductList = (props: Props) => {
         {data?.products.map((item, index) => (
           <ListBox
             key={index}
-            onClick={() => router.push('/company/showMyProduct')}
+            onClick={() => router.push(`/company/${item.chargerProductIdx}`)}
           >
             <ImageBox>
               <Image
