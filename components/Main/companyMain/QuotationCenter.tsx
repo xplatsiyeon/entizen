@@ -6,22 +6,29 @@ import emptyClipboardText from 'public/images/EmptyClipboardText.png';
 
 import React, { useState } from 'react';
 import colors from 'styles/colors';
-import { isTokenApi } from 'api';
+import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import Loader from 'components/Loader';
 import { Router } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+
+export interface RecivedCountResponse {
+  isSuccess: boolean;
+  receivedQuotationRequestCount: number;
+}
 
 type Props = {};
 const TAG = 'commponents/Main/companyMain/QuotationCenter';
 const QuotationCenter = ({}: Props) => {
   const router = useRouter();
 
-  const { data, isLoading, isError } = useQuery('receivedRequest', () =>
-    isTokenApi({
-      endpoint: `/quotations/received-request?keyword=&sort=deadline`,
-      method: 'GET',
-    }),
+  const { data, isLoading, isError } = useQuery<RecivedCountResponse>(
+    'sent-request',
+    () => isTokenGetApi('/quotations/received-request/count'),
+    {
+      staleTime: 5000,
+      cacheTime: Infinity,
+    },
   );
 
   if (isError) {
@@ -37,25 +44,22 @@ const QuotationCenter = ({}: Props) => {
         <Image src={lightning} alt="lightning" />
       </ImgBox>
 
-      {data?.data.receivedQuotationRequests.length! === 0 ? (
+      {data?.receivedQuotationRequestCount! === 0 ? (
         <TopImgBox>
           <Image src={emptyClipboardText} alt="emptyClipboardText" />
         </TopImgBox>
       ) : (
         <TopImgBox>
-          <CountCircle>
-            {data?.data.receivedQuotationRequests.length}
-          </CountCircle>
+          <CountCircle>{data?.receivedQuotationRequestCount!}</CountCircle>
           <BlueIcon>
             <Image src={clipboardText} alt="clipboardText" />
           </BlueIcon>
         </TopImgBox>
       )}
-      {data?.data.receivedQuotationRequests.length! >= 1 ? (
+      {data?.receivedQuotationRequestCount! >= 1 ? (
         <>
           <Reqeusts>
-            {data?.data.receivedQuotationRequests.length}건의 견적 요청이
-            있습니다!
+            {data?.receivedQuotationRequestCount!}건의 견적 요청이 있습니다!
           </Reqeusts>
           <RequestInfo>
             요청서를 확인하고 가견적서를 작성해

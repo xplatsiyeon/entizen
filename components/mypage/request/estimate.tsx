@@ -25,10 +25,8 @@ interface QuotationRequests {
   history: Quotation;
 }
 interface Response {
-  data: {
-    isSuccess: boolean;
-    quotationRequests: QuotationRequests;
-  };
+  isSuccess: boolean;
+  quotationRequests: QuotationRequests;
 }
 const TAG = 'componets/mypage/request/estimate.tsx';
 const Estimate = () => {
@@ -46,7 +44,7 @@ const Estimate = () => {
     return <Loader />;
   }
   // console.log(TAG + '⭐️ ~line 58 ~react query data test');
-  const { inProgress, history } = data?.data?.quotationRequests!;
+  const { inProgress, history } = data?.quotationRequests!;
 
   // 견적서가 없는 경우
   if (inProgress.quotations.length === 0 && history.quotations.length === 0) {

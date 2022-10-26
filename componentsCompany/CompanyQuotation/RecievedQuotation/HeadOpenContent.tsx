@@ -50,7 +50,7 @@ interface QuotationsDetailChargers {
   channel: string;
   count: number;
 }
-interface QuotationsDetail {
+interface QuotationsDetailResponse {
   isSuccess: boolean;
   receivedQuotationRequest: {
     badge: string;
@@ -63,9 +63,6 @@ interface QuotationsDetail {
     installationPurpose: string;
     etcRequest: string;
   };
-}
-interface Response {
-  data: QuotationsDetail;
 }
 type ChargeType = '' | '구매자 자율' | '운영사업자 입력';
 type ManufacturingCompany =
@@ -114,7 +111,10 @@ const HeadOpenContent = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   //  api 요청
-  const { data, isError, isLoading } = useQuery<Response, AxiosError>(
+  const { data, isError, isLoading } = useQuery<
+    QuotationsDetailResponse,
+    AxiosError
+  >(
     'receivedRequest/id',
     () => isTokenGetApi(`/quotations/received-request/${routerId}`),
     {
@@ -147,7 +147,7 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={0}
-        maxIndex={data?.data.receivedQuotationRequest.chargers.length}
+        maxIndex={data?.receivedQuotationRequest.chargers.length}
         routerId={routerId}
       />
     ),
@@ -159,7 +159,7 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={1}
-        maxIndex={data?.data.receivedQuotationRequest.chargers.length}
+        maxIndex={data?.receivedQuotationRequest.chargers.length}
         routerId={routerId}
       />
     ),
@@ -171,7 +171,7 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={2}
-        maxIndex={data?.data.receivedQuotationRequest.chargers.length}
+        maxIndex={data?.receivedQuotationRequest.chargers.length}
         routerId={routerId}
       />
     ),
@@ -183,7 +183,7 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={3}
-        maxIndex={data?.data.receivedQuotationRequest.chargers.length}
+        maxIndex={data?.receivedQuotationRequest.chargers.length}
         routerId={routerId}
       />
     ),
@@ -195,7 +195,7 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={4}
-        maxIndex={data?.data.receivedQuotationRequest.chargers.length}
+        maxIndex={data?.receivedQuotationRequest.chargers.length}
         routerId={routerId}
       />
     ),
@@ -245,15 +245,13 @@ const HeadOpenContent = () => {
         <ItemButton onClick={handleClick}>
           <StoreName>
             <CommonBtns
-              text={data?.data.receivedQuotationRequest.badge!}
+              text={data?.receivedQuotationRequest.badge!}
               backgroundColor={HandleColor(
-                data?.data.receivedQuotationRequest.badge!,
+                data?.receivedQuotationRequest.badge!,
               )}
             />
             <div>
-              <h1>
-                {data?.data.receivedQuotationRequest.installationAddress!}
-              </h1>
+              <h1>{data?.receivedQuotationRequest.installationAddress!}</h1>
               {open ? (
                 <ArrowImg>
                   <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -277,44 +275,40 @@ const HeadOpenContent = () => {
                     convertKo(
                       subscribeType,
                       subscribeTypeEn,
-                      data?.data.receivedQuotationRequest.subscribeProduct!,
+                      data?.receivedQuotationRequest.subscribeProduct!,
                     )}
                 </span>
               </div>
               <div className="text-box">
                 <span className="name">구독기간</span>
                 <span className="text">
-                  {data?.data.receivedQuotationRequest.subscribePeriod!}개월
+                  {data?.receivedQuotationRequest.subscribePeriod!}개월
                 </span>
               </div>
               <div className="text-box">
                 <span className="name">수익지분</span>
                 <span className="text">
-                  {Number(data?.data.receivedQuotationRequest.investRate!) *
-                    100}{' '}
-                  %
+                  {Number(data?.receivedQuotationRequest.investRate!) * 100} %
                 </span>
               </div>
-              {data?.data.receivedQuotationRequest.chargers!.map(
-                (item, index) => (
-                  <div className="text-box" key={index}>
-                    <span className="name">충전기 종류 및 수량</span>
-                    <span className="text">
-                      {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-                      <br />
-                      {`:${
-                        item.standType
-                          ? convertKo(M6_LIST, M6_LIST_EN, item.standType)
-                          : ''
-                      }, ${
-                        item.standType
-                          ? convertKo(M7_LIST, M7_LIST_EN, item.channel)
-                          : ''
-                      }, ${item.count} 대`}
-                    </span>
-                  </div>
-                ),
-              )}
+              {data?.receivedQuotationRequest.chargers!.map((item, index) => (
+                <div className="text-box" key={index}>
+                  <span className="name">충전기 종류 및 수량</span>
+                  <span className="text">
+                    {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                    <br />
+                    {`:${
+                      item.standType
+                        ? convertKo(M6_LIST, M6_LIST_EN, item.standType)
+                        : ''
+                    }, ${
+                      item.standType
+                        ? convertKo(M7_LIST, M7_LIST_EN, item.channel)
+                        : ''
+                    }, ${item.count} 대`}
+                  </span>
+                </div>
+              ))}
 
               <div className="text-box">
                 <span className="name">충전기 설치 위치</span>
@@ -323,7 +317,7 @@ const HeadOpenContent = () => {
                     convertKo(
                       location,
                       locationEn,
-                      data?.data.receivedQuotationRequest.installationLocation!,
+                      data?.receivedQuotationRequest.installationLocation!,
                     )}
                 </span>
               </div>
@@ -334,14 +328,14 @@ const HeadOpenContent = () => {
                     convertKo(
                       InstallationPurposeType,
                       InstallationPurposeTypeEn,
-                      data?.data.receivedQuotationRequest.installationPurpose!,
+                      data?.receivedQuotationRequest.installationPurpose!,
                     )}
                 </span>
               </div>
               <div className="text-box">
                 <span className="name">기타 요청사항</span>
                 <span className="text">
-                  {data?.data.receivedQuotationRequest.etcRequest}
+                  {data?.receivedQuotationRequest.etcRequest}
                 </span>
               </div>
             </Contents>
@@ -362,8 +356,7 @@ const HeadOpenContent = () => {
           <TabBox>
             {Object.keys(components).map((tab, index) => (
               <React.Fragment key={index}>
-                {index <=
-                  data?.data.receivedQuotationRequest.chargers.length! && (
+                {index <= data?.receivedQuotationRequest.chargers.length! && (
                   <TabLine
                     idx={index.toString()}
                     num={tabNumber.toString()}

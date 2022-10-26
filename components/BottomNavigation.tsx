@@ -17,7 +17,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { useQuery } from 'react-query';
-import { isTokenApi } from 'api';
+import { isTokenGetApi } from 'api';
+import { RecivedCountResponse } from './Main/companyMain/QuotationCenter';
 
 type Props = {};
 
@@ -28,15 +29,12 @@ const BottomNavigation = ({}: Props) => {
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
 
-  const { data, isLoading, isError } = useQuery(
-    'receivedRequest',
-    () =>
-      isTokenApi({
-        endpoint: `/quotations/received-request?keyword=&sort=deadline`,
-        method: 'GET',
-      }),
+  const { data, isLoading, isError } = useQuery<RecivedCountResponse>(
+    'sent-request',
+    () => isTokenGetApi('/quotations/received-request/count'),
     {
-      enabled: memberType === 'COMPANY',
+      staleTime: 5000,
+      cacheTime: Infinity,
     },
   );
 
@@ -102,7 +100,7 @@ const BottomNavigation = ({}: Props) => {
                 router.push('/company/quotation');
               }}
             >
-              {data?.data.receivedQuotationRequests.length === 0 && (
+              {data?.receivedQuotationRequestCount! === 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -115,7 +113,7 @@ const BottomNavigation = ({}: Props) => {
                   />
                 </ImgBox>
               )}
-              {data?.data.receivedQuotationRequests.length > 0 && (
+              {data?.receivedQuotationRequestCount! > 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -127,7 +125,7 @@ const BottomNavigation = ({}: Props) => {
                     layout="fill"
                   />
                   <CountQuotation>
-                    {data?.data.receivedQuotationRequests.length}
+                    {data?.receivedQuotationRequestCount}
                   </CountQuotation>
                 </ImgBox>
               )}

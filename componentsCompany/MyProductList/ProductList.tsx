@@ -11,7 +11,7 @@ import { useQuery } from 'react-query';
 import colors from 'styles/colors';
 
 type Props = {};
-interface ProductList {
+export interface ProductListRepsonse {
   isSuccess: true;
   products: Products[];
 }
@@ -30,12 +30,9 @@ export interface Products {
   chargerProductFile: File[];
   feature: string;
 }
-export interface ProductListResponse {
-  data: ProductList;
-}
 const TAG = 'componentsCompany/MyProductList/ProductList';
 const ProductList = (props: Props) => {
-  const { data, isLoading, isError } = useQuery<ProductListResponse>(
+  const { data, isLoading, isError } = useQuery<ProductListRepsonse>(
     'productList',
     () => isTokenGetApi('/products'),
   );
@@ -59,7 +56,7 @@ const ProductList = (props: Props) => {
   return (
     <>
       <Wrapper>
-        {data?.data.products.map((item, index) => (
+        {data?.products.map((item, index) => (
           <ListBox
             key={index}
             onClick={() => router.push('/company/showMyProduct')}

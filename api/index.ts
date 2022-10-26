@@ -67,7 +67,7 @@ export const isTokenGetApi = async (url: string) => {
       ContentType: 'application/json',
     },
     withCredentials: true,
-  }).then((res) => res);
+  }).then((res) => res.data);
 };
 // -----------------------------post-api--------------------------------------
 // API 호출 (토큰 O)
