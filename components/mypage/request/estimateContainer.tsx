@@ -22,7 +22,7 @@ import {
 } from 'assets/selectList';
 
 type Props = {
-  data: QuotationRequests;
+  data?: QuotationRequests; // 나중에 필수 값으로 변경
 };
 
 const EstimateContainer = ({ data }: Props) => {
@@ -32,11 +32,11 @@ const EstimateContainer = ({ data }: Props) => {
 
   return (
     <Wrapper>
-      <Badge>{data.badge}</Badge>
+      <Badge>{data?.badge}</Badge>
       {/* Close */}
       <ItemButton onClick={handleClick}>
         <StoreName>
-          <h1>{data.installationAddress}</h1>
+          <h1>{data?.installationAddress}</h1>
           {/* {open && <p>서울시 관악구 난곡로40길 30</p>} */}
         </StoreName>
 
@@ -57,22 +57,22 @@ const EstimateContainer = ({ data }: Props) => {
           <Contents>
             <div className="text-box">
               <span className="name">구독상품</span>
-              <span className="text">{data.subscribeProduct}</span>
+              <span className="text">{data?.subscribeProduct}</span>
             </div>
             <div className="text-box">
               <span className="name">구독기간</span>
-              <span className="text">{`${data.subscribePeriod} 개월`}</span>
+              <span className="text">{`${data?.subscribePeriod} 개월`}</span>
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
               <span className="text">{`${
-                Number(data.investRate) * 100
+                Number(data?.investRate) * 100
               } %`}</span>
             </div>
             <div className="text-box">
               <span className="name">충전기 종류 및 수량</span>
 
-              {data.chargers.map((item, index) => (
+              {data?.chargers.map((item, index) => (
                 <span className="text">
                   {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                   <br />
@@ -93,7 +93,7 @@ const EstimateContainer = ({ data }: Props) => {
             <div className="text-box">
               <span className="name">충전기 설치 위치</span>
               <span className="text">
-                {convertKo(location, locationEn, data.installationLocation)}
+                {convertKo(location, locationEn, data?.installationLocation)}
               </span>
             </div>
             <div className="text-box">
@@ -102,14 +102,14 @@ const EstimateContainer = ({ data }: Props) => {
                 {convertKo(
                   InstallationPurposeType,
                   InstallationPurposeTypeEn,
-                  data.installationPurpose,
+                  data?.installationPurpose,
                 )}
                 모객 효과
               </span>
             </div>
             <div className="text-box">
               <span className="name">기타 요청사항</span>
-              <span className="text">{data.etcRequest}</span>
+              <span className="text">{data?.etcRequest}</span>
             </div>
             <div className="img-box">
               <Image src={DoubleArrow} alt="double-arrow" />
