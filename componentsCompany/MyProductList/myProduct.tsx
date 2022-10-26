@@ -48,7 +48,8 @@ const MyProduct = (props: Props) => {
     {
       staleTime: 5000,
       cacheTime: Infinity,
-      enabled: router.isReady,
+      // enabled: router.isReady,
+      enabled: false,
     },
   );
 
@@ -155,7 +156,6 @@ const MyProduct = (props: Props) => {
               <span className="value">-</span>
             </Item>
           )}
-
           <Section grid={true}>
             <Subtitle>충전기 이미지</Subtitle>
             <GridImg>
@@ -180,7 +180,9 @@ const MyProduct = (props: Props) => {
                 onClick={() => DownloadFile(file.originalName, file.url)}
               >
                 <Image src={fileImg} alt="file-icon" />
-                {file.originalName}
+                {file.originalName.length > 25
+                  ? `${file.originalName.slice(0, 25)}...`
+                  : file.originalName}
               </FileBtn>
             ))}
           </Section>
@@ -262,11 +264,19 @@ const Item = styled.li`
   }
 `;
 const FeatureBox = styled(TextareaAutosize)`
+  box-sizing: border-box;
+  resize: none;
   padding: 12pt;
   gap: 7.5pt;
   width: 100%;
   border: 1px solid ${colors.gray};
+  margin-top: 9pt;
   border-radius: 6pt;
+  font-weight: 400;
+  font-size: 10.5pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
 `;
 const Subtitle = styled.h2`
   font-weight: 500;
@@ -290,6 +300,11 @@ const GridItem = styled.div`
 `;
 const FileBtn = styled(Button)`
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-overflow: clip;
+  overflow: hidden;
+  max-width: 100%;
   gap: 3pt;
   margin-top: 9pt;
   padding: 7.5pt 6pt;
