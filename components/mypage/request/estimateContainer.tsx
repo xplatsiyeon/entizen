@@ -1,9 +1,8 @@
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
-import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
 import { QuotationRequestsResponse } from 'pages/mypage/request/[id]';
@@ -125,9 +124,6 @@ const EstimateContainer = ({ data }: Props) => {
                 {data?.receivedQuotationRequest.etcRequest}
               </span>
             </div>
-            <div className="img-box">
-              <Image src={DoubleArrow} alt="double-arrow" />
-            </div>
           </Contents>
         </List>
       </Collapse>
@@ -138,7 +134,7 @@ const EstimateContainer = ({ data }: Props) => {
 export default EstimateContainer;
 
 const Wrapper = styled.div`
-  padding: 21pt 15pt 12.75pt 15pt;
+  padding: 21pt 15pt;
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
 `;
 const Badge = styled.span<{ color: string }>`

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import temp from 'public/mypage/temp-img.svg';
 import arrow from 'public/images/right-arrow.svg';
+import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuotationRequestsResponse } from 'pages/mypage/request/[id]';
@@ -13,6 +14,9 @@ const SubscriptionProduct = ({ data }: Props) => {
   const UserId = JSON.parse(localStorage.getItem('USER_ID')!);
   return (
     <Wrapper>
+      <DownArrowBox>
+        <Image src={DoubleArrow} alt="double-arrow" />
+      </DownArrowBox>
       <H1>
         {UserId}님, <br /> 총{' '}
         <span className="accent">
@@ -64,6 +68,12 @@ const Wrapper = styled.div`
     padding-top: 0pt;
   }
 `;
+const DownArrowBox = styled.div`
+  padding-top: 21pt;
+  padding-bottom: 30pt;
+  text-align: center;
+`;
+
 const H1 = styled.h1`
   font-weight: 700;
   font-size: 12pt;
