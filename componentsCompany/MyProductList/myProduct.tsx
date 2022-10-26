@@ -49,6 +49,7 @@ const MyProduct = (props: Props) => {
       staleTime: 5000,
       cacheTime: Infinity,
       enabled: router.isReady,
+      // enabled: false,
     },
   );
 
@@ -175,12 +176,14 @@ const MyProduct = (props: Props) => {
           <Section>
             <Subtitle>충전기 카탈로그</Subtitle>
             {data?.product.catalogFiles.map((file, index) => (
-              <FileBtn key={index} href={file.url} download={file.originalName}>
-                <Image src={fileImg} alt="file-icon" />
-                {file.originalName.length > 25
-                  ? `${file.originalName.slice(0, 25)}...`
-                  : file.originalName}
-              </FileBtn>
+              <a key={index} href={file.url} download={file.originalName}>
+                <FileBtn>
+                  <Image src={fileImg} alt="file-icon" />
+                  {file.originalName.length > 25
+                    ? `${file.originalName.slice(0, 25)}...`
+                    : file.originalName}
+                </FileBtn>
+              </a>
             ))}
           </Section>
         </List>
@@ -289,14 +292,14 @@ const GridImg = styled.div`
   gap: 6pt;
 `;
 const GridItem = styled.div`
-  background-color: blue;
+  text-align: center;
   position: relative;
   border-radius: 6pt;
   width: 81pt;
   height: 97.5pt;
 `;
-const FileBtn = styled.a`
-  display: inline-flex;
+const FileBtn = styled(Button)`
+  display: flex;
   justify-content: flex-start;
   align-items: center;
   overflow: hidden;
