@@ -1,25 +1,53 @@
 import styled from '@emotion/styled';
-import { Button, css } from '@mui/material';
+import { Button } from '@mui/material';
 import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 import colors from 'styles/colors';
 import CompanyHeader from './Header';
 import tempCar from 'public/images/temp-car.jpg';
-import temp from 'public/mypage/temp-img.svg';
 import fileImg from 'public/mypage/file-icon.svg';
 import TwoBtn from './TwoBtn';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
+import Loader from 'components/Loader';
+
+export interface ImgFile {
+  originalName: string;
+  size: number;
+  url: string;
+}
+interface Product {
+  modelName: string;
+  chargerKind: string;
+  chargerChannel: string;
+  chargerMethods: 'Socket' | 'AC 5핀'[];
+  manufacturer: string;
+  feature: string;
+  chargerImageFiles: ImgFile[];
+  catalogFiles: ImgFile[];
+}
+interface ProductDetailResponse {
+  isSuccess: boolean;
+  product: Product;
+}
 
 type Props = {};
 const TAG = 'componentsCompany/MyProductList/myProduct';
 const MyProduct = (props: Props) => {
   const router = useRouter();
+  const routerId = router?.query?.id!;
+
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  // const { data, isLoading, isError } = useQuery<ProductListResponse>(
-  //   'productList',
-  //   productList,
-  // );
+  const { data, isLoading, isError, error } = useQuery<ProductDetailResponse>(
+    'productDetail',
+    () => isTokenGetApi(`products/${routerId}`),
+    {
+      staleTime: 5000,
+      cacheTime: Infinity,
+    },
+  );
 
   const DownloadFile = useCallback(() => {
     let fileName = 'Charge Point 카탈로그_7 KW';
@@ -42,21 +70,21 @@ const MyProduct = (props: Props) => {
   const modalRightBtnControll = () => {
     router.push('/company/myProductList');
   };
-
   const clickDelete = () => {
     setModalOpen(true);
   };
   const clickEdit = () => {
     router.push('/company/addProduct');
   };
-
-  // if (isError) {
-  //   console.log(TAG + ' 에러 발생');
-  //   console.log(isError);
-  // }
-  // if (isLoading) {
-  //   <Loader />;
-  // }
+  console.log(TAG + '🔥 ~line 79 데이터 확인');
+  console.log(data);
+  if (isError) {
+    console.log(TAG + '🔥 ~line 82 에러 발생');
+    console.log(error);
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       {modalOpen && (

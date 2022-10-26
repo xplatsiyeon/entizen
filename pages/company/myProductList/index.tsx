@@ -1,8 +1,7 @@
 import MypageHeader from 'components/mypage/request/header';
+import ProductList from 'componentsCompany/MyProductList/ProductList';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import EmptyProduct from './EmptyProduct';
-import ProductList from './ProductList';
 
 type Props = {};
 
