@@ -259,6 +259,6 @@ const BubbleMessage = styled.span`
     transform: translate(-50%) rotate(-180deg);
     border: solid transparent;
     border-width: 9pt 6pt;
-    border-bottom-color: ${colors.main};
+    border-bottom-color: ${colors.main1};
   }
 `;
