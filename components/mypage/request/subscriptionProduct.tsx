@@ -22,31 +22,33 @@ const SubscriptionProduct = ({ data }: Props) => {
       </H1>
       <Notice>상세 내용을 비교해보고, 나에게 맞는 상품을 선택해보세요!</Notice>
       <GridContainer>
-        {data?.receivedQuotationRequest.preQuotations.map((company, index) => (
-          <GridItem
-            key={index}
-            onClick={() =>
-              route.push(
-                `/mypage/request/preQuotations/${company.preQuotationIdx}`,
-              )
-            }
-          >
-            <Image
-              src={company.companyLogoImageUrl}
-              alt={company.companyName}
-              priority={true}
-              unoptimized={true}
-            />
-            <h2>{company.companyName}</h2>
-            <p>구독료</p>
-            <PriceBox>
-              <h1>${company.subscribePricePerMonth} 원</h1>
-              <div>
-                <Image src={arrow} alt="arrow" layout="fill" />
-              </div>
-            </PriceBox>
-          </GridItem>
-        ))}
+        {data?.receivedQuotationRequest?.preQuotations?.map(
+          (company, index) => (
+            <GridItem
+              key={index}
+              onClick={() =>
+                route.push(
+                  `/mypage/request/preQuotations/${company.preQuotationIdx}`,
+                )
+              }
+            >
+              <Image
+                src={company.companyLogoImageUrl}
+                alt={company.companyName}
+                priority={true}
+                unoptimized={true}
+              />
+              <h2>{company.companyName}</h2>
+              <p>구독료</p>
+              <PriceBox>
+                <h1>${company.subscribePricePerMonth} 원</h1>
+                <div>
+                  <Image src={arrow} alt="arrow" layout="fill" />
+                </div>
+              </PriceBox>
+            </GridItem>
+          ),
+        )}
       </GridContainer>
     </Wrapper>
   );
