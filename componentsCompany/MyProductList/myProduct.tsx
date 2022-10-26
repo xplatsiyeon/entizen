@@ -42,7 +42,7 @@ const MyProduct = (props: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { data, isLoading, isError, error } = useQuery<ProductDetailResponse>(
     'productDetail',
-    () => isTokenGetApi(`products/${routerId}`),
+    () => isTokenGetApi(`/products/${routerId}`),
     {
       staleTime: 5000,
       cacheTime: Infinity,
