@@ -6,14 +6,7 @@ import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import colors from 'styles/colors';
-import Mypage1_4 from './1-4';
-import BiddingQuote from 'components/mypage/request/BiddingQuote';
-import ScheduleConfirm from 'components/mypage/request/ScheduleConfirm';
-import ScheduleChange from 'components/mypage/request/ScheduleChange';
-import ManagerInfo from 'components/mypage/request/ManagerInfo';
 import CommunicationBox from 'components/CommunicationBox';
-import Mypage2_1 from 'components/mypage/request/2-1';
-import Button from 'components/mypage/request/Button';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
@@ -113,7 +106,7 @@ const Mypage1_3 = ({}: any) => {
                 handleOnClick={handleOnClick}
               />
               {/* request 1-3 */}
-              <EstimateContainer data={data!} />
+              <EstimateContainer data={data} />
               <SubscriptionProduct />
               <TextBox>
                 <div>선택하기 어려우신가요?</div>

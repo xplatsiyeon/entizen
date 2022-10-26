@@ -24,8 +24,11 @@ import {
 type Props = {
   data?: QuotationRequests; // 나중에 필수 값으로 변경
 };
-
+const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
 const EstimateContainer = ({ data }: Props) => {
+  console.log(TAG + '🔥 ~line 29 ~data 잘 들어오는지 확인');
+  console.log(data);
+
   const [open, setOpen] = useState<boolean>(true);
 
   const handleClick = () => setOpen(!open);
