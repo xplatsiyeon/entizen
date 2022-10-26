@@ -3,7 +3,7 @@ import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
 import { QuotationRequests } from 'pages/mypage/request/[id]';
@@ -26,18 +26,19 @@ type Props = {
 };
 const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
 const EstimateContainer = ({ data }: Props) => {
-  console.log(TAG + '🔥 ~line 29 ~data 잘 들어오는지 확인');
-  console.log(data);
-
   const [open, setOpen] = useState<boolean>(true);
 
-  const handleClick = () => setOpen(!open);
+  useEffect(() => {
+    console.log(TAG + '🔥 ~line 29 ~data 잘 들어오는지 확인');
+    console.log(data);
+    console.log('data 있으면 재렌더링 되라앗..!');
+  }, [data]);
 
   return (
     <Wrapper>
       <Badge>{data?.badge}</Badge>
       {/* Close */}
-      <ItemButton onClick={handleClick}>
+      <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
           <h1>{data?.installationAddress}</h1>
           {/* {open && <p>서울시 관악구 난곡로40길 30</p>} */}
