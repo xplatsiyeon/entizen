@@ -12,6 +12,8 @@ import { useRouter } from 'next/router';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import Loader from 'components/Loader';
+import { M5_LIST, M5_LIST_EN, M7_LIST, M7_LIST_EN } from 'assets/selectList';
+import { convertKo } from 'utils/calculatePackage';
 
 export interface ImgFile {
   originalName: string;
@@ -22,7 +24,7 @@ interface Product {
   modelName: string;
   chargerKind: string;
   chargerChannel: string;
-  chargerMethods: 'Socket' | 'AC 5핀'[];
+  chargerMethods: string[];
   manufacturer: string;
   feature: string;
   chargerImageFiles: ImgFile[];
@@ -44,8 +46,8 @@ const MyProduct = (props: Props) => {
     'productDetail',
     () => isTokenGetApi(`/products/${routerId}`),
     {
-      // staleTime: 5000,
-      // cacheTime: Infinity,
+      staleTime: 5000,
+      cacheTime: Infinity,
       enabled: router.isReady,
     },
   );
@@ -101,58 +103,66 @@ const MyProduct = (props: Props) => {
         />
       )}
       {/* 헤더 */}
-      <CompanyHeader back={true} title={'LECS-007ADE'} />
+      <CompanyHeader back={true} title={data?.product.modelName} />
       {/* 바디 */}
       <Wrapper>
         <List>
           <Item>
             <span className="name">모델명</span>
-            <span className="value">LECS-007ADE</span>
+            <span className="value">{data?.product.modelName}</span>
           </Item>
           <Item>
             <span className="name">충전기 종류</span>
-            <span className="value">7kW 충전기 (공용)</span>
+            <span className="value">
+              {convertKo(M5_LIST, M5_LIST_EN, data?.product.chargerKind)}
+            </span>
           </Item>
           <Item>
             <span className="name">충전 채널</span>
-            <span className="value">싱글</span>
+            <span className="value">
+              {convertKo(M7_LIST, M7_LIST_EN, data?.product.chargerChannel)}
+            </span>
           </Item>
           <Item>
             <span className="name">충전 방식</span>
             <span className="value">
-              AC5핀
-              <br />
-              Socket
+              {data?.product.chargerMethods.map((method, index) => (
+                <React.Fragment key={index}>
+                  {method}
+                  <br />
+                </React.Fragment>
+              ))}
             </span>
           </Item>
           <Item>
             <span className="name">제조사</span>
-            <span className="value">LS ELECTRIC</span>
+            <span className="value">{data?.product.manufacturer}</span>
           </Item>
           <Item>
             <span className="name">특장점</span>
-            <span className="value">-</span>
+            <span className="value">
+              {data?.product.feature.length! >= 1 ? data?.product.feature : '-'}
+            </span>
           </Item>
           <Section grid={true}>
             <Subtitle>충전기 이미지</Subtitle>
             <GridImg>
-              <GridItem>
-                <Image src={tempCar} alt="img" layout="fill" />
-              </GridItem>
-              <GridItem>
-                <Image src={tempCar} alt="img" layout="fill" />
-              </GridItem>
-              <GridItem>
-                <Image src={tempCar} alt="img" layout="fill" />
-              </GridItem>
+              {data?.product.chargerImageFiles.map((img, index) => (
+                <GridItem key={index}>
+                  <Image src={img.url} alt={img.originalName} layout="fill" />
+                </GridItem>
+              ))}
             </GridImg>
           </Section>
           <Section>
             <Subtitle>충전기 카탈로그</Subtitle>
-            <FileBtn onClick={DownloadFile}>
-              <Image src={fileImg} alt="file-icon" />
-              Charge Point 카탈로그_7 KW
-            </FileBtn>
+
+            {data?.product.catalogFiles.map((file, index) => (
+              <FileBtn key={index} onClick={DownloadFile}>
+                <Image src={file.url} alt={file.originalName} />
+                {file.originalName}
+              </FileBtn>
+            ))}
           </Section>
         </List>
         <TwoBtn handleRightBtn={clickDelete} handleLeftBtn={clickEdit} />
