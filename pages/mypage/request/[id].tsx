@@ -22,11 +22,38 @@ import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
 
+export interface Chargers {
+  kind: string;
+  standType: string;
+  channel: string;
+  count: number;
+}
+export interface PreQuotations {
+  companyLogoImageUrl: string;
+  companyName: string;
+  preQuotationIdx: number;
+  subscribePricePerMonth: string;
+}
+export interface QuotationRequests {
+  quotationStatus: string;
+  installationAddress: string;
+  badge: string;
+  subscribeProduct: string;
+  subscribePeriod: number;
+  investRate: string;
+  chargers: Chargers[];
+  installationLocation: string;
+  installationPurpose: string;
+  etcRequest: string;
+  totalPreQuotationCount: number;
+  preQuotations: PreQuotations[];
+}
+
 const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
-  const { data, isError, isLoading } = useQuery(
+  const { data, isError, isLoading } = useQuery<QuotationRequests>(
     'mypage/request/id',
     () => isTokenGetApi(`/quotations/received-request/${routerId}`),
     {
@@ -85,8 +112,8 @@ const Mypage1_3 = ({}: any) => {
                 back={true}
                 handleOnClick={handleOnClick}
               />
-              <EstimateContainer />
               {/* request 1-3 */}
+              <EstimateContainer data={data!} />
               <SubscriptionProduct />
               <TextBox>
                 <div>선택하기 어려우신가요?</div>

@@ -6,20 +6,38 @@ import Image from 'next/image';
 import { useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
+import { QuotationRequests } from 'pages/mypage/request/[id]';
+import { convertKo } from 'utils/calculatePackage';
+import {
+  InstallationPurposeType,
+  InstallationPurposeTypeEn,
+  location,
+  locationEn,
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+} from 'assets/selectList';
 
-const EstimateContainer = () => {
+type Props = {
+  data: QuotationRequests;
+};
+
+const EstimateContainer = ({ data }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
 
   const handleClick = () => setOpen(!open);
 
   return (
     <Wrapper>
-      <Badge>견적마감</Badge>
+      <Badge>{data.badge}</Badge>
       {/* Close */}
       <ItemButton onClick={handleClick}>
         <StoreName>
-          <h1>LS 카페 신림점</h1>
-          {open && <p>서울시 관악구 난곡로40길 30</p>}
+          <h1>{data.installationAddress}</h1>
+          {/* {open && <p>서울시 관악구 난곡로40길 30</p>} */}
         </StoreName>
 
         {open ? (
@@ -39,34 +57,59 @@ const EstimateContainer = () => {
           <Contents>
             <div className="text-box">
               <span className="name">구독상품</span>
-              <span className="text">전체구독</span>
+              <span className="text">{data.subscribeProduct}</span>
             </div>
             <div className="text-box">
               <span className="name">구독기간</span>
-              <span className="text">36 개월</span>
+              <span className="text">{`${data.subscribePeriod} 개월`}</span>
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
-              <span className="text">70 %</span>
+              <span className="text">{`${
+                Number(data.investRate) * 100
+              } %`}</span>
             </div>
             <div className="text-box">
               <span className="name">충전기 종류 및 수량</span>
-              <span className="text">
-                7 kW 충전기 (공용)
-                <br /> : 벽걸이, 싱글, 2 대
-              </span>
+
+              {data.chargers.map((item, index) => (
+                <span className="text">
+                  {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                  <br />
+                  {item.standType
+                    ? `: ${convertKo(
+                        M6_LIST,
+                        M6_LIST_EN,
+                        item.standType,
+                      )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                        item.count
+                      } 대`
+                    : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                        item.count
+                      } 대`}
+                </span>
+              ))}
             </div>
             <div className="text-box">
               <span className="name">충전기 설치 위치</span>
-              <span className="text">건물 밖</span>
+              <span className="text">
+                {convertKo(location, locationEn, data.installationLocation)}
+              </span>
             </div>
             <div className="text-box">
               <span className="name">충전기 설치 목적</span>
-              <span className="text">모객 효과</span>
+              <span className="text">
+                {convertKo(
+                  InstallationPurposeType,
+                  InstallationPurposeTypeEn,
+                  data.installationPurpose,
+                )}
+                모객 효과
+              </span>
             </div>
             <div className="text-box">
               <span className="name">기타 요청사항</span>
-              <span className="text">없음</span>
+              <span className="text">{data.etcRequest}</span>
             </div>
             <div className="img-box">
               <Image src={DoubleArrow} alt="double-arrow" />
