@@ -11,16 +11,11 @@ import { useQuery } from 'react-query';
 import colors from 'styles/colors';
 
 type Props = {};
-export interface ProductListRepsonse {
-  isSuccess: true;
-  products: Products[];
-}
 export interface File {
   url: string;
   size: number;
   originalName: string;
 }
-
 export interface Products {
   chargerProductIdx: number;
   modelName: string;
@@ -33,11 +28,19 @@ export interface Products {
   chargerImageFiles: File[];
   catalogFiles: File[];
 }
+export interface ProductListRepsonse {
+  isSuccess: true;
+  products: Products[];
+}
 const TAG = 'componentsCompany/MyProductList/ProductList';
 const ProductList = (props: Props) => {
   const { data, isLoading, isError } = useQuery<ProductListRepsonse>(
     'productList',
     () => isTokenGetApi('/products'),
+    {
+      cacheTime: Infinity,
+      staleTime: 5000,
+    },
   );
   const router = useRouter();
 
@@ -62,7 +65,9 @@ const ProductList = (props: Props) => {
         {data?.products.map((item, index) => (
           <ListBox
             key={index}
-            onClick={() => router.push(`/company/${item.chargerProductIdx}`)}
+            onClick={() =>
+              router.push(`/company/myProductList/${item.chargerProductIdx}`)
+            }
           >
             <ImageBox>
               <Image
