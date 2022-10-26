@@ -47,7 +47,6 @@ const MyProduct = (props: Props) => {
     () => isTokenGetApi(`/products/${routerId}`),
     {
       enabled: router.isReady,
-      // enabled: false,
     },
   );
 
@@ -306,6 +305,8 @@ const FileBtn = styled(Button)`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   overflow: hidden;
   max-width: 100%;
   gap: 3pt;
