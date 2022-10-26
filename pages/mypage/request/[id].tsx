@@ -106,7 +106,7 @@ const Mypage1_3 = ({}: any) => {
                 handleOnClick={handleOnClick}
               />
               {/* request 1-3 */}
-              <EstimateContainer data={data!} />
+              <EstimateContainer />
               <SubscriptionProduct />
               <TextBox>
                 <div>선택하기 어려우신가요?</div>

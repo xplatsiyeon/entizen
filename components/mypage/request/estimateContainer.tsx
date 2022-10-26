@@ -20,19 +20,50 @@ import {
   M7_LIST,
   M7_LIST_EN,
 } from 'assets/selectList';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import { useRouter } from 'next/router';
+import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
 
 type Props = {
-  data: QuotationRequests;
+  // data: QuotationRequests;
 };
 const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
-const EstimateContainer = ({ data }: Props) => {
+const EstimateContainer = ({}: Props) => {
+  const router = useRouter();
+  const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(true);
+
+  const { data, isError, isLoading } = useQuery<QuotationRequests>(
+    'mypage/request/id',
+    () => isTokenGetApi(`/quotations/received-request/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
 
   useEffect(() => {
     console.log(TAG + '🔥 ~line 29 ~data 잘 들어오는지 확인');
     console.log(data);
     console.log('data 있으면 재렌더링 되라앗..!');
   }, [data]);
+
+  if (isError) {
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
+  console.log(TAG + '⭐️ ~line 53 ~ api data 확인');
+  console.log(data);
 
   return (
     <Wrapper>
@@ -108,7 +139,6 @@ const EstimateContainer = ({ data }: Props) => {
                   InstallationPurposeTypeEn,
                   data?.installationPurpose,
                 )}
-                모객 효과
               </span>
             </div>
             <div className="text-box">
