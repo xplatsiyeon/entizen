@@ -176,14 +176,16 @@ const MyProduct = (props: Props) => {
           <Section>
             <Subtitle>충전기 카탈로그</Subtitle>
             {data?.product.catalogFiles.map((file, index) => (
-              <a key={index} href={file.url} download={file.originalName}>
+              <FileDownload
+                key={index}
+                href={file.url}
+                download={file.originalName}
+              >
                 <FileBtn>
                   <Image src={fileImg} alt="file-icon" />
-                  {file.originalName.length > 25
-                    ? `${file.originalName.slice(0, 25)}...`
-                    : file.originalName}
+                  {file.originalName}
                 </FileBtn>
-              </a>
+              </FileDownload>
             ))}
           </Section>
         </List>
@@ -297,6 +299,9 @@ const GridItem = styled.div`
   border-radius: 6pt;
   width: 81pt;
   height: 97.5pt;
+`;
+const FileDownload = styled.a`
+  text-decoration: none;
 `;
 const FileBtn = styled(Button)`
   display: flex;
