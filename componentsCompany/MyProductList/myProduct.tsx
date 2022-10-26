@@ -48,7 +48,6 @@ const MyProduct = (props: Props) => {
     {
       staleTime: 5000,
       cacheTime: Infinity,
-      // enabled: false,
       enabled: router.isReady,
     },
   );
@@ -176,12 +175,7 @@ const MyProduct = (props: Props) => {
           <Section>
             <Subtitle>충전기 카탈로그</Subtitle>
             {data?.product.catalogFiles.map((file, index) => (
-              <FileBtn
-                key={index}
-                href={file.url}
-                download={file.originalName}
-                // onClick={() => DownloadFile(file.originalName, file.url)}
-              >
+              <FileBtn key={index} href={file.url} download={file.originalName}>
                 <Image src={fileImg} alt="file-icon" />
                 {file.originalName.length > 25
                   ? `${file.originalName.slice(0, 25)}...`
@@ -302,10 +296,9 @@ const GridItem = styled.div`
   height: 97.5pt;
 `;
 const FileBtn = styled.a`
-  display: flex;
+  display: inline-flex;
   justify-content: flex-start;
   align-items: center;
-  text-overflow: clip;
   overflow: hidden;
   max-width: 100%;
   gap: 3pt;
