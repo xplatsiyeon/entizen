@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Button } from '@mui/material';
+import { Button, TextareaAutosize, TextField } from '@mui/material';
 import Image from 'next/image';
 import React, { useCallback, useState } from 'react';
 import colors from 'styles/colors';
@@ -52,20 +52,20 @@ const MyProduct = (props: Props) => {
     },
   );
 
-  const DownloadFile = useCallback(() => {
-    let fileName = 'Charge Point 카탈로그_7 KW';
-    let content = 'Charge Point 카탈로그_7 KW 테스트';
-    const blob = new Blob([content], {
+  const DownloadFile = useCallback((name: string, url: string) => {
+    let fileName = name;
+    // let content = 'Charge Point 카탈로그_7 KW 테스트';
+    const blob = new Blob([url], {
       type: 'text/plain',
     });
-    const url = window.URL.createObjectURL(blob);
+    const newUrl = window.URL.createObjectURL(blob);
     const element = document.createElement('a');
-    element.href = url;
+    element.href = newUrl;
     element.download = fileName;
     document.body.appendChild(element);
     element.click();
     element.remove();
-    window.URL.revokeObjectURL(url);
+    window.URL.revokeObjectURL(newUrl);
   }, []);
   const exitHandle = () => {
     setModalOpen(false);
@@ -138,12 +138,24 @@ const MyProduct = (props: Props) => {
             <span className="name">제조사</span>
             <span className="value">{data?.product.manufacturer}</span>
           </Item>
-          <Item>
-            <span className="name">특장점</span>
-            <span className="value">
-              {data?.product.feature.length! >= 1 ? data?.product.feature : '-'}
-            </span>
-          </Item>
+
+          {data?.product.feature.length! >= 1 ? (
+            <>
+              <Item>
+                <span className="name">특장점</span>
+              </Item>
+              <FeatureBox
+                aria-label="product feature"
+                defaultValue={data?.product.feature}
+              />
+            </>
+          ) : (
+            <Item>
+              <span className="name">특장점</span>
+              <span className="value">-</span>
+            </Item>
+          )}
+
           <Section grid={true}>
             <Subtitle>충전기 이미지</Subtitle>
             <GridImg>
@@ -162,9 +174,11 @@ const MyProduct = (props: Props) => {
           </Section>
           <Section>
             <Subtitle>충전기 카탈로그</Subtitle>
-
             {data?.product.catalogFiles.map((file, index) => (
-              <FileBtn key={index} onClick={DownloadFile}>
+              <FileBtn
+                key={index}
+                onClick={() => DownloadFile(file.originalName, file.url)}
+              >
                 <Image src={fileImg} alt="file-icon" />
                 {file.originalName}
               </FileBtn>
@@ -246,6 +260,13 @@ const Item = styled.li`
       text-align: right;
     }
   }
+`;
+const FeatureBox = styled(TextareaAutosize)`
+  padding: 12pt;
+  gap: 7.5pt;
+  width: 100%;
+  border: 1px solid ${colors.gray};
+  border-radius: 6pt;
 `;
 const Subtitle = styled.h2`
   font-weight: 500;
