@@ -46,8 +46,6 @@ const MyProduct = (props: Props) => {
     'productDetail',
     () => isTokenGetApi(`/products/${routerId}`),
     {
-      staleTime: 5000,
-      cacheTime: Infinity,
       enabled: router.isReady,
       // enabled: false,
     },
@@ -197,6 +195,7 @@ const MyProduct = (props: Props) => {
 
 const Wrapper = styled.div`
   padding-top: 60pt;
+  padding-bottom: 100pt;
   @media (max-width: 899pt) {
     padding-top: 21pt;
   }

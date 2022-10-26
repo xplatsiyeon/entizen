@@ -30,8 +30,6 @@ const Mypage1_3 = ({}: any) => {
     'mypage/request/id',
     () => isTokenGetApi(`/quotations/received-request/${routerId}`),
     {
-      staleTime: 5000,
-      cacheTime: Infinity,
       enabled: router.isReady,
     },
   );
