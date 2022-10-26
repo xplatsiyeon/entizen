@@ -48,7 +48,7 @@ const Mypage2 = ({ data }: any) => {
                 back={true}
                 handleOnClick={handleOnClick}
               />
-              <EstimateContainer />
+              {/* <EstimateContainer /> */}
 
               <Mypage2_1 />
             </Wrapper>

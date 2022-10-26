@@ -22,7 +22,7 @@ import {
 } from 'assets/selectList';
 
 type Props = {
-  data?: QuotationRequests; // 나중에 필수 값으로 변경
+  data: QuotationRequests;
 };
 const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
 const EstimateContainer = ({ data }: Props) => {
