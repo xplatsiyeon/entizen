@@ -111,7 +111,7 @@ const Mypage1_3 = ({}: any) => {
               />
               {/* request 1-3 */}
               <EstimateContainer data={data!} />
-              <SubscriptionProduct />
+              <SubscriptionProduct data={data!} />
               <TextBox>
                 <div>선택하기 어려우신가요?</div>
                 <CommunicationBox

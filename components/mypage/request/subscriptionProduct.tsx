@@ -4,27 +4,43 @@ import temp from 'public/mypage/temp-img.svg';
 import arrow from 'public/images/right-arrow.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-
-const SubscriptionProduct = () => {
+import { QuotationRequestsResponse } from 'pages/mypage/request/[id]';
+type Props = {
+  data: QuotationRequestsResponse;
+};
+const SubscriptionProduct = ({ data }: Props) => {
   const route = useRouter();
+  const UserId = JSON.parse(localStorage.getItem('USER_ID')!);
   return (
     <Wrapper>
       <H1>
-        윤세아님, <br /> 총 <span className="accent">7개</span>의 구독상품이
-        도착했습니다.
+        {UserId}님, <br /> 총{' '}
+        <span className="accent">
+          {data?.receivedQuotationRequest.totalPreQuotationCount}개
+        </span>
+        의 구독상품이 도착했습니다.
       </H1>
       <Notice>상세 내용을 비교해보고, 나에게 맞는 상품을 선택해보세요!</Notice>
       <GridContainer>
-        {[1, 1, 1, 1, 1, 1, 1].map((_, index) => (
+        {data?.receivedQuotationRequest.preQuotations.map((company, index) => (
           <GridItem
             key={index}
-            onClick={() => route.push('/mypage/request/1-4')}
+            onClick={() =>
+              route.push(
+                `/mypage/request/preQuotations/${company.preQuotationIdx}`,
+              )
+            }
           >
-            <Image src={temp} alt="icon" />
-            <h2>Charge Point</h2>
+            <Image
+              src={company.companyLogoImageUrl}
+              alt={company.companyName}
+              priority={true}
+              unoptimized={true}
+            />
+            <h2>{company.companyName}</h2>
             <p>구독료</p>
             <PriceBox>
-              <h1>195,000 원</h1>
+              <h1>${company.subscribePricePerMonth} 원</h1>
               <div>
                 <Image src={arrow} alt="arrow" layout="fill" />
               </div>
@@ -77,7 +93,7 @@ const GridItem = styled.div`
   padding-top: 12pt;
   padding-bottom: 15pt;
   padding-left: 9pt;
-
+  cursor: pointer;
   & > h2 {
     padding-top: 15pt;
     font-weight: 400;

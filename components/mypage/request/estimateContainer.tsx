@@ -19,7 +19,10 @@ import {
   M6_LIST_EN,
   M7_LIST,
   M7_LIST_EN,
+  subscribeType,
+  subscribeTypeEn,
 } from 'assets/selectList';
+import { HandleUserColor } from 'utils/changeValue';
 
 type Props = {
   data: QuotationRequestsResponse;
@@ -28,14 +31,11 @@ const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
 const EstimateContainer = ({ data }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
 
-  useEffect(() => {
-    console.log(TAG + '🔥 ~line 29 ~data 잘 들어오는지 확인');
-    console.log(data);
-    console.log('data 있으면 재렌더링 되라앗..!');
-  }, [data]);
   return (
     <Wrapper>
-      <Badge>{data?.receivedQuotationRequest.badge}</Badge>
+      <Badge color={HandleUserColor(data.receivedQuotationRequest.badge)}>
+        {data?.receivedQuotationRequest.badge}
+      </Badge>
       {/* Close */}
       <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
@@ -61,7 +61,11 @@ const EstimateContainer = ({ data }: Props) => {
             <div className="text-box">
               <span className="name">구독상품</span>
               <span className="text">
-                {data?.receivedQuotationRequest.subscribeProduct}
+                {convertKo(
+                  subscribeType,
+                  subscribeTypeEn,
+                  data?.receivedQuotationRequest.subscribeProduct,
+                )}
               </span>
             </div>
             <div className="text-box">
@@ -137,8 +141,8 @@ const Wrapper = styled.div`
   padding: 21pt 15pt 12.75pt 15pt;
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
 `;
-const Badge = styled.span`
-  background: ${colors.orange};
+const Badge = styled.span<{ color: string }>`
+  background: ${({ color }) => color};
   color: ${colors.lightWhite};
   border-radius: 12pt;
   padding: 4.5pt 7.5pt;
