@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
-import { QuotationRequests } from 'pages/mypage/request/[id]';
+import { QuotationRequestsResponse } from 'pages/mypage/request/[id]';
 import { convertKo } from 'utils/calculatePackage';
 import {
   InstallationPurposeType,
@@ -20,58 +20,26 @@ import {
   M7_LIST,
   M7_LIST_EN,
 } from 'assets/selectList';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
-import { useRouter } from 'next/router';
-import Loader from 'components/Loader';
-import Modal from 'components/Modal/Modal';
 
 type Props = {
-  // data: QuotationRequests;
+  data: QuotationRequestsResponse;
 };
 const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
-const EstimateContainer = ({}: Props) => {
-  const router = useRouter();
-  const routerId = router?.query?.id!;
+const EstimateContainer = ({ data }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
-
-  const { data, isError, isLoading } = useQuery<QuotationRequests>(
-    'mypage/request/id',
-    () => isTokenGetApi(`/quotations/received-request/${routerId}`),
-    {
-      enabled: router.isReady,
-    },
-  );
 
   useEffect(() => {
     console.log(TAG + '🔥 ~line 29 ~data 잘 들어오는지 확인');
     console.log(data);
     console.log('data 있으면 재렌더링 되라앗..!');
   }, [data]);
-
-  if (isError) {
-    return (
-      <Modal
-        text="다시 시도해주세요"
-        click={() => {
-          router.push('/');
-        }}
-      />
-    );
-  }
-  if (isLoading) {
-    return <Loader />;
-  }
-  console.log(TAG + '⭐️ ~line 53 ~ api data 확인');
-  console.log(data);
-
   return (
     <Wrapper>
-      <Badge>{data?.badge}</Badge>
+      <Badge>{data?.receivedQuotationRequest.badge}</Badge>
       {/* Close */}
       <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
-          <h1>{data?.installationAddress}</h1>
+          <h1>{data?.receivedQuotationRequest.installationAddress}</h1>
           {/* {open && <p>서울시 관악구 난곡로40길 30</p>} */}
         </StoreName>
 
@@ -92,22 +60,24 @@ const EstimateContainer = ({}: Props) => {
           <Contents>
             <div className="text-box">
               <span className="name">구독상품</span>
-              <span className="text">{data?.subscribeProduct}</span>
+              <span className="text">
+                {data?.receivedQuotationRequest.subscribeProduct}
+              </span>
             </div>
             <div className="text-box">
               <span className="name">구독기간</span>
-              <span className="text">{`${data?.subscribePeriod} 개월`}</span>
+              <span className="text">{`${data?.receivedQuotationRequest.subscribePeriod} 개월`}</span>
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
               <span className="text">{`${
-                Number(data?.investRate) * 100
+                Number(data?.receivedQuotationRequest.investRate) * 100
               } %`}</span>
             </div>
             <div className="text-box">
               <span className="name">충전기 종류 및 수량</span>
 
-              {data?.chargers?.map((item, index) => (
+              {data?.receivedQuotationRequest.chargers?.map((item, index) => (
                 <span className="text">
                   {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                   <br />
@@ -128,7 +98,11 @@ const EstimateContainer = ({}: Props) => {
             <div className="text-box">
               <span className="name">충전기 설치 위치</span>
               <span className="text">
-                {convertKo(location, locationEn, data?.installationLocation)}
+                {convertKo(
+                  location,
+                  locationEn,
+                  data?.receivedQuotationRequest.installationLocation,
+                )}
               </span>
             </div>
             <div className="text-box">
@@ -137,13 +111,15 @@ const EstimateContainer = ({}: Props) => {
                 {convertKo(
                   InstallationPurposeType,
                   InstallationPurposeTypeEn,
-                  data?.installationPurpose,
+                  data?.receivedQuotationRequest.installationPurpose,
                 )}
               </span>
             </div>
             <div className="text-box">
               <span className="name">기타 요청사항</span>
-              <span className="text">{data?.etcRequest}</span>
+              <span className="text">
+                {data?.receivedQuotationRequest.etcRequest}
+              </span>
             </div>
             <div className="img-box">
               <Image src={DoubleArrow} alt="double-arrow" />

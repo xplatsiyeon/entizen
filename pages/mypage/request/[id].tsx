@@ -41,12 +41,16 @@ export interface QuotationRequests {
   totalPreQuotationCount: number;
   preQuotations: PreQuotations[];
 }
+export interface QuotationRequestsResponse {
+  isSuccess: boolean;
+  receivedQuotationRequest: QuotationRequests;
+}
 
 const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
-  const { data, isError, isLoading } = useQuery<QuotationRequests>(
+  const { data, isError, isLoading } = useQuery<QuotationRequestsResponse>(
     'mypage/request/id',
     () => isTokenGetApi(`/quotations/received-request/${routerId}`),
     {
@@ -106,7 +110,7 @@ const Mypage1_3 = ({}: any) => {
                 handleOnClick={handleOnClick}
               />
               {/* request 1-3 */}
-              <EstimateContainer />
+              <EstimateContainer data={data!} />
               <SubscriptionProduct />
               <TextBox>
                 <div>선택하기 어려우신가요?</div>
