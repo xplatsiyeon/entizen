@@ -149,7 +149,13 @@ const MyProduct = (props: Props) => {
             <GridImg>
               {data?.product.chargerImageFiles.map((img, index) => (
                 <GridItem key={index}>
-                  <Image src={img.url} alt={img.originalName} layout="fill" />
+                  <Image
+                    src={img.url}
+                    alt={img.originalName}
+                    layout="fill"
+                    priority={true}
+                    unoptimized={true}
+                  />
                 </GridItem>
               ))}
             </GridImg>
@@ -159,7 +165,7 @@ const MyProduct = (props: Props) => {
 
             {data?.product.catalogFiles.map((file, index) => (
               <FileBtn key={index} onClick={DownloadFile}>
-                <Image src={file.url} alt={file.originalName} />
+                <Image src={fileImg} alt="file-icon" />
                 {file.originalName}
               </FileBtn>
             ))}
