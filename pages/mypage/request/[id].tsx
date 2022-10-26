@@ -78,11 +78,7 @@ const Mypage1_3 = ({}: any) => {
   if (isLoading) {
     return <Loader />;
   }
-  useEffect(() => {
-    if (router.isReady) {
-      refetch();
-    }
-  }, [router]);
+
   console.log(TAG + '⭐️ ~line 53 ~ api data 확인');
   console.log(data);
 

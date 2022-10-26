@@ -32,7 +32,7 @@ const EstimateContainer = ({ data }: Props) => {
 
   return (
     <Wrapper>
-      <Badge color={HandleUserColor(data.receivedQuotationRequest?.badge)}>
+      <Badge color={HandleUserColor(data?.receivedQuotationRequest?.badge)}>
         {data?.receivedQuotationRequest?.badge}
       </Badge>
       {/* Close */}
