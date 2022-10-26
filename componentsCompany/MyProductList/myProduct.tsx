@@ -44,8 +44,8 @@ const MyProduct = (props: Props) => {
     'productDetail',
     () => isTokenGetApi(`/products/${routerId}`),
     {
-      staleTime: 5000,
-      cacheTime: Infinity,
+      // staleTime: 5000,
+      // cacheTime: Infinity,
       enabled: router.isReady,
     },
   );
