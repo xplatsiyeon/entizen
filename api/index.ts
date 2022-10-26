@@ -100,7 +100,7 @@ export const isTokenPatchApi = async (apiInfo: PropsApi) => {
       ContentType: 'application/json',
     },
     withCredentials: true,
-  }).then((res) => res);
+  }).then((res) => res.data);
 };
 // -----------------------------delete-api--------------------------------------
 // API 호출 (토큰 O)
@@ -116,7 +116,7 @@ export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
       ContentType: 'application/json',
     },
     withCredentials: true,
-  }).then((res) => res);
+  }).then((res) => res.data);
 };
 
 // ---------------------------------- multer Img -----------------------------------

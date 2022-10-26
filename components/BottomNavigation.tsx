@@ -21,7 +21,7 @@ import { isTokenGetApi } from 'api';
 import { RecivedCountResponse } from './Main/companyMain/QuotationCenter';
 
 type Props = {};
-
+const TAG = 'componsts/BottomNavigation.tsx';
 const BottomNavigation = ({}: Props) => {
   const router = useRouter();
   const user_ID = localStorage.getItem('USER_ID');
@@ -29,14 +29,20 @@ const BottomNavigation = ({}: Props) => {
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
 
-  const { data, isLoading, isError } = useQuery<RecivedCountResponse>(
+  const { data, isLoading, isError, error } = useQuery<RecivedCountResponse>(
     'sent-request',
     () => isTokenGetApi('/quotations/received-request/count'),
     {
       staleTime: 5000,
       cacheTime: Infinity,
+      enabled: memberType === 'COMPANY',
     },
   );
+
+  if (isError) {
+    console.log(TAG + '~line 43 ~에러 발생 콘솔');
+    console.log(error);
+  }
 
   useEffect(() => {
     if (memberType === 'COMPANY') {
