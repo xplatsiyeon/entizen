@@ -142,9 +142,9 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
       <SubTitle>희망하는 수익지분을 선택해주세요.</SubTitle>
       <Notice pt={6}>* 선택하신 수익지분에 따라 구독료가 상승해요.</Notice>
 
-      <SubTitleBox>
-        <SubTitle>내 수익/투자</SubTitle>
-        <SubTitle>판매자</SubTitle>
+      <SubTitleBox disabled={disabled}>
+        <SubTitle className="slider-bar-user">내 수익/투자</SubTitle>
+        <SubTitle className="slider-bar-company">판매자</SubTitle>
       </SubTitleBox>
       {/* slider (수익/투자 그래프)  */}
       {/* 홈충전기 부분구독 일경우 사용 X*/}
@@ -153,6 +153,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
       ) : (
         <SliderBox>
           <SliderSizes
+            subscribeNumber={subscribeNumber}
             value={value}
             setValue={setValue}
             disabled={disabled}
@@ -187,6 +188,7 @@ export default SecondStep;
 const SliderBox = styled.div`
   padding: 0 3pt;
 `;
+
 const Wrraper = styled.div`
   position: relative;
   @media (max-width: 899pt) {
@@ -248,9 +250,15 @@ const Notice = styled.p<{ pt: number }>`
   color: ${colors.gray2};
   padding-top: ${({ pt }) => pt + 'pt'};
 `;
-const SubTitleBox = styled.div`
+const SubTitleBox = styled.div<{ disabled: boolean }>`
   display: flex;
   justify-content: space-between;
+  .slider-bar-user {
+    color: ${({ disabled }) => (disabled ? colors.lightGray2 : colors.main)};
+  }
+  .slider-bar-company {
+    color: ${colors.lightGray2};
+  }
 `;
 const ChargeGuide = styled.div`
   display: flex;

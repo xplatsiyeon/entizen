@@ -16,6 +16,7 @@ interface Props {
   disabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
   difaultValue?: number;
+  subscribeNumber?: number;
   setCalculatedValue?: Dispatch<
     SetStateAction<{
       maxSubscribePricePerMonth: number;
@@ -35,6 +36,7 @@ const SliderSizes = ({
   difaultValue,
   setCalculatedValue,
   calculatedValue,
+  subscribeNumber,
 }: Props) => {
   const dispatch = useDispatch();
   const { quotationData, locationList } = useSelector(
@@ -127,6 +129,11 @@ const SliderSizes = ({
 
   return (
     <SliderCustom width={'97%'} disabled={disabled} client={true.toString()}>
+      {/* 안내 메시지 */}
+      {subscribeNumber === 0 && disabled && (
+        <BubbleMessage>바를 움직여 주세요</BubbleMessage>
+      )}
+
       {/* 슬라이더 */}
       <Slider
         step={5}
@@ -226,5 +233,32 @@ const PersentBadge = styled.span<{
 
   @media (max-width: 500pt) {
     bottom: 0;
+  }
+`;
+const BubbleMessage = styled.span`
+  position: absolute;
+  top: -19.5pt;
+  left: 50%;
+  transform: translate(-50%);
+  /* width: 87pt; */
+  padding: 4.5pt 7.5pt;
+  background: ${colors.main};
+  color: ${colors.lightWhite};
+  border-radius: 6pt;
+  font-weight: 500;
+  font-size: 9pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  margin-bottom: 19.5pt;
+  text-align: center;
+  &:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 15pt;
+    transform: translate(-50%) rotate(-180deg);
+    border: solid transparent;
+    border-width: 9pt 6pt;
+    border-bottom-color: ${colors.main};
   }
 `;
