@@ -20,7 +20,7 @@ const SubscriptionProduct = ({ data }: Props) => {
       <H1>
         {UserId}님, <br /> 총{' '}
         <span className="accent">
-          {data?.receivedQuotationRequest.totalPreQuotationCount}개
+          {data?.receivedQuotationRequest?.totalPreQuotationCount}개
         </span>
         의 구독상품이 도착했습니다.
       </H1>

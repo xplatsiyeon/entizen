@@ -4,7 +4,7 @@ import EstimateContainer from 'components/mypage/request/estimateContainer';
 import MypageHeader from 'components/mypage/request/header';
 import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CommunicationBox from 'components/CommunicationBox';
 import WebHeader from 'componentsWeb/WebHeader';
@@ -50,13 +50,14 @@ const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
-  const { data, isError, isLoading } = useQuery<QuotationRequestsResponse>(
-    'mypage/request/id',
-    () => isTokenGetApi(`/quotations/received-request/${routerId}`),
-    {
-      enabled: router.isReady,
-    },
-  );
+  const { data, isError, isLoading, refetch } =
+    useQuery<QuotationRequestsResponse>(
+      'mypage/request/id',
+      () => isTokenGetApi(`/quotations/received-request/${routerId}`),
+      {
+        enabled: router.isReady,
+      },
+    );
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -77,6 +78,11 @@ const Mypage1_3 = ({}: any) => {
   if (isLoading) {
     return <Loader />;
   }
+  useEffect(() => {
+    if (router.isReady) {
+      refetch();
+    }
+  }, [router]);
   console.log(TAG + '⭐️ ~line 53 ~ api data 확인');
   console.log(data);
 
