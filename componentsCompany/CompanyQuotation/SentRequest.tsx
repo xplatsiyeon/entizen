@@ -87,7 +87,7 @@ const SentRequest = ({ checkedFilterIndex }: Props) => {
           key={index}
           onClick={() =>
             router.push(
-              `/company/sentProvisionalQuotation${el.preQuotationIdx}`,
+              `/company/sentProvisionalQuotation/${el.preQuotationIdx}`,
             )
           }
         >
