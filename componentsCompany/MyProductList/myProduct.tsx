@@ -48,7 +48,8 @@ const MyProduct = (props: Props) => {
     {
       staleTime: 5000,
       cacheTime: Infinity,
-      enabled: router.isReady,
+      enabled: false,
+      // enabled: router.isReady,
     },
   );
 
@@ -147,6 +148,7 @@ const MyProduct = (props: Props) => {
               <FeatureBox
                 aria-label="product feature"
                 defaultValue={data?.product.feature}
+                readOnly={true}
               />
             </>
           ) : (
@@ -176,7 +178,9 @@ const MyProduct = (props: Props) => {
             {data?.product.catalogFiles.map((file, index) => (
               <FileBtn
                 key={index}
-                onClick={() => DownloadFile(file.originalName, file.url)}
+                href={file.url}
+                download={file.originalName}
+                // onClick={() => DownloadFile(file.originalName, file.url)}
               >
                 <Image src={fileImg} alt="file-icon" />
                 {file.originalName.length > 25
@@ -297,7 +301,7 @@ const GridItem = styled.div`
   width: 81pt;
   height: 97.5pt;
 `;
-const FileBtn = styled(Button)`
+const FileBtn = styled.a`
   display: flex;
   justify-content: flex-start;
   align-items: center;
