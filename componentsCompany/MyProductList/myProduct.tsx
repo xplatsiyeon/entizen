@@ -46,6 +46,7 @@ const MyProduct = (props: Props) => {
     {
       staleTime: 5000,
       cacheTime: Infinity,
+      enabled: router.isReady,
     },
   );
 
