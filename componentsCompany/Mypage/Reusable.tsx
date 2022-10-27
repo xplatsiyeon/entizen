@@ -12,13 +12,15 @@ import { multerApi } from 'api';
 import { AxiosError } from 'axios';
 
 type Props = {
-  textOne: boolean;
+  textOne?: boolean;
   textTwo: string;
   textThree: string;
   textFour: string;
   textFive?: string;
   beforeFinish?: boolean;
+  afterFinish?: boolean;
   btnText: string;
+  almostFinish?: boolean;
 };
 
 interface ImgFile {
@@ -38,6 +40,8 @@ const Reusable = ({
   textFour,
   textFive,
   beforeFinish,
+  afterFinish,
+  almostFinish,
   btnText,
 }: Props) => {
   // img ref
@@ -127,7 +131,27 @@ const Reusable = ({
           exit={() => setModalOpen(false)}
         />
       )}
-      {!modalOpen && (
+      {almostFinish ? (
+        <>
+          <DoubleArrowBox>
+            <Image src={DoubleArrow} alt="doubleArrow" />
+          </DoubleArrowBox>
+          <Wrapper>
+            <FinishedBox>
+              <FinishedFirst>완료 요청일</FinishedFirst>
+              <FinishedDate>2022년 5월 13일</FinishedDate>
+              <FinishedText>프로젝트 완료 진행중입니다.</FinishedText>
+              <FinishedSecondText>
+                구매자 동의 후 프로젝트가
+                <br />
+                최종 완료됩니다!
+              </FinishedSecondText>
+              <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
+              <FinishedPhotoBox></FinishedPhotoBox>
+            </FinishedBox>
+          </Wrapper>
+        </>
+      ) : (
         <>
           <DoubleArrowBox>
             <Image src={DoubleArrow} alt="doubleArrow" />
@@ -209,8 +233,8 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   margin-top: 21pt;
+  padding-bottom: 66pt;
 `;
-
 const Box = styled.div`
   width: 100%;
   border-radius: 6pt;
@@ -218,7 +242,16 @@ const Box = styled.div`
   padding: 12pt 13.5pt 9pt 13.5pt;
   box-sizing: border-box;
 `;
-
+const FinishedBox = styled.div`
+  padding: 12pt 30pt 18pt 30pt;
+  width: 100%;
+  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 const Top = styled.div`
   display: flex;
   justify-content: space-between;
@@ -242,6 +275,59 @@ const Top = styled.div`
     letter-spacing: -0.02em;
     text-align: left;
   }
+`;
+const FinishedFirst = styled.div`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 10.5pt;
+  font-weight: 400;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+`;
+const FinishedDate = styled.div`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 15pt;
+  font-weight: 700;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: ${colors.main};
+  margin-top: 3pt;
+`;
+const FinishedText = styled.div`
+  font-family: Spoqa Han Sans Neo;
+  margin-top: 30pt;
+  font-size: 12pt;
+  font-weight: 700;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+`;
+const FinishedSecondText = styled.div`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 10.5pt;
+  font-weight: 400;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-top: 6pt;
+`;
+const FinishedPhotoText = styled.div`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 10.5pt;
+  font-weight: 700;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin-top: 39pt;
+`;
+const FinishedPhotoBox = styled.div`
+  width: 100%;
+  height: 91.5pt;
+  border: 1px solid #e2e5ed;
+  margin-top: 12pt;
+  border-radius: 6pt;
+  position: relative;
 `;
 
 const Date = styled.div`
