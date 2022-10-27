@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
+import BottomNavigation from 'components/BottomNavigation';
 
 type Props = {};
 interface Components {
@@ -18,8 +19,7 @@ const Mypage = (props: Props) => {
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
 
   const components: Components = {
-    0: <ProjectInProgress />,
-    // 1: <
+    0: <ProjectInProgress tabNumber={tabNumber} />,
   };
 
   return (
@@ -33,6 +33,31 @@ const Mypage = (props: Props) => {
           <Image src={Nut} alt="nut-icon" />
         </div>
       </Header>
+      <Body>
+        <span
+          className="profile-icon"
+          onClick={() => route.push('profile/editing')}
+        >
+          프로필 변경
+        </span>
+        <Line />
+        <TabContainer>
+          {TabType.map((tab, index) => (
+            <TabItem
+              key={index}
+              tab={tabNumber.toString()}
+              index={index.toString()}
+              onClick={() => setTabNumber(index)}
+            >
+              {tab}
+              <Dot tab={tabNumber.toString()} index={index.toString()} />
+            </TabItem>
+          ))}
+        </TabContainer>
+        {/* 탭 */}
+        {components[tabNumber]}
+      </Body>
+      <BottomNavigation />
     </Wrapper>
   );
 };
@@ -70,6 +95,47 @@ const Header = styled.header`
     height: 22.5pt;
     text-align: end;
   }
+`;
+
+const Body = styled.div`
+  padding-top: 15pt;
+  .profile-icon {
+    margin-left: 15pt;
+    font-weight: 400;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.main};
+    border: 0.75pt solid ${colors.main};
+    border-radius: 12pt;
+    padding: 6pt 9pt;
+  }
+`;
+const Line = styled.div`
+  margin-top: 21pt;
+  width: 100%;
+  border-bottom: 3pt solid ${colors.gray3};
+`;
+const TabContainer = styled.div`
+  display: flex;
+  gap: 15pt;
+  padding-left: 15pt;
+`;
+const TabItem = styled.span<{ tab: string; index: string }>`
+  padding-top: 21pt;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  color: ${({ tab, index }) =>
+    tab === index ? colors.main : colors.lightGray};
+`;
+const Dot = styled.div<{ tab: string; index: string }>`
+  width: 3pt;
+  height: 3pt;
+  border-radius: 50%;
+  margin: 6pt auto 0 auto;
+  background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;
 
 export default Mypage;
