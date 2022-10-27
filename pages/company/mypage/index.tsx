@@ -6,6 +6,7 @@ import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
+import FinishedProjects from 'componentsCompany/Mypage/FinishedProjects';
 
 type Props = {};
 interface Components {
@@ -20,6 +21,7 @@ const Mypage = (props: Props) => {
 
   const components: Components = {
     0: <ProjectInProgress tabNumber={tabNumber} />,
+    1: <FinishedProjects tabNumber={tabNumber} />,
   };
 
   return (

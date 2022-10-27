@@ -118,7 +118,7 @@ const Progress = (props: Props) => {
             btnText={'검수 완료하기'}
           />
         )}
-        {progressNum === 4 && (
+        {/* {progressNum === 4 && (
           <Reusable
             textOne={false}
             textTwo={'프로젝트를 완료해주세요.'}
@@ -128,17 +128,27 @@ const Progress = (props: Props) => {
             beforeFinish={true}
             btnText={'프로젝트 완료하기'}
           />
+        )} */}
+        {progressNum === 4 && (
+          <Reusable
+            textTwo={'프로젝트를 완료해주세요.'}
+            textThree={'사용 전 검사 및 점검'}
+            textFour={'신고 및 사용 승인'}
+            textFive={'완료현장 사진 기록'}
+            almostFinish={true}
+            btnText={'프로젝트 완료하기'}
+          />
         )}
       </Wrapper>
 
       {/* 준비 눌렀을때 */}
-      {progressNum === 0 && (
+      {/* {progressNum === 0 && (
         <Wrapper>
           <MypageHeader back={true} title={'진행 프로젝트'} />
           <TopBox className={'progress'} open={open} setOpen={setOpen} />
           <PrepareModal exit={handleXbtn} />
         </Wrapper>
-      )}
+      )} */}
     </>
   );
 };
