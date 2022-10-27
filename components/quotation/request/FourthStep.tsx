@@ -18,6 +18,7 @@ interface Props {
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
 }
+const TAG = 'componets/quotation/request/FourthStep.tsx';
 const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
   const { locationList } = useSelector(
@@ -64,7 +65,10 @@ const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
   }, []);
   // useMap 업데이트
   useEffect(() => {
-    if (locationList.roadAddrPart) {
+    console.log(TAG + '🔥 ~line 68 ~location length check');
+    console.log(locationList.jibunAddr);
+    console.log(locationList.roadAddrPart);
+    if (locationList.jibunAddr) {
       naver.maps.Service.geocode(
         {
           query: locationList.jibunAddr,
@@ -76,11 +80,9 @@ const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
             }
             return alert('Geocode Error, address:' + locationList.roadAddrPart);
           }
-
           if (response.v2.meta.totalCount === 0) {
             return alert('No result.');
           }
-
           let item = response.v2.addresses[0];
           dispatch(
             coordinateAction.set({

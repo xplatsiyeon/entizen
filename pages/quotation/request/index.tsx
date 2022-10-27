@@ -27,10 +27,10 @@ const Quotation1_1 = () => {
   const HandleModal = () => setIsModal((prev) => !prev);
 
   const components: Components = {
-    0: <FirstStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    // 0: <FirstStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
     1: <SecondStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
     2: <ThirdStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
-    3: <FourthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    0: <FourthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
     4: <FifthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
     5: <SixthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
   };
