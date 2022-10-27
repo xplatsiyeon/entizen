@@ -43,7 +43,7 @@ export interface QuotationRequests {
 }
 export interface QuotationRequestsResponse {
   isSuccess: boolean;
-  receivedQuotationRequest: QuotationRequests;
+  quotationRequests: QuotationRequests;
 }
 
 const TAG = '/page/mypage/request/[id].tsx';

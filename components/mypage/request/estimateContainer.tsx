@@ -32,13 +32,13 @@ const EstimateContainer = ({ data }: Props) => {
 
   return (
     <Wrapper>
-      <Badge color={HandleUserColor(data?.receivedQuotationRequest?.badge)}>
-        {data?.receivedQuotationRequest?.badge}
+      <Badge color={HandleUserColor(data?.quotationRequests?.badge)}>
+        {data?.quotationRequests?.badge}
       </Badge>
       {/* Close */}
       <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
-          <h1>{data?.receivedQuotationRequest?.installationAddress}</h1>
+          <h1>{data?.quotationRequests?.installationAddress}</h1>
           {/* {open && <p>서울시 관악구 난곡로40길 30</p>} */}
         </StoreName>
 
@@ -63,24 +63,24 @@ const EstimateContainer = ({ data }: Props) => {
                 {convertKo(
                   subscribeType,
                   subscribeTypeEn,
-                  data?.receivedQuotationRequest?.subscribeProduct,
+                  data?.quotationRequests?.subscribeProduct,
                 )}
               </span>
             </div>
             <div className="text-box">
               <span className="name">구독기간</span>
-              <span className="text">{`${data?.receivedQuotationRequest?.subscribePeriod} 개월`}</span>
+              <span className="text">{`${data?.quotationRequests?.subscribePeriod} 개월`}</span>
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
               <span className="text">{`${
-                Number(data?.receivedQuotationRequest?.investRate) * 100
+                Number(data?.quotationRequests?.investRate) * 100
               } %`}</span>
             </div>
             <div className="text-box">
               <span className="name">충전기 종류 및 수량</span>
 
-              {data?.receivedQuotationRequest?.chargers?.map((item, index) => (
+              {data?.quotationRequests?.chargers?.map((item, index) => (
                 <span className="text">
                   {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                   <br />
@@ -104,7 +104,7 @@ const EstimateContainer = ({ data }: Props) => {
                 {convertKo(
                   location,
                   locationEn,
-                  data?.receivedQuotationRequest?.installationLocation,
+                  data?.quotationRequests?.installationLocation,
                 )}
               </span>
             </div>
@@ -114,14 +114,14 @@ const EstimateContainer = ({ data }: Props) => {
                 {convertKo(
                   InstallationPurposeType,
                   InstallationPurposeTypeEn,
-                  data?.receivedQuotationRequest?.installationPurpose,
+                  data?.quotationRequests?.installationPurpose,
                 )}
               </span>
             </div>
             <div className="text-box">
               <span className="name">기타 요청사항</span>
               <span className="text">
-                {data?.receivedQuotationRequest?.etcRequest}
+                {data?.quotationRequests?.etcRequest}
               </span>
             </div>
           </Contents>
