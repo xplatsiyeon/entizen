@@ -1,10 +1,8 @@
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import CompanyMainPage from 'components/Main/companyMain';
 const TAB = '/index';
 const Home: NextPage = () => {

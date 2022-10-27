@@ -2,7 +2,7 @@ import Header from 'components/Main/Header';
 import Carousel from 'components/Main/Carousel';
 import Footer from 'components/Main/Footer';
 import SalesProjection from 'components/Main/SalesProjection';
-import React from 'react';
+import React, { useState } from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import MainPage from 'components/Main';
@@ -23,19 +23,41 @@ import main8 from 'public/images/main8.png';
 import main9 from 'public/images/main9.png';
 import { useRouter } from 'next/router';
 import WhyEntizenWeb from './WhyEntizenWeb';
+import { useDispatch } from 'react-redux';
+import { locationAction } from 'store/locationSlice';
+import Modal from 'components/Modal/Modal';
 
 const Main = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const [text, setText] = useState('');
+  const [isModal, setIsModal] = useState(false);
+
+  const handleOnClick = () => {
+    if (text.length >= 1) {
+      dispatch(locationAction.addKeyword(text));
+      router.push('/chargerMap');
+    } else {
+      setIsModal(true);
+    }
+  };
   return (
     <>
+      {isModal && (
+        <Modal
+          text="검색 키워드를 입력해주세요"
+          click={() => setIsModal(false)}
+        />
+      )}
       <WebHeader />
       <CarouselWrap>
         <Carousel />
       </CarouselWrap>
       <ContentWrap>
         <SalesWrap>
-          <SalesProjection />
-          <Button>검색</Button>
+          <SalesProjection text={text} setText={setText} />
+          <Button onClick={handleOnClick}>검색</Button>
         </SalesWrap>
         <ProjectWrap>
           <MyEstimateProject borders={12} />
@@ -120,6 +142,7 @@ const Button = styled.button`
   line-height: 12pt;
   letter-spacing: -0.02em;
   margin-bottom: 69pt;
+  cursor: pointer;
 `;
 
 const ProjectWrap = styled.div`

@@ -18,9 +18,12 @@ import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import SearchAddress from './searchAddress';
 import axios from 'axios';
+import ChargerInfo from 'components/ChargerInfo';
+import WebSearchAddress from 'componentsWeb/WebSearchAddress';
+import Loader from 'components/Loader';
 
 type Props = {};
-interface SlowFast {
+export interface SlowFast {
   year: string;
   chargeQuantity: number;
   sales: number;
@@ -43,8 +46,9 @@ const ChargerMap = (props: Props) => {
   const [selectedCharger, setSelectedCharger] = useState<number>(0);
   const [checkHeight, setCheckHeight] = useState<number>(0);
   const [scrollHeight, setScrollHeight] = useState<number>(0);
-
+  const [chargeInfoOpen, setChargeInfoOpen] = useState(false);
   const [type, setType] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const predictList: {
     year: string;
@@ -148,35 +152,7 @@ const ChargerMap = (props: Props) => {
       callInfo('SLOW');
       callInfo('FAST');
     }
-    // const fastRes = axios.get('https://test-api.entizen.kr/api/charge', {
-    //   params: {
-    //     siDo: locationList.siNm,
-    //     siGunGu: locationList.sggNm,
-    //     chargerSpeed: 'SLOW',
-    //   },
-    // });
-
-    // const slowRes = axios.get('https://test-api.entizen.kr/api/charge', {
-    //   params: {
-    //     siDo: locationList.siNm,
-    //     siGunGu: locationList.sggNm,
-    //     chargerSpeed: 'FAST',
-    //   },
-    // });
-
-    // console.log('빠른놈입니다.');
-    // console.log(fastRes);
-    // console.log('느린놈입니다.');
-    // console.log(slowRes);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationList]);
-
-  useEffect(() => {
-    console.log(
-      '여기여기여깅겨이겨익ㅇㄹㄴ어로러ㅏㅣㅁㅇ로ㅓㅏㄴㅇㅁ롬아너ㅣ롸ㅓㅇ나ㅓ리ㅗ어ㅏㅣㄴ로나ㅣ',
-    );
-    console.log(slowCharger);
-  }, [slowCharger]);
 
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
 
@@ -187,6 +163,7 @@ const ChargerMap = (props: Props) => {
     //router.push('/searchAddress');
     setType(!type);
   };
+
   return (
     <>
       <WebHeader />
@@ -264,89 +241,27 @@ const ChargerMap = (props: Props) => {
 
           {mobile ? (
             <WrapAddress>
-              <SearchAddress setType={setType} />
+              <WebSearchAddress
+                setType={setType}
+                chargeInfoOpen={chargeInfoOpen}
+                setChargeInfoOpen={setChargeInfoOpen}
+                selectedCharger={selectedCharger}
+                setSelectedCharger={setSelectedCharger}
+                slowCharger={slowCharger}
+                fastCharger={fastCharger}
+              />
             </WrapAddress>
           ) : (
-            <InfoBox
-              clicked={changeHeight}
-              checkHeight={checkHeight?.toString()}
-            >
-              <GoUp onClick={() => setChangeHeight(!changeHeight)}></GoUp>
-              <SelectChargerBox className="forScroll">
-                <ChargerList>
-                  {clickType.map((el, index) => (
-                    <Charger
-                      key={index}
-                      onClick={() => setSelectedCharger(() => index)}
-                      style={{
-                        color:
-                          selectedCharger === index ? '#595757' : '#A6A9B0',
-                        backgroundColor:
-                          selectedCharger === index ? '#ffffff' : '#F3F4F7',
-                        boxShadow:
-                          selectedCharger === index
-                            ? '0px 0px 6pt rgba(137, 163, 201, 0.2)'
-                            : 'none',
-                      }}
-                    >
-                      {el}
-                    </Charger>
-                  ))}
-                </ChargerList>
-              </SelectChargerBox>
-              <ScrollBox scrollHeight={scrollHeight.toString()}>
-                <ChargerTypeNCountBox>
-                  <ChargerTypeNCount>
-                    {selectedCharger == 0
-                      ? '완속 충전기 7kW / 1대'
-                      : '급속 충전기 100kW / 1대'}
-                  </ChargerTypeNCount>
-                  <ChargerNotice>
-                    * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
-                    사용해주시기 바랍니다.
-                  </ChargerNotice>
-                </ChargerTypeNCountBox>
-                <PredictBoxWrapper>
-                  {selectedCharger == 0 &&
-                    slowCharger.map((el, index) => (
-                      <PredictBox key={index}>
-                        <div>{el.year}</div>
-                        <div>충전량 (월)</div>
-                        <div>{el.chargeQuantity.toLocaleString()}kW</div>
-                        <div>매출 (월)</div>
-                        <div>{el.sales.toLocaleString()} 원</div>
-                      </PredictBox>
-                    ))}
-                  {selectedCharger == 1 &&
-                    fastCharger.map((el, index) => (
-                      <PredictBox key={index}>
-                        <div>{el.year}</div>
-                        <div>충전량 (월)</div>
-                        <div>{el.chargeQuantity.toLocaleString()} kW</div>
-                        <div>매출 (월)</div>
-                        <div>{el.sales.toLocaleString()} 원</div>
-                      </PredictBox>
-                    ))}
-                </PredictBoxWrapper>
-                <DidHelp>도움이 되셨나요?</DidHelp>
-                <Guide>
-                  간편견적 확인하고, 상품 비교뷰터 충전 사업까지
-                  <br />A to Z 서비스를 받아보세요!
-                </Guide>
-                <QuotationBtn>
-                  <span
-                    onClick={() => {
-                      router.push('/quotation/request');
-                    }}
-                  >
-                    간편견적 확인하기
-                  </span>
-                  <span>
-                    <Image src={whiteArrow} alt="arrow" />
-                  </span>
-                </QuotationBtn>
-              </ScrollBox>
-            </InfoBox>
+            <ChargerInfo
+              checkHeight={checkHeight}
+              scrollHeight={scrollHeight}
+              changeHeight={changeHeight}
+              setChangeHeight={setChangeHeight}
+              selectedCharger={selectedCharger}
+              setSelectedCharger={setSelectedCharger}
+              slowCharger={slowCharger}
+              fastCharger={fastCharger}
+            />
           )}
         </WholeMap>
       </Wrapper>

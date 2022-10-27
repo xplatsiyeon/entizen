@@ -20,6 +20,6 @@ const LoaderWrap = styled.div`
   text-align: center;
   align-items: center;
   z-index: 999;
-  padding: 20pt;
+  height: 100%;
 `;
 const Container = styled.div``;
