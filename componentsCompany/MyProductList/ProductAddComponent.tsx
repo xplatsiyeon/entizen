@@ -198,7 +198,8 @@ const ProductAddComponent = (props: Props) => {
         },
       });
     }
-  }; // 사진 온클릭
+  };
+  // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     imgRef?.current?.click();
