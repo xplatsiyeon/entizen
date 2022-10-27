@@ -20,7 +20,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         </Head>
         <Component {...pageProps} />
       </PersistGate>
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ReactQueryDevtools initialIsOpen={true} position="top-right" />
     </QueryClientProvider>
   );
 };
