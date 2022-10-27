@@ -53,7 +53,7 @@ const Mypage1_3 = ({}: any) => {
   const { data, isError, isLoading, refetch } =
     useQuery<QuotationRequestsResponse>(
       'mypage/request/id',
-      () => isTokenGetApi(`/quotations/received/${routerId}`),
+      () => isTokenGetApi(`/quotations/request/${routerId}`),
       {
         enabled: router.isReady,
       },
