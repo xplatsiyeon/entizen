@@ -205,6 +205,9 @@ const HeadOpenContent = () => {
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
 
+  console.log(TAG + '🔥 ~line 208 ~api data check!');
+  console.log(data);
+
   if (isLoading) {
     return <Loader />;
   }
