@@ -38,12 +38,15 @@ const SubscriptionProduct = ({ data }: Props) => {
               )
             }
           >
-            <Image
-              src={company.companyLogoImageUrl}
-              alt={company.companyName}
-              priority={true}
-              unoptimized={true}
-            />
+            <div className="img-box">
+              <Image
+                src={company.companyLogoImageUrl}
+                alt={company.companyName}
+                priority={true}
+                unoptimized={true}
+                layout="fill"
+              />
+            </div>
             <h2>{company.companyName}</h2>
             <p>구독료</p>
             <PriceBox>
@@ -122,6 +125,11 @@ const GridItem = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
+  }
+  .img-box {
+    position: relative;
+    width: 48pt;
+    height: 48pt;
   }
 `;
 const PriceBox = styled.div`
