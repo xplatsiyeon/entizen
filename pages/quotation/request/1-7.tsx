@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import { isTokenApi, isTokenPostApi } from 'api';
+import { isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import { PriceCalculation } from 'utils/calculatePackage';
 
@@ -157,13 +157,13 @@ const Request1_7 = (props: Props) => {
                   <span>{textValue.length}/500</span>
                 </div>
                 <textarea
-                  className="text"
+                  className="textarea"
                   value={textValue}
                   onChange={HandleTextValue}
                   placeholder={`예시1) 광고 LCD가 설치된 충전기로 견적주세요.\n예시2) 7kW는 실내, 50kW는 실외에 설치하려 합니다.\n예시3) 충전요금은 제가 정하고 싶어요.`}
                   maxLength={500}
                   rows={3}
-                ></textarea>
+                />
               </RequestForm>
             </Body>
             <Btn buttonActivate={buttonActivate} onClick={onClickRequest}>
@@ -209,9 +209,6 @@ const Inner = styled.div`
     box-shadow: none;
     background: none;
   }
-  /* @media (max-height: 500pt) {
-    height: 100%;
-  } */
 `;
 const Wrapper = styled.div`
   position: relative;
@@ -308,7 +305,7 @@ const ContentsWrapper = styled.div`
 `;
 const RequestForm = styled.form`
   padding-top: 60pt;
-  resize: none;
+
   .name {
     display: flex;
     justify-content: space-between;
@@ -319,7 +316,7 @@ const RequestForm = styled.form`
     letter-spacing: -0.02em;
     color: ${colors.main2};
   }
-  .text {
+  .textarea {
     box-sizing: border-box;
     outline: none;
     width: 100%;
@@ -331,6 +328,7 @@ const RequestForm = styled.form`
     font-size: 10.4pt;
     line-height: 18pt;
     letter-spacing: -0.02em;
+    resize: none;
     ::placeholder {
       color: ${colors.lightGray3};
     }
