@@ -41,7 +41,7 @@ const ChargerInfo = ({
   const [isDrag, setIsDrag] = useState(false);
   const [startY, setStartY] = useState(0);
 
-  const onDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onDragStart = (e: React.TouchEvent<HTMLDivElement>) => {
     console.log('시작');
     e.preventDefault();
     setIsDrag(true);
@@ -54,11 +54,11 @@ const ChargerInfo = ({
     setIsDrag(false);
   };
 
-  const onDragMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onDragMove = (e: React.TouchEvent<HTMLDivElement>) => {
     if (isDrag) {
       console.log('드래그');
-      scrollRef.current.scrollLeft = startY - e.pageY;
-      setStartY(startY - e.pageY);
+      scrollRef.current.scrollLeft = startY - e.changedTouches[0].clientX;
+      setStartY(startY - e.changedTouches[0].clientX);
       console.log(scrollRef.current.scrollLeft);
     }
   };
@@ -73,10 +73,13 @@ const ChargerInfo = ({
         {/* <InfoBox
         clicked={changeHeight}
         checkHeight={startY?.toString()}
-        onMouseDown={onDragStart}
-        onMouseMove={onDragMove}
-        onMouseUp={onDragEnd}
-        onMouseLeave={onDragEnd}
+        // onMouseDown={onDragStart}
+        // onMouseMove={onDragMove}
+        // onMouseUp={onDragEnd}
+        // onMouseLeave={onDragEnd}
+        onTouchStart={onDragStart}
+        onTouchMove={onDragMove}
+        onTouchEnd={onDragEnd}
         ref={scrollRef}
       > */}
         <GoUp onClick={() => setChangeHeight(!changeHeight)}></GoUp>
@@ -104,6 +107,7 @@ const ChargerInfo = ({
             </ChargerList>
           </SelectChargerBox>
           <ScrollBox scrollHeight={scrollHeight.toString()}>
+            {/* <ScrollBox scrollHeight={startY.toString()}> */}
             <ChargerTypeNCountBox>
               <ChargerTypeNCount>
                 {selectedCharger == 0
