@@ -1,18 +1,28 @@
 import styled from '@emotion/styled';
 import { InputAdornment, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import colors from 'styles/colors';
 import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
 import { useRouter } from 'next/router';
+import { useMediaQuery } from 'react-responsive';
 
-type Props = {};
+type Props = {
+  text: string;
+  setText: Dispatch<SetStateAction<string>>;
+};
 
-const SalesProjection = (props: Props) => {
+const SalesProjection = ({ text, setText }: Props) => {
   const router = useRouter();
-  const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
+  const mobile = useMediaQuery({
+    query: '(max-width:810pt)',
+  });
+  const handleOnClick = () => {
     router.push('/searchAddress');
+  };
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
   };
 
   return (
@@ -23,27 +33,53 @@ const SalesProjection = (props: Props) => {
           <br /> 확인해보세요!
         </TextArea>
         <SearchMapArea>
-          <Input
-            value="주소 입력 후 간단 체크!"
-            type="submit"
-            onClick={handleOnClick}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <div style={{ width: '15pt', height: '15pt' }}>
-                    <Image src={search} alt="searchIcon" layout="intrinsic" />
-                  </div>
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <div style={{ width: '15pt', height: '15pt' }}>
-                    <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
-                  </div>
-                </InputAdornment>
-              ),
-            }}
-          />
+          {mobile && (
+            <Input
+              value="주소 입력 후 간단 체크!"
+              type="submit"
+              onClick={handleOnClick}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={search} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+          {!mobile && (
+            <Input
+              placeholder="주소 입력 후 간단 체크!"
+              type="text"
+              onChange={onChangeInput}
+              value={text}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={search} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <div style={{ width: '15pt', height: '15pt' }}>
+                      <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
+                    </div>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
         </SearchMapArea>
       </SearchMapWrapper>
     </>
@@ -112,7 +148,7 @@ const Input = styled(TextField)`
   }
 
   ::placeholder {
-    color: ${colors.gray};
+    color: ${colors.lightGray3};
     font-weight: 400;
   }
   & span > img {
@@ -121,6 +157,14 @@ const Input = styled(TextField)`
   }
   & fieldset {
     border: none;
+  }
+  @media (max-width: 899pt) {
+    .MuiInputBase-root {
+      cursor: pointer;
+    }
+    & input {
+      cursor: pointer;
+    }
   }
 `;
 

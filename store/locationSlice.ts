@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface LocationType {
   jibunAddr: string;
@@ -8,6 +8,7 @@ export interface LocationType {
 }
 export interface LocationListTypes {
   locationList: LocationType;
+  searchKeyword: string;
 }
 
 const initialState: LocationListTypes = {
@@ -17,6 +18,7 @@ const initialState: LocationListTypes = {
     sggNm: '',
     siNm: '',
   },
+  searchKeyword: '',
 };
 
 const slice = createSlice({
@@ -25,6 +27,9 @@ const slice = createSlice({
   reducers: {
     load(state, action) {
       state.locationList = action.payload;
+    },
+    addKeyword(state, action: PayloadAction<string>) {
+      state.searchKeyword = action.payload;
     },
     reset(state) {
       Object.assign(state, initialState);

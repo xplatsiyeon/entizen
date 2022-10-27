@@ -3,7 +3,7 @@ import { TextField } from '@mui/material';
 import Image from 'next/image';
 import btnImg from 'public/images/back-btn.svg';
 import xBtn from 'public/images/XCircle.svg';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import whiteMapPin from 'public/images/mapPinWhite.png';
 import useDebounce from 'hooks/useDebounce';
@@ -12,10 +12,20 @@ import { useDispatch } from 'react-redux';
 import { locationAction } from 'store/locationSlice';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import rootReducer, { RootState } from 'store/store';
+import { RootState } from 'store/store';
+import mapPin from 'public/images/Web-MapPin.png';
+import { SlowFast } from 'pages/chargerMap';
+import WebChargerInfo from './WebChargerInfo';
+import Loader from 'components/Loader';
 
 type Props = {
   setType?: React.Dispatch<React.SetStateAction<boolean>>;
+  chargeInfoOpen: boolean;
+  setChargeInfoOpen: Dispatch<SetStateAction<boolean>>;
+  selectedCharger: number;
+  setSelectedCharger: Dispatch<SetStateAction<number>>;
+  slowCharger: SlowFast[];
+  fastCharger: SlowFast[];
 };
 
 export interface addressType {
@@ -45,9 +55,18 @@ export interface addressType {
   zipNo?: string;
 }
 
-const SearchAddress = (props: Props) => {
+const WebSearchAddress = ({
+  chargeInfoOpen,
+  setChargeInfoOpen,
+  setType,
+  selectedCharger,
+  setSelectedCharger,
+  slowCharger,
+  fastCharger,
+}: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
   const keyWord = useDebounce(searchWord, 300);
@@ -67,9 +86,9 @@ const SearchAddress = (props: Props) => {
         siNm: sinm,
       }),
     );
-    router.push('/chargerMap');
+    setChargeInfoOpen(true);
   };
-  const { setType } = props;
+
   useEffect(() => {
     const findAddresss = async () => {
       if (searchWord === '') {
@@ -77,18 +96,20 @@ const SearchAddress = (props: Props) => {
       }
       if (searchWord !== '') {
         try {
+          setIsLoading(true);
+          let result: any = [];
           const { data } = await axios.get(
             `https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do?currentPage=1&countPerPage=50&keyword=${keyWord}&confmKey=${process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY}&resultType=json`,
           );
           const match = await data.match(/\((.*)\)/);
           let jsonResult = await JSON.parse(match[1].toString()).results.juso;
-          let cc: any = [];
-          // setResults(cc);
-          let aa = await jsonResult?.map((el: any, index: number) => {
-            cc.push(el);
+          await jsonResult?.map((el: any, index: number) => {
+            result.push(el);
           });
-          setResults(cc);
-          console.log(cc);
+          setResults(result);
+          setChargeInfoOpen(false);
+          console.log(result);
+          setIsLoading(false);
         } catch (err) {
           console.log(err);
         }
@@ -104,10 +125,6 @@ const SearchAddress = (props: Props) => {
     }
   }, [searchKeyword, setSearchWord]);
 
-  const back = () => {
-    if (setType) setType(false);
-  };
-
   return (
     <Container>
       <HeaderBox>
@@ -117,29 +134,45 @@ const SearchAddress = (props: Props) => {
           onChange={handleChange}
           value={searchWord}
         />
-        {searchWord.length > 0 && (
+
+        {searchWord.length > 0 ? (
           <Image onClick={() => setSearchWord('')} src={xBtn} alt="xButton" />
+        ) : (
+          <span className="img-box">
+            <Image src={mapPin} alt="searchIcon" layout="fill" />
+          </span>
         )}
       </HeaderBox>
-
-      {results.map((el, index) => (
-        <SearchResult
-          data-jibun={el.jibunAddr}
-          data-roadad={el.roadAddrPart1}
-          data-sggnm={el.sggNm}
-          data-sinm={el.siNm}
-          key={index}
-          onClick={handleOnClick}
-        >
-          <IconBox>
-            <Image src={whiteMapPin} alt="mapPin" />
-          </IconBox>
-          <AddressBox>
-            <div>{el.roadAddrPart1}</div>
-            <div>{el.jibunAddr}</div>
-          </AddressBox>
-        </SearchResult>
-      ))}
+      {chargeInfoOpen ? (
+        <WebChargerInfo
+          selectedCharger={selectedCharger}
+          setSelectedCharger={setSelectedCharger}
+          slowCharger={slowCharger}
+          fastCharger={fastCharger}
+        />
+      ) : (
+        <>
+          {isLoading && <Loader />}
+          {results.map((el, index) => (
+            <SearchResult
+              data-jibun={el.jibunAddr}
+              data-roadad={el.roadAddrPart1}
+              data-sggnm={el.sggNm}
+              data-sinm={el.siNm}
+              key={index}
+              onClick={handleOnClick}
+            >
+              <IconBox>
+                <Image src={whiteMapPin} alt="mapPin" />
+              </IconBox>
+              <AddressBox>
+                <div>{el.roadAddrPart1}</div>
+                <div>{el.jibunAddr}</div>
+              </AddressBox>
+            </SearchResult>
+          ))}
+        </>
+      )}
     </Container>
   );
 };
@@ -153,6 +186,13 @@ const HeaderBox = styled.div`
   padding-right: 12pt;
   border-bottom: 1px solid #e9eaee;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  .img-box {
+    position: relative;
+    width: 17.51pt; //width 15pt 인데 안맞아서 약간 수정
+    height: 15pt;
+  }
 `;
 const FindAddress = styled(TextField)`
   width: 100%;
@@ -216,4 +256,4 @@ const AddressBox = styled.div`
   }
 `;
 
-export default SearchAddress;
+export default WebSearchAddress;
