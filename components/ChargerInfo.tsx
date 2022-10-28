@@ -1,23 +1,13 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import Image from 'next/image';
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import whiteArrow from 'public/images/whiteArrow16.png';
 import { useRouter } from 'next/router';
 import { SlowFast } from 'pages/chargerMap';
 
 type Props = {
-  checkHeight: number;
-  scrollHeight: number;
-  changeHeight: boolean;
-  setChangeHeight: Dispatch<SetStateAction<boolean>>;
   selectedCharger: number;
   setSelectedCharger: Dispatch<SetStateAction<number>>;
   slowCharger: SlowFast[];
@@ -25,10 +15,6 @@ type Props = {
 };
 
 const ChargerInfo = ({
-  checkHeight,
-  scrollHeight,
-  changeHeight,
-  setChangeHeight,
   selectedCharger,
   setSelectedCharger,
 
@@ -39,14 +25,12 @@ const ChargerInfo = ({
   const router = useRouter();
   const scrollRef = useRef<any>(null);
   const [isDrag, setIsDrag] = useState(false);
-  const [startY, setStartY] = useState(0);
+  const [startY, setStartY] = useState(180);
 
-  const onDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onDragStart = (e: React.TouchEvent<HTMLDivElement>) => {
     console.log('시작');
-    e.preventDefault();
+    console.log(e.changedTouches[0].clientY);
     setIsDrag(true);
-    // const initialPosition = parseInt(e.currentTarget.dataset);
-    // setStartY(e.pageY + scrollRef.current.scrollLeft);
   };
 
   const onDragEnd = () => {
@@ -54,33 +38,27 @@ const ChargerInfo = ({
     setIsDrag(false);
   };
 
-  const onDragMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onDragMove = (e: React.TouchEvent<HTMLDivElement>) => {
     if (isDrag) {
-      console.log('드래그');
-      scrollRef.current.scrollLeft = startY - e.pageY;
-      setStartY(startY - e.pageY);
-      console.log(scrollRef.current.scrollLeft);
+      const resizeHeight = window.innerHeight - e.changedTouches[0].clientY;
+      const viewSize = e.changedTouches[0].clientY;
+      if (viewSize > startY && viewSize < startY * 2) {
+        setStartY(resizeHeight);
+      }
     }
   };
 
-  useEffect(() => {
-    console.log(startY);
-  }, [startY]);
-
   return (
     <>
-      <InfoBox clicked={changeHeight} checkHeight={checkHeight?.toString()}>
-        {/* <InfoBox
-        clicked={changeHeight}
-        checkHeight={startY?.toString()}
-        onMouseDown={onDragStart}
-        onMouseMove={onDragMove}
-        onMouseUp={onDragEnd}
-        onMouseLeave={onDragEnd}
-        ref={scrollRef}
-      > */}
-        <GoUp onClick={() => setChangeHeight(!changeHeight)}></GoUp>
-        {/* <GoUp onClick={() => setChangeHeight(!startY)}></GoUp> */}
+      <InfoBox clicked={isDrag} checkHeight={startY?.toString()}>
+        <GoUp
+          onTouchStart={onDragStart}
+          onTouchMove={onDragMove}
+          onTouchEnd={onDragEnd}
+          ref={scrollRef}
+        >
+          <span className="click-bar" />
+        </GoUp>
         <Body>
           <SelectChargerBox className="forScroll">
             <ChargerList>
@@ -103,7 +81,7 @@ const ChargerInfo = ({
               ))}
             </ChargerList>
           </SelectChargerBox>
-          <ScrollBox scrollHeight={scrollHeight.toString()}>
+          <ScrollBox scrollHeight={startY.toString()}>
             <ChargerTypeNCountBox>
               <ChargerTypeNCount>
                 {selectedCharger == 0
@@ -175,6 +153,8 @@ const InfoBox = styled.div<{ clicked: boolean; checkHeight: string }>`
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
 
   @media (max-width: 899pt) {
+    position: fixed;
+    bottom: 0;
     width: 100%;
     height: ${({ checkHeight }) => checkHeight + 'pt'};
     margin-top: ${({ clicked }) => (clicked ? '12pt' : '204pt')};
@@ -194,9 +174,19 @@ const ScrollBox = styled.div<{ scrollHeight: string }>`
 `;
 
 const GoUp = styled.div`
-  width: 45pt;
-  border: 1.5pt solid #caccd1;
-  margin: 0pt 5pt 5pt 5pt;
+  /* width: 45pt; */
+  /* border: 1.5pt solid #caccd1; */
+  /* margin: 0pt 5pt 5pt 5pt; */
+  /* border: 1px solid red; */
+  width: 100%;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  .click-bar {
+    width: 45pt;
+    border-bottom: 3pt solid #caccd1;
+    margin: 0pt 5pt 5pt 5pt;
+  }
 `;
 
 const SelectChargerBox = styled.div`

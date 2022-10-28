@@ -31,73 +31,20 @@ export interface SlowFast {
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
   const [fastCharger, setFastCharger] = useState<SlowFast[]>([]);
+  const [selectedCharger, setSelectedCharger] = useState<number>(0);
+  const [chargeInfoOpen, setChargeInfoOpen] = useState(false);
+  const [type, setType] = useState<boolean>(false);
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
-  const dispatch = useDispatch();
+
   const mobile = useMediaQuery({
     query: '(min-width:810pt)',
   });
-
   useMap();
-  const [changeHeight, setChangeHeight] = useState<boolean>(false);
-  const [selectedCharger, setSelectedCharger] = useState<number>(0);
-  const [checkHeight, setCheckHeight] = useState<number>(0);
-  const [scrollHeight, setScrollHeight] = useState<number>(0);
-  const [chargeInfoOpen, setChargeInfoOpen] = useState(false);
-  const [type, setType] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const predictList: {
-    year: string;
-    amount: string;
-    howMuch: string;
-    revenue: string;
-    money: string;
-  }[] = [
-    {
-      year: '22년 예측치',
-      amount: '충전량 (월)',
-      howMuch: '1,736kW',
-      revenue: '매출 (월)',
-      money: '453,096 원',
-    },
-    {
-      year: '23년 예측치',
-      amount: '충전량 (월)',
-      howMuch: '2,061kW',
-      revenue: '매출 (월)',
-      money: '583,263 원',
-    },
-  ];
-
-  useEffect(() => {
-    let calcHeight;
-    let findHeight;
-    const searchInput = document.querySelector('.searchInput');
-    const forScroll = document.querySelector('.forScroll');
-
-    if (searchInput && forScroll) {
-      findHeight = forScroll.getBoundingClientRect();
-      setScrollHeight(
-        (document.body.clientHeight - (findHeight.y + findHeight.height + 28)) *
-          0.75,
-      );
-      calcHeight = searchInput.getBoundingClientRect();
-      setCheckHeight(
-        (document.body.clientHeight - (calcHeight.y + calcHeight.height + 16)) *
-          0.75,
-      );
-      if (changeHeight == false) {
-        setCheckHeight(
-          document.body.clientHeight -
-            (calcHeight.y + calcHeight.height + 16 + 272),
-        );
-      }
-    }
-  }, [checkHeight, changeHeight]);
 
   const callInfo = async (speed: string) => {
     try {
@@ -154,13 +101,10 @@ const ChargerMap = (props: Props) => {
     }
   }, [locationList]);
 
-  const clickType: string[] = ['완속 충전기', '급속 충전기'];
-
   const handleBack = () => {
     router.back();
   };
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    //router.push('/searchAddress');
     setType(!type);
   };
 
@@ -253,10 +197,10 @@ const ChargerMap = (props: Props) => {
             </WrapAddress>
           ) : (
             <ChargerInfo
-              checkHeight={checkHeight}
-              scrollHeight={scrollHeight}
-              changeHeight={changeHeight}
-              setChangeHeight={setChangeHeight}
+              // checkHeight={checkHeight}
+              // scrollHeight={scrollHeight}
+              // changeHeight={changeHeight}
+              // setChangeHeight={setChangeHeight}
               selectedCharger={selectedCharger}
               setSelectedCharger={setSelectedCharger}
               slowCharger={slowCharger}
@@ -275,8 +219,9 @@ const Wrapper = styled.div`
   margin: 0 auto;
   height: 639pt;
   @media (max-width: 899pt) {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
+    /* background-color: red; */
   }
 `;
 const WrapAddress = styled.div`
