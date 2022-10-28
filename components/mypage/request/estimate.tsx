@@ -8,25 +8,26 @@ import colors from 'styles/colors';
 import { HandleUserColor } from 'utils/changeValue';
 import NoHistory from './noHistory';
 import moment from 'moment';
-
-interface Quotations {
+interface QuotationRequests {
+  createdAt: string;
   quotationRequestIdx: number;
   quotationStatus: string;
+  changedDate: string;
+  subscribeProduct: string;
+  investRate: string;
+  subscribePeriod: number;
   installationAddress: string;
+  installationLocation: string;
+  installationPurpose: string;
+  expiredAt: string;
+  etcRequest: string;
+  memberIdx: number;
   badge: string;
-  dateByStatus: string;
-}
-interface Quotation {
-  count: number;
-  quotations: Quotations[];
-}
-interface QuotationRequests {
-  inProgress: Quotation;
-  history: Quotation;
 }
 interface Response {
   isSuccess: boolean;
-  quotationRequests: QuotationRequests;
+  inProgressQuotationRequests: QuotationRequests[];
+  historyQuotationRequests: [];
 }
 const TAG = 'componets/mypage/request/estimate.tsx';
 const Estimate = () => {
@@ -44,22 +45,27 @@ const Estimate = () => {
     return <Loader />;
   }
   // console.log(TAG + '⭐️ ~line 58 ~react query data test');
-  const { inProgress, history } = data?.quotationRequests!;
 
   // 견적서가 없는 경우
-  if (inProgress.quotations.length === 0 && history.quotations.length === 0) {
+  if (
+    data?.inProgressQuotationRequests.length === 0 &&
+    data?.historyQuotationRequests.length === 0
+  ) {
     return <NoHistory />;
   }
   return (
     <Wrapper>
       {/* 진행중 */}
-      {inProgress.quotations.length! > 0 && (
+      {data?.inProgressQuotationRequests.length! > 0 && (
         <Proceeding>
           <Label>
-            진행 중 <span className="num">{inProgress.quotations.length}</span>
+            진행 중{' '}
+            <span className="num">
+              {data?.inProgressQuotationRequests.length}
+            </span>
           </Label>
-          <Carousel length={inProgress.quotations.length}>
-            {inProgress.quotations.map((data, index) => (
+          <Carousel length={data?.inProgressQuotationRequests.length!}>
+            {data?.inProgressQuotationRequests.map((data, index) => (
               <CarouselItem
                 key={data.quotationRequestIdx}
                 onClick={() =>
@@ -71,7 +77,7 @@ const Estimate = () => {
                 </Badge>
                 <div className="store-name">{data.installationAddress}</div>
                 <span className="date">
-                  {moment(data.dateByStatus).format('YYYY.MM.DD')}
+                  {moment(data.createdAt).format('YYYY.MM.DD')}
                 </span>
               </CarouselItem>
             ))}
@@ -79,27 +85,31 @@ const Estimate = () => {
         </Proceeding>
       )}
       {/* 히스토리 */}
-      {history.quotations.length > 0 && (
+      {data?.historyQuotationRequests.length! > 0 && (
         <History>
           <Label>
-            히스토리 <span className="num">{history.quotations.length}</span>
+            히스토리{' '}
+            <span className="num">
+              {data?.historyQuotationRequests.length!}
+            </span>
           </Label>
-          <Carousel length={history.quotations.length}>
-            {history.quotations.map((data, index) => (
-              <CarouselItem
-                key={data.quotationRequestIdx}
-                onClick={() =>
-                  router.push(`/mypage/request/${data.quotationRequestIdx}`)
-                }
-              >
-                <Badge className="badge" color={HandleUserColor(data.badge)}>
-                  {data.badge}
-                </Badge>
-                <div className="store-name">{data.installationAddress}</div>
-                <span className="date">
-                  {moment(data.dateByStatus).format('YYYY.MM.DD')}
-                </span>
-              </CarouselItem>
+          <Carousel length={data?.historyQuotationRequests.length!}>
+            {data?.historyQuotationRequests.map((data, index) => (
+              // <CarouselItem
+              //   key={data.quotationRequestIdx}
+              //   onClick={() =>
+              //     router.push(`/mypage/request/${data.quotationRequestIdx}`)
+              //   }
+              // >
+              //   <Badge className="badge" color={HandleUserColor(data.badge)}>
+              //     {data.badge}
+              //   </Badge>
+              //   <div className="store-name">{data.installationAddress}</div>
+              //   <span className="date">
+              //     {moment(data.dateByStatus).format('YYYY.MM.DD')}
+              //   </span>
+              // </CarouselItem>
+              <></>
             ))}
           </Carousel>
         </History>
