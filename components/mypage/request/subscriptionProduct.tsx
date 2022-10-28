@@ -1,17 +1,18 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import temp from 'public/mypage/temp-img.svg';
 import arrow from 'public/images/right-arrow.svg';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuotationRequestsResponse } from 'pages/mypage/request/[id]';
+import { PreQuotations } from 'pages/mypage/request/[id]';
+import { PriceCalculation } from 'utils/calculatePackage';
 type Props = {
-  data: QuotationRequestsResponse;
+  data: PreQuotations[];
 };
 const SubscriptionProduct = ({ data }: Props) => {
   const route = useRouter();
   const UserId = JSON.parse(localStorage.getItem('USER_ID')!);
+
   return (
     <Wrapper>
       <DownArrowBox>
@@ -19,17 +20,12 @@ const SubscriptionProduct = ({ data }: Props) => {
       </DownArrowBox>
       <H1>
         {UserId}님, <br /> 총{' '}
-        <span className="accent">
-          {/* {data?.quotationRequests
-            ? data?.quotationRequests?.totalPreQuotationCount
-            : 0} */}
-          개
-        </span>
-        의 구독상품이 도착했습니다.
+        <span className="accent">{data ? data?.length : 0}개</span>의 구독상품이
+        도착했습니다.
       </H1>
       <Notice>상세 내용을 비교해보고, 나에게 맞는 상품을 선택해보세요!</Notice>
       <GridContainer>
-        {/* {data?.quotationRequests?.preQuotations?.map((company, index) => (
+        {data?.map((company, index) => (
           <GridItem
             key={index}
             onClick={() =>
@@ -40,23 +36,23 @@ const SubscriptionProduct = ({ data }: Props) => {
           >
             <div className="img-box">
               <Image
-                src={company.companyLogoImageUrl}
-                alt={company.companyName}
+                src={company?.companyMemberAdditionalInfo?.companyLogoImageUrl}
+                alt={company?.companyMemberAdditionalInfo?.companyName}
                 priority={true}
                 unoptimized={true}
                 layout="fill"
               />
             </div>
-            <h2>{company.companyName}</h2>
+            <h2>{company?.companyMemberAdditionalInfo?.companyName}</h2>
             <p>구독료</p>
             <PriceBox>
-              <h1>${company.subscribePricePerMonth} 원</h1>
+              <h1>{PriceCalculation(company.subscribePricePerMonth)} 원</h1>
               <div>
                 <Image src={arrow} alt="arrow" layout="fill" />
               </div>
             </PriceBox>
           </GridItem>
-        ))} */}
+        ))}
       </GridContainer>
     </Wrapper>
   );
