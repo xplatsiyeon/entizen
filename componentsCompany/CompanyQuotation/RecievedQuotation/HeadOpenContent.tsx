@@ -44,24 +44,33 @@ export interface reviewType {
   productImg: any;
   createDt: number;
 }
-interface QuotationsDetailChargers {
+export interface QuotationRequestChargers {
+  createdAt: string;
+  quotationRequestChargerIdx: number;
   kind: string;
   standType: string;
   channel: string;
   count: number;
+  quotationRequestIdx: number;
 }
-interface QuotationsDetailResponse {
+export interface QuotationsDetailResponse {
   isSuccess: boolean;
   receivedQuotationRequest: {
     badge: string;
-    installationAddress: string;
+    createdAt: string;
+    quotationRequestIdx: number;
+    quotationStatus: string;
+    changedDate: string;
     subscribeProduct: string;
-    subscribePeriod: number;
     investRate: string;
-    chargers: QuotationsDetailChargers[];
+    subscribePeriod: number;
+    installationAddress: string;
     installationLocation: string;
     installationPurpose: string;
+    expiredAt: string;
     etcRequest: string;
+    memberIdx: number;
+    quotationRequestChargers: QuotationRequestChargers[];
   };
 }
 type ChargeType = '' | '구매자 자율' | '운영사업자 입력';
@@ -147,7 +156,9 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={0}
-        maxIndex={data?.receivedQuotationRequest.chargers.length}
+        maxIndex={
+          data?.receivedQuotationRequest.quotationRequestChargers.length
+        }
         routerId={routerId}
       />
     ),
@@ -159,7 +170,9 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={1}
-        maxIndex={data?.receivedQuotationRequest.chargers.length}
+        maxIndex={
+          data?.receivedQuotationRequest.quotationRequestChargers.length
+        }
         routerId={routerId}
       />
     ),
@@ -171,7 +184,9 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={2}
-        maxIndex={data?.receivedQuotationRequest.chargers.length}
+        maxIndex={
+          data?.receivedQuotationRequest.quotationRequestChargers.length
+        }
         routerId={routerId}
       />
     ),
@@ -183,7 +198,9 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={3}
-        maxIndex={data?.receivedQuotationRequest.chargers.length}
+        maxIndex={
+          data?.receivedQuotationRequest.quotationRequestChargers.length
+        }
         routerId={routerId}
       />
     ),
@@ -195,7 +212,9 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={4}
-        maxIndex={data?.receivedQuotationRequest.chargers.length}
+        maxIndex={
+          data?.receivedQuotationRequest.quotationRequestChargers.length
+        }
         routerId={routerId}
       />
     ),
@@ -294,26 +313,30 @@ const HeadOpenContent = () => {
                   {Number(data?.receivedQuotationRequest.investRate!) * 100} %
                 </span>
               </div>
-              {data?.receivedQuotationRequest.chargers!.map((item, index) => (
-                <div className="text-box" key={index}>
-                  <span className="name">충전기 종류 및 수량</span>
-                  <span className="text">
-                    {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-                    <br />
-                    {item.standType
-                      ? `: ${convertKo(
-                          M6_LIST,
-                          M6_LIST_EN,
-                          item.standType,
-                        )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                          item.count
-                        } 대`
-                      : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                          item.count
-                        } 대`}
-                  </span>
-                </div>
-              ))}
+              {data?.receivedQuotationRequest.quotationRequestChargers!.map(
+                (item, index) => (
+                  <div className="text-box" key={index}>
+                    <span className="name">충전기 종류 및 수량</span>
+                    <span className="text">
+                      {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                      <br />
+                      {item.standType
+                        ? `: ${convertKo(
+                            M6_LIST,
+                            M6_LIST_EN,
+                            item.standType,
+                          )}, ${convertKo(
+                            M7_LIST,
+                            M7_LIST_EN,
+                            item.channel,
+                          )}, ${item.count} 대`
+                        : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                            item.count
+                          } 대`}
+                    </span>
+                  </div>
+                ),
+              )}
 
               <div className="text-box">
                 <span className="name">충전기 설치 위치</span>
@@ -361,7 +384,9 @@ const HeadOpenContent = () => {
           <TabBox>
             {Object.keys(components).map((tab, index) => (
               <React.Fragment key={index}>
-                {index <= data?.receivedQuotationRequest.chargers.length! && (
+                {index <=
+                  data?.receivedQuotationRequest.quotationRequestChargers
+                    .length! && (
                   <TabLine
                     idx={index.toString()}
                     num={tabNumber.toString()}
