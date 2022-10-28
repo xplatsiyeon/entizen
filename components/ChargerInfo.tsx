@@ -8,6 +8,10 @@ import { useRouter } from 'next/router';
 import { SlowFast } from 'pages/chargerMap';
 
 type Props = {
+  checkHeight: number;
+  scrollHeight: number;
+  changeHeight: boolean;
+  setChangeHeight: Dispatch<SetStateAction<boolean>>;
   selectedCharger: number;
   setSelectedCharger: Dispatch<SetStateAction<number>>;
   slowCharger: SlowFast[];
@@ -15,50 +19,60 @@ type Props = {
 };
 
 const ChargerInfo = ({
+  checkHeight,
+  scrollHeight,
+  changeHeight,
+  setChangeHeight,
   selectedCharger,
   setSelectedCharger,
-
   slowCharger,
   fastCharger,
 }: Props) => {
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const router = useRouter();
   const scrollRef = useRef<any>(null);
-  const [isDrag, setIsDrag] = useState(false);
-  const [startY, setStartY] = useState(180);
+  // const [isDrag, setIsDrag] = useState(false);
+  // const [startY, setStartY] = useState(180);
 
-  const onDragStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    console.log('시작');
-    console.log(e.changedTouches[0].clientY);
-    setIsDrag(true);
-  };
+  // const onDragStart = (e: React.TouchEvent<HTMLDivElement>) => {
+  //   console.log('시작');
+  //   console.log(e.changedTouches[0].clientY);
+  //   setIsDrag(true);
+  // };
 
-  const onDragEnd = () => {
-    console.log('끝');
-    setIsDrag(false);
-  };
+  // const onDragEnd = () => {
+  //   console.log('끝');
+  //   setIsDrag(false);
+  // };
 
-  const onDragMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (isDrag) {
-      const resizeHeight = window.innerHeight - e.changedTouches[0].clientY;
-      const viewSize = e.changedTouches[0].clientY;
-      if (viewSize > startY && viewSize < startY * 2) {
-        setStartY(resizeHeight);
-      }
-    }
-  };
+  // const onDragMove = (e: React.TouchEvent<HTMLDivElement>) => {
+  //   e.bubbles;
+  //   if (isDrag) {
+  //     const resizeHeight = window.innerHeight - e.changedTouches[0].clientY;
+  //     const viewSize = e.changedTouches[0].clientY;
+  //     if (viewSize > 180 && viewSize < 800) {
+  //       setStartY(resizeHeight);
+  //     }
+  //   }
+  // };
 
   return (
     <>
-      <InfoBox clicked={isDrag} checkHeight={startY?.toString()}>
-        <GoUp
-          onTouchStart={onDragStart}
-          onTouchMove={onDragMove}
-          onTouchEnd={onDragEnd}
-          ref={scrollRef}
-        >
-          <span className="click-bar" />
-        </GoUp>
+      <InfoBox clicked={changeHeight} checkHeight={checkHeight?.toString()}>
+        {/* <InfoBox
+        clicked={changeHeight}
+        checkHeight={startY?.toString()}
+        // onMouseDown={onDragStart}
+        // onMouseMove={onDragMove}
+        // onMouseUp={onDragEnd}
+        // onMouseLeave={onDragEnd}
+        onTouchStart={onDragStart}
+        onTouchMove={onDragMove}
+        onTouchEnd={onDragEnd}
+        ref={scrollRef}
+      > */}
+        <GoUp onClick={() => setChangeHeight(!changeHeight)}></GoUp>
+        {/* <GoUp onClick={() => setChangeHeight(!startY)}></GoUp> */}
         <Body>
           <SelectChargerBox className="forScroll">
             <ChargerList>
@@ -81,7 +95,7 @@ const ChargerInfo = ({
               ))}
             </ChargerList>
           </SelectChargerBox>
-          <ScrollBox scrollHeight={startY.toString()}>
+          <ScrollBox scrollHeight={checkHeight.toString()}>
             <ChargerTypeNCountBox>
               <ChargerTypeNCount>
                 {selectedCharger == 0
@@ -141,6 +155,12 @@ const ChargerInfo = ({
 
 export default ChargerInfo;
 
+const Test = styled.div`
+  width: 100%;
+  height: 200px;
+  background-color: red;
+`;
+
 const InfoBox = styled.div<{ clicked: boolean; checkHeight: string }>`
   position: relative;
   display: flex;
@@ -174,19 +194,9 @@ const ScrollBox = styled.div<{ scrollHeight: string }>`
 `;
 
 const GoUp = styled.div`
-  /* width: 45pt; */
-  /* border: 1.5pt solid #caccd1; */
-  /* margin: 0pt 5pt 5pt 5pt; */
-  /* border: 1px solid red; */
-  width: 100%;
-  height: 15px;
-  display: flex;
-  justify-content: center;
-  .click-bar {
-    width: 45pt;
-    border-bottom: 3pt solid #caccd1;
-    margin: 0pt 5pt 5pt 5pt;
-  }
+  width: 45pt;
+  border: 1.5pt solid #caccd1;
+  margin: 0pt 5pt 5pt 5pt;
 `;
 
 const SelectChargerBox = styled.div`

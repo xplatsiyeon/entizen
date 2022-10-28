@@ -31,20 +31,73 @@ export interface SlowFast {
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
   const [fastCharger, setFastCharger] = useState<SlowFast[]>([]);
-  const [selectedCharger, setSelectedCharger] = useState<number>(0);
-  const [chargeInfoOpen, setChargeInfoOpen] = useState(false);
-  const [type, setType] = useState<boolean>(false);
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
-
+  const dispatch = useDispatch();
   const mobile = useMediaQuery({
     query: '(min-width:810pt)',
   });
+
   useMap();
+  const [changeHeight, setChangeHeight] = useState<boolean>(false);
+  const [selectedCharger, setSelectedCharger] = useState<number>(0);
+  const [checkHeight, setCheckHeight] = useState<number>(0);
+  const [scrollHeight, setScrollHeight] = useState<number>(0);
+  const [chargeInfoOpen, setChargeInfoOpen] = useState(false);
+  const [type, setType] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const predictList: {
+    year: string;
+    amount: string;
+    howMuch: string;
+    revenue: string;
+    money: string;
+  }[] = [
+    {
+      year: '22년 예측치',
+      amount: '충전량 (월)',
+      howMuch: '1,736kW',
+      revenue: '매출 (월)',
+      money: '453,096 원',
+    },
+    {
+      year: '23년 예측치',
+      amount: '충전량 (월)',
+      howMuch: '2,061kW',
+      revenue: '매출 (월)',
+      money: '583,263 원',
+    },
+  ];
+
+  useEffect(() => {
+    let calcHeight;
+    let findHeight;
+    const searchInput = document.querySelector('.searchInput');
+    const forScroll = document.querySelector('.forScroll');
+
+    if (searchInput && forScroll) {
+      findHeight = forScroll.getBoundingClientRect();
+      setScrollHeight(
+        (document.body.clientHeight - (findHeight.y + findHeight.height + 28)) *
+          0.75,
+      );
+      calcHeight = searchInput.getBoundingClientRect();
+      setCheckHeight(
+        (document.body.clientHeight - (calcHeight.y + calcHeight.height + 16)) *
+          0.75,
+      );
+      if (changeHeight == false) {
+        setCheckHeight(
+          document.body.clientHeight -
+            (calcHeight.y + calcHeight.height + 16 + 272),
+        );
+      }
+    }
+  }, [checkHeight, changeHeight]);
 
   const callInfo = async (speed: string) => {
     try {
@@ -197,10 +250,10 @@ const ChargerMap = (props: Props) => {
             </WrapAddress>
           ) : (
             <ChargerInfo
-              // checkHeight={checkHeight}
-              // scrollHeight={scrollHeight}
-              // changeHeight={changeHeight}
-              // setChangeHeight={setChangeHeight}
+              checkHeight={checkHeight}
+              scrollHeight={scrollHeight}
+              changeHeight={changeHeight}
+              setChangeHeight={setChangeHeight}
               selectedCharger={selectedCharger}
               setSelectedCharger={setSelectedCharger}
               slowCharger={slowCharger}
@@ -246,13 +299,13 @@ const WrapAddress = styled.div`
 `;
 
 const WholeMap = styled.div`
-  position: relative;
+  position: fixed;
   width: 100%;
-  height: 495pt;
+  /* height: 495pt; */
   display: flex;
   margin-top: 54pt;
-  border-radius: 12px;
-  border: 0.75pt solid #e2e5ed;
+  /* border-radius: 12px; */
+  /* border: 0.75pt solid #e2e5ed; */
 
   @media (max-width: 899pt) {
     display: block;
