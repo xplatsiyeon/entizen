@@ -30,6 +30,7 @@ const ProgressBody = ({
   progressNum,
   setProgressNum,
 }: Props) => {
+  //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     let copyArr = [...toggleOpen];
@@ -51,6 +52,7 @@ const ProgressBody = ({
     }
   };
 
+  // 목표일 설정 모달창 관리
   const handleDateModal = (e: React.MouseEvent<HTMLDivElement>) => {
     let copyArr = [...dateArr];
     if (e.currentTarget.id === 'prepareDate') {
@@ -94,6 +96,7 @@ const ProgressBody = ({
               </ProgressName>
             </InsideFlex>
           </div>
+          {/* 펼쳐지는 부분 */}
           {toggleOpen[0] && (
             <ContractBtnBox>
               <div>계약서 보기</div>
@@ -129,6 +132,7 @@ const ProgressBody = ({
               </SetDate>
             </InsideFlex>
           </div>
+          {/* 펼쳐지는 부분 */}
           {toggleOpen[1] && (
             <ToggleWrapper>
               <MessageBox
@@ -163,6 +167,7 @@ const ProgressBody = ({
               </SetDate> */}
             </InsideFlex>
           </div>
+          {/* 펼쳐지는 부분 */}
           {toggleOpen[2] && (
             <ToggleWrapper>
               <MessageBox
@@ -196,6 +201,7 @@ const ProgressBody = ({
               </SetDate>
             </InsideFlex>
           </div>
+          {/* 펼쳐지는 부분 */}
           {toggleOpen[3] && (
             <ToggleWrapper>
               <MessageBox
@@ -234,6 +240,7 @@ const ProgressBody = ({
               </SetDate>
             </InsideFlex>
           </div>
+          {/* 펼쳐지는 부분 */}
           {toggleOpen[4] && (
             <ToggleWrapper className="lastBox">
               <MessageBox

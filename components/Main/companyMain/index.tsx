@@ -122,7 +122,7 @@ const CompanyMainPage = (props: Props) => {
             }
           >
             <span>
-              <Image src={simpleEstimate} alt="간편견적" />
+              <Image src={simpleEstimate} alt="내 견적" />
             </span>
             <span>내 견적</span>
           </WhiteAreaMenus>
