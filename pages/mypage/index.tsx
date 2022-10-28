@@ -7,27 +7,33 @@ import Estimate from 'components/mypage/request/estimate';
 import { useRouter } from 'next/router';
 import AsIndex from 'components/mypage/as';
 import BottomNavigation from 'components/BottomNavigation';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
 const Request = () => {
-  const userId = JSON.parse(localStorage.getItem('USER_ID')!);
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
-  const [userName, setUserName] = useState<string>('윤세아');
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
   const components: Components = {
     0: <Estimate />,
     2: <AsIndex />,
   };
 
+  const {
+    data: userData,
+    isError: userError,
+    isLoading: userLoading,
+  } = useQuery('user-mypage', () => isTokenGetApi('/members/info'));
+
   return (
     <Wrapper>
       <Header>
         <span>
-          <h1>{`${userId}님,`}</h1>
+          <h1>{`${userData.name}님,`}</h1>
           <h2>안녕하세요!</h2>
         </span>
         <div className="img" onClick={() => route.push('/setting')}>

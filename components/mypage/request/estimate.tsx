@@ -95,6 +95,7 @@ const Estimate = () => {
           </Label>
           <Carousel length={data?.historyQuotationRequests.length!}>
             {data?.historyQuotationRequests.map((data, index) => (
+              // 히스토리 부분 수정 필요
               // <CarouselItem
               //   key={data.quotationRequestIdx}
               //   onClick={() =>

@@ -32,13 +32,11 @@ const EstimateContainer = ({ data }: Props) => {
 
   return (
     <Wrapper>
-      <Badge color={HandleUserColor(data?.quotationRequests?.badge)}>
-        {data?.quotationRequests?.badge}
-      </Badge>
+      <Badge color={HandleUserColor(data?.badge)}>{data?.badge}</Badge>
       {/* Close */}
       <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
-          <h1>{data?.quotationRequests?.installationAddress}</h1>
+          <h1>{data?.quotationRequest.installationAddress}</h1>
           {/* {open && <p>서울시 관악구 난곡로40길 30</p>} */}
         </StoreName>
 
@@ -63,40 +61,42 @@ const EstimateContainer = ({ data }: Props) => {
                 {convertKo(
                   subscribeType,
                   subscribeTypeEn,
-                  data?.quotationRequests?.subscribeProduct,
+                  data?.quotationRequest?.subscribeProduct,
                 )}
               </span>
             </div>
             <div className="text-box">
               <span className="name">구독기간</span>
-              <span className="text">{`${data?.quotationRequests?.subscribePeriod} 개월`}</span>
+              <span className="text">{`${data?.quotationRequest?.subscribePeriod} 개월`}</span>
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
               <span className="text">{`${
-                Number(data?.quotationRequests?.investRate) * 100
+                Number(data?.quotationRequest?.investRate) * 100
               } %`}</span>
             </div>
             <div className="text-box">
               <span className="name">충전기 종류 및 수량</span>
 
-              {data?.quotationRequests?.chargers?.map((item, index) => (
-                <span className="text">
-                  {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-                  <br />
-                  {item.standType
-                    ? `: ${convertKo(
-                        M6_LIST,
-                        M6_LIST_EN,
-                        item.standType,
-                      )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                        item.count
-                      } 대`
-                    : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                        item.count
-                      } 대`}
-                </span>
-              ))}
+              {data?.quotationRequest?.quotationRequestChargers?.map(
+                (item, index) => (
+                  <span className="text">
+                    {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                    <br />
+                    {item.standType
+                      ? `: ${convertKo(
+                          M6_LIST,
+                          M6_LIST_EN,
+                          item.standType,
+                        )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                          item.count
+                        } 대`
+                      : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                          item.count
+                        } 대`}
+                  </span>
+                ),
+              )}
             </div>
             <div className="text-box">
               <span className="name">충전기 설치 위치</span>
@@ -104,7 +104,7 @@ const EstimateContainer = ({ data }: Props) => {
                 {convertKo(
                   location,
                   locationEn,
-                  data?.quotationRequests?.installationLocation,
+                  data?.quotationRequest?.installationLocation,
                 )}
               </span>
             </div>
@@ -114,15 +114,13 @@ const EstimateContainer = ({ data }: Props) => {
                 {convertKo(
                   InstallationPurposeType,
                   InstallationPurposeTypeEn,
-                  data?.quotationRequests?.installationPurpose,
+                  data?.quotationRequest?.installationPurpose,
                 )}
               </span>
             </div>
             <div className="text-box">
               <span className="name">기타 요청사항</span>
-              <span className="text">
-                {data?.quotationRequests?.etcRequest}
-              </span>
+              <span className="text">{data?.quotationRequest?.etcRequest}</span>
             </div>
           </Contents>
         </List>

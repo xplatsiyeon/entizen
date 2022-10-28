@@ -15,35 +15,61 @@ import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
 
-export interface Chargers {
+export interface CompanyMemberAdditionalInfo {
+  createdAt: string;
+  companyMemberAdditionalInfoIdx: number;
+  companyLogoImageUrl: string;
+  companyName: string;
+  companyAddress: string;
+  companyDetailAddress: string;
+  companyZipCode: string;
+  managerEmail: string;
+  memberIdx: number;
+}
+
+export interface PreQuotations {
+  createdAt: string;
+  preQuotationIdx: number;
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string;
+  preQuotationStatus: string;
+  changedDate: string;
+  quotationRequestIdx: number;
+  memberIdx: number;
+  companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
+}
+
+export interface QuotationRequestChargers {
+  createdAt: string;
+  quotationRequestChargerIdx: number;
   kind: string;
   standType: string;
   channel: string;
   count: number;
-}
-export interface PreQuotations {
-  companyLogoImageUrl: string;
-  companyName: string;
-  preQuotationIdx: number;
-  subscribePricePerMonth: string;
+  quotationRequestIdx: number;
 }
 export interface QuotationRequests {
+  createdAt: string;
+  quotationRequestIdx: number;
   quotationStatus: string;
-  installationAddress: string;
-  badge: string;
+  changedDate: string;
   subscribeProduct: string;
-  subscribePeriod: number;
   investRate: string;
-  chargers: Chargers[];
+  subscribePeriod: number;
+  installationAddress: string;
   installationLocation: string;
   installationPurpose: string;
+  expiredAt: string;
   etcRequest: string;
-  totalPreQuotationCount: number;
-  preQuotations: PreQuotations[];
+  memberIdx: number;
+  quotationRequestChargers: QuotationRequestChargers[];
 }
 export interface QuotationRequestsResponse {
   isSuccess: boolean;
-  quotationRequests: QuotationRequests;
+  quotationRequest: QuotationRequests;
+  badge: string;
+  preQuotations: PreQuotations[];
 }
 
 const TAG = '/page/mypage/request/[id].tsx';
