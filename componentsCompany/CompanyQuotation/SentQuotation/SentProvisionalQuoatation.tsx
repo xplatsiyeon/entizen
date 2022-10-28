@@ -124,7 +124,7 @@ const SentQuoatationFirst = (props: Props) => {
 
   const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
     'company/',
-    () => isTokenGetApi(`quotations/sent-request/${routerId}`),
+    () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
     {
       enabled: router.isReady,
     },
