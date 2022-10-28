@@ -55,7 +55,7 @@ const BottomNavigation = ({}: Props) => {
           return setTabNumber(2);
         case '/as':
           return setTabNumber(3);
-        case '/mypage':
+        case '/company/mypage':
           return setTabNumber(4);
         default:
           break;
@@ -166,7 +166,9 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                user_ID ? router.push('/mypage') : router.push('/signin');
+                user_ID
+                  ? router.push('/company/mypage')
+                  : router.push('/signin');
               }}
             >
               <ImgBox>

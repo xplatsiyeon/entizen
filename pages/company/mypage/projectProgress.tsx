@@ -53,6 +53,7 @@ const Progress = (props: Props) => {
 
   return (
     <>
+      {/* 목표일 설정 */}
       {dateArr.indexOf(true) !== -1 && (
         <DateModal
           selectedDays={selectedDays}
@@ -90,6 +91,8 @@ const Progress = (props: Props) => {
             setProgressNum={setProgressNum}
           />
         )}
+        {/* 64 ~ 93 여기까지가 기본 페이지 */}
+
         {/* 준비, 설치, 검수, 완료 토글 된거 눌렀을때 */}
         {progressNum === 1 && (
           <Reusable
@@ -98,6 +101,7 @@ const Progress = (props: Props) => {
             textThree={'충전기 및 부속품 준비'}
             textFour={'설계 및 공사계획 신고 등'}
             btnText={'준비 완료하기'}
+            setProgressNum={setProgressNum}
           />
         )}
         {progressNum === 2 && (
@@ -107,6 +111,7 @@ const Progress = (props: Props) => {
             textThree={'충전기 설치 및 배선작업'}
             textFour={'충전기 시운전(자체 테스트)'}
             btnText={'설치 완료하기'}
+            setProgressNum={setProgressNum}
           />
         )}
         {progressNum === 3 && (
@@ -116,6 +121,7 @@ const Progress = (props: Props) => {
             textThree={'검수 및 전기차 충전 테스트 (고객 참관)'}
             textFour={'한전 계량기 봉인'}
             btnText={'검수 완료하기'}
+            setProgressNum={setProgressNum}
           />
         )}
         {/* {progressNum === 4 && (
@@ -136,19 +142,12 @@ const Progress = (props: Props) => {
             textFour={'신고 및 사용 승인'}
             textFive={'완료현장 사진 기록'}
             almostFinish={true}
+            beforeFinish={true}
             btnText={'프로젝트 완료하기'}
+            setProgressNum={setProgressNum}
           />
         )}
       </Wrapper>
-
-      {/* 준비 눌렀을때 */}
-      {/* {progressNum === 0 && (
-        <Wrapper>
-          <MypageHeader back={true} title={'진행 프로젝트'} />
-          <TopBox className={'progress'} open={open} setOpen={setOpen} />
-          <PrepareModal exit={handleXbtn} />
-        </Wrapper>
-      )} */}
     </>
   );
 };

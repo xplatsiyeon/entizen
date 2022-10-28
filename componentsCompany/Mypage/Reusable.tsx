@@ -4,12 +4,13 @@ import Image from 'next/image';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import CloseImg from 'public/images/XCircle.svg';
 import camera from 'public/images/gray_camera.png';
-import React, { useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
 import { multerApi } from 'api';
 import { AxiosError } from 'axios';
+import TwoBtnModal from 'components/Modal/TwoBtnModal';
 
 type Props = {
   textOne?: boolean;
@@ -21,6 +22,7 @@ type Props = {
   afterFinish?: boolean;
   btnText: string;
   almostFinish?: boolean;
+  setProgressNum?: Dispatch<SetStateAction<number>>;
 };
 
 interface ImgFile {
@@ -43,10 +45,14 @@ const Reusable = ({
   afterFinish,
   almostFinish,
   btnText,
+  setProgressNum,
 }: Props) => {
   // img ref
   const imgRef = useRef<HTMLInputElement>(null);
+  // 날짜 변경 모달 오픈
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  // 완료하기 누르면 투버튼 모달
+  const [twoBtnModalOpen, setTwoBtnModalOpen] = useState<boolean>(false);
   // 토글된거 들어가서 연 모달 일정변경
   const [selectedDay, setSelectedDay] = useState<string>('');
   // 이미지
@@ -122,8 +128,26 @@ const Reusable = ({
     e.preventDefault();
     imgRef?.current?.click();
   };
+
+  const handleModalRightBtn = () => {
+    if (setProgressNum) {
+      setProgressNum(-1);
+    }
+  };
   return (
     <>
+      {twoBtnModalOpen && (
+        <TwoBtnModal
+          exit={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
+          text={'설치를 완료하시겠습니까?'}
+          leftBtnText={'취소'}
+          rightBtnText={'완료하기'}
+          leftBtnColor={'#222222'}
+          rightBtnColor={'#5221CB'}
+          leftBtnControl={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
+          rightBtnControl={handleModalRightBtn}
+        />
+      )}
       {modalOpen && (
         <ChangeDateModal
           selectedDays={selectedDay}
@@ -131,6 +155,7 @@ const Reusable = ({
           exit={() => setModalOpen(false)}
         />
       )}
+      {/* 프로젝트 완료하기 클릭시 보이는 곳 */}
       {almostFinish ? (
         <>
           <DoubleArrowBox>
@@ -174,48 +199,56 @@ const Reusable = ({
                 {textFive && <li>{textFive}</li>}
               </ListBox>
             </Box>
-            <RemainderInputBox>
-              <Label>사진첨부</Label>
-              <PhotosBox>
-                <AddPhotos onClick={imgHandler}>
-                  <Image src={camera} alt="" />
-                </AddPhotos>
-                <input
-                  style={{ display: 'none' }}
-                  ref={imgRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={saveFileImage}
-                  multiple
-                />
-                {/* <Preview> */}
-                {imgArr?.map((img, index) => (
-                  <ImgSpan key={index} data-name={index}>
-                    <Image
-                      layout="fill"
-                      alt="preview"
-                      data-name={index}
-                      key={index}
-                      src={img.url}
-                      priority={true}
-                      unoptimized={true}
-                    />
-                    <Xbox onClick={handlePhotoDelete} data-name={index}>
+            {/* 완료에서 사진첨부하는곳 보이도록  */}
+            {beforeFinish && (
+              <RemainderInputBox>
+                <Label>사진첨부</Label>
+                <PhotosBox>
+                  <AddPhotos onClick={imgHandler}>
+                    <Image src={camera} alt="" />
+                  </AddPhotos>
+                  <input
+                    style={{ display: 'none' }}
+                    ref={imgRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={saveFileImage}
+                    multiple
+                  />
+                  {/* <Preview> */}
+                  {imgArr?.map((img, index) => (
+                    <ImgSpan key={index} data-name={index}>
                       <Image
-                        src={CloseImg}
+                        layout="fill"
+                        alt="preview"
                         data-name={index}
-                        layout="intrinsic"
-                        alt="closeBtn"
-                        width={24}
-                        height={24}
+                        key={index}
+                        src={img.url}
+                        priority={true}
+                        unoptimized={true}
                       />
-                    </Xbox>
-                  </ImgSpan>
-                ))}
-                {/* </Preview> */}
-              </PhotosBox>
-            </RemainderInputBox>
-            <Button beforeFinish={beforeFinish}>{btnText}</Button>
+                      <Xbox onClick={handlePhotoDelete} data-name={index}>
+                        <Image
+                          src={CloseImg}
+                          data-name={index}
+                          layout="intrinsic"
+                          alt="closeBtn"
+                          width={24}
+                          height={24}
+                        />
+                      </Xbox>
+                    </ImgSpan>
+                  ))}
+                  {/* </Preview> */}
+                </PhotosBox>
+              </RemainderInputBox>
+            )}
+            <Button
+              onClick={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
+              beforeFinish={beforeFinish}
+            >
+              {btnText}
+            </Button>
           </Wrapper>
         </>
       )}
