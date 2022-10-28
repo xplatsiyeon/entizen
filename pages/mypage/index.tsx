@@ -33,7 +33,7 @@ const Request = () => {
     <Wrapper>
       <Header>
         <span>
-          <h1>{`${userData.name}님,`}</h1>
+          <h1>{`${userData?.name}님,`}</h1>
           <h2>안녕하세요!</h2>
         </span>
         <div className="img" onClick={() => route.push('/setting')}>
