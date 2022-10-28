@@ -20,16 +20,16 @@ const SubscriptionProduct = ({ data }: Props) => {
       <H1>
         {UserId}님, <br /> 총{' '}
         <span className="accent">
-          {data?.quotationRequests
+          {/* {data?.quotationRequests
             ? data?.quotationRequests?.totalPreQuotationCount
-            : 0}
+            : 0} */}
           개
         </span>
         의 구독상품이 도착했습니다.
       </H1>
       <Notice>상세 내용을 비교해보고, 나에게 맞는 상품을 선택해보세요!</Notice>
       <GridContainer>
-        {data?.quotationRequests?.preQuotations?.map((company, index) => (
+        {/* {data?.quotationRequests?.preQuotations?.map((company, index) => (
           <GridItem
             key={index}
             onClick={() =>
@@ -56,7 +56,7 @@ const SubscriptionProduct = ({ data }: Props) => {
               </div>
             </PriceBox>
           </GridItem>
-        ))}
+        ))} */}
       </GridContainer>
     </Wrapper>
   );
