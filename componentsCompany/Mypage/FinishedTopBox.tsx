@@ -16,7 +16,6 @@ const FinishedTopBox = (props: Props) => {
       <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
           <div className="badge">구독종료 D-678</div>
-
           <div>
             <h1>LS 카페 신림점</h1>
             {open ? (
