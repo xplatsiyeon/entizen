@@ -43,7 +43,10 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
 
           <div>
             <h1>
-              {data?.sendQuotationRequest.quotationRequest.installationAddress}
+              {
+                data?.sendQuotationRequest?.quotationRequest
+                  ?.installationAddress
+              }
             </h1>
             {open ? (
               <ArrowImg>
@@ -68,13 +71,14 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
                 {convertKo(
                   subscribeType,
                   subscribeTypeEn,
-                  data.sendQuotationRequest.quotationRequest.subscribeProduct,
+                  data?.sendQuotationRequest?.quotationRequest
+                    ?.subscribeProduct,
                 )}
               </span>
             </div>
             <div className="text-box">
               <span className="name">구독기간</span>
-              <span className="text">{`${data.sendQuotationRequest.quotationRequest.subscribePeriod} 개월`}</span>
+              <span className="text">{`${data?.sendQuotationRequest?.quotationRequest?.subscribePeriod} 개월`}</span>
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
@@ -95,7 +99,7 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
               </span>
             </div> */}
 
-            {data?.sendQuotationRequest.quotationRequest.quotationRequestChargers!.map(
+            {data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers!.map(
               (item, index) => (
                 <div className="text-box" key={index}>
                   <span className="name">충전기 종류 및 수량</span>
@@ -123,8 +127,8 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
                 {convertKo(
                   location,
                   locationEn,
-                  data.sendQuotationRequest.quotationRequest
-                    .installationLocation,
+                  data?.sendQuotationRequest?.quotationRequest
+                    ?.installationLocation,
                 )}
               </span>
             </div>
@@ -134,8 +138,8 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
                 {convertKo(
                   InstallationPurposeType,
                   InstallationPurposeTypeEn,
-                  data.sendQuotationRequest.quotationRequest
-                    .installationPurpose,
+                  data?.sendQuotationRequest?.quotationRequest
+                    ?.installationPurpose,
                 )}
               </span>
             </div>
