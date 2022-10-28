@@ -14,10 +14,33 @@ import Loader from 'components/Loader';
 type Props = {
   checkedFilterIndex: number;
 };
-interface SendQuotationRequests {
-  preQuotationIdx: number;
-  badge: string;
+interface QuotationRequest {
+  createdAt: string;
+  quotationRequestIdx: number;
+  quotationStatus: string;
+  changedDate: string;
+  subscribeProduct: string;
+  investRate: string;
+  subscribePeriod: number;
   installationAddress: string;
+  installationLocation: string;
+  installationPurpose: string;
+  expiredAt: string;
+  etcRequest: string;
+  memberIdx: number;
+}
+interface SendQuotationRequests {
+  createdAt: string;
+  preQuotationIdx: number;
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string;
+  preQuotationStatus: string;
+  changedDate: string;
+  quotationRequestIdx: number;
+  memberIdx: number;
+  badge: string;
+  quotationRequest: QuotationRequest;
 }
 
 interface SentrequestResponse {
@@ -99,7 +122,7 @@ const SentRequest = ({ checkedFilterIndex }: Props) => {
                 bottom={'12pt'}
               />
             </DdayBox>
-            <AddressBox>{el.installationAddress}</AddressBox>
+            <AddressBox>{el.quotationRequest.installationAddress}</AddressBox>
           </DdayNAddress>
           <IconBox>
             <ArrowIconBox>
