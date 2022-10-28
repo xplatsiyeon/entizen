@@ -6,22 +6,45 @@ import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
+import { SentRequestResponse } from './SentProvisionalQuoatation';
+import { HandleColor } from 'utils/changeValue';
+import {
+  InstallationPurposeType,
+  InstallationPurposeTypeEn,
+  location,
+  locationEn,
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+  subscribeType,
+  subscribeTypeEn,
+} from 'assets/selectList';
+import { convertKo } from 'utils/calculatePackage';
 
 type Props = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   handleClick: () => void;
+  data: SentRequestResponse;
 };
 
-const TopBox = ({ open, setOpen, handleClick }: Props) => {
+const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
   return (
     <Wrapper>
       <ItemButton onClick={handleClick}>
         <StoreName>
-          <CommonBtns text={'접수요청 D-1'} backgroundColor={'#F75015'} />
+          <CommonBtns
+            text={data?.sendQuotationRequest?.badge!}
+            backgroundColor={HandleColor(data?.sendQuotationRequest?.badge)}
+          />
 
           <div>
-            <h1>LS 카페 신림점</h1>
+            <h1>
+              {data?.sendQuotationRequest.quotationRequest.installationAddress}
+            </h1>
             {open ? (
               <ArrowImg>
                 <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -41,38 +64,88 @@ const TopBox = ({ open, setOpen, handleClick }: Props) => {
           <Contents>
             <div className="text-box">
               <span className="name">구독상품</span>
-              <span className="text">부분구독</span>
+              <span className="text">
+                {convertKo(
+                  subscribeType,
+                  subscribeTypeEn,
+                  data.sendQuotationRequest.quotationRequest.subscribeProduct,
+                )}
+              </span>
             </div>
             <div className="text-box">
               <span className="name">구독기간</span>
-              <span className="text">60개월</span>
+              <span className="text">{`${data.sendQuotationRequest.quotationRequest.subscribePeriod} 개월`}</span>
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
-              <span className="text">100 %</span>
+              <span className="text">
+                {`${
+                  Number(
+                    data?.sendQuotationRequest?.quotationRequest?.investRate!,
+                  ) * 100
+                } %`}
+              </span>
             </div>
-            <div className="text-box">
+            {/* <div className="text-box">
               <span className="name">충전기 종류 및 수량</span>
               <span className="text">
                 100 kW 충전기
                 <br />
                 :벽걸이, 싱글, 3 대
               </span>
-            </div>
+            </div> */}
+
+            {data?.sendQuotationRequest.quotationRequest.quotationRequestChargers!.map(
+              (item, index) => (
+                <div className="text-box" key={index}>
+                  <span className="name">충전기 종류 및 수량</span>
+                  <span className="text">
+                    {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                    <br />
+                    {item.standType
+                      ? `: ${convertKo(
+                          M6_LIST,
+                          M6_LIST_EN,
+                          item.standType,
+                        )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                          item.count
+                        } 대`
+                      : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                          item.count
+                        } 대`}
+                  </span>
+                </div>
+              ),
+            )}
             <div className="text-box">
               <span className="name">충전기 설치 위치</span>
-              <span className="text">건물 밖</span>
+              <span className="text">
+                {convertKo(
+                  location,
+                  locationEn,
+                  data.sendQuotationRequest.quotationRequest
+                    .installationLocation,
+                )}
+              </span>
             </div>
             <div className="text-box">
               <span className="name">충전기 설치 목적</span>
-              <span className="text">모객 효과</span>
+              <span className="text">
+                {convertKo(
+                  InstallationPurposeType,
+                  InstallationPurposeTypeEn,
+                  data.sendQuotationRequest.quotationRequest
+                    .installationPurpose,
+                )}
+              </span>
             </div>
             <div className="text-box">
               <span className="name">기타 요청사항</span>
               <span className="text">없음</span>
             </div>
           </Contents>
-          <Contents>
+          {/* ------------------- 파트너 정보 ---------------- */}
+          {/* <Contents>
             <Partner>파트너 정보</Partner>
             <div className="text-box">
               <span className="name">이름</span>
@@ -86,7 +159,7 @@ const TopBox = ({ open, setOpen, handleClick }: Props) => {
               <span className="name">연락처</span>
               <span className="text phone">010-3522-2250</span>
             </div>
-          </Contents>
+          </Contents> */}
         </List>
       </Collapse>
     </Wrapper>

@@ -9,25 +9,148 @@ import CommunicationIcon from 'public/images/communication-icon.svg';
 import TopBox from './TopBox';
 import BottomBox from './BottomBox';
 import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 
 type Props = {};
+export interface CatalogFiles {
+  createdAt: string;
+  chargerProductFileIdx: number;
+  productFileType: string;
+  originalName: string;
+  url: string;
+  size: number;
+  preQuotationChargerIdx: number;
+}
+export interface ChargerImageFiles {
+  createdAt: string;
+  chargerProductFileIdx: number;
+  productFileType: string;
+  originalName: string;
+  url: string;
+  size: number;
+  preQuotationChargerIdx: number;
+}
+export interface PreQuotationFiles {
+  createdAt: string;
+  chargerProductFileIdx: number;
+  productFileType: string;
+  originalName: string;
+  url: string;
+  size: number;
+  preQuotationChargerIdx: number;
+}
+export interface PreQuotationCharger {
+  createdAt: string;
+  preQuotationChargerIdx: number;
+  chargePriceType: string;
+  chargePrice: number;
+  modelName: string;
+  manufacturer: string;
+  productFeature: string;
+  preQuotationIdx: number;
+  preQuotationFiles: PreQuotationFiles[];
+  chargerImageFiles: ChargerImageFiles[];
+  catalogFiles: CatalogFiles[];
+}
+export interface PreQuotation {
+  createdAt: string;
+  preQuotationIdx: number;
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string;
+  preQuotationStatus: string;
+  changedDate: string;
+  quotationRequestIdx: number;
+  memberIdx: number;
+  preQuotationCharger: PreQuotationCharger[];
+}
 
+export interface CompanyMemberAdditionalInfo {
+  createdAt: string;
+  companyMemberAdditionalInfoIdx: number;
+  companyLogoImageUrl: string;
+  companyName: string;
+  companyAddress: string;
+  companyDetailAddress: string;
+  companyZipCode: string;
+  managerEmail: string;
+  memberIdx: number;
+}
+export interface QuotationRequestChargers {
+  createdAt: string;
+  quotationRequestChargerIdx: number;
+  kind: string;
+  standType: string;
+  channel: string;
+  count: number;
+  quotationRequestIdx: number;
+}
+export interface QuotationRequest {
+  createdAt: string;
+  quotationRequestIdx: number;
+  quotationStatus: string;
+  changedDate: string;
+  subscribeProduct: string;
+  investRate: string;
+  subscribePeriod: number;
+  installationAddress: string;
+  installationLocation: string;
+  installationPurpose: string;
+  expiredAt: string;
+  etcRequest: string;
+  memberIdx: number;
+  quotationRequestChargers: QuotationRequestChargers[];
+}
+export interface SentRequestResponse {
+  isSuccess: boolean;
+  sendQuotationRequest: {
+    preQuotation: PreQuotation;
+    badge: string | undefined;
+    quotationRequest: QuotationRequest;
+    companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
+  };
+}
+
+const TAG =
+  'components/Company/CompanyQuotation/SentQuotation/SentProvisionalQuoatation.tsx';
 // 본체
 const SentQuoatationFirst = (props: Props) => {
   const router = useRouter();
-
+  const routerId = router?.query?.id;
   // 상단 열고 닫기
   const [open, setOpen] = useState<boolean>(false);
 
-  // 안쓰이나 ?
-  const [text, setText] = useState<string>('');
-
+  const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
+    'company/',
+    () => isTokenGetApi(`quotations/sent-request/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
   // 상단 열리고 닫히고
   const handleClick = () => setOpen(!open);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    console.log(TAG + '🔥 ~line 42 에러 코드');
+    console.log(error);
+  }
+
   return (
     <>
       <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
-      <TopBox handleClick={handleClick} open={open} setOpen={setOpen} />
+      {/* 견적 정보 */}
+      <TopBox
+        handleClick={handleClick}
+        open={open}
+        setOpen={setOpen}
+        data={data!}
+      />
       <CenterBox />
       <BottomBox />
       {/* 최종견적 */}
