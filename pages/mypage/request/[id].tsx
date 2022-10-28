@@ -139,7 +139,7 @@ const Mypage1_3 = ({}: any) => {
               />
               {/* request 1-3 */}
               <EstimateContainer data={data!} />
-              <SubscriptionProduct data={data?.preQuotations} />
+              <SubscriptionProduct data={data?.preQuotations!} />
               <TextBox>
                 <div>선택하기 어려우신가요?</div>
                 <CommunicationBox
