@@ -195,16 +195,16 @@ const BottomBox = ({ pb, data }: Props) => {
           (item, index) => (
             <React.Fragment key={item.preQuotationChargerIdx}>
               {item.catalogFiles.map((file, index) => (
-                <FileDownload key={file.chargerProductFileIdx}>
-                  <a
+                <FileDownloadBtn key={file.chargerProductFileIdx}>
+                  <FileDownload
                     onClick={DownloadFile}
                     download={file.originalName}
                     href={file.url}
                   >
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                     {file.originalName}
-                  </a>
-                </FileDownload>
+                  </FileDownload>
+                </FileDownloadBtn>
               ))}
             </React.Fragment>
           ),
@@ -387,16 +387,19 @@ const GridItem = styled.span`
   height: 144pt;
   flex-shrink: 0;
 `;
-const FileDownload = styled(Button)`
-  display: flex;
-  align-items: center;
-  gap: 3pt;
+const FileDownloadBtn = styled(Button)`
   margin: 15pt 15pt 6pt 15pt;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   color: ${colors.gray2};
   border-radius: 8px;
+`;
+
+const FileDownload = styled.a`
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 3pt;
 `;
 
 export default BottomBox;
