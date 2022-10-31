@@ -90,7 +90,7 @@ const ChargerMap = (props: Props) => {
         (document.body.clientHeight - (calcHeight.y + calcHeight.height + 16)) *
           0.75,
       );
-      if (changeHeight == false) {
+      if (changeHeight === false) {
         setCheckHeight(
           document.body.clientHeight -
             (calcHeight.y + calcHeight.height + 16 + 272),
@@ -250,10 +250,10 @@ const ChargerMap = (props: Props) => {
             </WrapAddress>
           ) : (
             <ChargerInfo
+              // scrollHeight={scrollHeight}
+              // changeHeight={changeHeight}
+              // setChangeHeight={setChangeHeight}
               checkHeight={checkHeight}
-              scrollHeight={scrollHeight}
-              changeHeight={changeHeight}
-              setChangeHeight={setChangeHeight}
               selectedCharger={selectedCharger}
               setSelectedCharger={setSelectedCharger}
               slowCharger={slowCharger}
@@ -279,7 +279,7 @@ const Wrapper = styled.div`
 `;
 const WrapAddress = styled.div`
   position: relative;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -301,7 +301,8 @@ const WrapAddress = styled.div`
 const WholeMap = styled.div`
   position: fixed;
   width: 100%;
-  /* height: 495pt; */
+  height: 495pt;
+  /* height: 100%; */
   display: flex;
   margin-top: 54pt;
   /* border-radius: 12px; */

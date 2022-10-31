@@ -108,6 +108,7 @@ const InfoBox = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100%;
+  /* border: 2px solid red; */
   border-right: 1px solid ${colors.lightGray};
   background-color: ${colors.lightWhite};
   @media (max-width: 899pt) {
