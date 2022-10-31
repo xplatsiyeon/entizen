@@ -67,10 +67,10 @@ const BottomBox = ({ pb, data }: Props) => {
             {`${data?.sendQuotationRequest?.preQuotation?.constructionPeriod} 일`}
           </span>
         </Item>
-        {/* ---------------- 충전 요금 ----------------- */}
-        {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.length ===
+        {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.length ==
         1 ? (
           <>
+            {/* 충전량 1개 일 때  */}
             <Item>
               <span className="name">충전요금</span>
               <span className="value">
@@ -89,11 +89,12 @@ const BottomBox = ({ pb, data }: Props) => {
           </>
         ) : (
           <>
-            <Section>
+            {/* 충전량 2개 이상일 때 */}
+            <MultiSection>
               <Subtitle>충전요금</Subtitle>
               {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.map(
                 (item, index) => (
-                  <MultListBox key={item.preQuotationChargerIdx}>
+                  <MultiBox key={item.preQuotationChargerIdx}>
                     <Item>
                       <span className="name">
                         {
@@ -103,15 +104,15 @@ const BottomBox = ({ pb, data }: Props) => {
                       </span>
                       <span className="value">{`${item.chargePrice} 원 / kW`}</span>
                     </Item>
-                  </MultListBox>
+                  </MultiBox>
                 ),
               )}
-            </Section>
-            <Section>
+            </MultiSection>
+            <MultiSection>
               <Subtitle>충전기 제조사</Subtitle>
               {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.map(
                 (item, index) => (
-                  <MultListBox key={item.preQuotationChargerIdx}>
+                  <MultiBox key={item.preQuotationChargerIdx}>
                     <Item>
                       <span className="name">
                         {
@@ -121,10 +122,10 @@ const BottomBox = ({ pb, data }: Props) => {
                       </span>
                       <span className="value">{item.manufacturer}</span>
                     </Item>
-                  </MultListBox>
+                  </MultiBox>
                 ),
               )}
-            </Section>
+            </MultiSection>
           </>
         )}
       </List>
@@ -220,16 +221,11 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
   padding: 18pt 0pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
   padding-bottom: ${({ pb }) => pb + 'pt'};
-
   ${({ grid }) =>
     grid &&
     css`
       padding-right: 0;
     `};
-
-  @media (max-width: 899pt) {
-    padding: 18pt 15pt;
-  }
 `;
 const List = styled.ul`
   padding: 30pt 0 51pt;
@@ -240,7 +236,20 @@ const List = styled.ul`
     padding-bottom: 18pt;
   }
 `;
-const MultListBox = styled.div`
+const MultiSection = styled.div`
+  padding-top: 18pt;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12pt;
+  :not(:last-child) {
+    padding-bottom: 18pt;
+    border-bottom: 0.75pt solid ${colors.lightGray};
+  }
+
+  /* border: 1px solid red; */
+`;
+const MultiBox = styled.div`
   padding-top: 3pt;
 `;
 const Item = styled.li`
@@ -269,6 +278,7 @@ const Item = styled.li`
     justify-content: space-between;
     padding-left: 15pt;
     padding-right: 15pt;
+
     .name {
       flex: none;
     }
@@ -283,6 +293,7 @@ const Subtitle = styled.h2`
   font-size: 10.5pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  padding: 0 15pt;
   color: ${colors.main2};
 `;
 const FlexWrap = styled.div`
@@ -293,6 +304,7 @@ const FlexWrap = styled.div`
   }
   @media (max-width: 899pt) {
     display: block;
+    padding: 0 15pt;
     &:nth-of-type(2) {
       margin-top: 0;
     }
@@ -339,6 +351,7 @@ const GridImg = styled.div`
   overflow-x: scroll;
   grid-template-columns: repeat(4, 1fr);
   padding-top: 15pt;
+  padding-left: 15pt;
   gap: 6pt;
 `;
 const GridItem = styled.div`
@@ -352,6 +365,7 @@ const FileBtn = styled(Button)`
   display: flex;
   gap: 3pt;
   margin-top: 15pt;
+  margin-left: 15pt;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   color: ${colors.gray2};
