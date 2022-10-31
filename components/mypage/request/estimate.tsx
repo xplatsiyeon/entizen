@@ -155,6 +155,7 @@ const CarouselItem = styled.div`
   background-color: ${colors.lightWhite};
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   position: relative;
+  cursor: pointer;
   .store-name {
     padding-top: 16.5pt;
     font-weight: 700;

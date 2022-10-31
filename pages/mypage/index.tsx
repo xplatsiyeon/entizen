@@ -117,6 +117,7 @@ const Header = styled.header`
     width: 22.5pt;
     height: 22.5pt;
     text-align: end;
+    cursor: pointer;
   }
 `;
 const Body = styled.div`
@@ -131,6 +132,7 @@ const Body = styled.div`
     border: 0.75pt solid ${colors.main};
     border-radius: 12pt;
     padding: 6pt 9pt;
+    cursor: pointer;
   }
 `;
 const Line = styled.div`
@@ -149,6 +151,7 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
+  cursor: pointer;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
 `;
