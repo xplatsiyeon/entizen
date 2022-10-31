@@ -8,12 +8,19 @@ import tempCar from 'public/images/temp-car.jpg';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
+import {
+  SentRequestResponse,
+  PreQuotationCharger,
+} from './SentProvisionalQuoatation';
+import { PriceCalculation } from 'utils/calculatePackage';
 
 type Props = {
   pb?: number;
+  data: SentRequestResponse;
 };
 
-const BottomBox = ({ pb }: Props) => {
+const BottomBox = ({ pb, data }: Props) => {
+  const { sendQuotationRequest } = data;
   // 파일 다운로드 함수
   const DownloadFile = useCallback(() => {
     let fileName = 'Charge Point 카탈로그_7 KW';
@@ -40,24 +47,64 @@ const BottomBox = ({ pb }: Props) => {
       <List>
         <Item>
           <span className="name">월 구독료</span>
-          <span className="value">195,000 원</span>
+          <span className="value">
+            {PriceCalculation(
+              sendQuotationRequest?.preQuotation?.subscribePricePerMonth,
+            )}
+            원
+          </span>
         </Item>
         <Item>
-          <span className="name">수익지분</span>
-          <span className="value">70 %</span>
+          {/* --- 수익지분 보류 --- */}
+          {/* <span className="name">수익지분</span>
+          <span className="value">70 %</span> */}
         </Item>
         <Item>
           <span className="name">공사기간</span>
-          <span className="value">21 일</span>
+          <span className="value">
+            ${sendQuotationRequest?.preQuotation?.constructionPeriod} 일
+          </span>
         </Item>
-        <Item>
-          <span className="name">충전요금</span>
-          <span className="value">250 원 / kW</span>
-        </Item>
-        <Item>
-          <span className="name">충전기 제조사</span>
-          <span className="value">LS ELECTRIC</span>
-        </Item>
+
+        {sendQuotationRequest.preQuotation.preQuotationCharger.length !== 0 ? (
+          <>
+            <Item>
+              <span className="name">충전요금</span>
+              <span className="value">
+                {
+                  sendQuotationRequest.preQuotation.preQuotationCharger[0]
+                    .chargePrice
+                }
+                원 / kW
+              </span>
+            </Item>
+            <Item>
+              <span className="name">충전기 제조사</span>
+              <span className="value">
+                {
+                  sendQuotationRequest.preQuotation.preQuotationCharger[0]
+                    .manufacturer
+                }
+              </span>
+            </Item>
+          </>
+        ) : (
+          sendQuotationRequest.preQuotation.preQuotationCharger.map(
+            (item, index) => (
+              // 수정 필요
+              <>
+                <Item key={item.preQuotationChargerIdx}>
+                  <span className="name">충전요금</span>
+                  <span className="value">{item.chargePrice}원 / kW</span>
+                </Item>
+                <Item>
+                  <span className="name">충전기 제조사</span>
+                  <span className="value">LS ELECTRIC</span>
+                </Item>
+              </>
+            ),
+          )
+        )}
       </List>
       <Section>
         <Subtitle>특장점</Subtitle>

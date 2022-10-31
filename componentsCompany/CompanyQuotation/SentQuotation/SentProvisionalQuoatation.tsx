@@ -126,7 +126,8 @@ const SentQuoatationFirst = (props: Props) => {
     'company/',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
     {
-      enabled: router.isReady,
+      // enabled: router.isReady,
+      enabled: false,
     },
   );
   // 상단 열리고 닫히고
@@ -142,7 +143,7 @@ const SentQuoatationFirst = (props: Props) => {
   }
 
   return (
-    <>
+    <Wrapper>
       <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
       {/* 견적 정보 */}
       <TopBox
@@ -152,7 +153,7 @@ const SentQuoatationFirst = (props: Props) => {
         data={data!}
       />
       <CenterBox />
-      <BottomBox />
+      <BottomBox data={data!} />
       {/* 최종견적 */}
       <LastQuotationBtnBox>
         <Blur />
@@ -167,21 +168,21 @@ const SentQuoatationFirst = (props: Props) => {
         {/*가견적 수정하기*/}
         <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
       </BtnBox>
-    </>
-    // 고객과 소통하기
-    //  <Button
-    //   onClick={() =>
-    //     /*route.push('/chatting/1')*/ alert('2차 작업 범위입니다')
-    //   }
-    // >
-    //   <div>
-    //     <Image src={CommunicationIcon} alt="right-arrow" />
-    //   </div>
-    //   고객과 소통하기
-    //   <div>
-    //     <Image src={RightArrow} alt="right-arrow" />
-    //   </div>
-    // </Button>
+    </Wrapper>
+    //  고객과 소통하기
+    //    <Button
+    //    onClick={() =>
+    //      /*route.push('/chatting/1')*/ alert('2차 작업 범위입니다')
+    //    }
+    //  >
+    //    <div>
+    //      <Image src={CommunicationIcon} alt="right-arrow" />
+    //    </div>
+    //    고객과 소통하기
+    //    <div>
+    //      <Image src={RightArrow} alt="right-arrow" />
+    //    </div>
+    //  </Button>
   );
 };
 
@@ -197,16 +198,7 @@ const CustomerRequestContent = styled.div`
 `;
 
 const Wrapper = styled.div`
-  display: block;
-  box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
-  padding-left: 15pt;
-  padding-right: 15pt;
-  margin-top: 15pt;
-  border-top: 1px solid #e2e5ed;
-  @media (max-width: 899pt) {
-    display: flex;
-    flex-direction: column;
-  }
+  padding-bottom: 75pt;
 `;
 
 const ItemButton = styled(ListItemButton)`

@@ -23,7 +23,8 @@ const CenterBox = (props: Props) => {
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />
         </DownArrowBox>
-        {!checkFlow && (
+        {/* ------------ 일정변경 요청 -------------- */}
+        {/* {!checkFlow && (
           <ReservationDateCheck>
             <div className="text">일정 변경 요청이 들어왔습니다.</div>
             <div className="btnBox">
@@ -32,8 +33,9 @@ const CenterBox = (props: Props) => {
               </div>
             </div>
           </ReservationDateCheck>
-        )}
-        {checkFlow && (
+        )} */}
+        {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
+        {/* {checkFlow && (
           <ReservationDate>
             <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
             <div className="btnBox">
@@ -48,11 +50,12 @@ const CenterBox = (props: Props) => {
               </div>
             </div>{' '}
           </ReservationDate>
-        )}
-        <ConfirmedReservation>
+        )} */}
+        {/* ----------- 현장실사 일정 확정 -------------- */}
+        {/* <ConfirmedReservation>
           <div className="text">현장실사 일정이 확정되었습니다.</div>
           <div className="date">2022.01.12</div>
-        </ConfirmedReservation>
+        </ConfirmedReservation> */}
 
         <SecondTitle>보낸 가견적서</SecondTitle>
       </Wrapper>

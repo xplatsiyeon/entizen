@@ -9,7 +9,7 @@ import styled from '@emotion/styled';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 
-const Mypage1_4 = ({ data }: any) => {
+const MypageDetail = ({ data }: any) => {
   const [isModal, setModal] = useState(false);
   const route = useRouter();
   const handleOnClick = () => route.back();
@@ -48,7 +48,7 @@ const Mypage1_4 = ({ data }: any) => {
   );
 };
 
-export default Mypage1_4;
+export default MypageDetail;
 
 const WebBody = styled.div`
   display: flex;

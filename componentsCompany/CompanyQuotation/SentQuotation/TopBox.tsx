@@ -58,7 +58,7 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
               </ArrowImg>
             )}
           </div>
-          <p>서울시 관악구 난곡로40길 30</p>
+          {/* <p>서울시 관악구 난곡로40길 30</p> */}
         </StoreName>
       </ItemButton>
       {/* Open */}

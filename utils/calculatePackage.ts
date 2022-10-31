@@ -15,7 +15,7 @@ export const PriceCalculation = (price: number) => {
   }
 };
 
-// --------------- 인풋 계산 함수 ----------------
+// --------------- 인풋 콤마 계산 함수 ----------------
 export const inputPriceFormat = (str: string) => {
   // 콤마 추가
   const comma = (str: string) => {
