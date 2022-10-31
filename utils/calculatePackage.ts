@@ -1,4 +1,13 @@
-// -----------가격 콤마 계산----------------
+// -----------기본 가격 콤마 계산----------------
+export const PriceBasicCalculation = (price: number) => {
+  if (price === 0) return 0;
+  if (price) {
+    const parts = price.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+};
+// -----------간편 견적 가격 콤마 계산----------------
 export const PriceCalculation = (price: number) => {
   if (price === 0) return 0;
   if (price) {
@@ -14,7 +23,6 @@ export const PriceCalculation = (price: number) => {
     }
   }
 };
-
 // --------------- 인풋 콤마 계산 함수 ----------------
 export const inputPriceFormat = (str: string) => {
   // 콤마 추가

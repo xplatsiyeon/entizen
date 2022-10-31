@@ -4,12 +4,11 @@ import Image from 'next/image';
 import React from 'react';
 import colors from 'styles/colors';
 import temp from 'public/mypage/temp-img.svg';
-import tempCar from 'public/images/temp-car.jpg';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
 import { SentRequestResponse } from './SentProvisionalQuoatation';
-import { PriceCalculation } from 'utils/calculatePackage';
+import { PriceBasicCalculation } from 'utils/calculatePackage';
 
 type Props = {
   pb?: number;
@@ -37,14 +36,24 @@ const BottomBox = ({ pb, data }: Props) => {
   return (
     <Wrapper>
       <ImageBox>
-        <Image src={temp} alt="icon" />
+        <Image
+          src={
+            data.sendQuotationRequest.companyMemberAdditionalInfo
+              .companyLogoImageUrl
+          }
+          alt="logo-img"
+          priority={true}
+          unoptimized={true}
+        />
       </ImageBox>
-      <Title>Charge Point</Title>
+      <Title>
+        {data.sendQuotationRequest.companyMemberAdditionalInfo.companyName}
+      </Title>
       <List>
         <Item>
           <span className="name">월 구독료</span>
           <span className="value">
-            {PriceCalculation(
+            {PriceBasicCalculation(
               data?.sendQuotationRequest?.preQuotation?.subscribePricePerMonth,
             )}
             원
@@ -101,7 +110,9 @@ const BottomBox = ({ pb, data }: Props) => {
                             .quotationRequestChargers[index].kind
                         }
                       </span>
-                      <span className="value">{`${item.chargePrice} 원 / kW`}</span>
+                      <span className="value">{`${PriceBasicCalculation(
+                        item.chargePrice,
+                      )} 원 / kW`}</span>
                     </Item>
                   </MultiBox>
                 ),
@@ -365,7 +376,6 @@ const GridImg = styled.div`
   gap: 6pt;
 `;
 const GridItem = styled.span`
-  background-color: blue;
   position: relative;
   border-radius: 6pt;
   width: 120pt;
