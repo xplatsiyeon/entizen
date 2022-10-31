@@ -192,12 +192,13 @@ const Wrraper = styled.div`
   }
 `;
 const Title = styled.h1`
-  padding-top: 24pt;
+  padding-top: 38pt;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
 `;
 const Notice = styled.p`
@@ -207,6 +208,7 @@ const Notice = styled.p`
   letter-spacing: -0.02em;
   color: ${colors.gray2};
   padding-top: 9pt;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const SelectSection = styled.div`
   padding-top: 45pt;
@@ -217,12 +219,13 @@ const InputBox = styled.div`
   align-items: center;
   margin-top: 9pt;
   width: 100%;
-  .label {
+  label {
     font-weight: 500;
     font-size: 12pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    font-family: 'Spoqa Han Sans Neo';
   }
 `;
 const SelectBox = styled(Select)`
@@ -234,6 +237,7 @@ const SelectBox = styled(Select)`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  font-family: 'Spoqa Han Sans Neo';
   & div {
     padding-left: 12.75pt;
     padding-top: 13.5pt;
@@ -257,6 +261,7 @@ const Placeholder = styled.em`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.lightGray3};
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const NextBtn = styled.div<{
   buttonActivate: boolean;
@@ -272,10 +277,13 @@ const NextBtn = styled.div<{
   letter-spacing: -0.02em;
   margin-top: 30pt;
   cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const PrevBtn = styled.div`
@@ -290,8 +298,11 @@ const PrevBtn = styled.div`
   margin-top: 30pt;
   background-color: ${colors.gray};
   cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const TwoBtn = styled.div`
@@ -300,7 +311,9 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
+  gap: 8.7pt;
   @media (max-width: 899pt) {
     position: fixed;
+    gap: 0;
   }
 `;
