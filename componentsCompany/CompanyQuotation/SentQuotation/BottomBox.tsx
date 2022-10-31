@@ -68,8 +68,8 @@ const BottomBox = ({ pb, data }: Props) => {
           </span>
         </Item>
 
-        {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.length !==
-        0 ? (
+        {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.length ===
+        1 ? (
           <>
             <Item>
               <span className="name">충전요금</span>
@@ -122,18 +122,26 @@ const BottomBox = ({ pb, data }: Props) => {
         <FlexWrap>
           <Label>구독 상품</Label>
           <FeaturesList>
-            <li>QR인증, RFID 인증을 이용한 편리한 결제 시스템</li>
-            <li>앱을 통한 충전기 사용현황 확인 및 사용 예약</li>
-            <li>24시간 콜센터 운영</li>
+            <li>
+              {data?.sendQuotationRequest.preQuotation.subscribeProductFeature}
+            </li>
           </FeaturesList>
         </FlexWrap>
-        <FlexWrap>
-          <Label>7 kW 충전기 (공용)</Label>
-          <FeaturesList>
-            <li>LS ELECTRIC 충전기</li>
-            <li>수려한 디자인</li>
-          </FeaturesList>
-        </FlexWrap>
+        {data?.sendQuotationRequest.preQuotation.preQuotationCharger.map(
+          (item, index) => (
+            <FlexWrap key={item.preQuotationChargerIdx}>
+              <Label>
+                {
+                  data?.sendQuotationRequest.quotationRequest
+                    .quotationRequestChargers[index].kind
+                }
+              </Label>
+              <FeaturesList>
+                <li>{item.manufacturer}</li>
+              </FeaturesList>
+            </FlexWrap>
+          ),
+        )}
       </Section>
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
