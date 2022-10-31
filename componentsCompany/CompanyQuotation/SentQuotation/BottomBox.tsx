@@ -9,6 +9,7 @@ import { css } from '@emotion/react';
 import { useCallback } from 'react';
 import { SentRequestResponse } from './SentProvisionalQuoatation';
 import { PriceBasicCalculation } from 'utils/calculatePackage';
+import Link from 'next/link';
 
 type Props = {
   pb?: number;
@@ -39,9 +40,10 @@ const BottomBox = ({ pb, data }: Props) => {
         <Image
           src={
             data?.sendQuotationRequest.companyMemberAdditionalInfo
-              .companyLogoImageUrl
+              .companyLogoImageUrl || '#'
           }
           alt="logo-img"
+          layout="fill"
           priority={true}
           unoptimized={true}
         />
@@ -193,14 +195,15 @@ const BottomBox = ({ pb, data }: Props) => {
           (item, index) => (
             <React.Fragment key={item.preQuotationChargerIdx}>
               {item.catalogFiles.map((file, index) => (
-                <FileDownload
-                  href={file.url}
-                  download={file.originalName}
-                  onClick={DownloadFile}
-                  key={file.chargerProductFileIdx}
-                >
-                  <Image src={fileImg} alt="file-icon" />
-                  {file.originalName}
+                <FileDownload key={file.chargerProductFileIdx}>
+                  <Link
+                    onClick={DownloadFile}
+                    download={file.originalName}
+                    href={file.url}
+                  >
+                    <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                    {file.originalName}
+                  </Link>
                 </FileDownload>
               ))}
             </React.Fragment>
@@ -384,25 +387,16 @@ const GridItem = styled.span`
   height: 144pt;
   flex-shrink: 0;
 `;
-const FileDownload = styled.a`
+const FileDownload = styled(Button)`
   display: flex;
+  align-items: center;
   gap: 3pt;
-  margin-top: 15pt;
-  margin-left: 15pt;
+  margin: 15pt 15pt 6pt 15pt;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   color: ${colors.gray2};
   border-radius: 8px;
   text-decoration: none;
-  outline: none;
-`;
-const Contents = styled.p`
-  font-weight: 500;
-  font-size: 10.5pt;
-  line-height: 18pt;
-  letter-spacing: -0.02em;
-  padding-top: 15pt;
-  color: ${colors.main2};
 `;
 
 export default BottomBox;
