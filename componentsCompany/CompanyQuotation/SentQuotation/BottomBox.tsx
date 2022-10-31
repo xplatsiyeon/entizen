@@ -196,14 +196,14 @@ const BottomBox = ({ pb, data }: Props) => {
             <React.Fragment key={item.preQuotationChargerIdx}>
               {item.catalogFiles.map((file, index) => (
                 <FileDownload key={file.chargerProductFileIdx}>
-                  <Link
+                  <a
                     onClick={DownloadFile}
                     download={file.originalName}
                     href={file.url}
                   >
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                     {file.originalName}
-                  </Link>
+                  </a>
                 </FileDownload>
               ))}
             </React.Fragment>
