@@ -67,7 +67,7 @@ const BottomBox = ({ pb, data }: Props) => {
             {`${data?.sendQuotationRequest?.preQuotation?.constructionPeriod} 일`}
           </span>
         </Item>
-
+        {/* ---------------- 충전 요금 ----------------- */}
         {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.length ===
         1 ? (
           <>
@@ -88,33 +88,42 @@ const BottomBox = ({ pb, data }: Props) => {
             </Item>
           </>
         ) : (
-          data?.sendQuotationRequest?.preQuotation.preQuotationCharger.map(
-            (item, index) => (
-              // 수정 필요
-              <>
-                <Subtitle>충전요금</Subtitle>
-                <Item key={item.preQuotationChargerIdx}>
-                  <span className="name">
-                    {
-                      data?.sendQuotationRequest.quotationRequest
-                        .quotationRequestChargers[index].kind
-                    }
-                  </span>
-                  <span className="value">{`${item.chargePrice} 원 / kW`}</span>
-                </Item>
-                <Subtitle>충전기 제조사</Subtitle>
-                <Item>
-                  <span className="name">
-                    {
-                      data?.sendQuotationRequest?.quotationRequest
-                        .quotationRequestChargers[index].kind
-                    }
-                  </span>
-                  <span className="value">{item.manufacturer}</span>
-                </Item>
-              </>
-            ),
-          )
+          <>
+            <Section>
+              <Subtitle>충전요금</Subtitle>
+              {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.map(
+                (item, index) => (
+                  <>
+                    <Item key={item.preQuotationChargerIdx}>
+                      <span className="name">
+                        {
+                          data?.sendQuotationRequest.quotationRequest
+                            .quotationRequestChargers[index].kind
+                        }
+                      </span>
+                      <span className="value">{`${item.chargePrice} 원 / kW`}</span>
+                    </Item>
+                  </>
+                ),
+              )}
+            </Section>
+            <Section>
+              <Subtitle>충전기 제조사</Subtitle>
+              {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.map(
+                (item, index) => (
+                  <Item key={item.preQuotationChargerIdx}>
+                    <span className="name">
+                      {
+                        data?.sendQuotationRequest?.quotationRequest
+                          .quotationRequestChargers[index].kind
+                      }
+                    </span>
+                    <span className="value">{item.manufacturer}</span>
+                  </Item>
+                ),
+              )}
+            </Section>
+          </>
         )}
       </List>
       <Section>
