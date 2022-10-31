@@ -1,12 +1,40 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import colors from 'styles/colors';
+import fileImg from 'public/mypage/file-icon.svg';
+import { Button } from '@mui/material';
+import RatingBar from 'components/mypage/as/RatingBar';
+import { Rating } from 'components/mypage/as/AsRequestWriteReview';
 
 type Props = {};
 
 const FinishedBottomBox = (props: Props) => {
+  const [ratingScore, setRatingScore] = useState<Rating>({
+    kind: 0,
+    speed: 0,
+    pro: 0,
+    satisfy: 0,
+  });
+  const DownloadFile = useCallback(() => {
+    let fileName = 'Charge Point 카탈로그_7 KW';
+    let content = 'Charge Point 카탈로그_7 KW 테스트';
+    const blob = new Blob([content], {
+      type: 'text/plain',
+    });
+    const url = window.URL.createObjectURL(blob);
+    const element = document.createElement('a');
+    element.href = url;
+    element.download = fileName;
+    document.body.appendChild(element);
+    element.click();
+    element.remove();
+    window.URL.revokeObjectURL(url);
+  }, []);
+  const HandleModal = () => {
+    // setModalOpen(false);
+  };
   return (
     <>
       <Wrapper>
@@ -25,7 +53,45 @@ const FinishedBottomBox = (props: Props) => {
           </div>
         </Contents>
         <BiggerText className="catalog">첨부 파일</BiggerText>
-        <FileBox></FileBox>
+        <FileBox>
+          <FileBtn onClick={DownloadFile}>
+            <Image src={fileImg} alt="file-icon" />
+            충전건 1.jpg
+          </FileBtn>
+          <FileBtn onClick={DownloadFile}>
+            <Image src={fileImg} alt="file-icon" />
+            Charge Point 카탈로그_7 kW
+          </FileBtn>
+        </FileBox>
+        <BiggerText className="review">고객 리뷰</BiggerText>
+        <RatingForm>
+          <RatingBar
+            text={'친절함'}
+            ratingScore={ratingScore}
+            setRatingScore={setRatingScore}
+          />
+          <RatingBar
+            text={'신속함'}
+            ratingScore={ratingScore}
+            setRatingScore={setRatingScore}
+          />
+          <RatingBar
+            text={'전문성'}
+            ratingScore={ratingScore}
+            setRatingScore={setRatingScore}
+          />
+          <RatingBar
+            text={'만족도'}
+            ratingScore={ratingScore}
+            setRatingScore={setRatingScore}
+          />
+          <TextArea
+            placeholder="[선택] 파트너의 어떤점이 기억에 남으시나요?"
+            rows={8}
+            value={'dkdkdkdk'}
+            required
+          />
+        </RatingForm>
       </Wrapper>
       <BtnBox></BtnBox>
     </>
@@ -39,6 +105,11 @@ const Wrapper = styled.div`
   .catalog {
     margin-top: 18pt;
     margin-bottom: 15pt;
+  }
+  .review {
+    border-top: 1px solid #e9eaee;
+    margin-top: 6pt;
+    padding-top: 18pt;
   }
 `;
 const ImageBox = styled.div`
@@ -134,6 +205,46 @@ const Contents = styled.div`
   }
 `;
 
-const FileBox = styled.div``;
+const FileBtn = styled.button`
+  text-align: left;
+  margin-bottom: 6pt;
+  display: flex;
+  box-sizing: content-box;
+  gap: 3pt;
+  background-color: #ffffff;
+  padding: 7.5pt 6pt;
+  border: 0.75pt solid ${colors.lightGray3};
+  color: ${colors.gray2};
+  border-radius: 6pt;
+`;
+
+const FileBox = styled.div`
+  padding-bottom: 12pt;
+`;
+
+const RatingForm = styled.div`
+  margin-top: 20.25pt;
+  display: flex;
+  flex-direction: column;
+  gap: 6pt;
+`;
+
+const TextArea = styled.textarea`
+  resize: none;
+  border: 1px solid #e2e5ed;
+  padding: 12pt;
+  margin-top: 18pt;
+  margin-bottom: 36pt;
+  border-radius: 6pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12pt;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  &::placeholder {
+    color: #caccd1;
+  }
+`;
 
 export default FinishedBottomBox;
