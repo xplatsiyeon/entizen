@@ -10,10 +10,16 @@ import BottomNavigation from 'components/BottomNavigation';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 
+interface UserInfo {
+  isSuccess: boolean;
+  id: string;
+  name: string;
+  phone: string;
+}
 interface Components {
   [key: number]: JSX.Element;
 }
-
+const TAG = 'page/mypage/index.tsx';
 const Request = () => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
@@ -27,9 +33,16 @@ const Request = () => {
     data: userData,
     isError: userError,
     isLoading: userLoading,
-  } = useQuery('user-mypage', () => isTokenGetApi('/members/info'));
+  } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
 
+  console.log(TAG + '🔥 ~line 38 ~ 유저 정보 확인');
   console.log(userData);
+  if (userLoading) {
+    console.log('유저 정보 받아오는 중');
+  }
+  if (userError) {
+    console.log('유저 정보 에러');
+  }
   return (
     <Wrapper>
       <Header>
