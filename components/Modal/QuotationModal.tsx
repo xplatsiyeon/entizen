@@ -90,9 +90,12 @@ const ModalBox = styled(Box)`
   display: flex;
   flex-direction: column;
   position: fixed;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%); 
   justify-content: center;
   align-items: center;
-  border-radius: 20pt 20pt 0 0;
+  border-radius: 20pt;
   padding-left: 15pt;
   padding-right: 15pt;
   background-color: ${colors.lightWhite};
