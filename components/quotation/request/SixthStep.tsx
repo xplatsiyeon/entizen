@@ -196,19 +196,20 @@ const Wrraper = styled.div`
   }
 `;
 const Title = styled.h1`
-  padding-top: 24pt;
+  padding-top: 38pt;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const Intersection = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 11.25pt;
-  padding-top: 30pt;
+  padding-top: 45pt;
 `;
 const GridItem = styled.div<{ index: string; clicked: string }>`
   border-radius: 8px;
@@ -221,6 +222,7 @@ const GridItem = styled.div<{ index: string; clicked: string }>`
   border: 0.75pt;
   border-style: solid;
   cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
   border-color: ${({ index, clicked }) =>
     index === clicked ? `${colors.main}` : `${colors.lightGray2}`};
   color: ${({ index, clicked }) =>
@@ -242,8 +244,11 @@ const NextBtn = styled.div<{
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
   cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const PrevBtn = styled.div`
@@ -258,8 +263,11 @@ const PrevBtn = styled.div`
   margin-top: 30pt;
   background-color: ${colors.gray};
   cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const TwoBtn = styled.div`
@@ -268,7 +276,9 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
+  gap: 8.7pt;
   @media (max-width: 899pt) {
     position: fixed;
+    gap: 0;
   }
 `;

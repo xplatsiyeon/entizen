@@ -198,8 +198,8 @@ const PersentBadge = styled.span<{
   client: string;
 }>`
   position: absolute;
-  left: ${({ persent }) => `calc(${persent}% - 15pt)`};
-  bottom: -7.5pt; // 웹 화면에서 뱃지 간격
+  left: ${({ persent }) => `calc(${persent}% - 13.5pt)`};
+  bottom: -11.5pt; // 웹 화면에서 뱃지 간격
   color: ${colors.lightWhite};
   background-color: ${({ client }) =>
     client === 'true' ? colors.main : colors.gray};
@@ -208,6 +208,7 @@ const PersentBadge = styled.span<{
   font-size: 9pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   &:after {
     content: '';
     position: absolute;
@@ -247,6 +248,7 @@ const BubbleMessage = styled.span`
   border-radius: 6pt;
   font-weight: 500;
   font-size: 9pt;
+  font-family: 'Spoqa Han Sans Neo';
   line-height: 9pt;
   letter-spacing: -0.02em;
   margin-bottom: 19.5pt;

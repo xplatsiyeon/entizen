@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       {memberType === 'COMPANY' ? (
         <CompanyMainPage />
       ) : (
-        <>
+        <>{/* 브라우저 너비에 따라 웹 메인 페이지, 모바일 메인페이지로 갈린다. */}
           <WebWrap>
             <Main />
           </WebWrap>

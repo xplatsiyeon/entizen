@@ -197,21 +197,23 @@ const Wrraper = styled.div`
   }
 `;
 const Title = styled.h1`
-  padding-top: 24pt;
+  padding-top: 38pt;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
 `;
 const SubTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: 'Spoqa Han Sans Neo';
   padding-top: 45pt;
   font-weight: 700;
-  font-size: 10.5pt;
+  font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
@@ -222,12 +224,14 @@ const TypeBox = styled.div`
   align-items: center;
   gap: 11.25pt;
   padding-top: 9pt;
+  box-sizing: border-box;
 `;
 const Tab = styled.span<{ idx: string; subscribeNumber: string }>`
   font-weight: 400;
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.lightGray2};
   width: 100%;
   border: 0.75pt solid ${colors.gray};
@@ -244,9 +248,10 @@ const Tab = styled.span<{ idx: string; subscribeNumber: string }>`
 
 const Notice = styled.p<{ pt: number }>`
   font-weight: 400;
-  font-size: 9pt;
-  line-height: 12pt;
+  font-size: 10.5pt;
+  line-height: 15pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.gray2};
   padding-top: ${({ pt }) => pt + 'pt'};
 `;
@@ -261,22 +266,27 @@ const SubTitleBox = styled.div<{ disabled: boolean }>`
   }
 `;
 const ChargeGuide = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3pt;
-  color: ${colors.gray2};
-  margin-top: 75pt;
-  .text {
-    letter-spacing: -0.02em;
-    border-bottom: 1px solid ${colors.gray2};
-    cursor: pointer;
-  }
-  .arrow-icon {
-    position: relative;
-    width: 12pt;
-    height: 12pt;
-  }
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 3pt;
+color: ${colors.gray2};
+margin-top: 75pt;
+margin-left: 30pt;
+.text {
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid ${colors.gray2};
+  font-family: 'Spoqa Han Sans Neo';
+  cursor: pointer;
+}
+.arrow-icon {
+  position: relative;
+  width: 12pt;
+  height: 12pt;
+}
+ @media (max-width: 899pt) {
+margin-left: 0;
+}
 `;
 const NextBtn = styled.div<{
   buttonActivate: boolean;
@@ -289,12 +299,15 @@ const NextBtn = styled.div<{
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   margin-top: 30pt;
+  border-radius: 6pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
   cursor: pointer;
   @media (max-width: 899pt) {
+    border-radius: 0;
     padding: 15pt 0 39pt 0;
   }
 `;
@@ -306,11 +319,14 @@ const PrevBtn = styled.div`
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   margin-top: 30pt;
   background-color: ${colors.gray};
+  border-radius: 6pt;
   cursor: pointer;
   @media (max-width: 899pt) {
+    border-radius: 0;
     padding: 15pt 0 39pt 0;
   }
 `;
@@ -320,7 +336,9 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
+  gap:8.7pt;
   @media (max-width: 899pt) {
     position: fixed;
+    gap: 0;
   }
 `;

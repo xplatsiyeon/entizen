@@ -88,11 +88,10 @@ export default WebFooter;
 
 const Wrapper = styled.footer`
   width: 100%;
-  height: 187.5pt;
+  //height: 187.5pt;
   border-top: 1px solid #e9eaee;
   /* margin-top: 45.75pt; */
   padding-top: 48.75pt;
-  padding-bottom: 48pt;
   background: #ffff;
 
   @media (max-width: 899pt) {
@@ -123,7 +122,7 @@ const List = styled.ul`
     font-weight: bold;
     font-size: 13.5pt;
     line-height: 15pt;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     color: #a6a9b0;
     text-decoration: none;
   }
@@ -134,17 +133,18 @@ const Address = styled.address`
   font-size: 12pt;
   line-height: 18.5pt;
   margin-top: 39.75pt;
-  font-family: Spoqa Han Sans Neo;
+  margin-bottom: 48pt;
+  font-family: 'Spoqa Han Sans Neo';
   color: #a6a9b0;
 `;
 const CallNumber = styled.div`
-  margin: 10pt 0 18pt;
+  margin: 8pt 0 18pt;
   p {
     &:nth-of-type(1) {
       font-weight: bold;
       font-size: 12pt;
       line-height: 12pt;
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       color: ${colors.main};
       margin-bottom: 9pt;
     }
@@ -152,7 +152,7 @@ const CallNumber = styled.div`
       font-weight: bold;
       font-size: 22.5pt;
       line-height: 22.5pt;
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       color: ${colors.main};
     }
   }
@@ -165,14 +165,14 @@ const Time = styled.div`
       font-weight: normal;
       font-size: 13.5pt;
       line-height: 18pt;
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       color: #a6a9b0;
     }
     &:nth-of-type(2) {
       font-weight: normal;
       font-size: 10.5pt;
       line-height: 18pt;
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       color: #a6a9b0;
     }
   }
@@ -192,7 +192,7 @@ const Button = styled.button`
   line-height: 12pt;
   display: flex;
   align-items: center;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.white};
   /* margin-right: 9pt; */
   /* & span:first-of-type {
