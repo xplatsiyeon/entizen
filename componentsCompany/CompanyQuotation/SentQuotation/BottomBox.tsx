@@ -40,7 +40,7 @@ const BottomBox = ({ pb, data }: Props) => {
         <Image
           src={
             data?.sendQuotationRequest.companyMemberAdditionalInfo
-              .companyLogoImageUrl || '#'
+              .companyLogoImageUrl
           }
           alt="logo-img"
           layout="fill"
