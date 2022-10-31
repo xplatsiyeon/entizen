@@ -93,8 +93,8 @@ const BottomBox = ({ pb, data }: Props) => {
               <Subtitle>충전요금</Subtitle>
               {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.map(
                 (item, index) => (
-                  <>
-                    <Item key={item.preQuotationChargerIdx}>
+                  <MultListBox key={item.preQuotationChargerIdx}>
+                    <Item>
                       <span className="name">
                         {
                           data?.sendQuotationRequest.quotationRequest
@@ -103,7 +103,7 @@ const BottomBox = ({ pb, data }: Props) => {
                       </span>
                       <span className="value">{`${item.chargePrice} 원 / kW`}</span>
                     </Item>
-                  </>
+                  </MultListBox>
                 ),
               )}
             </Section>
@@ -111,15 +111,17 @@ const BottomBox = ({ pb, data }: Props) => {
               <Subtitle>충전기 제조사</Subtitle>
               {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.map(
                 (item, index) => (
-                  <Item key={item.preQuotationChargerIdx}>
-                    <span className="name">
-                      {
-                        data?.sendQuotationRequest?.quotationRequest
-                          .quotationRequestChargers[index].kind
-                      }
-                    </span>
-                    <span className="value">{item.manufacturer}</span>
-                  </Item>
+                  <MultListBox key={item.preQuotationChargerIdx}>
+                    <Item>
+                      <span className="name">
+                        {
+                          data?.sendQuotationRequest?.quotationRequest
+                            .quotationRequestChargers[index].kind
+                        }
+                      </span>
+                      <span className="value">{item.manufacturer}</span>
+                    </Item>
+                  </MultListBox>
                 ),
               )}
             </Section>
@@ -234,8 +236,12 @@ const List = styled.ul`
   gap: 12pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
   @media (max-width: 899pt) {
-    padding: 30pt 15pt 18pt 15pt;
+    padding-top: 30pt;
+    padding-bottom: 18pt;
   }
+`;
+const MultListBox = styled.div`
+  padding-top: 3pt;
 `;
 const Item = styled.li`
   display: flex;
@@ -261,6 +267,8 @@ const Item = styled.li`
   }
   @media (max-width: 899pt) {
     justify-content: space-between;
+    padding-left: 15pt;
+    padding-right: 15pt;
     .name {
       flex: none;
     }
