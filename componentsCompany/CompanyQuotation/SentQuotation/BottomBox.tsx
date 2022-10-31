@@ -53,13 +53,18 @@ const BottomBox = ({ pb, data }: Props) => {
         </Item>
         <Item>
           {/* --- 수익지분 보류 --- */}
-          {/* <span className="name">수익지분</span>
-          <span className="value">70 %</span> */}
+          <span className="name">수익지분</span>
+          <span className="value">
+            {`${
+              Number(data?.sendQuotationRequest.quotationRequest.investRate) *
+              100
+            } %`}
+          </span>
         </Item>
         <Item>
           <span className="name">공사기간</span>
           <span className="value">
-            ${data?.sendQuotationRequest?.preQuotation?.constructionPeriod} 일
+            {`${data?.sendQuotationRequest?.preQuotation?.constructionPeriod} 일`}
           </span>
         </Item>
 
@@ -69,11 +74,7 @@ const BottomBox = ({ pb, data }: Props) => {
             <Item>
               <span className="name">충전요금</span>
               <span className="value">
-                {
-                  data?.sendQuotationRequest?.preQuotation
-                    .preQuotationCharger[0].chargePrice
-                }
-                원 / kW
+                {`${data?.sendQuotationRequest?.preQuotation.preQuotationCharger[0].chargePrice} 원 / kW`}
               </span>
             </Item>
             <Item>
@@ -91,13 +92,25 @@ const BottomBox = ({ pb, data }: Props) => {
             (item, index) => (
               // 수정 필요
               <>
+                <Subtitle>충전요금</Subtitle>
                 <Item key={item.preQuotationChargerIdx}>
-                  <span className="name">충전요금</span>
-                  <span className="value">{item.chargePrice}원 / kW</span>
+                  <span className="name">
+                    {
+                      data?.sendQuotationRequest.quotationRequest
+                        .quotationRequestChargers[index].kind
+                    }
+                  </span>
+                  <span className="value">{`${item.chargePrice} 원 / kW`}</span>
                 </Item>
+                <Subtitle>충전기 제조사</Subtitle>
                 <Item>
-                  <span className="name">충전기 제조사</span>
-                  <span className="value">LS ELECTRIC</span>
+                  <span className="name">
+                    {
+                      data?.sendQuotationRequest?.quotationRequest
+                        .quotationRequestChargers[index].kind
+                    }
+                  </span>
+                  <span className="value">{item.manufacturer}</span>
                 </Item>
               </>
             ),
@@ -229,7 +242,6 @@ const Item = styled.li`
     color: ${colors.main2};
     flex: 2;
   }
-
   @media (max-width: 899pt) {
     justify-content: space-between;
     .name {
