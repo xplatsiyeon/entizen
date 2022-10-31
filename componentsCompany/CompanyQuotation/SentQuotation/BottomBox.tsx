@@ -8,10 +8,7 @@ import tempCar from 'public/images/temp-car.jpg';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
-import {
-  SentRequestResponse,
-  PreQuotationCharger,
-} from './SentProvisionalQuoatation';
+import { SentRequestResponse } from './SentProvisionalQuoatation';
 import { PriceCalculation } from 'utils/calculatePackage';
 
 type Props = {
@@ -20,7 +17,6 @@ type Props = {
 };
 
 const BottomBox = ({ pb, data }: Props) => {
-  const { sendQuotationRequest } = data;
   // 파일 다운로드 함수
   const DownloadFile = useCallback(() => {
     let fileName = 'Charge Point 카탈로그_7 KW';
@@ -38,6 +34,7 @@ const BottomBox = ({ pb, data }: Props) => {
     window.URL.revokeObjectURL(url);
   }, []);
 
+  // const { sendQuotationRequest } = data;
   return (
     <Wrapper>
       <ImageBox>
@@ -49,7 +46,7 @@ const BottomBox = ({ pb, data }: Props) => {
           <span className="name">월 구독료</span>
           <span className="value">
             {PriceCalculation(
-              sendQuotationRequest?.preQuotation?.subscribePricePerMonth,
+              data?.sendQuotationRequest?.preQuotation?.subscribePricePerMonth,
             )}
             원
           </span>
@@ -62,18 +59,19 @@ const BottomBox = ({ pb, data }: Props) => {
         <Item>
           <span className="name">공사기간</span>
           <span className="value">
-            ${sendQuotationRequest?.preQuotation?.constructionPeriod} 일
+            ${data?.sendQuotationRequest?.preQuotation?.constructionPeriod} 일
           </span>
         </Item>
 
-        {sendQuotationRequest?.preQuotation.preQuotationCharger.length !== 0 ? (
+        {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.length !==
+        0 ? (
           <>
             <Item>
               <span className="name">충전요금</span>
               <span className="value">
                 {
-                  sendQuotationRequest?.preQuotation.preQuotationCharger[0]
-                    .chargePrice
+                  data?.sendQuotationRequest?.preQuotation
+                    .preQuotationCharger[0].chargePrice
                 }
                 원 / kW
               </span>
@@ -82,14 +80,14 @@ const BottomBox = ({ pb, data }: Props) => {
               <span className="name">충전기 제조사</span>
               <span className="value">
                 {
-                  sendQuotationRequest?.preQuotation.preQuotationCharger[0]
-                    .manufacturer
+                  data?.sendQuotationRequest?.preQuotation
+                    .preQuotationCharger[0].manufacturer
                 }
               </span>
             </Item>
           </>
         ) : (
-          sendQuotationRequest?.preQuotation.preQuotationCharger.map(
+          data?.sendQuotationRequest?.preQuotation.preQuotationCharger.map(
             (item, index) => (
               // 수정 필요
               <>
