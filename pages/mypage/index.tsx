@@ -10,10 +10,16 @@ import BottomNavigation from 'components/BottomNavigation';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 
+interface UserInfo {
+  isSuccess: boolean;
+  id: string;
+  name: string;
+  phone: string;
+}
 interface Components {
   [key: number]: JSX.Element;
 }
-
+const TAG = 'page/mypage/index.tsx';
 const Request = () => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
@@ -27,8 +33,16 @@ const Request = () => {
     data: userData,
     isError: userError,
     isLoading: userLoading,
-  } = useQuery('user-mypage', () => isTokenGetApi('/members/info'));
+  } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
 
+  console.log(TAG + '🔥 ~line 38 ~ 유저 정보 확인');
+  console.log(userData);
+  if (userLoading) {
+    console.log('유저 정보 받아오는 중');
+  }
+  if (userError) {
+    console.log('유저 정보 에러');
+  }
   return (
     <Wrapper>
       <Header>
@@ -103,6 +117,7 @@ const Header = styled.header`
     width: 22.5pt;
     height: 22.5pt;
     text-align: end;
+    cursor: pointer;
   }
 `;
 const Body = styled.div`
@@ -117,6 +132,7 @@ const Body = styled.div`
     border: 0.75pt solid ${colors.main};
     border-radius: 12pt;
     padding: 6pt 9pt;
+    cursor: pointer;
   }
 `;
 const Line = styled.div`
@@ -135,6 +151,7 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
+  cursor: pointer;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
 `;

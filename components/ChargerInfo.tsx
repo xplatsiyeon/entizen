@@ -6,12 +6,14 @@ import colors from 'styles/colors';
 import whiteArrow from 'public/images/whiteArrow16.png';
 import { useRouter } from 'next/router';
 import { SlowFast } from 'pages/chargerMap';
+import { Rnd } from 'react-rnd';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   checkHeight: number;
-  scrollHeight: number;
-  changeHeight: boolean;
-  setChangeHeight: Dispatch<SetStateAction<boolean>>;
+  // scrollHeight: number;
+  // changeHeight: boolean;
+  // setChangeHeight: Dispatch<SetStateAction<boolean>>;
   selectedCharger: number;
   setSelectedCharger: Dispatch<SetStateAction<number>>;
   slowCharger: SlowFast[];
@@ -20,9 +22,9 @@ type Props = {
 
 const ChargerInfo = ({
   checkHeight,
-  scrollHeight,
-  changeHeight,
-  setChangeHeight,
+  // scrollHeight,
+  // changeHeight,
+  // setChangeHeight,
   selectedCharger,
   setSelectedCharger,
   slowCharger,
@@ -30,124 +32,105 @@ const ChargerInfo = ({
 }: Props) => {
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const router = useRouter();
-  const scrollRef = useRef<any>(null);
-  // const [isDrag, setIsDrag] = useState(false);
-  // const [startY, setStartY] = useState(180);
 
-  // const onDragStart = (e: React.TouchEvent<HTMLDivElement>) => {
-  //   console.log('시작');
-  //   console.log(e.changedTouches[0].clientY);
-  //   setIsDrag(true);
-  // };
-
-  // const onDragEnd = () => {
-  //   console.log('끝');
-  //   setIsDrag(false);
-  // };
-
-  // const onDragMove = (e: React.TouchEvent<HTMLDivElement>) => {
-  //   e.bubbles;
-  //   if (isDrag) {
-  //     const resizeHeight = window.innerHeight - e.changedTouches[0].clientY;
-  //     const viewSize = e.changedTouches[0].clientY;
-  //     if (viewSize > 180 && viewSize < 800) {
-  //       setStartY(resizeHeight);
-  //     }
-  //   }
-  // };
-
+  const mobile = useMediaQuery({
+    query: '(min-width:810pt)',
+  });
   return (
     <>
-      <InfoBox clicked={changeHeight} checkHeight={checkHeight?.toString()}>
-        {/* <InfoBox
-        clicked={changeHeight}
-        checkHeight={startY?.toString()}
-        // onMouseDown={onDragStart}
-        // onMouseMove={onDragMove}
-        // onMouseUp={onDragEnd}
-        // onMouseLeave={onDragEnd}
-        onTouchStart={onDragStart}
-        onTouchMove={onDragMove}
-        onTouchEnd={onDragEnd}
-        ref={scrollRef}
-      > */}
-        <GoUp onClick={() => setChangeHeight(!changeHeight)}></GoUp>
-        {/* <GoUp onClick={() => setChangeHeight(!startY)}></GoUp> */}
-        <Body>
-          <SelectChargerBox className="forScroll">
-            <ChargerList>
-              {clickType.map((el, index) => (
-                <Charger
-                  key={index}
-                  onClick={() => setSelectedCharger(() => index)}
-                  style={{
-                    color: selectedCharger === index ? '#595757' : '#A6A9B0',
-                    backgroundColor:
-                      selectedCharger === index ? '#ffffff' : '#F3F4F7',
-                    boxShadow:
-                      selectedCharger === index
-                        ? '0px 0px 6pt rgba(137, 163, 201, 0.2)'
-                        : 'none',
+      <InfoBox checkHeight={checkHeight?.toString()}>
+        <RndWraper
+          isMobile={mobile}
+          default={{
+            x: 0,
+            y: 0,
+            width: '100%',
+            height: '100%',
+          }}
+          disableDragging={true}
+          maxHeight={window.innerHeight - 130}
+          minHeight={checkHeight.toString()}
+          allowAnyClick={true}
+        >
+          <GoUpBox>
+            <GoUp />
+          </GoUpBox>
+          <Body>
+            <SelectChargerBox className="forScroll">
+              <ChargerList>
+                {clickType.map((el, index) => (
+                  <Charger
+                    key={index}
+                    onClick={() => setSelectedCharger(() => index)}
+                    style={{
+                      color: selectedCharger === index ? '#595757' : '#A6A9B0',
+                      backgroundColor:
+                        selectedCharger === index ? '#ffffff' : '#F3F4F7',
+                      boxShadow:
+                        selectedCharger === index
+                          ? '0px 0px 6pt rgba(137, 163, 201, 0.2)'
+                          : 'none',
+                    }}
+                  >
+                    {el}
+                  </Charger>
+                ))}
+              </ChargerList>
+            </SelectChargerBox>
+            <ScrollBox scrollHeight={checkHeight.toString()}>
+              <ChargerTypeNCountBox>
+                <ChargerTypeNCount>
+                  {selectedCharger == 0
+                    ? '완속 충전기 7kW / 1대'
+                    : '급속 충전기 100kW / 1대'}
+                </ChargerTypeNCount>
+                <ChargerNotice>
+                  * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
+                  사용해주시기 바랍니다.
+                </ChargerNotice>
+              </ChargerTypeNCountBox>
+              <PredictBoxWrapper>
+                {selectedCharger == 0 &&
+                  slowCharger.map((el, index) => (
+                    <PredictBox key={index}>
+                      <div>{el.year}</div>
+                      <div>충전량 (월)</div>
+                      <div>{el.chargeQuantity.toLocaleString()}kW</div>
+                      <div>매출 (월)</div>
+                      <div>{el.sales.toLocaleString()} 원</div>
+                    </PredictBox>
+                  ))}
+                {selectedCharger == 1 &&
+                  fastCharger.map((el, index) => (
+                    <PredictBox key={index}>
+                      <div>{el.year}</div>
+                      <div>충전량 (월)</div>
+                      <div>{el.chargeQuantity.toLocaleString()} kW</div>
+                      <div>매출 (월)</div>
+                      <div>{el.sales.toLocaleString()} 원</div>
+                    </PredictBox>
+                  ))}
+              </PredictBoxWrapper>
+              <DidHelp>도움이 되셨나요?</DidHelp>
+              <Guide>
+                간편견적 확인하고, 상품 비교뷰터 충전 사업까지
+                <br />A to Z 서비스를 받아보세요!
+              </Guide>
+              <QuotationBtn>
+                <span
+                  onClick={() => {
+                    router.push('/quotation/request');
                   }}
                 >
-                  {el}
-                </Charger>
-              ))}
-            </ChargerList>
-          </SelectChargerBox>
-          <ScrollBox scrollHeight={checkHeight.toString()}>
-            <ChargerTypeNCountBox>
-              <ChargerTypeNCount>
-                {selectedCharger == 0
-                  ? '완속 충전기 7kW / 1대'
-                  : '급속 충전기 100kW / 1대'}
-              </ChargerTypeNCount>
-              <ChargerNotice>
-                * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로 사용해주시기
-                바랍니다.
-              </ChargerNotice>
-            </ChargerTypeNCountBox>
-            <PredictBoxWrapper>
-              {selectedCharger == 0 &&
-                slowCharger.map((el, index) => (
-                  <PredictBox key={index}>
-                    <div>{el.year}</div>
-                    <div>충전량 (월)</div>
-                    <div>{el.chargeQuantity.toLocaleString()}kW</div>
-                    <div>매출 (월)</div>
-                    <div>{el.sales.toLocaleString()} 원</div>
-                  </PredictBox>
-                ))}
-              {selectedCharger == 1 &&
-                fastCharger.map((el, index) => (
-                  <PredictBox key={index}>
-                    <div>{el.year}</div>
-                    <div>충전량 (월)</div>
-                    <div>{el.chargeQuantity.toLocaleString()} kW</div>
-                    <div>매출 (월)</div>
-                    <div>{el.sales.toLocaleString()} 원</div>
-                  </PredictBox>
-                ))}
-            </PredictBoxWrapper>
-            <DidHelp>도움이 되셨나요?</DidHelp>
-            <Guide>
-              간편견적 확인하고, 상품 비교뷰터 충전 사업까지
-              <br />A to Z 서비스를 받아보세요!
-            </Guide>
-            <QuotationBtn>
-              <span
-                onClick={() => {
-                  router.push('/quotation/request');
-                }}
-              >
-                간편견적 확인하기
-              </span>
-              <span>
-                <Image src={whiteArrow} alt="arrow" />
-              </span>
-            </QuotationBtn>
-          </ScrollBox>
-        </Body>
+                  간편견적 확인하기
+                </span>
+                <span>
+                  <Image src={whiteArrow} alt="arrow" />
+                </span>
+              </QuotationBtn>
+            </ScrollBox>
+          </Body>
+        </RndWraper>
       </InfoBox>
     </>
   );
@@ -155,13 +138,7 @@ const ChargerInfo = ({
 
 export default ChargerInfo;
 
-const Test = styled.div`
-  width: 100%;
-  height: 200px;
-  background-color: red;
-`;
-
-const InfoBox = styled.div<{ clicked: boolean; checkHeight: string }>`
+const InfoBox = styled.div<{ checkHeight: string }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -169,16 +146,18 @@ const InfoBox = styled.div<{ clicked: boolean; checkHeight: string }>`
   z-index: 1000;
   width: 281.25pt;
   height: 100%;
-  background-color: #ffffff;
-  box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
-
   @media (max-width: 899pt) {
     position: fixed;
     bottom: 0;
     width: 100%;
     height: ${({ checkHeight }) => checkHeight + 'pt'};
-    margin-top: ${({ clicked }) => (clicked ? '12pt' : '204pt')};
   }
+`;
+
+const RndWraper = styled(Rnd)<{ isMobile: boolean }>`
+  display: ${({ isMobile }) => isMobile && 'none'};
+  background-color: #ffffff;
+  box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
 `;
 
 const Body = styled.div`
@@ -192,7 +171,12 @@ const ScrollBox = styled.div<{ scrollHeight: string }>`
   flex-direction: column;
   height: ${({ scrollHeight }) => scrollHeight + 'pt'};
 `;
-
+const GoUpBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const GoUp = styled.div`
   width: 45pt;
   border: 1.5pt solid #caccd1;
@@ -215,7 +199,6 @@ const ChargerList = styled.div`
   margin-top: 30pt;
   background: #f3f4f7;
   border-radius: 21.375pt;
-
   @media (max-width: 899pt) {
     padding: 3pt;
   }
@@ -225,10 +208,12 @@ const Charger = styled.div`
   padding: 9pt 26.25pt;
   display: flex;
   align-items: center;
+  justify-content: center;
   font-style: normal;
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;
+  width: 100%;
   letter-spacing: -0.02em;
   border-radius: 21.375pt;
   cursor: pointer;

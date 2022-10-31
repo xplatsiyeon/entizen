@@ -152,7 +152,7 @@ const WebSearchAddress = ({
         />
       ) : (
         <>
-          {isLoading && <Loader />}
+          {keyWord !== '' && isLoading && <Loader />}
           {results.map((el, index) => (
             <SearchResult
               data-jibun={el.jibunAddr}
@@ -180,6 +180,9 @@ const WebSearchAddress = ({
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  position: relative;
+  box-sizing: border-box;
+  overflow-y: scroll;
 `;
 const HeaderBox = styled.div`
   padding-left: 15pt;
@@ -188,6 +191,11 @@ const HeaderBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  background-color: ${colors.lightWhite};
   .img-box {
     position: relative;
     width: 17.51pt; //width 15pt 인데 안맞아서 약간 수정
@@ -200,6 +208,7 @@ const FindAddress = styled(TextField)`
   margin-left: 6pt;
   display: flex;
   justify-content: center;
+
   .MuiInputBase-root {
     padding-top: 12pt;
     padding-bottom: 12pt;

@@ -29,9 +29,7 @@ const SubscriptionProduct = ({ data }: Props) => {
           <GridItem
             key={index}
             onClick={() =>
-              route.push(
-                `/mypage/request/preQuotations/${company.preQuotationIdx}`,
-              )
+              route.push(`/mypage/request/${company.preQuotationIdx}`)
             }
           >
             <div className="img-box">
