@@ -9,8 +9,8 @@ import { useRouter } from 'next/router';
 import { useMediaQuery } from 'react-responsive';
 
 type Props = {
-  text?: string;
-  setText?: Dispatch<SetStateAction<string>>;
+  text: string;
+  setText: Dispatch<SetStateAction<string>>;
 };
 
 const SalesProjection = ({ text, setText }: Props) => {
@@ -22,7 +22,7 @@ const SalesProjection = ({ text, setText }: Props) => {
     router.push('/searchAddress');
   };
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setText!(e.target.value);
+    setText(e.target.value);
   };
 
   return (

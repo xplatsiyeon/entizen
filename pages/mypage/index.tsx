@@ -29,6 +29,7 @@ const Request = () => {
     isLoading: userLoading,
   } = useQuery('user-mypage', () => isTokenGetApi('/members/info'));
 
+  console.log(userData);
   return (
     <Wrapper>
       <Header>
