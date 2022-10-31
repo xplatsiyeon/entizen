@@ -66,13 +66,13 @@ const BottomBox = ({ pb, data }: Props) => {
           </span>
         </Item>
 
-        {sendQuotationRequest.preQuotation.preQuotationCharger.length !== 0 ? (
+        {sendQuotationRequest?.preQuotation.preQuotationCharger.length !== 0 ? (
           <>
             <Item>
               <span className="name">충전요금</span>
               <span className="value">
                 {
-                  sendQuotationRequest.preQuotation.preQuotationCharger[0]
+                  sendQuotationRequest?.preQuotation.preQuotationCharger[0]
                     .chargePrice
                 }
                 원 / kW
@@ -82,14 +82,14 @@ const BottomBox = ({ pb, data }: Props) => {
               <span className="name">충전기 제조사</span>
               <span className="value">
                 {
-                  sendQuotationRequest.preQuotation.preQuotationCharger[0]
+                  sendQuotationRequest?.preQuotation.preQuotationCharger[0]
                     .manufacturer
                 }
               </span>
             </Item>
           </>
         ) : (
-          sendQuotationRequest.preQuotation.preQuotationCharger.map(
+          sendQuotationRequest?.preQuotation.preQuotationCharger.map(
             (item, index) => (
               // 수정 필요
               <>
