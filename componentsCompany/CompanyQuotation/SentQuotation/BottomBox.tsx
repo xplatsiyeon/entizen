@@ -38,7 +38,7 @@ const BottomBox = ({ pb, data }: Props) => {
       <ImageBox>
         <Image
           src={
-            data.sendQuotationRequest.companyMemberAdditionalInfo
+            data?.sendQuotationRequest.companyMemberAdditionalInfo
               .companyLogoImageUrl
           }
           alt="logo-img"
@@ -47,7 +47,7 @@ const BottomBox = ({ pb, data }: Props) => {
         />
       </ImageBox>
       <Title>
-        {data.sendQuotationRequest.companyMemberAdditionalInfo.companyName}
+        {data?.sendQuotationRequest.companyMemberAdditionalInfo.companyName}
       </Title>
       <List>
         <Item>
