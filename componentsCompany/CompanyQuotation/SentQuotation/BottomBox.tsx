@@ -160,14 +160,19 @@ const BottomBox = ({ pb, data }: Props) => {
         <GridImg>
           {data?.sendQuotationRequest.preQuotation.preQuotationCharger.map(
             (item, index) => (
-              <>
-                {item.preQuotationFiles.map((img, index) => (
-                  <GridItem>
-                    {/* <Image src={tempCar} alt="img" layout="fill" /> */}
-                    <div>{img.originalName}</div>
+              <React.Fragment key={item.preQuotationChargerIdx}>
+                {item.chargerImageFiles.map((img, index) => (
+                  <GridItem key={img.chargerProductFileIdx}>
+                    <Image
+                      src={img.url}
+                      alt="img-icon"
+                      layout="fill"
+                      priority={true}
+                      unoptimized={true}
+                    />
                   </GridItem>
                 ))}
-              </>
+              </React.Fragment>
             ),
           )}
         </GridImg>
@@ -246,8 +251,6 @@ const MultiSection = styled.div`
     padding-bottom: 18pt;
     border-bottom: 0.75pt solid ${colors.lightGray};
   }
-
-  /* border: 1px solid red; */
 `;
 const MultiBox = styled.div`
   padding-top: 3pt;
@@ -347,19 +350,19 @@ const FeaturesList = styled.ol`
   }
 `;
 const GridImg = styled.div`
-  display: grid;
+  display: flex;
   overflow-x: scroll;
-  grid-template-columns: repeat(4, 1fr);
   padding-top: 15pt;
   padding-left: 15pt;
   gap: 6pt;
 `;
-const GridItem = styled.div`
+const GridItem = styled.span`
   background-color: blue;
   position: relative;
   border-radius: 6pt;
   width: 120pt;
   height: 144pt;
+  flex-shrink: 0;
 `;
 const FileBtn = styled(Button)`
   display: flex;
