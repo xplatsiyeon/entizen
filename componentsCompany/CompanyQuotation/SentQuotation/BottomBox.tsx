@@ -34,7 +34,6 @@ const BottomBox = ({ pb, data }: Props) => {
     window.URL.revokeObjectURL(url);
   }, []);
 
-  // const { sendQuotationRequest } = data;
   return (
     <Wrapper>
       <ImageBox>
@@ -179,10 +178,21 @@ const BottomBox = ({ pb, data }: Props) => {
       </Section>
       <Section className="underLine" pb={pb}>
         <Subtitle>충전기 카탈로그</Subtitle>
-        <FileBtn onClick={DownloadFile}>
-          <Image src={fileImg} alt="file-icon" />
-          Charge Point 카탈로그_7 KW
-        </FileBtn>
+        {data?.sendQuotationRequest.preQuotation.preQuotationCharger.map(
+          (item, index) => (
+            <React.Fragment key={item.preQuotationChargerIdx}>
+              {item.catalogFiles.map((file, index) => (
+                <FileBtn
+                  onClick={DownloadFile}
+                  key={file.chargerProductFileIdx}
+                >
+                  <Image src={fileImg} alt="file-icon" />
+                  {file.originalName}
+                </FileBtn>
+              ))}
+            </React.Fragment>
+          ),
+        )}
       </Section>
     </Wrapper>
   );
@@ -215,7 +225,6 @@ const Title = styled.h1`
   margin-top: 21pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-
   @media (max-width: 899pt) {
     margin-top: 0pt;
     padding: 0 15pt;
@@ -281,7 +290,6 @@ const Item = styled.li`
     justify-content: space-between;
     padding-left: 15pt;
     padding-right: 15pt;
-
     .name {
       flex: none;
     }
