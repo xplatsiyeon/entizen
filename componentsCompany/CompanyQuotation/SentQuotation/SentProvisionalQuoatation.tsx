@@ -126,8 +126,8 @@ const SentQuoatationFirst = (props: Props) => {
     'company/',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
     {
-      // enabled: router.isReady,
-      enabled: false,
+      enabled: router.isReady,
+      // enabled: false,
     },
   );
   // 상단 열리고 닫히고
