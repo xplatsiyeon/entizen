@@ -158,18 +158,18 @@ const BottomBox = ({ pb, data }: Props) => {
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
+          {data?.sendQuotationRequest.preQuotation.preQuotationCharger.map(
+            (item, index) => (
+              <>
+                {item.preQuotationFiles.map((img, index) => (
+                  <GridItem>
+                    {/* <Image src={tempCar} alt="img" layout="fill" /> */}
+                    <div>{img.originalName}</div>
+                  </GridItem>
+                ))}
+              </>
+            ),
+          )}
         </GridImg>
       </Section>
       <Section className="underLine" pb={pb}>
