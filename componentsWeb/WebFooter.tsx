@@ -131,10 +131,11 @@ const List = styled.ul`
 const Address = styled.address`
   font-weight: 400;
   font-size: 12pt;
-  line-height: 18.5pt;
+  line-height: 19.5pt;
   margin-top: 39.75pt;
   margin-bottom: 48pt;
   font-family: 'Spoqa Han Sans Neo';
+  letter-spacing: -0.02em;
   color: #a6a9b0;
 `;
 const CallNumber = styled.div`

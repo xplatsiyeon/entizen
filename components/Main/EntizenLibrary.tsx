@@ -119,7 +119,7 @@ const Wrapper = styled.div`
   margin: 90pt auto 48pt;
 
   @media (max-width: 899pt) {
-    margin: 30pt 0;
+    margin: 15pt 0;
     width: 100%;
   }
 `;
@@ -220,6 +220,7 @@ const LibraryTitle = styled(Typography)<{ fontSize: number }>`
   font-weight: 400;
   line-height: 18pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 
 const DetailView = styled(Typography)<{ smallfont: number }>`
@@ -230,6 +231,7 @@ const DetailView = styled(Typography)<{ smallfont: number }>`
   line-height: 15pt;
   font-weight: 500;
   color: ${colors.main};
+  font-family: 'Spoqa Han Sans Neo';
   & span {
     display: flex;
     align-items: center;
@@ -246,18 +248,20 @@ const ShowAllBtnBox = styled.div`
   font-weight: 500;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 
 const ShowAllBtn = styled.div`
-  padding: 6pt 7.5pt 6pt 9pt;
+padding: 12pt 120pt;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  font-size: 9pt;
+  font-size: 12pt;
   font-weight: 500;
-  line-height: 12pt;
+  line-height: 18pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   text-align: left;
   border: 0.75pt solid #e2e5ed;
   border-radius: 21.75pt;
@@ -282,6 +286,12 @@ const ShowAllBtn = styled.div`
   & div:nth-of-type(3) {
     position: relative;
     top: 1.4pt;
+  }
+
+  @media (max-width: 899pt) {
+  padding: 6pt 7.5pt 6pt 9pt;
+  font-size: 9pt;
+  line-height: 12pt;
   }
 `;
 
