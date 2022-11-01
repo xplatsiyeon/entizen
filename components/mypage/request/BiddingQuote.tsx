@@ -153,6 +153,7 @@ const BiddingQuote = ({ pb, data }: Props) => {
           </FlexWrap>
         ))}
       </Section>
+      {/* 이미지 부분 */}
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
@@ -173,25 +174,28 @@ const BiddingQuote = ({ pb, data }: Props) => {
           ))}
         </GridImg>
       </Section>
-
+      {/* 파일 부분 */}
       <Section pb={pb}>
         <Subtitle>충전기 카탈로그</Subtitle>
-        {data?.preQuotation.preQuotationChargers.map((item, index) => (
-          <React.Fragment key={item.preQuotationChargerIdx}>
-            {item.catalogFiles.map((file, index) => (
-              <FileDownloadBtn key={file.chargerProductFileIdx}>
-                <FileDownload
-                  onClick={DownloadFile}
-                  download={file.originalName}
-                  href={file.url}
-                >
-                  <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                  {file.originalName}
-                </FileDownload>
-              </FileDownloadBtn>
-            ))}
-          </React.Fragment>
-        ))}
+        <FileContainer>
+          {data?.preQuotation.preQuotationChargers.map((item, index) => (
+            <React.Fragment key={item.preQuotationChargerIdx}>
+              {item.catalogFiles.map((file, index) => (
+                <FileDownloadBtn key={file.chargerProductFileIdx}>
+                  <FileDownload
+                    onClick={DownloadFile}
+                    download={file.originalName}
+                    href={file.url}
+                  >
+                    <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                    {/* {file.originalName} */}
+                    filesdfsdfsdfsdk
+                  </FileDownload>
+                </FileDownloadBtn>
+              ))}
+            </React.Fragment>
+          ))}
+        </FileContainer>
       </Section>
     </Wrapper>
   );
@@ -204,7 +208,6 @@ const Wrapper = styled.div`
     padding-bottom: 150pt;
   }
 `;
-
 const Title = styled.h1`
   font-weight: 700;
   font-size: 15pt;
@@ -213,13 +216,11 @@ const Title = styled.h1`
   margin-top: 21pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-
   @media (max-width: 899pt) {
     margin-top: 0pt;
     padding: 0 15pt;
   }
 `;
-
 const Section = styled.section<{ grid?: boolean; pb?: number }>`
   padding: 18pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
@@ -366,30 +367,15 @@ const GridItem = styled.div`
   width: 120pt;
   height: 144pt;
 `;
-const FileBtn = styled(Button)`
-  display: flex;
-  gap: 3pt;
-  margin-top: 15pt;
-  padding: 7.5pt 6pt;
-  border: 0.75pt solid ${colors.lightGray3};
-  color: ${colors.gray2};
-  border-radius: 8px;
-`;
-const Contents = styled.p`
-  font-weight: 500;
-  font-size: 10.5pt;
-  line-height: 18pt;
-  letter-spacing: -0.02em;
+const FileContainer = styled.div`
   padding-top: 15pt;
-  color: ${colors.main2};
 `;
 const FileDownloadBtn = styled(Button)`
-  margin: 15pt 15pt 6pt 15pt;
+  margin: 0 15pt 6pt 0;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 8px;
 `;
-
 const FileDownload = styled.a`
   text-decoration: none;
   display: flex;
