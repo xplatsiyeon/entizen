@@ -1,0 +1,156 @@
+import styled from '@emotion/styled';
+import React, { useEffect, useRef, useState } from 'react';
+import { css } from '@emotion/react';
+import colors from 'styles/colors';
+import Image from 'next/image';
+import downArrow from 'public/images/downArrow.png';
+
+type Props = {
+  placeholder: string;
+  value: string;
+  option: string[];
+  onClickEvent: (name: string, item: string, index: number) => void;
+  name: string;
+  index?: number;
+};
+
+const SelectComponents = ({
+  placeholder,
+  value,
+  onClickEvent,
+  option,
+  name,
+  index,
+}: Props) => {
+  const selectRef = useRef<any>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const HandleOption = () => setIsOpen((prev) => !prev);
+
+  const onClickOtion = async (item: string) => {
+    onClickEvent(name, item, index!);
+    await HandleOption();
+  };
+
+  const handleCloseSelect = (e: any) => {
+    if (
+      isOpen === true &&
+      (!selectRef.current || !selectRef.current.contains(e.target))
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', handleCloseSelect);
+    return () => {
+      window.removeEventListener('click', handleCloseSelect);
+    };
+  });
+
+  return (
+    <Wrapper>
+      <SelectBox onClick={HandleOption} ref={selectRef}>
+        <Input
+          isOpen={isOpen}
+          readOnly
+          placeholder={placeholder}
+          value={value}
+        />
+        <SelectIcon isOpen={isOpen}>
+          <Image src={downArrow} alt="down-arrow" layout="fill" />
+        </SelectIcon>
+      </SelectBox>
+      {isOpen && (
+        <Ul>
+          {option.map((item, i) => (
+            <Li key={i} onClick={() => onClickOtion(item)}>
+              {item}
+            </Li>
+          ))}
+        </Ul>
+      )}
+    </Wrapper>
+  );
+};
+
+export default SelectComponents;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  width: 100%;
+`;
+const SelectBox = styled.div`
+  width: 100%;
+`;
+const Input = styled.input<{ isOpen: boolean }>`
+  width: 100%;
+  padding-top: 13.5pt;
+  padding-bottom: 13.5pt;
+  padding-left: 12.75pt;
+  height: 39pt;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 6pt;
+  border: 0.75pt solid ${colors.gray};
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+
+  ${({ isOpen }) =>
+    isOpen &&
+    css`
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    `}
+`;
+
+const Ul = styled.ul`
+  width: 100%;
+  list-style: none;
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 39pt;
+  border: 0.75pt solid ${colors.gray};
+  z-index: 99;
+  background-color: ${colors.lightWhite};
+`;
+const Li = styled.li`
+  padding-left: 12pt;
+  margin: 0;
+  height: 39pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  :hover {
+    color: ${colors.main1};
+  }
+`;
+const SelectIcon = styled.span<{ isOpen: boolean }>`
+  width: 18pt;
+  height: 18pt;
+  color: ${colors.dark} !important;
+  position: absolute;
+  top: 10.5pt;
+  right: 10.5pt;
+  transform: ${({ isOpen }) => isOpen && 'rotate(180deg)'};
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+`;
