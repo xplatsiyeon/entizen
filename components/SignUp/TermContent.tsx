@@ -255,6 +255,7 @@ const Notice = styled(Typography)`
   font-size: 18pt;
   line-height: 24pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const Terms = styled(Box)`
   display: flex;

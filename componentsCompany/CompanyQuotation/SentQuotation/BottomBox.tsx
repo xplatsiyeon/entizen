@@ -7,7 +7,8 @@ import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
 import { SentRequestResponse } from './SentProvisionalQuoatation';
-import { PriceBasicCalculation } from 'utils/calculatePackage';
+import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
+import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 
 type Props = {
   pb?: number;
@@ -16,21 +17,21 @@ type Props = {
 
 const BottomBox = ({ pb, data }: Props) => {
   // 파일 다운로드 함수
-  const DownloadFile = useCallback(() => {
-    let fileName = 'Charge Point 카탈로그_7 KW';
-    let content = 'Charge Point 카탈로그_7 KW 테스트';
-    const blob = new Blob([content], {
-      type: 'text/plain',
-    });
-    const url = window.URL.createObjectURL(blob);
-    const element = document.createElement('a');
-    element.href = url;
-    element.download = fileName;
-    document.body.appendChild(element);
-    element.click();
-    element.remove();
-    window.URL.revokeObjectURL(url);
-  }, []);
+  // const DownloadFile = useCallback(() => {
+  //   let fileName = 'Charge Point 카탈로그_7 KW';
+  //   let content = 'Charge Point 카탈로그_7 KW 테스트';
+  //   const blob = new Blob([content], {
+  //     type: 'text/plain',
+  //   });
+  //   const url = window.URL.createObjectURL(blob);
+  //   const element = document.createElement('a');
+  //   element.href = url;
+  //   element.download = fileName;
+  //   document.body.appendChild(element);
+  //   element.click();
+  //   element.remove();
+  //   window.URL.revokeObjectURL(url);
+  // }, []);
 
   return (
     <Wrapper>
@@ -153,13 +154,15 @@ const BottomBox = ({ pb, data }: Props) => {
           (item, index) => (
             <FlexWrap key={item.preQuotationChargerIdx}>
               <Label>
-                {
+                {convertKo(
+                  M5_LIST,
+                  M5_LIST_EN,
                   data?.sendQuotationRequest.quotationRequest
-                    .quotationRequestChargers[index].kind
-                }
+                    .quotationRequestChargers[index].kind,
+                )}
               </Label>
               <FeaturesList>
-                <li>{item.manufacturer}</li>
+                <li>{item.productFeature}</li>
               </FeaturesList>
             </FlexWrap>
           ),
@@ -195,7 +198,7 @@ const BottomBox = ({ pb, data }: Props) => {
               {item.catalogFiles.map((file, index) => (
                 <FileDownloadBtn key={file.chargerProductFileIdx}>
                   <FileDownload
-                    onClick={DownloadFile}
+                    // onClick={DownloadFile}
                     download={file.originalName}
                     href={file.url}
                   >

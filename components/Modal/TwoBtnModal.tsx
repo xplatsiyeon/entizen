@@ -61,6 +61,7 @@ const ContentText = styled(Typography)`
   font-weight: 500;
   line-height: 18pt;
   letter-spacing: -2%;
+  font-family: 'Spoqa Han Sans Neo';
   text-align: center;
   margin: 21pt 15pt 21pt 15pt;
 `;
@@ -100,19 +101,25 @@ const BtnBox = styled(Box)`
   display: flex;
 `;
 const BtnLeft = styled(Box)`
+
+@media (max-width: 899pt) {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-top: 1px solid #f3f4f7;
+}
 `;
 const BtnRight = styled(Box)`
+
+@media (max-width: 899pt) {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-left: 1px solid #f3f4f7;
   border-top: 1px solid #f3f4f7;
+}
 `;
 const BtnText = styled.div`
   position: relative;
@@ -125,6 +132,7 @@ const BtnText = styled.div`
   font-weight: 400;
   line-height: 12pt;
   letter-spacing: -2%;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${(props) => props.color};
 `;
 

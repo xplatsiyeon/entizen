@@ -61,23 +61,11 @@ const findingId2 = () => {
                   justifyContent: 'center',
                 }}
               >
-                <Button
+                <ButtonWrap
                   onClick={() => router.push('/signin')}
-                  sx={{
-                    fontWeight: '700',
-                    margin: '60pt 15pt 0 15pt',
-                    width: '100%',
-                    height: '42pt',
-                    padding: '15pt 0',
-                    fontSize: '12pt',
-                    borderRadius: '6pt',
-                    alignItems: 'center',
-                    background: '#5a2dc9',
-                    color: 'white',
-                  }}
                 >
                   로그인
-                </Button>
+                </ButtonWrap>
               </Box>
 
               <Password>
@@ -160,20 +148,56 @@ const Inform = styled.div`
   margin-top: 12pt;
   margin-left: 15pt;
   & > div {
-    font-size: 18pt;
+    font-size: 15pt;
     font-weight: 700;
-    line-height: 24pt;
+    line-height: 22.5pt;
+    font-family: 'Spoqa Han Sans Neo';
     color: ${colors.main2};
+    letter-spacing: -0.02em;
+    @media (max-width: 899pt) {
+      font-size: 18pt;
+      line-height: 24pt;
+    }
   }
 `;
 const UserId = styled.div`
-  margin-top: 54pt;
+  margin-top: 39pt;
   text-align: center;
   font-weight: 700;
   color: ${colors.main};
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-size: 18pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+    @media (max-width: 899pt) {
+      font-size: 12pt;
+      line-height: 12pt;
+      margin-top: 54pt;
+    }
 `;
 const Password = styled.div`
   margin-top: 26.25pt;
   padding: 3.75pt 0;
+  font-family: 'Spoqa Han Sans Neo';
   text-align: center;
 `;
+
+const ButtonWrap = styled(Button)`
+  font-weight: 700;
+  margin: 48pt 15pt 0 15pt;
+  width: 100%;
+  height: 42pt;
+  padding: 15pt 0;
+  font-size: 12pt;
+  line-height: 12pt;
+  border-Radius: 6pt;
+  align-Items: center;
+  background: #5a2dc9;
+  color: 'white';
+  font-family: 'Spoqa Han Sans Neo';
+  @media (max-width: 899pt) {
+    margin: 60pt 15pt 0 15pt;
+  }
+
+`
