@@ -3,13 +3,11 @@ import { Button } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
 import colors from 'styles/colors';
-import temp from 'public/mypage/temp-img.svg';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
 import { SentRequestResponse } from './SentProvisionalQuoatation';
 import { PriceBasicCalculation } from 'utils/calculatePackage';
-import Link from 'next/link';
 
 type Props = {
   pb?: number;
