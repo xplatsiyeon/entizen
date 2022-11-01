@@ -59,7 +59,7 @@ const MypageDetail = () => {
   const { data, isLoading, isError, error } = useQuery<
     PreQuotationResponse,
     AxiosError
-  >('pre-quotation', () => isTokenGetApi(`quotations/pre/${routerId}`), {
+  >('pre-quotation', () => isTokenGetApi(`/quotations/pre/${routerId}`), {
     enabled: router.isReady,
     // enabled: false,
   });
