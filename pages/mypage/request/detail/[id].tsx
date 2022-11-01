@@ -60,8 +60,8 @@ const MypageDetail = () => {
     PreQuotationResponse,
     AxiosError
   >('pre-quotation', () => isTokenGetApi(`quotations/pre/${routerId}`), {
-    // enabled: router.isReady,
-    enabled: false,
+    enabled: router.isReady,
+    // enabled: false,
   });
 
   // 모달 컨트롤
