@@ -8,7 +8,8 @@ import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
 import { PreQuotationResponse } from 'pages/mypage/request/detail/[id]';
-import { PriceBasicCalculation } from 'utils/calculatePackage';
+import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
+import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 
 interface Props {
   pb?: number;
@@ -92,11 +93,12 @@ const BiddingQuote = ({ pb, data }: Props) => {
                 <MultiBox key={item.preQuotationChargerIdx}>
                   <Item>
                     <span className="name">
-                      {
+                      {convertKo(
+                        M5_LIST,
+                        M5_LIST_EN,
                         data?.quotationRequest.quotationRequestChargers[index]
-                          .kind
-                      }
-                      12312312
+                          .kind,
+                      )}
                     </span>
                     <span className="value">{`${PriceBasicCalculation(
                       item.chargePrice,
@@ -111,11 +113,12 @@ const BiddingQuote = ({ pb, data }: Props) => {
                 <MultiBox key={item.preQuotationChargerIdx}>
                   <Item>
                     <span className="name">
-                      {
+                      {convertKo(
+                        M5_LIST,
+                        M5_LIST_EN,
                         data?.quotationRequest.quotationRequestChargers[index]
-                          .kind
-                      }
-                      12312312
+                          .kind,
+                      )}
                     </span>
                     <span className="value">{`${PriceBasicCalculation(
                       item.chargePrice,
