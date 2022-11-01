@@ -186,6 +186,7 @@ const WebBody = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
+  font-family: 'Spoqa Han Sans Neo';
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -247,7 +248,7 @@ const AddressName = styled.h1`
 const SubTitle = styled.h2`
   padding-top: 30pt;
   font-weight: 700;
-  font-size: 10.5pt;
+  font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
@@ -259,7 +260,7 @@ const NameBox = styled.div`
   padding-top: 18pt;
   .name {
     font-weight: 700;
-    font-size: 9pt;
+    font-size: 12pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
@@ -311,7 +312,7 @@ const RequestForm = styled.form`
     justify-content: space-between;
     align-items: center;
     font-weight: 700;
-    font-size: 10.5pt;
+    font-size: 12pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
@@ -325,10 +326,11 @@ const RequestForm = styled.form`
     border: 0.75pt solid ${colors.gray};
     border-radius: 6pt;
     font-weight: 400;
-    font-size: 10.4pt;
+    font-size: 10.5pt;
     line-height: 18pt;
     letter-spacing: -0.02em;
     resize: none;
+    font-family: 'Spoqa Han Sans Neo';
     ::placeholder {
       color: ${colors.lightGray3};
     }
@@ -338,12 +340,13 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   white-space: pre-wrap;
   position: ablsolute;
   bottom: 0;
-  width: 100%;
   padding: 15pt 0;
+  margin: 0 15pt;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   background-color: ${colors.main};

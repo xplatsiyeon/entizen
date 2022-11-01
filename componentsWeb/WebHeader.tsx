@@ -29,7 +29,7 @@ const WebHeader = ({ num, now }: Props) => {
   const router = useRouter();
 
   const isUser = localStorage.getItem('USER_ID');
-  //if(!isUser)localStorage.setItem('USER_ID','user'). 유저 테스트용 코드
+ // if(!isUser)localStorage.setItem('USER_ID','user'); // 유저 테스트용 코드
 
   const handleLink = () => {
     if (isUser) {

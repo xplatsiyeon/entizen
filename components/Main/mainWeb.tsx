@@ -1,15 +1,12 @@
-import Header from 'components/Main/Header';
+
 import Carousel from 'components/Main/Carousel';
-import Footer from 'components/Main/Footer';
 import SalesProjection from 'components/Main/SalesProjection';
 import React, { useState } from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import MainPage from 'components/Main';
 import LearnAbout from 'components/Main/LearnAbout';
 import MyEstimateProject from 'components/Main/MyEstimateProject';
 import SubscribeRequest from 'components/Main/SubscribeRequest';
-import WhyEntizen from 'components/Main/WhyEntizen';
 import EntizenLibrary from 'components/Main/EntizenLibrary';
 import Image from 'next/image';
 import styled from '@emotion/styled';

@@ -319,11 +319,12 @@ const Wrraper = styled.div`
   }
 `;
 const Title = styled.h1`
-  padding-top: 24pt;
+  padding-top: 38pt;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
+  font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
@@ -333,11 +334,13 @@ const SubTitle = styled.div`
   align-items: center;
   padding-top: 45pt;
   .name {
+    font-style: normal;
     font-weight: 700;
-    font-size: 10.5pt;
+    font-size: 12pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    font-family: 'Spoqa Han Sans Neo';
   }
   .add-img {
   }
@@ -356,6 +359,7 @@ const SelectBox = styled(Select)`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
   & div {
     padding-left: 12.75pt;
@@ -401,6 +405,7 @@ const Placeholder = styled.em`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.lightGray3};
 `;
 const ChargeGuide = styled.div`
@@ -414,6 +419,7 @@ const ChargeGuide = styled.div`
   .text {
     letter-spacing: -0.02em;
     border-bottom: 1px solid ${colors.gray2};
+    font-family: 'Spoqa Han Sans Neo';
   }
   .arrow-icon {
     position: relative;
@@ -433,11 +439,13 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   margin-top: 30pt;
+  border-radius: 6pt;
   cursor: pointer;
   background-color: ${({ buttonActivate }) =>
-    buttonActivate ? colors.main : colors.blue3};
+  buttonActivate ? colors.main : colors.blue3};
 
   @media (max-width: 899pt) {
     position: fixed;

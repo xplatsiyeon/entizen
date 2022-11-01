@@ -167,12 +167,13 @@ const Wrraper = styled.div`
   z-index: 2;
 `;
 const Title = styled.h1`
-  padding: 24pt 0 0;
+  padding: 38pt 0 0;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
 
   @media (max-width: 899pt) {
@@ -185,10 +186,11 @@ const SubTitle = styled.div<{ pt: number }>`
   align-items: center;
   padding-top: ${({ pt }) => pt + 'pt'};
   font-weight: 700;
-  font-size: 10.5pt;
+  font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  font-family: 'Spoqa Han Sans Neo';
 
   @media (max-width: 899pt) {
     padding-left: 15pt;
@@ -211,10 +213,12 @@ const Tab = styled.span<{ idx: string; tabNumber: string }>`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.lightGray2};
+  font-family: 'Spoqa Han Sans Neo';
   width: 100%;
   border: 0.75pt solid ${colors.gray};
   border-radius: 6pt;
   padding: 13.5pt 0;
+  box-sizing: border-box;
   cursor: pointer;
   text-align: center;
   ${({ idx, tabNumber }) =>
@@ -287,12 +291,15 @@ const NextBtn = styled.div<{
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   margin-top: 30pt;
+  border-radius: 6pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
   cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const PrevBtn = styled.div`
@@ -306,9 +313,12 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 30pt;
   background-color: ${colors.gray};
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
   cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const TwoBtn = styled.div`
@@ -317,7 +327,9 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
+  gap: 8.7pt;
   @media (max-width: 899pt) {
     position: fixed;
+    gap: 0;
   }
 `;
