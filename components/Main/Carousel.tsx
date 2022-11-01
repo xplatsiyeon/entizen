@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 import MoneyPhoto from 'public/images/MainMoney.png';
 
 // import required modules
-import { Pagination } from 'swiper';
+import { Pagination, Navigation } from 'swiper';
 import Image from 'next/image';
 import colors from 'styles/colors';
 
@@ -22,10 +22,10 @@ const Carousel = () => {
           pagination={{
             clickable: true,
           }}
-          //navigation={true}
-          modules={[Pagination]}
+          navigation={true}
+          modules={[Pagination, Navigation]}
           loop={true}
-          //   className="mySwiper"
+          //className="mySwiper"
         >
           <SwiperSlide>
             <SliderContent>
@@ -99,11 +99,38 @@ const Carousel = () => {
 };
 
 const SliderWrapper = styled.div`
-  width: 100%;
+  max-width: 900pt;
   position: relative;
   .swiper {
     border-radius: 8pt;
   }
+  .swiper-button-prev {
+    --swiper-navigation-size: 30pt;
+    background-image: url(/images/swiper_prev.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 30pt;
+    &::after{
+      display: none;
+    }
+
+    @media (max-width: 899pt) {
+      display: none;
+    }
+}  
+.swiper-button-next {
+  --swiper-navigation-size: 30pt;
+    background-image: url(/images/swiper_next.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 30pt;
+    &::after{
+      display: none;
+    }
+    @media (max-width: 899pt) {
+      display: none;
+    }
+}
   .swiper-pagination-bullet {
     position: relative;
   }
@@ -156,7 +183,7 @@ const Top = styled.div`
   line-height: 25.5pt;
   letter-spacing: -0.02em;
   text-align: left;
-  color: rgba(255, 255, 255, 0.5);
+  color: #fbfcff;
 
   @media (max-width: 899pt) {
     position: absolute;
@@ -186,7 +213,8 @@ const Center = styled.div`
 `;
 
 const SliderContent = styled.div`
-  width: 100%;
+  max-width: 756pt;
+  margin: 0 auto;
   height: 360pt;
   background-color: ${colors.main};
   /* background-color: red; */

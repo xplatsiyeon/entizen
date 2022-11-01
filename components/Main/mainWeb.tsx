@@ -122,6 +122,7 @@ const SalesWrap = styled.div`
   border: 1.5pt solid #e2e5ed;
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 16px;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 
 const Button = styled.button`
