@@ -76,10 +76,10 @@ const EstimateContainer = ({ data }: Props) => {
               } %`}</span>
             </div>
             <div className="text-box">
-              <span className="name">충전기 종류 및 수량</span>
               {data?.quotationRequest?.quotationRequestChargers?.map(
                 (item, index) => (
                   <>
+                    <span className="name">충전기 종류 및 수량</span>
                     <span className="text">
                       {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                       <br />
@@ -189,7 +189,6 @@ const Contents = styled.div`
     }
   }
   .name {
-    display: block;
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
