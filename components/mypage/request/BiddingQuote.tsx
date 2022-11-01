@@ -8,6 +8,7 @@ import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
 import { PreQuotationResponse } from 'pages/mypage/request/detail/[id]';
+import { PriceBasicCalculation } from 'utils/calculatePackage';
 
 interface Props {
   pb?: number;
@@ -38,28 +39,45 @@ const BiddingQuote = ({ pb, data }: Props) => {
 
   return (
     <Wrapper>
-      <Image src={temp} alt="icon" />
+      <Image
+        src={data?.companyMemberAdditionalInfo.companyLogoImageUrl!}
+        alt="icon"
+        priority={true}
+        unoptimized={true}
+        // layout="fill"
+      />
       <Title>Charge Point</Title>
       <List>
         <Item>
           <span className="name">월 구독료</span>
-          <span className="value">195,000 원</span>
+          <span className="value">
+            {PriceBasicCalculation(data?.preQuotation.subscribePricePerMonth!)}
+            원
+          </span>
         </Item>
         <Item>
           <span className="name">수익지분</span>
-          <span className="value">70 %</span>
+          <span className="value">
+            {Number(data?.quotationRequest.investRate) * 100} %
+          </span>
         </Item>
         <Item>
           <span className="name">공사기간</span>
-          <span className="value">21 일</span>
+          <span className="value">
+            {data?.preQuotation.constructionPeriod} 일
+          </span>
         </Item>
         <Item>
           <span className="name">충전요금</span>
-          <span className="value">250 원 / kW</span>
+          <span className="value">
+            {data?.preQuotation.preQuotationChargers[0].chargePrice} 원 / kW
+          </span>
         </Item>
         <Item>
           <span className="name">충전기 제조사</span>
-          <span className="value">LS ELECTRIC</span>
+          <span className="value">
+            {data?.preQuotation.preQuotationChargers[0].manufacturer}
+          </span>
         </Item>
       </List>
       <Section>
@@ -147,9 +165,19 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
 const List = styled.ul`
   padding: 30pt 0 51pt;
   gap: 12pt;
-  border-bottom: 0.75pt solid ${colors.lightGray};
+  /* border-bottom: 0.75pt solid ${colors.lightGray}; */
   @media (max-width: 899pt) {
     padding: 30pt 15pt 18pt 15pt;
+  }
+`;
+const ItemContainer = styled.div`
+  margin-top: 18pt;
+  padding-bottom: 18pt;
+  border-bottom: 0.75pt solid ${colors.lightGray};
+  /* padding-top: 15pt; */
+  .item {
+    /* display: flex; */
+    /* gap: 12pt; */
   }
 `;
 const Item = styled.li`

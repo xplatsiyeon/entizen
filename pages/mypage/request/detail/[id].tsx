@@ -15,7 +15,7 @@ import { AxiosError } from 'axios';
 import {
   ChargerFiles,
   CompanyMemberAdditionalInfo,
-  QuotationRequestChargers,
+  QuotationRequest,
 } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
 export interface PreQuotationChargers {
   createdAt: string;
@@ -46,7 +46,7 @@ export interface PreQuotationResponse {
   isSuccess: boolean;
   companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
   preQuotation: PreQuotation;
-  quotationRequest: QuotationRequestChargers;
+  quotationRequest: QuotationRequest;
 }
 
 const TAG = 'page/mypage/request/detail/[id].tsx';
@@ -60,8 +60,8 @@ const MypageDetail = () => {
     PreQuotationResponse,
     AxiosError
   >('pre-quotation', () => isTokenGetApi(`/quotations/pre/${routerId}`), {
-    enabled: router.isReady,
-    // enabled: false,
+    // enabled: router.isReady,
+    enabled: false,
   });
 
   // 모달 컨트롤
@@ -75,8 +75,6 @@ const MypageDetail = () => {
   if (isLoading) {
     return <Loader />;
   }
-  console.log(TAG + '🔥 ~line 41 ~ 데이터 확인');
-  console.log(data);
 
   return (
     <WebBody>
