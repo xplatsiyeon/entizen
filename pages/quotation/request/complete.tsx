@@ -165,7 +165,7 @@ const TextBox = styled.div`
     color: ${colors.gray2};
   }
 `;
-const Btn = styled(Button)`
+const Btn = styled.button`
   background: ${colors.main};
   border-radius: 6pt;
   width: 100%;
@@ -177,4 +177,5 @@ const Btn = styled(Button)`
   color: ${colors.lightWhite};
   padding: 15pt 0;
   margin-bottom: 30pt;
+  cursor: pointer;
 `;
