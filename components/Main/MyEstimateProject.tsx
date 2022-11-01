@@ -3,9 +3,7 @@ import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import rightArrow from 'public/images/rightArrow.png';
 import Image from 'next/image';
-import { display } from '@mui/system';
 import { useRouter } from 'next/router';
-import colors from 'styles/colors';
 
 type Props = {
   borders?: number | undefined;
@@ -32,16 +30,22 @@ const MyEstimateProject = ({ borders }: Props) => {
             >
               내 견적서
             </Typography>
-            <Typography
-              sx={{
-                padding: '0',
-                display: 'flex',
-                alignItems: 'center',
-                position: 'relative',
-              }}
-            >
-              <Image src={rightArrow} alt="rightArrow" />
-            </Typography>
+            <ImageWrap>
+              <Typography
+                sx={{
+                  width:'12pt',
+                  padding: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  position: 'relative',
+                }}
+              >
+                <Image src={rightArrow} alt="rightArrow" />
+              </Typography>
+              <IconWrap >
+                <Image src={rightArrow} layout="fill" alt="rightArrow" />
+              </IconWrap>
+            </ImageWrap>
           </BoxName>
         </Box>
         <CountBox>
@@ -63,16 +67,22 @@ const MyEstimateProject = ({ borders }: Props) => {
             >
               내 프로젝트
             </Typography>
-            <Typography
-              sx={{
-                padding: '0',
-                display: 'flex',
-                alignItems: 'center',
-                position: 'relative',
-              }}
-            >
-              <Image src={rightArrow} alt="rightArrow" />
-            </Typography>
+            <ImageWrap>
+              <Typography
+                sx={{
+                  width:'12pt',
+                  padding: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  position: 'relative',
+                }}
+              >
+                <Image src={rightArrow} alt="rightArrow" />
+              </Typography>
+              <IconWrap >
+                <Image src={rightArrow} layout="fill" alt="rightArrow" />
+              </IconWrap>
+            </ImageWrap>
           </BoxName>
         </Box>
         <CountBox>
@@ -181,5 +191,27 @@ const Amount = styled(Typography)`
     margin-top: 0;
   }
 `;
+
+const ImageWrap = styled.div`
+  p{
+    display: none;
+  }
+  @media (max-width: 899pt) {
+    p{
+      display: block;
+    }
+  }
+
+`
+const IconWrap = styled.div`
+    width: 21pt;
+    height: 21pt;
+    position: relative;
+    object-fit: cover;
+
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`
 
 export default MyEstimateProject;
