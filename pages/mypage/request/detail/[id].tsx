@@ -8,15 +8,75 @@ import styled from '@emotion/styled';
 
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
+import { AxiosError } from 'axios';
+import {
+  ChargerFiles,
+  CompanyMemberAdditionalInfo,
+  QuotationRequestChargers,
+} from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
+export interface PreQuotationChargers {
+  createdAt: string;
+  preQuotationChargerIdx: number;
+  chargePriceType: string;
+  chargePrice: number;
+  modelName: string;
+  manufacturer: string;
+  productFeature: string;
+  preQuotationIdx: number;
+  preQuotationFiles: ChargerFiles[];
+  chargerImageFiles: ChargerFiles[];
+  catalogFiles: ChargerFiles[];
+}
+export interface PreQuotation {
+  createdAt: string;
+  preQuotationIdx: number;
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string;
+  preQuotationStatus: string;
+  changedDate: string;
+  quotationRequestIdx: number;
+  memberIdx: number;
+  preQuotationChargers: PreQuotationChargers[];
+}
+export interface PreQuotationResponse {
+  isSuccess: boolean;
+  companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
+  preQuotation: PreQuotation;
+  quotationRequest: QuotationRequestChargers;
+}
 
-const MypageDetail = ({ data }: any) => {
+const TAG = 'page/mypage/request/detail/[id].tsx';
+const MypageDetail = () => {
   const [isModal, setModal] = useState(false);
-  const route = useRouter();
-  const handleOnClick = () => route.back();
+  const router = useRouter();
+  const routerId = router?.query?.id;
+  const handleOnClick = () => router.back();
+
+  const { data, isLoading, isError, error } = useQuery<
+    PreQuotationResponse,
+    AxiosError
+  >('pre-quotation', () => isTokenGetApi(`quotations/pre/${routerId}`), {
+    // enabled: router.isReady,
+    enabled: false,
+  });
 
   // 모달 컨트롤
   const onClcikModal = () => setModal((prev) => !prev);
-  const rightControl = () => route.push('/mypage/request/1-5');
+  const rightControl = () => router.push('/mypage/request/1-5');
+
+  if (isError) {
+    console.log(TAG + '🔥 ~line 35 ~ 에러코드 확인');
+    console.log(error);
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
+  console.log(TAG + '🔥 ~line 41 ~ 데이터 확인');
+  console.log(data);
 
   return (
     <WebBody>
@@ -39,7 +99,7 @@ const MypageDetail = ({ data }: any) => {
             exitBtn={true}
             handleOnClick={handleOnClick}
           />
-          <BiddingQuote pb={101.25} />
+          <BiddingQuote pb={101.25} data={data!} />
           <TwoButton onClcikModal={onClcikModal} />
         </Wrapper>
       </Inner>

@@ -7,12 +7,14 @@ import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
+import { PreQuotationResponse } from 'pages/mypage/request/detail/[id]';
 
 interface Props {
   pb?: number;
+  data?: PreQuotationResponse;
 }
-
-const BiddingQuote = ({ pb }: Props) => {
+const TAG = 'components/mypage/request/BiddingQuote.tsx';
+const BiddingQuote = ({ pb, data }: Props) => {
   // 파일 다운로드 함수
   const DownloadFile = useCallback(() => {
     let fileName = 'Charge Point 카탈로그_7 KW';
@@ -29,6 +31,10 @@ const BiddingQuote = ({ pb }: Props) => {
     element.remove();
     window.URL.revokeObjectURL(url);
   }, []);
+
+  console.log(TAG + '🔥 ~line 35 ~ data 체크');
+
+  console.log(data);
 
   return (
     <Wrapper>

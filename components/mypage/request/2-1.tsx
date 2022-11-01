@@ -31,7 +31,7 @@ const Mypage2_1 = () => {
       {/* <ScheduleChange /> */}
       {/* 일정 변경 확인 중 */}
       {/* <Checking /> */}
-      <BiddingQuote />
+      {/* <BiddingQuote /> */}
       {/* 담당자 정보 */}
       <ManagerInfo />
       <TextBox>

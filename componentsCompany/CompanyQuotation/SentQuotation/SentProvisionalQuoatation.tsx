@@ -13,26 +13,7 @@ import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 
-type Props = {};
-export interface CatalogFiles {
-  createdAt: string;
-  chargerProductFileIdx: number;
-  productFileType: string;
-  originalName: string;
-  url: string;
-  size: number;
-  preQuotationChargerIdx: number;
-}
-export interface ChargerImageFiles {
-  createdAt: string;
-  chargerProductFileIdx: number;
-  productFileType: string;
-  originalName: string;
-  url: string;
-  size: number;
-  preQuotationChargerIdx: number;
-}
-export interface PreQuotationFiles {
+export interface ChargerFiles {
   createdAt: string;
   chargerProductFileIdx: number;
   productFileType: string;
@@ -50,9 +31,9 @@ export interface PreQuotationCharger {
   manufacturer: string;
   productFeature: string;
   preQuotationIdx: number;
-  preQuotationFiles: PreQuotationFiles[];
-  chargerImageFiles: ChargerImageFiles[];
-  catalogFiles: CatalogFiles[];
+  preQuotationFiles: ChargerFiles[];
+  chargerImageFiles: ChargerFiles[];
+  catalogFiles: ChargerFiles[];
 }
 export interface PreQuotation {
   createdAt: string;
@@ -116,7 +97,7 @@ export interface SentRequestResponse {
 const TAG =
   'components/Company/CompanyQuotation/SentQuotation/SentProvisionalQuoatation.tsx';
 // 본체
-const SentQuoatationFirst = (props: Props) => {
+const SentQuoatationFirst = () => {
   const router = useRouter();
   const routerId = router?.query?.id;
   // 상단 열고 닫기

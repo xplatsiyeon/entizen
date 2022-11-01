@@ -6,12 +6,26 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PreQuotations } from 'pages/mypage/request/[id]';
 import { PriceCalculation } from 'utils/calculatePackage';
+import { useQuery } from 'react-query';
+import { UserInfo } from 'pages/mypage';
+import { isTokenGetApi } from 'api';
 type Props = {
   data: PreQuotations[];
 };
 const SubscriptionProduct = ({ data }: Props) => {
   const route = useRouter();
-  const UserId = JSON.parse(localStorage.getItem('USER_ID')!);
+  // const UserId = JSON.parse(localStorage.getItem('USER_ID')!);
+  const {
+    data: userData,
+    isError: userError,
+    isLoading: userLoading,
+  } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
+  if (userLoading) {
+    console.log('유저 정보 받아오는 중');
+  }
+  if (userError) {
+    console.log('유저 정보 에러');
+  }
 
   return (
     <Wrapper>
@@ -19,7 +33,7 @@ const SubscriptionProduct = ({ data }: Props) => {
         <Image src={DoubleArrow} alt="double-arrow" />
       </DownArrowBox>
       <H1>
-        {UserId}님, <br /> 총{' '}
+        {userData?.name}님, <br /> 총{' '}
         <span className="accent">{data ? data?.length : 0}개</span>의 구독상품이
         도착했습니다.
       </H1>

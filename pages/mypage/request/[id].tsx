@@ -138,8 +138,9 @@ const Mypage1_3 = ({}: any) => {
                 back={true}
                 handleOnClick={handleOnClick}
               />
-              {/* request 1-3 */}
+              {/* 견적 상세 내용*/}
               <EstimateContainer data={data!} />
+              {/* 구독 상품 */}
               <SubscriptionProduct data={data?.preQuotations!} />
               <TextBox>
                 <div>선택하기 어려우신가요?</div>

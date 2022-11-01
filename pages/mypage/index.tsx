@@ -10,7 +10,7 @@ import BottomNavigation from 'components/BottomNavigation';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 
-interface UserInfo {
+export interface UserInfo {
   isSuccess: boolean;
   id: string;
   name: string;
@@ -35,8 +35,8 @@ const Request = () => {
     isLoading: userLoading,
   } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
 
-  console.log(TAG + '🔥 ~line 38 ~ 유저 정보 확인');
-  console.log(userData);
+  // console.log(TAG + '🔥 ~line 38 ~ 유저 정보 확인');
+  // console.log(userData);
   if (userLoading) {
     console.log('유저 정보 받아오는 중');
   }

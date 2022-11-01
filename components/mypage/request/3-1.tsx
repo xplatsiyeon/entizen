@@ -21,7 +21,7 @@ const Mypage3_1 = () => {
       {/* 일정 확정 */}
       {/* <ScheduleConfirm /> */}
 
-      <BiddingQuote />
+      {/* <BiddingQuote /> */}
       {/* 담당자 정보 */}
       <ManagerInfo />
       <TextBox>
