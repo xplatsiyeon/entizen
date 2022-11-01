@@ -12,17 +12,41 @@ import { requestAction } from 'store/requestSlice';
 import React from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import { useMutation } from 'react-query';
+import { isTokenPostApi } from 'api';
+import { AxiosError } from 'axios';
+
+interface Mutation {
+  isSuccess: boolean;
+}
 
 const Mypage1_5 = () => {
   const router = useRouter();
+  const routerId = router.query.id;
   const dispatch = useDispatch();
+  const { mutate, isLoading } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      setIsModal((prev) => !prev);
+    },
+    onError: () => {},
+  });
   const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
   const [isModal, setIsModal] = useState(false); // 모달
+
+  const onClickBtn = () => {
+    const postData = selectedDays.map((e) => e.replaceAll('.', '-'));
+    console.log(selectedDays);
+    isTokenPostApi({
+      url: `/quotations/pre/${routerId}/spot-inspection`,
+      data: { spotInspectionDates: postData },
+    });
+  };
   // 리덕스
   const HandleModal = () => {
+    console.log('모달 확인 버튼 클릭');
     // router.push('/mypage');
-    router.push('/mypage/request/2-1');
-    dispatch(requestAction.addDate(selectedDays));
+    // router.push('/mypage/request/2-1');
+    // dispatch(requestAction.addDate(selectedDays));
   };
   return (
     <React.Fragment>
@@ -73,7 +97,7 @@ const Mypage1_5 = () => {
                 ))}
               </UL>
             </Schedule>
-            <Btn onClick={() => setIsModal((prev) => !prev)}>보내기</Btn>
+            <Btn onClick={onClickBtn}>보내기</Btn>
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -103,7 +127,6 @@ const Inner = styled.div`
   position: relative;
   margin: 45.75pt auto;
   width: 345pt;
-  //width: 281.25pt;
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
@@ -117,6 +140,7 @@ const Inner = styled.div`
     background: none;
     margin: 0;
     overflow-y: scroll;
+    border-radius: 0;
   }
   @media (max-height: 500pt) {
     height: 100%;
@@ -131,6 +155,7 @@ const Wrapper = styled.div`
 
   @media (max-width: 899pt) {
     height: 100%;
+    margin: 0;
   }
 `;
 const H1 = styled.h1`
