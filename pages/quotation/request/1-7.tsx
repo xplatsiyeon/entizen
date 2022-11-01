@@ -351,12 +351,15 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   color: ${colors.lightWhite};
   background-color: ${colors.main};
   border-radius: 8px;
+  cursor: pointer;
   //margin-bottom: 20pt;
 
   @media (max-width: 899pt) {
     position: fixed;
     left: 0;
     padding: 15pt 0 39pt 0;
-    margin-bottom: 0pt;
+    margin: 0pt;
+    width: 100%;
+    border-radius: 0;
   }
 `;
