@@ -46,7 +46,7 @@ const BiddingQuote = ({ pb, data }: Props) => {
         unoptimized={true}
         // layout="fill"
       />
-      <Title>Charge Point</Title>
+      <Title>{data?.companyMemberAdditionalInfo.companyName}</Title>
       <List>
         <Item>
           <span className="name">월 구독료</span>
@@ -67,18 +67,65 @@ const BiddingQuote = ({ pb, data }: Props) => {
             {data?.preQuotation.constructionPeriod} 일
           </span>
         </Item>
-        <Item>
-          <span className="name">충전요금</span>
-          <span className="value">
-            {data?.preQuotation.preQuotationChargers[0].chargePrice} 원 / kW
-          </span>
-        </Item>
-        <Item>
-          <span className="name">충전기 제조사</span>
-          <span className="value">
-            {data?.preQuotation.preQuotationChargers[0].manufacturer}
-          </span>
-        </Item>
+        {/* 충전기 제조사 1개 일 때 */}
+        {data?.preQuotation.preQuotationChargers.length === 1 ? (
+          <>
+            <Item>
+              <span className="name">충전요금</span>
+              <span className="value">
+                {data?.preQuotation.preQuotationChargers[0].chargePrice} 원 / kW
+              </span>
+            </Item>
+            <Item>
+              <span className="name">충전기 제조사</span>
+              <span className="value">
+                {data?.preQuotation.preQuotationChargers[0].manufacturer}
+              </span>
+            </Item>
+          </>
+        ) : (
+          <>
+            {/* 충전기 제조사 2개 이상 일 때 */}
+            <MultiSection>
+              <Subtitle>충전요금</Subtitle>
+              {data?.preQuotation.preQuotationChargers.map((item, index) => (
+                <MultiBox key={item.preQuotationChargerIdx}>
+                  <Item>
+                    <span className="name">
+                      {
+                        data?.quotationRequest.quotationRequestChargers[index]
+                          .kind
+                      }
+                      12312312
+                    </span>
+                    <span className="value">{`${PriceBasicCalculation(
+                      item.chargePrice,
+                    )} 원 / kW`}</span>
+                  </Item>
+                </MultiBox>
+              ))}
+            </MultiSection>
+            <MultiSection>
+              <Subtitle>충전기 제조사</Subtitle>
+              {data?.preQuotation.preQuotationChargers.map((item, index) => (
+                <MultiBox key={item.preQuotationChargerIdx}>
+                  <Item>
+                    <span className="name">
+                      {
+                        data?.quotationRequest.quotationRequestChargers[index]
+                          .kind
+                      }
+                      12312312
+                    </span>
+                    <span className="value">{`${PriceBasicCalculation(
+                      item.chargePrice,
+                    )} 원 / kW`}</span>
+                  </Item>
+                </MultiBox>
+              ))}
+            </MultiSection>
+          </>
+        )}
       </List>
       <Section>
         <Subtitle>특장점</Subtitle>
@@ -130,6 +177,7 @@ const Wrapper = styled.div`
   padding-top: 60pt;
   @media (max-width: 899pt) {
     padding-top: 21pt;
+    padding-bottom: 150pt;
   }
 `;
 
@@ -150,8 +198,10 @@ const Title = styled.h1`
 
 const Section = styled.section<{ grid?: boolean; pb?: number }>`
   padding: 18pt 0pt;
-  border-bottom: 0.75pt solid ${colors.lightGray};
   padding-bottom: ${({ pb }) => pb + 'pt'};
+  :not(:last-child) {
+    border-bottom: 0.75pt solid ${colors.lightGray};
+  }
   ${({ grid }) =>
     grid &&
     css`
@@ -159,29 +209,37 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
     `};
 
   @media (max-width: 899pt) {
-    padding: 18pt 15pt;
+    margin: 0 15pt;
   }
 `;
 const List = styled.ul`
-  padding: 30pt 0 51pt;
+  margin: 30pt 0 51pt;
   gap: 12pt;
-  /* border-bottom: 0.75pt solid ${colors.lightGray}; */
+  border-bottom: 0.75pt solid ${colors.lightGray};
   @media (max-width: 899pt) {
-    padding: 30pt 15pt 18pt 15pt;
+    margin: 30pt 15pt 0 15pt;
+    padding-bottom: 18pt;
   }
 `;
-const ItemContainer = styled.div`
-  margin-top: 18pt;
-  padding-bottom: 18pt;
-  border-bottom: 0.75pt solid ${colors.lightGray};
-  /* padding-top: 15pt; */
-  .item {
-    /* display: flex; */
-    /* gap: 12pt; */
+const MultiSection = styled.div`
+  padding-top: 18pt;
+  display: flex;
+  flex-direction: column;
+  gap: 12pt;
+
+  :nth-of-type(1) {
+    padding-bottom: 18pt;
+    margin-top: 18pt;
+    border-bottom: 0.75pt solid ${colors.lightGray};
+    border-top: 0.75pt solid ${colors.lightGray};
   }
+`;
+const MultiBox = styled.div`
+  padding-top: 3pt;
 `;
 const Item = styled.li`
   display: flex;
+
   :not(:nth-of-type(1)) {
     padding-top: 12pt;
   }
