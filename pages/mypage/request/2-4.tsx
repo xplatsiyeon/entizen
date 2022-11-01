@@ -111,7 +111,8 @@ const Wrapper = styled.div`
   @media (max-width: 899pt) {
     //height: 100%;
     height: 100vh;
-    padding-bottom: 225pt;
+    //padding-bottom: 225pt;
+    padding-bottom: 0;
     margin: 0;
   }
 `;
@@ -126,7 +127,7 @@ const Title = styled.h1`
 `;
 const UL = styled.ul`
  // padding: 24pt 15pt 0 15pt; 
-  padding: 0pt 15pt 80pt;
+  padding: 24pt 15pt 65pt;
   .list {
     background-color: rgba(90, 45, 201, 0.7);
     border-radius: 6pt;
@@ -148,7 +149,7 @@ const UL = styled.ul`
   }
 
   @media (max-width: 899pt) {
-    padding: 0pt 15pt 100pt;
+    padding: 24pt 15pt 100pt;
   }
 `;
 const Btn = styled(Button)`
