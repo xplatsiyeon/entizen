@@ -198,7 +198,7 @@ const PersentBadge = styled.span<{
   client: string;
 }>`
   position: absolute;
-  left: ${({ persent }) => `calc(${persent}% - 13.5pt)`};
+  left: ${({ persent }) => `calc(${persent}% - 14.5pt)`};
   bottom: -11.5pt; // 웹 화면에서 뱃지 간격
   color: ${colors.lightWhite};
   background-color: ${({ client }) =>

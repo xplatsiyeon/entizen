@@ -105,10 +105,12 @@ const Inner = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt 0;
-  height: 664.5pt;
+  //height: 664.5pt;
+  height: auto;
 
   @media (max-width: 899pt) {
-    height: 100%;
+    //height: 100%;
+    height: 100vh;
     padding-bottom: 225pt;
     margin: 0;
   }
@@ -123,7 +125,8 @@ const Title = styled.h1`
   padding-top: 27pt;
 `;
 const UL = styled.ul`
-  padding: 24pt 15pt 0 15pt;
+ // padding: 24pt 15pt 0 15pt; 
+  padding: 0pt 15pt 80pt;
   .list {
     background-color: rgba(90, 45, 201, 0.7);
     border-radius: 6pt;
@@ -142,6 +145,10 @@ const UL = styled.ul`
     display: flex;
     flex-direction: column;
     gap: 8px;
+  }
+
+  @media (max-width: 899pt) {
+    padding: 0pt 15pt 100pt;
   }
 `;
 const Btn = styled(Button)`

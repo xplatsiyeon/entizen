@@ -100,6 +100,12 @@ const ModalBox = styled(Box)`
   padding-right: 15pt;
   background-color: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
+  @media (max-width: 899pt) {
+    top: auto;
+    left: auto;
+    transform: none;
+    border-radius: 20pt 20pt 0 0;
+  }
 `;
 const ImageBox = styled.div`
   padding-top: 21.9975pt;
@@ -142,7 +148,10 @@ const BtnBox = styled(Box)`
   position: relative;
   display: flex;
   gap: 9pt;
-  padding-bottom: 30pt;
+  padding-bottom: 21pt;
+  @media (max-width: 899pt) {
+    padding-bottom: 30pt;
+  }
 `;
 const BtnLeft = styled(Box)`
   width: 100px;

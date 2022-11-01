@@ -71,6 +71,8 @@ const ModalWrapper = styled(Box)`
   background-color: rgba(0, 0, 0, 0.65);
   display: flex;
   position: fixed;
+  top: 0;
+  left: 0;
   justify-content: center;
   align-items: center;
   z-index: 9999;
@@ -83,6 +85,9 @@ const ModalBox = styled(Box)`
   display: flex;
   flex-direction: column;
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   justify-content: center;
   align-items: center;
 `;
