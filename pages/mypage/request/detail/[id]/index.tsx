@@ -66,7 +66,8 @@ const MypageDetail = () => {
 
   // 모달 컨트롤
   const onClcikModal = () => setModal((prev) => !prev);
-  const rightControl = () => router.push('/mypage/request/1-5');
+  const rightControl = () =>
+    router.push(`/mypage/request/detail/${routerId}/calendar`);
 
   if (isError) {
     console.log(TAG + '🔥 ~line 35 ~ 에러코드 확인');
