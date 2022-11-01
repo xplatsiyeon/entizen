@@ -105,24 +105,24 @@ const SentRequest = ({ checkedFilterIndex }: Props) => {
 
   return (
     <ContentsContainer>
-      {data?.sendQuotationRequests.map((el, index) => (
+      {data?.sendQuotationRequests?.map((el, index) => (
         <Contents
           key={index}
           onClick={() =>
             router.push(
-              `/company/sentProvisionalQuotation/${el.preQuotationIdx}`,
+              `/company/sentProvisionalQuotation/${el?.preQuotationIdx}`,
             )
           }
         >
           <DdayNAddress>
             <DdayBox>
               <CommonBtn
-                text={el.badge}
-                backgroundColor={HandleColor(el.badge)}
+                text={el?.badge}
+                backgroundColor={HandleColor(el?.badge)}
                 bottom={'12pt'}
               />
             </DdayBox>
-            <AddressBox>{el.quotationRequest.installationAddress}</AddressBox>
+            <AddressBox>{el?.quotationRequest.installationAddress}</AddressBox>
           </DdayNAddress>
           <IconBox>
             <ArrowIconBox>

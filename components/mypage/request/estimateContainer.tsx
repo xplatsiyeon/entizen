@@ -77,24 +77,27 @@ const EstimateContainer = ({ data }: Props) => {
             </div>
             <div className="text-box">
               <span className="name">충전기 종류 및 수량</span>
-
               {data?.quotationRequest?.quotationRequestChargers?.map(
                 (item, index) => (
-                  <span className="text">
-                    {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-                    <br />
-                    {item.standType
-                      ? `: ${convertKo(
-                          M6_LIST,
-                          M6_LIST_EN,
-                          item.standType,
-                        )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                          item.count
-                        } 대`
-                      : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                          item.count
-                        } 대`}
-                  </span>
+                  <>
+                    <span className="text">
+                      {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                      <br />
+                      {item.standType
+                        ? `: ${convertKo(
+                            M6_LIST,
+                            M6_LIST_EN,
+                            item.standType,
+                          )}, ${convertKo(
+                            M7_LIST,
+                            M7_LIST_EN,
+                            item.channel,
+                          )}, ${item.count} 대`
+                        : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                            item.count
+                          } 대`}
+                    </span>
+                  </>
                 ),
               )}
             </div>
@@ -186,6 +189,7 @@ const Contents = styled.div`
     }
   }
   .name {
+    display: block;
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;

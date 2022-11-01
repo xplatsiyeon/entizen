@@ -82,6 +82,7 @@ const Mypage1_3 = ({}: any) => {
       () => isTokenGetApi(`/quotations/request/${routerId}`),
       {
         enabled: router.isReady,
+        // enabled: false,
       },
     );
   // 모달 on / off
