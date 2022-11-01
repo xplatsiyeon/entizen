@@ -91,7 +91,7 @@ const Inner = styled.div`
 `;
 
 const Wrapper = styled.div`
-  height: 557.25pt;
+  height: 425.25pt;
   position: relative;
   margin: 0 31.875pt;
 
@@ -108,11 +108,15 @@ const Nav = styled.div`
   padding-top: 15pt;
 `;
 const ContainerBox = styled(Container)`
-  margin-top: 90pt;
+  margin-top: 57.75pt;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+@media (max-width: 899pt) {
+  margin-top: 90pt;
+}
 `;
 const Title = styled.h1`
   font-weight: 700;
@@ -176,6 +180,10 @@ const Btn = styled.button`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   padding: 15pt 0;
-  margin-bottom: 30pt;
+  margin-bottom: 0pt;
   cursor: pointer;
+
+  @media (max-width: 899pt) {
+    margin-bottom: 30pt;
+  }
 `;
