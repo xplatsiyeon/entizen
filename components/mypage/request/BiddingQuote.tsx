@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { PreQuotationResponse } from 'pages/mypage/request/detail/[id]';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
@@ -135,42 +135,63 @@ const BiddingQuote = ({ pb, data }: Props) => {
         <FlexWrap>
           <Label>구독 상품</Label>
           <FeaturesList>
-            <li>QR인증, RFID 인증을 이용한 편리한 결제 시스템</li>
-            <li>앱을 통한 충전기 사용현황 확인 및 사용 예약</li>
-            <li>24시간 콜센터 운영</li>
+            <li>{data?.preQuotation.subscribeProductFeature}</li>
           </FeaturesList>
         </FlexWrap>
-        <FlexWrap>
-          <Label>7 kW 충전기 (공용)</Label>
-          <FeaturesList>
-            <li>LS ELECTRIC 충전기</li>
-            <li>수려한 디자인</li>
-          </FeaturesList>
-        </FlexWrap>
+        {data?.preQuotation.preQuotationChargers.map((item, index) => (
+          <FlexWrap key={item.preQuotationChargerIdx}>
+            <Label>
+              {convertKo(
+                M5_LIST,
+                M5_LIST_EN,
+                data?.quotationRequest.quotationRequestChargers[index].kind,
+              )}
+            </Label>
+            <FeaturesList>
+              <li>{item.productFeature}</li>
+            </FeaturesList>
+          </FlexWrap>
+        ))}
       </Section>
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
-          <GridItem>
-            <Image src={tempCar} alt="img" layout="fill" />
-          </GridItem>
+          {data?.preQuotation.preQuotationChargers.map((item, index) => (
+            <React.Fragment key={item.preQuotationChargerIdx}>
+              {item.chargerImageFiles.map((img, index) => (
+                <GridItem key={img.chargerProductFileIdx}>
+                  <Image
+                    src={img.url}
+                    alt="img-icon"
+                    layout="fill"
+                    priority={true}
+                    unoptimized={true}
+                  />
+                </GridItem>
+              ))}
+            </React.Fragment>
+          ))}
         </GridImg>
       </Section>
+
       <Section pb={pb}>
         <Subtitle>충전기 카탈로그</Subtitle>
-        <FileBtn onClick={DownloadFile}>
-          <Image src={fileImg} alt="file-icon" />
-          Charge Point 카탈로그_7 KW
-        </FileBtn>
+        {data?.preQuotation.preQuotationChargers.map((item, index) => (
+          <React.Fragment key={item.preQuotationChargerIdx}>
+            {item.catalogFiles.map((file, index) => (
+              <FileDownloadBtn key={file.chargerProductFileIdx}>
+                <FileDownload
+                  onClick={DownloadFile}
+                  download={file.originalName}
+                  href={file.url}
+                >
+                  <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                  {file.originalName}
+                </FileDownload>
+              </FileDownloadBtn>
+            ))}
+          </React.Fragment>
+        ))}
       </Section>
     </Wrapper>
   );
@@ -361,6 +382,20 @@ const Contents = styled.p`
   letter-spacing: -0.02em;
   padding-top: 15pt;
   color: ${colors.main2};
+`;
+const FileDownloadBtn = styled(Button)`
+  margin: 15pt 15pt 6pt 15pt;
+  padding: 7.5pt 6pt;
+  border: 0.75pt solid ${colors.lightGray3};
+  border-radius: 8px;
+`;
+
+const FileDownload = styled.a`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 3pt;
+  color: ${colors.gray2};
 `;
 
 export default BiddingQuote;

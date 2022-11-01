@@ -7,7 +7,8 @@ import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
 import { SentRequestResponse } from './SentProvisionalQuoatation';
-import { PriceBasicCalculation } from 'utils/calculatePackage';
+import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
+import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 
 type Props = {
   pb?: number;
@@ -153,13 +154,15 @@ const BottomBox = ({ pb, data }: Props) => {
           (item, index) => (
             <FlexWrap key={item.preQuotationChargerIdx}>
               <Label>
-                {
+                {convertKo(
+                  M5_LIST,
+                  M5_LIST_EN,
                   data?.sendQuotationRequest.quotationRequest
-                    .quotationRequestChargers[index].kind
-                }
+                    .quotationRequestChargers[index].kind,
+                )}
               </Label>
               <FeaturesList>
-                <li>{item.manufacturer}</li>
+                <li>{item.productFeature}</li>
               </FeaturesList>
             </FlexWrap>
           ),
