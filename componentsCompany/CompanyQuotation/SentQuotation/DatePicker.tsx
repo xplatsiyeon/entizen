@@ -47,7 +47,7 @@ const DatePicker = ({}: Props) => {
       console.log(data);
       setModalMessage('확정되었습니다.');
       setIsModal((prev) => !prev);
-      // router.push('/');
+      router.back();
     },
     onError: (error: any) => {
       const {
@@ -76,7 +76,7 @@ const DatePicker = ({}: Props) => {
           spotInspectionDates: [newDay],
           isReplacedPicture: false,
           isNewPropose: false,
-          isConfirmed: false,
+          isConfirmed: true,
         },
       });
     }
