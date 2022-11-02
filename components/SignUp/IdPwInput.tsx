@@ -251,9 +251,10 @@ const IdPwInput = ({
         />
         <Typography
           sx={{
-            fontSize: '14px',
+            fontFamily:'Spoqa Han Sans Neo',
+            fontSize: '10.5pt',
             fontWeight: '400',
-            lineHeight: '16px',
+            lineHeight: '12pt',
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
@@ -281,9 +282,10 @@ const IdPwInput = ({
         />
         <Typography
           sx={{
-            fontSize: '14px',
+            fontFamily:'Spoqa Han Sans Neo',
+            fontSize: '10.5pt',
             fontWeight: '400',
-            lineHeight: '16px',
+            lineHeight: '12pt',
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
@@ -326,38 +328,26 @@ const IdPwInput = ({
             endAdornment: (
               <InputAdornment position="end">
                 <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
-                  <Typography className="checkOverlap" onClick={overlabCheck}>
+                  <ButtonText className="checkOverlap" onClick={overlabCheck} >
                     중복확인
-                  </Typography>
+                  </ButtonText>
                 </OverlapBtn>
               </InputAdornment>
             ),
           }}
         />
-        <Box>
+        <Box sx={{
+          width: '100%',
+          position: 'relative',}}>
           {data?.isMember === false && initIdAlert && (
-            <Typography
-              sx={{
-                color: colors.main,
-                fontSize: '9pt',
-                lineHeight: '12pt',
-                marginTop: '9pt',
-              }}
-            >
+            <Message>
               사용가능한 아이디입니다.
-            </Typography>
+            </Message>
           )}
           {data?.isMember === true && initIdAlert && (
-            <Typography
-              sx={{
-                color: colors.sub4,
-                fontSize: '9pt',
-                lineHeight: '12pt',
-                marginTop: '9pt',
-              }}
-            >
+            <MessageErr>
               이미 사용중인 아이디입니다.
-            </Typography>
+            </MessageErr>
           )}
           {/* {data?.isMember === true &&
               initIdAlert &&
@@ -389,11 +379,15 @@ const IdPwInput = ({
           onBlur={(e) => setPwSelected(false)}
         />
         {!checkedPw && pwInput.length > 4 ? (
-          <Box>
+          <Box sx={{
+            width: '100%',
+            position: 'relative'}}>
             <Typography
               sx={{
                 color: '#F75015',
                 fontSize: '9pt',
+                marginTop: '9pt',
+                fontFamily:'Spoqa Han Sans Neo',
               }}
             >
               영문,숫자,특수문자 조합 10자 이상
@@ -418,6 +412,8 @@ const IdPwInput = ({
               sx={{
                 color: '#F75015',
                 fontSize: '9pt',
+                marginTop: '9pt',
+                fontFamily:'Spoqa Han Sans Neo',
               }}
             >
               비밀번호를 확인해주세요
@@ -442,9 +438,14 @@ const IdPwInput = ({
 const Info = styled.p`
   padding-top: 6pt;
   font-weight: 700;
+  font-size: 15pt;
+  line-height: 22.5pt;
+  color: ${colors.main2};
+  letter-spacing: -0.02em;
+  @media (max-width: 899pt) {
   font-size: 18pt;
   line-height: 24pt;
-  color: ${colors.main2};
+  }
 `;
 const Label = styled.label`
   font-weight: 500;
@@ -452,6 +453,10 @@ const Label = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  margin-top: 19.5pt;
+  @media (max-width: 899pt) {
+    margin-top:0;
+  }
 `;
 const NameInput = styled.input`
   display: none;
@@ -498,4 +503,39 @@ const OverlapBtn = styled.button<{ isChangeColor: boolean }>`
     isChangeColor ? colors.main : colors.gray};
 `;
 
+const ButtonText = styled(Typography)`
+  font-Family:'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+`
+const Message = styled(Typography)`
+  color: ${colors.main};
+  font-Size: '10.5pt';
+  line-Height: '10.5pt';
+  margin-Top: '9pt';
+  font-Family:'Spoqa Han Sans Neo';
+  position: absolute;
+  @media (max-width: 899pt) {
+  font-Size: '9pt';
+  line-Height: '12pt';
+  }
+
+`
+const MessageErr = styled(Typography)`
+color: ${colors.sub4};
+font-Size: '10.5pt';
+line-Height: '10.5pt';
+margin-Top: '9pt';
+font-Family:'Spoqa Han Sans Neo';
+position: absolute;
+  @media (max-width: 899pt) {
+    font-Size: '9pt';
+  line-Height: '12pt';
+  }
+
+`
 export default IdPwInput;

@@ -72,7 +72,7 @@ const Button = styled.button<{
   propsGet?: boolean;
 }>`
   font-weight: 700;
-  margin-top: ${({ marginTop }) => marginTop && marginTop}pt;
+  margin-top: 30pt;
   width: 100%;
   padding-top: 15pt;
   padding-bottom: 15pt;
@@ -82,4 +82,8 @@ const Button = styled.button<{
   color: white;
   background-color: ${({ isClick }) => (isClick ? '#5a2dc9' : '#E2E5ED')};
   cursor: ${({ isClick }) => isClick && 'pointer'};
+  
+  @media (max-width: 899pt) {
+  margin-top: ${({ marginTop }) => marginTop && marginTop}pt;
+  }
 `;
