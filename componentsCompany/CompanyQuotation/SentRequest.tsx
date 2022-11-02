@@ -70,23 +70,6 @@ const SentRequest = ({ checkedFilterIndex }: Props) => {
     } else return colors.main;
   };
 
-  // // 상태 필터에 따른 데이터 변경
-  // useEffect(() => {
-  //   switch (checkedFilterIndex) {
-  //     case 1: // 상태순
-  //       console.log('1이다');
-  //       setData(tempProceeding.sort((a, b) => b.id - a.id));
-  //       break;
-  //     case 2: // 날짜순
-  //       console.log('2이다');
-  //       break;
-  //     default: // 마감일순
-  //       0;
-  //       setData(tempProceeding.sort((a, b) => a.id - b.id));
-  //       break;
-  //   }
-  // }, [data, checkedFilterIndex]);
-
   if (isError) {
     console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
     console.log(error);
@@ -102,6 +85,9 @@ const SentRequest = ({ checkedFilterIndex }: Props) => {
   if (isLoading) {
     return <Loader />;
   }
+
+  console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
+  console.log(data);
 
   return (
     <ContentsContainer>
