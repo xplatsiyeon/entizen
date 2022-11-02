@@ -120,9 +120,9 @@ const SentQuoatationFirst = () => {
   } = useQuery(
     'spot-inspection',
     () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
-    {
-      enabled: false,
-    },
+    // {
+    //   enabled: false,
+    // },
   );
   // 상단 열리고 닫히고
   const handleClick = () => setOpen(!open);
@@ -135,6 +135,8 @@ const SentQuoatationFirst = () => {
     console.log(error);
     console.log(spotError);
   }
+  console.log(TAG + '🔥 ~line 138 spotdata check');
+  console.log(spotData);
 
   return (
     <Wrapper>
