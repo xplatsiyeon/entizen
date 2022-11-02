@@ -16,6 +16,7 @@ interface SpotData {
     spotInspectionDate: string[];
     isConfirmed: boolean;
     isReplacedPicture: boolean;
+    isChanged: boolean;
     preQuotationIdx: number;
   };
 }
@@ -35,6 +36,7 @@ const CenterBox = ({ spotData }: Props) => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [checkFlow, setCheckFlow] = useState<boolean>(true);
+
   return (
     <>
       {modalOpen && (
@@ -44,19 +46,9 @@ const CenterBox = ({ spotData }: Props) => {
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />
         </DownArrowBox>
-        {/* ------------ 일정변경 요청 -------------- */}
-        {/* {!checkFlow && (
-          <ReservationDateCheck>
-            <div className="text">일정 변경 요청이 들어왔습니다.</div>
-            <div className="btnBox">
-              <div className="checkBtn" onClick={() => setCheckFlow(true)}>
-                확인하기
-              </div>
-            </div>
-          </ReservationDateCheck>
-        )} */}
+
         {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
-        {checkFlow && (
+        {spotData?.data && (
           <ReservationDate>
             <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
             <div className="btnBox">
@@ -69,16 +61,32 @@ const CenterBox = ({ spotData }: Props) => {
               <div className="btn left" onClick={() => setModalOpen(true)}>
                 사진으로 대체하기
               </div>
-            </div>{' '}
+            </div>
           </ReservationDate>
         )}
+        {/* ------------ 일정변경 요청 -------------- */}
+        {spotData?.data && spotData?.data?.spotInspection?.isChanged === true && (
+          <ReservationDateCheck>
+            <div className="text">일정 변경 요청이 들어왔습니다.</div>
+            <div className="btnBox">
+              <div className="checkBtn" onClick={() => setCheckFlow(true)}>
+                확인하기
+              </div>
+            </div>
+          </ReservationDateCheck>
+        )}
         {/* ----------- 현장실사 일정 확정 -------------- */}
-        {/* <ConfirmedReservation>
-          <div className="text">현장실사 일정이 확정되었습니다.</div>
-          <div className="date">2022.01.12</div>
-        </ConfirmedReservation> */}
+        {spotData?.data &&
+          spotData?.data?.spotInspection?.isConfirmed === true && (
+            <>
+              <ConfirmedReservation>
+                <div className="text">현장실사 일정이 확정되었습니다.</div>
+                <div className="date">2022.01.12</div>
+              </ConfirmedReservation>
 
-        <SecondTitle>보낸 가견적서</SecondTitle>
+              <SecondTitle>보낸 가견적서</SecondTitle>
+            </>
+          )}
       </Wrapper>
     </>
   );
