@@ -102,7 +102,7 @@ const SentQuoatationFirst = () => {
   const routerId = router?.query?.id;
   // 상단 열고 닫기
   const [open, setOpen] = useState<boolean>(false);
-
+  // ----------- 보낸 견적 상세 페이지 api --------------
   const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
     'company/',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
@@ -111,17 +111,35 @@ const SentQuoatationFirst = () => {
       // enabled: false,
     },
   );
+  // ---------- 현장 실사 날짜 api ------------
+  const {
+    data: spotData,
+    isLoading: spotLoading,
+    isError: spotIsError,
+    error: spotError,
+  } = useQuery(
+    'spot-inspection',
+    () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
+    {
+      enabled: false,
+    },
+  );
   // 상단 열리고 닫히고
   const handleClick = () => setOpen(!open);
 
-  if (isLoading) {
+  if (isLoading && spotLoading) {
     return <Loader />;
   }
-
-  if (isError) {
+  if (isError && spotIsError) {
     console.log(TAG + '🔥 ~line 42 에러 코드');
     console.log(error);
   }
+  console.log(TAG + '🔥 ~라인 134 ~보낸견적 상세 페이지 데이터 확인 ');
+  const preQuotationIndex1 =
+    data?.sendQuotationRequest.preQuotation.preQuotationIdx;
+  console.log(data);
+  console.log('preQuotationIndex1' + preQuotationIndex1);
+  console.log('라우터 아이디' + routerId);
 
   return (
     <Wrapper>
@@ -133,6 +151,7 @@ const SentQuoatationFirst = () => {
         setOpen={setOpen}
         data={data!}
       />
+      {/* 일정 변경 컴포넌트 */}
       <CenterBox />
       <BottomBox data={data!} />
       {/* 최종견적 */}

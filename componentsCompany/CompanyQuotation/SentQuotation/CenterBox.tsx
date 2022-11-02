@@ -13,7 +13,7 @@ type Props = {};
 const CenterBox = (props: Props) => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [checkFlow, setCheckFlow] = useState<boolean>(false);
+  const [checkFlow, setCheckFlow] = useState<boolean>(true);
   return (
     <>
       {modalOpen && (
@@ -35,7 +35,7 @@ const CenterBox = (props: Props) => {
           </ReservationDateCheck>
         )} */}
         {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
-        {/* {checkFlow && (
+        {checkFlow && (
           <ReservationDate>
             <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
             <div className="btnBox">
@@ -50,7 +50,7 @@ const CenterBox = (props: Props) => {
               </div>
             </div>{' '}
           </ReservationDate>
-        )} */}
+        )}
         {/* ----------- 현장실사 일정 확정 -------------- */}
         {/* <ConfirmedReservation>
           <div className="text">현장실사 일정이 확정되었습니다.</div>

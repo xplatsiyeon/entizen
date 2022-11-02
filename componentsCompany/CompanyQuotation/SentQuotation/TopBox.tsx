@@ -149,7 +149,7 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
             </div>
           </Contents>
           {/* ------------------- 파트너 정보 ---------------- */}
-          {/* <Contents>
+          <Contents>
             <Partner>파트너 정보</Partner>
             <div className="text-box">
               <span className="name">이름</span>
@@ -163,7 +163,7 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
               <span className="name">연락처</span>
               <span className="text phone">010-3522-2250</span>
             </div>
-          </Contents> */}
+          </Contents>
         </List>
       </Collapse>
     </Wrapper>
