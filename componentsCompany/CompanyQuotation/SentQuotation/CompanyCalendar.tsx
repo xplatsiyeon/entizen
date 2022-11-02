@@ -32,23 +32,18 @@ const CompanyCalendar = ({
     day: new Date().getDay(), //오늘 요일
   };
 
-  let a: any = [];
-  const c = () => {
+  let temp: string[][] = [];
+  const getDate = () => {
     for (let i = 0; i < days.length; i++) {
-      a.push(days[i].split('.'));
+      temp.push(days[i].split('.'));
     }
-
-    console.log(a);
   };
-  c();
+  getDate();
   const week = ['일', '월', '화', '수', '목', '금', '토']; //일주일
   const [selectedYear, setSelectedYear] = useState(today.year); //현재 선택된 연도
   const [selectedMonth, setSelectedMonth] = useState(today.month); //현재 선택된 달
   const dateTotalCount = new Date(selectedYear, selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
   //이전 달 보기 보튼
-  useEffect(() => {
-    console.log(selectedDays);
-  }, [selectedDays]);
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
       setSelectedMonth(12);
@@ -83,72 +78,12 @@ const CompanyCalendar = ({
     for (const nowDay of week) {
       const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
       // 달력 날짜 추가
-
       // 위에가 고객선택날짜 중에 선택 아래는 날짜 제안
       if (week[day] === nowDay) {
         if (types === 'customer') {
           for (let i = 0; i < dateTotalCount; i++) {
-            if (
-              a[0].includes(selectedYear.toString()) &&
-              a[0].includes(selectedMonth.toString()) &&
-              a[0][2] === (i + 1).toString()
-            ) {
-              dayArr.push(
-                <Day
-                  selectedDay={selectedDay(i + 1)}
-                  key={i + 1}
-                  onClick={() => HandleSelectedDay(i + 1)}
-                >
-                  <div className="item customerDate">{i + 1}</div>
-                </Day>,
-              );
-            } else if (
-              a[1].includes(selectedYear.toString()) &&
-              a[1].includes(selectedMonth.toString()) &&
-              a[1][2] === (i + 1).toString()
-            ) {
-              dayArr.push(
-                <Day
-                  selectedDay={selectedDay(i + 1)}
-                  key={i + 1}
-                  onClick={() => HandleSelectedDay(i + 1)}
-                >
-                  <div className="item customerDate">{i + 1}</div>
-                </Day>,
-              );
-            } else if (
-              a[2].includes(selectedYear.toString()) &&
-              a[2].includes(selectedMonth.toString()) &&
-              a[2][2] === (i + 1).toString()
-            ) {
-              dayArr.push(
-                <Day
-                  selectedDay={selectedDay(i + 1)}
-                  key={i + 1}
-                  onClick={() => HandleSelectedDay(i + 1)}
-                >
-                  <div className="item customerDate">{i + 1}</div>
-                </Day>,
-              );
-            } else if (
-              a[3].includes(selectedYear.toString()) &&
-              a[3].includes(selectedMonth.toString()) &&
-              a[3][2] === (i + 1).toString()
-            ) {
-              dayArr.push(
-                <Day
-                  selectedDay={selectedDay(i + 1)}
-                  key={i + 1}
-                  onClick={() => HandleSelectedDay(i + 1)}
-                >
-                  <div className="item customerDate">{i + 1}</div>
-                </Day>,
-              );
-            } else if (
-              a[4].includes(selectedYear.toString()) &&
-              a[4].includes(selectedMonth.toString()) &&
-              a[4][2] === (i + 1).toString()
-            ) {
+            const loopDate = `${selectedYear}.${selectedMonth}.${i + 1}`;
+            if (days.includes(loopDate)) {
               dayArr.push(
                 <Day
                   selectedDay={selectedDay(i + 1)}
@@ -163,7 +98,7 @@ const CompanyCalendar = ({
                 <Day
                   selectedDay={selectedDay(i + 1)}
                   key={i + 1}
-                  // onClick={() => HandleSelectedDay(i + 1)}
+                  onClick={() => HandleSelectedDay(i + 1)}
                 >
                   <div className="item">{i + 1}</div>
                 </Day>,
@@ -173,9 +108,9 @@ const CompanyCalendar = ({
         } else if (types === 'company') {
           for (let i = 0; i < dateTotalCount; i++) {
             if (
-              a[0].includes(selectedYear.toString()) &&
-              a[0].includes(selectedMonth.toString()) &&
-              a[0][2] === (i + 1).toString()
+              temp[0].includes(selectedYear.toString()) &&
+              temp[0].includes(selectedMonth.toString()) &&
+              temp[0][2] === (i + 1).toString()
             ) {
               dayArr.push(
                 <Day
@@ -187,9 +122,9 @@ const CompanyCalendar = ({
                 </Day>,
               );
             } else if (
-              a[1].includes(selectedYear.toString()) &&
-              a[1].includes(selectedMonth.toString()) &&
-              a[1][2] === (i + 1).toString()
+              temp[1].includes(selectedYear.toString()) &&
+              temp[1].includes(selectedMonth.toString()) &&
+              temp[1][2] === (i + 1).toString()
             ) {
               dayArr.push(
                 <Day
@@ -201,9 +136,9 @@ const CompanyCalendar = ({
                 </Day>,
               );
             } else if (
-              a[2].includes(selectedYear.toString()) &&
-              a[2].includes(selectedMonth.toString()) &&
-              a[2][2] === (i + 1).toString()
+              temp[2].includes(selectedYear.toString()) &&
+              temp[2].includes(selectedMonth.toString()) &&
+              temp[2][2] === (i + 1).toString()
             ) {
               dayArr.push(
                 <Day
@@ -215,9 +150,9 @@ const CompanyCalendar = ({
                 </Day>,
               );
             } else if (
-              a[3].includes(selectedYear.toString()) &&
-              a[3].includes(selectedMonth.toString()) &&
-              a[3][2] === (i + 1).toString()
+              temp[3].includes(selectedYear.toString()) &&
+              temp[3].includes(selectedMonth.toString()) &&
+              temp[3][2] === (i + 1).toString()
             ) {
               dayArr.push(
                 <Day
@@ -229,9 +164,9 @@ const CompanyCalendar = ({
                 </Day>,
               );
             } else if (
-              a[4].includes(selectedYear.toString()) &&
-              a[4].includes(selectedMonth.toString()) &&
-              a[4][2] === (i + 1).toString()
+              temp[4].includes(selectedYear.toString()) &&
+              temp[4].includes(selectedMonth.toString()) &&
+              temp[4][2] === (i + 1).toString()
             ) {
               dayArr.push(
                 <Day
@@ -247,7 +182,7 @@ const CompanyCalendar = ({
                 <Day
                   selectedDay={selectedDay(i + 1)}
                   key={i + 1}
-                  // onClick={() => HandleSelectedDay(i + 1)}
+                  onClick={() => HandleSelectedDay(i + 1)}
                 >
                   <div className="item">{i + 1}</div>
                 </Day>,
@@ -280,21 +215,12 @@ const CompanyCalendar = ({
   };
   // 날짜 선택하기
   const HandleSelectedDay = (day: number) => {
-    const differencerDate = CalculateDifference(day);
-    // 년,월,일 날짜
     const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
-    // 이전 날짜 클릭 금지 조건문
-    if (differencerDate > 0) return;
-    // 클릭 취소
-    if (selectedDays === selectedDate) {
-      // const temp = selectedDays;
-      // const index = temp.indexOf(selectedDate);
-      // temp.splice(index, 1);
-      SetSelectedDays('');
-      // 최대 5개까지 선택 가능
-    } else {
-      // day;
+    if (days.includes(selectedDate)) {
       SetSelectedDays(selectedDate);
+    }
+    if (selectedDays === selectedDate) {
+      SetSelectedDays('');
     }
   };
 

@@ -1,16 +1,16 @@
 import styled from '@emotion/styled';
-
 import MypageHeader from 'components/mypage/request/header';
 import WebHeader from 'componentsWeb/WebHeader';
 import ScheduleIcon from 'public/mypage/schedule-icon.svg';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { requestAction } from 'store/requestSlice';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyCalendar from './CompanyCalendar';
+import Modal from 'components/Modal/Modal';
 
 type Props = {};
 
@@ -18,7 +18,9 @@ const DatePicker = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
-  const [isModal, setIsModal] = useState(false); // 모달
+  const [isValid, SetIsValid] = useState(false); // 버튼 유효성 검사
+  const [isModal, setIsModal] = useState(false); // 모달 on/off
+  const [modalMessage, setModalMessage] = useState(''); // 모달 메세지
   const days = [
     '2022.10.20',
     '2022.10.22',
@@ -27,13 +29,30 @@ const DatePicker = (props: Props) => {
     '2022.10.31',
   ];
   // 리덕스
-  const HandleModal = () => {
-    // router.push('/mypage');
-    router.push('/mypage/request/2-1');
-    dispatch(requestAction.addDate(selectedDays));
+  const onClickConfirmBtn = () => {
+    if (selectedDays) {
+      setModalMessage('확정되었습니다.');
+      setIsModal((prev) => !prev);
+    }
   };
+  const HandleModal = () => {
+    console.log('온클릭');
+    setIsModal((prev) => !prev);
+    // router.push('/mypage');
+    // dispatch(requestAction.addDate(selectedDays));
+  };
+
+  useEffect(() => {
+    if (selectedDays) {
+      SetIsValid(true);
+    } else {
+      SetIsValid(false);
+    }
+  }, [selectedDays]);
+
   return (
     <React.Fragment>
+      {isModal && <Modal click={HandleModal} text={modalMessage} />}
       <Body>
         <WebHeader />
         <Inner>
@@ -88,7 +107,9 @@ const DatePicker = (props: Props) => {
                 ))}
               </UL>
             </Schedule>
-            <Btn onClick={() => setIsModal((prev) => !prev)}>일정 확정하기</Btn>
+            <Btn isValid={isValid} onClick={onClickConfirmBtn}>
+              일정 확정하기
+            </Btn>
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -215,10 +236,10 @@ const UL = styled.ul`
     background-color: ${colors.main};
   }
 `;
-const Btn = styled.button`
+const Btn = styled.button<{ isValid: boolean }>`
   position: absolute;
   bottom: 0;
-  background-color: ${colors.main};
+  background-color: ${({ isValid }) => (isValid ? colors.main : colors.gray)};
   width: 100%;
   text-align: center;
   padding-top: 15pt;
