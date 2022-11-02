@@ -497,31 +497,32 @@ const ButtonText = styled(Typography)`
   letter-spacing: -0.02em;
   color: #FFFFFF;
 `
-const Message = styled(Typography)`
+const Message = styled.p`
   color: ${colors.main};
-  font-size: '10.5pt'!important;
-  line-height: '10.5pt'!important;
-  margin-top: '9pt'!important;
+  font-size: '10.5pt';
+  line-height: '10.5pt';
+  margin-top: '9pt';
   font-family:'Spoqa Han Sans Neo';
   position: absolute;
-  bottom:0;
+  bottom: -30pt;
   @media (max-width: 899pt) {
-  font-size: '9pt'!important;
-  line-height: '12pt'!important;
+  font-size: '9pt';
+  line-height: '12pt';
   }
 
 `
-const MessageErr = styled(Typography)`
+const MessageErr = styled.p`
 color: ${colors.sub4};
-font-size: '10.5pt'!important;
-line-height: '10.5pt'!important;
-margin-top: '9pt'!important;
+font-size: '10.5pt';
+line-height: '10.5pt';
+margin-top: '9pt';
 font-family:'Spoqa Han Sans Neo';
 position: absolute;
+bottom: -30pt;
   margin-top: '9pt';
   @media (max-width: 899pt) {
-    font-size: '9pt'!important;
-    line-height: '12pt'!important;
+    font-size: '9pt';
+    line-height: '12pt';
   }
 
 `
