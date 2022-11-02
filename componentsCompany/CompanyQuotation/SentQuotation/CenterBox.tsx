@@ -32,29 +32,30 @@ const CenterBox = ({ spotData }: Props) => {
         </DownArrowBox>
 
         {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
-        {spotData?.data && (
-          <ReservationDate>
-            <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
-            <div className="btnBox">
-              <div
-                className="btn right"
-                onClick={() =>
-                  router.push({
-                    pathname: '/company/datePick',
-                    query: {
-                      routerId: spotData.data.spotInspection.preQuotationIdx,
-                    },
-                  })
-                }
-              >
-                달력으로 확인하기
+        {spotData?.data &&
+          spotData?.data?.spotInspection?.isConfirmed === false && (
+            <ReservationDate>
+              <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
+              <div className="btnBox">
+                <div
+                  className="btn right"
+                  onClick={() =>
+                    router.push({
+                      pathname: '/company/datePick',
+                      query: {
+                        routerId: spotData.data.spotInspection.preQuotationIdx,
+                      },
+                    })
+                  }
+                >
+                  달력으로 확인하기
+                </div>
+                <div className="btn left" onClick={() => setModalOpen(true)}>
+                  사진으로 대체하기
+                </div>
               </div>
-              <div className="btn left" onClick={() => setModalOpen(true)}>
-                사진으로 대체하기
-              </div>
-            </div>
-          </ReservationDate>
-        )}
+            </ReservationDate>
+          )}
         {/* ------------ 일정변경 요청 -------------- */}
         {spotData?.data &&
           spotData?.data?.spotInspection?.isNewPropose === true && (
@@ -73,7 +74,12 @@ const CenterBox = ({ spotData }: Props) => {
             <>
               <ConfirmedReservation>
                 <div className="text">현장실사 일정이 확정되었습니다.</div>
-                <div className="date">2022.01.12</div>
+                <div className="date">
+                  {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
+                    '-',
+                    '.',
+                  )}
+                </div>
               </ConfirmedReservation>
 
               <SecondTitle>보낸 가견적서</SecondTitle>
