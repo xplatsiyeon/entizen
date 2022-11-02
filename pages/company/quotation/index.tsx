@@ -16,29 +16,26 @@ import SentRequest from '../../../componentsCompany/CompanyQuotation/SentRequest
 import Tab from '../../../componentsCompany/CompanyQuotation/Tab';
 
 type Props = {};
-
-export interface receivedQuotationRequests {
-  createdAt: string;
-  quotationRequestIdx: number;
-  quotationStatus: string;
+interface QuotationRequest {
   changedDate: string;
-  subscribeProduct: string;
-  investRate: string;
-  subscribePeriod: number;
+  createdAt: string;
+  etcRequest: string;
+  expiredAt: string;
   installationAddress: string;
   installationLocation: string;
   installationPurpose: string;
-  expiredAt: string;
-  etcRequest: string;
+  investRate: string;
   memberIdx: number;
-  preQuotations: [];
-  quotationRequestChargers: [];
-  companyMemberAdditionalInfo: [];
+  quotationRequestIdx: number;
+}
+export interface ReceivedQuotationRequests {
   badge: string;
+  quotationRequest: QuotationRequest;
+  companyMemberAdditionalInfo: [];
 }
 export interface ReceivedRequest {
   isSuccess: boolean;
-  receivedQuotationRequests: receivedQuotationRequests[];
+  receivedQuotationRequests: ReceivedQuotationRequests[];
 }
 
 interface Test extends ReceivedRequest {
