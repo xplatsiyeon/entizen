@@ -133,6 +133,7 @@ const ReservationDate = styled.div`
   }
   .btnBox {
     display: flex;
+    justify-content: center;
     gap: 9pt;
     margin-top: 15pt;
     .right {

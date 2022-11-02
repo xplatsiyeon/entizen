@@ -505,7 +505,7 @@ const MessageId = styled.p`
   margin-top: 9pt;
   font-family:'Spoqa Han Sans Neo';
   position: absolute;
-  bottom: -30pt;
+  bottom: -20pt;
   @media (max-width: 899pt) {
   font-size: 9pt;
   line-height: 12pt;
