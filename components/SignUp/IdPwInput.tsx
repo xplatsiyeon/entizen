@@ -364,6 +364,7 @@ const IdPwInput = ({
           justifyContent: 'center',
           marginTop: '30pt',
           width: '100%',
+          position:'relative'
         }}
       >
         <Label>비밀번호</Label>
@@ -379,9 +380,7 @@ const IdPwInput = ({
           onBlur={(e) => setPwSelected(false)}
         />
         {!checkedPw && pwInput.length > 4 ? (
-          <Box sx={{
-            width: '100%',
-            position: 'relative'}}>
+          <Box>
             <MessageErr>
               영문,숫자,특수문자 조합 10자 이상
             </MessageErr>
@@ -500,28 +499,28 @@ const ButtonText = styled(Typography)`
 `
 const Message = styled(Typography)`
   color: ${colors.main};
-  font-size: '10.5pt';
-  line-height: '10.5pt';
-  margin-top: '9pt';
+  font-size: '10.5pt'!important;
+  line-height: '10.5pt'!important;
+  margin-top: '9pt'!important;
   font-family:'Spoqa Han Sans Neo';
   position: absolute;
   @media (max-width: 899pt) {
-  font-size: '9pt';
-  line-height: '12pt';
+  font-size: '9pt'!important;
+  line-height: '12pt'!important;
   }
 
 `
 const MessageErr = styled(Typography)`
 color: ${colors.sub4};
-font-size: '10.5pt';
-line-height: '10.5pt';
-margin-top: '9pt';
+font-size: '10.5pt'!important;
+line-height: '10.5pt'!important;
+margin-top: '9pt'!important;
 font-family:'Spoqa Han Sans Neo';
 position: absolute;
   margin-top: '9pt';
   @media (max-width: 899pt) {
-    font-size: '9pt';
-    line-height: '12pt';
+    font-size: '9pt'!important;
+    line-height: '12pt'!important;
   }
 
 `
