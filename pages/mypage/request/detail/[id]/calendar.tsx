@@ -24,19 +24,29 @@ const Mypage1_5 = () => {
   const router = useRouter();
   const routerId = router.query.id;
   const dispatch = useDispatch();
-  const { mutate, isLoading } = useMutation(isTokenPostApi, {
-    onSuccess: () => {
-      setIsModal((prev) => !prev);
-    },
-    onError: () => {},
-  });
   const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
   const [isModal, setIsModal] = useState(false); // 모달
+  const [modalMessage, setModalMessage] = useState(''); // 모달 메세지
+
+  const { mutate: spotMutate, isLoading } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      setIsModal(true);
+      setModalMessage('전송이 완료되었습니다.');
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setModalMessage(error.response.data.message);
+        setIsModal(true);
+      } else {
+        setModalMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
 
   const onClickBtn = () => {
     const postData = selectedDays.map((e) => e.replaceAll('.', '-'));
-    console.log(selectedDays);
-    isTokenPostApi({
+    spotMutate({
       url: `/quotations/pre/${routerId}/spot-inspection`,
       data: {
         spotInspectionDates: postData,
@@ -47,10 +57,10 @@ const Mypage1_5 = () => {
   };
   // 리덕스
   const HandleModal = () => {
-    console.log('모달 확인 버튼 클릭');
-    // router.push('/mypage');
-    // router.push('/mypage/request/2-1');
-    // dispatch(requestAction.addDate(selectedDays));
+    dispatch(requestAction.addDate(selectedDays)); // 필요없으면 나중에 삭제
+
+    setIsModal(false);
+    router.push('/mypage');
   };
   return (
     <React.Fragment>
@@ -60,11 +70,7 @@ const Mypage1_5 = () => {
           <Wrapper>
             {/* 모달 */}
             {isModal && (
-              <Modal
-                click={HandleModal}
-                text="전송이 완료되었습니다."
-                color="red"
-              />
+              <Modal click={HandleModal} text={modalMessage} color="red" />
             )}
             <MypageHeader title="날짜 선택" back={true} />
             <H1>
