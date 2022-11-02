@@ -382,16 +382,9 @@ const IdPwInput = ({
           <Box sx={{
             width: '100%',
             position: 'relative'}}>
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-                marginTop: '9pt',
-                fontFamily:'Spoqa Han Sans Neo',
-              }}
-            >
+            <MessageErr>
               영문,숫자,특수문자 조합 10자 이상
-            </Typography>
+            </MessageErr>
           </Box>
         ) : (
           <></>
@@ -408,16 +401,9 @@ const IdPwInput = ({
         />
         {!checkSamePw && checkPw.length > 4 ? (
           <Box>
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-                marginTop: '9pt',
-                fontFamily:'Spoqa Han Sans Neo',
-              }}
-            >
+            <MessageErr>
               비밀번호를 확인해주세요
-            </Typography>
+            </MessageErr>
           </Box>
         ) : (
           <></>
@@ -514,27 +500,28 @@ const ButtonText = styled(Typography)`
 `
 const Message = styled(Typography)`
   color: ${colors.main};
-  font-Size: '10.5pt';
-  line-Height: '10.5pt';
-  margin-Top: '9pt';
-  font-Family:'Spoqa Han Sans Neo';
+  font-size: '10.5pt';
+  line-height: '10.5pt';
+  margin-top: '9pt';
+  font-family:'Spoqa Han Sans Neo';
   position: absolute;
   @media (max-width: 899pt) {
-  font-Size: '9pt';
-  line-Height: '12pt';
+  font-size: '9pt';
+  line-height: '12pt';
   }
 
 `
 const MessageErr = styled(Typography)`
 color: ${colors.sub4};
-font-Size: '10.5pt';
-line-Height: '10.5pt';
-margin-Top: '9pt';
-font-Family:'Spoqa Han Sans Neo';
+font-size: '10.5pt';
+line-height: '10.5pt';
+margin-top: '9pt';
+font-family:'Spoqa Han Sans Neo';
 position: absolute;
+  margin-top: '9pt';
   @media (max-width: 899pt) {
-    font-Size: '9pt';
-  line-Height: '12pt';
+    font-size: '9pt';
+    line-height: '12pt';
   }
 
 `

@@ -194,7 +194,7 @@ const ButtonWrap = styled(Button)`
   border-Radius: 6pt;
   align-Items: center;
   background: #5a2dc9;
-  color: 'white';
+  color: white;
   font-family: 'Spoqa Han Sans Neo';
   @media (max-width: 899pt) {
     margin: 60pt 15pt 0 15pt;
