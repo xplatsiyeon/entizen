@@ -40,6 +40,7 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   margin-top: 21pt;
   position: relative;
+  padding-bottom: 150pt;
 `;
 const ImageBox = styled.div`
   width: 24pt;
@@ -92,9 +93,11 @@ const BtnBox = styled.div`
   box-sizing: border-box;
   padding-left: 15pt;
   padding-right: 15pt;
+  padding-bottom: 30pt;
   width: 100%;
   gap: 6pt;
-  bottom: 30pt;
+  bottom: 0pt;
+  background: #ffff;
 `;
 
 const Btn = styled.div<{ tColor: boolean }>`
