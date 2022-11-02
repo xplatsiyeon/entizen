@@ -1,17 +1,8 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import AddIcon from 'public/images/add-img.svg';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Select from '@mui/material/Select';
-import { MenuItem } from '@mui/material';
 import Arrow from 'public/guide/Arrow.svg';
 import XCircle from 'public/guide/XCircle.svg';
 import {
@@ -72,7 +63,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   ]);
 
   // 셀렉터 옵션 체인지
-  const handleSelectBox = (name: string, value: string, index: number) => {
+  const handleSelectBox = (value: string, name: string, index: number) => {
     let copy: SelectedOption[] = [...selectedOption];
     let copyEn: Option[] = [...selectedOptionEn];
     // 영어 값 추출
@@ -233,7 +224,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               name="kind"
               placeholder="충전기 종류"
               index={index}
-              onClickEvent={handleSelectBox}
+              onClickCharger={handleSelectBox}
             />
           </SelectBoxWrapper>
           {/* 타입,채널,수량 옵션 박스 */}
@@ -244,7 +235,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               name="standType"
               placeholder="타입"
               index={index}
-              onClickEvent={handleSelectBox}
+              onClickCharger={handleSelectBox}
             />
             <SelectComponents
               value={item.channel}
@@ -252,7 +243,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               name="channel"
               placeholder="채널"
               index={index}
-              onClickEvent={handleSelectBox}
+              onClickCharger={handleSelectBox}
             />
             <SelectComponents
               value={item.count}
@@ -260,7 +251,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               name="count"
               placeholder="수량"
               index={index}
-              onClickEvent={handleSelectBox}
+              onClickCharger={handleSelectBox}
             />
           </SelectComponentsContainer>
         </div>
@@ -317,29 +308,14 @@ const SubTitle = styled.div`
   .add-img {
   }
 `;
-
 const SelectBoxWrapper = styled.div`
   padding-top: 4.5pt;
 `;
-
 const SelectComponentsContainer = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 9pt;
   gap: 9pt;
-`;
-const SelectIcon = styled(KeyboardArrowDownIcon)`
-  width: 18pt;
-  height: 18pt;
-  color: ${colors.dark} !important;
-`;
-const Placeholder = styled.em`
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  font-family: 'Spoqa Han Sans Neo';
-  color: ${colors.lightGray3};
 `;
 const ChargeGuide = styled.div`
   display: flex;

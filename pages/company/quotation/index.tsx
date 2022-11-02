@@ -17,12 +17,26 @@ import Tab from '../../../componentsCompany/CompanyQuotation/Tab';
 
 type Props = {};
 
-interface receivedQuotationRequests {
+export interface receivedQuotationRequests {
+  createdAt: string;
   quotationRequestIdx: number;
-  badge: string;
+  quotationStatus: string;
+  changedDate: string;
+  subscribeProduct: string;
+  investRate: string;
+  subscribePeriod: number;
   installationAddress: string;
+  installationLocation: string;
+  installationPurpose: string;
+  expiredAt: string;
+  etcRequest: string;
+  memberIdx: number;
+  preQuotations: [];
+  quotationRequestChargers: [];
+  companyMemberAdditionalInfo: [];
+  badge: string;
 }
-interface ReceivedRequest {
+export interface ReceivedRequest {
   isSuccess: boolean;
   receivedQuotationRequests: receivedQuotationRequests[];
 }
@@ -84,6 +98,10 @@ const CompanyQuotations = (props: Props) => {
   if (isLoading) {
     return <Loader />;
   }
+
+  console.log(TAG + '🔥 ~line 102 받은 요청 get data 확인');
+  console.log(data);
+
   return (
     <>
       <Container>
