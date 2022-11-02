@@ -15,8 +15,8 @@ const TAG = '👀 ~RecieveRequest ~line 20 queryData';
 const RecieveRequest = ({ queryData }: Props) => {
   const router = useRouter();
 
-  console.log(TAG);
-  console.log(queryData);
+  // console.log(TAG);
+  // console.log(queryData);
   return (
     <ContentsContainer>
       {queryData?.map((el) => (
