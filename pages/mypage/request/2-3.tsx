@@ -100,6 +100,7 @@ const Inner = styled.div`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
+  margin: 45.75pt auto;
 
   @media (max-width: 899pt) {
     width: 100%;
@@ -113,11 +114,13 @@ const Inner = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-  height: 434.25pt;
+  //height: 434.25pt;
+  padding-bottom: 87pt;
 
   @media (max-width: 899pt) {
     height: 100%;
-    padding-bottom: 75pt;
+   // padding-bottom: 75pt;
+   padding-bottom: 0;
     margin: 0;
   }
 `;
@@ -192,15 +195,22 @@ const Btn = styled.div<{ tabNumber: number }>`
   }
   .left {
     background: rgba(90, 45, 201, 0.5);
+
+    @media (max-width: 899pt) {
+      padding-bottom: 39pt;
+    }
   }
   .right {
     background: ${({ tabNumber }) =>
       tabNumber !== -1 ? colors.main : colors.gray};
+    @media (max-width: 899pt) {
+      padding-bottom: 39pt;
+    }
   }
 
   @media (max-width: 899pt) {
     position: fixed;
     left: 0;
-    padding-bottom: 39pt;
+    //padding-bottom: 39pt;
   }
 `;
