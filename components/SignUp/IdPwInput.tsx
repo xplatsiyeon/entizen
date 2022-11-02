@@ -500,44 +500,42 @@ const ButtonText = styled(Typography)`
 
 const MessageId = styled.p`
   color: ${colors.main};
-  font-size: '10.5pt';
-  line-height: '10.5pt';
-  margin-top: '9pt';
+  font-size: 10.5pt;
+  line-height: 10.5pt;
+  margin-top: 9pt;
   font-family:'Spoqa Han Sans Neo';
   position: absolute;
   bottom: -30pt;
   @media (max-width: 899pt) {
-  font-size: '9pt';
-  line-height: '12pt';
-  }
+  font-size: 9pt;
+  line-height: 12pt;
+ }
 `
 
 const MessageErrId = styled.p`
 color: ${colors.sub4};
-font-size: '10.5pt';
-line-height: '10.5pt';
-margin-top: '9pt';
+font-size: 10.5pt;
+line-height: 10.5pt;
+margin-top: 9pt;
 font-family:'Spoqa Han Sans Neo';
 position: absolute;
-bottom: -30pt;
-  margin-top: '9pt';
+bottom: -20pt;
+  margin-top: 9pt;
   @media (max-width: 899pt) {
-    font-size: '9pt';
-    line-height: '12pt';
+    font-size: 9pt;
+    line-height: 12pt;
   }
 `
 const MessageErrPs = styled.p`
 color: ${colors.sub4};
-font-size: '10.5pt';
-line-height: '10.5pt';
-margin-top: '9pt';
+font-size: 10.5pt;
+line-height: 10.5pt;
+margin-top: 9pt;
 font-family:'Spoqa Han Sans Neo';
-position: absolute;
-bottom: -30pt;
-  margin-top: '9pt';
+  margin-top: 9pt;
   @media (max-width: 899pt) {
-    font-size: '9pt';
-    line-height: '12pt';
+    font-size: 9pt;
+    line-height: 12pt;
   }
 `
 export default IdPwInput;
