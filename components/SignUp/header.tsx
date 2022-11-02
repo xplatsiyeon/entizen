@@ -86,7 +86,12 @@ const Header = styled.div`
     color: ${colors.gray2};
   }
   .exit {
+    display: none;
     position: absolute;
     right: 15pt;
+    @media (max-width: 899pt) {
+      display: block;
+    }
+
   }
 `;
