@@ -84,6 +84,7 @@ const Notice = styled(Typography)`
   line-height: 33pt;
   text-align: center;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
 `;
 const SelectWrapper = styled(Box)`
@@ -109,6 +110,7 @@ const Select = styled(Box)<{ type: string; idx: string }>`
     font-weight: 400;
     font-size: 18pt;
     line-height: 18pt;
+    font-family: 'Spoqa Han Sans Neo';
   }
 `;
 

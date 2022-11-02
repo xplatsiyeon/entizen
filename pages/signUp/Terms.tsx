@@ -32,6 +32,7 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
+  font-family: 'Spoqa Han Sans Neo';
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
