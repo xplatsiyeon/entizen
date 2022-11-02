@@ -6,10 +6,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
-import { receivedQuotationRequests } from 'pages/company/quotation';
+import { ReceivedQuotationRequests } from 'pages/company/quotation';
 
 type Props = {
-  queryData: receivedQuotationRequests[];
+  queryData: ReceivedQuotationRequests[];
 };
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
 const RecieveRequest = ({ queryData }: Props) => {
@@ -21,20 +21,22 @@ const RecieveRequest = ({ queryData }: Props) => {
     <ContentsContainer>
       {queryData?.map((el) => (
         <Contents
-          key={el.quotationRequestIdx}
+          key={el?.quotationRequest?.quotationRequestIdx}
           onClick={() =>
-            router.push(`/company/recievedRequest/${el.quotationRequestIdx}`)
+            router.push(
+              `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
+            )
           }
         >
           <DdayNAddress>
             <DdayBox>
               <CommonBtn
-                text={el.badge}
-                backgroundColor={HandleColor(el.badge)}
+                text={el?.badge}
+                backgroundColor={HandleColor(el?.badge)}
                 bottom={'12pt'}
               />
             </DdayBox>
-            <AddressBox>{el.installationAddress}</AddressBox>
+            <AddressBox>{el?.quotationRequest?.installationAddress}</AddressBox>
           </DdayNAddress>
           <IconBox>
             <ArrowIconBox>
