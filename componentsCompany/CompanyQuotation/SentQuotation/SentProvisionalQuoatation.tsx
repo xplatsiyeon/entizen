@@ -133,13 +133,8 @@ const SentQuoatationFirst = () => {
   if (isError && spotIsError) {
     console.log(TAG + '🔥 ~line 42 에러 코드');
     console.log(error);
+    console.log(spotError);
   }
-  console.log(TAG + '🔥 ~라인 134 ~보낸견적 상세 페이지 데이터 확인 ');
-  const preQuotationIndex1 =
-    data?.sendQuotationRequest.preQuotation.preQuotationIdx;
-  console.log(data);
-  console.log('preQuotationIndex1' + preQuotationIndex1);
-  console.log('라우터 아이디' + routerId);
 
   return (
     <Wrapper>
@@ -152,7 +147,7 @@ const SentQuoatationFirst = () => {
         data={data!}
       />
       {/* 일정 변경 컴포넌트 */}
-      <CenterBox />
+      <CenterBox spotData={spotData!} />
       <BottomBox data={data!} />
       {/* 최종견적 */}
       <LastQuotationBtnBox>

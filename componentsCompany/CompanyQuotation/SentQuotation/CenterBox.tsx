@@ -7,10 +7,31 @@ import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
 
-type Props = {};
+interface SpotData {
+  hasReceivedSpotInspectionDates: boolean;
+  spotInspection: {
+    createdAt: string;
+    spotInspectionIdx: number;
+    proposerType: string;
+    spotInspectionDate: string[];
+    isConfirmed: boolean;
+    isReplacedPicture: boolean;
+    preQuotationIdx: number;
+  };
+}
+interface SpotDataResponse {
+  isSuccess: boolean;
+  data: SpotData;
+}
+type Props = {
+  spotData: SpotDataResponse;
+};
 
+const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/CenterBox.tsx';
 // 날짜 정하기
-const CenterBox = (props: Props) => {
+const CenterBox = ({ spotData }: Props) => {
+  console.log(TAG + '🔥 ~line 33 spot data 확인');
+  console.log(spotData);
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [checkFlow, setCheckFlow] = useState<boolean>(true);
