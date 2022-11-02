@@ -42,8 +42,9 @@ const DatePicker = ({}: Props) => {
   );
 
   // 일정 확정하기 POST API
-  const { mutate, isLoading } = useMutation(isTokenPostApi, {
-    onSuccess: () => {
+  const { data, mutate, isLoading } = useMutation(isTokenPostApi, {
+    onSuccess: (data) => {
+      console.log(data);
       setModalMessage('확정되었습니다.');
       setIsModal((prev) => !prev);
       // router.push('/');
@@ -66,7 +67,9 @@ const DatePicker = ({}: Props) => {
   // 확정하기 버튼 클릭
   const onClickConfirmBtn = () => {
     if (selectedDays) {
+      console.log('온클릭 됐나요?');
       const newDay = selectedDays.replaceAll('.', '-');
+      console.log(newDay);
       mutate({
         url: `/quotations/pre/${router.query.routerId}/spot-inspection`,
         data: {
