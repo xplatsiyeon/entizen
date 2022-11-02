@@ -109,7 +109,7 @@ const DatePicker = (routerId: Props) => {
             <CompanyCalendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
-              days={days!}
+              days={days!.sort()}
               types={'customer'}
             />
             <Explanation>
@@ -120,7 +120,7 @@ const DatePicker = (routerId: Props) => {
             <Schedule>
               <h3 className="name">선택된 일정</h3>
               <UL>
-                {days?.map((day, index) => (
+                {days?.sort().map((day, index) => (
                   <>
                     {selectedDays !== '' && day == selectedDays ? (
                       <li className="list selected" key={index}>
