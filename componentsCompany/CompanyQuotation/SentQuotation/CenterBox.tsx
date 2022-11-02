@@ -54,7 +54,14 @@ const CenterBox = ({ spotData }: Props) => {
             <div className="btnBox">
               <div
                 className="btn right"
-                onClick={() => router.push('/company/datePick')}
+                onClick={() =>
+                  router.push({
+                    pathname: '/company/datePick',
+                    query: {
+                      routerId: spotData.data.spotInspection.preQuotationIdx,
+                    },
+                  })
+                }
               >
                 달력으로 확인하기
               </div>

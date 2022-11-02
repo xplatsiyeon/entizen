@@ -13,9 +13,10 @@ import CompanyCalendar from './CompanyCalendar';
 import Modal from 'components/Modal/Modal';
 import { useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 
 type Props = {};
-
+const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/DatePicker.tsx';
 const DatePicker = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -35,32 +36,30 @@ const DatePicker = (props: Props) => {
     '2022.10.31',
   ];
   // ---------- 현장 실사 날짜 api ------------
-  // const {
-  //   data: spotData,
-  //   isLoading: spotLoading,
-  //   isError: spotIsError,
-  //   error: spotError,
-  // } = useQuery(
-  //   'spot-inspection',
-  //   () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
-  //   {
-  //     enabled: router.isReady,
-  //     // enabled: false,
-  //   },
-  // );
-  // // 상단 열리고 닫히고
-  // const handleClick = () => setOpen(!open);
+  const {
+    data: spotData,
+    isLoading: spotLoading,
+    isError: spotIsError,
+    error: spotError,
+  } = useQuery(
+    'spot-inspection',
+    () =>
+      isTokenGetApi(`/quotations/pre/${router.query.routerId}/spot-inspection`),
+    {
+      enabled: router.isReady,
+      // enabled: false,
+    },
+  );
 
-  // if (isLoading && spotLoading) {
-  //   return <Loader />;
-  // }
-  // if (isError && spotIsError) {
-  //   console.log(TAG + '🔥 ~line 42 에러 코드');
-  //   console.log(error);
-  //   console.log(spotError);
-  // }
-  // console.log(TAG + '🔥 ~line 138 spotdata check');
-  // console.log(spotData);
+  if (spotLoading) {
+    return <Loader />;
+  }
+  if (spotIsError) {
+    console.log(TAG + '🔥 ~line 42 에러 코드');
+    console.log(spotError);
+  }
+  console.log(TAG + '🔥 ~line 61 spotdata check');
+  console.log(spotData);
 
   // 확정하기 버튼 클릭
   const onClickConfirmBtn = () => {
