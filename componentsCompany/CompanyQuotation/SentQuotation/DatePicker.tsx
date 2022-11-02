@@ -11,33 +11,20 @@ import { requestAction } from 'store/requestSlice';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyCalendar from './CompanyCalendar';
 import Modal from 'components/Modal/Modal';
-import { useQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
 import { SpotDataResponse } from './SentProvisionalQuoatation';
 
 type Props = {};
 const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/DatePicker.tsx';
-const DatePicker = (routerId: Props) => {
+const DatePicker = ({}: Props) => {
   const router = useRouter();
 
-  const dispatch = useDispatch();
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
   const [isValid, SetIsValid] = useState(false); // 버튼 유효성 검사
   const [isModal, setIsModal] = useState(false); // 모달 on/off
   const [modalMessage, setModalMessage] = useState(''); // 모달 메세지
-  // const queryClient = useQueryClient();
-
-  // console.log(queryClient);
-
-  // console.log(queryClient.getQueryData(['spot-inspection']));
-  // const days = [
-  //   '2022.10.20',
-  //   '2022.10.22',
-  //   '2022.10.28',
-  //   '2022.10.29',
-  //   '2022.10.31',
-  // ];
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
@@ -54,11 +41,41 @@ const DatePicker = (routerId: Props) => {
     },
   );
 
+  // 일정 확정하기 POST API
+  const { mutate, isLoading } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      setModalMessage('확정되었습니다.');
+      setIsModal((prev) => !prev);
+      // router.push('/');
+    },
+    onError: (error: any) => {
+      const {
+        response: { data },
+      } = error;
+      if (data) {
+        setModalMessage(data.message);
+        setIsModal(true);
+      } else {
+        setModalMessage('다시 시도해주세요');
+        setIsModal(true);
+        router.push('/');
+      }
+    },
+  });
+
   // 확정하기 버튼 클릭
   const onClickConfirmBtn = () => {
     if (selectedDays) {
-      setModalMessage('확정되었습니다.');
-      setIsModal((prev) => !prev);
+      const newDay = selectedDays.replaceAll('.', '-');
+      mutate({
+        url: `/quotations/pre/${router.query.routerId}/spot-inspection`,
+        data: {
+          spotInspectionDates: [newDay],
+          isReplacedPicture: false,
+          isNewPropose: false,
+          isConfirmed: false,
+        },
+      });
     }
   };
   // 모달 확인 버튼 클릭
@@ -77,15 +94,13 @@ const DatePicker = (routerId: Props) => {
     }
   }, [selectedDays]);
 
-  if (spotLoading) {
+  if (spotLoading && isLoading) {
     return <Loader />;
   }
   if (spotIsError) {
     console.log(TAG + '🔥 ~line 42 에러 코드');
     console.log(spotError);
   }
-  console.log(TAG + '🔥 ~line 61 spotdata check');
-  console.log(spotData);
 
   const { spotInspectionDate } = spotData?.data.spotInspection!;
   const days = spotInspectionDate.map((date) => date.replaceAll('-', '.'));
