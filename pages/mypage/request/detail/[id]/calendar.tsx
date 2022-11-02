@@ -52,6 +52,7 @@ const Mypage1_5 = () => {
         spotInspectionDates: postData,
         isReplacedPicture: false,
         isConfirmed: false,
+        isNewPropose: false,
       },
     });
   };

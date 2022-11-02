@@ -14,34 +14,37 @@ import Modal from 'components/Modal/Modal';
 import { useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
+import { SpotDataResponse } from './SentProvisionalQuoatation';
 
 type Props = {};
 const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/DatePicker.tsx';
-const DatePicker = (props: Props) => {
+const DatePicker = (routerId: Props) => {
   const router = useRouter();
+
   const dispatch = useDispatch();
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
   const [isValid, SetIsValid] = useState(false); // 버튼 유효성 검사
   const [isModal, setIsModal] = useState(false); // 모달 on/off
   const [modalMessage, setModalMessage] = useState(''); // 모달 메세지
-  const queryClient = useQueryClient();
-  console.log(queryClient);
+  // const queryClient = useQueryClient();
 
-  console.log(queryClient.getQueryData(['spot-inspection']));
-  const days = [
-    '2022.10.20',
-    '2022.10.22',
-    '2022.10.28',
-    '2022.10.29',
-    '2022.10.31',
-  ];
+  // console.log(queryClient);
+
+  // console.log(queryClient.getQueryData(['spot-inspection']));
+  // const days = [
+  //   '2022.10.20',
+  //   '2022.10.22',
+  //   '2022.10.28',
+  //   '2022.10.29',
+  //   '2022.10.31',
+  // ];
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
     isLoading: spotLoading,
     isError: spotIsError,
     error: spotError,
-  } = useQuery(
+  } = useQuery<SpotDataResponse>(
     'spot-inspection',
     () =>
       isTokenGetApi(`/quotations/pre/${router.query.routerId}/spot-inspection`),
@@ -50,16 +53,6 @@ const DatePicker = (props: Props) => {
       // enabled: false,
     },
   );
-
-  if (spotLoading) {
-    return <Loader />;
-  }
-  if (spotIsError) {
-    console.log(TAG + '🔥 ~line 42 에러 코드');
-    console.log(spotError);
-  }
-  console.log(TAG + '🔥 ~line 61 spotdata check');
-  console.log(spotData);
 
   // 확정하기 버튼 클릭
   const onClickConfirmBtn = () => {
@@ -84,6 +77,19 @@ const DatePicker = (props: Props) => {
     }
   }, [selectedDays]);
 
+  if (spotLoading) {
+    return <Loader />;
+  }
+  if (spotIsError) {
+    console.log(TAG + '🔥 ~line 42 에러 코드');
+    console.log(spotError);
+  }
+  console.log(TAG + '🔥 ~line 61 spotdata check');
+  console.log(spotData);
+
+  const { spotInspectionDate } = spotData?.data.spotInspection!;
+  const days = spotInspectionDate.map((date) => date.replace('-', '.'));
+
   return (
     <React.Fragment>
       {isModal && <Modal click={HandleModal} text={modalMessage} />}
@@ -103,7 +109,7 @@ const DatePicker = (props: Props) => {
             <CompanyCalendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
-              days={days}
+              days={days!}
               types={'customer'}
             />
             <Explanation>
@@ -114,7 +120,7 @@ const DatePicker = (props: Props) => {
             <Schedule>
               <h3 className="name">선택된 일정</h3>
               <UL>
-                {days.map((day, index) => (
+                {days?.map((day, index) => (
                   <>
                     {selectedDays !== '' && day == selectedDays ? (
                       <li className="list selected" key={index}>

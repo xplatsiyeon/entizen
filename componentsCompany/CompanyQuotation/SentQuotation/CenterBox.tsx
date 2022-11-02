@@ -6,24 +6,8 @@ import { useRouter } from 'next/router';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
+import { SpotDataResponse } from './SentProvisionalQuoatation';
 
-interface SpotData {
-  hasReceivedSpotInspectionDates: boolean;
-  spotInspection: {
-    createdAt: string;
-    spotInspectionIdx: number;
-    proposerType: string;
-    spotInspectionDate: string[];
-    isConfirmed: boolean;
-    isReplacedPicture: boolean;
-    isChanged: boolean;
-    preQuotationIdx: number;
-  };
-}
-interface SpotDataResponse {
-  isSuccess: boolean;
-  data: SpotData;
-}
 type Props = {
   spotData: SpotDataResponse;
 };
@@ -72,16 +56,17 @@ const CenterBox = ({ spotData }: Props) => {
           </ReservationDate>
         )}
         {/* ------------ 일정변경 요청 -------------- */}
-        {spotData?.data && spotData?.data?.spotInspection?.isChanged === true && (
-          <ReservationDateCheck>
-            <div className="text">일정 변경 요청이 들어왔습니다.</div>
-            <div className="btnBox">
-              <div className="checkBtn" onClick={() => setCheckFlow(true)}>
-                확인하기
+        {spotData?.data &&
+          spotData?.data?.spotInspection?.isNewPropose === true && (
+            <ReservationDateCheck>
+              <div className="text">일정 변경 요청이 들어왔습니다.</div>
+              <div className="btnBox">
+                <div className="checkBtn" onClick={() => setCheckFlow(true)}>
+                  확인하기
+                </div>
               </div>
-            </div>
-          </ReservationDateCheck>
-        )}
+            </ReservationDateCheck>
+          )}
         {/* ----------- 현장실사 일정 확정 -------------- */}
         {spotData?.data &&
           spotData?.data?.spotInspection?.isConfirmed === true && (

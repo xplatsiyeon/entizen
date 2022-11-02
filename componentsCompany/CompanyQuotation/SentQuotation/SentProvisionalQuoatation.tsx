@@ -94,6 +94,24 @@ export interface SentRequestResponse {
   };
 }
 
+export interface SpotData {
+  hasReceivedSpotInspectionDates: boolean;
+  spotInspection: {
+    createdAt: string;
+    spotInspectionIdx: number;
+    proposerType: string;
+    spotInspectionDate: string[];
+    isConfirmed: boolean;
+    isReplacedPicture: boolean;
+    isNewPropose: boolean;
+    preQuotationIdx: number;
+  };
+}
+export interface SpotDataResponse {
+  isSuccess: boolean;
+  data: SpotData;
+}
+
 const TAG =
   'components/Company/CompanyQuotation/SentQuotation/SentProvisionalQuoatation.tsx';
 // 본체
@@ -117,7 +135,7 @@ const SentQuoatationFirst = () => {
     isLoading: spotLoading,
     isError: spotIsError,
     error: spotError,
-  } = useQuery(
+  } = useQuery<SpotDataResponse>(
     'spot-inspection',
     () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
     {
