@@ -17,12 +17,26 @@ import Tab from '../../../componentsCompany/CompanyQuotation/Tab';
 
 type Props = {};
 
-interface receivedQuotationRequests {
+export interface receivedQuotationRequests {
+  createdAt: string;
   quotationRequestIdx: number;
-  badge: string;
+  quotationStatus: string;
+  changedDate: string;
+  subscribeProduct: string;
+  investRate: string;
+  subscribePeriod: number;
   installationAddress: string;
+  installationLocation: string;
+  installationPurpose: string;
+  expiredAt: string;
+  etcRequest: string;
+  memberIdx: number;
+  preQuotations: [];
+  quotationRequestChargers: [];
+  companyMemberAdditionalInfo: [];
+  badge: string;
 }
-interface ReceivedRequest {
+export interface ReceivedRequest {
   isSuccess: boolean;
   receivedQuotationRequests: receivedQuotationRequests[];
 }

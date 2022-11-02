@@ -6,15 +6,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
+import { receivedQuotationRequests } from 'pages/company/quotation';
 
 type Props = {
-  queryData: Data[];
+  queryData: receivedQuotationRequests[];
 };
-interface Data {
-  quotationRequestIdx: number;
-  badge: string;
-  installationAddress: string;
-}
 const TAG = '👀 ~RecieveRequest ~line 25 queryData';
 const RecieveRequest = ({ queryData }: Props) => {
   const router = useRouter();

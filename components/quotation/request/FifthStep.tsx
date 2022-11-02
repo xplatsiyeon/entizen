@@ -1,17 +1,11 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-
-interface Option {
-  fisrt: string;
-  second: string;
-}
+import SelectComponents from 'components/Select';
 
 interface Props {
   tabNumber: number;
@@ -52,8 +46,7 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
   const [secondData, setSendData] = useState<string>('');
   const [secondDataEn, setSendDataEn] = useState<string>('');
   // 셀렉터 옵션 체인지
-  const handleChange = (event: any) => {
-    const { value } = event.target;
+  const handleChange = (value: string) => {
     const index = M11_LIST.indexOf(value);
     const seletedName = M11_LIST_EN[index];
     if (seletedName !== secondDataEn) {
@@ -65,8 +58,7 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
     }
   };
   // 셀렉터 옵션 체인지2
-  const handleChange2 = (event: any) => {
-    const { value } = event.target;
+  const handleChange2 = (value: string) => {
     const index = M11_LIST.indexOf(value);
     const seletedName = M11_LIST_EN[index];
     if (seletedName !== fisrtDataEn) {
@@ -133,41 +125,27 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
       <SelectSection>
         <InputBox>
           <label>1순위</label>
-          <SelectBox
-            value={fisrtData}
-            name="fisrt"
-            onChange={handleChange}
-            IconComponent={SelectIcon}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>충전기 종류</Placeholder>
-            </MenuItem>
-            {list1.map((option, index) => (
-              <MenuItem key={index} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </SelectBox>
+          <div className="select-wrapper">
+            <SelectComponents
+              value={fisrtData}
+              option={list1}
+              name="fisrt"
+              placeholder="충전기 종류"
+              onClickEvent={handleChange}
+            />
+          </div>
         </InputBox>
         <InputBox>
           <label>2순위</label>
-          <SelectBox
-            value={secondData}
-            name="second"
-            onChange={handleChange2}
-            IconComponent={SelectIcon}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>충전기 종류</Placeholder>
-            </MenuItem>
-            {list2.map((option, index) => (
-              <MenuItem key={index} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </SelectBox>
+          <div className="select-wrapper">
+            <SelectComponents
+              value={secondData}
+              option={list2}
+              name="second"
+              placeholder="충전기 종류"
+              onClickEvent={handleChange2}
+            />
+          </div>
         </InputBox>
       </SelectSection>
       <TwoBtn>
@@ -217,9 +195,11 @@ const InputBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 18pt;
   margin-top: 9pt;
   width: 100%;
-  label {
+  & > label {
+    width: 39.25pt; // 원래 29.25pt select box 100%라 width 값 올림
     font-weight: 500;
     font-size: 12pt;
     line-height: 12pt;
@@ -227,41 +207,11 @@ const InputBox = styled.div`
     color: ${colors.main2};
     font-family: 'Spoqa Han Sans Neo';
   }
-`;
-const SelectBox = styled(Select)`
-  width: 204pt;
-  border: 1px solid #e2e5ed;
-  border-radius: 8px;
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-  font-family: 'Spoqa Han Sans Neo';
-  & div {
-    padding-left: 12.75pt;
-    padding-top: 13.5pt;
-    padding-bottom: 13.5pt;
+  .select-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    /* width: 204pt; */
   }
-  & fieldset {
-    border: none;
-  }
-  & svg {
-    margin-right: 11.25pt;
-  }
-`;
-const SelectIcon = styled(KeyboardArrowDownIcon)`
-  width: 18pt;
-  height: 18pt;
-  color: ${colors.dark} !important;
-`;
-const Placeholder = styled.em`
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.lightGray3};
-  font-family: 'Spoqa Han Sans Neo';
 `;
 const NextBtn = styled.div<{
   buttonActivate: boolean;

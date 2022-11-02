@@ -9,7 +9,8 @@ type Props = {
   placeholder: string;
   value: string;
   option: string[];
-  onClickEvent: (name: string, item: string, index: number) => void;
+  onClickCharger?: (item: string, name: string, index: number) => void;
+  onClickEvent?: (item: string) => void;
   name: string;
   index?: number;
 };
@@ -17,6 +18,7 @@ type Props = {
 const SelectComponents = ({
   placeholder,
   value,
+  onClickCharger,
   onClickEvent,
   option,
   name,
@@ -24,11 +26,16 @@ const SelectComponents = ({
 }: Props) => {
   const selectRef = useRef<any>(null);
   const [isOpen, setIsOpen] = useState(false);
-
   const HandleOption = () => setIsOpen((prev) => !prev);
 
   const onClickOtion = async (item: string) => {
-    onClickEvent(name, item, index!);
+    if (onClickCharger) {
+      onClickCharger(item, name, index!);
+    }
+    if (onClickEvent) {
+      onClickEvent(item);
+    }
+
     await HandleOption();
   };
 
@@ -108,8 +115,8 @@ const Input = styled.input<{ isOpen: boolean }>`
   ${({ isOpen }) =>
     isOpen &&
     css`
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+      border-top-left-radius: 6pt;
+      border-top-right-radius: 6pt;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     `}
