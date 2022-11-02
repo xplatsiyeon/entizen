@@ -11,6 +11,8 @@ import { requestAction } from 'store/requestSlice';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyCalendar from './CompanyCalendar';
 import Modal from 'components/Modal/Modal';
+import { useQuery, useQueryClient } from 'react-query';
+import { isTokenGetApi } from 'api';
 
 type Props = {};
 
@@ -21,6 +23,10 @@ const DatePicker = (props: Props) => {
   const [isValid, SetIsValid] = useState(false); // 버튼 유효성 검사
   const [isModal, setIsModal] = useState(false); // 모달 on/off
   const [modalMessage, setModalMessage] = useState(''); // 모달 메세지
+  const queryClient = useQueryClient();
+  console.log(queryClient);
+
+  console.log(queryClient.getQueryData(['spot-inspection']));
   const days = [
     '2022.10.20',
     '2022.10.22',
@@ -28,13 +34,42 @@ const DatePicker = (props: Props) => {
     '2022.10.29',
     '2022.10.31',
   ];
-  // 리덕스
+  // ---------- 현장 실사 날짜 api ------------
+  // const {
+  //   data: spotData,
+  //   isLoading: spotLoading,
+  //   isError: spotIsError,
+  //   error: spotError,
+  // } = useQuery(
+  //   'spot-inspection',
+  //   () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
+  //   {
+  //     enabled: router.isReady,
+  //     // enabled: false,
+  //   },
+  // );
+  // // 상단 열리고 닫히고
+  // const handleClick = () => setOpen(!open);
+
+  // if (isLoading && spotLoading) {
+  //   return <Loader />;
+  // }
+  // if (isError && spotIsError) {
+  //   console.log(TAG + '🔥 ~line 42 에러 코드');
+  //   console.log(error);
+  //   console.log(spotError);
+  // }
+  // console.log(TAG + '🔥 ~line 138 spotdata check');
+  // console.log(spotData);
+
+  // 확정하기 버튼 클릭
   const onClickConfirmBtn = () => {
     if (selectedDays) {
       setModalMessage('확정되었습니다.');
       setIsModal((prev) => !prev);
     }
   };
+  // 모달 확인 버튼 클릭
   const HandleModal = () => {
     console.log('온클릭');
     setIsModal((prev) => !prev);
