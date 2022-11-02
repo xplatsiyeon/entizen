@@ -16,22 +16,19 @@ const CommonBtns = (props: Props) => {
 };
 
 const StatusBtn = styled.span<{ backgroundColor: string }>`
-  /* padding: 4.5pt 7.5pt; */
-  background-color: ${({ backgroundColor }) => backgroundColor};
-  color: #ffffff;
-  width: 66pt;
-  height: 18pt;
-  border-radius: 12pt;
-  font-size: 9pt;
-  font-weight: 500;
-  line-height: 9pt;
-  letter-spacing: -0.02em;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   position: relative;
   & p {
     position: relative;
+    background-color: ${({ backgroundColor }) => backgroundColor};
+    padding: 4.5pt 7.5pt;
+    border-radius: 12pt;
+    font-size: 9pt;
+    font-weight: 500;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
     top: 1pt;
     color: #ffffff;
   }
