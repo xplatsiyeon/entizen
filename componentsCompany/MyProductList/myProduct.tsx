@@ -75,7 +75,7 @@ const MyProduct = (props: Props) => {
     setModalOpen(true);
   };
   const clickEdit = () => {
-    router.push('/company/addProduct');
+    router.push('/company/addProduct'); // 페이지 타이틀, 버튼 내용만 틀린 페이지로 가야함. 
   };
   console.log(TAG + '🔥 ~line 79 데이터 확인');
   console.log(data);
