@@ -14,36 +14,38 @@ import Loader from 'components/Loader';
 type Props = {
   checkedFilterIndex: number;
 };
-interface QuotationRequest {
-  createdAt: string;
-  quotationRequestIdx: number;
-  quotationStatus: string;
+export interface QuotationRequest {
   changedDate: string;
-  subscribeProduct: string;
-  investRate: string;
-  subscribePeriod: number;
+  createdAt: string;
+  etcRequest: string;
+  expiredAt: string;
   installationAddress: string;
   installationLocation: string;
   installationPurpose: string;
-  expiredAt: string;
-  etcRequest: string;
+  investRate: string;
   memberIdx: number;
-}
-interface SendQuotationRequests {
-  createdAt: string;
-  preQuotationIdx: number;
-  subscribePricePerMonth: number;
-  constructionPeriod: number;
-  subscribeProductFeature: string;
-  preQuotationStatus: string;
-  changedDate: string;
   quotationRequestIdx: number;
+  quotationStatus: string;
+  subscribePeriod: number;
+  subscribeProduct: string;
+}
+export interface PreQuotation {
+  changedDate: string;
+  constructionPeriod: number;
+  createdAt: string;
   memberIdx: number;
+  preQuotationIdx: number;
+  preQuotationStatus: string;
+  quotationRequestIdx: number;
+  subscribePricePerMonth: number;
+  subscribeProductFeature: string;
+}
+export interface SendQuotationRequests {
   badge: string;
+  preQuotation: PreQuotation;
   quotationRequest: QuotationRequest;
 }
-
-interface SentrequestResponse {
+export interface SentrequestResponse {
   isSuccess: boolean;
   sendQuotationRequests: SendQuotationRequests[];
 }
@@ -96,7 +98,7 @@ const SentRequest = ({ checkedFilterIndex }: Props) => {
           key={index}
           onClick={() =>
             router.push(
-              `/company/sentProvisionalQuotation/${el?.preQuotationIdx}`,
+              `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
             )
           }
         >
