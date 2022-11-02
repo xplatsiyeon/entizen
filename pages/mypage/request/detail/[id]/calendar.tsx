@@ -38,7 +38,11 @@ const Mypage1_5 = () => {
     console.log(selectedDays);
     isTokenPostApi({
       url: `/quotations/pre/${routerId}/spot-inspection`,
-      data: { spotInspectionDates: postData },
+      data: {
+        spotInspectionDates: postData,
+        isReplacedPicture: false,
+        isConfirmed: false,
+      },
     });
   };
   // 리덕스
