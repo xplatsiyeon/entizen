@@ -11,7 +11,7 @@ import { receivedQuotationRequests } from 'pages/company/quotation';
 type Props = {
   queryData: receivedQuotationRequests[];
 };
-const TAG = '👀 ~RecieveRequest ~line 25 queryData';
+const TAG = '👀 ~RecieveRequest ~line 20 queryData';
 const RecieveRequest = ({ queryData }: Props) => {
   const router = useRouter();
 

@@ -98,6 +98,10 @@ const CompanyQuotations = (props: Props) => {
   if (isLoading) {
     return <Loader />;
   }
+
+  console.log(TAG + '🔥 ~line 102 받은 요청 get data 확인');
+  console.log(data);
+
   return (
     <>
       <Container>
