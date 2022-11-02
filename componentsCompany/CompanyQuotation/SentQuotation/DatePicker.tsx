@@ -88,7 +88,7 @@ const DatePicker = (routerId: Props) => {
   console.log(spotData);
 
   const { spotInspectionDate } = spotData?.data.spotInspection!;
-  const days = spotInspectionDate.map((date) => date.replace('-', '.'));
+  const days = spotInspectionDate.map((date) => date.replaceAll('-', '.'));
 
   return (
     <React.Fragment>
