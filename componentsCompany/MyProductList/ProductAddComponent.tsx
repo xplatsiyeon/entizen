@@ -20,6 +20,7 @@ import { isTokenPostApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import { AxiosError } from 'axios';
 import { convertEn, getByteSize } from 'utils/calculatePackage';
+import SelectComponents from 'components/Select';
 
 export interface ImgFile {
   originalName: string;
@@ -151,23 +152,23 @@ const ProductAddComponent = (props: Props) => {
   };
 
   // SelectBox 값
-  const onChangeSelectBox = (e: any, index?: number) => {
-    switch (e.target.name) {
+  const onChangeSelectBox = (value:string, name:string, index: number) => {
+    switch (name) {
       case 'kind':
-        setChargerType(e.target.value);
+        setChargerType(value);
         break;
       case 'channel':
-        setChargingChannel(e.target.value);
+        setChargingChannel(value);
         break;
       case 'chargingMethod':
         let pasteArray: string[] = [];
         if (index === 0) {
-          pasteArray.push(e.target.value);
+          pasteArray.push(value);
         } else {
           pasteArray.push(...chargingMethod);
         }
         if (index) {
-          pasteArray[index] = e.target.value;
+          pasteArray[index] = value;
         }
         setChargingMethod(pasteArray);
     }
@@ -310,11 +311,13 @@ const ProductAddComponent = (props: Props) => {
             required
           />
         </InputBox>
-        {/* 충전기 종류 */}
-        <InputBox>
+        {/* test */}
           <LabelBox>
             <RequiredLabel>충전기 종류</RequiredLabel>
           </LabelBox>
+        <SelectComponents name='kind' option={M5_LIST} placeholder={"충전기 종류"} value={chargerType} onClickCharger={onChangeSelectBox}/>
+        {/* 충전기 종류 */}
+        {/* <InputBox>
           <SelectBox
             value={chargerType || ''}
             placeholder="충전기 종류"
@@ -332,33 +335,17 @@ const ProductAddComponent = (props: Props) => {
               </MenuItem>
             ))}
           </SelectBox>
-        </InputBox>
+        </InputBox> */}
+        
         {/* 충전 채널 */}
-        <InputBox>
           <LabelBox>
             <RequiredLabel>충전 채널</RequiredLabel>
           </LabelBox>
-          <SelectBox
-            value={chargingChannel || ''}
-            placeholder="충전기 채널"
-            name="channel"
-            onChange={(e) => onChangeSelectBox(e)}
-            IconComponent={SelectIcon}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>충전기 채널</Placeholder>
-            </MenuItem>
 
-            {M7_LIST.map((el, index) => (
-              <MenuItem key={index} value={el}>
-                {el}
-              </MenuItem>
-            ))}
-          </SelectBox>
-        </InputBox>
+          <SelectComponents name='channel' option={M7_LIST} value={chargingChannel} placeholder={"충전기 채널"} onClickCharger={onChangeSelectBox}/>
+
+
         {/* 충전방식 */}
-        <InputBox>
           <LabelBox>
             <RequiredLabel>충전 방식</RequiredLabel>
             <RightPlus onClick={handlePlusSelect}>
@@ -371,47 +358,12 @@ const ProductAddComponent = (props: Props) => {
               <React.Fragment key={index}>
                 {/* 원래 기본 */}
                 {index === 0 && (
-                  <SelectBox
-                    value={chargingMethod[index] || ''}
-                    placeholder="충전 방식"
-                    name="chargingMethod"
-                    onChange={(e) => onChangeSelectBox(e, index)}
-                    IconComponent={SelectIcon}
-                    displayEmpty
-                  >
-                    <MenuItem value="">
-                      <Placeholder>충전 방식</Placeholder>
-                    </MenuItem>
-
-                    {CHARGING_METHOD.map((el, index) => (
-                      <MenuItem key={index} value={el}>
-                        {el}
-                      </MenuItem>
-                    ))}
-                  </SelectBox>
+                  <SelectComponents name='chargingMethod' option={CHARGING_METHOD} value={chargingMethod[index]} index={index} placeholder={"충전 방식"} onClickCharger={onChangeSelectBox}/>
                 )}
                 {/* + 버튼 눌러서 추가되는 부분  */}
                 {index > 0 && (
                   <PlusBox key={index}>
-                    <SelectBox
-                      value={chargingMethod[index] || ''}
-                      placeholder="충전 방식"
-                      name="chargingMethod"
-                      onChange={(e) => onChangeSelectBox(e, index)}
-                      IconComponent={SelectIcon}
-                      displayEmpty
-                    >
-                      <MenuItem value="">
-                        <Placeholder>충전 방식</Placeholder>
-                      </MenuItem>
-
-                      {CHARGING_METHOD.map((el, index) => (
-                        <MenuItem key={index} value={el}>
-                          {el}
-                        </MenuItem>
-                      ))}
-                    </SelectBox>
-
+                    <SelectComponents name='chargingMethod' option={CHARGING_METHOD} value={chargingMethod[index]} index={index} placeholder={"충전 방식"} onClickCharger={onChangeSelectBox}/>
                     <DeleteBtn onClick={() => onClickMinus(index)}>
                       <Image src={Xbtn} alt="delete" />
                     </DeleteBtn>
@@ -419,7 +371,6 @@ const ProductAddComponent = (props: Props) => {
                 )}
               </React.Fragment>
             ))}
-        </InputBox>
         {/* 제조사 부분  */}
         <InputBox>
           <LabelBox>
@@ -559,21 +510,24 @@ const InputBox = styled.div`
   margin-bottom: 24pt;
 `;
 
-const LabelBox = styled.div``;
+const LabelBox = styled.div`
+margin-top: 24pt;
+margin-bottom: 9pt;
+position: relative;
+`
 
-//  별 붙은 필수 요소 라벨
 const RequiredLabel = styled.div`
-  font-family: Spoqa Han Sans Neo;
-  font-size: 10.5pt;
-  font-weight: 700;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  text-align: left;
-  &::after {
-    content: ' *';
-    margin-left: 1pt;
-    color: #f75015;
-  }
+font-family: 'Spoqa Han Sans Neo';
+font-size: 10.5pt;
+font-weight: 700;
+line-height: 12pt;
+letter-spacing: -0.02em;
+text-align: left;
+&::after {
+  content: ' *';
+  margin-left: 1pt;
+  color: #f75015;
+}
 `;
 
 const RightLabel = styled.div`
@@ -605,7 +559,7 @@ const Input = styled(TextField)`
   width: 100%;
   & input {
     padding: 10.885pt 0 10.885pt 12pt;
-    text-align: right;
+    text-align: left;
     font-weight: 500;
     font-size: 12pt;
     line-height: 12pt;
