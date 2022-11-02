@@ -120,9 +120,10 @@ const SentQuoatationFirst = () => {
   } = useQuery(
     'spot-inspection',
     () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
-    // {
-    //   enabled: false,
-    // },
+    {
+      enabled: router.isReady,
+      // enabled: false,
+    },
   );
   // 상단 열리고 닫히고
   const handleClick = () => setOpen(!open);
