@@ -85,13 +85,20 @@ const SliderSizes = ({
         investRate: value,
       };
 
-      if (setCalculatedValue) {
-        setCalculatedValue({
-          maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
-          maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
-          minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
-          minTotalSubscribePrice: ret.minTotalSubscribePrice!,
-        });
+      if (
+        ret.maxSubscribePricePerMonth &&
+        ret.maxTotalSubscribePrice &&
+        ret.minSubscribePricePerMonth &&
+        ret.minTotalSubscribePrice
+      ) {
+        if (setCalculatedValue) {
+          setCalculatedValue({
+            maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
+            maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
+            minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
+            minTotalSubscribePrice: ret.minTotalSubscribePrice!,
+          });
+        }
       }
     }
 
