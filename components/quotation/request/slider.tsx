@@ -60,6 +60,7 @@ const SliderSizes = ({
     //   Math.round((target * rate) / standardRate) !== 0
     // ) {
     console.log(TAG + '🌈 ~line 27 rate value  ' + rate);
+    console.log(TAG + '🌈 ~line 27 target value  ' + target);
     if (target !== 0 && rate !== 0 && standardRate !== 0) {
       return Math.round((target * rate) / standardRate);
     }
