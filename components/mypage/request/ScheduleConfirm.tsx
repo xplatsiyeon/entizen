@@ -13,7 +13,7 @@ const ScheduleConfirm = ({ date }: Props) => {
   return (
     <Wrapper>
       <P>현장실사 일정이 확정되었습니다.</P>
-      <Date>{date}</Date>
+      <Date>{date.replaceAll('-', '.')}</Date>
       {/* <Date>2022.11.30</Date> */}
       <Btn
         onClick={() => {

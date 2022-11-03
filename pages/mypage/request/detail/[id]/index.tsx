@@ -120,17 +120,28 @@ const MypageDetail = () => {
             exitBtn={true}
             handleOnClick={handleOnClick}
           />
-          {/* 일정 확정 */}
-          <ScheduleConfirm date="" />
-          {/* 일정 변경 요청 */}
+          {/* 현장실사 확정 */}
+          {spotData?.data &&
+            spotData?.data.spotInspection.isConfirmed === true && (
+              <ScheduleConfirm
+                date={spotData?.data.spotInspection.spotInspectionDate[0]}
+              />
+            )}
+
+          {/* 현장실사 일정 변경 요청 */}
           <ScheduleChange />
-          {/* 일정 변경 확인 중 */}
-          <Checking />
+          {/* 현장실사 일정 확인 중 */}
+          {spotData?.data &&
+            spotData?.data.hasReceivedSpotInspectionDates === true && (
+              <Checking
+                date={spotData?.data.spotInspection.spotInspectionDate[0]}
+              />
+            )}
+
           {/* 담당자 정보 */}
           {/* <ManagerInfo /> */}
           <BiddingQuote pb={101.25} data={data!} />
-
-          <TwoButton onClcikModal={onClcikModal} />
+          {!spotData?.data && <TwoButton onClcikModal={onClcikModal} />}
         </Wrapper>
       </Inner>
       <WebFooter />

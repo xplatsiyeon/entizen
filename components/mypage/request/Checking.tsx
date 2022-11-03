@@ -3,12 +3,16 @@ import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 
-const Checking = () => {
+type Props = {
+  date: string;
+};
+
+const Checking = ({ date }: Props) => {
   const route = useRouter();
   return (
     <Wrapper>
       <P>현장실사 일정을 확인 중입니다.</P>
-      <Date>2022.01.12</Date>
+      <Date>{date.replaceAll('-', '.')}</Date>
     </Wrapper>
   );
 };
