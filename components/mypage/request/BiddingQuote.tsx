@@ -38,13 +38,15 @@ const BiddingQuote = ({ pb, data }: Props) => {
 
   return (
     <Wrapper>
-      <Image
-        src={data?.companyMemberAdditionalInfo.companyLogoImageUrl!}
-        alt="icon"
-        priority={true}
-        unoptimized={true}
-        // layout="fill"
-      />
+      <ImageBox>
+        <Image
+          src={data?.companyMemberAdditionalInfo.companyLogoImageUrl!}
+          alt="icon"
+          priority={true}
+          unoptimized={true}
+          layout="fill"
+        />
+      </ImageBox>
       <Title>{data?.companyMemberAdditionalInfo.companyName}</Title>
       <List>
         <Item>
@@ -133,7 +135,7 @@ const BiddingQuote = ({ pb, data }: Props) => {
         <FlexWrap>
           <Label>구독 상품</Label>
           <FeaturesList>
-            <li>{data?.preQuotation.subscribeProductFeature}</li>
+            {/* textarea 줄바꿈 */}
             {data?.preQuotation.subscribeProductFeature
               .split('\n')
               .map((line) => (
@@ -301,6 +303,15 @@ const Item = styled.li`
       text-align: right;
     }
   }
+`;
+const ImageBox = styled.div`
+  position: relative;
+  width: 48pt;
+  height: 48pt;
+  margin-left: 15pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const Subtitle = styled.h2`
   font-weight: 700;
