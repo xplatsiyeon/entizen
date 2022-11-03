@@ -245,6 +245,7 @@ const ProductAddComponent = (props: Props) => {
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
+    console.log(files)
     const maxLength = 3;
     // max길이 보다 짧으면 멈춤
     const formData = new FormData();
