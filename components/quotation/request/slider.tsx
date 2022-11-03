@@ -48,11 +48,11 @@ const SliderSizes = ({
     rate: number,
     standardRate: number,
   ) => {
-    console.log(Math.round((target * rate) / standardRate));
-    console.log('target' + target);
-    console.log('rate' + rate);
-    console.log('standardRate' + standardRate);
-    return Math.round((target * rate) / standardRate);
+    if (rate !== 0) {
+      return Math.round((target * rate) / standardRate);
+    } else {
+      return Math.round((target * 1) / standardRate);
+    }
   };
 
   useEffect(() => {
