@@ -94,22 +94,13 @@ const SliderSizes = ({
       ),
       investRate: value,
     };
-
-    if (
-      ret.investRate !== 0 &&
-      ret.maxSubscribePricePerMonth &&
-      ret.maxTotalSubscribePrice &&
-      ret.minSubscribePricePerMonth &&
-      ret.minTotalSubscribePrice
-    ) {
-      if (setCalculatedValue) {
-        setCalculatedValue({
-          maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
-          maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
-          minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
-          minTotalSubscribePrice: ret.minTotalSubscribePrice!,
-        });
-      }
+    if (setCalculatedValue) {
+      setCalculatedValue({
+        maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
+        maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
+        minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
+        minTotalSubscribePrice: ret.minTotalSubscribePrice!,
+      });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
