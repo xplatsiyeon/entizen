@@ -12,20 +12,14 @@ import colors from 'styles/colors';
 import WebFooter from 'componentsWeb/WebFooter';
 import Modal from 'components/Modal/Modal';
 import CompanyCalendar from './CompanyCalendar';
-import { useMutation } from 'react-query';
-import { isTokenPostApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
+import { SpotDataResponse } from './SentProvisionalQuoatation';
 
 type Props = {};
 
 const AnotherSuggest = (props: Props) => {
-  const days = [
-    '2022.11.2',
-    '2022.10.22',
-    '2022.10.28',
-    '2022.10.29',
-    '2022.10.31',
-  ];
   const router = useRouter();
   const dispatch = useDispatch();
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
@@ -45,17 +39,29 @@ const AnotherSuggest = (props: Props) => {
       setIsModal((prev) => !prev);
     },
   });
-  // 리덕스
-  const HandleModal = () => {
-    // router.push('/mypage');
-    router.push('/mypage/request/2-1');
-    dispatch(requestAction.addDate(selectedDays));
-  };
+  // ---------- 현장 실사 날짜 api ------------
+  const {
+    data: spotData,
+    isLoading: spotLoading,
+    isError: spotIsError,
+    error: spotError,
+  } = useQuery<SpotDataResponse>(
+    'spot-inspection',
+    () =>
+      isTokenGetApi(
+        `/quotations/pre/${router.query.preQuotation}/spot-inspection`,
+      ),
+    {
+      enabled: router.query.preQuotation ? true : false,
+      // enabled: false,
+    },
+  );
+  // 보내기 클릭 이벤트
   const onClickBtn = () => {
     const spotInspectionDates = selectedDaysArr.map((e) =>
       e.replaceAll('.', '-'),
     );
-
+    // 변경 mutation api
     postMutate({
       url: `/quotations/pre/${router.query.preQuotation}/spot-inspection`,
       data: {
@@ -67,7 +73,7 @@ const AnotherSuggest = (props: Props) => {
     });
   };
 
-  if (isLoading) {
+  if (isLoading && spotLoading) {
     return <Loader />;
   }
   if (isError) {
@@ -78,6 +84,13 @@ const AnotherSuggest = (props: Props) => {
       />
     );
   }
+  if (spotIsError) {
+    console.log('🔥 ~line 42 에러 코드');
+    console.log(spotError);
+  }
+
+  const { spotInspectionDate } = spotData?.data?.spotInspection!;
+  const days = spotInspectionDate?.map((date) => date.replaceAll('-', '.'));
 
   return (
     <React.Fragment>
