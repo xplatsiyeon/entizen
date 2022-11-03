@@ -17,7 +17,7 @@ type Props = {};
 
 const AnotherSuggest = (props: Props) => {
   const days = [
-    '2022.10.20',
+    '2022.11.2',
     '2022.10.22',
     '2022.10.28',
     '2022.10.29',
@@ -26,6 +26,7 @@ const AnotherSuggest = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
+  const [selectedDaysArr, setSelectedDaysArr] = useState<string[]>([]);
   const [isModal, setIsModal] = useState(false); // 모달
   // 리덕스
   const HandleModal = () => {
@@ -57,6 +58,8 @@ const AnotherSuggest = (props: Props) => {
             <CompanyCalendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
+              selectedDaysArr={selectedDaysArr}
+              setSelectedDaysArr={setSelectedDaysArr}
               days={days}
               types={'company'}
             />

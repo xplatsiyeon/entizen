@@ -15,14 +15,18 @@ import { css } from '@emotion/react';
 interface Props {
   selectedDays: string;
   SetSelectedDays: Dispatch<SetStateAction<string>>;
+  selectedDaysArr?: string[];
+  setSelectedDaysArr?: Dispatch<SetStateAction<string[]>>;
   days: string[];
-  types: string;
+  types: 'company' | 'customer';
 }
 
 const CompanyCalendar = ({
   days,
   selectedDays,
   SetSelectedDays,
+  selectedDaysArr,
+  setSelectedDaysArr,
   types,
 }: Props) => {
   const today = {
@@ -107,67 +111,8 @@ const CompanyCalendar = ({
           }
         } else if (types === 'company') {
           for (let i = 0; i < dateTotalCount; i++) {
-            if (
-              temp[0].includes(selectedYear.toString()) &&
-              temp[0].includes(selectedMonth.toString()) &&
-              temp[0][2] === (i + 1).toString()
-            ) {
-              dayArr.push(
-                <Day
-                  selectedDay={selectedDay(i + 1)}
-                  key={i + 1}
-                  onClick={() => HandleSelectedDay(i + 1)}
-                >
-                  <div className="item picked">{i + 1}</div>
-                </Day>,
-              );
-            } else if (
-              temp[1].includes(selectedYear.toString()) &&
-              temp[1].includes(selectedMonth.toString()) &&
-              temp[1][2] === (i + 1).toString()
-            ) {
-              dayArr.push(
-                <Day
-                  selectedDay={selectedDay(i + 1)}
-                  key={i + 1}
-                  onClick={() => HandleSelectedDay(i + 1)}
-                >
-                  <div className="item picked">{i + 1}</div>
-                </Day>,
-              );
-            } else if (
-              temp[2].includes(selectedYear.toString()) &&
-              temp[2].includes(selectedMonth.toString()) &&
-              temp[2][2] === (i + 1).toString()
-            ) {
-              dayArr.push(
-                <Day
-                  selectedDay={selectedDay(i + 1)}
-                  key={i + 1}
-                  onClick={() => HandleSelectedDay(i + 1)}
-                >
-                  <div className="item picked">{i + 1}</div>
-                </Day>,
-              );
-            } else if (
-              temp[3].includes(selectedYear.toString()) &&
-              temp[3].includes(selectedMonth.toString()) &&
-              temp[3][2] === (i + 1).toString()
-            ) {
-              dayArr.push(
-                <Day
-                  selectedDay={selectedDay(i + 1)}
-                  key={i + 1}
-                  onClick={() => HandleSelectedDay(i + 1)}
-                >
-                  <div className="item picked">{i + 1}</div>
-                </Day>,
-              );
-            } else if (
-              temp[4].includes(selectedYear.toString()) &&
-              temp[4].includes(selectedMonth.toString()) &&
-              temp[4][2] === (i + 1).toString()
-            ) {
+            const loopDate = `${selectedYear}.${selectedMonth}.${i + 1}`;
+            if (days.includes(loopDate)) {
               dayArr.push(
                 <Day
                   selectedDay={selectedDay(i + 1)}
@@ -216,12 +161,32 @@ const CompanyCalendar = ({
   // 날짜 선택하기
   const HandleSelectedDay = (day: number) => {
     const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
-    if (days.includes(selectedDate)) {
-      SetSelectedDays(selectedDate);
+    const differencerDate = CalculateDifference(day);
+
+    if (types === 'company') {
+      if (days.includes(selectedDate)) {
+        SetSelectedDays(selectedDate);
+      }
+      if (selectedDays === selectedDate) {
+        SetSelectedDays('');
+      }
     }
-    if (selectedDays === selectedDate) {
-      SetSelectedDays('');
+
+    // if (types === 'customer') {
+    console.log('check');
+    // 이전 날짜 | 이미 선택된 날짜 클릭 금지
+    if (differencerDate > 0 || days.includes(selectedDate)) return;
+    // 클릭 취소
+    if (selectedDaysArr!.includes(selectedDate)) {
+      const temp: string[] = selectedDaysArr!;
+      const index = temp.indexOf(selectedDate);
+      temp.splice(index, 1);
+      setSelectedDaysArr!(temp);
+      // 최대 5개까지 선택 가능
+    } else if (selectedDays.length < 5) {
+      setSelectedDaysArr!([...selectedDaysArr!, selectedDate]);
     }
+    // }
   };
 
   return (

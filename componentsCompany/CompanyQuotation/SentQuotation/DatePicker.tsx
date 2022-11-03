@@ -40,7 +40,7 @@ const DatePicker = ({}: Props) => {
         `/quotations/pre/${router.query.preQuotation}/spot-inspection`,
       ),
     {
-      enabled: router.isReady,
+      enabled: router.query.preQuotation ? true : false,
       // enabled: false,
     },
   );
