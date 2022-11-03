@@ -34,7 +34,7 @@ interface Props {
   >;
   calculatedValue?: CalculateValue;
 }
-
+const TAG = '🔥 components/quotation/request/slider.tsx';
 const SliderSizes = ({
   value,
   setValue,
@@ -50,8 +50,15 @@ const SliderSizes = ({
     (state: RootState) => state,
   );
 
-  const setPriceByRate = (target: any, rate: any, standardRate: any) => {
-    return Math.round((target * rate) / standardRate);
+
+  const setPriceByRate = (
+    target: any,
+    rate: any,
+    standardRate: any,
+  ) => {
+    if (!isNaN(Math.round((target * rate) / standardRate))) {
+      return Math.round((target * rate) / standardRate);
+    }
   };
 
   useEffect(() => {
@@ -82,16 +89,17 @@ const SliderSizes = ({
       };
       if (setCalculatedValue) {
         setCalculatedValue({
-          maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
-          maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
-          minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
-          minTotalSubscribePrice: ret.minTotalSubscribePrice,
+          maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
+          maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
+          minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
+          minTotalSubscribePrice: ret.minTotalSubscribePrice!,
         });
       }
     }
 
     if(value === 0){
       console.log(calculatedValue);
+      console.log(quotationData.requestData)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,31 +137,14 @@ const SliderSizes = ({
   };
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-    // console.log('value?', newValue, value );
-
     if (subscribeNumber !== -1 && value !== newValue) {
-      console.log('????', newValue, value);
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
-
       if (difaultValue) {
-        console.log('1-7 슬라이더 확인');
         predictionApi();
       }
 
       setValue(newValue as number);
     }
-
-    /*const handleChange = (event: Event, newValue: number | number[]) => {
-    console.log('newValue: ', newValue, typeof(newValue) );
-    setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
-    if(value !== newValue ){ 
-      setValue(newValue as number); }
-    if (difaultValue) {
-      console.log('1-7 슬라이더 확인');
-      predictionApi();
-    }
-    console.log('change 끝');
-  }; */
   };
 
   useEffect(() => {
