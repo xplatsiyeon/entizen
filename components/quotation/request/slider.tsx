@@ -119,20 +119,21 @@ const SliderSizes = ({
   };
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-    console.log('value?', newValue, value );
+   // console.log('value?', newValue, value );
 
     if( (subscribeNumber !== -1) && (value !== newValue ) ) {
       console.log('????', newValue, value)
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
+      
+      if (difaultValue) {
+        console.log('1-7 슬라이더 확인');
+        predictionApi();
+      }
+  
       setValue(newValue as number);
     }
     
-    if (difaultValue) {
-      console.log('1-7 슬라이더 확인');
-      predictionApi();
-    }
-    console.log('change 끝');
-
+ 
 
   /*const handleChange = (event: Event, newValue: number | number[]) => {
     console.log('newValue: ', newValue, typeof(newValue) );
