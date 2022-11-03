@@ -32,8 +32,8 @@ const CenterBox = ({ spotData }: Props) => {
         </DownArrowBox>
 
         {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
-        {spotData?.data &&
-          spotData?.data?.spotInspection?.isConfirmed === false && (
+        {spotData?.data?.spotInspection?.isConfirmed === false &&
+          spotData?.data?.spotInspection !== null && (
             <ReservationDate>
               <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
               <div className="btnBox">
@@ -58,34 +58,32 @@ const CenterBox = ({ spotData }: Props) => {
             </ReservationDate>
           )}
         {/* ------------ 일정변경 요청 -------------- */}
-        {spotData?.data &&
-          spotData?.data?.spotInspection?.isNewPropose === true && (
-            <ReservationDateCheck>
-              <div className="text">일정 변경 요청이 들어왔습니다.</div>
-              <div className="btnBox">
-                <div className="checkBtn" onClick={() => setCheckFlow(true)}>
-                  확인하기
-                </div>
+        {spotData?.data?.spotInspection?.isNewPropose === true && (
+          <ReservationDateCheck>
+            <div className="text">일정 변경 요청이 들어왔습니다.</div>
+            <div className="btnBox">
+              <div className="checkBtn" onClick={() => setCheckFlow(true)}>
+                확인하기
               </div>
-            </ReservationDateCheck>
-          )}
+            </div>
+          </ReservationDateCheck>
+        )}
         {/* ----------- 현장실사 일정 확정 -------------- */}
-        {spotData?.data &&
-          spotData?.data?.spotInspection?.isConfirmed === true && (
-            <>
-              <ConfirmedReservation>
-                <div className="text">현장실사 일정이 확정되었습니다.</div>
-                <div className="date">
-                  {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
-                    '-',
-                    '.',
-                  )}
-                </div>
-              </ConfirmedReservation>
+        {spotData?.data?.spotInspection?.isConfirmed === true && (
+          <>
+            <ConfirmedReservation>
+              <div className="text">현장실사 일정이 확정되었습니다.</div>
+              <div className="date">
+                {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
+                  '-',
+                  '.',
+                )}
+              </div>
+            </ConfirmedReservation>
 
-              <SecondTitle>보낸 가견적서</SecondTitle>
-            </>
-          )}
+            <SecondTitle>보낸 가견적서</SecondTitle>
+          </>
+        )}
       </Wrapper>
     </>
   );

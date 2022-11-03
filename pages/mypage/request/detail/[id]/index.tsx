@@ -137,7 +137,6 @@ const MypageDetail = () => {
                 date={spotData?.data?.spotInspection?.spotInspectionDate[0]}
               />
             )} */}
-
           {/* 담당자 정보 */}
           {/* <ManagerInfo /> */}
           <BiddingQuote pb={101.25} data={data!} />
