@@ -72,17 +72,17 @@ const SliderSizes = ({
       ),
       investRate: value,
     };
-    // if (value !== 0 && setCalculatedValue) {
-    //   setCalculatedValue({
-    //     maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
-    //     maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
-    //     minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
-    //     minTotalSubscribePrice: ret.minTotalSubscribePrice,
-    //   });
-    // }
+    if (value !== 0 && setCalculatedValue) {
+      setCalculatedValue({
+        maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
+        maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
+        minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
+        minTotalSubscribePrice: ret.minTotalSubscribePrice,
+      });
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+  }, [value, calculatedValue]);
 
   // 간편 견적 포스트
   const predictionApi = async () => {
