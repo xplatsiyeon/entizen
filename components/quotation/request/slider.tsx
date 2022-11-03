@@ -49,6 +49,12 @@ const SliderSizes = ({
   const { quotationData, locationList } = useSelector(
     (state: RootState) => state,
   );
+  const {
+    maxSubscribePricePerMonth,
+    maxTotalSubscribePrice,
+    minSubscribePricePerMonth,
+    minTotalSubscribePrice,
+  } = quotationData.requestData!;
 
   const setPriceByRate = (
     target: number,
@@ -62,7 +68,13 @@ const SliderSizes = ({
     console.log(TAG + '🌈 ~line 27 rate value  ' + rate);
     console.log(TAG + '🌈 ~line 27 target value  ' + target);
 
-    return Math.round((target * rate) / standardRate);
+    const result = Math.round((target * rate) / standardRate);
+    if (target === 0) {
+      const result = Math.round(
+        (maxSubscribePricePerMonth * rate) / standardRate,
+      );
+    }
+    return result;
   };
   useEffect(() => {
     if (value === 0) {
@@ -141,6 +153,7 @@ const SliderSizes = ({
     if (subscribeNumber !== -1 && value !== newValue) {
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
       if (difaultValue) {
+        console.log('🌪 ~라인 158 api 호출');
         predictionApi();
       }
       setValue(newValue as number);
