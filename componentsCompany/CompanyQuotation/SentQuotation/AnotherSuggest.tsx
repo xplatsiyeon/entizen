@@ -57,7 +57,7 @@ const AnotherSuggest = (props: Props) => {
     );
 
     postMutate({
-      url: `quotations/pre/${router.query.preQuotation}/spot-inspection`,
+      url: `/quotations/pre/${router.query.preQuotation}/spot-inspection`,
       data: {
         spotInspectionDates: spotInspectionDates,
         isReplacedPicture: false,
