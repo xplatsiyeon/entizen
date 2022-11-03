@@ -20,6 +20,8 @@ type Props = {};
 const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/DatePicker.tsx';
 const DatePicker = ({}: Props) => {
   const router = useRouter();
+  console.log('~line 23 router.query.preQuotation ');
+  console.log(router.query.preQuotation);
 
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
   const [isValid, SetIsValid] = useState(false); // 버튼 유효성 검사
@@ -34,9 +36,11 @@ const DatePicker = ({}: Props) => {
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
     () =>
-      isTokenGetApi(`/quotations/pre/${router.query.routerId}/spot-inspection`),
+      isTokenGetApi(
+        `/quotations/pre/${router.query.preQuotation}/spot-inspection`,
+      ),
     {
-      enabled: router.isReady,
+      enabled: router.query.preQuotation ? true : false,
       // enabled: false,
     },
   );

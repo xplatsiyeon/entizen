@@ -43,7 +43,8 @@ const CenterBox = ({ spotData }: Props) => {
                     router.push({
                       pathname: '/company/datePick',
                       query: {
-                        routerId: spotData.data.spotInspection.preQuotationIdx,
+                        preQuotation:
+                          spotData.data.spotInspection.preQuotationIdx,
                       },
                     })
                   }
