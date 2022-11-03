@@ -238,6 +238,7 @@ const Tab = styled.span<{ idx: string; subscribeNumber: string }>`
   border-radius: 6pt;
   padding: 13.5pt 0;
   text-align: center;
+  cursor: pointer;
   ${({ idx, subscribeNumber }) =>
     idx === subscribeNumber &&
     css`

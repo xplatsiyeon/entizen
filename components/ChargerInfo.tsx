@@ -33,11 +33,13 @@ const ChargerInfo = ({
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const router = useRouter();
 
+  console.log(checkHeight);
   const mobile = useMediaQuery({
     query: '(min-width:810pt)',
   });
   return (
     <>
+      {' '}
       <InfoBox checkHeight={checkHeight?.toString()}>
         <RndWraper
           isMobile={mobile}
@@ -150,12 +152,14 @@ const InfoBox = styled.div<{ checkHeight: string }>`
     position: fixed;
     bottom: 0;
     width: 100%;
+    height: 500px;
     height: ${({ checkHeight }) => checkHeight + 'pt'};
   }
 `;
 
 const RndWraper = styled(Rnd)<{ isMobile: boolean }>`
   display: ${({ isMobile }) => isMobile && 'none'};
+
   background-color: #ffffff;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
 `;
