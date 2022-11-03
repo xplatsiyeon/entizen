@@ -266,27 +266,27 @@ const SubTitleBox = styled.div<{ disabled: boolean }>`
   }
 `;
 const ChargeGuide = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 3pt;
-color: ${colors.gray2};
-margin-top: 75pt;
-margin-left: 30pt;
-.text {
-  letter-spacing: -0.02em;
-  border-bottom: 1px solid ${colors.gray2};
-  font-family: 'Spoqa Han Sans Neo';
-  cursor: pointer;
-}
-.arrow-icon {
-  position: relative;
-  width: 12pt;
-  height: 12pt;
-}
- @media (max-width: 899pt) {
-margin-left: 0;
-}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3pt;
+  color: ${colors.gray2};
+  margin-top: 75pt;
+  margin-left: 30pt;
+  .text {
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid ${colors.gray2};
+    font-family: 'Spoqa Han Sans Neo';
+    cursor: pointer;
+  }
+  .arrow-icon {
+    position: relative;
+    width: 12pt;
+    height: 12pt;
+  }
+  @media (max-width: 899pt) {
+    margin-left: 0;
+  }
 `;
 const NextBtn = styled.div<{
   buttonActivate: boolean;
@@ -336,7 +336,7 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  gap:8.7pt;
+  gap: 8.7pt;
   @media (max-width: 899pt) {
     position: fixed;
     gap: 0;

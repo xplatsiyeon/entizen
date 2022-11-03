@@ -236,6 +236,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               placeholder="타입"
               index={index}
               onClickCharger={handleSelectBox}
+              fontSize={'small'}
             />
             <SelectComponents
               value={item.channel}
@@ -244,6 +245,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               placeholder="채널"
               index={index}
               onClickCharger={handleSelectBox}
+              fontSize={'small'}
             />
             <SelectComponents
               value={item.count}
@@ -252,6 +254,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               placeholder="수량"
               index={index}
               onClickCharger={handleSelectBox}
+              fontSize={'small'}
             />
           </SelectComponentsContainer>
         </div>

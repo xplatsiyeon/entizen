@@ -116,8 +116,10 @@ const SliderSizes = ({
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     console.log(newValue);
-    setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
-    setValue(newValue as number);
+    if (subscribeNumber !== -1) {
+      setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
+      setValue(newValue as number);
+    }
     if (difaultValue) {
       // console.log('1-7 슬라이더 확인');
       predictionApi();
