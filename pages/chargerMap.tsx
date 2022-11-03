@@ -86,6 +86,8 @@ const ChargerMap = (props: Props) => {
           0.75,
       );
       calcHeight = searchInput.getBoundingClientRect();
+      console.log(calcHeight);
+
       setCheckHeight(
         (document.body.clientHeight - (calcHeight.y + calcHeight.height + 16)) *
           0.75,

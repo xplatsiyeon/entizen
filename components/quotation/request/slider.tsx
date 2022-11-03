@@ -51,49 +51,52 @@ const SliderSizes = ({
   );
 
   const setPriceByRate = (target: any, rate: any, standardRate: any) => {
-    return Math.round((target * rate) / standardRate); 
+    return Math.round((target * rate) / standardRate);
   };
 
   useEffect(() => {
-    console.log('value 바뀜');
-    const ret = {
-      maxSubscribePricePerMonth: setPriceByRate(
-        quotationData.requestData?.maxSubscribePricePerMonth,
-        value,
-        quotationData.requestData?.investRate,
-      ),
-      maxTotalSubscribePrice: setPriceByRate(
-        quotationData.requestData?.maxTotalSubscribePrice,
-        value,
-        quotationData.requestData?.investRate,
-      ),
-      minSubscribePricePerMonth: setPriceByRate(
-        quotationData.requestData?.minSubscribePricePerMonth,
-        value,
-        quotationData.requestData?.investRate,
-      ),
-      minTotalSubscribePrice: setPriceByRate(
-        quotationData.requestData?.minTotalSubscribePrice,
-        value,
-        quotationData.requestData?.investRate,
-      ),
-      investRate: value,
-    };
-    if (value !== 0 && setCalculatedValue) {
-      setCalculatedValue({
-        maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
-        maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
-        minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
-        minTotalSubscribePrice: ret.minTotalSubscribePrice,
-      });
-    }
-
+    console.log(value);
+    if (value !== 0) {
+      const ret = {
+        maxSubscribePricePerMonth: setPriceByRate(
+          quotationData.requestData?.maxSubscribePricePerMonth,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        maxTotalSubscribePrice: setPriceByRate(
+          quotationData.requestData?.maxTotalSubscribePrice,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        minSubscribePricePerMonth: setPriceByRate(
+          quotationData.requestData?.minSubscribePricePerMonth,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        minTotalSubscribePrice: setPriceByRate(
+          quotationData.requestData?.minTotalSubscribePrice,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        investRate: value,
+      };
+      /*
+      if (setCalculatedValue) {
+        setCalculatedValue({
+          maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
+          maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
+          minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
+          minTotalSubscribePrice: ret.minTotalSubscribePrice,
+        });
+      }
+    }*/
+  }
     if(value === 0 && setCalculatedValue && calculatedValue){
       setCalculatedValue(calculatedValue);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+  }, [value, calculatedValue]);
 
   // 간편 견적 포스트
   const predictionApi = async () => {
@@ -116,7 +119,7 @@ const SliderSizes = ({
         withCredentials: true,
       }).then((res) => {
         dispatch(quotationAction.setRequestData(res.data));
-        console.log('defalt',quotationAction.setRequestData(res.data));
+        console.log('defalt', quotationAction.setRequestData(res.data));
         // dispatch(quotationAction.init());
         // router.push('/quotation/request/1-7');
       });
@@ -127,23 +130,21 @@ const SliderSizes = ({
   };
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-   // console.log('value?', newValue, value );
+    // console.log('value?', newValue, value );
 
-    if( (subscribeNumber !== -1) && (value !== newValue ) ) {
-      console.log('????', newValue, value)
+    if (subscribeNumber !== -1 && value !== newValue) {
+      console.log('????', newValue, value);
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
 
       if (difaultValue) {
         console.log('1-7 슬라이더 확인');
         predictionApi();
       }
-  
+
       setValue(newValue as number);
     }
-    
- 
 
-  /*const handleChange = (event: Event, newValue: number | number[]) => {
+    /*const handleChange = (event: Event, newValue: number | number[]) => {
     console.log('newValue: ', newValue, typeof(newValue) );
     setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
     if(value !== newValue ){ 
@@ -154,7 +155,6 @@ const SliderSizes = ({
     }
     console.log('change 끝');
   }; */
-
   };
 
   useEffect(() => {
