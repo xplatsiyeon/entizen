@@ -78,8 +78,7 @@ const MypageDetail = () => {
     error: spotError,
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
-    () =>
-      isTokenGetApi(`/quotations/pre/${router.query.routerId}/spot-inspection`),
+    () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
     {
       enabled: router.isReady,
       // enabled: false,
