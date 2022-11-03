@@ -141,7 +141,10 @@ const MypageDetail = () => {
           {/* 담당자 정보 */}
           {/* <ManagerInfo /> */}
           <BiddingQuote pb={101.25} data={data!} />
-          {!spotData?.data && <TwoButton onClcikModal={onClcikModal} />}
+
+          {!spotData?.data.spotInspection && (
+            <TwoButton onClcikModal={onClcikModal} />
+          )}
         </Wrapper>
       </Inner>
       <WebFooter />
