@@ -55,13 +55,10 @@ const SliderSizes = ({
     rate: number,
     standardRate: number,
   ) => {
-    if (rate !== 0) {
+    if (!isNaN(Math.round((target * rate) / standardRate))) {
       return Math.round((target * rate) / standardRate);
-    } else {
-      return Math.round((target * 1) / standardRate);
     }
   };
-
   useEffect(() => {
     if (value !== 0) {
       const ret = {
@@ -90,10 +87,10 @@ const SliderSizes = ({
 
       if (setCalculatedValue) {
         setCalculatedValue({
-          maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
-          maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
-          minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
-          minTotalSubscribePrice: ret.minTotalSubscribePrice,
+          maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
+          maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
+          minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
+          minTotalSubscribePrice: ret.minTotalSubscribePrice!,
         });
       }
     }
