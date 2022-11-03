@@ -178,21 +178,25 @@ const CompanyCalendar = ({
       if (differencerDate > 0 || days.includes(selectedDate)) return;
       // 클릭 취소
       if (selectedDaysArr!.includes(selectedDate)) {
+        console.log('클릭 취소');
         const temp: string[] = selectedDaysArr!;
         const index = temp.indexOf(selectedDate);
         temp.splice(index, 1);
         setSelectedDaysArr!(temp);
         // 최대 5개까지 선택 가능
       } else if (selectedDays.length < 5) {
+        console.log('데이터 추가');
+        const tempArr: string[] = [];
+        tempArr.push(selectedDate);
+        console.log(tempArr);
         setSelectedDaysArr!([...selectedDaysArr!, selectedDate]);
       }
     }
   };
 
   useEffect(() => {
-    console.log(selectedDays);
     console.log(selectedDaysArr);
-  }, [selectedDays, selectedDaysArr]);
+  }, [selectedDaysArr]);
 
   return (
     <Container>
