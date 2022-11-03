@@ -163,7 +163,7 @@ const CompanyCalendar = ({
     const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
     const differencerDate = CalculateDifference(day);
 
-    if (types === 'company') {
+    if (types === 'customer') {
       if (days.includes(selectedDate)) {
         SetSelectedDays(selectedDate);
       }
@@ -172,7 +172,7 @@ const CompanyCalendar = ({
       }
     }
 
-    if (types === 'customer') {
+    if (types === 'company') {
       console.log('check');
       // 이전 날짜 | 이미 선택된 날짜 클릭 금지
       if (differencerDate > 0 || days.includes(selectedDate)) return;
