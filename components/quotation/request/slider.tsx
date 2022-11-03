@@ -63,7 +63,13 @@ const SliderSizes = ({
     }
   };
   useEffect(() => {
+    if (value === 0) {
+      console.log(TAG + '🌈 ~line 67 value === 0 ');
+      console.log(calculatedValue);
+      console.log(quotationData);
+    }
     if (value !== 0) {
+      console.log(TAG + '🌈 ~line 67 value !== 0');
       const ret = {
         maxSubscribePricePerMonth: setPriceByRate(
           quotationData.requestData?.maxSubscribePricePerMonth!,
