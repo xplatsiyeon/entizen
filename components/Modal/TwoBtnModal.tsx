@@ -44,11 +44,21 @@ const TwoBtnModal = ({
               {leftBtnText}
             </BtnText>
           </BtnLeft>
+          <BtnLeftWeb>
+            <BtnText onClick={leftBtnControl} color={'#595757'}>
+              {leftBtnText}
+            </BtnText>
+          </BtnLeftWeb>
           <BtnRight>
             <BtnText onClick={rightBtnControl} color={rightBtnColor}>
               {rightBtnText}
             </BtnText>
           </BtnRight>
+          <BtnRightWeb>
+            <BtnText onClick={rightBtnControl} color={'#ffff'}>
+              {rightBtnText}
+            </BtnText>
+          </BtnRightWeb>
         </BtnBox>
       </ModalBox>
     </ModalWrapper>
@@ -57,13 +67,21 @@ const TwoBtnModal = ({
 
 const ContentText = styled(Typography)`
   white-space: pre-wrap;
-  font-size: 12pt;
-  font-weight: 500;
-  line-height: 18pt;
+  font-size: 21pt;
+  font-weight: 700;
+  line-height: 33pt;
   letter-spacing: -2%;
   font-family: 'Spoqa Han Sans Neo';
   text-align: center;
-  margin: 21pt 15pt 21pt 15pt;
+  margin: 42pt 23.5pt 33pt;
+
+  @media (max-width: 899pt) {  
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 18pt;
+    margin: 21pt 27.75pt 21pt;
+  }
+
 `;
 
 const ModalWrapper = styled(Box)`
@@ -78,8 +96,9 @@ const ModalWrapper = styled(Box)`
   align-items: center;
   z-index: 9999;
 `;
+
 const ModalBox = styled(Box)`
-  width: 220.5pt;
+  width: auto;
   border-radius: 6pt;
   background-color: white;
   position: relative;
@@ -91,6 +110,13 @@ const ModalBox = styled(Box)`
   transform: translate(-50%,-50%);
   justify-content: center;
   align-items: center;
+  padding: 0 28.5pt 30pt ;
+
+
+  @media (max-width: 899pt) {
+    width: 220.5pt;
+    padding: 0;
+  }
 `;
 const Content = styled(Box)`
   width: 100%;
@@ -99,8 +125,10 @@ const BtnBox = styled(Box)`
   width: 100%;
   position: relative;
   display: flex;
+  gap: 12pt;
 `;
 const BtnLeft = styled(Box)`
+  display: none;
 
 @media (max-width: 899pt) {
   width: 100%;
@@ -110,8 +138,27 @@ const BtnLeft = styled(Box)`
   border-top: 1px solid #f3f4f7;
 }
 `;
-const BtnRight = styled(Box)`
 
+const BtnLeftWeb = styled.button`
+width: 100%;
+border-radius: 4.5pt;
+background-color: #E2E5ED;
+@media (max-width: 899pt) {
+  display: none;
+}
+`
+
+
+const BtnRightWeb = styled.button`
+width: 100%;
+border-radius: 4.5pt;
+background-color: #5221CB;
+@media (max-width: 899pt) {
+  display: none;
+}`
+
+const BtnRight = styled(Box)`
+  display: none;
 @media (max-width: 899pt) {
   width: 100%;
   display: flex;
@@ -121,6 +168,7 @@ const BtnRight = styled(Box)`
   border-top: 1px solid #f3f4f7;
 }
 `;
+
 const BtnText = styled.div`
   position: relative;
   display: flex;
@@ -128,12 +176,23 @@ const BtnText = styled.div`
   width: 100%;
   justify-content: center;
   padding: 15pt 0;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: ${(props) => props.color};
+
+  @media (max-width: 899pt) {
+  padding: 15pt 0;
   font-size: 12pt;
   font-weight: 400;
   line-height: 12pt;
   letter-spacing: -2%;
   font-family: 'Spoqa Han Sans Neo';
-  color: ${(props) => props.color};
+  }
 `;
 
 export default TwoBtnModal;

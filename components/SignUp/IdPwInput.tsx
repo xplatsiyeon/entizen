@@ -355,16 +355,8 @@ const IdPwInput = ({
               '사용가능한 아이디입니다.'} */}
         </Box>
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginTop: '30pt',
-          width: '100%',
-        }}
-      >
-        <Label>비밀번호</Label>
+      <BoxPW>
+        <LabelPW>비밀번호</LabelPW>
         <Input
           placeholder="비밀번호 입력"
           onChange={handleIdChange}
@@ -378,10 +370,10 @@ const IdPwInput = ({
         />
         {!checkedPw && pwInput.length > 4 ? (
           <Box>
-            <MessageErrPs
+            <MessageErrPW
             >
               영문,숫자,특수문자 조합 10자 이상
-            </MessageErrPs>
+            </MessageErrPW>
           </Box>
         ) : (
           <></>
@@ -398,15 +390,15 @@ const IdPwInput = ({
         />
         {!checkSamePw && checkPw.length > 4 ? (
           <Box>
-            <MessageErrPs
+            <MessageErrPW
             >
               비밀번호를 확인해주세요
-            </MessageErrPs>
+            </MessageErrPW>
           </Box>
         ) : (
           <></>
         )}
-      </Box>
+      </BoxPW>
       <Btn
         isClick={checkedPw && checkSamePw && idInput.length > 4 ? true : false}
         text={'가입 완료'}
@@ -442,6 +434,16 @@ const Label = styled.label`
     margin-top:0;
   }
 `;
+
+const LabelPW = styled.label`
+font-weight: 500;
+font-size: 12pt;
+line-height: 12pt;
+letter-spacing: -0.02em;
+color: ${colors.main2};
+margin-top: 0pt;
+`
+
 const NameInput = styled.input`
   display: none;
 `;
@@ -487,6 +489,15 @@ const OverlapBtn = styled.button<{ isChangeColor: boolean }>`
     isChangeColor ? colors.main : colors.gray};
 `;
 
+const BoxPW =  styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 60pt;
+  width: 100%;
+  position: relative;
+`
+
 const ButtonText = styled(Typography)`
   font-Family:'Spoqa Han Sans Neo';
   font-style: normal;
@@ -516,23 +527,23 @@ const MessageErrId = styled.p`
 color: ${colors.sub4};
 font-size: 10.5pt;
 line-height: 10.5pt;
-margin-top: 9pt;
+margin-top: 12pt;
 font-family:'Spoqa Han Sans Neo';
 position: absolute;
 bottom: -20pt;
-  margin-top: 9pt;
+margin-top: 12pt;
   @media (max-width: 899pt) {
     font-size: 9pt;
     line-height: 12pt;
   }
 `
-const MessageErrPs = styled.p`
+const MessageErrPW = styled.p`
 color: ${colors.sub4};
 font-size: 10.5pt;
 line-height: 10.5pt;
-margin-top: 9pt;
+margin-top: 12pt;
 font-family:'Spoqa Han Sans Neo';
-  margin-top: 9pt;
+margin-top: 12pt;
   @media (max-width: 899pt) {
     font-size: 9pt;
     line-height: 12pt;
