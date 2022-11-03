@@ -184,11 +184,11 @@ const CompanyCalendar = ({
         temp.splice(index, 1);
         setSelectedDaysArr!(temp);
         // 최대 5개까지 선택 가능
-      } else if (selectedDays.length < 5) {
+      } else if (selectedDaysArr!.length < 5) {
         console.log('데이터 추가');
-        const tempArr: string[] = [];
-        tempArr.push(selectedDate);
-        console.log(tempArr);
+        // console.log(selectedDate);
+        // const temp: string[] = selectedDaysArr!;
+        // temp.push(selectedDate)
         setSelectedDaysArr!([...selectedDaysArr!, selectedDate]);
       }
     }
