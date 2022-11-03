@@ -223,6 +223,7 @@ const ProductAddComponent = (props: Props) => {
         files![i],
         encodeURIComponent(files![i].name),
       );
+      e.target.value ='';
     }
     multerImage(formData);
   };
@@ -256,6 +257,7 @@ const ProductAddComponent = (props: Props) => {
         files![i],
         encodeURIComponent(files![i].name),
       );
+      e.target.value ='';
     }
     multerFile(formData);
   };
