@@ -50,44 +50,36 @@ const SliderSizes = ({
     (state: RootState) => state,
   );
 
-  const setPriceByRate = (
-    target: number,
-    rate: number,
-    standardRate: number,
-  ) => {
-    console.log(Math.round((target * rate) / standardRate));
-    console.log('target' + target);
-    console.log('rate' + rate);
-    console.log('standardRate' + standardRate);
+  const setPriceByRate = (target: any, rate: any, standardRate: any) => {
     return Math.round((target * rate) / standardRate);
   };
 
   useEffect(() => {
+    console.log(value);
     if (value !== 0) {
       const ret = {
         maxSubscribePricePerMonth: setPriceByRate(
-          quotationData.requestData?.maxSubscribePricePerMonth!,
+          quotationData.requestData?.maxSubscribePricePerMonth,
           value,
-          Number(quotationData.requestData?.investRate),
+          quotationData.requestData?.investRate,
         ),
         maxTotalSubscribePrice: setPriceByRate(
-          quotationData.requestData?.maxTotalSubscribePrice!,
+          quotationData.requestData?.maxTotalSubscribePrice,
           value,
-          Number(quotationData.requestData?.investRate),
+          quotationData.requestData?.investRate,
         ),
         minSubscribePricePerMonth: setPriceByRate(
-          quotationData.requestData?.minSubscribePricePerMonth!,
+          quotationData.requestData?.minSubscribePricePerMonth,
           value,
-          Number(quotationData.requestData?.investRate),
+          quotationData.requestData?.investRate,
         ),
         minTotalSubscribePrice: setPriceByRate(
-          quotationData.requestData?.minTotalSubscribePrice!,
+          quotationData.requestData?.minTotalSubscribePrice,
           value,
-          Number(quotationData.requestData?.investRate),
+          quotationData.requestData?.investRate,
         ),
         investRate: value,
       };
-      /*
       if (setCalculatedValue) {
         setCalculatedValue({
           maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
@@ -96,14 +88,14 @@ const SliderSizes = ({
           minTotalSubscribePrice: ret.minTotalSubscribePrice,
         });
       }
-    }*/
-  }
-    if(value === 0 && setCalculatedValue && calculatedValue){
-      setCalculatedValue(calculatedValue);
+    }
+
+    if(value === 0){
+      console.log(calculatedValue);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+  }, [value, calculatedValue]);
 
   // 간편 견적 포스트
   const predictionApi = async () => {
@@ -147,6 +139,7 @@ const SliderSizes = ({
         console.log('1-7 슬라이더 확인');
         predictionApi();
       }
+
       setValue(newValue as number);
     }
 
