@@ -57,7 +57,7 @@ const AnotherSuggest = (props: Props) => {
     );
 
     postMutate({
-      url: 'quotations/pre/:preQuotationIdx/spot-inspection',
+      url: `quotations/pre/${router.query.preQuotation}/spot-inspection`,
       data: {
         spotInspectionDates: spotInspectionDates,
         isReplacedPicture: false,
@@ -96,18 +96,7 @@ const AnotherSuggest = (props: Props) => {
               고객에게 가능한 날짜를
               <br /> 제안해보세요
             </H1>
-            {/* <P
-              onClick={() =>
-                router.push({
-                  pathname: '/company/suggestChange',
-                  query: {
-                    preQuotation: router.query.preQuotation,
-                  },
-                })
-              }
-            >
-              다른 일정 제안
-            </P> */}
+
             {/* 달력 */}
             <CompanyCalendar
               selectedDays={selectedDays}
