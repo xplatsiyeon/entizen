@@ -14,7 +14,10 @@ import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
-import MypageDetail from './detail/[id]';
+import MypageDetail, { PreQuotationResponse } from './detail/[id]';
+import BiddingQuote from 'components/mypage/request/BiddingQuote';
+import { AxiosError } from 'axios';
+import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -86,6 +89,36 @@ const Mypage1_3 = ({}: any) => {
         // enabled: false,
       },
     );
+
+  // ---------  가견적 상세조회 api -----------
+  // const {
+  //   data: quotationData,
+  //   isLoading: quotationLoading,
+  //   isError: quotationError,
+  //   error,
+  // } = useQuery<PreQuotationResponse, AxiosError>(
+  //   'pre-quotation',
+  //   () => isTokenGetApi(`/quotations/pre/${routerId}`),
+  //   {
+  //     enabled: router.isReady,
+  //     // enabled: false,
+  //   },
+  // );
+
+  // ---------- 현장 실사 날짜 api ------------
+  const {
+    data: spotData,
+    isLoading: spotLoading,
+    isError: spotIsError,
+    error: spotError,
+  } = useQuery<SpotDataResponse>(
+    'spot-inspection',
+    () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
+    {
+      enabled: router.isReady,
+      // enabled: false,
+    },
+  );
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -142,9 +175,9 @@ const Mypage1_3 = ({}: any) => {
               {/* 견적 상세 내용*/}
               <EstimateContainer data={data!} />
               {/* 구독 상품 */}
-              {/* <SubscriptionProduct data={data?.preQuotations!} /> */}
+              <SubscriptionProduct data={data?.preQuotations!} />
 
-              <MypageDetail />
+              {/* <BiddingQuote data={} /> */}
               <TextBox>
                 <div>선택하기 어려우신가요?</div>
                 <CommunicationBox
