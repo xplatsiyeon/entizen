@@ -14,6 +14,7 @@ import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
+import MypageDetail from './detail/[id]';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -141,7 +142,9 @@ const Mypage1_3 = ({}: any) => {
               {/* 견적 상세 내용*/}
               <EstimateContainer data={data!} />
               {/* 구독 상품 */}
-              <SubscriptionProduct data={data?.preQuotations!} />
+              {/* <SubscriptionProduct data={data?.preQuotations!} /> */}
+
+              <MypageDetail />
               <TextBox>
                 <div>선택하기 어려우신가요?</div>
                 <CommunicationBox
