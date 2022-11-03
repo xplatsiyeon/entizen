@@ -224,6 +224,7 @@ const SliderContent = styled.div`
   border-radius: 8pt;
 
   @media (max-width: 899pt) {
+    max-width: 899pt;
     height: 99pt;
     justify-content: unset;
   }
