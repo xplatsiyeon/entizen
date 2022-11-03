@@ -121,18 +121,18 @@ const MypageDetail = () => {
             handleOnClick={handleOnClick}
           />
           {/* 현장실사 확정 */}
-          {spotData?.data &&
-            spotData?.data.spotInspection.isConfirmed === true && (
-              <ScheduleConfirm
-                date={spotData?.data.spotInspection.spotInspectionDate[0]}
-              />
-            )}
-
+          {spotData?.data.spotInspection.isConfirmed === true && (
+            <ScheduleConfirm
+              date={spotData?.data.spotInspection.spotInspectionDate[0]}
+            />
+          )}
           {/* 현장실사 일정 변경 요청 */}
-          <ScheduleChange />
+          {spotData?.data.spotInspection.isNewPropose === true && (
+            <ScheduleChange />
+          )}
           {/* 현장실사 일정 확인 중 */}
-          {spotData?.data &&
-            spotData?.data.hasReceivedSpotInspectionDates === true && (
+          {spotData?.data.spotInspection.isConfirmed === false &&
+            spotData?.data.spotInspection !== null && (
               <Checking
                 date={spotData?.data.spotInspection.spotInspectionDate[0]}
               />
