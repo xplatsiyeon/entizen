@@ -211,6 +211,7 @@ const ProductAddComponent = (props: Props) => {
   // 사진 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
+    console.log('files', files, files![0])
     const maxLength = 3;
     // max길이 보다 짧으면 멈춤
     const formData = new FormData();
@@ -223,9 +224,9 @@ const ProductAddComponent = (props: Props) => {
         files![i],
         encodeURIComponent(files![i].name),
       );
-      e.target.value ='';
     }
     multerImage(formData);
+    e.target.value ='';
   };
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -245,7 +246,7 @@ const ProductAddComponent = (props: Props) => {
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    console.log(files)
+    console.log('files', files, files![0])
     const maxLength = 3;
     // max길이 보다 짧으면 멈춤
     const formData = new FormData();
@@ -258,9 +259,9 @@ const ProductAddComponent = (props: Props) => {
         files![i],
         encodeURIComponent(files![i].name),
       );
-      e.target.value ='';
     }
     multerFile(formData);
+    e.target.value ='';
   };
 
   // 파일 삭제
