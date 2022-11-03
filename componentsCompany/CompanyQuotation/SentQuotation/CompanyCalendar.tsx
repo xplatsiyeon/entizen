@@ -173,7 +173,6 @@ const CompanyCalendar = ({
     }
 
     if (types === 'company') {
-      console.log('check');
       // 이전 날짜 | 이미 선택된 날짜 클릭 금지
       if (differencerDate > 0 || days.includes(selectedDate)) return;
       // 클릭 취소
@@ -186,9 +185,7 @@ const CompanyCalendar = ({
         // 최대 5개까지 선택 가능
       } else if (selectedDaysArr!.length < 5) {
         console.log('데이터 추가');
-        // console.log(selectedDate);
-        // const temp: string[] = selectedDaysArr!;
-        // temp.push(selectedDate)
+        console.log(selectedDate);
         setSelectedDaysArr!([...selectedDaysArr!, selectedDate]);
       }
     }
