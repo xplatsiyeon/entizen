@@ -33,6 +33,7 @@ const CenterBox = ({ spotData }: Props) => {
 
         {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
         {spotData?.data?.spotInspection?.isConfirmed === false &&
+          spotData?.data?.spotInspection?.isNewPropose === false &&
           spotData?.data?.spotInspection !== null && (
             <ReservationDate>
               <div className="text">현장실사 가능 날짜가 도착했습니다.</div>

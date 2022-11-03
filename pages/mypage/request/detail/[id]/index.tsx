@@ -132,6 +132,7 @@ const MypageDetail = () => {
           )} */}
           {/* 현장실사 일정 확인 중 */}
           {/* {spotData?.data?.spotInspection?.isConfirmed === false &&
+            spotData?.data?.spotInspection?.isNewPropose === false &&
             spotData?.data?.spotInspection !== null && (
               <Checking
                 date={spotData?.data?.spotInspection?.spotInspectionDate[0]}
