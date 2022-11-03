@@ -16,7 +16,12 @@ import {
   ChargerFiles,
   CompanyMemberAdditionalInfo,
   QuotationRequest,
+  SpotDataResponse,
 } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
+import ScheduleConfirm from 'components/mypage/request/ScheduleConfirm';
+import ScheduleChange from 'components/mypage/request/ScheduleChange';
+import Checking from 'components/mypage/request/Checking';
+import ManagerInfo from 'components/SignUp/ManagerInfo';
 export interface PreQuotationChargers {
   createdAt: string;
   preQuotationChargerIdx: number;
@@ -56,6 +61,7 @@ const MypageDetail = () => {
   const routerId = router?.query?.id;
   const handleOnClick = () => router.back();
 
+  // ---------  가견적 상세조회 api -----------
   const { data, isLoading, isError, error } = useQuery<
     PreQuotationResponse,
     AxiosError
@@ -64,18 +70,35 @@ const MypageDetail = () => {
     // enabled: false,
   });
 
+  // ---------- 현장 실사 날짜 api ------------
+  const {
+    data: spotData,
+    isLoading: spotLoading,
+    isError: spotIsError,
+    error: spotError,
+  } = useQuery<SpotDataResponse>(
+    'spot-inspection',
+    () =>
+      isTokenGetApi(`/quotations/pre/${router.query.routerId}/spot-inspection`),
+    {
+      enabled: router.isReady,
+      // enabled: false,
+    },
+  );
   // 모달 컨트롤
   const onClcikModal = () => setModal((prev) => !prev);
   const rightControl = () =>
     router.push(`/mypage/request/detail/${routerId}/calendar`);
 
-  if (isError) {
+  if (isError && spotIsError) {
     console.log(TAG + '🔥 ~line 35 ~ 에러코드 확인');
     console.log(error);
   }
-  if (isLoading) {
+  if (isLoading && spotLoading) {
     return <Loader />;
   }
+  console.log(TAG + '🔥 ~line 95 현장실사 데이터 api 로그');
+  console.log(spotData);
 
   return (
     <WebBody>
@@ -98,7 +121,16 @@ const MypageDetail = () => {
             exitBtn={true}
             handleOnClick={handleOnClick}
           />
+          {/* 일정 확정 */}
+          <ScheduleConfirm date="" />
+          {/* 일정 변경 요청 */}
+          <ScheduleChange />
+          {/* 일정 변경 확인 중 */}
+          <Checking />
+          {/* 담당자 정보 */}
+          {/* <ManagerInfo /> */}
           <BiddingQuote pb={101.25} data={data!} />
+
           <TwoButton onClcikModal={onClcikModal} />
         </Wrapper>
       </Inner>

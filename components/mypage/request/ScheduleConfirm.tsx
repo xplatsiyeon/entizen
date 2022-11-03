@@ -14,6 +14,7 @@ const ScheduleConfirm = ({ date }: Props) => {
     <Wrapper>
       <P>현장실사 일정이 확정되었습니다.</P>
       <Date>{date}</Date>
+      {/* <Date>2022.11.30</Date> */}
       <Btn
         onClick={() => {
           route.push('/mypage/request/2-3');

@@ -28,10 +28,9 @@ const Mypage2_1 = () => {
       {/* 일정 확정 */}
       <ScheduleConfirm date={pickDate ? pickDate : selectedDate[0]} />
       {/* 일정 변경 요청 */}
-      {/* <ScheduleChange /> */}
+      <ScheduleChange />
       {/* 일정 변경 확인 중 */}
-      {/* <Checking /> */}
-      {/* <BiddingQuote /> */}
+      <Checking />
       {/* 담당자 정보 */}
       <ManagerInfo />
       <TextBox>
