@@ -104,6 +104,7 @@ const SliderSizes = ({
         withCredentials: true,
       }).then((res) => {
         dispatch(quotationAction.setRequestData(res.data));
+        console.log(quotationAction.setRequestData(res.data));
         // dispatch(quotationAction.init());
         // router.push('/quotation/request/1-7');
       });
@@ -114,7 +115,8 @@ const SliderSizes = ({
   };
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-    setDisabled(false);
+    console.log(newValue);
+    setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
     setValue(newValue as number);
     if (difaultValue) {
       // console.log('1-7 슬라이더 확인');
@@ -136,7 +138,7 @@ const SliderSizes = ({
 
       {/* 슬라이더 */}
       <Slider
-        step={5}
+        step={5} //슬라이더 증감량. => 5씩 증감
         value={value}
         onChange={handleChange}
         defaultValue={difaultValue ? difaultValue : 50}

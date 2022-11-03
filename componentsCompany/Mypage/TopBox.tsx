@@ -20,7 +20,7 @@ const TopBox = ({ open, className, setOpen, handleClick }: Props) => {
     <Wrapper className={className !== undefined ? className : ''}>
       <ItemButton onClick={handleClick}>
         <StoreName>
-          <CommonBtns text={'계약대기'} backgroundColor={'#F75015'} />
+          <CommonBtns text={'계약대기'} backgroundColor={'#F75015'}/>
 
           <div>
             <h1>LS 카페 신림점</h1>
