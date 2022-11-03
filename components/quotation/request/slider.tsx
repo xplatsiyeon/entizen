@@ -122,6 +122,7 @@ const SliderSizes = ({
     console.log('value?', newValue, value );
 
     if( (subscribeNumber !== -1) && (value !== newValue ) ) {
+      console.log('????', newValue, value)
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
       setValue(newValue as number);
     }
