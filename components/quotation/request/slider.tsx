@@ -87,7 +87,7 @@ const SliderSizes = ({
         ),
         investRate: value,
       };
-      /*
+
       if (setCalculatedValue) {
         setCalculatedValue({
           maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
@@ -96,10 +96,6 @@ const SliderSizes = ({
           minTotalSubscribePrice: ret.minTotalSubscribePrice,
         });
       }
-    }*/
-  }
-    if(value === 0 && setCalculatedValue && calculatedValue){
-      setCalculatedValue(calculatedValue);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
