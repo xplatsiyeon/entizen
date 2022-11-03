@@ -10,6 +10,13 @@ import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 
+interface CalculateValue {
+  maxSubscribePricePerMonth: number;
+  maxTotalSubscribePrice: number;
+  minSubscribePricePerMonth: number;
+  minTotalSubscribePrice: number;
+}
+
 interface Props {
   value: number;
   setValue: Dispatch<SetStateAction<number>>;
@@ -25,7 +32,7 @@ interface Props {
       minTotalSubscribePrice: number;
     }>
   >;
-  calculatedValue?: {};
+  calculatedValue?: CalculateValue;
 }
 
 const SliderSizes = ({
@@ -79,6 +86,10 @@ const SliderSizes = ({
         minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
         minTotalSubscribePrice: ret.minTotalSubscribePrice,
       });
+    }
+
+    if(value === 0 && setCalculatedValue && calculatedValue){
+      setCalculatedValue(calculatedValue);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
