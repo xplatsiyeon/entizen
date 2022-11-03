@@ -124,9 +124,19 @@ const DatePicker = ({}: Props) => {
               현장실사 방문이
               <br /> 가능한 날짜를 선택해주세요
             </H1>
-            <P onClick={() => router.push('/company/suggestChange')}>
+            <P
+              onClick={() =>
+                router.push({
+                  pathname: '/company/suggestChange',
+                  query: {
+                    preQuotation: router.query.preQuotation,
+                  },
+                })
+              }
+            >
               다른 일정 제안
             </P>
+
             {/* 달력 */}
             <CompanyCalendar
               selectedDays={selectedDays}

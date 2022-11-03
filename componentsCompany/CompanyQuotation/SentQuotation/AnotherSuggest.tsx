@@ -96,7 +96,7 @@ const AnotherSuggest = (props: Props) => {
               고객에게 가능한 날짜를
               <br /> 제안해보세요
             </H1>
-            <P
+            {/* <P
               onClick={() =>
                 router.push({
                   pathname: '/company/suggestChange',
@@ -107,7 +107,7 @@ const AnotherSuggest = (props: Props) => {
               }
             >
               다른 일정 제안
-            </P>
+            </P> */}
             {/* 달력 */}
             <CompanyCalendar
               selectedDays={selectedDays}
