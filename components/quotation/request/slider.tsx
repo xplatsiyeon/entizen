@@ -55,7 +55,10 @@ const SliderSizes = ({
     rate: number,
     standardRate: number,
   ) => {
-    if (!isNaN(Math.round((target * rate) / standardRate))) {
+    if (
+      !isNaN(Math.round((target * rate) / standardRate)) &&
+      Math.round((target * rate) / standardRate) !== 0
+    ) {
       return Math.round((target * rate) / standardRate);
     }
   };
@@ -86,6 +89,7 @@ const SliderSizes = ({
       };
 
       if (
+        ret.investRate !== 0 &&
         ret.maxSubscribePricePerMonth &&
         ret.maxTotalSubscribePrice &&
         ret.minSubscribePricePerMonth &&
