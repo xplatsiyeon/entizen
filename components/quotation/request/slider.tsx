@@ -59,18 +59,19 @@ const SliderSizes = ({
     //   !isNaN(Math.round((target * rate) / standardRate)) &&
     //   Math.round((target * rate) / standardRate) !== 0
     // ) {
+    console.log(TAG + '🌈 ~line 27 rate value  ' + rate);
     if (target !== 0 && rate !== 0 && standardRate !== 0) {
       return Math.round((target * rate) / standardRate);
     }
   };
   useEffect(() => {
     if (value === 0) {
-      console.log(TAG + '🌈 ~line 67 value === 0 ');
-      console.log(calculatedValue);
-      console.log(quotationData);
+      // console.log(TAG + '🌈 ~line 67 value === 0 ');
+      // console.log(calculatedValue);
+      // console.log(quotationData);
     }
     if (value !== 0) {
-      console.log(TAG + '🌈 ~line 67 value !== 0');
+      // console.log(TAG + '🌈 ~line 67 value !== 0');
       const ret = {
         maxSubscribePricePerMonth: setPriceByRate(
           quotationData.requestData?.maxSubscribePricePerMonth!,
