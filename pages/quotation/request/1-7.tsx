@@ -115,8 +115,8 @@ const Request1_7 = (props: Props) => {
                 difaultValue={Number(requestData?.investRate!)}
                 value={value}
                 setValue={setValue}
-                disabled={disabled}
-                setDisabled={setDisabled}
+                disabled={disabled} //안내메세지 유&무
+                setDisabled={setDisabled} //안내메세지 끄고 키는 기능.
                 setCalculatedValue={setCalculatedValue}
                 calculatedValue={calculatedValue}
               />
