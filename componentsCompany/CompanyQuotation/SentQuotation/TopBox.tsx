@@ -155,20 +155,19 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
             <div className="text-box">
               <span className="name">이름</span>
               <span className="text">
-                {data.sendQuotationRequest.preQuotation.member.name}
+                {data?.sendQuotationRequest?.preQuotation?.member?.name}
               </span>
             </div>
             <div className="text-box">
               <span className="name">이메일</span>
               <span className="text emailText">
-                {' '}
-                {data.sendQuotationRequest.preQuotation.member.id}
+                {data?.sendQuotationRequest?.preQuotation?.member?.id}
               </span>
             </div>
             <div className="text-box">
               <span className="name">연락처</span>
               <span className="text phone">
-                {data.sendQuotationRequest.preQuotation.member.phone}
+                {data?.sendQuotationRequest?.preQuotation?.member?.phone}
               </span>
             </div>
           </Contents>

@@ -82,9 +82,8 @@ const BottomBox = ({ pb, data }: Props) => {
             {/* 충전량 1개 일 때  */}
             <Item>
               <span className="name">충전요금</span>
-              <span className="value">
-                {`${data?.sendQuotationRequest?.preQuotation?.preQuotationCharger[0].chargePrice} 원 / kW`}
-              </span>
+              {`${data?.sendQuotationRequest?.preQuotation?.preQuotationCharger[0]?.chargePrice} 원 / kW`}
+              <span className="value"></span>
             </Item>
             <Item>
               <span className="name">충전기 제조사</span>
@@ -149,7 +148,7 @@ const BottomBox = ({ pb, data }: Props) => {
               {data?.sendQuotationRequest.preQuotation.subscribeProductFeature}
             </li> */}
             {data?.sendQuotationRequest?.preQuotation?.subscribeProductFeature
-              .split('\n')
+              ?.split('\n')
               .map((line) => (
                 <li>
                   {line}
