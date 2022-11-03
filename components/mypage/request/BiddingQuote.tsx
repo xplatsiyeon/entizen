@@ -134,6 +134,14 @@ const BiddingQuote = ({ pb, data }: Props) => {
           <Label>구독 상품</Label>
           <FeaturesList>
             <li>{data?.preQuotation.subscribeProductFeature}</li>
+            {data?.preQuotation.subscribeProductFeature
+              .split('\n')
+              .map((line) => (
+                <li>
+                  {line}
+                  <br />
+                </li>
+              ))}
           </FeaturesList>
         </FlexWrap>
         {data?.preQuotation.preQuotationChargers.map((item, index) => (

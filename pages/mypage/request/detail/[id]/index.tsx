@@ -121,30 +121,31 @@ const MypageDetail = () => {
             handleOnClick={handleOnClick}
           />
           {/* 현장실사 확정 */}
-          {spotData?.data?.spotInspection?.isConfirmed === true && (
+          {/* {spotData?.data?.spotInspection?.isConfirmed === true && (
             <ScheduleConfirm
               date={spotData?.data?.spotInspection?.spotInspectionDate[0]}
             />
-          )}
+          )} */}
           {/* 현장실사 일정 변경 요청 */}
-          {spotData?.data?.spotInspection?.isNewPropose === true && (
+          {/* {spotData?.data?.spotInspection?.isNewPropose === true && (
             <ScheduleChange />
-          )}
+          )} */}
           {/* 현장실사 일정 확인 중 */}
-          {spotData?.data?.spotInspection?.isConfirmed === false &&
+          {/* {spotData?.data?.spotInspection?.isConfirmed === false &&
             spotData?.data?.spotInspection !== null && (
               <Checking
                 date={spotData?.data?.spotInspection?.spotInspectionDate[0]}
               />
-            )}
+            )} */}
 
           {/* 담당자 정보 */}
           {/* <ManagerInfo /> */}
           <BiddingQuote pb={101.25} data={data!} />
-
+          {/* 
           {!spotData?.data.spotInspection && (
             <TwoButton onClcikModal={onClcikModal} />
-          )}
+          )} */}
+          <TwoButton onClcikModal={onClcikModal} />
         </Wrapper>
       </Inner>
       <WebFooter />
