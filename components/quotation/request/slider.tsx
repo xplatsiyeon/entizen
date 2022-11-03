@@ -49,36 +49,38 @@ const SliderSizes = ({
 
   useEffect(() => {
     console.log(value);
-    const ret = {
-      maxSubscribePricePerMonth: setPriceByRate(
-        quotationData.requestData?.maxSubscribePricePerMonth,
-        value,
-        quotationData.requestData?.investRate,
-      ),
-      maxTotalSubscribePrice: setPriceByRate(
-        quotationData.requestData?.maxTotalSubscribePrice,
-        value,
-        quotationData.requestData?.investRate,
-      ),
-      minSubscribePricePerMonth: setPriceByRate(
-        quotationData.requestData?.minSubscribePricePerMonth,
-        value,
-        quotationData.requestData?.investRate,
-      ),
-      minTotalSubscribePrice: setPriceByRate(
-        quotationData.requestData?.minTotalSubscribePrice,
-        value,
-        quotationData.requestData?.investRate,
-      ),
-      investRate: value,
-    };
-    if (value !== 0 && setCalculatedValue) {
-      setCalculatedValue({
-        maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
-        maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
-        minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
-        minTotalSubscribePrice: ret.minTotalSubscribePrice,
-      });
+    if (value !== 0) {
+      const ret = {
+        maxSubscribePricePerMonth: setPriceByRate(
+          quotationData.requestData?.maxSubscribePricePerMonth,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        maxTotalSubscribePrice: setPriceByRate(
+          quotationData.requestData?.maxTotalSubscribePrice,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        minSubscribePricePerMonth: setPriceByRate(
+          quotationData.requestData?.minSubscribePricePerMonth,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        minTotalSubscribePrice: setPriceByRate(
+          quotationData.requestData?.minTotalSubscribePrice,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        investRate: value,
+      };
+      if (setCalculatedValue) {
+        setCalculatedValue({
+          maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth,
+          maxTotalSubscribePrice: ret.maxTotalSubscribePrice,
+          minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
+          minTotalSubscribePrice: ret.minTotalSubscribePrice,
+        });
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
