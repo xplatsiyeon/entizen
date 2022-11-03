@@ -48,6 +48,7 @@ const SliderSizes = ({
   };
 
   useEffect(() => {
+    console.log('value 바뀜');
     const ret = {
       maxSubscribePricePerMonth: setPriceByRate(
         quotationData.requestData?.maxSubscribePricePerMonth,
@@ -78,10 +79,6 @@ const SliderSizes = ({
         minSubscribePricePerMonth: ret.minSubscribePricePerMonth,
         minTotalSubscribePrice: ret.minTotalSubscribePrice,
       });
-    }
-
-    if(value === 0){
-
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,7 +121,7 @@ const SliderSizes = ({
     if( (subscribeNumber !== -1) && (value !== newValue ) ) {
       console.log('????', newValue, value)
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
-      
+
       if (difaultValue) {
         console.log('1-7 슬라이더 확인');
         predictionApi();
