@@ -145,9 +145,17 @@ const BottomBox = ({ pb, data }: Props) => {
         <FlexWrap>
           <Label>구독 상품</Label>
           <FeaturesList>
-            <li>
+            {/* <li>
               {data?.sendQuotationRequest.preQuotation.subscribeProductFeature}
-            </li>
+            </li> */}
+            {data?.sendQuotationRequest.preQuotation.subscribeProductFeature
+              .split('\n')
+              .map((line) => (
+                <li>
+                  {line}
+                  <br />
+                </li>
+              ))}
           </FeaturesList>
         </FlexWrap>
         {data?.sendQuotationRequest.preQuotation.preQuotationCharger.map(
@@ -162,7 +170,12 @@ const BottomBox = ({ pb, data }: Props) => {
                 )}
               </Label>
               <FeaturesList>
-                <li>{item.productFeature}</li>
+                {item.productFeature.split('\n').map((line) => (
+                  <li>
+                    {line}
+                    <br />
+                  </li>
+                ))}
               </FeaturesList>
             </FlexWrap>
           ),

@@ -155,8 +155,15 @@ const BiddingQuote = ({ pb, data }: Props) => {
                 data?.quotationRequest.quotationRequestChargers[index].kind,
               )}
             </Label>
+            {/* textarea 줄바꿈 */}
             <FeaturesList>
-              <li>{item.productFeature}</li>
+              {item.productFeature.split('\n').map((line) => (
+                <li>
+                  {line}
+                  <br />
+                </li>
+              ))}
+              {/* <li>{item.productFeature}</li> */}
             </FeaturesList>
           </FlexWrap>
         ))}
