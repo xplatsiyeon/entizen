@@ -249,7 +249,7 @@ const List = styled.ul`
   gap: 12pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
   @media (max-width: 899pt) {
-    margin: 30pt 0 0 15pt;
+    margin: 30pt 15pt 0 15pt;
     padding-bottom: 18pt;
   }
 `;

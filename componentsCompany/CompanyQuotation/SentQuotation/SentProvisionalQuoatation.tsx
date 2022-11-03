@@ -35,6 +35,13 @@ export interface PreQuotationCharger {
   chargerImageFiles: ChargerFiles[];
   catalogFiles: ChargerFiles[];
 }
+export interface Member {
+  memberIdx: number;
+  memberType: string;
+  name: string;
+  phone: string;
+  id: string;
+}
 export interface PreQuotation {
   createdAt: string;
   preQuotationIdx: number;
@@ -46,6 +53,7 @@ export interface PreQuotation {
   quotationRequestIdx: number;
   memberIdx: number;
   preQuotationCharger: PreQuotationCharger[];
+  member: Member;
 }
 
 export interface CompanyMemberAdditionalInfo {

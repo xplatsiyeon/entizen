@@ -32,6 +32,7 @@ type Props = {
 };
 
 const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
+  console.log(data);
   return (
     <Wrapper>
       <ItemButton onClick={handleClick}>
@@ -153,15 +154,22 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
             <Partner>파트너 정보</Partner>
             <div className="text-box">
               <span className="name">이름</span>
-              <span className="text">윤세아</span>
+              <span className="text">
+                {data.sendQuotationRequest.preQuotation.member.name}
+              </span>
             </div>
             <div className="text-box">
               <span className="name">이메일</span>
-              <span className="text emailText">sayoon@LS-CaaS.com</span>
+              <span className="text emailText">
+                {' '}
+                {data.sendQuotationRequest.preQuotation.member.id}
+              </span>
             </div>
             <div className="text-box">
               <span className="name">연락처</span>
-              <span className="text phone">010-3522-2250</span>
+              <span className="text phone">
+                {data.sendQuotationRequest.preQuotation.member.phone}
+              </span>
             </div>
           </Contents>
         </List>
