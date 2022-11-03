@@ -162,7 +162,7 @@ const BiddingQuote = ({ pb, data }: Props) => {
         ))}
       </Section>
       {/* 이미지 부분 */}
-      <Section grid={true}>
+      <Section imgBox={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
           {data?.preQuotation.preQuotationChargers.map((item, index) => (
@@ -228,20 +228,20 @@ const Title = styled.h1`
     padding: 0 15pt;
   }
 `;
-const Section = styled.section<{ grid?: boolean; pb?: number }>`
+const Section = styled.section<{ imgBox?: boolean; pb?: number }>`
   padding: 18pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
   :not(:last-child) {
     border-bottom: 0.75pt solid ${colors.lightGray};
   }
-  ${({ grid }) =>
-    grid &&
+  ${({ imgBox }) =>
+    imgBox &&
     css`
       padding-right: 0;
     `};
 
   @media (max-width: 899pt) {
-    margin: 0 15pt;
+    margin-left: 15pt;
   }
 `;
 const List = styled.ul`
@@ -370,7 +370,7 @@ const FeaturesList = styled.ol`
   }
 `;
 const GridImg = styled.div`
-  display: grid;
+  display: flex;
   overflow-x: scroll;
   grid-template-columns: repeat(4, 1fr);
   padding-top: 15pt;
@@ -382,6 +382,7 @@ const GridItem = styled.div`
   border-radius: 6pt;
   width: 120pt;
   height: 144pt;
+  flex-shrink: 0;
 `;
 const FileContainer = styled.div`
   padding-top: 15pt;
