@@ -43,33 +43,40 @@ const SliderSizes = ({
     (state: RootState) => state,
   );
 
-  const setPriceByRate = (target: any, rate: any, standardRate: any) => {
+  const setPriceByRate = (
+    target: number,
+    rate: number,
+    standardRate: number,
+  ) => {
+    console.log(Math.round((target * rate) / standardRate));
+    console.log('target' + target);
+    console.log('rate' + rate);
+    console.log('standardRate' + standardRate);
     return Math.round((target * rate) / standardRate);
   };
 
   useEffect(() => {
-    console.log(value);
     if (value !== 0) {
       const ret = {
         maxSubscribePricePerMonth: setPriceByRate(
-          quotationData.requestData?.maxSubscribePricePerMonth,
+          quotationData.requestData?.maxSubscribePricePerMonth!,
           value,
-          quotationData.requestData?.investRate,
+          Number(quotationData.requestData?.investRate),
         ),
         maxTotalSubscribePrice: setPriceByRate(
-          quotationData.requestData?.maxTotalSubscribePrice,
+          quotationData.requestData?.maxTotalSubscribePrice!,
           value,
-          quotationData.requestData?.investRate,
+          Number(quotationData.requestData?.investRate),
         ),
         minSubscribePricePerMonth: setPriceByRate(
-          quotationData.requestData?.minSubscribePricePerMonth,
+          quotationData.requestData?.minSubscribePricePerMonth!,
           value,
-          quotationData.requestData?.investRate,
+          Number(quotationData.requestData?.investRate),
         ),
         minTotalSubscribePrice: setPriceByRate(
-          quotationData.requestData?.minTotalSubscribePrice,
+          quotationData.requestData?.minTotalSubscribePrice!,
           value,
-          quotationData.requestData?.investRate,
+          Number(quotationData.requestData?.investRate),
         ),
         investRate: value,
       };
@@ -84,7 +91,7 @@ const SliderSizes = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, calculatedValue]);
+  }, [value]);
 
   // 간편 견적 포스트
   const predictionApi = async () => {
@@ -128,7 +135,6 @@ const SliderSizes = ({
         console.log('1-7 슬라이더 확인');
         predictionApi();
       }
-
       setValue(newValue as number);
     }
 
