@@ -97,7 +97,7 @@ const ProjectInProgress = ({ tabNumber }: Props) => {
             <div key={index}>
               <Contents
                 key={el.id}
-                onClick={() => router.push(`/company/mypage/runningProgress`)}
+                onClick={() => router.push(`/company/mypage/runningProgress`)} //여기서 배지에 따라 분리해서 보내야함.
               >
                 <DdayNAddress>
                   <DdayBox>
