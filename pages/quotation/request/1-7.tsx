@@ -58,6 +58,7 @@ const Request1_7 = (props: Props) => {
   const { requestData } = useSelector(
     (state: RootState) => state.quotationData,
   );
+  console.log('1-7', requestData);
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
       currentTarget: { value },
@@ -113,8 +114,8 @@ const Request1_7 = (props: Props) => {
               </NameBox>
               <SliderSizes
                 difaultValue={Number(requestData?.investRate!)}
-                value={value}
-                setValue={setValue}
+                value={value} // 슬라이더 기본값. 기본은 50 : 50
+                setValue={setValue} //슬라이더 값 변경하는 기능.
                 disabled={disabled} //안내메세지 유&무
                 setDisabled={setDisabled} //안내메세지 끄고 키는 기능.
                 setCalculatedValue={setCalculatedValue}
