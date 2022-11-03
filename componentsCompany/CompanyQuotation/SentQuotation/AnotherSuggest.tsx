@@ -12,6 +12,9 @@ import colors from 'styles/colors';
 import WebFooter from 'componentsWeb/WebFooter';
 import Modal from 'components/Modal/Modal';
 import CompanyCalendar from './CompanyCalendar';
+import { useMutation } from 'react-query';
+import { isTokenPostApi } from 'api';
+import Loader from 'components/Loader';
 
 type Props = {};
 
@@ -28,12 +31,54 @@ const AnotherSuggest = (props: Props) => {
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
   const [selectedDaysArr, setSelectedDaysArr] = useState<string[]>([]);
   const [isModal, setIsModal] = useState(false); // 모달
+  const {
+    mutate: postMutate,
+    isLoading,
+    isError,
+  } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      setIsModal((prev) => !prev);
+    },
+    onError: (error: any) => {
+      console.log('포스트 실패');
+      console.log(error);
+      setIsModal((prev) => !prev);
+    },
+  });
   // 리덕스
   const HandleModal = () => {
     // router.push('/mypage');
     router.push('/mypage/request/2-1');
     dispatch(requestAction.addDate(selectedDays));
   };
+  const onClickBtn = () => {
+    const spotInspectionDates = selectedDaysArr.map((e) =>
+      e.replaceAll('.', '-'),
+    );
+
+    postMutate({
+      url: '',
+      data: {
+        spotInspectionDates: spotInspectionDates,
+        isReplacedPicture: false,
+        isNewPropose: true,
+        isConfirmed: false,
+      },
+    });
+  };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    return (
+      <Modal
+        text={'전송 실패했습니다.\n다시 시도해주세요.'}
+        click={() => router.push('/company/quotation')}
+      />
+    );
+  }
+
   return (
     <React.Fragment>
       {isModal && (
@@ -84,9 +129,7 @@ const AnotherSuggest = (props: Props) => {
                 ))}
               </UL>
             </Schedule> */}
-            <Btn onClick={() => setIsModal((prev) => !prev)}>
-              다른 일정 제안하기
-            </Btn>
+            <Btn onClick={onClickBtn}>다른 일정 제안하기</Btn>
           </Wrapper>
         </Inner>
         <WebFooter />

@@ -47,6 +47,7 @@ const CompanyCalendar = ({
   const [selectedYear, setSelectedYear] = useState(today.year); //현재 선택된 연도
   const [selectedMonth, setSelectedMonth] = useState(today.month); //현재 선택된 달
   const dateTotalCount = new Date(selectedYear, selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
+
   //이전 달 보기 보튼
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
@@ -142,12 +143,22 @@ const CompanyCalendar = ({
     }
     return dayArr;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDays, selectedYear, selectedMonth, dateTotalCount]);
+  }, [
+    selectedDaysArr,
+    selectedDays,
+    selectedYear,
+    selectedMonth,
+    dateTotalCount,
+  ]);
   // 선택된 날짜 컬러 커스텀
   const selectedDay = (day: number): boolean => {
     // 년,월,일 날짜
     const date = selectedYear + '.' + selectedMonth + '.' + day;
-    return selectedDays === date ? true : false;
+    if (selectedDaysArr) {
+      return selectedDaysArr!.includes(date) ? true : false;
+    } else {
+      return selectedDays === date ? true : false;
+    }
   };
   // 날짜 차이 계산
   const CalculateDifference = (day: number) => {
@@ -170,30 +181,24 @@ const CompanyCalendar = ({
       if (selectedDays === selectedDate) {
         SetSelectedDays('');
       }
-    }
-
-    if (types === 'company') {
+    } else if (types === 'company') {
       // 이전 날짜 | 이미 선택된 날짜 클릭 금지
       if (differencerDate > 0 || days.includes(selectedDate)) return;
+      console.log(selectedDate);
+
       // 클릭 취소
       if (selectedDaysArr!.includes(selectedDate)) {
-        console.log('클릭 취소');
         const temp: string[] = selectedDaysArr!;
         const index = temp.indexOf(selectedDate);
         temp.splice(index, 1);
         setSelectedDaysArr!(temp);
         // 최대 5개까지 선택 가능
       } else if (selectedDaysArr!.length < 5) {
-        console.log('데이터 추가');
-        console.log(selectedDate);
+        day;
         setSelectedDaysArr!([...selectedDaysArr!, selectedDate]);
       }
     }
   };
-
-  useEffect(() => {
-    console.log(selectedDaysArr);
-  }, [selectedDaysArr]);
 
   return (
     <Container>

@@ -75,7 +75,7 @@ const DatePicker = ({}: Props) => {
       const newDay = selectedDays.replaceAll('.', '-');
       console.log(newDay);
       mutate({
-        url: `/quotations/pre/${router.query.routerId}/spot-inspection`,
+        url: `/quotations/pre/${router.query.preQuotation}/spot-inspection`,
         data: {
           spotInspectionDates: [newDay],
           isReplacedPicture: false,
