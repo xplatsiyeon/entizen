@@ -38,8 +38,8 @@ const BottomBox = ({ pb, data }: Props) => {
       <ImageBox>
         <Image
           src={
-            data?.sendQuotationRequest.companyMemberAdditionalInfo
-              .companyLogoImageUrl
+            data?.sendQuotationRequest?.companyMemberAdditionalInfo
+              ?.companyLogoImageUrl
           }
           alt="logo-img"
           layout="fill"
@@ -48,7 +48,7 @@ const BottomBox = ({ pb, data }: Props) => {
         />
       </ImageBox>
       <Title>
-        {data?.sendQuotationRequest.companyMemberAdditionalInfo.companyName}
+        {data?.sendQuotationRequest?.companyMemberAdditionalInfo?.companyName}
       </Title>
       <List>
         <Item>
@@ -65,7 +65,7 @@ const BottomBox = ({ pb, data }: Props) => {
           <span className="name">수익지분</span>
           <span className="value">
             {`${
-              Number(data?.sendQuotationRequest.quotationRequest.investRate) *
+              Number(data?.sendQuotationRequest?.quotationRequest?.investRate) *
               100
             } %`}
           </span>
@@ -76,14 +76,14 @@ const BottomBox = ({ pb, data }: Props) => {
             {`${data?.sendQuotationRequest?.preQuotation?.constructionPeriod} 일`}
           </span>
         </Item>
-        {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.length ==
-        1 ? (
+        {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger
+          ?.length == 1 ? (
           <>
             {/* 충전량 1개 일 때  */}
             <Item>
               <span className="name">충전요금</span>
               <span className="value">
-                {`${data?.sendQuotationRequest?.preQuotation.preQuotationCharger[0].chargePrice} 원 / kW`}
+                {`${data?.sendQuotationRequest?.preQuotation?.preQuotationCharger[0].chargePrice} 원 / kW`}
               </span>
             </Item>
             <Item>
@@ -91,7 +91,7 @@ const BottomBox = ({ pb, data }: Props) => {
               <span className="value">
                 {
                   data?.sendQuotationRequest?.preQuotation
-                    .preQuotationCharger[0].manufacturer
+                    ?.preQuotationCharger[0]?.manufacturer
                 }
               </span>
             </Item>
@@ -101,14 +101,14 @@ const BottomBox = ({ pb, data }: Props) => {
             {/* 충전량 2개 이상일 때 */}
             <MultiSection>
               <Subtitle>충전요금</Subtitle>
-              {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.map(
+              {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
                 (item, index) => (
                   <MultiBox key={item.preQuotationChargerIdx}>
                     <Item>
                       <span className="name">
                         {
-                          data?.sendQuotationRequest.quotationRequest
-                            .quotationRequestChargers[index].kind
+                          data?.sendQuotationRequest?.quotationRequest
+                            ?.quotationRequestChargers[index]?.kind
                         }
                       </span>
                       <span className="value">{`${PriceBasicCalculation(
@@ -121,14 +121,14 @@ const BottomBox = ({ pb, data }: Props) => {
             </MultiSection>
             <MultiSection>
               <Subtitle>충전기 제조사</Subtitle>
-              {data?.sendQuotationRequest?.preQuotation.preQuotationCharger.map(
+              {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
                 (item, index) => (
                   <MultiBox key={item.preQuotationChargerIdx}>
                     <Item>
                       <span className="name">
                         {
                           data?.sendQuotationRequest?.quotationRequest
-                            .quotationRequestChargers[index].kind
+                            ?.quotationRequestChargers[index]?.kind
                         }
                       </span>
                       <span className="value">{item.manufacturer}</span>
@@ -148,7 +148,7 @@ const BottomBox = ({ pb, data }: Props) => {
             {/* <li>
               {data?.sendQuotationRequest.preQuotation.subscribeProductFeature}
             </li> */}
-            {data?.sendQuotationRequest.preQuotation.subscribeProductFeature
+            {data?.sendQuotationRequest?.preQuotation?.subscribeProductFeature
               .split('\n')
               .map((line) => (
                 <li>
@@ -158,15 +158,15 @@ const BottomBox = ({ pb, data }: Props) => {
               ))}
           </FeaturesList>
         </FlexWrap>
-        {data?.sendQuotationRequest.preQuotation.preQuotationCharger.map(
+        {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
           (item, index) => (
             <FlexWrap key={item.preQuotationChargerIdx}>
               <Label>
                 {convertKo(
                   M5_LIST,
                   M5_LIST_EN,
-                  data?.sendQuotationRequest.quotationRequest
-                    .quotationRequestChargers[index].kind,
+                  data?.sendQuotationRequest?.quotationRequest
+                    ?.quotationRequestChargers[index]?.kind,
                 )}
               </Label>
               <FeaturesList>
@@ -184,7 +184,7 @@ const BottomBox = ({ pb, data }: Props) => {
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
-          {data?.sendQuotationRequest.preQuotation.preQuotationCharger.map(
+          {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
             (item, index) => (
               <React.Fragment key={item.preQuotationChargerIdx}>
                 {item.chargerImageFiles.map((img, index) => (
@@ -205,7 +205,7 @@ const BottomBox = ({ pb, data }: Props) => {
       </Section>
       <Section className="underLine" pb={pb}>
         <Subtitle>충전기 카탈로그</Subtitle>
-        {data?.sendQuotationRequest.preQuotation.preQuotationCharger.map(
+        {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
           (item, index) => (
             <React.Fragment key={item.preQuotationChargerIdx}>
               {item.catalogFiles.map((file, index) => (
