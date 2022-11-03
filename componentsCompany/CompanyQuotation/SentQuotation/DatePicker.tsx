@@ -40,7 +40,7 @@ const DatePicker = ({}: Props) => {
         `/quotations/pre/${router.query.preQuotation}/spot-inspection`,
       ),
     {
-      enabled: router.query.preQuotation ? true : false,
+      enabled: router.isReady,
       // enabled: false,
     },
   );
@@ -109,8 +109,8 @@ const DatePicker = ({}: Props) => {
     console.log(spotError);
   }
 
-  const { spotInspectionDate } = spotData?.data.spotInspection!;
-  const days = spotInspectionDate.map((date) => date.replaceAll('-', '.'));
+  const { spotInspectionDate } = spotData?.data?.spotInspection!;
+  const days = spotInspectionDate?.map((date) => date.replaceAll('-', '.'));
 
   return (
     <React.Fragment>
