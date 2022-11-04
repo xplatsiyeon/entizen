@@ -1,13 +1,10 @@
 import styled from '@emotion/styled';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useRef } from 'react';
 import colors from 'styles/colors';
 import CheckIcon from 'public/images/check-small.png';
 import CheckCircleOn from 'public/images/CheckCircle-on.png';
-import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { locationAction } from 'store/locationSlice';
@@ -19,7 +16,6 @@ interface Props {
 }
 
 const QuotationModal = ({ setIsModal, isModal, onClick }: Props) => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const outside = useRef();
 
@@ -34,7 +30,7 @@ const QuotationModal = ({ setIsModal, isModal, onClick }: Props) => {
   const HandleButton = () => {
     dispatch(quotationAction.init());
     dispatch(locationAction.reset());
-    router.push('/quotation/request/complete');
+    onClick();
   };
 
   return (

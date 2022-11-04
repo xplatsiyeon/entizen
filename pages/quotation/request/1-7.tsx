@@ -42,7 +42,7 @@ const Request1_7 = (props: Props) => {
     onSuccess: (res) => {
       console.log(TAG + 'api/quotations/request' + 'success');
       console.log(res);
-      router.push('/');
+      router.push('/quotation/request/complete');
     },
     onError: (error) => {
       console.log(TAG + '🔥 api/quotations/request' + 'fail');
