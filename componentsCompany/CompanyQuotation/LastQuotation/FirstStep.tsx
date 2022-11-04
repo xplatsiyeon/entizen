@@ -24,7 +24,7 @@ import { SelectedOption } from 'components/quotation/request/FirstStep';
 import { inputPriceFormat } from 'utils/calculatePackage';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { finalQuotationAction } from 'storeCompany/finalQuotation';
+import { chargers, finalQuotationAction } from 'storeCompany/finalQuotation';
 
 type Props = {
   tabNumber: number;
@@ -41,10 +41,10 @@ type Props = {
   setChargePoint: Dispatch<SetStateAction<string>>;
   subscribePricePerMonth: string;
   setSubscribePricePerMonth: Dispatch<SetStateAction<string>>;
-  selectedOption: SelectedOption[];
-  setSelectedOption: Dispatch<SetStateAction<SelectedOption[]>>;
-  selectedOptionEn: Option[];
-  setSelectedOptionEn: Dispatch<SetStateAction<Option[]>>;
+  selectedOption: chargers[];
+  setSelectedOption: Dispatch<SetStateAction<chargers[]>>;
+  selectedOptionEn: chargers[];
+  setSelectedOptionEn: Dispatch<SetStateAction<chargers[]>>;
   constructionPeriod: string;
   setConstructionPeriod: Dispatch<SetStateAction<string>>;
   dueDiligenceResult: string;
@@ -85,23 +85,10 @@ const FirstStep = ({
   const { companyFinalQuotationData } = useSelector(
     (state: RootState) => state,
   );
-
-  const onClickAdd = () => {
-    if (selectedOption.length === 5) return;
-    const temp = selectedOption.concat({
-      idx: 0,
-      kind: '',
-      standType: '',
-      channel: '',
-      count: '',
-    });
-
-    setSelectedOption(temp);
-  };
   const handleChange = (event: any, index: number) => {
     const { name, value } = event.target;
-    let copy: SelectedOption[] = [...selectedOption];
-    let copyEn: Option[] = [...selectedOptionEn];
+    let copy: chargers[] = [...selectedOption];
+    let copyEn: chargers[] = [...selectedOptionEn];
     // 영어 값 추출
     let valueEn: string;
     // 충전기 종류
@@ -109,11 +96,19 @@ const FirstStep = ({
       const idx = M5_LIST.indexOf(value);
       valueEn = M5_LIST_EN[idx];
       copy[index] = {
-        idx: idx,
+        idx: 0,
         kind: '',
         standType: '',
         channel: '',
         count: '',
+        chargePriceType: '',
+        chargePrice: 24,
+        installationLocation: '',
+        modelName: '',
+        manufacturer: '',
+        productFeature: '',
+        chargerImageFiles: [],
+        catalogFiles: [],
       };
       copy[index] = {
         ...copy[index],
@@ -163,16 +158,36 @@ const FirstStep = ({
     setSelectedOption(copy);
     setSelectedOptionEn(copyEn);
   };
+  // 충전기 종류 및 수량 마이너스
   const onClickMinus = (index: number) => {
     const copy = [...selectedOption];
 
     copy.splice(index, 1);
     setSelectedOption(copy);
+    // dispatch(finalQuotationAction.removeChargeStep(index));
   };
-  const onClickChargerAdd = (index: number) => {
-    onClickMinus(index);
+  // 충전기 종류 및 수량 추가
+  const onClickChargerAdd = () => {
+    if (selectedOption.length === 5) return;
+    const temp = selectedOption.concat({
+      idx: 0,
+      kind: '',
+      standType: '',
+      channel: '',
+      count: '',
+      chargePriceType: '',
+      chargePrice: 24,
+      installationLocation: '',
+      modelName: '',
+      manufacturer: '',
+      productFeature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
+    });
+    setSelectedOption(temp);
+    // dispatch(finalQuotationAction.addChargeStep());
   };
-  const onClickChargerRemove = () => {};
+
   // 다음 버튼 클릭
   const buttonOnClick = () => {
     if (canNext) {
@@ -180,18 +195,16 @@ const FirstStep = ({
         finalQuotationAction.addFirstStep({
           subscribeProduct: subscribeProduct,
           subscribePeriod: Number(subscribePeriod),
-          profitableInterestUser: Number(profitableInterestUser),
-          chargePoint: Number(chargePoint),
+          userInvestRate: Number(profitableInterestUser),
+          chargingPointRate: Number(chargePoint),
           subscribePricePerMonth: Number(
             subscribePricePerMonth.replaceAll(',', ''),
           ),
-          selectedOption: selectedOption,
-          selectedOptionEn: selectedOptionEn,
-          constructionPeriod: Number(constructionPeriod),
-          dueDiligenceResult: dueDiligenceResult,
-          subscribeProductFeature: subscribeProductFeature,
+          chargers: selectedOptionEn,
+          chargersKo: selectedOption,
         }),
       );
+
       setTabNumber(tabNumber + 1);
     }
   };
@@ -329,15 +342,12 @@ const FirstStep = ({
               )}
               {1 <= index ? (
                 <div className="deleteBox">
-                  <div
-                    className="x-img"
-                    onClick={() => onClickChargerAdd(index)}
-                  >
+                  <div className="x-img" onClick={() => onClickMinus(index)}>
                     <Image src={XCircle} alt="add-img" />
                   </div>
                 </div>
               ) : (
-                <div className="add-img" onClick={onClickAdd}>
+                <div className="add-img" onClick={onClickChargerAdd}>
                   <Image src={AddIcon} alt="add-img" />
                 </div>
               )}
@@ -372,7 +382,7 @@ const FirstStep = ({
                 <MenuItem value="">
                   <Placeholder>타입</Placeholder>
                 </MenuItem>
-                {M5_TYPE_SET[item.idx].map((option, index) => (
+                {M5_TYPE_SET[item.idx!].map((option, index) => (
                   <MenuItem key={index} value={option}>
                     {option}
                   </MenuItem>
@@ -388,7 +398,7 @@ const FirstStep = ({
                 <MenuItem value="">
                   <Placeholder>채널</Placeholder>
                 </MenuItem>
-                {M5_CHANNEL_SET[item.idx].map((option, index) => (
+                {M5_CHANNEL_SET[item.idx!].map((option, index) => (
                   <MenuItem key={index} value={option}>
                     {option}
                   </MenuItem>

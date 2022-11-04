@@ -3,6 +3,7 @@ import { SelectedOption } from 'components/quotation/request/FirstStep';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Option } from 'store/quotationSlice';
+import { chargers } from 'storeCompany/finalQuotation';
 import { chargerData } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
 
@@ -13,8 +14,18 @@ interface Components {
   [key: number]: JSX.Element;
 }
 
+// interface SelectedOptions extends SelectedOption {
+//   chargePriceType: '';
+//   chargePrice: 24;
+//   installationLocation: '';
+//   modelName: '';
+//   manufacturer: '';
+//   productFeature: '';
+//   chargerImageFiles: [];
+//   catalogFiles: [];
+// }
 type Props = {};
-const target = 3;
+// const target = 1;
 
 const LastWrite = (props: Props) => {
   // step 숫자
@@ -33,22 +44,38 @@ const LastWrite = (props: Props) => {
   const [subscribePricePerMonth, setSubscribePricePerMonth] =
     useState<string>('');
   // 충전기 종류 및 수량 선택
-  const [selectedOption, setSelectedOption] = useState<SelectedOption[]>([
+  const [selectedOption, setSelectedOption] = useState<chargers[]>([
     {
       idx: 0,
       kind: '',
       standType: '',
       channel: '',
       count: '',
+      chargePriceType: '',
+      chargePrice: 24,
+      installationLocation: '',
+      modelName: '',
+      manufacturer: '',
+      productFeature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
     },
   ]);
   // 영어 셀렉트 옵션
-  const [selectedOptionEn, setSelectedOptionEn] = useState<Option[]>([
+  const [selectedOptionEn, setSelectedOptionEn] = useState<chargers[]>([
     {
       kind: '',
       standType: '',
       channel: '',
       count: '',
+      chargePriceType: '',
+      chargePrice: 24,
+      installationLocation: '',
+      modelName: '',
+      manufacturer: '',
+      productFeature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
     },
   ]);
   // 공사기간
@@ -97,8 +124,12 @@ const LastWrite = (props: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={0}
-        maxIndex={target}
+        maxIndex={selectedOption.length}
         routerId={'1'}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        selectedOptionEn={selectedOptionEn}
+        setSelectedOptionEn={setSelectedOptionEn}
       />
     ),
     // 스텝 3
@@ -108,9 +139,13 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={0}
-        maxIndex={target}
+        StepIndex={1}
+        maxIndex={selectedOption.length}
         routerId={'1'}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        selectedOptionEn={selectedOptionEn}
+        setSelectedOptionEn={setSelectedOptionEn}
       />
     ),
     // 스텝 4
@@ -120,9 +155,13 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={0}
-        maxIndex={target}
+        StepIndex={2}
+        maxIndex={selectedOption.length}
         routerId={'1'}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        selectedOptionEn={selectedOptionEn}
+        setSelectedOptionEn={setSelectedOptionEn}
       />
     ),
     // 스텝 5
@@ -132,9 +171,13 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={0}
-        maxIndex={target}
+        StepIndex={3}
+        maxIndex={selectedOption.length}
         routerId={'1'}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        selectedOptionEn={selectedOptionEn}
+        setSelectedOptionEn={setSelectedOptionEn}
       />
     ),
     // 스텝 6
@@ -144,9 +187,13 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={0}
-        maxIndex={target}
+        StepIndex={4}
+        maxIndex={selectedOption.length}
         routerId={'1'}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        selectedOptionEn={selectedOptionEn}
+        setSelectedOptionEn={setSelectedOptionEn}
       />
     ),
     // 마지막 스텝
@@ -156,8 +203,8 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={1}
-        maxIndex={target}
+        StepIndex={5}
+        maxIndex={selectedOption.length}
       />
     ),
   };
@@ -168,7 +215,7 @@ const LastWrite = (props: Props) => {
           <TabBox>
             {Object.keys(components).map((tab, index) => (
               <React.Fragment key={index}>
-                {index <= target && (
+                {index <= selectedOption.length && (
                   <TabLine
                     idx={index.toString()}
                     num={tabNumber.toString()}

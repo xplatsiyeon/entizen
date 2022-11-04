@@ -1,5 +1,11 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import {
+  containerClasses,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from '@mui/material';
 import React, {
   Dispatch,
   SetStateAction,
@@ -26,6 +32,12 @@ import Modal from 'components/Modal/Modal';
 import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
+import {
+  ChargePriceType,
+  chargers,
+  finalQuotationAction,
+  InstallationLocation,
+} from 'storeCompany/finalQuotation';
 
 type Props = {
   tabNumber: number;
@@ -35,6 +47,10 @@ type Props = {
   StepIndex: number;
   maxIndex: number | undefined;
   routerId: string | string[];
+  selectedOption: chargers[];
+  setSelectedOption: Dispatch<SetStateAction<chargers[]>>;
+  selectedOptionEn: chargers[];
+  setSelectedOptionEn: Dispatch<SetStateAction<chargers[]>>;
 };
 
 const TAG = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
@@ -47,14 +63,19 @@ const SecondStep = ({
   SetCanNext,
   StepIndex,
   routerId,
+  selectedOption,
+  setSelectedOption,
+  selectedOptionEn,
+  setSelectedOptionEn,
 }: Props) => {
   // 사진을 위한 ref
   const dispatch = useDispatch();
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
   const chargeLocationTypeList: string[] = ['건물 안', '건물 밖'];
+  const chargeLocationTypeListEn: string[] = ['OUTSIDE', 'INSIDE'];
+  const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
   const chargeTypeListEn: string[] = [
     'PURCHASER_AUTONOMY',
     'OPERATION_BUSINESS_CARRIER_INPUT',
@@ -256,45 +277,51 @@ const SecondStep = ({
   const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
     setProductItem(e.target.value as chargerData);
   };
+  // 이전, 다음 버튼 리덕스 데이터 처리
+  const storeChargeData = () => {
+    dispatch(
+      finalQuotationAction.addChargeStep2({
+        idx: StepIndex,
+        chargePriceType: chargeTypeListEn[chargeTypeNumber] as ChargePriceType,
+        chargePrice: Number(fee.replaceAll(',', '')),
+        installationLocation: chargeLocationTypeListEn[
+          chargeLocationTypeNumber
+        ] as InstallationLocation,
+        modelName: productItem,
+        manufacturer: manufacturingCompany,
+        productFeature: chargeFeatures,
+        chargerImageFiles: imgArr,
+        catalogFiles: fileArr,
+      }),
+    );
+    dispatch(
+      finalQuotationAction.addChargeKoStep2({
+        idx: StepIndex,
+        chargePriceType: chargeTypeList[chargeTypeNumber] as ChargePriceType,
+        chargePrice: Number(fee.replaceAll(',', '')),
+        installationLocation: chargeLocationTypeList[
+          chargeLocationTypeNumber
+        ] as InstallationLocation,
+        modelName: productItem,
+        manufacturer: manufacturingCompany,
+        productFeature: chargeFeatures,
+        chargerImageFiles: imgArr,
+        catalogFiles: fileArr,
+      }),
+    );
+  };
   // 이전 버튼
   const handlePrevBtn = () => {
     if (tabNumber > 0) {
-      dispatch(
-        myEstimateAction.setCharge({
-          index: StepIndex,
-          data: {
-            chargePriceType:
-              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: Number(fee.replaceAll(',', '')),
-            modelName: productItem,
-            manufacturer: manufacturingCompany,
-            feature: chargeFeatures,
-            chargerImageFiles: imgArr,
-            catalogFiles: fileArr,
-          },
-        }),
-      );
+      storeChargeData();
       setTabNumber(tabNumber - 1);
     }
   };
   // 다음 버튼
-  const handleNextBtn = (e: any) => {
+  const handleNextBtn = () => {
+    storeChargeData();
     if (canNext && tabNumber < maxIndex!) {
-      dispatch(
-        myEstimateAction.setCharge({
-          index: StepIndex,
-          data: {
-            chargePriceType:
-              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: Number(fee.replaceAll(',', '')),
-            modelName: productItem,
-            manufacturer: manufacturingCompany,
-            feature: chargeFeatures,
-            chargerImageFiles: imgArr,
-            catalogFiles: fileArr,
-          },
-        }),
-      );
+      storeChargeData();
       setTabNumber(tabNumber + 1);
     }
   };

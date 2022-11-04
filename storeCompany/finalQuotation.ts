@@ -1,100 +1,171 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface SelectedOption {
-  kind: string;
-  standType: string;
-  channel: string;
-  count: string;
-}
-
-type chargerData =
+export type chargerData =
   | ''
   | 'LECS-007ADE'
   | 'LECS-006ADE'
   | 'LECS-005ADE'
   | 'LECS-004ADE';
-
-// 2스텝
-interface Upload {
+export interface DetailQuotationFiles {
   url: string;
   size: number;
   originalName: string;
 }
-interface chargers {
-  chargePriceType:
-    | ''
-    | 'PURCHASER_AUTONOMY'
-    | 'OPERATION_BUSINESS_CARRIER_INPUT';
-  chargePrice: 24 | 36 | 48 | 60;
-  installationLocation: '' | 'OUTSIDE' | 'INSIDE';
-  modelName: chargerData;
-  manufacturer: string;
-  feature: string;
-  chargerImageFiles: Upload[];
-  catalogFiles: Upload[];
+export interface charger {
+  idx?: number;
+  kind: string; // 종류
+  standType: string; // 거치 타입
+  channel: string; // 채널
+  count: string; // 수량
 }
-
-interface FirstStep {
-  // ------- step1 --------
+export type InstallationLocation = '' | 'OUTSIDE' | 'INSIDE';
+export type ChargePriceType =
+  | ''
+  | 'PURCHASER_AUTONOMY'
+  | 'OPERATION_BUSINESS_CARRIER_INPUT';
+export interface chargers extends charger {
+  // 충전 요금 타입
+  chargePriceType: ChargePriceType;
+  chargePrice: number; // 충전 요금 타입
+  installationLocation: InstallationLocation; // 설치 위치
+  modelName: chargerData; // 모델명
+  manufacturer: string; // 제조사
+  productFeature: string; // 상품 특장점
+  chargerImageFiles: DetailQuotationFiles[]; // 충전기 이미지 파일
+  catalogFiles: DetailQuotationFiles[]; // 카탈로그 파일
+}
+export interface FirstStep {
   subscribeProduct: string; // 구독상품
   subscribePeriod: number; // 구독기간
-  profitableInterestUser: number; // 수익지분 - 고객
-  chargePoint: number; // 수익지분 - charge point
+  userInvestRate: number; // 수익지분 - 고객
+  chargingPointRate: number; // 수익지분 - charge point
   subscribePricePerMonth: number; // 월 구독료
-  selectedOption: SelectedOption[]; // 충전기 종류 및 수량 선택
-  selectedOptionEn: SelectedOption[]; // 충전기 종류 및 수량 선택
-  constructionPeriod: number; // 공사기간
-  dueDiligenceResult: string; // 현장실사 결과
-  subscribeProductFeature: string; // 구독상품 특장점
-}
-interface FinalQuotation extends FirstStep {
-  // ------- step2 --------
   chargers: chargers[];
-  // ------- step3 --------
-  businessRegistration: Upload[];
+  chargersKo: chargers[];
+}
+export interface SeccondStep {
+  idx?: number;
+  chargePriceType: ChargePriceType;
+  chargePrice: number; // 충전 요금 타입
+  installationLocation: InstallationLocation; // 설치 위치
+  modelName: chargerData; // 모델명
+  manufacturer: string; // 제조사
+  productFeature: string; // 상품 특장점
+  chargerImageFiles: DetailQuotationFiles[]; // 충전기 이미지 파일
+  catalogFiles: DetailQuotationFiles[]; // 카탈로그 파일
+}
+export interface FinalQuotation extends FirstStep {
+  detailQuotationFiles: DetailQuotationFiles[];
 }
 
 const initialState: FinalQuotation = {
   subscribeProduct: '',
   subscribePeriod: 24,
-  profitableInterestUser: 0,
-  chargePoint: 0,
+  userInvestRate: 0,
+  chargingPointRate: 0,
   subscribePricePerMonth: 0,
-  selectedOption: [],
-  selectedOptionEn: [],
-  constructionPeriod: 0,
-  dueDiligenceResult: '',
-  subscribeProductFeature: '',
   // ------- step2 --------
-  chargers: [],
+  chargers: [
+    {
+      kind: '',
+      standType: '',
+      channel: '',
+      count: '',
+      chargePriceType: '',
+      chargePrice: 24,
+      installationLocation: '',
+      modelName: '',
+      manufacturer: '',
+      productFeature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
+    },
+  ],
+  chargersKo: [
+    {
+      kind: '',
+      standType: '',
+      channel: '',
+      count: '',
+      chargePriceType: '',
+      chargePrice: 24,
+      installationLocation: '',
+      modelName: '',
+      manufacturer: '',
+      productFeature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
+    },
+  ],
   // ------- step3 --------
-  businessRegistration: [],
+  detailQuotationFiles: [],
 };
 
 const slice = createSlice({
   name: 'finalQuotation',
   initialState,
   reducers: {
+    // 최종견적 스텝1 추가
     addFirstStep(state, action: PayloadAction<FirstStep>) {
       state.subscribeProduct = action.payload.subscribeProduct;
       state.subscribePeriod = action.payload.subscribePeriod;
-      state.profitableInterestUser = action.payload.profitableInterestUser;
-      state.chargePoint = action.payload.chargePoint;
+      state.userInvestRate = action.payload.userInvestRate;
+      state.chargingPointRate = action.payload.chargingPointRate;
       state.subscribePricePerMonth = action.payload.subscribePricePerMonth;
-      state.selectedOption = action.payload.selectedOption;
-      state.selectedOptionEn = action.payload.selectedOptionEn;
-      state.constructionPeriod = action.payload.constructionPeriod;
-      state.dueDiligenceResult = action.payload.dueDiligenceResult;
-      state.subscribeProductFeature = action.payload.subscribeProductFeature;
+      state.chargers = action.payload.chargers;
+      state.chargersKo = action.payload.chargersKo;
     },
-    addChargeStep(state, action: PayloadAction<chargers>) {
-      state.chargers.push(action.payload);
+    setChargers(state, action) {
+      state.chargers = action.payload;
     },
-    removeChargeStep(state, action: PayloadAction<number>) {
-      state.chargers.splice(action.payload, 1);
+    setChargersKo(state, action) {
+      state.chargersKo = action.payload;
     },
-    addThirdStep(state, action: PayloadAction<Upload>) {
-      state.businessRegistration.push(action.payload);
+
+    addChargeStep2(state, action: PayloadAction<SeccondStep>) {
+      const {
+        idx,
+        chargePriceType,
+        chargePrice,
+        installationLocation,
+        modelName,
+        manufacturer,
+        productFeature,
+        chargerImageFiles,
+        catalogFiles,
+      } = action.payload;
+      state.chargers[idx!].chargePriceType = chargePriceType;
+      state.chargers[idx!].chargePrice = chargePrice;
+      state.chargers[idx!].installationLocation = installationLocation;
+      state.chargers[idx!].modelName = modelName;
+      state.chargers[idx!].manufacturer = manufacturer;
+      state.chargers[idx!].productFeature = productFeature;
+      state.chargers[idx!].chargerImageFiles = chargerImageFiles;
+      state.chargers[idx!].catalogFiles = catalogFiles;
+    },
+    addChargeKoStep2(state, action: PayloadAction<SeccondStep>) {
+      const {
+        idx,
+        chargePriceType,
+        chargePrice,
+        installationLocation,
+        modelName,
+        manufacturer,
+        productFeature,
+        chargerImageFiles,
+        catalogFiles,
+      } = action.payload;
+      state.chargersKo[idx!].chargePriceType = chargePriceType;
+      state.chargersKo[idx!].chargePrice = chargePrice;
+      state.chargersKo[idx!].installationLocation = installationLocation;
+      state.chargersKo[idx!].modelName = modelName;
+      state.chargersKo[idx!].manufacturer = manufacturer;
+      state.chargersKo[idx!].productFeature = productFeature;
+      state.chargersKo[idx!].chargerImageFiles = chargerImageFiles;
+      state.chargersKo[idx!].catalogFiles = catalogFiles;
+    },
+    addThirdStep(state, action: PayloadAction<DetailQuotationFiles>) {
+      state.detailQuotationFiles.push(action.payload);
     },
     reset(state) {
       Object.assign(state, initialState);
