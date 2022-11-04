@@ -15,9 +15,10 @@ import { locationAction } from 'store/locationSlice';
 interface Props {
   isModal: boolean;
   setIsModal: Dispatch<SetStateAction<boolean>>;
+  onClick: () => void;
 }
 
-const QuotationModal = ({ setIsModal, isModal }: Props) => {
+const QuotationModal = ({ setIsModal, isModal, onClick }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const outside = useRef();
@@ -91,8 +92,8 @@ const ModalBox = styled(Box)`
   flex-direction: column;
   position: fixed;
   top: 50%;
-  left:50%;
-  transform: translate(-50%,-50%); 
+  left: 50%;
+  transform: translate(-50%, -50%);
   justify-content: center;
   align-items: center;
   border-radius: 20pt;

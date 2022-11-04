@@ -106,12 +106,16 @@ const Request1_7 = (props: Props) => {
         <Inner>
           <Wrapper>
             {isModal && (
-              <QuotationModal isModal={isModal} setIsModal={setIsModal} />
+              <QuotationModal
+                onClick={onClickModal}
+                isModal={isModal}
+                setIsModal={setIsModal}
+              />
             )}
             <Header
               title="간편견적"
               exitBtn={true}
-              handleOnClick={onClickModal}
+              handleOnClick={() => router.push('/')}
             />
             <Body>
               <AddressBox>
@@ -344,6 +348,7 @@ const RequestForm = styled.form`
     letter-spacing: -0.02em;
     resize: none;
     font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
     ::placeholder {
       color: ${colors.lightGray3};
     }
