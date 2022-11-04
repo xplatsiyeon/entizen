@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from 'components/mypage/request/header';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
@@ -83,6 +83,15 @@ const Request1_7 = (props: Props) => {
     });
   };
 
+  useEffect(() => {
+    setCalculatedValue({
+      maxSubscribePricePerMonth: requestData?.minSubscribePricePerMonth!,
+      maxTotalSubscribePrice: requestData?.maxSubscribePricePerMonth!,
+      minSubscribePricePerMonth: requestData?.minTotalSubscribePrice!,
+      minTotalSubscribePrice: requestData?.maxTotalSubscribePrice!,
+    });
+  }, []);
+
   if (isError) {
     console.log(error);
   }
@@ -129,9 +138,14 @@ const Request1_7 = (props: Props) => {
                   <span>
                     <span className="price">
                       {`${PriceCalculation(
+                        calculatedValue?.minSubscribePricePerMonth!,
+                      )} ~ ${PriceCalculation(
+                        calculatedValue?.maxSubscribePricePerMonth!,
+                      )}`}
+                      {`${PriceCalculation(
                         requestData?.minSubscribePricePerMonth!,
                       )} ~ ${PriceCalculation(
-                        requestData?.maxSubscribePricePerMonth!,
+                        calculatedValue.maxSubscribePricePerMonth!,
                       )}`}
                     </span>
                   </span>
@@ -143,6 +157,11 @@ const Request1_7 = (props: Props) => {
                   </span>
                   <span>
                     <span className="price">
+                      {`${PriceCalculation(
+                        calculatedValue?.minTotalSubscribePrice!,
+                      )} ~ ${PriceCalculation(
+                        calculatedValue?.maxTotalSubscribePrice!,
+                      )}`}
                       {`${PriceCalculation(
                         requestData?.minTotalSubscribePrice!,
                       )} ~ ${PriceCalculation(

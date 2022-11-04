@@ -4,11 +4,8 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { css } from '@emotion/react';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { useDispatch } from 'react-redux';
-import { quotationAction } from 'store/quotationSlice';
 
 interface CalculateValue {
   maxSubscribePricePerMonth: number;
@@ -45,64 +42,42 @@ const SliderSizes = ({
   calculatedValue,
   subscribeNumber,
 }: Props) => {
-  const dispatch = useDispatch();
-  const { quotationData, locationList } = useSelector(
-    (state: RootState) => state,
-  );
+  const { quotationData } = useSelector((state: RootState) => state);
   const {
     maxSubscribePricePerMonth,
     maxTotalSubscribePrice,
     minSubscribePricePerMonth,
     minTotalSubscribePrice,
+    investRate,
   } = quotationData.requestData!;
 
-  const setPriceByRate = (
-    target: number,
-    rate: number,
-    standardRate: number,
-  ) => {
-    // if (
-    //   !isNaN(Math.round((target * rate) / standardRate)) &&
-    //   Math.round((target * rate) / standardRate) !== 0
-    // ) {
+  const setPriceByRate = (target: any, rate: any, standardRate: any) => {
     console.log(TAG + '🌈 ~line 27 rate value  ' + rate);
     console.log(TAG + '🌈 ~line 27 target value  ' + target);
-
-    const result = Math.round((target * rate) / standardRate);
-    if (target === 0) {
-      const result = Math.round(
-        (maxSubscribePricePerMonth * rate) / standardRate,
-      );
-    }
-    return result;
+    return Math.round((target * rate) / standardRate);
   };
+
   useEffect(() => {
-    if (value === 0) {
-      // console.log(TAG + '🌈 ~line 67 value === 0 ');
-      // console.log(calculatedValue);
-      // console.log(quotationData);
-    }
-    // console.log(TAG + '🌈 ~line 67 value !== 0');
     const ret = {
       maxSubscribePricePerMonth: setPriceByRate(
-        quotationData.requestData?.maxSubscribePricePerMonth!,
+        maxSubscribePricePerMonth!,
         value,
-        Number(quotationData.requestData?.investRate),
+        Number(investRate),
       ),
       maxTotalSubscribePrice: setPriceByRate(
-        quotationData.requestData?.maxTotalSubscribePrice!,
+        maxTotalSubscribePrice!,
         value,
-        Number(quotationData.requestData?.investRate),
+        Number(investRate),
       ),
       minSubscribePricePerMonth: setPriceByRate(
-        quotationData.requestData?.minSubscribePricePerMonth!,
+        minSubscribePricePerMonth!,
         value,
-        Number(quotationData.requestData?.investRate),
+        Number(investRate),
       ),
       minTotalSubscribePrice: setPriceByRate(
-        quotationData.requestData?.minTotalSubscribePrice!,
+        minTotalSubscribePrice!,
         value,
-        Number(quotationData.requestData?.investRate),
+        Number(investRate),
       ),
       investRate: value,
     };
@@ -114,56 +89,50 @@ const SliderSizes = ({
         minTotalSubscribePrice: ret.minTotalSubscribePrice!,
       });
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   // 간편 견적 포스트
-  const predictionApi = async () => {
-    const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
-    try {
-      await axios({
-        method: 'post',
-        url: PREDICTION_POST,
-        data: {
-          chargers: quotationData.chargers,
-          subscribeProduct: quotationData.subscribeProduct,
-          investRate: (value / 100).toString(),
-          subscribePeriod: quotationData.subscribePeriod,
-          installationAddress: locationList.locationList.roadAddrPart,
-          installationLocation: quotationData.installationLocation,
-        },
-        headers: {
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
-        dispatch(quotationAction.setRequestData(res.data));
-        console.log('defalt', quotationAction.setRequestData(res.data));
-        // dispatch(quotationAction.init());
-        // router.push('/quotation/request/1-7');
-      });
-    } catch (error) {
-      console.log('post 요청 실패');
-      console.log(error);
-    }
-  };
+  // const predictionApi = async () => {
+  //   const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
+  //   try {
+  //     await axios({
+  //       method: 'post',
+  //       url: PREDICTION_POST,
+  //       data: {
+  //         chargers: quotationData.chargers,
+  //         subscribeProduct: quotationData.subscribeProduct,
+  //         investRate: (value / 100).toString(),
+  //         subscribePeriod: quotationData.subscribePeriod,
+  //         installationAddress: locationList.locationList.roadAddrPart,
+  //         installationLocation: quotationData.installationLocation,
+  //       },
+  //       headers: {
+  //         ContentType: 'application/json',
+  //       },
+  //       withCredentials: true,
+  //     }).then((res) => {
+  //       dispatch(quotationAction.setRequestData(res.data));
+  //       console.log('defalt', quotationAction.setRequestData(res.data));
+  //       // dispatch(quotationAction.init());
+  //       // router.push('/quotation/request/1-7');
+  //     });
+  //   } catch (error) {
+  //     console.log('post 요청 실패');
+  //     console.log(error);
+  //   }
+  // };
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     if (subscribeNumber !== -1 && value !== newValue) {
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
-      if (difaultValue) {
-        console.log('🌪 ~라인 158 api 호출');
-        predictionApi();
-      }
+      // if (difaultValue) {
+      //   console.log('🌪 ~라인 158 api 호출');
+      //   predictionApi();
+      // }
       setValue(newValue as number);
     }
   };
-
-  useEffect(() => {
-    console.log('----calculatedValue-----');
-    console.log(calculatedValue);
-  }, [calculatedValue]);
 
   return (
     <SliderCustom width={'97%'} disabled={disabled} client={true.toString()}>
