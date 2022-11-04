@@ -4,7 +4,7 @@ import TopBox from 'componentsCompany/Mypage/TopBox';
 import UnderBox from 'componentsCompany/Mypage/UnderBox';
 import WriteContract from 'componentsCompany/Mypage/WriteContract';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Progress from '../projectProgress';
 
 type Props = {};
@@ -97,25 +97,31 @@ interface Data {
 const RunningProgress = (props: Props) => {
 
   const [open, setOpen] = useState<boolean>(false);
+  const [index, setindex] = useState<number>();
   const [ , setOpenContract] = useState<boolean>(false);
-  const [badge, setBadge] = useState<string>();
   const handleClick = () => setOpen(!open);
 
   const router = useRouter();
-  console.log(router);
-  const index = Number(router.query.id); //index가 제일 처음 렌더링엔 값을 못읽고, 그 다음 렌더링에 값을 읽을 수 있다.
-  console.log(index) 
+ 
+  useEffect(()=>{
+    if(router.query.id){
+      const num = Number(router.query.id)
+      setindex(num);
+    }
+  },[router.query.id])
 
   return (
     <>
       <MypageHeader back={true} title={'진행 프로젝트'} />
-      <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[index]} />
-      {String(index) && tempProceeding[index].contract ? (
+      {index ? 
+      <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[index]} /> : null}
+      {index !==undefined && tempProceeding[index].contract ? (
         <Progress state={tempProceeding[index].state}/>
       ) : (
-        <UnderBox
-          setOpenContract={setOpenContract}
-        />
+        <> 
+          <TopBox open={open} setOpen={setOpen} handleClick={handleClick}/> 
+          <UnderBox setOpenContract={setOpenContract}/>
+        </>
       )}
     </>
   );
