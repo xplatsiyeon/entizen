@@ -143,11 +143,11 @@ const Request1_7 = (props: Props) => {
                   </span>
                   <span>
                     <span className="price">
-                      {`${PriceCalculation(
-                        requestData?.minTotalSubscribePrice!,
+                      {calculatedValue.maxSubscribePricePerMonth !== 0 ?`${PriceCalculation(
+                        calculatedValue.minTotalSubscribePrice!,
                       )} ~ ${PriceCalculation(
-                        requestData?.maxTotalSubscribePrice!,
-                      )}`}
+                        calculatedValue.maxTotalSubscribePrice!,
+                      )}`:null}
                     </span>
                   </span>
                 </div>
