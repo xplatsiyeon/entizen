@@ -10,6 +10,7 @@ import colors from 'styles/colors';
 
 interface Data {
   id: number;
+  state:number;
   badge: string;
   storeName: string;
   date: string;
@@ -30,32 +31,32 @@ const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
 
   let bgColor ;
 
-  switch (info?.badge){
-    case '계약대기' : 
+  switch (info?.state){
+    case 0 : 
     bgColor = '#F75015';
     break;
 
-    case '준비 중' : 
+    case 1 : 
     bgColor = '#5221CB';
     break;
     
-    case '설치 중' : 
+    case 2 : 
     bgColor = '#5221CB';
     break;
     
-    case '검수 중' : 
+    case 3 : 
     bgColor = '#FFC043';;
     break;
 
-    case '완료 중' : 
+    case 4 : 
     bgColor = '#222222';
     break;
 
-    case '완료대기' : 
+    case  5 : 
     bgColor = '#222222';;
     break;
 
-    case '프로젝트 취소' : 
+    case  6 : 
     bgColor = '#CACCD1';
     break;
     

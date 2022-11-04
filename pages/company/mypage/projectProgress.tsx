@@ -7,9 +7,11 @@ import Reusable from 'componentsCompany/Mypage/Reusable';
 import TopBox from 'componentsCompany/Mypage/TopBox';
 import React, { useState } from 'react';
 
-type Props = {};
+type Props = {
+  state : number;
+};
 
-const Progress = (props: Props) => {
+const Progress = ({state}: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   // 선택 날짜 관련
   const [selectedDays, SetSelectedDays] = useState<string>('');
@@ -28,6 +30,8 @@ const Progress = (props: Props) => {
     false,
   ]);
   const [dateOn, setDateOn] = useState<boolean[]>([false, false, false, false]);
+  const [badgeState, setBadgeState] = useState<number>(state);
+
   const handleClick = () => setOpen(!open);
   // 달력 모달 켜고 끄고
   const handleExit = () => {
@@ -47,9 +51,9 @@ const Progress = (props: Props) => {
     setOpen(!open);
   };
 
-  const handleXbtn = () => {
+ /* const handleXbtn = () => {
     setProgressNum(-1);
-  };
+  }; */
 
   return (
     <>
@@ -90,9 +94,12 @@ const Progress = (props: Props) => {
             setPresentProgress={setPresentProgress}
             progressNum={progressNum}
             setProgressNum={setProgressNum}
+            state={state}
           />
         )}
         {/* 64 ~ 93 여기까지가 기본 페이지 */}
+
+
 
         {/* 준비, 설치, 검수, 완료 토글 된거 눌렀을때 */}
         {progressNum === 1 && (
@@ -102,27 +109,30 @@ const Progress = (props: Props) => {
             textThree={'충전기 및 부속품 준비'}
             textFour={'설계 및 공사계획 신고 등'}
             btnText={'준비 완료하기'}
-            setProgressNum={setProgressNum}
+            //setProgressNum={setProgressNum}
+            setBadgeState={setBadgeState}
           />
         )}
         {progressNum === 2 && (
           <Reusable
             textOne={false}
-            textTwo={'충전기 설치, 시운전이 완료되었습니다!'}
+            textTwo={'충전기 설치, 시운전을 진행해주세요.'}
             textThree={'충전기 설치 및 배선작업'}
             textFour={'충전기 시운전(자체 테스트)'}
             btnText={'설치 완료하기'}
-            setProgressNum={setProgressNum}
+            //setProgressNum={setProgressNum}
+            setBadgeState={setBadgeState}
           />
         )}
         {progressNum === 3 && (
           <Reusable
             textOne={false}
-            textTwo={'충전기 검수가 완료되었습니다!'}
+            textTwo={'충전기 검수를 진행해주세요.'}
             textThree={'검수 및 전기차 충전 테스트 (고객 참관)'}
             textFour={'한전 계량기 봉인'}
             btnText={'검수 완료하기'}
-            setProgressNum={setProgressNum}
+           // setProgressNum={setProgressNum}
+            setBadgeState={setBadgeState}
           />
         )}
         {/* {progressNum === 4 && (
@@ -145,7 +155,8 @@ const Progress = (props: Props) => {
             almostFinish={true}
             beforeFinish={true}
             btnText={'프로젝트 완료하기'}
-            setProgressNum={setProgressNum}
+            //setProgressNum={setProgressNum}
+            setBadgeState={setBadgeState}
           />
         )}
       </Wrapper>
