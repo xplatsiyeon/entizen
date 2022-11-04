@@ -56,7 +56,11 @@ const SliderSizes = ({
     rate: any,
     standardRate: any,
   ) => {
-    if (!isNaN(Math.round((target * rate) / standardRate))) {
+    // if (
+    //   !isNaN(Math.round((target * rate) / standardRate)) &&
+    //   Math.round((target * rate) / standardRate) !== 0
+    // ) {
+    if (target !== 0 && rate !== 0 && standardRate !== 0) {
       return Math.round((target * rate) / standardRate);
     }
   };
@@ -64,24 +68,25 @@ const SliderSizes = ({
   useEffect(() => {
     console.log(value);
     if (value !== 0) {
+      console.log(TAG + '🌈 ~line 67 value !== 0');
       const ret = {
         maxSubscribePricePerMonth: setPriceByRate(
-          quotationData.requestData?.maxSubscribePricePerMonth,
+          calculatedValue?.maxSubscribePricePerMonth,
           value,
           quotationData.requestData?.investRate,
         ),
         maxTotalSubscribePrice: setPriceByRate(
-          quotationData.requestData?.maxTotalSubscribePrice,
+          calculatedValue?.maxTotalSubscribePrice,
           value,
           quotationData.requestData?.investRate,
         ),
         minSubscribePricePerMonth: setPriceByRate(
-          quotationData.requestData?.minSubscribePricePerMonth,
+          calculatedValue?.minSubscribePricePerMonth,
           value,
           quotationData.requestData?.investRate,
         ),
         minTotalSubscribePrice: setPriceByRate(
-          quotationData.requestData?.minTotalSubscribePrice,
+          calculatedValue?.minTotalSubscribePrice,
           value,
           quotationData.requestData?.investRate,
         ),
@@ -139,7 +144,7 @@ const SliderSizes = ({
   const handleChange = (event: Event, newValue: number | number[]) => {
     if (subscribeNumber !== -1 && value !== newValue) {
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
-      if (difaultValue) {
+      if (difaultValue === undefined) {
         predictionApi();
       }
 
