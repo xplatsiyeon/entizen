@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from 'components/mypage/request/header';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
@@ -83,6 +83,15 @@ const Request1_7 = (props: Props) => {
     });
   };
 
+  useEffect(() => {
+    setCalculatedValue({
+      maxSubscribePricePerMonth: requestData?.minSubscribePricePerMonth!,
+      maxTotalSubscribePrice: requestData?.maxSubscribePricePerMonth!,
+      minSubscribePricePerMonth: requestData?.minTotalSubscribePrice!,
+      minTotalSubscribePrice: requestData?.maxTotalSubscribePrice!,
+    });
+  }, []);
+
   if (isError) {
     console.log(error);
   }
@@ -128,11 +137,16 @@ const Request1_7 = (props: Props) => {
                   </span>
                   <span>
                     <span className="price">
-                      {calculatedValue.maxSubscribePricePerMonth !== 0 ? `${PriceCalculation(
-                        calculatedValue.minSubscribePricePerMonth!,
+                      {`${PriceCalculation(
+                        calculatedValue?.minSubscribePricePerMonth!,
+                      )} ~ ${PriceCalculation(
+                        calculatedValue?.maxSubscribePricePerMonth!,
+                      )}`}
+                      {/* {`${PriceCalculation(
+                        requestData?.minSubscribePricePerMonth!,
                       )} ~ ${PriceCalculation(
                         calculatedValue.maxSubscribePricePerMonth!,
-                      )}`:null }
+                      )}`} */}
                     </span>
                   </span>
                 </div>
@@ -143,11 +157,16 @@ const Request1_7 = (props: Props) => {
                   </span>
                   <span>
                     <span className="price">
-                      {calculatedValue.maxSubscribePricePerMonth !== 0 ?`${PriceCalculation(
-                        calculatedValue.minTotalSubscribePrice!,
+                      {`${PriceCalculation(
+                        calculatedValue?.minTotalSubscribePrice!,
                       )} ~ ${PriceCalculation(
-                        calculatedValue.maxTotalSubscribePrice!,
-                      )}`:null}
+                        calculatedValue?.maxTotalSubscribePrice!,
+                      )}`}
+                      {/* {`${PriceCalculation(
+                        requestData?.minTotalSubscribePrice!,
+                      )} ~ ${PriceCalculation(
+                        requestData?.maxTotalSubscribePrice!,
+                      )}`} */}
                     </span>
                   </span>
                 </div>
