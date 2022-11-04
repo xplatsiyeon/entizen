@@ -95,12 +95,13 @@ const RunningProgress = (props: Props) => {
   const router = useRouter();
   console.log(router);
   const index = Number(router.query.id);
+  console.log(index)
 
   return (
     <>
       <MypageHeader back={true} title={'진행 프로젝트'} />
       <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[index]} />
-      {tempProceeding[index].contract ? (
+      {index && tempProceeding[index].contract ? (
         <Progress />
       ) : (
         <UnderBox
