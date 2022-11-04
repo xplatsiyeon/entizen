@@ -48,8 +48,8 @@ interface Data {
       badge: '계약대기',
       storeName: 'LS카페 신림점',
       date: '2021.03.10',
-      contract : true,
-      planed : ['2022.04.25', '2022.07.25' ],
+      contract : false,
+      planed : [ ],
       address : '서울시 관악구 난곡로40길 30'
     },
     {
@@ -113,7 +113,7 @@ const RunningProgress = (props: Props) => {
   return (
     <>
       <MypageHeader back={true} title={'진행 프로젝트'} />
-      { (index !== undefined) && Number(index)? <>
+      { (index !== undefined) && String(index)? <>
       <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[index]} />
       {tempProceeding[index].contract ? (
         <Progress state={tempProceeding[index].state}/>
