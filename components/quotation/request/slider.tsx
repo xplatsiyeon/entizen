@@ -43,13 +43,6 @@ const SliderSizes = ({
   subscribeNumber,
 }: Props) => {
   const { quotationData } = useSelector((state: RootState) => state);
-  const {
-    maxSubscribePricePerMonth,
-    maxTotalSubscribePrice,
-    minSubscribePricePerMonth,
-    minTotalSubscribePrice,
-    investRate,
-  } = quotationData.requestData!;
 
   const setPriceByRate = (target: any, rate: any, standardRate: any) => {
     console.log(TAG + '🌈 ~line 27 rate value  ' + rate);
@@ -60,24 +53,24 @@ const SliderSizes = ({
   useEffect(() => {
     const ret = {
       maxSubscribePricePerMonth: setPriceByRate(
-        maxSubscribePricePerMonth!,
+        quotationData?.requestData?.maxSubscribePricePerMonth,
         value,
-        Number(investRate),
+        Number(quotationData?.requestData?.investRate),
       ),
       maxTotalSubscribePrice: setPriceByRate(
-        maxTotalSubscribePrice!,
+        quotationData?.requestData?.maxTotalSubscribePrice!,
         value,
-        Number(investRate),
+        Number(quotationData?.requestData?.investRate),
       ),
       minSubscribePricePerMonth: setPriceByRate(
-        minSubscribePricePerMonth!,
+        quotationData?.requestData?.minSubscribePricePerMonth!,
         value,
-        Number(investRate),
+        Number(quotationData?.requestData?.investRate),
       ),
       minTotalSubscribePrice: setPriceByRate(
-        minTotalSubscribePrice!,
+        quotationData?.requestData?.minTotalSubscribePrice!,
         value,
-        Number(investRate),
+        Number(quotationData?.requestData?.investRate),
       ),
       investRate: value,
     };
