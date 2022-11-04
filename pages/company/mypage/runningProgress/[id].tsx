@@ -113,16 +113,13 @@ const RunningProgress = (props: Props) => {
   return (
     <>
       <MypageHeader back={true} title={'진행 프로젝트'} />
-      {index ? 
-      <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[index]} /> : null}
-      {index !==undefined && tempProceeding[index].contract ? (
+      {index ? <>
+      <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[index]} />
+      {tempProceeding[index].contract ? (
         <Progress state={tempProceeding[index].state}/>
       ) : (
-        <> 
-          <TopBox open={open} setOpen={setOpen} handleClick={handleClick}/> 
           <UnderBox setOpenContract={setOpenContract}/>
-        </>
-      )}
+      )}</> : null}
     </>
   );
 };
