@@ -17,7 +17,6 @@ const RunningProgress = (props: Props) => {
       <TopBox open={open} setOpen={setOpen} handleClick={handleClick} />
       {!writeContract ? (
         <UnderBox
-          writeContract={writeContract}
           setOpenContract={setOpenContract}
         />
       ) : (
