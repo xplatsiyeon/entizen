@@ -51,11 +51,7 @@ const SliderSizes = ({
     investRate,
   } = quotationData.requestData!;
 
-  const setPriceByRate = (
-    target: number,
-    rate: number,
-    standardRate: number,
-  ) => {
+  const setPriceByRate = (target: any, rate: any, standardRate: any) => {
     console.log(TAG + '🌈 ~line 27 rate value  ' + rate);
     console.log(TAG + '🌈 ~line 27 target value  ' + target);
     return Math.round((target * rate) / standardRate);
@@ -93,6 +89,7 @@ const SliderSizes = ({
         minTotalSubscribePrice: ret.minTotalSubscribePrice!,
       });
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
@@ -130,10 +127,6 @@ const SliderSizes = ({
   const handleChange = (event: Event, newValue: number | number[]) => {
     if (subscribeNumber !== -1 && value !== newValue) {
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
-      // if (difaultValue) {
-      //   console.log('🌪 ~라인 158 api 호출');
-      //   predictionApi();
-      // }
       setValue(newValue as number);
     }
   };
