@@ -94,7 +94,7 @@ const RunningProgress = (props: Props) => {
 
   const router = useRouter();
   console.log(router);
-  const index = Number(router.asPath);
+  const index = Number(router.query.id);
 
   return (
     <>
