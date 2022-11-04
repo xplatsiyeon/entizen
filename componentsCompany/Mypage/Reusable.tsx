@@ -22,7 +22,8 @@ type Props = {
   afterFinish?: boolean;
   btnText: string;
   almostFinish?: boolean;
-  setProgressNum?: Dispatch<SetStateAction<number>>;
+  //setProgressNum?: Dispatch<SetStateAction<number>>;
+  setBadgeState: React.Dispatch<React.SetStateAction<number>>;
 };
 
 interface ImgFile {
@@ -45,7 +46,7 @@ const Reusable = ({
   afterFinish,
   almostFinish,
   btnText,
-  setProgressNum,
+  setBadgeState
 }: Props) => {
   // img ref
   const imgRef = useRef<HTMLInputElement>(null);
@@ -129,10 +130,13 @@ const Reusable = ({
     imgRef?.current?.click();
   };
 
+  // '완료하기' 누른 후 실행되는 함수. 배지를 변경하는 api 호출하기. 
   const handleModalRightBtn = () => {
-    if (setProgressNum) {
+    setBadgeState((prev)=>prev+1)
+    /* if (setProgressNum) {
       setProgressNum(-1);
-    }
+    } */
+
   };
   return (
     <>
@@ -185,7 +189,8 @@ const Reusable = ({
             <Box>
               <Top>
                 <div className="expectedDate">
-                  {textOne ? '완료일' : '완료 예정일'}
+                  {/* */}
+                  {textOne ? '완료일' : '완료 예정일'} 
                 </div>
                 <div className="changeDate" onClick={() => setModalOpen(true)}>
                   일정 변경 요청
@@ -199,6 +204,7 @@ const Reusable = ({
                 {textFive && <li>{textFive}</li>}
               </ListBox>
             </Box>
+
             {/* 완료에서 사진첨부하는곳 보이도록  */}
             {beforeFinish && (
               <RemainderInputBox>

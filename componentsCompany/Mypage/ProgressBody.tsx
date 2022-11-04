@@ -18,6 +18,7 @@ type Props = {
   setPresentProgress: Dispatch<SetStateAction<number>>;
   progressNum: number;
   setProgressNum: Dispatch<SetStateAction<number>>;
+  state : number;
 };
 
 const ProgressBody = ({
@@ -29,7 +30,9 @@ const ProgressBody = ({
   setPresentProgress,
   progressNum,
   setProgressNum,
+  state
 }: Props) => {
+
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -71,6 +74,37 @@ const ProgressBody = ({
   };
 
   const handleListClick = () => {};
+
+  let textArr;
+
+  switch(state) {
+    case 0 : 
+    textArr = ['공사 준비를 진행해주세요.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
+    break;
+
+    case 1 : 
+    textArr = ['공사 준비를 진행해주세요.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
+    break;
+
+    case 2 : 
+    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
+    break;
+
+    case 3 : 
+    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전이 완료되었습니다', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
+    break;
+
+    case 4 : 
+    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전이 완료되었습니다', '충전기 검수가 완료되었습니다', '프로젝트를 완료해주세요'];
+    break;
+
+    case 5 : 
+    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전이 완료되었습니다', '충전기 검수가 완료되었습니다', '프로젝트를 완료해주세요'];
+    break;
+
+    default: 
+    textArr = ['공사 준비를 진행해주세요.', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
+  }
 
   return (
     <>
@@ -138,7 +172,7 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(1)}
                 presentProgress={presentProgress === 1 && true}
-                title={'공사 준비를 진행해주세요.'}
+                title={textArr[0]}
                 firstText={'충전기 및 부속품 준비'}
                 secondText={'설계 및 공사계획 신고 등'}
               />
@@ -173,7 +207,7 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(2)}
                 presentProgress={presentProgress === 2 && true}
-                title={'충전기를 설치, 시운전을 진행해주세요.'}
+                title={textArr[1]}
                 firstText={'충전기 설치 및 배선작업'}
                 secondText={'충전기 시운전 (자체 테스트)'}
               />
@@ -207,7 +241,7 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(3)}
                 presentProgress={presentProgress === 3 && true}
-                title={'충전기 검수를 진행해주세요.'}
+                title={textArr[2]}
                 firstText={'검수 및 전기차 충전 테스트 (고객 참관)'}
                 secondText={'한전 계량기 봉인'}
               />
@@ -246,7 +280,7 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(4)}
                 presentProgress={presentProgress === 4 && true}
-                title={'프로젝트를 완료해주세요.'}
+                title={textArr[3]}
                 firstText={'사용 전 검사 및 점검'}
                 secondText={'신고 및 사용 승인'}
                 thirdText={'완료현장 사진 기록'}
