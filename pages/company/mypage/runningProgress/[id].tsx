@@ -100,12 +100,12 @@ const RunningProgress = (props: Props) => {
     <>
       <MypageHeader back={true} title={'진행 프로젝트'} />
       <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[index]} />
-      {!tempProceeding[index]['contract'] ? (
+      {tempProceeding[index].contract ? (
+        <Progress />
+      ) : (
         <UnderBox
           setOpenContract={setOpenContract}
         />
-      ) : (
-        <Progress />
       )}
     </>
   );
