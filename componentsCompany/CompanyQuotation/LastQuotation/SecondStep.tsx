@@ -99,13 +99,9 @@ const SecondStep = ({
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // 리덕스
-  const {
-    chargers,
-    subscribeProductFeature,
-    constructionPeriod,
-    subscribePricePerMonth,
-  } = useSelector((state: RootState) => state.companymyEstimateData);
-  const newCharge = chargers.slice(0, maxIndex);
+  const { chargersKo } = useSelector(
+    (state: RootState) => state.companyFinalQuotationData,
+  );
 
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -322,6 +318,7 @@ const SecondStep = ({
         storeChargeData();
         setTabNumber(tabNumber + 1);
       } else {
+        storeChargeData();
         setTabNumber(6);
       }
     }
@@ -343,46 +340,55 @@ const SecondStep = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chargeTypeNumber, fee, manufacturingCompany]);
   // 상태 업데이트 및 초기화 (with 리덕스)
-  // useEffect(() => {
-  //   const target = chargers[StepIndex];
-  //   console.log(TAG + 'target 확인');
-  //   console.log(StepIndex);
-  //   console.log(target);
-  //   if (target?.chargePriceType !== '') {
-  //     if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
-  //       setChargeTypeNumber(0);
-  //     if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
-  //       setChargeTypeNumber(1);
-  //   }
-  //   if (target?.chargePrice !== 0) {
-  //     setFee(target?.chargePrice.toString());
-  //   }
-  //   if (target?.modelName !== '') {
-  //     setProductItem(target?.modelName);
-  //   }
-  //   if (target?.manufacturer !== '') {
-  //     setManufacturingCompany(target?.manufacturer);
-  //   }
-  //   if (target?.feature !== '') {
-  //     setChargeFeatures(target?.feature);
-  //   }
-  //   if (target?.chargerImageFiles?.length >= 1) {
-  //     setImgArr(target?.chargerImageFiles);
-  //   }
-  //   if (target?.catalogFiles?.length >= 1) {
-  //     setFileArr(target?.catalogFiles);
-  //   }
-  //   return () => {
-  //     setChargeTypeNumber(-1);
-  //     setFee('');
-  //     setManufacturingCompany('');
-  //     setProductItem('');
-  //     setChargeFeatures('');
-  //     setImgArr([]);
-  //     setFileArr([]);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [StepIndex]);
+  useEffect(() => {
+    const target = chargersKo[tabNumber - 1];
+    console.log(TAG + 'target 확인');
+    console.log(tabNumber - 1);
+    console.log(target);
+    if (target?.chargePriceType !== '') {
+      if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
+        setChargeTypeNumber(0);
+      if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
+        setChargeTypeNumber(1);
+    }
+    if (target?.chargePrice !== 0) {
+      setFee(inputPriceFormat(target?.chargePrice.toString()));
+    }
+    if (target?.installationLocation !== '') {
+      if (target.installationLocation === 'INSIDE') {
+        setChargeLocationTypeNumber(0);
+      }
+      if (target.installationLocation === 'OUTSIDE') {
+        setChargeLocationTypeNumber(1);
+      }
+    }
+    if (target?.modelName !== '') {
+      setProductItem(target?.modelName);
+    }
+    if (target?.manufacturer !== '') {
+      setManufacturingCompany(target?.manufacturer);
+    }
+    if (target?.productFeature !== '') {
+      setChargeFeatures(target?.productFeature);
+    }
+    if (target?.chargerImageFiles?.length >= 1) {
+      setImgArr(target?.chargerImageFiles);
+    }
+    if (target?.catalogFiles?.length >= 1) {
+      setFileArr(target?.catalogFiles);
+    }
+    return () => {
+      setChargeTypeNumber(-1);
+      setFee('');
+      setChargeLocationTypeNumber(-1);
+      setManufacturingCompany('');
+      setProductItem('');
+      setChargeFeatures('');
+      setImgArr([]);
+      setFileArr([]);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabNumber - 1]);
   // 금액 초기화
   useEffect(() => {
     if (chargeTypeNumber === 0) {
