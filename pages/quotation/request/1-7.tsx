@@ -42,7 +42,7 @@ const Request1_7 = (props: Props) => {
     onSuccess: (res) => {
       console.log(TAG + 'api/quotations/request' + 'success');
       console.log(res);
-      router.push('/');
+      router.push('/quotation/request/complete');
     },
     onError: (error) => {
       console.log(TAG + '🔥 api/quotations/request' + 'fail');
@@ -85,7 +85,8 @@ const Request1_7 = (props: Props) => {
       data: {
         chargers: quotationData.chargers,
         subscribeProduct: quotationData.subscribeProduct,
-        investRate: (value / 100).toString(),
+        investRate:
+          quotationData.investRate === '1' ? '0.01' : (value / 100).toString(),
         subscribePeriod: quotationData.subscribePeriod,
         installationAddress: locationList.locationList.roadAddrPart,
         installationLocation: quotationData.installationLocation,
@@ -106,12 +107,16 @@ const Request1_7 = (props: Props) => {
         <Inner>
           <Wrapper>
             {isModal && (
-              <QuotationModal isModal={isModal} setIsModal={setIsModal} />
+              <QuotationModal
+                onClick={onClickModal}
+                isModal={isModal}
+                setIsModal={setIsModal}
+              />
             )}
             <Header
               title="간편견적"
               exitBtn={true}
-              handleOnClick={onClickModal}
+              handleOnClick={() => router.push('/')}
             />
             <Body>
               <AddressBox>
@@ -344,6 +349,7 @@ const RequestForm = styled.form`
     letter-spacing: -0.02em;
     resize: none;
     font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
     ::placeholder {
       color: ${colors.lightGray3};
     }
