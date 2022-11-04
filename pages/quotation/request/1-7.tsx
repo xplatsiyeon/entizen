@@ -142,11 +142,11 @@ const Request1_7 = (props: Props) => {
                       )} ~ ${PriceCalculation(
                         calculatedValue?.maxSubscribePricePerMonth!,
                       )}`}
-                      {`${PriceCalculation(
+                      {/* {`${PriceCalculation(
                         requestData?.minSubscribePricePerMonth!,
                       )} ~ ${PriceCalculation(
                         calculatedValue.maxSubscribePricePerMonth!,
-                      )}`}
+                      )}`} */}
                     </span>
                   </span>
                 </div>
@@ -162,11 +162,11 @@ const Request1_7 = (props: Props) => {
                       )} ~ ${PriceCalculation(
                         calculatedValue?.maxTotalSubscribePrice!,
                       )}`}
-                      {`${PriceCalculation(
+                      {/* {`${PriceCalculation(
                         requestData?.minTotalSubscribePrice!,
                       )} ~ ${PriceCalculation(
                         requestData?.maxTotalSubscribePrice!,
-                      )}`}
+                      )}`} */}
                     </span>
                   </span>
                 </div>
