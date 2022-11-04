@@ -22,13 +22,13 @@ const tempProceeding: Data[] = [
   {
     id: 0,
     badge: '검수 중',
-    storeName: 'LS카페 신림점',
+    storeName: 'S-OIL 대치 주유소',
     date: '2021.01.01',
   },
   {
     id: 1,
     badge: '준비 중',
-    storeName: 'LS카페 신림점',
+    storeName: '맥도날드 대이동점',
     date: '2021.05.10',
   },
   {
@@ -40,19 +40,19 @@ const tempProceeding: Data[] = [
   {
     id: 3,
     badge: '설치 중',
-    storeName: 'LS카페 신림점',
+    storeName: 'LS카페 마곡점',
     date: '2021.07.23',
   },
   {
     id: 4,
     badge: '완료 중',
-    storeName: 'LS카페 신림점',
+    storeName: '스타벅스 마곡점',
     date: '2021.07.23',
   },
   {
     id: 5,
     badge: '완료대기',
-    storeName: 'LS카페 신림점',
+    storeName: 'LS카페 계양점',
     date: '2021.07.23',
   },
   {
