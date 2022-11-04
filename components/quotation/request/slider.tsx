@@ -49,6 +49,12 @@ const SliderSizes = ({
   const { quotationData, locationList } = useSelector(
     (state: RootState) => state,
   );
+  const {
+    maxSubscribePricePerMonth,
+    maxTotalSubscribePrice,
+    minSubscribePricePerMonth,
+    minTotalSubscribePrice,
+  } = quotationData.requestData!;
 
 
   const setPriceByRate = (
@@ -60,12 +66,20 @@ const SliderSizes = ({
     //   !isNaN(Math.round((target * rate) / standardRate)) &&
     //   Math.round((target * rate) / standardRate) !== 0
     // ) {
-    if (target !== 0 && rate !== 0 && standardRate !== 0) {
-      return Math.round((target * rate) / standardRate);
+    console.log(TAG + '🌈 ~line 27 rate value  ' + rate);
+    console.log(TAG + '🌈 ~line 27 target value  ' + target);
+
+    const result = Math.round((target * rate) / standardRate);
+    if (target === 0) {
+      const result = Math.round(
+        (maxSubscribePricePerMonth * rate) / standardRate,
+      );
     }
+    return result;
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     console.log(value);
       console.log(TAG + '🌈 ~line 67 value !== 0');
       const ret = {
@@ -99,6 +113,45 @@ const SliderSizes = ({
           minTotalSubscribePrice: ret.minTotalSubscribePrice!,
         });
       }
+=======
+    if (value === 0) {
+      // console.log(TAG + '🌈 ~line 67 value === 0 ');
+      // console.log(calculatedValue);
+      // console.log(quotationData);
+    }
+    // console.log(TAG + '🌈 ~line 67 value !== 0');
+    const ret = {
+      maxSubscribePricePerMonth: setPriceByRate(
+        quotationData.requestData?.maxSubscribePricePerMonth!,
+        value,
+        Number(quotationData.requestData?.investRate),
+      ),
+      maxTotalSubscribePrice: setPriceByRate(
+        quotationData.requestData?.maxTotalSubscribePrice!,
+        value,
+        Number(quotationData.requestData?.investRate),
+      ),
+      minSubscribePricePerMonth: setPriceByRate(
+        quotationData.requestData?.minSubscribePricePerMonth!,
+        value,
+        Number(quotationData.requestData?.investRate),
+      ),
+      minTotalSubscribePrice: setPriceByRate(
+        quotationData.requestData?.minTotalSubscribePrice!,
+        value,
+        Number(quotationData.requestData?.investRate),
+      ),
+      investRate: value,
+    };
+    if (setCalculatedValue) {
+      setCalculatedValue({
+        maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
+        maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
+        minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
+        minTotalSubscribePrice: ret.minTotalSubscribePrice!,
+      });
+    }
+>>>>>>> a64acdff924f0417a1537fd17c2714f517748cf7
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
@@ -137,7 +190,12 @@ const SliderSizes = ({
   const handleChange = (event: Event, newValue: number | number[]) => {
     if (subscribeNumber !== -1 && value !== newValue) {
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
+<<<<<<< HEAD
       if (difaultValue === undefined) {
+=======
+      if (difaultValue) {
+        console.log('🌪 ~라인 158 api 호출');
+>>>>>>> a64acdff924f0417a1537fd17c2714f517748cf7
         predictionApi();
       }
 
