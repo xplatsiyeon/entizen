@@ -63,6 +63,7 @@ const Progress = (props: Props) => {
       )}
       {/* 기본    -1 */}
       <Wrapper>
+        {/*
         {progressNum === -1 && (
           <MypageHeader back={true} title={'진행 프로젝트'} />
         )}
@@ -78,7 +79,7 @@ const Progress = (props: Props) => {
           open={open}
           setOpen={setOpen}
           handleClick={openHeader}
-        />
+        /> */}
         {progressNum === -1 && (
           <ProgressBody
             dateArr={dateArr}
