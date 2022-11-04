@@ -6,11 +6,10 @@ import Image from 'next/image';
 import colors from 'styles/colors';
 
 type Props = {
-  writeContract: boolean;
   setOpenContract: Dispatch<SetStateAction<boolean>>;
 };
 
-const UnderBox = ({ writeContract, setOpenContract }: Props) => {
+const UnderBox = ({setOpenContract }: Props) => {
   return (
     <>
       <Wrapper>
