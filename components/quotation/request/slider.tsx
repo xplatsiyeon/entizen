@@ -67,7 +67,6 @@ const SliderSizes = ({
 
   useEffect(() => {
     console.log(value);
-    if (value !== 0) {
       console.log(TAG + '🌈 ~line 67 value !== 0');
       const ret = {
         maxSubscribePricePerMonth: setPriceByRate(
@@ -100,15 +99,9 @@ const SliderSizes = ({
           minTotalSubscribePrice: ret.minTotalSubscribePrice!,
         });
       }
-    }
-
-    if(value === 0){
-      console.log(calculatedValue);
-      console.log(quotationData.requestData)
-    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, calculatedValue]);
+  }, [value]);
 
   // 간편 견적 포스트
   const predictionApi = async () => {
