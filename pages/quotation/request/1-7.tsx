@@ -42,7 +42,7 @@ const Request1_7 = (props: Props) => {
     onSuccess: (res) => {
       console.log(TAG + 'api/quotations/request' + 'success');
       console.log(res);
-      setIsModal(!isModal);
+      router.push('/');
     },
     onError: (error) => {
       console.log(TAG + '🔥 api/quotations/request' + 'fail');
@@ -67,20 +67,7 @@ const Request1_7 = (props: Props) => {
   };
   // quotations/request post 요청
   const onClickRequest = () => {
-    mutate({
-      url: '/quotations/request',
-      data: {
-        chargers: quotationData.chargers,
-        subscribeProduct: quotationData.subscribeProduct,
-        investRate: quotationData.investRate.toString(),
-        subscribePeriod: quotationData.subscribePeriod,
-        installationAddress: locationList.locationList.roadAddrPart,
-        installationLocation: quotationData.installationLocation,
-        installationPoints: quotationData.installationPoints,
-        installationPurpose: quotationData.installationPurpose,
-        etcRequest: textValue,
-      },
-    });
+    setIsModal(!isModal);
   };
 
   useEffect(() => {
@@ -91,6 +78,23 @@ const Request1_7 = (props: Props) => {
       minTotalSubscribePrice: requestData?.maxTotalSubscribePrice!,
     });
   }, []);
+
+  const onClickModal = () => {
+    mutate({
+      url: '/quotations/request',
+      data: {
+        chargers: quotationData.chargers,
+        subscribeProduct: quotationData.subscribeProduct,
+        investRate: (value / 100).toString(),
+        subscribePeriod: quotationData.subscribePeriod,
+        installationAddress: locationList.locationList.roadAddrPart,
+        installationLocation: quotationData.installationLocation,
+        installationPoints: quotationData.installationPoints,
+        installationPurpose: quotationData.installationPurpose,
+        etcRequest: textValue,
+      },
+    });
+  };
 
   if (isError) {
     console.log(error);
@@ -107,7 +111,7 @@ const Request1_7 = (props: Props) => {
             <Header
               title="간편견적"
               exitBtn={true}
-              handleOnClick={() => router.push('/')}
+              handleOnClick={onClickModal}
             />
             <Body>
               <AddressBox>
@@ -128,7 +132,6 @@ const Request1_7 = (props: Props) => {
                 disabled={disabled} //안내메세지 유&무
                 setDisabled={setDisabled} //안내메세지 끄고 키는 기능.
                 setCalculatedValue={setCalculatedValue}
-                calculatedValue={calculatedValue}
               />
               <ContentsWrapper>
                 <div className="contents-box">
@@ -142,11 +145,6 @@ const Request1_7 = (props: Props) => {
                       )} ~ ${PriceCalculation(
                         calculatedValue?.maxSubscribePricePerMonth!,
                       )}`}
-                      {/* {`${PriceCalculation(
-                        requestData?.minSubscribePricePerMonth!,
-                      )} ~ ${PriceCalculation(
-                        calculatedValue.maxSubscribePricePerMonth!,
-                      )}`} */}
                     </span>
                   </span>
                 </div>
@@ -162,11 +160,6 @@ const Request1_7 = (props: Props) => {
                       )} ~ ${PriceCalculation(
                         calculatedValue?.maxTotalSubscribePrice!,
                       )}`}
-                      {/* {`${PriceCalculation(
-                        requestData?.minTotalSubscribePrice!,
-                      )} ~ ${PriceCalculation(
-                        requestData?.maxTotalSubscribePrice!,
-                      )}`} */}
                     </span>
                   </span>
                 </div>

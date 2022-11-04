@@ -29,7 +29,6 @@ interface Props {
       minTotalSubscribePrice: number;
     }>
   >;
-  calculatedValue?: CalculateValue;
 }
 const TAG = '🔥 components/quotation/request/slider.tsx';
 const SliderSizes = ({
@@ -39,7 +38,6 @@ const SliderSizes = ({
   setDisabled,
   difaultValue,
   setCalculatedValue,
-  calculatedValue,
   subscribeNumber,
 }: Props) => {
   const { quotationData } = useSelector((state: RootState) => state);
@@ -85,37 +83,6 @@ const SliderSizes = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
-
-  // 간편 견적 포스트
-  // const predictionApi = async () => {
-  //   const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
-  //   try {
-  //     await axios({
-  //       method: 'post',
-  //       url: PREDICTION_POST,
-  //       data: {
-  //         chargers: quotationData.chargers,
-  //         subscribeProduct: quotationData.subscribeProduct,
-  //         investRate: (value / 100).toString(),
-  //         subscribePeriod: quotationData.subscribePeriod,
-  //         installationAddress: locationList.locationList.roadAddrPart,
-  //         installationLocation: quotationData.installationLocation,
-  //       },
-  //       headers: {
-  //         ContentType: 'application/json',
-  //       },
-  //       withCredentials: true,
-  //     }).then((res) => {
-  //       dispatch(quotationAction.setRequestData(res.data));
-  //       console.log('defalt', quotationAction.setRequestData(res.data));
-  //       // dispatch(quotationAction.init());
-  //       // router.push('/quotation/request/1-7');
-  //     });
-  //   } catch (error) {
-  //     console.log('post 요청 실패');
-  //     console.log(error);
-  //   }
-  // };
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     if (subscribeNumber !== -1 && value !== newValue) {
