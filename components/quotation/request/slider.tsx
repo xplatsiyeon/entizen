@@ -197,7 +197,7 @@ const PersentBadge = styled.span<{
     `}
 
   @media (max-width: 500pt) {
-    bottom: 0;
+    bottom: -7px;
   }
 `;
 const BubbleMessage = styled.span`
