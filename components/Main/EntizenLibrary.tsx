@@ -104,9 +104,9 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
           <ShowAllBtn onClick={() => router.push('/library')}>
             <div>도서관</div>
             <div>&nbsp;전체보기</div>
-            <div>
-              <Image src={blackRightArrow} alt="icon" />
-            </div>
+            <ImageWrap>
+              <Image className='arrow' layout='fill' src={blackRightArrow} alt="icon" />
+            </ImageWrap>
           </ShowAllBtn>
         </ShowAllBtnBox>
       </Wrapper>
@@ -147,7 +147,8 @@ const BoardBox = styled.div`
   flex-wrap: wrap;
   width: 100%;
   @media (max-width: 899pt) {
-    padding-left: 9.75pt;
+    padding-left: 0;
+    padding-right: 0;
     box-shadow: 0px 0px 10px 0px #89a3c933;
     border-radius: 6pt;
     display: block;
@@ -175,7 +176,7 @@ const LibraryList = styled.div`
     box-shadow: none;
     border-radius: 0;
     margin: 0;
-    padding-left: 6pt;
+    padding-left: 0pt;
   }
 `;
 
@@ -195,7 +196,7 @@ const ProfileImg = styled.div`
     padding-top: 13.5pt;
     padding-bottom: 13.5pt;
     padding-right: 12pt;
-    padding-left: 0pt;
+    padding-left: 6pt;
     & > div {
       width: 33pt;
       height: 33pt;
@@ -286,6 +287,13 @@ padding: 12pt 120pt;
   & div:nth-of-type(3) {
     position: relative;
     top: 1.4pt;
+
+  @media (max-width: 899pt) {
+    top: 1px;
+    width: 9pt;
+    position: relative;
+    height: 9pt;
+  }
   }
 
   @media (max-width: 899pt) {
@@ -294,5 +302,9 @@ padding: 12pt 120pt;
   line-height: 12pt;
   }
 `;
+
+const ImageWrap = styled.div`
+  position: relative;
+`
 
 export default EntizenLibrary;
