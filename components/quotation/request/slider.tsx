@@ -56,10 +56,11 @@ const SliderSizes = ({
     minTotalSubscribePrice,
   } = quotationData.requestData!;
 
+
   const setPriceByRate = (
-    target: number,
-    rate: number,
-    standardRate: number,
+    target: any,
+    rate: any,
+    standardRate: any,
   ) => {
     // if (
     //   !isNaN(Math.round((target * rate) / standardRate)) &&
@@ -76,7 +77,43 @@ const SliderSizes = ({
     }
     return result;
   };
+
   useEffect(() => {
+<<<<<<< HEAD
+    console.log(value);
+      console.log(TAG + '🌈 ~line 67 value !== 0');
+      const ret = {
+        maxSubscribePricePerMonth: setPriceByRate(
+          calculatedValue?.maxSubscribePricePerMonth,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        maxTotalSubscribePrice: setPriceByRate(
+          calculatedValue?.maxTotalSubscribePrice,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        minSubscribePricePerMonth: setPriceByRate(
+          calculatedValue?.minSubscribePricePerMonth,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        minTotalSubscribePrice: setPriceByRate(
+          calculatedValue?.minTotalSubscribePrice,
+          value,
+          quotationData.requestData?.investRate,
+        ),
+        investRate: value,
+      };
+      if (setCalculatedValue) {
+        setCalculatedValue({
+          maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
+          maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
+          minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
+          minTotalSubscribePrice: ret.minTotalSubscribePrice!,
+        });
+      }
+=======
     if (value === 0) {
       // console.log(TAG + '🌈 ~line 67 value === 0 ');
       // console.log(calculatedValue);
@@ -114,6 +151,7 @@ const SliderSizes = ({
         minTotalSubscribePrice: ret.minTotalSubscribePrice!,
       });
     }
+>>>>>>> a64acdff924f0417a1537fd17c2714f517748cf7
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
@@ -152,10 +190,15 @@ const SliderSizes = ({
   const handleChange = (event: Event, newValue: number | number[]) => {
     if (subscribeNumber !== -1 && value !== newValue) {
       setDisabled(false); //슬라이더 클릭하면 안내메세지 꺼짐.
+<<<<<<< HEAD
+      if (difaultValue === undefined) {
+=======
       if (difaultValue) {
         console.log('🌪 ~라인 158 api 호출');
+>>>>>>> a64acdff924f0417a1537fd17c2714f517748cf7
         predictionApi();
       }
+
       setValue(newValue as number);
     }
   };
