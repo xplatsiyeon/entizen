@@ -44,7 +44,6 @@ type Props = {
   setTabNumber: Dispatch<SetStateAction<number>>;
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
-  StepIndex: number;
   maxIndex: number | undefined;
   routerId: string | string[];
   selectedOption: chargers[];
@@ -61,7 +60,6 @@ const SecondStep = ({
   setTabNumber,
   canNext,
   SetCanNext,
-  StepIndex,
   routerId,
   selectedOption,
   setSelectedOption,
@@ -281,7 +279,7 @@ const SecondStep = ({
   const storeChargeData = () => {
     dispatch(
       finalQuotationAction.addChargeStep2({
-        idx: StepIndex,
+        idx: tabNumber - 1,
         chargePriceType: chargeTypeListEn[chargeTypeNumber] as ChargePriceType,
         chargePrice: Number(fee.replaceAll(',', '')),
         installationLocation: chargeLocationTypeListEn[
@@ -296,7 +294,7 @@ const SecondStep = ({
     );
     dispatch(
       finalQuotationAction.addChargeKoStep2({
-        idx: StepIndex,
+        idx: tabNumber - 1,
         chargePriceType: chargeTypeList[chargeTypeNumber] as ChargePriceType,
         chargePrice: Number(fee.replaceAll(',', '')),
         installationLocation: chargeLocationTypeList[
@@ -319,10 +317,13 @@ const SecondStep = ({
   };
   // 다음 버튼
   const handleNextBtn = () => {
-    storeChargeData();
-    if (canNext && tabNumber < maxIndex!) {
-      storeChargeData();
-      setTabNumber(tabNumber + 1);
+    if (canNext) {
+      if (tabNumber < maxIndex!) {
+        storeChargeData();
+        setTabNumber(tabNumber + 1);
+      } else {
+        setTabNumber(6);
+      }
     }
   };
 

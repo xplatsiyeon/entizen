@@ -14,7 +14,6 @@ type Props = {
   setTabNumber: Dispatch<SetStateAction<number>>;
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
-  StepIndex: number;
   maxIndex: number;
 };
 

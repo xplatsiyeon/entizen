@@ -123,7 +123,6 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={0}
         maxIndex={selectedOption.length}
         routerId={'1'}
         selectedOption={selectedOption}
@@ -139,7 +138,6 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={1}
         maxIndex={selectedOption.length}
         routerId={'1'}
         selectedOption={selectedOption}
@@ -155,7 +153,6 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={2}
         maxIndex={selectedOption.length}
         routerId={'1'}
         selectedOption={selectedOption}
@@ -171,7 +168,6 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={3}
         maxIndex={selectedOption.length}
         routerId={'1'}
         selectedOption={selectedOption}
@@ -187,7 +183,6 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={4}
         maxIndex={selectedOption.length}
         routerId={'1'}
         selectedOption={selectedOption}
@@ -203,7 +198,6 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        StepIndex={5}
         maxIndex={selectedOption.length}
       />
     ),
