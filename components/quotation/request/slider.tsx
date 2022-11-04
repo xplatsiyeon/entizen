@@ -51,7 +51,11 @@ const SliderSizes = ({
     investRate,
   } = quotationData.requestData!;
 
-  const setPriceByRate = (target: any, rate: any, standardRate: any) => {
+  const setPriceByRate = (
+    target: number,
+    rate: number,
+    standardRate: number,
+  ) => {
     console.log(TAG + '🌈 ~line 27 rate value  ' + rate);
     console.log(TAG + '🌈 ~line 27 target value  ' + target);
     return Math.round((target * rate) / standardRate);
