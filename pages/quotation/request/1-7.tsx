@@ -85,7 +85,8 @@ const Request1_7 = (props: Props) => {
       data: {
         chargers: quotationData.chargers,
         subscribeProduct: quotationData.subscribeProduct,
-        investRate: (value / 100).toString(),
+        investRate:
+          quotationData.investRate === '1' ? '0.01' : (value / 100).toString(),
         subscribePeriod: quotationData.subscribePeriod,
         installationAddress: locationList.locationList.roadAddrPart,
         installationLocation: quotationData.installationLocation,
