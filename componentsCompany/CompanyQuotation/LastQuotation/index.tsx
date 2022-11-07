@@ -75,7 +75,6 @@ const LastWrite = (props: Props) => {
   // 영어 셀렉트 옵션
   const [selectedOptionEn, setSelectedOptionEn] = useState<chargers[]>([
     {
-      idx: 0,
       kind: '',
       standType: '',
       channel: '',
