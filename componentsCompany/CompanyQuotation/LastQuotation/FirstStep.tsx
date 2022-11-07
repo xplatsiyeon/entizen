@@ -166,9 +166,8 @@ const FirstStep = ({
   };
   // 충전기 종류 및 수량 추가
   const onClickChargerAdd = () => {
-    if (selectedOption.length === 5) return;
-    const temp = selectedOption.concat({
-      idx: 0,
+    if (selectedOptionEn.length === 5) return;
+    const temp = selectedOptionEn.concat({
       kind: '',
       standType: '',
       channel: '',
