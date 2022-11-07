@@ -27,6 +27,7 @@ import { chargers, finalQuotationAction } from 'storeCompany/finalQuotation';
 type Props = {
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
+
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   subscribeProduct: chargerData;
@@ -100,7 +101,7 @@ const FirstStep = ({
         channel: '',
         count: '',
         chargePriceType: '',
-        chargePrice: 24,
+        chargePrice: '',
         installationLocation: '',
         modelName: '',
         manufacturer: '',
@@ -174,7 +175,7 @@ const FirstStep = ({
       channel: '',
       count: '',
       chargePriceType: '',
-      chargePrice: 24,
+      chargePrice: '',
       installationLocation: '',
       modelName: '',
       manufacturer: '',

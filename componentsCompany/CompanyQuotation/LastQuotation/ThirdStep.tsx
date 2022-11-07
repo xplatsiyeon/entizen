@@ -108,7 +108,7 @@ const ThirdStep = ({
     //       },
     //     }),
     //   );
-    setTabNumber(tabNumber - 1);
+    setTabNumber(maxIndex);
     // }
   };
 

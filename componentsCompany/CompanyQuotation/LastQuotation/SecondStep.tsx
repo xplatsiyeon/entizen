@@ -24,7 +24,7 @@ import AddImg from 'public/images/add-img.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
-import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
+import { chargerData } from 'storeCompany/myQuotation';
 import { useMutation } from 'react-query';
 import { isTokenPostApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
@@ -42,6 +42,7 @@ import {
 type Props = {
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
+
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   maxIndex: number | undefined;
@@ -85,21 +86,21 @@ const SecondStep = ({
     'LECS-005ADE',
     'LECS-004ADE',
   ];
-  const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1);
-  const [chargeLocationTypeNumber, setChargeLocationTypeNumber] =
-    useState<number>(-1);
-  const [fee, setFee] = useState<string>('');
-  const [productItem, setProductItem] = useState<chargerData>('');
+  // const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1);
+  // const [chargeLocationTypeNumber, setChargeLocationTypeNumber] =
+  //   useState<number>(-1);
+  // const [fee, setFee] = useState<string>('');
+  // const [productItem, setProductItem] = useState<chargerData>('');
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
   const [chargeFeatures, setChargeFeatures] = useState<string>('');
-  const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
+  // const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // 리덕스
-  const { chargersKo } = useSelector(
+  const { chargersKo, chargers } = useSelector(
     (state: RootState) => state.companyFinalQuotationData,
   );
 
@@ -112,7 +113,10 @@ const SecondStep = ({
     onSuccess: (res) => {
       console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
       console.log(res);
-      const newArr = [...imgArr];
+
+      const temp = [...selectedOption];
+      const newArr = temp[tabNumber - 1].chargerImageFiles;
+
       res?.uploadedFiles.forEach((img) => {
         newArr.push({
           url: img.url,
@@ -120,7 +124,7 @@ const SecondStep = ({
           originalName: decodeURIComponent(img.originalName),
         });
       });
-      setImgArr(newArr);
+      setSelectedOption(temp);
     },
     onError: (error: any) => {
       if (error.response.data.message) {
@@ -196,9 +200,79 @@ const SecondStep = ({
     }
   };
 
+  // 충전요금 탭
+  const onClickCharge = (index: number) => {
+    console.log('클릭');
+    const temp = [...selectedOption];
+    if (index === 0) {
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        chargePriceType: 'PURCHASER_AUTONOMY',
+      };
+    }
+    if (index === 1) {
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        chargePriceType: 'OPERATION_BUSINESS_CARRIER_INPUT',
+      };
+    }
+    setSelectedOption(temp);
+  };
+  // 충전요금 금액 변경
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setFee(inputPriceFormat(value));
+    const temp = [...selectedOption];
+
+    temp[tabNumber - 1] = {
+      ...temp[tabNumber - 1],
+      chargePrice: inputPriceFormat(value),
+    };
+
+    setSelectedOption(temp);
+  };
+  // 충전기 설치 위치 탭
+  const onClickLocation = (index: number) => {
+    console.log('클릭 로케이션');
+    const temp = [...selectedOption];
+    if (index === 0) {
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        installationLocation: 'OUTSIDE',
+      };
+    }
+    if (index === 1) {
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        installationLocation: 'INSIDE',
+      };
+    }
+    setSelectedOption(temp);
+  };
+  // 제조사 이름 변경
+  const onChangeManufacturer = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const temp = [...selectedOption];
+
+    temp[tabNumber - 1] = {
+      ...temp[tabNumber - 1],
+      manufacturer: value,
+    };
+
+    setSelectedOption(temp);
+  };
+  // 충전기 특장점 변경
+  const onChangeProductFeature = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const { value } = e.target;
+    const temp = [...selectedOption];
+
+    temp[tabNumber - 1] = {
+      ...temp[tabNumber - 1],
+      productFeature: value,
+    };
+
+    setSelectedOption(temp);
   };
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -226,11 +300,12 @@ const SecondStep = ({
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [...imgArr];
+    const temp = [...selectedOption];
+    const copyArr = temp[tabNumber - 1].chargerImageFiles;
     for (let i = 0; i < copyArr.length; i++) {
       if (i === name) {
         copyArr.splice(i, 1);
-        return setImgArr(copyArr);
+        return setSelectedOption(temp);
       }
     }
   };
@@ -269,133 +344,143 @@ const SecondStep = ({
   };
   // 셀렉트 박스 클릭
   const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
-    setProductItem(e.target.value as chargerData);
+    const temp = [...selectedOption];
+    temp[tabNumber - 1] = {
+      ...temp[tabNumber - 1],
+      modelName: e.target.value as chargerData,
+    };
+    setSelectedOption(temp);
   };
   // 이전, 다음 버튼 리덕스 데이터 처리
-  const storeChargeData = () => {
-    dispatch(
-      finalQuotationAction.addChargeStep2({
-        idx: tabNumber - 1,
-        chargePriceType: chargeTypeListEn[chargeTypeNumber] as ChargePriceType,
-        chargePrice: Number(fee.replaceAll(',', '')),
-        installationLocation: chargeLocationTypeListEn[
-          chargeLocationTypeNumber
-        ] as InstallationLocation,
-        modelName: productItem,
-        manufacturer: manufacturingCompany,
-        productFeature: chargeFeatures,
-        chargerImageFiles: imgArr,
-        catalogFiles: fileArr,
-      }),
-    );
-    dispatch(
-      finalQuotationAction.addChargeKoStep2({
-        idx: tabNumber - 1,
-        chargePriceType: chargeTypeList[chargeTypeNumber] as ChargePriceType,
-        chargePrice: Number(fee.replaceAll(',', '')),
-        installationLocation: chargeLocationTypeList[
-          chargeLocationTypeNumber
-        ] as InstallationLocation,
-        modelName: productItem,
-        manufacturer: manufacturingCompany,
-        productFeature: chargeFeatures,
-        chargerImageFiles: imgArr,
-        catalogFiles: fileArr,
-      }),
-    );
-  };
-  // 이전 버튼
-  const handlePrevBtn = () => {
-    if (tabNumber > 0) {
-      storeChargeData();
-      setTabNumber(tabNumber - 1);
-    }
-  };
+  // const storeChargeData = () => {
+  //   dispatch(
+  //     finalQuotationAction.addChargeStep2({
+  //       idx: tabNumber - 1,
+  //       chargePriceType: chargeTypeListEn[chargeTypeNumber] as ChargePriceType,
+  //       chargePrice: Number(fee.replaceAll(',', '')),
+  //       installationLocation: chargeLocationTypeListEn[
+  //         chargeLocationTypeNumber
+  //       ] as InstallationLocation,
+  //       modelName: productItem,
+  //       manufacturer: manufacturingCompany,
+  //       productFeature: chargeFeatures,
+  //       chargerImageFiles: imgArr,
+  //       catalogFiles: fileArr,
+  //     }),
+  //   );
+  //   dispatch(
+  //     finalQuotationAction.addChargeKoStep2({
+  //       idx: tabNumber - 1,
+  //       chargePriceType: chargeTypeList[chargeTypeNumber] as ChargePriceType,
+  //       chargePrice: Number(fee.replaceAll(',', '')),
+  //       installationLocation: chargeLocationTypeList[
+  //         chargeLocationTypeNumber
+  //       ] as InstallationLocation,
+  //       modelName: productItem,
+  //       manufacturer: manufacturingCompany,
+  //       productFeature: chargeFeatures,
+  //       chargerImageFiles: imgArr,
+  //       catalogFiles: fileArr,
+  //     }),
+  //   );
+  // };
+  // // 이전 버튼
+  // const handlePrevBtn = () => {
+  //   if (tabNumber > 0) {
+  //     storeChargeData();
+  //     setTabNumber(tabNumber - 1);
+  //   }
+  // };
   // 다음 버튼
-  const handleNextBtn = () => {
-    if (canNext) {
-      if (tabNumber < maxIndex!) {
-        storeChargeData();
-        setTabNumber(tabNumber + 1);
-      } else {
-        storeChargeData();
-        setTabNumber(6);
-      }
-    }
-  };
+  // const handleNextBtn = () => {
+  //   if (canNext) {
+  //     if (tabNumber < maxIndex!) {
+  //       storeChargeData();
+  //       setTabNumber(tabNumber + 1);
+  //     } else {
+  //       storeChargeData();
+  //       setTabNumber(6);
+  //     }
+  //   }
+  // };
 
   // 다음버튼 유효성 검사
-  useEffect(() => {
-    if (chargeTypeNumber === 0 && manufacturingCompany !== '') {
-      SetCanNext(true);
-    } else if (
-      chargeTypeNumber === 1 &&
-      manufacturingCompany !== '' &&
-      fee !== ''
-    ) {
-      SetCanNext(true);
-    } else {
-      SetCanNext(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chargeTypeNumber, fee, manufacturingCompany]);
+  // useEffect(() => {
+  //   if (chargeTypeNumber === 0 && manufacturingCompany !== '') {
+  //     SetCanNext(true);
+  //   } else if (
+  //     chargeTypeNumber === 1 &&
+  //     manufacturingCompany !== '' &&
+  //     fee !== ''
+  //   ) {
+  //     SetCanNext(true);
+  //   } else {
+  //     SetCanNext(false);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [chargeTypeNumber, fee, manufacturingCompany]);
   // 상태 업데이트 및 초기화 (with 리덕스)
-  useEffect(() => {
-    const target = chargersKo[tabNumber - 1];
-    console.log(TAG + 'target 확인');
-    console.log(tabNumber - 1);
-    console.log(target);
-    if (target?.chargePriceType !== '') {
-      if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
-        setChargeTypeNumber(0);
-      if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
-        setChargeTypeNumber(1);
-    }
-    if (target?.chargePrice !== 0) {
-      setFee(inputPriceFormat(target?.chargePrice.toString()));
-    }
-    if (target?.installationLocation !== '') {
-      if (target.installationLocation === 'INSIDE') {
-        setChargeLocationTypeNumber(0);
-      }
-      if (target.installationLocation === 'OUTSIDE') {
-        setChargeLocationTypeNumber(1);
-      }
-    }
-    if (target?.modelName !== '') {
-      setProductItem(target?.modelName);
-    }
-    if (target?.manufacturer !== '') {
-      setManufacturingCompany(target?.manufacturer);
-    }
-    if (target?.productFeature !== '') {
-      setChargeFeatures(target?.productFeature);
-    }
-    if (target?.chargerImageFiles?.length >= 1) {
-      setImgArr(target?.chargerImageFiles);
-    }
-    if (target?.catalogFiles?.length >= 1) {
-      setFileArr(target?.catalogFiles);
-    }
-    return () => {
-      setChargeTypeNumber(-1);
-      setFee('');
-      setChargeLocationTypeNumber(-1);
-      setManufacturingCompany('');
-      setProductItem('');
-      setChargeFeatures('');
-      setImgArr([]);
-      setFileArr([]);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabNumber - 1]);
-  // 금액 초기화
-  useEffect(() => {
-    if (chargeTypeNumber === 0) {
-      setFee('');
-    }
-  }, [chargeTypeNumber]);
+  useEffect(() => {}, []);
+  // useEffect(() => {
+  //   const target = chargers[tabNumber - 1];
+  //   console.log(TAG + 'target 확인');
+  //   console.log(tabNumber - 1);
+  //   console.log(target);
 
+  //   if (target?.chargePriceType !== '') {
+  //     if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
+  //       setChargeTypeNumber(0);
+  //     if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
+  //       setChargeTypeNumber(1);
+  //   }
+  //   if (target?.chargePrice !== 0) {
+  //     setFee(inputPriceFormat(target?.chargePrice?.toString()));
+  //   }
+  //   if (target?.installationLocation !== '') {
+  //     if (target.installationLocation === 'INSIDE') {
+  //       setChargeLocationTypeNumber(0);
+  //     }
+  //     if (target.installationLocation === 'OUTSIDE') {
+  //       setChargeLocationTypeNumber(1);
+  //     }
+  //   }
+  //   if (target?.modelName !== '') {
+  //     setProductItem(target?.modelName);
+  //   }
+  //   if (target?.manufacturer !== '') {
+  //     setManufacturingCompany(target?.manufacturer);
+  //   }
+  //   if (target?.productFeature !== '') {
+  //     setChargeFeatures(target?.productFeature);
+  //   }
+  //   if (target?.chargerImageFiles?.length >= 1) {
+  //     setImgArr(target?.chargerImageFiles);
+  //   }
+  //   if (target?.catalogFiles?.length >= 1) {
+  //     setFileArr(target?.catalogFiles);
+  //   }
+  //   return () => {
+  //     setChargeTypeNumber(-1);
+  //     setFee('');
+  //     setChargeLocationTypeNumber(-1);
+  //     setManufacturingCompany('');
+  //     setProductItem('');
+  //     setChargeFeatures('');
+  //     setImgArr([]);
+  //     setFileArr([]);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [tabNumber - 1]);
+  // // 금액 초기화
+  // // useEffect(() => {
+  // //   if (chargeTypeNumber === 0) {
+  // //     setFee('');
+  // //   }
+  // // }, [chargeTypeNumber]);
+
+  useEffect(() => {
+    console.log(selectedOption);
+  }, [selectedOption]);
   return (
     <>
       {/* 에러 모달 */}
@@ -415,8 +500,13 @@ const SecondStep = ({
             {chargeTypeList.map((el, index) => (
               <Btn
                 key={index}
-                onClick={() => setChargeTypeNumber(index)}
-                className={index === chargeTypeNumber ? 'selected' : ''}
+                onClick={() => onClickCharge(index)}
+                className={
+                  chargeTypeListEn[index] ===
+                  selectedOption[tabNumber - 1].chargePriceType
+                    ? 'selected'
+                    : ''
+                }
               >
                 {el}
               </Btn>
@@ -427,9 +517,15 @@ const SecondStep = ({
               <Input
                 onChange={onChangeInput}
                 placeholder="0"
-                value={fee}
+                value={selectedOption[tabNumber - 1].chargePrice}
                 name="subscribeMoney"
-                inputProps={{ readOnly: chargeTypeNumber === 0 ? true : false }}
+                inputProps={{
+                  readOnly:
+                    selectedOption[tabNumber - 1].chargePriceType ===
+                    'PURCHASER_AUTONOMY'
+                      ? true
+                      : false,
+                }}
               />
               <div>원/kW</div>
             </div>
@@ -441,8 +537,13 @@ const SecondStep = ({
             {chargeLocationTypeList.map((el, index) => (
               <Btn
                 key={index}
-                onClick={() => setChargeLocationTypeNumber(index)}
-                className={index === chargeLocationTypeNumber ? 'selected' : ''}
+                onClick={() => onClickLocation(index)}
+                className={
+                  chargeLocationTypeListEn[index] ===
+                  selectedOption[tabNumber - 1].installationLocation
+                    ? 'selected'
+                    : ''
+                }
               >
                 {el}
               </Btn>
@@ -460,7 +561,7 @@ const SecondStep = ({
         </TopBox>
         <SelectContainer>
           <SelectBox
-            value={productItem}
+            value={selectedOption[tabNumber - 1].modelName}
             onChange={onChangeSelectBox}
             IconComponent={SelectIcon}
             displayEmpty
@@ -480,8 +581,8 @@ const SecondStep = ({
           <div className="withAfter">제조사</div>
           <div>
             <Inputs
-              onChange={(e) => setManufacturingCompany(e.target.value)}
-              value={manufacturingCompany}
+              onChange={onChangeManufacturer}
+              value={selectedOption[tabNumber - 1].manufacturer}
               name="constructionPeriod"
             />
           </div>
@@ -490,8 +591,8 @@ const SecondStep = ({
           <div>충전기 특장점</div>
           <div>
             <TextArea
-              onChange={(e) => setChargeFeatures(e.target.value)}
-              value={chargeFeatures}
+              onChange={onChangeProductFeature}
+              value={selectedOption[tabNumber - 1].productFeature}
               name="firstPageTextArea"
               placeholder="선택 입력사항"
               rows={7}
@@ -513,29 +614,31 @@ const SecondStep = ({
               multiple
             />
             {/* <Preview> */}
-            {imgArr?.map((item, index) => (
-              <ImgSpan key={index} data-name={index}>
-                <Image
-                  layout="fill"
-                  alt="preview"
-                  data-name={index}
-                  key={index}
-                  src={item.url}
-                  priority={true}
-                  unoptimized={true}
-                />
-                <Xbox onClick={handlePhotoDelete} data-name={index}>
+            {selectedOption[tabNumber - 1].chargerImageFiles?.map(
+              (item, index) => (
+                <ImgSpan key={index} data-name={index}>
                   <Image
-                    src={CloseImg}
+                    layout="fill"
+                    alt="preview"
                     data-name={index}
-                    layout="intrinsic"
-                    alt="closeBtn"
-                    width={24}
-                    height={24}
+                    key={index}
+                    src={item.url}
+                    priority={true}
+                    unoptimized={true}
                   />
-                </Xbox>
-              </ImgSpan>
-            ))}
+                  <Xbox onClick={handlePhotoDelete} data-name={index}>
+                    <Image
+                      src={CloseImg}
+                      data-name={index}
+                      layout="intrinsic"
+                      alt="closeBtn"
+                      width={24}
+                      height={24}
+                    />
+                  </Xbox>
+                </ImgSpan>
+              ),
+            )}
             {/* </Preview> */}
           </PhotosBox>
         </RemainderInputBox>
@@ -591,10 +694,10 @@ const SecondStep = ({
         </RemainderInputBoxs>
       </SecondWrapper>
       <TwoBtn>
-        <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-        <NextBtn canNext={canNext} onClick={handleNextBtn}>
-          다음
-        </NextBtn>
+        {/* <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn> */}
+        <PrevBtn>이전</PrevBtn>
+        {/* <NextBtn canNext={canNext} onClick={handleNextBtn}> */}
+        <NextBtn canNext={canNext}>다음</NextBtn>
       </TwoBtn>
     </>
   );
