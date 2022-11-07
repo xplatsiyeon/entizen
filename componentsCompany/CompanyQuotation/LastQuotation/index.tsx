@@ -106,8 +106,9 @@ const LastWrite = (props: Props) => {
   );
 
   const mutateData: MutateData = {
-    quotationRequestIdx: 57, // 간편견적 인덱스
-    preQuotationIdx: 30, // 가견적 인덱스
+    quotationRequestIdx:
+      data?.sendQuotationRequest?.preQuotation?.quotationRequestIdx!, // 간편견적 인덱스
+    preQuotationIdx: data?.sendQuotationRequest?.preQuotation?.preQuotationIdx!, // 가견적 인덱스
     subscribeProduct: subscribeProduct, // 구독 상품
     subscribePeriod: subscribePeriod, // 구독 기간
     userInvestRate: Number(profitableInterestUser) / 100 + '', // 사용자 수익 비율
