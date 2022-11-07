@@ -10,6 +10,10 @@ import { BusinessRegistrationType } from 'components/SignUp';
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
+import { isTokenGetApi } from 'api';
+import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
+import { useQuery } from 'react-query';
+import { useRouter } from 'next/router';
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -27,6 +31,8 @@ export interface MutateData {
 }
 type Props = {};
 const LastWrite = (props: Props) => {
+  const router = useRouter();
+  console.log(router.query);
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [canNext, SetCanNext] = useState<boolean>(false);
@@ -89,6 +95,16 @@ const LastWrite = (props: Props) => {
     BusinessRegistrationType[]
   >([]);
 
+  // ----------- 보낸 견적 상세 페이지 api --------------
+  const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
+    'company/',
+    () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
+    {
+      enabled: router.isReady,
+      // enabled: false,
+    },
+  );
+
   const mutateData: MutateData = {
     quotationRequestIdx: 57, // 간편견적 인덱스
     preQuotationIdx: 30, // 가견적 인덱스
@@ -96,7 +112,7 @@ const LastWrite = (props: Props) => {
     subscribePeriod: subscribePeriod, // 구독 기간
     userInvestRate: Number(profitableInterestUser) / 100 + '', // 사용자 수익 비율
     chargingPointRate: Number(chargePoint) / 100 + '', // chargingPoint - (1 - userInvestRate)
-    subscribePricePerMonth: Number(subscribePricePerMonth), // 월 구독료
+    subscribePricePerMonth: Number(subscribePricePerMonth.replaceAll(',', '')), // 월 구독료
     chargers: selectedOptionEn, // 충전기
     detailQuotationFiles: BusinessRegistration, // 상세 견적서 파일
   };
