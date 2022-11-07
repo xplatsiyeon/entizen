@@ -14,6 +14,7 @@ import { isTokenGetApi } from 'api';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
+import Loader from 'components/Loader';
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -32,7 +33,7 @@ export interface MutateData {
 type Props = {};
 const LastWrite = (props: Props) => {
   const router = useRouter();
-  console.log(router.query);
+  const routerId = router.query.preQuotation;
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [canNext, SetCanNext] = useState<boolean>(false);
@@ -96,14 +97,13 @@ const LastWrite = (props: Props) => {
   >([]);
 
   // ----------- 보낸 견적 상세 페이지 api --------------
-  // const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
-  //   'company/',
-  //   () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
-  //   {
-  //     enabled: router.isReady,
-  //     // enabled: false,
-  //   },
-  // );
+  const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
+    'company/',
+    () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
 
   const mutateData: MutateData = {
     quotationRequestIdx: 57, // 간편견적 인덱스
@@ -238,6 +238,17 @@ const LastWrite = (props: Props) => {
       />
     ),
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    console.log('🔥 ~line 249 ~에러 발생');
+    console.log(error);
+  }
+  console.log('🔥 ~line 108 data check');
+  console.log(data);
   return (
     <>
       {tabNumber >= 0 && (
