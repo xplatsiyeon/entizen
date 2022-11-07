@@ -98,7 +98,7 @@ const FirstStep = ({
         channel: '',
         count: '',
         chargePriceType: '',
-        chargePrice: '',
+        chargePrice: 0,
         installationLocation: '',
         modelName: '',
         manufacturer: '',
@@ -161,9 +161,13 @@ const FirstStep = ({
   // 충전기 종류 및 수량 마이너스
   const onClickMinus = (index: number) => {
     const copy = [...selectedOption];
+    const copyEn = [...selectedOptionEn];
 
     copy.splice(index, 1);
+    copyEn.splice(index, 1);
+
     setSelectedOption(copy);
+    setSelectedOptionEn(copyEn);
     // dispatch(finalQuotationAction.removeChargeStep(index));
   };
   // 충전기 종류 및 수량 추가
@@ -176,7 +180,7 @@ const FirstStep = ({
       channel: '',
       count: '',
       chargePriceType: '',
-      chargePrice: '',
+      chargePrice: 0,
       installationLocation: '',
       modelName: '',
       manufacturer: '',
@@ -221,9 +225,8 @@ const FirstStep = ({
   ]);
 
   useEffect(() => {
-    console.log(selectedOption);
     console.log(selectedOptionEn);
-  }, [selectedOption, selectedOptionEn]);
+  }, [selectedOptionEn]);
 
   return (
     <Wrapper>

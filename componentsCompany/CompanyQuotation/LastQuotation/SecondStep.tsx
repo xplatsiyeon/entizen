@@ -182,7 +182,7 @@ const SecondStep = ({
 
     temp[tabNumber - 1] = {
       ...temp[tabNumber - 1],
-      chargePrice: inputPriceFormat(value),
+      chargePrice: Number(value),
     };
     setSelectedOptionEn(temp);
   };
@@ -306,38 +306,6 @@ const SecondStep = ({
     };
     setSelectedOptionEn(temp);
   };
-  // const storeChargeData = () => {
-  //   dispatch(
-  //     finalQuotationAction.addChargeStep2({
-  //       idx: tabNumber - 1,
-  //       chargePriceType: chargeTypeListEn[chargeTypeNumber] as ChargePriceType,
-  //       chargePrice: Number(fee.replaceAll(',', '')),
-  //       installationLocation: chargeLocationTypeListEn[
-  //         chargeLocationTypeNumber
-  //       ] as InstallationLocation,
-  //       modelName: productItem,
-  //       manufacturer: manufacturingCompany,
-  //       productFeature: chargeFeatures,
-  //       chargerImageFiles: imgArr,
-  //       catalogFiles: fileArr,
-  //     }),
-  //   );
-  //   dispatch(
-  //     finalQuotationAction.addChargeKoStep2({
-  //       idx: tabNumber - 1,
-  //       chargePriceType: chargeTypeList[chargeTypeNumber] as ChargePriceType,
-  //       chargePrice: Number(fee.replaceAll(',', '')),
-  //       installationLocation: chargeLocationTypeList[
-  //         chargeLocationTypeNumber
-  //       ] as InstallationLocation,
-  //       modelName: productItem,
-  //       manufacturer: manufacturingCompany,
-  //       productFeature: chargeFeatures,
-  //       chargerImageFiles: imgArr,
-  //       catalogFiles: fileArr,
-  //     }),
-  //   );
-  // };
   // 이전 버튼
   const handlePrevBtn = () => {
     if (tabNumber > 0) {
@@ -473,6 +441,7 @@ const SecondStep = ({
               <Input
                 onChange={onChangeInput}
                 placeholder="0"
+                // value={selectedOptionEn[tabNumber - 1].chargePrice}
                 value={selectedOptionEn[tabNumber - 1].chargePrice}
                 name="subscribeMoney"
                 inputProps={{
