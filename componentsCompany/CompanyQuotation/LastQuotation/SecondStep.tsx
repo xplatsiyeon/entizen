@@ -108,9 +108,10 @@ const SecondStep = ({
       console.log(res);
 
       const temp = [...selectedOption];
-      const newArr = temp[tabNumber - 1].chargerImageFiles;
+      const newArr = [...temp[tabNumber - 1].chargerImageFiles];
       console.log(newArr);
       res?.uploadedFiles.forEach((img) => {
+        console.log(img);
         newArr.push({
           url: img.url,
           size: img.size,
