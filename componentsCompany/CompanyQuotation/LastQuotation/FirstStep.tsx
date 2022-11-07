@@ -162,10 +162,8 @@ const FirstStep = ({
   const onClickMinus = (index: number) => {
     const copy = [...selectedOption];
     const copyEn = [...selectedOptionEn];
-
     copy.splice(index, 1);
     copyEn.splice(index, 1);
-
     setSelectedOption(copy);
     setSelectedOptionEn(copyEn);
     // dispatch(finalQuotationAction.removeChargeStep(index));
@@ -225,6 +223,7 @@ const FirstStep = ({
   ]);
 
   useEffect(() => {
+    console.log('🔥 ~line 226 ~selectedOptionEn data check');
     console.log(selectedOptionEn);
   }, [selectedOptionEn]);
 

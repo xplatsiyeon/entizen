@@ -43,8 +43,6 @@ const ThirdStep = ({
   BusinessRegistration,
   setBusinessRegistration,
 }: Props) => {
-  console.log('🔥 ~line 46 ~ mutateData check');
-  console.log(mutateData);
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
 

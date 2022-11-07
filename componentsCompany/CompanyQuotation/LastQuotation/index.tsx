@@ -257,8 +257,6 @@ const LastWrite = (props: Props) => {
     console.log('🔥 ~line 249 ~에러 발생');
     console.log(error);
   }
-  console.log('🔥 ~line 108 data check');
-  console.log(data);
   return (
     <>
       {tabNumber >= 0 && (
