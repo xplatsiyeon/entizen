@@ -11,7 +11,7 @@ type Props = {
   option: string[];
   onClickCharger?: (item: string, name: string, index: number) => void;
   onClickEvent?: (item: string) => void;
-  name: string;
+  name?: string;
   index?: number;
   fontSize?: FontSize;
 };
@@ -32,7 +32,7 @@ const SelectComponents = ({
 
   const onClickOtion = async (item: string) => {
     if (onClickCharger) {
-      onClickCharger(item, name, index!);
+      onClickCharger(item, name!, index!);
     }
     if (onClickEvent) {
       onClickEvent(item);

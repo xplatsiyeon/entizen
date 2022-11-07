@@ -235,7 +235,13 @@ const FirstStep = ({
       <InputBox>
         <div className="withAfter">구독상품</div>
         <SelectContainer>
-          <SelectBox
+          <SelectComponents
+            value={subscribeProduct}
+            option={subScribe}
+            placeholder="구독 종류"
+            onClickEvent={(e: any) => setSubscribeProduct(e.target.value)}
+          />
+          {/* <SelectBox
             value={subscribeProduct}
             onChange={(e: any) => setSubscribeProduct(e.target.value)}
             IconComponent={SelectIcon}
@@ -250,7 +256,7 @@ const FirstStep = ({
                 {el}
               </MenuItem>
             ))}
-          </SelectBox>
+          </SelectBox> */}
         </SelectContainer>
       </InputBox>
       <InputBox>
