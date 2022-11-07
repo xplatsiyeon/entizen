@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { MenuItem, Select, TextField } from '@mui/material';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   M5_LIST,
@@ -12,7 +12,6 @@ import {
   M8_LIST,
   M8_LIST_EN,
 } from 'assets/selectList';
-import { chargerData } from 'storeCompany/myQuotation';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import colors from 'styles/colors';
 import { M5_CHANNEL_SET, M5_TYPE_SET } from 'assets/selectList';
@@ -22,14 +21,13 @@ import Image from 'next/image';
 import { inputPriceFormat } from 'utils/calculatePackage';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { chargers, finalQuotationAction } from 'storeCompany/finalQuotation';
+import { chargers } from 'storeCompany/finalQuotation';
 import SelectComponents from 'components/Select';
 import { SubscribeProduct } from 'componentsCompany/CompanyQuotation/LastQuotation/index';
 
 type Props = {
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
-
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   subscribeProduct: SubscribeProduct;
@@ -82,10 +80,6 @@ const FirstStep = ({
   subscribeProductFeature,
   setSubscribeProductFeature,
 }: Props) => {
-  const dispatch = useDispatch();
-  const { companyFinalQuotationData } = useSelector(
-    (state: RootState) => state,
-  );
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
     let copy: chargers[] = [...selectedOption];
@@ -123,7 +117,6 @@ const FirstStep = ({
       // 타입
     } else if (copy[index].kind.length > 1 && name === 'standType') {
       const idx = M6_LIST.indexOf(value);
-      // console.log('index -> ' + idx);
       if (value === '-') {
         valueEn = '';
       } else {
@@ -199,20 +192,6 @@ const FirstStep = ({
   // 다음 버튼 클릭
   const buttonOnClick = () => {
     if (canNext) {
-      dispatch(
-        finalQuotationAction.addFirstStep({
-          subscribeProduct: subscribeProduct,
-          subscribePeriod: Number(subscribePeriod),
-          userInvestRate: Number(profitableInterestUser),
-          chargingPointRate: Number(chargePoint),
-          subscribePricePerMonth: Number(
-            subscribePricePerMonth.replaceAll(',', ''),
-          ),
-          chargers: selectedOptionEn,
-          chargersKo: selectedOption,
-        }),
-      );
-
       setTabNumber(tabNumber + 1);
     }
   };
@@ -365,25 +344,6 @@ const FirstStep = ({
                 </div>
               )}
             </SubTitle>
-            {/* 충전기 종류 옵션 박스 */}
-            {/* <SelectBox
-              value={item.kind}
-              name="kind"
-              onChange={(event) => handleSelectBox(event, index)}
-              IconComponent={SelectIcon}
-              displayEmpty
-            >
-    
-              <MenuItem value="">
-                <Placeholder>충전기 종류</Placeholder>
-              </MenuItem>
-
-              {M5_LIST.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </SelectBox> */}
             <SelectComponents
               value={item.kind}
               option={M5_LIST}
@@ -392,57 +352,6 @@ const FirstStep = ({
               index={index}
               onClickCharger={handleSelectBox}
             />
-            {/* 타입,채널,수량 옵션 박스
-            <SelectContainer>
-              <SelectSmall
-                value={item.standType}
-                name="standType"
-                onChange={(event) => handleChange(event, index)}
-                displayEmpty
-                IconComponent={SelectIcon}
-              >
-                <MenuItem value="">
-                  <Placeholder>타입</Placeholder>
-                </MenuItem>
-                {M5_TYPE_SET[item.idx!].map((option, index) => (
-                  <MenuItem key={index} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </SelectSmall>
-              <SelectSmall
-                value={item.channel}
-                name="channel"
-                onChange={(event) => handleChange(event, index)}
-                IconComponent={SelectIcon}
-                displayEmpty
-              >
-                <MenuItem value="">
-                  <Placeholder>채널</Placeholder>
-                </MenuItem>
-                {M5_CHANNEL_SET[item.idx!].map((option, index) => (
-                  <MenuItem key={index} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </SelectSmall>
-              <SelectSmall
-                value={item.count}
-                name="count"
-                onChange={(event) => handleChange(event, index)}
-                IconComponent={SelectIcon}
-                displayEmpty
-              >
-                <MenuItem value="">
-                  <Placeholder>수량</Placeholder>
-                </MenuItem>
-                {M8_LIST.map((option, index) => (
-                  <MenuItem key={index} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </SelectSmall>
-            </SelectContainer> */}
             {/* 타입,채널,수량 옵션 박스 */}
             <SelectComponentsContainer>
               <SelectComponents

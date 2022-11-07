@@ -16,7 +16,7 @@ import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { chargerData } from 'storeCompany/myQuotation';
 import { useMutation } from 'react-query';
-import { isTokenPostApi, multerApi } from 'api';
+import { multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
