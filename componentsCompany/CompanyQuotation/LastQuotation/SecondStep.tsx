@@ -87,7 +87,7 @@ const SecondStep = ({
     'LECS-004ADE',
   ];
   // const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
-  const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
+  // const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
@@ -143,7 +143,8 @@ const SecondStep = ({
     onSuccess: (res) => {
       console.log(TAG + ' 👀 ~ line 128 multer onSuccess');
       console.log(res);
-      const newFile = [...fileArr];
+      const temp = [...selectedOption];
+      const newFile = [...temp[tabNumber - 1].catalogFiles];
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
           url: img.url,
@@ -151,7 +152,11 @@ const SecondStep = ({
           originalName: decodeURIComponent(img.originalName),
         });
       });
-      setFileArr(newFile);
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        chargerImageFiles: newFile,
+      };
+      setSelectedOption(temp);
     },
     onError: (error: any) => {
       if (error.response.data.message) {
@@ -327,11 +332,12 @@ const SecondStep = ({
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [...fileArr];
+    const temp = [...selectedOption];
+    const copyArr = temp[tabNumber - 1].catalogFiles;
     for (let i = 0; i < copyArr.length; i++) {
       if (i === name) {
         copyArr.splice(i, 1);
-        return setFileArr(copyArr);
+        return setSelectedOption(temp);
       }
     }
   };
@@ -660,28 +666,34 @@ const SecondStep = ({
 
             {/* <File_Preview> */}
             <div className="file-preview">
-              {fileArr?.map((item, index) => (
-                <FileBox key={index} data-name={index}>
-                  <div className="file">
-                    <div className="file-img">
-                      <Image src={FileText} alt="file-icon" />
+              {selectedOption[tabNumber - 1].catalogFiles?.map(
+                (item, index) => (
+                  <FileBox key={index} data-name={index}>
+                    <div className="file">
+                      <div className="file-img">
+                        <Image src={FileText} alt="file-icon" />
+                      </div>
+                      <div className="file-data">
+                        <span className="file-name">{item.originalName}</span>
+                        <span className="file-size">{`용량 ${getByteSize(
+                          item.size,
+                        )}`}</span>
+                      </div>
+                      <div
+                        className="file-exit"
+                        onClick={handleFileDelete}
+                        data-name={index}
+                      >
+                        <Image
+                          src={CloseImg}
+                          data-name={index}
+                          alt="closeBtn"
+                        />
+                      </div>
                     </div>
-                    <div className="file-data">
-                      <span className="file-name">{item.originalName}</span>
-                      <span className="file-size">{`용량 ${getByteSize(
-                        item.size,
-                      )}`}</span>
-                    </div>
-                    <div
-                      className="file-exit"
-                      onClick={handleFileDelete}
-                      data-name={index}
-                    >
-                      <Image src={CloseImg} data-name={index} alt="closeBtn" />
-                    </div>
-                  </div>
-                </FileBox>
-              ))}
+                  </FileBox>
+                ),
+              )}
             </div>
           </PhotosBoxs>
         </RemainderInputBoxs>
