@@ -3,7 +3,14 @@ import { SelectedOption } from 'components/quotation/request/FirstStep';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Option } from 'store/quotationSlice';
-import { chargers } from 'storeCompany/finalQuotation';
+import {
+  ChargePriceType,
+  charger,
+  chargerData,
+  chargers,
+  DetailQuotationFiles,
+  InstallationLocation,
+} from 'storeCompany/finalQuotation';
 // import { chargerData } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
 import { BusinessRegistrationType } from 'components/SignUp';
@@ -46,8 +53,7 @@ const LastWrite = (props: Props) => {
   const [canNext, SetCanNext] = useState<boolean>(false);
   // step 1
   // 구독상품
-  const [subscribeProduct, setSubscribeProduct] =
-    useState<SubscribeProduct>('');
+  const [subscribeProduct, setSubscribeProduct] = useState<string>('');
   // 구독기간
   const [subscribePeriod, setSubscribePeriod] = useState('');
   // 고객 퍼센트
@@ -66,7 +72,7 @@ const LastWrite = (props: Props) => {
       channel: '',
       count: '',
       chargePriceType: '',
-      chargePrice: 0,
+      chargePrice: '',
       installationLocation: '',
       modelName: '',
       manufacturer: '',
@@ -83,7 +89,7 @@ const LastWrite = (props: Props) => {
       channel: '',
       count: '',
       chargePriceType: '',
-      chargePrice: 0,
+      chargePrice: '',
       installationLocation: '',
       modelName: '',
       manufacturer: '',
@@ -109,9 +115,22 @@ const LastWrite = (props: Props) => {
     'company/',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
     {
-      enabled: router.isReady,
+      // enabled: router.isReady,
+      enabled: false,
     },
   );
+
+  // const temp = [...selectedOptionEn];
+
+  // temp.map((e) => {
+  //   Number(e.chargePrice.replaceAll(',', ''));
+  //   console.log(Number(e.chargePrice.replaceAll(',', '')));
+  //   e.chargePrice = Number(e.chargePrice.replaceAll(',', ''));
+  // });
+  // console.log(temp);
+
+  // Number(e.chargePrice.replaceAll(',', '')));
+  // console.log(temp);
 
   const mutateData: MutateData = {
     quotationRequestIdx:
@@ -126,7 +145,7 @@ const LastWrite = (props: Props) => {
     userInvestRate: Number(profitableInterestUser) / 100 + '', // 사용자 수익 비율
     chargingPointRate: Number(chargePoint) / 100 + '', // chargingPoint - (1 - userInvestRate)
     subscribePricePerMonth: Number(subscribePricePerMonth.replaceAll(',', '')), // 월 구독료
-    chargers: selectedOptionEn, // 충전기
+    chargers: selectedOptionEn,
     detailQuotationFiles: BusinessRegistration, // 상세 견적서 파일
     constructionPeriod: constructionPeriod,
     spotInspectionResult: dueDiligenceResult,

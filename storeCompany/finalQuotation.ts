@@ -26,7 +26,7 @@ export type ChargePriceType =
 export interface chargers extends charger {
   // 충전 요금 타입
   chargePriceType: ChargePriceType;
-  chargePrice: number; // 충전 요금 타입
+  chargePrice: string; // 충전 요금 타입
   installationLocation: InstallationLocation; // 설치 위치
   modelName: chargerData; // 모델명
   manufacturer: string; // 제조사
@@ -34,6 +34,7 @@ export interface chargers extends charger {
   chargerImageFiles: DetailQuotationFiles[]; // 충전기 이미지 파일
   catalogFiles: DetailQuotationFiles[]; // 카탈로그 파일
 }
+
 export interface FirstStep {
   subscribeProduct: string; // 구독상품
   subscribePeriod: number; // 구독기간
@@ -46,7 +47,7 @@ export interface FirstStep {
 export interface SeccondStep {
   idx?: number;
   chargePriceType: ChargePriceType;
-  chargePrice: number; // 충전 요금 타입
+  chargePrice: string; // 충전 요금 타입
   installationLocation: InstallationLocation; // 설치 위치
   modelName: chargerData; // 모델명
   manufacturer: string; // 제조사
@@ -72,7 +73,7 @@ const initialState: FinalQuotation = {
       channel: '',
       count: '',
       chargePriceType: '',
-      chargePrice: 0,
+      chargePrice: '',
       installationLocation: '',
       modelName: '',
       manufacturer: '',
@@ -88,7 +89,7 @@ const initialState: FinalQuotation = {
       channel: '',
       count: '',
       chargePriceType: '',
-      chargePrice: 0,
+      chargePrice: '',
       installationLocation: '',
       modelName: '',
       manufacturer: '',

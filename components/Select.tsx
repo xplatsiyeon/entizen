@@ -37,7 +37,6 @@ const SelectComponents = ({
     if (onClickEvent) {
       onClickEvent(item);
     }
-
     await HandleOption();
   };
 

@@ -27,8 +27,8 @@ type Props = {
   setTabNumber: Dispatch<SetStateAction<number>>;
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
-  subscribeProduct: SubscribeProduct;
-  setSubscribeProduct: Dispatch<SetStateAction<SubscribeProduct>>;
+  subscribeProduct: string;
+  setSubscribeProduct: Dispatch<SetStateAction<string>>;
   subscribePeriod: string;
   setSubscribePeriod: Dispatch<SetStateAction<string>>;
   profitableInterestUser: string;
@@ -49,8 +49,8 @@ type Props = {
   setSubscribeProductFeature: Dispatch<SetStateAction<string>>;
 };
 const subScribe = ['전체구독', '부분구독'];
-const subscribeType: string[] = ['24', '36', '48', '60'];
 
+const subscribeType: string[] = ['24 개월', '36 개월', '48 개월', '60 개월'];
 const FirstStep = ({
   tabNumber,
   setTabNumber,
@@ -94,7 +94,7 @@ const FirstStep = ({
         channel: '',
         count: '',
         chargePriceType: '',
-        chargePrice: 0,
+        chargePrice: '',
         installationLocation: '',
         modelName: '',
         manufacturer: '',
@@ -173,7 +173,7 @@ const FirstStep = ({
       channel: '',
       count: '',
       chargePriceType: '',
-      chargePrice: 0,
+      chargePrice: '',
       installationLocation: '',
       modelName: '',
       manufacturer: '',
@@ -184,6 +184,14 @@ const FirstStep = ({
     setSelectedOption(temp);
     setSelectedOptionEn(temp);
     // dispatch(finalQuotationAction.addChargeStep());
+  };
+  // 구독상품 온체인지
+  const handleChangeProduct = (value: string) => {
+    setSubscribeProduct(value);
+  };
+  // 구독기간 온체인지
+  const handleChangePeriod = (value: string) => {
+    setSubscribePeriod(value);
   };
 
   // 다음 버튼 클릭
@@ -239,45 +247,19 @@ const FirstStep = ({
             value={subscribeProduct}
             option={subScribe}
             placeholder="구독 종류"
-            onClickEvent={(e: any) => setSubscribeProduct(e.target.value)}
+            onClickEvent={handleChangeProduct}
           />
-          {/* <SelectBox
-            value={subscribeProduct}
-            onChange={(e: any) => setSubscribeProduct(e.target.value)}
-            IconComponent={SelectIcon}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>구독 종류</Placeholder>
-            </MenuItem>
-
-            {subScribe.map((el, index) => (
-              <MenuItem key={index} value={el}>
-                {el}
-              </MenuItem>
-            ))}
-          </SelectBox> */}
         </SelectContainer>
       </InputBox>
       <InputBox>
         <div className="withAfter">구독기간</div>
         <SelectContainer>
-          <SelectBox
+          <SelectComponents
             value={subscribePeriod}
-            onChange={(e: any) => setSubscribePeriod(e.target.value)}
-            IconComponent={SelectIcon}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>구독 종류</Placeholder>
-            </MenuItem>
-
-            {subscribeType.map((el, index) => (
-              <MenuItem key={index} value={el}>
-                {el}
-              </MenuItem>
-            ))}
-          </SelectBox>
+            option={subscribeType}
+            placeholder="구독 기간"
+            onClickEvent={handleChangePeriod}
+          />
         </SelectContainer>
       </InputBox>
       <InputBox>
@@ -293,6 +275,7 @@ const FirstStep = ({
                 type="number"
                 placeholder="0"
                 name="subscribeMoney"
+                // minlength={}
               />
               <div className="percent">%</div>
             </SmallInputBox>

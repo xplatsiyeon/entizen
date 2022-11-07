@@ -23,6 +23,7 @@ import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { chargers } from 'storeCompany/finalQuotation';
+import SelectComponents from 'components/Select';
 
 type Props = {
   tabNumber: number;
@@ -182,7 +183,7 @@ const SecondStep = ({
 
     temp[tabNumber - 1] = {
       ...temp[tabNumber - 1],
-      chargePrice: Number(value),
+      chargePrice: inputPriceFormat(value),
     };
     setSelectedOptionEn(temp);
   };
@@ -298,11 +299,11 @@ const SecondStep = ({
     }
   };
   // 셀렉트 박스 클릭
-  const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
+  const onChangeSelectBox = (value: string) => {
     const temp = [...selectedOptionEn];
     temp[tabNumber - 1] = {
       ...temp[tabNumber - 1],
-      modelName: e.target.value as chargerData,
+      modelName: value as chargerData,
     };
     setSelectedOptionEn(temp);
   };
@@ -339,7 +340,21 @@ const SecondStep = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOptionEn]);
-
+  // 충전요금 초기화
+  useEffect(() => {
+    if (
+      selectedOptionEn[tabNumber - 1].chargePriceType ===
+        'PURCHASER_AUTONOMY' &&
+      selectedOptionEn[tabNumber - 1].chargePrice !== ''
+    ) {
+      const temp = [...selectedOptionEn];
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        chargePrice: '',
+      };
+      setSelectedOptionEn(temp);
+    }
+  }, [selectedOptionEn]);
   return (
     <>
       {/* 에러 모달 */}
@@ -419,22 +434,12 @@ const SecondStep = ({
           <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
         </TopBox>
         <SelectContainer>
-          <SelectBox
+          <SelectComponents
             value={selectedOptionEn[tabNumber - 1].modelName}
-            onChange={onChangeSelectBox}
-            IconComponent={SelectIcon}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>충전기 종류</Placeholder>
-            </MenuItem>
-
-            {chargerData.map((el, index) => (
-              <MenuItem key={index} value={el}>
-                {el}
-              </MenuItem>
-            ))}
-          </SelectBox>
+            option={chargerData}
+            placeholder="구충전기 종류"
+            onClickEvent={onChangeSelectBox}
+          />
         </SelectContainer>
         <BottomInputBox>
           <div className="withAfter">제조사</div>
@@ -810,6 +815,7 @@ const SelectContainer = styled.div`
   width: 100%;
   display: flex;
   gap: 8.25pt;
+  margin-top: 9pt;
 `;
 const SelectBox = styled(Select)`
   width: 100%;
