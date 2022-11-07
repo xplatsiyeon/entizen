@@ -107,7 +107,7 @@ const SecondStep = ({
       console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
 
       const temp = [...selectedOption];
-      const newArr = temp[tabNumber - 1].chargerImageFiles;
+      const newArr = [...temp[tabNumber - 1].chargerImageFiles];
       res?.uploadedFiles.forEach((img) => {
         newArr.push({
           url: img.url,
