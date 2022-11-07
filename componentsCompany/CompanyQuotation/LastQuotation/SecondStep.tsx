@@ -154,7 +154,7 @@ const SecondStep = ({
       });
       temp[tabNumber - 1] = {
         ...temp[tabNumber - 1],
-        chargerImageFiles: newFile,
+        catalogFiles: newFile,
       };
       setSelectedOption(temp);
     },
