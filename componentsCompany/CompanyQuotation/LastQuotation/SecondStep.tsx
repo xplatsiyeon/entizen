@@ -1,11 +1,5 @@
 import styled from '@emotion/styled';
-import {
-  containerClasses,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from '@mui/material';
+import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import React, {
   Dispatch,
   SetStateAction,
@@ -18,12 +12,8 @@ import colors from 'styles/colors';
 import Image from 'next/image';
 import camera from 'public/images/gray_camera.png';
 import CloseImg from 'public/images/XCircle.svg';
-import { BusinessRegistrationType } from 'components/SignUp';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
-import { useDispatch } from 'react-redux';
 import { chargerData } from 'storeCompany/myQuotation';
 import { useMutation } from 'react-query';
 import { isTokenPostApi, multerApi } from 'api';
@@ -32,17 +22,11 @@ import Modal from 'components/Modal/Modal';
 import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
-import {
-  ChargePriceType,
-  chargers,
-  finalQuotationAction,
-  InstallationLocation,
-} from 'storeCompany/finalQuotation';
+import { chargers } from 'storeCompany/finalQuotation';
 
 type Props = {
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
-
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   maxIndex: number | undefined;
@@ -62,13 +46,11 @@ const SecondStep = ({
   canNext,
   SetCanNext,
   routerId,
-  selectedOption,
-  setSelectedOption,
+
   selectedOptionEn,
   setSelectedOptionEn,
 }: Props) => {
   // 사진을 위한 ref
-  const dispatch = useDispatch();
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -86,16 +68,10 @@ const SecondStep = ({
     'LECS-005ADE',
     'LECS-004ADE',
   ];
-  // const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
-  // const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  // 리덕스
-  const { chargersKo, chargers } = useSelector(
-    (state: RootState) => state.companyFinalQuotationData,
-  );
 
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -106,7 +82,7 @@ const SecondStep = ({
     onSuccess: (res) => {
       console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
 
-      const temp = [...selectedOption];
+      const temp = [...selectedOptionEn];
       const newArr = [...temp[tabNumber - 1].chargerImageFiles];
       res?.uploadedFiles.forEach((img) => {
         newArr.push({
@@ -119,7 +95,7 @@ const SecondStep = ({
         ...temp[tabNumber - 1],
         chargerImageFiles: newArr,
       };
-      setSelectedOption(temp);
+      setSelectedOptionEn(temp);
     },
     onError: (error: any) => {
       if (error.response.data.message) {
@@ -143,7 +119,7 @@ const SecondStep = ({
     onSuccess: (res) => {
       console.log(TAG + ' 👀 ~ line 128 multer onSuccess');
       console.log(res);
-      const temp = [...selectedOption];
+      const temp = [...selectedOptionEn];
       const newFile = [...temp[tabNumber - 1].catalogFiles];
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
@@ -156,7 +132,7 @@ const SecondStep = ({
         ...temp[tabNumber - 1],
         catalogFiles: newFile,
       };
-      setSelectedOption(temp);
+      setSelectedOptionEn(temp);
     },
     onError: (error: any) => {
       if (error.response.data.message) {
@@ -202,7 +178,7 @@ const SecondStep = ({
   // 충전요금 탭
   const onClickCharge = (index: number) => {
     console.log('클릭');
-    const temp = [...selectedOption];
+    const temp = [...selectedOptionEn];
     if (index === 0) {
       temp[tabNumber - 1] = {
         ...temp[tabNumber - 1],
@@ -215,23 +191,23 @@ const SecondStep = ({
         chargePriceType: 'OPERATION_BUSINESS_CARRIER_INPUT',
       };
     }
-    setSelectedOption(temp);
+    setSelectedOptionEn(temp);
   };
   // 충전요금 금액 변경
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const temp = [...selectedOption];
+    const temp = [...selectedOptionEn];
 
     temp[tabNumber - 1] = {
       ...temp[tabNumber - 1],
       chargePrice: inputPriceFormat(value),
     };
-    setSelectedOption(temp);
+    setSelectedOptionEn(temp);
   };
   // 충전기 설치 위치 탭
   const onClickLocation = (index: number) => {
     console.log('클릭 로케이션');
-    const temp = [...selectedOption];
+    const temp = [...selectedOptionEn];
     if (index === 0) {
       temp[tabNumber - 1] = {
         ...temp[tabNumber - 1],
@@ -244,33 +220,33 @@ const SecondStep = ({
         installationLocation: 'INSIDE',
       };
     }
-    setSelectedOption(temp);
+    setSelectedOptionEn(temp);
   };
   // 제조사 이름 변경
   const onChangeManufacturer = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const temp = [...selectedOption];
+    const temp = [...selectedOptionEn];
 
     temp[tabNumber - 1] = {
       ...temp[tabNumber - 1],
       manufacturer: value,
     };
 
-    setSelectedOption(temp);
+    setSelectedOptionEn(temp);
   };
   // 충전기 특장점 변경
   const onChangeProductFeature = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     const { value } = e.target;
-    const temp = [...selectedOption];
+    const temp = [...selectedOptionEn];
 
     temp[tabNumber - 1] = {
       ...temp[tabNumber - 1],
       productFeature: value,
     };
 
-    setSelectedOption(temp);
+    setSelectedOptionEn(temp);
   };
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -284,9 +260,7 @@ const SecondStep = ({
     // max길이 보다 짧으면 멈춤
     const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
-      if (files![i] === undefined) {
-        break;
-      }
+      if (files![i] === undefined) break;
       formData.append(
         'chargerProduct',
         files![i],
@@ -298,12 +272,12 @@ const SecondStep = ({
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
-    const temp = [...selectedOption];
+    const temp = [...selectedOptionEn];
     const copyArr = temp[tabNumber - 1].chargerImageFiles;
     for (let i = 0; i < copyArr.length; i++) {
       if (i === name) {
         copyArr.splice(i, 1);
-        return setSelectedOption(temp);
+        return setSelectedOptionEn(temp);
       }
     }
   };
@@ -332,25 +306,24 @@ const SecondStep = ({
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
-    const temp = [...selectedOption];
+    const temp = [...selectedOptionEn];
     const copyArr = temp[tabNumber - 1].catalogFiles;
     for (let i = 0; i < copyArr.length; i++) {
       if (i === name) {
         copyArr.splice(i, 1);
-        return setSelectedOption(temp);
+        return setSelectedOptionEn(temp);
       }
     }
   };
   // 셀렉트 박스 클릭
   const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
-    const temp = [...selectedOption];
+    const temp = [...selectedOptionEn];
     temp[tabNumber - 1] = {
       ...temp[tabNumber - 1],
       modelName: e.target.value as chargerData,
     };
-    setSelectedOption(temp);
+    setSelectedOptionEn(temp);
   };
-  // 이전, 다음 버튼 리덕스 데이터 처리
   // const storeChargeData = () => {
   //   dispatch(
   //     finalQuotationAction.addChargeStep2({
@@ -383,44 +356,46 @@ const SecondStep = ({
   //     }),
   //   );
   // };
-  // // 이전 버튼
-  // const handlePrevBtn = () => {
-  //   if (tabNumber > 0) {
-  //     storeChargeData();
-  //     setTabNumber(tabNumber - 1);
-  //   }
-  // };
+  // 이전 버튼
+  const handlePrevBtn = () => {
+    if (tabNumber > 0) {
+      setTabNumber(tabNumber - 1);
+    }
+  };
   // 다음 버튼
-  // const handleNextBtn = () => {
-  //   if (canNext) {
-  //     if (tabNumber < maxIndex!) {
-  //       storeChargeData();
-  //       setTabNumber(tabNumber + 1);
-  //     } else {
-  //       storeChargeData();
-  //       setTabNumber(6);
-  //     }
-  //   }
-  // };
+  const handleNextBtn = () => {
+    if (canNext) {
+      if (tabNumber < maxIndex!) {
+        setTabNumber(tabNumber + 1);
+      } else {
+        setTabNumber(6);
+      }
+    }
+  };
 
   // 다음버튼 유효성 검사
-  // useEffect(() => {
-  //   if (chargeTypeNumber === 0 && manufacturingCompany !== '') {
-  //     SetCanNext(true);
-  //   } else if (
-  //     chargeTypeNumber === 1 &&
-  //     manufacturingCompany !== '' &&
-  //     fee !== ''
-  //   ) {
-  //     SetCanNext(true);
-  //   } else {
-  //     SetCanNext(false);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [chargeTypeNumber, fee, manufacturingCompany]);
+  useEffect(() => {
+    SetCanNext(false);
+    const target = selectedOptionEn[tabNumber - 1];
+    if (target.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT') {
+      if (
+        target.installationLocation &&
+        target.manufacturer &&
+        target.chargePrice
+      )
+        SetCanNext(true);
+    }
+    if (target.chargePriceType === 'PURCHASER_AUTONOMY') {
+      if (target.installationLocation && target.manufacturer) SetCanNext(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOptionEn]);
   // 상태 업데이트 및 초기화 (with 리덕스)
-  useEffect(() => {}, []);
-  // useEffect(() => {
+  useEffect(() => {
+    console.log(selectedOptionEn);
+    console.log(tabNumber - 1);
+  }, [tabNumber - 1, selectedOptionEn]);
+
   //   const target = chargers[tabNumber - 1];
   //   console.log(TAG + 'target 확인');
   //   console.log(tabNumber - 1);
@@ -477,9 +452,9 @@ const SecondStep = ({
   // //   }
   // // }, [chargeTypeNumber]);
 
-  useEffect(() => {
-    console.log(selectedOption);
-  }, [selectedOption]);
+  // useEffect(() => {
+  //   console.log(selectedOptionEn);
+  // }, [selectedOptionEn]);
   return (
     <>
       {/* 에러 모달 */}
@@ -502,7 +477,7 @@ const SecondStep = ({
                 onClick={() => onClickCharge(index)}
                 className={
                   chargeTypeListEn[index] ===
-                  selectedOption[tabNumber - 1].chargePriceType
+                  selectedOptionEn[tabNumber - 1].chargePriceType
                     ? 'selected'
                     : ''
                 }
@@ -516,11 +491,11 @@ const SecondStep = ({
               <Input
                 onChange={onChangeInput}
                 placeholder="0"
-                value={selectedOption[tabNumber - 1].chargePrice}
+                value={selectedOptionEn[tabNumber - 1].chargePrice}
                 name="subscribeMoney"
                 inputProps={{
                   readOnly:
-                    selectedOption[tabNumber - 1].chargePriceType ===
+                    selectedOptionEn[tabNumber - 1].chargePriceType ===
                     'PURCHASER_AUTONOMY'
                       ? true
                       : false,
@@ -539,7 +514,7 @@ const SecondStep = ({
                 onClick={() => onClickLocation(index)}
                 className={
                   chargeLocationTypeListEn[index] ===
-                  selectedOption[tabNumber - 1].installationLocation
+                  selectedOptionEn[tabNumber - 1].installationLocation
                     ? 'selected'
                     : ''
                 }
@@ -560,7 +535,7 @@ const SecondStep = ({
         </TopBox>
         <SelectContainer>
           <SelectBox
-            value={selectedOption[tabNumber - 1].modelName}
+            value={selectedOptionEn[tabNumber - 1].modelName}
             onChange={onChangeSelectBox}
             IconComponent={SelectIcon}
             displayEmpty
@@ -581,7 +556,7 @@ const SecondStep = ({
           <div>
             <Inputs
               onChange={onChangeManufacturer}
-              value={selectedOption[tabNumber - 1].manufacturer}
+              value={selectedOptionEn[tabNumber - 1].manufacturer}
               name="constructionPeriod"
             />
           </div>
@@ -591,7 +566,7 @@ const SecondStep = ({
           <div>
             <TextArea
               onChange={onChangeProductFeature}
-              value={selectedOption[tabNumber - 1].productFeature}
+              value={selectedOptionEn[tabNumber - 1].productFeature}
               name="firstPageTextArea"
               placeholder="선택 입력사항"
               rows={7}
@@ -613,7 +588,7 @@ const SecondStep = ({
               multiple
             />
             {/* <Preview> */}
-            {selectedOption[tabNumber - 1].chargerImageFiles?.map(
+            {selectedOptionEn[tabNumber - 1].chargerImageFiles?.map(
               (item, index) => (
                 <ImgSpan key={index} data-name={index}>
                   <Image
@@ -666,7 +641,7 @@ const SecondStep = ({
 
             {/* <File_Preview> */}
             <div className="file-preview">
-              {selectedOption[tabNumber - 1].catalogFiles?.map(
+              {selectedOptionEn[tabNumber - 1].catalogFiles?.map(
                 (item, index) => (
                   <FileBox key={index} data-name={index}>
                     <div className="file">
@@ -699,10 +674,10 @@ const SecondStep = ({
         </RemainderInputBoxs>
       </SecondWrapper>
       <TwoBtn>
-        {/* <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn> */}
-        <PrevBtn>이전</PrevBtn>
-        {/* <NextBtn canNext={canNext} onClick={handleNextBtn}> */}
-        <NextBtn canNext={canNext}>다음</NextBtn>
+        <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
+        <NextBtn canNext={canNext} onClick={handleNextBtn}>
+          다음
+        </NextBtn>
       </TwoBtn>
     </>
   );

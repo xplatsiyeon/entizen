@@ -7,7 +7,15 @@ import colors from 'styles/colors';
 import CloseImg from 'public/images/XCircle.svg';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
+import { multerApi } from 'api';
+import { useMutation } from 'react-query';
+import { chargers } from 'storeCompany/finalQuotation';
+import Modal from 'components/Modal/Modal';
 import { BusinessRegistrationType } from 'components/SignUp';
+import { getByteSize } from 'utils/calculatePackage';
 
 type Props = {
   tabNumber: number;
@@ -15,66 +23,103 @@ type Props = {
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   maxIndex: number;
+  selectedOptionEn: chargers[];
+  setSelectedOptionEn: Dispatch<SetStateAction<chargers[]>>;
+  BusinessRegistration: BusinessRegistrationType[];
+  setBusinessRegistration: Dispatch<SetStateAction<BusinessRegistrationType[]>>;
 };
-
+const TAG = 'componentsCompany/CompanQuotation/LastQuotation/ThirdStep.tsx';
 const ThirdStep = ({
   tabNumber,
   setTabNumber,
   canNext,
   SetCanNext,
   maxIndex,
+  selectedOptionEn,
+  setSelectedOptionEn,
+  BusinessRegistration,
+  setBusinessRegistration,
 }: Props) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // 파일 용량 체크
-  const getByteSize = (size: number) => {
-    const byteUnits = ['KB', 'MB', 'GB', 'TB'];
-    for (let i = 0; i < byteUnits.length; i++) {
-      size = Math.floor(size / 1024);
-      if (size < 1024) return size.toFixed(1) + byteUnits[i];
-    }
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerFile, isLoading: multerFileLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      console.log(TAG + ' 👀 ~ line 128 multer onSuccess');
+      console.log(res);
+      const temp = [...selectedOptionEn];
+      const newFile = [...temp[tabNumber - 1].catalogFiles];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        catalogFiles: newFile,
+      };
+      setSelectedOptionEn(temp);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+  //파일 온클릭
+  const handleFileClick = () => {
+    fileRef?.current?.click();
   };
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 3;
-    const newArr = [...fileArr];
     // max길이 보다 짧으면 멈춤
+    const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) {
         break;
       }
-      // 이미지 객체 생성 후 상태에 저장
-      const imageUrl = URL.createObjectURL(files![i]);
-      const imageName = files![i].name;
-      const imageSize = files![i].size;
-      newArr.push({
-        url: imageUrl,
-        size: imageSize,
-        originalName: imageName,
-      });
+      formData.append(
+        'businessRegistration',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
     }
-    setFileArr(newArr);
+    multerFile(formData);
   };
+
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [...fileArr];
+    const copyArr = [...BusinessRegistration];
     for (let i = 0; i < copyArr.length; i++) {
       if (i === name) {
         copyArr.splice(i, 1);
-        return setFileArr(copyArr);
+        return setBusinessRegistration(copyArr);
       }
     }
-  };
-
-  const handleFileClick = () => {
-    fileRef?.current?.click();
   };
 
   const onClickPost = () => {
@@ -92,49 +137,29 @@ const ThirdStep = ({
   };
 
   const handlePrevBtn = () => {
-    // if (tabNumber > 0) {
-    //   dispatch(
-    //     myEstimateAction.setCharge({
-    //       index: StepIndex,
-    //       data: {
-    //         chargeType:
-    //           chargeTypeNumber !== -1 ? chargeTypeList[chargeTypeNumber] : '',
-    //         fee: fee,
-    //         productItem: productItem,
-    //         manufacturingCompany: manufacturingCompany,
-    //         chargeFeatures: chargeFeatures,
-    //         chargeImage: imgArr,
-    //         chargeFile: fileArr,
-    //       },
-    //     }),
-    //   );
     setTabNumber(maxIndex);
-    // }
   };
 
   const handleNextBtn = (e: any) => {
-    // if (canNext && tabNumber < maxIndex) {
-    //   dispatch(
-    //     myEstimateAction.setCharge({
-    //       index: StepIndex,
-    //       data: {
-    //         chargeType:
-    //           chargeTypeNumber !== -1 ? chargeTypeList[chargeTypeNumber] : '',
-    //         fee: fee,
-    //         productItem: productItem,
-    //         manufacturingCompany: manufacturingCompany,
-    //         chargeFeatures: chargeFeatures,
-    //         chargeImage: imgArr,
-    //         chargeFile: fileArr,
-    //       },
-    //     }),
-    //   );
-    router.push('/company/quotation/sentProvisionalQuotaionComplete');
-    // }
+    if (canNext) {
+      router.push('/company/quotation/sentProvisionalQuotaionComplete');
+    }
+  };
+
+  // 모달 클릭
+  const onClickModal = () => {
+    if (networkError) {
+      setIsModal(false);
+      router.push('/company/quotation');
+    } else {
+      setIsModal(false);
+    }
   };
 
   return (
     <Wrapper>
+      {/* 에러 모달 */}
+      {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <TopStep>
         <div>STEP {tabNumber + 1}</div>
       </TopStep>
@@ -167,7 +192,7 @@ const ThirdStep = ({
 
           {/* <File_Preview> */}
           <div className="file-preview">
-            {fileArr?.map((item, index) => (
+            {BusinessRegistration?.map((item, index) => (
               <FileBox key={index} data-name={index}>
                 <div className="file">
                   <div className="file-img">
@@ -194,15 +219,9 @@ const ThirdStep = ({
       </RemainderInputBoxs>
       <TwoBtn>
         <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-        {tabNumber === maxIndex ? (
-          <NextBtn canNext={canNext} onClick={onClickPost}>
-            보내기
-          </NextBtn>
-        ) : (
-          <NextBtn canNext={canNext} onClick={handleNextBtn}>
-            다음
-          </NextBtn>
-        )}
+        <NextBtn canNext={canNext} onClick={onClickPost}>
+          보내기
+        </NextBtn>
       </TwoBtn>
     </Wrapper>
   );

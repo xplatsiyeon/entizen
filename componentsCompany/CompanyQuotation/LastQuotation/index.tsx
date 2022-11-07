@@ -6,7 +6,7 @@ import { Option } from 'store/quotationSlice';
 import { chargers } from 'storeCompany/finalQuotation';
 import { chargerData } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
-
+import { BusinessRegistrationType } from 'components/SignUp';
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
@@ -85,7 +85,10 @@ const LastWrite = (props: Props) => {
   // 구독상품 특장점
   const [subscribeProductFeature, setSubscribeProductFeature] =
     useState<string>('');
-
+  // STEP3 최종 견적 작성
+  const [BusinessRegistration, setBusinessRegistration] = useState<
+    BusinessRegistrationType[]
+  >([]);
   const components: Components = {
     // 기본
     0: (
@@ -199,6 +202,10 @@ const LastWrite = (props: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         maxIndex={selectedOption.length}
+        selectedOptionEn={selectedOptionEn}
+        setSelectedOptionEn={setSelectedOptionEn}
+        BusinessRegistration={BusinessRegistration}
+        setBusinessRegistration={setBusinessRegistration}
       />
     ),
   };

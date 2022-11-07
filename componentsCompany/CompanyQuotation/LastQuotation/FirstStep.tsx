@@ -23,6 +23,7 @@ import { inputPriceFormat } from 'utils/calculatePackage';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { chargers, finalQuotationAction } from 'storeCompany/finalQuotation';
+import SelectComponents from 'components/Select';
 
 type Props = {
   tabNumber: number;
@@ -84,8 +85,8 @@ const FirstStep = ({
   const { companyFinalQuotationData } = useSelector(
     (state: RootState) => state,
   );
-  const handleChange = (event: any, index: number) => {
-    const { name, value } = event.target;
+  // 셀렉터 옵션 체인지
+  const handleSelectBox = (value: string, name: string, index: number) => {
     let copy: chargers[] = [...selectedOption];
     let copyEn: chargers[] = [...selectedOptionEn];
     // 영어 값 추출
@@ -93,9 +94,10 @@ const FirstStep = ({
     // 충전기 종류
     if (name === 'kind') {
       const idx = M5_LIST.indexOf(value);
+      console.log(idx);
       valueEn = M5_LIST_EN[idx];
       copy[index] = {
-        idx: 0,
+        idx: idx,
         kind: '',
         standType: '',
         channel: '',
@@ -130,6 +132,10 @@ const FirstStep = ({
         ...copy[index],
         standType: value,
       };
+      copyEn[index] = {
+        ...copyEn[index],
+        standType: valueEn,
+      };
     } else if (copy[index].kind.length > 1 && name === 'channel') {
       const idx = M7_LIST.indexOf(value);
       valueEn = M7_LIST_EN[idx];
@@ -154,6 +160,7 @@ const FirstStep = ({
         count: valueEn,
       };
     }
+
     setSelectedOption(copy);
     setSelectedOptionEn(copyEn);
   };
@@ -184,6 +191,7 @@ const FirstStep = ({
       catalogFiles: [],
     });
     setSelectedOption(temp);
+    setSelectedOptionEn(temp);
     // dispatch(finalQuotationAction.addChargeStep());
   };
 
@@ -231,6 +239,11 @@ const FirstStep = ({
     dueDiligenceResult,
     subscribePricePerMonth,
   ]);
+
+  useEffect(() => {
+    console.log(selectedOption);
+    console.log(selectedOptionEn);
+  }, [selectedOption, selectedOptionEn]);
 
   return (
     <Wrapper>
@@ -352,13 +365,14 @@ const FirstStep = ({
               )}
             </SubTitle>
             {/* 충전기 종류 옵션 박스 */}
-            <SelectBox
+            {/* <SelectBox
               value={item.kind}
               name="kind"
-              onChange={(event) => handleChange(event, index)}
+              onChange={(event) => handleSelectBox(event, index)}
               IconComponent={SelectIcon}
               displayEmpty
             >
+    
               <MenuItem value="">
                 <Placeholder>충전기 종류</Placeholder>
               </MenuItem>
@@ -368,8 +382,16 @@ const FirstStep = ({
                   {option}
                 </MenuItem>
               ))}
-            </SelectBox>
-            {/* 타입,채널,수량 옵션 박스 */}
+            </SelectBox> */}
+            <SelectComponents
+              value={item.kind}
+              option={M5_LIST}
+              name="kind"
+              placeholder="충전기 종류"
+              index={index}
+              onClickCharger={handleSelectBox}
+            />
+            {/* 타입,채널,수량 옵션 박스
             <SelectContainer>
               <SelectSmall
                 value={item.standType}
@@ -419,7 +441,37 @@ const FirstStep = ({
                   </MenuItem>
                 ))}
               </SelectSmall>
-            </SelectContainer>
+            </SelectContainer> */}
+            {/* 타입,채널,수량 옵션 박스 */}
+            <SelectComponentsContainer>
+              <SelectComponents
+                value={item.standType}
+                option={M5_TYPE_SET[item.idx!]}
+                name="standType"
+                placeholder="타입"
+                index={index}
+                onClickCharger={handleSelectBox}
+                fontSize={'small'}
+              />
+              <SelectComponents
+                value={item.channel}
+                option={M5_CHANNEL_SET[item.idx!]}
+                name="channel"
+                placeholder="채널"
+                index={index}
+                onClickCharger={handleSelectBox}
+                fontSize={'small'}
+              />
+              <SelectComponents
+                value={item.count}
+                option={M8_LIST}
+                name="count"
+                placeholder="수량"
+                index={index}
+                onClickCharger={handleSelectBox}
+                fontSize={'small'}
+              />
+            </SelectComponentsContainer>
           </div>
         </InputBox>
       ))}
@@ -730,6 +782,12 @@ const SelectContainer = styled.div`
   width: 100%;
   display: flex;
   gap: 8.25pt;
+`;
+const SelectComponentsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 9pt;
+  gap: 9pt;
 `;
 const SelectBox = styled(Select)`
   width: 100%;
