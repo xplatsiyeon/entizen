@@ -105,20 +105,20 @@ const SecondStep = ({
   >(multerApi, {
     onSuccess: (res) => {
       console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
-      console.log(res);
 
       const temp = [...selectedOption];
-      const newArr = [...temp[tabNumber - 1].chargerImageFiles];
-      console.log(newArr);
+      const newArr = temp[tabNumber - 1].chargerImageFiles;
       res?.uploadedFiles.forEach((img) => {
-        console.log(img);
         newArr.push({
           url: img.url,
           size: img.size,
           originalName: decodeURIComponent(img.originalName),
         });
       });
-      temp[tabNumber - 1].chargerImageFiles = newArr;
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        chargerImageFiles: newArr,
+      };
       setSelectedOption(temp);
     },
     onError: (error: any) => {
@@ -194,7 +194,6 @@ const SecondStep = ({
       setIsModal(false);
     }
   };
-
   // 충전요금 탭
   const onClickCharge = (index: number) => {
     console.log('클릭');
@@ -222,7 +221,6 @@ const SecondStep = ({
       ...temp[tabNumber - 1],
       chargePrice: inputPriceFormat(value),
     };
-
     setSelectedOption(temp);
   };
   // 충전기 설치 위치 탭
