@@ -33,6 +33,8 @@ export interface MutateData {
   chargers: chargers[]; // 충전기
   detailQuotationFiles: BusinessRegistrationType[]; // 상세 견적서 파일
   constructionPeriod: string;
+  spotInspectionResult: string;
+  subscribeProductFeature: string;
 }
 
 type Props = {};
@@ -127,6 +129,8 @@ const LastWrite = (props: Props) => {
     chargers: selectedOptionEn, // 충전기
     detailQuotationFiles: BusinessRegistration, // 상세 견적서 파일
     constructionPeriod: constructionPeriod,
+    spotInspectionResult: dueDiligenceResult,
+    subscribeProductFeature: subscribeProductFeature,
   };
 
   const components: Components = {

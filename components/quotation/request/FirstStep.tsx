@@ -90,7 +90,6 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
       // 타입
     } else if (copy[index].kind.length > 1 && name === 'standType') {
       const idx = M6_LIST.indexOf(value);
-      // console.log('index -> ' + idx);
       if (value === '-') {
         valueEn = '';
       } else {
