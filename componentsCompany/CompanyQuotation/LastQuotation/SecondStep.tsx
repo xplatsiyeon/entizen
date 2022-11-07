@@ -118,6 +118,7 @@ const SecondStep = ({
           originalName: decodeURIComponent(img.originalName),
         });
       });
+      temp[tabNumber - 1].chargerImageFiles = newArr;
       setSelectedOption(temp);
     },
     onError: (error: any) => {
