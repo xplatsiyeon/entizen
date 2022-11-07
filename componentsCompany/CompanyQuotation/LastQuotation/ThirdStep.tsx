@@ -40,9 +40,7 @@ const ThirdStep = ({
   BusinessRegistration,
   setBusinessRegistration,
 }: Props) => {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   // 에러 모달
@@ -57,10 +55,7 @@ const ThirdStep = ({
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(TAG + ' 👀 ~ line 128 multer onSuccess');
-      console.log(res);
-      const temp = [...selectedOptionEn];
-      const newFile = [...temp[tabNumber - 1].catalogFiles];
+      const newFile = [...BusinessRegistration];
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
           url: img.url,
@@ -68,11 +63,7 @@ const ThirdStep = ({
           originalName: decodeURIComponent(img.originalName),
         });
       });
-      temp[tabNumber - 1] = {
-        ...temp[tabNumber - 1],
-        catalogFiles: newFile,
-      };
-      setSelectedOptionEn(temp);
+      setBusinessRegistration(newFile);
     },
     onError: (error: any) => {
       if (error.response.data.message) {
