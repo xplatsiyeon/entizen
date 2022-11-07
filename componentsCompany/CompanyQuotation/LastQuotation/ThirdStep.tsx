@@ -10,12 +10,13 @@ import { useRouter } from 'next/router';
 
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
-import { multerApi } from 'api';
+import { isTokenPostApi, multerApi } from 'api';
 import { useMutation } from 'react-query';
 import { chargers } from 'storeCompany/finalQuotation';
 import Modal from 'components/Modal/Modal';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { getByteSize } from 'utils/calculatePackage';
+import { MutateData } from '.';
 
 type Props = {
   tabNumber: number;
@@ -27,6 +28,7 @@ type Props = {
   setSelectedOptionEn: Dispatch<SetStateAction<chargers[]>>;
   BusinessRegistration: BusinessRegistrationType[];
   setBusinessRegistration: Dispatch<SetStateAction<BusinessRegistrationType[]>>;
+  mutateData: MutateData;
 };
 const TAG = 'componentsCompany/CompanQuotation/LastQuotation/ThirdStep.tsx';
 const ThirdStep = ({
@@ -34,12 +36,15 @@ const ThirdStep = ({
   setTabNumber,
   canNext,
   SetCanNext,
+  mutateData,
   maxIndex,
   selectedOptionEn,
   setSelectedOptionEn,
   BusinessRegistration,
   setBusinessRegistration,
 }: Props) => {
+  console.log('🔥 ~line 46 ~ mutateData check');
+  console.log(mutateData);
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -75,6 +80,25 @@ const ThirdStep = ({
       } else {
         setErrorMessage('다시 시도해주세요');
         setIsModal(true);
+      }
+    },
+  });
+  // 보내기 POST API
+  const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      router.push('/company/recievedRequest/complete');
+    },
+    onError: (error: any) => {
+      const {
+        response: { data },
+      } = error;
+      if (data) {
+        setErrorMessage(data.message);
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+        setNetworkError(true);
       }
     },
   });

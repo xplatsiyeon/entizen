@@ -147,25 +147,7 @@ const SecondStep = ({
       }
     },
   });
-  // 보내기 POST API
-  const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
-    onSuccess: () => {
-      router.push('/company/recievedRequest/complete');
-    },
-    onError: (error: any) => {
-      const {
-        response: { data },
-      } = error;
-      if (data) {
-        setErrorMessage(data.message);
-        setIsModal(true);
-      } else {
-        setErrorMessage('다시 시도해주세요');
-        setIsModal(true);
-        setNetworkError(true);
-      }
-    },
-  });
+
   // 모달 클릭
   const onClickModal = () => {
     if (networkError) {

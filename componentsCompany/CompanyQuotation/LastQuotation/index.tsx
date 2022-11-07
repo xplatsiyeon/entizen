@@ -14,6 +14,17 @@ interface Components {
   [key: number]: JSX.Element;
 }
 
+export interface MutateData {
+  quotationRequestIdx: number;
+  preQuotationIdx: number;
+  subscribeProduct: chargerData; // 구독 상품
+  subscribePeriod: string; // 구독 기간
+  userInvestRate: string; // 사용자 수익 비율
+  chargingPointRate: string; // chargingPoint - (1 - userInvestRate)
+  subscribePricePerMonth: string; // 월 구독료
+  chargers: chargers[]; // 충전기
+  detailQuotationFiles: BusinessRegistrationType[]; // 상세 견적서 파일
+}
 // interface SelectedOptions extends SelectedOption {
 //   chargePriceType: '';
 //   chargePrice: 24;
@@ -89,6 +100,19 @@ const LastWrite = (props: Props) => {
   const [BusinessRegistration, setBusinessRegistration] = useState<
     BusinessRegistrationType[]
   >([]);
+
+  const mutateData: MutateData = {
+    quotationRequestIdx: 57, // 간편견적 인덱스
+    preQuotationIdx: 30, // 가견적 인덱스
+    subscribeProduct: subscribeProduct, // 구독 상품
+    subscribePeriod: subscribePeriod, // 구독 기간
+    userInvestRate: profitableInterestUser, // 사용자 수익 비율
+    chargingPointRate: chargePoint, // chargingPoint - (1 - userInvestRate)
+    subscribePricePerMonth: subscribePricePerMonth, // 월 구독료
+    chargers: selectedOptionEn, // 충전기
+    detailQuotationFiles: BusinessRegistration, // 상세 견적서 파일
+  };
+
   const components: Components = {
     // 기본
     0: (
@@ -206,6 +230,7 @@ const LastWrite = (props: Props) => {
         setSelectedOptionEn={setSelectedOptionEn}
         BusinessRegistration={BusinessRegistration}
         setBusinessRegistration={setBusinessRegistration}
+        mutateData={mutateData}
       />
     ),
   };
