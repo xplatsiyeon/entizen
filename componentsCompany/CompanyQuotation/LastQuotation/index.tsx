@@ -32,6 +32,7 @@ export interface MutateData {
   subscribePricePerMonth: number; // 월 구독료
   chargers: chargers[]; // 충전기
   detailQuotationFiles: BusinessRegistrationType[]; // 상세 견적서 파일
+  constructionPeriod: string;
 }
 
 type Props = {};
@@ -125,6 +126,7 @@ const LastWrite = (props: Props) => {
     subscribePricePerMonth: Number(subscribePricePerMonth.replaceAll(',', '')), // 월 구독료
     chargers: selectedOptionEn, // 충전기
     detailQuotationFiles: BusinessRegistration, // 상세 견적서 파일
+    constructionPeriod: constructionPeriod,
   };
 
   const components: Components = {
