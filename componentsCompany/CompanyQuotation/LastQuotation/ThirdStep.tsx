@@ -139,16 +139,10 @@ const ThirdStep = ({
 
   const onClickPost = () => {
     console.log('눌려쪙');
-    // postMutate({
-    //   endpoint: '/abc',
-    //   method: 'POST',
-    //   data: {
-    //     subscription: subscription,
-    //     period: period,
-    //     features: features,
-    //     charge: newCharge,
-    //   },
-    // });
+    postMutate({
+      url: '/quotations/final',
+      data: mutateData,
+    });
   };
 
   const handlePrevBtn = () => {

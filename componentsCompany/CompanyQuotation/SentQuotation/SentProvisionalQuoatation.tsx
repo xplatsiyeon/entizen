@@ -162,8 +162,10 @@ const SentQuoatationFirst = () => {
     console.log(error);
     console.log(spotError);
   }
-  console.log(TAG + '🔥 ~line 138 spotdata check');
+  console.log(TAG + '\n🔥 ~line 138 spotdata check');
   console.log(spotData);
+  console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
+  console.log(data);
 
   return (
     <Wrapper>

@@ -21,23 +21,11 @@ export interface MutateData {
   subscribePeriod: string; // 구독 기간
   userInvestRate: string; // 사용자 수익 비율
   chargingPointRate: string; // chargingPoint - (1 - userInvestRate)
-  subscribePricePerMonth: string; // 월 구독료
+  subscribePricePerMonth: number; // 월 구독료
   chargers: chargers[]; // 충전기
   detailQuotationFiles: BusinessRegistrationType[]; // 상세 견적서 파일
 }
-// interface SelectedOptions extends SelectedOption {
-//   chargePriceType: '';
-//   chargePrice: 24;
-//   installationLocation: '';
-//   modelName: '';
-//   manufacturer: '';
-//   productFeature: '';
-//   chargerImageFiles: [];
-//   catalogFiles: [];
-// }
 type Props = {};
-// const target = 1;
-
 const LastWrite = (props: Props) => {
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(0);
@@ -106,9 +94,9 @@ const LastWrite = (props: Props) => {
     preQuotationIdx: 30, // 가견적 인덱스
     subscribeProduct: subscribeProduct, // 구독 상품
     subscribePeriod: subscribePeriod, // 구독 기간
-    userInvestRate: profitableInterestUser, // 사용자 수익 비율
-    chargingPointRate: chargePoint, // chargingPoint - (1 - userInvestRate)
-    subscribePricePerMonth: subscribePricePerMonth, // 월 구독료
+    userInvestRate: Number(profitableInterestUser) / 100 + '', // 사용자 수익 비율
+    chargingPointRate: Number(chargePoint) / 100 + '', // chargingPoint - (1 - userInvestRate)
+    subscribePricePerMonth: Number(subscribePricePerMonth), // 월 구독료
     chargers: selectedOptionEn, // 충전기
     detailQuotationFiles: BusinessRegistration, // 상세 견적서 파일
   };
@@ -241,13 +229,13 @@ const LastWrite = (props: Props) => {
           <TabBox>
             {Object.keys(components).map((tab, index) => (
               <React.Fragment key={index}>
-                {index <= selectedOption.length && (
+                {index <= selectedOption.length + 1 && (
                   <TabLine
                     idx={index.toString()}
                     num={tabNumber.toString()}
                     key={tab}
                     // 테스트용
-                    // onClick={() => setTabNumber(index)}
+                    onClick={() => setTabNumber(index)}
                   />
                 )}
               </React.Fragment>
