@@ -8,6 +8,7 @@ import UpArrow from 'public/images/smallUpArrow.png';
 import DownArrow from 'public/images/smallDownArrow.png';
 import MessageBox from './MessageBox';
 import colors from 'styles/colors';
+import { mainModule } from 'process';
 
 type Props = {
   dateArr: boolean[];
@@ -15,10 +16,10 @@ type Props = {
   toggleOpen: boolean[];
   setToggleOpen: Dispatch<SetStateAction<boolean[]>>;
   presentProgress: number;
-  setPresentProgress: Dispatch<SetStateAction<number>>;
   progressNum: number;
   setProgressNum: Dispatch<SetStateAction<number>>;
   state : number;
+  planed:string[];
 };
 
 const ProgressBody = ({
@@ -27,10 +28,9 @@ const ProgressBody = ({
   toggleOpen,
   setToggleOpen,
   presentProgress,
-  setPresentProgress,
   progressNum,
   setProgressNum,
-  state
+  state, planed
 }: Props) => {
 
   //  펼쳐지는거 관리
@@ -115,7 +115,8 @@ const ProgressBody = ({
         <FlexBox margin={toggleOpen[0]}>
           <div>
             <CircleImgBox>
-              <Image src={progressCircle} alt="progressCircle" layout="fill" />
+              <Image src={
+                  presentProgress === 0 ? progressBlueCircle : progressCircle} alt="progressCircle" layout="fill" />
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="contract" onClick={handleToggleClick}>
@@ -161,9 +162,12 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
+              {planed[0]?
+              <PickedDate color={(1 >= state) ? colors.main :'#e2e5ed'}>{planed[0]}</PickedDate>:
               <SetDate id="prepareDate" onClick={handleDateModal}>
                 목표일
               </SetDate>
+              }
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -182,7 +186,8 @@ const ProgressBody = ({
         <FlexBox>
           <div>
             <CircleImgBox>
-              <Image src={progressCircle} alt="progressCircle" layout="fill" />
+              <Image src={
+                  presentProgress === 2 ? progressBlueCircle : progressCircle} alt="progressCircle" layout="fill" />
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="install" onClick={handleToggleClick}>
@@ -195,7 +200,12 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              <PickedDate>2022년 5월 6일</PickedDate>
+              {planed[1]?
+              <PickedDate color={(2 >= state) ? colors.main :'#e2e5ed'}>{planed[1]}</PickedDate>:
+              <SetDate id="prepareDate" onClick={handleDateModal}>
+                목표일
+              </SetDate>
+              }
               {/* <SetDate id="installDate" onClick={handleDateModal}>
                 목표일
               </SetDate> */}
@@ -217,7 +227,8 @@ const ProgressBody = ({
         <FlexBox>
           <div>
             <CircleImgBox>
-              <Image src={progressCircle} alt="progressCircle" layout="fill" />
+              <Image src={
+                  presentProgress === 3 ? progressBlueCircle : progressCircle} alt="progressCircle" layout="fill" />
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="inspection" onClick={handleToggleClick}>
@@ -230,9 +241,12 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              <SetDate id="inspectionDate" onClick={handleDateModal}>
+              {planed[2]?
+              <PickedDate color={(3 >= state) ? colors.main :'#e2e5ed'}>{planed[2]}</PickedDate>:
+              <SetDate id="prepareDate" onClick={handleDateModal}>
                 목표일
               </SetDate>
+              }
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -253,7 +267,8 @@ const ProgressBody = ({
             <CircleImgBox>
               <Image
                 className="bottomCircle"
-                src={progressCircle}
+                src={
+                  (presentProgress === 4 || presentProgress === 5) ? progressBlueCircle : progressCircle}
                 alt="progressCircle"
                 layout="fill"
               />
@@ -269,9 +284,12 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              <SetDate id="successDate" onClick={handleDateModal}>
+              {planed[3]?
+              <PickedDate color={(4 >= state)|| (5 >= state)? colors.main :'#e2e5ed'}>{planed[3]}</PickedDate>:
+              <SetDate id="prepareDate" onClick={handleDateModal}>
                 목표일
               </SetDate>
+              }
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -375,8 +393,10 @@ const PickedDate = styled.div`
   line-height: 9pt;
   letter-spacing: -0.02em;
   text-align: left;
-  color: ${colors.main};
-  border: 1px solid ${colors.main};
+  color: ${(props)=>{
+    console.log(props)
+    return props.color}};
+  border: 1px solid ${(props)=>props.color};
   border-radius: 6pt;
 `;
 
