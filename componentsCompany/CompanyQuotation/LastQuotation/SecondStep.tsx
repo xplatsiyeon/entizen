@@ -86,13 +86,6 @@ const SecondStep = ({
     'LECS-005ADE',
     'LECS-004ADE',
   ];
-  // const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1);
-  // const [chargeLocationTypeNumber, setChargeLocationTypeNumber] =
-  //   useState<number>(-1);
-  // const [fee, setFee] = useState<string>('');
-  // const [productItem, setProductItem] = useState<chargerData>('');
-  const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
-  const [chargeFeatures, setChargeFeatures] = useState<string>('');
   // const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
   // 에러 모달
@@ -116,7 +109,7 @@ const SecondStep = ({
 
       const temp = [...selectedOption];
       const newArr = temp[tabNumber - 1].chargerImageFiles;
-
+      console.log(newArr);
       res?.uploadedFiles.forEach((img) => {
         newArr.push({
           url: img.url,
