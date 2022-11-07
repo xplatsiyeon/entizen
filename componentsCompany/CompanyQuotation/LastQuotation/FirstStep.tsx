@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { MenuItem, Select, TextField } from '@mui/material';
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   M5_LIST,
   M5_LIST_EN,
@@ -19,8 +18,6 @@ import AddIcon from 'public/images/add-img.svg';
 import XCircle from 'public/guide/XCircle.svg';
 import Image from 'next/image';
 import { inputPriceFormat } from 'utils/calculatePackage';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { chargers } from 'storeCompany/finalQuotation';
 import SelectComponents from 'components/Select';
 import { SubscribeProduct } from 'componentsCompany/CompanyQuotation/LastQuotation/index';
@@ -89,7 +86,6 @@ const FirstStep = ({
     // 충전기 종류
     if (name === 'kind') {
       const idx = M5_LIST.indexOf(value);
-      console.log(idx);
       valueEn = M5_LIST_EN[idx];
       copy[index] = {
         idx: idx,

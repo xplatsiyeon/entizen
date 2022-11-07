@@ -322,7 +322,6 @@ const SecondStep = ({
       }
     }
   };
-
   // 다음버튼 유효성 검사
   useEffect(() => {
     SetCanNext(false);
@@ -340,71 +339,7 @@ const SecondStep = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOptionEn]);
-  // 상태 업데이트 및 초기화 (with 리덕스)
-  useEffect(() => {
-    console.log(selectedOptionEn);
-    console.log(tabNumber - 1);
-  }, [tabNumber - 1, selectedOptionEn]);
 
-  //   const target = chargers[tabNumber - 1];
-  //   console.log(TAG + 'target 확인');
-  //   console.log(tabNumber - 1);
-  //   console.log(target);
-
-  //   if (target?.chargePriceType !== '') {
-  //     if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
-  //       setChargeTypeNumber(0);
-  //     if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
-  //       setChargeTypeNumber(1);
-  //   }
-  //   if (target?.chargePrice !== 0) {
-  //     setFee(inputPriceFormat(target?.chargePrice?.toString()));
-  //   }
-  //   if (target?.installationLocation !== '') {
-  //     if (target.installationLocation === 'INSIDE') {
-  //       setChargeLocationTypeNumber(0);
-  //     }
-  //     if (target.installationLocation === 'OUTSIDE') {
-  //       setChargeLocationTypeNumber(1);
-  //     }
-  //   }
-  //   if (target?.modelName !== '') {
-  //     setProductItem(target?.modelName);
-  //   }
-  //   if (target?.manufacturer !== '') {
-  //     setManufacturingCompany(target?.manufacturer);
-  //   }
-  //   if (target?.productFeature !== '') {
-  //     setChargeFeatures(target?.productFeature);
-  //   }
-  //   if (target?.chargerImageFiles?.length >= 1) {
-  //     setImgArr(target?.chargerImageFiles);
-  //   }
-  //   if (target?.catalogFiles?.length >= 1) {
-  //     setFileArr(target?.catalogFiles);
-  //   }
-  //   return () => {
-  //     setChargeTypeNumber(-1);
-  //     setFee('');
-  //     setChargeLocationTypeNumber(-1);
-  //     setManufacturingCompany('');
-  //     setProductItem('');
-  //     setChargeFeatures('');
-  //     setImgArr([]);
-  //     setFileArr([]);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [tabNumber - 1]);
-  // // 금액 초기화
-  // // useEffect(() => {
-  // //   if (chargeTypeNumber === 0) {
-  // //     setFee('');
-  // //   }
-  // // }, [chargeTypeNumber]);
-
-  // useEffect(() => {
-  //   console.log(selectedOptionEn);
-  // }, [selectedOptionEn]);
   return (
     <>
       {/* 에러 모달 */}
@@ -441,7 +376,6 @@ const SecondStep = ({
               <Input
                 onChange={onChangeInput}
                 placeholder="0"
-                // value={selectedOptionEn[tabNumber - 1].chargePrice}
                 value={selectedOptionEn[tabNumber - 1].chargePrice}
                 name="subscribeMoney"
                 inputProps={{
