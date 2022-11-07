@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Option } from 'store/quotationSlice';
 import { chargers } from 'storeCompany/finalQuotation';
-import { chargerData } from 'storeCompany/myQuotation';
+// import { chargerData } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
 import { BusinessRegistrationType } from 'components/SignUp';
 import FirstStep from './FirstStep';
@@ -15,14 +15,17 @@ import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation'
 import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import Loader from 'components/Loader';
+import { convertEn } from 'utils/calculatePackage';
+import { subscribeType, subscribeTypeEn } from 'assets/selectList';
 interface Components {
   [key: number]: JSX.Element;
 }
+export type SubscribeProduct = '' | '전체구독' | '부분구독';
 
 export interface MutateData {
   quotationRequestIdx: number;
   preQuotationIdx: number;
-  subscribeProduct: chargerData; // 구독 상품
+  subscribeProduct: string; // 구독 상품
   subscribePeriod: string; // 구독 기간
   userInvestRate: string; // 사용자 수익 비율
   chargingPointRate: string; // chargingPoint - (1 - userInvestRate)
@@ -30,6 +33,7 @@ export interface MutateData {
   chargers: chargers[]; // 충전기
   detailQuotationFiles: BusinessRegistrationType[]; // 상세 견적서 파일
 }
+
 type Props = {};
 const LastWrite = (props: Props) => {
   const router = useRouter();
@@ -39,7 +43,8 @@ const LastWrite = (props: Props) => {
   const [canNext, SetCanNext] = useState<boolean>(false);
   // step 1
   // 구독상품
-  const [subscribeProduct, setSubscribeProduct] = useState<chargerData>('');
+  const [subscribeProduct, setSubscribeProduct] =
+    useState<SubscribeProduct>('');
   // 구독기간
   const [subscribePeriod, setSubscribePeriod] = useState('');
   // 고객 퍼센트
@@ -109,7 +114,11 @@ const LastWrite = (props: Props) => {
     quotationRequestIdx:
       data?.sendQuotationRequest?.preQuotation?.quotationRequestIdx!, // 간편견적 인덱스
     preQuotationIdx: data?.sendQuotationRequest?.preQuotation?.preQuotationIdx!, // 가견적 인덱스
-    subscribeProduct: subscribeProduct, // 구독 상품
+    subscribeProduct: convertEn(
+      subscribeType,
+      subscribeTypeEn,
+      subscribeProduct,
+    ), // 구독 상품
     subscribePeriod: subscribePeriod, // 구독 기간
     userInvestRate: Number(profitableInterestUser) / 100 + '', // 사용자 수익 비율
     chargingPointRate: Number(chargePoint) / 100 + '', // chargingPoint - (1 - userInvestRate)

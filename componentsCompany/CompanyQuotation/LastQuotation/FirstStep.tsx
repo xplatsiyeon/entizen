@@ -24,6 +24,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { chargers, finalQuotationAction } from 'storeCompany/finalQuotation';
 import SelectComponents from 'components/Select';
+import { SubscribeProduct } from 'componentsCompany/CompanyQuotation/LastQuotation/index';
 
 type Props = {
   tabNumber: number;
@@ -31,8 +32,8 @@ type Props = {
 
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
-  subscribeProduct: chargerData;
-  setSubscribeProduct: Dispatch<SetStateAction<chargerData>>;
+  subscribeProduct: SubscribeProduct;
+  setSubscribeProduct: Dispatch<SetStateAction<SubscribeProduct>>;
   subscribePeriod: string;
   setSubscribePeriod: Dispatch<SetStateAction<string>>;
   profitableInterestUser: string;
