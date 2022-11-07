@@ -10,7 +10,7 @@ import Progress from '../projectProgress';
 type Props = {};
 
 
-interface Data {
+export interface Data {
     id: number;
     state: number;
     badge: string;
@@ -49,7 +49,7 @@ interface Data {
       storeName: 'LS카페 신림점',
       date: '2021.03.10',
       contract : false,
-      planed : [ ],
+      planed : ['2022.04.25', '2022.07.25' ],
       address : '서울시 관악구 난곡로40길 30'
     },
     {
@@ -97,26 +97,42 @@ interface Data {
 const RunningProgress = (props: Props) => {
 
   const [open, setOpen] = useState<boolean>(false);
-  const [index, setindex] = useState<number>();
   const [ , setOpenContract] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
+
+  const [data, setData] = useState<Data>(
+    {
+      id: -1,
+      state: -1,
+      badge: '',
+      storeName: '',
+      date: '',
+      contract : false,
+      planed : [],
+      address : ''
+    });
 
   const router = useRouter();
  
   useEffect(()=>{
+    console.log('index', router.query.id);
     if(router.query.id){
       const num = Number(router.query.id)
-      setindex(num);
+      setData(tempProceeding[num])
     }
   },[router.query.id])
+
+  useEffect(()=>{
+    console.log(data);
+  },[data])
 
   return (
     <>
       <MypageHeader back={true} title={'진행 프로젝트'} />
-      { (index !== undefined) && String(index)? <>
-      <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[index]} />
-      {tempProceeding[index].contract ? (
-        <Progress state={tempProceeding[index].state}/>
+      { (data.id !== -1)? <>
+      <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={data} />
+      {data.contract ?(
+        <Progress info={data} setData={setData} />
       ) : (
           <UnderBox setOpenContract={setOpenContract}/>
       )}</> : null}

@@ -29,39 +29,51 @@ type Props = {
 
 const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
 
+  console.log('info', info)
+
   let bgColor ;
+  let title='';
+
 
   switch (info?.state){
     case 0 : 
     bgColor = '#F75015';
+    title = '계약대기'
     break;
 
     case 1 : 
     bgColor = '#5221CB';
+    title = '준비 중'
     break;
     
     case 2 : 
     bgColor = '#5221CB';
+    title = '설치 중'
     break;
     
     case 3 : 
-    bgColor = '#FFC043';;
+    bgColor = '#FFC043';
+    title = '검수 중'
     break;
 
     case 4 : 
     bgColor = '#222222';
+    title = '완료 중'
     break;
 
     case  5 : 
-    bgColor = '#222222';;
+    bgColor = '#222222';
+    title = '완료 대기'
     break;
 
     case  6 : 
     bgColor = '#CACCD1';
+    title = '프로젝트 취소'
     break;
     
     default : 
     bgColor = '#F75015';
+    title = '계약대기'
   }
 
   const init = 
@@ -150,7 +162,7 @@ const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
     <Wrapper className={className !== undefined ? className : ''}>
       <ItemButton onClick={handleClick}>
         <StoreName> 
-          <CommonBtns text={info.badge} backgroundColor={bgColor}/> 
+          <CommonBtns text={title} backgroundColor={bgColor}/> 
           <div>
             <h1>{info.storeName}</h1>
             {open ? (
