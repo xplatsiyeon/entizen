@@ -96,14 +96,14 @@ const LastWrite = (props: Props) => {
   >([]);
 
   // ----------- 보낸 견적 상세 페이지 api --------------
-  const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
-    'company/',
-    () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
-    {
-      enabled: router.isReady,
-      // enabled: false,
-    },
-  );
+  // const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
+  //   'company/',
+  //   () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
+  //   {
+  //     enabled: router.isReady,
+  //     // enabled: false,
+  //   },
+  // );
 
   const mutateData: MutateData = {
     quotationRequestIdx: 57, // 간편견적 인덱스
