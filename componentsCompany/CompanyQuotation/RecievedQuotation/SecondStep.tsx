@@ -300,59 +300,28 @@ const SecondStep = ({
   };
   // 포스트 버튼
   const onClickPost = () => {
-    console.log(TAG + '🔥 newCharge data 확인');
-    console.log(newCharge);
-
-    // 스텝2까지밖에 없을 때
-    if (maxIndex === 1) {
-      postMutate({
-        url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: [
-            {
-              chargePriceType:
-                chargeTypeNumber !== -1
-                  ? chargeTypeListEn[chargeTypeNumber]
-                  : '',
-              chargePrice: Number(fee.replaceAll(',', '')),
-              modelName: productItem,
-              manufacturer: manufacturingCompany,
-              feature: chargeFeatures,
-              chargerImageFiles: imgArr,
-              catalogFiles: fileArr,
-            },
-          ],
-        },
-      });
-    } else {
-      // 스텝2이상일 때
-      postMutate({
-        url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: [
-            ...newCharge.slice(0, maxIndex! - 1),
-            {
-              chargePriceType:
-                chargeTypeNumber !== -1
-                  ? chargeTypeListEn[chargeTypeNumber]
-                  : '',
-              chargePrice: Number(fee.replaceAll(',', '')),
-              modelName: productItem,
-              manufacturer: manufacturingCompany,
-              feature: chargeFeatures,
-              chargerImageFiles: imgArr,
-              catalogFiles: fileArr,
-            },
-          ],
-        },
-      });
-    }
+    postMutate({
+      url: `/quotations/pre/${routerId}`,
+      data: {
+        subscribePricePerMonth: subscribePricePerMonth,
+        constructionPeriod: constructionPeriod,
+        subscribeProductFeature: subscribeProductFeature,
+        chargers: [
+          ...newCharge.slice(0, maxIndex! - 1),
+          {
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
+          },
+        ],
+      },
+    });
+    dispatch(myEstimateAction.reset());
   };
 
   // 다음버튼 유효성 검사
@@ -373,9 +342,6 @@ const SecondStep = ({
   // 상태 업데이트 및 초기화 (with 리덕스)
   useEffect(() => {
     const target = chargers[StepIndex];
-    console.log(TAG + 'target 확인');
-    console.log(StepIndex);
-    console.log(target);
     if (target?.chargePriceType !== '') {
       if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
         setChargeTypeNumber(0);
