@@ -71,7 +71,7 @@ const RecieveRequest = ({}: Props) => {
           `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
         ),
       {
-        // enabled: false,
+        enabled: false,
         onSuccess: (res) => {
           console.log(TAG + '⭐️ 데이터 체크');
           console.log(res);
@@ -104,6 +104,10 @@ const RecieveRequest = ({}: Props) => {
     console.log(data);
   }, []);
 
+  // // 필터링 기능
+  useEffect(() => {
+    refetch();
+  }, [checkedFilterIndex, keyword]);
   return (
     <>
       <Sort
