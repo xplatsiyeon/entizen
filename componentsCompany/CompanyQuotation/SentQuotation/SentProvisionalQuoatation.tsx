@@ -185,8 +185,8 @@ const SentQuoatationFirst = () => {
     'company/',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
     {
-      // enabled: router.isReady,
-      enabled: false,
+      enabled: router.isReady,
+      // enabled: false,
     },
   );
   // ---------- 현장 실사 날짜 api ------------
@@ -199,8 +199,8 @@ const SentQuoatationFirst = () => {
     'spot-inspection',
     () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
     {
-      // enabled: router.isReady,
-      enabled: false,
+      enabled: router.isReady,
+      // enabled: false,
     },
   );
   // 상단 열리고 닫히고
