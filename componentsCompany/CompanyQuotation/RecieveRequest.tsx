@@ -66,7 +66,8 @@ const RecieveRequest = ({}: Props) => {
   const { data, isLoading, isError, error, refetch } =
     useQuery<ReceivedResponse>('received-Request', () =>
       isTokenGetApi(
-        `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        // `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        `/quotations/received-request?keyword=${searchWord}&sort='마감일순 보기'`,
       ),
     );
 
