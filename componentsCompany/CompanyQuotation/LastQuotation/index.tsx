@@ -267,7 +267,7 @@ const LastWrite = (props: Props) => {
                     num={tabNumber.toString()}
                     key={tab}
                     // 테스트용
-                    onClick={() => setTabNumber(index)}
+                    // onClick={() => setTabNumber(index)}
                   />
                 )}
               </React.Fragment>

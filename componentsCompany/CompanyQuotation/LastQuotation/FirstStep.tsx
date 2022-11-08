@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import {
   M5_LIST,
@@ -11,7 +11,6 @@ import {
   M8_LIST,
   M8_LIST_EN,
 } from 'assets/selectList';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import colors from 'styles/colors';
 import { M5_CHANNEL_SET, M5_TYPE_SET } from 'assets/selectList';
 import AddIcon from 'public/images/add-img.svg';
@@ -20,7 +19,6 @@ import Image from 'next/image';
 import { inputPriceFormat } from 'utils/calculatePackage';
 import { chargers } from 'storeCompany/finalQuotation';
 import SelectComponents from 'components/Select';
-import { SubscribeProduct } from 'componentsCompany/CompanyQuotation/LastQuotation/index';
 
 type Props = {
   tabNumber: number;
@@ -183,7 +181,6 @@ const FirstStep = ({
     });
     setSelectedOption(temp);
     setSelectedOptionEn(temp);
-    // dispatch(finalQuotationAction.addChargeStep());
   };
   // 구독상품 온체인지
   const handleChangeProduct = (value: string) => {
@@ -192,6 +189,18 @@ const FirstStep = ({
   // 구독기간 온체인지
   const handleChangePeriod = (value: string) => {
     setSubscribePeriod(value);
+  };
+  const onChangeProfitableInterestUser = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    setState: Dispatch<SetStateAction<string>>,
+  ) => {
+    if (Number(e.target.value) > 100) {
+      setState('100');
+    } else if (Number(e.target.value) === NaN || Number(e.target.value) < 0) {
+      setState('0');
+    } else {
+      setState(e.target.value);
+    }
   };
 
   // 다음 버튼 클릭
@@ -271,11 +280,15 @@ const FirstStep = ({
               <Input
                 value={profitableInterestUser}
                 className="inputTextLeft"
-                onChange={(e: any) => setProfitableInterestUser(e.target.value)}
+                onChange={(event) =>
+                  onChangeProfitableInterestUser(
+                    event,
+                    setProfitableInterestUser,
+                  )
+                }
                 type="number"
                 placeholder="0"
                 name="subscribeMoney"
-                // minlength={}
               />
               <div className="percent">%</div>
             </SmallInputBox>
@@ -286,7 +299,9 @@ const FirstStep = ({
               <Input
                 value={chargePoint}
                 className="inputTextLeft"
-                onChange={(e: any) => setChargePoint(e.target.value)}
+                onChange={(event) =>
+                  onChangeProfitableInterestUser(event, setChargePoint)
+                }
                 type="number"
                 placeholder="0"
                 name="subscribeMoney"
@@ -427,7 +442,6 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   box-sizing: border-box;
-  /* margin-bottom: 500pt; */
   height: 100vh;
   .marginTop {
     margin-top: 55.5pt;
@@ -436,7 +450,6 @@ const Wrapper = styled.div`
     padding-bottom: 120pt;
   }
 `;
-
 const TopStep = styled.div`
   margin-top: 24pt;
   display: flex;
@@ -459,7 +472,6 @@ const TopStep = styled.div`
     text-align: left;
   }
 `;
-
 const InputBox = styled.div`
   display: flex;
   gap: 9pt;
@@ -467,7 +479,6 @@ const InputBox = styled.div`
   position: relative;
   margin-top: 30pt;
   & > div {
-    /* margin-top: ; */
   }
   & > div:first-of-type {
     font-family: Spoqa Han Sans Neo;
@@ -511,13 +522,11 @@ const InputBox = styled.div`
   & div:nth-of-type(2) {
     display: flex;
   }
-
   .monthFlex {
     display: flex;
     gap: 12pt;
   }
 `;
-
 const AfterWord = styled.div`
   display: flex;
   gap: 12pt;
@@ -525,9 +534,7 @@ const AfterWord = styled.div`
   & div {
   }
 `;
-
 const Input = styled(TextField)`
-  /* border: 0.75pt solid ${colors.gray}; */
   border-radius: 6pt;
   width: 100%;
   & input {
@@ -619,15 +626,6 @@ const SubTitle = styled.div`
     }
   }
 `;
-const SubTitles = styled.span`
-  font-family: Spoqa Han Sans Neo;
-  font-size: 10.5pt;
-  font-weight: 500;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  text-align: left !important;
-`;
-
 const SubWord = styled.div`
   margin-top: 21pt;
   font-family: Spoqa Han Sans Neo;
@@ -637,7 +635,6 @@ const SubWord = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
 `;
-
 const TextArea = styled.textarea`
   resize: none;
   border: 1px solid ${colors.gray};
@@ -654,7 +651,6 @@ const TextArea = styled.textarea`
     color: #caccd1;
   }
 `;
-
 const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   position: fixed;
   bottom: 0;
@@ -673,7 +669,6 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
 `;
-
 const SelectContainer = styled.div`
   width: 100%;
   display: flex;
@@ -685,63 +680,4 @@ const SelectComponentsContainer = styled.div`
   padding-top: 9pt;
   gap: 9pt;
 `;
-const SelectBox = styled(Select)`
-  width: 100%;
-  height: 100%;
-  border: 1px solid #e2e5ed;
-  border-radius: 8px;
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-  & div {
-    padding-left: 12.75pt;
-    padding-top: 10.135pt;
-    padding-bottom: 10.135pt;
-  }
-  & fieldset {
-    border: none;
-  }
-  & svg {
-    margin-right: 12pt;
-  }
-`;
-const Placeholder = styled.em`
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.lightGray3};
-`;
-const SelectIcon = styled(KeyboardArrowDownIcon)`
-  width: 18pt;
-  height: 18pt;
-  color: ${colors.dark} !important;
-`;
-const SelectSmall = styled(Select)`
-  display: flex;
-  justify-content: space-between;
-  border-radius: 8px;
-  margin-top: 9pt;
-  font-weight: 400;
-  font-size: 9pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-  border: 1px solid #e2e5ed;
-  width: 100%;
-  & div {
-    padding-left: 12pt;
-    padding-top: 13.5pt;
-    padding-bottom: 13.5pt;
-  }
-  & svg {
-    margin-right: 12pt;
-  }
-  & fieldset {
-    border: none;
-  }
-`;
-
 export default FirstStep;
