@@ -78,6 +78,10 @@ const CompanyQuotations = (props: Props) => {
 
   useEffect(() => {
     refetch();
+    return () => {
+      setcheckedFilterIndex(0);
+      setSearchWord('');
+    };
   }, [checkedFilterIndex, keyword]);
 
   if (isLoading) {

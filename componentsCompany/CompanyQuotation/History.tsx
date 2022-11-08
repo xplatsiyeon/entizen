@@ -60,6 +60,10 @@ const History = ({}: Props) => {
 
   useEffect(() => {
     refetch();
+    return () => {
+      setcheckedFilterIndex(0);
+      setSearchWord('');
+    };
   }, [checkedFilterIndex, keyword]);
 
   if (isError) {
