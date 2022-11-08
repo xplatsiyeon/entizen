@@ -1,51 +1,127 @@
 import styled from '@emotion/styled';
 import CommonBtn from 'components/mypage/as/CommonBtn';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
-import { ReceivedQuotationRequests } from 'pages/company/quotation';
+import {
+  filterType,
+  filterTypeEn,
+  ReceivedRequest,
+} from 'pages/company/quotation';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
+import useDebounce from 'hooks/useDebounce';
+import Loader from 'components/Loader';
+import Sort from './Sort';
+import Search from './Search';
+import Modal from 'components/Modal/Modal';
 
 type Props = {
-  queryData: ReceivedQuotationRequests[];
+  searchWord: string;
+  setSearchWord: Dispatch<SetStateAction<string>>;
+  checkedFilterIndex: number;
+  setcheckedFilterIndex: Dispatch<SetStateAction<number>>;
+  checkedFilter: filterType;
+  setCheckedFilter: Dispatch<SetStateAction<filterType>>;
+  keyword: string;
+  data: ReceivedRequest;
 };
-const TAG = '👀 ~RecieveRequest ~line 20 queryData';
-const RecieveRequest = ({ queryData }: Props) => {
-  const router = useRouter();
 
-  // console.log(TAG);
-  // console.log(queryData);
+const TAG = '👀 ~RecieveRequest ~line 20 queryData';
+const RecieveRequest = ({
+  searchWord,
+  setSearchWord,
+  checkedFilterIndex,
+  setcheckedFilterIndex,
+  checkedFilter,
+  setCheckedFilter,
+  keyword,
+  data,
+}: Props) => {
+  const router = useRouter();
+  // const [searchWord, setSearchWord] = useState<string>('');
+  // const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
+  // const [checkedFilter, setCheckedFilter] =
+  //   useState<filterType>('마감일순 보기');
+
+  // const keyword = useDebounce(searchWord, 3000);
+  // api 호출
+  // const { data, isLoading, isError, error, refetch } =
+  //   useQuery<ReceivedResponse>('received-Request', () =>
+  //     isTokenGetApi(
+  //       `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+  //     ),
+  //   );
+
+  // if (isError) {
+  //   console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+  //   console.log(error);
+  //   return (
+  //     <Modal
+  //       text="다시 시도해주세요"
+  //       click={() => {
+  //         router.push('/');
+  //       }}
+  //     />
+  //   );
+  // }
+
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
+
+  // useEffect(() => {
+  //   console.log(TAG + '🔥 ~line 54 ~ data 확인');
+  //   console.log(data);
+  // }, []);
+
+  // // 필터링 기능
+  // useEffect(() => {
+  //   refetch();
+  // }, [checkedFilterIndex, keyword]);
   return (
-    <ContentsContainer>
-      {queryData?.map((el) => (
-        <Contents
-          key={el?.quotationRequest?.quotationRequestIdx}
-          onClick={() =>
-            router.push(
-              `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
-            )
-          }
-        >
-          <DdayNAddress>
-            <DdayBox>
-              <CommonBtn
-                text={el?.badge}
-                backgroundColor={HandleColor(el?.badge)}
-                bottom={'12pt'}
-              />
-            </DdayBox>
-            <AddressBox>{el?.quotationRequest?.installationAddress}</AddressBox>
-          </DdayNAddress>
-          <IconBox>
-            <ArrowIconBox>
-              <Image src={CaretDown24} alt="RightArrow" />
-            </ArrowIconBox>
-          </IconBox>
-        </Contents>
-      ))}
-    </ContentsContainer>
+    <>
+      <Sort
+        checkedFilter={checkedFilter}
+        setCheckedFilter={setCheckedFilter}
+        checkedFilterIndex={checkedFilterIndex}
+        setcheckedFilterIndex={setcheckedFilterIndex}
+      />
+      <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+      <ContentsContainer>
+        {data?.receivedQuotationRequests?.map((el, idx) => (
+          <Contents
+            key={el?.quotationRequest?.quotationRequestIdx}
+            onClick={() =>
+              router.push(
+                `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
+              )
+            }
+          >
+            <DdayNAddress>
+              <DdayBox>
+                <CommonBtn
+                  text={el?.badge}
+                  backgroundColor={HandleColor(el?.badge)}
+                  bottom={'12pt'}
+                />
+              </DdayBox>
+              <AddressBox>
+                {el?.quotationRequest?.installationAddress}
+              </AddressBox>
+            </DdayNAddress>
+            <IconBox>
+              <ArrowIconBox>
+                <Image src={CaretDown24} alt="RightArrow" />
+              </ArrowIconBox>
+            </IconBox>
+          </Contents>
+        ))}
+      </ContentsContainer>
+    </>
   );
 };
 

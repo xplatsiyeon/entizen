@@ -11,19 +11,22 @@ import { useMutation } from 'react-query';
 import { multerApi } from 'api';
 import { AxiosError } from 'axios';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
+import { Data } from 'pages/company/mypage/runningProgress/[id]';
 
 type Props = {
-  textOne?: boolean;
+  textOne: string;
   textTwo: string;
   textThree: string;
   textFour: string;
   textFive?: string;
   beforeFinish?: boolean;
-  afterFinish?: boolean;
   btnText: string;
   almostFinish?: boolean;
-  //setProgressNum?: Dispatch<SetStateAction<number>>;
   setBadgeState: React.Dispatch<React.SetStateAction<number>>;
+  setData: React.Dispatch<React.SetStateAction<Data>>;
+  fin:boolean;
+  planed? : string;
+ // setFin: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 interface ImgFile {
@@ -43,11 +46,16 @@ const Reusable = ({
   textFour,
   textFive,
   beforeFinish,
-  afterFinish,
   almostFinish,
   btnText,
-  setBadgeState
+  setBadgeState,
+  setData,
+  fin, planed
+  //setFin
+
 }: Props) => {
+  //console.log(beforeFinish, almostFinish)
+  console.log(planed)
   // img ref
   const imgRef = useRef<HTMLInputElement>(null);
   // 날짜 변경 모달 오픈
@@ -132,11 +140,12 @@ const Reusable = ({
 
   // '완료하기' 누른 후 실행되는 함수. 배지를 변경하는 api 호출하기. 
   const handleModalRightBtn = () => {
-    setBadgeState((prev)=>prev+1)
-    /* if (setProgressNum) {
-      setProgressNum(-1);
-    } */
-
+    setBadgeState((prev)=>prev+1);
+    setData((prev)=>{
+      return {...prev, state:(prev.state+1 === 6? 5:prev.state+1 )}
+    })
+   // setFin(true);
+    setTwoBtnModalOpen(false);
   };
   return (
     <>
@@ -168,7 +177,7 @@ const Reusable = ({
           <Wrapper>
             <FinishedBox>
               <FinishedFirst>완료 요청일</FinishedFirst>
-              <FinishedDate>2022년 5월 13일</FinishedDate>
+              <FinishedDate>{planed?planed:'목표일을 정해주세요'}</FinishedDate>
               <FinishedText>프로젝트 완료 진행중입니다.</FinishedText>
               <FinishedSecondText>
                 구매자 동의 후 프로젝트가
@@ -190,23 +199,23 @@ const Reusable = ({
               <Top>
                 <div className="expectedDate">
                   {/* */}
-                  {textOne ? '완료일' : '완료 예정일'} 
+                  {fin ? '완료일' : '완료 예정일'} 
                 </div>
                 <div className="changeDate" onClick={() => setModalOpen(true)}>
                   일정 변경 요청
                 </div>
               </Top>
-              <Date>2022년 4월 26일</Date>
-              <SubTitle>{textTwo}</SubTitle>
+              <Date>{planed?planed:'목표일을 정해주세요'}</Date>
+              <SubTitle>{fin?textOne :textTwo}</SubTitle>
               <ListBox>
                 <li>{textThree}</li>
                 <li>{textFour}</li>
                 {textFive && <li>{textFive}</li>}
               </ListBox>
-            </Box>
+            </Box> 
 
             {/* 완료에서 사진첨부하는곳 보이도록  */}
-            {beforeFinish && (
+            {beforeFinish && !almostFinish && (
               <RemainderInputBox>
                 <Label>사진첨부</Label>
                 <PhotosBox>
@@ -249,12 +258,14 @@ const Reusable = ({
                 </PhotosBox>
               </RemainderInputBox>
             )}
+            {!fin?
             <Button
               onClick={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
               beforeFinish={beforeFinish}
             >
               {btnText}
             </Button>
+            :null}
           </Wrapper>
         </>
       )}

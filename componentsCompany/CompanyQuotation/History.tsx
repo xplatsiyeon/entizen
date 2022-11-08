@@ -2,103 +2,116 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
+import { HandleColor } from 'utils/changeValue';
+import { useQuery } from 'react-query';
+import Sort from './Sort';
+import { filterType, filterTypeEn } from 'pages/company/quotation';
+import Search from './Search';
+import { isTokenGetApi } from 'api';
+import useDebounce from 'hooks/useDebounce';
+import { useRouter } from 'next/router';
+import Modal from 'components/Modal/Modal';
+import Loader from 'components/Loader';
 
-type Props = {
-  checkedFilterIndex: number;
-};
+type Props = {};
 
-interface Data {
-  id: number;
-  badge: string;
-  location: string;
+interface QuotationRequestChargers {
+  kind: number;
 }
-const History = ({ checkedFilterIndex }: Props) => {
-  const tempProceeding: Data[] = [
-    {
-      id: 0,
-      badge: '낙찰성공',
-      location: '서울시 관악구 난곡로',
-    },
-    {
-      id: 1,
-      badge: '낙찰성공',
-      location: '서울시 관악구 난곡로',
-    },
-    {
-      id: 2,
-      badge: '낙찰실패',
-      location: '서울시 관악구1 난곡로',
-    },
-    {
-      id: 3,
-      badge: '낙찰실패',
-      location: '서울시 관악구1 난곡로',
-    },
-  ];
-  const [data, setData] = useState<Data[]>(tempProceeding);
-
-  // 회사 뱃지 변환
-  const handleColor = (badge: string | undefined): string => {
-    if (badge) {
-      if (badge.includes('낙찰성공')) {
-        return '#222222';
-      } else if (badge.includes('낙찰실패')) {
-        return '#CACCD1';
-      } else {
-        return '';
-      }
-    } else {
-      return '';
-    }
+interface Data {
+  preQuotation: {
+    preQuotationIdx: number;
   };
-  //   useEffect(() => {
-  //     switch (checkedFilterIndex) {
-  //       case 1: // 상태순
-  //         console.log('1이다');
-  //         setData(tempProceeding.sort((a, b) => b.id - a.id));
-  //         break;
-  //       case 2: // 날짜순
-  //         console.log('2이다');
-  //         break;
-  //       default: // 마감일순
-  //         0;
-  //         setData(tempProceeding.sort((a, b) => a.id - b.id));
-  //         break;
-  //     }
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   }, [data, checkedFilterIndex]);
+  quotationRequest: {
+    quotationRequestIdx: number;
+    installationAddress: string;
+    createdAt: string;
+    quotationStatus: string;
+    quotationRequestChargers: QuotationRequestChargers[];
+  };
+  badge: string;
+}
+interface HistoryResponse {
+  isSuccess: boolean;
+  data: Data[];
+}
+const TAG = 'componentsCOmpany/CompanyQuotation/History';
+const History = ({}: Props) => {
+  const router = useRouter();
+  const [searchWord, setSearchWord] = useState<string>('');
+  const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
+  const [checkedFilter, setCheckedFilter] =
+    useState<filterType>('마감일순 보기');
+  const keyword = useDebounce(searchWord, 3000);
+  // api 호출
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<HistoryResponse>('received-Request', () =>
+      isTokenGetApi(
+        `/quotations/histories?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+      ),
+    );
+
+  if (isError) {
+    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+    console.log(error);
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
-    <ContentsContainer>
-      {tempProceeding.map((el, index) => (
-        <div key={index}>
-          <Contents
-            key={el.id}
-            // onClick={() =>
-            //   router.push(`/company/recievedRequest/${el.quotationRequestIdx}`)
-            // }
-          >
-            <DdayNAddress>
-              <DdayBox>
-                <CommonBtn
-                  text={el.badge}
-                  backgroundColor={handleColor(el.badge)}
-                  bottom={'12pt'}
-                />
-              </DdayBox>
-              <AddressBox>{el.location}</AddressBox>
-            </DdayNAddress>
-            <IconBox>
-              <ArrowIconBox>
-                <Image src={CaretDown24} alt="RightArrow" />
-              </ArrowIconBox>
-            </IconBox>
-          </Contents>
-        </div>
-      ))}
-    </ContentsContainer>
+    <>
+      <Sort
+        checkedFilter={checkedFilter}
+        setCheckedFilter={setCheckedFilter}
+        checkedFilterIndex={checkedFilterIndex}
+        setcheckedFilterIndex={setcheckedFilterIndex}
+      />
+      <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+      <ContentsContainer>
+        {data?.data?.map((data, index) => (
+          <div key={index}>
+            <Contents
+              key={index}
+              onClick={() =>
+                router.push(
+                  `/company/recievedRequest/${data?.preQuotation?.preQuotationIdx}`,
+                )
+              }
+            >
+              <DdayNAddress>
+                <DdayBox>
+                  <CommonBtn
+                    text={data?.badge}
+                    backgroundColor={HandleColor(data?.badge)}
+                    bottom={'12pt'}
+                  />
+                </DdayBox>
+                <AddressBox>
+                  {data?.quotationRequest.installationAddress}
+                </AddressBox>
+              </DdayNAddress>
+              <IconBox>
+                <ArrowIconBox>
+                  <Image src={CaretDown24} alt="RightArrow" />
+                </ArrowIconBox>
+              </IconBox>
+            </Contents>
+          </div>
+        ))}
+      </ContentsContainer>
+    </>
   );
 };
 const ContentsContainer = styled.div`

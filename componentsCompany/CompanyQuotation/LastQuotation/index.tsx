@@ -1,50 +1,48 @@
 import styled from '@emotion/styled';
-import { SelectedOption } from 'components/quotation/request/FirstStep';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
-import { Option } from 'store/quotationSlice';
 import { chargers } from 'storeCompany/finalQuotation';
-import { chargerData } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
 import { BusinessRegistrationType } from 'components/SignUp';
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
+import { isTokenGetApi } from 'api';
+import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
+import { useQuery } from 'react-query';
+import { useRouter } from 'next/router';
+import Loader from 'components/Loader';
+
 interface Components {
   [key: number]: JSX.Element;
 }
+export type SubscribeProduct = '' | '전체구독' | '부분구독';
 
 export interface MutateData {
   quotationRequestIdx: number;
   preQuotationIdx: number;
-  subscribeProduct: chargerData; // 구독 상품
+  subscribeProduct: string; // 구독 상품
   subscribePeriod: string; // 구독 기간
   userInvestRate: string; // 사용자 수익 비율
   chargingPointRate: string; // chargingPoint - (1 - userInvestRate)
-  subscribePricePerMonth: string; // 월 구독료
+  subscribePricePerMonth: number; // 월 구독료
   chargers: chargers[]; // 충전기
   detailQuotationFiles: BusinessRegistrationType[]; // 상세 견적서 파일
+  constructionPeriod: string;
+  spotInspectionResult: string;
+  subscribeProductFeature: string;
 }
-// interface SelectedOptions extends SelectedOption {
-//   chargePriceType: '';
-//   chargePrice: 24;
-//   installationLocation: '';
-//   modelName: '';
-//   manufacturer: '';
-//   productFeature: '';
-//   chargerImageFiles: [];
-//   catalogFiles: [];
-// }
-type Props = {};
-// const target = 1;
 
+type Props = {};
 const LastWrite = (props: Props) => {
+  const router = useRouter();
+  const routerId = router.query.preQuotation;
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [canNext, SetCanNext] = useState<boolean>(false);
   // step 1
   // 구독상품
-  const [subscribeProduct, setSubscribeProduct] = useState<chargerData>('');
+  const [subscribeProduct, setSubscribeProduct] = useState<string>('');
   // 구독기간
   const [subscribePeriod, setSubscribePeriod] = useState('');
   // 고객 퍼센트
@@ -101,17 +99,14 @@ const LastWrite = (props: Props) => {
     BusinessRegistrationType[]
   >([]);
 
-  const mutateData: MutateData = {
-    quotationRequestIdx: 57, // 간편견적 인덱스
-    preQuotationIdx: 30, // 가견적 인덱스
-    subscribeProduct: subscribeProduct, // 구독 상품
-    subscribePeriod: subscribePeriod, // 구독 기간
-    userInvestRate: profitableInterestUser, // 사용자 수익 비율
-    chargingPointRate: chargePoint, // chargingPoint - (1 - userInvestRate)
-    subscribePricePerMonth: subscribePricePerMonth, // 월 구독료
-    chargers: selectedOptionEn, // 충전기
-    detailQuotationFiles: BusinessRegistration, // 상세 견적서 파일
-  };
+  // ----------- 보낸 견적 상세 페이지 api --------------
+  const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
+    'company/',
+    () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
 
   const components: Components = {
     // 기본
@@ -230,10 +225,35 @@ const LastWrite = (props: Props) => {
         setSelectedOptionEn={setSelectedOptionEn}
         BusinessRegistration={BusinessRegistration}
         setBusinessRegistration={setBusinessRegistration}
-        mutateData={mutateData}
+        // 최종견적 POST에 필요한 data
+        quotationRequestIdx={
+          data?.sendQuotationRequest?.preQuotation?.quotationRequestIdx!
+        }
+        preQuotationIdx={
+          data?.sendQuotationRequest?.preQuotation?.preQuotationIdx!
+        }
+        subscribeProduct={subscribeProduct}
+        subscribePeriod={subscribePeriod}
+        userInvestRate={profitableInterestUser}
+        chargingPointRate={chargePoint}
+        subscribePricePerMonth={subscribePricePerMonth}
+        chargers={selectedOptionEn}
+        detailQuotationFiles={BusinessRegistration}
+        constructionPeriod={constructionPeriod}
+        spotInspectionResult={dueDiligenceResult}
+        subscribeProductFeature={subscribeProductFeature}
       />
     ),
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    console.log('🔥 ~line 249 ~에러 발생');
+    console.log(error);
+  }
   return (
     <>
       {tabNumber >= 0 && (
@@ -241,7 +261,7 @@ const LastWrite = (props: Props) => {
           <TabBox>
             {Object.keys(components).map((tab, index) => (
               <React.Fragment key={index}>
-                {index <= selectedOption.length && (
+                {index <= selectedOption.length + 1 && (
                   <TabLine
                     idx={index.toString()}
                     num={tabNumber.toString()}

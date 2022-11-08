@@ -16,13 +16,14 @@ import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { chargerData } from 'storeCompany/myQuotation';
 import { useMutation } from 'react-query';
-import { isTokenPostApi, multerApi } from 'api';
+import { multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { chargers } from 'storeCompany/finalQuotation';
+import SelectComponents from 'components/Select';
 
 type Props = {
   tabNumber: number;
@@ -298,46 +299,14 @@ const SecondStep = ({
     }
   };
   // 셀렉트 박스 클릭
-  const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
+  const onChangeSelectBox = (value: string) => {
     const temp = [...selectedOptionEn];
     temp[tabNumber - 1] = {
       ...temp[tabNumber - 1],
-      modelName: e.target.value as chargerData,
+      modelName: value as chargerData,
     };
     setSelectedOptionEn(temp);
   };
-  // const storeChargeData = () => {
-  //   dispatch(
-  //     finalQuotationAction.addChargeStep2({
-  //       idx: tabNumber - 1,
-  //       chargePriceType: chargeTypeListEn[chargeTypeNumber] as ChargePriceType,
-  //       chargePrice: Number(fee.replaceAll(',', '')),
-  //       installationLocation: chargeLocationTypeListEn[
-  //         chargeLocationTypeNumber
-  //       ] as InstallationLocation,
-  //       modelName: productItem,
-  //       manufacturer: manufacturingCompany,
-  //       productFeature: chargeFeatures,
-  //       chargerImageFiles: imgArr,
-  //       catalogFiles: fileArr,
-  //     }),
-  //   );
-  //   dispatch(
-  //     finalQuotationAction.addChargeKoStep2({
-  //       idx: tabNumber - 1,
-  //       chargePriceType: chargeTypeList[chargeTypeNumber] as ChargePriceType,
-  //       chargePrice: Number(fee.replaceAll(',', '')),
-  //       installationLocation: chargeLocationTypeList[
-  //         chargeLocationTypeNumber
-  //       ] as InstallationLocation,
-  //       modelName: productItem,
-  //       manufacturer: manufacturingCompany,
-  //       productFeature: chargeFeatures,
-  //       chargerImageFiles: imgArr,
-  //       catalogFiles: fileArr,
-  //     }),
-  //   );
-  // };
   // 이전 버튼
   const handlePrevBtn = () => {
     if (tabNumber > 0) {
@@ -354,7 +323,6 @@ const SecondStep = ({
       }
     }
   };
-
   // 다음버튼 유효성 검사
   useEffect(() => {
     SetCanNext(false);
@@ -372,71 +340,22 @@ const SecondStep = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOptionEn]);
-  // 상태 업데이트 및 초기화 (with 리덕스)
+  // 충전요금 초기화
   useEffect(() => {
-    console.log(selectedOptionEn);
-    console.log(tabNumber - 1);
-  }, [tabNumber - 1, selectedOptionEn]);
-
-  //   const target = chargers[tabNumber - 1];
-  //   console.log(TAG + 'target 확인');
-  //   console.log(tabNumber - 1);
-  //   console.log(target);
-
-  //   if (target?.chargePriceType !== '') {
-  //     if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
-  //       setChargeTypeNumber(0);
-  //     if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT')
-  //       setChargeTypeNumber(1);
-  //   }
-  //   if (target?.chargePrice !== 0) {
-  //     setFee(inputPriceFormat(target?.chargePrice?.toString()));
-  //   }
-  //   if (target?.installationLocation !== '') {
-  //     if (target.installationLocation === 'INSIDE') {
-  //       setChargeLocationTypeNumber(0);
-  //     }
-  //     if (target.installationLocation === 'OUTSIDE') {
-  //       setChargeLocationTypeNumber(1);
-  //     }
-  //   }
-  //   if (target?.modelName !== '') {
-  //     setProductItem(target?.modelName);
-  //   }
-  //   if (target?.manufacturer !== '') {
-  //     setManufacturingCompany(target?.manufacturer);
-  //   }
-  //   if (target?.productFeature !== '') {
-  //     setChargeFeatures(target?.productFeature);
-  //   }
-  //   if (target?.chargerImageFiles?.length >= 1) {
-  //     setImgArr(target?.chargerImageFiles);
-  //   }
-  //   if (target?.catalogFiles?.length >= 1) {
-  //     setFileArr(target?.catalogFiles);
-  //   }
-  //   return () => {
-  //     setChargeTypeNumber(-1);
-  //     setFee('');
-  //     setChargeLocationTypeNumber(-1);
-  //     setManufacturingCompany('');
-  //     setProductItem('');
-  //     setChargeFeatures('');
-  //     setImgArr([]);
-  //     setFileArr([]);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [tabNumber - 1]);
-  // // 금액 초기화
-  // // useEffect(() => {
-  // //   if (chargeTypeNumber === 0) {
-  // //     setFee('');
-  // //   }
-  // // }, [chargeTypeNumber]);
-
-  // useEffect(() => {
-  //   console.log(selectedOptionEn);
-  // }, [selectedOptionEn]);
+    if (
+      selectedOptionEn[tabNumber - 1].chargePriceType ===
+        'PURCHASER_AUTONOMY' &&
+      selectedOptionEn[tabNumber - 1].chargePrice !== '' &&
+      selectedOptionEn[tabNumber - 1].chargePrice !== 0
+    ) {
+      const temp = [...selectedOptionEn];
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        chargePrice: '',
+      };
+      setSelectedOptionEn(temp);
+    }
+  }, [selectedOptionEn]);
   return (
     <>
       {/* 에러 모달 */}
@@ -516,22 +435,12 @@ const SecondStep = ({
           <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
         </TopBox>
         <SelectContainer>
-          <SelectBox
+          <SelectComponents
             value={selectedOptionEn[tabNumber - 1].modelName}
-            onChange={onChangeSelectBox}
-            IconComponent={SelectIcon}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>충전기 종류</Placeholder>
-            </MenuItem>
-
-            {chargerData.map((el, index) => (
-              <MenuItem key={index} value={el}>
-                {el}
-              </MenuItem>
-            ))}
-          </SelectBox>
+            option={chargerData}
+            placeholder="구충전기 종류"
+            onClickEvent={onChangeSelectBox}
+          />
         </SelectContainer>
         <BottomInputBox>
           <div className="withAfter">제조사</div>
@@ -907,6 +816,7 @@ const SelectContainer = styled.div`
   width: 100%;
   display: flex;
   gap: 8.25pt;
+  margin-top: 9pt;
 `;
 const SelectBox = styled(Select)`
   width: 100%;

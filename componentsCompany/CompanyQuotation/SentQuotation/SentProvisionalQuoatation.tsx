@@ -162,8 +162,10 @@ const SentQuoatationFirst = () => {
     console.log(error);
     console.log(spotError);
   }
-  console.log(TAG + '🔥 ~line 138 spotdata check');
+  console.log(TAG + '\n🔥 ~line 138 spotdata check');
   console.log(spotData);
+  console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
+  console.log(data);
 
   return (
     <Wrapper>
@@ -178,20 +180,28 @@ const SentQuoatationFirst = () => {
       {/* 일정 변경 컴포넌트 */}
       <CenterBox spotData={spotData!} />
       <BottomBox data={data!} />
+
+      <BtnBox>
+        {/*가견적 수정하기*/}
+        <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
+      </BtnBox>
       {/* 최종견적 */}
       <LastQuotationBtnBox>
         <Blur />
         <BlurTwo />
         <LastBtn
-          onClick={() => router.push('/company/quotation/lastQuotation')}
+          onClick={() =>
+            router.push({
+              pathname: '/company/quotation/lastQuotation',
+              query: {
+                preQuotation: routerId,
+              },
+            })
+          }
         >
           최종견적 작성
         </LastBtn>
       </LastQuotationBtnBox>
-      <BtnBox>
-        {/*가견적 수정하기*/}
-        <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
-      </BtnBox>
     </Wrapper>
     //  고객과 소통하기
     //    <Button

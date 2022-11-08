@@ -129,7 +129,7 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
             <SelectComponents
               value={fisrtData}
               option={list1}
-              name="fisrt"
+              // name="fisrt"
               placeholder="충전기 종류"
               onClickEvent={handleChange}
             />
@@ -141,7 +141,7 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
             <SelectComponents
               value={secondData}
               option={list2}
-              name="second"
+              // name="second"
               placeholder="충전기 종류"
               onClickEvent={handleChange2}
             />
