@@ -6,20 +6,58 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
-import { ReceivedQuotationRequests } from 'pages/company/quotation';
+import {
+  filterType,
+  filterTypeEn,
+  ReceivedQuotationRequests,
+} from 'pages/company/quotation';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
+import useDebounce from 'hooks/useDebounce';
+import Loader from 'components/Loader';
 
-type Props = {
-  queryData: ReceivedQuotationRequests[];
-};
+type Props = {};
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
-const RecieveRequest = ({ queryData }: Props) => {
+const RecieveRequest = ({}: Props) => {
   const router = useRouter();
+  const [tabNumber, setTabNumber] = useState(0);
+  const [searchWord, setSearchWord] = useState<string>('');
+  const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
+  const [checkedFilter, setCheckedFilter] =
+    useState<filterType>('마감일순 보기');
 
-  // console.log(TAG);
-  // console.log(queryData);
+  const keyword = useDebounce(searchWord, 3000);
+  // api 호출
+  const { data, isLoading, refetch } = useQuery(
+    'receivedRequest',
+    () =>
+      isTokenGetApi(
+        `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+      ),
+    {
+      // enabled: false,
+      onSuccess: (res) => {
+        console.log(TAG + '⭐️ 데이터 체크');
+        console.log(res);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    },
+  );
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  useEffect(() => {
+    console.log(TAG + '🔥 ~line 54 ~ data 확인');
+    console.log(data);
+  }, []);
+
   return (
     <ContentsContainer>
-      {queryData?.map((el) => (
+      {/* {data?.data?.receivedQuotationRequests?.map((el, idx) => (
         <Contents
           key={el?.quotationRequest?.quotationRequestIdx}
           onClick={() =>
@@ -44,7 +82,7 @@ const RecieveRequest = ({ queryData }: Props) => {
             </ArrowIconBox>
           </IconBox>
         </Contents>
-      ))}
+      ))} */}
     </ContentsContainer>
   );
 };

@@ -1,19 +1,19 @@
 import styled from '@emotion/styled';
-
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader';
+import { filterType } from 'pages/company/quotation';
+import Sort from './Sort';
+import Search from './Search';
 
-type Props = {
-  checkedFilterIndex: number;
-};
+type Props = {};
 export interface QuotationRequest {
   changedDate: string;
   createdAt: string;
@@ -50,13 +50,17 @@ export interface SentrequestResponse {
   sendQuotationRequests: SendQuotationRequests[];
 }
 const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
-const SentRequest = ({ checkedFilterIndex }: Props) => {
+const SentRequest = ({}: Props) => {
   const router = useRouter();
+  const [searchWord, setSearchWord] = useState<string>('');
+  const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
+  const [checkedFilter, setCheckedFilter] =
+    useState<filterType>('마감일순 보기');
+
   const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
     'sent-request',
     () => isTokenGetApi('/quotations/sent-request'),
   );
-
   // 뱃지 변경
   const HandleColor = (badge: string): string => {
     if (badge.includes('마감')) {
@@ -92,41 +96,50 @@ const SentRequest = ({ checkedFilterIndex }: Props) => {
   console.log(data);
 
   return (
-    <ContentsContainer>
-      {data?.sendQuotationRequests?.map((el, index) => (
-        <Contents
-          key={index}
-          onClick={() =>
-            router.push(
-              `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
-            )
-          }
-        >
-          <DdayNAddress>
-            <DdayBox>
-              <CommonBtn
-                text={el?.badge}
-                backgroundColor={HandleColor(el?.badge)}
-                bottom={'12pt'}
-              />
-            </DdayBox>
-            <AddressBox>{el?.quotationRequest.installationAddress}</AddressBox>
-          </DdayNAddress>
-          <IconBox>
-            <ArrowIconBox>
-              <Image src={CaretDown24} alt="RightArrow" />
-            </ArrowIconBox>
-          </IconBox>
-        </Contents>
-      ))}
-    </ContentsContainer>
+    <>
+      <Sort
+        checkedFilter={checkedFilter}
+        setCheckedFilter={setCheckedFilter}
+        checkedFilterIndex={checkedFilterIndex}
+      />
+      <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+      <ContentsContainer>
+        {data?.sendQuotationRequests?.map((el, index) => (
+          <Contents
+            key={index}
+            onClick={() =>
+              router.push(
+                `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
+              )
+            }
+          >
+            <DdayNAddress>
+              <DdayBox>
+                <CommonBtn
+                  text={el?.badge}
+                  backgroundColor={HandleColor(el?.badge)}
+                  bottom={'12pt'}
+                />
+              </DdayBox>
+              <AddressBox>
+                {el?.quotationRequest.installationAddress}
+              </AddressBox>
+            </DdayNAddress>
+            <IconBox>
+              <ArrowIconBox>
+                <Image src={CaretDown24} alt="RightArrow" />
+              </ArrowIconBox>
+            </IconBox>
+          </Contents>
+        ))}
+      </ContentsContainer>
+    </>
   );
 };
 
 const ContentsContainer = styled.div`
   margin-top: 18pt;
 `;
-
 const Contents = styled.div`
   padding: 12pt 13.5pt;
   display: flex;
@@ -136,7 +149,6 @@ const Contents = styled.div`
   border-radius: 6pt;
   cursor: pointer;
 `;
-
 const DdayBox = styled.div`
   margin-bottom: 16.5pt;
   cursor: pointer;
@@ -144,7 +156,6 @@ const DdayBox = styled.div`
 const DdayNAddress = styled.div`
   position: relative;
 `;
-
 const AddressBox = styled.div`
   font-family: Spoqa Han Sans Neo;
   position: relative;
@@ -156,13 +167,11 @@ const AddressBox = styled.div`
   margin-top: 12pt;
   color: ${colors.main2};
 `;
-
 const IconBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
-
 const ArrowIconBox = styled.div`
   width: 18pt;
   height: 18pt;
