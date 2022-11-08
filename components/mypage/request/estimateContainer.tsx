@@ -79,7 +79,11 @@ const EstimateContainer = ({ data }: Props) => {
             {data?.quotationRequest?.quotationRequestChargers?.map(
               (item, index) => (
                 <div className="text-box">
-                  <span className="name">충전기 종류 및 수량</span>
+                  {index === 0 ? (
+                    <span className="name">충전기 종류 및 수량</span>
+                  ) : (
+                    <span className="name" />
+                  )}
                   <span className="text">
                     {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                     <br />

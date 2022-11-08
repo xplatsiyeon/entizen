@@ -80,7 +80,11 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         </Item>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
           <Item key={index}>
-            <span className="name">충전기 종류 및 수량</span>
+            {index === 0 ? (
+              <span className="name">충전기 종류 및 수량</span>
+            ) : (
+              <span className="name" />
+            )}
             <span className="value">
               {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
               <br />
