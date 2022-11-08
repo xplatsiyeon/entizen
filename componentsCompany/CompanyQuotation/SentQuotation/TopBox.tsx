@@ -6,7 +6,10 @@ import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
-import { SentRequestResponse } from './SentProvisionalQuoatation';
+import {
+  SentRequestResponse,
+  SpotDataResponse,
+} from './SentProvisionalQuoatation';
 import { HandleColor } from 'utils/changeValue';
 import {
   InstallationPurposeType,
@@ -29,9 +32,10 @@ type Props = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   handleClick: () => void;
   data: SentRequestResponse;
+  spotData: SpotDataResponse;
 };
 
-const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
+const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
   console.log(data);
   return (
     <Wrapper>
@@ -154,21 +158,23 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
             </div>
           </Contents>
           {/* ------------------- 파트너 정보 ---------------- */}
-          <Contents>
-            <Partner>파트너 정보</Partner>
-            <div className="text-box">
-              <span className="name">이름</span>
-              <span className="text">
-                {data?.sendQuotationRequest?.quotationRequest?.member?.name}
-              </span>
-            </div>
-            <div className="text-box">
-              <span className="name">연락처</span>
-              <span className="text phone">
-                {data?.sendQuotationRequest?.quotationRequest?.member?.phone}
-              </span>
-            </div>
-          </Contents>
+          {spotData?.data?.spotInspection && (
+            <Contents>
+              <Partner>파트너 정보</Partner>
+              <div className="text-box">
+                <span className="name">이름</span>
+                <span className="text">
+                  {data?.sendQuotationRequest?.quotationRequest?.member?.name}
+                </span>
+              </div>
+              <div className="text-box">
+                <span className="name">연락처</span>
+                <span className="text phone">
+                  {data?.sendQuotationRequest?.quotationRequest?.member?.phone}
+                </span>
+              </div>
+            </Contents>
+          )}
         </List>
       </Collapse>
     </Wrapper>

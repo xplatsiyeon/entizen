@@ -206,6 +206,10 @@ const SentQuoatationFirst = () => {
   // 상단 열리고 닫히고
   const handleClick = () => setOpen(!open);
 
+  const onClickSpot = () => {
+    console.log('현장실사 patch api 호출!!');
+  };
+
   if (isLoading && spotLoading) {
     return <Loader />;
   }
@@ -222,16 +226,17 @@ const SentQuoatationFirst = () => {
   return (
     <Wrapper>
       <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
-      {/* 견적 정보 */}
+      {/* 구매자 견적 정보 */}
       <TopBox
         handleClick={handleClick}
         open={open}
         setOpen={setOpen}
         data={data!}
+        spotData={spotData!}
       />
       {/* 일정 변경 컴포넌트 */}
       <CenterBox data={data!} spotData={spotData!} />
-      {/* 하단 내용 - 최종 견적 */}
+      {/* 하단 내용 - 최종 견적 작성 후 생김*/}
       {data?.sendQuotationRequest?.preQuotation?.finalQuotation !== null && (
         <>
           <FinalBottomBox data={data!} />
@@ -240,7 +245,7 @@ const SentQuoatationFirst = () => {
           </BtnBox>
         </>
       )}
-      {/* 하단 내용 - 가견적 */}
+      {/* 하단 내용 - 가견적 작성 후 생김 */}
       {data?.sendQuotationRequest?.preQuotation?.finalQuotation === null && (
         <>
           <BottomBox data={data!} />
@@ -250,26 +255,15 @@ const SentQuoatationFirst = () => {
         </>
       )}
 
-      {/* 현장실사 예약 완료 */}
+      {/* 현장실사 예약 완료 -> 현장 실사 완료 버튼 생성*/}
       {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
         <LastQuotationBtnBox>
           <Blur />
           <BlurTwo />
-          <LastBtn
-            onClick={() =>
-              router.push({
-                pathname: '/company/quotation/lastQuotation',
-                query: {
-                  preQuotation: routerId,
-                },
-              })
-            }
-          >
-            최종견적 작성
-          </LastBtn>
+          <LastBtn onClick={onClickSpot}>현장실사 완료</LastBtn>
         </LastQuotationBtnBox>
       )}
-      {/* 최종견적 */}
+      {/* 최종견적 입력 중 -> 최종견적 작성 페이지로 이동 버튼 생성 */}
       {data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
         <LastQuotationBtnBox>
           <Blur />
@@ -289,16 +283,18 @@ const SentQuoatationFirst = () => {
         </LastQuotationBtnBox>
       )}
 
-      {/* // 고객과 소통하기 */}
-      <Button onClick={() => alert('2차 작업 범위입니다')}>
-        <div>
-          <Image src={CommunicationIcon} alt="right-arrow" />
-        </div>
-        고객과 소통하기
-        <div>
-          <Image src={RightArrow} alt="right-arrow" />
-        </div>
-      </Button>
+      {/* // 고객과 소통하기 -> 현장실사 일정 나오면 생김 */}
+      {spotData?.data?.spotInspection && (
+        <Button onClick={() => alert('2차 작업 범위입니다')}>
+          <div>
+            <Image src={CommunicationIcon} alt="right-arrow" />
+          </div>
+          고객과 소통하기
+          <div>
+            <Image src={RightArrow} alt="right-arrow" />
+          </div>
+        </Button>
+      )}
     </Wrapper>
   );
 };
