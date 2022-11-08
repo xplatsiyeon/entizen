@@ -232,11 +232,11 @@ const SentQuoatationFirst = () => {
       <CenterBox data={data!} spotData={spotData!} />
       {/* 하단 내용 */}
       {/* 최종 견적 */}
-      {data?.sendQuotationRequest?.preQuotation?.finalQuotation !== null && (
+      {!data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
         <FinalBottomBox data={data!} />
       )}
       {/* 가견적 */}
-      {data?.sendQuotationRequest?.preQuotation?.finalQuotation === null && (
+      {data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
         <BottomBox data={data!} />
       )}
       <BottomBox data={data!} />
