@@ -15,12 +15,14 @@ import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import useDebounce from 'hooks/useDebounce';
 import Loader from 'components/Loader';
+import Sort from './Sort';
+import Search from './Search';
+import Modal from 'components/Modal/Modal';
 
 type Props = {};
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
 const RecieveRequest = ({}: Props) => {
   const router = useRouter();
-  const [tabNumber, setTabNumber] = useState(0);
   const [searchWord, setSearchWord] = useState<string>('');
   const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
@@ -28,7 +30,7 @@ const RecieveRequest = ({}: Props) => {
 
   const keyword = useDebounce(searchWord, 3000);
   // api 호출
-  const { data, isLoading, refetch } = useQuery(
+  const { data, isLoading, isError, error, refetch } = useQuery(
     'receivedRequest',
     () =>
       isTokenGetApi(
@@ -46,6 +48,19 @@ const RecieveRequest = ({}: Props) => {
     },
   );
 
+  if (isError) {
+    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+    console.log(error);
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
+
   if (isLoading) {
     return <Loader />;
   }
@@ -56,34 +71,44 @@ const RecieveRequest = ({}: Props) => {
   }, []);
 
   return (
-    <ContentsContainer>
-      {/* {data?.data?.receivedQuotationRequests?.map((el, idx) => (
-        <Contents
-          key={el?.quotationRequest?.quotationRequestIdx}
-          onClick={() =>
-            router.push(
-              `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
-            )
-          }
-        >
-          <DdayNAddress>
-            <DdayBox>
-              <CommonBtn
-                text={el?.badge}
-                backgroundColor={HandleColor(el?.badge)}
-                bottom={'12pt'}
-              />
-            </DdayBox>
-            <AddressBox>{el?.quotationRequest?.installationAddress}</AddressBox>
-          </DdayNAddress>
-          <IconBox>
-            <ArrowIconBox>
-              <Image src={CaretDown24} alt="RightArrow" />
-            </ArrowIconBox>
-          </IconBox>
-        </Contents>
-      ))} */}
-    </ContentsContainer>
+    <>
+      <Sort
+        checkedFilter={checkedFilter}
+        setCheckedFilter={setCheckedFilter}
+        checkedFilterIndex={checkedFilterIndex}
+      />
+      <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+      {/* <ContentsContainer>
+        {data?.data?.receivedQuotationRequests?.map((el, idx) => (
+          <Contents
+            key={el?.quotationRequest?.quotationRequestIdx}
+            onClick={() =>
+              router.push(
+                `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
+              )
+            }
+          >
+            <DdayNAddress>
+              <DdayBox>
+                <CommonBtn
+                  text={el?.badge}
+                  backgroundColor={HandleColor(el?.badge)}
+                  bottom={'12pt'}
+                />
+              </DdayBox>
+              <AddressBox>
+                {el?.quotationRequest?.installationAddress}
+              </AddressBox>
+            </DdayNAddress>
+            <IconBox>
+              <ArrowIconBox>
+                <Image src={CaretDown24} alt="RightArrow" />
+              </ArrowIconBox>
+            </IconBox>
+          </Contents>
+        ))}
+      </ContentsContainer> */}
+    </>
   );
 };
 

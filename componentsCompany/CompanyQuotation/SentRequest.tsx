@@ -12,6 +12,7 @@ import Loader from 'components/Loader';
 import { filterType } from 'pages/company/quotation';
 import Sort from './Sort';
 import Search from './Search';
+import { HandleColor } from 'utils/changeValue';
 
 type Props = {};
 export interface QuotationRequest {
@@ -61,20 +62,6 @@ const SentRequest = ({}: Props) => {
     'sent-request',
     () => isTokenGetApi('/quotations/sent-request'),
   );
-  // 뱃지 변경
-  const HandleColor = (badge: string): string => {
-    if (badge.includes('마감')) {
-      return colors.sub4;
-    } else if (badge.includes('현장실사') || badge.includes('최종견적')) {
-      return colors.main;
-    } else if (badge.includes('대기')) {
-      return colors.yellow;
-    } else if (badge.includes('낙찰대기')) {
-      return colors.main2;
-    } else if (badge.includes('견적취소') || badge.includes('낙찰실패')) {
-      return colors.lightGray3;
-    } else return colors.main;
-  };
 
   if (isError) {
     console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
