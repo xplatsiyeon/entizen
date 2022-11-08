@@ -34,12 +34,7 @@ const GuideLink = ({ type, num, now }: Props) => {
       break;
     case 'mypage':
       linkName = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
-      linkUrl = [
-        `/mypage/`,
-        `/mypage`,
-        '/mypage/request/2-1',
-        '/mypage',
-      ];
+      linkUrl = [`/mypage/`, `/mypage`, '/mypage/request/2-1', '/mypage'];
 
       break;
     default:

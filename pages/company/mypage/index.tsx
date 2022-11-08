@@ -7,6 +7,8 @@ import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 import FinishedProjects from 'componentsCompany/Mypage/FinishedProjects';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 
 type Props = {};
 interface Components {
@@ -25,51 +27,57 @@ const Mypage = (props: Props) => {
   };
 
   return (
-    <Wrapper>
-      <Header>
-        <span>
-          <h1>{`${userName}님,`}</h1>
-          <h2>안녕하세요!</h2>
-        </span>
-        <div className="img" onClick={() => route.push('/setting')}>
-          <Image src={Nut} alt="nut-icon" />
-        </div>
-      </Header>
-      <Body>
-        <span
-          className="profile-icon"
-          onClick={() => route.push('profile/editing')}
-        >
-          프로필 변경
-        </span>
-        <Line />
-        <TabContainer>
-          {TabType.map((tab, index) => (
-            <TabItem
-              key={index}
-              tab={tabNumber.toString()}
-              index={index.toString()}
-              onClick={() => setTabNumber(index)}
-            >
-              {tab}
-              <Dot tab={tabNumber.toString()} index={index.toString()} />
-            </TabItem>
-          ))}
-        </TabContainer>
-        {/* 탭 */}
-        {components[tabNumber]}
-      </Body>
-      <BottomNavigation />
-    </Wrapper>
+    <>
+      <WebBuyerHeader />
+      <Wrapper>
+        <Header>
+          <span>
+            <h1>{`${userName}님,`}</h1>
+            <h2>안녕하세요!</h2>
+          </span>
+          <div className="img" onClick={() => route.push('/setting')}>
+            <Image src={Nut} alt="nut-icon" />
+          </div>
+        </Header>
+        <Body>
+          <span
+            className="profile-icon"
+            onClick={() => route.push('profile/editing')}
+          >
+            프로필 변경
+          </span>
+          <Line />
+          <TabContainer>
+            {TabType.map((tab, index) => (
+              <TabItem
+                key={index}
+                tab={tabNumber.toString()}
+                index={index.toString()}
+                onClick={() => setTabNumber(index)}
+              >
+                {tab}
+                <Dot tab={tabNumber.toString()} index={index.toString()} />
+              </TabItem>
+            ))}
+          </TabContainer>
+          {/* 탭 */}
+          {components[tabNumber]}
+        </Body>
+        <BottomNavigation />
+      </Wrapper>
+
+      <WebFooter />
+    </>
   );
 };
 
 const Wrapper = styled.div`
   position: relative;
-  width: 100%;
+  width: 255pt;
 
   @media (max-width: 899pt) {
     padding-bottom: 60pt;
+    width: 100%;
   }
 `;
 const Header = styled.header`
@@ -96,6 +104,8 @@ const Header = styled.header`
     width: 22.5pt;
     height: 22.5pt;
     text-align: end;
+  }
+  @media (max-width: 899pt) {
   }
 `;
 
