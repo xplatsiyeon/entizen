@@ -30,7 +30,7 @@ type Props = {
 const TAG =
   'componentsCompany/CompanyQuotation/SentQuotation/FinalBottomBox.tsx';
 const FinalBottomBox = ({ pb, data }: Props) => {
-  const { finalQuotation } = data?.sendQuotationRequest?.preQuotation;
+  const { finalQuotation } = data?.sendQuotationRequest?.preQuotation!;
 
   console.log(TAG + '🔥 ~line 34 파이널 바텀 체크');
   return (
