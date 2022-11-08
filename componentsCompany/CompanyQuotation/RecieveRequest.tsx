@@ -64,9 +64,9 @@ const RecieveRequest = ({}: Props) => {
   const keyword = useDebounce(searchWord, 3000);
   // api 호출
   const { data, isLoading, isError, error, refetch } =
-    useQuery<ReceivedResponse>('receivedRequest', () =>
+    useQuery<ReceivedResponse>('received-Request', () =>
       isTokenGetApi(
-        `/quotations/received-request?keyword=&sort=${filterTypeEn[checkedFilterIndex]}`,
+        `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
       ),
     );
 
@@ -98,12 +98,13 @@ const RecieveRequest = ({}: Props) => {
   // }, [checkedFilterIndex, keyword]);
   return (
     <>
-      <Sort
+      <div>테스트</div>
+      {/* <Sort
         checkedFilter={checkedFilter}
         setCheckedFilter={setCheckedFilter}
         checkedFilterIndex={checkedFilterIndex}
       />
-      <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+      <Search searchWord={searchWord} setSearchWord={setSearchWord} /> */}
       {/* <ContentsContainer>
         {data?.receivedQuotationRequests?.map((el, idx) => (
           <Contents
