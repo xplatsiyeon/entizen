@@ -7,15 +7,32 @@ import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import { useCallback } from 'react';
 import { SentRequestResponse } from './SentProvisionalQuoatation';
-import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
-import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
+import {
+  convertEn,
+  convertKo,
+  PriceBasicCalculation,
+} from 'utils/calculatePackage';
+import {
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+  subscribeType,
+  subscribeTypeEn,
+} from 'assets/selectList';
 
 type Props = {
   pb?: number;
   data: SentRequestResponse;
 };
-
+const TAG =
+  'componentsCompany/CompanyQuotation/SentQuotation/FinalBottomBox.tsx';
 const FinalBottomBox = ({ pb, data }: Props) => {
+  const { finalQuotation } = data?.sendQuotationRequest?.preQuotation;
+
+  console.log(TAG + '🔥 ~line 34 파이널 바텀 체크');
   return (
     <Wrapper>
       <ImageBox>
@@ -35,24 +52,52 @@ const FinalBottomBox = ({ pb, data }: Props) => {
       </Title>
       <List>
         <Item>
+          <span className="name">구독상품</span>
+          <span className="value">
+            {convertKo(
+              subscribeType,
+              subscribeTypeEn,
+              finalQuotation?.subscribeProduct,
+            )}
+          </span>
+        </Item>
+        <Item>
+          <span className="name">구독기간</span>
+          <span className="value">{finalQuotation?.subscribePeriod}개월</span>
+        </Item>
+        <Item>
           <span className="name">월 구독료</span>
           <span className="value">
-            {PriceBasicCalculation(
-              data?.sendQuotationRequest?.preQuotation?.subscribePricePerMonth,
-            )}
-            원
+            {PriceBasicCalculation(finalQuotation?.subscribePricePerMonth)}원
           </span>
         </Item>
         <Item>
           {/* --- 수익지분 보류 --- */}
           <span className="name">수익지분</span>
           <span className="value">
-            {`${
-              Number(data?.sendQuotationRequest?.quotationRequest?.investRate) *
-              100
-            } %`}
+            {`${Number(finalQuotation?.chargingPointRate) * 100} %`}
           </span>
         </Item>
+        {finalQuotation?.finalQuotationChargers?.map((item, index) => (
+          <Item key={index}>
+            <span className="name">충전기 종류 및 수량</span>
+            <span className="value">
+              {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+              <br />
+              {item.standType
+                ? `: ${convertKo(
+                    M6_LIST,
+                    M6_LIST_EN,
+                    item.standType,
+                  )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                    item.count
+                  } 대`
+                : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                    item.count
+                  } 대`}
+            </span>
+          </Item>
+        ))}
         <Item>
           <span className="name">공사기간</span>
           <span className="value">
