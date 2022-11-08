@@ -97,7 +97,9 @@ const ProjectInProgress = ({ tabNumber }: Props) => {
             <div key={index}>
               <Contents
                 key={el.id}
-                onClick={() => router.push(`/company/mypage/runningProgress/${index}`)} //여기서 배지에 따라 분리해서 보내야함.
+                onClick={() =>
+                  router.push(`/company/mypage/runningProgress/${index}`)
+                } //여기서 배지에 따라 분리해서 보내야함.
               >
                 <DdayNAddress>
                   <DdayBox>
@@ -137,6 +139,8 @@ const Contents = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
+  @media (min-widt: 899pt) {
+  }
 `;
 
 const DdayBox = styled.div`

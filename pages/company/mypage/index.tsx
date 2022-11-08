@@ -60,12 +60,11 @@ const Mypage = (props: Props) => {
               </TabItem>
             ))}
           </TabContainer>
-          {/* 탭 */}
-          {components[tabNumber]}
         </Body>
         <BottomNavigation />
+        {/* 탭 */}
+        <RightMenuBar> {components[tabNumber]}</RightMenuBar>
       </Wrapper>
-
       <WebFooter />
     </>
   );
@@ -74,6 +73,10 @@ const Mypage = (props: Props) => {
 const Wrapper = styled.div`
   position: relative;
   width: 255pt;
+  border: 0.75pt solid #e2e5ed;
+  height: 424.5pt;
+  border-radius: 12pt;
+  margin: 60pt;
 
   @media (max-width: 899pt) {
     padding-bottom: 60pt;
@@ -105,8 +108,6 @@ const Header = styled.header`
     height: 22.5pt;
     text-align: end;
   }
-  @media (max-width: 899pt) {
-  }
 `;
 
 const Body = styled.div`
@@ -132,6 +133,12 @@ const TabContainer = styled.div`
   display: flex;
   gap: 15pt;
   padding-left: 15pt;
+  @media (min-width: 899pt) {
+    justify-content: center;
+    flex-direction: column;
+    padding-left: 27pt;
+    gap: 1pt;
+  }
 `;
 const TabItem = styled.span<{ tab: string; index: string }>`
   padding-top: 21pt;
@@ -141,6 +148,11 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   letter-spacing: -0.02em;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
+  @media (min-width: 899pt) {
+    display: flex;
+    align-items: center;
+    padding-top: 23pt;
+  }
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
@@ -148,6 +160,14 @@ const Dot = styled.div<{ tab: string; index: string }>`
   border-radius: 50%;
   margin: 6pt auto 0 auto;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
+  @media (min-width: 899pt) {
+    margin: 0 auto;
+    margin-left: 20pt;
+  }
 `;
-
+const RightMenuBar = styled.div`
+  @media (min-width: 899pt) {
+    display: none;
+  }
+`;
 export default Mypage;
