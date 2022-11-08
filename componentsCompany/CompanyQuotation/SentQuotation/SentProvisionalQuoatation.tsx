@@ -9,10 +9,11 @@ import CommunicationIcon from 'public/images/communication-icon.svg';
 import TopBox from './TopBox';
 import BottomBox from './BottomBox';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import FinalBottomBox from './FinalBottomBox';
+import Modal from 'components/Modal/Modal';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -178,17 +179,22 @@ const TAG =
 const SentQuoatationFirst = () => {
   const router = useRouter();
   const routerId = router?.query?.id;
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   // 상단 열고 닫기
   const [open, setOpen] = useState<boolean>(false);
   // ----------- 보낸 견적 상세 페이지 api --------------
-  const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
-    'company/',
-    () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
-    {
-      enabled: router.isReady,
-      // enabled: false,
-    },
-  );
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<SentRequestResponse>(
+      'company/',
+      () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
+      {
+        enabled: router.isReady,
+        // enabled: false,
+      },
+    );
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
@@ -203,17 +209,49 @@ const SentQuoatationFirst = () => {
       // enabled: false,
     },
   );
+  const { mutate: spotPatchMutate, isLoading: spotPatchLoading } = useMutation(
+    isTokenPatchApi,
+    {
+      onSuccess: (data) => {
+        console.log('호출 성공');
+        console.log(data);
+        refetch();
+      },
+      onError: (error: any) => {
+        if (error.response.data) {
+          setErrorMessage(error.response.data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
+    },
+  );
+  // 모달 클릭
+  const onClickModal = () => {
+    if (networkError) {
+      setIsModal(false);
+      router.push('/');
+    } else {
+      setIsModal(false);
+    }
+  };
   // 상단 열리고 닫히고
   const handleClick = () => setOpen(!open);
 
   const onClickSpot = () => {
+    spotPatchMutate({
+      url: `/quotations/pre/${routerId}/spot-inspection`,
+    });
     console.log('현장실사 patch api 호출!!');
   };
 
-  if (isLoading && spotLoading) {
+  if (isLoading || spotLoading || spotPatchLoading) {
     return <Loader />;
   }
-  if (isError && spotIsError) {
+  if (isError || spotIsError) {
     console.log(TAG + '🔥 ~line 42 에러 코드');
     console.log(error);
     console.log(spotError);
@@ -225,6 +263,8 @@ const SentQuoatationFirst = () => {
 
   return (
     <Wrapper>
+      {/* 에러 모달 */}
+      {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
       {/* 구매자 견적 정보 */}
       <TopBox
