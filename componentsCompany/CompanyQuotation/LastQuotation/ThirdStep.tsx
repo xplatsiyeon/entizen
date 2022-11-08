@@ -1,13 +1,17 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import colors from 'styles/colors';
 import CloseImg from 'public/images/XCircle.svg';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
 import { isTokenPostApi, multerApi } from 'api';
@@ -15,8 +19,8 @@ import { useMutation } from 'react-query';
 import { chargers } from 'storeCompany/finalQuotation';
 import Modal from 'components/Modal/Modal';
 import { BusinessRegistrationType } from 'components/SignUp';
-import { getByteSize } from 'utils/calculatePackage';
-import { MutateData } from '.';
+import { convertEn, getByteSize } from 'utils/calculatePackage';
+import { subscribeType, subscribeTypeEn } from 'assets/selectList';
 
 type Props = {
   tabNumber: number;
@@ -28,7 +32,18 @@ type Props = {
   setSelectedOptionEn: Dispatch<SetStateAction<chargers[]>>;
   BusinessRegistration: BusinessRegistrationType[];
   setBusinessRegistration: Dispatch<SetStateAction<BusinessRegistrationType[]>>;
-  mutateData: MutateData;
+  quotationRequestIdx: number;
+  preQuotationIdx: number;
+  subscribeProduct: string;
+  subscribePeriod: string;
+  userInvestRate: string;
+  chargingPointRate: string;
+  subscribePricePerMonth: string;
+  chargers: chargers[];
+  detailQuotationFiles: BusinessRegistrationType[];
+  constructionPeriod: string;
+  spotInspectionResult: string;
+  subscribeProductFeature: string;
 };
 const TAG = 'componentsCompany/CompanQuotation/LastQuotation/ThirdStep.tsx';
 const ThirdStep = ({
@@ -36,16 +51,23 @@ const ThirdStep = ({
   setTabNumber,
   canNext,
   SetCanNext,
-  mutateData,
   maxIndex,
-  selectedOptionEn,
-  setSelectedOptionEn,
   BusinessRegistration,
   setBusinessRegistration,
+  quotationRequestIdx,
+  preQuotationIdx,
+  subscribeProduct,
+  subscribePeriod,
+  userInvestRate,
+  chargingPointRate,
+  subscribePricePerMonth,
+  chargers,
+  constructionPeriod,
+  spotInspectionResult,
+  subscribeProductFeature,
 }: Props) => {
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
-
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
@@ -135,12 +157,39 @@ const ThirdStep = ({
     }
   };
 
+  const changeCharger = [...chargers].map((obj) => {
+    if (typeof obj.chargePrice === 'string') {
+      obj.chargePrice = Number(obj.chargePrice.replaceAll(',', ''));
+    }
+    return obj;
+  });
+
   const onClickPost = () => {
-    console.log('눌려쪙');
-    postMutate({
-      url: '/quotations/final',
-      data: mutateData,
-    });
+    if (canNext) {
+      postMutate({
+        url: '/quotations/final',
+        data: {
+          quotationRequestIdx: quotationRequestIdx,
+          preQuotationIdx: preQuotationIdx,
+          subscribeProduct: convertEn(
+            subscribeType,
+            subscribeTypeEn,
+            subscribeProduct,
+          ),
+          subscribePeriod: subscribePeriod,
+          userInvestRate: Number(userInvestRate) / 100 + '',
+          chargingPointRate: Number(chargingPointRate) / 100 + '',
+          subscribePricePerMonth: Number(
+            subscribePricePerMonth.replaceAll(',', ''),
+          ),
+          chargers: changeCharger,
+          detailQuotationFiles: BusinessRegistration,
+          constructionPeriod: constructionPeriod,
+          spotInspectionResult: spotInspectionResult,
+          subscribeProductFeature: subscribeProductFeature,
+        },
+      });
+    }
   };
 
   const handlePrevBtn = () => {
@@ -162,6 +211,14 @@ const ThirdStep = ({
       setIsModal(false);
     }
   };
+
+  useEffect(() => {
+    if (BusinessRegistration.length >= 1) {
+      SetCanNext(true);
+    } else {
+      SetCanNext(false);
+    }
+  }, [BusinessRegistration]);
 
   return (
     <Wrapper>

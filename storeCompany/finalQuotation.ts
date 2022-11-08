@@ -26,7 +26,7 @@ export type ChargePriceType =
 export interface chargers extends charger {
   // 충전 요금 타입
   chargePriceType: ChargePriceType;
-  chargePrice: string; // 충전 요금 타입
+  chargePrice: string | number; // 충전 요금 타입
   installationLocation: InstallationLocation; // 설치 위치
   modelName: chargerData; // 모델명
   manufacturer: string; // 제조사

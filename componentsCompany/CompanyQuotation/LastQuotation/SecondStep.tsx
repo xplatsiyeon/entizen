@@ -345,7 +345,8 @@ const SecondStep = ({
     if (
       selectedOptionEn[tabNumber - 1].chargePriceType ===
         'PURCHASER_AUTONOMY' &&
-      selectedOptionEn[tabNumber - 1].chargePrice !== ''
+      selectedOptionEn[tabNumber - 1].chargePrice !== '' &&
+      selectedOptionEn[tabNumber - 1].chargePrice !== 0
     ) {
       const temp = [...selectedOptionEn];
       temp[tabNumber - 1] = {

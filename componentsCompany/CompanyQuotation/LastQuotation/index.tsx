@@ -1,17 +1,7 @@
 import styled from '@emotion/styled';
-import { SelectedOption } from 'components/quotation/request/FirstStep';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
-import { Option } from 'store/quotationSlice';
-import {
-  ChargePriceType,
-  charger,
-  chargerData,
-  chargers,
-  DetailQuotationFiles,
-  InstallationLocation,
-} from 'storeCompany/finalQuotation';
-// import { chargerData } from 'storeCompany/myQuotation';
+import { chargers } from 'storeCompany/finalQuotation';
 import colors from 'styles/colors';
 import { BusinessRegistrationType } from 'components/SignUp';
 import FirstStep from './FirstStep';
@@ -22,8 +12,7 @@ import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation'
 import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import Loader from 'components/Loader';
-import { convertEn } from 'utils/calculatePackage';
-import { subscribeType, subscribeTypeEn } from 'assets/selectList';
+
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -115,42 +104,9 @@ const LastWrite = (props: Props) => {
     'company/',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
     {
-      // enabled: router.isReady,
-      enabled: false,
+      enabled: router.isReady,
     },
   );
-
-  // const temp = [...selectedOptionEn];
-
-  // temp.map((e) => {
-  //   Number(e.chargePrice.replaceAll(',', ''));
-  //   console.log(Number(e.chargePrice.replaceAll(',', '')));
-  //   e.chargePrice = Number(e.chargePrice.replaceAll(',', ''));
-  // });
-  // console.log(temp);
-
-  // Number(e.chargePrice.replaceAll(',', '')));
-  // console.log(temp);
-
-  const mutateData: MutateData = {
-    quotationRequestIdx:
-      data?.sendQuotationRequest?.preQuotation?.quotationRequestIdx!, // 간편견적 인덱스
-    preQuotationIdx: data?.sendQuotationRequest?.preQuotation?.preQuotationIdx!, // 가견적 인덱스
-    subscribeProduct: convertEn(
-      subscribeType,
-      subscribeTypeEn,
-      subscribeProduct,
-    ), // 구독 상품
-    subscribePeriod: subscribePeriod, // 구독 기간
-    userInvestRate: Number(profitableInterestUser) / 100 + '', // 사용자 수익 비율
-    chargingPointRate: Number(chargePoint) / 100 + '', // chargingPoint - (1 - userInvestRate)
-    subscribePricePerMonth: Number(subscribePricePerMonth.replaceAll(',', '')), // 월 구독료
-    chargers: selectedOptionEn,
-    detailQuotationFiles: BusinessRegistration, // 상세 견적서 파일
-    constructionPeriod: constructionPeriod,
-    spotInspectionResult: dueDiligenceResult,
-    subscribeProductFeature: subscribeProductFeature,
-  };
 
   const components: Components = {
     // 기본
@@ -269,7 +225,23 @@ const LastWrite = (props: Props) => {
         setSelectedOptionEn={setSelectedOptionEn}
         BusinessRegistration={BusinessRegistration}
         setBusinessRegistration={setBusinessRegistration}
-        mutateData={mutateData}
+        // 최종견적 POST에 필요한 data
+        quotationRequestIdx={
+          data?.sendQuotationRequest?.preQuotation?.quotationRequestIdx!
+        }
+        preQuotationIdx={
+          data?.sendQuotationRequest?.preQuotation?.preQuotationIdx!
+        }
+        subscribeProduct={subscribeProduct}
+        subscribePeriod={subscribePeriod}
+        userInvestRate={profitableInterestUser}
+        chargingPointRate={chargePoint}
+        subscribePricePerMonth={subscribePricePerMonth}
+        chargers={selectedOptionEn}
+        detailQuotationFiles={BusinessRegistration}
+        constructionPeriod={constructionPeriod}
+        spotInspectionResult={dueDiligenceResult}
+        subscribeProductFeature={subscribeProductFeature}
       />
     ),
   };
