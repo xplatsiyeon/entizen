@@ -94,7 +94,7 @@ const CenterBox = ({ spotData, data }: Props) => {
           data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
             <>
               <ConfirmedReservation>
-                <div className="text">현장실사 일정이 확정되었습니다.</div>
+                <div className="text">현장실사 완료</div>
                 <div className="date">
                   {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
                     '-',
@@ -106,6 +106,10 @@ const CenterBox = ({ spotData, data }: Props) => {
               <SecondTitle>보낸 가견적서</SecondTitle>
             </>
           )}
+        {/* 최종견적 작성 후 */}
+        {data?.sendQuotationRequest?.badge === '낙찰 대기 중' && (
+          <SecondTitle>최종 견적서</SecondTitle>
+        )}
       </Wrapper>
     </>
   );
