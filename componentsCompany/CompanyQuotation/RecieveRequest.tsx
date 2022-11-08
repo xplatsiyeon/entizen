@@ -71,7 +71,7 @@ const RecieveRequest = ({}: Props) => {
           `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
         ),
       {
-        // enabled: false,
+        enabled: false,
         onSuccess: (res) => {
           console.log(TAG + '⭐️ 데이터 체크');
           console.log(res);
@@ -112,7 +112,7 @@ const RecieveRequest = ({}: Props) => {
         checkedFilterIndex={checkedFilterIndex}
       />
       <Search searchWord={searchWord} setSearchWord={setSearchWord} />
-      <ContentsContainer>
+      {/* <ContentsContainer>
         {data?.receivedQuotationRequests?.map((el, idx) => (
           <Contents
             key={el?.quotationRequest?.quotationRequestIdx}
@@ -141,7 +141,7 @@ const RecieveRequest = ({}: Props) => {
             </IconBox>
           </Contents>
         ))}
-      </ContentsContainer>
+      </ContentsContainer> */}
     </>
   );
 };
