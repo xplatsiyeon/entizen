@@ -95,7 +95,7 @@ const History = ({}: Props) => {
               key={index}
               onClick={() =>
                 router.push(
-                  `/company/recievedRequest/${data?.preQuotation?.preQuotationIdx}`,
+                  `/company/sentProvisionalQuotation/${data?.preQuotation?.preQuotationIdx}`,
                 )
               }
             >

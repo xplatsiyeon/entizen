@@ -299,7 +299,7 @@ const SecondStep = ({
     }
   };
   // 포스트 버튼
-  const onClickPost = () => {
+  const onClickPost = async () => {
     console.log(TAG + '-> 포스트');
     // 스텝2까지밖에 없을 때
     if (maxIndex === 1) {
@@ -327,7 +327,23 @@ const SecondStep = ({
       });
       // 스텝2이상일 때
     } else {
-      postMutate({
+      dispatch(
+        myEstimateAction.setCharge({
+          index: StepIndex,
+          data: {
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
+          },
+        }),
+      );
+
+      await postMutate({
         url: `/quotations/pre/${routerId}`,
         data: {
           subscribePricePerMonth: subscribePricePerMonth,

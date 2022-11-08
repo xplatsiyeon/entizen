@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
+import { ListItemButton, ListItemText } from '@mui/material';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
@@ -172,7 +172,6 @@ export interface SpotDataResponse {
   isSuccess: boolean;
   data: SpotData;
 }
-
 const TAG =
   'components/Company/CompanyQuotation/SentQuotation/SentProvisionalQuoatation.tsx';
 // 본체
@@ -260,7 +259,6 @@ const SentQuoatationFirst = () => {
   console.log(spotData);
   console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
   console.log(data);
-
   return (
     <Wrapper>
       {/* 에러 모달 */}
