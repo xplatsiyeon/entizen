@@ -7,21 +7,72 @@ import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
 import { useQuery } from 'react-query';
 import Sort from './Sort';
-import { filterType } from 'pages/company/quotation';
+import { filterType, filterTypeEn } from 'pages/company/quotation';
 import Search from './Search';
+import { isTokenGetApi } from 'api';
+import useDebounce from 'hooks/useDebounce';
+import { useRouter } from 'next/router';
+import Modal from 'components/Modal/Modal';
+import Loader from 'components/Loader';
 
 type Props = {};
 
-interface Data {
-  id: number;
-  badge: string;
-  location: string;
+interface QuotationRequestChargers {
+  kind: number;
 }
+interface Data {
+  preQuotation: {
+    preQuotationIdx: number;
+  };
+  quotationRequest: {
+    quotationRequestIdx: number;
+    installationAddress: string;
+    createdAt: string;
+    quotationStatus: string;
+    quotationRequestChargers: QuotationRequestChargers[];
+  };
+  badge: string;
+}
+interface HistoryResponse {
+  isSuccess: boolean;
+  data: Data[];
+}
+const TAG = 'componentsCOmpany/CompanyQuotation/History';
 const History = ({}: Props) => {
+  const router = useRouter();
   const [searchWord, setSearchWord] = useState<string>('');
   const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
+  const keyword = useDebounce(searchWord, 3000);
+  // api 호출
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<HistoryResponse>('received-Request', () =>
+      isTokenGetApi(
+        `/quotations/histories?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+      ),
+    );
+
+  if (isError) {
+    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+    console.log(error);
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  console.log('🔥 ~line 73 ~ data check');
+
+  console.log(data);
 
   return (
     <>
