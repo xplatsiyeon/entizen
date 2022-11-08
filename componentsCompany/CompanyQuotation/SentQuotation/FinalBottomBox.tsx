@@ -15,7 +15,7 @@ type Props = {
   data: SentRequestResponse;
 };
 
-const BottomBox = ({ pb, data }: Props) => {
+const FinalBottomBox = ({ pb, data }: Props) => {
   return (
     <Wrapper>
       <ImageBox>
@@ -128,7 +128,7 @@ const BottomBox = ({ pb, data }: Props) => {
           {/* 구독 상품 부분 */}
           <Label>구독 상품</Label>
           <FeaturesList>
-            {data?.sendQuotationRequest?.preQuotation?.subscribeProductFeature
+            {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.subscribeProductFeature
               ?.split('\n')
               .map((line) => (
                 <li>
@@ -139,17 +139,10 @@ const BottomBox = ({ pb, data }: Props) => {
           </FeaturesList>
           {/* 특장점 충전기 부분 */}
         </FlexWrap>
-        {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
+        {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.finalQuotationChargers?.map(
           (item, index) => (
-            <FlexWrap key={item.preQuotationChargerIdx}>
-              <Label>
-                {convertKo(
-                  M5_LIST,
-                  M5_LIST_EN,
-                  data?.sendQuotationRequest?.quotationRequest
-                    ?.quotationRequestChargers[index]?.kind,
-                )}
-              </Label>
+            <FlexWrap key={item.finalQuotationChargerIdx}>
+              <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
               <FeaturesList>
                 {item.productFeature.split('\n').map((line) => (
                   <li>
@@ -397,4 +390,4 @@ const FileDownload = styled.a`
   color: ${colors.gray2};
 `;
 
-export default BottomBox;
+export default FinalBottomBox;

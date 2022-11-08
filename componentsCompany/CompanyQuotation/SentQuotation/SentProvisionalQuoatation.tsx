@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
+import FinalBottomBox from './FinalBottomBox';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -230,12 +231,15 @@ const SentQuoatationFirst = () => {
       {/* 일정 변경 컴포넌트 */}
       <CenterBox data={data!} spotData={spotData!} />
       {/* 하단 내용 */}
-      <BottomBox
-        data={data!}
-        isFinal={
-          data?.sendQuotationRequest?.preQuotation?.finalQuotation !== null
-        }
-      />
+      {/* 최종 견적 */}
+      {data?.sendQuotationRequest?.preQuotation?.finalQuotation !== null && (
+        <FinalBottomBox data={data!} />
+      )}
+      {/* 가견적 */}
+      {data?.sendQuotationRequest?.preQuotation?.finalQuotation === null && (
+        <BottomBox data={data!} />
+      )}
+      <BottomBox data={data!} />
       <BtnBox>
         {/*가견적 수정하기*/}
         <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
