@@ -25,7 +25,7 @@ import {
 
 type Props = {
   pb?: number;
-  data: SentRequestResponse;
+  data: SentRequestResponse | undefined;
 };
 const TAG =
   'componentsCompany/CompanyQuotation/SentQuotation/FinalBottomBox.tsx';
@@ -39,7 +39,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         <Image
           src={
             data?.sendQuotationRequest?.companyMemberAdditionalInfo
-              ?.companyLogoImageUrl
+              ?.companyLogoImageUrl!
           }
           alt="logo-img"
           layout="fill"
