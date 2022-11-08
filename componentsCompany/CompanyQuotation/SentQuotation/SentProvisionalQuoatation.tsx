@@ -237,7 +237,7 @@ const SentQuoatationFirst = () => {
       {/* 일정 변경 컴포넌트 */}
       <CenterBox data={data!} spotData={spotData!} />
       {/* 하단 내용 - 최종 견적 작성 후 생김*/}
-      {data?.sendQuotationRequest?.preQuotation?.finalQuotation !== null && (
+      {data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
         <>
           <FinalBottomBox data={data!} />
           <BtnBox>
@@ -246,7 +246,7 @@ const SentQuoatationFirst = () => {
         </>
       )}
       {/* 하단 내용 - 가견적 작성 후 생김 */}
-      {data?.sendQuotationRequest?.preQuotation?.finalQuotation === null && (
+      {!data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
         <>
           <BottomBox data={data!} />
           <BtnBox>
