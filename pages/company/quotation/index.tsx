@@ -52,15 +52,10 @@ const CompanyQuotations = (props: Props) => {
 
   // api 호출
   const { data, isLoading, isError, error, refetch } =
-    useQuery<ReceivedRequest>(
-      'received-Request',
-      () =>
-        isTokenGetApi(
-          `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-        ),
-      {
-        enabled: false,
-      },
+    useQuery<ReceivedRequest>('received-Request', () =>
+      isTokenGetApi(
+        `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+      ),
     );
 
   if (isError) {
@@ -78,6 +73,10 @@ const CompanyQuotations = (props: Props) => {
 
   useEffect(() => {
     refetch();
+    return () => {
+      setSearchWord('');
+      setcheckedFilterIndex(0);
+    };
   }, [checkedFilterIndex, keyword]);
 
   if (isLoading) {
