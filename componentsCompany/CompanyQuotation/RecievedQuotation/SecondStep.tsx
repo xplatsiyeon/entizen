@@ -299,38 +299,76 @@ const SecondStep = ({
     }
   };
   // 포스트 버튼
-  const onClickPost = async () => {
-    console.log(TAG + '-> 포스트');
+  const onClickPost = () => {
+    console.log(TAG + '🔥 newCharge data 확인');
+    console.log(newCharge);
+    console.log('----------------------');
+
+    console.log([
+      ...newCharge.slice(0, maxIndex),
+      {
+        chargePriceType:
+          chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+        chargePrice: Number(fee.replaceAll(',', '')),
+        modelName: productItem,
+        manufacturer: manufacturingCompany,
+        feature: chargeFeatures,
+        chargerImageFiles: imgArr,
+        catalogFiles: fileArr,
+      },
+    ]);
+
     // 스텝2까지밖에 없을 때
-    if (maxIndex === 1) {
-      postMutate({
-        url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: [
-            {
-              chargePriceType:
-                chargeTypeNumber !== -1
-                  ? chargeTypeListEn[chargeTypeNumber]
-                  : '',
-              chargePrice: Number(fee.replaceAll(',', '')),
-              modelName: productItem,
-              manufacturer: manufacturingCompany,
-              feature: chargeFeatures,
-              chargerImageFiles: imgArr,
-              catalogFiles: fileArr,
-            },
-          ],
-        },
-      });
-      // 스텝2이상일 때
-    } else {
-      dispatch(
-        myEstimateAction.setCharge({
-          index: StepIndex,
-          data: {
+    // if (maxIndex === 1) {
+    //   postMutate({
+    //     url: `/quotations/pre/${routerId}`,
+    //     data: {
+    //       subscribePricePerMonth: subscribePricePerMonth,
+    //       constructionPeriod: constructionPeriod,
+    //       subscribeProductFeature: subscribeProductFeature,
+    //       chargers: [
+    //         {
+    //           chargePriceType:
+    //             chargeTypeNumber !== -1
+    //               ? chargeTypeListEn[chargeTypeNumber]
+    //               : '',
+    //           chargePrice: Number(fee.replaceAll(',', '')),
+    //           modelName: productItem,
+    //           manufacturer: manufacturingCompany,
+    //           feature: chargeFeatures,
+    //           chargerImageFiles: imgArr,
+    //           catalogFiles: fileArr,
+    //         },
+    //       ],
+    //     },
+    //   });
+    //   // 스텝2이상일 때
+    // } else {
+    //  dispatch(
+    //   myEstimateAction.setCharge({
+    //     index: StepIndex,
+    //     data: {
+    //       chargePriceType:
+    //         chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+    //       chargePrice: Number(fee.replaceAll(',', '')),
+    //       modelName: productItem,
+    //       manufacturer: manufacturingCompany,
+    //       feature: chargeFeatures,
+    //       chargerImageFiles: imgArr,
+    //       catalogFiles: fileArr,
+    //     },
+    //   }),
+    // );
+
+    postMutate({
+      url: `/quotations/pre/${routerId}`,
+      data: {
+        subscribePricePerMonth: subscribePricePerMonth,
+        constructionPeriod: constructionPeriod,
+        subscribeProductFeature: subscribeProductFeature,
+        chargers: [
+          ...newCharge.slice(0, maxIndex),
+          {
             chargePriceType:
               chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
             chargePrice: Number(fee.replaceAll(',', '')),
@@ -340,20 +378,11 @@ const SecondStep = ({
             chargerImageFiles: imgArr,
             catalogFiles: fileArr,
           },
-        }),
-      );
-
-      await postMutate({
-        url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: newCharge.slice(0, maxIndex),
-        },
-      });
-    }
+        ],
+      },
+    });
   };
+  // };
 
   // 다음버튼 유효성 검사
   useEffect(() => {

@@ -419,7 +419,6 @@ const Wrapper = styled.div`
     flex-direction: column;
   }
 `;
-
 const Badge = styled.span`
   background: ${colors.orange};
   color: ${colors.lightWhite};
@@ -429,7 +428,6 @@ const Badge = styled.span`
   font-size: 9pt;
   line-height: 9pt;
 `;
-
 const ItemButton = styled(ListItemButton)`
   display: flex;
   justify-content: center;
@@ -510,7 +508,6 @@ const Contents = styled.div`
     text-align: center;
   }
 `;
-
 const TabBox = styled.div`
   z-index: 1;
   //display:flex;
@@ -540,7 +537,6 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   &:nth-last-of-type(1) {
     margin-right: 0;
   }
-
   @media (max-width: 899pt) {
     display: block;
     width: 100%;
