@@ -6,11 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
-import {
-  filterType,
-  filterTypeEn,
-  ReceivedQuotationRequests,
-} from 'pages/company/quotation';
+import { filterType, filterTypeEn } from 'pages/company/quotation';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import useDebounce from 'hooks/useDebounce';
@@ -20,6 +16,43 @@ import Search from './Search';
 import Modal from 'components/Modal/Modal';
 
 type Props = {};
+
+export interface ReceivedQuotationRequests {
+  quotationRequest: {
+    createdAt: string;
+    quotationRequestIdx: number;
+    quotationStatus: string;
+    changedDate: string;
+    subscribeProduct: string;
+    investRate: string;
+    subscribePeriod: number;
+    installationAddress: string;
+    installationLocation: string;
+    installationPurpose: string;
+    expiredAt: string;
+    etcRequest: string;
+    memberIdx: number;
+    preQuotations: [];
+    quotationRequestChargers: [
+      {
+        createdAt: string;
+        quotationRequestChargerIdx: number;
+        kind: string;
+        standType: string;
+        channel: string;
+        count: number;
+        quotationRequestIdx: number;
+      },
+    ];
+  };
+  companyMemberAdditionalInfo: [];
+  badge: '견적마감 D-0';
+}
+export interface ReceivedResponse {
+  isSuccess: boolean;
+  receivedQuotationRequests: ReceivedQuotationRequests[];
+}
+
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
 const RecieveRequest = ({}: Props) => {
   const router = useRouter();
@@ -30,23 +63,24 @@ const RecieveRequest = ({}: Props) => {
 
   const keyword = useDebounce(searchWord, 3000);
   // api 호출
-  const { data, isLoading, isError, error, refetch } = useQuery(
-    'receivedRequest',
-    () =>
-      isTokenGetApi(
-        `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-      ),
-    {
-      // enabled: false,
-      onSuccess: (res) => {
-        console.log(TAG + '⭐️ 데이터 체크');
-        console.log(res);
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<ReceivedResponse>(
+      'receivedRequest',
+      () =>
+        isTokenGetApi(
+          `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        ),
+      {
+        enabled: false,
+        onSuccess: (res) => {
+          console.log(TAG + '⭐️ 데이터 체크');
+          console.log(res);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
       },
-      onError: (error) => {
-        console.log(error);
-      },
-    },
-  );
+    );
 
   if (isError) {
     console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
@@ -78,8 +112,8 @@ const RecieveRequest = ({}: Props) => {
         checkedFilterIndex={checkedFilterIndex}
       />
       <Search searchWord={searchWord} setSearchWord={setSearchWord} />
-      {/* <ContentsContainer>
-        {data?.data?.receivedQuotationRequests?.map((el, idx) => (
+      <ContentsContainer>
+        {data?.receivedQuotationRequests?.map((el, idx) => (
           <Contents
             key={el?.quotationRequest?.quotationRequestIdx}
             onClick={() =>
@@ -107,7 +141,7 @@ const RecieveRequest = ({}: Props) => {
             </IconBox>
           </Contents>
         ))}
-      </ContentsContainer> */}
+      </ContentsContainer>
     </>
   );
 };
