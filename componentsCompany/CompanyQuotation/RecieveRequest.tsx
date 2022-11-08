@@ -42,6 +42,9 @@ const RecieveRequest = ({
   data,
 }: Props) => {
   const router = useRouter();
+  console.log(TAG + '🔥 ~ line 45 ~ data check');
+  console.log(data);
+
   // const [searchWord, setSearchWord] = useState<string>('');
   // const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
   // const [checkedFilter, setCheckedFilter] =

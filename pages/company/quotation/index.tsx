@@ -52,7 +52,7 @@ const CompanyQuotations = (props: Props) => {
 
   // api 호출
   const { data, isLoading, isError, error, refetch } =
-    useQuery<ReceivedRequest>('received-Request', () =>
+    useQuery<ReceivedRequest>('received-request', () =>
       isTokenGetApi(
         `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
       ),
