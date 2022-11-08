@@ -185,23 +185,44 @@ const SentQuoatationFirst = () => {
         {/*가견적 수정하기*/}
         <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
       </BtnBox>
+      {/* 현장실사 예약 완료 */}
+      {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
+        <LastQuotationBtnBox>
+          <Blur />
+          <BlurTwo />
+          <LastBtn
+            onClick={() =>
+              router.push({
+                pathname: '/company/quotation/lastQuotation',
+                query: {
+                  preQuotation: routerId,
+                },
+              })
+            }
+          >
+            최종견적 작성
+          </LastBtn>
+        </LastQuotationBtnBox>
+      )}
       {/* 최종견적 */}
-      <LastQuotationBtnBox>
-        <Blur />
-        <BlurTwo />
-        <LastBtn
-          onClick={() =>
-            router.push({
-              pathname: '/company/quotation/lastQuotation',
-              query: {
-                preQuotation: routerId,
-              },
-            })
-          }
-        >
-          최종견적 작성
-        </LastBtn>
-      </LastQuotationBtnBox>
+      {data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
+        <LastQuotationBtnBox>
+          <Blur />
+          <BlurTwo />
+          <LastBtn
+            onClick={() =>
+              router.push({
+                pathname: '/company/quotation/lastQuotation',
+                query: {
+                  preQuotation: routerId,
+                },
+              })
+            }
+          >
+            최종견적 작성
+          </LastBtn>
+        </LastQuotationBtnBox>
+      )}
     </Wrapper>
     //  고객과 소통하기
     //    <Button
