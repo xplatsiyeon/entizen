@@ -232,14 +232,13 @@ const SentQuoatationFirst = () => {
       <CenterBox data={data!} spotData={spotData!} />
       {/* 하단 내용 */}
       {/* 최종 견적 */}
-      {!data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
+      {data?.sendQuotationRequest?.preQuotation?.finalQuotation !== null && (
         <FinalBottomBox data={data!} />
       )}
       {/* 가견적 */}
-      {data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
+      {data?.sendQuotationRequest?.preQuotation?.finalQuotation === null && (
         <BottomBox data={data!} />
       )}
-      <BottomBox data={data!} />
       <BtnBox>
         {/*가견적 수정하기*/}
         <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
