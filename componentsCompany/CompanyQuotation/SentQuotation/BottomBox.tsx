@@ -5,7 +5,6 @@ import React from 'react';
 import colors from 'styles/colors';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import { useCallback } from 'react';
 import { SentRequestResponse } from './SentProvisionalQuoatation';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
@@ -96,7 +95,7 @@ const BottomBox = ({ pb, data }: Props) => {
                       </span>
                       <span className="value">{`${PriceBasicCalculation(
                         item.chargePrice,
-                      )} 원 / kW`}</span>
+                      )} 원 /  kW`}</span>
                     </Item>
                   </MultiBox>
                 ),

@@ -103,7 +103,7 @@ export interface PreQuotation {
   quotationRequestIdx: number;
   memberIdx: number;
   preQuotationCharger: PreQuotationCharger[];
-  member: Member;
+
   finalQuotation: FinalQuotation;
 }
 
@@ -142,6 +142,7 @@ export interface QuotationRequest {
   etcRequest: string;
   memberIdx: number;
   quotationRequestChargers: QuotationRequestChargers[];
+  member: Member;
 }
 export interface SentRequestResponse {
   isSuccess: boolean;
