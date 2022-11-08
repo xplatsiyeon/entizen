@@ -7,7 +7,7 @@ import History from 'componentsCompany/CompanyQuotation/History';
 import RecieveRequest from 'componentsCompany/CompanyQuotation/RecieveRequest';
 import useDebounce from 'hooks/useDebounce';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import Header from '../../../componentsCompany/CompanyQuotation/Header';
 import SentRequest from '../../../componentsCompany/CompanyQuotation/SentRequest';
@@ -52,10 +52,15 @@ const CompanyQuotations = (props: Props) => {
 
   // api 호출
   const { data, isLoading, isError, error, refetch } =
-    useQuery<ReceivedRequest>('received-Request', () =>
-      isTokenGetApi(
-        `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-      ),
+    useQuery<ReceivedRequest>(
+      'received-Request',
+      () =>
+        isTokenGetApi(
+          `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        ),
+      {
+        enabled: false,
+      },
     );
 
   if (isError) {
@@ -70,6 +75,10 @@ const CompanyQuotations = (props: Props) => {
       />
     );
   }
+
+  useEffect(() => {
+    refetch();
+  }, [checkedFilterIndex, keyword]);
 
   if (isLoading) {
     return <Loader />;

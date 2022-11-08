@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
 import { useQuery } from 'react-query';
@@ -47,11 +47,20 @@ const History = ({}: Props) => {
   const keyword = useDebounce(searchWord, 3000);
   // api 호출
   const { data, isLoading, isError, error, refetch } =
-    useQuery<HistoryResponse>('received-Request', () =>
-      isTokenGetApi(
-        `/quotations/histories?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-      ),
+    useQuery<HistoryResponse>(
+      'received-Request',
+      () =>
+        isTokenGetApi(
+          `/quotations/histories?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        ),
+      {
+        enabled: false,
+      },
     );
+
+  useEffect(() => {
+    refetch();
+  }, [checkedFilterIndex, keyword]);
 
   if (isError) {
     console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
