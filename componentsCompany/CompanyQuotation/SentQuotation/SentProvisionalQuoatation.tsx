@@ -184,8 +184,8 @@ const SentQuoatationFirst = () => {
     'company/',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
     {
-      enabled: router.isReady,
-      // enabled: false,
+      // enabled: router.isReady,
+      enabled: false,
     },
   );
   // ---------- 현장 실사 날짜 api ------------
@@ -198,8 +198,8 @@ const SentQuoatationFirst = () => {
     'spot-inspection',
     () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
     {
-      enabled: router.isReady,
-      // enabled: false,
+      // enabled: router.isReady,
+      enabled: false,
     },
   );
   // 상단 열리고 닫히고
@@ -281,21 +281,18 @@ const SentQuoatationFirst = () => {
           </LastBtn>
         </LastQuotationBtnBox>
       )}
+      {/* // 고객과 소통하기 */}
+
+      <Button onClick={() => alert('2차 작업 범위입니다')}>
+        <div>
+          <Image src={CommunicationIcon} alt="right-arrow" />
+        </div>
+        고객과 소통하기
+        <div>
+          <Image src={RightArrow} alt="right-arrow" />
+        </div>
+      </Button>
     </Wrapper>
-    //  고객과 소통하기
-    //    <Button
-    //    onClick={() =>
-    //      /*route.push('/chatting/1')*/ alert('2차 작업 범위입니다')
-    //    }
-    //  >
-    //    <div>
-    //      <Image src={CommunicationIcon} alt="right-arrow" />
-    //    </div>
-    //    고객과 소통하기
-    //    <div>
-    //      <Image src={RightArrow} alt="right-arrow" />
-    //    </div>
-    //  </Button>
   );
 };
 

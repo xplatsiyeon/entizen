@@ -67,12 +67,12 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         </Item>
         <Item>
           <span className="name">구독기간</span>
-          <span className="value">{finalQuotation?.subscribePeriod}개월</span>
+          <span className="value">{finalQuotation?.subscribePeriod} 개월</span>
         </Item>
         <Item>
           <span className="name">월 구독료</span>
           <span className="value">
-            {PriceBasicCalculation(finalQuotation?.subscribePricePerMonth)}원
+            {PriceBasicCalculation(finalQuotation?.subscribePricePerMonth)} 원
           </span>
         </Item>
         <Item>
@@ -117,17 +117,18 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             {/* 충전량 1개 일 때  */}
             <Item>
               <span className="name">충전요금</span>
-              {`${finalQuotation?.finalQuotationChargers[0]?.chargePrice} 원 / kW`}
-              <span className="value"></span>
+              <span className="value">{`${finalQuotation?.finalQuotationChargers[0]?.chargePrice} 원 / kW`}</span>
             </Item>
             <Item>
               <span className="name">충전기 설치 위치</span>
-              {`${convertKo(
-                location,
-                locationEn,
-                finalQuotation?.finalQuotationChargers[0]?.installationLocation,
-              )}`}
-              <span className="value"></span>
+              <span className="value">
+                {`${convertKo(
+                  location,
+                  locationEn,
+                  finalQuotation?.finalQuotationChargers[0]
+                    ?.installationLocation,
+                )}`}
+              </span>
             </Item>
             <Item>
               <span className="name">충전기 제조사</span>
