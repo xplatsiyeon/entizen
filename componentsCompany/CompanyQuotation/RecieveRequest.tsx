@@ -64,22 +64,10 @@ const RecieveRequest = ({}: Props) => {
   const keyword = useDebounce(searchWord, 3000);
   // api 호출
   const { data, isLoading, isError, error, refetch } =
-    useQuery<ReceivedResponse>(
-      'receivedRequest',
-      () =>
-        isTokenGetApi(
-          `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-        ),
-      {
-        enabled: false,
-        onSuccess: (res) => {
-          console.log(TAG + '⭐️ 데이터 체크');
-          console.log(res);
-        },
-        onError: (error) => {
-          console.log(error);
-        },
-      },
+    useQuery<ReceivedResponse>('receivedRequest', () =>
+      isTokenGetApi(
+        `/quotations/received-request?keyword=&sort=${filterTypeEn[checkedFilterIndex]}`,
+      ),
     );
 
   if (isError) {
@@ -105,9 +93,9 @@ const RecieveRequest = ({}: Props) => {
   }, []);
 
   // // 필터링 기능
-  useEffect(() => {
-    refetch();
-  }, [checkedFilterIndex, keyword]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [checkedFilterIndex, keyword]);
   return (
     <>
       <Sort
