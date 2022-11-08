@@ -17,9 +17,11 @@ import { handleLogoutOnClickModalClick } from 'api/logout';
 type Props = {
   num?: number;
   now?: string;
+  setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
+  tabNumber?: number;
 };
 
-const WebBuyerHeader = () => {
+const WebBuyerHeader = ({ setTabNumber, tabNumber }: Props) => {
   const [linklist, setLinklist] = useState<boolean>(false);
   const [type, setType] = useState<string>('');
   const [isHovering, setIsHovered] = useState(false);
@@ -149,7 +151,9 @@ const WebBuyerHeader = () => {
             </Box2>
           </Inner>
         </MainLink>
-        {linklist ? <MyprojectLink /> : null}
+        {linklist ? (
+          <MyprojectLink setTabNumber={setTabNumber} tabNumber={tabNumber} />
+        ) : null}
       </Wrapper>
     </>
   );

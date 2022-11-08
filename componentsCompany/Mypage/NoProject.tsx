@@ -26,8 +26,10 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding-top: 130pt;
-  padding-left: 100pt;
+  margin: 0 auto;
+  @media (max-width: 899pt) {
+    margin: 100pt 0;
+  }
 `;
 const ImgBox = styled.div`
   padding-top: 51pt;
@@ -40,6 +42,7 @@ const Message = styled.h1`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightGray2};
+  padding-bottom: 51pt;
 `;
 const Notice = styled.p`
   font-weight: 400;
@@ -54,7 +57,7 @@ const Notice = styled.p`
 const Btn = styled(Button)`
   background: ${colors.main};
   color: ${colors.lightWhite};
-  margin-top: 33pt;
+  margin-top: 44pt;
   border-radius: 6pt;
   padding: 9pt 30pt;
 `;

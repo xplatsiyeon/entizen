@@ -3,7 +3,7 @@ import { InputAdornment, TextField } from '@mui/material';
 import Image from 'next/image';
 import search from 'public/images/search.png';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
@@ -16,6 +16,7 @@ const FinishedProjects = ({ tabNumber }: Props) => {
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
   const handleDownload = () => {};
+
   return (
     <Wrapper>
       <FilterBox>
@@ -54,6 +55,7 @@ const FinishedProjects = ({ tabNumber }: Props) => {
           ),
         }}
       />
+
       <List onClick={() => router.push('/company/mypage/successedProject')}>
         <ListTextBox>
           <ListTitle>타임스트림 쇼핑몰</ListTitle>
@@ -73,6 +75,9 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   padding-top: 20.25pt;
+  @media (min-width: 899pt) {
+    position: relative;
+  }
 `;
 
 const FilterBox = styled.div`
@@ -102,6 +107,11 @@ const FilterText = styled.div`
 `;
 
 const Input = styled(TextField)`
+  @media (min-width: 899pt) {
+    position: absolute;
+    bottom: 95%;
+    width: 580.5pt;
+  }
   width: 100%;
   border-radius: 6pt;
   border: 2.5pt solid ${colors.main};

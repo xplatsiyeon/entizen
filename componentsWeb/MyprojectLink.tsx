@@ -3,30 +3,19 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import colors from 'styles/colors';
-import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
-import FinishedProjects from 'componentsCompany/Mypage/FinishedProjects';
-import NoProject from 'componentsCompany/Mypage/NoProject';
 
 type Props = {
-  type: string;
-  num?: number;
-  now?: string;
+  setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
+  tabNumber?: number;
 };
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
-const myprojectLink = () => {
+const MyprojectLink = ({ setTabNumber, tabNumber }: Props) => {
   const router = useRouter();
-  const [tabNumber, setTabNumber] = useState<number>(0);
-  let linkName: string[];
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
-  const components: Components = {
-    0: <ProjectInProgress tabNumber={tabNumber} />,
-    1: <FinishedProjects tabNumber={tabNumber} />,
-    2: <NoProject />,
-  };
 
   // const handleLink = (idx: number) => {
   //   const user = localStorage.getItem('USER_ID');
@@ -47,22 +36,23 @@ const myprojectLink = () => {
         return (
           <StyledLink
             key={index}
-            tab={tabNumber.toString()}
+            tab={tabNumber?.toString()!}
             index={index.toString()}
-            onClick={() => setTabNumber(index)}
+            onClick={() => {
+              if (setTabNumber !== undefined) {
+                setTabNumber(index);
+              }
+            }}
           >
             {tab}
           </StyledLink>
         );
       })}
-      {/* 탭 */}
-      {/* {components[tabNumber]} */}
-      <NoProject />
     </Wrap>
   );
 };
 
-export default myprojectLink;
+export default MyprojectLink;
 
 const Wrap = styled.ul`
   width: 900pt;
