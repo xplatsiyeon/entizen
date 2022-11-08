@@ -127,8 +127,8 @@ const HeadOpenContent = () => {
     'receivedRequest/id',
     () => isTokenGetApi(`/quotations/received-request/${routerId}`),
     {
-      enabled: router.isReady,
-      // enabled: false,
+      // enabled: router.isReady,
+      enabled: false,
     },
   );
 
@@ -365,12 +365,21 @@ const HeadOpenContent = () => {
                     )}
                 </span>
               </div>
-              <div className="text-box">
-                <span className="name">기타 요청사항</span>
-                <span className="text">
-                  {data?.receivedQuotationRequest.etcRequest}
-                </span>
-              </div>
+              {data?.receivedQuotationRequest?.etcRequest === '' ? (
+                <div className="text-box">
+                  <span className="name">기타 요청사항</span>
+                  <span className="text">없음</span>
+                </div>
+              ) : (
+                <>
+                  <div className="text-box">
+                    <span className="name">기타 요청사항</span>
+                    <span className="text">
+                      {data?.receivedQuotationRequest?.etcRequest}
+                    </span>
+                  </div>
+                </>
+              )}
             </Contents>
           </List>
         </Collapse>

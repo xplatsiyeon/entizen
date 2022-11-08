@@ -20,6 +20,8 @@ const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/CenterBox.tsx';
 // 날짜 정하기
 const CenterBox = ({ spotData, data }: Props) => {
   console.log(TAG + '🔥 ~line 33 data 확인');
+  console.log(spotData);
+
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [checkFlow, setCheckFlow] = useState<boolean>(true);
