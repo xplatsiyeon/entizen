@@ -13,6 +13,8 @@ import {
   PriceBasicCalculation,
 } from 'utils/calculatePackage';
 import {
+  location,
+  locationEn,
   M5_LIST,
   M5_LIST_EN,
   M6_LIST,
@@ -107,25 +109,30 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         <Item>
           <span className="name">공사기간</span>
           <span className="value">
-            {`${data?.sendQuotationRequest?.preQuotation?.constructionPeriod} 일`}
+            {`${finalQuotation?.constructionPeriod} 일`}
           </span>
         </Item>
-        {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger
-          ?.length == 1 ? (
+        {finalQuotation?.finalQuotationChargers?.length == 1 ? (
           <>
             {/* 충전량 1개 일 때  */}
             <Item>
               <span className="name">충전요금</span>
-              {`${data?.sendQuotationRequest?.preQuotation?.preQuotationCharger[0]?.chargePrice} 원 / kW`}
+              {`${finalQuotation?.finalQuotationChargers[0]?.chargePrice} 원 / kW`}
+              <span className="value"></span>
+            </Item>
+            <Item>
+              <span className="name">충전기 설치 위치</span>
+              {`${convertKo(
+                location,
+                locationEn,
+                finalQuotation?.finalQuotationChargers[0]?.installationLocation,
+              )}`}
               <span className="value"></span>
             </Item>
             <Item>
               <span className="name">충전기 제조사</span>
               <span className="value">
-                {
-                  data?.sendQuotationRequest?.preQuotation
-                    ?.preQuotationCharger[0]?.manufacturer
-                }
+                {finalQuotation?.finalQuotationChargers[0]?.manufacturer}
               </span>
             </Item>
           </>
@@ -134,41 +141,40 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             {/* 충전량 2개 이상일 때 */}
             <MultiSection>
               <Subtitle>충전요금</Subtitle>
-              {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
-                (item, index) => (
-                  <MultiBox key={item.preQuotationChargerIdx}>
-                    <Item>
-                      <span className="name">
-                        {
-                          data?.sendQuotationRequest?.quotationRequest
-                            ?.quotationRequestChargers[index]?.kind
-                        }
-                      </span>
-                      <span className="value">{`${PriceBasicCalculation(
-                        item.chargePrice,
-                      )} 원 / kW`}</span>
-                    </Item>
-                  </MultiBox>
-                ),
-              )}
+              {finalQuotation?.finalQuotationChargers?.map((item, index) => (
+                <MultiBox key={item.finalQuotationChargerIdx}>
+                  <Item>
+                    <span className="name">{item?.kind}</span>
+                    <span className="value">{`${PriceBasicCalculation(
+                      item.chargePrice,
+                    )} 원 / kW`}</span>
+                  </Item>
+                </MultiBox>
+              ))}
+            </MultiSection>
+            <MultiSection>
+              <Subtitle>충전기 설치 위치</Subtitle>
+              {finalQuotation?.finalQuotationChargers?.map((item, index) => (
+                <MultiBox key={item.finalQuotationChargerIdx}>
+                  <Item>
+                    <span className="name">{item.installationLocation}</span>
+                    <span className="value">{`${PriceBasicCalculation(
+                      item.chargePrice,
+                    )} 원 / kW`}</span>
+                  </Item>
+                </MultiBox>
+              ))}
             </MultiSection>
             <MultiSection>
               <Subtitle>충전기 제조사</Subtitle>
-              {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
-                (item, index) => (
-                  <MultiBox key={item.preQuotationChargerIdx}>
-                    <Item>
-                      <span className="name">
-                        {
-                          data?.sendQuotationRequest?.quotationRequest
-                            ?.quotationRequestChargers[index]?.kind
-                        }
-                      </span>
-                      <span className="value">{item.manufacturer}</span>
-                    </Item>
-                  </MultiBox>
-                ),
-              )}
+              {finalQuotation?.finalQuotationChargers?.map((item, index) => (
+                <MultiBox key={item.finalQuotationChargerIdx}>
+                  <Item>
+                    <span className="name">{item?.kind}</span>
+                    <span className="value">{item?.manufacturer}</span>
+                  </Item>
+                </MultiBox>
+              ))}
             </MultiSection>
           </>
         )}
