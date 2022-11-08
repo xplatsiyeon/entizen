@@ -88,6 +88,7 @@ const SentRequest = ({}: Props) => {
         checkedFilter={checkedFilter}
         setCheckedFilter={setCheckedFilter}
         checkedFilterIndex={checkedFilterIndex}
+        setcheckedFilterIndex={setcheckedFilterIndex}
       />
       <Search searchWord={searchWord} setSearchWord={setSearchWord} />
       <ContentsContainer>

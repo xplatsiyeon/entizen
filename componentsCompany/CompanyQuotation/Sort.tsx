@@ -18,6 +18,7 @@ type Props = {
   checkedFilter: filterType;
   setCheckedFilter: Dispatch<SetStateAction<filterType>>;
   checkedFilterIndex: number;
+  setcheckedFilterIndex: Dispatch<SetStateAction<number>>;
 };
 
 const tabName = ['받은 요청', '보낸 견적', '히스토리'];
@@ -31,8 +32,14 @@ const Sort = ({
   checkedFilter,
   setCheckedFilter,
   checkedFilterIndex,
+  setcheckedFilterIndex,
 }: Props) => {
   const [state, setState] = useState({ bottom: false });
+
+  // 정렬 값 변경 (with 리덕스)
+  const onClickIndex = (index: number) => {
+    setcheckedFilterIndex(index);
+  };
 
   const list = (anchor: string) => (
     <FilterBox
@@ -49,7 +56,7 @@ const Sort = ({
             <ListItems
               key={index}
               disablePadding
-              // onClick={() => onClickIndex(index)}
+              onClick={() => onClickIndex(index)}
             >
               <ListItemButtons>
                 <ListItemTexts sx={{ textAlign: 'center' }} primary={text} />{' '}
