@@ -128,13 +128,14 @@ const HeadOpenContent = () => {
     () => isTokenGetApi(`/quotations/received-request/${routerId}`),
     {
       enabled: router.isReady,
+      // enabled: false,
     },
   );
 
   // step별 컴포넌트
   const components: Components = {
     // 기본
-    0: (
+    1: (
       <FirstStep
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
@@ -149,7 +150,7 @@ const HeadOpenContent = () => {
       />
     ),
     // 스텝 2
-    1: (
+    0: (
       <SecondStep
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
