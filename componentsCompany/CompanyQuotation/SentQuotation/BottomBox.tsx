@@ -13,26 +13,10 @@ import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 type Props = {
   pb?: number;
   data: SentRequestResponse;
+  isFinal: boolean;
 };
 
-const BottomBox = ({ pb, data }: Props) => {
-  // 파일 다운로드 함수
-  // const DownloadFile = useCallback(() => {
-  //   let fileName = 'Charge Point 카탈로그_7 KW';
-  //   let content = 'Charge Point 카탈로그_7 KW 테스트';
-  //   const blob = new Blob([content], {
-  //     type: 'text/plain',
-  //   });
-  //   const url = window.URL.createObjectURL(blob);
-  //   const element = document.createElement('a');
-  //   element.href = url;
-  //   element.download = fileName;
-  //   document.body.appendChild(element);
-  //   element.click();
-  //   element.remove();
-  //   window.URL.revokeObjectURL(url);
-  // }, []);
-
+const BottomBox = ({ pb, data, isFinal }: Props) => {
   return (
     <Wrapper>
       <ImageBox>
@@ -144,41 +128,70 @@ const BottomBox = ({ pb, data }: Props) => {
         <FlexWrap>
           <Label>구독 상품</Label>
           <FeaturesList>
-            {/* <li>
-              {data?.sendQuotationRequest.preQuotation.subscribeProductFeature}
-            </li> */}
-            {data?.sendQuotationRequest?.preQuotation?.subscribeProductFeature
-              ?.split('\n')
-              .map((line) => (
-                <li>
-                  {line}
-                  <br />
-                </li>
-              ))}
+            {isFinal
+              ? data?.sendQuotationRequest?.preQuotation?.finalQuotation?.subscribeProductFeature
+                  ?.split('\n')
+                  .map((line) => (
+                    <li>
+                      {line}
+                      <br />
+                    </li>
+                  ))
+              : data?.sendQuotationRequest?.preQuotation?.subscribeProductFeature
+                  ?.split('\n')
+                  .map((line) => (
+                    <li>
+                      {line}
+                      <br />
+                    </li>
+                  ))}
           </FeaturesList>
         </FlexWrap>
-        {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
-          (item, index) => (
-            <FlexWrap key={item.preQuotationChargerIdx}>
-              <Label>
-                {convertKo(
-                  M5_LIST,
-                  M5_LIST_EN,
-                  data?.sendQuotationRequest?.quotationRequest
-                    ?.quotationRequestChargers[index]?.kind,
-                )}
-              </Label>
-              <FeaturesList>
-                {item.productFeature.split('\n').map((line) => (
-                  <li>
-                    {line}
-                    <br />
-                  </li>
-                ))}
-              </FeaturesList>
-            </FlexWrap>
-          ),
-        )}
+        {isFinal
+          ? data?.sendQuotationRequest?.preQuotation?.finalQuotation?.finalQuotationChargers?.map(
+              (item, index) => (
+                <FlexWrap key={item.finalQuotationChargerIdx}>
+                  <Label>
+                    {convertKo(
+                      M5_LIST,
+                      M5_LIST_EN,
+                      data?.sendQuotationRequest?.quotationRequest
+                        ?.quotationRequestChargers[index]?.kind,
+                    )}
+                  </Label>
+                  <FeaturesList>
+                    {item.productFeature.split('\n').map((line) => (
+                      <li>
+                        {line}
+                        <br />
+                      </li>
+                    ))}
+                  </FeaturesList>
+                </FlexWrap>
+              ),
+            )
+          : data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
+              (item, index) => (
+                <FlexWrap key={item.preQuotationChargerIdx}>
+                  <Label>
+                    {convertKo(
+                      M5_LIST,
+                      M5_LIST_EN,
+                      data?.sendQuotationRequest?.quotationRequest
+                        ?.quotationRequestChargers[index]?.kind,
+                    )}
+                  </Label>
+                  <FeaturesList>
+                    {item.productFeature.split('\n').map((line) => (
+                      <li>
+                        {line}
+                        <br />
+                      </li>
+                    ))}
+                  </FeaturesList>
+                </FlexWrap>
+              ),
+            )}
       </Section>
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>

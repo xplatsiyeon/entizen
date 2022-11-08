@@ -42,6 +42,55 @@ export interface Member {
   phone: string;
   id: string;
 }
+export interface FinalQuotationDetailFiles {
+  createdAt: string;
+  finalQuotationDetailFileIdx: number;
+  originalName: string;
+  url: string;
+  size: number;
+  finalQuotationIdx: number;
+}
+export interface FinalQuotationChargerFiles {
+  createdAt: string;
+  finalQuotationChargerFileIdx: number;
+  productFileType: string;
+  originalName: string;
+  url: string;
+  size: number;
+  finalQuotationChargerIdx: number;
+}
+export interface FinalQuotationChargers {
+  createdAt: string;
+  finalQuotationChargerIdx: number;
+  kind: string;
+  standType: string;
+  channel: string;
+  count: number;
+  chargePriceType: string;
+  chargePrice: number;
+  installationLocation: string;
+  modelName: string;
+  manufacturer: string;
+  productFeature: string;
+  finalQuotationIdx: number;
+  finalQuotationChargerFiles: FinalQuotationChargerFiles[];
+}
+export interface FinalQuotation {
+  createdAt: string;
+  finalQuotationIdx: number;
+  subscribeProduct: string;
+  subscribePeriod: number;
+  userInvestRate: string;
+  chargingPointRate: string;
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string;
+  spotInspectionResult: string;
+  quotationRequestIdx: number;
+  preQuotationIdx: number;
+  finalQuotationChargers: FinalQuotationChargers[];
+  finalQuotationDetailFiles: FinalQuotationDetailFiles[];
+}
 export interface PreQuotation {
   createdAt: string;
   preQuotationIdx: number;
@@ -54,6 +103,7 @@ export interface PreQuotation {
   memberIdx: number;
   preQuotationCharger: PreQuotationCharger[];
   member: Member;
+  finalQuotation: FinalQuotation;
 }
 
 export interface CompanyMemberAdditionalInfo {
@@ -180,8 +230,12 @@ const SentQuoatationFirst = () => {
       {/* 일정 변경 컴포넌트 */}
       <CenterBox data={data!} spotData={spotData!} />
       {/* 하단 내용 */}
-      <BottomBox data={data!} />
-
+      <BottomBox
+        data={data!}
+        isFinal={
+          data?.sendQuotationRequest?.preQuotation?.finalQuotation !== null
+        }
+      />
       <BtnBox>
         {/*가견적 수정하기*/}
         <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
