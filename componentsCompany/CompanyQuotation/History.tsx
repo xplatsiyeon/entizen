@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
 import { useQuery } from 'react-query';
@@ -70,10 +70,6 @@ const History = ({}: Props) => {
     return <Loader />;
   }
 
-  console.log('🔥 ~line 73 ~ data check');
-
-  console.log(data);
-
   return (
     <>
       <Sort
@@ -83,23 +79,27 @@ const History = ({}: Props) => {
       />
       <Search searchWord={searchWord} setSearchWord={setSearchWord} />
       <ContentsContainer>
-        {[1, 1, 1].map((el, index) => (
+        {data?.data?.map((data, index) => (
           <div key={index}>
             <Contents
-            // key={el.id}
-            // onClick={() =>
-            //   router.push(`/company/recievedRequest/${el.quotationRequestIdx}`)
-            // }
+              key={index}
+              onClick={() =>
+                router.push(
+                  `/company/recievedRequest/${data?.preQuotation?.preQuotationIdx}`,
+                )
+              }
             >
               <DdayNAddress>
                 <DdayBox>
-                  {/* <CommonBtn
-                  text={el.badge}
-                  backgroundColor={HandleColor(el.badge)}
-                  bottom={'12pt'}
-                /> */}
+                  <CommonBtn
+                    text={data?.badge}
+                    backgroundColor={HandleColor(data?.badge)}
+                    bottom={'12pt'}
+                  />
                 </DdayBox>
-                {/* <AddressBox>{el.location}</AddressBox> */}
+                <AddressBox>
+                  {data?.quotationRequest.installationAddress}
+                </AddressBox>
               </DdayNAddress>
               <IconBox>
                 <ArrowIconBox>
