@@ -179,6 +179,7 @@ const SentQuoatationFirst = () => {
       />
       {/* 일정 변경 컴포넌트 */}
       <CenterBox data={data!} spotData={spotData!} />
+      {/* 하단 내용 */}
       <BottomBox data={data!} />
 
       <BtnBox>
