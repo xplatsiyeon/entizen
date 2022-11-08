@@ -176,7 +176,7 @@ const ThirdStep = ({
             subscribeTypeEn,
             subscribeProduct,
           ),
-          subscribePeriod: Number(subscribePeriod.slice(0, 2)),
+          subscribePeriod: subscribePeriod.slice(0, 2),
           userInvestRate: Number(userInvestRate) / 100 + '',
           chargingPointRate: Number(chargingPointRate) / 100 + '',
           subscribePricePerMonth: Number(
