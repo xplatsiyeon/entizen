@@ -336,7 +336,7 @@ const SecondStep = ({
           constructionPeriod: constructionPeriod,
           subscribeProductFeature: subscribeProductFeature,
           chargers: [
-            ...newCharge.slice(0, maxIndex),
+            ...newCharge.slice(0, maxIndex! - 1),
             {
               chargePriceType:
                 chargeTypeNumber !== -1
