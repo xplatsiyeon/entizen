@@ -6,17 +6,21 @@ import { useRouter } from 'next/router';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
-import { SpotDataResponse } from './SentProvisionalQuoatation';
+import {
+  SentRequestResponse,
+  SpotDataResponse,
+} from './SentProvisionalQuoatation';
 
 type Props = {
   spotData: SpotDataResponse;
+  data: SentRequestResponse;
 };
 
 const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/CenterBox.tsx';
 // 날짜 정하기
-const CenterBox = ({ spotData }: Props) => {
-  console.log(TAG + '🔥 ~line 33 spot data 확인');
-  console.log(spotData);
+const CenterBox = ({ spotData, data }: Props) => {
+  console.log(TAG + '🔥 ~line 33 data 확인');
+  console.log(data);
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [checkFlow, setCheckFlow] = useState<boolean>(true);
