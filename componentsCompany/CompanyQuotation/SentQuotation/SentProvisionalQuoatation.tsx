@@ -231,19 +231,25 @@ const SentQuoatationFirst = () => {
       />
       {/* 일정 변경 컴포넌트 */}
       <CenterBox data={data!} spotData={spotData!} />
-      {/* 하단 내용 */}
-      {/* 최종 견적 */}
+      {/* 하단 내용 - 최종 견적 */}
       {data?.sendQuotationRequest?.preQuotation?.finalQuotation !== null && (
-        <FinalBottomBox data={data!} />
+        <>
+          <FinalBottomBox data={data!} />
+          <BtnBox>
+            <EditBtn onClick={() => router.push('/')}>수정하기</EditBtn>
+          </BtnBox>
+        </>
       )}
-      {/* 가견적 */}
+      {/* 하단 내용 - 가견적 */}
       {data?.sendQuotationRequest?.preQuotation?.finalQuotation === null && (
-        <BottomBox data={data!} />
+        <>
+          <BottomBox data={data!} />
+          <BtnBox>
+            <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
+          </BtnBox>
+        </>
       )}
-      <BtnBox>
-        {/*가견적 수정하기*/}
-        <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
-      </BtnBox>
+
       {/* 현장실사 예약 완료 */}
       {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
         <LastQuotationBtnBox>
@@ -282,8 +288,8 @@ const SentQuoatationFirst = () => {
           </LastBtn>
         </LastQuotationBtnBox>
       )}
-      {/* // 고객과 소통하기 */}
 
+      {/* // 고객과 소통하기 */}
       <Button onClick={() => alert('2차 작업 범위입니다')}>
         <div>
           <Image src={CommunicationIcon} alt="right-arrow" />

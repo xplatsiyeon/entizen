@@ -163,12 +163,6 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
               </span>
             </div>
             <div className="text-box">
-              <span className="name">이메일</span>
-              <span className="text emailText">
-                {data?.sendQuotationRequest?.quotationRequest?.member?.id}
-              </span>
-            </div>
-            <div className="text-box">
               <span className="name">연락처</span>
               <span className="text phone">
                 {data?.sendQuotationRequest?.quotationRequest?.member?.phone}
