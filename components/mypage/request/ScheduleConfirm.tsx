@@ -18,7 +18,7 @@ const ScheduleConfirm = ({ date, spotId }: Props) => {
       <Btn
         onClick={() => {
           route.push({
-            pathname: '/mypage/changeDate',
+            pathname: '/mypage/request/changeDate',
             query: {
               spotId: spotId,
             },
