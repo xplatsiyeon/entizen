@@ -166,7 +166,7 @@ const Mypage1_3 = ({}: any) => {
     if (data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx) {
       spotRefetch();
     }
-  }, [data]);
+  }, [data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx]);
   return (
     <>
       {/* 모달 */}
