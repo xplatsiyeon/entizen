@@ -217,7 +217,11 @@ const Mypage1_3 = ({}: any) => {
                   )}
                   {/* 현장실사 일정 변경 요청 */}
                   {spotData?.data?.spotInspection?.isNewPropose === true && (
-                    <ScheduleChange />
+                    <ScheduleChange
+                      spotId={
+                        data?.quotationRequest?.currentInProgressPreQuotationIdx
+                      }
+                    />
                   )}
                   {/* 현장실사 일정 확인 중 */}
                   {spotData?.data?.spotInspection?.isConfirmed === false &&

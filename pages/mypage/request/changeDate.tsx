@@ -10,26 +10,57 @@ import { requestAction } from 'store/requestSlice';
 import React from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 
 const Mypage2_3 = () => {
-  const route = useRouter();
+  const router = useRouter();
   const dispatch = useDispatch();
   const { selectedDate } = useSelector((state: RootState) => state.requestList);
   const [tabNumber, setTabNumber] = useState<number>(-1);
+  // ---------- 현장 실사 날짜 api ------------
+  const {
+    data: spotData,
+    isLoading: spotLoading,
+    isError: spotIsError,
+    error: spotError,
+  } = useQuery<SpotDataResponse>(
+    'spot-inspection',
+    () =>
+      isTokenGetApi(`/quotations/pre/${router?.query?.spotId}/spot-inspection`),
+    {
+      enabled: router?.isReady,
+    },
+  );
 
   // 수락하기 버튼
   const acceptModal = () => {
     dispatch(requestAction.addPick(selectedDate[tabNumber]));
-    route.push('/mypage/request/2-1');
+    router.push('/mypage/request/2-1');
   };
   // 다른 날짜 제안 버튼
-  const HandleDateChange = () => route.push('/mypage/request/2-4');
+  const HandleDateChange = () => router.push('/mypage/request/2-4');
   // 해당 일자 요일 구하기
   function getDayOfWeek(target: string) {
     const week = ['일', '월', '화', '수', '목', '금', '토'];
     const dayOfWeek = week[new Date(target).getDay()];
     return dayOfWeek;
   }
+
+  if (spotLoading) {
+    return <Loader />;
+  }
+
+  if (spotIsError) {
+    console.log('에러발생');
+    console.log(spotError);
+  }
+
+  console.log('🔥 ~line 61 spotData 확인');
+
+  console.log(spotData);
 
   return (
     <React.Fragment>
@@ -119,8 +150,8 @@ const Wrapper = styled.div`
 
   @media (max-width: 899pt) {
     height: 100%;
-   // padding-bottom: 75pt;
-   padding-bottom: 0;
+    // padding-bottom: 75pt;
+    padding-bottom: 0;
     margin: 0;
   }
 `;
