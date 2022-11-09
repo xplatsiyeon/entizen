@@ -80,6 +80,8 @@ const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
+
+  //----------- 구매자 내견적 상세 조회 API ------------
   const { data, isError, isLoading, refetch } =
     useQuery<QuotationRequestsResponse>(
       'mypage/request/id',
@@ -91,19 +93,19 @@ const Mypage1_3 = ({}: any) => {
     );
 
   // ---------  가견적 상세조회 api -----------
-  // const {
-  //   data: quotationData,
-  //   isLoading: quotationLoading,
-  //   isError: quotationError,
-  //   error,
-  // } = useQuery<PreQuotationResponse, AxiosError>(
-  //   'pre-quotation',
-  //   () => isTokenGetApi(`/quotations/pre/${routerId}`),
-  //   {
-  //     enabled: router.isReady,
-  //     // enabled: false,
-  //   },
-  // );
+  const {
+    data: quotationData,
+    isLoading: quotationLoading,
+    isError: quotationError,
+    error,
+  } = useQuery<PreQuotationResponse, AxiosError>(
+    'pre-quotation',
+    () => isTokenGetApi(`/quotations/pre/${routerId}`),
+    {
+      enabled: router.isReady,
+      // enabled: false,
+    },
+  );
 
   // ---------- 현장 실사 날짜 api ------------
   const {
@@ -140,8 +142,10 @@ const Mypage1_3 = ({}: any) => {
     return <Loader />;
   }
 
-  console.log(TAG + '⭐️ ~line 53 ~ api data 확인');
+  console.log(TAG + '⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
   console.log(data);
+  console.log(quotationData);
+  console.log(spotData);
 
   return (
     <>

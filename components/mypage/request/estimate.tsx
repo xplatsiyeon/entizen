@@ -33,6 +33,7 @@ const TAG = 'componets/mypage/request/estimate.tsx';
 const Estimate = () => {
   const router = useRouter();
 
+  // 내견적 목록 API
   const { data, isError, isLoading } = useQuery<Response>('user-mypage', () =>
     isTokenGetApi('/quotations/request'),
   );
@@ -44,8 +45,8 @@ const Estimate = () => {
   if (isLoading) {
     return <Loader />;
   }
-  // console.log(TAG + '⭐️ ~line 58 ~react query data test');
-
+  console.log(TAG + '⭐️ ~line 58 ~ 구매자 내견적 리스트 데이터 확인');
+  console.log(data);
   // 견적서가 없는 경우
   if (
     data?.inProgressQuotationRequests.length === 0 &&
@@ -67,17 +68,17 @@ const Estimate = () => {
           <Carousel length={data?.inProgressQuotationRequests.length!}>
             {data?.inProgressQuotationRequests.map((data, index) => (
               <CarouselItem
-                key={data.quotationRequestIdx}
+                key={data?.quotationRequestIdx}
                 onClick={() =>
-                  router.push(`/mypage/request/${data.quotationRequestIdx}`)
+                  router.push(`/mypage/request/${data?.quotationRequestIdx}`)
                 }
               >
-                <Badge className="badge" color={HandleUserColor(data.badge)}>
+                <Badge className="badge" color={HandleUserColor(data?.badge)}>
                   {data.badge}
                 </Badge>
-                <div className="store-name">{data.installationAddress}</div>
+                <div className="store-name">{data?.installationAddress}</div>
                 <span className="date">
-                  {moment(data.createdAt).format('YYYY.MM.DD')}
+                  {moment(data?.createdAt).format('YYYY.MM.DD')}
                 </span>
               </CarouselItem>
             ))}

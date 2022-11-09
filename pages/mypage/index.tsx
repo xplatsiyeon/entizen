@@ -10,6 +10,7 @@ import BottomNavigation from 'components/BottomNavigation';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import MyProjects from 'components/mypage/projects/MyProjects';
+import Loader from 'components/Loader';
 
 export interface UserInfo {
   isSuccess: boolean;
@@ -27,20 +28,18 @@ const Request = () => {
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
   const components: Components = {
     0: <Estimate />,
-    1: <MyProjects/>,
+    1: <MyProjects />,
     2: <AsIndex />,
   };
-
+  // 유저 정보 API
   const {
     data: userData,
     isError: userError,
     isLoading: userLoading,
   } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
 
-  // console.log(TAG + '🔥 ~line 38 ~ 유저 정보 확인');
-  // console.log(userData);
   if (userLoading) {
-    console.log('유저 정보 받아오는 중');
+    return <Loader />;
   }
   if (userError) {
     console.log('유저 정보 에러');
