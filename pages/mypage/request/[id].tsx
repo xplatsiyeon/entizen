@@ -182,6 +182,10 @@ const Mypage1_3 = ({}: any) => {
     }
   };
 
+  useEffect(() => {
+    switchNotice();
+  }, [spotData, switchNotice]);
+
   return (
     <>
       {/* 모달 */}
@@ -228,35 +232,6 @@ const Mypage1_3 = ({}: any) => {
                 </>
               ) : (
                 <>
-                  {/* 현장실사 확정 */}
-                  {/* {spotData?.data?.spotInspection?.isConfirmed === true && (
-                    <ScheduleConfirm
-                      date={
-                        spotData?.data?.spotInspection?.spotInspectionDate[0]
-                      }
-                      spotId={
-                        data?.quotationRequest?.currentInProgressPreQuotationIdx
-                      }
-                    />
-                  )} */}
-                  {/* 현장실사 일정 변경 요청 */}
-                  {/* {spotData?.data?.spotInspection?.isNewPropose === true && (
-                    <ScheduleChange
-                      spotId={
-                        data?.quotationRequest?.currentInProgressPreQuotationIdx
-                      }
-                    />
-                  )} */}
-                  {/* 현장실사 일정 확인 중 */}
-                  {/* {spotData?.data?.spotInspection?.isConfirmed === false &&
-                    spotData?.data?.spotInspection?.isNewPropose === false &&
-                    spotData?.data?.spotInspection !== null && (
-                      <Checking
-                        date={
-                          spotData?.data?.spotInspection?.spotInspectionDate[0]
-                        }
-                      />
-                    )} */}
                   {switchNotice()}
                   <BiddingQuote
                     data={quotationData!}
