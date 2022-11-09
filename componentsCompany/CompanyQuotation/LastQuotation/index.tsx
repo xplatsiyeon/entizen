@@ -266,6 +266,18 @@ const LastWrite = ({ data }: Props) => {
   const businessRegistrationFiles =
     data?.sendQuotationRequest?.companyMemberAdditionalInfo
       ?.businessRegistrationFiles!;
+  const relocation = (
+    data: BusinessRegistrationType[],
+  ): BusinessRegistrationType[] => {
+    const result = data.map((obj) => {
+      return {
+        originalName: obj.originalName,
+        size: obj.size,
+        url: obj.url,
+      };
+    });
+    return result;
+  };
   // 최종 견적 초기값 세팅
   useEffect(() => {
     if (data) {
@@ -309,8 +321,8 @@ const LastWrite = ({ data }: Props) => {
           modelName: preQutationCharger.modelName,
           manufacturer: preQutationCharger.manufacturer,
           productFeature: preQutationCharger.productFeature,
-          chargerImageFiles: preQutationCharger.chargerImageFiles,
-          catalogFiles: preQutationCharger.catalogFiles,
+          chargerImageFiles: relocation(preQutationCharger.chargerImageFiles),
+          catalogFiles: relocation(preQutationCharger.catalogFiles),
         };
         // 영어값 담기
         const tempEn: chargers = {
@@ -324,8 +336,8 @@ const LastWrite = ({ data }: Props) => {
           modelName: preQutationCharger.modelName,
           manufacturer: preQutationCharger.manufacturer,
           productFeature: preQutationCharger.productFeature,
-          chargerImageFiles: preQutationCharger.chargerImageFiles,
-          catalogFiles: preQutationCharger.catalogFiles,
+          chargerImageFiles: relocation(preQutationCharger.chargerImageFiles),
+          catalogFiles: relocation(preQutationCharger.catalogFiles),
         };
         arr.push(temp);
         arrEn.push(tempEn);
