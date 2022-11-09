@@ -108,9 +108,13 @@ const CenterBox = ({ spotData, data }: Props) => {
             </>
           )}
         {/* 최종견적 작성 후 */}
-        {data?.sendQuotationRequest?.badge === '낙찰대기 중' && (
-          <SecondTitle>최종 견적서</SecondTitle>
-        )}
+        {data?.sendQuotationRequest?.badge === '낙찰대기 중' ||
+          data?.sendQuotationRequest?.badge === '최종대기 중' ||
+          data?.sendQuotationRequest?.badge === '견적취소' ||
+          data?.sendQuotationRequest?.badge === '낙찰성공' ||
+          data?.sendQuotationRequest?.badge === '낙찰실패' || (
+            <SecondTitle>최종 견적서</SecondTitle>
+          )}
       </Wrapper>
     </>
   );
