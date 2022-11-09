@@ -5,19 +5,24 @@ import colors from 'styles/colors';
 
 interface Props {
   date: string;
+  spotId: number;
 }
 
-const ScheduleConfirm = ({ date }: Props) => {
+const ScheduleConfirm = ({ date, spotId }: Props) => {
   console.log(date);
   const route = useRouter();
   return (
     <Wrapper>
       <P>현장실사 일정이 확정되었습니다.</P>
       <Date>{date.replaceAll('-', '.')}</Date>
-      {/* <Date>2022.11.30</Date> */}
       <Btn
         onClick={() => {
-          route.push('/mypage/request/2-3');
+          route.push({
+            pathname: '/mypage/changeDate',
+            query: {
+              spotId: spotId,
+            },
+          });
         }}
       >
         날짜 변경

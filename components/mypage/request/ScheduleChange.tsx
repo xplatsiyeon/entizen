@@ -13,7 +13,7 @@ const ScheduleChange = ({ spotId }: Props) => {
       <Btn
         onClick={() =>
           router.push({
-            pathname: '/mypage/changeDate/2-3',
+            pathname: '/mypage/changeDate',
             query: {
               spotId: spotId,
             },
