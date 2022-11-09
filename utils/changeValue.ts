@@ -36,3 +36,25 @@ export const HandleUserColor = (badge: string | undefined): string => {
     return '';
   }
 };
+
+
+export const handleColor = (badge: string | undefined): string => {
+  if (badge) {
+    if (badge.includes('계약대기')) {
+      return '#F75015';
+    } else if (badge.includes('준비') || badge.includes('설치')) {
+      return colors.main;
+    } else if (badge.includes('검수 중')) {
+      return '#FFC043';
+    } else if (badge.includes('완료')) {
+      return '#222222';
+    } else if (badge.includes('프로젝트')) {
+      return '#CACCD1';
+    } else {
+      return '';
+    }
+  } else {
+    return '';
+  }
+};
+

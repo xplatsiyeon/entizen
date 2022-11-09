@@ -37,7 +37,8 @@ const MainPage = (props: Props) => {
   console.log(TAP + ' -> 메인 컴포넌트 시작');
   const router = useRouter();
   const dispatch = useDispatch();
-  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+ //const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+ const userID = localStorage.getItem('USER_ID');
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
