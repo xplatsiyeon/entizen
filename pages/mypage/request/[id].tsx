@@ -155,11 +155,32 @@ const Mypage1_3 = ({}: any) => {
   if (isLoading) {
     return <Loader />;
   }
-  data?.quotationRequest.hasCurrentInProgressPreQuotationIdx;
   console.log('⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
   console.log(data);
-  // console.log(quotationData);
   console.log(spotData);
+
+  /**현장 실사에 따라 안내 컴포넌트 변경해주는 함수 */
+  const switchNotice = () => {
+    const spotInspection = spotData?.data?.spotInspection!;
+    if (spotInspection !== null) {
+      if (spotInspection.isConfirmed) {
+        return (
+          <ScheduleConfirm
+            date={spotInspection?.spotInspectionDate[0]}
+            spotId={data?.quotationRequest?.currentInProgressPreQuotationIdx!}
+          />
+        );
+      } else if (spotInspection.isNewPropose) {
+        <ScheduleChange
+          spotId={data?.quotationRequest?.currentInProgressPreQuotationIdx!}
+        />;
+      } else {
+        <Checking
+          date={spotData?.data?.spotInspection?.spotInspectionDate[0]!}
+        />;
+      }
+    }
+  };
 
   return (
     <>
@@ -208,7 +229,7 @@ const Mypage1_3 = ({}: any) => {
               ) : (
                 <>
                   {/* 현장실사 확정 */}
-                  {spotData?.data?.spotInspection?.isConfirmed === true && (
+                  {/* {spotData?.data?.spotInspection?.isConfirmed === true && (
                     <ScheduleConfirm
                       date={
                         spotData?.data?.spotInspection?.spotInspectionDate[0]
@@ -217,17 +238,17 @@ const Mypage1_3 = ({}: any) => {
                         data?.quotationRequest?.currentInProgressPreQuotationIdx
                       }
                     />
-                  )}
+                  )} */}
                   {/* 현장실사 일정 변경 요청 */}
-                  {spotData?.data?.spotInspection?.isNewPropose === true && (
+                  {/* {spotData?.data?.spotInspection?.isNewPropose === true && (
                     <ScheduleChange
                       spotId={
                         data?.quotationRequest?.currentInProgressPreQuotationIdx
                       }
                     />
-                  )}
+                  )} */}
                   {/* 현장실사 일정 확인 중 */}
-                  {spotData?.data?.spotInspection?.isConfirmed === false &&
+                  {/* {spotData?.data?.spotInspection?.isConfirmed === false &&
                     spotData?.data?.spotInspection?.isNewPropose === false &&
                     spotData?.data?.spotInspection !== null && (
                       <Checking
@@ -235,7 +256,8 @@ const Mypage1_3 = ({}: any) => {
                           spotData?.data?.spotInspection?.spotInspectionDate[0]
                         }
                       />
-                    )}
+                    )} */}
+                  {switchNotice()}
                   <BiddingQuote
                     data={quotationData!}
                     isSpot={spotData?.data?.spotInspection ? true : false}
