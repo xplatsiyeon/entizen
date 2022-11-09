@@ -1,14 +1,8 @@
-import MypageHeader from 'components/mypage/request/header';
-import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
-import TopBox from 'componentsCompany/Mypage/TopBox';
-import UnderBox from 'componentsCompany/Mypage/UnderBox';
-import WriteContract from 'componentsCompany/Mypage/WriteContract';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import Progress from '../projectProgress';
-
-type Props = {};
-
+import ClientProgress from "components/mypage/projects/ClientProgress";
+import MypageHeader from "components/mypage/request/header";
+import TopBox from "componentsCompany/Mypage/TopBox";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 export interface Data {
     id: number;
@@ -21,7 +15,7 @@ export interface Data {
     address : string;
 }
   
-  const tempProceeding: Data[] = [
+const tempProceeding: Data[] = [
     {
       id: 0,
       state: 3,
@@ -48,7 +42,7 @@ export interface Data {
       badge: '계약대기',
       storeName: 'LS카페 신림점',
       date: '2021.03.10',
-      contract : false,
+      contract : true,
       planed : ['2022.04.25', '2022.07.25' ],
       address : '서울시 관악구 난곡로40길 30'
     },
@@ -94,48 +88,34 @@ export interface Data {
     },
   ];
 
-const RunningProgress = (props: Props) => {
+const ProjectInfo = ()=>{
 
-  const [open, setOpen] = useState<boolean>(false);
-  const [ , setOpenContract] = useState<boolean>(false);
-  const handleClick = () => setOpen(!open);
+    const router = useRouter();
 
-  const [data, setData] = useState<Data>(
-    {
-      id: -1,
-      state: -1,
-      badge: '',
-      storeName: '',
-      date: '',
-      contract : false,
-      planed : [],
-      address : ''
-    });
+    const [open, setOpen] = useState<boolean>(false);
+    const handleClick = () => setOpen(!open);
 
-  const router = useRouter();
- 
-  useEffect(()=>{
-    console.log('index', router.query.id);
-    if(router.query.id){
-      const num = Number(router.query.id)
-      
-      //나중에 여기 부분이 api호출로.
-      setData(tempProceeding[num])
-    }
-  },[router.query.id])
+   /* useEffect(()=>{
+      console.log('index', router.query.id);
+      if(router.query.id){
+        const num = Number(router.query.id)
+      }
+    },[router.query.id])*/
 
-  return (
+    let index = router.query.id;
+
+  
+    
+    return(
     <>
-      <MypageHeader back={true} title={'진행 프로젝트'} />
-      { (data.id !== -1)? <>
-      <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={data} />
-      {data.contract ?(
-        <Progress info={data} setData={setData} />
-      ) : (
-          <UnderBox setOpenContract={setOpenContract}/>
-      )}</> : null}
+    <MypageHeader back={true} title={'내 프로젝트'} />
+        { typeof(index) === "string" ?
+        <> 
+            <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[Number(index)]} />        
+            <ClientProgress info={tempProceeding[Number(index)]} page={tempProceeding[Number(index)].contract ? 'client':'yet'}/> 
+        </>: null}
     </>
-  );
-};
+    )
+}
 
-export default RunningProgress;
+export default ProjectInfo;

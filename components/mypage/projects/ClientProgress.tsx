@@ -1,34 +1,65 @@
-import styled from '@emotion/styled';
-import Image from 'next/image';
-import React, { Dispatch, SetStateAction } from 'react';
+import styled from "@emotion/styled";
+import MessageBox from "componentsCompany/Mypage/MessageBox";
+import Image from "next/image";
+import { Data } from "pages/company/mypage/runningProgress/[id]";
+import { useState } from "react";
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
 import UpArrow from 'public/images/smallUpArrow.png';
 import DownArrow from 'public/images/smallDownArrow.png';
-import MessageBox from './MessageBox';
-import colors from 'styles/colors';
+import icon_chats from'public/images/icon_chats.png'
+import colors from "styles/colors";
+import ClientProjectModal from "./ClientProjectModal";
 
 type Props = {
-  dateArr: boolean[];
-  setDateArr: Dispatch<SetStateAction<boolean[]>>;
-  toggleOpen: boolean[];
-  setToggleOpen: Dispatch<SetStateAction<boolean[]>>;
-  presentProgress: number;
-  setProgressNum: Dispatch<SetStateAction<number>>;
-  state : number;
-  planed:string[];
-};
+    info : Data;
+    page:string
+  };
 
-const ProgressBody = ({
-  dateArr,
-  setDateArr,
-  toggleOpen,
-  setToggleOpen,
-  presentProgress,
-  setProgressNum,
-  state, planed
-}: Props) => {
+const ClientProgress =({info, page}:Props)=>{
+
+    const presentProgress = info.state;
+
+    let textArr;
+
+    switch(info.state) {
+      case 0 : 
+      textArr = ['공사 준비를 진행해주세요.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
+      break;
+  
+      case 1 : 
+      textArr = ['공사 준비를 진행됩니다.','충전기를 설치, 시운전이 진행됩니다.', '충전기 검수가 진행됩니다!', '곧 프로젝트가 완료됩니다!'];
+      break;
+  
+      case 2 : 
+      textArr = ['공사 준비가 완료되었습니다!.','충전기를 설치, 시운전이 진행됩니다.', '충전기 검수가 진행됩니다!', '곧 프로젝트가 완료됩니다!'];
+      break;
+  
+      case 3 : 
+      textArr = ['공사 준비가 완료되었습니다!','충전기를 설치, 시운전이 완료되었습니다!', '충전기 검수가 완료되었습니다!', '프로젝트를 완료해주세요'];
+      break;
+  
+      case 4 : 
+      textArr = ['공사 준비가 완료되었습니다!','충전기를 설치, 시운전이 완료되었습니다!', '충전기 검수가 완료되었습니다!', '곧 프로젝트가 완료됩니다!'];
+      break;
+  
+      case 5 : 
+      textArr = ['공사 준비가 완료되었습니다!','충전기를 설치, 시운전이 완료되었습니다!', '충전기 검수가 완료되었습니다!', '프로젝트 완료에 동의해주세요!'];
+      break;
+  
+      default: 
+      textArr = ['공사 준비가 완료되었습니다!', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
+    }
+
+    const [modal, setModal] = useState<boolean>(false);
+  const [toggleOpen, setToggleOpen] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -51,60 +82,9 @@ const ProgressBody = ({
       setToggleOpen(copyArr);
     }
   };
-
-  // 목표일 설정 모달창 관리
-  const handleDateModal = (e: React.MouseEvent<HTMLDivElement>) => {
-    let copyArr = [...dateArr];
-    if (e.currentTarget.id === 'prepareDate') {
-      copyArr[0] = !copyArr[0];
-      setDateArr(copyArr);
-    } else if (e.currentTarget.id === 'installDate') {
-      copyArr[1] = !copyArr[1];
-      setDateArr(copyArr);
-    } else if (e.currentTarget.id === 'inspectionDate') {
-      copyArr[2] = !copyArr[2];
-      setDateArr(copyArr);
-    } else if (e.currentTarget.id === 'successDate') {
-      copyArr[3] = !copyArr[3];
-      setDateArr(copyArr);
-    }
-  };
-
-  const handleListClick = () => {};
-
-  let textArr;
-
-  switch(state) {
-    case 0 : 
-    textArr = ['공사 준비를 진행해주세요.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
-    break;
-
-    case 1 : 
-    textArr = ['공사 준비를 진행해주세요.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
-    break;
-
-    case 2 : 
-    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
-    break;
-
-    case 3 : 
-    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전이 완료되었습니다', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
-    break;
-
-    case 4 : 
-    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전이 완료되었습니다', '충전기 검수가 완료되었습니다', '프로젝트를 완료해주세요'];
-    break;
-
-    case 5 : 
-    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전이 완료되었습니다', '충전기 검수가 완료되었습니다', '프로젝트를 완료해주세요'];
-    break;
-
-    default: 
-    textArr = ['공사 준비를 진행해주세요.', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
-  }
-
-  return (
-    <>
+  
+return(
+    <Wrapper0>
       <DoubleArrowBox>
         <Image src={DoubleArrow} alt="doubleArrow" />
       </DoubleArrowBox>
@@ -131,8 +111,9 @@ const ProgressBody = ({
           {/* 펼쳐지는 부분 */}
           {toggleOpen[0] && (
             <ContractBtnBox>
-              <div>계약서 보기</div>
-              <div>계약서 수정</div>
+                {page === 'client'? 
+                <ClientP presentProgress={presentProgress === 0}>계약서 보기 및 서명</ClientP>:
+                <YetP presentProgress={presentProgress === 0}>계약서 작성중...</YetP>}
             </ContractBtnBox>
           )}
         </FlexBox>
@@ -159,10 +140,10 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[0]?
-              <PickedDate color={(1 >= state) ? colors.main :'#e2e5ed'}>{planed[0]}</PickedDate>:
-              <SetDate id="prepareDate" onClick={handleDateModal}>
-                목표일
+              {info.planed[0]?
+              <PickedDate color={(1 >= info.state) ? colors.main :'#e2e5ed'}>{info.planed[0]}</PickedDate>:
+              <SetDate id="prepareDate">
+                목표일 입력중 ...
               </SetDate>
               }
             </InsideFlex>
@@ -171,11 +152,11 @@ const ProgressBody = ({
           {toggleOpen[1] && (
             <ToggleWrapper>
               <MessageBox
-                handleClick={() => setProgressNum(1)}
                 presentProgress={presentProgress === 1 && true}
                 title={textArr[0]}
                 firstText={'충전기 및 부속품 준비'}
                 secondText={'설계 및 공사계획 신고 등'}
+                page={'client'}
               />
             </ToggleWrapper>
           )}
@@ -197,14 +178,14 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[1]?
-              <PickedDate color={(2 >= state) ? colors.main :'#e2e5ed'}>{planed[1]}</PickedDate>:
-              <SetDate id="prepareDate" onClick={handleDateModal}>
-                목표일
+              {info.planed[1]?
+              <PickedDate color={(2 >= info.state) ? colors.main :'#e2e5ed'}>{info.planed[1]}</PickedDate>:
+              <SetDate id="prepareDate">
+                목표일 입력중 ...
               </SetDate>
               }
               {/* <SetDate id="installDate" onClick={handleDateModal}>
-                목표일
+                목표일 입력중 ...
               </SetDate> */}
             </InsideFlex>
           </div>
@@ -212,11 +193,11 @@ const ProgressBody = ({
           {toggleOpen[2] && (
             <ToggleWrapper>
               <MessageBox
-                handleClick={() => setProgressNum(2)}
                 presentProgress={presentProgress === 2 && true}
                 title={textArr[1]}
                 firstText={'충전기 설치 및 배선작업'}
                 secondText={'충전기 시운전 (자체 테스트)'}
+                page={'client'}
               />
             </ToggleWrapper>
           )}
@@ -238,10 +219,10 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[2]?
-              <PickedDate color={(3 >= state) ? colors.main :'#e2e5ed'}>{planed[2]}</PickedDate>:
-              <SetDate id="prepareDate" onClick={handleDateModal}>
-                목표일
+              {info.planed[2]?
+              <PickedDate color={(3 >= info.state) ? colors.main :'#e2e5ed'}>{info.planed[2]}</PickedDate>:
+              <SetDate id="prepareDate">
+                목표일 입력중 ...
               </SetDate>
               }
             </InsideFlex>
@@ -250,11 +231,11 @@ const ProgressBody = ({
           {toggleOpen[3] && (
             <ToggleWrapper>
               <MessageBox
-                handleClick={() => setProgressNum(3)}
                 presentProgress={presentProgress === 3 && true}
                 title={textArr[2]}
                 firstText={'검수 및 전기차 충전 테스트 (고객 참관)'}
                 secondText={'한전 계량기 봉인'}
+                page={'client'}
               />
             </ToggleWrapper>
           )}
@@ -281,10 +262,10 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[3]?
-              <PickedDate color={(4 >= state)|| (5 >= state)? colors.main :'#e2e5ed'}>{planed[3]}</PickedDate>:
-              <SetDate id="prepareDate" onClick={handleDateModal}>
-                목표일
+              {info.planed[3]?
+              <PickedDate color={(4 >= info.state)|| (5 >= info.state)? colors.main :'#e2e5ed'}>{info.planed[3]}</PickedDate>:
+              <SetDate id="prepareDate">
+                목표일 입력중 ...
               </SetDate>
               }
             </InsideFlex>
@@ -293,21 +274,36 @@ const ProgressBody = ({
           {toggleOpen[4] && (
             <ToggleWrapper className="lastBox">
               <MessageBox
-                handleClick={() => setProgressNum(4)}
-                presentProgress={presentProgress === 4 && true}
+                presentProgress={presentProgress >= 4 && true}
                 title={textArr[3]}
                 firstText={'사용 전 검사 및 점검'}
                 secondText={'신고 및 사용 승인'}
                 thirdText={'완료현장 사진 기록'}
+                page={'client'}
+                num={info.state}
               />
             </ToggleWrapper>
           )}
         </FlexBox>
-        <Line lineHeight={toggleOpen[4]}></Line>
+        <Line/>
       </Wrapper>
-    </>
-  );
-};
+    <Button> 
+        <IconWrap><Image src={icon_chats} layout='fill'/></IconWrap> 
+        <span>파트너와 소통하기</span>
+    </Button>
+    {info.state === 5 ? <FinButton onClick={()=>setModal(true)}><span>프로젝트 완료 동의하기</span></FinButton>:null}
+    {modal&& <ClientProjectModal setModal={setModal} type={'fin'}/>}
+    </Wrapper0>
+)
+}
+
+export default ClientProgress;
+
+const Wrapper0 = styled.div`
+  .progress {
+    margin-top: 4.5pt;
+  }
+`;
 
 const Wrapper = styled.div`
   position: relative;
@@ -347,7 +343,7 @@ const ProgressName = styled.div`
   gap: 3pt;
   & :first-of-type {
     position: relative;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     top: 1.3pt;
     font-size: 15pt;
     font-weight: 700;
@@ -420,22 +416,96 @@ const ContractBtnBox = styled.div`
   }
 `;
 
+const ClientP = styled.p<{ presentProgress: boolean }>`
+box-shadow: ${({ presentProgress }) =>
+  !presentProgress && `0px 0px 10px rgba(137, 163, 201, 0.2)`};
+border: ${({ presentProgress }) => presentProgress && '1px solid #5221CB'};
+border-radius: 6pt;
+font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 700;
+font-size: 10.5pt;
+line-height: 12pt;
+letter-spacing: -0.02em;
+color: #222222;
+width: 100%;
+padding: 15pt 13.5pt;
+`
+
+const YetP = styled.p<{ presentProgress: boolean }>`
+box-shadow: ${({ presentProgress }) =>
+  !presentProgress && `0px 0px 10px rgba(137, 163, 201, 0.2)`};
+border: ${({ presentProgress }) => presentProgress && '1px solid #5221CB'};
+border-radius: 6pt;font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 700;
+font-size: 12pt;
+line-height: 12pt;
+letter-spacing: -0.02em;
+color: #A6A9B0;
+width: 100%;
+padding: 15pt 13.5pt;
+`
+
+
+
 const ToggleWrapper = styled.div<{ presentProgress?: boolean }>`
   padding-left: 27pt;
   padding-top: 12pt;
-  position: relative;
-  z-index: 100;
+  z-index: 10;
 `;
 
-const Line = styled.div<{ lineHeight: boolean }>`
+const Line = styled.div`
   position: absolute;
-  height: ${({ lineHeight }) =>
-    lineHeight ? `calc(100% - 110pt)` : `calc(100% - 15pt)`};
-
+  height: 200pt;
   top: 5pt;
   left: 22.5pt;
   width: 0.25pt;
   border: 0.75pt solid silver;
 `;
 
-export default ProgressBody;
+const Button = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 60pt auto 100pt;
+    padding: 10.5pt 13.5pt;
+    border-radius: 21.75pt;
+    >span{
+        font-family: 'Spoqa Han Sans Neo';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12pt;
+        line-height: 12pt;
+        letter-spacing: -0.02em;
+        color: #222222;
+        margin: 0 4.5pt;
+    }
+`
+
+const IconWrap = styled.div`
+    width: 15pt;
+    height: 15pt;
+    position: relative;
+    `
+const FinButton = styled.button`
+position: fixed;
+bottom: 0;
+width: 100%;
+height: 66pt;
+background: #5221CB;
+color: white;
+z-index: 10;
+>span{
+position: absolute;
+left: 50%;
+top: 15pt;
+transform: translateX(-50%);
+font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 700;
+font-size: 12pt;
+line-height: 12pt;
+letter-spacing: -0.02em;
+}
+`

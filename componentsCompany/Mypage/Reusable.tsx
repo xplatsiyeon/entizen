@@ -51,10 +51,9 @@ const Reusable = ({
   setBadgeState,
   setData,
   fin, planed
-  //setFin
 
 }: Props) => {
-  //console.log(beforeFinish, almostFinish)
+  console.log(beforeFinish, almostFinish)
   console.log(planed)
   // img ref
   const imgRef = useRef<HTMLInputElement>(null);
