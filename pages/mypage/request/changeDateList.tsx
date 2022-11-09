@@ -63,13 +63,19 @@ const Mypage2_3 = () => {
           spotData?.data?.spotInspection?.spotInspectionDate[tabNumber],
         ],
         isReplacedPicture: false,
-        isNewPropose: true,
-        isConfirmed: false,
+        isNewPropose: false,
+        isConfirmed: true,
       },
     });
   };
   // 다른 날짜 제안 버튼
-  const HandleDateChange = () => router.push('/mypage/request/2-4');
+  const HandleDateChange = () =>
+    router.push({
+      pathname: '/mypage/request/changeDate',
+      query: {
+        spotId: spotId,
+      },
+    });
   // 해당 일자 요일 구하기
   function getDayOfWeek(target: string) {
     const week = ['일', '월', '화', '수', '목', '금', '토'];
