@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { useRouter } from 'next/router';
 
 interface Props {
   tabNumber: number;
@@ -17,9 +18,9 @@ interface Props {
 
 const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
-  const { subscribeProduct, subscribePeriod } = useSelector(
-    (state: RootState) => state.quotationData,
-  );
+  const router = useRouter();
+  const { subscribeProduct, subscribePeriod, investRate, chargersKo } =
+    useSelector((state: RootState) => state.quotationData);
   const [monthNumber, setMonthNumber] = useState(-1);
   const [isMessage, setIsMessage] = useState(false);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -51,10 +52,16 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   }, [monthNumber, subscribeProduct]);
   // 부분 구독 선택 불가
   useEffect(() => {
-    if (subscribeProduct === 'PART') {
+    if (
+      chargersKo.length === 1 &&
+      chargersKo[0].kind === '7 kW 홈 충전기 (가정용)' &&
+      subscribeProduct === 'PART'
+    ) {
       setIsMessage(true);
+      setMonthNumber(-1);
     }
-  }, [subscribeProduct]);
+  }, []);
+
   return (
     <Wrraper>
       {/* 선택불가 메세지 */}
@@ -81,7 +88,9 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
         ))}
       </TypeBox>
       <ChargeGuide>
-        <span className="text">구독 가이드</span>
+        <span className="text" onClick={() => router.push('/guide/1-4')}>
+          구독 가이드
+        </span>
         <div className="arrow-icon">
           <Image src={Arrow} alt="arrow_icon" />
         </div>
@@ -100,16 +109,19 @@ export default ThirdStep;
 
 const Wrraper = styled.div`
   position: relative;
-  padding-bottom: 96pt;
-  padding: 0 15pt;
+  @media (max-width: 899pt) {
+    margin-bottom: 96pt;
+    padding: 0 15pt;
+  }
 `;
 const Title = styled.h1`
-  padding-top: 24pt;
+  padding-top: 38pt;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
 `;
 const SubTitle = styled.div`
@@ -118,9 +130,10 @@ const SubTitle = styled.div`
   align-items: center;
   padding-top: 45pt;
   font-weight: 700;
-  font-size: 10.5pt;
+  font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
 `;
 const TypeBox = styled.div`
@@ -134,12 +147,15 @@ const Tab = styled.span<{ idx: string; tabNumber: string }>`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.lightGray2};
   width: 100%;
   border: 0.75pt solid ${colors.gray};
   border-radius: 6pt;
   padding: 13.5pt 0;
   text-align: center;
+  box-sizing: border-box;
+  cursor: pointer;
   ${({ idx, tabNumber }) =>
     idx === tabNumber &&
     css`
@@ -148,21 +164,27 @@ const Tab = styled.span<{ idx: string; tabNumber: string }>`
     `}
 `;
 const ChargeGuide = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3pt;
-  color: ${colors.gray2};
-  margin-top: 139pt;
-  .text {
-    letter-spacing: -0.02em;
-    border-bottom: 1px solid ${colors.gray2};
-  }
-  .arrow-icon {
-    position: relative;
-    width: 12pt;
-    height: 12pt;
-  }
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 3pt;
+color: ${colors.gray2};
+margin-top: 139pt;
+margin-left: 30pt;
+.text {
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid ${colors.gray2};
+  font-family: 'Spoqa Han Sans Neo';
+  cursor: pointer;
+}
+.arrow-icon {
+  position: relative;
+  width: 12pt;
+  height: 12pt;
+}
+@media (max-width: 899pt) {
+  margin-left: 0;
+}
 `;
 // 부분구독 선택 시 불가 화면
 const ImpossibleMessage = styled.div`
@@ -190,18 +212,21 @@ const NextBtn = styled.div<{
 }>`
   color: ${colors.lightWhite};
   width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
-  padding: 15pt 0 ;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
   margin-top: 30pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
-
-@media (max-width: 899pt) {
-    position: fixed;
+  cursor: pointer;
+  @media (max-width: 899pt) {
+    padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const PrevBtn = styled.div`
@@ -213,11 +238,14 @@ const PrevBtn = styled.div`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
   margin-top: 30pt;
   background-color: ${colors.gray};
-
+  cursor: pointer;
   @media (max-width: 899pt) {
-    position: fixed;
+    padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const TwoBtn = styled.div`
@@ -226,8 +254,9 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-
+  gap: 8.7pt;
   @media (max-width: 899pt) {
     position: fixed;
+    gap: 0;
   }
 `;

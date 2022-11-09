@@ -19,6 +19,7 @@ const Mypage3 = ({ data }: any) => {
       {/* 모달 */}
       {modalOpen && (
         <TwoBtnModal
+          exit={handleOnClick}
           text="견적을 취소하시겠습니까?"
           leftBtnText="취소하기"
           leftBtnColor={colors.orange}
@@ -34,7 +35,7 @@ const Mypage3 = ({ data }: any) => {
         back={true}
         handleOnClick={handleOnClick}
       />
-      <EstimateContainer />
+      {/* <EstimateContainer /> */}
 
       <Mypage3_1 />
     </>

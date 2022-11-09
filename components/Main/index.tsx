@@ -24,20 +24,20 @@ import Image from 'next/image';
 import { Divider, Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { quotationAction } from 'store/quotationSlice';
 import { useDispatch } from 'react-redux';
+import Nut from 'public/images/Nut.png';
+import Bell from 'public/images/mobBell.png';
+import { subsidyGuideAction } from 'store/subsidyGuideSlice';
+import { locationAction } from 'store/locationSlice';
 
 type Props = {};
-
+const TAP = 'components/Main/index.tsx';
 const MainPage = (props: Props) => {
+  console.log(TAP + ' -> 메인 컴포넌트 시작');
   const router = useRouter();
   const dispatch = useDispatch();
-  const userID = localStorage.getItem('USER_ID');
-  const { accessToken, refreshToken, userId } = useSelector(
-    (state: RootState) => state.originUserData,
-  );
+  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
@@ -52,26 +52,21 @@ const MainPage = (props: Props) => {
       ) {
         return;
       }
-
       setState({ ...state, [anchor]: open });
     };
 
   useEffect(() => {
-    console.log('업데이트 확인');
-    console.log(localStorage.getItem('USER_ID'));
-    console.log(isLogin);
-
-    if (localStorage.getItem('USER_ID')) {
-      console.log('login check !');
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
+    userID ? setIsLogin(true) : setIsLogin(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
+  }, [userID]);
 
+  // 초기화
   useEffect(() => {
+    localStorage.removeItem('key');
     dispatch(quotationAction.init());
+    dispatch(subsidyGuideAction.reset());
+    dispatch(locationAction.reset());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const list = (anchor: string) => (
@@ -82,15 +77,34 @@ const MainPage = (props: Props) => {
     >
       <ListBox>
         <XBtnWrapper>
-          <Image src={xBtn} alt="xBtn" />
+          <Imagewrap
+            onClick={() =>
+              isLogin ? router.push('/alarm') : router.push('/signin')
+            }
+          >
+            <Image src={Bell} alt="bellBtn" />
+          </Imagewrap>
+          <Imagewrap
+            onClick={() =>
+              isLogin ? router.push('/alarm/1-1') : router.push('/signin')
+            }
+          >
+            <Image src={Nut} alt="NutBtn" />
+          </Imagewrap>
+          <Imagewrap>
+            <Image src={xBtn} alt="xBtn" />
+          </Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLoginComplete>
-            <span>
+          <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
+            <span onClick={() => router.push('/profile/editing')}>
               <label className="label">일반회원</label>
-              {userId}
+              {userID}
             </span>
-            <span className="arrow-img">
+            <span
+              className="arrow-img"
+              onClick={() => router.push('/profile/editing')}
+            >
               <Image src={whiteRight} alt="arrow" layout="fill" />
             </span>
           </WhetherLoginComplete>
@@ -104,7 +118,13 @@ const MainPage = (props: Props) => {
         )}
 
         <WhiteArea>
-          <WhiteAreaMenus onClick={() => router.push('/quotation/request')}>
+          <WhiteAreaMenus
+            onClick={() =>
+              isLogin
+                ? router.push('/quotation/request')
+                : router.push('/signin')
+            }
+          >
             <span>
               <Image src={simpleEstimate} alt="간편견적" />
             </span>
@@ -124,7 +144,7 @@ const MainPage = (props: Props) => {
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID ? router.push('/mypage') : router.push('/signin')
+              isLogin ? router.push('/mypage') : router.push('/signin')
             }
           >
             <span>
@@ -141,17 +161,17 @@ const MainPage = (props: Props) => {
               borderTop: '1px solid #E2E5ED',
             }}
           />
-          <WhiteAreaMenus onClick={() => router.push('/notice')}>
+          <WhiteAreaMenus onClick={() => alert('2차 작업페이지입니다.')}>
             <span>공지사항</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/setting/ring')}>
-            <span>알림 설정</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID ? router.push('/faq') : router.push('/signin')
+              isLogin ? router.push('/alarm/1-1') : router.push('/signin')
             }
           >
+            <span>알림 설정</span>
+          </WhiteAreaMenus>
+          <WhiteAreaMenus onClick={() => alert('2차 작업 페이지 입니다.')}>
             <span>1:1 문의</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => router.push('/faq')}>
@@ -168,10 +188,24 @@ const MainPage = (props: Props) => {
             }}
           />
           <WhiteAreaBottomMenus>
-            <span>
+            <span
+              onClick={() =>
+                window.open(
+                  'https://www.instagram.com/entizen.ev/',
+                  'entizen_Instagram',
+                )
+              }
+            >
               <Image src={grayInsta} alt="인스타"></Image>
             </span>
-            <span>
+            <span
+              onClick={() =>
+                window.open(
+                  'http://www.post.naver.com/entizen_ev',
+                  'entizen_post',
+                )
+              }
+            >
               <Image src={grayNaver} alt="네이버"></Image>
             </span>
           </WhiteAreaBottomMenus>
@@ -230,6 +264,8 @@ const MainPage = (props: Props) => {
         <MyEstimateProject />
         <SubscribeRequest />
         <WhyEntizen />
+        {/* <WhyEntizenWeb /> */}
+
         <LearnAbout />
         <EntizenLibrary />
       </Container>
@@ -406,6 +442,15 @@ const WhiteAreaBottomText = styled.div`
     color: #a6a9b0;
   }
   & span:first-of-type {
+  }
+`;
+
+const Imagewrap = styled.div`
+  width: 18pt;
+  height: 18pt;
+  margin-right: 9pt;
+  &:nth-last-of-type(1) {
+    margin-right: 0;
   }
 `;
 

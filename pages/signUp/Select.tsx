@@ -11,13 +11,17 @@ import React, { useState } from 'react';
 import Btn from 'components/button';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 
 const SignUpSelect = () => {
   const router = useRouter();
   const [userType, setUserType] = useState<number>(-1);
   const UserTypeList: string[] = ['기업회원', '일반회원'];
+  const textList: string[] = [
+    '고객과 손쉬운 거래를 진행하려면?',
+    '다양한 충전기를 비교해보고 싶다면?',
+  ];
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push('/signUp/Terms');
   };
@@ -32,6 +36,7 @@ const SignUpSelect = () => {
             <SelectWrapper>
               {UserTypeList.map((type, index) => (
                 <div key={index}>
+                  <p className="webP">{textList[index]}</p>
                   {type === '기업회원' && (
                     <Select
                       type={userType.toString()}
@@ -135,16 +140,52 @@ const Wrapper = styled.div`
 `;
 
 const Notice = styled(Typography)`
-  margin-top: 28.5pt;
+  margin-top: 45pt;
   font-weight: 700;
   font-size: 21pt;
   line-height: 33pt;
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+
+  // 아래의 스타일은 바뀔수도 있음.
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -45pt);
+  width: 100%;
+
+  @media (max-width: 899pt) {
+    position: relative;
+    left: auto;
+    transform: none;
+    margin-top: 28.5pt;
+  }
 `;
 const SelectWrapper = styled(Box)`
   margin-top: 30pt;
+  padding: 0 15pt;
+  .webP {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 500;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: #747780;
+    margin-bottom: 18pt;
+
+    :nth-of-type(1) {
+      margin-top: 30pt;
+    }
+  }
+
+  @media (max-width: 899pt) {
+    padding: 0;
+    .webP {
+      display: none;
+    }
+  }
 `;
 const Select = styled(Box)<{ type: string; idx: string }>`
   display: flex;

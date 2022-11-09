@@ -6,8 +6,8 @@ import SubcribeGraph from 'components/guide/subcribeGraph';
 import Share from 'components/guide/share';
 import Contract from 'components/guide/contract';
 import { useRouter } from 'next/router';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -31,7 +31,7 @@ const Guide1_4 = () => {
       <Inner>
         <Wrapper>
           <GuideHeader
-            title={'요금정보'}
+            title={'구독 가이드'}
             leftOnClick={() => router.back()}
             rightOnClick={() => router.push('/')}
           />
@@ -82,7 +82,7 @@ const Inner = styled.div`
   position: relative;
   width: 645pt;
   height: 100%; //
-  margin: 100pt auto 0; //
+  margin: 100pt auto; //
 
   @media (max-width: 899pt) {
     width: 100%;
@@ -113,6 +113,7 @@ const TabItem = styled.div<{ tab: string; index: string }>`
   line-height: 15pt;
   letter-spacing: -0.02em;
   position: relative;
+  cursor: pointer;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
 `;

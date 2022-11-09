@@ -3,12 +3,16 @@ import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 
-const Checking = () => {
+type Props = {
+  date: string;
+};
+
+const Checking = ({ date }: Props) => {
   const route = useRouter();
   return (
     <Wrapper>
-      <P>일정 변경 확인 중</P>
-      <Btn onClick={() => route.push('/mypage/request/2-3')}>확인하기</Btn>
+      <P>현장실사 일정을 확인 중입니다.</P>
+      <Date>{date.replaceAll('-', '.')}</Date>
     </Wrapper>
   );
 };
@@ -24,21 +28,18 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 const P = styled.p`
-  font-weight: 400;
+  padding-top: 18pt;
+  font-weight: 500;
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  padding-top: 18pt;
-  color: #ff1b2d;
+  color: ${colors.gray2};
 `;
-const Btn = styled(Button)`
-  margin-top: 15pt;
-  border: 0.75px solid #caccd1;
-  border-radius: 12pt;
+const Date = styled.div`
+  padding-top: 12pt;
   font-weight: 500;
-  font-size: 9pt;
-  line-height: 9pt;
+  font-size: 15pt;
+  line-height: 15pt;
   letter-spacing: -0.02em;
-  color: #caccd1;
-  padding: 6pt 9pt;
+  color: ${colors.main2};
 `;

@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { InputAdornment, TextField, Typography } from '@mui/material';
+import { useMediaQuery } from 'react-responsive';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import mapPin from 'public/images/MapPin.png';
@@ -13,86 +14,42 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { coordinateAction } from 'store/lnglatSlice';
 import { useDispatch } from 'react-redux';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import SearchAddress from './searchAddress';
+import axios from 'axios';
+import ChargerInfo from 'components/ChargerInfo';
+import WebSearchAddress from 'componentsWeb/WebSearchAddress';
+import Loader from 'components/Loader';
 
 type Props = {};
+export interface SlowFast {
+  year: string;
+  chargeQuantity: number;
+  sales: number;
+}
 
 const ChargerMap = (props: Props) => {
   const router = useRouter();
+  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
+  const [fastCharger, setFastCharger] = useState<SlowFast[]>([]);
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
   const dispatch = useDispatch();
+  const mobile = useMediaQuery({
+    query: '(min-width:810pt)',
+  });
+
   useMap();
   const [changeHeight, setChangeHeight] = useState<boolean>(false);
   const [selectedCharger, setSelectedCharger] = useState<number>(0);
   const [checkHeight, setCheckHeight] = useState<number>(0);
   const [scrollHeight, setScrollHeight] = useState<number>(0);
-
+  const [chargeInfoOpen, setChargeInfoOpen] = useState(false);
   const [type, setType] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    let calcHeight;
-    let findHeight;
-    const searchInput = document.querySelector('.searchInput');
-    const forScroll = document.querySelector('.forScroll');
-
-    if (searchInput && forScroll) {
-      findHeight = forScroll.getBoundingClientRect();
-      setScrollHeight(
-        (document.body.clientHeight - (findHeight.y + findHeight.height + 28)) *
-          0.75,
-      );
-      calcHeight = searchInput.getBoundingClientRect();
-      setCheckHeight(
-        (document.body.clientHeight - (calcHeight.y + calcHeight.height + 16)) *
-          0.75,
-      );
-      if (changeHeight == false) {
-        setCheckHeight(
-          document.body.clientHeight -
-            (calcHeight.y + calcHeight.height + 16 + 272),
-        );
-      }
-    }
-  }, [checkHeight, changeHeight]);
-
-  useEffect(() => {
-    if (locationList.roadAddrPart) {
-      naver.maps.Service.geocode(
-        {
-          query: locationList.roadAddrPart,
-        },
-        function (status, response) {
-          if (status === naver.maps.Service.Status.ERROR) {
-            if (locationList.roadAddrPart) {
-              return alert('Geocode Error, Please check address');
-            }
-            return alert('Geocode Error, address:' + locationList.roadAddrPart);
-          }
-
-          if (response.v2.meta.totalCount === 0) {
-            return alert('No result.');
-          }
-
-          let item = response.v2.addresses[0];
-          dispatch(
-            coordinateAction.set({
-              lng: item.x,
-              lat: item.y,
-            }),
-          );
-        },
-      );
-    }
-
-    // searchAddressToCoordinate(locationList.roadAddrPart);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationList]);
-
-  const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const predictList: {
     year: string;
     amount: string;
@@ -116,13 +73,96 @@ const ChargerMap = (props: Props) => {
     },
   ];
 
+  useEffect(() => {
+    let calcHeight;
+    let findHeight;
+    const searchInput = document.querySelector('.searchInput');
+    const forScroll = document.querySelector('.forScroll');
+
+    if (searchInput && forScroll) {
+      findHeight = forScroll.getBoundingClientRect();
+      setScrollHeight(
+        (document.body.clientHeight - (findHeight.y + findHeight.height + 28)) *
+          0.75,
+      );
+      calcHeight = searchInput.getBoundingClientRect();
+      console.log(calcHeight);
+
+      setCheckHeight(
+        (document.body.clientHeight - (calcHeight.y + calcHeight.height + 16)) *
+          0.75,
+      );
+      if (changeHeight === false) {
+        setCheckHeight(
+          document.body.clientHeight -
+            (calcHeight.y + calcHeight.height + 16 + 272),
+        );
+      }
+    }
+  }, [checkHeight, changeHeight]);
+
+  const callInfo = async (speed: string) => {
+    try {
+      const res = await axios.get('https://test-api.entizen.kr/api/charge', {
+        params: {
+          siDo: locationList.siNm,
+          siGunGu: locationList.sggNm ? locationList.sggNm : '',
+          chargerSpeed: speed,
+        },
+      });
+      if (speed === 'SLOW') {
+        setSlowCharger(res.data.charge);
+      }
+      if (speed === 'FAST') {
+        setFastCharger(res.data.charge);
+      }
+    } catch (error) {
+      console.log('에러입니다.');
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (locationList.roadAddrPart) {
+      naver.maps.Service.geocode(
+        {
+          query: locationList.jibunAddr,
+        },
+        function (status, response) {
+          if (status === naver.maps.Service.Status.ERROR) {
+            if (locationList.roadAddrPart) {
+              return alert('Geocode Error, Please check address');
+            }
+            return alert('Geocode Error, address:' + locationList.roadAddrPart);
+          }
+          console.log(response);
+          if (response.v2.meta.totalCount === 0) {
+            return alert('No result.');
+          }
+
+          let item = response.v2.addresses[0];
+          dispatch(
+            coordinateAction.set({
+              lng: item.x,
+              lat: item.y,
+            }),
+          );
+        },
+      );
+    }
+    if (locationList.siNm) {
+      callInfo('SLOW');
+      callInfo('FAST');
+    }
+  }, [locationList]);
+
   const handleBack = () => {
     router.back();
   };
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    //router.push('/searchAddress');
     setType(!type);
   };
+
   return (
     <>
       <WebHeader />
@@ -132,104 +172,95 @@ const ChargerMap = (props: Props) => {
             <Image src={btnImg} alt="backBtn" />
           </Header>
           <SearchMapArea>
-            <Input
-              value={locationList.roadAddrPart}
-              type="submit"
-              className="searchInput"
-              onClick={handleOnClick}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <div style={{ width: '15pt', height: '15pt' }}>
-                      <Image src={search} alt="searchIcon" layout="intrinsic" />
-                    </div>
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <div style={{ width: '15pt', height: '15pt' }}>
-                      <Image src={mapPin} alt="searchIcon" layout="intrinsic" />
-                    </div>
-                  </InputAdornment>
-                ),
-              }}
-            />
+            {mobile && (
+              <Input
+                value={locationList.roadAddrPart}
+                type="submit"
+                className="searchInput"
+                onClick={handleOnClick}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        <Image
+                          src={search}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      </div>
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        <Image
+                          src={mapPin}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      </div>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+            {!mobile && (
+              <Input
+                value={locationList.roadAddrPart}
+                type="submit"
+                className="searchInput"
+                onClick={() => router.push('/searchAddress')}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        <Image
+                          src={search}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      </div>
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        <Image
+                          src={mapPin}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      </div>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
           </SearchMapArea>
 
-          {type ? (
+          {mobile ? (
             <WrapAddress>
-              <SearchAddress setType={setType} />
+              <WebSearchAddress
+                setType={setType}
+                chargeInfoOpen={chargeInfoOpen}
+                setChargeInfoOpen={setChargeInfoOpen}
+                selectedCharger={selectedCharger}
+                setSelectedCharger={setSelectedCharger}
+                slowCharger={slowCharger}
+                fastCharger={fastCharger}
+              />
             </WrapAddress>
           ) : (
-            <InfoBox
-              clicked={changeHeight}
-              checkHeight={checkHeight?.toString()}
-            >
-              <GoUp onClick={() => setChangeHeight(!changeHeight)}></GoUp>
-              <SelectChargerBox className="forScroll">
-                <ChargerList>
-                  {clickType.map((el, index) => (
-                    <Charger
-                      key={index}
-                      onClick={() => setSelectedCharger(() => index)}
-                      style={{
-                        color:
-                          selectedCharger === index ? '#595757' : '#A6A9B0',
-                        backgroundColor:
-                          selectedCharger === index ? '#ffffff' : '#F3F4F7',
-                        boxShadow:
-                          selectedCharger === index
-                            ? '0px 0px 6pt rgba(137, 163, 201, 0.2)'
-                            : 'none',
-                      }}
-                    >
-                      {el}
-                    </Charger>
-                  ))}
-                </ChargerList>
-              </SelectChargerBox>
-              <ScrollBox scrollHeight={scrollHeight.toString()}>
-                <ChargerTypeNCountBox>
-                  <ChargerTypeNCount>
-                    {selectedCharger == 0
-                      ? '완속 충전기 7kW / 1대'
-                      : '급속 충전기 5kW / 1대'}
-                  </ChargerTypeNCount>
-                  <ChargerNotice>
-                    * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
-                    사용해주시기 바랍니다.
-                  </ChargerNotice>
-                </ChargerTypeNCountBox>
-                <PredictBoxWrapper>
-                  {predictList.map((el, index) => (
-                    <PredictBox key={index}>
-                      <div>{el.year}</div>
-                      <div>{el.amount}</div>
-                      <div>{el.howMuch}</div>
-                      <div>{el.revenue}</div>
-                      <div>{el.money}</div>
-                    </PredictBox>
-                  ))}
-                </PredictBoxWrapper>
-                <DidHelp>도움이 되셨나요?</DidHelp>
-                <Guide>
-                  간편견적 확인하고, 상품 비교뷰터 충전 사업까지
-                  <br />A to Z 서비스를 받아보세요!
-                </Guide>
-                <QuotationBtn>
-                  <span
-                    onClick={() => {
-                      router.push('/quotation/request');
-                    }}
-                  >
-                    간편견적 확인하기
-                  </span>
-                  <span>
-                    <Image src={whiteArrow} alt="arrow" />
-                  </span>
-                </QuotationBtn>
-              </ScrollBox>
-            </InfoBox>
+            <ChargerInfo
+              // scrollHeight={scrollHeight}
+              // changeHeight={changeHeight}
+              // setChangeHeight={setChangeHeight}
+              checkHeight={checkHeight}
+              selectedCharger={selectedCharger}
+              setSelectedCharger={setSelectedCharger}
+              slowCharger={slowCharger}
+              fastCharger={fastCharger}
+            />
           )}
         </WholeMap>
       </Wrapper>
@@ -243,13 +274,14 @@ const Wrapper = styled.div`
   margin: 0 auto;
   height: 639pt;
   @media (max-width: 899pt) {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
+    /* background-color: red; */
   }
 `;
 const WrapAddress = styled.div`
   position: relative;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -269,13 +301,14 @@ const WrapAddress = styled.div`
 `;
 
 const WholeMap = styled.div`
-  position: relative;
+  position: fixed;
   width: 100%;
   height: 495pt;
+  /* height: 100%; */
   display: flex;
   margin-top: 54pt;
-  border-radius: 12px;
-  border: 0.75pt solid #e2e5ed;
+  /* border-radius: 12px; */
+  /* border: 0.75pt solid #e2e5ed; */
 
   @media (max-width: 899pt) {
     display: block;

@@ -5,6 +5,7 @@ import LeftArrow from 'public/mypage/left-arrow.png';
 import RightArrow from 'public/mypage/right-arrow.png';
 import Image from 'next/image';
 import { css } from '@emotion/react';
+
 interface Props {
   selectedDays: string[];
   SetSelectedDays: Dispatch<SetStateAction<string[]>>;
@@ -134,7 +135,7 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
 export default Calendar;
 
 const Container = styled.div`
-  padding: 45pt 18.75pt 0 18.75pt;
+  padding: 45pt 15pt 0 15pt;
 `;
 const Title = styled.div`
   display: flex;

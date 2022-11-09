@@ -1,129 +1,116 @@
 import styled from '@emotion/styled';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
 import colors from 'styles/colors';
+import { HandleUserColor } from 'utils/changeValue';
 import NoHistory from './noHistory';
-
-interface Data {
-  id: number;
+import moment from 'moment';
+interface QuotationRequests {
+  createdAt: string;
+  quotationRequestIdx: number;
+  quotationStatus: string;
+  changedDate: string;
+  subscribeProduct: string;
+  investRate: string;
+  subscribePeriod: number;
+  installationAddress: string;
+  installationLocation: string;
+  installationPurpose: string;
+  expiredAt: string;
+  etcRequest: string;
+  memberIdx: number;
   badge: string;
-  storeName: string;
-  date: string;
 }
-const tempProceeding: Data[] = [
-  {
-    id: 0,
-    badge: '현장실사 예약 완료',
-    storeName: 'LS카페 신림점',
-    date: '2021.01.01',
-  },
-  {
-    id: 1,
-    badge: '낙찰대기 중',
-    storeName: 'LS카페 신림점',
-    date: '2021.05.10',
-  },
-  {
-    id: 2,
-    badge: '견적취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.03.10',
-  },
-  {
-    id: 3,
-    badge: '견적마감 D-1',
-    storeName: 'LS카페 신림점',
-    date: '2021.07.23',
-  },
-];
-const temphisTory: Data[] = [
-  {
-    id: 0,
-    badge: '견적마감',
-    storeName: 'LS카페 신림점',
-    date: '2021.03.01',
-  },
-  {
-    id: 1,
-    badge: '낙찰대기 중',
-    storeName: 'LS카페 신림점',
-    date: '2021.06.10',
-  },
-  {
-    id: 2,
-    badge: '견적취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.04.10',
-  },
-  {
-    id: 3,
-    badge: '견적취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.04.10',
-  },
-  {
-    id: 4,
-    badge: '견적취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.04.10',
-  },
-];
-
+interface Response {
+  isSuccess: boolean;
+  inProgressQuotationRequests: QuotationRequests[];
+  historyQuotationRequests: [];
+}
+const TAG = 'componets/mypage/request/estimate.tsx';
 const Estimate = () => {
-  const route = useRouter();
-  const HandleColor = (badge: string): string => {
-    if (badge.includes('마감')) return '#F75015';
-    else if (badge.includes('대기 중')) return '#FFC043';
-    else if (badge.includes('취소')) return '#CACCD1';
-    else return '#5A2DC9';
-  };
+  const router = useRouter();
 
-  // 견적서가 없는 경우
-  if (tempProceeding.length === 0 && temphisTory.length === 0) {
-    return <NoHistory />;
+  const { data, isError, isLoading } = useQuery<Response>('user-mypage', () =>
+    isTokenGetApi('/quotations/request'),
+  );
+
+  if (isError) {
+    return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
   }
 
+  if (isLoading) {
+    return <Loader />;
+  }
+  // console.log(TAG + '⭐️ ~line 58 ~react query data test');
+
+  // 견적서가 없는 경우
+  if (
+    data?.inProgressQuotationRequests.length === 0 &&
+    data?.historyQuotationRequests.length === 0
+  ) {
+    return <NoHistory />;
+  }
   return (
     <Wrapper>
       {/* 진행중 */}
-      {tempProceeding.length > 0 && (
+      {data?.inProgressQuotationRequests.length! > 0 && (
         <Proceeding>
           <Label>
-            진행 중 <span className="num">{tempProceeding.length}</span>
+            진행 중{' '}
+            <span className="num">
+              {data?.inProgressQuotationRequests.length}
+            </span>
           </Label>
-          <Carousel length={tempProceeding.length}>
-            {tempProceeding.map((data, index) => (
+          <Carousel length={data?.inProgressQuotationRequests.length!}>
+            {data?.inProgressQuotationRequests.map((data, index) => (
               <CarouselItem
-                key={data.id}
-                onClick={() => route.push('/mypage/request/1-3')}
+                key={data.quotationRequestIdx}
+                onClick={() =>
+                  router.push(`/mypage/request/${data.quotationRequestIdx}`)
+                }
               >
-                <Badge className="badge" color={HandleColor(data.badge)}>
+                <Badge className="badge" color={HandleUserColor(data.badge)}>
                   {data.badge}
                 </Badge>
-                <div className="store-name">{data.storeName}</div>
-                <span className="date">{data.date}</span>
+                <div className="store-name">{data.installationAddress}</div>
+                <span className="date">
+                  {moment(data.createdAt).format('YYYY.MM.DD')}
+                </span>
               </CarouselItem>
             ))}
           </Carousel>
         </Proceeding>
       )}
       {/* 히스토리 */}
-      {temphisTory.length > 0 && (
+      {data?.historyQuotationRequests.length! > 0 && (
         <History>
           <Label>
-            히스토리 <span className="num">{temphisTory.length}</span>
+            히스토리{' '}
+            <span className="num">
+              {data?.historyQuotationRequests.length!}
+            </span>
           </Label>
-          <Carousel length={temphisTory.length}>
-            {temphisTory.map((data, index) => (
-              <CarouselItem
-                key={data.id}
-                onClick={() => route.push('/mypage/request/1-3')}
-              >
-                <Badge className="badge" color={HandleColor(data.badge)}>
-                  {data.badge}
-                </Badge>
-                <div className="store-name">{data.storeName}</div>
-                <span className="date">{data.date}</span>
-              </CarouselItem>
+          <Carousel length={data?.historyQuotationRequests.length!}>
+            {data?.historyQuotationRequests.map((data, index) => (
+              // 히스토리 부분 수정 필요
+              // <CarouselItem
+              //   key={data.quotationRequestIdx}
+              //   onClick={() =>
+              //     router.push(`/mypage/request/${data.quotationRequestIdx}`)
+              //   }
+              // >
+              //   <Badge className="badge" color={HandleUserColor(data.badge)}>
+              //     {data.badge}
+              //   </Badge>
+              //   <div className="store-name">{data.installationAddress}</div>
+              //   <span className="date">
+              //     {moment(data.dateByStatus).format('YYYY.MM.DD')}
+              //   </span>
+              // </CarouselItem>
+              <></>
             ))}
           </Carousel>
         </History>
@@ -168,6 +155,7 @@ const CarouselItem = styled.div`
   background-color: ${colors.lightWhite};
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   position: relative;
+  cursor: pointer;
   .store-name {
     padding-top: 16.5pt;
     font-weight: 700;

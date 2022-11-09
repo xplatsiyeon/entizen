@@ -43,7 +43,6 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
 `;
-
 const Title = styled.div`
   margin-top: 21pt;
   & span {
@@ -55,7 +54,6 @@ const Title = styled.div`
     text-align: left;
   }
 `;
-
 const Subtitle = styled.div`
   margin-top: 34pt;
   & span {
@@ -67,7 +65,6 @@ const Subtitle = styled.div`
     text-align: left;
   }
 `;
-
 const SubSubtitle = styled.div`
   margin-top: 24pt;
   & span {
@@ -79,7 +76,6 @@ const SubSubtitle = styled.div`
     text-align: left;
   }
 `;
-
 const Content = styled.div`
   margin-top: 15pt;
   padding-left: 29.25pt;

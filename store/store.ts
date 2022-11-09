@@ -8,6 +8,11 @@ import { quotationSlice } from './quotationSlice';
 import { naverSlice } from './naverSlice';
 import { userSlice } from './userSlice';
 import { originUserInfoSlice } from './userInfoSlice';
+import { findUserInfoSlice } from './findSlice';
+import { selectSlice } from './loginTypeSlice';
+import { myEstimateSlice } from 'storeCompany/myQuotation';
+import { companyRequestFilterNumberSlice } from 'storeCompany/requestTabSlice';
+import { finalQuotationSlice } from 'storeCompany/finalQuotation';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -21,6 +26,11 @@ const rootReducer = combineReducers({
   navernaver: naverSlice.reducer,
   userList: userSlice.reducer,
   originUserData: originUserInfoSlice.reducer,
+  findUserInfo: findUserInfoSlice.reducer,
+  selectType: selectSlice.reducer,
+  companymyEstimateData: myEstimateSlice.reducer,
+  companyRequestFilterNumberData: companyRequestFilterNumberSlice.reducer,
+  companyFinalQuotationData: finalQuotationSlice.reducer,
 });
 
 export default rootReducer;

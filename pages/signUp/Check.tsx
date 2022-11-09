@@ -10,8 +10,9 @@ import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
 import Header from 'components/header';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import axios from 'axios';
 
 interface State {
   pwInput: string;
@@ -25,6 +26,8 @@ const SignUpCheck = () => {
   const [pwInput, setPwInput] = useState<string>('');
   const [checkPw, setCheckPw] = useState<string>('');
 
+  // 아이디 중복 체크
+  const [checkId, setCheckId] = useState<number>(-1);
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean>(false);
 
@@ -40,26 +43,19 @@ const SignUpCheck = () => {
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
   useEffect(() => {
-    let num = password.search(/[0-9]/g);
-    let eng = password.search(/[a-z]/gi);
-    let spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-
     if (password) {
-      if (password.length < 10 || password.length > 20) setCheckedPw(false);
-      else if (password.search(/₩s/) != -1) setCheckedPw(false);
-      else if (
-        (num < 0 && eng < 0) ||
-        (eng < 0 && spe < 0) ||
-        (spe < 0 && num < 0)
-      )
-        setCheckedPw(false);
-      else setCheckedPw(true);
+      let check1 =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,20}$/.test(
+          password,
+        );
+      console.log(check1);
+      setCheckedPw(check1);
     }
     if (checkPassword) {
       if (password !== checkPassword) setCheckSamePw(false);
       else setCheckSamePw(true);
     }
-    console.log(password, checkPassword);
+    // console.log(password, checkPassword);
   }, [password, checkPassword]);
 
   // 인풋 값 변화, 중복확인 색 변경
@@ -94,6 +90,26 @@ const SignUpCheck = () => {
     // setModalOpen(!modalOpen);
     route.push('/signUp/Complete');
   };
+  // 아이디 중복 체크
+  const overlabCheck = () => {
+    const OVERLAB_CHECK_POST = `https://test-api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
+    try {
+      axios({
+        method: 'get',
+        url: OVERLAB_CHECK_POST,
+      }).then((res) => {
+        const check = res.data.isMember;
+        if (check === true) {
+          setCheckId(1);
+        } else {
+          setCheckId(0);
+        }
+      });
+    } catch (error) {
+      console.log('아이디 중복 체크 에러 발생!!');
+      console.log(error);
+    }
+  };
 
   // 인풋 안의 x , 표시
   const iconAdorment = {
@@ -127,8 +143,9 @@ const SignUpCheck = () => {
       <Body>
         <WebHeader />
         <Inner>
-          {modalOpen ? (
+          {/* {modalOpen ? (
             <TwoBtnModal
+              exit={leftBtnControl}
               text={'로그아웃하시겠습니까?'}
               rightBtnText={'예'}
               leftBtnText={'아니오'}
@@ -139,7 +156,7 @@ const SignUpCheck = () => {
             />
           ) : (
             <></>
-          )}
+          )} */}
           <Wrapper>
             <Header isHome={true} />
             <Info>
@@ -166,7 +183,7 @@ const SignUpCheck = () => {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <OverlapBtn className="overlap">
+                      <OverlapBtn className="overlap" onClick={overlabCheck}>
                         <Typography className="checkOverlap">
                           중복확인
                         </Typography>
@@ -176,16 +193,30 @@ const SignUpCheck = () => {
                 }}
               />
               <Box>
-                <Typography
-                  sx={{
-                    color: '#F75015',
-                    fontSize: '9pt',
-                    lineHeight: '12pt',
-                    marginTop: '9pt',
-                  }}
-                >
-                  이미 사용중인 아이디입니다.
-                </Typography>
+                {checkId === 1 && (
+                  <Typography
+                    sx={{
+                      color: '#F75015',
+                      fontSize: '9pt',
+                      lineHeight: '12pt',
+                      marginTop: '9pt',
+                    }}
+                  >
+                    이미 사용중인 아이디입니다.
+                  </Typography>
+                )}
+                {checkId === 0 && (
+                  <Typography
+                    sx={{
+                      color: '#5221CB',
+                      fontSize: '9pt',
+                      lineHeight: '12pt',
+                      marginTop: '9pt',
+                    }}
+                  >
+                    사용 가능한 아이디입니다.
+                  </Typography>
+                )}
               </Box>
             </Box>
             <Box
@@ -209,12 +240,13 @@ const SignUpCheck = () => {
                 onFocus={(e) => setPwSelected(true)}
                 onBlur={(e) => setPwSelected(false)}
               />
-              {!checkedPw && pwInput.length > 4 ? (
+              {!checkedPw && pwInput.length > 8 ? (
                 <Box>
                   <Typography
                     sx={{
                       color: '#F75015',
                       fontSize: '9pt',
+                      marginTop: '9pt',
                     }}
                   >
                     영문,숫자,특수문자 조합 10자 이상
@@ -233,15 +265,16 @@ const SignUpCheck = () => {
                 onFocus={(e) => setCheckPwSelected(true)}
                 onBlur={(e) => setCheckPwSelected(false)}
               />
-              {!checkSamePw && checkPw.length > 4 ? (
+              {!checkSamePw && checkPw.length > 8 ? (
                 <Box>
                   <Typography
                     sx={{
                       color: '#F75015',
                       fontSize: '9pt',
+                      marginTop: '9pt',
                     }}
                   >
-                    비밀번호를 확인해주세요
+                    비밀번호가 일치하지 않습니다.
                   </Typography>
                 </Box>
               ) : (
@@ -250,7 +283,9 @@ const SignUpCheck = () => {
             </Box>
             <Btn
               isClick={
-                checkedPw && checkSamePw && idInput.length > 6 ? true : false
+                checkId === 0 && checkedPw && checkSamePw && idInput.length > 6
+                  ? true
+                  : false
               }
               text="가입 완료"
               marginTop="30"
@@ -275,7 +310,6 @@ const Body = styled.div`
   margin: 0 auto;
   //height: 810pt;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -292,7 +326,6 @@ const Inner = styled.div`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
@@ -310,7 +343,6 @@ const Inner = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-
   @media (max-width: 899pt) {
     height: 100%;
     margin: 0;
@@ -336,15 +368,13 @@ const Input = styled(TextField)`
   border-radius: 6pt;
   margin-top: 9pt;
   & input {
-    padding: 13.5pt 0 13.5pt 12pt;
+    padding: 10.875pt 0 10.875pt 12pt;
     font-size: 12pt;
     line-height: 12pt;
   }
-
   & .MuiInputBase-root {
     padding-right: 9pt;
   }
-
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;
@@ -355,31 +385,10 @@ const Input = styled(TextField)`
   :focus > .remove {
     display: block;
   }
-  /* margin-top: 9pt;
-  padding: 13.5pt 0;
-  padding-left: 12pt; */
-  /* ::placeholder {
-    color: ${colors.gray};
-    font-weight: 500;
-  }
-  font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  &::-webkit-input-placeholder {
-    transform: scale(0.77);
-    transform-origin: 0 50%;
-  }
-  &::-moz-placeholder {
-    font-size: 14px;
-    opacity: 1;
-  }
-  &:-ms-input-placeholder {
-    font-size: 14px;
-    font-family: 'Roboto', Helvetica, Arial, sans-serif;
-  } */
 `;
 const OverlapBtn = styled.button`
   & .checkOverlap {
-    padding: 7.5pt 9pt;
+    padding: 4.5pt 9pt;
   }
   margin-right: 0;
   background: #e2e5ed;

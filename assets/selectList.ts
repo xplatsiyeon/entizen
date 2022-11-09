@@ -19,7 +19,7 @@ export const M5_LIST = [
   '400 kW 충전기 (버스)',
 ];
 export const M5_LIST_EN = [
-  '3.5-COMMON',
+  '3.5-CHARGING_CONSENT',
   '3.5-CHARGING_CONSENT',
   '7-HOME',
   '7-COMMON_ECONOMY',
@@ -41,27 +41,24 @@ export const M5_LIST_EN = [
 export const M5_TYPE_SET = [
   ['-'],
   ['-'],
+  ['벽걸이', '스탠드'],
   ['벽걸이', '스탠드', '키오스크'],
   ['벽걸이', '스탠드', '키오스크'],
   ['벽걸이', '스탠드'],
   ['벽걸이', '스탠드'],
   ['벽걸이', '스탠드'],
   ['벽걸이', '스탠드'],
-  ['벽걸이', '스탠드'],
   ['스탠드'],
   ['스탠드'],
-  ['스탠드', '파워뱅크 분리형'],
-  ['스탠드', '파워뱅크 분리형'],
-  ['스탠드', '파워뱅크 분리형'],
-  ['스탠드', '파워뱅크 분리형'],
-  ['스탠드', '파워뱅크 분리형'],
-  ['스탠드', '파워뱅크 분리형'],
-  ['스탠드', '파워뱅크 분리형'],
+  ['파워뱅크 분리형'],
+  ['파워뱅크 분리형'],
+  ['파워뱅크 분리형'],
+  ['파워뱅크 분리형'],
+  ['파워뱅크 분리형'],
+  ['파워뱅크 분리형'],
+  ['파워뱅크 분리형'],
 ];
-
 export const M5_CHANNEL_SET = [
-  ['싱글'],
-  ['싱글'],
   ['싱글'],
   ['싱글'],
   ['싱글'],
@@ -69,6 +66,8 @@ export const M5_CHANNEL_SET = [
   ['싱글'],
   ['싱글', '듀얼'],
   ['듀얼'],
+  ['싱글'],
+  ['싱글'],
   ['싱글', '듀얼', '3모드'],
   ['싱글', '듀얼'],
   ['싱글', '듀얼'],
@@ -79,7 +78,6 @@ export const M5_CHANNEL_SET = [
   ['듀얼'],
   ['듀얼'],
 ];
-
 export const M6_LIST = ['벽걸이', '스탠드', '키오스크', '파워뱅크 분리형'];
 export const M6_LIST_EN = ['WALL', 'STAND', 'KIOSK', 'DETACHABLE_POWER_BANK'];
 export const M7_LIST = ['싱글', '듀얼', '3모드'];
@@ -97,3 +95,24 @@ export const M8_LIST = [
   '10대',
 ];
 export const M8_LIST_EN = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
+export const subscribeType: string[] = ['전체구독', '부분구독'];
+export const subscribeTypeEn: string[] = ['ENTIRETY', 'PART'];
+
+export const InstallationPurposeType: string[] = [
+  '전기차 충전 사업',
+  '편의, 복지 제공',
+  '모객 효과',
+  '개인 용도',
+  '기타',
+];
+export const InstallationPurposeTypeEn: string[] = [
+  'BUSINESS',
+  'WELFARE',
+  'MARKETING',
+  'PERSONAL',
+  'ETC',
+];
+
+export const location: string[] = ['건물 안', '건물 밖'];
+export const locationEn: string[] = ['OUTSIDE', 'INSIDE'];

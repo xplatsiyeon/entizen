@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { Box } from '@mui/system';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -14,14 +15,7 @@ const Header = ({ isHome = false }: Props) => {
     router.back();
   };
   return (
-    <Box 
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        height: '36pt',
-        justifyContent: 'space-between',
-      }}
-    >
+    <Wrapper>
       <Image
         onClick={handleOnClick}
         style={{
@@ -29,6 +23,7 @@ const Header = ({ isHome = false }: Props) => {
         }}
         src={btnImg}
         alt="btn"
+        // layout="fill"
       />
       {isHome && (
         <Image
@@ -41,9 +36,15 @@ const Header = ({ isHome = false }: Props) => {
           height={28}
         />
       )}
-    </Box>
+    </Wrapper>
   );
 };
 
 export default Header;
 
+const Wrapper = styled(Box)`
+  display: flex;
+  align-items: center;
+  height: 36pt;
+  justify-content: space-between;
+`;

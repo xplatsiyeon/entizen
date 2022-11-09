@@ -6,8 +6,8 @@ import MediumSpeedGraph from 'components/guide/mediumSpeedGraph';
 import ExpressSpeedGraph from 'components/guide/expressSpeedGraph';
 import Common from 'components/guide/common';
 import { useRouter } from 'next/router';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -29,7 +29,7 @@ const Guide1_5 = () => {
       <WebHeader num={2} now={'guide'} />
       <Inner>
         <GuideHeader
-          title="요금정보"
+          title="충전기 가이드"
           leftOnClick={() => router.back()}
           rightOnClick={() => router.push('/')}
         />
@@ -76,7 +76,7 @@ const Inner = styled.div`
   position: relative;
   width: 645pt;
   height: 100%;
-  margin: 100pt auto 0;
+  margin: 100pt auto;
 
   @media (max-width: 899pt) {
     width: 100%;

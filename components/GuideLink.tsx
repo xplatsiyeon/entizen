@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import colors from 'styles/colors';
 
 type Props = {
   type: string;
@@ -9,6 +10,7 @@ type Props = {
 };
 
 const GuideLink = ({ type, num, now }: Props) => {
+  //나중에 이름 수정.
   const router = useRouter();
   let linkName: string[];
   let linkUrl: string[];
@@ -32,12 +34,25 @@ const GuideLink = ({ type, num, now }: Props) => {
       break;
     case 'mypage':
       linkName = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
-      linkUrl = [`/mypage/as/1-1`, `/mypage`, '/mypage/request/2-1', '/mypage'];
+      linkUrl = [`/mypage/`, `/mypage`, '/mypage/request/2-1', '/mypage'];
 
       break;
     default:
       return <></>;
   }
+
+  const handleLink = (idx: number) => {
+    const user = localStorage.getItem('USER_ID');
+    if (!user && type === 'mypage') {
+      router.push('/signin');
+    } else {
+      if (linkUrl[idx] === '/mypage') {
+        alert('2차 작업 범위입니다');
+      } else {
+        router.push(linkUrl[idx]);
+      }
+    }
+  };
 
   return (
     <Wrap>
@@ -46,7 +61,7 @@ const GuideLink = ({ type, num, now }: Props) => {
           <StyledLink
             key={idx}
             className={num === idx && type === now ? 'on' : undefined}
-            onClick={() => router.push(linkUrl[idx])}
+            onClick={() => handleLink(idx)}
           >
             {i}
           </StyledLink>
@@ -64,21 +79,19 @@ const Wrap = styled.ul`
   margin: 0 auto;
 `;
 const StyledLink = styled.li`
-  width: 90pt;
-  margin-right: 23.25pt;
+  margin-right: 24pt;
   padding: 15pt 0;
   display: inline-block;
   text-align: center;
-
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 500;
   font-size: 12pt;
   line-height: 13.5pt;
   letter-spacing: -0.02em;
-  color: #838383;
+  color: ${colors.main2};
   text-decoration: none;
-
+  cursor: pointer;
   &:hover {
     border-bottom: 3pt solid #5a2dc9;
     box-sizing: border-box;

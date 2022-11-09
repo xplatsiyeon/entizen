@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Btn from 'components/button';
 import Header from 'components/header';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 
 const SignUpCheck = () => {
   return (
@@ -66,7 +66,6 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -83,7 +82,6 @@ const Inner = styled.div`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
@@ -101,7 +99,6 @@ const Inner = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-
   @media (max-width: 899pt) {
     margin: 0;
     padding: 0 15pt 15pt 15pt;

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import FirstStep from 'components/quotation/request/FirstStep';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
@@ -12,8 +12,8 @@ import FifthStep from 'components/quotation/request/FifthStep';
 import SixthStep from 'components/quotation/request/SixthStep';
 
 import Request1_7 from './1-7';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -34,6 +34,7 @@ const Quotation1_1 = () => {
     4: <FifthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
     5: <SixthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
   };
+
   return (
     <>
       <WebBody>
@@ -42,6 +43,7 @@ const Quotation1_1 = () => {
           <Wrapper>
             {isModal && (
               <TwoBtnModal
+                exit={HandleModal}
                 text={
                   '지금 나가시면 \n 작성하신 내용이 삭제됩니다. \n 그래도 괜찮으시겠습니까?'
                 }
@@ -66,6 +68,8 @@ const Quotation1_1 = () => {
                     idx={index.toString()}
                     num={tabNumber.toString()}
                     key={tab}
+                    // 테스트용
+                    // onClick={() => setTabNumber(index)}
                   />
                 ))}
               </TabBox>
@@ -89,10 +93,6 @@ const WebBody = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
-  @media (max-height: 809pt) {
-    display: block;
-    height: 100%;
-  }
 `;
 
 const Inner = styled.div`
@@ -104,7 +104,6 @@ const Inner = styled.div`
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
@@ -121,7 +120,7 @@ const Inner = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  margin: 0 31.875pt;
+  margin: 32.25pt 46.5pt 29.25pt;
   @media (max-width: 899pt) {
     height: 100%;
     margin: 0;
@@ -129,19 +128,45 @@ const Wrapper = styled.div`
 `;
 
 const Body = styled.div`
-  padding-top: 12pt;
+  position: relative;
+  width: 100%;
+
+  @media (max-width: 899pt) {
+    padding-top: 12pt;
+  }
 `;
 
 const TabBox = styled.div`
-  display: flex;
-  gap: 3pt;
+  z-index: 1;
+  //display:flex;
+
+  position: absolute;
+  width: 100%;
+  top: 0;
+
+  @media (max-width: 899pt) {
+    display: flex;
+    position: relative;
+    gap: 3pt;
+  }
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
   border-style: solid;
   border-bottom-width: 3pt;
   border-color: ${({ idx, num }) => (idx <= num ? colors.main : colors.gray4)};
   border-radius: 2px;
-  width: 100%;
+
+  width: calc((100% - 15pt) / 6);
+  display: inline-block;
+  margin-right: 3pt;
+  &:nth-last-of-type(1) {
+    margin-right: 0;
+  }
+
+  @media (max-width: 899pt) {
+    display: block;
+    width: 100%;
+  }
 `;
 const Footer = styled.div`
   position: absolute;

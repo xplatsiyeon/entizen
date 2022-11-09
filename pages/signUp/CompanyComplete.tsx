@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, Container } from '@mui/material';
+import { Container } from '@mui/material';
 import Image from 'next/image';
 import Btn from 'components/button';
 import CheckImg from 'public/images/CheckCircle.svg';

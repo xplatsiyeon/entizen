@@ -18,6 +18,7 @@ interface Props {
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
 }
+const TAG = 'componets/quotation/request/FourthStep.tsx';
 const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
   const dispatch = useDispatch();
   const { locationList } = useSelector(
@@ -60,13 +61,17 @@ const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
     if (locationIndex !== -1) {
       setBuildingNumber(locationIndex);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // useMap 업데이트
   useEffect(() => {
-    if (locationList.roadAddrPart) {
+    console.log(TAG + '🔥 ~line 68 ~location length check');
+    console.log(locationList.jibunAddr);
+    console.log(locationList.roadAddrPart);
+    if (locationList.jibunAddr) {
       naver.maps.Service.geocode(
         {
-          query: locationList.roadAddrPart,
+          query: locationList.jibunAddr,
         },
         function (status, response) {
           if (status === naver.maps.Service.Status.ERROR) {
@@ -75,11 +80,9 @@ const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
             }
             return alert('Geocode Error, address:' + locationList.roadAddrPart);
           }
-
           if (response.v2.meta.totalCount === 0) {
             return alert('No result.');
           }
-
           let item = response.v2.addresses[0];
           dispatch(
             coordinateAction.set({
@@ -109,9 +112,10 @@ const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
       {/* 주소 검색 박스 */}
       <SearchMapArea>
         <Input
-          value="상호명 또는 주소 검색"
+          placeholder="상호명 또는 주소 검색"
           type="submit"
           onClick={handleOnClick}
+          value={locationList.roadAddrPart}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -160,34 +164,48 @@ export default FourthStep;
 const Wrraper = styled.div`
   position: relative;
   padding-bottom: 96pt;
+  z-index: 2;
 `;
 const Title = styled.h1`
-  padding: 24pt 15pt 0 15pt;
+  padding: 38pt 0 0;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
+
+  @media (max-width: 899pt) {
+    padding: 24pt 15pt 0 15pt;
+  }
 `;
 const SubTitle = styled.div<{ pt: number }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: ${({ pt }) => pt + 'pt'};
-  padding-left: 15pt;
-  padding-right: 15pt;
   font-weight: 700;
-  font-size: 10.5pt;
+  font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  font-family: 'Spoqa Han Sans Neo';
+
+  @media (max-width: 899pt) {
+    padding-left: 15pt;
+    padding-right: 15pt;
+  }
 `;
 const TypeBox = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 11.25pt;
-  padding: 9pt 15pt 0 15pt;
+  padding: 9pt 0 0;
+
+  @media (max-width: 899pt) {
+    padding: 9pt 15pt 0 15pt;
+  }
 `;
 const Tab = styled.span<{ idx: string; tabNumber: string }>`
   font-weight: 400;
@@ -195,10 +213,13 @@ const Tab = styled.span<{ idx: string; tabNumber: string }>`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.lightGray2};
+  font-family: 'Spoqa Han Sans Neo';
   width: 100%;
   border: 0.75pt solid ${colors.gray};
   border-radius: 6pt;
   padding: 13.5pt 0;
+  box-sizing: border-box;
+  cursor: pointer;
   text-align: center;
   ${({ idx, tabNumber }) =>
     idx === tabNumber &&
@@ -219,7 +240,9 @@ const SearchMapArea = styled.div`
   height: 50pt;
   position: relative;
   margin-top: 10.5pt;
-  padding: 0 15pt;
+  @media (max-width: 899pt) {
+    padding: 0 15pt;
+  }
 `;
 const Input = styled(TextField)`
   width: 100%;
@@ -239,7 +262,7 @@ const Input = styled(TextField)`
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -2%;
-    color: ${colors.lightGray3};
+    /* color: ${colors.lightGray3}; */
     text-align: left;
     padding: 0;
   }
@@ -262,24 +285,27 @@ const NextBtn = styled.div<{
 }>`
   color: ${colors.lightWhite};
   width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
-  padding: 15pt 0 ;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   margin-top: 30pt;
+  border-radius: 6pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
-
+  cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const PrevBtn = styled.div`
   color: ${colors.lightWhite};
   width: 36%;
-  padding: 15pt 0 ;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -287,9 +313,12 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 30pt;
   background-color: ${colors.gray};
-
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
+  cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const TwoBtn = styled.div`
@@ -298,7 +327,9 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
+  gap: 8.7pt;
   @media (max-width: 899pt) {
     position: fixed;
+    gap: 0;
   }
 `;

@@ -120,6 +120,8 @@ section {
 }
 body {
   line-height: 1;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
 }
 ol,
 ul {
@@ -145,8 +147,6 @@ body {
   -ms-overflow-style: none;
   /* overflow: hidden; */
   background-color: #fcfcfc;
-  font-family: 'Spoqa Han Sans Neo';
-  font-style: normal;
 }
 
 ::-webkit-scrollbar {
@@ -156,4 +156,9 @@ body {
 input,
 textarea:focus {
   outline: none;
+  font-weight: 800;
+  color: #222222;
+}
+input::placeholder {
+  color: #caccd1;
 }

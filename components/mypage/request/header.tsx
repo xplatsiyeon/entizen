@@ -27,6 +27,8 @@ const MypageHeader = ({
 }: Props) => {
   const route = useRouter();
 
+
+
   return (
     <Header>
       {/* 뒤로가기 버튼 */}
@@ -63,10 +65,11 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  background-color: ${colors.lightWhite};
+  //background-color: ${colors.lightWhite};
   padding: 9pt 15pt;
   .back-img {
     position: absolute;
+    cursor: pointer;
     left: 7pt;
     padding: 5px;
   }
@@ -93,7 +96,11 @@ const Header = styled.div`
     right: 15pt;
   }
 
-  @media (max-width:899pt) {
+  .home {
+    position: absolute;
+    right: 15pt;
+  }
+  @media (max-width: 899pt) {
     display: flex;
   }
 `;

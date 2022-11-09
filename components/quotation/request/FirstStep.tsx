@@ -3,9 +3,6 @@ import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import AddIcon from 'public/images/add-img.svg';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Select from '@mui/material/Select';
-import { MenuItem } from '@mui/material';
 import Arrow from 'public/guide/Arrow.svg';
 import XCircle from 'public/guide/XCircle.svg';
 import {
@@ -23,6 +20,8 @@ import { useDispatch } from 'react-redux';
 import { Option, quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { useRouter } from 'next/router';
+import SelectComponents from 'components/Select';
 
 interface Props {
   tabNumber: number;
@@ -38,11 +37,12 @@ export interface SelectedOption {
 }
 
 const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
-  console.log('check');
   const dispatch = useDispatch();
-  const { chargersKo } = useSelector((state: RootState) => state.quotationData);
+  const router = useRouter();
+  const { chargersKo, chargers } = useSelector(
+    (state: RootState) => state.quotationData,
+  );
   const [isValid, setIsValid] = useState(false);
-  const [m5Index, setM5Index] = useState(0);
   const [selectedOption, setSelectedOption] = useState<SelectedOption[]>([
     {
       idx: 0,
@@ -63,16 +63,14 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   ]);
 
   // 셀렉터 옵션 체인지
-  const handleChange = (event: any, index: number) => {
-    const { name, value } = event.target;
-    const copy: any = [...selectedOption];
-    const copyEn: any = [...selectedOptionEn];
+  const handleSelectBox = (value: string, name: string, index: number) => {
+    let copy: SelectedOption[] = [...selectedOption];
+    let copyEn: Option[] = [...selectedOptionEn];
     // 영어 값 추출
-    let valueEn;
-
+    let valueEn: string;
+    // 충전기 종류
     if (name === 'kind') {
       const idx = M5_LIST.indexOf(value);
-      setM5Index(idx);
       valueEn = M5_LIST_EN[idx];
       copy[index] = {
         idx: idx,
@@ -81,23 +79,55 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
         channel: '',
         count: '',
       };
-    } else if (name === 'standType') {
+      copy[index] = {
+        ...copy[index],
+        kind: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        kind: valueEn,
+      };
+      // 타입
+    } else if (copy[index].kind.length > 1 && name === 'standType') {
       const idx = M6_LIST.indexOf(value);
       if (value === '-') {
         valueEn = '';
       } else {
         valueEn = M6_LIST_EN[idx];
       }
-    } else if (name === 'channel') {
+      copy[index] = {
+        ...copy[index],
+        standType: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        standType: valueEn,
+      };
+    } else if (copy[index].kind.length > 1 && name === 'channel') {
       const idx = M7_LIST.indexOf(value);
-
       valueEn = M7_LIST_EN[idx];
-    } else if (name === 'count') {
+      copy[index] = {
+        ...copy[index],
+        channel: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        channel: valueEn,
+      };
+      // 개수
+    } else if (copy[index].kind.length > 1 && name === 'count') {
       const idx = M8_LIST.indexOf(value);
       valueEn = M8_LIST_EN[idx];
+      copy[index] = {
+        ...copy[index],
+        count: value,
+      };
+      copyEn[index] = {
+        ...copyEn[index],
+        count: valueEn,
+      };
     }
-    copy[index][name] = value;
-    copyEn[index][name] = valueEn;
+
     setSelectedOption(copy);
     setSelectedOptionEn(copyEn);
   };
@@ -132,8 +162,6 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   };
   // 버튼 온클릭
   const buttonOnClick = () => {
-    console.log('check');
-    // dispatch(quotationAction.init());
     if (isValid && tabNumber !== 5) {
       dispatch(quotationAction.setChargers(selectedOptionEn));
       dispatch(quotationAction.setChargersKo(selectedOption));
@@ -155,11 +183,18 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
   useEffect(() => {
     setIsValid(true);
     validation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption]);
   // 내용 기억
   useEffect(() => {
     setSelectedOption(chargersKo);
+    setSelectedOptionEn(chargers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log(selectedOption);
+  }, [selectedOption]);
   return (
     <Wrraper>
       <Title>
@@ -181,78 +216,52 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
             )}
           </SubTitle>
           {/* 충전기 종류 옵션 박스 */}
-          <SelectBox
-            value={item.kind}
-            name="kind"
-            onChange={(event) => handleChange(event, index)}
-            IconComponent={() => <SelectIcon />}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>충전기 종류</Placeholder>
-            </MenuItem>
-
-            {M5_LIST.map((option, index) => (
-              <MenuItem key={index} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </SelectBox>
+          <SelectBoxWrapper>
+            <SelectComponents
+              value={item.kind}
+              option={M5_LIST}
+              name="kind"
+              placeholder="충전기 종류"
+              index={index}
+              onClickCharger={handleSelectBox}
+            />
+          </SelectBoxWrapper>
           {/* 타입,채널,수량 옵션 박스 */}
-          <SelectContainer>
-            <SelectSmall
+          <SelectComponentsContainer>
+            <SelectComponents
               value={item.standType}
+              option={M5_TYPE_SET[item.idx]}
               name="standType"
-              onChange={(event) => handleChange(event, index)}
-              displayEmpty
-              IconComponent={() => <SelectIcon />}
-            >
-              <MenuItem value="">
-                <Placeholder>타입</Placeholder>
-              </MenuItem>
-              {M5_TYPE_SET[item.idx].map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </SelectSmall>
-            <SelectSmall
+              placeholder="타입"
+              index={index}
+              onClickCharger={handleSelectBox}
+              fontSize={'small'}
+            />
+            <SelectComponents
               value={item.channel}
+              option={M5_CHANNEL_SET[item.idx]}
               name="channel"
-              onChange={(event) => handleChange(event, index)}
-              IconComponent={() => <SelectIcon />}
-              displayEmpty
-            >
-              <MenuItem value="">
-                <Placeholder>채널</Placeholder>
-              </MenuItem>
-              {M5_CHANNEL_SET[item.idx].map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </SelectSmall>
-            <SelectSmall
+              placeholder="채널"
+              index={index}
+              onClickCharger={handleSelectBox}
+              fontSize={'small'}
+            />
+            <SelectComponents
               value={item.count}
+              option={M8_LIST}
               name="count"
-              onChange={(event) => handleChange(event, index)}
-              IconComponent={() => <SelectIcon />}
-              displayEmpty
-            >
-              <MenuItem value="">
-                <Placeholder>수량</Placeholder>
-              </MenuItem>
-              {M8_LIST.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </SelectSmall>
-          </SelectContainer>
+              placeholder="수량"
+              index={index}
+              onClickCharger={handleSelectBox}
+              fontSize={'small'}
+            />
+          </SelectComponentsContainer>
         </div>
       ))}
       <ChargeGuide>
-        <span className="text">충전기 가이드</span>
+        <span className="text" onClick={() => router.push('/guide/1-5')}>
+          충전기 가이드
+        </span>
         <div className="arrow-icon">
           <Image src={Arrow} alt="arrow_icon" />
         </div>
@@ -268,18 +277,19 @@ export default FirstStep;
 
 const Wrraper = styled.div`
   position: relative;
-  padding: 0 15pt;
 
   @media (max-width: 899pt) {
     margin-bottom: 96pt;
+    padding: 0 15pt;
   }
 `;
 const Title = styled.h1`
-  padding-top: 24pt;
+  padding-top: 38pt;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
+  font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
@@ -289,78 +299,25 @@ const SubTitle = styled.div`
   align-items: center;
   padding-top: 45pt;
   .name {
+    font-style: normal;
     font-weight: 700;
-    font-size: 10.5pt;
+    font-size: 12pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    font-family: 'Spoqa Han Sans Neo';
   }
   .add-img {
   }
 `;
-
-const SelectContainer = styled.div`
+const SelectBoxWrapper = styled.div`
+  padding-top: 4.5pt;
+`;
+const SelectComponentsContainer = styled.div`
   display: flex;
-  gap: 8.25pt;
-`;
-const SelectBox = styled(Select)`
-  width: 100%;
-  border: 1px solid #e2e5ed;
-  border-radius: 8px;
-  margin-top: 9pt;
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-  & div {
-    padding-left: 12.75pt;
-    padding-top: 13.5pt;
-    padding-bottom: 13.5pt;
-  }
-  & fieldset {
-    border: none;
-  }
-  & svg {
-    padding-right: 11.25pt;
-  }
-`;
-const SelectSmall = styled(Select)`
-  display: flex;
-  justify-content: space-between;
-  border-radius: 8px;
-  margin-top: 9pt;
-  font-weight: 400;
-  font-size: 9pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-  border: 1px solid #e2e5ed;
-  width: 100%;
-  & div {
-    padding-left: 12pt;
-    padding-top: 13.5pt;
-    padding-bottom: 13.5pt;
-    width: 0;
-  }
-  & svg {
-    padding-right: 12pt;
-  }
-  & fieldset {
-    border: none;
-  }
-`;
-const SelectIcon = styled(KeyboardArrowDownIcon)`
-  width: 18pt;
-  height: 18pt;
-  color: ${colors.dark};
-`;
-const Placeholder = styled.em`
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.lightGray3};
+  justify-content: center;
+  padding-top: 9pt;
+  gap: 9pt;
 `;
 const ChargeGuide = styled.div`
   display: flex;
@@ -369,9 +326,11 @@ const ChargeGuide = styled.div`
   gap: 3pt;
   color: ${colors.gray2};
   margin-top: 75pt;
+  cursor: pointer;
   .text {
     letter-spacing: -0.02em;
     border-bottom: 1px solid ${colors.gray2};
+    font-family: 'Spoqa Han Sans Neo';
   }
   .arrow-icon {
     position: relative;
@@ -391,8 +350,11 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
   margin-top: 30pt;
+  border-radius: 6pt;
+  cursor: pointer;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
 

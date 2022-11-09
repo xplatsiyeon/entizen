@@ -1,17 +1,44 @@
 import styled from '@emotion/styled';
 import { Box, TextField, Typography } from '@mui/material';
-import React, { Dispatch, SetStateAction } from 'react';
+import axios from 'axios';
+import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
   passwordInput: string;
   checkPassword: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setPasswordModal: Dispatch<SetStateAction<boolean>>;
+  setPasswordInput: Dispatch<SetStateAction<string>>;
+  click?: () => void;
+  passowrdValid: boolean;
 };
 
-const PasswordModal = ({ passwordInput, onChange, checkPassword }: Props) => {
+const PasswordModal = ({
+  passwordInput,
+  onChange,
+  checkPassword,
+  click,
+  setPasswordModal,
+  setPasswordInput,
+  passowrdValid,
+}: Props) => {
+  const outside = useRef();
+
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside.current === e.target) {
+      setPasswordModal((prev) => !prev);
+      setPasswordInput('');
+    }
+  };
+
+  // passwordInput 업데이트
+  useEffect(() => {}, [passwordInput]);
+
   return (
-    <ModalWrapper>
+    <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <ModalBox>
         <Content>
           <ContentText>
@@ -21,8 +48,13 @@ const PasswordModal = ({ passwordInput, onChange, checkPassword }: Props) => {
           </ContentText>
         </Content>
         <Inputs value={passwordInput} onChange={onChange} type="password" />
+        {passowrdValid && <Alert>올바르지 않는 비밀번호입니다.</Alert>}
         <BtnBox>
-          <CheckBtn checkPassword={checkPassword} disabled={checkPassword}>
+          <CheckBtn
+            checkPassword={checkPassword}
+            disabled={!checkPassword}
+            onClick={click}
+          >
             확인
           </CheckBtn>
         </BtnBox>
@@ -59,11 +91,9 @@ const ContentText = styled(Typography)`
   letter-spacing: -2%;
   text-align: center;
 `;
-
 const Content = styled(Box)`
   width: 190.5pt;
 `;
-
 const Inputs = styled(TextField)`
   margin-top: 21pt;
   width: 100%;
@@ -74,12 +104,10 @@ const Inputs = styled(TextField)`
     padding-left: 12pt;
   }
 `;
-
 const BtnBox = styled(Box)`
   width: 100%;
   margin-top: 30pt;
 `;
-
 const CheckBtn = styled.button<{ checkPassword: boolean }>`
   width: 100%;
   padding: 15pt 84pt;
@@ -91,5 +119,13 @@ const CheckBtn = styled.button<{ checkPassword: boolean }>`
   background-color: ${({ checkPassword }) =>
     checkPassword ? `${colors.main}` : `${colors.lightGray}`};
   color: #ffffff;
+`;
+const Alert = styled.p`
+  margin-top: 9pt;
+  color: ${colors.sub4};
+  font-weight: 400;
+  font-size: 9pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
 `;
 export default PasswordModal;

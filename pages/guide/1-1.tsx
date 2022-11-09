@@ -11,8 +11,8 @@ import ManageMent from 'components/guide/management';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
 import Guide from 'public/guide/guide1.png';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -37,7 +37,7 @@ const Guide1_1 = () => {
       <Wrapper>
         {/* 링크 리스트 */}
         <GuideHeader
-          title={'알림함'}
+          title={'플랫폼 가이드'}
           leftOnClick={() => router.back()}
           rightOnClick={() => router.push('/')}
         />

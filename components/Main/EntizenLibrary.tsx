@@ -7,9 +7,12 @@ import React from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 
-type Props = {};
+type Props = {
+  fontSize?: number;
+  smallfont?: number;
+};
 
-const EntizenLibrary = (props: Props) => {
+const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
   const router = useRouter();
   return (
     <>
@@ -25,8 +28,10 @@ const EntizenLibrary = (props: Props) => {
               <div></div>
             </ProfileImg>
             <TitleNDetail>
-              <LibraryTitle>추후 문구 추가</LibraryTitle>
-              <DetailView>
+              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
+                추후 문구 추가
+              </LibraryTitle>
+              <DetailView smallfont={smallfont ? smallfont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -43,8 +48,10 @@ const EntizenLibrary = (props: Props) => {
               <div></div>
             </ProfileImg>
             <TitleNDetail>
-              <LibraryTitle>추후 문구 추가</LibraryTitle>
-              <DetailView>
+              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
+                추후 문구 추가
+              </LibraryTitle>
+              <DetailView smallfont={smallfont ? smallfont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -61,8 +68,10 @@ const EntizenLibrary = (props: Props) => {
               <div></div>
             </ProfileImg>
             <TitleNDetail>
-              <LibraryTitle>추후 문구 추가</LibraryTitle>
-              <DetailView>
+              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
+                추후 문구 추가
+              </LibraryTitle>
+              <DetailView smallfont={smallfont ? smallfont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -79,8 +88,10 @@ const EntizenLibrary = (props: Props) => {
               <div></div>
             </ProfileImg>
             <TitleNDetail>
-              <LibraryTitle>추후 문구 추가</LibraryTitle>
-              <DetailView>
+              <LibraryTitle fontSize={fontSize ? fontSize : 0}>
+                추후 문구 추가
+              </LibraryTitle>
+              <DetailView smallfont={smallfont ? smallfont : 0}>
                 자세히 보기{' '}
                 <span>
                   <Image src={rightArrow} alt="icon" />
@@ -93,9 +104,9 @@ const EntizenLibrary = (props: Props) => {
           <ShowAllBtn onClick={() => router.push('/library')}>
             <div>도서관</div>
             <div>&nbsp;전체보기</div>
-            <div>
-              <Image src={blackRightArrow} alt="icon" />
-            </div>
+            <ImageWrap>
+              <Image className='arrow' layout='fill' src={blackRightArrow} alt="icon" />
+            </ImageWrap>
           </ShowAllBtn>
         </ShowAllBtnBox>
       </Wrapper>
@@ -108,7 +119,7 @@ const Wrapper = styled.div`
   margin: 90pt auto 48pt;
 
   @media (max-width: 899pt) {
-    margin: 30pt 0;
+    margin: 15pt 0;
     width: 100%;
   }
 `;
@@ -136,7 +147,8 @@ const BoardBox = styled.div`
   flex-wrap: wrap;
   width: 100%;
   @media (max-width: 899pt) {
-    padding-left: 9.75pt;
+    padding-left: 0;
+    padding-right: 0;
     box-shadow: 0px 0px 10px 0px #89a3c933;
     border-radius: 6pt;
     display: block;
@@ -164,7 +176,7 @@ const LibraryList = styled.div`
     box-shadow: none;
     border-radius: 0;
     margin: 0;
-    padding-left: 6pt;
+    padding-left: 0pt;
   }
 `;
 
@@ -184,7 +196,7 @@ const ProfileImg = styled.div`
     padding-top: 13.5pt;
     padding-bottom: 13.5pt;
     padding-right: 12pt;
-    padding-left: 0pt;
+    padding-left: 6pt;
     & > div {
       width: 33pt;
       height: 33pt;
@@ -204,20 +216,23 @@ const TitleNDetail = styled.div`
   }
 `;
 
-const LibraryTitle = styled(Typography)`
-  font-size: 12pt;
+const LibraryTitle = styled(Typography)<{ fontSize: number }>`
+  font-size: ${({ fontSize }) => (fontSize !== 0 ? fontSize : 12)}pt;
   font-weight: 400;
   line-height: 18pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 
-const DetailView = styled(Typography)`
+const DetailView = styled(Typography)<{ smallfont: number }>`
   display: flex;
   align-items: center;
-  font-size: 9pt;
+  margin-top: 9.75pt;
+  font-size: ${({ smallfont }) => (smallfont !== 0 ? smallfont : 9)}pt;
   line-height: 15pt;
   font-weight: 500;
   color: ${colors.main};
+  font-family: 'Spoqa Han Sans Neo';
   & span {
     display: flex;
     align-items: center;
@@ -234,18 +249,20 @@ const ShowAllBtnBox = styled.div`
   font-weight: 500;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 
 const ShowAllBtn = styled.div`
-  padding: 6pt 7.5pt 6pt 9pt;
+padding: 12pt 120pt;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  font-size: 9pt;
+  font-size: 12pt;
   font-weight: 500;
-  line-height: 12pt;
+  line-height: 18pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   text-align: left;
   border: 0.75pt solid #e2e5ed;
   border-radius: 21.75pt;
@@ -270,7 +287,24 @@ const ShowAllBtn = styled.div`
   & div:nth-of-type(3) {
     position: relative;
     top: 1.4pt;
+
+  @media (max-width: 899pt) {
+    top: 1px;
+    width: 9pt;
+    position: relative;
+    height: 9pt;
+  }
+  }
+
+  @media (max-width: 899pt) {
+  padding: 6pt 7.5pt 6pt 9pt;
+  font-size: 9pt;
+  line-height: 12pt;
   }
 `;
+
+const ImageWrap = styled.div`
+  position: relative;
+`
 
 export default EntizenLibrary;

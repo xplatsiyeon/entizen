@@ -21,13 +21,13 @@ const Mypage3_1 = () => {
       {/* 일정 확정 */}
       {/* <ScheduleConfirm /> */}
 
-      <BiddingQuote />
+      {/* <BiddingQuote /> */}
       {/* 담당자 정보 */}
       <ManagerInfo />
       <TextBox>
         <CommunicationBox
           text="파트너와 소통하기"
-          clickHandler={() => route.push('/chatting/1-3')}
+          clickHandler={() => alert('개발중입니다.')}
         />
       </TextBox>
       <Button
@@ -37,6 +37,7 @@ const Mypage3_1 = () => {
       {/* 파트너 모달 */}
       {partnerModal && (
         <RequestModal
+          exit={() => setPartnerModal((prev) => !prev)}
           title={'다른 파트너에게\n 재견적을 받아보시겠습니까?'}
           leftControl={() => setPartnerModal((prev) => !prev)}
           rightControl={() => route.push('/mypage/request/3-2')}
@@ -45,6 +46,7 @@ const Mypage3_1 = () => {
       {/* 확정 모달 */}
       {confirmModal && (
         <RequestModal
+          exit={() => setConfirmModal((prev) => !prev)}
           title={'Charge Point로\n 확정하시겠습니까?'}
           leftControl={() => setConfirmModal((prev) => !prev)}
           rightControl={() => route.push('/mypage/request/3-2')}

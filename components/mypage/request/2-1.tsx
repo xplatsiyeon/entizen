@@ -28,16 +28,15 @@ const Mypage2_1 = () => {
       {/* 일정 확정 */}
       <ScheduleConfirm date={pickDate ? pickDate : selectedDate[0]} />
       {/* 일정 변경 요청 */}
-      {/* <ScheduleChange /> */}
+      <ScheduleChange />
       {/* 일정 변경 확인 중 */}
       {/* <Checking /> */}
-      <BiddingQuote />
       {/* 담당자 정보 */}
       <ManagerInfo />
       <TextBox>
         <CommunicationBox
           text="파트너와 소통하기"
-          clickHandler={() => router.push('/chatting/1-3')}
+          clickHandler={() => alert('개발중입니다.')}
         />
       </TextBox>
     </>

@@ -82,7 +82,7 @@ const WhyEntizen = () => {
       case '플랫폼 가이드':
         return router.push('/guide/1-1');
       case '구독 가이드':
-        return userID ? router.push('/guide/1-2') : router.push('/signin');
+        return userID ? router.push('/quotation') : router.push('/signin');
       case '충전기 가이드':
         return router.push('/guide/1-4');
       case '보조금 가이드':
@@ -99,7 +99,11 @@ const WhyEntizen = () => {
         </WhyBox>
         <GridBox>
           {menuList.map((el, index) => (
-            <GridElement color={el.background} key={index}>
+            <GridElement
+              onClick={() => movePage(el)}
+              color={el.background}
+              key={index}
+            >
               <TextArea color={el.color}>{el.menuText}</TextArea>
               <ArrowImgBox className="arrow">
                 <Image className="mob" src={el.arrowIcon} alt="icon" />
@@ -168,17 +172,19 @@ const GridElement = styled.div`
   border-radius: 6pt;
   position: relative;
   border: 1.5pt solid #e2e5ed;
-  box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
+  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
 
   @media (max-width: 899pt) {
     height: 120pt;
     border: none;
     box-shadow: none;
+    box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   }
 `;
 
 const TextArea = styled.div`
   white-space: pre-wrap;
+  width: 100%;
   font-size: 25.5pt;
   font-weight: 700;
   line-height: 37.5pt;

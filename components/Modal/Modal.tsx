@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
-import React from 'react';
+import React, { useRef } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
@@ -10,8 +10,19 @@ type Props = {
 };
 
 const Modal = ({ text, click, color }: Props) => {
+  const outside = useRef();
+
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside) {
+      if (outside.current === e.target) {
+        click();
+      }
+    }
+  };
   return (
-    <ModalWrapper>
+    <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <ModalBox>
         <Content>
           <ContentText>{text}</ContentText>
@@ -37,10 +48,11 @@ const ModalWrapper = styled(Box)`
   position: fixed;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 1000;
 `;
 const ModalBox = styled(Box)`
-  width: 220.5pt;
+  width: 205.5pt;
+  padding: 0 15pt;
   border-radius: 6pt;
   background-color: white;
   position: relative;
@@ -56,9 +68,9 @@ const ContentText = styled(Typography)`
   font-weight: 500;
   line-height: 18pt;
   letter-spacing: -2%;
-  padding-left: 15pt;
   padding-top: 21pt;
   padding-bottom: 21pt;
+  text-align: center;
 `;
 
 const Content = styled(Box)`
@@ -71,8 +83,8 @@ const BtnBox = styled(Box)`
 `;
 
 const BtnText = styled(Typography)<{ color?: string }>`
+  cursor: pointer;
   position: relative;
-  margin-right: 15pt;
   margin-bottom: 21pt;
   font-size: 12pt;
   font-weight: 400;

@@ -10,21 +10,37 @@ interface Props {
   text?: string;
   buttonText?: string;
   handleOnClick?: () => void;
+  handleExitClick?: () => void;
+  yesExit?: boolean;
   [key: string]: any;
 }
 
-const Complete = ({ text, title, buttonText, handleOnClick }: Props) => {
+const Complete = ({
+  text,
+  title,
+  buttonText,
+  handleOnClick,
+  handleExitClick,
+  yesExit,
+}: Props) => {
   return (
     <Wrapper>
       <Nav>
-        {/* <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} /> */}
+        {yesExit && (
+          <Image
+            onClick={handleExitClick}
+            src={ExitImg}
+            alt="exit"
+            style={{ cursor: 'pointer' }}
+          />
+        )}
       </Nav>
       <ContainerBox disableGutters>
         <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
       </ContainerBox>
       <Title>{title}</Title>
       <Footer>
-        <TextBox>{text}</TextBox>
+        {text && <TextBox>{text}</TextBox>}
         <Btn onClick={handleOnClick}>{buttonText}</Btn>
       </Footer>
     </Wrapper>
@@ -33,7 +49,10 @@ const Complete = ({ text, title, buttonText, handleOnClick }: Props) => {
 
 export default Complete;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  margin-top: 43.5pt;
+`;
+
 const Nav = styled.div`
   display: none;
   justify-content: end;
@@ -82,8 +101,8 @@ const TextBox = styled.div`
   justify-content: center;
   white-space: pre-wrap;
   text-align: center;
-  padding: 13.5pt 0;
-  margin-bottom: 24pt;
+  padding: 12pt 0;
+  margin-bottom: 33pt;
   width: 100%;
   font-weight: 500;
   font-size: 10.5pt;
@@ -106,7 +125,7 @@ const Btn = styled(Button)`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-  margin-bottom: 30pt;
+  margin-bottom: 145.5pt;
   padding: 9pt 12pt;
 
   @media (max-width: 899pt) {

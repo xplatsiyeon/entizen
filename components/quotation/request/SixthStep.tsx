@@ -17,7 +17,7 @@ import { RootState } from 'store/store';
 import { quotationAction } from 'store/quotationSlice';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-// import { predictionApi } from 'api/quotations/prediction';
+import Modal from 'components/Modal/Modal';
 import axios from 'axios';
 
 interface Purpose {
@@ -74,12 +74,14 @@ const purpose: Purpose[] = [
   },
 ];
 
-const PREDICTION_POST = `https://api.entizen.kr/api/quotations/prediction`;
+const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
 
 const SixthStep = ({ setTabNumber }: Props) => {
   const router = useRouter();
-  const [clicked, setClicked] = useState(-1);
   const dispatch = useDispatch();
+  const [clicked, setClicked] = useState(-1);
+  const [errorModal, setErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handlePurposeOnClick = (index: number) => setClicked(index);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -100,7 +102,7 @@ const SixthStep = ({ setTabNumber }: Props) => {
         data: {
           chargers: quotationData.chargers,
           subscribeProduct: quotationData.subscribeProduct,
-          investRate: quotationData.investRate,
+          investRate: quotationData.investRate.toString(),
           subscribePeriod: quotationData.subscribePeriod,
           installationAddress: locationList.locationList.roadAddrPart,
           installationLocation: quotationData.installationLocation,
@@ -109,11 +111,17 @@ const SixthStep = ({ setTabNumber }: Props) => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      }).then((res) => {
-        dispatch(quotationAction.setRequestData(res.data));
-        // dispatch(quotationAction.init());
-        router.push('/quotation/request/1-7');
-      });
+      })
+        .then((res) => {
+          dispatch(quotationAction.setRequestData(res.data));
+          // dispatch(quotationAction.init());
+          router.push('/quotation/request/1-7');
+        })
+        .catch((error) => {
+          const text = error.response.data.message;
+          setErrorModal((prev) => !prev);
+          setErrorMessage(text);
+        });
     } catch (error) {
       console.log('post 요청 실패');
       console.log(error);
@@ -134,11 +142,18 @@ const SixthStep = ({ setTabNumber }: Props) => {
   useEffect(() => {
     if (clicked !== -1) {
       setButtonActivate(true);
-      console.log(purpose[clicked].name);
+      // console.log(purpose[clicked].name);
     }
   }, [clicked]);
   return (
     <Wrraper>
+      {errorModal && (
+        <Modal
+          text={errorMessage}
+          color={colors.main}
+          click={() => setErrorModal((prev) => !prev)}
+        />
+      )}
       <Title>충전기 설치 목적을 알려주세요</Title>
       <Intersection>
         {purpose.map((item, index) => (
@@ -174,23 +189,27 @@ export default SixthStep;
 const Wrraper = styled.div`
   position: relative;
   padding-bottom: 96pt;
-  padding-left: 15pt;
-  padding-right: 15pt;
+
+  @media (max-width: 899pt) {
+    padding-left: 15pt;
+    padding-right: 15pt;
+  }
 `;
 const Title = styled.h1`
-  padding-top: 24pt;
+  padding-top: 38pt;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const Intersection = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 11.25pt;
-  padding-top: 30pt;
+  padding-top: 45pt;
 `;
 const GridItem = styled.div<{ index: string; clicked: string }>`
   border-radius: 8px;
@@ -202,6 +221,8 @@ const GridItem = styled.div<{ index: string; clicked: string }>`
   padding: 15.75pt 0 9.75pt 0;
   border: 0.75pt;
   border-style: solid;
+  cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
   border-color: ${({ index, clicked }) =>
     index === clicked ? `${colors.main}` : `${colors.lightGray2}`};
   color: ${({ index, clicked }) =>
@@ -222,8 +243,12 @@ const NextBtn = styled.div<{
   margin-top: 30pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
+  cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const PrevBtn = styled.div`
@@ -237,8 +262,12 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 30pt;
   background-color: ${colors.gray};
+  cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+    border-radius: 0;
   }
 `;
 const TwoBtn = styled.div`
@@ -247,7 +276,9 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
+  gap: 8.7pt;
   @media (max-width: 899pt) {
     position: fixed;
+    gap: 0;
   }
 `;

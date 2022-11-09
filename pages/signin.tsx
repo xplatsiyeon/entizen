@@ -1,139 +1,78 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Box,
-  Container,
-  Typography,
-  Button,
-  TextField,
-  Divider,
-} from '@mui/material';
-import Link from 'next/link';
+import { Box, Container, Typography, TextField, Divider } from '@mui/material';
 import styled from '@emotion/styled';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
 import kakao from 'public/images/kakao.svg';
 import naver from 'public/images/naver.svg';
 import google from 'public/images/google.svg';
 import apple from 'public/images/apple.svg';
 import Image from 'next/image';
-import { getToken, login } from 'api/auth/naver';
+import { login } from 'api/naver';
 import { useDispatch } from 'react-redux';
-import { naverAction } from 'store/naverSlice';
-
+import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import { userAction } from 'store/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { originUserAction } from 'store/userInfoSlice';
-import { kakaoInit } from 'utils/kakao';
+import colors from 'styles/colors';
+import { findUserInfoAction } from 'store/findSlice';
+import Modal from 'components/Modal/Modal';
+import Link from 'next/link';
+import { selectAction } from 'store/loginTypeSlice';
+interface JwtTokenType {
+  exp: number;
+  iat: number;
+  isSnsMember: boolean;
+  iss: string;
+  memberIdx: number;
+  memberType: string;
+}
+export interface FindKey {
+  id: string;
+  isMember: boolean;
+  memberIdx: number;
+  name: string;
+  phone: string;
+  snsType: string;
+}
 
-type Props = {};
+const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
+const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-const Signin = (props: Props) => {
+const Signin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.userList);
+  let naverLogin: any;
   const naverRef = useRef<HTMLElement | null | any>(null);
+  const { user } = useSelector((state: RootState) => state.userList);
   const [userId, setUserId] = useState<string>('');
+  const [data, setData] = useState<any>();
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
   const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
-  let naverLogin: any;
-
-  let naverResponse: any;
-  interface Data {
-    accessToken: string;
-    isMember: boolean;
-    isSuccess: boolean;
-    refreshToken: string;
-    snsLoginIdx: number;
-  }
-
-  const KAKAO_POST = `https://api.entizen.kr/api/members/login/sns`;
-  const KaKaApi = async (data: any) => {
-    try {
-      await axios({
-        method: 'post',
-        url: KAKAO_POST,
-        data: {
-          uuid: '' + data.id,
-          snsType: 'KAKAO',
-          snsResponse: JSON.stringify(data),
-          email: data.kakao_account.email,
-        },
-        headers: {
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
-        console.log('카카오로그인 KaKaAPI =>  ' + res);
-        console.log(res);
-        console.log(res.data);
-        // const match = res.config.data.match(/\((.*)\)/);
-        let c = res.data;
-        let d = JSON.parse(res.config.data);
-        console.log('카카오 로그인 axios 부분입니다 ! ======');
-        console.log(c);
-        dispatch(
-          userAction.add({
-            ...userAction,
-            uuid: d.uuid,
-            email: d.email,
-            snsType: d.snsType,
-            snsLoginIdx: c.snsLoginIdx,
-            isMember: c.isMember,
-          }),
-        );
-        if ((c.isMemeber = true)) {
-          localStorage.setItem('USER_ID', data.user.email);
-          console.log(user.email);
-          localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-          localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
-          dispatch(originUserAction.set(data.user.email));
-          router.push('/');
-        }
-      });
-    } catch (error) {
-      console.log('post 요청 실패');
-      console.log('카카오로그인 에러  =>   ' + error);
-      console.log(error);
-    }
+  const loginTypeEnList: string[] = ['USER', 'COMPANY'];
+  const [isId, setIsId] = useState(false);
+  const [isPassword, setIsPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errorModal, setErrorModal] = useState(false);
+  // 안내문
+  const handleAlert = () => {
+    alert('현재 개발 중 입니다.');
   };
-
-  // 카카오 로그인 버튼
-  const kakaoLogin = async () => {
-    // 카카오 초기화
-    const kakao = kakaoInit();
-    // 카카오 로그인 구현
-    kakao.Auth.login({
-      success: () => {
-        kakao.API.request({
-          url: '/v2/user/me', // 사용자 정보 가져오기
-          success: (res: any) => {
-            // 로그인 성공할 경우 정보 확인 후 /kakao 페이지로 push
-            KaKaApi(res);
-          },
-          fail: (error: any) => {
-            console.log(error);
-          },
-        });
-      },
-      fail: (error: any) => {
-        console.log(error);
-      },
-    });
-  };
-
+  // 기본 로그인
   const originLogin = async () => {
     console.log('로그인 온클릭');
-    const ORIGIN_API = `https://api.entizen.kr/api/members/login`;
+    const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
     try {
       await axios({
         method: 'post',
         url: ORIGIN_API,
         data: {
-          memberType: 'USER',
+          memberType: loginTypeEnList[selectedLoginType],
           id: userId,
           password: password,
         },
@@ -143,9 +82,9 @@ const Signin = (props: Props) => {
         withCredentials: true,
       })
         .then(async (res) => {
-          console.log('response 데이터 ->');
-          console.log(res.data.accessToken);
-          console.log(res.data.refreshToken);
+          const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+          localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
           localStorage.setItem(
             'ACCESS_TOKEN',
             JSON.stringify(res.data.accessToken),
@@ -159,17 +98,24 @@ const Signin = (props: Props) => {
           await router.push('/');
         })
         .catch((error) => {
-          console.log('api 에러 발생!!');
-          console.log(error);
+          const { message } = error.response.data;
+          if (message === '탈퇴된 회원입니다.') {
+            setErrorModal(true);
+            setErrorMessage(
+              '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+            );
+          } else {
+            setErrorModal(true);
+            setErrorMessage(message);
+          }
         });
-    } catch (error) {
-      console.log('에러가 발생했다!!!');
-      console.log(error);
+    } catch (error: any) {
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
-
+  // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
       await axios({
         method: 'post',
@@ -184,51 +130,119 @@ const Signin = (props: Props) => {
           ContentType: 'application/json',
         },
         withCredentials: true,
-      })
-        .then((res) => {
-          console.log('[axios] 리스폰스 => ');
-          console.log(res);
-          console.log(res.data);
-          // const match = res.config.data.match(/\((.*)\)/);
-          let c = res.data;
-          let d = JSON.parse(res.config.data);
-          console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
-          console.log(c);
-          dispatch(
-            userAction.add({
-              ...user,
-              uuid: d.uuid,
-              email: d.email,
-              snsType: d.snsType,
-              snsLoginIdx: c.snsLoginIdx,
-              isMember: c.isMember,
-            }),
-          );
-          if (c.isMember === true) {
-            localStorage.setItem('USER_ID', data.user.email);
-            console.log(user.email);
-            localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
-            localStorage.setItem(
-              'REFRESH_TOKEN',
-              JSON.stringify(c.refreshToken),
-            );
-            dispatch(originUserAction.set(data.user.email));
-            router.push('/');
-          }
-        })
-        .then((res) => {
-          router.push('/signUp/Terms');
-        });
+      }).then((res) => {
+        console.log('[axios] 리스폰스 => ');
+        console.log(res);
+        console.log(res.data);
+        // const match = res.config.data.match(/\((.*)\)/);
+        let c = res.data;
+        let d = JSON.parse(res.config.data);
+        console.log('signin.tsx 65번째줄 axios 부분입니다 ! ======');
+        console.log(c);
+        dispatch(
+          userAction.add({
+            ...user,
+            uuid: d.uuid,
+            email: d.email,
+            snsType: d.snsType,
+            snsLoginIdx: c.snsLoginIdx,
+            isMember: c.isMember,
+          }),
+        );
+        if (c.isMember === true) {
+          const token: JwtTokenType = jwt_decode(res.data.accessToken);
+          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+          localStorage.setItem('USER_ID', JSON.stringify(data.user.email));
+          console.log(user.email);
+          localStorage.setItem('ACCESS_TOKEN', JSON.stringify(c.accessToken));
+          localStorage.setItem('REFRESH_TOKEN', JSON.stringify(c.refreshToken));
+          dispatch(originUserAction.set(data.user.email));
+          router.push('/');
+        } else {
+          router.push('/signUp/SnsTerms');
+        }
+      });
     } catch (error) {
       console.log('post 요청 실패');
       console.log(error);
     }
   };
-
-  const handleAlert = () => {
-    alert('현재 개발 중 입니다.');
+  // 나이스 인증
+  const fnPopup = (event: any) => {
+    console.log('check');
+    console.log(event?.currentTarget.value);
+    const { value } = event.currentTarget;
+    if (value === 'id') {
+      setIsId(true);
+      console.log('id입니다');
+    }
+    if (value === 'password') {
+      setIsPassword(true);
+      console.log('passowrd입니다');
+    }
+    if (typeof window !== 'object') return;
+    else {
+      window.open(
+        '',
+        'popupChk',
+        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+      );
+      let cloneDocument = document as any;
+      cloneDocument.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      cloneDocument.form_chk.target = 'popupChk';
+      cloneDocument.form_chk.submit();
+    }
   };
+  // 아이디 찾기
+  const HandleFindId = async () => {
+    let key = localStorage.getItem('key');
+    let data: FindKey = JSON.parse(key!);
+    console.log(data);
+    if (data.isMember) {
+      dispatch(findUserInfoAction.addId(data.id));
+      router.push('/find/id');
+    } else {
+      setErrorMessage(
+        '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+      );
+      setErrorModal((prev) => !prev);
+    }
+  };
+  // 비밀번호 찾기
+  const HandleFindPassword = async () => {
+    let key = localStorage.getItem('key');
+    let data: FindKey = JSON.parse(key!);
+    if (data.isMember) {
+      console.log('멤버 확인 -> ' + data.isMember);
+      localStorage.getItem('key');
+      router.push('/find/password2');
+    } else {
+      setErrorMessage(
+        '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+      );
+      setErrorModal((prev) => !prev);
+    }
+  };
+  // 나이스 인증
+  useEffect(() => {
+    const memberType = loginTypeEnList[selectedLoginType];
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType },
+    })
+      .then((res) => {
+        setData(res.data.executedData);
+      })
+      .catch((error) => {
+        console.error(' 2 곳 입니까?');
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedLoginType]);
 
+  // 네이버 로그인
   useEffect(() => {
     login(naverLogin, function (naverLogin) {
       const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
@@ -236,15 +250,8 @@ const Signin = (props: Props) => {
 
       if (hash) {
         const token = hash.split('=')[1].split('&')[0]; // token값 확인
-        console.log('토큰입니다 => ' + token);
         naverLogin.getLoginStatus((status: any) => {
           if (status) {
-            // 로그인 상태 값이 있을 경우
-            console.log('[로그인상태값] 네이버 => ' + status);
-            console.log('[whj] 네이버 로그인 데이터 => ' + naverLogin);
-            console.log(naverLogin);
-            // let email = naverLogin.user.getEmail();
-            // localStorage.setItem();
             NaverApi(naverLogin);
             dispatch(
               userAction.add({
@@ -264,18 +271,34 @@ const Signin = (props: Props) => {
         });
       }
     });
-
-    // naverResponse === undefined
-    //   ? console.log('네이버 리스폰스 =>  undefined')
-    //   : console.log('네이버 리스폰스 =>  ' + naverResponse);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (selectedLoginType === 0) {
+      dispatch(selectAction.select('USER'));
+    } else if (selectedLoginType === 1) {
+      dispatch(selectAction.select('COMPANY'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedLoginType]);
+
   const handleNaver = async () => {
-    naverRef.current.children[0].click();
+    if (naverRef) {
+      naverRef.current.children[0].click();
+    }
   };
+
   return (
     <React.Fragment>
+      {/* 로그인 에러 안내 모달 */}
+      {errorModal && (
+        <Modal
+          text={errorMessage}
+          color={'#7e7f81'}
+          click={() => setErrorModal((prev) => !prev)}
+        />
+      )}
       <Body>
         <WebHeader />
         <Inner>
@@ -303,12 +326,13 @@ const Signin = (props: Props) => {
                   sx={{
                     width: '100%',
                     display: 'flex',
+                    gap: '15pt',
                     alignItems: 'center',
                     marginTop: '6pt',
                   }}
                 >
                   {loginTypeList.map((loginType, index) => (
-                    <Box key={index} sx={{ marginRight: '24pt' }}>
+                    <Box key={index}>
                       <Typography
                         variant="h6"
                         key={index}
@@ -350,22 +374,15 @@ const Signin = (props: Props) => {
                 }}
               >
                 <Box sx={{ textAlign: 'center' }}>
-                  <TextField
+                  <TextFields
                     id="outlined-basic"
                     placeholder="아이디 입력"
                     onChange={(e) => {
                       setUserId(e.target.value);
                     }}
-                    sx={{
-                      width: '100%',
-                      fontWeight: '400',
-                      border: '1px solid #E2E5ED',
-                      fontSize: '12pt',
-                      lineHeight: '12pt',
-                      borderRadius: '6pt',
-                    }}
                   />
-                  <TextField
+
+                  <TextFields
                     value={password}
                     id="outlined-basic"
                     placeholder="비밀번호 입력"
@@ -378,10 +395,7 @@ const Signin = (props: Props) => {
                       setPassword(e.target.value);
                     }}
                     sx={{
-                      width: '100%',
                       marginTop: '9pt',
-                      border: '1px solid #E2E5ED',
-                      borderRadius: '6pt',
                     }}
                   />
                 </Box>
@@ -393,89 +407,139 @@ const Signin = (props: Props) => {
                     textAlign: 'center',
                   }}
                 >
-                  <Link href={`/findAccount`}>
-                    <Typography
+                  <Box
+                    sx={{
+                      textAlign: 'center',
+                      // textDecorationLine: 'underline',
+                      marginTop: '22.5pt',
+                      color: '#747780',
+                    }}
+                  >
+                    <div>
+                      <form name="form_chk" method="get">
+                        <input
+                          type="hidden"
+                          name="m"
+                          value="checkplusService"
+                        />
+                        {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                        <input
+                          type="hidden"
+                          id="encodeData"
+                          name="EncodeData"
+                          value={data !== undefined && data}
+                        />
+                        <input
+                          type="hidden"
+                          name="recvMethodType"
+                          value="get"
+                        />
+                        {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+                        <FindBtn value="id" name={'form_chk'} onClick={fnPopup}>
+                          아이디 찾기&nbsp;
+                        </FindBtn>
+                        <FindBtn
+                          value="password"
+                          name={'form_chk'}
+                          onClick={fnPopup}
+                        >
+                          &nbsp;비밀번호 찾기
+                        </FindBtn>
+                      </form>
+                    </div>
+                    {isId && (
+                      <Buttons className="firstNextPage" onClick={HandleFindId}>
+                        숨겨진 아이디 버튼
+                      </Buttons>
+                    )}
+                    {isPassword && (
+                      <Buttons
+                        className="firstNextPage"
+                        onClick={HandleFindPassword}
+                      >
+                        숨겨진 비밀번호 버튼
+                      </Buttons>
+                    )}
+                  </Box>
+                </Box>
+                {selectedLoginType === 0 && (
+                  <>
+                    <Box
                       sx={{
-                        textAlign: 'center',
-                        textDecorationLine: 'underline',
-                        marginTop: '22.5pt',
-                        color: '#747780',
+                        width: 'calc(100% - 37.5pt)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        margin: '102pt auto 0',
                       }}
                     >
-                      아이디 / 비밀번호 찾기
-                    </Typography>
-                  </Link>
-                </Box>
-                <Box
-                  sx={{
-                    width: 'calc(100% - 37.5pt)',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    margin: '102pt auto 0',
-                  }}
-                >
-                  <Box sx={{ height: '33pt', marginRight: '15pt' }}>
-                    <Image onClick={kakaoLogin} src={kakao} alt="kakao" />
-                  </Box>
-                  <Box
-                    sx={{ height: '33pt', marginRight: '15pt' }}
-                    onClick={handleAlert}
-                  >
-                    <Image src={apple} alt="apple" />
-                  </Box>
-                  <NaverBox>
-                    <Box id="naverIdLogin" ref={naverRef}></Box>
-                    {/* <Image onClick={handleNaver} src={naver} alt="naver" /> */}
-                    <Image onClick={handleNaver} src={naver} alt="naver" />
-                  </NaverBox>
-                  <Box sx={{ height: '33pt' }} onClick={handleAlert}>
-                    <Image src={google} alt="google" />
-                  </Box>
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    margin: '18pt 24.75pt 0 24.75pt',
-                  }}
-                >
-                  <Divider
-                    sx={{
-                      background: '#CACCD1',
-                      width: '35%',
-                      height: '0.75pt',
-                    }}
-                  ></Divider>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontWeight: 400,
-                      fontSize: '10.5pt',
-                      lineHeight: '12pt',
-                      textAlign: 'center',
-                      letterSpacing: '-0.02em',
-                      color: '#CACCD1',
-                    }}
-                  >
-                    또는
-                  </Typography>
-                  <Divider
-                    sx={{
-                      background: '#CACCD1',
-                      width: '35%',
-                      height: '0.75pt',
-                    }}
-                  ></Divider>
-                </Box>
+                      <Box sx={{ height: '33pt', marginRight: '15pt' }}>
+                        <Link href={KAKAO_AUTH_URL}>
+                          <Image src={kakao} alt="kakao" />
+                        </Link>
+                      </Box>
+                      <Box
+                        sx={{ height: '33pt', marginRight: '15pt' }}
+                        onClick={handleAlert}
+                      >
+                        <Image src={apple} alt="apple" />
+                      </Box>
+                      <NaverBox>
+                        <Box id="naverIdLogin" ref={naverRef}></Box>
+                        {/* <Image onClick={handleNaver} src={naver} alt="naver" /> */}
+                        <Image onClick={handleNaver} src={naver} alt="naver" />
+                      </NaverBox>
+                      <Box sx={{ height: '33pt' }} onClick={handleAlert}>
+                        <Image src={google} alt="google" />
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        margin: '18pt 24.75pt 0 24.75pt',
+                      }}
+                    >
+                      <Divider
+                        sx={{
+                          background: '#CACCD1',
+                          width: '35%',
+                          height: '0.75pt',
+                        }}
+                      ></Divider>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          fontWeight: 400,
+                          fontSize: '10.5pt',
+                          lineHeight: '12pt',
+                          textAlign: 'center',
+                          letterSpacing: '-0.02em',
+                          color: '#CACCD1',
+                        }}
+                      >
+                        또는
+                      </Typography>
+                      <Divider
+                        sx={{
+                          background: '#CACCD1',
+                          width: '35%',
+                          height: '0.75pt',
+                        }}
+                      ></Divider>
+                    </Box>
+                  </>
+                )}
                 <Box
                   sx={{
                     margin: '18pt 18pt 0 18pt',
                   }}
                 >
                   <IdRegist>
-                    <IdRegistBtnSpan onClick={() => router.push('/testTest')}>
+                    <IdRegistBtnSpan
+                      onClick={() => router.push('/signUp/Terms')}
+                    >
                       아이디로 가입하기
                     </IdRegistBtnSpan>
                   </IdRegist>
@@ -510,7 +574,18 @@ const Body = styled.div`
     height: 100%;
   }
 `;
-
+const TextFields = styled(TextField)`
+  width: 100%;
+  font-weight: 400;
+  border: 1px solid #ffffff;
+  font-size: 12pt;
+  line-height: 12pt;
+  border-radius: 6pt;
+  & div > input {
+    padding-top: 10.88pt;
+    padding-bottom: 10.8pt;
+  }
+`;
 const Inner = styled.div`
   display: block;
   position: relative;
@@ -520,7 +595,7 @@ const Inner = styled.div`
   border-radius: 12pt;
   background: #ffff;
   padding: 32.25pt 0 42pt;
-  margin: 45.75pt auto 0;
+  margin: 45.75pt auto;
 
   @media (max-width: 899pt) {
     width: 100%;
@@ -532,16 +607,13 @@ const Inner = styled.div`
     background: none;
   }
 `;
-
 const WebWrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-
   @media (max-width: 899pt) {
     margin: 0;
   }
 `;
-
 const NaverBox = styled(Box)`
   height: 33pt;
   margin-right: 15pt;
@@ -549,69 +621,24 @@ const NaverBox = styled(Box)`
     display: none;
   }
 `;
-
-const Text = styled.p`
-  // h2?
-  margin-top: 66pt;
-  text-align: center;
-  position: relative;
-  font-size: 21pt;
-  font-weight: 700;
-  line-height: 21pt;
-  color: #222;
-  @media (max-width: 899pt) {
-    display: none;
-  }
-`;
-const Wrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  //width:345pt;
-  width: 281.25pt;
-  height: 500.25pt;
-  overflow-y: scroll;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  border-radius: 12pt;
-  @media (max-width: 899pt) {
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-  }
-  @media (max-height: 809pt) {
-    display: block;
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    margin: 0 auto;
-  }
-`;
-
 const BackBtn = styled.img`
-  margin: auto 0;
+  margin-left: 15pt;
 `;
-
 const LoginBtn = styled.button`
   background: #5a2dc9;
   width: 100%;
   color: #fff;
+  cursor: pointer;
   margin-top: 28.5pt;
   padding: 15pt 0;
   border-radius: 6pt;
   font-weight: 700;
   font-size: 12pt;
 `;
-
 const BtnSpan = styled.span``;
-
-/* background-color: '{`${colors.gold}`}', */
 const IdRegist = styled.button`
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  background-color: #ffffff;
   border-radius: 8px;
   width: 100%;
   padding: 15pt 0;
@@ -621,7 +648,6 @@ const IdRegist = styled.button`
   letter-spacing: -0.02em;
   color: #595757;
 `;
-
 const IdRegistBtnSpan = styled.span``;
 
 const BackBox = styled(Box)`
@@ -631,35 +657,23 @@ const BackBox = styled(Box)`
     width: 100%;
     padding-top: 9pt;
     padding-bottom: 9pt;
-    padding-left: 15pt;
-    padding-right: 15pt;
   }
 `;
-const TabBox = styled(Box)`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  background: #f9f7ff;
-  @media (max-width: 899pt) {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin-top: 6pt;
-  }
+const FindBtn = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  margin: 2pt;
+  text-decoration-line: underline;
+  text-underline-position: under;
+  color: ${colors.gray2};
+  cursor: pointer;
 `;
-// const Tab = styled(Box)`
-//   width:50%;
-//   padding-top:18pt;
-//   padding-bottom:8pt;
-//   background: selectedLoginType == index? '#ffff' : '#f9f7ff';
-//   border-radius: '8pt 8pt 0 0';
-
-//   @media (max-width:899pt) {
-//     width:auto;
-//     padding-top:0;
-//     padding-bottom:0;
-//     background:#ffff;
-//     border-radius:0;
-//     margin-right:24pt;
-//   }
-// `
+const Buttons = styled.button`
+  display: none;
+`;

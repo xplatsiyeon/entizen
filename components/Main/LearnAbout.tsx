@@ -11,7 +11,9 @@ import charger from '/public/images/charger.png';
 import Image, { StaticImageData } from 'next/image';
 import { useRouter } from 'next/router';
 
-type Props = {};
+type Props = {
+  borders?: number | undefined;
+};
 
 interface MenuList {
   headText: string;
@@ -25,7 +27,7 @@ interface MenuList {
   height: number;
 }
 
-const LearnAbout = (props: Props) => {
+const LearnAbout = ({ borders }: Props) => {
   const router = useRouter();
   const menuList: MenuList[] = [
     {
@@ -99,6 +101,7 @@ const LearnAbout = (props: Props) => {
                 color={el.background}
                 key={index}
                 onClick={() => movePage(el)}
+                borders={borders ? borders : 0}
               >
                 <ItemTitle color={el.topTextColor}>{el.headText}</ItemTitle>
                 <ContentText color={el.color}>{el.menuText}</ContentText>
@@ -130,9 +133,9 @@ const Wrapper = styled.div`
   width: 900pt;
   margin: 90pt auto;
   @media (max-width: 899pt) {
-    width: 100%;
-
+    width: auto;
     margin: 30pt 0 0;
+    overflow-x: scroll;
   }
 `;
 
@@ -168,16 +171,17 @@ const TabBox = styled.div`
   grid-template-columns: repeat(4, 1fr);
 `;
 
-const Item = styled.div`
+const Item = styled.div<{ borders: number }>`
   width: 207pt;
   height: 273pt;
   //padding-left: 12pt;
-  border-radius: 6pt;
+  border-radius: ${({ borders }) => (borders !== 0 ? borders : 6)}pt;
   background-color: ${(props) => props.color};
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   position: relative;
   @media (max-width: 899pt) {
     width: 105pt;
+    box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
     height: 153.75pt;
     padding-top: 12pt;
     padding-left: 12pt;

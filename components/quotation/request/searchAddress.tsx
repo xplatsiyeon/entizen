@@ -49,7 +49,7 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
   const [results, setResults] = useState<addressType[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
-  const keyWord = useDebounce(searchWord, 700);
+  const keyWord = useDebounce(searchWord, 400);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(() => e.target.value);
   };
@@ -97,49 +97,69 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
   }, [results]);
 
   return (
-    <Container>
-      <HeaderBox>
-        <Image src={btnImg} alt="backBtn" />
-        <FindAddress
-          placeholder="상호명 또는 주소 검색"
-          onChange={handleChange}
-          value={searchWord}
-        />
-        {searchWord.length > 0 && (
-          <Image onClick={() => setSearchWord('')} src={xBtn} alt="xButton" />
-        )}
-      </HeaderBox>
+    <Wrap>
+      <Container>
+        <HeaderBox>
+          <Image src={btnImg} alt="backBtn" />
+          <FindAddress
+            placeholder="상호명 또는 주소 검색"
+            onChange={handleChange}
+            value={searchWord}
+          />
+          {searchWord.length > 0 && (
+            <Image onClick={() => setSearchWord('')} src={xBtn} alt="xButton" />
+          )}
+        </HeaderBox>
 
-      {results.map((el, index) => (
-        <SearchResult
-          data-jibun={el.jibunAddr}
-          data-roadad={el.roadAddrPart1}
-          key={index}
-          onClick={handleOnClick}
-        >
-          <IconBox>
-            <Image src={whiteMapPin} alt="mapPin" />
-          </IconBox>
-          <AddressBox>
-            <div>{el.roadAddrPart1}</div>
-            <div>{el.jibunAddr}</div>
-          </AddressBox>
-        </SearchResult>
-      ))}
-    </Container>
+        {results.map((el, index) => (
+          <SearchResult
+            data-jibun={el.jibunAddr}
+            data-roadad={el.roadAddrPart1}
+            key={index}
+            onClick={handleOnClick}
+          >
+            <IconBox>
+              <Image src={whiteMapPin} alt="mapPin" />
+            </IconBox>
+            <AddressBox>
+              <div>{el.roadAddrPart1}</div>
+              <div>{el.jibunAddr}</div>
+            </AddressBox>
+          </SearchResult>
+        ))}
+      </Container>
+    </Wrap>
   );
 };
 
+// 어떻게 한건지 다시 정리하기.
+
+const Wrap = styled.div`
+  width: 252pt;
+  //border: 1px solid blue;
+  z-index: 3;
+  position: relative;
+  background-color: #fff;
+  @media (max-width: 899pt) {
+    width: 100%;
+  }
+`;
+
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  z-index: 2;
 `;
 
 const HeaderBox = styled.div`
   padding-left: 15pt;
   padding-right: 12pt;
-  border-bottom: 1px solid #e9eaee;
+  border: 1px solid #e9eaee;
+  border-radius: 6pt;
   display: flex;
+
+  @media (max-width: 899pt) {
+    border-bottom: 1px solid #e9eaee;
+  }
 `;
 
 const FindAddress = styled(TextField)`
@@ -154,11 +174,12 @@ const FindAddress = styled(TextField)`
     padding-left: 0pt;
   }
   & input {
-    font-size: 10.5pt;
-    font-weight: 400;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
     line-height: 12pt;
-    letter-spacing: -2%;
-    color: ${colors.lightGray3};
+    letter-spacing: -0.02em;
+    /* color: ${colors.lightGray3}; */
     text-align: left;
     padding: 0;
   }
@@ -169,6 +190,15 @@ const FindAddress = styled(TextField)`
   }
   & fieldset {
     border: none;
+  }
+
+  @media (max-width: 899pt) {
+    & input {
+      font-size: 10.5pt;
+      font-weight: 400;
+      line-height: 12pt;
+      letter-spacing: -2%;
+    }
   }
 `;
 

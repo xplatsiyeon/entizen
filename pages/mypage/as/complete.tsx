@@ -1,8 +1,8 @@
 import AsComplete from 'components/mypage/as/AsWriteComplete';
 import React from 'react';
 import styled from '@emotion/styled';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 type Props = {};
 
@@ -69,5 +69,6 @@ const Wrapper = styled.div`
 
   @media (max-width: 899pt) {
     height: 100%;
+    margin: 0;
   }
 `;

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 import MoneyPhoto from 'public/images/MainMoney.png';
 
 // import required modules
-import { Pagination } from 'swiper';
+import { Pagination, Navigation } from 'swiper';
 import Image from 'next/image';
 import colors from 'styles/colors';
 
@@ -22,9 +22,10 @@ const Carousel = () => {
           pagination={{
             clickable: true,
           }}
-          modules={[Pagination]}
+          navigation={true}
+          modules={[Pagination, Navigation]}
           loop={true}
-          //   className="mySwiper"
+          //className="mySwiper"
         >
           <SwiperSlide>
             <SliderContent>
@@ -98,17 +99,43 @@ const Carousel = () => {
 };
 
 const SliderWrapper = styled.div`
-  width: 900pt;
+  max-width: 900pt;
   position: relative;
   .swiper {
     border-radius: 8pt;
   }
+  .swiper-button-prev {
+    --swiper-navigation-size: 30pt;
+    background-image: url(/images/swiper_prev.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 30pt;
+    &::after{
+      display: none;
+    }
+
+    @media (max-width: 899pt) {
+      display: none;
+    }
+}  
+.swiper-button-next {
+  --swiper-navigation-size: 30pt;
+    background-image: url(/images/swiper_next.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 30pt;
+    &::after{
+      display: none;
+    }
+    @media (max-width: 899pt) {
+      display: none;
+    }
+}
   .swiper-pagination-bullet {
     position: relative;
-    /* background-color: #eeeeee; */
   }
   .swiper-pagination-bullet-active {
-    background-color: #eeeeee;
+    background-color: ${colors.lightWhite};
     width: 15pt;
     height: 5pt;
     border-radius: 3pt;
@@ -127,9 +154,7 @@ const SliderWrapper = styled.div`
     bottom: 15pt;
     left: 15pt;
   }
-
   @media (max-width: 899pt) {
-    width: 100%;
     margin-top: 12pt;
   }
 `;
@@ -141,6 +166,9 @@ const WithImage = styled.div`
 
   @media (max-width: 899pt) {
     display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 `;
 
@@ -155,7 +183,7 @@ const Top = styled.div`
   line-height: 25.5pt;
   letter-spacing: -0.02em;
   text-align: left;
-  color: rgba(255, 255, 255, 0.5);
+  color: #fbfcff;
 
   @media (max-width: 899pt) {
     position: absolute;
@@ -185,7 +213,8 @@ const Center = styled.div`
 `;
 
 const SliderContent = styled.div`
-  width: 100%;
+  max-width: 756pt;
+  margin: 0 auto;
   height: 360pt;
   background-color: ${colors.main};
   /* background-color: red; */
@@ -195,6 +224,7 @@ const SliderContent = styled.div`
   border-radius: 8pt;
 
   @media (max-width: 899pt) {
+    max-width: 899pt;
     height: 99pt;
     justify-content: unset;
   }

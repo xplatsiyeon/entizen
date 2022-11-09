@@ -1,30 +1,64 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import temp from 'public/mypage/temp-img.svg';
 import arrow from 'public/images/right-arrow.svg';
+import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-
-const SubscriptionProduct = () => {
+import { PreQuotations } from 'pages/mypage/request/[id]';
+import { PriceCalculation } from 'utils/calculatePackage';
+import { useQuery } from 'react-query';
+import { UserInfo } from 'pages/mypage';
+import { isTokenGetApi } from 'api';
+type Props = {
+  data: PreQuotations[];
+};
+const SubscriptionProduct = ({ data }: Props) => {
   const route = useRouter();
+  // const UserId = JSON.parse(localStorage.getItem('USER_ID')!);
+  const {
+    data: userData,
+    isError: userError,
+    isLoading: userLoading,
+  } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
+  if (userLoading) {
+    console.log('유저 정보 받아오는 중');
+  }
+  if (userError) {
+    console.log('유저 정보 에러');
+  }
+
   return (
     <Wrapper>
+      <DownArrowBox>
+        <Image src={DoubleArrow} alt="double-arrow" />
+      </DownArrowBox>
       <H1>
-        윤세아님, <br /> 총 <span className="accent">7개</span>의 구독상품이
+        {userData?.name}님, <br /> 총{' '}
+        <span className="accent">{data ? data?.length : 0}개</span>의 구독상품이
         도착했습니다.
       </H1>
       <Notice>상세 내용을 비교해보고, 나에게 맞는 상품을 선택해보세요!</Notice>
       <GridContainer>
-        {[1, 1, 1, 1, 1, 1, 1].map((_, index) => (
+        {data?.map((company, index) => (
           <GridItem
             key={index}
-            onClick={() => route.push('/mypage/request/1-4')}
+            onClick={() =>
+              route.push(`/mypage/request/detail/${company.preQuotationIdx}`)
+            }
           >
-            <Image src={temp} alt="icon" />
-            <h2>Charge Point</h2>
+            <div className="img-box">
+              <Image
+                src={company?.companyMemberAdditionalInfo?.companyLogoImageUrl}
+                alt={company?.companyMemberAdditionalInfo?.companyName}
+                priority={true}
+                unoptimized={true}
+                layout="fill"
+              />
+            </div>
+            <h2>{company?.companyMemberAdditionalInfo?.companyName}</h2>
             <p>구독료</p>
             <PriceBox>
-              <h1>195,000 원</h1>
+              <h1>{PriceCalculation(company.subscribePricePerMonth)} 원</h1>
               <div>
                 <Image src={arrow} alt="arrow" layout="fill" />
               </div>
@@ -40,7 +74,18 @@ export default SubscriptionProduct;
 
 const Wrapper = styled.div`
   padding: 6pt 15pt 69pt 15pt;
+  padding-top: 75pt;
+
+  @media (max-width: 899pt) {
+    padding-top: 0pt;
+  }
 `;
+const DownArrowBox = styled.div`
+  padding-top: 21pt;
+  padding-bottom: 30pt;
+  text-align: center;
+`;
+
 const H1 = styled.h1`
   font-weight: 700;
   font-size: 12pt;
@@ -72,7 +117,7 @@ const GridItem = styled.div`
   padding-top: 12pt;
   padding-bottom: 15pt;
   padding-left: 9pt;
-
+  cursor: pointer;
   & > h2 {
     padding-top: 15pt;
     font-weight: 400;
@@ -88,6 +133,11 @@ const GridItem = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
+  }
+  .img-box {
+    position: relative;
+    width: 48pt;
+    height: 48pt;
   }
 `;
 const PriceBox = styled.div`

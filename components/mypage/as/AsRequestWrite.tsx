@@ -238,6 +238,7 @@ const AsRequestWrite = (props: Props) => {
       </Container>
       <NextBtn
         onClick={() => router.push('/mypage/as/complete')}
+        disabled={!checkAll}
         checkAll={checkAll}
       >
         A/S 요청하기
@@ -287,7 +288,7 @@ const Input = styled(TextField)`
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -2%;
-    color: ${colors.lightGray3};
+    /* color: ${colors.lightGray3}; */
     text-align: left;
     padding: 0;
   }

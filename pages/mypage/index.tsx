@@ -7,26 +7,47 @@ import Estimate from 'components/mypage/request/estimate';
 import { useRouter } from 'next/router';
 import AsIndex from 'components/mypage/as';
 import BottomNavigation from 'components/BottomNavigation';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
 
+export interface UserInfo {
+  isSuccess: boolean;
+  id: string;
+  name: string;
+  phone: string;
+}
 interface Components {
   [key: number]: JSX.Element;
 }
-
+const TAG = 'page/mypage/index.tsx';
 const Request = () => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
-  const [userName, setUserName] = useState<string>('윤세아');
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
   const components: Components = {
     0: <Estimate />,
     2: <AsIndex />,
   };
 
+  const {
+    data: userData,
+    isError: userError,
+    isLoading: userLoading,
+  } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
+
+  // console.log(TAG + '🔥 ~line 38 ~ 유저 정보 확인');
+  // console.log(userData);
+  if (userLoading) {
+    console.log('유저 정보 받아오는 중');
+  }
+  if (userError) {
+    console.log('유저 정보 에러');
+  }
   return (
     <Wrapper>
       <Header>
         <span>
-          <h1>{`${userName}님,`}</h1>
+          <h1>{`${userData?.name}님,`}</h1>
           <h2>안녕하세요!</h2>
         </span>
         <div className="img" onClick={() => route.push('/setting')}>
@@ -65,8 +86,12 @@ const Request = () => {
 export default Request;
 
 const Wrapper = styled.div`
-position: relative;
-width: 100%;
+  position: relative;
+  width: 100%;
+
+  @media (max-width: 899pt) {
+    padding-bottom: 60pt;
+  }
 `;
 const Header = styled.header`
   display: flex;
@@ -92,8 +117,8 @@ const Header = styled.header`
     width: 22.5pt;
     height: 22.5pt;
     text-align: end;
+    cursor: pointer;
   }
-
 `;
 const Body = styled.div`
   padding-top: 15pt;
@@ -107,6 +132,7 @@ const Body = styled.div`
     border: 0.75pt solid ${colors.main};
     border-radius: 12pt;
     padding: 6pt 9pt;
+    cursor: pointer;
   }
 `;
 const Line = styled.div`
@@ -125,6 +151,7 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
+  cursor: pointer;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
 `;

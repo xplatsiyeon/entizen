@@ -10,7 +10,6 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
 import axios from 'axios';
-// import { test11 } from 'public/testsss';
 
 type Props = {
   level: number;
@@ -25,6 +24,7 @@ type Props = {
   setSelectTerms: Dispatch<SetStateAction<boolean>>;
   nextBtn: boolean;
   setNextBtn: Dispatch<SetStateAction<boolean>>;
+  userType?: number;
 };
 
 const TermContent = ({
@@ -40,6 +40,7 @@ const TermContent = ({
   setSelectTerms,
   nextBtn,
   setNextBtn,
+  userType,
 }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const route = useRouter();
@@ -63,32 +64,33 @@ const TermContent = ({
     }
   };
   const handleForceClick = () => {
-    setLevel(level + 1);
-
-    let c = localStorage.getItem('key');
-    // let a: any;
-    if (c !== null) {
-      let a = JSON.parse(c);
-      console.log(a);
-      setName(a.name);
-      setPhoneNumber(a.phone);
+    let key = localStorage.getItem('key');
+    if (key !== null) {
+      let data = JSON.parse(key);
+      setName(data.name);
+      setPhoneNumber(data.phone);
+      if (data.isMember === true) {
+        alert('이미 회원가입 하셨습니다.');
+        route.push('/signin');
+      } else if (data.isMember === false) {
+        setLevel(level + 1);
+      }
     }
   };
 
-  useEffect(() => {
-    console.log(localStorage.getItem('key'));
-    const memberType = 'USER';
+  const justNextPage = () => {
+    setLevel(level + 1);
+  };
 
+  useEffect(() => {
+    const memberType = 'USER';
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
-        // console.log(res.data);
         setData(res.data.executedData);
-        console.log(data);
-        // encodeData = res.data.executedData;
       })
       .catch((error) => {
         console.error(error);
@@ -111,7 +113,6 @@ const TermContent = ({
   // 보기 이벤트
   const TermsofServiceHandler = (event: any) => {
     event.stopPropagation();
-    // route("/") 어디로?
   };
   useEffect(() => {
     console.log();
@@ -131,10 +132,7 @@ const TermContent = ({
     if (requiredTerms && selectTerms) setFullTerms(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requiredTerms, selectTerms]);
-  // const handleOnClick = () => {};
-  const testClick = () => {
-    setLevel(level + 1);
-  };
+
   return (
     <>
       <Notice variant="h3">
@@ -211,39 +209,42 @@ const TermContent = ({
           </Item>
         </Box>
       </BottomForm>
-      {/* <div className="nextPage" onClick={handleOnClick}></div> */}
-      <div>
-        <form name="form_chk" method="post">
-          <input type="hidden" name="m" value="checkplusService" />
-          {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
-          <input
-            type="hidden"
-            id="encodeData"
-            name="EncodeData"
-            value={data !== undefined && data}
-          />
-          {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
-
-          {/* <button onClick={(e) => Go(e)}>CheckPlus 안심본인인증 Click</button> */}
-          <Btn
-            text="본인인증하기"
-            name={'form_chk'}
-            handleClick={fnPopup}
-            marginTop={42.5}
-            isClick={nextBtn}
-          />
-          {/* <Btn
-            text="본인인증하기"
-            name={'form_chk'}
-            handleClick={testClick}
-            isClick={nextBtn}
-            marginTop={42.5}
-          /> */}
-        </form>
-        <Buttons className="firstNextPage" onClick={handleForceClick}>
-          아아
-        </Buttons>
-      </div>
+      {/* 기업 */}
+      {userType === 0 && (
+        <Btn
+          text="다음"
+          handleClick={justNextPage}
+          marginTop={42.5}
+          isClick={nextBtn}
+        />
+      )}
+      {/* 일반 */}
+      {userType === 1 && (
+        <div>
+          <form name="form_chk" method="get">
+            <input type="hidden" name="m" value="checkplusService" />
+            {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+            <input
+              type="hidden"
+              id="encodeData"
+              name="EncodeData"
+              value={data !== undefined && data}
+            />
+            <input type="hidden" name="recvMethodType" value="get" />
+            {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+            <Btn
+              text="본인인증하기"
+              name={'form_chk'}
+              handleClick={fnPopup}
+              marginTop={42.5}
+              isClick={nextBtn}
+            />
+          </form>
+          <Buttons className="firstNextPage" onClick={handleForceClick}>
+            아아
+          </Buttons>
+        </div>
+      )}
     </>
   );
 };
@@ -254,6 +255,7 @@ const Notice = styled(Typography)`
   font-size: 18pt;
   line-height: 24pt;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const Terms = styled(Box)`
   display: flex;

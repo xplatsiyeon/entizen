@@ -14,6 +14,7 @@ interface Props {
   homeBtn?: boolean;
   handleOnClick?: () => void;
   handleHomeClick?: () => void;
+  handleBackClick?: () => void;
 }
 
 const MypageHeader = ({
@@ -24,6 +25,7 @@ const MypageHeader = ({
   homeBtn = false,
   handleOnClick,
   handleHomeClick,
+  handleBackClick,
 }: Props) => {
   const route = useRouter();
 
@@ -31,7 +33,7 @@ const MypageHeader = ({
     <Header>
       {/* 뒤로가기 버튼 */}
       {back && (
-        <div className="back-img" onClick={() => route.back()}>
+        <div className="back-img" onClick={handleBackClick}>
           <Image src={BackImg} alt="btn-icon" />
         </div>
       )}
@@ -84,7 +86,12 @@ const Header = styled.div`
     color: ${colors.gray2};
   }
   .exit {
+    display: none;
     position: absolute;
     right: 15pt;
+    @media (max-width: 899pt) {
+      display: block;
+    }
+
   }
 `;

@@ -1,28 +1,39 @@
 import { AppProps } from 'next/app';
 import '../styles/globals.css';
-import { useState } from 'react';
-import Script from 'next/script';
 import Head from 'next/head';
-import { createStore } from '@reduxjs/toolkit';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistedReducer, persistor, wrapper } from 'store';
-// import {
-//   persistedReducer,
-//   persistor,
-//   RootState,
-//   wrapper,
-// } from '../store/store';
+import { Provider } from 'react-redux';
+import rootReducer from 'store/store';
+import { useEffect, useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
-const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
-  const store = createStore(persistedReducer);
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  const [queryClient] = useState(() => new QueryClient());
+  // 에러 캐싱 방지 (테스트 필요)
+  useEffect(() => {
+    const errorsKeys = queryClient
+      .getQueryCache()
+      .getAll() // react-query의 query cache에서
+      .filter((q) => q.state.status === 'error') // error를 캐싱한 것만 골라
+      .map((e) => e.queryKey); // queryKey만 뽑아낸다
+
+    return () => {
+      queryClient.invalidateQueries(errorsKeys); // API Error 모달이 닫힐 때, 캐싱된 error response만을 삭제한다
+    };
+  }, [queryClient]);
   return (
-    <PersistGate persistor={persistor} loading={<div>loading...</div>}>
-      <Head>
-        <meta charSet="utf-8" />
-        <title>Next Naver maps</title>
-      </Head>
-      <Component {...pageProps} />
-    </PersistGate>
+    <QueryClientProvider client={queryClient}>
+      <PersistGate persistor={persistor} loading={<div>loading...</div>}>
+        <Head>
+          <meta charSet="utf-8" />
+          <title>Next Naver maps</title>
+        </Head>
+        <Component {...pageProps} />
+      </PersistGate>
+      <ReactQueryDevtools initialIsOpen={true} position="top-right" />
+    </QueryClientProvider>
   );
 };
 

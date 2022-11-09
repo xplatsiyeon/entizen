@@ -1,17 +1,11 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useDispatch } from 'react-redux';
 import { quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-
-interface Option {
-  fisrt: string;
-  second: string;
-}
+import SelectComponents from 'components/Select';
 
 interface Props {
   tabNumber: number;
@@ -43,28 +37,37 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
     (state: RootState) => state.quotationData,
   );
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<Option>({
-    fisrt: '',
-    second: '',
-  });
-  const [selectedOptionEn, setSelectedOptionEn] = useState<Option>({
-    fisrt: '',
-    second: '',
-  });
-  // 셀렉터 옵션 체인지
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
-    const index = M11_LIST.indexOf(value);
-    console.log(M11_LIST_EN[index]);
 
-    setSelectedOptionEn(() => ({
-      ...selectedOptionEn,
-      [name]: M11_LIST_EN[index],
-    }));
-    setSelectedOption(() => ({
-      ...selectedOption,
-      [name]: value,
-    }));
+  const [list1, setList1] = useState(M11_LIST);
+  const [list2, setList2] = useState(M11_LIST);
+
+  const [fisrtData, setFisrtData] = useState<string>('');
+  const [fisrtDataEn, setFisrtDataEn] = useState<string>('');
+  const [secondData, setSendData] = useState<string>('');
+  const [secondDataEn, setSendDataEn] = useState<string>('');
+  // 셀렉터 옵션 체인지
+  const handleChange = (value: string) => {
+    const index = M11_LIST.indexOf(value);
+    const seletedName = M11_LIST_EN[index];
+    if (seletedName !== secondDataEn) {
+      setFisrtData(M11_LIST[index]);
+      setFisrtDataEn(seletedName);
+      const copy = [...M11_LIST];
+      copy.splice(index, 1);
+      setList2(copy);
+    }
+  };
+  // 셀렉터 옵션 체인지2
+  const handleChange2 = (value: string) => {
+    const index = M11_LIST.indexOf(value);
+    const seletedName = M11_LIST_EN[index];
+    if (seletedName !== fisrtDataEn) {
+      setSendData(M11_LIST[index]);
+      setSendDataEn(M11_LIST_EN[index]);
+      const copy = [...M11_LIST];
+      copy.splice(index, 1);
+      setList1(copy);
+    }
   };
 
   // 이전버튼
@@ -74,35 +77,43 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
   // 다음버튼
   const HandleNextBtn = () => {
     if (buttonActivate) {
-      dispatch(
-        quotationAction.setStep5([
-          selectedOptionEn.fisrt,
-          selectedOptionEn.second,
-        ]),
-      );
+      dispatch(quotationAction.setStep5([fisrtDataEn, secondDataEn]));
       setTabNumber(tabNumber + 1);
     }
   };
+
+  useEffect(() => {
+    const copy = [...M11_LIST];
+    if (list2.includes(fisrtData)) {
+      const index = copy.indexOf(fisrtData);
+      copy.splice(index, 1);
+      setList2(copy);
+    }
+  }, [secondData]);
 
   // 데이터 기억
   useEffect(() => {
     if (installationPoints[0] && installationPoints[1]) {
       const index1 = M11_LIST_EN.indexOf(installationPoints[0]);
       const index2 = M11_LIST_EN.indexOf(installationPoints[1]);
-      setSelectedOption({
-        fisrt: M11_LIST[index1],
-        second: M11_LIST[index2],
-      });
+      setFisrtData(M11_LIST[index1]);
+      setSendData(M11_LIST[index2]);
+
+      const copy1 = [...M11_LIST];
+      const copy2 = [...M11_LIST];
+      copy1.splice(index1, 1);
+      copy2.splice(index2, 1);
+
+      setList1(copy2);
+      setList2(copy1);
     }
   }, []);
   // 버튼 활성화
   useEffect(() => {
-    if (selectedOption.fisrt) {
-      if (selectedOption.fisrt.length > 1 && selectedOption.second.length > 1) {
-        setButtonActivate(true);
-      }
+    if (fisrtData.length > 1 && secondData.length > 1) {
+      setButtonActivate(true);
     }
-  }, [selectedOption]);
+  }, [fisrtData, secondData]);
 
   return (
     <Wrraper>
@@ -114,41 +125,27 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
       <SelectSection>
         <InputBox>
           <label>1순위</label>
-          <SelectBox
-            value={selectedOption.fisrt}
-            name="fisrt"
-            onChange={handleChange}
-            IconComponent={() => <SelectIcon />}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>충전기 종류</Placeholder>
-            </MenuItem>
-            {M11_LIST.map((option, index) => (
-              <MenuItem key={index} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </SelectBox>
+          <div className="select-wrapper">
+            <SelectComponents
+              value={fisrtData}
+              option={list1}
+              // name="fisrt"
+              placeholder="충전기 종류"
+              onClickEvent={handleChange}
+            />
+          </div>
         </InputBox>
         <InputBox>
           <label>2순위</label>
-          <SelectBox
-            value={selectedOption.second}
-            name="second"
-            onChange={handleChange}
-            IconComponent={() => <SelectIcon />}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>충전기 종류</Placeholder>
-            </MenuItem>
-            {M11_LIST.map((option, index) => (
-              <MenuItem key={index} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </SelectBox>
+          <div className="select-wrapper">
+            <SelectComponents
+              value={secondData}
+              option={list2}
+              // name="second"
+              placeholder="충전기 종류"
+              onClickEvent={handleChange2}
+            />
+          </div>
         </InputBox>
       </SelectSection>
       <TwoBtn>
@@ -166,16 +163,20 @@ export default FifthStep;
 const Wrraper = styled.div`
   position: relative;
   padding-bottom: 96pt;
-  padding-left: 15pt;
-  padding-right: 15pt;
+
+  @media (max-width: 899pt) {
+    padding-left: 15pt;
+    padding-right: 15pt;
+  }
 `;
 const Title = styled.h1`
-  padding-top: 24pt;
+  padding-top: 38pt;
   font-weight: 500;
   font-size: 18pt;
   line-height: 24pt;
   text-align: left;
   letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
 `;
 const Notice = styled.p`
@@ -185,6 +186,7 @@ const Notice = styled.p`
   letter-spacing: -0.02em;
   color: ${colors.gray2};
   padding-top: 9pt;
+  font-family: 'Spoqa Han Sans Neo';
 `;
 const SelectSection = styled.div`
   padding-top: 45pt;
@@ -193,48 +195,23 @@ const InputBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 18pt;
   margin-top: 9pt;
   width: 100%;
-  .label {
+  & > label {
+    width: 39.25pt; // 원래 29.25pt select box 100%라 width 값 올림
     font-weight: 500;
     font-size: 12pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    font-family: 'Spoqa Han Sans Neo';
   }
-`;
-const SelectBox = styled(Select)`
-  width: 204pt;
-  border: 1px solid #e2e5ed;
-  border-radius: 8px;
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-  & div {
-    padding-left: 12.75pt;
-    padding-top: 13.5pt;
-    padding-bottom: 13.5pt;
+  .select-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    /* width: 204pt; */
   }
-  & fieldset {
-    border: none;
-  }
-  & svg {
-    padding-right: 11.25pt;
-  }
-`;
-const SelectIcon = styled(KeyboardArrowDownIcon)`
-  width: 18pt;
-  height: 18pt;
-  color: ${colors.dark};
-`;
-const Placeholder = styled.em`
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.lightGray3};
 `;
 const NextBtn = styled.div<{
   buttonActivate: boolean;
@@ -242,20 +219,27 @@ const NextBtn = styled.div<{
 }>`
   color: ${colors.lightWhite};
   width: ${({ subscribeNumber }) => (subscribeNumber === 0 ? '100%' : '64%')};
-  padding: 15pt 0 39pt 0;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   margin-top: 30pt;
+  cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
+  @media (max-width: 899pt) {
+    padding: 15pt 0 39pt 0;
+    border-radius: 0;
+  }
 `;
 const PrevBtn = styled.div`
   color: ${colors.lightWhite};
   width: 36%;
-  padding: 15pt 0 39pt 0;
+  padding: 15pt 0;
   text-align: center;
   font-weight: 700;
   font-size: 12pt;
@@ -263,11 +247,23 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 30pt;
   background-color: ${colors.gray};
+  cursor: pointer;
+  font-family: 'Spoqa Han Sans Neo';
+  border-radius: 6pt;
+  @media (max-width: 899pt) {
+    padding: 15pt 0 39pt 0;
+    border-radius: 0;
+  }
 `;
 const TwoBtn = styled.div`
   display: flex;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
+  gap: 8.7pt;
+  @media (max-width: 899pt) {
+    position: fixed;
+    gap: 0;
+  }
 `;

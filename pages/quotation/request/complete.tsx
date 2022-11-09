@@ -6,8 +6,8 @@ import CheckImg from '/public/images/CheckCircle.svg';
 import colors from 'styles/colors';
 import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 
 const Complete = () => {
   const route = useRouter();
@@ -91,7 +91,7 @@ const Inner = styled.div`
 `;
 
 const Wrapper = styled.div`
-  height: 557.25pt;
+  height: 425.25pt;
   position: relative;
   margin: 0 31.875pt;
 
@@ -108,11 +108,15 @@ const Nav = styled.div`
   padding-top: 15pt;
 `;
 const ContainerBox = styled(Container)`
-  margin-top: 90pt;
+  margin-top: 57.75pt;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+@media (max-width: 899pt) {
+  margin-top: 90pt;
+}
 `;
 const Title = styled.h1`
   font-weight: 700;
@@ -165,7 +169,7 @@ const TextBox = styled.div`
     color: ${colors.gray2};
   }
 `;
-const Btn = styled(Button)`
+const Btn = styled.button`
   background: ${colors.main};
   border-radius: 6pt;
   width: 100%;
@@ -176,5 +180,10 @@ const Btn = styled(Button)`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   padding: 15pt 0;
-  margin-bottom: 30pt;
+  margin-bottom: 0pt;
+  cursor: pointer;
+
+  @media (max-width: 899pt) {
+    margin-bottom: 30pt;
+  }
 `;

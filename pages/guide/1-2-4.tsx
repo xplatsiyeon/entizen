@@ -2,33 +2,37 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import GuideHeader from 'components/guide/header';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-
-const data = [
-  {
-    id: 0,
-    name: '환경부',
-    price: 4000,
-    overlap: false,
-  },
-  {
-    id: 1,
-    name: '한국에너지공단',
-    price: 3500,
-    overlap: true,
-  },
-  {
-    id: 2,
-    name: '안양시청',
-    price: 1000,
-    overlap: true,
-  },
-];
-import WebFooter from 'web-components/WebFooter';
-import WebHeader from 'web-components/WebHeader';
+import { useEffect } from 'react';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { useDispatch } from 'react-redux';
+import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 
 const Guide1_2_4 = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { subsidyGuideData } = useSelector((state: RootState) => state);
+  const changeMoneyUnit = (num: any): string => {
+    if (num === 0) {
+      return '0';
+    }
+
+    return num
+      .toString()
+      .slice(0, -3)
+      .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  const onClickButton = () => {
+    dispatch(subsidyGuideAction.reset());
+    router.push('/');
+  };
+  useEffect(() => {
+    console.log('보조금 확인');
+    console.log(subsidyGuideData);
+  }, [subsidyGuideData]);
 
   return (
     <Body>
@@ -36,36 +40,76 @@ const Guide1_2_4 = () => {
       <Wrapper>
         <GuideHeader
           title={'보조금 가이드'}
-          leftOnClick={() => router.push('/guide')}
+          leftOnClick={() => router.back()}
           rightOnClick={() => router.push('/')}
         />
         <SubsidyResult>
           <p>
-            <span className="accent">윤세아</span>님이
+            <span className="accent">{subsidyGuideData.memberName}</span>님이
             <br /> 신청 가능한 보조금은 <br />
-            최대
-            <span className="accent">4,500만원</span> 입니다
+            최대&nbsp;
+            <span className="accent">
+              {`${changeMoneyUnit(subsidyGuideData.maxApplyPrice)}만원`}
+            </span>
+            &nbsp;입니다
           </p>
         </SubsidyResult>
         <ResultContainer>
-          {data.map((item, index) => (
-            <div className="box" key={item.id}>
-              {item.overlap ? (
-                <>
-                  <div className="name overlap">{item.name}</div>
-                  <div className="price overlap">
-                    {item.price}만원
-                    <div className="badge">중복 신청 가능</div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="name">{item.name}</div>
-                  <div className="price">{item.price}만원</div>
-                </>
-              )}
+          {/* 환경부 */}
+          <div className="box">
+            <div className="name">환경부</div>
+            <div className="price">
+              {`${changeMoneyUnit(
+                subsidyGuideData.ministryOfEnvironmentApplyPrice,
+              )}만원`}
             </div>
-          ))}
+          </div>
+
+          {subsidyGuideData.canDuplicateApply ? (
+            <>
+              {/* 한국에너지공단 */}
+              <div className="box">
+                <div className="name overlap">한국에너지공단</div>
+                <div className="price overlap">
+                  {`${changeMoneyUnit(
+                    subsidyGuideData.koreaEnergyAgencyApplyPrice,
+                  )}만원`}
+                  <div className="badge">중복 신청 가능</div>
+                </div>
+              </div>
+              {/* 지자체 */}
+              <div className="box">
+                <div className="name overlap">{`${subsidyGuideData.region1} ${subsidyGuideData.region2}`}</div>
+                <div className="price overlap">
+                  {`${changeMoneyUnit(
+                    subsidyGuideData.localGovernmentApplyPrice,
+                  )}만원`}
+                  <div className="badge">중복 신청 가능</div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* 한국에너지공단 */}
+              <div className="box">
+                <div className="name">한국에너지공단</div>
+                <div className="price">
+                  {`${changeMoneyUnit(
+                    subsidyGuideData.koreaEnergyAgencyApplyPrice,
+                  )}만원`}
+                </div>
+              </div>
+              {/* 지자체 */}
+              <div className="box">
+                <div className="name">안양시청</div>
+                <div className="price">
+                  {`${changeMoneyUnit(
+                    subsidyGuideData.localGovernmentApplyPrice,
+                  )}만원`}
+                </div>
+              </div>
+            </>
+          )}
         </ResultContainer>
         <Notice>
           보조금은 &apos;전기자동차충전사업자&apos;로 등록된 <br />
@@ -75,7 +119,7 @@ const Guide1_2_4 = () => {
           &apos;간편견적&apos;을 통해 나만의 구독상품을 선택하고, <br />
           파트너와 보조금에 대해 상의해보세요!
         </Notice>
-        <Btn> 보조금 확인하기</Btn>
+        <Btn onClick={onClickButton}>홈으로</Btn>
       </Wrapper>
       <WebFooter />
     </Body>
@@ -88,22 +132,26 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
-    height: 100vh;
+    width: 100%;
+    padding: 0;
   }
 `;
-
 const Wrapper = styled.div`
+  width: 345pt;
+  margin: 0 auto;
   padding-bottom: 100pt;
   padding-left: 15pt;
   padding-right: 15pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    padding: 0;
+  }
 `;
 const SubsidyResult = styled.div`
   padding-top: 66pt;
@@ -121,10 +169,10 @@ const ResultContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   gap: 4.5pt;
   .box {
     padding-top: 45pt;
+    width: 100%;
   }
   .name {
     background: ${colors.lightWhite};
@@ -168,6 +216,11 @@ const ResultContainer = styled.div`
     color: ${colors.main};
     width: 100%;
   }
+
+  @media (max-width: 899pt) {
+    box-sizing: border-box;
+    margin: 0 15pt;
+  }
 `;
 const Notice = styled.p`
   font-weight: 500;
@@ -193,7 +246,6 @@ const Btn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 33pt;
   background-color: ${colors.main};
-
   @media (max-width: 899pt) {
     display: block;
   }

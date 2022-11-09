@@ -6,9 +6,10 @@ import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import colors from 'styles/colors';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import Request from '..';
+import RequestMain from 'components/mypage/request/requestMain';
 
 const Mypage2 = ({ data }: any) => {
   const route = useRouter();
@@ -24,13 +25,14 @@ const Mypage2 = ({ data }: any) => {
       <Inner>
         <FlexBox>
           <Wrap1>
-            <Request />
+            <RequestMain page={2} />
           </Wrap1>
           <Wrap2>
             <Wrapper>
               {/* 모달 */}
               {modalOpen && (
                 <TwoBtnModal
+                  exit={handleOnClick}
                   text="견적을 취소하시겠습니까?"
                   leftBtnText="취소하기"
                   leftBtnColor={colors.orange}
@@ -46,7 +48,7 @@ const Mypage2 = ({ data }: any) => {
                 back={true}
                 handleOnClick={handleOnClick}
               />
-              <EstimateContainer />
+              {/* <EstimateContainer /> */}
 
               <Mypage2_1 />
             </Wrapper>
@@ -79,7 +81,7 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 45.75pt auto 0;
+  margin: 45.75pt auto;
   width: 900pt;
   //width: 281.25pt;
 

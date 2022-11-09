@@ -44,10 +44,6 @@ const HambuguerBar = (anchor: string) => {
     };
 
   useEffect(() => {
-    console.log('업데이트 확인');
-    console.log(localStorage.getItem('USER_ID'));
-    console.log(isLogin);
-
     if (localStorage.getItem('USER_ID')) {
       console.log('login check !');
       setIsLogin(true);
@@ -155,10 +151,25 @@ const HambuguerBar = (anchor: string) => {
               }}
             />
             <WhiteAreaBottomMenus>
-              <span>
+              <span
+                onClick={() =>
+                  window.open(
+                    'https://www.instagram.com/entizen.ev/',
+                    'entizen_Instagram',
+                  )
+                }
+              >
+                post.naver.com/entizen_ev
                 <Image src={grayInsta} alt="인스타"></Image>
               </span>
-              <span>
+              <span
+                onClick={() =>
+                  window.open(
+                    'https://www.post.naver.com/entizen_ev',
+                    'entizen_post',
+                  )
+                }
+              >
                 <Image src={grayNaver} alt="네이버"></Image>
               </span>
             </WhiteAreaBottomMenus>
@@ -226,7 +237,7 @@ const ListBox = styled.div`
 `;
 const XBtnWrapper = styled.div`
   display: flex;
-  justify-content: end;
+  //justify-content: end;
   margin-top: 44.25pt;
 `;
 

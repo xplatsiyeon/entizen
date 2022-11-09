@@ -3,8 +3,6 @@ import { Box } from '@mui/system';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import bell from 'public/images/guide-bell.svg';
-import banner from 'public/guide/guide-main-banner.png';
-import banner2 from 'public/guide/guide0.png';
 import arrow from 'public/images/right-arrow.svg';
 import fee_icon from 'public/guide/fee-icon.svg';
 import subsidy_icon from 'public/guide/subsidy-icon.svg';
@@ -15,7 +13,7 @@ import Hamburger from 'public/images/list-bar.svg';
 import arrow_small from 'public/images/arrow.svg';
 import guide from 'public/images/guide.png';
 import mypageIcon from 'public/images/mypageIcon.png';
-import { Button, Divider, Drawer } from '@mui/material';
+import { Divider, Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
 import conversation from 'public/images/conversation.png';
 import grayInsta from 'public/images/grayCircleInsta.png';
@@ -23,11 +21,15 @@ import grayNaver from 'public/images/grayCircleNaver.png';
 import BottomNavigation from 'components/BottomNavigation';
 import simpleEstimate from 'public/images/simpleEstimate.png';
 import xBtn from 'public/images/X.png';
-import WebHeader from 'web-components/WebHeader';
-import WebFooter from 'web-components/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import arrowR from 'public/images/arrowR.png';
+import guideIndex1 from 'public/guide/guideIndex1.png';
+import guideIndex2 from 'public/guide/guideIndex2.png';
+import BingGuideBanner from 'public/guide/Big-guide-banner.png';
 
 const Guide1 = () => {
   const router = useRouter();
@@ -60,10 +62,6 @@ const Guide1 = () => {
       setState({ ...state, [anchor]: open });
     };
   useEffect(() => {
-    console.log('업데이트 확인');
-    console.log(localStorage.getItem('USER_ID'));
-    console.log(isLogin);
-
     if (localStorage.getItem('USER_ID')) {
       console.log('login check !');
       setIsLogin(true);
@@ -140,10 +138,10 @@ const Guide1 = () => {
               borderTop: '1px solid #E2E5ED',
             }}
           />
-          <WhiteAreaMenus onClick={() => router.push('/notice')}>
+          <WhiteAreaMenus onClick={() => router.push('/alarm')}>
             <span>공지사항</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/setting/ring')}>
+          <WhiteAreaMenus onClick={() => router.push('/alarm/1-1')}>
             <span>알림 설정</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus
@@ -191,11 +189,9 @@ const Guide1 = () => {
           <Header>
             <span className="left">가이드</span>
             <div className="right">
-              <Image
-                onClick={() => pageHandler('/alarm')}
-                src={bell}
-                alt="bell"
-              />
+              <div className="bell-img" onClick={() => pageHandler('/alarm')}>
+                <Image src={bell} alt="bell" />
+              </div>
               {(['right'] as const).map((anchor) => (
                 <React.Fragment key={anchor}>
                   <HamburgerOn onClick={toggleDrawer(anchor, true)}>
@@ -207,7 +203,6 @@ const Guide1 = () => {
                     anchor={anchor}
                     open={state[anchor]}
                     onClose={toggleDrawer(anchor, false)}
-                    // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
                   >
                     {list(anchor)}
                   </Drawer>
@@ -217,23 +212,50 @@ const Guide1 = () => {
           </Header>
           <Wrap>
             <Platform onClick={() => pageHandler('/guide/1-1')}>
-              <div className="img-box">
-                <Image src={banner} alt="platform" layout="fill" />
+              <p>플랫폼 가이드</p>
+              <h3>
+                충전의 정석
+                <br />
+                엔티즌
+                <br /> 사용설명서
+              </h3>
+              <div className="banner">
+                <Image src={BingGuideBanner} alt="platform" layout="fill" />
               </div>
             </Platform>
-            <Platform onClick={() => pageHandler('/guide/1-1')}>
-              <div className="img-box">
-                <Image src={banner2} alt="platform" layout="fill" />
-              </div>
-            </Platform>
+
             <SubsidyBox>
-              <Subsidy onClick={() => pageHandler('/guide/1-2')}>
-                <span className="text">보조금 가이드</span>
-                <Image src={subsidy_icon} alt="subsidy_icon" />
+              <Subsidy
+                onClick={() => {
+                  isLogin ? pageHandler('/guide/1-2') : pageHandler('/signin');
+                }}
+              >
+                <span className="mobIcon">
+                  <Image src={subsidy_icon} alt="subsidy_icon" />
+                </span>
+                <span className="webIcon">
+                  <Image src={guideIndex1} alt="subsidy_icon" />
+                </span>
+                <FlexWrap>
+                  <span className="text">보조금 가이드</span>
+                  <IconWrap>
+                    <Image src={arrowR} alt="보조금" />
+                  </IconWrap>
+                </FlexWrap>
               </Subsidy>
               <Fee onClick={() => pageHandler('/guide/1-3')}>
-                <span className="text">요금 정보</span>
-                <Image src={fee_icon} alt="fee_icon" />
+                <span className="mobIcon">
+                  <Image src={fee_icon} alt="fee_icon" />
+                </span>
+                <span className="webIcon">
+                  <Image src={guideIndex2} alt="subsidy_icon" />
+                </span>
+                <FlexWrap>
+                  <span className="text">요금 정보</span>
+                  <IconWrap>
+                    <Image src={arrowR} alt="요금정보" />
+                  </IconWrap>
+                </FlexWrap>
               </Fee>
             </SubsidyBox>
           </Wrap>
@@ -271,9 +293,9 @@ const Guide1 = () => {
               </div>
             </GuideBox>
           </Wrap>
-          <EntizenLibrary onClick={() => pageHandler('')}>
-            <Btn>
-              &nbsp; 보러가기
+          <EntizenLibrary>
+            <Btn onClick={() => router.push('/library')}>
+              보러가기
               <div className="img">
                 <Image src={arrow_small} alt="arrow_small" layout="fill" />
               </div>
@@ -296,31 +318,20 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
-
-  @media (max-height: 809pt) {
-    display: block;
-    height: 100%;
-  }
 `;
 
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 0 auto;
+  margin: 45.75pt auto;
   width: 900pt;
 
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
     position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-  }
-  @media (max-height: 500pt) {
-    height: 100%;
+    margin: 0 auto;
   }
 `;
 
@@ -334,7 +345,7 @@ const Wrapper = styled.div`
   }
 `;
 const Header = styled(Box)`
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
   padding-top: 11.25pt;
@@ -347,7 +358,14 @@ const Header = styled(Box)`
   }
   .right {
     display: flex;
+    align-items: center;
     gap: 9.75pt;
+  }
+  .bell-img {
+    cursor: pointer;
+  }
+  @media (max-width: 899pt) {
+    display: flex;
   }
 `;
 
@@ -359,92 +377,196 @@ const Wrap = styled.div`
   }
 `;
 
-const Platform = styled(Button)`
-  display: block;
-  margin-top: 15.75pt;
+const Platform = styled.button`
+  position: relative;
   padding: 0;
+  flex: 2.2;
+  margin-right: 7pt; //나중에 수정할 수도.
+  background-color: ${colors.main1};
+  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+  border-radius: 6pt;
+  width: 100%;
   height: 210pt;
-  .img-box {
-    position: relative;
-    width: 589.5pt;
-    height: 210pt;
-    object-fit: cover;
+  cursor: pointer;
+  .banner {
+    position: absolute;
+    bottom: 6pt;
+    right: 8.25pt;
+    width: 258.06pt;
+    height: 167.7375pt;
   }
-  &:nth-of-type(1) {
-    display: none;
+  & > p {
+    font-weight: 700;
+    font-size: 13.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    top: 33pt;
+    left: 28.5pt;
+    z-index: 1;
   }
-
+  & > h3 {
+    font-weight: 700;
+    font-size: 19.5pt;
+    line-height: 28.5pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightWhite};
+    position: absolute;
+    text-align: left;
+    z-index: 1;
+    left: 28.5pt;
+    bottom: 23.25pt;
+  }
   @media (max-width: 899pt) {
-    display: flex;
-    width: 100%;
-    height: auto;
-    justify-content: center;
-    align-items: center;
-    .img-box {
-      width: 251.25pt;
-      height: 159pt;
+    height: 159pt;
+    .banner {
+      width: 195pt;
+      height: 126.75pt;
     }
-    &:nth-of-type(1) {
-      display: block;
+    & > p {
+      font-size: 10.5pt;
+      line-height: 21pt;
+      left: 15pt;
+      top: 15pt;
     }
-    &:nth-of-type(2) {
-      display: none;
+    & > h3 {
+      font-weight: 700;
+      font-size: 15pt;
+      line-height: 21pt;
+      left: 15pt;
+      bottom: 15pt;
     }
   }
 `;
 const SubsidyBox = styled(Box)`
   display: flex;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
   gap: 14.625pt;
-  padding-top: 15pt;
   width: calc(100% - 600pt);
   .text {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 19.5pt;
     font-weight: 700;
-    font-size: 10.5pt;
-    line-height: 12pt;
+    line-height: 28.5pt;
     letter-spacing: -0.02em;
-    color: ${colors.main2};
+    color: rgb(34, 34, 34);
   }
   @media (max-width: 899pt) {
     width: auto;
+    flex: none;
+    padding-top: 15pt;
+    .text {
+      font-size: 10.5pt;
+      line-height: 12pt;
+    }
   }
 `;
-const Subsidy = styled(Button)`
+const Subsidy = styled.button`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  cursor: pointer;
   height: 100%;
-  padding-left: 15pt;
-  padding-right: 10.125pt;
+  padding: 37.5pt 15pt 24pt 21pt;
   background: #e8e3f8;
   border-radius: 8px;
   width: 100%;
+  text-align: left;
+  .text {
+    width: 70%;
+  }
+  .mobIcon {
+    display: none;
+  }
+  .webIcon {
+    width: 43.5pt;
+    height: 43.5pt;
+  }
   @media (max-width: 899pt) {
     height: 36pt;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0pt 15pt 0pt 10.125pt;
+    .text {
+      width: auto;
+    }
+    .mobIcon {
+      display: block;
+    }
+    .webIcon {
+      display: none;
+    }
   }
 `;
-const Fee = styled(Button)`
+const Fee = styled.button`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  cursor: pointer;
   height: 100%;
-  padding-right: 15pt;
-  padding-left: 10.125pt;
+  padding: 37.5pt 15pt 24pt 21pt;
   background: #fff1d5;
   border-radius: 8px;
   width: 100%;
+  text-align: left;
+  .text {
+    width: 50%;
+  }
+  .mobIcon {
+    display: none;
+  }
+  .webIcon {
+    width: 43.5pt;
+    height: 43.5pt;
+  }
   @media (max-width: 899pt) {
     height: 36pt;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0pt 15pt 0pt 10.125pt;
+    .text {
+      width: auto;
+    }
+    .mobIcon {
+      display: block;
+    }
+    .webIcon {
+      display: none;
+    }
   }
 `;
-const GuideBox = styled(Button)`
+const FlexWrap = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+const IconWrap = styled.div`
+  width: 15pt;
+  height: 15pt;
+  position: absolute;
+  bottom: 3pt;
+  right: 0;
+
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`;
+const GuideBox = styled.button`
   display: flex;
   //height:이미지 높이 만큼 줘야함.
   justify-content: space-between;
   align-items: center;
   background: #ffffff;
   position: relative;
+  cursor: pointer;
   width: 100%;
   box-shadow: 0pt 0pt 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
@@ -486,7 +608,8 @@ const EntizenLibrary = styled.div`
   display: flex;
   justify-content: center;
 `;
-const Btn = styled(Button)`
+const Btn = styled.button`
+  background-color: ${colors.lightWhite};
   border: 0.75pt solid ${colors.gray};
   border-radius: 29px;
   margin-top: 30pt;
@@ -497,6 +620,7 @@ const Btn = styled(Button)`
   letter-spacing: -0.02em;
   display: flex;
   justify-content: center;
+  cursor: pointer;
   gap: 3pt;
   color: ${colors.main2};
   .img {
@@ -506,7 +630,7 @@ const Btn = styled(Button)`
   }
   ::before {
     content: '앤티즌 도서관';
-    color: ${colors.main};
+    color: ${colors.main1};
   }
 `;
 
@@ -646,6 +770,7 @@ const WhiteAreaBottomText = styled.div`
 `;
 
 const IconBox = styled.div`
+  cursor: pointer;
   margin-top: 9pt;
   margin-bottom: 9pt;
 `;

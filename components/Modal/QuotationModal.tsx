@@ -1,21 +1,40 @@
 import styled from '@emotion/styled';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useRef } from 'react';
 import colors from 'styles/colors';
 import CheckIcon from 'public/images/check-small.png';
 import CheckCircleOn from 'public/images/CheckCircle-on.png';
-import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
+import { locationAction } from 'store/locationSlice';
 
 interface Props {
   isModal: boolean;
   setIsModal: Dispatch<SetStateAction<boolean>>;
+  onClick: () => void;
 }
 
-const QuotationModal = ({ setIsModal, isModal }: Props) => {
-  const router = useRouter();
+const QuotationModal = ({ setIsModal, isModal, onClick }: Props) => {
+  const dispatch = useDispatch();
+  const outside = useRef();
+
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside.current === e.target) {
+      setIsModal((prev) => !prev);
+    }
+  };
+
+  const HandleButton = () => {
+    dispatch(quotationAction.init());
+    dispatch(locationAction.reset());
+    onClick();
+  };
+
   return (
-    <ModalWrapper>
+    <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <ModalBox>
         <ImageBox>
           <div className="checkCicleOn-icon">
@@ -41,7 +60,7 @@ const QuotationModal = ({ setIsModal, isModal }: Props) => {
           <BtnLeft onClick={() => setIsModal(!isModal)}>
             <BtnText>취소</BtnText>
           </BtnLeft>
-          <BtnRight onClick={() => router.push('/quotation/request/complete')}>
+          <BtnRight onClick={HandleButton}>
             <BtnText>확인</BtnText>
           </BtnRight>
         </BtnBox>
@@ -53,11 +72,13 @@ const QuotationModal = ({ setIsModal, isModal }: Props) => {
 export default QuotationModal;
 
 const ModalWrapper = styled(Box)`
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.65);
   display: flex;
-  position: fixed;
   justify-content: center;
   align-items: flex-end;
   z-index: 100;
@@ -66,13 +87,22 @@ const ModalBox = styled(Box)`
   display: flex;
   flex-direction: column;
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   justify-content: center;
   align-items: center;
-  border-radius: 20pt 20pt 0 0;
+  border-radius: 20pt;
   padding-left: 15pt;
   padding-right: 15pt;
   background-color: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
+  @media (max-width: 899pt) {
+    top: auto;
+    left: auto;
+    transform: none;
+    border-radius: 20pt 20pt 0 0;
+  }
 `;
 const ImageBox = styled.div`
   padding-top: 21.9975pt;
@@ -115,7 +145,10 @@ const BtnBox = styled(Box)`
   position: relative;
   display: flex;
   gap: 9pt;
-  padding-bottom: 30pt;
+  padding-bottom: 21pt;
+  @media (max-width: 899pt) {
+    padding-bottom: 30pt;
+  }
 `;
 const BtnLeft = styled(Box)`
   width: 100px;

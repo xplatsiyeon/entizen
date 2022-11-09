@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import rightArrow from 'public/images/rightArrow.png';
 import Image from 'next/image';
-import { display } from '@mui/system';
 import { useRouter } from 'next/router';
 
-type Props = {};
+type Props = {
+  borders?: number | undefined;
+};
 
-const MyEstimateProject = (props: Props) => {
+const MyEstimateProject = ({ borders }: Props) => {
   const userID = localStorage.getItem('USER_ID');
   const router = useRouter();
   return (
     <Wrapper>
       <BoxWrapper
+        borders={borders ? borders : 0}
         onClick={() =>
           userID ? router.push('/mypage') : router.push('/signin')
         }
@@ -28,24 +30,33 @@ const MyEstimateProject = (props: Props) => {
             >
               내 견적서
             </Typography>
-            <Typography
-              sx={{
-                padding: '0',
-                display: 'flex',
-                alignItems: 'center',
-                position: 'relative',
-              }}
-            >
-              <Image src={rightArrow} alt="rightArrow" />
-            </Typography>
+            <ImageWrap>
+              <Typography
+                sx={{
+                  width:'12pt',
+                  padding: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  position: 'relative',
+                }}
+              >
+                <Image src={rightArrow} alt="rightArrow" />
+              </Typography>
+              <IconWrap >
+                <Image src={rightArrow} layout="fill" alt="rightArrow" />
+              </IconWrap>
+            </ImageWrap>
           </BoxName>
         </Box>
         <CountBox>
-          <Count>{userID ? '3' : '로그인해주세요'}</Count>
-          <Amount>{userID && '건'}</Amount>
+          <Count>{userID ? '3' : '0'}</Count>
+          <Amount>{'건'}</Amount>
         </CountBox>
       </BoxWrapper>
-      <BoxWrapper onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+      <BoxWrapper
+        borders={borders ? borders : 0}
+        onClick={() => alert('2차 작업 범위 페이지입니다.')}
+      >
         <Box>
           <BoxName>
             <Typography
@@ -56,21 +67,27 @@ const MyEstimateProject = (props: Props) => {
             >
               내 프로젝트
             </Typography>
-            <Typography
-              sx={{
-                padding: '0',
-                display: 'flex',
-                alignItems: 'center',
-                position: 'relative',
-              }}
-            >
-              <Image src={rightArrow} alt="rightArrow" />
-            </Typography>
+            <ImageWrap>
+              <Typography
+                sx={{
+                  width:'12pt',
+                  padding: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  position: 'relative',
+                }}
+              >
+                <Image src={rightArrow} alt="rightArrow" />
+              </Typography>
+              <IconWrap >
+                <Image src={rightArrow} layout="fill" alt="rightArrow" />
+              </IconWrap>
+            </ImageWrap>
           </BoxName>
         </Box>
         <CountBox>
-          <Count>{userID ? '2' : '로그인해주세요'}</Count>
-          <Amount>{userID && '건'}</Amount>
+          <Count>{userID ? '2' : '0'}</Count>
+          <Amount>{'건'}</Amount>
         </CountBox>
       </BoxWrapper>
     </Wrapper>
@@ -90,9 +107,9 @@ const Wrapper = styled.div`
   }
 `;
 
-const BoxWrapper = styled.div`
+const BoxWrapper = styled.div<{ borders: number }>`
   border: 1px solid #e2e5ed;
-  border-radius: 6pt;
+  border-radius: ${({ borders }) => (borders !== 0 ? borders : 6)}pt;
   box-shadow: 0px 0px 10px 0px #89a3c933;
   padding: 33pt 28.5pt 26.25pt;
   & div:nth-of-type(2) {
@@ -142,16 +159,15 @@ const CountBox = styled(Box)`
 `;
 
 const Count = styled(Typography)`
-  color: #caccd1;
   font-family: 'Spoqa Han Sans Neo';
   font-size: 27pt;
   font-weight: 700;
   line-height: 25.5pt;
   letter-spacing: -0.02em;
+  margin-right: 3pt;
   text-align: right;
-
+  color: #5a2dc9;
   @media (max-width: 899pt) {
-    margin-right: 3pt;
     font-size: 15pt;
     line-height: 15pt;
   }
@@ -175,5 +191,27 @@ const Amount = styled(Typography)`
     margin-top: 0;
   }
 `;
+
+const ImageWrap = styled.div`
+  p{
+    display: none;
+  }
+  @media (max-width: 899pt) {
+    p{
+      display: block;
+    }
+  }
+
+`
+const IconWrap = styled.div`
+    width: 21pt;
+    height: 21pt;
+    position: relative;
+    object-fit: cover;
+
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`
 
 export default MyEstimateProject;

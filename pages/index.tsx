@@ -1,20 +1,27 @@
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
-import Main from './main';
-
-type Props = {};
-
+import Main from '../components/Main/mainWeb';
+import CompanyMainPage from 'components/Main/companyMain';
+const TAB = '/index';
 const Home: NextPage = () => {
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+
   return (
     <>
-      <WebWrap>
-        <Main />
-      </WebWrap>
-      <MobWrap>
-        <MainPage />
-      </MobWrap>
+      {memberType === 'COMPANY' ? (
+        <CompanyMainPage />
+      ) : (
+        <>{/* 브라우저 너비에 따라 웹 메인 페이지, 모바일 메인페이지로 갈린다. */}
+          <WebWrap>
+            <Main />
+          </WebWrap>
+          <MobWrap>
+            <MainPage />
+          </MobWrap>
+        </>
+      )}
     </>
   );
 };

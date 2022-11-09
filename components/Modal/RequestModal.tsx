@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
+import { useRef } from 'react';
 import colors from 'styles/colors';
 
 interface Props {
   leftControl?: () => void;
   rightControl?: () => void;
+  exit: () => void;
   title: string;
   subtitle?: string;
   border?: boolean | undefined;
@@ -16,9 +18,19 @@ const RequestModal = ({
   leftControl,
   rightControl,
   border,
+  exit,
 }: Props) => {
+  const outside = useRef(null);
+
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside.current === e.target) {
+      exit();
+    }
+  };
   return (
-    <ModalBackground>
+    <ModalBackground ref={outside} onClick={(e) => handleModalClose(e)}>
       {border ? (
         <Modal border={border}>
           <H1>{title}</H1>

@@ -8,6 +8,10 @@ import Nut from 'public/images/Nut.svg';
 import Bell from 'public/images/bell.svg';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
+
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+
 const arr = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2,
   3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -58,88 +62,142 @@ const Alam = () => {
   }, [list, arr, isScroll, isLoading, onIntersect]);
 
   return (
-    <Wrapper>
-      <Header>
-        <div className="back-img" onClick={() => router.back()}>
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={BackImg}
-            alt="btn"
-          />
-        </div>
-        <span className="text">알림함</span>
-        <div className="setting-img" onClick={() => router.push('/alarm/1-1')}>
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={Nut}
-            alt="nut"
-          />
-        </div>
-      </Header>
-      <Tab>
-        {tabList.map((text, index) => (
-          <Text
-            tab={tab.toString()}
-            idx={index.toString()}
-            className="tab-item"
-            key={index}
-            onClick={() => tabHandler(index)}
-          >
-            {text}
-            {tab === index && <Line />}
-          </Text>
-        ))}
-      </Tab>
-      {list.length === 0 && (
-        <Body>
-          <Image src={Bell} alt="bell" />
-          <p className="text">새로운 알림이 없습니다</p>
-        </Body>
-      )}
-      {tab === 0 && (
-        <Main>
-          {list.map((_, index) => (
-            <ContensBox key={index} onClick={onClicklist}>
-              <label className="label">[견적마감]</label>
-              <p className="contents">서비스 이용 약관 개정 안내드립니다.</p>
-              <div className="period">1주 전</div>
-              <div className="line"></div>
-            </ContensBox>
-          ))}
-        </Main>
-      )}
-      {tab === 1 && (
-        <Main>
-          {list.map((_, index) => (
-            <ContensBox key={index} onClick={onClicklist}>
-              <p className="contents">서비스 이용 약관 개정 안내드립니다.</p>
-              <div className="period">1주 전</div>
-              <div className="line"></div>
-            </ContensBox>
-          ))}
-        </Main>
-      )}
+    <WebBody>
+      <WebHeader />
+      <Inner>
+        <Wrapper>
+          <Header>
+            <div className="back-img" onClick={() => router.back()}>
+              <Image
+                style={{
+                  cursor: 'pointer',
+                  width: '18pt',
+                  height: '18pt',
+                }}
+                src={BackImg}
+                alt="btn"
+              />
+            </div>
+            <span className="text">알림함</span>
+            <div
+              className="setting-img"
+              onClick={() => router.push('/setting')}
+            >
+              <Image
+                style={{
+                  cursor: 'pointer',
+                  width: '18pt',
+                  height: '18pt',
+                }}
+                src={Nut}
+                alt="nut"
+              />
+            </div>
+          </Header>
+          <Tab>
+            {tabList.map((text, index) => (
+              <Text
+                tab={tab.toString()}
+                idx={index.toString()}
+                className="tab-item"
+                key={index}
+                onClick={() => tabHandler(index)}
+              >
+                {text}
+                {tab === index && <Line />}
+              </Text>
+            ))}
+          </Tab>
+          {list.length === 0 && (
+            <Body>
+              <Image src={Bell} alt="bell" />
+              <p className="text">새로운 알림이 없습니다</p>
+            </Body>
+          )}
+          {tab === 0 && (
+            <Main>
+              {list.map((_, index) => (
+                <ContensBox key={index} onClick={onClicklist}>
+                  <label className="label">[견적마감]</label>
+                  <p className="contents">
+                    서비스 이용 약관 개정 안내드립니다.
+                  </p>
+                  <div className="period">1주 전</div>
+                  <div className="line"></div>
+                </ContensBox>
+              ))}
+            </Main>
+          )}
+          {tab === 1 && (
+            <Main>
+              {list.map((_, index) => (
+                <ContensBox key={index} onClick={onClicklist}>
+                  <p className="contents">
+                    서비스 이용 약관 개정 안내드립니다.
+                  </p>
+                  <div className="period">1주 전</div>
+                  <div className="line"></div>
+                </ContensBox>
+              ))}
+            </Main>
+          )}
 
-      <div ref={loadRef}>{isScroll && !isLoading && <Loader />}</div>
-    </Wrapper>
+          <div ref={loadRef}>{isScroll && !isLoading && <Loader />}</div>
+        </Wrapper>
+      </Inner>
+      <WebFooter />
+    </WebBody>
   );
 };
 
 export default Alam;
 
+const Buttons = styled.button`
+  display: none;
+`;
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  width: 900pt;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+`;
+
 const Wrapper = styled.div`
   padding-bottom: 20pt;
 `;
 const Header = styled(Box)`
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   height: 36pt;
@@ -162,6 +220,10 @@ const Header = styled(Box)`
     position: absolute;
     right: 7pt;
     padding: 5px;
+  }
+
+  @media (max-width: 899pt) {
+    display: flex;
   }
 `;
 const Tab = styled(Box)`

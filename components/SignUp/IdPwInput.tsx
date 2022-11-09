@@ -6,7 +6,9 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import colors from 'styles/colors';
 import Btn from './button';
-import axios from 'axios';
+import { BusinessRegistrationType } from '.';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { api } from 'api';
 
 type Props = {
   idInput: string;
@@ -28,9 +30,22 @@ type Props = {
   name: string;
   phoneNumber: string;
   fullTerms: boolean;
+  userType: number;
+  email?: string;
+  companyName?: string;
+  postNumber?: string;
+  companyAddress?: string;
+  companyDetailAddress?: string;
+  businessRegistration?: BusinessRegistrationType[];
 };
 
+interface ValidatedId {
+  isMember: boolean;
+  isSuccess: boolean;
+}
+
 const IdPwInput = ({
+  email,
   idInput,
   setIdInput,
   pwInput,
@@ -50,62 +65,219 @@ const IdPwInput = ({
   name,
   phoneNumber,
   fullTerms,
+  userType,
+  companyName,
+  postNumber,
+  companyAddress,
+  companyDetailAddress,
+  businessRegistration,
 }: Props) => {
-  const route = useRouter();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const [initIdAlert, setInitIdAlert] = useState(false);
+  const [isChangeColor, setIsChangeColor] = useState(false);
+  const test = ['USER', 'COMPANY'];
+  const { data, refetch } = useQuery<ValidatedId>(
+    'ValidIdCheck',
+    () =>
+      api({
+        method: 'GET',
+        endpoint: `/members?id=${idInput}&memberType=${test[userType]}`,
+      }),
+    {
+      enabled: false,
+      onError: (error) => {
+        console.log('----아이디 중복체크----');
+        console.log(error);
+        alert('다시 시도해주세요.');
+      },
+    },
+  );
+  const {
+    mutate: userMutate,
+    isLoading: userLoading,
+    error: userError,
+  } = useMutation(api, {
+    onSuccess: () => {
+      console.log('성공');
+      queryClient.invalidateQueries();
+      router.push('/signUp/Complete');
+    },
+    onError: (error) => {
+      console.log('----회원가입 실패----');
+      console.log(error);
+      alert('회원가입 실패했습니다. 다시 시도해주세요.');
+    },
+  });
+  const {
+    mutate: companyMutate,
+    isLoading: companyLoading,
+    error: companyError,
+  } = useMutation(api, {
+    onSuccess: () => {
+      console.log('성공');
+      queryClient.invalidateQueries();
+      router.push('/signUp/CompleteCompany');
+    },
+    onError: (error) => {
+      console.log('----회원가입 실패----');
+      console.log(error);
+      alert('회원가입 실패했습니다. 다시 시도해주세요.');
+    },
+  });
 
   // 디바운스를 이용한 유효성 검사
-  const password = useDebounce(pwInput, 500);
+  const passwords = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
-  useEffect(() => {
-    let num = password.search(/[0-9]/g);
-    let eng = password.search(/[a-z]/gi);
-    let spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-
-    if (password) {
-      if (password.length < 10 || password.length > 20) setCheckedPw(false);
-      else if (password.search(/₩s/) != -1) setCheckedPw(false);
-      else if (
-        (num < 0 && eng < 0) ||
-        (eng < 0 && spe < 0) ||
-        (spe < 0 && num < 0)
-      )
-        setCheckedPw(false);
-      else setCheckedPw(true);
-    }
-    if (checkPassword) {
-      if (password !== checkPassword) setCheckSamePw(false);
-      else setCheckSamePw(true);
-    }
-    console.log(password, checkPassword);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [password, checkPassword]);
-
   // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let overLap = document.querySelector('.overlap');
+    const { value } = e.target;
+    const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
     if (e.target.name === 'id') {
-      setIdInput((idInput) => e.target.value);
-      if (idInput.length > 4) {
-        overLap?.classList.add('changeColor');
-      } else {
-        overLap?.classList.remove('changeColor');
-      }
+      setIdInput(value);
+      idRegExp.test(value) ? setIsChangeColor(true) : setIsChangeColor(false);
     }
-    if (e.target.name === 'pw') {
-      setPwInput(e.target.value);
-    }
-    if (e.target.name === 'checkPw') {
-      setCheckPw(e.target.value);
-    }
+    if (e.target.name === 'pw') setPwInput(value);
+    if (e.target.name === 'checkPw') setCheckPw(value);
   };
+
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
+    e.isPropagationStopped();
   };
+
+  const overlabCheck = () => {
+    if (isChangeColor) {
+      setInitIdAlert(true);
+      refetch();
+    }
+  };
+  // 일반 회원가입 온클릭
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (checkSamePw) {
+      userMutate({
+        method: 'POST',
+        endpoint: '/members/join',
+        data: {
+          memberType: 'USER',
+          name: name,
+          phone: phoneNumber,
+          id: idInput,
+          password: checkPw,
+          optionalTermsConsentStatus: [
+            {
+              optionalTermsType: 'LOCATION',
+              consentStatus: fullTerms,
+            },
+          ],
+        },
+      });
+    }
+  };
+  // 기업 회원가입 온클릭
+  const handleCompanyClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (checkSamePw) {
+      companyMutate({
+        method: 'POST',
+        endpoint: '/members/join',
+        data: {
+          memberType: 'COMPANY',
+          name: name,
+          phone: phoneNumber,
+          id: idInput,
+          password: checkPw,
+          optionalTermsConsentStatus: [
+            {
+              optionalTermsType: 'LOCATION',
+              consentStatus: fullTerms,
+            },
+          ],
+          // 기업 추가 내용
+          companyName,
+          companyAddress,
+          companyDetailAddress,
+          companyZipCode: postNumber,
+          managerEmail: email,
+
+          // 사업자등록증 파일 목록
+          businessRegistrationFiles: businessRegistration,
+        },
+      });
+    }
+  };
+  // 유효성 검사
+  useEffect(() => {
+    if (passwords) {
+      let check1 =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
+          passwords,
+        );
+      setCheckedPw(check1);
+    }
+    if (checkPassword) {
+      if (passwords !== checkPassword) setCheckSamePw(false);
+      else setCheckSamePw(true);
+    }
+    console.log(passwords, checkPassword);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [passwords, checkPassword]);
+  // 중복확인 버튼 비활성화
+  useEffect(() => {
+    if (idInput.length < 4) {
+      setInitIdAlert(false);
+      setIsChangeColor(false);
+    }
+  }, [initIdAlert, idInput]);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  // 로딩처리
+  if (userLoading || companyLoading) {
+    console.log('로딩중...');
+  }
+
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
-          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+          onClick={() => setPwInput('')}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
+        />
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+          }}
+          variant="subtitle1"
+          onClick={() => setPwShow(!pwShow)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+  const secondIconAdorment = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CancelRoundedIcon
+          onClick={() => setCheckPw('')}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
         />
         <Typography
           sx={{
@@ -126,40 +298,7 @@ const IdPwInput = ({
     ),
   };
   const iconAdornment = pwSelected ? iconAdorment : {};
-  const secondIconAdornment = checkPwSelected ? iconAdorment : {};
-
-  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (checkSamePw) {
-      try {
-        await axios({
-          method: 'post',
-          url: 'https://api.entizen.kr/api/members/join',
-          data: {
-            memberType: 'USER',
-            name: name,
-            phone: phoneNumber,
-            id: idInput,
-            password: checkPw,
-            optionalTermsConsentStatus: [
-              {
-                optionalTermsType: 'LOCATION',
-                consentStatus: fullTerms,
-              },
-            ],
-          },
-          headers: {
-            ContentType: 'application/json',
-          },
-          withCredentials: true,
-        }).then((res) => console.log(res));
-      } catch (error) {
-        console.log('post 실패!!!!!!');
-        console.log(error);
-      }
-    }
-    route.push('/signUp/Complete');
-  };
-
+  const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
   return (
     <>
       <Info>
@@ -186,36 +325,38 @@ const IdPwInput = ({
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <OverlapBtn className="overlap">
-                  <Typography className="checkOverlap">중복확인</Typography>
+                <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
+                  <ButtonText className="checkOverlap" onClick={overlabCheck}>
+                    중복확인
+                  </ButtonText>
                 </OverlapBtn>
               </InputAdornment>
             ),
           }}
         />
         <Box>
-          <Typography
-            sx={{
-              color: '#F75015',
-              fontSize: '9pt',
-              lineHeight: '12pt',
-              marginTop: '9pt',
-            }}
-          >
-            {/* 이미 사용중인 아이디입니다. */}
-          </Typography>
+          {data?.isMember === false && initIdAlert && (
+            <MessageId
+            >
+              사용가능한 아이디입니다.
+            </MessageId>
+          )}
+          {data?.isMember === true && initIdAlert && (
+            <MessageErrId
+            >
+              이미 사용중인 아이디입니다.
+            </MessageErrId>
+          )}
+          {/* {data?.isMember === true &&
+              initIdAlert &&
+              '이미 사용중인 아이디입니다.'}
+            {data?.isMember === false &&
+              initIdAlert &&
+              '사용가능한 아이디입니다.'} */}
         </Box>
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          marginTop: '30pt',
-          width: '100%',
-        }}
-      >
-        <Label>비밀번호</Label>
+      <BoxPW>
+        <LabelPW>비밀번호</LabelPW>
         <Input
           placeholder="비밀번호 입력"
           onChange={handleIdChange}
@@ -229,14 +370,10 @@ const IdPwInput = ({
         />
         {!checkedPw && pwInput.length > 4 ? (
           <Box>
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-              }}
+            <MessageErrPW
             >
               영문,숫자,특수문자 조합 10자 이상
-            </Typography>
+            </MessageErrPW>
           </Box>
         ) : (
           <></>
@@ -253,24 +390,20 @@ const IdPwInput = ({
         />
         {!checkSamePw && checkPw.length > 4 ? (
           <Box>
-            <Typography
-              sx={{
-                color: '#F75015',
-                fontSize: '9pt',
-              }}
+            <MessageErrPW
             >
               비밀번호를 확인해주세요
-            </Typography>
+            </MessageErrPW>
           </Box>
         ) : (
           <></>
         )}
-      </Box>
+      </BoxPW>
       <Btn
-        isClick={checkedPw && checkSamePw && idInput.length > 6 ? true : false}
+        isClick={checkedPw && checkSamePw && idInput.length > 4 ? true : false}
         text={'가입 완료'}
         marginTop={77.25}
-        handleClick={handleClick}
+        handleClick={userType === 0 ? handleCompanyClick : handleClick}
       />
       <NameInput className="nameInput" />
       <PhoneInput className="phoneInput" />
@@ -281,9 +414,14 @@ const IdPwInput = ({
 const Info = styled.p`
   padding-top: 6pt;
   font-weight: 700;
+  font-size: 15pt;
+  line-height: 22.5pt;
+  color: ${colors.main2};
+  letter-spacing: -0.02em;
+  @media (max-width: 899pt) {
   font-size: 18pt;
   line-height: 24pt;
-  color: ${colors.main2};
+  }
 `;
 const Label = styled.label`
   font-weight: 500;
@@ -291,7 +429,20 @@ const Label = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  margin-top: 10pt;
+  @media (max-width: 899pt) {
+    margin-top:0;
+  }
 `;
+
+const LabelPW = styled.label`
+font-weight: 500;
+font-size: 12pt;
+line-height: 12pt;
+letter-spacing: -0.02em;
+color: ${colors.main2};
+margin-top: 0pt;
+`
 
 const NameInput = styled.input`
   display: none;
@@ -299,7 +450,6 @@ const NameInput = styled.input`
 const PhoneInput = styled.input`
   display: none;
 `;
-
 const Input = styled(TextField)`
   border: 0.75pt solid ${colors.gray};
   border-radius: 6pt;
@@ -309,11 +459,9 @@ const Input = styled(TextField)`
     font-size: 12pt;
     line-height: 12pt;
   }
-
   & .MuiInputBase-root {
     padding-right: 9pt;
   }
-
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;
@@ -324,42 +472,81 @@ const Input = styled(TextField)`
   :focus > .remove {
     display: block;
   }
-  /* margin-top: 9pt;
-  padding: 13.5pt 0;
-  padding-left: 12pt; */
-  /* ::placeholder {
-    color: ${colors.gray};
-    font-weight: 500;
-  }
-  font-family: 'pass', 'Roboto', Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  &::-webkit-input-placeholder {
-    transform: scale(0.77);
-    transform-origin: 0 50%;
-  }
-  &::-moz-placeholder {
-    font-size: 14px;
-    opacity: 1;
-  }
-  &:-ms-input-placeholder {
-    font-size: 14px;
-    font-family: 'Roboto', Helvetica, Arial, sans-serif;
-  } */
 `;
-const OverlapBtn = styled.button`
+const OverlapBtn = styled.button<{ isChangeColor: boolean }>`
   & .checkOverlap {
     padding: 7.5pt 9pt;
+    cursor: pointer;
   }
   margin-right: 0;
-  background: #e2e5ed;
-  color: #ffffff;
+  color: ${colors.lightWhite};
   border-radius: 6pt;
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 12pt;
-  &.changeColor {
-    background-color: ${colors.main};
-  }
+
+  background-color: ${({ isChangeColor }) =>
+    isChangeColor ? colors.main : colors.gray};
 `;
 
+const BoxPW =  styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 60pt;
+  width: 100%;
+  position: relative;
+`
+
+const ButtonText = styled(Typography)`
+  font-Family:'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+`
+
+
+const MessageId = styled.p`
+  color: ${colors.main};
+  font-size: 10.5pt;
+  line-height: 10.5pt;
+  margin-top: 9pt;
+  font-family:'Spoqa Han Sans Neo';
+  position: absolute;
+  bottom: -20pt;
+  @media (max-width: 899pt) {
+  font-size: 9pt;
+  line-height: 12pt;
+ }
+`
+
+const MessageErrId = styled.p`
+color: ${colors.sub4};
+font-size: 10.5pt;
+line-height: 10.5pt;
+margin-top: 12pt;
+font-family:'Spoqa Han Sans Neo';
+position: absolute;
+bottom: -20pt;
+margin-top: 12pt;
+  @media (max-width: 899pt) {
+    font-size: 9pt;
+    line-height: 12pt;
+  }
+`
+const MessageErrPW = styled.p`
+color: ${colors.sub4};
+font-size: 10.5pt;
+line-height: 10.5pt;
+margin-top: 12pt;
+font-family:'Spoqa Han Sans Neo';
+margin-top: 12pt;
+  @media (max-width: 899pt) {
+    font-size: 9pt;
+    line-height: 12pt;
+  }
+`
 export default IdPwInput;

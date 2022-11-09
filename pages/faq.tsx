@@ -8,6 +8,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CommunicationIcon from 'public/images/communication-icon.svg';
 
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+
 export interface Contents {
   id: number;
   name: string;
@@ -123,59 +126,135 @@ const Faq = () => {
     2: <FaqInfomation data={report} />,
   };
   const handleTab = (index: number) => setTabNumber(index);
+  const leftOnClick = () => {
+    route.back();
+  };
+  const rightOnClick = () => {
+    route.push('/');
+  };
+
   return (
-    <>
-      <GuideHeader title="자주 묻는 질문" />
-      <TabContainer>
-        {TabType.map((tab, index) => (
-          <TabItem
-            key={index}
-            tab={tabNumber.toString()}
-            index={index.toString()}
-            onClick={() => handleTab(index)}
-          >
-            {tab}
-            <Dot tab={tabNumber.toString()} index={index.toString()} />
-          </TabItem>
-        ))}
-      </TabContainer>
-      <Main>{components[tabNumber]}</Main>
-      <TextBox>
-        <div>더 자세한 문의 사항은?</div>
-        <Button onClick={() => route.push('/chatting/1')}>
-          <div>
-            <Image src={CommunicationIcon} alt="right-arrow" />
-          </div>
-          엔티즌과 소통하기
-          <div>
-            <Image src={RightArrow} alt="right-arrow" />
-          </div>
-        </Button>
-      </TextBox>
-    </>
+    <WebBody>
+      <WebHeader />
+      <Inner>
+        <GuideHeader
+          title="자주 묻는 질문"
+          leftOnClick={leftOnClick}
+          rightOnClick={rightOnClick}
+        />
+        <FlexBox>
+          <FlexWrap>
+            <TabContainer className="tab-head">
+              {TabType.map((tab, index) => (
+                <TabItem
+                  key={index}
+                  tab={tabNumber.toString()}
+                  index={index.toString()}
+                  onClick={() => handleTab(index)}
+                >
+                  {tab}
+                  <Dot tab={tabNumber.toString()} index={index.toString()} />
+                </TabItem>
+              ))}
+            </TabContainer>
+            <Main>{components[tabNumber]}</Main>
+          </FlexWrap>
+          <FlexWrap>
+            <InfoText>
+              <p>고객센터</p>
+              <p>9818-8856</p>
+              <p>평일 10:00~17:00</p>
+              <p>
+                점심시간 12:00 ~ 13:00 /<br />
+                주말 및 공휴일 제외
+              </p>
+            </InfoText>
+            <TextBox className="ask">
+              <div>더 자세한 문의 사항은?</div>
+              <Button
+                onClick={() =>
+                  /*route.push('/chatting/1')*/ alert('2차 작업 범위입니다')
+                }
+              >
+                <div>
+                  <Image src={CommunicationIcon} alt="right-arrow" />
+                </div>
+                엔티즌과 소통하기
+                <div>
+                  <Image src={RightArrow} alt="right-arrow" />
+                </div>
+              </Button>
+            </TextBox>
+          </FlexWrap>
+        </FlexBox>
+      </Inner>
+      <WebFooter />
+    </WebBody>
   );
 };
 
 export default Faq;
 
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 100pt auto;
+  width: 900pt;
+  height: 100%;
+  border-radius: 12pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+`;
+
 const TabContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
   padding-left: 15pt;
   padding-right: 15pt;
+
+  @media (max-width: 899pt) {
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+  }
 `;
 const TabItem = styled.div<{ tab: string; index: string }>`
   text-align: center;
-  width: 100%;
-  padding: 12pt 0;
   font-weight: 700;
+  padding: 0 0 12pt;
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
+  margin-right: 24pt;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
+
+  @media (max-width: 899pt) {
+    margin-right: 0;
+    padding: 12pt 0;
+  }
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
@@ -185,12 +264,17 @@ const Dot = styled.div<{ tab: string; index: string }>`
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;
 const Main = styled.div`
-  padding: 36pt 12pt 0 12pt;
+  padding: 30pt 12pt 0 12pt;
+  @media (max-width: 899pt) {
+    padding: 36pt 12pt 0 12pt;
+  }
 `;
 const TextBox = styled.div`
   width: 100%;
   padding-top: 75pt;
-  margin-bottom: 9pt;
+  margin-bottom: 42pt;
+  position: absolute;
+  bottom: 0;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -202,6 +286,9 @@ const TextBox = styled.div`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
+  }
+  @media (max-width: 899pt) {
+    margin-bottom: 9pt;
   }
 `;
 const Button = styled.button`
@@ -217,4 +304,89 @@ const Button = styled.button`
   letter-spacing: -0.02em;
   background: #f3f4f7;
   color: ${colors.main2};
+`;
+const FlexBox = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  position: relative;
+
+  @media (max-width: 899pt) {
+    //flex-direction: column;
+    //align-items: center;
+    display: block;
+    width: 100%;
+  }
+`;
+
+const FlexWrap = styled.div`
+  position: relative;
+  &:nth-of-type(1) {
+    width: 580.5pt;
+  }
+
+  &:nth-of-type(2) {
+    width: 255pt;
+    min-height: 312pt;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    border-radius: 16px;
+  }
+
+  @media (max-width: 899pt) {
+    &:nth-of-type(1) {
+      width: 100%;
+    }
+    &:nth-of-type(2) {
+      width: 100%;
+      height: 100%;
+      box-shadow: none;
+      border-radius: 0;
+      height: 184pt;
+      //position: fixed;
+      //bottom: 0;
+    }
+  }
+`;
+const InfoText = styled.div`
+  padding-top: 42pt;
+  text-align: center;
+  text-align: center;
+  font-family: 'Spoqa Han Sans Neo';
+  letter-spacing: -0.02em;
+  p {
+    &:nth-of-type(1) {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      margin-bottom: 9pt;
+    }
+    &:nth-of-type(2) {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 30px;
+      color: #5a2dc9;
+      margin-bottom: 18pt;
+    }
+    &:nth-of-type(3) {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 13pt;
+      line-height: 24pt;
+      margin-bottom: 12pt;
+    }
+    &:nth-of-type(4) {
+      font-weight: 500;
+      font-size: 10.5pt;
+      line-height: 16.5pt;
+      text-decoration: underline;
+      color: #a6a9b0;
+    }
+  }
+
+  @media (max-width: 899pt) {
+    display: none;
+  }
 `;

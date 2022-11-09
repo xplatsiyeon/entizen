@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useRef } from 'react';
 
 type Props = {
   text: string;
@@ -10,6 +10,7 @@ type Props = {
   rightBtnColor: string;
   leftBtnControl?: () => void;
   rightBtnControl?: () => void;
+  exit: () => void;
 };
 
 const TwoBtnModal = ({
@@ -20,9 +21,19 @@ const TwoBtnModal = ({
   rightBtnColor,
   leftBtnControl,
   rightBtnControl,
+  exit,
 }: Props) => {
+  const outside = useRef(null);
+
+  const handleModalClose = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    if (outside.current === e.target) {
+      exit();
+    }
+  };
   return (
-    <ModalWrapper>
+    <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <ModalBox>
         <Content>
           <ContentText>{text}</ContentText>
@@ -33,11 +44,21 @@ const TwoBtnModal = ({
               {leftBtnText}
             </BtnText>
           </BtnLeft>
+          <BtnLeftWeb>
+            <BtnText onClick={leftBtnControl} color={'#595757'}>
+              {leftBtnText}
+            </BtnText>
+          </BtnLeftWeb>
           <BtnRight>
             <BtnText onClick={rightBtnControl} color={rightBtnColor}>
               {rightBtnText}
             </BtnText>
           </BtnRight>
+          <BtnRightWeb>
+            <BtnText onClick={rightBtnControl} color={'#ffff'}>
+              {rightBtnText}
+            </BtnText>
+          </BtnRightWeb>
         </BtnBox>
       </ModalBox>
     </ModalWrapper>
@@ -46,12 +67,21 @@ const TwoBtnModal = ({
 
 const ContentText = styled(Typography)`
   white-space: pre-wrap;
-  font-size: 12pt;
-  font-weight: 500;
-  line-height: 18pt;
+  font-size: 21pt;
+  font-weight: 700;
+  line-height: 33pt;
   letter-spacing: -2%;
+  font-family: 'Spoqa Han Sans Neo';
   text-align: center;
-  margin: 21pt 15pt 21pt 15pt;
+  margin: 42pt 23.5pt 33pt;
+
+  @media (max-width: 899pt) {  
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 18pt;
+    margin: 21pt 27.75pt 21pt;
+  }
+
 `;
 
 const ModalWrapper = styled(Box)`
@@ -60,20 +90,33 @@ const ModalWrapper = styled(Box)`
   background-color: rgba(0, 0, 0, 0.65);
   display: flex;
   position: fixed;
+  top: 0;
+  left: 0;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 9999;
 `;
+
 const ModalBox = styled(Box)`
-  width: 220.5pt;
+  width: auto;
   border-radius: 6pt;
   background-color: white;
   position: relative;
   display: flex;
   flex-direction: column;
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   justify-content: center;
   align-items: center;
+  padding: 0 28.5pt 30pt ;
+
+
+  @media (max-width: 899pt) {
+    width: 220.5pt;
+    padding: 0;
+  }
 `;
 const Content = styled(Box)`
   width: 100%;
@@ -82,22 +125,50 @@ const BtnBox = styled(Box)`
   width: 100%;
   position: relative;
   display: flex;
+  gap: 12pt;
 `;
 const BtnLeft = styled(Box)`
+  display: none;
+
+@media (max-width: 899pt) {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-top: 1px solid #f3f4f7;
+}
 `;
+
+const BtnLeftWeb = styled.button`
+width: 100%;
+border-radius: 4.5pt;
+background-color: #E2E5ED;
+@media (max-width: 899pt) {
+  display: none;
+}
+`
+
+
+const BtnRightWeb = styled.button`
+width: 100%;
+border-radius: 4.5pt;
+background-color: #5221CB;
+@media (max-width: 899pt) {
+  display: none;
+}`
+
 const BtnRight = styled(Box)`
+  display: none;
+@media (max-width: 899pt) {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-left: 1px solid #f3f4f7;
   border-top: 1px solid #f3f4f7;
+}
 `;
+
 const BtnText = styled.div`
   position: relative;
   display: flex;
@@ -105,11 +176,23 @@ const BtnText = styled.div`
   width: 100%;
   justify-content: center;
   padding: 15pt 0;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: ${(props) => props.color};
+
+  @media (max-width: 899pt) {
+  padding: 15pt 0;
   font-size: 12pt;
   font-weight: 400;
   line-height: 12pt;
   letter-spacing: -2%;
-  color: ${(props) => props.color};
+  font-family: 'Spoqa Han Sans Neo';
+  }
 `;
 
 export default TwoBtnModal;
