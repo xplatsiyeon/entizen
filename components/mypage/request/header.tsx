@@ -27,8 +27,6 @@ const MypageHeader = ({
 }: Props) => {
   const route = useRouter();
 
-
-
   return (
     <Header>
       {/* 뒤로가기 버튼 */}
