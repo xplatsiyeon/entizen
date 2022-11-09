@@ -159,6 +159,8 @@ const Mypage1_3 = ({}: any) => {
   console.log(data);
   console.log(spotData);
   const spotInspection = spotData?.data?.spotInspection!;
+  const hasReceivedSpotInspectionDates =
+    spotData?.data?.hasReceivedSpotInspectionDates!;
   /**현장 실사에 따라 안내 컴포넌트 변경해주는 함수 */
   const switchNotice = () => {
     if (spotInspection !== null) {
@@ -235,7 +237,8 @@ const Mypage1_3 = ({}: any) => {
                           ?.currentInProgressPreQuotationIdx!
                       }
                     />
-                  ) : spotInspection?.isNewPropose ? (
+                  ) : hasReceivedSpotInspectionDates === false &&
+                    spotInspection?.isNewPropose ? (
                     <ScheduleChange
                       spotId={
                         data?.quotationRequest
