@@ -50,14 +50,14 @@ const Progress = ({info,setData}: Props) => {
   const [progressNum, setProgressNum] = useState<number>(-1);
 
   //완료하기 버튼 s누르면 바뀔 컴포넌트
-  const [fin, setFin] = useState<boolean>(false); 
+  const [fin, setFin] = useState<boolean>(false);
 
   // 상단 토글 오픈
   const openHeader = () => {
     setOpen(!open);
   };
 
- /* const handleXbtn = () => {
+  /* const handleXbtn = () => {
     setProgressNum(-1);
   }; */
 
@@ -100,12 +100,10 @@ const Progress = ({info,setData}: Props) => {
             presentProgress={info.state}
             setProgressNum={setProgressNum}
             state={badgeState}
-            planed = {info.planed}
+            planed={info.planed}
           />
         )}
         {/* 64 ~ 93 여기까지가 기본 페이지 */}
-
-
 
         {/* 준비, 설치, 검수, 완료 토글 된거 눌렀을때 */}
         {progressNum === 1 && (
@@ -117,8 +115,8 @@ const Progress = ({info,setData}: Props) => {
             btnText={'준비 완료하기'}
             setBadgeState={setBadgeState}
             setData={setData}
-            fin={info.state > progressNum? true : false }  
-            planed = {info.planed[0]}
+            fin={info.state > progressNum ? true : false}
+            planed={info.planed[0]}
             //setFin={setFin}
           />
         )}
@@ -130,10 +128,10 @@ const Progress = ({info,setData}: Props) => {
             textFour={'충전기 시운전(자체 테스트)'}
             btnText={'설치 완료하기'}
             setBadgeState={setBadgeState}
-            setData ={setData}
-            fin={info.state > progressNum? true : false }
-            planed = {info.planed[1]}
-           // setFin={setFin}
+            setData={setData}
+            fin={info.state > progressNum ? true : false}
+            planed={info.planed[1]}
+            // setFin={setFin}
           />
         )}
         {progressNum === 3 && (
@@ -144,10 +142,10 @@ const Progress = ({info,setData}: Props) => {
             textFour={'한전 계량기 봉인'}
             btnText={'검수 완료하기'}
             setBadgeState={setBadgeState}
-            setData ={setData}
-            fin={info.state > progressNum? true : false }
-            planed = {info.planed[2]}
-           // setFin={setFin}
+            setData={setData}
+            fin={info.state > progressNum ? true : false}
+            planed={info.planed[2]}
+            // setFin={setFin}
           />
         )}
         {/* {progressNum === 4 && (
@@ -172,10 +170,10 @@ const Progress = ({info,setData}: Props) => {
             beforeFinish={info.state === progressNum? true : false}
             btnText={'프로젝트 완료하기'}
             setBadgeState={setBadgeState}
-            setData ={setData}
-            fin={ info.state > progressNum? true : false }
-            planed = {info.planed[3]}
-           // setFin={setFin}
+            setData={setData}
+            fin={info.state > progressNum ? true : false}
+            planed={info.planed[3]}
+            // setFin={setFin}
           />
         )}
       </Wrapper>

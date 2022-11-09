@@ -37,43 +37,42 @@ const CenterBox = ({ spotData, data }: Props) => {
         </DownArrowBox>
 
         {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
-        {spotData?.data?.spotInspection?.isConfirmed === false &&
-          spotData?.data?.spotInspection?.isNewPropose === false &&
-          spotData?.data?.spotInspection !== null && (
-            <ReservationDate>
-              <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
-              <div className="btnBox">
-                <div
-                  className="btn right"
-                  onClick={() =>
-                    router.push({
-                      pathname: '/company/datePick',
-                      query: {
-                        preQuotation:
-                          spotData.data.spotInspection.preQuotationIdx,
-                      },
-                    })
-                  }
-                >
-                  달력으로 확인하기
-                </div>
-                <div className="btn left" onClick={() => setModalOpen(true)}>
-                  사진으로 대체하기
-                </div>
-              </div>
-            </ReservationDate>
-          )}
-        {/* ------------ 일정변경 요청 -------------- */}
-        {spotData?.data?.spotInspection?.isNewPropose === true && (
-          <ReservationDateCheck>
-            <div className="text">일정 변경 요청이 들어왔습니다.</div>
+        {data.sendQuotationRequest.badge === '현장실사 조율 중' && (
+          <ReservationDate>
+            <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
             <div className="btnBox">
-              <div className="checkBtn" onClick={() => setCheckFlow(true)}>
-                확인하기
+              <div
+                className="btn right"
+                onClick={() =>
+                  router.push({
+                    pathname: '/company/datePick',
+                    query: {
+                      preQuotation:
+                        spotData.data.spotInspection.preQuotationIdx,
+                    },
+                  })
+                }
+              >
+                달력으로 확인하기
+              </div>
+              <div className="btn left" onClick={() => setModalOpen(true)}>
+                사진으로 대체하기
               </div>
             </div>
-          </ReservationDateCheck>
+          </ReservationDate>
         )}
+        {/* ------------ 일정변경 요청 -------------- */}
+        {data.sendQuotationRequest.badge === '현장실사 조율 중' &&
+          spotData?.data?.spotInspection?.isNewPropose === true && (
+            <ReservationDateCheck>
+              <div className="text">일정 변경 요청이 들어왔습니다.</div>
+              <div className="btnBox">
+                <div className="checkBtn" onClick={() => setCheckFlow(true)}>
+                  확인하기
+                </div>
+              </div>
+            </ReservationDateCheck>
+          )}
         {/* ----------- 현장실사 일정 확정 -------------- */}
         {spotData?.data?.spotInspection?.isConfirmed === true &&
           data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
@@ -109,9 +108,13 @@ const CenterBox = ({ spotData, data }: Props) => {
             </>
           )}
         {/* 최종견적 작성 후 */}
-        {data?.sendQuotationRequest?.badge === '낙찰대기 중' && (
-          <SecondTitle>최종 견적서</SecondTitle>
-        )}
+        {data?.sendQuotationRequest?.badge === '낙찰대기 중' ||
+          data?.sendQuotationRequest?.badge === '최종대기 중' ||
+          data?.sendQuotationRequest?.badge === '견적취소' ||
+          data?.sendQuotationRequest?.badge === '낙찰성공' ||
+          data?.sendQuotationRequest?.badge === '낙찰실패' || (
+            <SecondTitle>최종 견적서</SecondTitle>
+          )}
       </Wrapper>
     </>
   );

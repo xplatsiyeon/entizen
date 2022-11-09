@@ -4,9 +4,9 @@ import React from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import NoHistory from './Nohistory';
 import { useRouter } from 'next/router';
 import { handleColor } from 'utils/changeValue';
+import NoProject from './NoProject';
 
 type Props = {
   tabNumber: number;
@@ -18,7 +18,8 @@ interface Data {
   storeName: string;
   date: string;
 }
-
+// 데이터 없을 때 나오는 페이지
+// const tempProceeding: [] = [];
 const tempProceeding: Data[] = [
   {
     id: 0,
@@ -67,7 +68,7 @@ const tempProceeding: Data[] = [
 const ProjectInProgress = ({ tabNumber }: Props) => {
   const router = useRouter();
   if (tempProceeding.length === 0) {
-    return <NoHistory />;
+    return <NoProject />;
   }
   return (
     <>
@@ -77,7 +78,9 @@ const ProjectInProgress = ({ tabNumber }: Props) => {
             <div key={index}>
               <Contents
                 key={el.id}
-                onClick={() => router.push(`/company/mypage/runningProgress/${index}`)} //여기서 배지에 따라 분리해서 보내야함.
+                onClick={() =>
+                  router.push(`/company/mypage/runningProgress/${index}`)
+                } //여기서 배지에 따라 분리해서 보내야함.
               >
                 <DdayNAddress>
                   <DdayBox>
@@ -107,6 +110,12 @@ const ContentsContainer = styled.div`
   margin-top: 21pt;
   padding-left: 15pt;
   padding-right: 15pt;
+  @media (min-width: 899pt) {
+    display: grid;
+    grid-template-columns: repeat(3, 178.5pt);
+    grid-column-gap: 22.5pt;
+    margin: 0 auto;
+  }
 `;
 
 const Contents = styled.div`
@@ -117,6 +126,9 @@ const Contents = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
+  @media (min-width: 899pt) {
+    height: 80pt;
+  }
 `;
 
 const DdayBox = styled.div`
@@ -143,6 +155,9 @@ const IconBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (min-width: 899pt) {
+    display: none;
+  }
 `;
 
 const ArrowIconBox = styled.div`

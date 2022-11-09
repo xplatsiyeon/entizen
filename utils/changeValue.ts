@@ -20,6 +20,12 @@ export const HandleColor = (badge: string | undefined): string => {
 };
 
 // 구매자 뱃지 변환
+
+/**
+ * 구매자 뱃지 변환
+ * @param badge 뱃지 데이터
+ * @returns "" | 뱃지 컬러
+ */
 export const HandleUserColor = (badge: string | undefined): string => {
   if (badge) {
     if (badge.includes('마감')) return '#F75015';
