@@ -142,7 +142,7 @@ const Mypage1_3 = ({}: any) => {
   const backPage = () => router.back();
   const handleOnClick = () => setModalOpen(!modalOpen);
 
-  if (isError) {
+  if (isError || spotIsError) {
     return (
       <Modal
         text="다시 시도해주세요"
@@ -152,7 +152,7 @@ const Mypage1_3 = ({}: any) => {
       />
     );
   }
-  if (isLoading) {
+  if (isLoading || spotLoading) {
     return <Loader />;
   }
   console.log('⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
@@ -228,7 +228,7 @@ const Mypage1_3 = ({}: any) => {
                 </>
               ) : (
                 <>
-                  {spotData && switchNotice()}
+                  {switchNotice()}
                   <BiddingQuote
                     data={quotationData!}
                     isSpot={spotData?.data?.spotInspection ? true : false}
