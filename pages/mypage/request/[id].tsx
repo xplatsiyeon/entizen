@@ -107,7 +107,8 @@ const Mypage1_3 = ({}: any) => {
         `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
       ),
     {
-      enabled: data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx,
+      enabled:
+        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
       // enabled: false,
     },
   );
@@ -183,11 +184,13 @@ const Mypage1_3 = ({}: any) => {
               />
               {/* 견적 상세 내용*/}
               <EstimateContainer data={data!} />
-              {/* 구독 상품 */}
-              <SubscriptionProduct data={data?.preQuotations!} />
-              {/* 가견적 내용 */}
-              {data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx && (
+
+              {/* 현장실사 해당 기업 상세 페이지 */}
+              {data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx ? (
                 <BiddingQuote data={quotationData!} />
+              ) : (
+                // 구독 상품 리스트 (가견적 작성 회사)
+                <SubscriptionProduct data={data?.preQuotations!} />
               )}
               <TextBox>
                 <div>선택하기 어려우신가요?</div>
