@@ -135,7 +135,7 @@ const HeadOpenContent = () => {
   // step별 컴포넌트
   const components: Components = {
     // 기본
-    1: (
+    0: (
       <FirstStep
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
@@ -150,7 +150,7 @@ const HeadOpenContent = () => {
       />
     ),
     // 스텝 2
-    0: (
+    1: (
       <SecondStep
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
