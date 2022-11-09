@@ -122,7 +122,6 @@ const Mypage1_3 = ({}: any) => {
     data: spotData,
     isLoading: spotLoading,
     isError: spotIsError,
-    refetch: spotRefetch,
     error: spotError,
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
@@ -131,8 +130,8 @@ const Mypage1_3 = ({}: any) => {
         `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}/spot-inspection`,
       ),
     {
-      enabled: false,
-      // data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
+      enabled:
+        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
     },
   );
   // 모달 on / off
@@ -162,11 +161,6 @@ const Mypage1_3 = ({}: any) => {
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
 
-  useEffect(() => {
-    if (data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx) {
-      spotRefetch();
-    }
-  }, [data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx]);
   return (
     <>
       {/* 모달 */}
