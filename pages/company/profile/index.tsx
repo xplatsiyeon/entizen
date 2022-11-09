@@ -9,8 +9,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import WebSearchAddress from 'componentsWeb/WebSearchAddress';
-import { SlowFast } from 'pages/chargerMap';
+import { InputAdornment, TextField, Typography } from '@mui/material';
 
 
 const ProfileEditing = () => {
@@ -21,14 +20,8 @@ const ProfileEditing = () => {
   const [avatar, setAvatar] = useState<string>('');
   const [data, setData] = useState<any>();
   const [isPassword, setIsPassword] = useState(false);
+  const [companyAddress, setCompanyAddress] = useState<string>('');
   const [checkSns, setCheckSns] = useState<boolean>(false);
-
-  const [slowCharger, setSlowCharger] = useState<SlowFast[]>([]);
-  const [fastCharger, setFastCharger] = useState<SlowFast[]>([]);
-  const [selectedCharger, setSelectedCharger] = useState<number>(0);
-  const [chargeInfoOpen, setChargeInfoOpen] = useState(false);
-  const [type, setType] = useState<boolean>(false);
-
 
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,6 +133,11 @@ const ProfileEditing = () => {
   useEffect(() => {
     getUserInfo();
   }, []); */
+
+
+  const [postNumber, setPostNumber] = useState<string>('');
+  const [addressOn, setAddressOn] = useState<boolean>(false);
+  const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
  
   return (
         <>
@@ -176,24 +174,41 @@ const ProfileEditing = () => {
 
             <Address>
                 <p>기업명</p>
-              <WebSearchAddress 
-                setType={setType}
-                chargeInfoOpen={chargeInfoOpen}
-                setChargeInfoOpen={setChargeInfoOpen}
-                selectedCharger={selectedCharger}
-                setSelectedCharger={setSelectedCharger}
-                slowCharger={slowCharger}
-                fastCharger={fastCharger}/>
+              
+                <Input
+                placeholder="회사 우편번호 입력"
+                value={postNumber}
+                name="id"
+                InputProps={{
+                    readOnly: true,
+                    endAdornment: (
+                    <InputAdornment position="end">
+                        <OverlapBtn
+                        className="overlap"
+                        onClick={() => setAddressOn(true)}
+                        >
+                        <Typography className="checkOverlap">주소찾기</Typography>
+                        </OverlapBtn>
+                    </InputAdornment>
+                    ),
+                }}
+                />
+                <Input
+                placeholder="회사 주소 입력"
+                value={companyAddress}
+                name="checkPw"
+                InputProps={{
+                    readOnly: true,
+                }}
+                />
+                <Input
+                placeholder="회사 상세주소 입력"
+                value={companyDetailAddress}
+                onChange={(e) => setCompanyDetailAddress(e.target.value)}
+                name="checkPw"
+                />
             </Address>
 
-          {/*  <ChangeBox>
-                <P></P>
-                <IconWrap><Image /></IconWrap>
-            </ChangeBox> 
-            <ChangeBox>
-                <P></P>
-                <IconWrap><Image /></IconWrap>
-            </ChangeBox> */}
 
             </Body>
           </Wrapper>
@@ -256,30 +271,53 @@ const InputBox = styled.input`
     color: ${colors.lightGray3};
   }
 `;
-const Form = styled.div`
-  margin-top: 30pt;
-  border-bottom: 0.75pt solid ${colors.gray};
-  padding-bottom: 18pt;
-  cursor: pointer;
-`;
-const TitleSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-`;
-const Text = styled.p`
-  font-weight: 400;
-  font-size: 9pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  padding-top: 9pt;
-  color: ${colors.gray2};
-`;
-const Buttons = styled.button`
-  display: none;
-`;
 
 const Address = styled.div`
     
 `
+
+const Input = styled(TextField)`
+  border: 0.75pt solid ${colors.gray};
+  border-radius: 6pt;
+  margin-top: 9pt;
+  & input {
+    padding: 10.875pt 0 10.875pt 12pt;
+    font-size: 12pt;
+    line-height: 12pt;
+  }
+
+  & .MuiInputBase-root {
+    padding-right: 9pt;
+  }
+
+  ::placeholder {
+    color: ${colors.gray};
+    font-weight: 500;
+  }
+  & .remove {
+    display: none;
+  }
+  :focus > .remove {
+    display: block;
+  }
+`;
+
+const OverlapBtn = styled.button`
+  & .checkOverlap {
+    padding: 4.5pt 9pt;
+  }
+  margin-right: 0;
+  background: #e2e5ed;
+  color: #ffffff;
+  border-radius: 6pt;
+  font-size: 10.5pt;
+  font-weight: 500;
+  line-height: 12pt;
+  cursor: pointer;
+  &.changeColor {
+    background-color: ${colors.main};
+  }
+  :hover {
+    background-color: ${colors.main};
+  }
+`;
