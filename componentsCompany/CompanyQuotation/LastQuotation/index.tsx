@@ -290,12 +290,13 @@ const LastWrite = (props: Props) => {
       setSubscribeProductFeature(preQuotation.subscribeProductFeature);
       let count = 0;
       const arr = [];
+      const arrEn = [];
       while (count < quotationRequest.quotationRequestChargers.length) {
-        console.log('몇번 돌까');
         const quotationCharger =
           quotationRequest.quotationRequestChargers[count];
         const preQutationCharger = preQuotation.preQuotationCharger[count];
-        const temp = {
+        // 한국어값 담기
+        const temp: chargers = {
           kind: convertKo(M5_LIST, M5_LIST_EN, quotationCharger.kind),
           standType: convertKo(M6_LIST, M6_LIST_EN, quotationCharger.standType),
           channel: convertKo(M7_LIST, M7_LIST_EN, quotationCharger.channel),
@@ -313,14 +314,30 @@ const LastWrite = (props: Props) => {
           chargerImageFiles: preQutationCharger.chargerImageFiles,
           catalogFiles: preQutationCharger.catalogFiles,
         };
+        // 영어값 담기
+        const tempEn: chargers = {
+          kind: quotationCharger.kind,
+          standType: quotationCharger.standType,
+          channel: quotationCharger.channel,
+          count: quotationCharger.count.toString(),
+          chargePriceType: preQutationCharger.chargePriceType,
+          chargePrice: preQutationCharger.chargePrice,
+          installationLocation: '',
+          modelName: preQutationCharger.modelName,
+          manufacturer: preQutationCharger.manufacturer,
+          productFeature: preQutationCharger.productFeature,
+          chargerImageFiles: preQutationCharger.chargerImageFiles,
+          catalogFiles: preQutationCharger.catalogFiles,
+        };
         console.log(temp);
         arr.push(temp);
+        arrEn.push(tempEn);
         count++;
       }
       console.log('🔥 ~ line 322 arr 데이터 확인');
       console.log(arr);
-      // setSelectedOption([...arr]);
-      // setSelectedOptionEn(arr);
+      setSelectedOption(arr);
+      setSelectedOptionEn(arrEn);
     }
   }, []);
 

@@ -14,6 +14,7 @@ import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import FinalBottomBox from './FinalBottomBox';
 import Modal from 'components/Modal/Modal';
+import { chargerData } from 'storeCompany/finalQuotation';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -27,9 +28,12 @@ export interface ChargerFiles {
 export interface PreQuotationCharger {
   createdAt: string;
   preQuotationChargerIdx: number;
-  chargePriceType: string;
+  chargePriceType:
+    | ''
+    | 'PURCHASER_AUTONOMY'
+    | 'OPERATION_BUSINESS_CARRIER_INPUT';
   chargePrice: number;
-  modelName: string;
+  modelName: chargerData;
   manufacturer: string;
   productFeature: string;
   preQuotationIdx: number;
