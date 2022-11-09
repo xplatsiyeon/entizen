@@ -141,7 +141,7 @@ export interface QuotationRequest {
   investRate: string;
   subscribePeriod: number;
   installationAddress: string;
-  installationLocation: string;
+  installationLocation: '' | 'OUTSIDE' | 'INSIDE';
   installationPurpose: string;
   expiredAt: string;
   etcRequest: string;

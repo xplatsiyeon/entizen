@@ -281,7 +281,7 @@ const LastWrite = (props: Props) => {
       );
       setSubscribePeriod(quotationRequest.subscribePeriod.toString());
       setProfitableInterestUser(
-        (Number(quotationRequest.investRate) * 100).toString(),
+        Math.floor(Number(quotationRequest.investRate) * 100).toString(),
       );
       setChargePoint(''); // 넣을 값이 없음
       setSubscribePricePerMonth(preQuotation.subscribePricePerMonth.toString());
@@ -307,7 +307,7 @@ const LastWrite = (props: Props) => {
           ),
           chargePriceType: preQutationCharger.chargePriceType,
           chargePrice: preQutationCharger.chargePrice,
-          installationLocation: '',
+          installationLocation: quotationRequest.installationLocation,
           modelName: preQutationCharger.modelName,
           manufacturer: preQutationCharger.manufacturer,
           productFeature: preQutationCharger.productFeature,
@@ -322,20 +322,17 @@ const LastWrite = (props: Props) => {
           count: quotationCharger.count.toString(),
           chargePriceType: preQutationCharger.chargePriceType,
           chargePrice: preQutationCharger.chargePrice,
-          installationLocation: '',
+          installationLocation: quotationRequest.installationLocation,
           modelName: preQutationCharger.modelName,
           manufacturer: preQutationCharger.manufacturer,
           productFeature: preQutationCharger.productFeature,
           chargerImageFiles: preQutationCharger.chargerImageFiles,
           catalogFiles: preQutationCharger.catalogFiles,
         };
-        console.log(temp);
         arr.push(temp);
         arrEn.push(tempEn);
         count++;
       }
-      console.log('🔥 ~ line 322 arr 데이터 확인');
-      console.log(arr);
       setSelectedOption(arr);
       setSelectedOptionEn(arrEn);
     }
