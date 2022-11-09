@@ -20,36 +20,46 @@ const EditCertificate =()=>{
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const [businessRegistration, setBusinessRegistration] = useState<
-    BusinessRegistrationType[]
-  >([]);
-  
-  const [fileModal, setFileModal] = useState<boolean>(false);
-  const [imgPreview, setImgPreview] = useState<boolean>(false);
-  const [filePreview, setFilePreview] = useState<boolean>(false);
+  // 이미지
+  const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
+  // 파일
+  const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isModal, setIsModal] = useState(false);
 
-
-
-  // image s3 multer 저장 API (with useMutation)
-  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerFile, isLoading: multerFileLoading } = useMutation<
     MulterResponse,
     AxiosError,
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      console.log(' 👀 ~ line 77 multer onSuccess');
-      const newArr = [...businessRegistration];
+      console.log(' 👀 multer onSuccess');
+      console.log(res);
+      const imgs:BusinessRegistrationType[] = [...imgArr];
+      const files:BusinessRegistrationType[] =[...fileArr]; 
       res?.uploadedFiles.forEach((img) => {
-        newArr.push({
-          url: img.url,
-          size: img.size,
-          originalName: decodeURIComponent(img.originalName),
-        });
+        const name = img.originalName.split('.')[1].toUpperCase();
+        if(name.toUpperCase() === 'PNG' ||name === 'JPG'||name === 'GIF'){
+            imgs.push({
+                url: img.url,
+                size: img.size,
+                originalName: decodeURIComponent(img.originalName),
+              });
+        }else{
+            files.push(
+                {
+                    url: img.url,
+                    size: img.size,
+                    originalName: decodeURIComponent(img.originalName),
+                  }
+            )
+        }
       });
-      setBusinessRegistration(newArr);
+        setFileArr(files);
+        setImgArr(imgs);
+      console.log('files', fileArr )
     },
     onError: (error: any) => {
       if (error.response.data.message) {
@@ -66,22 +76,14 @@ const EditCertificate =()=>{
   });
 
 
-  // 파일 클릭
-  const onClickFile = () => {
+  //파일 온클릭
+  const handleFileClick = () => {
     fileRef?.current?.click();
-    setFileModal(false);
-    setFilePreview(true);
   };
-  // 이미지 클릭
-  const onClickPhoto = () => {
-    imgRef?.current?.click();
-    setFileModal(false);
-    setImgPreview(true);
-  };
-
-  // 사진 || 파일 저장
-  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // 파일 저장
+  const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
+    console.log('files', files![0])
     const maxLength = 3;
     // max길이 보다 짧으면 멈춤
     const formData = new FormData();
@@ -90,46 +92,39 @@ const EditCertificate =()=>{
         break;
       }
       formData.append(
-        'businessRegistration',
+        'chargerProduct',
         files![i],
         encodeURIComponent(files![i].name),
       );
     }
-    multerImage(formData);
+    multerFile(formData);
+
 
     /* 파일 올린 후 혹은 삭제 후, 똑같은 파일 올릴 수 있도록,*/
     e.target.value ='';
   };
 
-  // 사진 || 파일 삭제
-  const deleteFileImage = (e: React.MouseEvent<HTMLDivElement>) => {
+  // 파일 삭제
+  const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [...businessRegistration];
+    const copyArr = [...fileArr];
     for (let i = 0; i < copyArr.length; i++) {
       if (i === name) {
         copyArr.splice(i, 1);
-        return setBusinessRegistration(copyArr);
+        return setFileArr(copyArr);
       }
     }
-  };  // 이미지 or 파일 클릭
-  const handleOnClick = () => {
-    if (!imgPreview && !filePreview) {
-      console.log('처음 클릭');
-      setFileModal(true);
-    }
-    if (imgPreview) {
-      console.log('이미지');
-      onClickPhoto();
-    }
-    if (filePreview) {
-      console.log('파일');
-      onClickFile();
+  };
+  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...imgArr];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setImgArr(copyArr);
+      }
     }
   };
-  const closeButton = () => {
-    setFileModal(false);
-  };
-
 
   // 모달 클릭
   const onClickModal = () => {
@@ -142,68 +137,32 @@ const EditCertificate =()=>{
     {isModal && <Modal click={onClickModal} text={errorMessage} />}
      <Header back={true} title="사업자 등록증 수정" />
 
-     <RemainderInputBox>
-        <PhotosBox>
-          <Form>
-            <label>사업자 등록증</label>
-            <div>
-              <File onClick={handleOnClick}>
-                <Image src={AddImg} alt="img" />
-                <div>이미지 또는 파일 업로드</div>
-              </File>
-            </div>
-          </Form>
-          {/* 이미지 input */}
-          <input
-            style={{ display: 'none' }}
-            ref={imgRef}
-            className="imageClick"
-            type="file"
-            accept="image/*"
-            onChange={saveFileImage}
-            multiple
-          />
-          {/* 파일 input */}
-          <input
-            style={{ display: 'none' }}
-            ref={fileRef}
-            className="imageClick"
-            type="file"
-            accept="xlsx"
-            onChange={saveFileImage}
-            multiple
-          />
-          {/* <Img_Preview> */}
-          <div className="img-preview">
-            {imgPreview &&
-              businessRegistration?.map((item, index) => (
-                <ImgSpan key={index} data-name={index}>
-                  <Image
-                    layout="fill"
-                    alt="preview"
-                    data-name={index}
-                    key={index}
-                    src={item.url}
-                    priority={true}
-                    unoptimized={true}
-                  />
-                  <Xbox onClick={deleteFileImage} data-name={index}>
-                    <Image
-                      src={CloseImg}
-                      data-name={index}
-                      layout="intrinsic"
-                      alt="closeBtn"
-                      width={24}
-                      height={24}
-                    />
-                  </Xbox>
-                </ImgSpan>
-              ))}
-          </div>
-          {/* <File_Preview> */}
-          <div className="file-preview">
-            {filePreview &&
-              businessRegistration?.map((item, index) => (
+     <RemainderInputBoxs>
+          <PhotosBoxs>
+            <Form>
+              <label>충전기 카탈로그</label>
+              <div>
+                <File onClick={handleFileClick}>
+                  <Image src={AddImg} alt="img" />
+                  <div>파일 업로드</div>
+                </File>
+              </div>
+            </Form>
+            {/* 파일 input */}
+            <input
+              style={{ display: 'none' }}
+              ref={fileRef}
+              className="imageClick"
+              type="file"
+              accept="xlsx"
+              onChange={saveFile}
+              multiple
+            />
+
+            {/* <File_Preview> */}
+            <div className="file-preview">
+              {fileArr?.map((item, index) => {
+                return(
                 <FileBox key={index} data-name={index}>
                   <div className="file">
                     <div className="file-img">
@@ -215,19 +174,45 @@ const EditCertificate =()=>{
                         item.size,
                       )}`}</span>
                     </div>
-                  </div>
-                  <div
-                    className="file-exit"
-                    onClick={deleteFileImage}
-                    data-name={index}
-                  >
-                    <Image src={CloseImg} data-name={index} alt="closeBtn" />
+                    <div
+                      className="file-exit"
+                      onClick={handleFileDelete}
+                      data-name={index}
+                    >
+                      <Image src={CloseImg} data-name={index} alt="closeBtn" />
+                    </div>
                   </div>
                 </FileBox>
-              ))}
-          </div>
-        </PhotosBox>
-      </RemainderInputBox>
+                )})}
+            </div>
+
+            <div className="img-preview">
+            {imgArr?.map((img, index) => (
+              <ImgSpan key={index} data-name={index}>
+                <Image
+                  layout="fill"
+                  alt="preview"
+                  data-name={index}
+                  key={index}
+                  src={img.url}
+                  priority={true}
+                  unoptimized={true}
+                />
+                <Xbox onClick={handlePhotoDelete} data-name={index}>
+                  <Image
+                    src={CloseImg}
+                    data-name={index}
+                    layout="intrinsic"
+                    alt="closeBtn"
+                    width={24}
+                    height={24}
+                  />
+                </Xbox>
+              </ImgSpan>
+            ))}
+            </div>
+          </PhotosBoxs>
+        </RemainderInputBoxs>
     </>
     )
 }
@@ -235,7 +220,7 @@ const EditCertificate =()=>{
 export default EditCertificate;
 
 
-const RemainderInputBox = styled.div`
+const RemainderInputBoxs = styled.div`
   flex-direction: column;
   position: relative;
   width: 100%;
@@ -252,7 +237,7 @@ const RemainderInputBox = styled.div`
   }
 `;
 
-const PhotosBox = styled.div`
+const PhotosBoxs = styled.div`
   /* width: 100%; */
   height: 56.0625pt;
   margin-top: 9pt;
