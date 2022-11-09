@@ -182,10 +182,6 @@ const Mypage1_3 = ({}: any) => {
     }
   };
 
-  useEffect(() => {
-    switchNotice();
-  }, [spotData, switchNotice]);
-
   return (
     <>
       {/* 모달 */}
@@ -232,7 +228,7 @@ const Mypage1_3 = ({}: any) => {
                 </>
               ) : (
                 <>
-                  {switchNotice()}
+                  {spotData && switchNotice()}
                   <BiddingQuote
                     data={quotationData!}
                     isSpot={spotData?.data?.spotInspection ? true : false}
