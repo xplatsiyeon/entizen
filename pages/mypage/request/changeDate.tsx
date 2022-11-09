@@ -47,19 +47,21 @@ const Mypage2_3 = () => {
     onError: (error: any) => {
       setIsModal(true);
       setModalMessage('다시 시도해주세요');
-      router.push('/');
     },
   });
 
-  const onClickModal = () => {};
+  const onClickModal = () => {
+    router.push('/');
+  };
 
   // 수락하기 버튼
   const acceptModal = () => {
     mutate({
       url: `/quotations/pre/${spotId}/spot-inspection`,
       data: {
-        spotInspectionDates:
+        spotInspectionDates: [
           spotData?.data?.spotInspection?.spotInspectionDate[tabNumber],
+        ],
         isReplacedPicture: false,
         isNewPropose: true,
         isConfirmed: false,
