@@ -10,6 +10,8 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { InputAdornment, TextField, Typography } from '@mui/material';
+import CompanyAddress from 'components/SignUp/CompanyAddress';
+
 
 
 const ProfileEditing = () => {
@@ -138,6 +140,16 @@ const ProfileEditing = () => {
   const [postNumber, setPostNumber] = useState<string>('');
   const [addressOn, setAddressOn] = useState<boolean>(false);
   const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
+
+  if (addressOn) {
+    return (
+      <CompanyAddress
+        setPostNumber={setPostNumber}
+        setCompanyAddress={setCompanyAddress}
+        setAddressOn={setAddressOn}
+      />
+    );
+  }
  
   return (
         <>

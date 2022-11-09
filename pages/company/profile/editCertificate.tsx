@@ -14,6 +14,7 @@ import { BusinessRegistrationType } from 'components/SignUp';
 import { useRef, useState } from 'react';
 import { getByteSize } from 'utils/calculatePackage';
 import Modal from 'components/Modal/Modal';
+import FileSelectModal from 'components/Modal/FileSelectModal';
 
 const EditCertificate =()=>{
 
@@ -140,8 +141,15 @@ const EditCertificate =()=>{
     <>
 
     {isModal && <Modal click={onClickModal} text={errorMessage} />}
+    {fileModal && (
+        <FileSelectModal
+          onClickFile={onClickFile}
+          onClickPhoto={onClickPhoto}
+          cencleBtn={closeButton}
+        />
+      )}
+      
      <Header back={true} title="사업자 등록증 수정" />
-
      <RemainderInputBox>
         <PhotosBox>
           <Form>
