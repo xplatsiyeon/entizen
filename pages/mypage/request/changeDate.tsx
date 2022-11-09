@@ -75,17 +75,19 @@ const Mypage2_3 = () => {
             </H1>
             <Notice>변경하실 날짜를 선택해주세요.</Notice>
             <List>
-              {selectedDate.map((date, index) => (
-                <Item
-                  check={tabNumber.toString()}
-                  idx={index.toString()}
-                  key={index}
-                  onClick={() => setTabNumber(index)}
-                >
-                  <div className="date">{date}</div>
-                  <div className="day">{getDayOfWeek(date)}요일</div>
-                </Item>
-              ))}
+              {spotData?.data?.spotInspection?.spotInspectionDate?.map(
+                (date, index) => (
+                  <Item
+                    check={tabNumber.toString()}
+                    idx={index.toString()}
+                    key={index}
+                    onClick={() => setTabNumber(index)}
+                  >
+                    <div className="date">{date}</div>
+                    <div className="day">{getDayOfWeek(date)}요일</div>
+                  </Item>
+                ),
+              )}
             </List>
             <Btn tabNumber={tabNumber}>
               <button className="left" onClick={HandleDateChange}>
