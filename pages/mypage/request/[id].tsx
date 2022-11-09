@@ -122,6 +122,7 @@ const Mypage1_3 = ({}: any) => {
     data: spotData,
     isLoading: spotLoading,
     isError: spotIsError,
+    refetch: spotRefetch,
     error: spotError,
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
@@ -158,30 +159,14 @@ const Mypage1_3 = ({}: any) => {
   console.log('⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
   console.log(data);
   console.log(spotData);
+
   const spotInspection = spotData?.data?.spotInspection!;
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
-  /**현장 실사에 따라 안내 컴포넌트 변경해주는 함수 */
-  const switchNotice = () => {
-    if (spotInspection !== null) {
-      if (spotInspection?.isConfirmed) {
-        return (
-          <ScheduleConfirm
-            date={spotInspection?.spotInspectionDate[0]}
-            spotId={data?.quotationRequest?.currentInProgressPreQuotationIdx!}
-          />
-        );
-      } else if (spotInspection?.isNewPropose) {
-        <ScheduleChange
-          spotId={data?.quotationRequest?.currentInProgressPreQuotationIdx!}
-        />;
-      } else {
-        <Checking
-          date={spotData?.data?.spotInspection?.spotInspectionDate[0]!}
-        />;
-      }
-    }
-  };
+
+  useEffect(() => {
+    spotRefetch();
+  }, []);
 
   return (
     <>

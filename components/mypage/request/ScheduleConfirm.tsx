@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import colors from 'styles/colors';
 
 interface Props {
@@ -9,8 +10,8 @@ interface Props {
 }
 
 const ScheduleConfirm = ({ date, spotId }: Props) => {
-  console.log(date);
   const route = useRouter();
+
   return (
     <Wrapper>
       <P>현장실사 일정이 확정되었습니다.</P>
