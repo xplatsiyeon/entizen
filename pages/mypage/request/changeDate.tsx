@@ -11,15 +11,19 @@ import React from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
 
 const Mypage2_3 = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { selectedDate } = useSelector((state: RootState) => state.requestList);
+  const spotId = router?.query?.spotId;
   const [tabNumber, setTabNumber] = useState<number>(-1);
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
@@ -28,17 +32,39 @@ const Mypage2_3 = () => {
     error: spotError,
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
-    () =>
-      isTokenGetApi(`/quotations/pre/${router?.query?.spotId}/spot-inspection`),
+    () => isTokenGetApi(`/quotations/pre/${spotId}/spot-inspection`),
     {
       enabled: router?.isReady,
     },
   );
 
+  // --------- 날짜 제안 api -----------
+  const { mutate, isLoading } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      setIsModal(true);
+      setModalMessage('변경된 날짜를 요청하였습니다.');
+    },
+    onError: (error: any) => {
+      setIsModal(true);
+      setModalMessage('다시 시도해주세요');
+      router.push('/');
+    },
+  });
+
+  const onClickModal = () => {};
+
   // 수락하기 버튼
   const acceptModal = () => {
-    dispatch(requestAction.addPick(selectedDate[tabNumber]));
-    router.push('/mypage/request/2-1');
+    mutate({
+      url: `/quotations/pre/${spotId}/spot-inspection`,
+      data: {
+        spotInspectionDates:
+          spotData?.data?.spotInspection?.spotInspectionDate[tabNumber],
+        isReplacedPicture: false,
+        isNewPropose: true,
+        isConfirmed: false,
+      },
+    });
   };
   // 다른 날짜 제안 버튼
   const HandleDateChange = () => router.push('/mypage/request/2-4');
@@ -49,7 +75,7 @@ const Mypage2_3 = () => {
     return dayOfWeek;
   }
 
-  if (spotLoading) {
+  if (spotLoading || isLoading) {
     return <Loader />;
   }
 
@@ -64,6 +90,7 @@ const Mypage2_3 = () => {
 
   return (
     <React.Fragment>
+      {isModal && <Modal click={onClickModal} text={modalMessage} />}
       <Body>
         <WebHeader />
         <Inner>
