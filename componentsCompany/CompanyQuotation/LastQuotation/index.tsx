@@ -46,8 +46,10 @@ export interface MutateData {
   subscribeProductFeature: string;
 }
 
-type Props = {};
-const LastWrite = (props: Props) => {
+type Props = {
+  data: SentRequestResponse;
+};
+const LastWrite = ({ data }: Props) => {
   const router = useRouter();
   const routerId = router.query.preQuotation;
   // step 숫자
@@ -112,14 +114,14 @@ const LastWrite = (props: Props) => {
     BusinessRegistrationType[]
   >([]);
 
-  // ----------- 보낸 견적 상세 페이지 api --------------
-  const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
-    'company/',
-    () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
-    {
-      enabled: router.isReady,
-    },
-  );
+  // // ----------- 보낸 견적 상세 페이지 api --------------
+  // const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
+  //   'company/',
+  //   () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
+  //   {
+  //     enabled: router.isReady,
+  //   },
+  // );
 
   const components: Components = {
     // 기본
@@ -259,14 +261,6 @@ const LastWrite = (props: Props) => {
     ),
   };
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (isError) {
-    console.log('🔥 ~line 249 ~에러 발생');
-    console.log(error);
-  }
   const preQuotation = data?.sendQuotationRequest?.preQuotation!;
   const quotationRequest = data?.sendQuotationRequest?.quotationRequest!;
   // 최종 견적 초기값 세팅
@@ -306,7 +300,7 @@ const LastWrite = (props: Props) => {
             quotationCharger.count.toString(),
           ),
           chargePriceType: preQutationCharger.chargePriceType,
-          chargePrice: preQutationCharger.chargePrice,
+          chargePrice: preQutationCharger.chargePrice.toString(),
           installationLocation: quotationRequest.installationLocation,
           modelName: preQutationCharger.modelName,
           manufacturer: preQutationCharger.manufacturer,
@@ -321,7 +315,7 @@ const LastWrite = (props: Props) => {
           channel: quotationCharger.channel,
           count: quotationCharger.count.toString(),
           chargePriceType: preQutationCharger.chargePriceType,
-          chargePrice: preQutationCharger.chargePrice,
+          chargePrice: preQutationCharger.chargePrice.toString(),
           installationLocation: quotationRequest.installationLocation,
           modelName: preQutationCharger.modelName,
           manufacturer: preQutationCharger.manufacturer,
