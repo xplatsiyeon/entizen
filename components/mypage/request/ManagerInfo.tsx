@@ -41,12 +41,11 @@ export default ManagerInfo;
 
 const Wrapper = styled.div`
   padding: 0;
-  /* @media (max-width: 899pt) {
-    padding: 0 15pt;
-  } */
+  @media (max-width: 899pt) {
+    padding-right: 15pt;
+  }
 `;
 const Subtitle = styled.h3`
-  padding-top: 18pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 12pt;

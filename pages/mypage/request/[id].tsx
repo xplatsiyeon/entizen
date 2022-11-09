@@ -195,7 +195,16 @@ const Mypage1_3 = ({}: any) => {
               {/* 현장실사 해당 기업 상세 페이지 */}
               {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx ? (
                 // 구독 상품 리스트 (가견적 작성 회사)
-                <SubscriptionProduct data={data?.preQuotations!} />
+                <>
+                  <SubscriptionProduct data={data?.preQuotations!} />
+                  <TextBox>
+                    <div>선택하기 어려우신가요?</div>
+                    <CommunicationBox
+                      text="엔티즌과 소통하기"
+                      clickHandler={() => router.push('/chatting/1')}
+                    />
+                  </TextBox>
+                </>
               ) : (
                 <>
                   {/* 현장실사 확정 */}
@@ -224,15 +233,12 @@ const Mypage1_3 = ({}: any) => {
                     data={quotationData!}
                     isSpot={spotData?.data?.spotInspection ? true : false}
                   />
+                  <CommunicationBox
+                    text="파트너와 소통하기"
+                    clickHandler={() => alert('개발중입니다.')}
+                  />
                 </>
               )}
-              <TextBox>
-                <div>선택하기 어려우신가요?</div>
-                <CommunicationBox
-                  text="엔티즌과 소통하기"
-                  clickHandler={() => router.push('/chatting/1')}
-                />
-              </TextBox>
             </Wrap2>
           </FlexBox>
         </Inner>
