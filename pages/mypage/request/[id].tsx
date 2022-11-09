@@ -162,10 +162,6 @@ const Mypage1_3 = ({}: any) => {
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
 
-  useEffect(() => {
-    spotRetch();
-  }, [quotationData]);
-
   return (
     <>
       {/* 모달 */}
