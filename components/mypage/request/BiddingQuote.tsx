@@ -213,7 +213,6 @@ const Wrapper = styled.div`
   padding-top: 60pt;
   @media (max-width: 899pt) {
     padding-top: 21pt;
-    padding-bottom: 50pt;
   }
 `;
 const Title = styled.h1`

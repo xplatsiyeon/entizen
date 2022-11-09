@@ -233,10 +233,12 @@ const Mypage1_3 = ({}: any) => {
                     data={quotationData!}
                     isSpot={spotData?.data?.spotInspection ? true : false}
                   />
-                  <CommunicationBox
-                    text="파트너와 소통하기"
-                    clickHandler={() => alert('개발중입니다.')}
-                  />
+                  <TextBox>
+                    <CommunicationBox
+                      text="파트너와 소통하기"
+                      clickHandler={() => alert('개발중입니다.')}
+                    />
+                  </TextBox>
                 </>
               )}
             </Wrap2>
@@ -306,6 +308,7 @@ const Wrap2 = styled.div`
 
   @media (max-width: 899pt) {
     padding-left: 0pt;
+    padding-bottom: 50pt;
   }
 `;
 
