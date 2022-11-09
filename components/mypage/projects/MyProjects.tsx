@@ -106,7 +106,7 @@ type Props = {
     flex-wrap: wrap;
     margin: 30pt 0 ;
     padding: 15pt;
-    gap: 15pt;
+    gap: 11pt;
   `
 
   const ProjectBox = styled.li`
