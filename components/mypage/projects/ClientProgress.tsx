@@ -292,7 +292,7 @@ return(
         <span>파트너와 소통하기</span>
     </Button>
     {info.state === 5 ? <FinButton onClick={()=>setModal(true)}><span>프로젝트 완료 동의하기</span></FinButton>:null}
-    {modal&& <ClientProjectModal setModal={setModal} type={'fin'}/>}
+    {modal&& <ClientProjectModal setModal={setModal} type={'fin'} date={info.planed[3]}/>}
     </Wrapper0>
 )
 }
