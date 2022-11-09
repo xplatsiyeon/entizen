@@ -3,7 +3,7 @@ import { InputAdornment, TextField } from '@mui/material';
 import Image from 'next/image';
 import search from 'public/images/search.png';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
@@ -16,6 +16,7 @@ const FinishedProjects = ({ tabNumber }: Props) => {
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
   const handleDownload = () => {};
+
   return (
     <Wrapper>
       <FilterBox>
@@ -54,6 +55,7 @@ const FinishedProjects = ({ tabNumber }: Props) => {
           ),
         }}
       />
+
       <List onClick={() => router.push('/company/mypage/successedProject')}>
         <ListTextBox>
           <ListTitle>타임스트림 쇼핑몰</ListTitle>
@@ -73,9 +75,18 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   padding-top: 20.25pt;
+  @media (min-width: 899pt) {
+    position: relative;
+    margin: 0 auto;
+  }
 `;
 
 const FilterBox = styled.div`
+  @media (min-width: 899pt) {
+    display: flex;
+    justify-content: flex-end;
+    padding: 36pt 0 15pt 0;
+  }
   display: flex;
   gap: 6pt;
   align-items: center;
@@ -102,6 +113,12 @@ const FilterText = styled.div`
 `;
 
 const Input = styled(TextField)`
+  @media (min-width: 899pt) {
+    position: absolute;
+    bottom: 82.6%;
+    width: 580.5pt;
+    margin-bottom: 36pt;
+  }
   width: 100%;
   border-radius: 6pt;
   border: 2.5pt solid ${colors.main};
@@ -139,6 +156,10 @@ const Input = styled(TextField)`
 `;
 
 const List = styled.div`
+  @media (min-width: 899pt) {
+    width: 580.5pt;
+    height: 76.5pt;
+  }
   padding: 12.75pt 13.5pt;
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
@@ -148,6 +169,7 @@ const List = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
 const ListTextBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -191,6 +213,12 @@ const Button = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
   margin-top: 45pt;
+  @media (min-width: 899pt) {
+    width: 251.25pt;
+    margin: 0 auto;
+    margin-top: 75pt;
+    margin-bottom: 90pt;
+  }
 `;
 
 export default FinishedProjects;

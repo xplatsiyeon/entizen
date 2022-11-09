@@ -7,8 +7,8 @@ import Logos from 'public/images/webLogo.png';
 import Chat from 'public/images/chat.png';
 import Bell from 'public/images/bell.png';
 import BellOutline from 'public/images/Bell_outline.png';
+import MyprojectLink from 'componentsWeb/MyprojectLink';
 import Frame from 'public/images/Frame.png';
-import GuideLink from 'components/GuideLink';
 import ProfileUp from 'public/images/profile-up.png';
 import ProfileDown from 'public/images/profile-down.png';
 import { Router, useRouter } from 'next/router';
@@ -17,9 +17,11 @@ import { handleLogoutOnClickModalClick } from 'api/logout';
 type Props = {
   num?: number;
   now?: string;
+  setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
+  tabNumber?: number;
 };
 
-const WebHeader = ({ num, now }: Props) => {
+const WebBuyerHeader = ({ setTabNumber, tabNumber }: Props) => {
   const [linklist, setLinklist] = useState<boolean>(false);
   const [type, setType] = useState<string>('');
   const [isHovering, setIsHovered] = useState(false);
@@ -56,25 +58,16 @@ const WebHeader = ({ num, now }: Props) => {
                   <Image src={Logos} alt="logo" layout="intrinsic" />
                 </Link>
               </LogoBox>
-              <DivBox onClick={handleLink}>간편견적</DivBox>
+              <DivBox>내견적</DivBox>
+              <DivBox>소통하기</DivBox>
+              <DivBox>A/S</DivBox>
               <DivBox
                 onClick={() => {
+                  setType('project');
                   setLinklist(!linklist);
-                  setType('guide');
                 }}
               >
-                가이드
-              </DivBox>
-              <DivBox onClick={() => alert('2차 작업 범위입니다')}>
-                소통하기
-              </DivBox>
-              <DivBox
-                onClick={() => {
-                  setLinklist(!linklist);
-                  setType('mypage');
-                }}
-              >
-                마이페이지
+                내 프로젝트
               </DivBox>
             </Box1>
             <Box2>
@@ -158,13 +151,15 @@ const WebHeader = ({ num, now }: Props) => {
             </Box2>
           </Inner>
         </MainLink>
-        {linklist ? <GuideLink type={type} num={num} now={now} /> : null}
+        {linklist ? (
+          <MyprojectLink setTabNumber={setTabNumber} tabNumber={tabNumber} />
+        ) : null}
       </Wrapper>
     </>
   );
 };
 
-export default WebHeader;
+export default WebBuyerHeader;
 
 const Wrapper = styled.div`
   position: relative;
