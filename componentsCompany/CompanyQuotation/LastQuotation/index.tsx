@@ -271,51 +271,56 @@ const LastWrite = (props: Props) => {
   const quotationRequest = data?.sendQuotationRequest?.quotationRequest!;
   // 최종 견적 초기값 세팅
   useEffect(() => {
-    setSubscribeProduct(
-      convertKo(
-        subscribeType,
-        subscribeTypeEn,
-        quotationRequest.subscribeProduct,
-      ),
-    );
-    setSubscribePeriod(quotationRequest.subscribePeriod.toString());
-    setProfitableInterestUser(
-      (Number(quotationRequest.investRate) * 100).toString(),
-    );
-    setChargePoint(''); // 넣을 값이 없음
-    setSubscribePricePerMonth(preQuotation.subscribePricePerMonth.toString());
-    setConstructionPeriod(preQuotation.constructionPeriod.toString());
-    setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
-    setSubscribeProductFeature(preQuotation.subscribeProductFeature);
-    let count = 0;
-    while (count < quotationRequest.quotationRequestChargers.length - 1) {
-      console.log('몇번 돌까');
-      const quotationCharger = quotationRequest.quotationRequestChargers[count];
-      const preQutationCharger = preQuotation.preQuotationCharger[count];
-      const temp = {
-        // step - 1
-        kind: convertKo(M5_LIST, M5_LIST_EN, quotationCharger.kind),
-        standType: convertKo(M6_LIST, M6_LIST_EN, quotationCharger.standType),
-        channel: convertKo(M7_LIST, M7_LIST_EN, quotationCharger.channel),
-        count: convertKo(
-          M8_LIST,
-          M8_LIST_EN,
-          quotationCharger.count.toString(),
+    if (data) {
+      setSubscribeProduct(
+        convertKo(
+          subscribeType,
+          subscribeTypeEn,
+          quotationRequest.subscribeProduct,
         ),
-        // step - 2
-        chargePriceType: preQutationCharger.chargePriceType,
-        chargePrice: preQutationCharger.chargePrice,
-        installationLocation: '',
-        modelName: preQutationCharger.modelName,
-        manufacturer: preQutationCharger.manufacturer,
-        productFeature: preQutationCharger.productFeature,
-        chargerImageFiles: preQutationCharger.chargerImageFiles,
-        catalogFiles: preQutationCharger.catalogFiles,
-      };
-      console.log(temp);
-      // setSelectedOption(temp);
-      // setSelectedOptionEn(temp);
-      count++;
+      );
+      setSubscribePeriod(quotationRequest.subscribePeriod.toString());
+      setProfitableInterestUser(
+        (Number(quotationRequest.investRate) * 100).toString(),
+      );
+      setChargePoint(''); // 넣을 값이 없음
+      setSubscribePricePerMonth(preQuotation.subscribePricePerMonth.toString());
+      setConstructionPeriod(preQuotation.constructionPeriod.toString());
+      setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
+      setSubscribeProductFeature(preQuotation.subscribeProductFeature);
+      let count = 0;
+      const arr = [];
+      while (count < quotationRequest.quotationRequestChargers.length) {
+        console.log('몇번 돌까');
+        const quotationCharger =
+          quotationRequest.quotationRequestChargers[count];
+        const preQutationCharger = preQuotation.preQuotationCharger[count];
+        const temp = {
+          kind: convertKo(M5_LIST, M5_LIST_EN, quotationCharger.kind),
+          standType: convertKo(M6_LIST, M6_LIST_EN, quotationCharger.standType),
+          channel: convertKo(M7_LIST, M7_LIST_EN, quotationCharger.channel),
+          count: convertKo(
+            M8_LIST,
+            M8_LIST_EN,
+            quotationCharger.count.toString(),
+          ),
+          chargePriceType: preQutationCharger.chargePriceType,
+          chargePrice: preQutationCharger.chargePrice,
+          installationLocation: '',
+          modelName: preQutationCharger.modelName,
+          manufacturer: preQutationCharger.manufacturer,
+          productFeature: preQutationCharger.productFeature,
+          chargerImageFiles: preQutationCharger.chargerImageFiles,
+          catalogFiles: preQutationCharger.catalogFiles,
+        };
+        console.log(temp);
+        arr.push(temp);
+        count++;
+      }
+      console.log('🔥 ~ line 322 arr 데이터 확인');
+      console.log(arr);
+      // setSelectedOption([...arr]);
+      // setSelectedOptionEn(arr);
     }
   }, []);
 
