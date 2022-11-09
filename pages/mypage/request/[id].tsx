@@ -18,6 +18,10 @@ import MypageDetail, { PreQuotationResponse } from './detail/[id]';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import { AxiosError } from 'axios';
 import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
+import ScheduleConfirm from 'components/mypage/request/ScheduleConfirm';
+import ScheduleChange from 'components/mypage/request/ScheduleChange';
+import Checking from 'components/mypage/request/Checking';
+import ManagerInfo from 'components/mypage/request/ManagerInfo';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -186,11 +190,37 @@ const Mypage1_3 = ({}: any) => {
               <EstimateContainer data={data!} />
 
               {/* 현장실사 해당 기업 상세 페이지 */}
-              {data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx ? (
-                <BiddingQuote data={quotationData!} />
-              ) : (
+              {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx ? (
                 // 구독 상품 리스트 (가견적 작성 회사)
                 <SubscriptionProduct data={data?.preQuotations!} />
+              ) : (
+                <>
+                  {/* 현장실사 확정 */}
+                  {spotData?.data?.spotInspection?.isConfirmed === true && (
+                    <ScheduleConfirm
+                      date={
+                        spotData?.data?.spotInspection?.spotInspectionDate[0]
+                      }
+                    />
+                  )}
+                  {/* 현장실사 일정 변경 요청 */}
+                  {spotData?.data?.spotInspection?.isNewPropose === true && (
+                    <ScheduleChange />
+                  )}
+                  {/* 현장실사 일정 확인 중 */}
+                  {spotData?.data?.spotInspection?.isConfirmed === false &&
+                    spotData?.data?.spotInspection?.isNewPropose === false &&
+                    spotData?.data?.spotInspection !== null && (
+                      <Checking
+                        date={
+                          spotData?.data?.spotInspection?.spotInspectionDate[0]
+                        }
+                      />
+                    )}
+                  <BiddingQuote data={quotationData!} />
+                  {/* 담당자 정보 */}
+                  <ManagerInfo />
+                </>
               )}
               <TextBox>
                 <div>선택하기 어려우신가요?</div>
