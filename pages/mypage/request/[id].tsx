@@ -158,10 +158,9 @@ const Mypage1_3 = ({}: any) => {
   console.log('⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
   console.log(data);
   console.log(spotData);
-
+  const spotInspection = spotData?.data?.spotInspection!;
   /**현장 실사에 따라 안내 컴포넌트 변경해주는 함수 */
   const switchNotice = () => {
-    const spotInspection = spotData?.data?.spotInspection!;
     if (spotInspection !== null) {
       if (spotInspection?.isConfirmed) {
         return (
@@ -228,7 +227,29 @@ const Mypage1_3 = ({}: any) => {
                 </>
               ) : (
                 <>
-                  {switchNotice()}
+                  {spotInspection !== null && spotInspection?.isConfirmed ? (
+                    <ScheduleConfirm
+                      date={spotInspection?.spotInspectionDate[0]}
+                      spotId={
+                        data?.quotationRequest
+                          ?.currentInProgressPreQuotationIdx!
+                      }
+                    />
+                  ) : spotInspection?.isNewPropose ? (
+                    <ScheduleChange
+                      spotId={
+                        data?.quotationRequest
+                          ?.currentInProgressPreQuotationIdx!
+                      }
+                    />
+                  ) : (
+                    <Checking
+                      date={
+                        spotData?.data?.spotInspection?.spotInspectionDate[0]!
+                      }
+                    />
+                  )}
+
                   <BiddingQuote
                     data={quotationData!}
                     isSpot={spotData?.data?.spotInspection ? true : false}
