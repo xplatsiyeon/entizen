@@ -133,10 +133,6 @@ const Mypage1_3 = ({}: any) => {
     {
       enabled:
         data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
-      // enabled: false,
-      onSuccess: () => {
-        spotRefetch();
-      },
     },
   );
   // 모달 on / off
