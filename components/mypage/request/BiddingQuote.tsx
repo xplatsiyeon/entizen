@@ -8,6 +8,7 @@ import React, { useCallback } from 'react';
 import { PreQuotationResponse } from 'pages/mypage/request/detail/[id]';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
+import ManagerInfo from './ManagerInfo';
 
 interface Props {
   pb?: number;
@@ -192,6 +193,14 @@ const BiddingQuote = ({ pb, data }: Props) => {
             </React.Fragment>
           ))}
         </FileContainer>
+      </Section>
+      <Section pb={pb}>
+        {/* 담당자 정보 */}
+        <ManagerInfo
+          name={data?.preQuotation?.member?.name!}
+          email={data?.companyMemberAdditionalInfo?.managerEmail!}
+          phone={data?.preQuotation?.member?.phone!}
+        />
       </Section>
     </Wrapper>
   );

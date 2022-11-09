@@ -32,7 +32,7 @@ const Mypage2_1 = () => {
       {/* 일정 변경 확인 중 */}
       {/* <Checking /> */}
       {/* 담당자 정보 */}
-      <ManagerInfo />
+      {/* <ManagerInfo /> */}
       <TextBox>
         <CommunicationBox
           text="파트너와 소통하기"

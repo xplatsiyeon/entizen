@@ -3,7 +3,13 @@ import CallManager from 'components/Modal/CallManager';
 import { useState } from 'react';
 import colors from 'styles/colors';
 
-const ManagerInfo = () => {
+type Prop = {
+  name: string;
+  phone: string;
+  email: string;
+};
+
+const ManagerInfo = ({ name, phone, email }: Prop) => {
   const [isModal, setIsModal] = useState(false);
   const HandleModal = () => setIsModal((prev) => !prev);
   return (
@@ -13,16 +19,16 @@ const ManagerInfo = () => {
       <List>
         <Item>
           <span className="name">담당자</span>
-          <span className="contents">김전기</span>
+          <span className="contents">{name}</span>
         </Item>
         <Item>
           <span className="name">이메일</span>
-          <span className="contents">Charge@Charge Point.com</span>
+          <span className="contents">{email}</span>
         </Item>
         <Item>
           <span className="name">전화번호</span>
           <span className="phone" onClick={HandleModal}>
-            010-1544-2080
+            {phone}
           </span>
         </Item>
       </List>

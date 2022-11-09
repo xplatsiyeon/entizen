@@ -125,9 +125,13 @@ const Mypage1_3 = ({}: any) => {
     error: spotError,
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
-    () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
+    () =>
+      isTokenGetApi(
+        `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}/spot-inspection`,
+      ),
     {
-      enabled: router.isReady,
+      enabled:
+        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
       // enabled: false,
     },
   );
@@ -188,7 +192,6 @@ const Mypage1_3 = ({}: any) => {
               />
               {/* 견적 상세 내용*/}
               <EstimateContainer data={data!} />
-
               {/* 현장실사 해당 기업 상세 페이지 */}
               {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx ? (
                 // 구독 상품 리스트 (가견적 작성 회사)
@@ -218,8 +221,6 @@ const Mypage1_3 = ({}: any) => {
                       />
                     )}
                   <BiddingQuote data={quotationData!} />
-                  {/* 담당자 정보 */}
-                  <ManagerInfo />
                 </>
               )}
               <TextBox>
