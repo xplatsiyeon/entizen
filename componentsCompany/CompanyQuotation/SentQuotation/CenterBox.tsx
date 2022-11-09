@@ -6,17 +6,22 @@ import { useRouter } from 'next/router';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
-import { SpotDataResponse } from './SentProvisionalQuoatation';
+import {
+  SentRequestResponse,
+  SpotDataResponse,
+} from './SentProvisionalQuoatation';
 
 type Props = {
   spotData: SpotDataResponse;
+  data: SentRequestResponse;
 };
 
 const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/CenterBox.tsx';
 // 날짜 정하기
-const CenterBox = ({ spotData }: Props) => {
-  console.log(TAG + '🔥 ~line 33 spot data 확인');
+const CenterBox = ({ spotData, data }: Props) => {
+  console.log(TAG + '🔥 ~line 33 data 확인');
   console.log(spotData);
+
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [checkFlow, setCheckFlow] = useState<boolean>(true);
@@ -70,20 +75,42 @@ const CenterBox = ({ spotData }: Props) => {
           </ReservationDateCheck>
         )}
         {/* ----------- 현장실사 일정 확정 -------------- */}
-        {spotData?.data?.spotInspection?.isConfirmed === true && (
-          <>
-            <ConfirmedReservation>
-              <div className="text">현장실사 일정이 확정되었습니다.</div>
-              <div className="date">
-                {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
-                  '-',
-                  '.',
-                )}
-              </div>
-            </ConfirmedReservation>
+        {spotData?.data?.spotInspection?.isConfirmed === true &&
+          data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
+            <>
+              <ConfirmedReservation>
+                <div className="text">현장실사 일정이 확정되었습니다.</div>
+                <div className="date">
+                  {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
+                    '-',
+                    '.',
+                  )}
+                </div>
+              </ConfirmedReservation>
 
-            <SecondTitle>보낸 가견적서</SecondTitle>
-          </>
+              <SecondTitle>보낸 가견적서</SecondTitle>
+            </>
+          )}
+        {/* ----------- 현장실사 완료 -------------- */}
+        {spotData?.data?.spotInspection?.isConfirmed === true &&
+          data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
+            <>
+              <ConfirmedReservation>
+                <div className="text">현장실사 완료</div>
+                <div className="date">
+                  {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
+                    '-',
+                    '.',
+                  )}
+                </div>
+              </ConfirmedReservation>
+
+              <SecondTitle>보낸 가견적서</SecondTitle>
+            </>
+          )}
+        {/* 최종견적 작성 후 */}
+        {data?.sendQuotationRequest?.badge === '낙찰대기 중' && (
+          <SecondTitle>최종 견적서</SecondTitle>
         )}
       </Wrapper>
     </>

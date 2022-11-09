@@ -26,6 +26,7 @@ import Modal from 'components/Modal/Modal';
 import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
+import SelectComponents from 'components/Select';
 
 type Props = {
   tabNumber: number;
@@ -253,8 +254,8 @@ const SecondStep = ({
     }
   };
   // 셀렉트 박스 클릭
-  const onChangeSelectBox = (e: SelectChangeEvent<unknown>) => {
-    setProductItem(e.target.value as chargerData);
+  const onChangeSelectBox = (value: string) => {
+    setProductItem(value as chargerData);
   };
   // 이전 버튼
   const handlePrevBtn = () => {
@@ -300,43 +301,28 @@ const SecondStep = ({
   };
   // 포스트 버튼
   const onClickPost = () => {
-    console.log(TAG + '-> 포스트');
-    // 스텝2까지밖에 없을 때
-    if (maxIndex === 1) {
-      postMutate({
-        url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: [
-            {
-              chargePriceType:
-                chargeTypeNumber !== -1
-                  ? chargeTypeListEn[chargeTypeNumber]
-                  : '',
-              chargePrice: Number(fee.replaceAll(',', '')),
-              modelName: productItem,
-              manufacturer: manufacturingCompany,
-              feature: chargeFeatures,
-              chargerImageFiles: imgArr,
-              catalogFiles: fileArr,
-            },
-          ],
-        },
-      });
-      // 스텝2이상일 때
-    } else {
-      postMutate({
-        url: `/quotations/pre/${routerId}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: newCharge.slice(0, maxIndex),
-        },
-      });
-    }
+    postMutate({
+      url: `/quotations/pre/${routerId}`,
+      data: {
+        subscribePricePerMonth: subscribePricePerMonth,
+        constructionPeriod: constructionPeriod,
+        subscribeProductFeature: subscribeProductFeature,
+        chargers: [
+          ...newCharge.slice(0, maxIndex! - 1),
+          {
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
+          },
+        ],
+      },
+    });
+    dispatch(myEstimateAction.reset());
   };
 
   // 다음버튼 유효성 검사
@@ -357,9 +343,6 @@ const SecondStep = ({
   // 상태 업데이트 및 초기화 (with 리덕스)
   useEffect(() => {
     const target = chargers[StepIndex];
-    console.log(TAG + 'target 확인');
-    console.log(StepIndex);
-    console.log(target);
     if (target?.chargePriceType !== '') {
       if (target?.chargePriceType === 'PURCHASER_AUTONOMY')
         setChargeTypeNumber(0);
@@ -452,22 +435,12 @@ const SecondStep = ({
           <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
         </TopBox>
         <SelectContainer>
-          <SelectBox
+          <SelectComponents
             value={productItem}
-            onChange={onChangeSelectBox}
-            IconComponent={SelectIcon}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>충전기 종류</Placeholder>
-            </MenuItem>
-
-            {chargerData.map((el, index) => (
-              <MenuItem key={index} value={el}>
-                {el}
-              </MenuItem>
-            ))}
-          </SelectBox>
+            option={chargerData}
+            placeholder="충전기 종류"
+            onClickEvent={onChangeSelectBox}
+          />
         </SelectContainer>
         <BottomInputBox>
           <div className="withAfter">제조사</div>
@@ -837,12 +810,13 @@ const SelectContainer = styled.div`
   width: 100%;
   display: flex;
   gap: 8.25pt;
+  margin-top: 9pt;
 `;
 const SelectBox = styled(Select)`
   width: 100%;
   border: 1px solid #e2e5ed;
   border-radius: 8px;
-  margin-top: 9pt;
+
   font-weight: 400;
   font-size: 12pt;
   line-height: 12pt;

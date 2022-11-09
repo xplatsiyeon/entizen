@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
+import { ListItemButton, ListItemText } from '@mui/material';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
@@ -9,9 +9,11 @@ import CommunicationIcon from 'public/images/communication-icon.svg';
 import TopBox from './TopBox';
 import BottomBox from './BottomBox';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
+import FinalBottomBox from './FinalBottomBox';
+import Modal from 'components/Modal/Modal';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -42,6 +44,55 @@ export interface Member {
   phone: string;
   id: string;
 }
+export interface FinalQuotationDetailFiles {
+  createdAt: string;
+  finalQuotationDetailFileIdx: number;
+  originalName: string;
+  url: string;
+  size: number;
+  finalQuotationIdx: number;
+}
+export interface FinalQuotationChargerFiles {
+  createdAt: string;
+  finalQuotationChargerFileIdx: number;
+  productFileType: string;
+  originalName: string;
+  url: string;
+  size: number;
+  finalQuotationChargerIdx: number;
+}
+export interface FinalQuotationChargers {
+  createdAt: string;
+  finalQuotationChargerIdx: number;
+  kind: string;
+  standType: string;
+  channel: string;
+  count: number;
+  chargePriceType: string;
+  chargePrice: number;
+  installationLocation: string;
+  modelName: string;
+  manufacturer: string;
+  productFeature: string;
+  finalQuotationIdx: number;
+  finalQuotationChargerFiles: FinalQuotationChargerFiles[];
+}
+export interface FinalQuotation {
+  createdAt: string;
+  finalQuotationIdx: number;
+  subscribeProduct: string;
+  subscribePeriod: number;
+  userInvestRate: string;
+  chargingPointRate: string;
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string;
+  spotInspectionResult: string;
+  quotationRequestIdx: number;
+  preQuotationIdx: number;
+  finalQuotationChargers: FinalQuotationChargers[];
+  finalQuotationDetailFiles: FinalQuotationDetailFiles[];
+}
 export interface PreQuotation {
   createdAt: string;
   preQuotationIdx: number;
@@ -53,7 +104,8 @@ export interface PreQuotation {
   quotationRequestIdx: number;
   memberIdx: number;
   preQuotationCharger: PreQuotationCharger[];
-  member: Member;
+
+  finalQuotation: FinalQuotation;
 }
 
 export interface CompanyMemberAdditionalInfo {
@@ -91,6 +143,7 @@ export interface QuotationRequest {
   etcRequest: string;
   memberIdx: number;
   quotationRequestChargers: QuotationRequestChargers[];
+  member: Member;
 }
 export interface SentRequestResponse {
   isSuccess: boolean;
@@ -119,24 +172,28 @@ export interface SpotDataResponse {
   isSuccess: boolean;
   data: SpotData;
 }
-
 const TAG =
   'components/Company/CompanyQuotation/SentQuotation/SentProvisionalQuoatation.tsx';
 // 본체
 const SentQuoatationFirst = () => {
   const router = useRouter();
   const routerId = router?.query?.id;
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   // 상단 열고 닫기
   const [open, setOpen] = useState<boolean>(false);
   // ----------- 보낸 견적 상세 페이지 api --------------
-  const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
-    'company/',
-    () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
-    {
-      enabled: router.isReady,
-      // enabled: false,
-    },
-  );
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<SentRequestResponse>(
+      'company/',
+      () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
+      {
+        enabled: router.isReady,
+        // enabled: false,
+      },
+    );
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
@@ -151,13 +208,49 @@ const SentQuoatationFirst = () => {
       // enabled: false,
     },
   );
+  const { mutate: spotPatchMutate, isLoading: spotPatchLoading } = useMutation(
+    isTokenPatchApi,
+    {
+      onSuccess: (data) => {
+        console.log('호출 성공');
+        console.log(data);
+        refetch();
+      },
+      onError: (error: any) => {
+        if (error.response.data) {
+          setErrorMessage(error.response.data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
+    },
+  );
+  // 모달 클릭
+  const onClickModal = () => {
+    if (networkError) {
+      setIsModal(false);
+      router.push('/');
+    } else {
+      setIsModal(false);
+    }
+  };
   // 상단 열리고 닫히고
   const handleClick = () => setOpen(!open);
 
-  if (isLoading && spotLoading) {
+  const onClickSpot = () => {
+    spotPatchMutate({
+      url: `/quotations/pre/${routerId}/spot-inspection`,
+    });
+    console.log('현장실사 patch api 호출!!');
+  };
+
+  if (isLoading || spotLoading || spotPatchLoading) {
     return <Loader />;
   }
-  if (isError && spotIsError) {
+  if (isError || spotIsError) {
     console.log(TAG + '🔥 ~line 42 에러 코드');
     console.log(error);
     console.log(spotError);
@@ -166,57 +259,81 @@ const SentQuoatationFirst = () => {
   console.log(spotData);
   console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
   console.log(data);
-
   return (
     <Wrapper>
+      {/* 에러 모달 */}
+      {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
-      {/* 견적 정보 */}
+      {/* 구매자 견적 정보 */}
       <TopBox
         handleClick={handleClick}
         open={open}
         setOpen={setOpen}
         data={data!}
+        spotData={spotData!}
       />
       {/* 일정 변경 컴포넌트 */}
-      <CenterBox spotData={spotData!} />
-      <BottomBox data={data!} />
+      <CenterBox data={data!} spotData={spotData!} />
+      {/* 하단 내용 - 최종 견적 작성 후 생김*/}
+      {data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
+        <>
+          <FinalBottomBox data={data!} />
+          <BtnBox>
+            <EditBtn onClick={() => router.push('/')}>수정하기</EditBtn>
+          </BtnBox>
+        </>
+      )}
+      {/* 하단 내용 - 가견적 작성 후 생김 */}
+      {!data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
+        <>
+          <BottomBox data={data!} />
+          <BtnBox>
+            <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
+          </BtnBox>
+        </>
+      )}
 
-      <BtnBox>
-        {/*가견적 수정하기*/}
-        <EditBtn onClick={() => router.push('/')}>가견적 수정하기</EditBtn>
-      </BtnBox>
-      {/* 최종견적 */}
-      <LastQuotationBtnBox>
-        <Blur />
-        <BlurTwo />
-        <LastBtn
-          onClick={() =>
-            router.push({
-              pathname: '/company/quotation/lastQuotation',
-              query: {
-                preQuotation: routerId,
-              },
-            })
-          }
-        >
-          최종견적 작성
-        </LastBtn>
-      </LastQuotationBtnBox>
+      {/* 현장실사 예약 완료 -> 현장 실사 완료 버튼 생성*/}
+      {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
+        <LastQuotationBtnBox>
+          <Blur />
+          <BlurTwo />
+          <LastBtn onClick={onClickSpot}>현장실사 완료</LastBtn>
+        </LastQuotationBtnBox>
+      )}
+      {/* 최종견적 입력 중 -> 최종견적 작성 페이지로 이동 버튼 생성 */}
+      {data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
+        <LastQuotationBtnBox>
+          <Blur />
+          <BlurTwo />
+          <LastBtn
+            onClick={() =>
+              router.push({
+                pathname: '/company/quotation/lastQuotation',
+                query: {
+                  preQuotation: routerId,
+                },
+              })
+            }
+          >
+            최종견적 작성
+          </LastBtn>
+        </LastQuotationBtnBox>
+      )}
+
+      {/* // 고객과 소통하기 -> 현장실사 일정 나오면 생김 */}
+      {spotData?.data?.spotInspection && (
+        <Button onClick={() => alert('2차 작업 범위입니다')}>
+          <div>
+            <Image src={CommunicationIcon} alt="right-arrow" />
+          </div>
+          고객과 소통하기
+          <div>
+            <Image src={RightArrow} alt="right-arrow" />
+          </div>
+        </Button>
+      )}
     </Wrapper>
-    //  고객과 소통하기
-    //    <Button
-    //    onClick={() =>
-    //      /*route.push('/chatting/1')*/ alert('2차 작업 범위입니다')
-    //    }
-    //  >
-    //    <div>
-    //      <Image src={CommunicationIcon} alt="right-arrow" />
-    //    </div>
-    //    고객과 소통하기
-    //    <div>
-    //      <Image src={RightArrow} alt="right-arrow" />
-    //    </div>
-    //  </Button>
   );
 };
 

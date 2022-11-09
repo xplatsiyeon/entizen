@@ -48,7 +48,7 @@ const History = ({}: Props) => {
   // api 호출
   const { data, isLoading, isError, error, refetch } =
     useQuery<HistoryResponse>(
-      'received-Request',
+      'history',
       () =>
         isTokenGetApi(
           `/quotations/histories?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
@@ -95,7 +95,7 @@ const History = ({}: Props) => {
               key={index}
               onClick={() =>
                 router.push(
-                  `/company/recievedRequest/${data?.preQuotation?.preQuotationIdx}`,
+                  `/company/sentProvisionalQuotation/${data?.preQuotation?.preQuotationIdx}`,
                 )
               }
             >

@@ -127,14 +127,15 @@ const HeadOpenContent = () => {
     'receivedRequest/id',
     () => isTokenGetApi(`/quotations/received-request/${routerId}`),
     {
-      enabled: router.isReady,
+      // enabled: router.isReady,
+      enabled: false,
     },
   );
 
   // step별 컴포넌트
   const components: Components = {
     // 기본
-    0: (
+    1: (
       <FirstStep
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
@@ -149,7 +150,7 @@ const HeadOpenContent = () => {
       />
     ),
     // 스텝 2
-    1: (
+    0: (
       <SecondStep
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
@@ -316,7 +317,11 @@ const HeadOpenContent = () => {
               {data?.receivedQuotationRequest.quotationRequestChargers!.map(
                 (item, index) => (
                   <div className="text-box" key={index}>
-                    <span className="name">충전기 종류 및 수량</span>
+                    {index === 0 ? (
+                      <span className="name">충전기 종류 및 수량</span>
+                    ) : (
+                      <span className="name" />
+                    )}
                     <span className="text">
                       {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                       <br />
@@ -360,12 +365,21 @@ const HeadOpenContent = () => {
                     )}
                 </span>
               </div>
-              <div className="text-box">
-                <span className="name">기타 요청사항</span>
-                <span className="text">
-                  {data?.receivedQuotationRequest.etcRequest}
-                </span>
-              </div>
+              {data?.receivedQuotationRequest?.etcRequest === '' ? (
+                <div className="text-box">
+                  <span className="name">기타 요청사항</span>
+                  <span className="text">없음</span>
+                </div>
+              ) : (
+                <>
+                  <div className="text-box">
+                    <span className="name">기타 요청사항</span>
+                    <span className="text">
+                      {data?.receivedQuotationRequest?.etcRequest}
+                    </span>
+                  </div>
+                </>
+              )}
             </Contents>
           </List>
         </Collapse>
@@ -415,7 +429,6 @@ const Wrapper = styled.div`
     flex-direction: column;
   }
 `;
-
 const Badge = styled.span`
   background: ${colors.orange};
   color: ${colors.lightWhite};
@@ -425,7 +438,6 @@ const Badge = styled.span`
   font-size: 9pt;
   line-height: 9pt;
 `;
-
 const ItemButton = styled(ListItemButton)`
   display: flex;
   justify-content: center;
@@ -506,7 +518,6 @@ const Contents = styled.div`
     text-align: center;
   }
 `;
-
 const TabBox = styled.div`
   z-index: 1;
   //display:flex;
@@ -536,7 +547,6 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   &:nth-last-of-type(1) {
     margin-right: 0;
   }
-
   @media (max-width: 899pt) {
     display: block;
     width: 100%;

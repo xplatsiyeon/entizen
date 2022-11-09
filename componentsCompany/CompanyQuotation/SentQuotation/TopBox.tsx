@@ -6,7 +6,10 @@ import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
-import { SentRequestResponse } from './SentProvisionalQuoatation';
+import {
+  SentRequestResponse,
+  SpotDataResponse,
+} from './SentProvisionalQuoatation';
 import { HandleColor } from 'utils/changeValue';
 import {
   InstallationPurposeType,
@@ -22,16 +25,17 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
-import { convertKo } from 'utils/calculatePackage';
+import { convertKo, HyphenFn } from 'utils/calculatePackage';
 
 type Props = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   handleClick: () => void;
   data: SentRequestResponse;
+  spotData: SpotDataResponse;
 };
 
-const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
+const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
   console.log(data);
   return (
     <Wrapper>
@@ -103,7 +107,11 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
             {data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers!.map(
               (item, index) => (
                 <div className="text-box" key={index}>
-                  <span className="name">충전기 종류 및 수량</span>
+                  {index === 0 ? (
+                    <span className="name">충전기 종류 및 수량</span>
+                  ) : (
+                    <span className="name" />
+                  )}
                   <span className="text">
                     {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
                     <br />
@@ -150,27 +158,25 @@ const TopBox = ({ data, open, setOpen, handleClick }: Props) => {
             </div>
           </Contents>
           {/* ------------------- 파트너 정보 ---------------- */}
-          <Contents>
-            <Partner>파트너 정보</Partner>
-            <div className="text-box">
-              <span className="name">이름</span>
-              <span className="text">
-                {data?.sendQuotationRequest?.preQuotation?.member?.name}
-              </span>
-            </div>
-            <div className="text-box">
-              <span className="name">이메일</span>
-              <span className="text emailText">
-                {data?.sendQuotationRequest?.preQuotation?.member?.id}
-              </span>
-            </div>
-            <div className="text-box">
-              <span className="name">연락처</span>
-              <span className="text phone">
-                {data?.sendQuotationRequest?.preQuotation?.member?.phone}
-              </span>
-            </div>
-          </Contents>
+          {spotData?.data?.spotInspection && (
+            <Contents>
+              <Partner>파트너 정보</Partner>
+              <div className="text-box">
+                <span className="name">이름</span>
+                <span className="text">
+                  {data?.sendQuotationRequest?.quotationRequest?.member?.name}
+                </span>
+              </div>
+              <div className="text-box">
+                <span className="name">연락처</span>
+                <span className="text phone">
+                  {HyphenFn(
+                    data?.sendQuotationRequest?.quotationRequest?.member?.phone,
+                  )}
+                </span>
+              </div>
+            </Contents>
+          )}
         </List>
       </Collapse>
     </Wrapper>
