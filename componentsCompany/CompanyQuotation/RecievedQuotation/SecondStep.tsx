@@ -423,7 +423,8 @@ const SecondStep = ({
                 M6_LIST,
                 M6_LIST_EN,
                 charger.standType,
-              )}, ${convertKo(M7_LIST, M7_LIST_EN, charger.channel)} `}
+              )}, ${convertKo(M7_LIST, M7_LIST_EN, charger.channel)}`}
+              &nbsp;
             </p>
             제품의
             <br />
@@ -436,7 +437,8 @@ const SecondStep = ({
                 M7_LIST,
                 M7_LIST_EN,
                 charger.channel,
-              )} `}
+              )}`}
+              &nbsp;
             </p>
             제품의
             <br />
