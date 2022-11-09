@@ -46,6 +46,7 @@ const EditCertificate =()=>{
         });
       });
       setFileArr(newFile);
+      console.log('files', fileArr )
     },
     onError: (error: any) => {
       if (error.response.data.message) {
@@ -137,7 +138,9 @@ const EditCertificate =()=>{
 
             {/* <File_Preview> */}
             <div className="file-preview">
-              {fileArr?.map((item, index) => (
+              {fileArr?.map((item, index) => {
+                console.log(item)
+                return(
                 <FileBox key={index} data-name={index}>
                   <div className="file">
                     <div className="file-img">
@@ -158,7 +161,7 @@ const EditCertificate =()=>{
                     </div>
                   </div>
                 </FileBox>
-              ))}
+                )})}
             </div>
           </PhotosBoxs>
         </RemainderInputBoxs>
