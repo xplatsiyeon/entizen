@@ -237,7 +237,7 @@ const Mypage1_3 = ({}: any) => {
                           ?.currentInProgressPreQuotationIdx!
                       }
                     />
-                  ) : hasReceivedSpotInspectionDates === false &&
+                  ) : hasReceivedSpotInspectionDates === true &&
                     spotInspection?.isNewPropose ? (
                     <ScheduleChange
                       spotId={
