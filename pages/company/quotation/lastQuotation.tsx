@@ -36,7 +36,7 @@ const LastQuotation = (props: Props) => {
         title={'최종 견적 작성'}
         handleOnClick={() => router.push('/company/sentProvisionalQuotation')}
       />
-      <LastWrite />
+      <LastWrite data={data!} />
     </>
   );
 };
