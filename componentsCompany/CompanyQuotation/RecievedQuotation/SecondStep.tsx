@@ -23,11 +23,23 @@ import { useMutation } from 'react-query';
 import { isTokenPostApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
-import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
+import {
+  convertKo,
+  getByteSize,
+  inputPriceFormat,
+} from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import SelectComponents from 'components/Select';
 import { QuotationsDetailResponse } from './HeadOpenContent';
+import {
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+} from 'assets/selectList';
 
 type Props = {
   tabNumber: number;
@@ -403,12 +415,35 @@ const SecondStep = ({
           <div>STEP {tabNumber + 1}</div>
           <div>* 필수 입력</div>
         </TopStep>
-        <SubWord>
-          <p>{`${charger.kind}, ${charger.standType}, ${charger.channel}`}</p>
-          제품의
-          <br />
-          정보를 입력해주세요.
-        </SubWord>
+
+        {charger.standType ? (
+          <SubWord>
+            <p>
+              {`${convertKo(M5_LIST, M5_LIST_EN, charger.kind)}, ${convertKo(
+                M6_LIST,
+                M6_LIST_EN,
+                charger.standType,
+              )}, ${convertKo(M7_LIST, M7_LIST_EN, charger.channel)}`}{' '}
+            </p>
+            제품의
+            <br />
+            정보를 입력해주세요.
+          </SubWord>
+        ) : (
+          <SubWord>
+            <p>
+              {`${convertKo(M5_LIST, M5_LIST_EN, charger.kind)},  ${convertKo(
+                M7_LIST,
+                M7_LIST_EN,
+                charger.channel,
+              )}`}{' '}
+            </p>
+            제품의
+            <br />
+            정보를 입력해주세요.
+          </SubWord>
+        )}
+
         <ChargeMoney>
           <div className="withAfter">충전요금</div>
           <BtnBox>
