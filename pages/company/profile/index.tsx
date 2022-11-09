@@ -174,6 +174,8 @@ const ProfileEditing = () => {
               <Label mt={30}>기업명</Label>
               <InputBox type="text" readOnly placeholder={name} />
 
+            <Address>
+                <p>기업명</p>
               <WebSearchAddress 
                 setType={setType}
                 chargeInfoOpen={chargeInfoOpen}
@@ -182,6 +184,16 @@ const ProfileEditing = () => {
                 setSelectedCharger={setSelectedCharger}
                 slowCharger={slowCharger}
                 fastCharger={fastCharger}/>
+            </Address>
+
+          {/*  <ChangeBox>
+                <P></P>
+                <IconWrap><Image /></IconWrap>
+            </ChangeBox> 
+            <ChangeBox>
+                <P></P>
+                <IconWrap><Image /></IconWrap>
+            </ChangeBox> */}
 
             </Body>
           </Wrapper>
@@ -267,3 +279,7 @@ const Text = styled.p`
 const Buttons = styled.button`
   display: none;
 `;
+
+const Address = styled.div`
+    
+`

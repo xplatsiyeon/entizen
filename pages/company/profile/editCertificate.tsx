@@ -37,15 +37,28 @@ const EditCertificate =()=>{
     onSuccess: (res) => {
       console.log(' 👀 multer onSuccess');
       console.log(res);
-      const newFile = [...fileArr];
+      const imgs:BusinessRegistrationType[] = [];
+      const files:BusinessRegistrationType[] =[]; 
       res?.uploadedFiles.forEach((img) => {
-        newFile.push({
-          url: img.url,
-          size: img.size,
-          originalName: decodeURIComponent(img.originalName),
-        });
+        const name = img.originalName.split('.')[1].toUpperCase();
+        if(name.toUpperCase() === 'PNG' ||name === 'JPG'||name === 'GIF'){
+            imgs.push({
+                url: img.url,
+                size: img.size,
+                originalName: decodeURIComponent(img.originalName),
+              });
+        }else{
+            files.push(
+                {
+                    url: img.url,
+                    size: img.size,
+                    originalName: decodeURIComponent(img.originalName),
+                  }
+            )
+        }
       });
-      setFileArr(newFile);
+        setFileArr(files);
+        setImgArr(imgs);
       console.log('files', fileArr )
     },
     onError: (error: any) => {
@@ -102,6 +115,16 @@ const EditCertificate =()=>{
       }
     }
   };
+  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...imgArr];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setImgArr(copyArr);
+      }
+    }
+  };
 
   // 모달 클릭
   const onClickModal = () => {
@@ -139,7 +162,6 @@ const EditCertificate =()=>{
             {/* <File_Preview> */}
             <div className="file-preview">
               {fileArr?.map((item, index) => {
-                console.log(item)
                 return(
                 <FileBox key={index} data-name={index}>
                   <div className="file">
@@ -162,6 +184,32 @@ const EditCertificate =()=>{
                   </div>
                 </FileBox>
                 )})}
+            </div>
+
+            <div className="img-preview">
+            {imgArr?.map((img, index) => (
+              <ImgSpan key={index} data-name={index}>
+                <Image
+                  layout="fill"
+                  alt="preview"
+                  data-name={index}
+                  key={index}
+                  src={img.url}
+                  priority={true}
+                  unoptimized={true}
+                />
+                <Xbox onClick={handlePhotoDelete} data-name={index}>
+                  <Image
+                    src={CloseImg}
+                    data-name={index}
+                    layout="intrinsic"
+                    alt="closeBtn"
+                    width={24}
+                    height={24}
+                  />
+                </Xbox>
+              </ImgSpan>
+            ))}
             </div>
           </PhotosBoxs>
         </RemainderInputBoxs>
@@ -295,4 +343,16 @@ const FileBox = styled.div`
     top: 16.5pt;
     right: 15pt;
   }
+`;
+
+const ImgSpan = styled.div`
+  position: relative;
+  width: 56.0625pt;
+  height: 56.0625pt;
+  border-radius: 6pt;
+`;
+const Xbox = styled.div`
+  position: absolute;
+  top: -7pt;
+  right: -7pt;
 `;
