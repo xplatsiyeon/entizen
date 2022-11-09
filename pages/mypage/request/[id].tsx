@@ -122,6 +122,7 @@ const Mypage1_3 = ({}: any) => {
     data: spotData,
     isLoading: spotLoading,
     isError: spotIsError,
+    refetch: spotRetch,
     error: spotError,
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
@@ -160,6 +161,10 @@ const Mypage1_3 = ({}: any) => {
   const spotInspection = spotData?.data?.spotInspection!;
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
+
+  useEffect(() => {
+    spotRetch();
+  }, [quotationData]);
 
   return (
     <>
