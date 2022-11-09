@@ -27,6 +27,7 @@ import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import SelectComponents from 'components/Select';
+import { QuotationsDetailResponse } from './HeadOpenContent';
 
 type Props = {
   tabNumber: number;
@@ -36,6 +37,7 @@ type Props = {
   StepIndex: number;
   maxIndex: number | undefined;
   routerId: string | string[];
+  data: QuotationsDetailResponse;
 };
 
 const TAG = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
@@ -48,6 +50,7 @@ const SecondStep = ({
   SetCanNext,
   StepIndex,
   routerId,
+  data,
 }: Props) => {
   // 사진을 위한 ref
   const dispatch = useDispatch();
@@ -66,6 +69,8 @@ const SecondStep = ({
     'LECS-005ADE',
     'LECS-004ADE',
   ];
+  const charger =
+    data?.receivedQuotationRequest?.quotationRequestChargers[StepIndex]!;
   const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1);
   const [fee, setFee] = useState<string>('');
   const [productItem, setProductItem] = useState<chargerData>('');
@@ -388,6 +393,7 @@ const SecondStep = ({
   console.log('🔥 ~line 388 newCharge data 확인');
 
   console.log(newCharge);
+
   return (
     <>
       {/* 에러 모달 */}
@@ -398,7 +404,8 @@ const SecondStep = ({
           <div>* 필수 입력</div>
         </TopStep>
         <SubWord>
-          <p>7 kW 충전기 (공용), 벽걸이, 싱글</p> 제품의
+          <p>{`${charger.kind}, ${charger.standType}, ${charger.channel}`}</p>
+          제품의
           <br />
           정보를 입력해주세요.
         </SubWord>

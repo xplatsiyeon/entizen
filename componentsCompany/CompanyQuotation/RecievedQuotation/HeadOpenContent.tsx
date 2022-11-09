@@ -157,6 +157,7 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={0}
+        data={data!}
         maxIndex={
           data?.receivedQuotationRequest.quotationRequestChargers.length
         }
@@ -171,6 +172,7 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={1}
+        data={data!}
         maxIndex={
           data?.receivedQuotationRequest.quotationRequestChargers.length
         }
@@ -185,6 +187,7 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={2}
+        data={data!}
         maxIndex={
           data?.receivedQuotationRequest.quotationRequestChargers.length
         }
@@ -199,6 +202,7 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={3}
+        data={data!}
         maxIndex={
           data?.receivedQuotationRequest.quotationRequestChargers.length
         }
@@ -213,6 +217,7 @@ const HeadOpenContent = () => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         StepIndex={4}
+        data={data!}
         maxIndex={
           data?.receivedQuotationRequest.quotationRequestChargers.length
         }
