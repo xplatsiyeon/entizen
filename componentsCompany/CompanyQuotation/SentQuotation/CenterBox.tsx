@@ -37,7 +37,7 @@ const CenterBox = ({ spotData, data }: Props) => {
         </DownArrowBox>
 
         {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
-        {data.sendQuotationRequest.badge === '현장실사 조율 중' && (
+        {data?.sendQuotationRequest?.badge === '현장실사 조율 중' && (
           <ReservationDate>
             <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
             <div className="btnBox">
@@ -62,7 +62,7 @@ const CenterBox = ({ spotData, data }: Props) => {
           </ReservationDate>
         )}
         {/* ------------ 일정변경 요청 -------------- */}
-        {data.sendQuotationRequest.badge === '현장실사 조율 중' &&
+        {data?.sendQuotationRequest?.badge === '현장실사 조율 중' &&
           spotData?.data?.spotInspection?.isNewPropose === true && (
             <ReservationDateCheck>
               <div className="text">일정 변경 요청이 들어왔습니다.</div>
@@ -108,11 +108,12 @@ const CenterBox = ({ spotData, data }: Props) => {
             </>
           )}
         {/* 최종견적 작성 후 */}
-        {data?.sendQuotationRequest?.badge === '낙찰대기 중' ||
-          data?.sendQuotationRequest?.badge === '최종대기 중' ||
-          data?.sendQuotationRequest?.badge === '견적취소' ||
-          data?.sendQuotationRequest?.badge === '낙찰성공' ||
-          data?.sendQuotationRequest?.badge === '낙찰실패' || (
+        {data?.sendQuotationRequest?.preQuotation?.finalQuotation &&
+          (data?.sendQuotationRequest?.badge === '낙찰대기 중' ||
+            data?.sendQuotationRequest?.badge === '최종대기 중' ||
+            data?.sendQuotationRequest?.badge === '견적취소' ||
+            data?.sendQuotationRequest?.badge === '낙찰성공' ||
+            data?.sendQuotationRequest?.badge === '낙찰실패') && (
             <SecondTitle>최종 견적서</SecondTitle>
           )}
       </Wrapper>
