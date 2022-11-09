@@ -385,6 +385,9 @@ const SecondStep = ({
     }
   }, [chargeTypeNumber]);
 
+  console.log('🔥 ~line 388 newCharge data 확인');
+
+  console.log(newCharge);
   return (
     <>
       {/* 에러 모달 */}

@@ -290,10 +290,11 @@ const SentQuoatationFirst = () => {
       {data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
         <>
           <FinalBottomBox data={data!} />
-          {data?.sendQuotationRequest?.badge === '낙찰대기 중'}
-          <BtnBox>
-            <EditBtn onClick={() => router.push('/')}>수정하기</EditBtn>
-          </BtnBox>
+          {data?.sendQuotationRequest?.badge === '낙찰대기 중' && (
+            <BtnBox>
+              <EditBtn onClick={() => router.push('/')}>수정하기</EditBtn>
+            </BtnBox>
+          )}
         </>
       )}
       {/* 하단 내용 - 가견적 작성 후 생김 */}
