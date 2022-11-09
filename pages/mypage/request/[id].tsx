@@ -68,6 +68,8 @@ export interface QuotationRequests {
   etcRequest: string;
   memberIdx: number;
   quotationRequestChargers: QuotationRequestChargers[];
+  hasCurrentInProgressPreQuotationIdx: boolean;
+  currentInProgressPreQuotationIdx: number;
 }
 export interface QuotationRequestsResponse {
   isSuccess: boolean;
@@ -100,9 +102,12 @@ const Mypage1_3 = ({}: any) => {
     error,
   } = useQuery<PreQuotationResponse, AxiosError>(
     'pre-quotation',
-    () => isTokenGetApi(`/quotations/pre/${routerId}`),
+    () =>
+      isTokenGetApi(
+        `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
+      ),
     {
-      enabled: router.isReady,
+      enabled: data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx,
       // enabled: false,
     },
   );
@@ -141,10 +146,10 @@ const Mypage1_3 = ({}: any) => {
   if (isLoading) {
     return <Loader />;
   }
-
-  console.log(TAG + '⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
+  data?.quotationRequest.hasCurrentInProgressPreQuotationIdx;
+  console.log('⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
   console.log(data);
-  console.log(quotationData);
+  // console.log(quotationData);
   console.log(spotData);
 
   return (
@@ -180,8 +185,10 @@ const Mypage1_3 = ({}: any) => {
               <EstimateContainer data={data!} />
               {/* 구독 상품 */}
               <SubscriptionProduct data={data?.preQuotations!} />
-
-              {/* <BiddingQuote data={} /> */}
+              {/* 가견적 내용 */}
+              {data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx && (
+                <BiddingQuote data={quotationData!} />
+              )}
               <TextBox>
                 <div>선택하기 어려우신가요?</div>
                 <CommunicationBox

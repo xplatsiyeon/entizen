@@ -15,25 +15,7 @@ interface Props {
 }
 const TAG = 'components/mypage/request/BiddingQuote.tsx';
 const BiddingQuote = ({ pb, data }: Props) => {
-  // 파일 다운로드 함수
-  // const DownloadFile = useCallback(() => {
-  //   let fileName = 'Charge Point 카탈로그_7 KW';
-  //   let content = 'Charge Point 카탈로그_7 KW 테스트';
-  //   const blob = new Blob([content], {
-  //     type: 'text/plain',
-  //   });
-  //   const url = window.URL.createObjectURL(blob);
-  //   const element = document.createElement('a');
-  //   element.href = url;
-  //   element.download = fileName;
-  //   document.body.appendChild(element);
-  //   element.click();
-  //   element.remove();
-  //   window.URL.revokeObjectURL(url);
-  // }, []);
-
-  console.log(TAG + '🔥 ~line 35 ~ data 체크');
-
+  console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
   console.log(data);
 
   return (
