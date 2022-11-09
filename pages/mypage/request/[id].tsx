@@ -163,14 +163,14 @@ const Mypage1_3 = ({}: any) => {
   const switchNotice = () => {
     const spotInspection = spotData?.data?.spotInspection!;
     if (spotInspection !== null) {
-      if (spotInspection.isConfirmed) {
+      if (spotInspection?.isConfirmed) {
         return (
           <ScheduleConfirm
             date={spotInspection?.spotInspectionDate[0]}
             spotId={data?.quotationRequest?.currentInProgressPreQuotationIdx!}
           />
         );
-      } else if (spotInspection.isNewPropose) {
+      } else if (spotInspection?.isNewPropose) {
         <ScheduleChange
           spotId={data?.quotationRequest?.currentInProgressPreQuotationIdx!}
         />;
