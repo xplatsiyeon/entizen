@@ -25,7 +25,7 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
-import { convertKo, HyphenFn } from 'utils/calculatePackage';
+import { convertKo, hyphenFn } from 'utils/calculatePackage';
 
 type Props = {
   open: boolean;
@@ -170,7 +170,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
               <div className="text-box">
                 <span className="name">연락처</span>
                 <span className="text phone">
-                  {HyphenFn(
+                  {hyphenFn(
                     data?.sendQuotationRequest?.quotationRequest?.member?.phone,
                   )}
                 </span>

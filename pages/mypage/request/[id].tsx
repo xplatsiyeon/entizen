@@ -220,7 +220,10 @@ const Mypage1_3 = ({}: any) => {
                         }
                       />
                     )}
-                  <BiddingQuote data={quotationData!} />
+                  <BiddingQuote
+                    data={quotationData!}
+                    isSpot={spotData?.data?.spotInspection ? true : false}
+                  />
                 </>
               )}
               <TextBox>

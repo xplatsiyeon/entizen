@@ -76,7 +76,7 @@ export const convertEn = (
 };
 
 // --------------휴대폰 하이픈 넣기-----------------------------
-export const HyphenFn = (target: string) => {
+export const hyphenFn = (target: string) => {
   return target
     ?.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
     ?.replace(/\-{1,2}$/g, '');

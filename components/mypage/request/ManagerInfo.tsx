@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import CallManager from 'components/Modal/CallManager';
 import { useState } from 'react';
 import colors from 'styles/colors';
+import { hyphenFn } from 'utils/calculatePackage';
 
 type Prop = {
   name: string;
@@ -28,7 +29,7 @@ const ManagerInfo = ({ name, phone, email }: Prop) => {
         <Item>
           <span className="name">전화번호</span>
           <span className="phone" onClick={HandleModal}>
-            {phone}
+            {hyphenFn(phone)}
           </span>
         </Item>
       </List>
@@ -40,9 +41,9 @@ export default ManagerInfo;
 
 const Wrapper = styled.div`
   padding: 0;
-  @media (max-width: 899pt) {
+  /* @media (max-width: 899pt) {
     padding: 0 15pt;
-  }
+  } */
 `;
 const Subtitle = styled.h3`
   padding-top: 18pt;

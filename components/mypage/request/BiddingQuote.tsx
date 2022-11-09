@@ -13,9 +13,10 @@ import ManagerInfo from './ManagerInfo';
 interface Props {
   pb?: number;
   data?: PreQuotationResponse;
+  isSpot?: boolean;
 }
 const TAG = 'components/mypage/request/BiddingQuote.tsx';
-const BiddingQuote = ({ pb, data }: Props) => {
+const BiddingQuote = ({ pb, data, isSpot }: Props) => {
   console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
   console.log(data);
 
@@ -196,11 +197,13 @@ const BiddingQuote = ({ pb, data }: Props) => {
       </Section>
       <Section pb={pb}>
         {/* 담당자 정보 */}
-        <ManagerInfo
-          name={data?.preQuotation?.member?.name!}
-          email={data?.companyMemberAdditionalInfo?.managerEmail!}
-          phone={data?.preQuotation?.member?.phone!}
-        />
+        {isSpot && (
+          <ManagerInfo
+            name={data?.preQuotation?.member?.name!}
+            email={data?.companyMemberAdditionalInfo?.managerEmail!}
+            phone={data?.preQuotation?.member?.phone!}
+          />
+        )}
       </Section>
     </Wrapper>
   );
@@ -210,7 +213,7 @@ const Wrapper = styled.div`
   padding-top: 60pt;
   @media (max-width: 899pt) {
     padding-top: 21pt;
-    padding-bottom: 150pt;
+    padding-bottom: 50pt;
   }
 `;
 const Title = styled.h1`
