@@ -97,7 +97,7 @@ const AnotherSuggest = (props: Props) => {
       {isModal && (
         <Modal
           text={'전송이 완료되었습니다.'}
-          click={() => router.push('/company/sentProvisionalQuotation')}
+          click={() => router.push('/company/quotation')}
         />
       )}
       <Body>
