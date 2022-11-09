@@ -131,13 +131,12 @@ const Mypage1_3 = ({}: any) => {
         `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}/spot-inspection`,
       ),
     {
-      enabled:
-        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
+      enabled: false,
+      // data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
     },
   );
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-
   // 모달 왼쪽, 오른쪽 버튼 핸들러
   const backPage = () => router.back();
   const handleOnClick = () => setModalOpen(!modalOpen);
@@ -163,6 +162,11 @@ const Mypage1_3 = ({}: any) => {
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
 
+  useEffect(() => {
+    if (data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx) {
+      spotRefetch();
+    }
+  }, [data]);
   return (
     <>
       {/* 모달 */}
