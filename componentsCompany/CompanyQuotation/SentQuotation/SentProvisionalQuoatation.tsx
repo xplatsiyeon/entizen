@@ -111,7 +111,14 @@ export interface PreQuotation {
 
   finalQuotation: FinalQuotation;
 }
-
+export interface BusinessRegistrationFiles {
+  createdAt: string;
+  businessRegistrationFileIdx: number;
+  originalName: string;
+  url: string;
+  size: number;
+  memberIdx: number;
+}
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
   companyMemberAdditionalInfoIdx: number;
@@ -122,6 +129,7 @@ export interface CompanyMemberAdditionalInfo {
   companyZipCode: string;
   managerEmail: string;
   memberIdx: number;
+  businessRegistrationFiles: BusinessRegistrationFiles[];
 }
 export interface QuotationRequestChargers {
   createdAt: string;

@@ -21,6 +21,7 @@ import Modal from 'components/Modal/Modal';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { convertEn, getByteSize } from 'utils/calculatePackage';
 import { subscribeType, subscribeTypeEn } from 'assets/selectList';
+import { BusinessRegistrationFiles } from '../SentQuotation/SentProvisionalQuoatation';
 
 type Props = {
   tabNumber: number;

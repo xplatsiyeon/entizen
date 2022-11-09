@@ -263,6 +263,9 @@ const LastWrite = ({ data }: Props) => {
 
   const preQuotation = data?.sendQuotationRequest?.preQuotation!;
   const quotationRequest = data?.sendQuotationRequest?.quotationRequest!;
+  const businessRegistrationFiles =
+    data?.sendQuotationRequest?.companyMemberAdditionalInfo
+      ?.businessRegistrationFiles!;
   // 최종 견적 초기값 세팅
   useEffect(() => {
     if (data) {
@@ -282,6 +285,7 @@ const LastWrite = ({ data }: Props) => {
       setConstructionPeriod(preQuotation.constructionPeriod.toString());
       setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
       setSubscribeProductFeature(preQuotation.subscribeProductFeature);
+      setBusinessRegistration(businessRegistrationFiles);
       let count = 0;
       const arr = [];
       const arrEn = [];
