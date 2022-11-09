@@ -127,8 +127,8 @@ const HeadOpenContent = () => {
     'receivedRequest/id',
     () => isTokenGetApi(`/quotations/received-request/${routerId}`),
     {
-      // enabled: router.isReady,
-      enabled: false,
+      enabled: router.isReady,
+      // enabled: false,
     },
   );
 
