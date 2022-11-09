@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import React from 'react';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
@@ -10,7 +10,9 @@ type Props = {
   secondText?: string;
   thirdText?: string;
   presentProgress: boolean;
-  handleClick: () => void;
+  page?:string;
+  handleClick?: () => void;
+  num?:number
 };
 
 const MessageBox = ({
@@ -20,7 +22,19 @@ const MessageBox = ({
   thirdText,
   presentProgress,
   handleClick,
+  page, num
 }: Props) => {
+
+  const [idx ,setIdx] = useState<number>(1)
+
+  const handleNum = ()=>{
+    if(idx === 1){
+      setIdx(2)
+    }else{
+      setIdx(1)
+    }
+  }
+
   return (
     <Wrapper onClick={handleClick} presentProgress={presentProgress}>
       <LeftSideBox>
@@ -30,12 +44,19 @@ const MessageBox = ({
           <li>{secondText}</li>
           {thirdText && <li>{thirdText}</li>}
         </List>
+      {num === 5 ?
+        <ImageBox>
+          <Index onClick={handleNum}>
+            {idx}/2
+          </Index>
+        </ImageBox> :null}
       </LeftSideBox>
+      {page?null:
       <IconBox>
         <ArrowIconBox>
           <Image src={CaretDown24} alt="RightArrow" />
         </ArrowIconBox>
-      </IconBox>
+      </IconBox>}
     </Wrapper>
   );
 };
@@ -56,6 +77,7 @@ const LeftSideBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6pt;
+  width: 100%;
 `;
 
 const BigText = styled.div`
@@ -91,5 +113,31 @@ const ArrowIconBox = styled.div`
   width: 18pt;
   height: 18pt;
 `;
+
+
+const ImageBox = styled.div`
+    width: 100%;
+    height: 66pt;
+    margin: 0 auto;
+    border: 1px solid #E2E5ED;
+    border-radius: 6pt;
+    position: relative;
+`
+const Index = styled.div`
+  width: 12pt;
+  padding: 1.5pt 4.5pt;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 7.5pt;
+  color: white;
+  position: absolute;
+  bottom: 9pt;
+  right: 6pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 7.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+`
 
 export default MessageBox;

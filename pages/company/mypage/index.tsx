@@ -122,6 +122,7 @@ const TabContainer = styled.div`
   display: flex;
   gap: 15pt;
   padding-left: 15pt;
+  border: 1px red;
 `;
 const TabItem = styled.span<{ tab: string; index: string }>`
   padding-top: 21pt;

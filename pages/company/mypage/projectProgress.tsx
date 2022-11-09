@@ -10,11 +10,11 @@ import { Data } from './runningProgress/[id]';
 
 type Props = {
   info : Data;
-  setData : React.Dispatch<React.SetStateAction<Data>>;
+  setData: React.Dispatch<React.SetStateAction<Data>>;
 };
 
 const Progress = ({info,setData}: Props) => {
-
+  
   const [open, setOpen] = useState<boolean>(false);
   // 선택 날짜 관련
   const [selectedDays, SetSelectedDays] = useState<string>('');
@@ -98,7 +98,6 @@ const Progress = ({info,setData}: Props) => {
             toggleOpen={toggleOpen}
             setToggleOpen={setToggleOpen}
             presentProgress={info.state}
-            progressNum={progressNum}
             setProgressNum={setProgressNum}
             state={badgeState}
             planed = {info.planed}
@@ -169,7 +168,7 @@ const Progress = ({info,setData}: Props) => {
             textThree={'사용 전 검사 및 점검'}
             textFour={'신고 및 사용 승인'}
             textFive={'완료현장 사진 기록'}
-            almostFinish={info.state >= progressNum? true : false}
+            almostFinish={info.state > progressNum? true : false}
             beforeFinish={info.state === progressNum? true : false}
             btnText={'프로젝트 완료하기'}
             setBadgeState={setBadgeState}

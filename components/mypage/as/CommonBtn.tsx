@@ -5,22 +5,26 @@ type Props = {
   text: string;
   backgroundColor: string;
   bottom?: string;
+  top?: string
+  left?: string
 };
 
 const CommonBtn = (props: Props) => {
-  const { text, backgroundColor, bottom } = props;
+  const { text, backgroundColor, bottom, top, left } = props;
 
   return (
     <StatusBtn
       backgroundColor={backgroundColor}
       bottom={bottom !== undefined && bottom.length > 0 ? bottom : '0pt'}
+      top={top}
+      left={left}
     >
       {text}
     </StatusBtn>
   );
 };
 
-const StatusBtn = styled.span<{ backgroundColor: string; bottom: string }>`
+const StatusBtn = styled.span<{ backgroundColor: string; bottom: string; top: string|undefined; left: string|undefined; }>`
   padding: 4.5pt 7.5pt;
   background-color: ${({ backgroundColor }) => backgroundColor};
   border-radius: 12pt;
@@ -28,7 +32,8 @@ const StatusBtn = styled.span<{ backgroundColor: string; bottom: string }>`
   margin-top: ${({ bottom }) => bottom};
   text-align: center;
   position: relative;
-  top: 1pt;
+  top: ${({ top }) => top? top : '1pt'};
+  left: ${({ left }) => left? left : '0'};
   color: #ffffff;
   font-size: 9pt;
   font-weight: 500;

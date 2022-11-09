@@ -9,6 +9,7 @@ import AsIndex from 'components/mypage/as';
 import BottomNavigation from 'components/BottomNavigation';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
+import MyProjects from 'components/mypage/projects/MyProjects';
 
 export interface UserInfo {
   isSuccess: boolean;
@@ -26,6 +27,7 @@ const Request = () => {
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
   const components: Components = {
     0: <Estimate />,
+    1: <MyProjects/>,
     2: <AsIndex />,
   };
 
