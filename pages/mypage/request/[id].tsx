@@ -13,7 +13,7 @@ import { useMutation, useQuery } from 'react-query';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
-import { PreQuotationResponse } from './detail/[id]';
+import { FinalQuotations, PreQuotationResponse } from './detail/[id]';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import { AxiosError } from 'axios';
 import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
@@ -49,6 +49,7 @@ export interface PreQuotations {
   quotationRequestIdx: number;
   memberIdx: number;
   companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
+  finalQuotation: FinalQuotations;
 }
 export interface QuotationRequestChargers {
   createdAt: string;
@@ -195,10 +196,14 @@ const Mypage1_3 = ({}: any) => {
         e?.preQuotationIdx ===
         data?.quotationRequest?.currentInProgressPreQuotationIdx,
     );
-    console.log(ConfirmId);
-    // confirmPatchMutate({
-    //   url: `/quotations/final/${ConfirmId}`,
-    // });
+    if (ConfirmId) {
+      const finalQuotationIdx = ConfirmId[0].finalQuotation.finalQuotationIdx;
+      console.log(ConfirmId[0].finalQuotation.finalQuotationIdx);
+
+      // confirmPatchMutate({
+      //   url: `/quotations/final/${finalQuotationIdx}`,
+      // });
+    }
   };
 
   if (isError || spotIsError) {

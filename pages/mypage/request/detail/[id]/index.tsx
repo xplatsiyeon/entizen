@@ -71,7 +71,7 @@ export interface FinalQuotationChargers {
   catalogFiles: ChargerImageFiles[];
 }
 
-export interface FinalQuotation {
+export interface FinalQuotations {
   createdAt: string;
   finalQuotationIdx: number;
   subscribeProduct: string;
@@ -99,7 +99,7 @@ export interface PreQuotation {
   memberIdx: number;
   preQuotationChargers: PreQuotationChargers[];
   member: Member;
-  finalQuotation: FinalQuotation;
+  finalQuotation: FinalQuotations;
 }
 export interface PreQuotationResponse {
   isSuccess: boolean;
