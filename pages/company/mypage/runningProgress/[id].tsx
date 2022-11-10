@@ -128,7 +128,7 @@ const RunningProgress = (props: Props) => {
     <>
       <MypageHeader back={true} title={'진행 프로젝트'} />
       { (data.id !== -1)? <>
-      <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={data} />
+      <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={data} tap={'project'}/>
       {data.contract ?(
         <Progress info={data} setData={setData} />
       ) : (
