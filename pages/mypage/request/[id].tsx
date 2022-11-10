@@ -22,6 +22,7 @@ import ScheduleConfirm from 'components/mypage/request/ScheduleConfirm';
 import ScheduleChange from 'components/mypage/request/ScheduleChange';
 import Checking from 'components/mypage/request/Checking';
 import ManagerInfo from 'components/mypage/request/ManagerInfo';
+import FinalQuotation from 'components/mypage/request/FinalQuotation';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -233,7 +234,10 @@ const Mypage1_3 = ({}: any) => {
                   )}
                   {/* 최종견적 가견적 구별 조견문 */}
                   {quotationData?.preQuotation?.finalQuotation ? (
-                    <div>최종견적 있따</div>
+                    <FinalQuotation
+                      data={quotationData!}
+                      isSpot={spotData?.data?.spotInspection ? true : false}
+                    />
                   ) : (
                     <BiddingQuote
                       data={quotationData!}
