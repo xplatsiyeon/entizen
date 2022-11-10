@@ -22,6 +22,9 @@ const useProfile = (ACCESS_TOKEN: string) => {
   const { data: profileResponse, isLoading } = useQuery<ProfileResponse>(
     ['getProfile', ACCESS_TOKEN],
     () => isTokenGetApi('/members/info'),
+    {
+      enabled: ACCESS_TOKEN ? true : false,
+    },
   );
 
   const invalidate = () => {
