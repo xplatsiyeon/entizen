@@ -99,7 +99,7 @@ export interface PreQuotation {
   memberIdx: number;
   preQuotationChargers: PreQuotationChargers[];
   member: Member;
-  finalQuotation?: FinalQuotation;
+  finalQuotation: FinalQuotation;
 }
 export interface PreQuotationResponse {
   isSuccess: boolean;

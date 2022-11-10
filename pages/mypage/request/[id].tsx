@@ -158,6 +158,8 @@ const Mypage1_3 = ({}: any) => {
   console.log('⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
   console.log(data);
   console.log(spotData);
+  console.log(quotationData?.preQuotation?.finalQuotation);
+  console.log(quotationData?.preQuotation?.finalQuotation === null);
 
   const spotInspection = spotData?.data?.spotInspection!;
   const hasReceivedSpotInspectionDates =
@@ -210,7 +212,7 @@ const Mypage1_3 = ({}: any) => {
               ) : (
                 <>
                   {/* 상태에 따라 안내문 변경 */}
-                  {!quotationData?.preQuotation?.finalQuotation &&
+                  {quotationData?.preQuotation?.finalQuotation === null &&
                   spotInspection !== null &&
                   spotInspection?.isConfirmed ? (
                     <ScheduleConfirm
@@ -237,7 +239,7 @@ const Mypage1_3 = ({}: any) => {
                   )}
 
                   {/* 최종견적 가견적 구별 조견문 */}
-                  {quotationData?.preQuotation?.finalQuotation ? (
+                  {quotationData?.preQuotation?.finalQuotation !== null ? (
                     <FinalQuotation
                       data={quotationData!}
                       isSpot={spotData?.data?.spotInspection ? true : false}
