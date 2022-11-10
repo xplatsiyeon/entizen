@@ -1,30 +1,30 @@
 import styled from '@emotion/styled';
-import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import EstimateContainer from 'components/mypage/request/estimateContainer';
 import MypageHeader from 'components/mypage/request/header';
 import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import colors from 'styles/colors';
 import CommunicationBox from 'components/CommunicationBox';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
-import MypageDetail, { PreQuotationResponse } from './detail/[id]';
+import { PreQuotationResponse } from './detail/[id]';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import { AxiosError } from 'axios';
 import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
 import ScheduleConfirm from 'components/mypage/request/ScheduleConfirm';
 import ScheduleChange from 'components/mypage/request/ScheduleChange';
 import Checking from 'components/mypage/request/Checking';
-import ManagerInfo from 'components/mypage/request/ManagerInfo';
 import FinalQuotation from 'components/mypage/request/FinalQuotation';
 import Image from 'next/image';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
+import TwoBtnModal from 'components/Modal/TwoBtnModal';
+import M17Modal from 'components/Modal/M17Modal';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -89,6 +89,7 @@ const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
+  const [otherPartnerModal, setOtherPartnerModal] = useState(false);
 
   //----------- 구매자 내견적 상세 조회 API ------------
   const { data, isError, isLoading, refetch } =
@@ -96,8 +97,8 @@ const Mypage1_3 = ({}: any) => {
       'mypage/request/id',
       () => isTokenGetApi(`/quotations/request/${routerId}`),
       {
-        enabled: router.isReady,
-        // enabled: false,
+        // enabled: router.isReady,
+        enabled: false,
       },
     );
 
@@ -114,9 +115,9 @@ const Mypage1_3 = ({}: any) => {
         `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
       ),
     {
-      enabled:
-        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
-      // enabled: false,
+      // enabled:
+      // data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
+      enabled: false,
     },
   );
 
@@ -134,19 +135,38 @@ const Mypage1_3 = ({}: any) => {
         `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}/spot-inspection`,
       ),
     {
-      enabled:
-        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
-      // enabled: false,
+      // enabled:
+      // data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
+      enabled: false,
     },
   );
+  // ----------- 다른 파트너 선정 patch api -----------
+  const { mutate: otherPatchMutate, isLoading: otherPatchLoading } =
+    useMutation(isTokenPatchApi, {
+      onSuccess: () => {
+        refetch();
+      },
+      onError: (error: any) => {
+        console.log('다른 파트너 선정 patch error');
+        console.log(error);
+      },
+    });
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   // 모달 왼쪽, 오른쪽 버튼 핸들러
   const backPage = () => router.back();
   const handleOnClick = () => setModalOpen(!modalOpen);
 
-  const onClickOtherPartner = () => {};
+  const onClickOtherPartner = () => {
+    setOtherPartnerModal(true);
+  };
   const onClickConfirm = () => {};
+
+  const onClickOtherPartnerModal = () => {
+    otherPatchMutate({
+      url: `/quotations/pre/${quotationData?.preQuotation?.preQuotationIdx}`,
+    });
+  };
 
   if (isError || spotIsError) {
     return (
@@ -186,6 +206,18 @@ const Mypage1_3 = ({}: any) => {
           rightBtnControl={handleOnClick}
         />
       )}
+      {/* 다른 파트너 모달 */}
+      {otherPartnerModal && (
+        <M17Modal
+          backgroundOnClick={() => setOtherPartnerModal(false)}
+          contents={'다른 파트너에게\n재견적을 받아보시겠습니까?'}
+          leftText={'취소'}
+          leftControl={() => setOtherPartnerModal(false)}
+          rightText={'확인'}
+          rightControl={onClickOtherPartnerModal}
+        />
+      )}
+
       <Body>
         <WebHeader num={0} now={'mypage'} />
         <Inner>
