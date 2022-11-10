@@ -90,7 +90,7 @@ const CenterBox = ({ spotData, data }: Props) => {
           )}
 
         {/* ----------- 현장실사 일정 확정 -------------- */}
-        {spotData?.data?.hasReceivedSpotInspectionDates === true &&
+        {spotData?.data?.hasReceivedSpotInspectionDates === false &&
           spotData?.data?.spotInspection?.isNewPropose === false &&
           spotData?.data?.spotInspection?.isConfirmed === true &&
           data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
@@ -109,7 +109,7 @@ const CenterBox = ({ spotData, data }: Props) => {
             </>
           )}
         {/* ----------- 현장실사 완료 -------------- */}
-        {spotData?.data?.hasReceivedSpotInspectionDates === true &&
+        {spotData?.data?.hasReceivedSpotInspectionDates === false &&
           spotData?.data?.spotInspection?.isNewPropose === false &&
           spotData?.data?.spotInspection?.isConfirmed === true &&
           data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
