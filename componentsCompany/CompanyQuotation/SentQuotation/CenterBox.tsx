@@ -37,44 +37,62 @@ const CenterBox = ({ spotData, data }: Props) => {
         </DownArrowBox>
 
         {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
-        {data?.sendQuotationRequest?.badge === '현장실사 조율 중' && (
-          <ReservationDate>
-            <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
-            <div className="btnBox">
-              <div
-                className="btn right"
-                onClick={() =>
-                  router.push({
-                    pathname: '/company/datePick',
-                    query: {
-                      preQuotation:
-                        spotData.data.spotInspection.preQuotationIdx,
-                    },
-                  })
-                }
-              >
-                달력으로 확인하기
+        {spotData?.data?.hasReceivedSpotInspectionDates === true &&
+          spotData?.data?.spotInspection?.isNewPropose === false &&
+          spotData?.data?.spotInspection?.isConfirmed === false && (
+            <ReservationDate>
+              <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
+              <div className="btnBox">
+                <div
+                  className="btn right"
+                  onClick={() =>
+                    router.push({
+                      pathname: '/company/datePick',
+                      query: {
+                        preQuotation:
+                          spotData.data.spotInspection.preQuotationIdx,
+                      },
+                    })
+                  }
+                >
+                  달력으로 확인하기
+                </div>
+                <div className="btn left" onClick={() => setModalOpen(true)}>
+                  사진으로 대체하기
+                </div>
               </div>
-              <div className="btn left" onClick={() => setModalOpen(true)}>
-                사진으로 대체하기
-              </div>
-            </div>
-          </ReservationDate>
-        )}
+            </ReservationDate>
+          )}
+
         {/* ------------ 일정변경 요청 -------------- */}
-        {data?.sendQuotationRequest?.badge === '현장실사 조율 중' &&
-          spotData?.data?.spotInspection?.isNewPropose === true && (
+        {spotData?.data?.hasReceivedSpotInspectionDates === true &&
+          spotData?.data?.spotInspection?.isNewPropose === true &&
+          spotData?.data?.spotInspection?.isConfirmed === false && (
             <ReservationDateCheck>
               <div className="text">일정 변경 요청이 들어왔습니다.</div>
               <div className="btnBox">
-                <div className="checkBtn" onClick={() => setCheckFlow(true)}>
+                <div
+                  className="checkBtn"
+                  onClick={() =>
+                    router.push({
+                      pathname: '/company/datePick',
+                      query: {
+                        preQuotation:
+                          spotData.data.spotInspection.preQuotationIdx,
+                      },
+                    })
+                  }
+                >
                   확인하기
                 </div>
               </div>
             </ReservationDateCheck>
           )}
+
         {/* ----------- 현장실사 일정 확정 -------------- */}
-        {spotData?.data?.spotInspection?.isConfirmed === true &&
+        {spotData?.data?.hasReceivedSpotInspectionDates === false &&
+          spotData?.data?.spotInspection?.isNewPropose === false &&
+          spotData?.data?.spotInspection?.isConfirmed === true &&
           data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
             <>
               <ConfirmedReservation>
@@ -91,7 +109,9 @@ const CenterBox = ({ spotData, data }: Props) => {
             </>
           )}
         {/* ----------- 현장실사 완료 -------------- */}
-        {spotData?.data?.spotInspection?.isConfirmed === true &&
+        {spotData?.data?.hasReceivedSpotInspectionDates === false &&
+          spotData?.data?.spotInspection?.isNewPropose === false &&
+          spotData?.data?.spotInspection?.isConfirmed === true &&
           data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
             <>
               <ConfirmedReservation>

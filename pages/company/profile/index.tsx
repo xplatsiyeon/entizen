@@ -13,6 +13,7 @@ import { InputAdornment, TextField, Typography } from '@mui/material';
 import CompanyAddress from 'components/SignUp/CompanyAddress';
 
 
+
 const ProfileEditing = () => {
     const router = useRouter();
     const { selectedType } = useSelector((state: RootState) => state.selectType);

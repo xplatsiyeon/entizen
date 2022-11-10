@@ -22,6 +22,7 @@ import ScheduleConfirm from 'components/mypage/request/ScheduleConfirm';
 import ScheduleChange from 'components/mypage/request/ScheduleChange';
 import Checking from 'components/mypage/request/Checking';
 import ManagerInfo from 'components/mypage/request/ManagerInfo';
+import FinalQuotation from 'components/mypage/request/FinalQuotation';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -122,6 +123,7 @@ const Mypage1_3 = ({}: any) => {
     data: spotData,
     isLoading: spotLoading,
     isError: spotIsError,
+    refetch: spotRetch,
     error: spotError,
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
@@ -132,12 +134,10 @@ const Mypage1_3 = ({}: any) => {
     {
       enabled:
         data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
-      // enabled: false,
     },
   );
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-
   // 모달 왼쪽, 오른쪽 버튼 핸들러
   const backPage = () => router.back();
   const handleOnClick = () => setModalOpen(!modalOpen);
@@ -159,28 +159,9 @@ const Mypage1_3 = ({}: any) => {
   console.log(data);
   console.log(spotData);
 
-  /**현장 실사에 따라 안내 컴포넌트 변경해주는 함수 */
-  const switchNotice = () => {
-    const spotInspection = spotData?.data?.spotInspection!;
-    if (spotInspection !== null) {
-      if (spotInspection?.isConfirmed) {
-        return (
-          <ScheduleConfirm
-            date={spotInspection?.spotInspectionDate[0]}
-            spotId={data?.quotationRequest?.currentInProgressPreQuotationIdx!}
-          />
-        );
-      } else if (spotInspection?.isNewPropose) {
-        <ScheduleChange
-          spotId={data?.quotationRequest?.currentInProgressPreQuotationIdx!}
-        />;
-      } else {
-        <Checking
-          date={spotData?.data?.spotInspection?.spotInspectionDate[0]!}
-        />;
-      }
-    }
-  };
+  const spotInspection = spotData?.data?.spotInspection!;
+  const hasReceivedSpotInspectionDates =
+    spotData?.data?.hasReceivedSpotInspectionDates!;
 
   return (
     <>
@@ -228,11 +209,46 @@ const Mypage1_3 = ({}: any) => {
                 </>
               ) : (
                 <>
-                  {switchNotice()}
-                  <BiddingQuote
-                    data={quotationData!}
-                    isSpot={spotData?.data?.spotInspection ? true : false}
-                  />
+                  {/* 상태에 따라 안내문 변경 */}
+                  {!quotationData?.preQuotation?.finalQuotation &&
+                  spotInspection !== null &&
+                  spotInspection?.isConfirmed ? (
+                    <ScheduleConfirm
+                      date={spotInspection?.spotInspectionDate[0]}
+                      spotId={
+                        data?.quotationRequest
+                          ?.currentInProgressPreQuotationIdx!
+                      }
+                    />
+                  ) : hasReceivedSpotInspectionDates === true &&
+                    spotInspection?.isNewPropose ? (
+                    <ScheduleChange
+                      spotId={
+                        data?.quotationRequest
+                          ?.currentInProgressPreQuotationIdx!
+                      }
+                    />
+                  ) : (
+                    <Checking
+                      date={
+                        spotData?.data?.spotInspection?.spotInspectionDate[0]!
+                      }
+                    />
+                  )}
+
+                  {/* 최종견적 가견적 구별 조견문 */}
+                  {quotationData?.preQuotation?.finalQuotation ? (
+                    <FinalQuotation
+                      data={quotationData!}
+                      isSpot={spotData?.data?.spotInspection ? true : false}
+                    />
+                  ) : (
+                    <BiddingQuote
+                      data={quotationData!}
+                      isSpot={spotData?.data?.spotInspection ? true : false}
+                    />
+                  )}
+
                   <TextBox>
                     <CommunicationBox
                       text="파트너와 소통하기"

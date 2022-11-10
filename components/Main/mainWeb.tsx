@@ -1,4 +1,3 @@
-
 import Carousel from 'components/Main/Carousel';
 import SalesProjection from 'components/Main/SalesProjection';
 import React, { useState } from 'react';
@@ -23,13 +22,36 @@ import WhyEntizenWeb from './WhyEntizenWeb';
 import { useDispatch } from 'react-redux';
 import { locationAction } from 'store/locationSlice';
 import Modal from 'components/Modal/Modal';
+import { useQuery } from 'react-query';
+import { Count } from '.';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const [text, setText] = useState('');
   const [isModal, setIsModal] = useState(false);
+
+  const {
+    data: quotationData,
+    isLoading: quotationIsLoading,
+    isError: quotationIsError,
+  } = useQuery<Count>(
+    'quotation-count',
+    () => isTokenGetApi('/quotations/request/count'),
+    {
+      enabled: ACCESS_TOKEN ? true : false,
+    },
+  );
+  const {
+    data: projectData,
+    isLoading: projectIsLoading,
+    isError: projectIsError,
+  } = useQuery<Count>('project-count', () => isTokenGetApi('/projects/count'), {
+    enabled: ACCESS_TOKEN ? true : false,
+  });
 
   const handleOnClick = () => {
     if (text.length >= 1) {
@@ -39,6 +61,14 @@ const Main = () => {
       setIsModal(true);
     }
   };
+
+  if (quotationIsLoading || projectIsLoading) {
+    return <Loader />;
+  }
+  if (quotationIsError || projectIsError) {
+    console.log('에러 발생');
+  }
+
   return (
     <>
       {isModal && (
@@ -57,7 +87,11 @@ const Main = () => {
           <Button onClick={handleOnClick}>검색</Button>
         </SalesWrap>
         <ProjectWrap>
-          <MyEstimateProject borders={12} />
+          <MyEstimateProject
+            borders={12}
+            quotationData={quotationData!}
+            projectData={projectData!}
+          />
           <SubscribeRequest borders={12} />
         </ProjectWrap>
       </ContentWrap>
