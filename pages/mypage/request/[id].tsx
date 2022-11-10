@@ -96,8 +96,8 @@ const Mypage1_3 = ({}: any) => {
       'mypage/request/id',
       () => isTokenGetApi(`/quotations/request/${routerId}`),
       {
-        // enabled: router.isReady,
-        enabled: false,
+        enabled: router.isReady,
+        // enabled: false,
       },
     );
 
@@ -114,9 +114,9 @@ const Mypage1_3 = ({}: any) => {
         `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
       ),
     {
-      // enabled:
-      //   data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
-      enabled: false,
+      enabled:
+        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
+      // enabled: false,
     },
   );
 
@@ -134,9 +134,9 @@ const Mypage1_3 = ({}: any) => {
         `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}/spot-inspection`,
       ),
     {
-      // enabled:
-      //   data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
-      enabled: false,
+      enabled:
+        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
+      // enabled: false,
     },
   );
   // 모달 on / off
