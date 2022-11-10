@@ -37,43 +37,14 @@ const CenterBox = ({ spotData, data }: Props) => {
         </DownArrowBox>
 
         {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
-        {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' ||
-          (data?.sendQuotationRequest?.badge === '현장실사 조율 중' &&
-            spotData?.data?.hasReceivedSpotInspectionDates === false &&
-            spotData?.data?.spotInspection?.isNewPropose === false && (
-              <ReservationDate>
-                <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
-                <div className="btnBox">
-                  <div
-                    className="btn right"
-                    onClick={() =>
-                      router.push({
-                        pathname: '/company/datePick',
-                        query: {
-                          preQuotation:
-                            spotData.data.spotInspection.preQuotationIdx,
-                        },
-                      })
-                    }
-                  >
-                    달력으로 확인하기
-                  </div>
-                  <div className="btn left" onClick={() => setModalOpen(true)}>
-                    사진으로 대체하기
-                  </div>
-                </div>
-              </ReservationDate>
-            ))}
-
-        {/* ------------ 일정변경 요청 -------------- */}
         {data?.sendQuotationRequest?.badge === '현장실사 조율 중' &&
-          spotData?.data?.hasReceivedSpotInspectionDates === true &&
-          spotData?.data?.spotInspection?.isNewPropose === true && (
-            <ReservationDateCheck>
-              <div className="text">일정 변경 요청이 들어왔습니다.</div>
+          spotData?.data?.hasReceivedSpotInspectionDates === false &&
+          spotData?.data?.spotInspection?.isNewPropose === false && (
+            <ReservationDate>
+              <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
               <div className="btnBox">
                 <div
-                  className="checkBtn"
+                  className="btn right"
                   onClick={() =>
                     router.push({
                       pathname: '/company/datePick',
@@ -84,11 +55,40 @@ const CenterBox = ({ spotData, data }: Props) => {
                     })
                   }
                 >
-                  확인하기
+                  달력으로 확인하기
+                </div>
+                <div className="btn left" onClick={() => setModalOpen(true)}>
+                  사진으로 대체하기
                 </div>
               </div>
-            </ReservationDateCheck>
+            </ReservationDate>
           )}
+
+        {/* ------------ 일정변경 요청 -------------- */}
+        {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' ||
+          (data?.sendQuotationRequest?.badge === '현장실사 조율 중' &&
+            spotData?.data?.hasReceivedSpotInspectionDates === true &&
+            spotData?.data?.spotInspection?.isNewPropose === true && (
+              <ReservationDateCheck>
+                <div className="text">일정 변경 요청이 들어왔습니다.</div>
+                <div className="btnBox">
+                  <div
+                    className="checkBtn"
+                    onClick={() =>
+                      router.push({
+                        pathname: '/company/datePick',
+                        query: {
+                          preQuotation:
+                            spotData.data.spotInspection.preQuotationIdx,
+                        },
+                      })
+                    }
+                  >
+                    확인하기
+                  </div>
+                </div>
+              </ReservationDateCheck>
+            ))}
 
         {/* ----------- 현장실사 일정 확정 -------------- */}
         {spotData?.data?.spotInspection?.isConfirmed === true &&
