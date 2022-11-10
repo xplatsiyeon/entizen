@@ -96,8 +96,8 @@ const Mypage1_3 = ({}: any) => {
       'mypage/request/id',
       () => isTokenGetApi(`/quotations/request/${routerId}`),
       {
-        enabled: router.isReady,
-        // enabled: false,
+        // enabled: router.isReady,
+        enabled: false,
       },
     );
 
@@ -114,9 +114,9 @@ const Mypage1_3 = ({}: any) => {
         `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
       ),
     {
-      enabled:
-        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
-      // enabled: false,
+      // enabled:
+      //   data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
+      enabled: false,
     },
   );
 
@@ -134,8 +134,9 @@ const Mypage1_3 = ({}: any) => {
         `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}/spot-inspection`,
       ),
     {
-      enabled:
-        data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
+      // enabled:
+      //   data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
+      enabled: false,
     },
   );
   // 모달 on / off
@@ -143,6 +144,9 @@ const Mypage1_3 = ({}: any) => {
   // 모달 왼쪽, 오른쪽 버튼 핸들러
   const backPage = () => router.back();
   const handleOnClick = () => setModalOpen(!modalOpen);
+
+  const onClickOtherPartner = () => {};
+  const onClickConfirm = () => {};
 
   if (isError || spotIsError) {
     return (
@@ -244,6 +248,7 @@ const Mypage1_3 = ({}: any) => {
                   ) : null}
 
                   {/* 최종견적 가견적 구별 조견문 */}
+
                   {quotationData?.preQuotation?.finalQuotation !== null ? (
                     <FinalQuotation
                       data={quotationData!}
@@ -255,13 +260,20 @@ const Mypage1_3 = ({}: any) => {
                       isSpot={spotData?.data?.spotInspection ? true : false}
                     />
                   )}
-
                   <TextBox>
                     <CommunicationBox
                       text="파트너와 소통하기"
                       clickHandler={() => alert('개발중입니다.')}
                     />
                   </TextBox>
+                  <ButtonBox>
+                    <Button isWhite={true} onClick={onClickOtherPartner}>
+                      다른 파트너 선정
+                    </Button>
+                    <Button isWhite={false} onClick={onClickConfirm}>
+                      확정하기
+                    </Button>
+                  </ButtonBox>
                 </>
               )}
             </Wrap2>
@@ -295,7 +307,6 @@ const DownArrowBox = styled.div`
   padding-bottom: 30pt;
   text-align: center;
 `;
-
 const Inner = styled.div`
   display: block;
   position: relative;
@@ -309,12 +320,10 @@ const Inner = styled.div`
     margin: 0 auto;
   }
 `;
-
 const FlexBox = styled.div`
   display: flex;
   position: relative;
 `;
-
 const Wrap1 = styled.div`
   //width: 255pt;
   border: 1px solid #e9eaee;
@@ -336,7 +345,6 @@ const Wrap2 = styled.div`
     padding-bottom: 50pt;
   }
 `;
-
 const TextBox = styled.div`
   width: 100%;
   margin-bottom: 9pt;
@@ -355,4 +363,27 @@ const TextBox = styled.div`
   @media (max-width: 899pt) {
     padding-top: 75pt;
   }
+`;
+const ButtonBox = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  gap: 11.25pt;
+  width: 100%;
+  padding: 63pt 15pt 107.25pt 15pt;
+`;
+const Button = styled.button<{ isWhite: boolean }>`
+  padding: 15pt 19.5pt;
+  width: 100%;
+  border: 0.75pt solid ${colors.main1};
+  border-radius: 6pt;
+  background-color: ${({ isWhite }) =>
+    isWhite ? colors.lightWhite : colors.main};
+  color: ${({ isWhite }) => (isWhite ? colors.main : colors.lightWhite)};
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  cursor: pointer;
 `;
