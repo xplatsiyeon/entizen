@@ -71,7 +71,18 @@ const CenterBox = ({ spotData, data }: Props) => {
             <ReservationDateCheck>
               <div className="text">일정 변경 요청이 들어왔습니다.</div>
               <div className="btnBox">
-                <div className="checkBtn" onClick={() => setCheckFlow(true)}>
+                <div
+                  className="checkBtn"
+                  onClick={() =>
+                    router.push({
+                      pathname: '/company/datePick',
+                      query: {
+                        preQuotation:
+                          spotData.data.spotInspection.preQuotationIdx,
+                      },
+                    })
+                  }
+                >
                   확인하기
                 </div>
               </div>
