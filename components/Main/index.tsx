@@ -30,6 +30,7 @@ import Nut from 'public/images/Nut.png';
 import Bell from 'public/images/mobBell.png';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 import { locationAction } from 'store/locationSlice';
+import useProfile from 'hooks/useProfile';
 
 type Props = {};
 const TAP = 'components/Main/index.tsx';
@@ -37,8 +38,10 @@ const MainPage = (props: Props) => {
   console.log(TAP + ' -> 메인 컴포넌트 시작');
   const router = useRouter();
   const dispatch = useDispatch();
- //const userID = JSON.parse(localStorage.getItem('USER_ID')!);
- const userID = localStorage.getItem('USER_ID');
+  //const userID = JSON.parse(localStorage.getItem('USER_ID')!);
+  const userID = localStorage.getItem('USER_ID');
+  const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, invalidate, isLoading } = useProfile(ACCESS_TOKEN);
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
@@ -100,7 +103,8 @@ const MainPage = (props: Props) => {
           <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
             <span onClick={() => router.push('/profile/editing')}>
               <label className="label">일반회원</label>
-              {userID}
+              {/* {userID} */}
+              {profile?.name}
             </span>
             <span
               className="arrow-img"
