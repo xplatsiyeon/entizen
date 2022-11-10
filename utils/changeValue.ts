@@ -56,8 +56,6 @@ export const handleColor = (badge: string | undefined): string => {
     return '';
   }
 };
-<<<<<<< HEAD
-
 export const handleColor2 = (badge: number) => {
     if (badge === 0) {
       return colors.main;
@@ -73,5 +71,3 @@ export const handleColor2 = (badge: number) => {
       return '';
     }
   } 
-=======
->>>>>>> 0f4b857defebe4ab33d9c5253c19037f1890cc3a
