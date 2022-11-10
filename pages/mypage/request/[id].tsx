@@ -194,7 +194,7 @@ const Mypage1_3 = ({}: any) => {
         e?.preQuotationIdx ===
         data?.quotationRequest?.currentInProgressPreQuotationIdx,
     );
-    console.log(ConfirmId);
+    console.log('ConfirmId' + ConfirmId);
     // confirmPatchMutate({
     //   url: `/quotations/final/${ConfirmId}`,
     // });
@@ -252,10 +252,10 @@ const Mypage1_3 = ({}: any) => {
       {/* 확정하기 모달 */}
       {confirmModal && (
         <M17Modal
-          backgroundOnClick={() => setOtherPartnerModal(false)}
+          backgroundOnClick={() => setConfirmModal(false)}
           contents={'Charge Point로\n확정하시겠습니까?'}
           leftText={'취소'}
-          leftControl={() => setOtherPartnerModal(false)}
+          leftControl={() => setConfirmModal(false)}
           rightText={'확인'}
           rightControl={onClickConfirmModal}
         />
