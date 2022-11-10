@@ -90,6 +90,7 @@ const Mypage1_3 = ({}: any) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
   const [otherPartnerModal, setOtherPartnerModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
 
   //----------- 구매자 내견적 상세 조회 API ------------
   const { data, isError, isLoading, refetch } =
@@ -145,6 +146,19 @@ const Mypage1_3 = ({}: any) => {
     useMutation(isTokenPatchApi, {
       onSuccess: () => {
         refetch();
+        setOtherPartnerModal(false);
+      },
+      onError: (error: any) => {
+        console.log('다른 파트너 선정 patch error');
+        console.log(error);
+      },
+    });
+  // ----------- 최종견적 낙찰 확정 patch api -----------
+  const { mutate: confirmPatchMutate, isLoading: confirmPatchLoading } =
+    useMutation(isTokenPatchApi, {
+      onSuccess: () => {
+        setOtherPartnerModal(false);
+        router.replace('/mypage/request/complete');
       },
       onError: (error: any) => {
         console.log('다른 파트너 선정 patch error');
@@ -160,12 +174,30 @@ const Mypage1_3 = ({}: any) => {
   const onClickOtherPartner = () => {
     setOtherPartnerModal(true);
   };
-  const onClickConfirm = () => {};
-
+  const onClickConfirm = () => {
+    setOtherPartnerModal(true);
+  };
+  /**
+   * 다른 파트너 선정 api 호출 함수
+   */
   const onClickOtherPartnerModal = () => {
     otherPatchMutate({
-      url: `/quotations/pre/${quotationData?.preQuotation?.preQuotationIdx}`,
+      url: `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
     });
+  };
+  /**
+   * 최종견적 낙찰 확정 api 호출 함수
+   */
+  const onClickConfirmModal = () => {
+    const ConfirmId = data?.preQuotations?.filter(
+      (e) =>
+        e?.preQuotationIdx ===
+        data?.quotationRequest?.currentInProgressPreQuotationIdx,
+    );
+    console.log(ConfirmId);
+    // confirmPatchMutate({
+    //   url: `/quotations/final/${ConfirmId}`,
+    // });
   };
 
   if (isError || spotIsError) {
@@ -178,7 +210,7 @@ const Mypage1_3 = ({}: any) => {
       />
     );
   }
-  if (isLoading || spotLoading) {
+  if (isLoading || spotLoading || otherPatchLoading || confirmPatchLoading) {
     return <Loader />;
   }
   console.log('⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
@@ -215,6 +247,17 @@ const Mypage1_3 = ({}: any) => {
           leftControl={() => setOtherPartnerModal(false)}
           rightText={'확인'}
           rightControl={onClickOtherPartnerModal}
+        />
+      )}
+      {/* 확정하기 모달 */}
+      {confirmModal && (
+        <M17Modal
+          backgroundOnClick={() => setOtherPartnerModal(false)}
+          contents={'Charge Point로\n확정하시겠습니까?'}
+          leftText={'취소'}
+          leftControl={() => setOtherPartnerModal(false)}
+          rightText={'확인'}
+          rightControl={onClickConfirmModal}
         />
       )}
 
@@ -282,30 +325,42 @@ const Mypage1_3 = ({}: any) => {
                   {/* 최종견적 가견적 구별 조견문 */}
 
                   {quotationData?.preQuotation?.finalQuotation !== null ? (
-                    <FinalQuotation
-                      data={quotationData!}
-                      isSpot={spotData?.data?.spotInspection ? true : false}
-                    />
+                    <>
+                      {/* 최종견적 */}
+                      <FinalQuotation
+                        data={quotationData!}
+                        isSpot={spotData?.data?.spotInspection ? true : false}
+                      />
+                      <TextBox>
+                        <CommunicationBox
+                          text="파트너와 소통하기"
+                          clickHandler={() => alert('개발중입니다.')}
+                        />
+                      </TextBox>
+                      <ButtonBox>
+                        <Button isWhite={true} onClick={onClickOtherPartner}>
+                          다른 파트너 선정
+                        </Button>
+                        <Button isWhite={false} onClick={onClickConfirm}>
+                          확정하기
+                        </Button>
+                      </ButtonBox>
+                    </>
                   ) : (
-                    <BiddingQuote
-                      data={quotationData!}
-                      isSpot={spotData?.data?.spotInspection ? true : false}
-                    />
+                    <>
+                      {/* 가견적 */}
+                      <BiddingQuote
+                        data={quotationData!}
+                        isSpot={spotData?.data?.spotInspection ? true : false}
+                      />
+                      <TextBox>
+                        <CommunicationBox
+                          text="파트너와 소통하기"
+                          clickHandler={() => alert('개발중입니다.')}
+                        />
+                      </TextBox>
+                    </>
                   )}
-                  <TextBox>
-                    <CommunicationBox
-                      text="파트너와 소통하기"
-                      clickHandler={() => alert('개발중입니다.')}
-                    />
-                  </TextBox>
-                  <ButtonBox>
-                    <Button isWhite={true} onClick={onClickOtherPartner}>
-                      다른 파트너 선정
-                    </Button>
-                    <Button isWhite={false} onClick={onClickConfirm}>
-                      확정하기
-                    </Button>
-                  </ButtonBox>
                 </>
               )}
             </Wrap2>
