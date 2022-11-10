@@ -52,7 +52,7 @@ const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
           </BoxName>
         </Box>
         <CountBox>
-          <Count>{userID ? '3' : '0'}</Count>
+          <Count>{userID ? quotationData?.data?.count : '0'}</Count>
           <Amount>{'건'}</Amount>
         </CountBox>
       </BoxWrapper>
@@ -89,7 +89,7 @@ const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
           </BoxName>
         </Box>
         <CountBox>
-          <Count>{userID ? '2' : '0'}</Count>
+          <Count>{userID ? projectData?.data?.count : '0'}</Count>
           <Amount>{'건'}</Amount>
         </CountBox>
       </BoxWrapper>
