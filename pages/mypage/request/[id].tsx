@@ -209,7 +209,10 @@ const Mypage1_3 = ({}: any) => {
                 </>
               ) : (
                 <>
-                  {spotInspection !== null && spotInspection?.isConfirmed ? (
+                  {/* 상태에 따라 안내문 변경 */}
+                  {!quotationData?.preQuotation?.finalQuotation &&
+                  spotInspection !== null &&
+                  spotInspection?.isConfirmed ? (
                     <ScheduleConfirm
                       date={spotInspection?.spotInspectionDate[0]}
                       spotId={
@@ -232,6 +235,7 @@ const Mypage1_3 = ({}: any) => {
                       }
                     />
                   )}
+
                   {/* 최종견적 가견적 구별 조견문 */}
                   {quotationData?.preQuotation?.finalQuotation ? (
                     <FinalQuotation
