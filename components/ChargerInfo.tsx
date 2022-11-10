@@ -40,8 +40,8 @@ const ChargerInfo = ({
   return (
     <>
       {' '}
-      <InfoBox checkHeight={checkHeight?.toString()}>
-        <RndWraper
+      <InfoBox className='wrap' checkHeight={checkHeight?.toString()}>
+        <RndWraper className='draggable'
           isMobile={mobile}
           default={{
             x: 0,
@@ -148,6 +148,16 @@ const InfoBox = styled.div<{ checkHeight: string }>`
   z-index: 1000;
   width: 281.25pt;
   height: 100%;
+  /*div{
+    &:nth-of-type(3){
+      div{
+        &:nth-of-type(1){
+          height: 50px!important;
+          border: 1px solid green;
+        }
+      }
+    }
+  }*/
   @media (max-width: 899pt) {
     position: fixed;
     bottom: 0;
@@ -162,10 +172,12 @@ const RndWraper = styled(Rnd)<{ isMobile: boolean }>`
 
   background-color: #ffffff;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
+  
 `;
 
 const Body = styled.div`
   overflow-y: scroll;
+  height: 100%;
 `;
 
 const ScrollBox = styled.div<{ scrollHeight: string }>`
@@ -379,3 +391,10 @@ const QuotationBtn = styled.div`
     flex-grow: 0;
   }
 `;
+
+const Wrap=styled.div`
+//position: relative;
+   @media (max-width: 899pt) {
+    position: relative;
+  }
+`

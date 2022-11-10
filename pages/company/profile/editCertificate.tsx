@@ -15,6 +15,7 @@ import { useRef, useState } from 'react';
 import { getByteSize } from 'utils/calculatePackage';
 import Modal from 'components/Modal/Modal';
 import FileSelectModal from 'components/Modal/FileSelectModal';
+import { WrapText } from '@mui/icons-material';
 
 const EditCertificate =()=>{
 
@@ -138,7 +139,7 @@ const EditCertificate =()=>{
   };
 
     return(
-    <>
+    <Body>
 
     {isModal && <Modal click={onClickModal} text={errorMessage} />}
     {fileModal && (
@@ -148,8 +149,9 @@ const EditCertificate =()=>{
           cencleBtn={closeButton}
         />
       )}
-      
+      <Wrap>
      <Header back={true} title="사업자 등록증 수정" />
+     </Wrap>
      <RemainderInputBox>
         <PhotosBox>
           <Form>
@@ -236,20 +238,27 @@ const EditCertificate =()=>{
           </div>
         </PhotosBox>
       </RemainderInputBox>
-    </>
+      <Button>수정 완료</Button>
+    </Body>
     )
 }
 
 export default EditCertificate;
 
-
+const Wrap =styled.div`
+  margin-left: -15pt;
+`
+const Body =styled.div`
+  height: 100vh;
+  margin: 0 15pt ;
+  position: relative;
+`
 const RemainderInputBox = styled.div`
   flex-direction: column;
   position: relative;
-  width: 100%;
   display: flex;
   /* height: 100%; */
-  padding-bottom: 58.6875pt;
+  padding:0 0 58.6875pt;
   margin-top: 24pt;
   & .file-preview {
     display: flex;
@@ -293,6 +302,11 @@ const Form = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+  .img-preview{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 const File = styled.label`
@@ -379,3 +393,20 @@ const Xbox = styled.div`
   top: -7pt;
   right: -7pt;
 `;
+
+const Button =styled.button`
+  width: 100%;
+  background-color: #5221CB;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  padding: 15pt 0;
+  border-radius: 6pt;
+  position: absolute;
+  bottom: 30pt;
+`
