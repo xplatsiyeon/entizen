@@ -211,32 +211,33 @@ const Mypage1_3 = ({}: any) => {
                 </>
               ) : (
                 <>
+                  {/* quotationData?.preQuotation?.finalQuotation === null && */}
                   {/* 상태에 따라 안내문 변경 */}
-                  {quotationData?.preQuotation?.finalQuotation === null &&
-                  spotInspection !== null &&
-                  spotInspection?.isConfirmed ? (
-                    <ScheduleConfirm
-                      date={spotInspection?.spotInspectionDate[0]}
-                      spotId={
-                        data?.quotationRequest
-                          ?.currentInProgressPreQuotationIdx!
-                      }
-                    />
-                  ) : hasReceivedSpotInspectionDates === true &&
-                    spotInspection?.isNewPropose ? (
-                    <ScheduleChange
-                      spotId={
-                        data?.quotationRequest
-                          ?.currentInProgressPreQuotationIdx!
-                      }
-                    />
-                  ) : (
-                    <Checking
-                      date={
-                        spotData?.data?.spotInspection?.spotInspectionDate[0]!
-                      }
-                    />
-                  )}
+                  {quotationData?.preQuotation?.finalQuotation === null ? (
+                    spotInspection !== null && spotInspection?.isConfirmed ? (
+                      <ScheduleConfirm
+                        date={spotInspection?.spotInspectionDate[0]}
+                        spotId={
+                          data?.quotationRequest
+                            ?.currentInProgressPreQuotationIdx!
+                        }
+                      />
+                    ) : hasReceivedSpotInspectionDates === true &&
+                      spotInspection?.isNewPropose ? (
+                      <ScheduleChange
+                        spotId={
+                          data?.quotationRequest
+                            ?.currentInProgressPreQuotationIdx!
+                        }
+                      />
+                    ) : (
+                      <Checking
+                        date={
+                          spotData?.data?.spotInspection?.spotInspectionDate[0]!
+                        }
+                      />
+                    )
+                  ) : null}
 
                   {/* 최종견적 가견적 구별 조견문 */}
                   {quotationData?.preQuotation?.finalQuotation !== null ? (
