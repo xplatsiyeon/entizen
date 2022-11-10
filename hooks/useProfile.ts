@@ -1,4 +1,4 @@
-import { getApi } from 'api';
+import { isTokenGetApi } from 'api';
 import { useQuery, useQueryClient } from 'react-query';
 
 interface ProfileResponse {
@@ -21,7 +21,7 @@ const useProfile = (ACCESS_TOKEN: string) => {
 
   const { data: profileResponse, isLoading } = useQuery<ProfileResponse>(
     ['getProfile', ACCESS_TOKEN],
-    () => getApi('/members/info'),
+    () => isTokenGetApi('/members/info'),
   );
 
   const invalidate = () => {
