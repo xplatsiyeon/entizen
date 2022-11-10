@@ -59,14 +59,20 @@ const MainPage = (props: Props) => {
     data: quotationData,
     isLoading: quotationIsLoading,
     isError: quotationIsError,
-  } = useQuery<Count>('quotation-count', () =>
-    isTokenGetApi('/quotations/request/count'),
+  } = useQuery<Count>(
+    'quotation-count',
+    () => isTokenGetApi('/quotations/request/count'),
+    {
+      enabled: ACCESS_TOKEN ? true : false,
+    },
   );
   const {
     data: projectData,
     isLoading: projectIsLoading,
     isError: projectIsError,
-  } = useQuery<Count>('project-count', () => isTokenGetApi('/projects/count'));
+  } = useQuery<Count>('project-count', () => isTokenGetApi('/projects/count'), {
+    enabled: ACCESS_TOKEN ? true : false,
+  });
 
   const toggleDrawer =
     (anchor: string, open: boolean) =>

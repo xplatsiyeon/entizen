@@ -30,7 +30,7 @@ import Loader from 'components/Loader';
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const [text, setText] = useState('');
   const [isModal, setIsModal] = useState(false);
 
@@ -38,14 +38,20 @@ const Main = () => {
     data: quotationData,
     isLoading: quotationIsLoading,
     isError: quotationIsError,
-  } = useQuery<Count>('quotation-count', () =>
-    isTokenGetApi('/quotations/request/count'),
+  } = useQuery<Count>(
+    'quotation-count',
+    () => isTokenGetApi('/quotations/request/count'),
+    {
+      enabled: ACCESS_TOKEN ? true : false,
+    },
   );
   const {
     data: projectData,
     isLoading: projectIsLoading,
     isError: projectIsError,
-  } = useQuery<Count>('project-count', () => isTokenGetApi('/projects/count'));
+  } = useQuery<Count>('project-count', () => isTokenGetApi('/projects/count'), {
+    enabled: ACCESS_TOKEN ? true : false,
+  });
 
   const handleOnClick = () => {
     if (text.length >= 1) {
