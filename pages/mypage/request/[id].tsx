@@ -182,9 +182,9 @@ const Mypage1_3 = ({}: any) => {
    */
   const onClickOtherPartnerModal = () => {
     console.log('다른 파트너 확정 버튼');
-    // otherPatchMutate({
-    //   url: `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
-    // });
+    otherPatchMutate({
+      url: `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
+    });
   };
   /**
    * 최종견적 낙찰 확정 api 호출 함수
@@ -197,9 +197,9 @@ const Mypage1_3 = ({}: any) => {
         data?.quotationRequest?.currentInProgressPreQuotationIdx,
     );
     console.log('ConfirmId' + ConfirmId);
-    // confirmPatchMutate({
-    //   url: `/quotations/final/${ConfirmId}`,
-    // });
+    confirmPatchMutate({
+      url: `/quotations/final/${ConfirmId}`,
+    });
   };
 
   if (isError || spotIsError) {
