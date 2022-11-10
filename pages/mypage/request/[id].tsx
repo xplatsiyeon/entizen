@@ -1,30 +1,30 @@
 import styled from '@emotion/styled';
-import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import EstimateContainer from 'components/mypage/request/estimateContainer';
 import MypageHeader from 'components/mypage/request/header';
 import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import colors from 'styles/colors';
 import CommunicationBox from 'components/CommunicationBox';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
-import MypageDetail, { PreQuotationResponse } from './detail/[id]';
+import { FinalQuotations, PreQuotationResponse } from './detail/[id]';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import { AxiosError } from 'axios';
 import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
 import ScheduleConfirm from 'components/mypage/request/ScheduleConfirm';
 import ScheduleChange from 'components/mypage/request/ScheduleChange';
 import Checking from 'components/mypage/request/Checking';
-import ManagerInfo from 'components/mypage/request/ManagerInfo';
 import FinalQuotation from 'components/mypage/request/FinalQuotation';
 import Image from 'next/image';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
+import TwoBtnModal from 'components/Modal/TwoBtnModal';
+import M17Modal from 'components/Modal/M17Modal';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -49,8 +49,8 @@ export interface PreQuotations {
   quotationRequestIdx: number;
   memberIdx: number;
   companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
+  finalQuotation: FinalQuotations;
 }
-
 export interface QuotationRequestChargers {
   createdAt: string;
   quotationRequestChargerIdx: number;
@@ -89,6 +89,9 @@ const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
+  const [partnerModal, setPartnerModal] = useState(false);
+  const [modalNumber, setModalNumber] = useState(-1);
+  const [modalMessage, setModalMessage] = useState('');
 
   //----------- 구매자 내견적 상세 조회 API ------------
   const { data, isError, isLoading, refetch } =
@@ -136,13 +139,70 @@ const Mypage1_3 = ({}: any) => {
     {
       enabled:
         data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true,
+      // enabled: false,
     },
   );
+  // ----------- 다른 파트너 선정 patch api -----------
+  const { mutate: otherPatchMutate, isLoading: otherPatchLoading } =
+    useMutation(isTokenPatchApi, {
+      onSuccess: () => {
+        refetch();
+        setPartnerModal(false);
+      },
+      onError: (error: any) => {
+        console.log('다른 파트너 선정 patch error');
+        console.log(error);
+      },
+    });
+  // ----------- 최종견적 낙찰 확정 patch api -----------
+  const { mutate: confirmPatchMutate, isLoading: confirmPatchLoading } =
+    useMutation(isTokenPatchApi, {
+      onSuccess: () => {
+        setPartnerModal(false);
+        router.replace('/mypage/request/complete');
+      },
+      onError: (error: any) => {
+        console.log('다른 파트너 선정 patch error');
+        console.log(error);
+      },
+    });
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   // 모달 왼쪽, 오른쪽 버튼 핸들러
   const backPage = () => router.back();
   const handleOnClick = () => setModalOpen(!modalOpen);
+
+  const onClickConfirm = (num: number, contents: string) => {
+    setModalNumber(num);
+    setPartnerModal(true);
+    setModalMessage(contents);
+  };
+  /**
+   * 다른 파트너 선정 api 호출 함수
+   */
+  const onClickOtherPartnerModal = () => {
+    console.log('다른 파트너 확정 버튼');
+    otherPatchMutate({
+      url: `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
+    });
+  };
+  /**
+   * 최종견적 낙찰 확정 api 호출 함수
+   */
+  const onClickConfirmModal = () => {
+    console.log('최종견적 확정 버튼');
+    const ConfirmId = data?.preQuotations?.filter(
+      (e) =>
+        e?.preQuotationIdx ===
+        data?.quotationRequest?.currentInProgressPreQuotationIdx,
+    );
+    if (ConfirmId) {
+      const finalQuotationIdx = ConfirmId[0].finalQuotation.finalQuotationIdx;
+      confirmPatchMutate({
+        url: `/quotations/final/${finalQuotationIdx}`,
+      });
+    }
+  };
 
   if (isError || spotIsError) {
     return (
@@ -154,14 +214,9 @@ const Mypage1_3 = ({}: any) => {
       />
     );
   }
-  if (isLoading || spotLoading) {
+  if (isLoading || spotLoading || otherPatchLoading || confirmPatchLoading) {
     return <Loader />;
   }
-  console.log('⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
-  console.log(data);
-  console.log(spotData);
-  console.log(quotationData?.preQuotation?.finalQuotation);
-  console.log(quotationData?.preQuotation?.finalQuotation === null);
 
   const spotInspection = spotData?.data?.spotInspection!;
   const hasReceivedSpotInspectionDates =
@@ -182,6 +237,20 @@ const Mypage1_3 = ({}: any) => {
           rightBtnControl={handleOnClick}
         />
       )}
+      {/* 확정하기 모달 */}
+      {partnerModal && (
+        <M17Modal
+          backgroundOnClick={() => setPartnerModal(false)}
+          contents={modalMessage}
+          leftText={'취소'}
+          leftControl={() => setPartnerModal(false)}
+          rightText={'확인'}
+          rightControl={
+            modalNumber === 0 ? onClickOtherPartnerModal : onClickConfirmModal
+          }
+        />
+      )}
+
       <Body>
         <WebHeader num={0} now={'mypage'} />
         <Inner>
@@ -244,24 +313,60 @@ const Mypage1_3 = ({}: any) => {
                   ) : null}
 
                   {/* 최종견적 가견적 구별 조견문 */}
-                  {quotationData?.preQuotation?.finalQuotation !== null ? (
-                    <FinalQuotation
-                      data={quotationData!}
-                      isSpot={spotData?.data?.spotInspection ? true : false}
-                    />
-                  ) : (
-                    <BiddingQuote
-                      data={quotationData!}
-                      isSpot={spotData?.data?.spotInspection ? true : false}
-                    />
-                  )}
 
-                  <TextBox>
-                    <CommunicationBox
-                      text="파트너와 소통하기"
-                      clickHandler={() => alert('개발중입니다.')}
-                    />
-                  </TextBox>
+                  {quotationData?.preQuotation?.finalQuotation !== null ? (
+                    <>
+                      {/* 최종견적 */}
+                      <FinalQuotation
+                        data={quotationData!}
+                        isSpot={spotData?.data?.spotInspection ? true : false}
+                      />
+                      <TextBox>
+                        <CommunicationBox
+                          text="파트너와 소통하기"
+                          clickHandler={() => alert('개발중입니다.')}
+                        />
+                      </TextBox>
+                      <ButtonBox>
+                        <Button
+                          isWhite={true}
+                          onClick={() =>
+                            onClickConfirm(
+                              0,
+                              '다른 파트너에게\n재견적을 받아보시겠습니까?',
+                            )
+                          }
+                        >
+                          다른 파트너 선정
+                        </Button>
+                        <Button
+                          isWhite={false}
+                          onClick={() =>
+                            onClickConfirm(
+                              1,
+                              'Charge Point로\n확정하시겠습니까?',
+                            )
+                          }
+                        >
+                          확정하기
+                        </Button>
+                      </ButtonBox>
+                    </>
+                  ) : (
+                    <>
+                      {/* 가견적 */}
+                      <BiddingQuote
+                        data={quotationData!}
+                        isSpot={spotData?.data?.spotInspection ? true : false}
+                      />
+                      <TextBox>
+                        <CommunicationBox
+                          text="파트너와 소통하기"
+                          clickHandler={() => alert('개발중입니다.')}
+                        />
+                      </TextBox>
+                    </>
+                  )}
                 </>
               )}
             </Wrap2>
@@ -295,7 +400,6 @@ const DownArrowBox = styled.div`
   padding-bottom: 30pt;
   text-align: center;
 `;
-
 const Inner = styled.div`
   display: block;
   position: relative;
@@ -309,12 +413,10 @@ const Inner = styled.div`
     margin: 0 auto;
   }
 `;
-
 const FlexBox = styled.div`
   display: flex;
   position: relative;
 `;
-
 const Wrap1 = styled.div`
   //width: 255pt;
   border: 1px solid #e9eaee;
@@ -336,7 +438,6 @@ const Wrap2 = styled.div`
     padding-bottom: 50pt;
   }
 `;
-
 const TextBox = styled.div`
   width: 100%;
   margin-bottom: 9pt;
@@ -355,4 +456,27 @@ const TextBox = styled.div`
   @media (max-width: 899pt) {
     padding-top: 75pt;
   }
+`;
+const ButtonBox = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  gap: 11.25pt;
+  width: 100%;
+  padding: 63pt 15pt 107.25pt 15pt;
+`;
+const Button = styled.button<{ isWhite: boolean }>`
+  padding: 15pt 19.5pt;
+  width: 100%;
+  border: 0.75pt solid ${colors.main1};
+  border-radius: 6pt;
+  background-color: ${({ isWhite }) =>
+    isWhite ? colors.lightWhite : colors.main};
+  color: ${({ isWhite }) => (isWhite ? colors.main : colors.lightWhite)};
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  cursor: pointer;
 `;

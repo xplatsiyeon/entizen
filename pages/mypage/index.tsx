@@ -39,7 +39,9 @@ const Request = () => {
     data: userData,
     isError: userError,
     isLoading: userLoading,
-  } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
+  } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'), {
+    // enabled: false
+  });
 
   if (userLoading) {
     return <Loader />;
