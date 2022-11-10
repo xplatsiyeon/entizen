@@ -195,7 +195,7 @@ const Mypage1_3 = ({}: any) => {
         e?.preQuotationIdx ===
         data?.quotationRequest?.currentInProgressPreQuotationIdx,
     );
-    console.log('ConfirmId' + ConfirmId);
+    console.log(ConfirmId);
     // confirmPatchMutate({
     //   url: `/quotations/final/${ConfirmId}`,
     // });
