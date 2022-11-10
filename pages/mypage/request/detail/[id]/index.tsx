@@ -42,6 +42,51 @@ export interface Member {
   phone: string;
   id: string;
 }
+
+export interface ChargerImageFiles {
+  createdAt: string;
+  finalQuotationChargerFileIdx: number;
+  productFileType: string;
+  originalName: string;
+  url: string;
+  size: number;
+  finalQuotationChargerIdx: number;
+}
+
+export interface FinalQuotationChargers {
+  createdAt: string;
+  finalQuotationChargerIdx: number;
+  kind: string;
+  standType: string;
+  channel: string;
+  count: number;
+  chargePriceType: string;
+  chargePrice: number;
+  installationLocation: string;
+  modelName: string;
+  manufacturer: string;
+  productFeature: string;
+  finalQuotationIdx: number;
+  chargerImageFiles: ChargerImageFiles[];
+  catalogFiles: ChargerImageFiles[];
+}
+
+export interface FinalQuotation {
+  createdAt: string;
+  finalQuotationIdx: number;
+  subscribeProduct: string;
+  subscribePeriod: number;
+  userInvestRate: string;
+  chargingPointRate: string;
+  subscribePricePerMonth: number;
+  constructionPeriod: number;
+  subscribeProductFeature: string;
+  spotInspectionResult: string;
+  quotationRequestIdx: number;
+  preQuotationIdx: number;
+  finalQuotationChargers: FinalQuotationChargers[];
+  finalQuotationDetailFiles: [];
+}
 export interface PreQuotation {
   createdAt: string;
   preQuotationIdx: number;
@@ -54,6 +99,7 @@ export interface PreQuotation {
   memberIdx: number;
   preQuotationChargers: PreQuotationChargers[];
   member: Member;
+  finalQuotation?: FinalQuotation;
 }
 export interface PreQuotationResponse {
   isSuccess: boolean;

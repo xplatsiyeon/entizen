@@ -231,11 +231,16 @@ const Mypage1_3 = ({}: any) => {
                       }
                     />
                   )}
+                  {/* 최종견적 가견적 구별 조견문 */}
+                  {quotationData?.preQuotation?.finalQuotation ? (
+                    <div>최종견적 있따</div>
+                  ) : (
+                    <BiddingQuote
+                      data={quotationData!}
+                      isSpot={spotData?.data?.spotInspection ? true : false}
+                    />
+                  )}
 
-                  <BiddingQuote
-                    data={quotationData!}
-                    isSpot={spotData?.data?.spotInspection ? true : false}
-                  />
                   <TextBox>
                     <CommunicationBox
                       text="파트너와 소통하기"

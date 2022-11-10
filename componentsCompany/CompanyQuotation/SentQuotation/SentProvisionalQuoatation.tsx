@@ -259,7 +259,7 @@ const SentQuoatationFirst = () => {
     console.log('현장실사 patch api 호출!!');
   };
 
-  if (isLoading || spotLoading || spotPatchLoading) {
+  if (isLoading || spotLoading) {
     return <Loader />;
   }
   if (isError || spotIsError) {
