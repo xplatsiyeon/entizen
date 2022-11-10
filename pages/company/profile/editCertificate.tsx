@@ -267,6 +267,11 @@ const RemainderInputBox = styled.div`
     padding-bottom: 58.6875pt;
     gap: 9pt;
   }
+  .img-preview{
+    display: flex;
+    width: 100%;
+    gap: 6pt;
+  }
 `;
 
 const PhotosBox = styled.div`
@@ -286,6 +291,7 @@ const Form = styled.form`
   flex-direction: column;
   /* margin-top: 24pt; */
   position: relative;
+  margin-bottom: 15pt;
   & > label {
     font-family: Spoqa Han Sans Neo;
     font-size: 10.5pt;
@@ -302,11 +308,6 @@ const Form = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: center;
-  }
-  .img-preview{
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 `;
 const File = styled.label`

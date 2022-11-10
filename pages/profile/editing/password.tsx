@@ -150,7 +150,9 @@ const FindPassword = () => {
                 click={handleModalYes}
               />
             )}
+            <Wrap>
             <MypageHeader back={true} title={'비밀번호 변경'} />
+            </Wrap>
 
             <Box
               sx={{
@@ -280,6 +282,11 @@ const Inner = styled.div`
     padding: 0;
   }
 `;
+
+const Wrap = styled.div`
+  margin-left: -15pt;
+`
+
 const BeforePassword = styled.p`
   font-family: Spoqa Han Sans Neo;
   font-size: 12pt;
