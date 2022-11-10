@@ -50,7 +50,6 @@ export interface PreQuotations {
   memberIdx: number;
   companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
 }
-
 export interface QuotationRequestChargers {
   createdAt: string;
   quotationRequestChargerIdx: number;
@@ -89,8 +88,9 @@ const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
-  const [otherPartnerModal, setOtherPartnerModal] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
+  const [partnerModal, setPartnerModal] = useState(false);
+  const [modalNumber, setModalNumber] = useState(-1);
+  const [modalMessage, setModalMessage] = useState('');
 
   //----------- 구매자 내견적 상세 조회 API ------------
   const { data, isError, isLoading, refetch } =
@@ -146,7 +146,7 @@ const Mypage1_3 = ({}: any) => {
     useMutation(isTokenPatchApi, {
       onSuccess: () => {
         refetch();
-        setOtherPartnerModal(false);
+        setPartnerModal(false);
       },
       onError: (error: any) => {
         console.log('다른 파트너 선정 patch error');
@@ -157,7 +157,7 @@ const Mypage1_3 = ({}: any) => {
   const { mutate: confirmPatchMutate, isLoading: confirmPatchLoading } =
     useMutation(isTokenPatchApi, {
       onSuccess: () => {
-        setConfirmModal(false);
+        setPartnerModal(false);
         router.replace('/mypage/request/complete');
       },
       onError: (error: any) => {
@@ -171,20 +171,19 @@ const Mypage1_3 = ({}: any) => {
   const backPage = () => router.back();
   const handleOnClick = () => setModalOpen(!modalOpen);
 
-  const onClickOtherPartner = () => {
-    setOtherPartnerModal(true);
-  };
-  const onClickConfirm = () => {
-    setOtherPartnerModal(true);
+  const onClickConfirm = (num: number, contents: string) => {
+    setModalNumber(num);
+    setPartnerModal(true);
+    setModalMessage(contents);
   };
   /**
    * 다른 파트너 선정 api 호출 함수
    */
   const onClickOtherPartnerModal = () => {
     console.log('다른 파트너 확정 버튼');
-    otherPatchMutate({
-      url: `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
-    });
+    // otherPatchMutate({
+    //   url: `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
+    // });
   };
   /**
    * 최종견적 낙찰 확정 api 호출 함수
@@ -197,9 +196,9 @@ const Mypage1_3 = ({}: any) => {
         data?.quotationRequest?.currentInProgressPreQuotationIdx,
     );
     console.log('ConfirmId' + ConfirmId);
-    confirmPatchMutate({
-      url: `/quotations/final/${ConfirmId}`,
-    });
+    // confirmPatchMutate({
+    //   url: `/quotations/final/${ConfirmId}`,
+    // });
   };
 
   if (isError || spotIsError) {
@@ -235,26 +234,17 @@ const Mypage1_3 = ({}: any) => {
           rightBtnControl={handleOnClick}
         />
       )}
-      {/* 다른 파트너 모달 */}
-      {otherPartnerModal && (
-        <M17Modal
-          backgroundOnClick={() => setOtherPartnerModal(false)}
-          contents={'다른 파트너에게\n재견적을 받아보시겠습니까?'}
-          leftText={'취소'}
-          leftControl={() => setOtherPartnerModal(false)}
-          rightText={'확인'}
-          rightControl={onClickOtherPartnerModal}
-        />
-      )}
       {/* 확정하기 모달 */}
-      {confirmModal && (
+      {partnerModal && (
         <M17Modal
-          backgroundOnClick={() => setConfirmModal(false)}
-          contents={'Charge Point로\n확정하시겠습니까?'}
+          backgroundOnClick={() => setPartnerModal(false)}
+          contents={modalMessage}
           leftText={'취소'}
-          leftControl={() => setConfirmModal(false)}
+          leftControl={() => setPartnerModal(false)}
           rightText={'확인'}
-          rightControl={onClickConfirmModal}
+          rightControl={
+            modalNumber === 0 ? onClickOtherPartnerModal : onClickConfirmModal
+          }
         />
       )}
 
@@ -335,10 +325,26 @@ const Mypage1_3 = ({}: any) => {
                         />
                       </TextBox>
                       <ButtonBox>
-                        <Button isWhite={true} onClick={onClickOtherPartner}>
+                        <Button
+                          isWhite={true}
+                          onClick={() =>
+                            onClickConfirm(
+                              0,
+                              '다른 파트너에게\n재견적을 받아보시겠습니까?',
+                            )
+                          }
+                        >
                           다른 파트너 선정
                         </Button>
-                        <Button isWhite={false} onClick={onClickConfirm}>
+                        <Button
+                          isWhite={false}
+                          onClick={() =>
+                            onClickConfirm(
+                              1,
+                              'Charge Point로\n확정하시겠습니까?',
+                            )
+                          }
+                        >
                           확정하기
                         </Button>
                       </ButtonBox>
