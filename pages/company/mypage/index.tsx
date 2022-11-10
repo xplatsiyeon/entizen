@@ -43,7 +43,7 @@ const Mypage = (props: Props) => {
           <Body>
             <span
               className="profile-icon"
-              onClick={() => route.push('profile/editing')}
+              onClick={() => route.push('/company/profile')}
             >
               프로필 변경
             </span>

@@ -11,6 +11,7 @@ import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import MyProjects from 'components/mypage/projects/MyProjects';
 import Loader from 'components/Loader';
+import Charging from 'components/mypage/place/Charging';
 
 export interface UserInfo {
   isSuccess: boolean;
@@ -30,6 +31,7 @@ const Request = () => {
     0: <Estimate />,
     1: <MyProjects />,
     2: <AsIndex />,
+    3: <Charging />
   };
 
   // 유저 정보 API

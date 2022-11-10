@@ -7,6 +7,8 @@ import DownArrow from 'public/guide/down_arrow.svg';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
+import { handleColor, handleColor2 } from 'utils/changeValue';
+import { testArr2 } from 'pages/mypage/place/[id]';
 
 interface Data {
   id: number;
@@ -24,57 +26,38 @@ type Props = {
   setOpen?: Dispatch<SetStateAction<boolean>>;
   handleClick?: () => void;
   className?: string;
-  info?: Data;
+  info: Data | testArr2 ;
+  tap: 'estimate' | 'project' |'as'|'place' ;
 };
 
-const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
+const TopBox = ({ open, className, setOpen, handleClick, info, tap }: Props) => {
 
-  console.log('info', info)
 
-  let bgColor ;
+  let bgColor='' ;
   let title='';
+  let tapType ;
 
+  switch(tap){
 
-  switch (info?.state){
-    case 0 : 
-    bgColor = '#F75015';
-    title = '계약대기'
-    break;
-
-    case 1 : 
-    bgColor = '#5221CB';
-    title = '준비 중'
-    break;
-    
-    case 2 : 
-    bgColor = '#5221CB';
-    title = '설치 중'
-    break;
-    
-    case 3 : 
-    bgColor = '#FFC043';
-    title = '검수 중'
+    case 'place' : 
+    if(info.badge === 4){
+      title  = `구독시작 ${info.date}`
+    }else{
+      title = `구독종료 ${info.date}`
+    };
+    if(typeof(info.badge) === 'number') bgColor = handleColor2(info.badge);
     break;
 
-    case 4 : 
-    bgColor = '#222222';
-    title = '완료 중'
-    break;
-
-    case  5 : 
-    bgColor = '#222222';
-    title = '완료 대기'
-    break;
-
-    case  6 : 
-    bgColor = '#CACCD1';
-    title = '프로젝트 취소'
-    break;
-    
-    default : 
-    bgColor = '#F75015';
-    title = '계약대기'
+    case 'project' :
+      if(typeof(info.badge)==='string'){
+        title = info.badge;
+        bgColor = handleColor(info.badge);
+      }
+      break;
   }
+
+
+
 
   const init = 
   <Wrapper className={className !== undefined ? className : ''}>
