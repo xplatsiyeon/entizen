@@ -23,6 +23,8 @@ import ScheduleChange from 'components/mypage/request/ScheduleChange';
 import Checking from 'components/mypage/request/Checking';
 import ManagerInfo from 'components/mypage/request/ManagerInfo';
 import FinalQuotation from 'components/mypage/request/FinalQuotation';
+import Image from 'next/image';
+import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -196,6 +198,9 @@ const Mypage1_3 = ({}: any) => {
               />
               {/* 견적 상세 내용*/}
               <EstimateContainer data={data!} />
+              <DownArrowBox>
+                <Image src={DoubleArrow} alt="double-arrow" />
+              </DownArrowBox>
               {/* 현장실사 해당 기업 상세 페이지 */}
               {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx ? (
                 // 구독 상품 리스트 (가견적 작성 회사)
@@ -211,7 +216,6 @@ const Mypage1_3 = ({}: any) => {
                 </>
               ) : (
                 <>
-                  {/* quotationData?.preQuotation?.finalQuotation === null && */}
                   {/* 상태에 따라 안내문 변경 */}
                   {quotationData?.preQuotation?.finalQuotation === null ? (
                     spotInspection !== null && spotInspection?.isConfirmed ? (
@@ -265,9 +269,6 @@ const Mypage1_3 = ({}: any) => {
         </Inner>
         <WebFooter />
       </Body>
-
-      {/* request 2-3 */}
-      {/* <Mypage2_1 /> */}
     </>
   );
 };
@@ -288,6 +289,11 @@ const Body = styled.div`
     display: block;
     height: 100%;
   }
+`;
+const DownArrowBox = styled.div`
+  padding-top: 21pt;
+  padding-bottom: 30pt;
+  text-align: center;
 `;
 
 const Inner = styled.div`

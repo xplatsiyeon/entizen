@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import arrow from 'public/images/right-arrow.svg';
-import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
+
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PreQuotations } from 'pages/mypage/request/[id]';
@@ -29,9 +29,6 @@ const SubscriptionProduct = ({ data }: Props) => {
 
   return (
     <Wrapper>
-      <DownArrowBox>
-        <Image src={DoubleArrow} alt="double-arrow" />
-      </DownArrowBox>
       <H1>
         {userData?.name}님, <br /> 총{' '}
         <span className="accent">{data ? data?.length : 0}개</span>의 구독상품이
@@ -79,11 +76,6 @@ const Wrapper = styled.div`
   @media (max-width: 899pt) {
     padding-top: 0pt;
   }
-`;
-const DownArrowBox = styled.div`
-  padding-top: 21pt;
-  padding-bottom: 30pt;
-  text-align: center;
 `;
 
 const H1 = styled.h1`
