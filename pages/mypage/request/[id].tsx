@@ -181,14 +181,16 @@ const Mypage1_3 = ({}: any) => {
    * 다른 파트너 선정 api 호출 함수
    */
   const onClickOtherPartnerModal = () => {
-    otherPatchMutate({
-      url: `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
-    });
+    console.log('다른 파트너 확정 버튼');
+    // otherPatchMutate({
+    //   url: `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
+    // });
   };
   /**
    * 최종견적 낙찰 확정 api 호출 함수
    */
   const onClickConfirmModal = () => {
+    console.log('최종견적 확정 버튼');
     const ConfirmId = data?.preQuotations?.filter(
       (e) =>
         e?.preQuotationIdx ===
@@ -213,11 +215,6 @@ const Mypage1_3 = ({}: any) => {
   if (isLoading || spotLoading || otherPatchLoading || confirmPatchLoading) {
     return <Loader />;
   }
-  console.log('⭐️ ~line 53 ~ 구매자 내견적 상세 조회');
-  console.log(data);
-  console.log(spotData);
-  console.log(quotationData?.preQuotation?.finalQuotation);
-  console.log(quotationData?.preQuotation?.finalQuotation === null);
 
   const spotInspection = spotData?.data?.spotInspection!;
   const hasReceivedSpotInspectionDates =
