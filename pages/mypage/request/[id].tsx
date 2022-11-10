@@ -157,7 +157,7 @@ const Mypage1_3 = ({}: any) => {
   const { mutate: confirmPatchMutate, isLoading: confirmPatchLoading } =
     useMutation(isTokenPatchApi, {
       onSuccess: () => {
-        setOtherPartnerModal(false);
+        setConfirmModal(false);
         router.replace('/mypage/request/complete');
       },
       onError: (error: any) => {

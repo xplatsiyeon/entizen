@@ -37,7 +37,6 @@ export const HandleUserColor = (badge: string | undefined): string => {
   }
 };
 
-
 export const handleColor = (badge: string | undefined): string => {
   if (badge) {
     if (badge.includes('계약대기')) {
@@ -57,4 +56,3 @@ export const handleColor = (badge: string | undefined): string => {
     return '';
   }
 };
-
