@@ -31,14 +31,23 @@ import Bell from 'public/images/mobBell.png';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 import { locationAction } from 'store/locationSlice';
 import useProfile from 'hooks/useProfile';
+import { useQueries, useQuery } from 'react-query';
+import { isTokenApi, isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 
 type Props = {};
+
+export interface Count {
+  isSuccess: boolean;
+  data: {
+    count: number;
+  };
+}
 const TAP = 'components/Main/index.tsx';
 const MainPage = (props: Props) => {
   console.log(TAP + ' -> 메인 컴포넌트 시작');
   const router = useRouter();
   const dispatch = useDispatch();
-  //const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const userID = localStorage.getItem('USER_ID');
   const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, invalidate, isLoading } = useProfile(ACCESS_TOKEN);
@@ -46,6 +55,19 @@ const MainPage = (props: Props) => {
   const [state, setState] = useState({
     right: false,
   });
+  const {
+    data: quotationData,
+    isLoading: quotationIsLoading,
+    isError: quotationIsError,
+  } = useQuery<Count>('quotation-count', () =>
+    isTokenGetApi('/quotations/request/count'),
+  );
+  const {
+    data: projectData,
+    isLoading: projectIsLoading,
+    isError: projectIsError,
+  } = useQuery<Count>('project-count', () => isTokenGetApi('/projects/count'));
+
   const toggleDrawer =
     (anchor: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -72,6 +94,13 @@ const MainPage = (props: Props) => {
     dispatch(locationAction.reset());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (quotationIsLoading || projectIsLoading) {
+    return <Loader />;
+  }
+  if (quotationIsError || projectIsError) {
+    console.log('에러 발생');
+  }
 
   const list = (anchor: string) => (
     <WholeBox
@@ -103,8 +132,7 @@ const MainPage = (props: Props) => {
           <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
             <span onClick={() => router.push('/profile/editing')}>
               <label className="label">일반회원</label>
-              {/* {userID} */}
-              {profile?.name}
+              {profile?.name}&nbsp;님
             </span>
             <span
               className="arrow-img"
@@ -266,7 +294,10 @@ const MainPage = (props: Props) => {
         {/* <Header /> */}
         <Carousel />
         <SalesProjection />
-        <MyEstimateProject />
+        <MyEstimateProject
+          quotationData={quotationData!}
+          projectData={projectData!}
+        />
         <SubscribeRequest />
         <WhyEntizen />
         {/* <WhyEntizenWeb /> */}

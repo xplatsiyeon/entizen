@@ -4,12 +4,15 @@ import { Box, Typography } from '@mui/material';
 import rightArrow from 'public/images/rightArrow.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { Count } from '.';
 
 type Props = {
   borders?: number | undefined;
+  quotationData: Count;
+  projectData: Count;
 };
 
-const MyEstimateProject = ({ borders }: Props) => {
+const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
   const userID = localStorage.getItem('USER_ID');
   const router = useRouter();
   return (
@@ -33,7 +36,7 @@ const MyEstimateProject = ({ borders }: Props) => {
             <ImageWrap>
               <Typography
                 sx={{
-                  width:'12pt',
+                  width: '12pt',
                   padding: '0',
                   display: 'flex',
                   alignItems: 'center',
@@ -42,7 +45,7 @@ const MyEstimateProject = ({ borders }: Props) => {
               >
                 <Image src={rightArrow} alt="rightArrow" />
               </Typography>
-              <IconWrap >
+              <IconWrap>
                 <Image src={rightArrow} layout="fill" alt="rightArrow" />
               </IconWrap>
             </ImageWrap>
@@ -70,7 +73,7 @@ const MyEstimateProject = ({ borders }: Props) => {
             <ImageWrap>
               <Typography
                 sx={{
-                  width:'12pt',
+                  width: '12pt',
                   padding: '0',
                   display: 'flex',
                   alignItems: 'center',
@@ -79,7 +82,7 @@ const MyEstimateProject = ({ borders }: Props) => {
               >
                 <Image src={rightArrow} alt="rightArrow" />
               </Typography>
-              <IconWrap >
+              <IconWrap>
                 <Image src={rightArrow} layout="fill" alt="rightArrow" />
               </IconWrap>
             </ImageWrap>
@@ -193,25 +196,24 @@ const Amount = styled(Typography)`
 `;
 
 const ImageWrap = styled.div`
-  p{
+  p {
     display: none;
   }
   @media (max-width: 899pt) {
-    p{
+    p {
       display: block;
     }
   }
-
-`
+`;
 const IconWrap = styled.div`
-    width: 21pt;
-    height: 21pt;
-    position: relative;
-    object-fit: cover;
+  width: 21pt;
+  height: 21pt;
+  position: relative;
+  object-fit: cover;
 
   @media (max-width: 899pt) {
     display: none;
   }
-`
+`;
 
 export default MyEstimateProject;
