@@ -69,13 +69,12 @@ const GET_DOGS = gql`
 
 const MyProjects = () => {
   const router = useRouter();
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { loading, error, data } = useQuery(GET_DOGS, {
     context: {
       headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem('ACCESS_TOKEN')!,
-        )}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
       },
     },
   });
