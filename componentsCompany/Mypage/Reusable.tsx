@@ -380,7 +380,7 @@ const FinishedPhotoBox = styled.div`
 `;
 
 const Date = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 15pt;
   font-weight: 700;
   line-height: 15pt;
@@ -391,7 +391,7 @@ const Date = styled.div`
 `;
 
 const SubTitle = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
