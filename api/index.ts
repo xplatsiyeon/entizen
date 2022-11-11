@@ -11,7 +11,9 @@ interface PropsApi {
 }
 
 const BASE_URL = 'https://test-api.entizen.kr/api';
-export const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+export const accessToken = JSON.parse(
+  window.localStorage.getItem('ACCESS_TOKEN')!,
+);
 
 // API 호출 (토큰 O)
 export const isTokenApi = async (apiInfo: ApiProps) => {
