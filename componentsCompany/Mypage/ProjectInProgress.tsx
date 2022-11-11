@@ -75,22 +75,33 @@ const GET_InProgressProjects = gql`
   }
 `;
 
+interface InProgressProjects {
+  badge: string;
+  projectIdx: string;
+  projectName: string;
+}
+
 const ProjectInProgress = ({ tabNumber }: Props) => {
   const router = useRouter();
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const { loading, error, data } = useQuery(GET_InProgressProjects, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
+  const { loading, error, data } = useQuery<InProgressProjects[]>(
+    GET_InProgressProjects,
+    {
+      context: {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
       },
     },
-  });
+  );
   if (tempProceeding.length === 0) {
     return <NoProject />;
   }
 
-  console.log(data);
+  console.log(data![0].badge);
+  console.log(data![0].projectIdx);
+  console.log(data![0].projectName);
   return (
     <>
       {tabNumber === 0 && tempProceeding.length > 0 && (
