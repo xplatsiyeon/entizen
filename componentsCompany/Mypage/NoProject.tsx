@@ -8,7 +8,7 @@ import colors from 'styles/colors';
 const NoProject = () => {
   const route = useRouter();
 
-  const handlerBtn = () => route.push('quotation/request/1-1');
+  //const handlerBtn = () => route.push('quotation/request/1-1');
   return (
     <Wrapper>
       <ImgBox>
