@@ -116,19 +116,19 @@ const ProjectInProgress = ({
     }
   };
 
-  if (tempProceeding.length === 0) {
+  if (data?.inProgressProjects?.length === 0) {
     return <NoProject />;
   }
   return (
     <>
       {componentId === undefined && (
         <div>
-          {tabNumber === 0 && tempProceeding.length > 0 && (
+          {tabNumber === 0 && data?.inProgressProjects?.length! > 0 && (
             <ContentsContainer>
-              {tempProceeding.map((el, index) => (
+              {data?.inProgressProjects?.map((el, index) => (
                 <div key={index}>
                   <Contents
-                    key={el.id}
+                    key={el.projectIdx}
                     onClick={() =>
                       router.push(`/company/mypage/runningProgress/${index}`)
                     } //여기서 배지에 따라 분리해서 보내야함.
@@ -141,7 +141,7 @@ const ProjectInProgress = ({
                           bottom={'12pt'}
                         />
                       </DdayBox>
-                      <AddressBox>{el.storeName}</AddressBox>
+                      <AddressBox>{el.projectName}</AddressBox>
                     </DdayNAddress>
                     <IconBox>
                       <ArrowIconBox>

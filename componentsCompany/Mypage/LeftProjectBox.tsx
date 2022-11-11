@@ -8,6 +8,7 @@ import BottomNavigation from 'components/BottomNavigation';
 import NoProject from 'componentsCompany/Mypage/NoProject';
 import WebProjectInProgressUnder from 'componentsCompany/Mypage/WebProjectInProgressUnder';
 import WebFinishedProjectsUnder from './WebFinishedProjectsUnder';
+import useProfile from 'hooks/useProfile';
 
 type Props = {
   num?: number;
@@ -90,6 +91,8 @@ const LeftProjectBox = ({
   const route = useRouter();
   const [userName, setUserName] = useState<string>('윤세아');
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, isLoading, invalidate } = useProfile(accessToken);
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
 
   // 실시간으로 width 받아오는 함수
@@ -130,7 +133,7 @@ const LeftProjectBox = ({
       <Wrapper>
         <Header>
           <span>
-            <h1>{`${userName}님,`}</h1>
+            <h1>{`${profile?.name}님,`}</h1>
             <h2>안녕하세요!</h2>
           </span>
           <div className="img" onClick={() => route.push('/setting')}>
