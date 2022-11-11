@@ -22,59 +22,61 @@ export const GET_InProgressProjects = gql`
   }
 `;
 
-interface UserMember {
+export interface UserMember {
   memberIdx: string;
   memberType: string;
   name: string;
   phone: string;
 }
 
-interface FinalQuotationChargers {
+export interface FinalQuotationChargers {
   finalQuotationChargerIdx: string;
   kind: string;
   standType: string;
-  channel: string;
+  channel: 'SINGLE' | 'DUAL' | 'MODE_3';
   count: number;
-  installationLocation: string;
-  manufacturer: string;
-  productFeature: string;
-}
-
-interface FinalQuotation {
-  finalQuotationIdx: string;
-  subscribeProduct: string;
-  subscribePeriod: string;
-  userInvestRate: string;
-  chargingPointRate: string;
-  subscribePricePerMonth: number;
-  constructionPeriod: number;
-  subscribeProductFeature: string;
-  spotInspectionResult: string;
-  finalQuotationChargers: FinalQuotationChargers[];
+  installationLocation: 'INSIDE' | 'OUTSIDE';
 }
 
 export interface InProgressProjectsDetail {
-  projectIdx: string;
-  projectName: string;
-  badge: string;
-  projectNumber: string;
-  userMember: UserMember;
-  finalQuotation: FinalQuotation;
+  data: {
+    project: {
+      projectIdx: string;
+      projectName: string;
+      projectNumber: string;
+      badge: string;
+      finalQuotation: {
+        finalQuotationIdx: string;
+        subscribeProduct: 'ENTIRETY' | 'PART';
+        subscribePeriod: string;
+        userInvestRate: string;
+        chargingPointRate: string;
+        subscribePricePerMonth: number;
+        constructionPeriod: number;
+        subscribeProductFeature: string;
+        spotInspectionResult: string;
+        finalQuotationChargers: FinalQuotationChargers[];
+        quotationRequest: {
+          installationPurpose:
+            | 'BUSINESS'
+            | 'WELFARE'
+            | 'MARKETING'
+            | 'PERSONAL'
+            | 'ETC';
+        };
+      };
+      userMember: UserMember;
+    };
+  };
 }
 
 export const GET_InProgressProjectsDetail = gql`
-  query Query {
-    inProgressProjects {
+  query Query($projectIdx: ID!) {
+    project(projectIdx: $projectIdx) {
       projectIdx
       projectName
-      badge
       projectNumber
-      userMember {
-        memberIdx
-        memberType
-        name
-        phone
-      }
+      badge
       finalQuotation {
         finalQuotationIdx
         subscribeProduct
@@ -92,9 +94,16 @@ export const GET_InProgressProjectsDetail = gql`
           channel
           count
           installationLocation
-          manufacturer
-          productFeature
         }
+        quotationRequest {
+          installationPurpose
+        }
+      }
+      userMember {
+        memberType
+        name
+        phone
+        id
       }
     }
   }

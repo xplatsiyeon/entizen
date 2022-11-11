@@ -8,8 +8,12 @@ import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
 import { handleColor } from 'utils/changeValue';
-import { GET_InProgressProjectsDetail } from 'QueryComponents/CompanyQuery';
+import {
+  GET_InProgressProjectsDetail,
+  InProgressProjectsDetail,
+} from 'QueryComponents/CompanyQuery';
 import { useQuery } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 interface Data {
   id: number;
@@ -31,15 +35,23 @@ type Props = {
 };
 const TAG = 'componentsCompany/Mypage/TopBox.tsx';
 const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
+  const router = useRouter();
+  const routerId = router.query.id;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const { loading, error, data } = useQuery(GET_InProgressProjectsDetail, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
+  const { loading, error, data } = useQuery<InProgressProjectsDetail>(
+    GET_InProgressProjectsDetail,
+    {
+      variables: {
+        projectIdx: routerId,
+      },
+      context: {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
       },
     },
-  });
+  );
 
   const init = (
     <Wrapper className={className !== undefined ? className : ''}>
@@ -126,9 +138,10 @@ const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
 
   console.log(TAG + '🔥 ~line 128 ~내프로젝트 상세페이지 데이터 확인 ');
   console.log(data);
+
   return (
     <>
-      {info !== undefined ? (
+      {data !== undefined ? (
         <Wrapper className={className !== undefined ? className : ''}>
           <ItemButton onClick={handleClick}>
             <StoreName>
