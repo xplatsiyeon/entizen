@@ -84,24 +84,24 @@ interface InProgressProjects {
 const ProjectInProgress = ({ tabNumber }: Props) => {
   const router = useRouter();
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const { loading, error, data } = useQuery<InProgressProjects[]>(
-    GET_InProgressProjects,
-    {
-      context: {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
+  const { loading, error, data } = useQuery(GET_InProgressProjects, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
       },
     },
-  );
+  });
   if (tempProceeding.length === 0) {
     return <NoProject />;
   }
   if (data) {
-    console.log(data![0].badge);
-    console.log(data![0].projectIdx);
-    console.log(data![0].projectName);
+    console.log(data);
+    console.log(data.data);
+    console.log('--------------------------');
+
+    console.log(data.inProgressProjects);
+    console.log(data?.data?.inProgressProjects[0]?.badge);
   }
   return (
     <>
