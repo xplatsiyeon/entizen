@@ -98,10 +98,11 @@ const ProjectInProgress = ({ tabNumber }: Props) => {
   if (tempProceeding.length === 0) {
     return <NoProject />;
   }
-
-  console.log(data![0].badge);
-  console.log(data![0].projectIdx);
-  console.log(data![0].projectName);
+  if (data) {
+    console.log(data![0].badge);
+    console.log(data![0].projectIdx);
+    console.log(data![0].projectName);
+  }
   return (
     <>
       {tabNumber === 0 && tempProceeding.length > 0 && (
