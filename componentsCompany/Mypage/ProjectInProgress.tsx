@@ -80,11 +80,14 @@ interface InProgressProjects {
   projectIdx: string;
   projectName: string;
 }
+interface Response {
+  inProgressProjects: InProgressProjects[];
+}
 
 const ProjectInProgress = ({ tabNumber }: Props) => {
   const router = useRouter();
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const { loading, error, data } = useQuery(GET_InProgressProjects, {
+  const { loading, error, data } = useQuery<Response>(GET_InProgressProjects, {
     context: {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -92,25 +95,17 @@ const ProjectInProgress = ({ tabNumber }: Props) => {
       },
     },
   });
-  if (tempProceeding.length === 0) {
+  if (data?.inProgressProjects.length === 0) {
     return <NoProject />;
-  }
-  if (data) {
-    console.log(data);
-    console.log(data.data);
-    console.log('--------------------------');
-
-    console.log(data.inProgressProjects);
-    console.log(data?.data?.inProgressProjects[0]?.badge);
   }
   return (
     <>
-      {tabNumber === 0 && tempProceeding.length > 0 && (
+      {tabNumber === 0 && data?.inProgressProjects?.length! > 0 && (
         <ContentsContainer>
-          {tempProceeding.map((el, index) => (
+          {data?.inProgressProjects?.map((el, index) => (
             <div key={index}>
               <Contents
-                key={el.id}
+                key={el.projectIdx}
                 onClick={() =>
                   router.push(`/company/mypage/runningProgress/${index}`)
                 } //여기서 배지에 따라 분리해서 보내야함.
@@ -123,7 +118,7 @@ const ProjectInProgress = ({ tabNumber }: Props) => {
                       bottom={'12pt'}
                     />
                   </DdayBox>
-                  <AddressBox>{el.storeName}</AddressBox>
+                  <AddressBox>{el.projectName}</AddressBox>
                 </DdayNAddress>
                 <IconBox>
                   <ArrowIconBox>
