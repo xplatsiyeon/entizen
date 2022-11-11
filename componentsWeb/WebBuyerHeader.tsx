@@ -20,6 +20,9 @@ type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
   componentId?: number;
+  successComponentId?: number;
+  setOpenSubLink: React.Dispatch<React.SetStateAction<string>>;
+  openSubLink: string;
 };
 
 const WebBuyerHeader = ({
@@ -28,6 +31,9 @@ const WebBuyerHeader = ({
   componentId,
   num,
   now,
+  successComponentId,
+  setOpenSubLink,
+  openSubLink,
 }: Props) => {
   const [linklist, setLinklist] = useState<boolean>(true);
   const [isHovering, setIsHovered] = useState(false);
@@ -204,6 +210,8 @@ const WebBuyerHeader = ({
             type={type}
             num={num}
             now={now}
+            successComponentId={successComponentId}
+            openSubLink={openSubLink}
           />
         ) : null}
       </Wrapper>

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { CountertopsOutlined } from '@mui/icons-material';
 import MypageHeader from 'components/mypage/request/header';
 import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
 import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
@@ -10,7 +11,10 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Progress from '../projectProgress';
 
-type Props = {};
+type Props = {
+  setOpenSubLink: React.Dispatch<React.SetStateAction<string>>;
+  openSubLink: string;
+};
 
 export interface Data {
   id: number;
@@ -96,7 +100,7 @@ const tempProceeding: Data[] = [
   },
 ];
 
-const RunningProgress = (props: Props) => {
+const RunningProgress = ({ setOpenSubLink, openSubLink }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [, setOpenContract] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
@@ -120,10 +124,13 @@ const RunningProgress = (props: Props) => {
 
   useEffect(() => {
     console.log('index', router.query.id);
+    console.log('123', openSubLink);
     if (router.query.id) {
       const num = Number(router.query.id);
       setComponentId(num);
       setData(tempProceeding[num]);
+      setOpenSubLink('close');
+      console.log('456', openSubLink);
     }
   }, [router.query.id]);
 
@@ -145,6 +152,8 @@ const RunningProgress = (props: Props) => {
         setTabNumber={setTabNumber}
         tabNumber={tabNumber}
         componentId={componentId}
+        openSubLink={openSubLink}
+        setOpenSubLink={setOpenSubLink}
       />
       <WebRapper>
         {nowWidth > 1198.7 && (

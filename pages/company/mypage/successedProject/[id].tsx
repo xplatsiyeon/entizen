@@ -7,9 +7,12 @@ import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 
-type Props = {};
+type Props = {
+  setOpenSubLink: React.Dispatch<React.SetStateAction<string>>;
+  openSubLink: string;
+};
 
-const successedProject = (props: Props) => {
+const successedProject = ({ setOpenSubLink, openSubLink }: Props) => {
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [successComponentId, setSuccessComponentId] = useState<number>();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -33,6 +36,7 @@ const successedProject = (props: Props) => {
     if (router.query.id) {
       const num = Number(router.query.id);
       setSuccessComponentId(num);
+      setOpenSubLink('close');
     }
   }, [router.query.id]);
 
@@ -40,7 +44,13 @@ const successedProject = (props: Props) => {
     <>
       {successComponentId !== undefined && (
         <>
-          <WebBuyerHeader setTabNumber={setTabNumber} tabNumber={tabNumber} />
+          <WebBuyerHeader
+            setTabNumber={setTabNumber}
+            tabNumber={tabNumber}
+            successComponentId={successComponentId}
+            openSubLink={openSubLink}
+            setOpenSubLink={setOpenSubLink}
+          />
           <WebRapper>
             {nowWidth > 1198.7 && (
               <LeftProjectBox
