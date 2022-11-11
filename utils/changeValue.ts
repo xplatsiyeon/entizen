@@ -70,4 +70,4 @@ export const handleColor2 = (badge: number) => {
     } else {
       return '';
     }
-  } 
+  } ;
