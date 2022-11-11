@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import CommunicationBox from "components/CommunicationBox";
 import { useState } from "react";
+import colors from "styles/colors";
 
 const PlaceInfo =()=>{
 
@@ -41,20 +42,21 @@ const PlaceInfo =()=>{
 
         <>       
         <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
-              <FinishedPhotoBox>
+          <FinishedPhotoBox>
 
           <Index onClick={handleNum}>
             {idx}/2
           </Index>
-              </FinishedPhotoBox>
+          </FinishedPhotoBox>
         </>
 
+      <Wrap>
 
       <CommunicationBox
         text="파트너와 소통하기"
         clickHandler={() => alert('개발중입니다.')}
       />
-
+      </Wrap>
         </Wrapper>
     )
 }
@@ -62,7 +64,7 @@ const PlaceInfo =()=>{
 export default PlaceInfo;
 
 const Wrapper = styled.div`
-    padding: 0 15pt;
+margin-top: 42pt;
 `
 
 const Partner = styled.div`
@@ -136,4 +138,11 @@ const Index = styled.div`
   font-size: 7.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
+`
+
+const Wrap = styled.div`
+margin-top: 60pt;
+ display: flex;
+ justify-content: center;
+ padding-bottom: 135pt;
 `
