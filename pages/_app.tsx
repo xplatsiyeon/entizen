@@ -22,6 +22,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const httpLink = createHttpLink({
     uri: 'https://test-api.entizen.kr/api/graphql',
+    credentials: 'same-origin',
   });
   const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists

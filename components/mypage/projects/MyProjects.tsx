@@ -69,7 +69,16 @@ const GET_DOGS = gql`
 
 const MyProjects = () => {
   const router = useRouter();
-  const { loading, error, data } = useQuery(GET_DOGS);
+  const { loading, error, data } = useQuery(GET_DOGS, {
+    context: {
+      headers: {
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem('ACCESS_TOKEN')!,
+        )}`,
+        'Content-Type': 'application/json',
+      },
+    },
+  });
   const handleRoute = (idx: number) => {
     //mob일 때 router.push();
     router.push(`/mypage/project/${idx}`);
