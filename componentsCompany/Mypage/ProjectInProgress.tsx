@@ -6,7 +6,7 @@ import CommonBtn from 'components/mypage/as/CommonBtn';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
 import { handleColor } from 'utils/changeValue';
-import NoProject from './NoProject';
+import NoHistory from './Nohistory';
 
 type Props = {
   tabNumber: number;
@@ -68,7 +68,7 @@ const tempProceeding: Data[] = [
 const ProjectInProgress = ({ tabNumber }: Props) => {
   const router = useRouter();
   if (tempProceeding.length === 0) {
-    return <NoProject />;
+    return <NoHistory/>;
   }
   return (
     <>
