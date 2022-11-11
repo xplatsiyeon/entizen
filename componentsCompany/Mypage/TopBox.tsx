@@ -11,13 +11,13 @@ import { handleColor } from 'utils/changeValue';
 
 interface Data {
   id: number;
-  state:number;
+  state: number;
   badge: string;
   storeName: string;
   date: string;
-  contract : boolean;
-  address : string;
-  planed : string[]; // 인덱스[0]: 준비 목표일, [1]: 설치 목표일, [2]: 검수 목표일, [3]: 완료 목표일
+  contract: boolean;
+  address: string;
+  planed: string[]; // 인덱스[0]: 준비 목표일, [1]: 설치 목표일, [2]: 검수 목표일, [3]: 완료 목표일
 }
 
 type Props = {
@@ -29,98 +29,13 @@ type Props = {
 };
 
 const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
-
-  const init = 
-  <Wrapper className={className !== undefined ? className : ''}>
-    <ItemButton onClick={handleClick}>
-      <StoreName> 
-        <CommonBtns text={'계약대기'} backgroundColor={'#F75015'}/> 
-        <div>
-          {<h1>LS 카페 신림점</h1>}
-          {open ? (
-            <ArrowImg>
-              <Image src={DownArrow} alt="down_arrow" layout="fill" />
-            </ArrowImg>
-          ) : (
-            <ArrowImg>
-              <Image src={UpArrow} alt="up_arrow" layout="fill" />
-            </ArrowImg>
-          )}
-        </div>
-        <p>서울시 관악구 난곡로40길 30</p>
-      </StoreName>
-    </ItemButton>
-    {/* Open */}
-    <Collapse in={open} timeout="auto" unmountOnExit>
-      <List component="div" disablePadding>
-        <Contents>
-          <div className="text-box">
-            <span className="name">프로젝트 번호</span>
-            <span className="text">SEY0G002201</span>
-          </div>
-          <div className="text-box">
-            <span className="name">구독상품</span>
-            <span className="text">부분구독</span>
-          </div>
-          <div className="text-box">
-            <span className="name">구독기간</span>
-            <span className="text">60개월</span>
-          </div>
-          <div className="text-box">
-            <span className="name">수익지분</span>
-            <span className="text">100 %</span>
-          </div>
-          <div className="text-box">
-            <span className="name">충전기 종류 및 수량</span>
-            <span className="text">
-              100 kW 충전기
-              <br />
-              :벽걸이, 싱글, 3 대
-            </span>
-          </div>
-          <div className="text-box">
-            <span className="name">충전기 설치 위치</span>
-            <span className="text">건물 밖</span>
-          </div>
-          <div className="text-box">
-            <span className="name">충전기 설치 목적</span>
-            <span className="text">모객 효과</span>
-          </div>
-          <div className="text-box">
-            <span className="name">기타 요청사항</span>
-            <span className="text">없음</span>
-          </div>
-        </Contents>
-        <Contents>
-          <Partner>파트너 정보</Partner>
-          <div className="text-box">
-            <span className="name">이름</span>
-            <span className="text">윤세아</span>
-          </div>
-          <div className="text-box">
-            <span className="name">이메일</span>
-            <span className="text emailText">sayoon@LS-CaaS.com</span>
-          </div>
-          <div className="text-box">
-            <span className="name">연락처</span>
-            <span className="text phone">010-3522-2250</span>
-          </div>
-        </Contents>
-      </List>
-    </Collapse>
-  </Wrapper>
-
-  const bgColor = handleColor(info.badge)
-
-  return (
-    <>
-    {info !== undefined ?
+  const init = (
     <Wrapper className={className !== undefined ? className : ''}>
       <ItemButton onClick={handleClick}>
-        <StoreName> 
-          <CommonBtns text={info.badge} backgroundColor={bgColor}/> 
+        <StoreName>
+          <CommonBtns text={'계약대기'} backgroundColor={'#F75015'} />
           <div>
-            <h1>{info.storeName}</h1>
+            {<h1>LS 카페 신림점</h1>}
             {open ? (
               <ArrowImg>
                 <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -131,7 +46,7 @@ const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
               </ArrowImg>
             )}
           </div>
-          <p>{info.address}</p>
+          <p>서울시 관악구 난곡로40길 30</p>
         </StoreName>
       </ItemButton>
       {/* Open */}
@@ -193,7 +108,94 @@ const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
         </List>
       </Collapse>
     </Wrapper>
-    : init}
+  );
+
+  const bgColor = handleColor(info.badge);
+
+  return (
+    <>
+      {info !== undefined ? (
+        <Wrapper className={className !== undefined ? className : ''}>
+          <ItemButton onClick={handleClick}>
+            <StoreName>
+              <CommonBtns text={info.badge} backgroundColor={bgColor} />
+              <div>
+                <h1>{info.storeName}</h1>
+                {open ? (
+                  <ArrowImg>
+                    <Image src={DownArrow} alt="down_arrow" layout="fill" />
+                  </ArrowImg>
+                ) : (
+                  <ArrowImg>
+                    <Image src={UpArrow} alt="up_arrow" layout="fill" />
+                  </ArrowImg>
+                )}
+              </div>
+              <p>{info.address}</p>
+            </StoreName>
+          </ItemButton>
+          {/* Open */}
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <Contents>
+                <div className="text-box">
+                  <span className="name">프로젝트 번호</span>
+                  <span className="text">SEY0G002201</span>
+                </div>
+                <div className="text-box">
+                  <span className="name">구독상품</span>
+                  <span className="text">부분구독</span>
+                </div>
+                <div className="text-box">
+                  <span className="name">구독기간</span>
+                  <span className="text">60개월</span>
+                </div>
+                <div className="text-box">
+                  <span className="name">수익지분</span>
+                  <span className="text">100 %</span>
+                </div>
+                <div className="text-box">
+                  <span className="name">충전기 종류 및 수량</span>
+                  <span className="text">
+                    100 kW 충전기
+                    <br />
+                    :벽걸이, 싱글, 3 대
+                  </span>
+                </div>
+                <div className="text-box">
+                  <span className="name">충전기 설치 위치</span>
+                  <span className="text">건물 밖</span>
+                </div>
+                <div className="text-box">
+                  <span className="name">충전기 설치 목적</span>
+                  <span className="text">모객 효과</span>
+                </div>
+                <div className="text-box">
+                  <span className="name">기타 요청사항</span>
+                  <span className="text">없음</span>
+                </div>
+              </Contents>
+              <Contents>
+                <Partner>파트너 정보</Partner>
+                <div className="text-box">
+                  <span className="name">이름</span>
+                  <span className="text">윤세아</span>
+                </div>
+                <div className="text-box">
+                  <span className="name">이메일</span>
+                  <span className="text emailText">sayoon@LS-CaaS.com</span>
+                </div>
+                <div className="text-box">
+                  <span className="name">연락처</span>
+                  <span className="text phone">010-3522-2250</span>
+                </div>
+              </Contents>
+            </List>
+          </Collapse>
+        </Wrapper>
+      ) : (
+        init
+      )}
     </>
   );
 };
