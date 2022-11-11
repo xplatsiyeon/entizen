@@ -6,7 +6,7 @@ interface Props {
   text?: string;
   isClick?: boolean;
   marginTop: string;
-  [key: string]: any; // 필요한 props 작성하세요.
+  [key: string]: any; // 필요한 props 작성하세요. testß
   setModalOpen?: Dispatch<SetStateAction<boolean>> | undefined;
   modalOpen?: boolean;
   handleClick?: (x: React.MouseEvent<HTMLButtonElement>) => void;
