@@ -11,12 +11,10 @@ interface PropsApi {
 }
 
 const BASE_URL = 'https://test-api.entizen.kr/api';
-export const accessToken = JSON.parse(
-  window.localStorage.getItem('ACCESS_TOKEN')!,
-);
 
 // API 호출 (토큰 O)
 export const isTokenApi = async (apiInfo: ApiProps) => {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { data, endpoint, method } = apiInfo;
 
   return await axios({
@@ -60,6 +58,7 @@ export const getApi = async (url: string) => {
 };
 // API 호출 (토큰 O)
 export const isTokenGetApi = async (url: string) => {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return await axios({
     method: 'GET',
     url: `${BASE_URL}${url}`,
@@ -74,6 +73,7 @@ export const isTokenGetApi = async (url: string) => {
 // API 호출 (토큰 O)
 // export const isTokenPostApi = async (url: string, data: any) => {
 export const isTokenPostApi = async (apiInfo: PropsApi) => {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { url, data } = apiInfo;
   return await axios({
     method: 'POST',
@@ -89,6 +89,7 @@ export const isTokenPostApi = async (apiInfo: PropsApi) => {
 // -----------------------------patch/put-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenPatchApi = async (apiInfo: PropsApi) => {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { url, data } = apiInfo;
   return await axios({
     method: 'PATCH',
@@ -104,6 +105,7 @@ export const isTokenPatchApi = async (apiInfo: PropsApi) => {
 // -----------------------------delete-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { url, data } = apiInfo;
   return await axios({
     method: 'DELETE',
@@ -119,6 +121,7 @@ export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
 
 // ---------------------------------- multer Img -----------------------------------
 export async function multerApi(formData: any): Promise<any> {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   return axios({
     method: 'POST',
     url: `${BASE_URL}/files`,

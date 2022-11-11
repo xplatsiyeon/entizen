@@ -9,7 +9,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
 import { handleColor } from 'utils/changeValue';
 import { GET_InProgressProjectsDetail } from 'QueryComponents/CompanyQuery';
-import { accessToken } from 'api';
 import { useQuery } from '@apollo/client';
 
 interface Data {
@@ -32,6 +31,7 @@ type Props = {
 };
 const TAG = 'componentsCompany/Mypage/TopBox.tsx';
 const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { loading, error, data } = useQuery(GET_InProgressProjectsDetail, {
     context: {
       headers: {
