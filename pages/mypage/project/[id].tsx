@@ -111,7 +111,7 @@ const ProjectInfo = ()=>{
     <MypageHeader back={true} title={'내 프로젝트'} />
         { typeof(index) === "string" ?
         <> 
-            <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[Number(index)]} tap={'project'} />        
+            <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info={tempProceeding[Number(index)]} />        
             <ClientProgress info={tempProceeding[Number(index)]} page={tempProceeding[Number(index)].contract ? 'client':'yet'}/> 
         </>: null}
     </>
