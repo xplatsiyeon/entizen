@@ -9,6 +9,8 @@ import BottomNavigation from 'components/BottomNavigation';
 import FinishedProjects from 'componentsCompany/Mypage/FinishedProjects';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
+import { useQuery } from 'react-query';
+import useProfile from 'hooks/useProfile';
 
 type Props = {};
 interface Components {
@@ -18,8 +20,10 @@ interface Components {
 const Mypage = (props: Props) => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
-  const [userName, setUserName] = useState<string>('윤세아');
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
+
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, isLoading, invalidate } = useProfile(accessToken);
 
   const components: Components = {
     0: <ProjectInProgress tabNumber={tabNumber} />,
@@ -33,7 +37,7 @@ const Mypage = (props: Props) => {
         <Wrapper>
           <Header>
             <span>
-              <h1>{`${userName}님,`}</h1>
+              <h1>{`${profile?.name}님,`}</h1>
               <h2>안녕하세요!</h2>
             </span>
             <div className="img" onClick={() => route.push('/setting')}>
