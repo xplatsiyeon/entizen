@@ -24,10 +24,27 @@ interface QuotationRequests {
   memberIdx: number;
   badge: string;
 }
+interface HistoryQuotationRequests {
+  createdAt: string;
+  quotationRequestIdx: number;
+  quotationStatus: string;
+  changedDate: string;
+  subscribeProduct: string;
+  investRate: string;
+  subscribePeriod: number;
+  installationAddress: string;
+  installationLocation: string;
+  installationPurpose: string;
+  expiredAt: string;
+  etcRequest: string;
+  currentInProgressPreQuotationIdx: boolean;
+  memberIdx: number;
+  badge: string;
+}
 interface Response {
   isSuccess: boolean;
   inProgressQuotationRequests: QuotationRequests[];
-  historyQuotationRequests: [];
+  historyQuotationRequests: HistoryQuotationRequests[];
 }
 const TAG = 'componets/mypage/request/estimate.tsx';
 const Estimate = () => {
@@ -94,24 +111,23 @@ const Estimate = () => {
               {data?.historyQuotationRequests.length!}
             </span>
           </Label>
-          <Carousel length={data?.historyQuotationRequests.length!}>
-            {data?.historyQuotationRequests.map((data, index) => (
+          <Carousel length={data?.historyQuotationRequests?.length!}>
+            {data?.historyQuotationRequests?.map((data, index) => (
               // 히스토리 부분 수정 필요
-              // <CarouselItem
-              //   key={data.quotationRequestIdx}
-              //   onClick={() =>
-              //     router.push(`/mypage/request/${data.quotationRequestIdx}`)
-              //   }
-              // >
-              //   <Badge className="badge" color={HandleUserColor(data.badge)}>
-              //     {data.badge}
-              //   </Badge>
-              //   <div className="store-name">{data.installationAddress}</div>
-              //   <span className="date">
-              //     {moment(data.dateByStatus).format('YYYY.MM.DD')}
-              //   </span>
-              // </CarouselItem>
-              <></>
+              <CarouselItem
+                key={data.quotationRequestIdx}
+                onClick={() =>
+                  router.push(`/mypage/request/${data.quotationRequestIdx}`)
+                }
+              >
+                <Badge className="badge" color={HandleUserColor(data.badge)}>
+                  {data.badge}
+                </Badge>
+                <div className="store-name">{data.installationAddress}</div>
+                <span className="date">
+                  {moment(data.changedDate).format('YYYY.MM.DD')}
+                </span>
+              </CarouselItem>
             ))}
           </Carousel>
         </History>
