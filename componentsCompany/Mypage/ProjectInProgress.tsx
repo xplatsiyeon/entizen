@@ -6,6 +6,9 @@ import CommonBtn from 'components/mypage/as/CommonBtn';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
 import NoProject from './NoProject';
+import { useQuery } from '@apollo/client';
+import Loader from 'components/Loader';
+import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
 
 type Props = {
   tabNumber: number;
@@ -72,6 +75,26 @@ const ProjectInProgress = ({
   componentId,
 }: Props) => {
   const router = useRouter();
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { loading, error, data } = useQuery<Response>(GET_InProgressProjects, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
+  if (loading) {
+    return <Loader />;
+  }
+  if (error) {
+    console.log(error);
+  }
+
+  if (data?.inProgressProjects.length === 0) {
+    return <NoProject />;
+  }
   // 회사 뱃지 변환
   const handleColor = (badge: string | undefined): string => {
     if (badge) {

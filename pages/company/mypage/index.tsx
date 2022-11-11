@@ -8,6 +8,8 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import NoProject from 'componentsCompany/Mypage/NoProject';
 import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
+import { useQuery } from 'react-query';
+import useProfile from 'hooks/useProfile';
 
 type Props = { num?: number; now?: string };
 interface Components {
@@ -90,6 +92,10 @@ const Mypage = ({ num, now }: Props) => {
       window.removeEventListener('resize', handleResize);
     };
   }, [nowWidth]);
+  const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
+
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, isLoading, invalidate } = useProfile(accessToken);
 
   const components: Components = {
     0: (
