@@ -16,7 +16,7 @@ import DownArrow from 'public/guide/down_arrow.svg';
 
 const PlaceTopBox =()=>{
 
-    const [open, setOpen] = useState<boolean>(true);
+    const [open, setOpen] = useState<boolean>(false);
 
     let title ='';
     let bgColor ='';
