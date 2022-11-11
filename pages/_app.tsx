@@ -37,7 +37,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   });
 
   const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    // link: authLink.concat(httpLink),
+    uri: 'https://test-api.entizen.kr/api/graphql',
     cache: new InMemoryCache(),
   });
 
