@@ -10,14 +10,18 @@ import NoProject from './NoProject';
 type Props = {
   tabNumber: number;
   componentId?: number;
-  setComponentId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
 interface Data {
   id: number;
+  state?: number;
   badge: string;
   storeName: string;
   date: string;
+  contract?: boolean;
+  planed?: string[]; // 인덱스[0]: 준비 목표일, [1]: 설치 목표일, [2]: 검수 목표일, [3]: 완료 목표일
+  address?: string;
 }
 // 데이터 없을 때 나오는 페이지
 // const tempProceeding: [] = [];
@@ -66,12 +70,11 @@ const tempProceeding: Data[] = [
   },
 ];
 
-const ProjectInProgress = ({
+const WebProjectInProgressUnder = ({
   tabNumber,
   setComponentId,
   componentId,
 }: Props) => {
-  const router = useRouter();
   // 회사 뱃지 변환
   const handleColor = (badge: string | undefined): string => {
     if (badge) {
@@ -96,19 +99,34 @@ const ProjectInProgress = ({
   if (tempProceeding.length === 0) {
     return <NoProject />;
   }
+  const handleId = (index: number) => {
+    if (setComponentId !== undefined) {
+      setComponentId(index);
+    }
+  };
+  const router = useRouter();
+
+  useEffect(() => {
+    if (componentId !== undefined) {
+      router.push(`/company/mypage/runningProgress/${componentId}`);
+    }
+  }, [componentId]);
+
   return (
     <>
-      {componentId === undefined && (
+      {componentId !== undefined && (
         <div>
           {tabNumber === 0 && tempProceeding.length > 0 && (
             <ContentsContainer>
               {tempProceeding.map((el, index) => (
                 <div key={index}>
                   <Contents
+                    index={index}
+                    componentId={componentId}
                     key={el.id}
-                    onClick={() =>
-                      router.push(`/company/mypage/runningProgress/${index}`)
-                    } //여기서 배지에 따라 분리해서 보내야함.
+                    onClick={() => {
+                      handleId(index);
+                    }}
                   >
                     <DdayNAddress>
                       <DdayBox>
@@ -137,28 +155,30 @@ const ProjectInProgress = ({
 };
 
 const ContentsContainer = styled.div`
-  margin-top: 21pt;
-  padding-left: 15pt;
-  padding-right: 15pt;
-  @media (min-width: 899pt) {
-    display: grid;
-    grid-template-columns: repeat(3, 178.5pt);
-    grid-column-gap: 22.5pt;
-    margin: 0 auto;
+  padding-top: 30pt;
+  height: 190pt;
+  overflow-y: scroll;
+  @media (max-width: 899pt) {
+    display: none;
   }
 `;
 
-const Contents = styled.div`
+const Contents = styled.div<{
+  index: number;
+  componentId: number | undefined;
+}>`
   padding: 12pt 13.5pt;
   display: flex;
-  margin-bottom: 9pt;
+  margin: 0 auto;
+  margin-top: 10pt;
   justify-content: space-between;
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
-  @media (min-width: 899pt) {
-    height: 80pt;
-  }
+  width: 198pt;
+  height: 45pt;
+  border: ${({ componentId, index }) =>
+    componentId === index ? `0.75pt solid #5221CB` : ``};
 `;
 
 const DdayBox = styled.div`
@@ -195,4 +215,4 @@ const ArrowIconBox = styled.div`
   height: 18pt;
 `;
 
-export default ProjectInProgress;
+export default WebProjectInProgressUnder;

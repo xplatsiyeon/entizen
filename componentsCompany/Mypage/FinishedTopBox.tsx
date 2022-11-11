@@ -102,7 +102,6 @@ const Wrapper = styled.div`
   box-shadow: 0px 3pt 7.5pt -3pt #89a3c966;
   padding-left: 15pt;
   padding-right: 15pt;
-  margin-top: 15pt;
   /* border-top: 1px solid #e2e5ed; */
   @media (max-width: 899pt) {
     display: flex;

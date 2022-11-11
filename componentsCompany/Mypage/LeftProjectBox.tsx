@@ -1,15 +1,27 @@
 import styled from '@emotion/styled';
-import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
-import FinishedProjects from 'componentsCompany/Mypage/FinishedProjects';
-import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
-import WebFooter from 'componentsWeb/WebFooter';
+import BottomNavigation from 'components/BottomNavigation';
 import NoProject from 'componentsCompany/Mypage/NoProject';
-import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
+import WebProjectInProgressUnder from 'componentsCompany/Mypage/WebProjectInProgressUnder';
+import WebFinishedProjectsUnder from './WebFinishedProjectsUnder';
 
-type Props = { num?: number; now?: string };
+type Props = {
+  num?: number;
+  now?: string;
+  setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  componentId?: number;
+  setSuccessComponentId?: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
+  successComponentId?: number;
+  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
+  tabNumber: number;
+};
+
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -67,17 +79,18 @@ const tempProceeding: Data[] = [
   },
 ];
 
-const Mypage = ({ num, now }: Props) => {
+const LeftProjectBox = ({
+  componentId,
+  setComponentId,
+  tabNumber,
+  setTabNumber,
+  setSuccessComponentId,
+  successComponentId,
+}: Props) => {
   const route = useRouter();
-  const [tabNumber, setTabNumber] = useState<number>(0);
   const [userName, setUserName] = useState<string>('윤세아');
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-
-  // 내 프로젝트 진행 프로젝트랑 완료 프로젝트 뭐 눌렀는지 받아오는 state
-  const [componentId, setComponentId] = useState<number | undefined>();
-  const [successComponentId, setSuccessComponentId] = useState<
-    number | undefined
-  >();
+  const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
@@ -91,16 +104,16 @@ const Mypage = ({ num, now }: Props) => {
     };
   }, [nowWidth]);
 
-  const components: Components = {
+  const webComponents: Components = {
     0: (
-      <ProjectInProgress
+      <WebProjectInProgressUnder
         tabNumber={tabNumber}
         setComponentId={setComponentId}
         componentId={componentId}
       />
     ),
     1: (
-      <FinishedProjects
+      <WebFinishedProjectsUnder
         tabNumber={tabNumber}
         setSuccessComponentId={setSuccessComponentId}
         successComponentId={successComponentId}
@@ -114,25 +127,58 @@ const Mypage = ({ num, now }: Props) => {
 
   return (
     <>
-      <WebBuyerHeader
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        componentId={componentId}
-        num={num}
-        now={now}
-      />
-      <WebRapper>
-        <LeftProjectBox
-          setTabNumber={setTabNumber}
-          tabNumber={tabNumber}
-          componentId={componentId}
-          setComponentId={setComponentId}
-          successComponentId={successComponentId}
-          setSuccessComponentId={setSuccessComponentId}
-        />
-        <div>{components[tabNumber]}</div>
-      </WebRapper>
-      <WebFooter />
+      <Wrapper>
+        <Header>
+          <span>
+            <h1>{`${userName}님,`}</h1>
+            <h2>안녕하세요!</h2>
+          </span>
+          <div className="img" onClick={() => route.push('/setting')}>
+            <Image src={Nut} alt="nut-icon" />
+          </div>
+        </Header>
+        <Body>
+          <span
+            className="profile-icon"
+            onClick={() => route.push('profile/editing')}
+          >
+            프로필 변경
+          </span>
+          <Line />
+          <MobileTabContainer>
+            {TabType.map((tab, index) => (
+              <TabItem
+                key={index}
+                tab={tabNumber?.toString()!}
+                index={index.toString()}
+                onClick={() => setTabNumber(index)}
+              >
+                {tab}
+                <Dot tab={tabNumber.toString()} index={index.toString()} />
+              </TabItem>
+            ))}
+          </MobileTabContainer>
+          <WebTabContainer>
+            {TabType.map((tab, index) => (
+              <TabItem
+                key={index}
+                tab={tabNumber?.toString()!}
+                index={index.toString()}
+                onClick={() => {
+                  if (nowWidth < 1198.7) {
+                    setTabNumber(index);
+                  }
+                }}
+              >
+                {tab}
+                <Dot tab={tabNumber.toString()} index={index.toString()} />
+              </TabItem>
+            ))}
+          </WebTabContainer>
+        </Body>
+        <BottomNavigation />
+        <div> {webComponents[tabNumber]}</div>
+      </Wrapper>
     </>
   );
 };
@@ -145,16 +191,6 @@ const Wrapper = styled.div`
     height: 424.5pt;
     border: 0.75pt solid #e2e5ed;
     border-radius: 12pt;
-  }
-`;
-
-const WebRapper = styled.div`
-  @media (min-width: 899pt) {
-    margin: 0 auto;
-    padding: 60pt 0;
-    width: 900pt;
-    display: flex;
-    justify-content: space-between;
   }
 `;
 
@@ -280,4 +316,4 @@ const RightProgress = styled.div`
   }
 `;
 
-export default Mypage;
+export default LeftProjectBox;
