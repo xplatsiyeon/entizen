@@ -163,7 +163,7 @@ const BtnBox = styled.div`
     padding-left: 15pt;
     padding-right: 15pt;
     padding-bottom: 30pt;
-    width: 91%;
+    width: 100%;
     gap: 6pt;
     bottom: 0pt;
     background: #ffff;
