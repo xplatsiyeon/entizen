@@ -7,8 +7,7 @@ import DownArrow from 'public/guide/down_arrow.svg';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
-import { handleColor, handleColor2 } from 'utils/changeValue';
-import { testArr2 } from 'pages/mypage/place/[id]';
+import { handleColor } from 'utils/changeValue';
 
 interface Data {
   id: number;
@@ -26,44 +25,16 @@ type Props = {
   setOpen?: Dispatch<SetStateAction<boolean>>;
   handleClick?: () => void;
   className?: string;
-  info: Data | testArr2 ;
-  tap: 'estimate' | 'project' |'as'|'place' ;
+  info: Data;
 };
 
-const TopBox = ({ open, className, setOpen, handleClick, info, tap }: Props) => {
-
-
-  let bgColor='' ;
-  let title='';
-  let tapType ;
-
-  switch(tap){
-
-    case 'place' : 
-    if(info.badge === 4){
-      title  = `구독시작 ${info.date}`
-    }else{
-      title = `구독종료 ${info.date}`
-    };
-    if(typeof(info.badge) === 'number') bgColor = handleColor2(info.badge);
-    break;
-
-    case 'project' :
-      if(typeof(info.badge)==='string'){
-        title = info.badge;
-        bgColor = handleColor(info.badge);
-      }
-      break;
-  }
-
-
-
+const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
 
   const init = 
   <Wrapper className={className !== undefined ? className : ''}>
     <ItemButton onClick={handleClick}>
       <StoreName> 
-        <CommonBtns text={'계약대기'} backgroundColor={bgColor}/> 
+        <CommonBtns text={'계약대기'} backgroundColor={'#F75015'}/> 
         <div>
           {<h1>LS 카페 신림점</h1>}
           {open ? (
@@ -139,13 +110,15 @@ const TopBox = ({ open, className, setOpen, handleClick, info, tap }: Props) => 
     </Collapse>
   </Wrapper>
 
+  const bgColor = handleColor(info.badge)
+
   return (
     <>
     {info !== undefined ?
     <Wrapper className={className !== undefined ? className : ''}>
       <ItemButton onClick={handleClick}>
         <StoreName> 
-          <CommonBtns text={title} backgroundColor={bgColor}/> 
+          <CommonBtns text={info.badge} backgroundColor={bgColor}/> 
           <div>
             <h1>{info.storeName}</h1>
             {open ? (

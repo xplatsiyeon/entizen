@@ -1,8 +1,11 @@
 import { testArr } from "components/mypage/place/Charging";
+import PlaceTopBox from "components/mypage/place/PlaceTopBox";
 import MypageHeader from "components/mypage/request/header";
-import TopBox from "componentsCompany/Mypage/TopBox";
 import { useRouter } from "next/router";
 import { useState } from "react";
+
+import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
+import PlaceInfo from "components/mypage/place/PlaceInfo";
 
 export interface testArr2 extends testArr {
     address: string;
@@ -37,7 +40,10 @@ const ChargingPlace = ()=>{
     return(
         <>
         <MypageHeader back={true} title={'내 충전소'} />
-        <TopBox open={open} setOpen={setOpen} handleClick={handleClick} info ={tempProceeding[Number(index)]} tap={'place'}/>
+        {/*<TopBox open={open} setOpen={setOpen} handleClick={handleClick} info ={tempProceeding[Number(index)]} tap={'place'}/> */}
+        <PlaceTopBox/>
+
+        <PlaceInfo/>
         </>
     )
 }
