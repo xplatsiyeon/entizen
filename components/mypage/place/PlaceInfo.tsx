@@ -39,8 +39,7 @@ const PlaceInfo =()=>{
 
         </FileBox>
 
-        <>
-        
+        <>       
         <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
               <FinishedPhotoBox>
 
