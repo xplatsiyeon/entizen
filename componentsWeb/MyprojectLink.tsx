@@ -5,46 +5,86 @@ import { useEffect } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
-  setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
+  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
+  componentId: number | undefined;
+  linkState?: string;
+  num?: number;
+  now?: string;
+  type?: string;
 };
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
-const MyprojectLink = ({ setTabNumber, tabNumber }: Props) => {
-  const router = useRouter();
+const MyprojectLink = ({
+  setTabNumber,
+  tabNumber,
+  componentId,
+  linkState,
+  type,
+  num,
+  now,
+}: Props) => {
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
+  let linkName: string[];
+  let linkUrl: string[];
 
-  // const handleLink = (idx: number) => {
-  //   const user = localStorage.getItem('USER_ID');
-  //   if (!user && type === 'project') {
-  //     router.push('/signin');
-  //   } else {
-  //     if (linkUrl[idx] === '/mypage') {
-  //       alert('2차 작업 범위입니다');
-  //     } else {
-  //       router.push(linkUrl[idx]);
-  //     }
-  //   }
-  // };
+  switch (type) {
+    case 'myProject':
+      linkName = ['진행 프로젝트', '완료 프로젝트'];
+      linkUrl = [`/company/mypage`, `/company/mypage`];
+      break;
+
+    case 'as':
+      linkName = ['신규 A/S', '히스토리'];
+      linkUrl = [`/company/mypage`, `/company/mypage`];
+      break;
+
+    case 'communication':
+      linkName = [' '];
+      linkUrl = [`/company/mypage`];
+      break;
+
+    case 'estimate':
+      linkName = ['받은 요청', '보낸 견적', '히스토리'];
+      linkUrl = [`/company/mypage`, `/company/mypage`, '/company/mypage'];
+      break;
+
+    default:
+      linkName = ['진행 프로젝트', '완료 프로젝트'];
+      linkUrl = [`/company/mypage`, `/company/mypage`];
+  }
+  const router = useRouter();
+
+  const handleLink = (idx: number) => {
+    const user = localStorage.getItem('USER_ID');
+    if (!user && type === 'project') {
+      router.push('/signin');
+    } else {
+      if (linkUrl[idx] === '/mypage') {
+        alert('2차 작업 범위입니다');
+      } else {
+        router.push(linkUrl[idx]);
+      }
+    }
+  };
 
   return (
-    <Wrap>
-      {TabType.map((tab, index) => {
+    <Wrap componentId={componentId}>
+      {linkName.map((i, idx) => {
         return (
           <StyledLink
-            key={index}
+            key={idx}
+            className={num === idx && type === now ? 'on' : undefined}
             tab={tabNumber?.toString()!}
-            index={index.toString()}
+            index={idx.toString()}
             onClick={() => {
-              if (setTabNumber !== undefined) {
-                setTabNumber(index);
-              }
+              setTabNumber(idx);
             }}
           >
-            {tab}
+            {i}
           </StyledLink>
         );
       })}
@@ -54,10 +94,16 @@ const MyprojectLink = ({ setTabNumber, tabNumber }: Props) => {
 
 export default MyprojectLink;
 
-const Wrap = styled.ul`
+const Wrap = styled.ul<{ componentId: number | undefined }>`
   width: 900pt;
   height: 44.5pt;
   margin: 0 auto;
+  display: ${({ componentId }) => componentId !== undefined && `none`};
+  :hover {
+    width: 900pt;
+    height: 44.5pt;
+    margin: 0 auto;
+  }
 `;
 
 const StyledLink = styled.li<{ tab: string; index: string }>`

@@ -1,16 +1,16 @@
-import styled from '@emotion/styled';
 import MypageHeader from 'components/mypage/request/header';
-import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
 import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
 import TopBox from 'componentsCompany/Mypage/TopBox';
 import UnderBox from 'componentsCompany/Mypage/UnderBox';
 import WriteContract from 'componentsCompany/Mypage/WriteContract';
-import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import Progress from '../projectProgress';
+// import Progress from '../projectProgress';
+import Progress from '../../pages/company/mypage/projectProgress';
 
-type Props = {};
+type Props = {
+  componentId: number | undefined;
+};
 
 export interface Data {
   id: number;
@@ -38,7 +38,7 @@ const tempProceeding: Data[] = [
     id: 1,
     state: 1,
     badge: '준비 중',
-    storeName: '스타벅스 마곡점',
+    storeName: 'LS카페 신림점',
     date: '2021.05.10',
     contract: true,
     planed: [],
@@ -96,13 +96,10 @@ const tempProceeding: Data[] = [
   },
 ];
 
-const RunningProgress = (props: Props) => {
+const WebRunningProgress = ({ componentId }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [, setOpenContract] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
-  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-  const [tabNumber, setTabNumber] = useState<number>(0);
-  const [componentId, setComponentId] = useState<number>();
 
   const [data, setData] = useState<Data>({
     id: -1,
@@ -114,84 +111,33 @@ const RunningProgress = (props: Props) => {
     planed: [],
     address: '',
   });
-  console.log({ data });
-
-  const router = useRouter();
 
   useEffect(() => {
-    console.log('index', router.query.id);
-    if (router.query.id) {
-      const num = Number(router.query.id);
-      setComponentId(num);
-      setData(tempProceeding[num]);
+    if (componentId !== undefined) {
+      setData(tempProceeding[componentId]);
     }
-  }, [router.query.id]);
-
-  // 실시간으로 width 받아오는 함수
-  const handleResize = () => {
-    setNowWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
+  }, [componentId]);
 
   return (
     <>
-      <WebBuyerHeader
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        componentId={componentId}
-      />
-      <WebRapper>
-        {nowWidth > 1198.7 && (
-          <LeftProjectBox
-            setTabNumber={setTabNumber}
-            tabNumber={tabNumber}
-            componentId={componentId}
-            setComponentId={setComponentId}
+      <MypageHeader back={true} title={'진행 프로젝트'} />
+      {data.id !== -1 ? (
+        <>
+          <TopBox
+            open={open}
+            setOpen={setOpen}
+            handleClick={handleClick}
+            info={data}
           />
-        )}
-        <MypageHeader back={true} title={'진행 프로젝트'} />
-        {data.id !== -1 ? (
-          <WebBox>
-            <TopBox
-              open={open}
-              setOpen={setOpen}
-              handleClick={handleClick}
-              info={data}
-            />
-            {data.contract ? (
-              <Progress info={data} setData={setData} />
-            ) : (
-              <UnderBox setOpenContract={setOpenContract} />
-            )}
-          </WebBox>
-        ) : null}
-      </WebRapper>
+          {data.contract ? (
+            <Progress info={data} setData={setData} />
+          ) : (
+            <UnderBox setOpenContract={setOpenContract} />
+          )}
+        </>
+      ) : null}
     </>
   );
 };
 
-export default RunningProgress;
-
-const WebRapper = styled.div`
-  @media (min-width: 899pt) {
-    margin: 0 auto;
-    padding: 60pt 0;
-    width: 900pt;
-    display: flex;
-    justify-content: space-between;
-  }
-`;
-
-const WebBox = styled.div`
-  @media (min-width: 899pt) {
-    display: flex;
-    flex-direction: column;
-    width: 580.5pt;
-  }
-`;
+export default WebRunningProgress;
