@@ -16,8 +16,9 @@ type Props = {
   setToggleOpen: Dispatch<SetStateAction<boolean[]>>;
   presentProgress: number;
   setProgressNum: Dispatch<SetStateAction<number>>;
-  state : number;
-  planed:string[];
+  state: number;
+  planed: string[];
+  progressNum?: number;
 };
 
 const ProgressBody = ({
@@ -27,9 +28,10 @@ const ProgressBody = ({
   setToggleOpen,
   presentProgress,
   setProgressNum,
-  state, planed
+  progressNum,
+  state,
+  planed,
 }: Props) => {
-
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -74,33 +76,67 @@ const ProgressBody = ({
 
   let textArr;
 
-  switch(state) {
-    case 0 : 
-    textArr = ['공사 준비를 진행해주세요.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
-    break;
+  switch (state) {
+    case 0:
+      textArr = [
+        '공사 준비를 진행해주세요.',
+        '충전기를 설치, 시운전을 진행해주세요',
+        '충전기 검수를 진행해주세요',
+        '프로젝트를 완료해주세요',
+      ];
+      break;
 
-    case 1 : 
-    textArr = ['공사 준비를 진행해주세요.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
-    break;
+    case 1:
+      textArr = [
+        '공사 준비를 진행해주세요.',
+        '충전기를 설치, 시운전을 진행해주세요',
+        '충전기 검수를 진행해주세요',
+        '프로젝트를 완료해주세요',
+      ];
+      break;
 
-    case 2 : 
-    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
-    break;
+    case 2:
+      textArr = [
+        '공사 준비가 완료되었습니다.',
+        '충전기를 설치, 시운전을 진행해주세요',
+        '충전기 검수를 진행해주세요',
+        '프로젝트를 완료해주세요',
+      ];
+      break;
 
-    case 3 : 
-    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전이 완료되었습니다', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
-    break;
+    case 3:
+      textArr = [
+        '공사 준비가 완료되었습니다.',
+        '충전기를 설치, 시운전이 완료되었습니다',
+        '충전기 검수를 진행해주세요',
+        '프로젝트를 완료해주세요',
+      ];
+      break;
 
-    case 4 : 
-    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전이 완료되었습니다', '충전기 검수가 완료되었습니다', '프로젝트를 완료해주세요'];
-    break;
+    case 4:
+      textArr = [
+        '공사 준비가 완료되었습니다.',
+        '충전기를 설치, 시운전이 완료되었습니다',
+        '충전기 검수가 완료되었습니다',
+        '프로젝트를 완료해주세요',
+      ];
+      break;
 
-    case 5 : 
-    textArr = ['공사 준비가 완료되었습니다.','충전기를 설치, 시운전이 완료되었습니다', '충전기 검수가 완료되었습니다', '프로젝트를 완료해주세요'];
-    break;
+    case 5:
+      textArr = [
+        '공사 준비가 완료되었습니다.',
+        '충전기를 설치, 시운전이 완료되었습니다',
+        '충전기 검수가 완료되었습니다',
+        '프로젝트를 완료해주세요',
+      ];
+      break;
 
-    default: 
-    textArr = ['공사 준비를 진행해주세요.', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
+    default:
+      textArr = [
+        '공사 준비를 진행해주세요.',
+        '충전기 검수를 진행해주세요',
+        '프로젝트를 완료해주세요',
+      ];
   }
 
   return (
@@ -112,8 +148,13 @@ const ProgressBody = ({
         <FlexBox margin={toggleOpen[0]}>
           <div>
             <CircleImgBox>
-              <Image src={
-                  presentProgress === 0 ? progressBlueCircle : progressCircle} alt="progressCircle" layout="fill" />
+              <Image
+                src={
+                  presentProgress === 0 ? progressBlueCircle : progressCircle
+                }
+                alt="progressCircle"
+                layout="fill"
+              />
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="contract" onClick={handleToggleClick}>
@@ -159,12 +200,15 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[0]?
-              <PickedDate color={(1 >= state) ? colors.main :'#e2e5ed'}>{planed[0]}</PickedDate>:
-              <SetDate id="prepareDate" onClick={handleDateModal}>
-                목표일
-              </SetDate>
-              }
+              {planed[0] ? (
+                <PickedDate color={1 >= state ? colors.main : '#e2e5ed'}>
+                  {planed[0]}
+                </PickedDate>
+              ) : (
+                <SetDate id="prepareDate" onClick={handleDateModal}>
+                  목표일
+                </SetDate>
+              )}
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -183,8 +227,13 @@ const ProgressBody = ({
         <FlexBox>
           <div>
             <CircleImgBox>
-              <Image src={
-                  presentProgress === 2 ? progressBlueCircle : progressCircle} alt="progressCircle" layout="fill" />
+              <Image
+                src={
+                  presentProgress === 2 ? progressBlueCircle : progressCircle
+                }
+                alt="progressCircle"
+                layout="fill"
+              />
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="install" onClick={handleToggleClick}>
@@ -197,12 +246,15 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[1]?
-              <PickedDate color={(2 >= state) ? colors.main :'#e2e5ed'}>{planed[1]}</PickedDate>:
-              <SetDate id="prepareDate" onClick={handleDateModal}>
-                목표일
-              </SetDate>
-              }
+              {planed[1] ? (
+                <PickedDate color={2 >= state ? colors.main : '#e2e5ed'}>
+                  {planed[1]}
+                </PickedDate>
+              ) : (
+                <SetDate id="prepareDate" onClick={handleDateModal}>
+                  목표일
+                </SetDate>
+              )}
               {/* <SetDate id="installDate" onClick={handleDateModal}>
                 목표일
               </SetDate> */}
@@ -224,8 +276,13 @@ const ProgressBody = ({
         <FlexBox>
           <div>
             <CircleImgBox>
-              <Image src={
-                  presentProgress === 3 ? progressBlueCircle : progressCircle} alt="progressCircle" layout="fill" />
+              <Image
+                src={
+                  presentProgress === 3 ? progressBlueCircle : progressCircle
+                }
+                alt="progressCircle"
+                layout="fill"
+              />
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="inspection" onClick={handleToggleClick}>
@@ -238,12 +295,15 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[2]?
-              <PickedDate color={(3 >= state) ? colors.main :'#e2e5ed'}>{planed[2]}</PickedDate>:
-              <SetDate id="prepareDate" onClick={handleDateModal}>
-                목표일
-              </SetDate>
-              }
+              {planed[2] ? (
+                <PickedDate color={3 >= state ? colors.main : '#e2e5ed'}>
+                  {planed[2]}
+                </PickedDate>
+              ) : (
+                <SetDate id="prepareDate" onClick={handleDateModal}>
+                  목표일
+                </SetDate>
+              )}
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -265,7 +325,10 @@ const ProgressBody = ({
               <Image
                 className="bottomCircle"
                 src={
-                  (presentProgress === 4 || presentProgress === 5) ? progressBlueCircle : progressCircle}
+                  presentProgress === 4 || presentProgress === 5
+                    ? progressBlueCircle
+                    : progressCircle
+                }
                 alt="progressCircle"
                 layout="fill"
               />
@@ -281,12 +344,17 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[3]?
-              <PickedDate color={(4 >= state)|| (5 >= state)? colors.main :'#e2e5ed'}>{planed[3]}</PickedDate>:
-              <SetDate id="prepareDate" onClick={handleDateModal}>
-                목표일
-              </SetDate>
-              }
+              {planed[3] ? (
+                <PickedDate
+                  color={4 >= state || 5 >= state ? colors.main : '#e2e5ed'}
+                >
+                  {planed[3]}
+                </PickedDate>
+              ) : (
+                <SetDate id="prepareDate" onClick={handleDateModal}>
+                  목표일
+                </SetDate>
+              )}
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -390,10 +458,11 @@ const PickedDate = styled.div`
   line-height: 9pt;
   letter-spacing: -0.02em;
   text-align: left;
-  color: ${(props)=>{
-    console.log(props)
-    return props.color}};
-  border: 1px solid ${(props)=>props.color};
+  color: ${(props) => {
+    console.log(props);
+    return props.color;
+  }};
+  border: 1px solid ${(props) => props.color};
   border-radius: 6pt;
 `;
 

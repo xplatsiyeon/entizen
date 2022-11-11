@@ -17,17 +17,24 @@ import { handleLogoutOnClickModalClick } from 'api/logout';
 type Props = {
   num?: number;
   now?: string;
-  setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
+  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
+  componentId?: number;
 };
 
-const WebBuyerHeader = ({ setTabNumber, tabNumber }: Props) => {
-  const [linklist, setLinklist] = useState<boolean>(false);
-  const [type, setType] = useState<string>('');
+const WebBuyerHeader = ({
+  setTabNumber,
+  tabNumber,
+  componentId,
+  num,
+  now,
+}: Props) => {
+  const [linklist, setLinklist] = useState<boolean>(true);
   const [isHovering, setIsHovered] = useState(false);
+  const [type, setType] = useState<string>('');
+  const [tab, setTab] = useState<number>(3);
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
-
   const router = useRouter();
 
   const isUser = localStorage.getItem('USER_ID');
@@ -47,6 +54,39 @@ const WebBuyerHeader = ({ setTabNumber, tabNumber }: Props) => {
       .catch((error) => alert(error));
   };
 
+  type Menu = {
+    id: number;
+    type: string;
+    menu: string;
+    linkUrl: string;
+  };
+  const HeaderMenu: Menu[] = [
+    {
+      id: 0,
+      type: 'estimate',
+      menu: '내견적',
+      linkUrl: '/company/mypage',
+    },
+    {
+      id: 1,
+      type: 'communication',
+      menu: '소통하기',
+      linkUrl: '/company/mypage',
+    },
+    {
+      id: 2,
+      type: 'as',
+      menu: 'A/S',
+      linkUrl: '/company/mypage',
+    },
+    {
+      id: 3,
+      type: 'myProject',
+      menu: '내 프로젝트',
+      linkUrl: '/company/mypage',
+    },
+  ];
+
   return (
     <>
       <Wrapper>
@@ -58,21 +98,26 @@ const WebBuyerHeader = ({ setTabNumber, tabNumber }: Props) => {
                   <Image src={Logos} alt="logo" layout="intrinsic" />
                 </Link>
               </LogoBox>
-              <DivBox>내견적</DivBox>
-              <DivBox>소통하기</DivBox>
-              <DivBox>A/S</DivBox>
-              <DivBox
-                onClick={() => {
-                  setType('project');
-                  setLinklist(!linklist);
-                }}
-              >
-                내 프로젝트
-              </DivBox>
+              {HeaderMenu.map((el, idx) => {
+                return (
+                  <DivBox
+                    key={idx}
+                    tab={tab}
+                    index={idx}
+                    onClick={() => {
+                      setLinklist(linklist);
+                      setType(el.type);
+                      setTab(el.id);
+                      router.push(el.linkUrl);
+                    }}
+                  >
+                    {el.menu}
+                  </DivBox>
+                );
+              })}
             </Box1>
             <Box2>
               {/* <DivBox2><input type="text" placeholder="서비스를 검색해보세요" /> </DivBox2> */}
-
               {isUser ? (
                 <>
                   <DivBox2>
@@ -151,8 +196,15 @@ const WebBuyerHeader = ({ setTabNumber, tabNumber }: Props) => {
             </Box2>
           </Inner>
         </MainLink>
-        {linklist ? (
-          <MyprojectLink setTabNumber={setTabNumber} tabNumber={tabNumber} />
+        {linklist && type !== 'communication' ? (
+          <MyprojectLink
+            setTabNumber={setTabNumber}
+            tabNumber={tabNumber}
+            componentId={componentId}
+            type={type}
+            num={num}
+            now={now}
+          />
         ) : null}
       </Wrapper>
     </>
@@ -247,17 +299,17 @@ const ProfileMenu = styled.ul`
   }
 `;
 
-const DivBox = styled.div`
+const DivBox = styled.div<{ tab: number; index: number }>`
   margin-right: 30pt;
   display: flex;
   align-items: center;
   cursor: pointer;
-
   font-weight: bold;
   font-size: 13.5pt;
   line-height: 13.5pt;
   font-family: 'Spoqa Han Sans Neo';
-  color: ${colors.main2};
+  color: ${({ tab, index }) =>
+    tab === index ? colors.main : colors.lightGray};
   text-decoration: none;
   a {
     font-weight: bold;
