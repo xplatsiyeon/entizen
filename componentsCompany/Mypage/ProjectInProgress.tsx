@@ -7,6 +7,7 @@ import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
 import { handleColor } from 'utils/changeValue';
 import NoProject from './NoProject';
+import { gql, useQuery } from '@apollo/client';
 
 type Props = {
   tabNumber: number;
@@ -18,8 +19,7 @@ interface Data {
   storeName: string;
   date: string;
 }
-// 데이터 없을 때 나오는 페이지
-// const tempProceeding: [] = [];
+
 const tempProceeding: Data[] = [
   {
     id: 0,
@@ -65,11 +65,32 @@ const tempProceeding: Data[] = [
   },
 ];
 
+const GET_InProgressProjects = gql`
+  query Query {
+    inProgressProjects {
+      projectIdx
+      projectName
+      badge
+    }
+  }
+`;
+
 const ProjectInProgress = ({ tabNumber }: Props) => {
   const router = useRouter();
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { loading, error, data } = useQuery(GET_InProgressProjects, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
   if (tempProceeding.length === 0) {
-    return <NoProject/>;
+    return <NoProject />;
   }
+
+  console.log(data);
   return (
     <>
       {tabNumber === 0 && tempProceeding.length > 0 && (
