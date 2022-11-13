@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import CommunicationBox from "components/CommunicationBox";
 import { useState } from "react";
-import colors from "styles/colors";
+import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
+import Image from "next/image";
 
 const PlaceInfo =()=>{
 
@@ -16,6 +17,11 @@ const PlaceInfo =()=>{
     }
     return(
         <Wrapper>
+
+      <DownArrowBox>
+        <Image src={DoubleArrow} alt="double-arrow" />
+      </DownArrowBox>
+
         <Contents>
             <Partner>파트너 정보</Partner>
             <div className="text-box">
@@ -66,6 +72,11 @@ export default PlaceInfo;
 const Wrapper = styled.div`
 margin-top: 42pt;
 `
+const DownArrowBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 21pt;
+`;
 
 const Partner = styled.div`
   font-family: Spoqa Han Sans Neo;
