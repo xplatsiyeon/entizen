@@ -16,7 +16,7 @@ export interface Rating {
   satisfy: number;
 }
 type Props = {
-  setModalOpen?: Dispatch<SetStateAction<boolean>> | undefined;
+  setModalOpen?: Dispatch<SetStateAction<boolean>> ;
   modalOpen?: boolean;
 };
 
@@ -98,7 +98,7 @@ const AsRequestWriteReview = ({ setModalOpen, modalOpen }: Props) => {
           required
         />
       </RatingForm>
-      <BtnBox>
+      {setModalOpen &&  <BtnBox >
         <LeftBtn>건너뛰기</LeftBtn>
         <RightBtn
           onClick={() => setModalOpen && setModalOpen(!modalOpen)}
@@ -106,7 +106,7 @@ const AsRequestWriteReview = ({ setModalOpen, modalOpen }: Props) => {
         >
           보내기
         </RightBtn>
-      </BtnBox>
+      </BtnBox> }
     </Wrapper>
   );
 };
@@ -211,5 +211,24 @@ const LeftBtn = styled.button`
   letter-spacing: -0.02em;
   text-align: center;
 `;
+
+const Btn = styled.button`
+  width: 100%;
+  background-color: ${colors.main};
+  padding: 15pt 0;
+  border-radius: 6pt;
+  position: absolute;
+  bottom: 30pt;
+  span{
+    color:white;
+font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 700;
+font-size: 12pt;
+line-height: 12pt;
+text-align: center;
+letter-spacing: -0.02em;
+  }
+`
 
 export default AsRequestWriteReview;
