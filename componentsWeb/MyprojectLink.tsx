@@ -53,9 +53,9 @@ const MyprojectLink = ({
     case 'estimate':
       linkName = ['받은 요청', '보낸 견적', '히스토리'];
       linkUrl = [
-        `/company/recievedRequest`,
-        `/company/recievedRequest`,
-        '/company/recievedRequest',
+        `/company/quotation`,
+        `/company/quotation`,
+        '/company/quotation',
       ];
       break;
 

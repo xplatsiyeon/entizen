@@ -129,7 +129,6 @@ const Mypage = ({ num, now }: Props) => {
         componentId={componentId}
         num={num}
         now={now}
-        setOpenSubLink={setOpenSubLink}
         openSubLink={openSubLink}
       />
       <WebRapper>

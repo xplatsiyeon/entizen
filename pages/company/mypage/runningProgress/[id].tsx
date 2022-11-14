@@ -11,11 +11,11 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Progress from '../projectProgress';
 
-type Props = {
-  setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
-  openSubLink: boolean;
-};
-
+// type Props = {
+//   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
+//   openSubLink: boolean;
+// };
+type Props = {};
 export interface Data {
   id: number;
   state: number;
@@ -100,14 +100,16 @@ const tempProceeding: Data[] = [
   },
 ];
 
-const RunningProgress = ({ setOpenSubLink, openSubLink }: Props) => {
+const RunningProgress = (props: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [, setOpenContract] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
-  const [linklist, setLinklist] = useState<boolean>(true);
+
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
 
   const [data, setData] = useState<Data>({
     id: -1,
@@ -124,13 +126,12 @@ const RunningProgress = ({ setOpenSubLink, openSubLink }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('index', router.query.id);
-    console.log('123', openSubLink);
     if (router.query.id) {
       const num = Number(router.query.id);
       setComponentId(num);
       setData(tempProceeding[num]);
       setOpenSubLink(!openSubLink);
+      console.log('러닝 프로그레스', openSubLink);
     }
   }, [router.query.id]);
 
@@ -153,7 +154,6 @@ const RunningProgress = ({ setOpenSubLink, openSubLink }: Props) => {
         tabNumber={tabNumber}
         componentId={componentId}
         openSubLink={openSubLink}
-        setOpenSubLink={setOpenSubLink}
       />
       <WebRapper>
         {nowWidth > 1198.7 && (

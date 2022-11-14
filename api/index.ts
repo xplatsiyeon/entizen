@@ -73,8 +73,8 @@ export const isTokenGetApi = async (url: string) => {
 // API 호출 (토큰 O)
 // export const isTokenPostApi = async (url: string, data: any) => {
 export const isTokenPostApi = async (apiInfo: PropsApi) => {
-  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { url, data } = apiInfo;
   return await axios({
     method: 'POST',
     url: `${BASE_URL}${url}`,
@@ -89,8 +89,8 @@ export const isTokenPostApi = async (apiInfo: PropsApi) => {
 // -----------------------------patch/put-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenPatchApi = async (apiInfo: PropsApi) => {
-  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { url, data } = apiInfo;
   return await axios({
     method: 'PATCH',
     url: `${BASE_URL}${url}`,
@@ -105,8 +105,8 @@ export const isTokenPatchApi = async (apiInfo: PropsApi) => {
 // -----------------------------delete-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
-  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { url, data } = apiInfo;
   return await axios({
     method: 'DELETE',
     url: `${BASE_URL}${url}`,

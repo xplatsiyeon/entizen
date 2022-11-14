@@ -7,16 +7,19 @@ import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 
-type Props = {
-  setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
-  openSubLink: boolean;
-};
+// type Props = {
+//   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
+//   openSubLink: boolean;
+// };
+type Props = {};
 
-const successedProject = ({ setOpenSubLink, openSubLink }: Props) => {
+const successedProject = (props: Props) => {
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [successComponentId, setSuccessComponentId] = useState<number>();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-  console.log('success 누르면 나오는 마지막 페이지 ^^', successComponentId);
+
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
@@ -49,7 +52,6 @@ const successedProject = ({ setOpenSubLink, openSubLink }: Props) => {
             tabNumber={tabNumber}
             successComponentId={successComponentId}
             openSubLink={openSubLink}
-            setOpenSubLink={setOpenSubLink}
           />
           <WebRapper>
             {nowWidth > 1198.7 && (

@@ -15,6 +15,7 @@ import Loader from 'components/Loader';
 import FinalBottomBox from './FinalBottomBox';
 import Modal from 'components/Modal/Modal';
 import { chargerData } from 'storeCompany/finalQuotation';
+import TwoBtnModal from 'components/Modal/TwoBtnModal';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -190,6 +191,8 @@ const TAG =
 const SentQuoatationFirst = () => {
   const router = useRouter();
   const routerId = router?.query?.id;
+  // 현장실사 완료 모달
+  const [isConfirmModal, setIsConfirmModal] = useState(false);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
@@ -226,6 +229,7 @@ const SentQuoatationFirst = () => {
       onSuccess: (data) => {
         console.log('호출 성공');
         console.log(data);
+        setIsConfirmModal(false);
         refetch();
       },
       onError: (error: any) => {
@@ -273,6 +277,19 @@ const SentQuoatationFirst = () => {
   console.log(data);
   return (
     <Wrapper>
+      {/* 현장실사 완료 모달 */}
+      {isConfirmModal && (
+        <TwoBtnModal
+          exit={() => setIsConfirmModal(false)}
+          leftBtnText={'취소'}
+          leftBtnColor={colors.main2}
+          leftBtnControl={() => setIsConfirmModal(false)}
+          rightBtnText={'완료하기'}
+          rightBtnColor={colors.main}
+          rightBtnControl={onClickSpot}
+          text={'현장실사를 완료하시겠습니까?'}
+        />
+      )}
       {/* 에러 모달 */}
       {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
@@ -312,7 +329,9 @@ const SentQuoatationFirst = () => {
         <LastQuotationBtnBox>
           <Blur />
           <BlurTwo />
-          <LastBtn onClick={onClickSpot}>현장실사 완료</LastBtn>
+          <LastBtn onClick={() => setIsConfirmModal(true)}>
+            현장실사 완료
+          </LastBtn>
         </LastQuotationBtnBox>
       )}
       {/* 최종견적 입력 중 -> 최종견적 작성 페이지로 이동 버튼 생성 */}
@@ -365,7 +384,6 @@ const CustomerRequestContent = styled.div`
 const Wrapper = styled.div`
   padding-bottom: 75pt;
 `;
-
 const ItemButton = styled(ListItemButton)`
   display: flex;
   justify-content: center;

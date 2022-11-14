@@ -72,7 +72,7 @@ const DatePicker = ({}: Props) => {
   const onClickConfirmBtn = () => {
     if (selectedDays) {
       console.log('온클릭 됐나요?');
-      const newDay = selectedDays.replaceAll('.', '-');
+      const newDay = selectedDays?.replaceAll('.', '-');
       console.log(newDay);
       mutate({
         url: `/quotations/pre/${router.query.preQuotation}/spot-inspection`,
@@ -110,7 +110,7 @@ const DatePicker = ({}: Props) => {
   }
 
   const { spotInspectionDate } = spotData?.data?.spotInspection!;
-  const days = spotInspectionDate?.map((date) => date.replaceAll('-', '.'));
+  const days = spotInspectionDate?.map((date) => date?.replaceAll('-', '.'));
 
   return (
     <React.Fragment>

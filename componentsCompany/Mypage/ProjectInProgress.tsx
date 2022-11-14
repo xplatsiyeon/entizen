@@ -116,43 +116,47 @@ const ProjectInProgress = ({
     }
   };
 
-  if (tempProceeding.length === 0) {
+  if (data?.inProgressProjects?.length === 0) {
     return <NoProject />;
   }
   return (
     <>
-      <div>
-        {tabNumber === 0 && tempProceeding.length > 0 && (
-          <ContentsContainer>
-            {tempProceeding.map((el, index) => (
-              <div key={index}>
-                <Contents
-                  key={el.id}
-                  onClick={() =>
-                    router.push(`/company/mypage/runningProgress/${index}`)
-                  } //여기서 배지에 따라 분리해서 보내야함.
-                >
-                  <DdayNAddress>
-                    <DdayBox>
-                      <CommonBtn
-                        text={el.badge}
-                        backgroundColor={handleColor(el.badge)}
-                        bottom={'12pt'}
-                      />
-                    </DdayBox>
-                    <AddressBox>{el.storeName}</AddressBox>
-                  </DdayNAddress>
-                  <IconBox>
-                    <ArrowIconBox>
-                      <Image src={CaretDown24} alt="RightArrow" />
-                    </ArrowIconBox>
-                  </IconBox>
-                </Contents>
-              </div>
-            ))}
-          </ContentsContainer>
-        )}
-      </div>
+      {componentId === undefined && (
+        <div>
+          {tabNumber === 0 && data?.inProgressProjects?.length! > 0 && (
+            <ContentsContainer>
+              {data?.inProgressProjects?.map((el, index) => (
+                <div key={index}>
+                  <Contents
+                    key={el.projectIdx}
+                    onClick={() =>
+                      router.push(
+                        `/company/mypage/runningProgress/${el?.projectIdx}`,
+                      )
+                    } //여기서 배지에 따라 분리해서 보내야함.
+                  >
+                    <DdayNAddress>
+                      <DdayBox>
+                        <CommonBtn
+                          text={el.badge}
+                          backgroundColor={handleColor(el.badge)}
+                          bottom={'12pt'}
+                        />
+                      </DdayBox>
+                      <AddressBox>{el.projectName}</AddressBox>
+                    </DdayNAddress>
+                    <IconBox>
+                      <ArrowIconBox>
+                        <Image src={CaretDown24} alt="RightArrow" />
+                      </ArrowIconBox>
+                    </IconBox>
+                  </Contents>
+                </div>
+              ))}
+            </ContentsContainer>
+          )}
+        </div>
+      )}
     </>
   );
 };
