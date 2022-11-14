@@ -36,7 +36,11 @@ export const HandleUserColor = (badge: string | undefined): string => {
     return '';
   }
 };
-
+/**
+ * 내 프로젝트 전용 뱃지 컬러 (판매자, 구매자)
+ * @param badge
+ * @returns
+ */
 export const handleColor = (badge: string | undefined): string => {
   if (badge) {
     if (badge.includes('계약대기')) {
@@ -56,18 +60,23 @@ export const handleColor = (badge: string | undefined): string => {
     return '';
   }
 };
+/**
+ * 내 충전소 전용 뱃지 컬러 (구매자)
+ * @param badge
+ * @returns
+ */
 export const handleColor2 = (badge: number) => {
-    if (badge === 0) {
-      return colors.main;
-    } else if (badge === 1) {
-      return '#FFC043';
-    } else if (badge === 2) {
-      return '#F75015';
-    } else if (badge === 3) {
-      return '#222222';
-    } else if (badge === 4) {
-      return '#CACCD1';
-    } else {
-      return '';
-    }
-  } ;
+  if (badge === 0) {
+    return colors.main;
+  } else if (badge === 1) {
+    return '#FFC043';
+  } else if (badge === 2) {
+    return '#F75015';
+  } else if (badge === 3) {
+    return '#222222';
+  } else if (badge === 4) {
+    return '#CACCD1';
+  } else {
+    return '';
+  }
+};

@@ -72,7 +72,6 @@ const tempProceeding: Data[] = [
 const Mypage = ({ num, now }: Props) => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
-  const [userName, setUserName] = useState<string>('윤세아');
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
 
   // 내 프로젝트 진행 프로젝트랑 완료 프로젝트 뭐 눌렀는지 받아오는 state

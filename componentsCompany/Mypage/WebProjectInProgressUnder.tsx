@@ -6,11 +6,14 @@ import CommonBtn from 'components/mypage/as/CommonBtn';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
 import NoProject from './NoProject';
+import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
+import { handleColor } from 'utils/changeValue';
 
 type Props = {
   tabNumber: number;
   componentId?: number;
   setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  data: Response;
 };
 
 interface Data {
@@ -23,80 +26,14 @@ interface Data {
   planed?: string[]; // 인덱스[0]: 준비 목표일, [1]: 설치 목표일, [2]: 검수 목표일, [3]: 완료 목표일
   address?: string;
 }
-// 데이터 없을 때 나오는 페이지
-// const tempProceeding: [] = [];
-const tempProceeding: Data[] = [
-  {
-    id: 0,
-    badge: '검수 중',
-    storeName: 'S-OIL 대치 주유소',
-    date: '2021.01.01',
-  },
-  {
-    id: 1,
-    badge: '준비 중',
-    storeName: '맥도날드 대이동점',
-    date: '2021.05.10',
-  },
-  {
-    id: 2,
-    badge: '계약대기',
-    storeName: 'LS카페 신림점',
-    date: '2021.03.10',
-  },
-  {
-    id: 3,
-    badge: '설치 중',
-    storeName: 'LS카페 마곡점',
-    date: '2021.07.23',
-  },
-  {
-    id: 4,
-    badge: '완료 중',
-    storeName: '스타벅스 마곡점',
-    date: '2021.07.23',
-  },
-  {
-    id: 5,
-    badge: '완료대기',
-    storeName: 'LS카페 계양점',
-    date: '2021.07.23',
-  },
-  {
-    id: 6,
-    badge: '프로젝트 취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.07.23',
-  },
-];
 
 const WebProjectInProgressUnder = ({
   tabNumber,
   setComponentId,
   componentId,
+  data,
 }: Props) => {
-  // 회사 뱃지 변환
-  const handleColor = (badge: string | undefined): string => {
-    if (badge) {
-      if (badge.includes('계약대기')) {
-        return '#F75015';
-      } else if (badge.includes('준비') || badge.includes('설치')) {
-        return colors.main;
-      } else if (badge.includes('검수 중')) {
-        return '#FFC043';
-      } else if (badge.includes('완료')) {
-        return '#222222';
-      } else if (badge.includes('프로젝트')) {
-        return '#CACCD1';
-      } else {
-        return '';
-      }
-    } else {
-      return '';
-    }
-  };
-
-  if (tempProceeding.length === 0) {
+  if (data?.inProgressProjects?.length === 0) {
     return <NoProject />;
   }
   const handleId = (index: number) => {
@@ -116,14 +53,14 @@ const WebProjectInProgressUnder = ({
     <>
       {componentId !== undefined && (
         <div>
-          {tabNumber === 0 && tempProceeding.length > 0 && (
+          {tabNumber === 0 && data?.inProgressProjects?.length > 0 && (
             <ContentsContainer>
-              {tempProceeding.map((el, index) => (
+              {data?.inProgressProjects?.map((el, index) => (
                 <div key={index}>
                   <Contents
                     index={index}
                     componentId={componentId}
-                    key={el.id}
+                    key={el.projectIdx}
                     onClick={() => {
                       handleId(index);
                     }}
@@ -136,7 +73,7 @@ const WebProjectInProgressUnder = ({
                           bottom={'12pt'}
                         />
                       </DdayBox>
-                      <AddressBox>{el.storeName}</AddressBox>
+                      <AddressBox>{el.projectName}</AddressBox>
                     </DdayNAddress>
                     <IconBox>
                       <ArrowIconBox>
