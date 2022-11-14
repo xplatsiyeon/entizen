@@ -21,8 +21,8 @@ type Props = {
   tabNumber?: number;
   componentId?: number;
   successComponentId?: number;
-  setOpenSubLink: React.Dispatch<React.SetStateAction<string>>;
-  openSubLink: string;
+  setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
+  openSubLink: boolean;
 };
 
 const WebBuyerHeader = ({
@@ -71,7 +71,7 @@ const WebBuyerHeader = ({
       id: 0,
       type: 'estimate',
       menu: '내견적',
-      linkUrl: '/company/mypage',
+      linkUrl: '/company/recievedRequest',
     },
     {
       id: 1,

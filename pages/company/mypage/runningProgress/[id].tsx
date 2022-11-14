@@ -12,8 +12,8 @@ import React, { useEffect, useState } from 'react';
 import Progress from '../projectProgress';
 
 type Props = {
-  setOpenSubLink: React.Dispatch<React.SetStateAction<string>>;
-  openSubLink: string;
+  setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
+  openSubLink: boolean;
 };
 
 export interface Data {
@@ -107,6 +107,7 @@ const RunningProgress = ({ setOpenSubLink, openSubLink }: Props) => {
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
+  const [linklist, setLinklist] = useState<boolean>(true);
 
   const [data, setData] = useState<Data>({
     id: -1,
@@ -129,8 +130,7 @@ const RunningProgress = ({ setOpenSubLink, openSubLink }: Props) => {
       const num = Number(router.query.id);
       setComponentId(num);
       setData(tempProceeding[num]);
-      setOpenSubLink('close');
-      console.log('456', openSubLink);
+      setOpenSubLink(!openSubLink);
     }
   }, [router.query.id]);
 

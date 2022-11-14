@@ -13,7 +13,7 @@ type Props = {
   num?: number;
   now?: string;
   type?: string;
-  openSubLink: string;
+  openSubLink: boolean;
 };
 
 interface Components {
@@ -33,7 +33,7 @@ const MyprojectLink = ({
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
   let linkName: string[];
   let linkUrl: string[];
-  console.log('789', openSubLink);
+
   switch (type) {
     case 'myProject':
       linkName = ['진행 프로젝트', '완료 프로젝트'];
@@ -52,7 +52,11 @@ const MyprojectLink = ({
 
     case 'estimate':
       linkName = ['받은 요청', '보낸 견적', '히스토리'];
-      linkUrl = [`/company/mypage`, `/company/mypage`, '/company/mypage'];
+      linkUrl = [
+        `/company/recievedRequest`,
+        `/company/recievedRequest`,
+        '/company/recievedRequest',
+      ];
       break;
 
     default:
@@ -97,11 +101,11 @@ const MyprojectLink = ({
 
 export default MyprojectLink;
 
-const Wrap = styled.ul<{ openSubLink: string }>`
+const Wrap = styled.ul<{ openSubLink: boolean }>`
   width: 900pt;
   height: 44.5pt;
   margin: 0 auto;
-  display: ${({ openSubLink }) => (openSubLink === 'close' ? 'none' : 'block')};
+  display: ${({ openSubLink }) => (openSubLink === false ? 'none' : 'block')};
   :hover {
     width: 900pt;
     height: 44.5pt;

@@ -76,7 +76,7 @@ const Mypage = ({ num, now }: Props) => {
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
 
   // 서브 카테고리 열렸는지 아닌지
-  const [openSubLink, setOpenSubLink] = useState<string>('경연');
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
 
   // 내 프로젝트 진행 프로젝트랑 완료 프로젝트 뭐 눌렀는지 받아오는 state
   const [componentId, setComponentId] = useState<number | undefined>();

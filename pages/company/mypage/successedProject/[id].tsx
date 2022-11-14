@@ -8,8 +8,8 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 
 type Props = {
-  setOpenSubLink: React.Dispatch<React.SetStateAction<string>>;
-  openSubLink: string;
+  setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
+  openSubLink: boolean;
 };
 
 const successedProject = ({ setOpenSubLink, openSubLink }: Props) => {
@@ -36,7 +36,7 @@ const successedProject = ({ setOpenSubLink, openSubLink }: Props) => {
     if (router.query.id) {
       const num = Number(router.query.id);
       setSuccessComponentId(num);
-      setOpenSubLink('close');
+      setOpenSubLink(!openSubLink);
     }
   }, [router.query.id]);
 
