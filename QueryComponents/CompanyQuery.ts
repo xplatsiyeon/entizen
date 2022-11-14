@@ -120,6 +120,26 @@ export const GET_InProgressProjectsDetail = gql`
         phone
         id
       }
+      # 계약관련 내용
+      # isCompletedContractStep
+      isCompletedUserContractStep
+      isCompletedCompanyMemberContractStep
+      isCompletedReadyStep
+      readyStepGoalDate
+      # 설치단계
+      isCompletedInstallationStep
+      installationStepGoalDate
+      # 검수단계
+      isCompletedExamStep
+      examStepGoalDate
+      # 완료단계
+      isCompletedCompletionStep
+      completionStepGoalDate
+      # 아직 미확인
+      dateOfRequestForConsentToCompleteProject
+      projectCompletionAgreementDate
+      isApprovedByAdmin
+      isCancel
     }
   }
 `;
