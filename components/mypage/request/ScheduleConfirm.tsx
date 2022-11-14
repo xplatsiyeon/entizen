@@ -15,7 +15,7 @@ const ScheduleConfirm = ({ date, spotId }: Props) => {
   return (
     <Wrapper>
       <P>현장실사 일정이 확정되었습니다.</P>
-      <Date>{date.replaceAll('-', '.')}</Date>
+      <Date>{date?.replaceAll('-', '.')}</Date>
       <Btn
         onClick={() => {
           route.push({

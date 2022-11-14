@@ -24,47 +24,48 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
     <Wrapper>
       <ImageBox>
         <Image
-          src={data?.companyMemberAdditionalInfo.companyLogoImageUrl!}
+          src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
           alt="icon"
           priority={true}
           unoptimized={true}
           layout="fill"
         />
       </ImageBox>
-      <Title>{data?.companyMemberAdditionalInfo.companyName}</Title>
+      <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
       <List>
         <Item>
           <span className="name">월 구독료</span>
           <span className="value">
-            {PriceBasicCalculation(data?.preQuotation.subscribePricePerMonth!)}
+            {PriceBasicCalculation(data?.preQuotation?.subscribePricePerMonth!)}
             원
           </span>
         </Item>
         <Item>
           <span className="name">수익지분</span>
           <span className="value">
-            {Number(data?.quotationRequest.investRate) * 100} %
+            {Number(data?.quotationRequest?.investRate) * 100} %
           </span>
         </Item>
         <Item>
           <span className="name">공사기간</span>
           <span className="value">
-            {data?.preQuotation.constructionPeriod} 일
+            {data?.preQuotation?.constructionPeriod} 일
           </span>
         </Item>
         {/* 충전기 제조사 1개 일 때 */}
-        {data?.preQuotation.preQuotationChargers.length === 1 ? (
+        {data?.preQuotation?.preQuotationChargers.length === 1 ? (
           <>
             <Item>
               <span className="name">충전요금</span>
               <span className="value">
-                {data?.preQuotation.preQuotationChargers[0].chargePrice} 원 / kW
+                {data?.preQuotation?.preQuotationChargers[0].chargePrice} 원 /
+                kW
               </span>
             </Item>
             <Item>
               <span className="name">충전기 제조사</span>
               <span className="value">
-                {data?.preQuotation.preQuotationChargers[0].manufacturer}
+                {data?.preQuotation?.preQuotationChargers[0].manufacturer}
               </span>
             </Item>
           </>
@@ -73,15 +74,15 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
             {/* 충전기 제조사 2개 이상 일 때 */}
             <MultiSection>
               <Subtitle>충전요금</Subtitle>
-              {data?.preQuotation.preQuotationChargers.map((item, index) => (
+              {data?.preQuotation?.preQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.preQuotationChargerIdx}>
                   <Item>
                     <span className="name">
                       {convertKo(
                         M5_LIST,
                         M5_LIST_EN,
-                        data?.quotationRequest.quotationRequestChargers[index]
-                          .kind,
+                        data?.quotationRequest?.quotationRequestChargers[index]
+                          ?.kind,
                       )}
                     </span>
                     <span className="value">{`${PriceBasicCalculation(
@@ -93,15 +94,15 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
             </MultiSection>
             <MultiSection>
               <Subtitle>충전기 제조사</Subtitle>
-              {data?.preQuotation.preQuotationChargers.map((item, index) => (
+              {data?.preQuotation?.preQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.preQuotationChargerIdx}>
                   <Item>
                     <span className="name">
                       {convertKo(
                         M5_LIST,
                         M5_LIST_EN,
-                        data?.quotationRequest.quotationRequestChargers[index]
-                          .kind,
+                        data?.quotationRequest?.quotationRequestChargers[index]
+                          ?.kind,
                       )}
                     </span>
                     <span className="value">{`${PriceBasicCalculation(
@@ -120,8 +121,8 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
           <Label>구독 상품</Label>
           <FeaturesList>
             {/* textarea 줄바꿈 */}
-            {data?.preQuotation.subscribeProductFeature
-              .split('\n')
+            {data?.preQuotation?.subscribeProductFeature
+              ?.split('\n')
               .map((line) => (
                 <li>
                   {line}
@@ -130,18 +131,18 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
               ))}
           </FeaturesList>
         </FlexWrap>
-        {data?.preQuotation.preQuotationChargers.map((item, index) => (
-          <FlexWrap key={item.preQuotationChargerIdx}>
+        {data?.preQuotation?.preQuotationChargers?.map((item, index) => (
+          <FlexWrap key={item?.preQuotationChargerIdx}>
             <Label>
               {convertKo(
                 M5_LIST,
                 M5_LIST_EN,
-                data?.quotationRequest.quotationRequestChargers[index].kind,
+                data?.quotationRequest?.quotationRequestChargers[index]?.kind,
               )}
             </Label>
             {/* textarea 줄바꿈 */}
             <FeaturesList>
-              {item.productFeature.split('\n').map((line) => (
+              {item?.productFeature?.split('\n')?.map((line) => (
                 <li>
                   {line}
                   <br />

@@ -160,7 +160,7 @@ const ThirdStep = ({
 
   const changeCharger = [...chargers].map((obj) => {
     if (typeof obj.chargePrice === 'string') {
-      obj.chargePrice = Number(obj.chargePrice.replaceAll(',', ''));
+      obj.chargePrice = Number(obj?.chargePrice?.replaceAll(',', ''));
     }
     return obj;
   });

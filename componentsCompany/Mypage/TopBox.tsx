@@ -199,15 +199,18 @@ const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
                 </div>
                 <div className="text-box">
                   <span className="name">구독기간</span>
-                  <span className="text">{`${data?.project?.finalQuotation?.subscribePeriod}&nbsp;개월`}</span>
+                  <span className="text">
+                    {`${data?.project?.finalQuotation?.subscribePeriod} 개월`}
+                  </span>
                 </div>
                 <div className="text-box">
                   <span className="name">수익지분</span>
-                  <span className="text">{`${
-                    Math.floor(
-                      Number(data?.project?.finalQuotation?.userInvestRate),
-                    ) * 100
-                  }&nbsp;%`}</span>
+                  <span className="text">
+                    {`${Math.floor(
+                      Number(data?.project?.finalQuotation?.userInvestRate) *
+                        100,
+                    )} %`}
+                  </span>
                 </div>
                 {data?.project?.finalQuotation?.finalQuotationChargers?.map(
                   (item, index) => (

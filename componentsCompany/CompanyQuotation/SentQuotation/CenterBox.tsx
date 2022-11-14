@@ -98,7 +98,7 @@ const CenterBox = ({ spotData, data }: Props) => {
               <ConfirmedReservation>
                 <div className="text">현장실사 일정이 확정되었습니다.</div>
                 <div className="date">
-                  {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
+                  {spotData?.data?.spotInspection?.spotInspectionDate[0]?.replaceAll(
                     '-',
                     '.',
                   )}
@@ -117,7 +117,7 @@ const CenterBox = ({ spotData, data }: Props) => {
               <ConfirmedReservation>
                 <div className="text">현장실사 완료</div>
                 <div className="date">
-                  {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
+                  {spotData?.data?.spotInspection?.spotInspectionDate[0]?.replaceAll(
                     '-',
                     '.',
                   )}

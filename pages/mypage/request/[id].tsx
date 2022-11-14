@@ -314,7 +314,10 @@ const Mypage1_3 = ({}: any) => {
 
                   {/* 최종견적 가견적 구별 조견문 */}
 
-                  {quotationData?.preQuotation?.finalQuotation !== null ? (
+                  {data?.badge !== '낙찰성공' &&
+                  // 백엔드와 소통 후 변경
+                  // data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true &&
+                  quotationData?.preQuotation?.finalQuotation !== null ? (
                     <>
                       {/* 최종견적 */}
                       <FinalQuotation
