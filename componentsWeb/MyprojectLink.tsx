@@ -30,9 +30,10 @@ const MyprojectLink = ({
   now,
   openSubLink,
 }: Props) => {
-  const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
   let linkName: string[];
   let linkUrl: string[];
+
+  const router = useRouter();
 
   switch (type) {
     case 'myProject':
@@ -63,7 +64,6 @@ const MyprojectLink = ({
       linkName = ['진행 프로젝트', '완료 프로젝트'];
       linkUrl = [`/company/mypage`, `/company/mypage`];
   }
-  const router = useRouter();
 
   const handleLink = (idx: number) => {
     const user = localStorage.getItem('USER_ID');

@@ -131,7 +131,6 @@ const RunningProgress = (props: Props) => {
       setComponentId(num);
       setData(tempProceeding[num]);
       setOpenSubLink(!openSubLink);
-      console.log('러닝 프로그레스', openSubLink);
     }
   }, [router.query.id]);
 

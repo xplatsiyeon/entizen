@@ -22,6 +22,7 @@ type Props = {
   componentId?: number;
   successComponentId?: number;
   openSubLink: boolean;
+  setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const WebBuyerHeader = ({
@@ -32,11 +33,12 @@ const WebBuyerHeader = ({
   now,
   successComponentId,
   openSubLink,
+  setOpenSubLink,
 }: Props) => {
   const [linklist, setLinklist] = useState<boolean>(true);
   const [isHovering, setIsHovered] = useState(false);
   const [type, setType] = useState<string>('');
-  const [tab, setTab] = useState<number>(3);
+  const [tab, setTab] = useState<number>(0);
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
   const router = useRouter();
@@ -58,6 +60,18 @@ const WebBuyerHeader = ({
       .catch((error) => alert(error));
   };
 
+  // router로 setType이랑 setTab 바로 업데이트
+  useEffect(() => {
+    const now = router.pathname;
+    if (now === '/company/mypage') {
+      setType('myProject');
+      setTab(3);
+    } else if (now === '/company/quotation') {
+      setType('estimate');
+      setTab(0);
+    }
+  }, []);
+
   type Menu = {
     id: number;
     type: string;
@@ -69,7 +83,7 @@ const WebBuyerHeader = ({
       id: 0,
       type: 'estimate',
       menu: '내견적',
-      linkUrl: '/company/recievedRequest',
+      linkUrl: '/company/quotation',
     },
     {
       id: 1,
@@ -113,6 +127,7 @@ const WebBuyerHeader = ({
                       setType(el.type);
                       setTab(el.id);
                       router.push(el.linkUrl);
+                      setOpenSubLink(!openSubLink);
                     }}
                   >
                     {el.menu}

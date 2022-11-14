@@ -1,17 +1,31 @@
 import styled from '@emotion/styled';
-import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
-import FinishedProjects from 'componentsCompany/Mypage/FinishedProjects';
-import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
-import WebFooter from 'componentsWeb/WebFooter';
+import BottomNavigation from 'components/BottomNavigation';
 import NoProject from 'componentsCompany/Mypage/NoProject';
-import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
-import { useQuery } from 'react-query';
-import useProfile from 'hooks/useProfile';
+import WebProjectInProgressUnder from 'componentsCompany/Mypage/WebProjectInProgressUnder';
 
-type Props = { num?: number; now?: string };
+import useProfile from 'hooks/useProfile';
+import WebFinishedProjectsUnder from 'componentsCompany/Mypage/WebFinishedProjectsUnder';
+
+type Props = {
+  num?: number;
+  now?: string;
+  setGetComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  getComponentId?: number;
+  setSendComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  sendComponentId?: number;
+  setHistoryComponentId?: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
+  historyComponentId?: number;
+  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
+  tabNumber: number;
+};
+
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -69,20 +83,22 @@ const tempProceeding: Data[] = [
   },
 ];
 
-const Mypage = ({ num, now }: Props) => {
+const LeftProjectQuotationBox = ({
+  getComponentId,
+  setGetComponentId,
+  tabNumber,
+  setTabNumber,
+  sendComponentId,
+  setSendComponentId,
+  historyComponentId,
+  setHistoryComponentId,
+}: Props) => {
   const route = useRouter();
-  const [tabNumber, setTabNumber] = useState<number>(0);
   const [userName, setUserName] = useState<string>('윤세아');
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-
-  // 서브 카테고리 열렸는지 아닌지
-  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-
-  // 내 프로젝트에서 진행 프로젝트랑 완료 프로젝트 뭐 눌렀는지 받아오는 state
-  const [componentId, setComponentId] = useState<number | undefined>();
-  const [successComponentId, setSuccessComponentId] = useState<
-    number | undefined
-  >();
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, isLoading, invalidate } = useProfile(accessToken);
+  const TabType: string[] = ['받은 요청', '보낸 견적', '히스토리'];
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
@@ -95,26 +111,10 @@ const Mypage = ({ num, now }: Props) => {
       window.removeEventListener('resize', handleResize);
     };
   }, [nowWidth]);
-  const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
 
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const { profile, isLoading, invalidate } = useProfile(accessToken);
-
-  const components: Components = {
-    0: (
-      <ProjectInProgress
-        tabNumber={tabNumber}
-        setComponentId={setComponentId}
-        componentId={componentId}
-      />
-    ),
-    1: (
-      <FinishedProjects
-        tabNumber={tabNumber}
-        setSuccessComponentId={setSuccessComponentId}
-        successComponentId={successComponentId}
-      />
-    ),
+  const webComponents: Components = {
+    0: <WebProjectInProgressUnder tabNumber={tabNumber} />,
+    1: <WebFinishedProjectsUnder tabNumber={tabNumber} />,
   };
 
   if (tempProceeding.length === 0) {
@@ -123,27 +123,58 @@ const Mypage = ({ num, now }: Props) => {
 
   return (
     <>
-      <WebBuyerHeader
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        componentId={componentId}
-        num={num}
-        now={now}
-        openSubLink={openSubLink}
-        setOpenSubLink={setOpenSubLink}
-      />
-      <WebRapper>
-        <LeftProjectBox
-          setTabNumber={setTabNumber}
-          tabNumber={tabNumber}
-          componentId={componentId}
-          setComponentId={setComponentId}
-          successComponentId={successComponentId}
-          setSuccessComponentId={setSuccessComponentId}
-        />
-        <div>{components[tabNumber]}</div>
-      </WebRapper>
-      <WebFooter />
+      <Wrapper>
+        <Header>
+          <span>
+            <h1>{`${profile?.name}님,`}</h1>
+            <h2>안녕하세요!</h2>
+          </span>
+          <div className="img" onClick={() => route.push('/setting')}>
+            <Image src={Nut} alt="nut-icon" />
+          </div>
+        </Header>
+        <Body>
+          <span
+            className="profile-icon"
+            onClick={() => route.push('profile/editing')}
+          >
+            프로필 변경
+          </span>
+          <Line />
+          <MobileTabContainer>
+            {TabType.map((tab, index) => (
+              <TabItem
+                key={index}
+                tab={tabNumber?.toString()!}
+                index={index.toString()}
+                onClick={() => setTabNumber(index)}
+              >
+                {tab}
+                <Dot tab={tabNumber.toString()} index={index.toString()} />
+              </TabItem>
+            ))}
+          </MobileTabContainer>
+          <WebTabContainer>
+            {TabType.map((tab, index) => (
+              <TabItem
+                key={index}
+                tab={tabNumber?.toString()!}
+                index={index.toString()}
+                onClick={() => {
+                  if (nowWidth < 1198.7) {
+                    setTabNumber(index);
+                  }
+                }}
+              >
+                {tab}
+                <Dot tab={tabNumber.toString()} index={index.toString()} />
+              </TabItem>
+            ))}
+          </WebTabContainer>
+        </Body>
+        <BottomNavigation />
+        <div> {webComponents[tabNumber]}</div>
+      </Wrapper>
     </>
   );
 };
@@ -156,16 +187,6 @@ const Wrapper = styled.div`
     height: 424.5pt;
     border: 0.75pt solid #e2e5ed;
     border-radius: 12pt;
-  }
-`;
-
-const WebRapper = styled.div`
-  @media (min-width: 899pt) {
-    margin: 0 auto;
-    padding: 60pt 0;
-    width: 900pt;
-    display: flex;
-    justify-content: space-between;
   }
 `;
 
@@ -291,4 +312,4 @@ const RightProgress = styled.div`
   }
 `;
 
-export default Mypage;
+export default LeftProjectQuotationBox;
