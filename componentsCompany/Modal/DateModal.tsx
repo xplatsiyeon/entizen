@@ -17,9 +17,15 @@ interface Props {
   selectedDays: string;
   SetSelectedDays: Dispatch<SetStateAction<string>>;
   exit: () => void;
+  stepType: string;
 }
 
-const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
+const DateModal = ({
+  selectedDays,
+  SetSelectedDays,
+  exit,
+  stepType,
+}: Props) => {
   const outside = useRef(null);
   const today = {
     year: new Date().getFullYear(), //오늘 연도

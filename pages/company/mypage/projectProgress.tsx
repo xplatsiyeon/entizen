@@ -17,6 +17,7 @@ type Props = {
   setData: React.Dispatch<React.SetStateAction<Data>>;
 };
 
+const stepTypeType = ['READY', 'INSTALLATION', 'EXAM', 'COMPLETION'];
 const Progress = ({ data, info, setData }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   // 선택 날짜 관련
@@ -61,6 +62,7 @@ const Progress = ({ data, info, setData }: Props) => {
           selectedDays={selectedDays}
           SetSelectedDays={SetSelectedDays}
           exit={handleExit}
+          stepType={stepTypeType[progressNum - 1]}
           //info.planed 배열 필터로 교체하는 함수 추가.
         />
       )}
@@ -91,7 +93,7 @@ const Progress = ({ data, info, setData }: Props) => {
             fin={data?.project?.isCompletedReadyStep!}
             data={data!}
             planed={data?.project?.readyStepGoalDate!}
-            stepType={'READY'}
+            stepType={stepTypeType[progressNum - 1]}
             // setBadgeState={setBadgeState}
             // setData={setData}
           />
@@ -108,7 +110,7 @@ const Progress = ({ data, info, setData }: Props) => {
             // setBadgeState={setBadgeState}
             // setData={setData}
             planed={data?.project?.installationStepGoalDate!}
-            stepType={'INSTALLATION'}
+            stepType={stepTypeType[progressNum - 1]}
           />
         )}
         {progressNum === 3 && (
@@ -123,7 +125,7 @@ const Progress = ({ data, info, setData }: Props) => {
             // setBadgeState={setBadgeState}
             // setData={setData}
             planed={data?.project?.examStepGoalDate!}
-            stepType={'EXAM'}
+            stepType={stepTypeType[progressNum - 1]}
           />
         )}
         {progressNum === 4 && (
@@ -141,7 +143,7 @@ const Progress = ({ data, info, setData }: Props) => {
             // setBadgeState={setBadgeState}
             // setData={setData}
             planed={data?.project?.completionStepGoalDate!}
-            stepType={'COMPLETION'}
+            stepType={stepTypeType[progressNum - 1]}
           />
         )}
       </Wrapper>
