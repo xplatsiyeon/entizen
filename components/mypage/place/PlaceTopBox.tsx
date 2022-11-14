@@ -7,19 +7,25 @@ import CommonBtns from "../as/CommonBtns";
 
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
+import { testArr2 } from "pages/mypage/place/[id]";
+import { handleColor2 } from "utils/changeValue";
+
+type Props ={
+  data : testArr2;
+}
 
 
-
-
-
-
-
-const PlaceTopBox =()=>{
+const PlaceTopBox =({data}:Props)=>{
 
     const [open, setOpen] = useState<boolean>(false);
 
     let title ='';
     let bgColor ='';
+
+    if(data){
+      data.badge === 4 ? title = `구독시작 ${data.date}` : title = `구독종료 ${data.date}`
+      bgColor = handleColor2(data.badge)
+    }
 
     return (
     <Wrapper>
@@ -27,7 +33,7 @@ const PlaceTopBox =()=>{
         <StoreName> 
           <CommonBtns text={title} backgroundColor={bgColor}/> 
           <div>
-            <h1>{''}</h1>
+            <h1>{data.storeName}</h1>
             {open ? (
               <ArrowImg>
                 <Image src={DownArrow} alt="down_arrow" layout="fill" />

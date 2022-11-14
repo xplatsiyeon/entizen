@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import CommunicationBox from "components/CommunicationBox";
 import { useState } from "react";
+import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
+import Image from "next/image";
 
 const PlaceInfo =()=>{
 
@@ -15,6 +17,11 @@ const PlaceInfo =()=>{
     }
     return(
         <Wrapper>
+
+      <DownArrowBox>
+        <Image src={DoubleArrow} alt="double-arrow" />
+      </DownArrowBox>
+
         <Contents>
             <Partner>파트너 정보</Partner>
             <div className="text-box">
@@ -41,20 +48,21 @@ const PlaceInfo =()=>{
 
         <>       
         <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
-              <FinishedPhotoBox>
+          <FinishedPhotoBox>
 
           <Index onClick={handleNum}>
             {idx}/2
           </Index>
-              </FinishedPhotoBox>
+          </FinishedPhotoBox>
         </>
 
+      <Wrap>
 
       <CommunicationBox
         text="파트너와 소통하기"
         clickHandler={() => alert('개발중입니다.')}
       />
-
+      </Wrap>
         </Wrapper>
     )
 }
@@ -62,8 +70,13 @@ const PlaceInfo =()=>{
 export default PlaceInfo;
 
 const Wrapper = styled.div`
-    padding: 0 15pt;
+margin-top: 42pt;
 `
+const DownArrowBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 21pt;
+`;
 
 const Partner = styled.div`
   font-family: Spoqa Han Sans Neo;
@@ -136,4 +149,11 @@ const Index = styled.div`
   font-size: 7.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
+`
+
+const Wrap = styled.div`
+margin-top: 60pt;
+ display: flex;
+ justify-content: center;
+ padding-bottom: 135pt;
 `

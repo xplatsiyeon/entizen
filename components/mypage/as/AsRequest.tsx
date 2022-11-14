@@ -9,7 +9,6 @@ import colors from 'styles/colors';
 import styled from '@emotion/styled';
 import MypageHeader from '../request/header';
 import { useRouter } from 'next/router';
-import CommonBtn from './CommonBtn';
 import CommonBtns from './CommonBtns';
 
 type Props = {};
