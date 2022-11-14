@@ -182,13 +182,14 @@ const ProgressBody = ({
             </ContractBtnBox>
           )}
         </FlexBox>
-
+        {/* 준비 */}
         <FlexBox>
           <div>
             <CircleImgBox className="topCircle">
+              {/* 동그라미 컬러 */}
               <Image
                 src={
-                  data?.project?.isCompletedReadyStep
+                  data?.project?.isCompletedCompanyMemberContractStep
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -207,9 +208,9 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[0] ? (
+              {data?.project?.readyStepGoalDate ? (
                 <PickedDate color={1 >= state ? colors.main : '#e2e5ed'}>
-                  {planed[0]}
+                  {data?.project?.readyStepGoalDate}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate" onClick={handleDateModal}>
@@ -223,7 +224,9 @@ const ProgressBody = ({
             <ToggleWrapper>
               <MessageBox
                 handleClick={() => setProgressNum(1)}
-                presentProgress={data?.project?.isCompletedReadyStep && true}
+                presentProgress={
+                  data?.project?.isCompletedCompanyMemberContractStep && true
+                }
                 title={textArr[0]}
                 firstText={'충전기 및 부속품 준비'}
                 secondText={'설계 및 공사계획 신고 등'}
@@ -231,12 +234,14 @@ const ProgressBody = ({
             </ToggleWrapper>
           )}
         </FlexBox>
+        {/* 설치 */}
         <FlexBox>
           <div>
             <CircleImgBox>
+              {/* 동그라미 */}
               <Image
                 src={
-                  data?.project?.isCompletedInstallationStep
+                  data?.project?.isCompletedReadyStep
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -255,9 +260,9 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[1] ? (
+              {data?.project?.installationStepGoalDate ? (
                 <PickedDate color={2 >= state ? colors.main : '#e2e5ed'}>
-                  {planed[1]}
+                  {data?.project?.installationStepGoalDate}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate" onClick={handleDateModal}>
@@ -274,9 +279,7 @@ const ProgressBody = ({
             <ToggleWrapper>
               <MessageBox
                 handleClick={() => setProgressNum(2)}
-                presentProgress={
-                  data?.project?.isCompletedInstallationStep && true
-                }
+                presentProgress={data?.project?.isCompletedReadyStep && true}
                 title={textArr[1]}
                 firstText={'충전기 설치 및 배선작업'}
                 secondText={'충전기 시운전 (자체 테스트)'}
@@ -284,12 +287,13 @@ const ProgressBody = ({
             </ToggleWrapper>
           )}
         </FlexBox>
+        {/* 검수 */}
         <FlexBox>
           <div>
             <CircleImgBox>
               <Image
                 src={
-                  data?.project?.isCompletedExamStep
+                  data?.project?.isCompletedInstallationStep
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -308,9 +312,9 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[2] ? (
+              {data?.project?.examStepGoalDate ? (
                 <PickedDate color={3 >= state ? colors.main : '#e2e5ed'}>
-                  {planed[2]}
+                  {data?.project?.examStepGoalDate}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate" onClick={handleDateModal}>
@@ -324,7 +328,9 @@ const ProgressBody = ({
             <ToggleWrapper>
               <MessageBox
                 handleClick={() => setProgressNum(3)}
-                presentProgress={data?.project?.isCompletedExamStep && true}
+                presentProgress={
+                  data?.project?.isCompletedInstallationStep && true
+                }
                 title={textArr[2]}
                 firstText={'검수 및 전기차 충전 테스트 (고객 참관)'}
                 secondText={'한전 계량기 봉인'}
@@ -332,13 +338,14 @@ const ProgressBody = ({
             </ToggleWrapper>
           )}
         </FlexBox>
+        {/* 완료 */}
         <FlexBox>
           <div>
             <CircleImgBox>
               <Image
                 className="bottomCircle"
                 src={
-                  data?.project?.isCompletedCompletionStep
+                  data?.project?.isCompletedExamStep
                     ? // presentProgress === 4 || presentProgress === 5
                       progressBlueCircle
                     : progressCircle
@@ -358,11 +365,11 @@ const ProgressBody = ({
                   />
                 </div>
               </ProgressName>
-              {planed[3] ? (
+              {data?.project?.completionStepGoalDate ? (
                 <PickedDate
                   color={4 >= state || 5 >= state ? colors.main : '#e2e5ed'}
                 >
-                  {planed[3]}
+                  {data?.project?.completionStepGoalDate}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate" onClick={handleDateModal}>
