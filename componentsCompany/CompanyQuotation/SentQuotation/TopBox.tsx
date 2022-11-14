@@ -201,9 +201,10 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   margin-top: 15pt;
   border-top: 1px solid #e2e5ed;
-  @media (max-width: 899pt) {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 899pt) {
+    margin-top: 0;
   }
 `;
 

@@ -20,6 +20,10 @@ type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
   componentId?: number;
+  successComponentId?: number;
+  openSubLink: boolean;
+  getComponentId?: number;
+  setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const WebBuyerHeader = ({
@@ -28,11 +32,14 @@ const WebBuyerHeader = ({
   componentId,
   num,
   now,
+  successComponentId,
+  openSubLink,
+  setOpenSubLink,
 }: Props) => {
   const [linklist, setLinklist] = useState<boolean>(true);
   const [isHovering, setIsHovered] = useState(false);
   const [type, setType] = useState<string>('');
-  const [tab, setTab] = useState<number>(3);
+  const [tab, setTab] = useState<number>(0);
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
   const router = useRouter();
@@ -54,6 +61,18 @@ const WebBuyerHeader = ({
       .catch((error) => alert(error));
   };
 
+  // router로 setType이랑 setTab 바로 업데이트
+  useEffect(() => {
+    const now = router.pathname;
+    if (now === '/company/mypage') {
+      setType('myProject');
+      setTab(3);
+    } else if (now === '/company/quotation') {
+      setType('estimate');
+      setTab(0);
+    }
+  }, []);
+
   type Menu = {
     id: number;
     type: string;
@@ -65,7 +84,7 @@ const WebBuyerHeader = ({
       id: 0,
       type: 'estimate',
       menu: '내견적',
-      linkUrl: '/company/mypage',
+      linkUrl: '/company/quotation',
     },
     {
       id: 1,
@@ -109,6 +128,7 @@ const WebBuyerHeader = ({
                       setType(el.type);
                       setTab(el.id);
                       router.push(el.linkUrl);
+                      setOpenSubLink(!openSubLink);
                     }}
                   >
                     {el.menu}
@@ -204,6 +224,8 @@ const WebBuyerHeader = ({
             type={type}
             num={num}
             now={now}
+            successComponentId={successComponentId}
+            openSubLink={openSubLink}
           />
         ) : null}
       </Wrapper>
@@ -220,7 +242,6 @@ const Wrapper = styled.div`
   border-bottom: 1px solid #e9eaee;
   background: #ffff;
   box-sizing: border-box;
-
   @media (max-width: 899pt) {
     display: none;
   }

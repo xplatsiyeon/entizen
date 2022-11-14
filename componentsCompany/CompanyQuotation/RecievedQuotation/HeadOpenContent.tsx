@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
@@ -36,6 +36,9 @@ import { AxiosError } from 'axios';
 import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader';
 import { convertKo } from 'utils/calculatePackage';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
+import WebFooter from 'componentsWeb/WebFooter';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -109,6 +112,7 @@ const HeadOpenContent = () => {
   const [open, setOpen] = useState<boolean>(false);
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(-1);
+
   // button on off
   const [canNext, SetCanNext] = useState<boolean>(false);
   // 첫스탭 상태값
@@ -119,6 +123,35 @@ const HeadOpenContent = () => {
   // 모달
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
+  const [getComponentId, setGetComponentId] = useState<number>();
+
+  // 실시간으로 width 받아옴
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (router.query.id) {
+      const num = Number(router.query.id);
+      setGetComponentId(num);
+      // setData(tempProceeding[num]);
+      setOpenSubLink(!openSubLink);
+    }
+  }, [router.query.id]);
+
+  // 실시간으로 width 받아오는 함수
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
   //  api 요청
   const { data, isError, isLoading } = useQuery<
     QuotationsDetailResponse,
@@ -127,8 +160,8 @@ const HeadOpenContent = () => {
     'receivedRequest/id',
     () => isTokenGetApi(`/quotations/received-request/${routerId}`),
     {
-      enabled: router.isReady,
-      // enabled: false,
+      // enabled: router.isReady,
+      enabled: false,
     },
   );
 
@@ -136,93 +169,105 @@ const HeadOpenContent = () => {
   const components: Components = {
     // 기본
     0: (
-      <FirstStep
-        tabNumber={tabNumber}
-        setTabNumber={setTabNumber}
-        monthlySubscribePrice={monthlySubscribePrice}
-        setMonthleSubscribePrice={setMonthleSubscribePrice}
-        constructionPeriod={constructionPeriod}
-        setConstructionPeriod={setConstructionPeriod}
-        firstPageTextArea={firstPageTextArea}
-        setFirstPageTextArea={setFirstPageTextArea}
-        canNext={canNext}
-        SetCanNext={SetCanNext}
-      />
+      <WebContainer>
+        <FirstStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          monthlySubscribePrice={monthlySubscribePrice}
+          setMonthleSubscribePrice={setMonthleSubscribePrice}
+          constructionPeriod={constructionPeriod}
+          setConstructionPeriod={setConstructionPeriod}
+          firstPageTextArea={firstPageTextArea}
+          setFirstPageTextArea={setFirstPageTextArea}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+        />
+      </WebContainer>
     ),
     // 스텝 2
     1: (
-      <SecondStep
-        tabNumber={tabNumber}
-        setTabNumber={setTabNumber}
-        canNext={canNext}
-        SetCanNext={SetCanNext}
-        StepIndex={0}
-        data={data!}
-        maxIndex={
-          data?.receivedQuotationRequest.quotationRequestChargers.length
-        }
-        routerId={routerId}
-      />
+      <WebContainer>
+        <SecondStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+          StepIndex={1}
+          data={data!}
+          maxIndex={
+            data?.receivedQuotationRequest.quotationRequestChargers.length
+          }
+          routerId={routerId}
+        />
+      </WebContainer>
     ),
     // 스텝 3
     2: (
-      <SecondStep
-        tabNumber={tabNumber}
-        setTabNumber={setTabNumber}
-        canNext={canNext}
-        SetCanNext={SetCanNext}
-        StepIndex={1}
-        data={data!}
-        maxIndex={
-          data?.receivedQuotationRequest.quotationRequestChargers.length
-        }
-        routerId={routerId}
-      />
+      <WebContainer>
+        <SecondStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+          StepIndex={1}
+          data={data!}
+          maxIndex={
+            data?.receivedQuotationRequest.quotationRequestChargers.length
+          }
+          routerId={routerId}
+        />
+      </WebContainer>
     ),
     // 스텝 4
     3: (
-      <SecondStep
-        tabNumber={tabNumber}
-        setTabNumber={setTabNumber}
-        canNext={canNext}
-        SetCanNext={SetCanNext}
-        StepIndex={2}
-        data={data!}
-        maxIndex={
-          data?.receivedQuotationRequest.quotationRequestChargers.length
-        }
-        routerId={routerId}
-      />
+      <WebContainer>
+        <SecondStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+          StepIndex={2}
+          data={data!}
+          maxIndex={
+            data?.receivedQuotationRequest.quotationRequestChargers.length
+          }
+          routerId={routerId}
+        />
+      </WebContainer>
     ),
     // 스텝 5
     4: (
-      <SecondStep
-        tabNumber={tabNumber}
-        setTabNumber={setTabNumber}
-        canNext={canNext}
-        SetCanNext={SetCanNext}
-        StepIndex={3}
-        data={data!}
-        maxIndex={
-          data?.receivedQuotationRequest.quotationRequestChargers.length
-        }
-        routerId={routerId}
-      />
+      <WebContainer>
+        <SecondStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+          StepIndex={3}
+          data={data!}
+          maxIndex={
+            data?.receivedQuotationRequest.quotationRequestChargers.length
+          }
+          routerId={routerId}
+        />
+      </WebContainer>
     ),
     // 스텝 6
     5: (
-      <SecondStep
-        tabNumber={tabNumber}
-        setTabNumber={setTabNumber}
-        canNext={canNext}
-        SetCanNext={SetCanNext}
-        StepIndex={4}
-        data={data!}
-        maxIndex={
-          data?.receivedQuotationRequest.quotationRequestChargers.length
-        }
-        routerId={routerId}
-      />
+      <WebContainer>
+        <SecondStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+          StepIndex={4}
+          data={data!}
+          maxIndex={
+            data?.receivedQuotationRequest.quotationRequestChargers.length
+          }
+          routerId={routerId}
+        />
+      </WebContainer>
     ),
   };
   const handleClick = () => setOpen(!open);
@@ -241,6 +286,13 @@ const HeadOpenContent = () => {
   }
   return (
     <>
+      <WebBuyerHeader
+        setTabNumber={setTabNumber}
+        tabNumber={tabNumber}
+        getComponentId={getComponentId}
+        openSubLink={openSubLink}
+        setOpenSubLink={setOpenSubLink}
+      />
       {modalOpen && (
         <TwoBtnModal
           text={
@@ -255,142 +307,160 @@ const HeadOpenContent = () => {
           exit={() => setModalOpen(false)}
         />
       )}
-      {tabNumber === -1 && (
+      {tabNumber === -1 && nowWidth < 1198.7 && (
         <MypageHeader
           back={true}
           title={'받은 요청'}
           handleBackClick={handleBackClick}
         />
       )}
-      {tabNumber >= 0 && (
+      {tabNumber >= 0 && nowWidth < 1198.7 && (
         <MypageHeader
           back={true}
           title={'가견적 작성'}
           handleBackClick={handleModalOpen}
         />
       )}
-      <Wrapper>
-        <ItemButton onClick={handleClick}>
-          <StoreName>
-            <CommonBtns
-              text={data?.receivedQuotationRequest.badge!}
-              backgroundColor={HandleColor(
-                data?.receivedQuotationRequest.badge!,
-              )}
-            />
-            <div>
-              <h1>{data?.receivedQuotationRequest.installationAddress!}</h1>
-              {open ? (
-                <ArrowImg>
-                  <Image src={DownArrow} alt="down_arrow" layout="fill" />
-                </ArrowImg>
-              ) : (
-                <ArrowImg>
-                  <Image src={UpArrow} alt="up_arrow" layout="fill" />
-                </ArrowImg>
-              )}
-            </div>
-          </StoreName>
-        </ItemButton>
-        {/* Open */}
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <Contents>
-              <div className="text-box">
-                <span className="name">구독상품</span>
-                <span className="text">
-                  {data &&
-                    convertKo(
-                      subscribeType,
-                      subscribeTypeEn,
-                      data?.receivedQuotationRequest.subscribeProduct!,
-                    )}
-                </span>
-              </div>
-              <div className="text-box">
-                <span className="name">구독기간</span>
-                <span className="text">
-                  {data?.receivedQuotationRequest.subscribePeriod!}개월
-                </span>
-              </div>
-              <div className="text-box">
-                <span className="name">수익지분</span>
-                <span className="text">
-                  {Number(data?.receivedQuotationRequest.investRate!) * 100} %
-                </span>
-              </div>
-              {data?.receivedQuotationRequest.quotationRequestChargers!.map(
-                (item, index) => (
-                  <div className="text-box" key={index}>
-                    {index === 0 ? (
-                      <span className="name">충전기 종류 및 수량</span>
-                    ) : (
-                      <span className="name" />
-                    )}
-                    <span className="text">
-                      {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-                      <br />
-                      {item.standType
-                        ? `: ${convertKo(
-                            M6_LIST,
-                            M6_LIST_EN,
-                            item.standType,
-                          )}, ${convertKo(
-                            M7_LIST,
-                            M7_LIST_EN,
-                            item.channel,
-                          )}, ${item.count} 대`
-                        : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                            item.count
-                          } 대`}
-                    </span>
-                  </div>
-                ),
-              )}
-
-              <div className="text-box">
-                <span className="name">충전기 설치 위치</span>
-                <span className="text">
-                  {data &&
-                    convertKo(
-                      location,
-                      locationEn,
-                      data?.receivedQuotationRequest.installationLocation!,
-                    )}
-                </span>
-              </div>
-              <div className="text-box">
-                <span className="name">충전기 설치 목적</span>
-                <span className="text">
-                  {data &&
-                    convertKo(
-                      InstallationPurposeType,
-                      InstallationPurposeTypeEn,
-                      data?.receivedQuotationRequest.installationPurpose!,
-                    )}
-                </span>
-              </div>
-              {data?.receivedQuotationRequest?.etcRequest === '' ? (
-                <div className="text-box">
-                  <span className="name">기타 요청사항</span>
-                  <span className="text">없음</span>
+      <WebRapper>
+        {nowWidth > 1198.7 && <LeftProjectQuotationBox />}
+        <BtnWrapper>
+          <Wrapper>
+            <ItemButton onClick={handleClick}>
+              <StoreName>
+                <CommonBtns
+                  text={data?.receivedQuotationRequest.badge!}
+                  backgroundColor={HandleColor(
+                    data?.receivedQuotationRequest.badge!,
+                  )}
+                />
+                <div>
+                  <h1>{data?.receivedQuotationRequest.installationAddress!}</h1>
+                  {open ? (
+                    <ArrowImg>
+                      <Image src={DownArrow} alt="down_arrow" layout="fill" />
+                    </ArrowImg>
+                  ) : (
+                    <ArrowImg>
+                      <Image src={UpArrow} alt="up_arrow" layout="fill" />
+                    </ArrowImg>
+                  )}
                 </div>
-              ) : (
-                <>
+              </StoreName>
+            </ItemButton>
+            {/* Open */}
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <Contents>
                   <div className="text-box">
-                    <span className="name">기타 요청사항</span>
+                    <span className="name">구독상품</span>
                     <span className="text">
-                      {data?.receivedQuotationRequest?.etcRequest}
+                      {data &&
+                        convertKo(
+                          subscribeType,
+                          subscribeTypeEn,
+                          data?.receivedQuotationRequest.subscribeProduct!,
+                        )}
                     </span>
                   </div>
-                </>
-              )}
-            </Contents>
-          </List>
-        </Collapse>
-      </Wrapper>
+                  <div className="text-box">
+                    <span className="name">구독기간</span>
+                    <span className="text">
+                      {data?.receivedQuotationRequest.subscribePeriod!}개월
+                    </span>
+                  </div>
+                  <div className="text-box">
+                    <span className="name">수익지분</span>
+                    <span className="text">
+                      {Number(data?.receivedQuotationRequest.investRate!) * 100}{' '}
+                      %
+                    </span>
+                  </div>
+                  {data?.receivedQuotationRequest.quotationRequestChargers!.map(
+                    (item, index) => (
+                      <div className="text-box" key={index}>
+                        {index === 0 ? (
+                          <span className="name">충전기 종류 및 수량</span>
+                        ) : (
+                          <span className="name" />
+                        )}
+                        <span className="text">
+                          {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                          <br />
+                          {item.standType
+                            ? `: ${convertKo(
+                                M6_LIST,
+                                M6_LIST_EN,
+                                item.standType,
+                              )}, ${convertKo(
+                                M7_LIST,
+                                M7_LIST_EN,
+                                item.channel,
+                              )}, ${item.count} 대`
+                            : `: ${convertKo(
+                                M7_LIST,
+                                M7_LIST_EN,
+                                item.channel,
+                              )}, ${item.count} 대`}
+                        </span>
+                      </div>
+                    ),
+                  )}
+
+                  <div className="text-box">
+                    <span className="name">충전기 설치 위치</span>
+                    <span className="text">
+                      {data &&
+                        convertKo(
+                          location,
+                          locationEn,
+                          data?.receivedQuotationRequest.installationLocation!,
+                        )}
+                    </span>
+                  </div>
+                  <div className="text-box">
+                    <span className="name">충전기 설치 목적</span>
+                    <span className="text">
+                      {data &&
+                        convertKo(
+                          InstallationPurposeType,
+                          InstallationPurposeTypeEn,
+                          data?.receivedQuotationRequest.installationPurpose!,
+                        )}
+                    </span>
+                  </div>
+                  {data?.receivedQuotationRequest?.etcRequest === '' ? (
+                    <div className="text-box">
+                      <span className="name">기타 요청사항</span>
+                      <span className="text">없음</span>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="text-box">
+                        <span className="name">기타 요청사항</span>
+                        <span className="text">
+                          {data?.receivedQuotationRequest?.etcRequest}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </Contents>
+              </List>
+            </Collapse>
+          </Wrapper>
+          {tabNumber === -1 && nowWidth > 1198.7 && (
+            <Btn
+              isClick={true}
+              handleClick={changeRequest}
+              text={'가견적 작성하기'}
+              paddingOn={true}
+            />
+          )}
+          {/* 웹 UI 끝나면 돌려놔 젭알 ㅠㅜㅠㅜ */}
+          {nowWidth >= 1198.7 && <> {components[tabNumber]}</>}
+        </BtnWrapper>
+      </WebRapper>
       {/* 가견적 작성하기 부분 */}
-      {tabNumber === -1 && (
+      {tabNumber === -1 && nowWidth < 1198.7 && (
         <Btn
           isClick={true}
           handleClick={changeRequest}
@@ -417,13 +487,31 @@ const HeadOpenContent = () => {
               </React.Fragment>
             ))}
           </TabBox>
-          {components[tabNumber]}
+          {nowWidth < 1198.7 && <> {components[tabNumber]}</>}
         </>
       )}
+      <WebFooter />
     </>
   );
 };
+const WebRapper = styled.div`
+  @media (min-width: 899pt) {
+    display: flex;
+    width: 900pt;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-top: 54pt;
+    margin-bottom: 54pt;
+  }
+`;
 
+const BtnWrapper = styled.div`
+  @media (min-width: 899pt) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
 const Wrapper = styled.div`
   display: block;
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
@@ -432,6 +520,13 @@ const Wrapper = styled.div`
   @media (max-width: 899pt) {
     display: flex;
     flex-direction: column;
+  }
+  @media (min-width: 899pt) {
+    display: block;
+    width: 580.5pt;
+    box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
 `;
 const Badge = styled.span`
@@ -555,6 +650,16 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   @media (max-width: 899pt) {
     display: block;
     width: 100%;
+  }
+`;
+
+const WebContainer = styled.div`
+  @media (min-width: 899pt) {
+    width: 610.5pt;
+    margin-top: 30pt;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    border-radius: 16pt;
   }
 `;
 

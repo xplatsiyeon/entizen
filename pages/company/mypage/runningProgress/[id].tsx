@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
+import { CountertopsOutlined } from '@mui/icons-material';
 import MypageHeader from 'components/mypage/request/header';
 import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
 import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
@@ -15,8 +16,11 @@ import {
 import React, { useEffect, useState } from 'react';
 import Progress from '../projectProgress';
 
+// type Props = {
+//   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
+//   openSubLink: boolean;
+// };
 type Props = {};
-
 export interface Data {
   id: number;
   state: number;
@@ -38,6 +42,10 @@ const RunningProgress = (props: Props) => {
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
+
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+
   const [data, setData] = useState<Data>({
     id: -1,
     state: -1,
@@ -70,11 +78,11 @@ const RunningProgress = (props: Props) => {
   console.log(inProgressData);
 
   useEffect(() => {
-    console.log('index', router.query.id);
     if (router.query.id) {
       const num = Number(router.query.id);
       setComponentId(num);
       // setData(tempProceeding[num]);
+      setOpenSubLink(!openSubLink);
     }
   }, [router.query.id]);
 
@@ -96,6 +104,8 @@ const RunningProgress = (props: Props) => {
         setTabNumber={setTabNumber}
         tabNumber={tabNumber}
         componentId={componentId}
+        openSubLink={openSubLink}
+        setOpenSubLink={setOpenSubLink}
       />
       <WebRapper>
         {nowWidth > 1198.7 && (

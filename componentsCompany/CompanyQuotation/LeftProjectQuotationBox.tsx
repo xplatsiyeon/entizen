@@ -1,17 +1,30 @@
 import styled from '@emotion/styled';
-import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
-import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
-import FinishedProjects from 'componentsCompany/Mypage/FinishedProjects';
-import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
-import WebFooter from 'componentsWeb/WebFooter';
 import NoProject from 'componentsCompany/Mypage/NoProject';
-import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
-import { useQuery } from 'react-query';
 import useProfile from 'hooks/useProfile';
+import RecieveRequestUnder from './RecieveRequestUnder';
+import {
+  filterType,
+  filterTypeEn,
+  ReceivedRequest,
+} from 'pages/company/quotation';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import SendRequestUnder from './SendRequestUnder';
 
-type Props = { num?: number; now?: string };
+type Props = {
+  searchWord?: string;
+  setSearchWord?: Dispatch<SetStateAction<string>>;
+  checkedFilterIndex?: number;
+  setcheckedFilterIndex?: Dispatch<SetStateAction<number>>;
+  checkedFilter?: filterType;
+  setCheckedFilter?: Dispatch<SetStateAction<filterType>>;
+  keyword?: string;
+};
+
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -69,24 +82,41 @@ const tempProceeding: Data[] = [
   },
 ];
 
-const Mypage = ({ num, now }: Props) => {
+const LeftProjectQuotationBox = ({
+  searchWord,
+  setSearchWord,
+  checkedFilterIndex,
+  setcheckedFilterIndex,
+  checkedFilter,
+  setCheckedFilter,
+  keyword,
+}: Props) => {
   const route = useRouter();
-  const [tabNumber, setTabNumber] = useState<number>(0);
+  const [userName, setUserName] = useState<string>('윤세아');
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-
-  // 서브 카테고리 열렸는지 아닌지
-  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-
-  // 내 프로젝트에서 진행 프로젝트랑 완료 프로젝트 뭐 눌렀는지 받아오는 state
-  const [componentId, setComponentId] = useState<number | undefined>();
-  const [successComponentId, setSuccessComponentId] = useState<
-    number | undefined
-  >();
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, isLoading, invalidate } = useProfile(accessToken);
+  const [tab, setTab] = useState<string>('');
+  const [underNum, setUnderNum] = useState<number>();
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
   };
+
+  // api 호출
+  const { data, isError, error, refetch } = useQuery<ReceivedRequest>(
+    'received-request',
+    () =>
+      isTokenGetApi(
+        `/quotations/received-request?keyword=${keyword}&sort=${
+          filterTypeEn[checkedFilterIndex!]
+        }`,
+      ),
+    {
+      enabled: false,
+    },
+  );
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -94,26 +124,20 @@ const Mypage = ({ num, now }: Props) => {
       window.removeEventListener('resize', handleResize);
     };
   }, [nowWidth]);
-  const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
 
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const { profile, isLoading, invalidate } = useProfile(accessToken);
+  useEffect(() => {
+    if (route.pathname === '/company/recievedRequest/[id]') {
+      setTab('받은 요청');
+      setUnderNum(0);
+    } else if (route.pathname === '/company/sentProvisionalQuotation/[id]') {
+      setTab('보낸 견적');
+      setUnderNum(1);
+    }
+  }, [route]);
 
-  const components: Components = {
-    0: (
-      <ProjectInProgress
-        tabNumber={tabNumber}
-        setComponentId={setComponentId}
-        componentId={componentId}
-      />
-    ),
-    1: (
-      <FinishedProjects
-        tabNumber={tabNumber}
-        setSuccessComponentId={setSuccessComponentId}
-        successComponentId={successComponentId}
-      />
-    ),
+  const webComponents: Components = {
+    0: <RecieveRequestUnder data={data} />,
+    1: <SendRequestUnder />,
   };
 
   if (tempProceeding.length === 0) {
@@ -122,34 +146,19 @@ const Mypage = ({ num, now }: Props) => {
 
   return (
     <>
-      <WebBuyerHeader
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        componentId={componentId}
-        num={num}
-        now={now}
-        openSubLink={openSubLink}
-        setOpenSubLink={setOpenSubLink}
-      />
-      <WebRapper>
-        <LeftProjectBox
-          setTabNumber={setTabNumber}
-          tabNumber={tabNumber}
-          componentId={componentId}
-          setComponentId={setComponentId}
-          successComponentId={successComponentId}
-          setSuccessComponentId={setSuccessComponentId}
-        />
-        <div>{components[tabNumber]}</div>
-      </WebRapper>
-      <WebFooter />
+      <Wrapper>
+        <Header>
+          <span>
+            <h1>{tab}</h1>
+          </span>
+        </Header>
+        <div> {webComponents[underNum!]}</div>
+      </Wrapper>
     </>
   );
 };
 
 const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
   @media (min-width: 899pt) {
     width: 255pt;
     height: 424.5pt;
@@ -158,24 +167,13 @@ const Wrapper = styled.div`
   }
 `;
 
-const WebRapper = styled.div`
-  @media (min-width: 899pt) {
-    margin: 0 auto;
-    padding: 60pt 0;
-    width: 900pt;
-    display: flex;
-    justify-content: space-between;
-  }
-`;
-
 const Header = styled.header`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 21pt 15pt 0 15pt;
+  width: 198pt;
+  margin: 27pt auto;
   & h1 {
     font-weight: 700;
-    font-size: 21pt;
+    font-size: 15pt;
     line-height: 27pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
@@ -290,4 +288,4 @@ const RightProgress = styled.div`
   }
 `;
 
-export default Mypage;
+export default LeftProjectQuotationBox;

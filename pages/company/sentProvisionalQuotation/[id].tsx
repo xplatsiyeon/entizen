@@ -7,7 +7,6 @@ type Props = {};
 const sentProvisionalQuotation = (props: Props) => {
   return (
     <>
-      <MypageHeader back={true} title={'보낸 견적'} />
       <SentProvisionalQuoatation />
     </>
   );

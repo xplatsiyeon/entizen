@@ -8,10 +8,12 @@ type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
   componentId: number | undefined;
+  successComponentId: number | undefined;
   linkState?: string;
   num?: number;
   now?: string;
   type?: string;
+  openSubLink: boolean;
 };
 
 interface Components {
@@ -26,10 +28,12 @@ const MyprojectLink = ({
   type,
   num,
   now,
+  openSubLink,
 }: Props) => {
-  const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
   let linkName: string[];
   let linkUrl: string[];
+
+  const router = useRouter();
 
   switch (type) {
     case 'myProject':
@@ -49,14 +53,17 @@ const MyprojectLink = ({
 
     case 'estimate':
       linkName = ['받은 요청', '보낸 견적', '히스토리'];
-      linkUrl = [`/company/mypage`, `/company/mypage`, '/company/mypage'];
+      linkUrl = [
+        `/company/quotation`,
+        `/company/quotation`,
+        '/company/quotation',
+      ];
       break;
 
     default:
       linkName = ['진행 프로젝트', '완료 프로젝트'];
       linkUrl = [`/company/mypage`, `/company/mypage`];
   }
-  const router = useRouter();
 
   const handleLink = (idx: number) => {
     const user = localStorage.getItem('USER_ID');
@@ -72,7 +79,7 @@ const MyprojectLink = ({
   };
 
   return (
-    <Wrap componentId={componentId}>
+    <Wrap openSubLink={openSubLink}>
       {linkName.map((i, idx) => {
         return (
           <StyledLink
@@ -94,11 +101,11 @@ const MyprojectLink = ({
 
 export default MyprojectLink;
 
-const Wrap = styled.ul<{ componentId: number | undefined }>`
+const Wrap = styled.ul<{ openSubLink: boolean }>`
   width: 900pt;
   height: 44.5pt;
   margin: 0 auto;
-  display: ${({ componentId }) => componentId !== undefined && `none`};
+  display: ${({ openSubLink }) => (openSubLink === false ? 'none' : 'block')};
   :hover {
     width: 900pt;
     height: 44.5pt;
