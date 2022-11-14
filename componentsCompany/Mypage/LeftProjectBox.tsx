@@ -35,50 +35,50 @@ interface Data {
 }
 // 데이터 없을 때 나오는 페이지
 // const tempProceeding: [] = [];
-const tempProceeding: Data[] = [
-  {
-    id: 0,
-    badge: '검수 중',
-    storeName: 'S-OIL 대치 주유소',
-    date: '2021.01.01',
-  },
-  {
-    id: 1,
-    badge: '준비 중',
-    storeName: '맥도날드 대이동점',
-    date: '2021.05.10',
-  },
-  {
-    id: 2,
-    badge: '계약대기',
-    storeName: 'LS카페 신림점',
-    date: '2021.03.10',
-  },
-  {
-    id: 3,
-    badge: '설치 중',
-    storeName: 'LS카페 마곡점',
-    date: '2021.07.23',
-  },
-  {
-    id: 4,
-    badge: '완료 중',
-    storeName: '스타벅스 마곡점',
-    date: '2021.07.23',
-  },
-  {
-    id: 5,
-    badge: '완료대기',
-    storeName: 'LS카페 계양점',
-    date: '2021.07.23',
-  },
-  {
-    id: 6,
-    badge: '프로젝트 취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.07.23',
-  },
-];
+// const tempProceeding: Data[] = [
+//   {
+//     id: 0,
+//     badge: '검수 중',
+//     storeName: 'S-OIL 대치 주유소',
+//     date: '2021.01.01',
+//   },
+//   {
+//     id: 1,
+//     badge: '준비 중',
+//     storeName: '맥도날드 대이동점',
+//     date: '2021.05.10',
+//   },
+//   {
+//     id: 2,
+//     badge: '계약대기',
+//     storeName: 'LS카페 신림점',
+//     date: '2021.03.10',
+//   },
+//   {
+//     id: 3,
+//     badge: '설치 중',
+//     storeName: 'LS카페 마곡점',
+//     date: '2021.07.23',
+//   },
+//   {
+//     id: 4,
+//     badge: '완료 중',
+//     storeName: '스타벅스 마곡점',
+//     date: '2021.07.23',
+//   },
+//   {
+//     id: 5,
+//     badge: '완료대기',
+//     storeName: 'LS카페 계양점',
+//     date: '2021.07.23',
+//   },
+//   {
+//     id: 6,
+//     badge: '프로젝트 취소',
+//     storeName: 'LS카페 신림점',
+//     date: '2021.07.23',
+//   },
+// ];
 
 const LeftProjectBox = ({
   componentId,
@@ -124,9 +124,9 @@ const LeftProjectBox = ({
     ),
   };
 
-  if (tempProceeding.length === 0) {
-    return <NoProject />;
-  }
+  // if (tempProceeding.length === 0) {
+  //   return <NoProject />;
+  // }
 
   return (
     <>
