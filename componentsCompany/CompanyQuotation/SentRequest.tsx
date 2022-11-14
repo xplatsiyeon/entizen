@@ -59,29 +59,29 @@ const SentRequest = ({}: Props) => {
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
 
-  // const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
-  //   'sent-request',
-  //   () => isTokenGetApi('/quotations/sent-request'),
-  // );
+  const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
+    'sent-request',
+    () => isTokenGetApi('/quotations/sent-request'),
+  );
 
-  // if (isError) {
-  //   console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-  //   console.log(error);
-  //   return (
-  //     <Modal
-  //       text="다시 시도해주세요"
-  //       click={() => {
-  //         router.push('/');
-  //       }}
-  //     />
-  //   );
-  // }
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+  if (isError) {
+    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+    console.log(error);
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
 
-  // console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
-  // console.log(data);
+  console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
+  console.log(data);
 
   return (
     <>
@@ -102,23 +102,20 @@ const SentRequest = ({}: Props) => {
       </TopContainer>
 
       <ContentsContainer>
-        {/* {data?.sendQuotationRequests?.map((el, index) => ( */}
-        {[1, 1, 1, 1].map((el, index) => (
+        {data?.sendQuotationRequests?.map((el, index) => (
           <Contents
             key={index}
-            // onClick={() =>
-            //   router.push(
-            //     `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
-            //   )
-            // }
+            onClick={() =>
+              router.push(
+                `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
+              )
+            }
           >
             <DdayNAddress>
               <DdayBox>
                 <CommonBtn
-                  // text={el?.badge}
-                  text={'56566465'}
-                  backgroundColor="red"
-                  // backgroundColor={HandleColor(el?.badge)}
+                  text={el?.badge}
+                  backgroundColor={HandleColor(el?.badge)}
                   bottom={'12pt'}
                 />
               </DdayBox>

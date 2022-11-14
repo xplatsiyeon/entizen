@@ -56,8 +56,8 @@ const Progress = ({ data, info, setData }: Props) => {
 
   useEffect(() => {
     console.log('🔥 ~ line 58 ~ 달력 모달 dateOn 데이트 확인');
-    console.log(dateOn);
-  }, [dateOn]);
+    console.log(dateArr);
+  }, [dateArr]);
 
   return (
     <>
@@ -82,7 +82,8 @@ const Progress = ({ data, info, setData }: Props) => {
             presentProgress={info.state}
             progressNum={progressNum}
             setProgressNum={setProgressNum}
-            state={badgeState}
+            // state={data?.project?.badge!}
+            state={info.state}
             planed={info.planed}
             data={data!}
           />

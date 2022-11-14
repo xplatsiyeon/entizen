@@ -62,44 +62,43 @@ const SendRequestUnder = ({}: Props) => {
     }
   }, [router]);
 
-  // const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
-  //   'sent-request',
-  //   () => isTokenGetApi('/quotations/sent-request'),
-  // );
+  const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
+    'sent-request',
+    () => isTokenGetApi('/quotations/sent-request'),
+  );
 
-  // if (isError) {
-  //   console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-  //   console.log(error);
-  //   return (
-  //     <Modal
-  //       text="다시 시도해주세요"
-  //       click={() => {
-  //         router.push('/');
-  //       }}
-  //     />
-  //   );
-  // }
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+  if (isError) {
+    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+    console.log(error);
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
 
-  // console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
-  // console.log(data);
+  console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
+  console.log(data);
 
   return (
     <>
       <ContentsContainer>
-        {/* {data?.sendQuotationRequests?.map((el, index) => ( */}
-        {[1, 1, 1, 1].map((el, idx) => (
+        {data?.sendQuotationRequests?.map((el, index) => (
           <Contents
-            // key={index}
-            // onClick={() =>
-            //   router.push(
-            //     `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
-            //   )
-            // }
+            key={index}
+            onClick={() =>
+              router.push(
+                `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
+              )
+            }
             select={select!}
-            idx={idx}
+            index={index}
           >
             <DdayNAddress>
               <DdayBox>
@@ -136,7 +135,7 @@ const ContentsContainer = styled.div`
     border-radius: 6pt;
   }
 `;
-const Contents = styled.div<{ select: number; idx: number }>`
+const Contents = styled.div<{ select: number; index: number }>`
   padding: 12pt 13.5pt;
   display: flex;
   margin-bottom: 9pt;
@@ -144,8 +143,8 @@ const Contents = styled.div<{ select: number; idx: number }>`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
-  border: ${({ select, idx }) =>
-    select === idx ? `0.75pt solid #5221CB` : ''};
+  border: ${({ select, index }) =>
+    select === index ? `0.75pt solid #5221CB` : ''};
 `;
 const DdayBox = styled.div`
   margin-bottom: 16.5pt;

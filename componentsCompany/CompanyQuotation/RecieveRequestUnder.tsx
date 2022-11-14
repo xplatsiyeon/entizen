@@ -18,7 +18,6 @@ import Loader from 'components/Loader';
 import Sort from './Sort';
 import Search from './Search';
 import Modal from 'components/Modal/Modal';
-import WebSort from './WebSort';
 
 type Props = {
   data?: ReceivedRequest;
@@ -29,7 +28,6 @@ const RecieveRequestUnder = ({ data }: Props) => {
   const router = useRouter();
   const [select, setSelect] = useState<number>();
   console.log(TAG + '🔥 ~ line 45 ~ data check');
-  console.log(data, '받은 요청이라네');
   useEffect(() => {
     if (router.query.id) {
       const num = Number(router.query.id);
@@ -37,75 +35,31 @@ const RecieveRequestUnder = ({ data }: Props) => {
     }
   }, [router]);
 
-  // const [searchWord, setSearchWord] = useState<string>('');
-  // const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
-  // const [checkedFilter, setCheckedFilter] =
-  //   useState<filterType>('마감일순 보기');
-
-  // const keyword = useDebounce(searchWord, 3000);
-  // api 호출
-  // const { data, isLoading, isError, error, refetch } =
-  //   useQuery<ReceivedResponse>('received-Request', () =>
-  //     isTokenGetApi(
-  //       `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-  //     ),
-  //   );
-
-  // if (isError) {
-  //   console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-  //   console.log(error);
-  //   return (
-  //     <Modal
-  //       text="다시 시도해주세요"
-  //       click={() => {
-  //         router.push('/');
-  //       }}
-  //     />
-  //   );
-  // }
-
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
-
-  // useEffect(() => {
-  //   console.log(TAG + '🔥 ~line 54 ~ data 확인');
-  //   console.log(data);
-  // }, []);
-
-  // // 필터링 기능
-  // useEffect(() => {
-  //   refetch();
-  // }, [checkedFilterIndex, keyword]);
-
   return (
     <>
       <ContentsContainer>
-        {/* {data?.receivedQuotationRequests?.map((el, idx) => ( */}
-        {[1, 1, 1, 1].map((el, idx) => (
+        {data?.receivedQuotationRequests?.map((el, idx) => (
           <Contents
-            // key={el?.quotationRequest?.quotationRequestIdx}
-            // onClick={() =>
-            //   router.push(
-            //     `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
-            //   )
-            // }
+            key={el?.quotationRequest?.quotationRequestIdx}
+            onClick={() =>
+              router.push(
+                `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
+              )
+            }
             select={select!}
             idx={idx}
           >
             <DdayNAddress>
               <DdayBox>
                 <CommonBtn
-                  backgroundColor="red"
-                  text="12321"
-                  // text={el?.badge}
-                  // backgroundColor={HandleColor(el?.badge)}
+                  text={el?.badge}
+                  backgroundColor={HandleColor(el?.badge)}
                   bottom={'12pt'}
                 />
               </DdayBox>
               <AddressBox>
                 테스트
-                {/* {el?.quotationRequest?.installationAddress} */}
+                {el?.quotationRequest?.installationAddress}
               </AddressBox>
             </DdayNAddress>
             <IconBox>
