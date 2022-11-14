@@ -8,6 +8,12 @@ import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import NoProject from './NoProject';
+import { useQuery } from '@apollo/client';
+import {
+  GET_historyProjectsDetail,
+  ResponseHistoryProjectsDetail,
+} from 'QueryComponents/CompanyQuery';
+import Loader from 'components/Loader';
 
 type Props = {
   tabNumber: number;
@@ -68,11 +74,34 @@ const FinishedProjects = ({
 }: Props) => {
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    loading: historyLoading,
+    error: historyError,
+    data: historyData,
+  } = useQuery<ResponseHistoryProjectsDetail>(GET_historyProjectsDetail, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
+  if (historyLoading) {
+    return <Loader />;
+  }
+  if (historyError) {
+    console.log(historyError);
+  }
+
   const handleDownload = () => {};
 
   if (tempProceeding.length === 0) {
     return <NoProject />;
   }
+
+  console.log(historyData);
 
   return (
     <Wrapper>
