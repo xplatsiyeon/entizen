@@ -37,13 +37,10 @@ export interface ReceivedQuotationRequests {
   quotationRequest: QuotationRequest;
   companyMemberAdditionalInfo: [];
 }
-// export interface ReceivedRequest {
-//   isSuccess: boolean;
-//   receivedQuotationRequests: ReceivedQuotationRequests[];
-// }
-
-// 토큰 없이 ui 작업
-export interface ReceivedRequest {}
+export interface ReceivedRequest {
+  isSuccess: boolean;
+  receivedQuotationRequests: ReceivedQuotationRequests[];
+}
 
 export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순 보기';
 // deadline: 마감일 | status: 상태순 | date: 날짜순
