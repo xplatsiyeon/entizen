@@ -65,6 +65,7 @@ const RunningProgress = (props: Props) => {
       },
     },
   });
+
   console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
   console.log(inProgressData);
 
@@ -114,11 +115,11 @@ const RunningProgress = (props: Props) => {
             data={inProgressData!}
           />
           {/* 계약서 작성 시 Progress 나와야 됨 */}
-          {openContract ? (
+          {/* {openContract ? (
             <Progress data={inProgressData!} info={data} setData={setData} />
           ) : (
             <UnderBox setOpenContract={setOpenContract} />
-          )}
+          )} */}
         </WebBox>
       </WebRapper>
     </>
