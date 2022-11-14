@@ -12,15 +12,27 @@ import LeftArrow from 'public/mypage/left-arrow.png';
 import RightArrow from 'public/mypage/right-arrow.png';
 import Image from 'next/image';
 import { css } from '@emotion/react';
+import { useMutation } from 'react-query';
+import { isTokenPostApi } from 'api';
+import Modal from 'components/Modal/Modal';
+import { useRouter } from 'next/router';
 
 interface Props {
   selectedDays: string;
   SetSelectedDays: Dispatch<SetStateAction<string>>;
   exit: () => void;
+  stepType: string;
 }
 
-const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
+const DateModal = ({
+  selectedDays,
+  SetSelectedDays,
+  exit,
+  stepType,
+}: Props) => {
   const outside = useRef(null);
+  const router = useRouter();
+  const routerId = router?.query?.id!;
   const today = {
     year: new Date().getFullYear(), //오늘 연도
     month: new Date().getMonth() + 1, //오늘 월
@@ -31,6 +43,28 @@ const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
   const [selectedYear, setSelectedYear] = useState(today.year); //현재 선택된 연도
   const [selectedMonth, setSelectedMonth] = useState(today.month); //현재 선택된 달
   const dateTotalCount = new Date(selectedYear, selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
+
+  const [isModal, setIsModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // 목표일 등록 mutation
+  const { mutate: dateMutate, isLoading } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      exit();
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
   //이전 달 보기 보튼
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
@@ -116,6 +150,15 @@ const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
       SetSelectedDays(selectedDate);
     }
   };
+  const onClcikSubmitDate = () => {
+    dateMutate({
+      url: `/projects/${routerId}/goal-date`,
+      data: {
+        projectStep: stepType,
+        goalDate: selectedDays.replaceAll('.', '-'),
+      },
+    });
+  };
 
   useEffect(() => {
     console.log(selectedDays);
@@ -129,6 +172,7 @@ const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
   };
   return (
     <Container ref={outside} onClick={(e) => handleModalClose(e)}>
+      {isModal && <Modal click={exit} text={errorMessage} />}
       <Wrapper>
         <HeaderTitle>목표일 입력하기</HeaderTitle>
         <Title className="title">
@@ -144,7 +188,7 @@ const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
         </Title>
         <Weeks className="Weeks">{returnWeek()}</Weeks>
         <Days className="date">{returnDay()}</Days>
-        <Button>선택한 날짜로 입력하기</Button>
+        <Button onClick={onClcikSubmitDate}>선택한 날짜로 입력하기</Button>
       </Wrapper>
     </Container>
   );

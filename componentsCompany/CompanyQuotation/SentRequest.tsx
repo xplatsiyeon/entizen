@@ -13,6 +13,7 @@ import { filterType } from 'pages/company/quotation';
 import Sort from './Sort';
 import Search from './Search';
 import { HandleColor } from 'utils/changeValue';
+import WebSort from './WebSort';
 
 type Props = {};
 export interface QuotationRequest {
@@ -58,29 +59,29 @@ const SentRequest = ({}: Props) => {
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
 
-  const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
-    'sent-request',
-    () => isTokenGetApi('/quotations/sent-request'),
-  );
+  // const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
+  //   'sent-request',
+  //   () => isTokenGetApi('/quotations/sent-request'),
+  // );
 
-  if (isError) {
-    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-    console.log(error);
-    return (
-      <Modal
-        text="다시 시도해주세요"
-        click={() => {
-          router.push('/');
-        }}
-      />
-    );
-  }
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isError) {
+  //   console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+  //   console.log(error);
+  //   return (
+  //     <Modal
+  //       text="다시 시도해주세요"
+  //       click={() => {
+  //         router.push('/');
+  //       }}
+  //     />
+  //   );
+  // }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
-  console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
-  console.log(data);
+  // console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
+  // console.log(data);
 
   return (
     <>
@@ -91,26 +92,36 @@ const SentRequest = ({}: Props) => {
         setcheckedFilterIndex={setcheckedFilterIndex}
       />
       <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+      <WebSort
+        checkedFilter={checkedFilter}
+        setCheckedFilter={setCheckedFilter}
+        checkedFilterIndex={checkedFilterIndex}
+        setcheckedFilterIndex={setcheckedFilterIndex}
+      />
       <ContentsContainer>
-        {data?.sendQuotationRequests?.map((el, index) => (
+        {/* {data?.sendQuotationRequests?.map((el, index) => ( */}
+        {[1, 1, 1, 1].map((el, index) => (
           <Contents
             key={index}
-            onClick={() =>
-              router.push(
-                `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
-              )
-            }
+            // onClick={() =>
+            //   router.push(
+            //     `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
+            //   )
+            // }
           >
             <DdayNAddress>
               <DdayBox>
                 <CommonBtn
-                  text={el?.badge}
-                  backgroundColor={HandleColor(el?.badge)}
+                  // text={el?.badge}
+                  text={'테스트'}
+                  backgroundColor="red"
+                  // backgroundColor={HandleColor(el?.badge)}
                   bottom={'12pt'}
                 />
               </DdayBox>
               <AddressBox>
-                {el?.quotationRequest.installationAddress}
+                테스트
+                {/* {el?.quotationRequest.installationAddress} */}
               </AddressBox>
             </DdayNAddress>
             <IconBox>
@@ -127,6 +138,10 @@ const SentRequest = ({}: Props) => {
 
 const ContentsContainer = styled.div`
   margin-top: 18pt;
+  @media (min-width: 899pt) {
+    width: 580.5pt;
+    margin: 0 auto;
+  }
 `;
 const Contents = styled.div`
   padding: 12pt 13.5pt;

@@ -117,7 +117,7 @@ const Wrapper = styled.div`
   padding-bottom: 45pt;
   height: 100vh;
   @media (min-width: 899pt) {
-    margin-bottom: 50pt;
+    margin-bottom: 40pt;
   }
 `;
 

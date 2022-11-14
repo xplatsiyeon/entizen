@@ -112,6 +112,7 @@ const HeadOpenContent = () => {
   const [open, setOpen] = useState<boolean>(false);
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(-1);
+
   // button on off
   const [canNext, SetCanNext] = useState<boolean>(false);
   // 첫스탭 상태값
@@ -191,7 +192,7 @@ const HeadOpenContent = () => {
           setTabNumber={setTabNumber}
           canNext={canNext}
           SetCanNext={SetCanNext}
-          StepIndex={0}
+          StepIndex={1}
           data={data!}
           maxIndex={
             data?.receivedQuotationRequest.quotationRequestChargers.length
@@ -313,7 +314,7 @@ const HeadOpenContent = () => {
           handleBackClick={handleBackClick}
         />
       )}
-      {tabNumber >= 0 && (
+      {tabNumber >= 0 && nowWidth < 1198.7 && (
         <MypageHeader
           back={true}
           title={'가견적 작성'}
@@ -454,6 +455,7 @@ const HeadOpenContent = () => {
               paddingOn={true}
             />
           )}
+          {/* 웹 UI 끝나면 돌려놔 젭알 ㅠㅜㅠㅜ */}
           {nowWidth >= 1198.7 && <> {components[tabNumber]}</>}
         </BtnWrapper>
       </WebRapper>

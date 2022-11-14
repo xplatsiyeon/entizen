@@ -32,78 +32,6 @@ export interface Data {
   address: string;
 }
 
-const tempProceeding: Data[] = [
-  {
-    id: 0,
-    state: 3,
-    badge: '검수 중',
-    storeName: 'LS카페 신림점',
-    date: '2021.01.01',
-    contract: true,
-    planed: ['2022.04.25', '2022.06.11'],
-    address: '서울시 관악구 난곡로40길 30',
-  },
-  {
-    id: 1,
-    state: 1,
-    badge: '준비 중',
-    storeName: '스타벅스 마곡점',
-    date: '2021.05.10',
-    contract: true,
-    planed: [],
-    address: '서울시 관악구 난곡로40길 30',
-  },
-  {
-    id: 2,
-    state: 0,
-    badge: '계약대기',
-    storeName: 'LS카페 신림점',
-    date: '2021.03.10',
-    contract: false,
-    planed: ['2022.04.25', '2022.07.25'],
-    address: '서울시 관악구 난곡로40길 30',
-  },
-  {
-    id: 3,
-    badge: '설치 중',
-    state: 2,
-    storeName: 'LS카페 신림점',
-    date: '2021.07.23',
-    contract: true,
-    planed: ['2022.04.25'],
-    address: '서울시 관악구 난곡로40길 30',
-  },
-  {
-    id: 4,
-    state: 4,
-    badge: '완료 중',
-    storeName: 'LS카페 신림점',
-    date: '2021.07.23',
-    contract: true,
-    planed: ['2022.04.26', '2022.05.6', '2022.05.11'],
-    address: '서울시 관악구 난곡로40길 30',
-  },
-  {
-    id: 5,
-    state: 5,
-    badge: '완료대기',
-    storeName: 'LS카페 신림점',
-    date: '2021.07.23',
-    contract: true,
-    planed: ['2022.04.26', '2022.05.6', '2022.05.11', '2022.05.14'],
-    address: '서울시 관악구 난곡로40길 30',
-  },
-  {
-    id: 6,
-    state: 6,
-    badge: '프로젝트 취소',
-    storeName: 'LS카페 신림점',
-    date: '2021.07.23',
-    contract: false,
-    planed: [],
-    address: '서울시 관악구 난곡로40길 30',
-  },
-];
 const TAG = 'pages/compnay/mypage/runningProgress.tsx';
 const RunningProgress = (props: Props) => {
   const router = useRouter();
@@ -145,8 +73,9 @@ const RunningProgress = (props: Props) => {
       },
     },
   });
-  console.log(TAG + '🔥 ~line 130 ~내프로젝트 상세페이지 데이터 확인 ');
-  console.log(data);
+
+  console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
+  console.log(inProgressData);
 
   useEffect(() => {
     if (router.query.id) {

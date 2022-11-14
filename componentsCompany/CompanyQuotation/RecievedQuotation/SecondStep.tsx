@@ -416,14 +416,14 @@ const SecondStep = ({
           <div>* 필수 입력</div>
         </TopStep>
 
-        {charger.standType ? (
+        {charger?.standType ? (
           <SubWord>
             <p>
-              {`${convertKo(M5_LIST, M5_LIST_EN, charger.kind)}, ${convertKo(
+              {`${convertKo(M5_LIST, M5_LIST_EN, charger?.kind)}, ${convertKo(
                 M6_LIST,
                 M6_LIST_EN,
-                charger.standType,
-              )}, ${convertKo(M7_LIST, M7_LIST_EN, charger.channel)}`}
+                charger?.standType,
+              )}, ${convertKo(M7_LIST, M7_LIST_EN, charger?.channel)}`}
               &nbsp;
             </p>
             제품의
@@ -433,10 +433,10 @@ const SecondStep = ({
         ) : (
           <SubWord>
             <p>
-              {`${convertKo(M5_LIST, M5_LIST_EN, charger.kind)},  ${convertKo(
+              {`${convertKo(M5_LIST, M5_LIST_EN, charger?.kind)},  ${convertKo(
                 M7_LIST,
                 M7_LIST_EN,
-                charger.channel,
+                charger?.channel,
               )}`}
               &nbsp;
             </p>
@@ -1082,9 +1082,12 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   line-height: 12pt;
   letter-spacing: -0.02em;
   background-color: ${({ canNext }) => (canNext ? colors.main : '#B096EF')};
+  padding: 15pt 0 39pt 0;
   cursor: pointer;
-  @media (max-width: 899pt) {
-    padding: 15pt 0 39pt 0;
+  @media (min-width: 899pt) {
+    padding: 10pt 0 20pt 0;
+    border-radius: 6pt;
+    margin-left: 12pt;
   }
 `;
 const PrevBtn = styled.div`
@@ -1098,8 +1101,10 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   background-color: ${colors.gray};
   cursor: pointer;
-  @media (max-width: 899pt) {
-    padding: 15pt 0 39pt 0;
+  padding: 15pt 0 39pt 0;
+  @media (min-width: 899pt) {
+    padding: 10pt 0 20pt 0;
+    border-radius: 6pt;
   }
 `;
 const TwoBtn = styled.div`
@@ -1108,8 +1113,12 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  @media (max-width: 899pt) {
-    position: fixed;
+  position: fixed;
+  @media (min-width: 899pt) {
+    width: 580.5pt;
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: 40pt;
   }
 `;
 

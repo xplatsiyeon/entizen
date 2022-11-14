@@ -4,16 +4,10 @@ import CommonBtns from 'components/mypage/as/CommonBtns';
 import Image from 'next/image';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
-import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
-import { HandleColor, handleColor } from 'utils/changeValue';
-import {
-  GET_InProgressProjectsDetail,
-  InProgressProjectsDetailResponse,
-} from 'QueryComponents/CompanyQuery';
-import { useQuery } from '@apollo/client';
-import { useRouter } from 'next/router';
+import { handleColor } from 'utils/changeValue';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import { convertKo, hyphenFn } from 'utils/calculatePackage';
 import {
   InstallationPurposeType,

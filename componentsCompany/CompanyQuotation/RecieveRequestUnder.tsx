@@ -27,8 +27,15 @@ type Props = {
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
 const RecieveRequestUnder = ({ data }: Props) => {
   const router = useRouter();
+  const [select, setSelect] = useState<number>();
   console.log(TAG + '🔥 ~ line 45 ~ data check');
   console.log(data, '받은 요청이라네');
+  useEffect(() => {
+    if (router.query.id) {
+      const num = Number(router.query.id);
+      setSelect(num);
+    }
+  }, [router]);
 
   // const [searchWord, setSearchWord] = useState<string>('');
   // const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
@@ -77,12 +84,14 @@ const RecieveRequestUnder = ({ data }: Props) => {
         {/* {data?.receivedQuotationRequests?.map((el, idx) => ( */}
         {[1, 1, 1, 1].map((el, idx) => (
           <Contents
-          // key={el?.quotationRequest?.quotationRequestIdx}
-          // onClick={() =>
-          //   router.push(
-          //     `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
-          //   )
-          // }
+            // key={el?.quotationRequest?.quotationRequestIdx}
+            // onClick={() =>
+            //   router.push(
+            //     `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
+            //   )
+            // }
+            select={select!}
+            idx={idx}
           >
             <DdayNAddress>
               <DdayBox>
@@ -116,16 +125,20 @@ const ContentsContainer = styled.div`
     width: 198pt;
     height: 66pt;
     margin: 0 auto;
+
+    border-radius: 6pt;
   }
 `;
 
-const Contents = styled.div`
+const Contents = styled.div<{ select: number; idx: number }>`
   padding: 12pt 13.5pt;
   display: flex;
   margin-bottom: 9pt;
   justify-content: space-between;
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
+  border: ${({ select, idx }) =>
+    select === idx ? `0.75pt solid #5221CB` : ''};
   cursor: pointer;
 `;
 

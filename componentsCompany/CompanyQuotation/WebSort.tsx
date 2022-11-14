@@ -171,5 +171,5 @@ const IconBox = styled.div<{ arrow: boolean }>`
   align-self: center;
   width: 10pt;
   padding: 5pt 0;
-  transform: ${({ arrow }) => (arrow !== false ? `` : `rotate(180deg)`)};
+  transform: ${({ arrow }) => (arrow !== true ? `` : `rotate(180deg)`)};
 `;
