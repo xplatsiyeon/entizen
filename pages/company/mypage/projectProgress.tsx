@@ -12,7 +12,7 @@ import { useMutation } from 'react-query';
 import { Data } from './runningProgress/[id]';
 
 type Props = {
-  data: InProgressProjectsDetailResponse;
+  data?: InProgressProjectsDetailResponse;
   info: Data;
   setData: React.Dispatch<React.SetStateAction<Data>>;
 };

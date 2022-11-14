@@ -116,6 +116,9 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   padding-bottom: 45pt;
   height: 100vh;
+  @media (min-width: 899pt) {
+    margin-bottom: 40pt;
+  }
 `;
 
 const TopStep = styled.div`
@@ -242,6 +245,15 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   cursor: pointer;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
+  @media (min-width: 899pt) {
+    width: 534pt;
+    margin: 0 auto;
+    padding: 15pt 0 30pt 0;
+    height: 42pt;
+    position: relative;
+    border-radius: 6pt;
+    margin-top: 20pt;
+  }
 `;
 
 export default FirstStep;

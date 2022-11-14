@@ -12,7 +12,9 @@ const successedProject2 = (props: Props) => {
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [successComponentId, setSuccessComponentId] = useState<number>();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-  console.log('success 누르면 나오는 마지막 페이지 ^^', successComponentId);
+
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
@@ -27,7 +29,13 @@ const successedProject2 = (props: Props) => {
   }, [nowWidth]);
   return (
     <>
-      <WebBuyerHeader setTabNumber={setTabNumber} tabNumber={tabNumber} />
+      <WebBuyerHeader
+        setOpenSubLink={setOpenSubLink}
+        setTabNumber={setTabNumber}
+        tabNumber={tabNumber}
+        successComponentId={successComponentId}
+        openSubLink={openSubLink}
+      />
       <WebRapper>
         {nowWidth > 1198.7 && (
           <LeftProjectBox

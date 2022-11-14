@@ -99,7 +99,6 @@ const Sort = ({
 
   return (
     <div>
-      {' '}
       <FilterBtnBox>
         {(['bottom'] as const).map((anchor, index) => (
           <React.Fragment key={index}>
@@ -133,6 +132,9 @@ const FilterBtnBox = styled.div`
   justify-content: end;
   position: relative;
   margin-top: 29.25pt;
+  @media (min-width: 899pt) {
+    display: none;
+  }
 `;
 const FilterBtn = styled.div`
   font-size: 9pt;

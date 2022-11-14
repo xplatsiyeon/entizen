@@ -18,49 +18,25 @@ import Loader from 'components/Loader';
 import Sort from './Sort';
 import Search from './Search';
 import Modal from 'components/Modal/Modal';
-import WebSort from './WebSort';
 
 type Props = {
-  searchWord: string;
-  setSearchWord: Dispatch<SetStateAction<string>>;
-  checkedFilterIndex: number;
-  setcheckedFilterIndex: Dispatch<SetStateAction<number>>;
-  checkedFilter: filterType;
-  setCheckedFilter: Dispatch<SetStateAction<filterType>>;
-  keyword: string;
-  data: ReceivedRequest;
+  data?: ReceivedRequest;
 };
 
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
-const RecieveRequest = ({
-  searchWord,
-  setSearchWord,
-  checkedFilterIndex,
-  setcheckedFilterIndex,
-  checkedFilter,
-  setCheckedFilter,
-  keyword,
-  data,
-}: Props) => {
+const RecieveRequestUnder = ({ data }: Props) => {
   const router = useRouter();
+  const [select, setSelect] = useState<number>();
+  console.log(TAG + '🔥 ~ line 45 ~ data check');
+  useEffect(() => {
+    if (router.query.id) {
+      const num = Number(router.query.id);
+      setSelect(num);
+    }
+  }, [router]);
 
   return (
     <>
-      <Sort
-        checkedFilter={checkedFilter}
-        setCheckedFilter={setCheckedFilter}
-        checkedFilterIndex={checkedFilterIndex}
-        setcheckedFilterIndex={setcheckedFilterIndex}
-      />
-      <TopContainer>
-        <Search searchWord={searchWord} setSearchWord={setSearchWord} />
-        <WebSort
-          checkedFilter={checkedFilter}
-          setCheckedFilter={setCheckedFilter}
-          checkedFilterIndex={checkedFilterIndex}
-          setcheckedFilterIndex={setcheckedFilterIndex}
-        />
-      </TopContainer>
       <ContentsContainer>
         {data?.receivedQuotationRequests?.map((el, idx) => (
           <Contents
@@ -70,6 +46,8 @@ const RecieveRequest = ({
                 `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
               )
             }
+            select={select!}
+            idx={idx}
           >
             <DdayNAddress>
               <DdayBox>
@@ -97,20 +75,23 @@ const RecieveRequest = ({
 };
 
 const ContentsContainer = styled.div`
-  margin-top: 18pt;
   @media (min-width: 899pt) {
-    width: 580.5pt;
+    width: 198pt;
+    height: 66pt;
     margin: 0 auto;
+    border-radius: 6pt;
   }
 `;
 
-const Contents = styled.div`
+const Contents = styled.div<{ select: number; idx: number }>`
   padding: 12pt 13.5pt;
   display: flex;
   margin-bottom: 9pt;
   justify-content: space-between;
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
+  border: ${({ select, idx }) =>
+    select === idx ? `0.75pt solid #5221CB` : ''};
   cursor: pointer;
 `;
 
@@ -120,17 +101,6 @@ const DdayBox = styled.div`
 `;
 const DdayNAddress = styled.div`
   position: relative;
-`;
-
-const TopContainer = styled.div`
-  @media (min-width: 899pt) {
-    width: 580.5pt;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
-    margin-top: 60pt;
-    margin-bottom: 30pt;
-  }
 `;
 
 const AddressBox = styled.div`
@@ -156,4 +126,4 @@ const ArrowIconBox = styled.div`
   height: 18pt;
 `;
 
-export default RecieveRequest;
+export default RecieveRequestUnder;

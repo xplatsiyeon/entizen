@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import { useQuery } from 'react-query';
@@ -52,12 +52,15 @@ export interface SentrequestResponse {
   sendQuotationRequests: SendQuotationRequests[];
 }
 const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
-const SentRequest = ({}: Props) => {
+const SendRequestUnder = ({}: Props) => {
   const router = useRouter();
-  const [searchWord, setSearchWord] = useState<string>('');
-  const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
-  const [checkedFilter, setCheckedFilter] =
-    useState<filterType>('마감일순 보기');
+  const [select, setSelect] = useState<number>();
+  useEffect(() => {
+    if (router.query.id) {
+      const num = Number(router.query.id);
+      setSelect(num);
+    }
+  }, [router]);
 
   const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
     'sent-request',
@@ -85,22 +88,6 @@ const SentRequest = ({}: Props) => {
 
   return (
     <>
-      <Sort
-        checkedFilter={checkedFilter}
-        setCheckedFilter={setCheckedFilter}
-        checkedFilterIndex={checkedFilterIndex}
-        setcheckedFilterIndex={setcheckedFilterIndex}
-      />
-      <TopContainer>
-        <Search searchWord={searchWord} setSearchWord={setSearchWord} />
-        <WebSort
-          checkedFilter={checkedFilter}
-          setCheckedFilter={setCheckedFilter}
-          checkedFilterIndex={checkedFilterIndex}
-          setcheckedFilterIndex={setcheckedFilterIndex}
-        />
-      </TopContainer>
-
       <ContentsContainer>
         {data?.sendQuotationRequests?.map((el, index) => (
           <Contents
@@ -110,12 +97,16 @@ const SentRequest = ({}: Props) => {
                 `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
               )
             }
+            select={select!}
+            index={index}
           >
             <DdayNAddress>
               <DdayBox>
                 <CommonBtn
-                  text={el?.badge}
-                  backgroundColor={HandleColor(el?.badge)}
+                  // text={el?.badge}
+                  text={'56566465'}
+                  backgroundColor="red"
+                  // backgroundColor={HandleColor(el?.badge)}
                   bottom={'12pt'}
                 />
               </DdayBox>
@@ -137,13 +128,14 @@ const SentRequest = ({}: Props) => {
 };
 
 const ContentsContainer = styled.div`
-  margin-top: 18pt;
   @media (min-width: 899pt) {
-    width: 580.5pt;
+    width: 198pt;
+    height: 66pt;
     margin: 0 auto;
+    border-radius: 6pt;
   }
 `;
-const Contents = styled.div`
+const Contents = styled.div<{ select: number; index: number }>`
   padding: 12pt 13.5pt;
   display: flex;
   margin-bottom: 9pt;
@@ -151,6 +143,8 @@ const Contents = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
+  border: ${({ select, index }) =>
+    select === index ? `0.75pt solid #5221CB` : ''};
 `;
 const DdayBox = styled.div`
   margin-bottom: 16.5pt;
@@ -190,4 +184,4 @@ const TopContainer = styled.div`
   }
 `;
 
-export default SentRequest;
+export default SendRequestUnder;
