@@ -65,8 +65,8 @@ const RunningProgress = (props: Props) => {
       },
     },
   });
-  console.log(TAG + '🔥 ~line 130 ~내프로젝트 상세페이지 데이터 확인 ');
-  console.log(data);
+  console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
+  console.log(inProgressData);
 
   useEffect(() => {
     console.log('index', router.query.id);
