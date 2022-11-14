@@ -115,11 +115,11 @@ const RunningProgress = (props: Props) => {
             data={inProgressData!}
           />
           {/* 계약서 작성 시 Progress 나와야 됨 */}
-          {/* {openContract ? (
+          {openContract ? (
             <Progress data={inProgressData!} info={data} setData={setData} />
           ) : (
             <UnderBox setOpenContract={setOpenContract} />
-          )} */}
+          )}
         </WebBox>
       </WebRapper>
     </>
