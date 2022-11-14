@@ -84,6 +84,7 @@ const Progress = ({ data, info, setData }: Props) => {
             setProgressNum={setProgressNum}
             state={badgeState}
             planed={info.planed}
+            data={data!}
           />
         )}
         {/* 64 ~ 93 여기까지가 기본 페이지 */}

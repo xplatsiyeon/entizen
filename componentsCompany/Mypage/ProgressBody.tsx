@@ -8,6 +8,7 @@ import UpArrow from 'public/images/smallUpArrow.png';
 import DownArrow from 'public/images/smallDownArrow.png';
 import MessageBox from './MessageBox';
 import colors from 'styles/colors';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 
 type Props = {
   dateArr: boolean[];
@@ -19,6 +20,7 @@ type Props = {
   state: number;
   planed: string[];
   progressNum?: number;
+  data: InProgressProjectsDetailResponse;
 };
 
 const ProgressBody = ({
@@ -31,6 +33,7 @@ const ProgressBody = ({
   progressNum,
   state,
   planed,
+  data,
 }: Props) => {
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -150,7 +153,9 @@ const ProgressBody = ({
             <CircleImgBox>
               <Image
                 src={
-                  presentProgress === 0 ? progressBlueCircle : progressCircle
+                  data?.project?.isCompletedCompanyMemberContractStep
+                    ? progressBlueCircle
+                    : progressCircle
                 }
                 alt="progressCircle"
                 layout="fill"
@@ -183,7 +188,9 @@ const ProgressBody = ({
             <CircleImgBox className="topCircle">
               <Image
                 src={
-                  presentProgress === 1 ? progressBlueCircle : progressCircle
+                  data?.project?.isCompletedReadyStep
+                    ? progressBlueCircle
+                    : progressCircle
                 }
                 alt="progressCircle"
                 layout="fill"
@@ -216,7 +223,7 @@ const ProgressBody = ({
             <ToggleWrapper>
               <MessageBox
                 handleClick={() => setProgressNum(1)}
-                presentProgress={presentProgress === 1 && true}
+                presentProgress={data?.project?.isCompletedReadyStep && true}
                 title={textArr[0]}
                 firstText={'충전기 및 부속품 준비'}
                 secondText={'설계 및 공사계획 신고 등'}
@@ -229,7 +236,9 @@ const ProgressBody = ({
             <CircleImgBox>
               <Image
                 src={
-                  presentProgress === 2 ? progressBlueCircle : progressCircle
+                  data?.project?.isCompletedInstallationStep
+                    ? progressBlueCircle
+                    : progressCircle
                 }
                 alt="progressCircle"
                 layout="fill"
@@ -265,7 +274,9 @@ const ProgressBody = ({
             <ToggleWrapper>
               <MessageBox
                 handleClick={() => setProgressNum(2)}
-                presentProgress={presentProgress === 2 && true}
+                presentProgress={
+                  data?.project?.isCompletedInstallationStep && true
+                }
                 title={textArr[1]}
                 firstText={'충전기 설치 및 배선작업'}
                 secondText={'충전기 시운전 (자체 테스트)'}
@@ -278,7 +289,9 @@ const ProgressBody = ({
             <CircleImgBox>
               <Image
                 src={
-                  presentProgress === 3 ? progressBlueCircle : progressCircle
+                  data?.project?.isCompletedExamStep
+                    ? progressBlueCircle
+                    : progressCircle
                 }
                 alt="progressCircle"
                 layout="fill"
@@ -311,7 +324,7 @@ const ProgressBody = ({
             <ToggleWrapper>
               <MessageBox
                 handleClick={() => setProgressNum(3)}
-                presentProgress={presentProgress === 3 && true}
+                presentProgress={data?.project?.isCompletedExamStep && true}
                 title={textArr[2]}
                 firstText={'검수 및 전기차 충전 테스트 (고객 참관)'}
                 secondText={'한전 계량기 봉인'}
@@ -325,8 +338,9 @@ const ProgressBody = ({
               <Image
                 className="bottomCircle"
                 src={
-                  presentProgress === 4 || presentProgress === 5
-                    ? progressBlueCircle
+                  data?.project?.isCompletedCompletionStep
+                    ? // presentProgress === 4 || presentProgress === 5
+                      progressBlueCircle
                     : progressCircle
                 }
                 alt="progressCircle"
@@ -362,7 +376,9 @@ const ProgressBody = ({
             <ToggleWrapper className="lastBox">
               <MessageBox
                 handleClick={() => setProgressNum(4)}
-                presentProgress={presentProgress === 4 && true}
+                presentProgress={
+                  data?.project?.isCompletedCompletionStep && true
+                }
                 title={textArr[3]}
                 firstText={'사용 전 검사 및 점검'}
                 secondText={'신고 및 사용 승인'}
