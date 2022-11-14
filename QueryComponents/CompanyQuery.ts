@@ -65,6 +65,20 @@ export interface InProgressProjectsDetail {
     };
   };
   userMember: UserMember;
+  isCompletedUserContractStep: boolean;
+  isCompletedCompanyMemberContractStep: boolean;
+  isCompletedReadyStep: boolean;
+  readyStepGoalDate: string;
+  isCompletedInstallationStep: boolean;
+  installationStepGoalDate: string;
+  isCompletedExamStep: boolean;
+  examStepGoalDate: string;
+  isCompletedCompletionStep: boolean;
+  completionStepGoalDate: string;
+  dateOfRequestForConsentToCompleteProject: string;
+  projectCompletionAgreementDate: string;
+  isApprovedByAdmin: boolean;
+  isCancel: boolean;
 }
 
 export interface InProgressProjectsDetailResponse {

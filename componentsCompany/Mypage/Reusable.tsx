@@ -8,10 +8,12 @@ import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
-import { multerApi } from 'api';
+import { isTokenPostApi, multerApi } from 'api';
 import { AxiosError } from 'axios';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { Data } from 'pages/company/mypage/runningProgress/[id]';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
+import { useRouter } from 'next/router';
 
 type Props = {
   textOne: string;
@@ -22,11 +24,13 @@ type Props = {
   beforeFinish?: boolean;
   btnText: string;
   almostFinish?: boolean;
-  setBadgeState: React.Dispatch<React.SetStateAction<number>>;
-  setData: React.Dispatch<React.SetStateAction<Data>>;
-  fin:boolean;
-  planed? : string;
- // setFin: React.Dispatch<React.SetStateAction<boolean>>;
+  fin: boolean;
+  data: InProgressProjectsDetailResponse;
+  planed?: string;
+  stepType: string;
+  // setBadgeState: React.Dispatch<React.SetStateAction<number>>;
+  // setData: React.Dispatch<React.SetStateAction<Data>>;
+  // setFin: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 interface ImgFile {
@@ -48,13 +52,18 @@ const Reusable = ({
   beforeFinish,
   almostFinish,
   btnText,
-  setBadgeState,
-  setData,
-  fin, planed
+  fin,
+  data,
+  planed,
+  stepType,
+}: // setBadgeState,
+// setData,
 
-}: Props) => {
-  console.log(beforeFinish, almostFinish)
-  console.log(planed)
+Props) => {
+  console.log(beforeFinish, almostFinish);
+  console.log(planed);
+  const router = useRouter();
+  const routerId = router?.query?.id;
   // img ref
   const imgRef = useRef<HTMLInputElement>(null);
   // 날짜 변경 모달 오픈
@@ -100,6 +109,15 @@ const Reusable = ({
       }
     },
   });
+  // 프로젝트 각단계 완료처리 API
+  const {
+    mutate: stepMuate,
+    isLoading: stepIsLoading,
+    isError: stepIsError,
+  } = useMutation(isTokenPostApi, {
+    onSuccess: () => {},
+    onError: () => {},
+  });
 
   // 사진 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,13 +155,14 @@ const Reusable = ({
     imgRef?.current?.click();
   };
 
-  // '완료하기' 누른 후 실행되는 함수. 배지를 변경하는 api 호출하기. 
+  // '완료하기' 누른 후 실행되는 함수. 배지를 변경하는 api 호출하기.
   const handleModalRightBtn = () => {
-    setBadgeState((prev)=>prev+1);
-    setData((prev)=>{
-      return {...prev, state:(prev.state+1 === 6? 5:prev.state+1 )}
-    })
-   // setFin(true);
+    stepMuate({
+      url: `/projects/${routerId}/step`,
+      data: {
+        projectStep: stepType,
+      },
+    });
     setTwoBtnModalOpen(false);
   };
   return (
@@ -176,7 +195,9 @@ const Reusable = ({
           <Wrapper>
             <FinishedBox>
               <FinishedFirst>완료 요청일</FinishedFirst>
-              <FinishedDate>{planed?planed:'목표일을 정해주세요'}</FinishedDate>
+              <FinishedDate>
+                {planed ? planed : '목표일을 정해주세요'}
+              </FinishedDate>
               <FinishedText>프로젝트 완료 진행중입니다.</FinishedText>
               <FinishedSecondText>
                 구매자 동의 후 프로젝트가
@@ -197,21 +218,20 @@ const Reusable = ({
             <Box>
               <Top>
                 <div className="expectedDate">
-                  {/* */}
-                  {fin ? '완료일' : '완료 예정일'} 
+                  {fin ? '완료일' : '완료 예정일'}
                 </div>
                 <div className="changeDate" onClick={() => setModalOpen(true)}>
                   일정 변경 요청
                 </div>
               </Top>
-              <Date>{planed?planed:'목표일을 정해주세요'}</Date>
-              <SubTitle>{fin?textOne :textTwo}</SubTitle>
+              <Date>{planed ? planed : '목표일을 정해주세요'}</Date>
+              <SubTitle>{fin ? textOne : textTwo}</SubTitle>
               <ListBox>
                 <li>{textThree}</li>
                 <li>{textFour}</li>
                 {textFive && <li>{textFive}</li>}
               </ListBox>
-            </Box> 
+            </Box>
 
             {/* 완료에서 사진첨부하는곳 보이도록  */}
             {beforeFinish && !almostFinish && (
@@ -257,14 +277,14 @@ const Reusable = ({
                 </PhotosBox>
               </RemainderInputBox>
             )}
-            {!fin?
-            <Button
-              onClick={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
-              beforeFinish={beforeFinish}
-            >
-              {btnText}
-            </Button>
-            :null}
+            {!fin ? (
+              <Button
+                onClick={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
+                beforeFinish={beforeFinish}
+              >
+                {btnText}
+              </Button>
+            ) : null}
           </Wrapper>
         </>
       )}
