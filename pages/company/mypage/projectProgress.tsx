@@ -7,7 +7,7 @@ import ProgressBody from 'componentsCompany/Mypage/ProgressBody';
 import Reusable from 'componentsCompany/Mypage/Reusable';
 import TopBox from 'componentsCompany/Mypage/TopBox';
 import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { Data } from './runningProgress/[id]';
 
@@ -54,6 +54,11 @@ const Progress = ({ data, info, setData }: Props) => {
     setDateArr(copyArr);
   };
 
+  useEffect(() => {
+    console.log('🔥 ~ line 58 ~ 달력 모달 dateOn 데이트 확인');
+    console.log(dateOn);
+  }, [dateOn]);
+
   return (
     <>
       {/* 목표일 설정 */}
@@ -62,7 +67,7 @@ const Progress = ({ data, info, setData }: Props) => {
           selectedDays={selectedDays}
           SetSelectedDays={SetSelectedDays}
           exit={handleExit}
-          stepType={stepTypeType[progressNum - 1]}
+          stepType={stepTypeType[dateOn.indexOf(true)]}
           //info.planed 배열 필터로 교체하는 함수 추가.
         />
       )}
