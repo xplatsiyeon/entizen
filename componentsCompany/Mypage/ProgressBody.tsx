@@ -265,7 +265,7 @@ const ProgressBody = ({
                   {data?.project?.installationStepGoalDate}
                 </PickedDate>
               ) : (
-                <SetDate id="prepareDate" onClick={handleDateModal}>
+                <SetDate id="installDate" onClick={handleDateModal}>
                   목표일
                 </SetDate>
               )}
@@ -317,7 +317,7 @@ const ProgressBody = ({
                   {data?.project?.examStepGoalDate}
                 </PickedDate>
               ) : (
-                <SetDate id="prepareDate" onClick={handleDateModal}>
+                <SetDate id="inspectionDate" onClick={handleDateModal}>
                   목표일
                 </SetDate>
               )}
@@ -372,7 +372,7 @@ const ProgressBody = ({
                   {data?.project?.completionStepGoalDate}
                 </PickedDate>
               ) : (
-                <SetDate id="prepareDate" onClick={handleDateModal}>
+                <SetDate id="successDate" onClick={handleDateModal}>
                   목표일
                 </SetDate>
               )}
