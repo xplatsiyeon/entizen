@@ -48,6 +48,7 @@ const successedProject = (props: Props) => {
       {successComponentId !== undefined && (
         <>
           <WebBuyerHeader
+            setOpenSubLink={setOpenSubLink}
             setTabNumber={setTabNumber}
             tabNumber={tabNumber}
             successComponentId={successComponentId}
