@@ -82,7 +82,8 @@ const Progress = ({ data, info, setData }: Props) => {
             presentProgress={info.state}
             progressNum={progressNum}
             setProgressNum={setProgressNum}
-            state={badgeState}
+            // state={data?.project?.badge!}
+            state={info.state}
             planed={info.planed}
             data={data!}
           />
