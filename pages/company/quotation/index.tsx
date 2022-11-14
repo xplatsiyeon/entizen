@@ -151,10 +151,12 @@ const CompanyQuotations = ({ num, now }: Props) => {
   return (
     <>
       <Container>
-        <Header />
         {/* 모바일탭  */}
         {nowWidth < 1198.7 && (
-          <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
+          <>
+            <Header />
+            <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
+          </>
         )}
         {/* 웹일때 보이는 헤더 */}
         <WebBuyerHeader
@@ -165,18 +167,6 @@ const CompanyQuotations = ({ num, now }: Props) => {
           openSubLink={openSubLink}
           setOpenSubLink={setOpenSubLink}
         />
-        {nowUrl !== true && (
-          <LeftProjectQuotationBox
-            setTabNumber={setTabNumber}
-            tabNumber={tabNumber}
-            getComponentId={getComponentId}
-            setGetComponentId={setGetComponentId}
-            setSendComponentId={setSendComponentId}
-            sendComponentId={sendComponentId}
-            setHistoryComponentId={setHistoryComponentId}
-            historyComponentId={historyComponentId}
-          />
-        )}
         <div>{components[tabNumber]}</div>
       </Container>
       <BottomNavigation />

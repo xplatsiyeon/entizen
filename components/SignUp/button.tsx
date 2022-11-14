@@ -63,6 +63,11 @@ const ButtonBox = styled.div<{ propsGet?: boolean }>`
       box-sizing: border-box;
       width: 100%;
     `}
+  @media(min-width:899pt) {
+    width: 580.5pt;
+    position: relative;
+    padding-top: 90pt;
+  }
 `;
 
 const Button = styled.button<{
@@ -82,8 +87,8 @@ const Button = styled.button<{
   color: white;
   background-color: ${({ isClick }) => (isClick ? '#5a2dc9' : '#E2E5ED')};
   cursor: ${({ isClick }) => isClick && 'pointer'};
-  
+
   @media (max-width: 899pt) {
-  margin-top: ${({ marginTop }) => marginTop && marginTop}pt;
+    margin-top: ${({ marginTop }) => marginTop && marginTop}pt;
   }
 `;

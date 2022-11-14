@@ -619,6 +619,12 @@ const SecondStep = ({
   );
 };
 
+const WebRapper = styled.div`
+  @media (min-width: 899pt) {
+    border: 0.75pt solid red;
+  }
+`;
+
 const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
@@ -630,7 +636,6 @@ const SecondWrapper = styled.div`
   padding-right: 15pt;
   box-sizing: border-box;
   margin-top: 30pt;
-
   padding-bottom: 58.6875pt;
 `;
 const TopStep = styled.div`

@@ -22,6 +22,7 @@ type Props = {
   componentId?: number;
   successComponentId?: number;
   openSubLink: boolean;
+  getComponentId?: number;
   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
 };
 

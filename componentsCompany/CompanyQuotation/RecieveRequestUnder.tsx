@@ -21,29 +21,14 @@ import Modal from 'components/Modal/Modal';
 import WebSort from './WebSort';
 
 type Props = {
-  searchWord: string;
-  setSearchWord: Dispatch<SetStateAction<string>>;
-  checkedFilterIndex: number;
-  setcheckedFilterIndex: Dispatch<SetStateAction<number>>;
-  checkedFilter: filterType;
-  setCheckedFilter: Dispatch<SetStateAction<filterType>>;
-  keyword: string;
-  data: ReceivedRequest;
+  data?: ReceivedRequest;
 };
 
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
-const RecieveRequest = ({
-  searchWord,
-  setSearchWord,
-  checkedFilterIndex,
-  setcheckedFilterIndex,
-  checkedFilter,
-  setCheckedFilter,
-  keyword,
-  data,
-}: Props) => {
+const RecieveRequestUnder = ({ data }: Props) => {
   const router = useRouter();
   console.log(TAG + '🔥 ~ line 45 ~ data check');
+  console.log(data, '받은 요청이라네');
 
   // const [searchWord, setSearchWord] = useState<string>('');
   // const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
@@ -85,23 +70,9 @@ const RecieveRequest = ({
   // useEffect(() => {
   //   refetch();
   // }, [checkedFilterIndex, keyword]);
+
   return (
     <>
-      <Sort
-        checkedFilter={checkedFilter}
-        setCheckedFilter={setCheckedFilter}
-        checkedFilterIndex={checkedFilterIndex}
-        setcheckedFilterIndex={setcheckedFilterIndex}
-      />
-      <TopContainer>
-        <Search searchWord={searchWord} setSearchWord={setSearchWord} />
-        <WebSort
-          checkedFilter={checkedFilter}
-          setCheckedFilter={setCheckedFilter}
-          checkedFilterIndex={checkedFilterIndex}
-          setcheckedFilterIndex={setcheckedFilterIndex}
-        />
-      </TopContainer>
       <ContentsContainer>
         {/* {data?.receivedQuotationRequests?.map((el, idx) => ( */}
         {[1, 1, 1, 1].map((el, idx) => (
@@ -141,9 +112,9 @@ const RecieveRequest = ({
 };
 
 const ContentsContainer = styled.div`
-  margin-top: 18pt;
   @media (min-width: 899pt) {
-    width: 580.5pt;
+    width: 198pt;
+    height: 66pt;
     margin: 0 auto;
   }
 `;
@@ -164,17 +135,6 @@ const DdayBox = styled.div`
 `;
 const DdayNAddress = styled.div`
   position: relative;
-`;
-
-const TopContainer = styled.div`
-  @media (min-width: 899pt) {
-    width: 580.5pt;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
-    margin-top: 60pt;
-    margin-bottom: 30pt;
-  }
 `;
 
 const AddressBox = styled.div`
@@ -200,4 +160,4 @@ const ArrowIconBox = styled.div`
   height: 18pt;
 `;
 
-export default RecieveRequest;
+export default RecieveRequestUnder;

@@ -1,29 +1,27 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import Nut from 'public/images/Nut.svg';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
-import BottomNavigation from 'components/BottomNavigation';
 import NoProject from 'componentsCompany/Mypage/NoProject';
-import WebProjectInProgressUnder from 'componentsCompany/Mypage/WebProjectInProgressUnder';
-
 import useProfile from 'hooks/useProfile';
-import WebFinishedProjectsUnder from 'componentsCompany/Mypage/WebFinishedProjectsUnder';
+import RecieveRequestUnder from './RecieveRequestUnder';
+import {
+  filterType,
+  filterTypeEn,
+  ReceivedRequest,
+} from 'pages/company/quotation';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
 
 type Props = {
-  num?: number;
-  now?: string;
-  setGetComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
-  getComponentId?: number;
-  setSendComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
-  sendComponentId?: number;
-  setHistoryComponentId?: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
-  historyComponentId?: number;
-  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
-  tabNumber: number;
+  searchWord?: string;
+  setSearchWord?: Dispatch<SetStateAction<string>>;
+  checkedFilterIndex?: number;
+  setcheckedFilterIndex?: Dispatch<SetStateAction<number>>;
+  checkedFilter?: filterType;
+  setCheckedFilter?: Dispatch<SetStateAction<filterType>>;
+  keyword?: string;
 };
 
 interface Components {
@@ -84,26 +82,40 @@ const tempProceeding: Data[] = [
 ];
 
 const LeftProjectQuotationBox = ({
-  getComponentId,
-  setGetComponentId,
-  tabNumber,
-  setTabNumber,
-  sendComponentId,
-  setSendComponentId,
-  historyComponentId,
-  setHistoryComponentId,
+  searchWord,
+  setSearchWord,
+  checkedFilterIndex,
+  setcheckedFilterIndex,
+  checkedFilter,
+  setCheckedFilter,
+  keyword,
 }: Props) => {
   const route = useRouter();
   const [userName, setUserName] = useState<string>('윤세아');
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
-  const TabType: string[] = ['받은 요청', '보낸 견적', '히스토리'];
+  const [tab, setTab] = useState<string>('');
+  const [underNum, setUnderNum] = useState<number>();
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
   };
+
+  // api 호출
+  const { data, isError, error, refetch } = useQuery<ReceivedRequest>(
+    'received-request',
+    () =>
+      isTokenGetApi(
+        `/quotations/received-request?keyword=${keyword}&sort=${
+          filterTypeEn[checkedFilterIndex!]
+        }`,
+      ),
+    {
+      enabled: false,
+    },
+  );
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -112,9 +124,15 @@ const LeftProjectQuotationBox = ({
     };
   }, [nowWidth]);
 
+  useEffect(() => {
+    if (route.pathname === '/company/recievedRequest/[id]') {
+      setTab('받은 요청');
+      setUnderNum(0);
+    }
+  }, [route]);
+
   const webComponents: Components = {
-    0: <WebProjectInProgressUnder tabNumber={tabNumber} />,
-    1: <WebFinishedProjectsUnder tabNumber={tabNumber} />,
+    0: <RecieveRequestUnder data={data} />,
   };
 
   if (tempProceeding.length === 0) {
@@ -126,62 +144,16 @@ const LeftProjectQuotationBox = ({
       <Wrapper>
         <Header>
           <span>
-            <h1>{`${profile?.name}님,`}</h1>
-            <h2>안녕하세요!</h2>
+            <h1>{tab}</h1>
           </span>
-          <div className="img" onClick={() => route.push('/setting')}>
-            <Image src={Nut} alt="nut-icon" />
-          </div>
         </Header>
-        <Body>
-          <span
-            className="profile-icon"
-            onClick={() => route.push('profile/editing')}
-          >
-            프로필 변경
-          </span>
-          <Line />
-          <MobileTabContainer>
-            {TabType.map((tab, index) => (
-              <TabItem
-                key={index}
-                tab={tabNumber?.toString()!}
-                index={index.toString()}
-                onClick={() => setTabNumber(index)}
-              >
-                {tab}
-                <Dot tab={tabNumber.toString()} index={index.toString()} />
-              </TabItem>
-            ))}
-          </MobileTabContainer>
-          <WebTabContainer>
-            {TabType.map((tab, index) => (
-              <TabItem
-                key={index}
-                tab={tabNumber?.toString()!}
-                index={index.toString()}
-                onClick={() => {
-                  if (nowWidth < 1198.7) {
-                    setTabNumber(index);
-                  }
-                }}
-              >
-                {tab}
-                <Dot tab={tabNumber.toString()} index={index.toString()} />
-              </TabItem>
-            ))}
-          </WebTabContainer>
-        </Body>
-        <BottomNavigation />
-        <div> {webComponents[tabNumber]}</div>
+        <div> {webComponents[underNum!]}</div>
       </Wrapper>
     </>
   );
 };
 
 const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
   @media (min-width: 899pt) {
     width: 255pt;
     height: 424.5pt;
@@ -192,12 +164,11 @@ const Wrapper = styled.div`
 
 const Header = styled.header`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 21pt 15pt 0 15pt;
+  width: 198pt;
+  margin: 27pt auto;
   & h1 {
     font-weight: 700;
-    font-size: 21pt;
+    font-size: 15pt;
     line-height: 27pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
