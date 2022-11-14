@@ -4,67 +4,69 @@ import { useState } from "react";
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from "next/image";
 
-const PlaceInfo =()=>{
+const PlaceInfo = () => {
 
-    const [idx ,setIdx] = useState<number>(1)
+  const [idx, setIdx] = useState<number>(1)
 
-    const handleNum = ()=>{
-      if(idx === 1){
-        setIdx(2)
-      }else{
-        setIdx(1)
-      }
+  const handleNum = () => {
+    if (idx === 1) {
+      setIdx(2)
+    } else {
+      setIdx(1)
     }
-    return(
-        <Wrapper>
+  }
+  return (
+    <Wrapper>
 
       <DownArrowBox>
         <Image src={DoubleArrow} alt="double-arrow" />
       </DownArrowBox>
 
-        <Contents>
-            <Partner>파트너 정보</Partner>
-            <div className="text-box">
-              <span className="name">회사명</span>
-              <span className="text">Charge Point</span>
-            </div>
-            <div className="text-box">
-              <span className="name">담당자</span>
-              <span className="text">윤세아</span>
-            </div>
-            <div className="text-box">
-              <span className="name">이메일</span>
-              <span className="text emailText">sayoon@LS-CaaS.com</span>
-            </div>
-            <div className="text-box">
-              <span className="name">연락처</span>
-              <span className="text phone">010-3522-2250</span>
-            </div>
-          </Contents>
+      {/* 데이터 하드코딩*/}
+      <Contents>
+        <Partner>파트너 정보</Partner>
+        <div className="text-box">
+          <span className="name">회사명</span>
+          <span className="text">Charge Point</span>
+        </div>
+        <div className="text-box">
+          <span className="name">담당자</span>
+          <span className="text">윤세아</span>
+        </div>
+        <div className="text-box">
+          <span className="name">이메일</span>
+          <span className="text emailText">sayoon@LS-CaaS.com</span>
+        </div>
+        <div className="text-box">
+          <span className="name">연락처</span>
+          <span className="text phone">010-3522-2250</span>
+        </div>
+      </Contents>
 
-        <FileBox>
+      <FileBox>
 
-        </FileBox>
+      </FileBox>
 
-        <>       
+      <>
         <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
-          <FinishedPhotoBox>
 
+        {/* 사진이 들어갈 공간*/}
+        <FinishedPhotoBox>
           <Index onClick={handleNum}>
             {idx}/2
           </Index>
-          </FinishedPhotoBox>
-        </>
+        </FinishedPhotoBox>
+      </>
 
       <Wrap>
 
-      <CommunicationBox
-        text="파트너와 소통하기"
-        clickHandler={() => alert('개발중입니다.')}
-      />
+        <CommunicationBox
+          text="파트너와 소통하기"
+          clickHandler={() => alert('개발중입니다.')}
+        />
       </Wrap>
-        </Wrapper>
-    )
+    </Wrapper>
+  )
 }
 
 export default PlaceInfo;
@@ -112,10 +114,10 @@ const Contents = styled.div`
   }
   `
 
-  const FileBox =styled.div`
+const FileBox = styled.div`
     
   `
-  const FinishedPhotoText = styled.div`
+const FinishedPhotoText = styled.div`
   font-family: Spoqa Han Sans Neo;
   font-size: 10.5pt;
   font-weight: 700;

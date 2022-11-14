@@ -1,9 +1,6 @@
 
 
 
-
-// 0: 구독종료 D-100일 이상 , 1: 구독종료 D-99일 이하 31일 이상, 2: 구독종료 D-30일 이하, 3: 구독종료, 4: 구독시작 D-n
-
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { handleColor2 } from "utils/changeValue";
@@ -15,6 +12,12 @@ export interface testArr {
     storeName: string;
     date: string;
   }
+
+  // 0: 구독종료 D-100일 이상 , 
+  // 1: 구독종료 D-99일 이하 31일 이상, 
+  // 2: 구독종료 D-30일 이하, 
+  // 3: 구독종료, 
+  // 4: 구독시작 D-n
 
   const tempProceeding : testArr[] = [
     {
@@ -49,6 +52,7 @@ const Charging = ()=>{
             return(
                 <ProjectBox key={idx} onClick={()=>handleRoute(idx)}>
                     <CommonBtn
+                      /* badge의 값이 4인 데이터만 '구독시작' 이다. 나머지는 '구독종료' */
                       text={t.badge === 4?`구독시작 ${t.date}` : `구독종료 ${t.date}`}
                       backgroundColor={handleColor2(t.badge)}
                       bottom={'12pt'}

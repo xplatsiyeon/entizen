@@ -117,6 +117,7 @@ const AsRequestWrite = (props: Props) => {
     }
 
     setImgValidation(true);
+    e.target.value ='';
   };
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
