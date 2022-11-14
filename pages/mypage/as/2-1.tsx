@@ -1,31 +1,34 @@
-import AsRequest from 'components/mypage/as/AsRequest';
-import AsRequestFooter from 'components/mypage/as/AsRequestFooter';
-import AsRequestPartner from 'components/mypage/as/AsRequestPartner';
-import AsRequestReviewBtn from 'components/mypage/as/AsRequestReviewBtn';
-import React from 'react';
+import styled from '@emotion/styled';
+import Mypage2_1 from 'components/mypage/request/2-1';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
-import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 
-type Props = {};
+const Mypage2 = () => {
+const router = useRouter();
 
-// 리뷰 작성하기
-
-const AsGoReviewPage = (props: Props) => {
   return (
     <Body>
-      <WebHeader />
+      <WebHeader num={2} now={'mypage'} />
       <Inner>
         <FlexBox>
           <Wrap1>
             <RequestMain page={2} />
           </Wrap1>
           <Wrap2>
-            <AsRequest />
-            <AsRequestPartner />
-            <AsRequestFooter />
-            <AsRequestReviewBtn />
+            <Wrapper>
+              <Input/>
+              {
+                [].map((a,idx)=>{
+                  return(
+                    <div key={idx} onClick={()=>router.push('')}>
+                    </div>
+                  )
+                })
+              }
+              <Btn><span>A/S요청하기</span></Btn>
+            </Wrapper>
           </Wrap2>
         </FlexBox>
       </Inner>
@@ -34,7 +37,7 @@ const AsGoReviewPage = (props: Props) => {
   );
 };
 
-export default AsGoReviewPage;
+export default Mypage2;
 
 const Body = styled.div`
   display: flex;
@@ -55,7 +58,7 @@ const Body = styled.div`
 const Inner = styled.div`
   display: block;
   position: relative;
-  margin: 45.75pt auto 0;
+  margin: 45.75pt auto;
   width: 900pt;
   //width: 281.25pt;
 
@@ -92,3 +95,28 @@ const Wrap2 = styled.div`
     padding-left: 0pt;
   }
 `;
+
+const Wrapper = styled.div`
+  padding-bottom: 91.5pt;
+  position: relative;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 33pt;
+border: 2px solid #5221CB;
+box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+border-radius: 8px;
+`
+
+const Btn = styled.button`
+  border: none;
+  background: #5221CB;
+  color: white;
+  padding: 15pt 93pt;
+  border-radius: 6pt;
+  position: absolute;
+  left: 50%;
+  margin-top: 75pt;
+  transform: translateX(-50%);
+`

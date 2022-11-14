@@ -21,7 +21,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
   return (
     <Container>
       <MypageHeader
-        title={'내 리뷰 보기'}
+        title={'A/S 리뷰 보기'}
         exitBtn={true}
         handleOnClick={handleOnClick}
       />
@@ -103,6 +103,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
   );
 };
 const Container = styled.div`
+  width: 100%;
   height: 100%;
   background-color: #ffffff;
   top: 0;

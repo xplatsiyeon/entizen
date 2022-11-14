@@ -38,7 +38,7 @@ const ChargingPlace = () => {
 
   const [index, setIndex] = useState<number>();
 
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(true); //리뷰 쓰기/보기 버튼 클릭 시.
 
   useEffect(() => {
     if (router.query.id) {
@@ -50,19 +50,23 @@ const ChargingPlace = () => {
     <>
       {typeof (index) !== 'undefined' ?
         <Wrap>
-          <MypageHeader back={true} title={'내 충전소'} />
+          <HeaderWrap>
+            <MypageHeader back={true} title={!open ? '내 충전소' : '내 충전소 리뷰보기'} />
+          </HeaderWrap>
           <PlaceTopBox data = {tempProceeding[index]}/>
 
           {open ?
-            <>
+            <> {/* 계약 관련 정보가 적힌 컴포넌트 */}
               <PlaceInfo />
               <Btn onClick={() => setOpen(!open)}>
                 <span>
+                  {/* 작성된 리뷰 여부 */}
                   {tempProceeding[index].review ? '리뷰보기' : '리뷰쓰기'}
                 </span>
               </Btn>
             </>
             : <>
+            {/* 리뷰 여부와 리뷰 점수 전달. */}
               <PlaceReview review={tempProceeding[index].review} score={tempProceeding[index].score} />
             </>}
         </Wrap>
@@ -77,6 +81,9 @@ export default ChargingPlace;
 const Wrap = styled.div`
     margin: 0 15pt;
     position: relative;
+`
+const HeaderWrap =styled.div`
+  margin-left: -15pt;
 `
 
 const Btn = styled.button`
