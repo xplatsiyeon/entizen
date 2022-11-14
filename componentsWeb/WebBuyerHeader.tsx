@@ -242,7 +242,6 @@ const Wrapper = styled.div`
   border-bottom: 1px solid #e9eaee;
   background: #ffff;
   box-sizing: border-box;
-
   @media (max-width: 899pt) {
     display: none;
   }

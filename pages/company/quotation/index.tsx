@@ -187,4 +187,5 @@ const WebRapper = styled.div`
     justify-content: space-between;
   }
 `;
+
 export default CompanyQuotations;

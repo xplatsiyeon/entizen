@@ -123,13 +123,21 @@ const DownArrowBox = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 21pt;
+  display: none;
+  @media (max-width: 899pt) {
+    display: block;
+    text-align: center;
+  }
 `;
 
 const ReviewTitleBox = styled.div`
-  margin-top: 37.5pt;
+  margin-top: 0;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  @media (max-width: 899pt) {
+  margin-top: 37.5pt;
+  }
 `;
 
 const ReviewTitle = styled(Typography)`
@@ -181,7 +189,11 @@ const BtnBox = styled.div`
   bottom: 0;
   display: flex;
   gap: 11.25pt;
+  padding-bottom: 0pt;
+  @media (max-width: 899pt) {
   padding-bottom: 30pt;
+  }
+  
 `;
 
 const RightBtn = styled.button<{ checkedRequired: boolean }>`
@@ -212,23 +224,5 @@ const LeftBtn = styled.button`
   text-align: center;
 `;
 
-const Btn = styled.button`
-  width: 100%;
-  background-color: ${colors.main};
-  padding: 15pt 0;
-  border-radius: 6pt;
-  position: absolute;
-  bottom: 30pt;
-  span{
-    color:white;
-font-family: 'Spoqa Han Sans Neo';
-font-style: normal;
-font-weight: 700;
-font-size: 12pt;
-line-height: 12pt;
-text-align: center;
-letter-spacing: -0.02em;
-  }
-`
 
 export default AsRequestWriteReview;

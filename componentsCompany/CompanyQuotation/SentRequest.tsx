@@ -91,13 +91,16 @@ const SentRequest = ({}: Props) => {
         checkedFilterIndex={checkedFilterIndex}
         setcheckedFilterIndex={setcheckedFilterIndex}
       />
-      <Search searchWord={searchWord} setSearchWord={setSearchWord} />
-      <WebSort
-        checkedFilter={checkedFilter}
-        setCheckedFilter={setCheckedFilter}
-        checkedFilterIndex={checkedFilterIndex}
-        setcheckedFilterIndex={setcheckedFilterIndex}
-      />
+      <TopContainer>
+        <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+        <WebSort
+          checkedFilter={checkedFilter}
+          setCheckedFilter={setCheckedFilter}
+          checkedFilterIndex={checkedFilterIndex}
+          setcheckedFilterIndex={setcheckedFilterIndex}
+        />
+      </TopContainer>
+
       <ContentsContainer>
         {/* {data?.sendQuotationRequests?.map((el, index) => ( */}
         {[1, 1, 1, 1].map((el, index) => (
@@ -113,7 +116,7 @@ const SentRequest = ({}: Props) => {
               <DdayBox>
                 <CommonBtn
                   // text={el?.badge}
-                  text={'테스트'}
+                  text={'56566465'}
                   backgroundColor="red"
                   // backgroundColor={HandleColor(el?.badge)}
                   bottom={'12pt'}
@@ -178,6 +181,16 @@ const IconBox = styled.div`
 const ArrowIconBox = styled.div`
   width: 18pt;
   height: 18pt;
+`;
+const TopContainer = styled.div`
+  @media (min-width: 899pt) {
+    width: 580.5pt;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-top: 60pt;
+    margin-bottom: 30pt;
+  }
 `;
 
 export default SentRequest;

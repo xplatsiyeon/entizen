@@ -17,7 +17,11 @@ const PlaceReview = ({review, score} : Props)=> {
 
 const reviewPoint = ['친절함','신속함','전문성','만족도'];
 
+{/* 받은 데이터에 review 여부에 따라 리턴되는 태그가 다름.  */}
 if (review){
+
+// rivew, score 값이 있으면, 각 score 값에 맞게 체크된 배열이 만들어진다. 
+// ex) 친절함 :4  -> [true, true, true, true, false] 
 let checked = reviewPoint.map((r, idx)=>{
     let temp =[];
     for(let i=0; i < 5; i++){
@@ -30,12 +34,13 @@ let checked = reviewPoint.map((r, idx)=>{
 
     return(
         <>
-
       <DownArrowBox>
         <Image src={DoubleArrow} alt="double-arrow" />
       </DownArrowBox>
         <RatingForm>
             {reviewPoint.map((r,idx)=>{
+              
+              // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸. 
                 return (
                 <RBarBox key={idx} >
                     <Title>{r}</Title>
@@ -57,6 +62,8 @@ let checked = reviewPoint.map((r, idx)=>{
         </>
     )
 }else{
+
+  {/* review 가 없으면, 리뷰 쓰기 컴포넌트를 리턴. */}
   const router = useRouter();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -89,6 +96,9 @@ const RatingForm = styled.div`
   flex-direction: column;
   gap: 6pt;
   width: 100%;
+  position: absolute;
+  background: white;
+  top: 25pt;
 `;
 
 const RBarBox = styled.div`

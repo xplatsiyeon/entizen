@@ -1085,7 +1085,7 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   padding: 15pt 0 39pt 0;
   cursor: pointer;
   @media (min-width: 899pt) {
-    padding: 10pt 0 20pt 0;
+    padding: 15pt 0 15pt 0;
     border-radius: 6pt;
     margin-left: 12pt;
   }
@@ -1103,7 +1103,7 @@ const PrevBtn = styled.div`
   cursor: pointer;
   padding: 15pt 0 39pt 0;
   @media (min-width: 899pt) {
-    padding: 10pt 0 20pt 0;
+    padding: 15pt 0 15pt 0;
     border-radius: 6pt;
   }
 `;

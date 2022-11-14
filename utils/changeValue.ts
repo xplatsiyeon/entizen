@@ -80,3 +80,24 @@ export const handleColor2 = (badge: number) => {
     return '';
   }
 };
+
+
+/**
+ * A/S 전용 뱃지 컬러 (구매자)
+ * @param badge
+ * @returns
+ */
+
+export const handleColorAS = (num :number) =>{
+  if(num === 0) {
+    return '#F75015';
+  }else if(num === 1){
+    return '#5221CB'
+  }else if(num === 2){
+    return '#FFC043'
+  }else if(num === 3){
+    return '#222222'
+  }else{
+    return '';
+  }
+}

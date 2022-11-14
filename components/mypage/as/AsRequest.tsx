@@ -2,52 +2,31 @@ import React, { useEffect } from 'react';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
-import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
 import { useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
 import MypageHeader from '../request/header';
-import { useRouter } from 'next/router';
 import CommonBtns from './CommonBtns';
+import { handleColorAS } from 'utils/changeValue';
 
-type Props = {};
+type Props = {
+  id?:number
+};
 
-const AsRequest = (props: Props) => {
+const AsRequest = ({id}: Props) => {
+ // alert(id)
   const [open, setOpen] = useState<boolean>(false);
-  const [text, setText] = useState<string>('');
-  const router = useRouter();
-  useEffect(() => {
-    if (router.pathname.includes('1-1')) {
-      setText('접수요청 D-3');
-    }
-    if (router.pathname.includes('asGoReview')) {
-      setText('완료대기');
-    }
-    if (router.pathname.includes('asReviewEnd')) {
-      setText('A/S완료');
-    }
-  }, [router]);
-  console.log(router);
-
   const handleClick = () => setOpen(!open);
 
   return (
-    <>
+    <Body>
       <MypageHeader title={'A/S'} back={true} />
       <Wrapper>
         {/* Close */}
         <ItemButton onClick={handleClick}>
           <StoreName>
-            {text === '접수요청 D-3' && (
-              <CommonBtns text={'접수요청 D-3'} backgroundColor={'#F75015'} />
-            )}
-            {text === '완료대기' && (
-              <CommonBtns text={'완료대기'} backgroundColor={'#FFC043'} />
-            )}
-            {text === 'A/S완료' && (
-              <CommonBtns text={'A/S완료'} backgroundColor={'#222222'} />
-            )}
+              {id?<CommonBtns text={'A/S'} backgroundColor={handleColorAS(id)} />:null}
             <div>
               <h1>LS 카페 신림점</h1>
               {open ? (
@@ -104,11 +83,18 @@ const AsRequest = (props: Props) => {
           </List>
         </Collapse>
       </Wrapper>
-    </>
+    </Body>
   );
 };
 
 export default AsRequest;
+
+const Body = styled.div`
+  display: none;
+  @media (max-width: 899pt) {
+    display: block;
+  }
+`
 
 const Wrapper = styled.div`
   display: block;

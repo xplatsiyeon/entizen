@@ -13,6 +13,7 @@ import {
 } from 'pages/company/quotation';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
+import SendRequestUnder from './SendRequestUnder';
 
 type Props = {
   searchWord?: string;
@@ -128,11 +129,15 @@ const LeftProjectQuotationBox = ({
     if (route.pathname === '/company/recievedRequest/[id]') {
       setTab('받은 요청');
       setUnderNum(0);
+    } else if (route.pathname === '/company/sentProvisionalQuotation/[id]') {
+      setTab('보낸 견적');
+      setUnderNum(1);
     }
   }, [route]);
 
   const webComponents: Components = {
     0: <RecieveRequestUnder data={data} />,
+    1: <SendRequestUnder />,
   };
 
   if (tempProceeding.length === 0) {

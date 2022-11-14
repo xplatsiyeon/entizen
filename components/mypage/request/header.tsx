@@ -100,5 +100,6 @@ const Header = styled.div`
   }
   @media (max-width: 899pt) {
     display: flex;
+    align-content: center;
   }
 `;

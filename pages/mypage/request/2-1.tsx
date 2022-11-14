@@ -50,6 +50,8 @@ const Mypage2 = ({ data }: any) => {
               />
               {/* <EstimateContainer /> */}
 
+              
+
               <Mypage2_1 />
             </Wrapper>
           </Wrap2>
