@@ -67,7 +67,7 @@ const Progress = ({ data, info, setData }: Props) => {
           selectedDays={selectedDays}
           SetSelectedDays={SetSelectedDays}
           exit={handleExit}
-          stepType={stepTypeType[dateOn.indexOf(true)]}
+          stepType={stepTypeType[dateArr.indexOf(true)]}
           //info.planed 배열 필터로 교체하는 함수 추가.
         />
       )}
