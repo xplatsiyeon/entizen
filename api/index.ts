@@ -10,8 +10,8 @@ interface PropsApi {
   data?: any;
 }
 
-const BASE_URL = '/api';
-// const BASE_URL = 'https://test-api.entizen.kr/api';
+const BASE_URL = 'https://test-api.entizen.kr/api';
+// const BASE_URL = '/api';
 
 // API 호출 (토큰 O)
 export const isTokenApi = async (apiInfo: ApiProps) => {
