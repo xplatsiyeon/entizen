@@ -12,14 +12,28 @@ import LeftArrow from 'public/mypage/left-arrow.png';
 import RightArrow from 'public/mypage/right-arrow.png';
 import Image from 'next/image';
 import { css } from '@emotion/react';
+import { useMutation } from 'react-query';
+import { isTokenPatchApi } from 'api';
+import { useRouter } from 'next/router';
+import Loader from 'components/Loader';
 
 interface Props {
   selectedDays: string;
   SetSelectedDays: Dispatch<SetStateAction<string>>;
   exit: () => void;
+  stepType: string;
+  setModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const ChangeDateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
+const ChangeDateModal = ({
+  selectedDays,
+  SetSelectedDays,
+  exit,
+  stepType,
+  setModalOpen,
+}: Props) => {
+  const router = useRouter();
+  const routerId = router?.query?.id;
   const outside = useRef(null);
   const today = {
     year: new Date().getFullYear(), //오늘 연도
@@ -31,6 +45,27 @@ const ChangeDateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
   const [selectedYear, setSelectedYear] = useState(today.year); //현재 선택된 연도
   const [selectedMonth, setSelectedMonth] = useState(today.month); //현재 선택된 달
   const dateTotalCount = new Date(selectedYear, selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
+  // textArea 내용
+  const [contents, setContents] = useState('');
+  // 모달 메세지
+  const [isModal, setIsModal] = useState(false);
+  const [ModalMessage, setModalMessage] = useState('');
+
+  const { mutate: goalMutate, isLoading } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {
+      setModalOpen(false);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setModalMessage(error.response.data.message);
+        setIsModal(true);
+      } else {
+        setModalMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+
   //이전 달 보기 보튼
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
@@ -116,6 +151,21 @@ const ChangeDateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
       SetSelectedDays(selectedDate);
     }
   };
+  // Text area 값 변경
+  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContents(e.currentTarget.value);
+  };
+  // 목표일 변경
+  const onClickGoalDate = () => {
+    goalMutate({
+      url: `/projects/${routerId}/goal-date`,
+      data: {
+        projectStep: stepType,
+        changedReason: contents,
+        goalDate: selectedDays?.replaceAll('.', '-'),
+      },
+    });
+  };
 
   useEffect(() => {
     console.log(selectedDays);
@@ -127,6 +177,10 @@ const ChangeDateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
       exit();
     }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <Container ref={outside} onClick={(e) => handleModalClose(e)}>
       <Wrapper>
@@ -147,8 +201,12 @@ const ChangeDateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
         <TextareaSubTitle>
           일정이 변경되는 이유를 간단히 작성해주세요.
         </TextareaSubTitle>
-        <TextArea rows={3} placeholder="간단하게 작성해주세요!" />
-        <Button>선택한 날짜로 입력하기</Button>
+        <TextArea
+          rows={3}
+          placeholder="간단하게 작성해주세요!"
+          onChange={onChangeTextArea}
+        />
+        <Button onClick={onClickGoalDate}>선택한 날짜로 입력하기</Button>
       </Wrapper>
     </Container>
   );

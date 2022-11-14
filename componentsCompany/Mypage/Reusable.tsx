@@ -115,7 +115,9 @@ Props) => {
     isLoading: stepIsLoading,
     isError: stepIsError,
   } = useMutation(isTokenPostApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      setTwoBtnModalOpen(false);
+    },
     onError: () => {},
   });
 
@@ -163,7 +165,6 @@ Props) => {
         projectStep: stepType,
       },
     });
-    setTwoBtnModalOpen(false);
   };
   return (
     <>
@@ -184,6 +185,8 @@ Props) => {
           selectedDays={selectedDay}
           SetSelectedDays={setSelectedDay}
           exit={() => setModalOpen(false)}
+          stepType={stepType}
+          setModalOpen={setModalOpen}
         />
       )}
       {/* 프로젝트 완료하기 클릭시 보이는 곳 */}
