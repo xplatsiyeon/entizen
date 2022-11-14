@@ -72,7 +72,6 @@ const tempProceeding: Data[] = [
 const Mypage = ({ num, now }: Props) => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
-  const [userName, setUserName] = useState<string>('윤세아');
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
 
   // 서브 카테고리 열렸는지 아닌지

@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { CountertopsOutlined } from '@mui/icons-material';
 import MypageHeader from 'components/mypage/request/header';
@@ -8,6 +9,10 @@ import UnderBox from 'componentsCompany/Mypage/UnderBox';
 import WriteContract from 'componentsCompany/Mypage/WriteContract';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import { useRouter } from 'next/router';
+import {
+  GET_InProgressProjectsDetail,
+  InProgressProjectsDetailResponse,
+} from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
 import Progress from '../projectProgress';
 
@@ -99,10 +104,12 @@ const tempProceeding: Data[] = [
     address: '서울시 관악구 난곡로40길 30',
   },
 ];
-
+const TAG = 'pages/compnay/mypage/runningProgress.tsx';
 const RunningProgress = (props: Props) => {
+  const router = useRouter();
+  const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
-  const [, setOpenContract] = useState<boolean>(false);
+  const [openContract, setOpenContract] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(0);
@@ -121,15 +128,31 @@ const RunningProgress = (props: Props) => {
     planed: [],
     address: '',
   });
-  console.log({ data });
-
-  const router = useRouter();
+  // -----진행중인 프로젝트 상세 리스트 api-----
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    loading,
+    error,
+    data: inProgressData,
+  } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
+    variables: {
+      projectIdx: routerId,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+  console.log(TAG + '🔥 ~line 130 ~내프로젝트 상세페이지 데이터 확인 ');
+  console.log(data);
 
   useEffect(() => {
     if (router.query.id) {
       const num = Number(router.query.id);
       setComponentId(num);
-      setData(tempProceeding[num]);
+      // setData(tempProceeding[num]);
       setOpenSubLink(!openSubLink);
     }
   }, [router.query.id]);
@@ -153,6 +176,7 @@ const RunningProgress = (props: Props) => {
         tabNumber={tabNumber}
         componentId={componentId}
         openSubLink={openSubLink}
+        setOpenSubLink={setOpenSubLink}
       />
       <WebRapper>
         {nowWidth > 1198.7 && (
@@ -164,21 +188,20 @@ const RunningProgress = (props: Props) => {
           />
         )}
         <MypageHeader back={true} title={'진행 프로젝트'} />
-        {data.id !== -1 ? (
-          <WebBox>
-            <TopBox
-              open={open}
-              setOpen={setOpen}
-              handleClick={handleClick}
-              info={data}
-            />
-            {data.contract ? (
-              <Progress info={data} setData={setData} />
-            ) : (
-              <UnderBox setOpenContract={setOpenContract} />
-            )}
-          </WebBox>
-        ) : null}
+        <WebBox>
+          <TopBox
+            open={open}
+            setOpen={setOpen}
+            handleClick={handleClick}
+            data={inProgressData!}
+          />
+          {/* 계약서 작성 시 Progress 나와야 됨 */}
+          {openContract ? (
+            <Progress data={inProgressData!} info={data} setData={setData} />
+          ) : (
+            <UnderBox setOpenContract={setOpenContract} />
+          )}
+        </WebBox>
       </WebRapper>
     </>
   );

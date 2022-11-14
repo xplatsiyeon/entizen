@@ -7,7 +7,7 @@ import DownArrow from 'public/guide/down_arrow.svg';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
-import { handleColor } from 'utils/changeValue';
+import { HandleColor, handleColor } from 'utils/changeValue';
 import {
   GET_InProgressProjectsDetail,
   InProgressProjectsDetailResponse,
@@ -46,174 +46,69 @@ type Props = {
   setOpen?: Dispatch<SetStateAction<boolean>>;
   handleClick?: () => void;
   className?: string;
-  info: Data;
+  data: InProgressProjectsDetailResponse;
 };
 const TAG = 'componentsCompany/Mypage/TopBox.tsx';
-const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
-  const router = useRouter();
-  const routerId = router.query.id;
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const { loading, error, data } = useQuery<InProgressProjectsDetailResponse>(
-    GET_InProgressProjectsDetail,
-    {
-      variables: {
-        projectIdx: routerId,
-      },
-      context: {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-      },
-    },
-  );
-
-  const init = (
-    <Wrapper className={className !== undefined ? className : ''}>
-      <ItemButton onClick={handleClick}>
-        <StoreName>
-          <CommonBtns text={'계약대기'} backgroundColor={'#F75015'} />
-          <div>
-            {<h1>LS 카페 신림점</h1>}
-            {open ? (
-              <ArrowImg>
-                <Image src={DownArrow} alt="down_arrow" layout="fill" />
-              </ArrowImg>
-            ) : (
-              <ArrowImg>
-                <Image src={UpArrow} alt="up_arrow" layout="fill" />
-              </ArrowImg>
-            )}
-          </div>
-          <p>서울시 관악구 난곡로40길 30</p>
-        </StoreName>
-      </ItemButton>
-      {/* Open */}
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <Contents>
-            <div className="text-box">
-              <span className="name">프로젝트 번호</span>
-              <span className="text">SEY0G002201</span>
-            </div>
-            <div className="text-box">
-              <span className="name">구독상품</span>
-              <span className="text">부분구독</span>
-            </div>
-            <div className="text-box">
-              <span className="name">구독기간</span>
-              <span className="text">60개월</span>
-            </div>
-            <div className="text-box">
-              <span className="name">수익지분</span>
-              <span className="text">100 %</span>
-            </div>
-            <div className="text-box">
-              <span className="name">충전기 종류 및 수량</span>
-              <span className="text">
-                100 kW 충전기
-                <br />
-                :벽걸이, 싱글, 3 대
-              </span>
-            </div>
-            <div className="text-box">
-              <span className="name">충전기 설치 위치</span>
-              <span className="text">건물 밖</span>
-            </div>
-            <div className="text-box">
-              <span className="name">충전기 설치 목적</span>
-              <span className="text">모객 효과</span>
-            </div>
-            <div className="text-box">
-              <span className="name">기타 요청사항</span>
-              <span className="text">없음</span>
-            </div>
-          </Contents>
-          <Contents>
-            <Partner>파트너 정보</Partner>
-            <div className="text-box">
-              <span className="name">이름</span>
-              <span className="text">윤세아</span>
-            </div>
-            <div className="text-box">
-              <span className="name">이메일</span>
-              <span className="text emailText">sayoon@LS-CaaS.com</span>
-            </div>
-            <div className="text-box">
-              <span className="name">연락처</span>
-              <span className="text phone">010-3522-2250</span>
-            </div>
-          </Contents>
-        </List>
-      </Collapse>
-    </Wrapper>
-  );
-
-  const bgColor = handleColor(info.badge);
-
-  console.log(TAG + '🔥 ~line 128 ~내프로젝트 상세페이지 데이터 확인 ');
-  console.log(data);
-
+const TopBox = ({ open, className, setOpen, handleClick, data }: Props) => {
   return (
     <>
-      {data !== undefined ? (
-        <Wrapper className={className !== undefined ? className : ''}>
-          <ItemButton onClick={handleClick}>
-            <StoreName>
-              <CommonBtns
-                text={data?.project?.badge}
-                backgroundColor={bgColor}
-              />
-              <div>
-                <h1>{data?.project?.projectName}</h1>
-                {open ? (
-                  <ArrowImg>
-                    <Image src={DownArrow} alt="down_arrow" layout="fill" />
-                  </ArrowImg>
-                ) : (
-                  <ArrowImg>
-                    <Image src={UpArrow} alt="up_arrow" layout="fill" />
-                  </ArrowImg>
-                )}
+      <Wrapper className={className !== undefined ? className : ''}>
+        <ItemButton onClick={handleClick}>
+          <StoreName>
+            <CommonBtns
+              text={data?.project?.badge!}
+              backgroundColor={handleColor(data?.project?.badge!)}
+            />
+            <div>
+              <h1>{data?.project?.projectName}</h1>
+              {open ? (
+                <ArrowImg>
+                  <Image src={DownArrow} alt="down_arrow" layout="fill" />
+                </ArrowImg>
+              ) : (
+                <ArrowImg>
+                  <Image src={UpArrow} alt="up_arrow" layout="fill" />
+                </ArrowImg>
+              )}
+            </div>
+            {/* <p>{info.address}</p> */}
+          </StoreName>
+        </ItemButton>
+        {/* Open */}
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <Contents>
+              <div className="text-box">
+                <span className="name">프로젝트 번호</span>
+                <span className="text">{data?.project?.projectNumber}</span>
               </div>
-              {/* <p>{info.address}</p> */}
-            </StoreName>
-          </ItemButton>
-          {/* Open */}
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <Contents>
-                <div className="text-box">
-                  <span className="name">프로젝트 번호</span>
-                  <span className="text">{data?.project?.projectNumber}</span>
-                </div>
-                <div className="text-box">
-                  <span className="name">구독상품</span>
-                  <span className="text">
-                    {convertKo(
-                      subscribeType,
-                      subscribeTypeEn,
-                      data?.project?.finalQuotation?.subscribeProduct,
-                    )}
-                  </span>
-                </div>
-                <div className="text-box">
-                  <span className="name">구독기간</span>
-                  <span className="text">
-                    {`${data?.project?.finalQuotation?.subscribePeriod} 개월`}
-                  </span>
-                </div>
-                <div className="text-box">
-                  <span className="name">수익지분</span>
-                  <span className="text">
-                    {`${Math.floor(
-                      Number(data?.project?.finalQuotation?.userInvestRate) *
-                        100,
-                    )} %`}
-                  </span>
-                </div>
-                {data?.project?.finalQuotation?.finalQuotationChargers?.map(
-                  (item, index) => (
+              <div className="text-box">
+                <span className="name">구독상품</span>
+                <span className="text">
+                  {convertKo(
+                    subscribeType,
+                    subscribeTypeEn,
+                    data?.project?.finalQuotation?.subscribeProduct,
+                  )}
+                </span>
+              </div>
+              <div className="text-box">
+                <span className="name">구독기간</span>
+                <span className="text">
+                  {`${data?.project?.finalQuotation?.subscribePeriod} 개월`}
+                </span>
+              </div>
+              <div className="text-box">
+                <span className="name">수익지분</span>
+                <span className="text">
+                  {`${Math.floor(
+                    Number(data?.project?.finalQuotation?.userInvestRate) * 100,
+                  )} %`}
+                </span>
+              </div>
+              {data?.project?.finalQuotation?.finalQuotationChargers?.map(
+                (item, index) => (
+                  <>
                     <div className="text-box" key={index}>
                       {index === 0 ? (
                         <span className="name">충전기 종류 및 수량</span>
@@ -240,80 +135,68 @@ const TopBox = ({ open, className, setOpen, handleClick, info }: Props) => {
                             )}, ${item.count} 대`}
                       </span>
                     </div>
-                  ),
-                )}
-                {/* <div className="text-box">
-                  <span className="name">충전기 종류 및 수량</span>
-                  <span className="text">
-                    100 kW 충전기
-                    <br />
-                    :벽걸이, 싱글, 3 대
-                  </span>
-                </div> */}
-                <div className="text-box">
-                  <span className="name">충전기 설치 위치</span>
-                  <span className="text">
-                    {convertKo(
-                      location,
-                      locationEn,
-                      data?.project?.finalQuotation?.quotationRequest
-                        ?.installationLocation,
-                    )}
-                  </span>
-                </div>
-                <div className="text-box">
-                  <span className="name">충전기 설치 목적</span>
-                  <span className="text">
-                    {convertKo(
-                      InstallationPurposeType,
-                      InstallationPurposeTypeEn,
-                      data?.project?.finalQuotation?.quotationRequest
-                        ?.installationPurpose,
-                    )}
-                  </span>
-                </div>
-                {/* 기타 사항 CSS 수정 필요 */}
-                {data?.project?.finalQuotation?.subscribeProductFeature
-                  ?.length > 1 ? (
-                  <>
                     <div className="text-box">
-                      <span className="name">기타 요청사항</span>
-                      <span className="text"></span>
-                    </div>
-                    <div className="text-box">
+                      {index === 0 ? (
+                        <span className="name">충전기 설치 위치</span>
+                      ) : (
+                        <span className="name" />
+                      )}
                       <span className="text">
-                        {data?.project?.finalQuotation?.subscribeProductFeature}
+                        {convertKo(
+                          location,
+                          locationEn,
+                          item?.installationLocation,
+                        )}
                       </span>
                     </div>
                   </>
-                ) : (
+                ),
+              )}
+              <div className="text-box">
+                <span className="name">충전기 설치 목적</span>
+                <span className="text">
+                  {convertKo(
+                    InstallationPurposeType,
+                    InstallationPurposeTypeEn,
+                    data?.project?.finalQuotation?.quotationRequest
+                      ?.installationPurpose,
+                  )}
+                </span>
+              </div>
+              {/* 기타 사항 CSS 수정 필요 */}
+              {data?.project?.finalQuotation?.subscribeProductFeature
+                ?.length! >= 1 ? (
+                <>
                   <div className="text-box">
                     <span className="name">기타 요청사항</span>
-                    <span className="text">없음</span>
+                    <span className="text">
+                      {data?.project?.finalQuotation?.subscribeProductFeature}
+                    </span>
                   </div>
-                )}
-              </Contents>
-              <Contents>
-                <Partner>파트너 정보</Partner>
+                </>
+              ) : (
                 <div className="text-box">
-                  <span className="name">이름</span>
-                  <span className="text">
-                    {data?.project?.userMember?.name}
-                  </span>
+                  <span className="name">기타 요청사항</span>
+                  <span className="text">없음</span>
                 </div>
-                <div className="text-box">
-                  <span className="name">연락처</span>
-                  <span className="text phone">
-                    {hyphenFn(data?.project?.userMember?.phone)}
-                  </span>
-                </div>
-              </Contents>
-            </List>
-          </Collapse>
-        </Wrapper>
-      ) : (
-        init
-      )}
+              )}
+            </Contents>
+            <Contents>
+              <Partner>파트너 정보</Partner>
+              <div className="text-box">
+                <span className="name">이름</span>
+                <span className="text">{data?.project?.userMember?.name}</span>
+              </div>
+              <div className="text-box">
+                <span className="name">연락처</span>
+                <span className="text phone">
+                  {hyphenFn(data?.project?.userMember?.phone!)}
+                </span>
+              </div>
+            </Contents>
+          </List>
+        </Collapse>
+      </Wrapper>
     </>
   );
 };

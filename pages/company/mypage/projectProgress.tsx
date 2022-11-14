@@ -5,15 +5,17 @@ import PrepareModal from 'componentsCompany/Mypage/PrepareModal';
 import ProgressBody from 'componentsCompany/Mypage/ProgressBody';
 import Reusable from 'componentsCompany/Mypage/Reusable';
 import TopBox from 'componentsCompany/Mypage/TopBox';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import React, { useState } from 'react';
 import { Data } from './runningProgress/[id]';
 
 type Props = {
+  data?: InProgressProjectsDetailResponse;
   info: Data;
   setData: React.Dispatch<React.SetStateAction<Data>>;
 };
 
-const Progress = ({ info, setData }: Props) => {
+const Progress = ({ data, info, setData }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   // 선택 날짜 관련
   const [selectedDays, SetSelectedDays] = useState<string>('');
