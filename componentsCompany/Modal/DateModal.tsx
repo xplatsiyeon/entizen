@@ -152,7 +152,7 @@ const DateModal = ({
   };
   const onClcikSubmitDate = () => {
     dateMutate({
-      url: `/api/projects/${routerId}/goal-date`,
+      url: `/projects/${routerId}/goal-date`,
       data: {
         projectStep: stepType,
         goalDate: selectedDays.replaceAll('.', '-'),
