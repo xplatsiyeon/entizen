@@ -47,7 +47,6 @@ const SecondStep = ({
   canNext,
   SetCanNext,
   routerId,
-
   selectedOptionEn,
   setSelectedOptionEn,
 }: Props) => {
@@ -286,6 +285,7 @@ const SecondStep = ({
     }
     multerFile(formData);
   };
+
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
@@ -358,218 +358,220 @@ const SecondStep = ({
   }, [selectedOptionEn]);
   return (
     <>
-      {/* 에러 모달 */}
-      {isModal && <Modal click={onClickModal} text={errorMessage} />}
-      <Wrapper>
-        <TopStep>
-          <div>STEP {tabNumber + 1}</div>
-          <div>* 필수 입력</div>
-        </TopStep>
-        <SubWord>
-          7 kW 충전기 (공용), 벽걸이, 싱글 <br />
-          제품의 정보를 입력해주세요
-        </SubWord>
-        <ChargeMoney className="first">
-          <div className="withAfter">충전요금</div>
-          <BtnBox>
-            {chargeTypeList.map((el, index) => (
-              <Btn
-                key={index}
-                onClick={() => onClickCharge(index)}
-                className={
-                  chargeTypeListEn[index] ===
-                  selectedOptionEn[tabNumber - 1].chargePriceType
-                    ? 'selected'
-                    : ''
-                }
-              >
-                {el}
-              </Btn>
-            ))}
-          </BtnBox>
-          <InputBox>
+      <WebRapper>
+        {/* 에러 모달 */}
+        {isModal && <Modal click={onClickModal} text={errorMessage} />}
+        <Wrapper>
+          <TopStep>
+            <div>STEP {tabNumber + 1}</div>
+            <div>* 필수 입력</div>
+          </TopStep>
+          <SubWord>
+            7 kW 충전기 (공용), 벽걸이, 싱글 <br />
+            제품의 정보를 입력해주세요
+          </SubWord>
+          <ChargeMoney className="first">
+            <div className="withAfter">충전요금</div>
+            <BtnBox>
+              {chargeTypeList.map((el, index) => (
+                <Btn
+                  key={index}
+                  onClick={() => onClickCharge(index)}
+                  className={
+                    chargeTypeListEn[index] ===
+                    selectedOptionEn[tabNumber - 1].chargePriceType
+                      ? 'selected'
+                      : ''
+                  }
+                >
+                  {el}
+                </Btn>
+              ))}
+            </BtnBox>
+            <InputBox>
+              <div>
+                <Input
+                  onChange={onChangeInput}
+                  placeholder="0"
+                  value={selectedOptionEn[tabNumber - 1].chargePrice}
+                  name="subscribeMoney"
+                  inputProps={{
+                    readOnly:
+                      selectedOptionEn[tabNumber - 1].chargePriceType ===
+                      'PURCHASER_AUTONOMY'
+                        ? true
+                        : false,
+                  }}
+                />
+                <div>원/kW</div>
+              </div>
+            </InputBox>
+          </ChargeMoney>
+          <ChargeMoney>
+            <div className="withAfter">충전기 설치 위치</div>
+            <BtnBox>
+              {chargeLocationTypeList.map((el, index) => (
+                <Btn
+                  key={index}
+                  onClick={() => onClickLocation(index)}
+                  className={
+                    chargeLocationTypeListEn[index] ===
+                    selectedOptionEn[tabNumber - 1].installationLocation
+                      ? 'selected'
+                      : ''
+                  }
+                >
+                  {el}
+                </Btn>
+              ))}
+            </BtnBox>
+          </ChargeMoney>
+        </Wrapper>
+        <Divide></Divide>
+        <SecondWrapper>
+          <TopBox>
             <div>
-              <Input
-                onChange={onChangeInput}
-                placeholder="0"
-                value={selectedOptionEn[tabNumber - 1].chargePrice}
-                name="subscribeMoney"
-                inputProps={{
-                  readOnly:
-                    selectedOptionEn[tabNumber - 1].chargePriceType ===
-                    'PURCHASER_AUTONOMY'
-                      ? true
-                      : false,
-                }}
+              [선택사항] 내 제품 리스트에서 <div>가져오기</div>
+            </div>
+            <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
+          </TopBox>
+          <SelectContainer>
+            <SelectComponents
+              value={selectedOptionEn[tabNumber - 1].modelName}
+              option={chargerData}
+              placeholder="구충전기 종류"
+              onClickEvent={onChangeSelectBox}
+            />
+          </SelectContainer>
+          <BottomInputBox>
+            <div className="withAfter">제조사</div>
+            <div>
+              <Inputs
+                onChange={onChangeManufacturer}
+                value={selectedOptionEn[tabNumber - 1].manufacturer}
+                name="constructionPeriod"
               />
-              <div>원/kW</div>
+            </div>
+          </BottomInputBox>
+          <InputBox className="secondChargerText">
+            <div>충전기 특장점</div>
+            <div>
+              <TextArea
+                onChange={onChangeProductFeature}
+                value={selectedOptionEn[tabNumber - 1].productFeature}
+                name="firstPageTextArea"
+                placeholder="선택 입력사항"
+                rows={7}
+              />
             </div>
           </InputBox>
-        </ChargeMoney>
-        <ChargeMoney>
-          <div className="withAfter">충전기 설치 위치</div>
-          <BtnBox>
-            {chargeLocationTypeList.map((el, index) => (
-              <Btn
-                key={index}
-                onClick={() => onClickLocation(index)}
-                className={
-                  chargeLocationTypeListEn[index] ===
-                  selectedOptionEn[tabNumber - 1].installationLocation
-                    ? 'selected'
-                    : ''
-                }
-              >
-                {el}
-              </Btn>
-            ))}
-          </BtnBox>
-        </ChargeMoney>
-      </Wrapper>
-      <Divide></Divide>
-      <SecondWrapper>
-        <TopBox>
-          <div>
-            [선택사항] 내 제품 리스트에서 <div>가져오기</div>
-          </div>
-          <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
-        </TopBox>
-        <SelectContainer>
-          <SelectComponents
-            value={selectedOptionEn[tabNumber - 1].modelName}
-            option={chargerData}
-            placeholder="구충전기 종류"
-            onClickEvent={onChangeSelectBox}
-          />
-        </SelectContainer>
-        <BottomInputBox>
-          <div className="withAfter">제조사</div>
-          <div>
-            <Inputs
-              onChange={onChangeManufacturer}
-              value={selectedOptionEn[tabNumber - 1].manufacturer}
-              name="constructionPeriod"
-            />
-          </div>
-        </BottomInputBox>
-        <InputBox className="secondChargerText">
-          <div>충전기 특장점</div>
-          <div>
-            <TextArea
-              onChange={onChangeProductFeature}
-              value={selectedOptionEn[tabNumber - 1].productFeature}
-              name="firstPageTextArea"
-              placeholder="선택 입력사항"
-              rows={7}
-            />
-          </div>
-        </InputBox>
-        <RemainderInputBox>
-          <Label>충전기 이미지</Label>
-          <PhotosBox>
-            <AddPhotos onClick={imgHandler}>
-              <Image src={camera} alt="" />
-            </AddPhotos>
-            <input
-              style={{ display: 'none' }}
-              ref={imgRef}
-              type="file"
-              accept="image/*"
-              onChange={saveFileImage}
-              multiple
-            />
-            {/* <Preview> */}
-            {selectedOptionEn[tabNumber - 1].chargerImageFiles?.map(
-              (item, index) => (
-                <ImgSpan key={index} data-name={index}>
-                  <Image
-                    layout="fill"
-                    alt="preview"
-                    data-name={index}
-                    key={index}
-                    src={item.url}
-                    priority={true}
-                    unoptimized={true}
-                  />
-                  <Xbox onClick={handlePhotoDelete} data-name={index}>
-                    <Image
-                      src={CloseImg}
-                      data-name={index}
-                      layout="intrinsic"
-                      alt="closeBtn"
-                      width={24}
-                      height={24}
-                    />
-                  </Xbox>
-                </ImgSpan>
-              ),
-            )}
-            {/* </Preview> */}
-          </PhotosBox>
-        </RemainderInputBox>
-        {/*  여기서부터 파일 */}
-        <RemainderInputBoxs>
-          <PhotosBoxs>
-            <Form>
-              <label>충전기 카탈로그</label>
-              <div>
-                <File onClick={handleFileClick}>
-                  <Image src={AddImg} alt="img" />
-                  <div>파일 업로드</div>
-                </File>
-              </div>
-            </Form>
-            {/* 파일 input */}
-            <input
-              style={{ display: 'none' }}
-              ref={fileRef}
-              className="imageClick"
-              type="file"
-              accept="xlsx"
-              onChange={saveFile}
-              multiple
-            />
-
-            {/* <File_Preview> */}
-            <div className="file-preview">
-              {selectedOptionEn[tabNumber - 1].catalogFiles?.map(
+          <RemainderInputBox>
+            <Label>충전기 이미지</Label>
+            <PhotosBox>
+              <AddPhotos onClick={imgHandler}>
+                <Image src={camera} alt="" />
+              </AddPhotos>
+              <input
+                style={{ display: 'none' }}
+                ref={imgRef}
+                type="file"
+                accept="image/*"
+                onChange={saveFileImage}
+                multiple
+              />
+              {/* <Preview> */}
+              {selectedOptionEn[tabNumber - 1].chargerImageFiles?.map(
                 (item, index) => (
-                  <FileBox key={index} data-name={index}>
-                    <div className="file">
-                      <div className="file-img">
-                        <Image src={FileText} alt="file-icon" />
-                      </div>
-                      <div className="file-data">
-                        <span className="file-name">{item.originalName}</span>
-                        <span className="file-size">{`용량 ${getByteSize(
-                          item.size,
-                        )}`}</span>
-                      </div>
-                      <div
-                        className="file-exit"
-                        onClick={handleFileDelete}
+                  <ImgSpan key={index} data-name={index}>
+                    <Image
+                      layout="fill"
+                      alt="preview"
+                      data-name={index}
+                      key={index}
+                      src={item.url}
+                      priority={true}
+                      unoptimized={true}
+                    />
+                    <Xbox onClick={handlePhotoDelete} data-name={index}>
+                      <Image
+                        src={CloseImg}
                         data-name={index}
-                      >
-                        <Image
-                          src={CloseImg}
-                          data-name={index}
-                          alt="closeBtn"
-                        />
-                      </div>
-                    </div>
-                  </FileBox>
+                        layout="intrinsic"
+                        alt="closeBtn"
+                        width={24}
+                        height={24}
+                      />
+                    </Xbox>
+                  </ImgSpan>
                 ),
               )}
-            </div>
-          </PhotosBoxs>
-        </RemainderInputBoxs>
-      </SecondWrapper>
-      <TwoBtn>
-        <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-        <NextBtn canNext={canNext} onClick={handleNextBtn}>
-          다음
-        </NextBtn>
-      </TwoBtn>
+              {/* </Preview> */}
+            </PhotosBox>
+          </RemainderInputBox>
+          {/*  여기서부터 파일 */}
+          <RemainderInputBoxs>
+            <PhotosBoxs>
+              <Form>
+                <label>충전기 카탈로그</label>
+                <div>
+                  <File onClick={handleFileClick}>
+                    <Image src={AddImg} alt="img" />
+                    <div>파일 업로드</div>
+                  </File>
+                </div>
+              </Form>
+              {/* 파일 input */}
+              <input
+                style={{ display: 'none' }}
+                ref={fileRef}
+                className="imageClick"
+                type="file"
+                accept="xlsx"
+                onChange={saveFile}
+                multiple
+              />
+
+              {/* <File_Preview> */}
+              <div className="file-preview">
+                {selectedOptionEn[tabNumber - 1].catalogFiles?.map(
+                  (item, index) => (
+                    <FileBox key={index} data-name={index}>
+                      <div className="file">
+                        <div className="file-img">
+                          <Image src={FileText} alt="file-icon" />
+                        </div>
+                        <div className="file-data">
+                          <span className="file-name">{item.originalName}</span>
+                          <span className="file-size">{`용량 ${getByteSize(
+                            item.size,
+                          )}`}</span>
+                        </div>
+                        <div
+                          className="file-exit"
+                          onClick={handleFileDelete}
+                          data-name={index}
+                        >
+                          <Image
+                            src={CloseImg}
+                            data-name={index}
+                            alt="closeBtn"
+                          />
+                        </div>
+                      </div>
+                    </FileBox>
+                  ),
+                )}
+              </div>
+            </PhotosBoxs>
+          </RemainderInputBoxs>
+        </SecondWrapper>
+        <TwoBtn>
+          <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
+          <NextBtn canNext={canNext} onClick={handleNextBtn}>
+            다음
+          </NextBtn>
+        </TwoBtn>
+      </WebRapper>
     </>
   );
 };
@@ -582,16 +584,22 @@ const Wrapper = styled.div`
   .first {
     margin-top: 45pt;
   }
+  @media (min-width: 899pt) {
+    margin: 0 auto;
+  }
 `;
 const SecondWrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   box-sizing: border-box;
   margin-top: 30pt;
-
   padding-bottom: 58.6875pt;
 `;
 const TopStep = styled.div`
+  @media (min-width: 899pt) {
+    margin-top: 0;
+    padding-top: 70pt;
+  }
   margin-top: 24pt;
   display: flex;
   justify-content: space-between;
@@ -886,6 +894,15 @@ const RemainderInputBoxs = styled.div`
     padding-bottom: 100pt;
     gap: 9pt;
   }
+  @media (min-width: 899pt) {
+    & .file-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      padding-bottom: 0;
+      gap: 9pt;
+    }
+  }
 `;
 const Label = styled.label`
   font-family: Spoqa Han Sans Neo;
@@ -902,6 +919,9 @@ const PhotosBox = styled.div`
   display: flex;
   gap: 9.1875pt;
   align-items: center;
+  @media (min-width: 899pt) {
+    height: auto;
+  }
 `;
 const PhotosBoxs = styled.div`
   height: 56.0625pt;
@@ -911,6 +931,10 @@ const PhotosBoxs = styled.div`
   gap: 9pt;
   align-items: center;
   padding-bottom: 58.6875pt;
+  @media (min-width: 899pt) {
+    height: auto;
+    padding-bottom: 0;
+  }
 `;
 const AddPhotos = styled.button`
   display: inline-block;
@@ -1040,6 +1064,11 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
+  @media (min-width: 899pt) {
+    padding: 15pt 0 15pt 0;
+    border-radius: 6pt;
+    margin-left: 12pt;
+  }
 `;
 const PrevBtn = styled.div`
   color: ${colors.lightWhite};
@@ -1055,6 +1084,10 @@ const PrevBtn = styled.div`
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
+  @media (min-width: 899pt) {
+    padding: 15pt 0 15pt 0;
+    border-radius: 6pt;
+  }
 `;
 const TwoBtn = styled.div`
   display: flex;
@@ -1064,6 +1097,22 @@ const TwoBtn = styled.div`
   width: 100%;
   @media (max-width: 899pt) {
     position: fixed;
+  }
+  @media (min-width: 899pt) {
+    width: 534pt;
+    position: relative;
+    margin: 0 auto;
+  }
+`;
+
+const WebRapper = styled.div`
+  @media (min-width: 899pt) {
+    height: auto;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    border-radius: 12pt;
+    margin-bottom: 30pt;
+    padding-bottom: 30pt;
   }
 `;
 

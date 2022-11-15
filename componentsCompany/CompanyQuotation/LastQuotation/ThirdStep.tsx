@@ -221,85 +221,138 @@ const ThirdStep = ({
     }
   }, [BusinessRegistration]);
 
+  // 실시간으로 width 받아오는 함수
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
   return (
-    <Wrapper>
-      {/* 에러 모달 */}
-      {isModal && <Modal click={onClickModal} text={errorMessage} />}
-      <TopStep>
-        <div>STEP {tabNumber + 1}</div>
-      </TopStep>
-      <SubWord>
-        사업자 등록증, 상세 견적서를
-        <br />
-        첨부해주세요
-      </SubWord>
+    <>
+      <WebRapper>
+        <Wrapper>
+          {/* 에러 모달 */}
+          {isModal && <Modal click={onClickModal} text={errorMessage} />}
+          <TopStep>
+            <div>STEP {tabNumber + 1}</div>
+          </TopStep>
+          <SubWord>
+            사업자 등록증, 상세 견적서를
+            <br />
+            첨부해주세요
+          </SubWord>
 
-      <RemainderInputBoxs>
-        <PhotosBoxs>
-          <Form>
-            <div>
-              <File onClick={handleFileClick}>
-                <Image src={AddImg} alt="img" />
-                <div>파일 업로드</div>
-              </File>
-            </div>
-          </Form>
-          {/* 파일 input */}
-          <input
-            style={{ display: 'none' }}
-            ref={fileRef}
-            className="imageClick"
-            type="file"
-            accept="xlsx"
-            onChange={saveFile}
-            multiple
-          />
+          <RemainderInputBoxs>
+            <PhotosBoxs>
+              {nowWidth <= 1198.7 && (
+                <Form>
+                  <div>
+                    <File onClick={handleFileClick}>
+                      <Image src={AddImg} alt="img" />
+                      <div>파일 업로드</div>
+                    </File>
+                  </div>
+                </Form>
+              )}
+              {/* 파일 input */}
+              <input
+                style={{ display: 'none' }}
+                ref={fileRef}
+                className="imageClick"
+                type="file"
+                accept="xlsx"
+                onChange={saveFile}
+                multiple
+              />
 
-          {/* <File_Preview> */}
-          <div className="file-preview">
-            {BusinessRegistration?.map((item, index) => (
-              <FileBox key={index} data-name={index}>
-                <div className="file">
-                  <div className="file-img">
-                    <Image src={FileText} alt="file-icon" />
+              {/* <File_Preview> */}
+              <div className="file-preview">
+                {BusinessRegistration?.map((item, index) => (
+                  <FileBox key={index} data-name={index}>
+                    <div className="file">
+                      <div className="file-img">
+                        <Image src={FileText} alt="file-icon" />
+                      </div>
+                      <div className="file-data">
+                        <span className="file-name">{item.originalName}</span>
+                        <span className="file-size">{`용량 ${getByteSize(
+                          item.size,
+                        )}`}</span>
+                      </div>
+                      <div
+                        className="file-exit"
+                        onClick={handleFileDelete}
+                        data-name={index}
+                      >
+                        <Image
+                          src={CloseImg}
+                          data-name={index}
+                          alt="closeBtn"
+                        />
+                      </div>
+                    </div>
+                  </FileBox>
+                ))}
+              </div>
+              {nowWidth > 1198.7 && (
+                <Form>
+                  <div>
+                    <File onClick={handleFileClick}>
+                      <Image src={AddImg} alt="img" />
+                      <div>파일 업로드</div>
+                    </File>
                   </div>
-                  <div className="file-data">
-                    <span className="file-name">{item.originalName}</span>
-                    <span className="file-size">{`용량 ${getByteSize(
-                      item.size,
-                    )}`}</span>
-                  </div>
-                  <div
-                    className="file-exit"
-                    onClick={handleFileDelete}
-                    data-name={index}
-                  >
-                    <Image src={CloseImg} data-name={index} alt="closeBtn" />
-                  </div>
-                </div>
-              </FileBox>
-            ))}
-          </div>
-        </PhotosBoxs>
-      </RemainderInputBoxs>
-      <TwoBtn>
-        <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-        <NextBtn canNext={canNext} onClick={onClickPost}>
-          보내기
-        </NextBtn>
-      </TwoBtn>
-    </Wrapper>
+                </Form>
+              )}
+            </PhotosBoxs>
+          </RemainderInputBoxs>
+          <TwoBtn>
+            <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
+            <NextBtn canNext={canNext} onClick={onClickPost}>
+              보내기
+            </NextBtn>
+          </TwoBtn>
+        </Wrapper>
+      </WebRapper>
+    </>
   );
 };
+
+const WebRapper = styled.div`
+  @media (min-width: 899pt) {
+    height: auto;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    border-radius: 12pt;
+    margin-bottom: 30pt;
+    padding-bottom: 30pt;
+    margin-top: -11pt;
+  }
+`;
 
 const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   box-sizing: border-box;
   padding-bottom: 30pt;
+  @media (min-width: 899pt) {
+    margin: 0 auto;
+  }
 `;
 
 const TopStep = styled.div`
+  @media (min-width: 899pt) {
+    margin-top: 0;
+    padding-top: 70pt;
+  }
   margin-top: 24pt;
   display: flex;
   justify-content: space-between;
@@ -341,19 +394,31 @@ const RemainderInputBoxs = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
-    padding-bottom: 100pt;
+    /* padding-bottom: 100pt; */
     gap: 9pt;
+  }
+  @media (min-width: 899pt) {
+    width: 534pt;
+    & .file-preview {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9pt;
+    }
   }
 `;
 
 const PhotosBoxs = styled.div`
-  height: 56.0625pt;
+  /* height: 56.0625pt; */
   margin-top: 9pt;
   display: flex;
   flex-direction: column;
   gap: 9pt;
   align-items: center;
   padding-bottom: 58.6875pt;
+  @media (min-width: 899pt) {
+    padding-bottom: 0;
+  }
 `;
 
 const FileBox = styled.div`
@@ -428,6 +493,12 @@ const Form = styled.form`
     flex-direction: column;
     justify-content: center;
   }
+  @media (min-width: 899pt) {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    position: relative;
+  }
 `;
 
 const File = styled.label`
@@ -462,6 +533,12 @@ const TwoBtn = styled.div`
   @media (max-width: 899pt) {
     position: fixed;
   }
+  @media (min-width: 899pt) {
+    width: 534pt;
+    position: relative;
+    margin: 0 auto;
+    top: 40pt;
+  }
 `;
 const NextBtn = styled.div<{ canNext: boolean }>`
   color: ${colors.lightWhite};
@@ -477,6 +554,11 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
+  @media (min-width: 899pt) {
+    padding: 15pt 0 15pt 0;
+    border-radius: 6pt;
+    margin-left: 12pt;
+  }
 `;
 const PrevBtn = styled.div`
   color: ${colors.lightWhite};
@@ -491,6 +573,10 @@ const PrevBtn = styled.div`
   cursor: pointer;
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
+  }
+  @media (min-width: 899pt) {
+    padding: 15pt 0 15pt 0;
+    border-radius: 6pt;
   }
 `;
 

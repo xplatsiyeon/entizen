@@ -84,7 +84,6 @@ const RecieveRequest = ({
                 />
               </DdayBox>
               <AddressBox>
-                테스트
                 {el?.quotationRequest?.installationAddress}
               </AddressBox>
             </DdayNAddress>

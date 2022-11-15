@@ -683,7 +683,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
     border-radius: 8pt;
     position: relative;
     margin: 0 auto;
-    bottom: 20%;
+    bottom: 15%;
   }
 `;
 const SelectContainer = styled.div`
@@ -700,7 +700,7 @@ const SelectComponentsContainer = styled.div`
 
 const WebRapper = styled.div`
   @media (min-width: 899pt) {
-    height: 1250pt;
+    height: 1240pt;
     background-color: #ffffff;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 12pt;

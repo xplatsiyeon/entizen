@@ -76,6 +76,13 @@ const LeftProjectQuotationBox = ({
     setNowWidth(window.innerWidth);
   };
 
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
   // api 호출
   const { data, isError, error, refetch } = useQuery<ReceivedRequest>(
     'received-request',
@@ -102,13 +109,6 @@ const LeftProjectQuotationBox = ({
   );
 
   const router = useRouter();
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
 
   useEffect(() => {
     if (
