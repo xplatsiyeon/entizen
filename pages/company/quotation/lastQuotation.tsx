@@ -17,17 +17,17 @@ const LastQuotation = (props: Props) => {
   const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
     'company/',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
-    // {
-    //   enabled: router.isReady,
-    // },
     {
-      enabled: false,
+      enabled: router.isReady,
     },
+    // {
+    //   enabled: false,
+    // },
   );
 
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+  if (isLoading) {
+    return <Loader />;
+  }
 
   if (isError) {
     console.log('🔥 ~line 249 ~에러 발생');

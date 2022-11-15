@@ -12,16 +12,21 @@ import LeftArrow from 'public/mypage/left-arrow.png';
 import RightArrow from 'public/mypage/right-arrow.png';
 import Image from 'next/image';
 import { css } from '@emotion/react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { isTokenPostApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
+import { ApolloQueryResult, OperationVariables } from '@apollo/client';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 
 interface Props {
   selectedDays: string;
   SetSelectedDays: Dispatch<SetStateAction<string>>;
   exit: () => void;
   stepType: string;
+  inProgressRefetch: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
 }
 
 const DateModal = ({
@@ -29,10 +34,11 @@ const DateModal = ({
   SetSelectedDays,
   exit,
   stepType,
+  inProgressRefetch,
 }: Props) => {
   const outside = useRef(null);
   const router = useRouter();
-  const routerId = router?.query?.id!;
+  const routerId = router?.query?.projectIdx!;
   const today = {
     year: new Date().getFullYear(), //오늘 연도
     month: new Date().getMonth() + 1, //오늘 월
@@ -50,6 +56,7 @@ const DateModal = ({
   // 목표일 등록 mutation
   const { mutate: dateMutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: () => {
+      inProgressRefetch();
       exit();
     },
     onError: (error: any) => {
@@ -170,6 +177,7 @@ const DateModal = ({
       exit();
     }
   };
+
   return (
     <Container ref={outside} onClick={(e) => handleModalClose(e)}>
       {isModal && <Modal click={exit} text={errorMessage} />}

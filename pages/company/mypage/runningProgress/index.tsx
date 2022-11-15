@@ -62,6 +62,7 @@ const RunningProgress = (props: Props) => {
     loading,
     error,
     data: inProgressData,
+    refetch: inProgressRefetch,
   } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
     variables: {
       projectIdx: router?.query?.projectIdx!,
@@ -91,6 +92,8 @@ const RunningProgress = (props: Props) => {
       setOpenSubLink(!openSubLink);
     }
   }, []);
+
+  useEffect(() => {}, []);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
@@ -132,7 +135,12 @@ const RunningProgress = (props: Props) => {
           />
           {/* 계약서 작성 시 Progress 나와야 됨 */}
           {openContract ? (
-            <Progress data={inProgressData!} info={data} setData={setData} />
+            <Progress
+              data={inProgressData!}
+              inProgressRefetch={inProgressRefetch}
+              info={data}
+              setData={setData}
+            />
           ) : (
             <UnderBox setOpenContract={setOpenContract} />
           )}
