@@ -44,7 +44,7 @@ const Request = () => {
     3: <Charging />,
   };
 
-   // 유저 정보 API
+  /* // 유저 정보 API
   const {
     data: userData,
     isError: userError,
@@ -58,9 +58,9 @@ const Request = () => {
   }
   if (userError) {
     console.log('유저 정보 에러');
-  } 
+  } */
 
-  //const userData = {name:''};
+  const userData = {name:''};
 
   return (
 
@@ -136,7 +136,6 @@ const Wrapper = styled.div`
   position: relative;
   width: 900pt;
   margin: 60pt auto;
-  border: 1px solid;
   display: flex;
   gap: 60pt;
 
