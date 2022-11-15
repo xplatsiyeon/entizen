@@ -81,3 +81,17 @@ export const hyphenFn = (target: string) => {
     ?.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
     ?.replace(/\-{1,2}$/g, '');
 };
+
+// ---------- 년월일 데이터 넣기 ------------------
+/**
+ * 백엔드 데이터 년월일 추가 해주는 함수
+ * @param target "2022-10-03"
+ */
+export const changeDataFn = (target: string) => {
+  const arrTarget = target.split('-');
+  const year = arrTarget[0] + '년';
+  const month = arrTarget[1] + '월';
+  const day = arrTarget[2] + '일';
+
+  return `${year} ${month} ${day}`;
+};

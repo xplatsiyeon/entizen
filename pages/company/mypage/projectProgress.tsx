@@ -1,3 +1,4 @@
+import { ApolloQueryResult, OperationVariables } from '@apollo/client';
 import styled from '@emotion/styled';
 import { isTokenPostApi } from 'api';
 import MypageHeader from 'components/mypage/request/header';
@@ -18,10 +19,13 @@ type Props = {
   data?: InProgressProjectsDetailResponse;
   info: Data;
   setData: React.Dispatch<React.SetStateAction<Data>>;
+  inProgressRefetch: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
 };
 
 const stepTypeType = ['READY', 'INSTALLATION', 'EXAM', 'COMPLETION'];
-const Progress = ({ data, info, setData }: Props) => {
+const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   // 선택 날짜 관련
   const [selectedDays, SetSelectedDays] = useState<string>('');
@@ -40,7 +44,7 @@ const Progress = ({ data, info, setData }: Props) => {
     false,
   ]);
   const [dateOn, setDateOn] = useState<boolean[]>([false, false, false, false]);
-  const [badgeState, setBadgeState] = useState<number>(info.state);
+
   // 토글 된 박스 클릭하면 모달창으로 보여줌 ( 준비 , 검수, 등등 ...)
   const [progressNum, setProgressNum] = useState<number>(-1);
 
@@ -71,6 +75,7 @@ const Progress = ({ data, info, setData }: Props) => {
           SetSelectedDays={SetSelectedDays}
           exit={handleExit}
           stepType={stepTypeType[dateArr.indexOf(true)]}
+          inProgressRefetch={inProgressRefetch}
           //info.planed 배열 필터로 교체하는 함수 추가.
         />
       )}
@@ -101,8 +106,10 @@ const Progress = ({ data, info, setData }: Props) => {
             btnText={'준비 완료하기'}
             fin={data?.project?.isCompletedReadyStep!}
             data={data!}
+            inProgressRefetch={inProgressRefetch}
             planed={data?.project?.readyStepGoalDate!}
             stepType={stepTypeType[progressNum - 1]}
+
             // setBadgeState={setBadgeState}
             // setData={setData}
           />
@@ -118,6 +125,7 @@ const Progress = ({ data, info, setData }: Props) => {
             data={data!}
             // setBadgeState={setBadgeState}
             // setData={setData}
+            inProgressRefetch={inProgressRefetch}
             planed={data?.project?.installationStepGoalDate!}
             stepType={stepTypeType[progressNum - 1]}
           />
@@ -133,6 +141,7 @@ const Progress = ({ data, info, setData }: Props) => {
             data={data!}
             // setBadgeState={setBadgeState}
             // setData={setData}
+            inProgressRefetch={inProgressRefetch}
             planed={data?.project?.examStepGoalDate!}
             stepType={stepTypeType[progressNum - 1]}
           />
@@ -144,13 +153,16 @@ const Progress = ({ data, info, setData }: Props) => {
             textThree={'사용 전 검사 및 점검'}
             textFour={'신고 및 사용 승인'}
             textFive={'완료현장 사진 기록'}
-            almostFinish={info.state >= progressNum ? true : false}
-            beforeFinish={info.state === progressNum ? true : false}
+            // almostFinish={info.state >= progressNum ? true : false}
+            almostFinish={data?.project?.badge === '완료대기' ? false : true}
+            beforeFinish={data?.project?.badge === '완료 중' ? true : false}
+            // beforeFinish={true}
             btnText={'프로젝트 완료하기'}
             fin={data?.project?.isCompletedCompletionStep!}
             data={data!}
             // setBadgeState={setBadgeState}
             // setData={setData}
+            inProgressRefetch={inProgressRefetch}
             planed={data?.project?.completionStepGoalDate!}
             stepType={stepTypeType[progressNum - 1]}
           />

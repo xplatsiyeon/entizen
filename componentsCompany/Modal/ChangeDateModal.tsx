@@ -16,6 +16,9 @@ import { useMutation } from 'react-query';
 import { isTokenPatchApi } from 'api';
 import { useRouter } from 'next/router';
 import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
+import { ApolloQueryResult, OperationVariables } from '@apollo/client';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 
 interface Props {
   selectedDays: string;
@@ -23,6 +26,9 @@ interface Props {
   exit: () => void;
   stepType: string;
   setModalOpen: Dispatch<SetStateAction<boolean>>;
+  inProgressRefetch: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
 }
 
 const ChangeDateModal = ({
@@ -31,9 +37,10 @@ const ChangeDateModal = ({
   exit,
   stepType,
   setModalOpen,
+  inProgressRefetch,
 }: Props) => {
   const router = useRouter();
-  const routerId = router?.query?.id;
+  const routerId = router?.query?.projectIdx;
   const outside = useRef(null);
   const today = {
     year: new Date().getFullYear(), //오늘 연도
@@ -47,22 +54,14 @@ const ChangeDateModal = ({
   const dateTotalCount = new Date(selectedYear, selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
   // textArea 내용
   const [contents, setContents] = useState('');
-  // 모달 메세지
-  const [isModal, setIsModal] = useState(false);
-  const [ModalMessage, setModalMessage] = useState('');
 
   const { mutate: goalMutate, isLoading } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
+      inProgressRefetch();
       setModalOpen(false);
     },
     onError: (error: any) => {
-      if (error.response.data.message) {
-        setModalMessage(error.response.data.message);
-        setIsModal(true);
-      } else {
-        setModalMessage('다시 시도해주세요');
-        setIsModal(true);
-      }
+      console.log('err');
     },
   });
 

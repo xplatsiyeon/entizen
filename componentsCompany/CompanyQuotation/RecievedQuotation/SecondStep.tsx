@@ -319,7 +319,7 @@ const SecondStep = ({
   // 포스트 버튼
   const onClickPost = () => {
     postMutate({
-      url: `/quotations/pre/${routerId}`,
+      url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
       data: {
         subscribePricePerMonth: subscribePricePerMonth,
         constructionPeriod: constructionPeriod,

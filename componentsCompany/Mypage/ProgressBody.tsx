@@ -9,6 +9,7 @@ import DownArrow from 'public/images/smallDownArrow.png';
 import MessageBox from './MessageBox';
 import colors from 'styles/colors';
 import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
+import { changeDataFn } from 'utils/calculatePackage';
 
 type Props = {
   dateArr: boolean[];
@@ -77,8 +78,6 @@ const ProgressBody = ({
     }
   };
 
-  const handleListClick = () => {};
-
   let textArr;
 
   switch (badge) {
@@ -134,6 +133,7 @@ const ProgressBody = ({
     default:
       textArr = [
         '공사 준비를 진행해주세요.',
+        '충전기를 설치, 시운전을 진행해주세요',
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
@@ -186,7 +186,8 @@ const ProgressBody = ({
               {/* 동그라미 컬러 */}
               <Image
                 src={
-                  data?.project?.isCompletedCompanyMemberContractStep
+                  data?.project?.isCompletedCompanyMemberContractStep &&
+                  !data?.project?.isCompletedReadyStep
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -209,11 +210,13 @@ const ProgressBody = ({
                 <PickedDate
                   color={
                     data?.project?.isCompletedReadyStep
-                      ? colors.main
-                      : '#e2e5ed'
+                      ? '#e2e5ed'
+                      : colors.main
                   }
                 >
-                  {data?.project?.readyStepGoalDate}
+                  {data?.project?.readyStepGoalDate === 'CHANGING'
+                    ? '변경 중'
+                    : changeDataFn(data?.project?.readyStepGoalDate)}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate" onClick={handleDateModal}>
@@ -247,7 +250,8 @@ const ProgressBody = ({
               {/* 동그라미 */}
               <Image
                 src={
-                  data?.project?.isCompletedReadyStep
+                  data?.project?.isCompletedReadyStep &&
+                  !data?.project?.isCompletedInstallationStep
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -270,11 +274,13 @@ const ProgressBody = ({
                 <PickedDate
                   color={
                     data?.project?.isCompletedInstallationStep
-                      ? colors.main
-                      : '#e2e5ed'
+                      ? '#e2e5ed'
+                      : colors.main
                   }
                 >
-                  {data?.project?.installationStepGoalDate}
+                  {data?.project?.installationStepGoalDate === 'CHANGING'
+                    ? '변경 중'
+                    : changeDataFn(data?.project?.installationStepGoalDate)}
                 </PickedDate>
               ) : (
                 <SetDate id="installDate" onClick={handleDateModal}>
@@ -308,9 +314,11 @@ const ProgressBody = ({
         <FlexBox>
           <div>
             <CircleImgBox>
+              {/* 동그라미 컬러 */}
               <Image
                 src={
-                  data?.project?.isCompletedInstallationStep
+                  data?.project?.isCompletedInstallationStep &&
+                  !data?.project?.isCompletedExamStep
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -332,10 +340,12 @@ const ProgressBody = ({
               {data?.project?.examStepGoalDate ? (
                 <PickedDate
                   color={
-                    data?.project?.isCompletedExamStep ? colors.main : '#e2e5ed'
+                    data?.project?.isCompletedExamStep ? '#e2e5ed' : colors.main
                   }
                 >
-                  {data?.project?.examStepGoalDate}
+                  {data?.project?.examStepGoalDate === 'CHANGING'
+                    ? '변경 중'
+                    : changeDataFn(data?.project?.examStepGoalDate)}
                 </PickedDate>
               ) : (
                 <SetDate id="inspectionDate" onClick={handleDateModal}>
@@ -351,7 +361,7 @@ const ProgressBody = ({
                 handleClick={() => setProgressNum(3)}
                 presentProgress={
                   data?.project?.isCompletedInstallationStep &&
-                  !data?.project?.isCompletedCompletionStep
+                  !data?.project?.isCompletedExamStep
                     ? true
                     : false
                 }
@@ -366,12 +376,13 @@ const ProgressBody = ({
         <FlexBox>
           <div>
             <CircleImgBox>
+              {/* 동그라미 컬러 */}
               <Image
                 className="bottomCircle"
                 src={
-                  data?.project?.isCompletedExamStep
-                    ? // presentProgress === 4 || presentProgress === 5
-                      progressBlueCircle
+                  data?.project?.isCompletedExamStep &&
+                  !data?.project?.isCompletedCompletionStep
+                    ? progressBlueCircle
                     : progressCircle
                 }
                 alt="progressCircle"
@@ -393,11 +404,13 @@ const ProgressBody = ({
                 <PickedDate
                   color={
                     data?.project?.isCompletedCompletionStep
-                      ? colors.main
-                      : '#e2e5ed'
+                      ? '#e2e5ed'
+                      : colors.main
                   }
                 >
-                  {data?.project?.completionStepGoalDate}
+                  {data?.project?.completionStepGoalDate === 'CHANGING'
+                    ? '변경 중'
+                    : changeDataFn(data?.project?.completionStepGoalDate)}
                 </PickedDate>
               ) : (
                 <SetDate id="successDate" onClick={handleDateModal}>
@@ -412,7 +425,10 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(4)}
                 presentProgress={
-                  data?.project?.isCompletedCompletionStep && true
+                  data?.project?.isCompletedExamStep &&
+                  !data?.project?.isCompletedCompletionStep
+                    ? true
+                    : false
                 }
                 title={textArr[3]}
                 firstText={'사용 전 검사 및 점검'}

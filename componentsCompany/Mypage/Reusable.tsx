@@ -17,6 +17,9 @@ import {
   InProgressProjectsDetail,
 } from 'QueryComponents/CompanyQuery';
 import { useRouter } from 'next/router';
+import Modal from 'components/Modal/Modal';
+import { ApolloQueryResult, OperationVariables } from '@apollo/client';
+import { changeDataFn } from 'utils/calculatePackage';
 
 type Props = {
   textOne: string;
@@ -31,6 +34,10 @@ type Props = {
   data: InProgressProjectsDetailResponse;
   planed?: string;
   stepType: string;
+
+  inProgressRefetch: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
   // setBadgeState: React.Dispatch<React.SetStateAction<number>>;
   // setData: React.Dispatch<React.SetStateAction<Data>>;
   // setFin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -59,6 +66,7 @@ const Reusable = ({
   data,
   planed,
   stepType,
+  inProgressRefetch,
 }: // setBadgeState,
 // setData,
 
@@ -66,7 +74,7 @@ Props) => {
   console.log(beforeFinish, almostFinish);
   console.log(planed);
   const router = useRouter();
-  const routerId = router?.query?.id;
+  const routerId = router?.query?.projectIdx;
   // img ref
   const imgRef = useRef<HTMLInputElement>(null);
   // 날짜 변경 모달 오픈
@@ -121,7 +129,10 @@ Props) => {
     onSuccess: () => {
       setTwoBtnModalOpen(false);
     },
-    onError: () => {},
+    onError: (error: any) => {
+      console.log(error);
+      console.log('에러 확인');
+    },
   });
 
   // 사진 저장
@@ -153,24 +164,50 @@ Props) => {
       }
     }
   };
-
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     imgRef?.current?.click();
   };
-
+  // 일정 변경 요청
+  const changeData = () => {
+    if (planed) {
+      setModalOpen(true);
+    } else {
+      setIsModal(true);
+      setErrorMessage('목표일을 작성해주세요.');
+    }
+  };
   // '완료하기' 누른 후 실행되는 함수. 배지를 변경하는 api 호출하기.
   const handleModalRightBtn = () => {
-    stepMuate({
-      url: `/projects/${routerId}/step`,
-      data: {
-        projectStep: stepType,
-      },
-    });
+    if (planed) {
+      if (beforeFinish) {
+        // 마지막 단계
+        stepMuate({
+          url: `/projects/${routerId}/step`,
+          data: {
+            projectStep: stepType,
+            completedProjectImageFiles: imgArr,
+          },
+        });
+      } else {
+        // 이전 단계
+        stepMuate({
+          url: `/projects/${routerId}/step`,
+          data: {
+            projectStep: stepType,
+          },
+        });
+      }
+    } else {
+      alert('목표일자를 작성해주세요.');
+      setTwoBtnModalOpen(false);
+    }
   };
+
   return (
     <>
+      {isModal && <Modal text={errorMessage} click={() => setIsModal(false)} />}
       {twoBtnModalOpen && (
         <TwoBtnModal
           exit={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
@@ -190,6 +227,7 @@ Props) => {
           exit={() => setModalOpen(false)}
           stepType={stepType}
           setModalOpen={setModalOpen}
+          inProgressRefetch={inProgressRefetch}
         />
       )}
       {/* 프로젝트 완료하기 클릭시 보이는 곳 */}
@@ -202,7 +240,12 @@ Props) => {
             <FinishedBox>
               <FinishedFirst>완료 요청일</FinishedFirst>
               <FinishedDate>
-                {planed ? planed : '목표일을 정해주세요'}
+                {/* {planed ? planed : '목표일을 정해주세요'} */}
+                {planed
+                  ? planed === 'CHANGING'
+                    ? '변경중'
+                    : changeDataFn(planed)
+                  : '목표일을 정해주세요'}
               </FinishedDate>
               <FinishedText>프로젝트 완료 진행중입니다.</FinishedText>
               <FinishedSecondText>
@@ -211,7 +254,7 @@ Props) => {
                 최종 완료됩니다!
               </FinishedSecondText>
               <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
-              <FinishedPhotoBox></FinishedPhotoBox>
+              <FinishedPhotoBox>1</FinishedPhotoBox>
             </FinishedBox>
           </Wrapper>
         </>
@@ -226,11 +269,17 @@ Props) => {
                 <div className="expectedDate">
                   {fin ? '완료일' : '완료 예정일'}
                 </div>
-                <div className="changeDate" onClick={() => setModalOpen(true)}>
+                <div className="changeDate" onClick={changeData}>
                   일정 변경 요청
                 </div>
               </Top>
-              <Date>{planed ? planed : '목표일을 정해주세요'}</Date>
+              <Date>
+                {planed
+                  ? planed === 'CHANGING'
+                    ? '변경중'
+                    : changeDataFn(planed)
+                  : '목표일을 정해주세요'}
+              </Date>
               <SubTitle>{fin ? textOne : textTwo}</SubTitle>
               <ListBox>
                 <li>{textThree}</li>
@@ -316,6 +365,7 @@ const Box = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   padding: 12pt 13.5pt 9pt 13.5pt;
   box-sizing: border-box;
+  background-color: red;
 `;
 const FinishedBox = styled.div`
   padding: 12pt 30pt 18pt 30pt;

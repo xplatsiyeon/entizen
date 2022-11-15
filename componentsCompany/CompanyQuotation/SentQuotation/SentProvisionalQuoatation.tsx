@@ -194,7 +194,7 @@ const TAG =
 // 본체
 const SentQuoatationFirst = () => {
   const router = useRouter();
-  const routerId = router?.query?.id;
+  const routerId = router?.query?.preQuotationIdx;
   // 현장실사 완료 모달
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   // 에러 모달
@@ -255,11 +255,11 @@ const SentQuoatationFirst = () => {
     'spot-inspection',
     () =>
       isTokenGetApi(
-        `/quotations/pre/${router.query.preQuotationIdx}/spot-inspection`,
+        `/quotations/pre/${router?.query?.preQuotationIdx}/spot-inspection`,
       ),
     {
-      // enabled: router.isReady,
-      enabled: false,
+      enabled: router.isReady,
+      // enabled: false,
     },
   );
   const { mutate: spotPatchMutate, isLoading: spotPatchLoading } = useMutation(

@@ -62,7 +62,10 @@ const asNumber = ()=>{
         <Inner>
           <FlexBox>
             <Wrap1>
-              {/* 회원 메뉴에 A/S 카테고리를 펼치기 위해 page={2}를 넘긴다. (내 견적서는 0) */}
+
+              {/* 회원 메뉴에 A/S 카테고리를 펼치기 위해 page={2}를 넘긴다. (내 견적서는 0).
+                [id].tsx에서 리스트 호출하고 그 리스트를 RequestMain 컴포넌트에 넘겨줘야함,
+              */}
               <RequestMain page={2} />
             </Wrap1>
             <Wrap2>
