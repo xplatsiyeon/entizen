@@ -17,10 +17,11 @@ type Props = {
   setToggleOpen: Dispatch<SetStateAction<boolean[]>>;
   presentProgress: number;
   setProgressNum: Dispatch<SetStateAction<number>>;
-  state: number;
+  // state: number;
   planed: string[];
   progressNum?: number;
   data: InProgressProjectsDetailResponse;
+  badge: string;
 };
 
 const ProgressBody = ({
@@ -31,9 +32,10 @@ const ProgressBody = ({
   presentProgress,
   setProgressNum,
   progressNum,
-  state,
+  // state,
   planed,
   data,
+  badge,
 }: Props) => {
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -79,8 +81,8 @@ const ProgressBody = ({
 
   let textArr;
 
-  switch (state) {
-    case 1:
+  switch (badge) {
+    case '계약 대기':
       textArr = [
         '공사 준비를 진행해주세요.',
         '충전기를 설치, 시운전을 진행해주세요',
@@ -88,7 +90,15 @@ const ProgressBody = ({
         '프로젝트를 완료해주세요',
       ];
       break;
-    case 2:
+    case '준비 중':
+      textArr = [
+        '공사 준비를 진행해주세요.',
+        '충전기를 설치, 시운전을 진행해주세요',
+        '충전기 검수를 진행해주세요',
+        '프로젝트를 완료해주세요',
+      ];
+      break;
+    case '설치 중':
       textArr = [
         '공사 준비가 완료되었습니다.',
         '충전기를 설치, 시운전을 진행해주세요',
@@ -96,7 +106,7 @@ const ProgressBody = ({
         '프로젝트를 완료해주세요',
       ];
       break;
-    case 3:
+    case '검수 중':
       textArr = [
         '공사 준비가 완료되었습니다.',
         '충전기를 설치, 시운전이 완료되었습니다',
@@ -104,7 +114,7 @@ const ProgressBody = ({
         '프로젝트를 완료해주세요',
       ];
       break;
-    case 4:
+    case '완료 중':
       textArr = [
         '공사 준비가 완료되었습니다.',
         '충전기를 설치, 시운전이 완료되었습니다',
@@ -112,7 +122,7 @@ const ProgressBody = ({
         '프로젝트를 완료해주세요',
       ];
       break;
-    case 5:
+    case '완료 대기':
       textArr = [
         '공사 준비가 완료되었습니다.',
         '충전기를 설치, 시운전이 완료되었습니다',
@@ -196,7 +206,13 @@ const ProgressBody = ({
                 </div>
               </ProgressName>
               {data?.project?.readyStepGoalDate ? (
-                <PickedDate color={1 >= state ? colors.main : '#e2e5ed'}>
+                <PickedDate
+                  color={
+                    data?.project?.isCompletedReadyStep
+                      ? colors.main
+                      : '#e2e5ed'
+                  }
+                >
                   {data?.project?.readyStepGoalDate}
                 </PickedDate>
               ) : (
@@ -212,7 +228,10 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(1)}
                 presentProgress={
-                  data?.project?.isCompletedCompanyMemberContractStep && true
+                  data?.project?.isCompletedCompanyMemberContractStep &&
+                  !data?.project?.isCompletedReadyStep
+                    ? true
+                    : false
                 }
                 title={textArr[0]}
                 firstText={'충전기 및 부속품 준비'}
@@ -248,7 +267,13 @@ const ProgressBody = ({
                 </div>
               </ProgressName>
               {data?.project?.installationStepGoalDate ? (
-                <PickedDate color={2 >= state ? colors.main : '#e2e5ed'}>
+                <PickedDate
+                  color={
+                    data?.project?.isCompletedInstallationStep
+                      ? colors.main
+                      : '#e2e5ed'
+                  }
+                >
                   {data?.project?.installationStepGoalDate}
                 </PickedDate>
               ) : (
@@ -266,7 +291,12 @@ const ProgressBody = ({
             <ToggleWrapper>
               <MessageBox
                 handleClick={() => setProgressNum(2)}
-                presentProgress={data?.project?.isCompletedReadyStep && true}
+                presentProgress={
+                  data?.project?.isCompletedReadyStep &&
+                  !data?.project?.isCompletedInstallationStep
+                    ? true
+                    : false
+                }
                 title={textArr[1]}
                 firstText={'충전기 설치 및 배선작업'}
                 secondText={'충전기 시운전 (자체 테스트)'}
@@ -300,7 +330,11 @@ const ProgressBody = ({
                 </div>
               </ProgressName>
               {data?.project?.examStepGoalDate ? (
-                <PickedDate color={3 >= state ? colors.main : '#e2e5ed'}>
+                <PickedDate
+                  color={
+                    data?.project?.isCompletedExamStep ? colors.main : '#e2e5ed'
+                  }
+                >
                   {data?.project?.examStepGoalDate}
                 </PickedDate>
               ) : (
@@ -316,7 +350,10 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(3)}
                 presentProgress={
-                  data?.project?.isCompletedInstallationStep && true
+                  data?.project?.isCompletedInstallationStep &&
+                  !data?.project?.isCompletedCompletionStep
+                    ? true
+                    : false
                 }
                 title={textArr[2]}
                 firstText={'검수 및 전기차 충전 테스트 (고객 참관)'}
@@ -354,7 +391,11 @@ const ProgressBody = ({
               </ProgressName>
               {data?.project?.completionStepGoalDate ? (
                 <PickedDate
-                  color={4 >= state || 5 >= state ? colors.main : '#e2e5ed'}
+                  color={
+                    data?.project?.isCompletedCompletionStep
+                      ? colors.main
+                      : '#e2e5ed'
+                  }
                 >
                   {data?.project?.completionStepGoalDate}
                 </PickedDate>

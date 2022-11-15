@@ -64,7 +64,7 @@ const RunningProgress = (props: Props) => {
     data: inProgressData,
   } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
     variables: {
-      projectIdx: router?.query?.projectIdx,
+      projectIdx: router?.query?.projectIdx!,
     },
     context: {
       headers: {
