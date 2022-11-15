@@ -44,8 +44,8 @@ const Request = () => {
     3: <Charging />,
   };
 
-  // 유저 정보 API
-   /* const {
+  //유저 정보 API
+   const {
     data: userData,
     isError: userError,
     isLoading: userLoading,
@@ -59,9 +59,9 @@ const Request = () => {
   if (userError) {
     console.log('유저 정보 에러');
   }
-  console.log(userData); */
+  console.log(userData); 
 
-  const userData = {name: ''}
+  //const userData = {name: ''}
 
   return (
     <WebBody>
