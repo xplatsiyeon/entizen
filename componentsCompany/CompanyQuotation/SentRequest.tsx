@@ -123,8 +123,7 @@ const SentRequest = ({}: Props) => {
                 />
               </DdayBox>
               <AddressBox>
-                테스트
-                {/* {el?.quotationRequest.installationAddress} */}
+                {el?.quotationRequest.installationAddress}
               </AddressBox>
             </DdayNAddress>
             <IconBox>

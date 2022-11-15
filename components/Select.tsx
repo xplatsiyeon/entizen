@@ -74,7 +74,7 @@ const SelectComponents = ({
       </SelectBox>
       {isOpen && (
         <Ul>
-          {option.map((item, i) => (
+          {option?.map((item, i) => (
             <Li
               isSelected={value === item ? true : false}
               key={i}

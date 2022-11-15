@@ -12,7 +12,7 @@ export interface DetailQuotationFiles {
   originalName: string;
 }
 export interface charger {
-  idx?: number;
+  idx: number;
   kind: string; // 종류
   standType: string; // 거치 타입
   channel: string; // 채널
@@ -68,6 +68,7 @@ const initialState: FinalQuotation = {
   // ------- step2 --------
   chargers: [
     {
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',
@@ -84,6 +85,7 @@ const initialState: FinalQuotation = {
   ],
   chargersKo: [
     {
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',

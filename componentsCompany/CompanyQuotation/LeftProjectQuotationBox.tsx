@@ -110,37 +110,37 @@ const LeftProjectQuotationBox = ({
     };
   }, [nowWidth]);
 
-  useEffect(() => {
-    if (
-      route.asPath ===
-      `/company/recievedRequest?quotationRequestIdx=${router.query.quotationRequestIdx}`
-    ) {
-      setTab('받은 요청');
-      setUnderNum(0);
-    } else if (
-      route.asPath ===
-      `/company/sentProvisionalQuotation?preQuotationIdx=${router.query.preQuotationIdx}`
-    ) {
-      setTab('보낸 견적');
-      setUnderNum(1);
-    } else if (route.asPath === '/company/quotation/lastQuotation') {
-      setTab('보낸 견적');
-      setUnderNum(1);
-    } else if (
-      route.asPath ===
-        `/company/recievedRequest?preQuotationIdx=${router.query.preQuotationIdx}` &&
-      data === undefined
-    ) {
-      setTab('받은 요청');
-      setUnderNum(2);
-    } else if (
-      route.pathname === '/company/quotation/lastQuotation' &&
-      data === undefined
-    ) {
-      setTab('보낸 견적');
-      setUnderNum(2);
-    }
-  }, [route]);
+  // useEffect(() => {
+  //   if (
+  //     route.asPath ===
+  //     `/company/recievedRequest?quotationRequestIdx=${router.query.quotationRequestIdx}`
+  //   ) {
+  //     setTab('받은 요청');
+  //     setUnderNum(0);
+  //   } else if (
+  //     route.asPath ===
+  //     `/company/sentProvisionalQuotation?preQuotationIdx=${router.query.preQuotationIdx}`
+  //   ) {
+  //     setTab('보낸 견적');
+  //     setUnderNum(1);
+  //   } else if (route.asPath === '/company/quotation/lastQuotation') {
+  //     setTab('보낸 견적');
+  //     setUnderNum(1);
+  //   } else if (
+  //     route.asPath ===
+  //       `/company/recievedRequest?preQuotationIdx=${router.query.preQuotationIdx}` &&
+  //     data === undefined
+  //   ) {
+  //     setTab('받은 요청');
+  //     setUnderNum(2);
+  //   } else if (
+  //     route.pathname === '/company/quotation/lastQuotation' &&
+  //     data === undefined
+  //   ) {
+  //     setTab('보낸 견적');
+  //     setUnderNum(2);
+  //   }
+  // }, []);
 
   useEffect(() => {
     sendRefetch();

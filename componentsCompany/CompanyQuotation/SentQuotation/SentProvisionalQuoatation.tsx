@@ -315,9 +315,9 @@ const SentQuoatationFirst = () => {
   console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
   console.log(data);
 
-  useEffect(() => {
-    refetch();
-  }, []);
+  // useEffect(() => {
+  //   refetch();
+  // }, []);
   return (
     <>
       <WebBuyerHeader

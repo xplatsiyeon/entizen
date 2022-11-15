@@ -166,6 +166,7 @@ const FirstStep = ({
   const onClickChargerAdd = () => {
     if (selectedOptionEn.length === 5) return;
     const temp = selectedOptionEn.concat({
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',
@@ -236,8 +237,8 @@ const FirstStep = ({
 
   useEffect(() => {
     console.log('🔥 ~line 226 ~selectedOptionEn data check');
-    console.log(selectedOptionEn);
-  }, [selectedOptionEn]);
+    console.log(selectedOption);
+  }, [selectedOption]);
 
   return (
     <WebRapper>
