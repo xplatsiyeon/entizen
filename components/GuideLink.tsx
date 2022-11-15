@@ -47,7 +47,10 @@ const GuideLink = ({ type, num, now }: Props) => {
     } else {
       if (type === 'guide') {
         router.push(`/${linkUrl[idx]}`)
-      } else {
+      }else if( (type === 'mypage') && (idx === 0) ){
+        router.push('/mypage');
+      }
+      else {
         router.push({
           pathname: '/mypage',
           query: { id: idx },
