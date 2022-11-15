@@ -25,6 +25,7 @@ const MessageBox = ({
   page,
   num,
 }: Props) => {
+
   const [idx, setIdx] = useState<number>(1);
 
   const handleNum = () => {
@@ -45,6 +46,7 @@ const MessageBox = ({
           {thirdText && <li>{thirdText}</li>}
         </List>
         {num === 5 ? (
+          //여기 코드 reUsable 컴포넌트로
           <ImageBox>
             <Index onClick={handleNum}>{idx}/2</Index>
           </ImageBox>

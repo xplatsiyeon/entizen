@@ -33,6 +33,8 @@ const Request = () => {
   useEffect(() => {
     if (route.query.id !== undefined) {
       setTabNumber(Number(route.query.id));
+    }else if( !(route.query.id) && (route.pathname === '/mypage')){ 
+      setTabNumber(0)
     }
   }, [route.query.id]);
 
@@ -45,21 +47,23 @@ const Request = () => {
   };
 
   // 유저 정보 API
-  const {
-    data: userData,
-    isError: userError,
-    isLoading: userLoading,
-  } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'), {
-    // enabled: false
-  });
+  /* const {
+   data: userData,
+   isError: userError,
+   isLoading: userLoading,
+ } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'), {
+   // enabled: false
+ });
 
-  if (userLoading) {
-    return <Loader />;
-  }
-  if (userError) {
-    console.log('유저 정보 에러');
-  }
-  console.log(userData);
+ if (userLoading) {
+   return <Loader />;
+ }
+ if (userError) {
+   console.log('유저 정보 에러');
+ }
+ console.log(userData); */
+
+const userData = { name: '' }
 
   return (
     <WebBody>
@@ -91,17 +95,40 @@ const Request = () => {
             <Line />
             <TabContainer>
               {typeof tabNumber === 'number' &&
-                TabType.map((tab, index) => (
-                  <TabItem
-                    key={index}
-                    tab={tabNumber.toString()}
-                    index={index.toString()}
-                    onClick={() => setTabNumber(index)}
-                  >
-                    {tab}
-                    <Dot tab={tabNumber.toString()} index={index.toString()} />
-                  </TabItem>
-                ))}
+                TabType.map((tab, index) => {
+                  if (index === 0) {
+                    return (
+                      <TabItem
+                        key={index}
+                        tab={tabNumber.toString()}
+                        index={index.toString()}
+                        onClick={() =>
+                          route.push('/mypage')
+                        }
+                      >
+                        {tab}
+                        <Dot tab={tabNumber.toString()} index={index.toString()} />
+                      </TabItem>
+                    )
+                  } else {
+                    return (
+                      <TabItem
+                        key={index}
+                        tab={tabNumber.toString()}
+                        index={index.toString()}
+                        onClick={() =>
+                          route.push({
+                            pathname: '/mypage',
+                            query: { id: index },
+                          })
+                        }
+                      >
+                        {tab}
+                        <Dot tab={tabNumber.toString()} index={index.toString()} />
+                      </TabItem>
+                    )
+                  }
+                })}
             </TabContainer>
           </Body>
         </FlexBox>

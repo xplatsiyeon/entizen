@@ -114,8 +114,8 @@ const AsRequestWriteReview = ({ setModalOpen, modalOpen }: Props) => {
 const Wrapper = styled.div`
   position: relative;
   @media (max-width: 899pt) {
-    padding-left: 15pt;
-    padding-right: 15pt;
+  //padding-left: 15pt;
+  //padding-right: 15pt;
   }
 `;
 

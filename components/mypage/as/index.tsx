@@ -476,6 +476,9 @@ border-radius: 6pt;
 width: 96pt;
 justify-content: center;
 box-sizing: border-box;
+@media (max-width: 899pt) {
+  display: none;
+}
 `
 
 const Ul = styled.ul`
