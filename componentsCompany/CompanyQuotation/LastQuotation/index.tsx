@@ -25,6 +25,9 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -350,28 +353,65 @@ const LastWrite = ({ data }: Props) => {
 
   console.log('🔥 ~line 258 보낸견적 상세 페이지 데이터');
   console.log(data);
+
+  const [successComponentId, setSuccessComponentId] = useState<number>();
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+
+  // 실시간으로 width 받아오는 함수
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
+  useEffect(() => {
+    if (router.pathname === `/company/quotation/lastQuotation`) {
+      setOpenSubLink(!openSubLink);
+    }
+  }, []);
   return (
     <>
-      {tabNumber >= 0 && (
-        <>
-          <TabBox>
-            {Object.keys(components).map((tab, index) => (
-              <React.Fragment key={index}>
-                {index <= selectedOption.length + 1 && (
-                  <TabLine
-                    idx={index.toString()}
-                    num={tabNumber.toString()}
-                    key={tab}
-                    // 테스트용
-                    // onClick={() => setTabNumber(index)}
-                  />
-                )}
-              </React.Fragment>
-            ))}
-          </TabBox>
-          {components[tabNumber]}
-        </>
-      )}
+      <WebBuyerHeader
+        setOpenSubLink={setOpenSubLink}
+        setTabNumber={setTabNumber}
+        tabNumber={tabNumber}
+        successComponentId={successComponentId}
+        openSubLink={openSubLink}
+      />
+      <WebRapper>
+        <LeftProjectQuotationBox />
+        {tabNumber >= 0 && (
+          <>
+            <WebProgressbar>
+              <TabBox>
+                {Object.keys(components).map((tab, index) => (
+                  <React.Fragment key={index}>
+                    {index <= selectedOption.length + 1 && (
+                      <TabLine
+                        idx={index.toString()}
+                        num={tabNumber.toString()}
+                        key={tab}
+                        // 테스트용
+                        // onClick={() => setTabNumber(index)}
+                      />
+                    )}
+                  </React.Fragment>
+                ))}
+              </TabBox>
+              <WebComponents> {components[tabNumber]}</WebComponents>
+            </WebProgressbar>
+          </>
+        )}
+      </WebRapper>
+      <WebFooter />
     </>
   );
 };
@@ -386,11 +426,18 @@ const TabBox = styled.div`
   position: absolute;
   width: 100%;
   top: 0;
-
   @media (max-width: 899pt) {
     display: flex;
     position: relative;
     gap: 0.2pt;
+  }
+  @media (min-width: 899pt) {
+    position: relative;
+    width: 534pt;
+    margin: 0 auto;
+    z-index: 3;
+    top: 3.5%;
+    gap: 0.3pt;
   }
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
@@ -398,7 +445,6 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   border-bottom-width: 3pt;
   border-color: ${({ idx, num }) => (idx <= num ? colors.main : colors.gray4)};
   border-radius: 2px;
-
   width: calc((100% - 15pt) / 6);
   display: inline-block;
   margin-right: 3pt;
@@ -409,6 +455,34 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   @media (max-width: 899pt) {
     display: block;
     width: 100%;
+  }
+
+  @media (min-width: 899pt) {
+    width: 165pt;
+  }
+`;
+
+const WebRapper = styled.div`
+  @media (min-width: 899pt) {
+    width: 900pt;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-top: 54pt;
+  }
+`;
+
+const WebComponents = styled.div`
+  @media (min-width: 899pt) {
+    width: 580.5pt;
+  }
+`;
+
+const WebProgressbar = styled.div`
+  @media (min-width: 899pt) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 `;
 

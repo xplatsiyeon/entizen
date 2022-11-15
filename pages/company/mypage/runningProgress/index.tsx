@@ -82,9 +82,15 @@ const RunningProgress = (props: Props) => {
       const num = Number(router.query.projectIdx);
       setComponentId(num);
       // setData(tempProceeding[num]);
-      setOpenSubLink(!openSubLink);
     }
   }, [router.query.projectIdx]);
+
+  useEffect(() => {
+    if (router.query.projectIdx) {
+      // setData(tempProceeding[num]);
+      setOpenSubLink(!openSubLink);
+    }
+  }, []);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {

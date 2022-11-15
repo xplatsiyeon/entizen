@@ -12,7 +12,10 @@ import { isTokenPostApi, multerApi } from 'api';
 import { AxiosError } from 'axios';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { Data } from 'pages/company/mypage/runningProgress';
-import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
+import {
+  InProgressProjectsDetailResponse,
+  InProgressProjectsDetail,
+} from 'QueryComponents/CompanyQuery';
 import { useRouter } from 'next/router';
 
 type Props = {

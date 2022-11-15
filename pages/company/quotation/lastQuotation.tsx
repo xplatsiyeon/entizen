@@ -3,8 +3,10 @@ import Loader from 'components/Loader';
 import MypageHeader from 'components/mypage/request/header';
 import LastWrite from 'componentsCompany/CompanyQuotation/LastQuotation';
 import { SentRequestResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 type Props = {};
 
@@ -15,14 +17,17 @@ const LastQuotation = (props: Props) => {
   const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
     'company/',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
+    // {
+    //   enabled: router.isReady,
+    // },
     {
-      enabled: router.isReady,
+      enabled: false,
     },
   );
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   if (isError) {
     console.log('🔥 ~line 249 ~에러 발생');

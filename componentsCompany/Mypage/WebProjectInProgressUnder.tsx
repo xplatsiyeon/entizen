@@ -36,18 +36,20 @@ const WebProjectInProgressUnder = ({
   if (data?.inProgressProjects?.length === 0) {
     return <NoProject />;
   }
+
   const handleId = (index: number) => {
     if (setComponentId !== undefined) {
       setComponentId(index);
     }
   };
+
   const router = useRouter();
 
-  useEffect(() => {
-    if (componentId !== undefined) {
-      router.push(`/company/mypage/runningProgress/${componentId}`);
-    }
-  }, [componentId]);
+  // useEffect(() => {
+  //   if (componentId !== undefined) {
+  //     router.push(`/company/mypage/runningProgress/${componentId}`);
+  //   }
+  // }, [componentId]);
 
   return (
     <>
@@ -58,11 +60,17 @@ const WebProjectInProgressUnder = ({
               {data?.inProgressProjects?.map((el, index) => (
                 <div key={index}>
                   <Contents
-                    index={index}
                     componentId={componentId}
+                    projectIdx={Number(el.projectIdx)}
                     key={el.projectIdx}
                     onClick={() => {
                       handleId(index);
+                      router.push({
+                        pathname: '/company/mypage/runningProgress/',
+                        query: {
+                          projectIdx: el?.projectIdx,
+                        },
+                      });
                     }}
                   >
                     <DdayNAddress>
@@ -101,8 +109,8 @@ const ContentsContainer = styled.div`
 `;
 
 const Contents = styled.div<{
-  index: number;
-  componentId: number | undefined;
+  projectIdx: number | undefined;
+  componentId: number;
 }>`
   padding: 12pt 13.5pt;
   display: flex;
@@ -114,8 +122,8 @@ const Contents = styled.div<{
   cursor: pointer;
   width: 198pt;
   height: 45pt;
-  border: ${({ componentId, index }) =>
-    componentId === index ? `0.75pt solid #5221CB` : ``};
+  border: ${({ projectIdx, componentId }) =>
+    componentId === projectIdx ? `0.75pt solid #5221CB` : ``};
 `;
 
 const DdayBox = styled.div`

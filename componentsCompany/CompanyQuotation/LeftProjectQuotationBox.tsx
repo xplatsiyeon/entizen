@@ -89,17 +89,29 @@ const LeftProjectQuotationBox = ({
     } else if (route.pathname === '/company/sentProvisionalQuotation/[id]') {
       setTab('보낸 견적');
       setUnderNum(1);
+    } else if (route.pathname === '/company/quotation/lastQuotation') {
+      setTab('보낸 견적');
+      setUnderNum(1);
+    } else if (
+      route.pathname === '/company/recievedRequest/[id]' &&
+      data === undefined
+    ) {
+      setTab('받은 요청');
+      setUnderNum(2);
+    } else if (
+      route.pathname === '/company/quotation/lastQuotation' &&
+      data === undefined
+    ) {
+      setTab('보낸 견적');
+      setUnderNum(2);
     }
   }, [route]);
 
   const webComponents: Components = {
     0: <RecieveRequestUnder data={data} />,
     1: <SendRequestUnder />,
+    2: <NoProject />,
   };
-
-  if (tempProceeding.length === 0) {
-    return <NoProject />;
-  }
 
   return (
     <>
@@ -119,6 +131,7 @@ const Wrapper = styled.div`
   @media (min-width: 899pt) {
     width: 255pt;
     height: 424.5pt;
+
     border: 0.75pt solid #e2e5ed;
     border-radius: 12pt;
   }
