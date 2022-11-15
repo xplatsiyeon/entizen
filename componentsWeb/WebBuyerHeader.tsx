@@ -128,7 +128,7 @@ const WebBuyerHeader = ({
                       setType(el.type);
                       setTab(el.id);
                       router.push(el.linkUrl);
-                      setOpenSubLink(!openSubLink);
+                      setOpenSubLink(false);
                     }}
                   >
                     {el.menu}

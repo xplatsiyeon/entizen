@@ -19,6 +19,7 @@ import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/SignUp/header';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
+import WebFooter from 'componentsWeb/WebFooter';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -205,19 +206,32 @@ const SentQuoatationFirst = () => {
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [getComponentId, setGetComponentId] = useState<number>();
+  const [successComponentId, setSuccessComponentId] = useState<number>();
   // 실시간으로 width 받아옴
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
 
+  // LeftBox component 바꿔주는거
+  const [underNum, setUnderNum] = useState<number>();
+
   useEffect(() => {
-    if (router.query.id) {
-      const num = Number(router.query.id);
+    if (router.query.preQuotationIdx) {
+      const num = Number(router.query.preQuotationIdx);
       setGetComponentId(num);
       // setData(tempProceeding[num]);
-      setOpenSubLink(!openSubLink);
+      setSuccessComponentId(num);
     }
-  }, [router.query.id]);
+  }, [router.query.preQuotationIdx]);
+
+  console.log();
+
+  useEffect(() => {
+    if (router.query.preQuotationIdx) {
+      setOpenSubLink(false);
+    }
+  }, [router]);
+
   // ----------- 보낸 견적 상세 페이지 api --------------
   const { data, isLoading, isError, error, refetch } =
     useQuery<SentRequestResponse>(
@@ -300,6 +314,10 @@ const SentQuoatationFirst = () => {
   console.log(spotData);
   console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
   console.log(data);
+
+  useEffect(() => {
+    refetch();
+  }, []);
   return (
     <>
       <WebBuyerHeader
@@ -328,7 +346,14 @@ const SentQuoatationFirst = () => {
         {isModal && <Modal click={onClickModal} text={errorMessage} />}
         <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
         <WebRapper>
-          {nowWidth > 1198.7 && <LeftProjectQuotationBox />}
+          {nowWidth > 1198.7 && (
+            <LeftProjectQuotationBox
+              underNum={underNum}
+              setUnderNum={setUnderNum}
+              successComponentId={successComponentId}
+              setSuccessComponentId={setSuccessComponentId}
+            />
+          )}
           {/* 구매자 견적 정보 */}
           <WebColumnContainer>
             <TopBox

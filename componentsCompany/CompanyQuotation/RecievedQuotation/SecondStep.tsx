@@ -619,12 +619,6 @@ const SecondStep = ({
   );
 };
 
-const WebRapper = styled.div`
-  @media (min-width: 899pt) {
-    border: 0.75pt solid red;
-  }
-`;
-
 const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
@@ -658,6 +652,9 @@ const TopStep = styled.div`
     line-height: 10.5pt;
     letter-spacing: -0.02em;
     text-align: left;
+  }
+  @media (min-width: 899pt) {
+    padding-top: 50pt;
   }
 `;
 const SubWord = styled.div`

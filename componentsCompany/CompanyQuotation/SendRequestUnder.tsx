@@ -15,7 +15,13 @@ import Search from './Search';
 import { HandleColor } from 'utils/changeValue';
 import WebSort from './WebSort';
 
-type Props = {};
+type Props = {
+  setSuccessComponentId?: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
+  successComponentId?: number;
+  send?: SentrequestResponse;
+};
 export interface QuotationRequest {
   changedDate: string;
   createdAt: string;
@@ -52,56 +58,30 @@ export interface SentrequestResponse {
   sendQuotationRequests: SendQuotationRequests[];
 }
 const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
-const SendRequestUnder = ({}: Props) => {
+const SendRequestUnder = ({
+  successComponentId,
+  setSuccessComponentId,
+  send,
+}: Props) => {
   const router = useRouter();
-  const [select, setSelect] = useState<number>();
-  useEffect(() => {
-    if (router.query.id) {
-      const num = Number(router.query.id);
-      setSelect(num);
-    }
-  }, [router]);
-
-  const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
-    'sent-request',
-    () => isTokenGetApi('/quotations/sent-request'),
-    {
-      enabled: false,
-    },
-  );
-
-  if (isError) {
-    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-    console.log(error);
-    return (
-      <Modal
-        text="다시 시도해주세요"
-        click={() => {
-          router.push('/');
-        }}
-      />
-    );
-  }
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
-
-  console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
-  console.log(data);
+  console.log(send);
 
   return (
     <>
       <ContentsContainer>
-        {data?.sendQuotationRequests?.map((el, index) => (
+        {send?.sendQuotationRequests?.map((el, index) => (
           <Contents
             key={index}
-            onClick={() =>
-              router.push(
-                `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
-              )
-            }
-            select={select!}
-            index={index}
+            onClick={() => {
+              router.push({
+                pathname: '/company/sentProvisionalQuotation',
+                query: {
+                  preQuotationIdx: el?.preQuotation?.preQuotationIdx,
+                },
+              });
+            }}
+            select={Number(el?.preQuotation?.preQuotationIdx)}
+            successComponentId={successComponentId}
           >
             <DdayNAddress>
               <DdayBox>
@@ -112,8 +92,7 @@ const SendRequestUnder = ({}: Props) => {
                 />
               </DdayBox>
               <AddressBox>
-                테스트
-                {/* {el?.quotationRequest.installationAddress} */}
+                {el?.quotationRequest.installationAddress}
               </AddressBox>
             </DdayNAddress>
             <IconBox>
@@ -134,9 +113,14 @@ const ContentsContainer = styled.div`
     height: 66pt;
     margin: 0 auto;
     border-radius: 6pt;
+    height: 340pt;
+    overflow-y: scroll;
   }
 `;
-const Contents = styled.div<{ select: number; index: number }>`
+const Contents = styled.div<{
+  select: number;
+  successComponentId: number | undefined;
+}>`
   padding: 12pt 13.5pt;
   display: flex;
   margin-bottom: 9pt;
@@ -144,8 +128,8 @@ const Contents = styled.div<{ select: number; index: number }>`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
-  border: ${({ select, index }) =>
-    select === index ? `0.75pt solid #5221CB` : ''};
+  border: ${({ select, successComponentId }) =>
+    select === successComponentId ? `0.75pt solid #5221CB` : ''};
 `;
 const DdayBox = styled.div`
   margin-bottom: 16.5pt;

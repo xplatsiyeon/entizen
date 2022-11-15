@@ -14,6 +14,8 @@ import {
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import SendRequestUnder from './SendRequestUnder';
+import LastQuotation from 'pages/company/quotation/lastQuotation';
+import { SentrequestResponse } from './SentRequest';
 
 type Props = {
   searchWord?: string;
@@ -23,6 +25,14 @@ type Props = {
   checkedFilter?: filterType;
   setCheckedFilter?: Dispatch<SetStateAction<filterType>>;
   keyword?: string;
+  underNum?: number;
+  setUnderNum: React.Dispatch<React.SetStateAction<number | undefined>>;
+  getComponentId?: number;
+  setGetComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  successComponentId?: number;
+  setSuccessComponentId?: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
 };
 
 interface Components {
@@ -47,6 +57,12 @@ const LeftProjectQuotationBox = ({
   checkedFilter,
   setCheckedFilter,
   keyword,
+  underNum,
+  setUnderNum,
+  setGetComponentId,
+  getComponentId,
+  setSuccessComponentId,
+  successComponentId,
 }: Props) => {
   const route = useRouter();
   const [userName, setUserName] = useState<string>('윤세아');
@@ -54,7 +70,6 @@ const LeftProjectQuotationBox = ({
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
   const [tab, setTab] = useState<string>('');
-  const [underNum, setUnderNum] = useState<number>();
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
@@ -75,6 +90,19 @@ const LeftProjectQuotationBox = ({
     },
   );
 
+  // send data api
+  const {
+    data: send,
+    isError: sendError,
+    isLoading: sendLoading,
+    error: sendE,
+    refetch: sendRefetch,
+  } = useQuery<SentrequestResponse>('sent-request', () =>
+    isTokenGetApi('/quotations/sent-request'),
+  );
+
+  const router = useRouter();
+
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => {
@@ -83,17 +111,24 @@ const LeftProjectQuotationBox = ({
   }, [nowWidth]);
 
   useEffect(() => {
-    if (route.pathname === '/company/recievedRequest/[id]') {
+    if (
+      route.asPath ===
+      `/company/recievedRequest?quotationRequestIdx=${router.query.quotationRequestIdx}`
+    ) {
       setTab('받은 요청');
       setUnderNum(0);
-    } else if (route.pathname === '/company/sentProvisionalQuotation/[id]') {
+    } else if (
+      route.asPath ===
+      `/company/sentProvisionalQuotation?preQuotationIdx=${router.query.preQuotationIdx}`
+    ) {
       setTab('보낸 견적');
       setUnderNum(1);
-    } else if (route.pathname === '/company/quotation/lastQuotation') {
+    } else if (route.asPath === '/company/quotation/lastQuotation') {
       setTab('보낸 견적');
       setUnderNum(1);
     } else if (
-      route.pathname === '/company/recievedRequest/[id]' &&
+      route.asPath ===
+        `/company/recievedRequest?preQuotationIdx=${router.query.preQuotationIdx}` &&
       data === undefined
     ) {
       setTab('받은 요청');
@@ -107,10 +142,32 @@ const LeftProjectQuotationBox = ({
     }
   }, [route]);
 
+  useEffect(() => {
+    sendRefetch();
+  }, [router?.query?.preQuotationIdx]);
+
   const webComponents: Components = {
-    0: <RecieveRequestUnder data={data} />,
-    1: <SendRequestUnder />,
-    2: <NoProject />,
+    0: (
+      <RecieveRequestUnder
+        data={data}
+        getComponentId={getComponentId}
+        setGetComponentId={setGetComponentId}
+      />
+    ),
+    1: (
+      <SendRequestUnder
+        successComponentId={successComponentId}
+        setSuccessComponentId={setSuccessComponentId}
+        send={send}
+      />
+    ),
+    2: (
+      <LastQuotation
+        successComponentId={successComponentId}
+        setSuccessComponentId={setSuccessComponentId}
+      />
+    ),
+    3: <NoProject />,
   };
 
   return (
@@ -131,7 +188,6 @@ const Wrapper = styled.div`
   @media (min-width: 899pt) {
     width: 255pt;
     height: 424.5pt;
-
     border: 0.75pt solid #e2e5ed;
     border-radius: 12pt;
   }

@@ -117,7 +117,7 @@ const Wrapper = styled.div`
   padding-bottom: 45pt;
   height: 100vh;
   @media (min-width: 899pt) {
-    margin-bottom: 40pt;
+    margin-bottom: 100pt;
   }
 `;
 
@@ -141,6 +141,9 @@ const TopStep = styled.div`
     line-height: 10.5pt;
     letter-spacing: -0.02em;
     text-align: left;
+  }
+  @media (min-width: 899pt) {
+    padding-top: 50pt;
   }
 `;
 

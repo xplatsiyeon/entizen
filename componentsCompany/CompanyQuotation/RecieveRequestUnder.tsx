@@ -21,19 +21,19 @@ import Modal from 'components/Modal/Modal';
 
 type Props = {
   data?: ReceivedRequest;
+  setGetComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  getComponentId?: number;
 };
 
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
-const RecieveRequestUnder = ({ data }: Props) => {
+const RecieveRequestUnder = ({
+  data,
+  setGetComponentId,
+  getComponentId,
+}: Props) => {
   const router = useRouter();
-  const [select, setSelect] = useState<number>();
+
   console.log(TAG + '🔥 ~ line 45 ~ data check');
-  useEffect(() => {
-    if (router.query.id) {
-      const num = Number(router.query.id);
-      setSelect(num);
-    }
-  }, [router]);
 
   return (
     <>
@@ -46,8 +46,8 @@ const RecieveRequestUnder = ({ data }: Props) => {
                 `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
               )
             }
-            select={select!}
-            idx={idx}
+            select={Number(el?.quotationRequest?.quotationRequestIdx)}
+            getComponentId={getComponentId}
           >
             <DdayNAddress>
               <DdayBox>
@@ -76,22 +76,26 @@ const RecieveRequestUnder = ({ data }: Props) => {
 
 const ContentsContainer = styled.div`
   @media (min-width: 899pt) {
-    width: 198pt;
-    height: 66pt;
+    width: 200pt;
     margin: 0 auto;
     border-radius: 6pt;
+    height: 340pt;
+    overflow-y: scroll;
   }
 `;
 
-const Contents = styled.div<{ select: number; idx: number }>`
+const Contents = styled.div<{
+  select: number | undefined;
+  getComponentId: number | undefined;
+}>`
   padding: 12pt 13.5pt;
   display: flex;
   margin-bottom: 9pt;
   justify-content: space-between;
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
-  border: ${({ select, idx }) =>
-    select === idx ? `0.75pt solid #5221CB` : ''};
+  border: ${({ select, getComponentId }) =>
+    select === getComponentId ? `0.75pt solid #5221CB` : ''};
   cursor: pointer;
 `;
 

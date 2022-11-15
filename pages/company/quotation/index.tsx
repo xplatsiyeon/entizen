@@ -7,6 +7,7 @@ import History from 'componentsCompany/CompanyQuotation/History';
 import LeftProjectQuotationBox from 'componentsCompany/CompanyQuotation/LeftProjectQuotationBox';
 import RecieveRequest from 'componentsCompany/CompanyQuotation/RecieveRequest';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import useDebounce from 'hooks/useDebounce';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -166,6 +167,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
         />
         <div>{components[tabNumber]}</div>
       </Container>
+      <WebFooter />
       <BottomNavigation />
     </>
   );
