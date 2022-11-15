@@ -65,6 +65,9 @@ const SendRequestUnder = ({}: Props) => {
   const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
     'sent-request',
     () => isTokenGetApi('/quotations/sent-request'),
+    {
+      enabled: false,
+    },
   );
 
   if (isError) {
@@ -79,9 +82,9 @@ const SendRequestUnder = ({}: Props) => {
       />
     );
   }
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
   console.log(data);
@@ -103,10 +106,8 @@ const SendRequestUnder = ({}: Props) => {
             <DdayNAddress>
               <DdayBox>
                 <CommonBtn
-                  // text={el?.badge}
-                  text={'56566465'}
-                  backgroundColor="red"
-                  // backgroundColor={HandleColor(el?.badge)}
+                  text={el?.badge}
+                  backgroundColor={HandleColor(el?.badge)}
                   bottom={'12pt'}
                 />
               </DdayBox>

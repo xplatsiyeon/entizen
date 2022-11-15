@@ -240,201 +240,203 @@ const FirstStep = ({
   }, [selectedOptionEn]);
 
   return (
-    <Wrapper>
-      <TopStep>
-        <div>STEP 1</div>
-        <div>* 필수 입력</div>
-      </TopStep>
-      <SubWord>
-        최종 견적가 및<br />
-        현장실사 결과를 입력해주세요
-      </SubWord>
-      <InputBox>
-        <div className="withAfter">구독상품</div>
-        <SelectContainer>
-          <SelectComponents
-            value={subscribeProduct}
-            option={subScribe}
-            placeholder="구독 종류"
-            onClickEvent={handleChangeProduct}
-          />
-        </SelectContainer>
-      </InputBox>
-      <InputBox>
-        <div className="withAfter">구독기간</div>
-        <SelectContainer>
-          <SelectComponents
-            value={subscribePeriod}
-            option={subscribeType}
-            placeholder="구독 기간"
-            onClickEvent={handleChangePeriod}
-          />
-        </SelectContainer>
-      </InputBox>
-      <InputBox>
-        <div className="withAfter">수익지분</div>
-        <ProfitBox>
-          <FirstBox>
-            <SubTitle>고객</SubTitle>
-            <SmallInputBox>
-              <Input
-                value={profitableInterestUser}
-                className="inputTextLeft"
-                onChange={(event) =>
-                  onChangeProfitableInterestUser(
-                    event,
-                    setProfitableInterestUser,
-                  )
-                }
-                type="number"
-                placeholder="0"
-                name="subscribeMoney"
-              />
-              <div className="percent">%</div>
-            </SmallInputBox>
-          </FirstBox>
-          <FirstBox>
-            <SubTitle>Charge Point</SubTitle>
-            <SmallInputBox>
-              <Input
-                value={chargePoint}
-                className="inputTextLeft"
-                onChange={(event) =>
-                  onChangeProfitableInterestUser(event, setChargePoint)
-                }
-                type="number"
-                placeholder="0"
-                name="subscribeMoney"
-              />
-              <div className="percent">%</div>
-            </SmallInputBox>
-          </FirstBox>
-        </ProfitBox>
-      </InputBox>
-      <InputBox>
-        <div className="withAfter">월 구독료</div>
-        <div className="monthFlex">
-          <Input
-            onChange={(e) =>
-              setSubscribePricePerMonth(inputPriceFormat(e.target.value))
-            }
-            value={subscribePricePerMonth}
-            name="subscribeMoney"
-          />
-          <AfterWord>원</AfterWord>
-        </div>
-      </InputBox>
-
-      {/* 충전기 종류 및 수량 선택  */}
-      {selectedOption?.map((item, index) => (
-        <InputBox className={index > 0 ? 'marginTop' : ''} key={index}>
-          <div>
-            <SubTitle>
-              {index === 0 && (
-                <h3 className="name">충전기 종류 및 수량 선택</h3>
-              )}
-              {1 <= index ? (
-                <div className="deleteBox">
-                  <div className="x-img" onClick={() => onClickMinus(index)}>
-                    <Image src={XCircle} alt="add-img" />
-                  </div>
-                </div>
-              ) : (
-                <div className="add-img" onClick={onClickChargerAdd}>
-                  <Image src={AddIcon} alt="add-img" />
-                </div>
-              )}
-            </SubTitle>
+    <WebRapper>
+      <Wrapper>
+        <TopStep>
+          <div>STEP 1</div>
+          <div>* 필수 입력</div>
+        </TopStep>
+        <SubWord>
+          최종 견적가 및<br />
+          현장실사 결과를 입력해주세요
+        </SubWord>
+        <InputBox>
+          <div className="withAfter">구독상품</div>
+          <SelectContainer>
             <SelectComponents
-              value={item.kind}
-              option={M5_LIST}
-              name="kind"
-              placeholder="충전기 종류"
-              index={index}
-              onClickCharger={handleSelectBox}
+              value={subscribeProduct}
+              option={subScribe}
+              placeholder="구독 종류"
+              onClickEvent={handleChangeProduct}
             />
-            {/* 타입,채널,수량 옵션 박스 */}
-            <SelectComponentsContainer>
-              <SelectComponents
-                value={item.standType}
-                option={M5_TYPE_SET[item.idx!]}
-                name="standType"
-                placeholder="타입"
-                index={index}
-                onClickCharger={handleSelectBox}
-                fontSize={'small'}
-              />
-              <SelectComponents
-                value={item.channel}
-                option={M5_CHANNEL_SET[item.idx!]}
-                name="channel"
-                placeholder="채널"
-                index={index}
-                onClickCharger={handleSelectBox}
-                fontSize={'small'}
-              />
-              <SelectComponents
-                value={item.count}
-                option={M8_LIST}
-                name="count"
-                placeholder="수량"
-                index={index}
-                onClickCharger={handleSelectBox}
-                fontSize={'small'}
-              />
-            </SelectComponentsContainer>
+          </SelectContainer>
+        </InputBox>
+        <InputBox>
+          <div className="withAfter">구독기간</div>
+          <SelectContainer>
+            <SelectComponents
+              value={subscribePeriod}
+              option={subscribeType}
+              placeholder="구독 기간"
+              onClickEvent={handleChangePeriod}
+            />
+          </SelectContainer>
+        </InputBox>
+        <InputBox>
+          <div className="withAfter">수익지분</div>
+          <ProfitBox>
+            <FirstBox>
+              <SubTitle>고객</SubTitle>
+              <SmallInputBox>
+                <Input
+                  value={profitableInterestUser}
+                  className="inputTextLeft"
+                  onChange={(event) =>
+                    onChangeProfitableInterestUser(
+                      event,
+                      setProfitableInterestUser,
+                    )
+                  }
+                  type="number"
+                  placeholder="0"
+                  name="subscribeMoney"
+                />
+                <div className="percent">%</div>
+              </SmallInputBox>
+            </FirstBox>
+            <FirstBox>
+              <SubTitle>Charge Point</SubTitle>
+              <SmallInputBox>
+                <Input
+                  value={chargePoint}
+                  className="inputTextLeft"
+                  onChange={(event) =>
+                    onChangeProfitableInterestUser(event, setChargePoint)
+                  }
+                  type="number"
+                  placeholder="0"
+                  name="subscribeMoney"
+                />
+                <div className="percent">%</div>
+              </SmallInputBox>
+            </FirstBox>
+          </ProfitBox>
+        </InputBox>
+        <InputBox>
+          <div className="withAfter">월 구독료</div>
+          <div className="monthFlex">
+            <Input
+              onChange={(e) =>
+                setSubscribePricePerMonth(inputPriceFormat(e.target.value))
+              }
+              value={subscribePricePerMonth}
+              name="subscribeMoney"
+            />
+            <AfterWord>원</AfterWord>
           </div>
         </InputBox>
-      ))}
-      <InputBox>
-        <div className="withAfter">공사기간</div>
-        <div className="monthFlex">
-          <Input
-            onChange={(e) => setConstructionPeriod(e.target.value)}
-            value={constructionPeriod}
-            name="subscribeMoney"
-          />
-          <AfterWord>일</AfterWord>
-        </div>
-      </InputBox>
-      <InputBox>
-        <div className="withAfter withTextNumber">
-          <span>현장실사 결과</span>
-          <span>{dueDiligenceResult.length}/500</span>
-        </div>
-        <div className="monthFlex">
-          <TextArea
-            onChange={(e) => setDueDiligenceResult(e.target.value)}
-            value={dueDiligenceResult}
-            name="firstPageTextArea"
-            placeholder="현장실사 결과를 입력해주세요."
-            rows={7}
-          />
-        </div>
-      </InputBox>
-      <InputBox className="lastInputBox">
-        <div className="withTextNumber">
-          <span>구독상품 특장점</span>
-          <span>{dueDiligenceResult.length}/500</span>
-        </div>
-        <div className="monthFlex">
-          <TextArea
-            onChange={(e) => setSubscribeProductFeature(e.target.value)}
-            value={subscribeProductFeature}
-            name="firstPageTextArea"
-            placeholder="선택 입력 사항."
-            rows={5}
-          />
-        </div>
-      </InputBox>
-      <Btn
-        buttonActivate={canNext}
-        tabNumber={tabNumber}
-        onClick={buttonOnClick}
-      >
-        다음
-      </Btn>
-    </Wrapper>
+
+        {/* 충전기 종류 및 수량 선택  */}
+        {selectedOption?.map((item, index) => (
+          <InputBox className={index > 0 ? 'marginTop' : ''} key={index}>
+            <div>
+              <SubTitle>
+                {index === 0 && (
+                  <h3 className="name">충전기 종류 및 수량 선택</h3>
+                )}
+                {1 <= index ? (
+                  <div className="deleteBox">
+                    <div className="x-img" onClick={() => onClickMinus(index)}>
+                      <Image src={XCircle} alt="add-img" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="add-img" onClick={onClickChargerAdd}>
+                    <Image src={AddIcon} alt="add-img" />
+                  </div>
+                )}
+              </SubTitle>
+              <SelectComponents
+                value={item.kind}
+                option={M5_LIST}
+                name="kind"
+                placeholder="충전기 종류"
+                index={index}
+                onClickCharger={handleSelectBox}
+              />
+              {/* 타입,채널,수량 옵션 박스 */}
+              <SelectComponentsContainer>
+                <SelectComponents
+                  value={item.standType}
+                  option={M5_TYPE_SET[item.idx!]}
+                  name="standType"
+                  placeholder="타입"
+                  index={index}
+                  onClickCharger={handleSelectBox}
+                  fontSize={'small'}
+                />
+                <SelectComponents
+                  value={item.channel}
+                  option={M5_CHANNEL_SET[item.idx!]}
+                  name="channel"
+                  placeholder="채널"
+                  index={index}
+                  onClickCharger={handleSelectBox}
+                  fontSize={'small'}
+                />
+                <SelectComponents
+                  value={item.count}
+                  option={M8_LIST}
+                  name="count"
+                  placeholder="수량"
+                  index={index}
+                  onClickCharger={handleSelectBox}
+                  fontSize={'small'}
+                />
+              </SelectComponentsContainer>
+            </div>
+          </InputBox>
+        ))}
+        <InputBox>
+          <div className="withAfter">공사기간</div>
+          <div className="monthFlex">
+            <Input
+              onChange={(e) => setConstructionPeriod(e.target.value)}
+              value={constructionPeriod}
+              name="subscribeMoney"
+            />
+            <AfterWord>일</AfterWord>
+          </div>
+        </InputBox>
+        <InputBox>
+          <div className="withAfter withTextNumber">
+            <span>현장실사 결과</span>
+            <span>{dueDiligenceResult.length}/500</span>
+          </div>
+          <div className="monthFlex">
+            <TextArea
+              onChange={(e) => setDueDiligenceResult(e.target.value)}
+              value={dueDiligenceResult}
+              name="firstPageTextArea"
+              placeholder="현장실사 결과를 입력해주세요."
+              rows={7}
+            />
+          </div>
+        </InputBox>
+        <InputBox className="lastInputBox">
+          <div className="withTextNumber">
+            <span>구독상품 특장점</span>
+            <span>{dueDiligenceResult.length}/500</span>
+          </div>
+          <div className="monthFlex">
+            <TextArea
+              onChange={(e) => setSubscribeProductFeature(e.target.value)}
+              value={subscribeProductFeature}
+              name="firstPageTextArea"
+              placeholder="선택 입력 사항."
+              rows={5}
+            />
+          </div>
+        </InputBox>
+        <Btn
+          buttonActivate={canNext}
+          tabNumber={tabNumber}
+          onClick={buttonOnClick}
+        >
+          다음
+        </Btn>
+      </Wrapper>
+    </WebRapper>
   );
 };
 
@@ -449,8 +451,15 @@ const Wrapper = styled.div`
   .lastInputBox {
     padding-bottom: 120pt;
   }
+  @media (min-width: 899pt) {
+    margin: 0 auto;
+  }
 `;
 const TopStep = styled.div`
+  @media (min-width: 899pt) {
+    margin-top: 0;
+    padding-top: 70pt;
+  }
   margin-top: 24pt;
   display: flex;
   justify-content: space-between;
@@ -668,6 +677,13 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   cursor: pointer;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
+  @media (min-width: 899pt) {
+    padding: 15pt 0;
+    border-radius: 8pt;
+    position: relative;
+    margin: 0 auto;
+    bottom: 15%;
+  }
 `;
 const SelectContainer = styled.div`
   width: 100%;
@@ -679,5 +695,15 @@ const SelectComponentsContainer = styled.div`
   justify-content: center;
   padding-top: 9pt;
   gap: 9pt;
+`;
+
+const WebRapper = styled.div`
+  @media (min-width: 899pt) {
+    height: 1250pt;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    border-radius: 12pt;
+    margin-bottom: 30pt;
+  }
 `;
 export default FirstStep;

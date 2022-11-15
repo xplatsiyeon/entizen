@@ -41,7 +41,7 @@ const successedProject = (props: Props) => {
       setSuccessComponentId(num);
       setOpenSubLink(!openSubLink);
     }
-  }, [router.query.id]);
+  }, []);
 
   return (
     <>
