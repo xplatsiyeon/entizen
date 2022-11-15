@@ -1,58 +1,91 @@
-import styled from "@emotion/styled";
-import MessageBox from "componentsCompany/Mypage/MessageBox";
-import Image from "next/image";
-import { Data } from "pages/company/mypage/runningProgress/[id]";
-import { useState } from "react";
+import styled from '@emotion/styled';
+import MessageBox from 'componentsCompany/Mypage/MessageBox';
+import Image from 'next/image';
+import { Data } from 'pages/company/mypage/runningProgress';
+import { useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
 import UpArrow from 'public/images/smallUpArrow.png';
 import DownArrow from 'public/images/smallDownArrow.png';
-import icon_chats from'public/images/icon_chats.png'
-import colors from "styles/colors";
-import ClientProjectModal from "./ClientProjectModal";
+import icon_chats from 'public/images/icon_chats.png';
+import colors from 'styles/colors';
+import ClientProjectModal from './ClientProjectModal';
 
 type Props = {
-    info : Data;
-    page:string
-  };
+  info: Data;
+  page: string;
+};
 
-const ClientProgress =({info, page}:Props)=>{
+const ClientProgress = ({ info, page }: Props) => {
+  const presentProgress = info.state;
 
-    const presentProgress = info.state;
+  let textArr;
 
-    let textArr;
+  switch (info.state) {
+    case 0:
+      textArr = [
+        '공사 준비를 진행해주세요.',
+        '충전기를 설치, 시운전을 진행해주세요',
+        '충전기 검수를 진행해주세요',
+        '프로젝트를 완료해주세요',
+      ];
+      break;
 
-    switch(info.state) {
-      case 0 : 
-      textArr = ['공사 준비를 진행해주세요.','충전기를 설치, 시운전을 진행해주세요', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
+    case 1:
+      textArr = [
+        '공사 준비를 진행됩니다.',
+        '충전기를 설치, 시운전이 진행됩니다.',
+        '충전기 검수가 진행됩니다!',
+        '곧 프로젝트가 완료됩니다!',
+      ];
       break;
-  
-      case 1 : 
-      textArr = ['공사 준비를 진행됩니다.','충전기를 설치, 시운전이 진행됩니다.', '충전기 검수가 진행됩니다!', '곧 프로젝트가 완료됩니다!'];
-      break;
-  
-      case 2 : 
-      textArr = ['공사 준비가 완료되었습니다!.','충전기를 설치, 시운전이 진행됩니다.', '충전기 검수가 진행됩니다!', '곧 프로젝트가 완료됩니다!'];
-      break;
-  
-      case 3 : 
-      textArr = ['공사 준비가 완료되었습니다!','충전기를 설치, 시운전이 완료되었습니다!', '충전기 검수가 완료되었습니다!', '프로젝트를 완료해주세요'];
-      break;
-  
-      case 4 : 
-      textArr = ['공사 준비가 완료되었습니다!','충전기를 설치, 시운전이 완료되었습니다!', '충전기 검수가 완료되었습니다!', '곧 프로젝트가 완료됩니다!'];
-      break;
-  
-      case 5 : 
-      textArr = ['공사 준비가 완료되었습니다!','충전기를 설치, 시운전이 완료되었습니다!', '충전기 검수가 완료되었습니다!', '프로젝트 완료에 동의해주세요!'];
-      break;
-  
-      default: 
-      textArr = ['공사 준비가 완료되었습니다!', '충전기 검수를 진행해주세요', '프로젝트를 완료해주세요'];
-    }
 
-    const [modal, setModal] = useState<boolean>(false);
+    case 2:
+      textArr = [
+        '공사 준비가 완료되었습니다!.',
+        '충전기를 설치, 시운전이 진행됩니다.',
+        '충전기 검수가 진행됩니다!',
+        '곧 프로젝트가 완료됩니다!',
+      ];
+      break;
+
+    case 3:
+      textArr = [
+        '공사 준비가 완료되었습니다!',
+        '충전기를 설치, 시운전이 완료되었습니다!',
+        '충전기 검수가 완료되었습니다!',
+        '프로젝트를 완료해주세요',
+      ];
+      break;
+
+    case 4:
+      textArr = [
+        '공사 준비가 완료되었습니다!',
+        '충전기를 설치, 시운전이 완료되었습니다!',
+        '충전기 검수가 완료되었습니다!',
+        '곧 프로젝트가 완료됩니다!',
+      ];
+      break;
+
+    case 5:
+      textArr = [
+        '공사 준비가 완료되었습니다!',
+        '충전기를 설치, 시운전이 완료되었습니다!',
+        '충전기 검수가 완료되었습니다!',
+        '프로젝트 완료에 동의해주세요!',
+      ];
+      break;
+
+    default:
+      textArr = [
+        '공사 준비가 완료되었습니다!',
+        '충전기 검수를 진행해주세요',
+        '프로젝트를 완료해주세요',
+      ];
+  }
+
+  const [modal, setModal] = useState<boolean>(false);
   const [toggleOpen, setToggleOpen] = useState<boolean[]>([
     false,
     false,
@@ -82,8 +115,8 @@ const ClientProgress =({info, page}:Props)=>{
       setToggleOpen(copyArr);
     }
   };
-  
-return(
+
+  return (
     <Wrapper0>
       <DoubleArrowBox>
         <Image src={DoubleArrow} alt="doubleArrow" />
@@ -92,8 +125,13 @@ return(
         <FlexBox margin={toggleOpen[0]}>
           <div>
             <CircleImgBox>
-              <Image src={
-                  presentProgress === 0 ? progressBlueCircle : progressCircle} alt="progressCircle" layout="fill" />
+              <Image
+                src={
+                  presentProgress === 0 ? progressBlueCircle : progressCircle
+                }
+                alt="progressCircle"
+                layout="fill"
+              />
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="contract" onClick={handleToggleClick}>
@@ -111,9 +149,15 @@ return(
           {/* 펼쳐지는 부분 */}
           {toggleOpen[0] && (
             <ContractBtnBox>
-                {page === 'client'? 
-                <ClientP presentProgress={presentProgress === 0}>계약서 보기 및 서명</ClientP>:
-                <YetP presentProgress={presentProgress === 0}>계약서 작성중...</YetP>}
+              {page === 'client' ? (
+                <ClientP presentProgress={presentProgress === 0}>
+                  계약서 보기 및 서명
+                </ClientP>
+              ) : (
+                <YetP presentProgress={presentProgress === 0}>
+                  계약서 작성중...
+                </YetP>
+              )}
             </ContractBtnBox>
           )}
         </FlexBox>
@@ -140,12 +184,13 @@ return(
                   />
                 </div>
               </ProgressName>
-              {info.planed[0]?
-              <PickedDate color={(1 >= info.state) ? colors.main :'#e2e5ed'}>{info.planed[0]}</PickedDate>:
-              <SetDate id="prepareDate">
-                목표일 입력중 ...
-              </SetDate>
-              }
+              {info.planed[0] ? (
+                <PickedDate color={1 >= info.state ? colors.main : '#e2e5ed'}>
+                  {info.planed[0]}
+                </PickedDate>
+              ) : (
+                <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
+              )}
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -164,8 +209,13 @@ return(
         <FlexBox>
           <div>
             <CircleImgBox>
-              <Image src={
-                  presentProgress === 2 ? progressBlueCircle : progressCircle} alt="progressCircle" layout="fill" />
+              <Image
+                src={
+                  presentProgress === 2 ? progressBlueCircle : progressCircle
+                }
+                alt="progressCircle"
+                layout="fill"
+              />
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="install" onClick={handleToggleClick}>
@@ -178,12 +228,13 @@ return(
                   />
                 </div>
               </ProgressName>
-              {info.planed[1]?
-              <PickedDate color={(2 >= info.state) ? colors.main :'#e2e5ed'}>{info.planed[1]}</PickedDate>:
-              <SetDate id="prepareDate">
-                목표일 입력중 ...
-              </SetDate>
-              }
+              {info.planed[1] ? (
+                <PickedDate color={2 >= info.state ? colors.main : '#e2e5ed'}>
+                  {info.planed[1]}
+                </PickedDate>
+              ) : (
+                <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
+              )}
               {/* <SetDate id="installDate" onClick={handleDateModal}>
                 목표일 입력중 ...
               </SetDate> */}
@@ -205,8 +256,13 @@ return(
         <FlexBox>
           <div>
             <CircleImgBox>
-              <Image src={
-                  presentProgress === 3 ? progressBlueCircle : progressCircle} alt="progressCircle" layout="fill" />
+              <Image
+                src={
+                  presentProgress === 3 ? progressBlueCircle : progressCircle
+                }
+                alt="progressCircle"
+                layout="fill"
+              />
             </CircleImgBox>
             <InsideFlex>
               <ProgressName id="inspection" onClick={handleToggleClick}>
@@ -219,12 +275,13 @@ return(
                   />
                 </div>
               </ProgressName>
-              {info.planed[2]?
-              <PickedDate color={(3 >= info.state) ? colors.main :'#e2e5ed'}>{info.planed[2]}</PickedDate>:
-              <SetDate id="prepareDate">
-                목표일 입력중 ...
-              </SetDate>
-              }
+              {info.planed[2] ? (
+                <PickedDate color={3 >= info.state ? colors.main : '#e2e5ed'}>
+                  {info.planed[2]}
+                </PickedDate>
+              ) : (
+                <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
+              )}
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -246,7 +303,10 @@ return(
               <Image
                 className="bottomCircle"
                 src={
-                  (presentProgress === 4 || presentProgress === 5) ? progressBlueCircle : progressCircle}
+                  presentProgress === 4 || presentProgress === 5
+                    ? progressBlueCircle
+                    : progressCircle
+                }
                 alt="progressCircle"
                 layout="fill"
               />
@@ -262,12 +322,17 @@ return(
                   />
                 </div>
               </ProgressName>
-              {info.planed[3]?
-              <PickedDate color={(4 >= info.state)|| (5 >= info.state)? colors.main :'#e2e5ed'}>{info.planed[3]}</PickedDate>:
-              <SetDate id="prepareDate">
-                목표일 입력중 ...
-              </SetDate>
-              }
+              {info.planed[3] ? (
+                <PickedDate
+                  color={
+                    4 >= info.state || 5 >= info.state ? colors.main : '#e2e5ed'
+                  }
+                >
+                  {info.planed[3]}
+                </PickedDate>
+              ) : (
+                <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
+              )}
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -285,17 +350,29 @@ return(
             </ToggleWrapper>
           )}
         </FlexBox>
-        <Line/>
+        <Line />
       </Wrapper>
-    <Button> 
-        <IconWrap><Image src={icon_chats} layout='fill'/></IconWrap> 
+      <Button>
+        <IconWrap>
+          <Image src={icon_chats} layout="fill" />
+        </IconWrap>
         <span>파트너와 소통하기</span>
-    </Button>
-    {info.state === 5 ? <FinButton onClick={()=>setModal(true)}><span>프로젝트 완료 동의하기</span></FinButton>:null}
-    {modal&& <ClientProjectModal setModal={setModal} type={'fin'} date={info.planed[3]}/>}
+      </Button>
+      {info.state === 5 ? (
+        <FinButton onClick={() => setModal(true)}>
+          <span>프로젝트 완료 동의하기</span>
+        </FinButton>
+      ) : null}
+      {modal && (
+        <ClientProjectModal
+          setModal={setModal}
+          type={'fin'}
+          date={info.planed[3]}
+        />
+      )}
     </Wrapper0>
-)
-}
+  );
+};
 
 export default ClientProgress;
 
@@ -386,10 +463,11 @@ const PickedDate = styled.div`
   line-height: 9pt;
   letter-spacing: -0.02em;
   text-align: left;
-  color: ${(props)=>{
-    console.log(props)
-    return props.color}};
-  border: 1px solid ${(props)=>props.color};
+  color: ${(props) => {
+    console.log(props);
+    return props.color;
+  }};
+  border: 1px solid ${(props) => props.color};
   border-radius: 6pt;
 `;
 
@@ -417,37 +495,36 @@ const ContractBtnBox = styled.div`
 `;
 
 const ClientP = styled.p<{ presentProgress: boolean }>`
-box-shadow: ${({ presentProgress }) =>
-  !presentProgress && `0px 0px 10px rgba(137, 163, 201, 0.2)`};
-border: ${({ presentProgress }) => presentProgress && '1px solid #5221CB'};
-border-radius: 6pt;
-font-family: 'Spoqa Han Sans Neo';
-font-style: normal;
-font-weight: 700;
-font-size: 10.5pt;
-line-height: 12pt;
-letter-spacing: -0.02em;
-color: #222222;
-width: 100%;
-padding: 15pt 13.5pt;
-`
+  box-shadow: ${({ presentProgress }) =>
+    !presentProgress && `0px 0px 10px rgba(137, 163, 201, 0.2)`};
+  border: ${({ presentProgress }) => presentProgress && '1px solid #5221CB'};
+  border-radius: 6pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: #222222;
+  width: 100%;
+  padding: 15pt 13.5pt;
+`;
 
 const YetP = styled.p<{ presentProgress: boolean }>`
-box-shadow: ${({ presentProgress }) =>
-  !presentProgress && `0px 0px 10px rgba(137, 163, 201, 0.2)`};
-border: ${({ presentProgress }) => presentProgress && '1px solid #5221CB'};
-border-radius: 6pt;font-family: 'Spoqa Han Sans Neo';
-font-style: normal;
-font-weight: 700;
-font-size: 12pt;
-line-height: 12pt;
-letter-spacing: -0.02em;
-color: #A6A9B0;
-width: 100%;
-padding: 15pt 13.5pt;
-`
-
-
+  box-shadow: ${({ presentProgress }) =>
+    !presentProgress && `0px 0px 10px rgba(137, 163, 201, 0.2)`};
+  border: ${({ presentProgress }) => presentProgress && '1px solid #5221CB'};
+  border-radius: 6pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: #a6a9b0;
+  width: 100%;
+  padding: 15pt 13.5pt;
+`;
 
 const ToggleWrapper = styled.div<{ presentProgress?: boolean }>`
   padding-left: 27pt;
@@ -465,47 +542,47 @@ const Line = styled.div`
 `;
 
 const Button = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 60pt auto 100pt;
-    padding: 10.5pt 13.5pt;
-    border-radius: 21.75pt;
-    >span{
-        font-family: 'Spoqa Han Sans Neo';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 12pt;
-        line-height: 12pt;
-        letter-spacing: -0.02em;
-        color: #222222;
-        margin: 0 4.5pt;
-    }
-`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 60pt auto 100pt;
+  padding: 10.5pt 13.5pt;
+  border-radius: 21.75pt;
+  > span {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: #222222;
+    margin: 0 4.5pt;
+  }
+`;
 
 const IconWrap = styled.div`
-    width: 15pt;
-    height: 15pt;
-    position: relative;
-    `
+  width: 15pt;
+  height: 15pt;
+  position: relative;
+`;
 const FinButton = styled.button`
-position: fixed;
-bottom: 0;
-width: 100%;
-height: 66pt;
-background: #5221CB;
-color: white;
-z-index: 10;
->span{
-position: absolute;
-left: 50%;
-top: 15pt;
-transform: translateX(-50%);
-font-family: 'Spoqa Han Sans Neo';
-font-style: normal;
-font-weight: 700;
-font-size: 12pt;
-line-height: 12pt;
-letter-spacing: -0.02em;
-}
-`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 66pt;
+  background: #5221cb;
+  color: white;
+  z-index: 10;
+  > span {
+    position: absolute;
+    left: 50%;
+    top: 15pt;
+    transform: translateX(-50%);
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+  }
+`;

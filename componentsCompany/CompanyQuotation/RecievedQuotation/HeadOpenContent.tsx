@@ -158,10 +158,13 @@ const HeadOpenContent = () => {
     AxiosError
   >(
     'receivedRequest/id',
-    () => isTokenGetApi(`/quotations/received-request/${routerId}`),
+    () =>
+      isTokenGetApi(
+        `/quotations/received-request/${router.query.quotationRequestIdx}`,
+      ),
     {
-      // enabled: router.isReady,
-      enabled: false,
+      enabled: router.isReady,
+      // enabled: false,
     },
   );
 

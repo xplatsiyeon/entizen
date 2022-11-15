@@ -9,7 +9,7 @@ import TopBox from 'componentsCompany/Mypage/TopBox';
 import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
-import { Data } from './runningProgress/[id]';
+import { Data } from './runningProgress';
 
 type Props = {
   data?: InProgressProjectsDetailResponse;

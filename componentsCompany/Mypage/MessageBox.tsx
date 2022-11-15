@@ -10,9 +10,9 @@ type Props = {
   secondText?: string;
   thirdText?: string;
   presentProgress: boolean;
-  page?:string;
+  page?: string;
   handleClick?: () => void;
-  num?:number
+  num?: number;
 };
 
 const MessageBox = ({
@@ -22,18 +22,18 @@ const MessageBox = ({
   thirdText,
   presentProgress,
   handleClick,
-  page, num
+  page,
+  num,
 }: Props) => {
+  const [idx, setIdx] = useState<number>(1);
 
-  const [idx ,setIdx] = useState<number>(1)
-
-  const handleNum = ()=>{
-    if(idx === 1){
-      setIdx(2)
-    }else{
-      setIdx(1)
+  const handleNum = () => {
+    if (idx === 1) {
+      setIdx(2);
+    } else {
+      setIdx(1);
     }
-  }
+  };
 
   return (
     <Wrapper onClick={handleClick} presentProgress={presentProgress}>
@@ -44,19 +44,19 @@ const MessageBox = ({
           <li>{secondText}</li>
           {thirdText && <li>{thirdText}</li>}
         </List>
-      {num === 5 ?
-        <ImageBox>
-          <Index onClick={handleNum}>
-            {idx}/2
-          </Index>
-        </ImageBox> :null}
+        {num === 5 ? (
+          <ImageBox>
+            <Index onClick={handleNum}>{idx}/2</Index>
+          </ImageBox>
+        ) : null}
       </LeftSideBox>
-      {page?null:
-      <IconBox>
-        <ArrowIconBox>
-          <Image src={CaretDown24} alt="RightArrow" />
-        </ArrowIconBox>
-      </IconBox>}
+      {page ? null : (
+        <IconBox>
+          <ArrowIconBox>
+            <Image src={CaretDown24} alt="RightArrow" />
+          </ArrowIconBox>
+        </IconBox>
+      )}
     </Wrapper>
   );
 };
@@ -114,15 +114,14 @@ const ArrowIconBox = styled.div`
   height: 18pt;
 `;
 
-
 const ImageBox = styled.div`
-    width: 100%;
-    height: 66pt;
-    margin: 0 auto;
-    border: 1px solid #E2E5ED;
-    border-radius: 6pt;
-    position: relative;
-`
+  width: 100%;
+  height: 66pt;
+  margin: 0 auto;
+  border: 1px solid #e2e5ed;
+  border-radius: 6pt;
+  position: relative;
+`;
 const Index = styled.div`
   width: 12pt;
   padding: 1.5pt 4.5pt;
@@ -138,6 +137,6 @@ const Index = styled.div`
   font-size: 7.5pt;
   line-height: 9pt;
   letter-spacing: -0.02em;
-`
+`;
 
 export default MessageBox;

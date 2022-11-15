@@ -94,9 +94,12 @@ const History = ({}: Props) => {
             <Contents
               key={index}
               onClick={() =>
-                router.push(
-                  `/company/sentProvisionalQuotation/${data?.preQuotation?.preQuotationIdx}`,
-                )
+                router.push({
+                  pathname: '/company/sentProvisionalQuotation',
+                  query: {
+                    preQuotationIdx: data?.preQuotation?.preQuotationIdx,
+                  },
+                })
               }
             >
               <DdayNAddress>

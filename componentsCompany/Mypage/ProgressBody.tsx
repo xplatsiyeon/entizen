@@ -80,15 +80,6 @@ const ProgressBody = ({
   let textArr;
 
   switch (state) {
-    case 0:
-      textArr = [
-        '공사 준비를 진행해주세요.',
-        '충전기를 설치, 시운전을 진행해주세요',
-        '충전기 검수를 진행해주세요',
-        '프로젝트를 완료해주세요',
-      ];
-      break;
-
     case 1:
       textArr = [
         '공사 준비를 진행해주세요.',
@@ -97,7 +88,6 @@ const ProgressBody = ({
         '프로젝트를 완료해주세요',
       ];
       break;
-
     case 2:
       textArr = [
         '공사 준비가 완료되었습니다.',
@@ -106,7 +96,6 @@ const ProgressBody = ({
         '프로젝트를 완료해주세요',
       ];
       break;
-
     case 3:
       textArr = [
         '공사 준비가 완료되었습니다.',
@@ -115,7 +104,6 @@ const ProgressBody = ({
         '프로젝트를 완료해주세요',
       ];
       break;
-
     case 4:
       textArr = [
         '공사 준비가 완료되었습니다.',
@@ -124,7 +112,6 @@ const ProgressBody = ({
         '프로젝트를 완료해주세요',
       ];
       break;
-
     case 5:
       textArr = [
         '공사 준비가 완료되었습니다.',
@@ -133,7 +120,7 @@ const ProgressBody = ({
         '프로젝트를 완료해주세요',
       ];
       break;
-
+    // 취소
     default:
       textArr = [
         '공사 준비를 진행해주세요.',

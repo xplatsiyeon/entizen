@@ -83,9 +83,12 @@ const ProjectInProgress = ({
                   <Contents
                     key={el.projectIdx}
                     onClick={() =>
-                      router.push(
-                        `/company/mypage/runningProgress/${el?.projectIdx}`,
-                      )
+                      router.push({
+                        pathname: '/company/mypage/runningProgress/',
+                        query: {
+                          projectIdx: el?.projectIdx,
+                        },
+                      })
                     } //여기서 배지에 따라 분리해서 보내야함.
                   >
                     <DdayNAddress>

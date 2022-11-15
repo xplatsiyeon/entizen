@@ -202,15 +202,11 @@ const SentQuoatationFirst = () => {
   const [errorMessage, setErrorMessage] = useState('');
   // 상단 열고 닫기
   const [open, setOpen] = useState<boolean>(false);
-
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(1);
-
   const [getComponentId, setGetComponentId] = useState<number>();
-
   // 실시간으로 width 받아옴
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
 
@@ -225,8 +221,11 @@ const SentQuoatationFirst = () => {
   // ----------- 보낸 견적 상세 페이지 api --------------
   const { data, isLoading, isError, error, refetch } =
     useQuery<SentRequestResponse>(
-      'company/',
-      () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
+      'company',
+      () =>
+        isTokenGetApi(
+          `/quotations/sent-request/${router.query.preQuotationIdx}`,
+        ),
       {
         enabled: router.isReady,
         // enabled: false,
@@ -240,7 +239,10 @@ const SentQuoatationFirst = () => {
     error: spotError,
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
-    () => isTokenGetApi(`/quotations/pre/${routerId}/spot-inspection`),
+    () =>
+      isTokenGetApi(
+        `/quotations/pre/${router.query.preQuotationIdx}/spot-inspection`,
+      ),
     {
       // enabled: router.isReady,
       enabled: false,

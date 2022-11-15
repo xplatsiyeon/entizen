@@ -135,7 +135,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
   };
 
   useEffect(() => {
-    // refetch();
+    refetch();
     return () => {
       setSearchWord('');
       setcheckedFilterIndex(0);

@@ -105,10 +105,17 @@ const SentRequest = ({}: Props) => {
         {data?.sendQuotationRequests?.map((el, index) => (
           <Contents
             key={index}
+            // onClick={() =>
+            //   router.push(
+            //     `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
+            //   )}
             onClick={() =>
-              router.push(
-                `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
-              )
+              router.push({
+                pathname: '/company/sentProvisionalQuotation',
+                query: {
+                  preQuotationIdx: el?.preQuotation?.preQuotationIdx,
+                },
+              })
             }
           >
             <DdayNAddress>

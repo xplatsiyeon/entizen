@@ -64,7 +64,7 @@ const RunningProgress = (props: Props) => {
     data: inProgressData,
   } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
     variables: {
-      projectIdx: routerId,
+      projectIdx: router?.query?.projectIdx,
     },
     context: {
       headers: {
@@ -78,13 +78,13 @@ const RunningProgress = (props: Props) => {
   console.log(inProgressData);
 
   useEffect(() => {
-    if (router.query.id) {
-      const num = Number(router.query.id);
+    if (router.query.projectIdx) {
+      const num = Number(router.query.projectIdx);
       setComponentId(num);
       // setData(tempProceeding[num]);
       setOpenSubLink(!openSubLink);
     }
-  }, [router.query.id]);
+  }, [router.query.projectIdx]);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {

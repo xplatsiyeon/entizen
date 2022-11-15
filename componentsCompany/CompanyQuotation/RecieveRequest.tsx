@@ -66,9 +66,13 @@ const RecieveRequest = ({
           <Contents
             key={el?.quotationRequest?.quotationRequestIdx}
             onClick={() =>
-              router.push(
-                `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
-              )
+              router.push({
+                pathname: '/company/recievedRequest',
+                query: {
+                  quotationRequestIdx:
+                    el?.quotationRequest?.quotationRequestIdx,
+                },
+              })
             }
           >
             <DdayNAddress>
