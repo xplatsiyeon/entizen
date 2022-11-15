@@ -148,12 +148,7 @@ const BottomNavigation = ({}: Props) => {
               <Image src={estimate} alt="estimate" width={32} height={32} />
               <H3 clicked={false}>소통하기</H3>
             </div>
-            <div
-              className="img-wrapper"
-              onClick={() => {
-                alert('2차 작업 범위 페이지입니다.');
-              }}
-            >
+            {/* AS */}
               <ImgBox>
                 <Image
                   src={tabNumber === 3 ? selectedAs : unselectedAs}
@@ -162,15 +157,19 @@ const BottomNavigation = ({}: Props) => {
                 />
               </ImgBox>
               <H3 clicked={tabNumber === 3 ? true : false}>A/S</H3>
-            </div>
             <div
               className="img-wrapper"
               onClick={() => {
                 user_ID
-                  ? router.push('/company/mypage')
+                  ? 
+                  router.push({
+                    pathname: '/company/mypage',
+                    query: { id: 0 },
+                  })
                   : router.push('/signin');
               }}
             >
+              {/* 내프로젝트 */}
               <ImgBox>
                 <Image
                   src={tabNumber === 4 ? mypageOn : mypage}

@@ -1,14 +1,33 @@
 import styled from "@emotion/styled";
+import BottomNavigation from "components/BottomNavigation";
 import colors from "styles/colors";
+import Nut from 'public/images/Nut.svg';
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const ComAsIndex = ()=>{
 
+    const route = useRouter();
+    const TabType: string[] = ['신규 A/S', '히스토리'];
+    const [tabNumber, setTabNumber] = useState<number>();
+
+    useEffect(() => {
+        if (route.query.id !== undefined) {
+          setTabNumber(Number(route.query.id));
+        } /*else if( !(route.query.id) && (route.pathname === '/mypage')){ 
+          setTabNumber(0)
+        }*/
+      }, [route.query.id]);
+
+      const components = [<></>, <></>];
+
     return(
         <Wrapper>
-            {/*
+            <FlexBox>
           <Header>
             <span>
-              <h1>{`${profile?.name}님,`}</h1>
+              <h1>{`${''}님,`}</h1>
               <h2>안녕하세요!</h2>
             </span>
             <div className="img" onClick={() => route.push('/setting')}>
@@ -18,45 +37,32 @@ const ComAsIndex = ()=>{
           <Body>
             <span
               className="profile-icon"
-              onClick={() => route.push('profile/')}
+              onClick={() => route.push('/profile')}
             >
               프로필 변경
             </span>
             <Line />
-            <MobileTabContainer>
-              {TabType.map((tab, index) => (
+            <TabContainer>
+              {typeof(tabNumber) === 'number' && TabType.map((tab, index) => (
                 <TabItem
                   key={index}
                   tab={tabNumber?.toString()!}
                   index={index.toString()}
-                  onClick={() => setTabNumber(index)}
+                  onClick={() => 
+                    route.push({
+                      pathname: '/company/as',
+                      query: { id: index },
+                    })}
                 >
                   {tab}
                   <Dot tab={tabNumber.toString()} index={index.toString()} />
                 </TabItem>
               ))}
-            </MobileTabContainer>
-            <WebTabContainer>
-              {TabType.map((tab, index) => (
-                <TabItem
-                  key={index}
-                  tab={tabNumber?.toString()!}
-                  index={index.toString()}
-                  onClick={() => {
-                    if (nowWidth < 1198.7) {
-                      setTabNumber(index);
-                    }
-                  }}
-                >
-                  {tab}
-                  <Dot tab={tabNumber.toString()} index={index.toString()} />
-                </TabItem>
-              ))}
-            </WebTabContainer>
+            </TabContainer>
           </Body>
+          </FlexBox>
           <BottomNavigation />
-          <div> {webComponents[tabNumber]}</div>
-                */}
+          {typeof(tabNumber) === 'number' && <div>{components[tabNumber]}</div>}
         </Wrapper>
     )
 }
@@ -64,17 +70,38 @@ const ComAsIndex = ()=>{
 export default ComAsIndex;
 
 
-
 const Wrapper = styled.div`
   position: relative;
-  width: 100%;
-  @media (min-width: 899pt) {
-    width: 255pt;
-    height: 424.5pt;
-    border: 0.75pt solid #e2e5ed;
-    border-radius: 12pt;
+  width: 900pt;
+  margin: 60pt auto;
+  display: flex;
+  gap: 60pt;
+
+  flex-direction: row;
+
+  @media (max-width: 899pt) {
+    padding-bottom: 60pt;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+    margin: 0;
   }
 `;
+
+const FlexBox = styled.div`
+  border: 1px solid #e2e5ed;
+  border-radius: 12pt;
+  max-height: 423pt;
+  width: 216pt;
+  padding: 42pt 28.5pt;
+
+  @media (max-width: 899pt) {
+    border: none;
+    width: auto;
+    padding: 0;
+  }
+`;
+
 
 const Header = styled.header`
   display: flex;
@@ -100,9 +127,9 @@ const Header = styled.header`
     width: 22.5pt;
     height: 22.5pt;
     text-align: end;
+    cursor: pointer;
   }
 `;
-
 const Body = styled.div`
   padding-top: 15pt;
   .profile-icon {
@@ -115,6 +142,7 @@ const Body = styled.div`
     border: 0.75pt solid ${colors.main};
     border-radius: 12pt;
     padding: 6pt 9pt;
+    cursor: pointer;
   }
 `;
 const Line = styled.div`
@@ -123,24 +151,13 @@ const Line = styled.div`
   border-bottom: 3pt solid ${colors.gray3};
 `;
 
-const MobileTabContainer = styled.div`
+const TabContainer = styled.div`
   display: flex;
   gap: 15pt;
   padding-left: 15pt;
-  @media (min-width: 899pt) {
-    display: none;
-  }
-`;
-const WebTabContainer = styled.div`
-  display: flex;
-  gap: 15pt;
-  padding-left: 15pt;
-  justify-content: center;
   flex-direction: column;
-  padding-left: 27pt;
-  gap: 1pt;
   @media (max-width: 899pt) {
-    display: none;
+    flex-direction: row;
   }
 `;
 const TabItem = styled.span<{ tab: string; index: string }>`
