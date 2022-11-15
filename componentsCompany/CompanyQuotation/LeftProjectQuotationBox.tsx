@@ -15,6 +15,7 @@ import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import SendRequestUnder from './SendRequestUnder';
 import LastQuotation from 'pages/company/quotation/lastQuotation';
+import { SentrequestResponse } from './SentRequest';
 
 type Props = {
   searchWord?: string;
@@ -89,6 +90,16 @@ const LeftProjectQuotationBox = ({
     },
   );
 
+  // send data api
+  const {
+    data: send,
+    isError: sendError,
+    isLoading: sendLoading,
+    error: sendE,
+  } = useQuery<SentrequestResponse>('sent-request', () =>
+    isTokenGetApi('/quotations/sent-request'),
+  );
+
   const router = useRouter();
 
   useEffect(() => {
@@ -107,7 +118,7 @@ const LeftProjectQuotationBox = ({
       setUnderNum(0);
     } else if (
       route.asPath ===
-      `/company/sentProvisionalQuotation?quotationRequestIdx=${router.query.quotationRequestIdx}`
+      `/company/sentProvisionalQuotation?preQuotationIdx=${router.query.preQuotationIdx}`
     ) {
       setTab('보낸 견적');
       setUnderNum(1);
@@ -116,7 +127,7 @@ const LeftProjectQuotationBox = ({
       setUnderNum(1);
     } else if (
       route.asPath ===
-        `/company/recievedRequest?quotationRequestIdx=${router.query.quotationRequestIdx}` &&
+        `/company/recievedRequest?preQuotationIdx=${router.query.preQuotationIdx}` &&
       data === undefined
     ) {
       setTab('받은 요청');
@@ -142,6 +153,7 @@ const LeftProjectQuotationBox = ({
       <SendRequestUnder
         successComponentId={successComponentId}
         setSuccessComponentId={setSuccessComponentId}
+        send={send}
       />
     ),
     2: (

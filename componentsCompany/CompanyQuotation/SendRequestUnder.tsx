@@ -20,6 +20,7 @@ type Props = {
     React.SetStateAction<number | undefined>
   >;
   successComponentId?: number;
+  send?: SentrequestResponse;
 };
 export interface QuotationRequest {
   changedDate: string;
@@ -60,48 +61,25 @@ const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
 const SendRequestUnder = ({
   successComponentId,
   setSuccessComponentId,
+  send,
 }: Props) => {
   const router = useRouter();
-
-  const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
-    'sent-request',
-    () => isTokenGetApi('/quotations/sent-request'),
-    {
-      enabled: false,
-    },
-  );
-
-  if (isError) {
-    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-    console.log(error);
-    return (
-      <Modal
-        text="다시 시도해주세요"
-        click={() => {
-          router.push('/');
-        }}
-      />
-    );
-  }
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
-
-  console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
-  console.log(data);
 
   return (
     <>
       <ContentsContainer>
-        {data?.sendQuotationRequests?.map((el, index) => (
+        {send?.sendQuotationRequests?.map((el, index) => (
           <Contents
             key={index}
             onClick={() =>
-              router.push(
-                `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
-              )
+              router.push({
+                pathname: '/company/sentProvisionalQuotation',
+                query: {
+                  preQuotationIdx: el?.preQuotation?.preQuotationIdx,
+                },
+              })
             }
-            select={Number(el?.preQuotation.preQuotationIdx)}
+            select={Number(el?.preQuotation?.preQuotationIdx)}
             successComponentId={successComponentId}
           >
             <DdayNAddress>
@@ -134,6 +112,8 @@ const ContentsContainer = styled.div`
     height: 66pt;
     margin: 0 auto;
     border-radius: 6pt;
+    height: 340pt;
+    overflow-y: scroll;
   }
 `;
 const Contents = styled.div<{
