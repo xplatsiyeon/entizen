@@ -33,6 +33,7 @@ const WebProjectInProgressUnder = ({
   componentId,
   data,
 }: Props) => {
+  
   if (data?.inProgressProjects?.length === 0) {
     return <NoProject />;
   }
