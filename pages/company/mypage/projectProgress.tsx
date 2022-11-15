@@ -6,7 +6,10 @@ import PrepareModal from 'componentsCompany/Mypage/PrepareModal';
 import ProgressBody from 'componentsCompany/Mypage/ProgressBody';
 import Reusable from 'componentsCompany/Mypage/Reusable';
 import TopBox from 'componentsCompany/Mypage/TopBox';
-import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
+import {
+  InProgressProjectsDetailResponse,
+  InProgressProjectsDetail,
+} from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import { Data } from './runningProgress';
