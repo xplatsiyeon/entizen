@@ -8,9 +8,17 @@ import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-type Props = {};
+type Props = {
+  successComponentId?: number;
+  setSuccessComponentId?: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
+};
 
-const LastQuotation = (props: Props) => {
+const LastQuotation = ({
+  setSuccessComponentId,
+  successComponentId,
+}: Props) => {
   const router = useRouter();
   const routerId = router.query.preQuotation;
   // ----------- 보낸 견적 상세 페이지 api --------------

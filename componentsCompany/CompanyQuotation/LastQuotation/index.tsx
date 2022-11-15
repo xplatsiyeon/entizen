@@ -51,8 +51,16 @@ export interface MutateData {
 
 type Props = {
   data: SentRequestResponse;
+  successComponentId?: number;
+  setSuccessComponentId?: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
 };
-const LastWrite = ({ data }: Props) => {
+const LastWrite = ({
+  data,
+  successComponentId,
+  setSuccessComponentId,
+}: Props) => {
   const router = useRouter();
   const routerId = router.query.preQuotation;
   // step 숫자
@@ -354,11 +362,13 @@ const LastWrite = ({ data }: Props) => {
   console.log('🔥 ~line 258 보낸견적 상세 페이지 데이터');
   console.log(data);
 
-  const [successComponentId, setSuccessComponentId] = useState<number>();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
 
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+
+  // LeftBox component 바꿔주는거
+  const [underNum, setUnderNum] = useState<number>();
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
@@ -387,7 +397,12 @@ const LastWrite = ({ data }: Props) => {
         openSubLink={openSubLink}
       />
       <WebRapper>
-        <LeftProjectQuotationBox />
+        <LeftProjectQuotationBox
+          underNum={underNum}
+          setUnderNum={setUnderNum}
+          successComponentId={successComponentId}
+          setSuccessComponentId={setSuccessComponentId}
+        />
         {tabNumber >= 0 && (
           <>
             <WebProgressbar>

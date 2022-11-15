@@ -15,7 +15,12 @@ import Search from './Search';
 import { HandleColor } from 'utils/changeValue';
 import WebSort from './WebSort';
 
-type Props = {};
+type Props = {
+  setSuccessComponentId?: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
+  successComponentId?: number;
+};
 export interface QuotationRequest {
   changedDate: string;
   createdAt: string;
@@ -52,15 +57,11 @@ export interface SentrequestResponse {
   sendQuotationRequests: SendQuotationRequests[];
 }
 const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
-const SendRequestUnder = ({}: Props) => {
+const SendRequestUnder = ({
+  successComponentId,
+  setSuccessComponentId,
+}: Props) => {
   const router = useRouter();
-  const [select, setSelect] = useState<number>();
-  useEffect(() => {
-    if (router.query.id) {
-      const num = Number(router.query.id);
-      setSelect(num);
-    }
-  }, [router]);
 
   const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
     'sent-request',
@@ -100,8 +101,8 @@ const SendRequestUnder = ({}: Props) => {
                 `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
               )
             }
-            select={select!}
-            index={index}
+            select={Number(el?.preQuotation.preQuotationIdx)}
+            successComponentId={successComponentId}
           >
             <DdayNAddress>
               <DdayBox>
@@ -112,8 +113,7 @@ const SendRequestUnder = ({}: Props) => {
                 />
               </DdayBox>
               <AddressBox>
-                테스트
-                {/* {el?.quotationRequest.installationAddress} */}
+                {el?.quotationRequest.installationAddress}
               </AddressBox>
             </DdayNAddress>
             <IconBox>
@@ -136,7 +136,10 @@ const ContentsContainer = styled.div`
     border-radius: 6pt;
   }
 `;
-const Contents = styled.div<{ select: number; index: number }>`
+const Contents = styled.div<{
+  select: number;
+  successComponentId: number | undefined;
+}>`
   padding: 12pt 13.5pt;
   display: flex;
   margin-bottom: 9pt;
@@ -144,8 +147,8 @@ const Contents = styled.div<{ select: number; index: number }>`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
-  border: ${({ select, index }) =>
-    select === index ? `0.75pt solid #5221CB` : ''};
+  border: ${({ select, successComponentId }) =>
+    select === successComponentId ? `0.75pt solid #5221CB` : ''};
 `;
 const DdayBox = styled.div`
   margin-bottom: 16.5pt;

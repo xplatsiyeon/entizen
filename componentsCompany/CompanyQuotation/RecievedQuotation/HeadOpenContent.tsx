@@ -127,22 +127,35 @@ const HeadOpenContent = () => {
 
   // 실시간으로 width 받아옴
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+  const [nowHeight, setNowHeight] = useState<number>(window.innerHeight);
 
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
 
+  // LeftBox component 바꿔주는거
+  const [underNum, setUnderNum] = useState<number>();
+
+  // LeftBox border 값
+
   useEffect(() => {
-    if (router.query.id) {
-      const num = Number(router.query.id);
+    if (router.query.quotationRequestIdx) {
+      const num = Number(router.query.quotationRequestIdx);
       setGetComponentId(num);
       // setData(tempProceeding[num]);
+      setUnderNum(0);
+    }
+  }, [router.query.quotationRequestIdx]);
+
+  useEffect(() => {
+    if (router.query.quotationRequestIdx) {
       setOpenSubLink(!openSubLink);
     }
-  }, [router.query.id]);
+  }, []);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
+    setNowHeight(window.innerHeight);
   };
 
   useEffect(() => {
@@ -150,7 +163,7 @@ const HeadOpenContent = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [nowWidth]);
+  }, [nowWidth, nowHeight]);
 
   //  api 요청
   const { data, isError, isLoading } = useQuery<
@@ -280,6 +293,7 @@ const HeadOpenContent = () => {
 
   console.log(TAG + '🔥 ~line 208 ~api data check!');
   console.log(data);
+  console.log(innerHeight);
 
   if (isLoading) {
     return <Loader />;
@@ -325,7 +339,14 @@ const HeadOpenContent = () => {
         />
       )}
       <WebRapper>
-        {nowWidth > 1198.7 && <LeftProjectQuotationBox />}
+        {nowWidth > 1198.7 && (
+          <LeftProjectQuotationBox
+            underNum={underNum}
+            setUnderNum={setUnderNum}
+            getComponentId={getComponentId}
+            setGetComponentId={setGetComponentId}
+          />
+        )}
         <BtnWrapper>
           <Wrapper>
             <ItemButton onClick={handleClick}>
@@ -458,7 +479,7 @@ const HeadOpenContent = () => {
               paddingOn={true}
             />
           )}
-          {/* 웹 UI 끝나면 돌려놔 젭알 ㅠㅜㅠㅜ */}
+          {/* 웹 UI */}
           {nowWidth >= 1198.7 && <> {components[tabNumber]}</>}
         </BtnWrapper>
       </WebRapper>
@@ -472,7 +493,7 @@ const HeadOpenContent = () => {
         />
       )}
       {tabNumber >= 0 && (
-        <>
+        <WebProgressbar tabNumber={tabNumber}>
           <TabBox>
             {Object.keys(components).map((tab, index) => (
               <React.Fragment key={index}>
@@ -491,7 +512,7 @@ const HeadOpenContent = () => {
             ))}
           </TabBox>
           {nowWidth < 1198.7 && <> {components[tabNumber]}</>}
-        </>
+        </WebProgressbar>
       )}
       <WebFooter />
     </>
@@ -637,13 +658,22 @@ const TabBox = styled.div`
     position: relative;
     gap: 0.2pt;
   }
+
+  @media (min-width: 899pt) {
+    position: static;
+    width: 534pt;
+    margin: 0 auto;
+    margin-right: 11.5%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
   border-style: solid;
   border-bottom-width: 3pt;
   border-color: ${({ idx, num }) => (idx <= num ? colors.main : colors.gray4)};
   border-radius: 2px;
-
   width: calc((100% - 15pt) / 6);
   display: inline-block;
   margin-right: 3pt;
@@ -654,6 +684,11 @@ const TabLine = styled.div<{ idx: string; num: string }>`
     display: block;
     width: 100%;
   }
+  @media (min-width: 899pt) {
+    width: 267pt;
+    border-bottom-width: 5pt;
+    border-radius: 3px;
+  }
 `;
 
 const WebContainer = styled.div`
@@ -663,6 +698,14 @@ const WebContainer = styled.div`
     background-color: #ffffff;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 16pt;
+  }
+`;
+
+const WebProgressbar = styled.div<{ tabNumber: number }>`
+  @media (min-width: 899pt) {
+    position: relative;
+    z-index: 10;
+    top: ${({ tabNumber }) => (tabNumber === 1 ? '-1120pt' : '-590pt;')};
   }
 `;
 
