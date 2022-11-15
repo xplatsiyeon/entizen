@@ -30,11 +30,11 @@ const Request = () => {
 
   const [tabNumber, setTabNumber] = useState<number>();
 
-  useEffect(()=>{
-    if(route.query.id !== undefined){
-      setTabNumber(Number(route.query.id))
+  useEffect(() => {
+    if (route.query.id !== undefined) {
+      setTabNumber(Number(route.query.id));
     }
-  },[route.query.id])
+  }, [route.query.id]);
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
   const components: Components = {
@@ -44,7 +44,7 @@ const Request = () => {
     3: <Charging />,
   };
 
-  /* // 유저 정보 API
+  // 유저 정보 API
   const {
     data: userData,
     isError: userError,
@@ -58,61 +58,58 @@ const Request = () => {
   }
   if (userError) {
     console.log('유저 정보 에러');
-  } */
-
-  const userData = {name:''};
+  }
+  console.log(userData);
 
   return (
-
     <WebBody>
-        {/* 피그마 마이페이지/A/S/4. 마이페이지 링크바 A/S 부분을 표시하기 위해서 num={2}를 넘긴다. (내 견적서는 0).
+      {/* 피그마 마이페이지/A/S/4. 마이페이지 링크바 A/S 부분을 표시하기 위해서 num={2}를 넘긴다. (내 견적서는 0).
           const components: Components = {
           0: <WebEstimate/>,  
           2: <AsIndex />,
           }; num, page는 이 부분의 인덱스 넘버.
         */}
-    <WebHeader num={tabNumber} now={'mypage'} />
-    <Wrapper>
-      <FlexBox>
-        <Header>
-          <span>
-            <h1>{`${userData?.name}님,`}</h1>
-            <h2>안녕하세요!</h2>
-          </span>
-          <div className="img" onClick={() => route.push('/setting')}>
-            <Image src={Nut} alt="nut-icon" />
-          </div>
-        </Header>
-        <Body>
-          <span
-            className="profile-icon"
-            onClick={() => route.push('profile/editing')}
-          >
-            프로필 변경
-          </span>
-          <Line />
-          <TabContainer>
-            {typeof(tabNumber) === 'number' && TabType.map((tab, index) => (
-              <TabItem
-                key={index}
-                tab={tabNumber.toString()}
-                index={index.toString()}
-                onClick={() => setTabNumber(index)}
-              >
-                {tab}
-                <Dot tab={tabNumber.toString()} index={index.toString()} />
-              </TabItem>
-            ))}
-          </TabContainer>
-        </Body>
-      </FlexBox>
-        <Wrap>
-          {typeof(tabNumber) === 'number' && components[tabNumber] }
-        </Wrap>
-      <BottomNavigation />
-    </Wrapper>
-    <WebFooter />
-      </WebBody>
+      <WebHeader num={tabNumber} now={'mypage'} />
+      <Wrapper>
+        <FlexBox>
+          <Header>
+            <span>
+              <h1>{`${userData?.name}님,`}</h1>
+              <h2>안녕하세요!</h2>
+            </span>
+            <div className="img" onClick={() => route.push('/setting')}>
+              <Image src={Nut} alt="nut-icon" />
+            </div>
+          </Header>
+          <Body>
+            <span
+              className="profile-icon"
+              onClick={() => route.push('profile/editing')}
+            >
+              프로필 변경
+            </span>
+            <Line />
+            <TabContainer>
+              {typeof tabNumber === 'number' &&
+                TabType.map((tab, index) => (
+                  <TabItem
+                    key={index}
+                    tab={tabNumber.toString()}
+                    index={index.toString()}
+                    onClick={() => setTabNumber(index)}
+                  >
+                    {tab}
+                    <Dot tab={tabNumber.toString()} index={index.toString()} />
+                  </TabItem>
+                ))}
+            </TabContainer>
+          </Body>
+        </FlexBox>
+        <Wrap>{typeof tabNumber === 'number' && components[tabNumber]}</Wrap>
+        <BottomNavigation />
+      </Wrapper>
+      <WebFooter />
+    </WebBody>
   );
 };
 
@@ -151,18 +148,18 @@ const Wrapper = styled.div`
 `;
 
 const FlexBox = styled.div`
-border: 1px solid #E2E5ED;
-border-radius: 12pt;
-max-height: 423pt;
-width: 216pt;
-padding: 42pt 28.5pt;
+  border: 1px solid #e2e5ed;
+  border-radius: 12pt;
+  max-height: 423pt;
+  width: 216pt;
+  padding: 42pt 28.5pt;
 
-@media (max-width: 899pt) {
-  border: none;
-  width: auto;
-  padding: 0;
-}
-`
+  @media (max-width: 899pt) {
+    border: none;
+    width: auto;
+    padding: 0;
+  }
+`;
 
 const Header = styled.header`
   display: flex;
@@ -223,7 +220,7 @@ const TabContainer = styled.div`
 
 const Wrap = styled.div`
   flex: 1;
-`
+`;
 
 const TabItem = styled.span<{ tab: string; index: string }>`
   padding-top: 21pt;
