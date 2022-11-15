@@ -471,6 +471,27 @@ const HeadOpenContent = () => {
               </List>
             </Collapse>
           </Wrapper>
+          {tabNumber >= 0 && nowWidth >= 1198.7 && (
+            <WebProgressbar tabNumber={tabNumber}>
+              <TabBox>
+                {Object.keys(components).map((tab, index) => (
+                  <React.Fragment key={index}>
+                    {index <=
+                      data?.receivedQuotationRequest.quotationRequestChargers
+                        .length! && (
+                      <TabLine
+                        idx={index.toString()}
+                        num={tabNumber.toString()}
+                        key={tab}
+                        // 테스트용
+                        // onClick={() => setTabNumber(index)}
+                      />
+                    )}
+                  </React.Fragment>
+                ))}
+              </TabBox>
+            </WebProgressbar>
+          )}
           {tabNumber === -1 && nowWidth > 1198.7 && (
             <Btn
               isClick={true}
@@ -492,7 +513,7 @@ const HeadOpenContent = () => {
           paddingOn={true}
         />
       )}
-      {tabNumber >= 0 && (
+      {tabNumber >= 0 && nowWidth < 1198.7 && (
         <WebProgressbar tabNumber={tabNumber}>
           <TabBox>
             {Object.keys(components).map((tab, index) => (
@@ -642,6 +663,16 @@ const Contents = styled.div`
     text-align: center;
   }
 `;
+
+const WebProgressbar = styled.div<{ tabNumber: number }>`
+  @media (min-width: 899pt) {
+    position: absolute;
+    margin: 0 auto;
+    width: 534pt;
+    top: 25%;
+  }
+`;
+
 const TabBox = styled.div`
   z-index: 1;
   //display:flex;
@@ -652,18 +683,13 @@ const TabBox = styled.div`
   position: absolute;
   width: 100%;
   top: 0;
-
   @media (max-width: 899pt) {
-    display: flex;
     position: relative;
     gap: 0.2pt;
   }
 
   @media (min-width: 899pt) {
     position: static;
-    width: 534pt;
-    margin: 0 auto;
-    margin-right: 11.5%;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
@@ -698,14 +724,6 @@ const WebContainer = styled.div`
     background-color: #ffffff;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 16pt;
-  }
-`;
-
-const WebProgressbar = styled.div<{ tabNumber: number }>`
-  @media (min-width: 899pt) {
-    position: relative;
-    z-index: 10;
-    top: ${({ tabNumber }) => (tabNumber === 1 ? '-1120pt' : '-590pt;')};
   }
 `;
 

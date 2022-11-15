@@ -147,7 +147,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
     return <Loader />;
   }
   return (
-    <>
+    <Body>
       <Container>
         {/* 모바일탭  */}
         {nowWidth < 1198.7 && (
@@ -169,9 +169,16 @@ const CompanyQuotations = ({ num, now }: Props) => {
       </Container>
       <WebFooter />
       <BottomNavigation />
-    </>
+    </Body>
   );
 };
+
+const Body = styled.div`
+  height: 100vh;
+  @media (min-width: 899pt) {
+    height: 100%;
+  }
+`;
 const Container = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;

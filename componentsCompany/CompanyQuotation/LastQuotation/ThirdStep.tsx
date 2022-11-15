@@ -221,20 +221,6 @@ const ThirdStep = ({
     }
   }, [BusinessRegistration]);
 
-  // 실시간으로 width 받아오는 함수
-  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-
-  const handleResize = () => {
-    setNowWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
-
   return (
     <>
       <WebRapper>
@@ -252,16 +238,15 @@ const ThirdStep = ({
 
           <RemainderInputBoxs>
             <PhotosBoxs>
-              {nowWidth <= 1198.7 && (
-                <Form>
-                  <div>
-                    <File onClick={handleFileClick}>
-                      <Image src={AddImg} alt="img" />
-                      <div>파일 업로드</div>
-                    </File>
-                  </div>
-                </Form>
-              )}
+              <Form>
+                <div>
+                  <File onClick={handleFileClick}>
+                    <Image src={AddImg} alt="img" />
+                    <div>파일 업로드</div>
+                  </File>
+                </div>
+              </Form>
+
               {/* 파일 input */}
               <input
                 style={{ display: 'none' }}
@@ -302,16 +287,6 @@ const ThirdStep = ({
                   </FileBox>
                 ))}
               </div>
-              {nowWidth > 1198.7 && (
-                <Form>
-                  <div>
-                    <File onClick={handleFileClick}>
-                      <Image src={AddImg} alt="img" />
-                      <div>파일 업로드</div>
-                    </File>
-                  </div>
-                </Form>
-              )}
             </PhotosBoxs>
           </RemainderInputBoxs>
           <TwoBtn>

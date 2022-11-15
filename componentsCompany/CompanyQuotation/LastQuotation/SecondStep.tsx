@@ -356,6 +356,20 @@ const SecondStep = ({
       setSelectedOptionEn(temp);
     }
   }, [selectedOptionEn]);
+
+  // 실시간으로 width 받아오는 함수
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
   return (
     <>
       <WebRapper>
@@ -795,6 +809,9 @@ const Divide = styled.div`
   width: 100vw;
   height: 3pt;
   background-color: #f3f4f7;
+  @media (min-width: 899pt) {
+    width: auto;
+  }
 `;
 const TopBox = styled.div`
   & div:first-of-type {

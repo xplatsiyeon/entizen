@@ -315,9 +315,9 @@ const SentQuoatationFirst = () => {
   console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
   console.log(data);
 
-  useEffect(() => {
-    refetch();
-  }, []);
+  // useEffect(() => {
+  //   refetch();
+  // }, []);
   return (
     <>
       <WebBuyerHeader
@@ -622,6 +622,9 @@ const LastQuotationBtnBox = styled.div`
   box-sizing: border-box;
   padding-left: 15pt;
   padding-right: 15pt;
+  @media (min-width: 899pt) {
+    position: static;
+  }
 `;
 
 const LastBtn = styled.div`
@@ -634,6 +637,10 @@ const LastBtn = styled.div`
   border-radius: 6pt;
   background-color: ${colors.main};
   color: #eeeeee;
+  @media (min-width: 899pt) {
+    width: 558pt;
+    z-index: 0;
+  }
 `;
 
 const Blur = styled.div`
