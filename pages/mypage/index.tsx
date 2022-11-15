@@ -45,7 +45,7 @@ const Request = () => {
   };
 
   // 유저 정보 API
-  const {
+   /* const {
     data: userData,
     isError: userError,
     isLoading: userLoading,
@@ -59,7 +59,9 @@ const Request = () => {
   if (userError) {
     console.log('유저 정보 에러');
   }
-  console.log(userData);
+  console.log(userData); */
+
+  const userData = {name: ''}
 
   return (
     <WebBody>
@@ -96,7 +98,12 @@ const Request = () => {
                     key={index}
                     tab={tabNumber.toString()}
                     index={index.toString()}
-                    onClick={() => setTabNumber(index)}
+                    onClick={() =>
+                      route.push({
+                        pathname: '/mypage',
+                        query: { id: index },
+                      })
+                      }
                   >
                     {tab}
                     <Dot tab={tabNumber.toString()} index={index.toString()} />

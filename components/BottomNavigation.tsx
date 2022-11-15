@@ -242,7 +242,11 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                user_ID ? router.push('/mypage') : router.push('/signin');
+                user_ID ? 
+                router.push({
+                  pathname: '/mypage',
+                  query: { id: 0 },
+                }) : router.push('/signin');
               }}
             >
               <ImgBox>
