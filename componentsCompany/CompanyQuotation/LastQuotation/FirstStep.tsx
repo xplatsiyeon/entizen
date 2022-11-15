@@ -453,6 +453,7 @@ const Wrapper = styled.div`
   }
   @media (min-width: 899pt) {
     margin: 0 auto;
+    margin-top: -11pt;
   }
 `;
 const TopStep = styled.div`
@@ -682,7 +683,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
     border-radius: 8pt;
     position: relative;
     margin: 0 auto;
-    bottom: 15%;
+    bottom: 20%;
   }
 `;
 const SelectContainer = styled.div`

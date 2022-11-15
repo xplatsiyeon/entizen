@@ -1,38 +1,58 @@
-import { isTokenGetApi } from 'api';
-import Loader from 'components/Loader';
 import MypageHeader from 'components/mypage/request/header';
 import LastWrite from 'componentsCompany/CompanyQuotation/LastQuotation';
-import { SentRequestResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
-import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
-import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
-type Props = {};
 
-const LastQuotation = (props: Props) => {
+type Props = {
+  setSuccessComponentId?: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
+  successComponentId?: number;
+  send?: SentrequestResponse;
+};
+export interface QuotationRequest {
+  changedDate: string;
+  createdAt: string;
+  etcRequest: string;
+  expiredAt: string;
+  installationAddress: string;
+  installationLocation: string;
+  installationPurpose: string;
+  investRate: string;
+  memberIdx: number;
+  quotationRequestIdx: number;
+  quotationStatus: string;
+  subscribePeriod: number;
+  subscribeProduct: string;
+}
+export interface PreQuotation {
+  changedDate: string;
+  constructionPeriod: number;
+  createdAt: string;
+  memberIdx: number;
+  preQuotationIdx: number;
+  preQuotationStatus: string;
+  quotationRequestIdx: number;
+  subscribePricePerMonth: number;
+  subscribeProductFeature: string;
+}
+export interface SendQuotationRequests {
+  badge: string;
+  preQuotation: PreQuotation;
+  quotationRequest: QuotationRequest;
+}
+export interface SentrequestResponse {
+  isSuccess: boolean;
+  sendQuotationRequests: SendQuotationRequests[];
+}
+
+const LastQuotation = ({
+  setSuccessComponentId,
+  successComponentId,
+  send,
+}: Props) => {
   const router = useRouter();
   const routerId = router.query.preQuotation;
-  // ----------- 보낸 견적 상세 페이지 api --------------
-  const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
-    'company/',
-    () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
-    {
-      enabled: router.isReady,
-    },
-    // {
-    //   enabled: false,
-    // },
-  );
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (isError) {
-    console.log('🔥 ~line 249 ~에러 발생');
-    console.log(error);
-  }
 
   return (
     <>
@@ -41,7 +61,7 @@ const LastQuotation = (props: Props) => {
         title={'최종 견적 작성'}
         handleOnClick={() => router.push('/company/sentProvisionalQuotation')}
       />
-      <LastWrite data={data!} />
+      <LastWrite />
     </>
   );
 };

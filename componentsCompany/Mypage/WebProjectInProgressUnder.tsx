@@ -45,12 +45,6 @@ const WebProjectInProgressUnder = ({
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (componentId !== undefined) {
-  //     router.push(`/company/mypage/runningProgress/${componentId}`);
-  //   }
-  // }, [componentId]);
-
   return (
     <>
       {componentId !== undefined && (

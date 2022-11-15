@@ -39,9 +39,9 @@ const successedProject = (props: Props) => {
     if (router.query.id) {
       const num = Number(router.query.id);
       setSuccessComponentId(num);
-      setOpenSubLink(!openSubLink);
+      setOpenSubLink(false);
     }
-  }, []);
+  }, [router]);
 
   return (
     <>

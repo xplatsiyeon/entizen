@@ -89,9 +89,9 @@ const RunningProgress = (props: Props) => {
   useEffect(() => {
     if (router.query.projectIdx) {
       // setData(tempProceeding[num]);
-      setOpenSubLink(!openSubLink);
+      setOpenSubLink(false);
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {}, []);
 
