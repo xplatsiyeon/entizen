@@ -96,6 +96,7 @@ const LeftProjectQuotationBox = ({
     isError: sendError,
     isLoading: sendLoading,
     error: sendE,
+    refetch: sendRefetch,
   } = useQuery<SentrequestResponse>('sent-request', () =>
     isTokenGetApi('/quotations/sent-request'),
   );
@@ -140,6 +141,10 @@ const LeftProjectQuotationBox = ({
       setUnderNum(2);
     }
   }, [route]);
+
+  useEffect(() => {
+    sendRefetch();
+  }, [router?.query?.preQuotationIdx]);
 
   const webComponents: Components = {
     0: (

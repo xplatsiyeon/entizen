@@ -49,18 +49,8 @@ export interface MutateData {
   subscribeProductFeature: string;
 }
 
-type Props = {
-  data: SentRequestResponse;
-  successComponentId?: number;
-  setSuccessComponentId?: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
-};
-const LastWrite = ({
-  data,
-  successComponentId,
-  setSuccessComponentId,
-}: Props) => {
+type Props = {};
+const LastWrite = (props: Props) => {
   const router = useRouter();
   const routerId = router.query.preQuotation;
   // step 숫자
@@ -125,14 +115,14 @@ const LastWrite = ({
     BusinessRegistrationType[]
   >([]);
 
-  // // ----------- 보낸 견적 상세 페이지 api --------------
-  // const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
-  //   'company/',
-  //   () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
-  //   {
-  //     enabled: router.isReady,
-  //   },
-  // );
+  // ----------- 보낸 견적 상세 페이지 api --------------
+  const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
+    'company/',
+    () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
 
   const components: Components = {
     // 기본
@@ -362,6 +352,7 @@ const LastWrite = ({
   console.log('🔥 ~line 258 보낸견적 상세 페이지 데이터');
   console.log(data);
 
+  const [successComponentId, setSuccessComponentId] = useState<number>();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
 
   // 서브 카테고리 열렸는지 아닌지
@@ -400,8 +391,6 @@ const LastWrite = ({
         <LeftProjectQuotationBox
           underNum={underNum}
           setUnderNum={setUnderNum}
-          successComponentId={successComponentId}
-          setSuccessComponentId={setSuccessComponentId}
         />
         {tabNumber >= 0 && (
           <>

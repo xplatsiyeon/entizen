@@ -228,9 +228,9 @@ const SentQuoatationFirst = () => {
 
   useEffect(() => {
     if (router.query.preQuotationIdx) {
-      setOpenSubLink(!openSubLink);
+      setOpenSubLink(false);
     }
-  }, []);
+  }, [router]);
 
   // ----------- 보낸 견적 상세 페이지 api --------------
   const { data, isLoading, isError, error, refetch } =
@@ -315,6 +315,9 @@ const SentQuoatationFirst = () => {
   console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
   console.log(data);
 
+  useEffect(() => {
+    refetch();
+  }, []);
   return (
     <>
       <WebBuyerHeader

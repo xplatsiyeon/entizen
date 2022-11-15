@@ -64,6 +64,7 @@ const SendRequestUnder = ({
   send,
 }: Props) => {
   const router = useRouter();
+  console.log(send);
 
   return (
     <>
@@ -71,14 +72,14 @@ const SendRequestUnder = ({
         {send?.sendQuotationRequests?.map((el, index) => (
           <Contents
             key={index}
-            onClick={() =>
+            onClick={() => {
               router.push({
                 pathname: '/company/sentProvisionalQuotation',
                 query: {
                   preQuotationIdx: el?.preQuotation?.preQuotationIdx,
                 },
-              })
-            }
+              });
+            }}
             select={Number(el?.preQuotation?.preQuotationIdx)}
             successComponentId={successComponentId}
           >
