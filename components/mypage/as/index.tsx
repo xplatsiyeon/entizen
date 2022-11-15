@@ -95,7 +95,6 @@ const AsIndex = (props: Props) => {
 
   return (
     <Wrapper>
-      <WebWrap>
         <FilterBtnBox>
           {(['bottom'] as const).map((anchor) => (
             <React.Fragment key={anchor}>
@@ -131,7 +130,6 @@ const AsIndex = (props: Props) => {
             }}
           />
         </div>
-      </WebWrap>
       <ContentsContainer>
         <ContentsWrapper onClick={handleAsListClick}>
           <ContentTop>
@@ -184,6 +182,7 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   position: relative;
+  
 `;
 const Input = styled(TextField)`
   width: 100%;
