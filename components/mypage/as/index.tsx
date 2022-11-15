@@ -2,22 +2,19 @@ import styled from '@emotion/styled';
 import {
   Box,
   Button,
-  Divider,
   Drawer,
   InputAdornment,
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
-  makeStyles,
   TextField,
   Typography,
 } from '@mui/material';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import search from 'public/images/search.png';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import NoAs from './NoAs';
 import CommonBtn from './CommonBtn';
@@ -77,24 +74,59 @@ const AsIndex = (props: Props) => {
 
   const toggleDrawer =
     (anchor: string, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
+      (event: React.KeyboardEvent | React.MouseEvent) => {
+        if (
+          event.type === 'keydown' &&
+          ((event as React.KeyboardEvent).key === 'Tab' ||
+            (event as React.KeyboardEvent).key === 'Shift')
+        ) {
+          return;
+        }
 
-      setState({ ...state, [anchor]: open });
-    };
+        setState({ ...state, [anchor]: open });
+      };
   const router = useRouter();
   const menuList: {} = [];
-  const handlerBtn = () => router.push('/mypage/as/1-2');
-  const handleAsListClick = () => router.push('/mypage/as/1-1');
+  const handlerBtn = () => router.push('/mypage/as/requestAS');
+  const handleAsListClick = () => {
+    router.push(`/mypage/as/${0}`)
+  };
+
+  const ul = useRef<HTMLUListElement>(null);
+  const select = useRef<HTMLDivElement>(null)
+
+  {/* 웹 필터박스 관련 함수 */}
+  const handleSelect = () => {
+    const target = ul.current;
+    const btn = select.current
+    if (target && btn) {
+      if ( (target.style.display === '') || (target.style.display === 'none') ){
+        btn.style.borderRadius = '6pt 6pt 0 0'
+        target.style.display = 'block';
+      }else{
+        btn.style.borderRadius = '6pt';
+        target.style.display = 'none';
+      }
+
+    }
+  }
+
+  {/* 웹 필터박스 관련 함수 */}
+  const closeSelect = ()=>{
+    const target = ul.current;
+    const btn = select.current
+    if(target && btn){
+      target.style.display = 'none';
+      btn.style.borderRadius = '6pt';
+    }
+  }
+
+
 
   return (
     <Wrapper>
+      <Wrap>
+        {/* 모바일 필터박스 */}
         <FilterBtnBox>
           {(['bottom'] as const).map((anchor) => (
             <React.Fragment key={anchor}>
@@ -115,7 +147,30 @@ const AsIndex = (props: Props) => {
             </React.Fragment>
           ))}
         </FilterBtnBox>
-        <div>
+
+        {/* 웹 필터박스 */}
+        <WebFilter onClick={handleSelect} tabIndex={1} onBlur={closeSelect} ref={select}>
+          <span>
+            {checkedFilter}
+          </span>
+          <IconBox >
+            <Image src={blackDownArrow} alt="rijgtArrow" />
+          </IconBox>
+          <Ul className='list' ref={ul}>
+            {filterList.map((f, idx) => {
+              return (
+                
+                // 여기에 클릭이벤트로 정렬 api 보내는 함수 등록해야 함.
+                <li key={idx} onClick={() => setCheckedFilter(f)}>
+                  {f}
+                </li>
+              )
+            })}
+          </Ul>
+        </WebFilter>
+
+        {/* 검색 인풋 (웹 & 모바일) */}    
+        <WrapInput>
           <Input
             placeholder="프로젝트를 검색하세요."
             type="text"
@@ -129,9 +184,10 @@ const AsIndex = (props: Props) => {
               ),
             }}
           />
-        </div>
+        </WrapInput>
+      </Wrap>
       <ContentsContainer>
-        <ContentsWrapper onClick={handleAsListClick}>
+        <ContentsWrapper onClick={() => handleAsListClick()}>
           <ContentTop>
             <ContentTitle>LS안양주유소</ContentTitle>
           </ContentTop>
@@ -193,7 +249,7 @@ const Input = styled(TextField)`
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  margin-top: 9pt;
+  margin-top: 0pt;
   .MuiInputBase-root {
     padding: 10.5pt 12pt;
   }
@@ -218,23 +274,48 @@ const Input = styled(TextField)`
   & fieldset {
     border: none;
   }
-`;
-
-const WebWrap = styled.div`
-  display: none;
 
   @media (max-width: 899pt) {
-    display: block;
+  margin-top: 9pt;
   }
 `;
 
+const Wrap = styled.div`
+display: flex;
+flex-wrap: wrap;
+flex-direction: row-reverse;
+
+  @media (max-width: 899pt) {
+    flex-direction: row;
+  }
+`;
+const WrapInput = styled.div`
+  flex:1;
+  margin-right: 10.5pt;
+
+@media (max-width: 899pt) {
+  margin-right: 0;
+}
+
+`
+
 const FilterBtnBox = styled.div`
-  width: 100%;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: end;
   position: relative;
+  margin-top: 0pt;
+  border: 1px solid #E2E5ED;
+  border-radius: 6pt;
+  padding: 0 10.5pt;
+
+  @media (max-width: 899pt) {
+  width: 100%;
   margin-top: 29.25pt;
+  padding: 0pt;
+  border: none;
+  display: flex;
+  }
 `;
 
 const FilterBtn = styled.div`
@@ -371,10 +452,6 @@ const ListItemTexts = styled(ListItemText)`
   text-align: left;
 `;
 
-const Dividers = styled(Divider)`
-  width: 90%;
-`;
-
 const FilterHeader = styled(Typography)`
   font-size: 15pt;
   font-weight: 700;
@@ -385,3 +462,43 @@ const FilterHeader = styled(Typography)`
   padding-bottom: 9pt;
 `;
 export default AsIndex;
+
+const WebFilter = styled.div`
+position: relative;
+display: flex;
+font-size: 9pt;
+font-weight: 400;
+line-height: 12pt;
+letter-spacing: -0.02em;
+align-items: center;
+border: 1px solid #E2E5ED;
+border-radius: 6pt;
+width: 96pt;
+justify-content: center;
+box-sizing: border-box;
+`
+
+const Ul = styled.ul`
+  display: none;
+  position: absolute;
+  width: 100%;
+  border: 1px solid #E2E5ED;
+  top:100%;
+  left: -0.75pt;
+  padding: 8pt 0;
+  height: auto;
+  overflow: hidden;
+  background: white;
+   li{
+    text-align: center;
+    padding: 8pt 0;
+   }
+`
+const IconBox = styled.div<{ arrow?: boolean }>`
+  align-self: center;
+  width: 10pt;
+  margin-left: 9pt;
+  display: flex;
+  align-items: center;
+  //transform: ${({ arrow }) => (arrow !== true ? `` : `rotate(180deg)`)};
+`;
