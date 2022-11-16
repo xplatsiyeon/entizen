@@ -12,20 +12,23 @@ import icon_chats from 'public/images/icon_chats.png';
 import colors from 'styles/colors';
 import ClientProjectModal from './ClientProjectModal';
 import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
+import { changeDataFn } from 'utils/calculatePackage';
 
 type Props = {
-  // info: InProgressProjectsDetailResponse;
+  data: InProgressProjectsDetailResponse;
   info: Data;
   page: string;
+  badge: string;
 };
 
-const ClientProgress = ({ info, page }: Props) => {
+const ClientProgress = ({ info, data, page, badge }: Props) => {
   const presentProgress = info.state;
 
   let textArr;
 
-  switch (info.state) {
-    case 0:
+  // switch (info.state) {
+  switch (badge) {
+    case '계약 대기':
       textArr = [
         '공사 준비를 진행해주세요.',
         '충전기를 설치, 시운전을 진행해주세요',
@@ -34,7 +37,7 @@ const ClientProgress = ({ info, page }: Props) => {
       ];
       break;
 
-    case 1:
+    case '준비 중':
       textArr = [
         '공사 준비를 진행됩니다.',
         '충전기를 설치, 시운전이 진행됩니다.',
@@ -43,7 +46,7 @@ const ClientProgress = ({ info, page }: Props) => {
       ];
       break;
 
-    case 2:
+    case '설치 중':
       textArr = [
         '공사 준비가 완료되었습니다!.',
         '충전기를 설치, 시운전이 진행됩니다.',
@@ -52,7 +55,7 @@ const ClientProgress = ({ info, page }: Props) => {
       ];
       break;
 
-    case 3:
+    case '검수 중':
       textArr = [
         '공사 준비가 완료되었습니다!',
         '충전기를 설치, 시운전이 완료되었습니다!',
@@ -61,7 +64,7 @@ const ClientProgress = ({ info, page }: Props) => {
       ];
       break;
 
-    case 4:
+    case '완료 중':
       textArr = [
         '공사 준비가 완료되었습니다!',
         '충전기를 설치, 시운전이 완료되었습니다!',
@@ -70,7 +73,7 @@ const ClientProgress = ({ info, page }: Props) => {
       ];
       break;
 
-    case 5:
+    case '완료 대기':
       textArr = [
         '공사 준비가 완료되었습니다!',
         '충전기를 설치, 시운전이 완료되었습니다!',
@@ -130,7 +133,9 @@ const ClientProgress = ({ info, page }: Props) => {
             <CircleImgBox>
               <Image
                 src={
-                  presentProgress === 0 ? progressBlueCircle : progressCircle
+                  data?.project?.isCompletedCompanyMemberContractStep
+                    ? progressBlueCircle
+                    : progressCircle
                 }
                 alt="progressCircle"
                 layout="fill"
@@ -170,7 +175,10 @@ const ClientProgress = ({ info, page }: Props) => {
             <CircleImgBox className="topCircle">
               <Image
                 src={
-                  presentProgress === 1 ? progressBlueCircle : progressCircle
+                  data?.project?.isCompletedCompanyMemberContractStep &&
+                  !data?.project?.isCompletedReadyStep
+                    ? progressBlueCircle
+                    : progressCircle
                 }
                 alt="progressCircle"
                 layout="fill"
@@ -187,9 +195,17 @@ const ClientProgress = ({ info, page }: Props) => {
                   />
                 </div>
               </ProgressName>
-              {info.planed[0] ? (
-                <PickedDate color={1 >= info.state ? colors.main : '#e2e5ed'}>
-                  {info.planed[0]}
+              {data?.project?.readyStepGoalDate ? (
+                <PickedDate
+                  color={
+                    data?.project?.isCompletedReadyStep
+                      ? '#e2e5ed'
+                      : colors.main
+                  }
+                >
+                  {data?.project?.readyStepGoalDate === 'CHANGING'
+                    ? '목표일 변경 중'
+                    : changeDataFn(data?.project?.readyStepGoalDate)}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
@@ -200,7 +216,12 @@ const ClientProgress = ({ info, page }: Props) => {
           {toggleOpen[1] && (
             <ToggleWrapper>
               <MessageBox
-                presentProgress={presentProgress === 1 && true}
+                presentProgress={
+                  data?.project?.isCompletedCompanyMemberContractStep &&
+                  !data?.project?.isCompletedReadyStep
+                    ? true
+                    : false
+                }
                 title={textArr[0]}
                 firstText={'충전기 및 부속품 준비'}
                 secondText={'설계 및 공사계획 신고 등'}
@@ -215,7 +236,10 @@ const ClientProgress = ({ info, page }: Props) => {
             <CircleImgBox>
               <Image
                 src={
-                  presentProgress === 2 ? progressBlueCircle : progressCircle
+                  data?.project?.isCompletedReadyStep &&
+                  !data?.project?.isCompletedInstallationStep
+                    ? progressBlueCircle
+                    : progressCircle
                 }
                 alt="progressCircle"
                 layout="fill"
@@ -232,9 +256,17 @@ const ClientProgress = ({ info, page }: Props) => {
                   />
                 </div>
               </ProgressName>
-              {info.planed[1] ? (
-                <PickedDate color={2 >= info.state ? colors.main : '#e2e5ed'}>
-                  {info.planed[1]}
+              {data?.project?.installationStepGoalDate ? (
+                <PickedDate
+                  color={
+                    data?.project?.isCompletedInstallationStep
+                      ? '#e2e5ed'
+                      : colors.main
+                  }
+                >
+                  {data?.project?.installationStepGoalDate === 'CHANGING'
+                    ? '목표일 변경 중'
+                    : changeDataFn(data?.project?.installationStepGoalDate)}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
@@ -263,7 +295,10 @@ const ClientProgress = ({ info, page }: Props) => {
             <CircleImgBox>
               <Image
                 src={
-                  presentProgress === 3 ? progressBlueCircle : progressCircle
+                  data?.project?.isCompletedInstallationStep &&
+                  !data?.project?.isCompletedExamStep
+                    ? progressBlueCircle
+                    : progressCircle
                 }
                 alt="progressCircle"
                 layout="fill"
@@ -280,9 +315,15 @@ const ClientProgress = ({ info, page }: Props) => {
                   />
                 </div>
               </ProgressName>
-              {info.planed[2] ? (
-                <PickedDate color={3 >= info.state ? colors.main : '#e2e5ed'}>
-                  {info.planed[2]}
+              {data?.project?.examStepGoalDate ? (
+                <PickedDate
+                  color={
+                    data?.project?.isCompletedExamStep ? '#e2e5ed' : colors.main
+                  }
+                >
+                  {data?.project?.examStepGoalDate === 'CHANGING'
+                    ? '변경 중'
+                    : changeDataFn(data?.project?.examStepGoalDate)}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
@@ -309,7 +350,8 @@ const ClientProgress = ({ info, page }: Props) => {
               <Image
                 className="bottomCircle"
                 src={
-                  presentProgress === 4 || presentProgress === 5
+                  data?.project?.isCompletedExamStep &&
+                  !data?.project?.isCompletedCompletionStep
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -328,13 +370,17 @@ const ClientProgress = ({ info, page }: Props) => {
                   />
                 </div>
               </ProgressName>
-              {info.planed[3] ? (
+              {data?.project?.completionStepGoalDate ? (
                 <PickedDate
                   color={
-                    4 >= info.state || 5 >= info.state ? colors.main : '#e2e5ed'
+                    data?.project?.isCompletedCompletionStep
+                      ? '#e2e5ed'
+                      : colors.main
                   }
                 >
-                  {info.planed[3]}
+                  {data?.project?.completionStepGoalDate === 'CHANGING'
+                    ? '변경 중'
+                    : changeDataFn(data?.project?.completionStepGoalDate)}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
@@ -345,7 +391,12 @@ const ClientProgress = ({ info, page }: Props) => {
           {toggleOpen[4] && (
             <ToggleWrapper className="lastBox">
               <MessageBox
-                presentProgress={presentProgress >= 4 && true}
+                presentProgress={
+                  data?.project?.isCompletedExamStep &&
+                  !data?.project?.isCompletedCompletionStep
+                    ? true
+                    : false
+                }
                 title={textArr[3]}
                 firstText={'사용 전 검사 및 점검'}
                 secondText={'신고 및 사용 승인'}

@@ -152,8 +152,9 @@ const ProjectInfo = () => {
           <ClientProgress
             info={tempProceeding[Number(0)]}
             page={tempProceeding[Number(0)].contract ? 'client' : 'yet'}
+            badge={projectData?.project?.badge!}
             // page={true}
-            // info={projectData!}
+            data={projectData!}
           />
         </>
       ) : null}
