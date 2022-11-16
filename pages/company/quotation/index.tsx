@@ -148,15 +148,8 @@ const CompanyQuotations = ({ num, now }: Props) => {
   }
   return (
     <WebBody>
-      <Container>
-        {/* 모바일탭  */}
-        {nowWidth < 1198.7 && (
-          <>
-            <Header />
-            <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
-          </>
-        )}
-        {/* 웹일때 보이는 헤더 */}
+      {/* 웹일때 보이는 헤더 */}
+      <WebBox>
         <WebBuyerHeader
           setTabNumber={setTabNumber}
           tabNumber={tabNumber}
@@ -165,9 +158,18 @@ const CompanyQuotations = ({ num, now }: Props) => {
           openSubLink={openSubLink}
           setOpenSubLink={setOpenSubLink}
         />
-        <div>{components[tabNumber]}</div>
-      </Container>
-      <BottomNavigation />
+        <Container>
+          {/* 모바일탭  */}
+          {nowWidth < 1198.7 && (
+            <>
+              <Header />
+              <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
+            </>
+          )}
+          <>{components[tabNumber]}</>
+          <BottomNavigation />
+        </Container>
+      </WebBox>
       <WebFooter />
     </WebBody>
   );
@@ -176,26 +178,48 @@ const CompanyQuotations = ({ num, now }: Props) => {
 const WebBody = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  /* background-color: white; */
+
+  @media (max-height: 350pt) {
+    height: 100%;
+    display: block;
+  }
+  @media (min-width: 900pt) {
+    min-height: 100vh;
+    justify-content: space-between;
+  }
 `;
 
 const Container = styled.div`
-  padding-left: 15pt;
-  padding-right: 15pt;
-  height: 100vh;
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
   @media (max-width: 899pt) {
-    display: block;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
   }
-  @media (min-width: 899pt) {
-    padding-left: 0;
-    padding-right: 0;
+  @media (max-height: 350pt) {
+    height: 500pt;
+  }
+  @media (min-width: 900pt) {
+    padding: 0;
   }
 `;
 
+const WebBox = styled.div``;
+
 const WebRapper = styled.div`
   @media (min-width: 899pt) {
-    margin: 0 auto;
-    padding: 60pt 0;
     width: 900pt;
     display: flex;
     justify-content: space-between;

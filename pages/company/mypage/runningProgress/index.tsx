@@ -112,50 +112,90 @@ const RunningProgress = (props: Props) => {
 
   return (
     <>
-      <WebBuyerHeader
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        componentId={componentId}
-        openSubLink={openSubLink}
-        setOpenSubLink={setOpenSubLink}
-      />
-      <WebRapper>
-        {nowWidth > 1198.7 && (
-          <LeftProjectBox
-            setTabNumber={setTabNumber}
-            tabNumber={tabNumber}
-            componentId={componentId}
-            setComponentId={setComponentId}
-          />
-        )}
-        <MypageHeader back={true} title={'진행 프로젝트'} />
-        <WebBox>
-          <TopBox
-            open={open}
-            setOpen={setOpen}
-            handleClick={handleClick}
-            data={inProgressData!}
-            type={'COMPANY'}
-          />
-          {/* 계약서 작성 시 Progress 나와야 됨 */}
-          {openContract ? (
-            <Progress
-              data={inProgressData!}
-              inProgressRefetch={inProgressRefetch}
-              info={data}
-              setData={setData}
-            />
-          ) : (
-            <UnderBox setOpenContract={setOpenContract} />
-          )}
-        </WebBox>
-      </WebRapper>
-      <WebFooter />
+      <WebBody>
+        <WebBuyerHeader
+          setTabNumber={setTabNumber}
+          tabNumber={tabNumber}
+          componentId={componentId}
+          openSubLink={openSubLink}
+          setOpenSubLink={setOpenSubLink}
+        />
+        <Container>
+          <WebRapper>
+            {nowWidth > 1198.7 && (
+              <LeftProjectBox
+                setTabNumber={setTabNumber}
+                tabNumber={tabNumber}
+                componentId={componentId}
+                setComponentId={setComponentId}
+              />
+            )}
+            <MypageHeader back={true} title={'진행 프로젝트'} />
+            <WebBox>
+              <TopBox
+                open={open}
+                setOpen={setOpen}
+                handleClick={handleClick}
+                data={inProgressData!}
+                type={'COMPANY'}
+              />
+              {/* 계약서 작성 시 Progress 나와야 됨 */}
+              {openContract ? (
+                <Progress
+                  data={inProgressData!}
+                  inProgressRefetch={inProgressRefetch}
+                  info={data}
+                  setData={setData}
+                />
+              ) : (
+                <UnderBox setOpenContract={setOpenContract} />
+              )}
+            </WebBox>
+          </WebRapper>
+        </Container>
+        <WebFooter />
+      </WebBody>
     </>
   );
 };
 
 export default RunningProgress;
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  @media (max-height: 350pt) {
+    height: 100%;
+    display: block;
+  }
+`;
+
+const Container = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+  @media (min-width: 899pt) {
+    margin: 0 auto;
+  }
+`;
 
 const WebRapper = styled.div`
   @media (min-width: 899pt) {

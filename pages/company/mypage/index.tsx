@@ -119,17 +119,17 @@ const Mypage = ({ num, now }: Props) => {
 
   return (
     <>
-      <WebBody tabNumber={tabNumber}>
-        <Container tabNumber={tabNumber}>
-          <WebBuyerHeader
-            setTabNumber={setTabNumber}
-            tabNumber={tabNumber}
-            componentId={componentId}
-            num={num}
-            now={now}
-            openSubLink={openSubLink}
-            setOpenSubLink={setOpenSubLink}
-          />
+      <WebBody>
+        <WebBuyerHeader
+          setTabNumber={setTabNumber}
+          tabNumber={tabNumber}
+          componentId={componentId}
+          num={num}
+          now={now}
+          openSubLink={openSubLink}
+          setOpenSubLink={setOpenSubLink}
+        />
+        <Container>
           <WebRapper>
             <LeftProjectBox
               setTabNumber={setTabNumber}
@@ -148,22 +148,41 @@ const Mypage = ({ num, now }: Props) => {
   );
 };
 
-const WebBody = styled.div<{ tabNumber: number }>`
+const WebBody = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  /* height: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '100vh')}; */
+  background-color: white;
+  @media (max-height: 350pt) {
+    height: 100%;
+    display: block;
+  }
 `;
 
-const Container = styled.div<{ tabNumber: number }>`
-  height: 100vh;
-  /* height: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '100vh')}; */
+const Container = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
 `;
 
 const WebRapper = styled.div`
   @media (min-width: 899pt) {
-    margin: 0 auto;
-    padding: 60pt 0;
     width: 900pt;
     display: flex;
     justify-content: space-between;

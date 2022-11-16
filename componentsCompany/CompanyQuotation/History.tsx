@@ -142,7 +142,6 @@ const ContentsContainer = styled.div`
   @media (min-width: 899pt) {
     width: 580.5pt;
     margin: 0 auto;
-    padding-bottom: 60pt;
   }
 `;
 
@@ -152,7 +151,6 @@ const TopContainer = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 0 auto;
-    margin-top: 60pt;
     margin-bottom: 30pt;
   }
 `;
