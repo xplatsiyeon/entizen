@@ -181,9 +181,12 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   padding-top: 20.25pt;
+  display: flex;
+  flex-direction: column;
   @media (min-width: 899pt) {
     margin: 0 auto;
-    top: 6%;
+    top: 39pt;
+    /* background-color: red; */
   }
 `;
 
@@ -224,7 +227,7 @@ const Input = styled(TextField)`
     position: absolute;
     bottom: 82.6%;
     width: 580.5pt;
-    margin-bottom: 25%;
+    margin-bottom: 23%;
   }
   width: 100%;
   border-radius: 6pt;
@@ -360,7 +363,7 @@ const Button = styled.div`
     width: 251.25pt;
     margin: 0 auto;
     margin-top: 75pt;
-    margin-bottom: 90pt;
+    margin-bottom: 20pt;
   }
 `;
 

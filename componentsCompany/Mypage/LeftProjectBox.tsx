@@ -149,6 +149,7 @@ const Wrapper = styled.div`
     height: 424.5pt;
     border: 0.75pt solid #e2e5ed;
     border-radius: 12pt;
+    background-color: #ffffff;
   }
 `;
 
