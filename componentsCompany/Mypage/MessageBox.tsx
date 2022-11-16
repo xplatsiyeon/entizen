@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Carousel from 'components/mypage/projects/Carousel';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import { FinalQuotationChargers } from 'QueryComponents/CompanyQuery';
+import { ProjectCompletionFiles } from 'QueryComponents/CompanyQuery';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
 
@@ -16,7 +16,7 @@ type Props = {
   handleClick?: () => void;
   num?: number;
   complete?: boolean;
-  file?: FinalQuotationChargers[];
+  file?: ProjectCompletionFiles[];
 };
 
 const MessageBox = ({
