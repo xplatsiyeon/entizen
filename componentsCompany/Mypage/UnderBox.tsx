@@ -36,7 +36,6 @@ const UnderBox = ({ setOpenContract }: Props) => {
         </Btn>
         <Btn tColor={false}>고객과 소통하기</Btn>
       </BtnBox>
-
       <WebBtnWrapper>
         <EntizenContractBox>
           <>
@@ -91,7 +90,7 @@ const UnderBox = ({ setOpenContract }: Props) => {
 };
 
 const WebRapper = styled.div`
-  @media (min-width) {
+  @media (min-width: 899pt) {
     display: flex;
     flex-direction: column;
   }
@@ -195,6 +194,7 @@ const WebBtnWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding-bottom: 50pt;
+  gap: 22.5pt;
 `;
 
 const EntizenContractBox = styled.div`

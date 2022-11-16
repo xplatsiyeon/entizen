@@ -14,6 +14,7 @@ import useDebounce from 'hooks/useDebounce';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader';
+import WebSort from './WebSort';
 
 type Props = {};
 
@@ -87,7 +88,16 @@ const History = ({}: Props) => {
         checkedFilterIndex={checkedFilterIndex}
         setcheckedFilterIndex={setcheckedFilterIndex}
       />
-      <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+      <TopContainer>
+        <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+        <WebSort
+          checkedFilter={checkedFilter}
+          setCheckedFilter={setCheckedFilter}
+          checkedFilterIndex={checkedFilterIndex}
+          setcheckedFilterIndex={setcheckedFilterIndex}
+        />
+      </TopContainer>
+
       <ContentsContainer>
         {data?.data?.map((data, index) => (
           <div key={index}>
@@ -126,8 +136,25 @@ const History = ({}: Props) => {
     </>
   );
 };
+
 const ContentsContainer = styled.div`
   margin-top: 18pt;
+  @media (min-width: 899pt) {
+    width: 580.5pt;
+    margin: 0 auto;
+    padding-bottom: 60pt;
+  }
+`;
+
+const TopContainer = styled.div`
+  @media (min-width: 899pt) {
+    width: 580.5pt;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-top: 60pt;
+    margin-bottom: 30pt;
+  }
 `;
 
 const Contents = styled.div`

@@ -624,6 +624,10 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   box-sizing: border-box;
   padding-bottom: 30pt;
+  @media (min-width: 899pt) {
+    padding-left: 25pt;
+    padding-right: 25pt;
+  }
 `;
 const SecondWrapper = styled.div`
   padding-left: 15pt;
@@ -631,6 +635,10 @@ const SecondWrapper = styled.div`
   box-sizing: border-box;
   margin-top: 30pt;
   padding-bottom: 58.6875pt;
+  @media (min-width: 899pt) {
+    padding-left: 25pt;
+    padding-right: 25pt;
+  }
 `;
 const TopStep = styled.div`
   margin-top: 24pt;
@@ -830,6 +838,9 @@ const Divide = styled.div`
   width: 100vw;
   height: 3pt;
   background-color: #f3f4f7;
+  @media (min-width: 899pt) {
+    width: auto;
+  }
 `;
 const TopBox = styled.div`
   & div:first-of-type {

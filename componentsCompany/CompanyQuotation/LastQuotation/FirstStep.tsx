@@ -453,8 +453,8 @@ const Wrapper = styled.div`
     padding-bottom: 120pt;
   }
   @media (min-width: 899pt) {
-    margin: 0 auto;
-    margin-top: -11pt;
+    padding-left: 25pt;
+    padding-right: 25pt;
   }
 `;
 const TopStep = styled.div`
@@ -682,9 +682,9 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   @media (min-width: 899pt) {
     padding: 15pt 0;
     border-radius: 8pt;
-    position: relative;
+    position: static;
     margin: 0 auto;
-    bottom: 20%;
+    margin-top: -17%;
   }
 `;
 const SelectContainer = styled.div`
@@ -701,11 +701,13 @@ const SelectComponentsContainer = styled.div`
 
 const WebRapper = styled.div`
   @media (min-width: 899pt) {
-    height: 1250pt;
+    height: 1240pt;
+    width: 580.5pt;
     background-color: #ffffff;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 12pt;
-    margin-bottom: 30pt;
+    margin-bottom: 54pt;
+    margin-top: -2.1%;
   }
 `;
 export default FirstStep;
