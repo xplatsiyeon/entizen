@@ -1,178 +1,271 @@
-
 import styled from '@emotion/styled';
-import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { UnConsentProjectDateChangeHistories } from 'QueryComponents/CompanyQuery';
 import React from 'react';
-
+import colors from 'styles/colors';
+import changeArrow from 'public/images/date-change-arrow.png';
+import { getDayOfWeek } from 'utils/calculatePackage';
 
 type Props = {
-    setModal: React.Dispatch<React.SetStateAction<boolean>>;
-    type: string; //나중에, 일정 변경 동의 버튼이 클릭되면, 새 string을 type의 값으로 받아서 처리.
-    date? : string;
-  };
+  setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  type: 'finish' | 'change';
+  data?: UnConsentProjectDateChangeHistories;
+  onClickChangeData: () => void;
+};
 
-const ClientProjectModal = ({setModal, type, date}:Props)=>{
-
-    const router = useRouter();
-
-    const handle=(st: string)=>{
-        if(st==='commu'){
-           // setModal(false);
-            router.push(`/mypage/project/fin/${st}`)
-        }else{
-            //setModal(false);
-            router.push(`/mypage/project/fin/${st}`)
-        }
-    }
-
-    return(
-        <Wrap onClick={()=>setModal(false)}>
-            <Body>
-            <P>{type === 'fin'? '내 프로젝트':'일정 변경 요청'}</P>
-            {type ==='fin'?
-            <FinBox>
-                <PBox1>
-                    <p className='date1'>완료 요청일</p>
-                    <p className='date2'>{date? date: null}</p>
-                </PBox1> 
-                <PBox1>
-                    <p className='notice1'>동의하기 전 주의사항!</p> 
-                    <p className='notice2'>문제가 있을 경우 소통하기를 통해 문의해주시고,<br/> 추가 작업 후 동의하시기 바랍니다</p>
-                </PBox1>
-            </FinBox>
-            :<DateBox>
-                <PBox2>
-                    <p>완료 예정일</p>
-                    <p>문제가 있을 경우 소통하기를 통해 문의해주시고,<br/> 추가 작업 후 동의하시기 바랍니다</p>
-                </PBox2>
-                <PBox2>
-                    <p>변경 사유</p>
-                    <p></p>
-                </PBox2>
-                <PBox2></PBox2>
-            </DateBox>
-            }
-            <ButtonBox>
-                <button onClick={()=>handle('commu')}><span>소통하기</span></button>
-                <button onClick={()=>handle('agree')}><span>동의하기</span></button>
-            </ButtonBox>
-            </Body>
-        </Wrap>
-    )
-}
+const ClientProjectModal = ({
+  setIsModal,
+  type,
+  data,
+  onClickChangeData,
+}: Props) => {
+  return (
+    <Wrap onClick={() => setIsModal(false)}>
+      <Body>
+        <P>{type === 'finish' ? '내 프로젝트' : '일정 변경 요청'}</P>
+        {type === 'finish' ? (
+          // 완료하기
+          <FinBox>
+            <PBox1>
+              <p className="date1">완료 요청일</p>
+              <p className="date2">2022-10-22</p>
+            </PBox1>
+            <PBox1>
+              <p className="notice1">동의하기 전 주의사항!</p>
+              <p className="notice2">
+                문제가 있을 경우 소통하기를 통해 문의해주시고,
+                <br /> 추가 작업 후 동의하시기 바랍니다
+              </p>
+            </PBox1>
+          </FinBox>
+        ) : (
+          // 날짜 변경
+          <DateBox>
+            <PBox2 className="firstChild">
+              <p className="label">완료 예정일</p>
+              <p className="date">
+                {data?.dateAfterChange.replaceAll('-', '.')}
+              </p>
+            </PBox2>
+            <PBox2>
+              <p className="label">변경 사유</p>
+              <p className="date">{data?.changedReason}</p>
+            </PBox2>
+            <P2DateBox>
+              <div className="dateBox">
+                <p className="beforeDate">
+                  {data?.dateBeforeChange?.replaceAll('-', '.')}
+                </p>
+                <p className="beforeDay">
+                  {getDayOfWeek(data?.dateBeforeChange!)}요일
+                </p>
+              </div>
+              <span className="imgBox">
+                <Image
+                  src={changeArrow}
+                  alt="change-arrow-icon"
+                  layout="fill"
+                />
+              </span>
+              <div className="dateBox">
+                <p className="afterDate">
+                  {data?.dateAfterChange?.replaceAll('-', '.')}
+                </p>
+                <p className="afterDay">
+                  {getDayOfWeek(data?.dateAfterChange!)}요일
+                </p>
+              </div>
+            </P2DateBox>
+          </DateBox>
+        )}
+        <ButtonBox>
+          <button onClick={() => alert('작업 중 입니다.')}>
+            <span>소통하기</span>
+          </button>
+          <button onClick={onClickChangeData}>
+            <span>동의하기</span>
+          </button>
+        </ButtonBox>
+      </Body>
+    </Wrap>
+  );
+};
 
 export default ClientProjectModal;
 
 const Wrap = styled.div`
-    width: 100%;
-    height: 100%;
-    background: #1212121c;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-`
+  width: 100%;
+  height: 100%;
+  background: #1212121c;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+`;
 
 const Body = styled.div`
-width: 100%;
-height: 300pt;  
-background: white;
-box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
-border-radius: 20pt 20pt 0pt 0;
-position: absolute;
-bottom: 0;
-z-index: 2;
-`
+  width: 100%;
+  height: 300pt;
+  background: white;
+  box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 20pt 20pt 0pt 0;
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+`;
 
 const P = styled.p`
-font-family: 'Spoqa Han Sans Neo';
-font-style: normal;
-font-weight: 700;
-font-size: 15pt;
-line-height: 12pt;
-letter-spacing: -0.02em;
-color: #222222;
-text-align: center;
-margin: 21pt 0 32pt;
-`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: #222222;
+  text-align: center;
+  margin: 21pt 0 32pt;
+`;
 
 const FinBox = styled.div`
-margin: 0 15pt;
-border: 1px solid #E9EAEE;
-border-radius: 8px;
-text-align: center;
-`
+  margin: 0 15pt;
+  border: 1px solid #e9eaee;
+  border-radius: 8px;
+  text-align: center;
+`;
 const DateBox = styled.div`
-    
-`
+  .firstChild {
+    padding-bottom: 12pt;
+  }
+`;
 const ButtonBox = styled.div`
-margin: 30pt 15pt ;
-display: flex;
-justify-content: space-between;
-gap: 9pt;
-    button{
-        font-family: 'Spoqa Han Sans Neo';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 12pt;
-        line-height: 12pt;
-        text-align: center;
-        letter-spacing: -0.02em;
-
-        &:nth-of-type(1){
-            padding: 15pt 0;
-            background: #E2E5ED;
-            border-radius: 6pt;
-            flex: 1;
-            color: #595757;
-        }
-        &:nth-of-type(2){
-            padding: 15pt 0;
-            background: #5221CB;
-            border-radius: 6pt;
-            flex: 2;
-            color: #ffffff;
-        }
-    }
-`
-const PBox1 = styled.div`
+  margin: 30pt 15pt;
+  display: flex;
+  justify-content: space-between;
+  gap: 9pt;
+  button {
     font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12pt;
+    line-height: 12pt;
+    text-align: center;
     letter-spacing: -0.02em;
-    > .date1{
-        font-style: normal;
-        font-weight: 400;
-        font-size: 10.5pt;
-        line-height: 18pt;
-        color: #222222;
-        margin-top: 12pt;
+
+    &:nth-of-type(1) {
+      padding: 15pt 0;
+      background: #e2e5ed;
+      border-radius: 6pt;
+      flex: 1;
+      color: #595757;
     }
-    > .date2{
-        font-style: normal;
-        font-weight: 700;
-        font-size: 15pt;
-        line-height: 15pt;
-        color: #5221CB;
-        margin-top: 3pt;
+    &:nth-of-type(2) {
+      padding: 15pt 0;
+      background: #5221cb;
+      border-radius: 6pt;
+      flex: 2;
+      color: #ffffff;
     }
- 
-    >.notice1{
-        font-style: normal;
-        font-weight: 700;
-        font-size: 12pt;
-        line-height: 12pt;
-        color: #222222;
-        margin: 30pt 0 6pt;
-    }
-    >.notice2{
-        font-style: normal;
-        font-weight: 400;
-        font-size: 10.5pt;
-        line-height: 15pt;
-        color: #222222;
-        margin-bottom: 15pt;
-    }
-    
-`
+  }
+`;
+const PBox1 = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  letter-spacing: -0.02em;
+  > .date1 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10.5pt;
+    line-height: 18pt;
+    color: #222222;
+    margin-top: 12pt;
+  }
+  > .date2 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15pt;
+    line-height: 15pt;
+    color: #5221cb;
+    margin-top: 3pt;
+  }
+
+  > .notice1 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12pt;
+    line-height: 12pt;
+    color: #222222;
+    margin: 30pt 0 6pt;
+  }
+  > .notice2 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10.5pt;
+    line-height: 15pt;
+    color: #222222;
+    margin-bottom: 15pt;
+  }
+`;
 const PBox2 = styled.div`
-    font-family: 'Spoqa Han Sans Neo';  
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  letter-spacing: -0.02em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15pt;
+  .label {
+    font-weight: 400;
+    font-size: 10.5pt;
+    line-height: 12pt;
     letter-spacing: -0.02em;
-`
+    color: ${colors.gray2};
+  }
+  .date {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    width: 50%;
+  }
+`;
+const P2DateBox = styled(PBox2)`
+  padding-top: 42pt;
+  align-items: flex-start;
+  .dateBox {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    line-height: 18pt;
+    padding: 0 15pt;
+  }
+  .beforeDate {
+    font-weight: 400;
+    font-size: 15pt;
+    line-height: 18pt;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray2};
+  }
+  .beforeDay {
+    color: ${colors.lightGray2};
+  }
+  .afterDate {
+    font-weight: 500;
+    font-size: 15pt;
+    line-height: 18pt;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: ${colors.main1};
+  }
+  .afterDay {
+    color: ${colors.lightGray2};
+  }
+  .imgBox {
+    position: relative;
+    top: 5.25pt;
+    width: 25.875pt;
+    height: 8.625pt;
+  }
+`;

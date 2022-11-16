@@ -36,7 +36,6 @@ export interface CompanyMember {
     companyName: string;
   };
 }
-
 export interface FinalQuotationChargers {
   finalQuotationChargerIdx: string;
   kind: string;
@@ -45,7 +44,15 @@ export interface FinalQuotationChargers {
   count: number;
   installationLocation: 'INSIDE' | 'OUTSIDE';
 }
-
+export interface UnConsentProjectDateChangeHistories {
+  projectDateChangeHistoryIdx: string;
+  changedStep: string;
+  changedReason: string;
+  dateBeforeChange: string;
+  dateAfterChange: string;
+  processingStatus: boolean;
+  projectIdx: number;
+}
 export interface InProgressProjectsDetail {
   projectIdx: string;
   projectName: string;
@@ -88,6 +95,7 @@ export interface InProgressProjectsDetail {
   projectCompletionAgreementDate: string;
   isApprovedByAdmin: boolean;
   isCancel: boolean;
+  unConsentProjectDateChangeHistories: UnConsentProjectDateChangeHistories[];
 }
 
 export interface InProgressProjectsDetailResponse {
@@ -157,6 +165,15 @@ export const GET_InProgressProjectsDetail = gql`
       projectCompletionAgreementDate
       isApprovedByAdmin
       isCancel
+      unConsentProjectDateChangeHistories {
+        projectDateChangeHistoryIdx
+        changedStep
+        changedReason
+        dateBeforeChange
+        dateAfterChange
+        processingStatus
+        projectIdx
+      }
     }
   }
 `;

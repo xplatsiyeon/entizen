@@ -109,9 +109,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.readyStepGoalDate!}
             stepType={stepTypeType[progressNum - 1]}
-
-            // setBadgeState={setBadgeState}
-            // setData={setData}
+            setProgressNum={setProgressNum}
           />
         )}
         {progressNum === 2 && (
@@ -123,11 +121,10 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             btnText={'설치 완료하기'}
             fin={data?.project?.isCompletedInstallationStep!}
             data={data!}
-            // setBadgeState={setBadgeState}
-            // setData={setData}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.installationStepGoalDate!}
             stepType={stepTypeType[progressNum - 1]}
+            setProgressNum={setProgressNum}
           />
         )}
         {progressNum === 3 && (
@@ -139,11 +136,10 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             btnText={'검수 완료하기'}
             fin={data?.project?.isCompletedExamStep!}
             data={data!}
-            // setBadgeState={setBadgeState}
-            // setData={setData}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.examStepGoalDate!}
             stepType={stepTypeType[progressNum - 1]}
+            setProgressNum={setProgressNum}
           />
         )}
         {progressNum === 4 && (
@@ -153,18 +149,15 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             textThree={'사용 전 검사 및 점검'}
             textFour={'신고 및 사용 승인'}
             textFive={'완료현장 사진 기록'}
-            // almostFinish={info.state >= progressNum ? true : false}
             almostFinish={data?.project?.badge === '완료대기' ? false : true}
             beforeFinish={data?.project?.badge === '완료 중' ? true : false}
-            // beforeFinish={true}
             btnText={'프로젝트 완료하기'}
             fin={data?.project?.isCompletedCompletionStep!}
             data={data!}
-            // setBadgeState={setBadgeState}
-            // setData={setData}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.completionStepGoalDate!}
             stepType={stepTypeType[progressNum - 1]}
+            setProgressNum={setProgressNum}
           />
         )}
       </Wrapper>

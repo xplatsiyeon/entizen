@@ -25,8 +25,9 @@ const MessageBox = ({
   page,
   num,
 }: Props) => {
-
   const [idx, setIdx] = useState<number>(1);
+
+  console.log(presentProgress);
 
   const handleNum = () => {
     if (idx === 1) {

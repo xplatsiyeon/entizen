@@ -77,7 +77,7 @@ const Estimate = () => {
       {data?.inProgressQuotationRequests.length! > 0 && (
         <Proceeding>
           <Label>
-            진행 중{' '}
+            진행 중
             <span className="num">
               {data?.inProgressQuotationRequests.length}
             </span>

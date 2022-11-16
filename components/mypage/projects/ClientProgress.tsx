@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import MessageBox from 'componentsCompany/Mypage/MessageBox';
 import Image from 'next/image';
 import { Data } from 'pages/company/mypage/runningProgress';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
@@ -11,22 +11,31 @@ import DownArrow from 'public/images/smallDownArrow.png';
 import icon_chats from 'public/images/icon_chats.png';
 import colors from 'styles/colors';
 import ClientProjectModal from './ClientProjectModal';
-import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
+import {
+  InProgressProjectsDetailResponse,
+  UnConsentProjectDateChangeHistories,
+} from 'QueryComponents/CompanyQuery';
 import { changeDataFn } from 'utils/calculatePackage';
+import { ApolloQueryResult, OperationVariables } from '@apollo/client';
+import { isTokenPatchApi } from 'api';
+import { useMutation } from 'react-query';
+import Loader from 'components/Loader';
 
 type Props = {
   data: InProgressProjectsDetailResponse;
   info: Data;
   page: string;
   badge: string;
+  projectRefetch: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
 };
 
-const ClientProgress = ({ info, data, page, badge }: Props) => {
+const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
   const presentProgress = info.state;
 
   let textArr;
 
-  // switch (info.state) {
   switch (badge) {
     case '계약 대기':
       textArr = [
@@ -90,7 +99,12 @@ const ClientProgress = ({ info, data, page, badge }: Props) => {
       ];
   }
 
-  const [modal, setModal] = useState<boolean>(false);
+  type ModalType = 'finish' | 'change';
+
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const [modalInfo, setModalInfo] =
+    useState<UnConsentProjectDateChangeHistories>();
+  const [modalType, setModalType] = useState<ModalType>('change');
   const [toggleOpen, setToggleOpen] = useState<boolean[]>([
     false,
     false,
@@ -98,6 +112,18 @@ const ClientProgress = ({ info, data, page, badge }: Props) => {
     false,
     false,
   ]);
+
+  const { mutate: dataChangeMutate, isLoading: dataChangeLoading } =
+    useMutation(isTokenPatchApi, {
+      onSuccess: () => {
+        setIsModal(false);
+        projectRefetch();
+      },
+      onError: (error: any) => {
+        console.log('날짜 변경 에러 발생');
+        console.log(error);
+      },
+    });
 
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -120,6 +146,59 @@ const ClientProgress = ({ info, data, page, badge }: Props) => {
       setToggleOpen(copyArr);
     }
   };
+
+  // 유저 날짜 동의하기
+  const onClickChangeData = () => {
+    console.log(modalInfo?.projectDateChangeHistoryIdx);
+    if (modalInfo?.projectDateChangeHistoryIdx) {
+      dataChangeMutate({
+        url: `/projects/${modalInfo?.projectIdx}/goal-date/${modalInfo?.projectDateChangeHistoryIdx}/agreement`,
+      });
+    }
+  };
+  // 일정 변경 모달 관련 상태관리
+  useEffect(() => {
+    console.log('useEffect 몇번 렌더링');
+    const {
+      completionStepGoalDate,
+      installationStepGoalDate,
+      examStepGoalDate,
+      readyStepGoalDate,
+      unConsentProjectDateChangeHistories,
+    } = data?.project;
+
+    if (readyStepGoalDate === 'CHANGING') {
+      const target = unConsentProjectDateChangeHistories.filter(
+        (el) => el.changedStep === 'READY' && el.processingStatus === false,
+      );
+      setModalInfo(target[0]);
+      setIsModal(true);
+    } else if (installationStepGoalDate === 'CHANGING') {
+      const target = unConsentProjectDateChangeHistories.filter(
+        (el) =>
+          el.changedStep === 'INSTALLATION' && el.processingStatus === false,
+      );
+      setModalInfo(target[0]);
+      setIsModal(true);
+    } else if (examStepGoalDate === 'CHANGING') {
+      const target = unConsentProjectDateChangeHistories.filter(
+        (el) => el.changedStep === 'EXAM' && el.processingStatus === false,
+      );
+      setModalInfo(target[0]);
+      setIsModal(true);
+    } else if (completionStepGoalDate === 'CHANGING') {
+      const target = unConsentProjectDateChangeHistories.filter(
+        (el) =>
+          el.changedStep === 'COMPLETION' && el.processingStatus === false,
+      );
+      setModalInfo(target[0]);
+      setIsModal(true);
+    }
+  }, [data]);
+
+  if (dataChangeLoading) {
+    return <Loader />;
+  }
 
   return (
     <Wrapper0>
@@ -280,7 +359,12 @@ const ClientProgress = ({ info, data, page, badge }: Props) => {
           {toggleOpen[2] && (
             <ToggleWrapper>
               <MessageBox
-                presentProgress={presentProgress === 2 && true}
+                presentProgress={
+                  data?.project?.isCompletedReadyStep &&
+                  !data?.project?.isCompletedInstallationStep
+                    ? true
+                    : false
+                }
                 title={textArr[1]}
                 firstText={'충전기 설치 및 배선작업'}
                 secondText={'충전기 시운전 (자체 테스트)'}
@@ -334,7 +418,12 @@ const ClientProgress = ({ info, data, page, badge }: Props) => {
           {toggleOpen[3] && (
             <ToggleWrapper>
               <MessageBox
-                presentProgress={presentProgress === 3 && true}
+                presentProgress={
+                  data?.project?.isCompletedInstallationStep &&
+                  !data?.project?.isCompletedExamStep
+                    ? true
+                    : false
+                }
                 title={textArr[2]}
                 firstText={'검수 및 전기차 충전 테스트 (고객 참관)'}
                 secondText={'한전 계량기 봉인'}
@@ -416,15 +505,17 @@ const ClientProgress = ({ info, data, page, badge }: Props) => {
         <span>파트너와 소통하기</span>
       </Button>
       {info.state === 5 ? (
-        <FinButton onClick={() => setModal(true)}>
+        <FinButton onClick={() => setIsModal(true)}>
           <span>프로젝트 완료 동의하기</span>
         </FinButton>
       ) : null}
-      {modal && (
+      {/* 완료 동의하기 모달창  */}
+      {isModal && (
         <ClientProjectModal
-          setModal={setModal}
-          type={'fin'}
-          date={info.planed[3]}
+          setIsModal={setIsModal}
+          type={'change'}
+          data={modalInfo}
+          onClickChangeData={onClickChangeData}
         />
       )}
     </Wrapper0>

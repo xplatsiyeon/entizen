@@ -113,6 +113,7 @@ const ProjectInfo = () => {
     loading: projectLoading,
     error: projectError,
     data: projectData,
+    refetch: projectRefetch,
   } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
     variables: {
       projectIdx: routerId!,
@@ -155,6 +156,7 @@ const ProjectInfo = () => {
             badge={projectData?.project?.badge!}
             // page={true}
             data={projectData!}
+            projectRefetch={projectRefetch}
           />
         </>
       ) : null}

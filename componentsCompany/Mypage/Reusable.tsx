@@ -4,7 +4,13 @@ import Image from 'next/image';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import CloseImg from 'public/images/XCircle.svg';
 import camera from 'public/images/gray_camera.png';
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import colors from 'styles/colors';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
@@ -34,7 +40,7 @@ type Props = {
   data: InProgressProjectsDetailResponse;
   planed?: string;
   stepType: string;
-
+  setProgressNum: Dispatch<SetStateAction<number>>;
   inProgressRefetch: (
     variables?: Partial<OperationVariables> | undefined,
   ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
@@ -67,12 +73,11 @@ const Reusable = ({
   planed,
   stepType,
   inProgressRefetch,
+  setProgressNum,
 }: // setBadgeState,
 // setData,
 
 Props) => {
-  console.log(beforeFinish, almostFinish);
-  console.log(planed);
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
   // img ref
@@ -190,6 +195,7 @@ Props) => {
             completedProjectImageFiles: imgArr,
           },
         });
+        setTwoBtnModalOpen(false);
       } else {
         // 이전 단계
         stepMuate({
@@ -198,12 +204,20 @@ Props) => {
             projectStep: stepType,
           },
         });
+        setTwoBtnModalOpen(false);
       }
     } else {
       alert('목표일자를 작성해주세요.');
       setTwoBtnModalOpen(false);
     }
+    setProgressNum(-1);
+    inProgressRefetch();
   };
+
+  useEffect(() => {
+    console.log(fin);
+    console.log('핀 업데이트 되면 새로 고침');
+  }, [fin]);
 
   return (
     <>
@@ -269,9 +283,11 @@ Props) => {
                 <div className="expectedDate">
                   {fin ? '완료일' : '완료 예정일'}
                 </div>
-                <div className="changeDate" onClick={changeData}>
-                  일정 변경 요청
-                </div>
+                {fin === false && (
+                  <div className="changeDate" onClick={changeData}>
+                    일정 변경 요청
+                  </div>
+                )}
               </Top>
               <Date>
                 {planed
@@ -287,7 +303,6 @@ Props) => {
                 {textFive && <li>{textFive}</li>}
               </ListBox>
             </Box>
-
             {/* 완료에서 사진첨부하는곳 보이도록  */}
             {beforeFinish && !almostFinish && (
               <RemainderInputBox>
@@ -332,7 +347,7 @@ Props) => {
                 </PhotosBox>
               </RemainderInputBox>
             )}
-            {!fin ? (
+            {fin === false ? (
               <Button
                 onClick={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
                 beforeFinish={beforeFinish}
@@ -365,7 +380,7 @@ const Box = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   padding: 12pt 13.5pt 9pt 13.5pt;
   box-sizing: border-box;
-  background-color: red;
+  /* background-color: red; */
 `;
 const FinishedBox = styled.div`
   padding: 12pt 30pt 18pt 30pt;
