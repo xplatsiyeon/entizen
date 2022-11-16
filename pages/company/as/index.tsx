@@ -5,6 +5,8 @@ import Nut from 'public/images/Nut.svg';
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import AsHistory from "componentsCompany/AS/asHistory";
+import NewAs from "componentsCompany/AS/newAs";
 
 const ComAsIndex = ()=>{
 
@@ -20,11 +22,11 @@ const ComAsIndex = ()=>{
         }*/
       }, [route.query.id]);
 
-      const components = [<></>, <></>];
+      const components = [<NewAs/>, <AsHistory/>];
 
     return(
         <Wrapper>
-            <FlexBox>
+          <FlexBox>
           <Header>
             <span>
               <h1>{`${''}님,`}</h1>
@@ -61,8 +63,10 @@ const ComAsIndex = ()=>{
             </TabContainer>
           </Body>
           </FlexBox>
+          <ContentWrap className="content">
+            {typeof(tabNumber) === 'number' && <>{components[tabNumber]}</>}
+          </ContentWrap>
           <BottomNavigation />
-          {typeof(tabNumber) === 'number' && <div>{components[tabNumber]}</div>}
         </Wrapper>
     )
 }
@@ -80,9 +84,10 @@ const Wrapper = styled.div`
   flex-direction: row;
 
   @media (max-width: 899pt) {
-    padding-bottom: 60pt;
+    padding-bottom: 66pt;
     flex-direction: column;
     width: 100%;
+    min-height: 100vh;
     gap: 0;
     margin: 0;
   }
@@ -146,7 +151,7 @@ const Body = styled.div`
   }
 `;
 const Line = styled.div`
-  margin-top: 21pt;
+  margin-top: 30pt;
   width: 100%;
   border-bottom: 3pt solid ${colors.gray3};
 `;
@@ -155,6 +160,7 @@ const TabContainer = styled.div`
   display: flex;
   gap: 15pt;
   padding-left: 15pt;
+  margin-bottom: 21pt;
   flex-direction: column;
   @media (max-width: 899pt) {
     flex-direction: row;
@@ -186,3 +192,7 @@ const Dot = styled.div<{ tab: string; index: string }>`
     margin-left: 20pt;
   }
 `;
+
+const ContentWrap = styled.div`
+  flex: 1;
+`
