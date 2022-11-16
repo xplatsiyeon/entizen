@@ -33,8 +33,8 @@ const Request = () => {
   useEffect(() => {
     if (route.query.id !== undefined) {
       setTabNumber(Number(route.query.id));
-    }else if( !(route.query.id) && (route.pathname === '/mypage')){ 
-      setTabNumber(0)
+    } else if (!route.query.id && route.pathname === '/mypage') {
+      setTabNumber(0);
     }
   }, [route.query.id]);
 
@@ -47,23 +47,20 @@ const Request = () => {
   };
 
   // 유저 정보 API
-  /* const {
-   data: userData,
-   isError: userError,
-   isLoading: userLoading,
- } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'), {
-   // enabled: false
- });
+  const {
+    data: userData,
+    isError: userError,
+    isLoading: userLoading,
+  } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'), {
+    // enabled: false
+  });
 
- if (userLoading) {
-   return <Loader />;
- }
- if (userError) {
-   console.log('유저 정보 에러');
- }
- console.log(userData); */
-
-const userData = { name: '' }
+  if (userLoading) {
+    return <Loader />;
+  }
+  if (userError) {
+    console.log('유저 정보 에러');
+  }
 
   return (
     <WebBody>
@@ -102,14 +99,15 @@ const userData = { name: '' }
                         key={index}
                         tab={tabNumber.toString()}
                         index={index.toString()}
-                        onClick={() =>
-                          route.push('/mypage')
-                        }
+                        onClick={() => route.push('/mypage')}
                       >
                         {tab}
-                        <Dot tab={tabNumber.toString()} index={index.toString()} />
+                        <Dot
+                          tab={tabNumber.toString()}
+                          index={index.toString()}
+                        />
                       </TabItem>
-                    )
+                    );
                   } else {
                     return (
                       <TabItem
@@ -124,9 +122,12 @@ const userData = { name: '' }
                         }
                       >
                         {tab}
-                        <Dot tab={tabNumber.toString()} index={index.toString()} />
+                        <Dot
+                          tab={tabNumber.toString()}
+                          index={index.toString()}
+                        />
                       </TabItem>
-                    )
+                    );
                   }
                 })}
             </TabContainer>

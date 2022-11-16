@@ -28,6 +28,14 @@ export interface UserMember {
   name: string;
   phone: string;
 }
+export interface CompanyMember {
+  name: string;
+  phone: string;
+  companyMemberAdditionalInfo: {
+    managerEmail: string;
+    companyName: string;
+  };
+}
 
 export interface FinalQuotationChargers {
   finalQuotationChargerIdx: string;
@@ -65,6 +73,7 @@ export interface InProgressProjectsDetail {
     };
   };
   userMember: UserMember;
+  companyMember: CompanyMember;
   isCompletedUserContractStep: boolean;
   isCompletedCompanyMemberContractStep: boolean;
   isCompletedReadyStep: boolean;
@@ -119,6 +128,14 @@ export const GET_InProgressProjectsDetail = gql`
         name
         phone
         id
+      }
+      companyMember {
+        name
+        phone
+        companyMemberAdditionalInfo {
+          managerEmail
+          companyName
+        }
       }
       # 계약관련 내용
       # isCompletedContractStep

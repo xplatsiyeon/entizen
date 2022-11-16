@@ -132,6 +132,7 @@ const RunningProgress = (props: Props) => {
             setOpen={setOpen}
             handleClick={handleClick}
             data={inProgressData!}
+            type={'COMPANY'}
           />
           {/* 계약서 작성 시 Progress 나와야 됨 */}
           {openContract ? (

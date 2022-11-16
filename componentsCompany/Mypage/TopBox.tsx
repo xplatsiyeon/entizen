@@ -24,26 +24,23 @@ import {
   subscribeTypeEn,
 } from 'assets/selectList';
 
-interface Data {
-  id: number;
-  state: number;
-  badge: string;
-  storeName: string;
-  date: string;
-  contract: boolean;
-  address: string;
-  planed: string[]; // 인덱스[0]: 준비 목표일, [1]: 설치 목표일, [2]: 검수 목표일, [3]: 완료 목표일
-}
-
 type Props = {
   open?: boolean;
   setOpen?: Dispatch<SetStateAction<boolean>>;
   handleClick?: () => void;
   className?: string;
   data: InProgressProjectsDetailResponse;
+  type: 'USER' | 'COMPANY';
 };
 const TAG = 'componentsCompany/Mypage/TopBox.tsx';
-const TopBox = ({ open, className, setOpen, handleClick, data }: Props) => {
+const TopBox = ({
+  open,
+  className,
+  setOpen,
+  handleClick,
+  data,
+  type,
+}: Props) => {
   return (
     <>
       <Wrapper className={className !== undefined ? className : ''}>
@@ -175,19 +172,57 @@ const TopBox = ({ open, className, setOpen, handleClick, data }: Props) => {
                 </div>
               )}
             </Contents>
-            <Contents>
-              <Partner>파트너 정보</Partner>
-              <div className="text-box">
-                <span className="name">이름</span>
-                <span className="text">{data?.project?.userMember?.name}</span>
-              </div>
-              <div className="text-box">
-                <span className="name">연락처</span>
-                <span className="text phone">
-                  {hyphenFn(data?.project?.userMember?.phone!)}
-                </span>
-              </div>
-            </Contents>
+            {type === 'COMPANY' ? (
+              <Contents>
+                <Partner>파트너 정보</Partner>
+                <div className="text-box">
+                  <span className="name">이름</span>
+                  <span className="text">
+                    {data?.project?.userMember?.name}
+                  </span>
+                </div>
+                <div className="text-box">
+                  <span className="name">연락처</span>
+                  <span className="text phone">
+                    {hyphenFn(data?.project?.userMember?.phone!)}
+                  </span>
+                </div>
+              </Contents>
+            ) : (
+              <Contents>
+                <Partner>파트너 정보</Partner>
+                <div className="text-box">
+                  <span className="name">회사명</span>
+                  <span className="text">
+                    {
+                      data?.project?.companyMember?.companyMemberAdditionalInfo
+                        ?.companyName
+                    }
+                  </span>
+                </div>
+                <div className="text-box">
+                  <span className="name">이름</span>
+                  <span className="text">
+                    {data?.project?.companyMember?.name}
+                  </span>
+                </div>
+                <div className="text-box">
+                  <span className="name">이메일</span>
+                  <span className="text phone">
+                    {hyphenFn(
+                      data?.project?.companyMember?.companyMemberAdditionalInfo
+                        ?.managerEmail,
+                    )}
+                  </span>
+                </div>
+                <div className="text-box">
+                  <span className="name">연락처</span>
+                  <span className="text phone">
+                    {hyphenFn(data?.project?.companyMember?.phone)}
+                  </span>
+                </div>
+              </Contents>
+            )}
           </List>
         </Collapse>
       </Wrapper>

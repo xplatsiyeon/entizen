@@ -11,8 +11,10 @@ import DownArrow from 'public/images/smallDownArrow.png';
 import icon_chats from 'public/images/icon_chats.png';
 import colors from 'styles/colors';
 import ClientProjectModal from './ClientProjectModal';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 
 type Props = {
+  // info: InProgressProjectsDetailResponse;
   info: Data;
   page: string;
 };
@@ -122,6 +124,7 @@ const ClientProgress = ({ info, page }: Props) => {
         <Image src={DoubleArrow} alt="doubleArrow" />
       </DoubleArrowBox>
       <Wrapper>
+        {/* 계약 단계 */}
         <FlexBox margin={toggleOpen[0]}>
           <div>
             <CircleImgBox>
@@ -161,7 +164,7 @@ const ClientProgress = ({ info, page }: Props) => {
             </ContractBtnBox>
           )}
         </FlexBox>
-
+        {/* 준비 단계 */}
         <FlexBox>
           <div>
             <CircleImgBox className="topCircle">
@@ -206,6 +209,7 @@ const ClientProgress = ({ info, page }: Props) => {
             </ToggleWrapper>
           )}
         </FlexBox>
+        {/* 설치 단계 */}
         <FlexBox>
           <div>
             <CircleImgBox>
@@ -253,6 +257,7 @@ const ClientProgress = ({ info, page }: Props) => {
             </ToggleWrapper>
           )}
         </FlexBox>
+        {/* 검수 단계 */}
         <FlexBox>
           <div>
             <CircleImgBox>
@@ -297,6 +302,7 @@ const ClientProgress = ({ info, page }: Props) => {
             </ToggleWrapper>
           )}
         </FlexBox>
+        {/* 완료 단계 */}
         <FlexBox>
           <div>
             <CircleImgBox>
@@ -464,7 +470,6 @@ const PickedDate = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   color: ${(props) => {
-    console.log(props);
     return props.color;
   }};
   border: 1px solid ${(props) => props.color};
