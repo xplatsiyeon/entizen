@@ -472,6 +472,9 @@ const CustomerRequestContent = styled.div`
 
 const Wrapper = styled.div`
   padding-bottom: 75pt;
+  @media (min-width: 900pt) {
+    padding-bottom: 0;
+  }
 `;
 const ItemButton = styled(ListItemButton)`
   display: flex;
