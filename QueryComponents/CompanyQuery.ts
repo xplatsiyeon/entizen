@@ -28,7 +28,14 @@ export interface UserMember {
   name: string;
   phone: string;
 }
-
+export interface CompanyMember {
+  name: string;
+  phone: string;
+  companyMemberAdditionalInfo: {
+    managerEmail: string;
+    companyName: string;
+  };
+}
 export interface FinalQuotationChargers {
   finalQuotationChargerIdx: string;
   kind: string;
@@ -37,7 +44,15 @@ export interface FinalQuotationChargers {
   count: number;
   installationLocation: 'INSIDE' | 'OUTSIDE';
 }
-
+export interface UnConsentProjectDateChangeHistories {
+  projectDateChangeHistoryIdx: string;
+  changedStep: string;
+  changedReason: string;
+  dateBeforeChange: string;
+  dateAfterChange: string;
+  processingStatus: boolean;
+  projectIdx: number;
+}
 export interface InProgressProjectsDetail {
   projectIdx: string;
   projectName: string;
@@ -65,6 +80,7 @@ export interface InProgressProjectsDetail {
     };
   };
   userMember: UserMember;
+  companyMember: CompanyMember;
   isCompletedUserContractStep: boolean;
   isCompletedCompanyMemberContractStep: boolean;
   isCompletedReadyStep: boolean;
@@ -79,6 +95,7 @@ export interface InProgressProjectsDetail {
   projectCompletionAgreementDate: string;
   isApprovedByAdmin: boolean;
   isCancel: boolean;
+  unConsentProjectDateChangeHistories: UnConsentProjectDateChangeHistories[];
 }
 
 export interface InProgressProjectsDetailResponse {
@@ -120,6 +137,14 @@ export const GET_InProgressProjectsDetail = gql`
         phone
         id
       }
+      companyMember {
+        name
+        phone
+        companyMemberAdditionalInfo {
+          managerEmail
+          companyName
+        }
+      }
       # 계약관련 내용
       # isCompletedContractStep
       isCompletedUserContractStep
@@ -140,6 +165,15 @@ export const GET_InProgressProjectsDetail = gql`
       projectCompletionAgreementDate
       isApprovedByAdmin
       isCancel
+      unConsentProjectDateChangeHistories {
+        projectDateChangeHistoryIdx
+        changedStep
+        changedReason
+        dateBeforeChange
+        dateAfterChange
+        processingStatus
+        projectIdx
+      }
     }
   }
 `;

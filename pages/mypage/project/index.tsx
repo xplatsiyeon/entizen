@@ -1,7 +1,13 @@
+import { useQuery } from '@apollo/client';
+import Loader from 'components/Loader';
 import ClientProgress from 'components/mypage/projects/ClientProgress';
 import MypageHeader from 'components/mypage/request/header';
 import TopBox from 'componentsCompany/Mypage/TopBox';
 import { useRouter } from 'next/router';
+import {
+  GET_InProgressProjectsDetail,
+  InProgressProjectsDetailResponse,
+} from 'QueryComponents/CompanyQuery';
 import { useState } from 'react';
 
 export interface Data {
@@ -90,7 +96,7 @@ const tempProceeding: Data[] = [
 
 const ProjectInfo = () => {
   const router = useRouter();
-
+  const routerId = router?.query?.projectIdx;
   const [open, setOpen] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
 
@@ -101,17 +107,56 @@ const ProjectInfo = () => {
       }
     },[router.query.id])*/
 
-  let index = router.query.id;
+  // -----진행중인 프로젝트 상세 리스트 api-----
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    loading: projectLoading,
+    error: projectError,
+    data: projectData,
+    refetch: projectRefetch,
+  } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
+    variables: {
+      projectIdx: routerId!,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
+  console.log(routerId);
+
+  if (projectLoading) {
+    return <Loader />;
+  }
+  if (projectError) {
+    console.log('프로젝트 에러 발생');
+    console.log(projectError);
+  }
+
+  console.log(projectData);
 
   return (
     <>
       <MypageHeader back={true} title={'내 프로젝트'} />
-      {typeof(index)=== 'string' ? (
+      {typeof router?.query?.projectIdx === 'string' ? (
         <>
-          {/* <TopBox open={open} setOpen={setOpen} handleClick={handleClick} data={tempProceeding[Number(index)]} /> */}
+          <TopBox
+            type="USER"
+            open={open}
+            setOpen={setOpen}
+            handleClick={handleClick}
+            data={projectData!}
+          />
           <ClientProgress
-            info={tempProceeding[Number(index)]}
-            page={tempProceeding[Number(index)].contract ? 'client' : 'yet'}
+            info={tempProceeding[Number(0)]}
+            page={tempProceeding[Number(0)].contract ? 'client' : 'yet'}
+            badge={projectData?.project?.badge!}
+            // page={true}
+            data={projectData!}
+            projectRefetch={projectRefetch}
           />
         </>
       ) : null}

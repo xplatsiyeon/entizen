@@ -95,3 +95,18 @@ export const changeDataFn = (target: string) => {
 
   return `${year} ${month} ${day}`;
 };
+
+// ---------- 요일 반환 함수 -------------
+/**
+ *
+ * @param data "2022-10-03"
+ * @returns "월" | "화" | "수" | "목" | "금" | "토" | "일"
+ *
+ */
+export const getDayOfWeek = (data: string) => {
+  const week = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const dayOfWeek = week[new Date(data).getDay()];
+
+  return dayOfWeek;
+};

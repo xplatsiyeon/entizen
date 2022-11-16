@@ -62,8 +62,8 @@ const Estimate = () => {
   if (isLoading) {
     return <Loader />;
   }
-  console.log(TAG + '⭐️ ~line 58 ~ 구매자 내견적 리스트 데이터 확인');
-  console.log(data);
+  // console.log(TAG + '⭐️ ~line 58 ~ 구매자 내견적 리스트 데이터 확인');
+  // console.log(data);
   // 견적서가 없는 경우
   if (
     data?.inProgressQuotationRequests.length === 0 &&
@@ -77,7 +77,7 @@ const Estimate = () => {
       {data?.inProgressQuotationRequests.length! > 0 && (
         <Proceeding>
           <Label>
-            진행 중{' '}
+            진행 중
             <span className="num">
               {data?.inProgressQuotationRequests.length}
             </span>

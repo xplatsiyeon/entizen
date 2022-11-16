@@ -12,6 +12,10 @@ export interface MyprojectList {
   };
 }
 
+export interface MyprojectListResponse {
+  uncompletedProjects: MyprojectList[];
+}
+
 export const myprojectList = gql`
   query Query {
     uncompletedProjects {

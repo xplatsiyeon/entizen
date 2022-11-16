@@ -145,6 +145,7 @@ const ProgressBody = ({
         <Image src={DoubleArrow} alt="doubleArrow" />
       </DoubleArrowBox>
       <Wrapper>
+        {/* 계약 */}
         <FlexBox margin={toggleOpen[0]}>
           <div>
             <CircleImgBox>
@@ -215,7 +216,7 @@ const ProgressBody = ({
                   }
                 >
                   {data?.project?.readyStepGoalDate === 'CHANGING'
-                    ? '변경 중'
+                    ? '목표일 변경 중'
                     : changeDataFn(data?.project?.readyStepGoalDate)}
                 </PickedDate>
               ) : (

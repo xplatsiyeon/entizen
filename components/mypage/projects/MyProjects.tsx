@@ -3,8 +3,11 @@ import CommonBtn from '../../../components/mypage/as/CommonBtn';
 import NoHistory from '../request/noHistory';
 import { handleColor } from 'utils/changeValue';
 import { useRouter } from 'next/router';
-import { gql, useQuery } from '@apollo/client';
-import { MyprojectList, myprojectList } from 'QueryComponents/UserQuery';
+import { useQuery } from '@apollo/client';
+import {
+  myprojectList,
+  MyprojectListResponse,
+} from 'QueryComponents/UserQuery';
 
 type Props = {
   tabNumber: number;
@@ -61,7 +64,7 @@ const tempProceeding: Data[] = [
     date: '2021.07.23',
   },
 ];
-
+const TAG = 'components/mpage/projects/MyProjects.tsx';
 const MyProjects = () => {
   const router = useRouter();
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
@@ -69,7 +72,7 @@ const MyProjects = () => {
     data: projectListData,
     loading: projectListLoading,
     error: projectListError,
-  } = useQuery<MyprojectList>(myprojectList, {
+  } = useQuery<MyprojectListResponse>(myprojectList, {
     context: {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -77,32 +80,42 @@ const MyProjects = () => {
       },
     },
   });
-  const handleRoute = (idx: number) => {
+  const handleRoute = (projectIdx: string) => {
     //mob일 때 router.push();
-    router.push(`/mypage/project/${idx}`);
+    router.push({
+      pathname: '/mypage/project',
+      query: {
+        projectIdx: projectIdx,
+      },
+    });
   };
 
   if (tempProceeding.length === 0) {
     return <NoHistory type="project" />;
   }
-
+  console.log('🔥 ~line 88 ~프로젝트 리스트 데이터 확인 TAG ');
   console.log(projectListData);
 
   return (
     <>
       <List>
-        {tempProceeding.map((t, idx) => {
+        {projectListData?.uncompletedProjects?.map((item, idx) => {
           return (
-            <ProjectBox key={idx} onClick={() => handleRoute(idx)}>
+            <ProjectBox
+              key={item?.projectIdx}
+              onClick={() => handleRoute(item.projectIdx)}
+            >
               <CommonBtn
-                text={t.badge}
-                backgroundColor={handleColor(t.badge)}
+                text={item?.badge}
+                backgroundColor={handleColor(item?.badge)}
                 bottom={'12pt'}
                 top={'12pt'}
                 left={'12pt'}
               />
-              <P>{t.storeName}</P>
-              <P2>Charge Point</P2>
+              <P>{item?.projectName}</P>
+              <P2>
+                {item?.companyMember?.companyMemberAdditionalInfo?.companyName}
+              </P2>
             </ProjectBox>
           );
         })}

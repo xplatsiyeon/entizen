@@ -83,7 +83,7 @@ export const handleColor2 = (badge: number) => {
 
 
 /**
- * A/S 전용 뱃지 컬러 (구매자)
+ * A/S 전용 뱃지 컬러 (구매자, 판매자)
  * @param badge
  * @returns
  */
