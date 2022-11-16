@@ -43,6 +43,21 @@ export interface FinalQuotationChargers {
   channel: 'SINGLE' | 'DUAL' | 'MODE_3';
   count: number;
   installationLocation: 'INSIDE' | 'OUTSIDE';
+  finalQuotationChargerFiles: {
+    finalQuotationChargerFileIdx: number;
+    productFileType: number;
+    originalName: string;
+    url: string;
+    size: number;
+  };
+}
+
+export interface ProjectCompletionFiles {
+  projectCompletionFileIdx: '8';
+  originalName: 'Rectangle 4072.png';
+  url: 'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chargerProduct/1668582598_62734376-4c6e-4059-8c86-a07c19881297.png';
+  size: 197640;
+  projectIdx: 11;
 }
 export interface UnConsentProjectDateChangeHistories {
   projectDateChangeHistoryIdx: string;
@@ -126,6 +141,13 @@ export const GET_InProgressProjectsDetail = gql`
           channel
           count
           installationLocation
+          finalQuotationChargerFiles {
+            finalQuotationChargerFileIdx
+            productFileType
+            originalName
+            url
+            size
+          }
         }
         quotationRequest {
           installationPurpose
@@ -172,6 +194,13 @@ export const GET_InProgressProjectsDetail = gql`
         dateBeforeChange
         dateAfterChange
         processingStatus
+        projectIdx
+      }
+      projectCompletionFiles {
+        projectCompletionFileIdx
+        originalName
+        url
+        size
         projectIdx
       }
     }

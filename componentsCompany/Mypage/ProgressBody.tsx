@@ -18,7 +18,6 @@ type Props = {
   setToggleOpen: Dispatch<SetStateAction<boolean[]>>;
   presentProgress: number;
   setProgressNum: Dispatch<SetStateAction<number>>;
-  // state: number;
   planed: string[];
   progressNum?: number;
   data: InProgressProjectsDetailResponse;

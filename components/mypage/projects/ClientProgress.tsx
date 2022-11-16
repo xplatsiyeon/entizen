@@ -17,9 +17,10 @@ import {
 } from 'QueryComponents/CompanyQuery';
 import { changeDataFn } from 'utils/calculatePackage';
 import { ApolloQueryResult, OperationVariables } from '@apollo/client';
-import { isTokenPatchApi } from 'api';
+import { isTokenPatchApi, isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import Loader from 'components/Loader';
+import { useRouter } from 'next/router';
 
 type Props = {
   data: InProgressProjectsDetailResponse;
@@ -33,7 +34,7 @@ type Props = {
 
 const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
   const presentProgress = info.state;
-
+  const router = useRouter();
   let textArr;
 
   switch (badge) {
@@ -112,7 +113,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
     false,
     false,
   ]);
-
+  // 일자 변경 동의
   const { mutate: dataChangeMutate, isLoading: dataChangeLoading } =
     useMutation(isTokenPatchApi, {
       onSuccess: () => {
@@ -124,6 +125,20 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
         console.log(error);
       },
     });
+  // 완료 버튼
+  const { mutate: CompleteMutate, isLoading: CompleteLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: () => {
+        setIsModal(false);
+        router.push('/mypage/project/finish');
+      },
+      onError: (error: any) => {
+        console.log('수락 버튼 에러');
+        console.log(error);
+      },
+    },
+  );
 
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -149,10 +164,19 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
 
   // 유저 날짜 동의하기
   const onClickChangeData = () => {
-    console.log(modalInfo?.projectDateChangeHistoryIdx);
+    console.log('🔥 ~ line 166 유저 날짜 동의 버튼');
     if (modalInfo?.projectDateChangeHistoryIdx) {
       dataChangeMutate({
         url: `/projects/${modalInfo?.projectIdx}/goal-date/${modalInfo?.projectDateChangeHistoryIdx}/agreement`,
+      });
+    }
+  };
+  // 유저 프로젝트 완료 동의 모달
+  const onClickCompleteBtn = () => {
+    console.log('🔥 ~ line 176 유저 프로젝트 완료 모달');
+    if (data?.project?.projectIdx) {
+      CompleteMutate({
+        url: `/projects/${data?.project?.projectIdx}/step/completion`,
       });
     }
   };
@@ -173,6 +197,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
       );
       setModalInfo(target[0]);
       setIsModal(true);
+      setModalType('change');
     } else if (installationStepGoalDate === 'CHANGING') {
       const target = unConsentProjectDateChangeHistories.filter(
         (el) =>
@@ -180,12 +205,14 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
       );
       setModalInfo(target[0]);
       setIsModal(true);
+      setModalType('change');
     } else if (examStepGoalDate === 'CHANGING') {
       const target = unConsentProjectDateChangeHistories.filter(
         (el) => el.changedStep === 'EXAM' && el.processingStatus === false,
       );
       setModalInfo(target[0]);
       setIsModal(true);
+      setModalType('change');
     } else if (completionStepGoalDate === 'CHANGING') {
       const target = unConsentProjectDateChangeHistories.filter(
         (el) =>
@@ -193,6 +220,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
       );
       setModalInfo(target[0]);
       setIsModal(true);
+      setModalType('change');
     }
   }, [data]);
 
@@ -439,8 +467,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
               <Image
                 className="bottomCircle"
                 src={
-                  data?.project?.isCompletedExamStep &&
-                  !data?.project?.isCompletedCompletionStep
+                  data?.project?.isCompletedExamStep
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -462,9 +489,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
               {data?.project?.completionStepGoalDate ? (
                 <PickedDate
                   color={
-                    data?.project?.isCompletedCompletionStep
-                      ? '#e2e5ed'
-                      : colors.main
+                    data?.project?.isCompletedExamStep ? '#e2e5ed' : colors.main
                   }
                 >
                   {data?.project?.completionStepGoalDate === 'CHANGING'
@@ -481,10 +506,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             <ToggleWrapper className="lastBox">
               <MessageBox
                 presentProgress={
-                  data?.project?.isCompletedExamStep &&
-                  !data?.project?.isCompletedCompletionStep
-                    ? true
-                    : false
+                  data?.project?.isCompletedExamStep ? true : false
                 }
                 title={textArr[3]}
                 firstText={'사용 전 검사 및 점검'}
@@ -492,6 +514,8 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
                 thirdText={'완료현장 사진 기록'}
                 page={'client'}
                 num={info.state}
+                complete={data?.project?.isCompletedCompletionStep!}
+                file={data?.project?.finalQuotation?.finalQuotationChargers!}
               />
             </ToggleWrapper>
           )}
@@ -504,8 +528,13 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
         </IconWrap>
         <span>파트너와 소통하기</span>
       </Button>
-      {info.state === 5 ? (
-        <FinButton onClick={() => setIsModal(true)}>
+      {data?.project?.isCompletedCompletionStep ? (
+        <FinButton
+          onClick={() => {
+            setIsModal(true);
+            setModalType('finish');
+          }}
+        >
           <span>프로젝트 완료 동의하기</span>
         </FinButton>
       ) : null}
@@ -513,9 +542,11 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
       {isModal && (
         <ClientProjectModal
           setIsModal={setIsModal}
-          type={'change'}
-          data={modalInfo}
+          type={modalType}
+          changeData={modalInfo}
+          data={data}
           onClickChangeData={onClickChangeData}
+          onClickCompleteData={onClickCompleteBtn}
         />
       )}
     </Wrapper0>
