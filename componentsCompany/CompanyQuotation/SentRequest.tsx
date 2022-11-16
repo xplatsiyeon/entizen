@@ -85,6 +85,7 @@ const SentRequest = ({}: Props) => {
 
   return (
     <>
+      {' '}
       <Sort
         checkedFilter={checkedFilter}
         setCheckedFilter={setCheckedFilter}
@@ -100,7 +101,6 @@ const SentRequest = ({}: Props) => {
           setcheckedFilterIndex={setcheckedFilterIndex}
         />
       </TopContainer>
-
       <ContentsContainer>
         {data?.sendQuotationRequests?.map((el, index) => (
           <Contents
@@ -143,6 +143,7 @@ const ContentsContainer = styled.div`
   @media (min-width: 899pt) {
     width: 580.5pt;
     margin: 0 auto;
+    padding-bottom: 60pt;
   }
 `;
 const Contents = styled.div`

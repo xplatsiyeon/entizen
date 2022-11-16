@@ -42,8 +42,7 @@ const WebSort = ({
   setcheckedFilterIndex,
 }: Props) => {
   const [state, setState] = useState({ bottom: false });
-  const [arrow, setArrow] = useState<boolean>(false);
-  const [active, setActive] = useState<boolean>(true);
+
   const [selectName, setSelectName] = useState<string>('마감일순 보기');
 
   // 정렬 값 변경 (with 리덕스)
@@ -56,22 +55,22 @@ const WebSort = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedFilterIndex]);
 
+  const [hide, setHide] = useState<boolean>(false);
   return (
     <WebRapper>
-      <WebBox active={active}>
-        <SelectValueBox
-          onClick={() => {
-            setActive(!active);
-            setArrow(!arrow);
-          }}
-        >
+      <WebBox
+        hide={hide}
+        onMouseOver={() => setHide(true)}
+        onMouseLeave={() => setHide(false)}
+      >
+        <SelectValueBox>
           <SelectValue>{selectName}</SelectValue>
-          <IconBox arrow={arrow}>
+          <IconBox hide={hide}>
             <Image src={SortArrow} alt="rijgtArrow" />
           </IconBox>
         </SelectValueBox>
         <FilterContainer>
-          <SelectContainer active={active}>
+          <SelectContainer hide={hide}>
             <SelectBox>
               {filterList.map((text, index) => (
                 <SelectOption
@@ -104,12 +103,12 @@ const WebRapper = styled.div`
   z-index: 3;
 `;
 
-const WebBox = styled.div<{ active: boolean }>`
+const WebBox = styled.div<{ hide: boolean }>`
   width: 96pt;
   height: 33pt;
   border: 0.75pt solid #e2e5ed;
-  border-bottom: ${({ active }) => (active !== true ? 'none' : '')};
-  border-radius: ${({ active }) => (active !== true ? '6pt 6pt 0 0' : '6pt')};
+  border-bottom: ${({ hide }) => (hide === true ? 'none' : '')};
+  border-radius: ${({ hide }) => (hide === true ? '6pt 6pt 0 0' : '6pt')};
   @media (max-width: 899pt) {
     display: none;
   }
@@ -150,14 +149,14 @@ const SelectBox = styled.div`
   background-color: white;
 `;
 
-const SelectContainer = styled.ul<{ active: boolean }>`
+const SelectContainer = styled.ul<{ hide: boolean }>`
   width: 96pt;
   list-style-type: none;
   position: absolute;
   border: 0.75pt solid #e2e5ed;
   /* border-radius: 0 0 6pt 6pt; */
   cursor: pointer;
-  display: ${({ active }) => (active !== false ? 'none' : '')};
+  display: ${({ hide }) => (hide !== true ? 'none' : '')};
 `;
 
 const SelectOption = styled.li`
@@ -167,9 +166,9 @@ const SelectOption = styled.li`
   }
 `;
 
-const IconBox = styled.div<{ arrow: boolean }>`
+const IconBox = styled.div<{ hide: boolean }>`
   align-self: center;
   width: 10pt;
   padding: 5pt 0;
-  transform: ${({ arrow }) => (arrow !== true ? `` : `rotate(180deg)`)};
+  transform: ${({ hide }) => (hide !== true ? `` : `rotate(180deg)`)};
 `;

@@ -148,9 +148,6 @@ const BottomNavigation = ({}: Props) => {
             {/* AS */}
             <div
               className="img-wrapper"
-              onClick={() => {
-                alert('2차 작업 범위 페이지입니다.');
-              }}
             >
               <ImgBox>
                 <Image
@@ -167,7 +164,7 @@ const BottomNavigation = ({}: Props) => {
                 user_ID
                   ? 
                   router.push({
-                    pathname: '/mypage',
+                    pathname: '/company/mypage',
                     query: { id: 0 },
                   })
                   : router.push('/signin');
