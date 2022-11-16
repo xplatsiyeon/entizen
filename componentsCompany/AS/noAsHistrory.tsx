@@ -1,0 +1,27 @@
+import styled from "@emotion/styled";
+import Image from "next/image";
+import noAs from 'public/images/noAs.png' 
+
+const NoAsHistyory = ()=>{
+
+    return(
+        <Body>
+            <ImageWrap>
+            <Image src={noAs} layout='fill'/>
+            </ImageWrap>
+        </Body>
+    )
+}
+
+export default NoAsHistyory;
+
+const Body = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+`
+const ImageWrap = styled.div`
+    object-fit: cover;
+    width: 100%;
+    border: 1px solid red;
+`
