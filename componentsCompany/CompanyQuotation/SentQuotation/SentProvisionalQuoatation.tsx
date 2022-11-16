@@ -431,6 +431,7 @@ const SentQuoatationFirst = () => {
           </WebColumnContainer>
         </WebRapper>
       </Wrapper>
+      <WebFooter />
     </>
   );
 };

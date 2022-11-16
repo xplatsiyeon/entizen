@@ -119,30 +119,46 @@ const Mypage = ({ num, now }: Props) => {
 
   return (
     <>
-      <WebBuyerHeader
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        componentId={componentId}
-        num={num}
-        now={now}
-        openSubLink={openSubLink}
-        setOpenSubLink={setOpenSubLink}
-      />
-      <WebRapper>
-        <LeftProjectBox
-          setTabNumber={setTabNumber}
-          tabNumber={tabNumber}
-          componentId={componentId}
-          setComponentId={setComponentId}
-          successComponentId={successComponentId}
-          setSuccessComponentId={setSuccessComponentId}
-        />
-        <div>{components[tabNumber]}</div>
-      </WebRapper>
-      <WebFooter />
+      <WebBody tabNumber={tabNumber}>
+        <Container tabNumber={tabNumber}>
+          <WebBuyerHeader
+            setTabNumber={setTabNumber}
+            tabNumber={tabNumber}
+            componentId={componentId}
+            num={num}
+            now={now}
+            openSubLink={openSubLink}
+            setOpenSubLink={setOpenSubLink}
+          />
+          <WebRapper>
+            <LeftProjectBox
+              setTabNumber={setTabNumber}
+              tabNumber={tabNumber}
+              componentId={componentId}
+              setComponentId={setComponentId}
+              successComponentId={successComponentId}
+              setSuccessComponentId={setSuccessComponentId}
+            />
+            <div>{components[tabNumber]}</div>
+          </WebRapper>
+        </Container>
+        <WebFooter />
+      </WebBody>
     </>
   );
 };
+
+const WebBody = styled.div<{ tabNumber: number }>`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  /* height: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '100vh')}; */
+`;
+
+const Container = styled.div<{ tabNumber: number }>`
+  height: 100vh;
+  /* height: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '100vh')}; */
+`;
 
 const WebRapper = styled.div`
   @media (min-width: 899pt) {

@@ -4,6 +4,7 @@ import NoHistory from '../request/noHistory';
 import { handleColor } from 'utils/changeValue';
 import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
+import { MyprojectList, myprojectList } from 'QueryComponents/UserQuery';
 
 type Props = {
   tabNumber: number;
@@ -61,16 +62,14 @@ const tempProceeding: Data[] = [
   },
 ];
 
-const GET_DOGS = gql`
-  query Query {
-    id
-  }
-`;
-
 const MyProjects = () => {
   const router = useRouter();
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const { loading, error, data } = useQuery(GET_DOGS, {
+  const {
+    data: projectListData,
+    loading: projectListLoading,
+    error: projectListError,
+  } = useQuery<MyprojectList>(myprojectList, {
     context: {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -87,7 +86,7 @@ const MyProjects = () => {
     return <NoHistory type="project" />;
   }
 
-  console.log(data);
+  console.log(projectListData);
 
   return (
     <>

@@ -147,7 +147,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
     return <Loader />;
   }
   return (
-    <Body>
+    <WebBody>
       <Container>
         {/* 모바일탭  */}
         {nowWidth < 1198.7 && (
@@ -167,21 +167,29 @@ const CompanyQuotations = ({ num, now }: Props) => {
         />
         <div>{components[tabNumber]}</div>
       </Container>
-      <WebFooter />
       <BottomNavigation />
-    </Body>
+      <WebFooter />
+    </WebBody>
   );
 };
 
-const Body = styled.div`
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
   height: 100vh;
-  @media (min-width: 899pt) {
-    height: 100%;
-  }
 `;
+
 const Container = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
+  height: 100vh;
+  @media (max-width: 899pt) {
+    display: block;
+  }
+  @media (min-width: 899pt) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 `;
 
 const WebRapper = styled.div`

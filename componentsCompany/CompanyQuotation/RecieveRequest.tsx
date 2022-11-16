@@ -104,6 +104,7 @@ const ContentsContainer = styled.div`
   @media (min-width: 899pt) {
     width: 580.5pt;
     margin: 0 auto;
+    padding-bottom: 60pt;
   }
 `;
 

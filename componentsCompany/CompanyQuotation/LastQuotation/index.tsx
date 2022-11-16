@@ -52,7 +52,7 @@ export interface MutateData {
 type Props = {};
 const LastWrite = (props: Props) => {
   const router = useRouter();
-  const routerId = router.query.preQuotation;
+  const routerId = router?.query?.preQuotation;
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [canNext, SetCanNext] = useState<boolean>(false);
@@ -89,6 +89,7 @@ const LastWrite = (props: Props) => {
   // 영어 셀렉트 옵션
   const [selectedOptionEn, setSelectedOptionEn] = useState<chargers[]>([
     {
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',
@@ -120,7 +121,7 @@ const LastWrite = (props: Props) => {
     'company/',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
     {
-      enabled: router.isReady,
+      enabled: router?.isReady,
     },
   );
 
@@ -281,6 +282,8 @@ const LastWrite = (props: Props) => {
   };
   // 최종 견적 초기값 세팅
   useEffect(() => {
+    console.log('🔥 ~line 258 보낸견적 상세 페이지 데이터');
+    console.log(data);
     if (data) {
       setSubscribeProduct(
         convertKo(
@@ -308,8 +311,12 @@ const LastWrite = (props: Props) => {
         const preQutationCharger = preQuotation.preQuotationCharger[count];
         // 한국어값 담기
         const temp: chargers = {
+          idx: M5_LIST_EN.indexOf(quotationCharger.kind),
           kind: convertKo(M5_LIST, M5_LIST_EN, quotationCharger.kind),
-          standType: convertKo(M6_LIST, M6_LIST_EN, quotationCharger.standType),
+          standType:
+            quotationCharger.standType === ''
+              ? '-'
+              : convertKo(M6_LIST, M6_LIST_EN, quotationCharger.standType),
           channel: convertKo(M7_LIST, M7_LIST_EN, quotationCharger.channel),
           count: convertKo(
             M8_LIST,
@@ -327,6 +334,7 @@ const LastWrite = (props: Props) => {
         };
         // 영어값 담기
         const tempEn: chargers = {
+          idx: M5_LIST_EN.indexOf(quotationCharger.kind),
           kind: quotationCharger.kind,
           standType: quotationCharger.standType,
           channel: quotationCharger.channel,
@@ -347,10 +355,7 @@ const LastWrite = (props: Props) => {
       setSelectedOption(arr);
       setSelectedOptionEn(arrEn);
     }
-  }, []);
-
-  console.log('🔥 ~line 258 보낸견적 상세 페이지 데이터');
-  console.log(data);
+  }, [data]);
 
   const [successComponentId, setSuccessComponentId] = useState<number>();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -375,7 +380,7 @@ const LastWrite = (props: Props) => {
 
   useEffect(() => {
     if (router.pathname === `/company/quotation/lastQuotation`) {
-      setOpenSubLink(!openSubLink);
+      setOpenSubLink(false);
     }
   }, []);
   return (
@@ -410,7 +415,7 @@ const LastWrite = (props: Props) => {
                   </React.Fragment>
                 ))}
               </TabBox>
-              <WebComponents> {components[tabNumber]}</WebComponents>
+              {components[tabNumber]}
             </WebProgressbar>
           </>
         )}
@@ -440,8 +445,7 @@ const TabBox = styled.div`
     width: 534pt;
     margin: 0 auto;
     z-index: 3;
-    top: 3.5%;
-    gap: 0.3pt;
+    top: 2%;
   }
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
@@ -473,12 +477,6 @@ const WebRapper = styled.div`
     justify-content: space-between;
     margin: 0 auto;
     margin-top: 54pt;
-  }
-`;
-
-const WebComponents = styled.div`
-  @media (min-width: 899pt) {
-    width: 580.5pt;
   }
 `;
 

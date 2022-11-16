@@ -158,10 +158,11 @@ const ThirdStep = ({
     }
   };
 
-  const changeCharger = [...chargers].map((obj) => {
+  const changeCharger = [...chargers].map((obj: any) => {
     if (typeof obj.chargePrice === 'string') {
       obj.chargePrice = Number(obj?.chargePrice?.replaceAll(',', ''));
     }
+    delete obj.idx;
     return obj;
   });
 
@@ -320,6 +321,8 @@ const Wrapper = styled.div`
   padding-bottom: 30pt;
   @media (min-width: 899pt) {
     margin: 0 auto;
+    padding-left: 25pt;
+    padding-right: 25pt;
   }
 `;
 

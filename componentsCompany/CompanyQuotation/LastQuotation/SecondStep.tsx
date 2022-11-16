@@ -600,6 +600,8 @@ const Wrapper = styled.div`
   }
   @media (min-width: 899pt) {
     margin: 0 auto;
+    padding-left: 25pt;
+    padding-right: 25pt;
   }
 `;
 const SecondWrapper = styled.div`
@@ -608,6 +610,10 @@ const SecondWrapper = styled.div`
   box-sizing: border-box;
   margin-top: 30pt;
   padding-bottom: 58.6875pt;
+  @media (min-width: 899pt) {
+    padding-left: 25pt;
+    padding-right: 25pt;
+  }
 `;
 const TopStep = styled.div`
   @media (min-width: 899pt) {
@@ -1125,11 +1131,13 @@ const TwoBtn = styled.div`
 const WebRapper = styled.div`
   @media (min-width: 899pt) {
     height: auto;
+    width: 580.5pt;
     background-color: #ffffff;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 12pt;
-    margin-bottom: 30pt;
+    margin-bottom: 54pt;
     padding-bottom: 30pt;
+    margin-top: -2.1%;
   }
 `;
 

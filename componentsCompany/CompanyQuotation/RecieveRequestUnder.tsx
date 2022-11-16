@@ -32,7 +32,6 @@ const RecieveRequestUnder = ({
   getComponentId,
 }: Props) => {
   const router = useRouter();
-
   console.log(TAG + '🔥 ~ line 45 ~ data check');
 
   return (
@@ -41,11 +40,15 @@ const RecieveRequestUnder = ({
         {data?.receivedQuotationRequests?.map((el, idx) => (
           <Contents
             key={el?.quotationRequest?.quotationRequestIdx}
-            onClick={() =>
-              router.push(
-                `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
-              )
-            }
+            onClick={() => {
+              router.push({
+                pathname: '/company/recievedRequest',
+                query: {
+                  quotationRequestIdx:
+                    el?.quotationRequest?.quotationRequestIdx,
+                },
+              });
+            }}
             select={Number(el?.quotationRequest?.quotationRequestIdx)}
             getComponentId={getComponentId}
           >
@@ -78,7 +81,7 @@ const ContentsContainer = styled.div`
     width: 200pt;
     margin: 0 auto;
     border-radius: 6pt;
-    height: 340pt;
+    height: 313pt;
     overflow-y: scroll;
   }
 `;
@@ -91,7 +94,7 @@ const Contents = styled.div<{
   display: flex;
   margin-bottom: 9pt;
   justify-content: space-between;
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
   border: ${({ select, getComponentId }) =>
     select === getComponentId ? `0.75pt solid #5221CB` : ''};

@@ -8,6 +8,7 @@ import TopBox from 'componentsCompany/Mypage/TopBox';
 import UnderBox from 'componentsCompany/Mypage/UnderBox';
 import WriteContract from 'componentsCompany/Mypage/WriteContract';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
 import {
   GET_InProgressProjectsDetail,
@@ -42,6 +43,7 @@ const RunningProgress = (props: Props) => {
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
+  const [headerTab, setHeaderTab] = useState<number>(3);
 
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
@@ -83,6 +85,7 @@ const RunningProgress = (props: Props) => {
       const num = Number(router.query.projectIdx);
       setComponentId(num);
       // setData(tempProceeding[num]);
+      setHeaderTab(3);
     }
   }, [router.query.projectIdx]);
 
@@ -146,6 +149,7 @@ const RunningProgress = (props: Props) => {
           )}
         </WebBox>
       </WebRapper>
+      <WebFooter />
     </>
   );
 };

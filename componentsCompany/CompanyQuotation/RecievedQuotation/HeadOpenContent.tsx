@@ -535,10 +535,12 @@ const HeadOpenContent = () => {
           {nowWidth < 1198.7 && <> {components[tabNumber]}</>}
         </WebProgressbar>
       )}
+
       <WebFooter />
     </>
   );
 };
+
 const WebRapper = styled.div`
   @media (min-width: 899pt) {
     display: flex;
@@ -666,10 +668,10 @@ const Contents = styled.div`
 
 const WebProgressbar = styled.div<{ tabNumber: number }>`
   @media (min-width: 899pt) {
-    position: absolute;
+    position: relative;
     margin: 0 auto;
     width: 534pt;
-    top: 25%;
+    top: ${({ tabNumber }) => (tabNumber === 0 ? '4%;' : '2.5%')};
   }
 `;
 
@@ -689,7 +691,6 @@ const TabBox = styled.div`
   }
 
   @media (min-width: 899pt) {
-    position: static;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
