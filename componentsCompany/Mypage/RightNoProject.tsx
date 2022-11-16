@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import UndefindImg from 'public/mypage/requet-undefind-Img.svg';
 import colors from 'styles/colors';
 
-const NoProject = () => {
+const RightNoProject = () => {
   const route = useRouter();
 
   //const handlerBtn = () => route.push('quotation/request/1-1');
@@ -19,7 +19,7 @@ const NoProject = () => {
   );
 };
 
-export default NoProject;
+export default RightNoProject;
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,6 +32,7 @@ const Wrapper = styled.div`
   }
   @media (min-width: 899pt) {
     margin: 0 auto;
+    margin: 100pt 0;
   }
 `;
 const ImgBox = styled.div`

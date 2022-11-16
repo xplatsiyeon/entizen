@@ -76,6 +76,13 @@ const LeftProjectQuotationBox = ({
     setNowWidth(window.innerWidth);
   };
 
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
   // api 호출
   const { data, isError, error, refetch } = useQuery<ReceivedRequest>(
     'received-request',
@@ -104,43 +111,29 @@ const LeftProjectQuotationBox = ({
   const router = useRouter();
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
-
-  // useEffect(() => {
-  //   if (
-  //     route.asPath ===
-  //     `/company/recievedRequest?quotationRequestIdx=${router.query.quotationRequestIdx}`
-  //   ) {
-  //     setTab('받은 요청');
-  //     setUnderNum(0);
-  //   } else if (
-  //     route.asPath ===
-  //     `/company/sentProvisionalQuotation?preQuotationIdx=${router.query.preQuotationIdx}`
-  //   ) {
-  //     setTab('보낸 견적');
-  //     setUnderNum(1);
-  //   } else if (route.asPath === '/company/quotation/lastQuotation') {
-  //     setTab('보낸 견적');
-  //     setUnderNum(1);
-  //   } else if (
-  //     route.asPath ===
-  //       `/company/recievedRequest?preQuotationIdx=${router.query.preQuotationIdx}` &&
-  //     data === undefined
-  //   ) {
-  //     setTab('받은 요청');
-  //     setUnderNum(2);
-  //   } else if (
-  //     route.pathname === '/company/quotation/lastQuotation' &&
-  //     data === undefined
-  //   ) {
-  //     setTab('보낸 견적');
-  //     setUnderNum(2);
-  //   }
-  // }, []);
+    if (router.pathname === `/company/recievedRequest`) {
+      setTab('받은 요청');
+      setUnderNum(0);
+    } else if (router.pathname === `/company/sentProvisionalQuotation`) {
+      setTab('보낸 견적');
+      setUnderNum(1);
+    } else if (router.pathname === '/company/quotation/lastQuotation') {
+      setTab('보낸 견적');
+      setUnderNum(1);
+    } else if (
+      router.pathname === `/company/recievedRequest` &&
+      data === undefined
+    ) {
+      setTab('받은 요청');
+      setUnderNum(2);
+    } else if (
+      router.pathname === '/company/quotation/lastQuotation' &&
+      data === undefined
+    ) {
+      setTab('보낸 견적');
+      setUnderNum(2);
+    }
+  }, [route]);
 
   useEffect(() => {
     sendRefetch();
@@ -161,13 +154,7 @@ const LeftProjectQuotationBox = ({
         send={send}
       />
     ),
-    2: (
-      <LastQuotation
-        successComponentId={successComponentId}
-        setSuccessComponentId={setSuccessComponentId}
-      />
-    ),
-    3: <NoProject />,
+    2: <NoProject />,
   };
 
   return (
@@ -216,101 +203,6 @@ const Header = styled.header`
     width: 22.5pt;
     height: 22.5pt;
     text-align: end;
-  }
-`;
-
-const Body = styled.div`
-  padding-top: 15pt;
-  .profile-icon {
-    margin-left: 15pt;
-    font-weight: 400;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: ${colors.main};
-    border: 0.75pt solid ${colors.main};
-    border-radius: 12pt;
-    padding: 6pt 9pt;
-  }
-`;
-const Line = styled.div`
-  margin-top: 21pt;
-  width: 100%;
-  border-bottom: 3pt solid ${colors.gray3};
-`;
-
-const MobileTabContainer = styled.div`
-  display: flex;
-  gap: 15pt;
-  padding-left: 15pt;
-  @media (min-width: 899pt) {
-    display: none;
-  }
-`;
-const WebTabContainer = styled.div`
-  display: flex;
-  gap: 15pt;
-  padding-left: 15pt;
-  justify-content: center;
-  flex-direction: column;
-  padding-left: 27pt;
-  gap: 1pt;
-  @media (max-width: 899pt) {
-    display: none;
-  }
-`;
-const TabItem = styled.span<{ tab: string; index: string }>`
-  padding-top: 21pt;
-  font-weight: 700;
-  font-size: 12pt;
-  line-height: 15pt;
-  letter-spacing: -0.02em;
-  color: ${({ tab, index }) =>
-    tab === index ? colors.main : colors.lightGray};
-  @media (min-width: 899pt) {
-    display: flex;
-    align-items: center;
-    padding-top: 23pt;
-  }
-`;
-
-const Item = styled.span<{ tab: string; index: string }>`
-  padding-top: 21pt;
-  font-weight: 700;
-  font-size: 12pt;
-  line-height: 15pt;
-  letter-spacing: -0.02em;
-  color: ${({ tab, index }) =>
-    tab === index ? colors.main : colors.lightGray};
-  @media (min-width: 899pt) {
-    display: flex;
-    align-items: center;
-    padding-top: 23pt;
-  }
-`;
-const Dot = styled.div<{ tab: string; index: string }>`
-  width: 3pt;
-  height: 3pt;
-  border-radius: 50%;
-  margin: 6pt auto 0 auto;
-  background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
-  @media (min-width: 899pt) {
-    margin: 0 auto;
-    margin-left: 20pt;
-  }
-`;
-
-const UnderContents = styled.div`
-  width: 255pt;
-  @media (max-width: 899pt) {
-    display: none;
-  }
-`;
-
-const RightProgress = styled.div`
-  @media (min-width: 899pt) {
-    display: flex;
-    flex-direction: column;
   }
 `;
 

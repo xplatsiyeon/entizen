@@ -63,15 +63,26 @@ const WebBuyerHeader = ({
 
   // router로 setType이랑 setTab 바로 업데이트
   useEffect(() => {
-    const now = router.pathname;
-    if (now === '/company/mypage') {
+    if (router.pathname === '/company/mypage') {
       setType('myProject');
       setTab(3);
-    } else if (now === '/company/quotation') {
+    } else if (router.pathname === '/company/quotation') {
+      setType('estimate');
+      setTab(0);
+    } else if (
+      router.pathname === '/company/mypage/runningProgress' ||
+      router.pathname === '/company/mypage/successedProject'
+    ) {
+      setType('myProject');
+      setTab(3);
+    } else if (
+      router.pathname === '/company/recievedRequest' ||
+      router.pathname === '/company/sentProvisionalQuotation'
+    ) {
       setType('estimate');
       setTab(0);
     }
-  }, []);
+  }, [router]);
 
   type Menu = {
     id: number;
@@ -121,14 +132,14 @@ const WebBuyerHeader = ({
                 return (
                   <DivBox
                     key={idx}
-                    tab={tab}
+                    tab={tab!}
                     index={idx}
                     onClick={() => {
                       setLinklist(linklist);
                       setType(el.type);
                       setTab(el.id);
                       router.push(el.linkUrl);
-                      setOpenSubLink(false);
+                      setOpenSubLink(!openSubLink);
                     }}
                   >
                     {el.menu}

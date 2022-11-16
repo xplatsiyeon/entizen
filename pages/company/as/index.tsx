@@ -195,4 +195,6 @@ const Dot = styled.div<{ tab: string; index: string }>`
 
 const ContentWrap = styled.div`
   flex: 1;
+  display:flex;
+
 `

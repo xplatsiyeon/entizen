@@ -171,7 +171,6 @@ const FinishedProjects = ({
           )}
         </>
       )}
-
       <Button onClick={handleDownload}>완료 프로젝트 리스트 다운로드</Button>
     </Wrapper>
   );
@@ -226,7 +225,6 @@ const Input = styled(TextField)`
     bottom: 82.6%;
     width: 580.5pt;
     margin-bottom: 25%;
-    margin-left: 2%;
   }
   width: 100%;
   border-radius: 6pt;
@@ -285,11 +283,9 @@ const List = styled.div`
 
 const ListContainer = styled.div`
   margin-top: 21pt;
-  padding-left: 15pt;
-  padding-right: 15pt;
+  /* padding-left: 15pt;
+  padding-right: 15pt; */
   @media (min-width: 899pt) {
-    display: grid;
-    flex-direction: column;
     margin: 0 auto;
     gap: 10pt;
   }
@@ -299,6 +295,7 @@ const ListTextBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5pt;
+
   @media (min-width: 899pt) {
     display: flex;
     flex-direction: row;
@@ -332,7 +329,7 @@ const ListIconBox = styled.div`
   height: 18pt;
   position: relative;
   @media (max-width: 899pt) {
-    left: 200pt;
+    left: 170pt;
     bottom: 28pt;
   }
 `;

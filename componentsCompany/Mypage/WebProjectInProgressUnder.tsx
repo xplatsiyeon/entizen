@@ -33,7 +33,6 @@ const WebProjectInProgressUnder = ({
   componentId,
   data,
 }: Props) => {
-  
   if (data?.inProgressProjects?.length === 0) {
     return <NoProject />;
   }
@@ -112,7 +111,7 @@ const Contents = styled.div<{
   margin: 0 auto;
   margin-top: 10pt;
   justify-content: space-between;
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
   cursor: pointer;
   width: 198pt;

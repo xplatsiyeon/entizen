@@ -380,7 +380,7 @@ const LastWrite = (props: Props) => {
 
   useEffect(() => {
     if (router.pathname === `/company/quotation/lastQuotation`) {
-      setOpenSubLink(!openSubLink);
+      setOpenSubLink(false);
     }
   }, []);
   return (
@@ -415,7 +415,7 @@ const LastWrite = (props: Props) => {
                   </React.Fragment>
                 ))}
               </TabBox>
-              <WebComponents> {components[tabNumber]}</WebComponents>
+              {components[tabNumber]}
             </WebProgressbar>
           </>
         )}
@@ -445,8 +445,7 @@ const TabBox = styled.div`
     width: 534pt;
     margin: 0 auto;
     z-index: 3;
-    top: 3.5%;
-    gap: 0.3pt;
+    top: 2%;
   }
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
@@ -478,12 +477,6 @@ const WebRapper = styled.div`
     justify-content: space-between;
     margin: 0 auto;
     margin-top: 54pt;
-  }
-`;
-
-const WebComponents = styled.div`
-  @media (min-width: 899pt) {
-    width: 580.5pt;
   }
 `;
 
