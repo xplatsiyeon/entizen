@@ -45,7 +45,7 @@ const MessageBox = ({
 
   return (
     <Wrapper onClick={handleClick} presentProgress={presentProgress}>
-      <LeftSideBox>
+      <LeftSideBox presentProgress={presentProgress}>
         <BigText>{title}</BigText>
         <List>
           <li>{firstText}</li>
@@ -83,11 +83,12 @@ const Wrapper = styled.div<{ presentProgress: boolean }>`
   justify-content: space-between;
 `;
 
-const LeftSideBox = styled.div`
+const LeftSideBox = styled.div<{ presentProgress: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 6pt;
   width: 100%;
+  opacity: ${({ presentProgress }) => (!presentProgress ? '0.3' : null)};
 `;
 
 const BigText = styled.div`
