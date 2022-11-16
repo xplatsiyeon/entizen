@@ -141,14 +141,17 @@ const BottomNavigation = ({}: Props) => {
 
             <div
               className="img-wrapper"
-              onClick={() => {
-                alert('작업중입니다.');
-              }}
             >
               <Image src={estimate} alt="estimate" width={32} height={32} />
               <H3 clicked={false}>소통하기</H3>
             </div>
             {/* AS */}
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                alert('2차 작업 범위 페이지입니다.');
+              }}
+            >
               <ImgBox>
                 <Image
                   src={tabNumber === 3 ? selectedAs : unselectedAs}
@@ -157,13 +160,14 @@ const BottomNavigation = ({}: Props) => {
                 />
               </ImgBox>
               <H3 clicked={tabNumber === 3 ? true : false}>A/S</H3>
+            </div>
             <div
               className="img-wrapper"
               onClick={() => {
                 user_ID
                   ? 
                   router.push({
-                    pathname: '/company/mypage',
+                    pathname: '/mypage',
                     query: { id: 0 },
                   })
                   : router.push('/signin');
