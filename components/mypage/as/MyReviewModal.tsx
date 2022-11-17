@@ -34,7 +34,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
                 <RBar
                   key={index}
                   className={
-                    index < reviewContent.kind
+                    index < reviewContent.attentivenessPoint
                       ? 'forRadius filled'
                       : 'forRadius'
                   }
@@ -51,7 +51,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
                 <RBar
                   key={index}
                   className={
-                    index < reviewContent.speed
+                    index < reviewContent.quicknessPoint
                       ? 'forRadius filled'
                       : 'forRadius'
                   }
@@ -68,7 +68,9 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
                 <RBar
                   key={index}
                   className={
-                    index < reviewContent.pro ? 'forRadius filled' : 'forRadius'
+                    index < reviewContent.professionalismPoint
+                      ? 'forRadius filled'
+                      : 'forRadius'
                   }
                 ></RBar>
               ))}
@@ -83,7 +85,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
                 <RBar
                   key={index}
                   className={
-                    index < reviewContent.satisfy
+                    index < reviewContent.satisfactionPoint
                       ? 'forRadius filled'
                       : 'forRadius'
                   }
@@ -95,7 +97,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
         <TextArea
           placeholder="[선택] 파트너의 어떤점이 기억에 남으시나요?"
           rows={8}
-          value={reviewContent.reviewText}
+          value={reviewContent.opinion}
           readOnly
         />
       </Wrapper>
