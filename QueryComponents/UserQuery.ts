@@ -32,6 +32,13 @@ export const myprojectList = gql`
   }
 `;
 // 내 충전소 관련 API
+export interface FinalQuotationChargerFiles {
+  finalQuotationChargerFileIdx: string;
+  productFileType: string;
+  originalName: string;
+  url: string;
+  size: string;
+}
 export interface FinalQuotationChargers {
   finalQuotationChargerIdx: string;
   kind: string;
@@ -41,14 +48,7 @@ export interface FinalQuotationChargers {
   chargePrice: number;
   manufacturer: string;
   installationLocation: string;
-
-  // finalQuotationChargerFiles {
-  //   finalQuotationChargerFileIdx
-  //   productFileType
-  //   originalName
-  //   url
-  //   size
-  // }
+  finalQuotationChargerFiles: FinalQuotationChargerFiles[];
 }
 export interface FinalQuotation {
   finalQuotationIdx: string;
@@ -79,11 +79,11 @@ export interface CompanyMember {
 
 export interface ProjectReview {
   projectReviewIdx: number;
-  attentivenessPoint: string;
-  quicknessPoint: string;
-  professionalismPoint: string;
-  satisfactionPoint: string;
-  averagePoint: string;
+  attentivenessPoint: number;
+  quicknessPoint: number;
+  professionalismPoint: number;
+  satisfactionPoint: number;
+  averagePoint: number;
   opinion: string;
   projectIdx: number;
 }
@@ -119,7 +119,7 @@ export const chargingStations = gql`
         subscribeProduct
         userInvestRate
         subscribePricePerMonth
-
+        # 최종견적 충전기
         finalQuotationChargers {
           finalQuotationChargerIdx
           kind
@@ -129,6 +129,13 @@ export const chargingStations = gql`
           chargePrice
           manufacturer
           installationLocation
+          finalQuotationChargerFiles {
+            finalQuotationChargerFileIdx
+            productFileType
+            originalName
+            url
+            size
+          }
         }
         # 설치 목적
         quotationRequest {

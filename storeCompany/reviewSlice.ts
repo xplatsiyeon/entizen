@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface WriteReviewType {
-  kind: number;
-  speed: number;
-  pro: number;
-  satisfy: number;
-  reviewText: string;
+  attentivenessPoint: number;
+  quicknessPoint: number;
+  professionalismPoint: number;
+  satisfactionPoint: number;
+  opinion: string;
 }
 
 interface WriteReviewContentTypes {
@@ -14,11 +14,11 @@ interface WriteReviewContentTypes {
 
 const initialState: WriteReviewContentTypes = {
   reviewContent: {
-    kind: 0,
-    speed: 0,
-    pro: 0,
-    satisfy: 0,
-    reviewText: '',
+    attentivenessPoint: 0,
+    quicknessPoint: 0,
+    professionalismPoint: 0,
+    satisfactionPoint: 0,
+    opinion: '',
   },
 };
 

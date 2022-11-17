@@ -81,6 +81,7 @@ const ChargingPlace = () => {
     data: chargingData,
     loading: chargingLoading,
     error: chargingError,
+    refetch: chargingRefetch,
   } = useQuery<ChargingStationsResponse>(chargingStations, {
     context: {
       headers: {
@@ -131,7 +132,6 @@ const ChargingPlace = () => {
 
           {open ? (
             <>
-              {' '}
               {/* 계약 관련 정보가 적힌 컴포넌트 */}
               <PlaceInfo data={target![0]} />
               <Btn onClick={() => setOpen(!open)}>
@@ -144,7 +144,16 @@ const ChargingPlace = () => {
           ) : (
             <>
               {/* 리뷰 여부와 리뷰 점수 전달. */}
-             {target![0].projectReview ? <PlaceGetReview review={true}/> : <PlaceNoReview/>}
+              {target![0].projectReview ? (
+                // 리뷰 보기
+                <PlaceGetReview review={true} data={target![0].projectReview} />
+              ) : (
+                // 리뷰 쓰기
+                <PlaceNoReview
+                  close={setOpen}
+                  chargingRefetch={chargingRefetch}
+                />
+              )}
             </>
           )}
         </Wrap>
