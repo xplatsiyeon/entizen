@@ -8,6 +8,7 @@ import {
   myprojectList,
   MyprojectListResponse,
 } from 'QueryComponents/UserQuery';
+import Loader from 'components/Loader';
 
 type Props = {
   tabNumber: number;
@@ -90,11 +91,17 @@ const MyProjects = () => {
     });
   };
 
-  if (tempProceeding.length === 0) {
+  if (projectListLoading) {
+    return <Loader />;
+  }
+  if (projectListError) {
+    console.log('🔥 ~line 98 ~프로젝트 에러 발생 ' + TAG);
+    console.log(projectListError);
+  }
+  // 아무런 데이터가 없을 때
+  if (projectListData?.uncompletedProjects?.length === 0) {
     return <NoHistory type="project" />;
   }
-  console.log('🔥 ~line 88 ~프로젝트 리스트 데이터 확인 TAG ');
-  console.log(projectListData);
 
   return (
     <>
