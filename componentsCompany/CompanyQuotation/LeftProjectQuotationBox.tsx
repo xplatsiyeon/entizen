@@ -172,7 +172,7 @@ const LeftProjectQuotationBox = ({
 };
 
 const Wrapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 255pt;
     height: 424.5pt;
     border: 0.75pt solid #e2e5ed;

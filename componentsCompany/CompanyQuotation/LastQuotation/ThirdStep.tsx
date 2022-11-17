@@ -303,7 +303,7 @@ const ThirdStep = ({
 };
 
 const WebRapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     height: auto;
     background-color: #ffffff;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
@@ -319,7 +319,7 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   box-sizing: border-box;
   padding-bottom: 30pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin: 0 auto;
     padding-left: 25pt;
     padding-right: 25pt;
@@ -327,7 +327,7 @@ const Wrapper = styled.div`
 `;
 
 const TopStep = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin-top: 0;
     padding-top: 70pt;
   }
@@ -375,7 +375,7 @@ const RemainderInputBoxs = styled.div`
     /* padding-bottom: 100pt; */
     gap: 9pt;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 534pt;
     & .file-preview {
       width: 100%;
@@ -394,7 +394,7 @@ const PhotosBoxs = styled.div`
   gap: 9pt;
   align-items: center;
   padding-bottom: 58.6875pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding-bottom: 0;
   }
 `;
@@ -471,7 +471,7 @@ const Form = styled.form`
     flex-direction: column;
     justify-content: center;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -511,7 +511,7 @@ const TwoBtn = styled.div`
   @media (max-width: 899pt) {
     position: fixed;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 534pt;
     position: relative;
     margin: 0 auto;
@@ -532,7 +532,7 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding: 15pt 0 15pt 0;
     border-radius: 6pt;
     margin-left: 12pt;
@@ -552,7 +552,7 @@ const PrevBtn = styled.div`
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding: 15pt 0 15pt 0;
     border-radius: 6pt;
   }

@@ -36,7 +36,7 @@ const Search = ({ searchWord, setSearchWord }: Props) => {
 export default Search;
 
 const Input = styled(TextField)`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 475.5pt;
     margin: 0 auto;
   }

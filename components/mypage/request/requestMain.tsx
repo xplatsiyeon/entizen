@@ -22,7 +22,9 @@ const RequestMain = (props: props) => {
   const { page } = props;
   const route = useRouter();
 
-  {/* 탭중 현재 탭*/}
+  {
+    /* 탭중 현재 탭*/
+  }
   const [tabNumber, setTabNumber] = useState<number>(page!);
   const [userName, setUserName] = useState<string>('윤세아');
   const [on, setOn] = useState<boolean>(true);
@@ -63,7 +65,7 @@ const RequestMain = (props: props) => {
               <Wrap>
                 <TabItem
                   key={index}
-                  tab={tabNumber.toString()}
+                  tab={tabNumber?.toString()}
                   index={index.toString()}
                   onClick={() => {
                     setTabNumber(index);
@@ -72,9 +74,8 @@ const RequestMain = (props: props) => {
                 >
                   {tab}
                 </TabItem>
-                <Dot tab={tabNumber.toString()} index={index.toString()} />
+                <Dot tab={tabNumber?.toString()} index={index.toString()} />
               </Wrap>
-          
             </React.Fragment>
           ))}
         </TabContainer>

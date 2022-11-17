@@ -30,7 +30,7 @@ const Wrapper = styled.div`
   @media (max-width: 899pt) {
     margin: 100pt 0;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin: 0 auto;
   }
 `;

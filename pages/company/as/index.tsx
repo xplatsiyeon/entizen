@@ -1,78 +1,75 @@
-import styled from "@emotion/styled";
-import BottomNavigation from "components/BottomNavigation";
-import colors from "styles/colors";
+import styled from '@emotion/styled';
+import BottomNavigation from 'components/BottomNavigation';
+import colors from 'styles/colors';
 import Nut from 'public/images/Nut.svg';
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import AsHistory from "componentsCompany/AS/asHistory";
-import NewAs from "componentsCompany/AS/newAs";
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import AsHistory from 'componentsCompany/AS/asHistory';
+import NewAs from 'componentsCompany/AS/newAs';
 
-const ComAsIndex = ()=>{
+const ComAsIndex = () => {
+  const route = useRouter();
+  const TabType: string[] = ['신규 A/S', '히스토리'];
+  const [tabNumber, setTabNumber] = useState<number>();
 
-    const route = useRouter();
-    const TabType: string[] = ['신규 A/S', '히스토리'];
-    const [tabNumber, setTabNumber] = useState<number>();
-
-    useEffect(() => {
-        if (route.query.id !== undefined) {
-          setTabNumber(Number(route.query.id));
-        } /*else if( !(route.query.id) && (route.pathname === '/mypage')){ 
+  useEffect(() => {
+    if (route.query.id !== undefined) {
+      setTabNumber(Number(route.query.id));
+    } /*else if( !(route.query.id) && (route.pathname === '/mypage')){ 
           setTabNumber(0)
         }*/
-      }, [route.query.id]);
+  }, [route.query.id]);
 
-      const components = [<NewAs/>, <AsHistory/>];
+  const components = [<NewAs />, <AsHistory />];
 
-    return(
-        <Wrapper>
-          <FlexBox>
-          <Header>
-            <span>
-              <h1>{`${''}님,`}</h1>
-              <h2>안녕하세요!</h2>
-            </span>
-            <div className="img" onClick={() => route.push('/setting')}>
-              <Image src={Nut} alt="nut-icon" />
-            </div>
-          </Header>
-          <Body>
-            <span
-              className="profile-icon"
-              onClick={() => route.push('/profile')}
-            >
-              프로필 변경
-            </span>
-            <Line />
-            <TabContainer>
-              {typeof(tabNumber) === 'number' && TabType.map((tab, index) => (
+  return (
+    <Wrapper>
+      <FlexBox>
+        <Header>
+          <span>
+            <h1>{`${''}님,`}</h1>
+            <h2>안녕하세요!</h2>
+          </span>
+          <div className="img" onClick={() => route.push('/setting')}>
+            <Image src={Nut} alt="nut-icon" />
+          </div>
+        </Header>
+        <Body>
+          <span className="profile-icon" onClick={() => route.push('/profile')}>
+            프로필 변경
+          </span>
+          <Line />
+          <TabContainer>
+            {typeof tabNumber === 'number' &&
+              TabType.map((tab, index) => (
                 <TabItem
                   key={index}
                   tab={tabNumber?.toString()!}
                   index={index.toString()}
-                  onClick={() => 
+                  onClick={() =>
                     route.push({
                       pathname: '/company/as',
                       query: { id: index },
-                    })}
+                    })
+                  }
                 >
                   {tab}
                   <Dot tab={tabNumber.toString()} index={index.toString()} />
                 </TabItem>
               ))}
-            </TabContainer>
-          </Body>
-          </FlexBox>
-          <ContentWrap className="content">
-            {typeof(tabNumber) === 'number' && <>{components[tabNumber]}</>}
-          </ContentWrap>
-          <BottomNavigation />
-        </Wrapper>
-    )
-}
+          </TabContainer>
+        </Body>
+      </FlexBox>
+      <ContentWrap className="content">
+        {typeof tabNumber === 'number' && <>{components[tabNumber]}</>}
+      </ContentWrap>
+      <BottomNavigation />
+    </Wrapper>
+  );
+};
 
 export default ComAsIndex;
-
 
 const Wrapper = styled.div`
   position: relative;
@@ -106,7 +103,6 @@ const FlexBox = styled.div`
     padding: 0;
   }
 `;
-
 
 const Header = styled.header`
   display: flex;
@@ -174,7 +170,7 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   letter-spacing: -0.02em;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     align-items: center;
     padding-top: 23pt;
@@ -187,7 +183,7 @@ const Dot = styled.div<{ tab: string; index: string }>`
   border-radius: 50%;
   margin: 6pt auto 0 auto;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin: 0 auto;
     margin-left: 20pt;
   }
@@ -195,4 +191,4 @@ const Dot = styled.div<{ tab: string; index: string }>`
 
 const ContentWrap = styled.div`
   flex: 1;
-`
+`;

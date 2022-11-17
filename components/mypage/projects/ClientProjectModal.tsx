@@ -115,6 +115,8 @@ const Wrap = styled.div`
   top: 0;
   left: 0;
   z-index: 10;
+  @media (min-width: 900pt) {
+  }
 `;
 
 const Body = styled.div`
@@ -126,6 +128,18 @@ const Body = styled.div`
   position: absolute;
   bottom: 0;
   z-index: 2;
+  @media (min-width: 900pt) {
+    position: relative;
+    top: 30%;
+    margin: 0 auto;
+    width: 420pt;
+    height: 333pt;
+    border-radius: 12pt;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 2;
+  }
 `;
 
 const P = styled.p`
@@ -141,7 +155,7 @@ const P = styled.p`
 `;
 
 const FinBox = styled.div`
-  margin: 0 15pt;
+  margin: 0 37.5pt;
   border: 1px solid #e9eaee;
   border-radius: 8px;
   text-align: center;
@@ -152,7 +166,7 @@ const DateBox = styled.div`
   }
 `;
 const ButtonBox = styled.div`
-  margin: 30pt 15pt;
+  margin: 30pt 37.5pt;
   display: flex;
   justify-content: space-between;
   gap: 9pt;

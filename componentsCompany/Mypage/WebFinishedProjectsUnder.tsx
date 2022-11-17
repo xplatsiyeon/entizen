@@ -119,7 +119,7 @@ const ListContainer = styled.div`
   padding-right: 15pt;
   height: 190pt;
   overflow-y: scroll;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: grid;
     flex-direction: column;
     margin: 0 auto;

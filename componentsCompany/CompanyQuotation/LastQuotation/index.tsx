@@ -440,7 +440,7 @@ const TabBox = styled.div`
     position: relative;
     gap: 0.2pt;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     position: relative;
     width: 534pt;
     margin: 0 auto;
@@ -465,13 +465,13 @@ const TabLine = styled.div<{ idx: string; num: string }>`
     width: 100%;
   }
 
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 165pt;
   }
 `;
 
 const WebRapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 900pt;
     display: flex;
     justify-content: space-between;
@@ -481,7 +481,7 @@ const WebRapper = styled.div`
 `;
 
 const WebProgressbar = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
     justify-content: center;

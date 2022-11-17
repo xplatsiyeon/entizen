@@ -192,13 +192,13 @@ const Container = styled.div`
   @media (max-height: 500pt) {
     height: 100%;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin: 0 auto;
   }
 `;
 
 const WebRapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin: 0 auto;
     padding: 60pt 0;
     width: 900pt;
@@ -208,7 +208,7 @@ const WebRapper = styled.div`
 `;
 
 const WebBox = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
     width: 580.5pt;

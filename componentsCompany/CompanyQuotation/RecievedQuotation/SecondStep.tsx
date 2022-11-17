@@ -624,7 +624,7 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   box-sizing: border-box;
   padding-bottom: 30pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding-left: 25pt;
     padding-right: 25pt;
   }
@@ -635,7 +635,7 @@ const SecondWrapper = styled.div`
   box-sizing: border-box;
   margin-top: 30pt;
   padding-bottom: 58.6875pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding-left: 25pt;
     padding-right: 25pt;
   }
@@ -661,7 +661,7 @@ const TopStep = styled.div`
     letter-spacing: -0.02em;
     text-align: left;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding-top: 50pt;
   }
 `;
@@ -838,7 +838,7 @@ const Divide = styled.div`
   width: 100vw;
   height: 3pt;
   background-color: #f3f4f7;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: auto;
   }
 `;
@@ -1092,7 +1092,7 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   background-color: ${({ canNext }) => (canNext ? colors.main : '#B096EF')};
   padding: 15pt 0 39pt 0;
   cursor: pointer;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding: 15pt 0 15pt 0;
     border-radius: 6pt;
     margin-left: 12pt;
@@ -1110,7 +1110,7 @@ const PrevBtn = styled.div`
   background-color: ${colors.gray};
   cursor: pointer;
   padding: 15pt 0 39pt 0;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding: 15pt 0 15pt 0;
     border-radius: 6pt;
   }
@@ -1122,7 +1122,7 @@ const TwoBtn = styled.div`
   left: 0;
   width: 100%;
   position: fixed;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 580.5pt;
     position: relative;
     margin: 0 auto;

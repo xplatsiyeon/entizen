@@ -542,7 +542,7 @@ const HeadOpenContent = () => {
 };
 
 const WebRapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     width: 900pt;
     justify-content: space-between;
@@ -553,7 +553,7 @@ const WebRapper = styled.div`
 `;
 
 const BtnWrapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -568,7 +568,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: block;
     width: 580.5pt;
     box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
@@ -667,7 +667,7 @@ const Contents = styled.div`
 `;
 
 const WebProgressbar = styled.div<{ tabNumber: number }>`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     position: relative;
     margin: 0 auto;
     width: 534pt;
@@ -690,7 +690,7 @@ const TabBox = styled.div`
     gap: 0.2pt;
   }
 
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
@@ -711,7 +711,7 @@ const TabLine = styled.div<{ idx: string; num: string }>`
     display: block;
     width: 100%;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 267pt;
     border-bottom-width: 5pt;
     border-radius: 3px;
@@ -719,7 +719,7 @@ const TabLine = styled.div<{ idx: string; num: string }>`
 `;
 
 const WebContainer = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 610.5pt;
     margin-top: 30pt;
     background-color: #ffffff;
