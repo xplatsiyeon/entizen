@@ -5,18 +5,28 @@ import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from "next/image";
 import FilterModal from "./filterModal";
 import NoAsHistyory from "./noAsHistrory";
-import { bgcolor } from "@mui/system";
-import { handleColorAS } from "utils/changeValue";
+import { useRouter } from "next/router";
 
 const AsHistory = () => {
 
     //히스토리 리스트 get();
-    //const arr = [0];
-    const arr:number[] = [];
+    const arr = [0, 1, 2, 3, 4];
+    // const arr:number[] = [];
 
     const [searchWord, setSearchWord] = useState<string>('')
     const [selected, setSelected] = useState<string>('현장별 보기');
     const [modal, setModal] = useState<boolean>(false);
+
+    const router = useRouter();
+
+    const handleRoute = (idx: number) =>{
+        router.push({
+            pathname: '/company/as/history',
+            query: {
+                id: idx
+            }
+        })
+    }
 
     return (
         <Body>
@@ -33,21 +43,23 @@ const AsHistory = () => {
                 </InputWrap>
             </Wrap>
             <List>
-            {arr.length > 0 ?
-                arr.map((d,idx)=>{
-                    return(
-                        <ListBox>
-                            <StoreName>...</StoreName>
-                            <Text>...</Text>
-                            <FlexWrap>
-                                <Badge bgColor={handleColorAS(d)}>a/s</Badge>
-                                <Date>...</Date>
-                            </FlexWrap>
-                        </ListBox>
-                    )
-                })
-            : <NoAsHistyory />
-            }
+                {arr.length > 0 ?
+                    <ListWrap>
+                        { arr.map((d, idx) => {
+                            return (
+                                <ListBox onClick={()=>handleRoute(idx+1)}>
+                                    <StoreName>...</StoreName>
+                                    <FlexWrap>
+                                        <Text> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, eveniet cumq </Text>
+                                        <Score> 평점 4.5 </Score>
+                                    </FlexWrap>
+                                </ListBox>
+                                )
+                            })
+                        }
+                    </ListWrap>
+                    : <NoAsHistyory />
+                }
             </List>
         </Body>
     )
@@ -56,6 +68,7 @@ const AsHistory = () => {
 export default AsHistory;
 
 const Body = styled.div`
+    flex: 1;
     margin: 0 15pt;
     font-family: 'Spoqa Han Sans Neo';
     display: flex;
@@ -63,7 +76,8 @@ const Body = styled.div`
 `
 
 const Wrap = styled.div`
-    flex: 1;
+    display: flex;
+    flex-direction: row-reverse;
     @media (max-width: 899pt) {
         flex-direction: column;
         align-items: flex-end;
@@ -97,11 +111,10 @@ const IconBox = styled.div<{ arrow?: boolean }>`
 `;
 
 const List = styled.div`
-    margin-top: 18pt;
-    flex: 2.5;
+    //margin-top: 18pt;
+    flex: 1;
+    min-height: 174pt;
     position: relative;
-
-    border:1px solid;
     
 `
 const ListBox = styled.div`
@@ -109,6 +122,7 @@ const ListBox = styled.div`
     box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
     border-radius: 6pt;
     padding: 13.5pt;
+    margin-bottom: 9pt;
 
 `
 const StoreName = styled.p`
@@ -118,7 +132,7 @@ font-weight: 700;
 font-size: 12pt;
 line-height: 15pt;
 color: #222222;
-
+margin-bottom: 6pt;
 `
 const Text = styled.p`
 font-style: normal;
@@ -126,7 +140,15 @@ font-weight: 400;
 font-size: 10.5pt;
 line-height: 18pt;
 color: #222222;
-margin-bottom: 12pt;
+`
+const Score = styled.p`
+font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 500;
+font-size: 9pt;
+line-height: 12pt;
+letter-spacing: -0.02em;
+color: #CACCD1;
 `
 
 const FlexWrap = styled.div`
@@ -134,23 +156,6 @@ display: flex;
 justify-content: space-between;
 `
 
-const Badge = styled.div<{bgColor:string}>`
-background: ${({bgColor}) => (bgColor? bgColor : '#F75015')};
-font-style: normal;
-font-weight: 500;
-font-size: 9pt;
-line-height: 9pt;
-letter-spacing: -0.02em;
-color: #FFFFFF;
-padding: 4.5pt 7.5pt;
-border-radius: 12pt;
-`
-const Date = styled.p`
-    
-font-style: normal;
-font-weight: 400;
-font-size: 10.5pt;
-line-height: 12pt;
-letter-spacing: -0.02em;
-color: #CACCD1;
+const ListWrap = styled.div`
+    margin: 18pt 0;
 `

@@ -55,6 +55,7 @@ const NewAs = () => {
 export default NewAs;
 
 const Body = styled.div`
+    flex: 1;
     margin: 0 15pt;
     font-family: 'Spoqa Han Sans Neo';
 
