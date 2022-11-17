@@ -149,9 +149,8 @@ const ProjectInfo = () => {
         <Inner>
           <FlexBox>
             <Wrap1>
-              <RequestMain page={2} />
+              <RequestMain page={1} />
             </Wrap1>
-
             <Wrap2>
               <MypageHeader back={true} title={'내 프로젝트'} />
               {typeof router?.query?.projectIdx === 'string' ? (
@@ -190,7 +189,6 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
 
   @media (max-height: 809pt) {

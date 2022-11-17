@@ -84,10 +84,12 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
+  }
+  @media (max-width: 899pt) {
+    display: block;
   }
 `;
 
@@ -110,7 +112,7 @@ const Wrap = styled.div`
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
-    width: 460pt;
+    width: 345pt;
     margin-top: -20pt;
     margin: 0 auto 90pt;
   }
@@ -152,7 +154,7 @@ const Btn = styled.button`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   padding: 15pt 0;
-  margin: 0 15pt 30pt;
+  margin: 0 0 30pt;
   @media (min-width: 900pt) {
     margin: 0 auto;
   }

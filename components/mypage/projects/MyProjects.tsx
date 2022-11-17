@@ -132,6 +132,12 @@ const List = styled.ul`
   margin: 30pt 0;
   padding: 15pt;
   gap: 11pt;
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    margin: 0;
+    padding: 0 0 15pt 0;
+    gap: 22.5pt;
+  }
 `;
 
 const ProjectBox = styled.li`
@@ -141,7 +147,12 @@ const ProjectBox = styled.li`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
   position: relative;
+  @media (min-width: 900pt) {
+    width: 178.5pt;
+    height: 114pt;
+  }
 `;
+
 const P = styled.p`
   font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
