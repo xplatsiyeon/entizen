@@ -1,27 +1,32 @@
 import styled from '@emotion/styled';
 import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import AsRequestWriteReview from '../as/AsRequestWriteReview';
 import Image from 'next/image';
+import { ProjectReview } from 'QueryComponents/UserQuery';
 
 type Props = {
   review: boolean;
+  data: ProjectReview;
 };
 
-const PlaceGetReview = ({ review }: Props) => {
-
+const PlaceGetReview = ({ review, data }: Props) => {
   const reviewPoint = ['친절함', '신속함', '전문성', '만족도'];
 
-  {/*임의의 점수 배열 */}
-  const score = [0,1,0,1]
+  const score = [
+    data?.attentivenessPoint,
+    data?.quicknessPoint,
+    data?.professionalismPoint,
+    data?.satisfactionPoint,
+  ];
 
   {
     /* 받은 데이터에 review 여부에 따라 리턴되는 태그가 다름.  */
   }
-  if (review) {
+  if (data) {
     // rivew, score 값이 있으면, 각 score 값에 맞게 체크된 배열이 만들어진다.
     // ex) 친절함 :4  -> [true, true, true, true, false]
     let checked = reviewPoint.map((r, idx) => {
@@ -47,8 +52,8 @@ const PlaceGetReview = ({ review }: Props) => {
             return (
               <RBarBox key={idx}>
                 <Title>{r}</Title>
-                {checked[idx].map((c, idx) =>
-                  c ? (
+                {checked[idx].map((check, idx) =>
+                  check ? (
                     <RBar className="filled forRadius" />
                   ) : (
                     <RBar className="forRadius" />
@@ -59,7 +64,7 @@ const PlaceGetReview = ({ review }: Props) => {
           })}
 
           <TextArea
-            placeholder="[선택] 파트너의 어떤점이 기억에 남으시나요?"
+            placeholder={data?.opinion}
             rows={8}
             value={''}
             required

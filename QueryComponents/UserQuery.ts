@@ -79,11 +79,11 @@ export interface CompanyMember {
 
 export interface ProjectReview {
   projectReviewIdx: number;
-  attentivenessPoint: string;
-  quicknessPoint: string;
-  professionalismPoint: string;
-  satisfactionPoint: string;
-  averagePoint: string;
+  attentivenessPoint: number;
+  quicknessPoint: number;
+  professionalismPoint: number;
+  satisfactionPoint: number;
+  averagePoint: number;
   opinion: string;
   projectIdx: number;
 }

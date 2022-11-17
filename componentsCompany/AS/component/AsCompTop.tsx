@@ -10,93 +10,105 @@ import colors from "styles/colors";
 
 
 type Props = {
-    id?: number
+  id?: number
 };
 
 
 const AsCompTop = ({ id }: Props) => {
 
-    const [open, setOpen] = useState<boolean>(false);
-    const handleClick = () => setOpen(!open);
+  const [open, setOpen] = useState<boolean>(false);
+  const handleClick = () => setOpen(!open);
 
-    return (
-        <>
-            <Wrapper>
-                {/* Close */}
-                <ItemButton onClick={handleClick}>
-                    <StoreName>
+  return (
+    <>
+      <Wrapper>
+        {/* Close */}
+        <ItemButton onClick={handleClick}>
+          <StoreName>
 
-                        {/* a/s 히스토리는 완료된 배지만 사용 (검은색) */}
-                        <CommonBtns text={'A/S'} backgroundColor={handleColorAS(3)} />
-                        <div>
-                            <h1>{/* store 이름 */}</h1>
-                            {open ? (
-                                <ArrowImg>
-                                    <Image src={DownArrow} alt="down_arrow" layout="fill" />
-                                </ArrowImg>
-                            ) : (
-                                <ArrowImg>
-                                    <Image src={UpArrow} alt="up_arrow" layout="fill" />
-                                </ArrowImg>
-                            )}
-                        </div>
-                        <p>{/* 주소지 */}</p>
-                    </StoreName>
-                </ItemButton>
+            {/* a/s 히스토리는 완료된 배지만 사용 (검은색) */}
+            <CommonBtns text={'A/S'} backgroundColor={handleColorAS(3)} />
+            <div>
+              <h1>{/* store 이름 */}</h1>
+              {open ? (
+                <ArrowImg>
+                  <Image src={DownArrow} alt="down_arrow" layout="fill" />
+                </ArrowImg>
+              ) : (
+                <ArrowImg>
+                  <Image src={UpArrow} alt="up_arrow" layout="fill" />
+                </ArrowImg>
+              )}
+            </div>
+            <p>{/* 주소지 */}</p>
+          </StoreName>
+        </ItemButton>
 
-                {/* Open */}
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <Contents>
-                            <div className="text-box">
-                                <span className="name">프로젝트 번호</span>
-                                <span className="text">{/* */}</span>
-                            </div>
-                            <div className="text-box">
-                                <span className="name">구독상품</span>
-                                <span className="text">{/* */}</span>
-                            </div>
-                            <div className="text-box">
-                                <span className="name">구독기간</span>
-                                <span className="text">{/* */}</span>
-                            </div>
-                            <div className="text-box">
-                                <span className="name">수익지분</span>
-                                <span className="text">{/* */}</span>
-                            </div>
+        {/* Open */}
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <Contents>
+              <div className="text-box">
+                <span className="name">프로젝트 번호</span>
+                <span className="text">{/* */}</span>
+              </div>
+              <div className="text-box">
+                <span className="name">구독상품</span>
+                <span className="text">{/* */}</span>
+              </div>
+              <div className="text-box">
+                <span className="name">구독기간</span>
+                <span className="text">{/* */}</span>
+              </div>
+              <div className="text-box">
+                <span className="name">수익지분</span>
+                <span className="text">{/* */}</span>
+              </div>
 
-                            {/* 충전기 종류 및 수량은 복수일 수 있으므로... 임의의 배열.map() 해둠*/}
-                            <div className="text-box  charger-list">
-                                <span className="name">충전기 종류 및 수량</span>
-                                <div className="charger">
-                                {[0, 1, 2].map((el, index) => {
-                                    return (
-                                        <span className="text" key={index}>
-                                           {index}{/* 충전기 종류 */}
-                                            <br />
-                                            {':' + index}{/* 충전기 수량 */}
-                                        </span>
-                                    )
-                                })
-                                }
-                                </div>
-                            </div>
-                            <div className="text-box">
-                                <span className="name">충전기 설치 위치</span>
-                                <span className="text">{/* */}</span>
-                            </div>
-                            <div className="text-box">
-                                <span className="name">충전기 설치 목적</span>
-                                <span className="text">{/* */}</span>
-                            </div>
-                            <div className="text-box">
-                                <span className="name">기타 요청 사항</span>
-                                <span className="text">{/* */}</span>
-                            </div>
-                        </Contents>
-                    </List>
-                </Collapse>
-            </Wrapper>
+              {/* 충전기 종류 및 수량은 복수일 수 있으므로... 임의의 배열.map() 해둠*/}
+              <div className="text-box  charger-list">
+                <span className="name">충전기 종류 및 수량</span>
+                <div className="charger">
+                  {[0, 1, 2].map((el, index) => {
+                    return (
+                      <span className="text" key={index}>
+                        {index}{/* 충전기 종류 */}
+                        <br />
+                        {':' + index}{/* 충전기 수량 */}
+                      </span>
+                    )
+                  })
+                  }
+                </div>
+              </div>
+
+                {/* 충전기 설치 위치는 복수일 수 있으므로... 임의의 배열.map() 해둠*/ }
+                < div className="text-box charger-place">
+              <span className="name">충전기 설치 위치</span>
+              <div className="charger">
+                {[0, 1, 2].map((el, index) => {
+                  return (
+                    <span className="text" key={index}>
+                      {index}{/* 충전기 종류 */}
+                    </span>
+                  )
+                })
+                }
+              </div>
+            </div> 
+
+            <div className="text-box">
+              <span className="name">충전기 설치 목적</span>
+              <span className="text">{/* */}</span>
+            </div>
+            <div className="text-box">
+              <span className="name">기타 요청 사항</span>
+              <span className="text">{/* */}</span>
+            </div>
+          </Contents>
+        </List>
+      </Collapse>
+    </Wrapper>
         </>
     )
 }
@@ -171,6 +183,9 @@ const Contents = styled.div`
     justify-content: space-between;
     align-items: center;
     &.charger-list{
+      align-items: flex-start;
+    }
+    &.charger-place{
       align-items: flex-start;
     }
     :not(:nth-of-type(1)) {

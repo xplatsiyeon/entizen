@@ -84,6 +84,7 @@ const ChargingPlace = () => {
     data: chargingData,
     loading: chargingLoading,
     error: chargingError,
+    refetch: chargingRefetch,
   } = useQuery<ChargingStationsResponse>(chargingStations, {
     context: {
       headers: {
