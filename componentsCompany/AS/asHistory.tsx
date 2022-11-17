@@ -5,6 +5,7 @@ import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from "next/image";
 import FilterModal from "./filterModal";
 import NoAsHistyory from "./noAsHistrory";
+import { useRouter } from "next/router";
 
 const AsHistory = () => {
 
@@ -15,6 +16,17 @@ const AsHistory = () => {
     const [searchWord, setSearchWord] = useState<string>('')
     const [selected, setSelected] = useState<string>('현장별 보기');
     const [modal, setModal] = useState<boolean>(false);
+
+    const router = useRouter();
+
+    const handleRoute = (idx: number) =>{
+        router.push({
+            pathname: '/company/as/history',
+            query: {
+                id: idx
+            }
+        })
+    }
 
     return (
         <Body>
@@ -35,7 +47,7 @@ const AsHistory = () => {
                     <ListWrap>
                         { arr.map((d, idx) => {
                             return (
-                                <ListBox>
+                                <ListBox onClick={()=>handleRoute(idx+1)}>
                                     <StoreName>...</StoreName>
                                     <FlexWrap>
                                         <Text> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, eveniet cumq </Text>
