@@ -88,12 +88,16 @@ export const hyphenFn = (target: string) => {
  * @param target "2022-10-03"
  */
 export const changeDataFn = (target: string) => {
-  const arrTarget = target.split('-');
-  const year = arrTarget[0] + '년';
-  const month = arrTarget[1] + '월';
-  const day = arrTarget[2] + '일';
+  if (target) {
+    const arrTarget = target.split('-');
+    const year = arrTarget[0] + '년';
+    const month = arrTarget[1] + '월';
+    const day = arrTarget[2] + '일';
 
-  return `${year} ${month} ${day}`;
+    return `${year} ${month} ${day}`;
+  } else {
+    return '';
+  }
 };
 
 // ---------- 요일 반환 함수 -------------

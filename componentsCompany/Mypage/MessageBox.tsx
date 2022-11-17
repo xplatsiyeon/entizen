@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
+import Carousel from 'components/mypage/projects/Carousel';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
+import { ProjectCompletionFiles } from 'QueryComponents/CompanyQuery';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
 
@@ -13,6 +15,8 @@ type Props = {
   page?: string;
   handleClick?: () => void;
   num?: number;
+  complete?: boolean;
+  file?: ProjectCompletionFiles[];
 };
 
 const MessageBox = ({
@@ -24,6 +28,8 @@ const MessageBox = ({
   handleClick,
   page,
   num,
+  complete,
+  file,
 }: Props) => {
   const [idx, setIdx] = useState<number>(1);
 
@@ -39,17 +45,18 @@ const MessageBox = ({
 
   return (
     <Wrapper onClick={handleClick} presentProgress={presentProgress}>
-      <LeftSideBox>
+      <LeftSideBox presentProgress={presentProgress}>
         <BigText>{title}</BigText>
         <List>
           <li>{firstText}</li>
           <li>{secondText}</li>
           {thirdText && <li>{thirdText}</li>}
         </List>
-        {num === 5 ? (
+        {complete ? (
           //여기 코드 reUsable 컴포넌트로
           <ImageBox>
-            <Index onClick={handleNum}>{idx}/2</Index>
+            <Carousel file={file!} />
+            {/* <Index onClick={handleNum}>{idx}/2</Index> */}
           </ImageBox>
         ) : null}
       </LeftSideBox>
@@ -76,11 +83,12 @@ const Wrapper = styled.div<{ presentProgress: boolean }>`
   justify-content: space-between;
 `;
 
-const LeftSideBox = styled.div`
+const LeftSideBox = styled.div<{ presentProgress: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 6pt;
   width: 100%;
+  opacity: ${({ presentProgress }) => (!presentProgress ? '0.3' : null)};
 `;
 
 const BigText = styled.div`

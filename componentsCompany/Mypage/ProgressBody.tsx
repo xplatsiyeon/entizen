@@ -18,7 +18,6 @@ type Props = {
   setToggleOpen: Dispatch<SetStateAction<boolean[]>>;
   presentProgress: number;
   setProgressNum: Dispatch<SetStateAction<number>>;
-  // state: number;
   planed: string[];
   progressNum?: number;
   data: InProgressProjectsDetailResponse;
@@ -126,7 +125,7 @@ const ProgressBody = ({
         '공사 준비가 완료되었습니다.',
         '충전기를 설치, 시운전이 완료되었습니다',
         '충전기 검수가 완료되었습니다',
-        '프로젝트를 완료해주세요',
+        '프로젝트 완료 진행중입니다',
       ];
       break;
     // 취소
@@ -381,8 +380,7 @@ const ProgressBody = ({
               <Image
                 className="bottomCircle"
                 src={
-                  data?.project?.isCompletedExamStep &&
-                  !data?.project?.isCompletedCompletionStep
+                  data?.project?.isCompletedExamStep
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -404,9 +402,7 @@ const ProgressBody = ({
               {data?.project?.completionStepGoalDate ? (
                 <PickedDate
                   color={
-                    data?.project?.isCompletedCompletionStep
-                      ? '#e2e5ed'
-                      : colors.main
+                    data?.project?.isCompletedExamStep ? colors.main : '#e2e5ed'
                   }
                 >
                   {data?.project?.completionStepGoalDate === 'CHANGING'

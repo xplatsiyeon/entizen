@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { UnConsentProjectDateChangeHistories } from 'QueryComponents/CompanyQuery';
+import {
+  InProgressProjectsDetailResponse,
+  UnConsentProjectDateChangeHistories,
+} from 'QueryComponents/CompanyQuery';
 import React from 'react';
 import colors from 'styles/colors';
 import changeArrow from 'public/images/date-change-arrow.png';
@@ -9,16 +12,21 @@ import { getDayOfWeek } from 'utils/calculatePackage';
 type Props = {
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
   type: 'finish' | 'change';
-  data?: UnConsentProjectDateChangeHistories;
+  changeData?: UnConsentProjectDateChangeHistories;
   onClickChangeData: () => void;
+  onClickCompleteData: () => void;
+  data: InProgressProjectsDetailResponse;
 };
 
 const ClientProjectModal = ({
   setIsModal,
   type,
-  data,
+  changeData,
   onClickChangeData,
+  onClickCompleteData,
+  data,
 }: Props) => {
+  console.log(changeData);
   return (
     <Wrap onClick={() => setIsModal(false)}>
       <Body>
@@ -28,7 +36,9 @@ const ClientProjectModal = ({
           <FinBox>
             <PBox1>
               <p className="date1">완료 요청일</p>
-              <p className="date2">2022-10-22</p>
+              <p className="date2">
+                {data?.project?.completionStepGoalDate?.replaceAll('-', '.')}
+              </p>
             </PBox1>
             <PBox1>
               <p className="notice1">동의하기 전 주의사항!</p>
@@ -44,20 +54,20 @@ const ClientProjectModal = ({
             <PBox2 className="firstChild">
               <p className="label">완료 예정일</p>
               <p className="date">
-                {data?.dateAfterChange.replaceAll('-', '.')}
+                {changeData?.dateAfterChange.replaceAll('-', '.')}
               </p>
             </PBox2>
             <PBox2>
               <p className="label">변경 사유</p>
-              <p className="date">{data?.changedReason}</p>
+              <p className="date">{changeData?.changedReason}</p>
             </PBox2>
             <P2DateBox>
               <div className="dateBox">
                 <p className="beforeDate">
-                  {data?.dateBeforeChange?.replaceAll('-', '.')}
+                  {changeData?.dateBeforeChange?.replaceAll('-', '.')}
                 </p>
                 <p className="beforeDay">
-                  {getDayOfWeek(data?.dateBeforeChange!)}요일
+                  {getDayOfWeek(changeData?.dateBeforeChange!)}요일
                 </p>
               </div>
               <span className="imgBox">
@@ -69,10 +79,10 @@ const ClientProjectModal = ({
               </span>
               <div className="dateBox">
                 <p className="afterDate">
-                  {data?.dateAfterChange?.replaceAll('-', '.')}
+                  {changeData?.dateAfterChange?.replaceAll('-', '.')}
                 </p>
                 <p className="afterDay">
-                  {getDayOfWeek(data?.dateAfterChange!)}요일
+                  {getDayOfWeek(changeData?.dateAfterChange!)}요일
                 </p>
               </div>
             </P2DateBox>
@@ -82,7 +92,11 @@ const ClientProjectModal = ({
           <button onClick={() => alert('작업 중 입니다.')}>
             <span>소통하기</span>
           </button>
-          <button onClick={onClickChangeData}>
+          <button
+            onClick={
+              type === 'change' ? onClickChangeData : onClickCompleteData
+            }
+          >
             <span>동의하기</span>
           </button>
         </ButtonBox>

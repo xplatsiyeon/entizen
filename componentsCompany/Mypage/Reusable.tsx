@@ -26,6 +26,7 @@ import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { ApolloQueryResult, OperationVariables } from '@apollo/client';
 import { changeDataFn } from 'utils/calculatePackage';
+import Carousel from 'components/mypage/projects/Carousel';
 
 type Props = {
   textOne: string;
@@ -33,7 +34,7 @@ type Props = {
   textThree: string;
   textFour: string;
   textFive?: string;
-  beforeFinish?: boolean;
+  finalStep?: boolean;
   btnText: string;
   almostFinish?: boolean;
   fin: boolean;
@@ -65,7 +66,7 @@ const Reusable = ({
   textThree,
   textFour,
   textFive,
-  beforeFinish,
+  finalStep,
   almostFinish,
   btnText,
   fin,
@@ -132,7 +133,9 @@ Props) => {
     isError: stepIsError,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      setTwoBtnModalOpen(false);
+      // setTwoBtnModalOpen(false);
+      inProgressRefetch();
+      setProgressNum(-1);
     },
     onError: (error: any) => {
       console.log(error);
@@ -186,7 +189,7 @@ Props) => {
   // '완료하기' 누른 후 실행되는 함수. 배지를 변경하는 api 호출하기.
   const handleModalRightBtn = () => {
     if (planed) {
-      if (beforeFinish) {
+      if (finalStep) {
         // 마지막 단계
         stepMuate({
           url: `/projects/${routerId}/step`,
@@ -195,7 +198,6 @@ Props) => {
             completedProjectImageFiles: imgArr,
           },
         });
-        setTwoBtnModalOpen(false);
       } else {
         // 이전 단계
         stepMuate({
@@ -204,19 +206,16 @@ Props) => {
             projectStep: stepType,
           },
         });
-        setTwoBtnModalOpen(false);
       }
     } else {
       alert('목표일자를 작성해주세요.');
       setTwoBtnModalOpen(false);
     }
-    setProgressNum(-1);
-    inProgressRefetch();
   };
 
   useEffect(() => {
-    console.log(fin);
     console.log('핀 업데이트 되면 새로 고침');
+    console.log(almostFinish);
   }, [fin]);
 
   return (
@@ -244,7 +243,7 @@ Props) => {
           inProgressRefetch={inProgressRefetch}
         />
       )}
-      {/* 프로젝트 완료하기 클릭시 보이는 곳 */}
+      {/* ------------- 프로젝트 완료하기 클릭시 보이는 곳  -------------*/}
       {almostFinish ? (
         <>
           <DoubleArrowBox>
@@ -268,7 +267,9 @@ Props) => {
                 최종 완료됩니다!
               </FinishedSecondText>
               <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
-              <FinishedPhotoBox>1</FinishedPhotoBox>
+              <FinishedPhotoBox>
+                <Carousel file={data?.project?.projectCompletionFiles!} />
+              </FinishedPhotoBox>
             </FinishedBox>
           </Wrapper>
         </>
@@ -304,7 +305,7 @@ Props) => {
               </ListBox>
             </Box>
             {/* 완료에서 사진첨부하는곳 보이도록  */}
-            {beforeFinish && !almostFinish && (
+            {finalStep && !almostFinish && (
               <RemainderInputBox>
                 <Label>사진첨부</Label>
                 <PhotosBox>
@@ -350,7 +351,7 @@ Props) => {
             {fin === false ? (
               <Button
                 onClick={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
-                beforeFinish={beforeFinish}
+                finalStep={finalStep}
               >
                 {btnText}
               </Button>
@@ -550,7 +551,7 @@ const Xbox = styled.div`
   right: -7pt;
 `;
 
-const Button = styled.div<{ beforeFinish?: boolean }>`
+const Button = styled.div<{ finalStep?: boolean }>`
   width: 100%;
   padding-top: 15pt;
   padding-bottom: 15pt;
@@ -558,7 +559,7 @@ const Button = styled.div<{ beforeFinish?: boolean }>`
   color: #ffffff;
   text-align: center;
   border-radius: 6pt;
-  margin-top: ${({ beforeFinish }) => (beforeFinish ? 38.25 : 48.75)}pt;
+  margin-top: ${({ finalStep }) => (finalStep ? 38.25 : 48.75)}pt;
   box-sizing: border-box;
   font-family: Spoqa Han Sans Neo;
   font-size: 12pt;
