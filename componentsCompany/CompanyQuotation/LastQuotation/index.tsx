@@ -385,45 +385,82 @@ const LastWrite = (props: Props) => {
   }, []);
   return (
     <>
-      <WebBuyerHeader
-        setOpenSubLink={setOpenSubLink}
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        successComponentId={successComponentId}
-        openSubLink={openSubLink}
-      />
-      <WebRapper>
-        <LeftProjectQuotationBox
-          underNum={underNum}
-          setUnderNum={setUnderNum}
+      <WebBody>
+        <WebBuyerHeader
+          setOpenSubLink={setOpenSubLink}
+          setTabNumber={setTabNumber}
+          tabNumber={tabNumber}
+          successComponentId={successComponentId}
+          openSubLink={openSubLink}
         />
-        {tabNumber >= 0 && (
-          <>
-            <WebProgressbar>
-              <TabBox>
-                {Object.keys(components).map((tab, index) => (
-                  <React.Fragment key={index}>
-                    {index <= selectedOption.length + 1 && (
-                      <TabLine
-                        idx={index.toString()}
-                        num={tabNumber.toString()}
-                        key={tab}
-                        // 테스트용
-                        // onClick={() => setTabNumber(index)}
-                      />
-                    )}
-                  </React.Fragment>
-                ))}
-              </TabBox>
-              {components[tabNumber]}
-            </WebProgressbar>
-          </>
-        )}
-      </WebRapper>
-      <WebFooter />
+        <Container>
+          <WebRapper>
+            <LeftProjectQuotationBox
+              underNum={underNum}
+              setUnderNum={setUnderNum}
+            />
+            {tabNumber >= 0 && (
+              <>
+                <WebProgressbar>
+                  <TabBox>
+                    {Object.keys(components).map((tab, index) => (
+                      <React.Fragment key={index}>
+                        {index <= selectedOption.length + 1 && (
+                          <TabLine
+                            idx={index.toString()}
+                            num={tabNumber.toString()}
+                            key={tab}
+                            // 테스트용
+                            // onClick={() => setTabNumber(index)}
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </TabBox>
+                  {components[tabNumber]}
+                </WebProgressbar>
+              </>
+            )}
+          </WebRapper>
+        </Container>
+        <WebFooter />
+      </WebBody>
     </>
   );
 };
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  @media (max-height: 350pt) {
+    height: 100%;
+    display: block;
+  }
+`;
+
+const Container = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+`;
 
 const TabBox = styled.div`
   z-index: 1;
@@ -467,6 +504,8 @@ const TabLine = styled.div<{ idx: string; num: string }>`
 
   @media (min-width: 900pt) {
     width: 165pt;
+    border-bottom-width: 6pt;
+    border-radius: 3pt;
   }
 `;
 

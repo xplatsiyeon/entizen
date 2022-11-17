@@ -940,6 +940,15 @@ const RemainderInputBoxs = styled.div`
     padding-bottom: 100pt;
     gap: 9pt;
   }
+  @media (min-width: 900pt) {
+    & .file-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      padding-bottom: 0;
+      gap: 9pt;
+    }
+  }
 `;
 const Label = styled.label`
   font-family: Spoqa Han Sans Neo;
@@ -957,6 +966,7 @@ const PhotosBox = styled.div`
   gap: 9.1875pt;
   align-items: center;
 `;
+
 const PhotosBoxs = styled.div`
   height: 56.0625pt;
   margin-top: 9pt;
@@ -965,7 +975,12 @@ const PhotosBoxs = styled.div`
   gap: 9pt;
   align-items: center;
   padding-bottom: 58.6875pt;
+  @media (min-width: 900pt) {
+    height: auto;
+    padding-bottom: 0;
+  }
 `;
+
 const AddPhotos = styled.button`
   display: inline-block;
   width: 56.0625pt;
@@ -1121,7 +1136,9 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  position: fixed;
+  @media (max-width: 899pt) {
+    position: fixed;
+  }
   @media (min-width: 900pt) {
     width: 580.5pt;
     position: relative;
