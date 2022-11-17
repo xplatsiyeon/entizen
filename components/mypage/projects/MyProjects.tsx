@@ -169,6 +169,7 @@ const P = styled.p`
   top: 39pt;
   left: 12pt;
   position: absolute;
+  padding-right: 12.75pt;
 `;
 
 const P2 = styled.p`
