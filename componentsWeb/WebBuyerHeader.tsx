@@ -66,7 +66,10 @@ const WebBuyerHeader = ({
     if (router.pathname === '/company/mypage') {
       setType('myProject');
       setTab(3);
-    } else if (router.pathname === '/company/quotation') {
+    } else if (
+      router.pathname === '/company/quotation' ||
+      router.pathname === '/company/quotation/lastQuotation'
+    ) {
       setType('estimate');
       setTab(0);
     } else if (
@@ -227,7 +230,7 @@ const WebBuyerHeader = ({
             </Box2>
           </Inner>
         </MainLink>
-        {linklist && type !== 'communication' ? (
+        {type !== 'communication' ? (
           <MyprojectLink
             setTabNumber={setTabNumber}
             tabNumber={tabNumber}

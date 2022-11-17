@@ -303,175 +303,228 @@ const HeadOpenContent = () => {
   }
   return (
     <>
-      <WebBuyerHeader
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        getComponentId={getComponentId}
-        openSubLink={openSubLink}
-        setOpenSubLink={setOpenSubLink}
-      />
-      {modalOpen && (
-        <TwoBtnModal
-          text={
-            '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
-          }
-          leftBtnText={'그만하기'}
-          rightBtnText={'계속 작성하기'}
-          leftBtnColor={'#A6A9B0'}
-          rightBtnColor={'#5221CB'}
-          leftBtnControl={() => router.back()}
-          rightBtnControl={() => setModalOpen(false)}
-          exit={() => setModalOpen(false)}
+      <WebBody>
+        <WebBuyerHeader
+          setTabNumber={setTabNumber}
+          tabNumber={0}
+          getComponentId={getComponentId}
+          openSubLink={openSubLink}
+          setOpenSubLink={setOpenSubLink}
         />
-      )}
-      {tabNumber === -1 && nowWidth < 1198.7 && (
-        <MypageHeader
-          back={true}
-          title={'받은 요청'}
-          handleBackClick={handleBackClick}
-        />
-      )}
-      {tabNumber >= 0 && nowWidth < 1198.7 && (
-        <MypageHeader
-          back={true}
-          title={'가견적 작성'}
-          handleBackClick={handleModalOpen}
-        />
-      )}
-      <WebRapper>
-        {nowWidth > 1198.7 && (
-          <LeftProjectQuotationBox
-            underNum={underNum}
-            setUnderNum={setUnderNum}
-            getComponentId={getComponentId}
-            setGetComponentId={setGetComponentId}
-          />
-        )}
-        <BtnWrapper>
-          <Wrapper>
-            <ItemButton onClick={handleClick}>
-              <StoreName>
-                <CommonBtns
-                  text={data?.receivedQuotationRequest.badge!}
-                  backgroundColor={HandleColor(
-                    data?.receivedQuotationRequest.badge!,
-                  )}
-                />
-                <div>
-                  <h1>{data?.receivedQuotationRequest.installationAddress!}</h1>
-                  {open ? (
-                    <ArrowImg>
-                      <Image src={DownArrow} alt="down_arrow" layout="fill" />
-                    </ArrowImg>
-                  ) : (
-                    <ArrowImg>
-                      <Image src={UpArrow} alt="up_arrow" layout="fill" />
-                    </ArrowImg>
-                  )}
-                </div>
-              </StoreName>
-            </ItemButton>
-            {/* Open */}
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <Contents>
-                  <div className="text-box">
-                    <span className="name">구독상품</span>
-                    <span className="text">
-                      {data &&
-                        convertKo(
-                          subscribeType,
-                          subscribeTypeEn,
-                          data?.receivedQuotationRequest.subscribeProduct!,
-                        )}
-                    </span>
-                  </div>
-                  <div className="text-box">
-                    <span className="name">구독기간</span>
-                    <span className="text">
-                      {data?.receivedQuotationRequest.subscribePeriod!}개월
-                    </span>
-                  </div>
-                  <div className="text-box">
-                    <span className="name">수익지분</span>
-                    <span className="text">
-                      {Number(data?.receivedQuotationRequest.investRate!) * 100}{' '}
-                      %
-                    </span>
-                  </div>
-                  {data?.receivedQuotationRequest.quotationRequestChargers!.map(
-                    (item, index) => (
-                      <div className="text-box" key={index}>
-                        {index === 0 ? (
-                          <span className="name">충전기 종류 및 수량</span>
-                        ) : (
-                          <span className="name" />
-                        )}
-                        <span className="text">
-                          {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-                          <br />
-                          {item.standType
-                            ? `: ${convertKo(
-                                M6_LIST,
-                                M6_LIST_EN,
-                                item.standType,
-                              )}, ${convertKo(
-                                M7_LIST,
-                                M7_LIST_EN,
-                                item.channel,
-                              )}, ${item.count} 대`
-                            : `: ${convertKo(
-                                M7_LIST,
-                                M7_LIST_EN,
-                                item.channel,
-                              )}, ${item.count} 대`}
-                        </span>
-                      </div>
-                    ),
-                  )}
-
-                  <div className="text-box">
-                    <span className="name">충전기 설치 위치</span>
-                    <span className="text">
-                      {data &&
-                        convertKo(
-                          location,
-                          locationEn,
-                          data?.receivedQuotationRequest.installationLocation!,
-                        )}
-                    </span>
-                  </div>
-                  <div className="text-box">
-                    <span className="name">충전기 설치 목적</span>
-                    <span className="text">
-                      {data &&
-                        convertKo(
-                          InstallationPurposeType,
-                          InstallationPurposeTypeEn,
-                          data?.receivedQuotationRequest.installationPurpose!,
-                        )}
-                    </span>
-                  </div>
-                  {data?.receivedQuotationRequest?.etcRequest === '' ? (
-                    <div className="text-box">
-                      <span className="name">기타 요청사항</span>
-                      <span className="text">없음</span>
+        <Container>
+          {modalOpen && (
+            <TwoBtnModal
+              text={
+                '지금 나가시면\n작성하신 내용이 삭제됩니다.\n그래도 괜찮으시겠습니까?'
+              }
+              leftBtnText={'그만하기'}
+              rightBtnText={'계속 작성하기'}
+              leftBtnColor={'#A6A9B0'}
+              rightBtnColor={'#5221CB'}
+              leftBtnControl={() => router.back()}
+              rightBtnControl={() => setModalOpen(false)}
+              exit={() => setModalOpen(false)}
+            />
+          )}
+          {tabNumber === -1 && nowWidth < 1198.7 && (
+            <MypageHeader
+              back={true}
+              title={'받은 요청'}
+              handleBackClick={handleBackClick}
+            />
+          )}
+          {tabNumber >= 0 && nowWidth < 1198.7 && (
+            <MypageHeader
+              back={true}
+              title={'가견적 작성'}
+              handleBackClick={handleModalOpen}
+            />
+          )}
+          <WebRapper>
+            {nowWidth > 1198.7 && (
+              <LeftProjectQuotationBox
+                underNum={underNum}
+                setUnderNum={setUnderNum}
+                getComponentId={getComponentId}
+                setGetComponentId={setGetComponentId}
+              />
+            )}
+            <BtnWrapper>
+              <Wrapper>
+                <ItemButton onClick={handleClick}>
+                  <StoreName>
+                    <CommonBtns
+                      text={data?.receivedQuotationRequest.badge!}
+                      backgroundColor={HandleColor(
+                        data?.receivedQuotationRequest.badge!,
+                      )}
+                    />
+                    <div>
+                      <h1>
+                        {data?.receivedQuotationRequest.installationAddress!}
+                      </h1>
+                      {open ? (
+                        <ArrowImg>
+                          <Image
+                            src={DownArrow}
+                            alt="down_arrow"
+                            layout="fill"
+                          />
+                        </ArrowImg>
+                      ) : (
+                        <ArrowImg>
+                          <Image src={UpArrow} alt="up_arrow" layout="fill" />
+                        </ArrowImg>
+                      )}
                     </div>
-                  ) : (
-                    <>
+                  </StoreName>
+                </ItemButton>
+                {/* Open */}
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <Contents>
                       <div className="text-box">
-                        <span className="name">기타 요청사항</span>
+                        <span className="name">구독상품</span>
                         <span className="text">
-                          {data?.receivedQuotationRequest?.etcRequest}
+                          {data &&
+                            convertKo(
+                              subscribeType,
+                              subscribeTypeEn,
+                              data?.receivedQuotationRequest.subscribeProduct!,
+                            )}
                         </span>
                       </div>
-                    </>
-                  )}
-                </Contents>
-              </List>
-            </Collapse>
-          </Wrapper>
-          {tabNumber >= 0 && nowWidth >= 1198.7 && (
+                      <div className="text-box">
+                        <span className="name">구독기간</span>
+                        <span className="text">
+                          {data?.receivedQuotationRequest.subscribePeriod!}개월
+                        </span>
+                      </div>
+                      <div className="text-box">
+                        <span className="name">수익지분</span>
+                        <span className="text">
+                          {Number(data?.receivedQuotationRequest.investRate!) *
+                            100}{' '}
+                          %
+                        </span>
+                      </div>
+                      {data?.receivedQuotationRequest.quotationRequestChargers!.map(
+                        (item, index) => (
+                          <div className="text-box" key={index}>
+                            {index === 0 ? (
+                              <span className="name">충전기 종류 및 수량</span>
+                            ) : (
+                              <span className="name" />
+                            )}
+                            <span className="text">
+                              {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                              <br />
+                              {item.standType
+                                ? `: ${convertKo(
+                                    M6_LIST,
+                                    M6_LIST_EN,
+                                    item.standType,
+                                  )}, ${convertKo(
+                                    M7_LIST,
+                                    M7_LIST_EN,
+                                    item.channel,
+                                  )}, ${item.count} 대`
+                                : `: ${convertKo(
+                                    M7_LIST,
+                                    M7_LIST_EN,
+                                    item.channel,
+                                  )}, ${item.count} 대`}
+                            </span>
+                          </div>
+                        ),
+                      )}
+
+                      <div className="text-box">
+                        <span className="name">충전기 설치 위치</span>
+                        <span className="text">
+                          {data &&
+                            convertKo(
+                              location,
+                              locationEn,
+                              data?.receivedQuotationRequest
+                                .installationLocation!,
+                            )}
+                        </span>
+                      </div>
+                      <div className="text-box">
+                        <span className="name">충전기 설치 목적</span>
+                        <span className="text">
+                          {data &&
+                            convertKo(
+                              InstallationPurposeType,
+                              InstallationPurposeTypeEn,
+                              data?.receivedQuotationRequest
+                                .installationPurpose!,
+                            )}
+                        </span>
+                      </div>
+                      {data?.receivedQuotationRequest?.etcRequest === '' ? (
+                        <div className="text-box">
+                          <span className="name">기타 요청사항</span>
+                          <span className="text">없음</span>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="text-box">
+                            <span className="name">기타 요청사항</span>
+                            <span className="text">
+                              {data?.receivedQuotationRequest?.etcRequest}
+                            </span>
+                          </div>
+                        </>
+                      )}
+                    </Contents>
+                  </List>
+                </Collapse>
+              </Wrapper>
+              {tabNumber >= 0 && nowWidth >= 1198.7 && (
+                <WebProgressbar tabNumber={tabNumber}>
+                  <TabBox>
+                    {Object.keys(components).map((tab, index) => (
+                      <React.Fragment key={index}>
+                        {index <=
+                          data?.receivedQuotationRequest
+                            .quotationRequestChargers.length! && (
+                          <TabLine
+                            idx={index.toString()}
+                            num={tabNumber.toString()}
+                            key={tab}
+                            // 테스트용
+                            // onClick={() => setTabNumber(index)}
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </TabBox>
+                </WebProgressbar>
+              )}
+              {tabNumber === -1 && nowWidth > 1198.7 && (
+                <Btn
+                  isClick={true}
+                  handleClick={changeRequest}
+                  text={'가견적 작성하기'}
+                  paddingOn={true}
+                />
+              )}
+              {/* 웹 UI */}
+              {nowWidth >= 1198.7 && <> {components[tabNumber]}</>}
+            </BtnWrapper>
+          </WebRapper>
+          {/* 가견적 작성하기 부분 */}
+          {tabNumber === -1 && nowWidth < 1198.7 && (
+            <Btn
+              isClick={true}
+              handleClick={changeRequest}
+              text={'가견적 작성하기'}
+              paddingOn={true}
+            />
+          )}
+          {tabNumber >= 0 && nowWidth < 1198.7 && (
             <WebProgressbar tabNumber={tabNumber}>
               <TabBox>
                 {Object.keys(components).map((tab, index) => (
@@ -490,56 +543,48 @@ const HeadOpenContent = () => {
                   </React.Fragment>
                 ))}
               </TabBox>
+              {nowWidth < 1198.7 && <> {components[tabNumber]}</>}
             </WebProgressbar>
           )}
-          {tabNumber === -1 && nowWidth > 1198.7 && (
-            <Btn
-              isClick={true}
-              handleClick={changeRequest}
-              text={'가견적 작성하기'}
-              paddingOn={true}
-            />
-          )}
-          {/* 웹 UI */}
-          {nowWidth >= 1198.7 && <> {components[tabNumber]}</>}
-        </BtnWrapper>
-      </WebRapper>
-      {/* 가견적 작성하기 부분 */}
-      {tabNumber === -1 && nowWidth < 1198.7 && (
-        <Btn
-          isClick={true}
-          handleClick={changeRequest}
-          text={'가견적 작성하기'}
-          paddingOn={true}
-        />
-      )}
-      {tabNumber >= 0 && nowWidth < 1198.7 && (
-        <WebProgressbar tabNumber={tabNumber}>
-          <TabBox>
-            {Object.keys(components).map((tab, index) => (
-              <React.Fragment key={index}>
-                {index <=
-                  data?.receivedQuotationRequest.quotationRequestChargers
-                    .length! && (
-                  <TabLine
-                    idx={index.toString()}
-                    num={tabNumber.toString()}
-                    key={tab}
-                    // 테스트용
-                    // onClick={() => setTabNumber(index)}
-                  />
-                )}
-              </React.Fragment>
-            ))}
-          </TabBox>
-          {nowWidth < 1198.7 && <> {components[tabNumber]}</>}
-        </WebProgressbar>
-      )}
-
-      <WebFooter />
+        </Container>
+        <WebFooter />
+      </WebBody>
     </>
   );
 };
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  @media (max-height: 350pt) {
+    height: 100%;
+    display: block;
+  }
+`;
+
+const Container = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+`;
 
 const WebRapper = styled.div`
   @media (min-width: 900pt) {
@@ -713,8 +758,8 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   }
   @media (min-width: 900pt) {
     width: 267pt;
-    border-bottom-width: 5pt;
-    border-radius: 3px;
+    border-bottom-width: 6pt;
+    border-radius: 3pt;
   }
 `;
 
