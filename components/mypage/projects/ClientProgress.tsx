@@ -531,6 +531,16 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
         </FlexBox>
         <Line />
       </Wrapper>
+      {data?.project?.isCompletedCompletionStep ? (
+        <WebFinButton
+          onClick={() => {
+            setIsModal(true);
+            setModalType('finish');
+          }}
+        >
+          <span>프로젝트 완료 동의하기</span>
+        </WebFinButton>
+      ) : null}
       <Button>
         <IconWrap>
           <Image src={icon_chats} layout="fill" />
@@ -745,6 +755,9 @@ const Button = styled.button`
     color: #222222;
     margin: 0 4.5pt;
   }
+  @media (min-width: 900pt) {
+    margin: 75pt auto 90pt;
+  }
 `;
 
 const IconWrap = styled.div`
@@ -771,5 +784,33 @@ const FinButton = styled.button`
     font-size: 12pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
+  }
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
+
+const WebFinButton = styled.button`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 42pt;
+  background: #5221cb;
+  color: white;
+  border-radius: 6pt;
+  margin-top: 12pt;
+  > span {
+    left: 50%;
+    top: 15pt;
+    transform: translateX(-50%);
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 900pt) {
+    position: static;
   }
 `;

@@ -132,7 +132,7 @@ const FilterBtnBox = styled.div`
   justify-content: end;
   position: relative;
   margin-top: 29.25pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: none;
   }
 `;

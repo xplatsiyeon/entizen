@@ -598,7 +598,7 @@ const Wrapper = styled.div`
   .first {
     margin-top: 45pt;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin: 0 auto;
     padding-left: 25pt;
     padding-right: 25pt;
@@ -610,13 +610,13 @@ const SecondWrapper = styled.div`
   box-sizing: border-box;
   margin-top: 30pt;
   padding-bottom: 58.6875pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding-left: 25pt;
     padding-right: 25pt;
   }
 `;
 const TopStep = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin-top: 0;
     padding-top: 70pt;
   }
@@ -815,7 +815,7 @@ const Divide = styled.div`
   width: 100vw;
   height: 3pt;
   background-color: #f3f4f7;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: auto;
   }
 `;
@@ -917,7 +917,7 @@ const RemainderInputBoxs = styled.div`
     padding-bottom: 100pt;
     gap: 9pt;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     & .file-preview {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -942,7 +942,7 @@ const PhotosBox = styled.div`
   display: flex;
   gap: 9.1875pt;
   align-items: center;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     height: auto;
   }
 `;
@@ -954,7 +954,7 @@ const PhotosBoxs = styled.div`
   gap: 9pt;
   align-items: center;
   padding-bottom: 58.6875pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     height: auto;
     padding-bottom: 0;
   }
@@ -1087,7 +1087,7 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding: 15pt 0 15pt 0;
     border-radius: 6pt;
     margin-left: 12pt;
@@ -1107,7 +1107,7 @@ const PrevBtn = styled.div`
   @media (max-width: 899pt) {
     padding: 15pt 0 39pt 0;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding: 15pt 0 15pt 0;
     border-radius: 6pt;
   }
@@ -1121,7 +1121,7 @@ const TwoBtn = styled.div`
   @media (max-width: 899pt) {
     position: fixed;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 534pt;
     position: relative;
     margin: 0 auto;
@@ -1129,7 +1129,7 @@ const TwoBtn = styled.div`
 `;
 
 const WebRapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     height: auto;
     width: 580.5pt;
     background-color: #ffffff;

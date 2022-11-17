@@ -203,7 +203,7 @@ const Wrapper = styled.div`
   border-top: 1px solid #e2e5ed;
   display: flex;
   flex-direction: column;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin-top: 0;
   }
 `;

@@ -77,7 +77,7 @@ const RecieveRequestUnder = ({
 };
 
 const ContentsContainer = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 200pt;
     margin: 0 auto;
     border-radius: 6pt;

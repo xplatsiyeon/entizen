@@ -139,14 +139,14 @@ const History = ({}: Props) => {
 
 const ContentsContainer = styled.div`
   margin-top: 18pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 580.5pt;
     margin: 0 auto;
   }
 `;
 
 const TopContainer = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 580.5pt;
     display: flex;
     justify-content: space-between;

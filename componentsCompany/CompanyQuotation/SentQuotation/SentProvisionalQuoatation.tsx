@@ -437,7 +437,7 @@ const SentQuoatationFirst = () => {
 };
 
 const WebRapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     width: 900pt;
     justify-content: space-between;
@@ -448,7 +448,7 @@ const WebRapper = styled.div`
 `;
 
 const WebColumnContainer = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
     width: 580.5pt;
@@ -464,7 +464,7 @@ const CustomerRequestContent = styled.div`
   text-align: center;
   color: ${colors.main};
   margin-top: 21pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding-left: 315pt;
     padding-top: 21pt;
   }
@@ -626,7 +626,7 @@ const LastQuotationBtnBox = styled.div`
   box-sizing: border-box;
   padding-left: 15pt;
   padding-right: 15pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     position: static;
   }
 `;
@@ -641,7 +641,7 @@ const LastBtn = styled.div`
   border-radius: 6pt;
   background-color: ${colors.main};
   color: #eeeeee;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 558pt;
     z-index: 0;
   }

@@ -136,7 +136,7 @@ const ContentsContainer = styled.div`
   margin-top: 21pt;
   padding-left: 15pt;
   padding-right: 15pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: grid;
     grid-template-columns: repeat(3, 178.5pt);
     grid-column-gap: 22.5pt;
@@ -152,7 +152,7 @@ const Contents = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     height: 80pt;
   }
 `;
@@ -181,7 +181,7 @@ const IconBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: none;
   }
 `;

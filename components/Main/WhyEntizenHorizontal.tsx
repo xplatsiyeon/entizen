@@ -3,18 +3,23 @@ import { Typography } from '@mui/material';
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
 import colors from 'styles/colors';
-import blackWhiteArrow from 'public/images/blackWhiteArrow24.png';
-import whiteGreenArrow from 'public/images/whiteGreenArrow24.png';
-import whiteBlueArrow from 'public/images/whiteBlueArrow24.png';
+import blackWhiteArrow from 'public/images/blackWhiteArrow40.png';
+import whiteBlackArrow from 'public/images/whiteBlackArrow40.png';
 import bulb from 'public/images/bulb.png';
 import message from 'public/images/message.png';
 import mail from 'public/images/mail.png';
 import carnation from 'public/images/carnation.png';
-import { useRouter } from 'next/router';
+import mainArrow1 from 'public/images/mainArrow1.png';
+import mainArrow2 from 'public/images/mainArrow2.png';
+import mainArrow3 from 'public/images/mainArrow3.png';
+import router, { useRouter } from 'next/router';
+
+type Props = {};
 
 interface MenuList {
   headText: string;
   arrowIcon: StaticImageData;
+  arrowIcon2: StaticImageData;
   background: string;
   color: string;
   bigIcon: StaticImageData;
@@ -23,61 +28,66 @@ interface MenuList {
   height: string;
 }
 
-const WhyEntizen = () => {
+const WhyEntizenHorizontal = (props: Props) => {
+  const userID = localStorage.getItem('USER_ID');
   const router = useRouter();
   const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',
       arrowIcon: blackWhiteArrow,
+      arrowIcon2: mainArrow1,
       background: '#ffffff',
       color: '#222222',
       bigIcon: bulb,
       menuText: '핵심 정보만\n쏙쏙 뽑아드려요',
-      width: '42pt',
-      height: '42.75pt',
+      width: '93.75pt',
+      height: '94.5pt',
     },
     {
       headText: '구독 가이드',
-      arrowIcon: whiteBlueArrow,
+      arrowIcon: whiteBlackArrow,
+      arrowIcon2: mainArrow2,
       background: '#5A2DC9',
       color: '#FFFFFF',
       bigIcon: mail,
       menuText: '다양한 견적서\n무료로 비교해요',
-      width: '51pt',
-      height: '42.75pt',
+      width: '108.75pt',
+      height: '87pt',
     },
     {
       headText: '충전기 가이드',
-      arrowIcon: whiteGreenArrow,
+      arrowIcon: whiteBlackArrow,
+      arrowIcon2: mainArrow3,
       background: '#FFC043',
       color: '#FFFFFF',
       bigIcon: message,
-      menuText: '구독?\n급속? 완속?\n무엇이든 물어보세요',
-      width: '52.5pt',
-      height: '39pt',
+      menuText: '구독? 급속? 완속?\n무엇이든 물어보세요',
+      width: '117pt',
+      height: '87pt',
     },
     {
       headText: '보조금 가이드',
       arrowIcon: blackWhiteArrow,
+      arrowIcon2: mainArrow1,
       background: '#FFFFFF',
       color: '#222222',
       bigIcon: carnation,
       menuText: '전기차 충전소\nA 부터 Z까지',
-      width: '32.25pt',
-      height: '42.75pt',
+      width: '79.5pt',
+      height: '105pt',
     },
   ];
 
   const movePage = (el: MenuList) => {
     switch (el.headText) {
       case '플랫폼 가이드':
-        return router.push('/guide');
+        return router.push('/guide/1-1');
       case '구독 가이드':
-        return router.push('/mypage');
+        return userID ? router.push('/quotation') : router.push('/signin');
       case '충전기 가이드':
-        return alert('2차 작업 범위 페이지입니다.');
+        return router.push('/guide/1-4');
       case '보조금 가이드':
-        return router.push('/quotation/request');
+        return router.push('/chargerMap');
       default:
         break;
     }
@@ -85,22 +95,17 @@ const WhyEntizen = () => {
   return (
     <>
       <Wrapper>
-        <WhyBox>
-          왜 <span>엔티즌</span> 인가요?
-        </WhyBox>
+        <WhyBox>왜 엔티즌 인가요?</WhyBox>
         <GridBox>
           {menuList.map((el, index) => (
             <GridElement
+              onClick={() => movePage(el)}
               color={el.background}
               key={index}
-              onClick={() => movePage(el)}
             >
               <TextArea color={el.color}>{el.menuText}</TextArea>
-              <ArrowImgBox>
-                <Image src={el.arrowIcon} alt="icon" />
-              </ArrowImgBox>
               <IconImgBox width={el.width} height={el.height}>
-                <Image src={el.bigIcon} alt="icon" />
+                <Image src={el.bigIcon} layout="fill" alt="icon" />
               </IconImgBox>
             </GridElement>
           ))}
@@ -110,101 +115,68 @@ const WhyEntizen = () => {
   );
 };
 
+export default WhyEntizenHorizontal;
+
 const Wrapper = styled.div`
   margin-top: 30pt;
-  width: 100%;
+  width: 895.5pt;
+  margin: 0 auto;
   @media (max-width: 899pt) {
     display: none;
   }
 `;
 
 const WhyBox = styled(Typography)`
-  text-align: center;
-  margin-bottom: 30pt;
-  font-size: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 19pt;
   font-weight: 700;
-  line-height: 12pt;
+  line-height: 33pt;
   letter-spacing: -0.02em;
+  text-align: center;
   color: #222222;
-  & span {
-    color: ${colors.main};
-  }
-
-  @media (max-width: 899pt) {
-    text-align: left;
-    margin-bottom: 0;
-  }
 `;
 
 const GridBox = styled.div`
-  display: flex;
-
-  @media (max-width: 899pt) {
-    margin-top: 12pt;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 11.25pt;
-  }
+  margin-top: 12pt;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22.5pt;
 `;
 
 const GridElement = styled.div`
-  width: 100%;
-  height: 255pt;
+  /* width: 100%; */
+  height: 201pt;
+  padding: 26.25pt 25.5pt 27pt 28.5pt;
   background-color: ${(props) => props.color};
   border-radius: 12pt;
   position: relative;
-  box-shadow: 0px 0px 11.25pt rgba(137, 163, 201, 0.2);
-
-  margin-right: 22.5pt;
-  &:nth-of-type(4) {
-    margin-right: 0;
-  }
-  @media (max-width: 899pt) {
-    margin-right: 0;
-    height: 120pt;
-    box-shadow: none;
-    border-radius: 6pt;
-  }
+  box-shadow: 0px 0px 15px rgba(137, 163, 201, 0.2);
+  cursor: pointer;
 `;
 
-const TextArea = styled.div`
+const TextArea = styled.div<{ color: string }>`
   white-space: pre-wrap;
-  margin-left: 22.5pt;
-  margin-top: 22.5pt;
-  font-size: 14px;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 19.5pt;
   font-weight: 700;
-  line-height: 20px;
+  line-height: 30pt;
   letter-spacing: -0.02em;
+  color: ${({ color }) => color};
   text-align: left;
-  color: ${(props) => props.color};
-  @media (max-width: 899pt) {
-    margin-left: 12pt;
-    margin-top: 12pt;
-  }
 `;
 
 const ArrowImgBox = styled.div`
-  display: none;
   position: absolute;
-  right: 12pt;
-  top: 12pt;
-  @media (max-width: 899pt) {
-    display: block;
-  }
+  width: 30pt;
+  height: 30pt;
+  left: 28.5pt;
+  bottom: 27pt;
 `;
 
 const IconImgBox = styled.div<{ width: string; height: string }>`
   position: absolute;
   width: ${({ width }) => width};
   height: ${({ height }) => height};
-
-  left: 22.5pt;
-  bottom: 22.5pt;
-
-  @media (max-width: 899pt) {
-    left: 12pt;
-    bottom: 12pt;
-  }
+  right: 25.5pt;
+  bottom: 27pt;
 `;
-
-export default WhyEntizen;

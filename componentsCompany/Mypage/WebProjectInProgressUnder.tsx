@@ -144,7 +144,7 @@ const IconBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: none;
   }
 `;

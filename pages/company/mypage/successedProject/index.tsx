@@ -79,7 +79,7 @@ const successedProject = (props: Props) => {
 export default successedProject;
 
 const WebRapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin: 0 auto;
     padding: 60pt 0;
     width: 900pt;
@@ -89,7 +89,7 @@ const WebRapper = styled.div`
 `;
 
 const WebBox = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
     width: 580.5pt;

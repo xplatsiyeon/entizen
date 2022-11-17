@@ -452,13 +452,13 @@ const Wrapper = styled.div`
   .lastInputBox {
     padding-bottom: 120pt;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding-left: 25pt;
     padding-right: 25pt;
   }
 `;
 const TopStep = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin-top: 0;
     padding-top: 70pt;
   }
@@ -679,7 +679,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   cursor: pointer;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding: 15pt 0;
     border-radius: 8pt;
     position: static;
@@ -700,7 +700,7 @@ const SelectComponentsContainer = styled.div`
 `;
 
 const WebRapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     height: 1240pt;
     width: 580.5pt;
     background-color: #ffffff;

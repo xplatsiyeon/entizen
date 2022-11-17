@@ -1,9 +1,13 @@
-import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import Loader from 'components/Loader';
+import WhyEntizenHorizontal from 'components/Main/WhyEntizenHorizontal';
+import WhyEntizenWeb from 'components/Main/WhyEntizenWeb';
 import MypageHeader from 'components/mypage/request/header';
-import Image from 'next/image';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
+import { useQuery } from '@apollo/client';
+import Loader from 'components/Loader';
+import Image from 'next/image';
 import {
   GET_InProgressProjectsDetail,
   InProgressProjectsDetailResponse,
@@ -82,38 +86,82 @@ const FinPage = () => {
   }
   return (
     <>
-      <MypageHeader back={true} />
-
-      <Wrap>
-        <ContainerBox>
-          <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
-        </ContainerBox>
-        <Title>{title}</Title>
-        <TextBox>
-          <p>{date}</p>
-          {!projectData?.project?.isApprovedByAdmin ? (
-            <h3>
-              {changeDataFn(
-                projectData?.project?.projectCompletionAgreementDate!,
+      <Body>
+        <WebHeader />
+        <Inner>
+          <MypageHeader back={true} />
+          <Wrap>
+            <ContainerBox>
+              <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
+            </ContainerBox>
+            <Title>{title}</Title>
+            <TextBox>
+              <p>{date}</p>
+              {!projectData?.project?.isApprovedByAdmin ? (
+                <h3>
+                  {changeDataFn(
+                    projectData?.project?.projectCompletionAgreementDate!,
+                  )}
+                </h3>
+              ) : (
+                <h3>
+                  {changeDataFn(projectData?.project?.subscribeStartDate!)}
+                </h3>
               )}
-            </h3>
-          ) : (
-            <h3>{changeDataFn(projectData?.project?.subscribeStartDate!)}</h3>
-          )}
-
-          <p className="notice">{text}</p>
-        </TextBox>
-        <Btn onClick={HandleOnClick}>{btnP}</Btn>
-      </Wrap>
+              <p className="notice">{text}</p>
+            </TextBox>
+            <Btn onClick={HandleOnClick}>{btnP}</Btn>
+          </Wrap>
+          <WhyEntizenHorizontal />
+        </Inner>
+        <WebFooter />
+      </Body>
     </>
   );
 };
 
 export default FinPage;
 
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+  @media (max-width: 899pt) {
+    display: block;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  width: 900pt;
+  margin: 97.5pt auto 90pt;
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: 0 auto;
+  }
+`;
+
 const Wrap = styled.div`
   margin: 0 15pt;
   position: relative;
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+    width: 345pt;
+    margin-top: -20pt;
+    margin: 0 auto 90pt;
+  }
 `;
 
 const ContainerBox = styled.div`
@@ -124,6 +172,9 @@ const ContainerBox = styled.div`
     align-items: center;
     flex-direction: column;
   }
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+  }
 `;
 
 const Title = styled.h1`
@@ -133,6 +184,9 @@ const Title = styled.h1`
   line-height: 24pt;
   margin-top: 30pt;
   text-align: center;
+  @media (min-width: 900pt) {
+    margin-top: 23.25pt;
+  }
 `;
 
 const Btn = styled.button`
@@ -147,7 +201,10 @@ const Btn = styled.button`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   padding: 15pt 0;
-  margin-bottom: 30pt;
+  margin: 0 0 30pt;
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+  }
 `;
 
 const TextBox = styled.div`
@@ -158,9 +215,7 @@ const TextBox = styled.div`
   padding: 15pt 0;
   border: 0.75pt solid ${colors.lightGray};
   border-radius: 6pt;
-  margin-top: 90pt;
-  margin-bottom: 24pt;
-
+  margin: 90pt 15pt 24pt;
   & > h3 {
     font-weight: 700;
     font-size: 15pt;
@@ -186,5 +241,9 @@ const TextBox = styled.div`
     text-align: center;
     letter-spacing: -0.02em;
     color: #747780;
+  }
+  @media (min-width: 900pt) {
+    width: 100%;
+    margin: 130.5pt auto 45pt;
   }
 `;

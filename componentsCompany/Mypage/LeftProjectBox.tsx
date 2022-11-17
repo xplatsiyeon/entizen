@@ -144,7 +144,7 @@ const LeftProjectBox = ({
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 255pt;
     height: 424.5pt;
     border: 0.75pt solid #e2e5ed;
@@ -204,7 +204,7 @@ const MobileTabContainer = styled.div`
   display: flex;
   gap: 15pt;
   padding-left: 15pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: none;
   }
 `;
@@ -228,7 +228,7 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   letter-spacing: -0.02em;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     align-items: center;
     padding-top: 23pt;
@@ -243,7 +243,7 @@ const Item = styled.span<{ tab: string; index: string }>`
   letter-spacing: -0.02em;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     align-items: center;
     padding-top: 23pt;
@@ -255,7 +255,7 @@ const Dot = styled.div<{ tab: string; index: string }>`
   border-radius: 50%;
   margin: 6pt auto 0 auto;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin: 0 auto;
     margin-left: 20pt;
   }
@@ -269,7 +269,7 @@ const UnderContents = styled.div`
 `;
 
 const RightProgress = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
   }

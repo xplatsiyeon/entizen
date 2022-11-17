@@ -182,7 +182,7 @@ const Container = styled.div`
 `;
 
 const WebRapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 900pt;
     display: flex;
     justify-content: space-between;

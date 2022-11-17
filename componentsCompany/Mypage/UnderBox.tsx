@@ -90,7 +90,7 @@ const UnderBox = ({ setOpenContract }: Props) => {
 };
 
 const WebRapper = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
   }
@@ -102,7 +102,7 @@ const Wrapper = styled.div`
   margin-top: 21pt;
   position: relative;
   padding-bottom: 150pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 580.5pt;
     padding-bottom: 45pt;
   }
@@ -121,7 +121,7 @@ const NoContractBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
   }
 `;
 
@@ -167,7 +167,7 @@ const BtnBox = styled.div`
     bottom: 0pt;
     background: #ffff;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: none;
   }
 `;

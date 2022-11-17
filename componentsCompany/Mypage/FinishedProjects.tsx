@@ -183,15 +183,14 @@ const Wrapper = styled.div`
   padding-top: 20.25pt;
   display: flex;
   flex-direction: column;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin: 0 auto;
     top: 39pt;
-    /* background-color: red; */
   }
 `;
 
 const FilterBox = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     width: 580.5pt;
     justify-content: flex-end;
@@ -223,7 +222,7 @@ const FilterText = styled.div`
 `;
 
 const Input = styled(TextField)`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     position: absolute;
     bottom: 82.6%;
     width: 580.5pt;
@@ -268,7 +267,7 @@ const Input = styled(TextField)`
 const List = styled.div`
   height: 60pt;
   margin-bottom: 10pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
     width: 580.5pt;
@@ -288,7 +287,7 @@ const ListContainer = styled.div`
   margin-top: 21pt;
   /* padding-left: 15pt;
   padding-right: 15pt; */
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin: 0 auto;
     gap: 10pt;
   }
@@ -299,7 +298,7 @@ const ListTextBox = styled.div`
   flex-direction: column;
   gap: 1.5pt;
 
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     flex-direction: row;
     width: 510pt;
@@ -338,7 +337,7 @@ const ListIconBox = styled.div`
 `;
 
 const ListRight = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     display: flex;
     align-items: center;
   }
@@ -359,7 +358,7 @@ const Button = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
   margin-top: 45pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 251.25pt;
     margin: 0 auto;
     margin-top: 75pt;
