@@ -12,7 +12,7 @@ type Props ={
 const NoHistory = ({type}:Props) => {
   const route = useRouter();
 
-  const handlerBtn = () => route.push('quotation/request/1-1');
+  const handlerBtn = () => route.push('quotation/request');
   return (
     <Wrapper>
       <ImgBox>

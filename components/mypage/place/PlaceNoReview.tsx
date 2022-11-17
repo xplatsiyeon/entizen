@@ -77,7 +77,7 @@ const PlaceNoReview = ({ close, chargingRefetch }: Props) => {
     return <Loader />;
   }
   return (
-    <>
+    <Wrap>
       {modalOpen && <Modal text={modalMessage} click={handleClick} />}
       <AsRequestWriteReview
         checkedRequired={checkedRequired}
@@ -86,11 +86,15 @@ const PlaceNoReview = ({ close, chargingRefetch }: Props) => {
       <Btn2 checkedRequired={checkedRequired} onClick={onClickBtn}>
         <span>보내기</span>
       </Btn2>
-    </>
+    </Wrap>
   );
 };
 
 export default PlaceNoReview;
+
+const Wrap = styled.div`
+  margin: 0 15pt;
+`
 
 const Btn2 = styled.button<{ checkedRequired: boolean }>`
   width: 100%;

@@ -132,16 +132,14 @@ const ChargingPlace = () => {
               <RequestMain page={2} />
             </Wrap1>
             {typeof routerId !== 'undefined' ? (
-              <Wrap>
-                <HeaderWrap>
+              <Wrap2>
                   <MypageHeader
                     back={true}
                     title={!open ? '내 충전소' : '내 충전소 리뷰보기'}
                   />
-                </HeaderWrap>
                 <PlaceTopBox data={target![0]} />
                 {open ? (
-                  <>
+                  <Wrap>
                     {/* 계약 관련 정보가 적힌 컴포넌트 */}
                     <PlaceInfo data={target![0]} />
                     <Btn onClick={() => setOpen(!open)}>
@@ -150,7 +148,7 @@ const ChargingPlace = () => {
                         {target![0].projectReview ? '리뷰보기' : '리뷰쓰기'}
                       </span>
                     </Btn>
-                  </>
+                  </Wrap>
                 ) : (
                   <>
                     {/* 리뷰 여부와 리뷰 점수 전달. */}
@@ -161,7 +159,7 @@ const ChargingPlace = () => {
                     )}
                   </>
                 )}
-              </Wrap>
+              </Wrap2>
             ) : null}
           </FlexBox>
         </Inner>
@@ -199,11 +197,16 @@ const Inner = styled.div`
     height: 100vh;
     position: relative;
     margin: 0 auto;
+
   }
 `;
 const FlexBox = styled.div`
   display: flex;
   position: relative;
+
+  @media (max-width: 899pt) {
+   display :block ;
+  }
 `;
 
 const Wrap = styled.div`
@@ -215,6 +218,10 @@ const Wrap = styled.div`
     margin: 0;
   }
 `;
+const Wrap2= styled.div`
+  display: flex;
+  flex-direction: column;
+`
 
 const Wrap1 = styled.div`
   //width: 255pt;
