@@ -3,7 +3,7 @@ import { locationSlice } from './locationSlice';
 import { lnglatSlice } from './lnglatSlice';
 import { requestSlice } from './requestSlice';
 import { subsidyGuideSlice } from './subsidyGuideSlice';
-import { reviewContents } from './reviewSlice';
+import { reviewContents } from '../storeCompany/reviewSlice';
 import { quotationSlice } from './quotationSlice';
 import { naverSlice } from './naverSlice';
 import { userSlice } from './userSlice';
