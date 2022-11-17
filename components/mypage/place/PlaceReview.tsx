@@ -8,85 +8,88 @@ import AsRequestWriteReview from '../as/AsRequestWriteReview';
 import Image from 'next/image';
 
 type Props = {
-    review : boolean;
-    score : number[];
-}
+  review: boolean;
+  score: number[];
+};
 
+const PlaceReview = ({ review, score }: Props) => {
+  const reviewPoint = ['친절함', '신속함', '전문성', '만족도'];
 
-const PlaceReview = ({review, score} : Props)=> {
+  {
+    /* 받은 데이터에 review 여부에 따라 리턴되는 태그가 다름.  */
+  }
+  if (review) {
+    // rivew, score 값이 있으면, 각 score 값에 맞게 체크된 배열이 만들어진다.
+    // ex) 친절함 :4  -> [true, true, true, true, false]
+    let checked = reviewPoint.map((r, idx) => {
+      let temp = [];
+      for (let i = 0; i < 5; i++) {
+        if (score[idx] > i) {
+          temp.push(true);
+        } else {
+          temp.push(false);
+        }
+      }
+      return temp;
+    });
 
-const reviewPoint = ['친절함','신속함','전문성','만족도'];
-
-{/* 받은 데이터에 review 여부에 따라 리턴되는 태그가 다름.  */}
-if (review){
-
-// rivew, score 값이 있으면, 각 score 값에 맞게 체크된 배열이 만들어진다. 
-// ex) 친절함 :4  -> [true, true, true, true, false] 
-let checked = reviewPoint.map((r, idx)=>{
-    let temp =[];
-    for(let i=0; i < 5; i++){
-        if(score[idx] > i){
-            temp.push(true)
-        }else{temp.push(false)}
-    }
-    return temp;
-})
-
-    return(
-        <>
-      <DownArrowBox>
-        <Image src={DoubleArrow} alt="double-arrow" />
-      </DownArrowBox>
+    return (
+      <>
+        <DownArrowBox>
+          <Image src={DoubleArrow} alt="double-arrow" />
+        </DownArrowBox>
         <RatingForm>
-            {reviewPoint.map((r,idx)=>{
-              
-              // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸. 
-                return (
-                <RBarBox key={idx} >
-                    <Title>{r}</Title>
-                    {checked[idx].map((c,idx)=> (
-                        c? <RBar className='filled forRadius'/>:<RBar className='forRadius'/>
-                ))}
-                </RBarBox>)
-            })}
+          {reviewPoint.map((r, idx) => {
+            // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸.
+            return (
+              <RBarBox key={idx}>
+                <Title>{r}</Title>
+                {checked[idx].map((c, idx) =>
+                  c ? (
+                    <RBar className="filled forRadius" />
+                  ) : (
+                    <RBar className="forRadius" />
+                  ),
+                )}
+              </RBarBox>
+            );
+          })}
 
-            <TextArea
+          <TextArea
             placeholder="[선택] 파트너의 어떤점이 기억에 남으시나요?"
             rows={8}
             value={''}
             required
             readOnly={true}
-            />
+          />
         </RatingForm>
+      </>
+    );
+  } else {
+    {
+      /* review 가 없으면, 리뷰 쓰기 컴포넌트를 리턴. */
+    }
+    const router = useRouter();
 
-        </>
-    )
-}else{
+    const [modalOpen, setModalOpen] = useState(false);
 
-  {/* review 가 없으면, 리뷰 쓰기 컴포넌트를 리턴. */}
-  const router = useRouter();
+    const handleClick = () => {
+      router.push('/mypage');
+    };
 
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const handleClick = () => {
-    router.push('/mypage');
-  };
-
- return(
-  
- <>
-       {modalOpen && (
-        <Modal text={'소중한 의견 감사합니다.'} click={handleClick} />)}
-         <AsRequestWriteReview />
-         <Btn2 onClick={() => setModalOpen(true)}>
-            <span>
-              보내기
-            </span>
-          </Btn2>
-      
- </>)
-}
-}
+    return (
+      <>
+        {modalOpen && (
+          <Modal text={'소중한 의견 감사합니다.'} click={handleClick} />
+        )}
+        <AsRequestWriteReview />
+        <Btn2 onClick={() => setModalOpen(true)}>
+          <span>보내기</span>
+        </Btn2>
+      </>
+    );
+  }
+};
 
 export default PlaceReview;
 
@@ -102,9 +105,9 @@ const RatingForm = styled.div`
 `;
 
 const RBarBox = styled.div`
-border: 1px solid #E2E5ED;
-border-radius: 8px;
-padding: 12pt;
+  border: 1px solid #e2e5ed;
+  border-radius: 8px;
+  padding: 12pt;
   height: 10.5pt;
   display: flex;
   gap: 1.5pt;
@@ -126,7 +129,6 @@ const RBar = styled.div`
   }
 `;
 
-
 const Title = styled.p`
   font-family: Spoqa Han Sans Neo;
   font-size: 10.5pt;
@@ -143,31 +145,30 @@ const DownArrowBox = styled.div`
 `;
 
 const TextArea = styled.textarea`
-margin: 28pt 0;
-font-family: 'Spoqa Han Sans Neo';
-font-style: normal;
-font-weight: 400;
-font-size: 12pt;
-line-height: 20pt;
-letter-spacing: -0.02em;
-color: #222222;
-padding-top: 12pt;
-padding-left: 12pt ;
-border: 1px solid #E2E5ED;
-border-radius: 6pt;
-`
+  margin: 28pt 0;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12pt;
+  line-height: 20pt;
+  letter-spacing: -0.02em;
+  color: #222222;
+  padding-top: 12pt;
+  padding-left: 12pt;
+  border: 1px solid #e2e5ed;
+  border-radius: 6pt;
+`;
 
 const Btn2 = styled.button`
-
-width: 100%;
+  width: 100%;
   background-color: ${colors.main};
   padding: 15pt 0;
   border-radius: 6pt;
   position: relative;
   bottom: auto;
   margin-bottom: 30pt;
-  span{
-    color:white;
+  span {
+    color: white;
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-weight: 700;
@@ -176,4 +177,4 @@ width: 100%;
     text-align: center;
     letter-spacing: -0.02em;
   }
-`
+`;
