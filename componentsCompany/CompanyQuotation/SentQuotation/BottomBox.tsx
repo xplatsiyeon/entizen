@@ -185,7 +185,7 @@ const BottomBox = ({ pb, data }: Props) => {
         </GridImg>
       </Section>
       <Section className="underLine" pb={pb}>
-        <Subtitle>충전기 카탈로그</Subtitle>
+        <Subtitle>첨부 파일</Subtitle>
         {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
           (item, index) => (
             <React.Fragment key={item.preQuotationChargerIdx}>
