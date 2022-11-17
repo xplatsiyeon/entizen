@@ -9,11 +9,14 @@ import Image from 'next/image';
 
 type Props = {
   review: boolean;
-  score: number[];
 };
 
-const PlaceReview = ({ review, score }: Props) => {
+const PlaceGetReview = ({ review }: Props) => {
+
   const reviewPoint = ['친절함', '신속함', '전문성', '만족도'];
+
+  {/*임의의 점수 배열 */}
+  const score = [0,1,0,1]
 
   {
     /* 받은 데이터에 review 여부에 따라 리턴되는 태그가 다름.  */
@@ -91,7 +94,7 @@ const PlaceReview = ({ review, score }: Props) => {
   }
 };
 
-export default PlaceReview;
+export default PlaceGetReview;
 
 const RatingForm = styled.div`
   margin-top: 20.25pt;
