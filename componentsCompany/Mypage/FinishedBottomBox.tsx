@@ -12,10 +12,10 @@ type Props = {};
 
 const FinishedBottomBox = (props: Props) => {
   const [ratingScore, setRatingScore] = useState<Rating>({
-    kind: 0,
-    speed: 0,
-    pro: 0,
-    satisfy: 0,
+    attentivenessPoint: 0,
+    quicknessPoint: 0,
+    professionalismPoint: 0,
+    satisfactionPoint: 0,
   });
   const DownloadFile = useCallback(() => {
     let fileName = 'Charge Point 카탈로그_7 KW';
