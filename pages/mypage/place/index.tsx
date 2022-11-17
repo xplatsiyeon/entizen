@@ -15,6 +15,9 @@ import {
 import Loader from 'components/Loader';
 import PlaceNoReview from 'components/mypage/place/PlaceNoReview';
 import PlaceGetReview from 'components/mypage/place/PlaceGetReview';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import RequestMain from 'components/mypage/request/requestMain';
 
 export interface testArr2 extends testArr {
   address: string;
@@ -119,46 +122,109 @@ const ChargingPlace = () => {
 
   return (
     <>
-      {typeof routerId !== 'undefined' ? (
-        <Wrap>
-          <HeaderWrap>
-            <MypageHeader
-              back={true}
-              title={!open ? '내 충전소' : '내 충전소 리뷰보기'}
-            />
-          </HeaderWrap>
-          <PlaceTopBox data={target![0]} />
-
-          {open ? (
-            <>
-              {' '}
-              {/* 계약 관련 정보가 적힌 컴포넌트 */}
-              <PlaceInfo data={target![0]} />
-              <Btn onClick={() => setOpen(!open)}>
-                <span>
-                  {/* 작성된 리뷰 여부 */}
-                  {target![0].projectReview ? '리뷰보기' : '리뷰쓰기'}
-                </span>
-              </Btn>
-            </>
-          ) : (
-            <>
-              {/* 리뷰 여부와 리뷰 점수 전달. */}
-             {target![0].projectReview ? <PlaceGetReview review={true}/> : <PlaceNoReview/>}
-            </>
-          )}
-        </Wrap>
-      ) : null}
+      <Body>
+        <WebHeader />
+        <Inner>
+          <FlexBox>
+            <Wrap1>
+              <RequestMain page={2} />
+            </Wrap1>
+            {typeof routerId !== 'undefined' ? (
+              <Wrap>
+                <HeaderWrap>
+                  <MypageHeader
+                    back={true}
+                    title={!open ? '내 충전소' : '내 충전소 리뷰보기'}
+                  />
+                </HeaderWrap>
+                <PlaceTopBox data={target![0]} />
+                {open ? (
+                  <>
+                    {/* 계약 관련 정보가 적힌 컴포넌트 */}
+                    <PlaceInfo data={target![0]} />
+                    <Btn onClick={() => setOpen(!open)}>
+                      <span>
+                        {/* 작성된 리뷰 여부 */}
+                        {target![0].projectReview ? '리뷰보기' : '리뷰쓰기'}
+                      </span>
+                    </Btn>
+                  </>
+                ) : (
+                  <>
+                    {/* 리뷰 여부와 리뷰 점수 전달. */}
+                    {target![0].projectReview ? (
+                      <PlaceGetReview review={true} />
+                    ) : (
+                      <PlaceNoReview />
+                    )}
+                  </>
+                )}
+              </Wrap>
+            ) : null}
+          </FlexBox>
+        </Inner>
+        <WebFooter />
+      </Body>
     </>
   );
 };
 
 export default ChargingPlace;
 
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  width: 900pt;
+  margin: 45.75pt auto;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: 0 auto;
+  }
+`;
+const FlexBox = styled.div`
+  display: flex;
+  position: relative;
+`;
+
 const Wrap = styled.div`
   margin: 0 15pt;
   position: relative;
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    border: 1px solid red;
+    margin: 0;
+  }
 `;
+
+const Wrap1 = styled.div`
+  //width: 255pt;
+  border: 1px solid #e9eaee;
+  border-radius: 6pt;
+  height: 100%;
+
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`;
+
 const HeaderWrap = styled.div`
   margin-left: -15pt;
 `;
