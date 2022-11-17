@@ -15,7 +15,7 @@ const AsHistory = () => {
             <MypageHeader title={'A/S 히스토리'} back={true} />
             <AsCompTop />
 
-            <Inner>
+            <Inner className="inner">
                 <DownArrowBox>
                     <Image src={DoubleArrow} alt="double-arrow" />
                 </DownArrowBox>
