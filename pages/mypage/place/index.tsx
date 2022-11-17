@@ -7,13 +7,14 @@ import { useEffect, useState } from 'react';
 import PlaceInfo from 'components/mypage/place/PlaceInfo';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import PlaceReview from 'components/mypage/place/PlaceReview';
 import { useQuery } from '@apollo/client';
 import {
   chargingStations,
   ChargingStationsResponse,
 } from 'QueryComponents/UserQuery';
 import Loader from 'components/Loader';
+import PlaceNoReview from 'components/mypage/place/PlaceNoReview';
+import PlaceGetReview from 'components/mypage/place/PlaceGetReview';
 
 export interface testArr2 extends testArr {
   address: string;
@@ -143,10 +144,7 @@ const ChargingPlace = () => {
           ) : (
             <>
               {/* 리뷰 여부와 리뷰 점수 전달. */}
-              {/* <PlaceReview
-                review={target![0].projectReview ? true : false}
-                score={target![0].projectReview ? true : false}
-              /> */}
+             {target![0].projectReview ? <PlaceGetReview review={true}/> : <PlaceNoReview/>}
             </>
           )}
         </Wrap>
