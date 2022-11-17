@@ -21,7 +21,12 @@ const Body = styled.div`
     height: 100%;
 `
 const ImageWrap = styled.div`
-    object-fit: cover;
-    width: 100%;
-    border: 1px solid red;
+    object-fit: cover;    object-fit: cover;
+    width: 138pt;
+    position: absolute;
+    height: 72pt;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    
 `
