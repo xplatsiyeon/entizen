@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import CommunicationBox from 'components/CommunicationBox';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
 import { ChargingStations } from 'QueryComponents/UserQuery';
@@ -8,6 +8,7 @@ import { hyphenFn } from 'utils/calculatePackage';
 import Carousel from '../projects/Carousel';
 import colors from 'styles/colors';
 import { Button } from '@mui/material';
+import fileImg from 'public/mypage/file-icon.svg';
 
 interface Props {
   data: ChargingStations;
@@ -58,25 +59,23 @@ const PlaceInfo = ({ data }: Props) => {
       </Contents>
 
       <FileBox>
-        <FinishedPhotoText>첨부 파일</FinishedPhotoText>
-        {/* {data?.finalQuotation?.finalQuotationChargers?.map(
-          (item, index) => (
-            <React.Fragment key={item.}>
-              {item.map((file, index) => (
-                <FileDownloadBtn key={file.chargerProductFileIdx}>
-                  <FileDownload
-                    // onClick={DownloadFile}
-                    download={file.originalName}
-                    href={file.url}
-                  >
-                    <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                    {file.originalName}
-                  </FileDownload>
-                </FileDownloadBtn>
-              ))}
-            </React.Fragment>
-          ),
-        )} */}
+        <FileLabel>첨부 파일</FileLabel>
+        {data?.finalQuotation?.finalQuotationChargers?.map((item, index) => (
+          <React.Fragment key={item.finalQuotationChargerIdx}>
+            {item?.finalQuotationChargerFiles?.map((file, index) => (
+              <FileDownloadBtn key={file.finalQuotationChargerFileIdx}>
+                <FileDownload
+                  // onClick={DownloadFile}
+                  download={file?.originalName}
+                  href={file?.url}
+                >
+                  <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                  {file.originalName}
+                </FileDownload>
+              </FileDownloadBtn>
+            ))}
+          </React.Fragment>
+        ))}
       </FileBox>
 
       <>
@@ -188,14 +187,22 @@ const Wrap = styled.div`
   justify-content: center;
   padding-bottom: 135pt;
 `;
-
+const FileLabel = styled.div`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 10.5pt;
+  font-weight: 700;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  margin-top: 39pt;
+  padding-bottom: 15pt;
+`;
 const FileDownloadBtn = styled(Button)`
-  margin: 15pt 15pt 6pt 15pt;
+  margin-bottom: 6pt;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 8px;
 `;
-
 const FileDownload = styled.a`
   text-decoration: none;
   display: flex;
