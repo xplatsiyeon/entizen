@@ -1,54 +1,80 @@
 import styled from "@emotion/styled";
 
+type Props = {
 
+}
 
-const score = [4, 3, 5, 4]
+{/* 나중에
+
+  const score = [data.value1 ,data.value2, data.value3, data.value4 ]
+
+*/ }
+const score = [4, 3, 3, 4]
 
 const AsCompGetReview = () => {
 
-    const reviewPoint = ['친절함', '신속함', '전문성', '만족도'];
+  const reviewPoint = ['친절함', '신속함', '전문성', '만족도'];
 
-    // 각 score 값에 맞게 체크된 배열이 만들어진다. 
-    // ex) 친절함 :4  -> [true, true, true, true, false] 
-    let checked = reviewPoint.map((r, idx) => {
-        let temp = [];
-        for (let i = 0; i < 5; i++) {
-            if (score[idx] > i) {
-                temp.push(true)
-            } else { temp.push(false) }
-        }
-        return temp;
-    })
+  // 각 score 값에 맞게 체크된 배열이 만들어진다. 
+  // ex) 친절함 :4  -> [true, true, true, true, false] 
+  let checked = reviewPoint.map((r, idx) => {
+    let temp = [];
+    for (let i = 0; i < 5; i++) {
+      if (score[idx] > i) {
+        temp.push(true)
+      } else { temp.push(false) }
+    }
+    return temp;
+  })
 
-    return (
-        <>
-            <RatingForm>
-                {reviewPoint.map((r, idx) => {
-                    // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸. 
-                    return (
-                        <RBarBox key={idx} >
-                            <Title>{r}</Title>
-                            {checked[idx].map((c, idx) => (
-                                c ? <RBar className='filled forRadius' /> : <RBar className='forRadius' />
-                            ))}
-                        </RBarBox>)
-                })}
+  {/* 점수 배열의 평균값 구하기 */ }
+  const average = () => {
+    const total = score.reduce((pre, cur) => {
+      return pre + cur
+    });
+    const ave = (total / 4).toString().substring(0, 3);
+    return ave
+  }
 
-                <TextArea
-                    placeholder={''}
-                    rows={8}
-                    value={''}
-                    required
-                    readOnly={true}
-                />
-            </RatingForm>
-        </>
-    )
+  return (
+    <>
+      <TitleBox>
+        <ReviewP>A/S 리뷰</ReviewP>
+        <AveScore>{`${average()}점`}</AveScore>
+      </TitleBox>
+      <RatingForm>
+        {reviewPoint.map((r, idx) => {
+          // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸. 
+          return (
+            <RBarBox key={idx} >
+              <Title>{r}</Title>
+                {checked[idx].map((c, idx) => (
+                  c ? <RBar className='filled forRadius' /> : <RBar className='forRadius' />
+                ))}
+            </RBarBox>)
+        })}
+
+        <TextArea
+          placeholder={''}
+          rows={4}
+          value={''}
+          required
+          readOnly={true}
+        />
+      </RatingForm>
+    </>
+  )
 }
 
 export default AsCompGetReview;
 
 
+const TitleBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30pt;
+
+`
 
 const RatingForm = styled.div`
   margin-top: 20.25pt;
@@ -81,15 +107,15 @@ padding: 12pt;
   }
 `;
 
+
 const RBar = styled.div`
-  width: 36pt;
+  width: 20%;
   height: 10.5pt;
   background-color: #f3f4f7;
   &.filled {
     background-color: #5221CB;
   }
 `;
-
 
 const Title = styled.p`
   font-family: Spoqa Han Sans Neo;
@@ -99,6 +125,7 @@ const Title = styled.p`
   letter-spacing: -0.02em;
   text-align: center;
   margin-right: 9pt;
+  width: 37.5pt;
 `;
 const TextArea = styled.textarea`
 margin: 28pt 0 0;
@@ -115,6 +142,20 @@ border: 1px solid #E2E5ED;
 border-radius: 6pt;
 
 @media (max-width: 899pt) {
-  margin: 28pt 0;
+  margin: 0;
 }
+`
+
+
+const ReviewP = styled.p`
+font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 700;
+font-size: 12pt;
+line-height: 12pt;
+color: #222222;
+`
+const AveScore = styled(ReviewP)`
+  color: #5221CB;
+;
 `

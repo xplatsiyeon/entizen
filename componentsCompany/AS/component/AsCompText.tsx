@@ -116,8 +116,8 @@ const Wrapper = styled.div`
 
 const ReceiptTitle = styled.h1`
   font-weight: 700;
-  font-size: 15pt;
-  line-height: 15pt;
+  font-size: 12pt;
+  line-height: 12pt;
   margin-top: 18pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
