@@ -79,6 +79,7 @@ const ChargingPlace = () => {
 
   const [open, setOpen] = useState<boolean>(true); //리뷰 쓰기/보기 버튼 클릭 시.
 
+
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {
     data: chargingData,
@@ -154,9 +155,9 @@ const ChargingPlace = () => {
                   <>
                     {/* 리뷰 여부와 리뷰 점수 전달. */}
                     {target![0].projectReview ? (
-                      <PlaceGetReview review={true} />
+                      <PlaceGetReview review={true} data={target![0].projectReview} />
                     ) : (
-                      <PlaceNoReview />
+                      <PlaceNoReview chargingRefetch={chargingRefetch} close={setOpen}/>
                     )}
                   </>
                 )}
