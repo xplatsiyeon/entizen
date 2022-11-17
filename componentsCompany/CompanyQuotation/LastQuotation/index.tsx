@@ -383,13 +383,14 @@ const LastWrite = (props: Props) => {
       setOpenSubLink(false);
     }
   }, []);
+
   return (
     <>
       <WebBody>
         <WebBuyerHeader
           setOpenSubLink={setOpenSubLink}
           setTabNumber={setTabNumber}
-          tabNumber={tabNumber}
+          tabNumber={1}
           successComponentId={successComponentId}
           openSubLink={openSubLink}
         />

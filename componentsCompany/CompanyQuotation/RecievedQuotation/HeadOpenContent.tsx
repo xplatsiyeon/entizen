@@ -306,7 +306,7 @@ const HeadOpenContent = () => {
       <WebBody>
         <WebBuyerHeader
           setTabNumber={setTabNumber}
-          tabNumber={tabNumber}
+          tabNumber={0}
           getComponentId={getComponentId}
           openSubLink={openSubLink}
           setOpenSubLink={setOpenSubLink}
