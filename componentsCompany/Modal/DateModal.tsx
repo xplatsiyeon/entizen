@@ -167,9 +167,6 @@ const DateModal = ({
     });
   };
 
-  useEffect(() => {
-    console.log(selectedDays);
-  }, [selectedDays]);
   const handleModalClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
@@ -177,6 +174,12 @@ const DateModal = ({
       exit();
     }
   };
+  // 컴포넌트 탈출 시 선택한 날짜 초기화
+  useEffect(() => {
+    return () => {
+      SetSelectedDays('');
+    };
+  }, []);
 
   return (
     <Container ref={outside} onClick={(e) => handleModalClose(e)}>

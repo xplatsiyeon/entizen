@@ -26,6 +26,7 @@ import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { ApolloQueryResult, OperationVariables } from '@apollo/client';
 import { changeDataFn } from 'utils/calculatePackage';
+import Carousel from 'components/mypage/projects/Carousel';
 
 type Props = {
   textOne: string;
@@ -132,7 +133,7 @@ Props) => {
     isError: stepIsError,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      setTwoBtnModalOpen(false);
+      // setTwoBtnModalOpen(false);
       inProgressRefetch();
       setProgressNum(-1);
     },
@@ -213,8 +214,8 @@ Props) => {
   };
 
   useEffect(() => {
-    console.log(fin);
     console.log('핀 업데이트 되면 새로 고침');
+    console.log(almostFinish);
   }, [fin]);
 
   return (
@@ -242,7 +243,7 @@ Props) => {
           inProgressRefetch={inProgressRefetch}
         />
       )}
-      {/* 프로젝트 완료하기 클릭시 보이는 곳 */}
+      {/* ------------- 프로젝트 완료하기 클릭시 보이는 곳  -------------*/}
       {almostFinish ? (
         <>
           <DoubleArrowBox>
@@ -266,7 +267,9 @@ Props) => {
                 최종 완료됩니다!
               </FinishedSecondText>
               <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
-              <FinishedPhotoBox>1</FinishedPhotoBox>
+              <FinishedPhotoBox>
+                <Carousel file={data?.project?.projectCompletionFiles!} />
+              </FinishedPhotoBox>
             </FinishedBox>
           </Wrapper>
         </>

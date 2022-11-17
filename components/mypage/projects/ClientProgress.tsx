@@ -35,6 +35,7 @@ type Props = {
 const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
   const presentProgress = info.state;
   const router = useRouter();
+  const routerId = router?.query?.projectIdx!;
   let textArr;
 
   switch (badge) {
@@ -131,7 +132,12 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
     {
       onSuccess: () => {
         setIsModal(false);
-        router.push('/mypage/project/finish');
+        router.push({
+          pathname: '/mypage/project/finish',
+          query: {
+            projectIdx: routerId,
+          },
+        });
       },
       onError: (error: any) => {
         console.log('수락 버튼 에러');
@@ -489,7 +495,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
               {data?.project?.completionStepGoalDate ? (
                 <PickedDate
                   color={
-                    data?.project?.isCompletedExamStep ? '#e2e5ed' : colors.main
+                    data?.project?.isCompletedExamStep ? colors.main : '#e2e5ed'
                   }
                 >
                   {data?.project?.completionStepGoalDate === 'CHANGING'
@@ -506,7 +512,10 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             <ToggleWrapper className="lastBox">
               <MessageBox
                 presentProgress={
-                  data?.project?.isCompletedExamStep ? true : false
+                  data?.project?.isCompletedExamStep &&
+                  !data?.project?.isCompletedCompletionStep
+                    ? true
+                    : false
                 }
                 title={textArr[3]}
                 firstText={'사용 전 검사 및 점검'}
@@ -515,7 +524,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
                 page={'client'}
                 num={info.state}
                 complete={data?.project?.isCompletedCompletionStep!}
-                file={data?.project?.finalQuotation?.finalQuotationChargers!}
+                file={data?.project?.projectCompletionFiles!}
               />
             </ToggleWrapper>
           )}

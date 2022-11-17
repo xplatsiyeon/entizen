@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Carousel from 'components/mypage/projects/Carousel';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import { FinalQuotationChargers } from 'QueryComponents/CompanyQuery';
+import { ProjectCompletionFiles } from 'QueryComponents/CompanyQuery';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
 
@@ -16,7 +16,7 @@ type Props = {
   handleClick?: () => void;
   num?: number;
   complete?: boolean;
-  file?: FinalQuotationChargers[];
+  file?: ProjectCompletionFiles[];
 };
 
 const MessageBox = ({
@@ -45,7 +45,7 @@ const MessageBox = ({
 
   return (
     <Wrapper onClick={handleClick} presentProgress={presentProgress}>
-      <LeftSideBox>
+      <LeftSideBox presentProgress={presentProgress}>
         <BigText>{title}</BigText>
         <List>
           <li>{firstText}</li>
@@ -84,12 +84,12 @@ const Wrapper = styled.div<{ presentProgress: boolean }>`
   position: relative;
 `;
 
-const LeftSideBox = styled.div`
+const LeftSideBox = styled.div<{ presentProgress: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 6pt;
   width: 100%;
-  position: relative;
+  opacity: ${({ presentProgress }) => (!presentProgress ? '0.3' : null)};
 `;
 
 const BigText = styled.div`

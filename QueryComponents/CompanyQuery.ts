@@ -43,21 +43,14 @@ export interface FinalQuotationChargers {
   channel: 'SINGLE' | 'DUAL' | 'MODE_3';
   count: number;
   installationLocation: 'INSIDE' | 'OUTSIDE';
-  finalQuotationChargerFiles: {
-    finalQuotationChargerFileIdx: number;
-    productFileType: number;
-    originalName: string;
-    url: string;
-    size: number;
-  };
 }
 
 export interface ProjectCompletionFiles {
-  projectCompletionFileIdx: '8';
-  originalName: 'Rectangle 4072.png';
-  url: 'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chargerProduct/1668582598_62734376-4c6e-4059-8c86-a07c19881297.png';
-  size: 197640;
-  projectIdx: 11;
+  projectCompletionFileIdx: string;
+  originalName: string;
+  url: string;
+  size: number;
+  projectIdx: number;
 }
 export interface UnConsentProjectDateChangeHistories {
   projectDateChangeHistoryIdx: string;
@@ -111,6 +104,8 @@ export interface InProgressProjectsDetail {
   isApprovedByAdmin: boolean;
   isCancel: boolean;
   unConsentProjectDateChangeHistories: UnConsentProjectDateChangeHistories[];
+  projectCompletionFiles: ProjectCompletionFiles[];
+  subscribeStartDate: string;
 }
 
 export interface InProgressProjectsDetailResponse {
@@ -140,17 +135,10 @@ export const GET_InProgressProjectsDetail = gql`
           standType
           channel
           count
-          installationLocation
-          finalQuotationChargerFiles {
-            finalQuotationChargerFileIdx
-            productFileType
-            originalName
-            url
-            size
-          }
         }
         quotationRequest {
           installationPurpose
+          installationLocation
         }
       }
       userMember {
@@ -159,18 +147,13 @@ export const GET_InProgressProjectsDetail = gql`
         phone
         id
       }
-      companyMember {
-        name
-        phone
-        companyMemberAdditionalInfo {
-          managerEmail
-          companyName
-        }
-      }
+      # 구독시작일
+      subscribeStartDate
       # 계약관련 내용
       # isCompletedContractStep
       isCompletedUserContractStep
       isCompletedCompanyMemberContractStep
+      # 준비단계
       isCompletedReadyStep
       readyStepGoalDate
       # 설치단계
@@ -187,6 +170,15 @@ export const GET_InProgressProjectsDetail = gql`
       projectCompletionAgreementDate
       isApprovedByAdmin
       isCancel
+      companyMember {
+        name
+        phone
+        companyMemberAdditionalInfo {
+          managerEmail
+          companyName
+        }
+      }
+      # 히스토리 목록
       unConsentProjectDateChangeHistories {
         projectDateChangeHistoryIdx
         changedStep
@@ -196,6 +188,7 @@ export const GET_InProgressProjectsDetail = gql`
         processingStatus
         projectIdx
       }
+      # 최종 파일 목록
       projectCompletionFiles {
         projectCompletionFileIdx
         originalName

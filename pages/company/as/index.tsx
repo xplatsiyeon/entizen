@@ -9,6 +9,7 @@ import AsHistory from 'componentsCompany/AS/asHistory';
 import NewAs from 'componentsCompany/AS/newAs';
 
 const ComAsIndex = () => {
+  // forK테스트 주석
   const route = useRouter();
   const TabType: string[] = ['신규 A/S', '히스토리'];
   const [tabNumber, setTabNumber] = useState<number>();
@@ -191,4 +192,5 @@ const Dot = styled.div<{ tab: string; index: string }>`
 
 const ContentWrap = styled.div`
   flex: 1;
+  display: flex;
 `;

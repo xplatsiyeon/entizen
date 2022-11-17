@@ -4,14 +4,53 @@ import WhyEntizenWeb from 'components/Main/WhyEntizenWeb';
 import MypageHeader from 'components/mypage/request/header';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useQuery } from '@apollo/client';
+import Loader from 'components/Loader';
+import Image from 'next/image';
+import {
+  GET_InProgressProjectsDetail,
+  InProgressProjectsDetailResponse,
+} from 'QueryComponents/CompanyQuery';
 import colors from 'styles/colors';
+import { changeDataFn } from 'utils/calculatePackage';
 import CheckImg from '/public/images/CheckCircle.svg';
 
 const FinPage = () => {
   const router = useRouter();
+  const routerId = router?.query?.projectIdx;
   const type = router.query.id;
+
+  // -----진행중인 프로젝트 상세 리스트 api-----
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    loading: projectLoading,
+    error: projectError,
+    data: projectData,
+    refetch: projectRefetch,
+  } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
+    variables: {
+      projectIdx: routerId!,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
+  console.log(routerId);
+
+  if (projectLoading) {
+    return <Loader />;
+  }
+  if (projectError) {
+    console.log('프로젝트 에러 발생');
+    console.log(projectError);
+  }
+
+  console.log(projectData?.project?.isApprovedByAdmin);
 
   const HandleOnClick = () => {
     if (type === 'commu') {
@@ -23,31 +62,28 @@ const FinPage = () => {
 
   let title: string;
   let date: string;
-  let p: string;
+  let text: string;
   let btnP: string;
 
-  switch (type) {
-    case 'commu':
+  switch (projectData?.project?.isApprovedByAdmin) {
+    case false:
       title = '엔티즌에서 프로젝트 확인 후 최종 완료됩니다';
       date = '완료 동의일';
-      p = '';
+      text = '';
       btnP = '엔티즌과 소통하기';
       break;
-
-    case 'agree':
+    case true:
       title = '축하합니다! \n 충전소 설치가 완료되었습니다!';
       date = '완료일';
-      p = "완료 된 프로젝트는 \n'내 충전소’에서 확인이 가능합니다.";
+      text = "완료 된 프로젝트는 \n'내 충전소’에서 확인이 가능합니다.";
       btnP = '내 충전소 바로가기';
       break;
-
     default:
       title = '다시시도해주세요';
       date = '';
-      p = '';
+      text = '';
       btnP = '';
   }
-
   return (
     <>
       <Body>
@@ -61,8 +97,18 @@ const FinPage = () => {
             <Title>{title}</Title>
             <TextBox>
               <p>{date}</p>
-              <h3></h3>
-              <p className="notice">{p}</p>
+              {!projectData?.project?.isApprovedByAdmin ? (
+                <h3>
+                  {changeDataFn(
+                    projectData?.project?.projectCompletionAgreementDate!,
+                  )}
+                </h3>
+              ) : (
+                <h3>
+                  {changeDataFn(projectData?.project?.subscribeStartDate!)}
+                </h3>
+              )}
+              <p className="notice">{text}</p>
             </TextBox>
             <Btn onClick={HandleOnClick}>{btnP}</Btn>
           </Wrap>
@@ -144,6 +190,7 @@ const Title = styled.h1`
 `;
 
 const Btn = styled.button`
+  box-sizing: border-box;
   background: ${colors.main};
   border-radius: 6pt;
   width: 100%;
@@ -164,6 +211,7 @@ const TextBox = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  gap: 3pt;
   padding: 15pt 0;
   border: 0.75pt solid ${colors.lightGray};
   border-radius: 6pt;

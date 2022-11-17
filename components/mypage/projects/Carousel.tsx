@@ -5,12 +5,17 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination } from 'swiper';
 import Image from 'next/image';
-import { FinalQuotationChargers } from 'QueryComponents/CompanyQuery';
+import { ProjectCompletionFiles } from 'QueryComponents/CompanyQuery';
+import { useEffect } from 'react';
 
 interface Props {
-  file?: FinalQuotationChargers[];
+  file?: ProjectCompletionFiles[];
 }
 const Carousel = ({ file }: Props) => {
+  useEffect(() => {
+    console.log('캐러쉘');
+    console.log(file);
+  }, []);
   return (
     <Wrapper
       pagination={{
@@ -21,12 +26,14 @@ const Carousel = ({ file }: Props) => {
       className="mySwiper"
     >
       {file?.map((el) => (
-        <Slider key={el?.finalQuotationChargerIdx}>
+        <Slider key={el?.projectCompletionFileIdx}>
           <div className="imgBox">
             <Image
-              src={el?.finalQuotationChargerFiles?.url}
-              alt={el?.finalQuotationChargerFiles?.originalName}
+              src={el?.url}
+              alt={el?.originalName}
               layout="fill"
+              priority={true}
+              unoptimized={true}
             />
           </div>
         </Slider>
