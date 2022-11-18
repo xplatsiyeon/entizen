@@ -185,6 +185,7 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   margin-top: 6pt;
+
   /* border-top: 1px solid #e2e5ed; */
   @media (max-width: 899pt) {
     display: flex;

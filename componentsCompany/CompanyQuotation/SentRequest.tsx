@@ -143,7 +143,6 @@ const ContentsContainer = styled.div`
     width: 580.5pt;
     margin: 0 auto;
   }
-  background-color: skyblue;
 `;
 
 const Contents = styled.div`
