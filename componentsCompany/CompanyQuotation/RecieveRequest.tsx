@@ -121,18 +121,9 @@ const DdayBox = styled.div`
   margin-bottom: 16.5pt;
   cursor: pointer;
 `;
+
 const DdayNAddress = styled.div`
   position: relative;
-`;
-
-const TopContainer = styled.div`
-  @media (min-width: 900pt) {
-    width: 580.5pt;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
-    margin-bottom: 30pt;
-  }
 `;
 
 const AddressBox = styled.div`
@@ -145,6 +136,16 @@ const AddressBox = styled.div`
   text-align: left;
   margin-top: 12pt;
   color: ${colors.main2};
+`;
+
+const TopContainer = styled.div`
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-bottom: 30pt;
+  }
 `;
 
 const IconBox = styled.div`

@@ -176,7 +176,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
               <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
             </>
           )}
-          <>{components[tabNumber]}</>
+          <Mobile>{components[tabNumber]}</Mobile>
           <BottomNavigation />
         </Container>
       </WebBox>
@@ -233,6 +233,12 @@ const WebRapper = styled.div`
     width: 900pt;
     display: flex;
     justify-content: space-between;
+  }
+`;
+
+const Mobile = styled.div`
+  @media (max-width: 899pt) {
+    padding: 0 15pt;
   }
 `;
 
