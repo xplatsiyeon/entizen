@@ -132,7 +132,7 @@ const RunningProgress = (props: Props) => {
               />
             )}
             <MypageHeader back={true} title={'진행 프로젝트'} />
-            <WebBox>
+            <WebBox className='content'>
               <TopBox
                 open={open}
                 setOpen={setOpen}
@@ -179,10 +179,10 @@ const Container = styled.div`
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
   background: white;
-  height: 100%;
+
   @media (max-width: 899pt) {
     width: 100%;
-    height: auto;
+    height: 100vh;
     position: relative;
     top: 0;
     left: 0%;
@@ -202,14 +202,21 @@ const Container = styled.div`
 `;
 
 const WebRapper = styled.div`
-  padding-bottom: 60pt;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 30pt;
+
+  display: flex;
+  flex-direction: column;
+
   @media (min-width: 900pt) {
     margin: 0 auto;
     padding: 60pt 0;
     width: 900pt;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    gap: 60pt;
   }
 
   @media (max-height: 400pt) {
@@ -219,6 +226,11 @@ const WebRapper = styled.div`
 `;
 
 const WebBox = styled.div`
+
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;

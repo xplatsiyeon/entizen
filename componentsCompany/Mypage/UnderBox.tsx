@@ -84,6 +84,8 @@ const UnderBox = ({ setOpenContract }: Props) => {
 };
 
 const WebRapper = styled.div`
+  flex: auto;
+  position: relative;
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
@@ -91,10 +93,11 @@ const WebRapper = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding-left: 15pt;
-  padding-right: 15pt;
-  margin-top: 21pt;
-  position: relative;
+  //padding-left: 15pt;
+  //padding-right: 15pt;
+    padding-top: 21pt;
+    position: relative;
+    min-height: 300pt; 
   @media (min-width: 900pt) {
     width: 580.5pt;
     padding-bottom: 45pt;
@@ -110,16 +113,19 @@ const ImageBox = styled.div`
 `;
 
 const MobWrap = styled.div`
+//border: 1px solid red;
+//height: calc(100% - 147pt);
   @media (min-width: 900pt) {
     display: none;
   }
 `;
 
 const NoContractBox = styled.div`
-  padding-left: 67.5pt;
-  padding-right: 67.5pt;
-  margin-top: 33pt;
   display: flex;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -158,7 +164,7 @@ const SmallText = styled.div`
 
 const BtnBox = styled.div`
   @media (max-width: 899pt) {
-    position: fixed;
+    //position: fixed;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -195,6 +201,7 @@ const Btn = styled.div<{ tColor: boolean }>`
 
 const WebBtnWrapper = styled.div`
   display: flex;
+  flex-direction: inherit;
   justify-content: space-between;
   padding-bottom: 50pt;
   gap: 22.5pt;
@@ -207,8 +214,9 @@ const CommunityBtnBox = styled.div`
   display: flex;
   align-items: center;
   margin: 0 auto;
-  width: 135.75pt;
-  height: 33pt;
+  width: 135.75pt ;
+  //height: 33pt;
+  padding: 10.5pt 12pt;
   background-color: #f3f4f7;
   border-radius: 21.75pt;
   @media (max-width: 899pt) {
