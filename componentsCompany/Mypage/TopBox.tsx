@@ -43,6 +43,7 @@ const TopBox = ({
 }: Props) => {
   return (
     <>
+    
       <Wrapper className={className !== undefined ? className : ''}>
         <ItemButton onClick={handleClick}>
           <StoreName>
@@ -266,7 +267,7 @@ const ItemButton = styled(ListItemButton)`
 `;
 
 const StoreName = styled(ListItemText)`
-  padding-top: 6pt;
+  padding-top: 21pt;
   padding-bottom: 16.5pt;
   margin-top: 4.5pt;
   & div {
