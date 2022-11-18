@@ -8,7 +8,7 @@ import { Dispatch, SetStateAction } from "react";
 
 
 type Props = {
-    setOpenContract: Dispatch<SetStateAction<boolean>>;
+    setOpenContract?: Dispatch<SetStateAction<boolean>>;
   };
   
 
