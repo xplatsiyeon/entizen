@@ -147,8 +147,8 @@ const ProjectBox = styled.li`
   border-radius: 6pt;
   position: relative;
   @media (min-width: 900pt) {
-    width: 178.5pt;
-    height: 114pt;
+    width: 155pt;
+    height: 91pt;
   }
 `;
 const P = styled.p`
@@ -159,8 +159,12 @@ const P = styled.p`
   letter-spacing: -0.02em;
   top: 43.5pt;
   left: 12pt;
-  max-width:96pt;
+  max-width: 96pt;
   position: absolute;
+  @media (min-width: 900pt) {
+    font-size: 12pt;
+    max-width: 150pt;
+  }
 `;
 
 const P2 = styled.p`

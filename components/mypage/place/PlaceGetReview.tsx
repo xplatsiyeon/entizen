@@ -26,60 +26,68 @@ const PlaceGetReview = ({ review, data }: Props) => {
   {
     /* 받은 데이터에 review 여부에 따라 리턴되는 태그가 다름.  */
   }
-    // rivew, score 값이 있으면, 각 score 값에 맞게 체크된 배열이 만들어진다.
-    // ex) 친절함 :4  -> [true, true, true, true, false]
-    let checked = reviewPoint.map((r, idx) => {
-      let temp = [];
-      for (let i = 0; i < 5; i++) {
-        if (score[idx] > i) {
-          temp.push(true);
-        } else {
-          temp.push(false);
-        }
+  // rivew, score 값이 있으면, 각 score 값에 맞게 체크된 배열이 만들어진다.
+  // ex) 친절함 :4  -> [true, true, true, true, false]
+  let checked = reviewPoint.map((r, idx) => {
+    let temp = [];
+    for (let i = 0; i < 5; i++) {
+      if (score[idx] > i) {
+        temp.push(true);
+      } else {
+        temp.push(false);
       }
-      return temp;
-    });
+    }
+    return temp;
+  });
 
-    return (
-      <Wrap>
-        <DownArrowBox>
-          <Image src={DoubleArrow} alt="double-arrow" />
-        </DownArrowBox>
-        <RatingForm>
-          {reviewPoint.map((r, idx) => {
-            // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸.
-            return (
-              <RBarBox key={idx}>
-                <Title>{r}</Title>
-                {checked[idx].map((check, idx) =>
-                  check ? (
-                    <RBar className="filled forRadius" />
-                  ) : (
-                    <RBar className="forRadius" />
-                  ),
-                )}
-              </RBarBox>
-            );
-          })}
+  return (
+    <Wrap>
+      <DownArrowBox>
+        <Image src={DoubleArrow} alt="double-arrow" />
+      </DownArrowBox>
+      <RatingForm>
+        <ReviewTitle>내 충전소 리뷰 보기</ReviewTitle>
+        {reviewPoint.map((r, idx) => {
+          // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸.
+          return (
+            <RBarBox key={idx}>
+              <Title>{r}</Title>
+              {checked[idx].map((check, idx) =>
+                check ? (
+                  <RBar className="filled forRadius" />
+                ) : (
+                  <RBar className="forRadius" />
+                ),
+              )}
+            </RBarBox>
+          );
+        })}
 
-          <TextArea
-            placeholder={data?.opinion}
-            rows={8}
-            value={''}
-            required
-            readOnly={true}
-          />
-        </RatingForm>
-      </Wrap>
-    );
-  }
- 
+        <TextArea
+          placeholder={data?.opinion}
+          rows={8}
+          value={''}
+          required
+          readOnly={true}
+        />
+      </RatingForm>
+    </Wrap>
+  );
+};
 
 export default PlaceGetReview;
 
 const Wrap = styled.div`
   margin: 0 15pt;
-`
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+    width: 251.25pt;
+    background: #ffffff;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    border-radius: 12pt;
+    padding: 34.2pt 46.5pt 15.2pt 46.5pt;
+  }
+`;
 
 const RatingForm = styled.div`
   margin-top: 20.25pt;
@@ -90,6 +98,23 @@ const RatingForm = styled.div`
   position: absolute;
   background: white;
   top: 25pt;
+  @media (min-width: 900pt) {
+    margin-top: 0;
+    position: static;
+  }
+`;
+
+const ReviewTitle = styled.div`
+  @media (min-width: 900pt) {
+    padding-bottom: 30pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15pt;
+    line-height: 15pt;
+    text-align: center;
+    color: #222222;
+  }
 `;
 
 const RBarBox = styled.div`
@@ -130,6 +155,9 @@ const DownArrowBox = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 21pt;
+  @media (min-width: 900pt) {
+    display: none;
+  }
 `;
 
 const TextArea = styled.textarea`
