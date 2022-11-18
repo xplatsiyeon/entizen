@@ -26,7 +26,6 @@ const PlaceGetReview = ({ review, data }: Props) => {
   {
     /* 받은 데이터에 review 여부에 따라 리턴되는 태그가 다름.  */
   }
-  if (data) {
     // rivew, score 값이 있으면, 각 score 값에 맞게 체크된 배열이 만들어진다.
     // ex) 친절함 :4  -> [true, true, true, true, false]
     let checked = reviewPoint.map((r, idx) => {
@@ -42,7 +41,7 @@ const PlaceGetReview = ({ review, data }: Props) => {
     });
 
     return (
-      <>
+      <Wrap>
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />
         </DownArrowBox>
@@ -71,35 +70,16 @@ const PlaceGetReview = ({ review, data }: Props) => {
             readOnly={true}
           />
         </RatingForm>
-      </>
-    );
-  } else {
-    {
-      /* review 가 없으면, 리뷰 쓰기 컴포넌트를 리턴. */
-    }
-    const router = useRouter();
-
-    const [modalOpen, setModalOpen] = useState(false);
-
-    const handleClick = () => {
-      router.push('/mypage');
-    };
-
-    return (
-      <>
-        {modalOpen && (
-          <Modal text={'소중한 의견 감사합니다.'} click={handleClick} />
-        )}
-        <AsRequestWriteReview />
-        <Btn2 onClick={() => setModalOpen(true)}>
-          <span>보내기</span>
-        </Btn2>
-      </>
+      </Wrap>
     );
   }
-};
+ 
 
 export default PlaceGetReview;
+
+const Wrap = styled.div`
+  margin: 0 15pt;
+`
 
 const RatingForm = styled.div`
   margin-top: 20.25pt;

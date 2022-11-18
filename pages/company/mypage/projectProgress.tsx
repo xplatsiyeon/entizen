@@ -6,7 +6,6 @@ import DateModal from 'componentsCompany/Modal/DateModal';
 import PrepareModal from 'componentsCompany/Mypage/PrepareModal';
 import ProgressBody from 'componentsCompany/Mypage/ProgressBody';
 import Reusable from 'componentsCompany/Mypage/Reusable';
-import TopBox from 'componentsCompany/Mypage/TopBox';
 import {
   InProgressProjectsDetailResponse,
   InProgressProjectsDetail,
@@ -81,6 +80,12 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
       )}
       {/* 기본    -1 */}
       <Wrapper>
+
+        {progressNum!== -1 ? 
+          <HeaderWrap>
+            <MypageHeader exitBtn={true} title={'진행 프로젝트??'} handleOnClick={()=>setProgressNum(-1)}/>
+          </HeaderWrap>: null}
+          
         {progressNum === -1 && (
           <ProgressBody
             dateArr={dateArr}
@@ -169,5 +174,14 @@ const Wrapper = styled.div`
     margin-top: 4.5pt;
   }
 `;
+
+const HeaderWrap = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  background-color: white;
+`
 
 export default Progress;

@@ -77,6 +77,16 @@ const CompanyQuotations = ({ num, now }: Props) => {
     setNowWidth(window.innerWidth);
   };
 
+  // url에서 id 가져와서 tabNumber에 업데이트 해서 컴포넌트 바꿔줌
+  useEffect(() => {
+    if (router.query.id) {
+      const num = Number(router.query.id);
+      setTabNumber(num);
+    } else if (router.pathname === `/company/quotation`) {
+      setTabNumber(0);
+    }
+  }, [router]);
+
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => {
@@ -166,7 +176,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
               <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
             </>
           )}
-          <>{components[tabNumber]}</>
+          <Mobile>{components[tabNumber]}</Mobile>
           <BottomNavigation />
         </Container>
       </WebBox>
@@ -223,6 +233,12 @@ const WebRapper = styled.div`
     width: 900pt;
     display: flex;
     justify-content: space-between;
+  }
+`;
+
+const Mobile = styled.div`
+  @media (max-width: 899pt) {
+    padding: 0 15pt;
   }
 `;
 

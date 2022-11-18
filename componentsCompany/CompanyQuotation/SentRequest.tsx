@@ -143,7 +143,9 @@ const ContentsContainer = styled.div`
     width: 580.5pt;
     margin: 0 auto;
   }
+  background-color: skyblue;
 `;
+
 const Contents = styled.div`
   padding: 12pt 13.5pt;
   display: flex;
@@ -157,9 +159,11 @@ const DdayBox = styled.div`
   margin-bottom: 16.5pt;
   cursor: pointer;
 `;
+
 const DdayNAddress = styled.div`
   position: relative;
 `;
+
 const AddressBox = styled.div`
   font-family: Spoqa Han Sans Neo;
   position: relative;
@@ -171,15 +175,7 @@ const AddressBox = styled.div`
   margin-top: 12pt;
   color: ${colors.main2};
 `;
-const IconBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const ArrowIconBox = styled.div`
-  width: 18pt;
-  height: 18pt;
-`;
+
 const TopContainer = styled.div`
   @media (min-width: 900pt) {
     width: 580.5pt;
@@ -188,6 +184,16 @@ const TopContainer = styled.div`
     margin: 0 auto;
     margin-bottom: 30pt;
   }
+`;
+
+const IconBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const ArrowIconBox = styled.div`
+  width: 18pt;
+  height: 18pt;
 `;
 
 export default SentRequest;

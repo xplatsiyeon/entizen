@@ -67,7 +67,7 @@ const Signin = () => {
   const originLogin = async () => {
     console.log('로그인 온클릭');
     const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
-    // 로컬에서 사용할때만 활성화 시키기
+    // // 로컬에서 사용할때만 활성화 시키기
     // const ORIGIN_API = `/api/members/login`;
     try {
       await axios({
@@ -128,6 +128,7 @@ const Signin = () => {
           snsResponse: JSON.stringify(data),
           email: data.user.email,
         },
+
         headers: {
           ContentType: 'application/json',
         },

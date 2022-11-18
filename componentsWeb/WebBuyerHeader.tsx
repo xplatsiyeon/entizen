@@ -42,6 +42,9 @@ const WebBuyerHeader = ({
   const [tab, setTab] = useState<number>(0);
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
+
+  // myProjectLink 누르면 인덱스들에서 컴포넌트 바뀌게 할거얌
+
   const router = useRouter();
 
   const isUser = localStorage.getItem('USER_ID');
@@ -96,6 +99,7 @@ const WebBuyerHeader = ({
   const HeaderMenu: Menu[] = [
     {
       id: 0,
+
       type: 'estimate',
       menu: '내견적',
       linkUrl: '/company/quotation',

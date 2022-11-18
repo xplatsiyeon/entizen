@@ -60,12 +60,20 @@ const RatingItem = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+
+  @media (max-width: 899pt) {
+    width:50pt;
+  }
 `;
 
 const RatingBarWrapper = styled.div`
   display: flex;
   gap: 12pt;
   align-items: center;
+
+  @media (max-width: 899pt) {
+  width: 100%;
+  }
 `;
 
 const RBarBox = styled.div`
@@ -80,6 +88,10 @@ const RBarBox = styled.div`
   & > .forRadius:nth-of-type(5) {
     border-radius: 0 6pt 6pt 0;
   }
+
+  @media (max-width: 899pt) {
+    width: 100%;
+  }
 `;
 const RBar = styled.div`
   width: 36pt;
@@ -87,6 +99,10 @@ const RBar = styled.div`
   background-color: #f3f4f7;
   &.filled {
     background-color: ${colors.main};
+  }
+
+  @media (max-width: 899pt) {
+    width: 20%;
   }
 `;
 

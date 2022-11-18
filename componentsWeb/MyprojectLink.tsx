@@ -32,6 +32,7 @@ const MyprojectLink = ({
 }: Props) => {
   let linkName: string[];
   let linkUrl: string[];
+  let linkNum: number[];
 
   const router = useRouter();
 
@@ -65,15 +66,42 @@ const MyprojectLink = ({
       linkUrl = [`/company/mypage`, `/company/mypage`];
   }
 
+  // const handleLink = (idx: number) => {
+  //   const user = localStorage.getItem('USER_ID');
+  //   if (!user && type === 'project') {
+  //     router.push('/signin');
+  //   } else {
+  //     if (linkUrl[idx] === '/mypage') {
+  //       alert('2차 작업 범위입니다');
+  //     } else {
+  //       router.push(linkUrl[idx]);
+  //     }
+  //   }
+  // };
+
   const handleLink = (idx: number) => {
     const user = localStorage.getItem('USER_ID');
     if (!user && type === 'project') {
       router.push('/signin');
     } else {
-      if (linkUrl[idx] === '/mypage') {
-        alert('2차 작업 범위입니다');
-      } else {
-        router.push(linkUrl[idx]);
+      if (type === 'myProject') {
+        router.push({
+          pathname: '/company/mypage',
+          query: { id: idx },
+        });
+      } else if (type === 'myProject' && idx === 0) {
+        router.push('/company/mypage');
+      } else if (type === 'estimate' && idx === 0) {
+        router.push('/company/quotation');
+      } else if (type === 'estimate') {
+        router.push({
+          pathname: '/company/quotation',
+          query: { id: idx },
+        });
+      } else if (type === 'communication') {
+        router.push({
+          pathname: '/company/quotation',
+        });
       }
     }
   };
@@ -88,7 +116,8 @@ const MyprojectLink = ({
             tab={tabNumber?.toString()!}
             index={idx.toString()}
             onClick={() => {
-              setTabNumber(idx);
+              // setTabNumber(idx);
+              handleLink(idx);
             }}
           >
             {i}
