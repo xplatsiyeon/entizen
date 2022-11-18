@@ -73,6 +73,7 @@ export default ComContranct;
 
 const Wrapper = styled.div`
 margin-top: 34.5pt;
+background: white;
 
 @media (min-width: 899pt) {
     margin-top: 0;
@@ -104,8 +105,7 @@ const FlexBox = styled.div`
     justify-content: space-between;
     padding-bottom: 50pt;
     gap: 22.5pt;
-    margin-top: 33pt;;
-
+    margin-top: 33pt;
 
   @media (max-width: 899pt) {
     flex-direction: column;
@@ -117,7 +117,7 @@ const FlexBox = styled.div`
 
 const EntizenContractBox = styled.div`
   padding: 13pt;
-  width: 270pt;
+  flex: 1;
   height: 105pt;
   display: flex;
   align-items: center;
@@ -128,7 +128,8 @@ const EntizenContractBox = styled.div`
   cursor: pointer;
 
   @media (max-width: 899pt) {
-    width: 100%;
+    width: auto;
+    margin: 0 15pt;
   }
 `;
 
