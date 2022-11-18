@@ -83,7 +83,7 @@ const LeftProjectQuotationBox = ({
     };
   }, [nowWidth]);
 
-  // api 호출
+  // 받은 요청 리스트 api 호출
   const { data, isError, error, refetch } = useQuery<ReceivedRequest>(
     'received-request',
     () =>

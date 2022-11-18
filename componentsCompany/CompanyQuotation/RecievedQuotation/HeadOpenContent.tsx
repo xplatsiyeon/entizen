@@ -166,8 +166,8 @@ const HeadOpenContent = () => {
     };
   }, [nowWidth, nowHeight]);
 
-  //  api 요청
-  const { data, isError, isLoading } = useQuery<
+  //  받은 요청 상세페이지 api 요청
+  const { data, isError, isLoading, refetch } = useQuery<
     QuotationsDetailResponse,
     AxiosError
   >(
@@ -178,7 +178,6 @@ const HeadOpenContent = () => {
       ),
     {
       enabled: router.isReady,
-      // enabled: false,
     },
   );
 
@@ -295,6 +294,10 @@ const HeadOpenContent = () => {
   console.log(TAG + '🔥 ~line 208 ~api data check!');
   console.log(data);
   console.log(innerHeight);
+
+  useEffect(() => {
+    refetch();
+  }, [router]);
 
   if (isLoading) {
     return <Loader />;

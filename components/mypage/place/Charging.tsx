@@ -107,8 +107,8 @@ const Charging = () => {
                 // backgroundColor={handleColor2(el?.badge)}
                 backgroundColor={handleColor(el?.badge)}
                 bottom={'12pt'}
-                top={'12pt'}
-                left={'12pt'}
+                top={'4.5pt'}
+                left={'0pt'}
               />
               <P>{el?.projectName}</P>
               <P2>
@@ -139,8 +139,9 @@ const List = styled.ul`
 `;
 
 const ProjectBox = styled.li`
-  width: 120pt;
-  height: 135pt;
+  width: 96pt;
+  height: 111pt;
+  padding: 12pt;
   background: #ffffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
@@ -156,8 +157,9 @@ const P = styled.p`
   font-weight: 700;
   line-height: 15pt;
   letter-spacing: -0.02em;
-  top: 39pt;
+  top: 43.5pt;
   left: 12pt;
+  max-width:96pt;
   position: absolute;
 `;
 
