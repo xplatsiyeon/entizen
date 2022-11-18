@@ -9,6 +9,7 @@ import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
 import AnyContracIcon from 'public/images/AnyContracIcon.png';
 import ChatsIcon from 'public/mypage/myProjectChats.png';
 import arrowRGr from 'public/mypage/ChatsArrow.png';
+import { modusign } from 'api/sign';
 import ComContranct from './CompContract';
 
 type Props = {
@@ -16,19 +17,16 @@ type Props = {
 };
 
 const UnderBox = ({ setOpenContract }: Props) => {
-
   const [contr, setContr] = useState<boolean>(false);
 
   return (
     <WebRapper>
-
       <Wrapper>
         <ImageBox>
           <Image src={DoubleArrow} alt="doubleArrow" layout="fill" />
         </ImageBox>
         <MobWrap>
-
-          {!contr ?
+          {!contr ? (
             <NoContractBox>
               <CenterImgBox>
                 <Image src={contract} alt="contract" layout="fill" />
@@ -36,14 +34,14 @@ const UnderBox = ({ setOpenContract }: Props) => {
               <BiggerText>계약서를 작성해 주세요.</BiggerText>
               <SmallText>계약 후 프로젝트가 진행됩니다.</SmallText>
             </NoContractBox>
-            : <ComContranct setOpenContract={setOpenContract}/>
-          }
+          ) : (
+            <ComContranct setOpenContract={setOpenContract} />
+          )}
         </MobWrap>
       </Wrapper>
 
-      {!contr ?
+      {!contr ? (
         <BtnBox>
-
           {/* <Btn onClick={() => setOpenContract(true)} tColor={true}>
           계약서 작성 및 서명
         </Btn> */}
@@ -53,8 +51,8 @@ const UnderBox = ({ setOpenContract }: Props) => {
           </Btn>
           <Btn tColor={false}>고객과 소통하기</Btn>
         </BtnBox>
-        : 
-        <BtnBox2 onClick={()=>alert('개발중입니다')}>
+      ) : (
+        <BtnBox2 onClick={() => alert('개발중입니다')}>
           <WebImageBox width={15} height={15}>
             <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
           </WebImageBox>
@@ -63,7 +61,7 @@ const UnderBox = ({ setOpenContract }: Props) => {
             <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
           </WebImageBox>
         </BtnBox2>
-        }
+      )}
 
       <>
         <WebBtnWrapper>
@@ -79,13 +77,12 @@ const UnderBox = ({ setOpenContract }: Props) => {
           </WebImageBox>
         </CommunityBtnBox>
       </>
-
     </WebRapper>
   );
 };
 
 const WebRapper = styled.div`
-padding-bottom: 72pt;
+  padding-bottom: 72pt;
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
@@ -113,10 +110,10 @@ const ImageBox = styled.div`
 `;
 
 const MobWrap = styled.div`
-@media (min-width: 900pt) {
-  display: none;
-}
-`
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
 
 const NoContractBox = styled.div`
   padding-left: 67.5pt;
@@ -219,14 +216,12 @@ const CommunityBtnBox = styled.div`
   }
 `;
 
-
 const BtnBox2 = styled(CommunityBtnBox)`
-    display: none;
-@media (max-width: 899pt) {
+  display: none;
+  @media (max-width: 899pt) {
     display: flex;
   }
-`
-
+`;
 
 const WebTitle = styled.div`
   font-family: Spoqa Han Sans Neo;
