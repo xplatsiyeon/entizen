@@ -40,6 +40,7 @@ const Input = styled(TextField)`
     width: 475.5pt;
     margin: 0 auto;
   }
+
   display: flex;
   margin-top: 9pt;
   width: 100%;
