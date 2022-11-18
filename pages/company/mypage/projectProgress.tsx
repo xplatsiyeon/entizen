@@ -47,11 +47,6 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
   // 토글 된 박스 클릭하면 모달창으로 보여줌 ( 준비 , 검수, 등등 ...)
   const [progressNum, setProgressNum] = useState<number>(-1);
 
-  const { mutate, isLoading, isError } = useMutation(isTokenPostApi, {
-    onSuccess: () => {},
-    onError: () => {},
-  });
-
   // 달력 모달 켜고 끄고
   const handleExit = () => {
     let copyArr = [...dateOn];
@@ -80,12 +75,16 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
       )}
       {/* 기본    -1 */}
       <Wrapper>
-
-        {progressNum!== -1 ? 
+        {progressNum !== -1 ? (
           <HeaderWrap>
-            <MypageHeader exitBtn={true} title={'진행 프로젝트??'} handleOnClick={()=>setProgressNum(-1)}/>
-          </HeaderWrap>: null}
-          
+            <MypageHeader
+              exitBtn={true}
+              title={'진행 프로젝트??'}
+              handleOnClick={() => setProgressNum(-1)}
+            />
+          </HeaderWrap>
+        ) : null}
+
         {progressNum === -1 && (
           <ProgressBody
             dateArr={dateArr}
@@ -182,6 +181,6 @@ const HeaderWrap = styled.div`
   left: 0;
   z-index: 5;
   background-color: white;
-`
+`;
 
 export default Progress;

@@ -38,6 +38,7 @@ const RunningProgress = (props: Props) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
+  // 계약서 유무
   const [openContract, setOpenContract] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -140,7 +141,7 @@ const RunningProgress = (props: Props) => {
                 type={'COMPANY'}
               />
               {/* 계약서 작성 시 Progress 나와야 됨 */}
-              {openContract ? (
+              {!openContract ? (
                 <Progress
                   data={inProgressData!}
                   inProgressRefetch={inProgressRefetch}

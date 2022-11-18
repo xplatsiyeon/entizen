@@ -1,111 +1,162 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 import arrowR from 'public/images/grayRightArrow20.png';
 import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
 import AnyContracIcon from 'public/images/AnyContracIcon.png';
-import styled from "@emotion/styled";
-import { Dispatch, SetStateAction } from "react";
-
+import styled from '@emotion/styled';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { modusign } from 'api/sign';
+import {
+  GET_InProgressProjectsDetail,
+  InProgressProjectsDetailResponse,
+} from 'QueryComponents/CompanyQuery';
+import { useQuery } from '@apollo/client';
+import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
+import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
 
 type Props = {
-    setOpenContract?: Dispatch<SetStateAction<boolean>>;
+  // setOpenContract?: Dispatch<SetStateAction<boolean>>;
+};
+const TAG = 'componentsCompany/Mypage/CompContract.tsx';
+const ComContranct = ({}: Props) => {
+  const router = useRouter();
+  const [modalMessage, setModalMessage] = useState('');
+  // -----진행중인 프로젝트 상세 리스트 api-----
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    loading,
+    error,
+    data: inProgressData,
+    refetch: inProgressRefetch,
+  } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
+    variables: {
+      projectIdx: router?.query?.projectIdx!,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
+  // -------모두싸인 POST API------
+  const { mutate, isError, isLoading } = useMutation(modusign, {
+    onSuccess: (data) => {
+      console.log('data 확인');
+      console.log(data);
+      setModalMessage('계약서가 전송되었습니다');
+
+      // 백엔드에 보내줄 API 연결
+    },
+    onError: (error) => {
+      console.log('data 확인');
+      console.log(error);
+    },
+  });
+
+  // console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
+  // console.log(inProgressData);
+
+  const handleContr = () => {
+    mutate(inProgressData!);
   };
-  
 
-const ComContranct = ({setOpenContract}:Props)=>{
+  if (isLoading) {
+    return <Loader />;
+  }
 
-    const handleContr = ()=>{
-        setOpenContract!(true)
-    }
-
-    return(
-        
-      <Wrapper>
-        <TitleP>계약서를 작성해 주세요</TitleP>
-        <P>계약 후 프로젝트가 진행됩니다.</P>
+  return (
+    <Wrapper>
+      <Modal
+        click={() => router.push('/company/mypage?id=0')}
+        text={modalMessage}
+      />
+      <TitleP>계약서를 작성해 주세요</TitleP>
+      <P>계약 후 프로젝트가 진행됩니다.</P>
       <FlexBox>
-        
         {/* onclick 함수로 계약서 모달 띄우기 */}
         <EntizenContractBox onClick={handleContr}>
-            <TextBox>
-                <TitleBox>
-                <Title>엔티즌 전자 계약서</Title>
-                <TitleIcon>
-                    <Image src={arrowR} alt=">" />
-                </TitleIcon>
-                </TitleBox>
-                <ExplainText>
-                간편하고 안전하게
-                <br />
-                전자계약 하세요
-                </ExplainText>
-            </TextBox>
-            <BigIconBox>
-                <Image src={EntizenContractIcon} alt="큰아이콘" />
-            </BigIconBox>
+          <TextBox>
+            <TitleBox>
+              <Title>엔티즌 전자 계약서</Title>
+              <TitleIcon>
+                <Image src={arrowR} alt=">" />
+              </TitleIcon>
+            </TitleBox>
+            <ExplainText>
+              간편하고 안전하게
+              <br />
+              전자계약 하세요
+            </ExplainText>
+          </TextBox>
+          <BigIconBox>
+            <Image src={EntizenContractIcon} alt="큰아이콘" />
+          </BigIconBox>
         </EntizenContractBox>
 
         {/* onclick 함수로 계약서 모달 띄우기 */}
         <EntizenContractBox className="forMargin">
-            <TextBox>
+          <TextBox>
             <TitleBox>
-                <Title>자체 계약서</Title>
-                <TitleIcon>
+              <Title>자체 계약서</Title>
+              <TitleIcon>
                 <Image src={arrowR} alt=">" />
-                </TitleIcon>
+              </TitleIcon>
             </TitleBox>
             <ExplainText>
-                날인 완료된 계약서
-                <br />
-                스캔본을 첨부해 주세요
+              날인 완료된 계약서
+              <br />
+              스캔본을 첨부해 주세요
             </ExplainText>
-            </TextBox>
-            <BigIconBox>
+          </TextBox>
+          <BigIconBox>
             <Image src={AnyContracIcon} alt="큰아이콘" />
-            </BigIconBox>
+          </BigIconBox>
         </EntizenContractBox>
       </FlexBox>
     </Wrapper>
-    )
-}
+  );
+};
 
 export default ComContranct;
 
 const Wrapper = styled.div`
-margin-top: 34.5pt;
+  margin-top: 34.5pt;
 
-@media (min-width: 899pt) {
+  @media (min-width: 899pt) {
     margin-top: 0;
-}
+  }
 `;
 
 const TitleP = styled.p`
-font-family: 'Spoqa Han Sans Neo';
-font-style: normal;
-font-weight: 500;
-font-size: 18pt;
-line-height: 24pt;
-/* identical to box height, or 133% */
-letter-spacing: -0.02em;
-color: #222222;
-text-align: center;
-margin-bottom: 6pt;
-`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18pt;
+  line-height: 24pt;
+  /* identical to box height, or 133% */
+  letter-spacing: -0.02em;
+  color: #222222;
+  text-align: center;
+  margin-bottom: 6pt;
+`;
 
 const P = styled(TitleP)`
-font-size: 10.5pt;
-line-height: 15pt;
-color: #747780;
-`
+  font-size: 10.5pt;
+  line-height: 15pt;
+  color: #747780;
+`;
 
 const FlexBox = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-bottom: 50pt;
-    gap: 22.5pt;
-    margin-top: 33pt;;
-
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 50pt;
+  gap: 22.5pt;
+  margin-top: 33pt;
 
   @media (max-width: 899pt) {
     flex-direction: column;
@@ -113,7 +164,7 @@ const FlexBox = styled.div`
     margin-top: 24pt;
     gap: 15pt;
   }
-`
+`;
 
 const EntizenContractBox = styled.div`
   padding: 13pt;
