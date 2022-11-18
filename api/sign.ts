@@ -1,12 +1,15 @@
-export const modusign = (data: any) => {
-  const fetch = require('node-fetch');
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 
+export const modusign = (data: InProgressProjectsDetailResponse) => {
+  const fetch = require('node-fetch');
   const url = 'https://api.modusign.co.kr/documents/request-with-template';
+
   const options = {
     method: 'POST',
     headers: {
       accept: 'application/json',
       'content-type': 'application/json',
+      // authorization: process.env.MODUSIGN_KEY,
       authorization:
         'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
     },
@@ -15,19 +18,27 @@ export const modusign = (data: any) => {
         participantMappings: [
           {
             excluded: false,
-            signingMethod: { type: 'KAKAO', value: '01049988965' },
+            signingMethod: {
+              type: 'KAKAO',
+              value: data?.project?.userMember?.phone,
+            },
             signingDuration: 20160,
             locale: 'ko',
             role: '유저',
-            name: '김정민',
+            name: data?.project?.userMember?.name,
           },
           {
             excluded: false,
             signingMethod: { type: 'KAKAO', value: '01091163962' },
+            // signingMethod: {
+            //   type: 'KAKAO',
+            //   value: data?.project?.companyMember?.phone,
+            // },
             signingDuration: 20160,
             locale: 'ko',
             role: '기업',
-            name: 'LS산저',
+            name: data?.project?.companyMember?.companyMemberAdditionalInfo
+              ?.companyName,
           },
           {
             excluded: false,
@@ -39,59 +50,97 @@ export const modusign = (data: any) => {
           },
         ],
         requesterInputMappings: [
-          { dataLabel: 'userName', value: '1' },
-          { dataLabel: 'companyName', value: '1' },
-          { dataLabel: 'chargerName', value: '1' },
-          { dataLabel: 'subscribeProduct', value: '1' },
-          { dataLabel: 'subscribePeriod', value: '1' },
-          { dataLabel: 'userInvestRate', value: '1' },
-          { dataLabel: 'charger1', value: '1' },
-          { dataLabel: 'charger2', value: '1' },
-          { dataLabel: 'charger3', value: '1' },
-          { dataLabel: 'charger4', value: '1' },
-          { dataLabel: 'charger5', value: '1' },
-          { dataLabel: 'feature', value: '1' },
-          { dataLabel: 'period', value: '1' },
-          { dataLabel: 'constructionPeriod', value: '1' },
-          { dataLabel: 'charger2_1', value: '2' },
-          { dataLabel: 'charger2_2', value: '3' },
-          { dataLabel: 'charger2_3', value: '4' },
-          { dataLabel: 'chargePrice2_1', value: '5' },
-          { dataLabel: 'chargePrice2_2', value: '6' },
-          { dataLabel: 'chargePrice2_3', value: '7' },
-          { dataLabel: 'count2_1', value: '8' },
-          { dataLabel: 'count2_2', value: '9' },
-          { dataLabel: 'count2_3', value: '10' },
-          { dataLabel: 'subscribePeriod2_1', value: '1' },
-          { dataLabel: 'subscribePeriod2_2', value: '2' },
-          { dataLabel: 'subscribePeriod2_3', value: '3' },
-          { dataLabel: 'chargeSum2_1', value: '4' },
-          { dataLabel: 'chargeSum2_2', value: '5' },
-          { dataLabel: 'chargeSum2_3', value: '6' },
-          { dataLabel: 'afterCharger1', value: '8' },
-          { dataLabel: 'afterCharger2', value: '9' },
-          { dataLabel: 'afterCharger3', value: '9' },
-          { dataLabel: 'afterChargePrice1', value: '1' },
-          { dataLabel: 'afterChargePrice2', value: '1' },
-          { dataLabel: 'afterChargePrice3', value: '1' },
-          { dataLabel: 'afterCount1', value: '1' },
-          { dataLabel: 'afterCount2', value: '1' },
-          { dataLabel: 'afterCount3', value: '1' },
-          { dataLabel: 'afterSubscribePeriod1', value: '1' },
-          { dataLabel: 'afterSubscribePeriod2', value: '2' },
-          { dataLabel: 'afterSubscribePeriod3', value: '2' },
-          { dataLabel: 'afterChargeSum1', value: '3' },
-          { dataLabel: 'afterChargeSum2', value: '4' },
-          { dataLabel: 'afterChargeSum3', value: '4' },
-          { dataLabel: 'userInvestRate2', value: '5' },
-          { dataLabel: 'chargingPointRate2', value: '6' },
-          { dataLabel: 'subscribePeriod2', value: '7' },
-          { dataLabel: 'signUserName', value: '1' },
-          { dataLabel: 'signUserAddress', value: '2' },
-          { dataLabel: 'signUserName2', value: '3' },
-          { dataLabel: 'signCompanyName', value: '4' },
-          { dataLabel: 'signCompanyAddress', value: '5' },
-          { dataLabel: 'signCompanyName2', value: '6' },
+          { dataLabel: 'userName', value: data?.project?.userMember?.name },
+          {
+            dataLabel: 'companyName',
+            value: data?.project?.companyMember?.name,
+          },
+          { dataLabel: 'chargerName', value: 'LS 카폐 신림점' },
+          { dataLabel: 'subscribeProduct', value: '전체구독' },
+          { dataLabel: 'subscribePeriod', value: '36' },
+          { dataLabel: 'userInvestRate', value: '70' },
+          {
+            dataLabel: 'charger1',
+            value: '7kw 충전기(공용), 벽걸이, 싱글, 2대',
+          },
+          { dataLabel: 'charger2', value: '50kw 충전기, 스탠드, 3모드, 1세대' },
+          { dataLabel: 'charger3', value: '' },
+          { dataLabel: 'charger4', value: '' },
+          { dataLabel: 'charger5', value: '' },
+          { dataLabel: 'feature', value: '없음' },
+          { dataLabel: 'period', value: '36' },
+          { dataLabel: 'constructionPeriod', value: '1,000,000,000' },
+          {
+            dataLabel: 'charger2_1',
+            value: '7kw 충전기(공용), 벽걸이, 싱글, 2대',
+          },
+          {
+            dataLabel: 'charger2_2',
+            value: '50kw 충전기, 스탠드, 3모드, 1세대',
+          },
+          { dataLabel: 'charger2_3', value: '' },
+          { dataLabel: 'chargePrice2_1', value: '110,000' },
+          { dataLabel: 'chargePrice2_2', value: '820,000' },
+          { dataLabel: 'chargePrice2_3', value: '' },
+          { dataLabel: 'count2_1', value: '2대' },
+          { dataLabel: 'count2_2', value: '1대' },
+          { dataLabel: 'count2_3', value: '' },
+          { dataLabel: 'subscribePeriod2_1', value: '36개월' },
+          { dataLabel: 'subscribePeriod2_2', value: '36개월' },
+          { dataLabel: 'subscribePeriod2_3', value: '' },
+          { dataLabel: 'chargeSum2_1', value: '7,920,000' },
+          { dataLabel: 'chargeSum2_2', value: '29,520,000' },
+          { dataLabel: 'chargeSum2_3', value: '' },
+          {
+            dataLabel: 'afterCharger1',
+            value: '7kw 충전기(공용), 벽걸이, 싱글, 2대',
+          },
+          {
+            dataLabel: 'afterCharger2',
+            value: '50kw 충전기, 스탠드, 3모드, 1세대',
+          },
+          { dataLabel: 'afterCharger3', value: '' },
+          { dataLabel: 'afterChargePrice1', value: '53,000' },
+          { dataLabel: 'afterChargePrice2', value: '125,000' },
+          { dataLabel: 'afterChargePrice3', value: '' },
+          { dataLabel: 'afterCount1', value: '2대' },
+          { dataLabel: 'afterCount2', value: '1대' },
+          { dataLabel: 'afterCount3', value: '' },
+          { dataLabel: 'afterSubscribePeriod1', value: '24개월' },
+          { dataLabel: 'afterSubscribePeriod2', value: '24개월' },
+          { dataLabel: 'afterSubscribePeriod3', value: '' },
+          { dataLabel: 'afterChargeSum1', value: '2,544,000' },
+          { dataLabel: 'afterChargeSum2', value: '3,000,000' },
+          { dataLabel: 'afterChargeSum3', value: '' },
+          { dataLabel: 'userInvestRate2', value: '' },
+          { dataLabel: 'chargingPointRate2', value: '70' },
+          { dataLabel: 'subscribePeriod2', value: '30' },
+          // 서명
+          { dataLabel: 'signUserName', value: data?.project?.userMember?.name },
+          {
+            dataLabel: 'signUserAddress',
+            value: data?.project?.userMember?.phone,
+          },
+          {
+            dataLabel: 'signUserName2',
+            value: data?.project?.userMember?.name,
+          },
+          {
+            dataLabel: 'signCompanyName',
+            value:
+              data?.project?.companyMember?.companyMemberAdditionalInfo
+                ?.companyName,
+          },
+          {
+            dataLabel: 'signCompanyAddress',
+            value:
+              data?.project?.companyMember?.companyMemberAdditionalInfo
+                ?.companyName,
+          },
+          {
+            dataLabel: 'signCompanyName2',
+            value: data?.project?.companyMember?.name,
+          },
         ],
         title: '엔티즌계약서',
       },
@@ -99,8 +148,7 @@ export const modusign = (data: any) => {
     }),
   };
 
-  fetch(url, options)
-    .then((res: any) => res.json())
-    .then((json: any) => console.log(json))
-    .catch((err: any) => console.error('error:' + err));
+  return fetch(url, options).then((res: any) => res.json());
+  // .then((json: any) => console.log(json))
+  // .catch((err: any) => console.error('error:' + err));
 };

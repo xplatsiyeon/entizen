@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
@@ -38,6 +38,8 @@ const ProgressBody = ({
   data,
   badge,
 }: Props) => {
+  const [openView, setOpenView] = useState(false);
+
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -76,6 +78,19 @@ const ProgressBody = ({
       copyArr[3] = !copyArr[3];
       setDateArr(copyArr);
     }
+  };
+
+  const onClickContract = () => {
+    // console.log('계약서 보기 뷰');
+    let targetIframe = document.getElementById(
+      'target-iframe',
+    ) as HTMLImageElement | null;
+    if (targetIframe !== null) {
+      targetIframe.src =
+        'https://app.modusign.co.kr/embedded-document/65e281f0-66f4-11ed-9749-d58038aac652?at=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNTZjMGFkMjAtMjUwNy0xMWVkLThhOGUtZmI5ZGE1NThjYWNjIiwicHJvZmlsZSI6eyJuYW1lIjoi7JeU7Yuw7KaMIiwiZW1haWwiOiJlbnRpemVuQGVudGl6ZW4ua3IifSwiYXV0aEJ5IjoiTE9DQUw6QVBJX0tFWSJ9LCJhdXRoQnkiOiJMT0NBTDpBUElfS0VZIiwicm9sZSI6IlVTRVIiLCJ1cmxQYXRocyI6WyIqKiJdLCJpYXQiOjE2Njg3Njk0MzksImV4cCI6MTY2ODc4MzgzOSwiYXVkIjoiYXBpLm1vZHVzaWduLmNvLmtyIiwiaXNzIjoiYXBpLm1vZHVzaWduLmNvLmtyIn0.mvXogdtKkFhjOtYNNFofnkz5FGqg91GlKHPROswU8QY&redirectUrl=https%3A%2F%2Ftest-api.entizen.kr%2F';
+    }
+
+    setOpenView(true);
   };
 
   let textArr;
@@ -141,9 +156,12 @@ const ProgressBody = ({
 
   return (
     <>
+      {/* 계약서 문서 */}
+      <Iframe id="target-iframe" openView={openView} src={''} />
       <DoubleArrowBox>
         <Image src={DoubleArrow} alt="doubleArrow" />
       </DoubleArrowBox>
+
       <Wrapper>
         {/* 계약 */}
         <FlexBox margin={toggleOpen[0]}>
@@ -174,9 +192,9 @@ const ProgressBody = ({
           </div>
           {/* 펼쳐지는 부분 */}
           {toggleOpen[0] && (
-            <ContractBtnBox>
+            <ContractBtnBox onClick={onClickContract}>
               <div>계약서 보기</div>
-              <div>계약서 수정</div>
+              {/* <div>계약서 수정</div> */}
             </ContractBtnBox>
           )}
         </FlexBox>
@@ -222,11 +240,9 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="prepareDate" onClick={handleDateModal}>
                   목표일
-
-                <ImageWrap>
-                  <Image src={askDate} layout='fill'/>
-                </ImageWrap>
-
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
                 </SetDate>
               )}
             </InsideFlex>
@@ -291,9 +307,9 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="installDate" onClick={handleDateModal}>
                   목표일
-                <ImageWrap>
-                  <Image src={askDate} layout='fill'/>
-                </ImageWrap>
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
                 </SetDate>
               )}
             </InsideFlex>
@@ -356,9 +372,9 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="inspectionDate" onClick={handleDateModal}>
                   목표일
-                <ImageWrap>
-                  <Image src={askDate} layout='fill'/>
-                </ImageWrap>
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
                 </SetDate>
               )}
             </InsideFlex>
@@ -421,9 +437,9 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="successDate" onClick={handleDateModal}>
                   목표일
-                <ImageWrap>
-                  <Image src={askDate} layout='fill'/>
-                </ImageWrap>
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
                 </SetDate>
               )}
             </InsideFlex>
@@ -452,6 +468,18 @@ const ProgressBody = ({
     </>
   );
 };
+
+const Iframe = styled.iframe<{ openView: boolean }>`
+  /* background-color: red; */
+
+  display: ${({ openView }) => openView === false && 'none'};
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  bottom: 0%;
+  z-index: 999;
+`;
 
 const Wrapper = styled.div`
   position: relative;
@@ -519,7 +547,7 @@ const ImageWrap = styled.div`
   top: -100%;
   right: 0;
   transform: translateY(-3.5pt);
-`
+`;
 
 const SetDate = styled.div`
   padding: 4.5pt 7.5pt;
@@ -572,6 +600,7 @@ const ContractBtnBox = styled.div`
     box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
     border-radius: 6pt;
     color: #a6a9b0;
+    cursor: pointer;
   }
 `;
 

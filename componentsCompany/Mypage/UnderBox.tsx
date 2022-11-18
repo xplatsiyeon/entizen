@@ -9,24 +9,27 @@ import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
 import AnyContracIcon from 'public/images/AnyContracIcon.png';
 import ChatsIcon from 'public/mypage/myProjectChats.png';
 import arrowRGr from 'public/mypage/ChatsArrow.png';
-import { modusign } from 'api/sign';
 import ComContranct from './CompContract';
+import Modal from 'components/Modal/Modal';
 
 type Props = {
   setOpenContract: Dispatch<SetStateAction<boolean>>;
 };
 
 const UnderBox = ({ setOpenContract }: Props) => {
+  // 계약서 작성 및 서명 클릭 화면
   const [contr, setContr] = useState<boolean>(false);
 
   return (
     <WebRapper>
+      {/* <Modal click={} text{/> */}
       <Wrapper>
         <ImageBox>
           <Image src={DoubleArrow} alt="doubleArrow" layout="fill" />
         </ImageBox>
         <MobWrap>
           {!contr ? (
+            // 빈 화면
             <NoContractBox>
               <CenterImgBox>
                 <Image src={contract} alt="contract" layout="fill" />
@@ -35,17 +38,14 @@ const UnderBox = ({ setOpenContract }: Props) => {
               <SmallText>계약 후 프로젝트가 진행됩니다.</SmallText>
             </NoContractBox>
           ) : (
-            <ComContranct setOpenContract={setOpenContract} />
+            // 계약서 선택 템플릿
+            <ComContranct />
           )}
         </MobWrap>
       </Wrapper>
 
       {!contr ? (
         <BtnBox>
-          {/* <Btn onClick={() => setOpenContract(true)} tColor={true}>
-          계약서 작성 및 서명
-        </Btn> */}
-
           <Btn onClick={() => setContr(true)} tColor={true}>
             계약서 작성 및 서명
           </Btn>

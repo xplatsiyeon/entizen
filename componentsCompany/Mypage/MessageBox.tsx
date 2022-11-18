@@ -81,6 +81,7 @@ const Wrapper = styled.div<{ presentProgress: boolean }>`
   display: flex;
   justify-content: space-between;
   position: relative;
+  cursor: pointer;
 `;
 
 const LeftSideBox = styled.div<{ presentProgress: boolean }>`
