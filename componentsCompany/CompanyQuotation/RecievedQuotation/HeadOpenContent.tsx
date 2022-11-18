@@ -109,6 +109,7 @@ const TAG =
 const HeadOpenContent = () => {
   const router = useRouter();
   const routerId = router?.query?.id!;
+
   const [open, setOpen] = useState<boolean>(false);
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(-1);
@@ -584,6 +585,10 @@ const Container = styled.div`
   @media (max-height: 500pt) {
     height: 100%;
   }
+
+  @media (min-width: 900pt) {
+    padding: 0 0 42pt;
+  }
 `;
 
 const WebRapper = styled.div`
@@ -592,7 +597,6 @@ const WebRapper = styled.div`
     width: 900pt;
     justify-content: space-between;
     margin: 0 auto;
-    margin-top: 54pt;
     margin-bottom: 54pt;
   }
 `;

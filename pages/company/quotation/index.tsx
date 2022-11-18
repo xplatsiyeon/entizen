@@ -77,6 +77,16 @@ const CompanyQuotations = ({ num, now }: Props) => {
     setNowWidth(window.innerWidth);
   };
 
+  // url에서 id 가져와서 tabNumber에 업데이트 해서 컴포넌트 바꿔줌
+  useEffect(() => {
+    if (router.query.id) {
+      const num = Number(router.query.id);
+      setTabNumber(num);
+    } else if (router.pathname === `/company/quotation`) {
+      setTabNumber(0);
+    }
+  }, [router]);
+
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => {

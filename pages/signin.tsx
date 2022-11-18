@@ -128,6 +128,7 @@ const Signin = () => {
           snsResponse: JSON.stringify(data),
           email: data.user.email,
         },
+
         headers: {
           ContentType: 'application/json',
         },
