@@ -4,8 +4,15 @@ import arrowR from 'public/images/grayRightArrow20.png';
 import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
 import AnyContracIcon from 'public/images/AnyContracIcon.png';
 import styled from "@emotion/styled";
+import { Dispatch, SetStateAction } from "react";
 
-const ComContranct = ()=>{
+
+type Props = {
+    setOpenContract: Dispatch<SetStateAction<boolean>>;
+  };
+  
+
+const ComContranct = ({setOpenContract}:Props)=>{
 
     return(
         
@@ -13,6 +20,8 @@ const ComContranct = ()=>{
         <TitleP>계약서를 작성해 주세요</TitleP>
         <P>계약 후 프로젝트가 진행됩니다.</P>
       <FlexBox>
+        
+        {/* onclick 함수로 계약서 모달 띄우기 */}
         <EntizenContractBox>
             <TextBox>
                 <TitleBox>
@@ -31,6 +40,8 @@ const ComContranct = ()=>{
                 <Image src={EntizenContractIcon} alt="큰아이콘" />
             </BigIconBox>
         </EntizenContractBox>
+
+        {/* onclick 함수로 계약서 모달 띄우기 */}
         <EntizenContractBox className="forMargin">
             <TextBox>
             <TitleBox>
@@ -113,8 +124,6 @@ const EntizenContractBox = styled.div`
 
   @media (max-width: 899pt) {
     width: 100%;
-    justify-content: center;
-    gap: 48pt;
   }
 `;
 

@@ -36,7 +36,7 @@ const UnderBox = ({ setOpenContract }: Props) => {
               <BiggerText>계약서를 작성해 주세요.</BiggerText>
               <SmallText>계약 후 프로젝트가 진행됩니다.</SmallText>
             </NoContractBox>
-            : <ComContranct />
+            : <ComContranct setOpenContract={setOpenContract}/>
           }
         </MobWrap>
       </Wrapper>
