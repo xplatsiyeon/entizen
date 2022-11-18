@@ -9,12 +9,16 @@ import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
 import AnyContracIcon from 'public/images/AnyContracIcon.png';
 import ChatsIcon from 'public/mypage/myProjectChats.png';
 import arrowRGr from 'public/mypage/ChatsArrow.png';
+import { modusign } from 'api/sign';
 
 type Props = {
   setOpenContract: Dispatch<SetStateAction<boolean>>;
 };
 
 const UnderBox = ({ setOpenContract }: Props) => {
+  const testModusign = (data: any) => {
+    modusign(data);
+  };
   return (
     <WebRapper>
       <Wrapper>
@@ -31,7 +35,8 @@ const UnderBox = ({ setOpenContract }: Props) => {
       </Wrapper>
 
       <BtnBox>
-        <Btn onClick={() => setOpenContract(true)} tColor={true}>
+        {/* <Btn onClick={() => setOpenContract(true)} tColor={true}> */}
+        <Btn onClick={testModusign} tColor={true}>
           계약서 작성 및 서명
         </Btn>
         <Btn tColor={false}>고객과 소통하기</Btn>
