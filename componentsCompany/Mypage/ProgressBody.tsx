@@ -10,6 +10,7 @@ import MessageBox from './MessageBox';
 import colors from 'styles/colors';
 import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import { changeDataFn } from 'utils/calculatePackage';
+import askDate from 'public/images/askDate.png';
 
 type Props = {
   dateArr: boolean[];
@@ -221,6 +222,11 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="prepareDate" onClick={handleDateModal}>
                   목표일
+
+                <ImageWrap>
+                  <Image src={askDate} layout='fill'/>
+                </ImageWrap>
+
                 </SetDate>
               )}
             </InsideFlex>
@@ -285,11 +291,11 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="installDate" onClick={handleDateModal}>
                   목표일
+                <ImageWrap>
+                  <Image src={askDate} layout='fill'/>
+                </ImageWrap>
                 </SetDate>
               )}
-              {/* <SetDate id="installDate" onClick={handleDateModal}>
-                목표일
-              </SetDate> */}
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -350,6 +356,9 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="inspectionDate" onClick={handleDateModal}>
                   목표일
+                <ImageWrap>
+                  <Image src={askDate} layout='fill'/>
+                </ImageWrap>
                 </SetDate>
               )}
             </InsideFlex>
@@ -412,6 +421,9 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="successDate" onClick={handleDateModal}>
                   목표일
+                <ImageWrap>
+                  <Image src={askDate} layout='fill'/>
+                </ImageWrap>
                 </SetDate>
               )}
             </InsideFlex>
@@ -500,9 +512,19 @@ const InsideFlex = styled.div`
   justify-content: space-between;
 `;
 
+const ImageWrap = styled.div`
+  width: 93pt;
+  height: 22.5pt;
+  position: absolute;
+  top: -100%;
+  right: 0;
+  transform: translateY(-3.5pt);
+`
+
 const SetDate = styled.div`
   padding: 4.5pt 7.5pt;
   border: 1px solid #e2e5ed;
+  position: relative;
 
   border-radius: 6pt;
   color: #a6a9b0;

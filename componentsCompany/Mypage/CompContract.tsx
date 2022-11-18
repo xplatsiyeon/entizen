@@ -14,6 +14,10 @@ type Props = {
 
 const ComContranct = ({setOpenContract}:Props)=>{
 
+    const handleContr = ()=>{
+        setOpenContract!(true)
+    }
+
     return(
         
       <Wrapper>
@@ -22,7 +26,7 @@ const ComContranct = ({setOpenContract}:Props)=>{
       <FlexBox>
         
         {/* onclick 함수로 계약서 모달 띄우기 */}
-        <EntizenContractBox>
+        <EntizenContractBox onClick={handleContr}>
             <TextBox>
                 <TitleBox>
                 <Title>엔티즌 전자 계약서</Title>
@@ -121,6 +125,7 @@ const EntizenContractBox = styled.div`
   box-sizing: border-box;
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
+  cursor: pointer;
 
   @media (max-width: 899pt) {
     width: 100%;
