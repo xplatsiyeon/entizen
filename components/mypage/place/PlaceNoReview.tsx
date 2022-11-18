@@ -94,7 +94,15 @@ export default PlaceNoReview;
 
 const Wrap = styled.div`
   margin: 0 15pt;
-`
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+    width: 251.25pt;
+    background: #ffffff;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    border-radius: 12pt;
+    padding: 34.2pt 46.5pt 15.2pt 46.5pt;
+  }
+`;
 
 const Btn2 = styled.button<{ checkedRequired: boolean }>`
   width: 100%;

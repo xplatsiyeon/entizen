@@ -16,6 +16,14 @@ interface Props {
 
 const PlaceInfo = ({ data }: Props) => {
   const [idx, setIdx] = useState<number>(1);
+  const [webIdx, setWebIdx] = useState<number>(0);
+
+  const webHandleNum = (idx: number) => {
+    setWebIdx(idx);
+  };
+
+  const DataFilter = data?.projectCompletionFiles[webIdx];
+  console.log('DataFilter', DataFilter);
 
   const handleNum = () => {
     if (idx === 1) {
@@ -25,12 +33,13 @@ const PlaceInfo = ({ data }: Props) => {
     }
   };
 
+  console;
+
   return (
     <Wrapper>
       <DownArrowBox>
         <Image src={DoubleArrow} alt="double-arrow" />
       </DownArrowBox>
-
       {/* 데이터 하드코딩*/}
       <Contents>
         <Partner>파트너 정보</Partner>
@@ -81,11 +90,48 @@ const PlaceInfo = ({ data }: Props) => {
       <>
         <FinishedPhotoText>완료현장 사진</FinishedPhotoText>
 
-        {/* 사진이 들어갈 공간*/}
+        {/* 모바일 사진이 들어갈 공간*/}
         <FinishedPhotoBox>
           <Carousel file={data?.projectCompletionFiles} />
           <Index onClick={handleNum}>{idx}/2</Index>
         </FinishedPhotoBox>
+
+        {/* 웹 사진이 들어갈 공간*/}
+        <WebFinishedPhotoWrapper>
+          <WebLeftPhotoBox>
+            {data?.projectCompletionFiles?.map((el, idx) => (
+              <WebLeftPhotos
+                key={el?.projectCompletionFileIdx}
+                onClick={() => {
+                  webHandleNum(idx);
+                }}
+                webIdx={webIdx}
+                idx={idx}
+              >
+                <div className="imgBox">
+                  <Image
+                    src={el?.url}
+                    alt={el?.originalName}
+                    layout="fill"
+                    priority={true}
+                    unoptimized={true}
+                  />
+                </div>
+              </WebLeftPhotos>
+            ))}
+          </WebLeftPhotoBox>
+          <WebRightPhotoBox key={DataFilter?.projectCompletionFileIdx}>
+            <div className="imgBox">
+              <Image
+                src={DataFilter?.url}
+                alt={DataFilter?.originalName}
+                layout="fill"
+                priority={true}
+                unoptimized={true}
+              />
+            </div>
+          </WebRightPhotoBox>
+        </WebFinishedPhotoWrapper>
       </>
 
       <Wrap>
@@ -146,6 +192,57 @@ const FileBox = styled.div`
   padding-bottom: 18pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
 `;
+
+const WebFinishedPhotoWrapper = styled.div`
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24pt;
+  }
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`;
+
+const WebLeftPhotoBox = styled.div`
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    justify-content: space-between;
+    height: 330pt;
+  }
+`;
+
+const WebLeftPhotos = styled.div<{ idx: number; webIdx: number }>`
+  @media (min-width: 900pt) {
+    width: 60pt;
+    height: 60pt;
+    border-radius: 6pt;
+    border: ${({ idx, webIdx }) => idx === webIdx && `0.75pt solid #5221cb`};
+    cursor: pointer;
+    .imgBox {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+  }
+`;
+
+const WebRightPhotoBox = styled.div`
+  @media (min-width: 900pt) {
+    width: 508.5pt;
+    height: 330pt;
+    border-radius: 12pt;
+    .imgBox {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+  }
+`;
+
 const FinishedPhotoText = styled.div`
   font-family: Spoqa Han Sans Neo;
   font-size: 10.5pt;
@@ -162,6 +259,9 @@ const FinishedPhotoBox = styled.div`
   margin-top: 12pt;
   border-radius: 6pt;
   position: relative;
+  @media (min-width: 900pt) {
+    display: none;
+  }
 `;
 
 const Index = styled.div`
@@ -202,6 +302,10 @@ const FileDownloadBtn = styled(Button)`
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 8px;
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 const FileDownload = styled.a`
   text-decoration: none;
