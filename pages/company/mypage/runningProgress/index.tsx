@@ -203,6 +203,7 @@ const Container = styled.div`
 const WebRapper = styled.div`
   width: 100%;
   height: 100%;
+  padding-bottom: 30pt;
 
   display: flex;
   flex-direction: column;
