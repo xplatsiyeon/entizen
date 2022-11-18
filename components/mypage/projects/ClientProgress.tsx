@@ -529,7 +529,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             </ToggleWrapper>
           )}
         </FlexBox>
-        <Line />
+        <Line lineHeight={toggleOpen[4]}></Line>
       </Wrapper>
       {data?.project?.isCompletedCompletionStep ? (
         <WebFinButton
@@ -729,9 +729,11 @@ const ToggleWrapper = styled.div<{ presentProgress?: boolean }>`
   z-index: 10;
 `;
 
-const Line = styled.div`
+const Line = styled.div<{ lineHeight: boolean }>`
   position: absolute;
-  height: 200pt;
+  height: ${({ lineHeight }) =>
+    lineHeight ? `calc(100% - 175pt)` : `calc(100% - 15pt)`};
+
   top: 5pt;
   left: 22.5pt;
   width: 0.25pt;

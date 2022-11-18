@@ -476,7 +476,7 @@ const FlexBox = styled.div<{ margin?: boolean }>`
   display: flex;
   position: relative;
   flex-direction: column;
-  margin-bottom: ${({ margin }) => (margin ? 24 : 30)}pt;
+  margin-bottom: ${({ margin }) => (margin ? 24 : 22.5)}pt;
   & > div {
     display: flex;
     align-items: center;

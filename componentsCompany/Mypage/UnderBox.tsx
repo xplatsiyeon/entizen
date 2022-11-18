@@ -52,15 +52,17 @@ const UnderBox = ({ setOpenContract }: Props) => {
           <Btn tColor={false}>고객과 소통하기</Btn>
         </BtnBox>
       ) : (
-        <BtnBox2 onClick={() => alert('개발중입니다')}>
-          <WebImageBox width={15} height={15}>
-            <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
-          </WebImageBox>
-          <WebTitle>고객과 소통하기</WebTitle>
-          <WebImageBox width={3.75} height={7.5}>
-            <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
-          </WebImageBox>
-        </BtnBox2>
+        <BtnWrap>
+          <BtnBox2 onClick={() => alert('개발중입니다')}>
+            <WebImageBox width={15} height={15}>
+              <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
+            </WebImageBox>
+            <WebTitle>고객과 소통하기</WebTitle>
+            <WebImageBox width={3.75} height={7.5}>
+              <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
+            </WebImageBox>
+          </BtnBox2>
+        </BtnWrap>
       )}
 
       <>
@@ -82,7 +84,6 @@ const UnderBox = ({ setOpenContract }: Props) => {
 };
 
 const WebRapper = styled.div`
-  padding-bottom: 72pt;
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
@@ -94,7 +95,6 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   margin-top: 21pt;
   position: relative;
-  padding-bottom: 10pt;
   @media (min-width: 900pt) {
     width: 580.5pt;
     padding-bottom: 45pt;
@@ -215,6 +215,12 @@ const CommunityBtnBox = styled.div`
     display: none;
   }
 `;
+
+const BtnWrap =styled.div`
+  position: relative;
+  padding: 60pt 0;
+  background: white;
+`
 
 const BtnBox2 = styled(CommunityBtnBox)`
   display: none;

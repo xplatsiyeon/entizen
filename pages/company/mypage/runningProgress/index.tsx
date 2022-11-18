@@ -165,7 +165,7 @@ const WebBody = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
-  @media (max-height: 350pt) {
+  @media (max-height: 500pt) {
     height: 100%;
     display: block;
   }
@@ -177,9 +177,11 @@ const Container = styled.div`
   margin: 45.75pt auto;
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
+  background: white;
+  height: 100%;
   @media (max-width: 899pt) {
     width: 100%;
-    height: 100vh;
+    height: auto;
     position: relative;
     top: 0;
     left: 0%;
@@ -189,8 +191,9 @@ const Container = styled.div`
     background: none;
     margin: 0;
   }
-  @media (max-height: 500pt) {
+  @media (max-height: 400pt) {
     height: 100%;
+    background: white;
   }
   @media (min-width: 900pt) {
     margin: 0 auto;
@@ -198,12 +201,19 @@ const Container = styled.div`
 `;
 
 const WebRapper = styled.div`
+  padding-bottom: 60pt;
+  height: auto;
   @media (min-width: 900pt) {
     margin: 0 auto;
     padding: 60pt 0;
     width: 900pt;
     display: flex;
     justify-content: space-between;
+  }
+
+  @media (max-height: 400pt) {
+    height: 100vh;
+    background: white;
   }
 `;
 
