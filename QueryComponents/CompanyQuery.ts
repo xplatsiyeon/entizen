@@ -201,65 +201,62 @@ export const GET_InProgressProjectsDetail = gql`
 `;
 
 interface HistoryProjectsDetail {
-  completedProjects: [
-    {
-      badge: string;
-      projectIdx: string;
-      projectName: string;
-      projectNumber: string;
-      subscribeStartDate: string;
-      subscribeEndDate: string;
-      projectReview: {
-        projectReviewIdx: string;
-        attentivenessPoint: number;
-        quicknessPoint: number;
-        professionalismPoint: number;
-        satisfactionPoint: number;
-        averagePoint: string;
-        opinion: string;
-        projectIdx: number;
-      };
-      finalQuotation: {
-        finalQuotationIdx: string;
-        subscribeProduct: string;
-        subscribePricePerMonth: number;
-        userInvestRate: string;
-        finalQuotationChargers: [
-          {
-            finalQuotationChargerIdx: string;
-            kind: string;
-            standType: string;
-            channel: string;
-            count: number;
-            chargePriceType: string;
-            chargePrice: number;
-            installationLocation: string;
-            modelName: string;
-            manufacturer: string;
-            productFeature: string;
-          },
-        ];
-        finalQuotationDetailFiles: [
-          {
-            finalQuotationDetailFileIdx: string;
-            originalName: string;
-            url: string;
-            size: number;
-          },
-        ];
-      };
-      userMember: {
-        memberIdx: number;
-        name: number;
-        phone: number;
-      };
-    },
-  ];
+  badge: string;
+  projectIdx: string;
+  projectName: string;
+  projectNumber: string;
+  subscribeStartDate: string;
+  subscribeEndDate: string;
+  projectReview: {
+    projectReviewIdx: string;
+    attentivenessPoint: number;
+    quicknessPoint: number;
+    professionalismPoint: number;
+    satisfactionPoint: number;
+    averagePoint: string;
+    opinion: string;
+    projectIdx: number;
+  };
+  finalQuotation: {
+    finalQuotationIdx: string;
+    subscribeProduct: string;
+    subscribePricePerMonth: number;
+    userInvestRate: string;
+    finalQuotationChargers: [
+      {
+        finalQuotationChargerIdx: string;
+        kind: string;
+        standType: string;
+        channel: string;
+        count: number;
+        chargePriceType: string;
+        chargePrice: number;
+        installationLocation: string;
+        modelName: string;
+        manufacturer: string;
+        productFeature: string;
+      },
+    ];
+    finalQuotationDetailFiles: [
+      {
+        finalQuotationDetailFileIdx: string;
+        originalName: string;
+        url: string;
+        size: number;
+      },
+    ];
+  };
+  userMember: {
+    memberIdx: number;
+    name: number;
+    phone: number;
+  };
 }
 export interface ResponseHistoryProjectsDetail {
   completedProjects: HistoryProjectsDetail[];
 }
 
+//  완료 프로젝트
 export const GET_historyProjectsDetail = gql`
   query Query($searchKeyword: String!, $sort: CompletedProjectsSort!) {
     completedProjects(searchKeyword: $searchKeyword, sort: $sort) {
