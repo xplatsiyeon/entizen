@@ -149,11 +149,13 @@ font-size: 9pt;
 line-height: 12pt;
 letter-spacing: -0.02em;
 color: #CACCD1;
+width: 50pt;
 `
 
 const FlexWrap = styled.div`
 display: flex;
 justify-content: space-between;
+align-items: baseline;
 `
 
 const ListWrap = styled.div`

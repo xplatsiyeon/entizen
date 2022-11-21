@@ -89,7 +89,12 @@ const AsIndex = (props: Props) => {
   const menuList: {} = [];
   const handlerBtn = () => router.push('/mypage/as/requestAS');
   const handleAsListClick = () => {
-    router.push(`/mypage/as/${0}`)
+    router.push({
+      pathname:'mypage/as',
+      query:{
+        id: 0
+      }
+    })
   };
 
   const ul = useRef<HTMLUListElement>(null);

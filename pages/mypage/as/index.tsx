@@ -14,13 +14,14 @@ const asNumber = ()=>{
 
     const router = useRouter();
     const id =router.query.id;
-    let btnTag;
+    let btnTag=<>??</>;
 
     const [ index, setIndex] = useState<number>()
 
     useEffect(()=>{
         if(id !== undefined){ // 0은 false로 취급되므로 if(id){ ... }로 조건문을 쓰면 id:0 은 값을 얻을 수 없다.
-        setIndex(Number(id));
+          alert(id)
+          setIndex(Number(id));
         }
     }, [id])
 
@@ -29,6 +30,8 @@ const asNumber = ()=>{
   };
 
   const makeBtn = (text : string, query:string , className?:string)=>{
+
+    alert('index!!'+index)
     return ( 
         <Btn className= {className? className : undefined} onClick={()=>handleClick(query)}>
             <span>{text}</span>
@@ -36,19 +39,54 @@ const asNumber = ()=>{
         )
   }
 
+   /*useEffect(()=>{
+    if(index !== undefined){
     switch(index){
-        case 0 :
-            btnTag = makeBtn('수정하기', 'requestAS');
-            break;
-        case 2 : 
-            btnTag = makeBtn('A/S 완료하기', 'writeReview', 'as') ;
-            break;
-        case 3 :
-            btnTag = makeBtn('리뷰보기','myReview', 'as');
-            break;
-        default:
-            btnTag = <></> ;       
-    }
+      case 0 :
+
+    alert('index!!'+index)
+          btnTag = makeBtn('수정하기', 'requestAS');
+          break;
+      case 2 : 
+
+    alert('index!!'+index)
+          btnTag = makeBtn('A/S 완료하기', 'writeReview', 'as') ;
+          break;
+      case 3 :
+
+    alert('index!!'+index)
+          btnTag = makeBtn('리뷰보기','myReview', 'as');
+          break;
+      default:
+
+    alert('index!!'+index)
+          btnTag = <></> ;      
+    } 
+
+  }
+   }, [index])*/
+   switch(index){
+    case 0 :
+
+  alert('index!!'+index)
+        btnTag = makeBtn('수정하기', 'requestAS');
+        break;
+    case 2 : 
+
+  alert('index!!'+index)
+        btnTag = makeBtn('A/S 완료하기', 'writeReview', 'as') ;
+        break;
+    case 3 :
+
+  alert('index!!'+index)
+        btnTag = makeBtn('리뷰보기','myReview', 'as');
+        break;
+    default:
+
+  alert('index!!'+index)
+        btnTag = <></> ;      
+  } 
+
 
     return (    
         <Body>
