@@ -53,6 +53,12 @@ type Props = {};
 const LastWrite = (props: Props) => {
   const router = useRouter();
   const routerId = router?.query?.preQuotation;
+
+  // FirstStep 충전기 갯수
+  const [chargeNum, setChargeNum] = useState<number>(0);
+
+  console.log(`chargeNum index에서는?`, chargeNum);
+
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [canNext, SetCanNext] = useState<boolean>(false);
@@ -153,6 +159,8 @@ const LastWrite = (props: Props) => {
         setDueDiligenceResult={setDueDiligenceResult}
         subscribeProductFeature={subscribeProductFeature}
         setSubscribeProductFeature={setSubscribeProductFeature}
+        setChargeNum={setChargeNum}
+        chargeNum={chargeNum}
       />
     ),
     // 스텝 2
@@ -411,6 +419,7 @@ const LastWrite = (props: Props) => {
                             idx={index.toString()}
                             num={tabNumber.toString()}
                             key={tab}
+                            chargeNum={chargeNum}
                             // 테스트용
                             // onClick={() => setTabNumber(index)}
                           />
@@ -486,7 +495,11 @@ const TabBox = styled.div`
     top: 2%;
   }
 `;
-const TabLine = styled.div<{ idx: string; num: string }>`
+const TabLine = styled.div<{
+  idx: string;
+  num: string;
+  chargeNum: number | undefined;
+}>`
   border-style: solid;
   border-bottom-width: 3pt;
   border-color: ${({ idx, num }) => (idx <= num ? colors.main : colors.gray4)};
@@ -500,13 +513,14 @@ const TabLine = styled.div<{ idx: string; num: string }>`
 
   @media (max-width: 899pt) {
     display: block;
-    width: 100%;
   }
 
   @media (min-width: 900pt) {
-    width: 165pt;
+    border-style: solid;
+    width: ${({ chargeNum }) => `calc(100% / ${chargeNum})`};
     border-bottom-width: 6pt;
     border-radius: 3pt;
+    margin: 0 auto;
   }
 `;
 
