@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { InputAdornment, TextField, Typography } from '@mui/material';
 import CompanyAddress from 'components/SignUp/CompanyAddress';
+import arrowRight from 'public/images/arrow-right.png';
 
 
 
@@ -221,11 +222,13 @@ const ProfileEditing = () => {
                 </Address>
 
                 <Div className='PW' onClick={()=>handleRoute('pw')}>
-                    비밀번호 변경
+                    <span>비밀번호 변경</span> 
+                    <ImageWrap><Image src={arrowRight} layout='fill'/></ImageWrap>
                 </Div>
 
                 <Div onClick={()=>handleRoute('certificate')}>
-                    사업자 등록증 변경
+                <span>사업자 등록 변경</span> 
+                    <ImageWrap><Image src={arrowRight} layout='fill'/></ImageWrap>
                 </Div>
 
             </Body>
@@ -340,11 +343,20 @@ position: absolute;
 `
 
 const Div = styled.div`
-    height: 30px;
+    padding-bottom: 18pt;
     border-bottom: 1px solid #E2E5ED;
     margin-top: 31.5pt;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     cursor: pointer;
 `
+const ImageWrap = styled.div`
+width: 4.5pt;
+height: 9pt;
+position: relative;
+`
+
 const Line = styled.div`
 height: 6pt;
 width: 100%;
