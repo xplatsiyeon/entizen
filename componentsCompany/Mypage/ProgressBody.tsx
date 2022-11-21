@@ -11,6 +11,7 @@ import colors from 'styles/colors';
 import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import { changeDataFn } from 'utils/calculatePackage';
 import askDate from 'public/images/askDate.png';
+import { Router, useRouter } from 'next/router';
 
 type Props = {
   dateArr: boolean[];
@@ -38,6 +39,7 @@ const ProgressBody = ({
   data,
   badge,
 }: Props) => {
+  const router = useRouter();
   const [openView, setOpenView] = useState(false);
 
   //  펼쳐지는거 관리
@@ -79,16 +81,16 @@ const ProgressBody = ({
       setDateArr(copyArr);
     }
   };
-
+  // 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    // console.log('계약서 보기 뷰');
-    let targetIframe = document.getElementById(
-      'target-iframe',
-    ) as HTMLImageElement | null;
-    if (targetIframe !== null) {
-      targetIframe.src =
-        'https://app.modusign.co.kr/embedded-document/65e281f0-66f4-11ed-9749-d58038aac652?at=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNTZjMGFkMjAtMjUwNy0xMWVkLThhOGUtZmI5ZGE1NThjYWNjIiwicHJvZmlsZSI6eyJuYW1lIjoi7JeU7Yuw7KaMIiwiZW1haWwiOiJlbnRpemVuQGVudGl6ZW4ua3IifSwiYXV0aEJ5IjoiTE9DQUw6QVBJX0tFWSJ9LCJhdXRoQnkiOiJMT0NBTDpBUElfS0VZIiwicm9sZSI6IlVTRVIiLCJ1cmxQYXRocyI6WyIqKiJdLCJpYXQiOjE2Njg3Njk0MzksImV4cCI6MTY2ODc4MzgzOSwiYXVkIjoiYXBpLm1vZHVzaWduLmNvLmtyIiwiaXNzIjoiYXBpLm1vZHVzaWduLmNvLmtyIn0.mvXogdtKkFhjOtYNNFofnkz5FGqg91GlKHPROswU8QY&redirectUrl=https%3A%2F%2Ftest-api.entizen.kr%2F';
-    }
+    router.push({
+      pathname: '/company/contract',
+      query: {
+        // api 처리 필요
+        documentId:
+          'https://app.modusign.co.kr/embedded-document/818952e0-66f3-11ed-bd43-d1438d4c2bca?at=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNTZjMGFkMjAtMjUwNy0xMWVkLThhOGUtZmI5ZGE1NThjYWNjIiwicHJvZmlsZSI6eyJuYW1lIjoi7JeU7Yuw7KaMIiwiZW1haWwiOiJlbnRpemVuQGVudGl6ZW4ua3IifSwiYXV0aEJ5IjoiTE9DQUw6QVBJX0tFWSJ9LCJhdXRoQnkiOiJMT0NBTDpBUElfS0VZIiwicm9sZSI6IlVTRVIiLCJ1cmxQYXRocyI6WyIqKiJdLCJpYXQiOjE2Njg5OTM2NDgsImV4cCI6MTY2OTAwODA0OCwiYXVkIjoiYXBpLm1vZHVzaWduLmNvLmtyIiwiaXNzIjoiYXBpLm1vZHVzaWduLmNvLmtyIn0.aShI9vAX5E6cZLbNE9wz4YCDB2rFnzf_xhlVtrJJrHg',
+      },
+    });
 
     setOpenView(true);
   };
