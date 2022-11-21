@@ -43,7 +43,6 @@ const TopBox = ({
 }: Props) => {
   return (
     <>
-    
       <Wrapper className={className !== undefined ? className : ''}>
         <ItemButton onClick={handleClick}>
           <StoreName>
@@ -63,7 +62,6 @@ const TopBox = ({
                 </ArrowImg>
               )}
             </div>
-            {/* <p>{info.address}</p> */}
           </StoreName>
         </ItemButton>
         {/* Open */}
@@ -100,8 +98,8 @@ const TopBox = ({
               </div>
               {data?.project?.finalQuotation?.finalQuotationChargers?.map(
                 (item, index) => (
-                  <>
-                    <div className="text-box" key={index}>
+                  <React.Fragment key={index}>
+                    <div className="text-box">
                       {index === 0 ? (
                         <span className="name">충전기 종류 및 수량</span>
                       ) : (
@@ -128,11 +126,7 @@ const TopBox = ({
                       </span>
                     </div>
                     <div className="text-box">
-                      {index === 0 ? (
-                        <span className="name">충전기 설치 위치</span>
-                      ) : (
-                        <span className="name" />
-                      )}
+                      <span className="name">충전기 설치 위치</span>
                       <span className="text">
                         {convertKo(
                           location,
@@ -141,7 +135,7 @@ const TopBox = ({
                         )}
                       </span>
                     </div>
-                  </>
+                  </React.Fragment>
                 ),
               )}
               <div className="text-box">

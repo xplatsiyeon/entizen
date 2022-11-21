@@ -58,7 +58,7 @@ const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
       </BoxWrapper>
       <BoxWrapper
         borders={borders ? borders : 0}
-        onClick={() => alert('2차 작업 범위 페이지입니다.')}
+        onClick={() => router.push('/mypage?id=1')}
       >
         <Box>
           <BoxName>

@@ -20,20 +20,16 @@ export const modusign = (data: InProgressProjectsDetailResponse) => {
             excluded: false,
             signingMethod: {
               type: 'KAKAO',
-              value: data?.project?.userMember?.phone,
+              value: '01033920580',
             },
             signingDuration: 20160,
             locale: 'ko',
             role: '유저',
-            name: data?.project?.userMember?.name,
+            name: '윤경연',
           },
           {
             excluded: false,
-            signingMethod: { type: 'KAKAO', value: '01091163962' },
-            // signingMethod: {
-            //   type: 'KAKAO',
-            //   value: data?.project?.companyMember?.phone,
-            // },
+            signingMethod: { type: 'KAKAO', value: '01049988965' },
             signingDuration: 20160,
             locale: 'ko',
             role: '기업',
@@ -42,7 +38,7 @@ export const modusign = (data: InProgressProjectsDetailResponse) => {
           },
           {
             excluded: false,
-            signingMethod: { type: 'KAKAO', value: '01045648381' },
+            signingMethod: { type: 'EMAIL', value: 'mznx0192@naver.com' },
             signingDuration: 20160,
             locale: 'ko',
             role: '관리자',
@@ -148,7 +144,5 @@ export const modusign = (data: InProgressProjectsDetailResponse) => {
     }),
   };
 
-  return fetch(url, options).then((res: any) => res.json());
-  // .then((json: any) => console.log(json))
-  // .catch((err: any) => console.error('error:' + err));
+  return fetch(url, options).then((res: Response) => res.json());
 };

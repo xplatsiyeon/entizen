@@ -8,11 +8,16 @@ import UpArrow from 'public/images/smallUpArrow.png';
 import DownArrow from 'public/images/smallDownArrow.png';
 import MessageBox from './MessageBox';
 import colors from 'styles/colors';
-import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
+import {
+  Contract,
+  GET_contract,
+  InProgressProjectsDetailResponse,
+} from 'QueryComponents/CompanyQuery';
 import { changeDataFn } from 'utils/calculatePackage';
 import askDate from 'public/images/askDate.png';
 import { Router, useRouter } from 'next/router';
 import { css } from '@emotion/react';
+import { useQuery } from '@apollo/client';
 
 type Props = {
   dateArr: boolean[];
@@ -41,7 +46,23 @@ const ProgressBody = ({
   badge,
 }: Props) => {
   const router = useRouter();
-  const [openView, setOpenView] = useState(false);
+  // -----진행중인 프로젝트 상세 리스트 api-----
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    loading: contractLoading,
+    error: contractError,
+    data: contractData,
+  } = useQuery<Contract>(GET_contract, {
+    variables: {
+      projectIdx: router?.query?.projectIdx!,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
 
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -82,19 +103,18 @@ const ProgressBody = ({
       setDateArr(copyArr);
     }
   };
+
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    router.push({
-      pathname: '/company/contract',
-      query: {
-        // api 처리 필요
-        id: router?.query?.projectIdx,
-        documentId:
-          'https://app.modusign.co.kr/embedded-document/818952e0-66f3-11ed-bd43-d1438d4c2bca?at=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNTZjMGFkMjAtMjUwNy0xMWVkLThhOGUtZmI5ZGE1NThjYWNjIiwicHJvZmlsZSI6eyJuYW1lIjoi7JeU7Yuw7KaMIiwiZW1haWwiOiJlbnRpemVuQGVudGl6ZW4ua3IifSwiYXV0aEJ5IjoiTE9DQUw6QVBJX0tFWSJ9LCJhdXRoQnkiOiJMT0NBTDpBUElfS0VZIiwicm9sZSI6IlVTRVIiLCJ1cmxQYXRocyI6WyIqKiJdLCJpYXQiOjE2Njg5OTM2NDgsImV4cCI6MTY2OTAwODA0OCwiYXVkIjoiYXBpLm1vZHVzaWduLmNvLmtyIiwiaXNzIjoiYXBpLm1vZHVzaWduLmNvLmtyIn0.aShI9vAX5E6cZLbNE9wz4YCDB2rFnzf_xhlVtrJJrHg',
-      },
-    });
-
-    setOpenView(true);
+    if (contractData) {
+      router.push({
+        pathname: '/company/contract',
+        query: {
+          id: router?.query?.projectIdx,
+          documentId: contractData?.project?.contract?.documentId,
+        },
+      });
+    }
   };
 
   let textArr;
@@ -140,7 +160,7 @@ const ProgressBody = ({
         '프로젝트를 완료해주세요',
       ];
       break;
-    case '완료 대기':
+    case '완료대기':
       textArr = [
         '공사 준비가 완료되었습니다.',
         '충전기를 설치, 시운전이 완료되었습니다',
@@ -160,8 +180,6 @@ const ProgressBody = ({
 
   return (
     <>
-      {/* 계약서 문서 */}
-      <Iframe id="target-iframe" openView={openView} src={''} />
       <DoubleArrowBox>
         <Image src={DoubleArrow} alt="doubleArrow" />
       </DoubleArrowBox>
@@ -173,10 +191,8 @@ const ProgressBody = ({
             <CircleImgBox>
               <Image
                 src={
-                  data?.project?.isCompletedUserContractStep &&
-                  data?.project?.isCompletedCompanyMemberContractStep
-                    ? // data?.project?.badge === '계약대기'
-                      progressBlueCircle
+                  data?.project?.badge === '계약대기'
+                    ? progressBlueCircle
                     : progressCircle
                 }
                 alt="progressCircle"
@@ -201,15 +217,10 @@ const ProgressBody = ({
             <ContractBtnBox
               onClick={onClickContract}
               presentProgress={
-                data?.project?.isCompletedCompanyMemberContractStep &&
-                !data?.project?.isCompletedReadyStep
-                  ? // data?.project?.badge === '계약대기'
-                    true
-                  : false
+                data?.project?.badge === '계약대기' ? true : false
               }
             >
               <div>계약서 보기</div>
-              {/* <div>계약서 수정</div> */}
             </ContractBtnBox>
           )}
         </FlexBox>
@@ -220,11 +231,8 @@ const ProgressBody = ({
               {/* 동그라미 컬러 */}
               <Image
                 src={
-                  data?.project?.isCompletedUserContractStep &&
-                  data?.project?.isCompletedCompanyMemberContractStep &&
-                  !data?.project?.isCompletedReadyStep
-                    ? // data?.project?.badge === '계약대기'
-                      progressBlueCircle
+                  data?.project?.badge === '준비 중'
+                    ? progressBlueCircle
                     : progressCircle
                 }
                 alt="progressCircle"
@@ -245,11 +253,12 @@ const ProgressBody = ({
               {data?.project?.readyStepGoalDate ? (
                 <PickedDate
                   color={
-                    data?.project?.isCompletedReadyStep
+                    data?.project?.isCompletedReadyStep === true
                       ? '#e2e5ed'
                       : colors.main
                   }
                 >
+                  {/* 목표 요일  */}
                   {data?.project?.readyStepGoalDate === 'CHANGING'
                     ? '목표일 변경 중'
                     : changeDataFn(data?.project?.readyStepGoalDate)}
@@ -270,10 +279,7 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(1)}
                 presentProgress={
-                  data?.project?.isCompletedCompanyMemberContractStep &&
-                  !data?.project?.isCompletedReadyStep
-                    ? true
-                    : false
+                  data?.project?.badge === '준비 중' ? true : false
                 }
                 title={textArr[0]}
                 firstText={'충전기 및 부속품 준비'}
@@ -289,8 +295,7 @@ const ProgressBody = ({
               {/* 동그라미 */}
               <Image
                 src={
-                  data?.project?.isCompletedReadyStep &&
-                  !data?.project?.isCompletedInstallationStep
+                  data?.project?.badge === '설치 중'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -312,7 +317,7 @@ const ProgressBody = ({
               {data?.project?.installationStepGoalDate ? (
                 <PickedDate
                   color={
-                    data?.project?.isCompletedInstallationStep
+                    data?.project?.isCompletedInstallationStep === true
                       ? '#e2e5ed'
                       : colors.main
                   }
@@ -337,10 +342,7 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(2)}
                 presentProgress={
-                  data?.project?.isCompletedReadyStep &&
-                  !data?.project?.isCompletedInstallationStep
-                    ? true
-                    : false
+                  data?.project?.badge === '설치 중' ? true : false
                 }
                 title={textArr[1]}
                 firstText={'충전기 설치 및 배선작업'}
@@ -356,8 +358,7 @@ const ProgressBody = ({
               {/* 동그라미 컬러 */}
               <Image
                 src={
-                  data?.project?.isCompletedInstallationStep &&
-                  !data?.project?.isCompletedExamStep
+                  data?.project?.badge === '검수 중'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -379,7 +380,9 @@ const ProgressBody = ({
               {data?.project?.examStepGoalDate ? (
                 <PickedDate
                   color={
-                    data?.project?.isCompletedExamStep ? '#e2e5ed' : colors.main
+                    data?.project?.isCompletedExamStep === true
+                      ? '#e2e5ed'
+                      : colors.main
                   }
                 >
                   {data?.project?.examStepGoalDate === 'CHANGING'
@@ -402,10 +405,7 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(3)}
                 presentProgress={
-                  data?.project?.isCompletedInstallationStep &&
-                  !data?.project?.isCompletedExamStep
-                    ? true
-                    : false
+                  data?.project?.badge === '검수 중' ? true : false
                 }
                 title={textArr[2]}
                 firstText={'검수 및 전기차 충전 테스트 (고객 참관)'}
@@ -422,7 +422,8 @@ const ProgressBody = ({
               <Image
                 className="bottomCircle"
                 src={
-                  data?.project?.isCompletedExamStep
+                  data?.project?.badge === '완료 중' ||
+                  data?.project?.badge === '완료 대기'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -442,11 +443,7 @@ const ProgressBody = ({
                 </div>
               </ProgressName>
               {data?.project?.completionStepGoalDate ? (
-                <PickedDate
-                  color={
-                    data?.project?.isCompletedExamStep ? colors.main : '#e2e5ed'
-                  }
-                >
+                <PickedDate color={colors.main}>
                   {data?.project?.completionStepGoalDate === 'CHANGING'
                     ? '변경 중'
                     : changeDataFn(data?.project?.completionStepGoalDate)}
@@ -467,10 +464,7 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(4)}
                 presentProgress={
-                  data?.project?.isCompletedExamStep &&
-                  !data?.project?.isCompletedCompletionStep
-                    ? true
-                    : false
+                  data?.project?.badge === '완료 중' ? true : false
                 }
                 title={textArr[3]}
                 firstText={'사용 전 검사 및 점검'}

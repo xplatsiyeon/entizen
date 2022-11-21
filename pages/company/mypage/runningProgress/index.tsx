@@ -39,7 +39,7 @@ const RunningProgress = (props: Props) => {
   const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
   // 계약서 유무
-  const [openContract, setOpenContract] = useState<boolean>(false);
+  // const [openContract, setOpenContract] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(0);
@@ -83,7 +83,7 @@ const RunningProgress = (props: Props) => {
 
   useEffect(() => {
     if (router.query.projectIdx) {
-      const num = Number(router.query.projectIdx);
+      const num = Number(router?.query?.projectIdx);
       setComponentId(num);
       // setData(tempProceeding[num]);
       setHeaderTab(3);
@@ -132,7 +132,7 @@ const RunningProgress = (props: Props) => {
               />
             )}
             <MypageHeader back={true} title={'진행 프로젝트'} />
-            <WebBox className='content'>
+            <WebBox className="content">
               <TopBox
                 open={open}
                 setOpen={setOpen}
@@ -140,8 +140,9 @@ const RunningProgress = (props: Props) => {
                 data={inProgressData!}
                 type={'COMPANY'}
               />
-              {/* 계약서 작성 시 Progress 나와야 됨 */}
-              {!openContract ? (
+              {/* 계약서 발송 버튼 클릭 시 프로그레스 컴포넌트로 변경 */}
+              {inProgressData?.project?.contract?.documentId?.length! > 1 ? (
+                // 프로젝트 진행
                 <Progress
                   data={inProgressData!}
                   inProgressRefetch={inProgressRefetch}
@@ -149,7 +150,8 @@ const RunningProgress = (props: Props) => {
                   setData={setData}
                 />
               ) : (
-                <UnderBox setOpenContract={setOpenContract} />
+                // 계약서 없는 상태
+                <UnderBox />
               )}
             </WebBox>
           </WebRapper>
@@ -226,7 +228,6 @@ const WebRapper = styled.div`
 `;
 
 const WebBox = styled.div`
-
   display: flex;
   flex: auto;
   flex-direction: column;

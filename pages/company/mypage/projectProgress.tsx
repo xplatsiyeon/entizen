@@ -1,17 +1,11 @@
 import { ApolloQueryResult, OperationVariables } from '@apollo/client';
 import styled from '@emotion/styled';
-import { isTokenPostApi } from 'api';
 import MypageHeader from 'components/mypage/request/header';
 import DateModal from 'componentsCompany/Modal/DateModal';
-import PrepareModal from 'componentsCompany/Mypage/PrepareModal';
 import ProgressBody from 'componentsCompany/Mypage/ProgressBody';
 import Reusable from 'componentsCompany/Mypage/Reusable';
-import {
-  InProgressProjectsDetailResponse,
-  InProgressProjectsDetail,
-} from 'QueryComponents/CompanyQuery';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
 import { Data } from './runningProgress';
 
 type Props = {
@@ -25,7 +19,6 @@ type Props = {
 
 const stepTypeType = ['READY', 'INSTALLATION', 'EXAM', 'COMPLETION'];
 const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
-  const [open, setOpen] = useState<boolean>(false);
   // 선택 날짜 관련
   const [selectedDays, SetSelectedDays] = useState<string>('');
   // 달력모달 관련
@@ -79,7 +72,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
           <HeaderWrap>
             <MypageHeader
               exitBtn={true}
-              title={'진행 프로젝트??'}
+              title={'진행 프로젝트'}
               handleOnClick={() => setProgressNum(-1)}
             />
           </HeaderWrap>
