@@ -9,24 +9,27 @@ import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
 import AnyContracIcon from 'public/images/AnyContracIcon.png';
 import ChatsIcon from 'public/mypage/myProjectChats.png';
 import arrowRGr from 'public/mypage/ChatsArrow.png';
-import { modusign } from 'api/sign';
 import ComContranct from './CompContract';
+import Modal from 'components/Modal/Modal';
 
 type Props = {
   setOpenContract: Dispatch<SetStateAction<boolean>>;
 };
 
 const UnderBox = ({ setOpenContract }: Props) => {
+  // 계약서 작성 및 서명 클릭 화면
   const [contr, setContr] = useState<boolean>(false);
 
   return (
     <WebRapper>
+      {/* <Modal click={} text{/> */}
       <Wrapper>
         <ImageBox>
           <Image src={DoubleArrow} alt="doubleArrow" layout="fill" />
         </ImageBox>
         <MobWrap>
           {!contr ? (
+            // 빈 화면
             <NoContractBox>
               <CenterImgBox>
                 <Image src={contract} alt="contract" layout="fill" />
@@ -35,32 +38,31 @@ const UnderBox = ({ setOpenContract }: Props) => {
               <SmallText>계약 후 프로젝트가 진행됩니다.</SmallText>
             </NoContractBox>
           ) : (
-            <ComContranct setOpenContract={setOpenContract} />
+            // 계약서 선택 템플릿
+            <ComContranct />
           )}
         </MobWrap>
       </Wrapper>
 
       {!contr ? (
         <BtnBox>
-          {/* <Btn onClick={() => setOpenContract(true)} tColor={true}>
-          계약서 작성 및 서명
-        </Btn> */}
-
           <Btn onClick={() => setContr(true)} tColor={true}>
             계약서 작성 및 서명
           </Btn>
           <Btn tColor={false}>고객과 소통하기</Btn>
         </BtnBox>
       ) : (
-        <BtnBox2 onClick={() => alert('개발중입니다')}>
-          <WebImageBox width={15} height={15}>
-            <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
-          </WebImageBox>
-          <WebTitle>고객과 소통하기</WebTitle>
-          <WebImageBox width={3.75} height={7.5}>
-            <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
-          </WebImageBox>
-        </BtnBox2>
+        <BtnWrap>
+          <BtnBox2 onClick={() => alert('개발중입니다')}>
+            <WebImageBox width={15} height={15}>
+              <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
+            </WebImageBox>
+            <WebTitle>고객과 소통하기</WebTitle>
+            <WebImageBox width={3.75} height={7.5}>
+              <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
+            </WebImageBox>
+          </BtnBox2>
+        </BtnWrap>
       )}
 
       <>
@@ -82,7 +84,8 @@ const UnderBox = ({ setOpenContract }: Props) => {
 };
 
 const WebRapper = styled.div`
-  padding-bottom: 72pt;
+  flex: auto;
+  position: relative;
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
@@ -90,11 +93,11 @@ const WebRapper = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding-left: 15pt;
-  padding-right: 15pt;
-  margin-top: 21pt;
-  position: relative;
-  padding-bottom: 10pt;
+  //padding-left: 15pt;
+  //padding-right: 15pt;
+    padding-top: 21pt;
+    position: relative;
+    min-height: 300pt; 
   @media (min-width: 900pt) {
     width: 580.5pt;
     padding-bottom: 45pt;
@@ -110,16 +113,19 @@ const ImageBox = styled.div`
 `;
 
 const MobWrap = styled.div`
+//border: 1px solid red;
+//height: calc(100% - 147pt);
   @media (min-width: 900pt) {
     display: none;
   }
 `;
 
 const NoContractBox = styled.div`
-  padding-left: 67.5pt;
-  padding-right: 67.5pt;
-  margin-top: 33pt;
   display: flex;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -158,7 +164,7 @@ const SmallText = styled.div`
 
 const BtnBox = styled.div`
   @media (max-width: 899pt) {
-    position: fixed;
+    //position: fixed;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -195,6 +201,7 @@ const Btn = styled.div<{ tColor: boolean }>`
 
 const WebBtnWrapper = styled.div`
   display: flex;
+  flex-direction: inherit;
   justify-content: space-between;
   padding-bottom: 50pt;
   gap: 22.5pt;
@@ -207,14 +214,21 @@ const CommunityBtnBox = styled.div`
   display: flex;
   align-items: center;
   margin: 0 auto;
-  width: 135.75pt;
-  height: 33pt;
+  width: 135.75pt ;
+  //height: 33pt;
+  padding: 10.5pt 12pt;
   background-color: #f3f4f7;
   border-radius: 21.75pt;
   @media (max-width: 899pt) {
     display: none;
   }
 `;
+
+const BtnWrap =styled.div`
+  position: relative;
+  padding: 60pt 0;
+  background: white;
+`
 
 const BtnBox2 = styled(CommunityBtnBox)`
   display: none;

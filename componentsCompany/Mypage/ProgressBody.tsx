@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
@@ -11,6 +11,8 @@ import colors from 'styles/colors';
 import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import { changeDataFn } from 'utils/calculatePackage';
 import askDate from 'public/images/askDate.png';
+import { Router, useRouter } from 'next/router';
+import { css } from '@emotion/react';
 
 type Props = {
   dateArr: boolean[];
@@ -38,6 +40,9 @@ const ProgressBody = ({
   data,
   badge,
 }: Props) => {
+  const router = useRouter();
+  const [openView, setOpenView] = useState(false);
+
   //  펼쳐지는거 관리
   const handleToggleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -77,11 +82,25 @@ const ProgressBody = ({
       setDateArr(copyArr);
     }
   };
+  // 계약서 보기 버튼 클릭
+  const onClickContract = () => {
+    router.push({
+      pathname: '/company/contract',
+      query: {
+        // api 처리 필요
+        id: router?.query?.projectIdx,
+        documentId:
+          'https://app.modusign.co.kr/embedded-document/818952e0-66f3-11ed-bd43-d1438d4c2bca?at=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNTZjMGFkMjAtMjUwNy0xMWVkLThhOGUtZmI5ZGE1NThjYWNjIiwicHJvZmlsZSI6eyJuYW1lIjoi7JeU7Yuw7KaMIiwiZW1haWwiOiJlbnRpemVuQGVudGl6ZW4ua3IifSwiYXV0aEJ5IjoiTE9DQUw6QVBJX0tFWSJ9LCJhdXRoQnkiOiJMT0NBTDpBUElfS0VZIiwicm9sZSI6IlVTRVIiLCJ1cmxQYXRocyI6WyIqKiJdLCJpYXQiOjE2Njg5OTM2NDgsImV4cCI6MTY2OTAwODA0OCwiYXVkIjoiYXBpLm1vZHVzaWduLmNvLmtyIiwiaXNzIjoiYXBpLm1vZHVzaWduLmNvLmtyIn0.aShI9vAX5E6cZLbNE9wz4YCDB2rFnzf_xhlVtrJJrHg',
+      },
+    });
+
+    setOpenView(true);
+  };
 
   let textArr;
 
   switch (badge) {
-    case '계약 대기':
+    case '계약대기':
       textArr = [
         '공사 준비를 진행해주세요.',
         '충전기를 설치, 시운전을 진행해주세요',
@@ -141,9 +160,12 @@ const ProgressBody = ({
 
   return (
     <>
+      {/* 계약서 문서 */}
+      <Iframe id="target-iframe" openView={openView} src={''} />
       <DoubleArrowBox>
         <Image src={DoubleArrow} alt="doubleArrow" />
       </DoubleArrowBox>
+
       <Wrapper>
         {/* 계약 */}
         <FlexBox margin={toggleOpen[0]}>
@@ -151,8 +173,10 @@ const ProgressBody = ({
             <CircleImgBox>
               <Image
                 src={
+                  data?.project?.isCompletedUserContractStep &&
                   data?.project?.isCompletedCompanyMemberContractStep
-                    ? progressBlueCircle
+                    ? // data?.project?.badge === '계약대기'
+                      progressBlueCircle
                     : progressCircle
                 }
                 alt="progressCircle"
@@ -174,9 +198,18 @@ const ProgressBody = ({
           </div>
           {/* 펼쳐지는 부분 */}
           {toggleOpen[0] && (
-            <ContractBtnBox>
+            <ContractBtnBox
+              onClick={onClickContract}
+              presentProgress={
+                data?.project?.isCompletedCompanyMemberContractStep &&
+                !data?.project?.isCompletedReadyStep
+                  ? // data?.project?.badge === '계약대기'
+                    true
+                  : false
+              }
+            >
               <div>계약서 보기</div>
-              <div>계약서 수정</div>
+              {/* <div>계약서 수정</div> */}
             </ContractBtnBox>
           )}
         </FlexBox>
@@ -187,9 +220,11 @@ const ProgressBody = ({
               {/* 동그라미 컬러 */}
               <Image
                 src={
+                  data?.project?.isCompletedUserContractStep &&
                   data?.project?.isCompletedCompanyMemberContractStep &&
                   !data?.project?.isCompletedReadyStep
-                    ? progressBlueCircle
+                    ? // data?.project?.badge === '계약대기'
+                      progressBlueCircle
                     : progressCircle
                 }
                 alt="progressCircle"
@@ -222,11 +257,9 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="prepareDate" onClick={handleDateModal}>
                   목표일
-
-                <ImageWrap>
-                  <Image src={askDate} layout='fill'/>
-                </ImageWrap>
-
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
                 </SetDate>
               )}
             </InsideFlex>
@@ -291,9 +324,9 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="installDate" onClick={handleDateModal}>
                   목표일
-                <ImageWrap>
-                  <Image src={askDate} layout='fill'/>
-                </ImageWrap>
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
                 </SetDate>
               )}
             </InsideFlex>
@@ -356,9 +389,9 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="inspectionDate" onClick={handleDateModal}>
                   목표일
-                <ImageWrap>
-                  <Image src={askDate} layout='fill'/>
-                </ImageWrap>
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
                 </SetDate>
               )}
             </InsideFlex>
@@ -421,9 +454,9 @@ const ProgressBody = ({
               ) : (
                 <SetDate id="successDate" onClick={handleDateModal}>
                   목표일
-                <ImageWrap>
-                  <Image src={askDate} layout='fill'/>
-                </ImageWrap>
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
                 </SetDate>
               )}
             </InsideFlex>
@@ -453,6 +486,18 @@ const ProgressBody = ({
   );
 };
 
+const Iframe = styled.iframe<{ openView: boolean }>`
+  /* background-color: red; */
+
+  display: ${({ openView }) => openView === false && 'none'};
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  bottom: 0%;
+  z-index: 999;
+`;
+
 const Wrapper = styled.div`
   position: relative;
   padding-left: 15pt;
@@ -476,7 +521,7 @@ const FlexBox = styled.div<{ margin?: boolean }>`
   display: flex;
   position: relative;
   flex-direction: column;
-  margin-bottom: ${({ margin }) => (margin ? 24 : 30)}pt;
+  margin-bottom: ${({ margin }) => (margin ? 24 : 22.5)}pt;
   & > div {
     display: flex;
     align-items: center;
@@ -519,7 +564,7 @@ const ImageWrap = styled.div`
   top: -100%;
   right: 0;
   transform: translateY(-3.5pt);
-`
+`;
 
 const SetDate = styled.div`
   padding: 4.5pt 7.5pt;
@@ -548,11 +593,11 @@ const PickedDate = styled.div`
     console.log(props);
     return props.color;
   }};
-  border: 1px solid ${(props) => props.color};
+  border: 0.75pt solid ${(props) => props.color};
   border-radius: 6pt;
 `;
 
-const ContractBtnBox = styled.div`
+const ContractBtnBox = styled.div<{ presentProgress: boolean }>`
   display: flex;
   gap: 11.625pt;
   padding-top: 12pt;
@@ -572,6 +617,12 @@ const ContractBtnBox = styled.div`
     box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
     border-radius: 6pt;
     color: #a6a9b0;
+    cursor: pointer;
+    ${({ presentProgress }) =>
+      presentProgress === true &&
+      css`
+        border: 0.75pt solid ${colors.main};
+      `}
   }
 `;
 

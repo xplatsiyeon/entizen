@@ -55,8 +55,7 @@ const MessageBox = ({
         {complete ? (
           //여기 코드 reUsable 컴포넌트로
           <ImageBox>
-            {/* <Carousel file={file!} /> */}
-            {/* <Index onClick={handleNum}>{idx}/2</Index> */}
+            <Carousel file={file} />
           </ImageBox>
         ) : null}
       </LeftSideBox>
@@ -82,6 +81,7 @@ const Wrapper = styled.div<{ presentProgress: boolean }>`
   display: flex;
   justify-content: space-between;
   position: relative;
+  cursor: pointer;
 `;
 
 const LeftSideBox = styled.div<{ presentProgress: boolean }>`

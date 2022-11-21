@@ -38,6 +38,7 @@ const RunningProgress = (props: Props) => {
   const router = useRouter();
   const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
+  // 계약서 유무
   const [openContract, setOpenContract] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -131,7 +132,7 @@ const RunningProgress = (props: Props) => {
               />
             )}
             <MypageHeader back={true} title={'진행 프로젝트'} />
-            <WebBox>
+            <WebBox className='content'>
               <TopBox
                 open={open}
                 setOpen={setOpen}
@@ -140,7 +141,7 @@ const RunningProgress = (props: Props) => {
                 type={'COMPANY'}
               />
               {/* 계약서 작성 시 Progress 나와야 됨 */}
-              {openContract ? (
+              {!openContract ? (
                 <Progress
                   data={inProgressData!}
                   inProgressRefetch={inProgressRefetch}
@@ -165,7 +166,7 @@ const WebBody = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
-  @media (max-height: 350pt) {
+  @media (max-height: 500pt) {
     height: 100%;
     display: block;
   }
@@ -177,6 +178,8 @@ const Container = styled.div`
   margin: 45.75pt auto;
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
+  background: white;
+
   @media (max-width: 899pt) {
     width: 100%;
     height: 100vh;
@@ -189,8 +192,9 @@ const Container = styled.div`
     background: none;
     margin: 0;
   }
-  @media (max-height: 500pt) {
+  @media (max-height: 400pt) {
     height: 100%;
+    background: white;
   }
   @media (min-width: 900pt) {
     margin: 0 auto;
@@ -198,16 +202,35 @@ const Container = styled.div`
 `;
 
 const WebRapper = styled.div`
+  width: 100%;
+  height: 100%;
+  padding-bottom: 30pt;
+
+  display: flex;
+  flex-direction: column;
+
   @media (min-width: 900pt) {
     margin: 0 auto;
     padding: 60pt 0;
     width: 900pt;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    gap: 60pt;
+  }
+
+  @media (max-height: 400pt) {
+    height: 100vh;
+    background: white;
   }
 `;
 
 const WebBox = styled.div`
+
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
