@@ -11,6 +11,7 @@ import { ProjectReview } from 'QueryComponents/UserQuery';
 type Props = {
   review: boolean;
   data: ProjectReview;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 const PlaceGetReview = ({ review, data }: Props) => {
@@ -28,7 +29,7 @@ const PlaceGetReview = ({ review, data }: Props) => {
   }
   // rivew, score 값이 있으면, 각 score 값에 맞게 체크된 배열이 만들어진다.
   // ex) 친절함 :4  -> [true, true, true, true, false]
-  let checked = reviewPoint.map((r, idx) => {
+  let checked = reviewPoint.map((r, idx, setOpen) => {
     let temp = [];
     for (let i = 0; i < 5; i++) {
       if (score[idx] > i) {
@@ -47,6 +48,8 @@ const PlaceGetReview = ({ review, data }: Props) => {
       </DownArrowBox>
       <RatingForm>
         <ReviewTitle>내 충전소 리뷰 보기</ReviewTitle>
+
+        <MobWrap>
         {reviewPoint.map((r, idx) => {
           // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸.
           return (
@@ -70,6 +73,8 @@ const PlaceGetReview = ({ review, data }: Props) => {
           required
           readOnly={true}
         />
+
+        </MobWrap>
       </RatingForm>
     </Wrap>
   );
@@ -90,22 +95,28 @@ const Wrap = styled.div`
 `;
 
 const RatingForm = styled.div`
-  margin-top: 20.25pt;
+  padding-top: 30pt;
   display: flex;
   flex-direction: column;
   gap: 6pt;
   width: 100%;
+  min-height: 100vh;
   position: absolute;
   background: white;
-  top: 25pt;
+  top: 30pt;
+  left: 0;
   @media (min-width: 900pt) {
     margin-top: 0;
+    padding-top: 0;
     position: static;
+    min-height: auto;
   }
 `;
 
 const ReviewTitle = styled.div`
+display: none;
   @media (min-width: 900pt) {
+    display: block;
     padding-bottom: 30pt;
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
@@ -168,8 +179,10 @@ const TextArea = styled.textarea`
   font-size: 12pt;
   line-height: 20pt;
   letter-spacing: -0.02em;
+  width: 100%;
   color: #222222;
-  padding-top: 12pt;
+  box-sizing: border-box;
+  padding-top: 0pt;
   padding-left: 12pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
@@ -194,3 +207,15 @@ const Btn2 = styled.button`
     letter-spacing: -0.02em;
   }
 `;
+
+const MobWrap = styled.div`
+  margin: 0 15pt;
+  position: relative;
+    gap: 6pt;
+    display: flex;
+    flex-direction: column;
+
+  @media (min-width: 900pt) {
+    margin: 0;
+  }
+`

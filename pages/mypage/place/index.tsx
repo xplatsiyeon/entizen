@@ -137,16 +137,22 @@ const ChargingPlace = () => {
             {typeof routerId !== 'undefined' ? (
               <Wrap2>
                 <MypageHeader
-                  back={true}
-                  title={!open ? '내 충전소' : '내 충전소 리뷰보기'}
+                  back={open ? true: undefined}
+                  title={open ? '내 충전소' : (target![0].projectReview? '내 충전소 리뷰하기':'내 충전소 리뷰보기')}
+                  exitBtn={open ? undefined : true}
+                  handleOnClick={()=>setOpen(!open)}
                 />
                 <RightBox>
-                  {hideTopBox === true && <PlaceTopBox data={target![0]} />}
+                  {hideTopBox ? <PlaceTopBox data={target![0]} /> : null}
                   {open ? (
                     <Wrap>
                       {/* 계약 관련 정보가 적힌 컴포넌트 */}
                       <PlaceInfo data={target![0]} />
-                      <Btn
+
+                      {/*웹과 모바일일때, 리뷰 컴포넌트가 보여질 모습이 달라서 버튼 2개 생성.
+                        웹용 버튼은 모바일 사이즈에선 display : None, 모바일 버튼은 웹 사이지에서 display : None
+                      */}
+                      <BtnWeb
                         onClick={() => {
                           setOpen(!open);
                           setHideTopBox(false);
@@ -156,7 +162,17 @@ const ChargingPlace = () => {
                           {/* 작성된 리뷰 여부 */}
                           {target![0].projectReview ? '리뷰보기' : '리뷰쓰기'}
                         </span>
-                      </Btn>
+                      </BtnWeb>
+                      <BtnMob
+                        onClick={() => {
+                          setOpen(!open);
+                        }}
+                      >
+                        <span>
+                          {/* 작성된 리뷰 여부 */}
+                          {target![0].projectReview ? '리뷰보기' : '리뷰쓰기'}
+                        </span>
+                      </BtnMob>
                     </Wrap>
                   ) : (
                     <>
@@ -165,12 +181,17 @@ const ChargingPlace = () => {
                         <PlaceGetReview
                           review={true}
                           data={target![0].projectReview}
+                          setOpen={setOpen}
                         />
                       ) : (
                         <PlaceNoReview
                           chargingRefetch={chargingRefetch}
                           close={setOpen}
-                        />
+                        />/*<PlaceGetReview
+                          review={true}
+                          data={target![0].projectReview}
+                          setOpen={setOpen}
+                        /> */
                       )}
                     </>
                   )}
@@ -265,7 +286,7 @@ const HeaderWrap = styled.div`
   margin-left: -15pt;
 `;
 
-const Btn = styled.button`
+const BtnMob = styled.button`
   width: 100%;
   background-color: ${colors.main};
   padding: 15pt 0;
@@ -282,4 +303,15 @@ const Btn = styled.button`
     text-align: center;
     letter-spacing: -0.02em;
   }
+  display: none;
+  @media (max-width: 899pt) {
+    display: block;
+  }
 `;
+
+const BtnWeb = styled(BtnMob)`
+display: block;
+   @media (max-width: 899pt) {
+    display: none;
+  }
+`
