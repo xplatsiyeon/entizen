@@ -84,13 +84,11 @@ export interface InProgressProjectsDetail {
         | 'MARKETING'
         | 'PERSONAL'
         | 'ETC';
-      installationLocation: 'INSIDE' | 'OUTSIDE';
     };
   };
   userMember: UserMember;
   companyMember: CompanyMember;
-  isCompletedUserContractStep: boolean;
-  isCompletedCompanyMemberContractStep: boolean;
+  isCompletedContractStep: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETION';
   isCompletedReadyStep: boolean;
   readyStepGoalDate: string;
   isCompletedInstallationStep: boolean;
@@ -106,6 +104,9 @@ export interface InProgressProjectsDetail {
   unConsentProjectDateChangeHistories: UnConsentProjectDateChangeHistories[];
   projectCompletionFiles: ProjectCompletionFiles[];
   subscribeStartDate: string;
+  contract: {
+    documentId: string;
+  };
 }
 
 export interface InProgressProjectsDetailResponse {
@@ -129,16 +130,17 @@ export const GET_InProgressProjectsDetail = gql`
         constructionPeriod
         subscribeProductFeature
         spotInspectionResult
+
         finalQuotationChargers {
           finalQuotationChargerIdx
           kind
           standType
           channel
           count
+          installationLocation
         }
         quotationRequest {
           installationPurpose
-          installationLocation
         }
       }
       userMember {
@@ -150,9 +152,8 @@ export const GET_InProgressProjectsDetail = gql`
       # 구독시작일
       subscribeStartDate
       # 계약관련 내용
-      # isCompletedContractStep
-      isCompletedUserContractStep
-      isCompletedCompanyMemberContractStep
+      isCompletedContractStep
+
       # 준비단계
       isCompletedReadyStep
       readyStepGoalDate
@@ -195,6 +196,9 @@ export const GET_InProgressProjectsDetail = gql`
         url
         size
         projectIdx
+      }
+      contract {
+        documentId
       }
     }
   }
@@ -308,6 +312,58 @@ export const GET_historyProjectsDetail = gql`
         memberIdx
         name
         phone
+      }
+    }
+  }
+`;
+
+// 계약서 정보 조회
+
+export interface Contract {
+  project: {
+    contract: {
+      contractIdx: string;
+      documentId: string;
+      contractContent: string;
+      contractHistory: string;
+      projectIdx: number;
+      // contractParticipants: {
+      //   contractParticipantIdx: string;
+      //   participantId: string;
+      //   participantType: string;
+      //   participantName: string;
+      //   signatureMethod: string;
+      //   signatureContact: string;
+      //   signatureStatus: string;
+      //   signatureDate: string;
+      //   memberIdx: number | null;
+      //   contractIdx: number;
+      // }[];
+    };
+  };
+}
+
+export const GET_contract = gql`
+  query Project($projectIdx: ID!) {
+    project(projectIdx: $projectIdx) {
+      contract {
+        contractIdx
+        documentId
+        contractContent
+        contractHistory
+        projectIdx
+        # contractParticipants {
+        #   contractParticipantIdx
+        #   participantId
+        #   participantType
+        #   participantName
+        #   signatureMethod
+        #   signatureContact
+        #   signatureStatus
+        #   signatureDate
+        #   memberIdx
+        #   contractIdx
+        # }
       }
     }
   }

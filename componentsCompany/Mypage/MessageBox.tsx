@@ -14,7 +14,6 @@ type Props = {
   presentProgress: boolean;
   page?: string;
   handleClick?: () => void;
-  num?: number;
   complete?: boolean;
   file?: ProjectCompletionFiles[];
 };
@@ -27,7 +26,6 @@ const MessageBox = ({
   presentProgress,
   handleClick,
   page,
-  num,
   complete,
   file,
 }: Props) => {

@@ -15,6 +15,8 @@ import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
+import { api, isTokenPostApi } from 'api';
+import { modusignCancel } from 'api/cancelSign';
 
 type Props = {
   // setOpenContract?: Dispatch<SetStateAction<boolean>>;
@@ -22,6 +24,7 @@ type Props = {
 const TAG = 'componentsCompany/Mypage/CompContract.tsx';
 const ComContranct = ({}: Props) => {
   const router = useRouter();
+  const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
@@ -43,37 +46,87 @@ const ComContranct = ({}: Props) => {
   });
 
   // -------모두싸인 POST API------
-  const { mutate, isError, isLoading } = useMutation(modusign, {
-    onSuccess: (data) => {
+  const {
+    mutate: modusignMutate,
+    isError: modusignIsError,
+    isLoading: modusignIsLoading,
+    data: modusignData,
+  } = useMutation(modusign, {
+    onSuccess: (modusignData: any) => {
       console.log('data 확인');
-      console.log(data);
-      setModalMessage('계약서가 전송되었습니다');
-
+      console.log(modusignData);
       // 백엔드에 보내줄 API 연결
+      const apiData: any = {
+        ...modusignData,
+        projectIdx: router?.query?.projectIdx,
+      };
+      contractsMutate({
+        url: '/contracts',
+        data: {
+          contract: JSON.stringify(apiData),
+        },
+      });
     },
     onError: (error) => {
       console.log('data 확인');
       console.log(error);
+      setIsModal(true);
+      setModalMessage('계약서 전송이 실패했습니다. 다시 시도해주세요.');
+    },
+  });
+  // ------------모두싸인 POST 후 백엔드에 데이터 전송 --------------
+  const {
+    mutate: contractsMutate,
+    isError: contractsIsError,
+    isLoading: contractsIsLoading,
+  } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      setIsModal(true);
+      setModalMessage('계약서가 전송되었습니다');
+    },
+    onError: (error) => {
+      destroyMutate(modusignData?.id);
+      console.log('🔥 모두싸인 POST 에러 ~line 87');
+      console.log(error);
+    },
+  });
+  // ------------모두싸인 POST 후 백엔드에 데이터 전송 실패 시 모두싸인에게 계약서 해지 POST --------------
+  const {
+    mutate: destroyMutate,
+    isError: destroyIsError,
+    isLoading: destroyIsLoading,
+  } = useMutation(modusignCancel, {
+    onSuccess: () => {
+      setIsModal(true);
+      setModalMessage('계약서 전송이 실패했습니다. 다시 시도해주세요.');
+    },
+    onError: (error: any) => {
+      console.log('서명 취소 요청 에러');
+      console.log(error);
     },
   });
 
-  // console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
+  console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
+  console.log(modusignData);
+
   // console.log(inProgressData);
 
   const handleContr = () => {
-    mutate(inProgressData!);
+    modusignMutate(inProgressData!);
   };
 
-  if (isLoading) {
+  if (modusignIsLoading || contractsIsLoading) {
     return <Loader />;
   }
 
   return (
     <Wrapper>
-      <Modal
-        click={() => router.push('/company/mypage?id=0')}
-        text={modalMessage}
-      />
+      {isModal && (
+        <Modal
+          click={() => router.push('/company/mypage?id=0')}
+          text={modalMessage}
+        />
+      )}
       <TitleP>계약서를 작성해 주세요</TitleP>
       <P>계약 후 프로젝트가 진행됩니다.</P>
       <FlexBox>
@@ -124,8 +177,8 @@ const ComContranct = ({}: Props) => {
 export default ComContranct;
 
 const Wrapper = styled.div`
-margin-top: 34.5pt;
-background: white;
+  margin-top: 34.5pt;
+  background: white;
 
   @media (min-width: 899pt) {
     margin-top: 0;
@@ -152,12 +205,12 @@ const P = styled(TitleP)`
 `;
 
 const FlexBox = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-bottom: 50pt;
-    gap: 22.5pt;
-    margin-top: 33pt;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 50pt;
+  gap: 22.5pt;
+  margin-top: 33pt;
 
   @media (max-width: 899pt) {
     flex-direction: column;
