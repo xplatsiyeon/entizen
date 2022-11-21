@@ -87,6 +87,7 @@ const ProgressBody = ({
       pathname: '/company/contract',
       query: {
         // api 처리 필요
+        id: router?.query?.projectIdx,
         documentId:
           'https://app.modusign.co.kr/embedded-document/818952e0-66f3-11ed-bd43-d1438d4c2bca?at=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNTZjMGFkMjAtMjUwNy0xMWVkLThhOGUtZmI5ZGE1NThjYWNjIiwicHJvZmlsZSI6eyJuYW1lIjoi7JeU7Yuw7KaMIiwiZW1haWwiOiJlbnRpemVuQGVudGl6ZW4ua3IifSwiYXV0aEJ5IjoiTE9DQUw6QVBJX0tFWSJ9LCJhdXRoQnkiOiJMT0NBTDpBUElfS0VZIiwicm9sZSI6IlVTRVIiLCJ1cmxQYXRocyI6WyIqKiJdLCJpYXQiOjE2Njg5OTM2NDgsImV4cCI6MTY2OTAwODA0OCwiYXVkIjoiYXBpLm1vZHVzaWduLmNvLmtyIiwiaXNzIjoiYXBpLm1vZHVzaWduLmNvLmtyIn0.aShI9vAX5E6cZLbNE9wz4YCDB2rFnzf_xhlVtrJJrHg',
       },
