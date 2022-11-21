@@ -60,8 +60,9 @@ const WebSort = ({
     <WebRapper>
       <WebBox
         hide={hide}
-        onMouseOver={() => setHide(true)}
-        onMouseLeave={() => setHide(false)}
+        onClick={() => {
+          setHide(!hide);
+        }}
       >
         <SelectValueBox>
           <SelectValue>{selectName}</SelectValue>
@@ -107,8 +108,6 @@ const WebBox = styled.div<{ hide: boolean }>`
   width: 96pt;
   height: 33pt;
   border: 0.75pt solid #e2e5ed;
-  border-bottom: ${({ hide }) => (hide === true ? 'none' : '')};
-  border-radius: ${({ hide }) => (hide === true ? '6pt 6pt 0 0' : '6pt')};
   @media (max-width: 899pt) {
     display: none;
   }
@@ -153,8 +152,9 @@ const SelectContainer = styled.ul<{ hide: boolean }>`
   width: 96pt;
   list-style-type: none;
   position: absolute;
-  border: 0.75pt solid #e2e5ed;
-  /* border-radius: 0 0 6pt 6pt; */
+  background: #ffffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 6pt;
   cursor: pointer;
   display: ${({ hide }) => (hide !== true ? 'none' : '')};
 `;

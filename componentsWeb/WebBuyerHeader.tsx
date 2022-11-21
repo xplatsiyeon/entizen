@@ -87,6 +87,9 @@ const WebBuyerHeader = ({
     ) {
       setType('estimate');
       setTab(0);
+    } else if (router.pathname === '/company/as') {
+      setType('as');
+      setTab(2);
     }
   }, [router]);
 
@@ -114,7 +117,7 @@ const WebBuyerHeader = ({
       id: 2,
       type: 'as',
       menu: 'A/S',
-      linkUrl: '/company/mypage',
+      linkUrl: '/company/as',
     },
     {
       id: 3,
