@@ -14,6 +14,8 @@ import {
   ResponseHistoryProjectsDetail,
 } from 'QueryComponents/CompanyQuery';
 import Loader from 'components/Loader';
+import { changeDataFn } from 'utils/calculatePackage';
+import useDebounce from 'hooks/useDebounce';
 
 type Props = {
   tabNumber: number;
@@ -22,51 +24,7 @@ type Props = {
     React.SetStateAction<number | undefined>
   >;
 };
-interface Data {
-  id: number;
-  storeName: string;
-  date: string;
-}
-// 데이터 없을 때 나오는 페이지
-// const tempProceeding: [] = [];
-const tempProceeding: Data[] = [
-  {
-    id: 0,
-    storeName: '타임스트림 쇼핑몰',
-    date: '2022년 4월 7일',
-  },
-  {
-    id: 1,
-    storeName: '맥도날드 대이동점',
-    date: '2021.05.10',
-  },
-  {
-    id: 2,
-    storeName: 'LS카페 신림점',
-    date: '2021.03.10',
-  },
-  {
-    id: 3,
-    storeName: 'LS카페 마곡점',
-    date: '2021.07.23',
-  },
-  {
-    id: 4,
-    storeName: '스타벅스 마곡점',
-    date: '2021.07.23',
-  },
-  {
-    id: 5,
-    storeName: 'LS카페 계양점',
-    date: '2021.07.23',
-  },
-  {
-    id: 6,
-    storeName: 'LS카페 신림점',
-    date: '2021.07.23',
-  },
-];
-
+const TAG = 'components/Company/Mypage/FinishedProjects.tsx';
 const FinishedProjects = ({
   tabNumber,
   setSuccessComponentId,
@@ -74,12 +32,19 @@ const FinishedProjects = ({
 }: Props) => {
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
+  const [searchWord, setSearchWord] = useState<string>('');
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const keyword = useDebounce(searchWord, 2000);
+  const sortType = ['SUBSCRIBE_START', 'SUBSCRIBE_END'];
   const {
     loading: historyLoading,
     error: historyError,
     data: historyData,
   } = useQuery<ResponseHistoryProjectsDetail>(GET_historyProjectsDetail, {
+    variables: {
+      searchKeyword: keyword,
+      sort: sortType[selectedFilter],
+    },
     context: {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -97,10 +62,13 @@ const FinishedProjects = ({
 
   const handleDownload = () => {};
 
-  if (tempProceeding.length === 0) {
+  if (historyData?.completedProjects?.length! === 0) {
+    console.log(historyData);
     return <NoProject />;
   }
 
+  console.log('🔥 ~line 69 완료 프로젝트 데이터 확인 ' + TAG);
+  // console.log(TAG);
   console.log(historyData);
 
   return (
@@ -133,6 +101,7 @@ const FinishedProjects = ({
           <Input
             placeholder="프로젝트를 검색하세요."
             type="text"
+            onChange={(e) => setSearchWord(e.currentTarget.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -143,10 +112,10 @@ const FinishedProjects = ({
               ),
             }}
           />
-          {tabNumber === 1 && tempProceeding.length > 0 && (
+          {tabNumber === 1 && historyData?.completedProjects?.length! > 0 && (
             <ListContainer>
-              {tempProceeding.map((el, index) => (
-                <div key={index}>
+              {historyData?.completedProjects?.map((el, index) => (
+                <div key={el.projectIdx}>
                   <List
                     onClick={() => {
                       setSuccessComponentId(index);
@@ -155,10 +124,11 @@ const FinishedProjects = ({
                       );
                     }}
                   >
-                    <ListTextBox key={el.id}>
-                      <ListTitle>{el.storeName}</ListTitle>
+                    <ListTextBox>
+                      {/* <ListTitle>{el.storeName}</ListTitle> */}
+                      <ListTitle>{el?.projectName}</ListTitle>
                       <ListRight>
-                        <ListDate>{el.date}</ListDate>
+                        <ListDate>{changeDataFn(el.subscribeEndDate)}</ListDate>
                         <ListIconBox>
                           <Image src={CaretDown24} alt="RightArrow" />
                         </ListIconBox>

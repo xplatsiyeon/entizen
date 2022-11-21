@@ -11,6 +11,8 @@ import colors from 'styles/colors';
 import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import { changeDataFn } from 'utils/calculatePackage';
 import askDate from 'public/images/askDate.png';
+import { Router, useRouter } from 'next/router';
+import { css } from '@emotion/react';
 
 type Props = {
   dateArr: boolean[];
@@ -38,6 +40,7 @@ const ProgressBody = ({
   data,
   badge,
 }: Props) => {
+  const router = useRouter();
   const [openView, setOpenView] = useState(false);
 
   //  펼쳐지는거 관리
@@ -79,16 +82,17 @@ const ProgressBody = ({
       setDateArr(copyArr);
     }
   };
-
+  // 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    // console.log('계약서 보기 뷰');
-    let targetIframe = document.getElementById(
-      'target-iframe',
-    ) as HTMLImageElement | null;
-    if (targetIframe !== null) {
-      targetIframe.src =
-        'https://app.modusign.co.kr/embedded-document/65e281f0-66f4-11ed-9749-d58038aac652?at=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNTZjMGFkMjAtMjUwNy0xMWVkLThhOGUtZmI5ZGE1NThjYWNjIiwicHJvZmlsZSI6eyJuYW1lIjoi7JeU7Yuw7KaMIiwiZW1haWwiOiJlbnRpemVuQGVudGl6ZW4ua3IifSwiYXV0aEJ5IjoiTE9DQUw6QVBJX0tFWSJ9LCJhdXRoQnkiOiJMT0NBTDpBUElfS0VZIiwicm9sZSI6IlVTRVIiLCJ1cmxQYXRocyI6WyIqKiJdLCJpYXQiOjE2Njg3Njk0MzksImV4cCI6MTY2ODc4MzgzOSwiYXVkIjoiYXBpLm1vZHVzaWduLmNvLmtyIiwiaXNzIjoiYXBpLm1vZHVzaWduLmNvLmtyIn0.mvXogdtKkFhjOtYNNFofnkz5FGqg91GlKHPROswU8QY&redirectUrl=https%3A%2F%2Ftest-api.entizen.kr%2F';
-    }
+    router.push({
+      pathname: '/company/contract',
+      query: {
+        // api 처리 필요
+        id: router?.query?.projectIdx,
+        documentId:
+          'https://app.modusign.co.kr/embedded-document/818952e0-66f3-11ed-bd43-d1438d4c2bca?at=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNTZjMGFkMjAtMjUwNy0xMWVkLThhOGUtZmI5ZGE1NThjYWNjIiwicHJvZmlsZSI6eyJuYW1lIjoi7JeU7Yuw7KaMIiwiZW1haWwiOiJlbnRpemVuQGVudGl6ZW4ua3IifSwiYXV0aEJ5IjoiTE9DQUw6QVBJX0tFWSJ9LCJhdXRoQnkiOiJMT0NBTDpBUElfS0VZIiwicm9sZSI6IlVTRVIiLCJ1cmxQYXRocyI6WyIqKiJdLCJpYXQiOjE2Njg5OTM2NDgsImV4cCI6MTY2OTAwODA0OCwiYXVkIjoiYXBpLm1vZHVzaWduLmNvLmtyIiwiaXNzIjoiYXBpLm1vZHVzaWduLmNvLmtyIn0.aShI9vAX5E6cZLbNE9wz4YCDB2rFnzf_xhlVtrJJrHg',
+      },
+    });
 
     setOpenView(true);
   };
@@ -96,7 +100,7 @@ const ProgressBody = ({
   let textArr;
 
   switch (badge) {
-    case '계약 대기':
+    case '계약대기':
       textArr = [
         '공사 준비를 진행해주세요.',
         '충전기를 설치, 시운전을 진행해주세요',
@@ -169,8 +173,10 @@ const ProgressBody = ({
             <CircleImgBox>
               <Image
                 src={
+                  data?.project?.isCompletedUserContractStep &&
                   data?.project?.isCompletedCompanyMemberContractStep
-                    ? progressBlueCircle
+                    ? // data?.project?.badge === '계약대기'
+                      progressBlueCircle
                     : progressCircle
                 }
                 alt="progressCircle"
@@ -192,7 +198,16 @@ const ProgressBody = ({
           </div>
           {/* 펼쳐지는 부분 */}
           {toggleOpen[0] && (
-            <ContractBtnBox onClick={onClickContract}>
+            <ContractBtnBox
+              onClick={onClickContract}
+              presentProgress={
+                data?.project?.isCompletedCompanyMemberContractStep &&
+                !data?.project?.isCompletedReadyStep
+                  ? // data?.project?.badge === '계약대기'
+                    true
+                  : false
+              }
+            >
               <div>계약서 보기</div>
               {/* <div>계약서 수정</div> */}
             </ContractBtnBox>
@@ -205,9 +220,11 @@ const ProgressBody = ({
               {/* 동그라미 컬러 */}
               <Image
                 src={
+                  data?.project?.isCompletedUserContractStep &&
                   data?.project?.isCompletedCompanyMemberContractStep &&
                   !data?.project?.isCompletedReadyStep
-                    ? progressBlueCircle
+                    ? // data?.project?.badge === '계약대기'
+                      progressBlueCircle
                     : progressCircle
                 }
                 alt="progressCircle"
@@ -576,11 +593,11 @@ const PickedDate = styled.div`
     console.log(props);
     return props.color;
   }};
-  border: 1px solid ${(props) => props.color};
+  border: 0.75pt solid ${(props) => props.color};
   border-radius: 6pt;
 `;
 
-const ContractBtnBox = styled.div`
+const ContractBtnBox = styled.div<{ presentProgress: boolean }>`
   display: flex;
   gap: 11.625pt;
   padding-top: 12pt;
@@ -601,6 +618,11 @@ const ContractBtnBox = styled.div`
     border-radius: 6pt;
     color: #a6a9b0;
     cursor: pointer;
+    ${({ presentProgress }) =>
+      presentProgress === true &&
+      css`
+        border: 0.75pt solid ${colors.main};
+      `}
   }
 `;
 

@@ -45,6 +45,8 @@ type Props = {
   setDueDiligenceResult: Dispatch<SetStateAction<string>>;
   subscribeProductFeature: string;
   setSubscribeProductFeature: Dispatch<SetStateAction<string>>;
+  setChargeNum: React.Dispatch<React.SetStateAction<number>>;
+  chargeNum?: number;
 };
 const subScribe = ['전체구독', '부분구독'];
 
@@ -74,6 +76,8 @@ const FirstStep = ({
   setDueDiligenceResult,
   subscribeProductFeature,
   setSubscribeProductFeature,
+  setChargeNum,
+  chargeNum,
 }: Props) => {
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
@@ -206,6 +210,7 @@ const FirstStep = ({
 
   // 다음 버튼 클릭
   const buttonOnClick = () => {
+    console.log('check');
     if (canNext) {
       setTabNumber(tabNumber + 1);
     }
@@ -239,6 +244,16 @@ const FirstStep = ({
     console.log('🔥 ~line 226 ~selectedOptionEn data check');
     console.log(selectedOption);
   }, [selectedOption]);
+
+  // 충전기 개수
+  useEffect(() => {
+    const num = selectedOption.length;
+    if (chargeNum !== undefined) {
+      setChargeNum(3 + num - 1);
+    }
+  }, [selectedOption.length]);
+
+  console.log(`first step입니다`, selectedOption.length);
 
   return (
     <WebRapper>
@@ -329,64 +344,69 @@ const FirstStep = ({
 
         {/* 충전기 종류 및 수량 선택  */}
         {selectedOption?.map((item, index) => (
-          <InputBox className={index > 0 ? 'marginTop' : ''} key={index}>
-            <div>
-              <SubTitle>
-                {index === 0 && (
-                  <h3 className="name">충전기 종류 및 수량 선택</h3>
-                )}
-                {1 <= index ? (
-                  <div className="deleteBox">
-                    <div className="x-img" onClick={() => onClickMinus(index)}>
-                      <Image src={XCircle} alt="add-img" />
+          <WebInputBox>
+            <InputBox className={index > 0 ? 'marginTop' : ''} key={index}>
+              <div>
+                <SubTitle>
+                  {index === 0 && (
+                    <h3 className="name">충전기 종류 및 수량 선택</h3>
+                  )}
+                  {1 <= index ? (
+                    <div className="deleteBox">
+                      <div
+                        className="x-img"
+                        onClick={() => onClickMinus(index)}
+                      >
+                        <Image src={XCircle} alt="add-img" />
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="add-img" onClick={onClickChargerAdd}>
-                    <Image src={AddIcon} alt="add-img" />
-                  </div>
-                )}
-              </SubTitle>
-              <SelectComponents
-                value={item.kind}
-                option={M5_LIST}
-                name="kind"
-                placeholder="충전기 종류"
-                index={index}
-                onClickCharger={handleSelectBox}
-              />
-              {/* 타입,채널,수량 옵션 박스 */}
-              <SelectComponentsContainer>
+                  ) : (
+                    <div className="add-img" onClick={onClickChargerAdd}>
+                      <Image src={AddIcon} alt="add-img" />
+                    </div>
+                  )}
+                </SubTitle>
                 <SelectComponents
-                  value={item.standType}
-                  option={M5_TYPE_SET[item.idx!]}
-                  name="standType"
-                  placeholder="타입"
+                  value={item.kind}
+                  option={M5_LIST}
+                  name="kind"
+                  placeholder="충전기 종류"
                   index={index}
                   onClickCharger={handleSelectBox}
-                  fontSize={'small'}
                 />
-                <SelectComponents
-                  value={item.channel}
-                  option={M5_CHANNEL_SET[item.idx!]}
-                  name="channel"
-                  placeholder="채널"
-                  index={index}
-                  onClickCharger={handleSelectBox}
-                  fontSize={'small'}
-                />
-                <SelectComponents
-                  value={item.count}
-                  option={M8_LIST}
-                  name="count"
-                  placeholder="수량"
-                  index={index}
-                  onClickCharger={handleSelectBox}
-                  fontSize={'small'}
-                />
-              </SelectComponentsContainer>
-            </div>
-          </InputBox>
+                {/* 타입,채널,수량 옵션 박스 */}
+                <SelectComponentsContainer>
+                  <SelectComponents
+                    value={item.standType}
+                    option={M5_TYPE_SET[item.idx!]}
+                    name="standType"
+                    placeholder="타입"
+                    index={index}
+                    onClickCharger={handleSelectBox}
+                    fontSize={'small'}
+                  />
+                  <SelectComponents
+                    value={item.channel}
+                    option={M5_CHANNEL_SET[item.idx!]}
+                    name="channel"
+                    placeholder="채널"
+                    index={index}
+                    onClickCharger={handleSelectBox}
+                    fontSize={'small'}
+                  />
+                  <SelectComponents
+                    value={item.count}
+                    option={M8_LIST}
+                    name="count"
+                    placeholder="수량"
+                    index={index}
+                    onClickCharger={handleSelectBox}
+                    fontSize={'small'}
+                  />
+                </SelectComponentsContainer>
+              </div>
+            </InputBox>
+          </WebInputBox>
         ))}
         <InputBox>
           <div className="withAfter">공사기간</div>
@@ -450,11 +470,12 @@ const Wrapper = styled.div`
     margin-top: 55.5pt;
   }
   .lastInputBox {
-    padding-bottom: 120pt;
+    margin-bottom: 120pt;
   }
   @media (min-width: 900pt) {
     padding-left: 25pt;
     padding-right: 25pt;
+    height: auto;
   }
 `;
 const TopStep = styled.div`
@@ -538,6 +559,8 @@ const InputBox = styled.div`
     gap: 12pt;
   }
 `;
+
+const WebInputBox = styled.div``;
 const AfterWord = styled.div`
   display: flex;
   gap: 12pt;
@@ -684,7 +707,8 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
     border-radius: 8pt;
     position: static;
     margin: 0 auto;
-    margin-top: -17%;
+    margin-top: -15%;
+    margin-bottom: 40.5pt;
   }
 `;
 const SelectContainer = styled.div`
@@ -701,7 +725,7 @@ const SelectComponentsContainer = styled.div`
 
 const WebRapper = styled.div`
   @media (min-width: 900pt) {
-    height: 1240pt;
+    height: 100%;
     width: 580.5pt;
     background-color: #ffffff;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
