@@ -87,7 +87,13 @@ const Estimate = () => {
               <CarouselItem
                 key={data?.quotationRequestIdx}
                 onClick={() =>
-                  router.push(`/mypage/request/${data?.quotationRequestIdx}`)
+                  // router.push(`/mypage/request/${data?.quotationRequestIdx}`)
+                  router.push({
+                    pathname: '/mypage/request',
+                    query: {
+                      quotationRequestIdx: data?.quotationRequestIdx,
+                    },
+                  })
                 }
               >
                 <Badge className="badge" color={HandleUserColor(data?.badge)}>

@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import React, { useCallback } from 'react';
-import { PreQuotationResponse } from 'pages/mypage/request/detail/[id]';
+import { PreQuotationResponse } from 'pages/mypage/request/detail';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 import ManagerInfo from './ManagerInfo';

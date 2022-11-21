@@ -22,7 +22,8 @@ interface Mutation {
 
 const Mypage1_5 = () => {
   const router = useRouter();
-  const routerId = router.query.id;
+  // const routerId = router.query.id;
+  const routerId = router?.query?.preQuotationIdx;
   const dispatch = useDispatch();
   const [selectedDays, SetSelectedDays] = useState<string[]>([]); // 클릭 날짜
   const [isModal, setIsModal] = useState(false); // 모달
