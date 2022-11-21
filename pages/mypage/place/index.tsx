@@ -184,14 +184,14 @@ const ChargingPlace = () => {
                           setOpen={setOpen}
                         />
                       ) : (
-                        <PlaceNoReview
+                        /*<PlaceNoReview
                           chargingRefetch={chargingRefetch}
                           close={setOpen}
-                        />/*<PlaceGetReview
+                        />*/<PlaceGetReview
                           review={true}
                           data={target![0].projectReview}
                           setOpen={setOpen}
-                        /> */
+                        /> 
                       )}
                     </>
                   )}

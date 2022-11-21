@@ -145,11 +145,14 @@ const RBarBox = styled.div`
 `;
 
 const RBar = styled.div`
-  width: 36pt;
+  width: 20%;
   height: 10.5pt;
   background-color: #f3f4f7;
   &.filled {
     background-color: ${colors.main};
+  }
+  @media (min-width: 900pt) {
+    width: 36pt;
   }
 `;
 
@@ -161,6 +164,7 @@ const Title = styled.p`
   letter-spacing: -0.02em;
   text-align: center;
   margin-right: 9pt;
+  width: 40pt;
 `;
 const DownArrowBox = styled.div`
   display: flex;
