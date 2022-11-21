@@ -12,6 +12,7 @@ import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import { changeDataFn } from 'utils/calculatePackage';
 import askDate from 'public/images/askDate.png';
 import { Router, useRouter } from 'next/router';
+import { css } from '@emotion/react';
 
 type Props = {
   dateArr: boolean[];
@@ -99,7 +100,7 @@ const ProgressBody = ({
   let textArr;
 
   switch (badge) {
-    case '계약 대기':
+    case '계약대기':
       textArr = [
         '공사 준비를 진행해주세요.',
         '충전기를 설치, 시운전을 진행해주세요',
@@ -172,8 +173,10 @@ const ProgressBody = ({
             <CircleImgBox>
               <Image
                 src={
+                  data?.project?.isCompletedUserContractStep &&
                   data?.project?.isCompletedCompanyMemberContractStep
-                    ? progressBlueCircle
+                    ? // data?.project?.badge === '계약대기'
+                      progressBlueCircle
                     : progressCircle
                 }
                 alt="progressCircle"
@@ -195,7 +198,16 @@ const ProgressBody = ({
           </div>
           {/* 펼쳐지는 부분 */}
           {toggleOpen[0] && (
-            <ContractBtnBox onClick={onClickContract}>
+            <ContractBtnBox
+              onClick={onClickContract}
+              presentProgress={
+                data?.project?.isCompletedCompanyMemberContractStep &&
+                !data?.project?.isCompletedReadyStep
+                  ? // data?.project?.badge === '계약대기'
+                    true
+                  : false
+              }
+            >
               <div>계약서 보기</div>
               {/* <div>계약서 수정</div> */}
             </ContractBtnBox>
@@ -208,9 +220,11 @@ const ProgressBody = ({
               {/* 동그라미 컬러 */}
               <Image
                 src={
+                  data?.project?.isCompletedUserContractStep &&
                   data?.project?.isCompletedCompanyMemberContractStep &&
                   !data?.project?.isCompletedReadyStep
-                    ? progressBlueCircle
+                    ? // data?.project?.badge === '계약대기'
+                      progressBlueCircle
                     : progressCircle
                 }
                 alt="progressCircle"
@@ -579,11 +593,11 @@ const PickedDate = styled.div`
     console.log(props);
     return props.color;
   }};
-  border: 1px solid ${(props) => props.color};
+  border: 0.75pt solid ${(props) => props.color};
   border-radius: 6pt;
 `;
 
-const ContractBtnBox = styled.div`
+const ContractBtnBox = styled.div<{ presentProgress: boolean }>`
   display: flex;
   gap: 11.625pt;
   padding-top: 12pt;
@@ -604,6 +618,11 @@ const ContractBtnBox = styled.div`
     border-radius: 6pt;
     color: #a6a9b0;
     cursor: pointer;
+    ${({ presentProgress }) =>
+      presentProgress === true &&
+      css`
+        border: 0.75pt solid ${colors.main};
+      `}
   }
 `;
 

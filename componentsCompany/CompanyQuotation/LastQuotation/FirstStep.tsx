@@ -206,6 +206,7 @@ const FirstStep = ({
 
   // 다음 버튼 클릭
   const buttonOnClick = () => {
+    console.log('check');
     if (canNext) {
       setTabNumber(tabNumber + 1);
     }
@@ -450,7 +451,7 @@ const Wrapper = styled.div`
     margin-top: 55.5pt;
   }
   .lastInputBox {
-    padding-bottom: 120pt;
+    margin-bottom: 120pt;
   }
   @media (min-width: 900pt) {
     padding-left: 25pt;
