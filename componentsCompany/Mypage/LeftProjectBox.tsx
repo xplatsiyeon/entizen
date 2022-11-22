@@ -10,6 +10,10 @@ import WebProjectInProgressUnder from 'componentsCompany/Mypage/WebProjectInProg
 import WebFinishedProjectsUnder from './WebFinishedProjectsUnder';
 import useProfile from 'hooks/useProfile';
 import { useQuery } from '@apollo/client';
+import {
+  GET_historyProjectsDetail,
+  ResponseHistoryProjectsDetail,
+} from 'QueryComponents/CompanyQuery';
 import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
 
 type Props = {
@@ -17,10 +21,6 @@ type Props = {
   now?: string;
   setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
   componentId?: number;
-  setSuccessComponentId?: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
-  successComponentId?: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber: number;
 };
@@ -32,15 +32,30 @@ const LeftProjectBox = ({
   setComponentId,
   tabNumber,
   setTabNumber,
-  setSuccessComponentId,
-  successComponentId,
 }: Props) => {
-  const route = useRouter();
+  const router = useRouter();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
   const { loading, error, data } = useQuery<Response>(GET_InProgressProjects, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
+  const {
+    loading: historyLoading,
+    error: historyError,
+    data: historyData,
+  } = useQuery<ResponseHistoryProjectsDetail>(GET_historyProjectsDetail, {
+    variables: {
+      searchKeyword: '',
+      sort: 'SUBSCRIBE_START',
+    },
     context: {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -61,23 +76,46 @@ const LeftProjectBox = ({
     };
   }, [nowWidth]);
 
-  const webComponents: Components = {
-    0: (
-      <WebProjectInProgressUnder
-        tabNumber={tabNumber}
-        setComponentId={setComponentId}
-        componentId={componentId}
-        data={data!}
-      />
-    ),
-    1: (
-      <WebFinishedProjectsUnder
-        tabNumber={tabNumber}
-        setSuccessComponentId={setSuccessComponentId}
-        successComponentId={successComponentId}
-      />
-    ),
-  };
+  // 왼쪽 열리고 닫히고
+  const [progress, setProgress] = useState<boolean>(true);
+  const [success, setSuccess] = useState<boolean>(false);
+
+  console.log(router.pathname);
+
+  useEffect(() => {
+    if (router.pathname === '/compan/mypage' || router.query.id === '0') {
+      setProgress(true);
+      setSuccess(false);
+    } else if (router.query.id === '1') {
+      setProgress(false);
+      setSuccess(true);
+    } else if (router.pathname === '/company/mypage/successedProject') {
+      setProgress(false);
+      setSuccess(true);
+    }
+  }, [router]);
+
+  const nowRouter = router.pathname;
+
+  console.log(`이게 뭔데...???`, data);
+
+  // const webComponents: Components = {
+  //   0: (
+  //     <WebProjectInProgressUnder
+  //       tabNumber={tabNumber}
+  //       setComponentId={setComponentId}
+  //       componentId={componentId}
+  //       data={data!}
+  //     />
+  //   ),
+  //   1: (
+  //     <WebFinishedProjectsUnder
+  //       tabNumber={tabNumber}
+  //       setSuccessComponentId={setSuccessComponentId}
+  //       successComponentId={successComponentId}
+  //     />
+  //   ),
+  // };
 
   // if (tempProceeding.length === 0) {
   //   return <NoProject />;
@@ -91,14 +129,14 @@ const LeftProjectBox = ({
             <h1>{`${profile?.name}님,`}</h1>
             <h2>안녕하세요!</h2>
           </span>
-          <div className="img" onClick={() => route.push('/setting')}>
+          <div className="img" onClick={() => router.push('/setting')}>
             <Image src={Nut} alt="nut-icon" />
           </div>
         </Header>
         <Body>
           <span
             className="profile-icon"
-            onClick={() => route.push('profile/editing')}
+            onClick={() => router.push('profile/editing')}
           >
             프로필 변경
           </span>
@@ -116,7 +154,7 @@ const LeftProjectBox = ({
               </TabItem>
             ))}
           </MobileTabContainer>
-          <WebTabContainer>
+          {/* <WebTabContainer>
             {TabType.map((tab, index) => (
               <TabItem
                 key={index}
@@ -132,10 +170,57 @@ const LeftProjectBox = ({
                 <Dot tab={tabNumber.toString()} index={index.toString()} />
               </TabItem>
             ))}
+          </WebTabContainer> */}
+          <WebTabContainer>
+            <WebTabItem
+              progress={progress}
+              nowRouter={nowRouter}
+              onClick={() => {
+                if (router.pathname !== `/compan/mypage`) {
+                  setProgress(!progress);
+                  setSuccess(!success);
+                }
+              }}
+            >
+              진행 프로젝트
+              <WebDot progress={progress} />
+            </WebTabItem>
+            {router.pathname !== `/company/mypage` && progress === true && (
+              <div>
+                <WebProjectInProgressUnder
+                  tabNumber={tabNumber}
+                  setComponentId={setComponentId}
+                  componentId={componentId}
+                  data={data!}
+                />
+              </div>
+            )}
+            <WebTabItemSuccess
+              success={success}
+              nowRouter={nowRouter}
+              onClick={() => {
+                if (router.pathname !== `/compan/mypage`) {
+                  setProgress(!progress);
+                  setSuccess(!success);
+                }
+              }}
+            >
+              완료 프로젝트
+              <WebDotSuccess success={success} />
+            </WebTabItemSuccess>
+            {router.pathname !== `/company/mypage` && success === true && (
+              <div>
+                <WebFinishedProjectsUnder
+                  tabNumber={tabNumber}
+                  setComponentId={setComponentId}
+                  componentId={componentId}
+                  historyData={historyData!}
+                />
+              </div>
+            )}
           </WebTabContainer>
         </Body>
         <BottomNavigation />
-        <div> {webComponents[tabNumber]}</div>
       </Wrapper>
     </>
   );
@@ -272,6 +357,70 @@ const RightProgress = styled.div`
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
+  }
+`;
+
+const WebTabItem = styled.span<{ progress: boolean; nowRouter: string }>`
+  padding-top: 21pt;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  color: ${({ progress }) =>
+    progress === true ? colors.main : colors.lightGray};
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  pointer-events: ${({ nowRouter }) =>
+    nowRouter === '/company/mypage' && 'none'};
+  @media (min-width: 900pt) {
+    display: flex;
+    align-items: center;
+    padding-top: 23pt;
+  }
+`;
+
+const WebDot = styled.div<{ progress: boolean }>`
+  width: 3pt;
+  height: 3pt;
+  border-radius: 50%;
+  margin: 6pt auto 0 auto;
+  transition: all 0.3s ease-in-out;
+  background-color: ${({ progress }) => (progress === true ? '#5221CB' : '')};
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+    margin-left: 10pt;
+  }
+`;
+
+const WebTabItemSuccess = styled.span<{ success: boolean; nowRouter: string }>`
+  padding-top: 21pt;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  transition: all 0.3s ease-in-out;
+  color: ${({ success }) =>
+    success === true ? colors.main : colors.lightGray};
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    display: flex;
+    align-items: center;
+    padding-top: 23pt;
+  }
+  pointer-events: ${({ nowRouter }) =>
+    nowRouter === '/company/mypage' && 'none'};
+`;
+
+const WebDotSuccess = styled.div<{ success: boolean }>`
+  width: 3pt;
+  height: 3pt;
+  border-radius: 50%;
+  margin: 6pt auto 0 auto;
+  transition: all 0.3s ease-in-out;
+  background-color: ${({ success }) => (success === true ? '#5221CB' : '')};
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+    margin-left: 10pt;
   }
 `;
 

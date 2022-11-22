@@ -20,7 +20,6 @@ type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
   componentId?: number;
-  successComponentId?: number;
   openSubLink: boolean;
   getComponentId?: number;
   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,7 +31,6 @@ const WebBuyerHeader = ({
   componentId,
   num,
   now,
-  successComponentId,
   openSubLink,
   setOpenSubLink,
 }: Props) => {
@@ -251,7 +249,6 @@ const WebBuyerHeader = ({
             type={type}
             num={num}
             now={now}
-            successComponentId={successComponentId}
             openSubLink={openSubLink}
           />
         ) : null}

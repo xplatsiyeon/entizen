@@ -27,12 +27,8 @@ type Props = {
   keyword?: string;
   underNum?: number;
   setUnderNum: React.Dispatch<React.SetStateAction<number | undefined>>;
-  getComponentId?: number;
-  setGetComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
-  successComponentId?: number;
-  setSuccessComponentId?: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
+  componentId?: number;
+  setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
 interface Components {
@@ -59,10 +55,8 @@ const LeftProjectQuotationBox = ({
   keyword,
   underNum,
   setUnderNum,
-  setGetComponentId,
-  getComponentId,
-  setSuccessComponentId,
-  successComponentId,
+  setComponentId,
+  componentId,
 }: Props) => {
   const route = useRouter();
   const [userName, setUserName] = useState<string>('윤세아');
@@ -143,14 +137,14 @@ const LeftProjectQuotationBox = ({
     0: (
       <RecieveRequestUnder
         data={data}
-        getComponentId={getComponentId}
-        setGetComponentId={setGetComponentId}
+        componentId={componentId}
+        setComponentId={setComponentId}
       />
     ),
     1: (
       <SendRequestUnder
-        successComponentId={successComponentId}
-        setSuccessComponentId={setSuccessComponentId}
+        componentId={componentId}
+        setComponentId={setComponentId}
         send={send}
       />
     ),

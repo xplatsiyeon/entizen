@@ -16,10 +16,8 @@ import { HandleColor } from 'utils/changeValue';
 import WebSort from './WebSort';
 
 type Props = {
-  setSuccessComponentId?: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
-  successComponentId?: number;
+  componentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setComponentId?: number;
   send?: SentrequestResponse;
 };
 export interface QuotationRequest {
@@ -58,11 +56,7 @@ export interface SentrequestResponse {
   sendQuotationRequests: SendQuotationRequests[];
 }
 const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
-const SendRequestUnder = ({
-  successComponentId,
-  setSuccessComponentId,
-  send,
-}: Props) => {
+const SendRequestUnder = ({ componentId, setComponentId, send }: Props) => {
   const router = useRouter();
   console.log(send);
 
@@ -81,7 +75,7 @@ const SendRequestUnder = ({
               });
             }}
             select={Number(el?.preQuotation?.preQuotationIdx)}
-            successComponentId={successComponentId}
+            componentId={componentId}
           >
             <DdayNAddress>
               <DdayBox>
@@ -118,8 +112,8 @@ const ContentsContainer = styled.div`
   }
 `;
 const Contents = styled.div<{
-  select: number;
-  successComponentId: number | undefined;
+  select: number | undefined;
+  componentId: number | undefined;
 }>`
   padding: 12pt 13.5pt;
   display: flex;
@@ -128,8 +122,8 @@ const Contents = styled.div<{
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
   cursor: pointer;
-  border: ${({ select, successComponentId }) =>
-    select === successComponentId ? `0.75pt solid #5221CB` : ''};
+  border: ${({ select, componentId }) =>
+    select === componentId ? `0.75pt solid #5221CB` : ''};
 `;
 const DdayBox = styled.div`
   margin-bottom: 16.5pt;

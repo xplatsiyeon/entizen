@@ -17,10 +17,6 @@ type Props = {
   now?: string;
   setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
   componentId?: number;
-  setSuccessComponentId?: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
-  successComponentId?: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber: number;
 };
@@ -74,6 +70,8 @@ const LeftASBox = ({
       setHistoryUnder(true);
     }
   }, [router]);
+
+  const nowRouter = router.pathname;
 
   // 나중에 AS 밑에 오는 부분
   // const webComponents: Components = {
@@ -136,6 +134,7 @@ const LeftASBox = ({
           <WebTabContainer>
             <WebTabItem
               newAS={newAS}
+              nowRouter={nowRouter}
               onClick={() => {
                 if (router.pathname !== `/compan/as`) {
                   setNewAS(!newAS);
@@ -157,6 +156,7 @@ const LeftASBox = ({
             )}
             <WebTabItemHistory
               historyUnder={historyUnder}
+              nowRouter={nowRouter}
               onClick={() => {
                 if (router.pathname !== `/compan/as`) {
                   setNewAS(!newAS);
@@ -286,7 +286,7 @@ const Dot = styled.div<{ tab: string; index: string }>`
   }
 `;
 
-const WebTabItem = styled.span<{ newAS: boolean }>`
+const WebTabItem = styled.span<{ newAS: boolean; nowRouter: string }>`
   padding-top: 21pt;
   font-weight: 700;
   font-size: 12pt;
@@ -295,6 +295,7 @@ const WebTabItem = styled.span<{ newAS: boolean }>`
   color: ${({ newAS }) => (newAS === true ? colors.main : colors.lightGray)};
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  pointer-events: ${({ nowRouter }) => nowRouter === '/company/as' && 'none'};
   @media (min-width: 900pt) {
     display: flex;
     align-items: center;
@@ -311,17 +312,21 @@ const WebDot = styled.div<{ newAS: boolean }>`
   background-color: ${({ newAS }) => (newAS === true ? '#5221CB' : '')};
   @media (min-width: 900pt) {
     margin: 0 auto;
-    margin-left: 20pt;
+    margin-left: 10pt;
   }
 `;
 
-const WebTabItemHistory = styled.span<{ historyUnder: boolean }>`
+const WebTabItemHistory = styled.span<{
+  historyUnder: boolean;
+  nowRouter: string;
+}>`
   padding-top: 21pt;
   font-weight: 700;
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
   transition: all 0.3s ease-in-out;
+  pointer-events: ${({ nowRouter }) => nowRouter === '/company/as' && 'none'};
   color: ${({ historyUnder }) =>
     historyUnder === true ? colors.main : colors.lightGray};
   cursor: pointer;
@@ -342,7 +347,7 @@ const WebDotHistory = styled.div<{ historyUnder: boolean }>`
     historyUnder === true ? '#5221CB' : ''};
   @media (min-width: 900pt) {
     margin: 0 auto;
-    margin-left: 20pt;
+    margin-left: 10pt;
   }
 `;
 

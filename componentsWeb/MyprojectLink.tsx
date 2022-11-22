@@ -8,7 +8,6 @@ type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
   componentId: number | undefined;
-  successComponentId: number | undefined;
   linkState?: string;
   num?: number;
   now?: string;

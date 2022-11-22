@@ -4,10 +4,8 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 type Props = {
-  setSuccessComponentId?: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
-  successComponentId?: number;
+  setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  componentId?: number;
   send?: SentrequestResponse;
 };
 export interface QuotationRequest {
@@ -46,11 +44,7 @@ export interface SentrequestResponse {
   sendQuotationRequests: SendQuotationRequests[];
 }
 
-const LastQuotation = ({
-  setSuccessComponentId,
-  successComponentId,
-  send,
-}: Props) => {
+const LastQuotation = ({ setComponentId, componentId, send }: Props) => {
   const router = useRouter();
   const routerId = router.query.preQuotation;
 

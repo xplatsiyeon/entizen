@@ -124,7 +124,7 @@ const HeadOpenContent = () => {
   // 모달
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const [getComponentId, setGetComponentId] = useState<number>();
+  const [componentId, setComponentId] = useState<number>();
 
   // 실시간으로 width 받아옴
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -277,7 +277,7 @@ const HeadOpenContent = () => {
   useEffect(() => {
     if (router.query.quotationRequestIdx) {
       const num = Number(router.query.quotationRequestIdx);
-      setGetComponentId(num);
+      setComponentId(num);
       // setData(tempProceeding[num]);
       setUnderNum(0);
     }
@@ -306,7 +306,7 @@ const HeadOpenContent = () => {
         <WebBuyerHeader
           setTabNumber={setTabNumber}
           tabNumber={0}
-          getComponentId={getComponentId}
+          componentId={componentId}
           openSubLink={openSubLink}
           setOpenSubLink={setOpenSubLink}
         />
@@ -344,8 +344,8 @@ const HeadOpenContent = () => {
               <LeftProjectQuotationBox
                 underNum={underNum}
                 setUnderNum={setUnderNum}
-                getComponentId={getComponentId}
-                setGetComponentId={setGetComponentId}
+                componentId={componentId}
+                setComponentId={setComponentId}
               />
             )}
             <BtnWrapper>
