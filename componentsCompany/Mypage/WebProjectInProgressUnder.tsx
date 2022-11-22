@@ -45,57 +45,57 @@ const WebProjectInProgressUnder = ({
 
   const router = useRouter();
 
+  console.log(`data 아래에서 가져오니..???`, data);
+
   return (
     <>
-      {componentId !== undefined && (
-        <div>
-          {tabNumber === 0 && data?.inProgressProjects?.length > 0 && (
-            <ContentsContainer>
-              {data?.inProgressProjects?.map((el, index) => (
-                <div key={index}>
-                  <Contents
-                    componentId={componentId}
-                    projectIdx={Number(el.projectIdx)}
-                    key={el.projectIdx}
-                    onClick={() => {
-                      handleId(index);
-                      router.push({
-                        pathname: '/company/mypage/runningProgress/',
-                        query: {
-                          projectIdx: el?.projectIdx,
-                        },
-                      });
-                    }}
-                  >
-                    <DdayNAddress>
-                      <DdayBox>
-                        <CommonBtn
-                          text={el.badge}
-                          backgroundColor={handleColor(el.badge)}
-                          bottom={'12pt'}
-                        />
-                      </DdayBox>
-                      <AddressBox>{el.projectName}</AddressBox>
-                    </DdayNAddress>
-                    <IconBox>
-                      <ArrowIconBox>
-                        <Image src={CaretDown24} alt="RightArrow" />
-                      </ArrowIconBox>
-                    </IconBox>
-                  </Contents>
-                </div>
-              ))}
-            </ContentsContainer>
-          )}
-        </div>
-      )}
+      <div>
+        {data?.inProgressProjects?.length > 0 && (
+          <ContentsContainer>
+            {data?.inProgressProjects?.map((el, index) => (
+              <div key={index}>
+                <Contents
+                  componentId={componentId!}
+                  projectIdx={Number(el.projectIdx)}
+                  key={el.projectIdx}
+                  onClick={() => {
+                    handleId(index);
+                    router.push({
+                      pathname: '/company/mypage/runningProgress/',
+                      query: {
+                        projectIdx: el?.projectIdx,
+                      },
+                    });
+                  }}
+                >
+                  <DdayNAddress>
+                    <DdayBox>
+                      <CommonBtn
+                        text={el.badge}
+                        backgroundColor={handleColor(el.badge)}
+                        bottom={'12pt'}
+                      />
+                    </DdayBox>
+                    <AddressBox>{el.projectName}</AddressBox>
+                  </DdayNAddress>
+                  <IconBox>
+                    <ArrowIconBox>
+                      <Image src={CaretDown24} alt="RightArrow" />
+                    </ArrowIconBox>
+                  </IconBox>
+                </Contents>
+              </div>
+            ))}
+          </ContentsContainer>
+        )}
+      </div>
     </>
   );
 };
 
 const ContentsContainer = styled.div`
-  padding-top: 30pt;
-  height: 190pt;
+  padding-top: 20pt;
+  height: 180pt;
   overflow-y: scroll;
   @media (max-width: 899pt) {
     display: none;
@@ -107,14 +107,13 @@ const Contents = styled.div<{
   componentId: number;
 }>`
   padding: 12pt 13.5pt;
+  margin-top: 9pt;
   display: flex;
-  margin: 0 auto;
-  margin-top: 10pt;
   justify-content: space-between;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
   cursor: pointer;
-  width: 198pt;
+  width: 171pt;
   height: 45pt;
   border: ${({ projectIdx, componentId }) =>
     componentId === projectIdx ? `0.75pt solid #5221CB` : ``};

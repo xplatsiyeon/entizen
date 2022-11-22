@@ -30,8 +30,6 @@ const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
     }
   };
 
-  console.log('컴포넌트 id 뭐나오는지 보자', componentId);
-
   return (
     <Body>
       <List>

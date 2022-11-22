@@ -99,6 +99,8 @@ const RunningProgress = (props: Props) => {
 
   useEffect(() => {}, []);
 
+  console.log(`🐲 진행 프로젝트 102번째 줄`, componentId);
+
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
@@ -207,13 +209,12 @@ const WebRapper = styled.div`
   width: 100%;
   height: 100%;
   padding-bottom: 30pt;
-
   display: flex;
   flex-direction: column;
 
   @media (min-width: 900pt) {
     margin: 0 auto;
-    padding: 60pt 0;
+    padding: 20pt 0;
     width: 900pt;
     display: flex;
     flex-direction: row;

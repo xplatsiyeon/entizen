@@ -6,17 +6,16 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import WebFooter from 'componentsWeb/WebFooter';
+import Image from 'next/image';
+import ChatsIcon from 'public/mypage/myProjectChats.png';
+import arrowRGr from 'public/mypage/ChatsArrow.png';
 
-// type Props = {
-//   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
-//   openSubLink: boolean;
-// 테스트
-// };
 type Props = {};
 
 const successedProject = (props: Props) => {
   const [tabNumber, setTabNumber] = useState<number>(1);
-  const [successComponentId, setSuccessComponentId] = useState<number>();
+  const [componentId, setComponentId] = useState<number>();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
 
   // 서브 카테고리 열렸는지 아닌지
@@ -37,46 +36,92 @@ const successedProject = (props: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (router.query.id) {
-      const num = Number(router.query.id);
-      setSuccessComponentId(num);
-      setOpenSubLink(false);
+    if (router.query.projectIdx) {
+      const num = Number(router.query.projectIdx);
+      setComponentId(num);
     }
-  }, [router]);
+  }, [router.query.projectIdx]);
 
   return (
-    <>
-      {successComponentId !== undefined && (
-        <>
-          <WebBuyerHeader
-            setOpenSubLink={setOpenSubLink}
+    <WebBody>
+      <WebBuyerHeader
+        setOpenSubLink={setOpenSubLink}
+        setTabNumber={setTabNumber}
+        tabNumber={tabNumber}
+        componentId={componentId}
+        openSubLink={openSubLink}
+      />
+      <WebRapper>
+        {nowWidth > 1198.7 && (
+          <LeftProjectBox
             setTabNumber={setTabNumber}
             tabNumber={tabNumber}
-            successComponentId={successComponentId}
-            openSubLink={openSubLink}
+            componentId={componentId}
+            setComponentId={setComponentId}
           />
-          <WebRapper>
-            {nowWidth > 1198.7 && (
-              <LeftProjectBox
-                setTabNumber={setTabNumber}
-                tabNumber={tabNumber}
-                successComponentId={successComponentId}
-                setSuccessComponentId={setSuccessComponentId}
-              />
-            )}
-            <WebBox>
-              <MypageHeader back={true} title={'완료 프로젝트'} />
-              <FinishedTopBox />
-              <FinishedBottomBox />
-            </WebBox>
-          </WebRapper>
-        </>
-      )}
-    </>
+        )}
+        <WebContainer>
+          <WebBox>
+            <MypageHeader back={true} title={'완료 프로젝트'} />
+            <FinishedTopBox />
+            <FinishedBottomBox />
+          </WebBox>
+          <CommunityBtnBox>
+            <WebImageBox width={15} height={15}>
+              <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
+            </WebImageBox>
+            <WebTitle>고객과 소통하기</WebTitle>
+            <WebImageBox width={3.75} height={7.5}>
+              <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
+            </WebImageBox>
+          </CommunityBtnBox>
+        </WebContainer>
+      </WebRapper>
+      <WebFooter />
+    </WebBody>
   );
 };
 
 export default successedProject;
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  @media (max-height: 500pt) {
+    height: 100%;
+    display: block;
+  }
+`;
+
+const Container = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  background: white;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 400pt) {
+    height: 100%;
+    background: white;
+  }
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+  }
+`;
 
 const WebRapper = styled.div`
   @media (min-width: 900pt) {
@@ -93,5 +138,43 @@ const WebBox = styled.div`
     display: flex;
     flex-direction: column;
     width: 580.5pt;
+  }
+`;
+
+const CommunityBtnBox = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: 135.75pt;
+  //height: 33pt;
+  margin-bottom: 30pt;
+  padding: 10.5pt 12pt;
+  background-color: #f3f4f7;
+  border-radius: 21.75pt;
+  @media (min-width: 899pt) {
+    margin-bottom: 0;
+  }
+`;
+
+const WebTitle = styled.div`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+`;
+
+const WebImageBox = styled.div<{ width: number; height: number }>`
+  width: ${(props) => props.width}pt;
+  height: ${(props) => props.height}pt;
+  position: relative;
+  margin: 0 auto;
+`;
+
+const WebContainer = styled.div`
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
   }
 `;
