@@ -13,8 +13,14 @@ import {
   MulterResponse,
 } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
-import { useMutation } from 'react-query';
-import { isTokenPostApi, multerApi } from 'api';
+import { useMutation, useQuery as reactQuery } from 'react-query';
+import {
+  isTokenGetApi,
+  isTokenPatchApi,
+  isTokenPostApi,
+  isTokenPutApi,
+  multerApi,
+} from 'api';
 import Modal from 'components/Modal/Modal';
 import {
   chargingStations,
@@ -22,6 +28,7 @@ import {
 } from 'QueryComponents/UserQuery';
 import { useQuery } from '@apollo/client';
 import Loader from 'components/Loader';
+import { AsDetailReseponse } from 'pages/mypage/as';
 
 export interface DateType {
   new (): Date;
@@ -33,6 +40,7 @@ export interface Charger {
 const TAG = 'components/mypage/as/AsResquestWrite.tsx';
 const AsRequestWrite = () => {
   const router = useRouter();
+  const routerId = router?.query?.afterSalesServiceIdx;
   const imgRef = useRef<any>(null);
   const [checkAll, setCheckAll] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>('');
@@ -110,6 +118,33 @@ const AsRequestWrite = () => {
       },
     },
   );
+  // -------------------------AS 조회 (수정하기) -------------------
+  const {
+    data: detailData,
+    isLoading: detailIsLoading,
+    isError: detailIsError,
+    error,
+  } = reactQuery<AsDetailReseponse>(
+    'as-detail',
+    () => isTokenGetApi(`/after-sales-services/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
+  // -------------------------AS 조회 (수정하기) -------------------
+  const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        router.push('/mypage/as/complete');
+      },
+      onError: (error: any) => {
+        setIsModal(true);
+        setErrorMessage('AS 요청을 실패했습니다.\n다시 시도해주세요.');
+        // router.back();
+      },
+    },
+  );
 
   // 모달 클릭
   const onClickModal = () => {
@@ -154,9 +189,22 @@ const AsRequestWrite = () => {
       }
     }
   };
+  // as 신청하기 버튼
   const onClickNextBtn = () => {
     asMutate({
       url: '/after-sales-services',
+      data: {
+        requestTitle: title,
+        requestContent: reqeustText,
+        projectIdx: selectedIndex,
+        afterSalesServiceRequestFiles: review,
+      },
+    });
+  };
+  // as 수정하기 버튼
+  const onClickModifiedBtn = () => {
+    modifiedMutate({
+      url: `/after-sales-services/${routerId}`,
       data: {
         requestTitle: title,
         requestContent: reqeustText,
@@ -175,6 +223,38 @@ const AsRequestWrite = () => {
   const handleTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setRequestText(() => e.target.value);
   };
+
+  // 수정하기 초기값
+  useEffect(() => {
+    if (detailData) {
+      const afterSalesServiceRequestFiles =
+        detailData?.data.afterSalesService.afterSalesService
+          .afterSalesServiceRequestFiles;
+
+      const newFile = [...afterSalesServiceRequestFiles].map((obj: any) => {
+        delete obj.afterSalesServiceIdx;
+        delete obj.afterSalesServiceRequestFileIdx;
+        delete obj.createdAt;
+        return obj;
+      });
+
+      setTitle(
+        detailData.data.afterSalesService.afterSalesService.requestTitle,
+      );
+      setRequestText(
+        detailData.data.afterSalesService.afterSalesService.requestContent,
+      );
+      setSelectedOption(
+        detailData.data.afterSalesService.afterSalesService.project
+          .finalQuotation.preQuotation.quotationRequest.installationAddress,
+      );
+      setSelectedIndex(
+        detailData.data.afterSalesService.afterSalesService.afterSalesServiceIdx.toString(),
+      );
+      setReview(newFile);
+      console.log(detailData);
+    }
+  }, [detailData]);
 
   useEffect(() => {
     if (!chargingLoading && !chargingError && chargingData?.chargingStations) {
@@ -205,10 +285,11 @@ const AsRequestWrite = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption, review, title, reqeustText]);
 
-  if (chargingLoading || asIsLoading) {
+  if (chargingLoading || asIsLoading || detailIsLoading || modifiedIsLoading) {
     return <Loader />;
   }
-  if (chargingError) {
+
+  if (chargingError || detailIsError) {
     console.log('🔥 ~line 107 ~ AS 충전소 리스트 ' + TAG);
     console.log(chargingError);
   }
@@ -290,13 +371,23 @@ const AsRequestWrite = () => {
           </PhotosBox>
         </RemainderInputBox>
       </Container>
-      <NextBtn
-        onClick={onClickNextBtn}
-        disabled={checkAll}
-        checkAll={!checkAll}
-      >
-        A/S 요청하기
-      </NextBtn>
+      {routerId ? (
+        <NextBtn
+          onClick={onClickModifiedBtn}
+          disabled={checkAll}
+          checkAll={!checkAll}
+        >
+          A/S 수정하기
+        </NextBtn>
+      ) : (
+        <NextBtn
+          onClick={onClickNextBtn}
+          disabled={checkAll}
+          checkAll={!checkAll}
+        >
+          A/S 요청하기
+        </NextBtn>
+      )}
     </>
   );
 };

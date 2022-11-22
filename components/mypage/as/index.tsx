@@ -28,6 +28,7 @@ type Props = {};
 
 interface AfterSalesService {
   afterSalesService: {
+    afterSalesServiceIdx: number;
     createdAt: string;
     requestContent: string;
     acceptanceDate: string | null;
@@ -125,11 +126,11 @@ const AsIndex = (props: Props) => {
       setState({ ...state, [anchor]: open });
     };
   const handlerBtn = () => router.push('/mypage/as/requestAS');
-  const handleAsListClick = (projectIdx: number) => {
+  const handleAsListClick = (afterSalesServiceIdx: number) => {
     router.push({
       pathname: 'mypage/as',
       query: {
-        projectIdx: projectIdx,
+        afterSalesServiceIdx: afterSalesServiceIdx,
       },
     });
   };
@@ -234,7 +235,7 @@ const AsIndex = (props: Props) => {
           <ContentsWrapper
             key={el?.afterSalesService?.project?.projectIdx}
             onClick={() =>
-              handleAsListClick(el?.afterSalesService?.project?.projectIdx)
+              handleAsListClick(el?.afterSalesService?.afterSalesServiceIdx)
             }
           >
             <ContentTop>

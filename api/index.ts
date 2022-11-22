@@ -88,13 +88,29 @@ export const isTokenPostApi = async (apiInfo: PropsApi) => {
     withCredentials: true,
   }).then((res) => res);
 };
-// -----------------------------patch/put-api--------------------------------------
+// -----------------------------patch-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenPatchApi = async (apiInfo: PropsApi) => {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { url, data } = apiInfo;
   return await axios({
     method: 'PATCH',
+    url: `${BASE_URL}${url}`,
+    data,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ContentType: 'application/json',
+    },
+    withCredentials: true,
+  }).then((res) => res.data);
+};
+// -----------------------------put-api--------------------------------------
+// API 호출 (토큰 O)
+export const isTokenPutApi = async (apiInfo: PropsApi) => {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { url, data } = apiInfo;
+  return await axios({
+    method: 'PUT',
     url: `${BASE_URL}${url}`,
     data,
     headers: {
