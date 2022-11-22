@@ -2,11 +2,9 @@ import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { CountertopsOutlined } from '@mui/icons-material';
 import MypageHeader from 'components/mypage/request/header';
-import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
-import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
-import TopBox from 'componentsCompany/Mypage/TopBox';
-import UnderBox from 'componentsCompany/Mypage/UnderBox';
-import WriteContract from 'componentsCompany/Mypage/WriteContract';
+import AsCompTop from 'componentsCompany/AS/component/AsCompTop';
+import LeftASBox from 'componentsCompany/AS/LeftASBox';
+import { handleColorAS } from 'utils/changeValue';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
@@ -15,7 +13,7 @@ import {
   InProgressProjectsDetailResponse,
 } from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
-import Progress from '../projectProgress';
+import AsCompText from 'componentsCompany/AS/component/AsCompText';
 
 // type Props = {
 //   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
@@ -33,18 +31,32 @@ export interface Data {
   address: string;
 }
 
-const TAG = 'pages/compnay/mypage/runningProgress.tsx';
-const RunningProgress = (props: Props) => {
+const TAG = 'pages/compnay/as/receivedAS.tsx';
+const ReceivedAS = (props: Props) => {
   const router = useRouter();
-  const routerId = router?.query?.id!;
-  const [open, setOpen] = useState<boolean>(false);
-  // 계약서 유무
-  // const [openContract, setOpenContract] = useState<boolean>(false);
-  const handleClick = () => setOpen(!open);
+
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
   const [headerTab, setHeaderTab] = useState<number>(3);
+
+  // 접수내용, 접수확인, A/S 결과 열고 닫는거
+  const [request, setRequeste] = useState<boolean>(false);
+  const [requestConfirm, setRequestConfirm] = useState<boolean>(true);
+  const [confirmWait, setConfirmWait] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (request === true) {
+      setRequestConfirm(false);
+      setConfirmWait(false);
+    } else if (requestConfirm === true) {
+      setRequeste(false);
+      setConfirmWait(false);
+    } else if (confirmWait === true) {
+      setRequeste(false);
+      setRequestConfirm(false);
+    }
+  }, [request, requestConfirm, confirmWait]);
 
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
@@ -82,24 +94,19 @@ const RunningProgress = (props: Props) => {
   console.log(inProgressData);
 
   useEffect(() => {
-    if (router.query.projectIdx) {
-      const num = Number(router?.query?.projectIdx);
+    if (router.query.asIdx) {
+      const num = Number(router.query.asIdx);
       setComponentId(num);
-      // setData(tempProceeding[num]);
-      setHeaderTab(3);
+      setHeaderTab(2);
     }
-  }, [router.query.projectIdx]);
+  }, [router.query.asIdx]);
 
   useEffect(() => {
-    if (router.query.projectIdx) {
+    if (router.query.asIdx) {
       // setData(tempProceeding[num]);
       setOpenSubLink(false);
     }
   }, [router]);
-
-  useEffect(() => {}, []);
-
-  console.log(`🐲 진행 프로젝트 102번째 줄`, componentId);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
@@ -126,35 +133,23 @@ const RunningProgress = (props: Props) => {
         <Container>
           <WebRapper>
             {nowWidth > 1198.7 && (
-              <LeftProjectBox
+              <LeftASBox
                 setTabNumber={setTabNumber}
                 tabNumber={tabNumber}
                 componentId={componentId}
                 setComponentId={setComponentId}
               />
             )}
-            <MypageHeader back={true} title={'진행 프로젝트'} />
+            <MypageHeader back={true} title={'신규 A/S'} />
             <WebBox className="content">
-              <TopBox
-                open={open}
-                setOpen={setOpen}
-                handleClick={handleClick}
-                data={inProgressData!}
-                type={'COMPANY'}
-              />
-              {/* 계약서 발송 버튼 클릭 시 프로그레스 컴포넌트로 변경 */}
-              {inProgressData?.project?.contract?.documentId?.length! > 1 ? (
-                // 프로젝트 진행
-                <Progress
-                  data={inProgressData!}
-                  inProgressRefetch={inProgressRefetch}
-                  info={data}
-                  setData={setData}
+              <AsCompTop />
+              <Inner>
+                <AsCompText
+                  request={request}
+                  requestConfirm={requestConfirm}
+                  confirmWait={confirmWait}
                 />
-              ) : (
-                // 계약서 없는 상태
-                <UnderBox />
-              )}
+              </Inner>
             </WebBox>
           </WebRapper>
         </Container>
@@ -164,7 +159,7 @@ const RunningProgress = (props: Props) => {
   );
 };
 
-export default RunningProgress;
+export default ReceivedAS;
 
 const WebBody = styled.div`
   display: flex;
@@ -210,11 +205,13 @@ const WebRapper = styled.div`
   width: 100%;
   height: 100%;
   padding-bottom: 30pt;
+
   display: flex;
   flex-direction: column;
 
   @media (min-width: 900pt) {
     margin: 0 auto;
+
     width: 900pt;
     display: flex;
     flex-direction: row;
@@ -237,5 +234,12 @@ const WebBox = styled.div`
     display: flex;
     flex-direction: column;
     width: 580.5pt;
+  }
+`;
+
+const Inner = styled.div`
+  margin: 0 15pt;
+  @media (min-width: 900pt) {
+    height: auto;
   }
 `;

@@ -55,13 +55,32 @@ const WebSort = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedFilterIndex]);
 
+  // sort 외부 클릭해도 닫히는거
   const [hide, setHide] = useState<boolean>(false);
+  const userMenu =
+    React.useRef<HTMLInputElement>() as React.MutableRefObject<HTMLDivElement>;
+  const userCurrent: HTMLElement | null = userMenu.current;
+
+  // 나중에 event type 수정 예정
+  const modalCloseHandler = (event: any): void => {
+    if (hide && !userCurrent?.contains(event.target as Node)) {
+      setHide(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', modalCloseHandler);
+    return () => {
+      window.removeEventListener('click', modalCloseHandler);
+    };
+  });
   return (
-    <WebRapper>
+    <WebRapper ref={userMenu}>
       <WebBox
         hide={hide}
-        onMouseOver={() => setHide(true)}
-        onMouseLeave={() => setHide(false)}
+        onClick={() => {
+          setHide(!hide);
+        }}
       >
         <SelectValueBox>
           <SelectValue>{selectName}</SelectValue>
@@ -101,14 +120,16 @@ const WebRapper = styled.div`
   justify-content: center;
   background-color: white;
   z-index: 3;
+  @media (max-width: 899pt) {
+    display: none;
+  }
 `;
 
 const WebBox = styled.div<{ hide: boolean }>`
   width: 96pt;
   height: 33pt;
   border: 0.75pt solid #e2e5ed;
-  border-bottom: ${({ hide }) => (hide === true ? 'none' : '')};
-  border-radius: ${({ hide }) => (hide === true ? '6pt 6pt 0 0' : '6pt')};
+  border-radius: 6pt;
   @media (max-width: 899pt) {
     display: none;
   }
@@ -153,9 +174,11 @@ const SelectContainer = styled.ul<{ hide: boolean }>`
   width: 96pt;
   list-style-type: none;
   position: absolute;
-  border: 0.75pt solid #e2e5ed;
-  /* border-radius: 0 0 6pt 6pt; */
+  background: #ffffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 6pt;
   cursor: pointer;
+  margin-top: 6pt;
   display: ${({ hide }) => (hide !== true ? 'none' : '')};
 `;
 

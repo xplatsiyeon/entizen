@@ -8,7 +8,6 @@ type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
   componentId: number | undefined;
-  successComponentId: number | undefined;
   linkState?: string;
   num?: number;
   now?: string;
@@ -44,7 +43,7 @@ const MyprojectLink = ({
 
     case 'as':
       linkName = ['신규 A/S', '히스토리'];
-      linkUrl = [`/company/mypage`, `/company/mypage`];
+      linkUrl = [`/company/as`, `/company/as`];
       break;
 
     case 'communication':
@@ -102,6 +101,13 @@ const MyprojectLink = ({
         router.push({
           pathname: '/company/quotation',
         });
+      } else if (type === 'as') {
+        router.push({
+          pathname: '/company/as',
+          query: { id: idx },
+        });
+      } else if (type === 'as' && idx === 0) {
+        router.push('/company/as');
       }
     }
   };

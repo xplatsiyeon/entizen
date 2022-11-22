@@ -21,16 +21,12 @@ import Modal from 'components/Modal/Modal';
 
 type Props = {
   data?: ReceivedRequest;
-  setGetComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
-  getComponentId?: number;
+  setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  componentId?: number;
 };
 
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
-const RecieveRequestUnder = ({
-  data,
-  setGetComponentId,
-  getComponentId,
-}: Props) => {
+const RecieveRequestUnder = ({ data, setComponentId, componentId }: Props) => {
   const router = useRouter();
   console.log(TAG + '🔥 ~ line 45 ~ data check');
 
@@ -50,7 +46,7 @@ const RecieveRequestUnder = ({
               });
             }}
             select={Number(el?.quotationRequest?.quotationRequestIdx)}
-            getComponentId={getComponentId}
+            componentId={componentId}
           >
             <DdayNAddress>
               <DdayBox>
@@ -88,7 +84,7 @@ const ContentsContainer = styled.div`
 
 const Contents = styled.div<{
   select: number | undefined;
-  getComponentId: number | undefined;
+  componentId: number | undefined;
 }>`
   padding: 12pt 13.5pt;
   display: flex;
@@ -96,8 +92,8 @@ const Contents = styled.div<{
   justify-content: space-between;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
-  border: ${({ select, getComponentId }) =>
-    select === getComponentId ? `0.75pt solid #5221CB` : ''};
+  border: ${({ select, componentId }) =>
+    select === componentId ? `0.75pt solid #5221CB` : ''};
   cursor: pointer;
 `;
 

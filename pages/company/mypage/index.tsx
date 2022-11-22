@@ -27,9 +27,6 @@ const Mypage = ({ num, now }: Props) => {
 
   // 내 프로젝트에서 진행 프로젝트랑 완료 프로젝트 뭐 눌렀는지 받아오는 state
   const [componentId, setComponentId] = useState<number | undefined>();
-  const [successComponentId, setSuccessComponentId] = useState<
-    number | undefined
-  >();
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
@@ -70,8 +67,8 @@ const Mypage = ({ num, now }: Props) => {
     1: (
       <FinishedProjects
         tabNumber={tabNumber}
-        setSuccessComponentId={setSuccessComponentId}
-        successComponentId={successComponentId}
+        setComponentId={setComponentId}
+        componentId={componentId}
       />
     ),
   };
@@ -95,8 +92,6 @@ const Mypage = ({ num, now }: Props) => {
               tabNumber={tabNumber}
               componentId={componentId}
               setComponentId={setComponentId}
-              successComponentId={successComponentId}
-              setSuccessComponentId={setSuccessComponentId}
             />
             <div>{components[tabNumber]}</div>
           </WebRapper>
@@ -137,6 +132,11 @@ const Container = styled.div`
   }
   @media (max-height: 500pt) {
     height: 100%;
+  }
+
+  @media (min-width: 900pt) {
+    margin-top: 54pt;
+    padding-top: 0;
   }
 `;
 

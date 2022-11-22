@@ -100,6 +100,7 @@ const Wrapper = styled.div`
     padding-bottom: 45pt;
     padding-left: 0;
     padding-right: 0;
+    min-height: 0;
   }
 `;
 const ImageBox = styled.div`

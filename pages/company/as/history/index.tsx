@@ -1,57 +1,171 @@
-import styled from "@emotion/styled";
-import MypageHeader from "components/mypage/request/header";
-import AsCompGetReview from "componentsCompany/AS/component/AsCompGetReview";
-import AsCompText from "componentsCompany/AS/component/AsCompText";
-import AsCompTop from "componentsCompany/AS/component/AsCompTop";
-import Image from "next/image";
+import styled from '@emotion/styled';
+import MypageHeader from 'components/mypage/request/header';
+import AsCompGetReview from 'componentsCompany/AS/component/AsCompGetReview';
+import AsCompText from 'componentsCompany/AS/component/AsCompText';
+import AsCompTop from 'componentsCompany/AS/component/AsCompTop';
+import Image from 'next/image';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 
 import RightArrow from 'public/images/black-right-arrow.svg';
 import CommunicationIcon from 'public/images/communication-icon.svg';
+import { useRouter } from 'next/router';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import { useEffect, useState } from 'react';
+import LeftASBox from 'componentsCompany/AS/LeftASBox';
 
 const AsHistory = () => {
-    return (
-        <Body>
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+  const [tabNumber, setTabNumber] = useState<number>(1);
+  const [componentId, setComponentId] = useState<number>();
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+
+  // 실시간으로 width 받아오는 함수
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
+  return (
+    <WebBody>
+      <WebBuyerHeader
+        setTabNumber={setTabNumber}
+        tabNumber={tabNumber}
+        componentId={componentId}
+        openSubLink={openSubLink}
+        setOpenSubLink={setOpenSubLink}
+      />
+      <Container>
+        <WebRapper>
+          {nowWidth > 1198.7 && (
+            <LeftASBox
+              setTabNumber={setTabNumber}
+              tabNumber={tabNumber}
+              componentId={componentId}
+              setComponentId={setComponentId}
+            />
+          )}
+          <Body>
             <MypageHeader title={'A/S 히스토리'} back={true} />
             <AsCompTop />
-
             <Inner className="inner">
-                <DownArrowBox>
-                    <Image src={DoubleArrow} alt="double-arrow" />
-                </DownArrowBox>
-
-                <AsCompText />
-                <AsCompGetReview />
-
-               
+              <AsCompText />
+              <AsCompGetReview />
             </Inner>
-
             <>
-                <Button onClick={()=>alert('소통하기로')}>
+              <Button onClick={() => alert('소통하기로')}>
                 <div>
-                    <Image src={CommunicationIcon} alt="right-arrow" />
+                  <Image src={CommunicationIcon} alt="right-arrow" />
                 </div>
-                    고객과 소통하기
+                고객과 소통하기
                 <div>
-                    <Image src={RightArrow} alt="right-arrow" />
+                  <Image src={RightArrow} alt="right-arrow" />
                 </div>
-                </Button>
+              </Button>
             </>
-        </Body>
-    )
-}
+          </Body>
+        </WebRapper>
+      </Container>
+      <WebFooter />
+    </WebBody>
+  );
+};
 
 export default AsHistory;
 
-const Body = styled.div`
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  @media (max-height: 500pt) {
+    height: 100%;
+    display: block;
+  }
+`;
+
+const Container = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  background: white;
+
+  @media (max-width: 899pt) {
+    width: 100%;
+    height: 100vh;
     position: relative;
-    border: 1px solid ;
-`
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 400pt) {
+    height: 100%;
+    background: white;
+  }
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+    padding-top: 54pt;
+  }
+`;
+
+const WebRapper = styled.div`
+  width: 100%;
+  height: 100%;
+  padding-bottom: 30pt;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+    width: 900pt;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 60pt;
+  }
+
+  @media (max-height: 400pt) {
+    height: 100vh;
+    background: white;
+  }
+`;
+
+const WebBox = styled.div`
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+    width: 580.5pt;
+  }
+`;
+
+const Body = styled.div`
+  position: relative;
+
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+  }
+`;
 
 const Inner = styled.div`
-    margin: 0 15pt;
-    position: relative;
-`
+  margin: 0 15pt;
+  position: relative;
+`;
 
 const DownArrowBox = styled.div`
   display: flex;
@@ -70,6 +184,6 @@ const Button = styled.button`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
-  background: #F3F4F7;
+  background: #f3f4f7;
   color: #222222;
 `;
