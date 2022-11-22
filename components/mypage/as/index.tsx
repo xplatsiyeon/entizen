@@ -125,11 +125,11 @@ const AsIndex = (props: Props) => {
       setState({ ...state, [anchor]: open });
     };
   const handlerBtn = () => router.push('/mypage/as/requestAS');
-  const handleAsListClick = () => {
+  const handleAsListClick = (projectIdx: number) => {
     router.push({
       pathname: 'mypage/as',
       query: {
-        id: 0,
+        projectIdx: projectIdx,
       },
     });
   };
@@ -233,7 +233,9 @@ const AsIndex = (props: Props) => {
         {data?.data?.afterSalesServices?.map((el, index) => (
           <ContentsWrapper
             key={el?.afterSalesService?.project?.projectIdx}
-            onClick={() => handleAsListClick()}
+            onClick={() =>
+              handleAsListClick(el?.afterSalesService?.project?.projectIdx)
+            }
           >
             <ContentTop>
               <ContentTitle>
@@ -262,31 +264,6 @@ const AsIndex = (props: Props) => {
             </ContentBottom>
           </ContentsWrapper>
         ))}
-
-        {/* <ContentsWrapper onClick={() => router.push('/mypage/as/asGoReview')}>
-          <ContentTop>
-            <ContentTitle>LS안양주유소</ContentTitle>
-          </ContentTop>
-          <ContentCenter>
-            <ContentCenterText></ContentCenterText>
-          </ContentCenter>
-          <ContentBottom>
-            <CommonBtn text={'완료대기'} backgroundColor={'#FFC043'} />
-            <DateText>2022.05.17 18:13</DateText>
-          </ContentBottom>
-        </ContentsWrapper>
-        <ContentsWrapper onClick={() => router.push('/mypage/as/asReviewEnd')}>
-          <ContentTop>
-            <ContentTitle>LS안양주유소</ContentTitle>
-          </ContentTop>
-          <ContentCenter>
-            <ContentCenterText></ContentCenterText>
-          </ContentCenter>
-          <ContentBottom>
-            <CommonBtn text={'A/S완료'} backgroundColor={'#222222'} />
-            <DateText>2022.05.17 18:13</DateText>
-          </ContentBottom>
-        </ContentsWrapper> */}
       </ContentsContainer>
       {!menuList && <NoAs />}
       {menuList && (
