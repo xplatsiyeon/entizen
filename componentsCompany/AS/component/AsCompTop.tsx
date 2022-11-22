@@ -27,7 +27,7 @@ const AsCompTop = ({ id }: Props) => {
         <ItemButton onClick={handleClick}>
           <StoreName>
             {/* a/s 히스토리는 완료된 배지만 사용 (검은색) */}
-            <CommonBtns text={'A/S'} backgroundColor={handleColorAS(3)} />
+            <CommonBtns text={'A/S'} backgroundColor={handleColorAS('접수')} />
             <div>
               <h1>LS 안양 주유소</h1>
               {open ? (

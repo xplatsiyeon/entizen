@@ -53,7 +53,9 @@ const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
                 >
                   <ListLeftBox>
                     <FlexWrap>
-                      <Badge bgColor={handleColorAS(d)}>접수요청 D+3</Badge>
+                      <Badge bgColor={handleColorAS('접수')}>
+                        접수요청 D+3
+                      </Badge>
                     </FlexWrap>
                     <StoreName>LS 안양 주유소</StoreName>
                   </ListLeftBox>

@@ -11,11 +11,11 @@ import CommonBtns from './CommonBtns';
 import { handleColorAS } from 'utils/changeValue';
 
 type Props = {
-  id?:number
+  id?: number;
 };
 
-const AsRequest = ({id}: Props) => {
- // alert(id)
+const AsRequest = ({ id }: Props) => {
+  // alert(id)
   const [open, setOpen] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
 
@@ -26,7 +26,7 @@ const AsRequest = ({id}: Props) => {
         {/* Close */}
         <ItemButton onClick={handleClick}>
           <StoreName>
-              {id?<CommonBtns text={'A/S'} backgroundColor={handleColorAS(id)} />:null}
+            {/* {id?<CommonBtns text={'A/S'} backgroundColor={handleColorAS(id)} />:null} */}
             <div>
               <h1>LS 카페 신림점</h1>
               {open ? (
@@ -94,7 +94,7 @@ const Body = styled.div`
   @media (max-width: 899pt) {
     display: block;
   }
-`
+`;
 
 const Wrapper = styled.div`
   display: block;

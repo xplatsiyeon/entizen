@@ -60,7 +60,7 @@ const NewAs = () => {
                 <StoreName>LS 안양 주유소</StoreName>
                 <Text>100kW 충전기의 충전 건이 파손되었습니다.</Text>
                 <FlexWrap>
-                  <Badge bgColor={handleColorAS(d)}>접수요청 D+3</Badge>
+                  <Badge bgColor={handleColorAS('접수')}>접수요청 D+3</Badge>
                   <Date>2022.05.17 18:13</Date>
                 </FlexWrap>
               </ListBox>
