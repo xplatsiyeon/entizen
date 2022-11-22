@@ -5,13 +5,17 @@ import colors from 'styles/colors';
 import Image from 'next/image';
 import downArrow from 'public/images/downArrow.png';
 import checkImg from 'public/images/check-main1-img.png';
+import { Charger } from './mypage/as/AsRequestWrite';
+
 type FontSize = 'small' | 'medium' | 'large';
 type Props = {
   placeholder: string;
   value: string;
-  option: string[];
+  option?: string[];
+  asOption?: Charger[];
   onClickCharger?: (item: string, name: string, index: number) => void;
   onClickEvent?: (item: string) => void;
+  onClickAs?: (data: Charger) => void;
   name?: string;
   index?: number;
   fontSize?: FontSize;
@@ -22,7 +26,9 @@ const SelectComponents = ({
   value,
   onClickCharger,
   onClickEvent,
+  onClickAs,
   option,
+  asOption,
   name,
   index,
   fontSize = 'medium',
@@ -37,6 +43,13 @@ const SelectComponents = ({
     }
     if (onClickEvent) {
       onClickEvent(item);
+    }
+    await HandleOption();
+  };
+
+  const onClickAsOption = async (data: Charger) => {
+    if (onClickAs) {
+      onClickAs(data);
     }
     await HandleOption();
   };
@@ -74,21 +87,37 @@ const SelectComponents = ({
       </SelectBox>
       {isOpen && (
         <Ul>
-          {option?.map((item, i) => (
-            <Li
-              isSelected={value === item ? true : false}
-              key={i}
-              onClick={() => onClickOtion(item)}
-              fontSize={fontSize}
-            >
-              {item}
-              {value === item && (
-                <span className="img-box">
-                  <Image src={checkImg} alt="check-img" layout="fill" />
-                </span>
-              )}
-            </Li>
-          ))}
+          {asOption
+            ? asOption?.map((item, i) => (
+                <Li
+                  isSelected={value === item.projectName ? true : false}
+                  key={item.projectIdx}
+                  onClick={() => onClickAsOption(item)}
+                  fontSize={fontSize}
+                >
+                  {item.projectName}
+                  {value === item.projectName && (
+                    <span className="img-box">
+                      <Image src={checkImg} alt="check-img" layout="fill" />
+                    </span>
+                  )}
+                </Li>
+              ))
+            : option?.map((item, i) => (
+                <Li
+                  isSelected={value === item ? true : false}
+                  key={i}
+                  onClick={() => onClickOtion(item)}
+                  fontSize={fontSize}
+                >
+                  {item}
+                  {value === item && (
+                    <span className="img-box">
+                      <Image src={checkImg} alt="check-img" layout="fill" />
+                    </span>
+                  )}
+                </Li>
+              ))}
         </Ul>
       )}
     </Wrapper>

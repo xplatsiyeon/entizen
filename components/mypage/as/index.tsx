@@ -20,21 +20,60 @@ import NoAs from './NoAs';
 import CommonBtn from './CommonBtn';
 import { useRouter } from 'next/router';
 import checkSvg from 'public/images/check-small.png';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
 
 type Props = {};
 
+interface AfterSalesService {
+  afterSalesService: {
+    createdAt: string;
+    requestContent: string;
+    acceptanceDate: string | null;
+    afterSalesServiceResultDate: string | null;
+    afterSalesServiceCompletionConsentStatus: boolean;
+    project: {
+      projectIdx: number;
+      finalQuotation: {
+        finalQuotationIdx: number;
+        preQuotation: {
+          preQuotationIdx: number;
+          quotationRequest: {
+            quotationRequestIdx: number;
+            installationAddress: string;
+          };
+        };
+      };
+    };
+  };
+  badge: string;
+}
+interface AsResposne {
+  isSuccess: boolean;
+  data: {
+    afterSalesServices: AfterSalesService[];
+  };
+}
+
 const AsIndex = (props: Props) => {
+  const router = useRouter();
+  const menuList: {} = [];
+  const ul = useRef<HTMLUListElement>(null);
+  const select = useRef<HTMLDivElement>(null);
   const [state, setState] = useState({
     bottom: false,
   });
   const [checkedFilterIndex, setCheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] = useState<string>('등록일순 보기');
   const filterList: string[] = ['등록일순 보기', '현장별 보기', '상태순 보기'];
-
-  useEffect(() => {
-    setCheckedFilter(filterList[checkedFilterIndex]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkedFilterIndex]);
+  const filterListEn: string[] = ['register', 'site', 'status'];
+  // ----------------- AS 리스트 GET -----------------------
+  const { data, isError, isLoading } = useQuery<AsResposne>('asList', () =>
+    isTokenGetApi(
+      `/after-sales-services?sort=${filterListEn[checkedFilterIndex]}`,
+    ),
+  );
+  ('/api/after-sales-services?sort=register');
 
   const list = (anchor: string) => (
     <FilterBox
@@ -71,62 +110,58 @@ const AsIndex = (props: Props) => {
       </ListBox>
     </FilterBox>
   );
-
   const toggleDrawer =
     (anchor: string, open: boolean) =>
-      (event: React.KeyboardEvent | React.MouseEvent) => {
-        if (
-          event.type === 'keydown' &&
-          ((event as React.KeyboardEvent).key === 'Tab' ||
-            (event as React.KeyboardEvent).key === 'Shift')
-        ) {
-          return;
-        }
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
 
-        setState({ ...state, [anchor]: open });
-      };
-  const router = useRouter();
-  const menuList: {} = [];
+      setState({ ...state, [anchor]: open });
+    };
   const handlerBtn = () => router.push('/mypage/as/requestAS');
   const handleAsListClick = () => {
     router.push({
-      pathname:'mypage/as',
-      query:{
-        id: 0
-      }
-    })
+      pathname: 'mypage/as',
+      query: {
+        id: 0,
+      },
+    });
   };
-
-  const ul = useRef<HTMLUListElement>(null);
-  const select = useRef<HTMLDivElement>(null)
-
-  {/* 웹 필터박스 관련 함수 */}
+  /* 웹 필터박스 관련 함수 */
   const handleSelect = () => {
     const target = ul.current;
-    const btn = select.current
+    const btn = select.current;
     if (target && btn) {
-      if ( (target.style.display === '') || (target.style.display === 'none') ){
-        btn.style.borderRadius = '6pt 6pt 0 0'
+      if (target.style.display === '' || target.style.display === 'none') {
+        btn.style.borderRadius = '6pt 6pt 0 0';
         target.style.display = 'block';
-      }else{
+      } else {
         btn.style.borderRadius = '6pt';
         target.style.display = 'none';
       }
-
     }
-  }
-
-  {/* 웹 필터박스 관련 함수 */}
-  const closeSelect = ()=>{
+  };
+  /* 웹 필터박스 관련 함수 */
+  const closeSelect = () => {
     const target = ul.current;
-    const btn = select.current
-    if(target && btn){
+    const btn = select.current;
+    if (target && btn) {
       target.style.display = 'none';
       btn.style.borderRadius = '6pt';
     }
-  }
+  };
 
+  console.log(data);
 
+  useEffect(() => {
+    setCheckedFilter(filterList[checkedFilterIndex]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkedFilterIndex]);
 
   return (
     <Wrapper>
@@ -154,27 +189,29 @@ const AsIndex = (props: Props) => {
         </FilterBtnBox>
 
         {/* 웹 필터박스 */}
-        <WebFilter onClick={handleSelect} tabIndex={1} onBlur={closeSelect} ref={select}>
-          <span>
-            {checkedFilter}
-          </span>
-          <IconBox >
+        <WebFilter
+          onClick={handleSelect}
+          tabIndex={1}
+          onBlur={closeSelect}
+          ref={select}
+        >
+          <span>{checkedFilter}</span>
+          <IconBox>
             <Image src={blackDownArrow} alt="rijgtArrow" />
           </IconBox>
-          <Ul className='list' ref={ul}>
+          <Ul className="list" ref={ul}>
             {filterList.map((f, idx) => {
               return (
-                
                 // 여기에 클릭이벤트로 정렬 api 보내는 함수 등록해야 함.
                 <li key={idx} onClick={() => setCheckedFilter(f)}>
                   {f}
                 </li>
-              )
+              );
             })}
           </Ul>
         </WebFilter>
 
-        {/* 검색 인풋 (웹 & 모바일) */}    
+        {/* 검색 인풋 (웹 & 모바일) */}
         <WrapInput>
           <Input
             placeholder="프로젝트를 검색하세요."
@@ -204,7 +241,7 @@ const AsIndex = (props: Props) => {
             <DateText>2022.05.17 18:13</DateText>
           </ContentBottom>
         </ContentsWrapper>
-        <ContentsWrapper onClick={() => router.push('/mypage/as/asGoReview')}>
+        {/* <ContentsWrapper onClick={() => router.push('/mypage/as/asGoReview')}>
           <ContentTop>
             <ContentTitle>LS안양주유소</ContentTitle>
           </ContentTop>
@@ -227,7 +264,7 @@ const AsIndex = (props: Props) => {
             <CommonBtn text={'A/S완료'} backgroundColor={'#222222'} />
             <DateText>2022.05.17 18:13</DateText>
           </ContentBottom>
-        </ContentsWrapper>
+        </ContentsWrapper> */}
       </ContentsContainer>
       {!menuList && <NoAs />}
       {menuList && (
@@ -243,7 +280,6 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   position: relative;
-  
 `;
 const Input = styled(TextField)`
   width: 100%;
@@ -281,28 +317,27 @@ const Input = styled(TextField)`
   }
 
   @media (max-width: 899pt) {
-  margin-top: 9pt;
+    margin-top: 9pt;
   }
 `;
 
 const Wrap = styled.div`
-display: flex;
-flex-wrap: wrap;
-flex-direction: row-reverse;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
 
   @media (max-width: 899pt) {
     flex-direction: row;
   }
 `;
 const WrapInput = styled.div`
-  flex:1;
+  flex: 1;
   margin-right: 10.5pt;
 
-@media (max-width: 899pt) {
-  margin-right: 0;
-}
-
-`
+  @media (max-width: 899pt) {
+    margin-right: 0;
+  }
+`;
 
 const FilterBtnBox = styled.div`
   display: none;
@@ -310,16 +345,16 @@ const FilterBtnBox = styled.div`
   justify-content: end;
   position: relative;
   margin-top: 0pt;
-  border: 1px solid #E2E5ED;
+  border: 1px solid #e2e5ed;
   border-radius: 6pt;
   padding: 0 10.5pt;
 
   @media (max-width: 899pt) {
-  width: 100%;
-  margin-top: 29.25pt;
-  padding: 0pt;
-  border: none;
-  display: flex;
+    width: 100%;
+    margin-top: 29.25pt;
+    padding: 0pt;
+    border: none;
+    display: flex;
   }
 `;
 
@@ -469,39 +504,39 @@ const FilterHeader = styled(Typography)`
 export default AsIndex;
 
 const WebFilter = styled.div`
-position: relative;
-display: flex;
-font-size: 9pt;
-font-weight: 400;
-line-height: 12pt;
-letter-spacing: -0.02em;
-align-items: center;
-border: 1px solid #E2E5ED;
-border-radius: 6pt;
-width: 96pt;
-justify-content: center;
-box-sizing: border-box;
-@media (max-width: 899pt) {
-  display: none;
-}
-`
+  position: relative;
+  display: flex;
+  font-size: 9pt;
+  font-weight: 400;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  align-items: center;
+  border: 1px solid #e2e5ed;
+  border-radius: 6pt;
+  width: 96pt;
+  justify-content: center;
+  box-sizing: border-box;
+  @media (max-width: 899pt) {
+    display: none;
+  }
+`;
 
 const Ul = styled.ul`
   display: none;
   position: absolute;
   width: 100%;
-  border: 1px solid #E2E5ED;
-  top:100%;
+  border: 1px solid #e2e5ed;
+  top: 100%;
   left: -0.75pt;
   padding: 8pt 0;
   height: auto;
   overflow: hidden;
   background: white;
-   li{
+  li {
     text-align: center;
     padding: 8pt 0;
-   }
-`
+  }
+`;
 const IconBox = styled.div<{ arrow?: boolean }>`
   align-self: center;
   width: 10pt;

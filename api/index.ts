@@ -129,9 +129,7 @@ export async function multerApi(formData: any): Promise<any> {
     url: `${BASE_URL}/files`,
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      // ContentType: 'multipart/form-data; charset=EUC-KR',
-      'Content-Type': 'multipart/form-data; charset=utf-8',
-      // Accept: 'application/json; charset=utf-8',
+      ContentType: 'multipart/form-data; charset=EUC-KR',
       Accept: '*/*',
     },
     data: formData,
