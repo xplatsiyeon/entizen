@@ -369,7 +369,6 @@ const LastWrite = (props: Props) => {
     }
   }, [data]);
 
-  const [successComponentId, setSuccessComponentId] = useState<number>();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
 
   // 서브 카테고리 열렸는지 아닌지
@@ -403,7 +402,6 @@ const LastWrite = (props: Props) => {
           setOpenSubLink={setOpenSubLink}
           setTabNumber={setTabNumber}
           tabNumber={1}
-          successComponentId={successComponentId}
           openSubLink={openSubLink}
         />
         <Container>
@@ -473,6 +471,11 @@ const Container = styled.div`
   }
   @media (max-height: 500pt) {
     height: 100%;
+  }
+
+  @media (min-width: 900pt) {
+    margin-top: 0;
+    padding-top: 0;
   }
 `;
 

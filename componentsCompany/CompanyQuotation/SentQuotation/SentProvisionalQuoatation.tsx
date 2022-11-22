@@ -205,8 +205,8 @@ const SentQuoatationFirst = () => {
   const [open, setOpen] = useState<boolean>(false);
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(1);
-  const [getComponentId, setGetComponentId] = useState<number>();
-  const [successComponentId, setSuccessComponentId] = useState<number>();
+  const [componentId, setComponentId] = useState<number>();
+
   // 실시간으로 width 받아옴
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   // 서브 카테고리 열렸는지 아닌지
@@ -218,9 +218,9 @@ const SentQuoatationFirst = () => {
   useEffect(() => {
     if (router.query.preQuotationIdx) {
       const num = Number(router.query.preQuotationIdx);
-      setGetComponentId(num);
+      setComponentId(num);
       // setData(tempProceeding[num]);
-      setSuccessComponentId(num);
+      setComponentId(num);
     }
   }, [router.query.preQuotationIdx]);
 
@@ -323,7 +323,7 @@ const SentQuoatationFirst = () => {
       <WebBuyerHeader
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
-        getComponentId={getComponentId}
+        componentId={componentId}
         openSubLink={openSubLink}
         setOpenSubLink={setOpenSubLink}
       />
@@ -350,8 +350,8 @@ const SentQuoatationFirst = () => {
             <LeftProjectQuotationBox
               underNum={underNum}
               setUnderNum={setUnderNum}
-              successComponentId={successComponentId}
-              setSuccessComponentId={setSuccessComponentId}
+              componentId={componentId}
+              setComponentId={setComponentId}
             />
           )}
           {/* 구매자 견적 정보 */}
