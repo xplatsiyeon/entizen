@@ -1,12 +1,14 @@
 import Modal from 'components/Modal/Modal';
 import { useRouter } from 'next/router';
+import { AsDetailReseponse } from 'pages/mypage/as';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import AsRequest from './AsRequest';
 import AsRequestWriteReview from './AsRequestWriteReview';
 
-type Props = {};
+type Props = {
+  data: AsDetailReseponse;};
 
-const AsRequestEndReview = (props: Props) => {
+const AsRequestEndReview = ({data}: Props) => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -21,7 +23,7 @@ const AsRequestEndReview = (props: Props) => {
       {modalOpen && (
         <Modal text={'소중한 의견 감사합니다.'} click={handleClick} />
       )}
-      <AsRequest /* id={쿼리키} */ />
+      <AsRequest data={data}/* id={쿼리키} */ />
       <AsRequestWriteReview setModalOpen={setModalOpen} modalOpen={modalOpen} />
     </>
   );
