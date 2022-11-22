@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import dayjs from "dayjs";
 import Image from "next/image";
 import defaultImg from 'public/images/default-img.png';
 
@@ -66,11 +67,56 @@ const AllChattingList = () => {
         }
     }
 
+    {/*메세지 시간 표현 처리 함수 */}
+
+    const handleTime = (target : string | undefined )=>{
+        const now = dayjs();
+        const diff = now.diff(target, 'h');
+
+        if(diff < 24 ){
+            const createdAt = dayjs(target).format("HH:mm");
+
+            //오전, 오후로 나누기
+           const pm = dayjs(target).subtract(9,'h').format('HH:mm');
+           if(Number(pm.substring(0,3)) > 12){
+            return `오후 ${pm}`
+           }else{
+            return `오전 ${createdAt}`
+           }
+            
+        }else if( (diff > 24) && (diff < 48)){
+            const createdAt = dayjs(target).format("HH:mm");
+            const pm = dayjs(target).subtract(9,'h').format('HH:mm');
+            
+            if(Number(pm.substring(0,3)) > 12){
+                return `어제 ${pm}`
+               }else{
+                return `어제 ${createdAt}`
+               }
+        }else {
+            const createdAt = dayjs(target).format("YYYY-MM-DD HH:mm");
+            const year = dayjs(target).get('y');
+            const month = dayjs(target).get('month');
+            const day = dayjs(target).get('day');
+
+            if(now.get('y') !== year){
+            return `${year}년 ${month}월 ${day}일`
+            }else{
+                return `${month}월 ${day}일 `
+            }
+        }
+    }
+
     return (
         <Body>
             {arr.data.chattingRooms.userChattingRooms.map((chatting, idx) => {
                 return (
-                    <ChattingRoom key={idx}>
+                    <Chatting className="item" key={idx}>
+                     <HiddenBox1>
+                        <FavoriteBtn></FavoriteBtn>
+                        <AlramBtn></AlramBtn>
+                    </HiddenBox1>  
+                    <ChattingRoom className="content-box" >
                         <ChattingRoomImage>
                             <ImageWrap>
                                 <Image src={defaultImg} layout='fill'/>
@@ -81,13 +127,17 @@ const AllChattingList = () => {
                             <Previw>{chatting.chattingLogs?.content}</Previw>
                         </ChattingRoomPreview>
                         <ChattingRoomInfo>
-                            <Created>{chatting.chattingLogs?.createdAt}</Created>
+                            <Created>{handleTime(chatting.chattingLogs?.createdAt)}</Created>
                             <Box>
                                 <UnRead wasRead={chatting.chattingLogs?.wasRead || undefined} />
                                 <Favorite>{chatting.chattingRoomFavorite?<>true</>:<>false</>}</Favorite>
                             </Box>
                         </ChattingRoomInfo>
                     </ChattingRoom>
+                     <HiddenBox2>
+                        <QuitBtn></QuitBtn>
+                    </HiddenBox2>  
+                    </Chatting>
                 )
             })}
         </Body>
@@ -98,25 +148,35 @@ export default AllChattingList;
 
 const Body = styled.div`
 font-family: 'Spoqa Han Sans Neo';
+overflow: hidden;
+`
+
+const Chatting = styled.div`
+display: flex;
+width: 160%;
+transform: translateX(-25%);
 `
 const ChattingRoom = styled.div`
-margin: 0 15pt;
 display: flex;
 padding: 13.5pt 0;
 border-bottom: 1px solid #E2E5ED;
+width: calc((100% / 8) * 5);
+
 `
 const ChattingRoomImage = styled.div`
-    
+    margin-left: 15pt;
 `
 const ChattingRoomPreview = styled.div`
 flex: auto ;
 margin: 0 12pt;
 border: 1px solid;
+position: relative;
 `
 const ChattingRoomInfo = styled.div`
 display: flex;
 flex-direction: column;
-    gap: 9pt;
+gap: 9pt;
+margin-right: 15pt;
 `
 const ImageWrap = styled.div`
 width: 36pt;
@@ -140,6 +200,8 @@ font-size: 12pt;
 line-height: 18pt;
 letter-spacing: -0.02em;
 color: #222222;
+position: absolute;
+width: 120%;
 `
 
 const Created = styled.div`
@@ -149,8 +211,9 @@ font-size: 9pt;
 line-height: 12pt;
 letter-spacing: -0.02em;
 color: #CACCD1;
-width: 37.5pt;
+min-width: 67.5pt;
 height: 12pt;
+text-align: end;
 `
 
 const Box = styled.div`
@@ -170,4 +233,32 @@ position: relative;
 width: 9pt;
 height: 9pt;
 border: 1px solid red;
+`
+
+const HiddenBox1 = styled.div`
+display: flex;
+width: 25%;
+position: relative;
+`
+const HiddenBox2 = styled.div`
+display: flex;
+width: 12.5%;
+position: relative;
+`
+const FavoriteBtn = styled.div`
+width: 50%;
+height: 100%;
+    border: 1px solid red;
+`
+
+const AlramBtn = styled.div`
+width: 50%;
+height: 100%;
+    border: 1px solid green;
+`
+
+const QuitBtn = styled.div`
+border: 1px solid plum;
+width: 100%;
+height: 100%;
 `
