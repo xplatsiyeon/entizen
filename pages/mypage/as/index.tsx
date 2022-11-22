@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 import AsRequest from 'components/mypage/as/AsRequest';
 import AsRequestFooter from 'components/mypage/as/AsRequestFooter';
 import AsRequestPartner from 'components/mypage/as/AsRequestPartner';
@@ -6,32 +8,89 @@ import RequestMain from 'components/mypage/request/requestMain';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import { useQuery } from 'react-query';
+export interface File {
+  createdAt: string;
+  afterSalesServiceRequestFileIdx: number;
+  originalName: string;
+  url: string;
+  size: number;
+  afterSalesServiceIdx: number;
+}
+export interface AsDetailReseponse {
+  isSuccess: true;
+  data: {
+    afterSalesService: {
+      afterSalesService: {
+        createdAt: string;
+        afterSalesServiceIdx: number;
+        requestTitle: string;
+        requestContent: string;
+        acceptanceContent: string | null;
+        acceptanceDate: string | null;
+        afterSalesServiceResultContent: string | null;
+        afterSalesServiceResultDate: string | null;
+        afterSalesServiceCompletionConsentStatus: boolean;
+        projectIdx: number;
+        project: {
+          projectIdx: number;
+          finalQuotation: {
+            finalQuotationIdx: number;
+            preQuotation: {
+              preQuotationIdx: number;
+              member: {
+                memberIdx: number;
+                name: string;
+                phone: string;
+                companyMemberAdditionalInfo: {
+                  companyMemberAdditionalInfoIdx: number;
+                  companyName: string;
+                  managerEmail: string;
+                };
+              };
+              quotationRequest: {
+                quotationRequestIdx: number;
+                installationAddress: string;
+              };
+            };
+          };
+        };
+        afterSalesServiceReview: boolean;
+        afterSalesServiceRequestFiles: File[];
+        afterSalesServiceCompletionFiles: [];
+      };
+      badge: string;
+    };
+  };
+}
 
-const arr = [0, 1, 2, 3];
-
+const TAG = 'pages/mypage/as/index.tsx';
 const asNumber = () => {
   const router = useRouter();
-  const id = router?.query?.id;
-  // const btnRef = useRef();
-  let btnTag = <></>;
-
-  const [index, setIndex] = useState<number>();
-
-  useEffect(() => {
-    if (id !== undefined) {
-      // 0은 false로 취급되므로 if(id){ ... }로 조건문을 쓰면 id:0 은 값을 얻을 수 없다.
-      // alert(id);
-      setIndex(Number(id));
-    }
-  }, [id]);
+  const routerId = router?.query?.afterSalesServiceIdx;
+  const { data, isLoading, isError, error } = useQuery<AsDetailReseponse>(
+    'as-detail',
+    () => isTokenGetApi(`/after-sales-services/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
 
   const handleClick = (st: string) => {
-    router.push(`/mypage/as/${st}`);
+    // router.push(`/mypage/as/${st}`);
+    router.push({
+      pathname: `/mypage/as/${st}`,
+      query: {
+        afterSalesServiceIdx:
+          data?.data?.afterSalesService?.afterSalesService
+            ?.afterSalesServiceIdx,
+      },
+    });
   };
 
+  // 버튼 태크
   const makeBtn = (text: string, query: string, className?: string) => {
-    // alert('index!!' + index);
     return (
       <Btn
         className={className ? className : undefined}
@@ -42,26 +101,14 @@ const asNumber = () => {
     );
   };
 
-  useEffect(() => {}, []);
-  switch (index) {
-    case 0:
-      // alert('index!!' + index);
-      // setBtnTag(['수정하기', 'requestAS']);
-
-      btnTag = makeBtn('수정하기', 'requestAS');
-      break;
-    case 2:
-      // alert('index!!' + index);
-      btnTag = makeBtn('A/S 완료하기', 'writeReview', 'as');
-      break;
-    case 3:
-      // alert('index!!' + index);
-      btnTag = makeBtn('리뷰보기', 'myReview', 'as');
-      break;
-    default:
-      // alert('index!!' + index);
-      btnTag = <></>;
+  if (isLoading) {
+    return <Loader />;
   }
+  if (isError) {
+    console.log(error);
+  }
+  console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
+  console.log(data);
 
   return (
     <Body>
@@ -81,11 +128,16 @@ const asNumber = () => {
             <RequestMain page={2} />
           </Wrap1>
           <Wrap2>
-            {typeof index === 'number' && <AsRequest id={arr[index]} />}
-            <AsRequestPartner />
+            {/* AS 상단 부분 */}
+            <AsRequest data={data!} />
+            {/* 하단 부분 내용 */}
+            <AsRequestPartner data={data!} />
             <Wrap3>
               <AsRequestFooter />
-              {btnTag}
+              {/* {btnTag} */}
+              {makeBtn('수정하기', 'requestAS')}
+              {/* {makeBtn('A/S 완료하기', 'writeReview', 'as')} */}
+              {/* {makeBtn('리뷰보기', 'myReview', 'as')} */}
             </Wrap3>
           </Wrap2>
         </FlexBox>

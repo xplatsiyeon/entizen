@@ -43,15 +43,15 @@ export const HandleUserColor = (badge: string | undefined): string => {
  */
 export const handleColor = (badge: string | undefined): string => {
   if (badge) {
-    if (badge.includes('계약대기')) {
+    if (badge?.includes('계약대기')) {
       return '#F75015';
-    } else if (badge.includes('준비') || badge.includes('설치')) {
+    } else if (badge?.includes('준비') || badge?.includes('설치')) {
       return colors.main;
-    } else if (badge.includes('검수 중')) {
+    } else if (badge?.includes('검수 중')) {
       return '#FFC043';
-    } else if (badge.includes('완료')) {
+    } else if (badge?.includes('완료')) {
       return '#222222';
-    } else if (badge.includes('프로젝트')) {
+    } else if (badge?.includes('프로젝트')) {
       return '#CACCD1';
     } else {
       return '';
@@ -87,13 +87,13 @@ export const handleColor2 = (badge: number) => {
  * @returns
  */
 export const handleColorAS = (badge: string) => {
-  if (badge.includes('요청')) {
+  if (badge?.includes('요청')) {
     return '#F75015';
-  } else if (badge.includes('확인')) {
+  } else if (badge?.includes('확인')) {
     return '#5221CB';
-  } else if (badge.includes('대기')) {
+  } else if (badge?.includes('대기')) {
     return '#FFC043';
-  } else if (badge.includes('A/S')) {
+  } else if (badge?.includes('A/S')) {
     return '#222222';
   } else {
     return '';
