@@ -84,13 +84,11 @@ export interface InProgressProjectsDetail {
         | 'MARKETING'
         | 'PERSONAL'
         | 'ETC';
-      installationLocation: 'INSIDE' | 'OUTSIDE';
     };
   };
   userMember: UserMember;
   companyMember: CompanyMember;
-  isCompletedUserContractStep: boolean;
-  isCompletedCompanyMemberContractStep: boolean;
+  isCompletedContractStep: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETION';
   isCompletedReadyStep: boolean;
   readyStepGoalDate: string;
   isCompletedInstallationStep: boolean;
@@ -106,6 +104,9 @@ export interface InProgressProjectsDetail {
   unConsentProjectDateChangeHistories: UnConsentProjectDateChangeHistories[];
   projectCompletionFiles: ProjectCompletionFiles[];
   subscribeStartDate: string;
+  contract: {
+    documentId: string;
+  };
 }
 
 export interface InProgressProjectsDetailResponse {
@@ -129,16 +130,17 @@ export const GET_InProgressProjectsDetail = gql`
         constructionPeriod
         subscribeProductFeature
         spotInspectionResult
+
         finalQuotationChargers {
           finalQuotationChargerIdx
           kind
           standType
           channel
           count
+          installationLocation
         }
         quotationRequest {
           installationPurpose
-          installationLocation
         }
       }
       userMember {
@@ -150,9 +152,8 @@ export const GET_InProgressProjectsDetail = gql`
       # 구독시작일
       subscribeStartDate
       # 계약관련 내용
-      # isCompletedContractStep
-      isCompletedUserContractStep
-      isCompletedCompanyMemberContractStep
+      isCompletedContractStep
+
       # 준비단계
       isCompletedReadyStep
       readyStepGoalDate
@@ -196,70 +197,70 @@ export const GET_InProgressProjectsDetail = gql`
         size
         projectIdx
       }
+      contract {
+        documentId
+      }
     }
   }
 `;
 
 interface HistoryProjectsDetail {
-  completedProjects: [
-    {
-      badge: string;
-      projectIdx: string;
-      projectName: string;
-      projectNumber: string;
-      subscribeStartDate: string;
-      subscribeEndDate: string;
-      projectReview: {
-        projectReviewIdx: string;
-        attentivenessPoint: number;
-        quicknessPoint: number;
-        professionalismPoint: number;
-        satisfactionPoint: number;
-        averagePoint: string;
-        opinion: string;
-        projectIdx: number;
-      };
-      finalQuotation: {
-        finalQuotationIdx: string;
-        subscribeProduct: string;
-        subscribePricePerMonth: number;
-        userInvestRate: string;
-        finalQuotationChargers: [
-          {
-            finalQuotationChargerIdx: string;
-            kind: string;
-            standType: string;
-            channel: string;
-            count: number;
-            chargePriceType: string;
-            chargePrice: number;
-            installationLocation: string;
-            modelName: string;
-            manufacturer: string;
-            productFeature: string;
-          },
-        ];
-        finalQuotationDetailFiles: [
-          {
-            finalQuotationDetailFileIdx: string;
-            originalName: string;
-            url: string;
-            size: number;
-          },
-        ];
-      };
-      userMember: {
-        memberIdx: number;
-        name: number;
-        phone: number;
-      };
-    },
-  ];
+  badge: string;
+  projectIdx: string;
+  projectName: string;
+  projectNumber: string;
+  subscribeStartDate: string;
+  subscribeEndDate: string;
+  projectReview: {
+    projectReviewIdx: string;
+    attentivenessPoint: number;
+    quicknessPoint: number;
+    professionalismPoint: number;
+    satisfactionPoint: number;
+    averagePoint: string;
+    opinion: string;
+    projectIdx: number;
+  };
+  finalQuotation: {
+    finalQuotationIdx: string;
+    subscribeProduct: string;
+    subscribePricePerMonth: number;
+    userInvestRate: string;
+    finalQuotationChargers: [
+      {
+        finalQuotationChargerIdx: string;
+        kind: string;
+        standType: string;
+        channel: string;
+        count: number;
+        chargePriceType: string;
+        chargePrice: number;
+        installationLocation: string;
+        modelName: string;
+        manufacturer: string;
+        productFeature: string;
+      },
+    ];
+    finalQuotationDetailFiles: [
+      {
+        finalQuotationDetailFileIdx: string;
+        originalName: string;
+        url: string;
+        size: number;
+      },
+    ];
+  };
+  userMember: {
+    memberIdx: number;
+    name: number;
+    phone: number;
+  };
 }
 export interface ResponseHistoryProjectsDetail {
   completedProjects: HistoryProjectsDetail[];
 }
 
+//  완료 프로젝트
 export const GET_historyProjectsDetail = gql`
   query Query($searchKeyword: String!, $sort: CompletedProjectsSort!) {
     completedProjects(searchKeyword: $searchKeyword, sort: $sort) {
@@ -311,6 +312,58 @@ export const GET_historyProjectsDetail = gql`
         memberIdx
         name
         phone
+      }
+    }
+  }
+`;
+
+// 계약서 정보 조회
+
+export interface Contract {
+  project: {
+    contract: {
+      contractIdx: string;
+      documentId: string;
+      contractContent: string;
+      contractHistory: string;
+      projectIdx: number;
+      // contractParticipants: {
+      //   contractParticipantIdx: string;
+      //   participantId: string;
+      //   participantType: string;
+      //   participantName: string;
+      //   signatureMethod: string;
+      //   signatureContact: string;
+      //   signatureStatus: string;
+      //   signatureDate: string;
+      //   memberIdx: number | null;
+      //   contractIdx: number;
+      // }[];
+    };
+  };
+}
+
+export const GET_contract = gql`
+  query Project($projectIdx: ID!) {
+    project(projectIdx: $projectIdx) {
+      contract {
+        contractIdx
+        documentId
+        contractContent
+        contractHistory
+        projectIdx
+        # contractParticipants {
+        #   contractParticipantIdx
+        #   participantId
+        #   participantType
+        #   participantName
+        #   signatureMethod
+        #   signatureContact
+        #   signatureStatus
+        #   signatureDate
+        #   memberIdx
+        #   contractIdx
+        # }
       }
     }
   }

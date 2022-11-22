@@ -23,7 +23,6 @@ const contract = (props: Props) => {
   );
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       let targetIframe = document.getElementById(
         'target-iframe',
@@ -39,9 +38,7 @@ const contract = (props: Props) => {
         <div
           className="back-img"
           onClick={() =>
-            router.replace(
-              `/company/mypage/runningProgress?projectIdx=${router.query.id}`,
-            )
+            router.replace(`/mypage/project?projectIdx=${router.query.id}`)
           }
         >
           <Image src={BackImg} alt="btn-icon" />

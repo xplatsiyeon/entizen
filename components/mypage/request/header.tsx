@@ -63,6 +63,7 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  background: white;
 
   //background-color: ${colors.lightWhite};
   padding: 9pt 15pt;

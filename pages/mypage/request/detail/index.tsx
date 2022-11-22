@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import { useQuery } from 'react-query';
+import { Query, useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import { AxiosError } from 'axios';
@@ -112,7 +112,8 @@ const TAG = 'page/mypage/request/detail/[id].tsx';
 const MypageDetail = () => {
   const [isModal, setModal] = useState(false);
   const router = useRouter();
-  const routerId = router?.query?.id;
+  // const routerId = router?.query?.id;
+  const routerId = router?.query?.preQuotationIdx;
   const handleOnClick = () => router.back();
 
   // ---------  가견적 상세조회 api -----------
@@ -141,7 +142,13 @@ const MypageDetail = () => {
   // 모달 컨트롤
   const onClcikModal = () => setModal((prev) => !prev);
   const rightControl = () =>
-    router.push(`/mypage/request/detail/${routerId}/calendar`);
+    // router.push(`/mypage/request/detail/${routerId}/calendar`);
+    router.push({
+      pathname: `/mypage/request/detail/calendar`,
+      query: {
+        preQuotationIdx: routerId,
+      },
+    });
 
   if (isError && spotIsError) {
     console.log(TAG + '🔥 ~line 35 ~ 에러코드 확인');

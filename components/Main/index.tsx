@@ -191,7 +191,6 @@ const MainPage = (props: Props) => {
             </span>
             <span>마이페이지</span>
           </WhiteAreaMenus>
-
           <Divider
             sx={{
               width: '100%',

@@ -344,6 +344,10 @@ const LastWrite = (props: Props) => {
         const tempEn: chargers = {
           idx: M5_LIST_EN.indexOf(quotationCharger.kind),
           kind: quotationCharger.kind,
+          // standType:
+          //   quotationCharger.standType === ''
+          //     ? '-'
+          //     : quotationCharger.standType,
           standType: quotationCharger.standType,
           channel: quotationCharger.channel,
           count: quotationCharger.count.toString(),

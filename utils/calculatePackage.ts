@@ -53,7 +53,7 @@ export const convertKo = (
   value: string | undefined,
 ) => {
   // return target.indexOf(value);
-  console.log(value);
+  // console.log(value);
   if (value) {
     const index = arrEn.indexOf(value);
     return arr[index];

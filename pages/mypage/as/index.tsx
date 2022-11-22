@@ -6,20 +6,22 @@ import RequestMain from 'components/mypage/request/requestMain';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const arr = [0, 1, 2, 3];
 
 const asNumber = () => {
   const router = useRouter();
-  const id = router.query.id;
-  let btnTag;
+  const id = router?.query?.id;
+  // const btnRef = useRef();
+  let btnTag = <></>;
 
   const [index, setIndex] = useState<number>();
 
   useEffect(() => {
     if (id !== undefined) {
       // 0은 false로 취급되므로 if(id){ ... }로 조건문을 쓰면 id:0 은 값을 얻을 수 없다.
+      // alert(id);
       setIndex(Number(id));
     }
   }, [id]);
@@ -29,6 +31,7 @@ const asNumber = () => {
   };
 
   const makeBtn = (text: string, query: string, className?: string) => {
+    // alert('index!!' + index);
     return (
       <Btn
         className={className ? className : undefined}
@@ -39,17 +42,24 @@ const asNumber = () => {
     );
   };
 
+  useEffect(() => {}, []);
   switch (index) {
     case 0:
+      // alert('index!!' + index);
+      // setBtnTag(['수정하기', 'requestAS']);
+
       btnTag = makeBtn('수정하기', 'requestAS');
       break;
     case 2:
+      // alert('index!!' + index);
       btnTag = makeBtn('A/S 완료하기', 'writeReview', 'as');
       break;
     case 3:
+      // alert('index!!' + index);
       btnTag = makeBtn('리뷰보기', 'myReview', 'as');
       break;
     default:
+      // alert('index!!' + index);
       btnTag = <></>;
   }
 

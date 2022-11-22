@@ -136,36 +136,11 @@ const HeadOpenContent = () => {
   // LeftBox component 바꿔주는거
   const [underNum, setUnderNum] = useState<number>();
 
-  // LeftBox border 값
-
-  useEffect(() => {
-    if (router.query.quotationRequestIdx) {
-      const num = Number(router.query.quotationRequestIdx);
-      setGetComponentId(num);
-      // setData(tempProceeding[num]);
-      setUnderNum(0);
-    }
-  }, [router.query.quotationRequestIdx]);
-
-  useEffect(() => {
-    if (router.query.quotationRequestIdx) {
-      setOpenSubLink(false);
-    }
-  }, [router]);
-
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
     setNowHeight(window.innerHeight);
   };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth, nowHeight]);
-
   //  받은 요청 상세페이지 api 요청
   const { data, isError, isLoading, refetch } = useQuery<
     QuotationsDetailResponse,
@@ -177,7 +152,7 @@ const HeadOpenContent = () => {
         `/quotations/received-request/${router.query.quotationRequestIdx}`,
       ),
     {
-      enabled: router.isReady,
+      enabled: router?.isReady,
     },
   );
 
@@ -291,9 +266,26 @@ const HeadOpenContent = () => {
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
 
-  console.log(TAG + '🔥 ~line 208 ~api data check!');
-  console.log(data);
-  console.log(innerHeight);
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth, nowHeight]);
+
+  // LeftBox border 값
+  useEffect(() => {
+    if (router.query.quotationRequestIdx) {
+      const num = Number(router.query.quotationRequestIdx);
+      setGetComponentId(num);
+      // setData(tempProceeding[num]);
+      setUnderNum(0);
+    }
+  }, [router.query.quotationRequestIdx]);
+
+  useEffect(() => {
+    if (router.query.quotationRequestIdx) setOpenSubLink(false);
+  }, [router]);
 
   useEffect(() => {
     refetch();
@@ -305,6 +297,9 @@ const HeadOpenContent = () => {
   if (isError) {
     return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
   }
+  console.log('🔥 ~line 208 ~api data check! ' + TAG);
+  console.log(data);
+  // console.log(innerHeight);
   return (
     <>
       <WebBody>

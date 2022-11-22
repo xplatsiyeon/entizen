@@ -1,17 +1,11 @@
 import { ApolloQueryResult, OperationVariables } from '@apollo/client';
 import styled from '@emotion/styled';
-import { isTokenPostApi } from 'api';
 import MypageHeader from 'components/mypage/request/header';
 import DateModal from 'componentsCompany/Modal/DateModal';
-import PrepareModal from 'componentsCompany/Mypage/PrepareModal';
 import ProgressBody from 'componentsCompany/Mypage/ProgressBody';
 import Reusable from 'componentsCompany/Mypage/Reusable';
-import {
-  InProgressProjectsDetailResponse,
-  InProgressProjectsDetail,
-} from 'QueryComponents/CompanyQuery';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
 import { Data } from './runningProgress';
 
 type Props = {
@@ -25,7 +19,6 @@ type Props = {
 
 const stepTypeType = ['READY', 'INSTALLATION', 'EXAM', 'COMPLETION'];
 const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
-  const [open, setOpen] = useState<boolean>(false);
   // 선택 날짜 관련
   const [selectedDays, SetSelectedDays] = useState<string>('');
   // 달력모달 관련
@@ -79,7 +72,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
           <HeaderWrap>
             <MypageHeader
               exitBtn={true}
-              title={'진행 프로젝트??'}
+              title={'진행 프로젝트'}
               handleOnClick={() => setProgressNum(-1)}
             />
           </HeaderWrap>
@@ -109,6 +102,9 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             textFour={'설계 및 공사계획 신고 등'}
             btnText={'준비 완료하기'}
             fin={data?.project?.isCompletedReadyStep!}
+            preStepState={
+              data?.project?.isCompletedContractStep! === 'COMPLETION'
+            }
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.readyStepGoalDate!}
@@ -124,6 +120,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             textFour={'충전기 시운전(자체 테스트)'}
             btnText={'설치 완료하기'}
             fin={data?.project?.isCompletedInstallationStep!}
+            preStepState={data?.project?.isCompletedReadyStep!}
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.installationStepGoalDate!}
@@ -139,6 +136,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             textFour={'한전 계량기 봉인'}
             btnText={'검수 완료하기'}
             fin={data?.project?.isCompletedExamStep!}
+            preStepState={data?.project?.isCompletedInstallationStep!}
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.examStepGoalDate!}
@@ -153,7 +151,8 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             textThree={'사용 전 검사 및 점검'}
             textFour={'신고 및 사용 승인'}
             textFive={'완료현장 사진 기록'}
-            almostFinish={data?.project?.isCompletedCompletionStep}
+            almostFinish={data?.project?.isCompletedCompletionStep!}
+            preStepState={data?.project?.isCompletedInstallationStep!}
             finalStep={true}
             btnText={'프로젝트 완료하기'}
             fin={data?.project?.isCompletedCompletionStep!}

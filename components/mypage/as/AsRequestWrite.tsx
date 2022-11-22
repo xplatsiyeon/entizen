@@ -1,80 +1,199 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, TextField, SelectChangeEvent } from '@mui/material';
-import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
+import { TextField } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import Header from './Header';
 import camera from 'public/images/gray_camera.png';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Image from 'next/image';
 import CloseImg from 'public/images/XCircle.svg';
-import { Router, useRouter } from 'next/router';
-const M5_LIST = [
-  '3.5 kW 과금형 콘센트',
-  '7 kW 홈 충전기 (가정용)',
-  '7 kW 충전기 (공용, 경제형)',
-  '7 kW 충전기 (공용)',
-  '11 kW 충전기',
-  '14 kW 충전기',
-  '17.6 kW 충전기',
-  '20 kW 충전기',
-  '50 kW 충전기',
-  '100 kW 충전기',
-  '200 kW 충전기',
-  '300 kW 충전기',
-  '350 kW 충전기',
-  '400 kW 충전기',
-  '300 kW 충전기 (버스)',
-  '350 kW 충전기 (버스)',
-  '400 kW 충전기 (버스)',
-];
-
-type Props = {};
-
-interface Option {
-  m5: string;
-}
-interface CheckType {
-  1: boolean;
-  2: boolean;
-  3: boolean;
-}
-
-interface ReviewType {
-  productNm: string;
-  review: string;
-  productImg: any;
-  createDt: number;
-}
+import { useRouter } from 'next/router';
+import SelectComponents from 'components/Select';
+import {
+  ImgFile,
+  MulterResponse,
+} from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
+import { useMutation } from 'react-query';
+import { isTokenPostApi, multerApi } from 'api';
+import Modal from 'components/Modal/Modal';
+import {
+  chargingStations,
+  ChargingStationsResponse,
+} from 'QueryComponents/UserQuery';
+import { useQuery } from '@apollo/client';
+import Loader from 'components/Loader';
 
 export interface DateType {
   new (): Date;
 }
-
-const AsRequestWrite = (props: Props) => {
+export interface Charger {
+  projectName: string;
+  projectIdx: string;
+}
+const TAG = 'components/mypage/as/AsResquestWrite.tsx';
+const AsRequestWrite = () => {
   const router = useRouter();
   const imgRef = useRef<any>(null);
   const [checkAll, setCheckAll] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<Option>({
-    m5: '',
-  });
+  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [selectedIndex, setSelectedIndex] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [imgValidation, setImgValidation] = useState(false);
   const [reqeustText, setRequestText] = useState('');
-  const [review, setReview] = useState<{
-    productNm: string;
-    review: string;
-    productImg: any;
-    createDt: number;
-  }>({
-    productNm: '',
-    review: '',
-    productImg: [],
-    createDt: new Date().getTime(),
+  const [review, setReview] = useState<ImgFile[]>([]);
+  // 충전소 리스트 목록
+  const [chargerList, setChargerList] = useState<Charger[]>([]);
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      // console.log(res);
+      const newFile = [...review];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setReview(newFile);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
   });
+  // ---------------- 내 충전소 불러오기 ------------------
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    data: chargingData,
+    loading: chargingLoading,
+    error: chargingError,
+    refetch: chargingRefetch,
+  } = useQuery<ChargingStationsResponse>(chargingStations, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
+  // ------------------AS POST 요청 -------------------------
+  const { mutate: asMutate, isLoading: asIsLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: () => {
+        router.push('/mypage/as/complete');
+      },
+      onError: (error: any) => {
+        setIsModal(true);
+        setErrorMessage('AS 요청을 실패했습니다.\n다시 시도해주세요.');
+        // router.back();
+      },
+    },
+  );
+
+  // 모달 클릭
+  const onClickModal = () => {
+    if (networkError) {
+      setIsModal(false);
+      router.push('/');
+    } else {
+      setIsModal(false);
+    }
+  };
+  // 사진 온클릭
+  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    imgRef?.current?.click();
+  };
+  // 사진 저장
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 3;
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append(
+        'chargerProduct',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
+    }
+    multerImage(formData);
+    e.target.value = '';
+  };
+  // 사진 삭제
+  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...review];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setReview(copyArr);
+      }
+    }
+  };
+  const onClickNextBtn = () => {
+    asMutate({
+      url: '/after-sales-services',
+      data: {
+        requestTitle: title,
+        requestContent: reqeustText,
+        projectIdx: selectedIndex,
+        afterSalesServiceRequestFiles: review,
+      },
+    });
+  };
+  const handleChange = (data: Charger) => {
+    setSelectedOption(data.projectName);
+    setSelectedIndex(data.projectIdx);
+  };
+  const titleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(() => e.target.value);
+  };
+  const handleTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setRequestText(() => e.target.value);
+  };
+
+  useEffect(() => {
+    if (!chargingLoading && !chargingError && chargingData?.chargingStations) {
+      const tempArr: Charger[] = [];
+      chargingData?.chargingStations.forEach((e) => {
+        tempArr.push({
+          projectName: e.projectName,
+          projectIdx: e.projectIdx,
+        });
+      });
+      setChargerList(tempArr);
+    }
+  }, [chargingData]);
+
+  // 유효성 검사
   useEffect(() => {
     if (
       title !== '' &&
-      selectedOption.m5.length > 1 &&
+      selectedOption.length > 1 &&
       imgValidation &&
       reqeustText !== ''
     ) {
@@ -86,69 +205,21 @@ const AsRequestWrite = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption, review, title, reqeustText]);
 
-  const saveFileImage = (e: any) => {
-    const { files } = e.target;
-    const newImageURL = [];
-    const maxLength = 3;
-    for (let i = 0; i < maxLength; i += 1) {
-      if (files[i] === undefined) {
-        break;
-      }
-      const nowImageUrl = URL.createObjectURL(files[i]);
-      newImageURL.push(nowImageUrl);
-    }
-    const copyArr = [];
-    copyArr.push(review);
-    for (let i = 0; i < newImageURL.length; i++) {
-      copyArr[0].productImg.push(newImageURL[i]);
-    }
+  if (chargingLoading || asIsLoading) {
+    return <Loader />;
+  }
+  if (chargingError) {
+    console.log('🔥 ~line 107 ~ AS 충전소 리스트 ' + TAG);
+    console.log(chargingError);
+  }
 
-    console.log(copyArr);
-    if (review.productImg.length > 0) {
-      setReview({
-        ...review,
-        productImg: copyArr[0].productImg,
-      });
-    } else if (review.productImg.length === 0) {
-      setReview({
-        ...review,
-        productImg: newImageURL,
-      });
-    }
+  // console.log('🔥 ~line 107 ~ AS 충전소 리스트 데이터 확인 ' + TAG);
+  // console.log(chargingData);
 
-    setImgValidation(true);
-    e.target.value ='';
-  };
-  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    imgRef.current.click();
-  };
-
-  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-    const name = Number(e.currentTarget.dataset.name);
-    const copyArr = [];
-    copyArr.push(review);
-    copyArr[0].productImg.splice(name, 1);
-    setReview({ ...review, productImg: copyArr[0].productImg });
-  };
-
-  const handleChange = (e: SelectChangeEvent<unknown>) => {
-    const { name, value } = e.target;
-    setSelectedOption(() => ({
-      ...selectedOption,
-      [name]: value,
-    }));
-  };
-
-  const titleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(() => e.target.value);
-  };
-
-  const handleTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setRequestText(() => e.target.value);
-  };
   return (
     <>
+      {/* 에러 모달 */}
+      {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <Container>
         <Header text={'A/S 요청하기'} colorselect={checkAll} />
         <TitleInputBox>
@@ -158,33 +229,19 @@ const AsRequestWrite = (props: Props) => {
         <RemainderInputBox>
           <Label>충전소</Label>
           <SelectContainer>
-            <SelectBox
-              value={selectedOption.m5}
-              name="m5"
-              style={{
-                color: selectedOption.m5.length > 0 ? 'black' : '#caccd1',
-              }}
-              onChange={handleChange}
-              displayEmpty
-              required
-              IconComponent={() => <SelectIcon />}
-            >
-              <MenuItem value="">
-                <em>충전소를 선택해주세요</em>
-              </MenuItem>
-              {M5_LIST.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </SelectBox>
+            <SelectComponents
+              // option={chargerList}
+              asOption={chargerList}
+              placeholder="충전소를 선택해주세요"
+              value={selectedOption}
+              onClickAs={handleChange}
+            />
           </SelectContainer>
         </RemainderInputBox>
         <RemainderInputBox>
           <Label>요청내용</Label>
           <TextArea
-            placeholder="고장제품 종류, 증상, 사진, 발생 시점 등을 
-알려주시면 더욱 빠른 서비스에 도움이 됩니다."
+            placeholder="고장제품 종류, 증상, 사진, 발생 시점 등을 알려주시면 더욱 빠른 서비스에 도움이 됩니다."
             rows={7}
             value={reqeustText}
             onChange={handleTextArea}
@@ -206,41 +263,37 @@ const AsRequestWrite = (props: Props) => {
               multiple
             />
             {/* <Preview> */}
-            {review.productImg &&
-              review.productImg.map((img: any, index: any) => (
-                <ImgSpan key={index} data-name={index}>
+            {review.map((img: any, index: any) => (
+              <ImgSpan key={index} data-name={index}>
+                <Image
+                  layout="fill"
+                  alt="preview"
+                  data-name={index}
+                  key={index}
+                  src={img.url}
+                  priority={true}
+                  unoptimized={true}
+                />
+                <Xbox onClick={handlePhotoDelete} data-name={index}>
                   <Image
-                    style={{
-                      borderRadius: '6pt',
-                    }}
-                    layout="intrinsic"
-                    alt="preview"
-                    width={74.75}
+                    src={CloseImg}
                     data-name={index}
-                    height={74.75}
-                    key={index}
-                    src={img}
+                    layout="intrinsic"
+                    alt="closeBtn"
+                    width={24}
+                    height={24}
                   />
-                  <Xbox onClick={handlePhotoDelete} data-name={index}>
-                    <Image
-                      src={CloseImg}
-                      data-name={index}
-                      layout="intrinsic"
-                      alt="closeBtn"
-                      width={24}
-                      height={24}
-                    />
-                  </Xbox>
-                </ImgSpan>
-              ))}
+                </Xbox>
+              </ImgSpan>
+            ))}
             {/* </Preview> */}
           </PhotosBox>
         </RemainderInputBox>
       </Container>
       <NextBtn
-        onClick={() => router.push('/mypage/as/complete')}
-        disabled={!checkAll}
-        checkAll={checkAll}
+        onClick={onClickNextBtn}
+        disabled={checkAll}
+        checkAll={!checkAll}
       >
         A/S 요청하기
       </NextBtn>
@@ -252,7 +305,6 @@ const Container = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
 `;
-
 const TitleInputBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -264,7 +316,6 @@ const RemainderInputBox = styled.div`
   display: flex;
   margin-top: 24pt;
 `;
-
 const Label = styled.label`
   font-family: Spoqa Han Sans Neo;
   font-size: 10.5pt;
@@ -273,7 +324,6 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   text-align: left;
 `;
-
 const Input = styled(TextField)`
   width: 100%;
   border-radius: 6pt;
@@ -289,11 +339,9 @@ const Input = styled(TextField)`
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -2%;
-    /* color: ${colors.lightGray3}; */
     text-align: left;
     padding: 0;
   }
-
   ::placeholder {
     color: #caccd1;
     font-weight: 400;
@@ -306,42 +354,13 @@ const Input = styled(TextField)`
     border: none;
   }
 `;
-
 const SelectContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 9pt;
 `;
-
-const SelectBox = styled(Select)`
-  width: 100vw;
-  border: 1px solid #e2e5ed;
-  border-radius: 8px;
-  margin-top: 9pt;
-  font-weight: 400;
-  font-size: 16px;
-  letter-spacing: -0.02em;
-  color: ${colors.lightGray2};
-  & div {
-    padding-left: 12.75pt;
-    padding-top: 13.5pt;
-    padding-bottom: 13.5pt;
-  }
-  & fieldset {
-    border: none;
-  }
-  & svg {
-    padding-right: 11.25pt;
-  }
-`;
-
-const SelectIcon = styled(KeyboardArrowDownIcon)`
-  width: 24px;
-  height: 24px;
-  color: ${colors.dark};
-`;
-
 const TextArea = styled.textarea`
   resize: none;
   border: 1px solid #e2e5ed;
@@ -358,7 +377,6 @@ const TextArea = styled.textarea`
     color: #caccd1;
   }
 `;
-
 const PhotosBox = styled.div`
   width: 100%;
   height: 56.0625pt;
@@ -367,7 +385,6 @@ const PhotosBox = styled.div`
   gap: 9.1875pt;
   align-items: center;
 `;
-
 const AddPhotos = styled.button`
   display: inline-block;
   width: 56.0625pt;
@@ -375,7 +392,6 @@ const AddPhotos = styled.button`
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
 `;
-
 const NextBtn = styled.button<{ checkAll: boolean }>`
   width: 100%;
   margin-top: 40.6875pt;
@@ -390,18 +406,20 @@ const NextBtn = styled.button<{ checkAll: boolean }>`
   letter-spacing: -0.02em;
   color: #ffffff;
   text-align: center;
-
   @media (max-width: 899pt) {
     padding-bottom: 39pt;
   }
 `;
-
 const ImgSpan = styled.div`
   position: relative;
+  width: 56.0625pt;
+  height: 56.0625pt;
+  border-radius: 6pt;
 `;
 const Xbox = styled.div`
   position: absolute;
   top: -7pt;
   right: -7pt;
 `;
+
 export default AsRequestWrite;

@@ -12,17 +12,14 @@ import arrowRGr from 'public/mypage/ChatsArrow.png';
 import ComContranct from './CompContract';
 import Modal from 'components/Modal/Modal';
 
-type Props = {
-  setOpenContract: Dispatch<SetStateAction<boolean>>;
-};
+type Props = {};
 
-const UnderBox = ({ setOpenContract }: Props) => {
+const UnderBox = ({}: Props) => {
   // 계약서 작성 및 서명 클릭 화면
   const [contr, setContr] = useState<boolean>(false);
 
   return (
     <WebRapper>
-      {/* <Modal click={} text{/> */}
       <Wrapper>
         <ImageBox>
           <Image src={DoubleArrow} alt="doubleArrow" layout="fill" />
@@ -95,9 +92,9 @@ const WebRapper = styled.div`
 const Wrapper = styled.div`
   //padding-left: 15pt;
   //padding-right: 15pt;
-    padding-top: 21pt;
-    position: relative;
-    min-height: 300pt; 
+  padding-top: 21pt;
+  position: relative;
+  min-height: 300pt;
   @media (min-width: 900pt) {
     width: 580.5pt;
     padding-bottom: 45pt;
@@ -113,8 +110,8 @@ const ImageBox = styled.div`
 `;
 
 const MobWrap = styled.div`
-//border: 1px solid red;
-//height: calc(100% - 147pt);
+  //border: 1px solid red;
+  //height: calc(100% - 147pt);
   @media (min-width: 900pt) {
     display: none;
   }
@@ -122,10 +119,10 @@ const MobWrap = styled.div`
 
 const NoContractBox = styled.div`
   display: flex;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -214,7 +211,7 @@ const CommunityBtnBox = styled.div`
   display: flex;
   align-items: center;
   margin: 0 auto;
-  width: 135.75pt ;
+  width: 135.75pt;
   //height: 33pt;
   padding: 10.5pt 12pt;
   background-color: #f3f4f7;
@@ -224,11 +221,11 @@ const CommunityBtnBox = styled.div`
   }
 `;
 
-const BtnWrap =styled.div`
+const BtnWrap = styled.div`
   position: relative;
   padding: 60pt 0;
   background: white;
-`
+`;
 
 const BtnBox2 = styled(CommunityBtnBox)`
   display: none;

@@ -12,11 +12,17 @@ import icon_chats from 'public/images/icon_chats.png';
 import colors from 'styles/colors';
 import ClientProjectModal from './ClientProjectModal';
 import {
+  Contract,
+  GET_contract,
   InProgressProjectsDetailResponse,
   UnConsentProjectDateChangeHistories,
 } from 'QueryComponents/CompanyQuery';
 import { changeDataFn } from 'utils/calculatePackage';
-import { ApolloQueryResult, OperationVariables } from '@apollo/client';
+import {
+  ApolloQueryResult,
+  OperationVariables,
+  useQuery,
+} from '@apollo/client';
 import { isTokenPatchApi, isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import Loader from 'components/Loader';
@@ -24,22 +30,22 @@ import { useRouter } from 'next/router';
 
 type Props = {
   data: InProgressProjectsDetailResponse;
-  info: Data;
-  page: string;
+  // info: Data;
+  // page: string;
   badge: string;
   projectRefetch: (
     variables?: Partial<OperationVariables> | undefined,
   ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
 };
 
-const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
-  const presentProgress = info.state;
+const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
+  // const presentProgress = info.state;
   const router = useRouter();
   const routerId = router?.query?.projectIdx!;
   let textArr;
 
   switch (badge) {
-    case '계약 대기':
+    case '계약대기':
       textArr = [
         '공사 준비를 진행해주세요.',
         '충전기를 설치, 시운전을 진행해주세요',
@@ -114,6 +120,24 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
     false,
     false,
   ]);
+  // -----진행중인 프로젝트 상세 리스트 api-----
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    loading: contractLoading,
+    error: contractError,
+    data: contractData,
+  } = useQuery<Contract>(GET_contract, {
+    variables: {
+      projectIdx: router?.query?.projectIdx!,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
   // 일자 변경 동의
   const { mutate: dataChangeMutate, isLoading: dataChangeLoading } =
     useMutation(isTokenPatchApi, {
@@ -168,6 +192,19 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
     }
   };
 
+  // 계약서 보기 버튼 클릭
+  const onClickContract = () => {
+    if (contractData) {
+      router.push({
+        pathname: '/contract',
+        query: {
+          id: router?.query?.projectIdx,
+          documentId: contractData?.project?.contract?.documentId,
+        },
+      });
+    }
+  };
+
   // 유저 날짜 동의하기
   const onClickChangeData = () => {
     console.log('🔥 ~ line 166 유저 날짜 동의 버튼');
@@ -188,51 +225,54 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
   };
   // 일정 변경 모달 관련 상태관리
   useEffect(() => {
-    console.log('useEffect 몇번 렌더링');
-    const {
-      completionStepGoalDate,
-      installationStepGoalDate,
-      examStepGoalDate,
-      readyStepGoalDate,
-      unConsentProjectDateChangeHistories,
-    } = data?.project;
+    if (data?.project) {
+      const {
+        completionStepGoalDate,
+        installationStepGoalDate,
+        examStepGoalDate,
+        readyStepGoalDate,
+        unConsentProjectDateChangeHistories,
+      } = data?.project;
 
-    if (readyStepGoalDate === 'CHANGING') {
-      const target = unConsentProjectDateChangeHistories.filter(
-        (el) => el.changedStep === 'READY' && el.processingStatus === false,
-      );
-      setModalInfo(target[0]);
-      setIsModal(true);
-      setModalType('change');
-    } else if (installationStepGoalDate === 'CHANGING') {
-      const target = unConsentProjectDateChangeHistories.filter(
-        (el) =>
-          el.changedStep === 'INSTALLATION' && el.processingStatus === false,
-      );
-      setModalInfo(target[0]);
-      setIsModal(true);
-      setModalType('change');
-    } else if (examStepGoalDate === 'CHANGING') {
-      const target = unConsentProjectDateChangeHistories.filter(
-        (el) => el.changedStep === 'EXAM' && el.processingStatus === false,
-      );
-      setModalInfo(target[0]);
-      setIsModal(true);
-      setModalType('change');
-    } else if (completionStepGoalDate === 'CHANGING') {
-      const target = unConsentProjectDateChangeHistories.filter(
-        (el) =>
-          el.changedStep === 'COMPLETION' && el.processingStatus === false,
-      );
-      setModalInfo(target[0]);
-      setIsModal(true);
-      setModalType('change');
+      if (readyStepGoalDate === 'CHANGING') {
+        const target = unConsentProjectDateChangeHistories.filter(
+          (el) => el.changedStep === 'READY' && el.processingStatus === false,
+        );
+        setModalInfo(target[0]);
+        setIsModal(true);
+        setModalType('change');
+      } else if (installationStepGoalDate === 'CHANGING') {
+        const target = unConsentProjectDateChangeHistories.filter(
+          (el) =>
+            el.changedStep === 'INSTALLATION' && el.processingStatus === false,
+        );
+        setModalInfo(target[0]);
+        setIsModal(true);
+        setModalType('change');
+      } else if (examStepGoalDate === 'CHANGING') {
+        const target = unConsentProjectDateChangeHistories.filter(
+          (el) => el.changedStep === 'EXAM' && el.processingStatus === false,
+        );
+        setModalInfo(target[0]);
+        setIsModal(true);
+        setModalType('change');
+      } else if (completionStepGoalDate === 'CHANGING') {
+        const target = unConsentProjectDateChangeHistories.filter(
+          (el) =>
+            el.changedStep === 'COMPLETION' && el.processingStatus === false,
+        );
+        setModalInfo(target[0]);
+        setIsModal(true);
+        setModalType('change');
+      }
     }
   }, [data]);
 
-  if (dataChangeLoading) {
+  if (dataChangeLoading || contractLoading || CompleteLoading) {
     return <Loader />;
   }
+  console.log('⭐️ 계약서 데이터 확인 ~line 275 ');
+  console.log(contractData);
 
   return (
     <Wrapper0>
@@ -246,7 +286,8 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             <CircleImgBox>
               <Image
                 src={
-                  data?.project?.isCompletedCompanyMemberContractStep
+                  data?.project?.badge === '계약대기' &&
+                  data?.project?.isCompletedContractStep === 'IN_PROGRESS'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -270,14 +311,23 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
           {/* 펼쳐지는 부분 */}
           {toggleOpen[0] && (
             <ContractBtnBox>
-              {page === 'client' ? (
-                <ClientP presentProgress={presentProgress === 0}>
-                  계약서 보기 및 서명
-                </ClientP>
-              ) : (
-                <YetP presentProgress={presentProgress === 0}>
+              {data?.project?.badge === '계약대기' &&
+              data?.project?.isCompletedContractStep === 'NOT_STARTED' ? (
+                <YetP presentProgress={data?.project?.badge === '계약대기'}>
                   계약서 작성중...
                 </YetP>
+              ) : (
+                <ClientP
+                  presentProgress={
+                    data?.project?.badge === '계약대기' &&
+                    data?.project?.isCompletedContractStep === 'IN_PROGRESS'
+                      ? true
+                      : false
+                  }
+                  onClick={onClickContract}
+                >
+                  계약서 보기
+                </ClientP>
               )}
             </ContractBtnBox>
           )}
@@ -288,8 +338,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             <CircleImgBox className="topCircle">
               <Image
                 src={
-                  data?.project?.isCompletedCompanyMemberContractStep &&
-                  !data?.project?.isCompletedReadyStep
+                  data?.project?.badge === '준비 중'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -330,10 +379,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             <ToggleWrapper>
               <MessageBox
                 presentProgress={
-                  data?.project?.isCompletedCompanyMemberContractStep &&
-                  !data?.project?.isCompletedReadyStep
-                    ? true
-                    : false
+                  data?.project?.badge === '준비 중' ? true : false
                 }
                 title={textArr[0]}
                 firstText={'충전기 및 부속품 준비'}
@@ -349,8 +395,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             <CircleImgBox>
               <Image
                 src={
-                  data?.project?.isCompletedReadyStep &&
-                  !data?.project?.isCompletedInstallationStep
+                  data?.project?.badge === '설치 중'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -384,9 +429,6 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
               )}
-              {/* <SetDate id="installDate" onClick={handleDateModal}>
-                목표일 입력중 ...
-              </SetDate> */}
             </InsideFlex>
           </div>
           {/* 펼쳐지는 부분 */}
@@ -394,10 +436,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             <ToggleWrapper>
               <MessageBox
                 presentProgress={
-                  data?.project?.isCompletedReadyStep &&
-                  !data?.project?.isCompletedInstallationStep
-                    ? true
-                    : false
+                  data?.project?.badge === '설치 중' ? true : false
                 }
                 title={textArr[1]}
                 firstText={'충전기 설치 및 배선작업'}
@@ -413,8 +452,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             <CircleImgBox>
               <Image
                 src={
-                  data?.project?.isCompletedInstallationStep &&
-                  !data?.project?.isCompletedExamStep
+                  data?.project?.badge === '검수 중'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -453,10 +491,7 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             <ToggleWrapper>
               <MessageBox
                 presentProgress={
-                  data?.project?.isCompletedInstallationStep &&
-                  !data?.project?.isCompletedExamStep
-                    ? true
-                    : false
+                  data?.project?.badge === '검수 중' ? true : false
                 }
                 title={textArr[2]}
                 firstText={'검수 및 전기차 충전 테스트 (고객 참관)'}
@@ -473,7 +508,8 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
               <Image
                 className="bottomCircle"
                 src={
-                  data?.project?.isCompletedExamStep
+                  data?.project?.badge === '완료 중' ||
+                  data?.project?.badge === '완료 대기'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -512,8 +548,8 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
             <ToggleWrapper className="lastBox">
               <MessageBox
                 presentProgress={
-                  data?.project?.isCompletedExamStep &&
-                  !data?.project?.isCompletedCompletionStep
+                  data?.project?.badge === '완료 중' ||
+                  data?.project?.badge === '완료 대기'
                     ? true
                     : false
                 }
@@ -522,7 +558,6 @@ const ClientProgress = ({ info, data, page, badge, projectRefetch }: Props) => {
                 secondText={'신고 및 사용 승인'}
                 thirdText={'완료현장 사진 기록'}
                 page={'client'}
-                num={info.state}
                 complete={data?.project?.isCompletedCompletionStep!}
                 file={data?.project?.projectCompletionFiles!}
               />

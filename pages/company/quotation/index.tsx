@@ -77,23 +77,6 @@ const CompanyQuotations = ({ num, now }: Props) => {
     setNowWidth(window.innerWidth);
   };
 
-  // url에서 id 가져와서 tabNumber에 업데이트 해서 컴포넌트 바꿔줌
-  useEffect(() => {
-    if (router.query.id) {
-      const num = Number(router.query.id);
-      setTabNumber(num);
-    } else if (router.pathname === `/company/quotation`) {
-      setTabNumber(0);
-    }
-  }, [router]);
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
-
   // api 호출
   const { data, isLoading, isError, error, refetch } =
     useQuery<ReceivedRequest>(
@@ -106,27 +89,6 @@ const CompanyQuotations = ({ num, now }: Props) => {
         enabled: false,
       },
     );
-
-  // 현재 페이지
-  useEffect(() => {
-    const now = router.route;
-    if (now === `/company/quotation`) {
-      setNowUrl(!nowUrl);
-    }
-  }, []);
-
-  if (isError) {
-    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-    console.log(error);
-    return (
-      <Modal
-        text="다시 시도해주세요"
-        click={() => {
-          router.push('/');
-        }}
-      />
-    );
-  }
 
   const components: Components = {
     0: (
@@ -145,6 +107,23 @@ const CompanyQuotations = ({ num, now }: Props) => {
     2: <History />,
   };
 
+  // url에서 id 가져와서 tabNumber에 업데이트 해서 컴포넌트 바꿔줌
+  useEffect(() => {
+    if (router.query.id) {
+      const num = Number(router.query.id);
+      setTabNumber(num);
+    } else if (router.pathname === `/company/quotation`) {
+      setTabNumber(0);
+    }
+  }, [router]);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
   useEffect(() => {
     refetch();
     return () => {
@@ -152,10 +131,33 @@ const CompanyQuotations = ({ num, now }: Props) => {
       setcheckedFilterIndex(0);
     };
   }, [checkedFilterIndex, keyword]);
+  // 현재 페이지
+  useEffect(() => {
+    const now = router.route;
+    if (now === `/company/quotation`) {
+      setNowUrl(!nowUrl);
+    }
+  }, []);
 
   if (isLoading) {
     return <Loader />;
   }
+  if (isError) {
+    console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
+    console.log(error);
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
+
+  console.log('🔥 api 데이터 확인 ~line  68 ' + TAG);
+  console.log(data);
+
   return (
     <WebBody>
       {/* 웹일때 보이는 헤더 */}
