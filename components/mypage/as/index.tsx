@@ -22,6 +22,7 @@ import { useRouter } from 'next/router';
 import checkSvg from 'public/images/check-small.png';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
+import { handleColorAS } from 'utils/changeValue';
 
 type Props = {};
 
@@ -229,18 +230,39 @@ const AsIndex = (props: Props) => {
         </WrapInput>
       </Wrap>
       <ContentsContainer>
-        <ContentsWrapper onClick={() => handleAsListClick()}>
-          <ContentTop>
-            <ContentTitle>LS안양주유소</ContentTitle>
-          </ContentTop>
-          <ContentCenter>
-            <ContentCenterText></ContentCenterText>
-          </ContentCenter>
-          <ContentBottom>
-            <CommonBtn text={'접수요청 D+3'} backgroundColor={'#F75015'} />
-            <DateText>2022.05.17 18:13</DateText>
-          </ContentBottom>
-        </ContentsWrapper>
+        {data?.data?.afterSalesServices?.map((el, index) => (
+          <ContentsWrapper
+            key={el?.afterSalesService?.project?.projectIdx}
+            onClick={() => handleAsListClick()}
+          >
+            <ContentTop>
+              <ContentTitle>
+                {
+                  el?.afterSalesService?.project?.finalQuotation?.preQuotation
+                    ?.quotationRequest?.installationAddress
+                }
+              </ContentTitle>
+            </ContentTop>
+            <ContentCenter>
+              <ContentCenterText></ContentCenterText>
+            </ContentCenter>
+            <ContentBottom>
+              <CommonBtn
+                text={el?.badge}
+                backgroundColor={handleColorAS(el?.badge)}
+              />
+
+              <DateText>
+                {el.afterSalesService.createdAt
+                  .replace('T', ' ')
+                  .replace(/\..*/, '')
+                  .slice(0, -3)
+                  .replaceAll('-', '.')}
+              </DateText>
+            </ContentBottom>
+          </ContentsWrapper>
+        ))}
+
         {/* <ContentsWrapper onClick={() => router.push('/mypage/as/asGoReview')}>
           <ContentTop>
             <ContentTitle>LS안양주유소</ContentTitle>

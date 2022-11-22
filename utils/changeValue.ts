@@ -86,14 +86,14 @@ export const handleColor2 = (badge: number) => {
  * @param badge
  * @returns
  */
-export const handleColorAS = (num: number) => {
-  if (num === 0) {
+export const handleColorAS = (badge: string) => {
+  if (badge.includes('요청')) {
     return '#F75015';
-  } else if (num === 1) {
+  } else if (badge.includes('확인')) {
     return '#5221CB';
-  } else if (num === 2) {
+  } else if (badge.includes('대기')) {
     return '#FFC043';
-  } else if (num === 3) {
+  } else if (badge.includes('A/S')) {
     return '#222222';
   } else {
     return '';
