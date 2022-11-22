@@ -41,6 +41,7 @@ type Props = {
   data: InProgressProjectsDetailResponse;
   planed?: string;
   stepType: string;
+  preStepState: boolean;
   setProgressNum: Dispatch<SetStateAction<number>>;
   inProgressRefetch: (
     variables?: Partial<OperationVariables> | undefined,
@@ -73,6 +74,7 @@ const Reusable = ({
   data,
   planed,
   stepType,
+  preStepState,
   inProgressRefetch,
   setProgressNum,
 }: // setBadgeState,
@@ -189,7 +191,10 @@ Props) => {
   // '완료하기' 누른 후 실행되는 함수. 배지를 변경하는 api 호출하기.
   const handleModalRightBtn = () => {
     if (planed) {
-      if (finalStep) {
+      if (preStepState === false) {
+        alert('이전 단계를 완료해주세요.');
+        setTwoBtnModalOpen(false);
+      } else if (finalStep) {
         // 마지막 단계
         stepMuate({
           url: `/projects/${routerId}/step`,
@@ -352,6 +357,7 @@ Props) => {
               <Button
                 onClick={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
                 finalStep={finalStep}
+                onValid={preStepState}
               >
                 {btnText}
               </Button>
@@ -551,11 +557,14 @@ const Xbox = styled.div`
   right: -7pt;
 `;
 
-const Button = styled.div<{ finalStep?: boolean }>`
+const Button = styled.div<{ finalStep?: boolean; onValid: boolean }>`
   width: 100%;
   padding-top: 15pt;
   padding-bottom: 15pt;
-  background-color: ${colors.main};
+
+  background-color: ${({ onValid }) =>
+    onValid === true ? colors.main : '#b096ef'};
+
   color: #ffffff;
   text-align: center;
   border-radius: 6pt;

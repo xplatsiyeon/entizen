@@ -17,12 +17,7 @@ type Props = {
   setComponentId: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-interface Data {
-  id: number;
-  badge: string;
-  storeName: string;
-  date: string;
-}
+const TAG = 'componentsCompany/Mypage/ProjectInProgress.tsx';
 const ProjectInProgress = ({
   tabNumber,
   setComponentId,
@@ -83,6 +78,10 @@ const ProjectInProgress = ({
       return '';
     }
   };
+
+  console.log('🔥 데이터 확인 ~line 87 ' + TAG);
+
+  console.log(data);
 
   return (
     <>

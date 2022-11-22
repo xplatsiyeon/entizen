@@ -3,7 +3,7 @@ import EstimateContainer from 'components/mypage/request/estimateContainer';
 import MypageHeader from 'components/mypage/request/header';
 import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
 import CommunicationBox from 'components/CommunicationBox';
 import WebHeader from 'componentsWeb/WebHeader';
@@ -13,7 +13,7 @@ import { useMutation, useQuery } from 'react-query';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
-import { FinalQuotations, PreQuotationResponse } from './detail/[id]';
+import { FinalQuotations, PreQuotationResponse } from './detail';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import { AxiosError } from 'axios';
 import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
@@ -88,7 +88,8 @@ export interface QuotationRequestsResponse {
 const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const router = useRouter();
-  const routerId = router?.query?.id!;
+  // const routerId = router?.query?.id!;
+  const routerId = router?.query?.quotationRequestIdx!;
   const [partnerModal, setPartnerModal] = useState(false);
   const [modalNumber, setModalNumber] = useState(-1);
   const [modalMessage, setModalMessage] = useState('');
@@ -265,7 +266,7 @@ const Mypage1_3 = ({}: any) => {
                 back={true}
                 handleOnClick={handleOnClick}
               />
-              {/* 견적 상세 내용*/}
+              {/*--------------------- 상단 박스 ---------------------------------*/}
               <EstimateContainer data={data!} />
               <DownArrowBox>
                 <Image src={DoubleArrow} alt="double-arrow" />
@@ -273,7 +274,7 @@ const Mypage1_3 = ({}: any) => {
               {/* 현장실사 해당 기업 상세 페이지 */}
               {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx ? (
                 // 구독 상품 리스트 (가견적 작성 회사)
-                <>
+                <React.Fragment>
                   <SubscriptionProduct data={data?.preQuotations!} />
                   <TextBox>
                     <div>선택하기 어려우신가요?</div>
@@ -282,11 +283,14 @@ const Mypage1_3 = ({}: any) => {
                       clickHandler={() => router.push('/chatting/1')}
                     />
                   </TextBox>
-                </>
+                </React.Fragment>
               ) : (
                 <>
                   {/* 상태에 따라 안내문 변경 */}
-                  {quotationData?.preQuotation?.finalQuotation === null ? (
+                  {/* 최종견적이 없고 */}
+                  {quotationData?.preQuotation?.finalQuotation === null &&
+                  data.badge !== '최종견적 대기 중' ? (
+                    // 변경 데이터가 있고, 확정이 아니라면
                     spotInspection !== null && spotInspection?.isConfirmed ? (
                       <ScheduleConfirm
                         date={spotInspection?.spotInspectionDate[0]}
@@ -313,13 +317,12 @@ const Mypage1_3 = ({}: any) => {
                   ) : null}
 
                   {/* 최종견적 가견적 구별 조견문 */}
-
                   {data?.badge !== '낙찰성공' &&
                   // 백엔드와 소통 후 변경
                   // data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true &&
                   quotationData?.preQuotation?.finalQuotation !== null ? (
                     <>
-                      {/* 최종견적 */}
+                      {/* 최종견적 상세 내용*/}
                       <FinalQuotation
                         data={quotationData!}
                         isSpot={spotData?.data?.spotInspection ? true : false}
@@ -357,7 +360,7 @@ const Mypage1_3 = ({}: any) => {
                     </>
                   ) : (
                     <>
-                      {/* 가견적 */}
+                      {/* 가견적  */}
                       <BiddingQuote
                         data={quotationData!}
                         isSpot={spotData?.data?.spotInspection ? true : false}

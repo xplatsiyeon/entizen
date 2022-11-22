@@ -102,6 +102,9 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             textFour={'설계 및 공사계획 신고 등'}
             btnText={'준비 완료하기'}
             fin={data?.project?.isCompletedReadyStep!}
+            preStepState={
+              data?.project?.isCompletedContractStep! === 'COMPLETION'
+            }
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.readyStepGoalDate!}
@@ -117,6 +120,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             textFour={'충전기 시운전(자체 테스트)'}
             btnText={'설치 완료하기'}
             fin={data?.project?.isCompletedInstallationStep!}
+            preStepState={data?.project?.isCompletedReadyStep!}
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.installationStepGoalDate!}
@@ -132,6 +136,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             textFour={'한전 계량기 봉인'}
             btnText={'검수 완료하기'}
             fin={data?.project?.isCompletedExamStep!}
+            preStepState={data?.project?.isCompletedInstallationStep!}
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.examStepGoalDate!}
@@ -146,7 +151,8 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             textThree={'사용 전 검사 및 점검'}
             textFour={'신고 및 사용 승인'}
             textFive={'완료현장 사진 기록'}
-            almostFinish={data?.project?.isCompletedCompletionStep}
+            almostFinish={data?.project?.isCompletedCompletionStep!}
+            preStepState={data?.project?.isCompletedInstallationStep!}
             finalStep={true}
             btnText={'프로젝트 완료하기'}
             fin={data?.project?.isCompletedCompletionStep!}
