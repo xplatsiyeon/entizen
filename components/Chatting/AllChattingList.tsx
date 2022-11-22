@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import defaultImg from 'public/images/default-img.png';
+import { TouchEvent, useRef } from "react";
 
 const AllChattingList = () => {
 
@@ -67,76 +69,139 @@ const AllChattingList = () => {
         }
     }
 
-    {/*메세지 시간 표현 처리 함수 */}
-
-    const handleTime = (target : string | undefined )=>{
+    {/*메세지 시간 표현 처리 함수 */ }
+    const handleTime = (target: string | undefined) => {
         const now = dayjs();
         const diff = now.diff(target, 'h');
 
-        if(diff < 24 ){
+        if (diff < 24) {
             const createdAt = dayjs(target).format("HH:mm");
 
             //오전, 오후로 나누기
-           const pm = dayjs(target).subtract(9,'h').format('HH:mm');
-           if(Number(pm.substring(0,3)) > 12){
-            return `오후 ${pm}`
-           }else{
-            return `오전 ${createdAt}`
-           }
-            
-        }else if( (diff > 24) && (diff < 48)){
+            const pm = dayjs(target).subtract(9, 'h').format('HH:mm');
+            if (Number(pm.substring(0, 3)) > 12) {
+                return `오후 ${pm}`
+            } else {
+                return `오전 ${createdAt}`
+            }
+
+        } else if ((diff > 24) && (diff < 48)) {
             const createdAt = dayjs(target).format("HH:mm");
-            const pm = dayjs(target).subtract(9,'h').format('HH:mm');
-            
-            if(Number(pm.substring(0,3)) > 12){
+            const pm = dayjs(target).subtract(9, 'h').format('HH:mm');
+
+            if (Number(pm.substring(0, 3)) > 12) {
                 return `어제 ${pm}`
-               }else{
+            } else {
                 return `어제 ${createdAt}`
-               }
-        }else {
+            }
+        } else {
             const createdAt = dayjs(target).format("YYYY-MM-DD HH:mm");
             const year = dayjs(target).get('y');
             const month = dayjs(target).get('month');
             const day = dayjs(target).get('day');
 
-            if(now.get('y') !== year){
-            return `${year}년 ${month}월 ${day}일`
-            }else{
+            if (now.get('y') !== year) {
+                return `${year}년 ${month}월 ${day}일`
+            } else {
                 return `${month}월 ${day}일 `
             }
         }
     }
 
+
+    {/* 드래그 조절 함수 */ }
+    const chattingList = useRef<HTMLDivElement>(null)
+    let pressed = false;
+    let prev: number;
+    const touchStart = (e: TouchEvent<HTMLElement>) => {
+        if (pressed) {
+            return;
+        } else {
+            pressed = true;
+            prev = e.changedTouches[0].clientX;
+            if(!e.currentTarget.style.transform){
+                e.currentTarget.style.transform = `translateX(-25%)`
+            }else{
+                console.log(e.currentTarget.style.transform)
+            }
+
+        }
+    }
+    const touchMove = (e: TouchEvent<HTMLElement>, idx: number) => {
+        if (!pressed) {
+            return;
+        } else {
+            const now = e.changedTouches[0].clientX;
+            const n = ((prev - now) > 0 ? -1 : 1);
+
+            if ((prev - now) > 20) {
+
+            } else if ((prev - now) < -20) {
+            }
+
+            /*if ((prev - now) > 50) {
+               if(!e.currentTarget.style.transform || (e.currentTarget.style.transform === `translateX(-37.5%)`) ){
+                e.currentTarget.style.transform = `translateX(0%)`
+                }else{
+                    e.currentTarget.style.transform = `translateX(-37.5%)`} 
+            } else if ((prev - now) < -50) {
+               if(!e.currentTarget.style.transform || (e.currentTarget.style.transform === `translateX(-25%)`) ){
+                e.currentTarget.style.transform = `none`
+                }else{
+                e.currentTarget.style.transform = `translateX(-25%)`} 
+            }*/
+        }
+    }
+
+    const touchEnd = ()=>{
+        pressed = false;
+    }
+
+    {/* 디테일 페이지 이동 */}
+    const router = useRouter();
+    
+    const handleRoute= (idx:number, comIdx : number) =>{
+        router.push({
+            pathname: `/chatting/chattingRoom`,
+            query: {
+                memberId : idx,
+                companyMemberId : comIdx 
+            },
+        })
+    }
+
+
     return (
-        <Body>
+        <Body ref={chattingList} >
             {arr.data.chattingRooms.userChattingRooms.map((chatting, idx) => {
                 return (
-                    <Chatting className="item" key={idx}>
-                     <HiddenBox1>
-                        <FavoriteBtn></FavoriteBtn>
-                        <AlramBtn></AlramBtn>
-                    </HiddenBox1>  
-                    <ChattingRoom className="content-box" >
-                        <ChattingRoomImage>
-                            <ImageWrap>
-                                <Image src={defaultImg} layout='fill'/>
-                            </ImageWrap>
-                        </ChattingRoomImage>
-                        <ChattingRoomPreview>
-                            <FromMember>{chatting.companyMember.companyMemberAdditionalInfo.companyName}</FromMember>
-                            <Previw>{chatting.chattingLogs?.content}</Previw>
-                        </ChattingRoomPreview>
-                        <ChattingRoomInfo>
-                            <Created>{handleTime(chatting.chattingLogs?.createdAt)}</Created>
-                            <Box>
-                                <UnRead wasRead={chatting.chattingLogs?.wasRead || undefined} />
-                                <Favorite>{chatting.chattingRoomFavorite?<>true</>:<>false</>}</Favorite>
-                            </Box>
-                        </ChattingRoomInfo>
-                    </ChattingRoom>
-                     <HiddenBox2>
-                        <QuitBtn></QuitBtn>
-                    </HiddenBox2>  
+                    <Chatting className="chattingRoom" key={idx} onTouchStart={(e) => touchStart(e)}
+                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} onClick={()=>handleRoute(chatting.userMember.memberIdx, chatting.companyMember.memberIdx)}>
+                        <HiddenBox1>
+                            <FavoriteBtn></FavoriteBtn>
+                            <AlramBtn></AlramBtn>
+                        </HiddenBox1>
+                        <ChattingRoom className="content-box" >
+                            <ChattingRoomImage>
+                                <ImageWrap>
+                                    <Image src={defaultImg} layout='fill' />
+                                </ImageWrap>
+                            </ChattingRoomImage>
+                            <ChattingRoomPreview>
+                                <FromMember>{chatting.companyMember.companyMemberAdditionalInfo.companyName}</FromMember>
+                                <Previw>{chatting.chattingLogs?.content}</Previw>
+                            </ChattingRoomPreview>
+                            <ChattingRoomInfo>
+                                <Created>{handleTime(chatting.chattingLogs?.createdAt)}</Created>
+                                <Box>
+                                    <UnRead wasRead={chatting.chattingLogs?.wasRead || undefined} />
+                                    <Favorite>{chatting.chattingRoomFavorite ? <>t</> : <>f</>}</Favorite>
+                                </Box>
+                            </ChattingRoomInfo>
+                        </ChattingRoom>
+                        <HiddenBox2>
+                            <QuitBtn></QuitBtn>
+                        </HiddenBox2>
                     </Chatting>
                 )
             })}
@@ -155,6 +220,7 @@ const Chatting = styled.div`
 display: flex;
 width: 160%;
 transform: translateX(-25%);
+transition: 0.3s;
 `
 const ChattingRoom = styled.div`
 display: flex;
@@ -169,7 +235,7 @@ const ChattingRoomImage = styled.div`
 const ChattingRoomPreview = styled.div`
 flex: auto ;
 margin: 0 12pt;
-border: 1px solid;
+
 position: relative;
 `
 const ChattingRoomInfo = styled.div`
@@ -222,11 +288,11 @@ const Box = styled.div`
     gap: 6.75pt;
     align-items: center;
 `
-const UnRead = styled.div<{wasRead?:boolean}>`
+const UnRead = styled.div<{ wasRead?: boolean }>`
 width: 6pt;
 height: 6pt;
 border-radius: 50%;
-background: ${({wasRead})=> wasRead? `none` : `#5221CB`} ;
+background: ${({ wasRead }) => wasRead ? `none` : `#5221CB`} ;
 `
 const Favorite = styled.div`
 position: relative;

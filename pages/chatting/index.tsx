@@ -27,7 +27,7 @@ const Chatting = () => {
 
     return (
         <Body>
-            <Header>
+            <Header >
                 <H2>소통하기</H2>
             </Header>
             <Input
@@ -76,7 +76,8 @@ const Body = styled.div`
 font-family: 'Spoqa Han Sans Neo';
 `
 const Header = styled.header`
-position: relative;
+    position: relative;
+    margin: 0 15pt;
 `
 
 const H2 = styled.h2`
@@ -90,7 +91,7 @@ margin: 12pt 0 15pt;
 `
 
 const Input = styled(TextField)`
-  width: 100%;
+    margin: 0 15pt;
   border-radius: 6pt;
   border: 2.5pt solid #5221CB;
   display: flex;
@@ -139,6 +140,7 @@ const TabList = styled.ul`
     gap: 15pt;
     padding: 22.5pt 0;
     position: relative;
+    margin: 0 15pt;
 `
 const Tab = styled.li<{ tab: string; index: string }>`
 display: flex;
