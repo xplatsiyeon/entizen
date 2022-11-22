@@ -133,6 +133,11 @@ const Container = styled.div`
   @media (max-height: 500pt) {
     height: 100%;
   }
+
+  @media (min-width: 900pt) {
+    margin-top: 54pt;
+    padding-top: 0;
+  }
 `;
 
 const WebRapper = styled.div`

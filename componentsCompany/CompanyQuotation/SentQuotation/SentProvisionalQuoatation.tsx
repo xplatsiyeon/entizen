@@ -215,6 +215,18 @@ const SentQuoatationFirst = () => {
   // LeftBox component 바꿔주는거
   const [underNum, setUnderNum] = useState<number>();
 
+  // 실시간으로 width 받아오는 함수
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
   useEffect(() => {
     if (router.query.preQuotationIdx) {
       const num = Number(router.query.preQuotationIdx);
@@ -344,7 +356,9 @@ const SentQuoatationFirst = () => {
         )}
         {/* 에러 모달 */}
         {isModal && <Modal click={onClickModal} text={errorMessage} />}
-        <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
+        {nowWidth < 1198.7 && (
+          <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
+        )}
         <WebRapper>
           {nowWidth > 1198.7 && (
             <LeftProjectQuotationBox
@@ -356,6 +370,9 @@ const SentQuoatationFirst = () => {
           )}
           {/* 구매자 견적 정보 */}
           <WebColumnContainer>
+            {nowWidth >= 1198.7 && (
+              <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
+            )}
             <TopBox
               handleClick={handleClick}
               open={open}
@@ -502,8 +519,9 @@ const CustomerRequestContent = styled.div`
   color: ${colors.main};
   margin-top: 21pt;
   @media (min-width: 900pt) {
-    padding-left: 315pt;
-    padding-top: 21pt;
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 21pt;
   }
 `;
 

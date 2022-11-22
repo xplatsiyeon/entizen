@@ -94,39 +94,10 @@ const WebBody = styled.div`
   }
 `;
 
-const Container = styled.div`
-  display: block;
-  position: relative;
-  margin: 45.75pt auto;
-  border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
-  background: white;
-
-  @media (max-width: 899pt) {
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-    padding: 0;
-    box-shadow: none;
-    background: none;
-    margin: 0;
-  }
-  @media (max-height: 400pt) {
-    height: 100%;
-    background: white;
-  }
-  @media (min-width: 900pt) {
-    margin: 0 auto;
-  }
-`;
-
 const WebRapper = styled.div`
   @media (min-width: 900pt) {
     margin: 0 auto;
-    padding: 60pt 0;
+    padding: 54pt 0;
     width: 900pt;
     display: flex;
     justify-content: space-between;

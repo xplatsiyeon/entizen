@@ -137,10 +137,16 @@ const ChargingPlace = () => {
             {typeof routerId !== 'undefined' ? (
               <Wrap2>
                 <MypageHeader
-                  back={open ? true: undefined}
-                  title={open ? '내 충전소' : (target![0].projectReview? '내 충전소 리뷰하기':'내 충전소 리뷰보기')}
+                  back={open ? true : undefined}
+                  title={
+                    open
+                      ? '내 충전소'
+                      : target![0].projectReview
+                      ? '내 충전소 리뷰하기'
+                      : '내 충전소 리뷰보기'
+                  }
                   exitBtn={open ? undefined : true}
-                  handleOnClick={()=>setOpen(!open)}
+                  handleOnClick={() => setOpen(!open)}
                 />
                 <RightBox>
                   {hideTopBox ? <PlaceTopBox data={target![0]} /> : null}
@@ -187,11 +193,11 @@ const ChargingPlace = () => {
                         /*<PlaceNoReview
                           chargingRefetch={chargingRefetch}
                           close={setOpen}
-                        />*/<PlaceGetReview
+                        />*/ <PlaceGetReview
                           review={true}
                           data={target![0].projectReview}
                           setOpen={setOpen}
-                        /> 
+                        />
                       )}
                     </>
                   )}
@@ -310,8 +316,8 @@ const BtnMob = styled.button`
 `;
 
 const BtnWeb = styled(BtnMob)`
-display: block;
-   @media (max-width: 899pt) {
+  display: block;
+  @media (max-width: 899pt) {
     display: none;
   }
-`
+`;

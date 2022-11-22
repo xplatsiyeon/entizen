@@ -132,8 +132,10 @@ const List = styled.ul`
   gap: 11pt;
   @media (min-width: 900pt) {
     width: 580.5pt;
+    padding-top: 0;
     margin: 0;
-    padding: 0 0 15pt 0;
+    display: grid;
+    grid-template-columns: repeat(3, 178.5pt);
     gap: 22.5pt;
   }
 `;

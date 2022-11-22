@@ -122,6 +122,9 @@ const IconBox = styled.div<{ arrow?: boolean }>`
 
 const List = styled.div`
   margin: 18pt 0;
+  @media (max-width: 899pt) {
+    padding-bottom: 80pt;
+  }
 `;
 const ListBox = styled.div`
   background: white;

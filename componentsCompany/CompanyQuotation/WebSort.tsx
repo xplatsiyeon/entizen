@@ -129,6 +129,7 @@ const WebBox = styled.div<{ hide: boolean }>`
   width: 96pt;
   height: 33pt;
   border: 0.75pt solid #e2e5ed;
+  border-radius: 6pt;
   @media (max-width: 899pt) {
     display: none;
   }
@@ -177,6 +178,7 @@ const SelectContainer = styled.ul<{ hide: boolean }>`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
   cursor: pointer;
+  margin-top: 6pt;
   display: ${({ hide }) => (hide !== true ? 'none' : '')};
 `;
 

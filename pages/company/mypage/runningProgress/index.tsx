@@ -202,6 +202,7 @@ const Container = styled.div`
   }
   @media (min-width: 900pt) {
     margin: 0 auto;
+    padding-top: 54pt;
   }
 `;
 
@@ -214,7 +215,6 @@ const WebRapper = styled.div`
 
   @media (min-width: 900pt) {
     margin: 0 auto;
-    padding: 20pt 0;
     width: 900pt;
     display: flex;
     flex-direction: row;

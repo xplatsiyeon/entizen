@@ -6,6 +6,7 @@ import Image from 'next/image';
 import FilterModal from './filterModal';
 import NoAsHistyory from './noAsHistrory';
 import { useRouter } from 'next/router';
+import WebFilter from './webFilter';
 
 const AsHistory = () => {
   //히스토리 리스트 get();
@@ -44,6 +45,7 @@ const AsHistory = () => {
             <Image src={blackDownArrow} alt="rijgtArrow" />
           </IconBox>
         </MobFilter>
+        <WebFilter setSelected={setSelected} type={'historyAS'} />
         <InputWrap>
           <Search searchWord={searchWord} setSearchWord={setSearchWord} />
         </InputWrap>
@@ -105,6 +107,9 @@ const MobFilter = styled.button`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: #222222;
+  @media (min-width: 900pt) {
+    display: none;
+  }
 `;
 
 const InputWrap = styled.div`
@@ -182,4 +187,7 @@ const BtnBox = styled.div`
   border-radius: 6pt;
   width: 83.25pt;
   margin: 27pt auto 90pt;
+  @media (min-width: 900pt) {
+    margin-bottom: 0;
+  }
 `;
