@@ -56,7 +56,14 @@ const WebFilter = ({ setSelected, type }: Props) => {
 
   const [hide, setHide] = useState<boolean>(false);
 
-  const modalCloseHandler = (event: React.MouseEvent<HTMLElement>) => {
+  //   const modalCloseHandler = (event: React.MouseEvent<HTMLElement>) => {
+  //     if (hide && !userCurrent?.contains(event.target as Node)) {
+  //       setHide(false);
+  //     }
+  //   };
+
+  // 나중에 event type 수정 예정
+  const modalCloseHandler = (event: any): void => {
     if (hide && !userCurrent?.contains(event.target as Node)) {
       setHide(false);
     }
@@ -70,7 +77,7 @@ const WebFilter = ({ setSelected, type }: Props) => {
   });
 
   return (
-    <WebRapper>
+    <WebRapper ref={userMenu}>
       <>
         {/* 신규 A/S */}
         {type === 'receivedAS' && (
@@ -79,7 +86,6 @@ const WebFilter = ({ setSelected, type }: Props) => {
             onClick={() => {
               setHide(!hide);
             }}
-            ref={userMenu}
           >
             <SelectValueBox>
               <SelectValue>{selectNewName}</SelectValue>

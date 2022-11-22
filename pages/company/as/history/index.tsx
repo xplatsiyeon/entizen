@@ -8,6 +8,7 @@ import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 
 import RightArrow from 'public/images/black-right-arrow.svg';
 import CommunicationIcon from 'public/images/communication-icon.svg';
+import { useRouter } from 'next/router';
 
 const AsHistory = () => {
   return (

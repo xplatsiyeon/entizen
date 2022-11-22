@@ -8,6 +8,9 @@ import BottomNavigation from 'components/BottomNavigation';
 import useProfile from 'hooks/useProfile';
 import { useQuery } from '@apollo/client';
 import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
+import NewASUnder from './NewASUnder';
+import NoAsHistyory from './noAsHistrory';
+import AsHistoryUnder from './AsHistoryUnder';
 
 type Props = {
   num?: number;
@@ -25,12 +28,10 @@ interface Components {
   [key: number]: JSX.Element;
 }
 const LeftASBox = ({
-  componentId,
-  setComponentId,
   tabNumber,
   setTabNumber,
-  setSuccessComponentId,
-  successComponentId,
+  componentId,
+  setComponentId,
 }: Props) => {
   const route = useRouter();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -46,6 +47,12 @@ const LeftASBox = ({
     },
   });
 
+  // 왼쪽 열리고 닫히고
+  const [newAS, setNewAS] = useState<boolean>(true);
+  const [historyUnder, setHistoryUnder] = useState<boolean>(false);
+
+  const router = useRouter();
+
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
@@ -58,27 +65,24 @@ const LeftASBox = ({
     };
   }, [nowWidth]);
 
+  useEffect(() => {
+    if (router.pathname === '/comany/as' || router.query.id === '0') {
+      setNewAS(true);
+      setHistoryUnder(false);
+    } else if (router.query.id === '1') {
+      setNewAS(false);
+      setHistoryUnder(true);
+    }
+  }, [router]);
+
   // 나중에 AS 밑에 오는 부분
   // const webComponents: Components = {
-  //   0: (
-  //     <WebProjectInProgressUnder
-  //       tabNumber={tabNumber}
-  //       setComponentId={setComponentId}
-  //       componentId={componentId}
-  //       data={data!}
-  //     />
-  //   ),
-  //   1: (
-  //     <WebFinishedProjectsUnder
-  //       tabNumber={tabNumber}
-  //       setSuccessComponentId={setSuccessComponentId}
-  //       successComponentId={successComponentId}
-  //     />
-  //   ),
+  //   0: <NewASUnder />,
+  //   1: <AsHistoryUnder />,
   // };
-
+  // 나중에 데이터 연결되서 데이터 없으면 보여질 컴포넌트
   // if (tempProceeding.length === 0) {
-  //   return <NoProject />;
+  //   return <NoAsHistyory />;
   // }
 
   return (
@@ -114,26 +118,63 @@ const LeftASBox = ({
               </TabItem>
             ))}
           </MobileTabContainer>
-          <WebTabContainer>
+          {/* <WebTabContainer>
             {TabType.map((tab, index) => (
               <TabItem
                 key={index}
-                tab={tabNumber?.toString()!}
+                tab={leftTabNumber?.toString()!}
                 index={index.toString()}
                 onClick={() => {
-                  if (nowWidth < 1198.7) {
-                    setTabNumber(index);
-                  }
+                  setLeftTabNumber(index);
                 }}
               >
                 {tab}
-                <Dot tab={tabNumber.toString()} index={index.toString()} />
+                <Dot tab={leftTabNumber.toString()} index={index.toString()} />
               </TabItem>
             ))}
+          </WebTabContainer> */}
+          <WebTabContainer>
+            <WebTabItem
+              newAS={newAS}
+              onClick={() => {
+                if (router.pathname !== `/compan/as`) {
+                  setNewAS(!newAS);
+                  setHistoryUnder(!historyUnder);
+                }
+              }}
+            >
+              신규 A/S
+              <WebDot newAS={newAS} />
+            </WebTabItem>
+            {router.pathname !== `/company/as` && newAS === true && (
+              <div>
+                <NewASUnder
+                  tabNumber={tabNumber}
+                  componentId={componentId}
+                  setComponentId={setComponentId}
+                />
+              </div>
+            )}
+            <WebTabItemHistory
+              historyUnder={historyUnder}
+              onClick={() => {
+                if (router.pathname !== `/compan/as`) {
+                  setNewAS(!newAS);
+                  setHistoryUnder(!historyUnder);
+                }
+              }}
+            >
+              히스토리
+              <WebDotHistory historyUnder={historyUnder} />
+            </WebTabItemHistory>
+            {router.pathname !== `/company/as` && historyUnder === true && (
+              <div>
+                <AsHistoryUnder />
+              </div>
+            )}
           </WebTabContainer>
         </Body>
         <BottomNavigation />
-        {/* <div> {webComponents[tabNumber]}</div> */}
       </Wrapper>
     </>
   );
@@ -210,10 +251,10 @@ const WebTabContainer = styled.div`
   display: flex;
   gap: 15pt;
   padding-left: 15pt;
-  justify-content: center;
   flex-direction: column;
   padding-left: 27pt;
   gap: 1pt;
+  transition: all 0.3s ease-in-out;
   @media (max-width: 899pt) {
     display: none;
   }
@@ -233,20 +274,6 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   }
 `;
 
-const Item = styled.span<{ tab: string; index: string }>`
-  padding-top: 21pt;
-  font-weight: 700;
-  font-size: 12pt;
-  line-height: 15pt;
-  letter-spacing: -0.02em;
-  color: ${({ tab, index }) =>
-    tab === index ? colors.main : colors.lightGray};
-  @media (min-width: 900pt) {
-    display: flex;
-    align-items: center;
-    padding-top: 23pt;
-  }
-`;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
   height: 3pt;
@@ -259,17 +286,63 @@ const Dot = styled.div<{ tab: string; index: string }>`
   }
 `;
 
-const UnderContents = styled.div`
-  width: 255pt;
-  @media (max-width: 899pt) {
-    display: none;
+const WebTabItem = styled.span<{ newAS: boolean }>`
+  padding-top: 21pt;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  color: ${({ newAS }) => (newAS === true ? colors.main : colors.lightGray)};
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  @media (min-width: 900pt) {
+    display: flex;
+    align-items: center;
+    padding-top: 23pt;
   }
 `;
 
-const RightProgress = styled.div`
+const WebDot = styled.div<{ newAS: boolean }>`
+  width: 3pt;
+  height: 3pt;
+  border-radius: 50%;
+  margin: 6pt auto 0 auto;
+  transition: all 0.3s ease-in-out;
+  background-color: ${({ newAS }) => (newAS === true ? '#5221CB' : '')};
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+    margin-left: 20pt;
+  }
+`;
+
+const WebTabItemHistory = styled.span<{ historyUnder: boolean }>`
+  padding-top: 21pt;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  transition: all 0.3s ease-in-out;
+  color: ${({ historyUnder }) =>
+    historyUnder === true ? colors.main : colors.lightGray};
+  cursor: pointer;
   @media (min-width: 900pt) {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    padding-top: 23pt;
+  }
+`;
+
+const WebDotHistory = styled.div<{ historyUnder: boolean }>`
+  width: 3pt;
+  height: 3pt;
+  border-radius: 50%;
+  margin: 6pt auto 0 auto;
+  transition: all 0.3s ease-in-out;
+  background-color: ${({ historyUnder }) =>
+    historyUnder === true ? '#5221CB' : ''};
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+    margin-left: 20pt;
   }
 `;
 

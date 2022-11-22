@@ -51,9 +51,6 @@ const NewAs = () => {
                 onClick={() =>
                   router.push({
                     pathname: '/company/as/receivedAS/',
-                    // query: {
-                    //   projectIdx: el?.projectIdx,
-                    // },
                     query: {
                       asIdx: idx,
                     },

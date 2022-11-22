@@ -42,8 +42,8 @@ const ReceivedAS = (props: Props) => {
 
   // 접수내용, 접수확인, A/S 결과 열고 닫는거
   const [request, setRequeste] = useState<boolean>(false);
-  const [requestConfirm, setRequestConfirm] = useState<boolean>(false);
-  const [confirmWait, setConfirmWait] = useState<boolean>(true);
+  const [requestConfirm, setRequestConfirm] = useState<boolean>(true);
+  const [confirmWait, setConfirmWait] = useState<boolean>(false);
 
   useEffect(() => {
     if (request === true) {
@@ -94,16 +94,15 @@ const ReceivedAS = (props: Props) => {
   console.log(inProgressData);
 
   useEffect(() => {
-    if (router.query.projectIdx) {
+    if (router.query.asIdx) {
       const num = Number(router.query.asIdx);
       setComponentId(num);
-
       setHeaderTab(2);
     }
   }, [router.query.asIdx]);
 
   useEffect(() => {
-    if (router.query.projectIdx) {
+    if (router.query.asIdx) {
       // setData(tempProceeding[num]);
       setOpenSubLink(false);
     }
@@ -239,4 +238,7 @@ const WebBox = styled.div`
 
 const Inner = styled.div`
   margin: 0 15pt;
+  @media (min-width: 900pt) {
+    height: auto;
+  }
 `;

@@ -78,8 +78,6 @@ const WebFinishedProjectsUnder = ({
     }
   }, [successComponentId]);
 
-  console.log('아래지롱', successComponentId);
-
   return (
     <>
       {successComponentId !== undefined && (

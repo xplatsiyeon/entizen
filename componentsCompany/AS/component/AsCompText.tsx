@@ -48,8 +48,6 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
   // 이미지
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
 
-  console.log(`여기 router 뭐라고 나옴?`, router);
-
   // 사진 온클릭
   // const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
   //   e.preventDefault();
@@ -265,6 +263,12 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
               </Items>
             </SecondList>
           </>
+        )}
+        {/* 나중에 data 연결된다면 onClick으로 백엔드에 text 적은거 보내 줘야해요! */}
+        {/* <Btn buttonActivate={isValid}  onClick={buttonOnClick}> </Btn>*/}
+        {request === true && <WebBtn buttonActivate={isValid}>접수확인</WebBtn>}
+        {requestConfirm === true && (
+          <WebBtn buttonActivate={isValid}>A/S 완료하기</WebBtn>
         )}
         {router.pathname !== `/company/as/history` && (
           <CommunityButton
@@ -518,6 +522,33 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
     position: fixed;
     padding: 15pt 0 39pt 0;
   }
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
+
+const WebBtn = styled.div<{ buttonActivate: boolean }>`
+  color: ${colors.lightWhite};
+  width: 100%;
+  padding: 15pt 0 15pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  border-radius: 6pt;
+  cursor: pointer;
+  background-color: ${({ buttonActivate }) =>
+    buttonActivate ? `#E2E5ED` : `#5221CB`};
+  @media (max-width: 899pt) {
+    position: fixed;
+    padding: 15pt 0 39pt 0;
+  }
+  @media (max-width: 899pt) {
+    display: none;
+  }
 `;
 
 const CommunityButton = styled.button<{
@@ -537,6 +568,9 @@ const CommunityButton = styled.button<{
   letter-spacing: -0.02em;
   background: #f3f4f7;
   color: #222222;
+  @media (min-width: 900pt) {
+    margin: 60pt auto 0;
+  }
 `;
 
 const RemainderInputBox = styled.div`

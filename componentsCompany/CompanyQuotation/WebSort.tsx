@@ -55,9 +55,27 @@ const WebSort = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedFilterIndex]);
 
+  // sort 외부 클릭해도 닫히는거
   const [hide, setHide] = useState<boolean>(false);
+  const userMenu =
+    React.useRef<HTMLInputElement>() as React.MutableRefObject<HTMLDivElement>;
+  const userCurrent: HTMLElement | null = userMenu.current;
+
+  // 나중에 event type 수정 예정
+  const modalCloseHandler = (event: any): void => {
+    if (hide && !userCurrent?.contains(event.target as Node)) {
+      setHide(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', modalCloseHandler);
+    return () => {
+      window.removeEventListener('click', modalCloseHandler);
+    };
+  });
   return (
-    <WebRapper>
+    <WebRapper ref={userMenu}>
       <WebBox
         hide={hide}
         onClick={() => {
@@ -102,6 +120,9 @@ const WebRapper = styled.div`
   justify-content: center;
   background-color: white;
   z-index: 3;
+  @media (max-width: 899pt) {
+    display: none;
+  }
 `;
 
 const WebBox = styled.div<{ hide: boolean }>`

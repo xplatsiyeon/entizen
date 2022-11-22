@@ -90,6 +90,12 @@ const WebBuyerHeader = ({
     } else if (router.pathname === '/company/as') {
       setType('as');
       setTab(2);
+    } else if (
+      router.pathname === '/company/as/receivedAS' ||
+      router.pathname === `/company/as/history`
+    ) {
+      setType('as');
+      setTab(2);
     }
   }, [router]);
 
