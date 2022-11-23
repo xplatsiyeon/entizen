@@ -122,7 +122,7 @@ const CommunityBtnBox = styled.div`
   padding: 10.5pt 12pt;
   background-color: #f3f4f7;
   border-radius: 21.75pt;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin-bottom: 0;
   }
 `;

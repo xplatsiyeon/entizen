@@ -61,9 +61,7 @@ const findingId2 = () => {
                   justifyContent: 'center',
                 }}
               >
-                <ButtonWrap
-                  onClick={() => router.push('/signin')}
-                >
+                <ButtonWrap onClick={() => router.push('/signin')}>
                   로그인
                 </ButtonWrap>
               </Box>
@@ -125,7 +123,7 @@ const Inner = styled.div`
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -138,7 +136,7 @@ const Wrapper = styled.div`
   position: relative;
   margin: 0pt 31.875pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
   }
@@ -154,7 +152,7 @@ const Inform = styled.div`
     font-family: 'Spoqa Han Sans Neo';
     color: ${colors.main2};
     letter-spacing: -0.02em;
-    @media (max-width: 899pt) {
+    @media (max-width: 899.25pt) {
       font-size: 18pt;
       line-height: 24pt;
     }
@@ -170,11 +168,11 @@ const UserId = styled.div`
   font-size: 18pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
-    @media (max-width: 899pt) {
-      font-size: 12pt;
-      line-height: 12pt;
-      margin-top: 54pt;
-    }
+  @media (max-width: 899.25pt) {
+    font-size: 12pt;
+    line-height: 12pt;
+    margin-top: 54pt;
+  }
 `;
 const Password = styled.div`
   margin-top: 26.25pt;
@@ -191,13 +189,12 @@ const ButtonWrap = styled(Button)`
   padding: 15pt 0;
   font-size: 12pt;
   line-height: 12pt;
-  border-Radius: 6pt;
-  align-Items: center;
+  border-radius: 6pt;
+  align-items: center;
   background: #5a2dc9;
   color: white;
   font-family: 'Spoqa Han Sans Neo';
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 60pt 15pt 0 15pt;
   }
-
-`
+`;

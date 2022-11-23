@@ -139,21 +139,19 @@ const BottomNavigation = ({}: Props) => {
               <H3 clicked={tabNumber === 1 ? true : false}>내 견적</H3>
             </div>
 
-            <div
-              className="img-wrapper"
-            >
+            <div className="img-wrapper">
               <Image src={estimate} alt="estimate" width={32} height={32} />
               <H3 clicked={false}>소통하기</H3>
             </div>
             {/* AS */}
             <div
-              className="img-wrapper" onClick={() => {
+              className="img-wrapper"
+              onClick={() => {
                 user_ID
-                  ? 
-                  router.push({
-                    pathname: '/company/as',
-                    query: { id: 0 },
-                  })
+                  ? router.push({
+                      pathname: '/company/as',
+                      query: { id: 0 },
+                    })
                   : router.push('/signin');
               }}
             >
@@ -170,11 +168,10 @@ const BottomNavigation = ({}: Props) => {
               className="img-wrapper"
               onClick={() => {
                 user_ID
-                  ? 
-                  router.push({
-                    pathname: '/company/mypage',
-                    query: { id: 0 },
-                  })
+                  ? router.push({
+                      pathname: '/company/mypage',
+                      query: { id: 0 },
+                    })
                   : router.push('/signin');
               }}
             >
@@ -250,9 +247,7 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                user_ID ? 
-                router.push('/mypage'
-                ) : router.push('/signin');
+                user_ID ? router.push('/mypage') : router.push('/signin');
               }}
             >
               <ImgBox>
@@ -292,7 +287,7 @@ const Wrapper = styled.div`
     gap: 3pt;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;

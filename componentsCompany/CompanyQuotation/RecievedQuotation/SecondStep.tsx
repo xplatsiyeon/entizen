@@ -1136,7 +1136,7 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
   }
   @media (min-width: 900pt) {

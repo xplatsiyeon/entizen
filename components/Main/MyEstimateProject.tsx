@@ -102,7 +102,7 @@ const Wrapper = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 22.5pt;
   height: 165pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     gap: 11.25pt;
     flex: none;
     margin-top: 60pt;
@@ -119,7 +119,7 @@ const BoxWrapper = styled.div<{ borders: number }>`
     display: flex;
     justify-content: end;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 15pt;
     padding-left: 12pt;
     padding-right: 12.75pt;
@@ -146,7 +146,7 @@ const BoxName = styled.div`
     bottom: 0.3pt;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 21pt;
     & P {
       font-size: 12pt;
@@ -170,7 +170,7 @@ const Count = styled(Typography)`
   margin-right: 3pt;
   text-align: right;
   color: #5a2dc9;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 15pt;
     line-height: 15pt;
   }
@@ -186,7 +186,7 @@ const Amount = styled(Typography)`
   line-height: 21pt;
   text-align: left;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-weight: 400;
     font-size: 12pt;
     line-height: 12pt;
@@ -199,7 +199,7 @@ const ImageWrap = styled.div`
   p {
     display: none;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     p {
       display: block;
     }
@@ -211,7 +211,7 @@ const IconWrap = styled.div`
   position: relative;
   object-fit: cover;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

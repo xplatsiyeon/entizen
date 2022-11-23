@@ -75,13 +75,12 @@ const ContentText = styled(Typography)`
   text-align: center;
   margin: 42pt 23.5pt 33pt;
 
-  @media (max-width: 899pt) {  
+  @media (max-width: 899.25pt) {
     font-size: 12pt;
     font-weight: 500;
     line-height: 18pt;
     margin: 21pt 27.75pt 21pt;
   }
-
 `;
 
 const ModalWrapper = styled(Box)`
@@ -107,13 +106,12 @@ const ModalBox = styled(Box)`
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   justify-content: center;
   align-items: center;
-  padding: 0 28.5pt 30pt ;
+  padding: 0 28.5pt 30pt;
 
-
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 220.5pt;
     padding: 0;
   }
@@ -130,43 +128,43 @@ const BtnBox = styled(Box)`
 const BtnLeft = styled(Box)`
   display: none;
 
-@media (max-width: 899pt) {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-top: 1px solid #f3f4f7;
-}
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid #f3f4f7;
+  }
 `;
 
 const BtnLeftWeb = styled.button`
-width: 100%;
-border-radius: 4.5pt;
-background-color: #E2E5ED;
-@media (max-width: 899pt) {
-  display: none;
-}
-`
-
+  width: 100%;
+  border-radius: 4.5pt;
+  background-color: #e2e5ed;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
 
 const BtnRightWeb = styled.button`
-width: 100%;
-border-radius: 4.5pt;
-background-color: #5221CB;
-@media (max-width: 899pt) {
-  display: none;
-}`
+  width: 100%;
+  border-radius: 4.5pt;
+  background-color: #5221cb;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
 
 const BtnRight = styled(Box)`
   display: none;
-@media (max-width: 899pt) {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-left: 1px solid #f3f4f7;
-  border-top: 1px solid #f3f4f7;
-}
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #f3f4f7;
+    border-top: 1px solid #f3f4f7;
+  }
 `;
 
 const BtnText = styled.div`
@@ -185,13 +183,13 @@ const BtnText = styled.div`
   letter-spacing: -0.02em;
   color: ${(props) => props.color};
 
-  @media (max-width: 899pt) {
-  padding: 15pt 0;
-  font-size: 12pt;
-  font-weight: 400;
-  line-height: 12pt;
-  letter-spacing: -2%;
-  font-family: 'Spoqa Han Sans Neo';
+  @media (max-width: 899.25pt) {
+    padding: 15pt 0;
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 12pt;
+    letter-spacing: -2%;
+    font-family: 'Spoqa Han Sans Neo';
   }
 `;
 

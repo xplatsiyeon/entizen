@@ -75,7 +75,7 @@ const MyProduct = (props: Props) => {
     setModalOpen(true);
   };
   const clickEdit = () => {
-    router.push('/company/addProduct'); // 페이지 타이틀, 버튼 내용만 틀린 페이지로 가야함. 
+    router.push('/company/addProduct'); // 페이지 타이틀, 버튼 내용만 틀린 페이지로 가야함.
   };
   console.log(TAG + '🔥 ~line 79 데이터 확인');
   console.log(data);
@@ -195,7 +195,7 @@ const MyProduct = (props: Props) => {
 const Wrapper = styled.div`
   padding-top: 60pt;
   padding-bottom: 100pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 21pt;
   }
 `;
@@ -208,7 +208,7 @@ const Title = styled.h1`
   color: ${colors.gray2};
   flex: 1;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 0pt;
     padding: 0 15pt;
   }
@@ -217,14 +217,14 @@ const Title = styled.h1`
 const Section = styled.section<{ grid?: boolean; pb?: number }>`
   padding-top: 12pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     /* padding: 18pt 15pt; */
   }
 `;
 const List = styled.ul`
   /* padding: 30pt 0 51pt; */
   gap: 12pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-left: 15pt;
     padding-right: 15pt;
   }
@@ -252,7 +252,7 @@ const Item = styled.li`
     flex: 2;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     justify-content: space-between;
     .name {
       flex: none;

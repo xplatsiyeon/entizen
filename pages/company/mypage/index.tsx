@@ -11,6 +11,7 @@ import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
 import { useQuery } from 'react-query';
 import useProfile from 'hooks/useProfile';
 import RightNoProject from 'componentsCompany/Mypage/RightNoProject';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 type Props = { num?: number; now?: string };
 interface Components {
@@ -85,7 +86,9 @@ const Mypage = ({ num, now }: Props) => {
           openSubLink={openSubLink}
           setOpenSubLink={setOpenSubLink}
         />
+
         <Container>
+          <CompanyRightMenu />
           <WebRapper>
             <LeftProjectBox
               setTabNumber={setTabNumber}
@@ -118,7 +121,7 @@ const Container = styled.div`
   margin: 45.75pt auto;
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;

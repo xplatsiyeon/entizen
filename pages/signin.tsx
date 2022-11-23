@@ -600,7 +600,7 @@ const Inner = styled.div`
   padding: 32.25pt 0 42pt;
   margin: 45.75pt auto;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -613,7 +613,7 @@ const Inner = styled.div`
 const WebWrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 0;
   }
 `;
@@ -655,7 +655,7 @@ const IdRegistBtnSpan = styled.span``;
 
 const BackBox = styled(Box)`
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     width: 100%;
     padding-top: 9pt;

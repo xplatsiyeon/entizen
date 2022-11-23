@@ -114,7 +114,7 @@ const Header = styled.div`
     position: absolute;
     right: 15pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
   }
 `;

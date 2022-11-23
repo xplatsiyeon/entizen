@@ -111,7 +111,7 @@ const InfoBox = styled.div`
   /* border: 2px solid red; */
   border-right: 1px solid ${colors.lightGray};
   background-color: ${colors.lightWhite};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
   }
 `;
@@ -125,7 +125,7 @@ const ScrollBox = styled.div`
 const SelectChargerBox = styled.div`
   padding-left: 24pt;
   padding-right: 24pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 9pt;
   }
 `;
@@ -138,7 +138,7 @@ const ChargerList = styled.div`
   background: #f3f4f7;
   border-radius: 21.375pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 3pt;
   }
 `;
@@ -168,7 +168,7 @@ const ChargerTypeNCount = styled(Typography)`
   text-align: center;
   margin-bottom: 15pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 0;
   }
 `;
@@ -182,7 +182,7 @@ const ChargerNotice = styled(Typography)`
   color: #a6a9b0;
   margin: 0 52.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 7.5pt;
     line-height: 9pt;
     margin: 0;
@@ -195,7 +195,7 @@ const PredictBoxWrapper = styled.div`
   margin: 39pt 15pt 0;
   gap: 11.25pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 30pt 0 0;
   }
 `;
@@ -267,7 +267,7 @@ const DidHelp = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 30pt;
   }
 `;

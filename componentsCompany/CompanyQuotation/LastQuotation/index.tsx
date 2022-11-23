@@ -457,7 +457,7 @@ const Container = styled.div`
   margin: 45.75pt auto;
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -489,7 +489,7 @@ const TabBox = styled.div`
   position: absolute;
   width: 100%;
   top: 0;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
     position: relative;
     gap: 0.2pt;
@@ -518,7 +518,7 @@ const TabLine = styled.div<{
     margin-right: 0;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 

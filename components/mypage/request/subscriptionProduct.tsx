@@ -86,7 +86,7 @@ const Wrapper = styled.div`
   padding: 6pt 15pt 69pt 15pt;
   padding-top: 75pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 0pt;
   }
 `;

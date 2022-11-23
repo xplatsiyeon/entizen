@@ -287,7 +287,7 @@ const ListTitle = styled.div`
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: left;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 20pt;
   }
 `;
@@ -304,11 +304,11 @@ const ListIconBox = styled.div`
   height: 18pt;
   position: relative;
   margin-left: 40pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     left: 170pt;
     bottom: 28pt;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin-left: 10pt;
   }
 `;

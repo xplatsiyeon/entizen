@@ -97,7 +97,7 @@ const ContentsContainer = styled.div`
   padding-top: 20pt;
   height: 180pt;
   overflow-y: scroll;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

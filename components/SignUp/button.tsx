@@ -88,7 +88,7 @@ const Button = styled.button<{
   background-color: ${({ isClick }) => (isClick ? '#5a2dc9' : '#E2E5ED')};
   cursor: ${({ isClick }) => isClick && 'pointer'};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: ${({ marginTop }) => marginTop && marginTop}pt;
   }
 `;

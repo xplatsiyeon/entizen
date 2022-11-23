@@ -143,7 +143,7 @@ const Inner = styled.div`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -165,7 +165,7 @@ const Wrapper = styled.div`
   margin: 0 31.875pt;
   height: 667.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
   }
@@ -245,7 +245,7 @@ const Btn = styled.button`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     left: 0;
     padding-bottom: 39pt;

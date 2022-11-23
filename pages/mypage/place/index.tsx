@@ -234,7 +234,7 @@ const Inner = styled.div`
   position: relative;
   width: 900pt;
   margin: 47.5pt auto;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -245,7 +245,7 @@ const FlexBox = styled.div`
   display: flex;
   position: relative;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 
@@ -256,7 +256,7 @@ const FlexBox = styled.div`
 `;
 
 const RightBox = styled.div`
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     width: 580.5pt;
   }
 `;
@@ -283,7 +283,7 @@ const Wrap1 = styled.div`
   border: 1px solid #e9eaee;
   border-radius: 6pt;
   height: 100%;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -310,14 +310,14 @@ const BtnMob = styled.button`
     letter-spacing: -0.02em;
   }
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;
 
 const BtnWeb = styled(BtnMob)`
   display: block;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

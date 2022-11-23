@@ -343,7 +343,7 @@ const Inner = styled.div`
   background: #ffff;
   padding: 32.25pt 0 42pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     position: relative;
     margin: 0 auto;
@@ -360,7 +360,7 @@ const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
     padding: 0 15pt 15pt 15pt;
@@ -399,7 +399,7 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : '#e2e5ed'};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
     width: 100%;

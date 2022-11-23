@@ -140,7 +140,7 @@ const Wrap = styled.div`
   z-index: 3;
   position: relative;
   background-color: #fff;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
   }
 `;
@@ -157,7 +157,7 @@ const HeaderBox = styled.div`
   border-radius: 6pt;
   display: flex;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     border-bottom: 1px solid #e9eaee;
   }
 `;
@@ -192,7 +192,7 @@ const FindAddress = styled(TextField)`
     border: none;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     & input {
       font-size: 10.5pt;
       font-weight: 400;

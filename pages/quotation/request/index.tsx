@@ -104,7 +104,7 @@ const Inner = styled.div`
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -121,7 +121,7 @@ const Inner = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin: 32.25pt 46.5pt 29.25pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
   }
@@ -131,7 +131,7 @@ const Body = styled.div`
   position: relative;
   width: 100%;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 12pt;
   }
 `;
@@ -144,7 +144,7 @@ const TabBox = styled.div`
   width: 100%;
   top: 0;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
     position: relative;
     gap: 3pt;
@@ -163,7 +163,7 @@ const TabLine = styled.div<{ idx: string; num: string }>`
     margin-right: 0;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     width: 100%;
   }
@@ -175,7 +175,7 @@ const Footer = styled.div`
   width: 100%;
   margin-bottom: 42pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     margin-bottom: 0pt;
   }
@@ -194,7 +194,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
   }
 `;

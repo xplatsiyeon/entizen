@@ -406,7 +406,7 @@ const Info = styled.p`
   line-height: 22.5pt;
   color: ${colors.main2};
   letter-spacing: -0.02em;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 18pt;
     line-height: 24pt;
   }
@@ -418,7 +418,7 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   margin-top: 10pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 0;
   }
 `;
@@ -504,7 +504,7 @@ const MessageId = styled.p`
   font-family: 'Spoqa Han Sans Neo';
   position: absolute;
   bottom: -20pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 9pt;
     line-height: 12pt;
   }
@@ -519,7 +519,7 @@ const MessageErrId = styled.p`
   position: absolute;
   bottom: -20pt;
   margin-top: 12pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 9pt;
     line-height: 12pt;
   }
@@ -531,7 +531,7 @@ const MessageErrPW = styled.p`
   margin-top: 12pt;
   font-family: 'Spoqa Han Sans Neo';
   margin-top: 12pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 9pt;
     line-height: 12pt;
   }

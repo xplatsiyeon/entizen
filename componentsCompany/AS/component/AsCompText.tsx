@@ -518,7 +518,7 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   cursor: pointer;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? `#E2E5ED` : `#5221CB`};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
   }
@@ -542,11 +542,11 @@ const WebBtn = styled.div<{ buttonActivate: boolean }>`
   cursor: pointer;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? `#E2E5ED` : `#5221CB`};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

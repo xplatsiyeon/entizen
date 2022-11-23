@@ -109,7 +109,7 @@ export default ThirdStep;
 
 const Wrraper = styled.div`
   position: relative;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 96pt;
     padding: 0 15pt;
   }
@@ -164,27 +164,27 @@ const Tab = styled.span<{ idx: string; tabNumber: string }>`
     `}
 `;
 const ChargeGuide = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 3pt;
-color: ${colors.gray2};
-margin-top: 139pt;
-margin-left: 30pt;
-.text {
-  letter-spacing: -0.02em;
-  border-bottom: 1px solid ${colors.gray2};
-  font-family: 'Spoqa Han Sans Neo';
-  cursor: pointer;
-}
-.arrow-icon {
-  position: relative;
-  width: 12pt;
-  height: 12pt;
-}
-@media (max-width: 899pt) {
-  margin-left: 0;
-}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3pt;
+  color: ${colors.gray2};
+  margin-top: 139pt;
+  margin-left: 30pt;
+  .text {
+    letter-spacing: -0.02em;
+    border-bottom: 1px solid ${colors.gray2};
+    font-family: 'Spoqa Han Sans Neo';
+    cursor: pointer;
+  }
+  .arrow-icon {
+    position: relative;
+    width: 12pt;
+    height: 12pt;
+  }
+  @media (max-width: 899.25pt) {
+    margin-left: 0;
+  }
 `;
 // 부분구독 선택 시 불가 화면
 const ImpossibleMessage = styled.div`
@@ -224,7 +224,7 @@ const NextBtn = styled.div<{
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
     border-radius: 0;
   }
@@ -243,7 +243,7 @@ const PrevBtn = styled.div`
   margin-top: 30pt;
   background-color: ${colors.gray};
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
     border-radius: 0;
   }
@@ -255,7 +255,7 @@ const TwoBtn = styled.div`
   left: 0;
   width: 100%;
   gap: 8.7pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     gap: 0;
   }

@@ -172,7 +172,7 @@ const Wrapper = styled.div`
     border: 0.75pt solid #e2e5ed;
     border-radius: 12pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
