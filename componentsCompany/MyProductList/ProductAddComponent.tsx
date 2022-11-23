@@ -152,7 +152,7 @@ const ProductAddComponent = (props: Props) => {
   };
 
   // SelectBox 값
-  const onChangeSelectBox = (value:string, name:string, index: number) => {
+  const onChangeSelectBox = (value: string, name: string, index: number) => {
     switch (name) {
       case 'kind':
         setChargerType(value);
@@ -228,7 +228,7 @@ const ProductAddComponent = (props: Props) => {
     multerImage(formData);
 
     /* 파일 올린 후 혹은 삭제 후, 똑같은 파일 올릴 수 있도록*/
-    e.target.value ='';
+    e.target.value = '';
   };
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -264,9 +264,8 @@ const ProductAddComponent = (props: Props) => {
     }
     multerFile(formData);
 
-
     /* 파일 올린 후 혹은 삭제 후, 똑같은 파일 올릴 수 있도록,*/
-    e.target.value ='';
+    e.target.value = '';
   };
 
   // 파일 삭제
@@ -321,10 +320,16 @@ const ProductAddComponent = (props: Props) => {
           />
         </InputBox>
         {/* test */}
-          <LabelBox>
-            <RequiredLabel>충전기 종류</RequiredLabel>
-          </LabelBox>
-        <SelectComponents name='kind' option={M5_LIST} placeholder={"충전기 종류"} value={chargerType} onClickCharger={onChangeSelectBox}/>
+        <LabelBox>
+          <RequiredLabel>충전기 종류</RequiredLabel>
+        </LabelBox>
+        <SelectComponents
+          name="kind"
+          option={M5_LIST}
+          placeholder={'충전기 종류'}
+          value={chargerType}
+          onClickCharger={onChangeSelectBox}
+        />
         {/* 충전기 종류 */}
         {/* <InputBox>
           <SelectBox
@@ -345,41 +350,60 @@ const ProductAddComponent = (props: Props) => {
             ))}
           </SelectBox>
         </InputBox> */}
-        
+
         {/* 충전 채널 */}
-          <LabelBox>
-            <RequiredLabel>충전 채널</RequiredLabel>
-          </LabelBox>
+        <LabelBox>
+          <RequiredLabel>충전 채널</RequiredLabel>
+        </LabelBox>
 
-          <SelectComponents name='channel' option={M7_LIST} value={chargingChannel} placeholder={"충전기 채널"} onClickCharger={onChangeSelectBox}/>
-
+        <SelectComponents
+          name="channel"
+          option={M7_LIST}
+          value={chargingChannel}
+          placeholder={'충전기 채널'}
+          onClickCharger={onChangeSelectBox}
+        />
 
         {/* 충전방식 */}
-          <LabelBox>
-            <RequiredLabel>충전 방식</RequiredLabel>
-            <RightPlus onClick={handlePlusSelect}>
-              <Image src={plusIcon} alt="plusBtn" />
-            </RightPlus>
-          </LabelBox>
+        <LabelBox>
+          <RequiredLabel>충전 방식</RequiredLabel>
+          <RightPlus onClick={handlePlusSelect}>
+            <Image src={plusIcon} alt="plusBtn" />
+          </RightPlus>
+        </LabelBox>
 
-          {chargingMethod.length > 0 &&
-            chargingMethod?.map((el, index) => (
-              <React.Fragment key={index}>
-                {/* 원래 기본 */}
-                {index === 0 && (
-                  <SelectComponents name='chargingMethod' option={CHARGING_METHOD} value={chargingMethod[index]} index={index} placeholder={"충전 방식"} onClickCharger={onChangeSelectBox}/>
-                )}
-                {/* + 버튼 눌러서 추가되는 부분  */}
-                {index > 0 && (
-                  <PlusBox key={index}>
-                    <SelectComponents name='chargingMethod' option={CHARGING_METHOD} value={chargingMethod[index]} index={index} placeholder={"충전 방식"} onClickCharger={onChangeSelectBox}/>
-                    <DeleteBtn onClick={() => onClickMinus(index)}>
-                      <Image src={Xbtn} alt="delete" />
-                    </DeleteBtn>
-                  </PlusBox>
-                )}
-              </React.Fragment>
-            ))}
+        {chargingMethod.length > 0 &&
+          chargingMethod?.map((el, index) => (
+            <React.Fragment key={index}>
+              {/* 원래 기본 */}
+              {index === 0 && (
+                <SelectComponents
+                  name="chargingMethod"
+                  option={CHARGING_METHOD}
+                  value={chargingMethod[index]}
+                  index={index}
+                  placeholder={'충전 방식'}
+                  onClickCharger={onChangeSelectBox}
+                />
+              )}
+              {/* + 버튼 눌러서 추가되는 부분  */}
+              {index > 0 && (
+                <PlusBox key={index}>
+                  <SelectComponents
+                    name="chargingMethod"
+                    option={CHARGING_METHOD}
+                    value={chargingMethod[index]}
+                    index={index}
+                    placeholder={'충전 방식'}
+                    onClickCharger={onChangeSelectBox}
+                  />
+                  <DeleteBtn onClick={() => onClickMinus(index)}>
+                    <Image src={Xbtn} alt="delete" />
+                  </DeleteBtn>
+                </PlusBox>
+              )}
+            </React.Fragment>
+          ))}
         {/* 제조사 부분  */}
         <InputBox>
           <LabelBox>
@@ -520,23 +544,23 @@ const InputBox = styled.div`
 `;
 
 const LabelBox = styled.div`
-margin-top: 24pt;
-margin-bottom: 9pt;
-position: relative;
-`
+  margin-top: 24pt;
+  margin-bottom: 9pt;
+  position: relative;
+`;
 
 const RequiredLabel = styled.div`
-font-family: 'Spoqa Han Sans Neo';
-font-size: 10.5pt;
-font-weight: 700;
-line-height: 12pt;
-letter-spacing: -0.02em;
-text-align: left;
-&::after {
-  content: ' *';
-  margin-left: 1pt;
-  color: #f75015;
-}
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 10.5pt;
+  font-weight: 700;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  &::after {
+    content: ' *';
+    margin-left: 1pt;
+    color: #f75015;
+  }
 `;
 
 const RightLabel = styled.div`
@@ -673,7 +697,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
   }

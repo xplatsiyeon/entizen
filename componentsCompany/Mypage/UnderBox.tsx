@@ -161,7 +161,7 @@ const SmallText = styled.div`
 `;
 
 const BtnBox = styled.div`
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     //position: fixed;
     display: flex;
     flex-direction: column;
@@ -203,7 +203,7 @@ const WebBtnWrapper = styled.div`
   justify-content: space-between;
   padding-bottom: 50pt;
   gap: 22.5pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -217,7 +217,7 @@ const CommunityBtnBox = styled.div`
   padding: 10.5pt 12pt;
   background-color: #f3f4f7;
   border-radius: 21.75pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -230,7 +230,7 @@ const BtnWrap = styled.div`
 
 const BtnBox2 = styled(CommunityBtnBox)`
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
   }
 `;

@@ -61,8 +61,8 @@ const RatingItem = styled.label`
   letter-spacing: -0.02em;
   text-align: left;
 
-  @media (max-width: 899pt) {
-    width:50pt;
+  @media (max-width: 899.25pt) {
+    width: 50pt;
   }
 `;
 
@@ -71,8 +71,8 @@ const RatingBarWrapper = styled.div`
   gap: 12pt;
   align-items: center;
 
-  @media (max-width: 899pt) {
-  width: 100%;
+  @media (max-width: 899.25pt) {
+    width: 100%;
   }
 `;
 
@@ -89,7 +89,7 @@ const RBarBox = styled.div`
     border-radius: 0 6pt 6pt 0;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
   }
 `;
@@ -101,7 +101,7 @@ const RBar = styled.div`
     background-color: ${colors.main};
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 20%;
   }
 `;

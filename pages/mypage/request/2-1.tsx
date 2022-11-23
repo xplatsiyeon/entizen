@@ -50,8 +50,6 @@ const Mypage2 = ({ data }: any) => {
               />
               {/* <EstimateContainer /> */}
 
-              
-
               <Mypage2_1 />
             </Wrapper>
           </Wrap2>
@@ -87,7 +85,7 @@ const Inner = styled.div`
   width: 900pt;
   //width: 281.25pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -106,7 +104,7 @@ const Wrap1 = styled.div`
   border-radius: 6pt;
   height: 100%;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -116,7 +114,7 @@ const Wrap2 = styled.div`
   width: 100%;
   padding-left: 60pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-left: 0pt;
   }
 `;

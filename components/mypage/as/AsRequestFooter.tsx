@@ -25,7 +25,7 @@ const FooterBox = styled.div`
   display: flex;
   justify-content: center;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 60pt auto 68.25pt auto;
   }
 `;

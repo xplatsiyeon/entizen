@@ -1,7 +1,11 @@
 import styled from "@emotion/styled";
+import MypageHeader from "components/mypage/request/header";
+import defaultImg from 'public/images/default-img.png';
 import dayjs from "dayjs";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import send from 'public/images/send.png'
 
 type ChattingLogs = {
     createdAt: string;
@@ -19,19 +23,26 @@ export interface ChattingRoom {
     logs: ChattingLogs[];
 }
 
+type Props = {
+companyId : string
+}
 
-const ChattingRoom = () => {
+
+const ChattingRoom = ({companyId}:Props) => {
+
+    console.log('room')
+
 
     const router = useRouter();
-    const [company, setCompany] = useState<string>()
     const [data, setData] = useState<ChattingRoom[]>([]);
+    //const [company, setCompany] = useState<string>()
 
-    useEffect(() => {
+   /* useEffect(() => {
         console.log(company)
         if (typeof (router.query.companyMemberId) === 'string') {
             setCompany(router.query.companyMemberId)
         }
-    }, [router.query.companyMemberId])
+    }, [router.query.companyMemberId]) */
 
     const arr = {
         "isSuccess": true,
@@ -78,13 +89,13 @@ const ChattingRoom = () => {
                     "wasRead": true
                 },
                 {
-                    "createdAt": "2022-11-17T06:22:21.526Z",
+                    "createdAt": "2022-11-16T09:22:21.526Z",
                     "chattingLogIdx": 6,
                     "fromMemberIdx": 35,
                     "fromMemberType": "USER",
                     "content": null,
                     "messageType": "FILE",
-                    "fileUrl": "https://test.test.com",
+                    "fileUrl": "https://test.test.",
                     "wasRead": true
                 },
                 {
@@ -118,10 +129,10 @@ const ChattingRoom = () => {
                     "wasRead": true
                 },
                 {
-                    "createdAt": "2022-11-13T06:13:59.946Z",
+                    "createdAt": "2022-11-13T14:13:59.946Z",
                     "chattingLogIdx": 2,
                     "fromMemberIdx": 35,
-                    "fromMemberType": "USER",
+                    "fromMemberType": "COMPANY",
                     "content": "hello2",
                     "messageType": "CHATTING",
                     "fileUrl": null,
@@ -189,14 +200,30 @@ const ChattingRoom = () => {
         setData(temp)
     }, []) //의존성 배열, 호출할때만으로 정해야 함.
 
-    const handleTime = (st:string)=> {
-        const target = dayjs(st).format("HH:mm")
-        return target;
+    const handleTime = (st: string) => {
+        //오전, 오후로 나누기
+        const pm = dayjs(st).subtract(12, 'h').format('HH:mm');
+        if (Number(pm.substring(0, 3)) > 12) {
+            return `오전 ${pm}`
+        } else {
+            return `오후 ${pm}`
+        }
     }
 
     return (
-        <>
-            {company}
+        <Body>
+            <TopBox>
+                <MypageHeader back={true} title={companyId}
+                    handle={true} 
+                    handleOnClick={()=>router.push({
+                        pathname: '/chatting'
+                    })}/>
+                <IconBox>
+                    <IconWrap></IconWrap>
+                    <IconWrap></IconWrap>
+                </IconBox>
+            </TopBox>
+            <Inner>
             {data.map((d, idx) => {
                 return (
                     <DateChatting key={idx}>
@@ -207,9 +234,15 @@ const ChattingRoom = () => {
                             {d.logs.map((item, idx) => {
                                 return (
                                     <ChatBox key={item.chattingLogIdx} className={`${(item.fromMemberType) === 'USER' ? "user" : null}`}>
+                                        {(item.fromMemberType === 'USER') ? null :
+                                            <ImageWrap>
+                                                {/* 이미지 파일 src가 없으면 */}
+                                                <Image src={defaultImg} layout='fill' />
+                                            </ImageWrap>
+                                        }
                                         {(item.content) && <Chat >{item.content}</Chat>}
                                         {(item.fileUrl) && <File >{item.fileUrl}</File>}
-                                        <MessageDate>{handleTime(item.createdAt)}</MessageDate>
+                                        <MessageDate>{handleTime(item.createdAt)}{'/' + dayjs(item.createdAt).format("HH:mm")}</MessageDate>
                                     </ChatBox>
                                 )
                             })}
@@ -217,12 +250,101 @@ const ChattingRoom = () => {
                     </DateChatting>
                 )
             })}
-        </>
+            </Inner>
+            <BottomBox>
+                <FlexBox>
+                    <AddBtn>
+
+                    </AddBtn>
+                    <TextInput placeholder="메세지를 입력하세요" />
+                    <IconWrap2>
+                        <Image src={send} layout="fill" />
+                    </IconWrap2>
+                </FlexBox>
+            </BottomBox>
+        </Body>
     )
 }
 
 export default ChattingRoom
 
+const Body = styled.div`
+position: relative;
+`
+
+const BottomBox = styled.div`
+    background: #E9EAEE;
+    position: fixed;
+    bottom: 0;
+    padding: 3pt 0pt 36pt;
+    width: 100%;
+    @media (min-width: 900pt) {
+    position: absolute;
+  }
+`
+const FlexBox = styled.div`
+    display: flex;
+    align-items: center;
+    gap:10.5pt;
+    padding: 0 15pt;
+`
+const AddBtn = styled.div`
+    width: 20.6pt;
+    height: 20.6pt;
+    border-radius: 50%;
+    background: #A6A9B0;
+    &.on{
+        transform: rotate(45deg)
+    }
+`
+const TextInput = styled.input`
+    flex: auto;
+    border-radius: 37.5pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12pt;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    padding: 6pt 7.8pt;
+    ::placeholder {
+    color: #D3D3D3;
+    }
+`
+const IconWrap2 = styled.div`
+    position: relative;
+    width: 18.75pt;
+    height: 20.7pt;
+`
+
+const TopBox = styled.div`
+position: fixed;
+top: 0;
+width: 100%;
+z-index: 5;
+
+@media (min-width: 900pt) {
+    position: absolute;
+  }
+`
+const IconBox = styled.div`
+position: absolute;
+right: 15pt;
+top: 50%;
+transform: translateY(-50%);
+border: 1px solid;
+display: flex;
+`
+const IconWrap = styled.div`
+    position: relative;
+    width: 12pt;
+    height: 12pt;
+`
+const Inner = styled.div`
+    position: relative;
+    padding-top: 36pt;
+    padding-bottom: 66pt;
+`
 const DateChatting = styled.div`
 width: 100%;
 font-family: 'Spoqa Han Sans Neo';
@@ -273,18 +395,24 @@ margin: 0 15pt;
 
 const ChatBox = styled.div`
 display: flex;
-align-items: baseline;
+align-items: center;
+margin-bottom: 9pt;
 gap: 6pt;
 &.user{
     flex-direction: row-reverse;
 }
 `
+const ImageWrap = styled.div`
+width: 36pt;
+height: 36pt;
+position: relative;
+`
+
 const Chat = styled.div`
 background: #5221CB;
 border-radius: 6pt;
 color: white;
 padding: 7.5pt 6pt;
-margin-bottom: 9pt;
 font-style: normal;
 font-weight: 400;
 font-size: 12pt;
@@ -296,7 +424,6 @@ background: #5221CB;
 border-radius: 6pt;
 color: white;
 padding: 7.5pt 6pt;
-margin-bottom: 9pt;
 font-style: normal;
 font-weight: 400;
 font-size: 12pt;
@@ -305,10 +432,11 @@ letter-spacing: -0.02em;
     
 `
 const MessageDate = styled.p`
-
 font-style: normal;
 font-weight: 400;
 font-size: 7.5pt;
 line-height: 12pt;
 letter-spacing: -0.02em;
-color: #CACCD1;`;
+color: #CACCD1;
+margin-top: 12pt;
+`;

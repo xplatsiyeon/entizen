@@ -66,7 +66,7 @@ const Signin = () => {
   // 기본 로그인
   const originLogin = async () => {
     console.log('로그인 온클릭');
-    const ORIGIN_API = `https://test-api.entㄴizen.kr/api/members/login`;
+    const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
     // 로컬에서 사용할때만 활성화 시키기
     // const ORIGIN_API = `/api/members/login`;
     try {
@@ -600,7 +600,7 @@ const Inner = styled.div`
   padding: 32.25pt 0 42pt;
   margin: 45.75pt auto;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -613,7 +613,7 @@ const Inner = styled.div`
 const WebWrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 0;
   }
 `;
@@ -655,7 +655,7 @@ const IdRegistBtnSpan = styled.span``;
 
 const BackBox = styled(Box)`
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     width: 100%;
     padding-top: 9pt;

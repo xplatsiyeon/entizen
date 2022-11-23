@@ -163,10 +163,9 @@ const Wrapper = styled.div`
   margin: 60pt auto;
   display: flex;
   gap: 60pt;
-
   flex-direction: row;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-bottom: 60pt;
     flex-direction: column;
     width: 100%;
@@ -182,7 +181,7 @@ const FlexBox = styled.div`
   width: 216pt;
   padding: 42pt 28.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     border: none;
     width: auto;
     padding: 0;
@@ -241,7 +240,7 @@ const TabContainer = styled.div`
   gap: 15pt;
   padding-left: 15pt;
   flex-direction: column;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex-direction: row;
   }
 `;

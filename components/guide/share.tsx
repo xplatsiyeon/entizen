@@ -74,7 +74,7 @@ const Share = () => {
 export default Share;
 
 const Wrapper = styled.div`
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-bottom: 180.75pt;
   }
 `;
@@ -122,7 +122,7 @@ const Banner = styled.div`
     width: 269.25pt;
     right: 9pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 282pt;
     flex-direction: column;
     .text-box {
@@ -151,7 +151,7 @@ const ContentsBox = styled.div`
   display: flex;
   flex: 1;
   gap: 30pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     padding-top: 7.5pt;
   }
@@ -165,7 +165,7 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   margin-top: 27pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     font-size: 12pt;
   }
@@ -182,7 +182,7 @@ const Contents = styled.div`
     list-style-type: disc;
     padding-left: 15pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 10.5pt;
   }
 `;
@@ -194,7 +194,7 @@ const Notice = styled.p`
   padding-top: 64.5pt;
   text-align: end;
   color: ${colors.gray2};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 27pt;
     text-align: start;
     font-size: 9pt;

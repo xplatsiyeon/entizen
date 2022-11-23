@@ -134,7 +134,7 @@ const Body = styled.div`
     display: block;
     height: 100%;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;
@@ -144,7 +144,7 @@ const Inner = styled.div`
   position: relative;
   width: 900pt;
   margin: 97.5pt auto 90pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -165,7 +165,7 @@ const Wrap = styled.div`
 `;
 
 const ContainerBox = styled.div`
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 94.125pt;
     display: flex;
     justify-content: center;

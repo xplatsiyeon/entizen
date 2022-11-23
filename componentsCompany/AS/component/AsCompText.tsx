@@ -650,7 +650,7 @@ const Btn = styled.div<{ isValid: boolean }>`
   /* border-radius: 6pt; */
   cursor: pointer;
   background-color: ${({ isValid }) => (isValid ? `#5221CB` : `#E2E5ED`)};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
   }
@@ -673,11 +673,11 @@ const WebBtn = styled.div<{ isValid: boolean }>`
   border-radius: 6pt;
   cursor: pointer;
   background-color: ${({ isValid }) => (isValid ? `#5221CB` : `#E2E5ED`)};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

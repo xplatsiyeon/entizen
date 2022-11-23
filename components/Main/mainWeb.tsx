@@ -128,7 +128,7 @@ const CarouselWrap = styled.section`
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100%;
   }
@@ -140,7 +140,7 @@ const ContentWrap = styled.section`
   margin: 0 auto;
   margin-top: 60pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     display: block;
     margin: 0 auto;
@@ -194,7 +194,7 @@ const Wrap = styled.div`
   width: 900pt;
   margin: 60pt auto 90pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
   }
 `;

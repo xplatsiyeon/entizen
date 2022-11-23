@@ -180,7 +180,7 @@ const Wrapper = styled.div`
   margin-top: 34.5pt;
   background: white;
 
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     margin-top: 0;
   }
 `;
@@ -212,7 +212,7 @@ const FlexBox = styled.div`
   gap: 22.5pt;
   margin-top: 33pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex-direction: column;
     justify-content: flex-start;
     margin-top: 24pt;
@@ -232,7 +232,7 @@ const EntizenContractBox = styled.div`
   border-radius: 6pt;
   cursor: pointer;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: auto;
     margin: 0 15pt;
   }

@@ -121,7 +121,7 @@ const Wrapper = styled.div`
   margin-top: 30pt;
   width: 895.5pt;
   margin: 0 auto;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

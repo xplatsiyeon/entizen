@@ -255,7 +255,7 @@ const WebTabContainer = styled.div`
   padding-left: 27pt;
   gap: 1pt;
   transition: all 0.3s ease-in-out;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

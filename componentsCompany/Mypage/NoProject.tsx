@@ -27,7 +27,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 100pt 0;
   }
   @media (min-width: 900pt) {

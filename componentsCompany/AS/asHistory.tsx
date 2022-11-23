@@ -89,7 +89,7 @@ const Body = styled.div`
 const Wrap = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex-direction: column;
     align-items: flex-end;
   }

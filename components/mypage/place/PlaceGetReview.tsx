@@ -50,30 +50,29 @@ const PlaceGetReview = ({ review, data }: Props) => {
         <ReviewTitle>내 충전소 리뷰 보기</ReviewTitle>
 
         <MobWrap>
-        {reviewPoint.map((r, idx) => {
-          // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸.
-          return (
-            <RBarBox key={idx}>
-              <Title>{r}</Title>
-              {checked[idx].map((check, idx) =>
-                check ? (
-                  <RBar className="filled forRadius" />
-                ) : (
-                  <RBar className="forRadius" />
-                ),
-              )}
-            </RBarBox>
-          );
-        })}
+          {reviewPoint.map((r, idx) => {
+            // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸.
+            return (
+              <RBarBox key={idx}>
+                <Title>{r}</Title>
+                {checked[idx].map((check, idx) =>
+                  check ? (
+                    <RBar className="filled forRadius" />
+                  ) : (
+                    <RBar className="forRadius" />
+                  ),
+                )}
+              </RBarBox>
+            );
+          })}
 
-        <TextArea
-          placeholder={data?.opinion}
-          rows={8}
-          value={''}
-          required
-          readOnly={true}
-        />
-
+          <TextArea
+            placeholder={data?.opinion}
+            rows={8}
+            value={''}
+            required
+            readOnly={true}
+          />
         </MobWrap>
       </RatingForm>
     </Wrap>
@@ -114,7 +113,7 @@ const RatingForm = styled.div`
 `;
 
 const ReviewTitle = styled.div`
-display: none;
+  display: none;
   @media (min-width: 900pt) {
     display: block;
     padding-bottom: 30pt;
@@ -215,11 +214,11 @@ const Btn2 = styled.button`
 const MobWrap = styled.div`
   margin: 0 15pt;
   position: relative;
-    gap: 6pt;
-    display: flex;
-    flex-direction: column;
+  gap: 6pt;
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: 900pt) {
     margin: 0;
   }
-`
+`;

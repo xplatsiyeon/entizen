@@ -103,7 +103,7 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   /* border-top: 1px solid #e2e5ed; */
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
   }

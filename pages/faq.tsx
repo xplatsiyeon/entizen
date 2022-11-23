@@ -216,7 +216,7 @@ const Inner = styled.div`
   width: 900pt;
   height: 100%;
   border-radius: 12pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -233,7 +233,7 @@ const TabContainer = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
@@ -251,7 +251,7 @@ const TabItem = styled.div<{ tab: string; index: string }>`
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-right: 0;
     padding: 12pt 0;
   }
@@ -265,7 +265,7 @@ const Dot = styled.div<{ tab: string; index: string }>`
 `;
 const Main = styled.div`
   padding: 30pt 12pt 0 12pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 36pt 12pt 0 12pt;
   }
 `;
@@ -287,7 +287,7 @@ const TextBox = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 9pt;
   }
 `;
@@ -311,7 +311,7 @@ const FlexBox = styled.div`
   justify-content: space-between;
   position: relative;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     //flex-direction: column;
     //align-items: center;
     display: block;
@@ -332,7 +332,7 @@ const FlexWrap = styled.div`
     border-radius: 16px;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     &:nth-of-type(1) {
       width: 100%;
     }
@@ -386,7 +386,7 @@ const InfoText = styled.div`
     }
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

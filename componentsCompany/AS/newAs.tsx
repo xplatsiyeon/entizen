@@ -164,7 +164,7 @@ const Body = styled.div`
 const Wrap = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex-direction: column;
     align-items: flex-end;
   }
@@ -201,7 +201,7 @@ const IconBox = styled.div<{ arrow?: boolean }>`
 
 const List = styled.div`
   margin: 18pt 0;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-bottom: 80pt;
   }
 `;

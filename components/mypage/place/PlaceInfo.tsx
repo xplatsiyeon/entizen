@@ -200,7 +200,7 @@ const WebFinishedPhotoWrapper = styled.div`
     justify-content: space-between;
     margin-top: 24pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

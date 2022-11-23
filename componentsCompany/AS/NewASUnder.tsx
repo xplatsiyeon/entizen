@@ -102,7 +102,7 @@ export default NewASUnder;
 const Body = styled.div`
   /* margin: 0 15pt; */
   font-family: 'Spoqa Han Sans Neo';
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

@@ -301,7 +301,7 @@ const WebTabContainer = styled.div`
   flex-direction: column;
   padding-left: 27pt;
   gap: 1pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -348,7 +348,7 @@ const Dot = styled.div<{ tab: string; index: string }>`
 
 const UnderContents = styled.div`
   width: 255pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

@@ -501,7 +501,7 @@ const NextBtn = styled.button<{ checkAll: boolean }>`
   letter-spacing: -0.02em;
   color: #ffffff;
   text-align: center;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-bottom: 39pt;
   }
 `;

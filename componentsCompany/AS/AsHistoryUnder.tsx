@@ -64,7 +64,7 @@ const Body = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   display: flex;
   flex-direction: column;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

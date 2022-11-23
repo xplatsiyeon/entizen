@@ -116,7 +116,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   padding-bottom: 45pt;
   height: 100vh;
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     height: auto;
     padding-left: 25pt;
     padding-right: 25pt;
@@ -144,7 +144,7 @@ const TopStep = styled.div`
     letter-spacing: -0.02em;
     text-align: left;
   }
-  @media (min-width: 899pt) {
+  @media (min-width: 900pt) {
     padding-top: 50pt;
   }
 `;

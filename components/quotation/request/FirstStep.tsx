@@ -278,7 +278,7 @@ export default FirstStep;
 const Wrraper = styled.div`
   position: relative;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 96pt;
     padding: 0 15pt;
   }
@@ -358,7 +358,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
   }

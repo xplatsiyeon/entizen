@@ -568,7 +568,7 @@ const Container = styled.div`
   margin: 45.75pt auto;
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -611,7 +611,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
   padding-left: 15pt;
   padding-right: 15pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
   }
@@ -732,7 +732,7 @@ const TabBox = styled.div`
   position: absolute;
   width: 100%;
   top: 0;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: relative;
     gap: 0.2pt;
   }
@@ -754,7 +754,7 @@ const TabLine = styled.div<{ idx: string; num: string }>`
   &:nth-last-of-type(1) {
     margin-right: 0;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     width: 100%;
   }

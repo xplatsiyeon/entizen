@@ -176,7 +176,7 @@ const Inner = styled.div`
   width: 900pt;
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -222,7 +222,7 @@ const Header = styled(Box)`
     padding: 5px;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
   }
 `;

@@ -41,7 +41,7 @@ export default ManagerInfo;
 
 const Wrapper = styled.div`
   padding: 0;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-right: 15pt;
   }
 `;

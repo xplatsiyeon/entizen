@@ -91,7 +91,7 @@ const RatingForm = styled.div`
   background: white;
   top: 25pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     // position: absolute;
     top: 25pt;
   }
@@ -146,7 +146,7 @@ const TextArea = styled.textarea`
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 0;
   }
 `;

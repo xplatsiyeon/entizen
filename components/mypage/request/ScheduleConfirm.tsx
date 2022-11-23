@@ -41,7 +41,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 8px;
   text-align: center;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 30pt 15pt 0 15pt;
   }
 `;

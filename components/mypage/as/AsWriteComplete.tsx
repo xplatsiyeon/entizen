@@ -54,7 +54,7 @@ const Nav = styled.div`
 `;
 const IconWrap = styled.div`
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;
@@ -73,7 +73,7 @@ const Title = styled.h1`
   letter-spacing: -0.02em;
   text-align: left;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 18pt;
     line-height: 24pt;
     margin-top: 24pt;

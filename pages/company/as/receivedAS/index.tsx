@@ -150,7 +150,7 @@ const Container = styled.div`
   padding: 32.25pt 0 42pt;
   background: white;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -182,7 +182,6 @@ const WebRapper = styled.div`
 
   @media (min-width: 900pt) {
     margin: 0 auto;
-
     width: 900pt;
     display: flex;
     flex-direction: row;

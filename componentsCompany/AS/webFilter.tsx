@@ -161,7 +161,7 @@ const WebRapper = styled.div`
   background-color: white;
   z-index: 3;
   margin-left: 9pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -171,7 +171,7 @@ const WebBox = styled.div<{ hide: boolean }>`
   height: 33pt;
   border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -195,7 +195,8 @@ const SelectValue = styled.div`
   max-width: 67.5pt;
   font-weight: 500;
   text-align: center;
-  font-size: 10.5pt;
+  /* font-size: 10.5pt; */
+  font-size: 9.4pt;
   line-height: 12pt;
   font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;

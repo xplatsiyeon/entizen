@@ -212,7 +212,7 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
 
 const Wrapper = styled.div`
   padding-top: 60pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 21pt;
   }
 `;
@@ -224,7 +224,7 @@ const Title = styled.h1`
   margin-top: 21pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 0pt;
     padding: 0 15pt;
   }
@@ -241,7 +241,7 @@ const Section = styled.section<{ imgBox?: boolean; pb?: number }>`
       padding-right: 0;
     `};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-left: 15pt;
   }
 `;
@@ -249,7 +249,7 @@ const List = styled.ul`
   margin: 30pt 0 51pt;
   gap: 12pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 30pt 15pt 0 15pt;
     padding-bottom: 18pt;
   }
@@ -294,7 +294,7 @@ const Item = styled.li`
     flex: 2;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     justify-content: space-between;
     .name {
       flex: none;
@@ -327,7 +327,7 @@ const FlexWrap = styled.div`
   &:nth-of-type(2) {
     margin-top: 61pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     &:nth-of-type(2) {
       margin-top: 0;
@@ -347,7 +347,7 @@ const Label = styled.h3`
   :nth-of-type(2) {
     padding-top: 24pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex: none;
   }
 `;
@@ -366,7 +366,7 @@ const FeaturesList = styled.ol`
       padding-top: 2pt;
     }
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex: none;
   }
 `;

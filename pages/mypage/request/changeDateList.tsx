@@ -170,7 +170,7 @@ const Inner = styled.div`
   padding: 32.25pt 0 42pt;
   margin: 45.75pt auto;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -185,7 +185,7 @@ const Wrapper = styled.div`
   //height: 434.25pt;
   padding-bottom: 87pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     // padding-bottom: 75pt;
     padding-bottom: 0;
@@ -264,19 +264,19 @@ const Btn = styled.div<{ tabNumber: number }>`
   .left {
     background: rgba(90, 45, 201, 0.5);
 
-    @media (max-width: 899pt) {
+    @media (max-width: 899.25pt) {
       padding-bottom: 39pt;
     }
   }
   .right {
     background: ${({ tabNumber }) =>
       tabNumber !== -1 ? colors.main : colors.gray};
-    @media (max-width: 899pt) {
+    @media (max-width: 899.25pt) {
       padding-bottom: 39pt;
     }
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     left: 0;
     //padding-bottom: 39pt;

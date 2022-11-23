@@ -333,7 +333,7 @@ const Input = styled(TextField)`
     border: none;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 9pt;
   }
 `;
@@ -343,7 +343,7 @@ const Wrap = styled.div`
   flex-wrap: wrap;
   flex-direction: row-reverse;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex-direction: row;
   }
 `;
@@ -351,7 +351,7 @@ const WrapInput = styled.div`
   flex: 1;
   margin-right: 10.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-right: 0;
   }
 `;
@@ -366,7 +366,7 @@ const FilterBtnBox = styled.div`
   border-radius: 6pt;
   padding: 0 10.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     margin-top: 29.25pt;
     padding: 0pt;
@@ -533,7 +533,7 @@ const WebFilter = styled.div`
   width: 96pt;
   justify-content: center;
   box-sizing: border-box;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
