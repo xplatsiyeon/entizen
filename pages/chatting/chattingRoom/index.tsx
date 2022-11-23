@@ -4,7 +4,7 @@ import defaultImg from 'public/images/default-img.png';
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import send from 'public/images/send.png'
 
 type ChattingLogs = {
@@ -23,19 +23,26 @@ export interface ChattingRoom {
     logs: ChattingLogs[];
 }
 
+type Props = {
+companyId : string
+}
 
-const ChattingRoom = () => {
+
+const ChattingRoom = ({companyId}:Props) => {
+
+    console.log('room')
+
 
     const router = useRouter();
-    const [company, setCompany] = useState<string>()
     const [data, setData] = useState<ChattingRoom[]>([]);
+    //const [company, setCompany] = useState<string>()
 
-    useEffect(() => {
+   /* useEffect(() => {
         console.log(company)
         if (typeof (router.query.companyMemberId) === 'string') {
             setCompany(router.query.companyMemberId)
         }
-    }, [router.query.companyMemberId])
+    }, [router.query.companyMemberId]) */
 
     const arr = {
         "isSuccess": true,
@@ -206,12 +213,17 @@ const ChattingRoom = () => {
     return (
         <Body>
             <TopBox>
-                <MypageHeader back={true} title={company} />
+                <MypageHeader back={true} title={companyId}
+                    handle={true} 
+                    handleOnClick={()=>router.push({
+                        pathname: '/chatting'
+                    })}/>
                 <IconBox>
                     <IconWrap></IconWrap>
                     <IconWrap></IconWrap>
                 </IconBox>
             </TopBox>
+            <Inner>
             {data.map((d, idx) => {
                 return (
                     <DateChatting key={idx}>
@@ -238,6 +250,7 @@ const ChattingRoom = () => {
                     </DateChatting>
                 )
             })}
+            </Inner>
             <BottomBox>
                 <FlexBox>
                     <AddBtn>
@@ -256,8 +269,7 @@ const ChattingRoom = () => {
 export default ChattingRoom
 
 const Body = styled.div`
-    width: 100%;
-    position: relative;
+position: relative;
 `
 
 const BottomBox = styled.div`
@@ -266,6 +278,9 @@ const BottomBox = styled.div`
     bottom: 0;
     padding: 3pt 0pt 36pt;
     width: 100%;
+    @media (min-width: 900pt) {
+    position: absolute;
+  }
 `
 const FlexBox = styled.div`
     display: flex;
@@ -303,7 +318,14 @@ const IconWrap2 = styled.div`
 `
 
 const TopBox = styled.div`
-position: relative;
+position: fixed;
+top: 0;
+width: 100%;
+z-index: 5;
+
+@media (min-width: 900pt) {
+    position: absolute;
+  }
 `
 const IconBox = styled.div`
 position: absolute;
@@ -318,13 +340,16 @@ const IconWrap = styled.div`
     width: 12pt;
     height: 12pt;
 `
-
+const Inner = styled.div`
+    position: relative;
+    padding-top: 36pt;
+    padding-bottom: 66pt;
+`
 const DateChatting = styled.div`
 width: 100%;
 font-family: 'Spoqa Han Sans Neo';
 text-align: center;
 position: relative;
-padding-bottom: 66pt;
 
 &::before{
 display: block;
