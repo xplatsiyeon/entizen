@@ -49,6 +49,7 @@ const UserRightMenu = () => {
 
 const MenuRapper = styled.div`
   position: fixed;
+  z-index: 100;
   right: 20pt;
   top: 165pt;
   border-radius: 12pt;

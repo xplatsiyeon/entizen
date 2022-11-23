@@ -14,6 +14,7 @@ import Loader from 'components/Loader';
 import Charging from 'components/mypage/place/Charging';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
+import UserRightMenu from 'components/UserRightMenu';
 
 export interface UserInfo {
   isSuccess: boolean;
@@ -71,6 +72,7 @@ const Request = () => {
           }; num, page는 이 부분의 인덱스 넘버.
         */}
       <WebHeader num={tabNumber} now={'mypage'} />
+      <UserRightMenu />
       <Wrapper>
         <FlexBox>
           <Header>

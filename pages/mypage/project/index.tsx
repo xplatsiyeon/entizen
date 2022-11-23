@@ -13,6 +13,7 @@ import styled from '@emotion/styled';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
+import UserRightMenu from 'components/UserRightMenu';
 const TAG = 'pages/mypage/project/index.tsx';
 const ProjectInfo = () => {
   const router = useRouter();
@@ -64,6 +65,7 @@ const ProjectInfo = () => {
     <>
       <Body>
         <WebHeader />
+        <UserRightMenu />
         <Inner>
           <FlexBox>
             <Wrap1>

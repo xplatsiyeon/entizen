@@ -8,6 +8,7 @@ import Contract from 'components/guide/contract';
 import { useRouter } from 'next/router';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import UserRightMenu from 'components/UserRightMenu';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -28,6 +29,7 @@ const Guide1_4 = () => {
   return (
     <Body>
       <WebHeader num={1} now={'guide'} />
+      <UserRightMenu />
       <Inner>
         <Wrapper>
           <GuideHeader
