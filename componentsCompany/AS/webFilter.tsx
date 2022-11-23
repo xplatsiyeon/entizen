@@ -195,7 +195,8 @@ const SelectValue = styled.div`
   max-width: 67.5pt;
   font-weight: 500;
   text-align: center;
-  font-size: 10.5pt;
+  /* font-size: 10.5pt; */
+  font-size: 9.4pt;
   line-height: 12pt;
   font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;
