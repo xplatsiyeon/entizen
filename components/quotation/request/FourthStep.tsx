@@ -176,7 +176,7 @@ const Title = styled.h1`
   font-family: 'Spoqa Han Sans Neo';
   color: ${colors.main2};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 24pt 15pt 0 15pt;
   }
 `;
@@ -192,7 +192,7 @@ const SubTitle = styled.div<{ pt: number }>`
   color: ${colors.main2};
   font-family: 'Spoqa Han Sans Neo';
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-left: 15pt;
     padding-right: 15pt;
   }
@@ -203,7 +203,7 @@ const TypeBox = styled.div`
   gap: 11.25pt;
   padding: 9pt 0 0;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 9pt 15pt 0 15pt;
   }
 `;
@@ -240,7 +240,7 @@ const SearchMapArea = styled.div`
   height: 50pt;
   position: relative;
   margin-top: 10.5pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 0 15pt;
   }
 `;
@@ -297,7 +297,7 @@ const NextBtn = styled.div<{
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
     border-radius: 0;
   }
@@ -316,7 +316,7 @@ const PrevBtn = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   border-radius: 6pt;
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
     border-radius: 0;
   }
@@ -328,7 +328,7 @@ const TwoBtn = styled.div`
   left: 0;
   width: 100%;
   gap: 8.7pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     gap: 0;
   }

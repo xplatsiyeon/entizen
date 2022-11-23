@@ -72,7 +72,7 @@ const WebInnerHeader = styled.h1`
   padding-top: 55.5pt;
   padding-bottom: 45pt;
   text-align: center;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -83,7 +83,7 @@ const Body = styled.ul`
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-between;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: relative;
     padding-right: 0pt;
     box-shadow: 0px 0px 10px 0px #89a3c933;
@@ -99,7 +99,7 @@ const Inner = styled.div`
   border-radius: 12pt;
   margin-top: 0;
   margin: 0 auto 45.75pt auto;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     position: relative;
     margin: 0 auto;
@@ -152,7 +152,7 @@ const List = styled.li`
     width: 15pt;
     height: 15pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     margin-bottom: 0;
     border-radius: 0;

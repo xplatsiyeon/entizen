@@ -266,7 +266,7 @@ const Wrapper = styled.div`
     border-bottom: none;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 21pt;
   }
 `;
@@ -287,7 +287,7 @@ const Title = styled.h1`
   margin-top: 21pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 0pt;
     padding: 0 15pt;
   }
@@ -307,7 +307,7 @@ const List = styled.ul`
   padding: 30pt 0 51pt;
   gap: 12pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 30pt;
     padding-bottom: 18pt;
   }
@@ -348,7 +348,7 @@ const Item = styled.li`
     color: ${colors.main2};
     flex: 2;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     justify-content: space-between;
     padding-left: 15pt;
     padding-right: 15pt;
@@ -375,7 +375,7 @@ const FlexWrap = styled.div`
   &:nth-of-type(2) {
     margin-top: 61pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     padding: 0 15pt;
     &:nth-of-type(2) {
@@ -396,7 +396,7 @@ const Label = styled.h3`
   :nth-of-type(2) {
     padding-top: 24pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex: none;
   }
 `;
@@ -415,7 +415,7 @@ const FeaturesList = styled.ol`
       padding-top: 2pt;
     }
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex: none;
   }
 `;

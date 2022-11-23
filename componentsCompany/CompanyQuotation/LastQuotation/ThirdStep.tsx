@@ -508,7 +508,7 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
   }
   @media (min-width: 900pt) {
@@ -529,7 +529,7 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   letter-spacing: -0.02em;
   background-color: ${({ canNext }) => (canNext ? colors.main : '#B096EF')};
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
   }
   @media (min-width: 900pt) {
@@ -549,7 +549,7 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   background-color: ${colors.gray};
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
   }
   @media (min-width: 900pt) {

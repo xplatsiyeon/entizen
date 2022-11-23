@@ -118,7 +118,7 @@ const Inner = styled.div`
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100%;
     margin: 0 auto;
@@ -133,7 +133,7 @@ const Wrapper = styled.div`
   //height: 664.5pt;
   height: auto;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     //height: 100%;
     height: 100vh;
     //padding-bottom: 225pt;
@@ -173,7 +173,7 @@ const UL = styled.ul`
     gap: 8px;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 24pt 15pt 100pt;
   }
 `;
@@ -191,7 +191,7 @@ const Btn = styled(Button)`
   padding-top: 15pt;
   padding-bottom: 15pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     left: 0;
     padding-bottom: 39pt;

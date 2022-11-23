@@ -121,7 +121,7 @@ const AsRequestWriteReview = ({
 
 const Wrapper = styled.div`
   position: relative;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     //padding-left: 15pt;
     //padding-right: 15pt;
   }
@@ -132,7 +132,7 @@ const DownArrowBox = styled.div`
   justify-content: center;
   margin-top: 21pt;
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     text-align: center;
   }
@@ -143,7 +143,7 @@ const ReviewTitleBox = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 37.5pt;
   }
 `;
@@ -198,7 +198,7 @@ const BtnBox = styled.div`
   display: flex;
   gap: 11.25pt;
   padding-bottom: 0pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-bottom: 30pt;
   }
 `;

@@ -97,7 +97,7 @@ const ModalBox = styled(Box)`
   padding-right: 15pt;
   background-color: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     top: auto;
     left: auto;
     transform: none;
@@ -146,7 +146,7 @@ const BtnBox = styled(Box)`
   display: flex;
   gap: 9pt;
   padding-bottom: 21pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-bottom: 30pt;
   }
 `;

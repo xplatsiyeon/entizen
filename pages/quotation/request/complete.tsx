@@ -79,7 +79,7 @@ const Inner = styled.div`
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     margin: 0;
@@ -95,7 +95,7 @@ const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
   }
@@ -114,9 +114,9 @@ const ContainerBox = styled(Container)`
   align-items: center;
   flex-direction: column;
 
-@media (max-width: 899pt) {
-  margin-top: 90pt;
-}
+  @media (max-width: 899.25pt) {
+    margin-top: 90pt;
+  }
 `;
 const Title = styled.h1`
   font-weight: 700;
@@ -183,7 +183,7 @@ const Btn = styled.button`
   margin-bottom: 0pt;
   cursor: pointer;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 30pt;
   }
 `;

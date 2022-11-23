@@ -51,7 +51,7 @@ const ImageBox = styled.div<{ borders: number }>`
   border-radius: ${({ borders }) => (borders !== 0 ? borders : 6)}pt;
   border: 1px solid silver;
   object-fit: cover;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 117pt;
     margin-top: 30pt;
   }
@@ -69,7 +69,7 @@ const ButtonBox = styled.div`
   border-radius: 21.75pt;
   background-color: #ffffff;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     left: 15pt;
     bottom: 15pt;
   }
@@ -90,36 +90,36 @@ const BtnIcon = styled.div`
   top: 1pt;
 `;
 
-const ImageWrap = styled.div`    
-position: absolute;
-width: 114pt;
-height: 144.75pt;
-top: 9.75pt;
-right: 0;
+const ImageWrap = styled.div`
+  position: absolute;
+  width: 114pt;
+  height: 144.75pt;
+  top: 9.75pt;
+  right: 0;
 
-@media (max-width: 899pt) {
-  width: 75pt;
-  height: 95.25pt;
-  top: 15pt;
-}
-`
+  @media (max-width: 899.25pt) {
+    width: 75pt;
+    height: 95.25pt;
+    top: 15pt;
+  }
+`;
 const P = styled.p`
-font-family: 'Spoqa Han Sans Neo';
-font-style: normal;
-font-weight: 700;
-font-size: 16.5pt;
-line-height: 25.5pt;
-letter-spacing: -0.02em;
-color: #FFFFFF;
-padding-top: 26.25pt;
-padding-left: 28.5pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16.5pt;
+  line-height: 25.5pt;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  padding-top: 26.25pt;
+  padding-left: 28.5pt;
 
-@media (max-width: 899pt) {
-font-size: 10.4pt;
-line-height: 18pt;
-padding-top: 20pt;
-padding-left: 20pt;
-}
-`
+  @media (max-width: 899.25pt) {
+    font-size: 10.4pt;
+    line-height: 18pt;
+    padding-top: 20pt;
+    padding-left: 20pt;
+  }
+`;
 
 export default SubscribeRequest;

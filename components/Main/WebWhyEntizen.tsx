@@ -113,7 +113,7 @@ const WhyEntizen = () => {
 const Wrapper = styled.div`
   margin-top: 30pt;
   width: 100%;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -130,7 +130,7 @@ const WhyBox = styled(Typography)`
     color: ${colors.main};
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     text-align: left;
     margin-bottom: 0;
   }
@@ -139,7 +139,7 @@ const WhyBox = styled(Typography)`
 const GridBox = styled.div`
   display: flex;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 12pt;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -159,7 +159,7 @@ const GridElement = styled.div`
   &:nth-of-type(4) {
     margin-right: 0;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-right: 0;
     height: 120pt;
     box-shadow: none;
@@ -177,7 +177,7 @@ const TextArea = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   color: ${(props) => props.color};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-left: 12pt;
     margin-top: 12pt;
   }
@@ -188,7 +188,7 @@ const ArrowImgBox = styled.div`
   position: absolute;
   right: 12pt;
   top: 12pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;
@@ -201,7 +201,7 @@ const IconImgBox = styled.div<{ width: string; height: string }>`
   left: 22.5pt;
   bottom: 22.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     left: 12pt;
     bottom: 12pt;
   }

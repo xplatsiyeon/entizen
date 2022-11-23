@@ -71,8 +71,8 @@ export default ExpressSpeedGraph;
 
 const Wrapper = styled.div`
   padding-top: 27pt;
-  @media (max-width: 899pt) {
-  padding-bottom: 180.75pt;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 180.75pt;
   }
 `;
 

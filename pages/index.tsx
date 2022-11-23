@@ -13,7 +13,8 @@ const Home: NextPage = () => {
       {memberType === 'COMPANY' ? (
         <CompanyMainPage />
       ) : (
-        <>{/* 브라우저 너비에 따라 웹 메인 페이지, 모바일 메인페이지로 갈린다. */}
+        <>
+          {/* 브라우저 너비에 따라 웹 메인 페이지, 모바일 메인페이지로 갈린다. */}
           <WebWrap>
             <Main />
           </WebWrap>
@@ -38,13 +39,13 @@ const ItemWrapper = styled.div`
 `;
 const WebWrap = styled.div`
   display: block;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
 const MobWrap = styled.div`
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;

@@ -110,27 +110,27 @@ const SliderWrapper = styled.div`
     background-size: 100%;
     background-repeat: no-repeat;
     width: 30pt;
-    &::after{
+    &::after {
       display: none;
     }
 
-    @media (max-width: 899pt) {
+    @media (max-width: 899.25pt) {
       display: none;
     }
-}  
-.swiper-button-next {
-  --swiper-navigation-size: 30pt;
+  }
+  .swiper-button-next {
+    --swiper-navigation-size: 30pt;
     background-image: url(/images/swiper_next.png);
     background-size: 100%;
     background-repeat: no-repeat;
     width: 30pt;
-    &::after{
+    &::after {
       display: none;
     }
-    @media (max-width: 899pt) {
+    @media (max-width: 899.25pt) {
       display: none;
     }
-}
+  }
   .swiper-pagination-bullet {
     position: relative;
   }
@@ -145,7 +145,7 @@ const SliderWrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
-    @media (max-width: 899pt) {
+    @media (max-width: 899.25pt) {
       justify-content: unset;
     }
   }
@@ -154,7 +154,7 @@ const SliderWrapper = styled.div`
     bottom: 15pt;
     left: 15pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 12pt;
   }
 `;
@@ -164,7 +164,7 @@ const WithImage = styled.div`
   position: absolute;
   right: 10pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     position: absolute;
     top: 50%;
@@ -185,7 +185,7 @@ const Top = styled.div`
   text-align: left;
   color: #fbfcff;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: absolute;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -204,7 +204,7 @@ const Center = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   color: #fbfcff;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: absolute;
     top: 31.5pt;
     font-size: 15pt;
@@ -223,8 +223,8 @@ const SliderContent = styled.div`
   justify-content: center;
   border-radius: 8pt;
 
-  @media (max-width: 899pt) {
-    max-width: 899pt;
+  @media (max-width: 899.25pt) {
+    max-width: 899.25pt;
     height: 99pt;
     justify-content: unset;
   }

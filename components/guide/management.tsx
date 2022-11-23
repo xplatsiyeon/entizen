@@ -8,12 +8,12 @@ import ManagementImg2 from 'public/guide/guide1-4.png';
 const management = () => {
   return (
     <Main>
-    <ImageWrap>
-      <Image src={ManagementImg} alt="info" />
-    </ImageWrap>
-    <ImageWrap>
-      <Image src={ManagementImg2} alt="info" />
-    </ImageWrap>
+      <ImageWrap>
+        <Image src={ManagementImg} alt="info" />
+      </ImageWrap>
+      <ImageWrap>
+        <Image src={ManagementImg2} alt="info" />
+      </ImageWrap>
       <TextBox>
         <li className="text-item">
           <span className="accent">A/S</span>에서 편리하고 빠르게 충전기 이슈
@@ -48,23 +48,23 @@ const Main = styled.div`
   flex-direction: column;
   padding: 45pt 15pt 0 15pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 27pt 15pt 0 15pt;
   }
 `;
 const ImageWrap = styled.div`
-width: 645pt;
-&:nth-of-type(1){
-  display: none;
-}
-  @media (max-width: 899pt) {
+  width: 645pt;
+  &:nth-of-type(1) {
+    display: none;
+  }
+  @media (max-width: 899.25pt) {
     width: auto;
-&:nth-of-type(1){
-  display: block;
-}
-&:nth-of-type(2){
-  display: none;
-}
+    &:nth-of-type(1) {
+      display: block;
+    }
+    &:nth-of-type(2) {
+      display: none;
+    }
   }
 `;
 
@@ -85,12 +85,12 @@ const TextBox = styled(Box)`
     color: ${colors.main};
   }
 
-@media (max-width: 899pt) {
-  width: 100%;
-  margin: 24pt auto 0;
-  .text-item {
-    font-size: 10.5pt;
-    line-height: 16.5pt;
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    margin: 24pt auto 0;
+    .text-item {
+      font-size: 10.5pt;
+      line-height: 16.5pt;
+    }
   }
-}
-`
+`;

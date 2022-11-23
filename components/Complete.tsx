@@ -59,7 +59,7 @@ const Nav = styled.div`
   padding-right: 15pt;
   padding-top: 15pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
   }
 `;
@@ -70,7 +70,7 @@ const ContainerBox = styled(Container)`
   align-items: center;
   flex-direction: column;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 90pt;
   }
 `;
@@ -88,7 +88,7 @@ const Footer = styled.div`
   box-sizing: border-box;
   text-align: center;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: absolute;
     width: 100%;
     left: 0;
@@ -111,7 +111,7 @@ const TextBox = styled.div`
   border-radius: 6pt;
   color: ${colors.gray2};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     border: 0.75pt solid ${colors.lightGray};
   }
 `;
@@ -128,7 +128,7 @@ const Btn = styled(Button)`
   margin-bottom: 145.5pt;
   padding: 9pt 12pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     border-radius: 6pt;
     width: 100%;
     padding: 15pt 0;

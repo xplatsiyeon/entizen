@@ -90,7 +90,7 @@ const SearchMapWrapper = styled.div`
   width: 100%;
   margin-top: 52.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 24pt;
   }
 `;
@@ -109,7 +109,7 @@ const TextArea = styled(Typography)`
     font-weight: 700;
     letter-spacing: -2%;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 0 auto;
     font-weight: 500;
     font-size: 15pt;
@@ -158,7 +158,7 @@ const Input = styled(TextField)`
   & fieldset {
     border: none;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     .MuiInputBase-root {
       cursor: pointer;
     }

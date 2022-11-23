@@ -171,7 +171,7 @@ const Inner = styled.div`
   width: 900pt;
   margin: 45.75pt auto;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -190,7 +190,7 @@ const Wrap1 = styled.div`
   border-radius: 6pt;
   height: 100%;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -200,7 +200,7 @@ const Wrap2 = styled.div`
   width: 100%;
   padding-left: 60pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-left: 0pt;
   }
 `;
@@ -210,7 +210,7 @@ const Wrap3 = styled.div`
   flex-direction: column-reverse;
   width: 100%;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex-direction: column;
     height: auto;
   }
@@ -240,7 +240,7 @@ const Btn = styled.button`
     border: none;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 45pt;
     margin-bottom: 36pt;
   }

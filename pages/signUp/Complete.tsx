@@ -53,7 +53,7 @@ const Inner = styled.div`
   margin: 45.75pt auto;
   width: 900pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -62,7 +62,7 @@ const Inner = styled.div`
 `;
 
 const Wrap = styled.div`
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

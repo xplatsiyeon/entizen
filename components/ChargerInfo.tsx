@@ -40,8 +40,9 @@ const ChargerInfo = ({
   return (
     <>
       {' '}
-      <InfoBox className='wrap' checkHeight={checkHeight?.toString()}>
-        <RndWraper className='draggable'
+      <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
+        <RndWraper
+          className="draggable"
           isMobile={mobile}
           default={{
             x: 0,
@@ -158,7 +159,7 @@ const InfoBox = styled.div<{ checkHeight: string }>`
       }
     }
   }*/
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -172,7 +173,6 @@ const RndWraper = styled(Rnd)<{ isMobile: boolean }>`
 
   background-color: #ffffff;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
-  
 `;
 
 const Body = styled.div`
@@ -203,7 +203,7 @@ const SelectChargerBox = styled.div`
   margin-top: 60pt;
   padding-left: 24pt;
   padding-right: 24pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 9pt;
   }
 `;
@@ -215,7 +215,7 @@ const ChargerList = styled.div`
   margin-top: 30pt;
   background: #f3f4f7;
   border-radius: 21.375pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 3pt;
   }
 `;
@@ -247,7 +247,7 @@ const ChargerTypeNCount = styled(Typography)`
   text-align: center;
   margin-bottom: 15pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 0;
   }
 `;
@@ -261,7 +261,7 @@ const ChargerNotice = styled(Typography)`
   color: #a6a9b0;
   margin: 0 52.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 7.5pt;
     line-height: 9pt;
     margin: 0;
@@ -274,7 +274,7 @@ const PredictBoxWrapper = styled.div`
   margin: 39pt 15pt 0;
   gap: 11.25pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 30pt 0 0;
   }
 `;
@@ -346,7 +346,7 @@ const DidHelp = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 30pt;
   }
 `;
@@ -392,9 +392,9 @@ const QuotationBtn = styled.div`
   }
 `;
 
-const Wrap=styled.div`
-//position: relative;
-   @media (max-width: 899pt) {
+const Wrap = styled.div`
+  //position: relative;
+  @media (max-width: 899.25pt) {
     position: relative;
   }
-`
+`;
