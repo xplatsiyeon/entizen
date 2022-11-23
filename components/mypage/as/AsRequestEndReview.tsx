@@ -6,13 +6,14 @@ import AsRequest from './AsRequest';
 import AsRequestWriteReview from './AsRequestWriteReview';
 
 type Props = {
-  data: AsDetailReseponse;};
+  data?: AsDetailReseponse;
+};
 
-const AsRequestEndReview = ({data}: Props) => {
+const AsRequestEndReview = ({ data }: Props) => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
 
-  // 리액트쿼리 쿼리키 호출/사용. 
+  // 리액트쿼리 쿼리키 호출/사용.
 
   const handleClick = () => {
     router.push('/mypage/as/asReviewEnd');
@@ -23,7 +24,7 @@ const AsRequestEndReview = ({data}: Props) => {
       {modalOpen && (
         <Modal text={'소중한 의견 감사합니다.'} click={handleClick} />
       )}
-      <AsRequest data={data}/* id={쿼리키} */ />
+      <AsRequest data={data!} /* id={쿼리키} */ />
       <AsRequestWriteReview setModalOpen={setModalOpen} modalOpen={modalOpen} />
     </>
   );
