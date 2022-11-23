@@ -109,7 +109,7 @@ const AsRequestWrite = () => {
     isTokenPostApi,
     {
       onSuccess: () => {
-        router.push('/mypage/as/complete');
+        router.replace('/mypage/as/complete');
       },
       onError: (error: any) => {
         setIsModal(true);
@@ -136,7 +136,12 @@ const AsRequestWrite = () => {
     isTokenPutApi,
     {
       onSuccess: () => {
-        router.push('/mypage/as/complete');
+        router.replace({
+          pathname: '/mypage/as/complete',
+          query: {
+            selectedIndex: selectedIndex,
+          },
+        });
       },
       onError: (error: any) => {
         setIsModal(true);
@@ -254,7 +259,7 @@ const AsRequestWrite = () => {
       setReview(newFile);
       console.log(detailData);
     }
-  }, [detailData]);
+  }, []);
 
   useEffect(() => {
     if (!chargingLoading && !chargingError && chargingData?.chargingStations) {
@@ -285,7 +290,7 @@ const AsRequestWrite = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption, review, title, reqeustText]);
 
-  if (chargingLoading || asIsLoading || detailIsLoading || modifiedIsLoading) {
+  if (chargingLoading || asIsLoading || detailIsLoading) {
     return <Loader />;
   }
 
