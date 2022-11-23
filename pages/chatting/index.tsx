@@ -1,74 +1,102 @@
-import styled from '@emotion/styled';
-import { InputAdornment, TextField } from '@mui/material';
-import BottomNavigation from 'components/BottomNavigation';
-import AllChattingList from 'components/Chatting/AllChattingList';
-import Favorite from 'components/Chatting/Favorite';
-import NotRead from 'components/Chatting/NotRead';
-import Image from 'next/image';
+import styled from "@emotion/styled";
+import { InputAdornment, TextField } from "@mui/material";
+import BottomNavigation from "components/BottomNavigation";
+import ChattingList from "components/Chatting/ChattingList";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import search from 'public/images/search.png';
-import { useState } from 'react';
+import { useEffect, useState } from "react";
+import ChattingRoom from "./chattingRoom";
+
 
 const Chatting = () => {
-  const [index, setIndex] = useState<number>(0);
-
+    const [index, setIndex] = useState<number>(0);
+    const [company, setCompany] = useState<string>('')
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
 
-  const components = [<AllChattingList />, <NotRead />, <Favorite />];
+    const router = useRouter();
+    console.log('index', index)
 
-  const handle = () => {};
+    useEffect(() => {
+        console.log('useeffect',company)
+        if (typeof (router.query.companyMemberId) === 'string') {
+            setCompany(router.query.companyMemberId)
+        }else{
+            setCompany('')
+        }
+    }, [router.query.companyMemberId])
 
-  return (
-    <Body>
-      <Header>
-        <H2>소통하기</H2>
-      </Header>
-      <Input
-        placeholder="이름을 검색하세요."
-        type="text"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <div style={{ width: '15pt', height: '15pt' }}>
-                <Image src={search} alt="searchIcon" layout="intrinsic" />
-              </div>
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Inner>
-        <TabList>
-          {tabList.map((t, idx) => {
-            return (
-              <Tab
-                key={idx}
-                onClick={() => setIndex(idx)}
-                tab={idx.toString()}
-                index={index.toString()}
-              >
-                {t}
-                <Dot tab={idx.toString()} index={index.toString()} />
-              </Tab>
-            );
-          })}
-          <FAQBtn onClick={handle}>FAQ</FAQBtn>
-        </TabList>
-        {/* 컴포넌트 호출되면 api get() */}
-        <>{components[index]}</>
-      </Inner>
-      <BottomNavigation />
-    </Body>
-  );
-};
+    const handle =()=>{
+
+    }
+
+    return (
+        <Body>
+            <Header>
+                <H2>소통하기</H2>
+            </Header>
+            <FlexBox>
+            <Input
+                placeholder="이름을 검색하세요."
+                type="text"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <div style={{ width: '15pt', height: '15pt' }}>
+                                <Image src={search} alt="searchIcon" layout="intrinsic" />
+                            </div>
+                        </InputAdornment>
+                    )
+                }}
+            />
+            <Inner>
+                <TabList>
+                    {tabList.map((t, idx) => {
+                        return (
+                           <Tab key={idx} onClick={() => setIndex(idx)}
+                                tab={idx.toString()}
+                                index={index.toString()}>
+                                {t}
+                                <Dot
+                                    tab={idx.toString()}
+                                    index={index.toString()}
+                                />
+                            </Tab> 
+                        )
+                    })}
+                    <FAQBtn onClick={handle}>FAQ</FAQBtn>
+                </TabList>
+                <ChattingList type={index}/>
+            </Inner>
+            </FlexBox>  
+            {company && 
+            <MobBox>
+            <ChattingRoom companyId={company}/>
+            </MobBox>
+            }
+            <BottomNavigation />
+        </Body>
+    )
+}
 
 export default Chatting;
 
 const Body = styled.div`
-  font-family: 'Spoqa Han Sans Neo';
-`;
+font-family: 'Spoqa Han Sans Neo';
+width: 100%;
+
+@media (min-width: 900pt) {
+    display: flex;
+}
+`
 const Header = styled.header`
-  position: relative;
-  margin: 0 15pt;
-`;
+    position: relative;
+    margin: 0 15pt;
+
+    @media (min-width: 900pt) {
+    display: none;
+}
+`
 
 const H2 = styled.h2`
   font-style: normal;
@@ -116,9 +144,23 @@ const Input = styled(TextField)`
   }
 
   @media (max-width: 899.25pt) {
-    margin-top: 9pt;
+  margin-top: 9pt;
   }
 `;
+
+const FlexBox = styled.div`
+`
+const MobBox = styled.div`
+    
+@media (max-width: 899pt) {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    //나중에 수정..
+    z-index: 1000;
+    background: white;
+}
+`
 
 const Inner = styled.div`
   position: relative;

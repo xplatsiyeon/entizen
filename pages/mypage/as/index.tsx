@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
-import { isTokenGetApi } from 'api';
+import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
 import AsRequest from 'components/mypage/as/AsRequest';
 import AsRequestFooter from 'components/mypage/as/AsRequestFooter';
 import AsRequestPartner from 'components/mypage/as/AsRequestPartner';
@@ -8,8 +9,9 @@ import RequestMain from 'components/mypage/request/requestMain';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
-import React from 'react';
-import { useQuery } from 'react-query';
+import React, { useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
+import colors from 'styles/colors';
 export interface File {
   createdAt: string;
   afterSalesServiceRequestFileIdx: number;
@@ -52,13 +54,18 @@ export interface AsDetailReseponse {
               quotationRequest: {
                 quotationRequestIdx: number;
                 installationAddress: string;
+                member: {
+                  memberIdx: number;
+                  name: string;
+                  phone: string;
+                };
               };
             };
           };
         };
         afterSalesServiceReview: boolean;
         afterSalesServiceRequestFiles: File[];
-        afterSalesServiceCompletionFiles: [];
+        afterSalesServiceCompletionFiles: File[];
       };
       badge: string;
     };
@@ -69,16 +76,38 @@ const TAG = 'pages/mypage/as/index.tsx';
 const asNumber = () => {
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
-  const { data, isLoading, isError, error } = useQuery<AsDetailReseponse>(
-    'as-detail',
-    () => isTokenGetApi(`/after-sales-services/${routerId}`),
-    {
-      enabled: router.isReady,
+  const [isModal, setIsModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<AsDetailReseponse>(
+      'as-detail',
+      () => isTokenGetApi(`/after-sales-services/${routerId}`),
+      {
+        enabled: router.isReady,
+      },
+    );
+  const {
+    mutate: completeMutate,
+    isLoading: completeIsLoading,
+    isError: completeIsError,
+  } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      setIsModal(true);
+      setModalMessage('AS 완료 되었습니다.');
+      refetch();
     },
-  );
+    onError: () => {
+      setIsModal(true);
+      setModalMessage('완료가 실패했습니다. 다시 시도해주세요.');
+    },
+  });
+
+  const handleModal = () => {
+    setIsModal(false);
+  };
 
   const handleClick = (st: string) => {
-    // router.push(`/mypage/as/${st}`);
     router.push({
       pathname: `/mypage/as/${st}`,
       query: {
@@ -88,7 +117,13 @@ const asNumber = () => {
       },
     });
   };
-
+  // 완료하기 클릭
+  const onClickCompleteBtn = () => {
+    completeMutate({
+      url: `/after-sales-services/${routerId}/agreement`,
+      data: {},
+    });
+  };
   // 버튼 태크
   const makeBtn = (text: string, query: string, className?: string) => {
     return (
@@ -100,18 +135,27 @@ const asNumber = () => {
       </Btn>
     );
   };
+  // 버튼 태크
+  const completeBtn = (text: string, query: string) => {
+    return (
+      <BtnBox onClick={onClickCompleteBtn}>
+        <p className="text">{text}</p>
+      </BtnBox>
+    );
+  };
 
-  if (isLoading) {
+  if (isLoading || completeIsLoading) {
     return <Loader />;
   }
-  if (isError) {
+  if (isError || completeIsError) {
     console.log(error);
   }
-  console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
-  console.log(data);
+  // console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
+  // console.log(data);
 
   return (
     <Body>
+      {isModal && <Modal text={modalMessage} click={handleModal} />}
       {/* 피그마 마이페이지/A/S/4. 마이페이지 링크바 A/S 부분을 표시하기 위해서 num={2}를 넘긴다. (내 견적서는 0).
           const components: Components = {
           0: <WebEstimate/>,  
@@ -131,13 +175,21 @@ const asNumber = () => {
             {/* AS 상단 부분 */}
             <AsRequest data={data!} />
             {/* 하단 부분 내용 */}
-            <AsRequestPartner data={data!} />
+            {data?.data.afterSalesService.afterSalesService
+              .afterSalesServiceCompletionConsentStatus ? (
+              <div>리뷰 작성 뷰</div>
+            ) : (
+              <AsRequestPartner data={data!} />
+            )}
             <Wrap3>
               <AsRequestFooter />
               {/* {btnTag} */}
-              {makeBtn('수정하기', 'requestAS')}
-              {/* {makeBtn('A/S 완료하기', 'writeReview', 'as')} */}
-              {/* {makeBtn('리뷰보기', 'myReview', 'as')} */}
+              {data?.data.afterSalesService.badge.includes('요청') &&
+                makeBtn('수정하기', 'requestAS')}
+              {data?.data.afterSalesService.badge.includes('대기') &&
+                completeBtn('A/S 완료하기', 'writeReview')}
+              {data?.data.afterSalesService.badge.includes('A/S') &&
+                makeBtn('리뷰보기', 'myReview', 'as')}
             </Wrap3>
           </Wrap2>
         </FlexBox>
@@ -156,15 +208,12 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
   }
 `;
-
 const Inner = styled.div`
   display: block;
   position: relative;
@@ -178,12 +227,10 @@ const Inner = styled.div`
     margin: 0 auto;
   }
 `;
-
 const FlexBox = styled.div`
   display: flex;
   position: relative;
 `;
-
 const Wrap1 = styled.div`
   width: 255pt;
   border: 1px solid #e9eaee;
@@ -204,7 +251,6 @@ const Wrap2 = styled.div`
     padding-left: 0pt;
   }
 `;
-
 const Wrap3 = styled.div`
   display: flex;
   flex-direction: column-reverse;
@@ -215,7 +261,6 @@ const Wrap3 = styled.div`
     height: auto;
   }
 `;
-
 const Btn = styled.button`
   position: relative;
   padding: 15pt 0;
@@ -233,7 +278,6 @@ const Btn = styled.button`
   letter-spacing: -0.02em;
   text-align: center;
   background: none;
-
   &.as {
     color: white;
     background-color: #5221cb;
@@ -243,5 +287,21 @@ const Btn = styled.button`
   @media (max-width: 899.25pt) {
     margin-top: 45pt;
     margin-bottom: 36pt;
+  }
+`;
+const BtnBox = styled.button`
+  width: 100%;
+  padding-top: 15pt;
+  padding-bottom: 39pt;
+  background-color: ${colors.main1};
+  .text {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12pt;
+    line-height: 12pt;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: ${colors.lightWhite};
   }
 `;

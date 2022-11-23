@@ -23,6 +23,9 @@ import checkSvg from 'public/images/check-small.png';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { handleColorAS } from 'utils/changeValue';
+import { dateFomat } from 'utils/calculatePackage';
+import useDebounce from 'hooks/useDebounce';
+import Loader from 'components/Loader';
 
 type Props = {};
 
@@ -57,6 +60,7 @@ interface AsResposne {
   };
 }
 
+const TAG = 'components/mypage/as/index.tsx';
 const AsIndex = (props: Props) => {
   const router = useRouter();
   const menuList: {} = [];
@@ -66,14 +70,18 @@ const AsIndex = (props: Props) => {
     bottom: false,
   });
   const [checkedFilterIndex, setCheckedFilterIndex] = useState<number>(0);
+  const [keywordSearch, setKeywordSearch] = useState('');
   const [checkedFilter, setCheckedFilter] = useState<string>('등록일순 보기');
   const filterList: string[] = ['등록일순 보기', '현장별 보기', '상태순 보기'];
   const filterListEn: string[] = ['register', 'site', 'status'];
+  const keyword = useDebounce(keywordSearch, 2000);
   // ----------------- AS 리스트 GET -----------------------
-  const { data, isError, isLoading } = useQuery<AsResposne>('asList', () =>
-    isTokenGetApi(
-      `/after-sales-services?sort=${filterListEn[checkedFilterIndex]}`,
-    ),
+  const { data, isError, isLoading, refetch, error } = useQuery<AsResposne>(
+    'asList',
+    () =>
+      isTokenGetApi(
+        `/after-sales-services?sort=${filterListEn[checkedFilterIndex]}&searchKeyword=${keyword}`,
+      ),
   );
   ('/api/after-sales-services?sort=register');
 
@@ -158,12 +166,25 @@ const AsIndex = (props: Props) => {
     }
   };
 
-  console.log(data);
-
   useEffect(() => {
     setCheckedFilter(filterList[checkedFilterIndex]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedFilterIndex]);
+  useEffect(() => {
+    refetch();
+    return () => {
+      setKeywordSearch('');
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkedFilter, keyword]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    console.log('🔥 유저 AS 리스트 에러 ~line 185 -> ' + TAG);
+    console.log(error);
+  }
 
   return (
     <Wrapper>
@@ -216,6 +237,8 @@ const AsIndex = (props: Props) => {
         {/* 검색 인풋 (웹 & 모바일) */}
         <WrapInput>
           <Input
+            value={keywordSearch}
+            onChange={(e) => setKeywordSearch(e.currentTarget.value)}
             placeholder="프로젝트를 검색하세요."
             type="text"
             InputProps={{
@@ -255,13 +278,7 @@ const AsIndex = (props: Props) => {
                 backgroundColor={handleColorAS(el?.badge)}
               />
 
-              <DateText>
-                {el.afterSalesService.createdAt
-                  .replace('T', ' ')
-                  .replace(/\..*/, '')
-                  .slice(0, -3)
-                  .replaceAll('-', '.')}
-              </DateText>
+              <DateText>{dateFomat(el.afterSalesService.createdAt)}</DateText>
             </ContentBottom>
           </ContentsWrapper>
         ))}

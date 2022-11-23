@@ -1,97 +1,191 @@
 import styled from '@emotion/styled';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import fileImg from 'public/mypage/file-icon.svg';
 import Image from 'next/image';
 import { Button } from '@mui/material';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
-import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import CommunicationIcon from 'public/images/communication-icon.svg';
 import camera from 'public/images/gray_camera.png';
 import { BusinessRegistrationType } from 'components/SignUp';
 import CloseImg from 'public/images/XCircle.svg';
+import { AsDetailReseponse } from 'pages/mypage/as';
+import { dateFomat, hyphenFn } from 'utils/calculatePackage';
+import { useMutation } from 'react-query';
+import { isTokenPostApi, multerApi } from 'api';
+import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
+import {
+  ImgFile,
+  MulterResponse,
+} from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
 
 type Props = {
-  request?: boolean;
-  requestConfirm?: boolean;
-  confirmWait?: boolean;
+  data?: AsDetailReseponse;
 };
 
-const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
+const AsCompText = ({ data }: Props) => {
   //dummy text
 
   const router = useRouter();
-  const [modalOpen, setModalOpen] = useState<boolean>();
-
+  const routerId = router?.query?.afterSalesServiceIdx;
+  const imgRef = useRef<any>(null);
+  // 모달
+  const [isModal, setIsModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  // 텍스트
+  const [acceptanceContent, setAcceptanceContent] = useState('');
+  const [afterSalesServiceResultContent, setAfterSalesServiceResultContent] =
+    useState('');
   // 필수 확인 채우면 버튼 활성화
-  const [isValid, setIsValid] = useState(false);
-
-  // 파일 다운로드 함수
-  const DownloadFile = useCallback(() => {
-    let fileName = 'Charge Point 카탈로그_7 KW';
-    let content = 'Charge Point 카탈로그_7 KW 테스트';
-    const blob = new Blob([content], {
-      type: 'text/plain',
-    });
-    const url = window.URL.createObjectURL(blob);
-    const element = document.createElement('a');
-    element.href = url;
-    element.download = fileName;
-    document.body.appendChild(element);
-    element.click();
-    element.remove();
-    window.URL.revokeObjectURL(url);
-  }, []);
-
+  const [isValidAcceptance, setIsValidAcceptance] = useState(false);
+  const [isValidCompletion, setIsValidCompletion] = useState(false);
   // 이미지
-  const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
+  const [imgArr, setImgArr] = useState<ImgFile[]>([]);
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      const newFile = [...imgArr];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      setImgArr(newFile);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setModalMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setModalMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setModalMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+  // 요청하기
+  const { mutate: acceptanceMutate, isLoading: acceptanceIsLoading } =
+    useMutation(isTokenPostApi, {
+      onSuccess: () => {
+        setIsModal(true);
+        setModalMessage('접수확인 되었습니다.');
+      },
+      onError: (error: any) => {
+        setIsModal(true);
+        setModalMessage('접수확인이 실패했습니다.\n다시 시도해주세요');
+      },
+    });
+  // 완료하기
+  const { mutate: completionMutate, isLoading: completionIsLoading } =
+    useMutation(isTokenPostApi, {
+      onSuccess: () => {
+        setIsModal(true);
+        setModalMessage('A/S 완료 되었습니다.');
+      },
+      onError: (error: any) => {
+        setIsModal(true);
+        setModalMessage('A/S 완료가 실패했습니다.\n다시 시도해주세요');
+      },
+    });
 
   // 사진 온클릭
-  // const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  //   imgRef?.current?.click();
-  // };
-
+  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    imgRef?.current?.click();
+  };
   // 사진 저장
-  // const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { files } = e.target;
-  //   //console.log('files', files, files![0])
-  //   const maxLength = 3;
-  //   // max길이 보다 짧으면 멈춤
-  //   const formData = new FormData();
-  //   for (let i = 0; i < maxLength; i += 1) {
-  //     if (files![i] === undefined) {
-  //       break;
-  //     }
-  //     formData.append(
-  //       'chargerProduct',
-  //       files![i],
-  //       encodeURIComponent(files![i].name),
-  //     );
-  //   }
-  //   multerImage(formData);
-
-  /* 파일 올린 후 혹은 삭제 후, 똑같은 파일 올릴 수 있도록*/
-  //   e.target.value = '';
-  // };
-
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 3;
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append(
+        'chargerProduct',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
+    }
+    multerImage(formData);
+    e.target.value = '';
+  };
   // 사진 삭제
-  // const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-  //   const name = Number(e.currentTarget.dataset.name);
-  //   const copyArr = [...imgArr];
-  //   for (let i = 0; i < copyArr.length; i++) {
-  //     if (i === name) {
-  //       copyArr.splice(i, 1);
-  //       return setImgArr(copyArr);
-  //     }
-  //   }
-  // };
+  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...imgArr];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setImgArr(copyArr);
+      }
+    }
+  };
+
+  // 모달 온클릭
+  const onClickModal = () => {
+    if (
+      modalMessage === '용량이 너무 큽니다.' ||
+      modalMessage === '다시 시도해주세요.'
+    ) {
+      setIsModal(false);
+    } else {
+      setIsModal(false);
+      router.replace('/company/as?id=0');
+    }
+  };
+  // 접수 확인 온클릭
+  const onClickAcceptance = () => {
+    acceptanceMutate({
+      url: `/after-sales-services/${routerId}/acceptance`,
+      data: {
+        acceptanceContent: acceptanceContent,
+      },
+    });
+  };
+  // A/S 완료하기
+  const onClickCompletion = () => {
+    completionMutate({
+      url: `/after-sales-services/${routerId}/completion`,
+      data: {
+        afterSalesServiceResultContent: afterSalesServiceResultContent,
+        afterSalesServiceCompletionFiles: imgArr,
+      },
+    });
+  };
+
+  // 유효성 검사
+  useEffect(() => {
+    acceptanceContent.length > 3
+      ? setIsValidAcceptance(true)
+      : setIsValidAcceptance(false);
+
+    afterSalesServiceResultContent.length > 3
+      ? setIsValidCompletion(true)
+      : setIsValidCompletion(false);
+  }, [acceptanceContent, afterSalesServiceResultContent]);
+
+  if (acceptanceIsLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
       <Wrapper>
+        {isModal && <Modal click={onClickModal} text={modalMessage} />}
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />
         </DownArrowBox>
@@ -99,11 +193,22 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
           <Customer>고객 정보</Customer>
           <div className="text-box">
             <span className="name">이름</span>
-            <span className="text">윤세아</span>
+            <span className="text">
+              {
+                data?.data?.afterSalesService?.afterSalesService?.project
+                  ?.finalQuotation?.preQuotation?.quotationRequest?.member?.name
+              }
+            </span>
           </div>
           <div className="text-box">
             <span className="name">연락처</span>
-            <span className="text phone">010-3392-0580</span>
+            <span className="text phone">
+              {hyphenFn(
+                data?.data?.afterSalesService?.afterSalesService?.project
+                  ?.finalQuotation?.preQuotation?.quotationRequest?.member
+                  ?.phone!,
+              )}
+            </span>
           </div>
         </Contents>
         <ReceiptTitle>접수내용</ReceiptTitle>
@@ -111,47 +216,50 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
           <Items>
             <span className="name">제목</span>
             <span className="value">
-              100kW 충전기의 충전 건이 파손되었습니다.
+              {data?.data?.afterSalesService?.afterSalesService?.requestTitle}
             </span>
           </Items>
           <Items>
             <span className="name">요청내용</span>
             <span className="value">
-              사용자의 실수로 충전 건이 파손되었습니다. 수리 또는 교체 해주세요.
+              {data?.data?.afterSalesService?.afterSalesService?.requestContent}
             </span>
           </Items>
           <Items>
             <span className="name">접수일자</span>
-            <span className="value">2022.05.17 18:13 </span>
+            <span className="value">
+              {dateFomat(
+                data?.data?.afterSalesService?.afterSalesService?.createdAt!,
+              )}
+            </span>
           </Items>
           <Items>
             <div className="name">첨부파일</div>
             <div className="value">
-              <FileBox>
-                <FileBtn onClick={DownloadFile}>
-                  <Image src={fileImg} alt="file-icon" />
-                  충전건 1.jpg
-                </FileBtn>
-                <FileBtn onClick={DownloadFile}>
-                  <Image src={fileImg} alt="file-icon" />
-                  충전건 2.jpg
-                </FileBtn>
-              </FileBox>
+              {data?.data?.afterSalesService?.afterSalesService?.afterSalesServiceRequestFiles?.map(
+                (file, index) => (
+                  <FileDownloadBtn key={index}>
+                    <FileDownload download={file.originalName} href={file.url}>
+                      <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                      {file.originalName}
+                    </FileDownload>
+                  </FileDownloadBtn>
+                ),
+              )}
             </div>
           </Items>
         </SecondList>
         {/* 1. 접수 요청 뱃지가 달려 있을 때 */}
-        {request === true && (
+        {data?.data?.afterSalesService?.badge?.includes('요청') && (
           <InputBox className="lastInputBox">
             <div className="withTextNumber">
               <span>접수확인</span>
-              {/* <span>{.length}/500</span> */}
-              <span>0/500</span>
+              <span>{acceptanceContent.length}/500</span>
             </div>
             <div className="monthFlex">
               <TextArea
-                // onChange={(e) => (e.target.value)}
-                // value={}
+                onChange={(e) => setAcceptanceContent(e.target.value)}
+                value={acceptanceContent}
                 name="firstPageTextArea"
                 placeholder="추정 원인 및 대응 계획에 대해 입력 후 &#13;&#10;접수 확인을 클릭해주세요!"
                 rows={5}
@@ -160,32 +268,40 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
           </InputBox>
         )}
         {/* 2. 접수 확인 뱃지가 달려 있을 때 */}
-        {requestConfirm === true && (
+        {data?.data?.afterSalesService?.badge?.includes('확인') && (
           <>
             <ReceiptTitle>접수확인</ReceiptTitle>
             <SecondList>
               <Items>
                 <span className="name">내용</span>
                 <span className="value">
-                  파손 정도 파악 및 수리/교체를 위해 금주 중 방문하도록
-                  하겠습니다.
+                  {
+                    data?.data?.afterSalesService?.afterSalesService
+                      ?.acceptanceContent
+                  }
                 </span>
               </Items>
               <Items>
                 <span className="name">답변일자</span>
-                <span className="value">2022.05.18 20:21 </span>
+                <span className="value">
+                  {dateFomat(
+                    data?.data?.afterSalesService?.afterSalesService
+                      ?.acceptanceDate!,
+                  )}
+                </span>
               </Items>
             </SecondList>
             <InputBox className="lastInputBox">
               <div className="withTextNumber">
                 <span>A/S결과</span>
-                {/* <span>{.length}/500</span> */}
-                <span>0/500</span>
+                <span>{afterSalesServiceResultContent.length}/500</span>
               </div>
               <div className="monthFlex">
                 <TextArea
-                  // onChange={(e) => (e.target.value)}
-                  // value={}
+                  onChange={(e) =>
+                    setAfterSalesServiceResultContent(e.target.value)
+                  }
+                  value={afterSalesServiceResultContent}
                   name="firstPageTextArea"
                   placeholder="A/S 결과를 입력해주세요"
                   rows={5}
@@ -196,15 +312,15 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
             <RemainderInputBox>
               <Label>사진첨부</Label>
               <PhotosBox>
-                <AddPhotos>
-                  <Image src={camera} alt="" />
+                <AddPhotos onClick={imgHandler}>
+                  <Image src={camera} alt="camera-icon" />
                 </AddPhotos>
                 <input
                   style={{ display: 'none' }}
-                  // ref={imgRef}
+                  ref={imgRef}
                   type="file"
                   accept="image/*"
-                  // onChange={saveFileImage}
+                  onChange={saveFileImage}
                   multiple
                 />
                 {/* <Preview> */}
@@ -219,8 +335,7 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
                       priority={true}
                       unoptimized={true}
                     />
-                    {/* <Xbox onClick={handlePhotoDelete} data-name={index}> */}
-                    <Xbox data-name={index}>
+                    <Xbox onClick={handlePhotoDelete} data-name={index}>
                       <Image
                         src={CloseImg}
                         data-name={index}
@@ -232,48 +347,75 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
                     </Xbox>
                   </ImgSpan>
                 ))}
-                {/* </Preview> */}
               </PhotosBox>
             </RemainderInputBox>
           </>
         )}
         {/* 3. 완료대기 뱃지가 달려 있을 때 */}
-        {confirmWait === true && (
+        {data?.data?.afterSalesService?.badge?.includes('대기') && (
           <>
             <ReceiptTitle>A/S결과</ReceiptTitle>
-            <SecondList>
+            <SecondList isLastChildren={true}>
               <Items>
                 <span className="name">내용</span>
-                <span className="value">충전 건 교체</span>
+                <span className="value">
+                  {
+                    data?.data?.afterSalesService?.afterSalesService
+                      ?.afterSalesServiceResultContent
+                  }
+                </span>
               </Items>
               <Items>
                 <span className="name">A/S일자</span>
-                <span className="value">2022/05.20 14:52</span>
+                <span className="value">
+                  {dateFomat(
+                    data?.data?.afterSalesService?.afterSalesService
+                      ?.afterSalesServiceResultDate!,
+                  )}
+                </span>
               </Items>
               <Items>
                 <div className="name">첨부파일</div>
                 <div className="value">
-                  <FileBox>
+                  {data?.data?.afterSalesService?.afterSalesService?.afterSalesServiceCompletionFiles?.map(
+                    (file, index) => (
+                      <FileDownloadBtn key={index}>
+                        <FileDownload
+                          download={file.originalName}
+                          href={file.url}
+                        >
+                          <Image
+                            src={fileImg}
+                            alt="file-icon"
+                            layout="intrinsic"
+                          />
+                          {file.originalName}
+                        </FileDownload>
+                      </FileDownloadBtn>
+                    ),
+                  )}
+                  {/* <FileBox>
                     <FileBtn onClick={DownloadFile}>
                       <Image src={fileImg} alt="file-icon" />
                       DSFJEIFKSL.jpg
                     </FileBtn>
-                  </FileBox>
+                  </FileBox> */}
                 </div>
               </Items>
             </SecondList>
           </>
         )}
-        {/* 나중에 data 연결된다면 onClick으로 백엔드에 text 적은거 보내 줘야해요! */}
-        {/* <Btn buttonActivate={isValid}  onClick={buttonOnClick}> </Btn>*/}
-        {request === true && <WebBtn buttonActivate={isValid}>접수확인</WebBtn>}
-        {requestConfirm === true && (
-          <WebBtn buttonActivate={isValid}>A/S 완료하기</WebBtn>
+        {/* 웹 버튼 */}
+        {data?.data?.afterSalesService?.badge?.includes('요청') && (
+          <WebBtn isValid={isValidAcceptance}>접수확인</WebBtn>
+        )}
+        {data?.data?.afterSalesService?.badge?.includes('확인') && (
+          <WebBtn isValid={isValidCompletion}>A/S 완료하기</WebBtn>
         )}
         {router.pathname !== `/company/as/history` && (
           <CommunityButton
             onClick={() => alert('소통하기로')}
-            confirmWait={confirmWait}
+            confirmWait={data?.data?.afterSalesService?.badge?.includes('대기')}
           >
             <div>
               <Image src={CommunicationIcon} alt="right-arrow" />
@@ -284,12 +426,16 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
             </div>
           </CommunityButton>
         )}
-
-        {/* 나중에 data 연결된다면 onClick으로 백엔드에 text 적은거 보내 줘야해요! */}
-        {/* <Btn buttonActivate={isValid}  onClick={buttonOnClick}> </Btn>*/}
-        {request === true && <Btn buttonActivate={isValid}>접수확인</Btn>}
-        {requestConfirm === true && (
-          <Btn buttonActivate={isValid}>A/S 완료하기</Btn>
+        {/* 앱 버튼 */}
+        {data?.data?.afterSalesService?.badge?.includes('요청') && (
+          <Btn isValid={isValidAcceptance} onClick={onClickAcceptance}>
+            접수확인
+          </Btn>
+        )}
+        {data?.data?.afterSalesService?.badge?.includes('확인') && (
+          <Btn isValid={isValidCompletion} onClick={onClickCompletion}>
+            A/S 완료하기
+          </Btn>
         )}
       </Wrapper>
     </>
@@ -377,11 +523,12 @@ const ReceiptTitle = styled.h1`
   color: ${colors.main2};
 `;
 
-const SecondList = styled.ul`
+const SecondList = styled.ul<{ isLastChildren?: boolean }>`
   margin-top: 12pt;
   padding-bottom: 18pt;
   gap: 12pt;
-  border-bottom: 1px solid #e9eaee; ;
+  border-bottom: ${({ isLastChildren }) =>
+    isLastChildren === true ? 'none' : '1px solid #e9eaee'};
 `;
 
 const Items = styled.li`
@@ -413,20 +560,6 @@ const Items = styled.li`
     position: relative;
   }
 `;
-
-const FileBox = styled.div``;
-
-const FileBtn = styled(Button)`
-  display: flex;
-  gap: 3pt;
-  /* margin-top: 15pt; */
-  padding: 7.5pt 6pt;
-  border: 0.75pt solid ${colors.lightGray3};
-  color: ${colors.gray2};
-  border-radius: 8px;
-  margin-bottom: 7.5pt;
-`;
-
 const InputBox = styled.div`
   display: flex;
   gap: 9pt;
@@ -500,7 +633,7 @@ const TextArea = styled.textarea`
   }
 `;
 
-const Btn = styled.div<{ buttonActivate: boolean }>`
+const Btn = styled.div<{ isValid: boolean }>`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -516,8 +649,7 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   margin-top: 30pt;
   /* border-radius: 6pt; */
   cursor: pointer;
-  background-color: ${({ buttonActivate }) =>
-    buttonActivate ? `#E2E5ED` : `#5221CB`};
+  background-color: ${({ isValid }) => (isValid ? `#5221CB` : `#E2E5ED`)};
   @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
@@ -527,7 +659,7 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   }
 `;
 
-const WebBtn = styled.div<{ buttonActivate: boolean }>`
+const WebBtn = styled.div<{ isValid: boolean }>`
   color: ${colors.lightWhite};
   width: 100%;
   padding: 15pt 0 15pt 0;
@@ -540,8 +672,7 @@ const WebBtn = styled.div<{ buttonActivate: boolean }>`
   margin-top: 30pt;
   border-radius: 6pt;
   cursor: pointer;
-  background-color: ${({ buttonActivate }) =>
-    buttonActivate ? `#E2E5ED` : `#5221CB`};
+  background-color: ${({ isValid }) => (isValid ? `#5221CB` : `#E2E5ED`)};
   @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
@@ -616,4 +747,17 @@ const Xbox = styled.div`
   position: absolute;
   top: -7pt;
   right: -7pt;
+`;
+const FileDownloadBtn = styled(Button)`
+  margin: 0 15pt 6pt 0;
+  padding: 7.5pt 6pt;
+  border: 0.75pt solid ${colors.lightGray3};
+  border-radius: 6pt;
+`;
+const FileDownload = styled.a`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 3pt;
+  color: ${colors.gray2};
 `;

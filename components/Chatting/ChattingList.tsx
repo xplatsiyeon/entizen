@@ -3,10 +3,53 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import defaultImg from 'public/images/default-img.png';
-import { TouchEvent, useRef } from "react";
+import { TouchEvent, useEffect, useRef, useState } from "react";
 
-const AllChattingList = () => {
+type Props = {
+    type: number
+}
 
+type UserChattingLogs = {
+        chattingRoomIdx: number,
+        companyMember: { //판매자 회원정보
+            memberIdx: number,
+            companyMemberAdditionalInfo: {
+                companyName: string
+            }
+        },
+        userMember: { //구매자 회원정보
+            memberIdx: number,
+            name: string,
+        },
+        chattingLogs: {
+            fromMemberIdx: number,
+            fromMemberType: string,
+            wasRead: boolean,
+            createdAt: string,
+            content: string,
+            fileUrl: string | null
+        }| null, //채팅방 정보
+        chattingRoomFavorite: { // 채팅방 즐겨찾기 관련 정보
+            chattingRoomFavoriteIdx: number,
+            isFavorite: boolean
+        },
+        chattingRoomNotification: { //채팅방 알림설정
+            chattingRoomNotificationIdx: number,
+            isSetNotification: boolean
+        }
+    }
+
+const ChattingList = ({ type }: Props) => {
+    
+    console.log('list', type)
+
+    //const [chattingType] = useState<number>(type);
+    const [dataArr, setDataArr] = useState<UserChattingLogs[]>([]);
+
+
+    useEffect(() => {
+        console.log('useEffect',type)
+        //여기서 데이터 get();
     const arr = {
         "isSuccess": true,
         "data": {
@@ -68,6 +111,26 @@ const AllChattingList = () => {
             }
         }
     }
+        if (type === 0) {
+            setDataArr(arr.data.chattingRooms.userChattingRooms)
+        }
+
+        if (type === 1) {
+            const wasRead = arr.data.chattingRooms.userChattingRooms.filter((ele, idx) => {
+                return !(ele.chattingLogs?.wasRead)
+            }
+            )
+            setDataArr(wasRead);
+        }
+
+        if(type === 2){
+            const favoriteArr = arr.data.chattingRooms.userChattingRooms.filter((f,idx)=>{
+                return f.chattingRoomFavorite.isFavorite === true
+            }) 
+            setDataArr(favoriteArr)
+        }
+    }, [type] 
+    /*부모 컴포넌트가 렌더링되거나 내부 요인으로 렌더링 되어도 전달되는 type이 바뀌지않으면 api 호출하지않음 */)
 
     {/*메세지 시간 표현 처리 함수 */ }
     const handleTime = (target: string | undefined) => {
@@ -119,9 +182,9 @@ const AllChattingList = () => {
         } else {
             pressed = true;
             prev = e.changedTouches[0].clientX;
-            if(!e.currentTarget.style.transform){
+            if (!e.currentTarget.style.transform) {
                 e.currentTarget.style.transform = `translateX(-25%)`
-            }else{
+            } else {
                 console.log(e.currentTarget.style.transform)
             }
 
@@ -153,30 +216,31 @@ const AllChattingList = () => {
         }
     }
 
-    const touchEnd = ()=>{
+    const touchEnd = () => {
         pressed = false;
     }
 
-    {/* 디테일 페이지 이동 */}
+    {/* 디테일 페이지 이동 */ }
     const router = useRouter();
-    
-    const handleRoute= (idx:number, comIdx : number) =>{
+
+   const handleRoute = (idx: number, comIdx: number) => {
+    console.log('route')
         router.push({
-            pathname: `/chatting/chattingRoom`,
+            pathname: `/chatting`,
             query: {
-                memberId : idx,
-                companyMemberId : comIdx 
+                memberId: idx,
+                companyMemberId: comIdx,
             },
         })
-    }
+    } 
 
 
     return (
         <Body ref={chattingList} >
-            {arr.data.chattingRooms.userChattingRooms.map((chatting, idx) => {
+            {dataArr.map((chatting, idx) => {
                 return (
                     <Chatting className="chattingRoom" key={idx} onTouchStart={(e) => touchStart(e)}
-                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} onClick={()=>handleRoute(chatting.userMember.memberIdx, chatting.companyMember.memberIdx)}>
+                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} onClick={() => handleRoute(chatting.userMember.memberIdx, chatting.companyMember.memberIdx)}>
                         <HiddenBox1>
                             <FavoriteBtn></FavoriteBtn>
                             <AlramBtn></AlramBtn>
@@ -196,7 +260,7 @@ const AllChattingList = () => {
                                 <Created>{handleTime(chatting.chattingLogs?.createdAt)}</Created>
                                 <Box>
                                     <UnRead wasRead={chatting.chattingLogs?.wasRead || undefined} />
-                                    <Favorite>{chatting.chattingRoomFavorite ? <>t</> : <>f</>}</Favorite>
+                                    <Favorite>{chatting.chattingRoomFavorite.isFavorite ? <>t</> : <>f</>}</Favorite>
                                 </Box>
                             </ChattingRoomInfo>
                         </ChattingRoom>
@@ -210,7 +274,7 @@ const AllChattingList = () => {
     )
 }
 
-export default AllChattingList;
+export default ChattingList;
 
 const Body = styled.div`
 font-family: 'Spoqa Han Sans Neo';
