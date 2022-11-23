@@ -78,21 +78,21 @@ const AllChattingList = () => {
             const createdAt = dayjs(target).format("HH:mm");
 
             //오전, 오후로 나누기
-            const pm = dayjs(target).subtract(9, 'h').format('HH:mm');
+            const pm = dayjs(target).subtract(12, 'h').format('HH:mm');
             if (Number(pm.substring(0, 3)) > 12) {
                 return `오후 ${pm}`
             } else {
-                return `오전 ${createdAt}`
+                return `오전 ${pm}`
             }
 
         } else if ((diff > 24) && (diff < 48)) {
             const createdAt = dayjs(target).format("HH:mm");
-            const pm = dayjs(target).subtract(9, 'h').format('HH:mm');
+            const pm = dayjs(target).subtract(12, 'h').format('HH:mm');
 
             if (Number(pm.substring(0, 3)) > 12) {
                 return `어제 ${pm}`
             } else {
-                return `어제 ${createdAt}`
+                return `어제 ${pm}`
             }
         } else {
             const createdAt = dayjs(target).format("YYYY-MM-DD HH:mm");
@@ -183,6 +183,7 @@ const AllChattingList = () => {
                         </HiddenBox1>
                         <ChattingRoom className="content-box" >
                             <ChattingRoomImage>
+                                {/* 이미지 파일 src가 없으면 */}
                                 <ImageWrap>
                                     <Image src={defaultImg} layout='fill' />
                                 </ImageWrap>
