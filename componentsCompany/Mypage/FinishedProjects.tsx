@@ -334,7 +334,8 @@ const Button = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: center;
-  margin-top: 45pt;
+  margin-top: 25pt;
+  margin-bottom: 100pt;
   @media (min-width: 900pt) {
     width: 251.25pt;
     margin: 0 auto;

@@ -2,23 +2,61 @@ import styled from '@emotion/styled';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import CommonBtns from 'components/mypage/as/CommonBtns';
 import Image from 'next/image';
-import { useState } from 'react';
+import React, { useState } from 'react';
+// import UpArrow from 'public/guide/up_arrow.svg';
 import UpArrow from 'public/guide/up_arrow.svg';
+// import DownArrow from 'public/guide/down_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import { handleColorAS } from 'utils/changeValue';
 import colors from 'styles/colors';
+import { AsDetailReseponse } from 'pages/mypage/as';
+import { useQuery } from '@apollo/client';
+import { asRequest, AsRequest } from 'QueryComponents/UserQuery';
+import { convertKo } from 'utils/calculatePackage';
+import {
+  InstallationPurposeType,
+  InstallationPurposeTypeEn,
+  location,
+  locationEn,
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+  subscribeType,
+  subscribeTypeEn,
+} from 'assets/selectList';
 
 type Props = {
   id?: number;
+  data?: AsDetailReseponse;
 };
 
-const AsCompTop = ({ id }: Props) => {
+const AsCompTop = ({ id, data }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
-  const handleClick = () => setOpen(!open);
+  const projectIdx =
+    data?.data?.afterSalesService?.afterSalesService?.projectIdx;
 
-  // mock data 충전기 위치 갯수에 따라서 나오는 위치도 변경댐!
-  // const data = [0];
-  const data = [0, 1, 2];
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    loading: projectLoading,
+    error: projectError,
+    data: projectData,
+    refetch,
+  } = useQuery<AsRequest>(asRequest, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+    variables: {
+      projectIdx: projectIdx,
+    },
+  });
+
+  const handleClick = () => setOpen(!open);
 
   return (
     <>
@@ -27,9 +65,14 @@ const AsCompTop = ({ id }: Props) => {
         <ItemButton onClick={handleClick}>
           <StoreName>
             {/* a/s 히스토리는 완료된 배지만 사용 (검은색) */}
-            <CommonBtns text={'A/S'} backgroundColor={handleColorAS('접수')} />
+            <CommonBtns
+              text={data?.data?.afterSalesService?.badge!}
+              backgroundColor={handleColorAS(
+                data?.data.afterSalesService.badge!,
+              )}
+            />
             <div>
-              <h1>LS 안양 주유소</h1>
+              <h1>{projectData?.project?.projectName}</h1>
               {open ? (
                 <ArrowImg>
                   <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -40,7 +83,6 @@ const AsCompTop = ({ id }: Props) => {
                 </ArrowImg>
               )}
             </div>
-            <p>경기도 안양시 동안구 엘에스로 127</p>
           </StoreName>
         </ItemButton>
 
@@ -50,79 +92,138 @@ const AsCompTop = ({ id }: Props) => {
             <Contents>
               <div className="text-box">
                 <span className="name">프로젝트 번호</span>
-                <span className="text">GGO0M002203</span>
+                <span className="text">
+                  {projectData?.project?.projectNumber}
+                </span>
               </div>
               <div className="text-box">
                 <span className="name">구독상품</span>
-                <span className="text">부분구독</span>
+                <span className="text">
+                  {convertKo(
+                    subscribeType,
+                    subscribeTypeEn,
+                    projectData?.project?.finalQuotation?.subscribeProduct,
+                  )}
+                </span>
               </div>
               <div className="text-box">
                 <span className="name">구독기간</span>
-                <span className="text">60 개월</span>
+                <span className="text">
+                  {`${projectData?.project?.finalQuotation?.subscribePeriod} 개월`}
+                </span>
               </div>
               <div className="text-box">
                 <span className="name">수익지분</span>
-                <span className="text">100%</span>
+                <span className="text">{`${Math.floor(
+                  Number(projectData?.project?.finalQuotation?.userInvestRate) *
+                    100,
+                )} %`}</span>
               </div>
 
-              {/* 충전기 종류 및 수량은 복수일 수 있으므로... 임의의 배열.map() 해둠*/}
-              <div className="text-box  charger-list">
-                <span className="name">충전기 종류 및 수량</span>
-                <div className="charger">
-                  {data.map((el, index) => {
-                    return (
-                      <span className="text" key={index}>
-                        100kW 충전기
-                        <br />
-                        {':'}
-                        스탠드, 싱글, 3대
+              {projectData?.project?.finalQuotation?.finalQuotationChargers?.map(
+                (item, index) => (
+                  <React.Fragment key={index}>
+                    <div className="text-box">
+                      <span className="name">
+                        {index === 0 ? '충전기 종류 및 수량' : ''}
                       </span>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* 충전기 설치 위치는 복수일 수 있으므로... 임의의 배열.map() 해둠*/}
-              {/* 충전기 제조사 1개 일 때 */}
-              <>
-                {data.length === 1 && (
-                  <div className="text-box charger-place">
-                    <span className="name">충전기 설치 위치</span>
-                    <div className="charger">
-                      {[0].map((el, index) => {
-                        return (
-                          <span className="text" key={index}>
-                            건물 밖
-                          </span>
-                        );
-                      })}
+                      <span className="text">
+                        {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                        <br />
+                        {item.standType
+                          ? //  standType 있으면
+                            `: ${convertKo(
+                              M6_LIST,
+                              M6_LIST_EN,
+                              item.standType,
+                            )}, ${convertKo(
+                              M7_LIST,
+                              M7_LIST_EN,
+                              item.channel,
+                            )}, ${item.count} 대`
+                          : // standType 없으면
+                            `: ${convertKo(
+                              M7_LIST,
+                              M7_LIST_EN,
+                              item.channel,
+                            )}, ${item.count} 대`}
+                      </span>
                     </div>
-                  </div>
-                )}
-              </>
+                  </React.Fragment>
+                ),
+              )}
 
+              {/* 충전기 설치 위치  1개 */}
+              {projectData?.project.finalQuotation.finalQuotationChargers
+                .length === 1 && (
+                <div className="text-box">
+                  <span className="name">충전기 설치 위치</span>
+                  <span className="text">
+                    {convertKo(
+                      location,
+                      locationEn,
+                      projectData?.project.finalQuotation
+                        .finalQuotationChargers[0].installationLocation,
+                    )}
+                  </span>
+                </div>
+              )}
               <div className="text-box">
                 <span className="name">충전기 설치 목적</span>
-                <span className="text">전기차 충전 사업</span>
+                <span className="text">
+                  {convertKo(
+                    InstallationPurposeType,
+                    InstallationPurposeTypeEn,
+                    projectData?.project?.finalQuotation?.quotationRequest
+                      ?.installationPurpose,
+                  )}
+                </span>
               </div>
-              <div className="text-box">
-                <span className="name">기타 요청 사항</span>
-                <span className="text">없음</span>
-              </div>
+              {/* 기타 요청사항 */}
+              {projectData?.project?.finalQuotation?.quotationRequest
+                ?.etcRequest.length! >= 1 ? (
+                <div className="text-box">
+                  <span className="name">기타 요청사항</span>
+                  <span className="text">
+                    {
+                      projectData?.project?.finalQuotation?.quotationRequest
+                        ?.etcRequest
+                    }
+                  </span>
+                </div>
+              ) : (
+                <div className="text-box">
+                  <span className="name">기타 요청사항</span>
+                  <span className="text">없음</span>
+                </div>
+              )}
+
               {/* 충전기 제조사 2개 이상 일 때 */}
-              {data.length !== 1 && (
+              {projectData?.project.finalQuotation.finalQuotationChargers
+                .length! !== 1 && (
                 <>
                   <MultiSection>
                     <BorderTop></BorderTop>
                     <Subtitle>충전기 설치위치</Subtitle>
-                    {data.map((item, index) => (
-                      <MultiBox key={index}>
-                        <Item>
-                          <span className="name">100kW 충전기(공용)</span>
-                          <span className="value">건물 안</span>
-                        </Item>
-                      </MultiBox>
-                    ))}
+                    {projectData?.project?.finalQuotation?.finalQuotationChargers?.map(
+                      (item, index) => (
+                        <MultiBox key={index}>
+                          <Item>
+                            <span className="name">
+                              {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                            </span>
+                            <span className="value">
+                              {' '}
+                              {convertKo(
+                                location,
+                                locationEn,
+                                item?.installationLocation,
+                              )}
+                            </span>
+                          </Item>
+                        </MultiBox>
+                      ),
+                    )}
                   </MultiSection>
                 </>
               )}

@@ -18,6 +18,7 @@ import PlaceGetReview from 'components/mypage/place/PlaceGetReview';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
+import UserRightMenu from 'components/UserRightMenu';
 
 export interface testArr2 extends testArr {
   address: string;
@@ -127,6 +128,7 @@ const ChargingPlace = () => {
     <>
       <Body>
         <WebHeader />
+        <UserRightMenu />
         <Inner>
           <FlexBox>
             {hideTopBox === true && (

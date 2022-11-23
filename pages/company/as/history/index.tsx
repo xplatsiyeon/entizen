@@ -13,6 +13,7 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import { useEffect, useState } from 'react';
 import LeftASBox from 'componentsCompany/AS/LeftASBox';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 const AsHistory = () => {
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -43,6 +44,7 @@ const AsHistory = () => {
         setOpenSubLink={setOpenSubLink}
       />
       <Container>
+        <CompanyRightMenu />
         <WebRapper>
           {nowWidth > 1198.7 && (
             <LeftASBox

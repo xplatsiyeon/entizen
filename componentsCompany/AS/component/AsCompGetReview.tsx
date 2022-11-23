@@ -123,7 +123,7 @@ const RBar = styled.div`
 `;
 
 const Title = styled.p`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 400;
   line-height: 12pt;

@@ -26,6 +26,7 @@ import { useQuery } from 'react-query';
 import { Count } from '.';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
+import UserRightMenu from 'components/UserRightMenu';
 
 const Main = () => {
   const router = useRouter();
@@ -78,6 +79,7 @@ const Main = () => {
         />
       )}
       <WebHeader />
+      <UserRightMenu />
       <CarouselWrap>
         <Carousel />
       </CarouselWrap>

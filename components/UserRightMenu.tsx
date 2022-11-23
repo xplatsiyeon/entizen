@@ -49,6 +49,7 @@ const UserRightMenu = () => {
 
 const MenuRapper = styled.div`
   position: fixed;
+  z-index: 100;
   right: 20pt;
   top: 165pt;
   border-radius: 12pt;
@@ -96,7 +97,7 @@ const ImageBoxL = styled.div`
 `;
 
 const MenuTitle = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 12pt;

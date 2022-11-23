@@ -11,7 +11,7 @@ const HeadWrapper = styled.div`
   padding-top: 9pt;
   padding-bottom: 9pt;
   margin: 0 auto;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 18pt;

@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import Guide from 'public/guide/guide1.png';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import UserRightMenu from 'components/UserRightMenu';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -36,6 +37,7 @@ const Guide1_1 = () => {
       <WebHeader num={0} now={'guide'} />
       <Wrapper>
         {/* 링크 리스트 */}
+        <UserRightMenu />
         <GuideHeader
           title={'플랫폼 가이드'}
           leftOnClick={() => router.back()}

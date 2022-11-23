@@ -10,6 +10,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import Image from 'next/image';
 import ChatsIcon from 'public/mypage/myProjectChats.png';
 import arrowRGr from 'public/mypage/ChatsArrow.png';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 type Props = {};
 
@@ -51,6 +52,7 @@ const successedProject = (props: Props) => {
         componentId={componentId}
         openSubLink={openSubLink}
       />
+      <CompanyRightMenu />
       <WebRapper>
         {nowWidth > 1198.7 && (
           <LeftProjectBox

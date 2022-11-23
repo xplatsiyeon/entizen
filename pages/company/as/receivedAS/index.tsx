@@ -14,6 +14,7 @@ import {
 } from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
 import AsCompText from 'componentsCompany/AS/component/AsCompText';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 // type Props = {
 //   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
@@ -131,6 +132,7 @@ const ReceivedAS = (props: Props) => {
           setOpenSubLink={setOpenSubLink}
         />
         <Container>
+          <CompanyRightMenu />
           <WebRapper>
             {nowWidth > 1198.7 && (
               <LeftASBox

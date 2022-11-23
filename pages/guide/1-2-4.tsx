@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
+import UserRightMenu from 'components/UserRightMenu';
 
 const Guide1_2_4 = () => {
   const router = useRouter();
@@ -38,6 +39,7 @@ const Guide1_2_4 = () => {
     <Body>
       <WebHeader num={3} now={'guide'} />
       <Wrapper>
+        <UserRightMenu />
         <GuideHeader
           title={'보조금 가이드'}
           leftOnClick={() => router.back()}

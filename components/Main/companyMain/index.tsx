@@ -337,7 +337,7 @@ const WhetherLogin = styled.div`
   & span {
   }
   & span:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 700;
     line-height: 15pt;
@@ -367,7 +367,7 @@ const WhetherLoginComplete = styled.div`
   margin-top: 9.75pt;
   position: relative;
   & span:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 700;
     line-height: 15pt;
@@ -431,7 +431,7 @@ const WhiteAreaBottomText = styled.div`
   justify-content: space-between;
   margin-top: 15pt;
   & span {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 400;
     line-height: 12pt;

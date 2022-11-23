@@ -12,22 +12,17 @@ import CommunicationIcon from 'public/images/communication-icon.svg';
 import camera from 'public/images/gray_camera.png';
 import { BusinessRegistrationType } from 'components/SignUp';
 import CloseImg from 'public/images/XCircle.svg';
-
 type Props = {
   request?: boolean;
   requestConfirm?: boolean;
   confirmWait?: boolean;
 };
-
 const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
   //dummy text
-
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>();
-
   // 필수 확인 채우면 버튼 활성화
   const [isValid, setIsValid] = useState(false);
-
   // 파일 다운로드 함수
   const DownloadFile = useCallback(() => {
     let fileName = 'Charge Point 카탈로그_7 KW';
@@ -44,16 +39,13 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
     element.remove();
     window.URL.revokeObjectURL(url);
   }, []);
-
   // 이미지
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
-
   // 사진 온클릭
   // const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
   //   e.preventDefault();
   //   imgRef?.current?.click();
   // };
-
   // 사진 저장
   // const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const { files } = e.target;
@@ -72,11 +64,9 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
   //     );
   //   }
   //   multerImage(formData);
-
   /* 파일 올린 후 혹은 삭제 후, 똑같은 파일 올릴 수 있도록*/
   //   e.target.value = '';
   // };
-
   // 사진 삭제
   // const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
   //   const name = Number(e.currentTarget.dataset.name);
@@ -88,7 +78,6 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
   //     }
   //   }
   // };
-
   return (
     <>
       <Wrapper>
@@ -284,7 +273,6 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
             </div>
           </CommunityButton>
         )}
-
         {/* 나중에 data 연결된다면 onClick으로 백엔드에 text 적은거 보내 줘야해요! */}
         {/* <Btn buttonActivate={isValid}  onClick={buttonOnClick}> </Btn>*/}
         {request === true && <Btn buttonActivate={isValid}>접수확인</Btn>}
@@ -295,7 +283,6 @@ const AsCompText = ({ request, requestConfirm, confirmWait }: Props) => {
     </>
   );
 };
-
 export default AsCompText;
 
 const Wrapper = styled.div`
@@ -303,12 +290,10 @@ const Wrapper = styled.div`
   /* padding-left: 15pt;
   padding-right: 15pt; */
 `;
-
 const DownArrowBox = styled.div`
   display: flex;
   justify-content: center;
 `;
-
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
@@ -320,7 +305,6 @@ const Contents = styled.div`
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
     }
-
     .emailText {
       font-family: Spoqa Han Sans Neo;
       font-size: 12pt;
@@ -330,7 +314,6 @@ const Contents = styled.div`
       text-align: right;
     }
   }
-
   .name {
     font-weight: 500;
     font-size: 10.5pt;
@@ -351,13 +334,11 @@ const Contents = styled.div`
     padding-bottom: 24pt;
     text-align: center;
   }
-
   .phone {
     text-decoration: underline;
     color: ${colors.main};
   }
 `;
-
 const Customer = styled.div`
   font-family: Spoqa Han Sans Neo;
   font-size: 12pt;
@@ -367,7 +348,6 @@ const Customer = styled.div`
   text-align: left;
   padding-bottom: 24pt;
 `;
-
 const ReceiptTitle = styled.h1`
   font-weight: 700;
   font-size: 12pt;
@@ -376,14 +356,12 @@ const ReceiptTitle = styled.h1`
   letter-spacing: -0.02em;
   color: ${colors.main2};
 `;
-
 const SecondList = styled.ul`
   margin-top: 12pt;
   padding-bottom: 18pt;
   gap: 12pt;
   border-bottom: 1px solid #e9eaee; ;
 `;
-
 const Items = styled.li`
   display: flex;
   gap: 26.5pt;
@@ -413,9 +391,7 @@ const Items = styled.li`
     position: relative;
   }
 `;
-
 const FileBox = styled.div``;
-
 const FileBtn = styled(Button)`
   display: flex;
   gap: 3pt;
@@ -426,7 +402,6 @@ const FileBtn = styled(Button)`
   border-radius: 8px;
   margin-bottom: 7.5pt;
 `;
-
 const InputBox = styled.div`
   display: flex;
   gap: 9pt;
@@ -482,7 +457,6 @@ const InputBox = styled.div`
     gap: 12pt;
   }
 `;
-
 const TextArea = styled.textarea`
   resize: none;
   border: 1px solid ${colors.gray};
@@ -499,7 +473,6 @@ const TextArea = styled.textarea`
     color: #caccd1;
   }
 `;
-
 const Btn = styled.div<{ buttonActivate: boolean }>`
   position: absolute;
   bottom: 0;
@@ -526,7 +499,6 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
     display: none;
   }
 `;
-
 const WebBtn = styled.div<{ buttonActivate: boolean }>`
   color: ${colors.lightWhite};
   width: 100%;
@@ -550,7 +522,6 @@ const WebBtn = styled.div<{ buttonActivate: boolean }>`
     display: none;
   }
 `;
-
 const CommunityButton = styled.button<{
   confirmWait: boolean | undefined;
 }>`
@@ -572,13 +543,11 @@ const CommunityButton = styled.button<{
     margin: 60pt auto 0;
   }
 `;
-
 const RemainderInputBox = styled.div`
   flex-direction: column;
   display: flex;
   margin-top: 24pt;
 `;
-
 const Label = styled.label`
   font-family: Spoqa Han Sans Neo;
   font-size: 10.5pt;
@@ -587,7 +556,6 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   text-align: left;
 `;
-
 const PhotosBox = styled.div`
   width: 100%;
   height: 56.0625pt;
@@ -596,7 +564,6 @@ const PhotosBox = styled.div`
   gap: 9.1875pt;
   align-items: center;
 `;
-
 const AddPhotos = styled.button`
   display: inline-block;
   width: 56.0625pt;
@@ -605,7 +572,6 @@ const AddPhotos = styled.button`
   background-color: #ffffff;
   border-radius: 6pt;
 `;
-
 const ImgSpan = styled.div`
   position: relative;
   width: 56.0625pt;

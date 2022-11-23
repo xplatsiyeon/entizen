@@ -47,7 +47,9 @@ const CompanyRightMenu = () => {
         </MenuBox>
         <MenuBox
           onClick={() => {
-            alert(`내 제품 리스트`);
+            router.push({
+              pathname: '/company/myProductList',
+            });
           }}
         >
           <ImageBoxL>

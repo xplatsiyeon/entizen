@@ -117,7 +117,7 @@ const ContentText = styled.div`
     padding-bottom: 12pt;
   }
   .subText {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 500;
     line-height: 15pt;

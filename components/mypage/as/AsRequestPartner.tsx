@@ -7,7 +7,7 @@ import fileImg from 'public/mypage/file-icon.svg';
 import { useCallback, useState } from 'react';
 import CallManager from 'components/Modal/CallManager';
 import { AsDetailReseponse } from 'pages/mypage/as';
-import { hyphenFn } from 'utils/calculatePackage';
+import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 
 interface Props {
   pb?: number;
@@ -63,6 +63,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
             </span>
           </Item>
         </List>
+        {/* ---------------------접수 내용-------------------- */}
         <ReceiptTitle>접수내용</ReceiptTitle>
         <SecondList>
           <Items>
@@ -85,11 +86,9 @@ const AsRequestPartner = ({ pb, data }: Props) => {
           <Items>
             <span className="name">접수일자</span>
             <span className="value">
-              {data?.data?.afterSalesService?.afterSalesService?.createdAt
-                .replace('T', ' ')
-                .replace(/\..*/, '')
-                .slice(0, -3)
-                .replaceAll('-', '.')}
+              {dateFomat(
+                data?.data?.afterSalesService?.afterSalesService?.createdAt,
+              )}
             </span>
           </Items>
           <Items>
@@ -109,43 +108,81 @@ const AsRequestPartner = ({ pb, data }: Props) => {
           </Items>
         </SecondList>
         {/* ---------------------접수 확인-------------------- */}
-        {/* <ReceiptTitle>접수확인</ReceiptTitle>
-        <SecondList>
-          <Items>
-            <span className="name">내용</span>
-            <span className="value">
-              파손 정도 파악 및 수리/교체를 위해
-              <br />
-              금주 중 방문하도록 하겠습니다.
-            </span>
-          </Items>
-          <Items>
-            <span className="name">접수일자</span>
-            <span className="value">2022.05.18 20:21 </span>
-          </Items>
-        </SecondList> */}
+        {data?.data?.afterSalesService?.afterSalesService?.acceptanceDate! && (
+          <>
+            <ReceiptTitle>접수확인</ReceiptTitle>
+            <SecondList>
+              <Items>
+                <span className="name">내용</span>
+                <span className="value">
+                  {
+                    data?.data?.afterSalesService?.afterSalesService
+                      ?.acceptanceContent
+                  }
+                </span>
+              </Items>
+              <Items>
+                <span className="name">접수일자</span>
+                <span className="value">
+                  {dateFomat(
+                    data?.data?.afterSalesService?.afterSalesService
+                      ?.acceptanceDate!,
+                  )}
+                </span>
+              </Items>
+            </SecondList>
+          </>
+        )}
 
         {/* ----------------------A/S 결과-------------------- */}
-        {/* <ReceiptTitle>A/S결과</ReceiptTitle>
-        <SecondList>
-          <Items>
-            <span className="name">내용</span>
-            <span className="value">충전 건 교체</span>
-          </Items>
-          <Items>
-            <span className="name">A/S일자</span>
-            <span className="value">2022/05.20 14:52</span>
-          </Items>
-          <Items>
-            <div className="name">첨부파일</div>
-            <div className="value">
-              <FileBtn onClick={DownloadFile}>
-                <Image src={fileImg} alt="file-icon" />
-                DSFJEIFKSL.jpg
-              </FileBtn>
-            </div>
-          </Items>
-        </SecondList> */}
+        {data?.data?.afterSalesService?.afterSalesService
+          .afterSalesServiceResultDate! && (
+          <>
+            <ReceiptTitle>A/S결과</ReceiptTitle>
+            <SecondList>
+              <Items>
+                <span className="name">내용</span>
+                <span className="value">
+                  {
+                    data?.data?.afterSalesService?.afterSalesService
+                      .afterSalesServiceResultContent!
+                  }
+                </span>
+              </Items>
+              <Items>
+                <span className="name">A/S일자</span>
+                <span className="value">
+                  {dateFomat(
+                    data?.data?.afterSalesService?.afterSalesService
+                      .afterSalesServiceResultDate!,
+                  )}
+                </span>
+              </Items>
+              <Items>
+                <div className="name">첨부파일</div>
+                <div className="value">
+                  {data?.data?.afterSalesService?.afterSalesService?.afterSalesServiceCompletionFiles?.map(
+                    (file, index) => (
+                      <FileDownloadBtn key={index}>
+                        <FileDownload
+                          download={file.originalName}
+                          href={file.url}
+                        >
+                          <Image
+                            src={fileImg}
+                            alt="file-icon"
+                            layout="intrinsic"
+                          />
+                          {file.originalName}
+                        </FileDownload>
+                      </FileDownloadBtn>
+                    ),
+                  )}
+                </div>
+              </Items>
+            </SecondList>
+          </>
+        )}
       </Wrapper>
     </>
   );

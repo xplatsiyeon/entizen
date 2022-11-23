@@ -69,9 +69,9 @@ const AsRequest = ({ data }: Props) => {
         <ItemButton onClick={handleClick}>
           <StoreName>
             <CommonBtns
-              text={data?.data?.afterSalesService?.badge}
+              text={data?.data?.afterSalesService?.badge!}
               backgroundColor={handleColorAS(
-                data?.data?.afterSalesService?.badge,
+                data?.data?.afterSalesService?.badge!,
               )}
             />
             <div>
@@ -216,7 +216,6 @@ const AsRequest = ({ data }: Props) => {
                               {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
                             </span>
                             <span className="value">
-                              {' '}
                               {convertKo(
                                 location,
                                 locationEn,

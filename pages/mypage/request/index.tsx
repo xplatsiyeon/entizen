@@ -25,6 +25,7 @@ import Image from 'next/image';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import M17Modal from 'components/Modal/M17Modal';
+import UserRightMenu from 'components/UserRightMenu';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -254,6 +255,7 @@ const Mypage1_3 = ({}: any) => {
 
       <Body>
         <WebHeader num={0} now={'mypage'} />
+        <UserRightMenu />
         <Inner>
           <FlexBox>
             <Wrap1>

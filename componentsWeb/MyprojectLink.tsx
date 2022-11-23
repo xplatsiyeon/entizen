@@ -140,8 +140,7 @@ const Wrap = styled.ul<{ openSubLink: boolean }>`
   width: 900pt;
   height: 44.5pt;
   margin: 0 auto;
-  /* display: ${({ openSubLink }) =>
-    openSubLink === false ? 'none' : 'block'}; */
+  display: ${({ openSubLink }) => (openSubLink === false ? 'none' : 'block')};
   :hover {
     width: 900pt;
     height: 44.5pt;

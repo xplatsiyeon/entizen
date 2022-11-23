@@ -78,7 +78,7 @@ const ConfirmBtn = styled.div`
   background-color: ${colors.main};
   border-radius: 6pt;
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
@@ -118,7 +118,7 @@ const InputBox = styled.div`
   border-radius: 6pt;
 `;
 const TextHeader = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 15pt;
@@ -127,7 +127,7 @@ const TextHeader = styled.div`
   color: #5221cb;
 `;
 const TextBody = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 15pt;
@@ -137,7 +137,7 @@ const TextBody = styled.div`
   margin-top: 15pt;
 `;
 const TextFooter = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 15pt;

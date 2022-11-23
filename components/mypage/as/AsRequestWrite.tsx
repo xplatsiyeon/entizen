@@ -338,7 +338,7 @@ const AsRequestWrite = () => {
           <Label>사진첨부</Label>
           <PhotosBox>
             <AddPhotos onClick={imgHandler}>
-              <Image src={camera} alt="" />
+              <Image src={camera} alt="camera-icon" />
             </AddPhotos>
             <input
               style={{ display: 'none' }}
@@ -349,7 +349,7 @@ const AsRequestWrite = () => {
               multiple
             />
             {/* <Preview> */}
-            {review.map((img: any, index: any) => (
+            {review?.map((img, index) => (
               <ImgSpan key={index} data-name={index}>
                 <Image
                   layout="fill"
@@ -372,7 +372,6 @@ const AsRequestWrite = () => {
                 </Xbox>
               </ImgSpan>
             ))}
-            {/* </Preview> */}
           </PhotosBox>
         </RemainderInputBox>
       </Container>
@@ -413,7 +412,7 @@ const RemainderInputBox = styled.div`
   margin-top: 24pt;
 `;
 const Label = styled.label`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
@@ -495,7 +494,7 @@ const NextBtn = styled.button<{ checkAll: boolean }>`
   padding-bottom: 15pt;
   background-color: ${({ checkAll }) =>
     checkAll ? `${colors.main}` : `${colors.blue3}`};
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
