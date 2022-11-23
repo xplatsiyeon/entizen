@@ -1,20 +1,47 @@
 import styled from '@emotion/styled';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 import MypageHeader from 'components/mypage/request/header';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { useQuery } from 'react-query';
+import { AsDetailReseponse } from '.';
 
 type Props = {};
 
 // 리뷰 완료 리뷰 확인 가능 페이지
 
-const score = [4, 3, 5, 4];
-
 const MyReview = (props: Props) => {
+  const router = useRouter();
+  const routerId = router?.query?.afterSalesServiceIdx;
   const reviewPoint = ['친절함', '신속함', '전문성', '만족도'];
+  const { data, isLoading, isError, error } = useQuery<AsDetailReseponse>(
+    'as-detail',
+    () => isTokenGetApi(`/after-sales-services/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
 
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    console.log(error);
+  }
+
+  const review =
+    data?.data.afterSalesService.afterSalesService.afterSalesServiceReview!;
   // 각 score 값에 맞게 체크된 배열이 만들어진다.
   // ex) 친절함 :4  -> [true, true, true, true, false]
+  const score = [
+    review.attentivenessPoint,
+    review.quicknessPoint,
+    review.professionalismPoint,
+    review.satisfactionPoint,
+  ];
   let checked = reviewPoint.map((r, idx) => {
     let temp = [];
     for (let i = 0; i < 5; i++) {
@@ -26,37 +53,38 @@ const MyReview = (props: Props) => {
     }
     return temp;
   });
-
   return (
     <Body>
       <WebHeader />
       <Inner>
         <Wrapper>
           <Wrap>
-            <MypageHeader title={'A/S 리뷰보기'} back={true} />
+            <MypageHeader
+              title={'A/S 리뷰보기'}
+              exitBtn={true}
+              handleOnClick={() => router.back()}
+            />
           </Wrap>
           <ReviewTitle>A/S 리뷰보기</ReviewTitle>
           <RatingForm>
-            {reviewPoint.map((r, idx) => {
+            {reviewPoint.map((row, idx) => (
               // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸.
-              return (
-                <RBarBox key={idx}>
-                  <Title>{r}</Title>
-                  {checked[idx].map((c, idx) =>
-                    c ? (
-                      <RBar className="filled forRadius" />
-                    ) : (
-                      <RBar className="forRadius" />
-                    ),
-                  )}
-                </RBarBox>
-              );
-            })}
+              <RBarBox key={idx}>
+                <Title>{row}</Title>
+                {checked[idx].map((el, idx) =>
+                  el ? (
+                    <RBar key={idx} className="filled forRadius" />
+                  ) : (
+                    <RBar key={idx} className="forRadius" />
+                  ),
+                )}
+              </RBarBox>
+            ))}
 
             <TextArea
               placeholder="[선택] 파트너의 어떤점이 기억에 남으시나요?"
               rows={8}
-              value={''}
+              value={review.opinion}
               required
               readOnly={true}
             />
@@ -75,15 +103,7 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
-  background: #fcfcfc;
-
-  @media (max-height: 809pt) {
-    display: block;
-    height: 100%;
-  }
 `;
 
 const Inner = styled.div`
@@ -179,7 +199,8 @@ const TextArea = styled.textarea`
   color: #222222;
   padding-top: 12pt;
   padding-left: 12pt;
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
+  resize: none;
   border-radius: 6pt;
 
   @media (max-width: 899.25pt) {

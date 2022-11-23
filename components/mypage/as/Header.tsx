@@ -14,7 +14,7 @@ type Props = {
 const Header = (props: Props) => {
   const router = useRouter();
   const { text, colorselect } = props;
-  console.log(colorselect);
+  // console.log(colorselect);
   return (
     <HeaderBox>
       <div className="back-img" onClick={() => router.back()}>

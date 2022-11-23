@@ -30,19 +30,4 @@ const FooterBox = styled.div`
   }
 `;
 
-const BtnBox = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 76.5pt;
-`;
-
-const Btn = styled(Button)`
-  background: ${colors.main};
-  color: ${colors.lightWhite};
-  margin-top: 27pt;
-  border-radius: 6pt;
-  padding: 9pt 30pt;
-`;
-
 export default AsRequestFooter;
