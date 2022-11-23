@@ -8,6 +8,7 @@ import Common from 'components/guide/common';
 import { useRouter } from 'next/router';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import UserRightMenu from 'components/UserRightMenu';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -27,6 +28,7 @@ const Guide1_5 = () => {
   return (
     <Body>
       <WebHeader num={2} now={'guide'} />
+      <UserRightMenu />
       <Inner>
         <GuideHeader
           title="충전기 가이드"

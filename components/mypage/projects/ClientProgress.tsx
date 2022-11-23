@@ -680,7 +680,7 @@ const SetDate = styled.div`
 
   border-radius: 6pt;
   color: #a6a9b0;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 9pt !important;
   font-weight: 500;
   line-height: 9pt !important;
@@ -690,7 +690,7 @@ const SetDate = styled.div`
 
 const PickedDate = styled.div`
   padding: 4.5pt 7.5pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 9pt;
   font-weight: 500;
   line-height: 9pt;
@@ -714,7 +714,7 @@ const ContractBtnBox = styled.div`
     padding-top: 15pt;
     padding-bottom: 15pt;
     width: 100%;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;

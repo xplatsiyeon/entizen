@@ -24,11 +24,11 @@ export interface ChattingRoom {
 }
 
 type Props = {
-companyId : string
+    companyId: string
 }
 
 
-const ChattingRoom = ({companyId}:Props) => {
+const ChattingRoom = ({ companyId }: Props) => {
 
     console.log('room')
 
@@ -37,12 +37,12 @@ const ChattingRoom = ({companyId}:Props) => {
     const [data, setData] = useState<ChattingRoom[]>([]);
     //const [company, setCompany] = useState<string>()
 
-   /* useEffect(() => {
-        console.log(company)
-        if (typeof (router.query.companyMemberId) === 'string') {
-            setCompany(router.query.companyMemberId)
-        }
-    }, [router.query.companyMemberId]) */
+    /* useEffect(() => {
+         console.log(company)
+         if (typeof (router.query.companyMemberId) === 'string') {
+             setCompany(router.query.companyMemberId)
+         }
+     }, [router.query.companyMemberId]) */
 
     const arr = {
         "isSuccess": true,
@@ -214,42 +214,42 @@ const ChattingRoom = ({companyId}:Props) => {
         <Body>
             <TopBox>
                 <MypageHeader back={true} title={companyId}
-                    handle={true} 
-                    handleOnClick={()=>router.push({
+                    handle={true}
+                    handleOnClick={() => router.push({
                         pathname: '/chatting'
-                    })}/>
+                    })} />
                 <IconBox>
                     <IconWrap></IconWrap>
                     <IconWrap></IconWrap>
                 </IconBox>
             </TopBox>
             <Inner>
-            {data.map((d, idx) => {
-                return (
-                    <DateChatting key={idx}>
-                        <Date>
-                            {d.date}
-                        </Date>
-                        <List>
-                            {d.logs.map((item, idx) => {
-                                return (
-                                    <ChatBox key={item.chattingLogIdx} className={`${(item.fromMemberType) === 'USER' ? "user" : null}`}>
-                                        {(item.fromMemberType === 'USER') ? null :
-                                            <ImageWrap>
-                                                {/* 이미지 파일 src가 없으면 */}
-                                                <Image src={defaultImg} layout='fill' />
-                                            </ImageWrap>
-                                        }
-                                        {(item.content) && <Chat >{item.content}</Chat>}
-                                        {(item.fileUrl) && <File >{item.fileUrl}</File>}
-                                        <MessageDate>{handleTime(item.createdAt)}{'/' + dayjs(item.createdAt).format("HH:mm")}</MessageDate>
-                                    </ChatBox>
-                                )
-                            })}
-                        </List>
-                    </DateChatting>
-                )
-            })}
+                {data.map((d, idx) => {
+                    return (
+                        <DateChatting key={idx}>
+                            <Date>
+                                {d.date}
+                            </Date>
+                            <List>
+                                {d.logs.map((item, idx) => {
+                                    return (
+                                        <ChatBox key={item.chattingLogIdx} className={`${(item.fromMemberType) === 'USER' ? "user" : 'company'}`}>
+                                            {(item.fromMemberType === 'USER') ? null :
+                                                <ImageWrap>
+                                                    {/* 이미지 파일 src가 없으면 */}
+                                                    <Image src={defaultImg} layout='fill' />
+                                                </ImageWrap>
+                                            }
+                                            {(item.content) && <Chat className={`${(item.fromMemberType) === 'USER' ? "user" : 'company'}`}>{item.content}</Chat>}
+                                            {(item.fileUrl) && <File >{item.fileUrl}</File>}
+                                            <MessageDate>{handleTime(item.createdAt)}{'/' + dayjs(item.createdAt).format("HH:mm")}</MessageDate>
+                                        </ChatBox>
+                                    )
+                                })}
+                            </List>
+                        </DateChatting>
+                    )
+                })}
             </Inner>
             <BottomBox>
                 <FlexBox>
@@ -280,6 +280,8 @@ const BottomBox = styled.div`
     width: 100%;
     @media (min-width: 900pt) {
     position: absolute;
+    display: none;
+
   }
 `
 const FlexBox = styled.div`
@@ -325,6 +327,9 @@ z-index: 5;
 
 @media (min-width: 900pt) {
     position: absolute;
+    border-bottom: 1px solid #E2E5ED;
+    width: -webkit-fill-available;
+    padding: 22.5pt 5pt;
   }
 `
 const IconBox = styled.div`
@@ -332,18 +337,29 @@ position: absolute;
 right: 15pt;
 top: 50%;
 transform: translateY(-50%);
-border: 1px solid;
 display: flex;
+
+@media (min-width: 900pt) {
+    right: 21pt;
+}
 `
 const IconWrap = styled.div`
     position: relative;
     width: 12pt;
     height: 12pt;
+    background: green;
+    @media (min-width: 900pt) {
+        width: 20.5pt;
+        height: 20.5pt;
+    }
 `
 const Inner = styled.div`
     position: relative;
     padding-top: 36pt;
     padding-bottom: 66pt;
+    @media (min-width: 900pt) {
+    padding-top: 105pt;
+    }
 `
 const DateChatting = styled.div`
 width: 100%;
@@ -387,10 +403,20 @@ line-height: 12pt;
 letter-spacing: -0.02em;
 color: #A6A9B0;
 position: relative;
+
+
+@media (min-width: 900pt) {
+border: 1px solid #E2E5ED;
+border-radius: 12pt;
+padding: 6pt 9pt;
+}
 `
 
 const List = styled.div`
 margin: 0 15pt;
+    @media (min-width: 900pt) {
+margin: 0 21pt;
+    }
 `
 
 const ChatBox = styled.div`
@@ -409,7 +435,6 @@ position: relative;
 `
 
 const Chat = styled.div`
-background: #5221CB;
 border-radius: 6pt;
 color: white;
 padding: 7.5pt 6pt;
@@ -418,6 +443,13 @@ font-weight: 400;
 font-size: 12pt;
 line-height: 16.5pt;
 letter-spacing: -0.02em;
+&.user{
+    background: #5221CB;
+}
+&.company{
+    background: #F3F4F7;
+    color: #222222;
+}
 `
 const File = styled.div`
 background: #5221CB;

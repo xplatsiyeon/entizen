@@ -6,6 +6,7 @@ import Modal from 'components/Modal/Modal';
 import History from 'componentsCompany/CompanyQuotation/History';
 import LeftProjectQuotationBox from 'componentsCompany/CompanyQuotation/LeftProjectQuotationBox';
 import RecieveRequest from 'componentsCompany/CompanyQuotation/RecieveRequest';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import useDebounce from 'hooks/useDebounce';
@@ -178,6 +179,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
               <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
             </>
           )}
+          <CompanyRightMenu />
           <Mobile>{components[tabNumber]}</Mobile>
           <BottomNavigation />
         </Container>

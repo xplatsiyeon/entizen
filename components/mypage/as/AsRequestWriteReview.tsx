@@ -149,7 +149,7 @@ const ReviewTitleBox = styled.div`
 `;
 
 const ReviewTitle = styled(Typography)`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 18pt;
   font-weight: 500;
   line-height: 24pt;
@@ -158,7 +158,7 @@ const ReviewTitle = styled(Typography)`
 `;
 
 const OpinionThanks = styled(Typography)`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 400;
   line-height: 15pt;
@@ -210,7 +210,7 @@ const RightBtn = styled.button<{ checkedRequired: boolean }>`
   background-color: ${({ checkedRequired }) =>
     checkedRequired ? `${colors.main}` : `${colors.blue3}`};
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
@@ -223,7 +223,7 @@ const LeftBtn = styled.button`
   border-radius: 6pt;
   background-color: ${colors.gray};
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;

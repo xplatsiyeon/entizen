@@ -156,7 +156,7 @@ const DownArrowBox = styled.div`
 
 // 보낸 가견적서
 const SecondTitle = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   margin-top: 30pt;
   color: ${colors.main};
   font-size: 15pt;
@@ -172,7 +172,7 @@ const ReservationDate = styled.div`
   border-radius: 6pt;
   padding: 18pt 24.75pt;
   .text {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 500;
     line-height: 12pt;
@@ -199,7 +199,7 @@ const ReservationDate = styled.div`
     justify-content: center;
     align-items: center;
     padding: 6pt 9pt;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10pt;
     font-weight: 500;
     line-height: 12pt;
@@ -214,7 +214,7 @@ const ReservationDateCheck = styled.div`
   border-radius: 6pt;
   padding: 18pt 24.75pt;
   .text {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 500;
     line-height: 12pt;
@@ -231,7 +231,7 @@ const ReservationDateCheck = styled.div`
     box-sizing: border-box;
     margin-top: 18pt;
     padding: 6pt 9pt;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10pt;
     font-weight: 500;
     line-height: 12pt;
@@ -248,7 +248,7 @@ const ConfirmedReservation = styled.div`
   margin-top: 15pt;
   border-radius: 6pt;
   .text {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     color: #747780;
     margin-bottom: 12pt;
     font-size: 12pt;
@@ -258,7 +258,7 @@ const ConfirmedReservation = styled.div`
     text-align: center;
   }
   .date {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 500;
     line-height: 15pt;

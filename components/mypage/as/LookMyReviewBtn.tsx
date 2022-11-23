@@ -34,7 +34,7 @@ const ReviewCheck = styled.button`
   padding-bottom: 15pt;
   color: #a6a9b0;
   border-radius: 6pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;

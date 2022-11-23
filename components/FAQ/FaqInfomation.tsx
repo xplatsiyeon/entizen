@@ -28,6 +28,7 @@ const FaqInfomation = ({ data }: Props) => {
         <div key={list.id}>
           {/* Close */}
           <ItemButton onClick={() => handleClick(list.id)}>
+            <QText>Q</QText>
             <ListItemText primary={list.name} />
             {open ? (
               <Image src={UpArrow} alt="up_arrow" />
@@ -74,6 +75,20 @@ const ItemText = styled(ListItemText)`
   background: #f3f4f7;
   border-bottom: 0.75pt solid ${colors.gray};
   padding: 12.5pt 5.25pt 12pt 12pt;
+`;
+
+const QText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 700;
+  text-align: center;
+  line-height: 12pt;
+  color: #5221cb;
+  padding-right: 12pt;
+
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
 `;
 
 /*

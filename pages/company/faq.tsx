@@ -7,9 +7,9 @@ import RightArrow from 'public/images/black-right-arrow.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import CommunicationIcon from 'public/images/communication-icon.svg';
-
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 
 export interface Contents {
   id: number;
@@ -22,64 +22,84 @@ interface Components {
 const contents: Contents[] = [
   {
     id: 0,
-    name: '간편견적은 어떻게 이용하나요?',
+    name: '고객 요청서는 어디서 확인하나요?',
     text: '두기	 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
     id: 1,
-    name: '구독료는 언제 지불하나요?',
+    name: '낙찰 후 프로세스는 어떻게 되나요?',
     text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
     id: 2,
-    name: '보조금 신청은 어떻게 하나요?',
+    name: '계약서 내용을 수정하고 싶어요',
     text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
     id: 3,
-    name: '파트너와 연락이 되지 않습니다.',
+    name: '서비스 이용료는 얼마인가요?',
     text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
     id: 4,
-    name: '어떤 충전기를 사야할지 모르겠어요.',
+    name: '알림 설정은 어떻게 하나요?',
     text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
     id: 5,
-    name: '조금 더 자세한 상담을 받고 싶습니다.',
+    name: '부당한 리뷰를 받았습니다.',
     text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
     id: 6,
-    name: '견적 취소요청은 어떻게 하나요?',
+    name: '보낸 견적을 취소할 수 있나요?',
     text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
     id: 7,
-    name: '공사 진행 중 거래를 중단할 수 있나요?',
+    name: '보낸 견적을 수정할 수 있나요?',
+    text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
+  },
+  {
+    id: 8,
+    name: '견적은 어떤 과정을 통해 최종 종료되나요?',
+    text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
+  },
+  {
+    id: 9,
+    name: '견적 제출은 어떻게 하나요?',
+    text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
+  },
+  {
+    id: 10,
+    name: '현장실사는 어떻게 진행하면 되나요?',
+    text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
+  },
+  {
+    id: 11,
+    name: '현장실사 후 견적 금액이 달라졌어요.',
     text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
 ];
 const userInfo: Contents[] = [
   {
     id: 0,
-    name: '회원가입은 어떻게 진행하나요?',
+    name: '담당자 변경은 어떻게 하나요?',
     text: '두기	 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
     id: 1,
-    name: '외국인도 회원가입이 가능한가요?',
+    name: '제품 정보는 어떻게 등록/변경 하나요?',
     text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
     id: 2,
-    name: '타인 명의로 가입할 수 있나요?',
+    name: '회사명이 바뀌면 어떻게 하나요?',
     text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
     id: 3,
-    name: '개인 정보 변경은 어떻게 하나요?',
+    name: '메일 주소가 바뀌면 어떻게 하나요?',
     text: '두기 굳세게 광야에서 속에 기쁘며, 들어 얼음이 예가 있다. 황금시대를 피가 발휘하기 피고, 너의 봄바람이다. 인생의 이상의 실로 있음으로써 이상의 두손을 철환하였는가? 보이는 위하여 우리는 곧 청춘의 힘있다. 구하지 사는가 황금시대의 심장의 소리다.',
   },
   {
@@ -118,24 +138,34 @@ const report: Contents[] = [
 
 const Faq = () => {
   const route = useRouter();
-  const [tabNumber, setTabNumber] = useState<number>(0);
+  const [tabNumber, setTabNumber] = useState<number>(7);
+  const [tabCompNumber, setTabCompNumber] = useState<number>(0);
+  const [componentId, setComponentId] = useState<number>();
+
   const TabType: string[] = ['서비스 이용', '회원 정보', '신고'];
   const components: Components = {
     0: <FaqInfomation data={contents} />,
     1: <FaqInfomation data={userInfo} />,
     2: <FaqInfomation data={report} />,
   };
-  const handleTab = (index: number) => setTabNumber(index);
+  const handleTab = (index: number) => setTabCompNumber(index);
   const leftOnClick = () => {
     route.back();
   };
   const rightOnClick = () => {
     route.push('/');
   };
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
 
   return (
     <WebBody>
-      <WebHeader />
+      <WebBuyerHeader
+        setTabNumber={setTabNumber}
+        tabNumber={tabNumber!}
+        componentId={componentId}
+        openSubLink={openSubLink}
+        setOpenSubLink={setOpenSubLink}
+      />
       <Inner>
         <GuideHeader
           title="자주 묻는 질문"
@@ -148,16 +178,19 @@ const Faq = () => {
               {TabType.map((tab, index) => (
                 <TabItem
                   key={index}
-                  tab={tabNumber.toString()}
+                  tab={tabCompNumber.toString()}
                   index={index.toString()}
                   onClick={() => handleTab(index)}
                 >
                   {tab}
-                  <Dot tab={tabNumber.toString()} index={index.toString()} />
+                  <Dot
+                    tab={tabCompNumber.toString()}
+                    index={index.toString()}
+                  />
                 </TabItem>
               ))}
             </TabContainer>
-            <Main>{components[tabNumber]}</Main>
+            <Main>{components[tabCompNumber]}</Main>
           </FlexWrap>
           <FlexWrap>
             <InfoText>
@@ -202,7 +235,7 @@ const WebBody = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  background: #ffffff;
+  background: #fcfcfc;
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -224,6 +257,10 @@ const Inner = styled.div`
     box-shadow: none;
     background: none;
     margin: 0;
+  }
+
+  @media (min-width: 900pt) {
+    margin: 54pt auto 100pt;
   }
 `;
 
@@ -349,7 +386,6 @@ const FlexWrap = styled.div`
 `;
 const InfoText = styled.div`
   padding-top: 42pt;
-  text-align: center;
   text-align: center;
   font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;

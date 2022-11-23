@@ -39,6 +39,7 @@ import { convertKo } from 'utils/calculatePackage';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -339,6 +340,7 @@ const HeadOpenContent = () => {
               handleBackClick={handleModalOpen}
             />
           )}
+          <CompanyRightMenu />
           <WebRapper>
             {nowWidth > 1198.7 && (
               <LeftProjectQuotationBox

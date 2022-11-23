@@ -43,12 +43,12 @@ const HeaderBox = styled.div`
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.main2};
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
   }
 `;
 
 const RightText = styled(Typography)<{ colorselect?: boolean }>`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   line-height: 18pt;
   font-weight: 500;

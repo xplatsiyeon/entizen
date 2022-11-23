@@ -131,6 +131,12 @@ const WebBuyerHeader = ({
     },
   ];
 
+  useEffect(() => {
+    if (router.pathname === '/company/faq') {
+      setTab(5);
+    }
+  }, []);
+
   return (
     <>
       <Wrapper>

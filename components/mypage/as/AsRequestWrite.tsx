@@ -416,7 +416,7 @@ const RemainderInputBox = styled.div`
   margin-top: 24pt;
 `;
 const Label = styled.label`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
@@ -498,7 +498,7 @@ const NextBtn = styled.button<{ checkAll: boolean }>`
   padding-bottom: 15pt;
   background-color: ${({ checkAll }) =>
     checkAll ? `${colors.main}` : `${colors.blue3}`};
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;

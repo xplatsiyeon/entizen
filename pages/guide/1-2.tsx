@@ -26,6 +26,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
 import Modal from 'components/Modal/Modal';
+import UserRightMenu from 'components/UserRightMenu';
 
 export interface Option {
   idx: number;
@@ -278,6 +279,7 @@ const Guide1_2 = () => {
       )}
 
       <WebHeader />
+      <UserRightMenu />
       <Inner>
         <Wrapper>
           <GuideHeader

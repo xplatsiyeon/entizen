@@ -7,6 +7,7 @@ import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
 import TopBox from 'componentsCompany/Mypage/TopBox';
 import UnderBox from 'componentsCompany/Mypage/UnderBox';
 import WriteContract from 'componentsCompany/Mypage/WriteContract';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
@@ -47,7 +48,7 @@ const RunningProgress = (props: Props) => {
   const [headerTab, setHeaderTab] = useState<number>(3);
 
   // 서브 카테고리 열렸는지 아닌지
-  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
 
   const [data, setData] = useState<Data>({
     id: -1,
@@ -90,13 +91,6 @@ const RunningProgress = (props: Props) => {
     }
   }, [router.query.projectIdx]);
 
-  useEffect(() => {
-    if (router.query.projectIdx) {
-      // setData(tempProceeding[num]);
-      setOpenSubLink(false);
-    }
-  }, [router]);
-
   useEffect(() => {}, []);
 
   console.log(`🐲 진행 프로젝트 102번째 줄`, componentId);
@@ -124,6 +118,7 @@ const RunningProgress = (props: Props) => {
           setOpenSubLink={setOpenSubLink}
         />
         <Container>
+          <CompanyRightMenu />
           <WebRapper>
             {nowWidth > 1198.7 && (
               <LeftProjectBox

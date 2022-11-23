@@ -30,6 +30,7 @@ import arrowR from 'public/images/arrowR.png';
 import guideIndex1 from 'public/guide/guideIndex1.png';
 import guideIndex2 from 'public/guide/guideIndex2.png';
 import BingGuideBanner from 'public/guide/Big-guide-banner.png';
+import UserRightMenu from 'components/UserRightMenu';
 
 const Guide1 = () => {
   const router = useRouter();
