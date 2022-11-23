@@ -16,8 +16,8 @@ import { HandleColor } from 'utils/changeValue';
 import WebSort from './WebSort';
 
 type Props = {
-  componentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
-  setComponentId?: number;
+  componentId?: number;
+  setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
   send?: SentrequestResponse;
 };
 export interface QuotationRequest {
