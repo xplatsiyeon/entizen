@@ -487,7 +487,7 @@ const TopStep = styled.div`
   display: flex;
   justify-content: space-between;
   & div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 500;
     line-height: 21pt;
@@ -496,7 +496,7 @@ const TopStep = styled.div`
     color: ${colors.main};
   }
   & div:nth-of-type(2) {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     font-weight: 500;
     line-height: 10.5pt;
@@ -513,7 +513,7 @@ const InputBox = styled.div`
   & > div {
   }
   & > div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -530,7 +530,7 @@ const InputBox = styled.div`
     & span:nth-of-type(2) {
       position: absolute;
       right: 0;
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 9pt;
       font-weight: 500;
       line-height: 12pt;
@@ -543,7 +543,7 @@ const InputBox = styled.div`
     & span:nth-of-type(2) {
       position: absolute;
       right: 0;
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 9pt;
       font-weight: 500;
       line-height: 12pt;
@@ -626,7 +626,7 @@ const SmallInputBox = styled.div`
   }
 `;
 const SubTitle = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   position: relative;
   font-size: 10.5pt;
   font-weight: 500;
@@ -647,7 +647,7 @@ const SubTitle = styled.div`
     width: 100%;
   }
   .name {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -662,7 +662,7 @@ const SubTitle = styled.div`
 `;
 const SubWord = styled.div`
   margin-top: 21pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 18pt;
   font-weight: 500;
   line-height: 24pt;

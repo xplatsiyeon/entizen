@@ -156,7 +156,7 @@ const GridElement = styled.div`
 
 const TextArea = styled.div<{ color: string }>`
   white-space: pre-wrap;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 19.5pt;
   font-weight: 700;
   line-height: 30pt;

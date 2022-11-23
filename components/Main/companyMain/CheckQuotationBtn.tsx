@@ -27,7 +27,7 @@ const Btn = styled.div`
   color: #ffffff;
   padding: 15pt 18pt;
   border-radius: 6pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;

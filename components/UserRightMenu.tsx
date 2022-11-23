@@ -96,7 +96,7 @@ const ImageBoxL = styled.div`
 `;
 
 const MenuTitle = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 12pt;

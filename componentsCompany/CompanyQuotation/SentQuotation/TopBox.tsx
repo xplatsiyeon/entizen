@@ -184,7 +184,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
 };
 
 const CustomerRequestContent = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 20px;
   font-weight: 700;
   line-height: 20px;

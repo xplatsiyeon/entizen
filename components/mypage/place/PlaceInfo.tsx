@@ -156,7 +156,7 @@ const DownArrowBox = styled.div`
 `;
 
 const Partner = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
@@ -178,7 +178,7 @@ const Contents = styled.div`
     }
 
     .emailText {
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
       line-height: 12pt;
@@ -244,7 +244,7 @@ const WebRightPhotoBox = styled.div`
 `;
 
 const FinishedPhotoText = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
@@ -288,7 +288,7 @@ const Wrap = styled.div`
   padding-bottom: 135pt;
 `;
 const FileLabel = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;

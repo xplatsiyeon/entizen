@@ -133,7 +133,7 @@ const DdayNAddress = styled.div`
   position: relative;
 `;
 const AddressBox = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   position: relative;
   font-size: 12pt;
   font-weight: 700;

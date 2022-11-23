@@ -624,7 +624,7 @@ const TopStep = styled.div`
   display: flex;
   justify-content: space-between;
   & div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 500;
     line-height: 21pt;
@@ -633,7 +633,7 @@ const TopStep = styled.div`
     color: ${colors.main};
   }
   & div:nth-of-type(2) {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     font-weight: 500;
     line-height: 10.5pt;
@@ -643,7 +643,7 @@ const TopStep = styled.div`
 `;
 const SubWord = styled.div`
   margin-top: 21pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 18pt;
   font-weight: 500;
   line-height: 24pt;
@@ -662,7 +662,7 @@ const ChargeMoney = styled.div`
   flex-direction: column;
   gap: 9pt;
   & .withAfter {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -680,7 +680,7 @@ const BtnBox = styled.div`
   gap: 11.25pt;
 `;
 const Btn = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 400;
   line-height: 12pt;
@@ -704,7 +704,7 @@ const InputBox = styled.div`
   &.secondChargerText {
     margin-top: 30pt;
     & div:first-of-type {
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 10.5pt;
       font-weight: 700;
       line-height: 12pt;
@@ -722,7 +722,7 @@ const InputBox = styled.div`
     border-radius: 6pt !important;
   }
   & > div > div {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 400;
     line-height: 12pt;
@@ -737,7 +737,7 @@ const BottomInputBox = styled.div`
   flex-direction: column;
   gap: 9pt;
   & .withAfter {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -755,7 +755,7 @@ const BottomInputBox = styled.div`
     border-radius: 6pt !important;
   }
   & > div > div {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 400;
     line-height: 12pt;
@@ -821,7 +821,7 @@ const Divide = styled.div`
 `;
 const TopBox = styled.div`
   & div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -833,7 +833,7 @@ const TopBox = styled.div`
     color: ${colors.main};
   }
   & div:nth-of-type(2) {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     margin-top: 6pt;
     font-weight: 400;
@@ -928,7 +928,7 @@ const RemainderInputBoxs = styled.div`
   }
 `;
 const Label = styled.label`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
@@ -1033,7 +1033,7 @@ const Form = styled.form`
   /* margin-top: 24pt; */
   position: relative;
   & > label {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;

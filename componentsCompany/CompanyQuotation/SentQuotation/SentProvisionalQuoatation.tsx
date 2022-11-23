@@ -20,6 +20,7 @@ import MypageHeader from 'components/SignUp/header';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -356,6 +357,7 @@ const SentQuoatationFirst = () => {
         )}
         {/* 에러 모달 */}
         {isModal && <Modal click={onClickModal} text={errorMessage} />}
+        <CompanyRightMenu />
         {nowWidth < 1198.7 && (
           <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
         )}
@@ -510,7 +512,7 @@ const WebColumnContainer = styled.div`
 `;
 
 const CustomerRequestContent = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 20px;
   font-weight: 700;
   line-height: 20px;
@@ -595,7 +597,7 @@ const Contents = styled.div`
     }
 
     .emailText {
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
       line-height: 12pt;
@@ -627,7 +629,7 @@ const Contents = styled.div`
 `;
 
 const Partner = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
@@ -644,7 +646,7 @@ const EditBtn = styled.div`
   border: 1px solid ${colors.main};
   color: ${colors.main};
   border-radius: 6pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;

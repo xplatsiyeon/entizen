@@ -103,7 +103,7 @@ const BlueIcon = styled.div`
 `;
 
 const CountCircle = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   position: absolute;
   right: 0;
   display: flex;
@@ -123,7 +123,7 @@ const CountCircle = styled.div`
 `;
 
 const Reqeusts = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 15pt;
   font-weight: 700;
   margin-top: 21pt;
@@ -134,7 +134,7 @@ const Reqeusts = styled.div`
 `;
 
 const WhenNoRequest = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 400;
   line-height: 18pt;
@@ -145,7 +145,7 @@ const WhenNoRequest = styled.div`
 `;
 
 const NoReqeusts = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 15pt;
   font-weight: 700;
   margin-top: 21pt;
@@ -156,7 +156,7 @@ const NoReqeusts = styled.div`
 `;
 
 const RequestInfo = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   margin-top: 12pt;
   font-size: 12pt;
   font-weight: 400;

@@ -62,7 +62,7 @@ const ProductList = (props: Props) => {
   return (
     <>
       <Wrapper>
-        {data?.products.map((item, index) => (
+        {data?.products?.map((item, index) => (
           <ListBox
             key={index}
             onClick={() =>

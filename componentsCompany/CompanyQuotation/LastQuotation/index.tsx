@@ -28,6 +28,7 @@ import {
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -405,6 +406,7 @@ const LastWrite = (props: Props) => {
           openSubLink={openSubLink}
         />
         <Container>
+          <CompanyRightMenu />
           <WebRapper>
             <LeftProjectQuotationBox
               underNum={underNum}

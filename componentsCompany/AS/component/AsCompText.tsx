@@ -322,7 +322,7 @@ const Contents = styled.div`
     }
 
     .emailText {
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
       line-height: 12pt;
@@ -359,7 +359,7 @@ const Contents = styled.div`
 `;
 
 const Customer = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
@@ -436,7 +436,7 @@ const InputBox = styled.div`
   & > div {
   }
   & > div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -453,7 +453,7 @@ const InputBox = styled.div`
     & span:nth-of-type(2) {
       position: absolute;
       right: 0;
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 9pt;
       font-weight: 500;
       line-height: 12pt;
@@ -466,7 +466,7 @@ const InputBox = styled.div`
     & span:nth-of-type(2) {
       position: absolute;
       right: 0;
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 9pt;
       font-weight: 500;
       line-height: 12pt;
@@ -580,7 +580,7 @@ const RemainderInputBox = styled.div`
 `;
 
 const Label = styled.label`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;

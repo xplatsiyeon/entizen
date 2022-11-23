@@ -324,7 +324,7 @@ const CountQuotation = styled.div`
   background-color: #222222;
   border-radius: 50%;
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 6pt;
   font-weight: 700;
   line-height: 6pt;

@@ -10,6 +10,7 @@ import NewAs from 'componentsCompany/AS/newAs';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import LeftASBox from 'componentsCompany/AS/LeftASBox';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 type Props = { num?: number; now?: string };
 interface Components {
@@ -67,6 +68,7 @@ const ComAsIndex = ({ num, now }: Props) => {
         setOpenSubLink={setOpenSubLink}
       />
       <Container>
+        <CompanyRightMenu />
         <WebRapper>
           <LeftASBox
             setTabNumber={setTabNumber}
