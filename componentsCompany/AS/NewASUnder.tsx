@@ -11,6 +11,10 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import WebFilter from './webFilter';
 import CaretDown24 from 'public/images/CaretDown24.png';
+import { CompanyAsListResposne } from './newAs';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 
 type Props = {
   tabNumber: number;
@@ -18,11 +22,25 @@ type Props = {
   setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
+const TAG = 'componentsCompany/AS/NewASUnder.tsx';
 const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
-  //히스토리 리스트 get();
-  const arr: number[] = [0, 1, 2];
-
   const router = useRouter();
+
+  // 기업 AS 리스트 보기
+  const { data, isLoading, isError, error } = useQuery<CompanyAsListResposne>(
+    'company-asList',
+    () => isTokenGetApi('/after-sales-services/new?sort=status&searchKeyword'),
+  );
+
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    console.log('🔥 에러 발생 ~line 66 ->' + TAG);
+    console.log(error);
+  }
+  // console.log('🔥 기업 AS 리스트 데이터 확인 ~line 69 -> ' + TAG);
+  // console.log(data);
 
   const handleId = (idx: number) => {
     if (setComponentId !== undefined) {
@@ -33,8 +51,8 @@ const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
   return (
     <Body>
       <List>
-        {arr.length > 0 ? (
-          arr.map((d, idx) => {
+        {data?.data?.newReceivedAfterSalesServices?.length! > 0 ? (
+          data?.data?.newReceivedAfterSalesServices?.map((el, idx) => {
             return (
               <div key={idx}>
                 <ListBox
@@ -53,11 +71,16 @@ const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
                 >
                   <ListLeftBox>
                     <FlexWrap>
-                      <Badge bgColor={handleColorAS('접수')}>
-                        접수요청 D+3
+                      <Badge bgColor={handleColorAS(el?.badge)}>
+                        {el?.badge}
                       </Badge>
                     </FlexWrap>
-                    <StoreName>LS 안양 주유소</StoreName>
+                    <StoreName>
+                      {
+                        el?.afterSalesService?.project?.finalQuotation
+                          ?.preQuotation?.quotationRequest?.installationAddress
+                      }
+                    </StoreName>
                   </ListLeftBox>
                   <ListIconBox>
                     <Image src={CaretDown24} alt="RightArrow" />

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Search from 'componentsCompany/CompanyQuotation/Search';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from 'next/image';
 import FilterModal from './filterModal';
@@ -10,17 +10,90 @@ import { handleColorAS } from 'utils/changeValue';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import WebFilter from './webFilter';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
+import { dateFomat } from 'utils/calculatePackage';
+import useDebounce from 'hooks/useDebounce';
 
+export interface NewReceivedAfterSalesServices {
+  afterSalesService: {
+    afterSalesServiceIdx: number;
+    createdAt: string;
+    requestContent: string;
+    acceptanceDate: string | null;
+    afterSalesServiceResultDate: string | null;
+    afterSalesServiceCompletionConsentStatus: boolean;
+    project: {
+      projectIdx: number;
+      finalQuotation: {
+        finalQuotationIdx: number;
+        preQuotation: {
+          preQuotationIdx: number;
+          quotationRequest: {
+            quotationRequestIdx: number;
+            installationAddress: string;
+          };
+        };
+      };
+    };
+  };
+  badge: string;
+}
+export interface CompanyAsListResposne {
+  isSuccess: true;
+  data: {
+    newReceivedAfterSalesServices: NewReceivedAfterSalesServices[];
+  };
+}
+const TAG = 'componentsCompany/AS/newAs.tsx';
 const NewAs = () => {
-  //히스토리 리스트 get();
-  const arr: number[] = [0, 1, 2];
-
   const router = useRouter();
-
   const [searchWord, setSearchWord] = useState<string>('');
   const [selected, setSelected] = useState<string>('등록일순 보기');
+  const [filterTypeEn, setFilterTypeEn] = useState('date');
   const [modal, setModal] = useState<boolean>(false);
+  const keyword = useDebounce(searchWord, 2000);
+  // 기업 AS 리스트 보기
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<CompanyAsListResposne>('company-asList', () =>
+      isTokenGetApi(
+        `/after-sales-services/new?sort=${filterTypeEn}&searchKeyword=${keyword}`,
+      ),
+    );
 
+  useEffect(() => {
+    if (selected === '등록일순 보기') {
+      setFilterTypeEn('date');
+      console.log('등록일순 보기');
+    } else if (selected === '현장별 보기') {
+      setFilterTypeEn('site');
+      console.log('현장별 보기');
+    } else if (selected === '상태순 보기') {
+      setFilterTypeEn('state');
+      console.log('상태순 보기');
+    }
+
+    return () => {
+      setSearchWord('');
+      setSelected('등록일순 보기');
+      setFilterTypeEn('date');
+    };
+  }, [selected]);
+
+  useEffect(() => {
+    refetch();
+  }, [filterTypeEn, keyword]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    console.log('🔥 에러 발생 ~line 66 ->' + TAG);
+    console.log(error);
+  }
+  console.log('🔥 기업 AS 리스트 데이터 확인 ~line 69 -> ' + TAG);
+  console.log(data);
   return (
     <Body>
       {modal && (
@@ -43,8 +116,8 @@ const NewAs = () => {
         </InputWrap>
       </Wrap>
       <List>
-        {arr.length > 0 ? (
-          arr.map((d, idx) => {
+        {data?.data?.newReceivedAfterSalesServices?.length! > 0 ? (
+          data?.data?.newReceivedAfterSalesServices?.map((el, idx) => {
             return (
               <ListBox
                 key={idx}
@@ -52,16 +125,22 @@ const NewAs = () => {
                   router.push({
                     pathname: '/company/as/receivedAS/',
                     query: {
-                      asIdx: idx,
+                      afterSalesServiceIdx:
+                        el?.afterSalesService?.afterSalesServiceIdx,
                     },
                   })
                 }
               >
-                <StoreName>LS 안양 주유소</StoreName>
-                <Text>100kW 충전기의 충전 건이 파손되었습니다.</Text>
+                <StoreName>
+                  {
+                    el?.afterSalesService?.project?.finalQuotation?.preQuotation
+                      ?.quotationRequest?.installationAddress
+                  }
+                </StoreName>
+                <Text>{el?.afterSalesService?.requestContent}</Text>
                 <FlexWrap>
-                  <Badge bgColor={handleColorAS('접수')}>접수요청 D+3</Badge>
-                  <Date>2022.05.17 18:13</Date>
+                  <Badge bgColor={handleColorAS(el?.badge)}>{el?.badge}</Badge>
+                  <Date>{dateFomat(el?.afterSalesService?.createdAt)}</Date>
                 </FlexWrap>
               </ListBox>
             );
