@@ -163,7 +163,6 @@ const Wrapper = styled.div`
   margin: 60pt auto;
   display: flex;
   gap: 60pt;
-
   flex-direction: row;
 
   @media (max-width: 899pt) {
