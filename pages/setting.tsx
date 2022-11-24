@@ -5,6 +5,8 @@ import PasswordModal from 'components/Modal/PasswordModal';
 import RequestModal from 'components/Modal/RequestModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/mypage/request/header';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -181,87 +183,148 @@ const Setting = () => {
   };
   return (
     <>
-      {passwordModal && (
-        <PasswordModal
-          passowrdValid={passowrdValid}
-          passwordInput={passwordInput}
-          setPasswordInput={setPasswordInput}
-          onChange={handlePasswordChange}
-          checkPassword={checkPassword}
-          click={authPassowrd}
-          setPasswordModal={setPasswordModal}
-        />
-      )}
-      {logoutModal && (
-        <TwoBtnModal
-          exit={() => setLogoutModal(false)}
-          text={'로그아웃하시겠습니까?'}
-          leftBtnText={'아니오'}
-          rightBtnText={'네'}
-          leftBtnColor={'#FF1B2D'}
-          rightBtnColor={'#222222'}
-          rightBtnControl={handleLogoutOnClickModalClick}
-          leftBtnControl={() => setLogoutModal(false)}
-        />
-      )}
-      {secessionFirstModal && (
-        <RequestModal
-          exit={() => setSecessionFirstModal(!secessionFirstModal)}
-          title={'정말 탈퇴하시겠습니까?'}
-          subtitle={`사용하고 계신 아이디${userID}는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.`}
-          leftControl={ModalLeftControl}
-          rightControl={() => setSecessionFirstModal(!secessionFirstModal)}
-          border={true}
-        />
-      )}
-      {alertModal && (
-        <TwoBtnModal
-          exit={() => setAlertModal(false)}
-          leftBtnColor="#FF1B2D"
-          leftBtnText="아니오"
-          leftBtnControl={() => setAlertModal(false)}
-          rightBtnColor={colors.main2}
-          rightBtnText="네"
-          rightBtnControl={() => {
-            setAlertModal(false);
-            setSecessionFirstModal(true);
-          }}
-          text="비밀번호 입력 없이 정말 탈퇴하시겠습니까"
-        />
-      )}
-      <MypageHeader
-        back={true}
-        title={'설정'}
-        handleOnClick={() => router.back()}
-      />
-      <Wrapper>
-        <Version>
-          <VersionInfoText>버전 정보</VersionInfoText>
-          <VersionNumber>V.8.33</VersionNumber>
-        </Version>
-        <SettingList onClick={() => router.push('/alarm/1-1')}>
-          알림 설정
-        </SettingList>
-        <SettingList onClick={() => alert('2차 작업 범위 페이지입니다.')}>
-          1:1 문의
-        </SettingList>
-        <SettingList onClick={() => router.push('/faq')}>
-          자주 묻는 질문
-        </SettingList>
-        <SettingList onClick={() => router.push('/term')}>이용약관</SettingList>
+      <WebBody>
+        <WebHeader />
+        <Container>
+          <WebRapper>
+            {passwordModal && (
+              <PasswordModal
+                passowrdValid={passowrdValid}
+                passwordInput={passwordInput}
+                setPasswordInput={setPasswordInput}
+                onChange={handlePasswordChange}
+                checkPassword={checkPassword}
+                click={authPassowrd}
+                setPasswordModal={setPasswordModal}
+              />
+            )}
+            {logoutModal && (
+              <TwoBtnModal
+                exit={() => setLogoutModal(false)}
+                text={'로그아웃하시겠습니까?'}
+                leftBtnText={'아니오'}
+                rightBtnText={'네'}
+                leftBtnColor={'#FF1B2D'}
+                rightBtnColor={'#222222'}
+                rightBtnControl={handleLogoutOnClickModalClick}
+                leftBtnControl={() => setLogoutModal(false)}
+              />
+            )}
+            {secessionFirstModal && (
+              <RequestModal
+                exit={() => setSecessionFirstModal(!secessionFirstModal)}
+                title={'정말 탈퇴하시겠습니까?'}
+                subtitle={`사용하고 계신 아이디${userID}는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.`}
+                leftControl={ModalLeftControl}
+                rightControl={() =>
+                  setSecessionFirstModal(!secessionFirstModal)
+                }
+                border={true}
+              />
+            )}
+            {alertModal && (
+              <TwoBtnModal
+                exit={() => setAlertModal(false)}
+                leftBtnColor="#FF1B2D"
+                leftBtnText="아니오"
+                leftBtnControl={() => setAlertModal(false)}
+                rightBtnColor={colors.main2}
+                rightBtnText="네"
+                rightBtnControl={() => {
+                  setAlertModal(false);
+                  setSecessionFirstModal(true);
+                }}
+                text="비밀번호 입력 없이 정말 탈퇴하시겠습니까"
+              />
+            )}
+            <MypageHeader
+              back={true}
+              title={'설정'}
+              handleOnClick={() => router.back()}
+            />
+            <Wrapper>
+              <Version>
+                <VersionInfoText>버전 정보</VersionInfoText>
+                <VersionNumber>V.8.33</VersionNumber>
+              </Version>
+              <SettingList onClick={() => router.push('/alarm/1-1')}>
+                알림 설정
+              </SettingList>
+              <SettingList onClick={() => router.push('/questionInPerson')}>
+                1:1 문의
+              </SettingList>
+              <SettingList onClick={() => router.push('/faq')}>
+                자주 묻는 질문
+              </SettingList>
+              <SettingList onClick={() => router.push('/term')}>
+                이용약관
+              </SettingList>
 
-        {userID && (
-          <SettingList onClick={() => setLogoutModal(true)}>
-            로그아웃
-          </SettingList>
-        )}
-        {userID && <Secession onClick={HandleWidthdrawal}>탈퇴하기</Secession>}
-      </Wrapper>
+              {userID && (
+                <SettingListRed onClick={() => setLogoutModal(true)}>
+                  로그아웃
+                </SettingListRed>
+              )}
+              {userID && (
+                <Secession onClick={HandleWidthdrawal}>탈퇴하기</Secession>
+              )}
+            </Wrapper>
+          </WebRapper>
+        </Container>
+        <WebFooter />
+      </WebBody>
     </>
   );
 };
 
 export default Setting;
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  @media (max-height: 350pt) {
+    height: 100%;
+    display: block;
+  }
+`;
+
+const Container = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+
+  @media (min-width: 900pt) {
+    margin-top: 54pt;
+    padding-top: 0;
+  }
+`;
+
+const WebRapper = styled.div`
+  @media (min-width: 900pt) {
+    /* padding: 32px 150px 180px 51px; */
+    padding: 32px 500px 180px 51px;
+    border-radius: 12pt;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  }
+`;
 
 const Wrapper = styled.div`
   position: relative;
@@ -277,6 +340,14 @@ const Version = styled.div`
   flex-direction: column;
   background-color: #fbfcff;
   margin-bottom: 7.5pt;
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: row;
+    padding-top: 18pt;
+    padding-bottom: 24pt;
+    margin-bottom: 0;
+    background-color: #ffffff;
+  }
 `;
 const VersionInfoText = styled(Typography)`
   font-family: Spoqa Han Sans Neo;
@@ -285,6 +356,14 @@ const VersionInfoText = styled(Typography)`
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: left;
+  @media (min-width: 900pt) {
+    font-size: 13.5pt;
+    font-weight: 500;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-right: 10pt;
+  }
 `;
 const VersionNumber = styled(Typography)`
   font-family: Noto Sans KR;
@@ -293,6 +372,14 @@ const VersionNumber = styled(Typography)`
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: left;
+  @media (min-width: 900pt) {
+    font-size: 13.5pt;
+    font-weight: 400;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #a6a9b0;
+  }
 `;
 const SettingList = styled.div`
   position: relative;
@@ -300,6 +387,31 @@ const SettingList = styled.div`
   padding-bottom: 10.5pt;
   &:nth-child(7) {
     color: #f75015;
+  }
+  @media (min-width: 900pt) {
+    padding-top: 24pt;
+    padding-bottom: 24pt;
+    font-size: 13.5pt;
+    font-weight: 500;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+`;
+
+const SettingListRed = styled.div`
+  position: relative;
+  padding-top: 10.5pt;
+  padding-bottom: 10.5pt;
+  color: #f75015;
+  @media (min-width: 900pt) {
+    padding-top: 24pt;
+    padding-bottom: 24pt;
+    font-size: 13.5pt;
+    font-weight: 500;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 const Secession = styled.div`
@@ -316,4 +428,8 @@ const Secession = styled.div`
   text-align: left;
   text-decoration-line: underline;
   color: #a6a9b0;
+  @media (min-width: 900pt) {
+    position: relative;
+    top: 130pt;
+  }
 `;
