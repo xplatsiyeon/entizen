@@ -494,31 +494,33 @@ const SecondStep = ({
                 multiple
               />
               {/* <Preview> */}
-              {selectedOptionEn[tabNumber - 1].chargerImageFiles?.map(
-                (item, index) => (
-                  <ImgSpan key={index} data-name={index}>
-                    <Image
-                      layout="fill"
-                      alt="preview"
-                      data-name={index}
-                      key={index}
-                      src={item.url}
-                      priority={true}
-                      unoptimized={true}
-                    />
-                    <Xbox onClick={handlePhotoDelete} data-name={index}>
+              <ImgSpanBox>
+                {selectedOptionEn[tabNumber - 1].chargerImageFiles?.map(
+                  (item, index) => (
+                    <ImgSpan key={index} data-name={index}>
                       <Image
-                        src={CloseImg}
+                        layout="fill"
+                        alt="preview"
                         data-name={index}
-                        layout="intrinsic"
-                        alt="closeBtn"
-                        width={24}
-                        height={24}
+                        key={index}
+                        src={item.url}
+                        priority={true}
+                        unoptimized={true}
                       />
-                    </Xbox>
-                  </ImgSpan>
-                ),
-              )}
+                      <Xbox onClick={handlePhotoDelete} data-name={index}>
+                        <Image
+                          src={CloseImg}
+                          data-name={index}
+                          layout="intrinsic"
+                          alt="closeBtn"
+                          width={24}
+                          height={24}
+                        />
+                      </Xbox>
+                    </ImgSpan>
+                  ),
+                )}
+              </ImgSpanBox>
               {/* </Preview> */}
             </PhotosBox>
           </RemainderInputBox>
@@ -943,7 +945,10 @@ const PhotosBox = styled.div`
   gap: 9.1875pt;
   align-items: center;
   @media (min-width: 900pt) {
+    display: flex;
+    align-items: inherit;
     height: auto;
+    width: 100%;
   }
 `;
 const PhotosBoxs = styled.div`
@@ -965,12 +970,36 @@ const AddPhotos = styled.button`
   height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    background-color: #ffffff;
+    width: 77.25pt;
+    height: 77.25pt;
+  }
 `;
+
+const ImgSpanBox = styled.div`
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+  @media (min-width: 900pt) {
+    height: auto;
+    width: 444.75;
+    display: grid;
+    grid-template-columns: 230pt 1fr;
+  }
+`;
+
 const ImgSpan = styled.div`
   position: relative;
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    margin-bottom: 10pt;
+    width: 216pt;
+    height: 135pt;
+    border: 0.75pt solid #e2e5ed;
+  }
 `;
 const Xbox = styled.div`
   position: absolute;
