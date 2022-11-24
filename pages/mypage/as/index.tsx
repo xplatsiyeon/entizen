@@ -208,7 +208,7 @@ const asNumber = () => {
               {!isReview &&
                 data?.data.afterSalesService.badge.includes('A/S') &&
                 !data?.data.afterSalesService.afterSalesService
-                  .afterSalesServiceCompletionConsentStatus && (
+                  .afterSalesServiceReview && (
                   <Btn
                     className="isColor"
                     onClick={() => {
@@ -220,10 +220,10 @@ const asNumber = () => {
                   </Btn>
                 )}
               {/* 내 리뷰 보기 */}
-              {isReview &&
+              {!isReview &&
                 data?.data.afterSalesService.badge.includes('A/S') &&
                 data?.data.afterSalesService.afterSalesService
-                  .afterSalesServiceCompletionConsentStatus && (
+                  .afterSalesServiceReview && (
                   <Btn onClick={() => handleClick('myReview')}>
                     <span>내 리뷰 보기</span>
                   </Btn>

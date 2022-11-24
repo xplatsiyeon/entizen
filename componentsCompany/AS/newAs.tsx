@@ -58,7 +58,7 @@ const NewAs = () => {
   const { data, isLoading, isError, error, refetch } =
     useQuery<CompanyAsListResposne>('company-asList', () =>
       isTokenGetApi(
-        `/after-sales-services/new?sort=${filterTypeEn}&searchKeyword=${keyword}`,
+        `/after-sales-services/new?sort=${filterTypeEn}&searchKeyword=${''}`,
       ),
     );
 
@@ -92,8 +92,8 @@ const NewAs = () => {
     console.log('🔥 에러 발생 ~line 66 ->' + TAG);
     console.log(error);
   }
-  console.log('🔥 기업 AS 리스트 데이터 확인 ~line 69 -> ' + TAG);
-  console.log(data);
+  // console.log('🔥 기업 AS 리스트 데이터 확인 ~line 69 -> ' + TAG);
+  // console.log(data);
   return (
     <Body>
       {modal && (

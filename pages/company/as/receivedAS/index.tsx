@@ -1,25 +1,18 @@
-import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import { CountertopsOutlined } from '@mui/icons-material';
 import MypageHeader from 'components/mypage/request/header';
 import AsCompTop from 'componentsCompany/AS/component/AsCompTop';
 import LeftASBox from 'componentsCompany/AS/LeftASBox';
-import { handleColorAS } from 'utils/changeValue';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
-import {
-  GET_InProgressProjectsDetail,
-  InProgressProjectsDetailResponse,
-} from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
 import AsCompText from 'componentsCompany/AS/component/AsCompText';
+import { useQuery } from 'react-query';
+import { AsDetailReseponse } from 'pages/mypage/as';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
-// type Props = {
-//   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
-//   openSubLink: boolean;
-// };
 type Props = {};
 export interface Data {
   id: number;
@@ -35,17 +28,29 @@ export interface Data {
 const TAG = 'pages/compnay/as/receivedAS.tsx';
 const ReceivedAS = (props: Props) => {
   const router = useRouter();
+  const routerId = router?.query?.afterSalesServiceIdx;
 
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
   const [headerTab, setHeaderTab] = useState<number>(3);
-
   // 접수내용, 접수확인, A/S 결과 열고 닫는거
-  const [request, setRequeste] = useState<boolean>(false);
-  const [requestConfirm, setRequestConfirm] = useState<boolean>(true);
+  const [request, setRequeste] = useState<boolean>(true);
+  const [requestConfirm, setRequestConfirm] = useState<boolean>(false);
   const [confirmWait, setConfirmWait] = useState<boolean>(false);
-
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+  // 실시간으로 width 받아오는 함수
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+  const { data, isLoading, isError, error } = useQuery<AsDetailReseponse>(
+    'as-detail',
+    () => isTokenGetApi(`/after-sales-services/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
   useEffect(() => {
     if (request === true) {
       setRequestConfirm(false);
@@ -58,42 +63,7 @@ const ReceivedAS = (props: Props) => {
       setRequestConfirm(false);
     }
   }, [request, requestConfirm, confirmWait]);
-
-  // 서브 카테고리 열렸는지 아닌지
-  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-
-  const [data, setData] = useState<Data>({
-    id: -1,
-    state: -1,
-    badge: '',
-    storeName: '',
-    date: '',
-    contract: false,
-    planed: [],
-    address: '',
-  });
-  // -----진행중인 프로젝트 상세 리스트 api-----
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const {
-    loading,
-    error,
-    data: inProgressData,
-    refetch: inProgressRefetch,
-  } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
-    variables: {
-      projectIdx: router?.query?.projectIdx!,
-    },
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-      },
-    },
-  });
-
-  console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
-  console.log(inProgressData);
-
+  //
   useEffect(() => {
     if (router.query.asIdx) {
       const num = Number(router.query.asIdx);
@@ -101,19 +71,14 @@ const ReceivedAS = (props: Props) => {
       setHeaderTab(2);
     }
   }, [router.query.asIdx]);
-
+  //
   useEffect(() => {
     if (router.query.asIdx) {
       // setData(tempProceeding[num]);
       setOpenSubLink(false);
     }
   }, [router]);
-
-  // 실시간으로 width 받아오는 함수
-  const handleResize = () => {
-    setNowWidth(window.innerWidth);
-  };
-
+  //
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => {
@@ -121,6 +86,14 @@ const ReceivedAS = (props: Props) => {
     };
   }, [nowWidth]);
 
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    console.log(error);
+  }
+  console.log('🔥 as 상세페이지 데이터 확인 ~line 104 ' + TAG);
+  console.log(data);
   return (
     <>
       <WebBody>
@@ -144,12 +117,13 @@ const ReceivedAS = (props: Props) => {
             )}
             <MypageHeader back={true} title={'신규 A/S'} />
             <WebBox className="content">
-              <AsCompTop />
+              <AsCompTop data={data!} />
               <Inner>
                 <AsCompText
-                  request={request}
-                  requestConfirm={requestConfirm}
-                  confirmWait={confirmWait}
+                  data={data!}
+                  // request={request}
+                  // requestConfirm={requestConfirm}
+                  // confirmWait={confirmWait}
                 />
               </Inner>
             </WebBox>
