@@ -97,6 +97,7 @@ const RBar = styled.div`
   width: 36pt;
   height: 10.5pt;
   background-color: #f3f4f7;
+  cursor: pointer;
   &.filled {
     background-color: ${colors.main};
   }

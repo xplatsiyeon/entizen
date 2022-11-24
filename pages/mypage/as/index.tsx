@@ -5,6 +5,7 @@ import Modal from 'components/Modal/Modal';
 import AsRequest from 'components/mypage/as/AsRequest';
 import AsRequestFooter from 'components/mypage/as/AsRequestFooter';
 import AsRequestPartner from 'components/mypage/as/AsRequestPartner';
+import AsWriteReview from 'components/mypage/as/AsWriteReview';
 import RequestMain from 'components/mypage/request/requestMain';
 import UserRightMenu from 'components/UserRightMenu';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -19,6 +20,16 @@ export interface File {
   originalName: string;
   url: string;
   size: number;
+  afterSalesServiceIdx: number;
+}
+export interface AfterSalesServiceReview {
+  afterSalesServiceReviewIdx: number;
+  attentivenessPoint: number;
+  quicknessPoint: number;
+  professionalismPoint: number;
+  satisfactionPoint: number;
+  averagePoint: string;
+  opinion: string;
   afterSalesServiceIdx: number;
 }
 export interface AsDetailReseponse {
@@ -64,7 +75,7 @@ export interface AsDetailReseponse {
             };
           };
         };
-        afterSalesServiceReview: boolean;
+        afterSalesServiceReview: AfterSalesServiceReview;
         afterSalesServiceRequestFiles: File[];
         afterSalesServiceCompletionFiles: File[];
       };
@@ -77,17 +88,17 @@ const TAG = 'pages/mypage/as/index.tsx';
 const asNumber = () => {
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
+  const [isReview, setIsReview] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
-  const { data, isLoading, isError, error, refetch } =
-    useQuery<AsDetailReseponse>(
-      'as-detail',
-      () => isTokenGetApi(`/after-sales-services/${routerId}`),
-      {
-        enabled: router.isReady,
-      },
-    );
+  const { data, isLoading, isError, error } = useQuery<AsDetailReseponse>(
+    'as-detail',
+    () => isTokenGetApi(`/after-sales-services/${routerId}`),
+    {
+      enabled: router.isReady,
+    },
+  );
   const {
     mutate: completeMutate,
     isLoading: completeIsLoading,
@@ -96,16 +107,26 @@ const asNumber = () => {
     onSuccess: () => {
       setIsModal(true);
       setModalMessage('AS 완료 되었습니다.');
-      refetch();
     },
     onError: () => {
       setIsModal(true);
       setModalMessage('완료가 실패했습니다. 다시 시도해주세요.');
     },
   });
-
+  // 모달 온클릭
   const handleModal = () => {
-    setIsModal(false);
+    if (modalMessage === 'AS 완료 되었습니다.') {
+      setIsReview(true);
+    } else if (modalMessage === '소중한 의견 감사합니다.') {
+      router.replace({
+        pathname: '/mypage',
+        query: {
+          id: '2',
+        },
+      });
+    } else {
+      setIsModal(false);
+    }
   };
 
   const handleClick = (st: string) => {
@@ -124,25 +145,6 @@ const asNumber = () => {
       url: `/after-sales-services/${routerId}/agreement`,
       data: {},
     });
-  };
-  // 버튼 태크
-  const makeBtn = (text: string, query: string, className?: string) => {
-    return (
-      <Btn
-        className={className ? className : undefined}
-        onClick={() => handleClick(query)}
-      >
-        <span>{text}</span>
-      </Btn>
-    );
-  };
-  // 버튼 태크
-  const completeBtn = (text: string, query: string) => {
-    return (
-      <BtnBox onClick={onClickCompleteBtn}>
-        <p className="text">{text}</p>
-      </BtnBox>
-    );
   };
 
   if (isLoading || completeIsLoading) {
@@ -176,21 +178,56 @@ const asNumber = () => {
             {/* AS 상단 부분 */}
             <AsRequest data={data!} />
             {/* 하단 부분 내용 */}
-            {data?.data.afterSalesService.afterSalesService
-              .afterSalesServiceCompletionConsentStatus ? (
-              <div>리뷰 작성 뷰</div>
+            {isReview ? (
+              <AsWriteReview
+                id={routerId}
+                setIsModal={setIsModal}
+                setModalMessage={setModalMessage}
+              />
             ) : (
               <AsRequestPartner data={data!} />
             )}
             <Wrap3>
-              <AsRequestFooter />
-              {/* {btnTag} */}
-              {data?.data.afterSalesService.badge.includes('요청') &&
-                makeBtn('수정하기', 'requestAS')}
-              {data?.data.afterSalesService.badge.includes('대기') &&
-                completeBtn('A/S 완료하기', 'writeReview')}
-              {data?.data.afterSalesService.badge.includes('A/S') &&
-                makeBtn('리뷰보기', 'myReview', 'as')}
+              {/* 파트너와 소통하기 문구 */}
+              {!isReview && <AsRequestFooter />}
+              {/* 수정하기 */}
+              {!isReview &&
+                data?.data.afterSalesService.badge.includes('요청') && (
+                  <Btn onClick={() => handleClick('requestAS')}>
+                    <span>수정하기</span>
+                  </Btn>
+                )}
+              {/* A/S 완료하기 */}
+              {!isReview &&
+                data?.data.afterSalesService.badge.includes('대기') && (
+                  <BtnBox onClick={onClickCompleteBtn}>
+                    <p className="text">A/S 완료하기</p>
+                  </BtnBox>
+                )}
+              {/* 리뷰 작성 */}
+              {!isReview &&
+                data?.data.afterSalesService.badge.includes('A/S') &&
+                !data?.data.afterSalesService.afterSalesService
+                  .afterSalesServiceCompletionConsentStatus && (
+                  <Btn
+                    className="isColor"
+                    onClick={() => {
+                      setIsReview(true);
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    <span>A/S 리뷰하기</span>
+                  </Btn>
+                )}
+              {/* 내 리뷰 보기 */}
+              {isReview &&
+                data?.data.afterSalesService.badge.includes('A/S') &&
+                data?.data.afterSalesService.afterSalesService
+                  .afterSalesServiceCompletionConsentStatus && (
+                  <Btn onClick={() => handleClick('myReview')}>
+                    <span>내 리뷰 보기</span>
+                  </Btn>
+                )}
             </Wrap3>
           </Wrap2>
         </FlexBox>
@@ -279,7 +316,8 @@ const Btn = styled.button`
   letter-spacing: -0.02em;
   text-align: center;
   background: none;
-  &.as {
+  &.isColor {
+    cursor: pointer;
     color: white;
     background-color: #5221cb;
     border: none;

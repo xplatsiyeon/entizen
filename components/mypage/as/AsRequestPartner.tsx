@@ -139,7 +139,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
           .afterSalesServiceResultDate! && (
           <>
             <ReceiptTitle>A/S결과</ReceiptTitle>
-            <SecondList>
+            <SecondList className="listChildren">
               <Items>
                 <span className="name">내용</span>
                 <span className="value">
@@ -223,9 +223,13 @@ const List = styled.ul`
   border-bottom: 0.75pt solid ${colors.lightGray};
 `;
 const SecondList = styled.ul`
+  gap: 12pt;
   margin-top: 15pt;
   padding-bottom: 18pt;
-  gap: 12pt;
+  border-bottom: 0.75pt solid ${colors.lightGray};
+  &.listChildren {
+    border-bottom: none;
+  }
 `;
 const Item = styled.li`
   display: flex;

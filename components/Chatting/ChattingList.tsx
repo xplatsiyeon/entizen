@@ -295,7 +295,11 @@ width: calc((100% / 8) * 5);
 
 `
 const ChattingRoomImage = styled.div`
+    margin-left: 21pt;
+
+@media (max-width: 899pt) {
     margin-left: 15pt;
+}
 `
 const ChattingRoomPreview = styled.div`
 flex: auto ;
@@ -307,7 +311,11 @@ const ChattingRoomInfo = styled.div`
 display: flex;
 flex-direction: column;
 gap: 9pt;
-margin-right: 15pt;
+margin-right: 21pt;
+
+@media (max-width: 899pt) {
+    margin-right: 15pt;
+}
 `
 const ImageWrap = styled.div`
 width: 36pt;

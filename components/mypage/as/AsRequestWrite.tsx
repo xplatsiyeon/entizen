@@ -123,14 +123,15 @@ const AsRequestWrite = () => {
     data: detailData,
     isLoading: detailIsLoading,
     isError: detailIsError,
-    error,
+    remove: detailRemove,
   } = reactQuery<AsDetailReseponse>(
-    'as-detail',
+    'as-detail-modified',
     () => isTokenGetApi(`/after-sales-services/${routerId}`),
     {
-      enabled: router.isReady,
+      enabled: routerId !== undefined && router?.isReady!,
     },
   );
+
   // -------------------------AS 조회 (수정하기) -------------------
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
     isTokenPutApi,
@@ -257,9 +258,11 @@ const AsRequestWrite = () => {
         detailData.data.afterSalesService.afterSalesService.afterSalesServiceIdx.toString(),
       );
       setReview(newFile);
-      console.log(detailData);
     }
-  }, []);
+    // return () => {
+    //   detailRemove();
+    // };
+  }, [detailData]);
 
   useEffect(() => {
     if (!chargingLoading && !chargingError && chargingData?.chargingStations) {
@@ -287,12 +290,13 @@ const AsRequestWrite = () => {
       setCheckAll(() => false);
     }
 
+    //
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption, review, title, reqeustText]);
 
-  if (chargingLoading || asIsLoading || detailIsLoading) {
-    return <Loader />;
-  }
+  // if (chargingLoading || asIsLoading) {
+  //   return <Loader />;
+  // }
 
   if (chargingError || detailIsError) {
     console.log('🔥 ~line 107 ~ AS 충전소 리스트 ' + TAG);
