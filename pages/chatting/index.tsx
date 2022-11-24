@@ -218,7 +218,7 @@ height: 495pt;
 overflow-y: scroll;
 border-left: 0.75pt solid #E2E5ED;
     
-@media (max-width: 899pt) {
+@media (max-width: 899.25pt) {
     width: 100%;
     position: absolute;
     top: 0;
@@ -243,7 +243,7 @@ const TabList = styled.ul`
   position: relative;
   margin: 0 21pt;
 
-@media (max-width: 899pt) {
+@media (max-width: 899.25pt) {
     margin:  0 15pt;
 }
 `;
@@ -283,4 +283,7 @@ const FAQBtn = styled.button`
   right: 0;
   top: 22.4pt;
   padding: 4.5pt 7.5pt;
+@media (min-width: 900pt) {
+    display: none;
+}
 `;

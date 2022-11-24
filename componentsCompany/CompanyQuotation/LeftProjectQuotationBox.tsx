@@ -16,6 +16,8 @@ import { isTokenGetApi } from 'api';
 import SendRequestUnder from './SendRequestUnder';
 import LastQuotation from 'pages/company/quotation/lastQuotation';
 import { SentrequestResponse } from './SentRequest';
+import HistoryUnder from './HistoryUnder';
+import { HistoryResponse } from './History';
 
 type Props = {
   searchWord?: string;
@@ -102,13 +104,37 @@ const LeftProjectQuotationBox = ({
     isTokenGetApi('/quotations/sent-request'),
   );
 
+  // history data api
+
+  const {
+    data: historyData,
+    isLoading: historyLoading,
+    isError: historyIsError,
+    error: historyError,
+    refetch: historyRefetch,
+  } = useQuery<HistoryResponse>(
+    'history',
+    () =>
+      isTokenGetApi(
+        `/quotations/histories?keyword=${keyword}&sort=${
+          filterTypeEn[checkedFilterIndex!]
+        }`,
+      ),
+    {
+      enabled: false,
+    },
+  );
+
   const router = useRouter();
 
   useEffect(() => {
     if (router.pathname === `/company/recievedRequest`) {
       setTab('받은 요청');
       setUnderNum(0);
-    } else if (router.pathname === `/company/sentProvisionalQuotation`) {
+    } else if (
+      router.pathname === `/company/sentProvisionalQuotation` &&
+      !router.query.historyIdx
+    ) {
       setTab('보낸 견적');
       setUnderNum(1);
     } else if (router.pathname === '/company/quotation/lastQuotation') {
@@ -119,15 +145,28 @@ const LeftProjectQuotationBox = ({
       data === undefined
     ) {
       setTab('받은 요청');
-      setUnderNum(2);
+      setUnderNum(3);
     } else if (
       router.pathname === '/company/quotation/lastQuotation' &&
       data === undefined
     ) {
       setTab('보낸 견적');
+      setUnderNum(3);
+    } else if (
+      router.pathname === `/company/sentProvisionalQuotation` &&
+      router.query.historyIdx
+    ) {
+      setTab('히스토리');
       setUnderNum(2);
+    } else if (
+      router.pathname === `/company/sentProvisionalQuotation` &&
+      router.query.historyIdx &&
+      data === undefined
+    ) {
+      setTab('히스토리');
+      setUnderNum(3);
     }
-  }, [route]);
+  }, [router.pathname]);
 
   useEffect(() => {
     sendRefetch();
@@ -148,7 +187,14 @@ const LeftProjectQuotationBox = ({
         send={send}
       />
     ),
-    2: <NoProject />,
+    2: (
+      <HistoryUnder
+        componentId={componentId}
+        setComponentId={setComponentId}
+        historyData={historyData}
+      />
+    ),
+    3: <NoProject />,
   };
 
   return (

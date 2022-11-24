@@ -23,7 +23,7 @@ const UserRightMenu = () => {
         </LeftArrow>
         <MenuBox
           onClick={() => {
-            alert(`소통하기`);
+            alert(`소통하기 2차 작업범위입니다.`);
           }}
         >
           <ImageBoxS>
@@ -34,7 +34,7 @@ const UserRightMenu = () => {
         </MenuBox>
         <MenuBox
           onClick={() => {
-            alert(`엔티즌 도서관`);
+            router.push('/library');
           }}
         >
           <ImageBoxL>
@@ -51,16 +51,16 @@ const MenuRapper = styled.div`
   position: fixed;
   z-index: 100;
   right: 20pt;
-  top: 165pt;
+  top: 120pt;
   border-radius: 12pt;
   background-color: #ffffff;
   padding: 28pt 14pt 24pt;
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
 
   @media (max-width: 1125pt) {
+    top: 130pt;
     border-radius: 10pt;
     right: 10pt;
-    top: 165pt;
   }
 
   @media (max-width: 1049.25pt) {
@@ -125,13 +125,14 @@ const Divide = styled.div`
 const LeftArrow = styled.div`
   position: fixed;
   z-index: 10;
-  top: 187.5pt;
+  top: 145pt;
   right: 90pt;
   background-color: #ffffff;
   border-radius: 100%;
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
 
   @media (max-width: 1125pt) {
+    top: 155pt;
     right: 63pt;
   }
 `;

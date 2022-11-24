@@ -4,7 +4,6 @@ import { useState } from 'react';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from 'next/image';
 import FilterModal from './filterModal';
-import NoAsHistyory from './noAsHistrory';
 import { bgcolor } from '@mui/system';
 import { handleColorAS } from 'utils/changeValue';
 import { useRouter } from 'next/router';
@@ -15,6 +14,7 @@ import { CompanyAsListResposne } from './newAs';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
+import NoAsHistyoryUnder from './noAsHistoryUnder';
 
 type Props = {
   tabNumber: number;
@@ -90,7 +90,7 @@ const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
             );
           })
         ) : (
-          <NoAsHistyory />
+          <NoAsHistyoryUnder />
         )}
       </List>
     </Body>

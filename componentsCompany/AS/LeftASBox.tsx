@@ -34,14 +34,6 @@ const LeftASBox = ({
   const TabType: string[] = ['신규 A/S', '히스토리'];
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
-  const { loading, error, data } = useQuery<Response>(GET_InProgressProjects, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-      },
-    },
-  });
 
   // 왼쪽 열리고 닫히고
   const [newAS, setNewAS] = useState<boolean>(true);
@@ -116,21 +108,6 @@ const LeftASBox = ({
               </TabItem>
             ))}
           </MobileTabContainer>
-          {/* <WebTabContainer>
-            {TabType.map((tab, index) => (
-              <TabItem
-                key={index}
-                tab={leftTabNumber?.toString()!}
-                index={index.toString()}
-                onClick={() => {
-                  setLeftTabNumber(index);
-                }}
-              >
-                {tab}
-                <Dot tab={leftTabNumber.toString()} index={index.toString()} />
-              </TabItem>
-            ))}
-          </WebTabContainer> */}
           <WebTabContainer>
             <WebTabItem
               newAS={newAS}
