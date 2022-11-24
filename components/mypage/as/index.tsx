@@ -270,7 +270,9 @@ const AsIndex = (props: Props) => {
               </ContentTitle>
             </ContentTop>
             <ContentCenter>
-              <ContentCenterText></ContentCenterText>
+              <ContentCenterText>
+                {el?.afterSalesService?.requestContent}
+              </ContentCenterText>
             </ContentCenter>
             <ContentBottom>
               <CommonBtn

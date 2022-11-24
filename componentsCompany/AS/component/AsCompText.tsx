@@ -24,7 +24,7 @@ import {
 import { AxiosError } from 'axios';
 
 type Props = {
-  data?: AsDetailReseponse;
+  data: AsDetailReseponse;
 };
 
 const AsCompText = ({ data }: Props) => {
@@ -427,10 +427,14 @@ const AsCompText = ({ data }: Props) => {
         )}
         {/* 웹 버튼 */}
         {data?.data?.afterSalesService?.badge?.includes('요청') && (
-          <WebBtn isValid={isValidAcceptance}>접수확인</WebBtn>
+          <WebBtn isValid={isValidAcceptance} onClick={onClickAcceptance}>
+            접수확인
+          </WebBtn>
         )}
         {data?.data?.afterSalesService?.badge?.includes('확인') && (
-          <WebBtn isValid={isValidCompletion}>A/S 완료하기</WebBtn>
+          <WebBtn isValid={isValidCompletion} onClick={onClickCompletion}>
+            A/S 완료하기
+          </WebBtn>
         )}
         {router.pathname !== `/company/as/history` && (
           <CommunityButton

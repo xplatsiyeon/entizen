@@ -1,18 +1,19 @@
 import styled from '@emotion/styled';
+import { AfterSalesServiceReview } from 'pages/mypage/as';
 
-type Props = {};
+type Props = {
+  review: AfterSalesServiceReview;
+};
 
-{
-  /* 나중에
-
-  const score = [data.value1 ,data.value2, data.value3, data.value4 ]
-
-*/
-}
-const score = [4, 3, 3, 4];
-
-const AsCompGetReview = () => {
+const AsCompGetReview = ({ review }: Props) => {
   const reviewPoint = ['친절함', '신속함', '전문성', '만족도'];
+
+  const score = [
+    review?.attentivenessPoint,
+    review?.quicknessPoint,
+    review?.professionalismPoint,
+    review?.satisfactionPoint,
+  ];
 
   // 각 score 값에 맞게 체크된 배열이 만들어진다.
   // ex) 친절함 :4  -> [true, true, true, true, false]
@@ -65,7 +66,7 @@ const AsCompGetReview = () => {
         <TextArea
           placeholder={''}
           rows={4}
-          value={''}
+          value={review?.opinion}
           required
           readOnly={true}
         />
@@ -145,7 +146,7 @@ const TextArea = styled.textarea`
   padding-left: 12pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
-
+  resize: none;
   @media (max-width: 899.25pt) {
     margin: 0;
   }
