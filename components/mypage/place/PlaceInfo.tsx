@@ -132,14 +132,13 @@ const PlaceInfo = ({ data }: Props) => {
             </div>
           </WebRightPhotoBox>
         </WebFinishedPhotoWrapper>
+        <Wrap>
+          <CommunicationBox
+            text="파트너와 소통하기"
+            clickHandler={() => alert('개발중입니다.')}
+          />
+        </Wrap>
       </>
-
-      <Wrap>
-        <CommunicationBox
-          text="파트너와 소통하기"
-          clickHandler={() => alert('개발중입니다.')}
-        />
-      </Wrap>
     </Wrapper>
   );
 };
@@ -286,6 +285,9 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
   padding-bottom: 135pt;
+  @media (min-width: 900pt) {
+    padding-bottom: 50pt;
+  }
 `;
 const FileLabel = styled.div`
   font-family: 'Spoqa Han Sans Neo';
