@@ -34,7 +34,7 @@ interface Data {
   };
   badge: string;
 }
-interface HistoryResponse {
+export interface HistoryResponse {
   isSuccess: boolean;
   data: Data[];
 }
@@ -103,14 +103,14 @@ const History = ({}: Props) => {
           <div key={index}>
             <Contents
               key={index}
-              onClick={() =>
+              onClick={() => {
                 router.push({
                   pathname: '/company/sentProvisionalQuotation',
                   query: {
-                    preQuotationIdx: data?.preQuotation?.preQuotationIdx,
+                    historyIdx: data?.preQuotation?.preQuotationIdx,
                   },
-                })
-              }
+                });
+              }}
             >
               <DdayNAddress>
                 <DdayBox>

@@ -195,7 +195,8 @@ const TAG =
 // 본체
 const SentQuoatationFirst = () => {
   const router = useRouter();
-  const routerId = router?.query?.preQuotationIdx;
+  const routerId = router?.query?.preQuotationIdx!;
+  const historyId = router?.query?.historyIdx!;
   // 현장실사 완료 모달
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   // 에러 모달
@@ -206,6 +207,16 @@ const SentQuoatationFirst = () => {
   const [open, setOpen] = useState<boolean>(false);
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(1);
+
+  // 히스토리 때문에 step 바꿔주는거
+  useEffect(() => {
+    if (
+      router.pathname === `/company/sentProvisionalQuotation` &&
+      router.query.historyIdx
+    ) {
+      setTabNumber(2);
+    }
+  }, [router]);
   const [componentId, setComponentId] = useState<number>();
 
   // 실시간으로 width 받아옴
@@ -249,10 +260,7 @@ const SentQuoatationFirst = () => {
   const { data, isLoading, isError, error, refetch } =
     useQuery<SentRequestResponse>(
       'company',
-      () =>
-        isTokenGetApi(
-          `/quotations/sent-request/${router.query.preQuotationIdx}`,
-        ),
+      () => isTokenGetApi(`/quotations/sent-request/${routerId || historyId}`),
       {
         enabled: router.isReady,
         // enabled: false,
@@ -267,9 +275,7 @@ const SentQuoatationFirst = () => {
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
     () =>
-      isTokenGetApi(
-        `/quotations/pre/${router?.query?.preQuotationIdx}/spot-inspection`,
-      ),
+      isTokenGetApi(`/quotations/pre/${routerId || historyId}/spot-inspection`),
     {
       enabled: router.isReady,
       // enabled: false,
