@@ -118,7 +118,9 @@ const AsHistory = () => {
                   <FlexWrap key={el.afterSalesServiceIdx}>
                     <Text>{el.requestTitle}</Text>
                     <Score>
-                      {`평점 ${el.afterSalesServiceReview?.averagePoint}`}
+                      {el.afterSalesServiceReview?.averagePoint
+                        ? `평점 ${el.afterSalesServiceReview?.averagePoint}`
+                        : null}
                     </Score>
                   </FlexWrap>
                 ))}
@@ -196,6 +198,7 @@ const ListBox = styled.div`
   border-radius: 6pt;
   padding: 13.5pt;
   margin-bottom: 9pt;
+  cursor: pointer;
 `;
 const StoreName = styled.p`
   font-style: normal;

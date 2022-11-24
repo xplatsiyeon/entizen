@@ -5,9 +5,9 @@ import LeftASBox from 'componentsCompany/AS/LeftASBox';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import AsCompText from 'componentsCompany/AS/component/AsCompText';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { AsDetailReseponse } from 'pages/mypage/as';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
@@ -29,6 +29,7 @@ const TAG = 'pages/compnay/as/receivedAS.tsx';
 const ReceivedAS = (props: Props) => {
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
+  const queryClient = useQueryClient();
 
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(0);
@@ -44,13 +45,14 @@ const ReceivedAS = (props: Props) => {
   const handleResize = () => {
     setNowWidth(window.innerWidth);
   };
-  const { data, isLoading, isError, error } = useQuery<AsDetailReseponse>(
-    'as-detail',
-    () => isTokenGetApi(`/after-sales-services/${routerId}`),
-    {
-      enabled: router.isReady,
-    },
-  );
+  const { data, isLoading, isError, error, refetch, remove } =
+    useQuery<AsDetailReseponse>(
+      'as-detail',
+      () => isTokenGetApi(`/after-sales-services/${routerId}`),
+      {
+        enabled: router.isReady,
+      },
+    );
   useEffect(() => {
     if (request === true) {
       setRequestConfirm(false);
@@ -63,37 +65,43 @@ const ReceivedAS = (props: Props) => {
       setRequestConfirm(false);
     }
   }, [request, requestConfirm, confirmWait]);
-  //
+
   useEffect(() => {
-    if (router.query.asIdx) {
-      const num = Number(router.query.asIdx);
+    if (router.query.afterSalesServiceIdx) {
+      const num = Number(router.query.afterSalesServiceIdx);
       setComponentId(num);
       setHeaderTab(2);
     }
-  }, [router.query.asIdx]);
-  //
-  useEffect(() => {
-    if (router.query.asIdx) {
-      // setData(tempProceeding[num]);
+    if (router.query.afterSalesServiceIdx) {
       setOpenSubLink(false);
     }
   }, [router]);
-  //
+
   useEffect(() => {
+    console.log(routerId);
+    remove();
+  }, [routerId]);
+
+  const resizeing = useCallback(() => {
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [nowWidth]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  useEffect(() => {
+    resizeing();
+  }, [nowWidth]);
+
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
   if (isError) {
     console.log(error);
   }
-  console.log('🔥 as 상세페이지 데이터 확인 ~line 104 ' + TAG);
-  console.log(data);
+
+  // console.log('🔥 as 상세페이지 데이터 확인 ~line 104 ' + TAG);
+  // console.log(data);
   return (
     <>
       <WebBody>
@@ -119,12 +127,7 @@ const ReceivedAS = (props: Props) => {
             <WebBox className="content">
               <AsCompTop data={data!} />
               <Inner>
-                <AsCompText
-                  data={data!}
-                  // request={request}
-                  // requestConfirm={requestConfirm}
-                  // confirmWait={confirmWait}
-                />
+                <AsCompText data={data!} />
               </Inner>
             </WebBox>
           </WebRapper>

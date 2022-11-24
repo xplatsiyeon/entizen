@@ -117,7 +117,9 @@ const asNumber = () => {
   const handleModal = () => {
     if (modalMessage === 'AS 완료 되었습니다.') {
       setIsReview(true);
+      setIsModal(false);
     } else if (modalMessage === '소중한 의견 감사합니다.') {
+      setIsModal(false);
       router.replace({
         pathname: '/mypage',
         query: {

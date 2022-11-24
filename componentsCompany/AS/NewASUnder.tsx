@@ -25,6 +25,7 @@ type Props = {
 const TAG = 'componentsCompany/AS/NewASUnder.tsx';
 const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
   const router = useRouter();
+  const routerId = router?.query?.afterSalesServiceIdx;
 
   // 기업 AS 리스트 보기
   const { data, isLoading, isError, error } = useQuery<CompanyAsListResposne>(
@@ -64,7 +65,8 @@ const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
                     router.push({
                       pathname: '/company/as/receivedAS/',
                       query: {
-                        asIdx: idx,
+                        afterSalesServiceIdx:
+                          el.afterSalesService.afterSalesServiceIdx,
                       },
                     });
                   }}

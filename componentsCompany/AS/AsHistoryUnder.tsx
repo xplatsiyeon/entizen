@@ -7,24 +7,37 @@ import FilterModal from './filterModal';
 import NoAsHistyory from './noAsHistrory';
 import { useRouter } from 'next/router';
 import CaretDown24 from 'public/images/CaretDown24.png';
+import { useQuery } from 'react-query';
+import { CompanyAsListResposne } from './newAs';
+import { HisttoryResponse } from 'componentsCompany/AS/asHistory';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 
+const TAG = 'componentsCompany/AS/AsHistoryUnder.tsx';
 const AsHistoryUnder = () => {
-  //히스토리 리스트 get();
-  const arr = [0, 1, 2, 3, 4];
-
-  // const arr:number[] = [];
-
-  const [searchWord, setSearchWord] = useState<string>('');
-  const [selected, setSelected] = useState<string>('현장별 보기');
-  const [modal, setModal] = useState<boolean>(false);
-
   const router = useRouter();
+  // 기업 AS 리스트 보기
+  const { data, isLoading, isError, error } = useQuery<HisttoryResponse>(
+    'company-asList',
+    () =>
+      isTokenGetApi(
+        '/after-sales-services/histories?sort=status&searchKeyword',
+      ),
+  );
 
-  const handleRoute = (idx: number) => {
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    console.log('🔥 에러 발생 ~line 28 ->' + TAG);
+    console.log(error);
+  }
+
+  const handleRoute = (afterSalesServiceIdx: number) => {
     router.push({
       pathname: '/company/as/history',
       query: {
-        id: idx,
+        afterSalesServiceIdx: afterSalesServiceIdx,
       },
     });
   };
@@ -32,20 +45,26 @@ const AsHistoryUnder = () => {
   return (
     <Body>
       <List>
-        {arr.length > 0 ? (
+        {data?.data.afterSalesServiceHistories?.length! > 0 ? (
           <ListWrap>
-            {arr.map((d, idx) => {
-              return (
-                <>
-                  <ListBox onClick={() => handleRoute(idx + 1)}>
-                    <StoreName>LS 안양 주유소</StoreName>
-                    <ListIconBox>
-                      <Image src={CaretDown24} alt="RightArrow" />
-                    </ListIconBox>
-                  </ListBox>
-                </>
-              );
-            })}
+            {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
+              <ListBox
+                key={el?.afterSalesServices[0]?.afterSalesServiceIdx}
+                onClick={() =>
+                  handleRoute(el?.afterSalesServices[0]?.afterSalesServiceIdx)
+                }
+              >
+                <StoreName>
+                  {
+                    el?.finalQuotation?.preQuotation?.quotationRequest
+                      ?.installationAddress
+                  }
+                </StoreName>
+                <ListIconBox>
+                  <Image src={CaretDown24} alt="RightArrow" />
+                </ListIconBox>
+              </ListBox>
+            ))}
           </ListWrap>
         ) : (
           <NoAsHistyory />
