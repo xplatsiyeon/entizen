@@ -39,7 +39,7 @@ type UserChattingLogs = {
     }
 }
 
-const ChattingList = ({ type }: Props) => {
+const ComChattingList = ({ type }: Props) => {
 
     console.log('list', type)
 
@@ -138,7 +138,6 @@ const ChattingList = ({ type }: Props) => {
         const diff = now.diff(target, 'h');
 
         if (diff < 24) {
-            const createdAt = dayjs(target).format("HH:mm");
 
             //오전, 오후로 나누기
             const pm = dayjs(target).subtract(12, 'h').format('HH:mm');
@@ -149,7 +148,6 @@ const ChattingList = ({ type }: Props) => {
             }
 
         } else if ((diff > 24) && (diff < 48)) {
-            const createdAt = dayjs(target).format("HH:mm");
             const pm = dayjs(target).subtract(12, 'h').format('HH:mm');
 
             if (Number(pm.substring(0, 3)) > 12) {
@@ -158,7 +156,6 @@ const ChattingList = ({ type }: Props) => {
                 return `어제 ${pm}`
             }
         } else {
-            const createdAt = dayjs(target).format("YYYY-MM-DD HH:mm");
             const year = dayjs(target).get('y');
             const month = dayjs(target).get('month');
             const day = dayjs(target).get('day');
@@ -266,13 +263,14 @@ const ChattingList = ({ type }: Props) => {
     {/* 디테일 페이지 이동 */ }
     const router = useRouter();
 
-    const handleRoute = (idx: number, comIdx: number) => {
+    const handleRoute = (idx: number, comIdx: number, name : string) => {
         console.log('route')
         router.push({
-            pathname: `/chatting`,
+            pathname: `/company/chatting`,
             query: {
                 memberId: idx,
                 companyMemberId: comIdx,
+                name: name
             },
         })
     }
@@ -283,7 +281,7 @@ const ChattingList = ({ type }: Props) => {
             {dataArr.map((chatting, idx) => {
                 return (
                     <Chatting className="chattingRoom" key={idx} onTouchStart={(e) => touchStart(e)}
-                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} onClick={() => handleRoute(chatting.userMember.memberIdx, chatting.companyMember.memberIdx)}>
+                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} onClick={() => handleRoute(chatting.userMember.memberIdx, chatting.companyMember.memberIdx, chatting.userMember.name)}>
                         <HiddenBox1>
                             <FavoriteBtn></FavoriteBtn>
                             <AlramBtn></AlramBtn>
@@ -296,7 +294,7 @@ const ChattingList = ({ type }: Props) => {
                                 </ImageWrap>
                             </ChattingRoomImage>
                             <ChattingRoomPreview>
-                                <FromMember>{chatting.companyMember.companyMemberAdditionalInfo.companyName}</FromMember>
+                                <FromMember>{chatting.userMember.name}</FromMember>
                                 <Previw>{chatting.chattingLogs?.content}</Previw>
                             </ChattingRoomPreview>
                             <ChattingRoomInfo>
@@ -317,7 +315,7 @@ const ChattingList = ({ type }: Props) => {
     )
 }
 
-export default ChattingList;
+export default ComChattingList;
 
 const Body = styled.div`
 font-family: 'Spoqa Han Sans Neo';

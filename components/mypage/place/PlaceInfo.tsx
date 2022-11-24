@@ -93,7 +93,7 @@ const PlaceInfo = ({ data }: Props) => {
         {/* 모바일 사진이 들어갈 공간*/}
         <FinishedPhotoBox>
           <Carousel file={data?.projectCompletionFiles} />
-          <Index onClick={handleNum}>{idx}/2</Index>
+          {/*<Index onClick={handleNum}>{idx}/2</Index>*/}
         </FinishedPhotoBox>
 
         {/* 웹 사진이 들어갈 공간*/}
