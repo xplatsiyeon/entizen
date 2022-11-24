@@ -232,18 +232,16 @@ const AsRequestWrite = () => {
 
   // 수정하기 초기값
   useEffect(() => {
-    if (detailData) {
+    if (detailData && routerId !== undefined) {
       const afterSalesServiceRequestFiles =
         detailData?.data.afterSalesService.afterSalesService
           .afterSalesServiceRequestFiles;
-
       const newFile = [...afterSalesServiceRequestFiles].map((obj: any) => {
         delete obj.afterSalesServiceIdx;
         delete obj.afterSalesServiceRequestFileIdx;
         delete obj.createdAt;
         return obj;
       });
-
       setTitle(
         detailData.data.afterSalesService.afterSalesService.requestTitle,
       );
@@ -259,9 +257,6 @@ const AsRequestWrite = () => {
       );
       setReview(newFile);
     }
-    // return () => {
-    //   detailRemove();
-    // };
   }, [detailData]);
 
   useEffect(() => {

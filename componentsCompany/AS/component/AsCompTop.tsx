@@ -3,9 +3,7 @@ import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import CommonBtns from 'components/mypage/as/CommonBtns';
 import Image from 'next/image';
 import React, { useState } from 'react';
-// import UpArrow from 'public/guide/up_arrow.svg';
 import UpArrow from 'public/guide/up_arrow.svg';
-// import DownArrow from 'public/guide/down_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import { handleColorAS } from 'utils/changeValue';
 import colors from 'styles/colors';
@@ -30,7 +28,7 @@ import {
 
 type Props = {
   id?: number;
-  data?: AsDetailReseponse;
+  data: AsDetailReseponse;
 };
 
 const AsCompTop = ({ id, data }: Props) => {
