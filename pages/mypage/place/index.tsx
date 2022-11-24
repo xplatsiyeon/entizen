@@ -228,6 +228,7 @@ const Body = styled.div`
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
+  background: #ffffff;
   }
 `;
 

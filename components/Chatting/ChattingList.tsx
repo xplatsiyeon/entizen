@@ -10,37 +10,37 @@ type Props = {
 }
 
 type UserChattingLogs = {
-        chattingRoomIdx: number,
-        companyMember: { //판매자 회원정보
-            memberIdx: number,
-            companyMemberAdditionalInfo: {
-                companyName: string
-            }
-        },
-        userMember: { //구매자 회원정보
-            memberIdx: number,
-            name: string,
-        },
-        chattingLogs: {
-            fromMemberIdx: number,
-            fromMemberType: string,
-            wasRead: boolean,
-            createdAt: string,
-            content: string,
-            fileUrl: string | null
-        }| null, //채팅방 정보
-        chattingRoomFavorite: { // 채팅방 즐겨찾기 관련 정보
-            chattingRoomFavoriteIdx: number,
-            isFavorite: boolean
-        },
-        chattingRoomNotification: { //채팅방 알림설정
-            chattingRoomNotificationIdx: number,
-            isSetNotification: boolean
+    chattingRoomIdx: number,
+    companyMember: { //판매자 회원정보
+        memberIdx: number,
+        companyMemberAdditionalInfo: {
+            companyName: string
         }
+    },
+    userMember: { //구매자 회원정보
+        memberIdx: number,
+        name: string,
+    },
+    chattingLogs: {
+        fromMemberIdx: number,
+        fromMemberType: string,
+        wasRead: boolean,
+        createdAt: string,
+        content: string,
+        fileUrl: string | null
+    } | null, //채팅방 정보
+    chattingRoomFavorite: { // 채팅방 즐겨찾기 관련 정보
+        chattingRoomFavoriteIdx: number,
+        isFavorite: boolean
+    },
+    chattingRoomNotification: { //채팅방 알림설정
+        chattingRoomNotificationIdx: number,
+        isSetNotification: boolean
     }
+}
 
 const ChattingList = ({ type }: Props) => {
-    
+
     console.log('list', type)
 
     //const [chattingType] = useState<number>(type);
@@ -48,69 +48,69 @@ const ChattingList = ({ type }: Props) => {
 
 
     useEffect(() => {
-        console.log('useEffect',type)
+        console.log('useEffect', type)
         //여기서 데이터 get();
-    const arr = {
-        "isSuccess": true,
-        "data": {
-            "chattingRooms": {
-                "entizenChattingRoom": null,
-                "userChattingRooms": [
-                    {
-                        "chattingRoomIdx": 2,
-                        "companyMember": { //판매자 회원정보
-                            "memberIdx": 52,
-                            "companyMemberAdditionalInfo": {
-                                "companyName": "paulpaul"
+        const arr = {
+            "isSuccess": true,
+            "data": {
+                "chattingRooms": {
+                    "entizenChattingRoom": null,
+                    "userChattingRooms": [
+                        {
+                            "chattingRoomIdx": 2,
+                            "companyMember": { //판매자 회원정보
+                                "memberIdx": 52,
+                                "companyMemberAdditionalInfo": {
+                                    "companyName": "paulpaul"
+                                }
+                            },
+                            "userMember": { //구매자 회원정보
+                                "memberIdx": 35,
+                                "name": "홍길동"
+                            },
+                            "chattingLogs": null, //채팅방 정보
+                            "chattingRoomFavorite": { // 채팅방 즐겨찾기 관련 정보
+                                "chattingRoomFavoriteIdx": 3,
+                                "isFavorite": true
+                            },
+                            "chattingRoomNotification": { //채팅방 알림설정
+                                "chattingRoomNotificationIdx": 3,
+                                "isSetNotification": true
                             }
                         },
-                        "userMember": { //구매자 회원정보
-                            "memberIdx": 35,
-                            "name": "홍길동"
-                        },
-                        "chattingLogs": null, //채팅방 정보
-                        "chattingRoomFavorite": { // 채팅방 즐겨찾기 관련 정보
-                            "chattingRoomFavoriteIdx": 3,
-                            "isFavorite": true
-                        },
-                        "chattingRoomNotification": { //채팅방 알림설정
-                            "chattingRoomNotificationIdx": 3,
-                            "isSetNotification": true
-                        }
-                    },
-                    {
-                        "chattingRoomIdx": 1,
-                        "companyMember": {
-                            "memberIdx": 36,
-                            "companyMemberAdditionalInfo": {
-                                "companyName": "네이버"
+                        {
+                            "chattingRoomIdx": 1,
+                            "companyMember": {
+                                "memberIdx": 36,
+                                "companyMemberAdditionalInfo": {
+                                    "companyName": "네이버"
+                                }
+                            },
+                            "userMember": {
+                                "memberIdx": 35,
+                                "name": "홍길동"
+                            },
+                            "chattingLogs": {
+                                "fromMemberIdx": 35,
+                                "fromMemberType": "USER",
+                                "wasRead": false,
+                                "createdAt": "2022-11-18T06:51:05.018Z",
+                                "content": "ㅎㅇㅇ",
+                                "fileUrl": null
+                            },
+                            "chattingRoomFavorite": {
+                                "chattingRoomFavoriteIdx": 1,
+                                "isFavorite": false
+                            },
+                            "chattingRoomNotification": {
+                                "chattingRoomNotificationIdx": 1,
+                                "isSetNotification": true
                             }
-                        },
-                        "userMember": {
-                            "memberIdx": 35,
-                            "name": "홍길동"
-                        },
-                        "chattingLogs": {
-                            "fromMemberIdx": 35,
-                            "fromMemberType": "USER",
-                            "wasRead": false,
-                            "createdAt": "2022-11-18T06:51:05.018Z",
-                            "content": "ㅎㅇㅇ",
-                            "fileUrl": null
-                        },
-                        "chattingRoomFavorite": {
-                            "chattingRoomFavoriteIdx": 1,
-                            "isFavorite": false
-                        },
-                        "chattingRoomNotification": {
-                            "chattingRoomNotificationIdx": 1,
-                            "isSetNotification": true
                         }
-                    }
-                ]
+                    ]
+                }
             }
         }
-    }
         if (type === 0) {
             setDataArr(arr.data.chattingRooms.userChattingRooms)
         }
@@ -123,13 +123,13 @@ const ChattingList = ({ type }: Props) => {
             setDataArr(wasRead);
         }
 
-        if(type === 2){
-            const favoriteArr = arr.data.chattingRooms.userChattingRooms.filter((f,idx)=>{
+        if (type === 2) {
+            const favoriteArr = arr.data.chattingRooms.userChattingRooms.filter((f, idx) => {
                 return f.chattingRoomFavorite.isFavorite === true
-            }) 
+            })
             setDataArr(favoriteArr)
         }
-    }, [type] 
+    }, [type]
     /*부모 컴포넌트가 렌더링되거나 내부 요인으로 렌더링 되어도 전달되는 type이 바뀌지않으면 api 호출하지않음 */)
 
     {/*메세지 시간 표현 처리 함수 */ }
@@ -176,20 +176,18 @@ const ChattingList = ({ type }: Props) => {
     const chattingList = useRef<HTMLDivElement>(null)
     let pressed = false;
     let prev: number;
+    let start: string;
     const touchStart = (e: TouchEvent<HTMLElement>) => {
         if (pressed) {
             return;
         } else {
             pressed = true;
             prev = e.changedTouches[0].clientX;
-            if (!e.currentTarget.style.transform) {
-
-                //transform: translate 말고 margin으로도 위치 조절할 수 있다.
-                e.currentTarget.style.transform = `translateX(-25%)`
-            } else {
-                console.log(e.currentTarget.style.transform.slice(-5).slice(0,3))
+            if (!e.currentTarget.style.marginLeft) {
+                e.currentTarget.style.marginLeft = '-40%'; //맨 처음, 값 초기화.
             }
-
+            start = e.currentTarget.style.marginLeft.slice(0, -1);
+            console.log('s', start)
         }
     }
     const touchMove = (e: TouchEvent<HTMLElement>, idx: number) => {
@@ -198,40 +196,78 @@ const ChattingList = ({ type }: Props) => {
         } else {
             const now = e.changedTouches[0].clientX;
 
-            //현재 스타일의 transform 객체의 값에서 숫자만 남기기.
-            const nowNum = e.currentTarget.style.transform.slice(-5).slice(0,3); 
-            console.log(nowNum)
-            const n = ((prev - now) > 0 ? -1 : 1);
+            //현재 스타일의 marginLeft 객체의 값에서 숫자만 남기기.
+            const nowNum = e.currentTarget.style.marginLeft.slice(0, -1);
 
-            if ((prev - now) > 0) {
-                let newNum = Number(nowNum) + n;
-               const num = ( (newNum < -37.5) ? -37 : newNum);
-               console.log('??', num)
-               e.currentTarget.style.transform = `translateX(${num}%)`;
-            } else if ((prev - now) < 0) { //오른쪽으로
-                let newNum = Number(nowNum) + n;
-                const num = ( (newNum > -25) ? newNum : -25);
-                console.log('??', num)
-                e.currentTarget.style.transform = `translateX(${num}%)`;
+            //드래그되는 속도 조절 부분. 숫자가 클수록 속도가 빨라진다.
+            let n = ((prev - now) > 0 ? -2 : 2);
+
+            if (start === '-40') {
+
+                if ((prev - now) > 50) {
+                    const newNum = Number(nowNum) + n;
+                    const num = ((newNum < -60) ? -60 : newNum);
+                   // console.log('??', newNum)
+                    e.currentTarget.style.marginLeft = `${num}%`;
+                } else if ((prev - now) < -50) { //오른쪽으로
+                    const newNum = Number(nowNum) + n;
+                    const num = ((newNum > 0) ? 0 : newNum);
+                    e.currentTarget.style.marginLeft = `${num}%`;
+                }
+            }
+
+            if (start === '0') {
+                    n = ((prev - now) > 0 ? -4 : 4);
+                    if ((prev - now) > -50) { //오른쪽으로
+                    const newNum = Number(nowNum) + n;
+                    const num = ((newNum < -40) ? -40 : newNum);
+                    //console.log('??', num)
+                    e.currentTarget.style.marginLeft = `${num}%`;
+                }
+            }
+
+            if (start === '-60') {
+                if ((prev - now) < 50) {
+                    const newNum = Number(nowNum) + n;
+                    const num = ((newNum > -40) ? -40 : newNum);
+                    e.currentTarget.style.marginLeft = `${num}%`;
+                } 
             }
         }
     }
 
     const touchEnd = (e: TouchEvent<HTMLElement>) => {
-        pressed = false;
-        const now = e.changedTouches[0].clientX;
-        if(prev - now > 0){
-        e.currentTarget.style.transform = `translateX(-37.5%)`
-        }else if(prev - now < 0){
-            e.currentTarget.style.transform = `translateX(0%)`
+        if (pressed) {
+            const now = e.changedTouches[0].clientX;
+
+            if (start === '-40') {
+                if ((prev - now) > 0) {
+                    e.currentTarget.style.marginLeft = '-60%'
+                } else if ((prev - now) < 0) {
+                    e.currentTarget.style.marginLeft = '-0%'
+                }
+            }
+
+            if (start === '0') {
+                if ((prev - now) > 0) {
+                    e.currentTarget.style.marginLeft = '-40%'
+                }
+            }
+
+            if (start === '-60') {
+                if ((prev - now) < 0) {
+                    e.currentTarget.style.marginLeft = '-40%'
+                }
+            }
+            pressed = false
         }
     }
 
     {/* 디테일 페이지 이동 */ }
     const router = useRouter();
 
-   const handleRoute = (idx: number, comIdx: number) => {
-    console.log('route')
+    const handleRoute = (idx: number, comIdx: number) => {
+        console.log('route')
         router.push({
             pathname: `/chatting`,
             query: {
@@ -239,7 +275,7 @@ const ChattingList = ({ type }: Props) => {
                 companyMemberId: comIdx,
             },
         })
-    } 
+    }
 
 
     return (
@@ -291,8 +327,9 @@ overflow: hidden;
 const Chatting = styled.div`
 display: flex;
 width: 160%;
-transform: translateX(-25%);
-transition: 0.3s;
+margin-left: -40%;
+//일단.. 드래그시 덜컹거리면 삭제하자. 그리고 터치엔드 함수로 transition 주기
+transition: 0.4s;
 `
 const ChattingRoom = styled.div`
 display: flex;
@@ -394,17 +431,17 @@ position: relative;
 const FavoriteBtn = styled.div`
 width: 50%;
 height: 100%;
-    border: 1px solid red;
+background: rgba(90, 45, 201, 0.7);
 `
 
 const AlramBtn = styled.div`
 width: 50%;
 height: 100%;
-    border: 1px solid green;
+background: #5221CB;
 `
 
 const QuitBtn = styled.div`
-border: 1px solid plum;
 width: 100%;
 height: 100%;
+background: #F75015;
 `

@@ -104,13 +104,11 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
 
-  @media (max-height: 809pt) {
-    display: block;
-    height: 100%;
+  @media (max-width: 899.25pt) {
+    background: #ffffff;
   }
 `;
 

@@ -403,6 +403,11 @@ const AsRequestWrite = () => {
 const Container = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
+
+  @media (max-width: 899.25pt) {
+    padding-bottom: 106pt;
+  }
+
 `;
 const TitleInputBox = styled.div`
   display: flex;
@@ -505,8 +510,12 @@ const NextBtn = styled.button<{ checkAll: boolean }>`
   letter-spacing: -0.02em;
   color: #ffffff;
   text-align: center;
+  border-radius: 6pt;
   @media (max-width: 899.25pt) {
     padding-bottom: 39pt;
+    border-radius: 0;
+    position: fixed;
+    bottom: 0;
   }
 `;
 const ImgSpan = styled.div`
