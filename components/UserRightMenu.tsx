@@ -23,7 +23,7 @@ const UserRightMenu = () => {
         </LeftArrow>
         <MenuBox
           onClick={() => {
-            alert(`소통하기`);
+            alert(`소통하기 2차 작업범위입니다.`);
           }}
         >
           <ImageBoxS>
@@ -34,7 +34,7 @@ const UserRightMenu = () => {
         </MenuBox>
         <MenuBox
           onClick={() => {
-            alert(`엔티즌 도서관`);
+            router.push('/library');
           }}
         >
           <ImageBoxL>

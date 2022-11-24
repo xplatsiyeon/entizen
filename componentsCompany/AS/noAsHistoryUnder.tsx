@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import noAs from 'public/images/noAs.png';
 
-const NoAsHistyory = () => {
+const NoAsHistyoryUnder = () => {
   return (
     <Body>
       <ImageWrap>
@@ -12,7 +12,7 @@ const NoAsHistyory = () => {
   );
 };
 
-export default NoAsHistyory;
+export default NoAsHistyoryUnder;
 
 const Body = styled.div`
   position: relative;
@@ -30,6 +30,6 @@ const ImageWrap = styled.div`
   transform: translate(-50%, -50%);
   margin-top: 70pt;
   @media (min-width: 900pt) {
-    margin-top: 130pt;
+    margin: 0 auto;
   }
 `;

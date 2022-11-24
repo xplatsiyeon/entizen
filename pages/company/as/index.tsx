@@ -49,8 +49,6 @@ const ComAsIndex = ({ num, now }: Props) => {
         }*/
   }, [route.query.id]);
 
-  // const components = [<NewAs />, <AsHistory />];
-
   const components: Components = {
     0: <NewAs />,
     1: <AsHistory />,
