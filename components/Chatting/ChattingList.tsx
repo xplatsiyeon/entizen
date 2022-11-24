@@ -183,9 +183,11 @@ const ChattingList = ({ type }: Props) => {
             pressed = true;
             prev = e.changedTouches[0].clientX;
             if (!e.currentTarget.style.transform) {
+
+                //transform: translate 말고 margin으로도 위치 조절할 수 있다.
                 e.currentTarget.style.transform = `translateX(-25%)`
             } else {
-                console.log(e.currentTarget.style.transform.slice(-4).slice(0,2))
+                console.log(e.currentTarget.style.transform.slice(-5).slice(0,3))
             }
 
         }
@@ -195,31 +197,34 @@ const ChattingList = ({ type }: Props) => {
             return;
         } else {
             const now = e.changedTouches[0].clientX;
+
+            //현재 스타일의 transform 객체의 값에서 숫자만 남기기.
+            const nowNum = e.currentTarget.style.transform.slice(-5).slice(0,3); 
+            console.log(nowNum)
             const n = ((prev - now) > 0 ? -1 : 1);
 
-            if ((prev - now) > 20) {
-                
-
-            } else if ((prev - now) < -20) { //오른쪽으로
-                
+            if ((prev - now) > 0) {
+                let newNum = Number(nowNum) + n;
+               const num = ( (newNum < -37.5) ? -37 : newNum);
+               console.log('??', num)
+               e.currentTarget.style.transform = `translateX(${num}%)`;
+            } else if ((prev - now) < 0) { //오른쪽으로
+                let newNum = Number(nowNum) + n;
+                const num = ( (newNum > -25) ? newNum : -25);
+                console.log('??', num)
+                e.currentTarget.style.transform = `translateX(${num}%)`;
             }
-
-            /*if ((prev - now) > 50) {
-               if(!e.currentTarget.style.transform || (e.currentTarget.style.transform === `translateX(-37.5%)`) ){
-                e.currentTarget.style.transform = `translateX(0%)`
-                }else{
-                    e.currentTarget.style.transform = `translateX(-37.5%)`} 
-            } else if ((prev - now) < -50) {
-               if(!e.currentTarget.style.transform || (e.currentTarget.style.transform === `translateX(-25%)`) ){
-                e.currentTarget.style.transform = `none`
-                }else{
-                e.currentTarget.style.transform = `translateX(-25%)`} 
-            }*/
         }
     }
 
-    const touchEnd = () => {
+    const touchEnd = (e: TouchEvent<HTMLElement>) => {
         pressed = false;
+        const now = e.changedTouches[0].clientX;
+        if(prev - now > 0){
+        e.currentTarget.style.transform = `translateX(-37.5%)`
+        }else if(prev - now < 0){
+            e.currentTarget.style.transform = `translateX(0%)`
+        }
     }
 
     {/* 디테일 페이지 이동 */ }
