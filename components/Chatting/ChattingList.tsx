@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import defaultImg from 'public/images/default-img.png';
 import { TouchEvent, useEffect, useRef, useState } from "react";
+import QuitModal from "./QuitModal";
 
 type Props = {
     type: number
@@ -45,6 +46,7 @@ const ChattingList = ({ type }: Props) => {
 
     //const [chattingType] = useState<number>(type);
     const [dataArr, setDataArr] = useState<UserChattingLogs[]>([]);
+    const [modal, setModal] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -283,12 +285,12 @@ const ChattingList = ({ type }: Props) => {
             {dataArr.map((chatting, idx) => {
                 return (
                     <Chatting className="chattingRoom" key={idx} onTouchStart={(e) => touchStart(e)}
-                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} onClick={() => handleRoute(chatting.userMember.memberIdx, chatting.companyMember.memberIdx)}>
+                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} >
                         <HiddenBox1>
                             <FavoriteBtn></FavoriteBtn>
                             <AlramBtn></AlramBtn>
                         </HiddenBox1>
-                        <ChattingRoom className="content-box" >
+                        <ChattingRoom className="content-box" onClick={() => handleRoute(chatting.userMember.memberIdx, chatting.companyMember.memberIdx)} >
                             <ChattingRoomImage>
                                 {/* 이미지 파일 src가 없으면 */}
                                 <ImageWrap>
@@ -308,11 +310,14 @@ const ChattingList = ({ type }: Props) => {
                             </ChattingRoomInfo>
                         </ChattingRoom>
                         <HiddenBox2>
-                            <QuitBtn></QuitBtn>
+                            <QuitBtn onClick={()=>setModal(true)}>
+                                나가기
+                            </QuitBtn>
                         </HiddenBox2>
                     </Chatting>
                 )
             })}
+            {modal && <QuitModal setModal={setModal}/>}
         </Body>
     )
 }

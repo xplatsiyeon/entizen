@@ -238,7 +238,7 @@ const ComChattingList = ({ type }: Props) => {
             const now = e.changedTouches[0].clientX;
 
             if (start === '-40') {
-                if ((prev - now) > 0) {
+                if ((prev - now) > 100) {
                     e.currentTarget.style.marginLeft = '-60%'
                 } else if ((prev - now) < 0) {
                     e.currentTarget.style.marginLeft = '-0%'
@@ -246,13 +246,13 @@ const ComChattingList = ({ type }: Props) => {
             }
 
             if (start === '0') {
-                if ((prev - now) > 0) {
+                if ((prev - now) > 100) {
                     e.currentTarget.style.marginLeft = '-40%'
                 }
             }
 
             if (start === '-60') {
-                if ((prev - now) < 0) {
+                if ((prev - now) < -100) {
                     e.currentTarget.style.marginLeft = '-40%'
                 }
             }
