@@ -4,8 +4,11 @@ import defaultImg from 'public/images/default-img.png';
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import send from 'public/images/send.png'
+import { Dispatch, MouseEvent, SetStateAction, useEffect, useRef, useState } from "react"
+import send from 'public/images/send.png';
+import sendBlue from 'public/images/send-blue.png'
+import fileBtn from 'public/images/fileBtn.png'
+import addBtn from 'public/images/addBtn.png'
 
 type ChattingLogs = {
     createdAt: string;
@@ -198,7 +201,7 @@ const ChattingRoom = ({ companyId }: Props) => {
         })
         console.log('temp', temp);
         setData(temp)
-    }, []) //의존성 배열, 호출할때만으로 정해야 함.
+    }, [companyId]) //의존성 배열, 호출할때만으로 정해야 함.
 
     const handleTime = (st: string) => {
         //오전, 오후로 나누기
@@ -207,6 +210,36 @@ const ChattingRoom = ({ companyId }: Props) => {
             return `오전 ${pm}`
         } else {
             return `오후 ${pm}`
+        }
+    }
+
+    /* 웹에서 글자 입력될때 마다 send 버튼 색상 변경*/
+    const webBox = useRef<HTMLDivElement>(null)
+    const imgChange = (n: boolean) => {
+        const target = webBox.current;
+        const on = target?.querySelector('.typing.on') as HTMLElement;
+        const off = target?.querySelector('.typing.off') as HTMLElement;
+        if (on && off && n) {
+            on.style.display = 'block';
+            off.style.display = 'none'
+        }
+        if (on && off && !n) {
+            on.style.display = 'none';
+            off.style.display = 'block'
+        }
+    }
+
+    /* 파일버튼 누르면 나타나는 애니메이션 */
+    const mobBox = useRef<HTMLDivElement>(null)
+    const handleButton = (e: MouseEvent<HTMLElement>) => {
+        const target = e.currentTarget;
+        const hiddenBox = mobBox.current?.querySelector('.hidden') as HTMLElement;
+        if (target.classList.contains('on') && hiddenBox) {
+            target.classList.remove('on');
+            hiddenBox.style.height = '0';
+        } else if(!target.classList.contains('on') && hiddenBox){ 
+            target.classList.add('on');  
+            hiddenBox.style.height = '97pt';
         }
     }
 
@@ -251,17 +284,34 @@ const ChattingRoom = ({ companyId }: Props) => {
                     )
                 })}
             </Inner>
-            <BottomBox>
+            <BottomBox ref={mobBox}>
                 <FlexBox>
-                    <AddBtn>
-
+                    <AddBtn onClick={handleButton}>
+                        <Image src={addBtn} layout="intrinsic" />
                     </AddBtn>
                     <TextInput placeholder="메세지를 입력하세요" />
                     <IconWrap2>
                         <Image src={send} layout="fill" />
                     </IconWrap2>
                 </FlexBox>
+                <div className="hidden"></div>
             </BottomBox>
+            <WebBottomBox ref={webBox}>
+                <FlexBox2>
+                    <InputWrap>
+                        <FileIconWrap>
+                            <Image src={fileBtn} layout="fill" />
+                        </FileIconWrap>
+                        <TextInput placeholder="메세지를 입력하세요" onKeyDown={() => imgChange(true)} onKeyUp={() => imgChange(false)} />
+                    </InputWrap>
+                    <div className="typing off">
+                        <Image src={send} layout="fill" />
+                    </div>
+                    <div className="typing on">
+                        <Image src={sendBlue} layout="fill" />
+                    </div>
+                </FlexBox2>
+            </WebBottomBox>
         </Body>
     )
 }
@@ -270,6 +320,49 @@ export default ChattingRoom
 
 const Body = styled.div`
 position: relative;
+`
+
+const WebBottomBox = styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 3pt 0pt 16.5pt;
+
+    div.typing{
+    width: 18.75pt;
+    height: 20.6pt;
+    position: relative;
+    &.on{
+        display: none;
+    }
+    &.off{
+        display: block;
+    }
+    }
+    @media (max-width: 899.25pt) {
+    display: none;
+  }
+`
+
+const FlexBox2 = styled.div`
+    margin: 0 22.5pt 0 13.5pt;
+    display: flex;
+    gap: 14.25pt;
+    align-items: center;
+`
+const InputWrap = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: 1px solid #D3D3D3;
+    border-radius: 37.5pt;
+`
+const FileIconWrap = styled.div`
+position:relative ;
+width: 14.5pt;
+height: 15.45pt;
+margin: 0 0 0 13.5pt;
 `
 
 const BottomBox = styled.div`
@@ -281,8 +374,18 @@ const BottomBox = styled.div`
     @media (min-width: 900pt) {
     position: absolute;
     display: none;
-
   }
+
+  .hidden{
+        background-color: aqua;
+        width: 30pt;
+        height: 0;
+        //height: 97.5pt;
+        position: absolute;
+        bottom: 72pt;
+        left: 11.5pt;
+        transition: 0.3s;
+    }
 `
 const FlexBox = styled.div`
     display: flex;
@@ -291,13 +394,17 @@ const FlexBox = styled.div`
     padding: 0 15pt;
 `
 const AddBtn = styled.div`
-    width: 20.6pt;
-    height: 20.6pt;
+    position: relative;
+    width: 9pt;
+    height: 9pt;
+    padding: 5pt 6pt 6pt;
     border-radius: 50%;
     background: #A6A9B0;
+    transition: 0.3s;
     &.on{
         transform: rotate(45deg)
     }
+
 `
 const TextInput = styled.input`
     flex: auto;

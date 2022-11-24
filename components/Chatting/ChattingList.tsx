@@ -185,7 +185,7 @@ const ChattingList = ({ type }: Props) => {
             if (!e.currentTarget.style.transform) {
                 e.currentTarget.style.transform = `translateX(-25%)`
             } else {
-                console.log(e.currentTarget.style.transform)
+                console.log(e.currentTarget.style.transform.slice(-4).slice(0,2))
             }
 
         }
@@ -198,8 +198,10 @@ const ChattingList = ({ type }: Props) => {
             const n = ((prev - now) > 0 ? -1 : 1);
 
             if ((prev - now) > 20) {
+                
 
-            } else if ((prev - now) < -20) {
+            } else if ((prev - now) < -20) { //오른쪽으로
+                
             }
 
             /*if ((prev - now) > 50) {
