@@ -348,7 +348,7 @@ transition: 0.4s;
 `
 const ChattingRoom = styled.div`
 display: flex;
-padding: 13.5pt 0;
+padding: 13.5pt 1pt 13.5pt 0;
 border-bottom: 1px solid #E2E5ED;
 width: calc((100% / 8) * 5);
 

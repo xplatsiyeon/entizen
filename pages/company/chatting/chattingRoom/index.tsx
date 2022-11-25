@@ -259,7 +259,7 @@ const ChattingRoom = ({ user ,name, alarm }: Props) => {
                     })} />
                 <IconBox>
                     {/*onClick 알람 설정 api 달기*/}
-                    <IconWrap>
+                    <IconWrap className="web">
                         {Boolean(alarm)? <Image src={alarmBtn} layout='fill'/>: <Image src={stopAlarm} layout='fill'/>}
                     </IconWrap>
                     <IconWrap>
@@ -458,6 +458,7 @@ top: 50%;
 transform: translateY(-50%);
 display: flex;
 gap: 6.4pt;
+align-items: center;
 
 @media (min-width: 900pt) {
     right: 21pt;
@@ -470,6 +471,11 @@ const IconWrap = styled.div`
     @media (min-width: 900pt) {
         width: 20.5pt;
         height: 20.5pt;
+
+        &.web{
+            width: 13pt;
+            height: 15.25pt;
+        }
     }
 `
 const Inner = styled.div`

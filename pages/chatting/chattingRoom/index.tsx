@@ -257,7 +257,7 @@ const ChattingRoom = ({ companyId ,name , alarm }: Props) => {
                         pathname: '/chatting'
                     })} />
                 <IconBox>       
-                    <IconWrap>
+                    <IconWrap className="web">
                         {Boolean(alarm)? <Image src={alarmBtn} layout='fill'/>: <Image src={stopAlarm} layout='fill'/>}
                     </IconWrap>
                     <IconWrap>
@@ -454,6 +454,7 @@ right: 15pt;
 top: 50%;
 transform: translateY(-50%);
 display: flex;
+align-items: center;
 gap: 6.4pt;
 
 @media (min-width: 900pt) {
@@ -467,6 +468,11 @@ const IconWrap = styled.div`
     @media (min-width: 900pt) {
         width: 20.5pt;
         height: 20.5pt;
+
+        &.web{
+            width: 13pt;
+            height: 15.25pt;
+        }
     }
 `
 const Inner = styled.div`
