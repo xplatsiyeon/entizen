@@ -120,7 +120,7 @@ const RunningProgress = (props: Props) => {
         <Container>
           <CompanyRightMenu />
           <WebRapper>
-            {nowWidth > 1198.7 && (
+            {nowWidth >= 1200 && (
               <LeftProjectBox
                 setTabNumber={setTabNumber}
                 tabNumber={tabNumber}

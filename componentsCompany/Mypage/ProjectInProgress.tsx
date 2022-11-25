@@ -55,7 +55,7 @@ const ProjectInProgress = ({
     console.log(error);
   }
 
-  // if (data?.inProgressProjects.length === 0 && nowWidth > 1198.7) {
+  // if (data?.inProgressProjects.length === 0 && nowWidth >= 1200) {
   //   return <RightNoProject />;
   // }
   // 회사 뱃지 변환
@@ -122,7 +122,7 @@ const ProjectInProgress = ({
               ))}
             </ContentsContainer>
           )}
-          {data?.inProgressProjects.length === 0 && nowWidth > 1198.7 && (
+          {data?.inProgressProjects.length === 0 && nowWidth >= 1200 && (
             <RightNoProject />
           )}
         </div>
