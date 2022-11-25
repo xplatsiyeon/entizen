@@ -19,6 +19,7 @@ import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
 import UserRightMenu from 'components/UserRightMenu';
+import { bgcolor } from '@mui/system';
 
 export interface testArr2 extends testArr {
   address: string;
@@ -126,7 +127,7 @@ const ChargingPlace = () => {
 
   return (
     <>
-      <Body>
+      <Body bgColor={open}>
         <WebHeader />
         <UserRightMenu />
         <Inner>
@@ -192,14 +193,14 @@ const ChargingPlace = () => {
                           setOpen={setOpen}
                         />
                       ) : (
-                        /*<PlaceNoReview
+                        <PlaceNoReview
                           chargingRefetch={chargingRefetch}
                           close={setOpen}
-                        />*/ <PlaceGetReview
+                        /> /*<PlaceGetReview
                           review={true}
                           data={target![0].projectReview}
                           setOpen={setOpen}
-                        />
+                        /> */
                       )}
                     </>
                   )}
@@ -216,19 +217,19 @@ const ChargingPlace = () => {
 
 export default ChargingPlace;
 
-const Body = styled.div`
+const Body = styled.div<{bgColor: boolean}>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
   margin: 0 auto;
-  background: #fcfcfc;
+  background: ${({bgColor}) => (bgColor ? `white` : `#fcfcfc` )};
 
   @media (max-height: 809pt) {
     display: block;
-    height: 100%;
-  background: #ffffff;
+    //background: #ffffff;
   }
+
 `;
 
 const Inner = styled.div`
@@ -247,6 +248,7 @@ const Inner = styled.div`
 const FlexBox = styled.div`
   display: flex;
   position: relative;
+  gap: 60pt;
 
   @media (max-width: 899.25pt) {
     display: block;
