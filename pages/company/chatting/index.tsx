@@ -79,7 +79,7 @@ const Chatting = () => {
                 </FlexBox>
                 {user &&
                     <MobBox>
-                        <ChattingRoom user={user} name={router.query.name}/>
+                        <ChattingRoom user={user} name={router.query.name} alarm={router.query.alarm}/>
                     </MobBox>
                 }
                 <BottomNavigation />

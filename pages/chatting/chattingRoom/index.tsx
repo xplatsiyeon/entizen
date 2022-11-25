@@ -9,6 +9,9 @@ import send from 'public/images/send.png';
 import sendBlue from 'public/images/send-blue.png'
 import fileBtn from 'public/images/fileBtn.png'
 import addBtn from 'public/images/addBtn.png'
+import stopAlarm from 'public/images/stopAlarm.png'
+import alarmBtn from 'public/images/alarm.png'
+import moreBtn from 'public/images/moreBtn.png'
 
 type ChattingLogs = {
     createdAt: string;
@@ -27,11 +30,13 @@ export interface ChattingRoom {
 }
 
 type Props = {
-    companyId: string
+    companyId: string;
+    name : string | string[] | undefined;
+    alarm : string | string[] | undefined;
 }
 
 
-const ChattingRoom = ({ companyId }: Props) => {
+const ChattingRoom = ({ companyId ,name , alarm }: Props) => {
 
     console.log('room')
 
@@ -246,14 +251,18 @@ const ChattingRoom = ({ companyId }: Props) => {
     return (
         <Body>
             <TopBox>
-                <MypageHeader back={true} title={companyId}
+                <MypageHeader back={true} title={String(name)}
                     handle={true}
                     handleOnClick={() => router.push({
                         pathname: '/chatting'
                     })} />
-                <IconBox>
-                    <IconWrap></IconWrap>
-                    <IconWrap></IconWrap>
+                <IconBox>       
+                    <IconWrap className="web">
+                        {Boolean(alarm)? <Image src={alarmBtn} layout='fill'/>: <Image src={stopAlarm} layout='fill'/>}
+                    </IconWrap>
+                    <IconWrap>
+                        <Image src={moreBtn} layout="fill"/>
+                    </IconWrap>
                 </IconBox>
             </TopBox>
             <Inner>
@@ -445,6 +454,8 @@ right: 15pt;
 top: 50%;
 transform: translateY(-50%);
 display: flex;
+align-items: center;
+gap: 6.4pt;
 
 @media (min-width: 900pt) {
     right: 21pt;
@@ -453,11 +464,15 @@ display: flex;
 const IconWrap = styled.div`
     position: relative;
     width: 12pt;
-    height: 12pt;
-    background: green;
+    height: 13.5pt;
     @media (min-width: 900pt) {
         width: 20.5pt;
         height: 20.5pt;
+
+        &.web{
+            width: 13pt;
+            height: 15.25pt;
+        }
     }
 `
 const Inner = styled.div`

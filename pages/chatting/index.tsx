@@ -79,7 +79,7 @@ const Chatting = () => {
                 </FlexBox>
                 {company &&
                     <MobBox>
-                        <ChattingRoom companyId={company} />
+                        <ChattingRoom companyId={company} name={router.query.name} alarm={router.query.alarm} />
                     </MobBox>
                 }
                 <BottomNavigation />

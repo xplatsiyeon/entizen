@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import defaultImg from 'public/images/default-img.png';
 import { TouchEvent, useEffect, useRef, useState } from "react";
 import QuitModal from "./QuitModal";
+import unChecked from 'public/images/unChecked.png';
+import checked from 'public/images/checked.png';
 
 type Props = {
     type: number
@@ -268,13 +270,15 @@ const ChattingList = ({ type }: Props) => {
     {/* 디테일 페이지 이동 */ }
     const router = useRouter();
 
-    const handleRoute = (idx: number, comIdx: number) => {
+    const handleRoute = (idx: number, comIdx: number, name : string, alarm : boolean) => {
         console.log('route')
         router.push({
             pathname: `/chatting`,
             query: {
                 memberId: idx,
                 companyMemberId: comIdx,
+                name: name,
+                alarm : alarm
             },
         })
     }
@@ -290,7 +294,13 @@ const ChattingList = ({ type }: Props) => {
                             <FavoriteBtn></FavoriteBtn>
                             <AlramBtn></AlramBtn>
                         </HiddenBox1>
-                        <ChattingRoom className="content-box" onClick={() => handleRoute(chatting.userMember.memberIdx, chatting.companyMember.memberIdx)} >
+                        <ChattingRoom className="content-box" 
+                            onClick={() => handleRoute(
+                                chatting.userMember.memberIdx, 
+                                chatting.companyMember.memberIdx,
+                                chatting.companyMember.companyMemberAdditionalInfo.companyName,
+                                chatting.chattingRoomNotification.isSetNotification
+                                )} >
                             <ChattingRoomImage>
                                 {/* 이미지 파일 src가 없으면 */}
                                 <ImageWrap>
@@ -305,13 +315,13 @@ const ChattingList = ({ type }: Props) => {
                                 <Created>{handleTime(chatting.chattingLogs?.createdAt)}</Created>
                                 <Box>
                                     <UnRead wasRead={chatting.chattingLogs?.wasRead || undefined} />
-                                    <Favorite>{chatting.chattingRoomFavorite.isFavorite ? <>t</> : <>f</>}</Favorite>
+                                    <Favorite>{chatting.chattingRoomFavorite.isFavorite ? <Image src ={checked} layout="fill" /> : <Image src ={unChecked} layout="fill" /> }</Favorite>
                                 </Box>
                             </ChattingRoomInfo>
                         </ChattingRoom>
                         <HiddenBox2>
                             <QuitBtn onClick={()=>setModal(true)}>
-                                나가기
+                               <span> 나가기 </span>
                             </QuitBtn>
                         </HiddenBox2>
                     </Chatting>
@@ -338,7 +348,7 @@ transition: 0.4s;
 `
 const ChattingRoom = styled.div`
 display: flex;
-padding: 13.5pt 0;
+padding: 13.5pt 1pt 13.5pt 0;
 border-bottom: 1px solid #E2E5ED;
 width: calc((100% / 8) * 5);
 
@@ -420,7 +430,6 @@ const Favorite = styled.div`
 position: relative;
 width: 9pt;
 height: 9pt;
-border: 1px solid red;
 `
 
 const HiddenBox1 = styled.div`
@@ -449,4 +458,16 @@ const QuitBtn = styled.div`
 width: 100%;
 height: 100%;
 background: #F75015;
+display: flex;
+align-items: center;
+justify-content: center;
+
+font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 500;
+font-size: 9pt;
+line-height: 12pt;
+letter-spacing: -0.02em;
+color: #FFFFFF;
+
 `
