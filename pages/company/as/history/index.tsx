@@ -4,8 +4,6 @@ import AsCompGetReview from 'componentsCompany/AS/component/AsCompGetReview';
 import AsCompText from 'componentsCompany/AS/component/AsCompText';
 import AsCompTop from 'componentsCompany/AS/component/AsCompTop';
 import Image from 'next/image';
-import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
-
 import RightArrow from 'public/images/black-right-arrow.svg';
 import CommunicationIcon from 'public/images/communication-icon.svg';
 import { useRouter } from 'next/router';

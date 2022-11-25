@@ -7,6 +7,10 @@ import { TouchEvent, useEffect, useRef, useState } from "react";
 import QuitModal from "./QuitModal";
 import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
+import hiddenUnChecked from 'public/images/hiddenUnChecked.png';
+import hiddenChecked from 'public/images/hiddenChecked.png';
+import hiddenStopAlarm from 'public/images/hiddenStopAlarm.png';
+import hiddenAlarm from 'public/images/hiddenAlarm.png';
 
 type Props = {
     type: number
@@ -204,10 +208,9 @@ const ChattingList = ({ type }: Props) => {
             const nowNum = e.currentTarget.style.marginLeft.slice(0, -1);
 
             //드래그되는 속도 조절 부분. 숫자가 클수록 속도가 빨라진다.
-            let n = ((prev - now) > 0 ? -2 : 2);
+            let n = ((prev - now) > 0 ? -0.5 : 0.5);
 
             if (start === '-40') {
-
                 if ((prev - now) > 50) {
                     const newNum = Number(nowNum) + n;
                     const num = ((newNum < -60) ? -60 : newNum);
@@ -221,8 +224,8 @@ const ChattingList = ({ type }: Props) => {
             }
 
             if (start === '0') {
-                    n = ((prev - now) > 0 ? -4 : 4);
-                    if ((prev - now) > -50) { //오른쪽으로
+                    n = ((prev - now) > 0 ? -0.7 : 0.7);
+                    if ((prev - now) > 50) { 
                     const newNum = Number(nowNum) + n;
                     const num = ((newNum < -40) ? -40 : newNum);
                     //console.log('??', num)
@@ -231,7 +234,7 @@ const ChattingList = ({ type }: Props) => {
             }
 
             if (start === '-60') {
-                if ((prev - now) < 50) {
+                if ((prev - now) < -50) {
                     const newNum = Number(nowNum) + n;
                     const num = ((newNum > -40) ? -40 : newNum);
                     e.currentTarget.style.marginLeft = `${num}%`;
@@ -241,30 +244,51 @@ const ChattingList = ({ type }: Props) => {
     }
 
     const touchEnd = (e: TouchEvent<HTMLElement>) => {
+        const target = e.currentTarget;
+        
         if (pressed) {
             const now = e.changedTouches[0].clientX;
 
             if (start === '-40') {
-                if ((prev - now) > 0) {
+                if ((prev - now) > 50) {
+                    e.currentTarget.style.transition = '0.4s'
                     e.currentTarget.style.marginLeft = '-60%'
-                } else if ((prev - now) < 0) {
+                    
+                }else if ((prev - now) < -50) {
+                    e.currentTarget.style.transition = '0.4s'
                     e.currentTarget.style.marginLeft = '-0%'
+                   
+                }else{
+                    e.currentTarget.style.marginLeft = `${start}%`
                 }
             }
 
             if (start === '0') {
-                if ((prev - now) > 0) {
-                    e.currentTarget.style.marginLeft = '-40%'
+                if ((prev - now) > 50) {
+                    e.currentTarget.style.transition = '0.4s'
+                    e.currentTarget.style.marginLeft = '-40%';
+                }else{
+                    e.currentTarget.style.marginLeft = `${start}%`
                 }
             }
 
             if (start === '-60') {
-                if ((prev - now) < 0) {
+                if ((prev - now) < -100) {
+                    e.currentTarget.style.transition = '0.4s'
                     e.currentTarget.style.marginLeft = '-40%'
+                    
+                }else{
+                    e.currentTarget.style.marginLeft = `${start}%`
                 }
             }
-            pressed = false
+           
+            //e.currentTarget.style.transition = 'none';
         }
+       
+        setTimeout(()=>{
+            pressed = false;
+            target.style.transition = 'none'
+        }, 450)
     }
 
     {/* 디테일 페이지 이동 */ }
@@ -291,8 +315,26 @@ const ChattingList = ({ type }: Props) => {
                     <Chatting className="chattingRoom" key={idx} onTouchStart={(e) => touchStart(e)}
                         onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} >
                         <HiddenBox1>
-                            <FavoriteBtn></FavoriteBtn>
-                            <AlramBtn></AlramBtn>
+                            {/* 버튼에 즐겨찾기 설정 api함수 */}
+                            <FavoriteBtn>
+                                {chatting.chattingRoomFavorite.isFavorite
+                                ?<HiddenIconWrap>
+                                    <Image src={hiddenUnChecked} layout="fill" />
+                                </HiddenIconWrap>
+                                :<HiddenIconWrap>
+                                    <Image src={hiddenChecked} layout="fill" />
+                                </HiddenIconWrap>}
+                            </FavoriteBtn>
+                            {/* 버튼에 알림 설정 api함수 */}
+                            <AlramBtn>
+                            {chatting.chattingRoomNotification.isSetNotification
+                                ?<HiddenIconWrap>
+                                     <Image src={hiddenAlarm} layout="fill" />
+                                </HiddenIconWrap>
+                                :<HiddenIconWrap>
+                                     <Image src={hiddenStopAlarm} layout="fill" />
+                                </HiddenIconWrap>}
+                            </AlramBtn>
                         </HiddenBox1>
                         <ChattingRoom className="content-box" 
                             onClick={() => handleRoute(
@@ -343,8 +385,9 @@ const Chatting = styled.div`
 display: flex;
 width: 160%;
 margin-left: -40%;
-//일단.. 드래그시 덜컹거리면 삭제하자. 그리고 터치엔드 함수로 transition 주기
-transition: 0.4s;
+&.move{
+    transition: 0.4s;
+}
 `
 const ChattingRoom = styled.div`
 display: flex;
@@ -442,16 +485,30 @@ display: flex;
 width: 12.5%;
 position: relative;
 `
+
+const HiddenIconWrap = styled.div`
+    position: relative;
+    width: 15pt;
+    height: 15pt;
+`
+
+
 const FavoriteBtn = styled.div`
 width: 50%;
 height: 100%;
 background: rgba(90, 45, 201, 0.7);
+display: flex;
+align-items: center;
+justify-content: center;
 `
 
 const AlramBtn = styled.div`
 width: 50%;
 height: 100%;
 background: #5221CB;
+display: flex;
+align-items: center;
+justify-content: center;
 `
 
 const QuitBtn = styled.div`

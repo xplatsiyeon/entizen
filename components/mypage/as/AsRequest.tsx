@@ -381,6 +381,13 @@ const BorderTop = styled.div`
   padding: 0 15pt;
   padding-bottom: 15pt;
 `;
+const Subtitle = styled.h2`
+  font-weight: 700;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+`;
 const MultiBox = styled.div`
   padding-top: 3pt;
 `;
@@ -418,12 +425,4 @@ const Item = styled.li`
       text-align: right;
     }
   }
-`;
-
-const Subtitle = styled.h2`
-  font-weight: 700;
-  font-size: 10.5pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
 `;

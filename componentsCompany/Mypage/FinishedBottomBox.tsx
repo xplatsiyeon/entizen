@@ -1,40 +1,19 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import colors from 'styles/colors';
 import fileImg from 'public/mypage/file-icon.svg';
 import { Button } from '@mui/material';
-import RatingBar from 'components/mypage/as/RatingBar';
-import { Rating } from 'components/mypage/as/AsRequestWriteReview';
+import { HistoryProjectsDetail } from 'QueryComponents/CompanyQuery';
+import { hyphenFn } from 'utils/calculatePackage';
+import AsCompGetReview from 'componentsCompany/AS/component/AsCompGetReview';
 
-type Props = {};
+type Props = {
+  data: HistoryProjectsDetail;
+};
 
-const FinishedBottomBox = (props: Props) => {
-  const [ratingScore, setRatingScore] = useState<Rating>({
-    attentivenessPoint: 0,
-    quicknessPoint: 0,
-    professionalismPoint: 0,
-    satisfactionPoint: 0,
-  });
-  const DownloadFile = useCallback(() => {
-    let fileName = 'Charge Point 카탈로그_7 KW';
-    let content = 'Charge Point 카탈로그_7 KW 테스트';
-    const blob = new Blob([content], {
-      type: 'text/plain',
-    });
-    const url = window.URL.createObjectURL(blob);
-    const element = document.createElement('a');
-    element.href = url;
-    element.download = fileName;
-    document.body.appendChild(element);
-    element.click();
-    element.remove();
-    window.URL.revokeObjectURL(url);
-  }, []);
-  const HandleModal = () => {
-    // setModalOpen(false);
-  };
+const FinishedBottomBox = ({ data }: Props) => {
   return (
     <>
       <Wrapper>
@@ -45,53 +24,32 @@ const FinishedBottomBox = (props: Props) => {
         <Contents>
           <div className="text-box">
             <span className="name">이름</span>
-            <span className="text">윤세아</span>
+            <span className="text">{data?.userMember?.name}</span>
           </div>
           <div className="text-box">
             <span className="name">연락처</span>
-            <span className="phone">010-3522-2250</span>
+            <span className="phone">
+              {hyphenFn(data?.userMember?.phone.toString())}
+            </span>
           </div>
         </Contents>
         <BiggerText className="catalog">첨부 파일</BiggerText>
-        <FileBox>
-          <FileBtn onClick={DownloadFile}>
-            <Image src={fileImg} alt="file-icon" />
-            충전건 1.jpg
-          </FileBtn>
-          <FileBtn onClick={DownloadFile}>
-            <Image src={fileImg} alt="file-icon" />
-            Charge Point 카탈로그_7 kW
-          </FileBtn>
-        </FileBox>
-        <BiggerText className="review">고객 리뷰</BiggerText>
-        <RatingForm>
-          <RatingBar
-            text={'친절함'}
-            ratingScore={ratingScore}
-            setRatingScore={setRatingScore}
-          />
-          <RatingBar
-            text={'신속함'}
-            ratingScore={ratingScore}
-            setRatingScore={setRatingScore}
-          />
-          <RatingBar
-            text={'전문성'}
-            ratingScore={ratingScore}
-            setRatingScore={setRatingScore}
-          />
-          <RatingBar
-            text={'만족도'}
-            ratingScore={ratingScore}
-            setRatingScore={setRatingScore}
-          />
-          <TextArea
-            placeholder="[선택] 파트너의 어떤점이 기억에 남으시나요?"
-            rows={8}
-            value={'dkdkdkdk'}
-            required
-          />
-        </RatingForm>
+        {data?.finalQuotation?.finalQuotationChargers.map((el, idx) =>
+          el?.finalQuotationChargerFiles
+            ?.filter((e) => e.productFileType === 'CATALOG')
+            .concat(data?.finalQuotation?.finalQuotationDetailFiles as any)
+            .map((file, fileIdx) => (
+              <FileDownloadBtn key={fileIdx}>
+                <FileDownload download={file.originalName} href={file.url}>
+                  <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                  {file.originalName}
+                </FileDownload>
+              </FileDownloadBtn>
+            )),
+        )}
+        <ReviewBox>
+          <AsCompGetReview review={data?.projectReview} isProject={true} />
+        </ReviewBox>
       </Wrapper>
       <BtnBox></BtnBox>
     </>
@@ -118,22 +76,9 @@ const ImageBox = styled.div`
   margin: 0 auto;
   position: relative;
 `;
-const CustomerInfo = styled.div`
-  padding-left: 67.5pt;
-  padding-right: 67.5pt;
-  margin-top: 37.5pt;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+const ReviewBox = styled.div`
+  padding-bottom: 87pt;
 `;
-
-const CenterImgBox = styled.div`
-  position: relative;
-  width: 48pt;
-  height: 48pt;
-`;
-
 const BiggerText = styled.div`
   margin-top: 37.5pt;
   font-family: Spoqa Han Sans Neo;
@@ -143,7 +88,6 @@ const BiggerText = styled.div`
   letter-spacing: 0em;
   text-align: left;
 `;
-
 const BtnBox = styled.div`
   position: fixed;
   display: flex;
@@ -155,7 +99,6 @@ const BtnBox = styled.div`
   gap: 6pt;
   bottom: 30pt;
 `;
-
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
@@ -167,7 +110,6 @@ const Contents = styled.div`
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
     }
-
     .emailText {
       font-family: Spoqa Han Sans Neo;
       font-size: 12pt;
@@ -177,7 +119,6 @@ const Contents = styled.div`
       text-align: right;
     }
   }
-
   .name {
     font-weight: 500;
     font-size: 10.5pt;
@@ -204,47 +145,18 @@ const Contents = styled.div`
     color: ${colors.main};
   }
 `;
-
-const FileBtn = styled.button`
-  text-align: left;
-  margin-bottom: 6pt;
-  display: flex;
-  box-sizing: content-box;
-  gap: 3pt;
-  background-color: #ffffff;
+const FileDownloadBtn = styled(Button)`
+  margin: 0 15pt 6pt 0;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
-  color: ${colors.gray2};
   border-radius: 6pt;
 `;
-
-const FileBox = styled.div`
-  padding-bottom: 12pt;
-`;
-
-const RatingForm = styled.div`
-  margin-top: 20.25pt;
+const FileDownload = styled.a`
+  text-decoration: none;
   display: flex;
-  flex-direction: column;
-  gap: 6pt;
-`;
-
-const TextArea = styled.textarea`
-  resize: none;
-  border: 1px solid #e2e5ed;
-  padding: 12pt;
-  margin-top: 18pt;
-  margin-bottom: 36pt;
-  border-radius: 6pt;
-  font-family: 'Spoqa Han Sans Neo';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 18pt;
-  letter-spacing: -0.02em;
-  &::placeholder {
-    color: #caccd1;
-  }
+  align-items: center;
+  gap: 3pt;
+  color: ${colors.gray2};
 `;
 
 export default FinishedBottomBox;

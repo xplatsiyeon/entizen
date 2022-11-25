@@ -66,6 +66,10 @@ const Nav = styled.div`
   justify-content: end;
   padding-right: 15pt;
   padding-top: 15pt;
+  
+  @media (min-width: 900pt) {
+    margin-bottom: 22.5pt;
+  }  
 `;
 const IconWrap = styled.div`
   display: none;

@@ -203,6 +203,14 @@ export const GET_InProgressProjectsDetail = gql`
     }
   }
 `;
+
+export interface FinalQuotationChargerFiles {
+  finalQuotationChargerFileIdx: string;
+  productFileType: string;
+  originalName: string;
+  url: string;
+  size: number;
+}
 export interface HistoryProjectsDetail {
   badge: string;
   projectIdx: string;
@@ -243,6 +251,7 @@ export interface HistoryProjectsDetail {
         modelName: string;
         manufacturer: string;
         productFeature: string;
+        finalQuotationChargerFiles: FinalQuotationChargerFiles[];
       },
     ];
     finalQuotationDetailFiles: [
@@ -309,6 +318,13 @@ export const GET_historyProjectsDetail = gql`
           modelName
           manufacturer
           productFeature
+          finalQuotationChargerFiles {
+            finalQuotationChargerFileIdx
+            productFileType
+            originalName
+            url
+            size
+          }
         }
         finalQuotationDetailFiles {
           finalQuotationDetailFileIdx
