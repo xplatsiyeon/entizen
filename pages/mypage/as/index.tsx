@@ -261,7 +261,6 @@ const Inner = styled.div`
 
   @media (max-width: 899.25pt) {
     width: 100%;
-    height: 100vh;
     position: relative;
     margin: 0 auto;
   }
