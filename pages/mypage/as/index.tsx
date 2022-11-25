@@ -7,7 +7,6 @@ import AsRequestFooter from 'components/mypage/as/AsRequestFooter';
 import AsRequestPartner from 'components/mypage/as/AsRequestPartner';
 import AsWriteReview from 'components/mypage/as/AsWriteReview';
 import RequestMain from 'components/mypage/request/requestMain';
-import UserRightMenu from 'components/UserRightMenu';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';

@@ -209,7 +209,8 @@ const WebLeftPhotoBox = styled.div`
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 9pt;
     height: 330pt;
   }
 `;
@@ -236,6 +237,7 @@ const WebRightPhotoBox = styled.div`
     border-radius: 12pt;
     .imgBox {
       position: relative;
+      border-radius: 12pt;
       width: 100%;
       height: 100%;
     }

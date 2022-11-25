@@ -11,13 +11,28 @@ interface Props {
   title?: string;
   text?: string;
   buttonText?: string;
+  routerId?: string | string[] | undefined;
   [key: string]: any;
 }
 
-const AsComplete = ({ text, title, buttonText }: Props) => {
+const AsComplete = ({ text, title, buttonText, routerId }: Props) => {
   const router = useRouter();
   const clickHandler = () => {
     alert('2차 작업 페이지입니다.');
+  };
+  const onClickBtn = () => {
+    console.log(routerId);
+
+    if (routerId !== null) {
+      return router.replace({
+        pathname: '/mypage/as',
+        query: {
+          afterSalesServiceIdx: routerId,
+        },
+      });
+    } else {
+      return router.replace('/mypage');
+    }
   };
   return (
     <Wrapper>
@@ -37,7 +52,7 @@ const AsComplete = ({ text, title, buttonText }: Props) => {
             <CommunicationBox text={'소통하기'} clickHandler={clickHandler} />
           </div>
         </TextBox>
-        <Btn onClick={() => router.push('/mypage')}>{buttonText}</Btn>
+        <Btn onClick={onClickBtn}>{buttonText}</Btn>
       </Footer>
     </Wrapper>
   );

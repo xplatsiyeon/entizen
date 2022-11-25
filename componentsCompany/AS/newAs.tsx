@@ -20,7 +20,7 @@ export interface NewReceivedAfterSalesServices {
   afterSalesService: {
     afterSalesServiceIdx: number;
     createdAt: string;
-    requestContent: string;
+    requestTitle: string;
     acceptanceDate: string | null;
     afterSalesServiceResultDate: string | null;
     afterSalesServiceCompletionConsentStatus: boolean;
@@ -58,27 +58,24 @@ const NewAs = () => {
   const { data, isLoading, isError, error, refetch } =
     useQuery<CompanyAsListResposne>('company-asList', () =>
       isTokenGetApi(
-        `/after-sales-services/new?sort=${filterTypeEn}&searchKeyword=${''}`,
+        `/after-sales-services/new?sort=${filterTypeEn}&searchKeyword=${keyword}`,
       ),
     );
 
   useEffect(() => {
-    if (selected === '등록일순 보기') {
-      setFilterTypeEn('date');
-      console.log('등록일순 보기');
-    } else if (selected === '현장별 보기') {
-      setFilterTypeEn('site');
-      console.log('현장별 보기');
-    } else if (selected === '상태순 보기') {
-      setFilterTypeEn('state');
-      console.log('상태순 보기');
+    switch (selected) {
+      case '등록일순 보기':
+        setFilterTypeEn('date');
+        break;
+      case '현장별 보기':
+        setFilterTypeEn('site');
+        break;
+      case '상태순 보기':
+        setFilterTypeEn('state');
+        break;
+      default:
+        setFilterTypeEn('date');
     }
-
-    return () => {
-      setSearchWord('');
-      setSelected('등록일순 보기');
-      setFilterTypeEn('date');
-    };
   }, [selected]);
 
   useEffect(() => {
@@ -137,7 +134,7 @@ const NewAs = () => {
                       ?.quotationRequest?.installationAddress
                   }
                 </StoreName>
-                <Text>{el?.afterSalesService?.requestContent}</Text>
+                <Text>{el?.afterSalesService?.requestTitle}</Text>
                 <FlexWrap>
                   <Badge bgColor={handleColorAS(el?.badge)}>{el?.badge}</Badge>
                   <Date>{dateFomat(el?.afterSalesService?.createdAt)}</Date>

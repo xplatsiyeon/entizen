@@ -27,12 +27,14 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
+import { useRouter } from 'next/router';
 
 type Props = {
   data: AsDetailReseponse;
 };
 const TAG = 'components/mypage/as/AsRequest.tsx';
 const AsRequest = ({ data }: Props) => {
+  const router = useRouter();
   const projectIdx =
     data?.data?.afterSalesService?.afterSalesService?.projectIdx;
 
@@ -63,7 +65,19 @@ const AsRequest = ({ data }: Props) => {
   const handleClick = () => setOpen(!open);
   return (
     <Body>
-      <MypageHeader title={'A/S'} back={true} />
+      <MypageHeader
+        title={'A/S'}
+        back={true}
+        handle={true}
+        handleOnClick={() => {
+          router.push({
+            pathname: '/mypage',
+            query: {
+              id: '2',
+            },
+          });
+        }}
+      />
       <Wrapper>
         {/* Close */}
         <ItemButton onClick={handleClick}>
