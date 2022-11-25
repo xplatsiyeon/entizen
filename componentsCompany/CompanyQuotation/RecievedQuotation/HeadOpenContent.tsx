@@ -326,14 +326,14 @@ const HeadOpenContent = () => {
               exit={() => setModalOpen(false)}
             />
           )}
-          {tabNumber === -1 && nowWidth < 1198.7 && (
+          {tabNumber === -1 && nowWidth < 1200 && (
             <MypageHeader
               back={true}
               title={'받은 요청'}
               handleBackClick={handleBackClick}
             />
           )}
-          {tabNumber >= 0 && nowWidth < 1198.7 && (
+          {tabNumber >= 0 && nowWidth < 1200 && (
             <MypageHeader
               back={true}
               title={'가견적 작성'}
@@ -342,7 +342,7 @@ const HeadOpenContent = () => {
           )}
           <CompanyRightMenu />
           <WebRapper>
-            {nowWidth > 1198.7 && (
+            {nowWidth >= 1200 && (
               <LeftProjectQuotationBox
                 underNum={underNum}
                 setUnderNum={setUnderNum}
@@ -483,7 +483,7 @@ const HeadOpenContent = () => {
                   </List>
                 </Collapse>
               </Wrapper>
-              {tabNumber >= 0 && nowWidth >= 1198.7 && (
+              {tabNumber >= 0 && nowWidth >= 1200 && (
                 <WebProgressbar tabNumber={tabNumber}>
                   <TabBox>
                     {Object.keys(components).map((tab, index) => (
@@ -504,7 +504,7 @@ const HeadOpenContent = () => {
                   </TabBox>
                 </WebProgressbar>
               )}
-              {tabNumber === -1 && nowWidth > 1198.7 && (
+              {tabNumber === -1 && nowWidth >= 1200 && (
                 <Btn
                   isClick={true}
                   handleClick={changeRequest}
@@ -513,11 +513,11 @@ const HeadOpenContent = () => {
                 />
               )}
               {/* 웹 UI */}
-              {nowWidth >= 1198.7 && <> {components[tabNumber]}</>}
+              {nowWidth >= 1200 && <> {components[tabNumber]}</>}
             </BtnWrapper>
           </WebRapper>
           {/* 가견적 작성하기 부분 */}
-          {tabNumber === -1 && nowWidth < 1198.7 && (
+          {tabNumber === -1 && nowWidth < 1200 && (
             <Btn
               isClick={true}
               handleClick={changeRequest}
@@ -525,7 +525,7 @@ const HeadOpenContent = () => {
               paddingOn={true}
             />
           )}
-          {tabNumber >= 0 && nowWidth < 1198.7 && (
+          {tabNumber >= 0 && nowWidth < 1200 && (
             <WebProgressbar tabNumber={tabNumber}>
               <TabBox>
                 {Object.keys(components).map((tab, index) => (
@@ -544,7 +544,7 @@ const HeadOpenContent = () => {
                   </React.Fragment>
                 ))}
               </TabBox>
-              {nowWidth < 1198.7 && <> {components[tabNumber]}</>}
+              {nowWidth < 1200 && <> {components[tabNumber]}</>}
             </WebProgressbar>
           )}
         </Container>

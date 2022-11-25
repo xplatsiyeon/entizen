@@ -115,7 +115,7 @@ const ReceivedAS = (props: Props) => {
         <Container>
           <CompanyRightMenu />
           <WebRapper>
-            {nowWidth > 1198.7 && (
+            {nowWidth >= 1200 && (
               <LeftASBox
                 setTabNumber={setTabNumber}
                 tabNumber={tabNumber}

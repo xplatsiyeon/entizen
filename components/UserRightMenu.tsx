@@ -40,7 +40,7 @@ const UserRightMenu = () => {
           <ImageBoxL>
             <Image src={EntizenLibrary} alt="Chats" />
           </ImageBoxL>
-          <MenuTitle>엔티즌 도서관</MenuTitle>
+          <MenuTitle2>엔티즌 도서관</MenuTitle2>
         </MenuBox>
       </MenuContainer>
     </MenuRapper>
@@ -96,7 +96,7 @@ const ImageBoxL = styled.div`
   }
 `;
 
-const MenuTitle = styled.div`
+const MenuTitle = styled.p`
   font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 500;
@@ -108,6 +108,22 @@ const MenuTitle = styled.div`
     font-size: 9pt;
     font-weight: 400;
     width: 35pt;
+    margin: 0 auto;
+  }
+`;
+
+const MenuTitle2 = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 10.5pt;
+  font-weight: 500;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  padding-top: 12pt;
+  text-align: center;
+  @media (max-width: 1125pt) {
+    font-size: 9pt;
+    font-weight: 400;
+    width: 30pt;
     margin: 0 auto;
   }
 `;

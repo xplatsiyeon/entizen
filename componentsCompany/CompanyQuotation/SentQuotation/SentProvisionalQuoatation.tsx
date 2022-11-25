@@ -347,7 +347,7 @@ const SentQuoatationFirst = () => {
         setOpenSubLink={setOpenSubLink}
       />
       <Wrapper>
-        {nowWidth < 1198.7 && <MypageHeader back={true} title={'보낸 견적'} />}
+        {nowWidth < 1200 && <MypageHeader back={true} title={'보낸 견적'} />}
         {/* 현장실사 완료 모달 */}
         {isConfirmModal && (
           <TwoBtnModal
@@ -364,11 +364,11 @@ const SentQuoatationFirst = () => {
         {/* 에러 모달 */}
         {isModal && <Modal click={onClickModal} text={errorMessage} />}
         <CompanyRightMenu />
-        {nowWidth < 1198.7 && (
+        {nowWidth < 1200 && (
           <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
         )}
         <WebRapper>
-          {nowWidth > 1198.7 && (
+          {nowWidth >= 1200 && (
             <LeftProjectQuotationBox
               underNum={underNum}
               setUnderNum={setUnderNum}
@@ -378,7 +378,7 @@ const SentQuoatationFirst = () => {
           )}
           {/* 구매자 견적 정보 */}
           <WebColumnContainer>
-            {nowWidth >= 1198.7 && (
+            {nowWidth >= 1200 && (
               <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
             )}
             <TopBox
