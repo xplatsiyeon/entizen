@@ -395,12 +395,10 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
-  background: #fcfcfc;
+  background: #ffffff;
 
   @media (max-height: 809pt) {
     display: block;
-    height: 100%;
   }
 `;
 const DownArrowBox = styled.div`
@@ -416,7 +414,6 @@ const Inner = styled.div`
 
   @media (max-width: 899.25pt) {
     width: 100%;
-    height: 100vh;
     position: relative;
     margin: 0 auto;
   }

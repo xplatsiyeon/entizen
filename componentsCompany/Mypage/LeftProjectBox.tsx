@@ -136,7 +136,7 @@ const LeftProjectBox = ({
                 tab={tabNumber?.toString()!}
                 index={index.toString()}
                 onClick={() => {
-                  if (nowWidth < 1198.7) {
+                  if (nowWidth < 1200) {
                     setTabNumber(index);
                   }
                 }}

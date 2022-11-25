@@ -75,6 +75,11 @@ const Modal = styled.div<{ border?: boolean }>`
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: ${({ border }) => (border ? '' : '22.5pt 22.5pt 0 0')};
   padding: 30pt 15pt;
+
+  @media (max-width: 899.25pt) {
+  position: absolute;
+  bottom: 0;
+  }
 `;
 const H1 = styled.h1`
   white-space: pre-wrap;

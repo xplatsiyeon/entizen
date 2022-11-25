@@ -173,7 +173,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
         />
         <Container>
           {/* 모바일탭  */}
-          {nowWidth < 1198.7 && (
+          {nowWidth < 1200 && (
             <>
               <Header />
               <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
