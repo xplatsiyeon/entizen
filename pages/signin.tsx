@@ -66,9 +66,9 @@ const Signin = () => {
   // 기본 로그인
   const originLogin = async () => {
     console.log('로그인 온클릭');
-    //const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
+    const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
     // 로컬에서 사용할때만 활성화 시키기
-     const ORIGIN_API = `/api/members/login`;
+    // const ORIGIN_API = `/api/members/login`;
     try {
       await axios({
         method: 'post',
