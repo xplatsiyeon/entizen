@@ -168,6 +168,14 @@ const Carousel = styled.div<{ length: number }>`
   grid-template-columns: ${({ length }) => `repeat(${length}, 1fr)`};
   gap: 12pt;
   padding: 6pt 15pt 30pt 15pt;
+
+  @media (min-width: 900pt) {
+    display:flex;
+    overflow-x: auto;
+    gap: 22.5pt;
+    padding: 6pt 0 30pt;
+}
+
 `;
 const CarouselItem = styled.div`
   width: 105pt;
@@ -181,6 +189,7 @@ const CarouselItem = styled.div`
   cursor: pointer;
   .store-name {
     padding-top: 16.5pt;
+    padding-right: 15pt;
     font-weight: 700;
     font-size: 12pt;
     line-height: 12pt;
@@ -197,6 +206,14 @@ const CarouselItem = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
   }
+
+@media (min-width: 900pt) {
+    width: 159.5pt;
+    height: 114pt;
+    padding-left: 15pt;
+    padding-top: 15pt;
+}
+
 `;
 const Badge = styled.span<{ color: string }>`
   font-weight: 500;
