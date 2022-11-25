@@ -93,7 +93,7 @@ const PlaceInfo = ({ data }: Props) => {
         {/* 모바일 사진이 들어갈 공간*/}
         <FinishedPhotoBox>
           <Carousel file={data?.projectCompletionFiles} />
-          <Index onClick={handleNum}>{idx}/2</Index>
+          {/*<Index onClick={handleNum}>{idx}/2</Index>*/}
         </FinishedPhotoBox>
 
         {/* 웹 사진이 들어갈 공간*/}
@@ -209,7 +209,8 @@ const WebLeftPhotoBox = styled.div`
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 9pt;
     height: 330pt;
   }
 `;
@@ -236,6 +237,7 @@ const WebRightPhotoBox = styled.div`
     border-radius: 12pt;
     .imgBox {
       position: relative;
+      border-radius: 12pt;
       width: 100%;
       height: 100%;
     }

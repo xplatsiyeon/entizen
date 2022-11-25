@@ -14,8 +14,15 @@ import WebFooter from 'componentsWeb/WebFooter';
 import { useEffect, useState } from 'react';
 import LeftASBox from 'componentsCompany/AS/LeftASBox';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import { useQuery, useQueryClient } from 'react-query';
+import { AsDetailReseponse } from 'pages/mypage/as';
+import { isTokenGetApi } from 'api';
 
 const AsHistory = () => {
+  const router = useRouter();
+  const routerId = router?.query?.afterSalesServiceIdx;
+  const queryClient = useQueryClient();
+
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [componentId, setComponentId] = useState<number>();
@@ -26,6 +33,14 @@ const AsHistory = () => {
   const handleResize = () => {
     setNowWidth(window.innerWidth);
   };
+  const { data, isLoading, isError, error, refetch, remove } =
+    useQuery<AsDetailReseponse>(
+      'as-detail',
+      () => isTokenGetApi(`/after-sales-services/${routerId}`),
+      {
+        enabled: router.isReady,
+      },
+    );
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -33,6 +48,17 @@ const AsHistory = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [nowWidth]);
+
+  useEffect(() => {
+    remove();
+    refetch();
+    // queryClient.invalidateQueries([\"as-detail\"]);
+    // queryClient.invalidateQueries('as-detail');
+  }, [router]);
+
+  if (isError) {
+    console.log(error);
+  }
 
   return (
     <WebBody>
@@ -56,10 +82,18 @@ const AsHistory = () => {
           )}
           <Body>
             <MypageHeader title={'A/S 히스토리'} back={true} />
-            <AsCompTop />
+            {/* 상단 상세 페이지 */}
+            <AsCompTop data={data!} />
             <Inner className="inner">
-              <AsCompText />
-              <AsCompGetReview />
+              {/* 하단 페이지 */}
+              <AsCompText data={data!} />
+              {/* 리뷰 */}
+              <AsCompGetReview
+                review={
+                  data?.data?.afterSalesService?.afterSalesService
+                    ?.afterSalesServiceReview!
+                }
+              />
             </Inner>
             <>
               <Button onClick={() => alert('소통하기로')}>

@@ -13,6 +13,7 @@ import stopAlarm from 'public/images/stopAlarm.png'
 import alarmBtn from 'public/images/alarm.png'
 import moreBtn from 'public/images/moreBtn.png'
 
+
 type ChattingLogs = {
     createdAt: string;
     chattingLogIdx: number;
@@ -30,15 +31,15 @@ export interface ChattingRoom {
 }
 
 type Props = {
-    companyId: string;
+    user: string;
     name : string | string[] | undefined;
     alarm : string | string[] | undefined;
 }
 
 
-const ChattingRoom = ({ companyId ,name , alarm }: Props) => {
+const ChattingRoom = ({ user ,name, alarm }: Props) => {
 
-    console.log('room')
+    console.log('comp room')
 
 
     const router = useRouter();
@@ -206,7 +207,7 @@ const ChattingRoom = ({ companyId ,name , alarm }: Props) => {
         })
         console.log('temp', temp);
         setData(temp)
-    }, [companyId]) //의존성 배열, 호출할때만으로 정해야 함.
+    }, [user]) //의존성 배열, 호출할때만으로 정해야 함.
 
     const handleTime = (st: string) => {
         //오전, 오후로 나누기
@@ -254,9 +255,10 @@ const ChattingRoom = ({ companyId ,name , alarm }: Props) => {
                 <MypageHeader back={true} title={String(name)}
                     handle={true}
                     handleOnClick={() => router.push({
-                        pathname: '/chatting'
+                        pathname: '/company/chatting'
                     })} />
-                <IconBox>       
+                <IconBox>
+                    {/*onClick 알람 설정 api 달기*/}
                     <IconWrap className="web">
                         {Boolean(alarm)? <Image src={alarmBtn} layout='fill'/>: <Image src={stopAlarm} layout='fill'/>}
                     </IconWrap>
@@ -276,11 +278,12 @@ const ChattingRoom = ({ companyId ,name , alarm }: Props) => {
                                 {d.logs.map((item, idx) => {
                                     return (
                                         <ChatBox key={item.chattingLogIdx} className={`${(item.fromMemberType) === 'USER' ? "user" : 'company'}`}>
-                                            {(item.fromMemberType === 'USER') ? null :
+                                            {(item.fromMemberType === 'USER') ? 
                                                 <ImageWrap>
                                                     {/* 이미지 파일 src가 없으면 */}
                                                     <Image src={defaultImg} layout='fill' />
                                                 </ImageWrap>
+                                                :null
                                             }
                                             {(item.content) && <Chat className={`${(item.fromMemberType) === 'USER' ? "user" : 'company'}`}>{item.content}</Chat>}
                                             {(item.fileUrl) && <File >{item.fileUrl}</File>}
@@ -454,8 +457,8 @@ right: 15pt;
 top: 50%;
 transform: translateY(-50%);
 display: flex;
-align-items: center;
 gap: 6.4pt;
+align-items: center;
 
 @media (min-width: 900pt) {
     right: 21pt;
@@ -546,7 +549,7 @@ display: flex;
 align-items: center;
 margin-bottom: 9pt;
 gap: 6pt;
-&.user{
+&.company{
     flex-direction: row-reverse;
 }
 `

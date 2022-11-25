@@ -20,7 +20,7 @@ export interface NewReceivedAfterSalesServices {
   afterSalesService: {
     afterSalesServiceIdx: number;
     createdAt: string;
-    requestContent: string;
+    requestTitle: string;
     acceptanceDate: string | null;
     afterSalesServiceResultDate: string | null;
     afterSalesServiceCompletionConsentStatus: boolean;
@@ -63,22 +63,19 @@ const NewAs = () => {
     );
 
   useEffect(() => {
-    if (selected === '등록일순 보기') {
-      setFilterTypeEn('date');
-      console.log('등록일순 보기');
-    } else if (selected === '현장별 보기') {
-      setFilterTypeEn('site');
-      console.log('현장별 보기');
-    } else if (selected === '상태순 보기') {
-      setFilterTypeEn('state');
-      console.log('상태순 보기');
+    switch (selected) {
+      case '등록일순 보기':
+        setFilterTypeEn('date');
+        break;
+      case '현장별 보기':
+        setFilterTypeEn('site');
+        break;
+      case '상태순 보기':
+        setFilterTypeEn('state');
+        break;
+      default:
+        setFilterTypeEn('date');
     }
-
-    return () => {
-      setSearchWord('');
-      setSelected('등록일순 보기');
-      setFilterTypeEn('date');
-    };
   }, [selected]);
 
   useEffect(() => {
@@ -92,8 +89,8 @@ const NewAs = () => {
     console.log('🔥 에러 발생 ~line 66 ->' + TAG);
     console.log(error);
   }
-  console.log('🔥 기업 AS 리스트 데이터 확인 ~line 69 -> ' + TAG);
-  console.log(data);
+  // console.log('🔥 기업 AS 리스트 데이터 확인 ~line 69 -> ' + TAG);
+  // console.log(data);
   return (
     <Body>
       {modal && (
@@ -137,7 +134,7 @@ const NewAs = () => {
                       ?.quotationRequest?.installationAddress
                   }
                 </StoreName>
-                <Text>{el?.afterSalesService?.requestContent}</Text>
+                <Text>{el?.afterSalesService?.requestTitle}</Text>
                 <FlexWrap>
                   <Badge bgColor={handleColorAS(el?.badge)}>{el?.badge}</Badge>
                   <Date>{dateFomat(el?.afterSalesService?.createdAt)}</Date>

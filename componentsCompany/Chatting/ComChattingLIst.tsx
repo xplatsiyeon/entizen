@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import defaultImg from 'public/images/default-img.png';
 import { TouchEvent, useEffect, useRef, useState } from "react";
-import QuitModal from "./QuitModal";
 import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
+import QuitModal from "components/Chatting/QuitModal";
 
 type Props = {
     type: number
@@ -42,7 +42,7 @@ type UserChattingLogs = {
     }
 }
 
-const ChattingList = ({ type }: Props) => {
+const ComChattingList = ({ type }: Props) => {
 
     console.log('list', type)
 
@@ -142,7 +142,6 @@ const ChattingList = ({ type }: Props) => {
         const diff = now.diff(target, 'h');
 
         if (diff < 24) {
-            const createdAt = dayjs(target).format("HH:mm");
 
             //오전, 오후로 나누기
             const pm = dayjs(target).subtract(12, 'h').format('HH:mm');
@@ -153,7 +152,6 @@ const ChattingList = ({ type }: Props) => {
             }
 
         } else if ((diff > 24) && (diff < 48)) {
-            const createdAt = dayjs(target).format("HH:mm");
             const pm = dayjs(target).subtract(12, 'h').format('HH:mm');
 
             if (Number(pm.substring(0, 3)) > 12) {
@@ -162,7 +160,6 @@ const ChattingList = ({ type }: Props) => {
                 return `어제 ${pm}`
             }
         } else {
-            const createdAt = dayjs(target).format("YYYY-MM-DD HH:mm");
             const year = dayjs(target).get('y');
             const month = dayjs(target).get('month');
             const day = dayjs(target).get('day');
@@ -259,7 +256,7 @@ const ChattingList = ({ type }: Props) => {
             }
 
             if (start === '-60') {
-                if ((prev - now) < 0) {
+                if ((prev - now) < -0) {
                     e.currentTarget.style.marginLeft = '-40%'
                 }
             }
@@ -273,7 +270,7 @@ const ChattingList = ({ type }: Props) => {
     const handleRoute = (idx: number, comIdx: number, name : string, alarm : boolean) => {
         console.log('route')
         router.push({
-            pathname: `/chatting`,
+            pathname: `/company/chatting`,
             query: {
                 memberId: idx,
                 companyMemberId: comIdx,
@@ -289,18 +286,20 @@ const ChattingList = ({ type }: Props) => {
             {dataArr.map((chatting, idx) => {
                 return (
                     <Chatting className="chattingRoom" key={idx} onTouchStart={(e) => touchStart(e)}
-                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} >
+                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={(e)=>touchEnd(e)}>
                         <HiddenBox1>
                             <FavoriteBtn></FavoriteBtn>
                             <AlramBtn></AlramBtn>
                         </HiddenBox1>
                         <ChattingRoom className="content-box" 
+                        /* 자신의 Id, 상대방 id, name, alarm여부(채팅목록에는 알람여부 정보가 없어서) */
                             onClick={() => handleRoute(
                                 chatting.userMember.memberIdx, 
-                                chatting.companyMember.memberIdx,
-                                chatting.companyMember.companyMemberAdditionalInfo.companyName,
+                                chatting.companyMember.memberIdx, 
+                                chatting.userMember.name, 
                                 chatting.chattingRoomNotification.isSetNotification
-                                )} >
+                            )}>
+
                             <ChattingRoomImage>
                                 {/* 이미지 파일 src가 없으면 */}
                                 <ImageWrap>
@@ -308,7 +307,7 @@ const ChattingList = ({ type }: Props) => {
                                 </ImageWrap>
                             </ChattingRoomImage>
                             <ChattingRoomPreview>
-                                <FromMember>{chatting.companyMember.companyMemberAdditionalInfo.companyName}</FromMember>
+                                <FromMember>{chatting.userMember.name}</FromMember>
                                 <Previw>{chatting.chattingLogs?.content}</Previw>
                             </ChattingRoomPreview>
                             <ChattingRoomInfo>
@@ -327,12 +326,12 @@ const ChattingList = ({ type }: Props) => {
                     </Chatting>
                 )
             })}
-            {modal && <QuitModal setModal={setModal}/>}
+        {modal && <QuitModal setModal={setModal}/>}
         </Body>
     )
 }
 
-export default ChattingList;
+export default ComChattingList;
 
 const Body = styled.div`
 font-family: 'Spoqa Han Sans Neo';
@@ -356,7 +355,7 @@ width: calc((100% / 8) * 5);
 const ChattingRoomImage = styled.div`
     margin-left: 21pt;
 
-@media (max-width: 899pt) {
+@media (max-width: 899.25pt) {
     margin-left: 15pt;
 }
 `
@@ -372,7 +371,7 @@ flex-direction: column;
 gap: 9pt;
 margin-right: 21pt;
 
-@media (max-width: 899pt) {
+@media (max-width: 899.25pt) {
     margin-right: 15pt;
 }
 `

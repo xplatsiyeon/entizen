@@ -1,7 +1,7 @@
 import MypageHeader from 'components/mypage/request/header';
 import FinishedBottomBox from 'componentsCompany/Mypage/FinishedBottomBox';
 import FinishedTopBox from 'componentsCompany/Mypage/FinishedTopBox';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
 import styled from '@emotion/styled';
@@ -11,30 +11,65 @@ import Image from 'next/image';
 import ChatsIcon from 'public/mypage/myProjectChats.png';
 import arrowRGr from 'public/mypage/ChatsArrow.png';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import {
+  GET_historyProjectsDetail,
+  HistoryProjectsDetail,
+  ResponseHistoryProjectsDetail,
+} from 'QueryComponents/CompanyQuery';
+import { useQuery } from '@apollo/client';
 
 type Props = {};
 
+const TAG = 'pages/company/mypage/successedProject.index.tsx';
 const successedProject = (props: Props) => {
+  const router = useRouter();
+  const routerId = router?.query?.projectIdx;
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [componentId, setComponentId] = useState<number>();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+  const [historyDetailData, setHistoryDetailData] =
+    useState<HistoryProjectsDetail>();
+
+  // -----진행중인 프로젝트 상세 리스트 api-----
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { loading, error, data } = useQuery<ResponseHistoryProjectsDetail>(
+    GET_historyProjectsDetail,
+    {
+      variables: {
+        searchKeyword: '',
+        sort: 'SUBSCRIBE_END',
+      },
+      context: {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
+      },
+      onCompleted(data) {
+        const historyDetatilData = data?.completedProjects.filter(
+          (e) => e.projectIdx === routerId,
+        );
+        setHistoryDetailData(historyDetatilData[0]);
+      },
+    },
+  );
+
+  console.log('🔥 히스토리 프로젝트 데이터 ~line 68 -> ' + TAG);
+  console.log(historyDetailData);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, [nowWidth]);
-
-  const router = useRouter();
 
   useEffect(() => {
     if (router.query.projectIdx) {
@@ -65,7 +100,7 @@ const successedProject = (props: Props) => {
         <WebContainer>
           <WebBox>
             <MypageHeader back={true} title={'완료 프로젝트'} />
-            <FinishedTopBox />
+            <FinishedTopBox data={historyDetailData!} />
             <FinishedBottomBox />
           </WebBox>
           <CommunityBtnBox>
@@ -95,7 +130,6 @@ const WebBody = styled.div`
     display: block;
   }
 `;
-
 const WebRapper = styled.div`
   @media (min-width: 900pt) {
     margin: 0 auto;
@@ -105,7 +139,6 @@ const WebRapper = styled.div`
     justify-content: space-between;
   }
 `;
-
 const WebBox = styled.div`
   @media (min-width: 900pt) {
     display: flex;
@@ -113,13 +146,11 @@ const WebBox = styled.div`
     width: 580.5pt;
   }
 `;
-
 const CommunityBtnBox = styled.div`
   display: flex;
   align-items: center;
   margin: 0 auto;
   width: 135.75pt;
-  //height: 33pt;
   margin-bottom: 30pt;
   padding: 10.5pt 12pt;
   background-color: #f3f4f7;
@@ -128,7 +159,6 @@ const CommunityBtnBox = styled.div`
     margin-bottom: 0;
   }
 `;
-
 const WebTitle = styled.div`
   font-family: Spoqa Han Sans Neo;
   font-size: 12pt;
@@ -137,14 +167,12 @@ const WebTitle = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
 `;
-
 const WebImageBox = styled.div<{ width: number; height: number }>`
   width: ${(props) => props.width}pt;
   height: ${(props) => props.height}pt;
   position: relative;
   margin: 0 auto;
 `;
-
 const WebContainer = styled.div`
   @media (min-width: 900pt) {
     display: flex;

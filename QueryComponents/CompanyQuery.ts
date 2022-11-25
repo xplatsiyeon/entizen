@@ -84,6 +84,7 @@ export interface InProgressProjectsDetail {
         | 'MARKETING'
         | 'PERSONAL'
         | 'ETC';
+      etcRequest: string;
     };
   };
   userMember: UserMember;
@@ -108,11 +109,9 @@ export interface InProgressProjectsDetail {
     documentId: string;
   };
 }
-
 export interface InProgressProjectsDetailResponse {
   project: InProgressProjectsDetail;
 }
-
 export const GET_InProgressProjectsDetail = gql`
   query Query($projectIdx: ID!) {
     project(projectIdx: $projectIdx) {
@@ -141,6 +140,7 @@ export const GET_InProgressProjectsDetail = gql`
         }
         quotationRequest {
           installationPurpose
+          etcRequest
         }
       }
       userMember {
@@ -203,8 +203,7 @@ export const GET_InProgressProjectsDetail = gql`
     }
   }
 `;
-
-interface HistoryProjectsDetail {
+export interface HistoryProjectsDetail {
   badge: string;
   projectIdx: string;
   projectName: string;
@@ -224,8 +223,13 @@ interface HistoryProjectsDetail {
   finalQuotation: {
     finalQuotationIdx: string;
     subscribeProduct: string;
-    subscribePricePerMonth: number;
+    subscribePeriod: string;
+    chargingPointRate: string;
     userInvestRate: string;
+    subscribePricePerMonth: string;
+    constructionPeriod: string;
+    subscribeProductFeature: string;
+    spotInspectionResult: string;
     finalQuotationChargers: [
       {
         finalQuotationChargerIdx: string;
@@ -249,7 +253,11 @@ interface HistoryProjectsDetail {
         size: number;
       },
     ];
+    quotationRequest: {
+      installationPurpose: string;
+    };
   };
+
   userMember: {
     memberIdx: number;
     name: number;
@@ -259,7 +267,6 @@ interface HistoryProjectsDetail {
 export interface ResponseHistoryProjectsDetail {
   completedProjects: HistoryProjectsDetail[];
 }
-
 //  완료 프로젝트
 export const GET_historyProjectsDetail = gql`
   query Query($searchKeyword: String!, $sort: CompletedProjectsSort!) {
@@ -270,7 +277,6 @@ export const GET_historyProjectsDetail = gql`
       projectNumber
       subscribeStartDate
       subscribeEndDate
-
       projectReview {
         projectReviewIdx
         attentivenessPoint
@@ -284,9 +290,13 @@ export const GET_historyProjectsDetail = gql`
       finalQuotation {
         finalQuotationIdx
         subscribeProduct
-        subscribePricePerMonth
-
+        subscribePeriod
+        chargingPointRate
         userInvestRate
+        subscribePricePerMonth
+        constructionPeriod
+        subscribeProductFeature
+        spotInspectionResult
         finalQuotationChargers {
           finalQuotationChargerIdx
           kind
@@ -306,8 +316,12 @@ export const GET_historyProjectsDetail = gql`
           url
           size
         }
+        # 설치 목적
+        quotationRequest {
+          installationPurpose
+        }
       }
-
+      # 유저 정보
       userMember {
         memberIdx
         name

@@ -7,7 +7,6 @@ import AsRequestFooter from 'components/mypage/as/AsRequestFooter';
 import AsRequestPartner from 'components/mypage/as/AsRequestPartner';
 import AsWriteReview from 'components/mypage/as/AsWriteReview';
 import RequestMain from 'components/mypage/request/requestMain';
-import UserRightMenu from 'components/UserRightMenu';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
@@ -117,7 +116,9 @@ const asNumber = () => {
   const handleModal = () => {
     if (modalMessage === 'AS 완료 되었습니다.') {
       setIsReview(true);
+      setIsModal(false);
     } else if (modalMessage === '소중한 의견 감사합니다.') {
+      setIsModal(false);
       router.replace({
         pathname: '/mypage',
         query: {
@@ -208,7 +209,7 @@ const asNumber = () => {
               {!isReview &&
                 data?.data.afterSalesService.badge.includes('A/S') &&
                 !data?.data.afterSalesService.afterSalesService
-                  .afterSalesServiceCompletionConsentStatus && (
+                  .afterSalesServiceReview && (
                   <Btn
                     className="isColor"
                     onClick={() => {
@@ -220,10 +221,10 @@ const asNumber = () => {
                   </Btn>
                 )}
               {/* 내 리뷰 보기 */}
-              {isReview &&
+              {!isReview &&
                 data?.data.afterSalesService.badge.includes('A/S') &&
                 data?.data.afterSalesService.afterSalesService
-                  .afterSalesServiceCompletionConsentStatus && (
+                  .afterSalesServiceReview && (
                   <Btn onClick={() => handleClick('myReview')}>
                     <span>내 리뷰 보기</span>
                   </Btn>
@@ -260,7 +261,6 @@ const Inner = styled.div`
 
   @media (max-width: 899.25pt) {
     width: 100%;
-    height: 100vh;
     position: relative;
     margin: 0 auto;
   }

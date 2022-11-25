@@ -20,7 +20,7 @@ import NoAs from './NoAs';
 import CommonBtn from './CommonBtn';
 import { useRouter } from 'next/router';
 import checkSvg from 'public/images/check-small.png';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { handleColorAS } from 'utils/changeValue';
 import { dateFomat } from 'utils/calculatePackage';
@@ -33,7 +33,7 @@ interface AfterSalesService {
   afterSalesService: {
     afterSalesServiceIdx: number;
     createdAt: string;
-    requestContent: string;
+    requestTitle: string;
     acceptanceDate: string | null;
     afterSalesServiceResultDate: string | null;
     afterSalesServiceCompletionConsentStatus: boolean;
@@ -63,6 +63,7 @@ interface AsResposne {
 const TAG = 'components/mypage/as/index.tsx';
 const AsIndex = (props: Props) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const menuList: {} = [];
   const ul = useRef<HTMLUListElement>(null);
   const select = useRef<HTMLDivElement>(null);
@@ -76,13 +77,12 @@ const AsIndex = (props: Props) => {
   const filterListEn: string[] = ['register', 'site', 'status'];
   const keyword = useDebounce(keywordSearch, 2000);
   // ----------------- AS 리스트 GET -----------------------
-  const { data, isError, isLoading, refetch, error } = useQuery<AsResposne>(
-    'asList',
-    () =>
+  const { data, isError, isLoading, refetch, error, remove } =
+    useQuery<AsResposne>('asList', () =>
       isTokenGetApi(
         `/after-sales-services?sort=${filterListEn[checkedFilterIndex]}&searchKeyword=${keyword}`,
       ),
-  );
+    );
   ('/api/after-sales-services?sort=register');
 
   const list = (anchor: string) => (
@@ -174,6 +174,7 @@ const AsIndex = (props: Props) => {
     refetch();
     return () => {
       setKeywordSearch('');
+      remove();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkedFilter, keyword]);
@@ -256,7 +257,7 @@ const AsIndex = (props: Props) => {
       <ContentsContainer>
         {data?.data?.afterSalesServices?.map((el, index) => (
           <ContentsWrapper
-            key={el?.afterSalesService?.project?.projectIdx}
+            key={index}
             onClick={() =>
               handleAsListClick(el?.afterSalesService?.afterSalesServiceIdx)
             }
@@ -270,7 +271,9 @@ const AsIndex = (props: Props) => {
               </ContentTitle>
             </ContentTop>
             <ContentCenter>
-              <ContentCenterText></ContentCenterText>
+              <ContentCenterText>
+                {el?.afterSalesService?.requestTitle}
+              </ContentCenterText>
             </ContentCenter>
             <ContentBottom>
               <CommonBtn

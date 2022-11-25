@@ -115,6 +115,7 @@ const FinishedProjects = ({
                 <div key={el.projectIdx}>
                   <List
                     onClick={() => {
+                      // setComponentId 수정필요!
                       setComponentId(index);
                       router.push({
                         pathname: '/company/mypage/successedProject/',

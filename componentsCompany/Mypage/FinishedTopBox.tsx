@@ -6,18 +6,36 @@ import colors from 'styles/colors';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import CommonBtns from 'components/mypage/as/CommonBtns';
+import { HistoryProjectsDetail } from 'QueryComponents/CompanyQuery';
+import { convertKo } from 'utils/calculatePackage';
+import {
+  InstallationPurposeType,
+  InstallationPurposeTypeEn,
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+  subscribeType,
+  subscribeTypeEn,
+} from 'assets/selectList';
 
-type Props = {};
+type Props = {
+  data: HistoryProjectsDetail;
+};
 
-const FinishedTopBox = (props: Props) => {
+const FinishedTopBox = ({ data }: Props) => {
+  const formatter = new Intl.NumberFormat('ko');
+
   const [open, setOpen] = useState<boolean>(false);
   return (
     <Wrapper>
       <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
-          <div className="badge">구독종료 D-678</div>
+          <div className="badge">{data?.badge}</div>
           <div>
-            <h1>LS 카페 신림점</h1>
+            <h1>{data?.projectName}</h1>
             {open ? (
               <ArrowImg>
                 <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -28,7 +46,7 @@ const FinishedTopBox = (props: Props) => {
               </ArrowImg>
             )}
           </div>
-          <p>서울시 관악구 난곡로40길 30</p>
+          {/* <p>서울시 관악구 난곡로40길 30</p> */}
         </StoreName>
       </ItemButton>
       {/* Open */}
@@ -37,47 +55,98 @@ const FinishedTopBox = (props: Props) => {
           <Contents>
             <div className="text-box">
               <span className="name">프로젝트 번호</span>
-              <span className="text">SEY0G002201</span>
+              <span className="text">{data?.projectNumber}</span>
             </div>
             <div className="text-box">
               <span className="name">구독상품</span>
-              <span className="text">부분구독</span>
-            </div>
-            <div className="text-box">
-              <span className="name">구독시작</span>
-              <span className="text">22.03/17</span>
-            </div>
-            <div className="text-box">
-              <span className="name">구독종료</span>
-              <span className="text">25.03.16</span>
-            </div>
-            <div className="text-box">
-              <span className="name">월 구독료</span>
-              <span className="text">149,000 원</span>
-            </div>
-            <div className="text-box">
-              <span className="name">충전요금</span>
-              <span className="text">240 월/kW</span>
-            </div>
-            <div className="text-box">
-              <span className="name">수익지분</span>
-              <span className="text">50 %</span>
-            </div>
-            <div className="text-box">
-              <span className="name">충전기 종류 및 수량</span>
               <span className="text">
-                7 kW 충전기 (공용)
-                <br />
-                :벽걸이, 싱글, 2 대
+                {convertKo(
+                  subscribeType,
+                  subscribeTypeEn,
+                  data?.finalQuotation?.subscribeProduct,
+                )}
               </span>
             </div>
             <div className="text-box">
+              <span className="name">구독시작</span>
+              <span className="text">
+                {data?.subscribeStartDate.replaceAll('-', '.')}
+              </span>
+            </div>
+            <div className="text-box">
+              <span className="name">구독종료</span>
+              <span className="text">
+                {data?.subscribeEndDate.replaceAll('-', '.')}
+              </span>
+            </div>
+            <div className="text-box">
+              <span className="name">월 구독료</span>
+              <span className="text">{`${formatter.format(
+                Number(data?.finalQuotation?.subscribePricePerMonth!),
+              )} 월`}</span>
+            </div>
+            <div className="text-box">
+              <span className="name">충전요금</span>
+              <span className="text">
+                {`${formatter.format(
+                  Number(
+                    data?.finalQuotation?.finalQuotationChargers[0]
+                      ?.chargePrice,
+                  ),
+                )} 월/kW`}
+              </span>
+            </div>
+            <div className="text-box">
+              <span className="name">수익지분</span>
+              <span className="text">{`${Math.floor(
+                Number(data?.finalQuotation?.userInvestRate) * 100,
+              )} %`}</span>
+            </div>
+            {data?.finalQuotation?.finalQuotationChargers?.map(
+              (item, index) => (
+                <React.Fragment key={index}>
+                  <div className="text-box">
+                    <span className="name">
+                      {index === 0 ? '충전기 종류 및 수량' : ''}
+                    </span>
+                    <span className="text">
+                      {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                      <br />
+                      {item.standType
+                        ? //  standType 있으면
+                          `: ${convertKo(
+                            M6_LIST,
+                            M6_LIST_EN,
+                            item.standType,
+                          )}, ${convertKo(
+                            M7_LIST,
+                            M7_LIST_EN,
+                            item.channel,
+                          )}, ${item.count} 대`
+                        : // standType 없으면
+                          `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                            item.count
+                          } 대`}
+                    </span>
+                  </div>
+                </React.Fragment>
+              ),
+            )}
+            <div className="text-box">
               <span className="name">충전기 설치 목적</span>
-              <span className="text">모객 효과</span>
+              <span className="text">
+                {convertKo(
+                  InstallationPurposeType,
+                  InstallationPurposeTypeEn,
+                  data?.finalQuotation?.quotationRequest?.installationPurpose,
+                )}
+              </span>
             </div>
             <div className="text-box">
               <span className="name">충전기 제조사</span>
-              <span className="text">LS ELECTRIC</span>
+              <span className="text">
+                {data?.finalQuotation?.finalQuotationChargers[0]?.manufacturer}
+              </span>
             </div>
           </Contents>
         </List>

@@ -3,9 +3,7 @@ import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import CommonBtns from 'components/mypage/as/CommonBtns';
 import Image from 'next/image';
 import React, { useState } from 'react';
-// import UpArrow from 'public/guide/up_arrow.svg';
 import UpArrow from 'public/guide/up_arrow.svg';
-// import DownArrow from 'public/guide/down_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import { handleColorAS } from 'utils/changeValue';
 import colors from 'styles/colors';
@@ -30,7 +28,7 @@ import {
 
 type Props = {
   id?: number;
-  data?: AsDetailReseponse;
+  data: AsDetailReseponse;
 };
 
 const AsCompTop = ({ id, data }: Props) => {
@@ -43,7 +41,6 @@ const AsCompTop = ({ id, data }: Props) => {
     loading: projectLoading,
     error: projectError,
     data: projectData,
-    refetch,
   } = useQuery<AsRequest>(asRequest, {
     context: {
       headers: {
@@ -54,6 +51,7 @@ const AsCompTop = ({ id, data }: Props) => {
     variables: {
       projectIdx: projectIdx,
     },
+    skip: !projectIdx,
   });
 
   const handleClick = () => setOpen(!open);
@@ -72,7 +70,7 @@ const AsCompTop = ({ id, data }: Props) => {
               )}
             />
             <div>
-              <h1>{projectData?.project?.projectName}</h1>
+              <h1>{projectData?.project?.projectName!}</h1>
               {open ? (
                 <ArrowImg>
                   <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -199,7 +197,7 @@ const AsCompTop = ({ id, data }: Props) => {
               )}
 
               {/* 충전기 제조사 2개 이상 일 때 */}
-              {projectData?.project.finalQuotation.finalQuotationChargers
+              {/* {projectData?.project.finalQuotation.finalQuotationChargers
                 .length! !== 1 && (
                 <>
                   <MultiSection>
@@ -226,7 +224,7 @@ const AsCompTop = ({ id, data }: Props) => {
                     )}
                   </MultiSection>
                 </>
-              )}
+              )} */}
             </Contents>
           </List>
         </Collapse>

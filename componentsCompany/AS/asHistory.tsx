@@ -1,33 +1,99 @@
 import styled from '@emotion/styled';
 import Search from 'componentsCompany/CompanyQuotation/Search';
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from 'next/image';
 import FilterModal from './filterModal';
 import NoAsHistyory from './noAsHistrory';
 import { useRouter } from 'next/router';
 import WebFilter from './webFilter';
+import useDebounce from 'hooks/useDebounce';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 
+export interface AfterSalesServices {
+  requestTitle: string;
+  afterSalesServiceIdx: number;
+  afterSalesServiceReview: {
+    afterSalesServiceReviewIdx: number;
+    averagePoint: string;
+  };
+}
+export interface HisttoryResponse {
+  isSuccess: true;
+  data: {
+    afterSalesServiceHistories: [
+      {
+        finalQuotation: {
+          finalQuotationIdx: number;
+          preQuotation: {
+            preQuotationIdx: number;
+            quotationRequest: {
+              quotationRequestIdx: number;
+              installationAddress: string;
+            };
+          };
+        };
+        afterSalesServices: AfterSalesServices[];
+      },
+    ];
+  };
+}
+const TAG = 'componentsCompany/AS/asHistroty.tsx';
 const AsHistory = () => {
-  //히스토리 리스트 get();
-  const arr = [0, 1, 2, 3, 4];
-
-  // const arr:number[] = [];
-
+  const router = useRouter();
   const [searchWord, setSearchWord] = useState<string>('');
   const [selected, setSelected] = useState<string>('현장별 보기');
+  const [filterTypeEn, setFilterTypeEn] = useState('date');
   const [modal, setModal] = useState<boolean>(false);
+  const keyword = useDebounce(searchWord, 2000);
+  // 기업 AS 리스트 보기
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<HisttoryResponse>('company-asList', () =>
+      isTokenGetApi(
+        `/after-sales-services/histories?sort=${filterTypeEn}&searchKeyword=${keyword}`,
+      ),
+    );
 
-  const router = useRouter();
-
-  const handleRoute = (idx: number) => {
+  const handleRoute = (afterSalesServiceIdx: number) => {
     router.push({
       pathname: '/company/as/history',
       query: {
-        id: idx,
+        afterSalesServiceIdx: afterSalesServiceIdx,
       },
     });
   };
+
+  useEffect(() => {
+    console.log(selected);
+
+    switch (selected) {
+      case '현장별 보기':
+        setFilterTypeEn('stie');
+        break;
+      case '낮은 평점순 보기':
+        setFilterTypeEn('lowRate');
+        break;
+      case '높은 평점순 보기':
+        setFilterTypeEn('highRate');
+        break;
+      default:
+        setFilterTypeEn('stie');
+    }
+  }, [selected]);
+
+  useEffect(() => {
+    refetch();
+  }, [filterTypeEn, keyword]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    console.log('🔥 에러 발생 ~line 66 ->' + TAG);
+    console.log(error);
+  }
 
   return (
     <Body>
@@ -51,19 +117,33 @@ const AsHistory = () => {
         </InputWrap>
       </Wrap>
       <List>
-        {arr.length > 0 ? (
+        {data?.data?.afterSalesServiceHistories?.length! > 0 ? (
           <ListWrap>
-            {arr.map((d, idx) => {
-              return (
-                <ListBox onClick={() => handleRoute(idx + 1)}>
-                  <StoreName>LS 안양 주유소</StoreName>
-                  <FlexWrap>
-                    <Text>전기차 충전속도가 이상합니다.</Text>
-                    <Score> 평점 3.6 </Score>
+            {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
+              <ListBox
+                key={el?.finalQuotation?.finalQuotationIdx}
+                onClick={() =>
+                  handleRoute(el.afterSalesServices[0].afterSalesServiceIdx)
+                }
+              >
+                <StoreName>
+                  {
+                    el?.finalQuotation?.preQuotation?.quotationRequest
+                      ?.installationAddress
+                  }
+                </StoreName>
+                {el.afterSalesServices.map((el) => (
+                  <FlexWrap key={el.afterSalesServiceIdx}>
+                    <Text>{el.requestTitle}</Text>
+                    <Score>
+                      {el.afterSalesServiceReview?.averagePoint
+                        ? `평점 ${el.afterSalesServiceReview?.averagePoint}`
+                        : null}
+                    </Score>
                   </FlexWrap>
-                </ListBox>
-              );
-            })}
+                ))}
+              </ListBox>
+            ))}
             {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
             <BtnBox>A/S 히스토리 다운받기</BtnBox>
           </ListWrap>
@@ -136,6 +216,7 @@ const ListBox = styled.div`
   border-radius: 6pt;
   padding: 13.5pt;
   margin-bottom: 9pt;
+  cursor: pointer;
 `;
 const StoreName = styled.p`
   font-style: normal;

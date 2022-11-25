@@ -140,7 +140,9 @@ const AsRequestWrite = () => {
         router.replace({
           pathname: '/mypage/as/complete',
           query: {
-            selectedIndex: selectedIndex,
+            afterSalesServiceIdx:
+              detailData?.data?.afterSalesService?.afterSalesService
+                ?.afterSalesServiceIdx,
           },
         });
       },
@@ -232,18 +234,16 @@ const AsRequestWrite = () => {
 
   // 수정하기 초기값
   useEffect(() => {
-    if (detailData) {
+    if (detailData && routerId !== undefined) {
       const afterSalesServiceRequestFiles =
         detailData?.data.afterSalesService.afterSalesService
           .afterSalesServiceRequestFiles;
-
       const newFile = [...afterSalesServiceRequestFiles].map((obj: any) => {
         delete obj.afterSalesServiceIdx;
         delete obj.afterSalesServiceRequestFileIdx;
         delete obj.createdAt;
         return obj;
       });
-
       setTitle(
         detailData.data.afterSalesService.afterSalesService.requestTitle,
       );
@@ -259,9 +259,6 @@ const AsRequestWrite = () => {
       );
       setReview(newFile);
     }
-    // return () => {
-    //   detailRemove();
-    // };
   }, [detailData]);
 
   useEffect(() => {
@@ -403,6 +400,10 @@ const AsRequestWrite = () => {
 const Container = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
+
+  @media (max-width: 899.25pt) {
+    padding-bottom: 106pt;
+  }
 `;
 const TitleInputBox = styled.div`
   display: flex;
@@ -505,8 +506,12 @@ const NextBtn = styled.button<{ checkAll: boolean }>`
   letter-spacing: -0.02em;
   color: #ffffff;
   text-align: center;
+  border-radius: 6pt;
   @media (max-width: 899.25pt) {
     padding-bottom: 39pt;
+    border-radius: 0;
+    position: fixed;
+    bottom: 0;
   }
 `;
 const ImgSpan = styled.div`

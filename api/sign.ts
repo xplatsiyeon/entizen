@@ -20,12 +20,12 @@ export const modusign = (data: InProgressProjectsDetailResponse) => {
             excluded: false,
             signingMethod: {
               type: 'KAKAO',
-              value: '01033920580',
+              value: '01091163962',
             },
             signingDuration: 20160,
             locale: 'ko',
             role: '유저',
-            name: '윤경연',
+            name: '문수정',
           },
           {
             excluded: false,

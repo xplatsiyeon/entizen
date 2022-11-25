@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { InputAdornment, TextField } from "@mui/material";
 import BottomNavigation from "components/BottomNavigation";
 import ChattingList from "components/Chatting/ChattingList";
+import ComChattingList from "componentsCompany/Chatting/ComChattingLIst";
 import WebFooter from "componentsWeb/WebFooter";
 import WebHeader from "componentsWeb/WebHeader";
 import Image from "next/image";
@@ -13,20 +14,19 @@ import ChattingRoom from "./chattingRoom";
 
 const Chatting = () => {
     const [index, setIndex] = useState<number>(0);
-    const [company, setCompany] = useState<string>('')
+    const [user, setUser] = useState<string>('')
     const tabList = ['전체', '안 읽음', '즐겨찾기'];
 
     const router = useRouter();
-    console.log('index', index)
 
     useEffect(() => {
-        console.log('useeffect', company)
-        if (typeof (router.query.companyMemberId) === 'string') {
-            setCompany(router.query.companyMemberId)
+        console.log('useeffect', user)
+        if (typeof (router.query.memberId) === 'string') {
+            setUser(router.query.memberId)
         } else {
-            setCompany('')
+            setUser('')
         }
-    }, [router.query.companyMemberId])
+    }, [router.query.memberId])
 
     const handle = () => {
 
@@ -73,13 +73,13 @@ const Chatting = () => {
                             })}
                             <FAQBtn onClick={handle}>FAQ</FAQBtn>
                         </TabList>
-                        <ChattingList type={index} />
+                        <ComChattingList type={index} />
                     </Inner>
                     </WebBox>
                 </FlexBox>
-                {company &&
+                {user &&
                     <MobBox>
-                        <ChattingRoom companyId={company} name={router.query.name} alarm={router.query.alarm} />
+                        <ChattingRoom user={user} name={router.query.name} alarm={router.query.alarm}/>
                     </MobBox>
                 }
                 <BottomNavigation />
