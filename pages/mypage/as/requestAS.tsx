@@ -10,7 +10,7 @@ type Props = {};
 const AsRequest = (props: Props) => {
   return (
     <React.Fragment>
-      <Body>
+      <Body className='target'>
         <WebHeader />
         <Inner>
           <Wrapper>
@@ -30,12 +30,11 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   background: #fcfcfc;
   @media (max-height: 400pt) {
     display: block;
-    height: 100%;
   }
 `;
 const Inner = styled.div`

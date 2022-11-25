@@ -135,7 +135,7 @@ const Request = () => {
             </TabContainer>
           </Body>
         </FlexBox>
-        <Wrap>{typeof tabNumber === 'number' && components[tabNumber]}</Wrap>
+        <Wrap className='right-content'>{typeof tabNumber === 'number' && components[tabNumber]}</Wrap>
         <BottomNavigation />
       </Wrapper>
       <WebFooter />
@@ -149,9 +149,9 @@ const WebBody = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
+  height: 100vh; 
   margin: 0 auto;
-  background: #fcfcfc;
+  background: #ffffff;
 
   @media (max-height: 809pt) {
     display: block;
@@ -181,7 +181,7 @@ const FlexBox = styled.div`
   border-radius: 12pt;
   max-height: 423pt;
   width: 216pt;
-  padding: 42pt 28.5pt;
+  padding: 42pt 19.5pt;
 
   @media (max-width: 899.25pt) {
     border: none;
@@ -249,6 +249,11 @@ const TabContainer = styled.div`
 
 const Wrap = styled.div`
   flex: 1;
+
+  
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+  }
 `;
 
 const TabItem = styled.span<{ tab: string; index: string }>`

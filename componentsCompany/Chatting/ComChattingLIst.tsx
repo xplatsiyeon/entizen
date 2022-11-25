@@ -355,7 +355,7 @@ width: calc((100% / 8) * 5);
 const ChattingRoomImage = styled.div`
     margin-left: 21pt;
 
-@media (max-width: 899pt) {
+@media (max-width: 899.25pt) {
     margin-left: 15pt;
 }
 `
@@ -371,7 +371,7 @@ flex-direction: column;
 gap: 9pt;
 margin-right: 21pt;
 
-@media (max-width: 899pt) {
+@media (max-width: 899.25pt) {
     margin-right: 15pt;
 }
 `
