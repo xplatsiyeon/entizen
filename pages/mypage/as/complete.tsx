@@ -9,7 +9,7 @@ type Props = {};
 
 const complete = (props: Props) => {
   const router = useRouter();
-  const routerId = router?.query?.selectedIndex;
+  const routerId = router?.query?.afterSalesServiceIdx;
   return (
     <React.Fragment>
       <Body>
@@ -17,6 +17,7 @@ const complete = (props: Props) => {
         <Inner>
           <Wrapper>
             <AsComplete
+              routerId={routerId}
               buttonText={'확인'}
               text={'추가 문의사항은\n소통하기를 이용해주시기 바랍니다.'}
               title={

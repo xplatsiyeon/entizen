@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { AfterSalesServiceReview } from 'pages/mypage/as';
+import colors from 'styles/colors';
 
 type Props = {
   review: AfterSalesServiceReview;
@@ -44,32 +45,39 @@ const AsCompGetReview = ({ review }: Props) => {
     <>
       <TitleBox>
         <ReviewP>A/S 리뷰</ReviewP>
-        <AveScore>{`${average()}점`}</AveScore>
+        {review && <AveScore>{`${average()}점`}</AveScore>}
       </TitleBox>
       <RatingForm>
-        {reviewPoint.map((r, idx) => {
-          // 위에서 만든 체크배열을 이용하여 점수 막대 만듦. true는 파란색 칸, false는 회색 칸.
-          return (
-            <RBarBox key={idx}>
-              <Title>{r}</Title>
-              {checked[idx].map((c, idx) =>
-                c ? (
-                  <RBar className="filled forRadius" />
-                ) : (
-                  <RBar className="forRadius" />
-                ),
-              )}
-            </RBarBox>
-          );
-        })}
-        {/* 만약 고객이 작성한 리뷰가 있다면 TextArea 고객 review 반영, 없다면 '고객이 작성한 리뷰가 없습니다' */}
-        <TextArea
-          placeholder={''}
-          rows={4}
-          value={review?.opinion}
-          required
-          readOnly={true}
-        />
+        {review ? (
+          <>
+            {reviewPoint.map((r, idx) => (
+              <RBarBox key={idx}>
+                <Title>{r}</Title>
+                {checked[idx].map((c, idx) =>
+                  c ? (
+                    <RBar className="filled forRadius" />
+                  ) : (
+                    <RBar className="forRadius" />
+                  ),
+                )}
+              </RBarBox>
+            ))}
+            <TextArea
+              rows={4}
+              value={review?.opinion}
+              required
+              readOnly={true}
+            />
+          </>
+        ) : (
+          <TextArea
+            className="noneRivew"
+            placeholder={'고객이 작성한 리뷰가 없습니다.'}
+            rows={4}
+            required
+            readOnly={true}
+          />
+        )}
       </RatingForm>
     </>
   );
@@ -142,11 +150,25 @@ const TextArea = styled.textarea`
   line-height: 20pt;
   letter-spacing: -0.02em;
   color: #222222;
-  padding-top: 12pt;
+  margin-top: 12pt;
   padding-left: 12pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
   resize: none;
+  &.noneRivew {
+    padding-left: 0;
+  }
+  ::placeholder {
+    text-align: center;
+    padding: 28.5pt 0;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+  }
   @media (max-width: 899.25pt) {
     margin: 0;
   }

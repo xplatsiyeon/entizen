@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Search from 'componentsCompany/CompanyQuotation/Search';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from 'next/image';
 import FilterModal from './filterModal';
@@ -52,7 +52,7 @@ const AsHistory = () => {
   const { data, isLoading, isError, error, refetch } =
     useQuery<HisttoryResponse>('company-asList', () =>
       isTokenGetApi(
-        `/after-sales-services/histories?sort=${filterTypeEn}&searchKeyword=${''}`,
+        `/after-sales-services/histories?sort=${filterTypeEn}&searchKeyword=${keyword}`,
       ),
     );
 
@@ -64,6 +64,24 @@ const AsHistory = () => {
       },
     });
   };
+
+  useEffect(() => {
+    console.log(selected);
+
+    switch (selected) {
+      case '현장별 보기':
+        setFilterTypeEn('stie');
+        break;
+      case '낮은 평점순 보기':
+        setFilterTypeEn('lowRate');
+        break;
+      case '높은 평점순 보기':
+        setFilterTypeEn('highRate');
+        break;
+      default:
+        setFilterTypeEn('stie');
+    }
+  }, [selected]);
 
   useEffect(() => {
     refetch();

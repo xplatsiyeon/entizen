@@ -140,7 +140,9 @@ const AsRequestWrite = () => {
         router.replace({
           pathname: '/mypage/as/complete',
           query: {
-            selectedIndex: selectedIndex,
+            afterSalesServiceIdx:
+              detailData?.data?.afterSalesService?.afterSalesService
+                ?.afterSalesServiceIdx,
           },
         });
       },
@@ -402,7 +404,6 @@ const Container = styled.div`
   @media (max-width: 899.25pt) {
     padding-bottom: 106pt;
   }
-
 `;
 const TitleInputBox = styled.div`
   display: flex;
