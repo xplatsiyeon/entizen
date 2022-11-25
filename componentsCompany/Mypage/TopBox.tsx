@@ -150,13 +150,16 @@ const TopBox = ({
                 </span>
               </div>
               {/* 기타 사항 CSS 수정 필요 */}
-              {data?.project?.finalQuotation?.subscribeProductFeature
+              {data?.project?.finalQuotation?.quotationRequest?.etcRequest
                 ?.length! >= 1 ? (
                 <>
                   <div className="text-box">
                     <span className="name">기타 요청사항</span>
                     <span className="text">
-                      {data?.project?.finalQuotation?.subscribeProductFeature}
+                      {
+                        data?.project?.finalQuotation?.quotationRequest
+                          ?.etcRequest
+                      }
                     </span>
                   </div>
                 </>

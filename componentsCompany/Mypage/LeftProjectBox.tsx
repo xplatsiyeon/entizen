@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
@@ -34,10 +34,13 @@ const LeftProjectBox = ({
   setTabNumber,
 }: Props) => {
   const router = useRouter();
+  const nowRouter = router.pathname;
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
+
+  // 진행중인 프로젝트
   const { loading, error, data } = useQuery<Response>(GET_InProgressProjects, {
     context: {
       headers: {
@@ -46,7 +49,7 @@ const LeftProjectBox = ({
       },
     },
   });
-
+  // 완료 프로젝트
   const {
     loading: historyLoading,
     error: historyError,
@@ -69,7 +72,7 @@ const LeftProjectBox = ({
     setNowWidth(window.innerWidth);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -79,8 +82,6 @@ const LeftProjectBox = ({
   // 왼쪽 열리고 닫히고
   const [progress, setProgress] = useState<boolean>(true);
   const [success, setSuccess] = useState<boolean>(false);
-
-  console.log(router.pathname);
 
   useEffect(() => {
     if (router.pathname === '/compan/mypage' || router.query.id === '0') {
@@ -94,32 +95,6 @@ const LeftProjectBox = ({
       setSuccess(true);
     }
   }, [router]);
-
-  const nowRouter = router.pathname;
-
-  console.log(`이게 뭔데...???`, data);
-
-  // const webComponents: Components = {
-  //   0: (
-  //     <WebProjectInProgressUnder
-  //       tabNumber={tabNumber}
-  //       setComponentId={setComponentId}
-  //       componentId={componentId}
-  //       data={data!}
-  //     />
-  //   ),
-  //   1: (
-  //     <WebFinishedProjectsUnder
-  //       tabNumber={tabNumber}
-  //       setSuccessComponentId={setSuccessComponentId}
-  //       successComponentId={successComponentId}
-  //     />
-  //   ),
-  // };
-
-  // if (tempProceeding.length === 0) {
-  //   return <NoProject />;
-  // }
 
   return (
     <>
