@@ -1,0 +1,403 @@
+import styled from '@emotion/styled';
+import colors from 'styles/colors';
+import Btn from 'components/button';
+import { Box, InputAdornment, TextField, Typography } from '@mui/material';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import { useEffect, useState } from 'react';
+import useDebounce from 'hooks/useDebounce';
+import MypageHeader from 'components/mypage/request/header';
+import { useRouter } from 'next/router';
+import Modal from 'components/Modal/Modal';
+import React from 'react';
+import BackImg from 'public/images/back-btn.svg';
+import Image from 'next/image';
+import axios from 'axios';
+
+interface Key {
+  id: string;
+  isMember: boolean;
+  memberIdx: number;
+  name: string;
+  phone: number;
+}
+
+type Props = {
+  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const PasswordModify = ({ setTabNumber }: Props) => {
+  const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
+  const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
+  const [pwInput, setPwInput] = useState<string>('');
+  const [pwShow, setPwShow] = useState<boolean>(false);
+  const [pwSelected, setPwSelected] = useState<boolean>(false);
+  const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
+  const [checkedPw, setCheckedPw] = useState<boolean>(false);
+  const [checkPw, setCheckPw] = useState<string>('');
+  const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
+  const [btnActive, setBtnActive] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const password = useDebounce(pwInput, 500);
+  const checkPassword = useDebounce(checkPw, 500);
+
+  const key: Key = JSON.parse(localStorage.getItem('key')!);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (password) {
+      if (password) {
+        let check1 =
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,20}$/.test(
+            password,
+          );
+        console.log(check1);
+        setCheckedPw(check1);
+      }
+    }
+    if (checkPassword) {
+      if (password !== checkPassword) setCheckSamePw(false);
+      else setCheckSamePw(true);
+    }
+    console.log(password, checkPassword);
+  }, [password, checkPassword]);
+
+  const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name === 'pw') {
+      setPwInput(e.target.value);
+    }
+    if (e.target.name === 'checkPw') {
+      setCheckPw(e.target.value);
+    }
+    if (e.target.name === 'beforePw') {
+      setBeforePasswordInput(e.target.value);
+    }
+
+    if (pwInput.length > 9 && checkPw === pwInput) {
+      setBtnActive(!btnActive);
+    }
+  };
+
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.preventDefault();
+  };
+
+  // 비밀번호 변경 api
+  const handleClick = () => {
+    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+    // const memberIdx = JSON.parse(localStorage.getItem('MEMBER_IDX')!);
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
+    try {
+      axios({
+        method: 'patch',
+        url: PASSWORD_CHANGE,
+        data: {
+          oldPassword: beforePasswordInput,
+          newPassword: password,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
+        },
+        withCredentials: true,
+      }).then((res) => {
+        setOpenModal(true);
+      });
+    } catch (error) {
+      console.log('비밀번호 변경 실패');
+      console.log(error);
+    }
+  };
+  const handleModalYes = () => {
+    localStorage.removeItem('key');
+    setOpenModal(false);
+    router.push('/signin');
+  };
+  const iconAdorment = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CancelRoundedIcon
+          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+        />
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+          }}
+          variant="subtitle1"
+          onClick={() => setPwShow(!pwShow)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+  const beforeAdornment = beforePwSelected ? iconAdorment : {};
+  const iconAdornment = pwSelected ? iconAdorment : {};
+  const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+
+  return (
+    <React.Fragment>
+      <WebBody>
+        <Inner>
+          <Wrapper>
+            {openModal && (
+              <Modal
+                text={'비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.'}
+                click={handleModalYes}
+              />
+            )}
+            <Wrap>
+              <WebHidden>
+                <Header>
+                  <div className="img-item" onClick={() => setTabNumber(2)}>
+                    <Image
+                      style={{
+                        cursor: 'pointer',
+                        width: '18pt',
+                        height: '18pt',
+                      }}
+                      src={BackImg}
+                      alt="btn"
+                    />
+                  </div>
+                  <span className="text">비밀번호 변경</span>
+                </Header>
+              </WebHidden>
+            </Wrap>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                marginTop: '27pt',
+                width: '100%',
+              }}
+            >
+              <BeforePassword>기존 비밀번호</BeforePassword>
+              <Input
+                placeholder="기존 비밀번호 입력"
+                onChange={handleIdChange}
+                type={pwShow ? 'text' : 'password'}
+                value={beforePasswordInput}
+                name="beforePw"
+                hiddenLabel
+                InputProps={beforeAdornment}
+                onFocus={(e) => setBeforePwSelected(true)}
+                onBlur={(e) => setBeforePwSelected(false)}
+              />
+
+              <NewPassword>새로운 비밀번호</NewPassword>
+              <Input
+                placeholder="비밀번호 입력"
+                onChange={handleIdChange}
+                type={pwShow ? 'text' : 'password'}
+                value={pwInput}
+                name="pw"
+                hiddenLabel
+                InputProps={iconAdornment}
+                onFocus={(e) => setPwSelected(true)}
+                onBlur={(e) => setPwSelected(false)}
+              />
+              {!checkedPw && pwInput.length > 4 ? (
+                <Box>
+                  <Typography
+                    sx={{
+                      color: '#F75015',
+                      fontSize: '9pt',
+                    }}
+                  >
+                    영문,숫자,특수문자 조합 10자 이상
+                  </Typography>
+                </Box>
+              ) : (
+                <></>
+              )}
+              <Input
+                placeholder="비밀번호 재입력"
+                onChange={handleIdChange}
+                type={pwShow ? 'text' : 'password'}
+                value={checkPw}
+                name="checkPw"
+                InputProps={secondIconAdornment}
+                onFocus={(e) => setCheckPwSelected(true)}
+                onBlur={(e) => setCheckPwSelected(false)}
+              />
+              {!checkSamePw && checkPw.length > 4 ? (
+                <Box>
+                  <Typography
+                    sx={{
+                      color: '#F75015',
+                      fontSize: '9pt',
+                    }}
+                  >
+                    비밀번호를 확인해주세요
+                  </Typography>
+                </Box>
+              ) : (
+                <></>
+              )}
+            </Box>
+            <Btn
+              isClick={
+                checkPw.length > 9 && pwInput.length > 9 && pwInput === checkPw
+                  ? true
+                  : false
+              }
+              handleClick={handleClick}
+              marginTop="33.75"
+              text={'수정 완료'}
+            />
+          </Wrapper>
+        </Inner>
+      </WebBody>
+    </React.Fragment>
+  );
+};
+
+export default PasswordModify;
+
+const WebHidden = styled.div`
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
+
+const Header = styled(Box)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36pt;
+  padding: 9pt 0;
+  padding: 0 15pt;
+  .img-item {
+    position: absolute;
+    left: 7pt;
+    padding: 5px;
+  }
+  .text {
+    font-weight: 700;
+    font-size: 12pt;
+    line-height: 18pt;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+  }
+`;
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+
+  @media (min-width: 900pt) {
+    height: auto;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  background: #ffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  width: 580.5pt;
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (min-width: 900pt) {
+    padding-bottom: 271pt;
+  }
+`;
+
+const Wrap = styled.div`
+  margin-left: -15pt;
+`;
+
+const BeforePassword = styled.p`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+`;
+const NewPassword = styled.p`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 12pt;
+  font-weight: 500;
+  margin-top: 30pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+  margin: 0pt 31.875pt;
+
+  @media (max-width: 899.25pt) {
+    height: 100%;
+    padding: 0 15pt 15pt 15pt;
+    margin: 0;
+  }
+`;
+const Text = styled.p`
+  margin-top: 6pt;
+  font-weight: 700;
+  font-size: 18pt;
+  line-height: 24pt;
+  color: ${colors.main2};
+`;
+
+const Input = styled(TextField)`
+  border: 0.75pt solid ${colors.gray};
+  border-radius: 6pt;
+  margin-top: 9pt;
+  & input {
+    padding: 13.5pt 0 13.5pt 12pt;
+    font-size: 12pt;
+    line-height: 12pt;
+  }
+
+  & .MuiInputBase-root {
+    padding-right: 9pt;
+  }
+
+  ::placeholder {
+    color: ${colors.gray};
+    font-weight: 500;
+  }
+  & .remove {
+    display: none;
+  }
+  :focus > .remove {
+    display: block;
+  }
+`;
+
+// const InputBox = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: start;
+//   margin-top: 45pt;
+// `;

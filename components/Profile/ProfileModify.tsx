@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Header from 'components/mypage/request/header';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import AvatarIcon from 'public/images/avatar.png';
@@ -13,15 +12,16 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import PasswordModify from 'components/Profile/passwordModify';
-import ProfileModify from 'components/Profile/ProfileModify';
-import PhoneNumberModify from 'components/Profile/PhonenumberModify';
-import UserRightMenu from 'components/UserRightMenu';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
-const ProfileEditing = () => {
+type Props = {
+  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const ProfileModify = ({ setTabNumber }: Props) => {
   const router = useRouter();
   const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [id, setId] = useState('');
@@ -31,17 +31,6 @@ const ProfileEditing = () => {
   const [isPassword, setIsPassword] = useState(false);
   const [checkSns, setCheckSns] = useState<boolean>(false);
 
-  // 오른쪽 컴포넌트 변경
-  const [tabNumber, setTabNumber] = useState<number>(2);
-
-  // 오른쪽 컴포넌트
-
-  const components: Components = {
-    0: <PhoneNumberModify setTabNumber={setTabNumber} />,
-    1: <PasswordModify setTabNumber={setTabNumber} />,
-  };
-
-  console.log('여기에 tabNumber 뭐나옴?', tabNumber);
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files!;
@@ -152,34 +141,96 @@ const ProfileEditing = () => {
   }, []);
   return (
     <React.Fragment>
-      <UserRightMenu />
-      {tabNumber === 2 && <Header back={true} title="프로필 변경" />}
-      <WebBody>
-        <WebHeader />
-        <WebHide>
-          {tabNumber === 2 && <ProfileModify setTabNumber={setTabNumber} />}
-          {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
-        </WebHide>
-        <WebRapper>
-          <Inner>
-            <ProfileModify setTabNumber={setTabNumber} />
-          </Inner>
-          {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
-        </WebRapper>
+      <Wrapper>
+        <Body>
+          <Avatar>
+            <div className="img-bg">
+              {/* 아바타 */}
+              <div className="avatar-bg">
+                <Image
+                  src={avatar.length > 1 ? avatar : AvatarIcon}
+                  alt="avatar"
+                  layout="fill"
+                  className="test"
+                />
+              </div>
+              {/* 포토 이미지 */}
+              <label className="avatar-photo">
+                <input
+                  className="file-input"
+                  type={'file'}
+                  accept="image/*"
+                  onChange={onImgInputBtnClick}
+                />
+                <Image src={AvatarPhoto} alt="avatar-photo" />
+              </label>
+            </div>
+          </Avatar>
+          <Label mt={33}>아이디</Label>
+          <InputBox type="text" readOnly placeholder={id} />
+          <Label mt={30}>이름</Label>
+          <InputBox type="text" readOnly placeholder={name} />
 
-        <WebFooter />
-      </WebBody>
+          {!checkSns && (
+            <>
+              <form name="form_chk" method="get">
+                <input type="hidden" name="m" value="checkplusService" />
+                {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+                <input
+                  type="hidden"
+                  id="encodeData"
+                  name="EncodeData"
+                  value={data !== undefined && data}
+                />
+                <input type="hidden" name="recvMethodType" value="get" />
+                {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+                <Form>
+                  <TitleSection
+                    id="phone"
+                    // onClick={() => router.push('/profile/editing/phone')}
+                    onClick={() => {
+                      setTabNumber(0);
+                    }}
+                  >
+                    <Label mt={0}>휴대폰 번호</Label>
+                    <div>
+                      <Image src={Arrow} alt="arrow-img" />
+                    </div>
+                  </TitleSection>
+                  <Text>
+                    휴대폰 번호 변경 시 가입하신 분의 명의로 된 번호로만 변경이
+                    가능합니다.
+                  </Text>
+                </Form>
+                <Form>
+                  <TitleSection
+                    id="password"
+                    onClick={() => {
+                      fnPopup;
+                      setTabNumber(1);
+                    }}
+                  >
+                    <Label mt={0}>비밀번호 변경</Label>
+                    <div>
+                      <Image src={Arrow} alt="arrow-img" />
+                    </div>
+                  </TitleSection>
+                </Form>
+              </form>
+            </>
+          )}
+          {isPassword && (
+            <Buttons className="firstNextPage" onClick={HandlePassword}>
+              숨겨진 휴대폰번호 버튼
+            </Buttons>
+          )}
+        </Body>
+      </Wrapper>
     </React.Fragment>
   );
 };
 
-export default ProfileEditing;
-
-const WebHide = styled.div`
-  @media (min-width: 900pt) {
-    display: none;
-  }
-`;
+export default ProfileModify;
 const WebBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -187,26 +238,25 @@ const WebBody = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
+  //height: 810pt;
   background: #fcfcfc;
 
   @media (max-height: 800pt) {
     display: block;
-  }
-
-  @media (min-width: 900pt) {
-    height: 100%;
   }
 `;
 
 const Inner = styled.div`
   display: block;
   position: relative;
+  margin: 45.75pt auto;
   width: 345pt;
+  //width: 281.25pt;
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-  margin: 0 auto;
+
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
@@ -216,35 +266,11 @@ const Inner = styled.div`
     box-shadow: none;
     background: none;
   }
-
-  @media (min-width: 900pt) {
-    height: 100%;
-  }
-`;
-
-const WebRapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 900pt;
-  margin: 0 auto;
-  margin-top: 59pt;
-  margin-bottom: 90pt;
-  gap: 30pt;
-  @media (max-width: 899.25pt) {
-    display: none;
-  }
-`;
-
-const MobileComponent = styled.div<{ tabNumber: number }>`
-  @media (max-width: 899.25pt) {
-    display: ${({ tabNumber }) => tabNumber !== 2 && 'none'};
-  }
 `;
 
 const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-
   @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
