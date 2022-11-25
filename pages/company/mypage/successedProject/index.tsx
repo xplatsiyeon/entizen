@@ -101,7 +101,7 @@ const successedProject = (props: Props) => {
           <WebBox>
             <MypageHeader back={true} title={'완료 프로젝트'} />
             <FinishedTopBox data={historyDetailData!} />
-            <FinishedBottomBox />
+            <FinishedBottomBox data={historyDetailData!} />
           </WebBox>
           <CommunityBtnBox>
             <WebImageBox width={15} height={15}>

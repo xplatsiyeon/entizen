@@ -1,12 +1,25 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AfterSalesServiceReview } from 'pages/mypage/as';
 import colors from 'styles/colors';
 
+interface ProjectReview {
+  projectReviewIdx: string;
+  attentivenessPoint: number;
+  quicknessPoint: number;
+  professionalismPoint: number;
+  satisfactionPoint: number;
+  averagePoint: string;
+  opinion: string;
+  projectIdx: number;
+}
+
 type Props = {
-  review: AfterSalesServiceReview;
+  review: AfterSalesServiceReview | ProjectReview;
+  isProject?: boolean;
 };
 
-const AsCompGetReview = ({ review }: Props) => {
+const AsCompGetReview = ({ review, isProject }: Props) => {
   const reviewPoint = ['친절함', '신속함', '전문성', '만족도'];
 
   const score = [
@@ -44,7 +57,7 @@ const AsCompGetReview = ({ review }: Props) => {
   return (
     <>
       <TitleBox>
-        <ReviewP>A/S 리뷰</ReviewP>
+        <ReviewP>{isProject ? '고객 리뷰' : 'A/S 리뷰'}</ReviewP>
         {review && <AveScore>{`${average()}점`}</AveScore>}
       </TitleBox>
       <RatingForm>
@@ -55,19 +68,28 @@ const AsCompGetReview = ({ review }: Props) => {
                 <Title>{r}</Title>
                 {checked[idx].map((c, idx) =>
                   c ? (
-                    <RBar className="filled forRadius" />
+                    <RBar key={idx} className="filled forRadius" />
                   ) : (
-                    <RBar className="forRadius" />
+                    <RBar key={idx} className="forRadius" />
                   ),
                 )}
               </RBarBox>
             ))}
-            <TextArea
-              rows={4}
-              value={review?.opinion}
-              required
-              readOnly={true}
-            />
+            {isProject === true ? (
+              <ProejctTextArea
+                rows={1}
+                value={review?.opinion}
+                required
+                readOnly={true}
+              />
+            ) : (
+              <TextArea
+                rows={4}
+                value={review?.opinion}
+                required
+                readOnly={true}
+              />
+            )}
           </>
         ) : (
           <TextArea
@@ -153,6 +175,36 @@ const TextArea = styled.textarea`
   margin-top: 12pt;
   padding-left: 12pt;
   border: 1px solid #e2e5ed;
+  border-radius: 6pt;
+  resize: none;
+  &.noneRivew {
+    padding-left: 0;
+  }
+  ::placeholder {
+    text-align: center;
+    padding: 28.5pt 0;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+  }
+  @media (max-width: 899.25pt) {
+    margin: 0;
+  }
+`;
+
+const ProejctTextArea = styled.textarea`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  border: 0.75pt solid #e2e5ed;
+  padding: 12pt;
   border-radius: 6pt;
   resize: none;
   &.noneRivew {

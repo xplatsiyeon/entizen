@@ -192,13 +192,9 @@ const ChargingPlace = () => {
                           setOpen={setOpen}
                         />
                       ) : (
-                        /*<PlaceNoReview
+                        <PlaceNoReview
                           chargingRefetch={chargingRefetch}
                           close={setOpen}
-                        />*/ <PlaceGetReview
-                          review={true}
-                          data={target![0].projectReview}
-                          setOpen={setOpen}
                         />
                       )}
                     </>
@@ -227,7 +223,7 @@ const Body = styled.div`
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
-  background: #ffffff;
+    background: #ffffff;
   }
 `;
 
