@@ -157,11 +157,20 @@ const Label = styled.label`
   .num {
     color: ${colors.main};
   }
+
+
+  @media (min-width: 900pt) {
+    font-size: 18pt;
+    line-height: 15pt;
+  }
+
 `;
 const Proceeding = styled.section`
   padding-top: 21pt;
+  margin-bottom: 60pt;
 `;
 const History = styled.section``;
+
 const Carousel = styled.div<{ length: number }>`
   display: grid;
   overflow-x: scroll;
@@ -173,7 +182,7 @@ const Carousel = styled.div<{ length: number }>`
     display:flex;
     overflow-x: auto;
     gap: 22.5pt;
-    padding: 6pt 0 30pt;
+    padding: 6pt 4pt 30pt;
 }
 
 `;
@@ -207,8 +216,8 @@ const CarouselItem = styled.div`
     color: ${colors.lightGray3};
   }
 
-@media (min-width: 900pt) {
-    width: 159.5pt;
+@media (min-width: 899.25pt) {
+    width: 163.5pt;
     height: 114pt;
     padding-left: 15pt;
     padding-top: 15pt;

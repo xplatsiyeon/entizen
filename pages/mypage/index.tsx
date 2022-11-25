@@ -181,7 +181,7 @@ const FlexBox = styled.div`
   border-radius: 12pt;
   max-height: 423pt;
   width: 216pt;
-  padding: 42pt 28.5pt;
+  padding: 42pt 19.5pt;
 
   @media (max-width: 899.25pt) {
     border: none;
