@@ -207,7 +207,6 @@ const ChattingList = ({ type }: Props) => {
             let n = ((prev - now) > 0 ? -2 : 2);
 
             if (start === '-40') {
-
                 if ((prev - now) > 50) {
                     const newNum = Number(nowNum) + n;
                     const num = ((newNum < -60) ? -60 : newNum);
@@ -222,7 +221,7 @@ const ChattingList = ({ type }: Props) => {
 
             if (start === '0') {
                     n = ((prev - now) > 0 ? -4 : 4);
-                    if ((prev - now) > -50) { //오른쪽으로
+                    if ((prev - now) > 50) { 
                     const newNum = Number(nowNum) + n;
                     const num = ((newNum < -40) ? -40 : newNum);
                     //console.log('??', num)
@@ -231,7 +230,7 @@ const ChattingList = ({ type }: Props) => {
             }
 
             if (start === '-60') {
-                if ((prev - now) < 50) {
+                if ((prev - now) < -50) {
                     const newNum = Number(nowNum) + n;
                     const num = ((newNum > -40) ? -40 : newNum);
                     e.currentTarget.style.marginLeft = `${num}%`;
@@ -241,30 +240,51 @@ const ChattingList = ({ type }: Props) => {
     }
 
     const touchEnd = (e: TouchEvent<HTMLElement>) => {
+        const target = e.currentTarget;
+        
         if (pressed) {
             const now = e.changedTouches[0].clientX;
 
             if (start === '-40') {
-                if ((prev - now) > 0) {
+                if ((prev - now) > 50) {
+                    e.currentTarget.style.transition = '0.4s'
                     e.currentTarget.style.marginLeft = '-60%'
-                } else if ((prev - now) < 0) {
+                    
+                }else if ((prev - now) < -50) {
+                    e.currentTarget.style.transition = '0.4s'
                     e.currentTarget.style.marginLeft = '-0%'
+                   
+                }else{
+                    e.currentTarget.style.marginLeft = `${start}%`
                 }
             }
 
             if (start === '0') {
-                if ((prev - now) > 0) {
-                    e.currentTarget.style.marginLeft = '-40%'
+                if ((prev - now) > 50) {
+                    e.currentTarget.style.transition = '0.4s'
+                    e.currentTarget.style.marginLeft = '-40%';
+                }else{
+                    e.currentTarget.style.marginLeft = `${start}%`
                 }
             }
 
             if (start === '-60') {
-                if ((prev - now) < 0) {
+                if ((prev - now) < -100) {
+                    e.currentTarget.style.transition = '0.4s'
                     e.currentTarget.style.marginLeft = '-40%'
+                    
+                }else{
+                    e.currentTarget.style.marginLeft = `${start}%`
                 }
             }
-            pressed = false
+           
+            //e.currentTarget.style.transition = 'none';
         }
+       
+        setTimeout(()=>{
+            pressed = false;
+            target.style.transition = 'none'
+        }, 450)
     }
 
     {/* 디테일 페이지 이동 */ }
@@ -343,8 +363,9 @@ const Chatting = styled.div`
 display: flex;
 width: 160%;
 margin-left: -40%;
-//일단.. 드래그시 덜컹거리면 삭제하자. 그리고 터치엔드 함수로 transition 주기
-transition: 0.4s;
+&.move{
+    transition: 0.4s;
+}
 `
 const ChattingRoom = styled.div`
 display: flex;
