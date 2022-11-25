@@ -7,6 +7,10 @@ import { TouchEvent, useEffect, useRef, useState } from "react";
 import QuitModal from "./QuitModal";
 import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
+import hiddenUnChecked from 'public/images/hiddenUnChecked.png';
+import hiddenChecked from 'public/images/hiddenChecked.png';
+import hiddenStopAlarm from 'public/images/hiddenStopAlarm.png';
+import hiddenAlarm from 'public/images/hiddenAlarm.png';
 
 type Props = {
     type: number
@@ -204,7 +208,7 @@ const ChattingList = ({ type }: Props) => {
             const nowNum = e.currentTarget.style.marginLeft.slice(0, -1);
 
             //드래그되는 속도 조절 부분. 숫자가 클수록 속도가 빨라진다.
-            let n = ((prev - now) > 0 ? -2 : 2);
+            let n = ((prev - now) > 0 ? -0.5 : 0.5);
 
             if (start === '-40') {
                 if ((prev - now) > 50) {
@@ -220,7 +224,7 @@ const ChattingList = ({ type }: Props) => {
             }
 
             if (start === '0') {
-                    n = ((prev - now) > 0 ? -4 : 4);
+                    n = ((prev - now) > 0 ? -0.7 : 0.7);
                     if ((prev - now) > 50) { 
                     const newNum = Number(nowNum) + n;
                     const num = ((newNum < -40) ? -40 : newNum);
@@ -311,8 +315,26 @@ const ChattingList = ({ type }: Props) => {
                     <Chatting className="chattingRoom" key={idx} onTouchStart={(e) => touchStart(e)}
                         onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} >
                         <HiddenBox1>
-                            <FavoriteBtn></FavoriteBtn>
-                            <AlramBtn></AlramBtn>
+                            {/* 버튼에 즐겨찾기 설정 api함수 */}
+                            <FavoriteBtn>
+                                {chatting.chattingRoomFavorite.isFavorite
+                                ?<HiddenIconWrap>
+                                    <Image src={hiddenUnChecked} layout="fill" />
+                                </HiddenIconWrap>
+                                :<HiddenIconWrap>
+                                    <Image src={hiddenChecked} layout="fill" />
+                                </HiddenIconWrap>}
+                            </FavoriteBtn>
+                            {/* 버튼에 알림 설정 api함수 */}
+                            <AlramBtn>
+                            {chatting.chattingRoomNotification.isSetNotification
+                                ?<HiddenIconWrap>
+                                     <Image src={hiddenAlarm} layout="fill" />
+                                </HiddenIconWrap>
+                                :<HiddenIconWrap>
+                                     <Image src={hiddenStopAlarm} layout="fill" />
+                                </HiddenIconWrap>}
+                            </AlramBtn>
                         </HiddenBox1>
                         <ChattingRoom className="content-box" 
                             onClick={() => handleRoute(
@@ -463,16 +485,30 @@ display: flex;
 width: 12.5%;
 position: relative;
 `
+
+const HiddenIconWrap = styled.div`
+    position: relative;
+    width: 15pt;
+    height: 15pt;
+`
+
+
 const FavoriteBtn = styled.div`
 width: 50%;
 height: 100%;
 background: rgba(90, 45, 201, 0.7);
+display: flex;
+align-items: center;
+justify-content: center;
 `
 
 const AlramBtn = styled.div`
 width: 50%;
 height: 100%;
 background: #5221CB;
+display: flex;
+align-items: center;
+justify-content: center;
 `
 
 const QuitBtn = styled.div`
