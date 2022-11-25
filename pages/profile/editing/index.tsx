@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import PasswordModify from 'components/Profile/passwordModify';
+import PasswordModify from 'components/Profile/PasswordModify';
 import ProfileModify from 'components/Profile/ProfileModify';
 import PhoneNumberModify from 'components/Profile/PhonenumberModify';
 import UserRightMenu from 'components/UserRightMenu';
