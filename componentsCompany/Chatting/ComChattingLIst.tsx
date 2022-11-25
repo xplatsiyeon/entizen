@@ -4,6 +4,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import defaultImg from 'public/images/default-img.png';
 import { TouchEvent, useEffect, useRef, useState } from "react";
+import unChecked from 'public/images/unChecked.png';
+import checked from 'public/images/checked.png';
+import QuitModal from "components/Chatting/QuitModal";
 
 type Props = {
     type: number
@@ -45,6 +48,7 @@ const ComChattingList = ({ type }: Props) => {
 
     //const [chattingType] = useState<number>(type);
     const [dataArr, setDataArr] = useState<UserChattingLogs[]>([]);
+    const [modal, setModal] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -238,7 +242,7 @@ const ComChattingList = ({ type }: Props) => {
             const now = e.changedTouches[0].clientX;
 
             if (start === '-40') {
-                if ((prev - now) > 100) {
+                if ((prev - now) > 0) {
                     e.currentTarget.style.marginLeft = '-60%'
                 } else if ((prev - now) < 0) {
                     e.currentTarget.style.marginLeft = '-0%'
@@ -246,13 +250,13 @@ const ComChattingList = ({ type }: Props) => {
             }
 
             if (start === '0') {
-                if ((prev - now) > 100) {
+                if ((prev - now) > 0) {
                     e.currentTarget.style.marginLeft = '-40%'
                 }
             }
 
             if (start === '-60') {
-                if ((prev - now) < -100) {
+                if ((prev - now) < -0) {
                     e.currentTarget.style.marginLeft = '-40%'
                 }
             }
@@ -263,14 +267,15 @@ const ComChattingList = ({ type }: Props) => {
     {/* 디테일 페이지 이동 */ }
     const router = useRouter();
 
-    const handleRoute = (idx: number, comIdx: number, name : string) => {
+    const handleRoute = (idx: number, comIdx: number, name : string, alarm : boolean) => {
         console.log('route')
         router.push({
             pathname: `/company/chatting`,
             query: {
                 memberId: idx,
                 companyMemberId: comIdx,
-                name: name
+                name: name,
+                alarm : alarm
             },
         })
     }
@@ -281,12 +286,20 @@ const ComChattingList = ({ type }: Props) => {
             {dataArr.map((chatting, idx) => {
                 return (
                     <Chatting className="chattingRoom" key={idx} onTouchStart={(e) => touchStart(e)}
-                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={touchEnd} onClick={() => handleRoute(chatting.userMember.memberIdx, chatting.companyMember.memberIdx, chatting.userMember.name)}>
+                        onTouchMove={(e) => touchMove(e, idx)} onTouchEnd={(e)=>touchEnd(e)}>
                         <HiddenBox1>
                             <FavoriteBtn></FavoriteBtn>
                             <AlramBtn></AlramBtn>
                         </HiddenBox1>
-                        <ChattingRoom className="content-box" >
+                        <ChattingRoom className="content-box" 
+                        /* 자신의 Id, 상대방 id, name, alarm여부(채팅목록에는 알람여부 정보가 없어서) */
+                            onClick={() => handleRoute(
+                                chatting.userMember.memberIdx, 
+                                chatting.companyMember.memberIdx, 
+                                chatting.userMember.name, 
+                                chatting.chattingRoomNotification.isSetNotification
+                            )}>
+
                             <ChattingRoomImage>
                                 {/* 이미지 파일 src가 없으면 */}
                                 <ImageWrap>
@@ -301,16 +314,19 @@ const ComChattingList = ({ type }: Props) => {
                                 <Created>{handleTime(chatting.chattingLogs?.createdAt)}</Created>
                                 <Box>
                                     <UnRead wasRead={chatting.chattingLogs?.wasRead || undefined} />
-                                    <Favorite>{chatting.chattingRoomFavorite.isFavorite ? <>t</> : <>f</>}</Favorite>
+                                    <Favorite>{chatting.chattingRoomFavorite.isFavorite ? <Image src ={checked} layout="fill" /> : <Image src ={unChecked} layout="fill" /> }</Favorite>
                                 </Box>
                             </ChattingRoomInfo>
                         </ChattingRoom>
                         <HiddenBox2>
-                            <QuitBtn></QuitBtn>
+                            <QuitBtn onClick={()=>setModal(true)}>
+                               <span> 나가기 </span>
+                            </QuitBtn>
                         </HiddenBox2>
                     </Chatting>
                 )
             })}
+        {modal && <QuitModal setModal={setModal}/>}
         </Body>
     )
 }
@@ -413,7 +429,6 @@ const Favorite = styled.div`
 position: relative;
 width: 9pt;
 height: 9pt;
-border: 1px solid red;
 `
 
 const HiddenBox1 = styled.div`
@@ -442,4 +457,16 @@ const QuitBtn = styled.div`
 width: 100%;
 height: 100%;
 background: #F75015;
+display: flex;
+align-items: center;
+justify-content: center;
+
+font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 500;
+font-size: 9pt;
+line-height: 12pt;
+letter-spacing: -0.02em;
+color: #FFFFFF;
+
 `

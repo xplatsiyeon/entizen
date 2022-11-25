@@ -9,6 +9,10 @@ import send from 'public/images/send.png';
 import sendBlue from 'public/images/send-blue.png'
 import fileBtn from 'public/images/fileBtn.png'
 import addBtn from 'public/images/addBtn.png'
+import stopAlarm from 'public/images/stopAlarm.png'
+import alarmBtn from 'public/images/alarm.png'
+import moreBtn from 'public/images/moreBtn.png'
+
 
 type ChattingLogs = {
     createdAt: string;
@@ -29,10 +33,11 @@ export interface ChattingRoom {
 type Props = {
     user: string;
     name : string | string[] | undefined;
+    alarm : string | string[] | undefined;
 }
 
 
-const ChattingRoom = ({ user ,name }: Props) => {
+const ChattingRoom = ({ user ,name, alarm }: Props) => {
 
     console.log('comp room')
 
@@ -253,8 +258,13 @@ const ChattingRoom = ({ user ,name }: Props) => {
                         pathname: '/company/chatting'
                     })} />
                 <IconBox>
-                    <IconWrap></IconWrap>
-                    <IconWrap></IconWrap>
+                    {/*onClick 알람 설정 api 달기*/}
+                    <IconWrap>
+                        {Boolean(alarm)? <Image src={alarmBtn} layout='fill'/>: <Image src={stopAlarm} layout='fill'/>}
+                    </IconWrap>
+                    <IconWrap>
+                        <Image src={moreBtn} layout="fill"/>
+                    </IconWrap>
                 </IconBox>
             </TopBox>
             <Inner>
@@ -447,6 +457,7 @@ right: 15pt;
 top: 50%;
 transform: translateY(-50%);
 display: flex;
+gap: 6.4pt;
 
 @media (min-width: 900pt) {
     right: 21pt;
@@ -455,8 +466,7 @@ display: flex;
 const IconWrap = styled.div`
     position: relative;
     width: 12pt;
-    height: 12pt;
-    background: green;
+    height: 13.5pt;
     @media (min-width: 900pt) {
         width: 20.5pt;
         height: 20.5pt;
