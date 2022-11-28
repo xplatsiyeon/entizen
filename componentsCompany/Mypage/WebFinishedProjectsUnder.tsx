@@ -81,7 +81,7 @@ const ListContainer = styled.div`
   padding-top: 20pt;
   height: 150pt;
   overflow-y: scroll;
-  gap: 10pt;
+
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -91,6 +91,7 @@ const List = styled.div<{
   projectIdx: number;
   componentId: number | undefined;
 }>`
+  margin-bottom: 9pt;
   padding: 0 15pt;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;

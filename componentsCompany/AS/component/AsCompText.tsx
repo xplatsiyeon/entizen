@@ -329,29 +329,31 @@ const AsCompText = ({ data }: Props) => {
                   multiple
                 />
                 {/* <Preview> */}
-                {imgArr?.map((img, index) => (
-                  <ImgSpan key={index} data-name={index}>
-                    <Image
-                      layout="fill"
-                      alt="preview"
-                      data-name={index}
-                      key={index}
-                      src={img.url}
-                      priority={true}
-                      unoptimized={true}
-                    />
-                    <Xbox onClick={handlePhotoDelete} data-name={index}>
+                <ImgSpanBox>
+                  {imgArr?.map((img, index) => (
+                    <ImgSpan key={index} data-name={index}>
                       <Image
-                        src={CloseImg}
+                        layout="fill"
+                        alt="preview"
                         data-name={index}
-                        layout="intrinsic"
-                        alt="closeBtn"
-                        width={24}
-                        height={24}
+                        key={index}
+                        src={img.url}
+                        priority={true}
+                        unoptimized={true}
                       />
-                    </Xbox>
-                  </ImgSpan>
-                ))}
+                      <Xbox onClick={handlePhotoDelete} data-name={index}>
+                        <Image
+                          src={CloseImg}
+                          data-name={index}
+                          layout="intrinsic"
+                          alt="closeBtn"
+                          width={24}
+                          height={24}
+                        />
+                      </Xbox>
+                    </ImgSpan>
+                  ))}
+                </ImgSpanBox>
               </PhotosBox>
             </RemainderInputBox>
           </>
@@ -747,6 +749,12 @@ const PhotosBox = styled.div`
   display: flex;
   gap: 9.1875pt;
   align-items: center;
+  @media (min-width: 900pt) {
+    display: flex;
+    align-items: inherit;
+    height: auto;
+    width: 100%;
+  }
 `;
 
 const AddPhotos = styled.button`
@@ -756,6 +764,23 @@ const AddPhotos = styled.button`
   border: 1px solid #e2e5ed;
   background-color: #ffffff;
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    background-color: #ffffff;
+    width: 77.25pt;
+    height: 77.25pt;
+  }
+`;
+
+const ImgSpanBox = styled.div`
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+  @media (min-width: 900pt) {
+    height: auto;
+    width: 444.75;
+    display: grid;
+    grid-template-columns: 230pt 1fr;
+  }
 `;
 
 const ImgSpan = styled.div`
@@ -763,6 +788,12 @@ const ImgSpan = styled.div`
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    margin-bottom: 10pt;
+    width: 216pt;
+    height: 135pt;
+    border: 0.75pt solid #e2e5ed;
+  }
 `;
 const Xbox = styled.div`
   position: absolute;

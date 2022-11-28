@@ -317,6 +317,9 @@ const Subtitle = styled.h2`
   letter-spacing: -0.02em;
   padding: 0 15pt;
   color: ${colors.main2};
+  @media (min-width: 900pt) {
+    padding-left: 0;
+  }
 `;
 const FlexWrap = styled.div`
   display: flex;
@@ -374,6 +377,9 @@ const GridImg = styled.div`
   padding-top: 15pt;
   padding-left: 15pt;
   gap: 6pt;
+  @media (min-width: 900pt) {
+    padding-left: 0;
+  }
 `;
 const GridItem = styled.span`
   position: relative;
@@ -381,6 +387,10 @@ const GridItem = styled.span`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
+  @media (min-width: 900pt) {
+    width: 178.5pt;
+    height: 144pt;
+  }
 `;
 const FileDownloadBtn = styled(Button)`
   margin: 15pt 15pt 6pt 15pt;
