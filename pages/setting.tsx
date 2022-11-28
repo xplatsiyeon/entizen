@@ -58,8 +58,6 @@ const Setting = () => {
     }
   }, [tabNumber]);
 
-  console.log(leftTabNumber, '여기는 그래서 지금 뭐나옴???');
-
   // 컴포넌트 변동
   const components: Components = {
     0: (
