@@ -679,6 +679,7 @@ const Button = styled.button`
   letter-spacing: -0.02em;
   background: #f3f4f7;
   color: ${colors.main2};
+  cursor: pointer;
 `;
 
 const LastQuotationBtnBox = styled.div`

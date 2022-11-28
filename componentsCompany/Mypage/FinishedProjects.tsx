@@ -116,7 +116,7 @@ const FinishedProjects = ({
                   <List
                     onClick={() => {
                       // setComponentId 수정필요!
-                      setComponentId(index);
+                      // setComponentId(index);
                       router.push({
                         pathname: '/company/mypage/successedProject/',
                         query: {
@@ -162,12 +162,12 @@ const Wrapper = styled.div`
 
 const FilterBox = styled.div`
   @media (min-width: 900pt) {
-    position: absolute;
+    position: relative;
     display: flex;
     width: 580.5pt;
     justify-content: flex-end;
     padding-top: 15pt;
-    top: 20%;
+    top: 90pt;
   }
   display: flex;
   gap: 6pt;
