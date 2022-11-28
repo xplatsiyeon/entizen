@@ -12,6 +12,8 @@ import addBtn from 'public/images/addBtn.png'
 import stopAlarm from 'public/images/stopAlarm.png'
 import alarmBtn from 'public/images/alarm.png'
 import moreBtn from 'public/images/moreBtn.png'
+import MoreModal from "components/Chatting/MoreModal";
+import QuitModal from "components/Chatting/QuitModal";
 
 type ChattingLogs = {
     createdAt: string;
@@ -43,6 +45,10 @@ const ChattingRoom = ({ companyId ,name , alarm }: Props) => {
 
     const router = useRouter();
     const [data, setData] = useState<ChattingRoom[]>([]);
+
+    const [moreModal, setMoreModal] = useState<boolean>(false);
+    const [quitModal, setQuitModal] = useState<boolean>(false);
+
     //const [company, setCompany] = useState<string>()
 
     /* useEffect(() => {
@@ -261,7 +267,7 @@ const ChattingRoom = ({ companyId ,name , alarm }: Props) => {
                         {Boolean(alarm)? <Image src={alarmBtn} layout='fill'/>: <Image src={stopAlarm} layout='fill'/>}
                     </IconWrap>
                     <IconWrap>
-                        <Image src={moreBtn} layout="fill"/>
+                        <Image src={moreBtn} layout="fill" onClick={()=>setMoreModal(true)}/>
                     </IconWrap>
                 </IconBox>
             </TopBox>
@@ -321,6 +327,12 @@ const ChattingRoom = ({ companyId ,name , alarm }: Props) => {
                     </div>
                 </FlexBox2>
             </WebBottomBox>
+
+            {/* 더보기 모달 제어 */}
+            {moreModal && <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal}  />}
+
+            {/* 나가기 모달 제어 */}
+            {quitModal && <QuitModal setModal={setQuitModal}/>}
         </Body>
     )
 }

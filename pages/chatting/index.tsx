@@ -14,6 +14,8 @@ import ChattingRoom from "./chattingRoom";
 const Chatting = () => {
     const [index, setIndex] = useState<number>(0);
     const [company, setCompany] = useState<string>('')
+
+
     const tabList = ['전체', '안 읽음', '즐겨찾기'];
 
     const router = useRouter();

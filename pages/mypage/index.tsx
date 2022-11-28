@@ -101,7 +101,7 @@ const Request = () => {
                         key={index}
                         tab={tabNumber.toString()}
                         index={index.toString()}
-                        onClick={() => route.push('/mypage')}
+                        //onClick={() => route.push('/mypage')}
                       >
                         {tab}
                         <Dot
@@ -116,12 +116,12 @@ const Request = () => {
                         key={index}
                         tab={tabNumber.toString()}
                         index={index.toString()}
-                        onClick={() =>
-                          route.push({
-                            pathname: '/mypage',
-                            query: { id: index },
-                          })
-                        }
+                       // onClick={() =>
+                       //   route.push({
+                       //     pathname: '/mypage',
+                       //     query: { id: index },
+                      //  })
+                      //  }
                       >
                         {tab}
                         <Dot
