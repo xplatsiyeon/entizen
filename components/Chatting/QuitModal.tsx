@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { useMutation } from 'react-query';
 
 type Props = {
-  deleteId: number | undefined;
+  deleteId?: number | undefined;
   setModal: Dispatch<SetStateAction<boolean>>;
 };
 const QuitModal = ({ setModal, deleteId }: Props) => {

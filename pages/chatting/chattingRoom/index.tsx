@@ -14,8 +14,8 @@ import React, {
   useState,
 } from 'react';
 import send from 'public/images/send.png';
-import MoreModal from "components/Chatting/MoreModal";
-import QuitModal from "components/Chatting/QuitModal";
+import MoreModal from 'components/Chatting/MoreModal';
+import QuitModal from 'components/Chatting/QuitModal';
 import sendBlue from 'public/images/send-blue.png';
 import fileBtn from 'public/images/fileBtn.png';
 import addBtn from 'public/images/addBtn.png';
@@ -97,10 +97,10 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
     },
   });
 
-    const [moreModal, setMoreModal] = useState<boolean>(false);
-    const [quitModal, setQuitModal] = useState<boolean>(false);
+  const [moreModal, setMoreModal] = useState<boolean>(false);
+  const [quitModal, setQuitModal] = useState<boolean>(false);
 
-    //const [company, setCompany] = useState<string>()
+  //const [company, setCompany] = useState<string>()
 
   /* useEffect(() => {
          console.log(company)
@@ -251,7 +251,11 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
             )}
           </IconWrap>
           <IconWrap>
-            <Image src={moreBtn} layout="fill" onClick={()=>setMoreModal(true)}/>
+            <Image
+              src={moreBtn}
+              layout="fill"
+              onClick={() => setMoreModal(true)}
+            />
           </IconWrap>
         </IconBox>
       </TopBox>
@@ -337,11 +341,13 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
         </FlexBox2>
       </WebBottomBox>
 
-            {/* 더보기 모달 제어 */}
-            {moreModal && <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal}  />}
+      {/* 더보기 모달 제어 */}
+      {moreModal && (
+        <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
+      )}
 
-            {/* 나가기 모달 제어 */}
-            {quitModal && <QuitModal setModal={setQuitModal}/>}
+      {/* 나가기 모달 제어 */}
+      {quitModal && <QuitModal setModal={setQuitModal} />}
     </Body>
   );
 };

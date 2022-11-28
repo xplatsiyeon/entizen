@@ -14,14 +14,14 @@ import {
   useState,
 } from 'react';
 import send from 'public/images/send.png';
-import sendBlue from 'public/images/send-blue.png'
-import fileBtn from 'public/images/fileBtn.png'
-import addBtn from 'public/images/addBtn.png'
-import stopAlarm from 'public/images/stopAlarm.png'
-import alarmBtn from 'public/images/alarm.png'
-import moreBtn from 'public/images/moreBtn.png'
-import QuitModal from "components/Chatting/QuitModal";
-import MoreModal from "components/Chatting/MoreModal";
+import sendBlue from 'public/images/send-blue.png';
+import fileBtn from 'public/images/fileBtn.png';
+import addBtn from 'public/images/addBtn.png';
+import stopAlarm from 'public/images/stopAlarm.png';
+import alarmBtn from 'public/images/alarm.png';
+import moreBtn from 'public/images/moreBtn.png';
+import QuitModal from 'components/Chatting/QuitModal';
+import MoreModal from 'components/Chatting/MoreModal';
 import { ChattingResponse } from 'pages/chatting/chattingRoom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPostApi } from 'api';
@@ -86,14 +86,14 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
     },
   });
 
-    const [moreModal, setMoreModal] = useState<boolean>(false);
-    const [quitModal, setQuitModal] = useState<boolean>(false);
+  const [moreModal, setMoreModal] = useState<boolean>(false);
+  const [quitModal, setQuitModal] = useState<boolean>(false);
 
-    //const modalComponents = [<QuitModal setModal={setModal}/>, <MoreModal/> ]
-    
-    //const [company, setCompany] = useState<string>()
+  //const modalComponents = [<QuitModal setModal={setModal}/>, <MoreModal/> ]
 
-    /* useEffect(() => {
+  //const [company, setCompany] = useState<string>()
+
+  /* useEffect(() => {
          console.log(company)
          if (typeof (router.query.companyMemberId) === 'string') {
              setCompany(router.query.companyMemberId)
@@ -240,7 +240,11 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
             )}
           </IconWrap>
           <IconWrap>
-            <Image src={moreBtn} layout="fill" onClick={()=>setMoreModal(true)}/>
+            <Image
+              src={moreBtn}
+              layout="fill"
+              onClick={() => setMoreModal(true)}
+            />
           </IconWrap>
         </IconBox>
       </TopBox>
@@ -324,11 +328,13 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
           </div>
         </FlexBox2>
       </WebBottomBox>
-            {/* 더보기 모달 제어 */}
-            {moreModal && <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal}  />}
+      {/* 더보기 모달 제어 */}
+      {moreModal && (
+        <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
+      )}
 
-            {/* 나가기 모달 제어 */}
-            {quitModal && <QuitModal setModal={setQuitModal}/>}
+      {/* 나가기 모달 제어 */}
+      {quitModal && <QuitModal setModal={setQuitModal} />}
     </Body>
   );
 };
