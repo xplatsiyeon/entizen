@@ -22,9 +22,9 @@ const useCreateChatting = () => {
   const { mutate, isLoading: createLoading } = useMutation(isTokenPostApi, {
     onSuccess: (data) => {
       console.log(data);
+      //
       const index = data?.data?.chattingRoom?.chattingRoomIdx;
-      console.log(index);
-      if (token && token.memberType === 'USER') {
+      if (index && token && token.memberType === 'USER') {
         router.push(`/chatting/${index}`);
       } else {
         router.push(`/company/chatting/${index}`);

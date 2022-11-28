@@ -173,8 +173,8 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
   const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     chattingPostMutate({
-      //   url: `chatting/${chattingRoomIdx}`,
-      url: `/chatting/2`,
+      url: `/chatting/${routerId}`,
+      // url: `/chatting/2`,
       data: {
         content: text,
         fileUrl: null,

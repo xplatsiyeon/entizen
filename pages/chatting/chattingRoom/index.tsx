@@ -60,6 +60,7 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
   //   console.log('room');
   const queryClient = useQueryClient();
   const router = useRouter();
+  // const routerId = useRouter();
 
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
@@ -72,8 +73,8 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
   } = useQuery<ChattingResponse>(
     'chatting-data',
     () => {
-      // isTokenGetApi(`/chatting/${chattingRoomIdx}?page=1`)
-      return isTokenGetApi('/chatting/2?page=1');
+      return isTokenGetApi(`/chatting/${routerId}?page=1`);
+      // return isTokenGetApi('/chatting/2?page=1');
     },
     {
       // 몇초마다 갱신 해줄 것인가.
@@ -183,8 +184,8 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
   const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     chattingPostMutate({
-      //   url: `chatting/${chattingRoomIdx}`,
-      url: `/chatting/2`,
+      url: `/chatting/${routerId}`,
+      // url: `/chatting/2`,
       data: {
         content: text,
         fileUrl: null,
@@ -540,7 +541,7 @@ const DateChatting = styled.div`
     z-index: -1;
   }
   @media (max-width: 900pt) {
-    height: 100%;
+    height: 100vh;
   }
 `;
 const Date = styled.span`
