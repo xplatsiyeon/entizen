@@ -13,12 +13,17 @@ import {
   useState,
 } from 'react';
 import send from 'public/images/send.png';
-import sendBlue from 'public/images/send-blue.png';
-import fileBtn from 'public/images/fileBtn.png';
-import addBtn from 'public/images/addBtn.png';
-import stopAlarm from 'public/images/stopAlarm.png';
-import alarmBtn from 'public/images/alarm.png';
-import moreBtn from 'public/images/moreBtn.png';
+import sendBlue from 'public/images/send-blue.png'
+import fileBtn from 'public/images/fileBtn.png'
+import addBtn from 'public/images/addBtn.png'
+import stopAlarm from 'public/images/stopAlarm.png'
+import alarmBtn from 'public/images/alarm.png'
+import moreBtn from 'public/images/moreBtn.png'
+import QuitModal from "components/Chatting/QuitModal";
+import MoreModal from "components/Chatting/MoreModal";
+import { ChattingResponse } from 'pages/chatting/chattingRoom';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { isTokenGetApi, isTokenPostApi } from 'api';
 
 type ChattingLogs = {
   createdAt: string;
@@ -43,175 +48,112 @@ type Props = {
 };
 
 const ChattingRoom = ({ user, name, alarm }: Props) => {
-  console.log('comp room');
-
+  const queryClient = useQueryClient();
   const router = useRouter();
+  const chattingRoomIdx = router.query.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
+  const [text, setText] = useState('');
   //const [company, setCompany] = useState<string>()
 
-  /* useEffect(() => {
+  //   채팅방 내용 보기
+  const {
+    data: chattingData,
+    isError: chattingIsError,
+    isLoading: chattingIsLoading,
+    refetch: chattingRefetch,
+  } = useQuery<ChattingResponse>(
+    'chatting-data',
+    () => {
+      // isTokenGetApi(`/chatting/${chattingRoomIdx}?page=1`)
+      return isTokenGetApi('/chatting/2?page=1');
+    },
+    {
+      // 몇초마다 갱신 해줄 것인가.
+      //   refetchInterval: 3000,
+    },
+  );
+
+  //   채팅 POST
+  const {
+    mutate: chattingPostMutate,
+    isLoading: chattingPostIsLoading,
+    isError: chattingPostIsError,
+  } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      setText('');
+      //   chattingRefetch();
+      queryClient.invalidateQueries();
+      window.scrollTo(0, document.body.scrollHeight);
+    },
+    onError: () => {},
+  });
+
+    const [moreModal, setMoreModal] = useState<boolean>(false);
+    const [quitModal, setQuitModal] = useState<boolean>(false);
+
+    //const modalComponents = [<QuitModal setModal={setModal}/>, <MoreModal/> ]
+    
+    //const [company, setCompany] = useState<string>()
+
+    /* useEffect(() => {
          console.log(company)
          if (typeof (router.query.companyMemberId) === 'string') {
              setCompany(router.query.companyMemberId)
          }
      }, [router.query.companyMemberId]) */
 
-  const arr = {
-    isSuccess: true,
-    data: {
-      chattingLogs: [
-        {
-          createdAt: '2022-11-15T06:22:23.429Z',
-          chattingLogIdx: 10,
-          fromMemberIdx: 35,
-          fromMemberType: 'USER',
-          content: null,
-          messageType: 'FILE',
-          fileUrl: 'https://test.test.com',
-          wasRead: true,
-        },
-        {
-          createdAt: '2022-11-17T06:22:22.972Z',
-          chattingLogIdx: 9,
-          fromMemberIdx: 35,
-          fromMemberType: 'USER',
-          content: null,
-          messageType: 'FILE',
-          fileUrl: 'https://test.test.com',
-          wasRead: true,
-        },
-        {
-          createdAt: '2022-11-17T06:22:22.559Z',
-          chattingLogIdx: 8,
-          fromMemberIdx: 35,
-          fromMemberType: 'USER',
-          content: null,
-          messageType: 'FILE',
-          fileUrl: 'https://test.test.com',
-          wasRead: true,
-        },
-        {
-          createdAt: '2022-11-13T06:22:22.128Z',
-          chattingLogIdx: 7,
-          fromMemberIdx: 35,
-          fromMemberType: 'USER',
-          content: null,
-          messageType: 'FILE',
-          fileUrl: 'https://test.test.com',
-          wasRead: true,
-        },
-        {
-          createdAt: '2022-11-16T09:22:21.526Z',
-          chattingLogIdx: 6,
-          fromMemberIdx: 35,
-          fromMemberType: 'USER',
-          content: null,
-          messageType: 'FILE',
-          fileUrl: 'https://test.test.',
-          wasRead: true,
-        },
-        {
-          createdAt: '2022-10-22T06:22:20.256Z',
-          chattingLogIdx: 5,
-          fromMemberIdx: 35,
-          fromMemberType: 'USER',
-          content: null,
-          messageType: 'FILE',
-          fileUrl: 'https://test.test.com',
-          wasRead: true,
-        },
-        {
-          createdAt: '2022-11-15T06:22:19.189Z',
-          chattingLogIdx: 4,
-          fromMemberIdx: 35,
-          fromMemberType: 'USER',
-          content: null,
-          messageType: 'FILE',
-          fileUrl: 'https://test.test.com',
-          wasRead: true,
-        },
-        {
-          createdAt: '2022-11-17T06:14:13.153Z',
-          chattingLogIdx: 3,
-          fromMemberIdx: 35,
-          fromMemberType: 'USER',
-          content: null,
-          messageType: 'FILE',
-          fileUrl: 'https://test.test.com',
-          wasRead: true,
-        },
-        {
-          createdAt: '2022-11-13T14:13:59.946Z',
-          chattingLogIdx: 2,
-          fromMemberIdx: 35,
-          fromMemberType: 'COMPANY',
-          content: 'hello2',
-          messageType: 'CHATTING',
-          fileUrl: null,
-          wasRead: true,
-        },
-        {
-          createdAt: '2022-11-17T06:13:20.409Z',
-          chattingLogIdx: 1,
-          fromMemberIdx: 35,
-          fromMemberType: 'USER',
-          content: 'hello',
-          messageType: 'CHATTING',
-          fileUrl: null,
-          wasRead: true,
-        },
-      ],
-    },
-  };
-
   /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
   useEffect(() => {
     /*arr.data.chattingLogs.map((d,idx)=>{
             const date = dayjs(d.createdAt).format("YYYY.MM.DD HH:mm:ss");
         })*/
-    const sortArr = Array.from(arr.data.chattingLogs);
-    sortArr.sort((a, b) => {
-      const fomatedA = dayjs(a.createdAt).format('YYYY.MM.DD HH:mm:ss');
-      const fomatedB = dayjs(b.createdAt).format('YYYY.MM.DD HH:mm:ss');
-      if (fomatedA > fomatedB) {
-        return 1;
-      }
-      if (fomatedA < fomatedB) {
-        return -1;
-      }
-      return 0;
-    });
-    //console.log(sortArr)
+    if (!chattingIsLoading && chattingData?.isSuccess === true) {
+      const sortArr = Array.from(chattingData.data.chattingLogs);
+      sortArr.sort((a, b) => {
+        const fomatedA = dayjs(a.createdAt).format('YYYY.MM.DD HH:mm:ss');
+        const fomatedB = dayjs(b.createdAt).format('YYYY.MM.DD HH:mm:ss');
+        if (fomatedA > fomatedB) {
+          return 1;
+        }
+        if (fomatedA < fomatedB) {
+          return -1;
+        }
+        return 0;
+      });
+      //console.log(sortArr)
 
-    /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
+      /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
             순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
         */
-    const temp: ChattingRoom[] = [];
-    sortArr.forEach((a, idx) => {
-      const date1 = dayjs(a.createdAt).format('YYYY.MM.DD');
-      /*맨 처음 배열 요소는 그냥 push*/
-      if (idx === 0) {
-        temp.push({
-          date: date1,
-          logs: [a],
-        });
-        /* 배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 같으면, temp배열의 가장 마지막 인덱스 요소(Logs)에 푸쉬. 
-                  배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 다르면, temp 배열에 새롭게 Push.
-                */
-      } else {
-        if (dayjs(sortArr[idx - 1].createdAt).format('YYYY.MM.DD') === date1) {
-          temp[temp.length - 1].logs.push(a);
-        } else {
+      const temp: ChattingRoom[] = [];
+      sortArr.forEach((a, idx) => {
+        const date1 = dayjs(a.createdAt).format('YYYY.MM.DD');
+        /*맨 처음 배열 요소는 그냥 push*/
+        if (idx === 0) {
           temp.push({
             date: date1,
             logs: [a],
           });
+          /* 배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 같으면, temp배열의 가장 마지막 인덱스 요소(Logs)에 푸쉬. 
+                  배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 다르면, temp 배열에 새롭게 Push.
+                */
+        } else {
+          if (
+            dayjs(sortArr[idx - 1].createdAt).format('YYYY.MM.DD') === date1
+          ) {
+            temp[temp.length - 1].logs.push(a);
+          } else {
+            temp.push({
+              date: date1,
+              logs: [a],
+            });
+          }
         }
-      }
-    });
-    console.log('temp', temp);
-    setData(temp);
-  }, [user]); //의존성 배열, 호출할때만으로 정해야 함.
+      });
+      console.log('temp', temp);
+      setData(temp);
+    }
+  }, [user, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
 
   const handleTime = (st: string) => {
     //오전, 오후로 나누기
@@ -221,6 +163,23 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
     } else {
       return `오후 ${pm}`;
     }
+  };
+  // 인풋 텍스트 입력
+  const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText(event.currentTarget.value);
+  };
+  // 채팅 onsubmit
+  const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    chattingPostMutate({
+      //   url: `chatting/${chattingRoomIdx}`,
+      url: `/chatting/2`,
+      data: {
+        content: text,
+        fileUrl: null,
+      },
+    });
+    console.log('온클릭');
   };
 
   /* 웹에서 글자 입력될때 마다 send 버튼 색상 변경*/
@@ -276,7 +235,7 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
             )}
           </IconWrap>
           <IconWrap>
-            <Image src={moreBtn} layout="fill" />
+            <Image src={moreBtn} layout="fill" onClick={()=>setMoreModal(true)}/>
           </IconWrap>
         </IconBox>
       </TopBox>
@@ -323,11 +282,15 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
         })}
       </Inner>
       <BottomBox ref={mobBox}>
-        <FlexBox>
+        <FlexBox onSubmit={onSubmitText}>
           <AddBtn onClick={handleButton}>
             <Image src={addBtn} layout="intrinsic" />
           </AddBtn>
-          <TextInput placeholder="메세지를 입력하세요" />
+          <TextInput
+            placeholder="메세지를 입력하세요"
+            value={text}
+            onChange={onChangeText}
+          />
           <IconWrap2>
             <Image src={send} layout="fill" />
           </IconWrap2>
@@ -335,7 +298,7 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
         <div className="hidden"></div>
       </BottomBox>
       <WebBottomBox ref={webBox}>
-        <FlexBox2>
+        <FlexBox2 onSubmit={onSubmitText}>
           <InputWrap>
             <FileIconWrap>
               <Image src={fileBtn} layout="fill" />
@@ -344,6 +307,8 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
               placeholder="메세지를 입력하세요"
               onKeyDown={() => imgChange(true)}
               onKeyUp={() => imgChange(false)}
+              value={text}
+              onChange={onChangeText}
             />
           </InputWrap>
           <div className="typing off">
@@ -354,6 +319,11 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
           </div>
         </FlexBox2>
       </WebBottomBox>
+            {/* 더보기 모달 제어 */}
+            {moreModal && <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal}  />}
+
+            {/* 나가기 모달 제어 */}
+            {quitModal && <QuitModal setModal={setQuitModal}/>}
     </Body>
   );
 };
@@ -387,7 +357,7 @@ const WebBottomBox = styled.div`
   }
 `;
 
-const FlexBox2 = styled.div`
+const FlexBox2 = styled.form`
   margin: 0 22.5pt 0 13.5pt;
   display: flex;
   gap: 14.25pt;
@@ -429,7 +399,7 @@ const BottomBox = styled.div`
     transition: 0.3s;
   }
 `;
-const FlexBox = styled.div`
+const FlexBox = styled.form`
   display: flex;
   align-items: center;
   gap: 10.5pt;

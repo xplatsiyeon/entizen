@@ -13,6 +13,8 @@ import React, {
   useState,
 } from 'react';
 import send from 'public/images/send.png';
+import MoreModal from "components/Chatting/MoreModal";
+import QuitModal from "components/Chatting/QuitModal";
 import sendBlue from 'public/images/send-blue.png';
 import fileBtn from 'public/images/fileBtn.png';
 import addBtn from 'public/images/addBtn.png';
@@ -67,10 +69,17 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
     isError: chattingIsError,
     isLoading: chattingIsLoading,
     refetch: chattingRefetch,
-  } = useQuery<ChattingResponse>('chatting-data', () => {
-    // isTokenGetApi(`/chatting/${chattingRoomIdx}?page=1`)
-    return isTokenGetApi('/chatting/2?page=1');
-  });
+  } = useQuery<ChattingResponse>(
+    'chatting-data',
+    () => {
+      // isTokenGetApi(`/chatting/${chattingRoomIdx}?page=1`)
+      return isTokenGetApi('/chatting/2?page=1');
+    },
+    {
+      // 몇초마다 갱신 해줄 것인가.
+      //   refetchInterval: 3000,
+    },
+  );
 
   //   채팅 POST
   const {
@@ -78,15 +87,20 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
     isLoading: chattingPostIsLoading,
     isError: chattingPostIsError,
   } = useMutation(isTokenPostApi, {
-    onSuccess: () => {
+    onSuccess: async () => {
       setText('');
       //   chattingRefetch();
-      queryClient.invalidateQueries();
+      await queryClient.invalidateQueries();
+
+      console.log(document.body.scrollHeight);
     },
     onError: () => {},
   });
 
-  //const [company, setCompany] = useState<string>()
+    const [moreModal, setMoreModal] = useState<boolean>(false);
+    const [quitModal, setQuitModal] = useState<boolean>(false);
+
+    //const [company, setCompany] = useState<string>()
 
   /* useEffect(() => {
          console.log(company)
@@ -94,114 +108,6 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
              setCompany(router.query.companyMemberId)
          }
      }, [router.query.companyMemberId]) */
-
-  //   const arr = {
-  //     isSuccess: true,
-  //     data: {
-  //       chattingLogs: [
-  //         {
-  //           createdAt: '2022-11-15T06:22:23.429Z',
-  //           chattingLogIdx: 10,
-  //           fromMemberIdx: 35,
-  //           fromMemberType: 'USER',
-  //           content: null,
-  //           messageType: 'FILE',
-  //           fileUrl: 'https://test.test.com',
-  //           wasRead: true,
-  //         },
-  //         {
-  //           createdAt: '2022-11-17T06:22:22.972Z',
-  //           chattingLogIdx: 9,
-  //           fromMemberIdx: 35,
-  //           fromMemberType: 'USER',
-  //           content: null,
-  //           messageType: 'FILE',
-  //           fileUrl: 'https://test.test.com',
-  //           wasRead: true,
-  //         },
-  //         {
-  //           createdAt: '2022-11-17T06:22:22.559Z',
-  //           chattingLogIdx: 8,
-  //           fromMemberIdx: 35,
-  //           fromMemberType: 'USER',
-  //           content: null,
-  //           messageType: 'FILE',
-  //           fileUrl: 'https://test.test.com',
-  //           wasRead: true,
-  //         },
-  //         {
-  //           createdAt: '2022-11-13T06:22:22.128Z',
-  //           chattingLogIdx: 7,
-  //           fromMemberIdx: 35,
-  //           fromMemberType: 'USER',
-  //           content: null,
-  //           messageType: 'FILE',
-  //           fileUrl: 'https://test.test.com',
-  //           wasRead: true,
-  //         },
-  //         {
-  //           createdAt: '2022-11-16T09:22:21.526Z',
-  //           chattingLogIdx: 6,
-  //           fromMemberIdx: 35,
-  //           fromMemberType: 'USER',
-  //           content: null,
-  //           messageType: 'FILE',
-  //           fileUrl: 'https://test.test.',
-  //           wasRead: true,
-  //         },
-  //         {
-  //           createdAt: '2022-10-22T06:22:20.256Z',
-  //           chattingLogIdx: 5,
-  //           fromMemberIdx: 35,
-  //           fromMemberType: 'USER',
-  //           content: null,
-  //           messageType: 'FILE',
-  //           fileUrl: 'https://test.test.com',
-  //           wasRead: true,
-  //         },
-  //         {
-  //           createdAt: '2022-11-15T06:22:19.189Z',
-  //           chattingLogIdx: 4,
-  //           fromMemberIdx: 35,
-  //           fromMemberType: 'USER',
-  //           content: null,
-  //           messageType: 'FILE',
-  //           fileUrl: 'https://test.test.com',
-  //           wasRead: true,
-  //         },
-  //         {
-  //           createdAt: '2022-11-17T06:14:13.153Z',
-  //           chattingLogIdx: 3,
-  //           fromMemberIdx: 35,
-  //           fromMemberType: 'USER',
-  //           content: null,
-  //           messageType: 'FILE',
-  //           fileUrl: 'https://test.test.com',
-  //           wasRead: true,
-  //         },
-  //         {
-  //           createdAt: '2022-11-13T14:13:59.946Z',
-  //           chattingLogIdx: 2,
-  //           fromMemberIdx: 35,
-  //           fromMemberType: 'COMPANY',
-  //           content: 'hello2',
-  //           messageType: 'CHATTING',
-  //           fileUrl: null,
-  //           wasRead: true,
-  //         },
-  //         {
-  //           createdAt: '2022-11-17T06:13:20.409Z',
-  //           chattingLogIdx: 1,
-  //           fromMemberIdx: 35,
-  //           fromMemberType: 'USER',
-  //           content: 'hello',
-  //           messageType: 'CHATTING',
-  //           fileUrl: null,
-  //           wasRead: true,
-  //         },
-  //       ],
-  //     },
-  //   };
 
   /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
   useEffect(() => {
@@ -253,6 +159,8 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
       });
       console.log('temp', temp);
       setData(temp);
+
+      window.scrollTo(0, document.body.scrollHeight);
     }
   }, [companyId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
 
@@ -341,7 +249,7 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
             )}
           </IconWrap>
           <IconWrap>
-            <Image src={moreBtn} layout="fill" />
+            <Image src={moreBtn} layout="fill" onClick={()=>setMoreModal(true)}/>
           </IconWrap>
         </IconBox>
       </TopBox>
@@ -404,7 +312,7 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
         <div className="hidden"></div>
       </BottomBox>
       <WebBottomBox ref={webBox}>
-        <FlexBox2>
+        <FlexBox2 onSubmit={onSubmitText}>
           <InputWrap>
             <FileIconWrap>
               <Image src={fileBtn} layout="fill" />
@@ -426,6 +334,12 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
           </div>
         </FlexBox2>
       </WebBottomBox>
+
+            {/* 더보기 모달 제어 */}
+            {moreModal && <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal}  />}
+
+            {/* 나가기 모달 제어 */}
+            {quitModal && <QuitModal setModal={setQuitModal}/>}
     </Body>
   );
 };
@@ -459,7 +373,7 @@ const WebBottomBox = styled.div`
   }
 `;
 
-const FlexBox2 = styled.div`
+const FlexBox2 = styled.form`
   margin: 0 22.5pt 0 13.5pt;
   display: flex;
   gap: 14.25pt;
@@ -616,6 +530,9 @@ const DateChatting = styled.div`
     top: 15pt;
     right: 0;
     z-index: -1;
+  }
+  @media (max-width: 900pt) {
+    height: 100%;
   }
 `;
 const Date = styled.span`
