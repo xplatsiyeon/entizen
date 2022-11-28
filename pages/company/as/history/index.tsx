@@ -220,4 +220,5 @@ const Button = styled.button`
   letter-spacing: -0.02em;
   background: #f3f4f7;
   color: #222222;
+  cursor: pointer;
 `;

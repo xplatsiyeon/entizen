@@ -419,7 +419,6 @@ const GridImg = styled.div`
   }
 `;
 const GridItem = styled.div`
-  background-color: blue;
   position: relative;
   border-radius: 6pt;
   width: 120pt;

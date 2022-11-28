@@ -115,8 +115,6 @@ const Wrap = styled.div`
   top: 0;
   left: 0;
   z-index: 10;
-  @media (min-width: 900pt) {
-  }
 `;
 
 const Body = styled.div`

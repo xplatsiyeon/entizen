@@ -186,8 +186,11 @@ const SpeechText = styled.div`
 `;
 
 const MailCopyBtn = styled.div<{ mailOn: boolean }>`
-  position: relative;
-  top: 140pt;
+  /* position: relative;
+  top: 140pt; */
+  position: absolute;
+  top: 70%;
+  left: 53%;
   padding: 16pt 49.5pt;
   font-family: 'Spoqa Han Sans Neo';
   font-weight: 500;

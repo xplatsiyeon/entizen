@@ -220,6 +220,11 @@ const Container = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgb(34, 34, 34, 0.4);
+  @media (min-width: 900pt) {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -235,6 +240,14 @@ const Wrapper = styled.div`
   background-color: #ffffff;
   z-index: 2000;
   opacity: 1 !important;
+  @media (min-width: 900pt) {
+    position: relative;
+    left: 50%;
+    top: 10%;
+    width: 324pt;
+    max-height: 490pt;
+    border-radius: 12pt;
+  }
 `;
 
 const HeaderTitle = styled.div`
@@ -249,6 +262,10 @@ const HeaderTitle = styled.div`
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  @media (min-width: 900pt) {
+    padding-top: 30pt;
+    padding-bottom: 0;
+  }
 `;
 const Title = styled.div`
   display: flex;
@@ -275,6 +292,9 @@ const Pagenation = styled.div`
     line-height: 15pt;
     text-align: center;
     color: ${colors.main2};
+  }
+  @media (min-width: 900pt) {
+    padding-top: 46pt;
   }
 `;
 const Notice = styled.span`
@@ -371,4 +391,6 @@ const Button = styled.div`
   text-align: center;
   color: #ffffff;
   background-color: ${colors.main};
+  @media (min-width: 900pt) {
+  }
 `;

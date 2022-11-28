@@ -16,8 +16,7 @@ const Contract = () => {
       </ImageWrap>
       <TextBox>
         <li className="text-item">
-          파트너들에게서 온 맞춤 견적들을
-          <span className="accent">내 견적서</span>에서 꼼꼼하게 비교해보세요.
+          파트너들에게서 온 맞춤 견적들을 <span className="accent">내 견적서</span>에서 꼼꼼하게 비교해보세요.
         </li>
         <li className="text-item">
           <span className="accent">소통하기</span>에서 파트너 담당자 혹은
