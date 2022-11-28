@@ -9,6 +9,7 @@ import React, {
   MouseEvent,
   SetStateAction,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
@@ -47,17 +48,17 @@ export interface ChattingResponse {
 }
 
 type Props = {
-  companyId: string;
+  routerId: string | string[];
   name: string | string[] | undefined;
   alarm: string | string[] | undefined;
 };
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
-const ChattingRoom = ({ companyId, name, alarm }: Props) => {
+const ChattingRoom = ({ routerId, name, alarm }: Props) => {
   //   console.log('room');
   const queryClient = useQueryClient();
   const router = useRouter();
-  const chattingRoomIdx = router.query.chattingRoomIdx;
+
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
 
@@ -66,7 +67,6 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
     data: chattingData,
     isError: chattingIsError,
     isLoading: chattingIsLoading,
-    refetch: chattingRefetch,
   } = useQuery<ChattingResponse>(
     'chatting-data',
     () => {
@@ -87,12 +87,12 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
   } = useMutation(isTokenPostApi, {
     onSuccess: async () => {
       setText('');
-      //   chattingRefetch();
-      await queryClient.invalidateQueries();
-
-      console.log(document.body.scrollHeight);
+      await queryClient.invalidateQueries('chatting-data');
     },
-    onError: () => {},
+    onError: (error) => {
+      console.log('🔥 채팅방 POST 에러 발생');
+      console.log(error);
+    },
   });
 
   //const [company, setCompany] = useState<string>()
@@ -152,12 +152,14 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
           }
         }
       });
-      console.log('temp', temp);
+      //   console.log('temp', temp);
       setData(temp);
-
-      window.scrollTo(0, document.body.scrollHeight);
     }
-  }, [companyId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
+  }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, [data]);
 
   const handleTime = (st: string) => {
     //오전, 오후로 나누기
@@ -576,9 +578,11 @@ const Chat = styled.div`
   letter-spacing: -0.02em;
   &.user {
     background: #5221cb;
+    /* background: #f3f4f7; */
   }
   &.company {
     background: #f3f4f7;
+    /* background: #5221cb; */
     color: #222222;
   }
 `;
