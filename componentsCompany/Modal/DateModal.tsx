@@ -227,6 +227,15 @@ const Wrapper = styled.div`
   background-color: #ffffff;
   z-index: 1000;
   opacity: 1 !important;
+
+  @media (min-width: 900pt) {
+    position: relative;
+    left: 50%;
+    top: 20%;
+    width: 324pt;
+    height: 429pt;
+    border-radius: 12pt;
+  }
 `;
 
 const HeaderTitle = styled.div`
@@ -279,6 +288,9 @@ const Weeks = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  @media (min-width: 900pt) {
+    padding-top: 40pt;
+  }
 `;
 const Week = styled.div`
   width: calc(100% / 7);
@@ -336,4 +348,8 @@ const Button = styled.div`
   text-align: center;
   color: #ffffff;
   background-color: ${colors.main};
+
+  @media (min-width: 900pt) {
+    margin-top: 50pt;
+  }
 `;
