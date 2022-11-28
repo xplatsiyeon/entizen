@@ -260,8 +260,6 @@ const ChattingList = ({ type }: Props) => {
 
   const touchEnd = (e: TouchEvent<HTMLElement>) => {
     const target = e.currentTarget;
-
-    if (pressed) {
       const now = e.changedTouches[0].clientX;
 
       if (start === '-40') {
@@ -295,12 +293,13 @@ const ChattingList = ({ type }: Props) => {
       }
 
       //e.currentTarget.style.transition = 'none';
-    }
+    
 
     setTimeout(() => {
-      pressed = false;
       target.style.transition = 'none';
+      pressed = false;
     }, 450);
+
   };
 
   {
