@@ -103,7 +103,7 @@ const Request = () => {
                         index={index.toString()}
                         //onClick={() => route.push('/mypage')}
                       >
-                        {tab}
+                        <span>{tab}</span>
                         <Dot
                           tab={tabNumber.toString()}
                           index={index.toString()}
@@ -123,7 +123,7 @@ const Request = () => {
                       //  })
                       //  }
                       >
-                        {tab}
+                      <span>{tab}</span>
                         <Dot
                           tab={tabNumber.toString()}
                           index={index.toString()}
@@ -262,14 +262,15 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
-  cursor: pointer;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
+  display: flex;
+  align-items: center;
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
   height: 3pt;
   border-radius: 50%;
-  margin: 6pt auto 0 auto;
+  margin: 0 9pt 0;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;
