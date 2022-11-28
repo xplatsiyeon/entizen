@@ -9,6 +9,7 @@ import {
   MouseEvent,
   SetStateAction,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
@@ -22,6 +23,7 @@ import moreBtn from 'public/images/moreBtn.png';
 import { ChattingResponse } from 'pages/chatting/chattingRoom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPostApi } from 'api';
+import Loader from 'components/Loader';
 
 type ChattingLogs = {
   createdAt: string;
@@ -40,30 +42,25 @@ export interface ChattingRoom {
 }
 
 type Props = {
-  user: string;
+  routerId: string | string[];
   name: string | string[] | undefined;
   alarm: string | string[] | undefined;
 };
 
-const ChattingRoom = ({ user, name, alarm }: Props) => {
+const ChattingRoom = ({ routerId, name, alarm }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const chattingRoomIdx = router.query.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
-  //const [company, setCompany] = useState<string>()
-
   //   채팅방 내용 보기
   const {
     data: chattingData,
     isError: chattingIsError,
     isLoading: chattingIsLoading,
-    refetch: chattingRefetch,
   } = useQuery<ChattingResponse>(
     'chatting-data',
     () => {
-      // isTokenGetApi(`/chatting/${chattingRoomIdx}?page=1`)
-      return isTokenGetApi('/chatting/2?page=1');
+      return isTokenGetApi(`/chatting/${routerId}?page=1`);
     },
     {
       // 몇초마다 갱신 해줄 것인가.
@@ -79,11 +76,12 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
       setText('');
-      //   chattingRefetch();
-      queryClient.invalidateQueries();
-      window.scrollTo(0, document.body.scrollHeight);
+      queryClient.invalidateQueries('chatting-data');
     },
-    onError: () => {},
+    onError: (error) => {
+      console.log('🔥 채팅방 POST 에러 발생');
+      console.log(error);
+    },
   });
 
   /* useEffect(() => {
@@ -144,8 +142,11 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
       console.log('temp', temp);
       setData(temp);
     }
-  }, [user, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
+  }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
 
+  useLayoutEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, [data]);
   const handleTime = (st: string) => {
     //오전, 오후로 나누기
     const pm = dayjs(st).subtract(12, 'h').format('HH:mm');
@@ -203,6 +204,10 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
     }
   };
 
+  if (chattingIsLoading) {
+    return <Loader />;
+  }
+
   return (
     <Body>
       <TopBox>
@@ -231,7 +236,7 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
         </IconBox>
       </TopBox>
       <Inner>
-        {data.map((d, idx) => {
+        {data?.map((d, idx) => {
           return (
             <DateChatting key={idx}>
               <Date>{d.date}</Date>
@@ -467,6 +472,7 @@ const Inner = styled.div`
   position: relative;
   padding-top: 36pt;
   padding-bottom: 66pt;
+  /* height: 100vh; */
   @media (min-width: 900pt) {
     padding-top: 105pt;
   }
@@ -476,7 +482,7 @@ const DateChatting = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   text-align: center;
   position: relative;
-
+  box-sizing: border-box;
   &::before {
     display: block;
     content: '';
@@ -553,11 +559,11 @@ const Chat = styled.div`
   line-height: 16.5pt;
   letter-spacing: -0.02em;
   &.user {
-    background: #5221cb;
-  }
-  &.company {
     background: #f3f4f7;
     color: #222222;
+  }
+  &.company {
+    background: #5221cb;
   }
 `;
 const File = styled.div`

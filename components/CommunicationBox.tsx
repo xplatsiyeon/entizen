@@ -6,6 +6,7 @@ import CommunicationIcon from 'public/images/communication-icon.svg';
 import colors from 'styles/colors';
 
 interface Props {
+  // id: string;
   text: string;
   clickHandler: () => void;
 }

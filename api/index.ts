@@ -74,7 +74,7 @@ export const isTokenGetApi = async (url: string) => {
 // -----------------------------post-api--------------------------------------
 // API 호출 (토큰 O)
 // export const isTokenPostApi = async (url: string, data: any) => {
-export const isTokenPostApi = async (apiInfo: PropsApi) => {
+export const isTokenPostApi = async (apiInfo: PropsApi): Promise<any> => {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { url, data } = apiInfo;
   return await axios({
