@@ -5,13 +5,8 @@ import React from 'react';
 import colors from 'styles/colors';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import { useCallback } from 'react';
 import { SentRequestResponse } from './SentProvisionalQuoatation';
-import {
-  convertEn,
-  convertKo,
-  PriceBasicCalculation,
-} from 'utils/calculatePackage';
+import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import {
   location,
   locationEn,
@@ -32,8 +27,6 @@ type Props = {
 const TAG =
   'componentsCompany/CompanyQuotation/SentQuotation/FinalBottomBox.tsx';
 const FinalBottomBox = ({ pb, data }: Props) => {
-  console.log(TAG + '🔥 ~line 34 파이널 바텀 체크');
-
   const finalQuotation =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation!;
 
@@ -188,8 +181,8 @@ const FinalBottomBox = ({ pb, data }: Props) => {
           <FeaturesList>
             {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.subscribeProductFeature
               ?.split('\n')
-              .map((line) => (
-                <li>
+              .map((line, idx) => (
+                <li key={idx}>
                   {line}
                   <br />
                 </li>
@@ -202,8 +195,8 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             <FlexWrap key={item.finalQuotationChargerIdx}>
               <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
               <FeaturesList>
-                {item.productFeature.split('\n').map((line) => (
-                  <li>
+                {item.productFeature.split('\n').map((line, idx) => (
+                  <li key={idx}>
                     {line}
                     <br />
                   </li>
