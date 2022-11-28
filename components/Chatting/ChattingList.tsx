@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import defaultImg from 'public/images/default-img.png';
-import { TouchEvent, useEffect, useRef, useState } from 'react';
+import { TouchEvent, useRef, useState } from 'react';
 import QuitModal from './QuitModal';
 import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
@@ -11,150 +11,32 @@ import hiddenUnChecked from 'public/images/hiddenUnChecked.png';
 import hiddenChecked from 'public/images/hiddenChecked.png';
 import hiddenStopAlarm from 'public/images/hiddenStopAlarm.png';
 import hiddenAlarm from 'public/images/hiddenAlarm.png';
+import { ChattingListResponse } from 'pages/chatting';
+import { useMutation, useQueryClient } from 'react-query';
+import { isTokenPatchApi } from 'api';
 
 type Props = {
-  type: number;
+  data: ChattingListResponse;
 };
+const ChattingList = ({ data }: Props) => {
+  const router = useRouter();
+  const queryClinet = useQueryClient();
 
-type UserChattingLogs = {
-  chattingRoomIdx: number;
-  companyMember: {
-    //판매자 회원정보
-    memberIdx: number;
-    companyMemberAdditionalInfo: {
-      companyName: string;
-    };
-  };
-  userMember: {
-    //구매자 회원정보
-    memberIdx: number;
-    name: string;
-  };
-  chattingLogs: {
-    fromMemberIdx: number;
-    fromMemberType: string;
-    wasRead: boolean;
-    createdAt: string;
-    content: string;
-    fileUrl: string | null;
-  } | null; //채팅방 정보
-  chattingRoomFavorite: {
-    // 채팅방 즐겨찾기 관련 정보
-    chattingRoomFavoriteIdx: number;
-    isFavorite: boolean;
-  };
-  chattingRoomNotification: {
-    //채팅방 알림설정
-    chattingRoomNotificationIdx: number;
-    isSetNotification: boolean;
-  };
-};
-
-const ChattingList = ({ type }: Props) => {
-  console.log('list', type);
-
-  //const [chattingType] = useState<number>(type);
-  const [dataArr, setDataArr] = useState<UserChattingLogs[]>([]);
   const [modal, setModal] = useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState<number>();
 
-  useEffect(
-    () => {
-      console.log('useEffect', type);
-      //여기서 데이터 get();
-      const arr = {
-        isSuccess: true,
-        data: {
-          chattingRooms: {
-            entizenChattingRoom: null,
-            userChattingRooms: [
-              {
-                chattingRoomIdx: 2,
-                companyMember: {
-                  //판매자 회원정보
-                  memberIdx: 52,
-                  companyMemberAdditionalInfo: {
-                    companyName: 'paulpaul',
-                  },
-                },
-                userMember: {
-                  //구매자 회원정보
-                  memberIdx: 35,
-                  name: '홍길동',
-                },
-                chattingLogs: null, //채팅방 정보
-                chattingRoomFavorite: {
-                  // 채팅방 즐겨찾기 관련 정보
-                  chattingRoomFavoriteIdx: 3,
-                  isFavorite: true,
-                },
-                chattingRoomNotification: {
-                  //채팅방 알림설정
-                  chattingRoomNotificationIdx: 3,
-                  isSetNotification: true,
-                },
-              },
-              {
-                chattingRoomIdx: 1,
-                companyMember: {
-                  memberIdx: 36,
-                  companyMemberAdditionalInfo: {
-                    companyName: '네이버',
-                  },
-                },
-                userMember: {
-                  memberIdx: 35,
-                  name: '홍길동',
-                },
-                chattingLogs: {
-                  fromMemberIdx: 35,
-                  fromMemberType: 'USER',
-                  wasRead: false,
-                  createdAt: '2022-11-18T06:51:05.018Z',
-                  content: 'ㅎㅇㅇ',
-                  fileUrl: null,
-                },
-                chattingRoomFavorite: {
-                  chattingRoomFavoriteIdx: 1,
-                  isFavorite: false,
-                },
-                chattingRoomNotification: {
-                  chattingRoomNotificationIdx: 1,
-                  isSetNotification: true,
-                },
-              },
-            ],
-          },
-        },
-      };
-      if (type === 0) {
-        setDataArr(arr.data.chattingRooms.userChattingRooms);
-      }
-
-      if (type === 1) {
-        const wasRead = arr?.data?.chattingRooms?.userChattingRooms?.filter(
-          (ele, idx) => {
-            return !ele?.chattingLogs?.wasRead;
-          },
-        );
-        setDataArr(wasRead);
-      }
-
-      if (type === 2) {
-        const favoriteArr = arr?.data?.chattingRooms?.userChattingRooms?.filter(
-          (f, idx) => {
-            return f?.chattingRoomFavorite.isFavorite === true;
-          },
-        );
-        setDataArr(favoriteArr);
-      }
+  const {
+    mutate: patchMutate,
+    isLoading: patchIsLoading,
+    isError: patchIsError,
+  } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('chatting-list');
     },
-    [type],
-    /*부모 컴포넌트가 렌더링되거나 내부 요인으로 렌더링 되어도 전달되는 type이 바뀌지않으면 api 호출하지않음 */
-  );
+    onError: () => {},
+  });
 
-  {
-    /*메세지 시간 표현 처리 함수 */
-  }
+  /*메세지 시간 표현 처리 함수 */
   const handleTime = (target: string | undefined) => {
     const now = dayjs();
     const diff = now.diff(target, 'h');
@@ -191,10 +73,7 @@ const ChattingList = ({ type }: Props) => {
       }
     }
   };
-
-  {
-    /* 드래그 조절 함수 */
-  }
+  /* 드래그 조절 함수 */
   const chattingList = useRef<HTMLDivElement>(null);
   let pressed = false;
   let prev: number;
@@ -257,7 +136,6 @@ const ChattingList = ({ type }: Props) => {
       }
     }
   };
-
   const touchEnd = (e: TouchEvent<HTMLElement>) => {
     const target = e.currentTarget;
       const now = e.changedTouches[0].clientX;
@@ -302,14 +180,20 @@ const ChattingList = ({ type }: Props) => {
 
   };
 
-  {
-    /* 디테일 페이지 이동 */
-  }
-  const router = useRouter();
+  const onClickFavorite = (chattingRoomIdx: number) => {
+    patchMutate({
+      url: `/chatting/${chattingRoomIdx}/favorite`,
+    });
+  };
+  const onClickAlarm = (chattingRoomIdx: number) => {
+    patchMutate({
+      url: `/chatting/${chattingRoomIdx}/notification`,
+    });
+  };
 
+  /* 디테일 페이지 이동 */
   const handleRoute = (
-    idx: number,
-    comIdx: number,
+    chattingRoomIdx: number,
     name: string,
     alarm: boolean,
   ) => {
@@ -317,8 +201,7 @@ const ChattingList = ({ type }: Props) => {
     router.push({
       pathname: `/chatting`,
       query: {
-        memberId: idx,
-        companyMemberId: comIdx,
+        chattingRoomIdx: chattingRoomIdx,
         name: name,
         alarm: alarm,
       },
@@ -327,7 +210,7 @@ const ChattingList = ({ type }: Props) => {
 
   return (
     <Body ref={chattingList}>
-      {dataArr.map((chatting, idx) => {
+      {data?.data?.chattingRooms?.userChattingRooms?.map((chatting, idx) => {
         return (
           <Chatting
             className="chattingRoom"
@@ -338,19 +221,21 @@ const ChattingList = ({ type }: Props) => {
           >
             <HiddenBox1>
               {/* 버튼에 즐겨찾기 설정 api함수 */}
-              <FavoriteBtn>
+              <FavoriteBtn
+                onClick={() => onClickFavorite(chatting.chattingRoomIdx)}
+              >
                 {chatting.chattingRoomFavorite.isFavorite ? (
                   <HiddenIconWrap>
-                    <Image src={hiddenUnChecked} layout="fill" />
+                    <Image src={hiddenChecked} layout="fill" />
                   </HiddenIconWrap>
                 ) : (
                   <HiddenIconWrap>
-                    <Image src={hiddenChecked} layout="fill" />
+                    <Image src={hiddenUnChecked} layout="fill" />
                   </HiddenIconWrap>
                 )}
               </FavoriteBtn>
               {/* 버튼에 알림 설정 api함수 */}
-              <AlramBtn>
+              <AlramBtn onClick={() => onClickAlarm(chatting.chattingRoomIdx)}>
                 {chatting.chattingRoomNotification.isSetNotification ? (
                   <HiddenIconWrap>
                     <Image src={hiddenAlarm} layout="fill" />
@@ -366,8 +251,7 @@ const ChattingList = ({ type }: Props) => {
               className="content-box"
               onClick={() =>
                 handleRoute(
-                  chatting.userMember.memberIdx,
-                  chatting.companyMember.memberIdx,
+                  chatting.chattingRoomIdx,
                   chatting.companyMember.companyMemberAdditionalInfo
                     .companyName,
                   chatting.chattingRoomNotification.isSetNotification,
@@ -408,14 +292,19 @@ const ChattingList = ({ type }: Props) => {
               </ChattingRoomInfo>
             </ChattingRoom>
             <HiddenBox2>
-              <QuitBtn onClick={() => setModal(true)}>
+              <QuitBtn
+                onClick={() => {
+                  setDeleteId(chatting?.chattingRoomIdx!);
+                  setModal(true);
+                }}
+              >
                 <span> 나가기 </span>
               </QuitBtn>
             </HiddenBox2>
           </Chatting>
         );
       })}
-      {modal && <QuitModal setModal={setModal} />}
+      {modal && <QuitModal deleteId={deleteId} setModal={setModal} />}
     </Body>
   );
 };

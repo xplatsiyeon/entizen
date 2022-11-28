@@ -22,7 +22,7 @@ import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
 import Link from 'next/link';
 import { selectAction } from 'store/loginTypeSlice';
-interface JwtTokenType {
+export interface JwtTokenType {
   exp: number;
   iat: number;
   isSnsMember: boolean;
