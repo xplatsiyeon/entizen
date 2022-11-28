@@ -384,6 +384,9 @@ const Label = styled.h3`
   @media (max-width: 899.25pt) {
     flex: none;
   }
+  @media (min-width: 900pt) {
+    padding-left: 0;
+  }
 `;
 const FeaturesList = styled.ol`
   padding-top: 6pt;
@@ -410,6 +413,10 @@ const GridImg = styled.div`
   grid-template-columns: repeat(4, 1fr);
   padding-top: 15pt;
   gap: 6pt;
+
+  @media (min-width: 900pt) {
+    padding-left: 0;
+  }
 `;
 const GridItem = styled.div`
   background-color: blue;
@@ -418,6 +425,11 @@ const GridItem = styled.div`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
+
+  @media (min-width: 900pt) {
+    width: 178.5pt;
+    height: 144pt;
+  }
 `;
 const FileContainer = styled.div`
   padding-top: 15pt;

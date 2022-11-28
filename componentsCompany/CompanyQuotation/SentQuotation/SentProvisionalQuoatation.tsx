@@ -207,7 +207,6 @@ const SentQuoatationFirst = () => {
   const [open, setOpen] = useState<boolean>(false);
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(1);
-
   // 히스토리 때문에 step 바꿔주는거
   useEffect(() => {
     if (
@@ -217,16 +216,14 @@ const SentQuoatationFirst = () => {
       setTabNumber(2);
     }
   }, [router]);
-  const [componentId, setComponentId] = useState<number>();
 
+  const [componentId, setComponentId] = useState<number>();
   // 실시간으로 width 받아옴
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-
   // LeftBox component 바꿔주는거
   const [underNum, setUnderNum] = useState<number>();
-
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
@@ -248,8 +245,6 @@ const SentQuoatationFirst = () => {
     }
   }, [router.query.preQuotationIdx]);
 
-  console.log();
-
   useEffect(() => {
     if (router.query.preQuotationIdx) {
       setOpenSubLink(false);
@@ -257,7 +252,7 @@ const SentQuoatationFirst = () => {
   }, [router]);
 
   // ----------- 보낸 견적 상세 페이지 api --------------
-  const { data, isLoading, isError, error, refetch } =
+  const { data, isLoading, isError, error, refetch, remove } =
     useQuery<SentRequestResponse>(
       'company',
       () => isTokenGetApi(`/quotations/sent-request/${routerId || historyId}`),
@@ -321,22 +316,26 @@ const SentQuoatationFirst = () => {
     console.log('현장실사 patch api 호출!!');
   };
 
-  if (isLoading || spotLoading) {
-    return <Loader />;
-  }
+  useEffect(() => {
+    if (router.isReady) {
+      refetch();
+    }
+    // remove();
+  }, [routerId, historyId]);
+
+  // if (isLoading || spotLoading) {
+  //   return <Loader />;
+  // }
   if (isError || spotIsError) {
     console.log(TAG + '🔥 ~line 42 에러 코드');
     console.log(error);
     console.log(spotError);
   }
-  console.log(TAG + '\n🔥 ~line 138 spotdata check');
-  console.log(spotData);
-  console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
-  console.log(data);
+  // console.log(TAG + '\n🔥 ~line 138 spotdata check');
+  // console.log(spotData);
+  // console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
+  // console.log(data);
 
-  // useEffect(() => {
-  //   refetch();
-  // }, []);
   return (
     <>
       <WebBuyerHeader
@@ -680,6 +679,7 @@ const Button = styled.button`
   letter-spacing: -0.02em;
   background: #f3f4f7;
   color: ${colors.main2};
+  cursor: pointer;
 `;
 
 const LastQuotationBtnBox = styled.div`

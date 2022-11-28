@@ -58,7 +58,7 @@ export interface SentrequestResponse {
 const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
 const SendRequestUnder = ({ componentId, setComponentId, send }: Props) => {
   const router = useRouter();
-  console.log(send);
+  // console.log(send);
 
   return (
     <>

@@ -1,112 +1,164 @@
-import styled from "@emotion/styled";
-import { InputAdornment, TextField } from "@mui/material";
-import BottomNavigation from "components/BottomNavigation";
-import ChattingList from "components/Chatting/ChattingList";
-import WebFooter from "componentsWeb/WebFooter";
-import WebHeader from "componentsWeb/WebHeader";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import styled from '@emotion/styled';
+import { InputAdornment, TextField } from '@mui/material';
+import { isTokenGetApi } from 'api';
+import BottomNavigation from 'components/BottomNavigation';
+import ChattingList from 'components/Chatting/ChattingList';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import search from 'public/images/search.png';
-import { useEffect, useState } from "react";
-import ChattingRoom from "./chattingRoom";
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import ChattingRoom from './chattingRoom';
 
-
-const Chatting = () => {
-    const [index, setIndex] = useState<number>(0);
-    const [company, setCompany] = useState<string>('')
-
-
-    const tabList = ['전체', '안 읽음', '즐겨찾기'];
-
-    const router = useRouter();
-    console.log('index', index)
-
-    useEffect(() => {
-        console.log('useeffect', company)
-        if (typeof (router.query.companyMemberId) === 'string') {
-            setCompany(router.query.companyMemberId)
-        } else {
-            setCompany('')
-        }
-    }, [router.query.companyMemberId])
-
-    const handle = () => {
-
-    }
-
-    return (
-
-        <WebBody>
-            <WebHeader/>
-            <Wrapper>
-            <Body>
-                <Header>
-                    <H2>소통하기</H2>
-                </Header>
-                <FlexBox>
-                    <WebBox>
-                    <Input
-                        placeholder="이름을 검색하세요."
-                        type="text"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <div style={{ width: '15pt', height: '15pt' }}>
-                                        <Image src={search} alt="searchIcon" layout="intrinsic" />
-                                    </div>
-                                </InputAdornment>
-                            )
-                        }}
-                    />
-                    <Inner>
-                        <TabList>
-                            {tabList.map((t, idx) => {
-                                return (
-                                    <Tab key={idx} onClick={() => setIndex(idx)}
-                                        tab={idx.toString()}
-                                        index={index.toString()}>
-                                        {t}
-                                        <Dot
-                                            tab={idx.toString()}
-                                            index={index.toString()}
-                                        />
-                                    </Tab>
-                                )
-                            })}
-                            <FAQBtn onClick={handle}>FAQ</FAQBtn>
-                        </TabList>
-                        <ChattingList type={index} />
-                    </Inner>
-                    </WebBox>
-                </FlexBox>
-                {company &&
-                    <MobBox>
-                        <ChattingRoom companyId={company} name={router.query.name} alarm={router.query.alarm} />
-                    </MobBox>
-                }
-                <BottomNavigation />
-            </Body>
-            </Wrapper>
-            <WebFooter />
-        </WebBody>
-    )
+interface UserChattingRooms {
+  chattingRoomIdx: number;
+  companyMember: {
+    memberIdx: number;
+    companyMemberAdditionalInfo: {
+      companyName: string;
+    };
+  };
+  userMember: {
+    memberIdx: number;
+    name: string;
+  };
+  chattingLogs: {
+    fromMemberIdx: number;
+    fromMemberType: 'USER' | 'COMPANY';
+    wasRead: boolean;
+    createdAt: string;
+    content: string;
+    fileUrl: string;
+  };
+  chattingRoomFavorite: {
+    chattingRoomFavoriteIdx: number;
+    isFavorite: boolean;
+  };
+  chattingRoomNotification: {
+    chattingRoomNotificationIdx: number;
+    isSetNotification: boolean;
+  };
 }
+
+interface ChattingResponse {
+  isSuccess: true;
+  data: {
+    chattingRooms: {
+      entizenChattingRoom: null;
+      userChattingRooms: UserChattingRooms[];
+    };
+  };
+}
+const TAG = 'pages/chatting/index.tsx';
+const Chatting = () => {
+  const router = useRouter();
+  const tabList = ['전체', '안 읽음', '즐겨찾기'];
+
+  const [index, setIndex] = useState<number>(0);
+  const [company, setCompany] = useState<string>('');
+
+  // const { data, isLoading, isError } = useQuery<ChattingResponse>(
+  //   'chatting-list',
+  //   () => isTokenGetApi('/chatting?searchKeyword=&filter=unread'),
+  // );
+
+  // console.log('채팅 리스트 api ~ line 67 -> ' + TAG);
+  // console.log(data);
+
+  useEffect(() => {
+    console.log('useeffect', company);
+    if (typeof router.query.companyMemberId === 'string') {
+      setCompany(router.query.companyMemberId);
+    } else {
+      setCompany('');
+    }
+  }, [router.query.companyMemberId]);
+
+  const handle = () => {};
+
+  return (
+    <WebBody>
+      <WebHeader />
+      <Wrapper>
+        <Body>
+          <Header>
+            <H2>소통하기</H2>
+          </Header>
+          <FlexBox>
+            <WebBox>
+              <Input
+                placeholder="이름을 검색하세요."
+                type="text"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        <Image
+                          src={search}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      </div>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Inner>
+                <TabList>
+                  {tabList.map((t, idx) => {
+                    return (
+                      <Tab
+                        key={idx}
+                        onClick={() => setIndex(idx)}
+                        tab={idx.toString()}
+                        index={index.toString()}
+                      >
+                        {t}
+                        <Dot tab={idx.toString()} index={index.toString()} />
+                      </Tab>
+                    );
+                  })}
+                  <FAQBtn onClick={handle}>FAQ</FAQBtn>
+                </TabList>
+                {/* 채팅 리스트 */}
+                <ChattingList type={index} />
+              </Inner>
+            </WebBox>
+          </FlexBox>
+          {company && (
+            <MobBox>
+              <ChattingRoom
+                companyId={company}
+                name={router.query.name}
+                alarm={router.query.alarm}
+              />
+            </MobBox>
+          )}
+          <BottomNavigation />
+        </Body>
+      </Wrapper>
+      <WebFooter />
+    </WebBody>
+  );
+};
 
 export default Chatting;
 
 const WebBody = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-width: 100%;
-height: 100vh;
-margin: 0 auto;
-background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #ffffff;
 
-@media (max-height: 809pt) {
-  display: block;
-  height: 100%;
-}
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
 `;
 const Wrapper = styled.div`
   position: relative;
@@ -126,25 +178,25 @@ const Wrapper = styled.div`
 `;
 
 const Body = styled.div`
-font-family: 'Spoqa Han Sans Neo';
-width: 100%;
+  font-family: 'Spoqa Han Sans Neo';
+  width: 100%;
 
-@media (min-width: 900pt) {
+  @media (min-width: 900pt) {
     display: flex;
-border: 1px solid #E2E5ED;
-border-radius: 12pt;
-overflow: hidden;
-}
-`
+    border: 1px solid #e2e5ed;
+    border-radius: 12pt;
+    overflow: hidden;
+  }
+`;
 
 const Header = styled.header`
-    position: relative;
-    margin: 0 15pt;
+  position: relative;
+  margin: 0 15pt;
 
-    @media (min-width: 900pt) {
+  @media (min-width: 900pt) {
     display: none;
-}
-`
+  }
+`;
 
 const H2 = styled.h2`
   font-style: normal;
@@ -192,35 +244,35 @@ const Input = styled(TextField)`
   }
 
   @media (max-width: 899.25pt) {
-  margin: 9pt 15pt 0 ;
+    margin: 9pt 15pt 0;
   }
 `;
 
 const FlexBox = styled.div`
-flex: 1;
-height: 495pt;
-overflow-y: scroll;
-background: #E2E5ED;
+  flex: 1;
+  height: 495pt;
+  overflow-y: scroll;
+  background: #e2e5ed;
   @media (max-width: 899.25pt) {
-  margin-top: 9pt;
+    margin-top: 9pt;
     height: auto;
     overflow-y: auto;
   }
-`
+`;
 const WebBox = styled.div`
-    padding: 22.5pt 0 0;
-    background: white;
-    @media (max-width: 899pt) {
-}
-`
+  padding: 22.5pt 0 0;
+  background: white;
+  @media (max-width: 899pt) {
+  }
+`;
 
 const MobBox = styled.div`
-flex: 2;
-height: 495pt;
-overflow-y: scroll;
-border-left: 0.75pt solid #E2E5ED;
-    
-@media (max-width: 899.25pt) {
+  flex: 2;
+  height: 495pt;
+  overflow-y: scroll;
+  border-left: 0.75pt solid #e2e5ed;
+
+  @media (max-width: 899.25pt) {
     width: 100%;
     position: absolute;
     top: 0;
@@ -230,8 +282,8 @@ border-left: 0.75pt solid #E2E5ED;
     height: auto;
     overflow-y: auto;
     border-left: 0;
-}
-`
+  }
+`;
 
 const Inner = styled.div`
   position: relative;
@@ -245,9 +297,9 @@ const TabList = styled.ul`
   position: relative;
   margin: 0 21pt;
 
-@media (max-width: 899.25pt) {
-    margin:  0 15pt;
-}
+  @media (max-width: 899.25pt) {
+    margin: 0 15pt;
+  }
 `;
 const Tab = styled.li<{ tab: string; index: string }>`
   display: flex;
@@ -261,7 +313,6 @@ const Tab = styled.li<{ tab: string; index: string }>`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: ${({ tab, index }) => (tab === index ? `#5221CB` : `#CACCD1`)};
-    
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
@@ -285,7 +336,7 @@ const FAQBtn = styled.button`
   right: 0;
   top: 22.4pt;
   padding: 4.5pt 7.5pt;
-@media (min-width: 900pt) {
+  @media (min-width: 900pt) {
     display: none;
-}
+  }
 `;

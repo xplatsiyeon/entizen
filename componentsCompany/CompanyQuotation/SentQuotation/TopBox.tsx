@@ -36,7 +36,7 @@ type Props = {
 };
 
 const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
-  console.log(data);
+  // console.log(data);
   return (
     <Wrapper>
       <ItemButton onClick={handleClick}>
