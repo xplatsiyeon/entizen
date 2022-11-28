@@ -222,15 +222,15 @@ const ChattingList = ({ type }: Props) => {
       const nowNum = e.currentTarget.style.marginLeft.slice(0, -1);
 
       //드래그되는 속도 조절 부분. 숫자가 클수록 속도가 빨라진다.
-      let n = prev - now > 0 ? -0.5 : 0.5;
+      let n = prev - now > 0 ? -1 : 1;
 
       if (start === '-40') {
-        if (prev - now > 50) {
+        if (prev - now > 10) {
           const newNum = Number(nowNum) + n;
           const num = newNum < -60 ? -60 : newNum;
           // console.log('??', newNum)
           e.currentTarget.style.marginLeft = `${num}%`;
-        } else if (prev - now < -50) {
+        } else if (prev - now < -10) {
           //오른쪽으로
           const newNum = Number(nowNum) + n;
           const num = newNum > 0 ? 0 : newNum;
@@ -239,8 +239,8 @@ const ChattingList = ({ type }: Props) => {
       }
 
       if (start === '0') {
-        n = prev - now > 0 ? -0.7 : 0.7;
-        if (prev - now > 50) {
+        n = prev - now > 0 ? -2 : 2;
+        if (prev - now > 10) {
           const newNum = Number(nowNum) + n;
           const num = newNum < -40 ? -40 : newNum;
           //console.log('??', num)
@@ -249,7 +249,7 @@ const ChattingList = ({ type }: Props) => {
       }
 
       if (start === '-60') {
-        if (prev - now < -50) {
+        if (prev - now < -10) {
           const newNum = Number(nowNum) + n;
           const num = newNum > -40 ? -40 : newNum;
           e.currentTarget.style.marginLeft = `${num}%`;
@@ -265,11 +265,11 @@ const ChattingList = ({ type }: Props) => {
       const now = e.changedTouches[0].clientX;
 
       if (start === '-40') {
-        if (prev - now > 50) {
-          e.currentTarget.style.transition = '0.4s';
+        if (prev - now > 0) {
+          e.currentTarget.style.transition = '0.2s';
           e.currentTarget.style.marginLeft = '-60%';
-        } else if (prev - now < -50) {
-          e.currentTarget.style.transition = '0.4s';
+        } else if (prev - now < -0) {
+          e.currentTarget.style.transition = '0.2s';
           e.currentTarget.style.marginLeft = '-0%';
         } else {
           e.currentTarget.style.marginLeft = `${start}%`;
@@ -277,7 +277,7 @@ const ChattingList = ({ type }: Props) => {
       }
 
       if (start === '0') {
-        if (prev - now > 50) {
+        if (prev - now > 0) {
           e.currentTarget.style.transition = '0.4s';
           e.currentTarget.style.marginLeft = '-40%';
         } else {
@@ -286,7 +286,7 @@ const ChattingList = ({ type }: Props) => {
       }
 
       if (start === '-60') {
-        if (prev - now < -100) {
+        if (prev - now < 0) {
           e.currentTarget.style.transition = '0.4s';
           e.currentTarget.style.marginLeft = '-40%';
         } else {
