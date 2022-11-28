@@ -397,6 +397,9 @@ const FileDownloadBtn = styled(Button)`
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 8px;
+  @media (min-width: 900pt) {
+    margin-left: 0;
+  }
 `;
 
 const FileDownload = styled.a`

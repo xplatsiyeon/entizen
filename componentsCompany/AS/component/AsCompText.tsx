@@ -724,6 +724,7 @@ const CommunityButton = styled.button<{
   color: #222222;
   @media (min-width: 900pt) {
     margin: 60pt auto 0;
+    cursor: pointer;
   }
 `;
 
