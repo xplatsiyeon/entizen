@@ -52,7 +52,6 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 15pt;
   padding: 10.5pt 12pt;
   border-radius: 21.75pt;
   font-weight: 500;
@@ -61,4 +60,5 @@ const Button = styled.button`
   letter-spacing: -0.02em;
   background: #f3f4f7;
   color: ${colors.main2};
+  cursor: pointer;
 `;

@@ -175,7 +175,15 @@ const MainPage = (props: Props) => {
             </span>
             <span>가이드</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+          <WhiteAreaMenus
+            onClick={() => {
+              isLogin
+                ? router.push('/company/chatting')
+                : router.push('/signin');
+            }}
+
+            // onClick={() => alert('2차 작업 범위 페이지입니다.')}
+          >
             <span>
               <Image src={conversation} alt="소통하기" />
             </span>

@@ -96,7 +96,9 @@ const HambuguerBar = (anchor: string) => {
               <span>가이드</span>
             </WhiteAreaMenus>
             <WhiteAreaMenus
-              onClick={() => alert('2차 작업 범위 페이지입니다.')}
+              onClick={() => {
+                router.push('/chatting');
+              }}
             >
               <span>
                 <Image src={conversation} alt="소통하기" />
@@ -342,14 +344,12 @@ const WhiteAreaBottomText = styled.div`
   justify-content: space-between;
   margin-top: 15pt;
   & span {
-    font-family: 'Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 400;
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
     color: #a6a9b0;
-  }
-  & span:first-of-type {
   }
 `;

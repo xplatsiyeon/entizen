@@ -26,7 +26,7 @@ const ChattingList = ({ data }: Props) => {
 
   const [modal, setModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number>();
-
+  // 채팅방 알림 에러
   const {
     mutate: patchMutate,
     isLoading: patchIsLoading,
@@ -35,7 +35,10 @@ const ChattingList = ({ data }: Props) => {
     onSuccess: () => {
       queryClinet.invalidateQueries('chatting-list');
     },
-    onError: () => {},
+    onError: (error) => {
+      console.log('채팅 알림 기능 에러');
+      console.log(error);
+    },
   });
 
   /*메세지 시간 표현 처리 함수 */
@@ -179,12 +182,13 @@ const ChattingList = ({ data }: Props) => {
       pressed = false;
     }, 450);
   };
-
+  // 채팅 즐겨찾기 함수
   const onClickFavorite = (chattingRoomIdx: number) => {
     patchMutate({
       url: `/chatting/${chattingRoomIdx}/favorite`,
     });
   };
+  // 채팅 알림 함수
   const onClickAlarm = (chattingRoomIdx: number) => {
     patchMutate({
       url: `/chatting/${chattingRoomIdx}/notification`,
@@ -192,18 +196,12 @@ const ChattingList = ({ data }: Props) => {
   };
 
   /* 디테일 페이지 이동 */
-  const handleRoute = (
-    chattingRoomIdx: number,
-    name: string,
-    alarm: boolean,
-  ) => {
+  const handleRoute = (chattingRoomIdx: number) => {
     console.log('route');
     router.push({
       pathname: `/chatting/chattingRoom`,
       query: {
         chattingRoomIdx: chattingRoomIdx,
-        name: name,
-        alarm: alarm,
       },
     });
   };
@@ -249,14 +247,7 @@ const ChattingList = ({ data }: Props) => {
             </HiddenBox1>
             <ChattingRoom
               className="content-box"
-              onClick={() =>
-                handleRoute(
-                  chatting.chattingRoomIdx,
-                  chatting.companyMember.companyMemberAdditionalInfo
-                    .companyName,
-                  chatting.chattingRoomNotification.isSetNotification,
-                )
-              }
+              onClick={() => handleRoute(chatting.chattingRoomIdx)}
             >
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}

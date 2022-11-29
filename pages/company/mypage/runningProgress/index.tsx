@@ -148,7 +148,9 @@ const RunningProgress = (props: Props) => {
                 />
               ) : (
                 // 계약서 없는 상태
-                <UnderBox />
+                <UnderBox
+                  id={inProgressData?.project?.userMember?.memberIdx!}
+                />
               )}
             </WebBox>
           </WebRapper>

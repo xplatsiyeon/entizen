@@ -23,7 +23,7 @@ const UserRightMenu = () => {
         </LeftArrow>
         <MenuBox
           onClick={() => {
-            alert(`소통하기 2차 작업범위입니다.`);
+            router.push('/chatting');
           }}
         >
           <ImageBoxS>

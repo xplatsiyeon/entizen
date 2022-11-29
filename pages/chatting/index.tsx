@@ -56,14 +56,11 @@ export interface ChattingListResponse {
 const TAG = 'pages/chatting/index.tsx';
 const Chatting = () => {
   const router = useRouter();
-  const routerId = router.query.chattingRoomIdx;
-  const queryClinet = useQueryClient();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
   const TabListEn = ['all', 'unread', 'favorite'];
   const [index, setIndex] = useState<number>(0);
   const [company, setCompany] = useState<string>('');
-  const [name, setName] = useState<string>();
-  const [isAlarm, setIsAlarm] = useState<string>();
+
   const [text, setText] = useState('');
   const keyword = useDebounce(text, 2000);
 
@@ -73,6 +70,9 @@ const Chatting = () => {
       isTokenGetApi(
         `/chatting?searchKeyword=${keyword}&filter=${TabListEn[index]}`,
       ),
+    {
+      enabled: false,
+    },
   );
 
   const onChangeKeyword = (

@@ -13,12 +13,13 @@ import { useRouter } from 'next/router';
 import { ChattingListResponse } from 'pages/chatting';
 import search from 'public/images/search.png';
 import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import ChattingRoom from './chattingRoom';
 
 const Chatting = () => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
+  const queryClinet = useQueryClient();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
   const TabListEn = ['all', 'unread', 'favorite'];
   const [index, setIndex] = useState<number>(0);
@@ -26,13 +27,22 @@ const Chatting = () => {
   const [text, setText] = useState('');
   const keyword = useDebounce(text, 2000);
 
-  const { data, isLoading, isError } = useQuery<ChattingListResponse>(
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
     () =>
       isTokenGetApi(
         `/chatting?searchKeyword=${keyword}&filter=${TabListEn[index]}`,
       ),
+    {
+      enabled: false,
+    },
   );
+
+  useEffect(() => {
+    // queryClinet.invalidateQueries('chatting-list');
+    refetch();
+  }, [index, keyword]);
+  // useEffect(() => {}, [data]);
 
   const handle = () => {};
 

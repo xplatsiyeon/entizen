@@ -75,7 +75,7 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
             <MultiSection>
               <Subtitle>충전요금</Subtitle>
               {data?.preQuotation?.preQuotationChargers?.map((item, index) => (
-                <MultiBox key={item.preQuotationChargerIdx}>
+                <MultiBox key={index}>
                   <Item>
                     <span className="name">
                       {convertKo(
@@ -95,7 +95,7 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
             <MultiSection>
               <Subtitle>충전기 제조사</Subtitle>
               {data?.preQuotation?.preQuotationChargers?.map((item, index) => (
-                <MultiBox key={item.preQuotationChargerIdx}>
+                <MultiBox key={index}>
                   <Item>
                     <span className="name">
                       {convertKo(
@@ -132,7 +132,7 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
           </FeaturesList>
         </FlexWrap>
         {data?.preQuotation?.preQuotationChargers?.map((item, index) => (
-          <FlexWrap key={item?.preQuotationChargerIdx}>
+          <FlexWrap key={index}>
             <Label>
               {convertKo(
                 M5_LIST,
@@ -142,8 +142,8 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
             </Label>
             {/* textarea 줄바꿈 */}
             <FeaturesList>
-              {item?.productFeature?.split('\n')?.map((line) => (
-                <li>
+              {item?.productFeature?.split('\n')?.map((line, index) => (
+                <li key={index}>
                   {line}
                   <br />
                 </li>
@@ -158,9 +158,9 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
           {data?.preQuotation.preQuotationChargers.map((item, index) => (
-            <React.Fragment key={item.preQuotationChargerIdx}>
+            <React.Fragment key={index}>
               {item.chargerImageFiles.map((img, index) => (
-                <GridItem key={img.chargerProductFileIdx}>
+                <GridItem key={index}>
                   <Image
                     src={img.url}
                     alt="img-icon"
@@ -179,14 +179,10 @@ const BiddingQuote = ({ pb, data, isSpot }: Props) => {
         <Subtitle>충전기 카탈로그</Subtitle>
         <FileContainer>
           {data?.preQuotation.preQuotationChargers.map((item, index) => (
-            <React.Fragment key={item.preQuotationChargerIdx}>
+            <React.Fragment key={index}>
               {item.catalogFiles.map((file, index) => (
-                <FileDownloadBtn key={file.chargerProductFileIdx}>
-                  <FileDownload
-                    // onClick={DownloadFile}
-                    download={file.originalName}
-                    href={file.url}
-                  >
+                <FileDownloadBtn key={index}>
+                  <FileDownload download={file.originalName} href={file.url}>
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                     {file.originalName}
                   </FileDownload>

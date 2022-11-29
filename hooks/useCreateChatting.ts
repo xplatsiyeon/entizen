@@ -20,9 +20,9 @@ const useCreateChatting = () => {
   const { mutate: createMutate, isLoading: createLoading } = useMutation(
     isTokenPostApi,
     {
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         // 채팅방 아이디 값 추출
-        const index = data?.data?.chattingRoom?.chattingRoomIdx;
+        const index = await data?.data?.chattingRoom?.chattingRoomIdx;
         // 유저면 유저 채팅방, 기업이면 기업 채팅방으로 이동
         if (index && token && token.memberType === 'USER') {
           router.push({
@@ -31,7 +31,7 @@ const useCreateChatting = () => {
               chattingRoomIdx: index,
             },
           });
-        } else {
+        } else if (index && token && token.memberType === 'COMPANY') {
           router.push({
             pathname: '/company/chatting/chattingRoom',
             query: {
@@ -43,7 +43,7 @@ const useCreateChatting = () => {
       onError: async (error: any) => {
         // 채팅방이 존재하면 생성없이 바로 채팅방으로 이동
         console.log('🔥 채팅방 생성하기 오류 ~line 27 -> ' + TAG);
-        const message = error.response?.data?.message;
+        const message = await error.response?.data?.message;
         if (message && message.includes('이미 채팅방이 존재합니다.')) {
           // 채팅방 아이디 값 추출
           const regex = /[^0-9]/g;
