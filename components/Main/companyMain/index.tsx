@@ -126,7 +126,13 @@ const CompanyMainPage = (props: Props) => {
             </span>
             <span>내 견적</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+          <WhiteAreaMenus
+            onClick={() => {
+              isLogin
+                ? router.push('/company/chatting')
+                : router.push('/signin');
+            }}
+          >
             <span>
               <Image src={guide} alt="가이드" />
             </span>

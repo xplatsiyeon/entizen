@@ -139,7 +139,12 @@ const BottomNavigation = ({}: Props) => {
               <H3 clicked={tabNumber === 1 ? true : false}>내 견적</H3>
             </div>
 
-            <div className="img-wrapper">
+            <div
+              className="img-wrapper"
+              onClick={() => {
+                router.push('/company/chatting');
+              }}
+            >
               <Image src={estimate} alt="estimate" width={32} height={32} />
               <H3 clicked={false}>소통하기</H3>
             </div>
@@ -232,7 +237,7 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                alert('2차 작업 범위 페이지입니다.');
+                router.push('/chatting');
               }}
             >
               <ImgBox>

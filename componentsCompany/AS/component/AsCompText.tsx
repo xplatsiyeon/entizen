@@ -22,6 +22,7 @@ import {
   MulterResponse,
 } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
+import CommunicationBox from 'components/CommunicationBox';
 
 type Props = {
   data: AsDetailReseponse;
@@ -439,18 +440,28 @@ const AsCompText = ({ data }: Props) => {
           </WebBtn>
         )}
         {router.pathname !== `/company/as/history` && (
-          <CommunityButton
-            onClick={() => alert('소통하기로')}
-            confirmWait={data?.data?.afterSalesService?.badge?.includes('대기')}
-          >
-            <div>
-              <Image src={CommunicationIcon} alt="right-arrow" />
-            </div>
-            고객과 소통하기
-            <div>
-              <Image src={RightArrow} alt="right-arrow" />
-            </div>
-          </CommunityButton>
+          <CommunicationWrapper>
+            <CommunicationBox
+              text={'고객과 소통하기'}
+              id={
+                data?.data?.afterSalesService?.afterSalesService?.project
+                  ?.finalQuotation?.preQuotation?.quotationRequest?.member
+                  ?.memberIdx
+              }
+            />
+          </CommunicationWrapper>
+          // <CommunityButton
+          //   onClick={() => alert('소통하기로')}
+          //   confirmWait={data?.data?.afterSalesService?.badge?.includes('대기')}
+          // >
+          //   <div>
+          //     <Image src={CommunicationIcon} alt="right-arrow" />
+          //   </div>
+          //   고객과 소통하기
+          //   <div>
+          //     <Image src={RightArrow} alt="right-arrow" />
+          //   </div>
+          // </CommunityButton>
         )}
         {/* 앱 버튼 */}
         {data?.data?.afterSalesService?.badge?.includes('요청') && (
@@ -705,28 +716,28 @@ const WebBtn = styled.div<{ isValid: boolean }>`
   }
 `;
 
-const CommunityButton = styled.button<{
-  confirmWait: boolean | undefined;
-}>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* margin: 60pt auto 48.75pt; */
-  margin: ${({ confirmWait }) =>
-    confirmWait === true ? `60pt auto 48.75pt` : `60pt auto 100pt`};
-  padding: 10.5pt 12pt;
-  border-radius: 21.75pt;
-  font-weight: 500;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  background: #f3f4f7;
-  color: #222222;
-  @media (min-width: 900pt) {
-    margin: 60pt auto 0;
-    cursor: pointer;
-  }
-`;
+// const CommunityButton = styled.button<{
+//   confirmWait: boolean | undefined;
+// }>`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   /* margin: 60pt auto 48.75pt; */
+//   margin: ${({ confirmWait }) =>
+//     confirmWait === true ? `60pt auto 48.75pt` : `60pt auto 100pt`};
+//   padding: 10.5pt 12pt;
+//   border-radius: 21.75pt;
+//   font-weight: 500;
+//   font-size: 12pt;
+//   line-height: 12pt;
+//   letter-spacing: -0.02em;
+//   background: #f3f4f7;
+//   color: #222222;
+//   @media (min-width: 900pt) {
+//     margin: 60pt auto 0;
+//     cursor: pointer;
+//   }
+// `;
 
 const RemainderInputBox = styled.div`
   flex-direction: column;
@@ -813,4 +824,14 @@ const FileDownload = styled.a`
   align-items: center;
   gap: 3pt;
   color: ${colors.gray2};
+`;
+const CommunicationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 74.1975pt;
+  @media (max-width: 899.25pt) {
+    margin-top: 60pt;
+    margin-bottom: 87.1875pt;
+  }
 `;

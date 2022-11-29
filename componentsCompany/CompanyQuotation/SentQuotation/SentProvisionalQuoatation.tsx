@@ -21,6 +21,7 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import CommunicationBox from 'components/CommunicationBox';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -442,15 +443,21 @@ const SentQuoatationFirst = () => {
             )}
             {/* // 고객과 소통하기 -> 현장실사 일정 나오면 생김 */}
             {spotData?.data?.spotInspection && (
-              <Button onClick={() => alert('2차 작업 범위입니다')}>
-                <div>
-                  <Image src={CommunicationIcon} alt="right-arrow" />
-                </div>
-                고객과 소통하기
-                <div>
-                  <Image src={RightArrow} alt="right-arrow" />
-                </div>
-              </Button>
+              <CommunicationWrapper>
+                <CommunicationBox
+                  text={'고객과 소통하기'}
+                  id={data?.sendQuotationRequest?.quotationRequest?.memberIdx}
+                />
+              </CommunicationWrapper>
+              // <Button onClick={() => alert('2차 작업 범위입니다')}>
+              //   <div>
+              //     <Image src={CommunicationIcon} alt="right-arrow" />
+              //   </div>
+              //   고객과 소통하기
+              //   <div>
+              //     <Image src={RightArrow} alt="right-arrow" />
+              //   </div>
+              // </Button>
             )}
           </WebColumnContainer>
         </WebRapper>
@@ -689,6 +696,7 @@ const LastQuotationBtnBox = styled.div`
   box-sizing: border-box;
   padding-left: 15pt;
   padding-right: 15pt;
+  z-index: 999;
   @media (min-width: 900pt) {
     position: static;
   }
@@ -729,5 +737,16 @@ const BlurTwo = styled.div`
   background: #ffffff;
   filter: blur(7.5pt);
   height: 67.5pt;
+`;
+const CommunicationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 75pt;
+
+  @media (max-width: 900pt) {
+    padding-top: 0;
+    padding-bottom: 183.75pt;
+  }
 `;
 export default SentQuoatationFirst;

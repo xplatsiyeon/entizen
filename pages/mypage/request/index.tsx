@@ -224,6 +224,8 @@ const Mypage1_3 = ({}: any) => {
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
 
+  console.log(data);
+
   return (
     <>
       {/* 모달 */}
@@ -329,7 +331,10 @@ const Mypage1_3 = ({}: any) => {
                       <TextBox>
                         <CommunicationBox
                           text="파트너와 소통하기"
-                          // clickHandler={() => alert('개발중입니다.')}
+                          id={
+                            quotationData?.companyMemberAdditionalInfo
+                              ?.memberIdx
+                          }
                         />
                       </TextBox>
                       <ButtonBox>
@@ -367,8 +372,10 @@ const Mypage1_3 = ({}: any) => {
                       <TextBox>
                         <CommunicationBox
                           text="파트너와 소통하기"
-                          // id={data?.}
-                          // clickHandler={() => alert('개발중입니다.')}
+                          id={
+                            quotationData?.companyMemberAdditionalInfo
+                              ?.memberIdx
+                          }
                         />
                       </TextBox>
                     </>
