@@ -22,38 +22,7 @@ export interface testArr {
 // 3: 구독종료,
 // 4: 구독시작 D-n
 
-const tempProceeding: testArr[] = [
-  {
-    id: 0,
-    badge: 1,
-    storeName: 'LS 카페 신림점',
-    date: 'D-67',
-  },
-  {
-    id: 1,
-    badge: 0,
-    storeName: 'LS 용산 주유소',
-    date: 'D-177',
-  },
-  {
-    id: 2,
-    badge: 2,
-    storeName: 'LS 25시 난곡점',
-    date: 'D-5',
-  },
-  {
-    id: 3,
-    badge: 3,
-    storeName: 'LS 05시 곡점',
-    date: '',
-  },
-  {
-    id: 4,
-    badge: 4,
-    storeName: 'LS 2시 난점',
-    date: 'D-100',
-  },
-];
+const tempProceeding: testArr[] = [];
 
 const TAG = 'components/mypage/place/Charging.tsx';
 
@@ -151,6 +120,7 @@ const ProjectBox = styled.li`
   @media (min-width: 900pt) {
     width: 155pt;
     height: 91pt;
+    cursor: pointer;
   }
 `;
 const P = styled.p`
