@@ -525,9 +525,6 @@ const DateChatting = styled.div`
     right: 0;
     z-index: -1;
   }
-  @media (max-width: 900pt) {
-    height: 100vh;
-  }
 `;
 const Date = styled.span`
   display: inline-block;
