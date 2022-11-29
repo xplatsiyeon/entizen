@@ -135,7 +135,7 @@ const PlaceInfo = ({ data }: Props) => {
         <Wrap>
           <CommunicationBox
             text="파트너와 소통하기"
-            clickHandler={() => alert('개발중입니다.')}
+            id={data?.companyMember?.memberIdx}
           />
         </Wrap>
       </>

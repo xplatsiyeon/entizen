@@ -88,7 +88,7 @@ const Chatting = () => {
               </Inner>
             </WebBox>
           </FlexBox>
-          {routerId && (
+          {/* {routerId && (
             <MobBox>
               <ChattingRoom
                 routerId={routerId!}
@@ -96,7 +96,7 @@ const Chatting = () => {
                 alarm={router.query.alarm}
               />
             </MobBox>
-          )}
+          )} */}
           <BottomNavigation />
         </Body>
       </Wrapper>

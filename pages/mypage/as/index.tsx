@@ -9,7 +9,6 @@ import AsWriteReview from 'components/mypage/as/AsWriteReview';
 import RequestMain from 'components/mypage/request/requestMain';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import useCreateChatting from 'hooks/useCreateChatting';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
@@ -156,8 +155,8 @@ const asNumber = () => {
   if (isError || completeIsError) {
     console.log(error);
   }
-  console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
-  console.log(data);
+  // console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
+  // console.log(data);
 
   return (
     <Body>
@@ -198,7 +197,6 @@ const asNumber = () => {
                     data?.data?.afterSalesService?.afterSalesService?.project
                       ?.finalQuotation?.preQuotation?.member.memberIdx!
                   }
-                  // id={21}
                 />
               )}
               {/* 수정하기 */}

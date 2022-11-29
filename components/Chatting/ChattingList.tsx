@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import defaultImg from 'public/images/default-img.png';
-import { TouchEvent, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, TouchEvent, useRef, useState } from 'react';
 import QuitModal from './QuitModal';
 import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
@@ -17,6 +17,8 @@ import { isTokenPatchApi } from 'api';
 
 type Props = {
   data: ChattingListResponse;
+  setName?: Dispatch<SetStateAction<string>> | undefined;
+  setIsAlarm?: Dispatch<SetStateAction<string>> | undefined;
 };
 const ChattingList = ({ data }: Props) => {
   const router = useRouter();
@@ -138,46 +140,44 @@ const ChattingList = ({ data }: Props) => {
   };
   const touchEnd = (e: TouchEvent<HTMLElement>) => {
     const target = e.currentTarget;
-      const now = e.changedTouches[0].clientX;
+    const now = e.changedTouches[0].clientX;
 
-      if (start === '-40') {
-        if (prev - now > 0) {
-          e.currentTarget.style.transition = '0.2s';
-          e.currentTarget.style.marginLeft = '-60%';
-        } else if (prev - now < -0) {
-          e.currentTarget.style.transition = '0.2s';
-          e.currentTarget.style.marginLeft = '-0%';
-        } else {
-          e.currentTarget.style.marginLeft = `${start}%`;
-        }
+    if (start === '-40') {
+      if (prev - now > 0) {
+        e.currentTarget.style.transition = '0.2s';
+        e.currentTarget.style.marginLeft = '-60%';
+      } else if (prev - now < -0) {
+        e.currentTarget.style.transition = '0.2s';
+        e.currentTarget.style.marginLeft = '-0%';
+      } else {
+        e.currentTarget.style.marginLeft = `${start}%`;
       }
+    }
 
-      if (start === '0') {
-        if (prev - now > 0) {
-          e.currentTarget.style.transition = '0.4s';
-          e.currentTarget.style.marginLeft = '-40%';
-        } else {
-          e.currentTarget.style.marginLeft = `${start}%`;
-        }
+    if (start === '0') {
+      if (prev - now > 0) {
+        e.currentTarget.style.transition = '0.4s';
+        e.currentTarget.style.marginLeft = '-40%';
+      } else {
+        e.currentTarget.style.marginLeft = `${start}%`;
       }
+    }
 
-      if (start === '-60') {
-        if (prev - now < 0) {
-          e.currentTarget.style.transition = '0.4s';
-          e.currentTarget.style.marginLeft = '-40%';
-        } else {
-          e.currentTarget.style.marginLeft = `${start}%`;
-        }
+    if (start === '-60') {
+      if (prev - now < 0) {
+        e.currentTarget.style.transition = '0.4s';
+        e.currentTarget.style.marginLeft = '-40%';
+      } else {
+        e.currentTarget.style.marginLeft = `${start}%`;
       }
+    }
 
-      //e.currentTarget.style.transition = 'none';
-    
+    //e.currentTarget.style.transition = 'none';
 
     setTimeout(() => {
       target.style.transition = 'none';
       pressed = false;
     }, 450);
-
   };
 
   const onClickFavorite = (chattingRoomIdx: number) => {
@@ -199,7 +199,7 @@ const ChattingList = ({ data }: Props) => {
   ) => {
     console.log('route');
     router.push({
-      pathname: `/chatting`,
+      pathname: `/chatting/chattingRoom`,
       query: {
         chattingRoomIdx: chattingRoomIdx,
         name: name,

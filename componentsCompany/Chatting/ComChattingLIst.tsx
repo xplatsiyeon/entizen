@@ -212,7 +212,7 @@ const ComChattingList = ({ data }: Props) => {
   ) => {
     console.log('route');
     router.push({
-      pathname: `/company/chatting`,
+      pathname: `/company/chatting/chattingRoom`,
       query: {
         chattingRoomIdx: chattingRoomIdx,
         name: name,
