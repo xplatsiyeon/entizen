@@ -42,7 +42,6 @@ const Chatting = () => {
     // queryClinet.invalidateQueries('chatting-list');
     refetch();
   }, [index, keyword]);
-  // useEffect(() => {}, [data]);
 
   const handle = () => {};
 
