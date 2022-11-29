@@ -5,12 +5,13 @@ import AvatarIcon from 'public/images/avatar.png';
 import AvatarPhoto from 'public/images/avatar-photo.png';
 import colors from 'styles/colors';
 import Arrow from 'public/guide/Arrow.svg';
-import WebFooter from 'componentsWeb/WebFooter';
-import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { useMutation } from 'react-query';
+import { isTokenPostApi, multerApi } from 'api';
+import Modal from 'components/Modal/Modal';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -19,7 +20,7 @@ interface Components {
 type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
 };
-
+const TAG = 'components/Profile/ProfileModify.tsx';
 const ProfileModify = ({ setTabNumber }: Props) => {
   const router = useRouter();
   const { selectedType } = useSelector((state: RootState) => state.selectType);
@@ -29,10 +30,46 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   const [data, setData] = useState<any>();
   const [isPassword, setIsPassword] = useState(false);
   const [checkSns, setCheckSns] = useState<boolean>(false);
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const { mutate: profileMutae, isLoading: profileLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: () => {},
+      onError: () => {},
+    },
+  );
+
+  const { mutate: multerMutae, isLoading: multerLoading } = useMutation(
+    multerApi,
+    {
+      onSuccess: (res) => {
+        console.log(' 👀 ~ line 95 multer onSuccess' + TAG);
+      },
+      onError: (error: any) => {
+        if (error.response.data.message) {
+          setErrorMessage(error.response.data.message);
+          setIsModal(true);
+        } else if (error.response.status === 413) {
+          setErrorMessage('용량이 너무 큽니다.');
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+        }
+      },
+    },
+  );
 
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files!;
+    const { files } = e.target;
+    const maxLength = 3;
+    // max길이 보다 짧으면 멈춤
+    // 이미지 미리보기
     const fileReader: any = new FileReader();
     if (!files) return;
     fileReader.readAsDataURL(files[0]);
@@ -41,6 +78,19 @@ const ProfileModify = ({ setTabNumber }: Props) => {
         setAvatar(fileReader.result);
       }
     };
+    // 이미지 저장
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append(
+        'businessRegistration', // 어디로 해야 할까
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
+    }
+    multerMutae(formData);
   };
   // 비밀번호 변경
   const HandlePassword = async () => {
@@ -140,6 +190,15 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   }, []);
   return (
     <React.Fragment>
+      {/* 에러 모달 */}
+      {isModal && (
+        <Modal
+          click={() => {
+            setIsModal(false);
+          }}
+          text={errorMessage}
+        />
+      )}
       <Wrapper>
         <Body>
           <Avatar>
