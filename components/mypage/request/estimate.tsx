@@ -158,12 +158,10 @@ const Label = styled.label`
     color: ${colors.main};
   }
 
-
   @media (min-width: 900pt) {
     font-size: 18pt;
     line-height: 15pt;
   }
-
 `;
 const Proceeding = styled.section`
   padding-top: 21pt;
@@ -179,12 +177,11 @@ const Carousel = styled.div<{ length: number }>`
   padding: 6pt 15pt 30pt 15pt;
 
   @media (min-width: 900pt) {
-    display:flex;
+    display: flex;
     overflow-x: auto;
     gap: 22.5pt;
     padding: 6pt 4pt 30pt;
-}
-
+  }
 `;
 const CarouselItem = styled.div`
   width: 105pt;
@@ -216,13 +213,12 @@ const CarouselItem = styled.div`
     color: ${colors.lightGray3};
   }
 
-@media (min-width: 899.25pt) {
+  @media (min-width: 899.25pt) {
     width: 163.5pt;
     height: 114pt;
     padding-left: 15pt;
     padding-top: 15pt;
-}
-
+  }
 `;
 const Badge = styled.span<{ color: string }>`
   font-weight: 500;
