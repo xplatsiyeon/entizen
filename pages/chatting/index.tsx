@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import search from 'public/images/search.png';
 import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import Bell from 'public/images/Bell.png';
+import bell from 'public/images/bell.png';
 import Bell_outline from 'public/images/Bell_outline.png';
 import List from 'public/images/List.png';
 
@@ -116,7 +116,7 @@ const Chatting = () => {
             <H2>소통하기</H2>
             <IconBox>
               <IconWrap>
-                <Image src={Bell} layout="fill" /> 
+                <Image src={bell} layout="fill" /> 
               </IconWrap>
               <IconWrap>
                 <Image src={List} layout="fill" />

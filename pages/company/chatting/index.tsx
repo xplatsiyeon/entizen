@@ -11,14 +11,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ChattingListResponse } from 'pages/chatting';
 import search from 'public/images/search.png';
-import Bell from 'public/images/Bell.png';
+import bell from 'public/images/bell.png';
 import Bell_outline from 'public/images/Bell_outline.png';
 import List from 'public/images/List.png';
 
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import ChattingRoom from './chattingRoom';
-
 const Chatting = () => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
@@ -60,9 +58,7 @@ const Chatting = () => {
             <H2>소통하기</H2>
             <IconBox>
               <IconWrap>
-                { data ? ( data.data.chattingRooms.userChattingRooms.filter(a => (a.chattingLogs.wasRead)).length > 0 ?
-                <Image src={Bell} layout="fill" /> :<Image src={Bell_outline} layout="fill" />)
-                 : <Image src={Bell} layout="fill" /> }
+                 <Image src={bell} layout="fill" /> 
               </IconWrap>
               <IconWrap>
                 <Image src={List} layout="fill" />
@@ -343,3 +339,5 @@ const FAQBtn = styled.button`
     display: none;
   }
 `;
+
+
