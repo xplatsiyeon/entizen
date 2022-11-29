@@ -229,7 +229,7 @@ const ThirdStep = ({
           {/* 에러 모달 */}
           {isModal && <Modal click={onClickModal} text={errorMessage} />}
           <TopStep>
-            <div>STEP {tabNumber + 1}</div>
+            <div>STEP {maxIndex + 2}</div>
           </TopStep>
           <SubWord>
             사업자 등록증, 상세 견적서를

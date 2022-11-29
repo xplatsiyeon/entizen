@@ -150,7 +150,7 @@ const Wrap2 = styled.div`
 
   @media (max-width: 899.25pt) {
     padding-left: 0pt;
-    padding-bottom: 50pt;
+    padding-bottom: 100pt;
   }
 `;
 

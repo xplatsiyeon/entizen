@@ -27,6 +27,7 @@ import { isTokenPatchApi, isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
+import CommunicationBox from 'components/CommunicationBox';
 
 type Props = {
   data: InProgressProjectsDetailResponse;
@@ -576,12 +577,12 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
           <span>프로젝트 완료 동의하기</span>
         </WebFinButton>
       ) : null}
-      <Button>
-        <IconWrap>
-          <Image src={icon_chats} layout="fill" />
-        </IconWrap>
-        <span>파트너와 소통하기</span>
-      </Button>
+      <ButtonBox>
+        <CommunicationBox
+          text="파트너와 소통하기"
+          id={data?.project?.companyMember?.memberIdx}
+        />
+      </ButtonBox>
       {data?.project?.isCompletedCompletionStep ? (
         <FinButton
           onClick={() => {
@@ -774,34 +775,6 @@ const Line = styled.div<{ lineHeight: boolean }>`
   width: 0.25pt;
   border: 0.75pt solid silver;
 `;
-
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 60pt auto 100pt;
-  padding: 10.5pt 13.5pt;
-  border-radius: 21.75pt;
-  > span {
-    font-family: 'Spoqa Han Sans Neo';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: #222222;
-    margin: 0 4.5pt;
-  }
-  @media (min-width: 900pt) {
-    margin: 75pt auto 90pt;
-  }
-`;
-
-const IconWrap = styled.div`
-  width: 15pt;
-  height: 15pt;
-  position: relative;
-`;
 const FinButton = styled.button`
   position: fixed;
   bottom: 0;
@@ -849,5 +822,14 @@ const WebFinButton = styled.button`
   }
   @media (min-width: 900pt) {
     position: static;
+  }
+`;
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 900pt) {
+    padding-top: 60pt;
   }
 `;

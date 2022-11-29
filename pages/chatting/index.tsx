@@ -62,6 +62,8 @@ const Chatting = () => {
   const TabListEn = ['all', 'unread', 'favorite'];
   const [index, setIndex] = useState<number>(0);
   const [company, setCompany] = useState<string>('');
+  const [name, setName] = useState<string>();
+  const [isAlarm, setIsAlarm] = useState<string>();
   const [text, setText] = useState('');
   const keyword = useDebounce(text, 2000);
 
@@ -149,20 +151,21 @@ const Chatting = () => {
                   <FAQBtn onClick={handle}>FAQ</FAQBtn>
                 </TabList>
                 {/* 채팅 리스트 */}
-                <ChattingList data={data!} />
+                <ChattingList
+                  data={data!}
+                  // setName={setName}
+                  // setIsAlarm={setIsAlarm}
+                />
               </Inner>
             </WebBox>
           </FlexBox>
           {/* 채팅 룸 */}
+          {/* 
           {routerId && (
             <MobBox>
-              <ChattingRoom
-                routerId={routerId!}
-                name={router.query.name}
-                alarm={router.query.alarm}
-              />
+              <ChattingRoom routerId={routerId!} name={name} alarm={isAlarm} />
             </MobBox>
-          )}
+          )} */}
           <BottomNavigation />
         </Body>
       </Wrapper>

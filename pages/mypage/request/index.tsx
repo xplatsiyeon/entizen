@@ -280,10 +280,7 @@ const Mypage1_3 = ({}: any) => {
                   <SubscriptionProduct data={data?.preQuotations!} />
                   <TextBox>
                     <div>선택하기 어려우신가요?</div>
-                    <CommunicationBox
-                      text="엔티즌과 소통하기"
-                      clickHandler={() => router.push('/chatting/1')}
-                    />
+                    <CommunicationBox text="엔티즌과 소통하기" />
                   </TextBox>
                 </React.Fragment>
               ) : (
@@ -332,7 +329,7 @@ const Mypage1_3 = ({}: any) => {
                       <TextBox>
                         <CommunicationBox
                           text="파트너와 소통하기"
-                          clickHandler={() => alert('개발중입니다.')}
+                          // clickHandler={() => alert('개발중입니다.')}
                         />
                       </TextBox>
                       <ButtonBox>
@@ -370,7 +367,8 @@ const Mypage1_3 = ({}: any) => {
                       <TextBox>
                         <CommunicationBox
                           text="파트너와 소통하기"
-                          clickHandler={() => alert('개발중입니다.')}
+                          // id={data?.}
+                          // clickHandler={() => alert('개발중입니다.')}
                         />
                       </TextBox>
                     </>
