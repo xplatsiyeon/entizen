@@ -11,7 +11,7 @@ const ExpressSpeedGraph = () => {
             <th>
               충전 시간
               <br />
-              (0 → 80%)
+              (10 → 80%)
             </th>
             <th className="right">
               5분 충전 <br /> 주행거리

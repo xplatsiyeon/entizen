@@ -9,12 +9,13 @@ import React, {
   MouseEvent,
   SetStateAction,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
 import send from 'public/images/send.png';
-import MoreModal from "components/Chatting/MoreModal";
-import QuitModal from "components/Chatting/QuitModal";
+import MoreModal from 'components/Chatting/MoreModal';
+import QuitModal from 'components/Chatting/QuitModal';
 import sendBlue from 'public/images/send-blue.png';
 import fileBtn from 'public/images/fileBtn.png';
 import addBtn from 'public/images/addBtn.png';
@@ -49,17 +50,18 @@ export interface ChattingResponse {
 }
 
 type Props = {
-  companyId: string;
+  routerId: string | string[];
   name: string | string[] | undefined;
   alarm: string | string[] | undefined;
 };
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
-const ChattingRoom = ({ companyId, name, alarm }: Props) => {
+const ChattingRoom = ({ routerId, name, alarm }: Props) => {
   //   console.log('room');
   const queryClient = useQueryClient();
   const router = useRouter();
-  const chattingRoomIdx = router.query.chattingRoomIdx;
+  // const routerId = useRouter();
+
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
 
@@ -68,12 +70,11 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
     data: chattingData,
     isError: chattingIsError,
     isLoading: chattingIsLoading,
-    refetch: chattingRefetch,
   } = useQuery<ChattingResponse>(
     'chatting-data',
     () => {
-      // isTokenGetApi(`/chatting/${chattingRoomIdx}?page=1`)
-      return isTokenGetApi('/chatting/2?page=1');
+      return isTokenGetApi(`/chatting/${routerId}?page=1`);
+      // return isTokenGetApi('/chatting/2?page=1');
     },
     {
       // 몇초마다 갱신 해줄 것인가.
@@ -89,18 +90,18 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
   } = useMutation(isTokenPostApi, {
     onSuccess: async () => {
       setText('');
-      //   chattingRefetch();
-      await queryClient.invalidateQueries();
-
-      console.log(document.body.scrollHeight);
+      await queryClient.invalidateQueries('chatting-data');
     },
-    onError: () => {},
+    onError: (error) => {
+      console.log('🔥 채팅방 POST 에러 발생');
+      console.log(error);
+    },
   });
 
-    const [moreModal, setMoreModal] = useState<boolean>(false);
-    const [quitModal, setQuitModal] = useState<boolean>(false);
+  const [moreModal, setMoreModal] = useState<boolean>(false);
+  const [quitModal, setQuitModal] = useState<boolean>(false);
 
-    //const [company, setCompany] = useState<string>()
+  //const [company, setCompany] = useState<string>()
 
   /* useEffect(() => {
          console.log(company)
@@ -157,12 +158,14 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
           }
         }
       });
-      console.log('temp', temp);
+      //   console.log('temp', temp);
       setData(temp);
-
-      window.scrollTo(0, document.body.scrollHeight);
     }
-  }, [companyId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
+  }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, [data]);
 
   const handleTime = (st: string) => {
     //오전, 오후로 나누기
@@ -181,8 +184,8 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
   const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     chattingPostMutate({
-      //   url: `chatting/${chattingRoomIdx}`,
-      url: `/chatting/2`,
+      url: `/chatting/${routerId}`,
+      // url: `/chatting/2`,
       data: {
         content: text,
         fileUrl: null,
@@ -249,7 +252,11 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
             )}
           </IconWrap>
           <IconWrap>
-            <Image src={moreBtn} layout="fill" onClick={()=>setMoreModal(true)}/>
+            <Image
+              src={moreBtn}
+              layout="fill"
+              onClick={() => setMoreModal(true)}
+            />
           </IconWrap>
         </IconBox>
       </TopBox>
@@ -335,11 +342,13 @@ const ChattingRoom = ({ companyId, name, alarm }: Props) => {
         </FlexBox2>
       </WebBottomBox>
 
-            {/* 더보기 모달 제어 */}
-            {moreModal && <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal}  />}
+      {/* 더보기 모달 제어 */}
+      {moreModal && (
+        <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
+      )}
 
-            {/* 나가기 모달 제어 */}
-            {quitModal && <QuitModal setModal={setQuitModal}/>}
+      {/* 나가기 모달 제어 */}
+      {quitModal && <QuitModal setModal={setQuitModal} />}
     </Body>
   );
 };
@@ -532,7 +541,7 @@ const DateChatting = styled.div`
     z-index: -1;
   }
   @media (max-width: 900pt) {
-    height: 100%;
+    height: 100vh;
   }
 `;
 const Date = styled.span`
@@ -587,9 +596,11 @@ const Chat = styled.div`
   letter-spacing: -0.02em;
   &.user {
     background: #5221cb;
+    /* background: #f3f4f7; */
   }
   &.company {
     background: #f3f4f7;
+    /* background: #5221cb; */
     color: #222222;
   }
 `;

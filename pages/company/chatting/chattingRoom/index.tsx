@@ -9,21 +9,23 @@ import {
   MouseEvent,
   SetStateAction,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
 import send from 'public/images/send.png';
-import sendBlue from 'public/images/send-blue.png'
-import fileBtn from 'public/images/fileBtn.png'
-import addBtn from 'public/images/addBtn.png'
-import stopAlarm from 'public/images/stopAlarm.png'
-import alarmBtn from 'public/images/alarm.png'
-import moreBtn from 'public/images/moreBtn.png'
-import QuitModal from "components/Chatting/QuitModal";
-import MoreModal from "components/Chatting/MoreModal";
+import sendBlue from 'public/images/send-blue.png';
+import fileBtn from 'public/images/fileBtn.png';
+import addBtn from 'public/images/addBtn.png';
+import stopAlarm from 'public/images/stopAlarm.png';
+import alarmBtn from 'public/images/alarm.png';
+import moreBtn from 'public/images/moreBtn.png';
+import QuitModal from 'components/Chatting/QuitModal';
+import MoreModal from 'components/Chatting/MoreModal';
 import { ChattingResponse } from 'pages/chatting/chattingRoom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPostApi } from 'api';
+import Loader from 'components/Loader';
 
 type ChattingLogs = {
   createdAt: string;
@@ -42,30 +44,25 @@ export interface ChattingRoom {
 }
 
 type Props = {
-  user: string;
+  routerId: string | string[];
   name: string | string[] | undefined;
   alarm: string | string[] | undefined;
 };
 
-const ChattingRoom = ({ user, name, alarm }: Props) => {
+const ChattingRoom = ({ routerId, name, alarm }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const chattingRoomIdx = router.query.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
-  //const [company, setCompany] = useState<string>()
-
   //   채팅방 내용 보기
   const {
     data: chattingData,
     isError: chattingIsError,
     isLoading: chattingIsLoading,
-    refetch: chattingRefetch,
   } = useQuery<ChattingResponse>(
     'chatting-data',
     () => {
-      // isTokenGetApi(`/chatting/${chattingRoomIdx}?page=1`)
-      return isTokenGetApi('/chatting/2?page=1');
+      return isTokenGetApi(`/chatting/${routerId}?page=1`);
     },
     {
       // 몇초마다 갱신 해줄 것인가.
@@ -81,21 +78,22 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
       setText('');
-      //   chattingRefetch();
-      queryClient.invalidateQueries();
-      window.scrollTo(0, document.body.scrollHeight);
+      queryClient.invalidateQueries('chatting-data');
     },
-    onError: () => {},
+    onError: (error) => {
+      console.log('🔥 채팅방 POST 에러 발생');
+      console.log(error);
+    },
   });
 
-    const [moreModal, setMoreModal] = useState<boolean>(false);
-    const [quitModal, setQuitModal] = useState<boolean>(false);
+  const [moreModal, setMoreModal] = useState<boolean>(false);
+  const [quitModal, setQuitModal] = useState<boolean>(false);
 
-    //const modalComponents = [<QuitModal setModal={setModal}/>, <MoreModal/> ]
-    
-    //const [company, setCompany] = useState<string>()
+  //const modalComponents = [<QuitModal setModal={setModal}/>, <MoreModal/> ]
 
-    /* useEffect(() => {
+  //const [company, setCompany] = useState<string>()
+
+  /* useEffect(() => {
          console.log(company)
          if (typeof (router.query.companyMemberId) === 'string') {
              setCompany(router.query.companyMemberId)
@@ -153,8 +151,11 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
       console.log('temp', temp);
       setData(temp);
     }
-  }, [user, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
+  }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
 
+  useLayoutEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, [data]);
   const handleTime = (st: string) => {
     //오전, 오후로 나누기
     const pm = dayjs(st).subtract(12, 'h').format('HH:mm');
@@ -172,8 +173,8 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
   const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     chattingPostMutate({
-      //   url: `chatting/${chattingRoomIdx}`,
-      url: `/chatting/2`,
+      url: `/chatting/${routerId}`,
+      // url: `/chatting/2`,
       data: {
         content: text,
         fileUrl: null,
@@ -212,6 +213,10 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
     }
   };
 
+  if (chattingIsLoading) {
+    return <Loader />;
+  }
+
   return (
     <Body>
       <TopBox>
@@ -235,12 +240,16 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
             )}
           </IconWrap>
           <IconWrap>
-            <Image src={moreBtn} layout="fill" onClick={()=>setMoreModal(true)}/>
+            <Image
+              src={moreBtn}
+              layout="fill"
+              onClick={() => setMoreModal(true)}
+            />
           </IconWrap>
         </IconBox>
       </TopBox>
       <Inner>
-        {data.map((d, idx) => {
+        {data?.map((d, idx) => {
           return (
             <DateChatting key={idx}>
               <Date>{d.date}</Date>
@@ -319,11 +328,13 @@ const ChattingRoom = ({ user, name, alarm }: Props) => {
           </div>
         </FlexBox2>
       </WebBottomBox>
-            {/* 더보기 모달 제어 */}
-            {moreModal && <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal}  />}
+      {/* 더보기 모달 제어 */}
+      {moreModal && (
+        <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
+      )}
 
-            {/* 나가기 모달 제어 */}
-            {quitModal && <QuitModal setModal={setQuitModal}/>}
+      {/* 나가기 모달 제어 */}
+      {quitModal && <QuitModal setModal={setQuitModal} />}
     </Body>
   );
 };
@@ -481,6 +492,7 @@ const Inner = styled.div`
   position: relative;
   padding-top: 36pt;
   padding-bottom: 66pt;
+  /* height: 100vh; */
   @media (min-width: 900pt) {
     padding-top: 105pt;
   }
@@ -490,7 +502,7 @@ const DateChatting = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   text-align: center;
   position: relative;
-
+  box-sizing: border-box;
   &::before {
     display: block;
     content: '';
@@ -567,11 +579,11 @@ const Chat = styled.div`
   line-height: 16.5pt;
   letter-spacing: -0.02em;
   &.user {
-    background: #5221cb;
-  }
-  &.company {
     background: #f3f4f7;
     color: #222222;
+  }
+  &.company {
+    background: #5221cb;
   }
 `;
 const File = styled.div`

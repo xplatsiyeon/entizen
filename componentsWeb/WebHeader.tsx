@@ -59,7 +59,7 @@ const WebHeader = ({ num, now }: Props) => {
               <DivBox onClick={handleLink}>간편견적</DivBox>
               <DivBox
                 onClick={() => {
-                  setLinklist(!linklist);
+                  setLinklist(true);
                   setType('guide');
                 }}
               >
@@ -70,7 +70,7 @@ const WebHeader = ({ num, now }: Props) => {
               </DivBox>
               <DivBox
                 onClick={() => {
-                  setLinklist(!linklist);
+                  setLinklist(true);
                   setType('mypage');
                 }}
               >

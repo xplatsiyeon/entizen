@@ -92,7 +92,7 @@ const Request = () => {
               프로필 변경
             </span>
             <Line />
-            <TabContainer>
+            <MobTabContainer>
               {typeof tabNumber === 'number' &&
                 TabType.map((tab, index) => {
                   if (index === 0) {
@@ -101,9 +101,9 @@ const Request = () => {
                         key={index}
                         tab={tabNumber.toString()}
                         index={index.toString()}
-                        //onClick={() => route.push('/mypage')}
+                        onClick={() => route.push('/mypage')}
                       >
-                        {tab}
+                        <span>{tab}</span>
                         <Dot
                           tab={tabNumber.toString()}
                           index={index.toString()}
@@ -116,14 +116,14 @@ const Request = () => {
                         key={index}
                         tab={tabNumber.toString()}
                         index={index.toString()}
-                       // onClick={() =>
-                       //   route.push({
-                       //     pathname: '/mypage',
-                       //     query: { id: index },
-                      //  })
-                      //  }
+                        onClick={() =>
+                          route.push({
+                            pathname: '/mypage',
+                            query: { id: index },
+                        })
+                        }
                       >
-                        {tab}
+                      <span>{tab}</span>
                         <Dot
                           tab={tabNumber.toString()}
                           index={index.toString()}
@@ -132,7 +132,42 @@ const Request = () => {
                     );
                   }
                 })}
-            </TabContainer>
+            </MobTabContainer>
+
+            <WebTabContainer>
+              {typeof tabNumber === 'number' &&
+                TabType.map((tab, index) => {
+                  if (index === 0) {
+                    return (
+                      <TabItem
+                        key={index}
+                        tab={tabNumber.toString()}
+                        index={index.toString()}
+                      >
+                        <span>{tab}</span>
+                        <Dot
+                          tab={tabNumber.toString()}
+                          index={index.toString()}
+                        />
+                      </TabItem>
+                    );
+                  } else {
+                    return (
+                      <TabItem
+                        key={index}
+                        tab={tabNumber.toString()}
+                        index={index.toString()}
+                      >
+                      <span>{tab}</span>
+                        <Dot
+                          tab={tabNumber.toString()}
+                          index={index.toString()}
+                        />
+                      </TabItem>
+                    );
+                  }
+                })}
+            </WebTabContainer>
           </Body>
         </FlexBox>
         <Wrap className='right-content'>{typeof tabNumber === 'number' && components[tabNumber]}</Wrap>
@@ -237,20 +272,30 @@ const Line = styled.div`
   width: 100%;
   border-bottom: 3pt solid ${colors.gray3};
 `;
-const TabContainer = styled.div`
+const MobTabContainer = styled.div`
+  display: none;
+  gap: 15pt;
+  padding-left: 15pt;
+  cursor: pointer;
+  @media (max-width: 899.25pt) {
+    flex-direction: row;
+    display: flex;
+  }
+`;
+
+const WebTabContainer = styled.div`
   display: flex;
   gap: 15pt;
   padding-left: 15pt;
   flex-direction: column;
   @media (max-width: 899.25pt) {
-    flex-direction: row;
+    display: none;
   }
-`;
+`
 
 const Wrap = styled.div`
   flex: 1;
 
-  
   @media (min-width: 900pt) {
     width: 580.5pt;
   }
@@ -262,14 +307,20 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   font-size: 12pt;
   line-height: 15pt;
   letter-spacing: -0.02em;
-  cursor: pointer;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 899.25pt) {
+    flex-direction: column;
+  }
+
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
   height: 3pt;
   border-radius: 50%;
-  margin: 6pt auto 0 auto;
+  margin: 0 9pt 0;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;

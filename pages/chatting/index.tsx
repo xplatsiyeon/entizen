@@ -3,16 +3,18 @@ import { InputAdornment, TextField } from '@mui/material';
 import { isTokenGetApi } from 'api';
 import BottomNavigation from 'components/BottomNavigation';
 import ChattingList from 'components/Chatting/ChattingList';
+import Loader from 'components/Loader';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import useDebounce from 'hooks/useDebounce';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import search from 'public/images/search.png';
-import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import React, { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import ChattingRoom from './chattingRoom';
 
-interface UserChattingRooms {
+export interface UserChattingRooms {
   chattingRoomIdx: number;
   companyMember: {
     memberIdx: number;
@@ -42,7 +44,7 @@ interface UserChattingRooms {
   };
 }
 
-interface ChattingResponse {
+export interface ChattingListResponse {
   isSuccess: true;
   data: {
     chattingRooms: {
@@ -54,18 +56,30 @@ interface ChattingResponse {
 const TAG = 'pages/chatting/index.tsx';
 const Chatting = () => {
   const router = useRouter();
+  const routerId = router.query.chattingRoomIdx;
+  const queryClinet = useQueryClient();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
-
+  const TabListEn = ['all', 'unread', 'favorite'];
   const [index, setIndex] = useState<number>(0);
   const [company, setCompany] = useState<string>('');
+  const [text, setText] = useState('');
+  const keyword = useDebounce(text, 2000);
 
-  // const { data, isLoading, isError } = useQuery<ChattingResponse>(
-  //   'chatting-list',
-  //   () => isTokenGetApi('/chatting?searchKeyword=&filter=unread'),
-  // );
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () =>
+      isTokenGetApi(
+        `/chatting?searchKeyword=${keyword}&filter=${TabListEn[index]}`,
+      ),
+  );
 
-  // console.log('채팅 리스트 api ~ line 67 -> ' + TAG);
-  // console.log(data);
+  const onChangeKeyword = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
+    setText(event.currentTarget.value);
+  };
+
+  const handle = () => {};
 
   useEffect(() => {
     console.log('useeffect', company);
@@ -76,7 +90,17 @@ const Chatting = () => {
     }
   }, [router.query.companyMemberId]);
 
-  const handle = () => {};
+  useEffect(() => {
+    // queryClinet.invalidateQueries('chatting-list');
+    refetch();
+  }, [index, keyword]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  // console.log('채팅 리스트 api ~ line 67 -> ' + TAG);
+  // console.log(data);
 
   return (
     <WebBody>
@@ -91,6 +115,8 @@ const Chatting = () => {
               <Input
                 placeholder="이름을 검색하세요."
                 type="text"
+                value={text}
+                onChange={onChangeKeyword}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -123,14 +149,15 @@ const Chatting = () => {
                   <FAQBtn onClick={handle}>FAQ</FAQBtn>
                 </TabList>
                 {/* 채팅 리스트 */}
-                <ChattingList type={index} />
+                <ChattingList data={data!} />
               </Inner>
             </WebBox>
           </FlexBox>
-          {company && (
+          {/* 채팅 룸 */}
+          {routerId && (
             <MobBox>
               <ChattingRoom
-                companyId={company}
+                routerId={routerId!}
                 name={router.query.name}
                 alarm={router.query.alarm}
               />
@@ -279,7 +306,7 @@ const MobBox = styled.div`
     //나중에 수정..
     z-index: 1000;
     background: white;
-    height: auto;
+    height: 100vh;
     overflow-y: auto;
     border-left: 0;
   }
