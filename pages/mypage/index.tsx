@@ -276,7 +276,6 @@ const MobTabContainer = styled.div`
   display: none;
   gap: 15pt;
   padding-left: 15pt;
-  flex-direction: column;
   cursor: pointer;
   @media (max-width: 899.25pt) {
     flex-direction: row;
@@ -312,6 +311,11 @@ const TabItem = styled.span<{ tab: string; index: string }>`
     tab === index ? colors.main : colors.lightGray};
   display: flex;
   align-items: center;
+
+  @media (max-width: 899.25pt) {
+    flex-direction: column;
+  }
+
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;

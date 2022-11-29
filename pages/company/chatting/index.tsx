@@ -240,7 +240,7 @@ const MobBox = styled.div`
     //나중에 수정..
     z-index: 1000;
     background: white;
-    height: auto;
+    height: 100vh;
     overflow-y: auto;
     border-left: 0;
   }
