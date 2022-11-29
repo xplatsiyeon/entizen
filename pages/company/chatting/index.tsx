@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { InputAdornment, TextField } from '@mui/material';
 import { isTokenGetApi } from 'api';
 import BottomNavigation from 'components/BottomNavigation';
-import ChattingList from 'components/Chatting/ChattingList';
 import Loader from 'components/Loader';
 import ComChattingList from 'componentsCompany/Chatting/ComChattingLIst';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -12,10 +11,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ChattingListResponse } from 'pages/chatting';
 import search from 'public/images/search.png';
+import bell from 'public/images/bell.png';
+import Bell_outline from 'public/images/Bell_outline.png';
+import List from 'public/images/List.png';
+
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import ChattingRoom from './chattingRoom';
-
 const Chatting = () => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
@@ -55,6 +56,14 @@ const Chatting = () => {
         <Body>
           <Header>
             <H2>소통하기</H2>
+            <IconBox>
+              <IconWrap>
+                 <Image src={bell} layout="fill" /> 
+              </IconWrap>
+              <IconWrap>
+                <Image src={List} layout="fill" />
+              </IconWrap>
+            </IconBox>
           </Header>
           <FlexBox>
             <WebBox>
@@ -168,6 +177,24 @@ const Header = styled.header`
   }
 `;
 
+const IconBox = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  right: 0;
+  gap: 11.25pt;
+
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`
+const IconWrap = styled.div`
+  position: relative;
+  width: 18pt;
+  height: 18pt;
+`
+
 const H2 = styled.h2`
   font-style: normal;
   font-weight: 700;
@@ -227,12 +254,14 @@ const FlexBox = styled.div`
     margin-top: 9pt;
     height: auto;
     overflow-y: auto;
+    background: white;
   }
 `;
 const WebBox = styled.div`
   padding: 22.5pt 0 0;
   background: white;
   @media (max-width: 899pt) {
+    padding: 0;
   }
 `;
 
@@ -310,3 +339,5 @@ const FAQBtn = styled.button`
     display: none;
   }
 `;
+
+
