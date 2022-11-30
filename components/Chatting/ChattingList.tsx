@@ -12,15 +12,24 @@ import hiddenChecked from 'public/images/hiddenChecked.png';
 import hiddenStopAlarm from 'public/images/hiddenStopAlarm.png';
 import hiddenAlarm from 'public/images/hiddenAlarm.png';
 import { ChattingListResponse } from 'pages/chatting';
-import { useMutation, useQueryClient } from 'react-query';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+  useMutation,
+  useQueryClient,
+} from 'react-query';
 import { isTokenPatchApi } from 'api';
 
 type Props = {
   data: ChattingListResponse;
   setName?: Dispatch<SetStateAction<string>> | undefined;
   setIsAlarm?: Dispatch<SetStateAction<string>> | undefined;
+  refetch?: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+  ) => Promise<QueryObserverResult<ChattingListResponse, unknown>>;
 };
-const ChattingList = ({ data }: Props) => {
+const ChattingList = ({ data, refetch }: Props) => {
   const router = useRouter();
   const queryClinet = useQueryClient();
 
@@ -33,7 +42,8 @@ const ChattingList = ({ data }: Props) => {
     isError: patchIsError,
   } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('chatting-list');
+      refetch!();
+      // queryClinet.invalidateQueries('chatting-list');
     },
     onError: (error) => {
       console.log('채팅 알림 기능 에러');

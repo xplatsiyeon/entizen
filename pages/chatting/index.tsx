@@ -16,7 +16,6 @@ import bell from 'public/images/bell.png';
 import Bell_outline from 'public/images/Bell_outline.png';
 import List from 'public/images/List.png';
 
-
 export interface UserChattingRooms {
   chattingRoomIdx: number;
   companyMember: {
@@ -116,7 +115,7 @@ const Chatting = () => {
             <H2>소통하기</H2>
             <IconBox>
               <IconWrap>
-                <Image src={bell} layout="fill" /> 
+                <Image src={bell} layout="fill" />
               </IconWrap>
               <IconWrap>
                 <Image src={List} layout="fill" />
@@ -164,6 +163,7 @@ const Chatting = () => {
                 {/* 채팅 리스트 */}
                 <ChattingList
                   data={data!}
+                  refetch={refetch}
                   // setName={setName}
                   // setIsAlarm={setIsAlarm}
                 />
@@ -250,13 +250,12 @@ const IconBox = styled.div`
   @media (min-width: 900pt) {
     display: none;
   }
-`
+`;
 const IconWrap = styled.div`
   position: relative;
   width: 18pt;
   height: 18pt;
-`
-
+`;
 
 const H2 = styled.h2`
   font-style: normal;
@@ -324,7 +323,6 @@ const WebBox = styled.div`
   padding: 22.5pt 0 0;
   background: white;
   @media (max-width: 899pt) {
-
     padding: 0;
   }
 `;

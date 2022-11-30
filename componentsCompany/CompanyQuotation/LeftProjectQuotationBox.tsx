@@ -16,8 +16,8 @@ import { isTokenGetApi } from 'api';
 import SendRequestUnder from './SendRequestUnder';
 import LastQuotation from 'pages/company/quotation/lastQuotation';
 import { SentrequestResponse } from './SentRequest';
-import HistoryUnder from './HistoryUnder';
-import { HistoryResponse } from './History';
+import HistoryUnder, { HistoryResponse } from './HistoryUnder';
+// import { HistoryResponse } from './History';
 
 type Props = {
   searchWord?: string;
