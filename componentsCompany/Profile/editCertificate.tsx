@@ -17,7 +17,12 @@ import Modal from 'components/Modal/Modal';
 import FileSelectModal from 'components/Modal/FileSelectModal';
 import { WrapText } from '@mui/icons-material';
 
-const EditCertificate =()=>{
+
+type Props = {
+  setComponent : React.Dispatch<React.SetStateAction<number>>;
+ }
+
+const EditCertificate =({setComponent}:Props)=>{
 
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -150,7 +155,7 @@ const EditCertificate =()=>{
         />
       )}
       <Wrap>
-     <Header back={true} title="사업자 등록증 수정" />
+     <Header handle={true} back={true} title="사업자 등록증 수정" handleOnClick={()=>setComponent(1)} />
      </Wrap>
      <RemainderInputBox>
         <PhotosBox>
@@ -276,7 +281,6 @@ const RemainderInputBox = styled.div`
 
 const PhotosBox = styled.div`
   /* width: 100%; */
-  height: 56.0625pt;
   margin-top: 9pt;
   display: flex;
   flex-direction: column;
@@ -386,7 +390,6 @@ const FileBox = styled.div`
 const ImgSpan = styled.div`
   position: relative;
   width: 56.0625pt;
-  height: 56.0625pt;
   border-radius: 6pt;
 `;
 const Xbox = styled.div`

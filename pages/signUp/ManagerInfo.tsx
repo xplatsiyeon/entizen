@@ -4,14 +4,25 @@ import { Box, color } from '@mui/system';
 import Btn from 'components/button';
 import Header from 'components/header';
 import Input from 'components/input';
+import MypageHeader from 'components/mypage/request/header';
 import colors from 'styles/colors';
 
 const phoneCompany: string[] = ['SKT', 'KT', 'LGU+', '알뜰폰'];
 
-const SignUpManagerInfo = () => {
+type Props = {
+  setComponent : React.Dispatch<React.SetStateAction<number>>;
+ }
+
+const SignUpManagerInfo = ({setComponent}:Props) => {
   return (
     <Wrapper>
-      <Header isHome={true} />
+      <HeaderWrap>
+      <MypageHeader 
+                handle={true} 
+                back={true} 
+                title={''} 
+                handleOnClick={()=>setComponent(1)}/>
+      </HeaderWrap>
       <Notice variant="h3">
         진행할 담당자 정보를
         <br />
@@ -35,7 +46,7 @@ const SignUpManagerInfo = () => {
         <Input placeholder="이메일 인증번호 입력" />
         <OverlapBtn>확인</OverlapBtn>
       </Form>
-      <Form>
+      {/*<Form>
         <label>휴대폰 인증</label>
         <PhoneSelect>
           {phoneCompany.map((phone, index) => (
@@ -58,7 +69,8 @@ const SignUpManagerInfo = () => {
         >
           확인
         </OverlapBtn>
-      </Form>
+        </Form> */}
+
       <Btn marginTop="30" text={'다음'} isClick={false} />
     </Wrapper>
   );
@@ -67,8 +79,19 @@ const SignUpManagerInfo = () => {
 export default SignUpManagerInfo;
 
 const Wrapper = styled.div`
-  padding: 0 15pt 15pt 15pt;
+  position: relative;
+  //margin: 0pt 31.875pt;
+
+  @media (max-width: 899.25pt) {
+    height: 100%;
+    margin: 0 15pt 15pt 15pt;
+  }
 `;
+
+const HeaderWrap = styled.div`
+  margin-left: -15pt ;
+`
+
 const Notice = styled(Typography)`
   margin-top: 6pt;
   font-weight: 700;

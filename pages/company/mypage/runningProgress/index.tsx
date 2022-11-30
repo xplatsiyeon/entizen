@@ -213,6 +213,7 @@ const WebRapper = styled.div`
   @media (min-width: 900pt) {
     margin: 0 auto;
     width: 900pt;
+    padding-bottom: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
