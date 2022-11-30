@@ -15,6 +15,7 @@ import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import { useQuery, useQueryClient } from 'react-query';
 import { AsDetailReseponse } from 'pages/mypage/as';
 import { isTokenGetApi } from 'api';
+import CommunicationBox from 'components/CommunicationBox';
 
 const AsHistory = () => {
   const router = useRouter();
@@ -93,8 +94,18 @@ const AsHistory = () => {
                 }
               />
             </Inner>
-            <>
-              <Button onClick={() => alert('소통하기로')}>
+
+            <CommunicationWrapper>
+              <CommunicationBox
+                text={'고객과 소통하기'}
+                id={
+                  data?.data?.afterSalesService?.afterSalesService?.project
+                    ?.finalQuotation?.preQuotation?.quotationRequest?.member
+                    ?.memberIdx
+                }
+              />
+            </CommunicationWrapper>
+            {/* <Button onClick={() => alert('소통하기로')}>
                 <div>
                   <Image src={CommunicationIcon} alt="right-arrow" />
                 </div>
@@ -102,8 +113,7 @@ const AsHistory = () => {
                 <div>
                   <Image src={RightArrow} alt="right-arrow" />
                 </div>
-              </Button>
-            </>
+              </Button> */}
           </Body>
         </WebRapper>
       </Container>
@@ -221,4 +231,16 @@ const Button = styled.button`
   background: #f3f4f7;
   color: #222222;
   cursor: pointer;
+`;
+const CommunicationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 75pt;
+  /* padding-bottom: 90pt; */
+
+  @media (max-width: 900pt) {
+    padding-top: 60pt;
+    padding-bottom: 42.75pt;
+  }
 `;

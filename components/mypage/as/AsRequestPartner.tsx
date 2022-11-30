@@ -20,8 +20,8 @@ const AsRequestPartner = ({ pb, data }: Props) => {
     setModalOpen(false);
   };
 
-  console.log('⭐️ 하단 부분 데이터 확인 ~line 40 ' + TAG);
-  console.log(data);
+  // console.log('⭐️ 하단 부분 데이터 확인 ~line 40 ' + TAG);
+  // console.log(data);
 
   const compnayName =
     data?.data?.afterSalesService?.afterSalesService?.project?.finalQuotation

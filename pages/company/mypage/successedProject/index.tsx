@@ -17,6 +17,7 @@ import {
   ResponseHistoryProjectsDetail,
 } from 'QueryComponents/CompanyQuery';
 import { useQuery } from '@apollo/client';
+import CommunicationBox from 'components/CommunicationBox';
 
 type Props = {};
 
@@ -103,7 +104,13 @@ const successedProject = (props: Props) => {
             <FinishedTopBox data={historyDetailData!} />
             <FinishedBottomBox data={historyDetailData!} />
           </WebBox>
-          <CommunityBtnBox
+          <CommunicationWrapper>
+            <CommunicationBox
+              text={'고객과 소통하기'}
+              id={historyDetailData?.userMember?.memberIdx}
+            />
+          </CommunicationWrapper>
+          {/* <CommunityBtnBox
             onClick={() => {
               alert('2차 작업 범위입니다.');
             }}
@@ -115,7 +122,7 @@ const successedProject = (props: Props) => {
             <WebImageBox width={3.75} height={7.5}>
               <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
             </WebImageBox>
-          </CommunityBtnBox>
+          </CommunityBtnBox> */}
         </WebContainer>
       </WebRapper>
       <WebFooter />
@@ -183,5 +190,17 @@ const WebContainer = styled.div`
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
+  }
+`;
+const CommunicationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding-top: 75pt; */
+  padding-bottom: 90pt;
+
+  @media (max-width: 900pt) {
+    padding-top: 3pt;
+    padding-bottom: 159pt;
   }
 `;

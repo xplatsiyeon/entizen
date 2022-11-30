@@ -110,11 +110,9 @@ const TAG =
 const HeadOpenContent = () => {
   const router = useRouter();
   const routerId = router?.query?.id!;
-
   const [open, setOpen] = useState<boolean>(false);
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(-1);
-
   // button on off
   const [canNext, SetCanNext] = useState<boolean>(false);
   // 첫스탭 상태값
@@ -124,19 +122,14 @@ const HeadOpenContent = () => {
   const [firstPageTextArea, setFirstPageTextArea] = useState<string>('');
   // 모달
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-
   const [componentId, setComponentId] = useState<number>();
-
   // 실시간으로 width 받아옴
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [nowHeight, setNowHeight] = useState<number>(window.innerHeight);
-
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-
   // LeftBox component 바꿔주는거
   const [underNum, setUnderNum] = useState<number>();
-
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
@@ -184,7 +177,7 @@ const HeadOpenContent = () => {
           setTabNumber={setTabNumber}
           canNext={canNext}
           SetCanNext={SetCanNext}
-          StepIndex={1}
+          StepIndex={0}
           data={data!}
           maxIndex={
             data?.receivedQuotationRequest.quotationRequestChargers.length
@@ -735,7 +728,9 @@ const TabBox = styled.div`
   width: 100%;
   top: 0;
   @media (max-width: 899.25pt) {
+    display: flex;
     position: relative;
+
     gap: 0.2pt;
   }
 

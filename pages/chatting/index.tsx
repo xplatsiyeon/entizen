@@ -12,7 +12,9 @@ import { useRouter } from 'next/router';
 import search from 'public/images/search.png';
 import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import ChattingRoom from './chattingRoom';
+import bell from 'public/images/bell.png';
+import Bell_outline from 'public/images/Bell_outline.png';
+import List from 'public/images/List.png';
 
 export interface UserChattingRooms {
   chattingRoomIdx: number;
@@ -56,12 +58,11 @@ export interface ChattingListResponse {
 const TAG = 'pages/chatting/index.tsx';
 const Chatting = () => {
   const router = useRouter();
-  const routerId = router.query.chattingRoomIdx;
-  const queryClinet = useQueryClient();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
   const TabListEn = ['all', 'unread', 'favorite'];
   const [index, setIndex] = useState<number>(0);
   const [company, setCompany] = useState<string>('');
+
   const [text, setText] = useState('');
   const keyword = useDebounce(text, 2000);
 
@@ -71,6 +72,9 @@ const Chatting = () => {
       isTokenGetApi(
         `/chatting?searchKeyword=${keyword}&filter=${TabListEn[index]}`,
       ),
+    {
+      enabled: false,
+    },
   );
 
   const onChangeKeyword = (
@@ -109,6 +113,14 @@ const Chatting = () => {
         <Body>
           <Header>
             <H2>소통하기</H2>
+            <IconBox>
+              <IconWrap>
+                <Image src={bell} layout="fill" />
+              </IconWrap>
+              <IconWrap>
+                <Image src={List} layout="fill" />
+              </IconWrap>
+            </IconBox>
           </Header>
           <FlexBox>
             <WebBox>
@@ -149,20 +161,22 @@ const Chatting = () => {
                   <FAQBtn onClick={handle}>FAQ</FAQBtn>
                 </TabList>
                 {/* 채팅 리스트 */}
-                <ChattingList data={data!} />
+                <ChattingList
+                  data={data!}
+                  refetch={refetch}
+                  // setName={setName}
+                  // setIsAlarm={setIsAlarm}
+                />
               </Inner>
             </WebBox>
           </FlexBox>
           {/* 채팅 룸 */}
+          {/* 
           {routerId && (
             <MobBox>
-              <ChattingRoom
-                routerId={routerId!}
-                name={router.query.name}
-                alarm={router.query.alarm}
-              />
+              <ChattingRoom routerId={routerId!} name={name} alarm={isAlarm} />
             </MobBox>
-          )}
+          )} */}
           <BottomNavigation />
         </Body>
       </Wrapper>
@@ -225,6 +239,24 @@ const Header = styled.header`
   }
 `;
 
+const IconBox = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  right: 0;
+  gap: 11.25pt;
+
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
+const IconWrap = styled.div`
+  position: relative;
+  width: 18pt;
+  height: 18pt;
+`;
+
 const H2 = styled.h2`
   font-style: normal;
   font-weight: 700;
@@ -284,12 +316,14 @@ const FlexBox = styled.div`
     margin-top: 9pt;
     height: auto;
     overflow-y: auto;
+    background: white;
   }
 `;
 const WebBox = styled.div`
   padding: 22.5pt 0 0;
   background: white;
   @media (max-width: 899pt) {
+    padding: 0;
   }
 `;
 

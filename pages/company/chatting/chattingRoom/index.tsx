@@ -43,15 +43,12 @@ export interface ChattingRoom {
   logs: ChattingLogs[];
 }
 
-type Props = {
-  routerId: string | string[];
-  name: string | string[] | undefined;
-  alarm: string | string[] | undefined;
-};
+type Props = {};
 
-const ChattingRoom = ({ routerId, name, alarm }: Props) => {
+const ChattingRoom = ({}: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
   //   채팅방 내용 보기
@@ -65,6 +62,7 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
       return isTokenGetApi(`/chatting/${routerId}?page=1`);
     },
     {
+      enabled: router.isReady,
       // 몇초마다 갱신 해줄 것인가.
       //   refetchInterval: 3000,
     },
@@ -222,7 +220,7 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
       <TopBox>
         <MypageHeader
           back={true}
-          title={String(name)}
+          title={chattingData?.data?.userMember?.name}
           handle={true}
           handleOnClick={() =>
             router.push({
@@ -233,7 +231,7 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
         <IconBox>
           {/*onClick 알람 설정 api 달기*/}
           <IconWrap className="web">
-            {Boolean(alarm) ? (
+            {chattingData?.data?.chattingRoomNotification?.isSetNotification ? (
               <Image src={alarmBtn} layout="fill" />
             ) : (
               <Image src={stopAlarm} layout="fill" />

@@ -27,10 +27,12 @@ export interface UserMember {
   memberType: string;
   name: string;
   phone: string;
+  id: string;
 }
 export interface CompanyMember {
   name: string;
   phone: string;
+  memberIdx: string;
   companyMemberAdditionalInfo: {
     managerEmail: string;
     companyName: string;
@@ -144,6 +146,7 @@ export const GET_InProgressProjectsDetail = gql`
         }
       }
       userMember {
+        memberIdx
         memberType
         name
         phone
@@ -174,6 +177,7 @@ export const GET_InProgressProjectsDetail = gql`
       companyMember {
         name
         phone
+        memberIdx
         companyMemberAdditionalInfo {
           managerEmail
           companyName

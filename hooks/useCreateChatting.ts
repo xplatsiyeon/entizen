@@ -1,10 +1,8 @@
 import { isTokenPostApi } from 'api';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 import jwt_decode from 'jwt-decode';
 import { JwtTokenType } from 'pages/signin';
-import { AxiosError } from 'axios';
 
 const TAG = 'hooks/useCreateChatting.ts';
 
@@ -18,27 +16,65 @@ const useCreateChatting = () => {
   const router = useRouter();
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
-
-  const { mutate, isLoading: createLoading } = useMutation(isTokenPostApi, {
-    onSuccess: (data) => {
-      console.log(data);
-      //
-      const index = data?.data?.chattingRoom?.chattingRoomIdx;
-      if (index && token && token.memberType === 'USER') {
-        router.push(`/chatting/${index}`);
-      } else {
-        router.push(`/company/chatting/${index}`);
-      }
+  // ------------- 채팅방 생성하기 API ---------------
+  const { mutate: createMutate, isLoading: createLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: async (data) => {
+        // 채팅방 아이디 값 추출
+        const index = await data?.data?.chattingRoom?.chattingRoomIdx;
+        // 유저면 유저 채팅방, 기업이면 기업 채팅방으로 이동
+        if (index && token && token.memberType === 'USER') {
+          router.push({
+            pathname: '/chatting/chattingRoom',
+            query: {
+              chattingRoomIdx: index,
+            },
+          });
+        } else if (index && token && token.memberType === 'COMPANY') {
+          router.push({
+            pathname: '/company/chatting/chattingRoom',
+            query: {
+              chattingRoomIdx: index,
+            },
+          });
+        }
+      },
+      onError: async (error: any) => {
+        // 채팅방이 존재하면 생성없이 바로 채팅방으로 이동
+        console.log('🔥 채팅방 생성하기 오류 ~line 27 -> ' + TAG);
+        const message = await error.response?.data?.message;
+        if (message && message.includes('이미 채팅방이 존재합니다.')) {
+          // 채팅방 아이디 값 추출
+          const regex = /[^0-9]/g;
+          const index = await message.replace(regex, '');
+          // 유저면 유저 채팅방, 기업이면 기업 채팅방으로 이동
+          if (index && token && token.memberType === 'USER') {
+            router.push({
+              pathname: '/chatting/chattingRoom',
+              query: {
+                chattingRoomIdx: index,
+              },
+            });
+          } else {
+            router.push({
+              pathname: '/company/chatting/chattingRoom',
+              query: {
+                chattingRoomIdx: index,
+              },
+            });
+          }
+        }
+      },
     },
-    onError: (error: AxiosError) => {
-      console.log('🔥 채팅방 생성하기 오류 ~line 27 -> ' + TAG);
-      console.log(error.response?.data);
-    },
-  });
-
+  );
+  /**
+   * 채팅방 생성해주는 함수.
+   * @param opponentId 나와 대화할 상대방 ID값을 파라미터로 받는다. (유저라면 기업ID, 기업이라면 유저ID)
+   */
   const createChatting = (opponentId: number | string) => {
     if (token && token.memberType === 'USER') {
-      mutate({
+      createMutate({
         url: '/chatting',
         data: {
           userMemberIdx: token.memberIdx,
@@ -46,7 +82,7 @@ const useCreateChatting = () => {
         },
       });
     } else {
-      mutate({
+      createMutate({
         url: '/chatting',
         data: {
           userMemberIdx: opponentId,

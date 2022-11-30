@@ -1,22 +1,42 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import contract from 'public/images/contract.png';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import colors from 'styles/colors';
-import arrowR from 'public/images/grayRightArrow20.png';
-import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
-import AnyContracIcon from 'public/images/AnyContracIcon.png';
 import ChatsIcon from 'public/mypage/myProjectChats.png';
 import arrowRGr from 'public/mypage/ChatsArrow.png';
 import ComContranct from './CompContract';
-import Modal from 'components/Modal/Modal';
+import { useRouter } from 'next/router';
+import jwt_decode from 'jwt-decode';
+import { JwtTokenType } from 'pages/signin';
+import useCreateChatting from 'hooks/useCreateChatting';
 
-type Props = {};
+type Props = {
+  id: string;
+};
 
-const UnderBox = ({}: Props) => {
+const UnderBox = ({ id }: Props) => {
   // 계약서 작성 및 서명 클릭 화면
   const [contr, setContr] = useState<boolean>(false);
+  const router = useRouter();
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const token: JwtTokenType = jwt_decode(accessToken);
+
+  const { createChatting, createLoading } = useCreateChatting();
+
+  const onClickBtn = (id: string) => {
+    if (id) {
+      // 채팅방 생성 후 채팅방 이동 or 채팅방이 존재하면 바로 채팅방 이동
+      createChatting(id!);
+    } else {
+      if (token.memberType === 'USER') {
+        router.push('/chatting');
+      } else {
+        router.push('/company/chatting');
+      }
+    }
+  };
 
   return (
     <WebRapper>
@@ -46,7 +66,9 @@ const UnderBox = ({}: Props) => {
           <Btn onClick={() => setContr(true)} tColor={true}>
             계약서 작성 및 서명
           </Btn>
-          <Btn tColor={false}>고객과 소통하기</Btn>
+          <Btn tColor={false} onClick={() => onClickBtn(id)}>
+            고객과 소통하기
+          </Btn>
         </BtnBox>
       ) : (
         <BtnWrap>
@@ -54,7 +76,7 @@ const UnderBox = ({}: Props) => {
             <WebImageBox width={15} height={15}>
               <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
             </WebImageBox>
-            <WebTitle>고객과 소통하기</WebTitle>
+            <WebTitle onClick={() => onClickBtn(id)}>고객과 소통하기</WebTitle>
             <WebImageBox width={3.75} height={7.5}>
               <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
             </WebImageBox>

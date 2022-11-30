@@ -12,25 +12,31 @@ import colors from 'styles/colors';
 
 type Props = {};
 export interface File {
+  createdAt: string;
+  chargerProductFileIdx: number;
+  productFileType: string;
+  originalName: string;
   url: string;
   size: number;
-  originalName: string;
+  chargerProductIdx: number;
 }
 export interface Products {
+  createdAt: string;
   chargerProductIdx: number;
   modelName: string;
+  kind: string;
+  channel: string;
+  method: string[];
   manufacturer: string;
-  watt: string;
-  representationImageUrl: string;
-  chargerChannel: string;
-  chargerKind: string;
   feature: string;
+  memberIdx: number;
+  chargerProductFiles: File[];
   chargerImageFiles: File[];
-  catalogFiles: File[];
+  chargerCatalogFiles: [];
 }
 export interface ProductListRepsonse {
   isSuccess: true;
-  products: Products[];
+  chargerProduct: Products[];
 }
 const TAG = 'componentsCompany/MyProductList/ProductList';
 const ProductList = (props: Props) => {
@@ -44,6 +50,14 @@ const ProductList = (props: Props) => {
   );
   const router = useRouter();
 
+  // 숫자만 추출해주는 함수
+  const onlyNumber = (target: string) => {
+    const testString = target;
+    const regex = /[^0-9]/g;
+    const result = testString.replace(regex, '');
+    return result;
+  };
+
   if (isError) {
     console.log(TAG + ' 에러 발생');
     console.log(isError);
@@ -56,22 +70,31 @@ const ProductList = (props: Props) => {
       />
     );
   }
+
   if (isLoading) {
     return <Loader />;
   }
+  console.log(data);
+  console.log('⭐️ 내 제품리스트 데이터 ~line 65 -> ' + TAG);
+
   return (
     <>
       <Wrapper>
-        {data?.products?.map((item, index) => (
+        {data?.chargerProduct?.map((item, index) => (
           <ListBox
             key={index}
             onClick={() =>
-              router.push(`/company/myProductList/${item.chargerProductIdx}`)
+              router.push({
+                pathname: '/company/myProductList/detail',
+                query: {
+                  chargerProductIdx: item.chargerProductIdx,
+                },
+              })
             }
           >
             <ImageBox>
               <Image
-                src={item.representationImageUrl}
+                src={item.chargerImageFiles[0].url}
                 alt="carImage"
                 layout="fill"
                 priority={true}
@@ -82,7 +105,7 @@ const ProductList = (props: Props) => {
               <Title>{item.modelName}</Title>
               <From>{`제조사: ${item.manufacturer}`}</From>
             </TextBox>
-            <KwBox>{`${item.watt} kW`}</KwBox>
+            <KwBox>{`${onlyNumber(item.kind)} kW`}</KwBox>
           </ListBox>
         ))}
       </Wrapper>
@@ -106,6 +129,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 9pt;
   box-sizing: border-box;
+
+  /* height: 100vh; */
 `;
 
 const ListBox = styled.div`
@@ -116,6 +141,7 @@ const ListBox = styled.div`
   box-shadow: 0px 0px 10px 0px #89a3c933;
   position: relative;
   border-radius: 6pt;
+  /* background-color: red; */
   /* padding-left: 13.5pt;
   padding-right: 13.5pt; */
 `;

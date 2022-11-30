@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import defaultImg from 'public/images/default-img.png';
-import { TouchEvent, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, TouchEvent, useRef, useState } from 'react';
 import QuitModal from './QuitModal';
 import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
@@ -12,28 +12,43 @@ import hiddenChecked from 'public/images/hiddenChecked.png';
 import hiddenStopAlarm from 'public/images/hiddenStopAlarm.png';
 import hiddenAlarm from 'public/images/hiddenAlarm.png';
 import { ChattingListResponse } from 'pages/chatting';
-import { useMutation, useQueryClient } from 'react-query';
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+  useMutation,
+  useQueryClient,
+} from 'react-query';
 import { isTokenPatchApi } from 'api';
 
 type Props = {
   data: ChattingListResponse;
+  setName?: Dispatch<SetStateAction<string>> | undefined;
+  setIsAlarm?: Dispatch<SetStateAction<string>> | undefined;
+  refetch?: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+  ) => Promise<QueryObserverResult<ChattingListResponse, unknown>>;
 };
-const ChattingList = ({ data }: Props) => {
+const ChattingList = ({ data, refetch }: Props) => {
   const router = useRouter();
   const queryClinet = useQueryClient();
 
   const [modal, setModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number>();
-
+  // 채팅방 알림 에러
   const {
     mutate: patchMutate,
     isLoading: patchIsLoading,
     isError: patchIsError,
   } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('chatting-list');
+      refetch!();
+      // queryClinet.invalidateQueries('chatting-list');
     },
-    onError: () => {},
+    onError: (error) => {
+      console.log('채팅 알림 기능 에러');
+      console.log(error);
+    },
   });
 
   /*메세지 시간 표현 처리 함수 */
@@ -138,53 +153,52 @@ const ChattingList = ({ data }: Props) => {
   };
   const touchEnd = (e: TouchEvent<HTMLElement>) => {
     const target = e.currentTarget;
-      const now = e.changedTouches[0].clientX;
+    const now = e.changedTouches[0].clientX;
 
-      if (start === '-40') {
-        if (prev - now > 0) {
-          e.currentTarget.style.transition = '0.2s';
-          e.currentTarget.style.marginLeft = '-60%';
-        } else if (prev - now < -0) {
-          e.currentTarget.style.transition = '0.2s';
-          e.currentTarget.style.marginLeft = '-0%';
-        } else {
-          e.currentTarget.style.marginLeft = `${start}%`;
-        }
+    if (start === '-40') {
+      if (prev - now > 0) {
+        e.currentTarget.style.transition = '0.2s';
+        e.currentTarget.style.marginLeft = '-60%';
+      } else if (prev - now < -0) {
+        e.currentTarget.style.transition = '0.2s';
+        e.currentTarget.style.marginLeft = '-0%';
+      } else {
+        e.currentTarget.style.marginLeft = `${start}%`;
       }
+    }
 
-      if (start === '0') {
-        if (prev - now > 0) {
-          e.currentTarget.style.transition = '0.4s';
-          e.currentTarget.style.marginLeft = '-40%';
-        } else {
-          e.currentTarget.style.marginLeft = `${start}%`;
-        }
+    if (start === '0') {
+      if (prev - now > 0) {
+        e.currentTarget.style.transition = '0.4s';
+        e.currentTarget.style.marginLeft = '-40%';
+      } else {
+        e.currentTarget.style.marginLeft = `${start}%`;
       }
+    }
 
-      if (start === '-60') {
-        if (prev - now < 0) {
-          e.currentTarget.style.transition = '0.4s';
-          e.currentTarget.style.marginLeft = '-40%';
-        } else {
-          e.currentTarget.style.marginLeft = `${start}%`;
-        }
+    if (start === '-60') {
+      if (prev - now < 0) {
+        e.currentTarget.style.transition = '0.4s';
+        e.currentTarget.style.marginLeft = '-40%';
+      } else {
+        e.currentTarget.style.marginLeft = `${start}%`;
       }
+    }
 
-      //e.currentTarget.style.transition = 'none';
-    
+    //e.currentTarget.style.transition = 'none';
 
     setTimeout(() => {
       target.style.transition = 'none';
       pressed = false;
     }, 450);
-
   };
-
+  // 채팅 즐겨찾기 함수
   const onClickFavorite = (chattingRoomIdx: number) => {
     patchMutate({
       url: `/chatting/${chattingRoomIdx}/favorite`,
     });
   };
+  // 채팅 알림 함수
   const onClickAlarm = (chattingRoomIdx: number) => {
     patchMutate({
       url: `/chatting/${chattingRoomIdx}/notification`,
@@ -192,18 +206,12 @@ const ChattingList = ({ data }: Props) => {
   };
 
   /* 디테일 페이지 이동 */
-  const handleRoute = (
-    chattingRoomIdx: number,
-    name: string,
-    alarm: boolean,
-  ) => {
+  const handleRoute = (chattingRoomIdx: number) => {
     console.log('route');
     router.push({
-      pathname: `/chatting`,
+      pathname: `/chatting/chattingRoom`,
       query: {
         chattingRoomIdx: chattingRoomIdx,
-        name: name,
-        alarm: alarm,
       },
     });
   };
@@ -249,14 +257,7 @@ const ChattingList = ({ data }: Props) => {
             </HiddenBox1>
             <ChattingRoom
               className="content-box"
-              onClick={() =>
-                handleRoute(
-                  chatting.chattingRoomIdx,
-                  chatting.companyMember.companyMemberAdditionalInfo
-                    .companyName,
-                  chatting.chattingRoomNotification.isSetNotification,
-                )
-              }
+              onClick={() => handleRoute(chatting.chattingRoomIdx)}
             >
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}

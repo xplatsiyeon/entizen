@@ -16,11 +16,12 @@ export const modusign = (data: InProgressProjectsDetailResponse) => {
     body: JSON.stringify({
       document: {
         participantMappings: [
+          // 유저
           {
             excluded: false,
             signingMethod: {
               type: 'KAKAO',
-              value: '01091163962',
+              value: '01049988965',
               // value: data?.project?.userMember?.phone,
             },
             signingDuration: 20160,
@@ -29,6 +30,7 @@ export const modusign = (data: InProgressProjectsDetailResponse) => {
             name: '문수정',
             // name: data?.project?.userMember?.name,
           },
+          // 기업
           {
             excluded: false,
             // signingMethod: { type: 'KAKAO', value: '01091163962' },
@@ -42,6 +44,7 @@ export const modusign = (data: InProgressProjectsDetailResponse) => {
             name: data?.project?.companyMember?.companyMemberAdditionalInfo
               ?.companyName,
           },
+          // 엔티즌
           {
             excluded: false,
             signingMethod: { type: 'EMAIL', value: 'mznx0192@naver.com' },

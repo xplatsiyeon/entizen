@@ -16,30 +16,39 @@ import { M5_LIST, M5_LIST_EN, M7_LIST, M7_LIST_EN } from 'assets/selectList';
 import { convertKo } from 'utils/calculatePackage';
 
 export interface ImgFile {
+  createdAt: string;
+  chargerProductFileIdx: number;
+  productFileType: string;
   originalName: string;
-  size: number;
   url: string;
+  size: number;
+  chargerProductIdx: number;
 }
-interface Product {
+export interface ChargerProduct {
+  createdAt: string;
+  chargerProductIdx: number;
   modelName: string;
-  chargerKind: string;
-  chargerChannel: string;
-  chargerMethods: string[];
+  kind: string;
+  channel: string;
+  method: string[];
   manufacturer: string;
   feature: string;
+  memberIdx: number;
+  chargerProductFiles: ImgFile[];
   chargerImageFiles: ImgFile[];
-  catalogFiles: ImgFile[];
+  chargerCatalogFiles: ImgFile[];
 }
-interface ProductDetailResponse {
-  isSuccess: boolean;
-  product: Product;
+
+export interface ProductDetailResponse {
+  isSuccess: true;
+  chargerProduct: ChargerProduct;
 }
 
 type Props = {};
 const TAG = 'componentsCompany/MyProductList/myProduct';
 const MyProduct = (props: Props) => {
   const router = useRouter();
-  const routerId = router?.query?.id!;
+  const routerId = router?.query?.chargerProductIdx!;
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { data, isLoading, isError, error } = useQuery<ProductDetailResponse>(
@@ -75,7 +84,13 @@ const MyProduct = (props: Props) => {
     setModalOpen(true);
   };
   const clickEdit = () => {
-    router.push('/company/addProduct'); // 페이지 타이틀, 버튼 내용만 틀린 페이지로 가야함.
+    // router.push('/company/addProduct'); // 페이지 타이틀, 버튼 내용만 틀린 페이지로 가야함.
+    router.push({
+      pathname: '/company/addProduct',
+      query: {
+        chargerProductIdx: routerId,
+      },
+    });
   };
   console.log(TAG + '🔥 ~line 79 데이터 확인');
   console.log(data);
@@ -101,30 +116,31 @@ const MyProduct = (props: Props) => {
         />
       )}
       {/* 헤더 */}
-      <CompanyHeader back={true} title={data?.product.modelName} />
+      <CompanyHeader back={true} title={data?.chargerProduct?.modelName} />
+
       {/* 바디 */}
       <Wrapper>
         <List>
           <Item>
             <span className="name">모델명</span>
-            <span className="value">{data?.product.modelName}</span>
+            <span className="value">{data?.chargerProduct?.modelName}</span>
           </Item>
           <Item>
             <span className="name">충전기 종류</span>
             <span className="value">
-              {convertKo(M5_LIST, M5_LIST_EN, data?.product.chargerKind)}
+              {convertKo(M5_LIST, M5_LIST_EN, data?.chargerProduct?.kind)}
             </span>
           </Item>
           <Item>
             <span className="name">충전 채널</span>
             <span className="value">
-              {convertKo(M7_LIST, M7_LIST_EN, data?.product.chargerChannel)}
+              {convertKo(M7_LIST, M7_LIST_EN, data?.chargerProduct?.channel)}
             </span>
           </Item>
           <Item>
             <span className="name">충전 방식</span>
             <span className="value">
-              {data?.product.chargerMethods.map((method, index) => (
+              {data?.chargerProduct?.method?.map((method, index) => (
                 <React.Fragment key={index}>
                   {method}
                   <br />
@@ -134,17 +150,17 @@ const MyProduct = (props: Props) => {
           </Item>
           <Item>
             <span className="name">제조사</span>
-            <span className="value">{data?.product.manufacturer}</span>
+            <span className="value">{data?.chargerProduct?.manufacturer}</span>
           </Item>
 
-          {data?.product.feature.length! >= 1 ? (
+          {data?.chargerProduct?.feature?.length! >= 1 ? (
             <>
               <Item>
                 <span className="name">특장점</span>
               </Item>
               <FeatureBox
-                aria-label="product feature"
-                defaultValue={data?.product.feature}
+                aria-label="chargerProduct feature"
+                defaultValue={data?.chargerProduct?.feature}
                 readOnly={true}
               />
             </>
@@ -157,7 +173,7 @@ const MyProduct = (props: Props) => {
           <Section grid={true}>
             <Subtitle>충전기 이미지</Subtitle>
             <GridImg>
-              {data?.product.chargerImageFiles.map((img, index) => (
+              {data?.chargerProduct?.chargerImageFiles?.map((img, index) => (
                 <GridItem key={index}>
                   <Image
                     src={img.url}
@@ -172,7 +188,7 @@ const MyProduct = (props: Props) => {
           </Section>
           <Section>
             <Subtitle>충전기 카탈로그</Subtitle>
-            {data?.product.catalogFiles.map((file, index) => (
+            {data?.chargerProduct?.chargerCatalogFiles?.map((file, index) => (
               <FileDownload
                 key={index}
                 href={file.url}

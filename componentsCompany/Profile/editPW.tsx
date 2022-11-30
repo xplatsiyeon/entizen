@@ -22,7 +22,11 @@ interface Key {
   phone: number;
 }
 
-const FindPassword = () => {
+type Props = {
+  setComponent? : React.Dispatch<React.SetStateAction<number>>;
+ }
+
+const EditPW = ({setComponent} : Props) => {
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
   const [pwInput, setPwInput] = useState<string>('');
@@ -139,10 +143,6 @@ const FindPassword = () => {
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
   return (
-    <React.Fragment>
-      <WebBody>
-        <WebHeader />
-        <Inner>
           <Wrapper>
             {openModal && (
               <Modal
@@ -151,7 +151,11 @@ const FindPassword = () => {
               />
             )}
             <Wrap>
-              <MypageHeader  back={true} title={'비밀번호 변경'}/>
+              <MypageHeader 
+                handle={setComponent?true:undefined} 
+                back={true} 
+                title={'비밀번호 변경'} 
+                handleOnClick={setComponent?()=>setComponent(1):undefined}/>
             </Wrap>
 
             <Box
@@ -238,50 +242,10 @@ const FindPassword = () => {
               text={'수정 완료'}
             />
           </Wrapper>
-        </Inner>
-        <WebFooter />
-      </WebBody>
-    </React.Fragment>
   );
 };
 
-export default FindPassword;
-
-const WebBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  //height: 810pt;
-  background: #fcfcfc;
-
-  @media (max-height: 809pt) {
-    display: block;
-    height: 100%;
-  }
-`;
-
-const Inner = styled.div`
-  display: block;
-  position: relative;
-  margin: 45.75pt auto;
-  width: 345pt;
-  //width: 281.25pt;
-  background: #ffff;
-  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
-
-  @media (max-width: 899.25pt) {
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    margin: 0;
-    padding: 0;
-  }
-`;
+export default EditPW;
 
 const Wrap = styled.div`
   margin-left: -15pt;
@@ -313,13 +277,6 @@ const Wrapper = styled.div`
     height: 100%;
     margin: 0 15pt 15pt 15pt;
   }
-`;
-const Text = styled.p`
-  margin-top: 6pt;
-  font-weight: 700;
-  font-size: 18pt;
-  line-height: 24pt;
-  color: ${colors.main2};
 `;
 
 const Input = styled(TextField)`

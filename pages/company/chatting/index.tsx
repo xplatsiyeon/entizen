@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { InputAdornment, TextField } from '@mui/material';
 import { isTokenGetApi } from 'api';
 import BottomNavigation from 'components/BottomNavigation';
-import ChattingList from 'components/Chatting/ChattingList';
 import Loader from 'components/Loader';
 import ComChattingList from 'componentsCompany/Chatting/ComChattingLIst';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -12,13 +11,16 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ChattingListResponse } from 'pages/chatting';
 import search from 'public/images/search.png';
-import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
-import ChattingRoom from './chattingRoom';
+import bell from 'public/images/bell.png';
+import Bell_outline from 'public/images/Bell_outline.png';
+import List from 'public/images/List.png';
 
+import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 const Chatting = () => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
+  const queryClinet = useQueryClient();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
   const TabListEn = ['all', 'unread', 'favorite'];
   const [index, setIndex] = useState<number>(0);
@@ -26,13 +28,21 @@ const Chatting = () => {
   const [text, setText] = useState('');
   const keyword = useDebounce(text, 2000);
 
-  const { data, isLoading, isError } = useQuery<ChattingListResponse>(
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
     () =>
       isTokenGetApi(
         `/chatting?searchKeyword=${keyword}&filter=${TabListEn[index]}`,
       ),
+    {
+      enabled: false,
+    },
   );
+
+  useEffect(() => {
+    // queryClinet.invalidateQueries('chatting-list');
+    refetch();
+  }, [index, keyword]);
 
   const handle = () => {};
 
@@ -46,6 +56,14 @@ const Chatting = () => {
         <Body>
           <Header>
             <H2>소통하기</H2>
+            <IconBox>
+              <IconWrap>
+                 <Image src={bell} layout="fill" /> 
+              </IconWrap>
+              <IconWrap>
+                <Image src={List} layout="fill" />
+              </IconWrap>
+            </IconBox>
           </Header>
           <FlexBox>
             <WebBox>
@@ -88,7 +106,7 @@ const Chatting = () => {
               </Inner>
             </WebBox>
           </FlexBox>
-          {routerId && (
+          {/* {routerId && (
             <MobBox>
               <ChattingRoom
                 routerId={routerId!}
@@ -96,7 +114,7 @@ const Chatting = () => {
                 alarm={router.query.alarm}
               />
             </MobBox>
-          )}
+          )} */}
           <BottomNavigation />
         </Body>
       </Wrapper>
@@ -159,6 +177,24 @@ const Header = styled.header`
   }
 `;
 
+const IconBox = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  right: 0;
+  gap: 11.25pt;
+
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`
+const IconWrap = styled.div`
+  position: relative;
+  width: 18pt;
+  height: 18pt;
+`
+
 const H2 = styled.h2`
   font-style: normal;
   font-weight: 700;
@@ -218,12 +254,14 @@ const FlexBox = styled.div`
     margin-top: 9pt;
     height: auto;
     overflow-y: auto;
+    background: white;
   }
 `;
 const WebBox = styled.div`
   padding: 22.5pt 0 0;
   background: white;
   @media (max-width: 899pt) {
+    padding: 0;
   }
 `;
 
@@ -301,3 +339,5 @@ const FAQBtn = styled.button`
     display: none;
   }
 `;
+
+

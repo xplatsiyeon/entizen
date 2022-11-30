@@ -205,18 +205,12 @@ const ComChattingList = ({ data }: Props) => {
     });
   };
   /* 디테일 페이지 이동 */
-  const handleRoute = (
-    chattingRoomIdx: number,
-    name: string,
-    alarm: boolean,
-  ) => {
+  const handleRoute = (chattingRoomIdx: number) => {
     console.log('route');
     router.push({
-      pathname: `/company/chatting`,
+      pathname: `/company/chatting/chattingRoom`,
       query: {
         chattingRoomIdx: chattingRoomIdx,
-        name: name,
-        alarm: alarm,
       },
     });
   };
@@ -263,13 +257,7 @@ const ComChattingList = ({ data }: Props) => {
             <ChattingRoom
               className="content-box"
               /* 자신의 Id, 상대방 id, name, alarm여부(채팅목록에는 알람여부 정보가 없어서) */
-              onClick={() =>
-                handleRoute(
-                  chatting.chattingRoomIdx,
-                  chatting.userMember.name,
-                  chatting.chattingRoomNotification.isSetNotification,
-                )
-              }
+              onClick={() => handleRoute(chatting.chattingRoomIdx)}
             >
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}

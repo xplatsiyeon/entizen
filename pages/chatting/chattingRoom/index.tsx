@@ -5,9 +5,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, {
-  Dispatch,
   MouseEvent,
-  SetStateAction,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -45,23 +43,32 @@ export interface ChattingRoom {
 export interface ChattingResponse {
   isSuccess: true;
   data: {
+    chattingRoomIdx: number;
+    userMember: {
+      memberIdx: number;
+      name: string;
+    };
+    companyMember: {
+      memberIdx: number;
+      companyMemberAdditionalInfo: {
+        companyName: string;
+      };
+    };
+    chattingRoomNotification: {
+      chattingRoomNotificationIdx: number;
+      isSetNotification: boolean;
+    };
     chattingLogs: ChattingLogs[];
   };
 }
 
-type Props = {
-  routerId: string | string[];
-  name: string | string[] | undefined;
-  alarm: string | string[] | undefined;
-};
+type Props = {};
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
-const ChattingRoom = ({ routerId, name, alarm }: Props) => {
-  //   console.log('room');
+const ChattingRoom = ({}: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  // const routerId = useRouter();
-
+  const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
 
@@ -74,9 +81,9 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
     'chatting-data',
     () => {
       return isTokenGetApi(`/chatting/${routerId}?page=1`);
-      // return isTokenGetApi('/chatting/2?page=1');
     },
     {
+      enabled: router.isReady,
       // 몇초마다 갱신 해줄 것인가.
       //   refetchInterval: 3000,
     },
@@ -101,20 +108,8 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
   const [moreModal, setMoreModal] = useState<boolean>(false);
   const [quitModal, setQuitModal] = useState<boolean>(false);
 
-  //const [company, setCompany] = useState<string>()
-
-  /* useEffect(() => {
-         console.log(company)
-         if (typeof (router.query.companyMemberId) === 'string') {
-             setCompany(router.query.companyMemberId)
-         }
-     }, [router.query.companyMemberId]) */
-
   /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
   useEffect(() => {
-    /*arr.data.chattingLogs.map((d,idx)=>{
-            const date = dayjs(d.createdAt).format("YYYY.MM.DD HH:mm:ss");
-        })*/
     if (!chattingIsLoading && chattingData?.isSuccess === true) {
       const sortArr = Array.from(chattingData?.data?.chattingLogs!);
       sortArr.sort((a, b) => {
@@ -235,7 +230,10 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
       <TopBox>
         <MypageHeader
           back={true}
-          title={String(name)}
+          title={
+            chattingData?.data?.companyMember?.companyMemberAdditionalInfo
+              ?.companyName!
+          }
           handle={true}
           handleOnClick={() =>
             router.push({
@@ -245,7 +243,7 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
         />
         <IconBox>
           <IconWrap className="web">
-            {Boolean(alarm) ? (
+            {chattingData?.data?.chattingRoomNotification?.isSetNotification ? (
               <Image src={alarmBtn} layout="fill" />
             ) : (
               <Image src={stopAlarm} layout="fill" />
@@ -341,12 +339,10 @@ const ChattingRoom = ({ routerId, name, alarm }: Props) => {
           </div>
         </FlexBox2>
       </WebBottomBox>
-
       {/* 더보기 모달 제어 */}
       {moreModal && (
         <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
       )}
-
       {/* 나가기 모달 제어 */}
       {quitModal && <QuitModal setModal={setQuitModal} />}
     </Body>
@@ -358,14 +354,12 @@ export default ChattingRoom;
 const Body = styled.div`
   position: relative;
 `;
-
 const WebBottomBox = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   padding: 3pt 0pt 16.5pt;
-
   div.typing {
     width: 18.75pt;
     height: 20.6pt;
@@ -381,7 +375,6 @@ const WebBottomBox = styled.div`
     display: none;
   }
 `;
-
 const FlexBox2 = styled.form`
   margin: 0 22.5pt 0 13.5pt;
   display: flex;
@@ -401,7 +394,6 @@ const FileIconWrap = styled.div`
   height: 15.45pt;
   margin: 0 0 0 13.5pt;
 `;
-
 const BottomBox = styled.div`
   background: #e9eaee;
   position: fixed;
@@ -412,12 +404,10 @@ const BottomBox = styled.div`
     position: absolute;
     display: none;
   }
-
   .hidden {
     background-color: aqua;
     width: 30pt;
     height: 0;
-    //height: 97.5pt;
     position: absolute;
     bottom: 72pt;
     left: 11.5pt;
@@ -461,13 +451,11 @@ const IconWrap2 = styled.button`
   width: 18.75pt;
   height: 20.7pt;
 `;
-
 const TopBox = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 5;
-
   @media (min-width: 900pt) {
     position: absolute;
     border-bottom: 1px solid #e2e5ed;
@@ -483,7 +471,6 @@ const IconBox = styled.div`
   display: flex;
   align-items: center;
   gap: 6.4pt;
-
   @media (min-width: 900pt) {
     right: 21pt;
   }
@@ -495,7 +482,6 @@ const IconWrap = styled.div`
   @media (min-width: 900pt) {
     width: 20.5pt;
     height: 20.5pt;
-
     &.web {
       width: 13pt;
       height: 15.25pt;
@@ -515,7 +501,6 @@ const DateChatting = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   text-align: center;
   position: relative;
-
   &::before {
     display: block;
     content: '';
@@ -539,9 +524,6 @@ const DateChatting = styled.div`
     top: 15pt;
     right: 0;
     z-index: -1;
-  }
-  @media (max-width: 900pt) {
-    height: 100vh;
   }
 `;
 const Date = styled.span`

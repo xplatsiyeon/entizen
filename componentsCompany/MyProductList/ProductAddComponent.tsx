@@ -15,17 +15,29 @@ import { CHARGING_METHOD } from 'companyAssets/selectList';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { BusinessRegistrationType } from 'components/SignUp';
-import { useMutation } from 'react-query';
-import { isTokenPostApi, multerApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import {
+  isTokenGetApi,
+  isTokenPatchApi,
+  isTokenPostApi,
+  isTokenPutApi,
+  multerApi,
+} from 'api';
 import Modal from 'components/Modal/Modal';
 import { AxiosError } from 'axios';
-import { convertEn, getByteSize } from 'utils/calculatePackage';
+import { convertEn, convertKo, getByteSize } from 'utils/calculatePackage';
 import SelectComponents from 'components/Select';
+import { ProductDetailResponse } from './myProduct';
+import Loader from 'components/Loader';
 
 export interface ImgFile {
   originalName: string;
   size: number;
   url: string;
+  chargerProductFileIdx?: number | undefined;
+  chargerProductIdx?: number | undefined;
+  createdAt?: string | undefined;
+  productFileType?: string | undefined;
 }
 export interface MulterResponse {
   isSuccess: boolean;
@@ -36,6 +48,8 @@ type Props = {};
 const TAG = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
 const ProductAddComponent = (props: Props) => {
   const router = useRouter();
+  const routerId = router?.query?.chargerProductIdx;
+
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   // 모델명
@@ -60,22 +74,54 @@ const ProductAddComponent = (props: Props) => {
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const {
+    data: detailData,
+    isLoading: detailLoaidng,
+    isError: detailError,
+  } = useQuery<ProductDetailResponse>(
+    'product-detail',
+    () => isTokenGetApi(`/products/${routerId}`),
+    {
+      enabled: router?.isReady! && routerId ? true : false,
+    },
+  );
+  const { mutate: putMutate, isLoading: putLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        router.replace('/company/myProductList');
+      },
+      onError: (error: any) => {
+        if (error.response.data) {
+          setErrorMessage(error.response.data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
+    },
+  );
   // api 호출 (with react-query)
-  const { mutate: addProduct, isLoading } = useMutation(isTokenPostApi, {
-    onSuccess: () => {
-      router.push('/company/myProductList');
+  const { mutate: addProduct, isLoading: addProductLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: () => {
+        router.replace('/company/myProductList');
+      },
+      onError: (error: any) => {
+        if (error.response.data) {
+          setErrorMessage(error.response.data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
     },
-    onError: (error: any) => {
-      if (error.response.data) {
-        setErrorMessage(error.response.data.message);
-        setIsModal(true);
-      } else {
-        setErrorMessage('다시 시도해주세요');
-        setIsModal(true);
-        setNetworkError(true);
-      }
-    },
-  });
+  );
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
     MulterResponse,
@@ -185,6 +231,24 @@ const ProductAddComponent = (props: Props) => {
     copy.splice(index, 1);
     setChargingMethod(copy);
   };
+  // 수정하기 버튼
+  const onClickPutBtn = () => {
+    if (isValid) {
+      putMutate({
+        url: `/products/${routerId}`,
+        data: {
+          modelName: modelName,
+          chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
+          chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
+          chargerMethods: chargingMethod,
+          manufacturer: manufacturer,
+          feature: advantages,
+          chargerImageFiles: imgArr,
+          catalogFiles: fileArr,
+        },
+      });
+    }
+  };
   // 다음 버튼
   const buttonOnClick = () => {
     if (isValid) {
@@ -284,6 +348,36 @@ const ProductAddComponent = (props: Props) => {
     const result = value.filter((e) => e === '');
     result.length >= 1 ? setIsValid(false) : setIsValid(true);
   }
+  // 수정하기 데이터 불러오기
+  useEffect(() => {
+    if (routerId && detailData?.isSuccess === true) {
+      const preProduct = detailData?.chargerProduct!;
+      const chargerImg = preProduct?.chargerImageFiles.map((img: any) => {
+        delete img.createdAt;
+        delete img.productFileType;
+        delete img.chargerProductIdx;
+        delete img.chargerProductFileIdx;
+        return img;
+      });
+      const chargerCatalog = preProduct?.chargerCatalogFiles.map(
+        (catalog: any) => {
+          delete catalog.createdAt;
+          delete catalog.productFileType;
+          delete catalog.chargerProductIdx;
+          delete catalog.chargerProductFileIdx;
+          return catalog;
+        },
+      );
+      setModelName(preProduct?.modelName);
+      setChargerType(convertKo(M5_LIST, M5_LIST_EN, preProduct?.kind));
+      setChargingChannel(convertKo(M7_LIST, M7_LIST_EN, preProduct?.channel));
+      setChargingMethod(preProduct?.method);
+      setManufacturer(preProduct?.manufacturer);
+      setAdvantages(preProduct?.feature);
+      setImgArr(chargerImg);
+      setFileArr(chargerCatalog);
+    }
+  }, [routerId]);
   // 테스트 useEffect
   useEffect(() => {
     validFn([
@@ -296,9 +390,21 @@ const ProductAddComponent = (props: Props) => {
   }, [modelName, chargerType, chargingChannel, chargingMethod, manufacturer]);
 
   useEffect(() => {
-    console.log(`🚀 ~ ${TAG} ~ line 292 ~ imgArr ~ decode`);
+    console.log('🚀 디테일 데이터 확인 라인 328 -> ' + TAG);
+    console.log(detailData);
+    console.log(modelName);
+    console.log(chargerType);
+    console.log(chargingChannel);
+    console.log(chargingMethod);
+    console.log(manufacturer);
+    console.log(advantages);
     console.log(imgArr);
+    console.log(fileArr);
   }, [imgArr]);
+
+  if (detailLoaidng) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -521,9 +627,15 @@ const ProductAddComponent = (props: Props) => {
           </PhotosBoxs>
         </RemainderInputBoxs>
       </InputContainer>
-      <Btn buttonActivate={isValid} tabNumber={0} onClick={buttonOnClick}>
-        제품 등록하기
-      </Btn>
+      {routerId ? (
+        <Btn buttonActivate={isValid} tabNumber={0} onClick={onClickPutBtn}>
+          정보 수정하기
+        </Btn>
+      ) : (
+        <Btn buttonActivate={isValid} tabNumber={0} onClick={buttonOnClick}>
+          제품 등록하기
+        </Btn>
+      )}
     </>
   );
 };

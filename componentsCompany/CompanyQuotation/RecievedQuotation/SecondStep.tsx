@@ -403,6 +403,7 @@ const SecondStep = ({
   }, [chargeTypeNumber]);
 
   console.log('🔥 ~line 388 newCharge data 확인');
+  console.log(StepIndex);
 
   console.log(newCharge);
 
@@ -1003,9 +1004,6 @@ const AddPhotos = styled.button`
 `;
 
 const ImgSpanBox = styled.div`
-  @media (max-width: 899.25pt) {
-    display: none;
-  }
   @media (min-width: 900pt) {
     height: auto;
     width: 444.75;
@@ -1013,7 +1011,6 @@ const ImgSpanBox = styled.div`
     grid-template-columns: 230pt 1fr;
   }
 `;
-
 const ImgSpan = styled.div`
   position: relative;
   width: 56.0625pt;

@@ -482,26 +482,23 @@ const Container = styled.div`
 `;
 
 const TabBox = styled.div`
-  z-index: 1;
-  //display:flex;
-  padding-left: 15pt;
-  padding-right: 15pt;
-  margin-top: 12pt;
+  padding-left: 25pt;
+  padding-right: 25pt;
   box-sizing: border-box;
-  position: absolute;
+  display: flex;
+  position: relative;
   width: 100%;
-  top: 0;
+  margin: 0 auto;
+  z-index: 100;
+  top: 40.5pt;
+  gap: 2pt;
   @media (max-width: 899.25pt) {
-    display: flex;
     position: relative;
-    gap: 0.2pt;
-  }
-  @media (min-width: 900pt) {
-    position: relative;
-    width: 534pt;
-    margin: 0 auto;
-    z-index: 3;
+    padding-left: 15pt;
+    padding-right: 15pt;
+    width: 100%;
     top: 2%;
+    gap: 0.2pt;
   }
 `;
 const TabLine = styled.div<{
@@ -510,29 +507,37 @@ const TabLine = styled.div<{
   chargeNum: number | undefined;
 }>`
   border-style: solid;
-  border-bottom-width: 3pt;
   border-color: ${({ idx, num }) => (idx <= num ? colors.main : colors.gray4)};
-  border-radius: 2px;
-  width: calc((100% - 15pt) / 6);
+  width: ${({ chargeNum }) => `calc(100% / ${chargeNum})`};
   display: inline-block;
-  margin-right: 3pt;
+  margin: 0 auto;
+  border-bottom-width: 6pt;
+  border-radius: ${({ idx, num }) => idx <= num && '3pt'};
+  &:nth-child(1) {
+    border-top-left-radius: 3pt;
+    border-bottom-left-radius: 3pt;
+  }
   &:nth-last-of-type(1) {
     margin-right: 0;
+    border-top-right-radius: 3pt;
+    border-bottom-right-radius: 3pt;
   }
-
   @media (max-width: 899.25pt) {
     display: block;
-  }
-
-  @media (min-width: 900pt) {
-    border-style: solid;
-    width: ${({ chargeNum }) => `calc(100% / ${chargeNum})`};
-    border-bottom-width: 6pt;
-    border-radius: 3pt;
-    margin: 0 auto;
+    width: 100%;
+    gap: 3pt;
+    border-bottom-width: 3pt;
+    &:nth-child(1) {
+      border-top-left-radius: 1.5pt;
+      border-bottom-left-radius: 1.5pt;
+    }
+    &:nth-last-of-type(1) {
+      margin-right: 0;
+      border-top-right-radius: 1.5pt;
+      border-bottom-right-radius: 1.5pt;
+    }
   }
 `;
-
 const WebRapper = styled.div`
   @media (min-width: 900pt) {
     width: 900pt;
