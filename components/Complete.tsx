@@ -13,7 +13,7 @@ interface Props {
   handleExitClick?: () => void;
   yesExit?: boolean;
   [key: string]: any;
-  buttonWeb: string;
+  buttonWeb?: string;
 }
 
 const Complete = ({
