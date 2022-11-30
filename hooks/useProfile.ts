@@ -6,6 +6,19 @@ interface ProfileResponse {
   id: string;
   name: string;
   phone: string;
+  profileImageUrl: string | null;
+  companyMemberAdditionalInfo : null | {
+  createdAt: string;
+  companyMemberAdditionalInfoIdx: number;
+  companyLogoImageUrl: string | null;
+  companyName: string;
+  companyAddress: string;
+  companyDetailAddress: string;
+  companyZipCode: string;
+  managerEmail: string;
+  memberIdx: number;
+  }
+
 }
 /**
  * 해당 훅은 유저 정보를 받아오는 훅이다
@@ -24,6 +37,7 @@ const useProfile = (ACCESS_TOKEN: string) => {
     () => isTokenGetApi('/members/info'),
     {
       enabled: ACCESS_TOKEN ? true : false,
+      
     },
   );
 

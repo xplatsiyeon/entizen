@@ -37,14 +37,14 @@ const ProfileIndex = () => {
         <WebBody>
         <WebHeader />
         <Wrapper>
-            { (component === 1) &&<FlexBox className='???'>
+            { (component === 1) &&<FlexBox className='init'>
             {components[0]}
             </FlexBox> }
             {(component > 1)  && 
-            <HiddenBox className='!!!'>
+            <HiddenBox className='hidden_comp'>
             {components[0]}
             </HiddenBox>}
-            {(component !== 1) &&<FlexBox2 className='?!!?'>
+            {(component !== 1) &&<FlexBox2 className='new_comp'>
             {components[component-1]}
             </FlexBox2>}
         </Wrapper>
