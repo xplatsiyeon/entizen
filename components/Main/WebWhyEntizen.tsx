@@ -52,7 +52,7 @@ const WhyEntizen = () => {
       background: '#FFC043',
       color: '#FFFFFF',
       bigIcon: message,
-      menuText: '구독?\n급속? 완속?\n무엇이든 물어보세요',
+      menuText: '구독?\n급속? 완속?\n무엇이든\n물어보세요',
       width: '52.5pt',
       height: '39pt',
     },
@@ -85,9 +85,7 @@ const WhyEntizen = () => {
   return (
     <>
       <Wrapper>
-        <WhyBox>
-          왜 <span>엔티즌</span> 인가요?
-        </WhyBox>
+        <WhyBox>왜 엔티즌 인가요?</WhyBox>
         <GridBox>
           {menuList.map((el, index) => (
             <GridElement
@@ -99,7 +97,7 @@ const WhyEntizen = () => {
               <ArrowImgBox>
                 <Image src={el.arrowIcon} alt="icon" />
               </ArrowImgBox>
-              <IconImgBox width={el.width} height={el.height}>
+              <IconImgBox>
                 <Image src={el.bigIcon} alt="icon" />
               </IconImgBox>
             </GridElement>
@@ -121,9 +119,9 @@ const Wrapper = styled.div`
 const WhyBox = styled(Typography)`
   text-align: center;
   margin-bottom: 30pt;
-  font-size: 12pt;
+  font-size: 19.5pt;
   font-weight: 700;
-  line-height: 12pt;
+  line-height: 33pt;
   letter-spacing: -0.02em;
   color: #222222;
   & span {
@@ -171,9 +169,9 @@ const TextArea = styled.div`
   white-space: pre-wrap;
   margin-left: 22.5pt;
   margin-top: 22.5pt;
-  font-size: 14px;
+  font-size: 19.5pt;
   font-weight: 700;
-  line-height: 20px;
+  line-height: 33pt;
   letter-spacing: -0.02em;
   text-align: left;
   color: ${(props) => props.color};
@@ -193,11 +191,24 @@ const ArrowImgBox = styled.div`
   }
 `;
 
-const IconImgBox = styled.div<{ width: string; height: string }>`
-  position: absolute;
-  width: ${({ width }) => width};
-  height: ${({ height }) => height};
+// const IconImgBox = styled.div<{ width: string; height: string }>`
+//   position: absolute;
+//   width: ${({ width }) => width};
+//   height: ${({ height }) => height};
 
+//   left: 22.5pt;
+//   bottom: 22.5pt;
+
+//   @media (max-width: 899.25pt) {
+//     left: 12pt;
+//     bottom: 12pt;
+//   }
+// `;
+
+const IconImgBox = styled.div`
+  position: absolute;
+  width: 80pt;
+  /* height: 100pt; */
   left: 22.5pt;
   bottom: 22.5pt;
 

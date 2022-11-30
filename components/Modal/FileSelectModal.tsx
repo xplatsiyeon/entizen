@@ -61,6 +61,9 @@ const Box = styled.div`
   .fisrt {
     border-bottom: 1px solid #f3f4f7;
   }
+  @media (min-width: 900pt) {
+    width: 300pt;
+  }
 `;
 const BottomBtn = styled.div`
   width: 100%;
@@ -74,4 +77,7 @@ const BottomBtn = styled.div`
   color: ${colors.gray2};
   border-radius: 9pt;
   cursor: pointer;
+  @media (min-width: 900pt) {
+    width: 300pt;
+  }
 `;

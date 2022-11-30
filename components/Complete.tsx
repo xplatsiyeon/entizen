@@ -13,12 +13,14 @@ interface Props {
   handleExitClick?: () => void;
   yesExit?: boolean;
   [key: string]: any;
+  buttonWeb: string;
 }
 
 const Complete = ({
   text,
   title,
   buttonText,
+  buttonWeb,
   handleOnClick,
   handleExitClick,
   yesExit,
@@ -42,6 +44,7 @@ const Complete = ({
       <Footer>
         {text && <TextBox>{text}</TextBox>}
         <Btn onClick={handleOnClick}>{buttonText}</Btn>
+        <WebBtn onClick={handleOnClick}>{buttonWeb}</WebBtn>
       </Footer>
     </Wrapper>
   );
@@ -89,7 +92,7 @@ const Footer = styled.div`
   text-align: center;
 
   @media (max-width: 899.25pt) {
-    position: absolute;
+    /* position: absolute; */
     width: 100%;
     left: 0;
     bottom: 0;
@@ -134,5 +137,27 @@ const Btn = styled(Button)`
     padding: 15pt 0;
     font-size: 12pt;
     line-height: 12pt;
+  }
+
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
+
+const WebBtn = styled(Button)`
+  background: ${colors.main};
+  border-radius: 21.75pt;
+  width: 30%;
+  font-weight: 700;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: ${colors.lightWhite};
+  margin-bottom: 145.5pt;
+  padding: 9pt 12pt;
+
+  @media (max-width: 899.25pt) {
+    display: none;
   }
 `;
