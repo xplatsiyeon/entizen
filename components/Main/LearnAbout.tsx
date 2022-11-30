@@ -180,6 +180,7 @@ const Item = styled.div<{ borders: number }>`
   background-color: ${(props) => props.color};
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   position: relative;
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     width: 105pt;
     box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);

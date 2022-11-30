@@ -70,7 +70,7 @@ const MenuRapper = styled.div`
   background-color: #ffffff;
   padding: 28pt 14pt 24pt;
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
-
+  z-index: 100;
   @media (max-width: 1125pt) {
     border-radius: 10pt;
     right: 10pt;

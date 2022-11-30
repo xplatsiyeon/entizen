@@ -26,13 +26,21 @@ import BottomNavigation from 'components/BottomNavigation';
 import CheckQuotationBtn from './CheckQuotationBtn';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import MainImageWrap from './MainImageWrap';
+import WebFooter from 'componentsWeb/WebFooter';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
-type Props = {};
+type Props = { num?: number; now?: string };
 
-const CompanyMainPage = (props: Props) => {
+const CompanyMainPage = ({ num, now }: Props) => {
   const router = useRouter();
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
+  const [tabNumber, setTabNumber] = useState<number>(-1);
+  const [componentId, setComponentId] = useState<number>();
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
@@ -234,6 +242,16 @@ const CompanyMainPage = (props: Props) => {
   return (
     <>
       <Container>
+        <WebBuyerHeader
+          setTabNumber={setTabNumber}
+          tabNumber={tabNumber}
+          componentId={componentId}
+          num={num}
+          now={now}
+          openSubLink={openSubLink}
+          setOpenSubLink={setOpenSubLink}
+        />
+        <CompanyRightMenu />
         <HeadWrapper>
           <LogoBox>
             <Image
@@ -270,15 +288,21 @@ const CompanyMainPage = (props: Props) => {
             ))}
           </IconWrapper>
         </HeadWrapper>
-
-        <Carousel />
+        <CarouselWrap>
+          <Carousel />
+        </CarouselWrap>
 
         {/* 메인 페이지 컴포넌트*/}
         <QuotationCenter />
         {/* 메인 페이지 버튼*/}
         <CheckQuotationBtn />
+        {/* 메인 이미지 칼럼 */}
+        <MainImageWrap />
       </Container>
-      <Footer />
+      <WebFooter />
+      <MobileNone>
+        <Footer />
+      </MobileNone>
       <BottomNavigation />
     </>
   );
@@ -287,12 +311,19 @@ const CompanyMainPage = (props: Props) => {
 const Container = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
+  @media (min-width: 900pt) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 `;
 
 const HeadWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  @media (min-width: 900pt) {
+    display: none;
+  }
 `;
 const LogoBox = styled.div`
   margin-top: 12pt;
@@ -458,4 +489,71 @@ const Imagewrap = styled.div`
   }
 `;
 
+const CarouselWrap = styled.section`
+  @media (min-width: 900pt) {
+    width: 100%;
+    height: 360pt;
+    background: #5a2dc9;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  @media (max-height: 350pt) {
+    height: 100%;
+    display: block;
+  }
+`;
+
+const WebContainer = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+
+  @media (min-width: 900pt) {
+    margin-top: 54pt;
+    padding-top: 0;
+  }
+`;
+
+const WebRapper = styled.div`
+  @media (min-width: 900pt) {
+    width: 900pt;
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+const MobileNone = styled.div`
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
 export default CompanyMainPage;
