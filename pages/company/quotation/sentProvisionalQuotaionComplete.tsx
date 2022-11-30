@@ -13,6 +13,7 @@ const SentProvisionalQuotaionComplete = (props: Props) => {
       buttonText={'보낸 견적 바로가기'}
       handleOnClick={() => router.push('/')}
       handleExitClick={() => router.push('/company/quotation')}
+
     />
   );
 };
