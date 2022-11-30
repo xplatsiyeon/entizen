@@ -44,8 +44,11 @@ export default Btn;
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
 
   @media (max-width: 899.25pt) {
     padding: 0;
+    position: absolute;
+    bottom: 30pt;
   }
 `;
