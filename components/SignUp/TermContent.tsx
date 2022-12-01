@@ -60,6 +60,8 @@ const TermContent = ({
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
+      console.log(cloneDocument.form_chk);
+
       cloneDocument.form_chk.submit();
     }
   };

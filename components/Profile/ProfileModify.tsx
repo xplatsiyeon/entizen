@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import AvatarIcon from 'public/images/avatar.png';
 import AvatarPhoto from 'public/images/avatar-photo.png';
 import colors from 'styles/colors';
@@ -12,6 +12,7 @@ import { RootState } from 'store/store';
 import { useMutation } from 'react-query';
 import { isTokenPostApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
+import useProfile from 'hooks/useProfile';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -23,9 +24,10 @@ type Props = {
 const TAG = 'components/Profile/ProfileModify.tsx';
 const ProfileModify = ({ setTabNumber }: Props) => {
   const router = useRouter();
+  const passRef = useRef<HTMLFormElement>(null);
   const { selectedType } = useSelector((state: RootState) => state.selectType);
-  const [id, setId] = useState('');
-  const [name, setName] = useState('');
+  // const [id, setId] = useState('');
+  // const [name, setName] = useState('');
   const [avatar, setAvatar] = useState<string>('');
   const [data, setData] = useState<any>();
   const [isPassword, setIsPassword] = useState(false);
@@ -34,6 +36,9 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, invalidate, isLoading } = useProfile(accessToken);
 
   const { mutate: profileMutae, isLoading: profileLoading } = useMutation(
     isTokenPostApi,
@@ -119,43 +124,15 @@ const ProfileModify = ({ setTabNumber }: Props) => {
         'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
       );
       let cloneDocument = document as any;
+      console.log(cloneDocument.form_chk);
+
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
-      cloneDocument.form_chk.submit();
+      cloneDocument?.form_chk?.submit();
     }
   };
-  // 유저정보 받아 오는 API
-  const getUserInfo = () => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    try {
-      axios({
-        method: 'get',
-        url: 'https://test-api.entizen.kr/api/members/info',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-      })
-        .then((res) => {
-          console.log('---res 데이터---');
-          console.log(res);
-          setId(res.data.id);
-          setName(res.data.name);
-        })
-        .catch((error) => {
-          console.log('실패');
-          console.log(error);
-          alert('다시 시도해주세요.');
-          router.push('/');
-        });
-    } catch (error) {
-      alert('다시 시도해주세요.');
-      router.push('/');
-      console.log('api 통신 에러');
-      console.log(error);
-    }
-  };
+
   // 나이스 인증
   useEffect(() => {
     const memberType = selectedType;
@@ -184,10 +161,10 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // 유저 종보 받아오기
-  useEffect(() => {
-    getUserInfo();
-  }, []);
+  // // 유저 종보 받아오기
+  // useEffect(() => {
+  //   getUserInfo();
+  // }, []);
   return (
     <React.Fragment>
       {/* 에러 모달 */}
@@ -225,10 +202,9 @@ const ProfileModify = ({ setTabNumber }: Props) => {
             </div>
           </Avatar>
           <Label mt={33}>아이디</Label>
-          <InputBox type="text" readOnly placeholder={id} />
+          <InputBox type="text" readOnly placeholder={profile?.id} />
           <Label mt={30}>이름</Label>
-          <InputBox type="text" readOnly placeholder={name} />
-
+          <InputBox type="text" readOnly placeholder={profile?.name} />
           {!checkSns && (
             <>
               <form name="form_chk" method="get">
@@ -245,7 +221,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                 <Form>
                   <TitleSection
                     id="phone"
-                    // onClick={() => router.push('/profile/editing/phone')}
                     onClick={() => {
                       setTabNumber(0);
                     }}
@@ -261,13 +236,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                   </Text>
                 </Form>
                 <Form>
-                  <TitleSection
-                    id="password"
-                    onClick={() => {
-                      fnPopup;
-                      setTabNumber(1);
-                    }}
-                  >
+                  <TitleSection id="password" onClick={fnPopup}>
                     <Label mt={0}>비밀번호 변경</Label>
                     <div>
                       <Image src={Arrow} alt="arrow-img" />
@@ -279,7 +248,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
           )}
           {isPassword && (
             <Buttons className="firstNextPage" onClick={HandlePassword}>
-              숨겨진 휴대폰번호 버튼
+              숨겨진 비밀번호 버튼
             </Buttons>
           )}
         </Body>

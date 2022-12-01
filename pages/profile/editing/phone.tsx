@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import useProfile from 'hooks/useProfile';
 
 interface Key {
   id: string;
@@ -28,11 +29,12 @@ const phone = () => {
   const router = useRouter();
   const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [data, setData] = useState<any>();
-  const [userInfo, setUserInfo] = useState<UserInfo>();
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>();
   const key: Key = JSON.parse(localStorage.getItem('key')!);
-  const phoneNumber = userInfo?.phone
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, invalidate, isLoading } = useProfile(accessToken);
+  const phoneNumber = profile?.phone
     .replace(/[^0-9]/g, '')
     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 
@@ -116,29 +118,12 @@ const phone = () => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    console.log('여기임둥');
+    console.log('⭐️ SNS 데이터 확인 ~라인 119');
     console.log(checkSns);
     console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // 토큰 추가
-  useEffect(() => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    try {
-      axios({
-        method: 'get',
-        url: 'https://test-api.entizen.kr/api/members/info',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => setUserInfo(res.data));
-    } catch (error) {
-      console.log('유저 에러!');
-      console.log(error);
-    }
-  }, []);
+
   // 나이스 인증 테스트
   useEffect(() => {
     console.log('-----key-------');

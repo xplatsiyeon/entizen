@@ -16,53 +16,26 @@ import PasswordModify from 'components/Profile/PasswordModify';
 import ProfileModify from 'components/Profile/ProfileModify';
 import PhoneNumberModify from 'components/Profile/PhonenumberModify';
 import UserRightMenu from 'components/UserRightMenu';
+import useProfile from 'hooks/useProfile';
+import { useMediaQuery } from 'react-responsive';
 
 interface Components {
   [key: number]: JSX.Element;
 }
 
 const ProfileEditing = () => {
-  const router = useRouter();
   const { selectedType } = useSelector((state: RootState) => state.selectType);
-  const [id, setId] = useState('');
-  const [name, setName] = useState('');
   const [avatar, setAvatar] = useState<string>('');
   const [data, setData] = useState<any>();
   const [isPassword, setIsPassword] = useState(false);
   const [checkSns, setCheckSns] = useState<boolean>(false);
+  const mobile = useMediaQuery({
+    query: '(min-width:900pt)',
+  });
 
   // 오른쪽 컴포넌트 변경
   const [tabNumber, setTabNumber] = useState<number>(2);
 
-  // 오른쪽 컴포넌트
-
-  const components: Components = {
-    0: <PhoneNumberModify setTabNumber={setTabNumber} />,
-    1: <PasswordModify setTabNumber={setTabNumber} />,
-  };
-
-  console.log('여기에 tabNumber 뭐나옴?', tabNumber);
-  // 프로필 이미지 변경
-  const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files!;
-    const fileReader: any = new FileReader();
-    if (!files) return;
-    fileReader.readAsDataURL(files[0]);
-    fileReader.onload = () => {
-      if (fileReader.readyState === 2) {
-        setAvatar(fileReader.result);
-      }
-    };
-  };
-  // 비밀번호 변경
-  const HandlePassword = async () => {
-    let key = localStorage.getItem('key');
-    let data = JSON.parse(key!);
-    console.log('---------비밀번호 변경 data입니다 ---------');
-    console.log(data);
-    // router.push('/profile/editing/password');
-    setTabNumber(1);
-  };
   // 나이스 인증
   const fnPopup = (event: any) => {
     console.log('나이스 인증');
@@ -75,6 +48,8 @@ const ProfileEditing = () => {
     }
     if (typeof window !== 'object') return;
     else {
+      console.log('몇번');
+
       window.open(
         '',
         'popupChk',
@@ -84,38 +59,8 @@ const ProfileEditing = () => {
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
+      console.log(cloneDocument.form_chk);
       cloneDocument.form_chk.submit();
-    }
-  };
-  // 유저정보 받아 오는 API
-  const getUserInfo = () => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    try {
-      axios({
-        method: 'get',
-        url: 'https://test-api.entizen.kr/api/members/info',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-      })
-        .then((res) => {
-          console.log('---res 데이터---');
-          console.log(res);
-          setId(res.data.id);
-          setName(res.data.name);
-        })
-        .catch((error) => {
-          console.log('실패');
-          console.log(error);
-          alert('다시 시도해주세요.');
-          router.push('/');
-        });
-    } catch (error) {
-      alert('다시 시도해주세요.');
-      router.push('/');
-      console.log('api 통신 에러');
-      console.log(error);
     }
   };
   // 나이스 인증
@@ -134,7 +79,7 @@ const ProfileEditing = () => {
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, []);
   // sns 체크
   useEffect(() => {
     const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
@@ -146,26 +91,33 @@ const ProfileEditing = () => {
     console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // 유저 종보 받아오기
-  useEffect(() => {
-    getUserInfo();
-  }, []);
+  // 오른쪽 컴포넌트
+  const components: Components = {
+    0: <PhoneNumberModify setTabNumber={setTabNumber} />,
+    1: <PasswordModify setTabNumber={setTabNumber} />,
+  };
+
   return (
     <React.Fragment>
       <UserRightMenu />
       {tabNumber === 2 && <Header back={true} title="프로필 변경" />}
       <WebBody>
         <WebHeader />
-        <WebHide>
-          {tabNumber === 2 && <ProfileModify setTabNumber={setTabNumber} />}
-          {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
-        </WebHide>
-        <WebRapper>
-          <Inner>
-            <ProfileModify setTabNumber={setTabNumber} />
-          </Inner>
-          {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
-        </WebRapper>
+        {/* 모바일 */}
+        {!mobile ? (
+          <WebHide>
+            {tabNumber === 2 && <ProfileModify setTabNumber={setTabNumber} />}
+            {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
+          </WebHide>
+        ) : (
+          <WebRapper>
+            <Inner>
+              {/* 프로필 변경 컴포넌트 */}
+              <ProfileModify setTabNumber={setTabNumber} />
+            </Inner>
+            {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
+          </WebRapper>
+        )}
 
         <WebFooter />
       </WebBody>

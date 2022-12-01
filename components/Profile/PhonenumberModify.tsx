@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-
+import useProfile from 'hooks/useProfile';
 interface Key {
   id: string;
   isMember: boolean;
@@ -17,30 +17,27 @@ interface Key {
   name: string;
   phone: string;
 }
-
 interface UserInfo {
   isSuccess: boolean;
   id: string;
   name: string;
   phone: string;
 }
-
 type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
 };
-
 const PhoneNumberModify = ({ setTabNumber }: Props) => {
   const router = useRouter();
   const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [data, setData] = useState<any>();
-  const [userInfo, setUserInfo] = useState<UserInfo>();
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>();
   const key: Key = JSON.parse(localStorage.getItem('key')!);
-  const phoneNumber = userInfo?.phone
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, invalidate, isLoading } = useProfile(accessToken);
+  const phoneNumber = profile?.phone
     .replace(/[^0-9]/g, '')
     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
-
   // 휴대폰 변경
   const HandlePhone = async () => {
     const key: Key = JSON.parse(localStorage.getItem('key')!);
@@ -77,13 +74,12 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
     }
   };
 
-  // 나이스 인증
+  // 나이스 인증 2
   const fnPopup = (event: any) => {
     console.log('나이스 인증');
     console.log(event);
     const { id } = event.currentTarget;
     console.log(`id -> ${id}`);
-
     if (typeof window !== 'object') return;
     else {
       window.open(
@@ -95,10 +91,10 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
-      cloneDocument.form_chk.submit();
+      cloneDocument?.form_chk?.submit();
     }
   };
-  // 나이스 인증
+  // 나이스 인증 1
   useEffect(() => {
     const memberType = selectedType;
     axios({
@@ -121,32 +117,15 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    console.log('여기임둥');
+    console.log('⭐️ SNS 데이터 확인 ~라인 121');
     console.log(checkSns);
     console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // 토큰 추가
-  useEffect(() => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    try {
-      axios({
-        method: 'get',
-        url: 'https://test-api.entizen.kr/api/members/info',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => setUserInfo(res.data));
-    } catch (error) {
-      console.log('유저 에러!');
-      console.log(error);
-    }
-  }, []);
+
   // 나이스 인증 테스트
   useEffect(() => {
-    console.log('-----key-------');
+    console.log('⭐️ 나이스 인증 테스트 ~라인 132');
     console.log(key);
     console.log('나이스 인증 폰번호 받아오기 ->' + newPhoneNumber);
   }, [newPhoneNumber, key]);
@@ -186,7 +165,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
 
               {!checkSns && (
                 <>
-                  <form name="form_chk" method="get">
+                  <form id="form_chk" method="get">
                     <input type="hidden" name="m" value="checkplusService" />
                     {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
                     <input
