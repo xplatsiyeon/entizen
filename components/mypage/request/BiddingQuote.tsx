@@ -184,7 +184,10 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                 </>
               )}
             </WebList>
-            <TwoButton onClcikModal={onClcikModal!} />
+            <TwoButton
+              onClcikModal={onClcikModal!}
+              id={data?.companyMemberAdditionalInfo?.memberIdx}
+            />
           </ChareCompanyInfo>
         </TopWebRapper>
       )}

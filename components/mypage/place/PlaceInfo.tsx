@@ -205,11 +205,11 @@ const WebFinishedPhotoWrapper = styled.div`
 
 const WebLeftPhotoBox = styled.div`
   @media (min-width: 900pt) {
-    display: flex;
-    flex-direction: column;
+   // display: flex;
+   // flex-direction: column;
     overflow-y: scroll;
-    justify-content: flex-start;
-    gap: 9pt;
+   // justify-content: flex-start;
+   // gap: 9pt;
     height: 330pt;
   }
 `;
@@ -219,6 +219,8 @@ const WebLeftPhotos = styled.div<{ idx: number; webIdx: number }>`
     width: 60pt;
     height: 60pt;
     border-radius: 6pt;
+    margin-bottom: 8pt;
+    overflow: hidden;
     border: ${({ idx, webIdx }) => idx === webIdx && `0.75pt solid #5221cb`};
     cursor: pointer;
     .imgBox {
@@ -302,6 +304,7 @@ const FileLabel = styled.div`
 `;
 const FileDownloadBtn = styled(Button)`
   margin-bottom: 6pt;
+  margin-right: 6pt;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 8px;

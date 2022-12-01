@@ -96,7 +96,7 @@ const Mypage = ({ num, now }: Props) => {
               componentId={componentId}
               setComponentId={setComponentId}
             />
-            <div>{components[tabNumber]}</div>
+            <div className='flexBox'>{components[tabNumber]}</div>
           </WebRapper>
         </Container>
         <WebFooter />
@@ -148,6 +148,10 @@ const WebRapper = styled.div`
     width: 900pt;
     display: flex;
     justify-content: space-between;
+    gap:60pt;
+    .flexBox{
+      flex: auto;
+    }
   }
 `;
 

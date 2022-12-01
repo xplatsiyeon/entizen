@@ -263,13 +263,15 @@ const ProgressBody = ({
                     ? '목표일 변경 중'
                     : changeDataFn(data?.project?.readyStepGoalDate)}
                 </PickedDate>
-              ) : (
-                <SetDate id="prepareDate" onClick={handleDateModal}>
-                  목표일
-                  <ImageWrap>
-                    <Image src={askDate} layout="fill" />
-                  </ImageWrap>
-                </SetDate>
+              ) :(
+                badge === '계약대기'
+                  ? <></>
+                  : <SetDate id="prepareDate" onClick={handleDateModal}>
+                    목표일
+                    <ImageWrap>
+                      <Image src={askDate} layout="fill" />
+                    </ImageWrap>
+                  </SetDate>
               )}
             </InsideFlex>
           </div>
@@ -327,12 +329,14 @@ const ProgressBody = ({
                     : changeDataFn(data?.project?.installationStepGoalDate)}
                 </PickedDate>
               ) : (
-                <SetDate id="installDate" onClick={handleDateModal}>
-                  목표일
-                  <ImageWrap>
-                    <Image src={askDate} layout="fill" />
-                  </ImageWrap>
-                </SetDate>
+                badge === '계약대기'
+                  ? <></>
+                  : <SetDate id="installDate" onClick={handleDateModal}>
+                    목표일
+                    <ImageWrap>
+                      <Image src={askDate} layout="fill" />
+                    </ImageWrap>
+                  </SetDate>
               )}
             </InsideFlex>
           </div>
@@ -390,12 +394,14 @@ const ProgressBody = ({
                     : changeDataFn(data?.project?.examStepGoalDate)}
                 </PickedDate>
               ) : (
-                <SetDate id="inspectionDate" onClick={handleDateModal}>
-                  목표일
-                  <ImageWrap>
-                    <Image src={askDate} layout="fill" />
-                  </ImageWrap>
-                </SetDate>
+                badge === '계약대기'
+                  ? <></>
+                  : <SetDate id="inspectionDate" onClick={handleDateModal}>
+                    목표일
+                    <ImageWrap>
+                      <Image src={askDate} layout="fill" />
+                    </ImageWrap>
+                  </SetDate>
               )}
             </InsideFlex>
           </div>
@@ -423,7 +429,7 @@ const ProgressBody = ({
                 className="bottomCircle"
                 src={
                   data?.project?.badge === '완료 중' ||
-                  data?.project?.badge === '완료 대기'
+                    data?.project?.badge === '완료 대기'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -449,12 +455,14 @@ const ProgressBody = ({
                     : changeDataFn(data?.project?.completionStepGoalDate)}
                 </PickedDate>
               ) : (
-                <SetDate id="successDate" onClick={handleDateModal}>
-                  목표일
-                  <ImageWrap>
-                    <Image src={askDate} layout="fill" />
-                  </ImageWrap>
-                </SetDate>
+                badge === '계약대기'
+                  ? <></>
+                  : <SetDate id="successDate" onClick={handleDateModal}>
+                    목표일
+                    <ImageWrap>
+                      <Image src={askDate} layout="fill" />
+                    </ImageWrap>
+                  </SetDate>
               )}
             </InsideFlex>
           </div>
@@ -613,8 +621,8 @@ const ContractBtnBox = styled.div<{ presentProgress: boolean }>`
     color: #a6a9b0;
     cursor: pointer;
     ${({ presentProgress }) =>
-      presentProgress === true &&
-      css`
+    presentProgress === true &&
+    css`
         border: 0.75pt solid ${colors.main};
       `}
   }

@@ -2,20 +2,32 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
-
+import jwt_decode from 'jwt-decode';
+import { JwtTokenType } from 'pages/signin';
+import useCreateChatting from 'hooks/useCreateChatting';
 interface Props {
   onClcikModal: () => void;
+  id?: number;
 }
 
-const TwoButton = ({ onClcikModal }: Props) => {
-  const route = useRouter();
+const TwoButton = ({ id, onClcikModal }: Props) => {
+  const router = useRouter();
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const token: JwtTokenType = jwt_decode(accessToken);
+  const { createChatting, createLoading } = useCreateChatting();
 
-  const goToChat = () => route.push('/chatting/1-2');
+  const onClickBtn = () => {
+    if (id) {
+      // 채팅방 생성 후 채팅방 이동 or 채팅방이 존재하면 바로 채팅방 이동
+      createChatting(id!);
+    }
+  };
+
   return (
     <Wrapper>
       <Blur />
       <BtnBox>
-        <LeftBtn onClick={goToChat}>소통하기</LeftBtn>
+        <LeftBtn onClick={onClickBtn}>소통하기</LeftBtn>
         <RightBtn onClick={onClcikModal}>이 상품으로 진행하기</RightBtn>
       </BtnBox>
     </Wrapper>
@@ -44,7 +56,7 @@ const BtnBox = styled.div`
 
   @media (min-width: 900pt) {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     width: 255pt;
     margin: 0;
   }

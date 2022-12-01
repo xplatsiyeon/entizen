@@ -58,7 +58,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
 
     case '준비 중':
       textArr = [
-        '공사 준비를 진행됩니다.',
+        '공사 준비가 진행됩니다.',
         '충전기를 설치, 시운전이 진행됩니다.',
         '충전기 검수가 진행됩니다!',
         '곧 프로젝트가 완료됩니다!',
@@ -78,7 +78,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
       textArr = [
         '공사 준비가 완료되었습니다!',
         '충전기를 설치, 시운전이 완료되었습니다!',
-        '충전기 검수가 완료되었습니다!',
+        '충전기 검수가 진행됩니다.',
         '프로젝트를 완료해주세요',
       ];
       break;
