@@ -15,8 +15,8 @@ import CloseImg from 'public/images/XCircle.svg';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { chargerData } from 'storeCompany/myQuotation';
-import { useMutation } from 'react-query';
-import { multerApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
@@ -24,6 +24,7 @@ import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { chargers } from 'storeCompany/finalQuotation';
 import SelectComponents from 'components/Select';
+import { ProductListRepsonse } from 'componentsCompany/MyProductList/ProductList';
 
 type Props = {
   tabNumber: number;
@@ -70,6 +71,7 @@ const SecondStep = ({
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [productId, setProductId] = useState<number>();
 
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -145,6 +147,19 @@ const SecondStep = ({
       }
     },
   });
+  // 내제품 리스트 조회 API
+  const {
+    data: productData,
+    isLoading: productIsLoading,
+    isError: productIsError,
+  } = useQuery<ProductListRepsonse>(
+    'productList',
+    () => isTokenGetApi('/products'),
+    {
+      cacheTime: Infinity,
+      staleTime: 5000,
+    },
+  );
 
   // 모달 클릭
   const onClickModal = () => {
@@ -297,13 +312,14 @@ const SecondStep = ({
     }
   };
   // 셀렉트 박스 클릭
-  const onChangeSelectBox = (value: string) => {
+  const onChangeSelectBox = (value: string, idx: number) => {
     const temp = [...selectedOptionEn];
     temp[tabNumber - 1] = {
       ...temp[tabNumber - 1],
       modelName: value as chargerData,
     };
     setSelectedOptionEn(temp);
+    setProductId(idx);
   };
   // 이전 버튼
   const handlePrevBtn = () => {
@@ -354,6 +370,45 @@ const SecondStep = ({
       setSelectedOptionEn(temp);
     }
   }, [selectedOptionEn]);
+  // 내 제품 리스트 하단 내용
+  useEffect(() => {
+    if (productId) {
+      const targetProduct = productData?.chargerProduct.filter(
+        (e) => e.chargerProductIdx === productId,
+      )[0];
+
+      const newImage = targetProduct?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+      const newFile = targetProduct?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+
+      const temp = [...selectedOptionEn];
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        manufacturer: targetProduct?.manufacturer!,
+        productFeature: targetProduct?.feature!,
+        chargerImageFiles: newFile!,
+        catalogFiles: newImage!,
+      };
+      setSelectedOptionEn(temp);
+    }
+  }, [productId]);
 
   // 실시간으로 width 받아오는 함수
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -450,9 +505,9 @@ const SecondStep = ({
           <SelectContainer>
             <SelectComponents
               value={selectedOptionEn[tabNumber - 1].modelName}
-              option={chargerData}
               placeholder="구충전기 종류"
-              onClickEvent={onChangeSelectBox}
+              productOption={productData?.chargerProduct!}
+              onClickProject={onChangeSelectBox}
             />
           </SelectContainer>
           <BottomInputBox>

@@ -217,6 +217,7 @@ const SecondStep = ({
       },
     },
   );
+  // 내제품 리스트 조회 API
   const {
     data: productData,
     isLoading: productIsLoading,
