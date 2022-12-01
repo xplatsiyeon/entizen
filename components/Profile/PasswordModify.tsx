@@ -13,7 +13,7 @@ import BackImg from 'public/images/back-btn.svg';
 import Image from 'next/image';
 import axios from 'axios';
 
-interface Key {
+export interface Key {
   id: string;
   isMember: boolean;
   memberIdx: number;

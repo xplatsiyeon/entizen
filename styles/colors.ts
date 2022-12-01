@@ -10,6 +10,7 @@ const colors = {
   lightGray2: '#a6a9b0',
   lightGray3: '#caccd1',
   lightGray4: '#dcdde1',
+
   sub4: '#F75015',
   gray: '#E2E5ED',
   gray2: '#747780',
@@ -19,6 +20,7 @@ const colors = {
   white: '#EEEEEE',
   lightWhite: '#FFFFFF',
   lightWhite2: '#FBFCFF',
+  lightWhite3: '#e2e5ed',
   start: '#f1f2f6',
   borderColor: '#f8f7fe',
   orange: '#f75015',

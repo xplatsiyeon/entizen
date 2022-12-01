@@ -27,6 +27,7 @@ const Btn = ({ text, isClick, marginTop, handleClick, modalOpen }: Props) => {
           alignItems: 'center',
           background: `${isClick ? '#5a2dc9' : '#E2E5ED'}`,
           color: 'white',
+          cursor: 'pointer',
           ':hover': {
             outline: `2pt solid ${colors.main}`,
             borderRadius: '0',
@@ -45,7 +46,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-
+  /* cursor: pointer; */
   @media (max-width: 899.25pt) {
     padding: 0;
     position: absolute;

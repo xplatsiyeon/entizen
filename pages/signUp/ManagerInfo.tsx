@@ -5,23 +5,229 @@ import Btn from 'components/button';
 import Header from 'components/header';
 import Input from 'components/input';
 import MypageHeader from 'components/mypage/request/header';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
-
-const phoneCompany: string[] = ['SKT', 'KT', 'LGU+', '알뜰폰'];
+import jwt_decode from 'jwt-decode';
+import { JwtTokenType } from 'pages/signin';
+import axios from 'axios';
+import { useMutation } from 'react-query';
+import { isTokenPostApi, isTokenPutApi } from 'api';
+import useProfile from 'hooks/useProfile';
+import { Key } from 'components/Profile/PasswordModify';
+import Modal from 'components/Modal/Modal';
+import TwoBtnModal from 'components/Modal/TwoBtnModal';
+import { Router } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 
 type Props = {
-  setComponent : React.Dispatch<React.SetStateAction<number>>;
- }
+  setComponent: React.Dispatch<React.SetStateAction<number>>;
+};
 
-const SignUpManagerInfo = ({setComponent}:Props) => {
+const SignUpManagerInfo = ({ setComponent }: Props) => {
+  const router = useRouter();
+  const [data, setData] = useState<string>('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
+  const [authCode, setAuthCode] = useState<string>('');
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const key: Key = JSON.parse(localStorage.getItem('key')!);
+  const token: JwtTokenType = jwt_decode(accessToken);
+  const { profile } = useProfile(accessToken);
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  // 투버튼 모달
+  const [isTwoBtnModal, setIsTwoBtnModal] = useState(false);
+  const [TwoBtnmodalMessage, setTwoBtnModalMessage] = useState('');
+
+  // 이메일 전송
+  const { mutate: emailMutate, isLoading: emailLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: (res) => {
+        console.log(res);
+        console.log(res.data.authCode);
+        setModalMessage('이메일로 인증번호가 전송되었습니다.');
+        setIsModal(true);
+      },
+      onError: () => {},
+    },
+  );
+  // 이메일 코드
+  const { mutate: emailCodeMutate, isLoading: emailCodeLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: (res) => {
+        console.log(res);
+        console.log(res.data.authCode);
+        setModalMessage('인증번호가 확인되었습니다.');
+        setIsModal(true);
+        setIsValid(true);
+      },
+      onError: () => {
+        setModalMessage('잘못된 인증번호입니다.');
+        setIsModal(true);
+      },
+    },
+  );
+  // 담당자 정보 변경
+  const { mutate: changeMutate, isLoading: changeLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: (res) => {
+        console.log(res);
+        console.log(res.data.authCode);
+        setModalMessage('담당자가 변경되었습니다.');
+        setIsModal(true);
+      },
+      onError: () => {
+        setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
+        setIsModal(true);
+      },
+    },
+  );
+  // 원버튼 모달 확인
+  const onClickModal = () => {
+    switch (modalMessage) {
+      case '담당자가 변경되었습니다.':
+        setIsModal(false);
+        router.replace('/');
+        break;
+      default:
+        setIsModal(false);
+        break;
+    }
+  };
+  // 투버튼 모달 나가기
+  const TwoBtnModalExit = () => setIsTwoBtnModal(false);
+  // 나이스 인증 후 클릭되는 함수 (투버튼 수락)
+  const onClickNice = () => {
+    if (profile?.phone.toString() === key?.phone.toString()) {
+      setTwoBtnModalMessage(
+        '담당자 정보를 수정하시려면 관리자의 승인을 다시 받아야합니다.수정하시겠습니까?',
+      );
+      setIsTwoBtnModal(true);
+    } else {
+      setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
+      setIsModal(true);
+    }
+  };
+  // 담당자 정보 수정하기
+  const onCickBtn = () => {
+    if (profile?.phone.toString() === key?.phone.toString()) {
+      changeMutate({
+        url: '',
+        data: {
+          name: name,
+          phone: key.phone.toString(),
+          email: email,
+        },
+      });
+      console.log('온 클릭');
+    }
+  };
+  // 이메일인증
+  const onClickEmail = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    emailMutate({
+      url: '/mail/auth',
+      data: {
+        email,
+      },
+    });
+  };
+  // 이메일 인증코드 확인
+  const certifyEmailCode = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (isEmailCodeValid) {
+      emailCodeMutate({
+        url: '/mail/auth/validation',
+        data: {
+          email,
+          authCode,
+        },
+      });
+    }
+  };
+
+  // 나이스 인증 팝업창 열기
+  const fnPopup = (event: any) => {
+    console.log('나이스 인증');
+    console.log(event);
+    const { id } = event.currentTarget;
+    console.log(`id -> ${id}`);
+    if (typeof window !== 'object') return;
+    else {
+      window.open(
+        '',
+        'popupChk',
+        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+      );
+      let cloneDocument = document as any;
+      cloneDocument.form_chk.action =
+        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+      cloneDocument.form_chk.target = 'popupChk';
+      cloneDocument.form_chk.submit();
+    }
+  };
+  // 나이스 인증 데이터 불러오기
+  useEffect(() => {
+    axios({
+      method: 'post',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
+      data: { memberType: token.memberType },
+    })
+      .then((res) => {
+        setData(res.data.executedData);
+      })
+      .catch((error) => {
+        console.error('나이스 인증 에러 발생');
+        console.error(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+  // 이메일 유효성 검사
+  const reg_email =
+    /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+  useEffect(() => {
+    reg_email.test(email) ? setIsEmailValid(true) : setIsEmailValid(false);
+    authCode.length === 7
+      ? setIsEmailCodeValid(true)
+      : setIsEmailCodeValid(false);
+  }, [email, authCode, name]);
   return (
     <Wrapper>
+      {isModal && (
+        <Modal
+          text={modalMessage}
+          click={() => {
+            if (modalMessage === '담당자가 변경되었습니다.') {
+            }
+          }}
+        />
+      )}
+      {isTwoBtnModal && (
+        <TwoBtnModal
+          exit={TwoBtnModalExit}
+          leftBtnColor={'#A6A9B0'}
+          leftBtnText={'아니요'}
+          rightBtnColor={colors.main1}
+          rightBtnText={'확인'}
+          text={TwoBtnmodalMessage}
+          leftBtnControl={TwoBtnModalExit}
+          rightBtnControl={onCickBtn}
+        />
+      )}
       <HeaderWrap>
-      <MypageHeader 
-                handle={true} 
-                back={true} 
-                title={''} 
-                handleOnClick={()=>setComponent(1)}/>
+        <MypageHeader
+          handle={true}
+          back={true}
+          title={''}
+          handleOnClick={() => setComponent(1)}
+        />
       </HeaderWrap>
       <Notice variant="h3">
         진행할 담당자 정보를
@@ -29,49 +235,54 @@ const SignUpManagerInfo = ({setComponent}:Props) => {
         입력해주세요
       </Notice>
       <Remark variant="subtitle1">고객에게 전달되는 정보예요!</Remark>
-      <Form>
-        <label>담당자 이름</label>
-        <Input placeholder="이름을 입력해주세요" />
-      </Form>
-      <Form>
-        <label>담당자 이메일</label>
-        <Input placeholder="이메일 입력" />
-        <OverlapBtn
-          style={{
-            top: '25.5pt',
-          }}
-        >
-          인증
-        </OverlapBtn>
-        <Input placeholder="이메일 인증번호 입력" />
-        <OverlapBtn>확인</OverlapBtn>
-      </Form>
-      {/*<Form>
-        <label>휴대폰 인증</label>
-        <PhoneSelect>
-          {phoneCompany.map((phone, index) => (
-            <div key={index}>{phone}</div>
-          ))}
-        </PhoneSelect>
-        <Input placeholder="휴대폰 번호('-'없이 숫자만 입력)" />
-        <OverlapBtn
-          style={{
-            top: '75pt',
-          }}
-        >
-          인증
-        </OverlapBtn>
-        <Input placeholder="인증번호 입력" />
-        <OverlapBtn
-          style={{
-            top: '127pt',
-          }}
-        >
-          확인
-        </OverlapBtn>
-        </Form> */}
-
-      <Btn marginTop="30" text={'다음'} isClick={false} />
+      <form name="form_chk" method="get">
+        <input type="hidden" name="m" value="checkplusService" />
+        {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
+        <input type="hidden" id="encodeData" name="EncodeData" value={data} />
+        <input type="hidden" name="recvMethodType" value="get" />
+        {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+        <Form>
+          <label>담당자 이름</label>
+          <Input
+            placeholder="이름을 입력해주세요"
+            value={name}
+            setValue={setName}
+          />
+        </Form>
+        <Form>
+          <label>담당자 이메일</label>
+          <Input placeholder="이메일 입력" value={email} setValue={setEmail} />
+          <OverlapBtn
+            style={{
+              top: '25.5pt',
+            }}
+            isEmailValid={isEmailValid}
+            onClick={onClickEmail}
+          >
+            인증
+          </OverlapBtn>
+          <Input
+            placeholder="이메일 인증번호 입력"
+            value={authCode}
+            setValue={setAuthCode}
+          />
+          <OverlapBtn
+            isEmailValid={isEmailCodeValid}
+            onClick={certifyEmailCode}
+          >
+            확인
+          </OverlapBtn>
+        </Form>
+        <Btn
+          marginTop="30"
+          text={'담당자 변경'}
+          isClick={isValid && name.length > 1}
+          handleClick={fnPopup}
+        />
+      </form>
+      <Buttons className="firstNextPage" onClick={onClickNice}>
+        숨겨진 비밀번호 버튼
+      </Buttons>
     </Wrapper>
   );
 };
@@ -89,8 +300,8 @@ const Wrapper = styled.div`
 `;
 
 const HeaderWrap = styled.div`
-  margin-left: -15pt ;
-`
+  margin-left: -15pt;
+`;
 
 const Notice = styled(Typography)`
   margin-top: 6pt;
@@ -121,40 +332,20 @@ const Form = styled(Box)`
     letter-spacing: -0.02em;
   }
 `;
-const OverlapBtn = styled.button`
+const OverlapBtn = styled.button<{ isEmailValid: boolean }>`
   position: absolute;
   right: 8pt;
   top: 77pt;
-  background: #e2e5ed;
-  color: #ffffff;
+  background: ${({ isEmailValid }) =>
+    isEmailValid ? colors.main : colors.lightWhite3};
+  color: ${colors.lightWhite};
   border-radius: 6pt;
   padding: 7.5pt 9pt;
   font-size: 10.5pt;
   font-weight: 500;
   line-height: 12pt;
+  cursor: pointer;
 `;
-const PhoneSelect = styled(Box)`
-  display: flex;
-  gap: 3.75pt;
-  margin-top: 9pt;
-  & > div {
-    width: 60pt;
-    border: 0.75pt solid ${colors.lightGray};
-    padding: 13.5pt 0;
-    border-radius: 8px;
-    font-weight: 400;
-    font-size: 12pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: #a6a9b0;
-    text-align: center;
-    ::placeholder {
-      color: ${colors.gray};
-      font-weight: 500;
-    }
-    :hover {
-      outline: 2pt solid ${colors.main};
-      border-radius: 8px;
-    }
-  }
+const Buttons = styled.button`
+  display: none;
 `;

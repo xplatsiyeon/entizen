@@ -1,17 +1,28 @@
 import styled from '@emotion/styled';
+import React, { Dispatch, SetStateAction } from 'react';
 import colors from 'styles/colors';
 
 interface Props {
   placeholder: string;
   isButton?: boolean;
   contents?: string;
+  setValue?: Dispatch<SetStateAction<string>>;
   [key: string]: any; // 필요한 props 작성하세요.
 }
 
-const Input = ({ placeholder, isButton = false, contents }: Props) => {
+const Input = ({
+  placeholder,
+  isButton = false,
+  contents,
+  setValue,
+}: Props) => {
   return (
     <Wrapper>
-      <Box type="text" placeholder={placeholder} />
+      <Box
+        type="text"
+        placeholder={placeholder}
+        onChange={(e) => setValue!(e.currentTarget.value)}
+      />
       {isButton && <OverlapBtn>{contents}</OverlapBtn>}
     </Wrapper>
   );
