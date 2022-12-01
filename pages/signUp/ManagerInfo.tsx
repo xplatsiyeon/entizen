@@ -11,7 +11,7 @@ import jwt_decode from 'jwt-decode';
 import { JwtTokenType } from 'pages/signin';
 import axios from 'axios';
 import { useMutation } from 'react-query';
-import { isTokenPostApi, isTokenPutApi } from 'api';
+import { isTokenPatchApi, isTokenPostApi, isTokenPutApi } from 'api';
 import useProfile from 'hooks/useProfile';
 import { Key } from 'components/Profile/PasswordModify';
 import Modal from 'components/Modal/Modal';
@@ -75,7 +75,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   );
   // 담당자 정보 변경
   const { mutate: changeMutate, isLoading: changeLoading } = useMutation(
-    isTokenPutApi,
+    isTokenPatchApi,
     {
       onSuccess: (res) => {
         console.log(res);
@@ -110,7 +110,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const onCickBtn = () => {
     if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
-        url: '',
+        url: '/members',
         data: {
           name: name,
           phone: key.phone.toString(),
