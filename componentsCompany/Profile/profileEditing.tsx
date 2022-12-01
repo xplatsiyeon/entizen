@@ -94,8 +94,8 @@ const ProfileEditing = ({ setComponent }: Props) => {
   };
   // 비밀번호 변경
   const HandlePassword = async () => {
-    let key = localStorage.getItem('key');
-    let data = JSON.parse(key!);
+    // let key = localStorage.getItem('key');
+    // let data = JSON.parse(key!);
     setComponent(2);
   };
   // 나이스 인증
@@ -104,10 +104,6 @@ const ProfileEditing = ({ setComponent }: Props) => {
     console.log(event);
     const { id } = event.currentTarget;
     console.log(`id -> ${id}`);
-    if (id === 'password') {
-      setIsPassword(true);
-      console.log('passowrd입니다');
-    }
     if (typeof window !== 'object') return;
     else {
       window.open(
@@ -254,11 +250,10 @@ const ProfileEditing = ({ setComponent }: Props) => {
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
         </Div>
-        {isPassword && (
-          <Buttons className="firstNextPage" onClick={HandlePassword}>
-            숨겨진 비밀번호 버튼
-          </Buttons>
-        )}
+
+        <Buttons className="firstNextPage" onClick={HandlePassword}>
+          숨겨진 비밀번호 버튼
+        </Buttons>
       </Body>
       <Line />
 
