@@ -13,6 +13,8 @@ import React from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
+import { useMutation } from 'react-query';
+import { isTokenPatchApi, isTokenPostApi } from 'api';
 
 interface Key {
   id: string;
@@ -23,10 +25,10 @@ interface Key {
 }
 
 type Props = {
-  setComponent? : React.Dispatch<React.SetStateAction<number>>;
- }
+  setComponent?: React.Dispatch<React.SetStateAction<number>>;
+};
 
-const EditPW = ({setComponent} : Props) => {
+const EditPW = ({ setComponent }: Props) => {
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
   const [pwInput, setPwInput] = useState<string>('');
@@ -38,12 +40,28 @@ const EditPW = ({setComponent} : Props) => {
   const [checkSamePw, setCheckSamePw] = useState<boolean>(false);
   const [btnActive, setBtnActive] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState('');
   const password = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
 
   const key: Key = JSON.parse(localStorage.getItem('key')!);
-
   const router = useRouter();
+
+  // 원버튼 모달
+
+  const { mutate: passwordMutate, isLoading: passwordLoading } = useMutation(
+    isTokenPatchApi,
+    {
+      onSuccess: () => {
+        setOpenModal(true);
+        setModalMessage('비밀번호 변경이 완료되었습니다.');
+      },
+      onError: () => {
+        setOpenModal(true);
+        setModalMessage('비밀번호 변경이 실패했습니다.\n다시 시도 해주세요.');
+      },
+    },
+  );
 
   useEffect(() => {
     if (password) {
@@ -82,33 +100,18 @@ const EditPW = ({setComponent} : Props) => {
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
   };
-
   // 비밀번호 변경 api
   const handleClick = () => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    // const memberIdx = JSON.parse(localStorage.getItem('MEMBER_IDX')!);
-    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
-    try {
-      axios({
-        method: 'patch',
-        url: PASSWORD_CHANGE,
-        data: {
-          oldPassword: beforePasswordInput,
-          newPassword: password,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
-        setOpenModal(true);
-      });
-    } catch (error) {
-      console.log('비밀번호 변경 실패');
-      console.log(error);
-    }
+    console.log('check');
+    passwordMutate({
+      url: `/members/password/${key?.memberIdx}`,
+      data: {
+        oldPassword: beforePasswordInput,
+        newPassword: password,
+      },
+    });
   };
+  // 원버튼 모달 온클릭
   const handleModalYes = () => {
     localStorage.removeItem('key');
     setOpenModal(false);
@@ -143,105 +146,101 @@ const EditPW = ({setComponent} : Props) => {
   const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
   return (
-          <Wrapper>
-            {openModal && (
-              <Modal
-                text={'비밀번호 변경이 완료되었습니다.\n다시 로그인 해주세요.'}
-                click={handleModalYes}
-              />
-            )}
-            <Wrap>
-              <MypageHeader 
-                handle={setComponent?true:undefined} 
-                back={true} 
-                title={'비밀번호 변경'} 
-                handleOnClick={setComponent?()=>setComponent(1):undefined}/>
-            </Wrap>
+    <Wrapper>
+      {openModal && <Modal text={modalMessage} click={handleModalYes} />}
+      <Wrap>
+        <MypageHeader
+          handle={setComponent ? true : undefined}
+          back={true}
+          title={'비밀번호 변경'}
+          handleOnClick={setComponent ? () => setComponent(1) : undefined}
+        />
+      </Wrap>
 
-            <Box
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          marginTop: '27pt',
+          width: '100%',
+        }}
+      >
+        <BeforePassword>기존 비밀번호</BeforePassword>
+        <Input
+          placeholder="기존 비밀번호 입력"
+          onChange={handleIdChange}
+          type={pwShow ? 'text' : 'password'}
+          value={beforePasswordInput}
+          name="beforePw"
+          hiddenLabel
+          InputProps={beforeAdornment}
+          onFocus={(e) => setBeforePwSelected(true)}
+          onBlur={(e) => setBeforePwSelected(false)}
+        />
+
+        <NewPassword>새로운 비밀번호</NewPassword>
+        <Input
+          placeholder="비밀번호 입력"
+          onChange={handleIdChange}
+          type={pwShow ? 'text' : 'password'}
+          value={pwInput}
+          name="pw"
+          hiddenLabel
+          InputProps={iconAdornment}
+          onFocus={(e) => setPwSelected(true)}
+          onBlur={(e) => setPwSelected(false)}
+        />
+        {!checkedPw && pwInput.length > 4 ? (
+          <Box>
+            <Typography
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                marginTop: '27pt',
-                width: '100%',
+                color: '#F75015',
+                fontSize: '9pt',
               }}
             >
-              <BeforePassword>기존 비밀번호</BeforePassword>
-              <Input
-                placeholder="기존 비밀번호 입력"
-                onChange={handleIdChange}
-                type={pwShow ? 'text' : 'password'}
-                value={beforePasswordInput}
-                name="beforePw"
-                hiddenLabel
-                InputProps={beforeAdornment}
-                onFocus={(e) => setBeforePwSelected(true)}
-                onBlur={(e) => setBeforePwSelected(false)}
-              />
-
-              <NewPassword>새로운 비밀번호</NewPassword>
-              <Input
-                placeholder="비밀번호 입력"
-                onChange={handleIdChange}
-                type={pwShow ? 'text' : 'password'}
-                value={pwInput}
-                name="pw"
-                hiddenLabel
-                InputProps={iconAdornment}
-                onFocus={(e) => setPwSelected(true)}
-                onBlur={(e) => setPwSelected(false)}
-              />
-              {!checkedPw && pwInput.length > 4 ? (
-                <Box>
-                  <Typography
-                    sx={{
-                      color: '#F75015',
-                      fontSize: '9pt',
-                    }}
-                  >
-                    영문,숫자,특수문자 조합 10자 이상
-                  </Typography>
-                </Box>
-              ) : (
-                <></>
-              )}
-              <Input
-                placeholder="비밀번호 재입력"
-                onChange={handleIdChange}
-                type={pwShow ? 'text' : 'password'}
-                value={checkPw}
-                name="checkPw"
-                InputProps={secondIconAdornment}
-                onFocus={(e) => setCheckPwSelected(true)}
-                onBlur={(e) => setCheckPwSelected(false)}
-              />
-              {!checkSamePw && checkPw.length > 4 ? (
-                <Box>
-                  <Typography
-                    sx={{
-                      color: '#F75015',
-                      fontSize: '9pt',
-                    }}
-                  >
-                    비밀번호를 확인해주세요
-                  </Typography>
-                </Box>
-              ) : (
-                <></>
-              )}
-            </Box>
-            <Btn
-              isClick={
-                checkPw.length > 9 && pwInput.length > 9 && pwInput === checkPw
-                  ? true
-                  : false
-              }
-              handleClick={handleClick}
-              marginTop="33.75"
-              text={'수정 완료'}
-            />
-          </Wrapper>
+              영문,숫자,특수문자 조합 10자 이상
+            </Typography>
+          </Box>
+        ) : (
+          <></>
+        )}
+        <Input
+          placeholder="비밀번호 재입력"
+          onChange={handleIdChange}
+          type={pwShow ? 'text' : 'password'}
+          value={checkPw}
+          name="checkPw"
+          InputProps={secondIconAdornment}
+          onFocus={(e) => setCheckPwSelected(true)}
+          onBlur={(e) => setCheckPwSelected(false)}
+        />
+        {!checkSamePw && checkPw.length > 4 ? (
+          <Box>
+            <Typography
+              sx={{
+                color: '#F75015',
+                fontSize: '9pt',
+              }}
+            >
+              비밀번호를 확인해주세요
+            </Typography>
+          </Box>
+        ) : (
+          <></>
+        )}
+      </Box>
+      <Btn
+        isClick={
+          checkPw.length > 9 && pwInput.length > 9 && pwInput === checkPw
+            ? true
+            : false
+        }
+        handleClick={handleClick}
+        marginTop="33.75"
+        text={'수정 완료'}
+      />
+    </Wrapper>
   );
 };
 

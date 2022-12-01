@@ -36,7 +36,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const key: Key = JSON.parse(localStorage.getItem('key')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile } = useProfile(accessToken);
-  // 에러 모달
+  // 원버튼 모달
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   // 투버튼 모달
@@ -53,7 +53,10 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         setModalMessage('이메일로 인증번호가 전송되었습니다.');
         setIsModal(true);
       },
-      onError: () => {},
+      onError: () => {
+        setModalMessage('다시 입력해주세요.');
+        setIsModal(true);
+      },
     },
   );
   // 이메일 코드
@@ -80,6 +83,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       onSuccess: (res) => {
         console.log(res);
         // console.log(res.data.authCode);
+        setIsTwoBtnModal(false);
         setModalMessage('담당자가 변경되었습니다.');
         setIsModal(true);
       },
