@@ -30,13 +30,12 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
   const webHandleNum = (idx: number) => {
     setWebIdx(idx);
   };
+
   // 오른쪽 큰 이미지
   const DataFilter =
-    data?.preQuotation.preQuotationChargers[chargeIdx]?.chargerImageFiles[
+    data?.preQuotation?.preQuotationChargers[chargeIdx]?.chargerImageFiles[
       webIdx
-    ].url;
-
-  console.log(`isSpot이 뭔데?`, isSpot);
+    ]?.url;
 
   return (
     <Wrapper>
@@ -453,6 +452,7 @@ const Section = styled.section<{ imgBox?: boolean; pb?: number }>`
 
   @media (min-width: 900pt) {
     overflow-x: scroll;
+
     :not(:last-child) {
       border-bottom: 0;
       padding-bottom: 0;

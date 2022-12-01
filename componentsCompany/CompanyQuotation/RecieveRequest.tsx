@@ -101,7 +101,7 @@ const RecieveRequest = ({
 
 const ContentsContainer = styled.div`
   margin-top: 18pt;
-  
+
   padding-bottom: 75pt;
   @media (min-width: 900pt) {
     width: 580.5pt;
@@ -117,6 +117,10 @@ const Contents = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
+  @media (min-width: 900pt) {
+    border: 1px solid red;
+    padding: 24pt 13.5pt;
+  }
 `;
 
 const DdayBox = styled.div`

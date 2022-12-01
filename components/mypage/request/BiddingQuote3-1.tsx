@@ -198,6 +198,7 @@ const GridImg = styled.div`
   grid-template-columns: repeat(4, 1fr);
   padding-top: 15pt;
   gap: 6pt;
+  cursor: pointer;
 `;
 const GridItem = styled.div`
   background-color: blue;

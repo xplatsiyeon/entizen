@@ -434,7 +434,6 @@ const Wrap1 = styled.div`
   border: 1px solid #e9eaee;
   border-radius: 6pt;
   height: 100%;
-
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -449,6 +448,10 @@ const Wrap2 = styled.div`
     padding-left: 0pt;
     padding-bottom: 50pt;
   }
+
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+  }
 `;
 const TextBox = styled.div`
   width: 100%;
@@ -458,6 +461,7 @@ const TextBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   & > div {
     font-weight: 500;
     font-size: 12pt;
@@ -466,7 +470,10 @@ const TextBox = styled.div`
     color: ${colors.lightGray3};
   }
   @media (max-width: 899.25pt) {
-    padding-top: 75pt;
+    padding-top: 25pt;
+  }
+  @media (min-width: 900pt) {
+    margin-top: 57pt;
   }
 `;
 
@@ -487,7 +494,8 @@ const ButtonBox = styled.div`
   justify-content: space-between;
   gap: 11.25pt;
   width: 100%;
-  padding: 63pt 15pt 107.25pt 15pt;
+  /* padding: 63pt 15pt 107.25pt 15pt; */
+  padding: 50pt 15pt 50pt 15pt;
 `;
 const Button = styled.button<{ isWhite: boolean }>`
   padding: 15pt 19.5pt;

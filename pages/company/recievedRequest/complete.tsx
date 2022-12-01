@@ -33,6 +33,7 @@ const complete = (props: Props) => {
         buttonText="보낸 견적 바로가기"
         handleOnClick={onClickFn}
         title={'고객에게 전달 완료!'}
+        user={'seller'}
       />
       <WebFooter />
     </>
