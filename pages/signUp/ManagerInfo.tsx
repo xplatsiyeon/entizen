@@ -196,15 +196,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   }, [email, authCode, name]);
   return (
     <Wrapper>
-      {isModal && (
-        <Modal
-          text={modalMessage}
-          click={() => {
-            if (modalMessage === '담당자가 변경되었습니다.') {
-            }
-          }}
-        />
-      )}
+      {isModal && <Modal text={modalMessage} click={onClickModal} />}
       {isTwoBtnModal && (
         <TwoBtnModal
           exit={TwoBtnModalExit}
