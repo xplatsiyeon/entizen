@@ -237,6 +237,11 @@ const Header = styled.header`
     width: 22.5pt;
     height: 22.5pt;
     text-align: end;
+    cursor: pointer;
+  }
+
+  @media (min-width: 900pt) {
+    padding: 42pt 28.5pt 0pt;
   }
 `;
 
@@ -252,12 +257,24 @@ const Body = styled.div`
     border: 0.75pt solid ${colors.main};
     border-radius: 12pt;
     padding: 6pt 9pt;
+    cursor: pointer;
+    @media (min-width: 900pt) {
+      margin-left: 28.5pt;
+    }
+  }
+
+  @media (min-width: 900pt) {
+    padding-top: 21pt;
   }
 `;
 const Line = styled.div`
   margin-top: 21pt;
   width: 100%;
   border-bottom: 3pt solid ${colors.gray3};
+
+  @media (min-width: 900pt) {
+    margin-top: 30pt;
+  }
 `;
 
 const MobileTabContainer = styled.div`

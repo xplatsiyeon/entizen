@@ -810,6 +810,7 @@ const WebFinButton = styled.button`
   color: white;
   border-radius: 6pt;
   margin-top: 12pt;
+  cursor: pointer;
   > span {
     left: 50%;
     top: 15pt;

@@ -21,14 +21,14 @@ export const modusign = (data: InProgressProjectsDetailResponse) => {
             excluded: false,
             signingMethod: {
               type: 'KAKAO',
-              value: '01049988965',
-              // value: data?.project?.userMember?.phone,
+              // value: '01049988965',
+              value: data?.project?.userMember?.phone,
             },
             signingDuration: 20160,
             locale: 'ko',
             role: '유저',
-            name: '문수정',
-            // name: data?.project?.userMember?.name,
+            // name: '문수정',
+            name: data?.project?.userMember?.name,
           },
           // 기업
           {

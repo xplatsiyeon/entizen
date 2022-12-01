@@ -92,7 +92,7 @@ const FinPage = () => {
       <Body>
         <WebHeader />
         <Inner>
-          <MypageHeader back={true} />
+          <MypageHeader exitBtn={true} handleOnClick={()=>router.push('/mypage?id=1')}/>
           <Wrap>
             <ContainerBox>
               <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />

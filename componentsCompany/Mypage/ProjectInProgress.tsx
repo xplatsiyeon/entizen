@@ -88,7 +88,7 @@ const ProjectInProgress = ({
       {componentId === undefined && (
         <div>
           {tabNumber === 0 && data?.inProgressProjects?.length! > 0 && (
-            <ContentsContainer>
+            <ContentsContainer className='???'>
               {data?.inProgressProjects?.map((el, index) => (
                 <div key={index}>
                   <Contents
@@ -135,6 +135,7 @@ const ContentsContainer = styled.div`
   margin-top: 21pt;
   padding-left: 15pt;
   padding-right: 15pt;
+  padding-bottom: 75pt;
   @media (min-width: 900pt) {
     display: grid;
     grid-template-columns: repeat(3, 178.5pt);
