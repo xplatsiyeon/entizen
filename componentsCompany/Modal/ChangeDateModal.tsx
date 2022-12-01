@@ -155,7 +155,9 @@ const ChangeDateModal = ({
     setContents(e.currentTarget.value);
   };
   // 목표일 변경
-  const onClickGoalDate = () => {
+  const onClickGoalDate = () => { if(!selectedDays){
+    alert('날짜를 선택해주세요')
+  }else{
     goalMutate({
       url: `/projects/${routerId}/goal-date`,
       data: {
@@ -164,6 +166,7 @@ const ChangeDateModal = ({
         goalDate: selectedDays?.replaceAll('.', '-'),
       },
     });
+  }
   };
 
   useEffect(() => {

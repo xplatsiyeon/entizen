@@ -158,6 +158,9 @@ const DateModal = ({
     }
   };
   const onClcikSubmitDate = () => {
+    if(!selectedDays){
+      alert('날짜를 선택해주세요')
+    }else{
     dateMutate({
       url: `/projects/${routerId}/goal-date`,
       data: {
@@ -165,6 +168,7 @@ const DateModal = ({
         goalDate: selectedDays.replaceAll('.', '-'),
       },
     });
+   }
   };
 
   const handleModalClose = (
