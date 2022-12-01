@@ -66,9 +66,9 @@ const Signin = () => {
   // 기본 로그인
   const originLogin = async () => {
     console.log('로그인 온클릭');
-    const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
+     const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
     // 로컬에서 사용할때만 활성화 시키기
-    // const ORIGIN_API = `/api/members/login`;
+    //const ORIGIN_API = `/api/members/login`;
     try {
       await axios({
         method: 'post',
@@ -113,13 +113,6 @@ const Signin = () => {
         });
     } catch (error: any) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
-    }
-  };
-
-  // key enter 이벤트
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (e.key === 'Enter') {
-      originLogin();
     }
   };
   // 네이버 로그인
@@ -404,17 +397,14 @@ const Signin = () => {
                       //비밀번호 입력값 변경
                       setPassword(e.target.value);
                     }}
-                    onKeyDown={handleKeyPress}
                     sx={{
                       marginTop: '9pt',
                     }}
                   />
                 </Box>
-
                 <LoginBtn onClick={originLogin}>
                   <BtnSpan>로그인</BtnSpan>
                 </LoginBtn>
-
                 <Box
                   sx={{
                     textAlign: 'center',
