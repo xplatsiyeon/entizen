@@ -189,7 +189,10 @@ const MypageDetail = () => {
             <TwoButton onClcikModal={onClcikModal} />
           )} */}
           <WebHide>
-            <TwoButton onClcikModal={onClcikModal} />
+            <TwoButton
+              onClcikModal={onClcikModal}
+              id={data?.companyMemberAdditionalInfo?.memberIdx!}
+            />
           </WebHide>
         </Wrapper>
       </Inner>
