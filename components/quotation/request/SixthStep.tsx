@@ -74,7 +74,7 @@ const purpose: Purpose[] = [
   },
 ];
 
-const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
+const PREDICTION_POST = `https://api.entizen.kr/api/quotations/prediction`;
 
 const SixthStep = ({ setTabNumber }: Props) => {
   const router = useRouter();

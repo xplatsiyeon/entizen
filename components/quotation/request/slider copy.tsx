@@ -56,12 +56,7 @@ const SliderSizes = ({
     minTotalSubscribePrice,
   } = quotationData.requestData!;
 
-
-  const setPriceByRate = (
-    target: any,
-    rate: any,
-    standardRate: any,
-  ) => {
+  const setPriceByRate = (target: any, rate: any, standardRate: any) => {
     // if (
     //   !isNaN(Math.round((target * rate) / standardRate)) &&
     //   Math.round((target * rate) / standardRate) !== 0
@@ -80,44 +75,44 @@ const SliderSizes = ({
 
   useEffect(() => {
     console.log(value);
-      const ret = {
-        maxSubscribePricePerMonth: setPriceByRate(
-          calculatedValue?.maxSubscribePricePerMonth,
-          value,
-          quotationData.requestData?.investRate,
-        ),
-        maxTotalSubscribePrice: setPriceByRate(
-          calculatedValue?.maxTotalSubscribePrice,
-          value,
-          quotationData.requestData?.investRate,
-        ),
-        minSubscribePricePerMonth: setPriceByRate(
-          calculatedValue?.minSubscribePricePerMonth,
-          value,
-          quotationData.requestData?.investRate,
-        ),
-        minTotalSubscribePrice: setPriceByRate(
-          calculatedValue?.minTotalSubscribePrice,
-          value,
-          quotationData.requestData?.investRate,
-        ),
-        investRate: value,
-      };
-      if (setCalculatedValue) {
-        setCalculatedValue({
-          maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
-          maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
-          minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
-          minTotalSubscribePrice: ret.minTotalSubscribePrice!,
-        });
-      }
+    const ret = {
+      maxSubscribePricePerMonth: setPriceByRate(
+        calculatedValue?.maxSubscribePricePerMonth,
+        value,
+        quotationData.requestData?.investRate,
+      ),
+      maxTotalSubscribePrice: setPriceByRate(
+        calculatedValue?.maxTotalSubscribePrice,
+        value,
+        quotationData.requestData?.investRate,
+      ),
+      minSubscribePricePerMonth: setPriceByRate(
+        calculatedValue?.minSubscribePricePerMonth,
+        value,
+        quotationData.requestData?.investRate,
+      ),
+      minTotalSubscribePrice: setPriceByRate(
+        calculatedValue?.minTotalSubscribePrice,
+        value,
+        quotationData.requestData?.investRate,
+      ),
+      investRate: value,
+    };
+    if (setCalculatedValue) {
+      setCalculatedValue({
+        maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
+        maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
+        minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
+        minTotalSubscribePrice: ret.minTotalSubscribePrice!,
+      });
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   // 간편 견적 포스트
   const predictionApi = async () => {
-    const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
+    const PREDICTION_POST = `https://api.entizen.kr/api/quotations/prediction`;
     try {
       await axios({
         method: 'post',

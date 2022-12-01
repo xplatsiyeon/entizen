@@ -83,7 +83,7 @@ const FindPassword = () => {
   const handleClick = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     // const memberIdx = JSON.parse(localStorage.getItem('MEMBER_IDX')!);
-    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
+    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members/password/${key.memberIdx}`;
     try {
       axios({
         method: 'patch',
@@ -151,7 +151,7 @@ const FindPassword = () => {
               />
             )}
             <Wrap>
-              <MypageHeader  back={true} title={'비밀번호 변경'}/>
+              <MypageHeader back={true} title={'비밀번호 변경'} />
             </Wrap>
 
             <Box
