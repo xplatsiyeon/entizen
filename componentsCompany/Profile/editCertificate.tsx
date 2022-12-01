@@ -1,4 +1,3 @@
-
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import Image from 'next/image';
@@ -8,37 +7,36 @@ import AddImg from 'public/images/add-img.svg';
 import CloseImg from 'public/images/XCircle.svg';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
-import { multerApi } from 'api';
+import { isTokenPatchApi, multerApi } from 'api';
 import { useMutation } from 'react-query';
 import { BusinessRegistrationType } from 'components/SignUp';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getByteSize } from 'utils/calculatePackage';
 import Modal from 'components/Modal/Modal';
 import FileSelectModal from 'components/Modal/FileSelectModal';
-import { WrapText } from '@mui/icons-material';
-
+import { Router, WrapText } from '@mui/icons-material';
+import { useRouter } from 'next/router';
+import Loader from 'components/Loader';
 
 type Props = {
-  setComponent : React.Dispatch<React.SetStateAction<number>>;
- }
+  setComponent: React.Dispatch<React.SetStateAction<number>>;
+};
 
-const EditCertificate =({setComponent}:Props)=>{
-
+const EditCertificate = ({ setComponent }: Props) => {
+  const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [businessRegistration, setBusinessRegistration] = useState<
     BusinessRegistrationType[]
   >([]);
-  
+
   const [fileModal, setFileModal] = useState<boolean>(false);
   const [imgPreview, setImgPreview] = useState<boolean>(false);
   const [filePreview, setFilePreview] = useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState('');
   const [isModal, setIsModal] = useState(false);
-
-
 
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -72,7 +70,30 @@ const EditCertificate =({setComponent}:Props)=>{
     },
   });
 
-
+  const { mutate: businessMutate, isLoading: businessLoading } = useMutation(
+    isTokenPatchApi,
+    {
+      onSuccess: () => {
+        setErrorMessage('사업자 등록증이 변경되었습니다.');
+        setIsModal(true);
+        router.replace('/');
+      },
+      onError: (error: any) => {
+        console.log(error);
+        setErrorMessage('사업자 등록증이 실패했습니다\n다시 시도 해주세요.');
+        setIsModal(true);
+        router.replace('/');
+      },
+    },
+  );
+  const onClickBtn = () => {
+    businessMutate({
+      url: '/members/businessRegistration',
+      data: {
+        businessRegistrationFiles: businessRegistration,
+      },
+    });
+  };
   // 파일 클릭
   const onClickFile = () => {
     fileRef?.current?.click();
@@ -85,7 +106,6 @@ const EditCertificate =({setComponent}:Props)=>{
     setFileModal(false);
     setImgPreview(true);
   };
-
   // 사진 || 파일 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -105,7 +125,7 @@ const EditCertificate =({setComponent}:Props)=>{
     multerImage(formData);
 
     /* 파일 올린 후 혹은 삭제 후, 똑같은 파일 올릴 수 있도록,*/
-    e.target.value ='';
+    e.target.value = '';
   };
 
   // 사진 || 파일 삭제
@@ -118,7 +138,7 @@ const EditCertificate =({setComponent}:Props)=>{
         return setBusinessRegistration(copyArr);
       }
     }
-  };  // 이미지 or 파일 클릭
+  }; // 이미지 or 파일 클릭
   const handleOnClick = () => {
     if (!imgPreview && !filePreview) {
       console.log('처음 클릭');
@@ -137,17 +157,27 @@ const EditCertificate =({setComponent}:Props)=>{
     setFileModal(false);
   };
 
-
   // 모달 클릭
   const onClickModal = () => {
-      setIsModal(false);
+    setIsModal(false);
   };
 
-    return(
-    <Body>
+  useEffect(() => {
+    if (businessRegistration.length < 1) {
+      setImgPreview(false);
+      setFilePreview(false);
+    }
+  }, [businessRegistration]);
+  console.log(businessRegistration);
 
-    {isModal && <Modal click={onClickModal} text={errorMessage} />}
-    {fileModal && (
+  if (businessLoading) {
+    return <Loader />;
+  }
+
+  return (
+    <Body>
+      {isModal && <Modal click={onClickModal} text={errorMessage} />}
+      {fileModal && (
         <FileSelectModal
           onClickFile={onClickFile}
           onClickPhoto={onClickPhoto}
@@ -155,9 +185,14 @@ const EditCertificate =({setComponent}:Props)=>{
         />
       )}
       <Wrap>
-     <Header handle={true} back={true} title="사업자 등록증 수정" handleOnClick={()=>setComponent(1)} />
-     </Wrap>
-     <RemainderInputBox>
+        <Header
+          handle={true}
+          back={true}
+          title="사업자 등록증 수정"
+          handleOnClick={() => setComponent(1)}
+        />
+      </Wrap>
+      <RemainderInputBox>
         <PhotosBox>
           <Form>
             <label>사업자 등록증</label>
@@ -189,9 +224,9 @@ const EditCertificate =({setComponent}:Props)=>{
             multiple
           />
           {/* <Img_Preview> */}
-          <div className="img-preview">
-            {imgPreview &&
-              businessRegistration?.map((item, index) => (
+          {imgPreview && (
+            <div className="img-preview">
+              {businessRegistration?.map((item, index) => (
                 <ImgSpan key={index} data-name={index}>
                   <Image
                     layout="fill"
@@ -214,11 +249,12 @@ const EditCertificate =({setComponent}:Props)=>{
                   </Xbox>
                 </ImgSpan>
               ))}
-          </div>
+            </div>
+          )}
           {/* <File_Preview> */}
-          <div className="file-preview">
-            {filePreview &&
-              businessRegistration?.map((item, index) => (
+          {filePreview && (
+            <div className="file-preview">
+              {businessRegistration?.map((item, index) => (
                 <FileBox key={index} data-name={index}>
                   <div className="file">
                     <div className="file-img">
@@ -240,30 +276,31 @@ const EditCertificate =({setComponent}:Props)=>{
                   </div>
                 </FileBox>
               ))}
-          </div>
+            </div>
+          )}
         </PhotosBox>
       </RemainderInputBox>
-      <Button>수정 완료</Button>
+      <Button onClick={onClickBtn}>수정 완료</Button>
     </Body>
-    )
-}
+  );
+};
 
 export default EditCertificate;
 
-const Wrap =styled.div`
+const Wrap = styled.div`
   margin-left: -15pt;
-`
-const Body =styled.div`
+`;
+const Body = styled.div`
   //height: 100vh;
-  margin: 0 15pt ;
+  margin: 0 15pt;
   position: relative;
-`
+`;
 const RemainderInputBox = styled.div`
   flex-direction: column;
   position: relative;
   display: flex;
   /* height: 100%; */
-  padding:0 0 58.6875pt;
+  padding: 0 0 58.6875pt;
   margin-top: 24pt;
   & .file-preview {
     display: flex;
@@ -272,7 +309,7 @@ const RemainderInputBox = styled.div`
     padding-bottom: 58.6875pt;
     gap: 9pt;
   }
-  .img-preview{
+  .img-preview {
     display: flex;
     width: 100%;
     gap: 6pt;
@@ -337,7 +374,6 @@ const File = styled.label`
   }
 `;
 
-
 const FileBox = styled.div`
   display: flex;
   align-items: center;
@@ -389,8 +425,11 @@ const FileBox = styled.div`
 
 const ImgSpan = styled.div`
   position: relative;
-  width: 56.0625pt;
+  /* width: 56.0625pt; */
   border-radius: 6pt;
+
+  width: 60pt;
+  height: 60pt;
 `;
 const Xbox = styled.div`
   position: absolute;
@@ -398,9 +437,9 @@ const Xbox = styled.div`
   right: -7pt;
 `;
 
-const Button =styled.button`
+const Button = styled.button`
   width: 100%;
-  background-color: #5221CB;
+  background-color: #5221cb;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 700;
@@ -408,9 +447,9 @@ const Button =styled.button`
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 15pt 0;
   border-radius: 6pt;
   position: absolute;
   bottom: 30pt;
-`
+`;

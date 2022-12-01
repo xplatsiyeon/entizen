@@ -15,7 +15,8 @@ import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
 import { useMutation } from 'react-query';
 import { isTokenPatchApi, isTokenPostApi } from 'api';
-
+import { JwtTokenType } from 'pages/signin';
+import jwt_decode from 'jwt-decode';
 interface Key {
   id: string;
   isMember: boolean;
@@ -46,6 +47,8 @@ const EditPW = ({ setComponent }: Props) => {
 
   const key: Key = JSON.parse(localStorage.getItem('key')!);
   const router = useRouter();
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const token: JwtTokenType = jwt_decode(accessToken);
 
   // 원버튼 모달
 
@@ -104,7 +107,7 @@ const EditPW = ({ setComponent }: Props) => {
   const handleClick = () => {
     console.log('check');
     passwordMutate({
-      url: `/members/password/${key?.memberIdx}`,
+      url: `/members/password/${token?.memberIdx}`,
       data: {
         oldPassword: beforePasswordInput,
         newPassword: password,

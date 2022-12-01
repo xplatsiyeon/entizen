@@ -98,42 +98,42 @@ const ProfileEditing = ({ setComponent }: Props) => {
     // let data = JSON.parse(key!);
     setComponent(2);
   };
-  // 나이스 인증
-  const fnPopup = (event: any) => {
-    console.log('나이스 인증');
-    console.log(event);
-    const { id } = event.currentTarget;
-    console.log(`id -> ${id}`);
-    if (typeof window !== 'object') return;
-    else {
-      window.open(
-        '',
-        'popupChk',
-        'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
-      );
-      let cloneDocument = document as any;
-      cloneDocument.form_chk.action =
-        'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-      cloneDocument.form_chk.target = 'popupChk';
-      cloneDocument.form_chk.submit();
-    }
-  };
-  // 나이스 인증
-  useEffect(() => {
-    axios({
-      method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
-      data: { memberType: token.memberType },
-    })
-      .then((res) => {
-        setData(res.data.executedData);
-      })
-      .catch((error) => {
-        console.error('나이스 인증 에러 발생');
-        console.error(error);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  // // 나이스 인증
+  // const fnPopup = (event: any) => {
+  //   console.log('나이스 인증');
+  //   console.log(event);
+  //   const { id } = event.currentTarget;
+  //   console.log(`id -> ${id}`);
+  //   if (typeof window !== 'object') return;
+  //   else {
+  //     window.open(
+  //       '',
+  //       'popupChk',
+  //       'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
+  //     );
+  //     let cloneDocument = document as any;
+  //     cloneDocument.form_chk.action =
+  //       'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
+  //     cloneDocument.form_chk.target = 'popupChk';
+  //     cloneDocument.form_chk.submit();
+  //   }
+  // };
+  // // // 나이스 인증
+  // useEffect(() => {
+  //   axios({
+  //     method: 'post',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
+  //     data: { memberType: token.memberType },
+  //   })
+  //     .then((res) => {
+  //       setData(res.data.executedData);
+  //     })
+  //     .catch((error) => {
+  //       console.error('나이스 인증 에러 발생');
+  //       console.error(error);
+  //     });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [data]);
 
   // sns 체크
   useEffect(() => {
@@ -212,7 +212,8 @@ const ProfileEditing = ({ setComponent }: Props) => {
               readOnly={true}
               onClick={() => setAddressOn(true)}
             />
-            <InputBtn onClick={() => setAddressOn(true)}>
+            {/* <InputBtn onClick={() => setAddressOn(true)}> */}
+            <InputBtn>
               <span>주소찾기</span>
             </InputBtn>
           </InputWrap>
@@ -230,20 +231,20 @@ const ProfileEditing = ({ setComponent }: Props) => {
             name="checkPw"
           />
         </Address>
-        <form name="form_chk" method="get">
+        {/* 나이스 인증 */}
+        {/* <form name="form_chk" method="get">
           <input type="hidden" name="m" value="checkplusService" />
-          {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
           <input type="hidden" id="encodeData" name="EncodeData" value={data} />
           <input type="hidden" name="recvMethodType" value="get" />
-          {/* <!-- 위에서 업체정보를 암호화 한 데이타입니다. --> */}
+          </form> */}
+        {/* <Div className="PW" onClick={fnPopup}> */}
+        <Div className="PW" onClick={HandlePassword}>
+          <span>비밀번호 변경</span>
+          <ImageWrap>
+            <Image src={arrowRight} layout="fill" />
+          </ImageWrap>
+        </Div>
 
-          <Div className="PW" onClick={fnPopup}>
-            <span>비밀번호 변경</span>
-            <ImageWrap>
-              <Image src={arrowRight} layout="fill" />
-            </ImageWrap>
-          </Div>
-        </form>
         <Div onClick={() => setComponent(3)}>
           <span>사업자 등록 변경</span>
           <ImageWrap>
@@ -251,9 +252,10 @@ const ProfileEditing = ({ setComponent }: Props) => {
           </ImageWrap>
         </Div>
 
-        <Buttons className="firstNextPage" onClick={HandlePassword}>
+        {/* 나이스 인증 */}
+        {/* <Buttons className="firstNextPage" onClick={HandlePassword}>
           숨겨진 비밀번호 버튼
-        </Buttons>
+        </Buttons> */}
       </Body>
       <Line />
 
