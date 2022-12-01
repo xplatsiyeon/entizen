@@ -165,7 +165,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
 
               {!checkSns && (
                 <>
-                  <form id="form_chk" method="get">
+                  <form name="form_chk" method="get">
                     <input type="hidden" name="m" value="checkplusService" />
                     {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
                     <input
