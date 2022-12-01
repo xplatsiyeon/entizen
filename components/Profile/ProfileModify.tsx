@@ -1,21 +1,26 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AvatarIcon from 'public/images/avatar.png';
 import AvatarPhoto from 'public/images/avatar-photo.png';
 import colors from 'styles/colors';
 import Arrow from 'public/guide/Arrow.svg';
-import { useRouter } from 'next/router';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useMutation } from 'react-query';
-import { isTokenPostApi, multerApi } from 'api';
+import { isTokenPatchApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import useProfile from 'hooks/useProfile';
 
-interface Components {
-  [key: number]: JSX.Element;
+export interface ImgFile {
+  originalName: string;
+  size: number;
+  url: string;
+}
+export interface UploadFileResponse {
+  isSuccess: boolean;
+  uploadedFiles: ImgFile[];
 }
 
 type Props = {
@@ -23,66 +28,75 @@ type Props = {
 };
 const TAG = 'components/Profile/ProfileModify.tsx';
 const ProfileModify = ({ setTabNumber }: Props) => {
-  const router = useRouter();
-  const passRef = useRef<HTMLFormElement>(null);
   const { selectedType } = useSelector((state: RootState) => state.selectType);
-  // const [id, setId] = useState('');
-  // const [name, setName] = useState('');
-  const [avatar, setAvatar] = useState<string>('');
   const [data, setData] = useState<any>();
   const [isPassword, setIsPassword] = useState(false);
   const [checkSns, setCheckSns] = useState<boolean>(false);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
-  const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
   const { mutate: profileMutae, isLoading: profileLoading } = useMutation(
-    isTokenPostApi,
+    isTokenPatchApi,
     {
-      onSuccess: () => {},
-      onError: () => {},
+      onSuccess: (res) => {
+        console.log(`🔥 이미지 변경 성공 ~line 53 ${TAG}`);
+        console.log(res);
+        invalidate();
+      },
+      onError: (error) => {
+        console.log(`🔥 이미지 변경 실패 ~line 57 ${TAG}`);
+        console.log(error);
+      },
     },
   );
 
-  const { mutate: multerMutae, isLoading: multerLoading } = useMutation(
-    multerApi,
-    {
-      onSuccess: (res) => {
-        console.log(' 👀 ~ line 95 multer onSuccess' + TAG);
-      },
-      onError: (error: any) => {
-        if (error.response.data.message) {
-          setErrorMessage(error.response.data.message);
-          setIsModal(true);
-        } else if (error.response.status === 413) {
-          setErrorMessage('용량이 너무 큽니다.');
-          setIsModal(true);
-        } else {
-          setErrorMessage('다시 시도해주세요');
-          setIsModal(true);
-        }
-      },
+  const { mutate: multerMutae, isLoading: multerLoading } = useMutation<
+    UploadFileResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      console.log(' 👀 ~ line 95 multer onSuccess' + TAG);
+      console.log(res);
+      profileMutae({
+        url: '/members/profile-image',
+        data: {
+          profileImageUrl: res?.uploadedFiles[0]?.url,
+        },
+      });
     },
-  );
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
 
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    const maxLength = 3;
+    const maxLength = 1;
     // max길이 보다 짧으면 멈춤
     // 이미지 미리보기
-    const fileReader: any = new FileReader();
-    if (!files) return;
-    fileReader.readAsDataURL(files[0]);
-    fileReader.onload = () => {
-      if (fileReader.readyState === 2) {
-        setAvatar(fileReader.result);
-      }
-    };
+    // const fileReader: any = new FileReader();
+    // if (!files) return;
+    // fileReader.readAsDataURL(files[0]);
+    // fileReader.onload = () => {
+    //   if (fileReader.readyState === 2) {
+    //     setAvatar(fileReader.result);
+    //   }
+    // };
     // 이미지 저장
     const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
@@ -90,7 +104,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
         break;
       }
       formData.append(
-        'businessRegistration', // 어디로 해야 할까
+        'profileImage', // 어디로 해야 할까
         files![i],
         encodeURIComponent(files![i].name),
       );
@@ -101,9 +115,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   const HandlePassword = async () => {
     let key = localStorage.getItem('key');
     let data = JSON.parse(key!);
-    console.log('---------비밀번호 변경 data입니다 ---------');
-    console.log(data);
-    // router.push('/profile/editing/password');
     setTabNumber(1);
   };
   // 나이스 인증
@@ -156,15 +167,11 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    console.log('여기임둥');
-    console.log(checkSns);
+    console.log(`☂️ SNS 멤버 확인 ~line 180 -> ${TAG}`);
     console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // // 유저 종보 받아오기
-  // useEffect(() => {
-  //   getUserInfo();
-  // }, []);
+
   return (
     <React.Fragment>
       {/* 에러 모달 */}
@@ -183,10 +190,16 @@ const ProfileModify = ({ setTabNumber }: Props) => {
               {/* 아바타 */}
               <div className="avatar-bg">
                 <Image
-                  src={avatar.length > 1 ? avatar : AvatarIcon}
+                  src={
+                    profile?.profileImageUrl?.length! > 1
+                      ? profile?.profileImageUrl!
+                      : AvatarIcon
+                  }
                   alt="avatar"
                   layout="fill"
                   className="test"
+                  priority={true}
+                  unoptimized={true}
                 />
               </div>
               {/* 포토 이미지 */}
