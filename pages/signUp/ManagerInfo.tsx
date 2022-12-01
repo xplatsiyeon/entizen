@@ -91,14 +91,10 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   );
   // 원버튼 모달 확인
   const onClickModal = () => {
-    switch (modalMessage) {
-      case '담당자가 변경되었습니다.':
-        setIsModal(false);
-        router.replace('/');
-        break;
-      default:
-        setIsModal(false);
-        break;
+    if (modalMessage === '담당자가 변경되었습니다.') {
+      router.replace('/');
+    } else {
+      setIsModal(false);
     }
   };
   // 투버튼 모달 나가기

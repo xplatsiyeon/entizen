@@ -100,14 +100,14 @@ const CompanyMainPage = ({ num, now }: Props) => {
           </Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
-            <span onClick={() => router.push('/profile/editing')}>
+          <WhetherLoginComplete onClick={() => router.push('/company/profile')}>
+            <span onClick={() => router.push('/company/profile')}>
               <label className="label">기업회원</label>
               {userID}
             </span>
             <span
               className="arrow-img"
-              onClick={() => router.push('/profile/editing')}
+              onClick={() => router.push('/company/profile')}
             >
               <Image src={whiteRight} alt="arrow" layout="fill" />
             </span>
