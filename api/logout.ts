@@ -37,7 +37,7 @@ export const KakaoLogout = () => {
 };
 // 일반회원 로그아웃
 export const handleLogoutOnClickModalClick = async () => {
-  const LOG_OUT_API = `https://test-api.entizen.kr/api/members/logout`;
+  const LOG_OUT_API = `https://api.entizen.kr/api/members/logout`;
   const isSns = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   try {
