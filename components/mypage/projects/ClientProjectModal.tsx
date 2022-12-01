@@ -8,6 +8,7 @@ import React from 'react';
 import colors from 'styles/colors';
 import changeArrow from 'public/images/date-change-arrow.png';
 import { getDayOfWeek } from 'utils/calculatePackage';
+import CommunicationBox from 'components/CommunicationBox';
 
 type Props = {
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -89,9 +90,10 @@ const ClientProjectModal = ({
           </DateBox>
         )}
         <ButtonBox>
-          <button onClick={() => alert('작업 중 입니다.')}>
-            <span>소통하기</span>
-          </button>
+          <CommunicationBox
+            text="소통하기"
+            id={data?.project.companyMember.memberIdx}
+          />
           <button
             onClick={
               type === 'change' ? onClickChangeData : onClickCompleteData
