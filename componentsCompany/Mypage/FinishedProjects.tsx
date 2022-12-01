@@ -152,6 +152,7 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   padding-top: 20.25pt;
+  padding-bottom: 75pt;
   display: flex;
   flex-direction: column;
   @media (min-width: 900pt) {

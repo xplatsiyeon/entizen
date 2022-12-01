@@ -92,7 +92,7 @@ const UnderBox = ({ id }: Props) => {
           <WebImageBox width={15} height={15}>
             <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
           </WebImageBox>
-          <WebTitle>고객과 소통하기</WebTitle>
+          <WebTitle onClick={() => onClickBtn(id)}>고객과 소통하기</WebTitle>
           <WebImageBox width={3.75} height={7.5}>
             <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
           </WebImageBox>
