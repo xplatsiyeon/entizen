@@ -95,7 +95,7 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 21pt 15pt 0 15pt;
+  padding: 42pt 28.5pt 0 28.5pt;
   & h1 {
     font-weight: 700;
     font-size: 21pt;
@@ -119,9 +119,9 @@ const Header = styled.header`
   }
 `;
 const Body = styled.div`
-  padding-top: 15pt;
+  padding-top: 21pt;
   .profile-icon {
-    margin-left: 15pt;
+    margin-left: 28pt;
     font-weight: 400;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -135,7 +135,7 @@ const Body = styled.div`
 `;
 const Line = styled.div`
   width: 90%;
-  margin: 21pt auto 60pt;
+  margin: 30pt auto 45pt;
   border-bottom: 3pt solid ${colors.gray3};
 `;
 const TabContainer = styled.div`

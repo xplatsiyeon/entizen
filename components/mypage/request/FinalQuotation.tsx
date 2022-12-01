@@ -170,6 +170,15 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           </>
         )}
       </List>
+      <Line />
+      <Section>
+        <FlexWrap2>
+          {/* 현장실사 결과 */}
+          <Label2>현장실사 결과</Label2>
+          <FeaturesList2>{finalQuotation?.spotInspectionResult}</FeaturesList2>
+        </FlexWrap2>
+      </Section>
+      <Line />
       <Section>
         <Subtitle>특장점</Subtitle>
         <FlexWrap>
@@ -201,6 +210,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           </FlexWrap>
         ))}
       </Section>
+      <Line />
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
@@ -221,6 +231,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           ))}
         </GridImg>
       </Section>
+      <Line />
       <Section className="underLine" pb={pb}>
         <Subtitle>충전기 카탈로그</Subtitle>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -266,9 +277,7 @@ const Title = styled.h1`
 const Section = styled.section<{ grid?: boolean; pb?: number }>`
   padding: 18pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
-  :not(:last-child) {
-    border-bottom: 0.75pt solid ${colors.lightGray};
-  }
+
   ${({ grid }) =>
     grid &&
     css`
@@ -282,7 +291,7 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
 const List = styled.ul`
   margin: 30pt 0 51pt;
   gap: 12pt;
-  border-bottom: 0.75pt solid ${colors.lightGray};
+  /* border-bottom: 0.75pt solid ${colors.lightGray}; */
   @media (max-width: 899.25pt) {
     margin: 30pt 15pt 0 15pt;
     padding-bottom: 18pt;
@@ -297,7 +306,7 @@ const MultiSection = styled.div`
   :nth-of-type(1) {
     padding-bottom: 18pt;
     margin-top: 18pt;
-    border-bottom: 0.75pt solid ${colors.lightGray};
+    /* border-bottom: 0.75pt solid ${colors.lightGray}; */
     border-top: 0.75pt solid ${colors.lightGray};
   }
 `;
@@ -354,6 +363,11 @@ const Subtitle = styled.h2`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  padding-bottom: 24pt;
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    line-height: 15pt;
+  }
 `;
 const FlexWrap = styled.div`
   display: flex;
@@ -366,6 +380,23 @@ const FlexWrap = styled.div`
     &:nth-of-type(2) {
       margin-top: 0;
     }
+  }
+`;
+const FlexWrap2 = styled.div`
+  display: flex;
+  flex-direction: row;
+  &:nth-of-type(2) {
+    margin-top: 61pt;
+  }
+  @media (max-width: 899.25pt) {
+    display: block;
+    &:nth-of-type(2) {
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 900pt) {
+    margin: 12pt 0;
   }
 `;
 const Label = styled.h3`
@@ -413,7 +444,7 @@ const GridImg = styled.div`
   grid-template-columns: repeat(4, 1fr);
   padding-top: 15pt;
   gap: 6pt;
-
+  cursor: pointer;
   @media (min-width: 900pt) {
     padding-left: 0;
   }
@@ -430,14 +461,15 @@ const GridItem = styled.div`
     height: 144pt;
   }
 `;
-const FileContainer = styled.div`
-  padding-top: 15pt;
-`;
+
 const FileDownloadBtn = styled(Button)`
   margin: 0 15pt 6pt 0;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 8px;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 24pt;
+  }
 `;
 const FileDownload = styled.a`
   text-decoration: none;
@@ -447,4 +479,48 @@ const FileDownload = styled.a`
   color: ${colors.gray2};
 `;
 
+const Line = styled.div`
+  border-bottom: 0.75pt solid #e9eaee;
+`;
+
+const TextResult = styled.div`
+  display: flex;
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+`;
+
+const Label2 = styled.div`
+  font-weight: 700;
+  font-size: 15pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  flex: 1;
+
+  @media (max-width: 899.25pt) {
+    flex: none;
+    font-size: 10.5pt;
+    line-height: 12pt;
+  }
+  @media (min-width: 900pt) {
+    padding-left: 0;
+  }
+`;
+
+const FeaturesList2 = styled.div`
+  list-style-type: decimal;
+  list-style-position: inside;
+  flex: 2;
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  @media (max-width: 899.25pt) {
+    flex: none;
+  }
+`;
 export default FinalQuotation;

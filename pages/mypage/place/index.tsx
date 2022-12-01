@@ -322,6 +322,7 @@ const BtnMob = styled.button`
 
 const BtnWeb = styled(BtnMob)`
   display: block;
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     display: none;
   }

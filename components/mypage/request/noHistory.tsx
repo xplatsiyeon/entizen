@@ -32,7 +32,7 @@ const NoHistory = ({ type }: Props) => {
       </Message>
       <Notice>
         {type === 'project'
-          ? `간단하고 다양한 견적을 무료로 비교해보고, 최적의 상품을 구독해보세요!`
+          ? `간단하고 다양한 견적을 무료로 비교해보고, \n 최적의 상품을 구독해보세요!`
           : `간단하고 다양한 견적을 무료로 비교해보고, \n 최적의 상품을 구독해보세요!`}
       </Notice>
       <Btn onClick={handlerBtn}>견적 요청하기</Btn>
@@ -47,6 +47,10 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  @media (max-width: 899.25pt) {
+  margin-bottom: 75pt;
+  }
 `;
 const ImgBox = styled.div`
   padding-top: 51pt;
@@ -74,11 +78,12 @@ const Notice = styled.p`
   letter-spacing: -0.02em;
   color: ${colors.lightGray3};
   white-space: pre;
-  padding: 9pt 63pt 0 63pt;
+  padding: 9pt 0pt;
   @media (min-width: 900pt) {
     font-size: 12pt;
     line-height: 18pt;
     white-space: pre-wrap;
+  padding: 9pt 63pt 0 63pt;
   }
 `;
 

@@ -61,6 +61,11 @@ const Modal = styled.div<{ border?: boolean }>`
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: ${({ border }) => (border ? '' : '22.5pt 22.5pt 0 0')};
   padding: 30pt 15pt;
+  @media (min-width: 900pt) {
+    border-radius: 12pt;
+    width: 324pt;
+    padding: 42pt 15pt;
+  }
 `;
 const H1 = styled.h1`
   white-space: pre-wrap;
@@ -87,6 +92,9 @@ const BtnBox = styled.div`
   display: flex;
   justify-content: center;
   gap: 9pt;
+  @media (min-width: 900pt) {
+    flex-direction: column;
+  }
 `;
 const LeftBtn = styled(Button)`
   background: ${colors.gray};
