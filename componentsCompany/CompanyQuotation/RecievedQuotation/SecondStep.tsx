@@ -19,8 +19,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
-import { useMutation } from 'react-query';
-import { isTokenPostApi, multerApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPostApi, isTokenPutApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import {
@@ -40,6 +40,8 @@ import {
   M7_LIST,
   M7_LIST_EN,
 } from 'assets/selectList';
+import { ProductListRepsonse } from 'componentsCompany/MyProductList/ProductList';
+import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 
 type Props = {
   tabNumber: number;
@@ -50,6 +52,7 @@ type Props = {
   maxIndex: number | undefined;
   routerId: string | string[];
   data: QuotationsDetailResponse;
+  editData: SentRequestResponse;
 };
 
 const TAG = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
@@ -63,6 +66,7 @@ const SecondStep = ({
   StepIndex,
   routerId,
   data,
+  editData,
 }: Props) => {
   // 사진을 위한 ref
   const dispatch = useDispatch();
@@ -75,20 +79,22 @@ const SecondStep = ({
     'OPERATION_BUSINESS_CARRIER_INPUT',
   ];
 
-  const chargerData: string[] = [
-    'LECS-007ADE',
-    'LECS-006ADE',
-    'LECS-005ADE',
-    'LECS-004ADE',
-  ];
   const charger =
     data?.receivedQuotationRequest?.quotationRequestChargers[StepIndex]!;
+  // 충전 요금 종류
   const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1);
+  // 충전 요금
   const [fee, setFee] = useState<string>('');
-  const [productItem, setProductItem] = useState<chargerData>('');
+  // 내 제품 리스트 종류
+  const [productItem, setProductItem] = useState<string>();
+  const [productId, setProductId] = useState<number>();
+  // 제조사
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
+  // 충전기 특장점
   const [chargeFeatures, setChargeFeatures] = useState<string>('');
+  // 사진 첨부
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
+  // 충전기 카탈로그
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
@@ -168,24 +174,62 @@ const SecondStep = ({
     },
   });
   // 보내기 POST API
-  const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
-    onSuccess: () => {
-      router.push('/company/recievedRequest/complete');
+  const { mutate: postMutate, isLoading: postLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: () => {
+        router.push('/company/recievedRequest/complete');
+      },
+      onError: (error: any) => {
+        const {
+          response: { data },
+        } = error;
+        if (data) {
+          setErrorMessage(data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
     },
-    onError: (error: any) => {
-      const {
-        response: { data },
-      } = error;
-      if (data) {
-        setErrorMessage(data.message);
-        setIsModal(true);
-      } else {
-        setErrorMessage('다시 시도해주세요');
-        setIsModal(true);
-        setNetworkError(true);
-      }
+  );
+  // 수정하기 Put API
+  const { mutate: putMutate, isLoading: putLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        router.push('/company/recievedRequest/complete');
+      },
+      onError: (error: any) => {
+        const {
+          response: { data },
+        } = error;
+        if (data) {
+          setErrorMessage(data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
     },
-  });
+  );
+  const {
+    data: productData,
+    isLoading: productIsLoading,
+    isError: productIsError,
+  } = useQuery<ProductListRepsonse>(
+    'productList',
+    () => isTokenGetApi('/products'),
+    {
+      cacheTime: Infinity,
+      staleTime: 5000,
+    },
+  );
+
   // 모달 클릭
   const onClickModal = () => {
     if (networkError) {
@@ -271,8 +315,9 @@ const SecondStep = ({
     }
   };
   // 셀렉트 박스 클릭
-  const onChangeSelectBox = (value: string) => {
-    setProductItem(value as chargerData);
+  const onChangeSelectBox = (value: string, idx: number) => {
+    setProductId(idx);
+    setProductItem(value);
   };
   // 이전 버튼
   const handlePrevBtn = () => {
@@ -341,7 +386,102 @@ const SecondStep = ({
     });
     dispatch(myEstimateAction.reset());
   };
+  // 수정하기 버튼
+  const onClickEdit = () => {
+    putMutate({
+      url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+      data: {
+        subscribePricePerMonth: subscribePricePerMonth,
+        constructionPeriod: constructionPeriod,
+        subscribeProductFeature: subscribeProductFeature,
+        chargers: [
+          ...newCharge.slice(0, maxIndex! - 1),
+          {
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
+          },
+        ],
+      },
+    });
+    dispatch(myEstimateAction.reset());
+  };
+  // 수정하기
+  useEffect(() => {
+    if (editData) {
+      const charger =
+        editData?.sendQuotationRequest?.preQuotation?.preQuotationCharger[
+          StepIndex
+        ];
+      const newImage = charger?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          preQuotationChargerIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+      const newFile = charger?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          preQuotationChargerIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
 
+      setChargeTypeNumber(chargeTypeListEn.indexOf(charger.chargePriceType));
+      setFee(charger.chargePrice?.toString()!);
+      setProductItem(charger.modelName);
+      setManufacturingCompany(charger.manufacturer);
+      setChargeFeatures(charger.productFeature);
+      setImgArr(newImage);
+      setFileArr(newFile);
+    }
+  }, [editData, StepIndex]);
+  // 내 제품 리스트 하단 내용
+  useEffect(() => {
+    if (productId) {
+      const targetProduct = productData?.chargerProduct.filter(
+        (e) => e.chargerProductIdx === productId,
+      )[0];
+
+      const newImage = targetProduct?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+      const newFile = targetProduct?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+
+      setManufacturingCompany(targetProduct?.manufacturer!);
+      setChargeFeatures(targetProduct?.feature!);
+      setImgArr(newImage!);
+      setFileArr(newFile!);
+    }
+  }, [productId]);
   // 다음버튼 유효성 검사
   useEffect(() => {
     if (chargeTypeNumber === 0 && manufacturingCompany !== '') {
@@ -402,10 +542,8 @@ const SecondStep = ({
     }
   }, [chargeTypeNumber]);
 
-  console.log('🔥 ~line 388 newCharge data 확인');
-  console.log(StepIndex);
-
-  console.log(newCharge);
+  // console.log('🔥 데이터 확인 ~line 426');
+  // console.log(productData);
 
   return (
     <>
@@ -484,10 +622,10 @@ const SecondStep = ({
         </TopBox>
         <SelectContainer>
           <SelectComponents
-            value={productItem}
-            option={chargerData}
+            value={productItem!}
             placeholder="충전기 종류"
-            onClickEvent={onChangeSelectBox}
+            productOption={productData?.chargerProduct!}
+            onClickProject={onChangeSelectBox}
           />
         </SelectContainer>
         <BottomInputBox>
@@ -577,7 +715,6 @@ const SecondStep = ({
               onChange={saveFile}
               multiple
             />
-
             {/* <File_Preview> */}
             <div className="file-preview">
               {fileArr?.map((item, index) => (
@@ -609,9 +746,15 @@ const SecondStep = ({
       <TwoBtn>
         <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
         {tabNumber === maxIndex ? (
-          <NextBtn canNext={canNext} onClick={onClickPost}>
-            보내기
-          </NextBtn>
+          editData ? (
+            <NextBtn canNext={canNext} onClick={onClickEdit}>
+              수정하기
+            </NextBtn>
+          ) : (
+            <NextBtn canNext={canNext} onClick={onClickPost}>
+              보내기
+            </NextBtn>
+          )
         ) : (
           <NextBtn canNext={canNext} onClick={handleNextBtn}>
             다음

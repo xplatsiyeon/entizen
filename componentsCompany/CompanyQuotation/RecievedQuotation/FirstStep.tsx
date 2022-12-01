@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
 import { inputPriceFormat } from 'utils/calculatePackage';
+import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 
 type Props = {
   tabNumber: number;
@@ -17,6 +18,7 @@ type Props = {
   setFirstPageTextArea: Dispatch<SetStateAction<string>>;
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
+  editData: SentRequestResponse;
 };
 
 const FirstStep = ({
@@ -30,6 +32,7 @@ const FirstStep = ({
   setFirstPageTextArea,
   canNext,
   SetCanNext,
+  editData,
 }: Props) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -55,6 +58,18 @@ const FirstStep = ({
       setTabNumber(tabNumber + 1);
     }
   };
+
+  useEffect(() => {
+    if (editData) {
+      const { preQuotation } = editData?.sendQuotationRequest;
+
+      setMonthleSubscribePrice(
+        preQuotation?.subscribePricePerMonth?.toString(),
+      );
+      setConstructionPeriod(preQuotation?.constructionPeriod?.toString());
+      setFirstPageTextArea(preQuotation?.subscribeProductFeature!);
+    }
+  }, [editData]);
 
   return (
     <Wrapper>

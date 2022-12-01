@@ -40,6 +40,7 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -136,7 +137,7 @@ const HeadOpenContent = () => {
     setNowHeight(window.innerHeight);
   };
   //  받은 요청 상세페이지 api 요청
-  const { data, isError, isLoading, refetch } = useQuery<
+  const { data, isError, isLoading, refetch, remove } = useQuery<
     QuotationsDetailResponse,
     AxiosError
   >(
@@ -146,115 +147,27 @@ const HeadOpenContent = () => {
         `/quotations/received-request/${router.query.quotationRequestIdx}`,
       ),
     {
-      enabled: router?.isReady,
+      enabled: router?.isReady && router?.query?.edit! ? false : true,
+    },
+  );
+  //  보낸 요청 상세페이지 api 요청 (수정에 필요한 데이터)
+  const {
+    data: editData,
+    isError: editError,
+    isLoading: editLoading,
+    remove: editRemove,
+    refetch: editRefetch,
+  } = useQuery<SentRequestResponse, AxiosError>(
+    'sent-request-detail',
+    () =>
+      isTokenGetApi(
+        `/quotations/sent-request/${router.query.quotationRequestIdx}`,
+      ),
+    {
+      enabled: router?.isReady && router?.query?.edit! ? true : false,
     },
   );
 
-  // step별 컴포넌트
-  const components: Components = {
-    // 기본
-    0: (
-      <WebContainer>
-        <FirstStep
-          tabNumber={tabNumber}
-          setTabNumber={setTabNumber}
-          monthlySubscribePrice={monthlySubscribePrice}
-          setMonthleSubscribePrice={setMonthleSubscribePrice}
-          constructionPeriod={constructionPeriod}
-          setConstructionPeriod={setConstructionPeriod}
-          firstPageTextArea={firstPageTextArea}
-          setFirstPageTextArea={setFirstPageTextArea}
-          canNext={canNext}
-          SetCanNext={SetCanNext}
-        />
-      </WebContainer>
-    ),
-    // 스텝 2
-    1: (
-      <WebContainer>
-        <SecondStep
-          tabNumber={tabNumber}
-          setTabNumber={setTabNumber}
-          canNext={canNext}
-          SetCanNext={SetCanNext}
-          StepIndex={0}
-          data={data!}
-          maxIndex={
-            data?.receivedQuotationRequest.quotationRequestChargers.length
-          }
-          routerId={routerId}
-        />
-      </WebContainer>
-    ),
-    // 스텝 3
-    2: (
-      <WebContainer>
-        <SecondStep
-          tabNumber={tabNumber}
-          setTabNumber={setTabNumber}
-          canNext={canNext}
-          SetCanNext={SetCanNext}
-          StepIndex={1}
-          data={data!}
-          maxIndex={
-            data?.receivedQuotationRequest.quotationRequestChargers.length
-          }
-          routerId={routerId}
-        />
-      </WebContainer>
-    ),
-    // 스텝 4
-    3: (
-      <WebContainer>
-        <SecondStep
-          tabNumber={tabNumber}
-          setTabNumber={setTabNumber}
-          canNext={canNext}
-          SetCanNext={SetCanNext}
-          StepIndex={2}
-          data={data!}
-          maxIndex={
-            data?.receivedQuotationRequest.quotationRequestChargers.length
-          }
-          routerId={routerId}
-        />
-      </WebContainer>
-    ),
-    // 스텝 5
-    4: (
-      <WebContainer>
-        <SecondStep
-          tabNumber={tabNumber}
-          setTabNumber={setTabNumber}
-          canNext={canNext}
-          SetCanNext={SetCanNext}
-          StepIndex={3}
-          data={data!}
-          maxIndex={
-            data?.receivedQuotationRequest.quotationRequestChargers.length
-          }
-          routerId={routerId}
-        />
-      </WebContainer>
-    ),
-    // 스텝 6
-    5: (
-      <WebContainer>
-        <SecondStep
-          tabNumber={tabNumber}
-          setTabNumber={setTabNumber}
-          canNext={canNext}
-          SetCanNext={SetCanNext}
-          StepIndex={4}
-          data={data!}
-          maxIndex={
-            data?.receivedQuotationRequest.quotationRequestChargers.length
-          }
-          routerId={routerId}
-        />
-      </WebContainer>
-    ),
-  };
   const handleClick = () => setOpen(!open);
   const handleBackClick = () => router.back();
   const changeRequest = () => setTabNumber(tabNumber + 1);
@@ -282,18 +195,158 @@ const HeadOpenContent = () => {
   }, [router]);
 
   useEffect(() => {
-    refetch();
+    if (!router?.query?.edit && router?.isReady) {
+      refetch();
+    }
   }, [router]);
+
+  useEffect(() => {
+    return () => {
+      remove();
+      editRemove();
+    };
+  }, []);
 
   if (isLoading) {
     return <Loader />;
   }
-  if (isError) {
-    return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
-  }
-  console.log('🔥 ~line 208 ~api data check! ' + TAG);
-  console.log(data);
+  // if (isError) {
+  //   return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
+  // }
+  console.log('🔥 ~line 208 ~editData! ' + TAG);
+  // console.log(data);
+  console.log(editData);
   // console.log(innerHeight);
+
+  const badge =
+    data?.receivedQuotationRequest.badge! ||
+    editData?.sendQuotationRequest?.badge!;
+  const installationAddress =
+    data?.receivedQuotationRequest.installationAddress! ||
+    editData?.sendQuotationRequest?.quotationRequest?.installationAddress;
+  const subscribeProduct =
+    data?.receivedQuotationRequest.subscribeProduct! ||
+    editData?.sendQuotationRequest?.quotationRequest?.subscribeProduct;
+  const subscribePeriod =
+    data?.receivedQuotationRequest.subscribePeriod! ||
+    editData?.sendQuotationRequest?.quotationRequest?.subscribePeriod;
+  const investRate =
+    data?.receivedQuotationRequest.investRate! ||
+    editData?.sendQuotationRequest?.quotationRequest?.investRate!;
+  const installationLocation =
+    data?.receivedQuotationRequest.installationLocation! ||
+    editData?.sendQuotationRequest?.quotationRequest?.installationLocation!;
+  const installationPurpose =
+    data?.receivedQuotationRequest.installationPurpose! ||
+    editData?.sendQuotationRequest?.quotationRequest?.installationPurpose!;
+  const etcRequest =
+    data?.receivedQuotationRequest?.etcRequest! ||
+    editData?.sendQuotationRequest?.quotationRequest?.etcRequest!;
+  const quotationRequestChargers =
+    data?.receivedQuotationRequest?.quotationRequestChargers! ||
+    editData?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers!;
+
+  // step별 컴포넌트
+  const components: Components = {
+    // 기본
+    0: (
+      <WebContainer>
+        <FirstStep
+          editData={editData!}
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          monthlySubscribePrice={monthlySubscribePrice}
+          setMonthleSubscribePrice={setMonthleSubscribePrice}
+          constructionPeriod={constructionPeriod}
+          setConstructionPeriod={setConstructionPeriod}
+          firstPageTextArea={firstPageTextArea}
+          setFirstPageTextArea={setFirstPageTextArea}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+        />
+      </WebContainer>
+    ),
+    // 스텝 2
+    1: (
+      <WebContainer>
+        <SecondStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+          StepIndex={0}
+          data={data!}
+          editData={editData!}
+          maxIndex={quotationRequestChargers?.length}
+          routerId={routerId}
+        />
+      </WebContainer>
+    ),
+    // 스텝 3
+    2: (
+      <WebContainer>
+        <SecondStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+          StepIndex={1}
+          data={data!}
+          editData={editData!}
+          maxIndex={quotationRequestChargers?.length}
+          routerId={routerId}
+        />
+      </WebContainer>
+    ),
+    // 스텝 4
+    3: (
+      <WebContainer>
+        <SecondStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+          StepIndex={2}
+          data={data!}
+          editData={editData!}
+          maxIndex={quotationRequestChargers?.length}
+          routerId={routerId}
+        />
+      </WebContainer>
+    ),
+    // 스텝 5
+    4: (
+      <WebContainer>
+        <SecondStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+          StepIndex={3}
+          data={data!}
+          editData={editData!}
+          maxIndex={quotationRequestChargers?.length}
+          routerId={routerId}
+        />
+      </WebContainer>
+    ),
+    // 스텝 6
+    5: (
+      <WebContainer>
+        <SecondStep
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          canNext={canNext}
+          SetCanNext={SetCanNext}
+          StepIndex={4}
+          data={data!}
+          editData={editData!}
+          maxIndex={quotationRequestChargers?.length}
+          routerId={routerId}
+        />
+      </WebContainer>
+    ),
+  };
   return (
     <>
       <WebBody>
@@ -348,15 +401,11 @@ const HeadOpenContent = () => {
                 <ItemButton onClick={handleClick}>
                   <StoreName>
                     <CommonBtns
-                      text={data?.receivedQuotationRequest.badge!}
-                      backgroundColor={HandleColor(
-                        data?.receivedQuotationRequest.badge!,
-                      )}
+                      text={badge}
+                      backgroundColor={HandleColor(badge)}
                     />
                     <div>
-                      <h1>
-                        {data?.receivedQuotationRequest.installationAddress!}
-                      </h1>
+                      <h1>{installationAddress}</h1>
                       {open ? (
                         <ArrowImg>
                           <Image
@@ -384,54 +433,57 @@ const HeadOpenContent = () => {
                             convertKo(
                               subscribeType,
                               subscribeTypeEn,
-                              data?.receivedQuotationRequest.subscribeProduct!,
+                              subscribeProduct,
+                            )}
+                          {/* 수정에 필요한 데이터 */}
+                          {editData &&
+                            convertKo(
+                              subscribeType,
+                              subscribeTypeEn,
+                              subscribeProduct,
                             )}
                         </span>
                       </div>
                       <div className="text-box">
                         <span className="name">구독기간</span>
                         <span className="text">
-                          {data?.receivedQuotationRequest.subscribePeriod!}개월
+                          {`${subscribePeriod} 개월`}
                         </span>
                       </div>
                       <div className="text-box">
                         <span className="name">수익지분</span>
                         <span className="text">
-                          {Number(data?.receivedQuotationRequest.investRate!) *
-                            100}{' '}
-                          %
+                          {`${Number(investRate!) * 100} %`}
                         </span>
                       </div>
-                      {data?.receivedQuotationRequest.quotationRequestChargers!.map(
-                        (item, index) => (
-                          <div className="text-box" key={index}>
-                            {index === 0 ? (
-                              <span className="name">충전기 종류 및 수량</span>
-                            ) : (
-                              <span className="name" />
-                            )}
-                            <span className="text">
-                              {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-                              <br />
-                              {item.standType
-                                ? `: ${convertKo(
-                                    M6_LIST,
-                                    M6_LIST_EN,
-                                    item.standType,
-                                  )}, ${convertKo(
-                                    M7_LIST,
-                                    M7_LIST_EN,
-                                    item.channel,
-                                  )}, ${item.count} 대`
-                                : `: ${convertKo(
-                                    M7_LIST,
-                                    M7_LIST_EN,
-                                    item.channel,
-                                  )}, ${item.count} 대`}
-                            </span>
-                          </div>
-                        ),
-                      )}
+                      {quotationRequestChargers?.map((item, index) => (
+                        <div className="text-box" key={index}>
+                          {index === 0 ? (
+                            <span className="name">충전기 종류 및 수량</span>
+                          ) : (
+                            <span className="name" />
+                          )}
+                          <span className="text">
+                            {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                            <br />
+                            {item.standType
+                              ? `: ${convertKo(
+                                  M6_LIST,
+                                  M6_LIST_EN,
+                                  item.standType,
+                                )}, ${convertKo(
+                                  M7_LIST,
+                                  M7_LIST_EN,
+                                  item.channel,
+                                )}, ${item.count} 대`
+                              : `: ${convertKo(
+                                  M7_LIST,
+                                  M7_LIST_EN,
+                                  item.channel,
+                                )}, ${item.count} 대`}
+                          </span>
+                        </div>
+                      ))}
 
                       <div className="text-box">
                         <span className="name">충전기 설치 위치</span>
@@ -440,8 +492,7 @@ const HeadOpenContent = () => {
                             convertKo(
                               location,
                               locationEn,
-                              data?.receivedQuotationRequest
-                                .installationLocation!,
+                              installationLocation,
                             )}
                         </span>
                       </div>
@@ -452,12 +503,11 @@ const HeadOpenContent = () => {
                             convertKo(
                               InstallationPurposeType,
                               InstallationPurposeTypeEn,
-                              data?.receivedQuotationRequest
-                                .installationPurpose!,
+                              installationPurpose,
                             )}
                         </span>
                       </div>
-                      {data?.receivedQuotationRequest?.etcRequest === '' ? (
+                      {etcRequest === '' ? (
                         <div className="text-box">
                           <span className="name">기타 요청사항</span>
                           <span className="text">없음</span>
@@ -466,9 +516,7 @@ const HeadOpenContent = () => {
                         <>
                           <div className="text-box">
                             <span className="name">기타 요청사항</span>
-                            <span className="text">
-                              {data?.receivedQuotationRequest?.etcRequest}
-                            </span>
+                            <span className="text">{etcRequest}</span>
                           </div>
                         </>
                       )}
@@ -481,9 +529,7 @@ const HeadOpenContent = () => {
                   <TabBox>
                     {Object.keys(components).map((tab, index) => (
                       <React.Fragment key={index}>
-                        {index <=
-                          data?.receivedQuotationRequest
-                            .quotationRequestChargers.length! && (
+                        {index <= quotationRequestChargers?.length! && (
                           <TabLine
                             idx={index.toString()}
                             num={tabNumber.toString()}

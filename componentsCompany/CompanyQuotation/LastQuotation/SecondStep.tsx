@@ -31,7 +31,6 @@ type Props = {
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   maxIndex: number | undefined;
-  routerId: string | string[];
   selectedOption: chargers[];
   setSelectedOption: Dispatch<SetStateAction<chargers[]>>;
   selectedOptionEn: chargers[];
@@ -46,7 +45,6 @@ const SecondStep = ({
   setTabNumber,
   canNext,
   SetCanNext,
-  routerId,
   selectedOptionEn,
   setSelectedOptionEn,
 }: Props) => {
