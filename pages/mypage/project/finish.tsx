@@ -15,6 +15,7 @@ import {
 import colors from 'styles/colors';
 import { changeDataFn } from 'utils/calculatePackage';
 import CheckImg from '/public/images/CheckCircle.svg';
+import useCreateChatting from 'hooks/useCreateChatting';
 
 const FinPage = () => {
   const router = useRouter();
@@ -52,9 +53,11 @@ const FinPage = () => {
 
   console.log(projectData?.project?.isApprovedByAdmin);
 
+
   const HandleOnClick = () => {
     if (type === 'commu') {
-      router.push('/');
+      const id = projectData?.project.companyMember.memberIdx;
+      router.push(`/chatting/${id}`);
     } else {
       router.push('/mypage');
     }
@@ -89,7 +92,7 @@ const FinPage = () => {
       <Body>
         <WebHeader />
         <Inner>
-          <MypageHeader back={true} />
+          <MypageHeader exitBtn={true} handleOnClick={()=>router.push('/mypage?id=1')}/>
           <Wrap>
             <ContainerBox>
               <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />

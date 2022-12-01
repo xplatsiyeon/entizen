@@ -14,7 +14,7 @@ import CloseImg from 'public/images/XCircle.svg';
 import { useRouter } from 'next/router';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
-import { isTokenPostApi, multerApi } from 'api';
+import { isTokenPostApi, isTokenPutApi, multerApi } from 'api';
 import { useMutation } from 'react-query';
 import { chargers } from 'storeCompany/finalQuotation';
 import Modal from 'components/Modal/Modal';
@@ -68,6 +68,8 @@ const ThirdStep = ({
   subscribeProductFeature,
 }: Props) => {
   const router = useRouter();
+
+  const routerId = router?.query?.finalQuotationIdx!;
   const fileRef = useRef<HTMLInputElement>(null);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
@@ -123,6 +125,33 @@ const ThirdStep = ({
       }
     },
   });
+  // 보내기 POST API
+  const { mutate: putMutate, isLoading: putLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        router.push({
+          pathname: '/company/sentProvisionalQuotation',
+          query: {
+            preQuotationIdx: preQuotationIdx,
+          },
+        });
+      },
+      onError: (error: any) => {
+        const {
+          response: { data },
+        } = error;
+        if (data) {
+          setErrorMessage(data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
+    },
+  );
   //파일 온클릭
   const handleFileClick = () => {
     fileRef?.current?.click();
@@ -165,11 +194,39 @@ const ThirdStep = ({
     delete obj.idx;
     return obj;
   });
-
+  // 보내기 API 함수
   const onClickPost = () => {
     if (canNext) {
       postMutate({
         url: '/quotations/final',
+        data: {
+          quotationRequestIdx: quotationRequestIdx,
+          preQuotationIdx: preQuotationIdx,
+          subscribeProduct: convertEn(
+            subscribeType,
+            subscribeTypeEn,
+            subscribeProduct,
+          ),
+          subscribePeriod: subscribePeriod.slice(0, 2),
+          userInvestRate: Number(userInvestRate) / 100 + '',
+          chargingPointRate: Number(chargingPointRate) / 100 + '',
+          subscribePricePerMonth: Number(
+            subscribePricePerMonth.replaceAll(',', ''),
+          ),
+          chargers: changeCharger,
+          detailQuotationFiles: BusinessRegistration,
+          constructionPeriod: constructionPeriod,
+          spotInspectionResult: spotInspectionResult,
+          subscribeProductFeature: subscribeProductFeature,
+        },
+      });
+    }
+  };
+  // 수정하기 API 함수
+  const onClickPut = () => {
+    if (canNext) {
+      putMutate({
+        url: `/quotations/final/${routerId}`,
         data: {
           quotationRequestIdx: quotationRequestIdx,
           preQuotationIdx: preQuotationIdx,
@@ -292,9 +349,16 @@ const ThirdStep = ({
           </RemainderInputBoxs>
           <TwoBtn>
             <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-            <NextBtn canNext={canNext} onClick={onClickPost}>
-              보내기
-            </NextBtn>
+
+            {routerId ? (
+              <NextBtn canNext={canNext} onClick={onClickPut}>
+                수정하기
+              </NextBtn>
+            ) : (
+              <NextBtn canNext={canNext} onClick={onClickPost}>
+                보내기
+              </NextBtn>
+            )}
           </TwoBtn>
         </Wrapper>
       </WebRapper>

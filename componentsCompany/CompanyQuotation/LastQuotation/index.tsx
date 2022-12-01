@@ -11,7 +11,6 @@ import { isTokenGetApi } from 'api';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
-import Loader from 'components/Loader';
 import { convertKo } from 'utils/calculatePackage';
 import {
   M5_LIST,
@@ -34,7 +33,6 @@ interface Components {
   [key: number]: JSX.Element;
 }
 export type SubscribeProduct = '' | '전체구독' | '부분구독';
-
 export interface MutateData {
   quotationRequestIdx: number;
   preQuotationIdx: number;
@@ -51,9 +49,11 @@ export interface MutateData {
 }
 
 type Props = {};
+const TAG = 'components/CompanyQuotation/LastQuotation/index.tsx;';
 const LastWrite = (props: Props) => {
   const router = useRouter();
   const routerId = router?.query?.preQuotation;
+  const finalQuotationIdx = router?.query?.finalQuotationIdx!;
 
   // FirstStep 충전기 갯수
   const [chargeNum, setChargeNum] = useState<number>(0);
@@ -125,12 +125,221 @@ const LastWrite = (props: Props) => {
 
   // ----------- 보낸 견적 상세 페이지 api --------------
   const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
-    'company/',
+    'sent-request-detail',
     () => isTokenGetApi(`/quotations/sent-request/${routerId}`),
     {
       enabled: router?.isReady,
     },
   );
+
+  const preQuotation = data?.sendQuotationRequest?.preQuotation!;
+  const quotationRequest = data?.sendQuotationRequest?.quotationRequest!;
+  const businessRegistrationFiles =
+    data?.sendQuotationRequest?.companyMemberAdditionalInfo
+      ?.businessRegistrationFiles!;
+  const relocation = (
+    data: BusinessRegistrationType[],
+  ): BusinessRegistrationType[] => {
+    const result = data.map((obj) => {
+      return {
+        originalName: obj.originalName,
+        size: obj.size,
+        url: obj.url,
+      };
+    });
+    return result;
+  };
+  // 최종 견적 초기값 세팅
+  useEffect(() => {
+    console.log('🔥 ~line 258 보낸견적 상세 페이지 데이터');
+    console.log(data);
+    if (data && !finalQuotationIdx) {
+      console.log('수정 데이터 없다');
+      setSubscribeProduct(
+        convertKo(
+          subscribeType,
+          subscribeTypeEn,
+          quotationRequest.subscribeProduct,
+        ),
+      );
+      setSubscribePeriod(quotationRequest.subscribePeriod.toString());
+      setProfitableInterestUser(
+        Math.floor(Number(quotationRequest.investRate) * 100).toString(),
+      );
+      setChargePoint(''); // 넣을 값이 없음
+      setSubscribePricePerMonth(preQuotation.subscribePricePerMonth.toString());
+      setConstructionPeriod(preQuotation.constructionPeriod.toString());
+      setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
+      setSubscribeProductFeature(preQuotation.subscribeProductFeature);
+      setBusinessRegistration(relocation(businessRegistrationFiles));
+      let count = 0;
+      const arr = [];
+      const arrEn = [];
+      // 충전기 부분 스텝 2~6
+      while (count < quotationRequest.quotationRequestChargers.length) {
+        const quotationCharger =
+          quotationRequest.quotationRequestChargers[count];
+        const preQutationCharger = preQuotation.preQuotationCharger[count];
+        // 한국어값 담기
+        const temp: chargers = {
+          idx: M5_LIST_EN.indexOf(quotationCharger.kind),
+          kind: convertKo(M5_LIST, M5_LIST_EN, quotationCharger.kind),
+          standType:
+            quotationCharger.standType === ''
+              ? '-'
+              : convertKo(M6_LIST, M6_LIST_EN, quotationCharger.standType),
+          channel: convertKo(M7_LIST, M7_LIST_EN, quotationCharger.channel),
+          count: convertKo(
+            M8_LIST,
+            M8_LIST_EN,
+            quotationCharger.count.toString(),
+          ),
+          chargePriceType: preQutationCharger.chargePriceType,
+          chargePrice: preQutationCharger.chargePrice.toString(),
+          installationLocation: quotationRequest.installationLocation,
+          modelName: preQutationCharger.modelName,
+          manufacturer: preQutationCharger.manufacturer,
+          productFeature: preQutationCharger.productFeature,
+          chargerImageFiles: relocation(preQutationCharger.chargerImageFiles),
+          catalogFiles: relocation(preQutationCharger.catalogFiles),
+        };
+        // 영어값 담기
+        const tempEn: chargers = {
+          idx: M5_LIST_EN.indexOf(quotationCharger.kind),
+          kind: quotationCharger.kind,
+          standType: quotationCharger.standType,
+          channel: quotationCharger.channel,
+          count: quotationCharger.count.toString(),
+          chargePriceType: preQutationCharger.chargePriceType,
+          chargePrice: preQutationCharger.chargePrice.toString(),
+          installationLocation: quotationRequest.installationLocation,
+          modelName: preQutationCharger.modelName,
+          manufacturer: preQutationCharger.manufacturer,
+          productFeature: preQutationCharger.productFeature,
+          chargerImageFiles: relocation(preQutationCharger.chargerImageFiles),
+          catalogFiles: relocation(preQutationCharger.catalogFiles),
+        };
+        arr.push(temp);
+        arrEn.push(tempEn);
+        count++;
+      }
+      setSelectedOption(arr);
+      setSelectedOptionEn(arrEn);
+    } else if (data && finalQuotationIdx) {
+      const { finalQuotation } = data?.sendQuotationRequest?.preQuotation;
+      setSubscribeProduct(
+        convertKo(
+          subscribeType,
+          subscribeTypeEn,
+          finalQuotation.subscribeProduct,
+        ),
+      );
+      setSubscribePeriod(finalQuotation.subscribePeriod.toString());
+      setProfitableInterestUser(
+        Math.floor(Number(finalQuotation.userInvestRate) * 100).toString(),
+      );
+      setChargePoint(
+        Math.floor(Number(finalQuotation.chargingPointRate) * 100).toString(),
+      ); // 넣을 값이 없음
+      setSubscribePricePerMonth(
+        finalQuotation.subscribePricePerMonth.toString(),
+      );
+      setConstructionPeriod(finalQuotation.constructionPeriod.toString());
+      setDueDiligenceResult(finalQuotation.spotInspectionResult);
+      setSubscribeProductFeature(finalQuotation.subscribeProductFeature);
+      setBusinessRegistration(
+        relocation(finalQuotation.finalQuotationDetailFiles),
+      );
+      let count = 0;
+      const arr = [];
+      const arrEn = [];
+      // 충전기 부분 스텝 2~6
+      while (count < finalQuotation.finalQuotationChargers.length) {
+        const finalQuotationCharger =
+          finalQuotation.finalQuotationChargers[count];
+
+        // 한국어값 담기
+        const temp: chargers = {
+          idx: M5_LIST_EN.indexOf(finalQuotationCharger.kind),
+          kind: convertKo(M5_LIST, M5_LIST_EN, finalQuotationCharger.kind),
+          standType:
+            finalQuotationCharger.standType === ''
+              ? '-'
+              : convertKo(M6_LIST, M6_LIST_EN, finalQuotationCharger.standType),
+          channel: convertKo(
+            M7_LIST,
+            M7_LIST_EN,
+            finalQuotationCharger.channel,
+          ),
+          count: convertKo(
+            M8_LIST,
+            M8_LIST_EN,
+            finalQuotationCharger.count.toString(),
+          ),
+
+          chargePriceType: finalQuotationCharger.chargePriceType,
+          chargePrice: finalQuotationCharger.chargePrice.toString(),
+          installationLocation: finalQuotationCharger.installationLocation,
+          modelName: finalQuotationCharger.modelName,
+          manufacturer: finalQuotationCharger.manufacturer,
+          productFeature: finalQuotationCharger.productFeature,
+          chargerImageFiles: relocation(
+            finalQuotationCharger.chargerImageFiles,
+          ),
+          catalogFiles: relocation(finalQuotationCharger.catalogFiles),
+        };
+        // 영어값 담기
+        const tempEn: chargers = {
+          idx: M5_LIST_EN.indexOf(finalQuotationCharger.kind),
+          kind: finalQuotationCharger.kind,
+          standType: finalQuotationCharger.standType,
+          channel: finalQuotationCharger.channel,
+          count: finalQuotationCharger.count.toString(),
+          chargePriceType: finalQuotationCharger.chargePriceType,
+          chargePrice: finalQuotationCharger.chargePrice.toString(),
+          installationLocation: finalQuotationCharger.installationLocation,
+          modelName: finalQuotationCharger.modelName,
+          manufacturer: finalQuotationCharger.manufacturer,
+          productFeature: finalQuotationCharger.productFeature,
+          chargerImageFiles: relocation(
+            finalQuotationCharger.chargerImageFiles,
+          ),
+          catalogFiles: relocation(finalQuotationCharger.catalogFiles),
+        };
+        arr.push(temp);
+        arrEn.push(tempEn);
+        count++;
+      }
+      setSelectedOption(arr);
+      setSelectedOptionEn(arrEn);
+    }
+  }, [data]);
+
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+  // LeftBox component 바꿔주는거
+  const [underNum, setUnderNum] = useState<number>();
+  // 실시간으로 width 받아오는 함수
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
+  useEffect(() => {
+    if (router.pathname === `/company/quotation/lastQuotation`) {
+      setOpenSubLink(false);
+    }
+  }, []);
+
+  console.log(data);
+  console.log(`⭐️ 보낸 견적 데이터 확인 ~263 -> ${TAG}`);
 
   const components: Components = {
     // 기본
@@ -172,7 +381,6 @@ const LastWrite = (props: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         maxIndex={selectedOption.length}
-        routerId={'1'}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         selectedOptionEn={selectedOptionEn}
@@ -187,7 +395,6 @@ const LastWrite = (props: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         maxIndex={selectedOption.length}
-        routerId={'1'}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         selectedOptionEn={selectedOptionEn}
@@ -202,7 +409,6 @@ const LastWrite = (props: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         maxIndex={selectedOption.length}
-        routerId={'1'}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         selectedOptionEn={selectedOptionEn}
@@ -217,7 +423,6 @@ const LastWrite = (props: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         maxIndex={selectedOption.length}
-        routerId={'1'}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         selectedOptionEn={selectedOptionEn}
@@ -232,7 +437,6 @@ const LastWrite = (props: Props) => {
         canNext={canNext}
         SetCanNext={SetCanNext}
         maxIndex={selectedOption.length}
-        routerId={'1'}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         selectedOptionEn={selectedOptionEn}
@@ -271,130 +475,6 @@ const LastWrite = (props: Props) => {
       />
     ),
   };
-
-  const preQuotation = data?.sendQuotationRequest?.preQuotation!;
-  const quotationRequest = data?.sendQuotationRequest?.quotationRequest!;
-  const businessRegistrationFiles =
-    data?.sendQuotationRequest?.companyMemberAdditionalInfo
-      ?.businessRegistrationFiles!;
-  const relocation = (
-    data: BusinessRegistrationType[],
-  ): BusinessRegistrationType[] => {
-    const result = data.map((obj) => {
-      return {
-        originalName: obj.originalName,
-        size: obj.size,
-        url: obj.url,
-      };
-    });
-    return result;
-  };
-  // 최종 견적 초기값 세팅
-  useEffect(() => {
-    console.log('🔥 ~line 258 보낸견적 상세 페이지 데이터');
-    console.log(data);
-    if (data) {
-      setSubscribeProduct(
-        convertKo(
-          subscribeType,
-          subscribeTypeEn,
-          quotationRequest.subscribeProduct,
-        ),
-      );
-      setSubscribePeriod(quotationRequest.subscribePeriod.toString());
-      setProfitableInterestUser(
-        Math.floor(Number(quotationRequest.investRate) * 100).toString(),
-      );
-      setChargePoint(''); // 넣을 값이 없음
-      setSubscribePricePerMonth(preQuotation.subscribePricePerMonth.toString());
-      setConstructionPeriod(preQuotation.constructionPeriod.toString());
-      setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
-      setSubscribeProductFeature(preQuotation.subscribeProductFeature);
-      setBusinessRegistration(relocation(businessRegistrationFiles));
-      let count = 0;
-      const arr = [];
-      const arrEn = [];
-      while (count < quotationRequest.quotationRequestChargers.length) {
-        const quotationCharger =
-          quotationRequest.quotationRequestChargers[count];
-        const preQutationCharger = preQuotation.preQuotationCharger[count];
-        // 한국어값 담기
-        const temp: chargers = {
-          idx: M5_LIST_EN.indexOf(quotationCharger.kind),
-          kind: convertKo(M5_LIST, M5_LIST_EN, quotationCharger.kind),
-          standType:
-            quotationCharger.standType === ''
-              ? '-'
-              : convertKo(M6_LIST, M6_LIST_EN, quotationCharger.standType),
-          channel: convertKo(M7_LIST, M7_LIST_EN, quotationCharger.channel),
-          count: convertKo(
-            M8_LIST,
-            M8_LIST_EN,
-            quotationCharger.count.toString(),
-          ),
-          chargePriceType: preQutationCharger.chargePriceType,
-          chargePrice: preQutationCharger.chargePrice.toString(),
-          installationLocation: quotationRequest.installationLocation,
-          modelName: preQutationCharger.modelName,
-          manufacturer: preQutationCharger.manufacturer,
-          productFeature: preQutationCharger.productFeature,
-          chargerImageFiles: relocation(preQutationCharger.chargerImageFiles),
-          catalogFiles: relocation(preQutationCharger.catalogFiles),
-        };
-        // 영어값 담기
-        const tempEn: chargers = {
-          idx: M5_LIST_EN.indexOf(quotationCharger.kind),
-          kind: quotationCharger.kind,
-          // standType:
-          //   quotationCharger.standType === ''
-          //     ? '-'
-          //     : quotationCharger.standType,
-          standType: quotationCharger.standType,
-          channel: quotationCharger.channel,
-          count: quotationCharger.count.toString(),
-          chargePriceType: preQutationCharger.chargePriceType,
-          chargePrice: preQutationCharger.chargePrice.toString(),
-          installationLocation: quotationRequest.installationLocation,
-          modelName: preQutationCharger.modelName,
-          manufacturer: preQutationCharger.manufacturer,
-          productFeature: preQutationCharger.productFeature,
-          chargerImageFiles: relocation(preQutationCharger.chargerImageFiles),
-          catalogFiles: relocation(preQutationCharger.catalogFiles),
-        };
-        arr.push(temp);
-        arrEn.push(tempEn);
-        count++;
-      }
-      setSelectedOption(arr);
-      setSelectedOptionEn(arrEn);
-    }
-  }, [data]);
-
-  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-
-  // 서브 카테고리 열렸는지 아닌지
-  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-
-  // LeftBox component 바꿔주는거
-  const [underNum, setUnderNum] = useState<number>();
-
-  // 실시간으로 width 받아오는 함수
-  const handleResize = () => {
-    setNowWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
-
-  useEffect(() => {
-    if (router.pathname === `/company/quotation/lastQuotation`) {
-      setOpenSubLink(false);
-    }
-  }, []);
 
   return (
     <>

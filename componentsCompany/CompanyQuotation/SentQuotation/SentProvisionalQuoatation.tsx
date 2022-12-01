@@ -9,12 +9,11 @@ import CommunicationIcon from 'public/images/communication-icon.svg';
 import TopBox from './TopBox';
 import BottomBox from './BottomBox';
 import { useRouter } from 'next/router';
-import { useMutation, useQuery } from 'react-query';
+import { Query, useMutation, useQuery } from 'react-query';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import FinalBottomBox from './FinalBottomBox';
 import Modal from 'components/Modal/Modal';
-import { chargerData } from 'storeCompany/finalQuotation';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/SignUp/header';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
@@ -40,7 +39,7 @@ export interface PreQuotationCharger {
     | 'PURCHASER_AUTONOMY'
     | 'OPERATION_BUSINESS_CARRIER_INPUT';
   chargePrice: number;
-  modelName: chargerData;
+  modelName: string;
   manufacturer: string;
   productFeature: string;
   preQuotationIdx: number;
@@ -79,14 +78,18 @@ export interface FinalQuotationChargers {
   standType: string;
   channel: string;
   count: number;
-  chargePriceType: string;
+  chargePriceType:
+    | ''
+    | 'PURCHASER_AUTONOMY'
+    | 'OPERATION_BUSINESS_CARRIER_INPUT';
   chargePrice: number;
-  installationLocation: string;
+  installationLocation: '' | 'OUTSIDE' | 'INSIDE';
   modelName: string;
   manufacturer: string;
   productFeature: string;
   finalQuotationIdx: number;
-  finalQuotationChargerFiles: FinalQuotationChargerFiles[];
+  chargerImageFiles: FinalQuotationChargerFiles[];
+  catalogFiles: FinalQuotationChargerFiles[];
 }
 export interface FinalQuotation {
   createdAt: string;
@@ -334,8 +337,8 @@ const SentQuoatationFirst = () => {
   }
   // console.log(TAG + '\n🔥 ~line 138 spotdata check');
   // console.log(spotData);
-  // console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
-  // console.log(data);
+  console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
+  console.log(data);
 
   return (
     <>
@@ -396,7 +399,21 @@ const SentQuoatationFirst = () => {
                 <FinalBottomBox data={data!} />
                 {data?.sendQuotationRequest?.badge === '낙찰대기 중' && (
                   <BtnBox>
-                    <EditBtn onClick={() => router.push('/')}>수정하기</EditBtn>
+                    <EditBtn
+                      onClick={() =>
+                        router.push({
+                          pathname: '/company/quotation/lastQuotation',
+                          query: {
+                            preQuotation: routerId,
+                            finalQuotationIdx:
+                              data?.sendQuotationRequest?.preQuotation
+                                ?.finalQuotation?.finalQuotationIdx,
+                          },
+                        })
+                      }
+                    >
+                      수정하기
+                    </EditBtn>
                   </BtnBox>
                 )}
               </>
@@ -406,7 +423,17 @@ const SentQuoatationFirst = () => {
               <>
                 <BottomBox data={data!} />
                 <BtnBox>
-                  <EditBtn onClick={() => router.push('/')}>
+                  <EditBtn
+                    onClick={() =>
+                      router.push({
+                        pathname: '/company/recievedRequest',
+                        query: {
+                          edit: true,
+                          quotationRequestIdx: routerId,
+                        },
+                      })
+                    }
+                  >
                     가견적 수정하기
                   </EditBtn>
                 </BtnBox>
@@ -664,6 +691,7 @@ const EditBtn = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: center;
+  cursor: pointer;
 `;
 
 const BtnBox = styled.div`

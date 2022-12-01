@@ -352,22 +352,34 @@ const ProductAddComponent = (props: Props) => {
   useEffect(() => {
     if (routerId && detailData?.isSuccess === true) {
       const preProduct = detailData?.chargerProduct!;
-      const chargerImg = preProduct?.chargerImageFiles.map((img: any) => {
-        delete img.createdAt;
-        delete img.productFileType;
-        delete img.chargerProductIdx;
-        delete img.chargerProductFileIdx;
-        return img;
+      const chargerImg = preProduct?.chargerImageFiles.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
       });
-      const chargerCatalog = preProduct?.chargerCatalogFiles.map(
-        (catalog: any) => {
-          delete catalog.createdAt;
-          delete catalog.productFileType;
-          delete catalog.chargerProductIdx;
-          delete catalog.chargerProductFileIdx;
-          return catalog;
-        },
-      );
+      const chargerCatalog = preProduct?.chargerCatalogFiles.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+
+      // preProduct?.chargerCatalogFiles.map(
+      //   (catalog: any) => {
+      //     delete catalog.createdAt;
+      //     delete catalog.productFileType;
+      //     delete catalog.chargerProductIdx;
+      //     delete catalog.chargerProductFileIdx;
+      //     return catalog;
+      //   },
+      // );
       setModelName(preProduct?.modelName);
       setChargerType(convertKo(M5_LIST, M5_LIST_EN, preProduct?.kind));
       setChargingChannel(convertKo(M7_LIST, M7_LIST_EN, preProduct?.channel));

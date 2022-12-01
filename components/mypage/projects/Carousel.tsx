@@ -63,6 +63,9 @@ const Wrapper = styled(Swiper)`
     background: rgba(0, 0, 0, 0.3);
     border-radius: 7.5pt;
   }
+  .swiper-wrapper{
+    width: 0;
+  }
 `;
 const Slider = styled(SwiperSlide)`
   .imgBox {

@@ -139,6 +139,7 @@ const SentRequest = ({}: Props) => {
 
 const ContentsContainer = styled.div`
   margin-top: 18pt;
+  padding-bottom: 75pt;
   @media (min-width: 900pt) {
     width: 580.5pt;
     margin: 0 auto;

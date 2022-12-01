@@ -8,6 +8,7 @@ import React from 'react';
 import colors from 'styles/colors';
 import changeArrow from 'public/images/date-change-arrow.png';
 import { getDayOfWeek } from 'utils/calculatePackage';
+import CommunicationBox from 'components/CommunicationBox';
 
 type Props = {
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -89,9 +90,10 @@ const ClientProjectModal = ({
           </DateBox>
         )}
         <ButtonBox>
-          <button onClick={() => alert('작업 중 입니다.')}>
-            <span>소통하기</span>
-          </button>
+          <CommunicationBox
+            text="소통하기"
+            id={data?.project.companyMember.memberIdx}
+          />
           <button
             onClick={
               type === 'change' ? onClickChangeData : onClickCompleteData
@@ -150,6 +152,9 @@ const P = styled.p`
   color: #222222;
   text-align: center;
   margin: 21pt 0 32pt;
+  @media (max-width: 899.25pt) {
+    margin: 21pt 24pt;
+  }
 `;
 
 const FinBox = styled.div`
@@ -157,6 +162,11 @@ const FinBox = styled.div`
   border: 1px solid #e9eaee;
   border-radius: 8px;
   text-align: center;
+
+  @media (max-width: 899.25pt) {
+    margin: 0 15pt;
+  }
+
 `;
 const DateBox = styled.div`
   .firstChild {
@@ -176,6 +186,7 @@ const ButtonBox = styled.div`
     line-height: 12pt;
     text-align: center;
     letter-spacing: -0.02em;
+    cursor: pointer;
 
     &:nth-of-type(1) {
       padding: 15pt 0;
@@ -192,6 +203,10 @@ const ButtonBox = styled.div`
       color: #ffffff;
     }
   }
+
+  @media (max-width: 899.25pt) {
+    margin: 30pt 15pt;
+  } 
 `;
 const PBox1 = styled.div`
   font-family: 'Spoqa Han Sans Neo';

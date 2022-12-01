@@ -6,6 +6,7 @@ import Image from 'next/image';
 import downArrow from 'public/images/downArrow.png';
 import checkImg from 'public/images/check-main1-img.png';
 import { Charger } from './mypage/as/AsRequestWrite';
+import { Products } from 'componentsCompany/MyProductList/ProductList';
 
 type FontSize = 'small' | 'medium' | 'large';
 type Props = {
@@ -13,9 +14,11 @@ type Props = {
   value: string;
   option?: string[];
   asOption?: Charger[];
+  productOption?: Products[];
   onClickCharger?: (item: string, name: string, index: number) => void;
   onClickEvent?: (item: string) => void;
   onClickAs?: (data: Charger) => void;
+  onClickProject?: (data: string, idx: number) => void;
   name?: string;
   index?: number;
   fontSize?: FontSize;
@@ -27,8 +30,10 @@ const SelectComponents = ({
   onClickCharger,
   onClickEvent,
   onClickAs,
+  onClickProject,
   option,
   asOption,
+  productOption,
   name,
   index,
   fontSize = 'medium',
@@ -46,10 +51,17 @@ const SelectComponents = ({
     }
     await HandleOption();
   };
-
+  // AS 온클릭
   const onClickAsOption = async (data: Charger) => {
     if (onClickAs) {
       onClickAs(data);
+    }
+    await HandleOption();
+  };
+  // product 온클릭
+  const onClickProjectOption = async (data: Products) => {
+    if (onClickProject) {
+      onClickProject(data.modelName, data.chargerProductIdx);
     }
     await HandleOption();
   };
@@ -87,37 +99,57 @@ const SelectComponents = ({
       </SelectBox>
       {isOpen && (
         <Ul>
-          {asOption
-            ? asOption?.map((item, i) => (
-                <Li
-                  isSelected={value === item.projectName ? true : false}
-                  key={item.projectIdx}
-                  onClick={() => onClickAsOption(item)}
-                  fontSize={fontSize}
-                >
-                  {item.projectName}
-                  {value === item.projectName && (
-                    <span className="img-box">
-                      <Image src={checkImg} alt="check-img" layout="fill" />
-                    </span>
-                  )}
-                </Li>
-              ))
-            : option?.map((item, i) => (
-                <Li
-                  isSelected={value === item ? true : false}
-                  key={i}
-                  onClick={() => onClickOtion(item)}
-                  fontSize={fontSize}
-                >
-                  {item}
-                  {value === item && (
-                    <span className="img-box">
-                      <Image src={checkImg} alt="check-img" layout="fill" />
-                    </span>
-                  )}
-                </Li>
-              ))}
+          {/* 특수 케이스 (내제품 리스트) */}
+          {productOption &&
+            productOption?.map((item, i) => (
+              <Li
+                isSelected={value === item.modelName ? true : false}
+                key={item.chargerProductIdx}
+                onClick={() => onClickProjectOption(item)}
+                fontSize={fontSize}
+              >
+                {item.modelName}
+                {value === item.modelName && (
+                  <span className="img-box">
+                    <Image src={checkImg} alt="check-img" layout="fill" />
+                  </span>
+                )}
+              </Li>
+            ))}
+          {/* 특수 케이스 (AS) */}
+          {asOption &&
+            asOption?.map((item, i) => (
+              <Li
+                isSelected={value === item.projectName ? true : false}
+                key={item.projectIdx}
+                onClick={() => onClickAsOption(item)}
+                fontSize={fontSize}
+              >
+                {item.projectName}
+                {value === item.projectName && (
+                  <span className="img-box">
+                    <Image src={checkImg} alt="check-img" layout="fill" />
+                  </span>
+                )}
+              </Li>
+            ))}
+          {/* 일반 */}
+          {option &&
+            option?.map((item, i) => (
+              <Li
+                isSelected={value === item ? true : false}
+                key={i}
+                onClick={() => onClickOtion(item)}
+                fontSize={fontSize}
+              >
+                {item}
+                {value === item && (
+                  <span className="img-box">
+                    <Image src={checkImg} alt="check-img" layout="fill" />
+                  </span>
+                )}
+              </Li>
+            ))}
         </Ul>
       )}
     </Wrapper>
