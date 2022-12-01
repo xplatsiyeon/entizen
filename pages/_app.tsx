@@ -8,9 +8,40 @@ import rootReducer from 'store/store';
 import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+  gql,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient());
+
+  const httpLink = createHttpLink({
+    uri: 'https://api.entizen.kr/api/graphql',
+    credentials: 'same-origin',
+  });
+  const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    const token = localStorage.getItem('token');
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : '',
+      },
+    };
+  });
+
+  const client = new ApolloClient({
+    // link: authLink.concat(httpLink),
+    uri: 'https://api.entizen.kr/api/graphql',
+    cache: new InMemoryCache(),
+  });
+
   // 에러 캐싱 방지 (테스트 필요)
   useEffect(() => {
     const errorsKeys = queryClient
@@ -24,16 +55,19 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     };
   }, [queryClient]);
   return (
-    <QueryClientProvider client={queryClient}>
-      <PersistGate persistor={persistor} loading={<div>loading...</div>}>
-        <Head>
-          <meta charSet="utf-8" />
-          <title>Next Naver maps</title>
-        </Head>
-        <Component {...pageProps} />
-      </PersistGate>
-      <ReactQueryDevtools initialIsOpen={true} position="top-right" />
-    </QueryClientProvider>
+    <ApolloProvider client={client}>
+      <QueryClientProvider client={queryClient}>
+        <PersistGate persistor={persistor} loading={<div>loading...</div>}>
+          <Head>
+            <meta charSet="utf-8" />
+            <title>Next Naver maps</title>
+          </Head>
+          <Component {...pageProps} />
+        </PersistGate>
+        <ReactQueryDevtools initialIsOpen={true} />
+        {/* <ReactQueryDevtools initialIsOpen={true} position="top-right" /> */}
+      </QueryClientProvider>
+    </ApolloProvider>
   );
 };
 

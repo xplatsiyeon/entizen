@@ -26,6 +26,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
 import Modal from 'components/Modal/Modal';
+import UserRightMenu from 'components/UserRightMenu';
 
 export interface Option {
   idx: number;
@@ -195,7 +196,7 @@ const Guide1_2 = () => {
   // 버튼 온클릭
   const onClickButton = async () => {
     if (buttonActivate) {
-      const SUBSIDY_URL = 'https://test-api.entizen.kr/api/guide/subsidy';
+      const SUBSIDY_URL = 'https://api.entizen.kr/api/guide/subsidy';
       const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
       try {
         await axios({
@@ -278,6 +279,7 @@ const Guide1_2 = () => {
       )}
 
       <WebHeader />
+      <UserRightMenu />
       <Inner>
         <Wrapper>
           <GuideHeader
@@ -343,7 +345,7 @@ const Inner = styled.div`
   background: #ffff;
   padding: 32.25pt 0 42pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     position: relative;
     margin: 0 auto;
@@ -360,7 +362,7 @@ const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
     padding: 0 15pt 15pt 15pt;
@@ -399,7 +401,7 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : '#e2e5ed'};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
     width: 100%;

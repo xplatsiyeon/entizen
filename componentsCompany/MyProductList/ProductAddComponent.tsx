@@ -15,17 +15,29 @@ import { CHARGING_METHOD } from 'companyAssets/selectList';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { BusinessRegistrationType } from 'components/SignUp';
-import { useMutation } from 'react-query';
-import { isTokenPostApi, multerApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import {
+  isTokenGetApi,
+  isTokenPatchApi,
+  isTokenPostApi,
+  isTokenPutApi,
+  multerApi,
+} from 'api';
 import Modal from 'components/Modal/Modal';
 import { AxiosError } from 'axios';
-import { convertEn, getByteSize } from 'utils/calculatePackage';
+import { convertEn, convertKo, getByteSize } from 'utils/calculatePackage';
 import SelectComponents from 'components/Select';
+import { ProductDetailResponse } from './myProduct';
+import Loader from 'components/Loader';
 
 export interface ImgFile {
   originalName: string;
   size: number;
   url: string;
+  chargerProductFileIdx?: number | undefined;
+  chargerProductIdx?: number | undefined;
+  createdAt?: string | undefined;
+  productFileType?: string | undefined;
 }
 export interface MulterResponse {
   isSuccess: boolean;
@@ -36,6 +48,8 @@ type Props = {};
 const TAG = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
 const ProductAddComponent = (props: Props) => {
   const router = useRouter();
+  const routerId = router?.query?.chargerProductIdx;
+
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   // 모델명
@@ -60,22 +74,54 @@ const ProductAddComponent = (props: Props) => {
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const {
+    data: detailData,
+    isLoading: detailLoaidng,
+    isError: detailError,
+  } = useQuery<ProductDetailResponse>(
+    'product-detail',
+    () => isTokenGetApi(`/products/${routerId}`),
+    {
+      enabled: router?.isReady! && routerId ? true : false,
+    },
+  );
+  const { mutate: putMutate, isLoading: putLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        router.replace('/company/myProductList');
+      },
+      onError: (error: any) => {
+        if (error.response.data) {
+          setErrorMessage(error.response.data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
+    },
+  );
   // api 호출 (with react-query)
-  const { mutate: addProduct, isLoading } = useMutation(isTokenPostApi, {
-    onSuccess: () => {
-      router.push('/company/myProductList');
+  const { mutate: addProduct, isLoading: addProductLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: () => {
+        router.replace('/company/myProductList');
+      },
+      onError: (error: any) => {
+        if (error.response.data) {
+          setErrorMessage(error.response.data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
     },
-    onError: (error: any) => {
-      if (error.response.data) {
-        setErrorMessage(error.response.data.message);
-        setIsModal(true);
-      } else {
-        setErrorMessage('다시 시도해주세요');
-        setIsModal(true);
-        setNetworkError(true);
-      }
-    },
-  });
+  );
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
     MulterResponse,
@@ -152,7 +198,7 @@ const ProductAddComponent = (props: Props) => {
   };
 
   // SelectBox 값
-  const onChangeSelectBox = (value:string, name:string, index: number) => {
+  const onChangeSelectBox = (value: string, name: string, index: number) => {
     switch (name) {
       case 'kind':
         setChargerType(value);
@@ -184,6 +230,24 @@ const ProductAddComponent = (props: Props) => {
     const copy = [...chargingMethod];
     copy.splice(index, 1);
     setChargingMethod(copy);
+  };
+  // 수정하기 버튼
+  const onClickPutBtn = () => {
+    if (isValid) {
+      putMutate({
+        url: `/products/${routerId}`,
+        data: {
+          modelName: modelName,
+          chargerKind: convertEn(M5_LIST, M5_LIST_EN, chargerType), // 변환
+          chargerChannel: convertEn(M7_LIST, M7_LIST_EN, chargingChannel), // 변환
+          chargerMethods: chargingMethod,
+          manufacturer: manufacturer,
+          feature: advantages,
+          chargerImageFiles: imgArr,
+          catalogFiles: fileArr,
+        },
+      });
+    }
   };
   // 다음 버튼
   const buttonOnClick = () => {
@@ -228,7 +292,7 @@ const ProductAddComponent = (props: Props) => {
     multerImage(formData);
 
     /* 파일 올린 후 혹은 삭제 후, 똑같은 파일 올릴 수 있도록*/
-    e.target.value ='';
+    e.target.value = '';
   };
   // 사진 삭제
   const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -264,9 +328,8 @@ const ProductAddComponent = (props: Props) => {
     }
     multerFile(formData);
 
-
     /* 파일 올린 후 혹은 삭제 후, 똑같은 파일 올릴 수 있도록,*/
-    e.target.value ='';
+    e.target.value = '';
   };
 
   // 파일 삭제
@@ -285,6 +348,48 @@ const ProductAddComponent = (props: Props) => {
     const result = value.filter((e) => e === '');
     result.length >= 1 ? setIsValid(false) : setIsValid(true);
   }
+  // 수정하기 데이터 불러오기
+  useEffect(() => {
+    if (routerId && detailData?.isSuccess === true) {
+      const preProduct = detailData?.chargerProduct!;
+      const chargerImg = preProduct?.chargerImageFiles.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+      const chargerCatalog = preProduct?.chargerCatalogFiles.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+
+      // preProduct?.chargerCatalogFiles.map(
+      //   (catalog: any) => {
+      //     delete catalog.createdAt;
+      //     delete catalog.productFileType;
+      //     delete catalog.chargerProductIdx;
+      //     delete catalog.chargerProductFileIdx;
+      //     return catalog;
+      //   },
+      // );
+      setModelName(preProduct?.modelName);
+      setChargerType(convertKo(M5_LIST, M5_LIST_EN, preProduct?.kind));
+      setChargingChannel(convertKo(M7_LIST, M7_LIST_EN, preProduct?.channel));
+      setChargingMethod(preProduct?.method);
+      setManufacturer(preProduct?.manufacturer);
+      setAdvantages(preProduct?.feature);
+      setImgArr(chargerImg);
+      setFileArr(chargerCatalog);
+    }
+  }, [routerId]);
   // 테스트 useEffect
   useEffect(() => {
     validFn([
@@ -297,9 +402,21 @@ const ProductAddComponent = (props: Props) => {
   }, [modelName, chargerType, chargingChannel, chargingMethod, manufacturer]);
 
   useEffect(() => {
-    console.log(`🚀 ~ ${TAG} ~ line 292 ~ imgArr ~ decode`);
+    console.log('🚀 디테일 데이터 확인 라인 328 -> ' + TAG);
+    console.log(detailData);
+    console.log(modelName);
+    console.log(chargerType);
+    console.log(chargingChannel);
+    console.log(chargingMethod);
+    console.log(manufacturer);
+    console.log(advantages);
     console.log(imgArr);
+    console.log(fileArr);
   }, [imgArr]);
+
+  if (detailLoaidng) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -321,10 +438,16 @@ const ProductAddComponent = (props: Props) => {
           />
         </InputBox>
         {/* test */}
-          <LabelBox>
-            <RequiredLabel>충전기 종류</RequiredLabel>
-          </LabelBox>
-        <SelectComponents name='kind' option={M5_LIST} placeholder={"충전기 종류"} value={chargerType} onClickCharger={onChangeSelectBox}/>
+        <LabelBox>
+          <RequiredLabel>충전기 종류</RequiredLabel>
+        </LabelBox>
+        <SelectComponents
+          name="kind"
+          option={M5_LIST}
+          placeholder={'충전기 종류'}
+          value={chargerType}
+          onClickCharger={onChangeSelectBox}
+        />
         {/* 충전기 종류 */}
         {/* <InputBox>
           <SelectBox
@@ -345,41 +468,60 @@ const ProductAddComponent = (props: Props) => {
             ))}
           </SelectBox>
         </InputBox> */}
-        
+
         {/* 충전 채널 */}
-          <LabelBox>
-            <RequiredLabel>충전 채널</RequiredLabel>
-          </LabelBox>
+        <LabelBox>
+          <RequiredLabel>충전 채널</RequiredLabel>
+        </LabelBox>
 
-          <SelectComponents name='channel' option={M7_LIST} value={chargingChannel} placeholder={"충전기 채널"} onClickCharger={onChangeSelectBox}/>
-
+        <SelectComponents
+          name="channel"
+          option={M7_LIST}
+          value={chargingChannel}
+          placeholder={'충전기 채널'}
+          onClickCharger={onChangeSelectBox}
+        />
 
         {/* 충전방식 */}
-          <LabelBox>
-            <RequiredLabel>충전 방식</RequiredLabel>
-            <RightPlus onClick={handlePlusSelect}>
-              <Image src={plusIcon} alt="plusBtn" />
-            </RightPlus>
-          </LabelBox>
+        <LabelBox>
+          <RequiredLabel>충전 방식</RequiredLabel>
+          <RightPlus onClick={handlePlusSelect}>
+            <Image src={plusIcon} alt="plusBtn" />
+          </RightPlus>
+        </LabelBox>
 
-          {chargingMethod.length > 0 &&
-            chargingMethod?.map((el, index) => (
-              <React.Fragment key={index}>
-                {/* 원래 기본 */}
-                {index === 0 && (
-                  <SelectComponents name='chargingMethod' option={CHARGING_METHOD} value={chargingMethod[index]} index={index} placeholder={"충전 방식"} onClickCharger={onChangeSelectBox}/>
-                )}
-                {/* + 버튼 눌러서 추가되는 부분  */}
-                {index > 0 && (
-                  <PlusBox key={index}>
-                    <SelectComponents name='chargingMethod' option={CHARGING_METHOD} value={chargingMethod[index]} index={index} placeholder={"충전 방식"} onClickCharger={onChangeSelectBox}/>
-                    <DeleteBtn onClick={() => onClickMinus(index)}>
-                      <Image src={Xbtn} alt="delete" />
-                    </DeleteBtn>
-                  </PlusBox>
-                )}
-              </React.Fragment>
-            ))}
+        {chargingMethod.length > 0 &&
+          chargingMethod?.map((el, index) => (
+            <React.Fragment key={index}>
+              {/* 원래 기본 */}
+              {index === 0 && (
+                <SelectComponents
+                  name="chargingMethod"
+                  option={CHARGING_METHOD}
+                  value={chargingMethod[index]}
+                  index={index}
+                  placeholder={'충전 방식'}
+                  onClickCharger={onChangeSelectBox}
+                />
+              )}
+              {/* + 버튼 눌러서 추가되는 부분  */}
+              {index > 0 && (
+                <PlusBox key={index}>
+                  <SelectComponents
+                    name="chargingMethod"
+                    option={CHARGING_METHOD}
+                    value={chargingMethod[index]}
+                    index={index}
+                    placeholder={'충전 방식'}
+                    onClickCharger={onChangeSelectBox}
+                  />
+                  <DeleteBtn onClick={() => onClickMinus(index)}>
+                    <Image src={Xbtn} alt="delete" />
+                  </DeleteBtn>
+                </PlusBox>
+              )}
+            </React.Fragment>
+          ))}
         {/* 제조사 부분  */}
         <InputBox>
           <LabelBox>
@@ -497,9 +639,15 @@ const ProductAddComponent = (props: Props) => {
           </PhotosBoxs>
         </RemainderInputBoxs>
       </InputContainer>
-      <Btn buttonActivate={isValid} tabNumber={0} onClick={buttonOnClick}>
-        제품 등록하기
-      </Btn>
+      {routerId ? (
+        <Btn buttonActivate={isValid} tabNumber={0} onClick={onClickPutBtn}>
+          정보 수정하기
+        </Btn>
+      ) : (
+        <Btn buttonActivate={isValid} tabNumber={0} onClick={buttonOnClick}>
+          제품 등록하기
+        </Btn>
+      )}
     </>
   );
 };
@@ -520,23 +668,23 @@ const InputBox = styled.div`
 `;
 
 const LabelBox = styled.div`
-margin-top: 24pt;
-margin-bottom: 9pt;
-position: relative;
-`
+  margin-top: 24pt;
+  margin-bottom: 9pt;
+  position: relative;
+`;
 
 const RequiredLabel = styled.div`
-font-family: 'Spoqa Han Sans Neo';
-font-size: 10.5pt;
-font-weight: 700;
-line-height: 12pt;
-letter-spacing: -0.02em;
-text-align: left;
-&::after {
-  content: ' *';
-  margin-left: 1pt;
-  color: #f75015;
-}
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 10.5pt;
+  font-weight: 700;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  &::after {
+    content: ' *';
+    margin-left: 1pt;
+    color: #f75015;
+  }
 `;
 
 const RightLabel = styled.div`
@@ -673,7 +821,7 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     padding: 15pt 0 39pt 0;
   }

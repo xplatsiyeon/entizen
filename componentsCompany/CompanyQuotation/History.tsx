@@ -14,6 +14,7 @@ import useDebounce from 'hooks/useDebounce';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader';
+import WebSort from './WebSort';
 
 type Props = {};
 
@@ -33,7 +34,7 @@ interface Data {
   };
   badge: string;
 }
-interface HistoryResponse {
+export interface HistoryResponse {
   isSuccess: boolean;
   data: Data[];
 }
@@ -87,17 +88,29 @@ const History = ({}: Props) => {
         checkedFilterIndex={checkedFilterIndex}
         setcheckedFilterIndex={setcheckedFilterIndex}
       />
-      <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+      <TopContainer>
+        <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+        <WebSort
+          checkedFilter={checkedFilter}
+          setCheckedFilter={setCheckedFilter}
+          checkedFilterIndex={checkedFilterIndex}
+          setcheckedFilterIndex={setcheckedFilterIndex}
+        />
+      </TopContainer>
+
       <ContentsContainer>
         {data?.data?.map((data, index) => (
           <div key={index}>
             <Contents
               key={index}
-              onClick={() =>
-                router.push(
-                  `/company/sentProvisionalQuotation/${data?.preQuotation?.preQuotationIdx}`,
-                )
-              }
+              onClick={() => {
+                router.push({
+                  pathname: '/company/sentProvisionalQuotation',
+                  query: {
+                    historyIdx: data?.preQuotation?.preQuotationIdx,
+                  },
+                });
+              }}
             >
               <DdayNAddress>
                 <DdayBox>
@@ -123,8 +136,24 @@ const History = ({}: Props) => {
     </>
   );
 };
+
 const ContentsContainer = styled.div`
   margin-top: 18pt;
+  padding-bottom: 75pt;
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    margin: 0 auto;
+  }
+`;
+
+const TopContainer = styled.div`
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-bottom: 30pt;
+  }
 `;
 
 const Contents = styled.div`
@@ -146,7 +175,7 @@ const DdayNAddress = styled.div`
 `;
 
 const AddressBox = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   position: relative;
   font-size: 12pt;
   font-weight: 700;

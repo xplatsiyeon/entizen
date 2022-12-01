@@ -7,53 +7,59 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import RatingBar from './RatingBar';
 import colors from 'styles/colors';
 import { useDispatch } from 'react-redux';
-import { reviewAction } from 'store/reviewSlice';
+import { reviewAction } from 'storeCompany/reviewSlice';
 
 export interface Rating {
-  kind: number;
-  speed: number;
-  pro: number;
-  satisfy: number;
+  attentivenessPoint: number;
+  quicknessPoint: number;
+  professionalismPoint: number;
+  satisfactionPoint: number;
 }
 type Props = {
-  setModalOpen?: Dispatch<SetStateAction<boolean>> | undefined;
+  setModalOpen?: Dispatch<SetStateAction<boolean>>;
   modalOpen?: boolean;
+  setCheckedRequired?: Dispatch<SetStateAction<boolean>>;
+  checkedRequired?: boolean;
 };
 
-const AsRequestWriteReview = ({ setModalOpen, modalOpen }: Props) => {
+const AsRequestWriteReview = ({
+  setModalOpen,
+  modalOpen,
+  checkedRequired,
+  setCheckedRequired,
+}: Props) => {
   const [ratingScore, setRatingScore] = useState<Rating>({
-    kind: 0,
-    speed: 0,
-    pro: 0,
-    satisfy: 0,
+    attentivenessPoint: 0,
+    quicknessPoint: 0,
+    professionalismPoint: 0,
+    satisfactionPoint: 0,
   });
   const [reqeustText, setReqeustText] = useState<string>('');
-  const [checkedRequired, setCheckedRequired] = useState<boolean>(false);
+
   const dispatch = useDispatch();
   const handleTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReqeustText(() => e.target.value);
   };
   useEffect(() => {
     if (
-      ratingScore.kind +
-        ratingScore.speed +
-        ratingScore.pro +
-        ratingScore.satisfy >=
-        4 &&
-      reqeustText.length > 5
+      ratingScore.attentivenessPoint !== 0 &&
+      ratingScore.quicknessPoint !== 0 &&
+      ratingScore.professionalismPoint !== 0 &&
+      ratingScore.satisfactionPoint !== 0 &&
+      reqeustText.length !== 0
     ) {
       dispatch(
         reviewAction.write({
-          kind: ratingScore.kind,
-          speed: ratingScore.speed,
-          pro: ratingScore.pro,
-          satisfy: ratingScore.satisfy,
-          reviewText: reqeustText,
+          attentivenessPoint: ratingScore.attentivenessPoint,
+          quicknessPoint: ratingScore.quicknessPoint,
+          professionalismPoint: ratingScore.professionalismPoint,
+          satisfactionPoint: ratingScore.satisfactionPoint,
+          opinion: reqeustText,
         }),
       );
-      setCheckedRequired(true);
+      setCheckedRequired!(true);
     } else {
-      setCheckedRequired(false);
+      setCheckedRequired!(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ratingScore, reqeustText]);
@@ -98,24 +104,26 @@ const AsRequestWriteReview = ({ setModalOpen, modalOpen }: Props) => {
           required
         />
       </RatingForm>
-      <BtnBox>
-        <LeftBtn>건너뛰기</LeftBtn>
-        <RightBtn
-          onClick={() => setModalOpen && setModalOpen(!modalOpen)}
-          checkedRequired={checkedRequired}
-        >
-          보내기
-        </RightBtn>
-      </BtnBox>
+      {setModalOpen && (
+        <BtnBox>
+          <LeftBtn>건너뛰기</LeftBtn>
+          <RightBtn
+            onClick={() => setModalOpen && setModalOpen(!modalOpen)}
+            checkedRequired={checkedRequired!}
+          >
+            보내기
+          </RightBtn>
+        </BtnBox>
+      )}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   position: relative;
-  @media (max-width: 899pt) {
-    padding-left: 15pt;
-    padding-right: 15pt;
+  @media (max-width: 899.25pt) {
+    //padding-left: 15pt;
+    //padding-right: 15pt;
   }
 `;
 
@@ -123,17 +131,25 @@ const DownArrowBox = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 21pt;
+  display: none;
+  @media (max-width: 899.25pt) {
+    display: block;
+    text-align: center;
+  }
 `;
 
 const ReviewTitleBox = styled.div`
-  margin-top: 37.5pt;
+  margin-top: 0;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  @media (max-width: 899.25pt) {
+    margin-top: 37.5pt;
+  }
 `;
 
 const ReviewTitle = styled(Typography)`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 18pt;
   font-weight: 500;
   line-height: 24pt;
@@ -142,7 +158,7 @@ const ReviewTitle = styled(Typography)`
 `;
 
 const OpinionThanks = styled(Typography)`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 400;
   line-height: 15pt;
@@ -181,7 +197,10 @@ const BtnBox = styled.div`
   bottom: 0;
   display: flex;
   gap: 11.25pt;
-  padding-bottom: 30pt;
+  padding-bottom: 0pt;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 30pt;
+  }
 `;
 
 const RightBtn = styled.button<{ checkedRequired: boolean }>`
@@ -191,7 +210,7 @@ const RightBtn = styled.button<{ checkedRequired: boolean }>`
   background-color: ${({ checkedRequired }) =>
     checkedRequired ? `${colors.main}` : `${colors.blue3}`};
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
@@ -204,7 +223,7 @@ const LeftBtn = styled.button`
   border-radius: 6pt;
   background-color: ${colors.gray};
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;

@@ -21,7 +21,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
   return (
     <Container>
       <MypageHeader
-        title={'내 리뷰 보기'}
+        title={'A/S 리뷰 보기'}
         exitBtn={true}
         handleOnClick={handleOnClick}
       />
@@ -34,7 +34,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
                 <RBar
                   key={index}
                   className={
-                    index < reviewContent.kind
+                    index < reviewContent.attentivenessPoint
                       ? 'forRadius filled'
                       : 'forRadius'
                   }
@@ -51,7 +51,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
                 <RBar
                   key={index}
                   className={
-                    index < reviewContent.speed
+                    index < reviewContent.quicknessPoint
                       ? 'forRadius filled'
                       : 'forRadius'
                   }
@@ -68,7 +68,9 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
                 <RBar
                   key={index}
                   className={
-                    index < reviewContent.pro ? 'forRadius filled' : 'forRadius'
+                    index < reviewContent.professionalismPoint
+                      ? 'forRadius filled'
+                      : 'forRadius'
                   }
                 ></RBar>
               ))}
@@ -83,7 +85,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
                 <RBar
                   key={index}
                   className={
-                    index < reviewContent.satisfy
+                    index < reviewContent.satisfactionPoint
                       ? 'forRadius filled'
                       : 'forRadius'
                   }
@@ -95,7 +97,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
         <TextArea
           placeholder="[선택] 파트너의 어떤점이 기억에 남으시나요?"
           rows={8}
-          value={reviewContent.reviewText}
+          value={reviewContent.opinion}
           readOnly
         />
       </Wrapper>
@@ -103,6 +105,7 @@ const MyReviewModal = ({ setModalOpen, modalOpen }: Props) => {
   );
 };
 const Container = styled.div`
+  width: 100%;
   height: 100%;
   background-color: #ffffff;
   top: 0;
@@ -131,7 +134,7 @@ const RatingBarBox = styled.div`
 `;
 
 const RatingItem = styled.label`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 400;
   line-height: 12pt;

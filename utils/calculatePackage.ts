@@ -53,6 +53,7 @@ export const convertKo = (
   value: string | undefined,
 ) => {
   // return target.indexOf(value);
+  // console.log(value);
   if (value) {
     const index = arrEn.indexOf(value);
     return arr[index];
@@ -76,8 +77,60 @@ export const convertEn = (
 };
 
 // --------------휴대폰 하이픈 넣기-----------------------------
-export const HyphenFn = (target: string) => {
+export const hyphenFn = (target: string) => {
   return target
     ?.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
     ?.replace(/\-{1,2}$/g, '');
+};
+
+// ---------- 년월일 데이터 넣기 ------------------
+/**
+ * 백엔드 데이터 년월일 추가 해주는 함수
+ * @param target "2022-10-03"
+ */
+export const changeDataFn = (target: string) => {
+  if (target) {
+    const arrTarget = target.split('-');
+    const year = arrTarget[0] + '년';
+    const month = arrTarget[1] + '월';
+    const day = arrTarget[2] + '일';
+
+    return `${year} ${month} ${day}`;
+  } else {
+    return '';
+  }
+};
+
+// ---------- 요일 반환 함수 -------------
+/**
+ *
+ * @param data "2022-10-03"
+ * @returns "월" | "화" | "수" | "목" | "금" | "토" | "일"
+ *
+ */
+export const getDayOfWeek = (data: string) => {
+  const week = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const dayOfWeek = week[new Date(data).getDay()];
+
+  return dayOfWeek;
+};
+
+// ------------- 날짜 포맷 함수 -------------------
+/**
+ * 포맷형식 -> 년.월.일 시간:분
+ * @param date "2022-11-22T03:48:01.124Z"
+ * @returns "2022.11.22 03:48"
+ */
+export const dateFomat = (date: string) => {
+  let result = '';
+  if (date) {
+    result = date
+      .replace('T', ' ')
+      .replace(/\..*/, '')
+      .slice(0, -3)
+      .replaceAll('-', '.');
+  }
+
+  return result;
 };

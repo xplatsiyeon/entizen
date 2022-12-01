@@ -49,20 +49,20 @@ const Main = styled.div`
   flex-direction: column;
   padding: 45pt 15pt 0 15pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 27pt 15pt 0 15pt;
   }
 `;
 const ImageWrap = styled.div`
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;
 const ImageWrap2 = styled.div`
   display: block;
   width: 645pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;
@@ -80,7 +80,7 @@ const TextBox = styled(Box)`
     letter-spacing: -0.02em;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     margin: 24pt auto 0;
     .text-item {

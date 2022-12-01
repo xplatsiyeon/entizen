@@ -191,7 +191,7 @@ const SliderBox = styled.div`
 
 const Wrraper = styled.div`
   position: relative;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 96pt;
     padding: 0 15pt;
   }
@@ -285,7 +285,7 @@ const ChargeGuide = styled.div`
     width: 12pt;
     height: 12pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-left: 0;
   }
 `;
@@ -307,7 +307,7 @@ const NextBtn = styled.div<{
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     border-radius: 0;
     padding: 15pt 0 39pt 0;
   }
@@ -326,7 +326,7 @@ const PrevBtn = styled.div`
   background-color: ${colors.gray};
   border-radius: 6pt;
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     border-radius: 0;
     padding: 15pt 0 39pt 0;
   }
@@ -338,7 +338,7 @@ const TwoBtn = styled.div`
   left: 0;
   width: 100%;
   gap: 8.7pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     gap: 0;
   }

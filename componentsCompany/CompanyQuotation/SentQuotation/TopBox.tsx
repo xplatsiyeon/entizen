@@ -25,7 +25,7 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
-import { convertKo, HyphenFn } from 'utils/calculatePackage';
+import { convertKo, hyphenFn } from 'utils/calculatePackage';
 
 type Props = {
   open: boolean;
@@ -36,7 +36,7 @@ type Props = {
 };
 
 const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
-  console.log(data);
+  // console.log(data);
   return (
     <Wrapper>
       <ItemButton onClick={handleClick}>
@@ -170,7 +170,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
               <div className="text-box">
                 <span className="name">연락처</span>
                 <span className="text phone">
-                  {HyphenFn(
+                  {hyphenFn(
                     data?.sendQuotationRequest?.quotationRequest?.member?.phone,
                   )}
                 </span>
@@ -184,7 +184,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
 };
 
 const CustomerRequestContent = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 20px;
   font-weight: 700;
   line-height: 20px;
@@ -201,9 +201,10 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   margin-top: 15pt;
   border-top: 1px solid #e2e5ed;
-  @media (max-width: 899pt) {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 900pt) {
+    margin-top: 0;
   }
 `;
 

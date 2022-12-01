@@ -89,9 +89,9 @@ const Common = () => {
 export default Common;
 
 const Wrapper = styled.div`
-@media (max-width: 899pt) {
-padding-bottom: 180.75pt;
-}
+  @media (max-width: 899.25pt) {
+    padding-bottom: 180.75pt;
+  }
 `;
 const Container = styled.div``;
 const Title = styled.h3`

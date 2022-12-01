@@ -73,7 +73,7 @@ const FindPassword = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     let key = localStorage.getItem('key');
     let data = JSON.parse(key!);
-    const PROFILE_API = `https://test-api.entizen.kr/api/members/reset/password/${data.memberIdx}`;
+    const PROFILE_API = `https://api.entizen.kr/api/members/reset/password/${data.memberIdx}`;
     try {
       console.log('이름 =>   ' + data.name);
       console.log('번호 =>   ' + data.phone);
@@ -272,7 +272,7 @@ const Inner = styled.div`
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -302,7 +302,7 @@ const Wrapper = styled.div`
   position: relative;
   margin: 0pt 31.875pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     /* padding: 0 15pt 15pt 15pt; */
     margin: 0;

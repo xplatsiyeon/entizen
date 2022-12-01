@@ -19,8 +19,8 @@ type Props = {
 const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/CenterBox.tsx';
 // 날짜 정하기
 const CenterBox = ({ spotData, data }: Props) => {
-  console.log(TAG + '🔥 ~line 33 data 확인');
-  console.log(spotData);
+  // console.log(TAG + '🔥 ~line 33 data 확인');
+  // console.log(spotData);
 
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -37,9 +37,9 @@ const CenterBox = ({ spotData, data }: Props) => {
         </DownArrowBox>
 
         {/* ------------- 현장실사 가능 날짜 도착 알람 -------------*/}
-        {spotData?.data?.spotInspection?.isConfirmed === false &&
+        {spotData?.data?.hasReceivedSpotInspectionDates === true &&
           spotData?.data?.spotInspection?.isNewPropose === false &&
-          spotData?.data?.spotInspection !== null && (
+          spotData?.data?.spotInspection?.isConfirmed === false && (
             <ReservationDate>
               <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
               <div className="btnBox">
@@ -63,25 +63,42 @@ const CenterBox = ({ spotData, data }: Props) => {
               </div>
             </ReservationDate>
           )}
+
         {/* ------------ 일정변경 요청 -------------- */}
-        {spotData?.data?.spotInspection?.isNewPropose === true && (
-          <ReservationDateCheck>
-            <div className="text">일정 변경 요청이 들어왔습니다.</div>
-            <div className="btnBox">
-              <div className="checkBtn" onClick={() => setCheckFlow(true)}>
-                확인하기
+        {spotData?.data?.hasReceivedSpotInspectionDates === true &&
+          spotData?.data?.spotInspection?.isNewPropose === true &&
+          spotData?.data?.spotInspection?.isConfirmed === false && (
+            <ReservationDateCheck>
+              <div className="text">일정 변경 요청이 들어왔습니다.</div>
+              <div className="btnBox">
+                <div
+                  className="checkBtn"
+                  onClick={() =>
+                    router.push({
+                      pathname: '/company/datePick',
+                      query: {
+                        preQuotation:
+                          spotData.data.spotInspection.preQuotationIdx,
+                      },
+                    })
+                  }
+                >
+                  확인하기
+                </div>
               </div>
-            </div>
-          </ReservationDateCheck>
-        )}
+            </ReservationDateCheck>
+          )}
+
         {/* ----------- 현장실사 일정 확정 -------------- */}
-        {spotData?.data?.spotInspection?.isConfirmed === true &&
+        {spotData?.data?.hasReceivedSpotInspectionDates === false &&
+          spotData?.data?.spotInspection?.isNewPropose === false &&
+          spotData?.data?.spotInspection?.isConfirmed === true &&
           data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
             <>
               <ConfirmedReservation>
                 <div className="text">현장실사 일정이 확정되었습니다.</div>
                 <div className="date">
-                  {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
+                  {spotData?.data?.spotInspection?.spotInspectionDate[0]?.replaceAll(
                     '-',
                     '.',
                   )}
@@ -92,13 +109,15 @@ const CenterBox = ({ spotData, data }: Props) => {
             </>
           )}
         {/* ----------- 현장실사 완료 -------------- */}
-        {spotData?.data?.spotInspection?.isConfirmed === true &&
+        {spotData?.data?.hasReceivedSpotInspectionDates === false &&
+          spotData?.data?.spotInspection?.isNewPropose === false &&
+          spotData?.data?.spotInspection?.isConfirmed === true &&
           data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
             <>
               <ConfirmedReservation>
                 <div className="text">현장실사 완료</div>
                 <div className="date">
-                  {spotData?.data?.spotInspection?.spotInspectionDate[0].replaceAll(
+                  {spotData?.data?.spotInspection?.spotInspectionDate[0]?.replaceAll(
                     '-',
                     '.',
                   )}
@@ -109,9 +128,14 @@ const CenterBox = ({ spotData, data }: Props) => {
             </>
           )}
         {/* 최종견적 작성 후 */}
-        {data?.sendQuotationRequest?.badge === '낙찰대기 중' && (
-          <SecondTitle>최종 견적서</SecondTitle>
-        )}
+        {data?.sendQuotationRequest?.preQuotation?.finalQuotation &&
+          (data?.sendQuotationRequest?.badge === '낙찰대기 중' ||
+            data?.sendQuotationRequest?.badge === '최종대기 중' ||
+            data?.sendQuotationRequest?.badge === '견적취소' ||
+            data?.sendQuotationRequest?.badge === '낙찰성공' ||
+            data?.sendQuotationRequest?.badge === '낙찰실패') && (
+            <SecondTitle>최종 견적서</SecondTitle>
+          )}
       </Wrapper>
     </>
   );
@@ -132,7 +156,7 @@ const DownArrowBox = styled.div`
 
 // 보낸 가견적서
 const SecondTitle = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   margin-top: 30pt;
   color: ${colors.main};
   font-size: 15pt;
@@ -148,7 +172,7 @@ const ReservationDate = styled.div`
   border-radius: 6pt;
   padding: 18pt 24.75pt;
   .text {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 500;
     line-height: 12pt;
@@ -175,7 +199,7 @@ const ReservationDate = styled.div`
     justify-content: center;
     align-items: center;
     padding: 6pt 9pt;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10pt;
     font-weight: 500;
     line-height: 12pt;
@@ -190,7 +214,7 @@ const ReservationDateCheck = styled.div`
   border-radius: 6pt;
   padding: 18pt 24.75pt;
   .text {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 500;
     line-height: 12pt;
@@ -207,7 +231,7 @@ const ReservationDateCheck = styled.div`
     box-sizing: border-box;
     margin-top: 18pt;
     padding: 6pt 9pt;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10pt;
     font-weight: 500;
     line-height: 12pt;
@@ -224,7 +248,7 @@ const ConfirmedReservation = styled.div`
   margin-top: 15pt;
   border-radius: 6pt;
   .text {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     color: #747780;
     margin-bottom: 12pt;
     font-size: 12pt;
@@ -234,7 +258,7 @@ const ConfirmedReservation = styled.div`
     text-align: center;
   }
   .date {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 500;
     line-height: 15pt;

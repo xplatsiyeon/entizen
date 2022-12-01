@@ -8,7 +8,7 @@ import colors from 'styles/colors';
 const NoProject = () => {
   const route = useRouter();
 
-  const handlerBtn = () => route.push('quotation/request/1-1');
+  //const handlerBtn = () => route.push('quotation/request/1-1');
   return (
     <Wrapper>
       <ImgBox>
@@ -27,8 +27,11 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 100pt 0;
+  }
+  @media (min-width: 900pt) {
+    margin: 0 auto;
   }
 `;
 const ImgBox = styled.div`

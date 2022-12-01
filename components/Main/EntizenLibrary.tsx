@@ -32,7 +32,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
                 추후 문구 추가
               </LibraryTitle>
               <DetailView smallfont={smallfont ? smallfont : 0}>
-                자세히 보기{' '}
+                자세히 보기
                 <span>
                   <Image src={rightArrow} alt="icon" />
                 </span>
@@ -105,7 +105,12 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
             <div>도서관</div>
             <div>&nbsp;전체보기</div>
             <ImageWrap>
-              <Image className='arrow' layout='fill' src={blackRightArrow} alt="icon" />
+              <Image
+                className="arrow"
+                layout="fill"
+                src={blackRightArrow}
+                alt="icon"
+              />
             </ImageWrap>
           </ShowAllBtn>
         </ShowAllBtnBox>
@@ -118,7 +123,7 @@ const Wrapper = styled.div`
   width: 900pt;
   margin: 90pt auto 48pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 15pt 0;
     width: 100%;
   }
@@ -133,7 +138,7 @@ const LearnText = styled(Typography)`
   color: #222222;
   margin-bottom: 48pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 12pt;
     line-height: 12pt;
     margin-bottom: 0%;
@@ -146,7 +151,7 @@ const BoardBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-left: 0;
     padding-right: 0;
     box-shadow: 0px 0px 10px 0px #89a3c933;
@@ -169,7 +174,7 @@ const LibraryList = styled.div`
     margin-right: 0;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: auto;
     border-top: 1px solid #e9eaee;
@@ -192,7 +197,7 @@ const ProfileImg = styled.div`
     border-radius: 50%;
     margin-right: 15pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 13.5pt;
     padding-bottom: 13.5pt;
     padding-right: 12pt;
@@ -211,7 +216,7 @@ const TitleNDetail = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 3pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 12pt 0;
   }
 `;
@@ -233,6 +238,7 @@ const DetailView = styled(Typography)<{ smallfont: number }>`
   font-weight: 500;
   color: ${colors.main};
   font-family: 'Spoqa Han Sans Neo';
+  cursor: pointer;
   & span {
     display: flex;
     align-items: center;
@@ -250,10 +256,11 @@ const ShowAllBtnBox = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   font-family: 'Spoqa Han Sans Neo';
+  cursor: pointer;
 `;
 
 const ShowAllBtn = styled.div`
-padding: 12pt 120pt;
+  padding: 12pt 120pt;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -288,23 +295,23 @@ padding: 12pt 120pt;
     position: relative;
     top: 1.4pt;
 
-  @media (max-width: 899pt) {
-    top: 1px;
-    width: 9pt;
-    position: relative;
-    height: 9pt;
-  }
+    @media (max-width: 899.25pt) {
+      top: 1px;
+      width: 9pt;
+      position: relative;
+      height: 9pt;
+    }
   }
 
-  @media (max-width: 899pt) {
-  padding: 6pt 7.5pt 6pt 9pt;
-  font-size: 9pt;
-  line-height: 12pt;
+  @media (max-width: 899.25pt) {
+    padding: 6pt 7.5pt 6pt 9pt;
+    font-size: 9pt;
+    line-height: 12pt;
   }
 `;
 
 const ImageWrap = styled.div`
   position: relative;
-`
+`;
 
 export default EntizenLibrary;

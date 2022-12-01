@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import arrow from 'public/images/right-arrow.svg';
-import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
+
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PreQuotations } from 'pages/mypage/request/[id]';
+import { PreQuotations } from 'pages/mypage/request';
 import { PriceCalculation } from 'utils/calculatePackage';
 import { useQuery } from 'react-query';
 import { UserInfo } from 'pages/mypage';
@@ -20,6 +20,20 @@ const SubscriptionProduct = ({ data }: Props) => {
     isError: userError,
     isLoading: userLoading,
   } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
+
+  const onClickCompany = (company: PreQuotations) => {
+    // 다른 파트너 찾기로 선택 안된 기업은 다시 선택 불가
+    if (!company?.finalQuotation) {
+      // route.push(`/mypage/request/detail/${company.preQuotationIdx}`);
+      route.push({
+        pathname: '/mypage/request/detail',
+        query: {
+          preQuotationIdx: company.preQuotationIdx,
+        },
+      });
+    }
+  };
+
   if (userLoading) {
     console.log('유저 정보 받아오는 중');
   }
@@ -29,9 +43,6 @@ const SubscriptionProduct = ({ data }: Props) => {
 
   return (
     <Wrapper>
-      <DownArrowBox>
-        <Image src={DoubleArrow} alt="double-arrow" />
-      </DownArrowBox>
       <H1>
         {userData?.name}님, <br /> 총{' '}
         <span className="accent">{data ? data?.length : 0}개</span>의 구독상품이
@@ -41,10 +52,9 @@ const SubscriptionProduct = ({ data }: Props) => {
       <GridContainer>
         {data?.map((company, index) => (
           <GridItem
+            isFailed={company?.finalQuotation ? true : false}
             key={index}
-            onClick={() =>
-              route.push(`/mypage/request/detail/${company.preQuotationIdx}`)
-            }
+            onClick={() => onClickCompany(company)}
           >
             <div className="img-box">
               <Image
@@ -76,14 +86,9 @@ const Wrapper = styled.div`
   padding: 6pt 15pt 69pt 15pt;
   padding-top: 75pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 0pt;
   }
-`;
-const DownArrowBox = styled.div`
-  padding-top: 21pt;
-  padding-bottom: 30pt;
-  text-align: center;
 `;
 
 const H1 = styled.h1`
@@ -110,9 +115,10 @@ const GridContainer = styled.div`
   padding-top: 30pt;
   gap: 11.25pt;
 `;
-const GridItem = styled.div`
+const GridItem = styled.div<{ isFailed: boolean }>`
   background: ${colors.lightWhite};
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+  opacity: ${({ isFailed }) => (isFailed ? '0.5' : null)};
   border-radius: 6pt;
   padding-top: 12pt;
   padding-bottom: 15pt;

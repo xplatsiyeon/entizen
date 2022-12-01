@@ -5,13 +5,8 @@ import React from 'react';
 import colors from 'styles/colors';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import { useCallback } from 'react';
 import { SentRequestResponse } from './SentProvisionalQuoatation';
-import {
-  convertEn,
-  convertKo,
-  PriceBasicCalculation,
-} from 'utils/calculatePackage';
+import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import {
   location,
   locationEn,
@@ -32,8 +27,6 @@ type Props = {
 const TAG =
   'componentsCompany/CompanyQuotation/SentQuotation/FinalBottomBox.tsx';
 const FinalBottomBox = ({ pb, data }: Props) => {
-  console.log(TAG + '🔥 ~line 34 파이널 바텀 체크');
-
   const finalQuotation =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation!;
 
@@ -188,8 +181,8 @@ const FinalBottomBox = ({ pb, data }: Props) => {
           <FeaturesList>
             {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.subscribeProductFeature
               ?.split('\n')
-              .map((line) => (
-                <li>
+              .map((line, idx) => (
+                <li key={idx}>
                   {line}
                   <br />
                 </li>
@@ -202,8 +195,8 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             <FlexWrap key={item.finalQuotationChargerIdx}>
               <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
               <FeaturesList>
-                {item.productFeature.split('\n').map((line) => (
-                  <li>
+                {item.productFeature.split('\n').map((line, idx) => (
+                  <li key={idx}>
                     {line}
                     <br />
                   </li>
@@ -266,7 +259,7 @@ const Wrapper = styled.div`
     border-bottom: none;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 21pt;
   }
 `;
@@ -287,7 +280,7 @@ const Title = styled.h1`
   margin-top: 21pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 0pt;
     padding: 0 15pt;
   }
@@ -307,7 +300,7 @@ const List = styled.ul`
   padding: 30pt 0 51pt;
   gap: 12pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 30pt;
     padding-bottom: 18pt;
   }
@@ -348,7 +341,7 @@ const Item = styled.li`
     color: ${colors.main2};
     flex: 2;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     justify-content: space-between;
     padding-left: 15pt;
     padding-right: 15pt;
@@ -368,6 +361,10 @@ const Subtitle = styled.h2`
   letter-spacing: -0.02em;
   padding: 0 15pt;
   color: ${colors.main2};
+
+  @media (min-width: 900pt) {
+    padding: 0;
+  }
 `;
 const FlexWrap = styled.div`
   display: flex;
@@ -375,7 +372,7 @@ const FlexWrap = styled.div`
   &:nth-of-type(2) {
     margin-top: 61pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     padding: 0 15pt;
     &:nth-of-type(2) {
@@ -396,8 +393,11 @@ const Label = styled.h3`
   :nth-of-type(2) {
     padding-top: 24pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex: none;
+  }
+  @media (min-width: 900pt) {
+    padding-left: 0;
   }
 `;
 const FeaturesList = styled.ol`
@@ -415,7 +415,7 @@ const FeaturesList = styled.ol`
       padding-top: 2pt;
     }
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex: none;
   }
 `;
@@ -425,6 +425,10 @@ const GridImg = styled.div`
   padding-top: 15pt;
   padding-left: 15pt;
   gap: 6pt;
+
+  @media (min-width: 900pt) {
+    padding-left: 0;
+  }
 `;
 const GridItem = styled.span`
   position: relative;
@@ -432,12 +436,20 @@ const GridItem = styled.span`
   width: 120pt;
   height: 144pt;
   flex-shrink: 0;
+
+  @media (min-width: 900pt) {
+    width: 178.5pt;
+    height: 144pt;
+  }
 `;
 const FileDownloadBtn = styled(Button)`
   margin: 15pt 15pt 6pt 15pt;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 8px;
+  @media (min-width: 900pt) {
+    margin-left: 0;
+  }
 `;
 
 const FileDownload = styled.a`

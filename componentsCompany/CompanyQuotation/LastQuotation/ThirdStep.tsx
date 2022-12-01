@@ -14,13 +14,14 @@ import CloseImg from 'public/images/XCircle.svg';
 import { useRouter } from 'next/router';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
-import { isTokenPostApi, multerApi } from 'api';
+import { isTokenPostApi, isTokenPutApi, multerApi } from 'api';
 import { useMutation } from 'react-query';
 import { chargers } from 'storeCompany/finalQuotation';
 import Modal from 'components/Modal/Modal';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { convertEn, getByteSize } from 'utils/calculatePackage';
 import { subscribeType, subscribeTypeEn } from 'assets/selectList';
+import { BusinessRegistrationFiles } from '../SentQuotation/SentProvisionalQuoatation';
 
 type Props = {
   tabNumber: number;
@@ -67,6 +68,8 @@ const ThirdStep = ({
   subscribeProductFeature,
 }: Props) => {
   const router = useRouter();
+
+  const routerId = router?.query?.finalQuotationIdx!;
   const fileRef = useRef<HTMLInputElement>(null);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
@@ -122,6 +125,33 @@ const ThirdStep = ({
       }
     },
   });
+  // 보내기 POST API
+  const { mutate: putMutate, isLoading: putLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        router.push({
+          pathname: '/company/sentProvisionalQuotation',
+          query: {
+            preQuotationIdx: preQuotationIdx,
+          },
+        });
+      },
+      onError: (error: any) => {
+        const {
+          response: { data },
+        } = error;
+        if (data) {
+          setErrorMessage(data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
+    },
+  );
   //파일 온클릭
   const handleFileClick = () => {
     fileRef?.current?.click();
@@ -157,17 +187,46 @@ const ThirdStep = ({
     }
   };
 
-  const changeCharger = [...chargers].map((obj) => {
+  const changeCharger = [...chargers].map((obj: any) => {
     if (typeof obj.chargePrice === 'string') {
-      obj.chargePrice = Number(obj.chargePrice.replaceAll(',', ''));
+      obj.chargePrice = Number(obj?.chargePrice?.replaceAll(',', ''));
     }
+    delete obj.idx;
     return obj;
   });
-
+  // 보내기 API 함수
   const onClickPost = () => {
     if (canNext) {
       postMutate({
         url: '/quotations/final',
+        data: {
+          quotationRequestIdx: quotationRequestIdx,
+          preQuotationIdx: preQuotationIdx,
+          subscribeProduct: convertEn(
+            subscribeType,
+            subscribeTypeEn,
+            subscribeProduct,
+          ),
+          subscribePeriod: subscribePeriod.slice(0, 2),
+          userInvestRate: Number(userInvestRate) / 100 + '',
+          chargingPointRate: Number(chargingPointRate) / 100 + '',
+          subscribePricePerMonth: Number(
+            subscribePricePerMonth.replaceAll(',', ''),
+          ),
+          chargers: changeCharger,
+          detailQuotationFiles: BusinessRegistration,
+          constructionPeriod: constructionPeriod,
+          spotInspectionResult: spotInspectionResult,
+          subscribeProductFeature: subscribeProductFeature,
+        },
+      });
+    }
+  };
+  // 수정하기 API 함수
+  const onClickPut = () => {
+    if (canNext) {
+      putMutate({
+        url: `/quotations/final/${routerId}`,
         data: {
           quotationRequestIdx: quotationRequestIdx,
           preQuotationIdx: preQuotationIdx,
@@ -221,89 +280,126 @@ const ThirdStep = ({
   }, [BusinessRegistration]);
 
   return (
-    <Wrapper>
-      {/* 에러 모달 */}
-      {isModal && <Modal click={onClickModal} text={errorMessage} />}
-      <TopStep>
-        <div>STEP {tabNumber + 1}</div>
-      </TopStep>
-      <SubWord>
-        사업자 등록증, 상세 견적서를
-        <br />
-        첨부해주세요
-      </SubWord>
+    <>
+      <WebRapper>
+        <Wrapper>
+          {/* 에러 모달 */}
+          {isModal && <Modal click={onClickModal} text={errorMessage} />}
+          <TopStep>
+            <div>STEP {maxIndex + 2}</div>
+          </TopStep>
+          <SubWord>
+            사업자 등록증, 상세 견적서를
+            <br />
+            첨부해주세요
+          </SubWord>
 
-      <RemainderInputBoxs>
-        <PhotosBoxs>
-          <Form>
-            <div>
-              <File onClick={handleFileClick}>
-                <Image src={AddImg} alt="img" />
-                <div>파일 업로드</div>
-              </File>
-            </div>
-          </Form>
-          {/* 파일 input */}
-          <input
-            style={{ display: 'none' }}
-            ref={fileRef}
-            className="imageClick"
-            type="file"
-            accept="xlsx"
-            onChange={saveFile}
-            multiple
-          />
-
-          {/* <File_Preview> */}
-          <div className="file-preview">
-            {BusinessRegistration?.map((item, index) => (
-              <FileBox key={index} data-name={index}>
-                <div className="file">
-                  <div className="file-img">
-                    <Image src={FileText} alt="file-icon" />
-                  </div>
-                  <div className="file-data">
-                    <span className="file-name">{item.originalName}</span>
-                    <span className="file-size">{`용량 ${getByteSize(
-                      item.size,
-                    )}`}</span>
-                  </div>
-                  <div
-                    className="file-exit"
-                    onClick={handleFileDelete}
-                    data-name={index}
-                  >
-                    <Image src={CloseImg} data-name={index} alt="closeBtn" />
-                  </div>
+          <RemainderInputBoxs>
+            <PhotosBoxs>
+              <Form>
+                <div>
+                  <File onClick={handleFileClick}>
+                    <Image src={AddImg} alt="img" />
+                    <div>파일 업로드</div>
+                  </File>
                 </div>
-              </FileBox>
-            ))}
-          </div>
-        </PhotosBoxs>
-      </RemainderInputBoxs>
-      <TwoBtn>
-        <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-        <NextBtn canNext={canNext} onClick={onClickPost}>
-          보내기
-        </NextBtn>
-      </TwoBtn>
-    </Wrapper>
+              </Form>
+
+              {/* 파일 input */}
+              <input
+                style={{ display: 'none' }}
+                ref={fileRef}
+                className="imageClick"
+                type="file"
+                accept="xlsx"
+                onChange={saveFile}
+                multiple
+              />
+
+              {/* <File_Preview> */}
+              <div className="file-preview">
+                {BusinessRegistration?.map((item, index) => (
+                  <FileBox key={index} data-name={index}>
+                    <div className="file">
+                      <div className="file-img">
+                        <Image src={FileText} alt="file-icon" />
+                      </div>
+                      <div className="file-data">
+                        <span className="file-name">{item.originalName}</span>
+                        <span className="file-size">{`용량 ${getByteSize(
+                          item.size,
+                        )}`}</span>
+                      </div>
+                      <div
+                        className="file-exit"
+                        onClick={handleFileDelete}
+                        data-name={index}
+                      >
+                        <Image
+                          src={CloseImg}
+                          data-name={index}
+                          alt="closeBtn"
+                        />
+                      </div>
+                    </div>
+                  </FileBox>
+                ))}
+              </div>
+            </PhotosBoxs>
+          </RemainderInputBoxs>
+          <TwoBtn>
+            <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
+
+            {routerId ? (
+              <NextBtn canNext={canNext} onClick={onClickPut}>
+                수정하기
+              </NextBtn>
+            ) : (
+              <NextBtn canNext={canNext} onClick={onClickPost}>
+                보내기
+              </NextBtn>
+            )}
+          </TwoBtn>
+        </Wrapper>
+      </WebRapper>
+    </>
   );
 };
+
+const WebRapper = styled.div`
+  @media (min-width: 900pt) {
+    height: auto;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    border-radius: 12pt;
+    margin-bottom: 30pt;
+    padding-bottom: 30pt;
+    margin-top: -11pt;
+  }
+`;
 
 const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   box-sizing: border-box;
   padding-bottom: 30pt;
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+    padding-left: 25pt;
+    padding-right: 25pt;
+  }
 `;
 
 const TopStep = styled.div`
+  @media (min-width: 900pt) {
+    margin-top: 0;
+    padding-top: 70pt;
+  }
   margin-top: 24pt;
   display: flex;
   justify-content: space-between;
   & div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 500;
     line-height: 21pt;
@@ -312,7 +408,7 @@ const TopStep = styled.div`
     color: ${colors.main};
   }
   & div:nth-of-type(2) {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     font-weight: 500;
     line-height: 10.5pt;
@@ -321,7 +417,7 @@ const TopStep = styled.div`
   }
 `;
 const SubWord = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 18pt;
   font-weight: 500;
   line-height: 24pt;
@@ -340,19 +436,31 @@ const RemainderInputBoxs = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
-    padding-bottom: 100pt;
+    /* padding-bottom: 100pt; */
     gap: 9pt;
+  }
+  @media (min-width: 900pt) {
+    width: 534pt;
+    & .file-preview {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9pt;
+    }
   }
 `;
 
 const PhotosBoxs = styled.div`
-  height: 56.0625pt;
+  /* height: 56.0625pt; */
   margin-top: 9pt;
   display: flex;
   flex-direction: column;
   gap: 9pt;
   align-items: center;
   padding-bottom: 58.6875pt;
+  @media (min-width: 900pt) {
+    padding-bottom: 0;
+  }
 `;
 
 const FileBox = styled.div`
@@ -411,7 +519,7 @@ const Form = styled.form`
   /* margin-top: 24pt; */
   position: relative;
   & > label {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -426,6 +534,12 @@ const Form = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+  @media (min-width: 900pt) {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    position: relative;
   }
 `;
 
@@ -458,8 +572,14 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
+  }
+  @media (min-width: 900pt) {
+    width: 534pt;
+    position: relative;
+    margin: 0 auto;
+    top: 40pt;
   }
 `;
 const NextBtn = styled.div<{ canNext: boolean }>`
@@ -473,8 +593,13 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   letter-spacing: -0.02em;
   background-color: ${({ canNext }) => (canNext ? colors.main : '#B096EF')};
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
+  }
+  @media (min-width: 900pt) {
+    padding: 15pt 0 15pt 0;
+    border-radius: 6pt;
+    margin-left: 12pt;
   }
 `;
 const PrevBtn = styled.div`
@@ -488,8 +613,12 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   background-color: ${colors.gray};
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
+  }
+  @media (min-width: 900pt) {
+    padding: 15pt 0 15pt 0;
+    border-radius: 6pt;
   }
 `;
 

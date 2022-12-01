@@ -3,11 +3,8 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
-import Estimate from 'components/mypage/request/estimate';
 import { useRouter } from 'next/router';
-import AsIndex from 'components/mypage/as';
 import BottomNavigation from 'components/BottomNavigation';
-import WebEstimate from './webEstimate';
 import { useRef } from 'react';
 
 interface Components {
@@ -21,15 +18,15 @@ type props = {
 const RequestMain = (props: props) => {
   const { page } = props;
   const route = useRouter();
+
+  {
+    /* 탭중 현재 탭*/
+  }
   const [tabNumber, setTabNumber] = useState<number>(page!);
   const [userName, setUserName] = useState<string>('윤세아');
   const [on, setOn] = useState<boolean>(true);
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
-  const components: Components = {
-    0: <WebEstimate />,
-    2: <AsIndex />,
-  };
 
   const myPageIndex = useRef<HTMLDivElement>(null);
 
@@ -65,7 +62,7 @@ const RequestMain = (props: props) => {
               <Wrap>
                 <TabItem
                   key={index}
-                  tab={tabNumber.toString()}
+                  tab={tabNumber?.toString()}
                   index={index.toString()}
                   onClick={() => {
                     setTabNumber(index);
@@ -74,9 +71,8 @@ const RequestMain = (props: props) => {
                 >
                   {tab}
                 </TabItem>
-                <Dot tab={tabNumber.toString()} index={index.toString()} />
+                <Dot tab={tabNumber?.toString()} index={index.toString()} />
               </Wrap>
-              {tabNumber === index && on ? components[tabNumber] : null}
             </React.Fragment>
           ))}
         </TabContainer>
@@ -119,6 +115,7 @@ const Header = styled.header`
     width: 22.5pt;
     height: 22.5pt;
     text-align: end;
+    cursor: pointer;
   }
 `;
 const Body = styled.div`
@@ -133,6 +130,7 @@ const Body = styled.div`
     border: 0.75pt solid ${colors.main};
     border-radius: 12pt;
     padding: 6pt 9pt;
+    cursor: pointer;
   }
 `;
 const Line = styled.div`
@@ -161,6 +159,7 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   letter-spacing: -0.02em;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
+    cursor: pointer;
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;

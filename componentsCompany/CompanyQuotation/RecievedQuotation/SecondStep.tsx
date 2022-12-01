@@ -19,14 +19,29 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
-import { useMutation } from 'react-query';
-import { isTokenPostApi, multerApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPostApi, isTokenPutApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
-import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
+import {
+  convertKo,
+  getByteSize,
+  inputPriceFormat,
+} from 'utils/calculatePackage';
 import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import SelectComponents from 'components/Select';
+import { QuotationsDetailResponse } from './HeadOpenContent';
+import {
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+} from 'assets/selectList';
+import { ProductListRepsonse } from 'componentsCompany/MyProductList/ProductList';
+import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 
 type Props = {
   tabNumber: number;
@@ -36,6 +51,8 @@ type Props = {
   StepIndex: number;
   maxIndex: number | undefined;
   routerId: string | string[];
+  data: QuotationsDetailResponse;
+  editData: SentRequestResponse;
 };
 
 const TAG = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
@@ -48,6 +65,8 @@ const SecondStep = ({
   SetCanNext,
   StepIndex,
   routerId,
+  data,
+  editData,
 }: Props) => {
   // 사진을 위한 ref
   const dispatch = useDispatch();
@@ -60,18 +79,22 @@ const SecondStep = ({
     'OPERATION_BUSINESS_CARRIER_INPUT',
   ];
 
-  const chargerData: string[] = [
-    'LECS-007ADE',
-    'LECS-006ADE',
-    'LECS-005ADE',
-    'LECS-004ADE',
-  ];
+  const charger =
+    data?.receivedQuotationRequest?.quotationRequestChargers[StepIndex]!;
+  // 충전 요금 종류
   const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1);
+  // 충전 요금
   const [fee, setFee] = useState<string>('');
-  const [productItem, setProductItem] = useState<chargerData>('');
+  // 내 제품 리스트 종류
+  const [productItem, setProductItem] = useState<string>();
+  const [productId, setProductId] = useState<number>();
+  // 제조사
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
+  // 충전기 특장점
   const [chargeFeatures, setChargeFeatures] = useState<string>('');
+  // 사진 첨부
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
+  // 충전기 카탈로그
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
@@ -151,24 +174,63 @@ const SecondStep = ({
     },
   });
   // 보내기 POST API
-  const { mutate: postMutate, isLoading } = useMutation(isTokenPostApi, {
-    onSuccess: () => {
-      router.push('/company/recievedRequest/complete');
+  const { mutate: postMutate, isLoading: postLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: () => {
+        router.push('/company/recievedRequest/complete');
+      },
+      onError: (error: any) => {
+        const {
+          response: { data },
+        } = error;
+        if (data) {
+          setErrorMessage(data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
     },
-    onError: (error: any) => {
-      const {
-        response: { data },
-      } = error;
-      if (data) {
-        setErrorMessage(data.message);
-        setIsModal(true);
-      } else {
-        setErrorMessage('다시 시도해주세요');
-        setIsModal(true);
-        setNetworkError(true);
-      }
+  );
+  // 수정하기 Put API
+  const { mutate: putMutate, isLoading: putLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        router.push('/company/recievedRequest/complete');
+      },
+      onError: (error: any) => {
+        const {
+          response: { data },
+        } = error;
+        if (data) {
+          setErrorMessage(data.message);
+          setIsModal(true);
+        } else {
+          setErrorMessage('다시 시도해주세요');
+          setIsModal(true);
+          setNetworkError(true);
+        }
+      },
     },
-  });
+  );
+  // 내제품 리스트 조회 API
+  const {
+    data: productData,
+    isLoading: productIsLoading,
+    isError: productIsError,
+  } = useQuery<ProductListRepsonse>(
+    'productList',
+    () => isTokenGetApi('/products'),
+    {
+      cacheTime: Infinity,
+      staleTime: 5000,
+    },
+  );
+
   // 모달 클릭
   const onClickModal = () => {
     if (networkError) {
@@ -254,8 +316,9 @@ const SecondStep = ({
     }
   };
   // 셀렉트 박스 클릭
-  const onChangeSelectBox = (value: string) => {
-    setProductItem(value as chargerData);
+  const onChangeSelectBox = (value: string, idx: number) => {
+    setProductId(idx);
+    setProductItem(value);
   };
   // 이전 버튼
   const handlePrevBtn = () => {
@@ -302,7 +365,7 @@ const SecondStep = ({
   // 포스트 버튼
   const onClickPost = () => {
     postMutate({
-      url: `/quotations/pre/${routerId}`,
+      url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
       data: {
         subscribePricePerMonth: subscribePricePerMonth,
         constructionPeriod: constructionPeriod,
@@ -324,7 +387,102 @@ const SecondStep = ({
     });
     dispatch(myEstimateAction.reset());
   };
+  // 수정하기 버튼
+  const onClickEdit = () => {
+    putMutate({
+      url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+      data: {
+        subscribePricePerMonth: subscribePricePerMonth,
+        constructionPeriod: constructionPeriod,
+        subscribeProductFeature: subscribeProductFeature,
+        chargers: [
+          ...newCharge.slice(0, maxIndex! - 1),
+          {
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
+          },
+        ],
+      },
+    });
+    dispatch(myEstimateAction.reset());
+  };
+  // 수정하기
+  useEffect(() => {
+    if (editData) {
+      const charger =
+        editData?.sendQuotationRequest?.preQuotation?.preQuotationCharger[
+          StepIndex
+        ];
+      const newImage = charger?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          preQuotationChargerIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+      const newFile = charger?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          preQuotationChargerIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
 
+      setChargeTypeNumber(chargeTypeListEn.indexOf(charger.chargePriceType));
+      setFee(charger.chargePrice?.toString()!);
+      setProductItem(charger.modelName);
+      setManufacturingCompany(charger.manufacturer);
+      setChargeFeatures(charger.productFeature);
+      setImgArr(newImage);
+      setFileArr(newFile);
+    }
+  }, [editData, StepIndex]);
+  // 내 제품 리스트 하단 내용
+  useEffect(() => {
+    if (productId) {
+      const targetProduct = productData?.chargerProduct.filter(
+        (e) => e.chargerProductIdx === productId,
+      )[0];
+
+      const newImage = targetProduct?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+      const newFile = targetProduct?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+
+      setManufacturingCompany(targetProduct?.manufacturer!);
+      setChargeFeatures(targetProduct?.feature!);
+      setImgArr(newImage!);
+      setFileArr(newFile!);
+    }
+  }, [productId]);
   // 다음버튼 유효성 검사
   useEffect(() => {
     if (chargeTypeNumber === 0 && manufacturingCompany !== '') {
@@ -385,6 +543,9 @@ const SecondStep = ({
     }
   }, [chargeTypeNumber]);
 
+  // console.log('🔥 데이터 확인 ~line 426');
+  // console.log(productData);
+
   return (
     <>
       {/* 에러 모달 */}
@@ -394,11 +555,37 @@ const SecondStep = ({
           <div>STEP {tabNumber + 1}</div>
           <div>* 필수 입력</div>
         </TopStep>
-        <SubWord>
-          <p>7 kW 충전기 (공용), 벽걸이, 싱글</p> 제품의
-          <br />
-          정보를 입력해주세요.
-        </SubWord>
+
+        {charger?.standType ? (
+          <SubWord>
+            <p>
+              {`${convertKo(M5_LIST, M5_LIST_EN, charger?.kind)}, ${convertKo(
+                M6_LIST,
+                M6_LIST_EN,
+                charger?.standType,
+              )}, ${convertKo(M7_LIST, M7_LIST_EN, charger?.channel)}`}
+              &nbsp;
+            </p>
+            제품의
+            <br />
+            정보를 입력해주세요.
+          </SubWord>
+        ) : (
+          <SubWord>
+            <p>
+              {`${convertKo(M5_LIST, M5_LIST_EN, charger?.kind)},  ${convertKo(
+                M7_LIST,
+                M7_LIST_EN,
+                charger?.channel,
+              )}`}
+              &nbsp;
+            </p>
+            제품의
+            <br />
+            정보를 입력해주세요.
+          </SubWord>
+        )}
+
         <ChargeMoney>
           <div className="withAfter">충전요금</div>
           <BtnBox>
@@ -436,10 +623,10 @@ const SecondStep = ({
         </TopBox>
         <SelectContainer>
           <SelectComponents
-            value={productItem}
-            option={chargerData}
+            value={productItem!}
             placeholder="충전기 종류"
-            onClickEvent={onChangeSelectBox}
+            productOption={productData?.chargerProduct!}
+            onClickProject={onChangeSelectBox}
           />
         </SelectContainer>
         <BottomInputBox>
@@ -479,29 +666,31 @@ const SecondStep = ({
               multiple
             />
             {/* <Preview> */}
-            {imgArr?.map((item, index) => (
-              <ImgSpan key={index} data-name={index}>
-                <Image
-                  layout="fill"
-                  alt="preview"
-                  data-name={index}
-                  key={index}
-                  src={item.url}
-                  priority={true}
-                  unoptimized={true}
-                />
-                <Xbox onClick={handlePhotoDelete} data-name={index}>
+            <ImgSpanBox>
+              {imgArr?.map((item, index) => (
+                <ImgSpan key={index} data-name={index}>
                   <Image
-                    src={CloseImg}
+                    layout="fill"
+                    alt="preview"
                     data-name={index}
-                    layout="intrinsic"
-                    alt="closeBtn"
-                    width={24}
-                    height={24}
+                    key={index}
+                    src={item.url}
+                    priority={true}
+                    unoptimized={true}
                   />
-                </Xbox>
-              </ImgSpan>
-            ))}
+                  <Xbox onClick={handlePhotoDelete} data-name={index}>
+                    <Image
+                      src={CloseImg}
+                      data-name={index}
+                      layout="intrinsic"
+                      alt="closeBtn"
+                      width={24}
+                      height={24}
+                    />
+                  </Xbox>
+                </ImgSpan>
+              ))}
+            </ImgSpanBox>
             {/* </Preview> */}
           </PhotosBox>
         </RemainderInputBox>
@@ -527,7 +716,6 @@ const SecondStep = ({
               onChange={saveFile}
               multiple
             />
-
             {/* <File_Preview> */}
             <div className="file-preview">
               {fileArr?.map((item, index) => (
@@ -559,9 +747,15 @@ const SecondStep = ({
       <TwoBtn>
         <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
         {tabNumber === maxIndex ? (
-          <NextBtn canNext={canNext} onClick={onClickPost}>
-            보내기
-          </NextBtn>
+          editData ? (
+            <NextBtn canNext={canNext} onClick={onClickEdit}>
+              수정하기
+            </NextBtn>
+          ) : (
+            <NextBtn canNext={canNext} onClick={onClickPost}>
+              보내기
+            </NextBtn>
+          )
         ) : (
           <NextBtn canNext={canNext} onClick={handleNextBtn}>
             다음
@@ -577,21 +771,28 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   box-sizing: border-box;
   padding-bottom: 30pt;
+  @media (min-width: 900pt) {
+    padding-left: 25pt;
+    padding-right: 25pt;
+  }
 `;
 const SecondWrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   box-sizing: border-box;
   margin-top: 30pt;
-
   padding-bottom: 58.6875pt;
+  @media (min-width: 900pt) {
+    padding-left: 25pt;
+    padding-right: 25pt;
+  }
 `;
 const TopStep = styled.div`
   margin-top: 24pt;
   display: flex;
   justify-content: space-between;
   & div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 500;
     line-height: 21pt;
@@ -600,17 +801,20 @@ const TopStep = styled.div`
     color: ${colors.main};
   }
   & div:nth-of-type(2) {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     font-weight: 500;
     line-height: 10.5pt;
     letter-spacing: -0.02em;
     text-align: left;
   }
+  @media (min-width: 900pt) {
+    padding-top: 50pt;
+  }
 `;
 const SubWord = styled.div`
   margin-top: 6pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 400;
   line-height: 18pt;
@@ -628,7 +832,7 @@ const ChargeMoney = styled.div`
   flex-direction: column;
   gap: 9pt;
   & .withAfter {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -646,7 +850,7 @@ const BtnBox = styled.div`
   gap: 11.25pt;
 `;
 const Btn = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 400;
   line-height: 12pt;
@@ -670,7 +874,7 @@ const InputBox = styled.div`
   &.secondChargerText {
     margin-top: 30pt;
     & div:first-of-type {
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 10.5pt;
       font-weight: 700;
       line-height: 12pt;
@@ -688,7 +892,7 @@ const InputBox = styled.div`
     border-radius: 6pt !important;
   }
   & > div > div {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 400;
     line-height: 12pt;
@@ -703,7 +907,7 @@ const BottomInputBox = styled.div`
   flex-direction: column;
   gap: 9pt;
   & .withAfter {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -721,7 +925,7 @@ const BottomInputBox = styled.div`
     border-radius: 6pt !important;
   }
   & > div > div {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 400;
     line-height: 12pt;
@@ -781,10 +985,13 @@ const Divide = styled.div`
   width: 100vw;
   height: 3pt;
   background-color: #f3f4f7;
+  @media (min-width: 900pt) {
+    width: auto;
+  }
 `;
 const TopBox = styled.div`
   & div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -796,7 +1003,7 @@ const TopBox = styled.div`
     color: ${colors.main};
   }
   & div:nth-of-type(2) {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     margin-top: 6pt;
     font-weight: 400;
@@ -880,9 +1087,18 @@ const RemainderInputBoxs = styled.div`
     padding-bottom: 100pt;
     gap: 9pt;
   }
+  @media (min-width: 900pt) {
+    & .file-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      padding-bottom: 0;
+      gap: 9pt;
+    }
+  }
 `;
 const Label = styled.label`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
@@ -896,7 +1112,14 @@ const PhotosBox = styled.div`
   display: flex;
   gap: 9.1875pt;
   align-items: center;
+  @media (min-width: 900pt) {
+    display: flex;
+    align-items: inherit;
+    height: auto;
+    width: 100%;
+  }
 `;
+
 const PhotosBoxs = styled.div`
   height: 56.0625pt;
   margin-top: 9pt;
@@ -905,20 +1128,46 @@ const PhotosBoxs = styled.div`
   gap: 9pt;
   align-items: center;
   padding-bottom: 58.6875pt;
+  @media (min-width: 900pt) {
+    height: auto;
+    padding-bottom: 0;
+  }
 `;
+
 const AddPhotos = styled.button`
   display: inline-block;
   width: 56.0625pt;
   height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    background-color: #ffffff;
+    width: 77.25pt;
+    height: 77.25pt;
+  }
+`;
+
+const ImgSpanBox = styled.div`
+  @media (min-width: 900pt) {
+    height: auto;
+    width: 444.75;
+    display: grid;
+    grid-template-columns: 230pt 1fr;
+  }
 `;
 const ImgSpan = styled.div`
   position: relative;
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    margin-bottom: 10pt;
+    width: 216pt;
+    height: 135pt;
+    border: 0.75pt solid #e2e5ed;
+  }
 `;
+
 const Xbox = styled.div`
   position: absolute;
   top: -7pt;
@@ -980,7 +1229,7 @@ const Form = styled.form`
   /* margin-top: 24pt; */
   position: relative;
   & > label {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -1030,9 +1279,12 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   line-height: 12pt;
   letter-spacing: -0.02em;
   background-color: ${({ canNext }) => (canNext ? colors.main : '#B096EF')};
+  padding: 15pt 0 39pt 0;
   cursor: pointer;
-  @media (max-width: 899pt) {
-    padding: 15pt 0 39pt 0;
+  @media (min-width: 900pt) {
+    padding: 15pt 0 15pt 0;
+    border-radius: 6pt;
+    margin-left: 12pt;
   }
 `;
 const PrevBtn = styled.div`
@@ -1046,8 +1298,10 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   background-color: ${colors.gray};
   cursor: pointer;
-  @media (max-width: 899pt) {
-    padding: 15pt 0 39pt 0;
+  padding: 15pt 0 39pt 0;
+  @media (min-width: 900pt) {
+    padding: 15pt 0 15pt 0;
+    border-radius: 6pt;
   }
 `;
 const TwoBtn = styled.div`
@@ -1056,8 +1310,14 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
+  }
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: 40pt;
   }
 `;
 

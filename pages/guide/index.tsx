@@ -30,6 +30,7 @@ import arrowR from 'public/images/arrowR.png';
 import guideIndex1 from 'public/guide/guideIndex1.png';
 import guideIndex2 from 'public/guide/guideIndex2.png';
 import BingGuideBanner from 'public/guide/Big-guide-banner.png';
+import UserRightMenu from 'components/UserRightMenu';
 
 const Guide1 = () => {
   const router = useRouter();
@@ -327,7 +328,7 @@ const Inner = styled.div`
   margin: 45.75pt auto;
   width: 900pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -339,7 +340,7 @@ const Wrapper = styled.div`
   padding: 0 20pt;
   padding-bottom: 30pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     background-color: #fafcff;
   }
@@ -364,7 +365,7 @@ const Header = styled(Box)`
   .bell-img {
     cursor: pointer;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
   }
 `;
@@ -372,7 +373,7 @@ const Header = styled(Box)`
 const Wrap = styled.div`
   display: flex;
   position: relative;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;
@@ -418,7 +419,7 @@ const Platform = styled.button`
     left: 28.5pt;
     bottom: 23.25pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 159pt;
     .banner {
       width: 195pt;
@@ -454,7 +455,7 @@ const SubsidyBox = styled(Box)`
     letter-spacing: -0.02em;
     color: rgb(34, 34, 34);
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: auto;
     flex: none;
     padding-top: 15pt;
@@ -486,7 +487,7 @@ const Subsidy = styled.button`
     width: 43.5pt;
     height: 43.5pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 36pt;
     flex-direction: row-reverse;
     justify-content: space-between;
@@ -525,7 +526,7 @@ const Fee = styled.button`
     width: 43.5pt;
     height: 43.5pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 36pt;
     flex-direction: row-reverse;
     justify-content: space-between;
@@ -555,7 +556,7 @@ const IconWrap = styled.div`
   bottom: 3pt;
   right: 0;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 `;

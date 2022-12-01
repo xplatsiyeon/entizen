@@ -5,82 +5,67 @@ import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import React, { useCallback } from 'react';
-import { PreQuotationResponse } from 'pages/mypage/request/detail/[id]';
+import { PreQuotationResponse } from 'pages/mypage/request/detail';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
+import ManagerInfo from './ManagerInfo';
 
 interface Props {
   pb?: number;
   data?: PreQuotationResponse;
+  isSpot?: boolean;
 }
 const TAG = 'components/mypage/request/BiddingQuote.tsx';
-const BiddingQuote = ({ pb, data }: Props) => {
-  // 파일 다운로드 함수
-  // const DownloadFile = useCallback(() => {
-  //   let fileName = 'Charge Point 카탈로그_7 KW';
-  //   let content = 'Charge Point 카탈로그_7 KW 테스트';
-  //   const blob = new Blob([content], {
-  //     type: 'text/plain',
-  //   });
-  //   const url = window.URL.createObjectURL(blob);
-  //   const element = document.createElement('a');
-  //   element.href = url;
-  //   element.download = fileName;
-  //   document.body.appendChild(element);
-  //   element.click();
-  //   element.remove();
-  //   window.URL.revokeObjectURL(url);
-  // }, []);
-
-  console.log(TAG + '🔥 ~line 35 ~ data 체크');
-
+const BiddingQuote = ({ pb, data, isSpot }: Props) => {
+  console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
   console.log(data);
 
   return (
     <Wrapper>
       <ImageBox>
         <Image
-          src={data?.companyMemberAdditionalInfo.companyLogoImageUrl!}
+          src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
           alt="icon"
           priority={true}
           unoptimized={true}
           layout="fill"
         />
       </ImageBox>
-      <Title>{data?.companyMemberAdditionalInfo.companyName}</Title>
+      <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
       <List>
         <Item>
           <span className="name">월 구독료</span>
           <span className="value">
-            {PriceBasicCalculation(data?.preQuotation.subscribePricePerMonth!)}
+            {PriceBasicCalculation(data?.preQuotation?.subscribePricePerMonth!)}
             원
           </span>
         </Item>
         <Item>
           <span className="name">수익지분</span>
           <span className="value">
-            {Number(data?.quotationRequest.investRate) * 100} %
+            {Number(data?.quotationRequest?.investRate) * 100} %
           </span>
         </Item>
         <Item>
           <span className="name">공사기간</span>
           <span className="value">
-            {data?.preQuotation.constructionPeriod} 일
+            {data?.preQuotation?.constructionPeriod} 일
           </span>
         </Item>
         {/* 충전기 제조사 1개 일 때 */}
-        {data?.preQuotation.preQuotationChargers.length === 1 ? (
+        {data?.preQuotation?.preQuotationChargers.length === 1 ? (
           <>
             <Item>
               <span className="name">충전요금</span>
               <span className="value">
-                {data?.preQuotation.preQuotationChargers[0].chargePrice} 원 / kW
+                {data?.preQuotation?.preQuotationChargers[0].chargePrice} 원 /
+                kW
               </span>
             </Item>
             <Item>
               <span className="name">충전기 제조사</span>
               <span className="value">
-                {data?.preQuotation.preQuotationChargers[0].manufacturer}
+                {data?.preQuotation?.preQuotationChargers[0].manufacturer}
               </span>
             </Item>
           </>
@@ -89,15 +74,15 @@ const BiddingQuote = ({ pb, data }: Props) => {
             {/* 충전기 제조사 2개 이상 일 때 */}
             <MultiSection>
               <Subtitle>충전요금</Subtitle>
-              {data?.preQuotation.preQuotationChargers.map((item, index) => (
-                <MultiBox key={item.preQuotationChargerIdx}>
+              {data?.preQuotation?.preQuotationChargers?.map((item, index) => (
+                <MultiBox key={index}>
                   <Item>
                     <span className="name">
                       {convertKo(
                         M5_LIST,
                         M5_LIST_EN,
-                        data?.quotationRequest.quotationRequestChargers[index]
-                          .kind,
+                        data?.quotationRequest?.quotationRequestChargers[index]
+                          ?.kind,
                       )}
                     </span>
                     <span className="value">{`${PriceBasicCalculation(
@@ -109,15 +94,15 @@ const BiddingQuote = ({ pb, data }: Props) => {
             </MultiSection>
             <MultiSection>
               <Subtitle>충전기 제조사</Subtitle>
-              {data?.preQuotation.preQuotationChargers.map((item, index) => (
-                <MultiBox key={item.preQuotationChargerIdx}>
+              {data?.preQuotation?.preQuotationChargers?.map((item, index) => (
+                <MultiBox key={index}>
                   <Item>
                     <span className="name">
                       {convertKo(
                         M5_LIST,
                         M5_LIST_EN,
-                        data?.quotationRequest.quotationRequestChargers[index]
-                          .kind,
+                        data?.quotationRequest?.quotationRequestChargers[index]
+                          ?.kind,
                       )}
                     </span>
                     <span className="value">{`${PriceBasicCalculation(
@@ -136,8 +121,8 @@ const BiddingQuote = ({ pb, data }: Props) => {
           <Label>구독 상품</Label>
           <FeaturesList>
             {/* textarea 줄바꿈 */}
-            {data?.preQuotation.subscribeProductFeature
-              .split('\n')
+            {data?.preQuotation?.subscribeProductFeature
+              ?.split('\n')
               .map((line) => (
                 <li>
                   {line}
@@ -146,19 +131,19 @@ const BiddingQuote = ({ pb, data }: Props) => {
               ))}
           </FeaturesList>
         </FlexWrap>
-        {data?.preQuotation.preQuotationChargers.map((item, index) => (
-          <FlexWrap key={item.preQuotationChargerIdx}>
+        {data?.preQuotation?.preQuotationChargers?.map((item, index) => (
+          <FlexWrap key={index}>
             <Label>
               {convertKo(
                 M5_LIST,
                 M5_LIST_EN,
-                data?.quotationRequest.quotationRequestChargers[index].kind,
+                data?.quotationRequest?.quotationRequestChargers[index]?.kind,
               )}
             </Label>
             {/* textarea 줄바꿈 */}
             <FeaturesList>
-              {item.productFeature.split('\n').map((line) => (
-                <li>
+              {item?.productFeature?.split('\n')?.map((line, index) => (
+                <li key={index}>
                   {line}
                   <br />
                 </li>
@@ -173,9 +158,9 @@ const BiddingQuote = ({ pb, data }: Props) => {
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
           {data?.preQuotation.preQuotationChargers.map((item, index) => (
-            <React.Fragment key={item.preQuotationChargerIdx}>
+            <React.Fragment key={index}>
               {item.chargerImageFiles.map((img, index) => (
-                <GridItem key={img.chargerProductFileIdx}>
+                <GridItem key={index}>
                   <Image
                     src={img.url}
                     alt="img-icon"
@@ -194,14 +179,10 @@ const BiddingQuote = ({ pb, data }: Props) => {
         <Subtitle>충전기 카탈로그</Subtitle>
         <FileContainer>
           {data?.preQuotation.preQuotationChargers.map((item, index) => (
-            <React.Fragment key={item.preQuotationChargerIdx}>
+            <React.Fragment key={index}>
               {item.catalogFiles.map((file, index) => (
-                <FileDownloadBtn key={file.chargerProductFileIdx}>
-                  <FileDownload
-                    // onClick={DownloadFile}
-                    download={file.originalName}
-                    href={file.url}
-                  >
+                <FileDownloadBtn key={index}>
+                  <FileDownload download={file.originalName} href={file.url}>
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                     {file.originalName}
                   </FileDownload>
@@ -211,15 +192,24 @@ const BiddingQuote = ({ pb, data }: Props) => {
           ))}
         </FileContainer>
       </Section>
+      <Section pb={pb}>
+        {/* 담당자 정보 */}
+        {isSpot && (
+          <ManagerInfo
+            name={data?.preQuotation?.member?.name!}
+            email={data?.companyMemberAdditionalInfo?.managerEmail!}
+            phone={data?.preQuotation?.member?.phone!}
+          />
+        )}
+      </Section>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   padding-top: 60pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 21pt;
-    padding-bottom: 150pt;
   }
 `;
 const Title = styled.h1`
@@ -230,7 +220,7 @@ const Title = styled.h1`
   margin-top: 21pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 0pt;
     padding: 0 15pt;
   }
@@ -247,7 +237,7 @@ const Section = styled.section<{ imgBox?: boolean; pb?: number }>`
       padding-right: 0;
     `};
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-left: 15pt;
   }
 `;
@@ -255,7 +245,7 @@ const List = styled.ul`
   margin: 30pt 0 51pt;
   gap: 12pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 30pt 15pt 0 15pt;
     padding-bottom: 18pt;
   }
@@ -300,7 +290,7 @@ const Item = styled.li`
     flex: 2;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     justify-content: space-between;
     .name {
       flex: none;
@@ -333,7 +323,7 @@ const FlexWrap = styled.div`
   &:nth-of-type(2) {
     margin-top: 61pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     &:nth-of-type(2) {
       margin-top: 0;
@@ -353,7 +343,7 @@ const Label = styled.h3`
   :nth-of-type(2) {
     padding-top: 24pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex: none;
   }
 `;
@@ -372,7 +362,7 @@ const FeaturesList = styled.ol`
       padding-top: 2pt;
     }
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     flex: none;
   }
 `;
@@ -384,7 +374,6 @@ const GridImg = styled.div`
   gap: 6pt;
 `;
 const GridItem = styled.div`
-  background-color: blue;
   position: relative;
   border-radius: 6pt;
   width: 120pt;

@@ -23,11 +23,10 @@ const BtnBox = styled.div`
   margin-top: 25pt;
   margin-bottom: 15pt;
 
-  @media (max-width: 899pt) {
-  margin-top: 45pt;
-  margin-bottom: 36pt;
-}
-
+  @media (max-width: 899.25pt) {
+    margin-top: 45pt;
+    margin-bottom: 36pt;
+  }
 `;
 const ReviewCheck = styled.button`
   width: 100%;
@@ -35,7 +34,7 @@ const ReviewCheck = styled.button`
   padding-bottom: 15pt;
   color: #a6a9b0;
   border-radius: 6pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;

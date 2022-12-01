@@ -74,7 +74,7 @@ const purpose: Purpose[] = [
   },
 ];
 
-const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
+const PREDICTION_POST = `https://api.entizen.kr/api/quotations/prediction`;
 
 const SixthStep = ({ setTabNumber }: Props) => {
   const router = useRouter();
@@ -190,7 +190,7 @@ const Wrraper = styled.div`
   position: relative;
   padding-bottom: 96pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-left: 15pt;
     padding-right: 15pt;
   }
@@ -246,7 +246,7 @@ const NextBtn = styled.div<{
   cursor: pointer;
   font-family: 'Spoqa Han Sans Neo';
   border-radius: 6pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
     border-radius: 0;
   }
@@ -265,7 +265,7 @@ const PrevBtn = styled.div`
   cursor: pointer;
   font-family: 'Spoqa Han Sans Neo';
   border-radius: 6pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
     border-radius: 0;
   }
@@ -277,7 +277,7 @@ const TwoBtn = styled.div`
   left: 0;
   width: 100%;
   gap: 8.7pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
     gap: 0;
   }

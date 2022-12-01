@@ -3,10 +3,13 @@ import React from 'react';
 import styled from '@emotion/styled';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
 const complete = (props: Props) => {
+  const router = useRouter();
+  const routerId = router?.query?.afterSalesServiceIdx;
   return (
     <React.Fragment>
       <Body>
@@ -14,9 +17,14 @@ const complete = (props: Props) => {
         <Inner>
           <Wrapper>
             <AsComplete
+              routerId={routerId}
               buttonText={'확인'}
               text={'추가 문의사항은\n소통하기를 이용해주시기 바랍니다.'}
-              title={'A/S 요청이 전달되었습니다'}
+              title={
+                routerId
+                  ? 'A/S 요청이 수정되었습니다'
+                  : 'A/S 요청이 전달되었습니다'
+              }
             />
           </Wrapper>
         </Inner>
@@ -40,7 +48,6 @@ const Body = styled.div`
 
   @media (max-height: 809pt) {
     display: block;
-    height: 100%;
   }
 `;
 
@@ -54,7 +61,7 @@ const Inner = styled.div`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -67,7 +74,7 @@ const Wrapper = styled.div`
   margin: 32.25pt 31.875pt 42pt;
   height: 507.75pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
   }

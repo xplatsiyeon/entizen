@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import Guide from 'public/guide/guide1.png';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import UserRightMenu from 'components/UserRightMenu';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -36,6 +37,7 @@ const Guide1_1 = () => {
       <WebHeader num={0} now={'guide'} />
       <Wrapper>
         {/* 링크 리스트 */}
+        <UserRightMenu />
         <GuideHeader
           title={'플랫폼 가이드'}
           leftOnClick={() => router.back()}
@@ -74,7 +76,7 @@ export default Guide1_1;
 const Wrapper = styled.div`
   padding-bottom: 48pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-bottom: 20pt;
   }
 `;
@@ -84,7 +86,7 @@ const PlatformImgBox = styled(Box)`
   align-items: center;
   position: relative;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 12pt 15pt 0 15pt;
     display: flex;
   }
@@ -95,7 +97,7 @@ const GuideImgBox = styled(Box)`
   align-items: center;
   position: relative;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 12pt 15pt 0 15pt;
     display: none;
   }
@@ -111,7 +113,7 @@ const TabBox = styled.div`
   padding-bottom: 12pt;
   border-bottom: 1px solid #f3f4f7;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-left: 15pt;
     justify-content: start;
   }
@@ -135,7 +137,7 @@ const Item = styled.div<{ idx: string; num: string }>`
     border-radius: 10pt;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 0 11.25pt;
   }
 `;

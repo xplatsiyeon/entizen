@@ -1,4 +1,5 @@
 import MypageHeader from 'components/mypage/request/header';
+import EmptyProduct from 'componentsCompany/MyProductList/EmptyProduct';
 import ProductList from 'componentsCompany/MyProductList/ProductList';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -19,8 +20,8 @@ const MyProductListComponent = (props: Props) => {
         title={'내 제품 리스트'}
         handleHomeClick={handleHomeClick}
       />
-      {/* {!productExist ? <EmptyProduct /> : <ProductList />} */}
-      <ProductList />
+      {!productExist ? <EmptyProduct /> : <ProductList />}
+      {/* <ProductList /> */}
     </>
   );
 };

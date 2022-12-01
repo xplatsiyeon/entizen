@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
+import Carousel from 'components/mypage/projects/Carousel';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import React from 'react';
+import { ProjectCompletionFiles } from 'QueryComponents/CompanyQuery';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
@@ -10,7 +12,10 @@ type Props = {
   secondText?: string;
   thirdText?: string;
   presentProgress: boolean;
-  handleClick: () => void;
+  page?: string;
+  handleClick?: () => void;
+  complete?: boolean;
+  file?: ProjectCompletionFiles[];
 };
 
 const MessageBox = ({
@@ -20,22 +25,45 @@ const MessageBox = ({
   thirdText,
   presentProgress,
   handleClick,
+  page,
+  complete,
+  file,
 }: Props) => {
+  const [idx, setIdx] = useState<number>(1);
+
+  console.log(presentProgress);
+
+  const handleNum = () => {
+    if (idx === 1) {
+      setIdx(2);
+    } else {
+      setIdx(1);
+    }
+  };
+
   return (
     <Wrapper onClick={handleClick} presentProgress={presentProgress}>
-      <LeftSideBox>
+      <LeftSideBox presentProgress={presentProgress}>
         <BigText>{title}</BigText>
         <List>
           <li>{firstText}</li>
           <li>{secondText}</li>
           {thirdText && <li>{thirdText}</li>}
         </List>
+        {complete ? (
+          //여기 코드 reUsable 컴포넌트로
+          <ImageBox>
+            <Carousel file={file} />
+          </ImageBox>
+        ) : null}
       </LeftSideBox>
-      <IconBox>
-        <ArrowIconBox>
-          <Image src={CaretDown24} alt="RightArrow" />
-        </ArrowIconBox>
-      </IconBox>
+      {page ? null : (
+        <IconBox>
+          <ArrowIconBox>
+            <Image src={CaretDown24} alt="RightArrow" />
+          </ArrowIconBox>
+        </IconBox>
+      )}
     </Wrapper>
   );
 };
@@ -50,12 +78,16 @@ const Wrapper = styled.div<{ presentProgress: boolean }>`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
+  position: relative;
+  cursor: pointer;
 `;
 
-const LeftSideBox = styled.div`
+const LeftSideBox = styled.div<{ presentProgress: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 6pt;
+  width: 100%;
+  opacity: ${({ presentProgress }) => (!presentProgress ? '0.3' : null)};
 `;
 
 const BigText = styled.div`
@@ -90,6 +122,31 @@ const IconBox = styled.div`
 const ArrowIconBox = styled.div`
   width: 18pt;
   height: 18pt;
+`;
+
+const ImageBox = styled.div`
+  width: 100%;
+  height: 66pt;
+  margin: 0 auto;
+  border: 1px solid #e2e5ed;
+  border-radius: 6pt;
+  position: relative;
+`;
+const Index = styled.div`
+  width: 12pt;
+  padding: 1.5pt 4.5pt;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 7.5pt;
+  color: white;
+  position: absolute;
+  bottom: 9pt;
+  right: 6pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 7.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
 `;
 
 export default MessageBox;

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
-import { QuotationRequestsResponse } from 'pages/mypage/request/[id]';
+import { QuotationRequestsResponse } from 'pages/mypage/request';
 import { convertKo } from 'utils/calculatePackage';
 import {
   InstallationPurposeType,
@@ -29,6 +29,9 @@ type Props = {
 const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
 const EstimateContainer = ({ data }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
+
+  console.log('⭐️ 상세 페이지 데이터 확인 ~line ' + TAG);
+  console.log(data);
 
   return (
     <Wrapper>
@@ -78,7 +81,7 @@ const EstimateContainer = ({ data }: Props) => {
 
             {data?.quotationRequest?.quotationRequestChargers?.map(
               (item, index) => (
-                <div className="text-box">
+                <div className="text-box" key={item.quotationRequestIdx}>
                   {index === 0 ? (
                     <span className="name">충전기 종류 및 수량</span>
                   ) : (
@@ -125,7 +128,11 @@ const EstimateContainer = ({ data }: Props) => {
             </div>
             <div className="text-box">
               <span className="name">기타 요청사항</span>
-              <span className="text">{data?.quotationRequest?.etcRequest}</span>
+              <span className="text">
+                {data?.quotationRequest?.etcRequest
+                  ? data?.quotationRequest?.etcRequest
+                  : '없음'}
+              </span>
             </div>
           </Contents>
         </List>

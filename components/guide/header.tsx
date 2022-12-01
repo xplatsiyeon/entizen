@@ -50,7 +50,7 @@ const Header = styled.div`
     right: 7pt;
     padding: 5px;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
   }
 `;

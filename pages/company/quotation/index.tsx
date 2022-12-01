@@ -4,7 +4,11 @@ import BottomNavigation from 'components/BottomNavigation';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
 import History from 'componentsCompany/CompanyQuotation/History';
+import LeftProjectQuotationBox from 'componentsCompany/CompanyQuotation/LeftProjectQuotationBox';
 import RecieveRequest from 'componentsCompany/CompanyQuotation/RecieveRequest';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 import useDebounce from 'hooks/useDebounce';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -13,7 +17,7 @@ import Header from '../../../componentsCompany/CompanyQuotation/Header';
 import SentRequest from '../../../componentsCompany/CompanyQuotation/SentRequest';
 import Tab from '../../../componentsCompany/CompanyQuotation/Tab';
 
-type Props = {};
+type Props = { num?: number; now?: string };
 interface QuotationRequest {
   changedDate: string;
   createdAt: string;
@@ -25,6 +29,10 @@ interface QuotationRequest {
   investRate: string;
   memberIdx: number;
   quotationRequestIdx: number;
+}
+
+interface Components {
+  [key: number]: JSX.Element;
 }
 export interface ReceivedQuotationRequests {
   badge: string;
@@ -41,23 +49,100 @@ export type filterType = '마감일순 보기' | '상태순 보기' | '날짜순
 export const filterTypeEn = ['deadline', 'status', 'date'];
 
 const TAG = 'company/quotation/index.tsx';
-const CompanyQuotations = (props: Props) => {
+const CompanyQuotations = ({ num, now }: Props) => {
   const router = useRouter();
   const [tabNumber, setTabNumber] = useState(0);
   const [searchWord, setSearchWord] = useState<string>('');
+
+  // 현재 페이지 url이 /quotation boolean 판단
+  const [nowUrl, setNowUrl] = useState<boolean>(false);
+
+  // 받은 요청, 보낸 견적, 히스토리 구분하는 state
+  const [getComponentId, setGetComponentId] = useState<number | undefined>();
+  const [sendComponentId, setSendComponentId] = useState<number | undefined>();
+  const [historyComponentId, setHistoryComponentId] = useState<
+    number | undefined
+  >();
   const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
   const keyword = useDebounce(searchWord, 3000);
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+
+  // 실시간 width 저장하는 state
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+
+  // 실시간으로 width 받아오는 함수
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
 
   // api 호출
   const { data, isLoading, isError, error, refetch } =
-    useQuery<ReceivedRequest>('received-request', () =>
-      isTokenGetApi(
-        `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-      ),
+    useQuery<ReceivedRequest>(
+      'received-request',
+      () =>
+        isTokenGetApi(
+          `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        ),
+      {
+        enabled: false,
+      },
     );
 
+  const components: Components = {
+    0: (
+      <RecieveRequest
+        data={data!}
+        searchWord={searchWord}
+        setSearchWord={setSearchWord}
+        checkedFilterIndex={checkedFilterIndex}
+        setcheckedFilterIndex={setcheckedFilterIndex}
+        checkedFilter={checkedFilter}
+        setCheckedFilter={setCheckedFilter}
+        keyword={keyword}
+      />
+    ),
+    1: <SentRequest />,
+    2: <History />,
+  };
+
+  // url에서 id 가져와서 tabNumber에 업데이트 해서 컴포넌트 바꿔줌
+  useEffect(() => {
+    if (router.query.id) {
+      const num = Number(router.query.id);
+      setTabNumber(num);
+    } else if (router.pathname === `/company/quotation`) {
+      setTabNumber(0);
+    }
+  }, [router]);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
+  useEffect(() => {
+    refetch();
+    return () => {
+      setSearchWord('');
+      setcheckedFilterIndex(0);
+    };
+  }, [checkedFilterIndex, keyword]);
+  // 현재 페이지
+  useEffect(() => {
+    const now = router.route;
+    if (now === `/company/quotation`) {
+      setNowUrl(!nowUrl);
+    }
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
   if (isError) {
     console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
     console.log(error);
@@ -71,47 +156,94 @@ const CompanyQuotations = (props: Props) => {
     );
   }
 
-  useEffect(() => {
-    refetch();
-    return () => {
-      setSearchWord('');
-      setcheckedFilterIndex(0);
-    };
-  }, [checkedFilterIndex, keyword]);
+  console.log('🔥 api 데이터 확인 ~line  68 ' + TAG);
+  console.log(data);
 
-  if (isLoading) {
-    return <Loader />;
-  }
   return (
-    <>
-      <Container>
-        <Header />
-        {/* 탭  */}
-        <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
-        {/* 받은 요청 */}
-        {tabNumber === 0 && (
-          <RecieveRequest
-            data={data!}
-            searchWord={searchWord}
-            setSearchWord={setSearchWord}
-            checkedFilterIndex={checkedFilterIndex}
-            setcheckedFilterIndex={setcheckedFilterIndex}
-            checkedFilter={checkedFilter}
-            setCheckedFilter={setCheckedFilter}
-            keyword={keyword}
-          />
-        )}
-        {/* 보낸 견적 */}
-        {tabNumber === 1 && <SentRequest />}
-        {/* 히스토리 */}
-        {tabNumber === 2 && <History />}
-      </Container>
-      <BottomNavigation />
-    </>
+    <WebBody>
+      {/* 웹일때 보이는 헤더 */}
+      <WebBox>
+        <WebBuyerHeader
+          setTabNumber={setTabNumber}
+          tabNumber={tabNumber}
+          num={num}
+          now={now}
+          openSubLink={openSubLink}
+          setOpenSubLink={setOpenSubLink}
+        />
+        <Container>
+          {/* 모바일탭  */}
+          {nowWidth < 1200 && (
+            <>
+              <Header />
+              <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
+            </>
+          )}
+          <CompanyRightMenu />
+          <Mobile>{components[tabNumber]}</Mobile>
+          <BottomNavigation />
+        </Container>
+      </WebBox>
+      <WebFooter />
+    </WebBody>
   );
 };
-const Container = styled.div`
-  padding-left: 15pt;
-  padding-right: 15pt;
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* background-color: white; */
+
+  @media (max-height: 350pt) {
+    height: 100%;
+    display: block;
+  }
+  @media (min-width: 900pt) {
+    min-height: 100vh;
+    justify-content: space-between;
+  }
 `;
+
+const Container = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 350pt) {
+    height: 500pt;
+  }
+  @media (min-width: 900pt) {
+    padding: 0;
+  }
+`;
+
+const WebBox = styled.div``;
+
+const WebRapper = styled.div`
+  @media (min-width: 900pt) {
+    width: 900pt;
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
+const Mobile = styled.div`
+  @media (max-width: 899.25pt) {
+    padding: 0 15pt;
+  }
+`;
+
 export default CompanyQuotations;

@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
 import { inputPriceFormat } from 'utils/calculatePackage';
+import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 
 type Props = {
   tabNumber: number;
@@ -17,6 +18,7 @@ type Props = {
   setFirstPageTextArea: Dispatch<SetStateAction<string>>;
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
+  editData: SentRequestResponse;
 };
 
 const FirstStep = ({
@@ -30,6 +32,7 @@ const FirstStep = ({
   setFirstPageTextArea,
   canNext,
   SetCanNext,
+  editData,
 }: Props) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -46,15 +49,27 @@ const FirstStep = ({
       dispatch(
         myEstimateAction.addFisrtData({
           subscribePricePerMonth: Number(
-            monthlySubscribePrice.replaceAll(',', ''),
+            monthlySubscribePrice?.replaceAll(',', ''),
           ),
-          constructionPeriod: Number(constructionPeriod.replaceAll(',', '')),
+          constructionPeriod: Number(constructionPeriod?.replaceAll(',', '')),
           subscribeProductFeature: firstPageTextArea,
         }),
       );
       setTabNumber(tabNumber + 1);
     }
   };
+
+  useEffect(() => {
+    if (editData) {
+      const { preQuotation } = editData?.sendQuotationRequest;
+
+      setMonthleSubscribePrice(
+        preQuotation?.subscribePricePerMonth?.toString(),
+      );
+      setConstructionPeriod(preQuotation?.constructionPeriod?.toString());
+      setFirstPageTextArea(preQuotation?.subscribeProductFeature!);
+    }
+  }, [editData]);
 
   return (
     <Wrapper>
@@ -116,6 +131,11 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   padding-bottom: 45pt;
   height: 100vh;
+  @media (min-width: 900pt) {
+    height: auto;
+    padding-left: 25pt;
+    padding-right: 25pt;
+  }
 `;
 
 const TopStep = styled.div`
@@ -123,7 +143,7 @@ const TopStep = styled.div`
   display: flex;
   justify-content: space-between;
   & div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 500;
     line-height: 21pt;
@@ -132,12 +152,15 @@ const TopStep = styled.div`
     color: ${colors.main};
   }
   & div:nth-of-type(2) {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     font-weight: 500;
     line-height: 10.5pt;
     letter-spacing: -0.02em;
     text-align: left;
+  }
+  @media (min-width: 900pt) {
+    padding-top: 50pt;
   }
 `;
 
@@ -147,7 +170,7 @@ const InputBox = styled.div`
   flex-direction: column;
   margin-top: 30pt;
   & > div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -199,7 +222,7 @@ const Input = styled(TextField)`
 
 const SubWord = styled.div`
   margin-top: 6pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 400;
   line-height: 18pt;
@@ -242,6 +265,15 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   cursor: pointer;
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
+  @media (min-width: 900pt) {
+    width: 534pt;
+    margin: 0 auto;
+    padding: 15pt 0 30pt 0;
+    height: 42pt;
+    position: relative;
+    border-radius: 6pt;
+    margin-top: 20pt;
+  }
 `;
 
 export default FirstStep;

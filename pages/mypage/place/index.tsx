@@ -1,0 +1,328 @@
+import { testArr } from 'components/mypage/place/Charging';
+import PlaceTopBox from 'components/mypage/place/PlaceTopBox';
+import MypageHeader from 'components/mypage/request/header';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+import PlaceInfo from 'components/mypage/place/PlaceInfo';
+import styled from '@emotion/styled';
+import colors from 'styles/colors';
+import { useQuery } from '@apollo/client';
+import {
+  chargingStations,
+  ChargingStationsResponse,
+} from 'QueryComponents/UserQuery';
+import Loader from 'components/Loader';
+import PlaceNoReview from 'components/mypage/place/PlaceNoReview';
+import PlaceGetReview from 'components/mypage/place/PlaceGetReview';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import RequestMain from 'components/mypage/request/requestMain';
+import UserRightMenu from 'components/UserRightMenu';
+import { bgcolor } from '@mui/system';
+
+export interface testArr2 extends testArr {
+  address: string;
+  review: boolean;
+  score: number[];
+}
+
+const tempProceeding: testArr2[] = [
+  {
+    id: 0,
+    badge: 1,
+    storeName: 'LS 카페 신림점',
+    date: 'D-67',
+    address: '',
+    review: true,
+    score: [2, 4, 5, 3],
+  },
+  {
+    id: 1,
+    badge: 0,
+    storeName: 'LS 용산 주유소',
+    date: 'D-177',
+    address: '',
+    review: false,
+    score: [],
+  },
+  {
+    id: 2,
+    badge: 2,
+    storeName: 'LS 25시 난곡점',
+    date: 'D-5',
+    address: '',
+    review: true,
+    score: [4, 4, 5, 4],
+  },
+  {
+    id: 3,
+    badge: 3,
+    storeName: 'LS 05시 곡점',
+    date: '',
+    address: '',
+    review: false,
+    score: [],
+  },
+  {
+    id: 4,
+    badge: 4,
+    storeName: 'LS 2시 난점',
+    date: 'D-100',
+    address: '',
+    review: true,
+    score: [5, 4, 5, 5],
+  },
+];
+const TAG = 'pages/mypage/place/index.tsx';
+const ChargingPlace = () => {
+  const router = useRouter();
+  const routerId = router?.query?.id;
+
+  const [open, setOpen] = useState<boolean>(true); //리뷰 쓰기/보기 버튼 클릭 시.
+
+  const [hideTopBox, setHideTopBox] = useState<boolean>(true);
+
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    data: chargingData,
+    loading: chargingLoading,
+    error: chargingError,
+    refetch: chargingRefetch,
+  } = useQuery<ChargingStationsResponse>(chargingStations, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
+  const handleRoute = (idx: string) => {
+    //mob일 때 router.push();
+    router.push({
+      pathname: '/mypage/place',
+      query: {
+        id: idx,
+      },
+    });
+  };
+
+  if (chargingLoading) {
+    return <Loader />;
+  }
+  if (chargingError) {
+    console.log('🔥 ~line 106 ~내 충전소 상세페이지 에러 발생 ' + TAG);
+    console.log(chargingError);
+  }
+
+  console.log('🔥 ~line 110 ~내 충전소 상세페이지 데이터 확인 ' + TAG);
+  console.log(chargingData);
+  // console.log(chargingData?.chargingStations[index]);
+
+  // const index =  Number(routerId);
+  const target = chargingData?.chargingStations.filter(
+    (e) => e.projectIdx === routerId,
+  );
+
+  return (
+    <>
+      <Body bgColor={open}>
+        <WebHeader />
+        <UserRightMenu />
+        <Inner>
+          <FlexBox>
+            {hideTopBox === true && (
+              <Wrap1>
+                <RequestMain page={3} />
+              </Wrap1>
+            )}
+            {typeof routerId !== 'undefined' ? (
+              <Wrap2>
+                <MypageHeader
+                  back={open ? true : undefined}
+                  title={
+                    open
+                      ? '내 충전소'
+                      : target![0].projectReview
+                      ? '내 충전소 리뷰하기'
+                      : '내 충전소 리뷰보기'
+                  }
+                  exitBtn={open ? undefined : true}
+                  handleOnClick={() => setOpen(!open)}
+                />
+                <RightBox>
+                  {hideTopBox ? <PlaceTopBox data={target![0]} /> : null}
+                  {open ? (
+                    <Wrap>
+                      {/* 계약 관련 정보가 적힌 컴포넌트 */}
+                      <PlaceInfo data={target![0]} />
+
+                      {/*웹과 모바일일때, 리뷰 컴포넌트가 보여질 모습이 달라서 버튼 2개 생성.
+                        웹용 버튼은 모바일 사이즈에선 display : None, 모바일 버튼은 웹 사이지에서 display : None
+                      */}
+                      <BtnWeb
+                        onClick={() => {
+                          setOpen(!open);
+                          setHideTopBox(false);
+                        }}
+                      >
+                        <span>
+                          {/* 작성된 리뷰 여부 */}
+                          {target![0].projectReview ? '리뷰보기' : '리뷰쓰기'}
+                        </span>
+                      </BtnWeb>
+                      <BtnMob
+                        onClick={() => {
+                          setOpen(!open);
+                        }}
+                      >
+                        <span>
+                          {/* 작성된 리뷰 여부 */}
+                          {target![0].projectReview ? '리뷰보기' : '리뷰쓰기'}
+                        </span>
+                      </BtnMob>
+                    </Wrap>
+                  ) : (
+                    <>
+                      {/* 리뷰 여부와 리뷰 점수 전달. */}
+                      {target![0].projectReview ? (
+                        <PlaceGetReview
+                          review={true}
+                          data={target![0].projectReview}
+                          setOpen={setOpen}
+                        />
+                      ) : (
+                        <PlaceNoReview
+                          chargingRefetch={chargingRefetch}
+                          close={setOpen}
+                        />
+                      )}
+                    </>
+                  )}
+                </RightBox>
+              </Wrap2>
+            ) : null}
+          </FlexBox>
+        </Inner>
+        <WebFooter />
+      </Body>
+    </>
+  );
+};
+
+export default ChargingPlace;
+
+const Body = styled.div<{ bgColor: boolean }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 auto;
+  background: ${({ bgColor }) => (bgColor ? `white` : `#fcfcfc`)};
+
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+    background: #ffffff;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  width: 900pt;
+  height: 100%;
+  margin: 47.5pt auto;
+
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+  }
+`;
+const FlexBox = styled.div`
+  display: flex;
+  position: relative;
+  gap: 60pt;
+
+  @media (max-width: 899.25pt) {
+    display: block;
+  }
+
+  @media (min-width: 900pt) {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
+const RightBox = styled.div`
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+  }
+`;
+
+const Wrap = styled.div`
+  margin: 0 15pt;
+  position: relative;
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    margin: 0;
+  }
+`;
+
+const Wrap2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+  }
+`;
+
+const Wrap1 = styled.div`
+  //width: 255pt;
+  border: 1px solid #e9eaee;
+  border-radius: 6pt;
+  height: 100%;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
+
+const HeaderWrap = styled.div`
+  margin-left: -15pt;
+`;
+
+const BtnMob = styled.button`
+  width: 100%;
+  background-color: ${colors.main};
+  padding: 15pt 0;
+  border-radius: 6pt;
+  position: absolute;
+  bottom: 30pt;
+  span {
+    color: white;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12pt;
+    line-height: 12pt;
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+  display: none;
+  @media (max-width: 899.25pt) {
+    display: block;
+  }
+
+  @media (min-width: 900pt) {
+    position: relative;
+  }
+`;
+
+const BtnWeb = styled(BtnMob)`
+  display: block;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;

@@ -12,15 +12,33 @@ import LeftArrow from 'public/mypage/left-arrow.png';
 import RightArrow from 'public/mypage/right-arrow.png';
 import Image from 'next/image';
 import { css } from '@emotion/react';
+import { useMutation, useQueryClient } from 'react-query';
+import { isTokenPostApi } from 'api';
+import Modal from 'components/Modal/Modal';
+import { useRouter } from 'next/router';
+import { ApolloQueryResult, OperationVariables } from '@apollo/client';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 
 interface Props {
   selectedDays: string;
   SetSelectedDays: Dispatch<SetStateAction<string>>;
   exit: () => void;
+  stepType: string;
+  inProgressRefetch: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
 }
 
-const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
+const DateModal = ({
+  selectedDays,
+  SetSelectedDays,
+  exit,
+  stepType,
+  inProgressRefetch,
+}: Props) => {
   const outside = useRef(null);
+  const router = useRouter();
+  const routerId = router?.query?.projectIdx!;
   const today = {
     year: new Date().getFullYear(), //오늘 연도
     month: new Date().getMonth() + 1, //오늘 월
@@ -31,6 +49,29 @@ const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
   const [selectedYear, setSelectedYear] = useState(today.year); //현재 선택된 연도
   const [selectedMonth, setSelectedMonth] = useState(today.month); //현재 선택된 달
   const dateTotalCount = new Date(selectedYear, selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
+
+  const [isModal, setIsModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // 목표일 등록 mutation
+  const { mutate: dateMutate, isLoading } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      inProgressRefetch();
+      exit();
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
   //이전 달 보기 보튼
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
@@ -116,10 +157,16 @@ const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
       SetSelectedDays(selectedDate);
     }
   };
+  const onClcikSubmitDate = () => {
+    dateMutate({
+      url: `/projects/${routerId}/goal-date`,
+      data: {
+        projectStep: stepType,
+        goalDate: selectedDays.replaceAll('.', '-'),
+      },
+    });
+  };
 
-  useEffect(() => {
-    console.log(selectedDays);
-  }, [selectedDays]);
   const handleModalClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
@@ -127,8 +174,16 @@ const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
       exit();
     }
   };
+  // 컴포넌트 탈출 시 선택한 날짜 초기화
+  useEffect(() => {
+    return () => {
+      SetSelectedDays('');
+    };
+  }, []);
+
   return (
     <Container ref={outside} onClick={(e) => handleModalClose(e)}>
+      {isModal && <Modal click={exit} text={errorMessage} />}
       <Wrapper>
         <HeaderTitle>목표일 입력하기</HeaderTitle>
         <Title className="title">
@@ -144,7 +199,7 @@ const DateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
         </Title>
         <Weeks className="Weeks">{returnWeek()}</Weeks>
         <Days className="date">{returnDay()}</Days>
-        <Button>선택한 날짜로 입력하기</Button>
+        <Button onClick={onClcikSubmitDate}>선택한 날짜로 입력하기</Button>
       </Wrapper>
     </Container>
   );
@@ -154,6 +209,8 @@ export default DateModal;
 
 const Container = styled.div`
   position: fixed;
+  top: 0;
+  left: 0;
   z-index: 1000;
   width: 100vw;
   height: 100vh;
@@ -170,6 +227,15 @@ const Wrapper = styled.div`
   background-color: #ffffff;
   z-index: 1000;
   opacity: 1 !important;
+
+  @media (min-width: 900pt) {
+    position: relative;
+    left: 50%;
+    top: 20%;
+    width: 324pt;
+    height: 429pt;
+    border-radius: 12pt;
+  }
 `;
 
 const HeaderTitle = styled.div`
@@ -222,6 +288,9 @@ const Weeks = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  @media (min-width: 900pt) {
+    padding-top: 40pt;
+  }
 `;
 const Week = styled.div`
   width: calc(100% / 7);
@@ -279,4 +348,8 @@ const Button = styled.div`
   text-align: center;
   color: #ffffff;
   background-color: ${colors.main};
+
+  @media (min-width: 900pt) {
+    margin-top: 50pt;
+  }
 `;

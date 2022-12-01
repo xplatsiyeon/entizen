@@ -35,34 +35,40 @@ const ChooseUserType = ({ userType, setUserType, level, setLevel }: Props) => {
         {UserTypeList.map((type, index) => (
           <div key={index}>
             {type === '기업회원' && (
-              <Select
-                type={userType.toString()}
-                idx={index.toString()}
-                onClick={() => {
-                  setUserType(index);
-                }}
-              >
-                <Image
-                  src={userType === index ? companyOnImg : companyImg}
-                  alt="company"
-                />
-                <div>{type}</div>
-              </Select>
+              <div>
+                <SubTitle>고객과 손쉬운 거래를 진행하려면?</SubTitle>
+                <Select
+                  type={userType.toString()}
+                  idx={index.toString()}
+                  onClick={() => {
+                    setUserType(index);
+                  }}
+                >
+                  <Image
+                    src={userType === index ? companyOnImg : companyImg}
+                    alt="company"
+                  />
+                  <div>{type}</div>
+                </Select>
+              </div>
             )}
             {type === '일반회원' && (
-              <Select
-                type={userType.toString()}
-                idx={index.toString()}
-                onClick={() => {
-                  setUserType(index);
-                }}
-              >
-                <Image
-                  src={userType === index ? userOnImg : userImg}
-                  alt="user"
-                />
-                <div>{type}</div>
-              </Select>
+              <WebRapper>
+                <SubTitle>다양한 충전기를 비교해보고 싶다면?</SubTitle>
+                <Select
+                  type={userType.toString()}
+                  idx={index.toString()}
+                  onClick={() => {
+                    setUserType(index);
+                  }}
+                >
+                  <Image
+                    src={userType === index ? userOnImg : userImg}
+                    alt="user"
+                  />
+                  <div>{type}</div>
+                </Select>
+              </WebRapper>
             )}
           </div>
         ))}
@@ -76,6 +82,26 @@ const ChooseUserType = ({ userType, setUserType, level, setLevel }: Props) => {
     </>
   );
 };
+
+const WebRapper = styled.div`
+  @media (min-width: 900pt) {
+    margin-top: 60pt;
+  }
+  margin-top: 15pt;
+`;
+const SubTitle = styled.div`
+  padding-bottom: 18pt;
+  font-weight: 500;
+  font-size: 15pt;
+  line-height: 15pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  font-family: 'Spoqa Han Sans Neo';
+  color: #747780;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
 
 const Notice = styled(Typography)`
   margin-top: 28.5pt;

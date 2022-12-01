@@ -12,7 +12,7 @@ const Checking = ({ date }: Props) => {
   return (
     <Wrapper>
       <P>현장실사 일정을 확인 중입니다.</P>
-      <Date>{date.replaceAll('-', '.')}</Date>
+      <Date>{date?.replaceAll('-', '.')}</Date>
     </Wrapper>
   );
 };

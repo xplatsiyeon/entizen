@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import colors from 'styles/colors';
+import Link from 'next/link'
 
 type Props = {
   type: string;
@@ -34,8 +35,6 @@ const GuideLink = ({ type, num, now }: Props) => {
       break;
     case 'mypage':
       linkName = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
-      linkUrl = [`/mypage/`, `/mypage`, '/mypage/request/2-1', '/mypage'];
-
       break;
     default:
       return <></>;
@@ -43,13 +42,19 @@ const GuideLink = ({ type, num, now }: Props) => {
 
   const handleLink = (idx: number) => {
     const user = localStorage.getItem('USER_ID');
-    if (!user && type === 'mypage') {
+    if (!user ){
       router.push('/signin');
     } else {
-      if (linkUrl[idx] === '/mypage') {
-        alert('2차 작업 범위입니다');
-      } else {
-        router.push(linkUrl[idx]);
+      if (type === 'guide') {
+        router.push(`/${linkUrl[idx]}`)
+      }else if( (type === 'mypage') && (idx === 0) ){
+        router.push('/mypage');
+      }
+      else {
+        router.push({
+          pathname: '/mypage',
+          query: { id: idx },
+        });
       }
     }
   };

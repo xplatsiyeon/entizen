@@ -40,8 +40,9 @@ const ChargerInfo = ({
   return (
     <>
       {' '}
-      <InfoBox checkHeight={checkHeight?.toString()}>
+      <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
         <RndWraper
+          className="draggable"
           isMobile={mobile}
           default={{
             x: 0,
@@ -148,7 +149,17 @@ const InfoBox = styled.div<{ checkHeight: string }>`
   z-index: 1000;
   width: 281.25pt;
   height: 100%;
-  @media (max-width: 899pt) {
+  /*div{
+    &:nth-of-type(3){
+      div{
+        &:nth-of-type(1){
+          height: 50px!important;
+          border: 1px solid green;
+        }
+      }
+    }
+  }*/
+  @media (max-width: 899.25pt) {
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -166,6 +177,7 @@ const RndWraper = styled(Rnd)<{ isMobile: boolean }>`
 
 const Body = styled.div`
   overflow-y: scroll;
+  height: 100%;
 `;
 
 const ScrollBox = styled.div<{ scrollHeight: string }>`
@@ -191,7 +203,7 @@ const SelectChargerBox = styled.div`
   margin-top: 60pt;
   padding-left: 24pt;
   padding-right: 24pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 9pt;
   }
 `;
@@ -203,7 +215,7 @@ const ChargerList = styled.div`
   margin-top: 30pt;
   background: #f3f4f7;
   border-radius: 21.375pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 3pt;
   }
 `;
@@ -235,7 +247,7 @@ const ChargerTypeNCount = styled(Typography)`
   text-align: center;
   margin-bottom: 15pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 0;
   }
 `;
@@ -249,7 +261,7 @@ const ChargerNotice = styled(Typography)`
   color: #a6a9b0;
   margin: 0 52.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 7.5pt;
     line-height: 9pt;
     margin: 0;
@@ -262,7 +274,7 @@ const PredictBoxWrapper = styled.div`
   margin: 39pt 15pt 0;
   gap: 11.25pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 30pt 0 0;
   }
 `;
@@ -334,7 +346,7 @@ const DidHelp = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 30pt;
   }
 `;
@@ -377,5 +389,12 @@ const QuotationBtn = styled.div`
     flex: none;
     order: 0;
     flex-grow: 0;
+  }
+`;
+
+const Wrap = styled.div`
+  //position: relative;
+  @media (max-width: 899.25pt) {
+    position: relative;
   }
 `;

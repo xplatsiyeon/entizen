@@ -2,13 +2,26 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
-
-const ScheduleChange = () => {
-  const route = useRouter();
+type Props = {
+  spotId: number;
+};
+const ScheduleChange = ({ spotId }: Props) => {
+  const router = useRouter();
   return (
     <Wrapper>
       <P>일정 변경 요청이 들어왔습니다</P>
-      <Btn onClick={() => route.push('/mypage/request/2-3')}>확인하기</Btn>
+      <Btn
+        onClick={() =>
+          router.push({
+            pathname: '/mypage/request/changeDateList',
+            query: {
+              spotId: spotId,
+            },
+          })
+        }
+      >
+        확인하기
+      </Btn>
     </Wrapper>
   );
 };

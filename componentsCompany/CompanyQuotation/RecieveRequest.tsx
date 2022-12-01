@@ -18,6 +18,7 @@ import Loader from 'components/Loader';
 import Sort from './Sort';
 import Search from './Search';
 import Modal from 'components/Modal/Modal';
+import WebSort from './WebSort';
 
 type Props = {
   searchWord: string;
@@ -42,49 +43,7 @@ const RecieveRequest = ({
   data,
 }: Props) => {
   const router = useRouter();
-  console.log(TAG + '🔥 ~ line 45 ~ data check');
-  console.log(data);
 
-  // const [searchWord, setSearchWord] = useState<string>('');
-  // const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
-  // const [checkedFilter, setCheckedFilter] =
-  //   useState<filterType>('마감일순 보기');
-
-  // const keyword = useDebounce(searchWord, 3000);
-  // api 호출
-  // const { data, isLoading, isError, error, refetch } =
-  //   useQuery<ReceivedResponse>('received-Request', () =>
-  //     isTokenGetApi(
-  //       `/quotations/received-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
-  //     ),
-  //   );
-
-  // if (isError) {
-  //   console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
-  //   console.log(error);
-  //   return (
-  //     <Modal
-  //       text="다시 시도해주세요"
-  //       click={() => {
-  //         router.push('/');
-  //       }}
-  //     />
-  //   );
-  // }
-
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
-
-  // useEffect(() => {
-  //   console.log(TAG + '🔥 ~line 54 ~ data 확인');
-  //   console.log(data);
-  // }, []);
-
-  // // 필터링 기능
-  // useEffect(() => {
-  //   refetch();
-  // }, [checkedFilterIndex, keyword]);
   return (
     <>
       <Sort
@@ -93,15 +52,27 @@ const RecieveRequest = ({
         checkedFilterIndex={checkedFilterIndex}
         setcheckedFilterIndex={setcheckedFilterIndex}
       />
-      <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+      <TopContainer>
+        <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+        <WebSort
+          checkedFilter={checkedFilter}
+          setCheckedFilter={setCheckedFilter}
+          checkedFilterIndex={checkedFilterIndex}
+          setcheckedFilterIndex={setcheckedFilterIndex}
+        />
+      </TopContainer>
       <ContentsContainer>
         {data?.receivedQuotationRequests?.map((el, idx) => (
           <Contents
             key={el?.quotationRequest?.quotationRequestIdx}
             onClick={() =>
-              router.push(
-                `/company/recievedRequest/${el?.quotationRequest?.quotationRequestIdx}`,
-              )
+              router.push({
+                pathname: '/company/recievedRequest',
+                query: {
+                  quotationRequestIdx:
+                    el?.quotationRequest?.quotationRequestIdx,
+                },
+              })
             }
           >
             <DdayNAddress>
@@ -130,6 +101,12 @@ const RecieveRequest = ({
 
 const ContentsContainer = styled.div`
   margin-top: 18pt;
+  
+  padding-bottom: 75pt;
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    margin: 0 auto;
+  }
 `;
 
 const Contents = styled.div`
@@ -146,12 +123,13 @@ const DdayBox = styled.div`
   margin-bottom: 16.5pt;
   cursor: pointer;
 `;
+
 const DdayNAddress = styled.div`
   position: relative;
 `;
 
 const AddressBox = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   position: relative;
   font-size: 12pt;
   font-weight: 700;
@@ -160,6 +138,16 @@ const AddressBox = styled.div`
   text-align: left;
   margin-top: 12pt;
   color: ${colors.main2};
+`;
+
+const TopContainer = styled.div`
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-bottom: 30pt;
+  }
 `;
 
 const IconBox = styled.div`

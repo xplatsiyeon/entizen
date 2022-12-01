@@ -60,6 +60,8 @@ const TermContent = ({
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
+      console.log(cloneDocument.form_chk);
+
       cloneDocument.form_chk.submit();
     }
   };
@@ -86,7 +88,7 @@ const TermContent = ({
     const memberType = 'USER';
     axios({
       method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
+      url: 'https://api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {

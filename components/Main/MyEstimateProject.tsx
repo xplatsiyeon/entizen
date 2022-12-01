@@ -4,12 +4,15 @@ import { Box, Typography } from '@mui/material';
 import rightArrow from 'public/images/rightArrow.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { Count } from '.';
 
 type Props = {
   borders?: number | undefined;
+  quotationData: Count;
+  projectData: Count;
 };
 
-const MyEstimateProject = ({ borders }: Props) => {
+const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
   const userID = localStorage.getItem('USER_ID');
   const router = useRouter();
   return (
@@ -33,7 +36,7 @@ const MyEstimateProject = ({ borders }: Props) => {
             <ImageWrap>
               <Typography
                 sx={{
-                  width:'12pt',
+                  width: '12pt',
                   padding: '0',
                   display: 'flex',
                   alignItems: 'center',
@@ -42,20 +45,22 @@ const MyEstimateProject = ({ borders }: Props) => {
               >
                 <Image src={rightArrow} alt="rightArrow" />
               </Typography>
-              <IconWrap >
+              <IconWrap>
                 <Image src={rightArrow} layout="fill" alt="rightArrow" />
               </IconWrap>
             </ImageWrap>
           </BoxName>
         </Box>
         <CountBox>
-          <Count>{userID ? '3' : '0'}</Count>
+          <Count>{userID ? quotationData?.data?.count : '0'}</Count>
           <Amount>{'건'}</Amount>
         </CountBox>
       </BoxWrapper>
       <BoxWrapper
         borders={borders ? borders : 0}
-        onClick={() => alert('2차 작업 범위 페이지입니다.')}
+        onClick={() =>
+          userID ? router.push('/mypage?id=1') : router.push('/signin')
+        }
       >
         <Box>
           <BoxName>
@@ -70,7 +75,7 @@ const MyEstimateProject = ({ borders }: Props) => {
             <ImageWrap>
               <Typography
                 sx={{
-                  width:'12pt',
+                  width: '12pt',
                   padding: '0',
                   display: 'flex',
                   alignItems: 'center',
@@ -79,14 +84,14 @@ const MyEstimateProject = ({ borders }: Props) => {
               >
                 <Image src={rightArrow} alt="rightArrow" />
               </Typography>
-              <IconWrap >
+              <IconWrap>
                 <Image src={rightArrow} layout="fill" alt="rightArrow" />
               </IconWrap>
             </ImageWrap>
           </BoxName>
         </Box>
         <CountBox>
-          <Count>{userID ? '2' : '0'}</Count>
+          <Count>{userID ? projectData?.data?.count : '0'}</Count>
           <Amount>{'건'}</Amount>
         </CountBox>
       </BoxWrapper>
@@ -99,7 +104,7 @@ const Wrapper = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 22.5pt;
   height: 165pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     gap: 11.25pt;
     flex: none;
     margin-top: 60pt;
@@ -116,7 +121,7 @@ const BoxWrapper = styled.div<{ borders: number }>`
     display: flex;
     justify-content: end;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding-top: 15pt;
     padding-left: 12pt;
     padding-right: 12.75pt;
@@ -129,6 +134,7 @@ const BoxName = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+
   & p {
     position: relative;
     font-family: 'Spoqa Han Sans Neo';
@@ -143,7 +149,7 @@ const BoxName = styled.div`
     bottom: 0.3pt;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 21pt;
     & P {
       font-size: 12pt;
@@ -167,7 +173,7 @@ const Count = styled(Typography)`
   margin-right: 3pt;
   text-align: right;
   color: #5a2dc9;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 15pt;
     line-height: 15pt;
   }
@@ -183,7 +189,7 @@ const Amount = styled(Typography)`
   line-height: 21pt;
   text-align: left;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-weight: 400;
     font-size: 12pt;
     line-height: 12pt;
@@ -193,25 +199,24 @@ const Amount = styled(Typography)`
 `;
 
 const ImageWrap = styled.div`
-  p{
+  p {
     display: none;
   }
-  @media (max-width: 899pt) {
-    p{
+  @media (max-width: 899.25pt) {
+    p {
       display: block;
     }
   }
-
-`
+`;
 const IconWrap = styled.div`
-    width: 21pt;
-    height: 21pt;
-    position: relative;
-    object-fit: cover;
+  width: 21pt;
+  height: 21pt;
+  position: relative;
+  object-fit: cover;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
-`
+`;
 
 export default MyEstimateProject;

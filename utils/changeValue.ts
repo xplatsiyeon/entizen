@@ -20,12 +20,81 @@ export const HandleColor = (badge: string | undefined): string => {
 };
 
 // 구매자 뱃지 변환
+
+/**
+ * 구매자 뱃지 변환
+ * @param badge 뱃지 데이터
+ * @returns "" | 뱃지 컬러
+ */
 export const HandleUserColor = (badge: string | undefined): string => {
   if (badge) {
     if (badge.includes('마감')) return '#F75015';
     else if (badge.includes('대기 중')) return '#FFC043';
     else if (badge.includes('취소')) return '#CACCD1';
     else return '#5A2DC9';
+  } else {
+    return '';
+  }
+};
+/**
+ * 내 프로젝트 전용 뱃지 컬러 (판매자, 구매자)
+ * @param badge
+ * @returns
+ */
+export const handleColor = (badge: string | undefined): string => {
+  if (badge) {
+    if (badge?.includes('계약대기')) {
+      return '#F75015';
+    } else if (badge?.includes('준비') || badge?.includes('설치')) {
+      return colors.main;
+    } else if (badge?.includes('검수 중')) {
+      return '#FFC043';
+    } else if (badge?.includes('완료')) {
+      return '#222222';
+    } else if (badge?.includes('프로젝트')) {
+      return '#CACCD1';
+    } else {
+      return '';
+    }
+  } else {
+    return '';
+  }
+};
+/**
+ * 내 충전소 전용 뱃지 컬러 (구매자)
+ * @param badge
+ * @returns
+ */
+export const handleColor2 = (badge: number) => {
+  if (badge === 0) {
+    return colors.main;
+  } else if (badge === 1) {
+    return '#FFC043';
+  } else if (badge === 2) {
+    return '#F75015';
+  } else if (badge === 3) {
+    return '#222222';
+  } else if (badge === 4) {
+    return '#CACCD1';
+  } else {
+    return '';
+  }
+};
+
+/**
+ * A/S 전용 뱃지 컬러 (구매자, 판매자)
+ * @param badge
+ * @returns
+ */
+export const handleColorAS = (badge: string) => {
+  if (badge?.includes('요청')) {
+    return '#F75015';
+  } else if (badge?.includes('확인')) {
+    return '#5221CB';
+  } else if (badge?.includes('대기')) {
+    return '#FFC043';
+  } else if (badge?.includes('A/S')) {
+    return '#222222';
   } else {
     return '';
   }

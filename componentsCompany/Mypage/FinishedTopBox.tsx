@@ -5,19 +5,47 @@ import React, { useState } from 'react';
 import colors from 'styles/colors';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
-import CommonBtns from 'components/mypage/as/CommonBtns';
+import { HistoryProjectsDetail } from 'QueryComponents/CompanyQuery';
+import { convertKo } from 'utils/calculatePackage';
+import {
+  InstallationPurposeType,
+  InstallationPurposeTypeEn,
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+  subscribeType,
+  subscribeTypeEn,
+} from 'assets/selectList';
+import { handleColor } from 'utils/changeValue';
 
-type Props = {};
+type Props = {
+  data: HistoryProjectsDetail;
+};
 
-const FinishedTopBox = (props: Props) => {
+const FinishedTopBox = ({ data }: Props) => {
+  const formatter = new Intl.NumberFormat('ko');
+  const formatter2 = new Intl.RelativeTimeFormat('ko', { numeric: 'auto' });
+  const today = new Date();
+  const started = new Date(data?.subscribeEndDate?.replaceAll('-', ','));
+  // today - started
+  const subscribePassed = Math.ceil(
+    (started.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+  );
+
+  console.log(subscribePassed);
+
   const [open, setOpen] = useState<boolean>(false);
+
   return (
     <Wrapper>
       <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
-          <div className="badge">구독종료 D-678</div>
+          <div className="badge">{`구독종료 D-${subscribePassed}`}</div>
           <div>
-            <h1>LS 카페 신림점</h1>
+            <h1>{data?.projectName}</h1>
             {open ? (
               <ArrowImg>
                 <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -28,7 +56,7 @@ const FinishedTopBox = (props: Props) => {
               </ArrowImg>
             )}
           </div>
-          <p>서울시 관악구 난곡로40길 30</p>
+          {/* <p>서울시 관악구 난곡로40길 30</p> */}
         </StoreName>
       </ItemButton>
       {/* Open */}
@@ -37,79 +65,176 @@ const FinishedTopBox = (props: Props) => {
           <Contents>
             <div className="text-box">
               <span className="name">프로젝트 번호</span>
-              <span className="text">SEY0G002201</span>
+              <span className="text">{data?.projectNumber}</span>
             </div>
             <div className="text-box">
               <span className="name">구독상품</span>
-              <span className="text">부분구독</span>
-            </div>
-            <div className="text-box">
-              <span className="name">구독시작</span>
-              <span className="text">22.03/17</span>
-            </div>
-            <div className="text-box">
-              <span className="name">구독종료</span>
-              <span className="text">25.03.16</span>
-            </div>
-            <div className="text-box">
-              <span className="name">월 구독료</span>
-              <span className="text">149,000 원</span>
-            </div>
-            <div className="text-box">
-              <span className="name">충전요금</span>
-              <span className="text">240 월/kW</span>
-            </div>
-            <div className="text-box">
-              <span className="name">수익지분</span>
-              <span className="text">50 %</span>
-            </div>
-            <div className="text-box">
-              <span className="name">충전기 종류 및 수량</span>
               <span className="text">
-                7 kW 충전기 (공용)
-                <br />
-                :벽걸이, 싱글, 2 대
+                {convertKo(
+                  subscribeType,
+                  subscribeTypeEn,
+                  data?.finalQuotation?.subscribeProduct,
+                )}
               </span>
             </div>
             <div className="text-box">
-              <span className="name">충전기 설치 목적</span>
-              <span className="text">모객 효과</span>
+              <span className="name">구독시작</span>
+              <span className="text">
+                {data?.subscribeStartDate.replaceAll('-', '.')}
+              </span>
             </div>
             <div className="text-box">
-              <span className="name">충전기 제조사</span>
-              <span className="text">LS ELECTRIC</span>
+              <span className="name">구독종료</span>
+              <span className="text">
+                {data?.subscribeEndDate.replaceAll('-', '.')}
+              </span>
             </div>
+            <div className="text-box">
+              <span className="name">월 구독료</span>
+              <span className="text">{`${formatter.format(
+                Number(data?.finalQuotation?.subscribePricePerMonth!),
+              )} 월`}</span>
+            </div>
+            <div className="text-box">
+              <span className="name">충전요금</span>
+              <span className="text">
+                {`${formatter.format(
+                  Number(
+                    data?.finalQuotation?.finalQuotationChargers[0]
+                      ?.chargePrice,
+                  ),
+                )} 월/kW`}
+              </span>
+            </div>
+            <div className="text-box">
+              <span className="name">수익지분</span>
+              <span className="text">{`${Math.floor(
+                Number(data?.finalQuotation?.userInvestRate) * 100,
+              )} %`}</span>
+            </div>
+            {data?.finalQuotation?.finalQuotationChargers?.map(
+              (item, index) => (
+                <React.Fragment key={index}>
+                  <div className="text-box">
+                    <span className="name">
+                      {index === 0 ? '충전기 종류 및 수량' : ''}
+                    </span>
+                    <span className="text">
+                      {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                      <br />
+                      {item.standType
+                        ? //  standType 있으면
+                          `: ${convertKo(
+                            M6_LIST,
+                            M6_LIST_EN,
+                            item.standType,
+                          )}, ${convertKo(
+                            M7_LIST,
+                            M7_LIST_EN,
+                            item.channel,
+                          )}, ${item.count} 대`
+                        : // standType 없으면
+                          `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                            item.count
+                          } 대`}
+                    </span>
+                  </div>
+                </React.Fragment>
+              ),
+            )}
+            <div className="text-box">
+              <span className="name">충전기 설치 목적</span>
+              <span className="text">
+                {convertKo(
+                  InstallationPurposeType,
+                  InstallationPurposeTypeEn,
+                  data?.finalQuotation?.quotationRequest?.installationPurpose,
+                )}
+              </span>
+            </div>
+            {data?.finalQuotation?.finalQuotationChargers?.length === 1 && (
+              <div className="text-box">
+                <span className="name">충전기 제조사</span>
+                <span className="text">
+                  {
+                    data?.finalQuotation?.finalQuotationChargers[0]
+                      ?.manufacturer
+                  }
+                </span>
+              </div>
+            )}
+
+            {/* 충전기 제조사 2개 이상 일 때 / 충전 요금 */}
+            {data?.finalQuotation?.finalQuotationChargers?.length! !== 1 && (
+              <>
+                <MultiSection>
+                  <BorderTop></BorderTop>
+                  <Subtitle>충전 요금</Subtitle>
+                  {data?.finalQuotation?.finalQuotationChargers?.map(
+                    (item, index) => (
+                      <MultiBox key={index}>
+                        <Item>
+                          <span className="name">
+                            {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                          </span>
+                          <span className="value">
+                            {`${formatter.format(
+                              Number(
+                                data?.finalQuotation?.finalQuotationChargers[0]
+                                  ?.chargePrice,
+                              ),
+                            )} 월/kW`}
+                          </span>
+                        </Item>
+                      </MultiBox>
+                    ),
+                  )}
+                </MultiSection>
+              </>
+            )}
+            {/* 충전기 제조사 2개 이상 일 때 / 제조사 */}
+            {data?.finalQuotation?.finalQuotationChargers?.length! !== 1 && (
+              <>
+                <MultiSection>
+                  <BorderTop></BorderTop>
+                  <Subtitle>충전기 제조사</Subtitle>
+                  {data?.finalQuotation?.finalQuotationChargers?.map(
+                    (item, index) => (
+                      <MultiBox key={index}>
+                        <Item>
+                          <span className="name">
+                            {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                          </span>
+                          <span className="value">
+                            {
+                              data?.finalQuotation?.finalQuotationChargers[0]
+                                ?.manufacturer
+                            }
+                          </span>
+                        </Item>
+                      </MultiBox>
+                    ),
+                  )}
+                </MultiSection>
+              </>
+            )}
           </Contents>
         </List>
       </Collapse>
     </Wrapper>
   );
 };
-const CustomerRequestContent = styled.div`
-  font-family: Spoqa Han Sans Neo;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 20px;
-  letter-spacing: -0.02em;
-  text-align: center;
-  color: ${colors.main};
-  margin-top: 21pt;
-`;
-
 const Wrapper = styled.div`
   display: block;
   border-top: none;
   box-shadow: 0px 3pt 7.5pt -3pt #89a3c966;
   padding-left: 15pt;
   padding-right: 15pt;
-  margin-top: 15pt;
-  /* border-top: 1px solid #e2e5ed; */
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
   }
 `;
-
 const ItemButton = styled(ListItemButton)`
   display: flex;
   justify-content: center;
@@ -119,7 +244,6 @@ const ItemButton = styled(ListItemButton)`
     margin: 0;
   }
 `;
-
 const StoreName = styled(ListItemText)`
   padding-top: 16.5pt;
   padding-bottom: 16.5pt;
@@ -133,7 +257,7 @@ const StoreName = styled(ListItemText)`
   }
   .badge {
     padding: 4.5pt 7.5pt;
-    background-color: ${colors.main};
+    background-color: ${colors.main1};
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -166,7 +290,6 @@ const StoreName = styled(ListItemText)`
     color: ${colors.main2};
   }
 `;
-
 const ArrowImg = styled.div`
   position: relative;
   display: flex;
@@ -176,7 +299,6 @@ const ArrowImg = styled.div`
   width: 18pt;
   height: 18pt;
 `;
-
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
@@ -198,7 +320,6 @@ const Contents = styled.div`
       text-align: right;
     }
   }
-
   .name {
     font-weight: 500;
     font-size: 10.5pt;
@@ -219,21 +340,70 @@ const Contents = styled.div`
     padding-bottom: 24pt;
     text-align: center;
   }
-
   .phone {
     text-decoration: underline;
     color: ${colors.main};
   }
 `;
-
-const Partner = styled.div`
-  font-family: Spoqa Han Sans Neo;
-  font-size: 12pt;
+const MultiSection = styled.div`
+  padding-top: 18pt;
+  display: flex;
+  flex-direction: column;
+  gap: 12pt;
+  :nth-of-type(1) {
+    padding-bottom: 18pt;
+    margin-top: 18pt;
+    border-bottom: 0.75pt solid ${colors.lightGray};
+    border-top: 0.75pt solid ${colors.lightGray};
+  }
+`;
+const BorderTop = styled.div`
+  border-top: 1px solid #e9eaee;
+  padding: 0 15pt;
+  padding-bottom: 15pt;
+`;
+const Subtitle = styled.h2`
   font-weight: 700;
+  font-size: 10.5pt;
   line-height: 12pt;
-  letter-spacing: 0em;
-  text-align: left;
-  padding-bottom: 24pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+`;
+const MultiBox = styled.div`
+  padding-top: 3pt;
+`;
+const Item = styled.li`
+  display: flex;
+  :not(:nth-of-type(1)) {
+    padding-top: 12pt;
+  }
+  .name {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+    flex: 1;
+  }
+  .value {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    flex: 2;
+  }
+  @media (max-width: 899.25pt) {
+    justify-content: space-between;
+    .name {
+      flex: none;
+    }
+    .value {
+      flex: none;
+      text-align: right;
+    }
+  }
 `;
 
 export default FinishedTopBox;

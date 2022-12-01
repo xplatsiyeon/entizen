@@ -1,56 +1,95 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
-import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import Image from 'next/image';
 import { useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
 import MypageHeader from '../request/header';
-import { useRouter } from 'next/router';
-import CommonBtn from './CommonBtn';
 import CommonBtns from './CommonBtns';
+import { handleColorAS } from 'utils/changeValue';
+import { AsDetailReseponse } from 'pages/mypage/as';
+import { useQuery } from '@apollo/client';
+import { AsRequest, asRequest } from 'QueryComponents/UserQuery';
+import { convertKo } from 'utils/calculatePackage';
+import {
+  InstallationPurposeType,
+  InstallationPurposeTypeEn,
+  location,
+  locationEn,
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+  subscribeType,
+  subscribeTypeEn,
+} from 'assets/selectList';
+import { useRouter } from 'next/router';
 
-type Props = {};
-
-const AsRequest = (props: Props) => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [text, setText] = useState<string>('');
+type Props = {
+  data: AsDetailReseponse;
+};
+const TAG = 'components/mypage/as/AsRequest.tsx';
+const AsRequest = ({ data }: Props) => {
   const router = useRouter();
-  useEffect(() => {
-    if (router.pathname.includes('1-1')) {
-      setText('접수요청 D-3');
-    }
-    if (router.pathname.includes('asGoReview')) {
-      setText('완료대기');
-    }
-    if (router.pathname.includes('asReviewEnd')) {
-      setText('A/S완료');
-    }
-  }, [router]);
-  console.log(router);
+  const projectIdx =
+    data?.data?.afterSalesService?.afterSalesService?.projectIdx;
+
+  // alert(id)
+  const [open, setOpen] = useState<boolean>(false);
+
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    loading: projectLoading,
+    error: projectError,
+    data: projectData,
+    refetch,
+  } = useQuery<AsRequest>(asRequest, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+    variables: {
+      projectIdx: projectIdx,
+    },
+  });
+
+  // console.log('🔥 프로젝트  상단 데이터 확인 ~line 45 ' + TAG);
+  // console.log(projectData);
 
   const handleClick = () => setOpen(!open);
-
   return (
-    <>
-      <MypageHeader title={'A/S'} back={true} />
+    <Body>
+      <MypageHeader
+        title={'A/S'}
+        back={true}
+        handle={true}
+        handleOnClick={() => {
+          router.push({
+            pathname: '/mypage',
+            query: {
+              id: '2',
+            },
+          });
+        }}
+      />
       <Wrapper>
         {/* Close */}
         <ItemButton onClick={handleClick}>
           <StoreName>
-            {text === '접수요청 D-3' && (
-              <CommonBtns text={'접수요청 D-3'} backgroundColor={'#F75015'} />
-            )}
-            {text === '완료대기' && (
-              <CommonBtns text={'완료대기'} backgroundColor={'#FFC043'} />
-            )}
-            {text === 'A/S완료' && (
-              <CommonBtns text={'A/S완료'} backgroundColor={'#222222'} />
-            )}
+            <CommonBtns
+              text={data?.data?.afterSalesService?.badge!}
+              backgroundColor={handleColorAS(
+                data?.data?.afterSalesService?.badge!,
+              )}
+            />
             <div>
-              <h1>LS 카페 신림점</h1>
+              <h1>{projectData?.project?.projectName}</h1>
               {open ? (
                 <ArrowImg>
                   <Image src={DownArrow} alt="down_arrow" layout="fill" />
@@ -61,7 +100,6 @@ const AsRequest = (props: Props) => {
                 </ArrowImg>
               )}
             </div>
-            <p>서울시 관악구 난곡로40길 30</p>
           </StoreName>
         </ItemButton>
 
@@ -71,52 +109,163 @@ const AsRequest = (props: Props) => {
             <Contents>
               <div className="text-box">
                 <span className="name">프로젝트 번호</span>
-                <span className="text">GGO0M002203</span>
-              </div>
-              <div className="text-box">
-                <span className="name">구독상품</span>
-                <span className="text">부분구독</span>
-              </div>
-              <div className="text-box">
-                <span className="name">구독기간</span>
-                <span className="text">60개월</span>
-              </div>
-              <div className="text-box">
-                <span className="name">수익지분</span>
-                <span className="text">100 %</span>
-              </div>
-              <div className="text-box">
-                <span className="name">충전기 종류 및 수량</span>
                 <span className="text">
-                  100 kW 충전기
-                  <br />
-                  :벽걸이, 싱글, 3 대
+                  {projectData?.project?.projectNumber}
                 </span>
               </div>
               <div className="text-box">
-                <span className="name">충전기 설치 위치</span>
-                <span className="text">건물 밖</span>
+                <span className="name">구독상품</span>
+                <span className="text">
+                  {convertKo(
+                    subscribeType,
+                    subscribeTypeEn,
+                    projectData?.project?.finalQuotation?.subscribeProduct,
+                  )}
+                </span>
               </div>
               <div className="text-box">
-                <span className="name">전기차 충전 사업</span>
-                <span className="text">없음</span>
+                <span className="name">구독기간</span>
+                <span className="text">
+                  {`${projectData?.project?.finalQuotation?.subscribePeriod} 개월`}
+                </span>
               </div>
+              <div className="text-box">
+                <span className="name">수익지분</span>
+                <span className="text">{`${Math.floor(
+                  Number(projectData?.project?.finalQuotation?.userInvestRate) *
+                    100,
+                )} %`}</span>
+              </div>
+
+              {projectData?.project?.finalQuotation?.finalQuotationChargers?.map(
+                (item, index) => (
+                  <React.Fragment key={index}>
+                    <div className="text-box">
+                      <span className="name">
+                        {index === 0 ? '충전기 종류 및 수량' : ''}
+                      </span>
+                      <span className="text">
+                        {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                        <br />
+                        {item.standType
+                          ? //  standType 있으면
+                            `: ${convertKo(
+                              M6_LIST,
+                              M6_LIST_EN,
+                              item.standType,
+                            )}, ${convertKo(
+                              M7_LIST,
+                              M7_LIST_EN,
+                              item.channel,
+                            )}, ${item.count} 대`
+                          : // standType 없으면
+                            `: ${convertKo(
+                              M7_LIST,
+                              M7_LIST_EN,
+                              item.channel,
+                            )}, ${item.count} 대`}
+                      </span>
+                    </div>
+                  </React.Fragment>
+                ),
+              )}
+
+              {/* 충전기 설치 위치  1개 */}
+              {projectData?.project.finalQuotation.finalQuotationChargers
+                .length === 1 && (
+                <div className="text-box">
+                  <span className="name">충전기 설치 위치</span>
+                  <span className="text">
+                    {convertKo(
+                      location,
+                      locationEn,
+                      projectData?.project.finalQuotation
+                        .finalQuotationChargers[0].installationLocation,
+                    )}
+                  </span>
+                </div>
+              )}
+              <div className="text-box">
+                <span className="name">충전기 설치 목적</span>
+                <span className="text">
+                  {convertKo(
+                    InstallationPurposeType,
+                    InstallationPurposeTypeEn,
+                    projectData?.project?.finalQuotation?.quotationRequest
+                      ?.installationPurpose,
+                  )}
+                </span>
+              </div>
+              {/* 기타 요청사항 */}
+              {projectData?.project?.finalQuotation?.quotationRequest
+                ?.etcRequest.length! >= 1 ? (
+                <div className="text-box">
+                  <span className="name">기타 요청사항</span>
+                  <span className="text">
+                    {
+                      projectData?.project?.finalQuotation?.quotationRequest
+                        ?.etcRequest
+                    }
+                  </span>
+                </div>
+              ) : (
+                <div className="text-box">
+                  <span className="name">기타 요청사항</span>
+                  <span className="text">없음</span>
+                </div>
+              )}
+
+              {/* 충전기 제조사 2개 이상 일 때 */}
+              {projectData?.project.finalQuotation.finalQuotationChargers
+                .length! !== 1 && (
+                <>
+                  <MultiSection>
+                    <BorderTop></BorderTop>
+                    <Subtitle>충전기 설치위치</Subtitle>
+                    {projectData?.project?.finalQuotation?.finalQuotationChargers?.map(
+                      (item, index) => (
+                        <MultiBox key={index}>
+                          <Item>
+                            <span className="name">
+                              {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                            </span>
+                            <span className="value">
+                              {convertKo(
+                                location,
+                                locationEn,
+                                item?.installationLocation,
+                              )}
+                            </span>
+                          </Item>
+                        </MultiBox>
+                      ),
+                    )}
+                  </MultiSection>
+                </>
+              )}
             </Contents>
           </List>
         </Collapse>
       </Wrapper>
-    </>
+    </Body>
   );
 };
 
 export default AsRequest;
+
+const Body = styled.div`
+  display: none;
+  @media (max-width: 899.25pt) {
+    display: block;
+  }
+`;
 
 const Wrapper = styled.div`
   display: block;
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
   padding-left: 15pt;
   padding-right: 15pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
   }
@@ -211,5 +360,69 @@ const Contents = styled.div`
     padding-top: 42pt;
     padding-bottom: 24pt;
     text-align: center;
+  }
+`;
+
+const MultiSection = styled.div`
+  padding-top: 18pt;
+  display: flex;
+  flex-direction: column;
+  gap: 12pt;
+
+  :nth-of-type(1) {
+    padding-bottom: 18pt;
+    margin-top: 18pt;
+    border-bottom: 0.75pt solid ${colors.lightGray};
+    border-top: 0.75pt solid ${colors.lightGray};
+  }
+`;
+const BorderTop = styled.div`
+  border-top: 1px solid #e9eaee;
+  padding: 0 15pt;
+  padding-bottom: 15pt;
+`;
+const Subtitle = styled.h2`
+  font-weight: 700;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+`;
+const MultiBox = styled.div`
+  padding-top: 3pt;
+`;
+const Item = styled.li`
+  display: flex;
+
+  :not(:nth-of-type(1)) {
+    padding-top: 12pt;
+  }
+  .name {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+    flex: 1;
+  }
+  .value {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    flex: 2;
+  }
+
+  @media (max-width: 899.25pt) {
+    justify-content: space-between;
+    .name {
+      flex: none;
+    }
+    .value {
+      flex: none;
+      text-align: right;
+    }
   }
 `;

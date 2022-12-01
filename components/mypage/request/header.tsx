@@ -14,6 +14,7 @@ interface Props {
   homeBtn?: boolean;
   handleOnClick?: () => void;
   handleHomeClick?: () => void;
+  handle?: boolean;
 }
 
 const MypageHeader = ({
@@ -24,16 +25,18 @@ const MypageHeader = ({
   homeBtn = false,
   handleOnClick,
   handleHomeClick,
+  handle,
 }: Props) => {
   const route = useRouter();
 
-
-
   return (
-    <Header>
+    <Header handle={handle}>
       {/* 뒤로가기 버튼 */}
       {back && (
-        <div className="back-img" onClick={() => route.back()}>
+        <div
+          className="back-img"
+          onClick={!handle ? () => route.back() : handleOnClick}
+        >
           <Image src={BackImg} alt="btn-icon" />
         </div>
       )}
@@ -60,11 +63,13 @@ const MypageHeader = ({
 
 export default MypageHeader;
 
-const Header = styled.div`
-  display: none;
+const Header = styled.div<{ handle: boolean | undefined }>`
+  display: ${({ handle }) => (handle ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
   position: relative;
+  background: white;
+
   //background-color: ${colors.lightWhite};
   padding: 9pt 15pt;
   .back-img {
@@ -100,7 +105,8 @@ const Header = styled.div`
     position: absolute;
     right: 15pt;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: flex;
+    align-content: center;
   }
 `;

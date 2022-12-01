@@ -12,14 +12,35 @@ import LeftArrow from 'public/mypage/left-arrow.png';
 import RightArrow from 'public/mypage/right-arrow.png';
 import Image from 'next/image';
 import { css } from '@emotion/react';
+import { useMutation } from 'react-query';
+import { isTokenPatchApi } from 'api';
+import { useRouter } from 'next/router';
+import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
+import { ApolloQueryResult, OperationVariables } from '@apollo/client';
+import { InProgressProjectsDetailResponse } from 'QueryComponents/CompanyQuery';
 
 interface Props {
   selectedDays: string;
   SetSelectedDays: Dispatch<SetStateAction<string>>;
   exit: () => void;
+  stepType: string;
+  setModalOpen: Dispatch<SetStateAction<boolean>>;
+  inProgressRefetch: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
 }
 
-const ChangeDateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
+const ChangeDateModal = ({
+  selectedDays,
+  SetSelectedDays,
+  exit,
+  stepType,
+  setModalOpen,
+  inProgressRefetch,
+}: Props) => {
+  const router = useRouter();
+  const routerId = router?.query?.projectIdx;
   const outside = useRef(null);
   const today = {
     year: new Date().getFullYear(), //오늘 연도
@@ -31,6 +52,19 @@ const ChangeDateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
   const [selectedYear, setSelectedYear] = useState(today.year); //현재 선택된 연도
   const [selectedMonth, setSelectedMonth] = useState(today.month); //현재 선택된 달
   const dateTotalCount = new Date(selectedYear, selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
+  // textArea 내용
+  const [contents, setContents] = useState('');
+
+  const { mutate: goalMutate, isLoading } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {
+      inProgressRefetch();
+      setModalOpen(false);
+    },
+    onError: (error: any) => {
+      console.log('err');
+    },
+  });
+
   //이전 달 보기 보튼
   const prevMonth = useCallback(() => {
     if (selectedMonth === 1) {
@@ -116,6 +150,21 @@ const ChangeDateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
       SetSelectedDays(selectedDate);
     }
   };
+  // Text area 값 변경
+  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContents(e.currentTarget.value);
+  };
+  // 목표일 변경
+  const onClickGoalDate = () => {
+    goalMutate({
+      url: `/projects/${routerId}/goal-date`,
+      data: {
+        projectStep: stepType,
+        changedReason: contents,
+        goalDate: selectedDays?.replaceAll('.', '-'),
+      },
+    });
+  };
 
   useEffect(() => {
     console.log(selectedDays);
@@ -127,6 +176,10 @@ const ChangeDateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
       exit();
     }
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <Container ref={outside} onClick={(e) => handleModalClose(e)}>
       <Wrapper>
@@ -147,8 +200,12 @@ const ChangeDateModal = ({ selectedDays, SetSelectedDays, exit }: Props) => {
         <TextareaSubTitle>
           일정이 변경되는 이유를 간단히 작성해주세요.
         </TextareaSubTitle>
-        <TextArea rows={3} placeholder="간단하게 작성해주세요!" />
-        <Button>선택한 날짜로 입력하기</Button>
+        <TextArea
+          rows={3}
+          placeholder="간단하게 작성해주세요!"
+          onChange={onChangeTextArea}
+        />
+        <Button onClick={onClickGoalDate}>선택한 날짜로 입력하기</Button>
       </Wrapper>
     </Container>
   );
@@ -163,6 +220,11 @@ const Container = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgb(34, 34, 34, 0.4);
+  @media (min-width: 900pt) {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -178,6 +240,14 @@ const Wrapper = styled.div`
   background-color: #ffffff;
   z-index: 2000;
   opacity: 1 !important;
+  @media (min-width: 900pt) {
+    position: relative;
+    left: 50%;
+    top: 10%;
+    width: 324pt;
+    max-height: 490pt;
+    border-radius: 12pt;
+  }
 `;
 
 const HeaderTitle = styled.div`
@@ -192,6 +262,10 @@ const HeaderTitle = styled.div`
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  @media (min-width: 900pt) {
+    padding-top: 30pt;
+    padding-bottom: 0;
+  }
 `;
 const Title = styled.div`
   display: flex;
@@ -218,6 +292,9 @@ const Pagenation = styled.div`
     line-height: 15pt;
     text-align: center;
     color: ${colors.main2};
+  }
+  @media (min-width: 900pt) {
+    padding-top: 46pt;
   }
 `;
 const Notice = styled.span`
@@ -314,4 +391,6 @@ const Button = styled.div`
   text-align: center;
   color: #ffffff;
   background-color: ${colors.main};
+  @media (min-width: 900pt) {
+  }
 `;

@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   left: 0;
   padding-bottom: 30pt;
   width: 100%;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
   }
 `;

@@ -11,13 +11,28 @@ interface Props {
   title?: string;
   text?: string;
   buttonText?: string;
+  routerId?: string | string[] | undefined;
   [key: string]: any;
 }
 
-const AsComplete = ({ text, title, buttonText }: Props) => {
+const AsComplete = ({ text, title, buttonText, routerId }: Props) => {
   const router = useRouter();
   const clickHandler = () => {
     alert('2차 작업 페이지입니다.');
+  };
+  const onClickBtn = () => {
+    console.log(routerId);
+
+    if (routerId !== null) {
+      return router.replace({
+        pathname: '/mypage/as',
+        query: {
+          afterSalesServiceIdx: routerId,
+        },
+      });
+    } else {
+      return router.replace('/mypage');
+    }
   };
   return (
     <Wrapper>
@@ -34,10 +49,10 @@ const AsComplete = ({ text, title, buttonText }: Props) => {
         <TextBox>
           <div>{text}</div>
           <div>
-            <CommunicationBox text={'소통하기'} clickHandler={clickHandler} />
+            <CommunicationBox text={'소통하기'} />
           </div>
         </TextBox>
-        <Btn onClick={() => router.push('/mypage')}>{buttonText}</Btn>
+        <Btn onClick={onClickBtn}>{buttonText}</Btn>
       </Footer>
     </Wrapper>
   );
@@ -51,10 +66,14 @@ const Nav = styled.div`
   justify-content: end;
   padding-right: 15pt;
   padding-top: 15pt;
+
+  @media (min-width: 900pt) {
+    margin-bottom: 22.5pt;
+  }
 `;
 const IconWrap = styled.div`
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;
@@ -73,7 +92,7 @@ const Title = styled.h1`
   letter-spacing: -0.02em;
   text-align: left;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 18pt;
     line-height: 24pt;
     margin-top: 24pt;

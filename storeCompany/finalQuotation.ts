@@ -1,18 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export type chargerData =
-  | ''
-  | 'LECS-007ADE'
-  | 'LECS-006ADE'
-  | 'LECS-005ADE'
-  | 'LECS-004ADE';
 export interface DetailQuotationFiles {
   url: string;
   size: number;
   originalName: string;
 }
 export interface charger {
-  idx?: number;
+  idx: number;
   kind: string; // 종류
   standType: string; // 거치 타입
   channel: string; // 채널
@@ -28,7 +21,7 @@ export interface chargers extends charger {
   chargePriceType: ChargePriceType;
   chargePrice: string | number; // 충전 요금 타입
   installationLocation: InstallationLocation; // 설치 위치
-  modelName: chargerData; // 모델명
+  modelName: string; // 모델명
   manufacturer: string; // 제조사
   productFeature: string; // 상품 특장점
   chargerImageFiles: DetailQuotationFiles[]; // 충전기 이미지 파일
@@ -49,7 +42,7 @@ export interface SeccondStep {
   chargePriceType: ChargePriceType;
   chargePrice: string; // 충전 요금 타입
   installationLocation: InstallationLocation; // 설치 위치
-  modelName: chargerData; // 모델명
+  modelName: string; // 모델명
   manufacturer: string; // 제조사
   productFeature: string; // 상품 특장점
   chargerImageFiles: DetailQuotationFiles[]; // 충전기 이미지 파일
@@ -68,6 +61,7 @@ const initialState: FinalQuotation = {
   // ------- step2 --------
   chargers: [
     {
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',
@@ -84,6 +78,7 @@ const initialState: FinalQuotation = {
   ],
   chargersKo: [
     {
+      idx: 0,
       kind: '',
       standType: '',
       channel: '',

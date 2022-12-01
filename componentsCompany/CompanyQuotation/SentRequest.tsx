@@ -13,6 +13,7 @@ import { filterType } from 'pages/company/quotation';
 import Sort from './Sort';
 import Search from './Search';
 import { HandleColor } from 'utils/changeValue';
+import WebSort from './WebSort';
 
 type Props = {};
 export interface QuotationRequest {
@@ -90,15 +91,26 @@ const SentRequest = ({}: Props) => {
         checkedFilterIndex={checkedFilterIndex}
         setcheckedFilterIndex={setcheckedFilterIndex}
       />
-      <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+      <TopContainer>
+        <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+        <WebSort
+          checkedFilter={checkedFilter}
+          setCheckedFilter={setCheckedFilter}
+          checkedFilterIndex={checkedFilterIndex}
+          setcheckedFilterIndex={setcheckedFilterIndex}
+        />
+      </TopContainer>
       <ContentsContainer>
         {data?.sendQuotationRequests?.map((el, index) => (
           <Contents
             key={index}
             onClick={() =>
-              router.push(
-                `/company/sentProvisionalQuotation/${el?.preQuotation.preQuotationIdx}`,
-              )
+              router.push({
+                pathname: '/company/sentProvisionalQuotation',
+                query: {
+                  preQuotationIdx: el?.preQuotation?.preQuotationIdx,
+                },
+              })
             }
           >
             <DdayNAddress>
@@ -127,7 +139,13 @@ const SentRequest = ({}: Props) => {
 
 const ContentsContainer = styled.div`
   margin-top: 18pt;
+  padding-bottom: 75pt;
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    margin: 0 auto;
+  }
 `;
+
 const Contents = styled.div`
   padding: 12pt 13.5pt;
   display: flex;
@@ -141,11 +159,13 @@ const DdayBox = styled.div`
   margin-bottom: 16.5pt;
   cursor: pointer;
 `;
+
 const DdayNAddress = styled.div`
   position: relative;
 `;
+
 const AddressBox = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   position: relative;
   font-size: 12pt;
   font-weight: 700;
@@ -155,6 +175,17 @@ const AddressBox = styled.div`
   margin-top: 12pt;
   color: ${colors.main2};
 `;
+
+const TopContainer = styled.div`
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-bottom: 30pt;
+  }
+`;
+
 const IconBox = styled.div`
   display: flex;
   align-items: center;

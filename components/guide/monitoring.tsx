@@ -7,12 +7,12 @@ import Monitoring2 from 'public/guide/guide1-3.png';
 
 const monitoring = () => {
   return (
-    <Main>  
+    <Main>
       <ImageWrap>
-      <Image src={Monitoring} alt="info" />
+        <Image src={Monitoring} alt="info" />
       </ImageWrap>
       <ImageWrap>
-      <Image src={Monitoring2} alt="info" />
+        <Image src={Monitoring2} alt="info" />
       </ImageWrap>
       <TextBox>
         <li className="text-item">
@@ -48,26 +48,27 @@ const Main = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column; padding: 45pt 15pt 0 15pt;
+  flex-direction: column;
+  padding: 45pt 15pt 0 15pt;
 
-@media (max-width: 899pt) {
-  padding: 27pt 15pt 0 15pt;
-}
+  @media (max-width: 899.25pt) {
+    padding: 27pt 15pt 0 15pt;
+  }
 `;
 const ImageWrap = styled.div`
-width: 645pt;
-&:nth-of-type(1){
-display: none;
-}
-@media (max-width: 899pt) {
-  width: auto;
-&:nth-of-type(1){
-display: block;
-}
-&:nth-of-type(2){
-display: none;
-}
-}
+  width: 645pt;
+  &:nth-of-type(1) {
+    display: none;
+  }
+  @media (max-width: 899.25pt) {
+    width: auto;
+    &:nth-of-type(1) {
+      display: block;
+    }
+    &:nth-of-type(2) {
+      display: none;
+    }
+  }
 `;
 
 const TextBox = styled(Box)`
@@ -86,13 +87,13 @@ const TextBox = styled(Box)`
   .accent {
     color: ${colors.main};
   }
-  
-@media (max-width: 899pt) {
-  width: 100%;
-  margin: 24pt auto 0;
-  .text-item {
-    font-size: 10.5pt;
-    line-height: 16.5pt;
+
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    margin: 24pt auto 0;
+    .text-item {
+      font-size: 10.5pt;
+      line-height: 16.5pt;
+    }
   }
-}
 `;

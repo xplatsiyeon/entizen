@@ -8,6 +8,7 @@ import Contract from 'components/guide/contract';
 import { useRouter } from 'next/router';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import UserRightMenu from 'components/UserRightMenu';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -28,6 +29,7 @@ const Guide1_4 = () => {
   return (
     <Body>
       <WebHeader num={1} now={'guide'} />
+      <UserRightMenu />
       <Inner>
         <Wrapper>
           <GuideHeader
@@ -84,7 +86,7 @@ const Inner = styled.div`
   height: 100%; //
   margin: 100pt auto; //
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100%;
     position: relative;

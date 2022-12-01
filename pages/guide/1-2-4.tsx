@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
+import UserRightMenu from 'components/UserRightMenu';
 
 const Guide1_2_4 = () => {
   const router = useRouter();
@@ -38,6 +39,7 @@ const Guide1_2_4 = () => {
     <Body>
       <WebHeader num={3} now={'guide'} />
       <Wrapper>
+        <UserRightMenu />
         <GuideHeader
           title={'보조금 가이드'}
           leftOnClick={() => router.back()}
@@ -148,7 +150,7 @@ const Wrapper = styled.div`
   padding-bottom: 100pt;
   padding-left: 15pt;
   padding-right: 15pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     padding: 0;
   }
@@ -217,7 +219,7 @@ const ResultContainer = styled.div`
     width: 100%;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     box-sizing: border-box;
     margin: 0 15pt;
   }
@@ -246,7 +248,7 @@ const Btn = styled.div`
   letter-spacing: -0.02em;
   margin-top: 33pt;
   background-color: ${colors.main};
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;

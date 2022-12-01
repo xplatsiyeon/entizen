@@ -93,10 +93,11 @@ const WebEstimate = () => {
           </Label>
           <Carousel length={tempProceeding.length}>
             {tempProceeding.map((data, index) => (
-              <CarouselItem 
+              <CarouselItem
                 key={data.id}
                 onClick={() => {
-                  route.push('/mypage/request/1-3')}}
+                  route.push('/mypage/request/1-3');
+                }}
               >
                 <Badge className="badge" color={HandleColor(data.badge)}>
                   {data.badge}
@@ -138,7 +139,6 @@ export default WebEstimate;
 
 const Wrapper = styled.div`
   //padding-top: 21pt;
-
 `;
 const Label = styled.label`
   font-weight: 700;
@@ -161,25 +161,25 @@ const Carousel = styled.div<{ length: number }>`
   overflow-x: scroll;
   grid-template-columns: ${({ length }) => `repeat(${length}, 1fr)`};
   gap: 12pt;
-  padding: 6pt 4pt 30pt ;
+  padding: 6pt 4pt 30pt;
 
-  @media (max-width: 899pt) {
-  display: grid;
+  @media (max-width: 899.25pt) {
+    display: grid;
   }
 `;
 const CarouselItem = styled.div`
-    height: 66pt;
-    /* padding-left: 9pt; */
-    /* padding-top: 27pt; */
-    justify-content: center;
-    border-radius: 6pt;
-    align-items: flex-start;
-    flex-direction: column;
-    display: flex;
-    background-color: #FFFFFF;
-    box-shadow: 0px 0px 10px rgb(137 163 201 / 20%);
-    position: relative;
-    padding-left: 15pt;
+  height: 66pt;
+  /* padding-left: 9pt; */
+  /* padding-top: 27pt; */
+  justify-content: center;
+  border-radius: 6pt;
+  align-items: flex-start;
+  flex-direction: column;
+  display: flex;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgb(137 163 201 / 20%);
+  position: relative;
+  padding-left: 15pt;
   .store-name {
     padding-top: 16.5pt;
     font-weight: 700;
@@ -198,8 +198,8 @@ const CarouselItem = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
   }
-  @media (max-width: 899pt) {
-  width: 105pt;
+  @media (max-width: 899.25pt) {
+    width: 105pt;
   }
 `;
 const Badge = styled.span<{ color: string }>`

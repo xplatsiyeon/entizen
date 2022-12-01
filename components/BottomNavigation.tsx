@@ -142,16 +142,22 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                alert('작업중입니다.');
+                router.push('/company/chatting');
               }}
             >
               <Image src={estimate} alt="estimate" width={32} height={32} />
               <H3 clicked={false}>소통하기</H3>
             </div>
+            {/* AS */}
             <div
               className="img-wrapper"
               onClick={() => {
-                alert('2차 작업 범위 페이지입니다.');
+                user_ID
+                  ? router.push({
+                      pathname: '/company/as',
+                      query: { id: 0 },
+                    })
+                  : router.push('/signin');
               }}
             >
               <ImgBox>
@@ -167,10 +173,14 @@ const BottomNavigation = ({}: Props) => {
               className="img-wrapper"
               onClick={() => {
                 user_ID
-                  ? router.push('/company/mypage')
+                  ? router.push({
+                      pathname: '/company/mypage',
+                      query: { id: 0 },
+                    })
                   : router.push('/signin');
               }}
             >
+              {/* 내프로젝트 */}
               <ImgBox>
                 <Image
                   src={tabNumber === 4 ? mypageOn : mypage}
@@ -227,7 +237,7 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                alert('2차 작업 범위 페이지입니다.');
+                router.push('/chatting');
               }}
             >
               <ImgBox>
@@ -282,7 +292,7 @@ const Wrapper = styled.div`
     gap: 3pt;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;
@@ -319,7 +329,7 @@ const CountQuotation = styled.div`
   background-color: #222222;
   border-radius: 50%;
   color: #ffffff;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 6pt;
   font-weight: 700;
   line-height: 6pt;

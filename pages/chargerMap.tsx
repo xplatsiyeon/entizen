@@ -103,7 +103,7 @@ const ChargerMap = (props: Props) => {
 
   const callInfo = async (speed: string) => {
     try {
-      const res = await axios.get('https://test-api.entizen.kr/api/charge', {
+      const res = await axios.get('https://api.entizen.kr/api/charge', {
         params: {
           siDo: locationList.siNm,
           siGunGu: locationList.sggNm ? locationList.sggNm : '',
@@ -273,7 +273,7 @@ const Wrapper = styled.div`
   width: 900pt;
   margin: 0 auto;
   height: 639pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100vw;
     height: 100vh;
     /* background-color: red; */
@@ -292,7 +292,7 @@ const WrapAddress = styled.div`
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
   z-index: 1002;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -310,7 +310,7 @@ const WholeMap = styled.div`
   /* border-radius: 12px; */
   /* border: 0.75pt solid #e2e5ed; */
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     width: 100vw;
     height: 100vh;
@@ -322,7 +322,7 @@ const WholeMap = styled.div`
 
 const Header = styled.div`
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
     position: relative;
     width: 100%;
@@ -338,7 +338,7 @@ const SearchMapArea = styled.div`
   width: 281.25pt;
   top: 0;
   z-index: 1001;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: relative;
     height: 50pt;
     width: 100%;
@@ -381,7 +381,7 @@ const Input = styled(TextField)`
     border: none;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: calc(100% - 30pt);
     margin: 0;
   }
@@ -399,7 +399,7 @@ const InfoBox = styled.div<{ clicked: boolean; checkHeight: string }>`
   background-color: #ffffff;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: ${({ checkHeight }) => checkHeight + 'pt'};
     margin-top: ${({ clicked }) => (clicked ? '12pt' : '204pt')};
@@ -424,7 +424,7 @@ const SelectChargerBox = styled.div`
   margin-top: 60pt;
   padding-left: 24pt;
   padding-right: 24pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 9pt;
   }
 `;
@@ -437,7 +437,7 @@ const ChargerList = styled.div`
   background: #f3f4f7;
   border-radius: 21.375pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 3pt;
   }
 `;
@@ -466,7 +466,7 @@ const ChargerTypeNCount = styled(Typography)`
   text-align: center;
   margin-bottom: 15pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-bottom: 0;
   }
 `;
@@ -480,7 +480,7 @@ const ChargerNotice = styled(Typography)`
   color: #a6a9b0;
   margin: 0 52.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 7.5pt;
     line-height: 9pt;
     margin: 0;
@@ -493,7 +493,7 @@ const PredictBoxWrapper = styled.div`
   margin: 39pt 15pt 0;
   gap: 11.25pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin: 30pt 0 0;
   }
 `;
@@ -565,7 +565,7 @@ const DidHelp = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 30pt;
   }
 `;

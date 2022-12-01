@@ -127,7 +127,7 @@ const Wrapper = styled.div`
   width: 900pt;
   margin: 0 auto;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
   }
 `;
@@ -146,7 +146,7 @@ const WhyBox = styled(Typography)`
     color: ${colors.main};
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 12pt;
     line-height: 12pt;
     margin-top: 30pt;
@@ -160,7 +160,7 @@ const GridBox = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 22.5pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     gap: 11.25pt;
   }
 `;
@@ -174,7 +174,7 @@ const GridElement = styled.div`
   border: 1.5pt solid #e2e5ed;
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 120pt;
     border: none;
     box-shadow: none;
@@ -193,7 +193,7 @@ const TextArea = styled.div`
   color: ${(props) => props.color};
   margin: 37.5pt 51pt 30pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-left: 12pt;
     margin-top: 12pt;
     font-size: 14px;
@@ -210,7 +210,7 @@ const ArrowImgBox = styled.div`
     display: none;
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     right: 12pt;
     top: 12pt;
 
@@ -230,7 +230,7 @@ const IconImgBox = styled.div<{ width: string; height: string }>`
   left: 51pt;
   top: 171pt;
   object-fit: cover;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: ${({ width }) => width};
     height: ${({ height }) => height};
     top: auto;

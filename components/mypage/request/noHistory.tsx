@@ -5,18 +5,22 @@ import { useRouter } from 'next/router';
 import UndefindImg from 'public/mypage/requet-undefind-Img.svg';
 import colors from 'styles/colors';
 
-const NoHistory = () => {
+type Props ={
+  type? :string;
+}
+
+const NoHistory = ({type}:Props) => {
   const route = useRouter();
 
-  const handlerBtn = () => route.push('quotation/request/1-1');
+  const handlerBtn = () => route.push('quotation/request');
   return (
     <Wrapper>
       <ImgBox>
         <Image src={UndefindImg} alt="no-history" />
       </ImgBox>
-      <Message>요청한 견적서가 없습니다.</Message>
+      <Message>{type === 'project'? '진행중인 프로젝트가 없습니다':'요청한 견적서가 없습니다.'}</Message>
       <Notice>
-        간단하고 다양한 견적을 무료로 비교해보고, 최적의 상품을 구독해보세요!
+      {type === 'project' ? `간단하고 다양한 견적을 무료로 비교해보고, 최적의 상품을 구독해보세요!`:'간단하고 다양한 견적을 무료로 비교해보고, 최적의 상품을 구독해보세요!'}
       </Notice>
       <Btn onClick={handlerBtn}>견적 요청하기</Btn>
     </Wrapper>

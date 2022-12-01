@@ -15,8 +15,8 @@ import CloseImg from 'public/images/XCircle.svg';
 import FileText from 'public/images/FileText.png';
 import AddImg from 'public/images/add-img.svg';
 import { chargerData } from 'storeCompany/myQuotation';
-import { useMutation } from 'react-query';
-import { multerApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import { getByteSize, inputPriceFormat } from 'utils/calculatePackage';
@@ -24,6 +24,7 @@ import { AxiosError } from 'axios';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { chargers } from 'storeCompany/finalQuotation';
 import SelectComponents from 'components/Select';
+import { ProductListRepsonse } from 'componentsCompany/MyProductList/ProductList';
 
 type Props = {
   tabNumber: number;
@@ -31,7 +32,6 @@ type Props = {
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   maxIndex: number | undefined;
-  routerId: string | string[];
   selectedOption: chargers[];
   setSelectedOption: Dispatch<SetStateAction<chargers[]>>;
   selectedOptionEn: chargers[];
@@ -46,8 +46,6 @@ const SecondStep = ({
   setTabNumber,
   canNext,
   SetCanNext,
-  routerId,
-
   selectedOptionEn,
   setSelectedOptionEn,
 }: Props) => {
@@ -73,6 +71,7 @@ const SecondStep = ({
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [productId, setProductId] = useState<number>();
 
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -148,6 +147,19 @@ const SecondStep = ({
       }
     },
   });
+  // 내제품 리스트 조회 API
+  const {
+    data: productData,
+    isLoading: productIsLoading,
+    isError: productIsError,
+  } = useQuery<ProductListRepsonse>(
+    'productList',
+    () => isTokenGetApi('/products'),
+    {
+      cacheTime: Infinity,
+      staleTime: 5000,
+    },
+  );
 
   // 모달 클릭
   const onClickModal = () => {
@@ -286,6 +298,7 @@ const SecondStep = ({
     }
     multerFile(formData);
   };
+
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
@@ -299,13 +312,14 @@ const SecondStep = ({
     }
   };
   // 셀렉트 박스 클릭
-  const onChangeSelectBox = (value: string) => {
+  const onChangeSelectBox = (value: string, idx: number) => {
     const temp = [...selectedOptionEn];
     temp[tabNumber - 1] = {
       ...temp[tabNumber - 1],
       modelName: value as chargerData,
     };
     setSelectedOptionEn(temp);
+    setProductId(idx);
   };
   // 이전 버튼
   const handlePrevBtn = () => {
@@ -356,220 +370,277 @@ const SecondStep = ({
       setSelectedOptionEn(temp);
     }
   }, [selectedOptionEn]);
+  // 내 제품 리스트 하단 내용
+  useEffect(() => {
+    if (productId) {
+      const targetProduct = productData?.chargerProduct.filter(
+        (e) => e.chargerProductIdx === productId,
+      )[0];
+
+      const newImage = targetProduct?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+      const newFile = targetProduct?.chargerImageFiles!.map((item) => {
+        const {
+          chargerProductFileIdx,
+          chargerProductIdx,
+          productFileType,
+          createdAt,
+          ...newArr
+        } = item;
+        return newArr;
+      });
+
+      const temp = [...selectedOptionEn];
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        manufacturer: targetProduct?.manufacturer!,
+        productFeature: targetProduct?.feature!,
+        chargerImageFiles: newFile!,
+        catalogFiles: newImage!,
+      };
+      setSelectedOptionEn(temp);
+    }
+  }, [productId]);
+
+  // 실시간으로 width 받아오는 함수
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
   return (
     <>
-      {/* 에러 모달 */}
-      {isModal && <Modal click={onClickModal} text={errorMessage} />}
-      <Wrapper>
-        <TopStep>
-          <div>STEP {tabNumber + 1}</div>
-          <div>* 필수 입력</div>
-        </TopStep>
-        <SubWord>
-          7 kW 충전기 (공용), 벽걸이, 싱글 <br />
-          제품의 정보를 입력해주세요
-        </SubWord>
-        <ChargeMoney className="first">
-          <div className="withAfter">충전요금</div>
-          <BtnBox>
-            {chargeTypeList.map((el, index) => (
-              <Btn
-                key={index}
-                onClick={() => onClickCharge(index)}
-                className={
-                  chargeTypeListEn[index] ===
-                  selectedOptionEn[tabNumber - 1].chargePriceType
-                    ? 'selected'
-                    : ''
-                }
-              >
-                {el}
-              </Btn>
-            ))}
-          </BtnBox>
-          <InputBox>
+      <WebRapper>
+        {/* 에러 모달 */}
+        {isModal && <Modal click={onClickModal} text={errorMessage} />}
+        <Wrapper>
+          <TopStep>
+            <div>STEP {tabNumber + 1}</div>
+            <div>* 필수 입력</div>
+          </TopStep>
+          <SubWord>
+            7 kW 충전기 (공용), 벽걸이, 싱글 <br />
+            제품의 정보를 입력해주세요
+          </SubWord>
+          <ChargeMoney className="first">
+            <div className="withAfter">충전요금</div>
+            <BtnBox>
+              {chargeTypeList.map((el, index) => (
+                <Btn
+                  key={index}
+                  onClick={() => onClickCharge(index)}
+                  className={
+                    chargeTypeListEn[index] ===
+                    selectedOptionEn[tabNumber - 1].chargePriceType
+                      ? 'selected'
+                      : ''
+                  }
+                >
+                  {el}
+                </Btn>
+              ))}
+            </BtnBox>
+            <InputBox>
+              <div>
+                <Input
+                  onChange={onChangeInput}
+                  placeholder="0"
+                  value={selectedOptionEn[tabNumber - 1].chargePrice}
+                  name="subscribeMoney"
+                  inputProps={{
+                    readOnly:
+                      selectedOptionEn[tabNumber - 1].chargePriceType ===
+                      'PURCHASER_AUTONOMY'
+                        ? true
+                        : false,
+                  }}
+                />
+                <div>원/kW</div>
+              </div>
+            </InputBox>
+          </ChargeMoney>
+          <ChargeMoney>
+            <div className="withAfter">충전기 설치 위치</div>
+            <BtnBox>
+              {chargeLocationTypeList.map((el, index) => (
+                <Btn
+                  key={index}
+                  onClick={() => onClickLocation(index)}
+                  className={
+                    chargeLocationTypeListEn[index] ===
+                    selectedOptionEn[tabNumber - 1].installationLocation
+                      ? 'selected'
+                      : ''
+                  }
+                >
+                  {el}
+                </Btn>
+              ))}
+            </BtnBox>
+          </ChargeMoney>
+        </Wrapper>
+        <Divide></Divide>
+        <SecondWrapper>
+          <TopBox>
             <div>
-              <Input
-                onChange={onChangeInput}
-                placeholder="0"
-                value={selectedOptionEn[tabNumber - 1].chargePrice}
-                name="subscribeMoney"
-                inputProps={{
-                  readOnly:
-                    selectedOptionEn[tabNumber - 1].chargePriceType ===
-                    'PURCHASER_AUTONOMY'
-                      ? true
-                      : false,
-                }}
+              [선택사항] 내 제품 리스트에서 <div>가져오기</div>
+            </div>
+            <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
+          </TopBox>
+          <SelectContainer>
+            <SelectComponents
+              value={selectedOptionEn[tabNumber - 1].modelName}
+              placeholder="구충전기 종류"
+              productOption={productData?.chargerProduct!}
+              onClickProject={onChangeSelectBox}
+            />
+          </SelectContainer>
+          <BottomInputBox>
+            <div className="withAfter">제조사</div>
+            <div>
+              <Inputs
+                onChange={onChangeManufacturer}
+                value={selectedOptionEn[tabNumber - 1].manufacturer}
+                name="constructionPeriod"
               />
-              <div>원/kW</div>
+            </div>
+          </BottomInputBox>
+          <InputBox className="secondChargerText">
+            <div>충전기 특장점</div>
+            <div>
+              <TextArea
+                onChange={onChangeProductFeature}
+                value={selectedOptionEn[tabNumber - 1].productFeature}
+                name="firstPageTextArea"
+                placeholder="선택 입력사항"
+                rows={7}
+              />
             </div>
           </InputBox>
-        </ChargeMoney>
-        <ChargeMoney>
-          <div className="withAfter">충전기 설치 위치</div>
-          <BtnBox>
-            {chargeLocationTypeList.map((el, index) => (
-              <Btn
-                key={index}
-                onClick={() => onClickLocation(index)}
-                className={
-                  chargeLocationTypeListEn[index] ===
-                  selectedOptionEn[tabNumber - 1].installationLocation
-                    ? 'selected'
-                    : ''
-                }
-              >
-                {el}
-              </Btn>
-            ))}
-          </BtnBox>
-        </ChargeMoney>
-      </Wrapper>
-      <Divide></Divide>
-      <SecondWrapper>
-        <TopBox>
-          <div>
-            [선택사항] 내 제품 리스트에서 <div>가져오기</div>
-          </div>
-          <div>* 등록된 제품을 선택하면 아래 정보가 자동으로 입력됩니다.</div>
-        </TopBox>
-        <SelectContainer>
-          <SelectComponents
-            value={selectedOptionEn[tabNumber - 1].modelName}
-            option={chargerData}
-            placeholder="구충전기 종류"
-            onClickEvent={onChangeSelectBox}
-          />
-        </SelectContainer>
-        <BottomInputBox>
-          <div className="withAfter">제조사</div>
-          <div>
-            <Inputs
-              onChange={onChangeManufacturer}
-              value={selectedOptionEn[tabNumber - 1].manufacturer}
-              name="constructionPeriod"
-            />
-          </div>
-        </BottomInputBox>
-        <InputBox className="secondChargerText">
-          <div>충전기 특장점</div>
-          <div>
-            <TextArea
-              onChange={onChangeProductFeature}
-              value={selectedOptionEn[tabNumber - 1].productFeature}
-              name="firstPageTextArea"
-              placeholder="선택 입력사항"
-              rows={7}
-            />
-          </div>
-        </InputBox>
-        <RemainderInputBox>
-          <Label>충전기 이미지</Label>
-          <PhotosBox>
-            <AddPhotos onClick={imgHandler}>
-              <Image src={camera} alt="" />
-            </AddPhotos>
-            <input
-              style={{ display: 'none' }}
-              ref={imgRef}
-              type="file"
-              accept="image/*"
-              onChange={saveFileImage}
-              multiple
-            />
-            {/* <Preview> */}
-            {selectedOptionEn[tabNumber - 1].chargerImageFiles?.map(
-              (item, index) => (
-                <ImgSpan key={index} data-name={index}>
-                  <Image
-                    layout="fill"
-                    alt="preview"
-                    data-name={index}
-                    key={index}
-                    src={item.url}
-                    priority={true}
-                    unoptimized={true}
-                  />
-                  <Xbox onClick={handlePhotoDelete} data-name={index}>
-                    <Image
-                      src={CloseImg}
-                      data-name={index}
-                      layout="intrinsic"
-                      alt="closeBtn"
-                      width={24}
-                      height={24}
-                    />
-                  </Xbox>
-                </ImgSpan>
-              ),
-            )}
-            {/* </Preview> */}
-          </PhotosBox>
-        </RemainderInputBox>
-        {/*  여기서부터 파일 */}
-        <RemainderInputBoxs>
-          <PhotosBoxs>
-            <Form>
-              <label>충전기 카탈로그</label>
-              <div>
-                <File onClick={handleFileClick}>
-                  <Image src={AddImg} alt="img" />
-                  <div>파일 업로드</div>
-                </File>
-              </div>
-            </Form>
-            {/* 파일 input */}
-            <input
-              style={{ display: 'none' }}
-              ref={fileRef}
-              className="imageClick"
-              type="file"
-              accept="xlsx"
-              onChange={saveFile}
-              multiple
-            />
-
-            {/* <File_Preview> */}
-            <div className="file-preview">
-              {selectedOptionEn[tabNumber - 1].catalogFiles?.map(
-                (item, index) => (
-                  <FileBox key={index} data-name={index}>
-                    <div className="file">
-                      <div className="file-img">
-                        <Image src={FileText} alt="file-icon" />
-                      </div>
-                      <div className="file-data">
-                        <span className="file-name">{item.originalName}</span>
-                        <span className="file-size">{`용량 ${getByteSize(
-                          item.size,
-                        )}`}</span>
-                      </div>
-                      <div
-                        className="file-exit"
-                        onClick={handleFileDelete}
+          <RemainderInputBox>
+            <Label>충전기 이미지</Label>
+            <PhotosBox>
+              <AddPhotos onClick={imgHandler}>
+                <Image src={camera} alt="" />
+              </AddPhotos>
+              <input
+                style={{ display: 'none' }}
+                ref={imgRef}
+                type="file"
+                accept="image/*"
+                onChange={saveFileImage}
+                multiple
+              />
+              {/* <Preview> */}
+              <ImgSpanBox>
+                {selectedOptionEn[tabNumber - 1].chargerImageFiles?.map(
+                  (item, index) => (
+                    <ImgSpan key={index} data-name={index}>
+                      <Image
+                        layout="fill"
+                        alt="preview"
                         data-name={index}
-                      >
+                        key={index}
+                        src={item.url}
+                        priority={true}
+                        unoptimized={true}
+                      />
+                      <Xbox onClick={handlePhotoDelete} data-name={index}>
                         <Image
                           src={CloseImg}
                           data-name={index}
+                          layout="intrinsic"
                           alt="closeBtn"
+                          width={24}
+                          height={24}
                         />
+                      </Xbox>
+                    </ImgSpan>
+                  ),
+                )}
+              </ImgSpanBox>
+              {/* </Preview> */}
+            </PhotosBox>
+          </RemainderInputBox>
+          {/*  여기서부터 파일 */}
+          <RemainderInputBoxs>
+            <PhotosBoxs>
+              <Form>
+                <label>충전기 카탈로그</label>
+                <div>
+                  <File onClick={handleFileClick}>
+                    <Image src={AddImg} alt="img" />
+                    <div>파일 업로드</div>
+                  </File>
+                </div>
+              </Form>
+              {/* 파일 input */}
+              <input
+                style={{ display: 'none' }}
+                ref={fileRef}
+                className="imageClick"
+                type="file"
+                accept="xlsx"
+                onChange={saveFile}
+                multiple
+              />
+
+              {/* <File_Preview> */}
+              <div className="file-preview">
+                {selectedOptionEn[tabNumber - 1].catalogFiles?.map(
+                  (item, index) => (
+                    <FileBox key={index} data-name={index}>
+                      <div className="file">
+                        <div className="file-img">
+                          <Image src={FileText} alt="file-icon" />
+                        </div>
+                        <div className="file-data">
+                          <span className="file-name">{item.originalName}</span>
+                          <span className="file-size">{`용량 ${getByteSize(
+                            item.size,
+                          )}`}</span>
+                        </div>
+                        <div
+                          className="file-exit"
+                          onClick={handleFileDelete}
+                          data-name={index}
+                        >
+                          <Image
+                            src={CloseImg}
+                            data-name={index}
+                            alt="closeBtn"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </FileBox>
-                ),
-              )}
-            </div>
-          </PhotosBoxs>
-        </RemainderInputBoxs>
-      </SecondWrapper>
-      <TwoBtn>
-        <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
-        <NextBtn canNext={canNext} onClick={handleNextBtn}>
-          다음
-        </NextBtn>
-      </TwoBtn>
+                    </FileBox>
+                  ),
+                )}
+              </div>
+            </PhotosBoxs>
+          </RemainderInputBoxs>
+        </SecondWrapper>
+        <TwoBtn>
+          <PrevBtn onClick={handlePrevBtn}>이전</PrevBtn>
+          <NextBtn canNext={canNext} onClick={handleNextBtn}>
+            다음
+          </NextBtn>
+        </TwoBtn>
+      </WebRapper>
     </>
   );
 };
@@ -582,21 +653,33 @@ const Wrapper = styled.div`
   .first {
     margin-top: 45pt;
   }
+  @media (min-width: 900pt) {
+    margin: 0 auto;
+    padding-left: 25pt;
+    padding-right: 25pt;
+  }
 `;
 const SecondWrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   box-sizing: border-box;
   margin-top: 30pt;
-
   padding-bottom: 58.6875pt;
+  @media (min-width: 900pt) {
+    padding-left: 25pt;
+    padding-right: 25pt;
+  }
 `;
 const TopStep = styled.div`
+  @media (min-width: 900pt) {
+    margin-top: 0;
+    padding-top: 70pt;
+  }
   margin-top: 24pt;
   display: flex;
   justify-content: space-between;
   & div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;
     font-weight: 500;
     line-height: 21pt;
@@ -605,7 +688,7 @@ const TopStep = styled.div`
     color: ${colors.main};
   }
   & div:nth-of-type(2) {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     font-weight: 500;
     line-height: 10.5pt;
@@ -615,7 +698,7 @@ const TopStep = styled.div`
 `;
 const SubWord = styled.div`
   margin-top: 21pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 18pt;
   font-weight: 500;
   line-height: 24pt;
@@ -634,7 +717,7 @@ const ChargeMoney = styled.div`
   flex-direction: column;
   gap: 9pt;
   & .withAfter {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -652,7 +735,7 @@ const BtnBox = styled.div`
   gap: 11.25pt;
 `;
 const Btn = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 400;
   line-height: 12pt;
@@ -676,7 +759,7 @@ const InputBox = styled.div`
   &.secondChargerText {
     margin-top: 30pt;
     & div:first-of-type {
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 10.5pt;
       font-weight: 700;
       line-height: 12pt;
@@ -694,7 +777,7 @@ const InputBox = styled.div`
     border-radius: 6pt !important;
   }
   & > div > div {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 400;
     line-height: 12pt;
@@ -709,7 +792,7 @@ const BottomInputBox = styled.div`
   flex-direction: column;
   gap: 9pt;
   & .withAfter {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -727,7 +810,7 @@ const BottomInputBox = styled.div`
     border-radius: 6pt !important;
   }
   & > div > div {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
     font-weight: 400;
     line-height: 12pt;
@@ -787,10 +870,13 @@ const Divide = styled.div`
   width: 100vw;
   height: 3pt;
   background-color: #f3f4f7;
+  @media (min-width: 900pt) {
+    width: auto;
+  }
 `;
 const TopBox = styled.div`
   & div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -802,7 +888,7 @@ const TopBox = styled.div`
     color: ${colors.main};
   }
   & div:nth-of-type(2) {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     margin-top: 6pt;
     font-weight: 400;
@@ -886,9 +972,18 @@ const RemainderInputBoxs = styled.div`
     padding-bottom: 100pt;
     gap: 9pt;
   }
+  @media (min-width: 900pt) {
+    & .file-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      padding-bottom: 0;
+      gap: 9pt;
+    }
+  }
 `;
 const Label = styled.label`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
@@ -902,6 +997,12 @@ const PhotosBox = styled.div`
   display: flex;
   gap: 9.1875pt;
   align-items: center;
+  @media (min-width: 900pt) {
+    display: flex;
+    align-items: inherit;
+    height: auto;
+    width: 100%;
+  }
 `;
 const PhotosBoxs = styled.div`
   height: 56.0625pt;
@@ -911,6 +1012,10 @@ const PhotosBoxs = styled.div`
   gap: 9pt;
   align-items: center;
   padding-bottom: 58.6875pt;
+  @media (min-width: 900pt) {
+    height: auto;
+    padding-bottom: 0;
+  }
 `;
 const AddPhotos = styled.button`
   display: inline-block;
@@ -918,12 +1023,36 @@ const AddPhotos = styled.button`
   height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    background-color: #ffffff;
+    width: 77.25pt;
+    height: 77.25pt;
+  }
 `;
+
+const ImgSpanBox = styled.div`
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+  @media (min-width: 900pt) {
+    height: auto;
+    width: 444.75;
+    display: grid;
+    grid-template-columns: 230pt 1fr;
+  }
+`;
+
 const ImgSpan = styled.div`
   position: relative;
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    margin-bottom: 10pt;
+    width: 216pt;
+    height: 135pt;
+    border: 0.75pt solid #e2e5ed;
+  }
 `;
 const Xbox = styled.div`
   position: absolute;
@@ -986,7 +1115,7 @@ const Form = styled.form`
   /* margin-top: 24pt; */
   position: relative;
   & > label {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -1037,8 +1166,13 @@ const NextBtn = styled.div<{ canNext: boolean }>`
   letter-spacing: -0.02em;
   background-color: ${({ canNext }) => (canNext ? colors.main : '#B096EF')};
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
+  }
+  @media (min-width: 900pt) {
+    padding: 15pt 0 15pt 0;
+    border-radius: 6pt;
+    margin-left: 12pt;
   }
 `;
 const PrevBtn = styled.div`
@@ -1052,8 +1186,12 @@ const PrevBtn = styled.div`
   letter-spacing: -0.02em;
   background-color: ${colors.gray};
   cursor: pointer;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 15pt 0 39pt 0;
+  }
+  @media (min-width: 900pt) {
+    padding: 15pt 0 15pt 0;
+    border-radius: 6pt;
   }
 `;
 const TwoBtn = styled.div`
@@ -1062,8 +1200,26 @@ const TwoBtn = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: fixed;
+  }
+  @media (min-width: 900pt) {
+    width: 534pt;
+    position: relative;
+    margin: 0 auto;
+  }
+`;
+
+const WebRapper = styled.div`
+  @media (min-width: 900pt) {
+    height: auto;
+    width: 580.5pt;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+    border-radius: 12pt;
+    margin-bottom: 54pt;
+    padding-bottom: 30pt;
+    margin-top: -2.1%;
   }
 `;
 

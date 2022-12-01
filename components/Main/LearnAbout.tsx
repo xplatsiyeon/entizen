@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import lightBox from '/public/images/boxLight.png';
 import arrow from '/public/images/arrow.png';
 import whiteBlueRight from '/public/images/whiteBlueRight.png';
@@ -29,6 +29,7 @@ interface MenuList {
 
 const LearnAbout = ({ borders }: Props) => {
   const router = useRouter();
+  const userID = localStorage.getItem('USER_ID');
   const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',
@@ -77,19 +78,19 @@ const LearnAbout = ({ borders }: Props) => {
   ];
 
   const movePage = (el: MenuList) => {
-    switch (el.headText) {
-      case '플랫폼 가이드':
-        return router.push('/guide/1-1');
-      case '구독 가이드':
-        return router.push('/guide/1-4');
-      case '충전기 가이드':
-        return router.push('/guide/1-5');
-      case '보조금 가이드':
-        return router.push('/guide/1-2'); //로그인 전후
-      default:
-        break;
+    if (el.headText === '플랫폼 가이드') {
+      router.push('/guide/1-1');
+    } else if (el.headText === '구독 가이드') {
+      router.push('/guide/1-4');
+    } else if (el.headText === '충전기 가이드') {
+      router.push('/guide/1-5');
+    } else if (el.headText === '보조금 가이드' && userID !== null) {
+      router.push('/guide/1-2');
+    } else if (el.headText === '보조금 가이드' && userID === null) {
+      router.push('/signin');
     }
   };
+
   return (
     <>
       <Wrapper>
@@ -132,7 +133,7 @@ const LearnAbout = ({ borders }: Props) => {
 const Wrapper = styled.div`
   width: 900pt;
   margin: 90pt auto;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: auto;
     margin: 30pt 0 0;
     overflow-x: scroll;
@@ -149,7 +150,7 @@ const LearnText = styled(Typography)`
   letter-spacing: -0.02em;
   text-align: left;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 12pt;
     line-height: 12pt;
   }
@@ -159,7 +160,7 @@ const LearnCarousel = styled.div`
   margin-top: 48pt;
   overflow-x: scroll;
   padding: 10pt 7.5pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 12pt;
     padding: 0;
   }
@@ -179,7 +180,8 @@ const Item = styled.div<{ borders: number }>`
   background-color: ${(props) => props.color};
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   position: relative;
-  @media (max-width: 899pt) {
+  cursor: pointer;
+  @media (max-width: 899.25pt) {
     width: 105pt;
     box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
     height: 153.75pt;
@@ -197,7 +199,7 @@ const ItemTitle = styled(Typography)`
   margin: 25.5pt 0 6pt 28.5pt;
   text-align: left;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     font-size: 9pt;
     line-height: 15pt;
     margin: 0;
@@ -215,7 +217,7 @@ const LeftImgBox = styled.div`
   &:nth-of-type(2) {
     display: none;
   }
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: auto;
     height: auto;
     bottom: 11.25pt;
@@ -236,7 +238,7 @@ const RightImgBox = styled.div`
   right: 9.75pt;
   bottom: 12pt;
   display: none;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     display: block;
   }
 `;
@@ -250,7 +252,7 @@ const ContentText = styled(Typography)`
   margin-left: 28.5pt;
   white-space: pre-wrap;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     margin-top: 6pt;
     margin-left: 0;
     white-space: pre-wrap;

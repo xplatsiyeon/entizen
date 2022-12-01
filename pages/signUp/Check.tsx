@@ -92,7 +92,7 @@ const SignUpCheck = () => {
   };
   // 아이디 중복 체크
   const overlabCheck = () => {
-    const OVERLAB_CHECK_POST = `https://test-api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
+    const OVERLAB_CHECK_POST = `https://api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
     try {
       axios({
         method: 'get',
@@ -326,7 +326,7 @@ const Inner = styled.div`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -343,7 +343,7 @@ const Inner = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
     padding: 0 15pt;

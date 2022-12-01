@@ -83,7 +83,7 @@ const FindPassword = () => {
   const handleClick = () => {
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     // const memberIdx = JSON.parse(localStorage.getItem('MEMBER_IDX')!);
-    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
+    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members/password/${key.memberIdx}`;
     try {
       axios({
         method: 'patch',
@@ -150,7 +150,9 @@ const FindPassword = () => {
                 click={handleModalYes}
               />
             )}
-            <MypageHeader back={true} title={'비밀번호 변경'} />
+            <Wrap>
+              <MypageHeader back={true} title={'비밀번호 변경'} />
+            </Wrap>
 
             <Box
               sx={{
@@ -272,7 +274,7 @@ const Inner = styled.div`
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -280,6 +282,11 @@ const Inner = styled.div`
     padding: 0;
   }
 `;
+
+const Wrap = styled.div`
+  margin-left: -15pt;
+`;
+
 const BeforePassword = styled.p`
   font-family: Spoqa Han Sans Neo;
   font-size: 12pt;
@@ -302,10 +309,9 @@ const Wrapper = styled.div`
   position: relative;
   margin: 0pt 31.875pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
-    padding: 0 15pt 15pt 15pt;
-    margin: 0;
+    margin: 0 15pt 15pt 15pt;
   }
 `;
 const Text = styled.p`

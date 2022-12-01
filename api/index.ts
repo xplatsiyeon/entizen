@@ -10,7 +10,9 @@ interface PropsApi {
   data?: any;
 }
 
-const BASE_URL = 'https://test-api.entizen.kr/api';
+const BASE_URL = 'https://api.entizen.kr/api';
+// 로컬에서 사용할때만 활성화 시키기
+// const BASE_URL = `/api`;
 
 // API 호출 (토큰 O)
 export const isTokenApi = async (apiInfo: ApiProps) => {
@@ -72,9 +74,9 @@ export const isTokenGetApi = async (url: string) => {
 // -----------------------------post-api--------------------------------------
 // API 호출 (토큰 O)
 // export const isTokenPostApi = async (url: string, data: any) => {
-export const isTokenPostApi = async (apiInfo: PropsApi) => {
-  const { url, data } = apiInfo;
+export const isTokenPostApi = async (apiInfo: PropsApi): Promise<any> => {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { url, data } = apiInfo;
   return await axios({
     method: 'POST',
     url: `${BASE_URL}${url}`,
@@ -86,13 +88,29 @@ export const isTokenPostApi = async (apiInfo: PropsApi) => {
     withCredentials: true,
   }).then((res) => res);
 };
-// -----------------------------patch/put-api--------------------------------------
+// -----------------------------patch-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenPatchApi = async (apiInfo: PropsApi) => {
-  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { url, data } = apiInfo;
   return await axios({
     method: 'PATCH',
+    url: `${BASE_URL}${url}`,
+    data,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ContentType: 'application/json',
+    },
+    withCredentials: true,
+  }).then((res) => res.data);
+};
+// -----------------------------put-api--------------------------------------
+// API 호출 (토큰 O)
+export const isTokenPutApi = async (apiInfo: PropsApi) => {
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { url, data } = apiInfo;
+  return await axios({
+    method: 'PUT',
     url: `${BASE_URL}${url}`,
     data,
     headers: {
@@ -105,8 +123,8 @@ export const isTokenPatchApi = async (apiInfo: PropsApi) => {
 // -----------------------------delete-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
-  const { url, data } = apiInfo;
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { url, data } = apiInfo;
   return await axios({
     method: 'DELETE',
     url: `${BASE_URL}${url}`,
@@ -127,9 +145,7 @@ export async function multerApi(formData: any): Promise<any> {
     url: `${BASE_URL}/files`,
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      // ContentType: 'multipart/form-data; charset=EUC-KR',
-      'Content-Type': 'multipart/form-data; charset=utf-8',
-      // Accept: 'application/json; charset=utf-8',
+      ContentType: 'multipart/form-data; charset=EUC-KR',
       Accept: '*/*',
     },
     data: formData,

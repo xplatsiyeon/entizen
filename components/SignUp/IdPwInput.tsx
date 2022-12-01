@@ -336,16 +336,10 @@ const IdPwInput = ({
         />
         <Box>
           {data?.isMember === false && initIdAlert && (
-            <MessageId
-            >
-              사용가능한 아이디입니다.
-            </MessageId>
+            <MessageId>사용가능한 아이디입니다.</MessageId>
           )}
           {data?.isMember === true && initIdAlert && (
-            <MessageErrId
-            >
-              이미 사용중인 아이디입니다.
-            </MessageErrId>
+            <MessageErrId>이미 사용중인 아이디입니다.</MessageErrId>
           )}
           {/* {data?.isMember === true &&
               initIdAlert &&
@@ -370,10 +364,7 @@ const IdPwInput = ({
         />
         {!checkedPw && pwInput.length > 4 ? (
           <Box>
-            <MessageErrPW
-            >
-              영문,숫자,특수문자 조합 10자 이상
-            </MessageErrPW>
+            <MessageErrPW>영문,숫자,특수문자 조합 10자 이상</MessageErrPW>
           </Box>
         ) : (
           <></>
@@ -390,10 +381,7 @@ const IdPwInput = ({
         />
         {!checkSamePw && checkPw.length > 4 ? (
           <Box>
-            <MessageErrPW
-            >
-              비밀번호를 확인해주세요
-            </MessageErrPW>
+            <MessageErrPW>비밀번호를 확인해주세요</MessageErrPW>
           </Box>
         ) : (
           <></>
@@ -418,9 +406,9 @@ const Info = styled.p`
   line-height: 22.5pt;
   color: ${colors.main2};
   letter-spacing: -0.02em;
-  @media (max-width: 899pt) {
-  font-size: 18pt;
-  line-height: 24pt;
+  @media (max-width: 899.25pt) {
+    font-size: 18pt;
+    line-height: 24pt;
   }
 `;
 const Label = styled.label`
@@ -430,19 +418,19 @@ const Label = styled.label`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   margin-top: 10pt;
-  @media (max-width: 899pt) {
-    margin-top:0;
+  @media (max-width: 899.25pt) {
+    margin-top: 0;
   }
 `;
 
 const LabelPW = styled.label`
-font-weight: 500;
-font-size: 12pt;
-line-height: 12pt;
-letter-spacing: -0.02em;
-color: ${colors.main2};
-margin-top: 0pt;
-`
+  font-weight: 500;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  margin-top: 0pt;
+`;
 
 const NameInput = styled.input`
   display: none;
@@ -489,64 +477,63 @@ const OverlapBtn = styled.button<{ isChangeColor: boolean }>`
     isChangeColor ? colors.main : colors.gray};
 `;
 
-const BoxPW =  styled.div`
+const BoxPW = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 60pt;
   width: 100%;
   position: relative;
-`
+`;
 
 const ButtonText = styled(Typography)`
-  font-Family:'Spoqa Han Sans Neo';
+  font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
   letter-spacing: -0.02em;
-  color: #FFFFFF;
-`
-
+  color: #ffffff;
+`;
 
 const MessageId = styled.p`
   color: ${colors.main};
   font-size: 10.5pt;
   line-height: 10.5pt;
   margin-top: 9pt;
-  font-family:'Spoqa Han Sans Neo';
+  font-family: 'Spoqa Han Sans Neo';
   position: absolute;
   bottom: -20pt;
-  @media (max-width: 899pt) {
-  font-size: 9pt;
-  line-height: 12pt;
- }
-`
+  @media (max-width: 899.25pt) {
+    font-size: 9pt;
+    line-height: 12pt;
+  }
+`;
 
 const MessageErrId = styled.p`
-color: ${colors.sub4};
-font-size: 10.5pt;
-line-height: 10.5pt;
-margin-top: 12pt;
-font-family:'Spoqa Han Sans Neo';
-position: absolute;
-bottom: -20pt;
-margin-top: 12pt;
-  @media (max-width: 899pt) {
+  color: ${colors.sub4};
+  font-size: 10.5pt;
+  line-height: 10.5pt;
+  margin-top: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
+  position: absolute;
+  bottom: -20pt;
+  margin-top: 12pt;
+  @media (max-width: 899.25pt) {
     font-size: 9pt;
     line-height: 12pt;
   }
-`
+`;
 const MessageErrPW = styled.p`
-color: ${colors.sub4};
-font-size: 10.5pt;
-line-height: 10.5pt;
-margin-top: 12pt;
-font-family:'Spoqa Han Sans Neo';
-margin-top: 12pt;
-  @media (max-width: 899pt) {
+  color: ${colors.sub4};
+  font-size: 10.5pt;
+  line-height: 10.5pt;
+  margin-top: 12pt;
+  font-family: 'Spoqa Han Sans Neo';
+  margin-top: 12pt;
+  @media (max-width: 899.25pt) {
     font-size: 9pt;
     line-height: 12pt;
   }
-`
+`;
 export default IdPwInput;

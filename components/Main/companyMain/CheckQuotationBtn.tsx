@@ -19,6 +19,10 @@ const CheckQuotationBtn = (props: Props) => {
 const Box = styled.div`
   padding-left: 62.25pt;
   padding-right: 62.25pt;
+  @media (min-width: 900pt) {
+    padding-left: 835pt;
+    padding-right: 835pt;
+  }
 `;
 
 const Btn = styled.div`
@@ -27,7 +31,7 @@ const Btn = styled.div`
   color: #ffffff;
   padding: 15pt 18pt;
   border-radius: 6pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;

@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import useProfile from 'hooks/useProfile';
 
 interface Key {
   id: string;
@@ -28,11 +29,12 @@ const phone = () => {
   const router = useRouter();
   const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [data, setData] = useState<any>();
-  const [userInfo, setUserInfo] = useState<UserInfo>();
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>();
   const key: Key = JSON.parse(localStorage.getItem('key')!);
-  const phoneNumber = userInfo?.phone
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, invalidate, isLoading } = useProfile(accessToken);
+  const phoneNumber = profile?.phone
     .replace(/[^0-9]/g, '')
     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
 
@@ -48,7 +50,7 @@ const phone = () => {
   const onClickBtn = () => {
     //수정완료 api
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members`;
+    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members`;
     try {
       axios({
         method: 'patch',
@@ -98,7 +100,7 @@ const phone = () => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
+      url: 'https://api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -116,29 +118,12 @@ const phone = () => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    console.log('여기임둥');
+    console.log('⭐️ SNS 데이터 확인 ~라인 119');
     console.log(checkSns);
     console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // 토큰 추가
-  useEffect(() => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    try {
-      axios({
-        method: 'get',
-        url: 'https://test-api.entizen.kr/api/members/info',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => setUserInfo(res.data));
-    } catch (error) {
-      console.log('유저 에러!');
-      console.log(error);
-    }
-  }, []);
+
   // 나이스 인증 테스트
   useEffect(() => {
     console.log('-----key-------');
@@ -226,7 +211,7 @@ const Inner = styled.div`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -237,7 +222,7 @@ const Inner = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin: 0pt 31.875pt;
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
   }

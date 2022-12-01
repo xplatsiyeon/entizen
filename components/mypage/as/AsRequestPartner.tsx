@@ -1,40 +1,40 @@
 import Image from 'next/image';
 import colors from 'styles/colors';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
-import tempCar from 'public/images/temp-car.jpg';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
-import { css } from '@emotion/react';
 import { useCallback, useState } from 'react';
 import CallManager from 'components/Modal/CallManager';
+import { AsDetailReseponse } from 'pages/mypage/as';
+import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 
 interface Props {
   pb?: number;
+  data: AsDetailReseponse;
 }
-
-const AsRequestPartner = ({ pb }: Props) => {
+const TAG = 'components/mypage/as/AsRequestPartner.tsx';
+const AsRequestPartner = ({ pb, data }: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>();
-  // 파일 다운로드 함수
-  const DownloadFile = useCallback(() => {
-    let fileName = 'Charge Point 카탈로그_7 KW';
-    let content = 'Charge Point 카탈로그_7 KW 테스트';
-    const blob = new Blob([content], {
-      type: 'text/plain',
-    });
-    const url = window.URL.createObjectURL(blob);
-    const element = document.createElement('a');
-    element.href = url;
-    element.download = fileName;
-    document.body.appendChild(element);
-    element.click();
-    element.remove();
-    window.URL.revokeObjectURL(url);
-  }, []);
   const HandleModal = () => {
     setModalOpen(false);
   };
 
+  // console.log('⭐️ 하단 부분 데이터 확인 ~line 40 ' + TAG);
+  // console.log(data);
+
+  const compnayName =
+    data?.data?.afterSalesService?.afterSalesService?.project?.finalQuotation
+      ?.preQuotation?.member?.companyMemberAdditionalInfo?.companyName;
+  const name =
+    data?.data?.afterSalesService?.afterSalesService?.project?.finalQuotation
+      ?.preQuotation?.member?.name;
+  const managerEmail =
+    data?.data?.afterSalesService?.afterSalesService?.project?.finalQuotation
+      ?.preQuotation?.member?.companyMemberAdditionalInfo?.managerEmail;
+  const phone =
+    data?.data?.afterSalesService?.afterSalesService?.project?.finalQuotation
+      ?.preQuotation?.member?.phone;
   return (
     <>
       {modalOpen && <CallManager HandleModal={HandleModal} />}
@@ -42,96 +42,147 @@ const AsRequestPartner = ({ pb }: Props) => {
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />
         </DownArrowBox>
-        <Title>Charge Point</Title>
+        <Title>{compnayName}</Title>
         <List>
           <Item>
             <span className="name">회사명</span>
-            <span className="value">Charge Point</span>
+            <span className="value">{compnayName}</span>
           </Item>
           <Item>
             <span className="name">담당자</span>
-            <span className="value">김전기</span>
+            <span className="value">{name}</span>
           </Item>
           <Item>
             <span className="name">이메일</span>
-            <span className="value">Charge@Charge Point.com</span>
+            <span className="value">{managerEmail}</span>
           </Item>
           <Item>
             <span className="name">전화번호</span>
             <span className="value" onClick={() => setModalOpen(true)}>
-              010-1544-2080
+              {hyphenFn(phone)}
             </span>
           </Item>
         </List>
+        {/* ---------------------접수 내용-------------------- */}
         <ReceiptTitle>접수내용</ReceiptTitle>
         <SecondList>
           <Items>
             <span className="name">제목</span>
             <span className="value">
-              100kW 충전기의 충전 건이 파손되었습니다.
+              {data?.data?.afterSalesService?.afterSalesService?.requestTitle}
             </span>
           </Items>
           <Items>
-            <span className="name">담당자</span>
-            <span className="value">
-              사용자의 실수로 충전 건이 파손되었습니다.
-              <br />
-              수리 또는 교체 해주세요.
-            </span>
+            <span className="name">요청내용</span>
+            {data?.data?.afterSalesService?.afterSalesService?.requestContent
+              .split('\n')
+              ?.map((line, index) => (
+                <span key={index} className="value">
+                  {line}
+                  <br />
+                </span>
+              ))}
           </Items>
           <Items>
             <span className="name">접수일자</span>
-            <span className="value">2022.05.17 18:13 </span>
+            <span className="value">
+              {dateFomat(
+                data?.data?.afterSalesService?.afterSalesService?.createdAt,
+              )}
+            </span>
           </Items>
           <Items>
             <div className="name">첨부파일</div>
             <div className="value">
-              <FileBtn onClick={DownloadFile}>
-                <Image src={fileImg} alt="file-icon" />
-                충전건 1.jpg
-              </FileBtn>
-              <FileBtn onClick={DownloadFile}>
-                <Image src={fileImg} alt="file-icon" />
-                충전건 2.jpg
-              </FileBtn>
+              {data?.data?.afterSalesService?.afterSalesService?.afterSalesServiceRequestFiles?.map(
+                (file, index) => (
+                  <FileDownloadBtn key={index}>
+                    <FileDownload download={file.originalName} href={file.url}>
+                      <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                      {file.originalName}
+                    </FileDownload>
+                  </FileDownloadBtn>
+                ),
+              )}
             </div>
           </Items>
         </SecondList>
-        <ReceiptTitle>접수확인</ReceiptTitle>
-        <SecondList>
-          <Items>
-            <span className="name">내용</span>
-            <span className="value">
-              파손 정도 파악 및 수리/교체를 위해
-              <br />
-              금주 중 방문하도록 하겠습니다.
-            </span>
-          </Items>
-          <Items>
-            <span className="name">접수일자</span>
-            <span className="value">2022.05.18 20:21 </span>
-          </Items>
-        </SecondList>
-        <ReceiptTitle>A/S결과</ReceiptTitle>
-        <SecondList>
-          <Items>
-            <span className="name">내용</span>
-            <span className="value">충전 건 교체</span>
-          </Items>
-          <Items>
-            <span className="name">A/S일자</span>
-            <span className="value">2022/05.20 14:52</span>
-          </Items>
-          <Items>
-            <div className="name">첨부파일</div>
-            <div className="value">
-              <FileBtn onClick={DownloadFile}>
-                <Image src={fileImg} alt="file-icon" />
-                DSFJEIFKSL.jpg
-              </FileBtn>
-            </div>
-          </Items>
-        </SecondList>
+        {/* ---------------------접수 확인-------------------- */}
+        {data?.data?.afterSalesService?.afterSalesService?.acceptanceDate! && (
+          <>
+            <ReceiptTitle>접수확인</ReceiptTitle>
+            <SecondList>
+              <Items>
+                <span className="name">내용</span>
+                <span className="value">
+                  {
+                    data?.data?.afterSalesService?.afterSalesService
+                      ?.acceptanceContent
+                  }
+                </span>
+              </Items>
+              <Items>
+                <span className="name">접수일자</span>
+                <span className="value">
+                  {dateFomat(
+                    data?.data?.afterSalesService?.afterSalesService
+                      ?.acceptanceDate!,
+                  )}
+                </span>
+              </Items>
+            </SecondList>
+          </>
+        )}
+
+        {/* ----------------------A/S 결과-------------------- */}
+        {data?.data?.afterSalesService?.afterSalesService
+          .afterSalesServiceResultDate! && (
+          <>
+            <ReceiptTitle>A/S결과</ReceiptTitle>
+            <SecondList className="listChildren">
+              <Items>
+                <span className="name">내용</span>
+                <span className="value">
+                  {
+                    data?.data?.afterSalesService?.afterSalesService
+                      .afterSalesServiceResultContent!
+                  }
+                </span>
+              </Items>
+              <Items>
+                <span className="name">A/S일자</span>
+                <span className="value">
+                  {dateFomat(
+                    data?.data?.afterSalesService?.afterSalesService
+                      .afterSalesServiceResultDate!,
+                  )}
+                </span>
+              </Items>
+              <Items>
+                <div className="name">첨부파일</div>
+                <div className="value">
+                  {data?.data?.afterSalesService?.afterSalesService?.afterSalesServiceCompletionFiles?.map(
+                    (file, index) => (
+                      <FileDownloadBtn key={index}>
+                        <FileDownload
+                          download={file.originalName}
+                          href={file.url}
+                        >
+                          <Image
+                            src={fileImg}
+                            alt="file-icon"
+                            layout="intrinsic"
+                          />
+                          {file.originalName}
+                        </FileDownload>
+                      </FileDownloadBtn>
+                    ),
+                  )}
+                </div>
+              </Items>
+            </SecondList>
+          </>
+        )}
       </Wrapper>
     </>
   );
@@ -144,24 +195,10 @@ const Wrapper = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
 `;
-
 const DownArrowBox = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-/*
-const Wrap = styled.div`
-width : 100% ;
-height: 410pt;
-overflow-y: scroll;
-
-@media (max-width: 899pt) {
-  height: 100%;
-  overflow-y: auto;
-}
-` */
-
 const Title = styled.h1`
   font-weight: 700;
   font-size: 15pt;
@@ -186,9 +223,13 @@ const List = styled.ul`
   border-bottom: 0.75pt solid ${colors.lightGray};
 `;
 const SecondList = styled.ul`
+  gap: 12pt;
   margin-top: 15pt;
   padding-bottom: 18pt;
-  gap: 12pt;
+  border-bottom: 0.75pt solid ${colors.lightGray};
+  &.listChildren {
+    border-bottom: none;
+  }
 `;
 const Item = styled.li`
   display: flex;
@@ -276,45 +317,17 @@ const FeaturesList = styled.ol`
     }
   }
 `;
-const GridImg = styled.div`
-  display: grid;
-  overflow-x: scroll;
-  grid-template-columns: repeat(4, 1fr);
-  padding-top: 15pt;
-  gap: 6pt;
-`;
-const GridItem = styled.div`
-  background-color: blue;
-  position: relative;
-  border-radius: 6pt;
-  width: 120pt;
-  height: 144pt;
-`;
-const FileBtn = styled(Button)`
-  display: flex;
-  gap: 3pt;
-  /* margin-top: 15pt; */
+
+const FileDownloadBtn = styled(Button)`
+  margin: 0 15pt 6pt 0;
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
+  border-radius: 6pt;
+`;
+const FileDownload = styled.a`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 3pt;
   color: ${colors.gray2};
-  border-radius: 8px;
 `;
-const Contents = styled.p`
-  font-weight: 500;
-  font-size: 10.5pt;
-  line-height: 18pt;
-  letter-spacing: -0.02em;
-  padding-top: 15pt;
-  color: ${colors.main2};
-`;
-
-// const Section = styled.section<{ grid?: boolean; pb?: number }>`
-//   /* padding: 18pt 15pt; */
-//   border-bottom: 0.75pt solid ${colors.lightGray};
-//   padding-bottom: ${({ pb }) => pb + 'pt'};
-//   ${({ grid }) =>
-//     grid &&
-//     css`
-//       padding-right: 0;
-//     `};
-// `;

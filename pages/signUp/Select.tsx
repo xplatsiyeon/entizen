@@ -114,7 +114,7 @@ const Inner = styled.div`
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
@@ -132,7 +132,7 @@ const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
     padding: 0 15pt 15pt 15pt;
@@ -155,7 +155,7 @@ const Notice = styled(Typography)`
   transform: translate(-50%, -45pt);
   width: 100%;
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     position: relative;
     left: auto;
     transform: none;
@@ -180,7 +180,7 @@ const SelectWrapper = styled(Box)`
     }
   }
 
-  @media (max-width: 899pt) {
+  @media (max-width: 899.25pt) {
     padding: 0;
     .webP {
       display: none;

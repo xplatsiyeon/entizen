@@ -11,7 +11,7 @@ const ExpressSpeedGraph = () => {
             <th>
               충전 시간
               <br />
-              (0 → 80%)
+              (10 → 80%)
             </th>
             <th className="right">
               5분 충전 <br /> 주행거리
@@ -71,8 +71,8 @@ export default ExpressSpeedGraph;
 
 const Wrapper = styled.div`
   padding-top: 27pt;
-  @media (max-width: 899pt) {
-  padding-bottom: 180.75pt;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 180.75pt;
   }
 `;
 
