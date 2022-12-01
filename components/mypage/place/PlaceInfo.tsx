@@ -131,7 +131,7 @@ const PlaceInfo = ({ data }: Props) => {
               />
             </div>
           </WebRightPhotoBox>
-        </WebFinishedPhotoWrapper>
+        </WebFinishedPhotoWrapper>  
         <Wrap>
           <CommunicationBox
             text="파트너와 소통하기"
