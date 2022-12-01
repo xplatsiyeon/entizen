@@ -183,12 +183,14 @@ const MypageDetail = () => {
           />
           {/* 담당자 정보 */}
           {/* <ManagerInfo /> */}
-          <BiddingQuote pb={101.25} data={data!} />
+          <BiddingQuote pb={0} data={data!} onClcikModal={onClcikModal} />
           {/* 
           {!spotData?.data.spotInspection && (
             <TwoButton onClcikModal={onClcikModal} />
           )} */}
-          <TwoButton onClcikModal={onClcikModal} />
+          <WebHide>
+            <TwoButton onClcikModal={onClcikModal} />
+          </WebHide>
         </Wrapper>
       </Inner>
       <WebFooter />
@@ -205,7 +207,6 @@ const WebBody = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  background: #fcfcfc;
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
@@ -237,4 +238,10 @@ const Inner = styled.div`
 
 const Wrapper = styled.div`
   padding-bottom: 20pt;
+`;
+
+const WebHide = styled.div`
+  @media (min-width: 900pt) {
+    display: none;
+  }
 `;

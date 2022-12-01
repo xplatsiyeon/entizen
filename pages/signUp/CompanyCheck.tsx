@@ -20,34 +20,36 @@ const SignUpCheck = () => {
               <br />
               비밀번호를 설정해주세요
             </Info>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                marginTop: '18pt',
-                width: '100%',
-                position: 'relative',
-              }}
-            >
-              <Label>아이디</Label>
-              <Input placeholder="아이디 입력" />
-              <OverlapBtn>중복 확인</OverlapBtn>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                marginTop: '22.5pt',
-                width: '100%',
-              }}
-            >
-              <Label>비밀번호</Label>
-              <Input placeholder="비밀번호 입력" />
-              <Input placeholder="비밀번호 재입력" />
-            </Box>
-            <Btn text="가입 승인 받기" marginTop="111" />
+            <form>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  marginTop: '18pt',
+                  width: '100%',
+                  position: 'relative',
+                }}
+              >
+                <Label>아이디</Label>
+                <Input placeholder="아이디 입력" />
+                <OverlapBtn>중복 확인</OverlapBtn>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  marginTop: '22.5pt',
+                  width: '100%',
+                }}
+              >
+                <Label>비밀번호</Label>
+                <Input placeholder="비밀번호 입력" />
+                <Input placeholder="비밀번호 재입력" />
+              </Box>
+              <Btn text="가입 승인 받기" marginTop="111" />
+            </form>
           </Wrapper>
         </Inner>
         <WebFooter />

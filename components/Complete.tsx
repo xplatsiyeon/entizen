@@ -44,7 +44,14 @@ const Complete = ({
       <Footer>
         {text && <TextBox>{text}</TextBox>}
         <Btn onClick={handleOnClick}>{buttonText}</Btn>
-        <WebBtn onClick={handleOnClick}>{buttonWeb}</WebBtn>
+        <WebBtn onClick={handleOnClick}>{buttonText}</WebBtn>
+        <WebTextArea>
+          <WebTextTitle>소중한 의견 감사드립니다.</WebTextTitle>
+          <WebText>
+            고객님과 좋은 인연이 있기를 기대합니다. <br />
+            견적마감은 영업일 최대 5일 입니다.
+          </WebText>
+        </WebTextArea>
       </Footer>
     </Wrapper>
   );
@@ -147,17 +154,54 @@ const Btn = styled(Button)`
 const WebBtn = styled(Button)`
   background: ${colors.main};
   border-radius: 21.75pt;
-  width: 30%;
+  /* width: 30%; */
+  width: 345px;
+  height: 42px;
+  border-radius: 6pt;
   font-weight: 700;
   font-size: 10.5pt;
   line-height: 12pt;
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-  margin-bottom: 145.5pt;
+  margin-bottom: 60pt;
   padding: 9pt 12pt;
-
+  margin-top: 45pt;
   @media (max-width: 899.25pt) {
     display: none;
   }
+`;
+
+const WebTextArea = styled.div`
+  border: 0.75pt solid #e9eaee;
+  border-radius: 6pt;
+  width: 345pt;
+  height: 108pt;
+  margin: 0 auto;
+  margin-bottom: 90pt;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
+
+const WebTextTitle = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 15pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  padding-top: 21pt;
+  padding-bottom: 15pt;
+`;
+
+const WebText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 500;
+  font-size: 12pt;
+  line-height: 18pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #747780;
+  padding-bottom: 21pt;
 `;

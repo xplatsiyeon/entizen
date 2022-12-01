@@ -77,8 +77,13 @@ const Modal = styled.div<{ border?: boolean }>`
   padding: 30pt 15pt;
 
   @media (max-width: 899.25pt) {
-  position: absolute;
-  bottom: 0;
+    position: absolute;
+    bottom: 0;
+  }
+
+  @media (min-width: 900pt) {
+    border-radius: 16px;
+    width: 560px;
   }
 `;
 const H1 = styled.h1`
@@ -89,6 +94,9 @@ const H1 = styled.h1`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  @media (min-width: 900pt) {
+    white-space: normal;
+  }
 `;
 const Text = styled.p`
   white-space: pre-wrap;
@@ -117,6 +125,9 @@ const LeftBtn = styled(Button)`
   letter-spacing: -0.02em;
   color: ${colors.darkGray};
   padding: 15pt 26.25pt;
+  @media (min-width: 900pt) {
+    width: 102pt;
+  }
 `;
 const RightBtn = styled(Button)<{ border?: boolean }>`
   background: ${colors.main};
@@ -127,5 +138,8 @@ const RightBtn = styled(Button)<{ border?: boolean }>`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-  padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')}; ;
+  padding: ${({ border }) => (border ? '15pt 37.5pt' : '15pt 72.75pt')};
+  @media (min-width: 900pt) {
+    width: 230pt;
+  }
 `;

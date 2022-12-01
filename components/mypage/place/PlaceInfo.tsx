@@ -23,7 +23,6 @@ const PlaceInfo = ({ data }: Props) => {
   };
 
   const DataFilter = data?.projectCompletionFiles[webIdx];
-  console.log('DataFilter', DataFilter);
 
   const handleNum = () => {
     if (idx === 1) {

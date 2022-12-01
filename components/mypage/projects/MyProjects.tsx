@@ -104,7 +104,7 @@ const ProjectBox = styled.li`
   position: relative;
   @media (min-width: 900pt) {
     width: 178.5pt;
-    height: 114pt;
+    height: 99pt;
   }
 `;
 

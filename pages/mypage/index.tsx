@@ -120,10 +120,10 @@ const Request = () => {
                           route.push({
                             pathname: '/mypage',
                             query: { id: index },
-                        })
+                          })
                         }
                       >
-                      <span>{tab}</span>
+                        <span>{tab}</span>
                         <Dot
                           tab={tabNumber.toString()}
                           index={index.toString()}
@@ -158,7 +158,7 @@ const Request = () => {
                         tab={tabNumber.toString()}
                         index={index.toString()}
                       >
-                      <span>{tab}</span>
+                        <span>{tab}</span>
                         <Dot
                           tab={tabNumber.toString()}
                           index={index.toString()}
@@ -170,7 +170,9 @@ const Request = () => {
             </WebTabContainer>
           </Body>
         </FlexBox>
-        <Wrap className='right-content'>{typeof tabNumber === 'number' && components[tabNumber]}</Wrap>
+        <Wrap className="right-content">
+          {typeof tabNumber === 'number' && components[tabNumber]}
+        </Wrap>
         <BottomNavigation />
       </Wrapper>
       <WebFooter />
@@ -184,7 +186,7 @@ const WebBody = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh; 
+  height: 100vh;
   margin: 0 auto;
   background: #ffffff;
 
@@ -271,6 +273,7 @@ const Line = styled.div`
   margin-top: 21pt;
   width: 100%;
   border-bottom: 3pt solid ${colors.gray3};
+  margin-bottom: 24pt;
 `;
 const MobTabContainer = styled.div`
   display: none;
@@ -291,7 +294,7 @@ const WebTabContainer = styled.div`
   @media (max-width: 899.25pt) {
     display: none;
   }
-`
+`;
 
 const Wrap = styled.div`
   flex: 1;
@@ -315,7 +318,6 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   @media (max-width: 899.25pt) {
     flex-direction: column;
   }
-
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;

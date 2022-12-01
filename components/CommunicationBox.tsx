@@ -61,4 +61,8 @@ const Button = styled.button`
   background: #f3f4f7;
   color: ${colors.main2};
   cursor: pointer;
+
+  @media (min-width: 900pt) {
+    padding: 10.5pt 16pt;
+  }
 `;
