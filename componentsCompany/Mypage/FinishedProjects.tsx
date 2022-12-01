@@ -54,19 +54,21 @@ const FinishedProjects = ({
     return <Loader />;
   }
   if (historyError) {
-    console.log(historyError);
+    console.log('??',historyError);
   }
 
   const handleDownload = () => {};
 
-  if (historyData?.completedProjects?.length! === 0) {
-    console.log(historyData);
+  if (!(historyData?.completedProjects?.length!)) {
+    console.log('no',historyData);
     return <NoProject />;
+  }else{
+    console.log('whyNo', historyData)
   }
 
   console.log('🔥 ~line 69 완료 프로젝트 데이터 확인 ' + TAG);
   // console.log(TAG);
-  console.log(historyData);
+  console.log('69',historyData);
 
   return (
     <Wrapper>

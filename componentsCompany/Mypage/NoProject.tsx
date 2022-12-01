@@ -14,7 +14,7 @@ const NoProject = () => {
       <ImgBox>
         <Image src={UndefindImg} alt="no-history" />
       </ImgBox>
-      <Message>진행중인 프로젝트가 없습니다.</Message>
+      <Message>완료된 프로젝트가 없습니다.</Message>
     </Wrapper>
   );
 };
