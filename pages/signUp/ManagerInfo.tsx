@@ -101,15 +101,10 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const TwoBtnModalExit = () => setIsTwoBtnModal(false);
   // 나이스 인증 후 클릭되는 함수 (투버튼 수락)
   const onClickNice = () => {
-    if (profile?.phone.toString() === key?.phone.toString()) {
-      setTwoBtnModalMessage(
-        '담당자 정보를 수정하시려면 관리자의 승인을 다시 받아야합니다.수정하시겠습니까?',
-      );
-      setIsTwoBtnModal(true);
-    } else {
-      setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
-      setIsModal(true);
-    }
+    setTwoBtnModalMessage(
+      '담당자 정보를 수정하시려면 관리자의 승인을 다시 받아야합니다.수정하시겠습니까?',
+    );
+    setIsTwoBtnModal(true);
   };
   // 담당자 정보 수정하기
   const onCickBtn = () => {
@@ -123,6 +118,9 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         },
       });
       console.log('온 클릭');
+    } else {
+      setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
+      setIsModal(true);
     }
   };
   // 이메일인증
