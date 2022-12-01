@@ -79,7 +79,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     {
       onSuccess: (res) => {
         console.log(res);
-        console.log(res.data.authCode);
+        // console.log(res.data.authCode);
         setModalMessage('담당자가 변경되었습니다.');
         setIsModal(true);
       },
