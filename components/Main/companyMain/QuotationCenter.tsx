@@ -80,6 +80,9 @@ const QuotationCenter = ({}: Props) => {
 const Wrapper = styled.div`
   position: relative;
   margin-top: 39pt;
+  @media (min-width: 900pt) {
+    margin-top: 60pt;
+  }
 `;
 const ImgBox = styled.div`
   position: absolute;

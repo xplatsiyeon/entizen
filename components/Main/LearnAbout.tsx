@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import lightBox from '/public/images/boxLight.png';
 import arrow from '/public/images/arrow.png';
 import whiteBlueRight from '/public/images/whiteBlueRight.png';
@@ -29,6 +29,7 @@ interface MenuList {
 
 const LearnAbout = ({ borders }: Props) => {
   const router = useRouter();
+  const userID = localStorage.getItem('USER_ID');
   const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',
@@ -77,19 +78,19 @@ const LearnAbout = ({ borders }: Props) => {
   ];
 
   const movePage = (el: MenuList) => {
-    switch (el.headText) {
-      case '플랫폼 가이드':
-        return router.push('/guide/1-1');
-      case '구독 가이드':
-        return router.push('/guide/1-4');
-      case '충전기 가이드':
-        return router.push('/guide/1-5');
-      case '보조금 가이드':
-        return router.push('/guide/1-2'); //로그인 전후
-      default:
-        break;
+    if (el.headText === '플랫폼 가이드') {
+      router.push('/guide/1-1');
+    } else if (el.headText === '구독 가이드') {
+      router.push('/guide/1-4');
+    } else if (el.headText === '충전기 가이드') {
+      router.push('/guide/1-5');
+    } else if (el.headText === '보조금 가이드' && userID !== null) {
+      router.push('/guide/1-2');
+    } else if (el.headText === '보조금 가이드' && userID === null) {
+      router.push('/signin');
     }
   };
+
   return (
     <>
       <Wrapper>
@@ -179,6 +180,7 @@ const Item = styled.div<{ borders: number }>`
   background-color: ${(props) => props.color};
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   position: relative;
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     width: 105pt;
     box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);

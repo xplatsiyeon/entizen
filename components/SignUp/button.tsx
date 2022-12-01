@@ -63,10 +63,8 @@ const ButtonBox = styled.div<{ propsGet?: boolean }>`
       box-sizing: border-box;
       width: 100%;
     `}
-  @media(min-width:899pt) {
-    width: 580.5pt;
+  @media(min-width:900pt) {
     position: relative;
-    padding-top: 90pt;
   }
 `;
 

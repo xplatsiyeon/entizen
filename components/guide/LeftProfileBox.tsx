@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import useProfile from 'hooks/useProfile';
 
 const LeftProfileBox = () => {
   const router = useRouter();
@@ -22,43 +23,9 @@ const LeftProfileBox = () => {
   const [data, setData] = useState<any>();
 
   const [checkSns, setCheckSns] = useState<boolean>(false);
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, isLoading, invalidate } = useProfile(accessToken);
 
-  // 유저정보 받아 오는 API
-  const getUserInfo = () => {
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    try {
-      axios({
-        method: 'get',
-        url: 'https://test-api.entizen.kr/api/members/info',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-      })
-        .then((res) => {
-          console.log('---res 데이터---');
-          console.log(res);
-          setId(res.data.id);
-          setName(res.data.name);
-        })
-        .catch((error) => {
-          console.log('실패');
-          console.log(error);
-          alert('다시 시도해주세요.');
-          router.push('/');
-        });
-    } catch (error) {
-      alert('다시 시도해주세요.');
-      router.push('/');
-      console.log('api 통신 에러');
-      console.log(error);
-    }
-  };
-
-  // 유저 정보 받아오기
-  useEffect(() => {
-    getUserInfo();
-  }, []);
   return (
     <React.Fragment>
       <WebBody>
@@ -80,10 +47,20 @@ const LeftProfileBox = () => {
                 </div>
               </Avatar>
               <Label mt={33}>아이디</Label>
-              <InputBox type="text" readOnly placeholder={id} />
-              <Label mt={30}>이름</Label>
-              <InputBox type="text" readOnly placeholder={name} />
+              <InputBox type="text" readOnly placeholder={profile?.id} />
+              <Label mt={30}>{profile?.companyMemberAdditionalInfo?'기업명':'이름'}</Label>
+              <InputBox type="text" readOnly placeholder={profile?.companyMemberAdditionalInfo? profile.companyMemberAdditionalInfo.companyName : profile?.name} />
             </Body>
+            {profile?.companyMemberAdditionalInfo
+            ? <CompanyUserBox>
+                <Label mt={33}>담당자 이름</Label>
+                <InputBox type="text" readOnly placeholder={profile?.name} />
+                <Label mt={30}>담당자 휴대폰 번호</Label>
+                <InputBox type="text" readOnly placeholder={profile?.phone} />
+                <Label mt={30}>담당자 이메일</Label>
+                <InputBox type="text" readOnly placeholder={profile?.companyMemberAdditionalInfo.managerEmail} />
+              </CompanyUserBox> 
+            : null}
           </Wrapper>
         </Inner>
       </WebBody>
@@ -97,7 +74,6 @@ const WebBody = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
   margin: 0 auto;
   //height: 810pt;
   background: #fcfcfc;
@@ -116,11 +92,12 @@ const Inner = styled.div`
   position: relative;
   margin: 45.75pt auto;
   width: 255pt;
+  height: 597pt;
+  overflow-y: scroll;
   //width: 281.25pt;
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -143,15 +120,16 @@ const Inner = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  margin: 0 31.875pt;
+  padding: 32.25pt 0pt 42pt;
 
   @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
+    padding: 0;
   }
 `;
 const Body = styled.div`
-  padding: 27pt 0 222pt 0;
+  padding: 27pt 22.5pt 30pt;
 `;
 const Avatar = styled.div`
   display: flex;
@@ -200,3 +178,19 @@ const InputBox = styled.input`
     color: ${colors.lightGray3};
   }
 `;
+
+const CompanyUserBox = styled.div`
+padding: 0pt 22.5pt 0;
+position: relative;
+&::before{
+  position: absolute;
+  display: block;
+  content: '';
+  clear: both;
+  width: 100%;
+  height: 6pt;
+  top: -36pt;
+  left: 0;
+background: #F3F4F7;
+}
+`

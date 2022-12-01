@@ -58,7 +58,9 @@ const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
       </BoxWrapper>
       <BoxWrapper
         borders={borders ? borders : 0}
-        onClick={() => router.push('/mypage?id=1')}
+        onClick={() =>
+          userID ? router.push('/mypage?id=1') : router.push('/signin')
+        }
       >
         <Box>
           <BoxName>
@@ -132,6 +134,7 @@ const BoxName = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+
   & p {
     position: relative;
     font-family: 'Spoqa Han Sans Neo';

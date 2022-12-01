@@ -32,7 +32,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
                 추후 문구 추가
               </LibraryTitle>
               <DetailView smallfont={smallfont ? smallfont : 0}>
-                자세히 보기{' '}
+                자세히 보기
                 <span>
                   <Image src={rightArrow} alt="icon" />
                 </span>
@@ -238,6 +238,7 @@ const DetailView = styled(Typography)<{ smallfont: number }>`
   font-weight: 500;
   color: ${colors.main};
   font-family: 'Spoqa Han Sans Neo';
+  cursor: pointer;
   & span {
     display: flex;
     align-items: center;
@@ -255,6 +256,7 @@ const ShowAllBtnBox = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   font-family: 'Spoqa Han Sans Neo';
+  cursor: pointer;
 `;
 
 const ShowAllBtn = styled.div`
