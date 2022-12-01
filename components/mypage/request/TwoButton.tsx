@@ -32,11 +32,22 @@ const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     position: fixed;
   }
+
+  @media (min-width: 900pt) {
+    position: relative;
+  }
 `;
 const BtnBox = styled.div`
   margin: 0 15pt;
   display: flex;
   gap: 9pt;
+
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+    width: 255pt;
+    margin: 0;
+  }
 `;
 const LeftBtn = styled(Button)`
   padding: 15pt 16.75pt;
@@ -49,6 +60,9 @@ const LeftBtn = styled(Button)`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  @media (min-width: 900pt) {
+    width: 100%;
+  }
 `;
 const RightBtn = styled(Button)`
   padding: 15pt 32.5pt;
@@ -60,6 +74,9 @@ const RightBtn = styled(Button)`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  @media (min-width: 900pt) {
+    width: 100%;
+  }
 `;
 // Blur 효과
 const Blur = styled.div`
