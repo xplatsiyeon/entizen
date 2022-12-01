@@ -71,6 +71,7 @@ const Estimate = () => {
   ) {
     return <NoHistory />;
   }
+
   return (
     <Wrapper>
       {/* 진행중 */}
@@ -146,6 +147,10 @@ export default Estimate;
 
 const Wrapper = styled.div`
   padding-top: 21pt;
+  @media (min-width: 900pt) {
+    padding-right: 5pt;
+    padding-top: 0;
+  }
 `;
 const Label = styled.label`
   font-weight: 700;
@@ -161,11 +166,15 @@ const Label = styled.label`
   @media (min-width: 900pt) {
     font-size: 18pt;
     line-height: 15pt;
+    padding-left: 4pt;
   }
 `;
 const Proceeding = styled.section`
   padding-top: 21pt;
   margin-bottom: 60pt;
+  @media (min-width: 900pt) {
+    padding-right: 5pt;
+  }
 `;
 const History = styled.section``;
 
@@ -177,10 +186,13 @@ const Carousel = styled.div<{ length: number }>`
   padding: 6pt 15pt 30pt 15pt;
 
   @media (min-width: 900pt) {
-    display: flex;
-    overflow-x: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 22.5pt;
     padding: 6pt 4pt 30pt;
+    width: 580.5pt;
+    padding-right: 5pt;
+    padding-top: 21pt;
   }
 `;
 const CarouselItem = styled.div`
@@ -215,7 +227,7 @@ const CarouselItem = styled.div`
 
   @media (min-width: 899.25pt) {
     width: 163.5pt;
-    height: 114pt;
+    height: 99pt;
     padding-left: 15pt;
     padding-top: 15pt;
   }

@@ -134,6 +134,7 @@ const BtnLeft = styled(Box)`
     justify-content: center;
     align-items: center;
     border-top: 1px solid #f3f4f7;
+    cursor: pointer;
   }
 `;
 
@@ -141,6 +142,7 @@ const BtnLeftWeb = styled.button`
   width: 100%;
   border-radius: 4.5pt;
   background-color: #e2e5ed;
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -150,6 +152,7 @@ const BtnRightWeb = styled.button`
   width: 100%;
   border-radius: 4.5pt;
   background-color: #5221cb;
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -164,6 +167,7 @@ const BtnRight = styled(Box)`
     align-items: center;
     border-left: 1px solid #f3f4f7;
     border-top: 1px solid #f3f4f7;
+    cursor: pointer;
   }
 `;
 

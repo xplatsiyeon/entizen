@@ -1,22 +1,13 @@
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import AvatarIcon from 'public/images/avatar.png';
-import AvatarPhoto from 'public/images/avatar-photo.png';
 import colors from 'styles/colors';
-import Arrow from 'public/guide/Arrow.svg';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import { useRouter } from 'next/router';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import PasswordModify from 'components/Profile/PasswordModify';
 import ProfileModify from 'components/Profile/ProfileModify';
 import PhoneNumberModify from 'components/Profile/PhonenumberModify';
 import UserRightMenu from 'components/UserRightMenu';
-import useProfile from 'hooks/useProfile';
 import { useMediaQuery } from 'react-responsive';
 
 interface Components {
@@ -24,10 +15,6 @@ interface Components {
 }
 
 const ProfileEditing = () => {
-  const { selectedType } = useSelector((state: RootState) => state.selectType);
-  const [avatar, setAvatar] = useState<string>('');
-  const [data, setData] = useState<any>();
-  const [isPassword, setIsPassword] = useState(false);
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const mobile = useMediaQuery({
     query: '(min-width:900pt)',
@@ -103,13 +90,14 @@ const ProfileEditing = () => {
       {tabNumber === 2 && <Header back={true} title="프로필 변경" />}
       <WebBody>
         <WebHeader />
-        {/* 모바일 */}
+        {/* ---------------모바일-------------- */}
         {!mobile ? (
           <WebHide>
             {tabNumber === 2 && <ProfileModify setTabNumber={setTabNumber} />}
             {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
           </WebHide>
         ) : (
+          // --------------웹-------------
           <WebRapper>
             <Inner>
               {/* 프로필 변경 컴포넌트 */}

@@ -169,6 +169,9 @@ const Wrapper = styled.div`
     height: 100%;
     margin: 0;
   }
+  @media (min-width: 900pt) {
+    padding-bottom: 0;
+  }
 `;
 const H1 = styled.h1`
   padding-top: 27pt;
@@ -249,5 +252,9 @@ const Btn = styled.button`
     position: fixed;
     left: 0;
     padding-bottom: 39pt;
+  }
+
+  @media (min-width: 900pt) {
+    border-radius: 6pt;
   }
 `;

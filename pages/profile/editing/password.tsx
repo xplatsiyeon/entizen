@@ -151,7 +151,7 @@ const FindPassword = () => {
               />
             )}
             <Wrap>
-              <MypageHeader  back={true} title={'비밀번호 변경'}/>
+              <MypageHeader back={true} title={'비밀번호 변경'} />
             </Wrap>
 
             <Box

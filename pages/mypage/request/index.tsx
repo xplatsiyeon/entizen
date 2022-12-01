@@ -26,6 +26,7 @@ import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import M17Modal from 'components/Modal/M17Modal';
 import UserRightMenu from 'components/UserRightMenu';
+import CancelButton from 'components/mypage/request/CancelButton';
 
 export interface CompanyMemberAdditionalInfo {
   createdAt: string;
@@ -272,6 +273,7 @@ const Mypage1_3 = ({}: any) => {
               />
               {/*--------------------- 상단 박스 ---------------------------------*/}
               <EstimateContainer data={data!} />
+              <CancelButton handleOnClick={handleOnClick} />
               <DownArrowBox>
                 <Image src={DoubleArrow} alt="double-arrow" />
               </DownArrowBox>
@@ -281,7 +283,7 @@ const Mypage1_3 = ({}: any) => {
                 <React.Fragment>
                   <SubscriptionProduct data={data?.preQuotations!} />
                   <TextBox>
-                    <div>선택하기 어려우신가요?</div>
+                    <ChoiceText>선택하기 어려우신가요?</ChoiceText>
                     <CommunicationBox text="엔티즌과 소통하기" />
                   </TextBox>
                 </React.Fragment>
@@ -467,6 +469,18 @@ const TextBox = styled.div`
     padding-top: 75pt;
   }
 `;
+
+const ChoiceText = styled.div`
+  font-weight: 500;
+  font-size: 12pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  color: ${colors.lightGray3};
+  @media (min-width: 900pt) {
+    margin-bottom: 5pt;
+  }
+`;
+
 const ButtonBox = styled.div`
   box-sizing: border-box;
   display: flex;

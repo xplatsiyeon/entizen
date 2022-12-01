@@ -126,14 +126,26 @@ const EstimateContainer = ({ data }: Props) => {
                 )}
               </span>
             </div>
-            <div className="text-box">
+            {/* <div className="text-box">
               <span className="name">기타 요청사항</span>
               <span className="text">
                 {data?.quotationRequest?.etcRequest
                   ? data?.quotationRequest?.etcRequest
                   : '없음'}
               </span>
-            </div>
+            </div> */}
+
+            {data?.quotationRequest?.etcRequest.length !== 0 ? (
+              <ElseTextBox>
+                <span className="name">기타 요청사항</span>
+                <ElseText>{data?.quotationRequest?.etcRequest}</ElseText>
+              </ElseTextBox>
+            ) : (
+              <div className="text-box">
+                <span className="name">기타 요청사항</span>
+                <span className="text">없음 </span>
+              </div>
+            )}
           </Contents>
         </List>
       </Collapse>
@@ -217,4 +229,23 @@ const Contents = styled.div`
     padding-bottom: 24pt;
     text-align: center;
   }
+`;
+
+const ElseTextBox = styled.div`
+  padding-top: 12pt;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ElseText = styled.div`
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  text-align: left;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  margin-top: 10pt;
+  border: 0.75pt solid #e2e5ed;
+  padding: 8pt;
+  border-radius: 6pt;
 `;

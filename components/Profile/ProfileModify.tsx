@@ -220,6 +220,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
           <InputBox type="text" readOnly placeholder={profile?.name} />
           {!checkSns && (
             <>
+              {/* 나이스 인증 */}
               <form name="form_chk" method="get">
                 <input type="hidden" name="m" value="checkplusService" />
                 {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
