@@ -29,6 +29,7 @@ import {
 import { useQuery } from '@apollo/client';
 import Loader from 'components/Loader';
 import { AsDetailReseponse } from 'pages/mypage/as';
+import { useMediaQuery } from 'react-responsive';
 
 export interface DateType {
   new (): Date;
@@ -55,7 +56,9 @@ const AsRequestWrite = () => {
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
+  const mobile = useMediaQuery({
+    query: '(min-width:899.25pt)',
+  });
   // file s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
     MulterResponse,
@@ -199,27 +202,31 @@ const AsRequestWrite = () => {
   };
   // as 신청하기 버튼
   const onClickNextBtn = () => {
-    asMutate({
-      url: '/after-sales-services',
-      data: {
-        requestTitle: title,
-        requestContent: reqeustText,
-        projectIdx: selectedIndex,
-        afterSalesServiceRequestFiles: review,
-      },
-    });
+    if (checkAll) {
+      asMutate({
+        url: '/after-sales-services',
+        data: {
+          requestTitle: title,
+          requestContent: reqeustText,
+          projectIdx: selectedIndex,
+          afterSalesServiceRequestFiles: review,
+        },
+      });
+    }
   };
   // as 수정하기 버튼
   const onClickModifiedBtn = () => {
-    modifiedMutate({
-      url: `/after-sales-services/${routerId}`,
-      data: {
-        requestTitle: title,
-        requestContent: reqeustText,
-        projectIdx: selectedIndex,
-        afterSalesServiceRequestFiles: review,
-      },
-    });
+    if (checkAll) {
+      modifiedMutate({
+        url: `/after-sales-services/${routerId}`,
+        data: {
+          requestTitle: title,
+          requestContent: reqeustText,
+          projectIdx: selectedIndex,
+          afterSalesServiceRequestFiles: review,
+        },
+      });
+    }
   };
   const handleChange = (data: Charger) => {
     setSelectedOption(data.projectName);
@@ -276,15 +283,10 @@ const AsRequestWrite = () => {
 
   // 유효성 검사
   useEffect(() => {
-    if (
-      title !== '' &&
-      selectedOption.length > 1 &&
-      imgValidation &&
-      reqeustText !== ''
-    ) {
-      setCheckAll(() => true);
+    if (title !== '' && selectedOption.length > 0 && reqeustText.length > 0) {
+      setCheckAll(true);
     } else {
-      setCheckAll(() => false);
+      setCheckAll(false);
     }
 
     //
@@ -303,12 +305,19 @@ const AsRequestWrite = () => {
   // console.log('🔥 ~line 107 ~ AS 충전소 리스트 데이터 확인 ' + TAG);
   // console.log(chargingData);
 
+  useEffect(() => {
+    console.log(checkAll);
+  }, [checkAll]);
   return (
     <>
       {/* 에러 모달 */}
       {isModal && <Modal click={onClickModal} text={errorMessage} />}
       <Container>
-        <Header text={'A/S 요청하기'} colorselect={checkAll} />
+        {!mobile ? (
+          <Header text={'A/S 요청하기'} colorselect={checkAll} />
+        ) : (
+          <WebHeader>A/S 요청하기</WebHeader>
+        )}
         <TitleInputBox>
           <Label>제목</Label>
           <Input value={title} onChange={titleChange} type="text" required />
@@ -377,19 +386,11 @@ const AsRequestWrite = () => {
         </RemainderInputBox>
       </Container>
       {routerId ? (
-        <NextBtn
-          onClick={onClickModifiedBtn}
-          disabled={checkAll}
-          checkAll={!checkAll}
-        >
+        <NextBtn onClick={onClickModifiedBtn} disabled={!checkAll}>
           A/S 수정하기
         </NextBtn>
       ) : (
-        <NextBtn
-          onClick={onClickNextBtn}
-          disabled={checkAll}
-          checkAll={!checkAll}
-        >
+        <NextBtn onClick={onClickNextBtn} disabled={!checkAll}>
           A/S 요청하기
         </NextBtn>
       )}
@@ -398,18 +399,30 @@ const AsRequestWrite = () => {
 };
 
 const Container = styled.div`
-  padding-left: 15pt;
-  padding-right: 15pt;
-
   @media (max-width: 899.25pt) {
     padding-bottom: 106pt;
+    padding-left: 15pt;
+    padding-right: 15pt;
   }
+`;
+const WebHeader = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18pt;
+  line-height: 21pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
 `;
 const TitleInputBox = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 12pt;
+  margin-top: 50.25pt;
   gap: 9pt;
+  @media (max-width: 899.25pt) {
+    margin-top: 12pt;
+  }
 `;
 const RemainderInputBox = styled.div`
   flex-direction: column;
@@ -491,14 +504,15 @@ const AddPhotos = styled.button`
   height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
+  cursor: pointer;
 `;
-const NextBtn = styled.button<{ checkAll: boolean }>`
+const NextBtn = styled.button<{ disabled: boolean }>`
   width: 100%;
   margin-top: 40.6875pt;
   padding-top: 15pt;
   padding-bottom: 15pt;
-  background-color: ${({ checkAll }) =>
-    checkAll ? `${colors.main}` : `${colors.blue3}`};
+  background-color: ${({ disabled }) =>
+    !disabled ? `${colors.main}` : `${colors.blue3}`};
   font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
@@ -507,6 +521,8 @@ const NextBtn = styled.button<{ checkAll: boolean }>`
   color: #ffffff;
   text-align: center;
   border-radius: 6pt;
+  cursor: pointer;
+  z-index: 9999;
   @media (max-width: 899.25pt) {
     padding-bottom: 39pt;
     border-radius: 0;

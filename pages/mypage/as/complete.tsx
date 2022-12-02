@@ -17,6 +17,7 @@ const complete = (props: Props) => {
         <Inner>
           <Wrapper>
             <AsComplete
+              type={'AS'}
               routerId={routerId}
               buttonText={'확인'}
               text={'추가 문의사항은\n소통하기를 이용해주시기 바랍니다.'}

@@ -28,6 +28,7 @@ import {
   subscribeTypeEn,
 } from 'assets/selectList';
 import { useRouter } from 'next/router';
+import { useMediaQuery } from 'react-responsive';
 
 type Props = {
   data: AsDetailReseponse;
@@ -37,6 +38,9 @@ const AsRequest = ({ data }: Props) => {
   const router = useRouter();
   const projectIdx =
     data?.data?.afterSalesService?.afterSalesService?.projectIdx;
+  const mobile = useMediaQuery({
+    query: '(min-width:899.25pt)',
+  });
 
   // alert(id)
   const [open, setOpen] = useState<boolean>(false);
@@ -65,19 +69,21 @@ const AsRequest = ({ data }: Props) => {
   const handleClick = () => setOpen(!open);
   return (
     <Body>
-      <MypageHeader
-        title={'A/S'}
-        back={true}
-        handle={true}
-        handleOnClick={() => {
-          router.push({
-            pathname: '/mypage',
-            query: {
-              id: '2',
-            },
-          });
-        }}
-      />
+      {!mobile && (
+        <MypageHeader
+          title={'A/S'}
+          back={true}
+          handle={true}
+          handleOnClick={() => {
+            router.push({
+              pathname: '/mypage',
+              query: {
+                id: '2',
+              },
+            });
+          }}
+        />
+      )}
       <Wrapper>
         {/* Close */}
         <ItemButton onClick={handleClick}>
@@ -254,9 +260,9 @@ const AsRequest = ({ data }: Props) => {
 export default AsRequest;
 
 const Body = styled.div`
-  display: none;
+  /* display: none; */
   @media (max-width: 899.25pt) {
-    display: block;
+    /* display: block; */
   }
 `;
 
