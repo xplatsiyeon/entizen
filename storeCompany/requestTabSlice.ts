@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 interface TabNumber {
   checkedFilterIndex: 0 | 1 | 2;
-  tabnumIndex: 0 | 1 | 2;
+  tabnumIndex: number;
 }
 
 const initialState: TabNumber = {
