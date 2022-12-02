@@ -10,7 +10,7 @@ import RequestMain from 'components/mypage/request/requestMain';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import colors from 'styles/colors';
 export interface File {
@@ -92,13 +92,20 @@ const asNumber = () => {
   const [modalMessage, setModalMessage] = useState('');
 
   // --------------------- AS detail API ------------------------------
-  const { data, isLoading, isError, error } = useQuery<AsDetailReseponse>(
+  const { data, isLoading, isError, error, refetch } = useQuery<AsDetailReseponse>(
     'as-detail',
     () => isTokenGetApi(`/after-sales-services/${routerId}`),
     {
       enabled: router.isReady,
     },
   );
+
+  useEffect(()=>{
+    if(routerId){
+      refetch();
+    }
+  }, [routerId])
+
   const {
     mutate: completeMutate,
     isLoading: completeIsLoading,
