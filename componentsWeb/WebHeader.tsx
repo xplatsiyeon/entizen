@@ -31,9 +31,9 @@ const WebHeader = ({ num, now }: Props) => {
   const isUser = localStorage.getItem('USER_ID');
   // if(!isUser)localStorage.setItem('USER_ID','user'); // 유저 테스트용 코드
 
-  const handleLink = () => {
+  const handleLink = (st:string) => {
     if (isUser) {
-      router.push('/quotation/request');
+      router.push(`${st}`);
     } else {
       router.push('/signin');
     }
@@ -56,7 +56,7 @@ const WebHeader = ({ num, now }: Props) => {
                   <Image src={Logos} alt="logo" layout="intrinsic" />
                 </Link>
               </LogoBox>
-              <DivBox onClick={handleLink}>간편견적</DivBox>
+              <DivBox onClick={()=>handleLink('/quotation/request')}>간편견적</DivBox>
               <DivBox
                 onClick={() => {
                   setLinklist(true);
@@ -65,7 +65,7 @@ const WebHeader = ({ num, now }: Props) => {
               >
                 가이드
               </DivBox>
-              <DivBox onClick={() => alert('2차 작업 범위입니다')}>
+              <DivBox onClick={() => handleLink('/chatting')}>
                 소통하기
               </DivBox>
               <DivBox

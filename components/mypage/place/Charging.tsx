@@ -26,7 +26,11 @@ const tempProceeding: testArr[] = [];
 
 const TAG = 'components/mypage/place/Charging.tsx';
 
-const Charging = () => {
+type Props ={
+  listUp? : boolean;
+}
+
+const Charging = ({listUp}:Props) => {
   const router = useRouter();
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {
@@ -65,7 +69,7 @@ const Charging = () => {
 
   return (
     <>
-      <List>
+      <List listUp={Boolean(listUp)}>
         {chargingData?.chargingStations?.map((el, idx) => {
           return (
             <ProjectBox key={idx} onClick={() => handleRoute(el?.projectIdx)}>
@@ -93,8 +97,9 @@ const Charging = () => {
 
 export default Charging;
 
-const List = styled.ul`
-  display: flex;
+const List = styled.ul<{listUp:boolean }>`
+  display: flex; 
+  flex-direction: ${({listUp})=> (listUp?'column':'unset')};
   flex-wrap: wrap;
   margin: 30pt 0;
   padding: 15pt;

@@ -27,8 +27,6 @@ import { dateFomat } from 'utils/calculatePackage';
 import useDebounce from 'hooks/useDebounce';
 import Loader from 'components/Loader';
 
-type Props = {};
-
 interface AfterSalesService {
   afterSalesService: {
     afterSalesServiceIdx: number;
@@ -53,7 +51,7 @@ interface AfterSalesService {
   };
   badge: string;
 }
-interface AsResposne {
+export interface AsResposne {
   isSuccess: boolean;
   data: {
     afterSalesServices: AfterSalesService[];
@@ -61,7 +59,12 @@ interface AsResposne {
 }
 
 const TAG = 'components/mypage/as/index.tsx';
-const AsIndex = (props: Props) => {
+
+type Props ={
+  listUp? : boolean;
+}
+
+const AsIndex = ({listUp}:Props ) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const menuList: {} = [];
@@ -135,8 +138,9 @@ const AsIndex = (props: Props) => {
     };
   const handlerBtn = () => router.push('/mypage/as/requestAS');
   const handleAsListClick = (afterSalesServiceIdx: number) => {
+    //alert(afterSalesServiceIdx)
     router.push({
-      pathname: 'mypage/as',
+      pathname: '/mypage/as',
       query: {
         afterSalesServiceIdx: afterSalesServiceIdx,
       },
@@ -189,7 +193,7 @@ const AsIndex = (props: Props) => {
 
   return (
     <Wrapper>
-      <Wrap>
+      <Wrap listUp={Boolean(listUp)}>
         {/* 모바일 필터박스 */}
         <FilterBtnBox>
           {(['bottom'] as const).map((anchor) => (
@@ -288,7 +292,7 @@ const AsIndex = (props: Props) => {
       </ContentsContainer>
       {!menuList && <NoAs />}
       {menuList && (
-        <BtnBox>
+        <BtnBox listUp={Boolean(listUp)}>
           <Btn onClick={handlerBtn}>A/S 요청하기</Btn>
         </BtnBox>
       )}
@@ -341,8 +345,8 @@ const Input = styled(TextField)`
   }
 `;
 
-const Wrap = styled.div`
-  display: flex;
+const Wrap = styled.div<{listUp:boolean}>`
+  display: ${({listUp})=> (listUp?'none':'flex')};;
   flex-wrap: wrap;
   flex-direction: row-reverse;
 
@@ -458,9 +462,9 @@ const DateText = styled(Typography)`
   color: #caccd1;
 `;
 
-const BtnBox = styled.div`
+const BtnBox = styled.div<{listUp:boolean}>`
   width: 100%;
-  display: flex;
+  display:${({listUp})=> (listUp?'none':'flex')};
   justify-content: center;
   padding-bottom: 76.5pt;
 `;

@@ -158,6 +158,8 @@ const HeaderBox = styled.div`
   display: flex;
 
   @media (max-width: 899.25pt) {
+    border: 0;
+    border-radius: 0;
     border-bottom: 1px solid #e9eaee;
   }
 `;
@@ -209,6 +211,7 @@ const SearchResult = styled.div`
   padding-top: 15pt;
   padding-bottom: 15pt;
   border-bottom: 1px solid #e9eaee;
+  cursor: pointer;
 `;
 
 const IconBox = styled.div`

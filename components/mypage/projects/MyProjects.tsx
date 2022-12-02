@@ -11,7 +11,11 @@ import {
 import Loader from 'components/Loader';
 
 const TAG = 'components/mpage/projects/MyProjects.tsx';
-const MyProjects = () => {
+
+type Props ={
+  listUp? : boolean;
+}
+const MyProjects = ({listUp}:Props) => {
   const router = useRouter();
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {
@@ -53,7 +57,7 @@ const MyProjects = () => {
 
   return (
     <>
-      <List>
+      <List listUp={Boolean(listUp)} >
         {projectListData?.uncompletedProjects?.map((item, idx) => {
           return (
             <ProjectBox
@@ -81,8 +85,9 @@ const MyProjects = () => {
 
 export default MyProjects;
 
-const List = styled.ul`
+const List = styled.ul<{listUp:boolean }>`
   display: flex;
+  flex-direction: ${({listUp})=> (listUp?'column':'unset')};
   flex-wrap: wrap;
   margin: 30pt 0;
   padding: 15pt;

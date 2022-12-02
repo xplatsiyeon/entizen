@@ -80,6 +80,11 @@ const Wrapper = styled.div<{ presentProgress: boolean }>`
   justify-content: space-between;
   position: relative;
   cursor: pointer;
+
+  @media (min-width: 900pt) {
+    padding: 21pt 27pt;
+  }
+  
 `;
 
 const LeftSideBox = styled.div<{ presentProgress: boolean }>`

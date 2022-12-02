@@ -200,7 +200,8 @@ const SecondStep = ({
     isTokenPutApi,
     {
       onSuccess: () => {
-        router.push('/company/recievedRequest/complete');
+        setIsModal(true);
+        setErrorMessage('수정되었습니다.');
       },
       onError: (error: any) => {
         const {
@@ -233,7 +234,9 @@ const SecondStep = ({
 
   // 모달 클릭
   const onClickModal = () => {
-    if (networkError) {
+    if (errorMessage === '수정되었습니다.') {
+      router.push('/company/quotation');
+    } else if (networkError) {
       setIsModal(false);
       router.push('/company/quotation');
     } else {
@@ -364,27 +367,63 @@ const SecondStep = ({
   };
   // 포스트 버튼
   const onClickPost = () => {
-    postMutate({
-      url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-      data: {
-        subscribePricePerMonth: subscribePricePerMonth,
-        constructionPeriod: constructionPeriod,
-        subscribeProductFeature: subscribeProductFeature,
-        chargers: [
-          ...newCharge.slice(0, maxIndex! - 1),
-          {
-            chargePriceType:
-              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: Number(fee.replaceAll(',', '')),
-            modelName: productItem,
-            manufacturer: manufacturingCompany,
-            feature: chargeFeatures,
-            chargerImageFiles: imgArr,
-            catalogFiles: fileArr,
-          },
-        ],
+    const chargers = [
+      ...newCharge.slice(0, maxIndex! - 1),
+      {
+        chargePriceType:
+          chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+        chargePrice: Number(fee.replaceAll(',', '')),
+        modelName: productItem,
+        manufacturer: manufacturingCompany,
+        feature: chargeFeatures,
+        chargerImageFiles: imgArr,
+        catalogFiles: fileArr,
       },
+    ];
+    const newChargers = chargers.map((e) => {
+      if (e.feature.length < 1) {
+        return {
+          chargePriceType:
+            chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+          chargePrice: Number(fee.replaceAll(',', '')),
+          modelName: productItem,
+          manufacturer: manufacturingCompany,
+          chargerImageFiles: imgArr,
+          catalogFiles: fileArr,
+        };
+      } else {
+        return {
+          chargePriceType:
+            chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+          chargePrice: Number(fee.replaceAll(',', '')),
+          modelName: productItem,
+          manufacturer: manufacturingCompany,
+          feature: chargeFeatures,
+          chargerImageFiles: imgArr,
+          catalogFiles: fileArr,
+        };
+      }
     });
+    if (subscribeProductFeature.length < 1) {
+      postMutate({
+        url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          chargers: newChargers,
+        },
+      });
+    } else {
+      postMutate({
+        url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+        data: {
+          subscribePricePerMonth: subscribePricePerMonth,
+          constructionPeriod: constructionPeriod,
+          subscribeProductFeature: subscribeProductFeature,
+          chargers: newChargers,
+        },
+      });
+    }
     dispatch(myEstimateAction.reset());
   };
   // 수정하기 버튼
@@ -412,6 +451,7 @@ const SecondStep = ({
     });
     dispatch(myEstimateAction.reset());
   };
+
   // 수정하기
   useEffect(() => {
     if (editData) {
@@ -451,6 +491,7 @@ const SecondStep = ({
   }, [editData, StepIndex]);
   // 내 제품 리스트 하단 내용
   useEffect(() => {
+    console.log(productId);
     if (productId) {
       const targetProduct = productData?.chargerProduct.filter(
         (e) => e.chargerProductIdx === productId,

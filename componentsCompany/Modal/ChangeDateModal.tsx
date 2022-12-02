@@ -394,6 +394,7 @@ const Button = styled.div`
   text-align: center;
   color: #ffffff;
   background-color: ${colors.main};
+  cursor: pointer;
   @media (min-width: 900pt) {
   }
 `;

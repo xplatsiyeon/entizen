@@ -66,7 +66,7 @@ const CompanyQuotations = ({ num, now }: Props) => {
   const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
-  const keyword = useDebounce(searchWord, 3000);
+  const keyword = useDebounce(searchWord, 2000);
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
 
@@ -127,10 +127,6 @@ const CompanyQuotations = ({ num, now }: Props) => {
 
   useEffect(() => {
     refetch();
-    return () => {
-      setSearchWord('');
-      setcheckedFilterIndex(0);
-    };
   }, [checkedFilterIndex, keyword]);
   // 현재 페이지
   useEffect(() => {

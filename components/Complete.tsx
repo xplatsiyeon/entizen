@@ -20,7 +20,7 @@ interface Props {
   yesExit?: boolean;
   [key: string]: any;
   buttonWeb?: string;
-  user: string;
+  user?: string;
 }
 
 const Complete = ({
@@ -59,14 +59,14 @@ const Complete = ({
           <Btn onClick={handleOnClick}>{buttonText}</Btn>
           <WebBtn onClick={handleOnClick}>{buttonText}</WebBtn>
         </Footer>
-        <WebTextArea user={user}>
+        <WebTextArea user={user!}>
           <WebTextTitle>소중한 의견 감사드립니다.</WebTextTitle>
           <WebText>
             고객님과 좋은 인연이 있기를 기대합니다. <br />
             견적마감은 영업일 최대 5일 입니다.
           </WebText>
         </WebTextArea>
-        <BuyerContainer user={user}>
+        <BuyerContainer user={user!}>
           <WhyEntizenHorizontal />
         </BuyerContainer>
       </Wrapper>

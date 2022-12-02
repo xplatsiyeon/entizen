@@ -23,6 +23,7 @@ const Quotation1_1 = () => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [isModal, setIsModal] = useState(false);
+  const [hiddenTag, setHiddenTag] = useState(false);
 
   const HandleModal = () => setIsModal((prev) => !prev);
 
@@ -30,7 +31,13 @@ const Quotation1_1 = () => {
     0: <FirstStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
     1: <SecondStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
     2: <ThirdStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
-    3: <FourthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    3: (
+      <FourthStep
+        tabNumber={tabNumber}
+        setTabNumber={setTabNumber}
+        setHiddenTag={setHiddenTag}
+      />
+    ),
     4: <FifthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
     5: <SixthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
   };
@@ -55,22 +62,28 @@ const Quotation1_1 = () => {
                 rightBtnControl={HandleModal}
               />
             )}
-            <Header
-              title="간편견적"
-              exitBtn={true}
-              handleOnClick={HandleModal}
-            />
+            {!hiddenTag && (
+              <Header
+                title="간편견적"
+                exitBtn={true}
+                handleOnClick={HandleModal}
+              />
+            )}
             {/* 메인 */}
-            <Body>
+            <Body hiddenTag={hiddenTag}>
               <TabBox>
                 {Object.keys(components).map((tab, index) => (
-                  <TabLine
-                    idx={index.toString()}
-                    num={tabNumber.toString()}
-                    key={tab}
-                    // 테스트용
-                    // onClick={() => setTabNumber(index)}
-                  />
+                  <>
+                    {!hiddenTag && (
+                      <TabLine
+                        idx={index.toString()}
+                        num={tabNumber.toString()}
+                        key={tab}
+                        // 테스트용
+                        // onClick={() => setTabNumber(index)}
+                      />
+                    )}
+                  </>
                 ))}
               </TabBox>
               {components[tabNumber]}
@@ -127,19 +140,17 @@ const Wrapper = styled.div`
   }
 `;
 
-const Body = styled.div`
+const Body = styled.div<{ hiddenTag: boolean }>`
   position: relative;
   width: 100%;
 
   @media (max-width: 899.25pt) {
-    padding-top: 12pt;
+    padding-top: ${({ hiddenTag }) => !hiddenTag && '12pt'};
   }
 `;
 
 const TabBox = styled.div`
   z-index: 1;
-  //display:flex;
-
   position: absolute;
   width: 100%;
   top: 0;

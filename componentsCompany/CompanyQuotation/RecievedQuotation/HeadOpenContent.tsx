@@ -111,6 +111,7 @@ const TAG =
 const HeadOpenContent = () => {
   const router = useRouter();
   const routerId = router?.query?.id!;
+  const routerEdit = router?.query?.edit!;
   const [open, setOpen] = useState<boolean>(false);
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(-1);
@@ -165,7 +166,7 @@ const HeadOpenContent = () => {
         `/quotations/received-request/${router.query.quotationRequestIdx}`,
       ),
     {
-      enabled: router?.isReady && router?.query?.edit! ? false : true,
+      enabled: router?.isReady && !routerEdit ? true : false,
     },
   );
   //  보낸 요청 상세페이지 api 요청 (수정에 필요한 데이터)
@@ -182,7 +183,7 @@ const HeadOpenContent = () => {
         `/quotations/sent-request/${router.query.quotationRequestIdx}`,
       ),
     {
-      enabled: router?.isReady && router?.query?.edit! ? true : false,
+      enabled: router?.isReady && routerEdit ? true : false,
     },
   );
 
