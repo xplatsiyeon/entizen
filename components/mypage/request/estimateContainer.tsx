@@ -150,6 +150,9 @@ export default EstimateContainer;
 const Wrapper = styled.div`
   padding: 21pt 15pt;
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
+  @media (min-width: 900pt) {
+    padding: 27pt 26.25pt;
+  }
 `;
 const Badge = styled.span<{ color: string }>`
   background: ${({ color }) => color};
@@ -199,6 +202,9 @@ const Contents = styled.div`
     align-items: center;
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
+      @media (min-width: 900pt) {
+        padding-top: 15pt;
+      }
     }
   }
   .name {
@@ -207,6 +213,13 @@ const Contents = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .text {
     font-weight: 500;
@@ -215,6 +228,13 @@ const Contents = styled.div`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .img-box {
     padding-top: 42pt;

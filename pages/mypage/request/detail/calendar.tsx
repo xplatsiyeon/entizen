@@ -247,7 +247,7 @@ const Btn = styled.button`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     position: fixed;
     left: 0;

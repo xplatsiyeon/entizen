@@ -50,6 +50,15 @@ const Subtitle = styled.h3`
   font-size: 12pt;
   line-height: 12pt;
   color: ${colors.main2};
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding: 0;
+  }
 `;
 const List = styled.ul`
   padding-top: 24pt;
@@ -67,6 +76,14 @@ const Item = styled.li`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-weight: 500;
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .contests {
     font-weight: 500;
@@ -75,6 +92,14 @@ const Item = styled.li`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-weight: 500;
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .phone {
     font-weight: 400;
@@ -84,5 +109,13 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     text-decoration-line: underline;
     color: ${colors.blue};
+    @media (min-width: 900pt) {
+      font-weight: 500;
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
 `;
