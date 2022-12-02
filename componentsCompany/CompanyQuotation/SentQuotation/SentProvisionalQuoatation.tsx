@@ -1,17 +1,13 @@
 import styled from '@emotion/styled';
 import { ListItemButton, ListItemText } from '@mui/material';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CenterBox from './CenterBox';
-import RightArrow from 'public/images/black-right-arrow.svg';
-import CommunicationIcon from 'public/images/communication-icon.svg';
 import TopBox from './TopBox';
 import BottomBox from './BottomBox';
 import { useRouter } from 'next/router';
-import { Query, useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
-import Loader from 'components/Loader';
 import FinalBottomBox from './FinalBottomBox';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
@@ -21,6 +17,8 @@ import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import CommunicationBox from 'components/CommunicationBox';
+import { useDispatch } from 'react-redux';
+import { companyRequestFilterNumberAction } from 'storeCompany/requestTabSlice';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -201,6 +199,7 @@ const SentQuoatationFirst = () => {
   const router = useRouter();
   const routerId = router?.query?.preQuotationIdx!;
   const historyId = router?.query?.historyIdx!;
+  const dispatch = useDispatch();
   // 현장실사 완료 모달
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   // 에러 모달
@@ -320,6 +319,12 @@ const SentQuoatationFirst = () => {
     console.log('현장실사 patch api 호출!!');
   };
 
+  // 모바일 헤더 뒤로가기 버튼
+  const onClickBackBtn = () => {
+    // dispatch(companyRequestFilterNumberAction.setNumber(2));
+    router.back();
+  };
+
   useEffect(() => {
     if (router.isReady) {
       refetch();
@@ -350,7 +355,13 @@ const SentQuoatationFirst = () => {
         setOpenSubLink={setOpenSubLink}
       />
       <Wrapper>
-        {nowWidth < 1200 && <MypageHeader back={true} title={'보낸 견적'} />}
+        {nowWidth < 1200 && (
+          <MypageHeader
+            back={true}
+            title={'보낸 견적'}
+            handleBackClick={onClickBackBtn}
+          />
+        )}
         {/* 현장실사 완료 모달 */}
         {isConfirmModal && (
           <TwoBtnModal

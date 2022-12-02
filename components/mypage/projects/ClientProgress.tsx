@@ -568,7 +568,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         </FlexBox>
         <Line
           lineHeight={toggleOpen[4]}
-          height={badge === '완료 대기' ? 185 : 118.5}
+          height={badge === '완료 대기' ? 185 : 130.5}
         ></Line>
       </Wrapper>
       {data?.project?.isCompletedCompletionStep ? (

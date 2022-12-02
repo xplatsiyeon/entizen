@@ -50,11 +50,81 @@ export interface ChattingListResponse {
   isSuccess: true;
   data: {
     chattingRooms: {
-      entizenChattingRoom: null;
+      entizenChattingRoom: {
+        chattingRoomIdx: number,
+        chattingLog: null | {
+          fromMemberIdx: number;
+          fromMemberType: string;
+          wasRead: boolean;
+          createdAt: string;
+          content: string;
+          fileUrl: string;
+        },
+        chattingRoomFavorite: {
+            chattingRoomFavoriteIdx: number,
+            isFavorit: boolean
+        },
+        chattingRoomNotification: {
+            chattingRoomNotificationIdx: number,
+            isSetNotification: boolean
+        }
+    };
       userChattingRooms: UserChattingRooms[];
     };
   };
 }
+
+const arr = {
+  "isSuccess": true,
+  "data": {
+      "chattingRooms": {
+          "entizenChattingRoom": {
+              "chattingRoomIdx": 6,
+              "chattingLog": null,
+              "chattingRoomFavorite": {
+                  "chattingRoomFavoriteIdx": 8,
+                  "isFavorite": false
+              },
+              "chattingRoomNotification": {
+                  "chattingRoomNotificationIdx": 8,
+                  "isSetNotification": true
+              }
+          },
+          "userChattingRooms": [
+              {
+                  "chattingRoomIdx": 21,
+                  "companyMember": {
+                      "memberIdx": 31,
+                      "companyMemberAdditionalInfo": {
+                          "companyName": "ste"
+                      }
+                  },
+                  "userMember": {
+                      "memberIdx": 80,
+                      "name": "문수정"
+                  },
+                  "chattingLogs": {
+                      "fromMemberIdx": null,
+                      "fromMemberType": null,
+                      "wasRead": false,
+                      "createdAt": "2022-12-02T07:17:44.610Z",
+                      "content": "2022-12-02",
+                      "fileUrl": null
+                  },
+                  "chattingRoomFavorite": {
+                      "chattingRoomFavoriteIdx": 32,
+                      "isFavorite": true
+                  },
+                  "chattingRoomNotification": {
+                      "chattingRoomNotificationIdx": 32,
+                      "isSetNotification": true
+                  }
+              }
+          ]
+      }
+  }
+}
+
 const TAG = 'pages/chatting/index.tsx';
 const Chatting = () => {
   const router = useRouter();

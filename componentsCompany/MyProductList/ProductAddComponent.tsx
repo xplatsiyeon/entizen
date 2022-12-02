@@ -89,7 +89,8 @@ const ProductAddComponent = (props: Props) => {
     isTokenPutApi,
     {
       onSuccess: () => {
-        router.replace('/company/myProductList');
+        setErrorMessage('수정되었습니다.');
+        setIsModal(true);
       },
       onError: (error: any) => {
         if (error.response.data) {
@@ -192,6 +193,8 @@ const ProductAddComponent = (props: Props) => {
     if (networkError) {
       setIsModal(false);
       router.push('/company/quotation');
+    } else if (errorMessage === '수정되었습니다.') {
+      router.replace('/company/myProductList');
     } else {
       setIsModal(false);
     }

@@ -125,17 +125,13 @@ const ThirdStep = ({
       }
     },
   });
-  // 보내기 POST API
+  // 수정하기 PUt API
   const { mutate: putMutate, isLoading: putLoading } = useMutation(
     isTokenPutApi,
     {
       onSuccess: () => {
-        router.push({
-          pathname: '/company/sentProvisionalQuotation',
-          query: {
-            preQuotationIdx: preQuotationIdx,
-          },
-        });
+        setErrorMessage('수정되었습니다.');
+        setIsModal(true);
       },
       onError: (error: any) => {
         const {
@@ -152,6 +148,23 @@ const ThirdStep = ({
       },
     },
   );
+  // 모달 클릭
+  const onClickModal = () => {
+    if (networkError) {
+      setIsModal(false);
+      router.push('/company/quotation');
+    } else if (errorMessage === '수정되었습니다.') {
+      router.replace({
+        pathname: '/company/sentProvisionalQuotation',
+        query: {
+          preQuotationIdx: preQuotationIdx,
+        },
+      });
+    } else {
+      setIsModal(false);
+    }
+  };
+
   //파일 온클릭
   const handleFileClick = () => {
     fileRef?.current?.click();
@@ -174,7 +187,6 @@ const ThirdStep = ({
     }
     multerFile(formData);
   };
-
   // 파일 삭제
   const handleFileDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     const name = Number(e.currentTarget.dataset.name);
@@ -258,16 +270,6 @@ const ThirdStep = ({
   const handleNextBtn = (e: any) => {
     if (canNext) {
       router.push('/company/quotation/sentProvisionalQuotaionComplete');
-    }
-  };
-
-  // 모달 클릭
-  const onClickModal = () => {
-    if (networkError) {
-      setIsModal(false);
-      router.push('/company/quotation');
-    } else {
-      setIsModal(false);
     }
   };
 
