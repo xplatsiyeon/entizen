@@ -88,6 +88,7 @@ const ChattingRoomLogs = ({}: Props) => {
       //   refetchInterval: 3000,
     },
   );
+  console.log('???', chattingData)
 
   //   채팅 POST
   const {
@@ -290,7 +291,6 @@ const ChattingRoomLogs = ({}: Props) => {
                       {item.fileUrl && <File>{item.fileUrl}</File>}
                       <MessageDate>
                         {handleTime(item.createdAt)}
-                        {'/' + dayjs(item.createdAt).format('HH:mm')}
                       </MessageDate>
                     </ChatBox>
                   );
@@ -354,6 +354,8 @@ export default ChattingRoomLogs;
 const Body = styled.div`
   position: relative;
   flex: 1;
+  //height: 495pt;
+  //overflow-y: scroll;
 `;
 const WebBottomBox = styled.div`
   position: absolute;
@@ -406,13 +408,13 @@ const BottomBox = styled.div`
     display: none;
   }
   .hidden {
-    background-color: aqua;
     width: 30pt;
     height: 0;
     position: absolute;
     bottom: 72pt;
     left: 11.5pt;
     transition: 0.3s;
+    background-color: aqua;
   }
 `;
 const FlexBox = styled.form`
@@ -480,6 +482,7 @@ const IconWrap = styled.div`
   position: relative;
   width: 12pt;
   height: 13.5pt;
+  cursor: pointer;
   @media (min-width: 900pt) {
     width: 20.5pt;
     height: 20.5pt;
@@ -488,9 +491,12 @@ const IconWrap = styled.div`
 const Inner = styled.div`
   position: relative;
   padding-top: 36pt;
-  padding-bottom: 66pt;
+  padding-bottom: 9pt;
   @media (min-width: 900pt) {
-    padding-top: 105pt;
+    margin-top: 105pt;
+    height: 320pt;
+    overflow-y: scroll;
+    padding: 0;
   }
 `;
 const DateChatting = styled.div`
