@@ -116,15 +116,19 @@ const TitleBox = styled.div`
 const RatingForm = styled.div`
   margin-top: 20.25pt;
   display: flex;
-  flex-direction: column;
-  gap: 6pt;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12pt;
   width: 100%;
   background: white;
   top: 25pt;
 
   @media (max-width: 899.25pt) {
-    // position: absolute;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
     top: 25pt;
+    gap: 6pt;
   }
 `;
 
@@ -135,12 +139,16 @@ const RBarBox = styled.div`
   height: 10.5pt;
   display: flex;
   gap: 1.5pt;
+  width: calc(50% - 32pt);
   background-color: #ffffff;
   & > .forRadius:first-of-type {
     border-radius: 6pt 0 0 6pt;
   }
   & > .forRadius:nth-of-type(5) {
     border-radius: 0 6pt 6pt 0;
+  }
+  @media (max-width: 899.25pt) {
+    width: auto;
   }
 `;
 
@@ -164,7 +172,6 @@ const Title = styled.p`
   width: 37.5pt;
 `;
 const TextArea = styled.textarea`
-  margin: 28pt 0 0;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 400;
@@ -172,11 +179,11 @@ const TextArea = styled.textarea`
   line-height: 20pt;
   letter-spacing: -0.02em;
   color: #222222;
-  margin-top: 12pt;
   padding-left: 12pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
   resize: none;
+  width: 100%;
   &.noneRivew {
     padding-left: 0;
   }
@@ -193,6 +200,7 @@ const TextArea = styled.textarea`
   }
   @media (max-width: 899.25pt) {
     margin: 0;
+    width: auto;
   }
 `;
 

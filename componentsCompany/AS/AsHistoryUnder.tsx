@@ -111,6 +111,7 @@ const ListBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 `;
 const StoreName = styled.p`
   font-style: normal;

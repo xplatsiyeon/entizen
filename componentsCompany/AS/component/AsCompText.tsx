@@ -150,22 +150,26 @@ const AsCompText = ({ data }: Props) => {
   };
   // 접수 확인 온클릭
   const onClickAcceptance = () => {
-    acceptanceMutate({
-      url: `/after-sales-services/${routerId}/acceptance`,
-      data: {
-        acceptanceContent: acceptanceContent,
-      },
-    });
+    if (isValidAcceptance) {
+      acceptanceMutate({
+        url: `/after-sales-services/${routerId}/acceptance`,
+        data: {
+          acceptanceContent: acceptanceContent,
+        },
+      });
+    }
   };
   // A/S 완료하기
   const onClickCompletion = () => {
-    completionMutate({
-      url: `/after-sales-services/${routerId}/completion`,
-      data: {
-        afterSalesServiceResultContent: afterSalesServiceResultContent,
-        afterSalesServiceCompletionFiles: imgArr,
-      },
-    });
+    if (isValidAcceptance) {
+      completionMutate({
+        url: `/after-sales-services/${routerId}/completion`,
+        data: {
+          afterSalesServiceResultContent: afterSalesServiceResultContent,
+          afterSalesServiceCompletionFiles: imgArr,
+        },
+      });
+    }
   };
 
   // 유효성 검사
@@ -298,8 +302,11 @@ const AsCompText = ({ data }: Props) => {
             </SecondList>
 
             <InputBox className="lastInputBox">
+              <div className="requiredLabel">
+                <span>필수 입력</span>
+              </div>
               <div className="withTextNumber">
-                <span>A/S결과</span>
+                <span className="asLabel">A/S결과</span>
                 <span>{afterSalesServiceResultContent.length}/500</span>
               </div>
               <div className="monthFlex">
@@ -600,22 +607,19 @@ const InputBox = styled.div`
   flex-direction: column;
   position: relative;
   margin-top: 30pt;
-  & > div {
-  }
-  & > div:first-of-type {
-    font-family: Spoqa Han Sans Neo;
-    font-size: 10.5pt;
-    font-weight: 700;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-  }
+
   & > .withAfter::after {
     content: ' *';
     margin-left: 1pt;
     color: #f75015;
   }
   & > .withTextNumber {
+    font-family: Spoqa Han Sans Neo;
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
     position: relative;
     & span:nth-of-type(2) {
       position: absolute;
@@ -647,6 +651,24 @@ const InputBox = styled.div`
   .monthFlex {
     display: flex;
     gap: 12pt;
+  }
+  .requiredLabel {
+    font-family: Spoqa Han Sans Neo;
+    font-size: 9pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    ::before {
+      content: ' *';
+      color: #f75015;
+    }
+  }
+  .asLabel {
+    ::after {
+      content: ' *';
+      color: #f75015;
+    }
   }
 `;
 
@@ -785,7 +807,8 @@ const AddPhotos = styled.button`
 
 const ImgSpanBox = styled.div`
   @media (max-width: 899.25pt) {
-    display: none;
+    display: flex;
+    gap: 9.1875pt;
   }
   @media (min-width: 900pt) {
     height: auto;
@@ -800,11 +823,14 @@ const ImgSpan = styled.div`
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  border: 0.75pt solid #e2e5ed;
+  & > span > img {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     margin-bottom: 10pt;
     width: 216pt;
     height: 135pt;
-    border: 0.75pt solid #e2e5ed;
   }
 `;
 const Xbox = styled.div`

@@ -114,6 +114,7 @@ const ReceivedAS = (props: Props) => {
         />
         <Container>
           <CompanyRightMenu />
+          {/* 웹 */}
           <WebRapper>
             {nowWidth >= 1200 && (
               <LeftASBox

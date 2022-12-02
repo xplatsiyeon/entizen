@@ -197,7 +197,7 @@ const WebBuyerHeader = ({
                       {isHovering ? (
                         <UpDown>
                           <ProfileMenu>
-                            <li onClick={() => router.push('/profile/editing')}>
+                            <li onClick={() => router.push('/company/profile')}>
                               프로필 변경
                             </li>
                             <li onClick={() => router.push('/setting')}>
