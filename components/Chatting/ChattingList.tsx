@@ -28,8 +28,11 @@ type Props = {
   refetch?: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
   ) => Promise<QueryObserverResult<ChattingListResponse, unknown>>;
+  chattingRoom?:boolean;
 };
-const ChattingList = ({ data, refetch }: Props) => {
+
+
+const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
   const router = useRouter();
   const queryClinet = useQueryClient();
 
@@ -217,8 +220,6 @@ const ChattingList = ({ data, refetch }: Props) => {
   };
 
   return (
-    
-    
     <Body ref={chattingList}>
       {data?.data?.chattingRooms?.userChattingRooms?.map((chatting, idx) => {
         return (
@@ -343,7 +344,7 @@ const ChattingRoomImage = styled.div`
 const ChattingRoomPreview = styled.div`
   flex: auto;
   margin: 0 12pt;
-
+  cursor: pointer;
   position: relative;
 `;
 const ChattingRoomInfo = styled.div`

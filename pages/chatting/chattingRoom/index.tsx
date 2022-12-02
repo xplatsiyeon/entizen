@@ -25,6 +25,8 @@ import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
+import ChattingLists from 'components/Chatting/ChattingLists';
+import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
 
 type ChattingLogs = {
   createdAt: string;
@@ -74,6 +76,10 @@ const ChattingRoom = ({ }: Props) => {
       <WebHeader />
       <Wrapper>
         <Body>
+          <MobWrap>
+            <ChattingLists chattingRoom={true}/>
+          </MobWrap>
+          <ChattingRoomLogs/>
         </Body>
       </Wrapper>
       <WebFooter />
@@ -120,10 +126,15 @@ font-family: 'Spoqa Han Sans Neo';
 width: 100%;
 
 @media (min-width: 900pt) {
-    display: flex;
+display: flex;
 border: 1px solid #E2E5ED;
 border-radius: 12pt;
 overflow: hidden;
 }
 `
 
+const MobWrap = styled.div`
+@media (max-width: 899.25pt) {
+  display: none;
+}
+`
