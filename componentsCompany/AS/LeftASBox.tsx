@@ -90,7 +90,7 @@ const LeftASBox = ({
         <Body>
           <span
             className="profile-icon"
-            onClick={() => route.push('profile/editing')}
+            onClick={() => route.push('/company/profile')}
           >
             프로필 변경
           </span>
@@ -193,6 +193,7 @@ const Header = styled.header`
     width: 22.5pt;
     height: 22.5pt;
     text-align: end;
+    cursor: pointer;
   }
 `;
 
@@ -208,6 +209,7 @@ const Body = styled.div`
     border: 0.75pt solid ${colors.main};
     border-radius: 12pt;
     padding: 6pt 9pt;
+    cursor: pointer;
   }
 `;
 const Line = styled.div`

@@ -65,7 +65,7 @@ export interface ChattingResponse {
 type Props = {};
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
-const ChattingRoom = ({}: Props) => {
+const ChattingRoomLogs = ({}: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
@@ -349,10 +349,11 @@ const ChattingRoom = ({}: Props) => {
   );
 };
 
-export default ChattingRoom;
+export default ChattingRoomLogs;
 
 const Body = styled.div`
   position: relative;
+  flex: 1;
 `;
 const WebBottomBox = styled.div`
   position: absolute;
@@ -482,10 +483,6 @@ const IconWrap = styled.div`
   @media (min-width: 900pt) {
     width: 20.5pt;
     height: 20.5pt;
-    &.web {
-      width: 13pt;
-      height: 15.25pt;
-    }
   }
 `;
 const Inner = styled.div`
