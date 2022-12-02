@@ -177,6 +177,7 @@ const ReservationDate = styled.div`
   margin-top: 15pt;
   border-radius: 6pt;
   padding: 18pt 24.75pt;
+
   .text {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;
@@ -194,10 +195,12 @@ const ReservationDate = styled.div`
     .right {
       background-color: ${colors.main};
       color: #eeeeee;
+      cursor: pointer;
     }
     .left {
       border: 1px solid #222222;
       color: #222222;
+      cursor: pointer;
     }
   }
   .btnBox > .btn {

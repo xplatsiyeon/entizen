@@ -157,6 +157,9 @@ const Inner = styled.div`
   @media (max-height: 500pt) {
     height: 100%;
   }
+  @media (min-width: 900pt) {
+    height: 100%;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -171,6 +174,7 @@ const Wrapper = styled.div`
   }
   @media (min-width: 900pt) {
     padding-bottom: 0;
+    height: auto;
   }
 `;
 const H1 = styled.h1`
@@ -258,5 +262,6 @@ const Btn = styled.button`
 
   @media (min-width: 900pt) {
     border-radius: 6pt;
+    position: relative;
   }
 `;

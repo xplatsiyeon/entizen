@@ -524,6 +524,7 @@ const Xbox = styled.div`
   position: absolute;
   top: -7pt;
   right: -7pt;
+  cursor: pointer;
 `;
 
 export default AsRequestWrite;
