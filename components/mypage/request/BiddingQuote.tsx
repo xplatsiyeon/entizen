@@ -192,15 +192,20 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
         </TopWebRapper>
       )}
       <WebHide>
-        <ImageBox>
-          <Image
-            src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
-            alt="icon"
-            priority={true}
-            unoptimized={true}
-            layout="fill"
-          />
-        </ImageBox>
+        {data?.companyMemberAdditionalInfo?.companyLogoImageUrl !== '' ? (
+          <ImageBox>
+            <Image
+              src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
+              alt="icon"
+              priority={true}
+              unoptimized={true}
+              layout="fill"
+            />
+          </ImageBox>
+        ) : (
+          <NoImage />
+        )}
+
         <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
         <List>
           <Item>
@@ -763,6 +768,20 @@ const WebRightPhotoBox = styled.div`
       width: 100%;
       height: 100%;
     }
+  }
+`;
+
+const NoImage = styled.div`
+  height: 75pt;
+  width: 75pt;
+  border-radius: 6pt;
+  background: #caccd1;
+  @media (max-width: 899.25pt) {
+    height: 48pt;
+    width: 48pt;
+    border-radius: 6pt;
+    margin-left: 18pt;
+    margin-bottom: 15pt;
   }
 `;
 

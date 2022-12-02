@@ -34,15 +34,20 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
   const finalQuotation = data?.preQuotation?.finalQuotation;
   return (
     <Wrapper>
-      <ImageBox>
-        <Image
-          src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
-          alt="logo-img"
-          layout="fill"
-          priority={true}
-          unoptimized={true}
-        />
-      </ImageBox>
+      {data?.companyMemberAdditionalInfo?.companyLogoImageUrl! !== '' ? (
+        <ImageBox>
+          <Image
+            src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
+            alt="logo-img"
+            layout="fill"
+            priority={true}
+            unoptimized={true}
+          />
+        </ImageBox>
+      ) : (
+        <NoImage />
+      )}
+
       <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
       <List>
         <Item>
@@ -521,6 +526,20 @@ const FeaturesList2 = styled.div`
   color: ${colors.main2};
   @media (max-width: 899.25pt) {
     flex: none;
+  }
+`;
+
+const NoImage = styled.div`
+  height: 75pt;
+  width: 75pt;
+  border-radius: 6pt;
+  background: #caccd1;
+  @media (max-width: 899.25pt) {
+    height: 48pt;
+    width: 48pt;
+    border-radius: 6pt;
+    margin-left: 18pt;
+    margin-bottom: 15pt;
   }
 `;
 export default FinalQuotation;

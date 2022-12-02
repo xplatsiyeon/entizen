@@ -55,4 +55,5 @@ const Btn = styled(Button)`
   color: ${colors.lightWhite};
   background-color: ${colors.main};
   padding: 6pt 9pt;
+  cursor: pointer;
 `;

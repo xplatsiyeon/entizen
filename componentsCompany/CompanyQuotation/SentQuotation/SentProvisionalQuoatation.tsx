@@ -453,8 +453,8 @@ const SentQuoatationFirst = () => {
             {/* 현장실사 예약 완료 -> 현장 실사 완료 버튼 생성*/}
             {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
               <LastQuotationBtnBox>
-                <Blur />
-                <BlurTwo />
+                {/* <Blur />
+                <BlurTwo /> */}
                 <LastBtn onClick={() => setIsConfirmModal(true)}>
                   현장실사 완료
                 </LastBtn>
@@ -703,12 +703,19 @@ const EditBtn = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
   cursor: pointer;
+  @media (min-width: 900pt) {
+    width: 774px;
+  }
 `;
 
 const BtnBox = styled.div`
   padding-left: 15pt;
   padding-right: 15pt;
   padding-bottom: 73.5pt;
+  @media (min-width: 900pt) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 `;
 
 const Button = styled.button`
@@ -737,7 +744,9 @@ const LastQuotationBtnBox = styled.div`
   padding-right: 15pt;
   z-index: 999;
   @media (min-width: 900pt) {
-    position: static;
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
   }
 `;
 
@@ -751,8 +760,9 @@ const LastBtn = styled.div`
   border-radius: 6pt;
   background-color: ${colors.main};
   color: #eeeeee;
+  cursor: pointer;
   @media (min-width: 900pt) {
-    width: 558pt;
+    width: 774px;
     z-index: 0;
   }
 `;
