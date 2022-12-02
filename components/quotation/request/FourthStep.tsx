@@ -17,9 +17,10 @@ import { quotationAction } from 'store/quotationSlice';
 interface Props {
   tabNumber: number;
   setTabNumber: Dispatch<SetStateAction<number>>;
+  setHiddenTag: Dispatch<SetStateAction<boolean>>;
 }
 const TAG = 'componets/quotation/request/FourthStep.tsx';
-const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
+const FourthStep = ({ tabNumber, setTabNumber, setHiddenTag }: Props) => {
   const dispatch = useDispatch();
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
@@ -37,6 +38,7 @@ const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
   // 지도 모달창 열기
   const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
     setIsSearch((prev) => !prev);
+    setHiddenTag((prev) => !prev);
   };
   // 이전버튼
   const HandlePrevBtn = () => {
@@ -96,6 +98,11 @@ const FourthStep = ({ tabNumber, setTabNumber }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationList]);
 
+  // useEffect(() => {
+  //   return () => {
+  //     setHiddenTag(false);
+  //   };
+  // }, []);
   // 주소 검색 컴포넌트 on/off
   if (isSearch) {
     return <SearchAddress isSearch={isSearch} setIsSearch={setIsSearch} />;
@@ -247,7 +254,7 @@ const SearchMapArea = styled.div`
 const Input = styled(TextField)`
   width: 100%;
   border-radius: 6pt;
-
+  cursor: pointer;
   border: 0.75px solid ${colors.lightGray};
   display: flex;
   justify-content: center;
@@ -332,4 +339,12 @@ const TwoBtn = styled.div`
     position: fixed;
     gap: 0;
   }
+`;
+const SearchAddressWrapper = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border: 1px solid;
 `;

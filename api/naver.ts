@@ -12,9 +12,10 @@ export const login = (
 
   naverLogin = new naver.LoginWithNaverId({
     clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
-    // callbackUrl: 'https://test-api.entizen.kr/signUp/Terms', // Callback URL
-    // callbackUrl: 'https://test-api.entizen.kr/signin', // Callback URL
+    // 테스트 리다이렉트 주소
     callbackUrl: 'https://test-api.entizen.kr/signin',
+    // 라이브 리다이렉트 주소
+    // callbackUrl: 'https://api.entizen.kr/signin',
     isPopup: false, // 팝업 형태로 인증 여부
     callbackHandle: true,
     loginButton: {

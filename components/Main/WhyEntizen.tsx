@@ -82,7 +82,7 @@ const WhyEntizen = () => {
       case '플랫폼 가이드':
         return router.push('/guide/1-1');
       case '구독 가이드':
-        return userID ? router.push('/quotation') : router.push('/signin');
+        return userID ? router.push('/guide/1-2') : router.push('/signin');
       case '충전기 가이드':
         return router.push('/guide/1-4');
       case '보조금 가이드':

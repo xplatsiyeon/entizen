@@ -32,7 +32,7 @@ const Btn = ({
   }, [paddingOn]);
 
   return (
-    <ButtonBox propsGet={propsGet === true ? propsGet : false}>
+    <ButtonBox propsGet={propsGet === true ? propsGet : false} bottom={bottom}>
       <Button
         onClick={handleClick}
         disabled={!isClick}
@@ -51,7 +51,7 @@ const Btn = ({
 
 export default Btn;
 
-const ButtonBox = styled.div<{ propsGet?: boolean }>`
+const ButtonBox = styled.div<{ propsGet?: boolean; bottom?: number }>`
   padding-left: ${({ propsGet }) => (propsGet === true ? 15 : 0)}pt;
   padding-right: ${({ propsGet }) => (propsGet === true ? 15 : 0)}pt;
 
@@ -59,7 +59,7 @@ const ButtonBox = styled.div<{ propsGet?: boolean }>`
     propsGet === true &&
     css`
       position: fixed;
-      bottom: 30pt;
+      bottom: bottom + 'pt';
       box-sizing: border-box;
       width: 100%;
     `}

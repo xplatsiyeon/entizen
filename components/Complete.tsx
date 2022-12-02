@@ -4,6 +4,12 @@ import Image from 'next/image';
 import ExitImg from '../public/images/X.svg';
 import CheckImg from '../public/images/CheckCircle.svg';
 import colors from 'styles/colors';
+import WebHeader from 'componentsWeb/WebHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import { useRouter } from 'next/router';
+import WhyEntizenWeb from './Main/WhyEntizenWeb';
+import WhyEntizen from './Main/WhyEntizen';
+import WhyEntizenHorizontal from './Main/WhyEntizenHorizontal';
 
 interface Props {
   title?: string;
@@ -14,6 +20,7 @@ interface Props {
   yesExit?: boolean;
   [key: string]: any;
   buttonWeb?: string;
+  user?: string;
 }
 
 const Complete = ({
@@ -24,36 +31,46 @@ const Complete = ({
   handleOnClick,
   handleExitClick,
   yesExit,
+  user,
 }: Props) => {
+  const router = useRouter();
   return (
-    <Wrapper>
-      <Nav>
-        {yesExit && (
-          <Image
-            onClick={handleExitClick}
-            src={ExitImg}
-            alt="exit"
-            style={{ cursor: 'pointer' }}
-          />
-        )}
-      </Nav>
-      <ContainerBox disableGutters>
-        <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
-      </ContainerBox>
-      <Title>{title}</Title>
-      <Footer>
-        {text && <TextBox>{text}</TextBox>}
-        <Btn onClick={handleOnClick}>{buttonText}</Btn>
-        <WebBtn onClick={handleOnClick}>{buttonText}</WebBtn>
-        <WebTextArea>
+    <>
+      <Wrapper>
+        <IconWrap onClick={() => router.push('/mypage')}>
+          <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
+        </IconWrap>
+        <Nav>
+          {yesExit && (
+            <Image
+              onClick={handleExitClick}
+              src={ExitImg}
+              alt="exit"
+              style={{ cursor: 'pointer' }}
+            />
+          )}
+        </Nav>
+        <ContainerBox disableGutters>
+          <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
+        </ContainerBox>
+        <Title>{title}</Title>
+        <Footer>
+          {text && <TextBox>{text}</TextBox>}
+          <Btn onClick={handleOnClick}>{buttonText}</Btn>
+          <WebBtn onClick={handleOnClick}>{buttonText}</WebBtn>
+        </Footer>
+        <WebTextArea user={user!}>
           <WebTextTitle>소중한 의견 감사드립니다.</WebTextTitle>
           <WebText>
             고객님과 좋은 인연이 있기를 기대합니다. <br />
             견적마감은 영업일 최대 5일 입니다.
           </WebText>
         </WebTextArea>
-      </Footer>
-    </Wrapper>
+        <BuyerContainer user={user!}>
+          <WhyEntizenHorizontal />
+        </BuyerContainer>
+      </Wrapper>
+    </>
   );
 };
 
@@ -90,6 +107,10 @@ const Title = styled.h1`
   line-height: 24pt;
   margin-top: 24pt;
   text-align: center;
+  @media (min-width: 900pt) {
+    font-size: 25.5pt;
+    line-height: 37.5pt;
+  }
 `;
 const Footer = styled.div`
   width: 50%;
@@ -123,6 +144,11 @@ const TextBox = styled.div`
 
   @media (max-width: 899.25pt) {
     border: 0.75pt solid ${colors.lightGray};
+  }
+
+  @media (min-width: 900pt) {
+    white-space: normal;
+    font-size: 15pt;
   }
 `;
 const Btn = styled(Button)`
@@ -166,19 +192,20 @@ const WebBtn = styled(Button)`
   color: ${colors.lightWhite};
   margin-bottom: 60pt;
   padding: 9pt 12pt;
-  margin-top: 45pt;
+
   @media (max-width: 899.25pt) {
     display: none;
   }
 `;
 
-const WebTextArea = styled.div`
+const WebTextArea = styled.div<{ user: string }>`
   border: 0.75pt solid #e9eaee;
   border-radius: 6pt;
   width: 345pt;
   height: 108pt;
   margin: 0 auto;
   margin-bottom: 90pt;
+  display: ${({ user }) => user !== 'seller' && 'none'};
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -204,4 +231,19 @@ const WebText = styled.div`
   letter-spacing: -0.02em;
   color: #747780;
   padding-bottom: 21pt;
+`;
+
+const IconWrap = styled.div`
+  display: none;
+  @media (max-width: 899.25pt) {
+    display: block;
+    position: absolute;
+    top: 20pt;
+    left: 250pt;
+  }
+`;
+
+const BuyerContainer = styled.div<{ user: string }>`
+  display: ${({ user }) => user !== 'buyer' && 'none'};
+  margin-bottom: 90pt;
 `;

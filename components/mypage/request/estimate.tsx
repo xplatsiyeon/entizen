@@ -130,7 +130,12 @@ const Estimate = ({listUp}:Props) => {
               <CarouselItem listUp={Boolean(listUp)}
                 key={index}
                 onClick={() =>
-                  router.push(`/mypage/request/${data.quotationRequestIdx}`)
+                  router.push({
+                    pathname: '/mypage/request',
+                    query: {
+                      quotationRequestIdx: data?.quotationRequestIdx,
+                    },
+                  })
                 }
               >
                 <Badge className="badge" color={HandleUserColor(data.badge)}>
@@ -180,6 +185,7 @@ const Proceeding = styled.section`
   margin-bottom: 60pt;
   @media (min-width: 900pt) {
     padding-right: 5pt;
+    padding-top: 0;
   }
 `;
 const History = styled.section``;
