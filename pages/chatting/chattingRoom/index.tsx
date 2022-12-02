@@ -89,7 +89,6 @@ const ChattingRoom = ({ }: Props) => {
 
 export default ChattingRoom;
 
-
 const WebBody = styled.div`
 display: flex;
 flex-direction: column;
@@ -104,6 +103,7 @@ background: #ffffff;
   height: 100%;
 }
 `;
+
 const Wrapper = styled.div`
   position: relative;
   width: 900pt;
@@ -129,6 +129,7 @@ width: 100%;
 display: flex;
 border: 1px solid #E2E5ED;
 border-radius: 12pt;
+height: 495pt;
 overflow: hidden;
 }
 `

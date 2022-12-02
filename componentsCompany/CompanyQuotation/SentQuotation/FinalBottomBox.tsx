@@ -139,6 +139,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         ) : (
           <>
             {/* 충전량 2개 이상일 때 */}
+
             <MultiSection>
               <Subtitle>충전요금</Subtitle>
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -261,6 +262,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
 
 const Wrapper = styled.div`
   /* padding-top: 60pt; */
+
   .underLine {
     border-bottom: none;
   }
@@ -327,6 +329,7 @@ const MultiSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12pt;
+
   :not(:last-child) {
     padding-bottom: 18pt;
     border-bottom: 0.75pt solid ${colors.lightGray};
@@ -541,6 +544,10 @@ const NoImage = styled.div`
     margin-left: 18pt;
     margin-bottom: 15pt;
   }
+`;
+
+const Line = styled.div`
+  border-bottom: 0.75pt solid #e9eaee;
 `;
 
 export default FinalBottomBox;

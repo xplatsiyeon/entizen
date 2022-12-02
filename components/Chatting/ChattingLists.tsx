@@ -294,6 +294,7 @@ const IconWrap = styled.div`
   position: relative;
   width: 18pt;
   height: 18pt;
+  cursor: pointer;
 `;
 
 const H2 = styled.h2`
@@ -388,6 +389,7 @@ const Tab = styled.li<{ tab: string; index: string }>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   font-style: normal;
   font-weight: 700;

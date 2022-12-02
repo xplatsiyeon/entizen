@@ -837,6 +837,7 @@ const Xbox = styled.div`
   position: absolute;
   top: -7pt;
   right: -7pt;
+  cursor: pointer;
 `;
 const FileDownloadBtn = styled(Button)`
   margin: 0 15pt 6pt 0;

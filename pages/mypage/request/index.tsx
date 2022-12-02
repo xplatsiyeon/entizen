@@ -124,7 +124,11 @@ const Mypage1_3 = ({}: any) => {
     },
   );
 
-  console.log('바뀜?', routerId, quotationData);
+  useEffect(()=>{
+    if(routerId){
+      refetch();
+    }
+  },[routerId])
 
   // ---------- 현장 실사 날짜 api ------------
   const {

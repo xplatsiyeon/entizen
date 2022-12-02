@@ -87,6 +87,7 @@ const BottomBox = ({ pb, data }: Props) => {
         ) : (
           <>
             {/* 충전량 2개 이상일 때 */}
+            <Line />
             <MultiSection>
               <Subtitle>충전요금</Subtitle>
               {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
@@ -260,6 +261,9 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
     css`
       padding-right: 0;
     `};
+  @media (min-width: 900pt) {
+    padding: 30pt 0pt;
+  }
 `;
 const List = styled.ul`
   padding: 30pt 0 51pt;
@@ -269,13 +273,19 @@ const List = styled.ul`
     padding-top: 30pt;
     padding-bottom: 18pt;
   }
+  @media (min-width: 900pt) {
+    padding: 30pt 0 30pt;
+  }
 `;
 const MultiSection = styled.div`
   padding-top: 18pt;
-
   display: flex;
   flex-direction: column;
   gap: 12pt;
+  @media (min-width: 900pt) {
+    padding-top: 30pt;
+  }
+
   :not(:last-child) {
     padding-bottom: 18pt;
     border-bottom: 0.75pt solid ${colors.lightGray};
@@ -475,6 +485,11 @@ const NoImage = styled.div`
     margin-left: 18pt;
     margin-bottom: 15pt;
   }
+`;
+
+const Line = styled.div`
+  border-bottom: 0.75pt solid #e9eaee;
+  padding-top: 30pt;
 `;
 
 export default BottomBox;

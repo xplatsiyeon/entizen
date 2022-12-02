@@ -510,6 +510,7 @@ const InputBox = styled.div`
   flex-direction: column;
   position: relative;
   margin-top: 30pt;
+
   & > div {
   }
   & > div:first-of-type {
@@ -571,7 +572,7 @@ const AfterWord = styled.div`
 const Input = styled(TextField)`
   border-radius: 6pt;
   width: 100%;
-  & input {
+  b & input {
     padding: 10.885pt 0 10.885pt 12pt;
     text-align: right;
     font-weight: 500;
@@ -615,6 +616,7 @@ const SmallInputBox = styled.div`
   display: flex;
   text-align: left;
   gap: 12.5175pt;
+
   .percent {
     display: flex;
     align-items: center;

@@ -693,7 +693,7 @@ const SecondStep = ({
           </div>
         </InputBox>
         <RemainderInputBox>
-          <Label>사진첨부</Label>
+          <Label>충전기 이미지</Label>
           <PhotosBox>
             <AddPhotos onClick={imgHandler}>
               <Image src={camera} alt="" />
@@ -889,6 +889,7 @@ const ChargeMoney = styled.div`
 const BtnBox = styled.div`
   display: flex;
   gap: 11.25pt;
+  cursor: pointer;
 `;
 const Btn = styled.div`
   font-family: 'Spoqa Han Sans Neo';
@@ -1150,9 +1151,9 @@ const PhotosBox = styled.div`
   width: 100%;
   height: 56.0625pt;
   margin-top: 9pt;
-  display: flex;
   gap: 9.1875pt;
-  align-items: center;
+  display: flex;
+  align-items: inherit;
   @media (min-width: 900pt) {
     display: flex;
     align-items: inherit;
@@ -1177,10 +1178,11 @@ const PhotosBoxs = styled.div`
 
 const AddPhotos = styled.button`
   display: inline-block;
-  width: 56.0625pt;
+  width: 70.0625pt;
   height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
+  cursor: pointer;
   @media (min-width: 900pt) {
     background-color: #ffffff;
     width: 77.25pt;
@@ -1195,12 +1197,21 @@ const ImgSpanBox = styled.div`
     display: grid;
     grid-template-columns: 230pt 1fr;
   }
+  @media (max-width: 899.25pt) {
+    display: grid;
+    grid-auto-flow: column;
+    width: 224.25pt;
+    height: 56.0625pt;
+    overflow-x: scroll;
+  }
 `;
+
 const ImgSpan = styled.div`
   position: relative;
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  gap: 9pt;
   @media (min-width: 900pt) {
     margin-bottom: 10pt;
     width: 216pt;
@@ -1211,8 +1222,11 @@ const ImgSpan = styled.div`
 
 const Xbox = styled.div`
   position: absolute;
-  top: -7pt;
   right: -7pt;
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    top: -7pt;
+  }
 `;
 const FileBox = styled.div`
   display: flex;

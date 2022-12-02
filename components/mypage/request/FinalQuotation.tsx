@@ -262,6 +262,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
 
 const Wrapper = styled.div`
   padding-top: 60pt;
+
   @media (max-width: 899.25pt) {
     padding-top: 21pt;
   }
