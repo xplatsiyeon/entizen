@@ -10,6 +10,7 @@ import { quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useRouter } from 'next/router';
+import zIndex from '@mui/material/styles/zIndex';
 
 interface Props {
   tabNumber: number;
@@ -197,6 +198,7 @@ const ImpossibleMessage = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(34, 34, 34, 0.4);
+  z-index: 999;
 `;
 const Contents = styled.p`
   font-weight: 500;
@@ -255,6 +257,7 @@ const TwoBtn = styled.div`
   left: 0;
   width: 100%;
   gap: 8.7pt;
+  z-index: 9999;
   @media (max-width: 899.25pt) {
     position: fixed;
     gap: 0;
