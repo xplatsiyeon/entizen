@@ -17,12 +17,12 @@ const AsRequestFooter = ({ id }: Props) => {
 };
 
 const FooterBox = styled.div`
-  margin: 30pt auto 38.25pt auto;
   display: flex;
   justify-content: center;
 
-  @media (max-width: 899.25pt) {
-    margin: 60pt auto 68.25pt auto;
+  @media (min-width: 899.25pt) {
+    margin: 30pt auto 38.25pt auto;
+    /* margin: 60pt auto 68.25pt auto; */
   }
 `;
 

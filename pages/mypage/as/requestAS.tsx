@@ -10,7 +10,7 @@ type Props = {};
 const AsRequest = (props: Props) => {
   return (
     <React.Fragment>
-      <Body className='target'>
+      <Body className="target">
         <WebHeader />
         <Inner>
           <Wrapper>
@@ -57,9 +57,10 @@ const Inner = styled.div`
 `;
 const Wrapper = styled.div`
   position: relative;
-  margin: 0 31.875pt;
+  margin: 0 46.5pt;
   @media (max-width: 899.25pt) {
     margin: 0;
     height: 100%;
+    /* margin: 0 31.875pt; */
   }
 `;

@@ -42,7 +42,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />
         </DownArrowBox>
-        <Title>{compnayName}</Title>
+        <Title>파트너 정보</Title>
         <List>
           <Item>
             <span className="name">회사명</span>
@@ -72,16 +72,11 @@ const AsRequestPartner = ({ pb, data }: Props) => {
               {data?.data?.afterSalesService?.afterSalesService?.requestTitle}
             </span>
           </Items>
-          <Items>
+          <Items className="contents">
             <span className="name">요청내용</span>
-            {data?.data?.afterSalesService?.afterSalesService?.requestContent
-              .split('\n')
-              ?.map((line, index) => (
-                <span key={index} className="value">
-                  {line}
-                  <br />
-                </span>
-              ))}
+            <span className="value">
+              {data?.data?.afterSalesService?.afterSalesService?.requestContent}
+            </span>
           </Items>
           <Items>
             <span className="name">접수일자</span>
@@ -111,7 +106,14 @@ const AsRequestPartner = ({ pb, data }: Props) => {
         {data?.data?.afterSalesService?.afterSalesService?.acceptanceDate! && (
           <>
             <ReceiptTitle>접수확인</ReceiptTitle>
-            <SecondList>
+            <SecondList
+              className={
+                data?.data?.afterSalesService?.afterSalesService
+                  ?.acceptanceDate!
+                  ? 'listChildren'
+                  : ''
+              }
+            >
               <Items>
                 <span className="name">내용</span>
                 <span className="value">
@@ -217,18 +219,27 @@ const ReceiptTitle = styled.h1`
 `;
 
 const List = styled.ul`
-  margin-top: 15pt;
-  padding-bottom: 18pt;
+  margin-top: 24pt;
+  padding-bottom: 30pt;
   gap: 12pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
+  @media (max-width: 899.25pt) {
+    margin-top: 15pt;
+    padding-bottom: 18pt;
+  }
 `;
 const SecondList = styled.ul`
   gap: 12pt;
-  margin-top: 15pt;
-  padding-bottom: 18pt;
+  margin-top: 24pt;
+  padding-bottom: 30pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
   &.listChildren {
     border-bottom: none;
+  }
+
+  @media (max-width: 899.25pt) {
+    margin-top: 15pt;
+    padding-bottom: 18pt;
   }
 `;
 const Item = styled.li`
@@ -265,7 +276,10 @@ const Items = styled.li`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
-    width: 41.25pt;
+    width: 63.2025pt;
+    @media (max-width: 899.25pt) {
+      width: 41.25pt;
+    }
   }
   .value {
     font-size: 10.5pt;
@@ -274,46 +288,21 @@ const Items = styled.li`
     line-height: 12pt;
     text-align: left;
     letter-spacing: -0.02em;
-    margin-left: 26.25pt;
+    /* margin-left: 89pt; */
     color: ${colors.main2};
     display: flex;
     gap: 6pt;
     flex-direction: column;
     justify-content: start;
+    word-break: break-all;
+    width: 100%;
   }
-`;
-const Subtitle = styled.h2`
-  font-weight: 700;
-  font-size: 10.5pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-`;
-const Label = styled.h3`
-  font-weight: 500;
-  font-size: 10.5pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.gray2};
-  :nth-of-type(1) {
-    padding-top: 15pt;
-  }
-  :nth-of-type(2) {
-    padding-top: 24pt;
-  }
-`;
-const FeaturesList = styled.ol`
-  padding-top: 6pt;
-  list-style-type: decimal;
-  list-style-position: inside;
-  & li {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 18pt;
-    letter-spacing: -0.02em;
-    color: ${colors.main2};
-    :not(:nth-of-type(1)) {
-      padding-top: 2pt;
+  @media (max-width: 899.25pt) {
+    word-break: normal;
+
+    .value {
+      margin-left: 26.25pt;
+      width: auto;
     }
   }
 `;

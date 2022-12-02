@@ -1223,6 +1223,7 @@ const ImgSpan = styled.div`
 const Xbox = styled.div`
   position: absolute;
   right: -7pt;
+  cursor: pointer;
   @media (min-width: 900pt) {
     top: -7pt;
   }

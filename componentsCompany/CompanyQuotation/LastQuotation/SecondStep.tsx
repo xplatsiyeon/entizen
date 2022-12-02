@@ -1058,6 +1058,7 @@ const Xbox = styled.div`
   position: absolute;
   top: -7pt;
   right: -7pt;
+  cursor: pointer;
 `;
 const FileBox = styled.div`
   display: flex;

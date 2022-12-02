@@ -205,11 +205,11 @@ const DatePicker = ({}: Props) => {
                     )}
                   </>
                 ))}
+                <Btn isValid={isValid} onClick={onClickConfirmBtn}>
+                  일정 확정하기
+                </Btn>
               </UL>
             </Schedule>
-            <Btn isValid={isValid} onClick={onClickConfirmBtn}>
-              일정 확정하기
-            </Btn>
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -254,6 +254,10 @@ const Inner = styled.div`
   }
   @media (max-height: 500pt) {
     height: 100%;
+  }
+  @media (min-width: 900pt) {
+    height: 100%;
+    padding-bottom: 60pt;
   }
 `;
 
@@ -322,7 +326,7 @@ const Line = styled.div`
   margin: 0 auto;
 `;
 const Schedule = styled.div`
-  padding: 18pt 15pt 70pt 15pt;
+  padding: 18pt 15pt 20pt 15pt;
 
   .name {
     font-weight: 700;
@@ -382,10 +386,10 @@ const Btn = styled.button<{ isValid: boolean }>`
   }
 
   @media (min-width: 900pt) {
-    position: relative;
     border-radius: 8px;
     width: 251.25pt;
-    margin-left: 47.25pt;
+    position: relative;
+    margin-top: 50pt;
   }
 `;
 

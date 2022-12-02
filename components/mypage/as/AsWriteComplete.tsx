@@ -12,26 +12,32 @@ interface Props {
   text?: string;
   buttonText?: string;
   routerId?: string | string[] | undefined;
+  type?: string;
   [key: string]: any;
 }
 
-const AsComplete = ({ text, title, buttonText, routerId }: Props) => {
+const AsComplete = ({ text, title, buttonText, routerId, type }: Props) => {
   const router = useRouter();
-  const clickHandler = () => {
-    alert('2차 작업 페이지입니다.');
-  };
   const onClickBtn = () => {
     console.log(routerId);
-
-    if (routerId !== null) {
-      return router.replace({
-        pathname: '/mypage/as',
+    if (type === 'AS') {
+      router.push({
+        pathname: '/mypage',
         query: {
-          afterSalesServiceIdx: routerId,
+          id: 2,
         },
       });
     } else {
-      return router.replace('/mypage');
+      if (routerId !== null) {
+        return router.replace({
+          pathname: '/mypage/as',
+          query: {
+            afterSalesServiceIdx: routerId,
+          },
+        });
+      } else {
+        return router.replace('/mypage');
+      }
     }
   };
   return (

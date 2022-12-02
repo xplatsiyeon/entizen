@@ -199,12 +199,14 @@ const asNumber = () => {
             <Wrap3>
               {/* 파트너와 소통하기 문구 */}
               {!isReview && (
-                <AsRequestFooter
-                  id={
-                    data?.data?.afterSalesService?.afterSalesService?.project
-                      ?.finalQuotation?.preQuotation?.member.memberIdx!
-                  }
-                />
+                <Footer>
+                  <AsRequestFooter
+                    id={
+                      data?.data?.afterSalesService?.afterSalesService?.project
+                        ?.finalQuotation?.preQuotation?.member.memberIdx!
+                    }
+                  />
+                </Footer>
               )}
               {/* 수정하기 */}
               {!isReview &&
@@ -260,7 +262,7 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   margin: 0 auto;
   background: #fcfcfc;
   @media (max-height: 809pt) {
@@ -343,11 +345,16 @@ const Btn = styled.button`
     margin-bottom: 36pt;
   }
 `;
+const Footer = styled.div`
+  padding-top: 45pt;
+`;
 const BtnBox = styled.button`
   width: 100%;
   padding-top: 15pt;
-  padding-bottom: 39pt;
+  padding-bottom: 15pt;
   background-color: ${colors.main1};
+  border-radius: 6pt;
+  cursor: pointer;
   .text {
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
@@ -357,5 +364,9 @@ const BtnBox = styled.button`
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.lightWhite};
+  }
+  @media (max-width: 899.25pt) {
+    padding-bottom: 39pt;
+    border-radius: 0pt;
   }
 `;
