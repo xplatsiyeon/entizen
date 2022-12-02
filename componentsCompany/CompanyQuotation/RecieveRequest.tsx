@@ -19,6 +19,7 @@ import Sort from './Sort';
 import Search from './Search';
 import Modal from 'components/Modal/Modal';
 import WebSort from './WebSort';
+import NoEstimate from './NoEstimate';
 
 type Props = {
   searchWord: string;
@@ -43,7 +44,8 @@ const RecieveRequest = ({
   data,
 }: Props) => {
   const router = useRouter();
-
+  // 데이터 없을 때
+  const NoData: [] = [];
   return (
     <>
       <Sort
@@ -61,40 +63,44 @@ const RecieveRequest = ({
           setcheckedFilterIndex={setcheckedFilterIndex}
         />
       </TopContainer>
-      <ContentsContainer>
-        {data?.receivedQuotationRequests?.map((el, idx) => (
-          <Contents
-            key={el?.quotationRequest?.quotationRequestIdx}
-            onClick={() =>
-              router.push({
-                pathname: '/company/recievedRequest',
-                query: {
-                  quotationRequestIdx:
-                    el?.quotationRequest?.quotationRequestIdx,
-                },
-              })
-            }
-          >
-            <DdayNAddress>
-              <DdayBox>
-                <CommonBtn
-                  text={el?.badge}
-                  backgroundColor={HandleColor(el?.badge)}
-                  bottom={'12pt'}
-                />
-              </DdayBox>
-              <AddressBox>
-                {el?.quotationRequest?.installationAddress}
-              </AddressBox>
-            </DdayNAddress>
-            <IconBox>
-              <ArrowIconBox>
-                <Image src={CaretDown24} alt="RightArrow" />
-              </ArrowIconBox>
-            </IconBox>
-          </Contents>
-        ))}
-      </ContentsContainer>
+      {data !== undefined ? (
+        <ContentsContainer>
+          {data?.receivedQuotationRequests?.map((el, idx) => (
+            <Contents
+              key={el?.quotationRequest?.quotationRequestIdx}
+              onClick={() =>
+                router.push({
+                  pathname: '/company/recievedRequest',
+                  query: {
+                    quotationRequestIdx:
+                      el?.quotationRequest?.quotationRequestIdx,
+                  },
+                })
+              }
+            >
+              <DdayNAddress>
+                <DdayBox>
+                  <CommonBtn
+                    text={el?.badge}
+                    backgroundColor={HandleColor(el?.badge)}
+                    bottom={'12pt'}
+                  />
+                </DdayBox>
+                <AddressBox>
+                  {el?.quotationRequest?.installationAddress}
+                </AddressBox>
+              </DdayNAddress>
+              <IconBox>
+                <ArrowIconBox>
+                  <Image src={CaretDown24} alt="RightArrow" />
+                </ArrowIconBox>
+              </IconBox>
+            </Contents>
+          ))}
+        </ContentsContainer>
+      ) : (
+        <NoEstimate type={'받은 요청이 없습니다'} />
+      )}
     </>
   );
 };
@@ -118,7 +124,6 @@ const Contents = styled.div`
   border-radius: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
-    border: 1px solid red;
     padding: 24pt 13.5pt;
   }
 `;

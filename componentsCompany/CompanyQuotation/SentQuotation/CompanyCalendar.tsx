@@ -11,6 +11,7 @@ import LeftArrow from 'public/mypage/left-arrow.png';
 import RightArrow from 'public/mypage/right-arrow.png';
 import Image from 'next/image';
 import { css } from '@emotion/react';
+import { useRouter } from 'next/router';
 
 interface Props {
   selectedDays: string;
@@ -29,6 +30,9 @@ const CompanyCalendar = ({
   setSelectedDaysArr,
   types,
 }: Props) => {
+  const router = useRouter();
+  console.log(router.pathname);
+
   const today = {
     year: new Date().getFullYear(), //오늘 연도
     month: new Date().getMonth() + 1, //오늘 월
@@ -212,10 +216,17 @@ const CompanyCalendar = ({
             <Image src={RightArrow} alt="right-btn" layout="fill" />
           </div>
         </Pagenation>
-        <Notice>
-          <span></span>
-          <span>● 고객이 선택한 일정</span>
-        </Notice>
+        {router.pathname === '/company/suggestChange' ? (
+          <Notice2>
+            <span></span>
+            <span>복수 선택 가능*</span>
+          </Notice2>
+        ) : (
+          <Notice>
+            <span></span>
+            <span>● 고객이 선택한 일정</span>
+          </Notice>
+        )}
       </Title>
       <Weeks className="Weeks">{returnWeek()}</Weeks>
       <Days className="date">{returnDay()}</Days>
@@ -227,6 +238,10 @@ export default CompanyCalendar;
 
 const Container = styled.div`
   padding: 45pt 15pt 0 15pt;
+
+  @media (min-width: 900pt) {
+    padding: 45pt 40.5pt 50.25pt 51pt;
+  }
 `;
 const Title = styled.div`
   display: flex;
@@ -236,6 +251,7 @@ const Title = styled.div`
 const Pagenation = styled.div`
   display: flex;
   justify-content: center;
+  cursor: pointer;
   .left-btn {
     position: relative;
     width: 12pt;
@@ -262,6 +278,14 @@ const Notice = styled.span`
   letter-spacing: -0.02em;
   color: ${colors.main};
 `;
+
+const Notice2 = styled.span`
+  font-weight: 400;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: #f75015;
+`;
 const Weeks = styled.div`
   padding-top: 25.5pt;
   display: flex;
@@ -283,6 +307,7 @@ const Days = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  cursor: pointer;
 `;
 const Day = styled.div<{ selectedDay?: boolean }>`
   display: flex;

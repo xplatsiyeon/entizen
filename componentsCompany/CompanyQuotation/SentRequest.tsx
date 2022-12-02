@@ -14,6 +14,7 @@ import Sort from './Sort';
 import Search from './Search';
 import { HandleColor } from 'utils/changeValue';
 import WebSort from './WebSort';
+import NoEstimate from './NoEstimate';
 
 type Props = {};
 export interface QuotationRequest {
@@ -82,6 +83,8 @@ const SentRequest = ({}: Props) => {
 
   console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
   console.log(data);
+  // 데이터 없을 때
+  const NoData: [] = [];
 
   return (
     <>
@@ -100,39 +103,43 @@ const SentRequest = ({}: Props) => {
           setcheckedFilterIndex={setcheckedFilterIndex}
         />
       </TopContainer>
-      <ContentsContainer>
-        {data?.sendQuotationRequests?.map((el, index) => (
-          <Contents
-            key={index}
-            onClick={() =>
-              router.push({
-                pathname: '/company/sentProvisionalQuotation',
-                query: {
-                  preQuotationIdx: el?.preQuotation?.preQuotationIdx,
-                },
-              })
-            }
-          >
-            <DdayNAddress>
-              <DdayBox>
-                <CommonBtn
-                  text={el?.badge}
-                  backgroundColor={HandleColor(el?.badge)}
-                  bottom={'12pt'}
-                />
-              </DdayBox>
-              <AddressBox>
-                {el?.quotationRequest.installationAddress}
-              </AddressBox>
-            </DdayNAddress>
-            <IconBox>
-              <ArrowIconBox>
-                <Image src={CaretDown24} alt="RightArrow" />
-              </ArrowIconBox>
-            </IconBox>
-          </Contents>
-        ))}
-      </ContentsContainer>
+      {data !== undefined ? (
+        <ContentsContainer>
+          {data?.sendQuotationRequests?.map((el, index) => (
+            <Contents
+              key={index}
+              onClick={() =>
+                router.push({
+                  pathname: '/company/sentProvisionalQuotation',
+                  query: {
+                    preQuotationIdx: el?.preQuotation?.preQuotationIdx,
+                  },
+                })
+              }
+            >
+              <DdayNAddress>
+                <DdayBox>
+                  <CommonBtn
+                    text={el?.badge}
+                    backgroundColor={HandleColor(el?.badge)}
+                    bottom={'12pt'}
+                  />
+                </DdayBox>
+                <AddressBox>
+                  {el?.quotationRequest.installationAddress}
+                </AddressBox>
+              </DdayNAddress>
+              <IconBox>
+                <ArrowIconBox>
+                  <Image src={CaretDown24} alt="RightArrow" />
+                </ArrowIconBox>
+              </IconBox>
+            </Contents>
+          ))}
+        </ContentsContainer>
+      ) : (
+        <NoEstimate type={'보낸 견적이 없습니다.'} />
+      )}
     </>
   );
 };
@@ -154,6 +161,9 @@ const Contents = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
+  @media (min-width: 900pt) {
+    padding: 24pt 13.5pt;
+  }
 `;
 const DdayBox = styled.div`
   margin-bottom: 16.5pt;

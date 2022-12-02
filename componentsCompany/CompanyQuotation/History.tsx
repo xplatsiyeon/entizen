@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader';
 import WebSort from './WebSort';
+import NoEstimate from './NoEstimate';
 
 type Props = {};
 
@@ -80,6 +81,8 @@ const History = ({}: Props) => {
     return <Loader />;
   }
 
+  const NoData: [] = [];
+
   return (
     <>
       <Sort
@@ -98,41 +101,45 @@ const History = ({}: Props) => {
         />
       </TopContainer>
 
-      <ContentsContainer>
-        {data?.data?.map((data, index) => (
-          <div key={index}>
-            <Contents
-              key={index}
-              onClick={() => {
-                router.push({
-                  pathname: '/company/sentProvisionalQuotation',
-                  query: {
-                    historyIdx: data?.preQuotation?.preQuotationIdx,
-                  },
-                });
-              }}
-            >
-              <DdayNAddress>
-                <DdayBox>
-                  <CommonBtn
-                    text={data?.badge}
-                    backgroundColor={HandleColor(data?.badge)}
-                    bottom={'12pt'}
-                  />
-                </DdayBox>
-                <AddressBox>
-                  {data?.quotationRequest.installationAddress}
-                </AddressBox>
-              </DdayNAddress>
-              <IconBox>
-                <ArrowIconBox>
-                  <Image src={CaretDown24} alt="RightArrow" />
-                </ArrowIconBox>
-              </IconBox>
-            </Contents>
-          </div>
-        ))}
-      </ContentsContainer>
+      {data !== undefined ? (
+        <ContentsContainer>
+          {data?.data?.map((data, index) => (
+            <div key={index}>
+              <Contents
+                key={index}
+                onClick={() => {
+                  router.push({
+                    pathname: '/company/sentProvisionalQuotation',
+                    query: {
+                      historyIdx: data?.preQuotation?.preQuotationIdx,
+                    },
+                  });
+                }}
+              >
+                <DdayNAddress>
+                  <DdayBox>
+                    <CommonBtn
+                      text={data?.badge}
+                      backgroundColor={HandleColor(data?.badge)}
+                      bottom={'12pt'}
+                    />
+                  </DdayBox>
+                  <AddressBox>
+                    {data?.quotationRequest.installationAddress}
+                  </AddressBox>
+                </DdayNAddress>
+                <IconBox>
+                  <ArrowIconBox>
+                    <Image src={CaretDown24} alt="RightArrow" />
+                  </ArrowIconBox>
+                </IconBox>
+              </Contents>
+            </div>
+          ))}
+        </ContentsContainer>
+      ) : (
+        <NoEstimate type={'받은 요청이 없습니다.'} />
+      )}
     </>
   );
 };
@@ -164,6 +171,9 @@ const Contents = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   border-radius: 6pt;
   cursor: pointer;
+  @media (min-width: 900pt) {
+    padding: 24pt 13.5pt;
+  }
 `;
 
 const DdayBox = styled.div`

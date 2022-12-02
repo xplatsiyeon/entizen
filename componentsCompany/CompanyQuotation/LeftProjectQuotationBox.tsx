@@ -226,7 +226,7 @@ const Wrapper = styled.div`
 const Header = styled.header`
   display: flex;
   width: 198pt;
-  margin: 27pt auto;
+  margin: 27pt auto 21pt;
   & h1 {
     font-weight: 700;
     font-size: 15pt;

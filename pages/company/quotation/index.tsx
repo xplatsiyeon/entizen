@@ -227,6 +227,7 @@ const Container = styled.div`
   }
   @media (min-width: 900pt) {
     padding: 0;
+    margin-top: 60pt;
   }
 `;
 

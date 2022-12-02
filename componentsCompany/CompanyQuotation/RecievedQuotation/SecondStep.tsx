@@ -1314,7 +1314,7 @@ const TwoBtn = styled.div`
     position: fixed;
   }
   @media (min-width: 900pt) {
-    width: 580.5pt;
+    width: 560.25pt;
     position: relative;
     margin: 0 auto;
     margin-bottom: 40pt;
