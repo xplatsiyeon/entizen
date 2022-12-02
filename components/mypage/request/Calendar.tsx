@@ -124,7 +124,8 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
             <Image src={RightArrow} alt="right-btn" layout="fill" />
           </div>
         </Pagenation>
-        <Notice>• 재선택 날짜</Notice>
+        {/* <Notice>• 재선택 날짜</Notice> */}
+        <Notice> 복수 선택 가능* </Notice>
       </Title>
       <Weeks className="Weeks">{returnWeek()}</Weeks>
       <Days className="date">{returnDay()}</Days>
@@ -172,8 +173,8 @@ const Notice = styled.span`
   line-height: 9pt;
   letter-spacing: -0.02em;
   text-align: left;
-
-  color: #5221cb;
+  /* color: #5221cb; */
+  color: #f75015;
 `;
 const Weeks = styled.div`
   padding-top: 25.5pt;

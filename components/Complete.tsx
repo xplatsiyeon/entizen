@@ -37,7 +37,7 @@ const Complete = ({
   return (
     <>
       <Wrapper>
-        <IconWrap onClick={() => router.push('/mypage')}>
+        <IconWrap onClick={() => router.push('/company/quotation')}>
           <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
         </IconWrap>
         <Nav>

@@ -58,7 +58,7 @@ const NewASUnder = ({ tabNumber, componentId, setComponentId }: Props) => {
               <div key={idx}>
                 <ListBox
                   componentId={componentId!}
-                  idx={Number(idx)}
+                  idx={Number(el.afterSalesService.afterSalesServiceIdx)}
                   key={idx}
                   onClick={() => {
                     handleId(idx);

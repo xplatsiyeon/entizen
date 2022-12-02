@@ -43,33 +43,35 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
         <TopWebRapper>
           {/* 웹 사진이 들어갈 공간*/}
           <WebFinishedPhotoWrapper>
-            {data?.preQuotation.preQuotationChargers.map((item, index) => (
-              <WebLeftPhotoBox key={index}>
-                {item.chargerImageFiles.map((img, idx) => (
-                  <>
-                    <WebLeftPhotos
-                      key={idx}
-                      onClick={() => {
-                        webHandleNum(idx);
-                        setChargeIdx(index);
-                      }}
-                      webIdx={webIdx}
-                      idx={idx}
-                    >
-                      <div className="imgBox">
-                        <Image
-                          src={img.url}
-                          alt="img-icon"
-                          layout="fill"
-                          priority={true}
-                          unoptimized={true}
-                        />
-                      </div>
-                    </WebLeftPhotos>
-                  </>
-                ))}
-              </WebLeftPhotoBox>
-            ))}
+            <WebLeftPhotoWrapper>
+              {data?.preQuotation.preQuotationChargers.map((item, index) => (
+                <WebLeftPhotoBox key={index}>
+                  {item.chargerImageFiles.map((img, idx) => (
+                    <>
+                      <WebLeftPhotos
+                        key={idx}
+                        onClick={() => {
+                          webHandleNum(idx);
+                          setChargeIdx(index);
+                        }}
+                        webIdx={webIdx}
+                        idx={idx}
+                      >
+                        <div className="imgBox">
+                          <Image
+                            src={img.url}
+                            alt="img-icon"
+                            layout="fill"
+                            priority={true}
+                            unoptimized={true}
+                          />
+                        </div>
+                      </WebLeftPhotos>
+                    </>
+                  ))}
+                </WebLeftPhotoBox>
+              ))}
+            </WebLeftPhotoWrapper>
             <WebRightPhotoBox>
               <div className="imgBox">
                 <Image
@@ -85,15 +87,20 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
 
           {/* 충전소 회사 정보 */}
           <ChareCompanyInfo>
-            <ImageBox>
-              <Image
-                src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
-                alt="icon"
-                priority={true}
-                unoptimized={true}
-                layout="fill"
-              />
-            </ImageBox>
+            {data?.companyMemberAdditionalInfo?.companyLogoImageUrl !== '' ? (
+              <ImageBox>
+                <Image
+                  src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
+                  alt="icon"
+                  priority={true}
+                  unoptimized={true}
+                  layout="fill"
+                />
+              </ImageBox>
+            ) : (
+              <NoImage />
+            )}
+
             <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
             <WebList>
               <WebItem>
@@ -460,6 +467,7 @@ const Section = styled.section<{ imgBox?: boolean; pb?: number }>`
 
   @media (min-width: 900pt) {
     overflow-x: scroll;
+    padding: 40pt 0;
 
     :not(:last-child) {
       border-bottom: 0;
@@ -487,15 +495,16 @@ const ChargeSection = styled.section<{ imgBox?: boolean; pb?: number }>`
 
   @media (min-width: 900pt) {
     border-bottom: 0;
-    padding-bottom: 0;
+    padding: 30pt 0;
   }
 `;
 
 const Line = styled.div`
   width: 580.5pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
-  padding-top: 9pt;
-  padding-bottom: 9pt;
+  padding-top: 21pt;
+  padding-bottom: 21pt;
+
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -630,6 +639,14 @@ const Subtitle = styled.h2`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const FlexWrap = styled.div`
   display: flex;
@@ -651,6 +668,7 @@ const Label = styled.h3`
   letter-spacing: -0.02em;
   color: ${colors.gray2};
   flex: 1;
+
   :nth-of-type(1) {
     padding-top: 15pt;
   }
@@ -660,13 +678,31 @@ const Label = styled.h3`
   @media (max-width: 899.25pt) {
     flex: none;
   }
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-left: 0;
+  }
 `;
 const FeaturesList = styled.ol`
   padding-top: 6pt;
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
+
   & li {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 21pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 18pt;
@@ -704,6 +740,9 @@ const GridItem = styled.div`
 `;
 const FileContainer = styled.div`
   padding-top: 15pt;
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+  }
 `;
 const FileDownloadBtn = styled(Button)`
   margin: 0 15pt 6pt 0;
@@ -731,19 +770,21 @@ const WebFinishedPhotoWrapper = styled.div`
   }
 `;
 
-const WebLeftPhotoBox = styled.div`
+const WebLeftPhotoBox = styled.div``;
+
+const WebLeftPhotoWrapper = styled.div`
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
+    align-items: center;
     overflow-y: scroll;
-    justify-content: flex-start;
-    gap: 9pt;
     height: 396pt;
   }
 `;
 
 const WebLeftPhotos = styled.div<{ idx: number; webIdx: number }>`
   @media (min-width: 900pt) {
+    margin-bottom: 9pt;
     width: 60pt;
     height: 60pt;
     border-radius: 6pt;
@@ -780,7 +821,7 @@ const NoImage = styled.div`
     height: 48pt;
     width: 48pt;
     border-radius: 6pt;
-    margin-left: 18pt;
+    margin-left: 15pt;
     margin-bottom: 15pt;
   }
 `;
