@@ -9,6 +9,10 @@ import SubscribeRequest from 'components/Main/SubscribeRequest';
 import EntizenLibrary from 'components/Main/EntizenLibrary';
 import Image from 'next/image';
 import styled from '@emotion/styled';
+import mainBanner1 from 'public/images/mainBanner1.png';
+import mainBanner2 from 'public/images/mainBanner2.png';
+import mainBanner3 from 'public/images/mainBanner3.png';
+
 import main2 from 'public/images/main2.png';
 import main3 from 'public/images/main3.png';
 import main4 from 'public/images/main4.png';
@@ -27,6 +31,7 @@ import { Count } from '.';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import UserRightMenu from 'components/UserRightMenu';
+import MainSlider from 'components/MainSlider';
 
 const Main = () => {
   const router = useRouter();
@@ -54,7 +59,8 @@ const Main = () => {
     enabled: ACCESS_TOKEN ? true : false,
   });
 
-  const handleOnClick = () => {
+  const handleOnClick = (evnet: React.FormEvent<HTMLFormElement>) => {
+    evnet.preventDefault();
     if (text.length >= 1) {
       dispatch(locationAction.addKeyword(text));
       router.push('/chargerMap');
@@ -80,14 +86,18 @@ const Main = () => {
       )}
       <WebHeader />
       <UserRightMenu />
+      {/* 배너 */}
       <CarouselWrap>
         <Carousel />
       </CarouselWrap>
+      {/* 기능 부분 */}
       <ContentWrap>
-        <SalesWrap>
+        {/*예상 매출 검색 */}
+        <SalesForm onSubmit={handleOnClick}>
           <SalesProjection text={text} setText={setText} />
-          <Button onClick={handleOnClick}>검색</Button>
-        </SalesWrap>
+          <Button type="submit">검색</Button>
+        </SalesForm>
+        {/* 내 견적서, 내 프로젝트 수량 */}
         <ProjectWrap>
           <MyEstimateProject
             borders={12}
@@ -100,14 +110,19 @@ const Main = () => {
       <ImageWrap>
         <Image src={main2} alt="main image" />
       </ImageWrap>
+      {/* 왜 엔티즌인가 */}
       <WhyEntizenWeb />
+      {/* 알아보기 */}
       <LearnAbout borders={12} />
+      {/* 엔티즌 도서관 */}
       <EntizenLibrary fontSize={19.5} smallfont={13.5} />
       <ImageWrap2>
-        <Image src={main3} alt="사진" />
-        <Image src={main4} alt="사진" />
-        <Image src={main5} alt="사진" />
+        <Image src={mainBanner1} alt="사진" />
+        <Image src={mainBanner2} alt="사진" />
+        <Image src={mainBanner3} alt="사진" />
         <Image src={main6} alt="사진" />
+        {/* 전기차 슬라이드 */}
+        <MainSlider />
         <Image src={main7} alt="사진" />
         <Image src={main8} alt="사진" />
         <Wrap onClick={() => router.push('/signUp/Terms')}>
@@ -149,7 +164,8 @@ const ContentWrap = styled.section`
   }
 `;
 
-const SalesWrap = styled.div`
+// const SalesWrap = styled.div`
+const SalesForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 322pt;
