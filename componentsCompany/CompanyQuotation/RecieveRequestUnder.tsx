@@ -79,9 +79,7 @@ const ContentsContainer = styled.div`
     border-radius: 6pt;
     height: 313pt;
     overflow-y: scroll;
-    padding-left: 7.5pt;
-    padding-right: 7.5pt;
-    padding-top: 6pt;
+    padding: 6pt 7.5pt 0 7.5pt;
   }
 `;
 

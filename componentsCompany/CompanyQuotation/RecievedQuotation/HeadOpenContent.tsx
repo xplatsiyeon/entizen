@@ -686,8 +686,8 @@ const Wrapper = styled.div`
     display: block;
     width: 580.5pt;
     box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
-    padding-left: 15pt;
-    padding-right: 15pt;
+    padding-left: 26.25pt;
+    padding-right: 26.25pt;
     margin-bottom: 30pt;
   }
 `;
@@ -751,12 +751,16 @@ const ArrowImg = styled.div`
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 21pt;
+
   .text-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
+      @media (min-width: 900pt) {
+        padding-top: 15pt;
+      }
     }
   }
   .name {
@@ -765,6 +769,14 @@ const Contents = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .text {
     font-weight: 500;
@@ -773,6 +785,14 @@ const Contents = styled.div`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .img-box {
     padding-top: 42pt;
@@ -849,6 +869,9 @@ const ElseTextBox = styled.div`
   padding-top: 12pt;
   display: flex;
   flex-direction: column;
+  @media (min-width: 900pt) {
+    padding-top: 15pt;
+  }
 `;
 
 const ElseText = styled.div`
@@ -862,6 +885,13 @@ const ElseText = styled.div`
   border: 0.75pt solid #e2e5ed;
   padding: 8pt;
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 16pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
-
 export default HeadOpenContent;

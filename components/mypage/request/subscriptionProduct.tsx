@@ -56,15 +56,23 @@ const SubscriptionProduct = ({ data }: Props) => {
             key={index}
             onClick={() => onClickCompany(company)}
           >
-            <div className="img-box">
-              <Image
-                src={company?.companyMemberAdditionalInfo?.companyLogoImageUrl}
-                alt={company?.companyMemberAdditionalInfo?.companyName}
-                priority={true}
-                unoptimized={true}
-                layout="fill"
-              />
-            </div>
+            {company?.companyMemberAdditionalInfo?.companyLogoImageUrl !==
+            '' ? (
+              <div className="img-box">
+                <Image
+                  src={
+                    company?.companyMemberAdditionalInfo?.companyLogoImageUrl
+                  }
+                  alt={company?.companyMemberAdditionalInfo?.companyName}
+                  priority={true}
+                  unoptimized={true}
+                  layout="fill"
+                />
+              </div>
+            ) : (
+              <NoImage />
+            )}
+
             <h2>{company?.companyMemberAdditionalInfo?.companyName}</h2>
             <p>구독료</p>
             <PriceBox>
@@ -163,5 +171,19 @@ const PriceBox = styled.div`
     width: 12pt;
     height: 12pt;
     right: 9pt;
+  }
+`;
+
+const NoImage = styled.div`
+  height: 75pt;
+  width: 75pt;
+  border-radius: 6pt;
+  background: #caccd1;
+  @media (max-width: 899.25pt) {
+    height: 48pt;
+    width: 48pt;
+    border-radius: 6pt;
+    margin-left: 18pt;
+    margin-bottom: 15pt;
   }
 `;

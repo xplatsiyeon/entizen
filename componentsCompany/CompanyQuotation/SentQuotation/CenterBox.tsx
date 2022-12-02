@@ -147,6 +147,9 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   padding-bottom: 15pt;
   border-bottom: 1px solid #e2e5ed;
+  @media (min-width: 900pt) {
+    border-bottom: 0;
+  }
 `;
 
 const DownArrowBox = styled.div`
@@ -164,6 +167,9 @@ const SecondTitle = styled.div`
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: center;
+  @media (min-width: 900pt) {
+    margin-top: 60pt;
+  }
 `;
 
 const ReservationDate = styled.div`
@@ -238,7 +244,8 @@ const ReservationDateCheck = styled.div`
     letter-spacing: -0.02em;
     text-align: left;
     border-radius: 12pt;
-    border: 1px solid ${colors.main};
+    border: 0.75pt solid ${colors.main};
+    cursor: pointer;
   }
 `;
 

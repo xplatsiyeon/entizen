@@ -217,7 +217,7 @@ const Btn = styled(Button)`
 `;
 
 const ReSelectDate = styled.div`
-  font-family: ' Spoqa Han Sans Neo';
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
