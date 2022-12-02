@@ -380,6 +380,12 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   margin-top: 21pt;
   padding-bottom: 66pt;
+
+  @media (min-width: 900pt) {
+  border-radius: 6pt;
+  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  padding-bottom:30pt;
+  }
 `;
 const Box = styled.div`
   width: 100%;
@@ -387,7 +393,12 @@ const Box = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   padding: 12pt 13.5pt 9pt 13.5pt;
   box-sizing: border-box;
-  /* background-color: red; */
+
+  @media (min-width: 900pt) {
+  border-radius: 0;
+  box-shadow: none;
+  padding: 27pt 13.5pt 9pt;
+  }
 `;
 const FinishedBox = styled.div`
   padding: 12pt 30pt 18pt 30pt;

@@ -92,7 +92,8 @@ const List = styled.div<{
   componentId: number | undefined;
 }>`
   margin-bottom: 9pt;
-  padding: 0 15pt;
+  margin-left: 2pt;
+  padding: 12pt 13.5pt;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
   width: 200pt;

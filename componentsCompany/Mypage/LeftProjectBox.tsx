@@ -210,6 +210,7 @@ const Wrapper = styled.div`
     border: 0.75pt solid #e2e5ed;
     border-radius: 12pt;
     background-color: #ffffff;
+    overflow-y: scroll;
   }
 `;
 
@@ -288,10 +289,10 @@ const MobileTabContainer = styled.div`
 const WebTabContainer = styled.div`
   display: flex;
   gap: 15pt;
-  padding-left: 15pt;
   justify-content: center;
   flex-direction: column;
   padding-left: 27pt;
+  padding-bottom: 23pt;
   gap: 1pt;
   @media (max-width: 899.25pt) {
     display: none;
