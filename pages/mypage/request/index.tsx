@@ -3,7 +3,7 @@ import EstimateContainer from 'components/mypage/request/estimateContainer';
 import MypageHeader from 'components/mypage/request/header';
 import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CommunicationBox from 'components/CommunicationBox';
 import WebHeader from 'componentsWeb/WebHeader';
@@ -90,12 +90,10 @@ export interface QuotationRequestsResponse {
 const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const router = useRouter();
-  // const routerId = router?.query?.id!;
-  const routerId = router?.query?.quotationRequestIdx!;
+  const routerId = router?.query?.quotationRequestIdx;
   const [partnerModal, setPartnerModal] = useState(false);
   const [modalNumber, setModalNumber] = useState(-1);
   const [modalMessage, setModalMessage] = useState('');
-
   //----------- 구매자 내견적 상세 조회 API ------------
   const { data, isError, isLoading, refetch } =
     useQuery<QuotationRequestsResponse>(
@@ -125,6 +123,9 @@ const Mypage1_3 = ({}: any) => {
       // enabled: false,
     },
   );
+
+
+  console.log('바뀜?', routerId, quotationData)
 
   // ---------- 현장 실사 날짜 api ------------
   const {
@@ -225,7 +226,7 @@ const Mypage1_3 = ({}: any) => {
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
 
-  console.log(data);
+  console.log('???', data);
 
   return (
     <>

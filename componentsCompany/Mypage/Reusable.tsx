@@ -421,6 +421,7 @@ const Top = styled.div`
     line-height: 9pt;
     letter-spacing: -0.02em;
     text-align: left;
+    cursor: pointer;
   }
 `;
 const FinishedFirst = styled.div`
@@ -542,6 +543,7 @@ const AddPhotos = styled.button`
   height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
+  cursor: pointer;
 `;
 
 const ImgSpan = styled.div`
@@ -561,6 +563,7 @@ const Button = styled.div<{ finalStep?: boolean; onValid: boolean }>`
   width: 100%;
   padding-top: 15pt;
   padding-bottom: 15pt;
+  cursor: pointer;
 
   background-color: ${({ onValid }) =>
     onValid === true ? colors.main : '#b096ef'};

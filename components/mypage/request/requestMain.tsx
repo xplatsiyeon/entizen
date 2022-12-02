@@ -1,11 +1,16 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 import { useRef } from 'react';
+import AsIndex from '../as';
+import Estimate from './estimate';
+import MyProjects from '../projects/MyProjects';
+import Charging from '../place/Charging';
+
 
 interface Components {
   [key: number]: JSX.Element;
@@ -16,7 +21,7 @@ type props = {
 };
 
 const RequestMain = (props: props) => {
-  const { page } = props;
+  const { page} = props;
   const route = useRouter();
 
   {
@@ -29,6 +34,28 @@ const RequestMain = (props: props) => {
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
 
   const myPageIndex = useRef<HTMLDivElement>(null);
+  const components: Components = {
+    0: <Estimate listUp={true}/>,
+    1: <MyProjects listUp={true} />,
+    2: <AsIndex listUp={true} />,
+    3: <Charging listUp={true} />,
+  };
+
+  const handleList = (n:number)=>{
+    const index = myPageIndex.current!;
+    const target = index.querySelectorAll('.list')[n];
+    console.log(tabNumber, n, target)
+    if(tabNumber === n){
+      console.log("@@", target);
+      if(target?.classList.contains('on')){
+        target.classList.remove('on');
+      }else(target?.classList.add('on'))
+    }
+    if(tabNumber !== n){
+      setTabNumber(n)
+      target.classList.add('on')
+    }
+  }
 
   return (
     <Wrapper
@@ -59,20 +86,23 @@ const RequestMain = (props: props) => {
         <TabContainer>
           {TabType.map((tab, index) => (
             <React.Fragment key={index}>
+              <Tab>
               <Wrap>
                 <TabItem
                   key={index}
                   tab={tabNumber?.toString()}
                   index={index.toString()}
                   onClick={() => {
-                    setTabNumber(index);
-                    setOn(!on);
+                    console.log('index', index)
+                    handleList(index);
                   }}
                 >
                   {tab}
                 </TabItem>
                 <Dot tab={tabNumber?.toString()} index={index.toString()} />
               </Wrap>
+                {tabNumber === index? <List className='list'>{components[tabNumber]}</List>:<List className='list'/>}
+              </Tab>
             </React.Fragment>
           ))}
         </TabContainer>
@@ -88,8 +118,9 @@ export default RequestMain;
 const Wrapper = styled.div`
   position: relative;
   width: 255pt;
-  height: 100%;
-  overflow: hidden;
+  height: 413pt;
+
+  overflow-y:scroll;
 `;
 const Header = styled.header`
   display: flex;
@@ -145,6 +176,9 @@ const TabContainer = styled.div`
   padding: 0 28.5pt;
   margin: 20pt 0;
 `;
+
+const Tab = styled.div``
+
 const Wrap = styled.div`
   display: flex;
   flex-direction: row;
@@ -168,3 +202,11 @@ const Dot = styled.div<{ tab: string; index: string }>`
   margin: 0 9pt;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;
+const List =styled.div`
+height: 0;
+overflow: hidden;
+&.on{
+  height: auto;
+}
+
+`
