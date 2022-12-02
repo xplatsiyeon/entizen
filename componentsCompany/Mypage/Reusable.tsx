@@ -380,6 +380,12 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   margin-top: 21pt;
   padding-bottom: 66pt;
+
+  @media (min-width: 900pt) {
+  border-radius: 6pt;
+  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  padding-bottom:30pt;
+  }
 `;
 const Box = styled.div`
   width: 100%;
@@ -387,7 +393,12 @@ const Box = styled.div`
   box-shadow: 0px 0px 7.5pt 0px #89a3c933;
   padding: 12pt 13.5pt 9pt 13.5pt;
   box-sizing: border-box;
-  /* background-color: red; */
+
+  @media (min-width: 900pt) {
+  border-radius: 0;
+  box-shadow: none;
+  padding: 27pt 13.5pt 9pt;
+  }
 `;
 const FinishedBox = styled.div`
   padding: 12pt 30pt 18pt 30pt;
@@ -421,6 +432,7 @@ const Top = styled.div`
     line-height: 9pt;
     letter-spacing: -0.02em;
     text-align: left;
+    cursor: pointer;
   }
 `;
 const FinishedFirst = styled.div`
@@ -542,6 +554,7 @@ const AddPhotos = styled.button`
   height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
+  cursor: pointer;
 `;
 
 const ImgSpan = styled.div`
@@ -561,6 +574,7 @@ const Button = styled.div<{ finalStep?: boolean; onValid: boolean }>`
   width: 100%;
   padding-top: 15pt;
   padding-bottom: 15pt;
+  cursor: pointer;
 
   background-color: ${({ onValid }) =>
     onValid === true ? colors.main : '#b096ef'};

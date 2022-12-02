@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
@@ -15,7 +15,6 @@ import SecondStep from './SecondStep';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
-
 import { HandleColor } from 'utils/changeValue';
 
 import {
@@ -41,6 +40,7 @@ import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
+import { isFulfilled } from '@reduxjs/toolkit';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -137,6 +137,24 @@ const HeadOpenContent = () => {
     setNowWidth(window.innerWidth);
     setNowHeight(window.innerHeight);
   };
+
+  // 다른 곳 클릭할때 모달창 나오게 하는거
+
+  const onRouteChangeStart = useCallback((url: string) => {
+    // if (url !== router.pathname) {
+    //   setModalOpen(true);
+    // } else {
+    //   setModalOpen(false);
+    // }
+  }, []);
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', onRouteChangeStart);
+    return () => {
+      router.events.on('routeChangeStart', onRouteChangeStart);
+    };
+  }, [onRouteChangeStart, router.events]);
+
   //  받은 요청 상세페이지 api 요청
   const { data, isError, isLoading, refetch, remove } = useQuery<
     QuotationsDetailResponse,
@@ -348,6 +366,7 @@ const HeadOpenContent = () => {
       </WebContainer>
     ),
   };
+
   return (
     <>
       <WebBody>
@@ -368,7 +387,13 @@ const HeadOpenContent = () => {
               rightBtnText={'계속 작성하기'}
               leftBtnColor={'#A6A9B0'}
               rightBtnColor={'#5221CB'}
-              leftBtnControl={() => router.back()}
+              leftBtnControl={() => {
+                if (nowWidth < 1200) {
+                  router.back();
+                } else if (nowWidth >= 1200) {
+                  setModalOpen(false);
+                }
+              }}
               rightBtnControl={() => setModalOpen(false)}
               exit={() => setModalOpen(false)}
             />
@@ -485,7 +510,6 @@ const HeadOpenContent = () => {
                           </span>
                         </div>
                       ))}
-
                       <div className="text-box">
                         <span className="name">충전기 설치 위치</span>
                         <span className="text">
@@ -508,18 +532,16 @@ const HeadOpenContent = () => {
                             )}
                         </span>
                       </div>
-                      {etcRequest === '' ? (
+                      {etcRequest !== '' ? (
+                        <ElseTextBox>
+                          <span className="name">기타 요청사항</span>
+                          <ElseText>{etcRequest}</ElseText>
+                        </ElseTextBox>
+                      ) : (
                         <div className="text-box">
                           <span className="name">기타 요청사항</span>
-                          <span className="text">없음</span>
+                          <span className="text">없음 </span>
                         </div>
-                      ) : (
-                        <>
-                          <div className="text-box">
-                            <span className="name">기타 요청사항</span>
-                            <span className="text">{etcRequest}</span>
-                          </div>
-                        </>
                       )}
                     </Contents>
                   </List>
@@ -598,6 +620,7 @@ const WebBody = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
+
   @media (max-height: 350pt) {
     height: 100%;
     display: block;
@@ -621,6 +644,7 @@ const Container = styled.div`
     box-shadow: none;
     background: none;
     margin: 0;
+    margin-bottom: 70pt;
   }
   @media (max-height: 500pt) {
     height: 100%;
@@ -653,6 +677,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
   padding-left: 15pt;
   padding-right: 15pt;
+
   @media (max-width: 899.25pt) {
     display: flex;
     flex-direction: column;
@@ -663,6 +688,7 @@ const Wrapper = styled.div`
     box-shadow: 0px 3pt 7.5pt rgba(137, 163, 201, 0.4);
     padding-left: 15pt;
     padding-right: 15pt;
+    margin-bottom: 30pt;
   }
 `;
 const Badge = styled.span`
@@ -774,10 +800,10 @@ const TabBox = styled.div`
   position: absolute;
   width: 100%;
   top: 0;
+
   @media (max-width: 899.25pt) {
     display: flex;
     position: relative;
-
     gap: 0.2pt;
   }
 
@@ -817,6 +843,25 @@ const WebContainer = styled.div`
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 16pt;
   }
+`;
+
+const ElseTextBox = styled.div`
+  padding-top: 12pt;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ElseText = styled.div`
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  text-align: left;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  margin-top: 10pt;
+  border: 0.75pt solid #e2e5ed;
+  padding: 8pt;
+  border-radius: 6pt;
 `;
 
 export default HeadOpenContent;

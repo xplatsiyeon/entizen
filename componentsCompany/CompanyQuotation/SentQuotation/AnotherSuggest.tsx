@@ -16,6 +16,7 @@ import { useMutation, useQuery } from 'react-query';
 import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
 import { SpotDataResponse } from './SentProvisionalQuoatation';
+import BackImg from 'public/images/back-btn.svg';
 
 type Props = {};
 
@@ -105,6 +106,11 @@ const AnotherSuggest = (props: Props) => {
         <Inner>
           <Wrapper>
             <MypageHeader title="날짜 선택" exitBtn={true} />
+            <WebSelectHeader>
+              <BackImage className="back-img" onClick={() => router.back()}>
+                <Image src={BackImg} alt="btn-icon" />
+              </BackImage>
+            </WebSelectHeader>
             <H1>
               고객에게 가능한 날짜를
               <br /> 제안해보세요
@@ -194,10 +200,16 @@ const Wrapper = styled.div`
   /* margin: 0 31.875pt; */
   height: 667.5pt;
 
+  @media (min-width: 899.25pt) {
+    height: 100%;
+    padding-bottom: 0;
+  }
+
   @media (max-width: 899.25pt) {
     height: 100%;
   }
 `;
+
 const H1 = styled.h1`
   padding-top: 27pt;
   font-weight: 500;
@@ -206,6 +218,9 @@ const H1 = styled.h1`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   padding-left: 15pt;
+  @media (min-width: 900pt) {
+    padding-left: 47.25pt;
+  }
 `;
 const P = styled.p`
   margin-top: 10.5pt;
@@ -277,11 +292,46 @@ const Btn = styled.button`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     position: fixed;
     left: 0;
     padding-bottom: 39pt;
+  }
+
+  @media (min-width: 900pt) {
+    position: relative;
+    border-radius: 8px;
+    width: 251.25pt;
+    margin-left: 47.25pt;
+  }
+`;
+
+const SelectDate = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 18pt;
+  font-weight: 700;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #222222;
+  padding-left: 102pt;
+`;
+
+const BackImage = styled.div`
+  padding: 9pt 15pt;
+  cursor: pointer;
+  left: 7pt;
+  padding: 5px;
+`;
+const WebSelectHeader = styled.div`
+  width: 316.5pt;
+  display: flex;
+  align-items: center;
+
+  margin: 0 auto;
+  @media (max-width: 899.25pt) {
+    display: none;
   }
 `;
 

@@ -638,12 +638,16 @@ const ToggleWrapper = styled.div<{ presentProgress?: boolean }>`
 const Line = styled.div<{ lineHeight: boolean }>`
   position: absolute;
   height: ${({ lineHeight }) =>
-    lineHeight ? `calc(100% - 110pt)` : `calc(100% - 15pt)`};
-
+    lineHeight ? `calc(100% - 112pt)` : `calc(100% - 15pt)`};
   top: 5pt;
   left: 22.5pt;
   width: 0.25pt;
   border: 0.75pt solid silver;
+
+  @media (min-width: 900pt) {
+  height: ${({ lineHeight }) =>
+    lineHeight ? `calc(100% - 130pt)` : `calc(100% - 15pt)`};
+  }
 `;
 
 export default ProgressBody;

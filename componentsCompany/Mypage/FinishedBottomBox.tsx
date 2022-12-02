@@ -20,7 +20,7 @@ const FinishedBottomBox = ({ data }: Props) => {
         <ImageBox>
           <Image src={DoubleArrow} alt="doubleArrow" layout="fill" />
         </ImageBox>
-        <BiggerText>계약서를 작성해 주세요.</BiggerText>
+        <BiggerText>고객 정보</BiggerText>
         <Contents>
           <div className="text-box">
             <span className="name">이름</span>
@@ -150,6 +150,7 @@ const FileDownloadBtn = styled(Button)`
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 6pt;
+  display: block;
 `;
 const FileDownload = styled.a`
   text-decoration: none;

@@ -14,6 +14,7 @@ import { isTokenGetApi, isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import Loader from 'components/Loader';
+import BackImg from 'public/images/back-btn.svg';
 
 const changeDate = () => {
   const router = useRouter();
@@ -62,12 +63,19 @@ const changeDate = () => {
             {/* 모달 / 라우터 수정  */}
             {isModal && <Modal text={modalMessage} click={HandleModal} />}
             <MypageHeader title="다른 날짜 선택" exitBtn={true} back={true} />
+            <WebSelectHeader>
+              <BackImage className="back-img" onClick={() => router.back()}>
+                <Image src={BackImg} alt="btn-icon" />
+              </BackImage>
+              <SelectDate>다른 날짜 선택</SelectDate>
+            </WebSelectHeader>
             <Title>가능한 날짜를 선택해주세요</Title>
             <Calendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
             />
             <UL>
+              <ReSelectDate>재선택 일정</ReSelectDate>
               {selectedDays.map((day, index) => (
                 <li className="list" key={index}>
                   <div className="img-box">
@@ -176,6 +184,10 @@ const UL = styled.ul`
   @media (max-width: 899.25pt) {
     padding: 24pt 15pt 100pt;
   }
+
+  @media (min-width: 900pt) {
+    padding: 24pt 15pt 45pt;
+  }
 `;
 const Btn = styled(Button)`
   position: absolute;
@@ -190,10 +202,53 @@ const Btn = styled(Button)`
   background: ${colors.main};
   padding-top: 15pt;
   padding-bottom: 15pt;
-
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     position: fixed;
     left: 0;
     padding-bottom: 39pt;
+  }
+
+  @media (min-width: 900pt) {
+    position: relative;
+    width: 251.25pt;
+    margin-left: 18pt;
+  }
+`;
+
+const ReSelectDate = styled.div`
+  font-family: ' Spoqa Han Sans Neo';
+  font-size: 12pt;
+  font-weight: 700;
+  line-height: 12pt;
+  text-align: left;
+  padding-bottom: 24pt;
+`;
+
+const SelectDate = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 18pt;
+  font-weight: 700;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #222222;
+  padding-left: 60.375pt;
+`;
+
+const BackImage = styled.div`
+  padding: 9pt 15pt;
+  cursor: pointer;
+  left: 7pt;
+  padding: 5px;
+`;
+const WebSelectHeader = styled.div`
+  width: 316.5pt;
+  display: flex;
+  align-items: center;
+  padding-bottom: 23.25pt;
+  margin: 0 auto;
+  @media (max-width: 899.25pt) {
+    display: none;
   }
 `;

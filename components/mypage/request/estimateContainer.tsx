@@ -126,14 +126,6 @@ const EstimateContainer = ({ data }: Props) => {
                 )}
               </span>
             </div>
-            {/* <div className="text-box">
-              <span className="name">기타 요청사항</span>
-              <span className="text">
-                {data?.quotationRequest?.etcRequest
-                  ? data?.quotationRequest?.etcRequest
-                  : '없음'}
-              </span>
-            </div> */}
 
             {data?.quotationRequest?.etcRequest.length !== 0 ? (
               <ElseTextBox>

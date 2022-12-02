@@ -266,7 +266,6 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   background-color: ${({ buttonActivate }) =>
     buttonActivate ? colors.main : colors.blue3};
   @media (min-width: 900pt) {
-    width: 534pt;
     margin: 0 auto;
     padding: 15pt 0 30pt 0;
     height: 42pt;
