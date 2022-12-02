@@ -66,6 +66,7 @@ const Header = styled.div`
     position: absolute;
     left: 7pt;
     padding: 5px;
+    cursor: pointer;
   }
   .text {
     font-weight: 700;
@@ -84,11 +85,13 @@ const Header = styled.div`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    cursor: pointer;
   }
   .exit {
     display: none;
     position: absolute;
     right: 15pt;
+    cursor: pointer;
     @media (max-width: 899.25pt) {
       display: block;
     }

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import CaretDown24 from 'public/images/CaretDown24.png';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
 import { useQuery } from 'react-query';
@@ -45,7 +45,7 @@ const History = ({}: Props) => {
   const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
-  const keyword = useDebounce(searchWord, 3000);
+  const keyword = useDebounce(searchWord, 2000);
   // api 호출
   const { data, isLoading, isError, error, refetch } =
     useQuery<HistoryResponse>(
@@ -60,6 +60,8 @@ const History = ({}: Props) => {
     );
 
   useEffect(() => {
+    console.log(`🔥 리페치 테스트 ~line 63 -> ${TAG}`);
+    console.log(error);
     refetch();
   }, [checkedFilterIndex, keyword]);
 

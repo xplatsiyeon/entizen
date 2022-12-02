@@ -122,7 +122,7 @@ const Main = () => {
         <Image src={mainBanner3} alt="사진" />
         <Image src={main6} alt="사진" />
         {/* 전기차 슬라이드 */}
-        <MainSlider />
+        {/* <MainSlider /> */}
         <Image src={main7} alt="사진" />
         <Image src={main8} alt="사진" />
         <Wrap onClick={() => router.push('/signUp/Terms')}>

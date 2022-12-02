@@ -89,6 +89,18 @@ const WebSearchAddress = ({
     setChargeInfoOpen(true);
   };
 
+  // 처음 검색 시 배열 0번째 주소로 이동
+  useEffect(() => {
+    dispatch(
+      locationAction.load({
+        jibunAddr: results[0]?.jibunAddr,
+        roadAddrPart: results[0]?.roadAddr,
+        sggNm: results[0]?.sggNm,
+        siNm: results[0]?.siNm,
+      }),
+    );
+  }, [results]);
+
   useEffect(() => {
     const findAddresss = async () => {
       if (searchWord === '') {
