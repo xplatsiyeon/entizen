@@ -221,6 +221,7 @@ const UL = styled.ul`
     display: flex;
     gap: 12pt;
   }
+
   .due-date {
     font-weight: 500;
     font-size: 9pt;
@@ -233,6 +234,7 @@ const UL = styled.ul`
     gap: 8px;
   }
 `;
+
 const Btn = styled.button`
   position: absolute;
   bottom: 0;
