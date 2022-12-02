@@ -15,7 +15,6 @@ import { useQuery, useQueryClient } from 'react-query';
 import bell from 'public/images/bell.png';
 import Bell_outline from 'public/images/Bell_outline.png';
 import List from 'public/images/List.png';
-import ChattingLists from 'components/Chatting/ChattingLists';
 
 export interface UserChattingRooms {
   chattingRoomIdx: number;
@@ -75,9 +74,63 @@ export interface ChattingListResponse {
   };
 }
 
+const arr = {
+  "isSuccess": true,
+  "data": {
+      "chattingRooms": {
+          "entizenChattingRoom": {
+              "chattingRoomIdx": 6,
+              "chattingLog": null,
+              "chattingRoomFavorite": {
+                  "chattingRoomFavoriteIdx": 8,
+                  "isFavorite": false
+              },
+              "chattingRoomNotification": {
+                  "chattingRoomNotificationIdx": 8,
+                  "isSetNotification": true
+              }
+          },
+          "userChattingRooms": [
+              {
+                  "chattingRoomIdx": 21,
+                  "companyMember": {
+                      "memberIdx": 31,
+                      "companyMemberAdditionalInfo": {
+                          "companyName": "ste"
+                      }
+                  },
+                  "userMember": {
+                      "memberIdx": 80,
+                      "name": "문수정"
+                  },
+                  "chattingLogs": {
+                      "fromMemberIdx": null,
+                      "fromMemberType": null,
+                      "wasRead": false,
+                      "createdAt": "2022-12-02T07:17:44.610Z",
+                      "content": "2022-12-02",
+                      "fileUrl": null
+                  },
+                  "chattingRoomFavorite": {
+                      "chattingRoomFavoriteIdx": 32,
+                      "isFavorite": true
+                  },
+                  "chattingRoomNotification": {
+                      "chattingRoomNotificationIdx": 32,
+                      "isSetNotification": true
+                  }
+              }
+          ]
+      }
+  }
+}
+
+type Props = {
+  chattingRoom?: boolean;
+}
 
 const TAG = 'pages/chatting/index.tsx';
-const Chatting = () => {
+const ChattingLists = ({chattingRoom}: Props) => {
   const router = useRouter();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
   const TabListEn = ['all', 'unread', 'favorite'];
@@ -128,57 +181,90 @@ const Chatting = () => {
   // console.log(data);
 
   return (
-    <WebBody>
-      <WebHeader />
-      <Wrapper>
-        <ChattingLists/>
-      </Wrapper>
-      <WebFooter />
-    </WebBody>
+        <Body className='chatt-body' chattingRoom={Boolean(chattingRoom)} >
+          <Header>
+            <H2>소통하기</H2>
+            <IconBox>
+              <IconWrap>
+                <Image src={bell} layout="fill" />
+              </IconWrap>
+              <IconWrap>
+                <Image src={List} layout="fill" />
+              </IconWrap>
+            </IconBox>
+          </Header>
+          <FlexBox chattingRoom={Boolean(chattingRoom)}>
+            <WebBox>
+              <Input
+                placeholder="이름을 검색하세요."
+                type="text"
+                value={text}
+                onChange={onChangeKeyword}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <div style={{ width: '15pt', height: '15pt' }}>
+                        <Image
+                          src={search}
+                          alt="searchIcon"
+                          layout="intrinsic"
+                        />
+                      </div>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Inner>
+                <TabList>
+                  {tabList.map((t, idx) => {
+                    return (
+                      <Tab
+                        key={idx}
+                        onClick={() => setIndex(idx)}
+                        tab={idx.toString()}
+                        index={index.toString()}
+                      >
+                        {t}
+                        <Dot tab={idx.toString()} index={index.toString()} />
+                      </Tab>
+                    );
+                  })}
+                  <FAQBtn onClick={handle}>FAQ</FAQBtn>
+                </TabList>
+                {/* 채팅 리스트 */}
+                <ChattingList
+                  data={data!}
+                  refetch={refetch}
+                  chattingRoom={true}
+                  // setName={setName}
+                  // setIsAlarm={setIsAlarm}
+                />
+              </Inner>
+            </WebBox>
+          </FlexBox>
+          {/* 채팅 룸 */}
+          {/* 
+          {routerId && (
+            <MobBox>
+              <ChattingRoom routerId={routerId!} name={name} alarm={isAlarm} />
+            </MobBox>
+          )} */}
+          <BottomNavigation />
+        </Body>
   );
 };
 
-export default Chatting;
+export default ChattingLists;
 
-const WebBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  background: #ffffff;
-
-  @media (max-height: 809pt) {
-    display: block;
-    height: 100%;
-  }
-`;
-const Wrapper = styled.div`
-  position: relative;
-  width: 900pt;
-  margin: 60pt auto;
-  display: flex;
-  gap: 60pt;
-  flex-direction: row;
-
-  @media (max-width: 899.25pt) {
-    padding-bottom: 60pt;
-    flex-direction: column;
-    width: 100%;
-    gap: 0;
-    margin: 0;
-  }
-`;
-
-const Body = styled.div`
+const Body = styled.div<{chattingRoom:boolean}>`
   font-family: 'Spoqa Han Sans Neo';
-  width: 100%;
+  width: ${({chattingRoom})=> (chattingRoom? `auto`:`100%`)};
 
   @media (min-width: 900pt) {
     display: flex;
-    border: 1px solid #e2e5ed;
-    border-radius: 12pt;
+    border:${({chattingRoom})=> (chattingRoom? `none`:`1px solid #e2e5ed`)};
+    border-right:1px solid #e2e5ed;
+    border-radius: ${({chattingRoom})=> (chattingRoom? `0`:`12pt`)};
     overflow: hidden;
   }
 `;
@@ -260,9 +346,10 @@ const Input = styled(TextField)`
   }
 `;
 
-const FlexBox = styled.div`
+const FlexBox = styled.div<{chattingRoom:boolean}>`
   flex: 1;
   height: 495pt;
+  width:  ${({chattingRoom})=> (chattingRoom? `300pt`:`auto`)};
   overflow-y: scroll;
   background: #e2e5ed;
   @media (max-width: 899.25pt) {
@@ -277,25 +364,6 @@ const WebBox = styled.div`
   background: white;
   @media (max-width: 899pt) {
     padding: 0;
-  }
-`;
-
-const MobBox = styled.div`
-  flex: 2;
-  height: 495pt;
-  overflow-y: scroll;
-  border-left: 0.75pt solid #e2e5ed;
-
-  @media (max-width: 899.25pt) {
-    width: 100%;
-    position: absolute;
-    top: 0;
-    //나중에 수정..
-    z-index: 1000;
-    background: white;
-    height: 100vh;
-    overflow-y: auto;
-    border-left: 0;
   }
 `;
 

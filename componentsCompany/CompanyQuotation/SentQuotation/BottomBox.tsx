@@ -17,18 +17,24 @@ type Props = {
 const BottomBox = ({ pb, data }: Props) => {
   return (
     <Wrapper>
-      <ImageBox>
-        <Image
-          src={
-            data?.sendQuotationRequest?.companyMemberAdditionalInfo
-              ?.companyLogoImageUrl
-          }
-          alt="logo-img"
-          layout="fill"
-          priority={true}
-          unoptimized={true}
-        />
-      </ImageBox>
+      {data?.sendQuotationRequest.companyMemberAdditionalInfo
+        .companyLogoImageUrl !== '' ? (
+        <ImageBox>
+          <Image
+            src={
+              data?.sendQuotationRequest?.companyMemberAdditionalInfo
+                ?.companyLogoImageUrl
+            }
+            alt="logo-img"
+            layout="fill"
+            priority={true}
+            unoptimized={true}
+          />
+        </ImageBox>
+      ) : (
+        <NoImage />
+      )}
+
       <Title>
         {data?.sendQuotationRequest?.companyMemberAdditionalInfo?.companyName}
       </Title>
@@ -218,6 +224,9 @@ const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     padding-top: 21pt;
   }
+  @media (min-width: 900pt) {
+    padding-top: 21pt;
+  }
 `;
 
 const ImageBox = styled.div`
@@ -277,9 +286,14 @@ const MultiBox = styled.div`
 `;
 const Item = styled.li`
   display: flex;
+
   :not(:nth-of-type(1)) {
     padding-top: 12pt;
+    @media (min-width: 900pt) {
+      padding-top: 15pt;
+    }
   }
+
   .name {
     font-weight: 500;
     font-size: 10.5pt;
@@ -287,6 +301,13 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.gray2};
     flex: 1;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .value {
     font-weight: 500;
@@ -296,6 +317,13 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.main2};
     flex: 2;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   @media (max-width: 899.25pt) {
     justify-content: space-between;
@@ -318,7 +346,13 @@ const Subtitle = styled.h2`
   padding: 0 15pt;
   color: ${colors.main2};
   @media (min-width: 900pt) {
-    padding-left: 0;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding: 0;
   }
 `;
 const FlexWrap = styled.div`
@@ -342,6 +376,7 @@ const Label = styled.h3`
   letter-spacing: -0.02em;
   color: ${colors.gray2};
   flex: 1;
+
   :nth-of-type(1) {
     padding-top: 15pt;
   }
@@ -351,13 +386,31 @@ const Label = styled.h3`
   @media (max-width: 899.25pt) {
     flex: none;
   }
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    padding-left: 0;
+  }
 `;
 const FeaturesList = styled.ol`
   padding-top: 6pt;
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
+
   & li {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 21pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 18pt;
@@ -408,6 +461,20 @@ const FileDownload = styled.a`
   align-items: center;
   gap: 3pt;
   color: ${colors.gray2};
+`;
+
+const NoImage = styled.div`
+  height: 75pt;
+  width: 75pt;
+  border-radius: 6pt;
+  background: #caccd1;
+  @media (max-width: 899.25pt) {
+    height: 48pt;
+    width: 48pt;
+    border-radius: 6pt;
+    margin-left: 18pt;
+    margin-bottom: 15pt;
+  }
 `;
 
 export default BottomBox;

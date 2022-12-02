@@ -32,18 +32,24 @@ const FinalBottomBox = ({ pb, data }: Props) => {
 
   return (
     <Wrapper>
-      <ImageBox>
-        <Image
-          src={
-            data?.sendQuotationRequest?.companyMemberAdditionalInfo
-              ?.companyLogoImageUrl!
-          }
-          alt="logo-img"
-          layout="fill"
-          priority={true}
-          unoptimized={true}
-        />
-      </ImageBox>
+      {data?.sendQuotationRequest?.companyMemberAdditionalInfo
+        ?.companyLogoImageUrl !== '' ? (
+        <ImageBox>
+          <Image
+            src={
+              data?.sendQuotationRequest?.companyMemberAdditionalInfo
+                ?.companyLogoImageUrl!
+            }
+            alt="logo-img"
+            layout="fill"
+            priority={true}
+            unoptimized={true}
+          />
+        </ImageBox>
+      ) : (
+        <NoImage />
+      )}
+
       <Title>
         {data?.sendQuotationRequest?.companyMemberAdditionalInfo?.companyName}
       </Title>
@@ -254,12 +260,15 @@ const FinalBottomBox = ({ pb, data }: Props) => {
 };
 
 const Wrapper = styled.div`
-  padding-top: 60pt;
+  /* padding-top: 60pt; */
   .underLine {
     border-bottom: none;
   }
 
   @media (max-width: 899.25pt) {
+    padding-top: 21pt;
+  }
+  @media (max-width: 900pt) {
     padding-top: 21pt;
   }
 `;
@@ -284,6 +293,14 @@ const Title = styled.h1`
     margin-top: 0pt;
     padding: 0 15pt;
   }
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const Section = styled.section<{ grid?: boolean; pb?: number }>`
@@ -307,7 +324,6 @@ const List = styled.ul`
 `;
 const MultiSection = styled.div`
   padding-top: 18pt;
-
   display: flex;
   flex-direction: column;
   gap: 12pt;
@@ -321,8 +337,12 @@ const MultiBox = styled.div`
 `;
 const Item = styled.li`
   display: flex;
+
   :not(:nth-of-type(1)) {
     padding-top: 12pt;
+    @media (min-width: 900pt) {
+      padding-top: 15pt;
+    }
   }
   .name {
     font-weight: 500;
@@ -331,6 +351,13 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.gray2};
     flex: 1;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .value {
     font-weight: 500;
@@ -340,6 +367,14 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.main2};
     flex: 2;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   @media (max-width: 899.25pt) {
     justify-content: space-between;
@@ -363,6 +398,12 @@ const Subtitle = styled.h2`
   color: ${colors.main2};
 
   @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
     padding: 0;
   }
 `;
@@ -387,16 +428,26 @@ const Label = styled.h3`
   letter-spacing: -0.02em;
   color: ${colors.gray2};
   flex: 1;
+
   :nth-of-type(1) {
     padding-top: 15pt;
   }
   :nth-of-type(2) {
     padding-top: 24pt;
+    @media (min-width: 900pt) {
+      padding-top: 18pt;
+    }
   }
   @media (max-width: 899.25pt) {
     flex: none;
   }
   @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
     padding-left: 0;
   }
 `;
@@ -406,6 +457,15 @@ const FeaturesList = styled.ol`
   list-style-position: inside;
   flex: 2;
   & li {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 21pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      padding-top: 5pt;
+    }
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 18pt;
@@ -417,6 +477,15 @@ const FeaturesList = styled.ol`
   }
   @media (max-width: 899.25pt) {
     flex: none;
+  }
+
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 const GridImg = styled.div`
@@ -458,6 +527,20 @@ const FileDownload = styled.a`
   align-items: center;
   gap: 3pt;
   color: ${colors.gray2};
+`;
+
+const NoImage = styled.div`
+  height: 75pt;
+  width: 75pt;
+  border-radius: 6pt;
+  background: #caccd1;
+  @media (max-width: 899.25pt) {
+    height: 48pt;
+    width: 48pt;
+    border-radius: 6pt;
+    margin-left: 18pt;
+    margin-bottom: 15pt;
+  }
 `;
 
 export default FinalBottomBox;

@@ -36,7 +36,12 @@ type Props = {
 };
 
 const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
-  // console.log(data);
+  console.log(
+    data?.sendQuotationRequest.quotationRequest.etcRequest,
+    '39번째줄',
+  );
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+
   return (
     <Wrapper>
       <ItemButton onClick={handleClick}>
@@ -152,15 +157,29 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
                 )}
               </span>
             </div>
-            <div className="text-box">
-              <span className="name">기타 요청사항</span>
-              <span className="text">없음</span>
-            </div>
+            {data?.sendQuotationRequest.quotationRequest.etcRequest !== '' ? (
+              <ElseTextBox>
+                <span className="name">기타 요청사항</span>
+                <ElseText>
+                  {data?.sendQuotationRequest.quotationRequest.etcRequest}
+                </ElseText>
+              </ElseTextBox>
+            ) : (
+              <div className="text-box">
+                <span className="name">기타 요청사항</span>
+                <span className="text">없음</span>
+              </div>
+            )}
           </Contents>
           {/* ------------------- 파트너 정보 ---------------- */}
           {spotData?.data?.spotInspection && (
             <Contents>
-              <Partner>파트너 정보</Partner>
+              {memberType === 'COMPANY' ? (
+                <Partner>고객 정보</Partner>
+              ) : (
+                <Partner>파트너 정보</Partner>
+              )}
+
               <div className="text-box">
                 <span className="name">이름</span>
                 <span className="text">
@@ -203,8 +222,11 @@ const Wrapper = styled.div`
   border-top: 1px solid #e2e5ed;
   display: flex;
   flex-direction: column;
+
   @media (min-width: 900pt) {
     margin-top: 0;
+    padding-left: 26.25pt;
+    padding-right: 26.25pt;
   }
 `;
 
@@ -269,6 +291,9 @@ const Contents = styled.div`
     align-items: center;
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
+      @media (min-width: 900pt) {
+        padding-top: 15pt;
+      }
     }
 
     .emailText {
@@ -282,6 +307,13 @@ const Contents = styled.div`
   }
 
   .name {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -289,6 +321,13 @@ const Contents = styled.div`
     color: ${colors.gray2};
   }
   .text {
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
@@ -317,5 +356,33 @@ const Partner = styled.div`
   text-align: left;
   padding-bottom: 24pt;
 `;
+const ElseTextBox = styled.div`
+  padding-top: 12pt;
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 900pt) {
+    padding-top: 15pt;
+  }
+`;
 
+const ElseText = styled.div`
+  font-weight: 500;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  text-align: left;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  margin-top: 10pt;
+  border: 0.75pt solid #e2e5ed;
+  padding: 8pt;
+  border-radius: 6pt;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 16pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+`;
 export default TopBox;

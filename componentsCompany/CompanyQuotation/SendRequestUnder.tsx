@@ -109,6 +109,7 @@ const ContentsContainer = styled.div`
     border-radius: 6pt;
     height: 313pt;
     overflow-y: scroll;
+    padding: 6pt 7.5pt 0 7.5pt;
   }
 `;
 const Contents = styled.div<{
