@@ -197,7 +197,7 @@ const AsCompTop = ({ id, data }: Props) => {
               )}
 
               {/* 충전기 제조사 2개 이상 일 때 */}
-              {/* {projectData?.project.finalQuotation.finalQuotationChargers
+              {projectData?.project.finalQuotation.finalQuotationChargers
                 .length! !== 1 && (
                 <>
                   <MultiSection>
@@ -211,7 +211,6 @@ const AsCompTop = ({ id, data }: Props) => {
                               {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
                             </span>
                             <span className="value">
-                              {' '}
                               {convertKo(
                                 location,
                                 locationEn,
@@ -224,7 +223,7 @@ const AsCompTop = ({ id, data }: Props) => {
                     )}
                   </MultiSection>
                 </>
-              )} */}
+              )}
             </Contents>
           </List>
         </Collapse>

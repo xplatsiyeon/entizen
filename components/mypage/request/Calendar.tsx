@@ -124,7 +124,7 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
             <Image src={RightArrow} alt="right-btn" layout="fill" />
           </div>
         </Pagenation>
-        <Notice>복수 선택 가능*</Notice>
+        <Notice>• 재선택 날짜</Notice>
       </Title>
       <Weeks className="Weeks">{returnWeek()}</Weeks>
       <Days className="date">{returnDay()}</Days>
@@ -145,6 +145,7 @@ const Title = styled.div`
 const Pagenation = styled.div`
   display: flex;
   justify-content: center;
+  cursor: pointer;
   .left-btn {
     position: relative;
     width: 12pt;
@@ -165,11 +166,14 @@ const Pagenation = styled.div`
   }
 `;
 const Notice = styled.span`
-  font-weight: 400;
-  font-size: 7.5pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 10.5pt;
+  font-weight: 500;
   line-height: 9pt;
   letter-spacing: -0.02em;
-  color: ${colors.orange};
+  text-align: left;
+
+  color: #5221cb;
 `;
 const Weeks = styled.div`
   padding-top: 25.5pt;
@@ -192,6 +196,7 @@ const Days = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  cursor: pointer;
 `;
 const Day = styled.div<{ selectedDay?: boolean }>`
   display: flex;

@@ -15,6 +15,10 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
 import { SpotDataResponse } from './SentProvisionalQuoatation';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import UserRightMenu from 'components/UserRightMenu';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import BackImg from 'public/images/back-btn.svg';
 
 type Props = {};
 const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/DatePicker.tsx';
@@ -22,6 +26,7 @@ const DatePicker = ({}: Props) => {
   const router = useRouter();
   console.log('~line 23 router.query.preQuotation ');
   console.log(router.query.preQuotation);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
   const [isValid, SetIsValid] = useState(false); // 버튼 유효성 검사
@@ -111,15 +116,35 @@ const DatePicker = ({}: Props) => {
 
   const { spotInspectionDate } = spotData?.data?.spotInspection!;
   const days = spotInspectionDate?.map((date) => date?.replaceAll('-', '.'));
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
+  const [tabNumber, setTabNumber] = useState<number>(7);
+  const [componentId, setComponentId] = useState<number>();
 
   return (
     <React.Fragment>
       {isModal && <Modal click={HandleModal} text={modalMessage} />}
       <Body>
-        <WebHeader />
+        {memberType !== 'COMPANY' ? (
+          <WebHeader />
+        ) : (
+          <WebBuyerHeader
+            setTabNumber={setTabNumber}
+            tabNumber={tabNumber!}
+            componentId={componentId}
+            openSubLink={openSubLink}
+            setOpenSubLink={setOpenSubLink}
+          />
+        )}
         <Inner>
+          {memberType !== 'COMPANY' ? <UserRightMenu /> : <CompanyRightMenu />}
           <Wrapper>
             <MypageHeader title="날짜 선택" back={true} />
+            <WebSelectHeader>
+              <BackImage className="back-img" onClick={() => router.back()}>
+                <Image src={BackImg} alt="btn-icon" />
+              </BackImage>
+              <SelectDate>날짜 선택</SelectDate>
+            </WebSelectHeader>
             <H1>
               현장실사 방문이
               <br /> 가능한 날짜를 선택해주세요
@@ -144,11 +169,14 @@ const DatePicker = ({}: Props) => {
               days={days!.sort()}
               types={'customer'}
             />
-            <Explanation>
-              * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며,
-              <br />
-              담당자로부터 현장사진을 요청받을 수 있습니다.
-            </Explanation>
+            {memberType !== 'COMPANy' && (
+              <Explanation>
+                * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며,
+                <br />
+                담당자로부터 현장사진을 요청받을 수 있습니다.
+              </Explanation>
+            )}
+            <Line />
             <Schedule>
               <h3 className="name">선택된 일정</h3>
               <UL>
@@ -238,6 +266,10 @@ const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     height: 100%;
   }
+
+  @media (min-width: 900pt) {
+    padding-bottom: 120pt;
+  }
 `;
 const H1 = styled.h1`
   padding-top: 27pt;
@@ -247,6 +279,9 @@ const H1 = styled.h1`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   padding-left: 15pt;
+  @media (min-width: 900pt) {
+    padding-left: 47.25pt;
+  }
 `;
 const P = styled.p`
   margin-top: 10.5pt;
@@ -261,6 +296,10 @@ const P = styled.p`
   color: ${colors.main};
   display: inline-block;
   border: 1px solid ${colors.main};
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    margin-left: 47.25pt;
+  }
 `;
 const Explanation = styled.p`
   margin: 0 15pt;
@@ -271,15 +310,28 @@ const Explanation = styled.p`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: ${colors.lightGray2};
-  border-bottom: 1px solid #e9eaee;
+
+  @media (min-width: 900pt) {
+    margin-left: 51pt;
+  }
+`;
+
+const Line = styled.div`
+  border-bottom: 0.75pt solid #e9eaee;
+  width: 252.25pt;
+  margin: 0 auto;
 `;
 const Schedule = styled.div`
   padding: 18pt 15pt 70pt 15pt;
+
   .name {
     font-weight: 700;
     font-size: 12pt;
     line-height: 12pt;
     color: ${colors.main2};
+  }
+  @media (min-width: 900pt) {
+    padding: 18pt 47.25pt 70pt 47.25pt;
   }
 `;
 const UL = styled.ul`
@@ -322,12 +374,46 @@ const Btn = styled.button<{ isValid: boolean }>`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     position: fixed;
     left: 0;
     padding-bottom: 39pt;
   }
+
+  @media (min-width: 900pt) {
+    position: relative;
+    border-radius: 8px;
+    width: 251.25pt;
+    margin-left: 47.25pt;
+  }
 `;
 
+const SelectDate = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 18pt;
+  font-weight: 700;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #222222;
+  padding-left: 102pt;
+`;
+
+const BackImage = styled.div`
+  padding: 9pt 15pt;
+  cursor: pointer;
+  left: 7pt;
+  padding: 5px;
+`;
+const WebSelectHeader = styled.div`
+  width: 316.5pt;
+  display: flex;
+  align-items: center;
+  padding-bottom: 23.25pt;
+  margin: 0 auto;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
 export default DatePicker;

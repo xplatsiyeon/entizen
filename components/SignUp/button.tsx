@@ -65,6 +65,8 @@ const ButtonBox = styled.div<{ propsGet?: boolean; bottom?: number }>`
     `}
   @media(min-width:900pt) {
     position: relative;
+    padding-left: 0;
+    padding-right: 0;
   }
 `;
 

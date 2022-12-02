@@ -15,6 +15,8 @@ import { useMutation, useQuery } from 'react-query';
 import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
+import BackImg from 'public/images/back-btn.svg';
+import Image from 'next/image';
 
 const Mypage2_3 = () => {
   const router = useRouter();
@@ -68,6 +70,9 @@ const Mypage2_3 = () => {
       },
     });
   };
+  const anotherData = spotData?.data?.spotInspection.spotInspectionDate;
+  const anotherData2 = spotData?.data?.spotInspection.createdAt;
+  console.log('72번째', anotherData);
   // 다른 날짜 제안 버튼
   const HandleDateChange = () =>
     router.push({
@@ -104,6 +109,7 @@ const Mypage2_3 = () => {
         <Inner>
           <Wrapper>
             <MypageHeader exitBtn={true} />
+
             <H1>
               일정 변경 요청을 <br />
               수락하시겠습니까?
@@ -211,6 +217,7 @@ const Notice = styled.h3`
 `;
 const List = styled.ul`
   padding: 0 15pt;
+  cursor: pointer;
 `;
 const Item = styled.li<{ idx: string; check: string }>`
   padding: 18.75pt 0;
@@ -250,6 +257,10 @@ const Btn = styled.div<{ tabNumber: number }>`
   position: absolute;
   bottom: 0;
   width: 100%;
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    gap: 8.25pt;
+  }
   & button {
     font-weight: 700;
     font-size: 12pt;
@@ -260,10 +271,15 @@ const Btn = styled.div<{ tabNumber: number }>`
     width: 100%;
     padding-top: 15pt;
     padding-bottom: 15pt;
+    cursor: pointer;
+    @media (min-width: 900pt) {
+      width: 121.2525pt;
+      border-radius: 6pt;
+    }
   }
   .left {
     background: rgba(90, 45, 201, 0.5);
-
+    cursor: pointer;
     @media (max-width: 899.25pt) {
       padding-bottom: 39pt;
     }
@@ -280,5 +296,33 @@ const Btn = styled.div<{ tabNumber: number }>`
     position: fixed;
     left: 0;
     //padding-bottom: 39pt;
+  }
+`;
+
+const SelectDate = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 18pt;
+  font-weight: 700;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #222222;
+  padding-left: 102pt;
+`;
+
+const BackImage = styled.div`
+  padding: 9pt 15pt;
+  cursor: pointer;
+  left: 7pt;
+  padding: 5px;
+`;
+const WebSelectHeader = styled.div`
+  width: 316.5pt;
+  display: flex;
+  align-items: center;
+  padding-bottom: 23.25pt;
+  margin: 0 auto;
+  @media (max-width: 899.25pt) {
+    display: none;
   }
 `;
