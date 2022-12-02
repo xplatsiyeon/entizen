@@ -107,6 +107,7 @@ const ProjectBox = styled.li`
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
   position: relative;
+  cursor: pointer;
   @media (min-width: 900pt) {
     width: 178.5pt;
     height: 99pt;
