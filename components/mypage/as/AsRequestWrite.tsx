@@ -456,7 +456,7 @@ const Input = styled(TextField)`
     padding: 0;
   }
   ::placeholder {
-    color: #caccd1;
+    color: ${colors.lightGray3};
     font-weight: 400;
   }
   & span > img {
@@ -487,15 +487,22 @@ const TextArea = styled.textarea`
   line-height: 18pt;
   letter-spacing: -0.02em;
   &::placeholder {
-    color: #caccd1;
+    color: ${colors.lightGray3};
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12pt;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray3};
   }
 `;
 const PhotosBox = styled.div`
   width: 100%;
-  height: 56.0625pt;
   margin-top: 9pt;
   display: flex;
-  gap: 9.1875pt;
+  flex-wrap: wrap;
+  gap: 9pt;
   align-items: center;
 `;
 const AddPhotos = styled.button`

@@ -21,7 +21,7 @@ const ProfileEditing = () => {
   });
 
   // 오른쪽 컴포넌트 변경
-  const [tabNumber, setTabNumber] = useState<number>(2);
+  const [tabNumber, setTabNumber] = useState<number>(0);
 
   // // 나이스 인증
   // const fnPopup = (event: any) => {

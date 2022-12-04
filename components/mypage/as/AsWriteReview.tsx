@@ -52,15 +52,25 @@ const AsWriteReview = ({ id, setIsModal, setModalMessage }: Props) => {
     setReqeustText(() => e.target.value);
   };
   const onClickSubmitBtn = () => {
+    const data = {
+      attentivenessPoint: ratingScore.attentivenessPoint,
+      quicknessPoint: ratingScore.professionalismPoint,
+      professionalismPoint: ratingScore.quicknessPoint,
+      satisfactionPoint: ratingScore.satisfactionPoint,
+      opinion: reqeustText,
+    };
+    const { opinion, ...newData } = data;
+
     submitMutate({
       url: `/after-sales-services/${id!}/review`,
-      data: {
-        attentivenessPoint: ratingScore.attentivenessPoint,
-        quicknessPoint: ratingScore.professionalismPoint,
-        professionalismPoint: ratingScore.quicknessPoint,
-        satisfactionPoint: ratingScore.satisfactionPoint,
-        opinion: reqeustText,
-      },
+      data: opinion.length > 0 ? data : newData,
+      // data: {
+      // attentivenessPoint: ratingScore.attentivenessPoint,
+      // quicknessPoint: ratingScore.professionalismPoint,
+      // professionalismPoint: ratingScore.quicknessPoint,
+      // satisfactionPoint: ratingScore.satisfactionPoint,
+      //   opinion: reqeustText,
+      // },
     });
   };
 
@@ -69,8 +79,8 @@ const AsWriteReview = ({ id, setIsModal, setModalMessage }: Props) => {
       ratingScore.attentivenessPoint !== 0 &&
       ratingScore.professionalismPoint !== 0 &&
       ratingScore.quicknessPoint !== 0 &&
-      ratingScore.satisfactionPoint !== 0 &&
-      reqeustText.length >= 3
+      ratingScore.satisfactionPoint !== 0
+      // reqeustText.length >= 3
     ) {
       setIsValid(true);
     }
@@ -127,9 +137,20 @@ const AsWriteReview = ({ id, setIsModal, setModalMessage }: Props) => {
 
 const Wrapper = styled.div`
   position: relative;
+  margin: 0 auto;
+  width: 251.25pt;
+  background: ${colors.lightWhite};
+  padding: 32.25pt 46.875pt 42pt 46.875pt;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;
   @media (max-width: 899.25pt) {
     padding-left: 15pt;
     padding-right: 15pt;
+    width: auto;
+    background: none;
+    /* padding: 0; */
+    box-shadow: none;
+    border-radius: 0;
   }
 `;
 
@@ -149,6 +170,7 @@ const ReviewTitleBox = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+
   @media (max-width: 899.25pt) {
     margin-top: 37.5pt;
   }
@@ -194,7 +216,13 @@ const TextArea = styled.textarea`
   line-height: 18pt;
   letter-spacing: -0.02em;
   &::placeholder {
-    color: #caccd1;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12pt;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray3};
   }
 `;
 

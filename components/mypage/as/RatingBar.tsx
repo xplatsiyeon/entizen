@@ -60,7 +60,6 @@ const RatingItem = styled.label`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
-
   @media (max-width: 899.25pt) {
     width: 50pt;
   }
@@ -95,6 +94,7 @@ const RBarBox = styled.div`
 `;
 const RBar = styled.div`
   width: 36pt;
+  /* width: 50pt; */
   height: 10.5pt;
   background-color: #f3f4f7;
   cursor: pointer;
