@@ -31,7 +31,7 @@ const QuitModal = ({ setModal, deleteId }: Props) => {
   };
   return (
     <Body>
-      <Wrapper />
+      <Wrapper onClick={() => setModal(false)}/>
       <Modal>
         <P>{`채팅방에서 나가시겠습니까? \n 나가기를 하면 채팅 목록 및 대화 내용이 모두 삭제 됩니다.`}</P>
         <Box>
@@ -57,6 +57,12 @@ const Body = styled.div`
   position: fixed;
   top: 0;
   z-index: 5;
+  
+  @media (min-width: 900pt) {
+    position: absolute;
+    background-color: #6b6b6b2e;
+  }
+
 `;
 const Wrapper = styled.div`
   position: fixed;
@@ -65,6 +71,11 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   background: #22222261;
+  
+  @media (min-width: 900pt) {
+    background-color: transparent;
+  }
+
 `;
 const Modal = styled.div`
   background: white;
@@ -74,6 +85,10 @@ const Modal = styled.div`
   transform: translate(-50%, -50%);
   border-radius: 6pt;
   width: 80%;
+
+  @media (min-width: 900pt) {
+    width: auto;
+  }
 `;
 const P = styled.p`
   white-space: pre-wrap;
@@ -86,6 +101,15 @@ const P = styled.p`
   letter-spacing: -0.02em;
   color: #222222;
   padding: 21pt 15pt;
+
+  @media (min-width: 900pt) {
+    width: 250.5pt;
+    padding: 42pt 51pt 33pt;
+    font-weight: 700;
+    font-size: 21pt;
+    line-height: 33pt;
+    color: #222222;
+  }
 `;
 
 const Box = styled.div`
@@ -109,5 +133,18 @@ const Btn = styled.button`
     color: #f75015;
     border-bottom-left-radius: 0pt;
     border-bottom-right-radius: 6pt;
+  }
+
+  @media (min-width: 900pt) {
+
+    border: 1px solid red;
+    margin: 0pt 30pt 30pt 0;
+    border-radius: 6pt;
+    &:nth-of-type(1){
+      margin: 0pt 12pt 30pt 30pt;
+    }
+    &.quit{
+      border-radius: 6pt;
+    }
   }
 `;

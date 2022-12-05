@@ -10,11 +10,12 @@ import useDebounce from 'hooks/useDebounce';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import search from 'public/images/search.png';
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import bell from 'public/images/bell.png';
 import Bell_outline from 'public/images/Bell_outline.png';
 import List from 'public/images/List.png';
+import ComChattingList from 'componentsCompany/Chatting/ComChattingLIst';
 
 export interface UserChattingRooms {
   chattingRoomIdx: number;
@@ -127,10 +128,11 @@ const arr = {
 
 type Props = {
   chattingRoom?: boolean;
+  userChatting: boolean;
 }
 
 const TAG = 'pages/chatting/index.tsx';
-const ChattingLists = ({chattingRoom}: Props) => {
+const ChattingLists = ({chattingRoom, userChatting}: Props) => {
   const router = useRouter();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
   const TabListEn = ['all', 'unread', 'favorite'];
@@ -232,13 +234,9 @@ const ChattingLists = ({chattingRoom}: Props) => {
                   <FAQBtn onClick={handle}>FAQ</FAQBtn>
                 </TabList>
                 {/* 채팅 리스트 */}
-                <ChattingList
-                  data={data!}
-                  refetch={refetch}
-                  chattingRoom={true}
-                  // setName={setName}
-                  // setIsAlarm={setIsAlarm}
-                />
+                {userChatting
+                ?<ChattingList data={data!} refetch={refetch}/>
+                :<ComChattingList data={data!} refetch={refetch}/>}
               </Inner>
             </WebBox>
           </FlexBox>

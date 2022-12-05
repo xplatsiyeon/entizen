@@ -23,6 +23,7 @@ import moreBtn from 'public/images/moreBtn.png';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
+import WebMoreModal from './WebMoreModal';
 
 type ChattingLogs = {
   createdAt: string;
@@ -62,21 +63,26 @@ export interface ChattingResponse {
   };
 }
 
-type Props = {};
+type Props = {
+  userChatting : boolean
+};
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
-const ChattingRoomLogs = ({}: Props) => {
+const ChattingRoomLogs = ({userChatting}: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
 
+
+
   //   채팅방 내용 보기
   const {
     data: chattingData,
     isError: chattingIsError,
     isLoading: chattingIsLoading,
+    refetch
   } = useQuery<ChattingResponse>(
     'chatting-data',
     () => {
@@ -88,7 +94,12 @@ const ChattingRoomLogs = ({}: Props) => {
       //   refetchInterval: 3000,
     },
   );
-  console.log('???', chattingData)
+
+  useEffect(()=>{
+    if(routerId){
+    refetch();
+    }
+  },[routerId])
 
   //   채팅 POST
   const {
@@ -105,6 +116,7 @@ const ChattingRoomLogs = ({}: Props) => {
       console.log(error);
     },
   });
+
 
   const [moreModal, setMoreModal] = useState<boolean>(false);
   const [quitModal, setQuitModal] = useState<boolean>(false);
@@ -220,6 +232,28 @@ const ChattingRoomLogs = ({}: Props) => {
     }
   };
 
+  const handleRoute = ()=>{
+      if(userChatting){
+            router.push({
+              pathname: '/chatting',
+            })
+          }else{
+            router.push({
+              pathname: '/company/chatting',
+            })
+          }     
+  }
+
+  const handleName=()=>{
+    if(router.query.entizen){
+      return '엔티즌'
+    }else{
+      if(userChatting){
+           return chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyName! 
+          }else{ return chattingData?.data?.userMember?.name!}
+      }
+  }
+
   if (chattingIsLoading) {
     return <Loader />;
   }
@@ -231,33 +265,27 @@ const ChattingRoomLogs = ({}: Props) => {
       <TopBox>
         <MypageHeader
           back={true}
-          title={
-            chattingData?.data?.companyMember?.companyMemberAdditionalInfo
-              ?.companyName!
-          }
+          title={handleName()}
           handle={true}
-          handleOnClick={() =>
-            router.push({
-              pathname: '/chatting',
-            })
-          }
+          handleOnClick={handleRoute}
         />
         <IconBox>
-          <IconWrap className="web">
+          <IconWrap className="alarm">
             {chattingData?.data?.chattingRoomNotification?.isSetNotification ? (
               <Image src={alarmBtn} layout="fill" />
             ) : (
               <Image src={stopAlarm} layout="fill" />
             )}
           </IconWrap>
-          <IconWrap>
+          <IconWrap 
+              onClick={() => setMoreModal(true)}>
             <Image
               src={moreBtn}
               layout="fill"
-              onClick={() => setMoreModal(true)}
             />
           </IconWrap>
         </IconBox>
+        {moreModal&&<WebMoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal}/>}
       </TopBox>
       <Inner>
         {data.map((d, idx) => {
@@ -266,8 +294,9 @@ const ChattingRoomLogs = ({}: Props) => {
               <Date>{d.date}</Date>
               <List>
                 {d.logs.map((item, idx) => {
+                  if(item.messageType === 'SYSTEM'){return }else{
                   return (
-                    <ChatBox
+                    <ChatBox userChatting={userChatting}
                       key={item.chattingLogIdx}
                       className={`${
                         item.fromMemberType === 'USER' ? 'user' : 'company'
@@ -280,7 +309,7 @@ const ChattingRoomLogs = ({}: Props) => {
                         </ImageWrap>
                       )}
                       {item.content && (
-                        <Chat
+                        <Chat userChatting={userChatting}
                           className={`${
                             item.fromMemberType === 'USER' ? 'user' : 'company'
                           }`}
@@ -294,6 +323,7 @@ const ChattingRoomLogs = ({}: Props) => {
                       </MessageDate>
                     </ChatBox>
                   );
+                }
                 })}
               </List>
             </DateChatting>
@@ -483,6 +513,9 @@ const IconWrap = styled.div`
   width: 12pt;
   height: 13.5pt;
   cursor: pointer;
+  &.alarm{
+    cursor: auto;
+  }
   @media (min-width: 900pt) {
     width: 20.5pt;
     height: 20.5pt;
@@ -555,13 +588,16 @@ const List = styled.div`
   }
 `;
 
-const ChatBox = styled.div`
+const ChatBox = styled.div<{userChatting:boolean}>`
   display: flex;
   align-items: center;
   margin-bottom: 9pt;
   gap: 6pt;
   &.user {
-    flex-direction: row-reverse;
+    flex-direction: ${({userChatting}) => (userChatting? 'row-reverse' : 'row')};
+  }
+  &.company{
+    flex-direction: ${({userChatting}) => (userChatting? 'row' : 'row-reverse')};
   }
 `;
 const ImageWrap = styled.div`
@@ -570,9 +606,8 @@ const ImageWrap = styled.div`
   position: relative;
 `;
 
-const Chat = styled.div`
+const Chat = styled.div<{userChatting : boolean}>`
   border-radius: 6pt;
-  color: white;
   padding: 7.5pt 6pt;
   font-style: normal;
   font-weight: 400;
@@ -580,14 +615,14 @@ const Chat = styled.div`
   line-height: 16.5pt;
   letter-spacing: -0.02em;
   &.user {
-    background: #5221cb;
-    /* background: #f3f4f7; */
+    color: ${({userChatting}) => (userChatting? 'white' : '#222222')};
+    background:${({userChatting}) => (userChatting? '#5221cb' : '#f3f4f7')};
   }
   &.company {
-    background: #f3f4f7;
-    /* background: #5221cb; */
-    color: #222222;
+    color: ${({userChatting}) => (userChatting? '#222222' : 'white')};
+    background:${({userChatting}) => (userChatting? '#f3f4f7' : '#5221cb')};
   }
+
 `;
 const File = styled.div`
   background: #5221cb;

@@ -26,6 +26,10 @@ import { ChattingResponse } from 'pages/chatting/chattingRoom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
+import WebHeader from 'componentsWeb/WebHeader';
+import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
+import WebFooter from 'componentsWeb/WebFooter';
+import ChattingLists from 'components/Chatting/ChattingLists';
 
 type ChattingLogs = {
   createdAt: string;
@@ -216,132 +220,22 @@ const ChattingRoom = ({}: Props) => {
   }
 
   return (
-    <Body>
-      <TopBox>
-        <MypageHeader
-          back={true}
-          title={chattingData?.data?.userMember?.name}
-          handle={true}
-          handleOnClick={() =>
-            router.push({
-              pathname: '/company/chatting',
-            })
-          }
-        />
-        <IconBox>
-          {/*onClick 알람 설정 api 달기*/}
-          <IconWrap className="web">
-            {chattingData?.data?.chattingRoomNotification?.isSetNotification ? (
-              <Image src={alarmBtn} layout="fill" />
-            ) : (
-              <Image src={stopAlarm} layout="fill" />
-            )}
-          </IconWrap>
-          <IconWrap>
-            <Image
-              src={moreBtn}
-              layout="fill"
-              onClick={() => setMoreModal(true)}
-            />
-          </IconWrap>
-        </IconBox>
-      </TopBox>
-      <Inner>
-        {data?.map((d, idx) => {
-          return (
-            <DateChatting key={idx}>
-              <Date>{d.date}</Date>
-              <List>
-                {d.logs.map((item, idx) => {
-                  return (
-                    <ChatBox
-                      key={item.chattingLogIdx}
-                      className={`${
-                        item.fromMemberType === 'USER' ? 'user' : 'company'
-                      }`}
-                    >
-                      {item.fromMemberType === 'USER' ? (
-                        <ImageWrap>
-                          {/* 이미지 파일 src가 없으면 */}
-                          <Image src={defaultImg} layout="fill" />
-                        </ImageWrap>
-                      ) : null}
-                      {item.content && (
-                        <Chat
-                          className={`${
-                            item.fromMemberType === 'USER' ? 'user' : 'company'
-                          }`}
-                        >
-                          {item.content}
-                        </Chat>
-                      )}
-                      {item.fileUrl && <File>{item.fileUrl}</File>}
-                      <MessageDate>
-                        {handleTime(item.createdAt)}
-                        {'/' + dayjs(item.createdAt).format('HH:mm')}
-                      </MessageDate>
-                    </ChatBox>
-                  );
-                })}
-              </List>
-            </DateChatting>
-          );
-        })}
-      </Inner>
-      <BottomBox ref={mobBox}>
-        <FlexBox onSubmit={onSubmitText}>
-          <AddBtn onClick={handleButton}>
-            <Image src={addBtn} layout="intrinsic" />
-          </AddBtn>
-          <TextInput
-            placeholder="메세지를 입력하세요"
-            value={text}
-            onChange={onChangeText}
-          />
-          <IconWrap2>
-            <Image src={send} layout="fill" />
-          </IconWrap2>
-        </FlexBox>
-        <div className="hidden"></div>
-      </BottomBox>
-      <WebBottomBox ref={webBox}>
-        <FlexBox2 onSubmit={onSubmitText}>
-          <InputWrap>
-            <FileIconWrap>
-              <Image src={fileBtn} layout="fill" />
-            </FileIconWrap>
-            <TextInput
-              placeholder="메세지를 입력하세요"
-              onKeyDown={() => imgChange(true)}
-              onKeyUp={() => imgChange(false)}
-              value={text}
-              onChange={onChangeText}
-            />
-          </InputWrap>
-          <div className="typing off">
-            <Image src={send} layout="fill" />
-          </div>
-          <div className="typing on">
-            <Image src={sendBlue} layout="fill" />
-          </div>
-        </FlexBox2>
-      </WebBottomBox>
-      {/* 더보기 모달 제어 */}
-      {moreModal && (
-        <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
-      )}
-
-      {/* 나가기 모달 제어 */}
-      {quitModal && <QuitModal setModal={setQuitModal} />}
-    </Body>
+    <WebBody>
+      <WebHeader />
+      <Wrapper>
+        <Body>
+          <MobWrap>
+            <ChattingLists chattingRoom={true} userChatting={false}/>
+          </MobWrap>
+          <ChattingRoomLogs userChatting={false}/>
+        </Body>
+      </Wrapper>
+      <WebFooter />
+    </WebBody>
   );
 };
 
 export default ChattingRoom;
-
-const Body = styled.div`
-  position: relative;
-`;
 
 const WebBottomBox = styled.div`
   position: absolute;
@@ -604,3 +498,55 @@ const MessageDate = styled.p`
   color: #caccd1;
   margin-top: 12pt;
 `;
+
+
+const WebBody = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+width: 100%;
+height: 100vh;
+margin: 0 auto;
+background: #ffffff;
+
+@media (max-height: 809pt) {
+  display: block;
+  height: 100%;
+}
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+  width: 900pt;
+  margin: 60pt auto;
+  display: flex;
+  gap: 60pt;
+  flex-direction: row;
+
+  @media (max-width: 899.25pt) {
+    padding-bottom: 60pt;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+    margin: 0;
+  }
+`;
+
+const Body = styled.div`
+font-family: 'Spoqa Han Sans Neo';
+width: 100%;
+
+@media (min-width: 900pt) {
+display: flex;
+border: 1px solid #E2E5ED;
+border-radius: 12pt;
+height: 495pt;
+overflow: hidden;
+}
+`
+
+const MobWrap = styled.div`
+@media (max-width: 899.25pt) {
+  display: none;
+}
+`
