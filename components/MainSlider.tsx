@@ -11,82 +11,74 @@ import colors from 'styles/colors';
 
 const MainSlider = () => {
   return (
-    <Wrapper>
-      <Notice>
-        <span className="text">
-          전기차 충전기,
-          <br />
-          이렇게
-          <br />
-          활용해보세요
-        </span>
-      </Notice>
-      <SwiperWrapper
-        slidesPerView={5}
-        centeredSlides={true}
-        spaceBetween={30}
-        grabCursor={true}
-        pagination={
-          {
-            // clickable: true,
-          }
-        }
-        // modules={[Pagination]}
-        className="mySwiper"
-      >
-        <SwiperSlide>
-          <Image src={MainSliderImg1} alt="MainSliderImg1" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Image src={MainSliderImg2} alt="MainSliderImg2" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Image src={MainSliderImg1} alt="MainSliderImg1" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Image src={MainSliderImg2} alt="MainSliderImg2" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Image src={MainSliderImg1} alt="MainSliderImg1" />
-        </SwiperSlide>
-      </SwiperWrapper>
-    </Wrapper>
+    <SlideWrap> 
+      <div className="wrapper">
+      <P>{`전기차 충전기,\n이렇게\n활용해 보세요`}</P>
+     
+  <SwiperWrapper
+    slidesPerView={3}
+    centeredSlides={true}
+    spaceBetween={30}
+    grabCursor={true}
+    className="mySwiper"
+  >
+    <SwiperSlide>
+      <Image src={MainSliderImg1} alt="MainSliderImg1" layout='fill'/>
+    </SwiperSlide>
+    <SwiperSlide>   
+      <Image src={MainSliderImg2} alt="MainSliderImg2" layout='fill'/>
+    </SwiperSlide>
+    <SwiperSlide>
+      <Image src={MainSliderImg1} alt="MainSliderImg1" layout='fill'/>
+    </SwiperSlide>
+    <SwiperSlide>
+      <Image src={MainSliderImg2} alt="MainSliderImg2" layout='fill'/>
+    </SwiperSlide>
+    <SwiperSlide>
+      <Image src={MainSliderImg1} alt="MainSliderImg1" layout='fill'/>
+
+    </SwiperSlide>
+  </SwiperWrapper>
+      </div>
+    </SlideWrap>
   );
 };
 
 export default MainSlider;
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+const SlideWrap = styled.div`
+  width: 100%;
   position: relative;
-  /* overflow-x: scroll; */
-  height: 860px;
-`;
-
-const Notice = styled.div`
-  /* width: 500px; */
+  .wrapper{
+    position: relative;
+    height: 405pt;
+    padding: 120pt 0;
+    display: flex;
+    align-content: center;
+  }
+`
+const P = styled.p`
+  margin-left: 20%;
+  white-space: pre-wrap;
   font-family: 'Apple SD Gothic Neo';
   font-style: normal;
   font-weight: 700;
-  font-size: 50px;
-  line-height: 70px;
+  font-size: 37.5pt;
+  line-height: 52.5pt;
   letter-spacing: -0.02em;
   color: #222222;
-  padding-left: 272.25pt;
-  z-index: 9999;
-  height: 100%;
-  background-color: ${colors.lightWhite};
-`;
-
+`
 const SwiperWrapper = styled(Swiper)`
-  position: absolute;
-  width: 100%;
-  /* padding-top: 120pt; */
-  /* padding-bottom: 120pt; */
-`;
-
-const Div = styled.div`
-  border-radius: 15pt;
-`;
+position: absolute;
+left: 45%;
+height: 405pt;
+width: 1000pt;
+overflow: hidden;
+.swiper-wrapper{
+  justify-content: center!important;
+  align-items: center;
+  object-fit: cover;
+  margin-left: 2%;
+}
+`
+  

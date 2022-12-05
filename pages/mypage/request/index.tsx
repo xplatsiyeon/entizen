@@ -124,11 +124,11 @@ const Mypage1_3 = ({}: any) => {
     },
   );
 
-  useEffect(()=>{
-    if(routerId){
+  useEffect(() => {
+    if (routerId) {
       refetch();
     }
-  },[routerId])
+  }, [routerId]);
 
   // ---------- 현장 실사 날짜 api ------------
   const {
@@ -371,6 +371,7 @@ const Mypage1_3 = ({}: any) => {
                   ) : (
                     <>
                       {/* 가견적  */}
+                      <SendTextTitle>보낸 가견적서</SendTextTitle>
                       <BiddingQuote
                         data={quotationData!}
                         isSpot={spotData?.data?.spotInspection ? true : false}
@@ -479,6 +480,19 @@ const TextBox = styled.div`
   @media (min-width: 900pt) {
     margin-top: 57pt;
   }
+`;
+
+const SendTextTitle = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 18pt;
+  font-weight: 700;
+  line-height: 18.75pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #5221cb;
+  padding-top: 60pt;
+  padding-bottom: 21pt;
+  margin: 0 auto;
 `;
 
 const ChoiceText = styled.div`

@@ -8,6 +8,7 @@ import main4 from '../../../public/companyMain/4_Auction.png';
 import main5 from '../../../public/companyMain/5_Entizen100.png';
 import main6 from '../../../public/companyMain/6_Electric.png';
 import main7 from '../../../public/companyMain/7_WithEntizen.png';
+import MainSlider from 'components/MainSlider';
 
 const MainImageWrap = () => {
   return (
@@ -17,7 +18,7 @@ const MainImageWrap = () => {
       <Image src={main3} alt="사진" />
       <Image src={main4} alt="사진" />
       <Image src={main5} alt="사진" />
-      <Image src={main6} alt="사진" />
+      <MainSlider/>
       <ImageWrap2>
         <Image src={main7} alt="사진" />
       </ImageWrap2>
