@@ -31,6 +31,7 @@ type Props = {
   setUnderNum: React.Dispatch<React.SetStateAction<number | undefined>>;
   componentId?: number;
   setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setTabNumber?: Dispatch<SetStateAction<number>>;
 };
 
 interface Components {
@@ -58,6 +59,7 @@ const LeftProjectQuotationBox = ({
   underNum,
   setUnderNum,
   setComponentId,
+  setTabNumber,
   componentId,
 }: Props) => {
   const route = useRouter();
@@ -178,6 +180,7 @@ const LeftProjectQuotationBox = ({
         data={data}
         componentId={componentId}
         setComponentId={setComponentId}
+        setTabNumber={setTabNumber}
       />
     ),
     1: (
@@ -185,6 +188,7 @@ const LeftProjectQuotationBox = ({
         componentId={componentId}
         setComponentId={setComponentId}
         send={send}
+        // setTabNumber={setTabNumber}
       />
     ),
     2: (
@@ -192,6 +196,7 @@ const LeftProjectQuotationBox = ({
         componentId={componentId}
         setComponentId={setComponentId}
         historyData={historyData}
+        // setTabNumber={setTabNumber}
       />
     ),
     3: <NoProject />,

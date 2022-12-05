@@ -73,9 +73,10 @@ const ProfileEditing = () => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    console.log('여기임둥');
+
     console.log(checkSns);
     console.log(snsMember);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // 오른쪽 컴포넌트
@@ -98,13 +99,18 @@ const ProfileEditing = () => {
           </WebHide>
         ) : (
           // --------------웹-------------
-          <WebRapper>
-            <Inner>
-              {/* 프로필 변경 컴포넌트 */}
-              <ProfileModify setTabNumber={setTabNumber} />
-            </Inner>
-            {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
-          </WebRapper>
+          <>
+            {tabNumber < 2 && (
+              <ChangeProfileText>프로필 변경</ChangeProfileText>
+            )}
+            <WebRapper tabNumber={tabNumber}>
+              <Inner tabNumber={tabNumber}>
+                {/* 프로필 변경 컴포넌트 */}
+                <ProfileModify setTabNumber={setTabNumber} />
+              </Inner>
+              {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
+            </WebRapper>
+          </>
         )}
 
         <WebFooter />
@@ -114,6 +120,22 @@ const ProfileEditing = () => {
 };
 
 export default ProfileEditing;
+
+const ChangeProfileText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 21pt;
+  font-weight: 700;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  width: 900pt;
+  margin: 0 auto;
+  padding-left: 40pt;
+  margin-top: 66pt;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
 
 const WebHide = styled.div`
   @media (min-width: 900pt) {
@@ -138,15 +160,17 @@ const WebBody = styled.div`
   }
 `;
 
-const Inner = styled.div`
+const Inner = styled.div<{ tabNumber: number }>`
   display: block;
   position: relative;
-  width: 345pt;
+  /* width: 255pt; */
+  width: ${({ tabNumber }) => (tabNumber === 2 ? '345pt' : '255pt')};
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
   margin: 0 auto;
+
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
@@ -162,14 +186,15 @@ const Inner = styled.div`
   }
 `;
 
-const WebRapper = styled.div`
+const WebRapper = styled.div<{ tabNumber: number }>`
   display: flex;
   justify-content: space-between;
   width: 900pt;
   margin: 0 auto;
-  margin-top: 59pt;
+  margin-top: ${({ tabNumber }) => (tabNumber === 2 ? '58.5pt' : '33pt')};
   margin-bottom: 90pt;
   gap: 30pt;
+
   @media (max-width: 899.25pt) {
     display: none;
   }

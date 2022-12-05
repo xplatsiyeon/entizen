@@ -13,7 +13,10 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
-import { PriceCalculation } from 'utils/calculatePackage';
+import {
+  PriceBasicCalculation,
+  PriceCalculation,
+} from 'utils/calculatePackage';
 
 type Props = {};
 
@@ -72,10 +75,10 @@ const Request1_7 = (props: Props) => {
 
   useEffect(() => {
     setCalculatedValue({
-      maxSubscribePricePerMonth: requestData?.minSubscribePricePerMonth!,
-      maxTotalSubscribePrice: requestData?.maxSubscribePricePerMonth!,
-      minSubscribePricePerMonth: requestData?.minTotalSubscribePrice!,
-      minTotalSubscribePrice: requestData?.maxTotalSubscribePrice!,
+      maxSubscribePricePerMonth: requestData?.maxSubscribePricePerMonth!,
+      maxTotalSubscribePrice: requestData?.maxTotalSubscribePrice!,
+      minSubscribePricePerMonth: requestData?.minSubscribePricePerMonth!,
+      minTotalSubscribePrice: requestData?.minTotalSubscribePrice!,
     });
   }, []);
 
@@ -100,6 +103,10 @@ const Request1_7 = (props: Props) => {
   if (isError) {
     console.log(error);
   }
+
+  useEffect(() => {
+    console.log(calculatedValue);
+  }, [calculatedValue]);
   return (
     <React.Fragment>
       <WebBody>

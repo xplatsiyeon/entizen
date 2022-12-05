@@ -88,6 +88,7 @@ const SecondStep = ({
   // 내 제품 리스트 종류
   const [productItem, setProductItem] = useState<string>();
   const [productId, setProductId] = useState<number>();
+  const [isChangeProduct, setIsChangeProduct] = useState<boolean>(false);
   // 제조사
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
   // 충전기 특장점
@@ -107,6 +108,9 @@ const SecondStep = ({
     constructionPeriod,
     subscribePricePerMonth,
   } = useSelector((state: RootState) => state.companymyEstimateData);
+  const companymyEstimateData = useSelector(
+    (state: RootState) => state.companymyEstimateData,
+  );
   const newCharge = chargers.slice(0, maxIndex);
 
   // image s3 multer 저장 API (with useMutation)
@@ -322,6 +326,9 @@ const SecondStep = ({
   const onChangeSelectBox = (value: string, idx: number) => {
     setProductId(idx);
     setProductItem(value);
+    // isChangeProduct 값이 변경 될때마다 하단의 내제품리스트 불러오는 useEffect가 실행됨.
+    // true, false로 판단 X -> 그냥 업데이트를 위해 계속 반대값으로 바꿔줌
+    setIsChangeProduct((prev) => !prev);
   };
   // 이전 버튼
   const handlePrevBtn = () => {
@@ -367,32 +374,23 @@ const SecondStep = ({
   };
   // 포스트 버튼
   const onClickPost = () => {
-    const chargers = [
-      ...newCharge.slice(0, maxIndex! - 1),
-      {
-        chargePriceType:
-          chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-        chargePrice: Number(fee.replaceAll(',', '')),
-        modelName: productItem,
-        manufacturer: manufacturingCompany,
-        feature: chargeFeatures,
-        chargerImageFiles: imgArr,
-        catalogFiles: fileArr,
-      },
-    ];
-    const newChargers = chargers.map((e) => {
-      if (e.feature.length < 1) {
-        return {
+    if (canNext) {
+      const chargers = [
+        ...newCharge.slice(0, maxIndex! - 1),
+        {
           chargePriceType:
             chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
           chargePrice: Number(fee.replaceAll(',', '')),
           modelName: productItem,
           manufacturer: manufacturingCompany,
+          feature: chargeFeatures,
           chargerImageFiles: imgArr,
           catalogFiles: fileArr,
-        };
-      } else {
-        return {
+        },
+      ];
+
+      const newChargers = chargers.map((e) => {
+        const data: any = {
           chargePriceType:
             chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
           chargePrice: Number(fee.replaceAll(',', '')),
@@ -402,29 +400,36 @@ const SecondStep = ({
           chargerImageFiles: imgArr,
           catalogFiles: fileArr,
         };
+
+        if (e.feature.length < 1) delete data.feature;
+        if (!productItem) delete data.modelName;
+        return data;
+      });
+      console.log(manufacturingCompany);
+      console.log(newChargers);
+
+      if (subscribeProductFeature.length < 1) {
+        postMutate({
+          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+          data: {
+            subscribePricePerMonth: subscribePricePerMonth,
+            constructionPeriod: constructionPeriod,
+            chargers: newChargers,
+          },
+        });
+      } else {
+        postMutate({
+          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+          data: {
+            subscribePricePerMonth: subscribePricePerMonth,
+            constructionPeriod: constructionPeriod,
+            subscribeProductFeature: subscribeProductFeature,
+            chargers: newChargers,
+          },
+        });
       }
-    });
-    if (subscribeProductFeature.length < 1) {
-      postMutate({
-        url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          chargers: newChargers,
-        },
-      });
-    } else {
-      postMutate({
-        url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: newChargers,
-        },
-      });
+      dispatch(myEstimateAction.reset());
     }
-    dispatch(myEstimateAction.reset());
   };
   // 수정하기 버튼
   const onClickEdit = () => {
@@ -475,9 +480,9 @@ const SecondStep = ({
           preQuotationChargerIdx,
           productFileType,
           createdAt,
-          ...newArr
+          ...newFile
         } = item;
-        return newArr;
+        return newFile;
       });
 
       setChargeTypeNumber(chargeTypeListEn.indexOf(charger.chargePriceType));
@@ -491,7 +496,6 @@ const SecondStep = ({
   }, [editData, StepIndex]);
   // 내 제품 리스트 하단 내용
   useEffect(() => {
-    console.log(productId);
     if (productId) {
       const targetProduct = productData?.chargerProduct.filter(
         (e) => e.chargerProductIdx === productId,
@@ -507,7 +511,7 @@ const SecondStep = ({
         } = item;
         return newArr;
       });
-      const newFile = targetProduct?.chargerImageFiles!.map((item) => {
+      const newFile = targetProduct?.chargerCatalogFiles!.map((item) => {
         const {
           chargerProductFileIdx,
           chargerProductIdx,
@@ -523,7 +527,7 @@ const SecondStep = ({
       setImgArr(newImage!);
       setFileArr(newFile!);
     }
-  }, [productId]);
+  }, [isChangeProduct]);
   // 다음버튼 유효성 검사
   useEffect(() => {
     if (chargeTypeNumber === 0 && manufacturingCompany !== '') {

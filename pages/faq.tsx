@@ -117,20 +117,22 @@ const report: Contents[] = [
 ];
 
 const Faq = () => {
-  const route = useRouter();
+  const router = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const TabType: string[] = ['서비스 이용', '회원 정보', '신고'];
+
   const components: Components = {
-    0: <FaqInfomation data={contents} />,
-    1: <FaqInfomation data={userInfo} />,
-    2: <FaqInfomation data={report} />,
+    0: <FaqInfomation data={contents} tabNumber={tabNumber} />,
+    1: <FaqInfomation data={userInfo} tabNumber={tabNumber} />,
+    2: <FaqInfomation data={report} tabNumber={tabNumber} />,
   };
+
   const handleTab = (index: number) => setTabNumber(index);
   const leftOnClick = () => {
-    route.back();
+    router.back();
   };
   const rightOnClick = () => {
-    route.push('/');
+    router.push('/');
   };
 
   return (
@@ -150,7 +152,9 @@ const Faq = () => {
                   key={index}
                   tab={tabNumber.toString()}
                   index={index.toString()}
-                  onClick={() => handleTab(index)}
+                  onClick={() => {
+                    handleTab(index);
+                  }}
                 >
                   {tab}
                   <Dot tab={tabNumber.toString()} index={index.toString()} />
@@ -321,6 +325,7 @@ const FlexBox = styled.div`
 
 const FlexWrap = styled.div`
   position: relative;
+
   &:nth-of-type(1) {
     width: 580.5pt;
   }

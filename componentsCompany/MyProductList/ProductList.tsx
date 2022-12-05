@@ -32,7 +32,7 @@ export interface Products {
   memberIdx: number;
   chargerProductFiles: File[];
   chargerImageFiles: File[];
-  chargerCatalogFiles: [];
+  chargerCatalogFiles: File[];
 }
 export interface ProductListRepsonse {
   isSuccess: true;
@@ -87,14 +87,14 @@ const ProductList = (props: Props) => {
               router.push({
                 pathname: '/company/myProductList/detail',
                 query: {
-                  chargerProductIdx: item.chargerProductIdx,
+                  chargerProductIdx: item?.chargerProductIdx,
                 },
               })
             }
           >
             <ImageBox>
               <Image
-                src={item.chargerImageFiles[0].url}
+                src={item?.chargerImageFiles[0]?.url}
                 alt="carImage"
                 layout="fill"
                 priority={true}
@@ -144,6 +144,11 @@ const ListBox = styled.div`
   /* background-color: red; */
   /* padding-left: 13.5pt;
   padding-right: 13.5pt; */
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    margin: 0 auto;
+  }
 `;
 
 const ImageBox = styled.div`
@@ -199,6 +204,13 @@ const BtnBox = styled.div`
   position: fixed;
   bottom: 30pt;
   width: 100%;
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    position: relative;
+    margin: 0 auto;
+    width: 254.7pt;
+    padding-top: 150pt;
+  }
 `;
 
 const ProductAddBtn = styled.div`

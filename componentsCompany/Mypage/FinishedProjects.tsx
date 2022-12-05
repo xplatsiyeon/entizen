@@ -54,21 +54,21 @@ const FinishedProjects = ({
     return <Loader />;
   }
   if (historyError) {
-    console.log('??',historyError);
+    console.log('??', historyError);
   }
 
   const handleDownload = () => {};
 
-  if (!(historyData?.completedProjects?.length!)) {
-    console.log('no',historyData);
+  if (!historyData?.completedProjects?.length!) {
+    console.log('no', historyData);
     return <NoProject />;
-  }else{
-    console.log('whyNo', historyData)
+  } else {
+    console.log('whyNo', historyData);
   }
 
   console.log('🔥 ~line 69 완료 프로젝트 데이터 확인 ' + TAG);
   // console.log(TAG);
-  console.log('69',historyData);
+  console.log('69', historyData);
 
   return (
     <Wrapper>
@@ -164,6 +164,7 @@ const Wrapper = styled.div`
 `;
 
 const FilterBox = styled.div`
+  cursor: pointer;
   @media (min-width: 900pt) {
     position: relative;
     display: flex;
@@ -245,6 +246,7 @@ const Input = styled(TextField)`
 const List = styled.div`
   height: 60pt;
   margin-bottom: 10pt;
+  cursor: pointer;
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: column;
@@ -340,6 +342,7 @@ const Button = styled.div`
   text-align: center;
   margin-top: 25pt;
   margin-bottom: 100pt;
+  cursor: pointer;
   @media (min-width: 900pt) {
     width: 251.25pt;
     margin: 0 auto;

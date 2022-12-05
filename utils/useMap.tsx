@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { coordinateAction } from 'store/lnglatSlice';
 
 import { RootState } from 'store/store';
 
@@ -10,6 +12,7 @@ import { RootState } from 'store/store';
 const TAG = 'utills/useMap.tsx';
 function useMap() {
   // let mapRef = useRef<any >(null);
+  const dispatch = useDispatch();
   const { lnglatList } = useSelector((state: RootState) => state.lnglatList);
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,

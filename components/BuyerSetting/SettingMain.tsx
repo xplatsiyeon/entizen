@@ -351,7 +351,9 @@ const WebRapper = styled.div<{ leftTabNumber: number }>`
     /* padding: 32px 150px 180px 51px; */
     /* padding: 32px 550px 180px 51px; */
     padding: ${({ leftTabNumber }) =>
-      leftTabNumber === 1 ? '32px 150px 180px 51px;' : '32px 550px 180px 51px'};
+      leftTabNumber === 1
+        ? '24pt 81.75pt 135pt 38.25pt'
+        : '24pt 412.5pt 135pt 38.25pt'};
     border-radius: 12pt;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   }

@@ -15,6 +15,8 @@ import RequestModal from 'components/Modal/RequestModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/mypage/request/header';
 import UserRightMenu from 'components/UserRightMenu';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
@@ -31,6 +33,7 @@ interface Components {
 const Setting = () => {
   const router = useRouter();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
@@ -49,6 +52,10 @@ const Setting = () => {
 
   // 왼쪽 컴포넌트 변동해주는거
   const [leftTabNumber, setLeftTabNumber] = useState<number>(0);
+
+  const [tabCompNumber, setTabCompNumber] = useState<number>(0);
+  const [componentId, setComponentId] = useState<number>();
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
 
   useEffect(() => {
     if (tabNumber === 0) {
@@ -101,8 +108,19 @@ const Setting = () => {
   return (
     <>
       <WebBody>
-        <WebHeader />
-        <UserRightMenu />
+        {memberType !== 'COMPANY' ? (
+          <WebHeader />
+        ) : (
+          <WebBuyerHeader
+            setTabNumber={setTabNumber}
+            tabNumber={tabNumber!}
+            componentId={componentId}
+            openSubLink={openSubLink}
+            setOpenSubLink={setOpenSubLink}
+          />
+        )}
+        {memberType !== 'COMPANY' ? <UserRightMenu /> : <CompanyRightMenu />}
+
         <Container>
           <SettingTitle
             onClick={() => {
@@ -145,6 +163,7 @@ const WebBody = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
+
   @media (max-height: 350pt) {
     height: 100%;
     display: block;

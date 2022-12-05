@@ -40,53 +40,59 @@ const CenterBox = ({ spotData, data }: Props) => {
         {spotData?.data?.hasReceivedSpotInspectionDates === true &&
           spotData?.data?.spotInspection?.isNewPropose === false &&
           spotData?.data?.spotInspection?.isConfirmed === false && (
-            <ReservationDate>
-              <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
-              <div className="btnBox">
-                <div
-                  className="btn right"
-                  onClick={() =>
-                    router.push({
-                      pathname: '/company/datePick',
-                      query: {
-                        preQuotation:
-                          spotData.data.spotInspection.preQuotationIdx,
-                      },
-                    })
-                  }
-                >
-                  달력으로 확인하기
+            <>
+              <ReservationDate>
+                <div className="text">현장실사 가능 날짜가 도착했습니다.</div>
+                <div className="btnBox">
+                  <div
+                    className="btn right"
+                    onClick={() =>
+                      router.push({
+                        pathname: '/company/datePick',
+                        query: {
+                          preQuotation:
+                            spotData.data.spotInspection.preQuotationIdx,
+                        },
+                      })
+                    }
+                  >
+                    달력으로 확인하기
+                  </div>
+                  <div className="btn left" onClick={() => setModalOpen(true)}>
+                    사진으로 대체하기
+                  </div>
                 </div>
-                <div className="btn left" onClick={() => setModalOpen(true)}>
-                  사진으로 대체하기
-                </div>
-              </div>
-            </ReservationDate>
+              </ReservationDate>
+              <SecondTitle>보낸 가견적서</SecondTitle>
+            </>
           )}
 
         {/* ------------ 일정변경 요청 -------------- */}
         {spotData?.data?.hasReceivedSpotInspectionDates === true &&
           spotData?.data?.spotInspection?.isNewPropose === true &&
           spotData?.data?.spotInspection?.isConfirmed === false && (
-            <ReservationDateCheck>
-              <div className="text">일정 변경 요청이 들어왔습니다.</div>
-              <div className="btnBox">
-                <div
-                  className="checkBtn"
-                  onClick={() =>
-                    router.push({
-                      pathname: '/company/datePick',
-                      query: {
-                        preQuotation:
-                          spotData.data.spotInspection.preQuotationIdx,
-                      },
-                    })
-                  }
-                >
-                  확인하기
+            <>
+              <ReservationDateCheck>
+                <div className="text">일정 변경 요청이 들어왔습니다.</div>
+                <div className="btnBox">
+                  <div
+                    className="checkBtn"
+                    onClick={() =>
+                      router.push({
+                        pathname: '/company/datePick',
+                        query: {
+                          preQuotation:
+                            spotData.data.spotInspection.preQuotationIdx,
+                        },
+                      })
+                    }
+                  >
+                    확인하기
+                  </div>
                 </div>
-              </div>
-            </ReservationDateCheck>
+              </ReservationDateCheck>
+              <SecondTitle>보낸 가견적서</SecondTitle>
+            </>
           )}
 
         {/* ----------- 현장실사 일정 확정 -------------- */}
@@ -149,6 +155,8 @@ const Wrapper = styled.div`
   border-bottom: 1px solid #e2e5ed;
   @media (min-width: 900pt) {
     border-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 `;
 
@@ -222,6 +230,7 @@ const ReservationDateCheck = styled.div`
   margin-top: 15pt;
   border-radius: 6pt;
   padding: 18pt 24.75pt;
+
   .text {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 12pt;

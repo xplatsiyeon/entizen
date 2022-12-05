@@ -219,6 +219,15 @@ const HeadOpenContent = () => {
     }
   }, [router]);
 
+  // 1번째 탭 초기화
+  useEffect(() => {
+    if (tabNumber === -1) {
+      setMonthleSubscribePrice('');
+      setConstructionPeriod('');
+      setFirstPageTextArea('');
+    }
+  }, [tabNumber]);
+  // 리셋
   useEffect(() => {
     return () => {
       remove();
@@ -420,6 +429,7 @@ const HeadOpenContent = () => {
                 setUnderNum={setUnderNum}
                 componentId={componentId}
                 setComponentId={setComponentId}
+                setTabNumber={setTabNumber}
               />
             )}
             <BtnWrapper>
