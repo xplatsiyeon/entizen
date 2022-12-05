@@ -368,7 +368,6 @@ const SecondStep = ({
   // 포스트 버튼
   const onClickPost = () => {
     console.log(manufacturingCompany);
-
     if (canNext) {
       const chargers = [
         ...newCharge.slice(0, maxIndex! - 1),
@@ -383,29 +382,22 @@ const SecondStep = ({
           catalogFiles: fileArr,
         },
       ];
+
       const newChargers = chargers.map((e) => {
-        if (e.feature.length < 1) {
-          return {
-            chargePriceType:
-              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: Number(fee.replaceAll(',', '')),
-            modelName: productItem,
-            manufacturer: manufacturingCompany,
-            chargerImageFiles: imgArr,
-            catalogFiles: fileArr,
-          };
-        } else {
-          return {
-            chargePriceType:
-              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: Number(fee.replaceAll(',', '')),
-            modelName: productItem,
-            manufacturer: manufacturingCompany,
-            feature: chargeFeatures,
-            chargerImageFiles: imgArr,
-            catalogFiles: fileArr,
-          };
-        }
+        const data: any = {
+          chargePriceType:
+            chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+          chargePrice: Number(fee.replaceAll(',', '')),
+          modelName: productItem,
+          manufacturer: manufacturingCompany,
+          feature: chargeFeatures,
+          chargerImageFiles: imgArr,
+          catalogFiles: fileArr,
+        };
+
+        if (e.feature.length < 1) delete data.feature;
+        if (!productItem) delete data.modelName;
+        return data;
       });
       console.log(manufacturingCompany);
       console.log(newChargers);
