@@ -222,6 +222,7 @@ const Inner = styled.div`
   margin: 54pt auto;
   width: 900pt;
   border-radius: 12pt;
+
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;

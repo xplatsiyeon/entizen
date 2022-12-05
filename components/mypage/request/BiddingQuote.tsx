@@ -86,6 +86,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
           </WebFinishedPhotoWrapper>
 
           {/* 충전소 회사 정보 */}
+
           <ChareCompanyInfo>
             {data?.companyMemberAdditionalInfo?.companyLogoImageUrl !== '' ? (
               <ImageBox>
@@ -198,7 +199,8 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
           </ChareCompanyInfo>
         </TopWebRapper>
       )}
-      <WebHide>
+
+      <>
         {data?.companyMemberAdditionalInfo?.companyLogoImageUrl !== '' ? (
           <ImageBox>
             <Image
@@ -305,7 +307,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
             </>
           )}
         </List>
-      </WebHide>
+      </>
       <Line />
       <Section>
         <Subtitle>특장점</Subtitle>
@@ -402,15 +404,6 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
   );
 };
 
-const WebBtnRapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 255pt;
-  @media (max-width: 899.25pt) {
-    display: none;
-  }
-`;
-
 const TopWebRapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -424,6 +417,7 @@ const ChareCompanyInfo = styled.div`
   display: flex;
   flex-direction: column;
   width: 255pt;
+
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -503,7 +497,6 @@ const Line = styled.div`
   width: 580.5pt;
   border-bottom: 0.75pt solid ${colors.lightGray};
   padding-top: 21pt;
-  padding-bottom: 21pt;
 
   @media (max-width: 899.25pt) {
     display: none;
@@ -511,9 +504,9 @@ const Line = styled.div`
 `;
 
 const List = styled.ul`
-  margin: 30pt 0 51pt;
+  margin-top: 30pt;
   gap: 12pt;
-  border-bottom: 0.75pt solid ${colors.lightGray};
+
   @media (max-width: 899.25pt) {
     margin: 30pt 15pt 0 15pt;
     padding-bottom: 18pt;
@@ -527,6 +520,7 @@ const WebList = styled.div`
     display: none;
   }
 `;
+
 const WebHide = styled.div`
   @media (min-width: 900pt) {
     display: none;
@@ -632,6 +626,18 @@ const ImageBox = styled.div`
     width: 75pt;
     height: 75pt;
   }
+`;
+
+const SendTextTitle = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 18pt;
+  font-weight: 700;
+  line-height: 18.75pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #5221cb;
+  padding-top: 60pt;
+  padding-bottom: 21pt;
 `;
 const Subtitle = styled.h2`
   font-weight: 700;
