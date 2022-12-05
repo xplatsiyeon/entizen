@@ -14,11 +14,7 @@ import mainBanner2 from 'public/images/mainBanner2.png';
 import mainBanner3 from 'public/images/mainBanner3.png';
 
 import main2 from 'public/images/main2.png';
-import main3 from 'public/images/main3.png';
-import main4 from 'public/images/main4.png';
-import main5 from 'public/images/main5.png';
 import main6 from 'public/images/main6.png';
-import main7 from 'public/images/main7.png';
 import main8 from 'public/images/main8.png';
 import main9 from 'public/images/main9.png';
 import { useRouter } from 'next/router';
@@ -123,7 +119,7 @@ const Main = () => {
         <Image src={main6} alt="사진" />
         {/* 전기차 슬라이드 */}
         {/* <MainSlider /> */}
-        <Image src={main7} alt="사진" />
+        <MainSlider/>
         <Image src={main8} alt="사진" />
         <Wrap onClick={() => router.push('/signUp/Terms')}>
           <Image src={main9} alt="사진" />
