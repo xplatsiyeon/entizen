@@ -23,6 +23,12 @@ const slice = createSlice({
     set(state, action) {
       state.lnglatList = action.payload;
     },
+    reset(state) {
+      state.lnglatList = {
+        lng: 127.0110855,
+        lat: 37.5807661,
+      };
+    },
   },
 });
 

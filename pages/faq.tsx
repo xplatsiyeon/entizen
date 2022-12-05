@@ -120,10 +120,11 @@ const Faq = () => {
   const route = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const TabType: string[] = ['서비스 이용', '회원 정보', '신고'];
+
   const components: Components = {
-    0: <FaqInfomation data={contents} />,
-    1: <FaqInfomation data={userInfo} />,
-    2: <FaqInfomation data={report} />,
+    0: <FaqInfomation data={contents} tabNumber={tabNumber} />,
+    1: <FaqInfomation data={userInfo} tabNumber={tabNumber} />,
+    2: <FaqInfomation data={report} tabNumber={tabNumber} />,
   };
   const handleTab = (index: number) => setTabNumber(index);
   const leftOnClick = () => {

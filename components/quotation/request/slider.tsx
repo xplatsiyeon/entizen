@@ -53,22 +53,22 @@ const SliderSizes = ({
       maxSubscribePricePerMonth: setPriceByRate(
         quotationData?.requestData?.maxSubscribePricePerMonth,
         value,
-        Number(quotationData?.requestData?.investRate),
+        Number(quotationData?.requestData?.investRate) * 100,
       ),
       maxTotalSubscribePrice: setPriceByRate(
         quotationData?.requestData?.maxTotalSubscribePrice!,
         value,
-        Number(quotationData?.requestData?.investRate),
+        Number(quotationData?.requestData?.investRate) * 100,
       ),
       minSubscribePricePerMonth: setPriceByRate(
         quotationData?.requestData?.minSubscribePricePerMonth!,
         value,
-        Number(quotationData?.requestData?.investRate),
+        Number(quotationData?.requestData?.investRate) * 100,
       ),
       minTotalSubscribePrice: setPriceByRate(
         quotationData?.requestData?.minTotalSubscribePrice!,
         value,
-        Number(quotationData?.requestData?.investRate),
+        Number(quotationData?.requestData?.investRate) * 100,
       ),
       investRate: value,
     };

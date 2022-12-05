@@ -18,6 +18,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import axios from 'axios';
 import ChargerInfo from 'components/ChargerInfo';
 import WebSearchAddress from 'componentsWeb/WebSearchAddress';
+import { locationAction } from 'store/locationSlice';
 
 type Props = {};
 export interface SlowFast {
@@ -34,7 +35,7 @@ const ChargerMap = (props: Props) => {
     (state: RootState) => state.locationList,
   );
   const dispatch = useDispatch();
-  const mobile = useMediaQuery({
+  const web = useMediaQuery({
     query: '(min-width:810pt)',
   });
 
@@ -127,6 +128,12 @@ const ChargerMap = (props: Props) => {
       callInfo('SLOW');
       callInfo('FAST');
     }
+    return () => {
+      console.log('컴포넌트 디드마운트');
+
+      dispatch(coordinateAction.reset());
+      dispatch(locationAction.reset());
+    };
   }, [locationList]);
 
   const handleBack = () => {
@@ -145,7 +152,7 @@ const ChargerMap = (props: Props) => {
             <Image src={btnImg} alt="backBtn" />
           </Header>
           <SearchMapArea>
-            {mobile && (
+            {web && (
               <Input
                 value={locationList.roadAddrPart}
                 type="submit"
@@ -177,7 +184,7 @@ const ChargerMap = (props: Props) => {
                 }}
               />
             )}
-            {!mobile && (
+            {!web && (
               <Input
                 value={locationList.roadAddrPart}
                 type="submit"
@@ -211,7 +218,7 @@ const ChargerMap = (props: Props) => {
             )}
           </SearchMapArea>
 
-          {mobile ? (
+          {web ? (
             <WrapAddress>
               <WebSearchAddress
                 setType={setType}
