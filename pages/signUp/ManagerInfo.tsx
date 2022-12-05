@@ -18,6 +18,7 @@ import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { Router } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import { is } from 'immer/dist/internal';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
@@ -65,14 +66,19 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     {
       onSuccess: (res) => {
         console.log(res);
-        console.log(res.data.authCode);
+        if(res.data.isValidAuthCode){
         setModalMessage('인증번호가 확인되었습니다.');
         setIsModal(true);
-        setIsValid(true);
+        setIsValid(true);}else{
+        setModalMessage('잘못된 인증번호입니다.');
+        setIsModal(true);
+        setIsValid(false)
+        }
       },
       onError: () => {
         setModalMessage('잘못된 인증번호입니다.');
         setIsModal(true);
+        setIsValid(false)
       },
     },
   );
