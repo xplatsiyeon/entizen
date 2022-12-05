@@ -68,7 +68,8 @@ const changeDate = () => {
                 <Image src={BackImg} alt="btn-icon" />
               </BackImage>
               {/* 고객이 일정 변경 요청할때 */}
-              {/* 기존 일정 추가 필요 */}
+              {/* 구매자가 현장실사 일정 변경하면 기존 일정 추가 필요 */}
+              {/* 기업에서 다른날짜 제안했는데 구매자가 기업이 제안한 날짜말고 다른 날짜 선택하면 UI 달라짐!!! */}
               <SelectDate>일정 변경</SelectDate>
             </WebSelectHeader>
             <Title>
