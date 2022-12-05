@@ -367,32 +367,12 @@ const SecondStep = ({
   };
   // 포스트 버튼
   const onClickPost = () => {
-    const chargers = [
-      ...newCharge.slice(0, maxIndex! - 1),
-      {
-        chargePriceType:
-          chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-        chargePrice: Number(fee.replaceAll(',', '')),
-        modelName: productItem,
-        manufacturer: manufacturingCompany,
-        feature: chargeFeatures,
-        chargerImageFiles: imgArr,
-        catalogFiles: fileArr,
-      },
-    ];
-    const newChargers = chargers.map((e) => {
-      if (e.feature.length < 1) {
-        return {
-          chargePriceType:
-            chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-          chargePrice: Number(fee.replaceAll(',', '')),
-          modelName: productItem,
-          manufacturer: manufacturingCompany,
-          chargerImageFiles: imgArr,
-          catalogFiles: fileArr,
-        };
-      } else {
-        return {
+    console.log(manufacturingCompany);
+
+    if (canNext) {
+      const chargers = [
+        ...newCharge.slice(0, maxIndex! - 1),
+        {
           chargePriceType:
             chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
           chargePrice: Number(fee.replaceAll(',', '')),
@@ -401,30 +381,57 @@ const SecondStep = ({
           feature: chargeFeatures,
           chargerImageFiles: imgArr,
           catalogFiles: fileArr,
-        };
+        },
+      ];
+      const newChargers = chargers.map((e) => {
+        if (e.feature.length < 1) {
+          return {
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
+          };
+        } else {
+          return {
+            chargePriceType:
+              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+            chargePrice: Number(fee.replaceAll(',', '')),
+            modelName: productItem,
+            manufacturer: manufacturingCompany,
+            feature: chargeFeatures,
+            chargerImageFiles: imgArr,
+            catalogFiles: fileArr,
+          };
+        }
+      });
+      console.log(manufacturingCompany);
+      console.log(newChargers);
+
+      if (subscribeProductFeature.length < 1) {
+        postMutate({
+          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+          data: {
+            subscribePricePerMonth: subscribePricePerMonth,
+            constructionPeriod: constructionPeriod,
+            chargers: newChargers,
+          },
+        });
+      } else {
+        postMutate({
+          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+          data: {
+            subscribePricePerMonth: subscribePricePerMonth,
+            constructionPeriod: constructionPeriod,
+            subscribeProductFeature: subscribeProductFeature,
+            chargers: newChargers,
+          },
+        });
       }
-    });
-    if (subscribeProductFeature.length < 1) {
-      postMutate({
-        url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          chargers: newChargers,
-        },
-      });
-    } else {
-      postMutate({
-        url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-        data: {
-          subscribePricePerMonth: subscribePricePerMonth,
-          constructionPeriod: constructionPeriod,
-          subscribeProductFeature: subscribeProductFeature,
-          chargers: newChargers,
-        },
-      });
+      dispatch(myEstimateAction.reset());
     }
-    dispatch(myEstimateAction.reset());
   };
   // 수정하기 버튼
   const onClickEdit = () => {

@@ -9,6 +9,7 @@ import { HandleColor } from 'utils/changeValue';
 import {
   filterType,
   filterTypeEn,
+  ReceivedQuotationRequests,
   ReceivedRequest,
 } from 'pages/company/quotation';
 import { isTokenGetApi } from 'api';
@@ -18,6 +19,8 @@ import Loader from 'components/Loader';
 import Sort from './Sort';
 import Search from './Search';
 import Modal from 'components/Modal/Modal';
+import { useDispatch } from 'react-redux';
+import { myEstimateAction } from 'storeCompany/myQuotation';
 
 type Props = {
   data?: ReceivedRequest;
@@ -28,7 +31,19 @@ type Props = {
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
 const RecieveRequestUnder = ({ data, setComponentId, componentId }: Props) => {
   const router = useRouter();
-  console.log(TAG + '🔥 ~ line 45 ~ data check');
+  const dispatch = useDispatch();
+  // console.log(TAG + '🔥 ~ line 45 ~ data check');
+
+  const onClick = (el: ReceivedQuotationRequests) => {
+    console.log('온클릭');
+    dispatch(myEstimateAction.reset());
+    router.push({
+      pathname: '/company/recievedRequest',
+      query: {
+        quotationRequestIdx: el?.quotationRequest?.quotationRequestIdx,
+      },
+    });
+  };
 
   return (
     <>
@@ -36,15 +51,7 @@ const RecieveRequestUnder = ({ data, setComponentId, componentId }: Props) => {
         {data?.receivedQuotationRequests?.map((el, idx) => (
           <Contents
             key={el?.quotationRequest?.quotationRequestIdx}
-            onClick={() => {
-              router.push({
-                pathname: '/company/recievedRequest',
-                query: {
-                  quotationRequestIdx:
-                    el?.quotationRequest?.quotationRequestIdx,
-                },
-              });
-            }}
+            onClick={() => onClick(el)}
             select={Number(el?.quotationRequest?.quotationRequestIdx)}
             componentId={componentId}
           >
