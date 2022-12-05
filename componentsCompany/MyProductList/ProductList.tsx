@@ -144,6 +144,11 @@ const ListBox = styled.div`
   /* background-color: red; */
   /* padding-left: 13.5pt;
   padding-right: 13.5pt; */
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    margin: 0 auto;
+  }
 `;
 
 const ImageBox = styled.div`
@@ -199,6 +204,13 @@ const BtnBox = styled.div`
   position: fixed;
   bottom: 30pt;
   width: 100%;
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    position: relative;
+    margin: 0 auto;
+    width: 254.7pt;
+    padding-top: 150pt;
+  }
 `;
 
 const ProductAddBtn = styled.div`
