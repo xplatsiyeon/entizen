@@ -73,9 +73,10 @@ const ProfileEditing = () => {
     if (snsMember) {
       setCheckSns(snsMember);
     }
-    console.log('여기임둥');
+
     console.log(checkSns);
     console.log(snsMember);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // 오른쪽 컴포넌트
@@ -102,7 +103,7 @@ const ProfileEditing = () => {
             {tabNumber < 2 && (
               <ChangeProfileText>프로필 변경</ChangeProfileText>
             )}
-            <WebRapper>
+            <WebRapper tabNumber={tabNumber}>
               <Inner tabNumber={tabNumber}>
                 {/* 프로필 변경 컴포넌트 */}
                 <ProfileModify setTabNumber={setTabNumber} />
@@ -185,12 +186,12 @@ const Inner = styled.div<{ tabNumber: number }>`
   }
 `;
 
-const WebRapper = styled.div`
+const WebRapper = styled.div<{ tabNumber: number }>`
   display: flex;
   justify-content: space-between;
   width: 900pt;
   margin: 0 auto;
-  margin-top: 33pt;
+  margin-top: ${({ tabNumber }) => (tabNumber === 2 ? '58.5pt' : '33pt')};
   margin-bottom: 90pt;
   gap: 30pt;
 
