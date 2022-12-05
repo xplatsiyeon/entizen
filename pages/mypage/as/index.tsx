@@ -92,19 +92,20 @@ const asNumber = () => {
   const [modalMessage, setModalMessage] = useState('');
 
   // --------------------- AS detail API ------------------------------
-  const { data, isLoading, isError, error, refetch } = useQuery<AsDetailReseponse>(
-    'as-detail',
-    () => isTokenGetApi(`/after-sales-services/${routerId}`),
-    {
-      enabled: router.isReady,
-    },
-  );
+  const { data, isLoading, isError, error, refetch } =
+    useQuery<AsDetailReseponse>(
+      'as-detail',
+      () => isTokenGetApi(`/after-sales-services/${routerId}`),
+      {
+        enabled: router.isReady,
+      },
+    );
 
-  useEffect(()=>{
-    if(routerId){
+  useEffect(() => {
+    if (routerId) {
       refetch();
     }
-  }, [routerId])
+  }, [routerId]);
 
   const {
     mutate: completeMutate,
@@ -177,15 +178,15 @@ const asNumber = () => {
       <WebHeader num={2} now={'mypage'} />
       <Inner>
         <FlexBox>
-          <Wrap1>
+          <Wrap1 isReview={isReview}>
             {/* 회원 메뉴에 A/S 카테고리를 펼치기 위해 page={2}를 넘긴다. (내 견적서는 0).
                 [id].tsx에서 리스트 호출하고 그 리스트를 RequestMain 컴포넌트에 넘겨줘야함,
               */}
-            <RequestMain page={2} />
+            {!isReview && <RequestMain page={2} />}
           </Wrap1>
           <Wrap2>
             {/* AS 상단 부분 */}
-            <AsRequest data={data!} />
+            {<AsRequest data={data!} />}
             {/* 하단 부분 내용 */}
             {isReview ? (
               <AsWriteReview
@@ -242,7 +243,10 @@ const asNumber = () => {
                 data?.data.afterSalesService.badge.includes('A/S') &&
                 data?.data.afterSalesService.afterSalesService
                   .afterSalesServiceReview && (
-                  <Btn onClick={() => handleClick('myReview')}>
+                  <Btn
+                    className="review"
+                    onClick={() => handleClick('myReview')}
+                  >
                     <span>내 리뷰 보기</span>
                   </Btn>
                 )}
@@ -286,7 +290,8 @@ const FlexBox = styled.div`
   display: flex;
   position: relative;
 `;
-const Wrap1 = styled.div`
+const Wrap1 = styled.div<{ isReview: boolean }>`
+  display: ${({ isReview }) => isReview && 'none'};
   width: 255pt;
   border: 1px solid #e9eaee;
   border-radius: 6pt;
@@ -333,6 +338,9 @@ const Btn = styled.button`
   letter-spacing: -0.02em;
   text-align: center;
   background: none;
+  &.review {
+    cursor: pointer;
+  }
   &.isColor {
     cursor: pointer;
     color: white;
@@ -350,6 +358,7 @@ const Footer = styled.div`
 `;
 const BtnBox = styled.button`
   width: 100%;
+  margin-top: 30pt;
   padding-top: 15pt;
   padding-bottom: 15pt;
   background-color: ${colors.main1};

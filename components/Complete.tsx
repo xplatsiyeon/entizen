@@ -38,7 +38,9 @@ const Complete = ({
     <>
       <Wrapper>
         <IconWrap onClick={() => router.push('/company/quotation')}>
-          <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
+          {yesExit && (
+            <Image src={ExitImg} alt="exit" style={{ cursor: 'pointer' }} />
+          )}
         </IconWrap>
         <Nav>
           {yesExit && (
@@ -116,11 +118,12 @@ const Footer = styled.div`
   width: 50%;
   margin: 0 auto;
   position: relative;
+
   box-sizing: border-box;
   text-align: center;
-
+  bottom: 0;
   @media (max-width: 899.25pt) {
-    /* position: absolute; */
+    position: absolute;
     width: 100%;
     left: 0;
     bottom: 0;
@@ -170,6 +173,7 @@ const Btn = styled(Button)`
     padding: 15pt 0;
     font-size: 12pt;
     line-height: 12pt;
+    margin-bottom: 30pt;
   }
 
   @media (min-width: 900pt) {

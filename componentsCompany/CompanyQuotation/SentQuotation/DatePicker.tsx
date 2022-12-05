@@ -335,7 +335,7 @@ const Schedule = styled.div`
     color: ${colors.main2};
   }
   @media (min-width: 900pt) {
-    padding: 18pt 47.25pt 70pt 47.25pt;
+    padding: 18pt 47.25pt 0 47.25pt;
   }
 `;
 const UL = styled.ul`

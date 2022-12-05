@@ -243,16 +243,20 @@ const PasswordModify = ({ setTabNumber }: Props) => {
                 <></>
               )}
             </Box>
-            <Btn
-              isClick={
-                checkPw.length > 9 && pwInput.length > 9 && pwInput === checkPw
-                  ? true
-                  : false
-              }
-              handleClick={handleClick}
-              marginTop="33.75"
-              text={'수정 완료'}
-            />
+            <BtnBox>
+              <Btn
+                isClick={
+                  checkPw.length > 9 &&
+                  pwInput.length > 9 &&
+                  pwInput === checkPw
+                    ? true
+                    : false
+                }
+                handleClick={handleClick}
+                marginTop="33.75"
+                text={'수정 완료'}
+              />
+            </BtnBox>
           </Wrapper>
         </Inner>
       </WebBody>
@@ -316,16 +320,18 @@ const Inner = styled.div`
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
   width: 580.5pt;
+
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
     position: relative;
+    box-shadow: none;
+    border-radius: 0;
     margin: 0;
     padding: 0;
   }
 
   @media (min-width: 900pt) {
-    padding-bottom: 271pt;
   }
 `;
 
@@ -354,19 +360,11 @@ const NewPassword = styled.p`
 const Wrapper = styled.div`
   position: relative;
   margin: 0pt 31.875pt;
-
   @media (max-width: 899.25pt) {
     height: 100%;
     padding: 0 15pt 15pt 15pt;
     margin: 0;
   }
-`;
-const Text = styled.p`
-  margin-top: 6pt;
-  font-weight: 700;
-  font-size: 18pt;
-  line-height: 24pt;
-  color: ${colors.main2};
 `;
 
 const Input = styled(TextField)`
@@ -394,10 +392,10 @@ const Input = styled(TextField)`
     display: block;
   }
 `;
-
-// const InputBox = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: start;
-//   margin-top: 45pt;
-// `;
+const BtnBox = styled.div`
+  width: 100%;
+  margin-top: 229pt;
+  @media (max-width: 899.25pt) {
+    position: relative;
+  }
+`;

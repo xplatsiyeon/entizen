@@ -88,10 +88,10 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
         'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
       );
       let cloneDocument = document as any;
-      cloneDocument.form_chk.action =
+      cloneDocument.form_phone.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
-      cloneDocument.form_chk.target = 'popupChk';
-      cloneDocument?.form_chk?.submit();
+      cloneDocument.form_phone.target = 'popupChk';
+      cloneDocument?.form_phone?.submit();
     }
   };
   // 나이스 인증 1
@@ -165,7 +165,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
 
               {!checkSns && (
                 <>
-                  <form name="form_chk" method="get">
+                  <form name="form_phone" method="get">
                     <input type="hidden" name="m" value="checkplusService" />
                     {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
                     <input

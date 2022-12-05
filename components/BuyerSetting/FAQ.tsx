@@ -267,7 +267,7 @@ const TabContainer = styled.div`
   position: relative;
   padding-left: 15pt;
   padding-right: 15pt;
-
+  cursor: pointer;
   @media (max-width: 899.25pt) {
     justify-content: space-evenly;
     align-items: center;

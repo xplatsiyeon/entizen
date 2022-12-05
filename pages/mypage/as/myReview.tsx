@@ -82,7 +82,8 @@ const MyReview = (props: Props) => {
             ))}
 
             <TextArea
-              placeholder="[선택] 파트너의 어떤점이 기억에 남으시나요?"
+              // placeholder="[선택] 파트너의 어떤점이 기억에 남으시나요?"
+              placeholder=""
               rows={8}
               value={review.opinion}
               required

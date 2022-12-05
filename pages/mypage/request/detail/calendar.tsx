@@ -15,6 +15,8 @@ import WebHeader from 'componentsWeb/WebHeader';
 import { useMutation } from 'react-query';
 import { isTokenPostApi } from 'api';
 import { AxiosError } from 'axios';
+import ExitImg from '../../../../public/images/X.svg';
+import BackImg from 'public/images/back-btn.svg';
 
 interface Mutation {
   isSuccess: boolean;
@@ -69,6 +71,12 @@ const Mypage1_5 = () => {
       <Body>
         <WebHeader />
         <Inner>
+          <SelectDate>
+            <IconWrap onClick={() => router.back()}>
+              <Image src={BackImg} alt="exit" style={{ cursor: 'pointer' }} />
+            </IconWrap>
+            <SelectDateText>날짜선택</SelectDateText>
+          </SelectDate>
           <Wrapper>
             {/* 모달 */}
             {isModal && (
@@ -119,6 +127,37 @@ const Mypage1_5 = () => {
 };
 
 export default Mypage1_5;
+
+const SelectDate = styled.div`
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+  @media (min-width: 900pt) {
+    display: flex;
+  }
+`;
+
+const IconWrap = styled.div`
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+  @media (min-width: 900pt) {
+    padding-left: 29pt;
+  }
+`;
+
+const SelectDateText = styled.div`
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 18pt;
+    font-weight: 700;
+    line-height: 21pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin: 0 auto;
+    padding-right: 58pt;
+  }
+`;
 
 const Body = styled.div`
   display: flex;
@@ -185,6 +224,9 @@ const H1 = styled.h1`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   padding-left: 15pt;
+  @media (min-width: 900pt) {
+    padding-top: 50.25pt;
+  }
 `;
 const P = styled.p`
   padding-top: 9pt;
