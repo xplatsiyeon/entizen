@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import { useQuery } from 'react-query';
@@ -15,6 +15,7 @@ import Search from './Search';
 import { HandleColor } from 'utils/changeValue';
 import WebSort from './WebSort';
 import NoEstimate from './NoEstimate';
+import useDebounce from 'hooks/useDebounce';
 
 type Props = {};
 export interface QuotationRequest {
@@ -53,29 +54,36 @@ export interface SentrequestResponse {
   sendQuotationRequests: SendQuotationRequests[];
 }
 const TAG = 'components/Company/CompanyQuotation/SentRequest.tsx';
+const filterTypeEn = ['deadline', 'status', 'date'];
 const SentRequest = ({}: Props) => {
   const router = useRouter();
   const [searchWord, setSearchWord] = useState<string>('');
   const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
+
   const [checkedFilter, setCheckedFilter] =
     useState<filterType>('마감일순 보기');
 
-  const { data, isError, isLoading, error } = useQuery<SentrequestResponse>(
-    'sent-request',
-    () => isTokenGetApi('/quotations/sent-request'),
-  );
+  const keyword = useDebounce(searchWord, 2000);
+  const { data, isError, isLoading, error, refetch, remove } =
+    useQuery<SentrequestResponse>(
+      'sent-request',
+      () =>
+        isTokenGetApi(
+          `/quotations/sent-request?keyword=${keyword}&sort=${filterTypeEn[checkedFilterIndex]}`,
+        ),
+      {
+        enabled: false,
+        // suspense: true,
+      },
+    );
+
+  useLayoutEffect(() => {
+    refetch();
+  }, [checkedFilterIndex, keyword]);
 
   if (isError) {
     console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
     console.log(error);
-    return (
-      <Modal
-        text="다시 시도해주세요"
-        click={() => {
-          router.push('/');
-        }}
-      />
-    );
   }
   if (isLoading) {
     return <Loader />;
@@ -83,9 +91,8 @@ const SentRequest = ({}: Props) => {
 
   console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
   console.log(data);
-  // 데이터 없을 때
-  const NoData: [] = [];
 
+  //
   return (
     <>
       <Sort
