@@ -131,7 +131,7 @@ const Chatting = () => {
     <WebBody>
       <WebHeader />
       <Wrapper>
-        <ChattingLists/>
+        <ChattingLists userChatting={true}/>
       </Wrapper>
       <WebFooter />
     </WebBody>

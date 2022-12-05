@@ -17,6 +17,7 @@ import List from 'public/images/List.png';
 
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
+import ChattingLists from 'components/Chatting/ChattingLists';
 const Chatting = () => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
@@ -44,6 +45,8 @@ const Chatting = () => {
     refetch();
   }, [index, keyword]);
 
+  console.log('list', data)
+
   const handle = () => {};
 
   if (isLoading) {
@@ -53,70 +56,7 @@ const Chatting = () => {
     <WebBody>
       <WebHeader />
       <Wrapper>
-        <Body>
-          <Header>
-            <H2>소통하기</H2>
-            <IconBox>
-              <IconWrap>
-                 <Image src={bell} layout="fill" /> 
-              </IconWrap>
-              <IconWrap>
-                <Image src={List} layout="fill" />
-              </IconWrap>
-            </IconBox>
-          </Header>
-          <FlexBox>
-            <WebBox>
-              <Input
-                placeholder="이름을 검색하세요."
-                type="text"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <div style={{ width: '15pt', height: '15pt' }}>
-                        <Image
-                          src={search}
-                          alt="searchIcon"
-                          layout="intrinsic"
-                        />
-                      </div>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Inner>
-                <TabList>
-                  {tabList.map((t, idx) => {
-                    return (
-                      <Tab
-                        key={idx}
-                        onClick={() => setIndex(idx)}
-                        tab={idx.toString()}
-                        index={index.toString()}
-                      >
-                        {t}
-                        <Dot tab={idx.toString()} index={index.toString()} />
-                      </Tab>
-                    );
-                  })}
-                  <FAQBtn onClick={handle}>FAQ</FAQBtn>
-                </TabList>
-                {/* 채팅 리스트 */}
-                <ComChattingList data={data!} />
-              </Inner>
-            </WebBox>
-          </FlexBox>
-          {/* {routerId && (
-            <MobBox>
-              <ChattingRoom
-                routerId={routerId!}
-                name={router.query.name}
-                alarm={router.query.alarm}
-              />
-            </MobBox>
-          )} */}
-          <BottomNavigation />
-        </Body>
+        <ChattingLists userChatting={false}/>
       </Wrapper>
       <WebFooter />
     </WebBody>

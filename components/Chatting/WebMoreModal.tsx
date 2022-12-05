@@ -13,7 +13,7 @@ interface Props {
   setQuitModal: Dispatch<SetStateAction<boolean>>;
 }
 
-const MoreModal = ({ setMoreModal, setQuitModal }: Props) => {
+const WebMoreModal = ({ setMoreModal, setQuitModal }: Props) => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
   const queryClinet = useQueryClient();
@@ -38,7 +38,7 @@ const MoreModal = ({ setMoreModal, setQuitModal }: Props) => {
     });
   };
   return (
-    <Wrapper>
+    <>
       <Box>
         <div className="list fisrt" onClick={() => onClickAlarm(routerId)}>
           알람끄기
@@ -53,12 +53,12 @@ const MoreModal = ({ setMoreModal, setQuitModal }: Props) => {
           채팅방 나가기
         </div>
       </Box>
-      <BottomBtn onClick={() => setMoreModal(false)}>취소</BottomBtn>
-    </Wrapper>
+      <Wrapper onClick={() => setMoreModal(false)} />
+    </>
   );
 };
 
-export default MoreModal;
+export default WebMoreModal;
 
 const Wrapper = styled.div`
   position: fixed;
@@ -66,24 +66,27 @@ const Wrapper = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: none;
   display: flex;
   justify-content: end;
   align-items: center;
   flex-direction: column;
   gap: 6.75pt;
-  z-index: 100;
-
-  @media (min-width: 900pt) {
+  @media (max-width: 899.25pt) {
     display: none;
   }
 
 `;
 const Box = styled.div`
-  position: relative;
+  position: absolute;
+  right: 9pt;
   overflow: hidden;
-  width: 100%;
   border-radius: 9pt;
+  background: white;
+  //border: 1px solid;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  padding: 9pt 21pt;
+  z-index: 5;
   .list {
     width: 100%;
     background: ${colors.lightWhite};
