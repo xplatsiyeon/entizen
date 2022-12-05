@@ -67,9 +67,18 @@ const changeDate = () => {
               <BackImage className="back-img" onClick={() => router.back()}>
                 <Image src={BackImg} alt="btn-icon" />
               </BackImage>
-              <SelectDate>다른 날짜 선택</SelectDate>
+              {/* 고객이 일정 변경 요청할때 */}
+              {/* 기존 일정 추가 필요 */}
+              <SelectDate>일정 변경</SelectDate>
             </WebSelectHeader>
-            <Title>가능한 날짜를 선택해주세요</Title>
+            <Title>
+              현장실사 방문이
+              <br />
+              가능한 날짜를 선택해주세요
+            </Title>
+            <DateNotice>
+              현장 검토 및 최종견적을 위해 담당자가 방문할 예정입니다.
+            </DateNotice>
             <Calendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
@@ -157,6 +166,7 @@ const Title = styled.h1`
   color: ${colors.main2};
   padding-left: 15pt;
   padding-top: 27pt;
+  white-space: pre-wrap;
 `;
 const UL = styled.ul`
   // padding: 24pt 15pt 0 15pt;
@@ -233,7 +243,20 @@ const SelectDate = styled.div`
   letter-spacing: -0.02em;
   text-align: center;
   color: #222222;
-  padding-left: 60.375pt;
+  /* padding-left: 60.375pt; */
+  padding-left: 80pt;
+`;
+
+const DateNotice = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 10.5pt;
+  font-weight: 500;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #747780;
+  padding-left: 15pt;
+  padding-top: 9pt;
 `;
 
 const BackImage = styled.div`
