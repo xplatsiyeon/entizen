@@ -2,35 +2,48 @@ import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import Image from 'next/image';
 import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import { Contents } from 'pages/faq';
 
+import { arrayBuffer } from 'stream/consumers';
+
 interface Props {
   data: Contents[];
+  tabNumber: number;
 }
 
-const FaqInfomation = ({ data }: Props) => {
+type SelectArray = { id: number; boolean: boolean };
+
+const FaqInfomation = ({ data, tabNumber }: Props) => {
   const [open, setOpen] = useState<boolean[]>(
     Array.from({ length: data.length }, () => false),
   );
-
+  console.log(open, 'open 25번줄');
   const handleClick = (id: number) => {
     let temp = [...open];
     temp[id] = !temp[id];
     setOpen(temp);
   };
 
+  useEffect(() => {
+    setOpen([false]);
+  }, [tabNumber]);
+
   return (
     <div>
       {data?.map((list) => (
         <div key={list.id}>
           {/* Close */}
-          <ItemButton onClick={() => handleClick(list.id)}>
+          <ItemButton
+            onClick={() => {
+              handleClick(list.id);
+            }}
+          >
             <QText>Q</QText>
             <ListItemText primary={list.name} />
-            {open ? (
+            {open[list.id] ? (
               <Image src={UpArrow} alt="up_arrow" />
             ) : (
               <Image src={DownArrow} alt="down_arrow" />
