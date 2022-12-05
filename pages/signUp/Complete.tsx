@@ -6,13 +6,18 @@ import WebFooter from 'componentsWeb/WebFooter';
 import Image from 'next/image';
 import WhyEntizen from 'components/Main/WebWhyEntizen';
 import ExitImg from 'public/images/X.svg';
+import { useMediaQuery } from 'react-responsive';
 
 const SignUpComplete = () => {
   const router = useRouter();
 
+  const mobile = useMediaQuery({
+    query: '(min-width:899.25pt)',
+  });
+
   return (
     <Body>
-      <WebHeader />
+      {/* {!mobile && <WebHeader />} */}
       <Inner>
         <Exit onClick={() => router.push('/')}>
           <Image src={ExitImg} alt="exit-icon" />
