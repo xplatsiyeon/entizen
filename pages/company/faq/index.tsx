@@ -10,6 +10,7 @@ import CommunicationIcon from 'public/images/communication-icon.svg';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 export interface Contents {
   id: number;
@@ -159,6 +160,7 @@ const Faq = () => {
 
   return (
     <WebBody>
+      <CompanyRightMenu />
       <WebBuyerHeader
         setTabNumber={setTabNumber}
         tabNumber={tabNumber!}

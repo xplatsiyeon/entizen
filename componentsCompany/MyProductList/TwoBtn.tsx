@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
+import { isTokenDeleteApi } from 'api';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useMutation } from 'react-query';
 import colors from 'styles/colors';
 
 type Props = {
@@ -31,6 +33,12 @@ const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     position: fixed;
   }
+
+  @media (min-width: 900pt) {
+    position: relative;
+    margin-top: 45pt;
+    padding-bottom: 0;
+  }
 `;
 const BtnBox = styled.div`
   margin: 0 15pt;
@@ -49,6 +57,7 @@ const LeftBtn = styled.button`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  cursor: pointer;
 `;
 const RightBtn = styled.button`
   padding: 15pt 32.5pt;
@@ -61,6 +70,7 @@ const RightBtn = styled.button`
   font-size: 12pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
+  cursor: pointer;
 `;
 // Blur 효과
 const Blur = styled.div`
