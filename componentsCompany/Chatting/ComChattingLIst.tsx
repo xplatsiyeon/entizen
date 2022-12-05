@@ -8,16 +8,19 @@ import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
 import QuitModal from 'components/Chatting/QuitModal';
 import { ChattingListResponse } from 'pages/chatting';
-import { useMutation, useQueryClient } from 'react-query';
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, useMutation, useQueryClient } from 'react-query';
 import { isTokenPatchApi } from 'api';
 import hiddenUnChecked from 'public/images/hiddenUnChecked.png';
 import hiddenChecked from 'public/images/hiddenChecked.png';
 import hiddenStopAlarm from 'public/images/hiddenStopAlarm.png';
 import hiddenAlarm from 'public/images/hiddenAlarm.png';
+import chatEntizen from 'public/images/chatEntizen.png';
 
 type Props = {
   // type: number
-  data: ChattingListResponse;
+  data: ChattingListResponse; 
+  refetch : <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) =>
+            Promise<QueryObserverResult<ChattingListResponse, unknown>>
 };
 
 type UserChattingLogs = {
@@ -54,7 +57,7 @@ type UserChattingLogs = {
   };
 };
 
-const ComChattingList = ({ data }: Props) => {
+const ComChattingList = ({ data, refetch }: Props) => {
   const router = useRouter();
   const queryClinet = useQueryClient();
   const [modal, setModal] = useState<boolean>(false);
@@ -70,6 +73,12 @@ const ComChattingList = ({ data }: Props) => {
     },
     onError: () => {},
   });
+
+  useEffect(()=>{
+    refetch();
+  },[])
+
+
   /*메세지 시간 표현 처리 함수 */
   const handleTime = (target: string | undefined) => {
     const now = dayjs();
@@ -122,7 +131,7 @@ const ComChattingList = ({ data }: Props) => {
       console.log('s', start);
     }
   };
-  const touchMove = (e: TouchEvent<HTMLElement>, idx: number) => {
+  const touchMove = (e: TouchEvent<HTMLElement>) => {
     if (!pressed) {
       return;
     } else {
@@ -198,6 +207,7 @@ const ComChattingList = ({ data }: Props) => {
     patchMutate({
       url: `/chatting/${chattingRoomIdx}/favorite`,
     });
+    refetch();
   };
   const onClickAlarm = (chattingRoomIdx: number) => {
     patchMutate({
@@ -205,25 +215,108 @@ const ComChattingList = ({ data }: Props) => {
     });
   };
   /* 디테일 페이지 이동 */
-  const handleRoute = (chattingRoomIdx: number) => {
-    console.log('route');
+  const handleRoute = (chattingRoomIdx: number, entizen?:boolean) => {
+   if(entizen){
+    router.push({
+      pathname: `/company/chatting/chattingRoom`,
+      query: {
+        chattingRoomIdx: chattingRoomIdx,
+        entizen: true
+      },
+    });
+  }else{
     router.push({
       pathname: `/company/chatting/chattingRoom`,
       query: {
         chattingRoomIdx: chattingRoomIdx,
       },
     });
+  }
   };
+
+  console.log('com,list', data?.data.chattingRooms.userChattingRooms)
 
   return (
     <Body ref={chattingList}>
+
+      {/* 엔티젠. 상위 고정 && 채팅방 나가기 불가.*/}
+      <Chatting
+            className="chattingRoom"
+            onTouchStart={(e) => touchStart(e)}
+            onTouchMove={(e) => touchMove(e)}
+            onTouchEnd={touchEnd}
+          >
+            <HiddenBox1>
+              {/* 버튼에 즐겨찾기 설정 api함수 */}
+              <FavoriteBtn
+                onClick={() => onClickFavorite(data.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.chattingRoomFavoriteIdx)}
+              >
+                {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorit ? (
+                  <HiddenIconWrap>
+                    <Image src={hiddenChecked} layout="fill" />
+                  </HiddenIconWrap>
+                ) : (
+                  <HiddenIconWrap>
+                    <Image src={hiddenUnChecked} layout="fill" />
+                  </HiddenIconWrap>
+                )}
+              </FavoriteBtn>
+              {/* 버튼에 알림 설정 api함수 */}
+              <AlramBtn onClick={() => onClickAlarm(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomNotification.chattingRoomNotificationIdx)}>
+                {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomNotification.isSetNotification ? (
+                  <HiddenIconWrap>
+                    <Image src={hiddenAlarm} layout="fill" />
+                  </HiddenIconWrap>
+                ) : (
+                  <HiddenIconWrap>
+                    <Image src={hiddenStopAlarm} layout="fill" />
+                  </HiddenIconWrap>
+                )}
+              </AlramBtn>
+            </HiddenBox1>
+            <ChattingRoom
+              className="content-box"
+              onClick={() => handleRoute(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomIdx, true)}
+            >
+              <ChattingRoomImage>
+                {/* 이미지 파일 src가 없으면 */}
+                <ImageWrap>
+                  <Image src={chatEntizen} layout="fill" />
+                </ImageWrap>
+              </ChattingRoomImage>
+              <ChattingRoomPreview>
+                <FromMember>
+                  엔티즌
+                </FromMember>
+                <Previw>{data?.data.chattingRooms.entizenChattingRoom?.chattingLog?.content}</Previw>
+              </ChattingRoomPreview>
+              <ChattingRoomInfo>
+                <Created>
+                  {handleTime(data?.data.chattingRooms.entizenChattingRoom?.chattingLog?.createdAt)}
+                </Created>
+                <Box>
+                  <UnRead
+                    wasRead={data?.data.chattingRooms.entizenChattingRoom?.chattingLog?.wasRead || undefined}
+                  />
+                  <Favorite>
+                    {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorit? (
+                      <Image src={checked} layout="fill" />
+                    ) : (
+                      <Image src={unChecked} layout="fill" />
+                    )}
+                  </Favorite>
+                </Box>
+              </ChattingRoomInfo>
+            </ChattingRoom>
+      </Chatting>
+
       {data?.data?.chattingRooms?.userChattingRooms?.map((chatting, idx) => {
         return (
           <Chatting
             className="chattingRoom"
             key={idx}
             onTouchStart={(e) => touchStart(e)}
-            onTouchMove={(e) => touchMove(e, idx)}
+            onTouchMove={(e) => touchMove(e)}
             onTouchEnd={(e) => touchEnd(e)}
           >
             <HiddenBox1>

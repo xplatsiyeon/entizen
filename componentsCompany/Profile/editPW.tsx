@@ -118,7 +118,8 @@ const EditPW = ({ setComponent }: Props) => {
   const handleModalYes = () => {
     localStorage.removeItem('key');
     setOpenModal(false);
-    router.push('/signin');
+    setComponent!(1);
+    /*router.push('/signin'); */
   };
   const iconAdorment = {
     endAdornment: (

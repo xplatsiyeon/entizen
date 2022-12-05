@@ -37,6 +37,8 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
   const router = useRouter();
   const queryClinet = useQueryClient();
 
+  console.log('room,list', data?.data.chattingRooms.userChattingRooms )
+
   const [modal, setModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number>();
   // 채팅방 알림 에러
@@ -210,15 +212,24 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
   };
 
   /* 디테일 페이지 이동 */
-  const handleRoute = (chattingRoomIdx: number) => {
-    console.log('route');
-    router.push({
-      pathname: `/chatting/chattingRoom`,
-      query: {
-        chattingRoomIdx: chattingRoomIdx,
-      },
-    });
-  };
+  const handleRoute = (chattingRoomIdx: number, entizen?:boolean) => {
+    if(entizen){
+     router.push({
+       pathname: `/chatting/chattingRoom`,
+       query: {
+         chattingRoomIdx: chattingRoomIdx,
+         entizen: true
+       },
+     });
+   }else{
+     router.push({
+       pathname: `/chatting/chattingRoom`,
+       query: {
+         chattingRoomIdx: chattingRoomIdx,
+       },
+     });
+   }
+   };
 
   return (
     <Body ref={chattingList}>
@@ -291,9 +302,10 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 </Box>
               </ChattingRoomInfo>
             </ChattingRoom>
-          </Chatting>
+      </Chatting>
 
 
+      {/* 유저 채팅방.*/}
       {data?.data?.chattingRooms?.userChattingRooms?.map((chatting, idx) => {
         return (
           <Chatting

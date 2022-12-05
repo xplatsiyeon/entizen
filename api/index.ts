@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
-
+import axios from 'axios';
 interface ApiProps {
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   endpoint: string;
@@ -30,7 +29,6 @@ export const isTokenApi = async (apiInfo: ApiProps) => {
     withCredentials: true,
   }).then((res) => res);
 };
-
 // API 호출 (토큰 X)
 export const api = async (apiInfo: ApiProps) => {
   const { data, endpoint, method } = apiInfo;
@@ -45,7 +43,6 @@ export const api = async (apiInfo: ApiProps) => {
     withCredentials: true,
   }).then((res) => res.data);
 };
-
 // -----------------------------get-api--------------------------------------
 // API 호출 (토큰 X)
 export const getApi = async (url: string) => {

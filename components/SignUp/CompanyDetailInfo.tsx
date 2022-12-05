@@ -153,22 +153,11 @@ const CompanyDetailInfo = ({
   };
   // 이미지 or 파일 클릭
   const handleOnClick = () => {
-    if (!imgPreview && !filePreview) {
-      console.log('처음 클릭');
-      setFileModal(true);
-    }
-    if (imgPreview) {
-      console.log('이미지');
-      onClickPhoto();
-    }
-    if (filePreview) {
-      console.log('파일');
-      onClickFile();
-    }
+    if (!imgPreview && !filePreview) setFileModal(true);
+    if (imgPreview) onClickPhoto();
+    if (filePreview) onClickFile();
   };
-  const closeButton = () => {
-    setFileModal(false);
-  };
+  const closeButton = () => setFileModal(false);
 
   // 버튼 유효성 검사
   useEffect(() => {
@@ -197,7 +186,7 @@ const CompanyDetailInfo = ({
       setImgPreview(false);
       setFilePreview(false);
     }
-  }, [businessRegistration]);
+  }, [fileModal, businessRegistration]);
 
   // 주소검색
   if (addressOn) {

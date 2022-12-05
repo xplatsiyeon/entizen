@@ -25,8 +25,9 @@ import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
-import ChattingLists from 'components/Chatting/ChattingLists';
+import ChattingLists, { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
+import ChattingList from 'components/Chatting/ChattingList';
 
 type ChattingLogs = {
   createdAt: string;
@@ -71,18 +72,45 @@ type Props = {};
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
 const ChattingRoom = ({ }: Props) => {
 
+  const [moreModal, setMoreModal] = useState<boolean>(false);
+  const [quitModal, setQuitModal] = useState<boolean>(false);
+
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () =>
+      isTokenGetApi(
+        `/chatting?searchKeyword=&filter=all`,
+      ),
+    {
+      enabled: false,
+    },
+  );
+
+  useEffect(()=>{
+    refetch();
+    console.log(data?.data.chattingRooms.userChattingRooms)
+  },[])
+
   return (
     <WebBody>
       <WebHeader />
       <Wrapper>
         <Body>
           <MobWrap>
-            <ChattingLists chattingRoom={true}/>
+            <ChattingLists chattingRoom={true} userChatting={true}/>
           </MobWrap>
-          <ChattingRoomLogs/>
+          <ChattingRoomLogs userChatting={true}/>
         </Body>
       </Wrapper>
       <WebFooter />
+
+      {/* 더보기 모달 제어 */}
+      {moreModal && (
+        <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
+      )}
+
+      {/* 나가기 모달 제어 */}
+      {quitModal && <QuitModal setModal={setQuitModal} />}
     </WebBody>
   );
 };

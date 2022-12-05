@@ -39,7 +39,12 @@ const ProfileIndex = () => {
         {component === 1 && <FlexBox className="init">{components[0]}</FlexBox>}
 
         {component > 1 && (
-          <HiddenBox className="hidden_comp">{components[0]}</HiddenBox>
+          <>
+          <P>프로필 변경</P>
+          <HiddenBox className="hidden_comp">
+            {components[0]}
+            </HiddenBox>
+          </>
         )}
         {component !== 1 && (
           <FlexBox2 className="new_comp">{components[component - 1]}</FlexBox2>
@@ -65,34 +70,7 @@ const Wrapper = styled.div`
   @media (min-width: 900pt) {
     margin: 0 auto;
     width: 900pt;
-  }
-`;
-const ComponentWrapper = styled.div<{ component: number }>`
-  @media (min-width: 900pt) {
-    display: flex;
-    flex-direction: column;
-    width: ${({ component }) => (component > 1 ? '900pt' : '')};
-  }
-  @media (max-width: 899.25pt) {
-    display: block;
-  }
-`;
-const ComponentBox = styled.div`
-  @media (min-width: 900pt) {
-    display: flex;
-    flex-direction: row;
-    gap: 60pt;
-  }
-`;
-const ChangeProfileText = styled.div`
-  font-family: 'Spoqa Han Sans Neo';
-  font-size: 21pt;
-  font-weight: 700;
-  line-height: 21pt;
-  letter-spacing: -0.02em;
-  text-align: left;
-  @media (max-width: 899.25pt) {
-    display: none;
+    position: relative;
   }
 `;
 
@@ -121,6 +99,7 @@ const FlexBox = styled.div`
 const FlexBox2 = styled(FlexBox)`
   width: 560pt;
   padding: 32.25pt 22.5pt 42pt;
+  margin: 120pt 0 47.5pt;
 `;
 const HiddenBox = styled.div`
   display: block;
@@ -132,7 +111,7 @@ const HiddenBox = styled.div`
   border-radius: 12pt;
   background: #ffff;
   padding: 32.25pt 31.5pt 42pt;
-  margin: 45.75pt 0;
+  margin: 120pt 0 47.5pt;
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -162,3 +141,20 @@ const WebBody = styled.div`
     height: 100%;
   }
 `;
+
+const P =styled.p`
+  position: absolute;
+  left: 0;
+  top: 66pt;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 21pt;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  color: #222222;
+
+  @media (max-width: 899.25pt) {
+  display: none;
+  }
+`

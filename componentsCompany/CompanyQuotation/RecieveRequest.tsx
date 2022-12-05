@@ -1,23 +1,14 @@
 import styled from '@emotion/styled';
 import CommonBtn from 'components/mypage/as/CommonBtn';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { HandleColor } from 'utils/changeValue';
-import {
-  filterType,
-  filterTypeEn,
-  ReceivedRequest,
-} from 'pages/company/quotation';
-import { isTokenGetApi } from 'api';
-import { useQuery } from 'react-query';
-import useDebounce from 'hooks/useDebounce';
-import Loader from 'components/Loader';
+import { filterType, ReceivedRequest } from 'pages/company/quotation';
 import Sort from './Sort';
 import Search from './Search';
-import Modal from 'components/Modal/Modal';
 import WebSort from './WebSort';
 import NoEstimate from './NoEstimate';
 
@@ -44,8 +35,6 @@ const RecieveRequest = ({
   data,
 }: Props) => {
   const router = useRouter();
-  // 데이터 없을 때
-  const NoData: [] = [];
   return (
     <>
       <Sort
