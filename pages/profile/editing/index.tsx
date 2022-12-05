@@ -98,13 +98,18 @@ const ProfileEditing = () => {
           </WebHide>
         ) : (
           // --------------웹-------------
-          <WebRapper>
-            <Inner tabNumber={tabNumber}>
-              {/* 프로필 변경 컴포넌트 */}
-              <ProfileModify setTabNumber={setTabNumber} />
-            </Inner>
-            {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
-          </WebRapper>
+          <>
+            {tabNumber < 2 && (
+              <ChangeProfileText>프로필 변경</ChangeProfileText>
+            )}
+            <WebRapper>
+              <Inner tabNumber={tabNumber}>
+                {/* 프로필 변경 컴포넌트 */}
+                <ProfileModify setTabNumber={setTabNumber} />
+              </Inner>
+              {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
+            </WebRapper>
+          </>
         )}
 
         <WebFooter />
@@ -114,6 +119,22 @@ const ProfileEditing = () => {
 };
 
 export default ProfileEditing;
+
+const ChangeProfileText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 21pt;
+  font-weight: 700;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  width: 900pt;
+  margin: 0 auto;
+  padding-left: 40pt;
+  margin-top: 66pt;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
 
 const WebHide = styled.div`
   @media (min-width: 900pt) {
@@ -169,9 +190,10 @@ const WebRapper = styled.div`
   justify-content: space-between;
   width: 900pt;
   margin: 0 auto;
-  margin-top: 59pt;
+  margin-top: 33pt;
   margin-bottom: 90pt;
   gap: 30pt;
+
   @media (max-width: 899.25pt) {
     display: none;
   }
