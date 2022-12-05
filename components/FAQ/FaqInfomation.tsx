@@ -9,10 +9,9 @@ import { Contents } from 'pages/faq';
 
 interface Props {
   data: Contents[];
-  tabNumber: number;
 }
 
-const FaqInfomation = ({ data, tabNumber }: Props) => {
+const FaqInfomation = ({ data }: Props) => {
   const [open, setOpen] = useState<boolean[]>(
     Array.from({ length: data.length }, () => false),
   );
@@ -23,9 +22,9 @@ const FaqInfomation = ({ data, tabNumber }: Props) => {
     setOpen(temp);
   };
 
-  useEffect(() => {
-    setOpen(Array.from({ length: data.length }, () => false));
-  }, [tabNumber]);
+  // useEffect(() => {
+  //   setOpen(Array.from({ length: data.length }, () => false));
+  // }, [tabNumber]);
 
   return (
     <div>

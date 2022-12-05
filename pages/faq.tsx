@@ -122,9 +122,9 @@ const Faq = () => {
   const TabType: string[] = ['서비스 이용', '회원 정보', '신고'];
 
   const components: Components = {
-    0: <FaqInfomation data={contents} tabNumber={tabNumber} />,
-    1: <FaqInfomation data={userInfo} tabNumber={tabNumber} />,
-    2: <FaqInfomation data={report} tabNumber={tabNumber} />,
+    0: <FaqInfomation data={contents} />,
+    1: <FaqInfomation data={userInfo} />,
+    2: <FaqInfomation data={report} />,
   };
   const handleTab = (index: number) => setTabNumber(index);
   const leftOnClick = () => {
