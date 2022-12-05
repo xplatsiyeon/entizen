@@ -99,7 +99,7 @@ const ProfileEditing = () => {
         ) : (
           // --------------웹-------------
           <WebRapper>
-            <Inner>
+            <Inner tabNumber={tabNumber}>
               {/* 프로필 변경 컴포넌트 */}
               <ProfileModify setTabNumber={setTabNumber} />
             </Inner>
@@ -138,15 +138,17 @@ const WebBody = styled.div`
   }
 `;
 
-const Inner = styled.div`
+const Inner = styled.div<{ tabNumber: number }>`
   display: block;
   position: relative;
-  width: 345pt;
+  /* width: 255pt; */
+  width: ${({ tabNumber }) => (tabNumber === 2 ? '345pt' : '255pt')};
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   padding: 32.25pt 0 42pt;
   margin: 0 auto;
+
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
