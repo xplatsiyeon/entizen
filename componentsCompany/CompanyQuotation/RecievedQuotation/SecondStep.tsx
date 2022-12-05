@@ -474,9 +474,9 @@ const SecondStep = ({
           preQuotationChargerIdx,
           productFileType,
           createdAt,
-          ...newArr
+          ...newFile
         } = item;
-        return newArr;
+        return newFile;
       });
 
       setChargeTypeNumber(chargeTypeListEn.indexOf(charger.chargePriceType));
@@ -490,7 +490,6 @@ const SecondStep = ({
   }, [editData, StepIndex]);
   // 내 제품 리스트 하단 내용
   useEffect(() => {
-    console.log(productId);
     if (productId) {
       const targetProduct = productData?.chargerProduct.filter(
         (e) => e.chargerProductIdx === productId,
@@ -506,7 +505,7 @@ const SecondStep = ({
         } = item;
         return newArr;
       });
-      const newFile = targetProduct?.chargerImageFiles!.map((item) => {
+      const newFile = targetProduct?.chargerCatalogFiles!.map((item) => {
         const {
           chargerProductFileIdx,
           chargerProductIdx,
