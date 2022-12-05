@@ -60,11 +60,11 @@ export interface AsResposne {
 
 const TAG = 'components/mypage/as/index.tsx';
 
-type Props ={
-  listUp? : boolean;
-}
+type Props = {
+  listUp?: boolean;
+};
 
-const AsIndex = ({listUp}:Props ) => {
+const AsIndex = ({ listUp }: Props) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const menuList: {} = [];
@@ -152,7 +152,7 @@ const AsIndex = ({listUp}:Props ) => {
     const btn = select.current;
     if (target && btn) {
       if (target.style.display === '' || target.style.display === 'none') {
-        btn.style.borderRadius = '6pt 6pt 0 0';
+        btn.style.borderRadius = '6pt';
         target.style.display = 'block';
       } else {
         btn.style.borderRadius = '6pt';
@@ -171,17 +171,19 @@ const AsIndex = ({listUp}:Props ) => {
   };
 
   useEffect(() => {
-    setCheckedFilter(filterList[checkedFilterIndex]);
+    console.log(checkedFilterIndex);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    setCheckedFilter(filterList[checkedFilterIndex]);
   }, [checkedFilterIndex]);
   useEffect(() => {
     refetch();
-    return () => {
-      setKeywordSearch('');
-      remove();
-    };
+    // return () => {
+    //   setKeywordSearch('');
+    //   remove();
+    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkedFilter, keyword]);
+  }, [checkedFilterIndex, keyword]);
 
   if (isLoading) {
     return <Loader />;
@@ -223,7 +225,7 @@ const AsIndex = ({listUp}:Props ) => {
           onBlur={closeSelect}
           ref={select}
         >
-          <span>{checkedFilter}</span>
+          <span className="filterLabel">{checkedFilter}</span>
           <IconBox>
             <Image src={blackDownArrow} alt="rijgtArrow" />
           </IconBox>
@@ -231,7 +233,7 @@ const AsIndex = ({listUp}:Props ) => {
             {filterList.map((f, idx) => {
               return (
                 // 여기에 클릭이벤트로 정렬 api 보내는 함수 등록해야 함.
-                <li key={idx} onClick={() => setCheckedFilter(f)}>
+                <li key={idx} onClick={() => setCheckedFilterIndex(idx)}>
                   {f}
                 </li>
               );
@@ -259,38 +261,41 @@ const AsIndex = ({listUp}:Props ) => {
         </WrapInput>
       </Wrap>
       <ContentsContainer>
-        {data?.data?.afterSalesServices?.map((el, index) => (
-          <ContentsWrapper
-            key={index}
-            onClick={() =>
-              handleAsListClick(el?.afterSalesService?.afterSalesServiceIdx)
-            }
-          >
-            <ContentTop>
-              <ContentTitle>
-                {
-                  el?.afterSalesService?.project?.finalQuotation?.preQuotation
-                    ?.quotationRequest?.installationAddress
-                }
-              </ContentTitle>
-            </ContentTop>
-            <ContentCenter>
-              <ContentCenterText>
-                {el?.afterSalesService?.requestTitle}
-              </ContentCenterText>
-            </ContentCenter>
-            <ContentBottom>
-              <CommonBtn
-                text={el?.badge}
-                backgroundColor={handleColorAS(el?.badge)}
-              />
+        {data?.data?.afterSalesServices?.length! > 0 ? (
+          data?.data?.afterSalesServices?.map((el, index) => (
+            <ContentsWrapper
+              key={index}
+              onClick={() =>
+                handleAsListClick(el?.afterSalesService?.afterSalesServiceIdx)
+              }
+            >
+              <ContentTop>
+                <ContentTitle>
+                  {
+                    el?.afterSalesService?.project?.finalQuotation?.preQuotation
+                      ?.quotationRequest?.installationAddress
+                  }
+                </ContentTitle>
+              </ContentTop>
+              <ContentCenter>
+                <ContentCenterText>
+                  {el?.afterSalesService?.requestTitle}
+                </ContentCenterText>
+              </ContentCenter>
+              <ContentBottom>
+                <CommonBtn
+                  text={el?.badge}
+                  backgroundColor={handleColorAS(el?.badge)}
+                />
 
-              <DateText>{dateFomat(el.afterSalesService.createdAt)}</DateText>
-            </ContentBottom>
-          </ContentsWrapper>
-        ))}
+                <DateText>{dateFomat(el.afterSalesService.createdAt)}</DateText>
+              </ContentBottom>
+            </ContentsWrapper>
+          ))
+        ) : (
+          <NoAs />
+        )}
       </ContentsContainer>
-      {!menuList && <NoAs />}
       {menuList && (
         <BtnBox listUp={Boolean(listUp)}>
           <Btn onClick={handlerBtn}>A/S 요청하기</Btn>
@@ -345,8 +350,8 @@ const Input = styled(TextField)`
   }
 `;
 
-const Wrap = styled.div<{listUp:boolean}>`
-  display: ${({listUp})=> (listUp?'none':'flex')};;
+const Wrap = styled.div<{ listUp: boolean }>`
+  display: ${({ listUp }) => (listUp ? 'none' : 'flex')};
   flex-wrap: wrap;
   flex-direction: row-reverse;
 
@@ -420,6 +425,7 @@ const ContentsWrapper = styled.div`
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   margin-bottom: 9pt;
   border-radius: 6pt;
+  cursor: pointer;
 `;
 
 const ContentTop = styled.div``;
@@ -462,10 +468,11 @@ const DateText = styled(Typography)`
   color: #caccd1;
 `;
 
-const BtnBox = styled.div<{listUp:boolean}>`
-  width: 100%;
-  display:${({listUp})=> (listUp?'none':'flex')};
+const BtnBox = styled.div<{ listUp: boolean }>`
+  display: ${({ listUp }) => (listUp ? 'none' : 'flex')};
   justify-content: center;
+
+  width: 100%;
   padding-bottom: 76.5pt;
 `;
 
@@ -474,7 +481,12 @@ const Btn = styled(Button)`
   color: ${colors.lightWhite};
   margin-top: 27pt;
   border-radius: 6pt;
-  padding: 9pt 30pt;
+  padding: 15pt 93pt;
+
+  cursor: pointer;
+  @media (max-width: 899.25pt) {
+    padding: 9pt 30pt;
+  }
 `;
 
 const FilterBox = styled(Box)`
@@ -536,7 +548,6 @@ const WebFilter = styled.div`
   letter-spacing: -0.02em;
   align-items: center;
   border: 1px solid #e2e5ed;
-  border-radius: 6pt;
   width: 96pt;
   justify-content: center;
   box-sizing: border-box;
@@ -548,10 +559,11 @@ const WebFilter = styled.div`
 const Ul = styled.ul`
   display: none;
   position: absolute;
+  margin: 6pt;
   width: 100%;
-  border: 1px solid #e2e5ed;
   top: 100%;
-  left: -0.75pt;
+  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+  border-radius: 6pt;
   padding: 8pt 0;
   height: auto;
   overflow: hidden;
@@ -559,6 +571,7 @@ const Ul = styled.ul`
   li {
     text-align: center;
     padding: 8pt 0;
+    cursor: pointer;
   }
 `;
 const IconBox = styled.div<{ arrow?: boolean }>`
@@ -567,5 +580,5 @@ const IconBox = styled.div<{ arrow?: boolean }>`
   margin-left: 9pt;
   display: flex;
   align-items: center;
-  //transform: ${({ arrow }) => (arrow !== true ? `` : `rotate(180deg)`)};
+  /* transform: ${({ arrow }) => (arrow !== true ? `` : `rotate(180deg)`)}; */
 `;

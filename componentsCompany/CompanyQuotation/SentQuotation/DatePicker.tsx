@@ -265,14 +265,14 @@ const Wrapper = styled.div`
   position: relative;
   padding-bottom: 225pt;
   /* margin: 0 31.875pt; */
-  height: 667.5pt;
+  //height: 667.5pt;
 
   @media (max-width: 899.25pt) {
     height: 100%;
   }
 
   @media (min-width: 900pt) {
-    padding-bottom: 120pt;
+    padding-bottom: 0pt;
   }
 `;
 const H1 = styled.h1`

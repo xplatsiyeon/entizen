@@ -32,8 +32,9 @@ const Header = (props: Props) => {
 
 const HeaderBox = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  position: relative;
   padding-top: 9pt;
   padding-bottom: 9pt;
   .text {
@@ -44,6 +45,11 @@ const HeaderBox = styled.div`
     letter-spacing: -0.02em;
     color: ${colors.main2};
     font-family: 'Spoqa Han Sans Neo';
+  }
+  .back-img {
+    position: absolute;
+    top: auto;
+    left: 0;
   }
 `;
 

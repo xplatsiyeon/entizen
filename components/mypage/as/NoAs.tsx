@@ -17,7 +17,7 @@ const NoAs = (props: Props) => {
         <Image src={AsImg} alt="no-history" />
       </ImgBox>
       <Message>요청한 A/S가 없습니다.</Message>
-      <Btn onClick={handlerBtn}>A/S 요청하기</Btn>
+      {/* <Btn onClick={handlerBtn}>A/S 요청하기</Btn> */}
     </Wrapper>
   );
 };
