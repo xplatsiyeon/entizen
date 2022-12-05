@@ -416,6 +416,7 @@ const SettingList = styled.div`
   position: relative;
   padding-top: 10.5pt;
   padding-bottom: 10.5pt;
+  cursor: pointer;
   &:nth-child(7) {
     color: #f75015;
   }
