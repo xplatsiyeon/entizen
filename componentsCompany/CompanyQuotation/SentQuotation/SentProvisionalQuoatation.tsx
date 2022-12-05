@@ -17,8 +17,7 @@ import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import CommunicationBox from 'components/CommunicationBox';
-import { useDispatch } from 'react-redux';
-import { companyRequestFilterNumberAction } from 'storeCompany/requestTabSlice';
+import Loader from 'components/Loader';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -199,7 +198,6 @@ const SentQuoatationFirst = () => {
   const router = useRouter();
   const routerId = router?.query?.preQuotationIdx!;
   const historyId = router?.query?.historyIdx!;
-  const dispatch = useDispatch();
   // 현장실사 완료 모달
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   // 에러 모달
@@ -210,16 +208,6 @@ const SentQuoatationFirst = () => {
   const [open, setOpen] = useState<boolean>(false);
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(1);
-  // 히스토리 때문에 step 바꿔주는거
-  useEffect(() => {
-    if (
-      router.pathname === `/company/sentProvisionalQuotation` &&
-      router.query.historyIdx
-    ) {
-      setTabNumber(2);
-    }
-  }, [router]);
-
   const [componentId, setComponentId] = useState<number>();
   // 실시간으로 width 받아옴
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -232,28 +220,6 @@ const SentQuoatationFirst = () => {
     setNowWidth(window.innerWidth);
   };
 
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
-
-  useEffect(() => {
-    if (router.query.preQuotationIdx) {
-      const num = Number(router.query.preQuotationIdx);
-      setComponentId(num);
-      // setData(tempProceeding[num]);
-      setComponentId(num);
-    }
-  }, [router.query.preQuotationIdx]);
-
-  useEffect(() => {
-    if (router.query.preQuotationIdx) {
-      setOpenSubLink(false);
-    }
-  }, [router]);
-
   // ----------- 보낸 견적 상세 페이지 api --------------
   const { data, isLoading, isError, error, refetch, remove } =
     useQuery<SentRequestResponse>(
@@ -261,6 +227,7 @@ const SentQuoatationFirst = () => {
       () => isTokenGetApi(`/quotations/sent-request/${routerId || historyId}`),
       {
         enabled: router.isReady,
+        // suspense: true,
         // enabled: false,
       },
     );
@@ -321,20 +288,54 @@ const SentQuoatationFirst = () => {
 
   // 모바일 헤더 뒤로가기 버튼
   const onClickBackBtn = () => {
-    // dispatch(companyRequestFilterNumberAction.setNumber(2));
-    router.back();
+    router.push({
+      pathname: '/company/quotation',
+      query: {
+        id: 1,
+      },
+    });
   };
 
   useEffect(() => {
-    if (router.isReady) {
-      refetch();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
+  useEffect(() => {
+    if (router.query.preQuotationIdx) {
+      const num = Number(router.query.preQuotationIdx);
+      setComponentId(num);
     }
-    // remove();
+  }, [router.query.preQuotationIdx]);
+
+  useEffect(() => {
+    if (router.query.preQuotationIdx) setOpenSubLink(false);
+  }, [router]);
+
+  // 히스토리 때문에 step 바꿔주는거
+  useEffect(() => {
+    if (
+      router.pathname === `/company/sentProvisionalQuotation` &&
+      router.query.historyIdx
+    ) {
+      setTabNumber(2);
+    }
+  }, [router]);
+
+  useEffect(() => {
+    if (router.isReady) refetch();
   }, [routerId, historyId]);
 
-  // if (isLoading || spotLoading) {
-  //   return <Loader />;
-  // }
+  useEffect(() => {
+    return () => remove();
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   if (isError || spotIsError) {
     console.log(TAG + '🔥 ~line 42 에러 코드');
     console.log(error);

@@ -52,9 +52,6 @@ export const filterTypeEn = ['deadline', 'status', 'date'];
 const TAG = 'company/quotation/index.tsx';
 const CompanyQuotations = ({ num, now }: Props) => {
   const router = useRouter();
-  const { tabnumIndex } = useSelector(
-    (state: RootState) => state.companyRequestFilterNumberData,
-  );
   const [tabNumber, setTabNumber] = useState(0);
   const [searchWord, setSearchWord] = useState<string>('');
   // 현재 페이지 url이 /quotation boolean 판단
@@ -132,9 +129,9 @@ const CompanyQuotations = ({ num, now }: Props) => {
     }
   }, []);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
   if (isError) {
     console.log(TAG + '🔥 ~line  68 ~ error 콘솔');
     console.log(error);

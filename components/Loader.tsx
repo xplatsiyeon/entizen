@@ -20,6 +20,8 @@ const LoaderWrap = styled.div`
   text-align: center;
   align-items: center;
   z-index: 999;
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
+  /* background-color: red; */
 `;
 const Container = styled.div``;
