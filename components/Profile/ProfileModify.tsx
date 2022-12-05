@@ -312,13 +312,20 @@ const Inner = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin: 0 31.875pt;
+
   @media (max-width: 899.25pt) {
     height: 100%;
     margin: 0;
   }
 `;
 const Body = styled.div`
-  padding: 27pt 15pt 96pt 15pt;
+  @media (min-width: 900pt) {
+    padding-top: 27pt;
+    padding-bottom: 96pt;
+  }
+  @media (max-width: 900pt) {
+    padding: 27pt 15pt 96pt 15pt;
+  }
 `;
 const Avatar = styled.div`
   display: flex;

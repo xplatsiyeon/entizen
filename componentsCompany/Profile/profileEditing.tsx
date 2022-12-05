@@ -17,9 +17,10 @@ import jwt_decode from 'jwt-decode';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
+  component: number;
 };
 const TAG = 'componentsCompany/Profile/profileEditing.tsx';
-const ProfileEditing = ({ setComponent }: Props) => {
+const ProfileEditing = ({ setComponent, component }: Props) => {
   const [companyAddress, setCompanyAddress] = useState<string>('');
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState(false);
@@ -164,7 +165,8 @@ const ProfileEditing = ({ setComponent }: Props) => {
   return (
     <Wrapper>
       <Header back={true} title="프로필 변경" />
-      <Body>
+      <Body component={component}>
+        {component === 1 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
         <Avatar>
           <div className="img-bg">
             {/* 아바타 */}
@@ -284,9 +286,24 @@ export default ProfileEditing;
 const Wrapper = styled.div`
   padding-bottom: 132.75pt;
 `;
-
-const Body = styled.div`
-  padding: 21.5pt 15pt 0;
+const ChangeProfileText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 21pt;
+  font-weight: 700;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 50.25pt;
+`;
+const Body = styled.div<{ component: number }>`
+  /* padding: 21.5pt 15pt 0; */
+  padding: 0 15pt;
+  padding-top: 21.5pt;
+  @media (min-width: 900pt) {
+    padding-top: ${({ component }) => (component === 1 ? '10.75pt' : '21.5pt')};
+  }
 `;
 const Avatar = styled.div`
   display: flex;
@@ -387,6 +404,10 @@ const Line = styled.div`
   width: 100%;
   background: #f3f4f7;
   margin-top: 30pt;
+  @media (min-width: 900pt) {
+    width: 345pt;
+    margin-left: -31.5pt;
+  }
 `;
 
 const Wrap = styled.div`
