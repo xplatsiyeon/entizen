@@ -14,8 +14,6 @@ interface Props {
   tabNumber: number;
 }
 
-type SelectArray = { id: number; boolean: boolean };
-
 const FaqInfomation = ({ data, tabNumber }: Props) => {
   const [open, setOpen] = useState<boolean[]>(
     Array.from({ length: data.length }, () => false),
