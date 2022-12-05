@@ -120,6 +120,7 @@ const Faq = () => {
   const router = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
   const TabType: string[] = ['서비스 이용', '회원 정보', '신고'];
+
   const components: Components = {
     0: <FaqInfomation data={contents} tabNumber={tabNumber} />,
     1: <FaqInfomation data={userInfo} tabNumber={tabNumber} />,

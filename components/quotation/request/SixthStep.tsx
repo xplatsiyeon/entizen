@@ -19,6 +19,8 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import Modal from 'components/Modal/Modal';
 import axios from 'axios';
+import { useMutation } from 'react-query';
+import { isTokenPostApi } from 'api';
 
 interface Purpose {
   id: number;
@@ -89,43 +91,64 @@ const SixthStep = ({ setTabNumber }: Props) => {
     (state: RootState) => state,
   );
 
+  const { mutate: predictionMutate, isLoading: predictionLoading } =
+    useMutation(isTokenPostApi, {
+      onSuccess: (resposnse) => {
+        dispatch(quotationAction.setRequestData(resposnse.data));
+        // dispatch(quotationAction.init());
+        router.push('/quotation/request/1-7');
+      },
+      onError: (error: any) => {
+        const text = error.response.data.message;
+        setErrorModal((prev) => !prev);
+        setErrorMessage(text);
+      },
+    });
+
   // 이전버튼
   const HandlePrevBtn = () => {
     setTabNumber((prev) => prev - 1);
   };
   // 간편 견적 포스트
   const predictionApi = async () => {
-    try {
-      await axios({
-        method: 'post',
-        url: PREDICTION_POST,
-        data: {
-          chargers: quotationData.chargers,
-          subscribeProduct: quotationData.subscribeProduct,
-          investRate: quotationData.investRate.toString(),
-          subscribePeriod: quotationData.subscribePeriod,
-          installationAddress: locationList.locationList.roadAddrPart,
-          installationLocation: quotationData.installationLocation,
-        },
-        headers: {
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      })
-        .then((res) => {
-          dispatch(quotationAction.setRequestData(res.data));
-          // dispatch(quotationAction.init());
-          router.push('/quotation/request/1-7');
-        })
-        .catch((error) => {
-          const text = error.response.data.message;
-          setErrorModal((prev) => !prev);
-          setErrorMessage(text);
-        });
-    } catch (error) {
-      console.log('post 요청 실패');
-      console.log(error);
-    }
+    predictionMutate({
+      url: '/quotations/prediction',
+      data: {
+        chargers: quotationData.chargers,
+        subscribeProduct: quotationData.subscribeProduct,
+        investRate: quotationData.investRate.toString(),
+        subscribePeriod: quotationData.subscribePeriod,
+        installationAddress: locationList.locationList.roadAddrPart,
+        installationLocation: quotationData.installationLocation,
+      },
+    });
+
+    // await axios({
+    //   method: 'post',
+    //   url: PREDICTION_POST,
+    //   data: {
+    //     chargers: quotationData.chargers,
+    //     subscribeProduct: quotationData.subscribeProduct,
+    //     investRate: quotationData.investRate.toString(),
+    //     subscribePeriod: quotationData.subscribePeriod,
+    //     installationAddress: locationList.locationList.roadAddrPart,
+    //     installationLocation: quotationData.installationLocation,
+    //   },
+    //   headers: {
+    //     ContentType: 'application/json',
+    //   },
+    //   withCredentials: true,
+    // })
+    //   .then((res) => {
+    //     dispatch(quotationAction.setRequestData(res.data));
+    //     // dispatch(quotationAction.init());
+    //     router.push('/quotation/request/1-7');
+    //   })
+    //   .catch((error) => {
+    //     const text = error.response.data.message;
+    //     setErrorModal((prev) => !prev);
+    //     setErrorMessage(text);
+    //   });
   };
 
   // 다음버튼

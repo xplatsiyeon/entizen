@@ -67,6 +67,7 @@ const WebSearchAddress = ({
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSearch, setIsSearch] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const keyWord = useDebounce(searchWord, 300);
@@ -78,6 +79,10 @@ const WebSearchAddress = ({
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
+    // setIsSearch(true);
+    // setSearchWord(roadad!);
+    console.log('----------------------------------------');
+    console.log(roadad);
     dispatch(
       locationAction.load({
         jibunAddr: jibun,
@@ -86,6 +91,7 @@ const WebSearchAddress = ({
         siNm: sinm,
       }),
     );
+
     setChargeInfoOpen(true);
   };
 
@@ -147,7 +153,7 @@ const WebSearchAddress = ({
           value={searchWord}
         />
 
-        {searchWord.length > 0 ? (
+        {searchWord?.length > 0 ? (
           <Image onClick={() => setSearchWord('')} src={xBtn} alt="xButton" />
         ) : (
           <span className="img-box">
