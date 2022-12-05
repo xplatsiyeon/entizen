@@ -19,23 +19,40 @@ import Loader from 'components/Loader';
 import Sort from './Sort';
 import Search from './Search';
 import Modal from 'components/Modal/Modal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
+import { RootState } from 'store/store';
 
 type Props = {
   data?: ReceivedRequest;
   setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;
   componentId?: number;
+  setTabNumber?: Dispatch<SetStateAction<number>>;
 };
 
 const TAG = '👀 ~RecieveRequest ~line 20 queryData';
-const RecieveRequestUnder = ({ data, setComponentId, componentId }: Props) => {
+const RecieveRequestUnder = ({
+  data,
+  setComponentId,
+  componentId,
+  setTabNumber,
+}: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  // console.log(TAG + '🔥 ~ line 45 ~ data check');
+  // 리덕스
+  const {
+    chargers,
+    subscribeProductFeature,
+    constructionPeriod,
+    subscribePricePerMonth,
+  } = useSelector((state: RootState) => state.companymyEstimateData);
+  console.log(chargers);
 
+  // console.log(TAG + '🔥 ~ line 45 ~ data check');
+  // dispatch(myEstimateAction.reset());
   const onClick = (el: ReceivedQuotationRequests) => {
     console.log('온클릭');
+    setTabNumber!(-1);
     dispatch(myEstimateAction.reset());
     router.push({
       pathname: '/company/recievedRequest',

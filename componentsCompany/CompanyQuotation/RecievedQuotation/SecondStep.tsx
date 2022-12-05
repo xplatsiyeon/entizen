@@ -88,6 +88,7 @@ const SecondStep = ({
   // 내 제품 리스트 종류
   const [productItem, setProductItem] = useState<string>();
   const [productId, setProductId] = useState<number>();
+  const [isChangeProduct, setIsChangeProduct] = useState<boolean>(false);
   // 제조사
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
   // 충전기 특장점
@@ -107,6 +108,9 @@ const SecondStep = ({
     constructionPeriod,
     subscribePricePerMonth,
   } = useSelector((state: RootState) => state.companymyEstimateData);
+  const companymyEstimateData = useSelector(
+    (state: RootState) => state.companymyEstimateData,
+  );
   const newCharge = chargers.slice(0, maxIndex);
 
   // image s3 multer 저장 API (with useMutation)
@@ -322,6 +326,9 @@ const SecondStep = ({
   const onChangeSelectBox = (value: string, idx: number) => {
     setProductId(idx);
     setProductItem(value);
+    // isChangeProduct 값이 변경 될때마다 하단의 내제품리스트 불러오는 useEffect가 실행됨.
+    // true, false로 판단 X -> 그냥 업데이트를 위해 계속 반대값으로 바꿔줌
+    setIsChangeProduct((prev) => !prev);
   };
   // 이전 버튼
   const handlePrevBtn = () => {
@@ -367,7 +374,6 @@ const SecondStep = ({
   };
   // 포스트 버튼
   const onClickPost = () => {
-    console.log(manufacturingCompany);
     if (canNext) {
       const chargers = [
         ...newCharge.slice(0, maxIndex! - 1),
@@ -474,9 +480,9 @@ const SecondStep = ({
           preQuotationChargerIdx,
           productFileType,
           createdAt,
-          ...newArr
+          ...newFile
         } = item;
-        return newArr;
+        return newFile;
       });
 
       setChargeTypeNumber(chargeTypeListEn.indexOf(charger.chargePriceType));
@@ -490,7 +496,6 @@ const SecondStep = ({
   }, [editData, StepIndex]);
   // 내 제품 리스트 하단 내용
   useEffect(() => {
-    console.log(productId);
     if (productId) {
       const targetProduct = productData?.chargerProduct.filter(
         (e) => e.chargerProductIdx === productId,
@@ -506,7 +511,7 @@ const SecondStep = ({
         } = item;
         return newArr;
       });
-      const newFile = targetProduct?.chargerImageFiles!.map((item) => {
+      const newFile = targetProduct?.chargerCatalogFiles!.map((item) => {
         const {
           chargerProductFileIdx,
           chargerProductIdx,
@@ -522,7 +527,7 @@ const SecondStep = ({
       setImgArr(newImage!);
       setFileArr(newFile!);
     }
-  }, [productId]);
+  }, [isChangeProduct]);
   // 다음버튼 유효성 검사
   useEffect(() => {
     if (chargeTypeNumber === 0 && manufacturingCompany !== '') {

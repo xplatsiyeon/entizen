@@ -32,7 +32,7 @@ export interface Products {
   memberIdx: number;
   chargerProductFiles: File[];
   chargerImageFiles: File[];
-  chargerCatalogFiles: [];
+  chargerCatalogFiles: File[];
 }
 export interface ProductListRepsonse {
   isSuccess: true;
@@ -87,14 +87,14 @@ const ProductList = (props: Props) => {
               router.push({
                 pathname: '/company/myProductList/detail',
                 query: {
-                  chargerProductIdx: item.chargerProductIdx,
+                  chargerProductIdx: item?.chargerProductIdx,
                 },
               })
             }
           >
             <ImageBox>
               <Image
-                src={item.chargerImageFiles[0]?.url}
+                src={item?.chargerImageFiles[0]?.url}
                 alt="carImage"
                 layout="fill"
                 priority={true}
