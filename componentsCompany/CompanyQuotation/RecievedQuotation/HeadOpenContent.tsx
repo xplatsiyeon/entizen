@@ -221,6 +221,8 @@ const HeadOpenContent = () => {
 
   useEffect(() => {
     return () => {
+      console.log('------------가견적 나간다-----------');
+
       remove();
       editRemove();
     };
