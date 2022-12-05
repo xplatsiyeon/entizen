@@ -29,6 +29,8 @@ import { convertEn, convertKo, getByteSize } from 'utils/calculatePackage';
 import SelectComponents from 'components/Select';
 import { ProductDetailResponse } from './myProduct';
 import Loader from 'components/Loader';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import WebFooter from 'componentsWeb/WebFooter';
 
 export interface ImgFile {
   originalName: string;
@@ -421,38 +423,52 @@ const ProductAddComponent = (props: Props) => {
     return <Loader />;
   }
 
+  const [tabNumber, setTabNumber] = useState<number>(7);
+  const [componentId, setComponentId] = useState<number>();
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
+
   return (
-    <>
-      {/* 에러 모달 */}
-      {isModal && <Modal click={onClickModal} text={errorMessage} />}
-      {/* 헤더 */}
-      <CompanyHeader back={true} title={'제품 추가하기'} />
-      {/* 인풋 바디 */}
-      <InputContainer>
-        <InputBox>
-          <LabelBox>
-            <RequiredLabel>모델명</RequiredLabel>
-            <RightLabel>필수 입력</RightLabel>
-          </LabelBox>
-          <Input
-            value={modelName}
-            onChange={(e) => setModelName(e.target.value)}
-            required
-          />
-        </InputBox>
-        {/* test */}
-        <LabelBox>
-          <RequiredLabel>충전기 종류</RequiredLabel>
-        </LabelBox>
-        <SelectComponents
-          name="kind"
-          option={M5_LIST}
-          placeholder={'충전기 종류'}
-          value={chargerType}
-          onClickCharger={onChangeSelectBox}
-        />
-        {/* 충전기 종류 */}
-        {/* <InputBox>
+    <WebBody>
+      <WebBuyerHeader
+        setTabNumber={setTabNumber}
+        tabNumber={tabNumber!}
+        componentId={componentId}
+        openSubLink={openSubLink}
+        setOpenSubLink={setOpenSubLink}
+      />
+      <Inner>
+        <WebBox>
+          {/* 에러 모달 */}
+          {isModal && <Modal click={onClickModal} text={errorMessage} />}
+          {/* 헤더 */}
+          <CompanyHeader back={true} title={'제품 추가하기'} />
+          {/* 인풋 바디 */}
+          <InputContainer>
+            <AddProductText>제품 추가하기</AddProductText>
+            <InputBox>
+              <LabelBox>
+                <RequiredLabel>모델명</RequiredLabel>
+                <RightLabel>필수 입력</RightLabel>
+              </LabelBox>
+              <Input
+                value={modelName}
+                onChange={(e) => setModelName(e.target.value)}
+                required
+              />
+            </InputBox>
+            {/* test */}
+            <LabelBox>
+              <RequiredLabel>충전기 종류</RequiredLabel>
+            </LabelBox>
+            <SelectComponents
+              name="kind"
+              option={M5_LIST}
+              placeholder={'충전기 종류'}
+              value={chargerType}
+              onClickCharger={onChangeSelectBox}
+            />
+            {/* 충전기 종류 */}
+            {/* <InputBox>
           <SelectBox
             value={chargerType || ''}
             placeholder="충전기 종류"
@@ -472,194 +488,294 @@ const ProductAddComponent = (props: Props) => {
           </SelectBox>
         </InputBox> */}
 
-        {/* 충전 채널 */}
-        <LabelBox>
-          <RequiredLabel>충전 채널</RequiredLabel>
-        </LabelBox>
+            {/* 충전 채널 */}
+            <LabelBox>
+              <RequiredLabel>충전 채널</RequiredLabel>
+            </LabelBox>
 
-        <SelectComponents
-          name="channel"
-          option={M7_LIST}
-          value={chargingChannel}
-          placeholder={'충전기 채널'}
-          onClickCharger={onChangeSelectBox}
-        />
-
-        {/* 충전방식 */}
-        <LabelBox>
-          <RequiredLabel>충전 방식</RequiredLabel>
-          <RightPlus onClick={handlePlusSelect}>
-            <Image src={plusIcon} alt="plusBtn" />
-          </RightPlus>
-        </LabelBox>
-
-        {chargingMethod.length > 0 &&
-          chargingMethod?.map((el, index) => (
-            <React.Fragment key={index}>
-              {/* 원래 기본 */}
-              {index === 0 && (
-                <SelectComponents
-                  name="chargingMethod"
-                  option={CHARGING_METHOD}
-                  value={chargingMethod[index]}
-                  index={index}
-                  placeholder={'충전 방식'}
-                  onClickCharger={onChangeSelectBox}
-                />
-              )}
-              {/* + 버튼 눌러서 추가되는 부분  */}
-              {index > 0 && (
-                <PlusBox key={index}>
-                  <SelectComponents
-                    name="chargingMethod"
-                    option={CHARGING_METHOD}
-                    value={chargingMethod[index]}
-                    index={index}
-                    placeholder={'충전 방식'}
-                    onClickCharger={onChangeSelectBox}
-                  />
-                  <DeleteBtn onClick={() => onClickMinus(index)}>
-                    <Image src={Xbtn} alt="delete" />
-                  </DeleteBtn>
-                </PlusBox>
-              )}
-            </React.Fragment>
-          ))}
-        {/* 제조사 부분  */}
-        <InputBox>
-          <LabelBox>
-            <RequiredLabel>제조사</RequiredLabel>
-          </LabelBox>
-          <Input
-            value={manufacturer}
-            onChange={(e) => setManufacturer(e.target.value)}
-            required
-          />
-        </InputBox>
-        {/* 특장점 */}
-        <InputBox>
-          <LabelBox>
-            <UnRequired>특장점</UnRequired>
-          </LabelBox>
-          <TextArea
-            name="firstPageTextArea"
-            value={advantages}
-            onChange={(e) => setAdvantages(e.target.value)}
-            placeholder="선택 입력사항"
-            rows={7}
-          />
-        </InputBox>
-        {/* 사진 첨부 부분 */}
-        <RemainderInputBox>
-          <Label>사진첨부</Label>
-          <PhotosBox>
-            <AddPhotos onClick={imgHandler}>
-              <Image src={camera} alt="" />
-            </AddPhotos>
-            <input
-              style={{ display: 'none' }}
-              ref={imgRef}
-              type="file"
-              accept="image/*"
-              onChange={saveFileImage}
-              multiple
-            />
-            {/* <Preview> */}
-            {imgArr?.map((img, index) => (
-              <ImgSpan key={index} data-name={index}>
-                <Image
-                  layout="fill"
-                  alt="preview"
-                  data-name={index}
-                  key={index}
-                  src={img.url}
-                  priority={true}
-                  unoptimized={true}
-                />
-                <Xbox onClick={handlePhotoDelete} data-name={index}>
-                  <Image
-                    src={CloseImg}
-                    data-name={index}
-                    layout="intrinsic"
-                    alt="closeBtn"
-                    width={24}
-                    height={24}
-                  />
-                </Xbox>
-              </ImgSpan>
-            ))}
-            {/* </Preview> */}
-          </PhotosBox>
-        </RemainderInputBox>
-        {/* 파일 부분 */}
-        <RemainderInputBoxs>
-          <PhotosBoxs>
-            <Form>
-              <label>충전기 카탈로그</label>
-              <div>
-                <File onClick={handleFileClick}>
-                  <Image src={AddImg} alt="img" />
-                  <div>파일 업로드</div>
-                </File>
-              </div>
-            </Form>
-            {/* 파일 input */}
-            <input
-              style={{ display: 'none' }}
-              ref={fileRef}
-              className="imageClick"
-              type="file"
-              accept="xlsx"
-              onChange={saveFile}
-              multiple
+            <SelectComponents
+              name="channel"
+              option={M7_LIST}
+              value={chargingChannel}
+              placeholder={'충전기 채널'}
+              onClickCharger={onChangeSelectBox}
             />
 
-            {/* <File_Preview> */}
-            <div className="file-preview">
-              {fileArr?.map((item, index) => (
-                <FileBox key={index} data-name={index}>
-                  <div className="file">
-                    <div className="file-img">
-                      <Image src={FileText} alt="file-icon" />
-                    </div>
-                    <div className="file-data">
-                      <span className="file-name">{item.originalName}</span>
-                      <span className="file-size">{`용량 ${getByteSize(
-                        item.size,
-                      )}`}</span>
-                    </div>
-                    <div
-                      className="file-exit"
-                      onClick={handleFileDelete}
-                      data-name={index}
-                    >
-                      <Image src={CloseImg} data-name={index} alt="closeBtn" />
-                    </div>
-                  </div>
-                </FileBox>
+            {/* 충전방식 */}
+            <LabelBox>
+              <RequiredLabel>충전 방식</RequiredLabel>
+              <RightPlus onClick={handlePlusSelect}>
+                <Image src={plusIcon} alt="plusBtn" />
+              </RightPlus>
+            </LabelBox>
+
+            {chargingMethod.length > 0 &&
+              chargingMethod?.map((el, index) => (
+                <React.Fragment key={index}>
+                  {/* 원래 기본 */}
+                  {index === 0 && (
+                    <SelectComponents
+                      name="chargingMethod"
+                      option={CHARGING_METHOD}
+                      value={chargingMethod[index]}
+                      index={index}
+                      placeholder={'충전 방식'}
+                      onClickCharger={onChangeSelectBox}
+                    />
+                  )}
+                  {/* + 버튼 눌러서 추가되는 부분  */}
+                  {index > 0 && (
+                    <PlusBox key={index}>
+                      <SelectComponents
+                        name="chargingMethod"
+                        option={CHARGING_METHOD}
+                        value={chargingMethod[index]}
+                        index={index}
+                        placeholder={'충전 방식'}
+                        onClickCharger={onChangeSelectBox}
+                      />
+                      <DeleteBtn onClick={() => onClickMinus(index)}>
+                        <Image src={Xbtn} alt="delete" />
+                      </DeleteBtn>
+                    </PlusBox>
+                  )}
+                </React.Fragment>
               ))}
-            </div>
-          </PhotosBoxs>
-        </RemainderInputBoxs>
-      </InputContainer>
-      {routerId ? (
-        <Btn buttonActivate={isValid} tabNumber={0} onClick={onClickPutBtn}>
-          정보 수정하기
-        </Btn>
-      ) : (
-        <Btn buttonActivate={isValid} tabNumber={0} onClick={buttonOnClick}>
-          제품 등록하기
-        </Btn>
-      )}
-    </>
+            {/* 제조사 부분  */}
+            <InputBox>
+              <LabelBox>
+                <RequiredLabel>제조사</RequiredLabel>
+              </LabelBox>
+              <Input
+                value={manufacturer}
+                onChange={(e) => setManufacturer(e.target.value)}
+                required
+              />
+            </InputBox>
+            {/* 특장점 */}
+            <InputBox>
+              <LabelBox>
+                <UnRequired>특장점</UnRequired>
+              </LabelBox>
+              <TextArea
+                name="firstPageTextArea"
+                value={advantages}
+                onChange={(e) => setAdvantages(e.target.value)}
+                placeholder="선택 입력사항"
+                rows={7}
+              />
+            </InputBox>
+            {/* 사진 첨부 부분 */}
+            <RemainderInputBox>
+              <Label>충전기 이미지</Label>
+              <PhotosBox>
+                <AddPhotos onClick={imgHandler}>
+                  <Image src={camera} alt="" />
+                </AddPhotos>
+                <input
+                  style={{ display: 'none' }}
+                  ref={imgRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={saveFileImage}
+                  multiple
+                />
+                {/* <Preview> */}
+                {imgArr?.map((img, index) => (
+                  <ImgSpan key={index} data-name={index}>
+                    <Image
+                      layout="fill"
+                      alt="preview"
+                      data-name={index}
+                      key={index}
+                      src={img.url}
+                      priority={true}
+                      unoptimized={true}
+                    />
+                    <Xbox onClick={handlePhotoDelete} data-name={index}>
+                      <Image
+                        src={CloseImg}
+                        data-name={index}
+                        layout="intrinsic"
+                        alt="closeBtn"
+                        width={24}
+                        height={24}
+                      />
+                    </Xbox>
+                  </ImgSpan>
+                ))}
+                {/* </Preview> */}
+              </PhotosBox>
+            </RemainderInputBox>
+            {/* 파일 부분 */}
+            <RemainderInputBoxs>
+              <PhotosBoxs>
+                <Form>
+                  <label>충전기 카탈로그</label>
+                  <div>
+                    <File onClick={handleFileClick}>
+                      <Image src={AddImg} alt="img" />
+                      <div>파일 업로드</div>
+                    </File>
+                  </div>
+                </Form>
+                {/* 파일 input */}
+                <input
+                  style={{ display: 'none' }}
+                  ref={fileRef}
+                  className="imageClick"
+                  type="file"
+                  accept="xlsx"
+                  onChange={saveFile}
+                  multiple
+                />
+
+                {/* <File_Preview> */}
+                <div className="file-preview">
+                  {fileArr?.map((item, index) => (
+                    <FileBox key={index} data-name={index}>
+                      <div className="file">
+                        <div className="file-img">
+                          <Image src={FileText} alt="file-icon" />
+                        </div>
+                        <div className="file-data">
+                          <span className="file-name">{item.originalName}</span>
+                          <span className="file-size">{`용량 ${getByteSize(
+                            item.size,
+                          )}`}</span>
+                        </div>
+                        <div
+                          className="file-exit"
+                          onClick={handleFileDelete}
+                          data-name={index}
+                        >
+                          <Image
+                            src={CloseImg}
+                            data-name={index}
+                            alt="closeBtn"
+                          />
+                        </div>
+                      </div>
+                    </FileBox>
+                  ))}
+                </div>
+              </PhotosBoxs>
+              {routerId ? (
+                <WebBtn
+                  buttonActivate={isValid}
+                  tabNumber={0}
+                  onClick={onClickPutBtn}
+                >
+                  정보 수정하기
+                </WebBtn>
+              ) : (
+                <WebBtn
+                  buttonActivate={isValid}
+                  tabNumber={0}
+                  onClick={buttonOnClick}
+                >
+                  제품 등록하기
+                </WebBtn>
+              )}
+            </RemainderInputBoxs>
+          </InputContainer>
+          <WebHide>
+            {routerId ? (
+              <Btn
+                buttonActivate={isValid}
+                tabNumber={0}
+                onClick={onClickPutBtn}
+              >
+                정보 수정하기
+              </Btn>
+            ) : (
+              <Btn
+                buttonActivate={isValid}
+                tabNumber={0}
+                onClick={buttonOnClick}
+              >
+                제품 등록하기
+              </Btn>
+            )}
+          </WebHide>
+        </WebBox>
+      </Inner>
+      <WebFooter />
+    </WebBody>
   );
 };
+
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 100pt auto;
+  width: 900pt;
+  height: 100%;
+  border-radius: 12pt;
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+
+  @media (min-width: 900pt) {
+    margin: 54pt auto 100pt;
+  }
+`;
+
+const WebBox = styled.div`
+  @media (min-width: 900pt) {
+    background-color: #ffffff;
+
+    width: 345pt;
+    border-radius: 12pt;
+    margin: 0 auto;
+    box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+  }
+`;
+
+const AddProductText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 18pt;
+  font-weight: 700;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  padding-top: 32.25pt;
+  padding-bottom: 26.25pt;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
 
 const InputContainer = styled.div`
   margin-top: 11.25pt;
   padding-left: 15pt;
   padding-right: 15pt;
   padding-bottom: 126.75pt;
+  @media (min-width: 900pt) {
+    padding-left: 46.5pt;
+    padding-right: 46.5pt;
+    padding-bottom: 0;
+  }
 `;
 
 const InputBox = styled.div`
@@ -745,8 +861,8 @@ const Input = styled(TextField)`
 
 const SelectBox = styled(Select)`
   width: 100%;
-  border: 1px solid #e2e5ed;
-  border-radius: 8px;
+  border: 0.75pt solid #e2e5ed;
+  border-radius: 6pt;
   font-weight: 400;
   font-size: 12pt;
   line-height: 12pt;
@@ -790,7 +906,7 @@ const UnRequired = styled.div`
 
 const TextArea = styled.textarea`
   resize: none;
-  border: 1px solid ${colors.gray};
+  border: 0.75pt solid ${colors.gray};
   width: 100%;
   padding: 12pt;
   box-sizing: border-box;
@@ -830,6 +946,27 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   }
 `;
 
+const WebBtn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
+  width: 100%;
+  color: ${colors.lightWhite};
+  width: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '64%')};
+  padding: 15pt 0 15pt 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  cursor: pointer;
+  border-radius: 6pt;
+  background-color: ${({ buttonActivate }) =>
+    buttonActivate ? colors.main : colors.blue3};
+  margin-bottom: 42.3pt;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
+
 const PlusBox = styled.div`
   display: flex;
   gap: 12pt;
@@ -862,9 +999,13 @@ const RemainderInputBoxs = styled.div`
     padding-bottom: 58.6875pt;
     gap: 9pt;
   }
+
+  @media (min-width: 900pt) {
+    padding-bottom: 0;
+  }
 `;
 const Label = styled.label`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
@@ -895,8 +1036,9 @@ const AddPhotos = styled.button`
   display: inline-block;
   width: 56.0625pt;
   height: 56.0625pt;
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
+  background-color: #ffffff;
 `;
 
 const ImgSpan = styled.div`
@@ -916,7 +1058,7 @@ const FileBox = styled.div`
   display: flex;
   align-items: center;
   background: ${colors.lightWhite2}; // 컬러 왜 안나옴?..
-  border: 1px solid #e2e5ed;
+  border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   position: relative;
   box-sizing: border-box;
@@ -1009,4 +1151,9 @@ const File = styled.label`
   }
 `;
 
+const WebHide = styled.div`
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
 export default ProductAddComponent;
