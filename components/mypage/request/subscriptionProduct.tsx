@@ -25,6 +25,7 @@ const SubscriptionProduct = ({ data }: Props) => {
   } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
 
   const onClickCompany = (company: PreQuotations) => {
+    // 다른 파트너 선택하면 원래 선택한 화면 흐려지기만 함
     // route.push(`/mypage/request/detail/${company.preQuotationIdx}`);
     route.push({
       pathname: '/mypage/request/detail',

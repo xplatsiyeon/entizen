@@ -433,9 +433,9 @@ const SecondStep = ({
             <div>* 필수 입력</div>
           </TopStep>
           <SubWord>
-            {`${selectedOption[maxIndex! - 1].kind}, ${
-              selectedOption[maxIndex! - 1].standType
-            }, ${selectedOption[maxIndex! - 1].channel} `}
+            {`${selectedOption[tabNumber! - 1]?.kind}, ${
+              selectedOption[tabNumber! - 1]?.standType
+            }, ${selectedOption[tabNumber! - 1]?.channel} `}
             <br />
             제품의 정보를 입력해주세요
           </SubWord>
