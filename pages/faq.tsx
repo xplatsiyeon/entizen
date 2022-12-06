@@ -10,6 +10,7 @@ import CommunicationIcon from 'public/images/communication-icon.svg';
 
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import UserRightMenu from 'components/UserRightMenu';
 
 export interface Contents {
   id: number;
@@ -138,6 +139,7 @@ const Faq = () => {
   return (
     <WebBody>
       <WebHeader />
+      <UserRightMenu />
       <Inner>
         <GuideHeader
           title="자주 묻는 질문"

@@ -11,6 +11,7 @@ type Props = {
   leftBtnControl?: () => void;
   rightBtnControl?: () => void;
   exit: () => void;
+  deleteHandle?: () => void;
 };
 
 const TwoBtnModal = ({
@@ -21,6 +22,7 @@ const TwoBtnModal = ({
   rightBtnColor,
   leftBtnControl,
   rightBtnControl,
+  deleteHandle,
   exit,
 }: Props) => {
   const outside = useRef(null);
@@ -50,12 +52,24 @@ const TwoBtnModal = ({
             </BtnText>
           </BtnLeftWeb>
           <BtnRight>
-            <BtnText onClick={rightBtnControl} color={rightBtnColor}>
+            <BtnText
+              onClick={() => {
+                rightBtnControl;
+                deleteHandle;
+              }}
+              color={rightBtnColor}
+            >
               {rightBtnText}
             </BtnText>
           </BtnRight>
           <BtnRightWeb>
-            <BtnText onClick={rightBtnControl} color={'#ffff'}>
+            <BtnText
+              onClick={() => {
+                rightBtnControl;
+                deleteHandle;
+              }}
+              color={'#ffff'}
+            >
               {rightBtnText}
             </BtnText>
           </BtnRightWeb>

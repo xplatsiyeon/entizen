@@ -17,10 +17,10 @@ import { handleLogoutOnClickModalClick } from 'api/logout';
 type Props = {
   num?: number;
   now?: string;
-  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
+  setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
   componentId?: number;
-  openSubLink: boolean;
+  openSubLink?: boolean;
   getComponentId?: number;
   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
 };

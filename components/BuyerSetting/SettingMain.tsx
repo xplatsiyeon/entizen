@@ -193,6 +193,9 @@ const SettingMain = ({
       setCheckPassword(false);
     }
   };
+
+  // 판매자인지 구매자인지
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   return (
     <>
       <WebBody>
@@ -276,7 +279,11 @@ const SettingMain = ({
               </SettingList>
               <SettingList
                 onClick={() => {
-                  router.push('/faq');
+                  if (memberType === 'USER') {
+                    router.push('/faq');
+                  } else if (memberType === 'COMPANY') {
+                    router.push('/comapny/faq');
+                  }
                 }}
               >
                 자주 묻는 질문
