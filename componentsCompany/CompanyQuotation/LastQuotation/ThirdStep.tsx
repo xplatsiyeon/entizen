@@ -203,6 +203,9 @@ const ThirdStep = ({
     if (typeof obj.chargePrice === 'string') {
       obj.chargePrice = Number(obj?.chargePrice?.replaceAll(',', ''));
     }
+    if (obj?.productFeature?.length! < 1) {
+      delete obj.productFeature;
+    }
     delete obj.idx;
     return obj;
   });

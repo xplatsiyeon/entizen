@@ -19,6 +19,7 @@ import Image from 'next/image';
 import { inputPriceFormat } from 'utils/calculatePackage';
 import { chargers } from 'storeCompany/finalQuotation';
 import SelectComponents from 'components/Select';
+import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 
 type Props = {
   tabNumber: number;
@@ -47,7 +48,7 @@ type Props = {
   setSubscribeProductFeature: Dispatch<SetStateAction<string>>;
   setChargeNum: React.Dispatch<React.SetStateAction<number>>;
   chargeNum?: number;
-  CompanyName?: string;
+  sendData: SentRequestResponse;
 };
 const subScribe = ['전체구독', '부분구독'];
 
@@ -79,7 +80,7 @@ const FirstStep = ({
   setSubscribeProductFeature,
   setChargeNum,
   chargeNum,
-  CompanyName,
+  sendData,
 }: Props) => {
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
@@ -170,8 +171,26 @@ const FirstStep = ({
   };
   // 충전기 종류 및 수량 추가
   const onClickChargerAdd = () => {
+    console.log(selectedOption);
+    console.log(selectedOptionEn);
+
     if (selectedOptionEn.length === 5) return;
-    const temp = selectedOptionEn.concat({
+    const temp = selectedOption.concat({
+      idx: 0,
+      kind: '',
+      standType: '',
+      channel: '',
+      count: '',
+      chargePriceType: '',
+      chargePrice: '',
+      installationLocation: '',
+      modelName: '',
+      manufacturer: '',
+      productFeature: '',
+      chargerImageFiles: [],
+      catalogFiles: [],
+    });
+    const tempEn = selectedOptionEn.concat({
       idx: 0,
       kind: '',
       standType: '',
@@ -187,7 +206,7 @@ const FirstStep = ({
       catalogFiles: [],
     });
     setSelectedOption(temp);
-    setSelectedOptionEn(temp);
+    setSelectedOptionEn(tempEn);
   };
   // 구독상품 온체인지
   const handleChangeProduct = (value: string) => {
@@ -201,6 +220,7 @@ const FirstStep = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     setState: Dispatch<SetStateAction<string>>,
   ) => {
+    // profitableInterestUser, chargePoint
     if (Number(e.target.value) > 100) {
       setState('100');
     } else if (Number(e.target.value) === NaN || Number(e.target.value) < 0) {
@@ -242,11 +262,8 @@ const FirstStep = ({
     subscribePricePerMonth,
   ]);
 
-  useEffect(() => {
-    console.log('🔥 ~line 226 ~selectedOptionEn data check');
-    console.log(selectedOption);
-  }, [selectedOption]);
-
+  // 수익 지분 100% 맞춰 주는 업데이트 useEffect
+  useEffect(() => {}, [profitableInterestUser, chargePoint]);
   // 충전기 개수
   useEffect(() => {
     const num = selectedOption.length;
@@ -255,6 +272,11 @@ const FirstStep = ({
     }
   }, [selectedOption.length]);
 
+  // 테스트
+  // useEffect(() => {
+  //   console.log('🔥 ~line 226 ~selectedOptionEn data check');
+  //   console.log(selectedOption);
+  // }, [selectedOption]);
   console.log(`first step입니다`, selectedOption.length);
 
   return (
@@ -313,14 +335,19 @@ const FirstStep = ({
               </SmallInputBox>
             </FirstBox>
             <FirstBox>
-              <SubTitle>{CompanyName}</SubTitle>
+              <SubTitle>
+                {
+                  sendData?.sendQuotationRequest?.companyMemberAdditionalInfo
+                    ?.companyName!
+                }
+              </SubTitle>
               <SmallInputBox>
                 <Input
                   value={chargePoint}
                   className="inputTextLeft"
-                  onChange={(event) =>
-                    onChangeProfitableInterestUser(event, setChargePoint)
-                  }
+                  onChange={(event) => {
+                    onChangeProfitableInterestUser(event, setChargePoint);
+                  }}
                   type="number"
                   placeholder="0"
                   name="subscribeMoney"
