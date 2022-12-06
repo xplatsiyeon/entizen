@@ -66,19 +66,20 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     {
       onSuccess: (res) => {
         console.log(res);
-        if(res.data.isValidAuthCode){
-        setModalMessage('인증번호가 확인되었습니다.');
-        setIsModal(true);
-        setIsValid(true);}else{
-        setModalMessage('잘못된 인증번호입니다.');
-        setIsModal(true);
-        setIsValid(false)
+        if (res.data.isValidAuthCode) {
+          setModalMessage('인증번호가 확인되었습니다.');
+          setIsModal(true);
+          setIsValid(true);
+        } else {
+          setModalMessage('잘못된 인증번호입니다.');
+          setIsModal(true);
+          setIsValid(false);
         }
       },
       onError: () => {
         setModalMessage('잘못된 인증번호입니다.');
         setIsModal(true);
-        setIsValid(false)
+        setIsValid(false);
       },
     },
   );
@@ -93,7 +94,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         setIsModal(true);
       },
       onError: () => {
-        console.log('fail')
+        console.log('fail');
         setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
         setIsModal(true);
       },
@@ -118,7 +119,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   };
   // 담당자 정보 수정하기
   const onCickBtn = () => {
-    setIsTwoBtnModal(false)
+    setIsTwoBtnModal(false);
     console.log(profile, key.phone);
     if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
@@ -183,7 +184,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   useEffect(() => {
     axios({
       method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
+      url: 'https://api.entizen.kr/api/auth/nice',
       data: { memberType: token.memberType },
     })
       .then((res) => {
