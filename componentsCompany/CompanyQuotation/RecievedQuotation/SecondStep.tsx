@@ -92,7 +92,7 @@ const SecondStep = ({
   // 제조사
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
   // 충전기 특장점
-  const [chargeFeatures, setChargeFeatures] = useState<string>('');
+  const [chargeFeatures, setChargeFeatures] = useState<string>();
   // 사진 첨부
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   // 충전기 카탈로그
@@ -388,47 +388,49 @@ const SecondStep = ({
           catalogFiles: fileArr,
         },
       ];
+      console.log('------------chargers---------');
+      console.log(chargers);
 
-      const newChargers = chargers.map((e) => {
-        const data: any = {
-          chargePriceType:
-            chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-          chargePrice: Number(fee.replaceAll(',', '')),
-          modelName: productItem,
-          manufacturer: manufacturingCompany,
-          feature: chargeFeatures,
-          chargerImageFiles: imgArr,
-          catalogFiles: fileArr,
-        };
+      const newChargers = chargers.map((charger) => {
+        const { feature, modelName, ...newCharger } = charger;
+        // if (charger?.feature?.length! > 1) {
 
-        if (e.feature.length < 1) delete data.feature;
-        if (!productItem) delete data.modelName;
-        return data;
+        // {newCharger , }
+
+        // }
+        // delete charger.feature;
+        // if (Array.isArray(charger.modelName) && charger.modelName.length < 1)
+        //   delete charger.modelName;
+
+        return charger;
       });
+      console.log('------------manufacturingCompany---------');
       console.log(manufacturingCompany);
+
+      console.log('-----------newChargers----------');
       console.log(newChargers);
 
-      if (subscribeProductFeature.length < 1) {
-        postMutate({
-          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-          data: {
-            subscribePricePerMonth: subscribePricePerMonth,
-            constructionPeriod: constructionPeriod,
-            chargers: newChargers,
-          },
-        });
-      } else {
-        postMutate({
-          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-          data: {
-            subscribePricePerMonth: subscribePricePerMonth,
-            constructionPeriod: constructionPeriod,
-            subscribeProductFeature: subscribeProductFeature,
-            chargers: newChargers,
-          },
-        });
-      }
-      dispatch(myEstimateAction.reset());
+      // if (subscribeProductFeature.length < 1) {
+      //   postMutate({
+      //     url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+      //     data: {
+      //       subscribePricePerMonth: subscribePricePerMonth,
+      //       constructionPeriod: constructionPeriod,
+      //       chargers: newChargers,
+      //     },
+      //   });
+      // } else {
+      //   postMutate({
+      //     url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+      //     data: {
+      //       subscribePricePerMonth: subscribePricePerMonth,
+      //       constructionPeriod: constructionPeriod,
+      //       subscribeProductFeature: subscribeProductFeature,
+      //       chargers: newChargers,
+      //     },
+      //   });
+      // }
+      // dispatch(myEstimateAction.reset());
     }
   };
   // 수정하기 버튼
@@ -495,12 +497,15 @@ const SecondStep = ({
     }
   }, [tabNumber, editData, StepIndex]);
   useEffect(() => {
-    console.log('🔥 tabnumber check -> ');
+    // console.log('🔥 tabnumber check -> ');
     console.log(tabNumber);
   }, [tabNumber]);
   // 내 제품 리스트 하단 내용
   useEffect(() => {
     if (productId) {
+      console.log('🔥 productId 확인 -> ');
+      console.log(productId);
+
       const targetProduct = productData?.chargerProduct.filter(
         (e) => e.chargerProductIdx === productId,
       )[0];
