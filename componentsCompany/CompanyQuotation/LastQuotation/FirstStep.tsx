@@ -437,7 +437,7 @@ const FirstStep = ({
         <InputBox className="lastInputBox">
           <div className="withTextNumber">
             <span>구독상품 특장점</span>
-            <span>{dueDiligenceResult.length}/500</span>
+            <span>{subscribeProductFeature.length}/500</span>
           </div>
           <div className="monthFlex">
             <TextArea
@@ -471,6 +471,10 @@ const Wrapper = styled.div`
   }
   .lastInputBox {
     margin-bottom: 120pt;
+    padding-bottom: 100pt;
+    @media (min-width: 900pt) {
+      padding-bottom: 0;
+    }
   }
   @media (min-width: 900pt) {
     padding-left: 25pt;

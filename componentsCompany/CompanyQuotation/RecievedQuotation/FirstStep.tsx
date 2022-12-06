@@ -169,6 +169,7 @@ const InputBox = styled.div`
   gap: 9pt;
   flex-direction: column;
   margin-top: 30pt;
+
   & > div:first-of-type {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
