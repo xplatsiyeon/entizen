@@ -103,7 +103,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 원버튼 모달 확인
   const onClickModal = () => {
     if (modalMessage === '담당자가 변경되었습니다.') {
-      router.replace('/');
+      setComponent(1);
     } else {
       setIsModal(false);
     }
@@ -119,8 +119,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   };
   // 담당자 정보 수정하기
   const onCickBtn = () => {
-    setIsTwoBtnModal(false);
-    console.log(profile, key.phone);
+    setIsTwoBtnModal(false)
+    //console.log(profile, key.phone);
     if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
         url: '/members',

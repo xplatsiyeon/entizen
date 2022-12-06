@@ -94,6 +94,11 @@ const WebBuyerHeader = ({
     ) {
       setType('as');
       setTab(2);
+    }else if (
+      router.pathname === '/company/chatting' ||
+      router.pathname === `/company/chatting/chattingRoom`
+    ) {
+      setTab(1);
     }
   }, [router]);
 
@@ -115,7 +120,7 @@ const WebBuyerHeader = ({
       id: 1,
       type: 'communication',
       menu: '소통하기',
-      linkUrl: '/company/mypage',
+      linkUrl: '/company/chatting',
     },
     {
       id: 2,
