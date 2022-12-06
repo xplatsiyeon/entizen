@@ -9,6 +9,8 @@ import { SlowFast } from 'pages/chargerMap';
 import { Rnd } from 'react-rnd';
 import { useMediaQuery } from 'react-responsive';
 
+import { Resizable, ResizableBox } from 'react-resizable';
+
 type Props = {
   checkHeight: number;
   // scrollHeight: number;
