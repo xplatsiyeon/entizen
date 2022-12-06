@@ -134,6 +134,7 @@ const LastWrite = (props: Props) => {
 
   const preQuotation = data?.sendQuotationRequest?.preQuotation!;
   const quotationRequest = data?.sendQuotationRequest?.quotationRequest!;
+  console.log('quotationRequest 뭐나옴?', quotationRequest);
   const businessRegistrationFiles =
     data?.sendQuotationRequest?.companyMemberAdditionalInfo
       ?.businessRegistrationFiles!;
@@ -321,6 +322,19 @@ const LastWrite = (props: Props) => {
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
   // LeftBox component 바꿔주는거
   const [underNum, setUnderNum] = useState<number>();
+  const [componentId, setComponentId] = useState<number>();
+
+  // LeftBox Border 바꿔주는거
+  useEffect(() => {
+    if (router.query.preQuotation) {
+      const num = Number(router.query.preQuotation);
+      setComponentId(num);
+    }
+  }, [router.query.preQuotation]);
+
+  useEffect(() => {
+    if (router.query.preQuotationIdx) setOpenSubLink(false);
+  }, [router]);
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
@@ -513,6 +527,8 @@ const LastWrite = (props: Props) => {
             <LeftProjectQuotationBox
               underNum={underNum}
               setUnderNum={setUnderNum}
+              componentId={componentId}
+              setComponentId={setComponentId}
             />
             {tabNumber >= 0 && (
               <>

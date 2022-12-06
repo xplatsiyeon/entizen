@@ -25,17 +25,13 @@ const SubscriptionProduct = ({ data }: Props) => {
   } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
 
   const onClickCompany = (company: PreQuotations) => {
-    // 다른 파트너 찾기로 선택 안된 기업은 다시 선택 불가
-
-    if (company?.finalQuotation) {
-      // route.push(`/mypage/request/detail/${company.preQuotationIdx}`);
-      route.push({
-        pathname: '/mypage/request/detail',
-        query: {
-          preQuotationIdx: company.preQuotationIdx,
-        },
-      });
-    }
+    // route.push(`/mypage/request/detail/${company.preQuotationIdx}`);
+    route.push({
+      pathname: '/mypage/request/detail',
+      query: {
+        preQuotationIdx: company.preQuotationIdx,
+      },
+    });
   };
 
   if (userLoading) {

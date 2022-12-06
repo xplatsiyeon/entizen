@@ -403,13 +403,18 @@ const FirstStep = ({
                     <div className="deleteBox">
                       <div
                         className="x-img"
+                        style={{ cursor: 'pointer' }}
                         onClick={() => onClickMinus(index)}
                       >
                         <Image src={XCircle} alt="add-img" />
                       </div>
                     </div>
                   ) : (
-                    <div className="add-img" onClick={onClickChargerAdd}>
+                    <div
+                      className="add-img"
+                      style={{ cursor: 'pointer' }}
+                      onClick={onClickChargerAdd}
+                    >
                       <Image src={AddIcon} alt="add-img" />
                     </div>
                   )}
