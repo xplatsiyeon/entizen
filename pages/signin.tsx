@@ -72,7 +72,7 @@ const Signin = () => {
     const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
     // 로컬에서 사용할때만 활성화 시키기
     // const ORIGIN_API = `/api/members/login`;
-    try {
+    // try {
       await axios({
         method: 'post',
         url: ORIGIN_API,

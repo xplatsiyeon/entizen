@@ -67,6 +67,11 @@ const SecondStep = ({
   const [errorMessage, setErrorMessage] = useState('');
   const [productId, setProductId] = useState<number>();
 
+  // 페이지 이동시 스크롤 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tabNumber]);
+
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
     MulterResponse,

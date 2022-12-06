@@ -58,8 +58,6 @@ const LastWrite = (props: Props) => {
   // FirstStep 충전기 갯수
   const [chargeNum, setChargeNum] = useState<number>(0);
 
-  console.log(`chargeNum index에서는?`, chargeNum);
-
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [canNext, SetCanNext] = useState<boolean>(false);
@@ -134,7 +132,7 @@ const LastWrite = (props: Props) => {
 
   const preQuotation = data?.sendQuotationRequest?.preQuotation!;
   const quotationRequest = data?.sendQuotationRequest?.quotationRequest!;
-  console.log('quotationRequest 뭐나옴?', quotationRequest);
+
   const businessRegistrationFiles =
     data?.sendQuotationRequest?.companyMemberAdditionalInfo
       ?.businessRegistrationFiles!;
