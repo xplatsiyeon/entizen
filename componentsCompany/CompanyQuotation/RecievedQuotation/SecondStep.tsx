@@ -413,27 +413,27 @@ const SecondStep = ({
       console.log('-----------newChargers----------');
       console.log(newChargers);
 
-      // if (subscribeProductFeature.length < 1) {
-      //   postMutate({
-      //     url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-      //     data: {
-      //       subscribePricePerMonth: subscribePricePerMonth,
-      //       constructionPeriod: constructionPeriod,
-      //       chargers: newChargers,
-      //     },
-      //   });
-      // } else {
-      //   postMutate({
-      //     url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-      //     data: {
-      //       subscribePricePerMonth: subscribePricePerMonth,
-      //       constructionPeriod: constructionPeriod,
-      //       subscribeProductFeature: subscribeProductFeature,
-      //       chargers: newChargers,
-      //     },
-      //   });
-      // }
-      // dispatch(myEstimateAction.reset());
+      if (subscribeProductFeature.length < 1) {
+        postMutate({
+          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+          data: {
+            subscribePricePerMonth: subscribePricePerMonth,
+            constructionPeriod: constructionPeriod,
+            chargers: newChargers,
+          },
+        });
+      } else {
+        postMutate({
+          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+          data: {
+            subscribePricePerMonth: subscribePricePerMonth,
+            constructionPeriod: constructionPeriod,
+            subscribeProductFeature: subscribeProductFeature,
+            chargers: newChargers,
+          },
+        });
+      }
+      dispatch(myEstimateAction.reset());
     }
   };
   // 수정하기 버튼
