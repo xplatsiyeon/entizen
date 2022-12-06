@@ -340,6 +340,26 @@ const LastWrite = (props: Props) => {
     }
   }, []);
 
+  // 최종견적 수익지분 업데이트
+  useEffect(() => {
+    if (Number(chargePoint) < 0) {
+      setChargePoint('0');
+      setProfitableInterestUser('100');
+    }
+    if (Number(chargePoint) > 100) {
+      setChargePoint('100');
+      setProfitableInterestUser('0');
+    }
+    if (Number(profitableInterestUser) < 0) {
+      setChargePoint('100');
+      setProfitableInterestUser('0');
+    }
+    if (Number(profitableInterestUser) > 100) {
+      setChargePoint('0');
+      setProfitableInterestUser('100');
+    }
+  }, [profitableInterestUser, chargePoint]);
+
   console.log(data);
   console.log(`⭐️ 보낸 견적 데이터 확인 ~263 -> ${TAG}`);
 
