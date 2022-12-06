@@ -205,6 +205,9 @@ const FirstStep = ({
       chargerImageFiles: [],
       catalogFiles: [],
     });
+    console.log(selectedOption);
+    console.log(selectedOptionEn);
+
     setSelectedOption(temp);
     setSelectedOptionEn(tempEn);
   };

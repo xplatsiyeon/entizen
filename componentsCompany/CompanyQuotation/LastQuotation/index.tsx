@@ -259,7 +259,6 @@ const LastWrite = (props: Props) => {
       while (count < finalQuotation.finalQuotationChargers.length) {
         const finalQuotationCharger =
           finalQuotation.finalQuotationChargers[count];
-
         // 한국어값 담기
         const temp: chargers = {
           idx: M5_LIST_EN.indexOf(finalQuotationCharger.kind),
