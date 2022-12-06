@@ -337,7 +337,8 @@ const LastWrite = (props: Props) => {
       setOpenSubLink(false);
     }
   }, []);
-
+  const CompanyName =
+    data?.sendQuotationRequest?.companyMemberAdditionalInfo?.companyName;
   console.log(data);
   console.log(`⭐️ 보낸 견적 데이터 확인 ~263 -> ${TAG}`);
 
@@ -371,6 +372,7 @@ const LastWrite = (props: Props) => {
         setSubscribeProductFeature={setSubscribeProductFeature}
         setChargeNum={setChargeNum}
         chargeNum={chargeNum}
+        CompanyName={CompanyName}
       />
     ),
     // 스텝 2
