@@ -258,7 +258,10 @@ const FirstStep = ({
       profitableInterestUser !== '' &&
       chargePoint !== '' &&
       subscribePricePerMonth !== '' &&
-      dueDiligenceResult !== ''
+      dueDiligenceResult !== '' &&
+      selectedOption.filter((e) => {
+        return !e.kind || !e.channel || !e.count || !e.standType;
+      }).length === 0
     ) {
       SetCanNext(true);
     } else {
@@ -266,6 +269,7 @@ const FirstStep = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    selectedOption,
     subscribeProduct,
     subscribePeriod,
     profitableInterestUser,
@@ -289,7 +293,7 @@ const FirstStep = ({
   //   console.log('🔥 ~line 226 ~selectedOptionEn data check');
   //   console.log(selectedOption);
   // }, [selectedOption]);
-  console.log(`first step입니다`, selectedOption.length);
+  // console.log(`first step입니다`, selectedOption.length);
 
   return (
     <WebRapper>

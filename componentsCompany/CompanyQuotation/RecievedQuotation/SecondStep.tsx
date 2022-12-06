@@ -391,15 +391,15 @@ const SecondStep = ({
       const newChargers = chargers.map((charger) => {
         const { feature, modelName, ...newCharger } = charger;
         let result: any = { ...newCharger };
-        if (feature && charger?.feature?.length! > 1) {
+        if (feature && feature?.length! > 0) {
           result = {
             ...newCharger,
             feature,
           };
         }
-        if (modelName && charger?.modelName?.length! > 1) {
+        if (modelName && modelName?.length! > 0) {
           result = {
-            ...newCharger,
+            ...result,
             modelName,
           };
         }
