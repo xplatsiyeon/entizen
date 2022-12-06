@@ -456,7 +456,6 @@ const SecondStep = ({
     });
     dispatch(myEstimateAction.reset());
   };
-
   // 수정하기
   useEffect(() => {
     if (editData) {
@@ -492,8 +491,13 @@ const SecondStep = ({
       setChargeFeatures(charger.productFeature);
       setImgArr(newImage);
       setFileArr(newFile);
+      setTabNumber(0);
     }
-  }, [editData, StepIndex]);
+  }, [tabNumber, editData, StepIndex]);
+  useEffect(() => {
+    console.log('🔥 tabnumber check -> ');
+    console.log(tabNumber);
+  }, [tabNumber]);
   // 내 제품 리스트 하단 내용
   useEffect(() => {
     if (productId) {
@@ -644,7 +648,7 @@ const SecondStep = ({
               </Btn>
             ))}
           </BtnBox>
-          <InputBox>
+          <InputBox isSelected={chargeTypeNumber === 1 ? true : false}>
             <div>
               <Input
                 onChange={onChangeInput}
@@ -913,7 +917,7 @@ const Btn = styled.div`
     color: ${colors.main};
   }
 `;
-const InputBox = styled.div`
+const InputBox = styled.div<{ isSelected?: boolean }>`
   display: flex;
   gap: 9pt;
   flex-direction: column;
@@ -934,7 +938,10 @@ const InputBox = styled.div`
     align-items: center;
   }
   & div > .MuiFormControl-root > .MuiInputBase-root > fieldset {
-    border: 1pt solid #e2e5ed !important;
+    border-style: solid;
+    border-width: 1pt;
+    border-color: ${({ isSelected }) =>
+      isSelected ? colors.main1 : colors.lightWhite3};
     border-radius: 6pt !important;
   }
   & > div > div {
@@ -981,7 +988,6 @@ const BottomInputBox = styled.div`
 `;
 const Input = styled(TextField)`
   width: 100%;
-
   & input {
     padding: 10.885pt 0 10.885pt 12pt;
     text-align: right;
