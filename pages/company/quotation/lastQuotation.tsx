@@ -53,7 +53,14 @@ const LastQuotation = ({ setComponentId, componentId, send }: Props) => {
       <MypageHeader
         exitBtn={true}
         title={'최종 견적 작성'}
-        handleOnClick={() => router.push('/company/sentProvisionalQuotation')}
+        handleOnClick={() =>
+          router.push({
+            pathname: '/company/sentProvisionalQuotation',
+            query: {
+              preQuotationIdx: routerId,
+            },
+          })
+        }
       />
       <LastWrite />
     </>

@@ -76,6 +76,11 @@ const ThirdStep = ({
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  // 페이지 이동시 스크롤 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tabNumber]);
+
   // file s3 multer 저장 API (with useMutation)
   const { mutate: multerFile, isLoading: multerFileLoading } = useMutation<
     MulterResponse,
@@ -202,6 +207,9 @@ const ThirdStep = ({
   const changeCharger = [...chargers].map((obj: any) => {
     if (typeof obj.chargePrice === 'string') {
       obj.chargePrice = Number(obj?.chargePrice?.replaceAll(',', ''));
+    }
+    if (obj?.productFeature?.length! < 1) {
+      delete obj.productFeature;
     }
     delete obj.idx;
     return obj;

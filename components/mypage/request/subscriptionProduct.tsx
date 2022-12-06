@@ -5,7 +5,10 @@ import arrow from 'public/images/right-arrow.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PreQuotations } from 'pages/mypage/request';
-import { PriceBasicCalculation, PriceCalculation } from 'utils/calculatePackage';
+import {
+  PriceBasicCalculation,
+  PriceCalculation,
+} from 'utils/calculatePackage';
 import { useQuery } from 'react-query';
 import { UserInfo } from 'pages/mypage';
 import { isTokenGetApi } from 'api';
@@ -22,16 +25,14 @@ const SubscriptionProduct = ({ data }: Props) => {
   } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
 
   const onClickCompany = (company: PreQuotations) => {
-    // 다른 파트너 찾기로 선택 안된 기업은 다시 선택 불가
-    if (!company?.finalQuotation) {
-      // route.push(`/mypage/request/detail/${company.preQuotationIdx}`);
-      route.push({
-        pathname: '/mypage/request/detail',
-        query: {
-          preQuotationIdx: company.preQuotationIdx,
-        },
-      });
-    }
+    // 다른 파트너 선택하면 원래 선택한 화면 흐려지기만 함
+    // route.push(`/mypage/request/detail/${company.preQuotationIdx}`);
+    route.push({
+      pathname: '/mypage/request/detail',
+      query: {
+        preQuotationIdx: company.preQuotationIdx,
+      },
+    });
   };
 
   if (userLoading) {
@@ -76,7 +77,9 @@ const SubscriptionProduct = ({ data }: Props) => {
             <h2>{company?.companyMemberAdditionalInfo?.companyName}</h2>
             <p>구독료</p>
             <PriceBox>
-              <h1>{PriceBasicCalculation(company.subscribePricePerMonth)} 원</h1>
+              <h1>
+                {PriceBasicCalculation(company.subscribePricePerMonth)} 원
+              </h1>
               <div>
                 <Image src={arrow} alt="arrow" layout="fill" />
               </div>

@@ -78,7 +78,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
           {/* --- 수익지분 보류 --- */}
           <span className="name">수익지분</span>
           <span className="value">
-            {`${Number(finalQuotation?.chargingPointRate) * 100} %`}
+            {`${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
           </span>
         </Item>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -206,7 +206,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             <FlexWrap key={item.finalQuotationChargerIdx}>
               <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
               <FeaturesList>
-                {item.productFeature.split('\n').map((line, idx) => (
+                {item.productFeature?.split('\n').map((line, idx) => (
                   <li key={idx}>
                     {line}
                     <br />

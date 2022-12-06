@@ -58,8 +58,6 @@ const LastWrite = (props: Props) => {
   // FirstStep 충전기 갯수
   const [chargeNum, setChargeNum] = useState<number>(0);
 
-  console.log(`chargeNum index에서는?`, chargeNum);
-
   // step 숫자
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [canNext, SetCanNext] = useState<boolean>(false);
@@ -134,6 +132,7 @@ const LastWrite = (props: Props) => {
 
   const preQuotation = data?.sendQuotationRequest?.preQuotation!;
   const quotationRequest = data?.sendQuotationRequest?.quotationRequest!;
+
   const businessRegistrationFiles =
     data?.sendQuotationRequest?.companyMemberAdditionalInfo
       ?.businessRegistrationFiles!;
@@ -166,7 +165,9 @@ const LastWrite = (props: Props) => {
       setProfitableInterestUser(
         Math.floor(Number(quotationRequest.investRate) * 100).toString(),
       );
-      setChargePoint(''); // 넣을 값이 없음
+      setChargePoint(
+        Math.floor(100 - Number(quotationRequest.investRate) * 100).toString(),
+      ); // 넣을 값이 없음
       setSubscribePricePerMonth(preQuotation.subscribePricePerMonth.toString());
       setConstructionPeriod(preQuotation.constructionPeriod.toString());
       setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
@@ -257,7 +258,6 @@ const LastWrite = (props: Props) => {
       while (count < finalQuotation.finalQuotationChargers.length) {
         const finalQuotationCharger =
           finalQuotation.finalQuotationChargers[count];
-
         // 한국어값 담기
         const temp: chargers = {
           idx: M5_LIST_EN.indexOf(finalQuotationCharger.kind),
@@ -320,6 +320,19 @@ const LastWrite = (props: Props) => {
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
   // LeftBox component 바꿔주는거
   const [underNum, setUnderNum] = useState<number>();
+  const [componentId, setComponentId] = useState<number>();
+
+  // LeftBox Border 바꿔주는거
+  useEffect(() => {
+    if (router.query.preQuotation) {
+      const num = Number(router.query.preQuotation);
+      setComponentId(num);
+    }
+  }, [router.query.preQuotation]);
+
+  useEffect(() => {
+    if (router.query.preQuotationIdx) setOpenSubLink(false);
+  }, [router]);
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
@@ -337,8 +350,27 @@ const LastWrite = (props: Props) => {
       setOpenSubLink(false);
     }
   }, []);
-  const CompanyName =
-    data?.sendQuotationRequest?.companyMemberAdditionalInfo?.companyName;
+
+  // 최종견적 수익지분 업데이트
+  useEffect(() => {
+    if (Number(chargePoint) < 0) {
+      setChargePoint('0');
+      setProfitableInterestUser('100');
+    }
+    if (Number(chargePoint) > 100) {
+      setChargePoint('100');
+      setProfitableInterestUser('0');
+    }
+    if (Number(profitableInterestUser) < 0) {
+      setChargePoint('100');
+      setProfitableInterestUser('0');
+    }
+    if (Number(profitableInterestUser) > 100) {
+      setChargePoint('0');
+      setProfitableInterestUser('100');
+    }
+  }, [profitableInterestUser, chargePoint]);
+
   console.log(data);
   console.log(`⭐️ 보낸 견적 데이터 확인 ~263 -> ${TAG}`);
 
@@ -346,6 +378,7 @@ const LastWrite = (props: Props) => {
     // 기본
     0: (
       <FirstStep
+        sendData={data!}
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
         canNext={canNext}
@@ -372,7 +405,6 @@ const LastWrite = (props: Props) => {
         setSubscribeProductFeature={setSubscribeProductFeature}
         setChargeNum={setChargeNum}
         chargeNum={chargeNum}
-        CompanyName={CompanyName}
       />
     ),
     // 스텝 2
@@ -493,6 +525,8 @@ const LastWrite = (props: Props) => {
             <LeftProjectQuotationBox
               underNum={underNum}
               setUnderNum={setUnderNum}
+              componentId={componentId}
+              setComponentId={setComponentId}
             />
             {tabNumber >= 0 && (
               <>

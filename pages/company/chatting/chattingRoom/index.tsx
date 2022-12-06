@@ -98,10 +98,10 @@ const ChattingRoom = ({}: Props) => {
   //const [company, setCompany] = useState<string>()
 
   /* useEffect(() => {
-         console.log(company)
-         if (typeof (router.query.companyMemberId) === 'string') {
-             setCompany(router.query.companyMemberId)
-         }
+console.log(company)
+if (typeof (router.query.companyMemberId) === 'string') {
+setCompany(router.query.companyMemberId)
+}
      }, [router.query.companyMemberId]) */
 
   /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/

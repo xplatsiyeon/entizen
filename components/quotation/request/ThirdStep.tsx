@@ -26,6 +26,7 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   const [isMessage, setIsMessage] = useState(false);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
   const subscribeType: string[] = ['24', '36', '48', '60'];
+
   // 이전버튼
   const HandlePrevBtn = () => setTabNumber(tabNumber - 1);
   // 다음버튼

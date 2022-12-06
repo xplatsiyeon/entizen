@@ -83,7 +83,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           {/* --- 수익지분 보류 --- */}
           <span className="name">수익지분</span>
           <span className="value">
-            {`${Math.floor(Number(finalQuotation?.chargingPointRate) * 100)} %`}
+            {`${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
           </span>
         </Item>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -278,7 +278,6 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
         ))}
       </Section>
       <Line />
-
       <Contents>
         <Subtitle>파트너 정보</Subtitle>
         <div className="text-box">
@@ -373,6 +372,14 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.gray2};
     flex: 1;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .value {
     font-weight: 500;
@@ -382,6 +389,14 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.main2};
     flex: 2;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
 
   @media (max-width: 899.25pt) {
@@ -432,6 +447,7 @@ const FlexWrap = styled.div`
 const FlexWrap2 = styled.div`
   display: flex;
   flex-direction: row;
+
   &:nth-of-type(2) {
     margin-top: 61pt;
   }
@@ -464,6 +480,12 @@ const Label = styled.h3`
   }
   @media (min-width: 900pt) {
     padding-left: 0;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 const FeaturesList = styled.ol`
@@ -477,6 +499,14 @@ const FeaturesList = styled.ol`
     line-height: 18pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 21pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
     :not(:nth-of-type(1)) {
       padding-top: 2pt;
     }
@@ -498,6 +528,14 @@ const FeaturesList3 = styled.ol`
     line-height: 18pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 21pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
     :not(:nth-of-type(1)) {
       padding-top: 2pt;
     }
@@ -575,6 +613,7 @@ const Label2 = styled.div`
   }
   @media (min-width: 900pt) {
     padding-left: 0;
+    padding-top: 3pt;
   }
 `;
 
@@ -589,6 +628,13 @@ const FeaturesList2 = styled.div`
   color: ${colors.main2};
   @media (max-width: 899.25pt) {
     flex: none;
+  }
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 21pt;
+    letter-spacing: -0.02em;
   }
 `;
 
@@ -619,12 +665,20 @@ const Contents = styled.div`
     }
 
     .emailText {
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
       line-height: 12pt;
       letter-spacing: -0.02em;
       text-align: right;
+      @media (min-width: 900pt) {
+        font-family: 'Spoqa Han Sans Neo';
+        font-size: 12pt;
+        font-weight: 500;
+        line-height: 12pt;
+        letter-spacing: -0.02em;
+        text-align: right;
+      }
     }
   }
 
@@ -634,6 +688,14 @@ const Contents = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .text {
     font-weight: 500;
@@ -642,6 +704,14 @@ const Contents = styled.div`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: right;
+    }
   }
   .img-box {
     padding-top: 42pt;

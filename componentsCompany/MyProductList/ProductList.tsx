@@ -92,15 +92,20 @@ const ProductList = (props: Props) => {
               })
             }
           >
-            <ImageBox>
-              <Image
-                src={item?.chargerImageFiles[0]?.url}
-                alt="carImage"
-                layout="fill"
-                priority={true}
-                unoptimized={true}
-              />
-            </ImageBox>
+            {item?.chargerImageFiles !== undefined ? (
+              <ImageBox>
+                <Image
+                  src={item?.chargerImageFiles[0]?.url}
+                  alt="carImage"
+                  layout="fill"
+                  priority={true}
+                  unoptimized={true}
+                />
+              </ImageBox>
+            ) : (
+              <NoImageBox />
+            )}
+
             <TextBox>
               <Title>{item.modelName}</Title>
               <From>{`제조사: ${item.manufacturer}`}</From>
@@ -156,6 +161,13 @@ const ImageBox = styled.div`
   width: 42pt;
   height: 42pt;
   margin-right: 12pt;
+`;
+const NoImageBox = styled.div`
+  position: relative;
+  width: 42pt;
+  height: 42pt;
+  margin-right: 12pt;
+  background-color: #a6a9b0;
 `;
 
 const TextBox = styled.div`

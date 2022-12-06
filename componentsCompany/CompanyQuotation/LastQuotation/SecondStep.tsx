@@ -46,6 +46,7 @@ const SecondStep = ({
   setTabNumber,
   canNext,
   SetCanNext,
+  selectedOption,
   selectedOptionEn,
   setSelectedOptionEn,
 }: Props) => {
@@ -60,18 +61,16 @@ const SecondStep = ({
     'PURCHASER_AUTONOMY',
     'OPERATION_BUSINESS_CARRIER_INPUT',
   ];
-
-  const chargerData: string[] = [
-    'LECS-007ADE',
-    'LECS-006ADE',
-    'LECS-005ADE',
-    'LECS-004ADE',
-  ];
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [productId, setProductId] = useState<number>();
+
+  // 페이지 이동시 스크롤 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tabNumber]);
 
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -423,6 +422,11 @@ const SecondStep = ({
       window.removeEventListener('resize', handleResize);
     };
   }, [nowWidth]);
+
+  console.log('🔥 최종견적 선택된 옵션 리스트 목록 -> ');
+  console.log(selectedOption[maxIndex! - 1]);
+  console.log(maxIndex);
+
   return (
     <>
       <WebRapper>
@@ -434,7 +438,10 @@ const SecondStep = ({
             <div>* 필수 입력</div>
           </TopStep>
           <SubWord>
-            7 kW 충전기 (공용), 벽걸이, 싱글 <br />
+            {`${selectedOption[tabNumber! - 1]?.kind}, ${
+              selectedOption[tabNumber! - 1]?.standType
+            }, ${selectedOption[tabNumber! - 1]?.channel} `}
+            <br />
             제품의 정보를 입력해주세요
           </SubWord>
           <ChargeMoney className="first">

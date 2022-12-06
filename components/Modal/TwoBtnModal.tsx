@@ -11,7 +11,6 @@ type Props = {
   leftBtnControl?: () => void;
   rightBtnControl?: () => void;
   exit: () => void;
-  deleteHandle?: () => void;
 };
 
 const TwoBtnModal = ({
@@ -22,7 +21,7 @@ const TwoBtnModal = ({
   rightBtnColor,
   leftBtnControl,
   rightBtnControl,
-  deleteHandle,
+
   exit,
 }: Props) => {
   const outside = useRef(null);
