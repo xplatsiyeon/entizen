@@ -388,8 +388,6 @@ const SecondStep = ({
           catalogFiles: fileArr,
         },
       ];
-      console.log('------------chargers---------');
-      console.log(chargers);
       const newChargers = chargers.map((charger) => {
         const { feature, modelName, ...newCharger } = charger;
         let result: any = { ...newCharger };
@@ -407,11 +405,6 @@ const SecondStep = ({
         }
         return result;
       });
-      console.log('------------manufacturingCompany---------');
-      console.log(manufacturingCompany);
-
-      console.log('-----------newChargers----------');
-      console.log(newChargers);
 
       if (subscribeProductFeature.length < 1) {
         postMutate({
