@@ -58,6 +58,10 @@ const WebBody = styled.div`
     display: block;
     height: 100%;
   }
+
+  @media (min-width: 900pt) {
+    background-color: #fcfcfc;
+  }
 `;
 
 const Inner = styled.div`

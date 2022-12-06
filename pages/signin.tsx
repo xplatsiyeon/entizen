@@ -317,7 +317,7 @@ const Signin = () => {
                 overflow: 'scroll !important',
               }}
             >
-              <BackBox onClick={() => router.back()}>
+              <BackBox onClick={() => router.push('/')}>
                 <BackBtn src="/images/back-btn.svg" />
               </BackBox>
               <Container
@@ -353,6 +353,7 @@ const Signin = () => {
                           letterSpacing: '-0.02em',
                           color:
                             selectedLoginType == index ? '#5A2DC9' : '#CACCD1',
+                          cursor: 'pointer',
                         }}
                       >
                         {loginType}
@@ -479,13 +480,23 @@ const Signin = () => {
                         margin: '102pt auto 0',
                       }}
                     >
-                      <Box sx={{ height: '33pt', marginRight: '15pt' }}>
+                      <Box
+                        sx={{
+                          height: '33pt',
+                          marginRight: '15pt',
+                          cursor: 'pointer',
+                        }}
+                      >
                         <Link href={KAKAO_AUTH_URL}>
                           <Image src={kakao} alt="kakao" />
                         </Link>
                       </Box>
                       <Box
-                        sx={{ height: '33pt', marginRight: '15pt' }}
+                        sx={{
+                          height: '33pt',
+                          marginRight: '15pt',
+                          cursor: 'pointer',
+                        }}
                         onClick={handleAlert}
                       >
                         <Image src={apple} alt="apple" />
@@ -495,7 +506,10 @@ const Signin = () => {
                         {/* <Image onClick={handleNaver} src={naver} alt="naver" /> */}
                         <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
-                      <Box sx={{ height: '33pt' }} onClick={handleAlert}>
+                      <Box
+                        sx={{ height: '33pt', cursor: 'pointer' }}
+                        onClick={handleAlert}
+                      >
                         <Image src={google} alt="google" />
                       </Box>
                     </Box>
@@ -623,6 +637,7 @@ const WebWrapper = styled.div`
 const NaverBox = styled(Box)`
   height: 33pt;
   margin-right: 15pt;
+  cursor: pointer;
   & #naverIdLogin_loginButton {
     display: none;
   }
@@ -654,7 +669,9 @@ const IdRegist = styled.button`
   letter-spacing: -0.02em;
   color: #595757;
 `;
-const IdRegistBtnSpan = styled.span``;
+const IdRegistBtnSpan = styled.span`
+  cursor: pointer;
+`;
 
 const BackBox = styled(Box)`
   display: none;
