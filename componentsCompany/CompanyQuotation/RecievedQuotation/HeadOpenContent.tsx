@@ -32,7 +32,6 @@ import {
   subscribeTypeEn,
 } from 'assets/selectList';
 import { AxiosError } from 'axios';
-import Modal from 'components/Modal/Modal';
 import Loader from 'components/Loader';
 import { convertKo } from 'utils/calculatePackage';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
@@ -40,7 +39,6 @@ import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
-import { isFulfilled } from '@reduxjs/toolkit';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -211,13 +209,16 @@ const HeadOpenContent = () => {
 
   useEffect(() => {
     if (router.query.quotationRequestIdx) setOpenSubLink(false);
-  }, [router]);
+    if (!router?.query?.edit && router?.isReady) {
+      editRemove();
+      refetch();
+      setTabNumber(-1);
+    }
+  }, [router, editData]);
 
   useEffect(() => {
-    if (!router?.query?.edit && router?.isReady) {
-      refetch();
-    }
-  }, [router]);
+    setTabNumber(0);
+  }, [routerEdit]);
 
   // 1번째 탭 초기화
   useEffect(() => {
