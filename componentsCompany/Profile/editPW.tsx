@@ -118,7 +118,7 @@ const EditPW = ({ setComponent }: Props) => {
   const handleModalYes = () => {
     localStorage.removeItem('key');
     setOpenModal(false);
-    setComponent!(1);
+    if(modalMessage === '비밀번호 변경이 완료되었습니다.')setComponent!(1);
     /*router.push('/signin'); */
   };
   const iconAdorment = {

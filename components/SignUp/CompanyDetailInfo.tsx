@@ -114,13 +114,13 @@ const CompanyDetailInfo = ({
   const onClickFile = () => {
     fileRef?.current?.click();
     setFileModal(false);
-    setFilePreview(true);
+    // setFilePreview(true);
   };
   // 이미지 클릭
   const onClickPhoto = () => {
     imgRef?.current?.click();
     setFileModal(false);
-    setImgPreview(true);
+    // setImgPreview(true);
   };
   // 사진 || 파일 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -182,11 +182,23 @@ const CompanyDetailInfo = ({
 
   // 이미지 or 파일 1개도 없을 땐 리셋
   useEffect(() => {
-    if (businessRegistration.length === 0) {
+    console.log();
+
+    if (
+      businessRegistration.length! > 0 &&
+      imgRef.current?.files?.length! > 0
+    ) {
+      setImgPreview(true);
+    } else if (
+      businessRegistration.length! > 0 &&
+      fileRef.current?.files?.length! > 0
+    ) {
+      setFilePreview(true);
+    } else {
       setImgPreview(false);
       setFilePreview(false);
     }
-  }, [fileModal, businessRegistration]);
+  }, [businessRegistration]);
 
   // 주소검색
   if (addressOn) {
@@ -495,6 +507,9 @@ const ImgSpan = styled.div`
   width: 60pt;
   height: 60pt;
   border-radius: 6pt;
+  /* height: 100pt;
+  border: 1px solid red;
+  background-color: red; */
 `;
 const Xbox = styled.div`
   position: absolute;
