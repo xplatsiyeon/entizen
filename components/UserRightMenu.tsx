@@ -29,7 +29,7 @@ const UserRightMenu = () => {
           <ImageBoxS>
             <Image src={Chats} alt="Chats" />
           </ImageBoxS>
-          <MenuTitle>소통하기</MenuTitle>
+          <MenuTitle onClick={()=>router.push('/chatting')}>소통하기</MenuTitle>
           <Divide />
         </MenuBox>
         <MenuBox

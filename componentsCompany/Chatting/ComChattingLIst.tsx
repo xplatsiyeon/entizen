@@ -409,11 +409,10 @@ const Chatting = styled.div`
   display: flex;
   width: 160%;
   margin-left: -40%;
-  //일단.. 드래그시 덜컹거리면 삭제하자. 그리고 터치엔드 함수로 transition 주기
-  transition: 0.4s;
 `;
 const ChattingRoom = styled.div`
   display: flex;
+  cursor: pointer;
   padding: 13.5pt 1pt 13.5pt 0;
   border-bottom: 1px solid #e2e5ed;
   width: calc((100% / 8) * 5);
