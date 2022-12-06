@@ -161,7 +161,6 @@ const CompanyDetailInfo = ({
 
   useEffect(() => {
     console.log(imgPreview);
-
     console.log(businessRegistration);
   }, [imgPreview, businessRegistration]);
 
@@ -187,14 +186,13 @@ const CompanyDetailInfo = ({
   ]);
 
   // 이미지 or 파일 1개도 없을 땐 리셋
-  // useEffect(() => {
-  //   if (businessRegistration.length === 0) {
-  //     console.log('리셋 확인');
-
-  //     setImgPreview(false);
-  //     setFilePreview(false);
-  //   }
-  // }, [fileModal, businessRegistration]);
+  useEffect(() => {
+    if (businessRegistration.length === 0) {
+      console.log('리셋 확인');
+      setImgPreview(false);
+      setFilePreview(false);
+    }
+  }, [fileModal, businessRegistration]);
 
   // 주소검색
   if (addressOn) {
