@@ -5,7 +5,7 @@ import arrow from 'public/images/right-arrow.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PreQuotations } from 'pages/mypage/request';
-import { PriceCalculation } from 'utils/calculatePackage';
+import { PriceBasicCalculation, PriceCalculation } from 'utils/calculatePackage';
 import { useQuery } from 'react-query';
 import { UserInfo } from 'pages/mypage';
 import { isTokenGetApi } from 'api';
@@ -76,7 +76,7 @@ const SubscriptionProduct = ({ data }: Props) => {
             <h2>{company?.companyMemberAdditionalInfo?.companyName}</h2>
             <p>구독료</p>
             <PriceBox>
-              <h1>{PriceCalculation(company.subscribePricePerMonth)} 원</h1>
+              <h1>{PriceBasicCalculation(company.subscribePricePerMonth)} 원</h1>
               <div>
                 <Image src={arrow} alt="arrow" layout="fill" />
               </div>
