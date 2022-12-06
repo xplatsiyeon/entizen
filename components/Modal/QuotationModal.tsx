@@ -158,6 +158,7 @@ const BtnLeft = styled(Box)`
   color: ${colors.darkGray};
   background: ${colors.gray};
   border-radius: 6pt;
+  cursor: pointer;
 `;
 const BtnRight = styled(Box)`
   width: 223px;
@@ -167,6 +168,7 @@ const BtnRight = styled(Box)`
   background-color: ${colors.main};
   color: ${colors.lightWhite};
   border-radius: 6pt;
+  cursor: pointer;
 `;
 const BtnText = styled.div`
   position: relative;

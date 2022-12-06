@@ -47,6 +47,7 @@ type Props = {
   setSubscribeProductFeature: Dispatch<SetStateAction<string>>;
   setChargeNum: React.Dispatch<React.SetStateAction<number>>;
   chargeNum?: number;
+  CompanyName?: string;
 };
 const subScribe = ['전체구독', '부분구독'];
 
@@ -78,6 +79,7 @@ const FirstStep = ({
   setSubscribeProductFeature,
   setChargeNum,
   chargeNum,
+  CompanyName,
 }: Props) => {
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
@@ -311,7 +313,7 @@ const FirstStep = ({
               </SmallInputBox>
             </FirstBox>
             <FirstBox>
-              <SubTitle>Charge Point</SubTitle>
+              <SubTitle>{CompanyName}</SubTitle>
               <SmallInputBox>
                 <Input
                   value={chargePoint}

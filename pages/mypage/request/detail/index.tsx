@@ -70,7 +70,14 @@ export interface FinalQuotationChargers {
   chargerImageFiles: ChargerImageFiles[];
   catalogFiles: ChargerImageFiles[];
 }
-
+export interface FinalQuotationDetailFiles {
+  createdAt: string;
+  finalQuotationDetailFileIdx: number;
+  finalQuotationIdx: number;
+  originalName: string;
+  size: number;
+  url: string;
+}
 export interface FinalQuotations {
   createdAt: string;
   finalQuotationIdx: number;
@@ -85,7 +92,7 @@ export interface FinalQuotations {
   quotationRequestIdx: number;
   preQuotationIdx: number;
   finalQuotationChargers: FinalQuotationChargers[];
-  finalQuotationDetailFiles: [];
+  finalQuotationDetailFiles: FinalQuotationDetailFiles[];
 }
 export interface PreQuotation {
   createdAt: string;
