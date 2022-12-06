@@ -10,7 +10,7 @@ import TwoBtn from './TwoBtn';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
 import { isTokenDeleteApi, isTokenGetApi } from 'api';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Loader from 'components/Loader';
 import { M5_LIST, M5_LIST_EN, M7_LIST, M7_LIST_EN } from 'assets/selectList';
 import { convertKo } from 'utils/calculatePackage';
@@ -50,6 +50,7 @@ export interface ProductDetailResponse {
 type Props = {};
 const TAG = 'componentsCompany/MyProductList/myProduct';
 const MyProduct = (props: Props) => {
+  const queryclient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chargerProductIdx!;
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
@@ -83,7 +84,9 @@ const MyProduct = (props: Props) => {
     isLoading: deleteLoading,
     isError: deleteError,
   } = useMutation(isTokenDeleteApi, {
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryclient.invalidateQueries('productList');
+    },
     onError: () => {},
     onSettled: () => {},
   });
@@ -92,16 +95,15 @@ const MyProduct = (props: Props) => {
   };
 
   // 내 제품 리스트 삭제하기
-  const deleteHandle = () => {
-    if (routerId) {
-      deleteMutate({
-        url: `company/myProductList/detail?chargerProductIdx${routerId}`,
-      });
-    }
-  };
+  const deleteHandle = () => {};
 
   const modalRightBtnControll = () => {
     router.push('/company/myProductList');
+    if (routerId) {
+      deleteMutate({
+        url: `/products/${routerId}`,
+      });
+    }
   };
   const clickDelete = () => {
     setModalOpen(true);
@@ -140,7 +142,6 @@ const MyProduct = (props: Props) => {
             exit={exitHandle}
             leftBtnControl={exitHandle}
             rightBtnControl={modalRightBtnControll}
-            deleteHandle={deleteHandle}
           />
         )}
         {/* 헤더 */}
@@ -218,18 +219,22 @@ const MyProduct = (props: Props) => {
             </Section>
             <Section>
               <Subtitle>충전기 카탈로그</Subtitle>
-              {data?.chargerProduct?.chargerCatalogFiles?.map((file, index) => (
-                <FileDownload
-                  key={index}
-                  href={file.url}
-                  download={file.originalName}
-                >
-                  <FileBtn>
-                    <Image src={fileImg} alt="file-icon" />
-                    {file.originalName}
-                  </FileBtn>
-                </FileDownload>
-              ))}
+              <FileWrap>
+                {data?.chargerProduct?.chargerCatalogFiles?.map(
+                  (file, index) => (
+                    <FileDownload
+                      key={index}
+                      href={file.url}
+                      download={file.originalName}
+                    >
+                      <FileBtn>
+                        <Image src={fileImg} alt="file-icon" />
+                        {file.originalName}
+                      </FileBtn>
+                    </FileDownload>
+                  ),
+                )}
+              </FileWrap>
             </Section>
           </List>
           <TwoBtn handleRightBtn={clickDelete} handleLeftBtn={clickEdit} />
@@ -437,8 +442,12 @@ const GridImg = styled.div`
   display: flex;
   padding-top: 9pt;
   gap: 6pt;
+  flex-wrap: wrap;
+
   @media (min-width: 900pt) {
     padding-top: 0;
+    justify-content: flex-end;
+    width: 500pt;
   }
 `;
 const GridItem = styled.div`
@@ -468,9 +477,19 @@ const FileBtn = styled(Button)`
   border: 0.75pt solid ${colors.lightGray3};
   color: ${colors.gray2};
   border-radius: 6pt;
+
   @media (min-width: 900pt) {
     margin-top: 0;
     margin-bottom: 9pt;
+  }
+`;
+
+const FileWrap = styled.div`
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 500pt;
   }
 `;
 export default MyProduct;

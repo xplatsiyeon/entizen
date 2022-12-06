@@ -52,24 +52,12 @@ const TwoBtnModal = ({
             </BtnText>
           </BtnLeftWeb>
           <BtnRight>
-            <BtnText
-              onClick={() => {
-                rightBtnControl;
-                deleteHandle;
-              }}
-              color={rightBtnColor}
-            >
+            <BtnText onClick={rightBtnControl} color={rightBtnColor}>
               {rightBtnText}
             </BtnText>
           </BtnRight>
           <BtnRightWeb>
-            <BtnText
-              onClick={() => {
-                rightBtnControl;
-                deleteHandle;
-              }}
-              color={'#ffff'}
-            >
+            <BtnText onClick={rightBtnControl} color={'#ffff'}>
               {rightBtnText}
             </BtnText>
           </BtnRightWeb>

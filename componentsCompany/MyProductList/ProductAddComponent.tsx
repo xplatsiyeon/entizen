@@ -370,6 +370,7 @@ const ProductAddComponent = (props: Props) => {
           chargerProductFileIdx,
           chargerProductIdx,
           createdAt,
+          productFileType,
           ...newArr
         } = item;
         return newArr;
@@ -379,6 +380,7 @@ const ProductAddComponent = (props: Props) => {
           chargerProductFileIdx,
           chargerProductIdx,
           createdAt,
+          productFileType,
           ...newArr
         } = item;
         return newArr;
@@ -1036,9 +1038,12 @@ const PhotosBox = styled.div`
   height: 56.0625pt;
   margin-top: 9pt;
   display: flex;
+  flex-wrap: wrap;
   gap: 9.1875pt;
   align-items: center;
+  height: auto;
 `;
+
 const PhotosBoxs = styled.div`
   /* width: 100%; */
   height: 56.0625pt;
