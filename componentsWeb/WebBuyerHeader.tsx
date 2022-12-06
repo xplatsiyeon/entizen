@@ -248,7 +248,7 @@ const WebBuyerHeader = ({
             </Box2>
           </Inner>
         </MainLink>
-        {type !== 'communication' ? (
+        {type !== 'communication' && setTabNumber ? (
           <MyprojectLink
             setTabNumber={setTabNumber}
             tabNumber={tabNumber}
@@ -256,7 +256,7 @@ const WebBuyerHeader = ({
             type={type}
             num={num}
             now={now}
-            openSubLink={openSubLink}
+            openSubLink={Boolean(openSubLink)}
           />
         ) : null}
       </Wrapper>
