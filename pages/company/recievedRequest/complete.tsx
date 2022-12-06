@@ -19,7 +19,7 @@ const complete = (props: Props) => {
   const onClickFn = () => {
     // 보낸 견적 바로가기
     dispatch(companyRequestFilterNumberAction.setNumber(1));
-    router.replace('/company/quotation');
+    router.replace('/company/quotation?id=1');
   };
 
   return (
