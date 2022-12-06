@@ -186,14 +186,18 @@ const FinalBottomBox = ({ pb, data }: Props) => {
           {/* 구독 상품 부분 */}
           <Label>구독 상품</Label>
           <FeaturesList>
-            {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.subscribeProductFeature
+            {/* {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.subscribeProductFeature
               ?.split('\n')
               .map((line, idx) => (
                 <li key={idx}>
                   {line}
                   <br />
                 </li>
-              ))}
+              ))} */}
+            {
+              data?.sendQuotationRequest?.preQuotation?.finalQuotation
+                ?.subscribeProductFeature
+            }
           </FeaturesList>
           {/* 특장점 충전기 부분 */}
         </FlexWrap>

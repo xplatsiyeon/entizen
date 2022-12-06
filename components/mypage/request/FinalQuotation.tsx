@@ -20,6 +20,7 @@ import {
   subscribeTypeEn,
 } from 'assets/selectList';
 import ManagerInfo from './ManagerInfo';
+import { log } from 'console';
 
 interface Props {
   pb?: number;
@@ -30,6 +31,14 @@ const TAG = 'components/mypage/request/FinalQuotation.tsx';
 const FinalQuotation = ({ pb, data, isSpot }: Props) => {
   console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
   console.log(data);
+  console.log(
+    '충전기 카탈로그',
+    data?.preQuotation.finalQuotation.finalQuotationChargers,
+  );
+  console.log(
+    '사업자 등록증',
+    data?.preQuotation.finalQuotation.finalQuotationDetailFiles,
+  );
 
   const finalQuotation = data?.preQuotation?.finalQuotation;
   return (
@@ -189,7 +198,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
         <FlexWrap>
           {/* 구독 상품 부분 */}
           <Label>구독 상품</Label>
-          <FeaturesList>
+          <FeaturesList3>
             {finalQuotation?.subscribeProductFeature
               ?.split('\n')
               .map((line) => (
@@ -198,7 +207,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
                   <br />
                 </li>
               ))}
-          </FeaturesList>
+          </FeaturesList3>
           {/* 특장점 충전기 부분 */}
         </FlexWrap>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -238,7 +247,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
       </Section>
       <Line />
       <Section className="underLine" pb={pb}>
-        <Subtitle>충전기 카탈로그</Subtitle>
+        <Subtitle>첨부 파일</Subtitle>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
           <React.Fragment key={item.finalQuotationChargerIdx}>
             {item.catalogFiles.map((file, index) => (
@@ -255,7 +264,39 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
             ))}
           </React.Fragment>
         ))}
+        {finalQuotation?.finalQuotationDetailFiles?.map((item, index) => (
+          <FileDownloadBtn key={item.finalQuotationDetailFileIdx}>
+            <FileDownload
+              // onClick={DownloadFile}
+              download={item.originalName}
+              href={item.url}
+            >
+              <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+              {item.originalName}
+            </FileDownload>
+          </FileDownloadBtn>
+        ))}
       </Section>
+      <Line />
+      <Contents>
+        <Subtitle>파트너 정보</Subtitle>
+        <div className="text-box">
+          <span className="name">담당자</span>
+          <span className="text">{data?.preQuotation?.member?.name}</span>
+        </div>
+        <div className="text-box">
+          <span className="name">이메일</span>
+          <span className="text">
+            {data?.companyMemberAdditionalInfo.managerEmail}
+          </span>
+        </div>
+        <div className="text-box">
+          <span className="name">전화번호</span>
+          <span className="text phone">
+            {data?.preQuotation?.member?.phone}
+          </span>
+        </div>
+      </Contents>
     </Wrapper>
   );
 };
@@ -283,7 +324,6 @@ const Title = styled.h1`
 const Section = styled.section<{ grid?: boolean; pb?: number }>`
   padding: 18pt 0pt;
   padding-bottom: ${({ pb }) => pb + 'pt'};
-
   ${({ grid }) =>
     grid &&
     css`
@@ -332,6 +372,14 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.gray2};
     flex: 1;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .value {
     font-weight: 500;
@@ -341,6 +389,14 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.main2};
     flex: 2;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
 
   @media (max-width: 899.25pt) {
@@ -391,6 +447,7 @@ const FlexWrap = styled.div`
 const FlexWrap2 = styled.div`
   display: flex;
   flex-direction: row;
+
   &:nth-of-type(2) {
     margin-top: 61pt;
   }
@@ -423,6 +480,12 @@ const Label = styled.h3`
   }
   @media (min-width: 900pt) {
     padding-left: 0;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 const FeaturesList = styled.ol`
@@ -436,6 +499,43 @@ const FeaturesList = styled.ol`
     line-height: 18pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 21pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+    :not(:nth-of-type(1)) {
+      padding-top: 2pt;
+    }
+  }
+  @media (max-width: 899.25pt) {
+    flex: none;
+  }
+`;
+
+const FeaturesList3 = styled.ol`
+  padding-top: 6pt;
+  list-style-type: decimal;
+  list-style-position: inside;
+  flex: 2;
+  & li {
+    list-style: none;
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 18pt;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 21pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
     :not(:nth-of-type(1)) {
       padding-top: 2pt;
     }
@@ -513,6 +613,7 @@ const Label2 = styled.div`
   }
   @media (min-width: 900pt) {
     padding-left: 0;
+    padding-top: 3pt;
   }
 `;
 
@@ -528,6 +629,13 @@ const FeaturesList2 = styled.div`
   @media (max-width: 899.25pt) {
     flex: none;
   }
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 21pt;
+    letter-spacing: -0.02em;
+  }
 `;
 
 const NoImage = styled.div`
@@ -542,5 +650,88 @@ const NoImage = styled.div`
     margin-left: 18pt;
     margin-bottom: 15pt;
   }
+`;
+
+const Contents = styled.div`
+  padding-top: 19.5pt;
+  padding-bottom: 18pt;
+
+  .text-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    :not(:nth-of-type(1)) {
+      padding-top: 12pt;
+    }
+
+    .emailText {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: right;
+      @media (min-width: 900pt) {
+        font-family: 'Spoqa Han Sans Neo';
+        font-size: 12pt;
+        font-weight: 500;
+        line-height: 12pt;
+        letter-spacing: -0.02em;
+        text-align: right;
+      }
+    }
+  }
+
+  .name {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .text {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: right;
+    }
+  }
+  .img-box {
+    padding-top: 42pt;
+    padding-bottom: 24pt;
+    text-align: center;
+  }
+
+  .phone {
+    text-decoration: underline;
+    color: ${colors.main};
+  }
+`;
+
+const Partner = styled.div`
+  font-family: Spoqa Han Sans Neo;
+  font-size: 12pt;
+  font-weight: 700;
+  line-height: 12pt;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-bottom: 24pt;
 `;
 export default FinalQuotation;
