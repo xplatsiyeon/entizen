@@ -390,19 +390,22 @@ const SecondStep = ({
       ];
       console.log('------------chargers---------');
       console.log(chargers);
-
       const newChargers = chargers.map((charger) => {
         const { feature, modelName, ...newCharger } = charger;
-        // if (charger?.feature?.length! > 1) {
-
-        // {newCharger , }
-
-        // }
-        // delete charger.feature;
-        // if (Array.isArray(charger.modelName) && charger.modelName.length < 1)
-        //   delete charger.modelName;
-
-        return charger;
+        let result: any = { ...newCharger };
+        if (feature && charger?.feature?.length! > 1) {
+          result = {
+            ...newCharger,
+            feature,
+          };
+        }
+        if (modelName && charger?.modelName?.length! > 1) {
+          result = {
+            ...newCharger,
+            modelName,
+          };
+        }
+        return result;
       });
       console.log('------------manufacturingCompany---------');
       console.log(manufacturingCompany);
