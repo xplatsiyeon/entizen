@@ -21,9 +21,18 @@ import stopAlarm from 'public/images/stopAlarm.png';
 import alarmBtn from 'public/images/alarm.png';
 import moreBtn from 'public/images/moreBtn.png';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi, isTokenPostApi } from 'api';
+import { isTokenGetApi, isTokenPostApi, multerApi } from 'api';
 import Loader from 'components/Loader';
 import WebMoreModal from './WebMoreModal';
+import WebFileModal from './WebFileModal';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
+import fileImg from 'public/mypage/file-icon.svg';
+import Modal from 'components/Modal/Modal';
+import chatFileAdd from 'public/images/chatFileAdd.png';
+import chatCamera from 'public/images/chatCamera.png';
+import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
+import { EdgesensorHigh } from '@mui/icons-material';
 
 type ChattingLogs = {
   createdAt: string;
@@ -69,11 +78,24 @@ type Props = {
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
 const ChattingRoomLogs = ({ userChatting }: Props) => {
+
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
+  const [fileModal, setFileModal] = useState<boolean>(false)
+
+  //나가기 모달
+  const [moreModal, setMoreModal] = useState<boolean>(false);
+  const [quitModal, setQuitModal] = useState<boolean>(false);
+
+  // 에러 모달
+  const [isModal, setIsModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const imgRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   //   채팅방 내용 보기
   const {
@@ -114,9 +136,6 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
       console.log(error);
     },
   });
-
-  const [moreModal, setMoreModal] = useState<boolean>(false);
-  const [quitModal, setQuitModal] = useState<boolean>(false);
 
   /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
   useEffect(() => {
@@ -199,6 +218,20 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
     console.log('온클릭');
   };
 
+  // 파일,사진 onsubmit
+  const onSubmitFile = (url: string) => {
+    chattingPostMutate({
+      url: `/chatting/${routerId}`,
+      // url: `/chatting/2`,
+      data: {
+        content: null,
+        fileUrl: `${url}`,
+      },
+    });
+    console.log('파일전송');
+  };
+
+
   /* 웹에서 글자 입력될때 마다 send 버튼 색상 변경*/
   const webBox = useRef<HTMLDivElement>(null);
   const imgChange = (n: boolean) => {
@@ -223,9 +256,11 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
     if (target.classList.contains('on') && hiddenBox) {
       target.classList.remove('on');
       hiddenBox.style.height = '0';
+      hiddenBox.style.border = `none`;
     } else if (!target.classList.contains('on') && hiddenBox) {
       target.classList.add('on');
       hiddenBox.style.height = '97pt';
+      hiddenBox.style.border = `1px solid #D3D3D3`;
     }
   };
 
@@ -254,14 +289,108 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
     }
   };
 
+
+  // image s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      onSubmitFile(res.uploadedFiles[0].url)
+      refetch();
+      setFileModal(false)
+    },
+    onError: (error: any) => {
+      setFileModal(false)
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerFile, isLoading: multerFileLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      console.log(res)
+      onSubmitFile(res.uploadedFiles[0].url)
+      refetch();
+      setFileModal(false)
+    },
+    onError: (error: any) => {
+      setFileModal(false)
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+
+  // 파일 저장
+  const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target; if(!(files?.length)){setFileModal(false)
+    }else{
+    const formData = new FormData();
+    formData.append(
+      'chatting',
+      files![0],
+      encodeURIComponent(files![0].name),
+    );
+    multerFile(formData);
+    e.target.value ='';
+  };
+}
+
+  //이미지저장
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    if(!(files?.length)){setFileModal(false)
+    }else{
+    const formData = new FormData();
+    formData.append(
+      'chatting',
+      files![0],
+      encodeURIComponent(files![0].name),
+    );
+    multerImage(formData); 
+    e.target.value ='';
+   }
+  };
+
+
+  //이미지 온클릭
+  const imgHandler = () => {
+    imgRef?.current?.click();
+  };
+  //파일 온클릭
+  const fileHandler = () => {
+    fileRef?.current?.click();
+  };
+
+
   if (chattingIsLoading) {
     return <Loader />;
   }
 
-  //   console.log('🔥 채팅방 데이터 확인 ~line 63 -> ' + TAG);
-  //   console.log(chattingData);
   return (
     <Body>
+    {isModal && <Modal click={()=>setIsModal(false)} text={errorMessage} />}
       <TopBox>
         <MypageHeader
           back={true}
@@ -302,9 +431,8 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
                       <ChatBox
                         userChatting={userChatting}
                         key={item.chattingLogIdx}
-                        className={`${
-                          item.fromMemberType === 'USER' ? 'user' : 'company'
-                        }`}
+                        className={`${item.fromMemberType === 'USER' ? 'user' : 'company'
+                          }`}
                       >
                         {item.fromMemberType === 'USER' ? null : (
                           <ImageWrap>
@@ -315,16 +443,25 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
                         {item.content && (
                           <Chat
                             userChatting={userChatting}
-                            className={`${
-                              item.fromMemberType === 'USER'
+                            className={`${item.fromMemberType === 'USER'
                                 ? 'user'
                                 : 'company'
-                            }`}
+                              }`}
                           >
                             {item.content}
                           </Chat>
                         )}
-                        {item.fileUrl && <File>{item.fileUrl}</File>}
+                        {item.fileUrl && 
+                        <File>
+                           <FileDownload
+                            // onClick={DownloadFile}
+                            href={item?.fileUrl}
+                          >
+                            <Image src={fileImg} alt="file-icon" layout="intrinsic"/>
+                            File
+                          </FileDownload>
+                        </File>
+                        }
                         <MessageDate>{handleTime(item.createdAt)}</MessageDate>
                       </ChatBox>
                     );
@@ -349,12 +486,18 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
             <Image src={send} layout="fill" />
           </IconWrap2>
         </FlexBox>
-        <div className="hidden"></div>
+        <div className="hidden">
+          <IconWrap3 onClick={imgHandler}>
+            <Image src={chatPhotoAdd} layout="fill"/></IconWrap3>
+          <IconWrap3><Image src={chatCamera} layout="fill"/></IconWrap3>
+          <IconWrap3 onClick={fileHandler}>
+            <Image src={chatFileAdd} layout="fill"/></IconWrap3>
+        </div>
       </BottomBox>
       <WebBottomBox ref={webBox}>
         <FlexBox2 onSubmit={onSubmitText}>
           <InputWrap>
-            <FileIconWrap>
+            <FileIconWrap onClick={() => setFileModal(true)}>
               <Image src={fileBtn} layout="fill" />
             </FileIconWrap>
             <TextInput
@@ -374,6 +517,22 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
           </button>
         </FlexBox2>
       </WebBottomBox>
+
+      <input style={{ display: 'none' }}
+        ref={imgRef}
+        type="file"
+        accept="image/*"
+        onChange={saveFileImage}
+      />
+      <input
+        style={{ display: 'none' }}
+        ref={fileRef}
+        type="file"
+        accept="xlsx"
+        onChange={saveFile}
+      />
+
+      {fileModal && <WebFileModal setFileModal={setFileModal} imgClick={imgHandler} fileClick={fileHandler} />}
       {/* 더보기 모달 제어 */}
       {moreModal && (
         <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
@@ -451,7 +610,13 @@ const BottomBox = styled.div`
     bottom: 72pt;
     left: 11.5pt;
     transition: 0.3s;
-    background-color: aqua;
+    background-color: white;
+    border: 1px solid #D3D3D3;
+    border-radius: 16.5pt;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
   }
 `;
 const FlexBox = styled.form`
@@ -602,11 +767,11 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
   gap: 6pt;
   &.user {
     flex-direction: ${({ userChatting }) =>
-      userChatting ? 'row-reverse' : 'row'};
+    userChatting ? 'row-reverse' : 'row'};
   }
   &.company {
     flex-direction: ${({ userChatting }) =>
-      userChatting ? 'row' : 'row-reverse'};
+    userChatting ? 'row' : 'row-reverse'};
   }
 `;
 const ImageWrap = styled.div`
@@ -632,17 +797,25 @@ const Chat = styled.div<{ userChatting: boolean }>`
     background: ${({ userChatting }) => (userChatting ? '#f3f4f7' : '#5221cb')};
   }
 `;
-const File = styled.div`
-  background: #5221cb;
-  border-radius: 6pt;
-  color: white;
+const FileDownload = styled.a`
+text-decoration: none;
+display: flex;
+align-items: center;
+gap: 3pt;
+color: '#E2E5ED';
+`
+const File = styled.button`
+  margin-bottom: 6pt;
+  margin-right: 6pt;
   padding: 7.5pt 6pt;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 16.5pt;
-  letter-spacing: -0.02em;
-`;
+  border: 0.75pt solid '#999999';
+  border-radius: 8px;
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+  }
+`
+
 const MessageDate = styled.p`
   font-style: normal;
   font-weight: 400;
@@ -652,3 +825,7 @@ const MessageDate = styled.p`
   color: #caccd1;
   margin-top: 12pt;
 `;
+
+const IconWrap3 = styled(IconWrap2)`
+  background: transparent;
+`

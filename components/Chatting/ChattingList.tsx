@@ -409,9 +409,6 @@ const Chatting = styled.div`
   display: flex;
   width: 160%;
   margin-left: -40%;
-  &.move {
-    transition: 0.4s;
-  }
 `;
 const ChattingRoom = styled.div`
   display: flex;
