@@ -83,7 +83,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           {/* --- 수익지분 보류 --- */}
           <span className="name">수익지분</span>
           <span className="value">
-            {`${Math.floor(Number(finalQuotation?.chargingPointRate) * 100)} %`}
+            {`${Math.floor(Number(finalQuotation?.userInvestRate) * 100)} %`}
           </span>
         </Item>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
