@@ -50,17 +50,23 @@ const RecieveRequestUnder = ({
 
   // console.log(TAG + '🔥 ~ line 45 ~ data check');
   // dispatch(myEstimateAction.reset());
+
   const onClick = (el: ReceivedQuotationRequests) => {
-    console.log('온클릭');
-    setTabNumber!(-1);
-    dispatch(myEstimateAction.reset());
     router.push({
       pathname: '/company/recievedRequest',
       query: {
         quotationRequestIdx: el?.quotationRequest?.quotationRequestIdx,
       },
     });
+    dispatch(myEstimateAction.reset());
   };
+
+  // useEffect(() => {
+  //   router.events.on('routeChangeStart', onRouteChangeStart);
+  //   return () => {
+  //     router.events.on('routeChangeStart', onRouteChangeStart);
+  //   };
+  // }, [router.events]);
 
   return (
     <>

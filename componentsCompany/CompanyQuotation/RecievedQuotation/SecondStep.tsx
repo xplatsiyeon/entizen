@@ -489,7 +489,6 @@ const SecondStep = ({
       setChargeFeatures(charger.productFeature);
       setImgArr(newImage);
       setFileArr(newFile);
-      setTabNumber(0);
     }
   }, [tabNumber, editData, StepIndex]);
   useEffect(() => {

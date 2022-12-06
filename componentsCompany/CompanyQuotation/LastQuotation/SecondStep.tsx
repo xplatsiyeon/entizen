@@ -386,7 +386,7 @@ const SecondStep = ({
         } = item;
         return newArr;
       });
-      const newFile = targetProduct?.chargerImageFiles!.map((item) => {
+      const newFile = targetProduct?.chargerCatalogFiles!.map((item) => {
         const {
           chargerProductFileIdx,
           chargerProductIdx,
@@ -402,8 +402,8 @@ const SecondStep = ({
         ...temp[tabNumber - 1],
         manufacturer: targetProduct?.manufacturer!,
         productFeature: targetProduct?.feature!,
-        chargerImageFiles: newFile!,
-        catalogFiles: newImage!,
+        chargerImageFiles: newImage!,
+        catalogFiles: newFile!,
       };
       setSelectedOptionEn(temp);
     }
