@@ -206,7 +206,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             <FlexWrap key={item.finalQuotationChargerIdx}>
               <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
               <FeaturesList>
-                {item.productFeature.split('\n').map((line, idx) => (
+                {item.productFeature?.split('\n').map((line, idx) => (
                   <li key={idx}>
                     {line}
                     <br />
