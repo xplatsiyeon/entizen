@@ -166,7 +166,9 @@ const LastWrite = (props: Props) => {
       setProfitableInterestUser(
         Math.floor(Number(quotationRequest.investRate) * 100).toString(),
       );
-      setChargePoint(''); // 넣을 값이 없음
+      setChargePoint(
+        Math.floor(100 - Number(quotationRequest.investRate) * 100).toString(),
+      ); // 넣을 값이 없음
       setSubscribePricePerMonth(preQuotation.subscribePricePerMonth.toString());
       setConstructionPeriod(preQuotation.constructionPeriod.toString());
       setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
@@ -345,6 +347,7 @@ const LastWrite = (props: Props) => {
     // 기본
     0: (
       <FirstStep
+        sendData={data!}
         tabNumber={tabNumber}
         setTabNumber={setTabNumber}
         canNext={canNext}

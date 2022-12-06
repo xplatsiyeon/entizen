@@ -46,6 +46,7 @@ const SecondStep = ({
   setTabNumber,
   canNext,
   SetCanNext,
+  selectedOption,
   selectedOptionEn,
   setSelectedOptionEn,
 }: Props) => {
@@ -59,13 +60,6 @@ const SecondStep = ({
   const chargeTypeListEn: string[] = [
     'PURCHASER_AUTONOMY',
     'OPERATION_BUSINESS_CARRIER_INPUT',
-  ];
-
-  const chargerData: string[] = [
-    'LECS-007ADE',
-    'LECS-006ADE',
-    'LECS-005ADE',
-    'LECS-004ADE',
   ];
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
@@ -423,6 +417,11 @@ const SecondStep = ({
       window.removeEventListener('resize', handleResize);
     };
   }, [nowWidth]);
+
+  console.log('🔥 최종견적 선택된 옵션 리스트 목록 -> ');
+  console.log(selectedOption[maxIndex! - 1]);
+  console.log(maxIndex);
+
   return (
     <>
       <WebRapper>
@@ -434,7 +433,10 @@ const SecondStep = ({
             <div>* 필수 입력</div>
           </TopStep>
           <SubWord>
-            7 kW 충전기 (공용), 벽걸이, 싱글 <br />
+            {`${selectedOption[maxIndex! - 1].kind}, ${
+              selectedOption[maxIndex! - 1].standType
+            }, ${selectedOption[maxIndex! - 1].channel} `}
+            <br />
             제품의 정보를 입력해주세요
           </SubWord>
           <ChargeMoney className="first">
