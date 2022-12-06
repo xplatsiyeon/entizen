@@ -9,8 +9,8 @@ import CommunicationBox from 'components/CommunicationBox';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
-import { useMutation, useQuery } from 'react-query';
-import { isTokenGetApi, isTokenPatchApi } from 'api';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { isTokenDeleteApi, isTokenGetApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
 import { FinalQuotations, PreQuotationResponse } from './detail';
@@ -91,6 +91,7 @@ const TAG = '/page/mypage/request/[id].tsx';
 const Mypage1_3 = ({}: any) => {
   const router = useRouter();
   const routerId = router?.query?.quotationRequestIdx;
+  const queryclient = useQueryClient();
   const [partnerModal, setPartnerModal] = useState(false);
   const [modalNumber, setModalNumber] = useState(-1);
   const [modalMessage, setModalMessage] = useState('');
@@ -161,6 +162,30 @@ const Mypage1_3 = ({}: any) => {
         console.log(error);
       },
     });
+  // ----------- 견적취소 하기 -----------
+  const {
+    mutate: patchMutate,
+    isLoading: patchLoading,
+    isError: patchError,
+  } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {
+      queryclient.invalidateQueries('user-mypage');
+    },
+    onError: () => {
+      alert('삭제 실패');
+    },
+    onSettled: () => {},
+  });
+
+  const modalLeftBtnControll = () => {
+    router.push('/mypage');
+    if (routerId) {
+      patchMutate({
+        url: `/quotations/request/${routerId}`,
+      });
+    }
+  };
+
   // ----------- 최종견적 낙찰 확정 patch api -----------
   const { mutate: confirmPatchMutate, isLoading: confirmPatchLoading } =
     useMutation(isTokenPatchApi, {
@@ -173,11 +198,14 @@ const Mypage1_3 = ({}: any) => {
         console.log(error);
       },
     });
+
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   // 모달 왼쪽, 오른쪽 버튼 핸들러
   const backPage = () => router.back();
-  const handleOnClick = () => setModalOpen(!modalOpen);
+  const handleOnClick = () => {
+    setModalOpen(!modalOpen);
+  };
 
   const onClickConfirm = (num: number, contents: string) => {
     setModalNumber(num);
@@ -242,7 +270,7 @@ const Mypage1_3 = ({}: any) => {
           leftBtnColor={colors.orange}
           rightBtnText="아니오"
           rightBtnColor={colors.main2}
-          leftBtnControl={backPage}
+          leftBtnControl={modalLeftBtnControll}
           rightBtnControl={handleOnClick}
         />
       )}
