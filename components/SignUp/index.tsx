@@ -162,7 +162,7 @@ const SignUpContainer = (props: Props) => {
       )}
       {/* ------------기업---------- */}
       {/* 약관 동의*/}
-      {level === 1 && userType === 0 && (
+      {level === 2 && userType === 0 && (
         <>
           <MypageHeader
             back={true}
@@ -192,7 +192,7 @@ const SignUpContainer = (props: Props) => {
         </>
       )}
       {/* 상세 내용*/}
-      {level === 2 && userType === 0 && (
+      {level === 1 && userType === 0 && (
         <>
           <MypageHeader
             back={true}

@@ -69,7 +69,7 @@ const ChattingRoom = ({}: Props) => {
     {
       enabled: router.isReady,
       // 몇초마다 갱신 해줄 것인가.
-      //   refetchInterval: 3000,
+      refetchInterval: 3000,
     },
   );
 
@@ -222,13 +222,13 @@ const ChattingRoom = ({}: Props) => {
 
   return (
     <WebBody>
-      <WebBuyerHeader setOpenSubLink={()=>{}}/>
+      <WebBuyerHeader setOpenSubLink={() => {}} />
       <Wrapper>
         <Body>
           <MobWrap>
-            <ChattingLists chattingRoom={true} userChatting={false}/>
+            <ChattingLists chattingRoom={true} userChatting={false} />
           </MobWrap>
-          <ChattingRoomLogs userChatting={false}/>
+          <ChattingRoomLogs userChatting={false} />
         </Body>
       </Wrapper>
       <WebFooter />
@@ -500,20 +500,19 @@ const MessageDate = styled.p`
   margin-top: 12pt;
 `;
 
-
 const WebBody = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-width: 100%;
-height: 100vh;
-margin: 0 auto;
-background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #ffffff;
 
-@media (max-height: 809pt) {
-  display: block;
-  height: 100%;
-}
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -534,20 +533,20 @@ const Wrapper = styled.div`
 `;
 
 const Body = styled.div`
-font-family: 'Spoqa Han Sans Neo';
-width: 100%;
+  font-family: 'Spoqa Han Sans Neo';
+  width: 100%;
 
-@media (min-width: 900pt) {
-display: flex;
-border: 1px solid #E2E5ED;
-border-radius: 12pt;
-height: 495pt;
-overflow: hidden;
-}
-`
+  @media (min-width: 900pt) {
+    display: flex;
+    border: 1px solid #e2e5ed;
+    border-radius: 12pt;
+    height: 495pt;
+    overflow: hidden;
+  }
+`;
 
 const MobWrap = styled.div`
-@media (max-width: 899.25pt) {
-  display: none;
-}
-`
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;

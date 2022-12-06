@@ -64,25 +64,23 @@ export interface ChattingResponse {
 }
 
 type Props = {
-  userChatting : boolean
+  userChatting: boolean;
 };
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
-const ChattingRoomLogs = ({userChatting}: Props) => {
+const ChattingRoomLogs = ({ userChatting }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
 
-
-
   //   채팅방 내용 보기
   const {
     data: chattingData,
     isError: chattingIsError,
     isLoading: chattingIsLoading,
-    refetch
+    refetch,
   } = useQuery<ChattingResponse>(
     'chatting-data',
     () => {
@@ -91,15 +89,15 @@ const ChattingRoomLogs = ({userChatting}: Props) => {
     {
       enabled: router.isReady,
       // 몇초마다 갱신 해줄 것인가.
-      //   refetchInterval: 3000,
+      refetchInterval: 3000,
     },
   );
 
-  useEffect(()=>{
-    if(routerId){
-    refetch();
+  useEffect(() => {
+    if (routerId) {
+      refetch();
     }
-  },[routerId])
+  }, [routerId]);
 
   //   채팅 POST
   const {
@@ -116,7 +114,6 @@ const ChattingRoomLogs = ({userChatting}: Props) => {
       console.log(error);
     },
   });
-
 
   const [moreModal, setMoreModal] = useState<boolean>(false);
   const [quitModal, setQuitModal] = useState<boolean>(false);
@@ -232,27 +229,30 @@ const ChattingRoomLogs = ({userChatting}: Props) => {
     }
   };
 
-  const handleRoute = ()=>{
-      if(userChatting){
-            router.push({
-              pathname: '/chatting',
-            })
-          }else{
-            router.push({
-              pathname: '/company/chatting',
-            })
-          }     
-  }
+  const handleRoute = () => {
+    if (userChatting) {
+      router.push({
+        pathname: '/chatting',
+      });
+    } else {
+      router.push({
+        pathname: '/company/chatting',
+      });
+    }
+  };
 
-  const handleName=()=>{
-    if(router.query.entizen){
-      return '엔티즌'
-    }else{
-      if(userChatting){
-           return chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyName! 
-          }else{ return chattingData?.data?.userMember?.name!}
+  const handleName = () => {
+    if (router.query.entizen) {
+      return '엔티즌';
+    } else {
+      if (userChatting) {
+        return chattingData?.data?.companyMember?.companyMemberAdditionalInfo
+          ?.companyName!;
+      } else {
+        return chattingData?.data?.userMember?.name!;
       }
-  }
+    }
+  };
 
   if (chattingIsLoading) {
     return <Loader />;
@@ -277,15 +277,16 @@ const ChattingRoomLogs = ({userChatting}: Props) => {
               <Image src={stopAlarm} layout="fill" />
             )}
           </IconWrap>
-          <IconWrap 
-              onClick={() => setMoreModal(true)}>
-            <Image
-              src={moreBtn}
-              layout="fill"
-            />
+          <IconWrap onClick={() => setMoreModal(true)}>
+            <Image src={moreBtn} layout="fill" />
           </IconWrap>
         </IconBox>
-        {moreModal&&<WebMoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal}/>}
+        {moreModal && (
+          <WebMoreModal
+            setMoreModal={setMoreModal}
+            setQuitModal={setQuitModal}
+          />
+        )}
       </TopBox>
       <Inner>
         {data.map((d, idx) => {
@@ -294,36 +295,40 @@ const ChattingRoomLogs = ({userChatting}: Props) => {
               <Date>{d.date}</Date>
               <List>
                 {d.logs.map((item, idx) => {
-                  if(item.messageType === 'SYSTEM'){return }else{
-                  return (
-                    <ChatBox userChatting={userChatting}
-                      key={item.chattingLogIdx}
-                      className={`${
-                        item.fromMemberType === 'USER' ? 'user' : 'company'
-                      }`}
-                    >
-                      {item.fromMemberType === 'USER' ? null : (
-                        <ImageWrap>
-                          {/* 이미지 파일 src가 없으면 */}
-                          <Image src={defaultImg} layout="fill" />
-                        </ImageWrap>
-                      )}
-                      {item.content && (
-                        <Chat userChatting={userChatting}
-                          className={`${
-                            item.fromMemberType === 'USER' ? 'user' : 'company'
-                          }`}
-                        >
-                          {item.content}
-                        </Chat>
-                      )}
-                      {item.fileUrl && <File>{item.fileUrl}</File>}
-                      <MessageDate>
-                        {handleTime(item.createdAt)}
-                      </MessageDate>
-                    </ChatBox>
-                  );
-                }
+                  if (item.messageType === 'SYSTEM') {
+                    return;
+                  } else {
+                    return (
+                      <ChatBox
+                        userChatting={userChatting}
+                        key={item.chattingLogIdx}
+                        className={`${
+                          item.fromMemberType === 'USER' ? 'user' : 'company'
+                        }`}
+                      >
+                        {item.fromMemberType === 'USER' ? null : (
+                          <ImageWrap>
+                            {/* 이미지 파일 src가 없으면 */}
+                            <Image src={defaultImg} layout="fill" />
+                          </ImageWrap>
+                        )}
+                        {item.content && (
+                          <Chat
+                            userChatting={userChatting}
+                            className={`${
+                              item.fromMemberType === 'USER'
+                                ? 'user'
+                                : 'company'
+                            }`}
+                          >
+                            {item.content}
+                          </Chat>
+                        )}
+                        {item.fileUrl && <File>{item.fileUrl}</File>}
+                        <MessageDate>{handleTime(item.createdAt)}</MessageDate>
+                      </ChatBox>
+                    );
+                  }
                 })}
               </List>
             </DateChatting>
@@ -515,7 +520,7 @@ const IconWrap = styled.div`
   width: 12pt;
   height: 13.5pt;
   cursor: pointer;
-  &.alarm{
+  &.alarm {
     cursor: auto;
   }
   @media (min-width: 900pt) {
@@ -590,16 +595,18 @@ const List = styled.div`
   }
 `;
 
-const ChatBox = styled.div<{userChatting:boolean}>`
+const ChatBox = styled.div<{ userChatting: boolean }>`
   display: flex;
   align-items: center;
   margin-bottom: 9pt;
   gap: 6pt;
   &.user {
-    flex-direction: ${({userChatting}) => (userChatting? 'row-reverse' : 'row')};
+    flex-direction: ${({ userChatting }) =>
+      userChatting ? 'row-reverse' : 'row'};
   }
-  &.company{
-    flex-direction: ${({userChatting}) => (userChatting? 'row' : 'row-reverse')};
+  &.company {
+    flex-direction: ${({ userChatting }) =>
+      userChatting ? 'row' : 'row-reverse'};
   }
 `;
 const ImageWrap = styled.div`
@@ -608,7 +615,7 @@ const ImageWrap = styled.div`
   position: relative;
 `;
 
-const Chat = styled.div<{userChatting : boolean}>`
+const Chat = styled.div<{ userChatting: boolean }>`
   border-radius: 6pt;
   padding: 7.5pt 6pt;
   font-style: normal;
@@ -617,14 +624,13 @@ const Chat = styled.div<{userChatting : boolean}>`
   line-height: 16.5pt;
   letter-spacing: -0.02em;
   &.user {
-    color: ${({userChatting}) => (userChatting? 'white' : '#222222')};
-    background:${({userChatting}) => (userChatting? '#5221cb' : '#f3f4f7')};
+    color: ${({ userChatting }) => (userChatting ? 'white' : '#222222')};
+    background: ${({ userChatting }) => (userChatting ? '#5221cb' : '#f3f4f7')};
   }
   &.company {
-    color: ${({userChatting}) => (userChatting? '#222222' : 'white')};
-    background:${({userChatting}) => (userChatting? '#f3f4f7' : '#5221cb')};
+    color: ${({ userChatting }) => (userChatting ? '#222222' : 'white')};
+    background: ${({ userChatting }) => (userChatting ? '#f3f4f7' : '#5221cb')};
   }
-
 `;
 const File = styled.div`
   background: #5221cb;
