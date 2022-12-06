@@ -30,6 +30,7 @@ import WebHeader from 'componentsWeb/WebHeader';
 import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
 import WebFooter from 'componentsWeb/WebFooter';
 import ChattingLists from 'components/Chatting/ChattingLists';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 
 type ChattingLogs = {
   createdAt: string;
@@ -221,7 +222,7 @@ const ChattingRoom = ({}: Props) => {
 
   return (
     <WebBody>
-      <WebHeader />
+      <WebBuyerHeader setOpenSubLink={()=>{}}/>
       <Wrapper>
         <Body>
           <MobWrap>
