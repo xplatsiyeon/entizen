@@ -89,13 +89,11 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       onSuccess: (res) => {
         console.log(res);
         // console.log(res.data.authCode);
-        setIsTwoBtnModal(false);
         setModalMessage('담당자가 변경되었습니다.');
         setIsModal(true);
       },
       onError: () => {
         console.log('fail')
-        setIsTwoBtnModal(false);
         setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
         setIsModal(true);
       },
@@ -120,6 +118,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   };
   // 담당자 정보 수정하기
   const onCickBtn = () => {
+    setIsTwoBtnModal(false)
     if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
         url: '/members',
