@@ -282,7 +282,7 @@ const SettingMain = ({
                   if (memberType === 'USER') {
                     router.push('/faq');
                   } else if (memberType === 'COMPANY') {
-                    router.push('/comapny/faq');
+                    router.push('/company/faq');
                   }
                 }}
               >
