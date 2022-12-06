@@ -5,14 +5,14 @@ import { useEffect } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
-  setTabNumber: React.Dispatch<React.SetStateAction<number>>;
+  setTabNumber?: React.Dispatch<React.SetStateAction<number>>;
   tabNumber?: number;
-  componentId: number | undefined;
+  componentId?: number;
   linkState?: string;
   num?: number;
   now?: string;
   type?: string;
-  openSubLink: boolean;
+  openSubLink?: boolean;
 };
 
 interface Components {
@@ -136,7 +136,7 @@ const MyprojectLink = ({
 
 export default MyprojectLink;
 
-const Wrap = styled.ul<{ openSubLink: boolean }>`
+const Wrap = styled.ul<{ openSubLink: boolean | undefined }>`
   width: 900pt;
   height: 44.5pt;
   margin: 0 auto;

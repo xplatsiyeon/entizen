@@ -18,6 +18,7 @@ import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { Router } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import { is } from 'immer/dist/internal';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
@@ -65,14 +66,19 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     {
       onSuccess: (res) => {
         console.log(res);
-        console.log(res.data.authCode);
+        if(res.data.isValidAuthCode){
         setModalMessage('인증번호가 확인되었습니다.');
         setIsModal(true);
-        setIsValid(true);
+        setIsValid(true);}else{
+        setModalMessage('잘못된 인증번호입니다.');
+        setIsModal(true);
+        setIsValid(false)
+        }
       },
       onError: () => {
         setModalMessage('잘못된 인증번호입니다.');
         setIsModal(true);
+        setIsValid(false)
       },
     },
   );
@@ -83,11 +89,11 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       onSuccess: (res) => {
         console.log(res);
         // console.log(res.data.authCode);
-        setIsTwoBtnModal(false);
         setModalMessage('담당자가 변경되었습니다.');
         setIsModal(true);
       },
       onError: () => {
+        console.log('fail')
         setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
         setIsModal(true);
       },
@@ -112,6 +118,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   };
   // 담당자 정보 수정하기
   const onCickBtn = () => {
+    setIsTwoBtnModal(false)
     if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
         url: '/members',

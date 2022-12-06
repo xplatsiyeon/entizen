@@ -31,6 +31,7 @@ import { ProductDetailResponse } from './myProduct';
 import Loader from 'components/Loader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 export interface ImgFile {
   originalName: string;
@@ -54,6 +55,8 @@ const ProductAddComponent = (props: Props) => {
 
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [componentId, setComponentId] = useState<number>();
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
   // 모델명
   const [modelName, setModelName] = useState<string>('');
   // 충전기 종류
@@ -62,10 +65,13 @@ const ProductAddComponent = (props: Props) => {
   const [chargingChannel, setChargingChannel] = useState<string>('');
   // 충전 방식
   const [chargingMethod, setChargingMethod] = useState<string[]>(['']);
+  // 충전기 뭐 눌렀는지
+  const [chargingMethodNum, setChargingMethodNum] = useState<number>();
   // 제조사
   const [manufacturer, setManufacturer] = useState<string>('');
   // 특장점
   const [advantages, setAdvantages] = useState<string>('');
+  const advantagesText = advantages.length;
   // 이미지
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   // 파일
@@ -213,12 +219,14 @@ const ProductAddComponent = (props: Props) => {
         break;
       case 'chargingMethod':
         let pasteArray: string[] = [];
-        if (index === 0) {
+        if (index === undefined) {
           pasteArray.push(value);
         } else {
           pasteArray.push(...chargingMethod);
         }
-        if (index) {
+        if (index === 0) {
+          pasteArray[index] = value;
+        } else if (index !== 0) {
           pasteArray[index] = value;
         }
         setChargingMethod(pasteArray);
@@ -362,6 +370,7 @@ const ProductAddComponent = (props: Props) => {
           chargerProductFileIdx,
           chargerProductIdx,
           createdAt,
+          productFileType,
           ...newArr
         } = item;
         return newArr;
@@ -371,6 +380,7 @@ const ProductAddComponent = (props: Props) => {
           chargerProductFileIdx,
           chargerProductIdx,
           createdAt,
+          productFileType,
           ...newArr
         } = item;
         return newArr;
@@ -423,28 +433,28 @@ const ProductAddComponent = (props: Props) => {
     return <Loader />;
   }
 
-  const [tabNumber, setTabNumber] = useState<number>(7);
-  const [componentId, setComponentId] = useState<number>();
-  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
-
   return (
     <WebBody>
+      <CompanyRightMenu />
       <WebBuyerHeader
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber!}
         componentId={componentId}
         openSubLink={openSubLink}
         setOpenSubLink={setOpenSubLink}
       />
       <Inner>
-        <WebBox>
+        <>
           {/* 에러 모달 */}
           {isModal && <Modal click={onClickModal} text={errorMessage} />}
           {/* 헤더 */}
           <CompanyHeader back={true} title={'제품 추가하기'} />
           {/* 인풋 바디 */}
           <InputContainer>
-            <AddProductText>제품 추가하기</AddProductText>
+            {routerId ? (
+              <AddProductText>제품 수정하기</AddProductText>
+            ) : (
+              <AddProductText>제품 추가하기</AddProductText>
+            )}
+
             <InputBox>
               <LabelBox>
                 <RequiredLabel>모델명</RequiredLabel>
@@ -555,7 +565,10 @@ const ProductAddComponent = (props: Props) => {
             {/* 특장점 */}
             <InputBox>
               <LabelBox>
-                <UnRequired>특장점</UnRequired>
+                <TextAlign>
+                  <UnRequired>특장점</UnRequired>
+                  <UnRequired> {advantagesText} / 500</UnRequired>
+                </TextAlign>
               </LabelBox>
               <TextArea
                 name="firstPageTextArea"
@@ -563,6 +576,7 @@ const ProductAddComponent = (props: Props) => {
                 onChange={(e) => setAdvantages(e.target.value)}
                 placeholder="선택 입력사항"
                 rows={7}
+                maxLength={500}
               />
             </InputBox>
             {/* 사진 첨부 부분 */}
@@ -659,24 +673,24 @@ const ProductAddComponent = (props: Props) => {
                     </FileBox>
                   ))}
                 </div>
+                {routerId ? (
+                  <WebBtn
+                    buttonActivate={isValid}
+                    tabNumber={0}
+                    onClick={onClickPutBtn}
+                  >
+                    정보 수정하기
+                  </WebBtn>
+                ) : (
+                  <WebBtn
+                    buttonActivate={isValid}
+                    tabNumber={0}
+                    onClick={buttonOnClick}
+                  >
+                    제품 등록하기
+                  </WebBtn>
+                )}
               </PhotosBoxs>
-              {routerId ? (
-                <WebBtn
-                  buttonActivate={isValid}
-                  tabNumber={0}
-                  onClick={onClickPutBtn}
-                >
-                  정보 수정하기
-                </WebBtn>
-              ) : (
-                <WebBtn
-                  buttonActivate={isValid}
-                  tabNumber={0}
-                  onClick={buttonOnClick}
-                >
-                  제품 등록하기
-                </WebBtn>
-              )}
             </RemainderInputBoxs>
           </InputContainer>
           <WebHide>
@@ -698,7 +712,7 @@ const ProductAddComponent = (props: Props) => {
               </Btn>
             )}
           </WebHide>
-        </WebBox>
+        </>
       </Inner>
       <WebFooter />
     </WebBody>
@@ -724,7 +738,6 @@ const Inner = styled.div`
   position: relative;
   margin: 100pt auto;
   width: 900pt;
-  height: 100%;
   border-radius: 12pt;
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -738,17 +751,11 @@ const Inner = styled.div`
 
   @media (min-width: 900pt) {
     margin: 54pt auto 100pt;
-  }
-`;
-
-const WebBox = styled.div`
-  @media (min-width: 900pt) {
     background-color: #ffffff;
-
     width: 345pt;
     border-radius: 12pt;
-    margin: 0 auto;
     box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+    height: auto;
   }
 `;
 
@@ -792,6 +799,12 @@ const LabelBox = styled.div`
   position: relative;
 `;
 
+const TextAlign = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const RequiredLabel = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
@@ -829,6 +842,7 @@ const RightPlus = styled.div`
   position: absolute;
   right: 0;
   top: -4.5pt;
+  cursor: pointer;
 `;
 
 const Input = styled(TextField)`
@@ -896,7 +910,7 @@ const Placeholder = styled.em`
 `;
 
 const UnRequired = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
@@ -947,7 +961,9 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
 `;
 
 const WebBtn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
-  width: 100%;
+  position: relative;
+  bottom: 0;
+  left: 0;
   color: ${colors.lightWhite};
   width: ${({ tabNumber }) => (tabNumber === 0 ? '100%' : '64%')};
   padding: 15pt 0 15pt 0;
@@ -977,6 +993,7 @@ const DeleteBtn = styled.div`
   height: 21pt;
   padding-top: 10.885pt;
   padding-bottom: 10.885pt;
+  cursor: pointer;
 `;
 
 const RemainderInputBox = styled.div`
@@ -996,8 +1013,11 @@ const RemainderInputBoxs = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
-    padding-bottom: 58.6875pt;
+    padding-bottom: 80.6875pt;
     gap: 9pt;
+    @media (min-width: 900pt) {
+      padding-bottom: 0;
+    }
   }
 
   @media (min-width: 900pt) {
@@ -1018,9 +1038,12 @@ const PhotosBox = styled.div`
   height: 56.0625pt;
   margin-top: 9pt;
   display: flex;
+  flex-wrap: wrap;
   gap: 9.1875pt;
   align-items: center;
+  height: auto;
 `;
+
 const PhotosBoxs = styled.div`
   /* width: 100%; */
   height: 56.0625pt;
@@ -1030,6 +1053,10 @@ const PhotosBoxs = styled.div`
   gap: 9pt;
   align-items: center;
   padding-bottom: 58.6875pt;
+  @media (min-width: 900pt) {
+    height: auto;
+    padding-bottom: 0;
+  }
 `;
 
 const AddPhotos = styled.button`
@@ -1039,6 +1066,7 @@ const AddPhotos = styled.button`
   border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   background-color: #ffffff;
+  cursor: pointer;
 `;
 
 const ImgSpan = styled.div`
@@ -1063,6 +1091,7 @@ const FileBox = styled.div`
   position: relative;
   box-sizing: border-box;
   padding: 12pt 15pt;
+
   & .file {
     display: flex;
     width: 100%;

@@ -360,13 +360,13 @@ const ChattingRoomLogs = ({userChatting}: Props) => {
               onChange={onChangeText}
             />
           </InputWrap>
-          <div className="typing off">
+          <button className="typing off">
             <Image src={send} layout="fill" />
-          </div>
+          </button>
 
-          <div className="typing on">
+          <button className="typing on">
             <Image src={sendBlue} layout="fill" />
-          </div>
+          </button>
         </FlexBox2>
       </WebBottomBox>
       {/* 더보기 모달 제어 */}
@@ -393,10 +393,12 @@ const WebBottomBox = styled.div`
   left: 0;
   width: 100%;
   padding: 3pt 0pt 16.5pt;
-  div.typing {
+  button.typing {
     width: 18.75pt;
     height: 20.6pt;
     position: relative;
+    background: none;
+    cursor: pointer;
     &.on {
       display: none;
     }

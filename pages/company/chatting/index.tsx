@@ -18,6 +18,7 @@ import List from 'public/images/List.png';
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import ChattingLists from 'components/Chatting/ChattingLists';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 const Chatting = () => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
@@ -54,7 +55,7 @@ const Chatting = () => {
   }
   return (
     <WebBody>
-      <WebHeader />
+      <WebBuyerHeader setOpenSubLink={()=>{}}/>
       <Wrapper>
         <ChattingLists userChatting={false}/>
       </Wrapper>

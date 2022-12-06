@@ -153,4 +153,8 @@ const P =styled.p`
   line-height: 21pt;
   letter-spacing: -0.02em;
   color: #222222;
+
+  @media (max-width: 899.25pt) {
+  display: none;
+  }
 `
