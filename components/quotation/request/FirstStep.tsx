@@ -206,11 +206,19 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
           <SubTitle>
             <h3 className="name">충전기 종류 및 수량 선택</h3>
             {1 <= index ? (
-              <div className="add-img" onClick={() => onClickMinus(index)}>
+              <div
+                className="add-img"
+                onClick={() => onClickMinus(index)}
+                style={{ cursor: 'ponter' }}
+              >
                 <Image src={XCircle} alt="add-img" />
               </div>
             ) : (
-              <div className="add-img" onClick={onClickAdd}>
+              <div
+                className="add-img"
+                onClick={onClickAdd}
+                style={{ cursor: 'ponter' }}
+              >
                 <Image src={AddIcon} alt="add-img" />
               </div>
             )}

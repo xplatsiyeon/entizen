@@ -205,11 +205,11 @@ const WebFinishedPhotoWrapper = styled.div`
 
 const WebLeftPhotoBox = styled.div`
   @media (min-width: 900pt) {
-   // display: flex;
-   // flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
     overflow-y: scroll;
-   // justify-content: flex-start;
-   // gap: 9pt;
+    // justify-content: flex-start;
+    // gap: 9pt;
     height: 330pt;
   }
 `;

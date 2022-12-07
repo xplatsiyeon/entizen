@@ -122,33 +122,6 @@ const SixthStep = ({ setTabNumber }: Props) => {
         installationLocation: quotationData.installationLocation,
       },
     });
-
-    // await axios({
-    //   method: 'post',
-    //   url: PREDICTION_POST,
-    //   data: {
-    //     chargers: quotationData.chargers,
-    //     subscribeProduct: quotationData.subscribeProduct,
-    //     investRate: quotationData.investRate.toString(),
-    //     subscribePeriod: quotationData.subscribePeriod,
-    //     installationAddress: locationList.locationList.roadAddrPart,
-    //     installationLocation: quotationData.installationLocation,
-    //   },
-    //   headers: {
-    //     ContentType: 'application/json',
-    //   },
-    //   withCredentials: true,
-    // })
-    //   .then((res) => {
-    //     dispatch(quotationAction.setRequestData(res.data));
-    //     // dispatch(quotationAction.init());
-    //     router.push('/quotation/request/1-7');
-    //   })
-    //   .catch((error) => {
-    //     const text = error.response.data.message;
-    //     setErrorModal((prev) => !prev);
-    //     setErrorMessage(text);
-    //   });
   };
 
   // 다음버튼
