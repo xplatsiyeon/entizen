@@ -8,8 +8,7 @@ import { useRouter } from 'next/router';
 import { SlowFast } from 'pages/chargerMap';
 import { Rnd } from 'react-rnd';
 import { useMediaQuery } from 'react-responsive';
-
-import { Resizable, ResizableBox } from 'react-resizable';
+import { Resizable } from "re-resizable";
 
 type Props = {
   checkHeight: number;
@@ -40,26 +39,32 @@ const ChargerInfo = ({
     query: '(min-width:810pt)',
   });
   return (
-    <>
-      {' '}
-      <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
-        <RndWraper
-          className="draggable"
-          isMobile={mobile}
-          default={{
-            x: 0,
-            y: 0,
-            width: '100%',
-            height: '100%',
-          }}
-          disableDragging={true}
-          maxHeight={window.innerHeight - 130}
-          minHeight={checkHeight.toString()}
-          allowAnyClick={true}
-        >
-          <GoUpBox>
-            <GoUp />
-          </GoUpBox>
+        <Wrap className='resize-wrapper'>
+        {/* <>
+           <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
+             <RndWraper
+               className="draggable"
+               isMobile={mobile}
+               default={{
+                 x: 0,
+                 y: 0,
+                 width: '100%',
+                 height: '100%',
+               }}
+               disableDragging={true}
+               maxHeight={window.innerHeight - 130}
+               minHeight={checkHeight.toString()}
+               allowAnyClick={true}
+             >
+               <GoUpBox>
+                 <GoUp />
+             </GoUpBox>*/}
+             <Resizable className='target'
+                defaultSize={{
+                  width: 200,
+                  height: 200
+                }}
+                maxWidth={'200px'} >
           <Body>
             <SelectChargerBox className="forScroll">
               <ChargerList>
@@ -135,13 +140,29 @@ const ChargerInfo = ({
               </QuotationBtn>
             </ScrollBox>
           </Body>
+          {/*
         </RndWraper>
       </InfoBox>
-    </>
+                </>*/}
+                </Resizable>
+          </Wrap>
   );
 };
 
 export default ChargerInfo;
+
+const Wrap =styled.div`
+width: 100%;
+max-height: 100vh;
+position: relative;
+overflow: hidden;
+.target{
+background-color: beige;
+width:100%!important;
+position: absolute;
+bottom: 0;
+}
+`
 
 const InfoBox = styled.div<{ checkHeight: string }>`
   position: relative;
@@ -391,12 +412,5 @@ const QuotationBtn = styled.div`
     flex: none;
     order: 0;
     flex-grow: 0;
-  }
-`;
-
-const Wrap = styled.div`
-  //position: relative;
-  @media (max-width: 899.25pt) {
-    position: relative;
   }
 `;
