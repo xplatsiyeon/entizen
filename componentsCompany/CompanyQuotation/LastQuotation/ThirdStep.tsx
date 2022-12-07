@@ -211,34 +211,40 @@ const ThirdStep = ({
     if (obj?.productFeature?.length! < 1) {
       delete obj.productFeature;
     }
+    if (obj?.modelName?.length! < 1) {
+      delete obj.modelName;
+    }
     delete obj.idx;
     return obj;
   });
   // 보내기 API 함수
   const onClickPost = () => {
+    console.log(changeCharger);
+
+    const data = {
+      quotationRequestIdx: quotationRequestIdx,
+      preQuotationIdx: preQuotationIdx,
+      subscribeProduct: convertEn(
+        subscribeType,
+        subscribeTypeEn,
+        subscribeProduct,
+      ),
+      subscribePeriod: subscribePeriod.slice(0, 2),
+      userInvestRate: Number(userInvestRate) / 100 + '',
+      chargingPointRate: Number(chargingPointRate) / 100 + '',
+      subscribePricePerMonth: Number(
+        subscribePricePerMonth.replaceAll(',', ''),
+      ),
+      chargers: changeCharger,
+      detailQuotationFiles: BusinessRegistration,
+      constructionPeriod: constructionPeriod,
+      spotInspectionResult: spotInspectionResult,
+      subscribeProductFeature: subscribeProductFeature,
+    };
     if (canNext) {
       postMutate({
         url: '/quotations/final',
-        data: {
-          quotationRequestIdx: quotationRequestIdx,
-          preQuotationIdx: preQuotationIdx,
-          subscribeProduct: convertEn(
-            subscribeType,
-            subscribeTypeEn,
-            subscribeProduct,
-          ),
-          subscribePeriod: subscribePeriod.slice(0, 2),
-          userInvestRate: Number(userInvestRate) / 100 + '',
-          chargingPointRate: Number(chargingPointRate) / 100 + '',
-          subscribePricePerMonth: Number(
-            subscribePricePerMonth.replaceAll(',', ''),
-          ),
-          chargers: changeCharger,
-          detailQuotationFiles: BusinessRegistration,
-          constructionPeriod: constructionPeriod,
-          spotInspectionResult: spotInspectionResult,
-          subscribeProductFeature: subscribeProductFeature,
-        },
+        data: data,
       });
     }
   };
