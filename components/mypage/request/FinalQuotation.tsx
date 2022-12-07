@@ -493,6 +493,7 @@ const FeaturesList = styled.ol`
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
+  list-style: none;
   & li {
     font-weight: 500;
     font-size: 10.5pt;
@@ -521,6 +522,7 @@ const FeaturesList3 = styled.ol`
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
+  list-style: none;
   & li {
     list-style: none;
     font-weight: 500;
