@@ -54,7 +54,7 @@ const initialState: Data = {
       count: '',
     },
   ],
-  investRate: '1',
+  investRate: '0',
   subscribePeriod: '',
   subscribeProduct: '',
   installationLocation: '',

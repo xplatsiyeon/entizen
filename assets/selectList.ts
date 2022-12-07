@@ -115,4 +115,4 @@ export const InstallationPurposeTypeEn: string[] = [
 ];
 
 export const location: string[] = ['건물 안', '건물 밖'];
-export const locationEn: string[] = ['OUTSIDE', 'INSIDE'];
+export const locationEn: string[] = ['INSIDE', 'OUTSIDE'];

@@ -55,7 +55,7 @@ const SecondStep = ({
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const chargeLocationTypeList: string[] = ['건물 안', '건물 밖'];
-  const chargeLocationTypeListEn: string[] = ['OUTSIDE', 'INSIDE'];
+  const chargeLocationTypeListEn: string[] = ['INSIDE', 'OUTSIDE'];
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
   const chargeTypeListEn: string[] = [
     'PURCHASER_AUTONOMY',

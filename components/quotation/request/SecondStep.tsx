@@ -45,7 +45,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
         dispatch(
           quotationAction.setStep2({
             subscribeProduct: subscribeTypeEn[subscribeNumber],
-            investRate: '1',
+            investRate: '0',
           }),
         );
         // 일반 경우

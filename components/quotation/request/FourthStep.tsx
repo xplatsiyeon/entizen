@@ -31,7 +31,7 @@ const FourthStep = ({ tabNumber, setTabNumber, setHiddenTag }: Props) => {
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [buildingNumber, setBuildingNumber] = useState(-1);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
-  const location: string[] = ['OUTSIDE', 'INSIDE'];
+  const location: string[] = ['INSIDE', 'OUTSIDE'];
   const tabType: string[] = ['건물 안', '건물 밖'];
   // 지도 실행
   useMap();
