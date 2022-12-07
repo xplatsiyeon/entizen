@@ -139,7 +139,7 @@ const LastWrite = (props: Props) => {
   const relocation = (
     data: BusinessRegistrationType[],
   ): BusinessRegistrationType[] => {
-    const result = data.map((obj) => {
+    const result = data?.map((obj) => {
       return {
         originalName: obj.originalName,
         size: obj.size,

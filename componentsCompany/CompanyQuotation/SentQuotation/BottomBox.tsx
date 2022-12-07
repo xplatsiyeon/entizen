@@ -99,8 +99,9 @@ const BottomBox = ({ pb, data }: Props) => {
                         {convertKo(
                           M5_LIST,
                           M5_LIST_EN,
-                          data?.sendQuotationRequest?.quotationRequest
-                            ?.quotationRequestChargers[index]?.kind,
+                          data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers.reverse()[
+                            index
+                          ]?.kind,
                         )}
                       </span>
                       <span className="value">{`${PriceBasicCalculation(
@@ -121,8 +122,9 @@ const BottomBox = ({ pb, data }: Props) => {
                         {convertKo(
                           M5_LIST,
                           M5_LIST_EN,
-                          data?.sendQuotationRequest?.quotationRequest
-                            ?.quotationRequestChargers[index]?.kind,
+                          data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers.reverse()[
+                            index
+                          ]?.kind,
                         )}
                       </span>
                       <span className="value">{item.manufacturer}</span>
@@ -158,8 +160,9 @@ const BottomBox = ({ pb, data }: Props) => {
                 {convertKo(
                   M5_LIST,
                   M5_LIST_EN,
-                  data?.sendQuotationRequest?.quotationRequest
-                    ?.quotationRequestChargers[index]?.kind,
+                  data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers.reverse()[
+                    index
+                  ]?.kind,
                 )}
               </Label>
               <FeaturesList>
