@@ -493,6 +493,7 @@ const FeaturesList = styled.ol`
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
+  list-style: none;
   & li {
     font-weight: 500;
     font-size: 10.5pt;
@@ -521,6 +522,7 @@ const FeaturesList3 = styled.ol`
   list-style-type: decimal;
   list-style-position: inside;
   flex: 2;
+  list-style: none;
   & li {
     list-style: none;
     font-weight: 500;
@@ -655,6 +657,10 @@ const NoImage = styled.div`
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
+  padding: 19.5pt 15pt 18pt;
+  @media (min-width: 900pt) {
+    padding: 19.5pt 0 18pt;
+  }
 
   .text-box {
     display: flex;

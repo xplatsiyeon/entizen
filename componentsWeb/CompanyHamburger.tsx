@@ -18,21 +18,30 @@ import Nut from 'public/images/Nut.png';
 import Bell from 'public/images/mobBell.png';
 import myProduct from 'public/images/myProductList.png';
 import hamburgerAs from 'public/images/hamburgerAs.png';
-import Carousel from '../Carousel';
-import QuotationCenter from './QuotationCenter';
-import Footer from '../Footer';
 import BottomNavigation from 'components/BottomNavigation';
-import CheckQuotationBtn from './CheckQuotationBtn';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
-import MainImageWrap from './MainImageWrap';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
-type Props = { num?: number; now?: string };
+type Props = {
+  anchor: string;
+  toggleDrawer: (
+    anchor: string,
+    open: boolean,
+  ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
+  setState: React.Dispatch<
+    React.SetStateAction<{
+      right: boolean;
+    }>
+  >;
+  state: {
+    right: boolean;
+  };
+};
 
-const CompanyMainPage = ({ num, now }: Props) => {
+const CompanyHamburger = ({ anchor }: Props) => {
   const router = useRouter();
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
@@ -70,9 +79,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userID]);
-
-  // 햄버거바
-  const list = (anchor: string) => (
+  return (
     <WholeBox
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
@@ -238,74 +245,9 @@ const CompanyMainPage = ({ num, now }: Props) => {
       </ListBox>
     </WholeBox>
   );
-  return (
-    <>
-      <Container>
-        <WebBuyerHeader
-          setTabNumber={setTabNumber}
-          tabNumber={tabNumber}
-          componentId={componentId}
-          num={num}
-          now={now}
-          openSubLink={openSubLink}
-          setOpenSubLink={setOpenSubLink}
-        />
-        <CompanyRightMenu />
-        <HeadWrapper>
-          <LogoBox>
-            <Image
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              src={Logos}
-              alt="logo"
-            />
-          </LogoBox>
-          <IconWrapper>
-            <FirstIconBox onClick={() => router.push('/alarm')}>
-              <Image src={Ring} alt="alarmIcon" />
-            </FirstIconBox>
-
-            {(['right'] as const).map((anchor) => (
-              <React.Fragment key={anchor}>
-                <HamburgerOn onClick={toggleDrawer(anchor, true)}>
-                  <IconBox>
-                    <Image src={Hamburger} alt="listIcon" />
-                  </IconBox>
-                </HamburgerOn>
-                <Drawer
-                  anchor={anchor}
-                  open={state[anchor]}
-                  onClose={toggleDrawer(anchor, false)}
-                  // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
-                >
-                  {list(anchor)}
-                </Drawer>
-              </React.Fragment>
-            ))}
-          </IconWrapper>
-        </HeadWrapper>
-        <CarouselWrap>
-          <Carousel />
-        </CarouselWrap>
-
-        {/* 메인 페이지 컴포넌트*/}
-        <QuotationCenter />
-        {/* 메인 페이지 버튼*/}
-        <CheckQuotationBtn />
-        {/* 메인 이미지 칼럼 */}
-        <MainImageWrap />
-      </Container>
-      <WebFooter />
-      <MobileNone>
-        <Footer />
-      </MobileNone>
-      <BottomNavigation />
-    </>
-  );
 };
+
+export default CompanyHamburger;
 
 const Container = styled.div`
   padding-left: 15pt;
@@ -555,4 +497,3 @@ const MobileNone = styled.div`
     display: none;
   }
 `;
-export default CompanyMainPage;
