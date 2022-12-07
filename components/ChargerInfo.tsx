@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 import { SlowFast } from 'pages/chargerMap';
 import { Rnd } from 'react-rnd';
 import { useMediaQuery } from 'react-responsive';
-import { Resizable } from "re-resizable";
 
 type Props = {
   checkHeight: number;
@@ -39,8 +38,7 @@ const ChargerInfo = ({
     query: '(min-width:810pt)',
   });
   return (
-        <Wrap className='resize-wrapper'>
-        {/* <>
+          <>
            <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
              <RndWraper
                className="draggable"
@@ -58,13 +56,7 @@ const ChargerInfo = ({
              >
                <GoUpBox>
                  <GoUp />
-             </GoUpBox>*/}
-             <Resizable className='target'
-                defaultSize={{
-                  width: 200,
-                  height: 200
-                }}
-                maxWidth={'200px'} >
+             </GoUpBox>
           <Body>
             <SelectChargerBox className="forScroll">
               <ChargerList>
@@ -140,12 +132,9 @@ const ChargerInfo = ({
               </QuotationBtn>
             </ScrollBox>
           </Body>
-          {/*
         </RndWraper>
       </InfoBox>
-                </>*/}
-                </Resizable>
-          </Wrap>
+      </>
   );
 };
 
@@ -161,6 +150,11 @@ background-color: beige;
 width:100%!important;
 position: absolute;
 bottom: 0;
+}
+div{
+  &:nth-last-of-type(1){
+    
+  }
 }
 `
 

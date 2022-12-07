@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 
 const arr = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2,
@@ -23,6 +24,9 @@ const Alam = () => {
   const [list, setList] = useState(arr.slice(0, 5));
   const [isLoading, setIsLoading] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
+  const [componentId, setComponentId] = useState<number>();
+  const [tabNumber, setTabNumber] = useState<number>(7);
 
   const loadRef = useRef(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -30,6 +34,7 @@ const Alam = () => {
   const onClicklist = () => {
     router.push('/alarm/1-2');
   };
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   // 무한 스크롤
   const onIntersect = useCallback(
     async (entry: any, observer: any) => {
@@ -63,7 +68,17 @@ const Alam = () => {
 
   return (
     <WebBody>
-      <WebHeader />
+      {memberType === 'COMPANY' ? (
+        <WebBuyerHeader
+          setOpenSubLink={setOpenSubLink}
+          setTabNumber={setTabNumber}
+          tabNumber={7}
+          openSubLink={openSubLink}
+        />
+      ) : (
+        <WebHeader />
+      )}
+
       <Inner>
         <Wrapper>
           <Header>
@@ -81,7 +96,7 @@ const Alam = () => {
             <span className="text">알림함</span>
             <div
               className="setting-img"
-              onClick={() => router.push('/setting')}
+              onClick={() => router.push('/setting?id=1')}
             >
               <Image
                 style={{
@@ -241,6 +256,7 @@ const Text = styled.div<{ tab: string; idx: string }>`
   color: ${({ tab, idx }) => (tab === idx ? colors.main : '#caccd1')};
   padding: 12pt 0;
   position: relative;
+  cursor: pointer;
 `;
 const Line = styled.div`
   position: absolute;
@@ -268,6 +284,7 @@ const Body = styled.div`
 `;
 const Main = styled.div`
   padding-top: 30pt;
+  cursor: pointer;
 `;
 const ContensBox = styled(Box)`
   position: relative;

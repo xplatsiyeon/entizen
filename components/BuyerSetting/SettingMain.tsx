@@ -265,6 +265,10 @@ const SettingMain = ({
                 onClick={() => {
                   setTabNumber(1);
                   setLeftTabNumber(1);
+                  router.push({
+                    pathname: '/setting',
+                    query: { id: 1 },
+                  });
                 }}
               >
                 알림 설정
@@ -273,6 +277,10 @@ const SettingMain = ({
                 onClick={() => {
                   setTabNumber(2);
                   setLeftTabNumber(1);
+                  router.push({
+                    pathname: '/setting',
+                    query: { id: 2 },
+                  });
                 }}
               >
                 1:1 문의
@@ -292,6 +300,10 @@ const SettingMain = ({
                 onClick={() => {
                   setTabNumber(3);
                   setLeftTabNumber(1);
+                  router.push({
+                    pathname: '/setting',
+                    query: { id: 3 },
+                  });
                 }}
               >
                 이용약관
