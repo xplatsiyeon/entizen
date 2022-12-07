@@ -144,6 +144,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
             {/* 충전량 2개 이상일 때 */}
             <MultiSection>
               <Subtitle2>충전요금</Subtitle2>
+              {/* 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.finalQuotationChargerIdx}>
                   {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
@@ -168,6 +169,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
             </MultiSection>
             <MultiSection>
               <Subtitle2>충전기 설치 위치</Subtitle2>
+              {/* 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.finalQuotationChargerIdx}>
                   {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
@@ -231,7 +233,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           <FeaturesList3>
             {finalQuotation?.subscribeProductFeature
               ?.split('\n')
-              .map((line,idx) => (
+              .map((line, idx) => (
                 <li key={idx}>
                   {line}
                   <br />
@@ -241,22 +243,22 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           {/* 특장점 충전기 부분 */}
         </FlexWrap>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => {
-          return(
-          <FlexWrap key={item.finalQuotationChargerIdx}>
-            <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
-            <FeaturesList>
-              {item.productFeature?
-              item.productFeature.split('\n').map((line, idx) => (
-                <li key={idx}>
-                  {line}
-                  <br />
-                </li>
-              )):''
-              }
-            </FeaturesList>
-          </FlexWrap>
-          )
-              })}
+          return (
+            <FlexWrap key={item.finalQuotationChargerIdx}>
+              <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
+              <FeaturesList>
+                {item.productFeature
+                  ? item.productFeature.split('\n').map((line, idx) => (
+                      <li key={idx}>
+                        {line}
+                        <br />
+                      </li>
+                    ))
+                  : ''}
+              </FeaturesList>
+            </FlexWrap>
+          );
+        })}
       </Section>
       <Line />
       <Section grid={true}>

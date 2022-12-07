@@ -116,6 +116,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             {`${finalQuotation?.constructionPeriod} 일`}
           </span>
         </Item>
+        <Line2 />
         {finalQuotation?.finalQuotationChargers?.length == 1 ? (
           <>
             {/* 충전량 1개 일 때  */}
@@ -144,30 +145,28 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         ) : (
           <>
             {/* 충전량 2개 이상일 때 */}
-
             <MultiSection>
               <Subtitle>충전요금</Subtitle>
+              {/* 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.finalQuotationChargerIdx}>
-                  <Item>
-                    <span className="name">{item?.kind}</span>
-                    <span className="value">{`${PriceBasicCalculation(
-                      item.chargePrice,
-                    )} 원 / kW`}</span>
-                  </Item>
-                </MultiBox>
-              ))}
-            </MultiSection>
-            <MultiSection>
-              <Subtitle>충전기 설치 위치</Subtitle>
-              {finalQuotation?.finalQuotationChargers?.map((item, index) => (
-                <MultiBox key={item.finalQuotationChargerIdx}>
-                  <Item>
-                    <span className="name">{item.installationLocation}</span>
-                    <span className="value">{`${PriceBasicCalculation(
-                      item.chargePrice,
-                    )} 원 / kW`}</span>
-                  </Item>
+                  {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
+                    <Item>
+                      <span className="name">
+                        {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                      </span>
+                      <span className="value">{`${PriceBasicCalculation(
+                        item.chargePrice,
+                      )} 원 / kW`}</span>
+                    </Item>
+                  ) : (
+                    <Item>
+                      <span className="name">
+                        {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                      </span>
+                      <span className="value">구매자 자율</span>
+                    </Item>
+                  )}
                 </MultiBox>
               ))}
             </MultiSection>
@@ -176,7 +175,9 @@ const FinalBottomBox = ({ pb, data }: Props) => {
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.finalQuotationChargerIdx}>
                   <Item>
-                    <span className="name">{item?.kind}</span>
+                    <span className="name">
+                      {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                    </span>
                     <span className="value">{item?.manufacturer}</span>
                   </Item>
                 </MultiBox>
@@ -573,6 +574,10 @@ const NoImage = styled.div`
 
 const Line = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
+`;
+const Line2 = styled.div`
+  border-bottom: 0.75pt solid #e9eaee;
+  margin-top: 30pt;
 `;
 
 export default FinalBottomBox;
