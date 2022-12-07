@@ -431,6 +431,7 @@ const Wrapper = styled.div`
   }
 `;
 const Title = styled.h1`
+  font-family: 'Spoqa Han Sans Neo';
   font-weight: 700;
   font-size: 15pt;
   line-height: 15pt;
@@ -441,6 +442,10 @@ const Title = styled.h1`
   @media (max-width: 899.25pt) {
     margin-top: 15pt;
     padding: 0 15pt;
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
   }
 `;
 const Section = styled.section<{ imgBox?: boolean; pb?: number }>`
@@ -555,6 +560,13 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.gray2};
     flex: 1;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+    }
   }
   .value {
     font-weight: 500;
@@ -564,6 +576,13 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.main2};
     flex: 2;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+    }
   }
 
   @media (max-width: 899.25pt) {

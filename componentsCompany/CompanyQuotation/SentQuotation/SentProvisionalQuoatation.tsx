@@ -457,13 +457,13 @@ const SentQuoatationFirst = () => {
             )}
             {/* 현장실사 예약 완료 -> 현장 실사 완료 버튼 생성*/}
             {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
-              <LastQuotationBtnBox>
+              <LastQuotationBtnBox2>
                 {/* <Blur />
                 <BlurTwo /> */}
                 <LastBtn onClick={() => setIsConfirmModal(true)}>
                   현장실사 완료
                 </LastBtn>
-              </LastQuotationBtnBox>
+              </LastQuotationBtnBox2>
             )}
             {/* 최종견적 입력 중 -> 최종견적 작성 페이지로 이동 버튼 생성 */}
             {data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
@@ -752,6 +752,23 @@ const LastQuotationBtnBox = styled.div`
     position: relative;
     padding-left: 0;
     padding-right: 0;
+    padding-top: 45pt;
+  }
+`;
+
+const LastQuotationBtnBox2 = styled.div`
+  position: fixed;
+  bottom: 30pt;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 15pt;
+  padding-right: 15pt;
+  z-index: 999;
+  @media (min-width: 900pt) {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 45pt;
   }
 `;
 

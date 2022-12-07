@@ -15,6 +15,7 @@ type Props = {
 };
 
 const BottomBox = ({ pb, data }: Props) => {
+  console.log('여기 뭐 나오냐', data?.sendQuotationRequest);
   return (
     <Wrapper>
       {data?.sendQuotationRequest.companyMemberAdditionalInfo
@@ -95,10 +96,12 @@ const BottomBox = ({ pb, data }: Props) => {
                   <MultiBox key={item.preQuotationChargerIdx}>
                     <Item>
                       <span className="name">
-                        {
+                        {convertKo(
+                          M5_LIST,
+                          M5_LIST_EN,
                           data?.sendQuotationRequest?.quotationRequest
-                            ?.quotationRequestChargers[index]?.kind
-                        }
+                            ?.quotationRequestChargers[index]?.kind,
+                        )}
                       </span>
                       <span className="value">{`${PriceBasicCalculation(
                         item.chargePrice,
@@ -115,10 +118,12 @@ const BottomBox = ({ pb, data }: Props) => {
                   <MultiBox key={item.preQuotationChargerIdx}>
                     <Item>
                       <span className="name">
-                        {
+                        {convertKo(
+                          M5_LIST,
+                          M5_LIST_EN,
                           data?.sendQuotationRequest?.quotationRequest
-                            ?.quotationRequestChargers[index]?.kind
-                        }
+                            ?.quotationRequestChargers[index]?.kind,
+                        )}
                       </span>
                       <span className="value">{item.manufacturer}</span>
                     </Item>

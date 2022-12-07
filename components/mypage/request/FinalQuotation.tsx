@@ -201,8 +201,8 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           <FeaturesList3>
             {finalQuotation?.subscribeProductFeature
               ?.split('\n')
-              .map((line) => (
-                <li>
+              .map((line,idx) => (
+                <li key={idx}>
                   {line}
                   <br />
                 </li>
@@ -210,19 +210,23 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           </FeaturesList3>
           {/* 특장점 충전기 부분 */}
         </FlexWrap>
-        {finalQuotation?.finalQuotationChargers?.map((item, index) => (
+        {finalQuotation?.finalQuotationChargers?.map((item, index) => {
+          return(
           <FlexWrap key={item.finalQuotationChargerIdx}>
             <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
             <FeaturesList>
-              {item.productFeature.split('\n').map((line) => (
-                <li>
+              {item.productFeature?
+              item.productFeature.split('\n').map((line, idx) => (
+                <li key={idx}>
                   {line}
                   <br />
                 </li>
-              ))}
+              )):''
+              }
             </FeaturesList>
           </FlexWrap>
-        ))}
+          )
+              })}
       </Section>
       <Line />
       <Section grid={true}>
