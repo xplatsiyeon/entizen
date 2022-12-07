@@ -111,6 +111,7 @@ const Mypage1_3 = ({}: any) => {
     data: quotationData,
     isLoading: quotationLoading,
     isError: quotationError,
+    refetch : quotationRefetch,
     error,
   } = useQuery<PreQuotationResponse, AxiosError>(
     'pre-quotation',
@@ -126,10 +127,12 @@ const Mypage1_3 = ({}: any) => {
   );
 
   useEffect(() => {
-    if (routerId) {
+    if (routerId && data?.quotationRequest?.currentInProgressPreQuotationIdx) {
       refetch();
+      quotationRefetch();
     }
-  }, [routerId]);
+  }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
+
 
   // ---------- 현장 실사 날짜 api ------------
   const {

@@ -86,7 +86,7 @@ const ChargerInfo = ({
                     ? '완속 충전기 7kW / 1대'
                     : '급속 충전기 100kW / 1대'}
                 </ChargerTypeNCount>
-                <ChargerNotice>
+              <ChargerNotice>
                   * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
                   사용해주시기 바랍니다.
                 </ChargerNotice>
