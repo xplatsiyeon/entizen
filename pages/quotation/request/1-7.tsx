@@ -62,6 +62,11 @@ const Request1_7 = (props: Props) => {
     (state: RootState) => state.quotationData,
   );
   console.log('1-7', requestData);
+  console.log('1-7', quotationData);
+
+  // (e.standType === 'WALL' || e.standType === 'STAND'),
+  console.log(quotationData.chargers.filter((e) => e.kind === '7-HOME').length);
+
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
       currentTarget: { value },
@@ -74,6 +79,26 @@ const Request1_7 = (props: Props) => {
   };
 
   useEffect(() => {
+    // 슬라이드
+    const HomeFilter = quotationData.chargers.filter(
+      (e) => e.kind === '7-HOME',
+    );
+    if (HomeFilter.length === quotationData.chargers.length) {
+      console.log('홈필터랑 충전기랑 값이 같다');
+      HomeFilter.forEach((e) => {
+        if (e.standType === 'WALL' || e.standType === 'STAND') {
+          console.log('부분구독이 있다.');
+          setDisabled(true);
+        }
+      });
+    } else {
+      console.log('부분구독이 없다.');
+      setDisabled(false);
+      setValue(Math.floor(Number(requestData?.investRate!) * 100));
+    }
+
+    // requestData ? setDisabled(false) : setDisabled(true);
+    // setValue(Math.floor(Number(requestData?.investRate!) * 100));
     setCalculatedValue({
       maxSubscribePricePerMonth: requestData?.maxSubscribePricePerMonth!,
       maxTotalSubscribePrice: requestData?.maxTotalSubscribePrice!,
@@ -88,8 +113,7 @@ const Request1_7 = (props: Props) => {
       data: {
         chargers: quotationData.chargers,
         subscribeProduct: quotationData.subscribeProduct,
-        investRate:
-          quotationData.investRate === '1' ? '0.01' : (value / 100).toString(),
+        investRate: (value / 100).toString(),
         subscribePeriod: quotationData.subscribePeriod,
         installationAddress: locationList.locationList.roadAddrPart,
         installationLocation: quotationData.installationLocation,
