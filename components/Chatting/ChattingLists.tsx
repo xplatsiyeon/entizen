@@ -16,6 +16,9 @@ import bell from 'public/images/bell.png';
 import Bell_outline from 'public/images/Bell_outline.png';
 import List from 'public/images/List.png';
 import ComChattingList from 'componentsCompany/Chatting/ComChattingLIst';
+import Hamburger from 'public/images/list-bar.svg';
+import { Box, Divider, Drawer } from '@mui/material';
+import CompanyHamburger from 'componentsWeb/CompanyHamburger';
 
 export interface UserChattingRooms {
   chattingRoomIdx: number;
@@ -52,7 +55,7 @@ export interface ChattingListResponse {
   data: {
     chattingRooms: {
       entizenChattingRoom: {
-        chattingRoomIdx: number,
+        chattingRoomIdx: number;
         chattingLog: null | {
           fromMemberIdx: number;
           fromMemberType: string;
@@ -60,85 +63,87 @@ export interface ChattingListResponse {
           createdAt: string;
           content: string;
           fileUrl: string;
-        },
+        };
         chattingRoomFavorite: {
-            chattingRoomFavoriteIdx: number,
-            isFavorit: boolean
-        },
+          chattingRoomFavoriteIdx: number;
+          isFavorit: boolean;
+        };
         chattingRoomNotification: {
-            chattingRoomNotificationIdx: number,
-            isSetNotification: boolean
-        }
-    };
+          chattingRoomNotificationIdx: number;
+          isSetNotification: boolean;
+        };
+      };
       userChattingRooms: UserChattingRooms[];
     };
   };
 }
 
 const arr = {
-  "isSuccess": true,
-  "data": {
-      "chattingRooms": {
-          "entizenChattingRoom": {
-              "chattingRoomIdx": 6,
-              "chattingLog": null,
-              "chattingRoomFavorite": {
-                  "chattingRoomFavoriteIdx": 8,
-                  "isFavorite": false
-              },
-              "chattingRoomNotification": {
-                  "chattingRoomNotificationIdx": 8,
-                  "isSetNotification": true
-              }
+  isSuccess: true,
+  data: {
+    chattingRooms: {
+      entizenChattingRoom: {
+        chattingRoomIdx: 6,
+        chattingLog: null,
+        chattingRoomFavorite: {
+          chattingRoomFavoriteIdx: 8,
+          isFavorite: false,
+        },
+        chattingRoomNotification: {
+          chattingRoomNotificationIdx: 8,
+          isSetNotification: true,
+        },
+      },
+      userChattingRooms: [
+        {
+          chattingRoomIdx: 21,
+          companyMember: {
+            memberIdx: 31,
+            companyMemberAdditionalInfo: {
+              companyName: 'ste',
+            },
           },
-          "userChattingRooms": [
-              {
-                  "chattingRoomIdx": 21,
-                  "companyMember": {
-                      "memberIdx": 31,
-                      "companyMemberAdditionalInfo": {
-                          "companyName": "ste"
-                      }
-                  },
-                  "userMember": {
-                      "memberIdx": 80,
-                      "name": "문수정"
-                  },
-                  "chattingLogs": {
-                      "fromMemberIdx": null,
-                      "fromMemberType": null,
-                      "wasRead": false,
-                      "createdAt": "2022-12-02T07:17:44.610Z",
-                      "content": "2022-12-02",
-                      "fileUrl": null
-                  },
-                  "chattingRoomFavorite": {
-                      "chattingRoomFavoriteIdx": 32,
-                      "isFavorite": true
-                  },
-                  "chattingRoomNotification": {
-                      "chattingRoomNotificationIdx": 32,
-                      "isSetNotification": true
-                  }
-              }
-          ]
-      }
-  }
-}
+          userMember: {
+            memberIdx: 80,
+            name: '문수정',
+          },
+          chattingLogs: {
+            fromMemberIdx: null,
+            fromMemberType: null,
+            wasRead: false,
+            createdAt: '2022-12-02T07:17:44.610Z',
+            content: '2022-12-02',
+            fileUrl: null,
+          },
+          chattingRoomFavorite: {
+            chattingRoomFavoriteIdx: 32,
+            isFavorite: true,
+          },
+          chattingRoomNotification: {
+            chattingRoomNotificationIdx: 32,
+            isSetNotification: true,
+          },
+        },
+      ],
+    },
+  },
+};
 
 type Props = {
   chattingRoom?: boolean;
   userChatting: boolean;
-}
+};
 
 const TAG = 'pages/chatting/index.tsx';
-const ChattingLists = ({chattingRoom, userChatting}: Props) => {
+const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
   const router = useRouter();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
   const TabListEn = ['all', 'unread', 'favorite'];
   const [index, setIndex] = useState<number>(0);
   const [company, setCompany] = useState<string>('');
-
+  const [state, setState] = useState({
+    right: false,
+  });
   const [text, setText] = useState('');
   const keyword = useDebounce(text, 2000);
 
@@ -181,88 +186,121 @@ const ChattingLists = ({chattingRoom, userChatting}: Props) => {
 
   // console.log('채팅 리스트 api ~ line 67 -> ' + TAG);
   // console.log(data);
+  const toggleDrawer =
+    (anchor: string, open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+
+      setState({ ...state, [anchor]: open });
+    };
 
   return (
-        <Body className='chatt-body' chattingRoom={Boolean(chattingRoom)} >
-          <Header>
-            <H2>소통하기</H2>
-            <IconBox>
-              <IconWrap>
-                <Image src={bell} layout="fill" />
-              </IconWrap>
-              <IconWrap>
-                <Image src={List} layout="fill" />
-              </IconWrap>
-            </IconBox>
-          </Header>
-          <FlexBox chattingRoom={Boolean(chattingRoom)}>
-            <WebBox>
-              <Input
-                placeholder="이름을 검색하세요."
-                type="text"
-                value={text}
-                onChange={onChangeKeyword}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <div style={{ width: '15pt', height: '15pt' }}>
-                        <Image
-                          src={search}
-                          alt="searchIcon"
-                          layout="intrinsic"
-                        />
-                      </div>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Inner>
-                <TabList>
-                  {tabList.map((t, idx) => {
-                    return (
-                      <Tab
-                        key={idx}
-                        onClick={() => setIndex(idx)}
-                        tab={idx.toString()}
-                        index={index.toString()}
-                      >
-                        {t}
-                        <Dot tab={idx.toString()} index={index.toString()} />
-                      </Tab>
-                    );
-                  })}
-                  <FAQBtn onClick={handle}>FAQ</FAQBtn>
-                </TabList>
-                {/* 채팅 리스트 */}
-                {userChatting
-                ?<ChattingList data={data!} refetch={refetch}/>
-                :<ComChattingList data={data!} refetch={refetch}/>}
-              </Inner>
-            </WebBox>
-          </FlexBox>
-          {/* 채팅 룸 */}
-          {/* 
+    <Body className="chatt-body" chattingRoom={Boolean(chattingRoom)}>
+      <Header>
+        <H2>소통하기</H2>
+        <IconWrapper>
+          <IconBox>
+            <IconWrap>
+              <Image src={bell} layout="fill" />
+            </IconWrap>
+            {(['right'] as const).map((anchor) => (
+              <React.Fragment key={anchor}>
+                <HamburgerOn onClick={toggleDrawer(anchor, true)}>
+                  <IconBox>
+                    <Image src={Hamburger} alt="listIcon" />
+                  </IconBox>
+                </HamburgerOn>
+                <Drawer
+                  anchor={anchor}
+                  open={state[anchor]}
+                  onClose={toggleDrawer(anchor, false)}
+                  // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
+                >
+                  <CompanyHamburger
+                    anchor={anchor}
+                    toggleDrawer={toggleDrawer}
+                    setState={setState}
+                    state={state}
+                  />
+                </Drawer>
+              </React.Fragment>
+            ))}
+          </IconBox>
+        </IconWrapper>
+      </Header>
+      <FlexBox chattingRoom={Boolean(chattingRoom)}>
+        <WebBox>
+          <Input
+            placeholder="이름을 검색하세요."
+            type="text"
+            value={text}
+            onChange={onChangeKeyword}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <div style={{ width: '15pt', height: '15pt' }}>
+                    <Image src={search} alt="searchIcon" layout="intrinsic" />
+                  </div>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Inner>
+            <TabList>
+              {tabList.map((t, idx) => {
+                return (
+                  <Tab
+                    key={idx}
+                    onClick={() => setIndex(idx)}
+                    tab={idx.toString()}
+                    index={index.toString()}
+                  >
+                    {t}
+                    <Dot tab={idx.toString()} index={index.toString()} />
+                  </Tab>
+                );
+              })}
+              <FAQBtn onClick={handle}>FAQ</FAQBtn>
+            </TabList>
+            {/* 채팅 리스트 */}
+            {userChatting ? (
+              <ChattingList data={data!} refetch={refetch} />
+            ) : (
+              <ComChattingList data={data!} refetch={refetch} />
+            )}
+          </Inner>
+        </WebBox>
+      </FlexBox>
+      {/* 채팅 룸 */}
+      {/* 
           {routerId && (
             <MobBox>
               <ChattingRoom routerId={routerId!} name={name} alarm={isAlarm} />
             </MobBox>
           )} */}
-          <BottomNavigation />
-        </Body>
+      <BottomNavigation />
+    </Body>
   );
 };
 
 export default ChattingLists;
 
-const Body = styled.div<{chattingRoom:boolean}>`
+const Body = styled.div<{ chattingRoom: boolean }>`
   font-family: 'Spoqa Han Sans Neo';
-  width: ${({chattingRoom})=> (chattingRoom? `auto`:`100%`)};
+  width: ${({ chattingRoom }) => (chattingRoom ? `auto` : `100%`)};
 
   @media (min-width: 900pt) {
     display: flex;
-    border:${({chattingRoom})=> (chattingRoom? `none`:`1px solid #e2e5ed`)};
-    border-right:1px solid #e2e5ed;
-    border-radius: ${({chattingRoom})=> (chattingRoom? `0`:`12pt`)};
+    border: ${({ chattingRoom }) =>
+      chattingRoom ? `none` : `1px solid #e2e5ed`};
+    border-right: 1px solid #e2e5ed;
+    border-radius: ${({ chattingRoom }) => (chattingRoom ? `0` : `12pt`)};
     overflow: hidden;
   }
 `;
@@ -282,7 +320,7 @@ const IconBox = styled.div`
   align-items: center;
   top: 0;
   right: 0;
-  gap: 11.25pt;
+  gap: 22pt;
 
   @media (min-width: 900pt) {
     display: none;
@@ -345,10 +383,10 @@ const Input = styled(TextField)`
   }
 `;
 
-const FlexBox = styled.div<{chattingRoom:boolean}>`
+const FlexBox = styled.div<{ chattingRoom: boolean }>`
   flex: 1;
   height: 495pt;
-  width:  ${({chattingRoom})=> (chattingRoom? `300pt`:`auto`)};
+  width: ${({ chattingRoom }) => (chattingRoom ? `300pt` : `auto`)};
   overflow-y: scroll;
   background: #e2e5ed;
   @media (max-width: 899.25pt) {
@@ -421,4 +459,11 @@ const FAQBtn = styled.button`
   @media (min-width: 900pt) {
     display: none;
   }
+`;
+
+const HamburgerOn = styled.div``;
+
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;

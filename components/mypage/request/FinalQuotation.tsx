@@ -655,6 +655,10 @@ const NoImage = styled.div`
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
+  padding: 19.5pt 15pt 18pt;
+  @media (min-width: 900pt) {
+    padding: 19.5pt 0 18pt;
+  }
 
   .text-box {
     display: flex;

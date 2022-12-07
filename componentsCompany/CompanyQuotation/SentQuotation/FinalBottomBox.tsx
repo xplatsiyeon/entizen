@@ -30,6 +30,11 @@ const FinalBottomBox = ({ pb, data }: Props) => {
   const finalQuotation =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation!;
 
+  console.log(
+    'finalQuotation 뭐나옴?',
+    finalQuotation.finalQuotationDetailFiles,
+  );
+
   return (
     <Wrapper>
       {data?.sendQuotationRequest?.companyMemberAdditionalInfo
@@ -240,7 +245,9 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         </GridImg>
       </Section>
       <Section className="underLine" pb={pb}>
-        <Subtitle>충전기 카탈로그</Subtitle>
+        {/* 여기에 충전기 카탈로그 + 사업자 등록증 같이 나와야함 */}
+        <Subtitle>첨부 파일</Subtitle>
+        {/* 충전기 카탈로그 불러옴 */}
         {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
           (item, index) => (
             <React.Fragment key={item.preQuotationChargerIdx}>
@@ -259,6 +266,19 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             </React.Fragment>
           ),
         )}
+        {/* 사업자 등록증 불러옴 */}
+        {finalQuotation?.finalQuotationDetailFiles.map((item, index) => (
+          <FileDownloadBtn key={item.finalQuotationDetailFileIdx}>
+            <FileDownload
+              // onClick={DownloadFile}
+              download={item.originalName}
+              href={item.url}
+            >
+              <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+              {item.originalName}
+            </FileDownload>
+          </FileDownloadBtn>
+        ))}
       </Section>
     </Wrapper>
   );
@@ -464,6 +484,7 @@ const FeaturesList = styled.ol`
   list-style-position: inside;
   flex: 2;
   & li {
+    list-style: none;
     @media (min-width: 900pt) {
       font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;

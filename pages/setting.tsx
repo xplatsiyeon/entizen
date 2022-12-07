@@ -105,6 +105,16 @@ const Setting = () => {
     ),
   };
 
+  useEffect(() => {
+    if (router.query.id === '1') {
+      setTabNumber(1);
+    } else if (router.query.id === '2') {
+      setTabNumber(2);
+    } else if (router.query.id === '3') {
+      setTabNumber(3);
+    }
+  }, [router.query.id]);
+
   return (
     <>
       <WebBody>
