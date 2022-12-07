@@ -3,7 +3,7 @@ import { isTokenPatchApi } from 'api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Phone from 'public/mypage/Phone.svg';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
 import QuitModal from './QuitModal';

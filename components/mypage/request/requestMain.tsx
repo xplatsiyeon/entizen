@@ -57,6 +57,8 @@ const RequestMain = (props: props) => {
     }
   }
 
+
+
   return (
     <Wrapper
       ref={myPageIndex}
@@ -101,7 +103,7 @@ const RequestMain = (props: props) => {
                 </TabItem>
                 <Dot tab={tabNumber?.toString()} index={index.toString()} />
               </Wrap>
-                {tabNumber === index? <List className='list'>{components[tabNumber]}</List>:<List className='list'/>}
+                {tabNumber === index? <List className={`list ${tabNumber === index && 'on'}`} >{components[tabNumber]}</List>:<List className='list'/>}
               </Tab>
             </React.Fragment>
           ))}

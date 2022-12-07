@@ -80,7 +80,6 @@ const RunningProgress = (props: Props) => {
   });
 
   console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
-  console.log(inProgressData);
 
   useEffect(() => {
     if (router.query.projectIdx) {
@@ -138,8 +137,7 @@ const RunningProgress = (props: Props) => {
                 type={'COMPANY'}
               />
               {/* 계약서 발송 버튼 클릭 시 프로그레스 컴포넌트로 변경 */}
-              {inProgressData?.project?.contract?.documentId?.length 
-              ? (inProgressData?.project?.contract?.documentId?.length?
+              {inProgressData?.project?.contract?.documentId?.length?
                 // 프로젝트 진행
                 (<Progress
                   data={inProgressData!}
@@ -152,8 +150,7 @@ const RunningProgress = (props: Props) => {
                 <UnderBox
                   id={inProgressData?.project?.userMember?.memberIdx!}
                 />
-              ))
-            : null }
+              )}
             </WebBox>
           </WebRapper>
         </Container>

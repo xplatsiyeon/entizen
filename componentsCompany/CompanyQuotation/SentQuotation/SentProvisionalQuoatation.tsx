@@ -434,21 +434,25 @@ const SentQuoatationFirst = () => {
             {!data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
               <>
                 <BottomBox data={data!} />
-                <BtnBox>
-                  <EditBtn
-                    onClick={() =>
-                      router.push({
-                        pathname: '/company/recievedRequest',
-                        query: {
-                          edit: true,
-                          quotationRequestIdx: routerId,
-                        },
-                      })
-                    }
-                  >
-                    가견적 수정하기
-                  </EditBtn>
-                </BtnBox>
+                {/* 가견적 수정하기 버튼 */}
+                {data?.sendQuotationRequest?.badge?.includes('견적마감') ||
+                  (data?.sendQuotationRequest?.badge?.includes('선택대기') && (
+                    <BtnBox>
+                      <EditBtn
+                        onClick={() =>
+                          router.push({
+                            pathname: '/company/recievedRequest',
+                            query: {
+                              edit: true,
+                              quotationRequestIdx: routerId,
+                            },
+                          })
+                        }
+                      >
+                        가견적 수정하기
+                      </EditBtn>
+                    </BtnBox>
+                  ))}
               </>
             )}
             {/* 현장실사 예약 완료 -> 현장 실사 완료 버튼 생성*/}

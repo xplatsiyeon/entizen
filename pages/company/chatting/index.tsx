@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import ChattingLists from 'components/Chatting/ChattingLists';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 const Chatting = () => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
@@ -56,6 +57,7 @@ const Chatting = () => {
   return (
     <WebBody>
       <WebBuyerHeader setOpenSubLink={()=>{}}/>
+      <CompanyRightMenu />
       <Wrapper>
         <ChattingLists userChatting={false}/>
       </Wrapper>

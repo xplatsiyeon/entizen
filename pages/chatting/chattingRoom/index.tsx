@@ -28,6 +28,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import ChattingLists, { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
 import ChattingList from 'components/Chatting/ChattingList';
+import UserRightMenu from 'components/UserRightMenu';
 
 type ChattingLogs = {
   createdAt: string;
@@ -94,6 +95,7 @@ const ChattingRoom = ({ }: Props) => {
   return (
     <WebBody>
       <WebHeader />
+      <UserRightMenu />
       <Wrapper>
         <Body>
           <MobWrap>

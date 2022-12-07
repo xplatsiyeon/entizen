@@ -31,6 +31,7 @@ import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
 import WebFooter from 'componentsWeb/WebFooter';
 import ChattingLists from 'components/Chatting/ChattingLists';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
 type ChattingLogs = {
   createdAt: string;
@@ -223,6 +224,7 @@ setCompany(router.query.companyMemberId)
   return (
     <WebBody>
       <WebBuyerHeader setOpenSubLink={() => {}} />
+      <CompanyRightMenu />
       <Wrapper>
         <Body>
           <MobWrap>

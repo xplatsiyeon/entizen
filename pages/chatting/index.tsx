@@ -16,6 +16,7 @@ import bell from 'public/images/bell.png';
 import Bell_outline from 'public/images/Bell_outline.png';
 import List from 'public/images/List.png';
 import ChattingLists from 'components/Chatting/ChattingLists';
+import UserRightMenu from 'components/UserRightMenu';
 
 export interface UserChattingRooms {
   chattingRoomIdx: number;
@@ -130,6 +131,7 @@ const Chatting = () => {
   return (
     <WebBody>
       <WebHeader />
+      <UserRightMenu />
       <Wrapper>
         <ChattingLists userChatting={true}/>
       </Wrapper>

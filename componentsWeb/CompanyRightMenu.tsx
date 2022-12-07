@@ -21,11 +21,9 @@ const CompanyRightMenu = () => {
             <Image src={RightArrow} alt="right-arrow" />
           </ImageIcon>
         </LeftArrow>
-        <MenuBox
+        <MenuBox 
           onClick={() => {
-            alert(`소통하기`);
-          }}
-        >
+            router.push('/company/chatting')}}>
           <ImageBoxS>
             <Image src={Chats} alt="Chats" />
           </ImageBoxS>

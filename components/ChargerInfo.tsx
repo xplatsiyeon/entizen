@@ -9,8 +9,6 @@ import { SlowFast } from 'pages/chargerMap';
 import { Rnd } from 'react-rnd';
 import { useMediaQuery } from 'react-responsive';
 
-import { Resizable, ResizableBox } from 'react-resizable';
-
 type Props = {
   checkHeight: number;
   // scrollHeight: number;
@@ -40,26 +38,25 @@ const ChargerInfo = ({
     query: '(min-width:810pt)',
   });
   return (
-    <>
-      {' '}
-      <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
-        <RndWraper
-          className="draggable"
-          isMobile={mobile}
-          default={{
-            x: 0,
-            y: 0,
-            width: '100%',
-            height: '100%',
-          }}
-          disableDragging={true}
-          maxHeight={window.innerHeight - 130}
-          minHeight={checkHeight.toString()}
-          allowAnyClick={true}
-        >
-          <GoUpBox>
-            <GoUp />
-          </GoUpBox>
+          <>
+           <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
+             <RndWraper
+               className="draggable"
+               isMobile={mobile}
+               default={{
+                 x: 0,
+                 y: 0,
+                 width: '100%',
+                 height: '100%',
+               }}
+               disableDragging={true}
+               maxHeight={window.innerHeight - 130}
+               minHeight={checkHeight.toString()}
+               allowAnyClick={true}
+             >
+               <GoUpBox>
+                 <GoUp />
+             </GoUpBox>
           <Body>
             <SelectChargerBox className="forScroll">
               <ChargerList>
@@ -137,11 +134,29 @@ const ChargerInfo = ({
           </Body>
         </RndWraper>
       </InfoBox>
-    </>
+      </>
   );
 };
 
 export default ChargerInfo;
+
+const Wrap =styled.div`
+width: 100%;
+max-height: 100vh;
+position: relative;
+overflow: hidden;
+.target{
+background-color: beige;
+width:100%!important;
+position: absolute;
+bottom: 0;
+}
+div{
+  &:nth-last-of-type(1){
+    
+  }
+}
+`
 
 const InfoBox = styled.div<{ checkHeight: string }>`
   position: relative;
@@ -391,12 +406,5 @@ const QuotationBtn = styled.div`
     flex: none;
     order: 0;
     flex-grow: 0;
-  }
-`;
-
-const Wrap = styled.div`
-  //position: relative;
-  @media (max-width: 899.25pt) {
-    position: relative;
   }
 `;
