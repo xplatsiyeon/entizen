@@ -55,6 +55,16 @@ type Props = {
   editData: SentRequestResponse;
 };
 
+interface Result {
+  chargePriceType: string;
+  chargePrice: number;
+  manufacturer: string;
+  chargerImageFiles: BusinessRegistrationType[];
+  catalogFiles: BusinessRegistrationType[];
+  feature?: string;
+  modelName?: string;
+}
+
 const TAG = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
 
 const SecondStep = ({
@@ -390,7 +400,7 @@ const SecondStep = ({
       ];
       const newChargers = chargers.map((charger) => {
         const { feature, modelName, ...newCharger } = charger;
-        let result: any = { ...newCharger };
+        let result: Result = { ...newCharger };
         if (feature && feature?.length! > 0) {
           result = {
             ...newCharger,
@@ -406,23 +416,22 @@ const SecondStep = ({
         return result;
       });
 
+      const newData = {
+        subscribePricePerMonth: subscribePricePerMonth,
+        constructionPeriod: constructionPeriod,
+        chargers: newChargers,
+      };
       if (subscribeProductFeature.length < 1) {
         postMutate({
           url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-          data: {
-            subscribePricePerMonth: subscribePricePerMonth,
-            constructionPeriod: constructionPeriod,
-            chargers: newChargers,
-          },
+          data: newData,
         });
       } else {
         postMutate({
           url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
           data: {
-            subscribePricePerMonth: subscribePricePerMonth,
-            constructionPeriod: constructionPeriod,
-            subscribeProductFeature: subscribeProductFeature,
-            chargers: newChargers,
+            ...newData,
+            subscribeProductFeature,
           },
         });
       }
@@ -431,28 +440,81 @@ const SecondStep = ({
   };
   // 수정하기 버튼
   const onClickEdit = () => {
-    putMutate({
-      url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
-      data: {
+    if (canNext) {
+      const chargers = [
+        ...newCharge.slice(0, maxIndex! - 1),
+        {
+          chargePriceType:
+            chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+          chargePrice: Number(fee.replaceAll(',', '')),
+          modelName: productItem,
+          manufacturer: manufacturingCompany,
+          feature: chargeFeatures,
+          chargerImageFiles: imgArr,
+          catalogFiles: fileArr,
+        },
+      ];
+      const newChargers = chargers.map((charger) => {
+        const { feature, modelName, ...newCharger } = charger;
+        let result: Result = { ...newCharger };
+        if (feature && feature?.length! > 0) {
+          result = {
+            ...newCharger,
+            feature,
+          };
+        }
+        if (modelName && modelName?.length! > 0) {
+          result = {
+            ...result,
+            modelName,
+          };
+        }
+        return result;
+      });
+      const newData = {
         subscribePricePerMonth: subscribePricePerMonth,
         constructionPeriod: constructionPeriod,
-        subscribeProductFeature: subscribeProductFeature,
-        chargers: [
-          ...newCharge.slice(0, maxIndex! - 1),
-          {
-            chargePriceType:
-              chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
-            chargePrice: Number(fee.replaceAll(',', '')),
-            modelName: productItem,
-            manufacturer: manufacturingCompany,
-            feature: chargeFeatures,
-            chargerImageFiles: imgArr,
-            catalogFiles: fileArr,
+        chargers: newChargers,
+      };
+      if (subscribeProductFeature.length < 1) {
+        putMutate({
+          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+          data: newData,
+        });
+      } else {
+        putMutate({
+          url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+          data: {
+            ...newData,
+            subscribeProductFeature,
           },
-        ],
-      },
-    });
-    dispatch(myEstimateAction.reset());
+        });
+      }
+      dispatch(myEstimateAction.reset());
+    }
+
+    // putMutate({
+    //   url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
+    //   data: {
+    //     subscribePricePerMonth: subscribePricePerMonth,
+    //     constructionPeriod: constructionPeriod,
+    //     subscribeProductFeature: subscribeProductFeature,
+    //     chargers: [
+    //       ...newCharge.slice(0, maxIndex! - 1),
+    //       {
+    //         chargePriceType:
+    //           chargeTypeNumber !== -1 ? chargeTypeListEn[chargeTypeNumber] : '',
+    //         chargePrice: Number(fee.replaceAll(',', '')),
+    //         modelName: productItem,
+    //         manufacturer: manufacturingCompany,
+    //         feature: chargeFeatures,
+    //         chargerImageFiles: imgArr,
+    //         catalogFiles: fileArr,
+    //       },
+    //     ],
+    //   },
+    // });
+    // dispatch(myEstimateAction.reset());
   };
   // 수정하기
   useEffect(() => {
