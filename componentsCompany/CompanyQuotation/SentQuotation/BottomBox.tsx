@@ -360,6 +360,7 @@ const Subtitle = styled.h2`
   letter-spacing: -0.02em;
   padding: 0 15pt;
   color: ${colors.main2};
+
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;

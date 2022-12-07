@@ -169,7 +169,7 @@ const FinishedTopBox = ({ data }: Props) => {
               <>
                 <MultiSection>
                   <BorderTop></BorderTop>
-                  <Subtitle>충전 요금</Subtitle>
+                  <Subtitle>충전요금</Subtitle>
                   {data?.finalQuotation?.finalQuotationChargers?.map(
                     (item, index) => (
                       <MultiBox key={index}>
