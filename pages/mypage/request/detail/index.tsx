@@ -132,6 +132,9 @@ const MypageDetail = () => {
     // enabled: false,
   });
 
+  // 모달창에 넘겨 줄 기업이름
+  const ModalCompany = data?.companyMemberAdditionalInfo?.companyName;
+
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
@@ -175,7 +178,7 @@ const MypageDetail = () => {
           {isModal && (
             <RequestModal
               exit={() => setModal((prev) => !prev)}
-              title={'Charge Point의 \n 구독상품으로 선택하시겠습니까?'}
+              title={`${ModalCompany}의 \n 구독상품으로 선택하시겠습니까?`}
               subtitle={
                 '선택 후 정확한 견적을 위해 현장실사가 진행되며, \n고객님의 연락처가 전달됩니다.'
               }
