@@ -22,6 +22,7 @@ interface Props {
   isSpot?: boolean;
   onClcikModal?: () => void;
 }
+
 const TAG = 'components/mypage/request/BiddingQuote.tsx';
 const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
   const [chargeIdx, setChargeIdx] = useState<number>(0);
