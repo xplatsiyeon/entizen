@@ -32,6 +32,10 @@ const EstimateContainer = ({ data }: Props) => {
 
   console.log('⭐️ 상세 페이지 데이터 확인 ~line ' + TAG);
   console.log(data);
+  console.log(
+    '여기 문ㅁㄴ러ㅏㄴㅁㅇ',
+    data?.quotationRequest?.quotationRequestChargers,
+  );
 
   return (
     <Wrapper>

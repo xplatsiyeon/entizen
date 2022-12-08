@@ -39,6 +39,8 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
   console.log(data);
   // console.log('구매자 자율', data?.preQuotation);
 
+  // console.log('부분 구독', data?.finalQuotation?.subscribeProduct);
+
   data?.finalQuotation;
   // const finalQuotation = data?.preQuotation?.finalQuotation;
   const finalQuotation = data?.finalQuotation;
@@ -74,6 +76,14 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           <span className="name">구독기간</span>
           <span className="value">{finalQuotation?.subscribePeriod} 개월</span>
         </Item>
+        {/* 부분 구독일 경우 충전소 설치비 나와야함 */}
+        {data?.finalQuotation?.subscribeProduct === 'PART' && (
+          <Item>
+            <span className="name">충전소 설치비</span>
+            <span className="value">20 원</span>
+          </Item>
+        )}
+
         <Item>
           <span className="name">월 구독료</span>
           <span className="value">
@@ -175,6 +185,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
                 </MultiBox>
               ))}
             </MultiSection>
+            <Line2 />
             <MultiSection>
               <Subtitle2>충전기 설치 위치</Subtitle2>
               {/* 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
@@ -183,15 +194,15 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
                   {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
                     <Item>
                       <span className="name">
+                        {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                      </span>
+                      <span className="value">
                         {convertKo(
                           location,
                           locationEn,
                           item.installationLocation,
                         )}
                       </span>
-                      <span className="value">{`${PriceBasicCalculation(
-                        item.chargePrice,
-                      )} 원 / kW`}</span>
                     </Item>
                   ) : (
                     <Item>
@@ -208,6 +219,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
                 </MultiBox>
               ))}
             </MultiSection>
+            <Line2 />
             <MultiSection>
               <Subtitle2>충전기 제조사</Subtitle2>
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -268,7 +280,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           );
         })}
       </Section>
-      <Line />
+
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
@@ -289,7 +301,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           ))}
         </GridImg>
       </Section>
-      <Line />
+
       <Section className="underLine" pb={pb}>
         <Subtitle>첨부 파일</Subtitle>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -321,7 +333,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           </FileDownloadBtn>
         ))}
       </Section>
-      <Line />
+      <Line2 />
       <Contents>
         <Subtitle>파트너 정보</Subtitle>
         <div className="text-box">
@@ -478,7 +490,6 @@ const Subtitle = styled.h2`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-
   padding-bottom: 24pt;
 
   @media (min-width: 900pt) {
@@ -493,8 +504,7 @@ const Subtitle2 = styled.h2`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-
-  padding-top: 24pt;
+  /* padding-top: 24pt; */
 
   @media (min-width: 900pt) {
     font-size: 15pt;
@@ -526,10 +536,6 @@ const FlexWrap2 = styled.div`
     &:nth-of-type(2) {
       margin-top: 0;
     }
-  }
-
-  @media (min-width: 900pt) {
-    margin: 12pt 0;
   }
 `;
 const Label = styled.h3`
@@ -659,6 +665,11 @@ const FileDownload = styled.a`
 
 const Line = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
+`;
+
+const Line2 = styled.div`
+  border-bottom: 0.75pt solid #e9eaee;
+  margin-top: 18pt;
 `;
 
 const TextResult = styled.div`

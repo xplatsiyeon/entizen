@@ -30,10 +30,9 @@ const FinalBottomBox = ({ pb, data }: Props) => {
   const finalQuotation =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation!;
 
-  console.log(
-    'finalQuotation 뭐나옴?',
-    finalQuotation.finalQuotationDetailFiles,
-  );
+  // 부분 구독 판독
+  const partSubscribe =
+    data?.sendQuotationRequest?.quotationRequest?.subscribeProduct;
 
   return (
     <Wrapper>
@@ -59,7 +58,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         {data?.sendQuotationRequest?.companyMemberAdditionalInfo?.companyName}
       </Title>
       <List>
-        <Item>
+        <Item style={{ border: '1px solid red' }}>
           <span className="name">구독상품</span>
           <span className="value">
             {convertKo(
@@ -73,6 +72,14 @@ const FinalBottomBox = ({ pb, data }: Props) => {
           <span className="name">구독기간</span>
           <span className="value">{finalQuotation?.subscribePeriod} 개월</span>
         </Item>
+        {/* 부분구독일 경우 충전소 설치비 추가 */}
+        {partSubscribe === 'PART' && (
+          <Item>
+            <span className="name">충전소 설치비</span>
+            <span className="value">20 원</span>
+          </Item>
+        )}
+
         <Item>
           <span className="name">월 구독료</span>
           <span className="value">
