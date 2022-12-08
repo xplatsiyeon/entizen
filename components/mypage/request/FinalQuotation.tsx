@@ -9,7 +9,11 @@ import {
   FinalQuotations,
   PreQuotationResponse,
 } from 'pages/mypage/request/detail';
-import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
+import {
+  convertKo,
+  hyphenFn,
+  PriceBasicCalculation,
+} from 'utils/calculatePackage';
 import {
   location,
   locationEn,
@@ -44,10 +48,13 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
   const finalQuotation = data?.finalQuotation;
   return (
     <Wrapper>
-      {data?.companyMemberAdditionalInfo?.companyLogoImageUrl! !== '' ? (
+      {data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl! !==
+      '' ? (
         <ImageBox>
           <Image
-            src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
+            src={
+              data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl!
+            }
             alt="logo-img"
             layout="fill"
             priority={true}
@@ -58,7 +65,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
         <NoImage />
       )}
 
-      <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
+      <Title>{data?.member?.companyMemberAdditionalInfo?.companyName}</Title>
       <List>
         <Item>
           <span className="name">구독상품</span>
@@ -326,25 +333,17 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
         <Subtitle>파트너 정보</Subtitle>
         <div className="text-box">
           <span className="name">담당자</span>
-          {/* <span className="text">{data?.preQuotation?.member?.name}</span> */}
-          {/* {'-------------------바꿔야됨------------------'} */}
-          <span className="text">
-            {data?.companyMemberAdditionalInfo?.companyName}
-          </span>
+          <span className="text">{data?.member?.name}</span>
         </div>
         <div className="text-box">
           <span className="name">이메일</span>
           <span className="text">
-            {data?.companyMemberAdditionalInfo.managerEmail}
+            {data?.member?.companyMemberAdditionalInfo?.managerEmail}
           </span>
         </div>
         <div className="text-box">
           <span className="name">전화번호</span>
-          <span className="text phone">
-            {/* {data?.preQuotation?.member?.phone} */}
-            {/* {'------------------바꿔야됨-------------------'} */}
-            {data?.companyMemberAdditionalInfo.managerEmail}
-          </span>
+          <span className="text phone">{hyphenFn(data?.member?.phone!)}</span>
         </div>
       </Contents>
     </Wrapper>

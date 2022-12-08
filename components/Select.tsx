@@ -101,10 +101,10 @@ const SelectComponents = ({
         <Ul>
           {/* 특수 케이스 (내제품 리스트) */}
           {productOption &&
-            productOption?.map((item, i) => (
+            productOption?.map((item, index) => (
               <Li
                 isSelected={value === item.modelName ? true : false}
-                key={item.chargerProductIdx}
+                key={index}
                 onClick={() => onClickProjectOption(item)}
                 fontSize={fontSize}
               >
@@ -118,10 +118,10 @@ const SelectComponents = ({
             ))}
           {/* 특수 케이스 (AS) */}
           {asOption &&
-            asOption?.map((item, i) => (
+            asOption?.map((item, index) => (
               <Li
                 isSelected={value === item.projectName ? true : false}
-                key={item.projectIdx}
+                key={index}
                 onClick={() => onClickAsOption(item)}
                 fontSize={fontSize}
               >
@@ -135,10 +135,10 @@ const SelectComponents = ({
             ))}
           {/* 일반 */}
           {option &&
-            option?.map((item, i) => (
+            option?.map((item, index) => (
               <Li
                 isSelected={value === item ? true : false}
-                key={i}
+                key={index}
                 onClick={() => onClickOtion(item)}
                 fontSize={fontSize}
               >

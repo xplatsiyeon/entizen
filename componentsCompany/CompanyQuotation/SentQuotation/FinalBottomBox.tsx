@@ -30,10 +30,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
   const finalQuotation =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation!;
 
-  console.log(
-    'finalQuotation 뭐나옴?',
-    finalQuotation.finalQuotationDetailFiles,
-  );
+  console.log('finalQuotation 뭐나옴?', data);
 
   return (
     <Wrapper>
