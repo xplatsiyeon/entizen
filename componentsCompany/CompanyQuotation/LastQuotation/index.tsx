@@ -326,7 +326,7 @@ const LastWrite = (props: Props) => {
 
   // 부분 구독 판별
   const partSubscribe =
-    data?.sendQuotationRequest?.quotationRequest?.subscribeProduct;
+    data?.sendQuotationRequest?.quotationRequest?.subscribeProduct!;
 
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   // 서브 카테고리 열렸는지 아닌지
@@ -418,7 +418,7 @@ const LastWrite = (props: Props) => {
         setSubscribeProductFeature={setSubscribeProductFeature}
         setChargeNum={setChargeNum}
         chargeNum={chargeNum}
-        partSubscribe={partSubscribe}
+        partSubscribe={partSubscribe!}
       />
     ),
     // 스텝 2
