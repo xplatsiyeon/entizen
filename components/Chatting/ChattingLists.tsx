@@ -200,6 +200,11 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
       setState({ ...state, [anchor]: open });
     };
 
+  // 페이지 이동시 스크롤 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [router.query.chattingRoomIdx]);
+
   return (
     <Body className="chatt-body" chattingRoom={Boolean(chattingRoom)}>
       <Header>

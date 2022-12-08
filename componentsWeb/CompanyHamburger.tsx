@@ -55,23 +55,10 @@ const CompanyHamburger = ({ anchor, toggleDrawer, setState, state }: Props) => {
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState(false);
 
-  // 채팅방 제휴문의 보내기
-  const [text, setText] = useState('');
-  const [index, setIndex] = useState<number>(0);
-  const keyword = useDebounce(text, 2000);
-
-  const TabListEn = ['all', 'unread', 'favorite'];
-
   // 제휴문의 채팅방 보내기
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
-    () =>
-      isTokenGetApi(
-        `/chatting?searchKeyword=${keyword}&filter=${TabListEn[index]}`,
-      ),
-    {
-      enabled: false,
-    },
+    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
   );
 
   const chattingRoomIdx =
