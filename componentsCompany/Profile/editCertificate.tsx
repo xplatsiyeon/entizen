@@ -139,6 +139,7 @@ const EditCertificate = ({ setComponent }: Props) => {
       }
     }
   }; // 이미지 or 파일 클릭
+
   const handleOnClick = () => {
     if (!imgPreview && !filePreview) {
       console.log('처음 클릭');
@@ -219,7 +220,7 @@ const EditCertificate = ({ setComponent }: Props) => {
             ref={fileRef}
             className="imageClick"
             type="file"
-            accept="xlsx"
+            accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
             onChange={saveFileImage}
             multiple
           />
