@@ -27,9 +27,7 @@ const WebFooter = () => {
             </Link>
             <li>
               <IconBox
-                onClick={() =>
-                  window.open('https://www.instagram.com/entizen.ev/')
-                }
+                onClick={() => window.open('https://instagram.com/entizen.ev/')}
                 style={{
                   cursor: 'pointer',
                 }}

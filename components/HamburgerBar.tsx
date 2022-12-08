@@ -156,7 +156,7 @@ const HambuguerBar = (anchor: string) => {
               <span
                 onClick={() =>
                   window.open(
-                    'https://www.instagram.com/entizen.ev/',
+                    'https://instagram.com/entizen.ev/',
                     'entizen_Instagram',
                   )
                 }
@@ -167,7 +167,7 @@ const HambuguerBar = (anchor: string) => {
               <span
                 onClick={() =>
                   window.open(
-                    'https://www.post.naver.com/entizen_ev',
+                    'https://post.naver.com/entizen_ev',
                     'entizen_post',
                   )
                 }

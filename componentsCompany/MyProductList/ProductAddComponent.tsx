@@ -32,7 +32,7 @@ import Loader from 'components/Loader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
-
+import ReactLoading from 'react-loading';
 export interface ImgFile {
   originalName: string;
   size: number;
@@ -385,16 +385,6 @@ const ProductAddComponent = (props: Props) => {
         } = item;
         return newArr;
       });
-
-      // preProduct?.chargerCatalogFiles.map(
-      //   (catalog: any) => {
-      //     delete catalog.createdAt;
-      //     delete catalog.productFileType;
-      //     delete catalog.chargerProductIdx;
-      //     delete catalog.chargerProductFileIdx;
-      //     return catalog;
-      //   },
-      // );
       setModelName(preProduct?.modelName);
       setChargerType(convertKo(M5_LIST, M5_LIST_EN, preProduct?.kind));
       setChargingChannel(convertKo(M7_LIST, M7_LIST_EN, preProduct?.channel));
@@ -404,7 +394,7 @@ const ProductAddComponent = (props: Props) => {
       setImgArr(chargerImg);
       setFileArr(chargerCatalog);
     }
-  }, [routerId]);
+  }, [routerId, detailData]);
   // 테스트 useEffect
   useEffect(() => {
     validFn([
@@ -466,7 +456,7 @@ const ProductAddComponent = (props: Props) => {
                 required
               />
             </InputBox>
-            {/* test */}
+            {/* 충전기 종류 */}
             <LabelBox>
               <RequiredLabel>충전기 종류</RequiredLabel>
             </LabelBox>
@@ -477,27 +467,6 @@ const ProductAddComponent = (props: Props) => {
               value={chargerType}
               onClickCharger={onChangeSelectBox}
             />
-            {/* 충전기 종류 */}
-            {/* <InputBox>
-          <SelectBox
-            value={chargerType || ''}
-            placeholder="충전기 종류"
-            name="kind"
-            onChange={(e) => onChangeSelectBox(e)}
-            IconComponent={SelectIcon}
-            displayEmpty
-          >
-            <MenuItem value="">
-              <Placeholder>충전기 종류</Placeholder>
-            </MenuItem>
-            {M5_LIST.map((el, index) => (
-              <MenuItem key={index} value={el}>
-                {el}
-              </MenuItem>
-            ))}
-          </SelectBox>
-        </InputBox> */}
-
             {/* 충전 채널 */}
             <LabelBox>
               <RequiredLabel>충전 채널</RequiredLabel>
@@ -580,118 +549,126 @@ const ProductAddComponent = (props: Props) => {
               />
             </InputBox>
             {/* 사진 첨부 부분 */}
-            <RemainderInputBox>
-              <Label>충전기 이미지</Label>
-              <PhotosBox>
-                <AddPhotos onClick={imgHandler}>
-                  <Image src={camera} alt="" />
-                </AddPhotos>
-                <input
-                  style={{ display: 'none' }}
-                  ref={imgRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={saveFileImage}
-                  multiple
-                />
-                {/* <Preview> */}
-                {imgArr?.map((img, index) => (
-                  <ImgSpan key={index} data-name={index}>
-                    <Image
-                      layout="fill"
-                      alt="preview"
-                      data-name={index}
-                      key={index}
-                      src={img.url}
-                      priority={true}
-                      unoptimized={true}
-                    />
-                    <Xbox onClick={handlePhotoDelete} data-name={index}>
+            {multerImageLoading ? (
+              <Loader type="images" />
+            ) : (
+              <RemainderInputBox>
+                <Label>충전기 이미지</Label>
+                <PhotosBox>
+                  <AddPhotos onClick={imgHandler}>
+                    <Image src={camera} alt="" />
+                  </AddPhotos>
+                  <input
+                    style={{ display: 'none' }}
+                    ref={imgRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={saveFileImage}
+                    multiple
+                  />
+                  {/* <Preview> */}
+                  {imgArr?.map((img, index) => (
+                    <ImgSpan key={index} data-name={index}>
                       <Image
-                        src={CloseImg}
+                        layout="fill"
+                        alt="preview"
                         data-name={index}
-                        layout="intrinsic"
-                        alt="closeBtn"
-                        width={24}
-                        height={24}
+                        key={index}
+                        src={img.url}
+                        priority={true}
+                        unoptimized={true}
                       />
-                    </Xbox>
-                  </ImgSpan>
-                ))}
-                {/* </Preview> */}
-              </PhotosBox>
-            </RemainderInputBox>
-            {/* 파일 부분 */}
-            <RemainderInputBoxs>
-              <PhotosBoxs>
-                <Form>
-                  <label>충전기 카탈로그</label>
-                  <div>
-                    <File onClick={handleFileClick}>
-                      <Image src={AddImg} alt="img" />
-                      <div>파일 업로드</div>
-                    </File>
-                  </div>
-                </Form>
-                {/* 파일 input */}
-                <input
-                  style={{ display: 'none' }}
-                  ref={fileRef}
-                  className="imageClick"
-                  type="file"
-                  accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
-                  onChange={saveFile}
-                  multiple
-                />
-
-                {/* <File_Preview> */}
-                <div className="file-preview">
-                  {fileArr?.map((item, index) => (
-                    <FileBox key={index} data-name={index}>
-                      <div className="file">
-                        <div className="file-img">
-                          <Image src={FileText} alt="file-icon" />
-                        </div>
-                        <div className="file-data">
-                          <FileName>{item.originalName}</FileName>
-                          <span className="file-size">{`용량 ${getByteSize(
-                            item.size,
-                          )}`}</span>
-                        </div>
-                        <div
-                          className="file-exit"
-                          onClick={handleFileDelete}
+                      <Xbox onClick={handlePhotoDelete} data-name={index}>
+                        <Image
+                          src={CloseImg}
                           data-name={index}
-                        >
-                          <Image
-                            src={CloseImg}
-                            data-name={index}
-                            alt="closeBtn"
-                          />
-                        </div>
-                      </div>
-                    </FileBox>
+                          layout="intrinsic"
+                          alt="closeBtn"
+                          width={24}
+                          height={24}
+                        />
+                      </Xbox>
+                    </ImgSpan>
                   ))}
-                </div>
-                {routerId ? (
-                  <WebBtn
-                    buttonActivate={isValid}
-                    tabNumber={0}
-                    onClick={onClickPutBtn}
-                  >
-                    정보 수정하기
-                  </WebBtn>
-                ) : (
-                  <WebBtn
-                    buttonActivate={isValid}
-                    tabNumber={0}
-                    onClick={buttonOnClick}
-                  >
-                    제품 등록하기
-                  </WebBtn>
-                )}
-              </PhotosBoxs>
-            </RemainderInputBoxs>
+                  {/* </Preview> */}
+                </PhotosBox>
+              </RemainderInputBox>
+            )}
+            {/* 파일 부분 */}
+            {multerFileLoading ? (
+              <Loader type="images" />
+            ) : (
+              <RemainderInputBoxs>
+                <PhotosBoxs>
+                  <Form>
+                    <label>충전기 카탈로그</label>
+                    <div>
+                      <File onClick={handleFileClick}>
+                        <Image src={AddImg} alt="img" />
+                        <div>파일 업로드</div>
+                      </File>
+                    </div>
+                  </Form>
+                  {/* 파일 input */}
+                  <input
+                    style={{ display: 'none' }}
+                    ref={fileRef}
+                    className="imageClick"
+                    type="file"
+                    accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
+                    onChange={saveFile}
+                    multiple
+                  />
+
+                  {/* <File_Preview> */}
+                  <div className="file-preview">
+                    {fileArr?.map((item, index) => (
+                      <FileBox key={index} data-name={index}>
+                        <div className="file">
+                          <div className="file-img">
+                            <Image src={FileText} alt="file-icon" />
+                          </div>
+                          <div className="file-data">
+                            <FileName>{item.originalName}</FileName>
+                            <span className="file-size">{`용량 ${getByteSize(
+                              item.size,
+                            )}`}</span>
+                          </div>
+                          <div
+                            className="file-exit"
+                            onClick={handleFileDelete}
+                            data-name={index}
+                          >
+                            <Image
+                              src={CloseImg}
+                              data-name={index}
+                              alt="closeBtn"
+                            />
+                          </div>
+                        </div>
+                      </FileBox>
+                    ))}
+                  </div>
+                  {routerId ? (
+                    <WebBtn
+                      buttonActivate={isValid}
+                      tabNumber={0}
+                      onClick={onClickPutBtn}
+                    >
+                      정보 수정하기
+                    </WebBtn>
+                  ) : (
+                    <WebBtn
+                      buttonActivate={isValid}
+                      tabNumber={0}
+                      onClick={buttonOnClick}
+                    >
+                      제품 등록하기
+                    </WebBtn>
+                  )}
+                </PhotosBoxs>
+              </RemainderInputBoxs>
+            )}
           </InputContainer>
           <WebHide>
             {routerId ? (
@@ -724,12 +701,14 @@ const WebBody = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
+  }
+  @media (max-width: 899.25pt) {
+    background: ${colors.lightWhite};
   }
 `;
 
@@ -1202,4 +1181,5 @@ const WebHide = styled.div`
     display: none;
   }
 `;
+
 export default ProductAddComponent;
