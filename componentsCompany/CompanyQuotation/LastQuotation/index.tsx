@@ -171,7 +171,7 @@ const LastWrite = (props: Props) => {
       setSubscribePricePerMonth(preQuotation.subscribePricePerMonth.toString());
       setConstructionPeriod(preQuotation.constructionPeriod.toString());
       setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
-      setSubscribeProductFeature(preQuotation.subscribeProductFeature);
+      setSubscribeProductFeature((preQuotation.subscribeProductFeature?preQuotation.subscribeProductFeature:''));
       setBusinessRegistration(relocation(businessRegistrationFiles));
       let count = 0;
       const arr = [];

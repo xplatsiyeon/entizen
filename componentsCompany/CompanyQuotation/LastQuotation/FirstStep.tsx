@@ -86,6 +86,7 @@ const FirstStep = ({
 }: Props) => {
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
+
     let copy: chargers[] = [...selectedOption];
     let copyEn: chargers[] = [...selectedOptionEn];
 

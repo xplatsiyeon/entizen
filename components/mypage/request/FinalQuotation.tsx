@@ -5,7 +5,10 @@ import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import React, { useCallback } from 'react';
-import { PreQuotationResponse } from 'pages/mypage/request/detail';
+import {
+  FinalQuotations,
+  PreQuotationResponse,
+} from 'pages/mypage/request/detail';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import {
   location,
@@ -21,19 +24,24 @@ import {
 } from 'assets/selectList';
 import ManagerInfo from './ManagerInfo';
 import { log } from 'console';
+import { PreQuotations } from 'pages/mypage/request';
 
 interface Props {
   pb?: number;
-  data?: PreQuotationResponse;
+  // data?: PreQuotationResponse;
+  data?: PreQuotations;
   isSpot?: boolean;
 }
+
 const TAG = 'components/mypage/request/FinalQuotation.tsx';
 const FinalQuotation = ({ pb, data, isSpot }: Props) => {
   console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
   console.log(data);
-  console.log('구매자 자율', data?.preQuotation);
+  // console.log('구매자 자율', data?.preQuotation);
 
-  const finalQuotation = data?.preQuotation?.finalQuotation;
+  data?.finalQuotation;
+  // const finalQuotation = data?.preQuotation?.finalQuotation;
+  const finalQuotation = data?.finalQuotation;
   return (
     <Wrapper>
       {data?.companyMemberAdditionalInfo?.companyLogoImageUrl! !== '' ? (
@@ -318,7 +326,11 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
         <Subtitle>파트너 정보</Subtitle>
         <div className="text-box">
           <span className="name">담당자</span>
-          <span className="text">{data?.preQuotation?.member?.name}</span>
+          {/* <span className="text">{data?.preQuotation?.member?.name}</span> */}
+          {/* {'-------------------바꿔야됨------------------'} */}
+          <span className="text">
+            {data?.companyMemberAdditionalInfo?.companyName}
+          </span>
         </div>
         <div className="text-box">
           <span className="name">이메일</span>
@@ -329,7 +341,9 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
         <div className="text-box">
           <span className="name">전화번호</span>
           <span className="text phone">
-            {data?.preQuotation?.member?.phone}
+            {/* {data?.preQuotation?.member?.phone} */}
+            {/* {'------------------바꿔야됨-------------------'} */}
+            {data?.companyMemberAdditionalInfo.managerEmail}
           </span>
         </div>
       </Contents>

@@ -24,9 +24,6 @@ interface Props {
 }
 const TAG = 'components/mypage/request/BiddingQuote.tsx';
 const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
-  console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
-  console.log(data);
-
   const [chargeIdx, setChargeIdx] = useState<number>(0);
   const [webIdx, setWebIdx] = useState<number>(0);
   const [rightUrl, setRightUrl] = useState<string>();
