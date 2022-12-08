@@ -420,7 +420,8 @@ const Mypage1_3 = ({}: any) => {
                             onClick={() =>
                               onClickConfirm(
                                 1,
-                                'Charge Point로\n확정하시겠습니까?',
+                                `${quotationData?.companyMemberAdditionalInfo
+                                  ?.companyName!}로\n확정하시겠습니까?`,
                               )
                             }
                           >
