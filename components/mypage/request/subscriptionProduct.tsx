@@ -64,14 +64,17 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
             key={index}
             onClick={() => onClickCompany(company, index)}
           >
-            {company?.companyMemberAdditionalInfo?.companyLogoImageUrl !==
-            '' ? (
+            {company?.member?.companyMemberAdditionalInfo
+              ?.companyLogoImageUrl !== '' ? (
               <div className="img-box">
                 <Image
                   src={
-                    company?.companyMemberAdditionalInfo?.companyLogoImageUrl
+                    company?.member?.companyMemberAdditionalInfo
+                      ?.companyLogoImageUrl
                   }
-                  alt={company?.companyMemberAdditionalInfo?.companyName}
+                  alt={
+                    company?.member?.companyMemberAdditionalInfo?.companyName
+                  }
                   priority={true}
                   unoptimized={true}
                   layout="fill"
@@ -81,7 +84,7 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
               <NoImage />
             )}
 
-            <h2>{company?.companyMemberAdditionalInfo?.companyName}</h2>
+            <h2>{company?.member?.companyMemberAdditionalInfo?.companyName}</h2>
             <p>구독료</p>
             <PriceBox>
               <h1>
