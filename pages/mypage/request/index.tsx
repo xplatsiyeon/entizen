@@ -95,7 +95,7 @@ const Mypage1_3 = ({}: any) => {
   const [partnerModal, setPartnerModal] = useState(false);
   const [modalNumber, setModalNumber] = useState(-1);
   const [modalMessage, setModalMessage] = useState('');
-  const [isFinalItmeIndex, setIsFinalItmeIndex] = useState<number>(-2);
+  const [isFinalItmeIndex, setIsFinalItmeIndex] = useState<number>(-1);
   //----------- 구매자 내견적 상세 조회 API ------------
   const { data, isError, isLoading, refetch } =
     useQuery<QuotationRequestsResponse>(
@@ -272,8 +272,6 @@ const Mypage1_3 = ({}: any) => {
           currentInProgressPreQuotationIdx!
         ) {
           setIsFinalItmeIndex(index);
-        } else {
-          setIsFinalItmeIndex(-1);
         }
       });
     }
