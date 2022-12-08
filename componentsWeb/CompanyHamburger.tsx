@@ -2,6 +2,9 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { isTokenGetApi } from 'api';
+import { useQuery, useQueryClient } from 'react-query';
+import useDebounce from 'hooks/useDebounce';
 import Logos from 'public/images/entizenLogo.png';
 import Ring from 'public/images/guide-bell.svg';
 import Hamburger from 'public/images/list-bar.svg';
@@ -24,6 +27,7 @@ import { myEstimateAction } from 'storeCompany/myQuotation';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 
 type Props = {
   anchor: string;
@@ -41,7 +45,7 @@ type Props = {
   };
 };
 
-const CompanyHamburger = ({ anchor }: Props) => {
+const CompanyHamburger = ({ anchor, toggleDrawer, setState, state }: Props) => {
   const router = useRouter();
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
@@ -50,22 +54,29 @@ const CompanyHamburger = ({ anchor }: Props) => {
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState(false);
-  const [state, setState] = useState({
-    right: false,
-  });
-  const toggleDrawer =
-    (anchor: string, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
 
-      setState({ ...state, [anchor]: open });
-    };
+  // 채팅방 제휴문의 보내기
+  const [text, setText] = useState('');
+  const [index, setIndex] = useState<number>(0);
+  const keyword = useDebounce(text, 2000);
+
+  const TabListEn = ['all', 'unread', 'favorite'];
+
+  // 제휴문의 채팅방 보내기
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () =>
+      isTokenGetApi(
+        `/chatting?searchKeyword=${keyword}&filter=${TabListEn[index]}`,
+      ),
+    {
+      enabled: false,
+    },
+  );
+
+  const chattingRoomIdx =
+    data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
+
   useEffect(() => {
     dispatch(myEstimateAction.reset());
     localStorage.removeItem('key');
@@ -101,7 +112,7 @@ const CompanyHamburger = ({ anchor }: Props) => {
           >
             <Image src={Nut} alt="NutBtn" />
           </Imagewrap>
-          <Imagewrap>
+          <Imagewrap onClick={toggleDrawer(anchor, false)}>
             <Image src={xBtn} alt="xBtn" />
           </Imagewrap>
         </XBtnWrapper>
@@ -152,7 +163,7 @@ const CompanyHamburger = ({ anchor }: Props) => {
             </span>
             <span>소통하기</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+          <WhiteAreaMenus onClick={() => router.push('/company/as?id=0')}>
             <span>
               <Image src={hamburgerAs} alt="A/S" />
             </span>
@@ -160,7 +171,9 @@ const CompanyHamburger = ({ anchor }: Props) => {
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID ? router.push('/mypage') : router.push('/signin')
+              userID
+                ? router.push('/company/mypage?id=0')
+                : router.push('/signin')
             }
           >
             <span>
@@ -189,7 +202,7 @@ const CompanyHamburger = ({ anchor }: Props) => {
               borderTop: '1px solid #E2E5ED',
             }}
           />
-          <WhiteAreaMenus onClick={() => alert('2차 작업페이지입니다.')}>
+          <WhiteAreaMenus onClick={() => router.push('/alarm?id=1')}>
             <span>공지사항</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus
@@ -199,7 +212,17 @@ const CompanyHamburger = ({ anchor }: Props) => {
           >
             <span>알림 설정</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 페이지 입니다.')}>
+          <WhiteAreaMenus
+            onClick={() =>
+              router.push({
+                pathname: `/chatting/chattingRoom`,
+                query: {
+                  chattingRoomIdx: chattingRoomIdx,
+                  entizen: true,
+                },
+              })
+            }
+          >
             <span>1:1 문의</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => router.push('/faq')}>

@@ -66,6 +66,13 @@ const Alam = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list, arr, isScroll, isLoading, onIntersect]);
 
+  useEffect(() => {
+    if (router.query.id) {
+      const num = Number(router.query.id);
+      setTab(num);
+    }
+  }, [router.query.id]);
+
   return (
     <WebBody>
       {memberType === 'COMPANY' ? (
@@ -116,7 +123,15 @@ const Alam = () => {
                 idx={index.toString()}
                 className="tab-item"
                 key={index}
-                onClick={() => tabHandler(index)}
+                onClick={() => {
+                  tabHandler(index);
+                  router.push({
+                    pathname: '/alarm',
+                    query: {
+                      id: index,
+                    },
+                  });
+                }}
               >
                 {text}
                 {tab === index && <Line />}
