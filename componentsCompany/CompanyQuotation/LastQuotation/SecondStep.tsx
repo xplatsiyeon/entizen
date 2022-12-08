@@ -513,7 +513,7 @@ const SecondStep = ({
           <SelectContainer>
             <SelectComponents
               value={selectedOptionEn[tabNumber - 1].modelName}
-              placeholder="구충전기 종류"
+              placeholder="등록된 제품을 업로드해주세요"
               productOption={productData?.chargerProduct!}
               onClickProject={onChangeSelectBox}
             />
