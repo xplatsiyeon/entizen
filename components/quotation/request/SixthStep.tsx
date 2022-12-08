@@ -156,7 +156,7 @@ const SixthStep = ({ setTabNumber }: Props) => {
           <GridItem
             clicked={clicked.toString()}
             index={index.toString()}
-            key={item.id}
+            key={index}
             onClick={() => handlePurposeOnClick(index)}
           >
             <Image

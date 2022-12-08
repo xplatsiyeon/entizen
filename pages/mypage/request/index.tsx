@@ -39,7 +39,30 @@ export interface CompanyMemberAdditionalInfo {
   managerEmail: string;
   memberIdx: number;
 }
-
+export interface Member {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
+  memberIdx: number;
+  memberType: string;
+  name: string;
+  phone: string;
+  id: string;
+  isAdminJoinApproved: true;
+  profileImageUrl: string;
+  companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
+  // {
+  //   createdAt: string;
+  //   companyMemberAdditionalInfoIdx: number;
+  //   companyLogoImageUrl: string;
+  //   companyName: string;
+  //   companyAddress: string;
+  //   companyDetailAddress: string;
+  //   companyZipCode: string;
+  //   managerEmail: string;
+  //   memberIdx: number;
+  // };
+}
 export interface PreQuotations {
   createdAt: string;
   preQuotationIdx: number;
@@ -50,8 +73,8 @@ export interface PreQuotations {
   changedDate: string;
   quotationRequestIdx: number;
   memberIdx: number;
-  companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
   finalQuotation: FinalQuotations;
+  member: Member;
 }
 export interface QuotationRequestChargers {
   createdAt: string;
@@ -127,13 +150,6 @@ const Mypage1_3 = ({}: any) => {
     },
   );
 
-  useEffect(() => {
-    if (routerId && data?.quotationRequest?.currentInProgressPreQuotationIdx) {
-      refetch();
-      quotationRefetch();
-    }
-  }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
-
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
@@ -157,8 +173,9 @@ const Mypage1_3 = ({}: any) => {
   const { mutate: otherPatchMutate, isLoading: otherPatchLoading } =
     useMutation(isTokenPatchApi, {
       onSuccess: () => {
-        refetch();
         setPartnerModal(false);
+        refetch();
+        setIsFinalItmeIndex(-1);
       },
       onError: (error: any) => {
         console.log('다른 파트너 선정 patch error');
@@ -204,12 +221,8 @@ const Mypage1_3 = ({}: any) => {
 
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  // 모달 왼쪽, 오른쪽 버튼 핸들러
-  const backPage = () => router.back();
-  const handleOnClick = () => {
-    setModalOpen(!modalOpen);
-  };
 
+  const handleOnClick = () => setModalOpen(!modalOpen);
   const onClickConfirm = (num: number, contents: string) => {
     setModalNumber(num);
     setPartnerModal(true);
@@ -219,46 +232,36 @@ const Mypage1_3 = ({}: any) => {
    * 다른 파트너 선정 api 호출 함수
    */
   const onClickOtherPartnerModal = () => {
-    console.log('다른 파트너 확정 버튼');
-    otherPatchMutate({
-      url: `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
-    });
+    const { currentInProgressPreQuotationIdx } = data?.quotationRequest!;
+
+    if (currentInProgressPreQuotationIdx) {
+      otherPatchMutate({
+        url: `/quotations/pre/${currentInProgressPreQuotationIdx}`,
+      });
+    } else {
+      setIsFinalItmeIndex(-1);
+      setPartnerModal(false);
+    }
   };
   /**
    * 최종견적 낙찰 확정 api 호출 함수
    */
-  const onClickConfirmModal = () => {
-    console.log('최종견적 확정 버튼');
-    const ConfirmId = data?.preQuotations?.filter(
-      (e) =>
-        e?.preQuotationIdx ===
-        data?.quotationRequest?.currentInProgressPreQuotationIdx,
-    );
-    if (ConfirmId) {
-      const finalQuotationIdx = ConfirmId[0].finalQuotation.finalQuotationIdx;
-      confirmPatchMutate({
-        url: `/quotations/final/${finalQuotationIdx}`,
-      });
-    }
-  };
+  const quotationRequestIdx = router?.query?.quotationRequestIdx!;
+  const finalItme = data?.preQuotations?.filter(
+    (e) => e.quotationRequestIdx === Number(quotationRequestIdx),
+  )[0];
+  const finalIndex = finalItme?.finalQuotation?.finalQuotationIdx!;
 
-  if (isError || spotIsError) {
-    return (
-      <Modal
-        text="다시 시도해주세요"
-        click={() => {
-          router.push('/');
-        }}
-      />
-    );
-  }
+  const onClickConfirmModal = async () => {
+    confirmPatchMutate({
+      url: `/quotations/final/${finalIndex}`,
+    });
+    // }
+  };
 
   const spotInspection = spotData?.data?.spotInspection!;
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
-
-  // console.log('데이터 확인', data);
-  // console.log('최종견적 데이터 확인', quotationData);
 
   useLayoutEffect(() => {
     const currentInProgressPreQuotationIdx =
@@ -276,14 +279,29 @@ const Mypage1_3 = ({}: any) => {
       });
     }
   }, [data]);
+  useEffect(() => {
+    if (routerId && data?.quotationRequest?.currentInProgressPreQuotationIdx) {
+      refetch();
+      quotationRefetch();
+    }
+  }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
 
   if (isLoading || spotLoading || otherPatchLoading || confirmPatchLoading) {
     return <Loader />;
   }
 
-  console.log('최종견적 인덱스 확인');
+  if (isError || spotIsError) {
+    return (
+      <Modal
+        text="다시 시도해주세요"
+        click={() => {
+          router.push('/');
+        }}
+      />
+    );
+  }
 
-  console.log(isFinalItmeIndex);
+  console.log('☃️ quotationData 데이터 확인 -293');
 
   return (
     <>
@@ -420,7 +438,8 @@ const Mypage1_3 = ({}: any) => {
                             onClick={() =>
                               onClickConfirm(
                                 1,
-                                `${quotationData?.companyMemberAdditionalInfo
+                                `${finalItme?.member
+                                  ?.companyMemberAdditionalInfo
                                   ?.companyName!}로\n확정하시겠습니까?`,
                               )
                             }

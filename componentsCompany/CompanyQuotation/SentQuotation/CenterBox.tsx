@@ -19,8 +19,8 @@ type Props = {
 const TAG = 'componentsCompany/CompanyQuotation/SentQuotation/CenterBox.tsx';
 // 날짜 정하기
 const CenterBox = ({ spotData, data }: Props) => {
-  // console.log(TAG + '🔥 ~line 33 data 확인');
-  // console.log(spotData);
+  console.log(TAG + '🔥 ~line 33 data 확인');
+  console.log(spotData);
 
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -29,7 +29,11 @@ const CenterBox = ({ spotData, data }: Props) => {
   return (
     <>
       {modalOpen && (
-        <ReplacePhotoModal isModal={modalOpen} setIsModal={setModalOpen} />
+        <ReplacePhotoModal
+          isModal={modalOpen}
+          setIsModal={setModalOpen}
+          spotData={spotData}
+        />
       )}
       <Wrapper>
         <DownArrowBox>

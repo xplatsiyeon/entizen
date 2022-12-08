@@ -85,7 +85,7 @@ const EstimateContainer = ({ data }: Props) => {
 
             {data?.quotationRequest?.quotationRequestChargers?.map(
               (item, index) => (
-                <div className="text-box" key={item.quotationRequestIdx}>
+                <div className="text-box" key={index}>
                   {index === 0 ? (
                     <span className="name">충전기 종류 및 수량</span>
                   ) : (
