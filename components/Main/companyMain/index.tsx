@@ -212,7 +212,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
             <span
               onClick={() =>
                 window.open(
-                  'https://www.instagram.com/entizen.ev/',
+                  'https://instagram.com/entizen.ev/',
                   'entizen_Instagram',
                 )
               }
@@ -221,10 +221,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
             </span>
             <span
               onClick={() =>
-                window.open(
-                  'http://www.post.naver.com/entizen_ev',
-                  'entizen_post',
-                )
+                window.open('http://post.naver.com/entizen_ev', 'entizen_post')
               }
             >
               <Image src={grayNaver} alt="네이버"></Image>
