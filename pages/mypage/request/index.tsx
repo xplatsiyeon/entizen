@@ -127,11 +127,20 @@ const Mypage1_3 = ({}: any) => {
   );
 
   useEffect(() => {
-    if (routerId && data?.quotationRequest?.currentInProgressPreQuotationIdx) {
+    if (routerId) {
+     console.log('refetch');
       refetch();
-      quotationRefetch();
+      //quotationRefetch();
     }
-  }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
+  }, [routerId]);
+
+  useEffect(() => {
+    if (data?.quotationRequest?.currentInProgressPreQuotationIdx) {
+     console.log('refetch2');
+     quotationRefetch();
+    }
+  }, [data?.quotationRequest.currentInProgressPreQuotationIdx]);
+
 
 
   // ---------- 현장 실사 날짜 api ------------
@@ -259,8 +268,6 @@ const Mypage1_3 = ({}: any) => {
   const spotInspection = spotData?.data?.spotInspection!;
   const hasReceivedSpotInspectionDates =
     spotData?.data?.hasReceivedSpotInspectionDates!;
-
-  console.log('???', data);
 
   return (
     <>

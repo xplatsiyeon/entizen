@@ -30,8 +30,8 @@ const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
 const EstimateContainer = ({ data }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
 
-  console.log('⭐️ 상세 페이지 데이터 확인 ~line ' + TAG);
-  console.log(data);
+  //console.log('⭐️ 상세 페이지 데이터 확인 ~line ' + TAG);
+  //console.log(data);
 
   return (
     <Wrapper>
