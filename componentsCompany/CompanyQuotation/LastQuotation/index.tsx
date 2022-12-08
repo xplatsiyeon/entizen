@@ -171,16 +171,25 @@ const LastWrite = (props: Props) => {
       setSubscribePricePerMonth(preQuotation.subscribePricePerMonth.toString());
       setConstructionPeriod(preQuotation.constructionPeriod.toString());
       setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
-      setSubscribeProductFeature((preQuotation.subscribeProductFeature?preQuotation.subscribeProductFeature:''));
+      setSubscribeProductFeature(
+        preQuotation.subscribeProductFeature
+          ? preQuotation.subscribeProductFeature
+          : '',
+      );
       setBusinessRegistration(relocation(businessRegistrationFiles));
       let count = 0;
       const arr = [];
       const arrEn = [];
       // 충전기 부분 스텝 2~6
       while (count < quotationRequest.quotationRequestChargers.length) {
+        // console.log(preQuotation.preQuotationCharger.length - 2 - count);
+
         const quotationCharger =
           quotationRequest.quotationRequestChargers[count];
-        const preQutationCharger = preQuotation.preQuotationCharger[count];
+        const preQutationCharger =
+          preQuotation.preQuotationCharger[
+            preQuotation.preQuotationCharger.length - 1 - count
+          ];
         // 한국어값 담기
         const temp: chargers = {
           idx: M5_LIST_EN.indexOf(quotationCharger.kind),
