@@ -657,6 +657,11 @@ const SecondStep = ({
   // console.log('🔥 데이터 확인 ~line 426');
   // console.log(productData);
 
+  // 페이지 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tabNumber]);
+
   return (
     <>
       {/* 에러 모달 */}

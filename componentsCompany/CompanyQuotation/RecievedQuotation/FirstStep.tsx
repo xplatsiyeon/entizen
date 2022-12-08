@@ -74,6 +74,11 @@ const FirstStep = ({
     }
   }, [editData]);
 
+  // 페이지 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tabNumber]);
+
   return (
     <Wrapper>
       <TopStep>
