@@ -7,18 +7,12 @@ import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
-interface CalculateValue {
-  maxSubscribePricePerMonth: number;
-  maxTotalSubscribePrice: number;
-  minSubscribePricePerMonth: number;
-  minTotalSubscribePrice: number;
-}
-
 interface Props {
   value: number;
   setValue: Dispatch<SetStateAction<number>>;
   disabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
+  sliderDisable?: boolean;
   difaultValue?: number;
   subscribeNumber?: number;
   setCalculatedValue?: Dispatch<
@@ -36,6 +30,7 @@ const SliderSizes = ({
   setValue,
   disabled,
   setDisabled,
+  sliderDisable,
   difaultValue,
   setCalculatedValue,
   subscribeNumber,
@@ -43,8 +38,6 @@ const SliderSizes = ({
   const { quotationData } = useSelector((state: RootState) => state);
 
   const setPriceByRate = (target: any, rate: any, standardRate: any) => {
-    console.log(TAG + '🌈 ~line 27 rate value  ' + rate);
-    console.log(TAG + '🌈 ~line 27 target value  ' + target);
     return Math.round((target * rate) / standardRate);
   };
 
@@ -80,7 +73,6 @@ const SliderSizes = ({
         minTotalSubscribePrice: ret.minTotalSubscribePrice!,
       });
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
@@ -92,7 +84,12 @@ const SliderSizes = ({
   };
 
   return (
-    <SliderCustom width={'97%'} disabled={disabled} client={true.toString()}>
+    <SliderCustom
+      width={'97%'}
+      disabled={disabled}
+      client={true.toString()}
+      sliderDisable={sliderDisable}
+    >
       {/* 안내 메시지 */}
       {subscribeNumber === 0 && disabled && (
         <BubbleMessage>바를 움직여 주세요</BubbleMessage>
@@ -103,39 +100,54 @@ const SliderSizes = ({
         step={5} //슬라이더 증감량. => 5씩 증감
         value={value}
         onChange={handleChange}
+        disabled={sliderDisable === true ? true : false}
         defaultValue={difaultValue ? difaultValue : 50}
         // valueLabelDisplay="auto"
       />
+      {sliderDisable === true && (
+        <AlertMessage>* 홈 충전기는 수익지분과 무관한 상품입니다.</AlertMessage>
+      )}
+
       {/* 하단 뱃지 */}
-      <PersentBadge
-        disabled={disabled}
-        client={true.toString()}
-        persent={value / 2}
-      >
-        {`${value}%`}
-      </PersentBadge>
-      <PersentBadge
-        disabled={disabled}
-        client={false.toString()}
-        persent={value + (100 - value) / 2}
-      >
-        {`${100 - value}%`}
-      </PersentBadge>
+      {!sliderDisable! && (
+        <>
+          <PersentBadge
+            disabled={disabled}
+            client={true.toString()}
+            persent={value / 2}
+          >
+            {`${value}%`}
+          </PersentBadge>
+          <PersentBadge
+            disabled={disabled}
+            client={false.toString()}
+            persent={value + (100 - value) / 2}
+          >
+            {`${100 - value}%`}
+          </PersentBadge>
+        </>
+      )}
     </SliderCustom>
   );
 };
 
 export default SliderSizes;
 
-const SliderCustom = styled(Box)<{ disabled: boolean; client: string }>`
+const SliderCustom = styled(Box)<{
+  disabled: boolean;
+  client: string;
+  sliderDisable?: boolean;
+}>`
   position: relative;
   padding-top: 6pt;
   padding-bottom: 10.5pt;
+  width: 100%;
 
   .MuiSlider-root {
     color: ${colors.gray};
     border-radius: 2px;
-    width: 100%;
+    margin-left: 18pt;
+    width: calc(100% - 36pt);
     box-sizing: border-box;
   }
   .MuiSlider-track {
@@ -155,6 +167,18 @@ const SliderCustom = styled(Box)<{ disabled: boolean; client: string }>`
     width: 15pt;
     height: 15pt;
   }
+
+  ${({ sliderDisable }) =>
+    sliderDisable &&
+    css`
+      .MuiSlider-rail {
+        color: ${colors.gray};
+        opacity: 1;
+      }
+      .MuiSlider-track {
+        display: none;
+      }
+    `}
 `;
 const PersentBadge = styled.span<{
   persent: number;
@@ -227,4 +251,15 @@ const BubbleMessage = styled.span`
     border-width: 9pt 6pt;
     border-bottom-color: ${colors.main1};
   }
+`;
+
+const AlertMessage = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 9pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.gray2};
+  padding-top: 12pt;
 `;

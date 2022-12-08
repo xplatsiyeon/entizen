@@ -314,7 +314,7 @@ const CompanyDetailInfo = ({
             ref={fileRef}
             className="imageClick"
             type="file"
-            accept="xlsx"
+            accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
             onChange={saveFileImage}
             multiple
           />

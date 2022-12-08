@@ -31,14 +31,7 @@ const TAG = 'components/mypage/request/FinalQuotation.tsx';
 const FinalQuotation = ({ pb, data, isSpot }: Props) => {
   console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
   console.log(data);
-  console.log(
-    '충전기 카탈로그',
-    data?.preQuotation.finalQuotation.finalQuotationChargers,
-  );
-  console.log(
-    '사업자 등록증',
-    data?.preQuotation.finalQuotation.finalQuotationDetailFiles,
-  );
+  console.log('구매자 자율', data?.preQuotation);
 
   const finalQuotation = data?.preQuotation?.finalQuotation;
   return (
@@ -121,7 +114,12 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
             {/* 충전량 1개 일 때  */}
             <Item>
               <span className="name">충전요금</span>
-              <span className="value">{`${finalQuotation?.finalQuotationChargers[0]?.chargePrice} 원 / kW`}</span>
+              {finalQuotation?.finalQuotationChargers[0]?.chargePriceType! ==
+              'PURCHASER_AUTONOMY' ? (
+                <span className="value">{`${finalQuotation?.finalQuotationChargers[0]?.chargePrice} 원 / kW`}</span>
+              ) : (
+                <span className="value">구매자 자율</span>
+              )}
             </Item>
             <Item>
               <span className="name">충전기 설치 위치</span>
@@ -145,37 +143,71 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           <>
             {/* 충전량 2개 이상일 때 */}
             <MultiSection>
-              <Subtitle>충전요금</Subtitle>
+              <Subtitle2>충전요금</Subtitle2>
+              {/* 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.finalQuotationChargerIdx}>
-                  <Item>
-                    <span className="name">{item?.kind}</span>
-                    <span className="value">{`${PriceBasicCalculation(
-                      item.chargePrice,
-                    )} 원 / kW`}</span>
-                  </Item>
+                  {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
+                    <Item>
+                      <span className="name">
+                        {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                      </span>
+                      <span className="value">{`${PriceBasicCalculation(
+                        item.chargePrice,
+                      )} 원 / kW`}</span>
+                    </Item>
+                  ) : (
+                    <Item>
+                      <span className="name">
+                        {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                      </span>
+                      <span className="value">구매자 자율</span>
+                    </Item>
+                  )}
                 </MultiBox>
               ))}
             </MultiSection>
             <MultiSection>
-              <Subtitle>충전기 설치 위치</Subtitle>
+              <Subtitle2>충전기 설치 위치</Subtitle2>
+              {/* 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.finalQuotationChargerIdx}>
-                  <Item>
-                    <span className="name">{item.installationLocation}</span>
-                    <span className="value">{`${PriceBasicCalculation(
-                      item.chargePrice,
-                    )} 원 / kW`}</span>
-                  </Item>
+                  {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
+                    <Item>
+                      <span className="name">
+                        {convertKo(
+                          location,
+                          locationEn,
+                          item.installationLocation,
+                        )}
+                      </span>
+                      <span className="value">{`${PriceBasicCalculation(
+                        item.chargePrice,
+                      )} 원 / kW`}</span>
+                    </Item>
+                  ) : (
+                    <Item>
+                      <span className="name">
+                        {convertKo(
+                          location,
+                          locationEn,
+                          item.installationLocation,
+                        )}
+                      </span>
+                      <span className="value">구매자 자율</span>
+                    </Item>
+                  )}
                 </MultiBox>
               ))}
             </MultiSection>
             <MultiSection>
-              <Subtitle>충전기 제조사</Subtitle>
+              <Subtitle2>충전기 제조사</Subtitle2>
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.finalQuotationChargerIdx}>
                   <Item>
-                    <span className="name">{item?.kind}</span>
+                    <span className="name">
+                      {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                    </span>
                     <span className="value">{item?.manufacturer}</span>
                   </Item>
                 </MultiBox>
@@ -201,7 +233,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           <FeaturesList3>
             {finalQuotation?.subscribeProductFeature
               ?.split('\n')
-              .map((line,idx) => (
+              .map((line, idx) => (
                 <li key={idx}>
                   {line}
                   <br />
@@ -211,22 +243,22 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           {/* 특장점 충전기 부분 */}
         </FlexWrap>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => {
-          return(
-          <FlexWrap key={item.finalQuotationChargerIdx}>
-            <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
-            <FeaturesList>
-              {item.productFeature?
-              item.productFeature.split('\n').map((line, idx) => (
-                <li key={idx}>
-                  {line}
-                  <br />
-                </li>
-              )):''
-              }
-            </FeaturesList>
-          </FlexWrap>
-          )
-              })}
+          return (
+            <FlexWrap key={item.finalQuotationChargerIdx}>
+              <Label>{convertKo(M5_LIST, M5_LIST_EN, item?.kind)}</Label>
+              <FeaturesList>
+                {item.productFeature
+                  ? item.productFeature.split('\n').map((line, idx) => (
+                      <li key={idx}>
+                        {line}
+                        <br />
+                      </li>
+                    ))
+                  : ''}
+              </FeaturesList>
+            </FlexWrap>
+          );
+        })}
       </Section>
       <Line />
       <Section grid={true}>
@@ -339,7 +371,7 @@ const Section = styled.section<{ grid?: boolean; pb?: number }>`
   }
 `;
 const List = styled.ul`
-  margin: 30pt 0 51pt;
+  margin: 30pt 0 30pt;
   gap: 12pt;
   /* border-bottom: 0.75pt solid ${colors.lightGray}; */
   @media (max-width: 899.25pt) {
@@ -354,10 +386,13 @@ const MultiSection = styled.div`
   gap: 12pt;
 
   :nth-of-type(1) {
-    padding-bottom: 18pt;
+    /* padding-bottom: 18pt; */
     margin-top: 18pt;
     /* border-bottom: 0.75pt solid ${colors.lightGray}; */
     border-top: 0.75pt solid ${colors.lightGray};
+    @media (min-width: 900pt) {
+      margin-top: 30pt;
+    }
   }
 `;
 const MultiBox = styled.div`
@@ -429,7 +464,24 @@ const Subtitle = styled.h2`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+
   padding-bottom: 24pt;
+
+  @media (min-width: 900pt) {
+    font-size: 15pt;
+    line-height: 15pt;
+  }
+`;
+
+const Subtitle2 = styled.h2`
+  font-weight: 700;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+
+  padding-top: 24pt;
+
   @media (min-width: 900pt) {
     font-size: 15pt;
     line-height: 15pt;
@@ -726,6 +778,7 @@ const Contents = styled.div`
   .img-box {
     padding-top: 42pt;
     padding-bottom: 24pt;
+
     text-align: center;
   }
 

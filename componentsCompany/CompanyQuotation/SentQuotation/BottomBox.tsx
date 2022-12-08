@@ -99,8 +99,9 @@ const BottomBox = ({ pb, data }: Props) => {
                         {convertKo(
                           M5_LIST,
                           M5_LIST_EN,
-                          data?.sendQuotationRequest?.quotationRequest
-                            ?.quotationRequestChargers[index]?.kind,
+                          data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers.reverse()[
+                            index
+                          ]?.kind,
                         )}
                       </span>
                       <span className="value">{`${PriceBasicCalculation(
@@ -121,8 +122,9 @@ const BottomBox = ({ pb, data }: Props) => {
                         {convertKo(
                           M5_LIST,
                           M5_LIST_EN,
-                          data?.sendQuotationRequest?.quotationRequest
-                            ?.quotationRequestChargers[index]?.kind,
+                          data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers.reverse()[
+                            index
+                          ]?.kind,
                         )}
                       </span>
                       <span className="value">{item.manufacturer}</span>
@@ -158,8 +160,9 @@ const BottomBox = ({ pb, data }: Props) => {
                 {convertKo(
                   M5_LIST,
                   M5_LIST_EN,
-                  data?.sendQuotationRequest?.quotationRequest
-                    ?.quotationRequestChargers[index]?.kind,
+                  data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers.reverse()[
+                    index
+                  ]?.kind,
                 )}
               </Label>
               <FeaturesList>
@@ -360,6 +363,7 @@ const Subtitle = styled.h2`
   letter-spacing: -0.02em;
   padding: 0 15pt;
   color: ${colors.main2};
+
   @media (min-width: 900pt) {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 15pt;

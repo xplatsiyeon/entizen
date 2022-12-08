@@ -13,10 +13,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
-import {
-  PriceBasicCalculation,
-  PriceCalculation,
-} from 'utils/calculatePackage';
+import { PriceCalculation } from 'utils/calculatePackage';
 
 type Props = {};
 
@@ -34,6 +31,7 @@ const Request1_7 = (props: Props) => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [value, setValue] = useState(50);
   const [disabled, setDisabled] = useState(true);
+  const [sliderDisable, setSliderDisable] = useState(false);
   const [calculatedValue, setCalculatedValue] = useState<CalculateValue>({
     maxSubscribePricePerMonth: 0,
     maxTotalSubscribePrice: 0,
@@ -64,9 +62,6 @@ const Request1_7 = (props: Props) => {
   console.log('1-7', requestData);
   console.log('1-7', quotationData);
 
-  // (e.standType === 'WALL' || e.standType === 'STAND'),
-  console.log(quotationData.chargers.filter((e) => e.kind === '7-HOME').length);
-
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
       currentTarget: { value },
@@ -79,26 +74,13 @@ const Request1_7 = (props: Props) => {
   };
 
   useEffect(() => {
-    // 슬라이드
-    const HomeFilter = quotationData.chargers.filter(
-      (e) => e.kind === '7-HOME',
-    );
-    if (HomeFilter.length === quotationData.chargers.length) {
-      console.log('홈필터랑 충전기랑 값이 같다');
-      HomeFilter.forEach((e) => {
-        if (e.standType === 'WALL' || e.standType === 'STAND') {
-          console.log('부분구독이 있다.');
-          setDisabled(true);
-        }
-      });
+    if (requestData?.investRate === '0') {
+      setSliderDisable(true);
     } else {
-      console.log('부분구독이 없다.');
-      setDisabled(false);
       setValue(Math.floor(Number(requestData?.investRate!) * 100));
+      setSliderDisable(false);
+      setDisabled(false);
     }
-
-    // requestData ? setDisabled(false) : setDisabled(true);
-    // setValue(Math.floor(Number(requestData?.investRate!) * 100));
     setCalculatedValue({
       maxSubscribePricePerMonth: requestData?.maxSubscribePricePerMonth!,
       maxTotalSubscribePrice: requestData?.maxTotalSubscribePrice!,
@@ -162,6 +144,7 @@ const Request1_7 = (props: Props) => {
                 <span className="name">판매자</span>
               </NameBox>
               <SliderSizes
+                sliderDisable={sliderDisable}
                 difaultValue={Number(requestData?.investRate!)}
                 value={value} // 슬라이더 기본값. 기본은 50 : 50
                 setValue={setValue} //슬라이더 값 변경하는 기능.
