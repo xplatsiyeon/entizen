@@ -11,6 +11,10 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
+import { ChattingListResponse } from 'components/Chatting/ChattingLists';
+import useDebounce from 'hooks/useDebounce';
 
 export interface Contents {
   id: number;
@@ -138,7 +142,7 @@ const report: Contents[] = [
 ];
 
 const Faq = () => {
-  const route = useRouter();
+  const router = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(7);
   const [tabCompNumber, setTabCompNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
@@ -151,12 +155,22 @@ const Faq = () => {
   };
   const handleTab = (index: number) => setTabCompNumber(index);
   const leftOnClick = () => {
-    route.back();
+    router.back();
   };
   const rightOnClick = () => {
-    route.push('/');
+    router.push('/');
   };
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
+
+  // 제휴문의 채팅방 보내기
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+  );
+
+  const chattingRoomIdx =
+    data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
+  console.log('data', data);
 
   return (
     <WebBody>
@@ -208,7 +222,12 @@ const Faq = () => {
               <div>더 자세한 문의 사항은?</div>
               <Button
                 onClick={() =>
-                  /*route.push('/chatting/1')*/ alert('2차 작업 범위입니다')
+                  router.push({
+                    pathname: `/chatting/chattingRoom`,
+                    query: {
+                      chattingRoomIdx: chattingRoomIdx,
+                    },
+                  })
                 }
               >
                 <div>
@@ -343,6 +362,7 @@ const Button = styled.button`
   letter-spacing: -0.02em;
   background: #f3f4f7;
   color: ${colors.main2};
+  cursor: pointer;
 `;
 const FlexBox = styled.div`
   display: flex;
