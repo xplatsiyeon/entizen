@@ -7,17 +7,6 @@ import Ring from 'public/images/guide-bell.svg';
 import Hamburger from 'public/images/list-bar.svg';
 import { Box, Divider, Drawer } from '@mui/material';
 import colors from 'styles/colors';
-import xBtn from 'public/images/X.png';
-import whiteRight from 'public/images/whiteRight20.png';
-import simpleEstimate from 'public/images/simpleEstimate.png';
-import mypageIcon from 'public/images/mypageIcon.png';
-import guide from 'public/images/guide.png';
-import grayInsta from 'public/images/grayCircleInsta.png';
-import grayNaver from 'public/images/grayCircleNaver.png';
-import Nut from 'public/images/Nut.png';
-import Bell from 'public/images/mobBell.png';
-import myProduct from 'public/images/myProductList.png';
-import hamburgerAs from 'public/images/hamburgerAs.png';
 import Carousel from '../Carousel';
 import QuotationCenter from './QuotationCenter';
 import Footer from '../Footer';
@@ -29,6 +18,7 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import MainImageWrap from './MainImageWrap';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import CompanyHamburger from 'componentsWeb/CompanyHamburger';
 
 type Props = { num?: number; now?: string };
 
@@ -71,173 +61,6 @@ const CompanyMainPage = ({ num, now }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userID]);
 
-  // 햄버거바
-  const list = (anchor: string) => (
-    <WholeBox
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <ListBox>
-        <XBtnWrapper>
-          <Imagewrap
-            onClick={() =>
-              userID ? router.push('/alarm') : router.push('/signin')
-            }
-          >
-            <Image src={Bell} alt="bellBtn" />
-          </Imagewrap>
-          <Imagewrap
-            onClick={() =>
-              userID ? router.push('/setting') : router.push('/signin')
-            }
-          >
-            <Image src={Nut} alt="NutBtn" />
-          </Imagewrap>
-          <Imagewrap>
-            <Image src={xBtn} alt="xBtn" />
-          </Imagewrap>
-        </XBtnWrapper>
-        {isLogin ? (
-          <WhetherLoginComplete onClick={() => router.push('/company/profile')}>
-            <span onClick={() => router.push('/company/profile')}>
-              <label className="label">기업회원</label>
-              {userID}
-            </span>
-            <span
-              className="arrow-img"
-              onClick={() => router.push('/company/profile')}
-            >
-              <Image src={whiteRight} alt="arrow" layout="fill" />
-            </span>
-          </WhetherLoginComplete>
-        ) : (
-          <WhetherLogin onClick={() => router.push('/signin')}>
-            <span>로그인 해주세요</span>
-            <span>
-              <Image src={whiteRight} alt="arrow" />
-            </span>
-          </WhetherLogin>
-        )}
-
-        <WhiteArea>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID
-                ? router.push('/company/quotation')
-                : router.push('/signin')
-            }
-          >
-            <span>
-              <Image src={simpleEstimate} alt="내 견적" />
-            </span>
-            <span>내 견적</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() => {
-              isLogin
-                ? router.push('/company/chatting')
-                : router.push('/signin');
-            }}
-          >
-            <span>
-              <Image src={guide} alt="가이드" />
-            </span>
-            <span>소통하기</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
-            <span>
-              <Image src={hamburgerAs} alt="A/S" />
-            </span>
-            <span>A/S</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID ? router.push('/mypage') : router.push('/signin')
-            }
-          >
-            <span>
-              <Image src={mypageIcon} alt="내 프로젝트" />
-            </span>
-            <span>내프로젝트</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID
-                ? router.push('/company/myProductList')
-                : router.push('/signin')
-            }
-          >
-            <span>
-              <Image src={myProduct} alt="내 제품" />
-            </span>
-            <span>내 제품 리스트</span>
-          </WhiteAreaMenus>
-
-          <Divider
-            sx={{
-              width: '100%',
-              marginTop: '15pt',
-              marginBottom: '3pt',
-              borderTop: '1px solid #E2E5ED',
-            }}
-          />
-          <WhiteAreaMenus onClick={() => alert('2차 작업페이지입니다.')}>
-            <span>공지사항</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID ? router.push('/alarm/1-1') : router.push('/signin')
-            }
-          >
-            <span>알림 설정</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 페이지 입니다.')}>
-            <span>1:1 문의</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/faq')}>
-            <span>자주 묻는 질문</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
-            <span>제휴문의</span>
-          </WhiteAreaMenus>
-          <Divider
-            sx={{
-              width: '100%',
-              marginTop: '3pt',
-              borderTop: '1px solid #E2E5ED',
-            }}
-          />
-          <WhiteAreaBottomMenus>
-            <span
-              onClick={() =>
-                window.open(
-                  'https://www.instagram.com/entizen.ev/',
-                  'entizen_Instagram',
-                )
-              }
-            >
-              <Image src={grayInsta} alt="인스타"></Image>
-            </span>
-            <span
-              onClick={() =>
-                window.open(
-                  'http://www.post.naver.com/entizen_ev',
-                  'entizen_post',
-                )
-              }
-            >
-              <Image src={grayNaver} alt="네이버"></Image>
-            </span>
-          </WhiteAreaBottomMenus>
-          <WhiteAreaBottomText>
-            <span>고객센터 | 9818-8856</span>
-            <span onClick={() => router.push('/setting')}>설정</span>
-          </WhiteAreaBottomText>
-        </WhiteArea>
-      </ListBox>
-    </WholeBox>
-  );
   return (
     <>
       <Container>
@@ -267,7 +90,6 @@ const CompanyMainPage = ({ num, now }: Props) => {
             <FirstIconBox onClick={() => router.push('/alarm')}>
               <Image src={Ring} alt="alarmIcon" />
             </FirstIconBox>
-
             {(['right'] as const).map((anchor) => (
               <React.Fragment key={anchor}>
                 <HamburgerOn onClick={toggleDrawer(anchor, true)}>
@@ -281,7 +103,12 @@ const CompanyMainPage = ({ num, now }: Props) => {
                   onClose={toggleDrawer(anchor, false)}
                   // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
                 >
-                  {list(anchor)}
+                  <CompanyHamburger
+                    anchor={anchor}
+                    toggleDrawer={toggleDrawer}
+                    setState={setState}
+                    state={state}
+                  />
                 </Drawer>
               </React.Fragment>
             ))}

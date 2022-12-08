@@ -64,21 +64,6 @@ const MyProduct = (props: Props) => {
     },
   );
 
-  const DownloadFile = useCallback((name: string, url: string) => {
-    let fileName = name;
-    // let content = 'Charge Point 카탈로그_7 KW 테스트';
-    const blob = new Blob([url], {
-      type: 'text/plain',
-    });
-    const newUrl = window.URL.createObjectURL(blob);
-    const element = document.createElement('a');
-    element.href = newUrl;
-    element.download = fileName;
-    document.body.appendChild(element);
-    element.click();
-    element.remove();
-    window.URL.revokeObjectURL(newUrl);
-  }, []);
   const {
     mutate: deleteMutate,
     isLoading: deleteLoading,
@@ -229,7 +214,7 @@ const MyProduct = (props: Props) => {
                     >
                       <FileBtn>
                         <Image src={fileImg} alt="file-icon" />
-                        {file.originalName}
+                        <FileName> {file.originalName}</FileName>
                       </FileBtn>
                     </FileDownload>
                   ),
@@ -250,12 +235,15 @@ const WebBody = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   margin: 0 auto;
   background: #fcfcfc;
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
+  }
+  @media (max-width: 899.25pt) {
+    background: ${colors.lightWhite};
   }
 `;
 
@@ -482,6 +470,20 @@ const FileBtn = styled(Button)`
     margin-top: 0;
     margin-bottom: 9pt;
   }
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const FileWrap = styled.div`

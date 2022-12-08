@@ -120,8 +120,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 담당자 정보 수정하기
   const onCickBtn = () => {
     setIsTwoBtnModal(false);
-    console.log('profile',profile, key);
-  /*  if (profile?.phone.toString() === key?.phone.toString()) {
+    console.log('profile', profile, key);
+    /*  if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
         url: '/members',
         data: {
@@ -132,7 +132,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       });
       console.log('온 클릭'); 
     } */
-    if(name === key?.name){
+    if (name === key?.name) {
       changeMutate({
         url: '/members',
         data: {
@@ -141,9 +141,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           email: email,
         },
       });
-      console.log('온 클릭'); 
-    }
-      else {
+      console.log('온 클릭');
+    } else {
       setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
       setIsModal(true);
     }

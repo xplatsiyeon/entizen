@@ -5,8 +5,15 @@ import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import React, { useCallback } from 'react';
-import { PreQuotationResponse } from 'pages/mypage/request/detail';
-import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
+import {
+  FinalQuotations,
+  PreQuotationResponse,
+} from 'pages/mypage/request/detail';
+import {
+  convertKo,
+  hyphenFn,
+  PriceBasicCalculation,
+} from 'utils/calculatePackage';
 import {
   location,
   locationEn,
@@ -21,25 +28,35 @@ import {
 } from 'assets/selectList';
 import ManagerInfo from './ManagerInfo';
 import { log } from 'console';
+import { PreQuotations } from 'pages/mypage/request';
 
 interface Props {
   pb?: number;
-  data?: PreQuotationResponse;
+  // data?: PreQuotationResponse;
+  data?: PreQuotations;
   isSpot?: boolean;
 }
+
 const TAG = 'components/mypage/request/FinalQuotation.tsx';
 const FinalQuotation = ({ pb, data, isSpot }: Props) => {
   console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
   console.log(data);
-  console.log('구매자 자율', data?.preQuotation);
+  // console.log('구매자 자율', data?.preQuotation);
 
-  const finalQuotation = data?.preQuotation?.finalQuotation;
+  // console.log('부분 구독', data?.finalQuotation?.subscribeProduct);
+
+  data?.finalQuotation;
+  // const finalQuotation = data?.preQuotation?.finalQuotation;
+  const finalQuotation = data?.finalQuotation;
   return (
     <Wrapper>
-      {data?.companyMemberAdditionalInfo?.companyLogoImageUrl! !== '' ? (
+      {data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl! !==
+      '' ? (
         <ImageBox>
           <Image
-            src={data?.companyMemberAdditionalInfo?.companyLogoImageUrl!}
+            src={
+              data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl!
+            }
             alt="logo-img"
             layout="fill"
             priority={true}
@@ -50,7 +67,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
         <NoImage />
       )}
 
-      <Title>{data?.companyMemberAdditionalInfo?.companyName}</Title>
+      <Title>{data?.member?.companyMemberAdditionalInfo?.companyName}</Title>
       <List>
         <Item>
           <span className="name">구독상품</span>
@@ -66,6 +83,14 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           <span className="name">구독기간</span>
           <span className="value">{finalQuotation?.subscribePeriod} 개월</span>
         </Item>
+        {/* 부분 구독일 경우 충전소 설치비 나와야함 */}
+        {data?.finalQuotation?.subscribeProduct === 'PART' && (
+          <Item>
+            <span className="name">충전소 설치비</span>
+            <span className="value">20 원</span>
+          </Item>
+        )}
+
         <Item>
           <span className="name">월 구독료</span>
           <span className="value">
@@ -167,6 +192,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
                 </MultiBox>
               ))}
             </MultiSection>
+            <Line2 />
             <MultiSection>
               <Subtitle2>충전기 설치 위치</Subtitle2>
               {/* 2개 이상일때도 요금 구매자 자율이면 '구매자 자율'문자 반영 */}
@@ -175,15 +201,15 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
                   {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
                     <Item>
                       <span className="name">
+                        {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                      </span>
+                      <span className="value">
                         {convertKo(
                           location,
                           locationEn,
                           item.installationLocation,
                         )}
                       </span>
-                      <span className="value">{`${PriceBasicCalculation(
-                        item.chargePrice,
-                      )} 원 / kW`}</span>
                     </Item>
                   ) : (
                     <Item>
@@ -200,6 +226,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
                 </MultiBox>
               ))}
             </MultiSection>
+            <Line2 />
             <MultiSection>
               <Subtitle2>충전기 제조사</Subtitle2>
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -260,7 +287,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           );
         })}
       </Section>
-      <Line />
+
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
@@ -281,7 +308,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           ))}
         </GridImg>
       </Section>
-      <Line />
+
       <Section className="underLine" pb={pb}>
         <Subtitle>첨부 파일</Subtitle>
         {finalQuotation?.finalQuotationChargers?.map((item, index) => (
@@ -294,7 +321,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
                   href={file.url}
                 >
                   <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                  {file.originalName}
+                  <FileName>{file.originalName}</FileName>
                 </FileDownload>
               </FileDownloadBtn>
             ))}
@@ -313,24 +340,22 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
           </FileDownloadBtn>
         ))}
       </Section>
-      <Line />
+      <Line2 />
       <Contents>
         <Subtitle>파트너 정보</Subtitle>
         <div className="text-box">
           <span className="name">담당자</span>
-          <span className="text">{data?.preQuotation?.member?.name}</span>
+          <span className="text">{data?.member?.name}</span>
         </div>
         <div className="text-box">
           <span className="name">이메일</span>
           <span className="text">
-            {data?.companyMemberAdditionalInfo.managerEmail}
+            {data?.member?.companyMemberAdditionalInfo?.managerEmail}
           </span>
         </div>
         <div className="text-box">
           <span className="name">전화번호</span>
-          <span className="text phone">
-            {data?.preQuotation?.member?.phone}
-          </span>
+          <span className="text phone">{hyphenFn(data?.member?.phone!)}</span>
         </div>
       </Contents>
     </Wrapper>
@@ -464,7 +489,6 @@ const Subtitle = styled.h2`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-
   padding-bottom: 24pt;
 
   @media (min-width: 900pt) {
@@ -479,8 +503,7 @@ const Subtitle2 = styled.h2`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-
-  padding-top: 24pt;
+  /* padding-top: 24pt; */
 
   @media (min-width: 900pt) {
     font-size: 15pt;
@@ -512,10 +535,6 @@ const FlexWrap2 = styled.div`
     &:nth-of-type(2) {
       margin-top: 0;
     }
-  }
-
-  @media (min-width: 900pt) {
-    margin: 12pt 0;
   }
 `;
 const Label = styled.h3`
@@ -645,6 +664,11 @@ const FileDownload = styled.a`
 
 const Line = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
+`;
+
+const Line2 = styled.div`
+  border-bottom: 0.75pt solid #e9eaee;
+  margin-top: 18pt;
 `;
 
 const TextResult = styled.div`
@@ -796,5 +820,19 @@ const Partner = styled.div`
   letter-spacing: 0em;
   text-align: left;
   padding-bottom: 24pt;
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 export default FinalQuotation;

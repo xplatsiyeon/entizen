@@ -73,7 +73,7 @@ const Quotation1_1 = () => {
             <Body hiddenTag={hiddenTag}>
               <TabBox>
                 {Object.keys(components).map((tab, index) => (
-                  <>
+                  <React.Fragment key={index}>
                     {!hiddenTag && (
                       <TabLine
                         idx={index.toString()}
@@ -83,7 +83,7 @@ const Quotation1_1 = () => {
                         // onClick={() => setTabNumber(index)}
                       />
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
               </TabBox>
               {components[tabNumber]}

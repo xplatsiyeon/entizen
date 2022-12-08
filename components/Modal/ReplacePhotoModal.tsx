@@ -7,16 +7,34 @@ import colors from 'styles/colors';
 import CheckIcon from 'public/images/check-small.png';
 import CheckCircleOn from 'public/images/CheckCircle-on.png';
 import Image from 'next/image';
+import { useMutation } from 'react-query';
+import { isTokenPostApi } from 'api';
+import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
 
 type Props = {
   isModal: boolean;
   setIsModal: Dispatch<SetStateAction<boolean>>;
+  spotData: SpotDataResponse;
 };
 
-const ReplacePhotoModal = ({ isModal, setIsModal }: Props) => {
+const ReplacePhotoModal = ({ spotData, isModal, setIsModal }: Props) => {
   const router = useRouter();
+  const preQuotationIdx = router?.query?.preQuotationIdx;
   const dispatch = useDispatch();
   const outside = useRef();
+
+  // api/quotations/pre/:preQuotationIdx/spot-inspection
+
+  const { mutate: isReplacedMutate, isLoading: isReplacedLoading } =
+    useMutation(isTokenPostApi, {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+      onError: (error) => {
+        console.log('에러 발생');
+        console.log(error);
+      },
+    });
 
   const handleModalClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -26,7 +44,20 @@ const ReplacePhotoModal = ({ isModal, setIsModal }: Props) => {
     }
   };
 
-  const HandleButton = () => {};
+  const HandleButton = () => {
+    console.log('온클릭');
+    isReplacedMutate({
+      url: `/quotations/pre/${preQuotationIdx}/spot-inspection`,
+      data: {
+        // 현장 실사 받은 날짜 그대로
+        spotInspectionDates:
+          spotData?.data?.spotInspection?.spotInspectionDate!,
+        isReplacedPicture: true,
+        isNewPropose: false,
+        isConfirmed: true,
+      },
+    });
+  };
 
   return (
     <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>

@@ -3,12 +3,22 @@ import { memo } from 'react';
 import ReactLoading from 'react-loading';
 import colors from 'styles/colors';
 
-const Loader = () => {
-  return (
-    <LoaderWrap>
-      <Container>
+type Props = {
+  type?: string | 'images';
+};
+
+const Loader = ({ type }: Props) => {
+  if (type === 'images') {
+    return (
+      <LoaderBox>
         <ReactLoading type="spin" color={colors.main} />
-      </Container>
+      </LoaderBox>
+    );
+  }
+
+  return (
+    <LoaderWrap className={type ? 'images' : ''}>
+      <ReactLoading type="spin" color={colors.main} />
     </LoaderWrap>
   );
 };
@@ -22,6 +32,17 @@ const LoaderWrap = styled.div`
   z-index: 999;
   height: 100vh;
   width: 100vw;
-  /* background-color: red; */
+  .images {
+    border: 1px solid red;
+    background-color: red;
+    width: 100%;
+    height: 100%;
+  }
 `;
-const Container = styled.div``;
+
+const LoaderBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15pt auto;
+`;

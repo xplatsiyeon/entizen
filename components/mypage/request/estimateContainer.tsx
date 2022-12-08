@@ -30,9 +30,6 @@ const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
 const EstimateContainer = ({ data }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
 
-  //console.log('⭐️ 상세 페이지 데이터 확인 ~line ' + TAG);
-  //console.log(data);
-
   return (
     <Wrapper>
       <Badge color={HandleUserColor(data?.badge)}>{data?.badge}</Badge>
@@ -81,7 +78,7 @@ const EstimateContainer = ({ data }: Props) => {
 
             {data?.quotationRequest?.quotationRequestChargers?.map(
               (item, index) => (
-                <div className="text-box" key={item.quotationRequestIdx}>
+                <div className="text-box" key={index}>
                   {index === 0 ? (
                     <span className="name">충전기 종류 및 수량</span>
                   ) : (

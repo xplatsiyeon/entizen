@@ -3,7 +3,7 @@ import EstimateContainer from 'components/mypage/request/estimateContainer';
 import MypageHeader from 'components/mypage/request/header';
 import SubscriptionProduct from 'components/mypage/request/subscriptionProduct';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CommunicationBox from 'components/CommunicationBox';
 import WebHeader from 'componentsWeb/WebHeader';
@@ -39,7 +39,30 @@ export interface CompanyMemberAdditionalInfo {
   managerEmail: string;
   memberIdx: number;
 }
-
+export interface Member {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
+  memberIdx: number;
+  memberType: string;
+  name: string;
+  phone: string;
+  id: string;
+  isAdminJoinApproved: true;
+  profileImageUrl: string;
+  companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
+  // {
+  //   createdAt: string;
+  //   companyMemberAdditionalInfoIdx: number;
+  //   companyLogoImageUrl: string;
+  //   companyName: string;
+  //   companyAddress: string;
+  //   companyDetailAddress: string;
+  //   companyZipCode: string;
+  //   managerEmail: string;
+  //   memberIdx: number;
+  // };
+}
 export interface PreQuotations {
   createdAt: string;
   preQuotationIdx: number;
@@ -50,8 +73,8 @@ export interface PreQuotations {
   changedDate: string;
   quotationRequestIdx: number;
   memberIdx: number;
-  companyMemberAdditionalInfo: CompanyMemberAdditionalInfo;
   finalQuotation: FinalQuotations;
+  member: Member;
 }
 export interface QuotationRequestChargers {
   createdAt: string;
@@ -95,6 +118,7 @@ const Mypage1_3 = ({}: any) => {
   const [partnerModal, setPartnerModal] = useState(false);
   const [modalNumber, setModalNumber] = useState(-1);
   const [modalMessage, setModalMessage] = useState('');
+  const [isFinalItmeIndex, setIsFinalItmeIndex] = useState<number>(-1);
   //----------- 구매자 내견적 상세 조회 API ------------
   const { data, isError, isLoading, refetch } =
     useQuery<QuotationRequestsResponse>(
@@ -111,7 +135,7 @@ const Mypage1_3 = ({}: any) => {
     data: quotationData,
     isLoading: quotationLoading,
     isError: quotationError,
-    refetch : quotationRefetch,
+    refetch: quotationRefetch,
     error,
   } = useQuery<PreQuotationResponse, AxiosError>(
     'pre-quotation',
@@ -166,8 +190,9 @@ const Mypage1_3 = ({}: any) => {
   const { mutate: otherPatchMutate, isLoading: otherPatchLoading } =
     useMutation(isTokenPatchApi, {
       onSuccess: () => {
-        refetch();
         setPartnerModal(false);
+        refetch();
+        setIsFinalItmeIndex(-1);
       },
       onError: (error: any) => {
         console.log('다른 파트너 선정 patch error');
@@ -213,12 +238,8 @@ const Mypage1_3 = ({}: any) => {
 
   // 모달 on / off
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  // 모달 왼쪽, 오른쪽 버튼 핸들러
-  const backPage = () => router.back();
-  const handleOnClick = () => {
-    setModalOpen(!modalOpen);
-  };
 
+  const handleOnClick = () => setModalOpen(!modalOpen);
   const onClickConfirm = (num: number, contents: string) => {
     setModalNumber(num);
     setPartnerModal(true);
@@ -228,28 +249,63 @@ const Mypage1_3 = ({}: any) => {
    * 다른 파트너 선정 api 호출 함수
    */
   const onClickOtherPartnerModal = () => {
-    console.log('다른 파트너 확정 버튼');
-    otherPatchMutate({
-      url: `/quotations/pre/${data?.quotationRequest?.currentInProgressPreQuotationIdx}`,
-    });
+    const { currentInProgressPreQuotationIdx } = data?.quotationRequest!;
+
+    if (currentInProgressPreQuotationIdx) {
+      otherPatchMutate({
+        url: `/quotations/pre/${currentInProgressPreQuotationIdx}`,
+      });
+    } else {
+      setIsFinalItmeIndex(-1);
+      setPartnerModal(false);
+    }
   };
   /**
    * 최종견적 낙찰 확정 api 호출 함수
    */
-  const onClickConfirmModal = () => {
-    console.log('최종견적 확정 버튼');
-    const ConfirmId = data?.preQuotations?.filter(
-      (e) =>
-        e?.preQuotationIdx ===
-        data?.quotationRequest?.currentInProgressPreQuotationIdx,
-    );
-    if (ConfirmId) {
-      const finalQuotationIdx = ConfirmId[0].finalQuotation.finalQuotationIdx;
-      confirmPatchMutate({
-        url: `/quotations/final/${finalQuotationIdx}`,
+  const quotationRequestIdx = router?.query?.quotationRequestIdx!;
+  const finalItme = data?.preQuotations?.filter(
+    (e) => e.quotationRequestIdx === Number(quotationRequestIdx),
+  )[0];
+  const finalIndex = finalItme?.finalQuotation?.finalQuotationIdx!;
+
+  const onClickConfirmModal = async () => {
+    confirmPatchMutate({
+      url: `/quotations/final/${finalIndex}`,
+    });
+    // }
+  };
+
+  const spotInspection = spotData?.data?.spotInspection!;
+  const hasReceivedSpotInspectionDates =
+    spotData?.data?.hasReceivedSpotInspectionDates!;
+
+  useLayoutEffect(() => {
+    const currentInProgressPreQuotationIdx =
+      data?.quotationRequest?.currentInProgressPreQuotationIdx!;
+    if (currentInProgressPreQuotationIdx !== null) {
+      console.log('currentInProgressPreQuotationIdx 존재한다');
+
+      data?.preQuotations?.forEach((preQuotation, index) => {
+        if (
+          preQuotation?.finalQuotation?.preQuotationIdx! ===
+          currentInProgressPreQuotationIdx!
+        ) {
+          setIsFinalItmeIndex(index);
+        }
       });
     }
-  };
+  }, [data]);
+  useEffect(() => {
+    if (routerId && data?.quotationRequest?.currentInProgressPreQuotationIdx) {
+      refetch();
+      quotationRefetch();
+    }
+  }, [routerId, data?.quotationRequest?.currentInProgressPreQuotationIdx]);
+
+  if (isLoading || spotLoading || otherPatchLoading || confirmPatchLoading) {
+    return <Loader />;
+  }
 
   if (isError || spotIsError) {
     return (
@@ -261,13 +317,6 @@ const Mypage1_3 = ({}: any) => {
       />
     );
   }
-  if (isLoading || spotLoading || otherPatchLoading || confirmPatchLoading) {
-    return <Loader />;
-  }
-
-  const spotInspection = spotData?.data?.spotInspection!;
-  const hasReceivedSpotInspectionDates =
-    spotData?.data?.hasReceivedSpotInspectionDates!;
 
   return (
     <>
@@ -320,10 +369,15 @@ const Mypage1_3 = ({}: any) => {
                 <Image src={DoubleArrow} alt="double-arrow" />
               </DownArrowBox>
               {/* 현장실사 해당 기업 상세 페이지 */}
-              {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx ? (
-                // 구독 상품 리스트 (가견적 작성 회사)
+              {/* {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx  ? ( */}
+              {!data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx &&
+              isFinalItmeIndex === -1 ? (
+                // ---------------------- 구독 상품 리스트 (가견적 작성 회사) ------------------------
                 <React.Fragment>
-                  <SubscriptionProduct data={data?.preQuotations!} />
+                  <SubscriptionProduct
+                    data={data?.preQuotations!}
+                    setIsFinalItmeIndex={setIsFinalItmeIndex}
+                  />
                   <TextBox>
                     <ChoiceText>선택하기 어려우신가요?</ChoiceText>
                     <CommunicationBox text="엔티즌과 소통하기" />
@@ -334,7 +388,7 @@ const Mypage1_3 = ({}: any) => {
                   {/* 상태에 따라 안내문 변경 */}
                   {/* 최종견적이 없고 */}
                   {quotationData?.preQuotation?.finalQuotation === null &&
-                  data.badge !== '최종견적 대기 중' ? (
+                  data?.badge !== '최종견적 대기 중' ? (
                     // 변경 데이터가 있고, 확정이 아니라면
                     spotInspection !== null && spotInspection?.isConfirmed ? (
                       <ScheduleConfirm
@@ -362,69 +416,73 @@ const Mypage1_3 = ({}: any) => {
                   ) : null}
 
                   {/* 최종견적 가견적 구별 조견문 */}
-                  {data?.badge !== '낙찰성공' &&
-                  // 백엔드와 소통 후 변경
-                  // data?.quotationRequest?.hasCurrentInProgressPreQuotationIdx === true &&
-                  quotationData?.preQuotation?.finalQuotation !== null ? (
-                    <>
-                      {/* 최종견적 상세 내용*/}
-                      <FinalQuotation
-                        data={quotationData!}
-                        isSpot={spotData?.data?.spotInspection ? true : false}
-                      />
-                      <TextBox>
-                        <CommunicationBox
-                          text="파트너와 소통하기"
-                          id={
-                            quotationData?.companyMemberAdditionalInfo
-                              ?.memberIdx
-                          }
+                  {
+                    // (data?.badge !== '낙찰성공' &&
+                    // quotationData?.preQuotation?.finalQuotation !== null)
+                    isFinalItmeIndex !== -1 ? (
+                      <>
+                        {/* --------------------최종견적 상세 내용--------------------------*/}
+                        <FinalQuotation
+                          // data={quotationData!}
+                          data={data?.preQuotations[isFinalItmeIndex]!}
+                          isSpot={spotData?.data?.spotInspection ? true : false}
                         />
-                      </TextBox>
-                      <ButtonBox>
-                        <Button
-                          isWhite={true}
-                          onClick={() =>
-                            onClickConfirm(
-                              0,
-                              '다른 파트너에게\n재견적을 받아보시겠습니까?',
-                            )
-                          }
-                        >
-                          다른 파트너 선정
-                        </Button>
-                        <Button
-                          isWhite={false}
-                          onClick={() =>
-                            onClickConfirm(
-                              1,
-                              'Charge Point로\n확정하시겠습니까?',
-                            )
-                          }
-                        >
-                          확정하기
-                        </Button>
-                      </ButtonBox>
-                    </>
-                  ) : (
-                    <>
-                      {/* 가견적  */}
-                      <SendTextTitle>보낸 가견적서</SendTextTitle>
-                      <BiddingQuote
-                        data={quotationData!}
-                        isSpot={spotData?.data?.spotInspection ? true : false}
-                      />
-                      <TextBox>
-                        <CommunicationBox
-                          text="파트너와 소통하기"
-                          id={
-                            quotationData?.companyMemberAdditionalInfo
-                              ?.memberIdx
-                          }
+                        <TextBox>
+                          <CommunicationBox
+                            text="파트너와 소통하기"
+                            id={
+                              quotationData?.companyMemberAdditionalInfo
+                                ?.memberIdx
+                            }
+                          />
+                        </TextBox>
+                        <ButtonBox>
+                          <Button
+                            isWhite={true}
+                            onClick={() =>
+                              onClickConfirm(
+                                0,
+                                '다른 파트너에게\n재견적을 받아보시겠습니까?',
+                              )
+                            }
+                          >
+                            다른 파트너 선정
+                          </Button>
+                          <Button
+                            isWhite={false}
+                            onClick={() =>
+                              onClickConfirm(
+                                1,
+                                `${finalItme?.member
+                                  ?.companyMemberAdditionalInfo
+                                  ?.companyName!}로\n확정하시겠습니까?`,
+                              )
+                            }
+                          >
+                            확정하기
+                          </Button>
+                        </ButtonBox>
+                      </>
+                    ) : (
+                      <>
+                        {/* ----------------------가견적------------------------- */}
+                        <SendTextTitle>보낸 가견적서</SendTextTitle>
+                        <BiddingQuote
+                          data={quotationData!}
+                          isSpot={spotData?.data?.spotInspection ? true : false}
                         />
-                      </TextBox>
-                    </>
-                  )}
+                        <TextBox>
+                          <CommunicationBox
+                            text="파트너와 소통하기"
+                            id={
+                              quotationData?.companyMemberAdditionalInfo
+                                ?.memberIdx
+                            }
+                          />
+                        </TextBox>
+                      </>
+                    )
+                  }
                 </>
               )}
             </Wrap2>

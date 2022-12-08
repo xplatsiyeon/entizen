@@ -25,12 +25,29 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     DoNotDisturb: false,
     event: false,
   });
+  const [mailChecked, setMailChecked] = useState({
+    appPush: false,
+    email: false,
+    easy: false,
+    project: false,
+    as: false,
+    communicate: false,
+    charging: false,
+    event: false,
+  });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked({
-      ...checked,
-      [event.target.name]: event.target.checked,
-    });
+    if ((event.target.type = 'kakao')) {
+      setChecked({
+        ...checked,
+        [event.target.name]: event.target.checked,
+      });
+    } else if ((event.target.type = 'email')) {
+      setMailChecked({
+        ...mailChecked,
+        [event.target.name]: event.target.checked,
+      });
+    }
   };
 
   return (
@@ -38,18 +55,30 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
       <Header>
         <span className="text">알림 설정</span>
       </Header>
-      <KaKaoTalkText>카카오톡</KaKaoTalkText>
+      <TitleWrapper>
+        <EmailText>이메일</EmailText>
+        <KaKaoTalkText>카카오톡</KaKaoTalkText>
+      </TitleWrapper>
       <FlexWrap>
         <AlamLabel>알림</AlamLabel>
         <PaddingBox>
           <AlamForm>
             <CheckBox>
               <span className="text">전체 알림</span>
-              <CustomSwitch
-                name="kakao"
-                onChange={handleChange}
-                checked={checked.kakao}
-              />
+              <SwitchWrapper>
+                <CustomSwitch
+                  name="kakao"
+                  type="kakao"
+                  onChange={handleChange}
+                  checked={checked.kakao}
+                />
+                <CustomSwitch
+                  name="email"
+                  type="email"
+                  onChange={handleChange}
+                  checked={mailChecked.email}
+                />
+              </SwitchWrapper>
             </CheckBox>
           </AlamForm>
           <EventForm>
@@ -78,12 +107,22 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             )}
             <CheckBox>
               <span>이벤트 및 혜택 알림</span>
-              <CustomSwitch
-                name="event"
-                onChange={handleChange}
-                checked={checked.event}
-                inputProps={{ 'aria-label': 'controlled' }}
-              />
+              <SwitchWrapper>
+                <CustomSwitch
+                  name="event"
+                  type="kakao"
+                  onChange={handleChange}
+                  checked={checked.event}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+                <CustomSwitch
+                  name="event"
+                  type="email"
+                  onChange={handleChange}
+                  checked={mailChecked.event}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </SwitchWrapper>
             </CheckBox>
           </EventForm>
         </PaddingBox>
@@ -96,53 +135,98 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <span className="text">간편견적 알림</span>
               <div className="remark">견적 진행상황 알림</div>
             </div>
-            <CustomSwitch
-              name="easy"
-              onChange={handleChange}
-              checked={checked.easy}
-            />
+            <SwitchWrapper>
+              <CustomSwitch
+                name="easy"
+                type="kakao"
+                onChange={handleChange}
+                checked={checked.easy}
+              />
+              <CustomSwitch
+                name="easy"
+                type="email"
+                onChange={handleChange}
+                checked={mailChecked.easy}
+              />
+            </SwitchWrapper>
           </CheckBox>
           <CheckBox>
             <div>
               <span className="text">내 프로젝트 알림</span>
             </div>
-            <CustomSwitch
-              name="project"
-              onChange={handleChange}
-              checked={checked.project}
-            />
+            <SwitchWrapper>
+              <CustomSwitch
+                name="project"
+                type="kakao"
+                onChange={handleChange}
+                checked={checked.project}
+              />
+              <CustomSwitch
+                name="project"
+                type="email"
+                onChange={handleChange}
+                checked={mailChecked.project}
+              />
+            </SwitchWrapper>
           </CheckBox>
           <CheckBox>
             <div>
               <span className="text">A/S 알림</span>
             </div>
-            <CustomSwitch
-              name="as"
-              onChange={handleChange}
-              checked={checked.as}
-            />
+            <SwitchWrapper>
+              <CustomSwitch
+                name="as"
+                type="kakao"
+                onChange={handleChange}
+                checked={checked.as}
+              />
+              <CustomSwitch
+                name="as"
+                type="email"
+                onChange={handleChange}
+                checked={mailChecked.as}
+              />
+            </SwitchWrapper>
           </CheckBox>
           <CheckBox>
             <div>
               <span className="text">소통하기 알림</span>
               <div className="remark">신규 메세지 알림</div>
             </div>
-            <CustomSwitch
-              name="charging"
-              onChange={handleChange}
-              checked={checked.charging}
-            />
+            <SwitchWrapper>
+              <CustomSwitch
+                name="charging"
+                type="kakao"
+                onChange={handleChange}
+                checked={checked.charging}
+              />
+              <CustomSwitch
+                name="charging"
+                type="email"
+                onChange={handleChange}
+                checked={mailChecked.charging}
+              />
+            </SwitchWrapper>
           </CheckBox>
           <CheckBox>
             <div>
               <span className="text">내 충전소 알림</span>
               <div className="remark">구독종료 미리 알림</div>
             </div>
-            <CustomSwitch
-              name="communicate"
-              onChange={handleChange}
-              checked={checked.communicate}
-            />
+            <SwitchWrapper>
+              <CustomSwitch
+                name="communicate"
+                type="kakao"
+                onChange={handleChange}
+                checked={checked.communicate}
+              />
+              <CustomSwitch
+                name="communicate"
+                type="email"
+                onChange={handleChange}
+                checked={mailChecked.communicate}
+              />
+            </SwitchWrapper>
           </CheckBox>
         </FuntionForm>
       </FlexWrap>
@@ -179,10 +263,25 @@ const Header = styled(Box)`
     color: ${colors.main2};
   }
 `;
-
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const KaKaoTalkText = styled.div`
   position: relative;
-  left: 85%;
+  left: 80%;
+  top: 10pt;
+  font-weight: 500;
+  font-size: 12pt;
+  line-height: 15pt;
+  text-align: left;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+`;
+
+const EmailText = styled.div`
+  position: relative;
+  left: 74%;
   top: 10pt;
   font-weight: 500;
   font-size: 12pt;
@@ -298,4 +397,11 @@ const CustomSwitch = styled(Switch)`
     background-color: ${colors.main} !important;
     opacity: 1 !important;
   }
+`;
+
+const SwitchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 115.5pt;
 `;

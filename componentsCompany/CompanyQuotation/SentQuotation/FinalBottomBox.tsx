@@ -30,10 +30,9 @@ const FinalBottomBox = ({ pb, data }: Props) => {
   const finalQuotation =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation!;
 
-  console.log(
-    'finalQuotation 뭐나옴?',
-    finalQuotation.finalQuotationDetailFiles,
-  );
+  // 부분 구독 판독
+  const partSubscribe =
+    data?.sendQuotationRequest?.quotationRequest?.subscribeProduct;
 
   return (
     <Wrapper>
@@ -73,6 +72,14 @@ const FinalBottomBox = ({ pb, data }: Props) => {
           <span className="name">구독기간</span>
           <span className="value">{finalQuotation?.subscribePeriod} 개월</span>
         </Item>
+        {/* 부분구독일 경우 충전소 설치비 추가 */}
+        {partSubscribe === 'PART' && (
+          <Item>
+            <span className="name">충전소 설치비</span>
+            <span className="value">20 원</span>
+          </Item>
+        )}
+
         <Item>
           <span className="name">월 구독료</span>
           <span className="value">
@@ -260,7 +267,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
                     href={file.url}
                   >
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                    {file.originalName}
+                    <FileName>{file.originalName}</FileName>
                   </FileDownload>
                 </FileDownloadBtn>
               ))}
@@ -578,6 +585,20 @@ const Line = styled.div`
 const Line2 = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
   margin-top: 30pt;
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 export default FinalBottomBox;

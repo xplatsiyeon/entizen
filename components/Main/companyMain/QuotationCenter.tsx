@@ -3,7 +3,6 @@ import Image from 'next/image';
 import lightning from 'public/images/lightning.png';
 import clipboardText from 'public/images/ClipboardText.png';
 import emptyClipboardText from 'public/images/EmptyClipboardText.png';
-
 import React, { useState } from 'react';
 import colors from 'styles/colors';
 import { isTokenGetApi } from 'api';
@@ -11,6 +10,8 @@ import { useQuery } from 'react-query';
 import Loader from 'components/Loader';
 import { Router } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import { ReceivedRequest } from 'pages/company/quotation';
+import useDebounce from 'hooks/useDebounce';
 
 export interface RecivedCountResponse {
   isSuccess: boolean;
@@ -21,45 +22,56 @@ type Props = {};
 const TAG = 'commponents/Main/companyMain/QuotationCenter';
 const QuotationCenter = ({}: Props) => {
   const router = useRouter();
+  const [searchWord, setSearchWord] = useState<string>('');
+  const keyword = useDebounce(searchWord, 2000);
+  const filterTypeEn = ['deadline', 'status', 'date'];
+  const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
 
-  const { data, isLoading, isError } = useQuery<RecivedCountResponse>(
-    'count',
-    () => isTokenGetApi('/quotations/received-request/count'),
-    {
-      staleTime: 5000,
-      cacheTime: Infinity,
-    },
+  // 실제 새롭게 받은 요청 개수
+  // api 호출
+  const {
+    data: newReceived,
+    isLoading: receivedIsLoading,
+    isError: receivedIsError,
+    error,
+    refetch,
+  } = useQuery<ReceivedRequest>('received-request', () =>
+    isTokenGetApi(`/quotations/received-request?keyword&sort=date`),
   );
-
-  if (isError) {
+  if (receivedIsError) {
     alert('잠시 후 다시 시도해주세요.');
     router.push('/404');
   }
-  if (isLoading) {
+  if (receivedIsLoading) {
     return <Loader />;
   }
+
+  console.log('받은 요청 데이터만 찾아오자', newReceived);
   return (
     <Wrapper>
       <ImgBox>
         <Image src={lightning} alt="lightning" />
       </ImgBox>
 
-      {data?.receivedQuotationRequestCount! === 0 ? (
+      {newReceived?.receivedQuotationRequests.length! === 0 ? (
         <TopImgBox>
           <Image src={emptyClipboardText} alt="emptyClipboardText" />
         </TopImgBox>
       ) : (
         <TopImgBox>
-          <CountCircle>{data?.receivedQuotationRequestCount!}</CountCircle>
+          <CountCircle>
+            {newReceived?.receivedQuotationRequests.length!}
+          </CountCircle>
           <BlueIcon>
             <Image src={clipboardText} alt="clipboardText" />
           </BlueIcon>
         </TopImgBox>
       )}
-      {data?.receivedQuotationRequestCount! >= 1 ? (
+      {newReceived?.receivedQuotationRequests.length! >= 1 ? (
         <>
           <Reqeusts>
-            {data?.receivedQuotationRequestCount!}건의 견적 요청이 있습니다!
+            {newReceived?.receivedQuotationRequests.length!}건의 견적 요청이
+            있습니다!
           </Reqeusts>
           <RequestInfo>
             요청서를 확인하고 가견적서를 작성해

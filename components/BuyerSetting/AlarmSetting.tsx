@@ -218,6 +218,7 @@ const CheckBox = styled(Box)`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: #222222;
+
   &:not(:first-of-type) {
     padding-top: 21pt;
   }

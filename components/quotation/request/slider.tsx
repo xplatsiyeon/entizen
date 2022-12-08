@@ -88,7 +88,7 @@ const SliderSizes = ({
       width={'97%'}
       disabled={disabled}
       client={true.toString()}
-      sliderDisable={sliderDisable}
+      sliderDisable={sliderDisable!}
     >
       {/* 안내 메시지 */}
       {subscribeNumber === 0 && disabled && (
@@ -100,11 +100,11 @@ const SliderSizes = ({
         step={5} //슬라이더 증감량. => 5씩 증감
         value={value}
         onChange={handleChange}
-        disabled={sliderDisable === true ? true : false}
+        disabled={sliderDisable! === true ? true : false}
         defaultValue={difaultValue ? difaultValue : 50}
         // valueLabelDisplay="auto"
       />
-      {sliderDisable === true && (
+      {sliderDisable! === true && (
         <AlertMessage>* 홈 충전기는 수익지분과 무관한 상품입니다.</AlertMessage>
       )}
 

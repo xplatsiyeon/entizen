@@ -274,7 +274,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
     return <Loader />;
   }
   console.log('⭐️ 계약서 데이터 확인 ~line 275 ');
-  console.log(contractData);
+  console.log(data);
 
   return (
     <Wrapper0>

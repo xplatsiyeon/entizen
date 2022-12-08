@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { EditSharp } from '@mui/icons-material';
 import { TextField } from '@mui/material';
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -19,6 +20,7 @@ type Props = {
   canNext: boolean;
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   editData: SentRequestResponse;
+  partSubscribe?: string;
 };
 
 const FirstStep = ({
@@ -33,6 +35,7 @@ const FirstStep = ({
   canNext,
   SetCanNext,
   editData,
+  partSubscribe,
 }: Props) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -71,6 +74,11 @@ const FirstStep = ({
     }
   }, [editData]);
 
+  // 페이지 최상단으로 이동
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tabNumber]);
+
   return (
     <Wrapper>
       <TopStep>
@@ -78,6 +86,22 @@ const FirstStep = ({
         <div>* 필수 입력</div>
       </TopStep>
       <SubWord>월 구독료와 특장점을 입력해주세요.</SubWord>
+      {/* 부분구독은 충전기 설치비 추가로 생겨야함 */}
+      {partSubscribe === 'PART' && (
+        <InputBox>
+          <div className="withAfter">충전소 설치비</div>
+          <div>
+            <Input
+              // onChange={(e) =>
+              //   setMonthleSubscribePrice(inputPriceFormat(e.target.value))
+              // }
+              // value={monthlySubscribePrice}
+              name="chargeInstall"
+            />
+            <div>원</div>
+          </div>
+        </InputBox>
+      )}
       <InputBox>
         <div className="withAfter">월 구독료</div>
         <div>

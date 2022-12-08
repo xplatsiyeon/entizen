@@ -426,6 +426,7 @@ const SecondStep = ({
   console.log('🔥 최종견적 선택된 옵션 리스트 목록 -> ');
   console.log(selectedOption[maxIndex! - 1]);
   console.log(maxIndex);
+  console.log(selectedOption[0], '여기에 뭐나옴???');
 
   return (
     <>
@@ -512,7 +513,7 @@ const SecondStep = ({
           <SelectContainer>
             <SelectComponents
               value={selectedOptionEn[tabNumber - 1].modelName}
-              placeholder="구충전기 종류"
+              placeholder="등록된 제품을 업로드해주세요"
               productOption={productData?.chargerProduct!}
               onClickProject={onChangeSelectBox}
             />
@@ -617,7 +618,7 @@ const SecondStep = ({
                           <Image src={FileText} alt="file-icon" />
                         </div>
                         <div className="file-data">
-                          <span className="file-name">{item.originalName}</span>
+                          <FileName>{item.originalName}</FileName>
                           <span className="file-size">{`용량 ${getByteSize(
                             item.size,
                           )}`}</span>
@@ -965,6 +966,7 @@ const RemainderInputBox = styled.div`
   flex-direction: column;
   display: flex;
   margin-top: 24pt;
+  /* border: 2px solid red; */
 `;
 const RemainderInputBoxs = styled.div`
   flex-direction: column;
@@ -999,7 +1001,7 @@ const Label = styled.label`
 `;
 const PhotosBox = styled.div`
   width: 100%;
-  height: 56.0625pt;
+  /* height: 56.0625pt; */
   margin-top: 9pt;
   display: flex;
   gap: 9.1875pt;
@@ -1039,7 +1041,10 @@ const AddPhotos = styled.button`
 
 const ImgSpanBox = styled.div`
   @media (max-width: 899.25pt) {
-    display: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8.1875pt;
+    flex: 2;
   }
   @media (min-width: 900pt) {
     height: auto;
@@ -1229,6 +1234,20 @@ const WebRapper = styled.div`
     padding-bottom: 30pt;
     margin-top: -2.1%;
   }
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 export default SecondStep;
