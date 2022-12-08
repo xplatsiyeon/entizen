@@ -135,6 +135,8 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
                 </div>
               ),
             )}
+            {/* 충전기가 1대 */}
+
             <div className="text-box">
               <span className="name">충전기 설치 위치</span>
               <span className="text">
@@ -146,6 +148,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
                 )}
               </span>
             </div>
+
             <div className="text-box">
               <span className="name">충전기 설치 목적</span>
               <span className="text">
@@ -384,4 +387,72 @@ const ElseText = styled.div`
     text-align: left;
   }
 `;
+
+const MultiSection = styled.div`
+  padding-top: 18pt;
+  display: flex;
+  flex-direction: column;
+  gap: 12pt;
+
+  :nth-of-type(1) {
+    padding-bottom: 18pt;
+    margin-top: 18pt;
+    border-bottom: 0.75pt solid ${colors.lightGray};
+    border-top: 0.75pt solid ${colors.lightGray};
+  }
+`;
+
+const BorderTop = styled.div`
+  border-top: 1px solid #e9eaee;
+  padding: 0 15pt;
+  padding-bottom: 15pt;
+`;
+
+const Subtitle = styled.h2`
+  font-weight: 700;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+`;
+
+const MultiBox = styled.div`
+  padding-top: 3pt;
+`;
+const Item = styled.li`
+  display: flex;
+
+  :not(:nth-of-type(1)) {
+    padding-top: 12pt;
+  }
+  .name {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+    flex: 1;
+  }
+  .value {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    flex: 2;
+  }
+
+  @media (max-width: 899.25pt) {
+    justify-content: space-between;
+    .name {
+      flex: none;
+    }
+    .value {
+      flex: none;
+      text-align: right;
+    }
+  }
+`;
+
 export default TopBox;

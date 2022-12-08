@@ -249,6 +249,9 @@ const HeadOpenContent = () => {
   console.log(editData);
   // console.log(innerHeight);
 
+  // 부분 구독인지 아닌지
+  const partSubscribe = data?.receivedQuotationRequest?.subscribeProduct;
+
   const badge =
     data?.receivedQuotationRequest.badge! ||
     editData?.sendQuotationRequest?.badge!;
@@ -283,6 +286,7 @@ const HeadOpenContent = () => {
     0: (
       <WebContainer>
         <FirstStep
+          partSubscribe={partSubscribe}
           editData={editData!}
           tabNumber={tabNumber}
           setTabNumber={setTabNumber}

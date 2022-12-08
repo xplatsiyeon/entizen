@@ -5,7 +5,10 @@ import React from 'react';
 import colors from 'styles/colors';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
-import { SentRequestResponse } from './SentProvisionalQuoatation';
+import {
+  PreQuotationCharger,
+  SentRequestResponse,
+} from './SentProvisionalQuoatation';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 
@@ -15,7 +18,16 @@ type Props = {
 };
 
 const BottomBox = ({ pb, data }: Props) => {
-  console.log('여기 뭐 나오냐', data?.sendQuotationRequest);
+  // 부분 구독 판별
+  const partSubscribe =
+    data?.sendQuotationRequest?.quotationRequest?.subscribeProduct;
+
+  // 데이터 역순으로 나오는거 reverse
+  const preQuotationChargers =
+    data?.sendQuotationRequest?.preQuotation?.preQuotationCharger!;
+  const reverseNewArr: PreQuotationCharger[] = [];
+  preQuotationChargers?.forEach((el, idx) => reverseNewArr.unshift(el));
+
   return (
     <Wrapper>
       {data?.sendQuotationRequest.companyMemberAdditionalInfo
@@ -40,6 +52,13 @@ const BottomBox = ({ pb, data }: Props) => {
         {data?.sendQuotationRequest?.companyMemberAdditionalInfo?.companyName}
       </Title>
       <List>
+        {/* 부분구독일 경우 충전소 설치비 데이터 불러와야함 */}
+        {partSubscribe === 'PART' && (
+          <Item>
+            <span className="name">충전소 설치비</span>
+            <span className="value">원</span>
+          </Item>
+        )}
         <Item>
           <span className="name">월 구독료</span>
           <span className="value">
@@ -71,9 +90,14 @@ const BottomBox = ({ pb, data }: Props) => {
             {/* 충전량 1개 일 때  */}
             <Item>
               <span className="name">충전요금</span>
-              <span className="value">
-                {`${data?.sendQuotationRequest?.preQuotation?.preQuotationCharger[0]?.chargePrice} 원 / kW`}
-              </span>
+              {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger[0]
+                .chargePriceType === 'PURCHASER_AUTONOMY' ? (
+                <span className="value">구매자 자율</span>
+              ) : (
+                <span className="value">
+                  {`${data?.sendQuotationRequest?.preQuotation?.preQuotationCharger[0]?.chargePrice} 원 / kW`}
+                </span>
+              )}
             </Item>
             <Item>
               <span className="name">충전기 제조사</span>
@@ -91,47 +115,55 @@ const BottomBox = ({ pb, data }: Props) => {
             <Line />
             <MultiSection>
               <Subtitle>충전요금</Subtitle>
-              {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
-                (item, index) => (
-                  <MultiBox key={item.preQuotationChargerIdx}>
+              {reverseNewArr?.map((item, index) => (
+                <MultiBox key={item.preQuotationChargerIdx}>
+                  {item.chargePriceType !== 'PURCHASER_AUTONOMY' ? (
                     <Item>
                       <span className="name">
                         {convertKo(
                           M5_LIST,
                           M5_LIST_EN,
-                          data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers.reverse()[
-                            index
-                          ]?.kind,
+                          data?.sendQuotationRequest?.quotationRequest
+                            ?.quotationRequestChargers[index]?.kind,
                         )}
                       </span>
                       <span className="value">{`${PriceBasicCalculation(
                         item.chargePrice,
                       )} 원 /  kW`}</span>
                     </Item>
-                  </MultiBox>
-                ),
-              )}
-            </MultiSection>
-            <MultiSection>
-              <Subtitle>충전기 제조사</Subtitle>
-              {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
-                (item, index) => (
-                  <MultiBox key={item.preQuotationChargerIdx}>
+                  ) : (
                     <Item>
                       <span className="name">
                         {convertKo(
                           M5_LIST,
                           M5_LIST_EN,
-                          data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers.reverse()[
-                            index
-                          ]?.kind,
+                          data?.sendQuotationRequest?.quotationRequest
+                            ?.quotationRequestChargers[index]?.kind,
                         )}
                       </span>
-                      <span className="value">{item.manufacturer}</span>
+                      <span className="value">구매자 자율</span>
                     </Item>
-                  </MultiBox>
-                ),
-              )}
+                  )}
+                </MultiBox>
+              ))}
+            </MultiSection>
+            <MultiSection>
+              <Subtitle>충전기 제조사</Subtitle>
+              {reverseNewArr?.map((item, index) => (
+                <MultiBox key={item.preQuotationChargerIdx}>
+                  <Item>
+                    <span className="name">
+                      {convertKo(
+                        M5_LIST,
+                        M5_LIST_EN,
+                        data?.sendQuotationRequest?.quotationRequest
+                          ?.quotationRequestChargers[index]?.kind,
+                      )}
+                    </span>
+                    <span className="value">{item.manufacturer}</span>
+                  </Item>
+                </MultiBox>
+              ))}
             </MultiSection>
           </>
         )}
@@ -153,29 +185,26 @@ const BottomBox = ({ pb, data }: Props) => {
           </FeaturesList>
           {/* 특장점 충전기 부분 */}
         </FlexWrap>
-        {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
-          (item, index) => (
-            <FlexWrap key={item.preQuotationChargerIdx}>
-              <Label>
-                {convertKo(
-                  M5_LIST,
-                  M5_LIST_EN,
-                  data?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers.reverse()[
-                    index
-                  ]?.kind,
-                )}
-              </Label>
-              <FeaturesList>
-                {item.productFeature.split('\n').map((line) => (
-                  <li>
-                    {line}
-                    <br />
-                  </li>
-                ))}
-              </FeaturesList>
-            </FlexWrap>
-          ),
-        )}
+        {reverseNewArr?.map((item, index) => (
+          <FlexWrap key={item.preQuotationChargerIdx}>
+            <Label>
+              {convertKo(
+                M5_LIST,
+                M5_LIST_EN,
+                data?.sendQuotationRequest?.quotationRequest
+                  ?.quotationRequestChargers[index]?.kind,
+              )}
+            </Label>
+            <FeaturesList>
+              {item.productFeature.split('\n').map((line) => (
+                <li>
+                  {line}
+                  <br />
+                </li>
+              ))}
+            </FeaturesList>
+          </FlexWrap>
+        ))}
       </Section>
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>

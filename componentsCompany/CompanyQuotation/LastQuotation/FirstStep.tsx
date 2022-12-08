@@ -49,6 +49,7 @@ type Props = {
   setChargeNum: React.Dispatch<React.SetStateAction<number>>;
   chargeNum?: number;
   sendData: SentRequestResponse;
+  partSubscribe?: string;
 };
 const subScribe = ['전체구독', '부분구독'];
 
@@ -81,11 +82,13 @@ const FirstStep = ({
   setChargeNum,
   chargeNum,
   sendData,
+  partSubscribe,
 }: Props) => {
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
     let copy: chargers[] = [...selectedOption];
     let copyEn: chargers[] = [...selectedOptionEn];
+
     // 영어 값 추출
     let valueEn: string;
     // 충전기 종류
@@ -385,6 +388,22 @@ const FirstStep = ({
             </FirstBox>
           </ProfitBox>
         </InputBox>
+        {partSubscribe === 'PART' && (
+          <InputBox>
+            <div className="withAfter">충전소 설치비</div>
+            <div className="monthFlex">
+              <Input
+                // onChange={(e) =>
+                //   setSubscribePricePerMonth(inputPriceFormat(e.target.value))
+                // }
+                // value={subscribePricePerMonth}
+                // name="chargeInstall"
+                value="10000"
+              />
+              <AfterWord>원</AfterWord>
+            </div>
+          </InputBox>
+        )}
         <InputBox>
           <div className="withAfter">월 구독료</div>
           <div className="monthFlex">
