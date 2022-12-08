@@ -20,8 +20,8 @@ const Box = styled.div`
   padding-left: 62.25pt;
   padding-right: 62.25pt;
   @media (min-width: 900pt) {
-    padding-left: 835pt;
-    padding-right: 835pt;
+    width: 215.25pt;
+    margin: 0 auto;
   }
 `;
 

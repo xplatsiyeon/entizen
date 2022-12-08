@@ -136,3 +136,18 @@ const Preview = styled.div`
     border: 1px solid red;
   }
 `;
+
+const FileName = styled.div`
+  // 파일 이름 넘 길때 이거 쓰면 일정 부분... 처리해줌
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;

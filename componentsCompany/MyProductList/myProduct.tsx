@@ -214,7 +214,7 @@ const MyProduct = (props: Props) => {
                     >
                       <FileBtn>
                         <Image src={fileImg} alt="file-icon" />
-                        {file.originalName}
+                        <FileName> {file.originalName}</FileName>
                       </FileBtn>
                     </FileDownload>
                   ),
@@ -470,6 +470,20 @@ const FileBtn = styled(Button)`
     margin-top: 0;
     margin-bottom: 9pt;
   }
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const FileWrap = styled.div`

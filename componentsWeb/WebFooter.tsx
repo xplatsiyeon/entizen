@@ -28,6 +28,9 @@ const WebFooter = () => {
             <li>
               <IconBox
                 onClick={() => window.open('https://instagram.com/entizen.ev/')}
+                style={{
+                  cursor: 'pointer',
+                }}
               >
                 <Image src={Insta} alt="instagram" layout="intrinsic" />
               </IconBox>
@@ -37,6 +40,9 @@ const WebFooter = () => {
                 onClick={() =>
                   window.open('https://post.naver.com/entizen_ev/')
                 }
+                style={{
+                  cursor: 'pointer',
+                }}
               >
                 <Image src={Pencil} alt="write" layout="intrinsic" />
               </IconBox>
@@ -192,6 +198,7 @@ const Button = styled.button`
   align-items: center;
   font-family: 'Spoqa Han Sans Neo';
   color: ${colors.white};
+  cursor: pointer;
   /* margin-right: 9pt; */
   /* & span:first-of-type {
     margin-right: 3pt;

@@ -321,7 +321,7 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
                   href={file.url}
                 >
                   <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                  {file.originalName}
+                  <FileName>{file.originalName}</FileName>
                 </FileDownload>
               </FileDownloadBtn>
             ))}
@@ -820,5 +820,19 @@ const Partner = styled.div`
   letter-spacing: 0em;
   text-align: left;
   padding-bottom: 24pt;
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 export default FinalQuotation;

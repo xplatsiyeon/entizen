@@ -513,7 +513,7 @@ const SecondStep = ({
           <SelectContainer>
             <SelectComponents
               value={selectedOptionEn[tabNumber - 1].modelName}
-              placeholder="구충전기 종류"
+              placeholder="등록된 제품을 업로드해주세요"
               productOption={productData?.chargerProduct!}
               onClickProject={onChangeSelectBox}
             />
@@ -618,7 +618,7 @@ const SecondStep = ({
                           <Image src={FileText} alt="file-icon" />
                         </div>
                         <div className="file-data">
-                          <span className="file-name">{item.originalName}</span>
+                          <FileName>{item.originalName}</FileName>
                           <span className="file-size">{`용량 ${getByteSize(
                             item.size,
                           )}`}</span>
@@ -1234,6 +1234,20 @@ const WebRapper = styled.div`
     padding-bottom: 30pt;
     margin-top: -2.1%;
   }
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 export default SecondStep;
