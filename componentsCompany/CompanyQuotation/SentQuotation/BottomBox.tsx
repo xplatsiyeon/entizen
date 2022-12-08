@@ -241,7 +241,7 @@ const BottomBox = ({ pb, data }: Props) => {
                     href={file.url}
                   >
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                    {file.originalName}
+                    <FileName>{file.originalName}</FileName>
                   </FileDownload>
                 </FileDownloadBtn>
               ))}
@@ -528,6 +528,20 @@ const NoImage = styled.div`
 const Line = styled.div`
   border-bottom: 0.75pt solid #e9eaee;
   padding-top: 30pt;
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 export default BottomBox;

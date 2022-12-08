@@ -262,7 +262,7 @@ const EditCertificate = ({ setComponent }: Props) => {
                       <Image src={FileText} alt="file-icon" />
                     </div>
                     <div className="file-data">
-                      <span className="file-name">{item.originalName}</span>
+                      <FileName>{item.originalName}</FileName>
                       <span className="file-size">{`용량 ${getByteSize(
                         item.size,
                       )}`}</span>
@@ -454,4 +454,18 @@ const Button = styled.button`
   border-radius: 6pt;
   position: absolute;
   bottom: 30pt;
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;

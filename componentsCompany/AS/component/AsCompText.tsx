@@ -250,7 +250,7 @@ const AsCompText = ({ data }: Props) => {
                   <FileDownloadBtn key={index}>
                     <FileDownload download={file.originalName} href={file.url}>
                       <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                      {file.originalName}
+                      <FileName>{file.originalName}</FileName>
                     </FileDownload>
                   </FileDownloadBtn>
                 ),
@@ -425,7 +425,7 @@ const AsCompText = ({ data }: Props) => {
                             alt="file-icon"
                             layout="intrinsic"
                           />
-                          {file.originalName}
+                          <FileName>{file.originalName}</FileName>
                         </FileDownload>
                       </FileDownloadBtn>
                     ),
@@ -861,4 +861,18 @@ const CommunicationWrapper = styled.div`
     margin-top: 60pt;
     margin-bottom: 87.1875pt;
   }
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;

@@ -443,7 +443,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                 <FileDownloadBtn key={index}>
                   <FileDownload download={file.originalName} href={file.url}>
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
-                    {file.originalName}
+                    <FileName> {file.originalName}</FileName>
                   </FileDownload>
                 </FileDownloadBtn>
               ))}
@@ -915,6 +915,20 @@ const NoImage = styled.div`
     margin-left: 15pt;
     margin-bottom: 15pt;
   }
+`;
+
+const FileName = styled.div`
+  display: block;
+  width: 150pt;
+  font-weight: 400;
+  padding-top: 2pt;
+  white-space: nowrap;
+  font-size: 10.5pt;
+  line-height: 9pt;
+  letter-spacing: -0.02em;
+  color: ${colors.dark2};
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 export default BiddingQuote;
