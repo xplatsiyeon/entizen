@@ -120,7 +120,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 담당자 정보 수정하기
   const onCickBtn = () => {
     setIsTwoBtnModal(false);
-    //console.log(profile, key.phone);
+    console.log('profile',profile, key);
     if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
         url: '/members',
