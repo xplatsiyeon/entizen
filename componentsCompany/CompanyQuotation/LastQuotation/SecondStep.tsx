@@ -426,6 +426,7 @@ const SecondStep = ({
   console.log('🔥 최종견적 선택된 옵션 리스트 목록 -> ');
   console.log(selectedOption[maxIndex! - 1]);
   console.log(maxIndex);
+  console.log(selectedOption[0], '여기에 뭐나옴???');
 
   return (
     <>
