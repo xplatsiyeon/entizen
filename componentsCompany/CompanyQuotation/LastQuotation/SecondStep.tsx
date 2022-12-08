@@ -965,6 +965,7 @@ const RemainderInputBox = styled.div`
   flex-direction: column;
   display: flex;
   margin-top: 24pt;
+  /* border: 2px solid red; */
 `;
 const RemainderInputBoxs = styled.div`
   flex-direction: column;
@@ -999,7 +1000,7 @@ const Label = styled.label`
 `;
 const PhotosBox = styled.div`
   width: 100%;
-  height: 56.0625pt;
+  /* height: 56.0625pt; */
   margin-top: 9pt;
   display: flex;
   gap: 9.1875pt;
@@ -1039,7 +1040,10 @@ const AddPhotos = styled.button`
 
 const ImgSpanBox = styled.div`
   @media (max-width: 899.25pt) {
-    display: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8.1875pt;
+    flex: 2;
   }
   @media (min-width: 900pt) {
     height: auto;

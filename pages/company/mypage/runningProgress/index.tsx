@@ -79,8 +79,6 @@ const RunningProgress = (props: Props) => {
     },
   });
 
-  console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
-
   useEffect(() => {
     if (router.query.projectIdx) {
       const num = Number(router?.query?.projectIdx);
@@ -92,12 +90,15 @@ const RunningProgress = (props: Props) => {
 
   useEffect(() => {}, []);
 
-  console.log(`🐲 진행 프로젝트 102번째 줄`, componentId);
+  // console.log(`🐲 진행 프로젝트 102번째 줄`, componentId);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
   };
+
+  console.log('🔥 진행중인 데이터 확인 -82' + TAG);
+  console.log(inProgressData);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -137,9 +138,9 @@ const RunningProgress = (props: Props) => {
                 type={'COMPANY'}
               />
               {/* 계약서 발송 버튼 클릭 시 프로그레스 컴포넌트로 변경 */}
-              {inProgressData?.project?.contract?.documentId?.length?
+              {inProgressData?.project?.contract?.documentId?.length ? (
                 // 프로젝트 진행
-                (<Progress
+                <Progress
                   data={inProgressData!}
                   inProgressRefetch={inProgressRefetch}
                   info={data}

@@ -5,7 +5,10 @@ import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
 import { css } from '@emotion/react';
 import React, { useCallback, useState } from 'react';
-import { PreQuotationResponse } from 'pages/mypage/request/detail';
+import {
+  PreQuotationChargers,
+  PreQuotationResponse,
+} from 'pages/mypage/request/detail';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
 import ManagerInfo from './ManagerInfo';
@@ -20,9 +23,6 @@ interface Props {
 }
 const TAG = 'components/mypage/request/BiddingQuote.tsx';
 const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
-  console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
-  console.log(data);
-
   const [chargeIdx, setChargeIdx] = useState<number>(0);
   const [webIdx, setWebIdx] = useState<number>(0);
   const [rightUrl, setRightUrl] = useState<string>();
@@ -325,7 +325,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
               ))}
           </FeaturesList>
         </FlexWrap>
-        {data?.preQuotation?.preQuotationChargers?.map((item, index) => (
+        {data?.preQuotation?.preQuotationChargers.map((item, index) => (
           <FlexWrap key={index}>
             <Label>
               {convertKo(

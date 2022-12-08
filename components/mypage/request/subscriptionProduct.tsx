@@ -12,10 +12,12 @@ import {
 import { useQuery } from 'react-query';
 import { UserInfo } from 'pages/mypage';
 import { isTokenGetApi } from 'api';
+import { Dispatch, SetStateAction } from 'react';
 type Props = {
   data: PreQuotations[];
+  setIsFinalItmeIndex: Dispatch<SetStateAction<number>>;
 };
-const SubscriptionProduct = ({ data }: Props) => {
+const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
   const route = useRouter();
   // const UserId = JSON.parse(localStorage.getItem('USER_ID')!);
   const {
@@ -24,15 +26,20 @@ const SubscriptionProduct = ({ data }: Props) => {
     isLoading: userLoading,
   } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'));
 
-  const onClickCompany = (company: PreQuotations) => {
+  const onClickCompany = (company: PreQuotations, index: number) => {
     // 다른 파트너 선택하면 원래 선택한 화면 흐려지기만 함
-    // route.push(`/mypage/request/detail/${company.preQuotationIdx}`);
-    route.push({
-      pathname: '/mypage/request/detail',
-      query: {
-        preQuotationIdx: company.preQuotationIdx,
-      },
-    });
+
+    if (company?.finalQuotation) {
+      console.log('최종견적 있다');
+      setIsFinalItmeIndex(index);
+    } else {
+      route.push({
+        pathname: '/mypage/request/detail',
+        query: {
+          preQuotationIdx: company.preQuotationIdx,
+        },
+      });
+    }
   };
 
   if (userLoading) {
@@ -55,7 +62,7 @@ const SubscriptionProduct = ({ data }: Props) => {
           <GridItem
             isFailed={company?.finalQuotation ? true : false}
             key={index}
-            onClick={() => onClickCompany(company)}
+            onClick={() => onClickCompany(company, index)}
           >
             {company?.companyMemberAdditionalInfo?.companyLogoImageUrl !==
             '' ? (
