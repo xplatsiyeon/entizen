@@ -104,7 +104,9 @@ const SliderSizes = ({
         defaultValue={difaultValue ? difaultValue : 50}
         // valueLabelDisplay="auto"
       />
-      <AlertMessage>* 홈 충전기는 수익지분과 무관한 상품입니다.</AlertMessage>
+      {sliderDisable === true && (
+        <AlertMessage>* 홈 충전기는 수익지분과 무관한 상품입니다.</AlertMessage>
+      )}
 
       {/* 하단 뱃지 */}
       {!sliderDisable! && (

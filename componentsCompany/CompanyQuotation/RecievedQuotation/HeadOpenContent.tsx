@@ -217,7 +217,9 @@ const HeadOpenContent = () => {
   }, [router, editData]);
 
   useEffect(() => {
-    setTabNumber(0);
+    if (routerEdit) {
+      setTabNumber(0);
+    }
   }, [routerEdit]);
 
   // 1번째 탭 초기화
