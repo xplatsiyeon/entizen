@@ -86,7 +86,6 @@ const FirstStep = ({
 }: Props) => {
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
-
     let copy: chargers[] = [...selectedOption];
     let copyEn: chargers[] = [...selectedOptionEn];
 
@@ -304,6 +303,8 @@ const FirstStep = ({
   // }, [selectedOption]);
   // console.log(`first step입니다`, selectedOption.length);
 
+  console.log('subscribeProduct 이거 뭐나옴?', subscribeProduct);
+
   return (
     <WebRapper>
       <Wrapper>
@@ -390,20 +391,22 @@ const FirstStep = ({
           </ProfitBox>
         </InputBox>
         {partSubscribe === 'PART' && (
-          <InputBox>
-            <div className="withAfter">충전소 설치비</div>
-            <div className="monthFlex">
-              <Input
-                // onChange={(e) =>
-                //   setSubscribePricePerMonth(inputPriceFormat(e.target.value))
-                // }
-                // value={subscribePricePerMonth}
-                // name="chargeInstall"
-                value="10000"
-              />
-              <AfterWord>원</AfterWord>
-            </div>
-          </InputBox>
+          <PartSubscribeVisible subscribeProduct={subscribeProduct}>
+            <InputBox>
+              <div className="withAfter">충전소 설치비</div>
+              <div className="monthFlex">
+                <Input
+                  // onChange={(e) =>
+                  //   setSubscribePricePerMonth(inputPriceFormat(e.target.value))
+                  // }
+                  // value={subscribePricePerMonth}
+                  // name="chargeInstall"
+                  value="10000"
+                />
+                <AfterWord>원</AfterWord>
+              </div>
+            </InputBox>
+          </PartSubscribeVisible>
         )}
         <InputBox>
           <div className="withAfter">월 구독료</div>
@@ -645,6 +648,11 @@ const InputBox = styled.div`
     display: flex;
     gap: 12pt;
   }
+`;
+
+const PartSubscribeVisible = styled.div<{ subscribeProduct: string }>`
+  display: ${({ subscribeProduct }) =>
+    subscribeProduct !== '부분구독' ? 'none' : ''};
 `;
 
 const WebInputBox = styled.div``;

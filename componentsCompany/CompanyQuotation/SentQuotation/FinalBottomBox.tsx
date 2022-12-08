@@ -58,7 +58,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         {data?.sendQuotationRequest?.companyMemberAdditionalInfo?.companyName}
       </Title>
       <List>
-        <Item style={{ border: '1px solid red' }}>
+        <Item>
           <span className="name">구독상품</span>
           <span className="value">
             {convertKo(
