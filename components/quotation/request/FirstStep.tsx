@@ -209,7 +209,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               <div
                 className="add-img"
                 onClick={() => onClickMinus(index)}
-                style={{ cursor: 'ponter' }}
+                style={{ cursor: 'pointer' }}
               >
                 <Image src={XCircle} alt="add-img" />
               </div>
@@ -217,7 +217,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
               <div
                 className="add-img"
                 onClick={onClickAdd}
-                style={{ cursor: 'ponter' }}
+                style={{ cursor: 'pointer' }}
               >
                 <Image src={AddIcon} alt="add-img" />
               </div>

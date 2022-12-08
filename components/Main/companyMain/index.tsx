@@ -7,17 +7,6 @@ import Ring from 'public/images/guide-bell.svg';
 import Hamburger from 'public/images/list-bar.svg';
 import { Box, Divider, Drawer } from '@mui/material';
 import colors from 'styles/colors';
-import xBtn from 'public/images/X.png';
-import whiteRight from 'public/images/whiteRight20.png';
-import simpleEstimate from 'public/images/simpleEstimate.png';
-import mypageIcon from 'public/images/mypageIcon.png';
-import guide from 'public/images/guide.png';
-import grayInsta from 'public/images/grayCircleInsta.png';
-import grayNaver from 'public/images/grayCircleNaver.png';
-import Nut from 'public/images/Nut.png';
-import Bell from 'public/images/mobBell.png';
-import myProduct from 'public/images/myProductList.png';
-import hamburgerAs from 'public/images/hamburgerAs.png';
 import Carousel from '../Carousel';
 import QuotationCenter from './QuotationCenter';
 import Footer from '../Footer';
@@ -71,8 +60,6 @@ const CompanyMainPage = ({ num, now }: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userID]);
-
-  // 햄버거바
 
   return (
     <>
