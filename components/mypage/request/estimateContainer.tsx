@@ -30,13 +30,20 @@ const TAG = 'componsts/mypage/request/estimateContatiner.tsx';
 const EstimateContainer = ({ data }: Props) => {
   const [open, setOpen] = useState<boolean>(true);
 
+  // console.log('🔥 상단 상세 내용 Data 확인 -> ' + TAG);
+  // console.log(data);
+
+  const homeSelect = data?.quotationRequest?.quotationRequestChargers?.filter(
+    (el) => el.kind === '7-HOME',
+  );
+
   return (
     <Wrapper>
       <Badge color={HandleUserColor(data?.badge)}>{data?.badge}</Badge>
       {/* Close */}
       <ItemButton onClick={() => setOpen(!open)}>
         <StoreName>
-          <h1>{data?.quotationRequest.installationAddress}</h1>
+          <h1>{data?.quotationRequest?.installationAddress}</h1>
           {/* {open && <p>서울시 관악구 난곡로40길 30</p>} */}
         </StoreName>
 
@@ -71,9 +78,14 @@ const EstimateContainer = ({ data }: Props) => {
             </div>
             <div className="text-box">
               <span className="name">수익지분</span>
-              <span className="text">{`${
-                Number(data?.quotationRequest?.investRate) * 100
-              } %`}</span>
+              {data?.quotationRequest?.quotationRequestChargers?.length! ===
+              homeSelect?.length! ? (
+                <span className="text">-</span>
+              ) : (
+                <span className="text">{`${
+                  Number(data?.quotationRequest?.investRate) * 100
+                } %`}</span>
+              )}
             </div>
 
             {data?.quotationRequest?.quotationRequestChargers?.map(
