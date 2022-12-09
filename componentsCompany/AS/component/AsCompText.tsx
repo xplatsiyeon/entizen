@@ -12,7 +12,7 @@ import camera from 'public/images/gray_camera.png';
 import { BusinessRegistrationType } from 'components/SignUp';
 import CloseImg from 'public/images/XCircle.svg';
 import { AsDetailReseponse } from 'pages/mypage/as';
-import { originDateFomat, hyphenFn } from 'utils/calculatePackage';
+import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { useMutation } from 'react-query';
 import { isTokenPostApi, multerApi } from 'api';
 import Loader from 'components/Loader';
@@ -161,7 +161,9 @@ const AsCompText = ({ data }: Props) => {
   };
   // A/S 완료하기
   const onClickCompletion = () => {
-    if (isValidAcceptance) {
+    console.log(isValidCompletion);
+
+    if (isValidCompletion) {
       completionMutate({
         url: `/after-sales-services/${routerId}/completion`,
         data: {
@@ -177,7 +179,6 @@ const AsCompText = ({ data }: Props) => {
     acceptanceContent.length > 3
       ? setIsValidAcceptance(true)
       : setIsValidAcceptance(false);
-
     afterSalesServiceResultContent.length > 3
       ? setIsValidCompletion(true)
       : setIsValidCompletion(false);
@@ -237,7 +238,7 @@ const AsCompText = ({ data }: Props) => {
           <Items>
             <span className="name">접수일자</span>
             <span className="value">
-              {originDateFomat(
+              {dateFomat(
                 data?.data?.afterSalesService?.afterSalesService?.createdAt!,
               )}
             </span>
@@ -293,7 +294,7 @@ const AsCompText = ({ data }: Props) => {
               <Items>
                 <span className="name">답변일자</span>
                 <span className="value">
-                  {originDateFomat(
+                  {dateFomat(
                     data?.data?.afterSalesService?.afterSalesService
                       ?.acceptanceDate!,
                   )}
@@ -383,7 +384,7 @@ const AsCompText = ({ data }: Props) => {
               <Items>
                 <span className="name">답변일자</span>
                 <span className="value">
-                  {originDateFomat(
+                  {dateFomat(
                     data?.data?.afterSalesService?.afterSalesService
                       ?.acceptanceDate!,
                   )}
@@ -404,7 +405,7 @@ const AsCompText = ({ data }: Props) => {
               <Items>
                 <span className="name">A/S일자</span>
                 <span className="value">
-                  {originDateFomat(
+                  {dateFomat(
                     data?.data?.afterSalesService?.afterSalesService
                       ?.afterSalesServiceResultDate!,
                   )}

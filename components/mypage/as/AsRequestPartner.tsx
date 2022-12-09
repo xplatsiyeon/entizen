@@ -82,7 +82,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
             <span className="name">접수일자</span>
             <span className="value">
               {dateFomat(
-                data?.data?.afterSalesService?.afterSalesService?.createdAt,
+                data?.data?.afterSalesService?.afterSalesService?.createdAt!,
               )}
             </span>
           </Items>
