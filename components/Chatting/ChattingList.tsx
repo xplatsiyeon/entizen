@@ -393,7 +393,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
           </Chatting>
         );
       })}
-      {modal && <QuitModal deleteId={deleteId} setModal={setModal} />}
+      {modal && <QuitModal deleteId={Number(deleteId)} setModal={setModal} />}
     </Body>
   );
 };

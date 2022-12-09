@@ -88,7 +88,7 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
             <p>구독료</p>
             <PriceBox>
               <h1>
-                {PriceBasicCalculation(company.subscribePricePerMonth)} 원
+                {PriceBasicCalculation(company.subscribePricePerMonth)? `${PriceBasicCalculation(company.subscribePricePerMonth)}원`:'무료'} 
               </h1>
               <div>
                 <Image src={arrow} alt="arrow" layout="fill" />

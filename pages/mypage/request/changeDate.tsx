@@ -107,6 +107,7 @@ const changeDate = () => {
             <Calendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
+              selected={spotData?.data.spotInspection.spotInspectionDate}
             />
             <UL className='ex-date'>
               <ReSelectDate>기존 일정</ReSelectDate>

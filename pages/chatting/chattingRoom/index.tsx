@@ -105,14 +105,6 @@ const ChattingRoom = ({ }: Props) => {
         </Body>
       </Wrapper>
       <WebFooter />
-
-      {/* 더보기 모달 제어 */}
-      {moreModal && (
-        <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
-      )}
-
-      {/* 나가기 모달 제어 */}
-      {quitModal && <QuitModal setModal={setQuitModal} />}
     </WebBody>
   );
 };

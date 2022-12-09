@@ -1,18 +1,21 @@
 import styled from '@emotion/styled';
 import { isTokenDeleteApi } from 'api';
+import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
 import { useMutation } from 'react-query';
 
 type Props = {
-  deleteId?: number | undefined;
+  deleteId: number;
   setModal: Dispatch<SetStateAction<boolean>>;
 };
 const QuitModal = ({ setModal, deleteId }: Props) => {
+  const router = useRouter();
   const { mutate: deleteMutate, isLoading: deleteIsLoading } = useMutation(
     isTokenDeleteApi,
     {
       onSuccess: () => {
         setModal(false);
+        router.back();
       },
       onError: (error) => {
         console.log('에러 발생');
@@ -23,6 +26,7 @@ const QuitModal = ({ setModal, deleteId }: Props) => {
 
   // 채팅방 삭제
   const onClickDelete = () => {
+    console.log(deleteId)
     if (deleteId) {
       deleteMutate({
         url: `/chatting/${deleteId}`,

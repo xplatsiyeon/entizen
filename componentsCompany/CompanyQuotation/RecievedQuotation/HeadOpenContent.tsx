@@ -137,21 +137,19 @@ const HeadOpenContent = () => {
   };
 
   // 다른 곳 클릭할때 모달창 나오게 하는거
-
-  const onRouteChangeStart = useCallback((url: string) => {
-    // if (url !== router.pathname) {
-    //   setModalOpen(true);
-    // } else {
-    //   setModalOpen(false);
-    // }
-  }, []);
-
-  useEffect(() => {
-    router.events.on('routeChangeStart', onRouteChangeStart);
-    return () => {
-      router.events.on('routeChangeStart', onRouteChangeStart);
-    };
-  }, [onRouteChangeStart, router.events]);
+  // const onRouteChangeStart = useCallback((url: string) => {
+  // if (url !== router.pathname) {
+  //   setModalOpen(true);
+  // } else {
+  //   setModalOpen(false);
+  // }
+  // }, []);
+  // useEffect(() => {
+  //   router.events.on('routeChangeStart', onRouteChangeStart);
+  //   return () => {
+  //     router.events.on('routeChangeStart', onRouteChangeStart);
+  //   };
+  // }, [onRouteChangeStart, router.events]);
 
   //  받은 요청 상세페이지 api 요청
   const { data, isError, isLoading, refetch, remove } = useQuery<
@@ -241,13 +239,10 @@ const HeadOpenContent = () => {
   if (isLoading) {
     return <Loader />;
   }
-  // if (isError) {
-  //   return <Modal text="다시 시도해주세요" click={() => router.push('/')} />;
-  // }
+
   console.log('🔥 ~line 208 ~editData! ' + TAG);
-  // console.log(data);
   console.log(editData);
-  // console.log(innerHeight);
+  console.log('렌더링 되나?');
 
   // 부분 구독인지 아닌지
   const partSubscribe = data?.receivedQuotationRequest?.subscribeProduct;
@@ -574,8 +569,6 @@ const HeadOpenContent = () => {
                             idx={index.toString()}
                             num={tabNumber.toString()}
                             key={tab}
-                            // 테스트용
-                            // onClick={() => setTabNumber(index)}
                           />
                         )}
                       </React.Fragment>
@@ -591,8 +584,8 @@ const HeadOpenContent = () => {
                   paddingOn={true}
                 />
               )}
-              {/* 웹 UI */}
-              {nowWidth >= 1200 && <> {components[tabNumber]}</>}
+              {/* ------------내부 컴포넌트--------- */}
+              {<> {components[tabNumber]}</>}
             </BtnWrapper>
           </WebRapper>
           {/* 가견적 작성하기 부분 */}
@@ -616,14 +609,11 @@ const HeadOpenContent = () => {
                         idx={index.toString()}
                         num={tabNumber.toString()}
                         key={tab}
-                        // 테스트용
-                        // onClick={() => setTabNumber(index)}
                       />
                     )}
                   </React.Fragment>
                 ))}
               </TabBox>
-              {nowWidth < 1200 && <> {components[tabNumber]}</>}
             </WebProgressbar>
           )}
         </Container>
@@ -909,6 +899,11 @@ const ElseText = styled.div`
     line-height: 16pt;
     letter-spacing: -0.02em;
     text-align: left;
+  }
+`;
+const MobileHide = styled.div`
+  @media (max-width: 899.25pt) {
+    display: none;
   }
 `;
 export default HeadOpenContent;
