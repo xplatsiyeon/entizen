@@ -538,7 +538,7 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
         <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
       )}
       {/* 나가기 모달 제어 */}
-      {quitModal && <QuitModal setModal={setQuitModal} />}
+      {quitModal && <QuitModal setModal={setQuitModal} deleteId={Number(routerId)}/>}
     </Body>
   );
 };

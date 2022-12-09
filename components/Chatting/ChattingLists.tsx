@@ -180,30 +180,10 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
     refetch();
   }, [index, keyword]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  // console.log('채팅 리스트 api ~ line 67 -> ' + TAG);
-  // console.log(data);
-  const toggleDrawer =
-    (anchor: string, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
-
-      setState({ ...state, [anchor]: open });
-    };
-
-  // 페이지 이동시 스크롤 최상단으로 이동
+  {/* // 페이지 이동시 스크롤 최상단으로 이동
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [router.query.chattingRoomIdx]);
+  }, [router.query.chattingRoomIdx]); */}
 
   return (
     <Body className="chatt-body" chattingRoom={Boolean(chattingRoom)}>
@@ -214,28 +194,6 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
             <IconWrap>
               <Image src={bell} layout="fill" />
             </IconWrap>
-            {(['right'] as const).map((anchor) => (
-              <React.Fragment key={anchor}>
-                <HamburgerOn onClick={toggleDrawer(anchor, true)}>
-                  <IconBox>
-                    <Image src={Hamburger} alt="listIcon" />
-                  </IconBox>
-                </HamburgerOn>
-                <Drawer
-                  anchor={anchor}
-                  open={state[anchor]}
-                  onClose={toggleDrawer(anchor, false)}
-                  // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
-                >
-                  <HamburgerBar
-                    anchor={anchor}
-                    toggleDrawer={toggleDrawer}
-                    setState={setState}
-                    state={state}
-                  />
-                </Drawer>
-              </React.Fragment>
-            ))}
           </IconBox>
         </IconWrapper>
       </Header>

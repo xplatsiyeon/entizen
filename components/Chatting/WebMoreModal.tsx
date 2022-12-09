@@ -102,6 +102,10 @@ const Box = styled.div`
   .fisrt {
     border-bottom: 1px solid #f3f4f7;
   }
+
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
 `;
 const BottomBtn = styled.div`
   width: 100%;

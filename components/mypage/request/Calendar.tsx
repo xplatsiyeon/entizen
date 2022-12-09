@@ -9,9 +9,10 @@ import { css } from '@emotion/react';
 interface Props {
   selectedDays: string[];
   SetSelectedDays: Dispatch<SetStateAction<string[]>>;
+  selected?: string[]; 
 }
 
-const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
+const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
   const today = {
     year: new Date().getFullYear(), //오늘 연도
     month: new Date().getMonth() + 1, //오늘 월
@@ -99,6 +100,13 @@ const Calendar = ({ selectedDays, SetSelectedDays }: Props) => {
     const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
     // 이전 날짜 클릭 금지 조건문
     if (differencerDate > 0) return;
+    // 현장 실사 날짜 수정용 조건문. 전에 선택했던 날짜 클릭 금지(전에 선택한 날짜가 1개인 전제로)
+    if(selected && ( selected.length > 0 )){
+      const newDate = selectedYear + '-' + selectedMonth + '-' + day;
+      if(newDate === selected[0]){
+        return;
+      }
+    }
     // 클릭 취소
     if (selectedDays.includes(selectedDate)) {
       const temp = [...selectedDays];

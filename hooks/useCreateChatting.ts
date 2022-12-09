@@ -17,16 +17,18 @@ const useCreateChatting = () => {
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   // ------------- 채팅방 생성하기 API ---------------
-  const { mutate: createMutate, isLoading: createLoading } = useMutation(
+  const {  mutate: createMutate, isLoading: createLoading } = useMutation(
     isTokenPostApi,
     {
-      onSuccess: async (data) => {
+      onSuccess:(res) => {
         // 채팅방 아이디 값 추출
-        const index = await data?.data?.chattingRoom?.chattingRoomIdx;
+        const index = res?.data?.data?.chattingRoom?.chattingRoomIdx;
         // 유저면 유저 채팅방, 기업이면 기업 채팅방으로 이동
-
-        console.log('🔥 채팅방 생성 ', index);
+        console.log('🔥 채팅방 생성 데이터 확인!! ', res);
+        console.log('🔥 채팅방 생성 데이터 확인!! ', index);
+        console.log('🔥 채팅방 생성 토큰 확인!! ', token);
         if (index && token && token.memberType === 'USER') {
+          console.log('🔥 채팅방 생성 인덱스 확인!! ', index);
           router.push({
             pathname: '/chatting/chattingRoom',
             query: {
@@ -44,29 +46,29 @@ const useCreateChatting = () => {
       },
       onError: async (error: any) => {
         // 채팅방이 존재하면 생성없이 바로 채팅방으로 이동
-        console.log('🔥 채팅방 생성하기 오류 ~line 27 -> ' + TAG);
         const message = await error.response?.data?.message;
-        if (message && message.includes('이미 채팅방이 존재합니다.')) {
-          // 채팅방 아이디 값 추출
-          const regex = /[^0-9]/g;
-          const index = await message.replace(regex, '');
-          // 유저면 유저 채팅방, 기업이면 기업 채팅방으로 이동
-          if (index && token && token.memberType === 'USER') {
-            router.push({
-              pathname: '/chatting/chattingRoom',
-              query: {
-                chattingRoomIdx: index,
-              },
-            });
-          } else {
-            router.push({
-              pathname: '/company/chatting/chattingRoom',
-              query: {
-                chattingRoomIdx: index,
-              },
-            });
-          }
-        }
+  
+         if (message && message.includes('이미 채팅방이 존재합니다.')) {
+           // 채팅방 아이디 값 추출
+           const regex = /[^0-9]/g;
+           const index = await message.replace(regex, '');
+           // 유저면 유저 채팅방, 기업이면 기업 채팅방으로 이동
+           if (index && token && token.memberType === 'USER') {
+             router.push({
+               pathname: '/chatting/chattingRoom',
+               query: {
+                 chattingRoomIdx: index,
+               },
+             });
+           } else {
+             router.push({
+               pathname: '/company/chatting/chattingRoom',
+               query: {
+                 chattingRoomIdx: index,
+               },
+             });
+           }
+         }
       },
     },
   );
