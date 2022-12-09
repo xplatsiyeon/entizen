@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
@@ -14,10 +13,8 @@ import {
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import SendRequestUnder from './SendRequestUnder';
-import LastQuotation from 'pages/company/quotation/lastQuotation';
 import { SentrequestResponse } from './SentRequest';
 import HistoryUnder, { HistoryResponse } from './HistoryUnder';
-// import { HistoryResponse } from './History';
 
 type Props = {
   searchWord?: string;
@@ -44,17 +41,9 @@ interface Data {
   storeName: string;
   date: string;
 }
-// 데이터 없을 때 나오는 페이지
-// const tempProceeding: [] = [];
-const tempProceeding: Data[] = [];
 
 const LeftProjectQuotationBox = ({
-  searchWord,
-  setSearchWord,
   checkedFilterIndex,
-  setcheckedFilterIndex,
-  checkedFilter,
-  setCheckedFilter,
   keyword,
   underNum,
   setUnderNum,
@@ -62,24 +51,22 @@ const LeftProjectQuotationBox = ({
   setTabNumber,
   componentId,
 }: Props) => {
-  const route = useRouter();
-  const [userName, setUserName] = useState<string>('윤세아');
-  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+  // const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
   const [tab, setTab] = useState<string>('');
 
   // 실시간으로 width 받아오는 함수
-  const handleResize = () => {
-    setNowWidth(window.innerWidth);
-  };
+  // const handleResize = () => {
+  //   setNowWidth(window.innerWidth);
+  // };
 
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [nowWidth]);
+  // useEffect(() => {
+  //   window.addEventListener('resize', handleResize);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, [nowWidth]);
 
   // 받은 요청 리스트 api 호출
   const { data, isError, error, refetch } = useQuery<ReceivedRequest>(

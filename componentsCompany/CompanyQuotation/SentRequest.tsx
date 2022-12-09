@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { useRouter } from 'next/router';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CommonBtn from 'components/mypage/as/CommonBtn';
 import { useQuery } from 'react-query';
@@ -64,7 +64,7 @@ const SentRequest = ({}: Props) => {
     useState<filterType>('마감일순 보기');
 
   const keyword = useDebounce(searchWord, 2000);
-  const { data, isError, isLoading, error, refetch, remove } =
+  const { data, isError, isLoading, error, refetch } =
     useQuery<SentrequestResponse>(
       'sent-request',
       () =>
@@ -77,7 +77,7 @@ const SentRequest = ({}: Props) => {
       },
     );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     refetch();
   }, [checkedFilterIndex, keyword]);
 
