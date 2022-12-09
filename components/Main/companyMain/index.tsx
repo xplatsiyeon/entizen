@@ -18,7 +18,7 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import MainImageWrap from './MainImageWrap';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
-import CompanyHamburger from 'componentsWeb/CompanyHamburger';
+import HamburgerBar from 'componentsWeb/HamburgerBar';
 
 type Props = { num?: number; now?: string };
 
@@ -103,7 +103,7 @@ const CompanyMainPage = ({ num, now }: Props) => {
                   onClose={toggleDrawer(anchor, false)}
                   // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
                 >
-                  <CompanyHamburger
+                  <HamburgerBar
                     anchor={anchor}
                     toggleDrawer={toggleDrawer}
                     setState={setState}

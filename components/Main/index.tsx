@@ -34,6 +34,7 @@ import useProfile from 'hooks/useProfile';
 import { useQueries, useQuery } from 'react-query';
 import { isTokenApi, isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
+import HamburgerBar from 'componentsWeb/HamburgerBar';
 
 type Props = {};
 
@@ -108,159 +109,6 @@ const MainPage = (props: Props) => {
     console.log('에러 발생');
   }
 
-  const list = (anchor: string) => (
-    <WholeBox
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <ListBox>
-        <XBtnWrapper>
-          <Imagewrap
-            onClick={() =>
-              isLogin ? router.push('/alarm') : router.push('/signin')
-            }
-          >
-            <Image src={Bell} alt="bellBtn" />
-          </Imagewrap>
-          <Imagewrap
-            onClick={() =>
-              isLogin ? router.push('/alarm/1-1') : router.push('/signin')
-            }
-          >
-            <Image src={Nut} alt="NutBtn" />
-          </Imagewrap>
-          <Imagewrap>
-            <Image src={xBtn} alt="xBtn" />
-          </Imagewrap>
-        </XBtnWrapper>
-        {isLogin ? (
-          <WhetherLoginComplete onClick={() => router.push('/profile/editing')}>
-            <span onClick={() => router.push('/profile/editing')}>
-              <label className="label">일반회원</label>
-              {profile?.name}&nbsp;님
-            </span>
-            <span
-              className="arrow-img"
-              onClick={() => router.push('/profile/editing')}
-            >
-              <Image src={whiteRight} alt="arrow" layout="fill" />
-            </span>
-          </WhetherLoginComplete>
-        ) : (
-          <WhetherLogin onClick={() => router.push('/signin')}>
-            <span>로그인 해주세요</span>
-            <span>
-              <Image src={whiteRight} alt="arrow" />
-            </span>
-          </WhetherLogin>
-        )}
-
-        <WhiteArea>
-          <WhiteAreaMenus
-            onClick={() =>
-              isLogin
-                ? router.push('/quotation/request')
-                : router.push('/signin')
-            }
-          >
-            <span>
-              <Image src={simpleEstimate} alt="간편견적" />
-            </span>
-            <span>간편견적</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/guide')}>
-            <span>
-              <Image src={guide} alt="가이드" />
-            </span>
-            <span>가이드</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() => {
-              isLogin
-                ? router.push('/company/chatting')
-                : router.push('/signin');
-            }}
-
-            // onClick={() => alert('2차 작업 범위 페이지입니다.')}
-          >
-            <span>
-              <Image src={conversation} alt="소통하기" />
-            </span>
-            <span>소통하기</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              isLogin ? router.push('/mypage') : router.push('/signin')
-            }
-          >
-            <span>
-              <Image src={mypageIcon} alt="마이페이지" />
-            </span>
-            <span>마이페이지</span>
-          </WhiteAreaMenus>
-          <Divider
-            sx={{
-              width: '100%',
-              marginTop: '15pt',
-              marginBottom: '3pt',
-              borderTop: '1px solid #E2E5ED',
-            }}
-          />
-          <WhiteAreaMenus onClick={() => alert('2차 작업페이지입니다.')}>
-            <span>공지사항</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              isLogin ? router.push('/alarm/1-1') : router.push('/signin')
-            }
-          >
-            <span>알림 설정</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 페이지 입니다.')}>
-            <span>1:1 문의</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/faq')}>
-            <span>자주 묻는 질문</span>
-          </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
-            <span>제휴문의</span>
-          </WhiteAreaMenus>
-          <Divider
-            sx={{
-              width: '100%',
-              marginTop: '3pt',
-              borderTop: '1px solid #E2E5ED',
-            }}
-          />
-          <WhiteAreaBottomMenus>
-            <span
-              onClick={() =>
-                window.open(
-                  'https://instagram.com/entizen.ev/',
-                  'entizen_Instagram',
-                )
-              }
-            >
-              <Image src={grayInsta} alt="인스타"></Image>
-            </span>
-            <span
-              onClick={() =>
-                window.open('http://post.naver.com/entizen_ev', 'entizen_post')
-              }
-            >
-              <Image src={grayNaver} alt="네이버"></Image>
-            </span>
-          </WhiteAreaBottomMenus>
-          <WhiteAreaBottomText>
-            <span>고객센터 | 9818-8856</span>
-            <span onClick={() => router.push('/setting')}>설정</span>
-          </WhiteAreaBottomText>
-        </WhiteArea>
-      </ListBox>
-    </WholeBox>
-  );
-
   return (
     <>
       <Container>
@@ -281,7 +129,6 @@ const MainPage = (props: Props) => {
             <FirstIconBox onClick={() => router.push('/alarm')}>
               <Image src={Ring} alt="alarmIcon" />
             </FirstIconBox>
-
             {(['right'] as const).map((anchor) => (
               <React.Fragment key={anchor}>
                 <HamburgerOn onClick={toggleDrawer(anchor, true)}>
@@ -295,7 +142,12 @@ const MainPage = (props: Props) => {
                   onClose={toggleDrawer(anchor, false)}
                   // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
                 >
-                  {list(anchor)}
+                  <HamburgerBar
+                    anchor={anchor}
+                    toggleDrawer={toggleDrawer}
+                    setState={setState}
+                    state={state}
+                  />
                 </Drawer>
               </React.Fragment>
             ))}
