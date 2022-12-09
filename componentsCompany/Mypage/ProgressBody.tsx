@@ -118,6 +118,7 @@ const ProgressBody = ({
   };
 
   let textArr;
+  let initToggle;
 
   switch (badge) {
     case '계약대기':
@@ -127,6 +128,7 @@ const ProgressBody = ({
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, false, false, false, false];
       break;
     case '준비 중':
       textArr = [
@@ -135,6 +137,7 @@ const ProgressBody = ({
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, true, false, false, false];
       break;
     case '설치 중':
       textArr = [
@@ -143,6 +146,7 @@ const ProgressBody = ({
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, false, true, false, false];
       break;
     case '검수 중':
       textArr = [
@@ -151,6 +155,7 @@ const ProgressBody = ({
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, false, false, true, false];
       break;
     case '완료 중':
       textArr = [
@@ -159,6 +164,7 @@ const ProgressBody = ({
         '충전기 검수가 완료되었습니다',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, false, false, false, true];
       break;
     case '완료대기':
       textArr = [
@@ -167,6 +173,7 @@ const ProgressBody = ({
         '충전기 검수가 완료되었습니다',
         '프로젝트 완료 진행중입니다',
       ];
+      initToggle = [false, false, false, false, true];
       break;
     // 취소
     default:
@@ -176,6 +183,7 @@ const ProgressBody = ({
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, false, false, false, false];
   }
 
   return (
