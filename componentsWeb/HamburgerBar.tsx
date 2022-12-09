@@ -28,6 +28,7 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
+import HamburgerChat from 'public/images/HamburgerChat.svg';
 
 type Props = {
   anchor: string;
@@ -45,7 +46,7 @@ type Props = {
   };
 };
 
-const CompanyHamburger = ({ anchor, toggleDrawer, setState, state }: Props) => {
+const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   const router = useRouter();
   const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
@@ -60,6 +61,53 @@ const CompanyHamburger = ({ anchor, toggleDrawer, setState, state }: Props) => {
     'chatting-list',
     () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
   );
+
+  // 기업인지 판매자인지
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+
+  // 라우팅 함수 내 견적 vs 간편견적
+  const estimateRouting = () => {
+    if (userID && memberType === 'COMPANY') {
+      router.push('/company/quotation');
+    } else if (userID && memberType !== 'COMPANY') {
+      router.push('/quotation/request');
+    } else if (userID!) {
+      router.push('/signin');
+    }
+  };
+
+  // 라우팅 함수 기업채팅 vs 내채팅
+  const chattingRouting = () => {
+    if (userID && memberType === 'COMPANY') {
+      router.push('/company/chatting');
+    } else if (userID && memberType !== 'COMPANY') {
+      router.push('/guide');
+    } else if (userID!) {
+      router.push('/signin');
+    }
+  };
+
+  // 라우팅 함수 기업as vs 유저as
+  const asRouting = () => {
+    if (userID && memberType === 'COMPANY') {
+      router.push('/company/as');
+    } else if (userID && memberType !== 'COMPANY') {
+      router.push('/chatting');
+    } else if (userID!) {
+      router.push('/signin');
+    }
+  };
+
+  // 라우팅 함수 기업project vs 유저project
+  const projectRouting = () => {
+    if (userID && memberType === 'COMPANY') {
+      router.push('/company/mypage?id=0');
+    } else if (userID && memberType !== 'COMPANY') {
+      router.push('/mypage');
+    } else if (userID!) {
+      router.push('/signin');
+    }
+  };
 
   const chattingRoomIdx =
     data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
@@ -104,14 +152,34 @@ const CompanyHamburger = ({ anchor, toggleDrawer, setState, state }: Props) => {
           </Imagewrap>
         </XBtnWrapper>
         {isLogin ? (
-          <WhetherLoginComplete onClick={() => router.push('/company/profile')}>
-            <span onClick={() => router.push('/company/profile')}>
-              <label className="label">기업회원</label>
+          <WhetherLoginComplete
+            onClick={() =>
+              memberType === 'COMPANY'
+                ? router.push('/company/profile')
+                : router.push('/profile/editing')
+            }
+          >
+            <span
+              onClick={() =>
+                memberType === 'COMPANY'
+                  ? router.push('/company/profile')
+                  : router.push('/profile/editing')
+              }
+            >
+              {memberType === 'COMPANY' ? (
+                <label className="label">기업회원</label>
+              ) : (
+                <label className="label">일반회원</label>
+              )}
               {userID}
             </span>
             <span
               className="arrow-img"
-              onClick={() => router.push('/company/profile')}
+              onClick={() =>
+                memberType === 'COMPANY'
+                  ? router.push('/company/profile')
+                  : router.push('/profile/editing')
+              }
             >
               <Image src={whiteRight} alt="arrow" layout="fill" />
             </span>
@@ -126,61 +194,81 @@ const CompanyHamburger = ({ anchor, toggleDrawer, setState, state }: Props) => {
         )}
 
         <WhiteArea>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID
-                ? router.push('/company/quotation')
-                : router.push('/signin')
-            }
-          >
+          <WhiteAreaMenus onClick={estimateRouting}>
             <span>
               <Image src={simpleEstimate} alt="내 견적" />
             </span>
-            <span>내 견적</span>
+            {memberType === 'COMPANY' ? (
+              <span>내 견적</span>
+            ) : (
+              <span>간편견적</span>
+            )}
           </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() => {
-              isLogin
-                ? router.push('/company/chatting')
-                : router.push('/signin');
-            }}
-          >
-            <span>
-              <Image src={guide} alt="가이드" />
-            </span>
-            <span>소통하기</span>
+          <WhiteAreaMenus onClick={chattingRouting}>
+            {memberType === 'COMPANY' ? (
+              <>
+                <span>
+                  <Image src={HamburgerChat} alt="소통하기" />
+                </span>
+                <span>소통하기</span>
+              </>
+            ) : (
+              <>
+                <span>
+                  <Image src={guide} alt="가이드" />
+                </span>
+                <span>가이드</span>
+              </>
+            )}
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/company/as?id=0')}>
-            <span>
-              <Image src={hamburgerAs} alt="A/S" />
-            </span>
-            <span>A/S</span>
+          <WhiteAreaMenus onClick={asRouting}>
+            {memberType === 'COMPANY' ? (
+              <>
+                <span>
+                  <Image src={hamburgerAs} alt="A/S" />
+                </span>
+                <span>A/S</span>
+              </>
+            ) : (
+              <>
+                <span>
+                  <Image src={HamburgerChat} alt="소통하기" />
+                </span>
+                <span>소통하기</span>
+              </>
+            )}
           </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID
-                ? router.push('/company/mypage?id=0')
-                : router.push('/signin')
-            }
-          >
-            <span>
-              <Image src={mypageIcon} alt="내 프로젝트" />
-            </span>
-            <span>내프로젝트</span>
+          <WhiteAreaMenus onClick={projectRouting}>
+            {memberType === 'COMPANY' ? (
+              <>
+                <span>
+                  <Image src={mypageIcon} alt="내 프로젝트" />
+                </span>
+                <span>내프로젝트</span>
+              </>
+            ) : (
+              <>
+                <span>
+                  <Image src={mypageIcon} alt="내 프로젝트" />
+                </span>
+                <span>마이 페이지</span>
+              </>
+            )}
           </WhiteAreaMenus>
-          <WhiteAreaMenus
-            onClick={() =>
-              userID
-                ? router.push('/company/myProductList')
-                : router.push('/signin')
-            }
-          >
-            <span>
-              <Image src={myProduct} alt="내 제품" />
-            </span>
-            <span>내 제품 리스트</span>
-          </WhiteAreaMenus>
-
+          {memberType === 'COMPANY' && (
+            <WhiteAreaMenus
+              onClick={() =>
+                userID
+                  ? router.push('/company/myProductList')
+                  : router.push('/signin')
+              }
+            >
+              <span>
+                <Image src={myProduct} alt="내 제품" />
+              </span>
+              <span>내 제품 리스트</span>
+            </WhiteAreaMenus>
+          )}
           <Divider
             sx={{
               width: '100%',
@@ -194,25 +282,33 @@ const CompanyHamburger = ({ anchor, toggleDrawer, setState, state }: Props) => {
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID ? router.push('/alarm/1-1') : router.push('/signin')
+              userID ? router.push('/setting?id=1') : router.push('/signin')
             }
           >
             <span>알림 설정</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              router.push({
-                pathname: `/chatting/chattingRoom`,
-                query: {
-                  chattingRoomIdx: chattingRoomIdx,
-                  entizen: true,
-                },
-              })
+              userID
+                ? router.push({
+                    pathname: `/chatting/chattingRoom`,
+                    query: {
+                      chattingRoomIdx: chattingRoomIdx,
+                      entizen: true,
+                    },
+                  })
+                : router.push('/signin')
             }
           >
             <span>1:1 문의</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/faq')}>
+          <WhiteAreaMenus
+            onClick={() =>
+              memberType === 'COMPANY'
+                ? router.push('/company/faq')
+                : router.push('/faq')
+            }
+          >
             <span>자주 묻는 질문</span>
           </WhiteAreaMenus>
           <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
@@ -254,7 +350,7 @@ const CompanyHamburger = ({ anchor, toggleDrawer, setState, state }: Props) => {
   );
 };
 
-export default CompanyHamburger;
+export default HamburgerBar;
 
 const Container = styled.div`
   padding-left: 15pt;

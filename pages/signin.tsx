@@ -70,7 +70,7 @@ const Signin = () => {
   const originLogin = async () => {
     console.log('로그인 온클릭');
     const ORIGIN_API = `https://test-api.entizen.kr/api/members/login`;
-    // 로컬에서 사용할때만 활성화 시키기
+    // // // 로컬에서 사용할때만 활성화 시키기
     // const ORIGIN_API = `/api/members/login`;
     try {
       await axios({
@@ -116,6 +116,13 @@ const Signin = () => {
         });
     } catch (error: any) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  // 엔터키 이벤트
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      originLogin();
     }
   };
   // 네이버 로그인
@@ -404,6 +411,7 @@ const Signin = () => {
                     sx={{
                       marginTop: '9pt',
                     }}
+                    onKeyDown={onKeyPress}
                   />
                 </Box>
                 <LoginBtn onClick={originLogin}>

@@ -1,10 +1,10 @@
-import styled from "@emotion/styled";
-import { Divider } from "@mui/material";
-import { Box } from "@mui/system";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import colors from "styles/colors";
+import styled from '@emotion/styled';
+import { Divider } from '@mui/material';
+import { Box } from '@mui/system';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import colors from 'styles/colors';
 import xBtn from 'public/images/X.png';
 import whiteRight from 'public/images/whiteRight20.png';
 import simpleEstimate from 'public/images/simpleEstimate.png';
@@ -15,11 +15,10 @@ import grayInsta from 'public/images/grayCircleInsta.png';
 import grayNaver from 'public/images/grayCircleNaver.png';
 
 type Props = {
-    st : string;
-}
+  st: string;
+};
 
-const HamburgerMenu = ({st}:Props) => {
-
+const HamburgerMenu = ({ st }: Props) => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
   const userID = localStorage.getItem('USER_ID');
@@ -41,9 +40,8 @@ const HamburgerMenu = ({st}:Props) => {
 
       setState({ ...state, [anchor]: open });
     };
-    
 
-    return (
+  return (
     <WholeBox
       role="presentation"
       onClick={toggleDrawer(st, false)}
@@ -151,66 +149,64 @@ const HamburgerMenu = ({st}:Props) => {
         </WhiteArea>
       </ListBox>
     </WholeBox>
-    )
+  );
 };
 
-  export default HamburgerMenu;
-
+export default HamburgerMenu;
 
 const WholeBox = styled(Box)`
-display: flex;
-flex-direction: column;
-position: relative;
-/* height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* height: 100vh; */
 `;
 
 const ListBox = styled.div`
-position: relative;
-width: 179pt;
-padding-left: 24pt;
-padding-right: 24pt;
-height: 100vh;
+  position: relative;
+  width: 179pt;
+  padding-left: 24pt;
+  padding-right: 24pt;
+  height: 100vh;
 
-background-color: ${colors.main};
+  background-color: ${colors.main};
 `;
 const XBtnWrapper = styled.div`
-display: flex;
-justify-content: end;
-margin-top: 44.25pt;
+  display: flex;
+  justify-content: end;
+  margin-top: 44.25pt;
 `;
 
 const WhetherLogin = styled.div`
-display: flex;
-align-items: center;
-margin-top: 27.75pt;
-& span {
-}
-& span:first-of-type {
-  font-family: Spoqa Han Sans Neo;
-  font-size: 15pt;
-  font-weight: 700;
-  line-height: 15pt;
-  letter-spacing: -0.02em;
-  text-align: left;
-  color: #ffffff;
-  margin-right: 6pt;
-}
-& span {
-}
-.label {
-  font-weight: 500;
-  font-size: 10.5pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.lightGray3};
-}
-.arrow-img {
-  position: relative;
-  width: 15pt;
-  height: 15pt;
-}
+  display: flex;
+  align-items: center;
+  margin-top: 27.75pt;
+  & span {
+  }
+  & span:first-of-type {
+    font-family: Spoqa Han Sans Neo;
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #ffffff;
+    margin-right: 6pt;
+  }
+  & span {
+  }
+  .label {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.lightGray3};
+  }
+  .arrow-img {
+    position: relative;
+    width: 15pt;
+    height: 15pt;
+  }
 `;
-
 
 const WhetherLoginComplete = styled.div`
   display: flex;
