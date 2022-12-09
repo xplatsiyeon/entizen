@@ -683,6 +683,7 @@ const ProgressName = styled.div`
   display: flex;
   align-items: center;
   gap: 3pt;
+  cursor: pointer;
   & :first-of-type {
     position: relative;
     font-family: 'Spoqa Han Sans Neo';
@@ -772,6 +773,7 @@ const ClientP = styled.p<{ presentProgress: boolean }>`
   color: #222222;
   width: 100%;
   padding: 15pt 13.5pt;
+  cursor: pointer;
 `;
 
 const YetP = styled.p<{ presentProgress: boolean }>`

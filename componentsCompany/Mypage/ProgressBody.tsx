@@ -575,6 +575,7 @@ const ProgressName = styled.div`
     height: 12pt !important;
     position: relative;
   }
+  cursor: pointer;
 `;
 
 const InsideFlex = styled.div`

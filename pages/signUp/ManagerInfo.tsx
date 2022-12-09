@@ -60,6 +60,14 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       },
     },
   );
+
+  // 엔터키 이벤트
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      //뭔가 실행할 함수
+    }
+  };
+
   // 이메일 코드
   const { mutate: emailCodeMutate, isLoading: emailCodeLoading } = useMutation(
     isTokenPostApi,
@@ -342,6 +350,7 @@ const Form = styled(Box)`
     letter-spacing: -0.02em;
   }
 `;
+
 const OverlapBtn = styled.button<{ isEmailValid: boolean }>`
   position: absolute;
   right: 8pt;

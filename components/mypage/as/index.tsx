@@ -88,13 +88,6 @@ const AsIndex = ({ listUp }: Props) => {
     );
   ('/api/after-sales-services?sort=register');
 
-  console.log(
-    '날짜 들고 온나...',
-    data?.data?.afterSalesServices[0].afterSalesService.createdAt,
-  );
-  const abc = new Date();
-  console.log('이거 타입이 뭐요?', abc);
-
   const list = (anchor: string) => (
     <FilterBox
       sx={{ width: anchor === 'bottom' ? 'auto' : 250 }}

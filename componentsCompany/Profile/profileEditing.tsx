@@ -212,10 +212,10 @@ const ProfileEditing = ({ setComponent, component }: Props) => {
               value={profile?.companyMemberAdditionalInfo?.companyZipCode}
               name="id"
               readOnly={true}
-              onClick={() => setAddressOn(true)}
+              // onClick={() => setAddressOn(true)}
             />
             {/* <InputBtn onClick={() => setAddressOn(true)}> */}
-            <InputBtn>
+            <InputBtn onClick={() => setAddressOn(true)}>
               <span>주소찾기</span>
             </InputBtn>
           </InputWrap>
@@ -224,7 +224,7 @@ const ProfileEditing = ({ setComponent, component }: Props) => {
             value={profile?.companyMemberAdditionalInfo?.companyAddress}
             name="checkPw"
             readOnly={true}
-            onClick={() => setAddressOn(true)}
+            // onClick={() => setAddressOn(true)}
           />
           <InputBox
             placeholder="회사 상세주소 입력"
@@ -373,6 +373,7 @@ const InputBtn = styled.button`
   background: #e2e5ed;
   border-radius: 6pt;
   padding: 7.5pt 9pt;
+  cursor: pointer;
   span {
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;

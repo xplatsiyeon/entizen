@@ -62,6 +62,9 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
     () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
   );
 
+  const chattingRoomIdx =
+    data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
+
   // 기업인지 판매자인지
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
@@ -108,9 +111,6 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
       router.push('/signin');
     }
   };
-
-  const chattingRoomIdx =
-    data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
 
   useEffect(() => {
     dispatch(myEstimateAction.reset());
@@ -289,15 +289,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID
-                ? router.push({
-                    pathname: `/chatting/chattingRoom`,
-                    query: {
-                      chattingRoomIdx: chattingRoomIdx,
-                      entizen: true,
-                    },
-                  })
-                : router.push('/signin')
+              userID ? router.push('/setting?id=2') : router.push('/signin')
             }
           >
             <span>1:1 문의</span>
@@ -311,7 +303,19 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
           >
             <span>자주 묻는 질문</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => alert('2차 작업 범위 페이지입니다.')}>
+          <WhiteAreaMenus
+            onClick={() =>
+              userID
+                ? router.push({
+                    pathname: `/chatting/chattingRoom`,
+                    query: {
+                      chattingRoomIdx: chattingRoomIdx,
+                      entizen: true,
+                    },
+                  })
+                : router.push('/signin')
+            }
+          >
             <span>제휴문의</span>
           </WhiteAreaMenus>
           <Divider

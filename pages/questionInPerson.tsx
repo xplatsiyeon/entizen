@@ -10,6 +10,9 @@ import CommunicationIcon from 'public/images/communication-icon.svg';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import CallModal from 'components/CallModal';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
+import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 
 export interface Contents {
   id: number;
@@ -21,16 +24,17 @@ interface Components {
 }
 
 const questionInPerson = () => {
-  const route = useRouter();
+  const router = useRouter();
+  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [mailOn, setMailOn] = useState<boolean>(false);
   const [callBtnModal, setCallBtnModal] = useState<boolean>(false);
 
   const leftOnClick = () => {
-    route.back();
+    router.back();
   };
   const rightOnClick = () => {
-    route.push('/');
+    router.push('/');
   };
 
   // 이메일 주소 복사하는 함수
@@ -39,6 +43,15 @@ const questionInPerson = () => {
       navigator.clipboard.writeText(text);
     } catch (error) {}
   };
+
+  // 제휴문의 채팅방 보내기
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+  );
+
+  const chattingRoomIdx =
+    data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
 
   return (
     <WebBody>
@@ -69,7 +82,7 @@ const questionInPerson = () => {
                 setTimeout(function () {
                   setMailOn(false);
                 }, 2000);
-                handleCopyEmail('entizen@naver.com');
+                handleCopyEmail('entizen@entizen.kr');
               }}
             >
               이메일 문의하기
@@ -80,9 +93,17 @@ const questionInPerson = () => {
           </SettingBox>
           <SettingBox>
             <SettingList
-              onClick={() => {
-                alert('2차 작업 범위 입니다.');
-              }}
+              onClick={() =>
+                userID
+                  ? router.push({
+                      pathname: `/chatting/chattingRoom`,
+                      query: {
+                        chattingRoomIdx: chattingRoomIdx,
+                        entizen: true,
+                      },
+                    })
+                  : router.push('/signin')
+              }
             >
               엔티즌과 소통하기
             </SettingList>

@@ -80,13 +80,13 @@ const FinishedTopBox = ({ data }: Props) => {
             <div className="text-box">
               <span className="name">구독시작</span>
               <span className="text">
-                {data?.subscribeStartDate.replaceAll('-', '.')}
+                {data?.subscribeStartDate?.replaceAll('-', '.')}
               </span>
             </div>
             <div className="text-box">
               <span className="name">구독종료</span>
               <span className="text">
-                {data?.subscribeEndDate.replaceAll('-', '.')}
+                {data?.subscribeEndDate?.replaceAll('-', '.')}
               </span>
             </div>
             <div className="text-box">
