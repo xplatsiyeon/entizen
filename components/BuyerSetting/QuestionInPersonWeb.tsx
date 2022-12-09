@@ -6,9 +6,15 @@ import Image from 'next/image';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import ChatsSvg from 'public/images/ChatsBlackSvg.svg';
 import MailSvg from 'public/images/MailBlackSvg.svg';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import { ChattingListResponse } from 'components/Chatting/ChattingLists';
+import { useRouter } from 'next/router';
 
 const QuestionInPersonWeb = () => {
+  const router = useRouter();
   const [mailOn, setMailOn] = useState<boolean>(false);
+  const userID = JSON.parse(localStorage.getItem('USER_ID')!);
 
   // 이메일 주소 복사하는 함수
   const handleCopyEmail = (text: string) => {
@@ -16,6 +22,15 @@ const QuestionInPersonWeb = () => {
       navigator.clipboard.writeText(text);
     } catch (error) {}
   };
+
+  // 제휴문의 채팅방 보내기
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+  );
+
+  const chattingRoomIdx =
+    data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
 
   return (
     <Wrapper>
@@ -35,9 +50,17 @@ const QuestionInPersonWeb = () => {
           <QuestionText>더 자세한 문의사항은?</QuestionText>
           <SpeechWrap>
             <SpeechBubble
-              onClick={() => {
-                alert('2차 작업 범위입니다!');
-              }}
+              onClick={() =>
+                userID
+                  ? router.push({
+                      pathname: `/chatting/chattingRoom`,
+                      query: {
+                        chattingRoomIdx: chattingRoomIdx,
+                        entizen: true,
+                      },
+                    })
+                  : router.push('/signin')
+              }
             >
               <Image src={ChatsSvg} alt="Chats" />
               <SpeechText>엔티즌과 소통하기</SpeechText>
@@ -49,7 +72,7 @@ const QuestionInPersonWeb = () => {
                 setTimeout(function () {
                   setMailOn(false);
                 }, 1500);
-                handleCopyEmail('entizen@naver.com');
+                handleCopyEmail('entizen@entizen.kr');
               }}
             >
               <Image src={MailSvg} alt="Mail" />
