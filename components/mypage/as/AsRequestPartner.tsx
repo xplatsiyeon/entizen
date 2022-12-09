@@ -53,6 +53,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
   return (
     <>
       {modalOpen && <CallManager HandleModal={HandleModal} />}
+
       <Wrapper>
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />
