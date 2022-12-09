@@ -94,12 +94,16 @@ export interface InProgressProjectsDetail {
   isCompletedContractStep: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETION';
   isCompletedReadyStep: boolean;
   readyStepGoalDate: string;
+  readyStepCompletionDate: string;
   isCompletedInstallationStep: boolean;
   installationStepGoalDate: string;
+  installationStepCompletionDate: string;
   isCompletedExamStep: boolean;
   examStepGoalDate: string;
+  examStepCompletionDate: string;
   isCompletedCompletionStep: boolean;
   completionStepGoalDate: string;
+  completionStepCompletionDate: string;
   dateOfRequestForConsentToCompleteProject: string;
   projectCompletionAgreementDate: string;
   isApprovedByAdmin: boolean;
@@ -160,15 +164,19 @@ export const GET_InProgressProjectsDetail = gql`
       # 준비단계
       isCompletedReadyStep
       readyStepGoalDate
+      readyStepCompletionDate
       # 설치단계
       isCompletedInstallationStep
       installationStepGoalDate
+      installationStepCompletionDate
       # 검수단계
       isCompletedExamStep
       examStepGoalDate
+      examStepCompletionDate
       # 완료단계
       isCompletedCompletionStep
       completionStepGoalDate
+      completionStepCompletionDate
       # 아직 미확인
       dateOfRequestForConsentToCompleteProject
       projectCompletionAgreementDate

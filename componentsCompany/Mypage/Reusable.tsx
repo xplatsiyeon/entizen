@@ -42,6 +42,7 @@ type Props = {
   planed?: string;
   stepType: string;
   preStepState: boolean;
+  CompletionDate: string;
   setProgressNum: Dispatch<SetStateAction<number>>;
   inProgressRefetch: (
     variables?: Partial<OperationVariables> | undefined,
@@ -77,6 +78,7 @@ const Reusable = ({
   preStepState,
   inProgressRefetch,
   setProgressNum,
+  CompletionDate,
 }: // setBadgeState,
 // setData,
 
@@ -299,7 +301,7 @@ Props) => {
                 {planed
                   ? planed === 'CHANGING'
                     ? '변경중'
-                    : changeDataFn(planed)
+                    : changeDataFn(CompletionDate ? CompletionDate : planed)
                   : '목표일을 정해주세요'}
               </Date>
               <SubTitle>{fin ? textOne : textTwo}</SubTitle>
@@ -382,9 +384,9 @@ const Wrapper = styled.div`
   padding-bottom: 66pt;
 
   @media (min-width: 900pt) {
-  border-radius: 6pt;
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
-  padding-bottom:30pt;
+    border-radius: 6pt;
+    box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+    padding-bottom: 30pt;
   }
 `;
 const Box = styled.div`
@@ -395,9 +397,9 @@ const Box = styled.div`
   box-sizing: border-box;
 
   @media (min-width: 900pt) {
-  border-radius: 0;
-  box-shadow: none;
-  padding: 27pt 13.5pt 9pt;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 27pt 13.5pt 9pt;
   }
 `;
 const FinishedBox = styled.div`

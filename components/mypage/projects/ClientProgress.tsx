@@ -369,7 +369,11 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                 >
                   {data?.project?.readyStepGoalDate === 'CHANGING'
                     ? '목표일 변경 중'
-                    : changeDataFn(data?.project?.readyStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.readyStepCompletionDate
+                          ? data?.project?.readyStepCompletionDate
+                          : data?.project?.readyStepGoalDate,
+                      )}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
@@ -426,7 +430,11 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                 >
                   {data?.project?.installationStepGoalDate === 'CHANGING'
                     ? '목표일 변경 중'
-                    : changeDataFn(data?.project?.installationStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.installationStepCompletionDate
+                          ? data?.project?.installationStepCompletionDate
+                          : data?.project?.installationStepGoalDate,
+                      )}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
@@ -481,7 +489,11 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                 >
                   {data?.project?.examStepGoalDate === 'CHANGING'
                     ? '변경 중'
-                    : changeDataFn(data?.project?.examStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.examStepCompletionDate
+                          ? data?.project?.examStepCompletionDate
+                          : data?.project?.examStepGoalDate,
+                      )}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
@@ -538,7 +550,11 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                 >
                   {data?.project?.completionStepGoalDate === 'CHANGING'
                     ? '변경 중'
-                    : changeDataFn(data?.project?.completionStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.completionStepCompletionDate
+                          ? data?.project?.completionStepCompletionDate
+                          : data?.project?.completionStepGoalDate,
+                      )}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>

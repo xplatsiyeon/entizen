@@ -108,6 +108,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.readyStepGoalDate!}
+            CompletionDate={data?.project?.readyStepCompletionDate!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
           />
@@ -124,6 +125,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.installationStepGoalDate!}
+            CompletionDate={data?.project?.installationStepCompletionDate!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
           />
@@ -140,6 +142,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.examStepGoalDate!}
+            CompletionDate={data?.project?.examStepCompletionDate!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
           />
@@ -159,6 +162,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.completionStepGoalDate!}
+            CompletionDate={data?.project?.completionStepCompletionDate!!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
           />
