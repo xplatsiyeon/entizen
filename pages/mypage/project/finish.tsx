@@ -53,7 +53,6 @@ const FinPage = () => {
 
   console.log(projectData?.project?.isApprovedByAdmin);
 
-
   const HandleOnClick = () => {
     if (type === 'commu') {
       const id = projectData?.project.companyMember.memberIdx;
@@ -92,7 +91,10 @@ const FinPage = () => {
       <Body>
         <WebHeader />
         <Inner>
-          <MypageHeader exitBtn={true} handleOnClick={()=>router.push('/mypage?id=1')}/>
+          <MypageHeader
+            exitBtn={true}
+            handleOnClick={() => router.push('/mypage?id=1')}
+          />
           <Wrap>
             <ContainerBox>
               <Image src={CheckImg} alt="exit" style={{ cursor: 'pointer' }} />
