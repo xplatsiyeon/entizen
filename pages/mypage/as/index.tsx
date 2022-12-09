@@ -338,6 +338,7 @@ const Btn = styled.button`
   letter-spacing: -0.02em;
   text-align: center;
   background: none;
+  cursor: pointer;
   &.review {
     cursor: pointer;
   }
