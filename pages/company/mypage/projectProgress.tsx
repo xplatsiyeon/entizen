@@ -39,7 +39,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
     case '완료 중':
       initToggle = [false, false, false, false, true];
       break;
-    case '완료대기':
+    case '완료 대기':
       initToggle = [false, false, false, false, true];
       break;
     // 취소

@@ -38,7 +38,7 @@ const ClientProjectModal = ({
             <PBox1>
               <p className="date1">완료 요청일</p>
               <p className="date2">
-                {data?.project?.completionStepGoalDate?.replaceAll('-', '.')}
+                {data?.project?.completionStepCompletionDate?.replaceAll('-', '.')}
               </p>
             </PBox1>
             <PBox1>
