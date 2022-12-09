@@ -253,7 +253,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         입력해주세요
       </Notice>
       <Remark variant="subtitle1">고객에게 전달되는 정보예요!</Remark>
-      <form name="form_chk" method="get">
+      <form name="form_chk" method="get" onSubmit={() => false}>
         <input type="hidden" name="m" value="checkplusService" />
         {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
         <input type="hidden" id="encodeData" name="EncodeData" value={data} />
@@ -265,6 +265,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
             placeholder="이름을 입력해주세요"
             value={name}
             setValue={setName}
+            type="button"
           />
         </Form>
         <Form>
@@ -276,6 +277,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
             }}
             isEmailValid={isEmailValid}
             onClick={onClickEmail}
+            type="button"
           >
             인증
           </OverlapBtn>
@@ -287,6 +289,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           <OverlapBtn
             isEmailValid={isEmailCodeValid}
             onClick={certifyEmailCode}
+            type="button"
           >
             확인
           </OverlapBtn>

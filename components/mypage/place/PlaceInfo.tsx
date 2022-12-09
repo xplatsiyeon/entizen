@@ -22,7 +22,7 @@ const PlaceInfo = ({ data }: Props) => {
     setWebIdx(idx);
   };
 
-  const DataFilter = data?.projectCompletionFiles[webIdx];
+  const DataFilter = data?.projectCompletionFiles[webIdx]!;
 
   const handleNum = () => {
     if (idx === 1) {
