@@ -118,6 +118,13 @@ const Signin = () => {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
+
+  // 엔터키 이벤트
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      originLogin();
+    }
+  };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
     const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
@@ -404,6 +411,7 @@ const Signin = () => {
                     sx={{
                       marginTop: '9pt',
                     }}
+                    onKeyDown={onKeyPress}
                   />
                 </Box>
                 <LoginBtn onClick={originLogin}>
