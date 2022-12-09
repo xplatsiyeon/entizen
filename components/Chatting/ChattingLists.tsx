@@ -18,7 +18,7 @@ import List from 'public/images/List.png';
 import ComChattingList from 'componentsCompany/Chatting/ComChattingLIst';
 import Hamburger from 'public/images/list-bar.svg';
 import { Box, Divider, Drawer } from '@mui/material';
-import CompanyHamburger from 'componentsWeb/CompanyHamburger';
+import HamburgerBar from 'componentsWeb/HamburgerBar';
 
 export interface UserChattingRooms {
   chattingRoomIdx: number;
@@ -227,7 +227,7 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
                   onClose={toggleDrawer(anchor, false)}
                   // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
                 >
-                  <CompanyHamburger
+                  <HamburgerBar
                     anchor={anchor}
                     toggleDrawer={toggleDrawer}
                     setState={setState}
