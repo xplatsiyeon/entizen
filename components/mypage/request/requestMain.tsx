@@ -75,6 +75,10 @@ const RequestMain = (props: props) => {
           query: { id: n },
         })
     }
+    if(tabNumber !== n){
+      setTabNumber(n)
+      target?.classList.add('on')
+    }
   }
 
   return (
