@@ -92,7 +92,7 @@ const Request = () => {
               프로필 변경
             </span>
             <Line />
-            <MobTabContainer>
+            <TabContainer>
               {typeof tabNumber === 'number' &&
                 TabType.map((tab, index) => {
                   if (index === 0) {
@@ -132,42 +132,7 @@ const Request = () => {
                     );
                   }
                 })}
-            </MobTabContainer>
-
-            <WebTabContainer>
-              {typeof tabNumber === 'number' &&
-                TabType.map((tab, index) => {
-                  if (index === 0) {
-                    return (
-                      <TabItem
-                        key={index}
-                        tab={tabNumber.toString()}
-                        index={index.toString()}
-                      >
-                        <span>{tab}</span>
-                        <Dot
-                          tab={tabNumber.toString()}
-                          index={index.toString()}
-                        />
-                      </TabItem>
-                    );
-                  } else {
-                    return (
-                      <TabItem
-                        key={index}
-                        tab={tabNumber.toString()}
-                        index={index.toString()}
-                      >
-                        <span>{tab}</span>
-                        <Dot
-                          tab={tabNumber.toString()}
-                          index={index.toString()}
-                        />
-                      </TabItem>
-                    );
-                  }
-                })}
-            </WebTabContainer>
+            </TabContainer>
           </Body>
         </FlexBox>
         <Wrap className="right-content">
@@ -275,24 +240,15 @@ const Line = styled.div`
   border-bottom: 3pt solid ${colors.gray3};
   margin-bottom: 24pt;
 `;
-const MobTabContainer = styled.div`
-  display: none;
-  gap: 15pt;
-  padding-left: 15pt;
-  cursor: pointer;
-  @media (max-width: 899.25pt) {
-    flex-direction: row;
-    display: flex;
-  }
-`;
-
-const WebTabContainer = styled.div`
+const TabContainer = styled.div`
   display: flex;
   gap: 15pt;
   padding-left: 15pt;
   flex-direction: column;
+  cursor: pointer;
   @media (max-width: 899.25pt) {
-    display: none;
+    flex-direction: row;
+    display: flex;
   }
 `;
 

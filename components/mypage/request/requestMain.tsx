@@ -10,6 +10,10 @@ import AsIndex from '../as';
 import Estimate from './estimate';
 import MyProjects from '../projects/MyProjects';
 import Charging from '../place/Charging';
+import { UserInfo } from 'pages/mypage';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 
 
 interface Components {
@@ -28,7 +32,6 @@ const RequestMain = (props: props) => {
     /* 탭중 현재 탭*/
   }
   const [tabNumber, setTabNumber] = useState<number>(page!);
-  const [userName, setUserName] = useState<string>('윤세아');
   const [on, setOn] = useState<boolean>(true);
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
@@ -40,6 +43,22 @@ const RequestMain = (props: props) => {
     2: <AsIndex listUp={true} />,
     3: <Charging listUp={true} />,
   };
+
+  // 유저 정보 API
+  const {
+    data: userData,
+    isError: userError,
+    isLoading: userLoading,
+  } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'), {
+    // enabled: false
+  });
+
+  if (userLoading) {
+    return <Loader />;
+  }
+  if (userError) {
+    console.log('유저 정보 에러');
+  }
 
   const handleList = (n:number)=>{
     const index = myPageIndex.current!;
@@ -57,8 +76,6 @@ const RequestMain = (props: props) => {
     }
   }
 
-
-
   return (
     <Wrapper
       ref={myPageIndex}
@@ -70,7 +87,7 @@ const RequestMain = (props: props) => {
     >
       <Header>
         <span>
-          <h1>{`${userName}님,`}</h1>
+          <h1>{`${userData?.name}님,`}</h1>
           <h2>안녕하세요!</h2>
         </span>
         <div className="img" onClick={() => route.push('/setting')}>

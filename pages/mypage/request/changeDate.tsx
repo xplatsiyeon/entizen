@@ -11,10 +11,12 @@ import React from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { isTokenGetApi, isTokenPostApi } from 'api';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import Loader from 'components/Loader';
 import BackImg from 'public/images/back-btn.svg';
+import exDate from 'public/images/exDate.png';
+import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
 
 const changeDate = () => {
   const router = useRouter();
@@ -26,6 +28,24 @@ const changeDate = () => {
   const HandleModal = () => {
     router.push('/mypage');
   };
+    // ---------- 현장 실사 날짜 api ------------
+    const {
+      data: spotData,
+      isLoading: spotLoading,
+      isError: spotIsError,
+      error: spotError,
+    } = useQuery<SpotDataResponse>(
+      'spot-inspection',
+      () =>
+        isTokenGetApi(
+          `/quotations/pre/${spotId}/spot-inspection`,
+        ),
+      {
+        enabled: router.query.preQuotation ? true : false,
+        // enabled: false,
+      },
+    );
+
   // --------- 날짜 제안 api -----------
   const { mutate, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: () => {
@@ -40,6 +60,7 @@ const changeDate = () => {
   });
 
   const onClicMutate = () => {
+    if(selectedDays.length > 0){
     mutate({
       url: `/quotations/pre/${spotId}/spot-inspection`,
       data: {
@@ -49,6 +70,9 @@ const changeDate = () => {
         isConfirmed: false,
       },
     });
+  }else{
+    //모달???
+  }
   };
 
   if (isLoading) {
@@ -84,7 +108,22 @@ const changeDate = () => {
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
             />
-            <UL>
+            <UL className='ex-date'>
+              <ReSelectDate>기존 일정</ReSelectDate>
+              {spotData?.data.spotInspection.spotInspectionDate.map((day, index) => {
+                return(
+                <li className="ex-list" key={index}>
+                  <div className="img-box">
+                    <Image src={exDate} alt="img" layout='fill'/>
+                  </div>
+                  <div className="due-date ex">
+                    <div>현장실사 방문 예정일</div>
+                    <div>{day}</div>
+                  </div>
+                </li>)
+                })}
+            </UL>
+            {selectedDays.length > 0 && <UL>
               <ReSelectDate>재선택 일정</ReSelectDate>
               {selectedDays.map((day, index) => (
                 <li className="list" key={index}>
@@ -97,8 +136,8 @@ const changeDate = () => {
                   </div>
                 </li>
               ))}
-            </UL>
-            <Btn onClick={onClicMutate}>변경 요청</Btn>
+            </UL>}
+            <Btn onClick={onClicMutate} className={selectedDays.length >0 ? 'on' : ''}>변경 요청</Btn>
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -114,7 +153,6 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
   margin: 0 auto;
   //height: 810pt;
   background: #fcfcfc;
@@ -141,7 +179,8 @@ const Inner = styled.div`
     height: 100%;
     margin: 0 auto;
     position: relative;
-    padding: 0;
+    padding: 0 0 70pt;
+    box-shadow: none;
   }
 `;
 
@@ -170,16 +209,39 @@ const Title = styled.h1`
   white-space: pre-wrap;
 `;
 const UL = styled.ul`
-  // padding: 24pt 15pt 0 15pt;
-  padding: 24pt 15pt 65pt;
-  .list {
-    background-color: rgba(90, 45, 201, 0.7);
+  padding: 0pt 15pt 25pt;
+
+  @media (max-width: 899.25pt) {
+    padding: 0pt 15pt 85pt;
+  }
+
+  &.ex-date{
+    padding: 24pt 15pt 20pt;
+
+  @media (max-width: 899.25pt) {
+    padding: 24pt 15pt 20pt;
+  }
+  }
+  li{
     border-radius: 6pt;
     padding: 6pt;
     margin-bottom: 9pt;
     display: flex;
     gap: 12pt;
+
+    &.list {
+    background-color: rgba(90, 45, 201, 0.7);
   }
+    &.ex-list{
+    background-color: #E2E5ED;
+
+    .img-box{
+      width: 36pt;
+      height: 36pt;
+      position: relative;
+    }
+  }
+}
   .due-date {
     font-weight: 500;
     font-size: 9pt;
@@ -190,17 +252,17 @@ const UL = styled.ul`
     display: flex;
     flex-direction: column;
     gap: 8px;
+    &.ex{
+      color: #A6A9B0;
+    }
   }
 
   @media (max-width: 899.25pt) {
     padding: 24pt 15pt 100pt;
   }
 
-  @media (min-width: 900pt) {
-    padding: 24pt 15pt 45pt;
-  }
 `;
-const Btn = styled(Button)`
+const Btn = styled.button`
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -210,9 +272,10 @@ const Btn = styled(Button)`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
-  background: ${colors.main};
   padding-top: 15pt;
   padding-bottom: 15pt;
+  background: #E2E5ED;
+  border-radius: 6pt;
   cursor: pointer;
   @media (max-width: 899.25pt) {
     position: fixed;
@@ -224,6 +287,9 @@ const Btn = styled(Button)`
     position: relative;
     width: 251.25pt;
     margin-left: 18pt;
+  }
+  &.on{
+    background: ${colors.main};
   }
 `;
 

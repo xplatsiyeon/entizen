@@ -164,7 +164,6 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
   @media (max-height: 809pt) {
@@ -203,7 +202,6 @@ const Inner = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  padding-bottom: 225pt;
   margin: 0 31.875pt;
   height: 667.5pt;
 
@@ -249,13 +247,17 @@ const Explanation = styled.p`
   border-bottom: 1px solid #e9eaee;
 `;
 const Schedule = styled.div`
-  padding: 18pt 15pt 0 15pt;
+  padding: 18pt 15pt 20pt 15pt;
   .name {
     font-weight: 700;
     font-size: 12pt;
     line-height: 12pt;
     color: ${colors.main2};
   }
+  @media (max-width: 899.25pt) {
+    padding: 18pt 15pt 80pt 15pt;
+  }
+
 `;
 const UL = styled.ul`
   padding-top: 24pt;
