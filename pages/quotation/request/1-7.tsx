@@ -95,7 +95,7 @@ const Request1_7 = (props: Props) => {
       data: {
         chargers: quotationData.chargers,
         subscribeProduct: quotationData.subscribeProduct,
-        investRate: (value / 100).toString(),
+        investRate: sliderDisable ? '0' : (value / 100).toString(),
         subscribePeriod: quotationData.subscribePeriod,
         installationAddress: locationList.locationList.roadAddrPart,
         installationLocation: quotationData.installationLocation,
@@ -111,8 +111,9 @@ const Request1_7 = (props: Props) => {
   }
 
   useEffect(() => {
+    console.log(value);
     console.log(calculatedValue);
-  }, [calculatedValue]);
+  }, [value, calculatedValue]);
   return (
     <React.Fragment>
       <WebBody>

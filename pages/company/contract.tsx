@@ -33,6 +33,7 @@ const contract = (props: Props) => {
       }
     }
   }, [data]);
+
   return (
     <Wrapper>
       <Header>

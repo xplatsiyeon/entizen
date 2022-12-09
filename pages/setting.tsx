@@ -33,6 +33,8 @@ interface Components {
 const Setting = () => {
   const router = useRouter();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+
+  // 유저인지 회사인지
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
 
   // 실시간으로 width 받아오는 함수
@@ -130,8 +132,7 @@ const Setting = () => {
           />
         )}
         {memberType !== 'COMPANY' ? <UserRightMenu /> : <CompanyRightMenu />}
-
-        <Container>
+        <Inner>
           <SettingTitle
             onClick={() => {
               if (nowWidth >= 1200) {
@@ -160,7 +161,7 @@ const Setting = () => {
               </div>
             )}
           </BoxAlign>
-        </Container>
+        </Inner>
         <WebFooter />
       </WebBody>
     </>
@@ -172,11 +173,28 @@ export default Setting;
 const WebBody = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: white;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
 
-  @media (max-height: 350pt) {
-    height: 100%;
+  @media (max-height: 809pt) {
     display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  width: 900pt;
+  margin: 45.75pt auto;
+
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: 0 auto;
   }
 `;
 
@@ -226,7 +244,6 @@ const BoxAlign = styled.div`
   @media (min-width: 900pt) {
     display: flex;
     justify-content: space-between;
-    width: 900pt;
   }
 `;
 

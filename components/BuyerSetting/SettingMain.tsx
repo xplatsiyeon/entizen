@@ -198,129 +198,123 @@ const SettingMain = ({
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   return (
     <>
-      <WebBody>
-        <Container>
-          <WebRapper leftTabNumber={leftTabNumber}>
-            {passwordModal && (
-              <PasswordModal
-                passowrdValid={passowrdValid}
-                passwordInput={passwordInput}
-                setPasswordInput={setPasswordInput}
-                onChange={handlePasswordChange}
-                checkPassword={checkPassword}
-                click={authPassowrd}
-                setPasswordModal={setPasswordModal}
-              />
-            )}
-            {logoutModal && (
-              <TwoBtnModal
-                exit={() => setLogoutModal(false)}
-                text={'로그아웃하시겠습니까?'}
-                leftBtnText={'아니오'}
-                rightBtnText={'네'}
-                leftBtnColor={'#FF1B2D'}
-                rightBtnColor={'#222222'}
-                rightBtnControl={handleLogoutOnClickModalClick}
-                leftBtnControl={() => setLogoutModal(false)}
-              />
-            )}
-            {secessionFirstModal && (
-              <RequestModal
-                exit={() => setSecessionFirstModal(!secessionFirstModal)}
-                title={'정말 탈퇴하시겠습니까?'}
-                subtitle={`사용하고 계신 아이디${userID}는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.`}
-                leftControl={ModalLeftControl}
-                rightControl={() =>
-                  setSecessionFirstModal(!secessionFirstModal)
-                }
-                border={true}
-              />
-            )}
-            {alertModal && (
-              <TwoBtnModal
-                exit={() => setAlertModal(false)}
-                leftBtnColor="#FF1B2D"
-                leftBtnText="아니오"
-                leftBtnControl={() => setAlertModal(false)}
-                rightBtnColor={colors.main2}
-                rightBtnText="네"
-                rightBtnControl={() => {
-                  setAlertModal(false);
-                  setSecessionFirstModal(true);
-                }}
-                text="비밀번호 입력 없이 정말 탈퇴하시겠습니까"
-              />
-            )}
-            <MypageHeader
-              back={true}
-              title={'설정'}
-              handleOnClick={() => router.back()}
-            />
-            <Wrapper>
-              <Version>
-                <VersionInfoText>버전 정보</VersionInfoText>
-                <VersionNumber>V.8.33</VersionNumber>
-              </Version>
-              <SettingList
-                onClick={() => {
-                  setTabNumber(1);
-                  setLeftTabNumber(1);
-                  router.push({
-                    pathname: '/setting',
-                    query: { id: 1 },
-                  });
-                }}
-              >
-                알림 설정
-              </SettingList>
-              <SettingList
-                onClick={() => {
-                  setTabNumber(2);
-                  setLeftTabNumber(1);
-                  router.push({
-                    pathname: '/setting',
-                    query: { id: 2 },
-                  });
-                }}
-              >
-                1:1 문의
-              </SettingList>
-              <SettingList
-                onClick={() => {
-                  if (memberType === 'USER') {
-                    router.push('/faq');
-                  } else if (memberType === 'COMPANY') {
-                    router.push('/company/faq');
-                  }
-                }}
-              >
-                자주 묻는 질문
-              </SettingList>
-              <SettingList
-                onClick={() => {
-                  setTabNumber(3);
-                  setLeftTabNumber(1);
-                  router.push({
-                    pathname: '/setting',
-                    query: { id: 3 },
-                  });
-                }}
-              >
-                이용약관
-              </SettingList>
+      <WebRapper leftTabNumber={leftTabNumber}>
+        {passwordModal && (
+          <PasswordModal
+            passowrdValid={passowrdValid}
+            passwordInput={passwordInput}
+            setPasswordInput={setPasswordInput}
+            onChange={handlePasswordChange}
+            checkPassword={checkPassword}
+            click={authPassowrd}
+            setPasswordModal={setPasswordModal}
+          />
+        )}
+        {logoutModal && (
+          <TwoBtnModal
+            exit={() => setLogoutModal(false)}
+            text={'로그아웃하시겠습니까?'}
+            leftBtnText={'아니오'}
+            rightBtnText={'네'}
+            leftBtnColor={'#FF1B2D'}
+            rightBtnColor={'#222222'}
+            rightBtnControl={handleLogoutOnClickModalClick}
+            leftBtnControl={() => setLogoutModal(false)}
+          />
+        )}
+        {secessionFirstModal && (
+          <RequestModal
+            exit={() => setSecessionFirstModal(!secessionFirstModal)}
+            title={'정말 탈퇴하시겠습니까?'}
+            subtitle={`사용하고 계신 아이디${userID}는\n탈퇴할 경우 재사용 및 복구가 불가능합니다.`}
+            leftControl={ModalLeftControl}
+            rightControl={() => setSecessionFirstModal(!secessionFirstModal)}
+            border={true}
+          />
+        )}
+        {alertModal && (
+          <TwoBtnModal
+            exit={() => setAlertModal(false)}
+            leftBtnColor="#FF1B2D"
+            leftBtnText="아니오"
+            leftBtnControl={() => setAlertModal(false)}
+            rightBtnColor={colors.main2}
+            rightBtnText="네"
+            rightBtnControl={() => {
+              setAlertModal(false);
+              setSecessionFirstModal(true);
+            }}
+            text="비밀번호 입력 없이 정말 탈퇴하시겠습니까"
+          />
+        )}
+        <MypageHeader
+          back={true}
+          title={'설정'}
+          handleOnClick={() => router.back()}
+        />
+        <Wrapper>
+          <Version>
+            <VersionInfoText>버전 정보</VersionInfoText>
+            <VersionNumber>V.8.33</VersionNumber>
+          </Version>
+          <SettingList
+            onClick={() => {
+              setTabNumber(1);
+              setLeftTabNumber(1);
+              router.push({
+                pathname: '/setting',
+                query: { id: 1 },
+              });
+            }}
+          >
+            알림 설정
+          </SettingList>
+          <SettingList
+            onClick={() => {
+              setTabNumber(2);
+              setLeftTabNumber(1);
+              router.push({
+                pathname: '/setting',
+                query: { id: 2 },
+              });
+            }}
+          >
+            1:1 문의
+          </SettingList>
+          <SettingList
+            onClick={() => {
+              if (memberType === 'USER') {
+                router.push('/faq');
+              } else if (memberType === 'COMPANY') {
+                router.push('/company/faq');
+              }
+            }}
+          >
+            자주 묻는 질문
+          </SettingList>
+          <SettingList
+            onClick={() => {
+              setTabNumber(3);
+              setLeftTabNumber(1);
+              router.push({
+                pathname: '/setting',
+                query: { id: 3 },
+              });
+            }}
+          >
+            이용약관
+          </SettingList>
 
-              {userID && (
-                <SettingListRed onClick={() => setLogoutModal(true)}>
-                  로그아웃
-                </SettingListRed>
-              )}
-              {userID && (
-                <Secession onClick={HandleWidthdrawal}>탈퇴하기</Secession>
-              )}
-            </Wrapper>
-          </WebRapper>
-        </Container>
-      </WebBody>
+          {userID && (
+            <SettingListRed onClick={() => setLogoutModal(true)}>
+              로그아웃
+            </SettingListRed>
+          )}
+          {userID && (
+            <Secession onClick={HandleWidthdrawal}>탈퇴하기</Secession>
+          )}
+        </Wrapper>
+      </WebRapper>
     </>
   );
 };
@@ -342,7 +336,6 @@ const Container = styled.div`
   position: relative;
   margin: 45.75pt auto;
   border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
@@ -392,6 +385,7 @@ const Version = styled.div`
   flex-direction: column;
   background-color: #fbfcff;
   margin-bottom: 7.5pt;
+
   @media (min-width: 900pt) {
     display: flex;
     flex-direction: row;
