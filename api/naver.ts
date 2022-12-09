@@ -13,9 +13,9 @@ export const login = (
   naverLogin = new naver.LoginWithNaverId({
     clientId: process.env.NEXT_PUBLIC_NAVER_LOGIN_CLIENT_ID, // ClientID
     // 테스트 리다이렉트 주소
-    callbackUrl: 'https://ㅅㄷㄴㅅ-api.entizen.kr/signin',
+    callbackUrl: 'https:/test-api.entizen.kr/signin',
     // 라이브 리다이렉트 주소
-    // callbackUrl: 'https://ㅅㄷㄴㅅ-api.entizen.kr/signin',
+    // callbackUrl: 'https:/test-api.entizen.kr/signin',
     isPopup: false, // 팝업 형태로 인증 여부
     callbackHandle: true,
     loginButton: {
@@ -59,7 +59,7 @@ export const getToken = (naverLogin: any, callBack: (result: any) => void) => {
   }
 };
 const NaverApi = async (data: any, callBack: (result: any) => void) => {
-  const NAVER_POST = `https://ㅅㄷㄴㅅ-api.entizen.kr/api/members/login/sns`;
+  const NAVER_POST = `https:/test-api.entizen.kr/api/members/login/sns`;
   try {
     await axios({
       method: 'post',

@@ -88,7 +88,7 @@ const TermContent = ({
     const memberType = 'USER';
     axios({
       method: 'post',
-      url: 'https://ㅅㄷㄴㅅ-api.entizen.kr/api/auth/nice',
+      url: 'https:/test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
