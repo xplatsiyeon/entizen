@@ -125,15 +125,38 @@ export const getDayOfWeek = (data: string) => {
  * @param date "2022-11-22T03:48:01.124Z"
  * @returns "2022.11.22 03:48"
  */
-export const dateFomat = (date: string) => {
-  let result = '';
-  if (date) {
-    result = date
-      .replace('T', ' ')
-      .replace(/\..*/, '')
-      .slice(0, -3)
-      .replaceAll('-', '.');
-  }
 
+//
+
+// export const dateFomat = (date: string) => {
+//   let result = '';
+//   if (date) {
+//     result = date
+//       .replace('T', ' ')
+//       .replace(/\..*/, '')
+//       .slice(0, -3)
+//       .replaceAll('-', '.');
+//   }
+
+//   return result;
+// };
+
+export const dateFomat = (date: string) => {
+  const beforeDate = new Date(date);
+
+  const newDate = new Intl.DateTimeFormat('ko-KR', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: false,
+    timeZone: 'asia/seoul',
+  }).format(beforeDate);
+  let result = '';
+  if (newDate) {
+    result = newDate.replace('시', ':').slice(0, -5);
+  }
   return result;
 };
