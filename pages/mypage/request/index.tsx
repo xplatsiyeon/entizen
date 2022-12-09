@@ -150,6 +150,23 @@ const Mypage1_3 = ({}: any) => {
     },
   );
 
+  useEffect(() => {
+    if (routerId) {
+     console.log('refetch');
+      refetch();
+      //quotationRefetch();
+    }
+  }, [routerId]);
+
+  useEffect(() => {
+    if (data?.quotationRequest?.currentInProgressPreQuotationIdx) {
+     console.log('refetch2');
+     quotationRefetch();
+    }
+  }, [data?.quotationRequest.currentInProgressPreQuotationIdx]);
+
+
+
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
@@ -300,8 +317,6 @@ const Mypage1_3 = ({}: any) => {
       />
     );
   }
-
-  console.log('☃️ quotationData 데이터 확인 -293');
 
   return (
     <>
