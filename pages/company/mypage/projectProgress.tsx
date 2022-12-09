@@ -96,6 +96,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
         {/* 준비, 설치, 검수, 완료 토글 된거 눌렀을때 */}
         {progressNum === 1 && (
           <Reusable
+            type={'READY'}
             textOne={'공사 준비가 완료되었습니다.'}
             textTwo={'공사 준비를 진행해주세요.'}
             textThree={'충전기 및 부속품 준비'}
@@ -115,6 +116,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
         )}
         {progressNum === 2 && (
           <Reusable
+            type={'INSTALLATION'}
             textOne={'충전기를 설치, 시운전이 완료되었습니다'}
             textTwo={'충전기 설치, 시운전을 진행해주세요.'}
             textThree={'충전기 설치 및 배선작업'}
@@ -132,6 +134,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
         )}
         {progressNum === 3 && (
           <Reusable
+            type={'EXAM'}
             textOne={'충전기 검수가 완료되었습니다'}
             textTwo={'충전기 검수를 진행해주세요.'}
             textThree={'검수 및 전기차 충전 테스트 (고객 참관)'}
@@ -149,6 +152,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
         )}
         {progressNum === 4 && (
           <Reusable
+            type={'COMPLETION'}
             textOne={'프로젝트 완료 진행중입니다.'}
             textTwo={'프로젝트를 완료해주세요.'}
             textThree={'사용 전 검사 및 점검'}
