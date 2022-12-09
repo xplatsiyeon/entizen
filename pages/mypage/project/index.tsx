@@ -64,7 +64,7 @@ const ProjectInfo = () => {
   return (
     <>
       <Body>
-        <WebHeader />
+        <WebHeader num={1} now={'mypage'} sub={true}/>
         <UserRightMenu />
         <Inner>
           <FlexBox>

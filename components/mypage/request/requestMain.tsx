@@ -39,9 +39,9 @@ const RequestMain = (props: props) => {
   const myPageIndex = useRef<HTMLDivElement>(null);
   const components: Components = {
     0: <Estimate listUp={true}/>,
-    1: <MyProjects listUp={true} />,
-    2: <AsIndex listUp={true} />,
-    3: <Charging listUp={true} />,
+   // 1: <MyProjects listUp={true} />,
+   // 2: <AsIndex listUp={true} />,
+   // 3: <Charging listUp={true} />,
   };
 
   // 유저 정보 API
@@ -62,17 +62,18 @@ const RequestMain = (props: props) => {
 
   const handleList = (n:number)=>{
     const index = myPageIndex.current!;
-    const target = index.querySelectorAll('.list')[n];
+    const target = index.querySelector('.list');
     console.log(tabNumber, n, target)
-    if(tabNumber === n){
-      console.log("@@", target);
+    if(n === 0){
+      //리스트 토글.
       if(target?.classList.contains('on')){
         target.classList.remove('on');
-      }else(target?.classList.add('on'))
-    }
-    if(tabNumber !== n){
-      setTabNumber(n)
-      target.classList.add('on')
+      }else{target?.classList.add('on')}
+    }else{
+        route.push({
+          pathname: '/mypage',
+          query: { id: n },
+        })
     }
   }
 
@@ -111,8 +112,7 @@ const RequestMain = (props: props) => {
                   key={index}
                   tab={tabNumber?.toString()}
                   index={index.toString()}
-                  onClick={() => {
-                    console.log('index', index)
+                  onClick={() => { 
                     handleList(index);
                   }}
                 >
@@ -120,7 +120,7 @@ const RequestMain = (props: props) => {
                 </TabItem>
                 <Dot tab={tabNumber?.toString()} index={index.toString()} />
               </Wrap>
-                {tabNumber === index? <List className={`list ${tabNumber === index && 'on'}`} >{components[tabNumber]}</List>:<List className='list'/>}
+                {tabNumber === 0? <List className={`list ${tabNumber === index && 'on'}`} >{components[tabNumber]}</List>:null}
               </Tab>
             </React.Fragment>
           ))}

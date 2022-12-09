@@ -348,7 +348,7 @@ const Mypage1_3 = ({}: any) => {
       )}
 
       <Body>
-        <WebHeader num={0} now={'mypage'} />
+        <WebHeader num={0} now={'mypage'} sub={true}/>
         <UserRightMenu />
         <Inner>
           <FlexBox>

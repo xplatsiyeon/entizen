@@ -17,10 +17,11 @@ import { handleLogoutOnClickModalClick } from 'api/logout';
 type Props = {
   num?: number;
   now?: string;
+  sub?: boolean;
 };
 
-const WebHeader = ({ num, now }: Props) => {
-  const [linklist, setLinklist] = useState<boolean>(false);
+const WebHeader = ({ num, now, sub }: Props) => {
+  const [linklist, setLinklist] = useState<boolean>(Boolean(sub));
   const [type, setType] = useState<string>('');
   const [isHovering, setIsHovered] = useState(false);
   const onMouseEnter = () => setIsHovered(true);
@@ -158,7 +159,7 @@ const WebHeader = ({ num, now }: Props) => {
             </Box2>
           </Inner>
         </MainLink>
-        {linklist ? <GuideLink type={type} num={num} now={now} /> : null}
+        {linklist ? <GuideLink type={sub?'mypage':type} num={num} now={now} /> : null}
       </Wrapper>
     </>
   );
