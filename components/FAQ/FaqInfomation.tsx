@@ -12,9 +12,10 @@ import { arrayBuffer } from 'stream/consumers';
 interface Props {
   data: Contents[];
   tabNumber: number;
+  tabCompNumber?: number;
 }
 
-const FaqInfomation = ({ data, tabNumber }: Props) => {
+const FaqInfomation = ({ data, tabNumber, tabCompNumber }: Props) => {
   const [open, setOpen] = useState<boolean[]>(
     Array.from({ length: data.length }, () => false),
   );
@@ -27,7 +28,7 @@ const FaqInfomation = ({ data, tabNumber }: Props) => {
 
   useEffect(() => {
     setOpen([false]);
-  }, [tabNumber]);
+  }, [tabNumber, tabCompNumber]);
 
   return (
     <div>
