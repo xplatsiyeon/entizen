@@ -138,22 +138,43 @@ export const originDateFomat = (date: string) => {
   return result;
 };
 
-export const dateFomat = (date: string) => {
-  const beforeDate = new Date(date);
+// export const dateFomat = (date: string) => {
+//   const beforeDate = new Date(date);
+//   const newDate = new Intl.DateTimeFormat('ko-KR', {
+//     year: 'numeric',
+//     month: 'numeric',
+//     day: 'numeric',
+//     hour: 'numeric',
+//     minute: 'numeric',
+//     second: 'numeric',
+//     hour12: false,
+//     timeZone: 'asia/seoul',
+//   }).format(beforeDate);
+//   let result = '';
+//   if (newDate) {
+//     result = newDate.replace('시', ':').slice(0, -5);
+//   }
+//   return result;
+// };
 
-  const newDate = new Intl.DateTimeFormat('ko-KR', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    hour12: false,
-    timeZone: 'asia/seoul',
-  }).format(beforeDate);
+export const dateFomat = (date: string) => {
   let result = '';
-  if (newDate) {
-    result = newDate.replace('시', ':').slice(0, -5);
+  if (date) {
+    const beforeDate = new Date(date);
+    const newDate = new Intl.DateTimeFormat('ko-KR', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: false,
+      timeZone: 'asia/seoul',
+    })?.format(beforeDate);
+
+    if (newDate) {
+      result = newDate.replace('시', ':').slice(0, -5);
+    }
   }
   return result;
 };
