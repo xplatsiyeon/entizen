@@ -34,7 +34,7 @@ const FinishedBottomBox = ({ data }: Props) => {
           </div>
         </Contents>
         <BiggerText className="catalog">첨부 파일</BiggerText>
-        {data?.finalQuotation?.finalQuotationChargers.map((el, idx) =>
+        {data?.finalQuotation?.finalQuotationChargers?.map((el, idx) =>
           el?.finalQuotationChargerFiles
             ?.filter((e) => e.productFileType === 'CATALOG')
             .concat(data?.finalQuotation?.finalQuotationDetailFiles as any)

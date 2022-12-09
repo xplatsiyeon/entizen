@@ -45,9 +45,9 @@ const Carousel = ({ file }: Props) => {
 export default Carousel;
 
 const Wrapper = styled(Swiper)`
-  height: 100%;
+  /* height: 100%; */
 
-  .swiper-pagination{
+  .swiper-pagination {
     width: fit-content;
     right: 9.75pt;
     left: auto;
@@ -57,20 +57,21 @@ const Wrapper = styled(Swiper)`
     font-size: 7.5pt;
     line-height: 9pt;
     letter-spacing: -0.02em;
-    color: #FFFFFF;
+    color: #ffffff;
     padding: 1.5pt 4.5pt;
 
     background: rgba(0, 0, 0, 0.3);
     border-radius: 7.5pt;
   }
-  .swiper-wrapper{
+  .swiper-wrapper {
     width: 0;
   }
 `;
 const Slider = styled(SwiperSlide)`
   .imgBox {
-    position: relative;
+    /* position: relative; */
     width: 100%;
     height: 100%;
+    padding-top: calc(100% / 16 * 9); /* 16:9 적용 */
   }
 `;

@@ -14,7 +14,7 @@ import React, {
 import colors from 'styles/colors';
 import { BusinessRegistrationType } from 'components/SignUp';
 import { useMutation } from 'react-query';
-import { isTokenPostApi, multerApi } from 'api';
+import { isTokenPatchApi, isTokenPostApi, multerApi } from 'api';
 import { AxiosError } from 'axios';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { Data } from 'pages/company/mypage/runningProgress';
@@ -29,6 +29,7 @@ import { changeDataFn } from 'utils/calculatePackage';
 import Carousel from 'components/mypage/projects/Carousel';
 
 type Props = {
+  type?: 'READY' | 'INSTALLATION' | 'EXAM' | 'COMPLETION';
   textOne: string;
   textTwo: string;
   textThree: string;
@@ -63,6 +64,7 @@ interface MulterResponse {
 }
 
 const Reusable = ({
+  type,
   textOne,
   textTwo,
   textThree,
@@ -97,8 +99,8 @@ Props) => {
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
-  const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
     MulterResponse,
@@ -130,6 +132,21 @@ Props) => {
       }
     },
   });
+
+  const { mutate: deleteDataMutate, isLoading } = useMutation(isTokenPatchApi, {
+    onSuccess(data, variables, context) {
+      console.log('일정 변경 취소 성공');
+      console.log(data);
+      setErrorMessage('일정 변경이 취소되었습니다.');
+      setIsModal(true);
+    },
+    onError(error, variables, context) {
+      console.log('일정 변경 취소 실패');
+      console.log(error);
+      setErrorMessage('다시 시도해주세요.');
+      setIsModal(true);
+    },
+  });
   // 프로젝트 각단계 완료처리 API
   const {
     mutate: stepMuate,
@@ -137,7 +154,6 @@ Props) => {
     isError: stepIsError,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      // setTwoBtnModalOpen(false);
       inProgressRefetch();
       setProgressNum(-1);
     },
@@ -147,6 +163,12 @@ Props) => {
     },
   });
 
+  const onClickModal = () => {
+    if (errorMessage === '일정 변경이 취소되었습니다.') {
+      inProgressRefetch();
+    }
+    setIsModal(false);
+  };
   // 사진 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -190,6 +212,21 @@ Props) => {
       setErrorMessage('목표일을 작성해주세요.');
     }
   };
+  // 일정 변경 취소
+  type DeleteType = 'READY' | 'INSTALLATION' | 'EXAM' | 'COMPLETION';
+  const deleteData = (tpye: DeleteType) => {
+    const projectIdx = data?.project?.projectIdx!;
+    const target = data?.project?.unConsentProjectDateChangeHistories.filter(
+      (el) => el.changedStep === tpye && el.processingStatus === false,
+    );
+    if (target?.length! > 0) {
+      const projectDateChangeHistoryIdx =
+        target[0]?.projectDateChangeHistoryIdx;
+      deleteDataMutate({
+        url: `/projects/${projectIdx}/goal-date/${projectDateChangeHistoryIdx}/cancel`,
+      });
+    }
+  };
   // '완료하기' 누른 후 실행되는 함수. 배지를 변경하는 api 호출하기.
   const handleModalRightBtn = () => {
     if (planed) {
@@ -227,7 +264,7 @@ Props) => {
 
   return (
     <>
-      {isModal && <Modal text={errorMessage} click={() => setIsModal(false)} />}
+      {isModal && <Modal text={errorMessage} click={onClickModal} />}
       {twoBtnModalOpen && (
         <TwoBtnModal
           exit={() => setTwoBtnModalOpen(!twoBtnModalOpen)}
@@ -291,11 +328,19 @@ Props) => {
                 <div className="expectedDate">
                   {fin ? '완료일' : '완료 예정일'}
                 </div>
-                {fin === false && (
-                  <div className="changeDate" onClick={changeData}>
-                    일정 변경 요청
-                  </div>
-                )}
+                {fin === false &&
+                  (planed === 'CHANGING' ? (
+                    <div
+                      className="changeDate"
+                      onClick={() => deleteData(type!)}
+                    >
+                      일정 변경 취소
+                    </div>
+                  ) : (
+                    <div className="changeDate" onClick={changeData}>
+                      일정 변경 요청
+                    </div>
+                  ))}
               </Top>
               <Date>
                 {planed
@@ -405,12 +450,15 @@ const Box = styled.div`
 const FinishedBox = styled.div`
   padding: 12pt 30pt 18pt 30pt;
   width: 100%;
-  box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media (max-width: 899.25pt) {
+    box-shadow: 0px 0px 7.5pt 0px #89a3c933;
+  }
 `;
 const Top = styled.div`
   display: flex;
@@ -484,7 +532,7 @@ const FinishedPhotoText = styled.div`
 `;
 const FinishedPhotoBox = styled.div`
   width: 100%;
-  height: 91.5pt;
+  /* height: 91.5pt; */
   border: 1px solid #e2e5ed;
   margin-top: 12pt;
   border-radius: 6pt;

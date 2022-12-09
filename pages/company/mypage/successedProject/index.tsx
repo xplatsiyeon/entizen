@@ -101,7 +101,9 @@ const successedProject = (props: Props) => {
         <WebContainer>
           <WebBox>
             <MypageHeader back={true} title={'완료 프로젝트'} />
+            {/* 상단 세부 내용 */}
             <FinishedTopBox data={historyDetailData!} />
+            {/* 하단 세부 내용 */}
             <FinishedBottomBox data={historyDetailData!} />
           </WebBox>
           <CommunicationWrapper>
@@ -110,19 +112,6 @@ const successedProject = (props: Props) => {
               id={historyDetailData?.userMember?.memberIdx}
             />
           </CommunicationWrapper>
-          {/* <CommunityBtnBox
-            onClick={() => {
-              alert('2차 작업 범위입니다.');
-            }}
-          >
-            <WebImageBox width={15} height={15}>
-              <Image src={ChatsIcon} alt="doubleArrow" layout="fill" />
-            </WebImageBox>
-            <WebTitle>고객과 소통하기</WebTitle>
-            <WebImageBox width={3.75} height={7.5}>
-              <Image src={arrowRGr} alt="doubleArrow" layout="fill" />
-            </WebImageBox>
-          </CommunityBtnBox> */}
         </WebContainer>
       </WebRapper>
       <WebFooter />

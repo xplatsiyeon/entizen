@@ -125,21 +125,18 @@ export const getDayOfWeek = (data: string) => {
  * @param date "2022-11-22T03:48:01.124Z"
  * @returns "2022.11.22 03:48"
  */
+export const originDateFomat = (date: string) => {
+  let result = '';
+  if (date) {
+    result = date
+      .replace('T', ' ')
+      .replace(/\..*/, '')
+      .slice(0, -3)
+      .replaceAll('-', '.');
+  }
 
-//
-
-// export const dateFomat = (date: string) => {
-//   let result = '';
-//   if (date) {
-//     result = date
-//       .replace('T', ' ')
-//       .replace(/\..*/, '')
-//       .slice(0, -3)
-//       .replaceAll('-', '.');
-//   }
-
-//   return result;
-// };
+  return result;
+};
 
 export const dateFomat = (date: string) => {
   const beforeDate = new Date(date);
