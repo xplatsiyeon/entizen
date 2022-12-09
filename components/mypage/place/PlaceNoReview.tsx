@@ -37,7 +37,6 @@ const PlaceNoReview = ({ close, chargingRefetch }: Props) => {
     isTokenPostApi,
     {
       onSuccess: () => {
-        chargingRefetch();
         setModalMessage('소중한 의견 감사합니다.');
         setModalOpen(true);
       },
@@ -51,11 +50,9 @@ const PlaceNoReview = ({ close, chargingRefetch }: Props) => {
   );
 
   const handleClick = () => {
-    if (checkedRequired) {
-      router.push('/mypage');
-      close(true);
-    }
-
+    chargingRefetch();
+    router.push('/mypage');
+    close(true);
     setModalOpen(false);
   };
 

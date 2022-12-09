@@ -89,20 +89,20 @@ const PlaceTopBox = ({ data }: Props) => {
             <div className="text-box">
               <span className="name">구독시작</span>
               <span className="text">
-                {data?.subscribeStartDate.replaceAll('-', '.')}
+                {data?.subscribeStartDate?.replaceAll('-', '.')}
               </span>
             </div>
             <div className="text-box">
               <span className="name">구독종료</span>
               <span className="text">
-                {data?.subscribeEndDate.replaceAll('-', '.')}
+                {data?.subscribeEndDate?.replaceAll('-', '.')}
               </span>
             </div>
             <div className="text-box">
               <span className="name">월 구독료</span>
               <span className="text">
                 {`${PriceBasicCalculation(
-                  data?.finalQuotation.subscribePricePerMonth,
+                  data?.finalQuotation?.subscribePricePerMonth,
                 )} 원`}
               </span>
             </div>
@@ -161,7 +161,7 @@ const PlaceTopBox = ({ data }: Props) => {
               </span>
             </div>
             {/* 현재 충전기 종류 및 수량처럼 개수만 증가 */}
-            {data?.finalQuotation?.finalQuotationChargers.map((el, idx) => (
+            {data?.finalQuotation?.finalQuotationChargers?.map((el, idx) => (
               <div className="text-box">
                 <span className="name">
                   {idx === 0 ? '충전기 제조사' : null}

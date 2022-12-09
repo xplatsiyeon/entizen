@@ -4,7 +4,7 @@ import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import fileImg from 'public/mypage/file-icon.svg';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import CallManager from 'components/Modal/CallManager';
 import { AsDetailReseponse } from 'pages/mypage/as';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
@@ -23,6 +23,21 @@ const AsRequestPartner = ({ pb, data }: Props) => {
   console.log('⭐️ 하단 부분 데이터 확인 ~line 40 ' + TAG);
   console.log(data);
 
+  // width 실시간
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+
+  // 실시간으로 width 받아오는 함수
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
   const compnayName =
     data?.data?.afterSalesService?.afterSalesService?.project?.finalQuotation
       ?.preQuotation?.member?.companyMemberAdditionalInfo?.companyName;
@@ -38,6 +53,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
   return (
     <>
       {modalOpen && <CallManager HandleModal={HandleModal} />}
+
       <Wrapper>
         <DownArrowBox>
           <Image src={DoubleArrow} alt="double-arrow" />
@@ -58,7 +74,10 @@ const AsRequestPartner = ({ pb, data }: Props) => {
           </Item>
           <Item>
             <span className="name">전화번호</span>
-            <span className="value" onClick={() => setModalOpen(true)}>
+            <span
+              className="value"
+              onClick={() => nowWidth < 1200 && setModalOpen(true)}
+            >
               {hyphenFn(phone)}
             </span>
           </Item>
@@ -82,7 +101,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
             <span className="name">접수일자</span>
             <span className="value">
               {dateFomat(
-                data?.data?.afterSalesService?.afterSalesService?.createdAt,
+                data?.data?.afterSalesService?.afterSalesService?.createdAt!,
               )}
             </span>
           </Items>

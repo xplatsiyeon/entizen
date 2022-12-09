@@ -61,13 +61,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     },
   );
 
-  // 엔터키 이벤트
-  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      //뭔가 실행할 함수
-    }
-  };
-
   // 이메일 코드
   const { mutate: emailCodeMutate, isLoading: emailCodeLoading } = useMutation(
     isTokenPostApi,
@@ -179,6 +172,13 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     }
   };
 
+  // 엔터키 이벤트
+  // const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === 'Enter') {
+  //     onClickEmail();
+  //   }
+  // };
+
   // 나이스 인증 팝업창 열기
   const fnPopup = (event: any) => {
     console.log('나이스 인증');
@@ -253,7 +253,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         입력해주세요
       </Notice>
       <Remark variant="subtitle1">고객에게 전달되는 정보예요!</Remark>
-      <form name="form_chk" method="get">
+      <form name="form_chk" method="get" onSubmit={() => false}>
         <input type="hidden" name="m" value="checkplusService" />
         {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
         <input type="hidden" id="encodeData" name="EncodeData" value={data} />
@@ -265,17 +265,24 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
             placeholder="이름을 입력해주세요"
             value={name}
             setValue={setName}
+            type="button"
           />
         </Form>
         <Form>
           <label>담당자 이메일</label>
-          <Input placeholder="이메일 입력" value={email} setValue={setEmail} />
+          <Input
+            placeholder="이메일 입력"
+            value={email}
+            setValue={setEmail}
+            // onKeyDown={onKeyPress}
+          />
           <OverlapBtn
             style={{
               top: '25.5pt',
             }}
             isEmailValid={isEmailValid}
             onClick={onClickEmail}
+            type="button"
           >
             인증
           </OverlapBtn>
@@ -287,6 +294,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           <OverlapBtn
             isEmailValid={isEmailCodeValid}
             onClick={certifyEmailCode}
+            type="button"
           >
             확인
           </OverlapBtn>
