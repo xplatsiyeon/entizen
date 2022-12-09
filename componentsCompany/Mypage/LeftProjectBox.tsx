@@ -82,12 +82,16 @@ const LeftProjectBox = ({
   // 왼쪽 열리고 닫히고
   const [progress, setProgress] = useState<boolean>(true);
   const [success, setSuccess] = useState<boolean>(false);
+  console.log('뭐나오길래 그럼 ㅠㅜ', progress);
 
   useEffect(() => {
-    if (router.pathname === '/compan/mypage' || router.query.id === '0') {
+    if (
+      router.asPath === '/company/mypage?id=0' ||
+      router.asPath === '/company/mypage'
+    ) {
       setProgress(true);
       setSuccess(false);
-    } else if (router.query.id === '1') {
+    } else if (router.asPath === '/company/mypage?id=1') {
       setProgress(false);
       setSuccess(true);
     } else if (router.pathname === '/company/mypage/successedProject') {
@@ -95,6 +99,8 @@ const LeftProjectBox = ({
       setSuccess(true);
     }
   }, [router]);
+
+  console.log('progress anjdla?', progress);
 
   return (
     <>
@@ -151,9 +157,11 @@ const LeftProjectBox = ({
               progress={progress}
               nowRouter={nowRouter}
               onClick={() => {
-                if (router.pathname !== `/compan/mypage`) {
-                  setProgress(!progress);
-                  setSuccess(!success);
+                if (router.pathname !== `/company/mypage`) {
+                  setProgress(true);
+                  setSuccess(false);
+                } else if (router.pathname === `/company/mypage`) {
+                  router.push('/company/mypage?id=0');
                 }
               }}
             >
@@ -173,17 +181,22 @@ const LeftProjectBox = ({
             <WebTabItemSuccess
               success={success}
               nowRouter={nowRouter}
+              // onClick={() => {
+              //   if (router.pathname !== `/compan/mypage`) {
+              //     setProgress(!progress);
+              //   }
+              // }}
               onClick={() => {
-                if (router.pathname !== `/compan/mypage`) {
-                  setProgress(!progress);
-                  setSuccess(!success);
-                }
+                if (router.asPath !== `/company/mypage?id=1`)
+                  router.push(`/company/mypage?id=1`);
+                setProgress(false);
+                setSuccess(true);
               }}
             >
               완료 프로젝트
               <WebDotSuccess success={success} />
             </WebTabItemSuccess>
-            {router.pathname !== `/company/mypage` && success === true && (
+            {/* {router.pathname !== `/company/mypage` && success === true && (
               <div>
                 <WebFinishedProjectsUnder
                   tabNumber={tabNumber}
@@ -192,7 +205,7 @@ const LeftProjectBox = ({
                   historyData={historyData!}
                 />
               </div>
-            )}
+            )} */}
           </WebTabContainer>
         </Body>
         <BottomNavigation />
@@ -363,8 +376,8 @@ const WebTabItem = styled.span<{ progress: boolean; nowRouter: string }>`
     progress === true ? colors.main : colors.lightGray};
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  pointer-events: ${({ nowRouter }) =>
-    nowRouter === '/company/mypage' && 'none'};
+  /* pointer-events: ${({ nowRouter }) =>
+    nowRouter === '/company/mypage' && 'none'}; */
   @media (min-width: 900pt) {
     display: flex;
     align-items: center;
@@ -400,8 +413,8 @@ const WebTabItemSuccess = styled.span<{ success: boolean; nowRouter: string }>`
     align-items: center;
     padding-top: 23pt;
   }
-  pointer-events: ${({ nowRouter }) =>
-    nowRouter === '/company/mypage' && 'none'};
+  /* pointer-events: ${({ nowRouter }) =>
+    nowRouter === '/company/mypage' && 'none'}; */
 `;
 
 const WebDotSuccess = styled.div<{ success: boolean }>`

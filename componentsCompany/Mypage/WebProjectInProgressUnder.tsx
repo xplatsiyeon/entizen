@@ -94,7 +94,9 @@ const WebProjectInProgressUnder = ({
 };
 
 const ContentsContainer = styled.div`
-  padding-top: 20pt;
+  margin-top: 20pt;
+  height: 150pt;
+  overflow-y: scroll;
   @media (max-width: 899.25pt) {
     display: none;
   }

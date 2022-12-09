@@ -61,13 +61,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     },
   );
 
-  // 엔터키 이벤트
-  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      //뭔가 실행할 함수
-    }
-  };
-
   // 이메일 코드
   const { mutate: emailCodeMutate, isLoading: emailCodeLoading } = useMutation(
     isTokenPostApi,
@@ -179,6 +172,13 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     }
   };
 
+  // 엔터키 이벤트
+  // const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === 'Enter') {
+  //     onClickEmail();
+  //   }
+  // };
+
   // 나이스 인증 팝업창 열기
   const fnPopup = (event: any) => {
     console.log('나이스 인증');
@@ -270,7 +270,12 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         </Form>
         <Form>
           <label>담당자 이메일</label>
-          <Input placeholder="이메일 입력" value={email} setValue={setEmail} />
+          <Input
+            placeholder="이메일 입력"
+            value={email}
+            setValue={setEmail}
+            // onKeyDown={onKeyPress}
+          />
           <OverlapBtn
             style={{
               top: '25.5pt',

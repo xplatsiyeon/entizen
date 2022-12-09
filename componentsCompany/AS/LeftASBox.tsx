@@ -54,15 +54,22 @@ const LeftASBox = ({
   }, [nowWidth]);
 
   useEffect(() => {
-    if (router.pathname === '/comany/as' || router.query.id === '0') {
+    if (
+      router.asPath === '/company/as?id=0' ||
+      router.asPath === '/company/as'
+    ) {
       setNewAS(true);
       setHistoryUnder(false);
-    } else if (router.query.id === '1') {
+    } else if (router.asPath === '/company/as?id=1') {
+      setNewAS(false);
+      setHistoryUnder(true);
+    } else if (router.pathname === '/company/as/history') {
       setNewAS(false);
       setHistoryUnder(true);
     }
   }, [router]);
 
+  console.log('adas', router.pathname);
   const nowRouter = router.pathname;
 
   // 나중에 AS 밑에 오는 부분
@@ -113,9 +120,11 @@ const LeftASBox = ({
               newAS={newAS}
               nowRouter={nowRouter}
               onClick={() => {
-                if (router.pathname !== `/compan/as`) {
+                if (router.pathname !== `/company/as`) {
                   setNewAS(!newAS);
                   setHistoryUnder(!historyUnder);
+                } else if (router.pathname === `/company/as`) {
+                  router.push('/company/as?id=0');
                 }
               }}
             >
@@ -135,7 +144,8 @@ const LeftASBox = ({
               historyUnder={historyUnder}
               nowRouter={nowRouter}
               onClick={() => {
-                if (router.pathname !== `/compan/as`) {
+                if (router.pathname !== `/company/as?id=1`) {
+                  router.push(`/company/as?id=1`);
                   setNewAS(!newAS);
                   setHistoryUnder(!historyUnder);
                 }
@@ -144,11 +154,11 @@ const LeftASBox = ({
               히스토리
               <WebDotHistory historyUnder={historyUnder} />
             </WebTabItemHistory>
-            {router.pathname !== `/company/as` && historyUnder === true && (
+            {/* {router.pathname !== `/company/as` && historyUnder === true && (
               <div>
                 <AsHistoryUnder />
               </div>
-            )}
+            )} */}
           </WebTabContainer>
         </Body>
         <BottomNavigation />
@@ -274,7 +284,8 @@ const WebTabItem = styled.span<{ newAS: boolean; nowRouter: string }>`
   color: ${({ newAS }) => (newAS === true ? colors.main : colors.lightGray)};
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  pointer-events: ${({ nowRouter }) => nowRouter === '/company/as' && 'none'};
+  /* pointer-events: ${({ nowRouter }) =>
+    nowRouter === '/company/as' && 'none'}; */
   @media (min-width: 900pt) {
     display: flex;
     align-items: center;
@@ -305,7 +316,8 @@ const WebTabItemHistory = styled.span<{
   line-height: 15pt;
   letter-spacing: -0.02em;
   transition: all 0.3s ease-in-out;
-  pointer-events: ${({ nowRouter }) => nowRouter === '/company/as' && 'none'};
+  /* pointer-events: ${({ nowRouter }) =>
+    nowRouter === '/company/as' && 'none'}; */
   color: ${({ historyUnder }) =>
     historyUnder === true ? colors.main : colors.lightGray};
   cursor: pointer;
