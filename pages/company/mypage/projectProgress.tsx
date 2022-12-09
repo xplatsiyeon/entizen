@@ -19,6 +19,34 @@ type Props = {
 
 const stepTypeType = ['READY', 'INSTALLATION', 'EXAM', 'COMPLETION'];
 const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
+
+
+  let initToggle;
+
+  switch (data?.project?.badge) {
+    case '계약대기':
+      initToggle = [false, false, false, false, false];
+      break;
+    case '준비 중':
+      initToggle = [false, true, false, false, false];
+      break;
+    case '설치 중':
+      initToggle = [false, false, true, false, false];
+      break;
+    case '검수 중':
+      initToggle = [false, false, false, true, false];
+      break;
+    case '완료 중':
+      initToggle = [false, false, false, false, true];
+      break;
+    case '완료대기':
+      initToggle = [false, false, false, false, true];
+      break;
+    // 취소
+    default:
+      initToggle = [false, false, false, false, false];
+  }
+
   // 선택 날짜 관련
   const [selectedDays, SetSelectedDays] = useState<string>('');
   // 달력모달 관련
@@ -28,13 +56,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
     false,
     false,
   ]);
-  const [toggleOpen, setToggleOpen] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [toggleOpen, setToggleOpen] = useState<boolean[]>(initToggle);
   const [dateOn, setDateOn] = useState<boolean[]>([false, false, false, false]);
 
   // 토글 된 박스 클릭하면 모달창으로 보여줌 ( 준비 , 검수, 등등 ...)
@@ -108,6 +130,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.readyStepGoalDate!}
+            CompletionDate={data?.project?.readyStepCompletionDate!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
           />
@@ -124,6 +147,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.installationStepGoalDate!}
+            CompletionDate={data?.project?.installationStepCompletionDate!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
           />
@@ -140,6 +164,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.examStepGoalDate!}
+            CompletionDate={data?.project?.examStepCompletionDate!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
           />
@@ -159,6 +184,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             data={data!}
             inProgressRefetch={inProgressRefetch}
             planed={data?.project?.completionStepGoalDate!}
+            CompletionDate={data?.project?.completionStepCompletionDate!!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
           />

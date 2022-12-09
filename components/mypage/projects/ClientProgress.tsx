@@ -45,15 +45,17 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   const router = useRouter();
   const routerId = router?.query?.projectIdx!;
   let textArr;
+  let initToggle;
 
   switch (badge) {
     case '계약대기':
       textArr = [
-        '공사 준비를 진행해주세요.',
-        '충전기를 설치, 시운전을 진행해주세요',
-        '충전기 검수를 진행해주세요',
-        '프로젝트를 완료해주세요',
+        '공사 준비가 진행됩니다.',
+        '충전기를 설치, 시운전이 진행됩니다.',
+        '충전기 검수를 진행됩니다!',
+        '프로젝트를 완료됩니다!',
       ];
+      initToggle = [false, false, false, false, false];
       break;
 
     case '준비 중':
@@ -63,6 +65,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         '충전기 검수가 진행됩니다!',
         '곧 프로젝트가 완료됩니다!',
       ];
+
+      initToggle = [false, true, false, false, false];
       break;
 
     case '설치 중':
@@ -72,6 +76,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         '충전기 검수가 진행됩니다!',
         '곧 프로젝트가 완료됩니다!',
       ];
+
+      initToggle = [false, false, true, false, false];
       break;
 
     case '검수 중':
@@ -81,6 +87,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         '충전기 검수가 진행됩니다.',
         '프로젝트를 완료해주세요',
       ];
+
+      initToggle = [false, false, false, true, false];
       break;
 
     case '완료 중':
@@ -90,6 +98,9 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         '충전기 검수가 완료되었습니다!',
         '곧 프로젝트가 완료됩니다!',
       ];
+
+      initToggle = [false, false, false, false, true];
+
       break;
 
     case '완료 대기':
@@ -99,14 +110,20 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         '충전기 검수가 완료되었습니다!',
         '프로젝트 완료에 동의해주세요!',
       ];
+
+      initToggle = [false, false, false, false, true];
+
       break;
 
     default:
       textArr = [
-        '공사 준비가 완료되었습니다!',
-        '충전기 검수를 진행해주세요',
-        '프로젝트를 완료해주세요',
+        '공사 준비가 진행됩니다.',
+        '충전기를 설치, 시운전이 진행됩니다.',
+        '충전기 검수를 진행됩니다!',
+        '프로젝트를 완료됩니다!',
       ];
+
+      initToggle = [false, false, false, false, false];
   }
 
   type ModalType = 'finish' | 'change';
@@ -115,13 +132,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   const [modalInfo, setModalInfo] =
     useState<UnConsentProjectDateChangeHistories>();
   const [modalType, setModalType] = useState<ModalType>('change');
-  const [toggleOpen, setToggleOpen] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [toggleOpen, setToggleOpen] = useState<boolean[]>(initToggle);
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {
@@ -369,7 +380,11 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                 >
                   {data?.project?.readyStepGoalDate === 'CHANGING'
                     ? '목표일 변경 중'
-                    : changeDataFn(data?.project?.readyStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.readyStepCompletionDate
+                          ? data?.project?.readyStepCompletionDate
+                          : data?.project?.readyStepGoalDate,
+                      )}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
@@ -426,7 +441,11 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                 >
                   {data?.project?.installationStepGoalDate === 'CHANGING'
                     ? '목표일 변경 중'
-                    : changeDataFn(data?.project?.installationStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.installationStepCompletionDate
+                          ? data?.project?.installationStepCompletionDate
+                          : data?.project?.installationStepGoalDate,
+                      )}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
@@ -481,7 +500,11 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                 >
                   {data?.project?.examStepGoalDate === 'CHANGING'
                     ? '변경 중'
-                    : changeDataFn(data?.project?.examStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.examStepCompletionDate
+                          ? data?.project?.examStepCompletionDate
+                          : data?.project?.examStepGoalDate,
+                      )}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>
@@ -538,7 +561,11 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                 >
                   {data?.project?.completionStepGoalDate === 'CHANGING'
                     ? '변경 중'
-                    : changeDataFn(data?.project?.completionStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.completionStepCompletionDate
+                          ? data?.project?.completionStepCompletionDate
+                          : data?.project?.completionStepGoalDate,
+                      )}
                 </PickedDate>
               ) : (
                 <SetDate id="prepareDate">목표일 입력중 ...</SetDate>

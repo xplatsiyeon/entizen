@@ -107,7 +107,7 @@ const ProgressBody = ({
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
     if (contractData) {
-      router.push({
+      router.replace({
         pathname: '/company/contract',
         query: {
           id: router?.query?.projectIdx,
@@ -118,6 +118,7 @@ const ProgressBody = ({
   };
 
   let textArr;
+  let initToggle;
 
   switch (badge) {
     case '계약대기':
@@ -127,6 +128,7 @@ const ProgressBody = ({
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, false, false, false, false];
       break;
     case '준비 중':
       textArr = [
@@ -135,6 +137,7 @@ const ProgressBody = ({
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, true, false, false, false];
       break;
     case '설치 중':
       textArr = [
@@ -143,6 +146,7 @@ const ProgressBody = ({
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, false, true, false, false];
       break;
     case '검수 중':
       textArr = [
@@ -151,6 +155,7 @@ const ProgressBody = ({
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, false, false, true, false];
       break;
     case '완료 중':
       textArr = [
@@ -159,6 +164,7 @@ const ProgressBody = ({
         '충전기 검수가 완료되었습니다',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, false, false, false, true];
       break;
     case '완료대기':
       textArr = [
@@ -167,6 +173,7 @@ const ProgressBody = ({
         '충전기 검수가 완료되었습니다',
         '프로젝트 완료 진행중입니다',
       ];
+      initToggle = [false, false, false, false, true];
       break;
     // 취소
     default:
@@ -176,6 +183,7 @@ const ProgressBody = ({
         '충전기 검수를 진행해주세요',
         '프로젝트를 완료해주세요',
       ];
+      initToggle = [false, false, false, false, false];
   }
 
   return (
@@ -261,17 +269,21 @@ const ProgressBody = ({
                   {/* 목표 요일  */}
                   {data?.project?.readyStepGoalDate === 'CHANGING'
                     ? '목표일 변경 중'
-                    : changeDataFn(data?.project?.readyStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.readyStepCompletionDate
+                          ? data?.project?.readyStepCompletionDate
+                          : data?.project?.readyStepGoalDate,
+                      )}
                 </PickedDate>
-              ) :(
-                badge === '계약대기'
-                  ? <></>
-                  : <SetDate id="prepareDate" onClick={handleDateModal}>
-                    목표일
-                    <ImageWrap>
-                      <Image src={askDate} layout="fill" />
-                    </ImageWrap>
-                  </SetDate>
+              ) : badge === '계약대기' ? (
+                <></>
+              ) : (
+                <SetDate id="prepareDate" onClick={handleDateModal}>
+                  목표일
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
+                </SetDate>
               )}
             </InsideFlex>
           </div>
@@ -326,17 +338,21 @@ const ProgressBody = ({
                 >
                   {data?.project?.installationStepGoalDate === 'CHANGING'
                     ? '변경 중'
-                    : changeDataFn(data?.project?.installationStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.installationStepCompletionDate
+                          ? data?.project?.installationStepCompletionDate
+                          : data?.project?.installationStepGoalDate,
+                      )}
                 </PickedDate>
+              ) : badge === '계약대기' ? (
+                <></>
               ) : (
-                badge === '계약대기'
-                  ? <></>
-                  : <SetDate id="installDate" onClick={handleDateModal}>
-                    목표일
-                    <ImageWrap>
-                      <Image src={askDate} layout="fill" />
-                    </ImageWrap>
-                  </SetDate>
+                <SetDate id="installDate" onClick={handleDateModal}>
+                  목표일
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
+                </SetDate>
               )}
             </InsideFlex>
           </div>
@@ -391,17 +407,21 @@ const ProgressBody = ({
                 >
                   {data?.project?.examStepGoalDate === 'CHANGING'
                     ? '변경 중'
-                    : changeDataFn(data?.project?.examStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.examStepCompletionDate
+                          ? data?.project?.examStepCompletionDate
+                          : data?.project?.examStepGoalDate,
+                      )}
                 </PickedDate>
+              ) : badge === '계약대기' ? (
+                <></>
               ) : (
-                badge === '계약대기'
-                  ? <></>
-                  : <SetDate id="inspectionDate" onClick={handleDateModal}>
-                    목표일
-                    <ImageWrap>
-                      <Image src={askDate} layout="fill" />
-                    </ImageWrap>
-                  </SetDate>
+                <SetDate id="inspectionDate" onClick={handleDateModal}>
+                  목표일
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
+                </SetDate>
               )}
             </InsideFlex>
           </div>
@@ -429,7 +449,7 @@ const ProgressBody = ({
                 className="bottomCircle"
                 src={
                   data?.project?.badge === '완료 중' ||
-                    data?.project?.badge === '완료 대기'
+                  data?.project?.badge === '완료 대기'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -452,17 +472,21 @@ const ProgressBody = ({
                 <PickedDate color={colors.main}>
                   {data?.project?.completionStepGoalDate === 'CHANGING'
                     ? '변경 중'
-                    : changeDataFn(data?.project?.completionStepGoalDate)}
+                    : changeDataFn(
+                        data?.project?.completionStepCompletionDate
+                          ? data?.project?.completionStepGoalDate
+                          : data?.project?.completionStepGoalDate,
+                      )}
                 </PickedDate>
+              ) : badge === '계약대기' ? (
+                <></>
               ) : (
-                badge === '계약대기'
-                  ? <></>
-                  : <SetDate id="successDate" onClick={handleDateModal}>
-                    목표일
-                    <ImageWrap>
-                      <Image src={askDate} layout="fill" />
-                    </ImageWrap>
-                  </SetDate>
+                <SetDate id="successDate" onClick={handleDateModal}>
+                  목표일
+                  <ImageWrap>
+                    <Image src={askDate} layout="fill" />
+                  </ImageWrap>
+                </SetDate>
               )}
             </InsideFlex>
           </div>
@@ -621,8 +645,8 @@ const ContractBtnBox = styled.div<{ presentProgress: boolean }>`
     color: #a6a9b0;
     cursor: pointer;
     ${({ presentProgress }) =>
-    presentProgress === true &&
-    css`
+      presentProgress === true &&
+      css`
         border: 0.75pt solid ${colors.main};
       `}
   }
@@ -645,8 +669,8 @@ const Line = styled.div<{ lineHeight: boolean }>`
   border: 0.75pt solid silver;
 
   @media (min-width: 900pt) {
-  height: ${({ lineHeight }) =>
-    lineHeight ? `calc(100% - 130pt)` : `calc(100% - 15pt)`};
+    height: ${({ lineHeight }) =>
+      lineHeight ? `calc(100% - 130pt)` : `calc(100% - 15pt)`};
   }
 `;
 
