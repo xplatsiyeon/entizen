@@ -799,6 +799,7 @@ const AddPhotos = styled.button`
   border: 1px solid #e2e5ed;
   background-color: #ffffff;
   border-radius: 6pt;
+  cursor: pointer;
   @media (min-width: 900pt) {
     background-color: #ffffff;
     width: 77.25pt;

@@ -9,7 +9,7 @@ interface Props {
 
 const CallManager = ({ HandleModal }: Props) => {
   return (
-    <Wrapper>
+    <Wrapper onClick={HandleModal}>
       <Box>
         <div className="img-box">
           <Image src={Phone} alt="phone-icon" />

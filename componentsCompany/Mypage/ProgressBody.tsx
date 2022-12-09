@@ -166,7 +166,7 @@ const ProgressBody = ({
       ];
       initToggle = [false, false, false, false, true];
       break;
-    case '완료대기':
+    case '완료 대기':
       textArr = [
         '공사 준비가 완료되었습니다.',
         '충전기를 설치, 시운전이 완료되었습니다',
@@ -448,8 +448,8 @@ const ProgressBody = ({
               <Image
                 className="bottomCircle"
                 src={
-                  data?.project?.badge === '완료 중' ||
-                  data?.project?.badge === '완료 대기'
+                  (data?.project?.badge === '완료 중' ||
+                  data?.project?.badge === '완료 대기')
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -496,7 +496,8 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(4)}
                 presentProgress={
-                  data?.project?.badge === '완료 중' ? true : false
+                  (data?.project?.badge === '완료 중' ||
+                  data?.project?.badge === '완료 대기') ? true : false
                 }
                 title={textArr[3]}
                 firstText={'사용 전 검사 및 점검'}
