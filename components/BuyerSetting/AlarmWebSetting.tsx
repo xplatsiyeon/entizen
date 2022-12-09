@@ -14,6 +14,8 @@ type Props = {
 
 const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   const router = useRouter();
+  // 유저인지 회사인지
+  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
   const [checked, setChecked] = useState({
     appPush: false,
     kakao: false,
@@ -55,9 +57,9 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
       <Header>
         <span className="text">알림 설정</span>
       </Header>
-      <TitleWrapper>
-        <EmailText>이메일</EmailText>
-        <KaKaoTalkText>카카오톡</KaKaoTalkText>
+      <TitleWrapper memberType={memberType}>
+        {memberType === 'COMPANY' && <EmailText>이메일</EmailText>}
+        <KaKaoTalkText memberType={memberType}>카카오톡</KaKaoTalkText>
       </TitleWrapper>
       <FlexWrap>
         <AlamLabel>알림</AlamLabel>
@@ -65,19 +67,21 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
           <AlamForm>
             <CheckBox>
               <span className="text">전체 알림</span>
-              <SwitchWrapper>
+              <SwitchWrapper memberType={memberType}>
                 <CustomSwitch
                   name="kakao"
                   type="kakao"
                   onChange={handleChange}
                   checked={checked.kakao}
                 />
-                <CustomSwitch
-                  name="email"
-                  type="email"
-                  onChange={handleChange}
-                  checked={mailChecked.email}
-                />
+                {memberType === 'COMPANY' && (
+                  <CustomSwitch
+                    name="email"
+                    type="email"
+                    onChange={handleChange}
+                    checked={mailChecked.email}
+                  />
+                )}
               </SwitchWrapper>
             </CheckBox>
           </AlamForm>
@@ -107,7 +111,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             )}
             <CheckBox>
               <span>이벤트 및 혜택 알림</span>
-              <SwitchWrapper>
+              <SwitchWrapper memberType={memberType}>
                 <CustomSwitch
                   name="event"
                   type="kakao"
@@ -115,13 +119,15 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   checked={checked.event}
                   inputProps={{ 'aria-label': 'controlled' }}
                 />
-                <CustomSwitch
-                  name="event"
-                  type="email"
-                  onChange={handleChange}
-                  checked={mailChecked.event}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
+                {memberType === 'COMPANY' && (
+                  <CustomSwitch
+                    name="event"
+                    type="email"
+                    onChange={handleChange}
+                    checked={mailChecked.event}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                  />
+                )}
               </SwitchWrapper>
             </CheckBox>
           </EventForm>
@@ -135,57 +141,63 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <span className="text">간편견적 알림</span>
               <div className="remark">견적 진행상황 알림</div>
             </div>
-            <SwitchWrapper>
+            <SwitchWrapper memberType={memberType}>
               <CustomSwitch
                 name="easy"
                 type="kakao"
                 onChange={handleChange}
                 checked={checked.easy}
               />
-              <CustomSwitch
-                name="easy"
-                type="email"
-                onChange={handleChange}
-                checked={mailChecked.easy}
-              />
+              {memberType === 'COMPANY' && (
+                <CustomSwitch
+                  name="easy"
+                  type="email"
+                  onChange={handleChange}
+                  checked={mailChecked.easy}
+                />
+              )}
             </SwitchWrapper>
           </CheckBox>
           <CheckBox>
             <div>
               <span className="text">내 프로젝트 알림</span>
             </div>
-            <SwitchWrapper>
+            <SwitchWrapper memberType={memberType}>
               <CustomSwitch
                 name="project"
                 type="kakao"
                 onChange={handleChange}
                 checked={checked.project}
               />
-              <CustomSwitch
-                name="project"
-                type="email"
-                onChange={handleChange}
-                checked={mailChecked.project}
-              />
+              {memberType === 'COMPANY' && (
+                <CustomSwitch
+                  name="project"
+                  type="email"
+                  onChange={handleChange}
+                  checked={mailChecked.project}
+                />
+              )}
             </SwitchWrapper>
           </CheckBox>
           <CheckBox>
             <div>
               <span className="text">A/S 알림</span>
             </div>
-            <SwitchWrapper>
+            <SwitchWrapper memberType={memberType}>
               <CustomSwitch
                 name="as"
                 type="kakao"
                 onChange={handleChange}
                 checked={checked.as}
               />
-              <CustomSwitch
-                name="as"
-                type="email"
-                onChange={handleChange}
-                checked={mailChecked.as}
-              />
+              {memberType === 'COMPANY' && (
+                <CustomSwitch
+                  name="as"
+                  type="email"
+                  onChange={handleChange}
+                  checked={mailChecked.as}
+                />
+              )}
             </SwitchWrapper>
           </CheckBox>
           <CheckBox>
@@ -193,19 +205,21 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <span className="text">소통하기 알림</span>
               <div className="remark">신규 메세지 알림</div>
             </div>
-            <SwitchWrapper>
+            <SwitchWrapper memberType={memberType}>
               <CustomSwitch
                 name="charging"
                 type="kakao"
                 onChange={handleChange}
                 checked={checked.charging}
               />
-              <CustomSwitch
-                name="charging"
-                type="email"
-                onChange={handleChange}
-                checked={mailChecked.charging}
-              />
+              {memberType === 'COMPANY' && (
+                <CustomSwitch
+                  name="charging"
+                  type="email"
+                  onChange={handleChange}
+                  checked={mailChecked.charging}
+                />
+              )}
             </SwitchWrapper>
           </CheckBox>
           <CheckBox>
@@ -213,19 +227,21 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <span className="text">내 충전소 알림</span>
               <div className="remark">구독종료 미리 알림</div>
             </div>
-            <SwitchWrapper>
+            <SwitchWrapper memberType={memberType}>
               <CustomSwitch
                 name="communicate"
                 type="kakao"
                 onChange={handleChange}
                 checked={checked.communicate}
               />
-              <CustomSwitch
-                name="communicate"
-                type="email"
-                onChange={handleChange}
-                checked={mailChecked.communicate}
-              />
+              {memberType === 'COMPANY' && (
+                <CustomSwitch
+                  name="communicate"
+                  type="email"
+                  onChange={handleChange}
+                  checked={mailChecked.communicate}
+                />
+              )}
             </SwitchWrapper>
           </CheckBox>
         </FuntionForm>
@@ -243,6 +259,9 @@ const Wrapper = styled.div`
     width: 580.5pt;
     box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
     border-radius: 12pt;
+  }
+  @media (max-width: 899.25pt) {
+    display: none;
   }
 `;
 const Header = styled(Box)`
@@ -262,14 +281,19 @@ const Header = styled(Box)`
     letter-spacing: -0.02em;
     color: ${colors.main2};
   }
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
 `;
-const TitleWrapper = styled.div`
-  display: flex;
+const TitleWrapper = styled.div<{ memberType: string }>`
+  display: ${({ memberType }) => (memberType === 'COMPANY' ? 'flex' : '')};
   align-items: center;
 `;
-const KaKaoTalkText = styled.div`
+const KaKaoTalkText = styled.div<{ memberType: string }>`
   position: relative;
-  left: 80%;
+  /* margin-left: 495pt; */
+  margin-left: ${({ memberType }) =>
+    memberType === 'COMPANY' ? '80%' : '86%'};
   top: 10pt;
   font-weight: 500;
   font-size: 12pt;
@@ -399,9 +423,9 @@ const CustomSwitch = styled(Switch)`
   }
 `;
 
-const SwitchWrapper = styled.div`
-  display: flex;
+const SwitchWrapper = styled.div<{ memberType: string }>`
+  display: ${({ memberType }) => (memberType === 'COMPANY' ? 'flex' : '')};
   align-items: center;
   justify-content: space-between;
-  width: 115.5pt;
+  width: ${({ memberType }) => (memberType === 'COMPANY' ? '115.5pt' : '')};
 `;

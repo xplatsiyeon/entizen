@@ -48,19 +48,35 @@ const LeftProfileBox = () => {
               </Avatar>
               <Label mt={33}>아이디</Label>
               <InputBox type="text" readOnly placeholder={profile?.id} />
-              <Label mt={30}>{profile?.companyMemberAdditionalInfo?'기업명':'이름'}</Label>
-              <InputBox type="text" readOnly placeholder={profile?.companyMemberAdditionalInfo? profile.companyMemberAdditionalInfo.companyName : profile?.name} />
+              <Label mt={30}>
+                {profile?.companyMemberAdditionalInfo ? '기업명' : '이름'}
+              </Label>
+              <InputBox
+                type="text"
+                readOnly
+                placeholder={
+                  profile?.companyMemberAdditionalInfo
+                    ? profile.companyMemberAdditionalInfo.companyName
+                    : profile?.name
+                }
+              />
             </Body>
-            {profile?.companyMemberAdditionalInfo
-            ? <CompanyUserBox>
+            {profile?.companyMemberAdditionalInfo ? (
+              <CompanyUserBox>
                 <Label mt={33}>담당자 이름</Label>
                 <InputBox type="text" readOnly placeholder={profile?.name} />
                 <Label mt={30}>담당자 휴대폰 번호</Label>
                 <InputBox type="text" readOnly placeholder={profile?.phone} />
                 <Label mt={30}>담당자 이메일</Label>
-                <InputBox type="text" readOnly placeholder={profile?.companyMemberAdditionalInfo.managerEmail} />
-              </CompanyUserBox> 
-            : null}
+                <InputBox
+                  type="text"
+                  readOnly
+                  placeholder={
+                    profile?.companyMemberAdditionalInfo.managerEmail
+                  }
+                />
+              </CompanyUserBox>
+            ) : null}
           </Wrapper>
         </Inner>
       </WebBody>
@@ -180,17 +196,17 @@ const InputBox = styled.input`
 `;
 
 const CompanyUserBox = styled.div`
-padding: 0pt 22.5pt 0;
-position: relative;
-&::before{
-  position: absolute;
-  display: block;
-  content: '';
-  clear: both;
-  width: 100%;
-  height: 6pt;
-  top: -36pt;
-  left: 0;
-background: #F3F4F7;
-}
-`
+  padding: 0pt 22.5pt 0;
+  position: relative;
+  &::before {
+    position: absolute;
+    display: block;
+    content: '';
+    clear: both;
+    width: 100%;
+    height: 6pt;
+    top: -36pt;
+    left: 0;
+    background: #f3f4f7;
+  }
+`;
