@@ -141,9 +141,6 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
   const TabListEn = ['all', 'unread', 'favorite'];
   const [index, setIndex] = useState<number>(0);
   const [company, setCompany] = useState<string>('');
-  const [state, setState] = useState({
-    right: false,
-  });
   const [text, setText] = useState('');
   const keyword = useDebounce(text, 2000);
 
@@ -191,17 +188,54 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
     window.scrollTo(0, 0);
   }, [router.query.chattingRoomIdx]); */}
 
+  const [state, setState] = useState({
+    right: false,
+  });
+
+  const toggleDrawer =
+  (anchor: string, open: boolean) =>
+  (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' ||
+        (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+    setState({ ...state, [anchor]: open });
+  };
+
   return (
     <Body className="chatt-body" chattingRoom={Boolean(chattingRoom)}>
       <Header>
         <H2>소통하기</H2>
-        <IconWrapper>
-          <IconBox>
-            <IconWrap>
-              <Image src={bell} layout="fill" />
+          <IconWrapper>
+            <IconWrap onClick={() => router.push('/alarm')}>
+              <Image src={bell} alt="alarmIcon" layout='fill'/>
             </IconWrap>
-          </IconBox>
-        </IconWrapper>
+            {(['right'] as const).map((anchor) => (
+              <React.Fragment key={anchor}>
+                <HamburgerOn onClick={toggleDrawer(anchor, true)}>
+                  <IconBox>
+                    <Image src={Hamburger} alt="listIcon" />
+                  </IconBox>
+                </HamburgerOn>
+                <Drawer
+                  anchor={anchor}
+                  open={state[anchor]}
+                  onClose={toggleDrawer(anchor, false)}
+                  // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
+                >
+                  <HamburgerBar
+                    anchor={anchor}
+                    toggleDrawer={toggleDrawer}
+                    setState={setState}
+                    state={state}
+                  />
+                </Drawer>
+              </React.Fragment>
+            ))}
+          </IconWrapper>
       </Header>
       <FlexBox chattingRoom={Boolean(chattingRoom)}>
         <WebBox>
@@ -296,7 +330,9 @@ const IconBox = styled.div`
   }
 `;
 const IconWrap = styled.div`
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 24pt;
   width: 18pt;
   height: 18pt;
   cursor: pointer;
@@ -435,4 +471,12 @@ const HamburgerOn = styled.div``;
 const IconWrapper = styled.div`
   display: flex;
   align-items: center;
+`;
+
+
+const FirstIconBox = styled.div`
+  margin-top: 9pt;
+  margin-bottom: 9pt;
+
+  margin-right: 9pt;
 `;

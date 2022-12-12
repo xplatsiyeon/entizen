@@ -270,7 +270,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
             </HiddenBox1>
             <ChattingRoom
               className="content-box"
-              onClick={() => handleRoute(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomIdx)}
+              onClick={() => handleRoute(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomIdx, true)}
             >
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
@@ -485,7 +485,7 @@ const UnRead = styled.div<{ wasRead: boolean | null}>`
   width: 6pt;
   height: 6pt;
   border-radius: 50%;
-  background: ${({ wasRead }) => (wasRead === null || wasRead === true ? `none` : `#5221CB`)};
+  background: ${({ wasRead }) => ( wasRead ? `none` : `#5221CB`)};
 `;
 const Favorite = styled.div`
   position: relative;
