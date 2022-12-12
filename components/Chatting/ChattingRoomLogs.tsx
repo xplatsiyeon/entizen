@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, {
   MouseEvent,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -445,6 +446,19 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     return <Loader />;
   }
 
+  const DownloadFile = useCallback((item: ChattingLogs) => {
+    let fileName = item.fileOriginalName!;
+    const url = item.fileUrl!;
+    const element = document.createElement('a');
+    element.href = url;
+    element.download = fileName;
+    element.type = 'blob';
+    document.body.appendChild(element);
+    element.click();
+    element.remove();
+    window.URL.revokeObjectURL(url);
+  }, []);
+
   return (
     <Body ref={logs}>
     {isModal && <Modal click={()=>setIsModal(false)} text={errorMessage} />}
@@ -513,6 +527,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                            <FileDownload
                             // onClick={DownloadFile}
                             href={item?.fileUrl!}
+                            download={item?.fileOriginalName!}
+                            type={'blob'}
                           >
                             <Image src={fileImg} alt="file-icon" layout="intrinsic"/>
                             {item?.fileOriginalName}
@@ -523,8 +539,10 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                         {item.messageType === 'IMAGE' && 
                         <>
                            <FileDownload
-                            // onClick={DownloadFile}
-                            href={item?.fileUrl!}
+                            onClick={()=>DownloadFile(item)}
+                           // href={item?.fileUrl!}
+                           // download={item?.fileOriginalName!}
+                           // type={'blob'}
                           >
                             <img src={item?.fileUrl!} style={{width: '112.5pt', objectFit:'scale-down', background:'#0000001c'}}/>
                           </FileDownload>
