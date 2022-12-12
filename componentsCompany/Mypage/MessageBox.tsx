@@ -84,7 +84,6 @@ const Wrapper = styled.div<{ presentProgress: boolean }>`
   @media (min-width: 900pt) {
     padding: 21pt 27pt;
   }
-  
 `;
 
 const LeftSideBox = styled.div<{ presentProgress: boolean }>`
@@ -131,7 +130,8 @@ const ArrowIconBox = styled.div`
 
 const ImageBox = styled.div`
   width: 100%;
-  height: 66pt;
+  /* height: 66pt; */
+  height: auto;
   margin: 0 auto;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;

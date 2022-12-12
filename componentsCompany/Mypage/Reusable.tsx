@@ -359,7 +359,7 @@ Props) => {
             {/* 완료에서 사진첨부하는곳 보이도록  */}
             {finalStep && !almostFinish && (
               <RemainderInputBox>
-                <Label>사진첨부</Label>
+                <Label>완료현장 사진</Label>
                 <PhotosBox>
                   <AddPhotos onClick={imgHandler}>
                     <Image src={camera} alt="" />
@@ -579,10 +579,14 @@ const RemainderInputBox = styled.div`
   flex-direction: column;
   display: flex;
   margin-top: 24pt;
+
+  @media (min-width: 900pt) {
+    padding-left: 13.5pt;
+  }
 `;
 
 const Label = styled.label`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
@@ -596,6 +600,9 @@ const PhotosBox = styled.div`
   display: flex;
   gap: 9.1875pt;
   align-items: center;
+  @media (min-width: 900pt) {
+    height: 83.1pt;
+  }
 `;
 
 const AddPhotos = styled.button`
@@ -605,6 +612,11 @@ const AddPhotos = styled.button`
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
   cursor: pointer;
+  background-color: #ffffff;
+  @media (min-width: 900pt) {
+    width: 83.1pt;
+    height: 83.1pt;
+  }
 `;
 
 const ImgSpan = styled.div`
@@ -612,6 +624,10 @@ const ImgSpan = styled.div`
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  @media (min-width: 900pt) {
+    width: 83.1pt;
+    height: 83.1pt;
+  }
 `;
 
 const Xbox = styled.div`
