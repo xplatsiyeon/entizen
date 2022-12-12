@@ -67,6 +67,7 @@ const AsRequest = ({ data }: Props) => {
   // console.log(projectData);
 
   const handleClick = () => setOpen(!open);
+  console.log('mobile 뭐아', mobile);
   return (
     <Body>
       {!mobile && (
@@ -260,7 +261,7 @@ const AsRequest = ({ data }: Props) => {
 export default AsRequest;
 
 const Body = styled.div`
-  display: none;
+  /* display: none; */
   @media (max-width: 899.25pt) {
     display: block;
   }

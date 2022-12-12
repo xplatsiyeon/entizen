@@ -38,7 +38,10 @@ const ClientProjectModal = ({
             <PBox1>
               <p className="date1">완료 요청일</p>
               <p className="date2">
-                {data?.project?.completionStepCompletionDate?.replaceAll('-', '.')}
+                {data?.project?.completionStepCompletionDate?.replaceAll(
+                  '-',
+                  '.',
+                )}
               </p>
             </PBox1>
             <PBox1>
@@ -166,7 +169,6 @@ const FinBox = styled.div`
   @media (max-width: 899.25pt) {
     margin: 0 15pt;
   }
-
 `;
 const DateBox = styled.div`
   .firstChild {
@@ -196,18 +198,40 @@ const ButtonBox = styled.div`
       color: #595757;
     }
     &:nth-of-type(2) {
-      padding: 15pt 0;
       background: #5221cb;
       border-radius: 6pt;
       flex: 2;
       color: #ffffff;
+      height: 46.875pt;
+      margin-top: 12pt;
+    }
+    @media (min-width: 900pt) {
     }
   }
 
   @media (max-width: 899.25pt) {
     margin: 30pt 15pt;
-  } 
+  }
 `;
+
+const AgreeButton = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  padding: 15pt 0;
+  background: #5221cb;
+  border-radius: 6pt;
+  flex: 2;
+  color: #ffffff;
+  @media (min-width: 900pt) {
+  }
+`;
+
 const PBox1 = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   letter-spacing: -0.02em;

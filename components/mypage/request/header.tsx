@@ -99,6 +99,7 @@ const Header = styled.div<{ handle: boolean | undefined }>`
   .exit {
     position: absolute;
     right: 15pt;
+    cursor: pointer;
   }
 
   .home {

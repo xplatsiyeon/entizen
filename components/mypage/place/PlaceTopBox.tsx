@@ -46,6 +46,10 @@ const PlaceTopBox = ({ data }: Props) => {
     );
   };
 
+  // 부분 구독 판별
+  const partSubscribe = data?.finalQuotation?.subscribeProduct;
+  console.log('partSubscribe 부분구독 알아오셈', partSubscribe);
+
   return (
     <Wrapper>
       <ItemButton onClick={() => setOpen(!open)}>
@@ -92,12 +96,20 @@ const PlaceTopBox = ({ data }: Props) => {
                 {data?.subscribeStartDate?.replaceAll('-', '.')}
               </span>
             </div>
+
             <div className="text-box">
               <span className="name">구독종료</span>
               <span className="text">
                 {data?.subscribeEndDate?.replaceAll('-', '.')}
               </span>
             </div>
+            {/* 부분구독일경우 충전소 설치비 불러와야함 */}
+            {partSubscribe === 'PART' && (
+              <div className="text-box">
+                <span className="name">충전소 설치비</span>
+                <span className="text">원</span>
+              </div>
+            )}
             <div className="text-box">
               <span className="name">월 구독료</span>
               <span className="text">

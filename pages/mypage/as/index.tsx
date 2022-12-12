@@ -175,7 +175,7 @@ const asNumber = () => {
           2: <AsIndex />,
           }; num, page는 이 부분의 인덱스 넘버.
         */}
-      <WebHeader num={2} now={'mypage'} sub={true}/>
+      <WebHeader num={2} now={'mypage'} sub={true} />
       <Inner>
         <FlexBox>
           <Wrap1 isReview={isReview}>

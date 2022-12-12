@@ -38,18 +38,34 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     event: false,
   });
 
+  console.log('checked 어케 나와용 웹', checked);
+  console.log('mailChecked 어케 나와용 웹', checked);
+
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if ((event.target.type = 'kakao')) {
+  //     setChecked({
+  //       ...checked,
+  //       [event.target.name]: event.target.checked,
+  //     });
+  //   } else if ((event.target.type = 'email')) {
+  //     setMailChecked({
+  //       ...mailChecked,
+  //       [event.target.name]: event.target.checked,
+  //     });
+  //   }
+  // };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if ((event.target.type = 'kakao')) {
-      setChecked({
-        ...checked,
-        [event.target.name]: event.target.checked,
-      });
-    } else if ((event.target.type = 'email')) {
-      setMailChecked({
-        ...mailChecked,
-        [event.target.name]: event.target.checked,
-      });
-    }
+    setChecked({
+      ...checked,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
+  const handleMailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMailChecked({
+      ...mailChecked,
+      [event.target.name]: event.target.checked,
+    });
   };
 
   return (
@@ -70,15 +86,13 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <SwitchWrapper memberType={memberType}>
                 <CustomSwitch
                   name="kakao"
-                  type="kakao"
                   onChange={handleChange}
                   checked={checked.kakao}
                 />
                 {memberType === 'COMPANY' && (
                   <CustomSwitch
                     name="email"
-                    type="email"
-                    onChange={handleChange}
+                    onChange={handleMailChange}
                     checked={mailChecked.email}
                   />
                 )}
@@ -114,7 +128,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <SwitchWrapper memberType={memberType}>
                 <CustomSwitch
                   name="event"
-                  type="kakao"
                   onChange={handleChange}
                   checked={checked.event}
                   inputProps={{ 'aria-label': 'controlled' }}
@@ -122,8 +135,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 {memberType === 'COMPANY' && (
                   <CustomSwitch
                     name="event"
-                    type="email"
-                    onChange={handleChange}
+                    onChange={handleMailChange}
                     checked={mailChecked.event}
                     inputProps={{ 'aria-label': 'controlled' }}
                   />
@@ -144,15 +156,13 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             <SwitchWrapper memberType={memberType}>
               <CustomSwitch
                 name="easy"
-                type="kakao"
                 onChange={handleChange}
                 checked={checked.easy}
               />
               {memberType === 'COMPANY' && (
                 <CustomSwitch
                   name="easy"
-                  type="email"
-                  onChange={handleChange}
+                  onChange={handleMailChange}
                   checked={mailChecked.easy}
                 />
               )}
@@ -165,15 +175,13 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             <SwitchWrapper memberType={memberType}>
               <CustomSwitch
                 name="project"
-                type="kakao"
                 onChange={handleChange}
                 checked={checked.project}
               />
               {memberType === 'COMPANY' && (
                 <CustomSwitch
                   name="project"
-                  type="email"
-                  onChange={handleChange}
+                  onChange={handleMailChange}
                   checked={mailChecked.project}
                 />
               )}
@@ -186,15 +194,13 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             <SwitchWrapper memberType={memberType}>
               <CustomSwitch
                 name="as"
-                type="kakao"
                 onChange={handleChange}
                 checked={checked.as}
               />
               {memberType === 'COMPANY' && (
                 <CustomSwitch
                   name="as"
-                  type="email"
-                  onChange={handleChange}
+                  onChange={handleMailChange}
                   checked={mailChecked.as}
                 />
               )}
@@ -208,15 +214,13 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             <SwitchWrapper memberType={memberType}>
               <CustomSwitch
                 name="charging"
-                type="kakao"
                 onChange={handleChange}
                 checked={checked.charging}
               />
               {memberType === 'COMPANY' && (
                 <CustomSwitch
                   name="charging"
-                  type="email"
-                  onChange={handleChange}
+                  onChange={handleMailChange}
                   checked={mailChecked.charging}
                 />
               )}
@@ -230,15 +234,13 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             <SwitchWrapper memberType={memberType}>
               <CustomSwitch
                 name="communicate"
-                type="kakao"
                 onChange={handleChange}
                 checked={checked.communicate}
               />
               {memberType === 'COMPANY' && (
                 <CustomSwitch
                   name="communicate"
-                  type="email"
-                  onChange={handleChange}
+                  onChange={handleMailChange}
                   checked={mailChecked.communicate}
                 />
               )}
