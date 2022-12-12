@@ -76,7 +76,7 @@ const AnotherSuggest = (props: Props) => {
   };
   console.log(router.query.preQuotation, 'id 값만 가져오면 댐');
 
-  // 닫기 버튼
+  // 닫기 버튼 url로 변경
   const handleOnClick = () => {
     router.push({
       pathname: '/company/sentProvisionalQuotation',
