@@ -37,8 +37,6 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
   const router = useRouter();
   const queryClinet = useQueryClient();
 
-  console.log('room,list', data?.data.chattingRooms.userChattingRooms )
-
   const [modal, setModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number>();
   // 채팅방 알림 에러
@@ -290,7 +288,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                    wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog === null ? null : true}
+                    wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog?.wasRead!}
                   />
                   <Favorite>
                     {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorit? (
