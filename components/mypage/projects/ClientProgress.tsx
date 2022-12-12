@@ -47,6 +47,20 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   let textArr;
   let initToggle;
 
+  // 실시간 width 받아옴
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+  // 실시간으로 width 받아오는 함수
+  const handleResize = () => {
+    setNowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowWidth]);
+
   switch (badge) {
     case '계약대기':
       textArr = [
@@ -595,7 +609,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         </FlexBox>
         <Line
           lineHeight={toggleOpen[4]}
-          height={badge === '완료 대기' ? 185 : 130.5}
+          height={badge === '완료 대기' ? 330 : 130.5}
+          webHeight={badge === '완료 대기' && nowWidth > 1200 ? 410 : 130.5}
         ></Line>
       </Wrapper>
       {data?.project?.isCompletedCompletionStep ? (
@@ -798,15 +813,23 @@ const ToggleWrapper = styled.div<{ presentProgress?: boolean }>`
   z-index: 10;
 `;
 
-const Line = styled.div<{ lineHeight: boolean; height: number }>`
+const Line = styled.div<{
+  lineHeight: boolean;
+  height: number;
+  webHeight: number;
+}>`
   position: absolute;
   height: ${({ lineHeight, height }) =>
     lineHeight ? `calc(100% - ${height}pt)` : `calc(100% - 15pt)`};
-
+  max-height: calc(100%-410pt);
   top: 5pt;
   left: 22.5pt;
   width: 0.25pt;
   border: 0.75pt solid silver;
+  @media (min-width: 900pt) {
+    height: ${({ lineHeight, webHeight }) =>
+      lineHeight ? `calc(100% - ${webHeight}pt)` : `calc(100% - 15pt)`};
+  }
 `;
 const FinButton = styled.button`
   position: fixed;
@@ -836,8 +859,10 @@ const FinButton = styled.button`
 const WebFinButton = styled.button`
   position: fixed;
   bottom: 0;
-  width: 100%;
+  /* width: 100%; */
+  width: 526.5pt;
   height: 42pt;
+  margin-left: 44pt;
   background: #5221cb;
   color: white;
   border-radius: 6pt;

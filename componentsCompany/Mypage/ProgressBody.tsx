@@ -448,8 +448,8 @@ const ProgressBody = ({
               <Image
                 className="bottomCircle"
                 src={
-                  (data?.project?.badge === '완료 중' ||
-                  data?.project?.badge === '완료 대기')
+                  data?.project?.badge === '완료 중' ||
+                  data?.project?.badge === '완료 대기'
                     ? progressBlueCircle
                     : progressCircle
                 }
@@ -496,8 +496,10 @@ const ProgressBody = ({
               <MessageBox
                 handleClick={() => setProgressNum(4)}
                 presentProgress={
-                  (data?.project?.badge === '완료 중' ||
-                  data?.project?.badge === '완료 대기') ? true : false
+                  data?.project?.badge === '완료 중' ||
+                  data?.project?.badge === '완료 대기'
+                    ? true
+                    : false
                 }
                 title={textArr[3]}
                 firstText={'사용 전 검사 및 점검'}
@@ -598,7 +600,6 @@ const SetDate = styled.div`
   padding: 4.5pt 7.5pt;
   border: 1px solid #e2e5ed;
   position: relative;
-
   border-radius: 6pt;
   color: #a6a9b0;
   font-family: Spoqa Han Sans Neo;
@@ -607,6 +608,7 @@ const SetDate = styled.div`
   line-height: 9pt !important;
   letter-spacing: -0.02em;
   text-align: left;
+  cursor: pointer;
 `;
 
 const PickedDate = styled.div`

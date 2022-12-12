@@ -158,17 +158,17 @@ const DateModal = ({
     }
   };
   const onClcikSubmitDate = () => {
-    if(!selectedDays){
-      alert('날짜를 선택해주세요')
-    }else{
-    dateMutate({
-      url: `/projects/${routerId}/goal-date`,
-      data: {
-        projectStep: stepType,
-        goalDate: selectedDays.replaceAll('.', '-'),
-      },
-    });
-   }
+    if (!selectedDays) {
+      alert('날짜를 선택해주세요');
+    } else {
+      dateMutate({
+        url: `/projects/${routerId}/goal-date`,
+        data: {
+          projectStep: stepType,
+          goalDate: selectedDays.replaceAll('.', '-'),
+        },
+      });
+    }
   };
 
   const handleModalClose = (
@@ -261,6 +261,7 @@ const Title = styled.div`
 const Pagenation = styled.div`
   display: flex;
   justify-content: center;
+  cursor: pointer;
   .left-btn {
     position: relative;
     width: 12pt;
@@ -312,6 +313,7 @@ const Days = styled.div`
   flex-wrap: wrap;
   width: 100%;
   padding-bottom: 30pt;
+  cursor: pointer;
 `;
 const Day = styled.div<{ selectedDay?: boolean }>`
   display: flex;
