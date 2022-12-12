@@ -511,6 +511,7 @@ const AddPhotos = styled.button`
   height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
+  background-color: #ffffff;
   cursor: pointer;
 `;
 const NextBtn = styled.button<{ disabled: boolean }>`

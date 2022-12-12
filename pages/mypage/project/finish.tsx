@@ -16,6 +16,8 @@ import colors from 'styles/colors';
 import { changeDataFn } from 'utils/calculatePackage';
 import CheckImg from '/public/images/CheckCircle.svg';
 import useCreateChatting from 'hooks/useCreateChatting';
+import { isTokenGetApi } from 'api';
+import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 
 const FinPage = () => {
   const router = useRouter();
@@ -24,6 +26,22 @@ const FinPage = () => {
 
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+
+  // 제휴문의 채팅방 보내기
+  // 'chatting-list' 타입에러 나는데 이유를 모르겠음,
+  // const {
+  //   data: chat,
+  //   loading: chatLoading,
+  //   error: chatError,
+  //   refetch: chatRefetch,
+  // } = useQuery<ChattingListResponse>(
+  //   'chatting-list',
+  //   () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+  // );
+
+  // const chattingRoomIdx =
+  //   chat?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
+
   const {
     loading: projectLoading,
     error: projectError,
@@ -52,7 +70,6 @@ const FinPage = () => {
   }
 
   console.log(projectData?.project?.isApprovedByAdmin);
-
   const HandleOnClick = () => {
     if (type === 'commu') {
       const id = projectData?.project.companyMember.memberIdx;
@@ -61,6 +78,24 @@ const FinPage = () => {
       router.push('/mypage');
     }
   };
+
+  //  'chatting-list' 타입에러 해결하면 이걸로 onClick링크 이동
+  // const HandleOnClick = () => {
+  //   if (type === 'commu') {
+  //     const id = projectData?.project.companyMember.memberIdx;
+  //     router.push(`/chatting/${id}`);
+  //   } else if (projectData?.project?.isApprovedByAdmin === false) {
+  //     router.push({
+  //       pathname: `/chatting/chattingRoom`,
+  //       query: {
+  //         chattingRoomIdx: chattingRoomIdx,
+  //         entizen: true,
+  //       },
+  //     });
+  //   } else {
+  //     router.push('/mypage');
+  //   }
+  // };
 
   let title: string;
   let date: string;
@@ -207,6 +242,7 @@ const Btn = styled.button`
   color: ${colors.lightWhite};
   padding: 15pt 0;
   margin: 0 0 30pt;
+  cursor: pointer;
   @media (min-width: 900pt) {
     margin: 0 auto;
   }

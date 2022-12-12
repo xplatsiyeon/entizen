@@ -128,7 +128,7 @@ const ChargingPlace = () => {
   return (
     <>
       <Body bgColor={open}>
-        <WebHeader num={3} now={'mypage'} sub={true}/>
+        <WebHeader num={3} now={'mypage'} sub={true} />
         <UserRightMenu />
         <Inner>
           <FlexBox>
@@ -169,7 +169,7 @@ const ChargingPlace = () => {
                       >
                         <span>
                           {/* 작성된 리뷰 여부 */}
-                          {target![0].projectReview ? '리뷰보기' : '리뷰쓰기'}
+                          {target![0]?.projectReview ? '리뷰보기' : '리뷰쓰기'}
                         </span>
                       </BtnWeb>
                       <BtnMob

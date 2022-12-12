@@ -17,6 +17,7 @@ import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
 import { SpotDataResponse } from './SentProvisionalQuoatation';
 import BackImg from 'public/images/back-btn.svg';
+import ExitImg from 'public/images/X.svg';
 
 type Props = {};
 
@@ -73,7 +74,17 @@ const AnotherSuggest = (props: Props) => {
       },
     });
   };
+  console.log(router.query.preQuotation, 'id 값만 가져오면 댐');
 
+  // 닫기 버튼 url로 변경
+  const handleOnClick = () => {
+    router.push({
+      pathname: '/company/sentProvisionalQuotation',
+      query: {
+        preQuotationIdx: router.query.preQuotation,
+      },
+    });
+  };
   if (isLoading && spotLoading) {
     return <Loader />;
   }
@@ -105,7 +116,11 @@ const AnotherSuggest = (props: Props) => {
         <WebHeader />
         <Inner>
           <Wrapper>
-            <MypageHeader title="날짜 선택" exitBtn={true} />
+            <MypageHeader
+              title="날짜 선택"
+              exitBtn={true}
+              handleOnClick={handleOnClick}
+            />
             <WebSelectHeader>
               <BackImage className="back-img" onClick={() => router.back()}>
                 <Image src={BackImg} alt="btn-icon" />

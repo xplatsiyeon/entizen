@@ -331,6 +331,10 @@ const FileDownloadBtn = styled(Button)`
   padding: 7.5pt 6pt;
   border: 0.75pt solid ${colors.lightGray3};
   border-radius: 6pt;
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    width: 40%;
+  }
 `;
 const FileDownload = styled.a`
   text-decoration: none;
@@ -338,6 +342,10 @@ const FileDownload = styled.a`
   align-items: center;
   gap: 3pt;
   color: ${colors.gray2};
+  // 글자수 넘어갈때 ... 처리하는거 필수값: width, text-overflow, overflow
+  width: 150pt;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const FileName = styled.div`
