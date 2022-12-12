@@ -73,9 +73,6 @@ type Props = {};
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
 const ChattingRoom = ({ }: Props) => {
 
-  const [moreModal, setMoreModal] = useState<boolean>(false);
-  const [quitModal, setQuitModal] = useState<boolean>(false);
-
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
     () =>
@@ -89,7 +86,6 @@ const ChattingRoom = ({ }: Props) => {
 
   useEffect(()=>{
     refetch();
-    console.log(data?.data.chattingRooms.userChattingRooms)
   },[])
 
   return (
@@ -101,7 +97,7 @@ const ChattingRoom = ({ }: Props) => {
           <MobWrap>
             <ChattingLists chattingRoom={true} userChatting={true}/>
           </MobWrap>
-          <ChattingRoomLogs userChatting={true}/>
+          <ChattingRoomLogs userChatting={true} listRefetch={refetch}/>
         </Body>
       </Wrapper>
       <WebFooter />

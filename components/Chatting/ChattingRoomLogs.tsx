@@ -20,7 +20,7 @@ import addBtn from 'public/images/addBtn.png';
 import stopAlarm from 'public/images/stopAlarm.png';
 import alarmBtn from 'public/images/alarm.png';
 import moreBtn from 'public/images/moreBtn.png';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { QueryObserverResult, useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPostApi, multerApi } from 'api';
 import Loader from 'components/Loader';
 import WebMoreModal from './WebMoreModal';
@@ -32,7 +32,8 @@ import Modal from 'components/Modal/Modal';
 import chatFileAdd from 'public/images/chatFileAdd.png';
 import chatCamera from 'public/images/chatCamera.png';
 import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
-import { EdgesensorHigh } from '@mui/icons-material';
+import { EdgesensorHigh, TransgenderTwoTone } from '@mui/icons-material';
+import { ChattingListResponse } from './ChattingLists';
 
 type ChattingLogs = {
   createdAt: string;
@@ -42,6 +43,8 @@ type ChattingLogs = {
   content: string | null;
   messageType: string;
   fileUrl: string | null;
+  fileSize: null | number;
+  fileOriginalName: null | string,
   wasRead: boolean;
 };
 
@@ -74,10 +77,11 @@ export interface ChattingResponse {
 
 type Props = {
   userChatting: boolean;
+  listRefetch :() => Promise<QueryObserverResult<ChattingListResponse>>;
 };
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
-const ChattingRoomLogs = ({ userChatting }: Props) => {
+const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -94,6 +98,7 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const logs = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -120,6 +125,7 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
       refetch();
     }
   }, [routerId]);
+
 
   //   채팅 POST
   const {
@@ -188,8 +194,16 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
   }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
 
   useLayoutEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight);
-  }, [data]);
+    //window.scrollTo(0, document.body.scrollHeight);
+    const chattings = logs.current?.querySelectorAll('.chattingLog'); 
+    if(chattings){
+      const target = chattings[chattings.length - 1] as HTMLElement;
+      console.log(target);
+      target?.focus();
+    } 
+    // target?.focus();
+    listRefetch();
+  }, [data]); 
 
   const handleTime = (st: string) => {
     //오전, 오후로 나누기
@@ -212,13 +226,13 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
       // url: `/chatting/2`,
       data: {
         content: text,
-        fileUrl: null,
+        files: null,
       },
     });
     console.log('온클릭');
   };
 
-  // 파일,사진 onsubmit
+  /* // 파일,사진 onsubmit
   const onSubmitFile = (url: string) => {
     chattingPostMutate({
       url: `/chatting/${routerId}`,
@@ -229,7 +243,26 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
       },
     });
     console.log('파일전송');
-  };
+  }; */
+
+    // 파일,사진 onsubmit
+    const onSubmitFile = (url: string) => {
+      chattingPostMutate({
+        url: `/chatting/${routerId}`,
+        // url: `/chatting/2`,
+        data: {
+          content: null,
+          files: [{
+            type : 'IMAGE',
+            url: "http://test.test.com",
+            size: 123422,
+            originalName: "my fileq22222"
+          },{}],
+        },
+      });
+      console.log('파일전송');
+    };
+  
 
 
   /* 웹에서 글자 입력될때 마다 send 버튼 색상 변경*/
@@ -297,7 +330,19 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
     FormData
   >(multerApi, {
     onSuccess: (res) => {
-      onSubmitFile(res.uploadedFiles[0].url)
+      chattingPostMutate({
+        url: `/chatting/${routerId}`,
+        // url: `/chatting/2`,
+        data: {
+          content: null,
+          files: [{
+            type : 'IMAGE',
+            url: res.uploadedFiles[0].url,
+            size: res.uploadedFiles[0].size,
+            originalName: decodeURIComponent(res.uploadedFiles[0].originalName)
+          }],
+        },
+      });
       refetch();
       setFileModal(false)
     },
@@ -323,7 +368,19 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
   >(multerApi, {
     onSuccess: (res) => {
       console.log(res)
-      onSubmitFile(res.uploadedFiles[0].url)
+      chattingPostMutate({
+        url: `/chatting/${routerId}`,
+        // url: `/chatting/2`,
+        data: {
+          content: null,
+          files: [{
+            type : 'FILE',
+            url: res.uploadedFiles[0].url,
+            size: res.uploadedFiles[0].size,
+            originalName: decodeURIComponent(res.uploadedFiles[0].originalName)
+          }],
+        },
+      });
       refetch();
       setFileModal(false)
     },
@@ -389,7 +446,7 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
   }
 
   return (
-    <Body>
+    <Body ref={logs}>
     {isModal && <Modal click={()=>setIsModal(false)} text={errorMessage} />}
       <TopBox>
         <MypageHeader
@@ -432,14 +489,13 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
                         userChatting={userChatting}
                         key={item.chattingLogIdx}
                         className={`${item.fromMemberType === 'USER' ? 'user' : 'company'
-                          }`}
+                          } chattingLog`}
+                        tabIndex={1}  
                       >
-                        {item.fromMemberType === 'USER' ? null : (
-                          <ImageWrap>
+                          <ImageWrap className={item.fromMemberType === 'USER'? 'user' : 'company'} userChatting={userChatting}>
                             {/* 이미지 파일 src가 없으면 */}
                             <Image src={defaultImg} layout="fill" />
                           </ImageWrap>
-                        )}
                         {item.content && (
                           <Chat
                             userChatting={userChatting}
@@ -447,21 +503,34 @@ const ChattingRoomLogs = ({ userChatting }: Props) => {
                                 ? 'user'
                                 : 'company'
                               }`}
+                            tabIndex={1}  
                           >
                             {item.content}
                           </Chat>
                         )}
-                        {item.fileUrl && 
+                        {item.messageType === 'FILE' && 
                         <File>
                            <FileDownload
                             // onClick={DownloadFile}
-                            href={item?.fileUrl}
+                            href={item?.fileUrl!}
                           >
                             <Image src={fileImg} alt="file-icon" layout="intrinsic"/>
-                            File
+                            {item?.fileOriginalName}
                           </FileDownload>
                         </File>
                         }
+
+                        {item.messageType === 'IMAGE' && 
+                        <>
+                           <FileDownload
+                            // onClick={DownloadFile}
+                            href={item?.fileUrl!}
+                          >
+                            <img src={item?.fileUrl!} style={{width: '112.5pt', objectFit:'scale-down', background:'#0000001c'}}/>
+                          </FileDownload>
+                         {/* <div className='chattingLog' tabIndex={1} style={{width:'1pt', height:'1pt', position:'absolute', bottom:'-50pt'}}></div> */}
+                        </>
+                        }   
                         <MessageDate>{handleTime(item.createdAt)}</MessageDate>
                       </ChatBox>
                     );
@@ -696,7 +765,8 @@ const IconWrap = styled.div`
 const Inner = styled.div`
   position: relative;
   padding-top: 36pt;
-  padding-bottom: 9pt;
+  height: 83vh;
+  overflow-y: scroll;
   @media (min-width: 900pt) {
     margin-top: 105pt;
     height: 320pt;
@@ -765,6 +835,10 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
   align-items: center;
   margin-bottom: 9pt;
   gap: 6pt;
+
+  &:focus {
+  outline: none;
+}
   &.user {
     flex-direction: ${({ userChatting }) =>
     userChatting ? 'row-reverse' : 'row'};
@@ -774,10 +848,16 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
     userChatting ? 'row' : 'row-reverse'};
   }
 `;
-const ImageWrap = styled.div`
+const ImageWrap = styled.div<{userChatting : boolean}>`
   width: 36pt;
   height: 36pt;
   position: relative;
+  &.user{
+    display: ${({userChatting})=> userChatting ? 'none' : 'block'};
+  }
+  &.company{
+    display: ${({userChatting})=> userChatting ? 'block' : 'none'}
+  }
 `;
 
 const Chat = styled.div<{ userChatting: boolean }>`
