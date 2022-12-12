@@ -97,7 +97,8 @@ const SecondStep = ({
   const [fee, setFee] = useState<string>('');
   // 내 제품 리스트 종류
   const [productItem, setProductItem] = useState<string>();
-  const [productId, setProductId] = useState<number>();
+  const [productId, setProductId] = useState<number | null>(null);
+
   const [isChangeProduct, setIsChangeProduct] = useState<boolean>(false);
   // 제조사
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
@@ -339,6 +340,16 @@ const SecondStep = ({
     // isChangeProduct 값이 변경 될때마다 하단의 내제품리스트 불러오는 useEffect가 실행됨.
     // true, false로 판단 X -> 그냥 업데이트를 위해 계속 반대값으로 바꿔줌
     setIsChangeProduct((prev) => !prev);
+
+    // 만약에 같은 제품 id 또 클릭하면 입력값 초기화
+    if (productId === idx) {
+      setProductId(null);
+      setProductItem('');
+      setManufacturingCompany('');
+      setChargeFeatures('');
+      setImgArr([]);
+      setFileArr([]);
+    }
   };
   // 이전 버튼
   const handlePrevBtn = () => {
@@ -873,6 +884,10 @@ const Wrapper = styled.div`
     padding-left: 25pt;
     padding-right: 25pt;
   }
+
+  @media (max-width: 899.25pt) {
+    padding-top: 20pt;
+  }
 `;
 const SecondWrapper = styled.div`
   padding-left: 15pt;
@@ -1242,6 +1257,7 @@ const AddPhotos = styled.button`
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
   cursor: pointer;
+  background-color: #ffffff;
   @media (min-width: 900pt) {
     background-color: #ffffff;
     width: 77.25pt;
