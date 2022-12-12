@@ -164,7 +164,13 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
     setText(event.currentTarget.value);
   };
 
-  const handle = () => {};
+  const handle = () => {
+    if(userChatting){
+      router.push('/faq')
+    }else{
+      router.push('/company/faq')
+    }
+  };
 
   useEffect(() => {
     console.log('useeffect', company);

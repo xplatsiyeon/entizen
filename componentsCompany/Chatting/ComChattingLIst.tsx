@@ -296,7 +296,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                    wasRead={data?.data.chattingRooms.entizenChattingRoom?.chattingLog?.wasRead || undefined}
+                    wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog === null ? null : true}
                   />
                   <Favorite>
                     {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorit? (
@@ -367,8 +367,8 @@ const ComChattingList = ({ data, refetch }: Props) => {
                   {handleTime(chatting.chattingLogs?.createdAt)}
                 </Created>
                 <Box>
-                  <UnRead
-                    wasRead={chatting.chattingLogs?.wasRead || undefined}
+                  <UnRead  
+                  wasRead={chatting?.chattingLogs === null ? null : Boolean(chatting?.chattingLogs?.wasRead)}
                   />
                   <Favorite>
                     {chatting.chattingRoomFavorite.isFavorite ? (
@@ -482,12 +482,14 @@ const Box = styled.div`
   gap: 6.75pt;
   align-items: center;
 `;
-const UnRead = styled.div<{ wasRead?: boolean }>`
-  width: 6pt;
-  height: 6pt;
-  border-radius: 50%;
-  background: ${({ wasRead }) => (wasRead ? `none` : `#5221CB`)};
+
+const UnRead = styled.div<{ wasRead: boolean | null}>`
+width: 6pt;
+height: 6pt;
+border-radius: 50%;
+background: ${({ wasRead }) => (wasRead === null || wasRead === true ? `none` : `#5221CB`)};
 `;
+
 const Favorite = styled.div`
   position: relative;
   width: 9pt;

@@ -29,7 +29,7 @@ import Loader from 'components/Loader';
 import WebHeader from 'componentsWeb/WebHeader';
 import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
 import WebFooter from 'componentsWeb/WebFooter';
-import ChattingLists from 'components/Chatting/ChattingLists';
+import ChattingLists, { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 
@@ -52,174 +52,21 @@ export interface ChattingRoom {
 type Props = {};
 
 const ChattingRoom = ({}: Props) => {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-  const routerId = router?.query?.chattingRoomIdx;
-  const [data, setData] = useState<ChattingRoom[]>([]);
-  const [text, setText] = useState('');
-  //   채팅방 내용 보기
-  const {
-    data: chattingData,
-    isError: chattingIsError,
-    isLoading: chattingIsLoading,
-  } = useQuery<ChattingResponse>(
-    'chatting-data',
-    () => {
-      return isTokenGetApi(`/chatting/${routerId}?page=1`);
-    },
+
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () =>
+      isTokenGetApi(
+        `/chatting?searchKeyword=&filter=all`,
+      ),
     {
-      enabled: router.isReady,
-      // 몇초마다 갱신 해줄 것인가.
-      refetchInterval: 3000,
+      enabled: false,
     },
   );
 
-  //   채팅 POST
-  const {
-    mutate: chattingPostMutate,
-    isLoading: chattingPostIsLoading,
-    isError: chattingPostIsError,
-  } = useMutation(isTokenPostApi, {
-    onSuccess: () => {
-      setText('');
-      queryClient.invalidateQueries('chatting-data');
-    },
-    onError: (error) => {
-      console.log('🔥 채팅방 POST 에러 발생');
-      console.log(error);
-    },
-  });
-
-  const [moreModal, setMoreModal] = useState<boolean>(false);
-  const [quitModal, setQuitModal] = useState<boolean>(false);
-
-  //const modalComponents = [<QuitModal setModal={setModal}/>, <MoreModal/> ]
-
-  //const [company, setCompany] = useState<string>()
-
-  /* useEffect(() => {
-console.log(company)
-if (typeof (router.query.companyMemberId) === 'string') {
-setCompany(router.query.companyMemberId)
-}
-     }, [router.query.companyMemberId]) */
-
-  /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
-  useEffect(() => {
-    /*arr.data.chattingLogs.map((d,idx)=>{
-            const date = dayjs(d.createdAt).format("YYYY.MM.DD HH:mm:ss");
-        })*/
-    if (!chattingIsLoading && chattingData?.isSuccess === true) {
-      const sortArr = Array.from(chattingData.data.chattingLogs);
-      sortArr.sort((a, b) => {
-        const fomatedA = dayjs(a.createdAt).format('YYYY.MM.DD HH:mm:ss');
-        const fomatedB = dayjs(b.createdAt).format('YYYY.MM.DD HH:mm:ss');
-        if (fomatedA > fomatedB) {
-          return 1;
-        }
-        if (fomatedA < fomatedB) {
-          return -1;
-        }
-        return 0;
-      });
-      //console.log(sortArr)
-
-      /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
-            순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
-        */
-      const temp: ChattingRoom[] = [];
-      sortArr.forEach((a, idx) => {
-        const date1 = dayjs(a.createdAt).format('YYYY.MM.DD');
-        /*맨 처음 배열 요소는 그냥 push*/
-        if (idx === 0) {
-          temp.push({
-            date: date1,
-            logs: [a],
-          });
-          /* 배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 같으면, temp배열의 가장 마지막 인덱스 요소(Logs)에 푸쉬. 
-                  배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 다르면, temp 배열에 새롭게 Push.
-                */
-        } else {
-          if (
-            dayjs(sortArr[idx - 1].createdAt).format('YYYY.MM.DD') === date1
-          ) {
-            temp[temp.length - 1].logs.push(a);
-          } else {
-            temp.push({
-              date: date1,
-              logs: [a],
-            });
-          }
-        }
-      });
-      console.log('temp', temp);
-      setData(temp);
-    }
-  }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
-
-  useLayoutEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight);
-  }, [data]);
-  const handleTime = (st: string) => {
-    //오전, 오후로 나누기
-    const pm = dayjs(st).subtract(12, 'h').format('HH:mm');
-    if (Number(pm.substring(0, 3)) > 12) {
-      return `오전 ${pm}`;
-    } else {
-      return `오후 ${pm}`;
-    }
-  };
-  // 인풋 텍스트 입력
-  const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.currentTarget.value);
-  };
-  // 채팅 onsubmit
-  const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    chattingPostMutate({
-      url: `/chatting/${routerId}`,
-      // url: `/chatting/2`,
-      data: {
-        content: text,
-        fileUrl: null,
-      },
-    });
-    console.log('온클릭');
-  };
-
-  /* 웹에서 글자 입력될때 마다 send 버튼 색상 변경*/
-  const webBox = useRef<HTMLDivElement>(null);
-  const imgChange = (n: boolean) => {
-    const target = webBox.current;
-    const on = target?.querySelector('.typing.on') as HTMLElement;
-    const off = target?.querySelector('.typing.off') as HTMLElement;
-    if (on && off && n) {
-      on.style.display = 'block';
-      off.style.display = 'none';
-    }
-    if (on && off && !n) {
-      on.style.display = 'none';
-      off.style.display = 'block';
-    }
-  };
-
-  /* 파일버튼 누르면 나타나는 애니메이션 */
-  const mobBox = useRef<HTMLDivElement>(null);
-  const handleButton = (e: MouseEvent<HTMLElement>) => {
-    const target = e.currentTarget;
-    const hiddenBox = mobBox.current?.querySelector('.hidden') as HTMLElement;
-    if (target.classList.contains('on') && hiddenBox) {
-      target.classList.remove('on');
-      hiddenBox.style.height = '0';
-    } else if (!target.classList.contains('on') && hiddenBox) {
-      target.classList.add('on');
-      hiddenBox.style.height = '97pt';
-    }
-  };
-
-  if (chattingIsLoading) {
-    return <Loader />;
-  }
+  useEffect(()=>{
+    refetch();
+  },[])
 
   return (
     <WebBody>
@@ -230,7 +77,7 @@ setCompany(router.query.companyMemberId)
           <MobWrap>
             <ChattingLists chattingRoom={true} userChatting={false} />
           </MobWrap>
-          <ChattingRoomLogs userChatting={false} />
+          <ChattingRoomLogs userChatting={false} listRefetch={refetch}/>
         </Body>
       </Wrapper>
       <WebFooter />
