@@ -128,7 +128,7 @@ const ChargingPlace = () => {
   return (
     <>
       <Body bgColor={open}>
-        <WebHeader />
+        <WebHeader num={3} now={'mypage'} sub={true}/>
         <UserRightMenu />
         <Inner>
           <FlexBox>

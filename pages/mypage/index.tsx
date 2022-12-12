@@ -69,9 +69,9 @@ const Request = () => {
           const components: Components = {
           0: <WebEstimate/>,  
           2: <AsIndex />,
-          }; num, page는 이 부분의 인덱스 넘버.
+          }; num, page는 이 부분의 인덱스 넘버.ß
         */}
-      <WebHeader num={tabNumber} now={'mypage'} />
+      <WebHeader num={tabNumber} now={'mypage'} sub={true}/>
       <UserRightMenu />
       <Wrapper>
         <FlexBox>
