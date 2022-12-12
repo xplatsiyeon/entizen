@@ -442,10 +442,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   };
 
 
-  if (chattingIsLoading) {
-    return <Loader />;
-  }
-
   const DownloadFile = useCallback((item: ChattingLogs) => {
     let fileName = item.fileOriginalName!;
     const url = item.fileUrl!;
