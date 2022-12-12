@@ -830,8 +830,9 @@ const TabBox = styled.div`
 
   @media (max-width: 899.25pt) {
     display: flex;
-    position: relative;
+    position: absolute;
     gap: 0.2pt;
+    top: 24%;
   }
 
   @media (min-width: 900pt) {

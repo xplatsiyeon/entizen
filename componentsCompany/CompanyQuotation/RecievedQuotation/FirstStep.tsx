@@ -160,6 +160,9 @@ const Wrapper = styled.div`
     padding-left: 25pt;
     padding-right: 25pt;
   }
+  @media (max-width: 899.25pt) {
+    padding-top: 20pt;
+  }
 `;
 
 const TopStep = styled.div`
