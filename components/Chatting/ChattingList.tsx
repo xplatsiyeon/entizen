@@ -413,7 +413,7 @@ const ImageWrap = styled.div`
   position: relative;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid #D3D3D3;
+  border: 0.75pt solid #D3D3D3;
   >img{
     width:100%;
   }

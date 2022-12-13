@@ -221,7 +221,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     } else if (!target.classList.contains('on') && hiddenBox) {
       target.classList.add('on');
       hiddenBox.style.height = '97pt';
-      hiddenBox.style.border = `1px solid #D3D3D3`;
+      hiddenBox.style.border = `0.75pt solid #D3D3D3`;
     }
   };
 
@@ -709,7 +709,7 @@ const BottomBox = styled.div`
     left: 11.5pt;
     transition: 0.3s;
     background-color: white;
-    border: 1px solid #D3D3D3;
+    border: 0.75pt solid #D3D3D3;
     border-radius: 16.5pt;
     display: flex;
     flex-direction: column;
@@ -808,6 +808,11 @@ position: absolute;
 right: 0;
 width: 112.5pt;
 height: 112.5pt;
+
+&:focus {
+  outline: none;
+}
+
 >img{
 position: absolute;
 width: 50%;
@@ -898,7 +903,7 @@ const ImageWrap = styled.div<{userChatting : boolean}>`
   position: relative;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid #D3D3D3;
+  border: 0.75pt solid #D3D3D3;
   >img{
     width: 100%;
   }
