@@ -22,6 +22,8 @@ import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
 import Link from 'next/link';
 import { selectAction } from 'store/loginTypeSlice';
+import Loader from 'components/Loader';
+import useLogin from 'hooks/useLogin';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -41,9 +43,9 @@ export interface FindKey {
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
 // 테스트 리다이렉트 주소
-const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
+const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
 // 라이브 리다이렉트 주소
-// const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
+// const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = () => {
@@ -62,61 +64,27 @@ const Signin = () => {
   const [isPassword, setIsPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
+  // 로그인 mutate
+  const { loginLoading, loginMutate } = useLogin({
+    userId: userId,
+    setErrorMessage: setErrorMessage,
+    setErrorModal: setErrorModal,
+  });
+
   // 안내문
   const handleAlert = () => {
     alert('현재 개발 중 입니다.');
   };
   // 기본 로그인
   const originLogin = async () => {
-    console.log('로그인 온클릭');
-    const ORIGIN_API = `https://api.entizen.kr/api/members/login`;
-    // 로컬에서 사용할때만 활성화 시키기
-    // const ORIGIN_API = `/api/members/login`;
-    try {
-      await axios({
-        method: 'post',
-        url: ORIGIN_API,
-        data: {
-          memberType: loginTypeEnList[selectedLoginType],
-          id: userId,
-          password: password,
-        },
-        headers: {
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      })
-        .then(async (res) => {
-          const token: JwtTokenType = jwt_decode(res.data.accessToken);
-          localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-          localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-          localStorage.setItem(
-            'ACCESS_TOKEN',
-            JSON.stringify(res.data.accessToken),
-          );
-          localStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(res.data.refreshToken),
-          );
-          localStorage.setItem('USER_ID', JSON.stringify(userId));
-          dispatch(originUserAction.set(userId));
-          await router.push('/');
-        })
-        .catch((error) => {
-          const { message } = error.response.data;
-          if (message === '탈퇴된 회원입니다.') {
-            setErrorModal(true);
-            setErrorMessage(
-              '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-            );
-          } else {
-            setErrorModal(true);
-            setErrorMessage(message);
-          }
-        });
-    } catch (error: any) {
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
-    }
+    loginMutate({
+      url: '/members/login',
+      data: {
+        memberType: loginTypeEnList[selectedLoginType],
+        id: userId,
+        password: password,
+      },
+    });
   };
 
   // 엔터키 이벤트
@@ -127,7 +95,7 @@ const Signin = () => {
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
       await axios({
         method: 'post',
@@ -242,7 +210,7 @@ const Signin = () => {
     const memberType = loginTypeEnList[selectedLoginType];
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -301,6 +269,10 @@ const Signin = () => {
       naverRef.current.children[0].click();
     }
   };
+
+  if (loginLoading) {
+    return <Loader />;
+  }
 
   return (
     <React.Fragment>
