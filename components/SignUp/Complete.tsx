@@ -7,6 +7,7 @@ import CheckImg from 'public/images/CheckCircle.svg';
 import btnImg from 'public/images/back-btn.svg';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
+import useLogin from 'hooks/useLogin';
 
 type Props = {};
 
