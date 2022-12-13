@@ -140,6 +140,8 @@ export const originDateFomat = (date: string) => {
 
 export const dateFomat = (date: string) => {
   let result = '';
+  let minute = '';
+  let joinText = '';
   if (date) {
     const beforeDate = new Date(date);
     const newDate = new Intl.DateTimeFormat('ko-KR', {
@@ -154,8 +156,10 @@ export const dateFomat = (date: string) => {
     })?.format(beforeDate);
 
     if (newDate) {
-      result = newDate.replace('시', ':').slice(0, -5);
+      result = newDate.replace('시', ':').slice(0, -8);
+      minute = newDate.slice(18, 20);
+      joinText = result + minute;
     }
   }
-  return result;
+  return joinText;
 };

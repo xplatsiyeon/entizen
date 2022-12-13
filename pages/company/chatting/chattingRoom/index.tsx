@@ -1,32 +1,9 @@
 import styled from '@emotion/styled';
-import MypageHeader from 'components/mypage/request/header';
-import defaultImg from 'public/images/default-img.png';
-import dayjs from 'dayjs';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
 import {
-  Dispatch,
-  MouseEvent,
-  SetStateAction,
   useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
 } from 'react';
-import send from 'public/images/send.png';
-import sendBlue from 'public/images/send-blue.png';
-import fileBtn from 'public/images/fileBtn.png';
-import addBtn from 'public/images/addBtn.png';
-import stopAlarm from 'public/images/stopAlarm.png';
-import alarmBtn from 'public/images/alarm.png';
-import moreBtn from 'public/images/moreBtn.png';
-import QuitModal from 'components/Chatting/QuitModal';
-import MoreModal from 'components/Chatting/MoreModal';
-import { ChattingResponse } from 'pages/chatting/chattingRoom';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi, isTokenPostApi } from 'api';
-import Loader from 'components/Loader';
-import WebHeader from 'componentsWeb/WebHeader';
+import { useQuery} from 'react-query';
+import { isTokenGetApi } from 'api';
 import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
 import WebFooter from 'componentsWeb/WebFooter';
 import ChattingLists, { ChattingListResponse } from 'components/Chatting/ChattingLists';
