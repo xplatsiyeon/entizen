@@ -9,11 +9,19 @@ import { useRouter } from 'next/router';
 
 interface Props {
   userId: string;
+  memberType: string;
+  password: string;
   setErrorModal: Dispatch<SetStateAction<boolean>>;
   setErrorMessage: Dispatch<SetStateAction<string>>;
 }
 
-function useLogin({ userId, setErrorModal, setErrorMessage }: Props) {
+function useLogin({
+  userId,
+  memberType,
+  password,
+  setErrorModal,
+  setErrorMessage,
+}: Props) {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -51,8 +59,20 @@ function useLogin({ userId, setErrorModal, setErrorMessage }: Props) {
       }
     },
   });
+
+  const signin = () => {
+    loginMutate({
+      url: '/members/login',
+      data: {
+        memberType: memberType,
+        id: userId,
+        password: password,
+      },
+    });
+  };
+
   return {
-    loginMutate,
+    signin,
     loginLoading,
     loginError,
   };
