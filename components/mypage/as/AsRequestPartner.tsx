@@ -77,9 +77,9 @@ const AsRequestPartner = ({ pb, data }: Props) => {
           <Item>
             <span className="name">전화번호</span>
             <a
-              href="tel:'callPhone'"
+              href={'tel:' + callPhone}
               className="value"
-              onClick={() => nowWidth < 1200 && setModalOpen(true)}
+              // onClick={() => nowWidth < 1200 && setModalOpen(true)}
             >
               {hyphenFn(phone)}
             </a>
