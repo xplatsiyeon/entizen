@@ -295,7 +295,7 @@ const Item = styled.li`
     line-height: 12pt;
     text-align: left;
     letter-spacing: -0.02em;
-    color: ${colors.main2};
+    color: #0057ff;
     @media (min-width: 900pt) {
       display: none;
     }
