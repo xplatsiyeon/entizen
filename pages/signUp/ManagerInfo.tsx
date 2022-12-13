@@ -174,7 +174,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     }
   };
 
-
   // 나이스 인증 팝업창 열기
   const fnPopup = (event: any) => {
     console.log('나이스 인증');
@@ -199,7 +198,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   useEffect(() => {
     axios({
       method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
+      url: 'https://api.entizen.kr/api/auth/nice',
       data: { memberType: token.memberType },
     })
       .then((res) => {
@@ -266,11 +265,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         </Form>
         <Form>
           <label>담당자 이메일</label>
-          <Input
-            placeholder="이메일 입력"
-            value={email}
-            setValue={setEmail}
-          />
+          <Input placeholder="이메일 입력" value={email} setValue={setEmail} />
           <OverlapBtn
             style={{
               top: '25.5pt',
