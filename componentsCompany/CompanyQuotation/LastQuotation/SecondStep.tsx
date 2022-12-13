@@ -65,7 +65,7 @@ const SecondStep = ({
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [productId, setProductId] = useState<number>();
+  const [productId, setProductId] = useState<number | null>(null);
 
   // 페이지 이동시 스크롤 최상단으로 이동
   useEffect(() => {
@@ -319,7 +319,25 @@ const SecondStep = ({
     };
     setSelectedOptionEn(temp);
     setProductId(idx);
+
+    // 만약에 같은 제품 id 또 클릭하면 입력값 초기화
+    if (productId === idx) {
+      const targetProduct = productData?.chargerProduct.filter(
+        (e) => e.chargerProductIdx === productId,
+      )[0];
+      const temp = [...selectedOptionEn];
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        modelName: '',
+        manufacturer: '',
+        productFeature: '',
+        chargerImageFiles: [],
+        catalogFiles: [],
+      };
+      setSelectedOptionEn(temp);
+    }
   };
+
   // 이전 버튼
   const handlePrevBtn = () => {
     if (tabNumber > 0) {
@@ -340,26 +358,27 @@ const SecondStep = ({
   useEffect(() => {
     SetCanNext(false);
     const target = selectedOptionEn[tabNumber - 1];
-    if (target.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT') {
+    if (target?.chargePriceType === 'OPERATION_BUSINESS_CARRIER_INPUT') {
       if (
-        target.installationLocation &&
-        target.manufacturer &&
-        target.chargePrice
+        target?.installationLocation &&
+        target?.manufacturer &&
+        target?.chargePrice
       )
         SetCanNext(true);
     }
-    if (target.chargePriceType === 'PURCHASER_AUTONOMY') {
-      if (target.installationLocation && target.manufacturer) SetCanNext(true);
+    if (target?.chargePriceType === 'PURCHASER_AUTONOMY') {
+      if (target?.installationLocation && target?.manufacturer)
+        SetCanNext(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOptionEn]);
   // 충전요금 초기화
   useEffect(() => {
     if (
-      selectedOptionEn[tabNumber - 1].chargePriceType ===
+      selectedOptionEn[tabNumber - 1]?.chargePriceType ===
         'PURCHASER_AUTONOMY' &&
-      selectedOptionEn[tabNumber - 1].chargePrice !== '' &&
-      selectedOptionEn[tabNumber - 1].chargePrice !== 0
+      selectedOptionEn[tabNumber - 1]?.chargePrice !== '' &&
+      selectedOptionEn[tabNumber - 1]?.chargePrice !== 0
     ) {
       const temp = [...selectedOptionEn];
       temp[tabNumber - 1] = {
@@ -426,7 +445,8 @@ const SecondStep = ({
   console.log('🔥 최종견적 선택된 옵션 리스트 목록 -> ');
   console.log(selectedOption[maxIndex! - 1]);
   console.log(maxIndex);
-  console.log(selectedOption[0], '여기에 뭐나옴???');
+  console.log('여기에 뭐나옴???', selectedOption);
+  console.log('productId는 뭐나옴?', productId);
 
   return (
     <>
@@ -454,7 +474,7 @@ const SecondStep = ({
                   onClick={() => onClickCharge(index)}
                   className={
                     chargeTypeListEn[index] ===
-                    selectedOptionEn[tabNumber - 1].chargePriceType
+                    selectedOptionEn[tabNumber - 1]?.chargePriceType
                       ? 'selected'
                       : ''
                   }
@@ -468,11 +488,11 @@ const SecondStep = ({
                 <Input
                   onChange={onChangeInput}
                   placeholder="0"
-                  value={selectedOptionEn[tabNumber - 1].chargePrice}
+                  value={selectedOptionEn[tabNumber - 1]?.chargePrice}
                   name="subscribeMoney"
                   inputProps={{
                     readOnly:
-                      selectedOptionEn[tabNumber - 1].chargePriceType ===
+                      selectedOptionEn[tabNumber - 1]?.chargePriceType ===
                       'PURCHASER_AUTONOMY'
                         ? true
                         : false,
@@ -491,7 +511,7 @@ const SecondStep = ({
                   onClick={() => onClickLocation(index)}
                   className={
                     chargeLocationTypeListEn[index] ===
-                    selectedOptionEn[tabNumber - 1].installationLocation
+                    selectedOptionEn[tabNumber - 1]?.installationLocation
                       ? 'selected'
                       : ''
                   }
@@ -512,7 +532,7 @@ const SecondStep = ({
           </TopBox>
           <SelectContainer>
             <SelectComponents
-              value={selectedOptionEn[tabNumber - 1].modelName}
+              value={selectedOptionEn[tabNumber - 1]?.modelName}
               placeholder="등록된 제품을 업로드해주세요"
               productOption={productData?.chargerProduct!}
               onClickProject={onChangeSelectBox}
@@ -523,7 +543,7 @@ const SecondStep = ({
             <div>
               <Inputs
                 onChange={onChangeManufacturer}
-                value={selectedOptionEn[tabNumber - 1].manufacturer}
+                value={selectedOptionEn[tabNumber - 1]?.manufacturer}
                 name="constructionPeriod"
               />
             </div>
@@ -533,7 +553,7 @@ const SecondStep = ({
             <div>
               <TextArea
                 onChange={onChangeProductFeature}
-                value={selectedOptionEn[tabNumber - 1].productFeature}
+                value={selectedOptionEn[tabNumber - 1]?.productFeature}
                 name="firstPageTextArea"
                 placeholder="선택 입력사항"
                 rows={7}
@@ -556,7 +576,7 @@ const SecondStep = ({
               />
               {/* <Preview> */}
               <ImgSpanBox>
-                {selectedOptionEn[tabNumber - 1].chargerImageFiles?.map(
+                {selectedOptionEn[tabNumber - 1]?.chargerImageFiles?.map(
                   (item, index) => (
                     <ImgSpan key={index} data-name={index}>
                       <Image
@@ -610,7 +630,7 @@ const SecondStep = ({
 
               {/* <File_Preview> */}
               <div className="file-preview">
-                {selectedOptionEn[tabNumber - 1].catalogFiles?.map(
+                {selectedOptionEn[tabNumber - 1]?.catalogFiles?.map(
                   (item, index) => (
                     <FileBox key={index} data-name={index}>
                       <div className="file">
