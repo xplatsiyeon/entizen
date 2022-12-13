@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Header from 'components/mypage/request/header';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
@@ -62,10 +62,6 @@ const Request1_7 = (props: Props) => {
   console.log('post 후 받은 request 데이터', requestData);
   console.log('리덕스 post 데이터', quotationData);
 
-  const homeCharger = quotationData.chargers.filter(
-    (el) => el.kind === '7-HOME',
-  );
-
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
       currentTarget: { value },
@@ -77,13 +73,14 @@ const Request1_7 = (props: Props) => {
     setIsModal(!isModal);
   };
 
-  useEffect(() => {
-    if (requestData?.investRate === '0') {
-      // if (homeCharger?.length === quotationData?.chargers?.length) {
+  useLayoutEffect(() => {
+    const homeCharger = quotationData.chargers.every(
+      (el) => el.kind === '7-HOME',
+    );
+    if (homeCharger) {
       setSliderDisable(true);
-      // }
     } else {
-      setValue(Math.floor(Number(requestData?.investRate!) * 100));
+      setValue(Math.floor(Number(quotationData?.investRate!) * 100));
       setSliderDisable(false);
       setDisabled(false);
     }

@@ -2,7 +2,12 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useLayoutEffect,
+} from 'react';
 import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
@@ -41,7 +46,7 @@ const SliderSizes = ({
     return Math.round((target * rate) / standardRate);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ret = {
       maxSubscribePricePerMonth: setPriceByRate(
         quotationData?.requestData?.maxSubscribePricePerMonth,

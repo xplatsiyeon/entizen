@@ -116,7 +116,8 @@ const SixthStep = ({ setTabNumber }: Props) => {
       data: {
         chargers: quotationData.chargers,
         subscribeProduct: quotationData.subscribeProduct,
-        investRate: quotationData.investRate.toString(),
+        // investRate: quotationData.investRate.toString(),
+        investRate: '0.5', // 50%받아와서 1-7 파일에서 데이터 값 변경
         subscribePeriod: quotationData.subscribePeriod,
         installationAddress: locationList.locationList.roadAddrPart,
         installationLocation: quotationData.installationLocation,
