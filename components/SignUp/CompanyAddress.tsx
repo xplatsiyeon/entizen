@@ -99,12 +99,7 @@ const CompanyAddress = ({
           value={searchWord}
         />
         {searchWord.length > 0 && (
-          <Image
-            onClick={() => setSearchWord('')}
-            src={xBtn}
-            alt="xButton"
-            style={{ cursor: 'pointer' }}
-          />
+          <Image onClick={() => setSearchWord('')} src={xBtn} alt="xButton" />
         )}
       </HeaderBox>
       {/* 결과값 */}
