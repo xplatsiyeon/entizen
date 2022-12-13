@@ -132,16 +132,15 @@ const RunningProgress = (props: Props) => {
               />
               {/* 계약서 발송 버튼 클릭 시 프로그레스 컴포넌트로 변경 */}
               {/* 프로젝트 진행 */}
-              {inProgressData?.project?.contract?.documentId?.length! > 0 && (
+              {inProgressData?.project?.contract?.documentId?.length! > 0 ? (
                 <Progress
                   data={inProgressData!}
                   inProgressRefetch={inProgressRefetch}
                   info={data}
                   setData={setData}
                 />
-              )}
-              {/* 계약서 없는 상태 */}
-              {inProgressData?.project?.contract?.documentId?.length! === 0 && (
+              ) : (
+                //  프로젝트 진행없을 때
                 <UnderBox
                   id={inProgressData?.project?.userMember?.memberIdx!}
                 />

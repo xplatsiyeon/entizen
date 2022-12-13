@@ -8,7 +8,8 @@ import colors from 'styles/colors';
 import Btn from './button';
 import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api } from 'api';
+import { api, isTokenPostApi } from 'api';
+import useLogin from 'hooks/useLogin';
 
 type Props = {
   idInput: string;
@@ -93,6 +94,14 @@ const IdPwInput = ({
       },
     },
   );
+  // 로그인 mutate
+  // const { loginLoading, loginMutate } = useLogin({
+  // userId: userId,
+  // setErrorMessage: setErrorMessage,
+  // setErrorModal: setErrorModal,
+  // });
+
+  // 일반 유저 회원가입 mutate
   const {
     mutate: userMutate,
     isLoading: userLoading,
@@ -109,6 +118,7 @@ const IdPwInput = ({
       alert('회원가입 실패했습니다. 다시 시도해주세요.');
     },
   });
+  // 기업 유저 회원가입 mutate
   const {
     mutate: companyMutate,
     isLoading: companyLoading,
