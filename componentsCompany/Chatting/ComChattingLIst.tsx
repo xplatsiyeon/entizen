@@ -15,6 +15,7 @@ import hiddenChecked from 'public/images/hiddenChecked.png';
 import hiddenStopAlarm from 'public/images/hiddenStopAlarm.png';
 import hiddenAlarm from 'public/images/hiddenAlarm.png';
 import chatEntizen from 'public/images/chatEntizen.png';
+import { handleTime } from 'utils/messageTime';
 
 type Props = {
   // type: number
@@ -77,41 +78,6 @@ const ComChattingList = ({ data, refetch }: Props) => {
   useEffect(()=>{
     refetch();
   },[])
-
-
-  /*메세지 시간 표현 처리 함수 */
-  const handleTime = (target: string | undefined) => {
-    const now = dayjs();
-    const diff = now.diff(target, 'h');
-
-    if (diff < 24) {
-      //오전, 오후로 나누기
-      const pm = dayjs(target).subtract(12, 'h').format('HH:mm');
-      if (Number(pm.substring(0, 3)) > 12) {
-        return `오후 ${pm}`;
-      } else {
-        return `오전 ${pm}`;
-      }
-    } else if (diff > 24 && diff < 48) {
-      const pm = dayjs(target).subtract(12, 'h').format('HH:mm');
-
-      if (Number(pm.substring(0, 3)) > 12) {
-        return `어제 ${pm}`;
-      } else {
-        return `어제 ${pm}`;
-      }
-    } else {
-      const year = dayjs(target).get('y');
-      const month = dayjs(target).get('month');
-      const day = dayjs(target).get('day');
-
-      if (now.get('y') !== year) {
-        return `${year}년 ${month}월 ${day}일`;
-      } else {
-        return `${month}월 ${day}일 `;
-      }
-    }
-  };
 
   /* 드래그 조절 함수 */
   const chattingList = useRef<HTMLDivElement>(null);

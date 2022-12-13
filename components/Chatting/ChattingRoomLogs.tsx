@@ -23,7 +23,6 @@ import alarmBtn from 'public/images/alarm.png';
 import moreBtn from 'public/images/moreBtn.png';
 import { QueryObserverResult, useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenPostApi, multerApi } from 'api';
-import Loader from 'components/Loader';
 import WebMoreModal from './WebMoreModal';
 import WebFileModal from './WebFileModal';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
@@ -33,7 +32,6 @@ import Modal from 'components/Modal/Modal';
 import chatFileAdd from 'public/images/chatFileAdd.png';
 import chatCamera from 'public/images/chatCamera.png';
 import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
-import { EdgesensorHigh, TransgenderTwoTone } from '@mui/icons-material';
 import { ChattingListResponse } from './ChattingLists';
 
 type ChattingLogs = {
@@ -100,6 +98,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const logs = useRef<HTMLDivElement>(null);
+  const webInputRef = useRef<HTMLInputElement>(null);
+  const mobInputtRef = useRef<HTMLInputElement>(null);
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -201,20 +201,22 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       const target = chattings[chattings.length - 1] as HTMLElement;
       console.log(target);
       target?.focus();
-    } 
+
+      const webInput = webInputRef.current;
+      const mobInput = mobInputtRef.current;
+      setTimeout(()=>{
+        if(webInput){
+          webInput.focus();
+        }
+        if(mobInput){
+          mobInput.focus()
+        }
+      }, 50)
+      } 
     // target?.focus();
     listRefetch();
   }, [data]); 
 
-  const handleTime = (st: string) => {
-    //오전, 오후로 나누기
-    const pm = dayjs(st).subtract(12, 'h').format('HH:mm');
-    if (Number(pm.substring(0, 3)) > 12) {
-      return `오전 ${pm}`;
-    } else {
-      return `오후 ${pm}`;
-    }
-  };
   // 인풋 텍스트 입력
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.currentTarget.value);
@@ -230,42 +232,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         files: null,
       },
     });
-    console.log('온클릭');
   };
 
-  /* // 파일,사진 onsubmit
-  const onSubmitFile = (url: string) => {
-    chattingPostMutate({
-      url: `/chatting/${routerId}`,
-      // url: `/chatting/2`,
-      data: {
-        content: null,
-        fileUrl: `${url}`,
-      },
-    });
-    console.log('파일전송');
-  }; */
-
-    // 파일,사진 onsubmit
-    const onSubmitFile = (url: string) => {
-      chattingPostMutate({
-        url: `/chatting/${routerId}`,
-        // url: `/chatting/2`,
-        data: {
-          content: null,
-          files: [{
-            type : 'IMAGE',
-            url: "http://test.test.com",
-            size: 123422,
-            originalName: "my fileq22222"
-          },{}],
-        },
-      });
-      console.log('파일전송');
-    };
   
-
-
   /* 웹에서 글자 입력될때 마다 send 버튼 색상 변경*/
   const webBox = useRef<HTMLDivElement>(null);
   const imgChange = (n: boolean) => {
@@ -320,6 +289,22 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       } else {
         return chattingData?.data?.userMember?.name!;
       }
+    }
+  };
+
+  const handleTime = (st: string) => {
+    //오전, 오후로 나누기
+    const h = dayjs(st).get('h');
+    if (Number(h) > 12) {
+      const pm = dayjs(st).subtract(12,'h').format('HH:mm');
+      return `오후 ${pm}`;
+    }else if(Number(h) === 12){
+      const pm12 = dayjs(st).format('HH:mm')
+      return `오후 ${pm12}`
+    }
+     else {
+      const am = dayjs(st).format('HH:mm')
+      return `오전 ${am}`;
     }
   };
 
@@ -440,7 +425,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const fileHandler = () => {
     fileRef?.current?.click();
   };
-
 
   const DownloadFile = useCallback((item: ChattingLogs) => {
     let fileName = item.fileOriginalName!;
@@ -566,6 +550,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             placeholder="메세지를 입력하세요"
             value={text}
             onChange={onChangeText}
+            ref={mobInputtRef}
           />
           <IconWrap2>
             <Image src={send} layout="fill" />
@@ -591,6 +576,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
               onKeyUp={() => imgChange(false)}
               value={text}
               onChange={onChangeText}
+              ref={webInputRef}
             />
           </InputWrap>
           <button className="typing off">
