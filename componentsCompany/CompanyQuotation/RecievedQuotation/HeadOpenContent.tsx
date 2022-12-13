@@ -561,7 +561,7 @@ const HeadOpenContent = () => {
               </Wrapper>
               {tabNumber >= 0 && nowWidth >= 1200 && (
                 <WebProgressbar tabNumber={tabNumber}>
-                  <TabBox>
+                  <TabBox open={open}>
                     {Object.keys(components).map((tab, index) => (
                       <React.Fragment key={index}>
                         {index <= quotationRequestChargers?.length! && (
@@ -599,7 +599,7 @@ const HeadOpenContent = () => {
           )}
           {tabNumber >= 0 && nowWidth < 1200 && (
             <WebProgressbar tabNumber={tabNumber}>
-              <TabBox>
+              <TabBox open={open}>
                 {Object.keys(components).map((tab, index) => (
                   <React.Fragment key={index}>
                     {index <=
@@ -817,7 +817,7 @@ const WebProgressbar = styled.div<{ tabNumber: number }>`
   }
 `;
 
-const TabBox = styled.div`
+const TabBox = styled.div<{ open: boolean }>`
   z-index: 1;
   //display:flex;
   padding-left: 15pt;
@@ -832,7 +832,7 @@ const TabBox = styled.div`
     display: flex;
     position: absolute;
     gap: 0.2pt;
-    top: 24%;
+    top: ${({ open }) => (open === false ? '24%' : '71%')};
   }
 
   @media (min-width: 900pt) {

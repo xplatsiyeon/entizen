@@ -326,7 +326,7 @@ const Line = styled.div`
   margin: 0 auto;
 `;
 const Schedule = styled.div`
-  padding: 18pt 15pt 20pt 15pt;
+  padding: 18pt 15pt 70pt 15pt;
 
   .name {
     font-weight: 700;

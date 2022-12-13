@@ -126,7 +126,7 @@ const FirstStep = ({
           <div>일</div>
         </div>
       </InputBox>
-      <InputBox>
+      <InputBox2>
         <div>구독상품 특장점</div>
         <div>
           <TextArea
@@ -137,7 +137,7 @@ const FirstStep = ({
             rows={5}
           />
         </div>
-      </InputBox>
+      </InputBox2>
       <Btn
         buttonActivate={canNext}
         tabNumber={tabNumber}
@@ -197,6 +197,36 @@ const InputBox = styled.div`
   flex-direction: column;
   margin-top: 30pt;
 
+  & > div:first-of-type {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 700;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+  & > .withAfter::after {
+    content: ' *';
+    margin-left: 1pt;
+    color: #f75015;
+  }
+  & div:nth-of-type(2) {
+    display: flex;
+    gap: 12pt;
+    align-items: center;
+    & div {
+    }
+  }
+`;
+
+const InputBox2 = styled.div`
+  display: flex;
+  gap: 9pt;
+  flex-direction: column;
+  margin-top: 30pt;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 100pt;
+  }
   & > div:first-of-type {
     font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;

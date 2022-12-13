@@ -218,6 +218,9 @@ const Notice = styled.h3`
 const List = styled.ul`
   padding: 0 15pt;
   cursor: pointer;
+  @media (max-width: 899.25pt) {
+    padding-bottom: 90pt;
+  }
 `;
 const Item = styled.li<{ idx: string; check: string }>`
   padding: 18.75pt 0;

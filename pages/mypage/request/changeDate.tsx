@@ -28,23 +28,20 @@ const changeDate = () => {
   const HandleModal = () => {
     router.push('/mypage');
   };
-    // ---------- 현장 실사 날짜 api ------------
-    const {
-      data: spotData,
-      isLoading: spotLoading,
-      isError: spotIsError,
-      error: spotError,
-    } = useQuery<SpotDataResponse>(
-      'spot-inspection',
-      () =>
-        isTokenGetApi(
-          `/quotations/pre/${spotId}/spot-inspection`,
-        ),
-      {
-        enabled: router.query.preQuotation ? true : false,
-        // enabled: false,
-      },
-    );
+  // ---------- 현장 실사 날짜 api ------------
+  const {
+    data: spotData,
+    isLoading: spotLoading,
+    isError: spotIsError,
+    error: spotError,
+  } = useQuery<SpotDataResponse>(
+    'spot-inspection',
+    () => isTokenGetApi(`/quotations/pre/${spotId}/spot-inspection`),
+    {
+      enabled: router.query.preQuotation ? true : false,
+      // enabled: false,
+    },
+  );
 
   // --------- 날짜 제안 api -----------
   const { mutate, isLoading } = useMutation(isTokenPostApi, {
@@ -60,19 +57,19 @@ const changeDate = () => {
   });
 
   const onClicMutate = () => {
-    if(selectedDays.length > 0){
-    mutate({
-      url: `/quotations/pre/${spotId}/spot-inspection`,
-      data: {
-        spotInspectionDates: selectedDays,
-        isReplacedPicture: false,
-        isNewPropose: true,
-        isConfirmed: false,
-      },
-    });
-  }else{
-    //모달???
-  }
+    if (selectedDays.length > 0) {
+      mutate({
+        url: `/quotations/pre/${spotId}/spot-inspection`,
+        data: {
+          spotInspectionDates: selectedDays,
+          isReplacedPicture: false,
+          isNewPropose: true,
+          isConfirmed: false,
+        },
+      });
+    } else {
+      //모달???
+    }
   };
 
   if (isLoading) {
@@ -109,36 +106,46 @@ const changeDate = () => {
               SetSelectedDays={SetSelectedDays}
               selected={spotData?.data.spotInspection.spotInspectionDate}
             />
-            <UL className='ex-date'>
+            <UL className="ex-date">
               <ReSelectDate>기존 일정</ReSelectDate>
-              {spotData?.data.spotInspection.spotInspectionDate.map((day, index) => {
-                return(
-                <li className="ex-list" key={index}>
-                  <div className="img-box">
-                    <Image src={exDate} alt="img" layout='fill'/>
-                  </div>
-                  <div className="due-date ex">
-                    <div>현장실사 방문 예정일</div>
-                    <div>{day}</div>
-                  </div>
-                </li>)
-                })}
+              {spotData?.data.spotInspection.spotInspectionDate.map(
+                (day, index) => {
+                  return (
+                    <li className="ex-list" key={index}>
+                      <div className="img-box">
+                        <Image src={exDate} alt="img" layout="fill" />
+                      </div>
+                      <div className="due-date ex">
+                        <div>현장실사 방문 예정일</div>
+                        <div>{day}</div>
+                      </div>
+                    </li>
+                  );
+                },
+              )}
             </UL>
-            {selectedDays.length > 0 && <UL>
-              <ReSelectDate>재선택 일정</ReSelectDate>
-              {selectedDays.map((day, index) => (
-                <li className="list" key={index}>
-                  <div className="img-box">
-                    <Image src={ScheduleIcon} alt="img" />
-                  </div>
-                  <div className="due-date">
-                    <div>현장실사 방문 예정일</div>
-                    <div>{day}</div>
-                  </div>
-                </li>
-              ))}
-            </UL>}
-            <Btn onClick={onClicMutate} className={selectedDays.length >0 ? 'on' : ''}>변경 요청</Btn>
+            {selectedDays.length > 0 && (
+              <UL>
+                <ReSelectDate>재선택 일정</ReSelectDate>
+                {selectedDays.map((day, index) => (
+                  <li className="list" key={index}>
+                    <div className="img-box">
+                      <Image src={ScheduleIcon} alt="img" />
+                    </div>
+                    <div className="due-date">
+                      <div>현장실사 방문 예정일</div>
+                      <div>{day}</div>
+                    </div>
+                  </li>
+                ))}
+              </UL>
+            )}
+            <Btn
+              onClick={onClicMutate}
+              className={selectedDays.length > 0 ? 'on' : ''}
+            >
+              변경 요청
+            </Btn>
           </Wrapper>
         </Inner>
         <WebFooter />
@@ -216,14 +223,15 @@ const UL = styled.ul`
     padding: 0pt 15pt 85pt;
   }
 
-  &.ex-date{
+  &.ex-date {
     padding: 24pt 15pt 20pt;
 
-  @media (max-width: 899.25pt) {
-    padding: 24pt 15pt 20pt;
+    @media (max-width: 899.25pt) {
+      padding: 24pt 15pt 20pt;
+      padding-bottom: 70pt;
+    }
   }
-  }
-  li{
+  li {
     border-radius: 6pt;
     padding: 6pt;
     margin-bottom: 9pt;
@@ -231,18 +239,18 @@ const UL = styled.ul`
     gap: 12pt;
 
     &.list {
-    background-color: rgba(90, 45, 201, 0.7);
-  }
-    &.ex-list{
-    background-color: #E2E5ED;
+      background-color: rgba(90, 45, 201, 0.7);
+    }
+    &.ex-list {
+      background-color: #e2e5ed;
 
-    .img-box{
-      width: 36pt;
-      height: 36pt;
-      position: relative;
+      .img-box {
+        width: 36pt;
+        height: 36pt;
+        position: relative;
+      }
     }
   }
-}
   .due-date {
     font-weight: 500;
     font-size: 9pt;
@@ -253,15 +261,14 @@ const UL = styled.ul`
     display: flex;
     flex-direction: column;
     gap: 8px;
-    &.ex{
-      color: #A6A9B0;
+    &.ex {
+      color: #a6a9b0;
     }
   }
 
   @media (max-width: 899.25pt) {
     padding: 24pt 15pt 100pt;
   }
-
 `;
 const Btn = styled.button`
   position: absolute;
@@ -275,7 +282,7 @@ const Btn = styled.button`
   color: ${colors.lightWhite};
   padding-top: 15pt;
   padding-bottom: 15pt;
-  background: #E2E5ED;
+  background: #e2e5ed;
   border-radius: 6pt;
   cursor: pointer;
   @media (max-width: 899.25pt) {
@@ -289,7 +296,7 @@ const Btn = styled.button`
     width: 251.25pt;
     margin-left: 18pt;
   }
-  &.on{
+  &.on {
     background: ${colors.main};
   }
 `;
