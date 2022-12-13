@@ -11,7 +11,7 @@ import MyprojectLink from 'componentsWeb/MyprojectLink';
 import Frame from 'public/images/Frame.png';
 import ProfileUp from 'public/images/profile-up.png';
 import ProfileDown from 'public/images/profile-down.png';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { handleLogoutOnClickModalClick } from 'api/logout';
 
 type Props = {
@@ -40,21 +40,8 @@ const WebBuyerHeader = ({
   const [tab, setTab] = useState<number>(0);
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
-
-  // myProjectLink 누르면 인덱스들에서 컴포넌트 바뀌게 할거얌
-
   const router = useRouter();
-
   const isUser = localStorage.getItem('USER_ID');
-  // if(!isUser)localStorage.setItem('USER_ID','user'); // 유저 테스트용 코드
-
-  const handleLink = () => {
-    if (isUser) {
-      router.push('/quotation/request');
-    } else {
-      router.push('/signin');
-    }
-  };
 
   const logout = () => {
     handleLogoutOnClickModalClick()

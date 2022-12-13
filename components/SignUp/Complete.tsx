@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Container } from '@mui/material';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Btn from 'components/button';
 import CheckImg from 'public/images/CheckCircle.svg';
 import btnImg from 'public/images/back-btn.svg';
