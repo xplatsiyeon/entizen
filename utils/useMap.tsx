@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { coordinateAction } from 'store/lnglatSlice';
@@ -13,7 +13,9 @@ const TAG = 'utills/useMap.tsx';
 function useMap() {
   // let mapRef = useRef<any >(null);
   const dispatch = useDispatch();
-  const { lnglatList } = useSelector((state: RootState) => state.lnglatList);
+  const { lnglatList, isMark } = useSelector(
+    (state: RootState) => state.lnglatList,
+  );
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
@@ -25,7 +27,7 @@ function useMap() {
     '</div>',
   ].join('');
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof lnglatList !== 'string') {
       let currentPosition = [lnglatList.lat, lnglatList.lng];
       const mapDiv = document.getElementById('map');
@@ -35,19 +37,20 @@ function useMap() {
           center: new naver.maps.LatLng(currentPosition[0], currentPosition[1]),
           zoomControl: false,
         });
-        console.log(TAG + '🔥 ~line 30 mapRef data 확인');
-        new naver.maps.Marker({
-          position: new naver.maps.LatLng(
-            currentPosition[0],
-            currentPosition[1],
-          ),
-          map: map,
-          icon: {
-            content: contentString,
-            size: new naver.maps.Size(20, 20),
-            anchor: new naver.maps.Point(20, 40),
-          },
-        });
+        if (isMark === true) {
+          new naver.maps.Marker({
+            position: new naver.maps.LatLng(
+              currentPosition[0],
+              currentPosition[1],
+            ),
+            map: map,
+            icon: {
+              content: contentString,
+              size: new naver.maps.Size(20, 20),
+              anchor: new naver.maps.Point(20, 40),
+            },
+          });
+        }
       }
     }
     console.log('mapRef 로그 확인');

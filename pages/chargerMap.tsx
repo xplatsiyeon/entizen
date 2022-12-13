@@ -77,7 +77,7 @@ const ChargerMap = (props: Props) => {
 
   const callInfo = async (speed: string) => {
     try {
-      const res = await axios.get('https://api.entizen.kr/api/charge', {
+      const res = await axios.get('https://test-api.entizen.kr/api/charge', {
         params: {
           siDo: locationList.siNm,
           siGunGu: locationList.sggNm ? locationList.sggNm : '',
@@ -128,13 +128,16 @@ const ChargerMap = (props: Props) => {
       callInfo('SLOW');
       callInfo('FAST');
     }
+  }, [locationList]);
+
+  useEffect(() => {
     return () => {
       console.log('컴포넌트 디드마운트');
 
       dispatch(coordinateAction.reset());
       dispatch(locationAction.reset());
     };
-  }, [locationList]);
+  }, []);
 
   const handleBack = () => {
     router.back();
