@@ -115,10 +115,13 @@ const IdPwInput = ({
     isLoading: userLoading,
     error: userError,
   } = useMutation(api, {
-    onSuccess: () => {
+    onSuccess: async () => {
       console.log('성공');
       queryClient.invalidateQueries();
-      signin();
+      setTimeout(() => {
+        signin();
+      }, 1000);
+
       // router.push('/signUp/Complete');
     },
     onError: (error) => {
