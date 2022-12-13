@@ -211,7 +211,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         if(mobInput){
           mobInput.focus()
         }
-      }, 50)
+      }, 100)
       } 
     // target?.focus();
     listRefetch();
@@ -221,6 +221,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.currentTarget.value);
   };
+
   // 채팅 onsubmit
   const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -234,7 +235,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     });
   };
 
-  
   /* 웹에서 글자 입력될때 마다 send 버튼 색상 변경*/
   const webBox = useRef<HTMLDivElement>(null);
   const imgChange = (n: boolean) => {
