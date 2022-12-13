@@ -205,13 +205,13 @@ const SecondStep = ({
     if (index === 0) {
       temp[tabNumber - 1] = {
         ...temp[tabNumber - 1],
-        installationLocation: 'OUTSIDE',
+        installationLocation: 'INSIDE',
       };
     }
     if (index === 1) {
       temp[tabNumber - 1] = {
         ...temp[tabNumber - 1],
-        installationLocation: 'INSIDE',
+        installationLocation: 'OUTSIDE',
       };
     }
     setSelectedOptionEn(temp);
@@ -775,6 +775,7 @@ const Btn = styled.div`
   padding-bottom: 13.5pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
+  cursor: pointer;
   &.selected {
     border: 1px solid ${colors.main};
     color: ${colors.main};
