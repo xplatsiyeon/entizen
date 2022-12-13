@@ -442,17 +442,13 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   };
 
 
-  if (chattingIsLoading) {
-    return <Loader />;
-  }
-
   const DownloadFile = useCallback((item: ChattingLogs) => {
     let fileName = item.fileOriginalName!;
-    const url = item.fileUrl!;
+    const blob = new Blob();
+    const url = window.URL.createObjectURL(blob);
     const element = document.createElement('a');
     element.href = url;
     element.download = fileName;
-    element.type = 'blob';
     document.body.appendChild(element);
     element.click();
     element.remove();
@@ -477,9 +473,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
               <Image src={stopAlarm} layout="fill" />
             )}
           </IconWrap>
+          { router.query.entizen ? null :
           <IconWrap onClick={() => setMoreModal(true)}>
             <Image src={moreBtn} layout="fill" />
           </IconWrap>
+          }
         </IconBox>
         {moreModal && (
           <WebMoreModal

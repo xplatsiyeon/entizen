@@ -37,8 +37,6 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
   const router = useRouter();
   const queryClinet = useQueryClient();
 
-  console.log('room,list', data?.data.chattingRooms.userChattingRooms )
-
   const [modal, setModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number>();
   // 채팅방 알림 에러
@@ -270,7 +268,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
             </HiddenBox1>
             <ChattingRoom
               className="content-box"
-              onClick={() => handleRoute(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomIdx)}
+              onClick={() => handleRoute(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomIdx, true)}
             >
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
@@ -290,7 +288,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                    wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog === null ? null : true}
+                    wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog?.wasRead!}
                   />
                   <Favorite>
                     {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorit? (
@@ -485,7 +483,7 @@ const UnRead = styled.div<{ wasRead: boolean | null}>`
   width: 6pt;
   height: 6pt;
   border-radius: 50%;
-  background: ${({ wasRead }) => (wasRead === null || wasRead === true ? `none` : `#5221CB`)};
+  background: ${({ wasRead }) => ( wasRead ? `none` : `#5221CB`)};
 `;
 const Favorite = styled.div`
   position: relative;
