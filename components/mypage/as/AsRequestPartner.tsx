@@ -78,11 +78,12 @@ const AsRequestPartner = ({ pb, data }: Props) => {
             <span className="name">전화번호</span>
             <a
               href={'tel:' + callPhone}
-              className="value"
+              className="mobilePhone"
               // onClick={() => nowWidth < 1200 && setModalOpen(true)}
             >
               {hyphenFn(phone)}
             </a>
+            <span className="phone">{hyphenFn(phone)}</span>
           </Item>
         </List>
         {/* ---------------------접수 내용-------------------- */}
@@ -277,6 +278,28 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.gray2};
   }
+  .phone {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    @media (max-width: 899.25pt) {
+      display: none;
+    }
+  }
+  .mobilePhone {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    @media (min-width: 900pt) {
+      display: none;
+    }
+  }
   .value {
     font-weight: 500;
     font-size: 10.5pt;
@@ -296,30 +319,6 @@ const Item = styled.li`
   }
 `;
 
-const CallItem = styled.a`
-  display: flex;
-  justify-content: space-between;
-  :not(:nth-of-type(1)) {
-    margin-top: 12pt;
-  }
-  .name {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: ${colors.gray2};
-  }
-  .value {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    text-align: left;
-    letter-spacing: -0.02em;
-    color: ${colors.main2};
-  }
-  & button {
-  }
-`;
 const Items = styled.li`
   display: flex;
   :not(:nth-of-type(1)) {
