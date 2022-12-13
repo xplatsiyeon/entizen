@@ -21,6 +21,7 @@ import {
   useQueryClient,
 } from 'react-query';
 import { isTokenPatchApi } from 'api';
+import { handleTime } from 'utils/messageTime';
 
 type Props = {
   data: ChattingListResponse;
@@ -55,43 +56,6 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
     },
   });
 
-  /*메세지 시간 표현 처리 함수 */
-  const handleTime = (target: string | undefined) => {
-    const now = dayjs();
-    const diff = now.diff(target, 'h');
-
-    if (diff < 24) {
-      const createdAt = dayjs(target).format('HH:mm');
-
-      //오전, 오후로 나누기
-      const pm = dayjs(target).subtract(12, 'h').format('HH:mm');
-      if (Number(pm.substring(0, 3)) > 12) {
-        return `오후 ${pm}`;
-      } else {
-        return `오전 ${pm}`;
-      }
-    } else if (diff > 24 && diff < 48) {
-      const createdAt = dayjs(target).format('HH:mm');
-      const pm = dayjs(target).subtract(12, 'h').format('HH:mm');
-
-      if (Number(pm.substring(0, 3)) > 12) {
-        return `어제 ${pm}`;
-      } else {
-        return `어제 ${pm}`;
-      }
-    } else {
-      const createdAt = dayjs(target).format('YYYY-MM-DD HH:mm');
-      const year = dayjs(target).get('y');
-      const month = dayjs(target).get('month');
-      const day = dayjs(target).get('day');
-
-      if (now.get('y') !== year) {
-        return `${year}년 ${month}월 ${day}일`;
-      } else {
-        return `${month}월 ${day}일 `;
-      }
-    }
-  };
   /* 드래그 조절 함수 */
   const chattingList = useRef<HTMLDivElement>(null);
   let pressed = false;
@@ -362,7 +326,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
               </ChattingRoomPreview>
               <ChattingRoomInfo>
                 <Created>
-                  {handleTime(chatting?.chattingLogs?.createdAt)}
+                  {handleTime(chatting?.chattingLogs?.createdAt!)}
                 </Created>
                 <Box>
                   <UnRead
