@@ -144,7 +144,9 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       });
       console.log('온 클릭');
     } else {
-      setModalMessage('변경이 실패했습니다. 다시 시도해주세요.');
+      setModalMessage(
+        '이름과 인증정보가 일치하지 않습니다.\n다시 입력해주세요.',
+      );
       setIsModal(true);
     }
   };

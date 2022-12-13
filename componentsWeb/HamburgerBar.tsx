@@ -29,6 +29,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import HamburgerChat from 'public/images/HamburgerChat.svg';
+import useProfile from 'hooks/useProfile';
 
 type Props = {
   anchor: string;
@@ -67,6 +68,14 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
 
   // 기업인지 판매자인지
   const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+
+  // 이름 가져오기
+  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    profile: profileData,
+    isLoading: profileIsLoading,
+    invalidate: profileInvalidate,
+  } = useProfile(accessToken);
 
   // 라우팅 함수 내 견적 vs 간편견적
   const estimateRouting = () => {
@@ -171,7 +180,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
               ) : (
                 <label className="label">일반회원</label>
               )}
-              {userID}
+              {`${profileData?.name} 님`}
             </span>
             <span
               className="arrow-img"
@@ -305,15 +314,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
           </WhiteAreaMenus>
           <WhiteAreaMenus
             onClick={() =>
-              userID
-                ? router.push({
-                    pathname: `/chatting/chattingRoom`,
-                    query: {
-                      chattingRoomIdx: chattingRoomIdx,
-                      entizen: true,
-                    },
-                  })
-                : router.push('/signin')
+              userID ? router.push('setting?id=2') : router.push('/signin')
             }
           >
             <span>제휴문의</span>
