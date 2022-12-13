@@ -287,6 +287,11 @@ const Item = styled.li`
   }
   & button {
   }
+  @media (min-width: 900pt) {
+    & a[href^='tel:'] {
+      display: none;
+    }
+  }
 `;
 
 const CallItem = styled.a`
