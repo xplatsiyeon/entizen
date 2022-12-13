@@ -53,7 +53,7 @@ export interface ChattingListResponse {
   data: {
     chattingRooms: {
       entizenChattingRoom: {
-        chattingRoomIdx: number,
+        chattingRoomIdx: number;
         chattingLog: null | {
           fromMemberIdx: number;
           fromMemberType: string;
@@ -61,21 +61,20 @@ export interface ChattingListResponse {
           createdAt: string;
           content: string;
           fileUrl: string;
-        },
+        };
         chattingRoomFavorite: {
-            chattingRoomFavoriteIdx: number,
-            isFavorit: boolean
-        },
+          chattingRoomFavoriteIdx: number;
+          isFavorit: boolean;
+        };
         chattingRoomNotification: {
-            chattingRoomNotificationIdx: number,
-            isSetNotification: boolean
-        }
-    };
+          chattingRoomNotificationIdx: number;
+          isSetNotification: boolean;
+        };
+      };
       userChattingRooms: UserChattingRooms[];
     };
   };
 }
-
 
 const TAG = 'pages/chatting/index.tsx';
 const Chatting = () => {
@@ -133,7 +132,7 @@ const Chatting = () => {
       <WebHeader />
       <UserRightMenu />
       <Wrapper>
-        <ChattingLists userChatting={true}/>
+        <ChattingLists userChatting={true} />
       </Wrapper>
       <WebFooter />
     </WebBody>

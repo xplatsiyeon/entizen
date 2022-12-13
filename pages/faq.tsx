@@ -195,6 +195,7 @@ const Faq = () => {
                     pathname: `/chatting/chattingRoom`,
                     query: {
                       chattingRoomIdx: chattingRoomIdx,
+                      entizen: true,
                     },
                   })
                 }

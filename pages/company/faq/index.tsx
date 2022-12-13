@@ -241,9 +241,10 @@ const Faq = () => {
               <Button
                 onClick={() =>
                   router.push({
-                    pathname: `/chatting/chattingRoom`,
+                    pathname: `/company/chatting/chattingRoom`,
                     query: {
                       chattingRoomIdx: chattingRoomIdx,
+                      entizen: true,
                     },
                   })
                 }
