@@ -315,8 +315,8 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
                 <ImageWrap>
-                  { chatting.companyMember.companyMemberAdditionalInfo.companyLogoImageUrl
-                  ?<img src={chatting.companyMember.companyMemberAdditionalInfo.companyLogoImageUrl} />
+                  { chatting.companyMember.companyMemberAdditionalInfo?.companyLogoImageUrl
+                  ?<img src={chatting.companyMember.companyMemberAdditionalInfo?.companyLogoImageUrl} />
                   :<Image src={defaultImg} layout="fill" />
                   }
                 </ImageWrap>
@@ -413,7 +413,7 @@ const ImageWrap = styled.div`
   position: relative;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid #D3D3D3;
+  border: 0.75pt solid #D3D3D3;
   >img{
     width:100%;
   }
