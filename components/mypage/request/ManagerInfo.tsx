@@ -15,7 +15,7 @@ const ManagerInfo = ({ name, phone, email }: Prop) => {
   const HandleModal = () => setIsModal((prev) => !prev);
   return (
     <Wrapper>
-      {isModal && <CallManager HandleModal={HandleModal} />}
+      {/* {isModal && <CallManager HandleModal={HandleModal} />} */}
       <Subtitle>담당자 정보</Subtitle>
       <List>
         <Item>

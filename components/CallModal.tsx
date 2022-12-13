@@ -13,14 +13,16 @@ const CallModal = ({ callBtnModal, setCallBtnModal }: Props) => {
     <Modal>
       <ButtonContainer>
         <ButtonBox
-          onClick={() => {
-            alert('나중에 전화 연결 부탁드립니다.');
-          }}
+        // onClick={() => {
+        //   alert('나중에 전화 연결 부탁드립니다.');
+        // }}
         >
+          <a href="tel:010-3392-0580"></a>
           <ImageIcon>
             <Image src={CallPng} alt="call" />
           </ImageIcon>
-          통화 9818-8856
+          {/* 통화 9818-8856 */}
+          <a href="tel:010-4998-8965">통화 9818-8856</a>
         </ButtonBox>
         <ButtonCancel
           onClick={() => {

@@ -50,9 +50,11 @@ const AsRequestPartner = ({ pb, data }: Props) => {
   const phone =
     data?.data?.afterSalesService?.afterSalesService?.project?.finalQuotation
       ?.preQuotation?.member?.phone;
+  const callPhone = hyphenFn(phone);
+
   return (
     <>
-      {modalOpen && <CallManager HandleModal={HandleModal} />}
+      {/* {modalOpen && <CallManager HandleModal={HandleModal} />} */}
 
       <Wrapper>
         <DownArrowBox>
@@ -74,12 +76,14 @@ const AsRequestPartner = ({ pb, data }: Props) => {
           </Item>
           <Item>
             <span className="name">전화번호</span>
-            <span
-              className="value"
-              onClick={() => nowWidth < 1200 && setModalOpen(true)}
+            <a
+              href={'tel:' + callPhone}
+              className="mobilePhone"
+              // onClick={() => nowWidth < 1200 && setModalOpen(true)}
             >
               {hyphenFn(phone)}
-            </span>
+            </a>
+            <span className="phone">{hyphenFn(phone)}</span>
           </Item>
         </List>
         {/* ---------------------접수 내용-------------------- */}
@@ -274,6 +278,28 @@ const Item = styled.li`
     letter-spacing: -0.02em;
     color: ${colors.gray2};
   }
+  .phone {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    @media (max-width: 899.25pt) {
+      display: none;
+    }
+  }
+  .mobilePhone {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: #0057ff;
+    @media (min-width: 900pt) {
+      display: none;
+    }
+  }
   .value {
     font-weight: 500;
     font-size: 10.5pt;
@@ -284,7 +310,15 @@ const Item = styled.li`
   }
   & button {
   }
+  @media (min-width: 900pt) {
+    & a {
+      [href^='tel:'] {
+        display: none;
+      }
+    }
+  }
 `;
+
 const Items = styled.li`
   display: flex;
   :not(:nth-of-type(1)) {

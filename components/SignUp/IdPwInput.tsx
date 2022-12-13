@@ -8,7 +8,9 @@ import colors from 'styles/colors';
 import Btn from './button';
 import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api } from 'api';
+import { api, isTokenPostApi } from 'api';
+import useLogin from 'hooks/useLogin';
+import Loader from 'components/Loader';
 
 type Props = {
   idInput: string;
@@ -27,6 +29,8 @@ type Props = {
   setCheckedPw: Dispatch<SetStateAction<boolean>>;
   checkSamePw: boolean;
   setCheckSamePw: Dispatch<SetStateAction<boolean>>;
+  setModalMessage: Dispatch<SetStateAction<string>>;
+  setIsModal: Dispatch<SetStateAction<boolean>>;
   name: string;
   phoneNumber: string;
   fullTerms: boolean;
@@ -71,18 +75,21 @@ const IdPwInput = ({
   companyAddress,
   companyDetailAddress,
   businessRegistration,
+  setModalMessage,
+  setIsModal,
 }: Props) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
-  const test = ['USER', 'COMPANY'];
+
+  const loginTypeEnList = ['USER', 'COMPANY'];
   const { data, refetch } = useQuery<ValidatedId>(
     'ValidIdCheck',
     () =>
       api({
         method: 'GET',
-        endpoint: `/members?id=${idInput}&memberType=${test[userType]}`,
+        endpoint: `/members?id=${idInput}&memberType=${loginTypeEnList[userType]}`,
       }),
     {
       enabled: false,
@@ -93,6 +100,16 @@ const IdPwInput = ({
       },
     },
   );
+  // 로그인 mutate
+  const { loginLoading, signin } = useLogin({
+    userId: idInput,
+    memberType: loginTypeEnList[userType],
+    password: pwInput,
+    setErrorMessage: setModalMessage,
+    setErrorModal: setIsModal,
+  });
+
+  // 일반 유저 회원가입 mutate
   const {
     mutate: userMutate,
     isLoading: userLoading,
@@ -101,7 +118,8 @@ const IdPwInput = ({
     onSuccess: () => {
       console.log('성공');
       queryClient.invalidateQueries();
-      router.push('/signUp/Complete');
+      signin();
+      // router.push('/signUp/Complete');
     },
     onError: (error) => {
       console.log('----회원가입 실패----');
@@ -109,6 +127,7 @@ const IdPwInput = ({
       alert('회원가입 실패했습니다. 다시 시도해주세요.');
     },
   });
+  // 기업 유저 회원가입 mutate
   const {
     mutate: companyMutate,
     isLoading: companyLoading,
@@ -233,8 +252,9 @@ const IdPwInput = ({
   }, [data]);
 
   // 로딩처리
-  if (userLoading || companyLoading) {
-    console.log('로딩중...');
+  if (userLoading || companyLoading || loginLoading) {
+    // console.log('로딩중...');
+    return <Loader />;
   }
 
   const iconAdorment = {
