@@ -158,6 +158,11 @@ export const dateFomat = (date: string) => {
     if (newDate) {
       result = newDate.replace('시', ':').slice(0, -8);
       minute = newDate.slice(18, 20);
+      if (minute.indexOf('분') === 1) {
+        newDate.slice(18, 19);
+        minute = '0' + newDate.slice(18, 19);
+      }
+
       joinText = result + minute;
     }
   }
