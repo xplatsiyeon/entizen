@@ -319,8 +319,11 @@ const ComChattingList = ({ data, refetch }: Props) => {
             >
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
-                <ImageWrap>
-                  <Image src={defaultImg} layout="fill" />
+                <ImageWrap>  
+                { chatting.userMember.profileImageUrl
+                  ?<img src={chatting.userMember.profileImageUrl} />
+                  :<Image src={defaultImg} layout="fill" />
+                }
                 </ImageWrap>
               </ChattingRoomImage>
               <ChattingRoomPreview>
@@ -409,6 +412,12 @@ const ImageWrap = styled.div`
   width: 36pt;
   height: 36pt;
   position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #D3D3D3;
+  >img{
+    width: 100%;
+  }
 `;
 const FromMember = styled.p`
   font-style: normal;
