@@ -320,6 +320,7 @@ const StoreName = styled(ListItemText)`
     align-items: center;
   }
   & p {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 400;
     font-size: 10.5pt;
     line-height: 18pt;
@@ -339,21 +340,34 @@ const ArrowImg = styled.div`
 const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 21pt;
+
   .text-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
+      @media (min-width: 900pt) {
+        padding-top: 15pt;
+      }
     }
   }
 
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .text {
     font-weight: 500;
@@ -362,6 +376,14 @@ const Contents = styled.div`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .img-box {
     padding-top: 42pt;

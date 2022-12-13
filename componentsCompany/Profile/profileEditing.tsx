@@ -370,7 +370,7 @@ const InputBtn = styled.button`
   top: 50%;
   transform: translateY(-50%);
   margin-top: 4.5pt;
-  background: #e2e5ed;
+  background: #5221cb;
   border-radius: 6pt;
   padding: 7.5pt 9pt;
   cursor: pointer;

@@ -33,6 +33,7 @@ import chatFileAdd from 'public/images/chatFileAdd.png';
 import chatCamera from 'public/images/chatCamera.png';
 import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
 import { ChattingListResponse } from './ChattingLists';
+import chatEntizen from 'public/images/chatEntizen.png';
 
 type ChattingLogs = {
   createdAt: string;
@@ -59,11 +60,13 @@ export interface ChattingResponse {
     userMember: {
       memberIdx: number;
       name: string;
+      profileImageUrl: null | string;
     };
     companyMember: {
       memberIdx: number;
       companyMemberAdditionalInfo: {
         companyName: string;
+        companyLogoImageUrl: null | string;
       };
     };
     chattingRoomNotification: {
@@ -97,11 +100,15 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+
+  const [loading, setLoading] = useState<boolean>(false);
+
   const logs = useRef<HTMLDivElement>(null);
   const webInputRef = useRef<HTMLInputElement>(null);
   const mobInputtRef = useRef<HTMLInputElement>(null);
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const loadingRef = useRef<HTMLDivElement>(null);
 
   //   채팅방 내용 보기
   const {
@@ -143,56 +150,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       console.log(error);
     },
   });
-
-  /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
-  useEffect(() => {
-    if (!chattingIsLoading && chattingData?.isSuccess === true) {
-      const sortArr = Array.from(chattingData?.data?.chattingLogs!);
-      sortArr.sort((a, b) => {
-        const fomatedA = dayjs(a.createdAt).format('YYYY.MM.DD HH:mm:ss');
-        const fomatedB = dayjs(b.createdAt).format('YYYY.MM.DD HH:mm:ss');
-        if (fomatedA > fomatedB) {
-          return 1;
-        }
-        if (fomatedA < fomatedB) {
-          return -1;
-        }
-        return 0;
-      });
-      //console.log(sortArr)
-
-      /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
-            순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
-        */
-      const temp: ChattingRoom[] = [];
-      sortArr.forEach((a, idx) => {
-        const date1 = dayjs(a.createdAt).format('YYYY.MM.DD');
-        /*맨 처음 배열 요소는 그냥 push*/
-        if (idx === 0) {
-          temp.push({
-            date: date1,
-            logs: [a],
-          });
-          /* 배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 같으면, temp배열의 가장 마지막 인덱스 요소(Logs)에 푸쉬. 
-                  배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 다르면, temp 배열에 새롭게 Push.
-                */
-        } else {
-          if (
-            dayjs(sortArr[idx - 1].createdAt).format('YYYY.MM.DD') === date1
-          ) {
-            temp[temp.length - 1].logs.push(a);
-          } else {
-            temp.push({
-              date: date1,
-              logs: [a],
-            });
-          }
-        }
-      });
-      //   console.log('temp', temp);
-      setData(temp);
-    }
-  }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
 
   useLayoutEffect(() => {
     //window.scrollTo(0, document.body.scrollHeight);
@@ -264,7 +221,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     } else if (!target.classList.contains('on') && hiddenBox) {
       target.classList.add('on');
       hiddenBox.style.height = '97pt';
-      hiddenBox.style.border = `1px solid #D3D3D3`;
+      hiddenBox.style.border = `0.75pt solid #D3D3D3`;
     }
   };
 
@@ -292,6 +249,20 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       }
     }
   };
+
+  const handleImg =()=>{
+    if (router.query.entizen) {
+      return '/images/chatEntizen.png';
+    } else {
+      if (userChatting) {
+        //console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
+        return chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!;
+      } else {
+        //console.log(chattingData?.data?.userMember?.profileImageUrl!)
+        return chattingData?.data?.userMember?.profileImageUrl!;
+      }
+    }
+  }
 
   const handleTime = (st: string) => {
     //오전, 오후로 나누기
@@ -331,6 +302,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         },
       });
       refetch();
+      //setLoading(false)
       setFileModal(false)
     },
     onError: (error: any) => {
@@ -397,6 +369,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       encodeURIComponent(files![0].name),
     );
     multerFile(formData);
+    setLoading(true);
     e.target.value ='';
   };
 }
@@ -412,7 +385,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       files![0],
       encodeURIComponent(files![0].name),
     );
-    multerImage(formData); 
+    multerImage(formData);
+    setLoading(true)
     e.target.value ='';
    }
   };
@@ -427,18 +401,66 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     fileRef?.current?.click();
   };
 
-  const DownloadFile = useCallback((item: ChattingLogs) => {
-    let fileName = item.fileOriginalName!;
-    const blob = new Blob();
-    const url = window.URL.createObjectURL(blob);
-    const element = document.createElement('a');
-    element.href = url;
-    element.download = fileName;
-    document.body.appendChild(element);
-    element.click();
-    element.remove();
-    window.URL.revokeObjectURL(url);
-  }, []);
+
+  useEffect(()=>{
+    if(loading){
+      loadingRef.current?.focus();
+    }
+  }, [loading])
+
+  /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
+  useEffect(() => {
+    console.log('쿼리아이디, 데이타 변경됨')
+    if (!chattingIsLoading && chattingData?.isSuccess === true) {
+      const sortArr = Array.from(chattingData?.data?.chattingLogs!);
+      sortArr.sort((a, b) => {
+        const fomatedA = dayjs(a.createdAt).format('YYYY.MM.DD HH:mm:ss');
+        const fomatedB = dayjs(b.createdAt).format('YYYY.MM.DD HH:mm:ss');
+        if (fomatedA > fomatedB) {
+          return 1;
+        }
+        if (fomatedA < fomatedB) {
+          return -1;
+        }
+        return 0;
+      });
+      //console.log(sortArr)
+
+      /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
+            순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
+        */
+      const temp: ChattingRoom[] = [];
+      sortArr.forEach((a, idx) => {
+        const date1 = dayjs(a.createdAt).format('YYYY.MM.DD');
+        /*맨 처음 배열 요소는 그냥 push*/
+        if (idx === 0) {
+          temp.push({
+            date: date1,
+            logs: [a],
+          });
+          /* 배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 같으면, temp배열의 가장 마지막 인덱스 요소(Logs)에 푸쉬. 
+                  배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 다르면, temp 배열에 새롭게 Push.
+                */
+        } else {
+          if (
+            dayjs(sortArr[idx - 1].createdAt).format('YYYY.MM.DD') === date1
+          ) {
+            temp[temp.length - 1].logs.push(a);
+          } else {
+            temp.push({
+              date: date1,
+              logs: [a],
+            });
+          }
+        }
+      });
+      //   console.log('temp', temp);
+      setData(temp);
+      if(loading){
+        console.log('? 로딩켜져있어서 끈다')
+        setLoading(false)}
+    }
+  }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
 
   return (
     <Body ref={logs}>
@@ -490,8 +512,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                         tabIndex={1}  
                       >
                           <ImageWrap className={item.fromMemberType === 'USER'? 'user' : 'company'} userChatting={userChatting}>
-                            {/* 이미지 파일 src가 없으면 */}
-                            <Image src={defaultImg} layout="fill" />
+                            { handleImg()? <img src={handleImg()}/> :
+                              <Image src={defaultImg} layout="fill" />}
                           </ImageWrap>
                         {item.content && (
                           <Chat
@@ -522,10 +544,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                         {item.messageType === 'IMAGE' && 
                         <>
                            <FileDownload
-                            onClick={()=>DownloadFile(item)}
-                           // href={item?.fileUrl!}
-                           // download={item?.fileOriginalName!}
-                           // type={'blob'}
+                            href={item?.fileUrl!}
+                            download={item?.fileOriginalName!}
+                            type={'blob'}
                           >
                             <img src={item?.fileUrl!} style={{width: '112.5pt', objectFit:'scale-down', background:'#0000001c'}}/>
                           </FileDownload>
@@ -541,6 +562,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             </DateChatting>
           );
         })}
+    { loading && 
+      <LoadingWrap tabIndex={1} ref={loadingRef}>
+      <img src="/images/loading.gif" alt="" className='loading'/>
+      </LoadingWrap>
+    }
       </Inner>
       <BottomBox ref={mobBox}>
         <FlexBox onSubmit={onSubmitText}>
@@ -683,7 +709,7 @@ const BottomBox = styled.div`
     left: 11.5pt;
     transition: 0.3s;
     background-color: white;
-    border: 1px solid #D3D3D3;
+    border: 0.75pt solid #D3D3D3;
     border-radius: 16.5pt;
     display: flex;
     flex-direction: column;
@@ -777,6 +803,26 @@ const Inner = styled.div`
     padding: 0;
   }
 `;
+const LoadingWrap = styled.div`
+position: absolute;
+right: 0;
+width: 112.5pt;
+height: 112.5pt;
+
+&:focus {
+  outline: none;
+}
+
+>img{
+position: absolute;
+width: 50%;
+height: 50%;
+top: 30%;
+left: 50%;
+transform: translate(-50%,-50%);
+}
+`
+
 const DateChatting = styled.div`
   width: 100%;
   font-family: 'Spoqa Han Sans Neo';
@@ -855,6 +901,12 @@ const ImageWrap = styled.div<{userChatting : boolean}>`
   width: 36pt;
   height: 36pt;
   position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 0.75pt solid #D3D3D3;
+  >img{
+    width: 100%;
+  }
   &.user{
     display: ${({userChatting})=> userChatting ? 'none' : 'block'};
   }

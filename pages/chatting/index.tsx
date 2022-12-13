@@ -24,11 +24,13 @@ export interface UserChattingRooms {
     memberIdx: number;
     companyMemberAdditionalInfo: {
       companyName: string;
+      companyLogoImageUrl : string | null;
     };
   };
   userMember: {
     memberIdx: number;
     name: string;
+    profileImageUrl: null | string;
   };
   chattingLogs: {
     fromMemberIdx: number;

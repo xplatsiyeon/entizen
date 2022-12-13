@@ -19,36 +19,8 @@ import ComChattingList from 'componentsCompany/Chatting/ComChattingLIst';
 import Hamburger from 'public/images/list-bar.svg';
 import { Box, Divider, Drawer } from '@mui/material';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
+import { UserChattingRooms } from 'pages/chatting';
 
-export interface UserChattingRooms {
-  chattingRoomIdx: number;
-  companyMember: {
-    memberIdx: number;
-    companyMemberAdditionalInfo: {
-      companyName: string;
-    };
-  };
-  userMember: {
-    memberIdx: number;
-    name: string;
-  };
-  chattingLogs: {
-    fromMemberIdx: number;
-    fromMemberType: 'USER' | 'COMPANY';
-    wasRead: boolean;
-    createdAt: string;
-    content: string;
-    fileUrl: string;
-  };
-  chattingRoomFavorite: {
-    chattingRoomFavoriteIdx: number;
-    isFavorite: boolean;
-  };
-  chattingRoomNotification: {
-    chattingRoomNotificationIdx: number;
-    isSetNotification: boolean;
-  };
-}
 
 export interface ChattingListResponse {
   isSuccess: true;
@@ -142,7 +114,7 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
   const [index, setIndex] = useState<number>(0);
   const [company, setCompany] = useState<string>('');
   const [text, setText] = useState('');
-  const keyword = useDebounce(text, 2000);
+  const keyword = useDebounce(text, 500);
 
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
@@ -180,6 +152,7 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
   useEffect(() => {
     // queryClinet.invalidateQueries('chatting-list');
     refetch();
+    console.log(data)
   }, [index, keyword]);
 
   {/* // 페이지 이동시 스크롤 최상단으로 이동

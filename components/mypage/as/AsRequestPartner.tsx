@@ -97,7 +97,7 @@ const AsRequestPartner = ({ pb, data }: Props) => {
           </Items>
           <Items className="contents">
             <span className="name">요청내용</span>
-            <span className="value">
+            <span className="contentsValue">
               {data?.data?.afterSalesService?.afterSalesService?.requestContent}
             </span>
           </Items>
@@ -272,18 +272,30 @@ const Item = styled.li`
     margin-top: 12pt;
   }
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: ${colors.gray2};
+      margin-right: 92.25pt;
+    }
   }
   .phone {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
     font-weight: 500;
-    font-size: 10.5pt;
     line-height: 12pt;
-    text-align: left;
     letter-spacing: -0.02em;
+    text-align: left;
     color: ${colors.main2};
     @media (max-width: 899.25pt) {
       display: none;
@@ -307,6 +319,14 @@ const Item = styled.li`
     text-align: left;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   & button {
   }
@@ -324,17 +344,65 @@ const Items = styled.li`
   :not(:nth-of-type(1)) {
     margin-top: 12pt;
   }
+  .contentsValue {
+    @media (max-width: 899.25pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 10.5pt;
+      font-weight: 500;
+      font-size: 10.5pt;
+      line-height: 12pt;
+      text-align: left;
+      letter-spacing: -0.02em;
+      color: ${colors.main2};
+      display: flex;
+      gap: 6pt;
+      flex-direction: column;
+      justify-content: start;
+      word-break: break-all;
+      width: 80%;
+      margin-left: 26.25pt;
+    }
+    @media (min-width: 900pt) {
+      width: 100%;
+      color: ${colors.main2};
+      display: flex;
+      gap: 15pt;
+      flex-direction: column;
+      justify-content: start;
+      word-break: break-all;
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
     width: 63.2025pt;
+
     @media (max-width: 899.25pt) {
-      width: 41.25pt;
+      width: 63.2025pt;
+    }
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      color: ${colors.gray2};
+      margin-right: 92.25pt;
     }
   }
   .value {
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 500;
     font-size: 10.5pt;
@@ -349,6 +417,15 @@ const Items = styled.li`
     justify-content: start;
     word-break: break-all;
     width: 100%;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+      gap: 15pt;
+    }
   }
   @media (max-width: 899.25pt) {
     word-break: normal;
