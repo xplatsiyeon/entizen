@@ -160,6 +160,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
       pressed = false;
     }, 450);
   };
+
   // 채팅 즐겨찾기 함수
   const onClickFavorite = (chattingRoomIdx: number) => {
     patchMutate({
@@ -205,9 +206,9 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
             <HiddenBox1>
               {/* 버튼에 즐겨찾기 설정 api함수 */}
               <FavoriteBtn
-                onClick={() => onClickFavorite(data.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.chattingRoomFavoriteIdx)}
+                onClick={() => onClickFavorite(data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx!)}
               >
-                {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorit ? (
+                {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorite ? (
                   <HiddenIconWrap>
                     <Image src={hiddenChecked} layout="fill" />
                   </HiddenIconWrap>
@@ -218,7 +219,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 )}
               </FavoriteBtn>
               {/* 버튼에 알림 설정 api함수 */}
-              <AlramBtn onClick={() => onClickAlarm(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomNotification.chattingRoomNotificationIdx)}>
+              <AlramBtn onClick={() => onClickAlarm(data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx!)}>
                 {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomNotification.isSetNotification ? (
                   <HiddenIconWrap>
                     <Image src={hiddenAlarm} layout="fill" />
@@ -255,7 +256,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                     wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog?.wasRead!}
                   />
                   <Favorite>
-                    {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorit? (
+                    {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorite? (
                       <Image src={checked} layout="fill" />
                     ) : (
                       <Image src={unChecked} layout="fill" />
@@ -280,7 +281,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
             <HiddenBox1>
               {/* 버튼에 즐겨찾기 설정 api함수 */}
               <FavoriteBtn
-                onClick={() => onClickFavorite(chatting.chattingRoomIdx)}
+                onClick={() => onClickFavorite(chatting.chattingRoomIdx!)}
               >
                 {chatting.chattingRoomFavorite.isFavorite ? (
                   <HiddenIconWrap>
@@ -293,7 +294,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 )}
               </FavoriteBtn>
               {/* 버튼에 알림 설정 api함수 */}
-              <AlramBtn onClick={() => onClickAlarm(chatting.chattingRoomIdx)}>
+              <AlramBtn onClick={() => onClickAlarm(chatting.chattingRoomIdx!)}>
                 {chatting.chattingRoomNotification.isSetNotification ? (
                   <HiddenIconWrap>
                     <Image src={hiddenAlarm} layout="fill" />
@@ -330,7 +331,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                    wasRead={chatting?.chattingLogs === null ? null : Boolean(chatting?.chattingLogs?.wasRead)}
+                    wasRead={chatting?.chattingLogs?.wasRead}
                   />
                   <Favorite>
                     {chatting.chattingRoomFavorite.isFavorite ? (
@@ -447,7 +448,7 @@ const UnRead = styled.div<{ wasRead: boolean | null}>`
   width: 6pt;
   height: 6pt;
   border-radius: 50%;
-  background: ${({ wasRead }) => ( wasRead ? `none` : `#5221CB`)};
+  background: ${({ wasRead }) => {console.log(wasRead); return ( wasRead ? `none` : `#5221CB`)}};
 `;
 const Favorite = styled.div`
   position: relative;

@@ -8,7 +8,6 @@ import dayjs from "dayjs";
     const h = dayjs(target).get('h')
     if (diff === 0) {
       //오전, 오후로 나누기
-      console.log(get.format('HH:mm'), h)
       if (Number(h) > 12) {
         const pm = get.subtract(12,'h').format('HH:mm')
         return `오후 ${pm}`;
