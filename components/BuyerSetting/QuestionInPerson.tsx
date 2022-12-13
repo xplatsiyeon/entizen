@@ -88,64 +88,61 @@ const QuestionInPerson = ({ tabNumber, setTabNumber }: Props) => {
           </CustomerTitle>
         </CustomerCenterWrapper>
         <Wrapper>
-          <SettingBox>
-            <SettingList
-              onClick={() => {
-                setMailOn(true);
-                setTimeout(function () {
-                  setMailOn(false);
-                }, 1500);
-                handleCopyEmail('entizen@entizen.kr');
-              }}
-            >
-              이메일 문의하기
-            </SettingList>
+          <SettingBox
+            onClick={() => {
+              setMailOn(true);
+              setTimeout(function () {
+                setMailOn(false);
+              }, 1500);
+              handleCopyEmail('entizen@entizen.kr');
+            }}
+          >
+            <SettingList>이메일 문의하기</SettingList>
             <div>
               <Image src={RightArrow} alt="right-arrow" />
             </div>
           </SettingBox>
-          <SettingBox>
-            <SettingList
-              onClick={() =>
-                userID
-                  ? router.push({
-                      pathname: `/chatting/chattingRoom`,
-                      query: {
-                        chattingRoomIdx: chattingRoomIdx,
-                        entizen: true,
-                      },
-                    })
-                  : router.push('/signin')
-              }
-            >
-              엔티즌과 소통하기
-            </SettingList>
+          <SettingBox
+            onClick={() =>
+              userID
+                ? router.push({
+                    pathname: `/chatting/chattingRoom`,
+                    query: {
+                      chattingRoomIdx: chattingRoomIdx,
+                      entizen: true,
+                    },
+                  })
+                : router.push('/signin')
+            }
+          >
+            <SettingList>엔티즌과 소통하기</SettingList>
             <div>
               <Image src={RightArrow} alt="right-arrow" />
             </div>
           </SettingBox>
-          <SettingBox>
+          <CallBox href="tel:9818-8856">
             <SettingList
-              onClick={() => {
-                setCallBtnModal(true);
-              }}
+            // onClick={() => {
+            //   setCallBtnModal(true);
+            // }}
             >
               전화 문의하기
             </SettingList>
+
             <div>
               <Image src={RightArrow} alt="right-arrow" />
             </div>
-          </SettingBox>
+          </CallBox>
           <MailCopyBtn mailOn={mailOn}>
             이메일 주소가 복사 되었습니다.
           </MailCopyBtn>
         </Wrapper>
-        {callBtnModal === true && (
+        {/* {callBtnModal === true && (
           <CallModal
             setCallBtnModal={setCallBtnModal}
             callBtnModal={callBtnModal}
           />
-        )}
+        )} */}
       </Inner>
     </WebBody>
   );
@@ -279,4 +276,13 @@ const MailCopyBtn = styled.div<{ mailOn: boolean }>`
   color: #ffffff;
   border-radius: 8pt;
   display: ${({ mailOn }) => (mailOn === true ? '' : 'none')};
+`;
+
+const CallBox = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13.5pt 22.5pt 0 0;
+  text-decoration: none;
+  color: #222222;
 `;
