@@ -66,7 +66,7 @@ export interface ChattingListResponse {
         };
         chattingRoomFavorite: {
           chattingRoomFavoriteIdx: number;
-          isFavorit: boolean;
+          isFavorite: boolean;
         };
         chattingRoomNotification: {
           chattingRoomNotificationIdx: number;
