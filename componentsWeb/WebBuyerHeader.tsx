@@ -94,7 +94,7 @@ const WebBuyerHeader = ({
     ) {
       setType('as');
       setTab(2);
-    }else if (
+    } else if (
       router.pathname === '/company/chatting' ||
       router.pathname === `/company/chatting/chattingRoom`
     ) {
@@ -182,7 +182,7 @@ const WebBuyerHeader = ({
                       <Image
                         src={Chat}
                         alt="question"
-                        onClick={() => router.push('/faq')}
+                        onClick={() => router.push('/company/faq')}
                       />
                     </IconBox>
                     <IconBox>
