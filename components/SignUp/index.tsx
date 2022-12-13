@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -53,6 +54,12 @@ const SignUpContainer = (props: Props) => {
   const [companyAddress, setCompanyAddress] = useState<string>('');
   const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
 
+  const [modalMessage, setModalMessage] = useState('');
+  const [isModal, setIsModal] = useState(false);
+
+  const onClickModal = () => {
+    router.push('/signUp/Complete');
+  };
   const handleHomeClick = () => router.push('/');
   const gobackQuestion = () => setModalOpen(false);
   const stopRegist = () => router.push('/signin');
@@ -60,6 +67,7 @@ const SignUpContainer = (props: Props) => {
 
   return (
     <>
+      {isModal && <Modal click={onClickModal} text={modalMessage} />}
       {modalOpen && (
         <TwoBtnModal
           exit={gobackQuestion}
@@ -156,6 +164,8 @@ const SignUpContainer = (props: Props) => {
               phoneNumber={phoneNumber}
               fullTerms={fullTerms}
               userType={userType}
+              setModalMessage={setModalMessage}
+              setIsModal={setIsModal}
             />
           </Wrapper>
         </>
@@ -283,6 +293,8 @@ const SignUpContainer = (props: Props) => {
               fullTerms={fullTerms}
               userType={userType}
               businessRegistration={businessRegistration}
+              setModalMessage={setModalMessage}
+              setIsModal={setIsModal}
             />
           </Wrapper>
         </>
