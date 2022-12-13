@@ -252,10 +252,10 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   const handleImg =()=>{
     if (router.query.entizen) {
-      return chatEntizen;
+      return '/images/chatEntizen.png';
     } else {
       if (userChatting) {
-        return chattingData?.data?.companyMember.companyMemberAdditionalInfo.companyLogoImageUrl;
+        return chattingData?.data?.companyMember.companyMemberAdditionalInfo?.companyLogoImageUrl!;
       } else {
         return chattingData?.data?.userMember?.profileImageUrl!;
       }
@@ -510,7 +510,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                         tabIndex={1}  
                       >
                           <ImageWrap className={item.fromMemberType === 'USER'? 'user' : 'company'} userChatting={userChatting}>
-                            { Boolean(handleImg())? <img src={String(handleImg())}/> :
+                            { handleImg()? <img src={handleImg()}/> :
                               <Image src={defaultImg} layout="fill" />}
                           </ImageWrap>
                         {item.content && (
