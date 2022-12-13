@@ -196,7 +196,8 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
 
   return (
     <Body ref={chattingList}>
-      {/* 엔티젠. 상위 고정 && 채팅방 나가기 불가.*/}
+      { data?.data?.chattingRooms?.entizenChattingRoom &&
+      /* 엔티젠. 상위 고정 && 채팅방 나가기 불가.*/
       <Chatting
             className="chattingRoom"
             onTouchStart={(e) => touchStart(e)}
@@ -266,6 +267,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
               </ChattingRoomInfo>
             </ChattingRoom>
       </Chatting>
+      }
 
 
       {/* 유저 채팅방.*/}
@@ -313,7 +315,10 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
                 <ImageWrap>
-                  <Image src={defaultImg} layout="fill" />
+                  { chatting.companyMember.companyMemberAdditionalInfo.companyLogoImageUrl
+                  ?<img src={chatting.companyMember.companyMemberAdditionalInfo.companyLogoImageUrl} />
+                  :<Image src={defaultImg} layout="fill" />
+                  }
                 </ImageWrap>
               </ChattingRoomImage>
               <ChattingRoomPreview>
@@ -331,7 +336,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                    wasRead={chatting?.chattingLogs?.wasRead}
+                    wasRead={chatting?.chattingLogs === null? true : chatting?.chattingLogs.wasRead}
                   />
                   <Favorite>
                     {chatting.chattingRoomFavorite.isFavorite ? (
@@ -406,6 +411,12 @@ const ImageWrap = styled.div`
   width: 36pt;
   height: 36pt;
   position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #D3D3D3;
+  >img{
+    width:100%;
+  }
 `;
 const FromMember = styled.p`
   font-style: normal;
@@ -444,11 +455,11 @@ const Box = styled.div`
   gap: 6.75pt;
   align-items: center;
 `;
-const UnRead = styled.div<{ wasRead: boolean | null}>`
+const UnRead = styled.div<{ wasRead: boolean}>`
   width: 6pt;
   height: 6pt;
   border-radius: 50%;
-  background: ${({ wasRead }) => {console.log(wasRead); return ( wasRead ? `none` : `#5221CB`)}};
+  background: ${({ wasRead }) => ( wasRead ? `none` : `#5221CB`)};
 `;
 const Favorite = styled.div`
   position: relative;
