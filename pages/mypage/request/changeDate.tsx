@@ -28,6 +28,17 @@ const changeDate = () => {
   const HandleModal = () => {
     router.push('/mypage');
   };
+
+  const quotationRequestIdx = router?.query?.quotationRequestIdx;
+
+  const handleOnClick = () => {
+    router.push({
+      pathname: '/mypage/request',
+      query: {
+        quotationRequestIdx: quotationRequestIdx,
+      },
+    });
+  };
   // ---------- 현장 실사 날짜 api ------------
   const {
     data: spotData,
@@ -83,7 +94,12 @@ const changeDate = () => {
           <Wrapper>
             {/* 모달 / 라우터 수정  */}
             {isModal && <Modal text={modalMessage} click={HandleModal} />}
-            <MypageHeader title="다른 날짜 선택" exitBtn={true} back={true} />
+            <MypageHeader
+              title="다른 날짜 선택"
+              exitBtn={true}
+              back={true}
+              handleOnClick={handleOnClick}
+            />
             <WebSelectHeader>
               <BackImage className="back-img" onClick={() => router.back()}>
                 <Image src={BackImg} alt="btn-icon" />

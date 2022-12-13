@@ -4,8 +4,9 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 type Props = {
   spotId: number;
+  routerId: string | string[] | undefined;
 };
-const ScheduleChange = ({ spotId }: Props) => {
+const ScheduleChange = ({ spotId, routerId }: Props) => {
   const router = useRouter();
   return (
     <Wrapper>
@@ -15,6 +16,7 @@ const ScheduleChange = ({ spotId }: Props) => {
           router.push({
             pathname: '/mypage/request/changeDateList',
             query: {
+              quotationRequestIdx: routerId,
               spotId: spotId,
             },
           })

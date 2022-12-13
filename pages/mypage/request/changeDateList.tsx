@@ -21,6 +21,7 @@ import Image from 'next/image';
 const Mypage2_3 = () => {
   const router = useRouter();
   const spotId = router?.query?.spotId;
+  const quotationRequestIdx = router?.query?.quotationRequestIdx;
   const [tabNumber, setTabNumber] = useState<number>(-1);
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
@@ -78,6 +79,7 @@ const Mypage2_3 = () => {
     router.push({
       pathname: '/mypage/request/changeDate',
       query: {
+        quotationRequestIdx: quotationRequestIdx,
         spotId: spotId,
       },
     });
@@ -101,6 +103,10 @@ const Mypage2_3 = () => {
 
   console.log(spotData);
 
+  const handleOnClick = () => {
+    router.back();
+  };
+
   return (
     <React.Fragment>
       {isModal && <Modal click={onClickModal} text={modalMessage} />}
@@ -108,8 +114,7 @@ const Mypage2_3 = () => {
         <WebHeader />
         <Inner>
           <Wrapper>
-            <MypageHeader exitBtn={true} />
-
+            <MypageHeader exitBtn={true} handleOnClick={handleOnClick} />
             <H1>
               일정 변경 요청을 <br />
               수락하시겠습니까?
