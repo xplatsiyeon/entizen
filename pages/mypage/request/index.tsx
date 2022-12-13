@@ -152,7 +152,7 @@ const Mypage1_3 = ({}: any) => {
 
   useEffect(() => {
     if (routerId) {
-     console.log('refetch');
+      console.log('refetch');
       refetch();
       //quotationRefetch();
     }
@@ -160,12 +160,10 @@ const Mypage1_3 = ({}: any) => {
 
   useEffect(() => {
     if (data?.quotationRequest?.currentInProgressPreQuotationIdx) {
-     console.log('refetch2');
-     quotationRefetch();
+      console.log('refetch2');
+      quotationRefetch();
     }
   }, [data?.quotationRequest.currentInProgressPreQuotationIdx]);
-
-
 
   // ---------- 현장 실사 날짜 api ------------
   const {
@@ -348,7 +346,7 @@ const Mypage1_3 = ({}: any) => {
       )}
 
       <Body>
-        <WebHeader num={0} now={'mypage'} sub={true}/>
+        <WebHeader num={0} now={'mypage'} sub={true} />
         <UserRightMenu />
         <Inner>
           <FlexBox>
@@ -405,6 +403,7 @@ const Mypage1_3 = ({}: any) => {
                           data?.quotationRequest
                             ?.currentInProgressPreQuotationIdx!
                         }
+                        routerId={routerId}
                       />
                     ) : (
                       <Checking

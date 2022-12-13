@@ -128,13 +128,16 @@ const ChargerMap = (props: Props) => {
       callInfo('SLOW');
       callInfo('FAST');
     }
+  }, [locationList]);
+
+  useEffect(() => {
     return () => {
       console.log('컴포넌트 디드마운트');
 
       dispatch(coordinateAction.reset());
       dispatch(locationAction.reset());
     };
-  }, [locationList]);
+  }, []);
 
   const handleBack = () => {
     router.back();

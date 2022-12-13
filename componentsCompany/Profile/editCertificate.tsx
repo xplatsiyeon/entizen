@@ -69,7 +69,7 @@ const EditCertificate = ({ setComponent }: Props) => {
       }
     },
   });
-
+  // 파일
   const { mutate: businessMutate, isLoading: businessLoading } = useMutation(
     isTokenPatchApi,
     {

@@ -4,7 +4,7 @@ import arrowR from 'public/images/grayRightArrow20.png';
 import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
 import AnyContracIcon from 'public/images/AnyContracIcon.png';
 import styled from '@emotion/styled';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { modusign } from 'api/sign';
 import {
   GET_InProgressProjectsDetail,
@@ -12,20 +12,30 @@ import {
 } from 'QueryComponents/CompanyQuery';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
-import { api, isTokenPostApi } from 'api';
+import { api, isTokenPostApi, multerApi } from 'api';
 import { modusignCancel } from 'api/cancelSign';
+import FileSelectModal from 'components/Modal/FileSelectModal';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
 
-type Props = {
-  // setOpenContract?: Dispatch<SetStateAction<boolean>>;
-};
+type Props = {};
+type ImageType = 'IMAGE' | 'FILE';
 const TAG = 'componentsCompany/Mypage/CompContract.tsx';
 const ComContranct = ({}: Props) => {
   const router = useRouter();
+  const routerId = router.query.projectIdx!;
+  const queryClient = useQueryClient();
+  const imgRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  // 자체 계약서 파일 모달
+  const [openSelfContract, setOpenSelfContract] = useState(false);
+  const [tpye, setType] = useState<ImageType>();
+
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {
@@ -98,35 +108,142 @@ const ComContranct = ({}: Props) => {
   } = useMutation(modusignCancel, {
     onSuccess: () => {
       setIsModal(true);
-      setModalMessage('계약서 전송이 실패했습니다. 다시 시도해주세요.');
+      setModalMessage('계약서 전송을 실패했습니다. 다시 시도해주세요.');
     },
     onError: (error: any) => {
-      console.log('서명 취소 요청 에러');
+      console.log('-----------서명 취소 요청 에러----------');
       console.log(error);
+    },
+  });
+  // /contracts/self
+  const { mutate: selfMutate, isLoading: selftLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: (res) => {
+        console.log(res);
+        setIsModal(true);
+        setModalMessage('자체 계약서를 전송하였습니다.');
+      },
+      onError: (error) => {
+        setIsModal(true);
+        setModalMessage('계약서 전송을 실패했습니다. 다시 시도해주세요.');
+      },
+    },
+  );
+  // image s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: async (res) => {
+      const newArr: any = [];
+      await res?.uploadedFiles.forEach((img) => {
+        newArr.push({
+          type: tpye,
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+      });
+      selfMutate({
+        url: '/contracts/self',
+        data: {
+          selfContracts: newArr,
+          projectIdx: routerId,
+        },
+      });
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setModalMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setModalMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setModalMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
     },
   });
 
   console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
   console.log(modusignData);
+  const handleContr = () => modusignMutate(inProgressData!);
 
-  // console.log(inProgressData);
+  // 사진 || 파일 저장
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 3;
+    // max길이 보다 짧으면 멈춤
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append(
+        'chatting',
+        files![i],
+        encodeURIComponent(files![i].name),
+      );
+    }
+    // setType(() => type);
+    multerImage(formData);
 
-  const handleContr = () => {
-    modusignMutate(inProgressData!);
+    /* 파일 올린 후 혹은 삭제 후, 똑같은 파일 올릴 수 있도록,*/
+    e.target.value = '';
   };
 
-  if (modusignIsLoading || contractsIsLoading) {
+  const onClickModal = () => {
+    if (modalMessage === '자체 계약서를 전송하였습니다.') {
+      inProgressRefetch();
+    } else {
+      router.push('/company/mypage?id=0');
+    }
+  };
+  if (modusignIsLoading || contractsIsLoading || multerImageLoading) {
     return <Loader />;
   }
 
   return (
     <Wrapper>
-      {isModal && (
-        <Modal
-          click={() => router.push('/company/mypage?id=0')}
-          text={modalMessage}
+      {openSelfContract && (
+        <FileSelectModal
+          fileText="앨범에서 가져오기"
+          photoText="파일에서 가져오기"
+          cencleBtn={() => setOpenSelfContract(false)}
+          onClickFile={() => {
+            setType('FILE');
+            fileRef?.current?.click();
+          }}
+          onClickPhoto={() => {
+            setType('IMAGE');
+            imgRef?.current?.click();
+          }}
         />
       )}
+      {isModal && <Modal click={onClickModal} text={modalMessage} />}
+      {/* 이미지 input */}
+      <input
+        style={{ display: 'none' }}
+        ref={imgRef}
+        className="imageClick"
+        type="file"
+        accept="image/*"
+        onChange={saveFileImage}
+        multiple
+      />
+      {/* 파일 input */}
+      <input
+        style={{ display: 'none' }}
+        ref={fileRef}
+        className="imageClick"
+        type="file"
+        accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
+        onChange={saveFileImage}
+        multiple
+      />
       <TitleP>계약서를 작성해 주세요</TitleP>
       <P>계약 후 프로젝트가 진행됩니다.</P>
       <FlexBox>
@@ -151,7 +268,10 @@ const ComContranct = ({}: Props) => {
         </EntizenContractBox>
 
         {/* onclick 함수로 계약서 모달 띄우기 */}
-        <EntizenContractBox className="forMargin">
+        <EntizenContractBox
+          className="forMargin"
+          onClick={() => setOpenSelfContract((prev) => !prev)}
+        >
           <TextBox>
             <TitleBox>
               <Title>자체 계약서</Title>

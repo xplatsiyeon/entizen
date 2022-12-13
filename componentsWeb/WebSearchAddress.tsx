@@ -17,6 +17,7 @@ import mapPin from 'public/images/Web-MapPin.png';
 import { SlowFast } from 'pages/chargerMap';
 import WebChargerInfo from './WebChargerInfo';
 import Loader from 'components/Loader';
+import { coordinateAction } from 'store/lnglatSlice';
 
 type Props = {
   setType?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -65,9 +66,9 @@ const WebSearchAddress = ({
   fastCharger,
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
+  const [fakeWord, setFakeWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSearch, setIsSearch] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const keyWord = useDebounce(searchWord, 300);
@@ -75,14 +76,13 @@ const WebSearchAddress = ({
     (state: RootState) => state.locationList,
   );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFakeWord('');
     setSearchWord(() => e.target.value);
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     const { jibun, roadad, sggnm, sinm } = e.currentTarget.dataset;
-    // setIsSearch(true);
-    // setSearchWord(roadad!);
-    console.log('----------------------------------------');
-    console.log(roadad);
+    setFakeWord(roadad!);
+    dispatch(coordinateAction.setMark(true));
     dispatch(
       locationAction.load({
         jibunAddr: jibun,
@@ -97,6 +97,7 @@ const WebSearchAddress = ({
 
   // 처음 검색 시 배열 0번째 주소로 이동
   useEffect(() => {
+    dispatch(coordinateAction.setMark(false));
     dispatch(
       locationAction.load({
         jibunAddr: results[0]?.jibunAddr,
@@ -109,31 +110,29 @@ const WebSearchAddress = ({
 
   useEffect(() => {
     const findAddresss = async () => {
-      if (searchWord === '') {
+      if (keyWord === '') {
         setResults([]);
+        dispatch(coordinateAction.setMark(false));
       }
-      if (searchWord !== '') {
-        try {
-          setIsLoading(true);
-          let result: any = [];
-          const { data } = await axios.get(
-            `https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do?currentPage=1&countPerPage=50&keyword=${keyWord}&confmKey=${process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY}&resultType=json`,
-          );
-          const match = await data.match(/\((.*)\)/);
-          let jsonResult = await JSON.parse(match[1].toString()).results.juso;
-          await jsonResult?.map((el: any, index: number) => {
-            result.push(el);
-          });
-          setResults(result);
-          setChargeInfoOpen(false);
-          console.log(result);
-          setIsLoading(false);
-        } catch (err) {
-          console.log(err);
-        }
+      if (keyWord !== '') {
+        setIsLoading(true);
+        let result: any = [];
+        const { data } = await axios.get(
+          `https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do?currentPage=1&countPerPage=50&keyword=${keyWord}&confmKey=${process.env.NEXT_PUBLIC_ADDRESS_FIND_KEY}&resultType=json`,
+        );
+        const match = await data.match(/\((.*)\)/);
+        let jsonResult = await JSON.parse(match[1].toString()).results.juso;
+        await jsonResult?.map((el: any, index: number) => {
+          result.push(el);
+        });
+        setResults(result);
+        setChargeInfoOpen(false);
+        console.log(result);
+        setIsLoading(false);
       }
     };
     findAddresss();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyWord]);
 
@@ -143,6 +142,11 @@ const WebSearchAddress = ({
     }
   }, [searchKeyword, setSearchWord]);
 
+  useEffect(() => {
+    console.log(`searchWord ->> ${searchWord}`);
+    console.log(`fakeWord ->> ${fakeWord}`);
+  }, [searchWord, fakeWord]);
+
   return (
     <Container>
       <HeaderBox>
@@ -150,7 +154,7 @@ const WebSearchAddress = ({
         <FindAddress
           placeholder="상호명 또는 주소 검색"
           onChange={handleChange}
-          value={searchWord}
+          value={fakeWord ? fakeWord : searchWord}
         />
 
         {searchWord?.length > 0 ? (
