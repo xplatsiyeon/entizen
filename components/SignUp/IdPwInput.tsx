@@ -108,7 +108,6 @@ const IdPwInput = ({
     setErrorMessage: setModalMessage,
     setErrorModal: setIsModal,
   });
-
   // 일반 유저 회원가입 mutate
   const {
     mutate: userMutate,
@@ -116,11 +115,11 @@ const IdPwInput = ({
     error: userError,
   } = useMutation(api, {
     onSuccess: async () => {
-      console.log('성공');
-      queryClient.invalidateQueries();
       setTimeout(() => {
+        console.log('성공');
+        queryClient.invalidateQueries();
         signin();
-      }, 1000);
+      }, 2000);
 
       // router.push('/signUp/Complete');
     },
@@ -255,7 +254,7 @@ const IdPwInput = ({
   }, [data]);
 
   // 로딩처리
-  if (userLoading || companyLoading || loginLoading) {
+  if (userLoading || companyLoading) {
     // console.log('로딩중...');
     return <Loader />;
   }
