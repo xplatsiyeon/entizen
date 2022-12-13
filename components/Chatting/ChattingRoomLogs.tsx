@@ -202,6 +202,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       console.log(target);
       target?.focus();
 
+      //인풋박스로 포커스 이동
       const webInput = webInputRef.current;
       const mobInput = mobInputtRef.current;
       setTimeout(()=>{

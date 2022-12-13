@@ -66,7 +66,7 @@ export interface ChattingListResponse {
         };
         chattingRoomFavorite: {
           chattingRoomFavoriteIdx: number;
-          isFavorit: boolean;
+          isFavorite: boolean;
         };
         chattingRoomNotification: {
           chattingRoomNotificationIdx: number;
@@ -170,7 +170,6 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
   };
 
   useEffect(() => {
-    console.log('useeffect', company);
     if (typeof router.query.companyMemberId === 'string') {
       setCompany(router.query.companyMemberId);
     } else {
