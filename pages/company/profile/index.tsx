@@ -12,7 +12,6 @@ import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 const ProfileIndex = () => {
   const [component, setComponent] = useState<number>(1);
   const [tabNumber, setTabNumber] = useState<number>(7);
-  const [tabCompNumber, setTabCompNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
 
@@ -40,10 +39,8 @@ const ProfileIndex = () => {
 
         {component > 1 && (
           <>
-          <P>프로필 변경</P>
-          <HiddenBox className="hidden_comp">
-            {components[0]}
-            </HiddenBox>
+            <P>프로필 변경</P>
+            <HiddenBox className="hidden_comp">{components[0]}</HiddenBox>
           </>
         )}
         {component !== 1 && (
@@ -142,7 +139,7 @@ const WebBody = styled.div`
   }
 `;
 
-const P =styled.p`
+const P = styled.p`
   position: absolute;
   left: 0;
   top: 66pt;
@@ -155,6 +152,6 @@ const P =styled.p`
   color: #222222;
 
   @media (max-width: 899.25pt) {
-  display: none;
+    display: none;
   }
-`
+`;

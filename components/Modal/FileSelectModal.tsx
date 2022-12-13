@@ -4,20 +4,28 @@ import Phone from 'public/mypage/Phone.svg';
 import colors from 'styles/colors';
 
 interface Props {
+  fileText?: string;
   onClickFile: () => void;
+  photoText?: string;
   onClickPhoto: () => void;
   cencleBtn: () => void;
 }
 
-const FileSelectModal = ({ onClickFile, onClickPhoto, cencleBtn }: Props) => {
+const FileSelectModal = ({
+  fileText,
+  onClickFile,
+  photoText,
+  onClickPhoto,
+  cencleBtn,
+}: Props) => {
   return (
     <Wrapper>
       <Box>
         <div className="list fisrt" onClick={onClickPhoto}>
-          사진
+          {fileText ? fileText : '사진'}
         </div>
         <div className="list" onClick={onClickFile}>
-          파일
+          {photoText ? photoText : '파일'}
         </div>
       </Box>
       <BottomBtn onClick={cencleBtn}>취소</BottomBtn>
