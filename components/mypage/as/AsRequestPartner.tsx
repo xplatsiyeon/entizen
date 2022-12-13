@@ -50,9 +50,11 @@ const AsRequestPartner = ({ pb, data }: Props) => {
   const phone =
     data?.data?.afterSalesService?.afterSalesService?.project?.finalQuotation
       ?.preQuotation?.member?.phone;
+  const callPhone = hyphenFn(phone);
+
   return (
     <>
-      {modalOpen && <CallManager HandleModal={HandleModal} />}
+      {/* {modalOpen && <CallManager HandleModal={HandleModal} />} */}
 
       <Wrapper>
         <DownArrowBox>
@@ -74,12 +76,13 @@ const AsRequestPartner = ({ pb, data }: Props) => {
           </Item>
           <Item>
             <span className="name">전화번호</span>
-            <span
+            <a
+              href="tel:'callPhone'"
               className="value"
               onClick={() => nowWidth < 1200 && setModalOpen(true)}
             >
               {hyphenFn(phone)}
-            </span>
+            </a>
           </Item>
         </List>
         {/* ---------------------접수 내용-------------------- */}
@@ -262,6 +265,31 @@ const SecondList = styled.ul`
   }
 `;
 const Item = styled.li`
+  display: flex;
+  justify-content: space-between;
+  :not(:nth-of-type(1)) {
+    margin-top: 12pt;
+  }
+  .name {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+  }
+  .value {
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: left;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+  }
+  & button {
+  }
+`;
+
+const CallItem = styled.a`
   display: flex;
   justify-content: space-between;
   :not(:nth-of-type(1)) {
