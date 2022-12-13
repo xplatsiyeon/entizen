@@ -255,10 +255,10 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       return '/images/chatEntizen.png';
     } else {
       if (userChatting) {
-        console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
+        //console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
         return chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!;
       } else {
-        console.log(chattingData?.data?.userMember?.profileImageUrl!)
+        //console.log(chattingData?.data?.userMember?.profileImageUrl!)
         return chattingData?.data?.userMember?.profileImageUrl!;
       }
     }
