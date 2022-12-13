@@ -1,12 +1,9 @@
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
-import { CountertopsOutlined } from '@mui/icons-material';
 import MypageHeader from 'components/mypage/request/header';
 import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
-import ProjectInProgress from 'componentsCompany/Mypage/ProjectInProgress';
 import TopBox from 'componentsCompany/Mypage/TopBox';
 import UnderBox from 'componentsCompany/Mypage/UnderBox';
-import WriteContract from 'componentsCompany/Mypage/WriteContract';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -18,10 +15,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import Progress from '../projectProgress';
 
-// type Props = {
-//   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
-//   openSubLink: boolean;
-// };
 type Props = {};
 export interface Data {
   id: number;
@@ -138,16 +131,17 @@ const RunningProgress = (props: Props) => {
                 type={'COMPANY'}
               />
               {/* 계약서 발송 버튼 클릭 시 프로그레스 컴포넌트로 변경 */}
-              {inProgressData?.project?.contract?.documentId?.length ? (
-                // 프로젝트 진행
+              {/* 프로젝트 진행 */}
+              {inProgressData?.project?.contract?.documentId?.length! > 0 && (
                 <Progress
                   data={inProgressData!}
                   inProgressRefetch={inProgressRefetch}
                   info={data}
                   setData={setData}
                 />
-              ) : (
-                // 계약서 없는 상태
+              )}
+              {/* 계약서 없는 상태 */}
+              {inProgressData?.project?.contract?.documentId?.length! === 0 && (
                 <UnderBox
                   id={inProgressData?.project?.userMember?.memberIdx!}
                 />

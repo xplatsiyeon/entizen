@@ -6,6 +6,7 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
+import { useQuery as reactQuery } from 'react-query';
 import Loader from 'components/Loader';
 import Image from 'next/image';
 import {
@@ -29,18 +30,17 @@ const FinPage = () => {
 
   // 제휴문의 채팅방 보내기
   // 'chatting-list' 타입에러 나는데 이유를 모르겠음,
-  // const {
-  //   data: chat,
-  //   loading: chatLoading,
-  //   error: chatError,
-  //   refetch: chatRefetch,
-  // } = useQuery<ChattingListResponse>(
-  //   'chatting-list',
-  //   () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
-  // );
+  const {
+    data: chat,
+    isLoading: chatLoading,
+    error: chatError,
+    refetch: chatRefetch,
+  } = reactQuery<ChattingListResponse>('chatting-list', () =>
+    isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+  );
 
-  // const chattingRoomIdx =
-  //   chat?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
+  const chattingRoomIdx =
+    chat?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
 
   const {
     loading: projectLoading,

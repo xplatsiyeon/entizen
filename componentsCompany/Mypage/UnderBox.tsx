@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import contract from 'public/images/contract.png';
 import styled from '@emotion/styled';
