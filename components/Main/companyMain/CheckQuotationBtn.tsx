@@ -37,6 +37,7 @@ const Btn = styled.div`
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: center;
+  cursor: pointer;
 `;
 
 export default CheckQuotationBtn;
