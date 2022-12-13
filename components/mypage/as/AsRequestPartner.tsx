@@ -52,7 +52,6 @@ const AsRequestPartner = ({ pb, data }: Props) => {
       ?.preQuotation?.member?.phone;
   const callPhone = hyphenFn(phone);
 
-  console.log(phone, '뭐나ㅣ옴?');
   return (
     <>
       {/* {modalOpen && <CallManager HandleModal={HandleModal} />} */}
