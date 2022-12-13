@@ -64,7 +64,7 @@ export interface ChattingListResponse {
         };
         chattingRoomFavorite: {
           chattingRoomFavoriteIdx: number;
-          isFavorit: boolean;
+          isFavorite: boolean;
         };
         chattingRoomNotification: {
           chattingRoomNotificationIdx: number;
@@ -97,14 +97,6 @@ const Chatting = () => {
       enabled: false,
     },
   );
-
-  const onChangeKeyword = (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
-    setText(event.currentTarget.value);
-  };
-
-  const handle = () => {};
 
   useEffect(() => {
     console.log('useeffect', company);

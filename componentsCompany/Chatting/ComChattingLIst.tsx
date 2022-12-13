@@ -70,14 +70,11 @@ const ComChattingList = ({ data, refetch }: Props) => {
     isError: patchIsError,
   } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('chatting-list');
+      //queryClinet.invalidateQueries('chatting-list');
+      refetch();
     },
     onError: () => {},
   });
-
-  useEffect(()=>{
-    refetch();
-  },[])
 
   /* 드래그 조절 함수 */
   const chattingList = useRef<HTMLDivElement>(null);
@@ -169,16 +166,19 @@ const ComChattingList = ({ data, refetch }: Props) => {
       pressed = false;
     }
   };
+
+
   const onClickFavorite = (chattingRoomIdx: number) => {
     patchMutate({
       url: `/chatting/${chattingRoomIdx}/favorite`,
     });
-    refetch();
+    //refetch();
   };
   const onClickAlarm = (chattingRoomIdx: number) => {
     patchMutate({
       url: `/chatting/${chattingRoomIdx}/notification`,
     });
+    //refetch();
   };
   /* 디테일 페이지 이동 */
   const handleRoute = (chattingRoomIdx: number, entizen?:boolean) => {
@@ -200,7 +200,6 @@ const ComChattingList = ({ data, refetch }: Props) => {
   }
   };
 
-  console.log('com,list', data?.data.chattingRooms.userChattingRooms)
 
   return (
     <Body ref={chattingList}>
@@ -215,9 +214,9 @@ const ComChattingList = ({ data, refetch }: Props) => {
             <HiddenBox1>
               {/* 버튼에 즐겨찾기 설정 api함수 */}
               <FavoriteBtn
-                onClick={() => onClickFavorite(data.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.chattingRoomFavoriteIdx)}
+                onClick={() => onClickFavorite(data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx!)}
               >
-                {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorit ? (
+                {data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomFavorite?.isFavorite? (
                   <HiddenIconWrap>
                     <Image src={hiddenChecked} layout="fill" />
                   </HiddenIconWrap>
@@ -228,7 +227,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
                 )}
               </FavoriteBtn>
               {/* 버튼에 알림 설정 api함수 */}
-              <AlramBtn onClick={() => onClickAlarm(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomNotification.chattingRoomNotificationIdx)}>
+              <AlramBtn onClick={() => onClickAlarm(data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx!)}>
                 {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomNotification.isSetNotification ? (
                   <HiddenIconWrap>
                     <Image src={hiddenAlarm} layout="fill" />
@@ -242,7 +241,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
             </HiddenBox1>
             <ChattingRoom
               className="content-box"
-              onClick={() => handleRoute(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomIdx, true)}
+              onClick={() => handleRoute(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomIdx!, true)}
             >
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
@@ -265,7 +264,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
                     wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog === null ? null : true}
                   />
                   <Favorite>
-                    {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorit? (
+                    {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorite? (
                       <Image src={checked} layout="fill" />
                     ) : (
                       <Image src={unChecked} layout="fill" />
@@ -288,9 +287,9 @@ const ComChattingList = ({ data, refetch }: Props) => {
             <HiddenBox1>
               {/* 버튼에 즐겨찾기 설정 api함수 */}
               <FavoriteBtn
-                onClick={() => onClickFavorite(chatting.chattingRoomIdx)}
+                onClick={() => onClickFavorite(chatting?.chattingRoomIdx!)}
               >
-                {chatting.chattingRoomFavorite.isFavorite ? (
+                {chatting?.chattingRoomFavorite?.isFavorite ? (
                   <HiddenIconWrap>
                     <Image src={hiddenChecked} layout="fill" />
                   </HiddenIconWrap>
@@ -301,8 +300,8 @@ const ComChattingList = ({ data, refetch }: Props) => {
                 )}
               </FavoriteBtn>
               {/* 버튼에 알림 설정 api함수 */}
-              <AlramBtn onClick={() => onClickAlarm(chatting.chattingRoomIdx)}>
-                {chatting.chattingRoomNotification.isSetNotification ? (
+              <AlramBtn onClick={() => onClickAlarm(chatting?.chattingRoomIdx!)}>
+                {chatting?.chattingRoomNotification?.isSetNotification ? (
                   <HiddenIconWrap>
                     <Image src={hiddenAlarm} layout="fill" />
                   </HiddenIconWrap>

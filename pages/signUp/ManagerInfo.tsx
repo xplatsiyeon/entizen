@@ -174,12 +174,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
     }
   };
 
-  // 엔터키 이벤트
-  // const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === 'Enter') {
-  //     onClickEmail();
-  //   }
-  // };
 
   // 나이스 인증 팝업창 열기
   const fnPopup = (event: any) => {
@@ -276,7 +270,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
             placeholder="이메일 입력"
             value={email}
             setValue={setEmail}
-            // onKeyDown={onKeyPress}
           />
           <OverlapBtn
             style={{
