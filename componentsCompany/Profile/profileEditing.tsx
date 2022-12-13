@@ -123,7 +123,7 @@ const ProfileEditing = ({ setComponent, component }: Props) => {
   // useEffect(() => {
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen..kr/api/auth/nice',
+  //     url: 'https://api.entizen.kr/api/auth/nice',
   //     data: { memberType: token.memberType },
   //   })
   //     .then((res) => {
