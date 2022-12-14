@@ -84,8 +84,8 @@ const TermContent = ({
   };
 
   const onClickModal = () => {
+    router.replace('/signin');
     setIsModal(false);
-    // router.replace('/signin');
   };
 
   const justNextPage = () => {
