@@ -262,7 +262,7 @@ const ProductAddComponent = (props: Props) => {
       });
     }
   };
-  // 다음 버튼
+  // 등록 버튼
   const buttonOnClick = () => {
     if (isValid) {
       addProduct({
