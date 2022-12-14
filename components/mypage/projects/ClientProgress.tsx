@@ -179,6 +179,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         console.log(error);
       },
     });
+
   // 완료 버튼
   const { mutate: CompleteMutate, isLoading: CompleteLoading } = useMutation(
     isTokenPostApi,
