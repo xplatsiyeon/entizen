@@ -131,7 +131,8 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
               <WebItem>
                 <span className="name">수익지분</span>
                 <span className="value">
-                  {Number(data?.quotationRequest?.investRate) * 100} %
+                  {Math.floor(Number(data?.quotationRequest?.investRate) * 100)}{' '}
+                  %
                 </span>
               </WebItem>
               <WebItem>
@@ -272,7 +273,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
           <Item>
             <span className="name">수익지분</span>
             <span className="value">
-              {Number(data?.quotationRequest?.investRate) * 100} %
+              {Math.floor(Number(data?.quotationRequest?.investRate) * 100)} %
             </span>
           </Item>
           <Item>

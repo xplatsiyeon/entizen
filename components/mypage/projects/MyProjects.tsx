@@ -24,7 +24,7 @@ const MyProjects = ({ listUp }: Props) => {
   const router = useRouter();
   const [id, setId] = useState<string>();
   // -----진행중인 프로젝트 목록 리스트 api-----
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     data: projectListData,
     loading: projectListLoading,

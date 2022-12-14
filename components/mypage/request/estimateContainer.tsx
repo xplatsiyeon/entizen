@@ -82,9 +82,9 @@ const EstimateContainer = ({ data }: Props) => {
               homeSelect?.length! ? (
                 <span className="text">-</span>
               ) : (
-                <span className="text">{`${
-                  Number(data?.quotationRequest?.investRate) * 100
-                } %`}</span>
+                <span className="text">{`${Math.floor(
+                  Number(data?.quotationRequest?.investRate) * 100,
+                )} %`}</span>
               )}
             </div>
 

@@ -29,7 +29,7 @@ const ProjectInfo = () => {
   // }, [router.query.id]);
 
   // -----진행중인 프로젝트 상세 리스트 api-----
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     loading: projectLoading,
     error: projectError,
@@ -75,7 +75,7 @@ const ProjectInfo = () => {
               <MypageHeader back={true} title={'내 프로젝트'} />
               {typeof router?.query?.projectIdx === 'string' ? (
                 <>
-                <TopBox
+                  <TopBox
                     type="USER"
                     open={open}
                     setOpen={setOpen}

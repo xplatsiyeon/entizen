@@ -56,10 +56,15 @@ const NewAs = () => {
   const keyword = useDebounce(searchWord, 2000);
   // 기업 AS 리스트 보기
   const { data, isLoading, isError, error, refetch } =
-    useQuery<CompanyAsListResposne>('company-asList', () =>
-      isTokenGetApi(
-        `/after-sales-services/new?sort=${filterTypeEn}&searchKeyword=${keyword}`,
-      ),
+    useQuery<CompanyAsListResposne>(
+      'company-asList',
+      () =>
+        isTokenGetApi(
+          `/after-sales-services/new?sort=${filterTypeEn}&searchKeyword=${keyword}`,
+        ),
+      {
+        enabled: router.isReady,
+      },
     );
 
   useEffect(() => {
@@ -113,7 +118,12 @@ const NewAs = () => {
         </InputWrap>
       </Wrap>
       <List>
-        {data?.data?.newReceivedAfterSalesServices?.length! > 0 ? (
+        {/* 데이터 없을 때 */}
+        {data?.data?.newReceivedAfterSalesServices?.length! === 0 && (
+          <NoAsHistyory />
+        )}
+        {/* 데이터 있을 때 */}
+        {data?.data?.newReceivedAfterSalesServices?.length! > 0 &&
           data?.data?.newReceivedAfterSalesServices?.map((el, idx) => {
             return (
               <ListBox
@@ -141,10 +151,7 @@ const NewAs = () => {
                 </FlexWrap>
               </ListBox>
             );
-          })
-        ) : (
-          <NoAsHistyory />
-        )}
+          })}
       </List>
     </Body>
   );

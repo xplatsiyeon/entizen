@@ -22,7 +22,7 @@ type Props = {
 
 const WebHeader = ({ num, now, sub }: Props) => {
   const router = useRouter();
-  const isUser = localStorage.getItem('USER_ID');
+  const isUser = sessionStorage.getItem('USER_ID');
   const [linklist, setLinklist] = useState<boolean>(Boolean(sub));
   const [type, setType] = useState<string>('');
   const [isHovering, setIsHovered] = useState(false);
@@ -65,7 +65,9 @@ const WebHeader = ({ num, now, sub }: Props) => {
                 가이드
               </DivBox>
               <DivBox onClick={() => handleLink('/chatting')}>소통하기</DivBox>
-              <DivBox className='mypage' now={now}
+              <DivBox
+                className="mypage"
+                now={now}
                 onClick={() => {
                   setLinklist(true);
                   setType('mypage');
@@ -251,7 +253,7 @@ const ProfileMenu = styled.ul`
   }
 `;
 
-const DivBox = styled.div<{now?:string}>`
+const DivBox = styled.div<{ now?: string }>`
   margin-right: 30pt;
   display: flex;
   align-items: center;
@@ -271,8 +273,8 @@ const DivBox = styled.div<{now?:string}>`
     color: ${colors.main2};
     text-decoration: none;
   }
-  &.mypage{
-    color: ${({ now }) => (now ==='mypage' ? colors.main1 : colors.main2)};
+  &.mypage {
+    color: ${({ now }) => (now === 'mypage' ? colors.main1 : colors.main2)};
   }
 `;
 

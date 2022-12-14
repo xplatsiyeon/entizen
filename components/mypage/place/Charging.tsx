@@ -26,13 +26,13 @@ const tempProceeding: testArr[] = [];
 
 const TAG = 'components/mypage/place/Charging.tsx';
 
-type Props ={
-  listUp? : boolean;
-}
+type Props = {
+  listUp?: boolean;
+};
 
-const Charging = ({listUp}:Props) => {
+const Charging = ({ listUp }: Props) => {
   const router = useRouter();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     data: chargingData,
     loading: chargingLoading,
@@ -97,9 +97,9 @@ const Charging = ({listUp}:Props) => {
 
 export default Charging;
 
-const List = styled.ul<{listUp:boolean }>`
-  display: flex; 
-  flex-direction: ${({listUp})=> (listUp?'column':'unset')};
+const List = styled.ul<{ listUp: boolean }>`
+  display: flex;
+  flex-direction: ${({ listUp }) => (listUp ? 'column' : 'unset')};
   flex-wrap: wrap;
   margin: 30pt 0;
   padding: 15pt;

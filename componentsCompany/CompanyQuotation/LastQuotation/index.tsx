@@ -183,14 +183,14 @@ const LastWrite = (props: Props) => {
       const arr = [];
       const arrEn = [];
       // 충전기 부분 스텝 2~6
-      while (count < quotationRequest?.quotationRequestChargers?.length) {
+      while (count < quotationRequest?.quotationRequestChargers?.length!) {
         // console.log(preQuotation.preQuotationCharger.length - 2 - count);
 
         const quotationCharger =
           quotationRequest?.quotationRequestChargers[count];
         const preQutationCharger =
           preQuotation?.preQuotationCharger[
-            preQuotation?.preQuotationCharger.length - 1 - count
+            preQuotation?.preQuotationCharger?.length! - 1 - count
           ];
         // 한국어값 담기
         const temp: chargers = {
@@ -268,7 +268,7 @@ const LastWrite = (props: Props) => {
       // 충전기 부분 스텝 2~6
       while (count < finalQuotation?.finalQuotationChargers?.length!) {
         const finalQuotationCharger =
-          finalQuotation.finalQuotationChargers[count];
+          finalQuotation?.finalQuotationChargers[count];
         // 한국어값 담기
         const temp: chargers = {
           idx: M5_LIST_EN.indexOf(finalQuotationCharger.kind),
@@ -430,7 +430,7 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        maxIndex={selectedOption.length}
+        maxIndex={selectedOption.length!}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         selectedOptionEn={selectedOptionEn}
@@ -444,7 +444,7 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        maxIndex={selectedOption.length}
+        maxIndex={selectedOption.length!}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         selectedOptionEn={selectedOptionEn}
@@ -458,7 +458,7 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        maxIndex={selectedOption.length}
+        maxIndex={selectedOption.length!}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         selectedOptionEn={selectedOptionEn}
@@ -472,7 +472,7 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        maxIndex={selectedOption.length}
+        maxIndex={selectedOption.length!}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         selectedOptionEn={selectedOptionEn}
@@ -486,7 +486,7 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        maxIndex={selectedOption.length}
+        maxIndex={selectedOption.length!}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
         selectedOptionEn={selectedOptionEn}
@@ -500,7 +500,7 @@ const LastWrite = (props: Props) => {
         setTabNumber={setTabNumber}
         canNext={canNext}
         SetCanNext={SetCanNext}
-        maxIndex={selectedOption.length}
+        maxIndex={selectedOption.length!}
         selectedOptionEn={selectedOptionEn}
         setSelectedOptionEn={setSelectedOptionEn}
         BusinessRegistration={BusinessRegistration}
@@ -550,7 +550,7 @@ const LastWrite = (props: Props) => {
                   <TabBox>
                     {Object.keys(components).map((tab, index) => (
                       <React.Fragment key={index}>
-                        {index <= selectedOption.length + 1 && (
+                        {index <= selectedOption?.length! + 1 && (
                           <TabLine
                             idx={index.toString()}
                             num={tabNumber.toString()}

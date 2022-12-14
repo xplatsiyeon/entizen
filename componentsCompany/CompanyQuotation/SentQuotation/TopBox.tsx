@@ -40,7 +40,7 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
     data?.sendQuotationRequest.quotationRequest.etcRequest,
     '39번째줄',
   );
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   return (
     <Wrapper>
@@ -93,11 +93,11 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
             <div className="text-box">
               <span className="name">수익지분</span>
               <span className="text">
-                {`${
+                {`${Math.floor(
                   Number(
                     data?.sendQuotationRequest?.quotationRequest?.investRate!,
-                  ) * 100
-                } %`}
+                  ) * 100,
+                )} %`}
               </span>
             </div>
             {/* <div className="text-box">

@@ -42,7 +42,7 @@ const WebBuyerHeader = ({
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
   const router = useRouter();
-  const isUser = localStorage.getItem('USER_ID');
+  const isUser = sessionStorage.getItem('USER_ID');
 
   const logout = () => {
     handleLogoutOnClickModalClick()

@@ -36,7 +36,7 @@ const AsCompTop = ({ id, data }: Props) => {
   const projectIdx =
     data?.data?.afterSalesService?.afterSalesService?.projectIdx;
 
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     loading: projectLoading,
     error: projectError,

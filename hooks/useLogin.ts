@@ -32,17 +32,17 @@ function useLogin({
   } = useMutation(isTokenPostApi, {
     onSuccess: async (res) => {
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
-      localStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-      localStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-      localStorage.setItem(
+      sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+      sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
+      sessionStorage.setItem(
         'ACCESS_TOKEN',
         JSON.stringify(res.data.accessToken),
       );
-      localStorage.setItem(
+      sessionStorage.setItem(
         'REFRESH_TOKEN',
         JSON.stringify(res.data.refreshToken),
       );
-      localStorage.setItem('USER_ID', JSON.stringify(userId));
+      sessionStorage.setItem('USER_ID', JSON.stringify(userId));
       dispatch(originUserAction.set(userId));
       await router.push('/');
     },

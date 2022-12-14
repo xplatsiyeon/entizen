@@ -32,7 +32,7 @@ import MainSlider from 'components/MainSlider';
 const Main = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const ACCESS_TOKEN = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const [text, setText] = useState('');
   const [isModal, setIsModal] = useState(false);
 
@@ -119,7 +119,7 @@ const Main = () => {
         <Image src={main6} alt="사진" />
         {/* 전기차 슬라이드 */}
         {/* <MainSlider /> */}
-        <MainSlider/>
+        <MainSlider />
         <Image src={main8} alt="사진" />
         <Wrap onClick={() => router.push('/signUp/Terms')}>
           <Image src={main9} alt="사진" />

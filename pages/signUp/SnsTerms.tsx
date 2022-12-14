@@ -72,7 +72,7 @@ const SignUpTerms = () => {
   };
 
   const handleForceClick = async () => {
-    let key = localStorage.getItem('key');
+    let key = sessionStorage.getItem('key');
     if (key !== null) {
       let a = JSON.parse(key);
       dispatch(

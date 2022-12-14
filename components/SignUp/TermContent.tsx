@@ -69,7 +69,7 @@ const TermContent = ({
     }
   };
   const handleForceClick = () => {
-    let key = localStorage.getItem('key');
+    let key = sessionStorage.getItem('key');
     if (key !== null) {
       let data = JSON.parse(key);
       setName(data.name);

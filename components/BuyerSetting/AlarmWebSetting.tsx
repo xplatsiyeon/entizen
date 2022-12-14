@@ -15,7 +15,7 @@ type Props = {
 const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   const router = useRouter();
   // 유저인지 회사인지
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [checked, setChecked] = useState({
     appPush: false,
     kakao: false,

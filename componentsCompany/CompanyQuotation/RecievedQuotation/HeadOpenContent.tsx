@@ -491,7 +491,7 @@ const HeadOpenContent = () => {
                       <div className="text-box">
                         <span className="name">수익지분</span>
                         <span className="text">
-                          {`${Number(investRate!) * 100} %`}
+                          {`${Math.floor(Number(investRate!) * 100)} %`}
                         </span>
                       </div>
                       {quotationRequestChargers?.map((item, index) => (
