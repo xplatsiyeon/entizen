@@ -241,7 +241,7 @@ const LastWrite = (props: Props) => {
         convertKo(
           subscribeType,
           subscribeTypeEn,
-          finalQuotation.subscribeProduct,
+          finalQuotation?.subscribeProduct,
         ),
       );
       setSubscribePeriod(finalQuotation.subscribePeriod.toString());

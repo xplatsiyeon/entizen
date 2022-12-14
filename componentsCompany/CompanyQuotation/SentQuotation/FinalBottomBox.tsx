@@ -233,11 +233,11 @@ const FinalBottomBox = ({ pb, data }: Props) => {
       <Section grid={true}>
         <Subtitle>충전기 이미지</Subtitle>
         <GridImg>
-          {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
+          {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.finalQuotationChargers?.map(
             (item, index) => (
-              <React.Fragment key={item.preQuotationChargerIdx}>
-                {item.chargerImageFiles.map((img, index) => (
-                  <GridItem key={img.chargerProductFileIdx}>
+              <React.Fragment key={item?.finalQuotationChargerIdx! + index}>
+                {item?.chargerImageFiles?.map((img, index) => (
+                  <GridItem key={img?.finalQuotationChargerIdx + index}>
                     <Image
                       src={img.url}
                       alt="img-icon"
@@ -256,11 +256,11 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         {/* 여기에 충전기 카탈로그 + 사업자 등록증 같이 나와야함 */}
         <Subtitle>첨부 파일</Subtitle>
         {/* 충전기 카탈로그 불러옴 */}
-        {data?.sendQuotationRequest?.preQuotation?.preQuotationCharger?.map(
+        {data?.sendQuotationRequest?.preQuotation?.finalQuotation?.finalQuotationChargers?.map(
           (item, index) => (
-            <React.Fragment key={item.preQuotationChargerIdx}>
-              {item.catalogFiles.map((file, index) => (
-                <FileDownloadBtn key={file.chargerProductFileIdx}>
+            <React.Fragment key={item?.finalQuotationChargerIdx! + index}>
+              {item?.catalogFiles?.map((file, index) => (
+                <FileDownloadBtn key={file?.finalQuotationChargerIdx + index}>
                   <FileDownload
                     // onClick={DownloadFile}
                     download={file.originalName}
