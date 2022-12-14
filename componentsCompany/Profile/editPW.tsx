@@ -157,7 +157,7 @@ const EditPW = ({ setComponent }: Props) => {
           handle={setComponent ? true : undefined}
           back={true}
           title={'비밀번호 변경'}
-          handleOnClick={setComponent ? () => setComponent(1) : undefined}
+          handleOnClick={setComponent ? () => setComponent(2) : undefined}
         />
       </Wrap>
 
