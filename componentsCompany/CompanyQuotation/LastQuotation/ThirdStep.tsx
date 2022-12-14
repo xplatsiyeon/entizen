@@ -22,6 +22,7 @@ import { BusinessRegistrationType } from 'components/SignUp';
 import { convertEn, getByteSize } from 'utils/calculatePackage';
 import { subscribeType, subscribeTypeEn } from 'assets/selectList';
 import { BusinessRegistrationFiles } from '../SentQuotation/SentProvisionalQuoatation';
+import Loader from 'components/Loader';
 
 type Props = {
   tabNumber: number;
@@ -331,36 +332,39 @@ const ThirdStep = ({
                 onChange={saveFile}
                 multiple
               />
-
               {/* <File_Preview> */}
-              <div className="file-preview">
-                {BusinessRegistration?.map((item, index) => (
-                  <FileBox key={index} data-name={index}>
-                    <div className="file">
-                      <div className="file-img">
-                        <Image src={FileText} alt="file-icon" />
-                      </div>
-                      <div className="file-data">
-                        <FileName>{item.originalName}</FileName>
-                        <span className="file-size">{`용량 ${getByteSize(
-                          item.size,
-                        )}`}</span>
-                      </div>
-                      <div
-                        className="file-exit"
-                        onClick={handleFileDelete}
-                        data-name={index}
-                      >
-                        <Image
-                          src={CloseImg}
+              {multerFileLoading ? (
+                <Loader type="images" />
+              ) : (
+                <div className="file-preview">
+                  {BusinessRegistration?.map((item, index) => (
+                    <FileBox key={index} data-name={index}>
+                      <div className="file">
+                        <div className="file-img">
+                          <Image src={FileText} alt="file-icon" />
+                        </div>
+                        <div className="file-data">
+                          <FileName>{item.originalName}</FileName>
+                          <span className="file-size">{`용량 ${getByteSize(
+                            item.size,
+                          )}`}</span>
+                        </div>
+                        <div
+                          className="file-exit"
+                          onClick={handleFileDelete}
                           data-name={index}
-                          alt="closeBtn"
-                        />
+                        >
+                          <Image
+                            src={CloseImg}
+                            data-name={index}
+                            alt="closeBtn"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </FileBox>
-                ))}
-              </div>
+                    </FileBox>
+                  ))}
+                </div>
+              )}
             </PhotosBoxs>
           </RemainderInputBoxs>
           <TwoBtn>

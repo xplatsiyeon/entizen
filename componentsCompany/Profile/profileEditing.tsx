@@ -123,7 +123,7 @@ const ProfileEditing = ({ setComponent, component }: Props) => {
   // useEffect(() => {
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType: token.memberType },
   //   })
   //     .then((res) => {
@@ -370,7 +370,7 @@ const InputBtn = styled.button`
   top: 50%;
   transform: translateY(-50%);
   margin-top: 4.5pt;
-  background: #e2e5ed;
+  background: #5221cb;
   border-radius: 6pt;
   padding: 7.5pt 9pt;
   cursor: pointer;

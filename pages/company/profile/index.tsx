@@ -8,6 +8,7 @@ import EditPW from 'componentsCompany/Profile/editPW';
 import SignUpManagerInfo from 'pages/signUp/ManagerInfo';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import EditAddress from 'componentsCompany/Profile/editAddress';
 
 const ProfileIndex = () => {
   const [component, setComponent] = useState<number>(1);
@@ -20,6 +21,7 @@ const ProfileIndex = () => {
     <EditPW setComponent={setComponent} />, // 비밀번호 변경
     <EditCertificate setComponent={setComponent} />, // 사업자 번호 변경
     <SignUpManagerInfo setComponent={setComponent} />, // 담당자 정보 변경
+    <EditAddress setComponent={setComponent} />,
   ];
   console.log('component', component);
 
