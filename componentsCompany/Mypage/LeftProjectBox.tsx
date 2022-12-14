@@ -117,7 +117,7 @@ const LeftProjectBox = ({
         <Body>
           <span
             className="profile-icon"
-            onClick={() => router.push('profile/editing')}
+            onClick={() => router.push('/company/profile')}
           >
             프로필 변경
           </span>

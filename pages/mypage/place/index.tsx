@@ -98,16 +98,6 @@ const ChargingPlace = () => {
     },
   });
 
-  const handleRoute = (idx: string) => {
-    //mob일 때 router.push();
-    router.push({
-      pathname: '/mypage/place',
-      query: {
-        id: idx,
-      },
-    });
-  };
-
   if (chargingLoading) {
     return <Loader />;
   }
@@ -128,7 +118,7 @@ const ChargingPlace = () => {
   return (
     <>
       <Body bgColor={open}>
-        <WebHeader num={3} now={'mypage'} sub={true} />
+        <WebHeader num={3} now={'mypage'}  />
         <UserRightMenu />
         <Inner>
           <FlexBox>

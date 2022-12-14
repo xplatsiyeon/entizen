@@ -122,6 +122,11 @@ const changeDate = () => {
               SetSelectedDays={SetSelectedDays}
               selected={spotData?.data.spotInspection.spotInspectionDate}
             />
+
+            <NoticeP>
+            * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며, 담당자로부터 현장사진을 요청받을 수 있습니다.
+            </NoticeP>
+
             <UL className="ex-date">
               <ReSelectDate>기존 일정</ReSelectDate>
               {spotData?.data.spotInspection.spotInspectionDate.map(
@@ -241,10 +246,10 @@ const UL = styled.ul`
 
   &.ex-date {
     padding: 24pt 15pt 20pt;
+    border-top: 0.75pt solid #E9EAEE;
 
     @media (max-width: 899.25pt) {
-      padding: 24pt 15pt 20pt;
-      padding-bottom: 70pt;
+      padding: 24pt 15pt 0pt;
     }
   }
   li {
@@ -366,3 +371,17 @@ const WebSelectHeader = styled.div`
     display: none;
   }
 `;
+
+const NoticeP = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10pt;
+  line-height: 18pt;
+  letter-spacing: -0.02em;
+  color: #A6A9B0;
+  padding: 33pt 15pt 30pt;
+  @media (max-width: 899.25pt) {
+  padding: 18pt 15pt 18pt;
+  }
+`
