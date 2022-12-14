@@ -155,18 +155,19 @@ const ChangeDateModal = ({
     setContents(e.currentTarget.value);
   };
   // 목표일 변경
-  const onClickGoalDate = () => { if(!selectedDays){
-    alert('날짜를 선택해주세요')
-  }else{
-    goalMutate({
-      url: `/projects/${routerId}/goal-date`,
-      data: {
-        projectStep: stepType,
-        changedReason: contents,
-        goalDate: selectedDays?.replaceAll('.', '-'),
-      },
-    });
-  }
+  const onClickGoalDate = () => {
+    if (!selectedDays) {
+      alert('날짜를 선택해주세요');
+    } else {
+      goalMutate({
+        url: `/projects/${routerId}/goal-date`,
+        data: {
+          projectStep: stepType,
+          changedReason: contents,
+          goalDate: selectedDays?.replaceAll('.', '-'),
+        },
+      });
+    }
   };
 
   useEffect(() => {
@@ -279,11 +280,13 @@ const Pagenation = styled.div`
   display: flex;
   justify-content: center;
   .left-btn {
+    cursor: pointer;
     position: relative;
     width: 12pt;
     height: 12pt;
   }
   .right-btn {
+    cursor: pointer;
     position: relative;
     width: 12pt;
     height: 12pt;
@@ -329,6 +332,7 @@ const Days = styled.div`
   flex-wrap: wrap;
   width: 100%;
   padding-bottom: 30pt;
+  cursor: pointer;
 `;
 const Day = styled.div<{ selectedDay?: boolean }>`
   display: flex;
