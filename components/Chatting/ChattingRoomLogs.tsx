@@ -80,7 +80,7 @@ export interface ChattingResponse {
 
 type Props = {
   userChatting: boolean;
-  listRefetch :() => Promise<QueryObserverResult<ChattingListResponse>>;
+  listRefetch: () => Promise<QueryObserverResult<ChattingListResponse>>;
 };
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
@@ -106,11 +106,12 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   const logs = useRef<HTMLDivElement>(null);
   const webInputRef = useRef<HTMLInputElement>(null);
-  const mobInputtRef = useRef<HTMLInputElement>(null);
+  const mobInputRef = useRef<HTMLInputElement>(null);
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
   const focusRef = useRef<HTMLInputElement>(null);
+
 
   //   채팅방 내용 보기
   const {
@@ -153,27 +154,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     },
   });
 
-  useLayoutEffect(() => {
-    //window.scrollTo(0, document.body.scrollHeight);
-    const target = focusRef.current;
-    if(target){
-      target.focus();
-
-      //인풋박스로 포커스 이동
-      const webInput = webInputRef.current;
-      const mobInput = mobInputtRef.current;
-      setTimeout(()=>{
-        if(webInput){
-          webInput.focus();
-        }
-        if(mobInput){
-          mobInput.focus()
-        }
-      }, 100)
-      } 
-    // target?.focus();
-    listRefetch();
-  }, [data]); 
 
   // 인풋 텍스트 입력
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -250,7 +230,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     }
   };
 
-  const handleImg =()=>{
+  const handleImg = () => {
     if (router.query.entizen) {
       return '/images/chatEntizen.png';
     } else {
@@ -268,13 +248,13 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     //오전, 오후로 나누기
     const h = dayjs(st).get('h');
     if (Number(h) > 12) {
-      const pm = dayjs(st).subtract(12,'h').format('HH:mm');
+      const pm = dayjs(st).subtract(12, 'h').format('HH:mm');
       return `오후 ${pm}`;
-    }else if(Number(h) === 12){
+    } else if (Number(h) === 12) {
       const pm12 = dayjs(st).format('HH:mm')
       return `오후 ${pm12}`
     }
-     else {
+    else {
       const am = dayjs(st).format('HH:mm')
       return `오전 ${am}`;
     }
@@ -294,7 +274,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         data: {
           content: null,
           files: [{
-            type : 'IMAGE',
+            type: 'IMAGE',
             url: res.uploadedFiles[0].url,
             size: res.uploadedFiles[0].size,
             originalName: decodeURIComponent(res.uploadedFiles[0].originalName)
@@ -333,7 +313,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         data: {
           content: null,
           files: [{
-            type : 'FILE',
+            type: 'FILE',
             url: res.uploadedFiles[0].url,
             size: res.uploadedFiles[0].size,
             originalName: decodeURIComponent(res.uploadedFiles[0].originalName)
@@ -360,35 +340,37 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target; if(!(files?.length)){setFileModal(false)
-    }else{
-    const formData = new FormData();
-    formData.append(
-      'chatting',
-      files![0],
-      encodeURIComponent(files![0].name),
-    );
-    multerFile(formData);
-    setLoading(true);
-    e.target.value ='';
-  };
-}
+    const { files } = e.target; if (!(files?.length)) {
+      setFileModal(false)
+    } else {
+      const formData = new FormData();
+      formData.append(
+        'chatting',
+        files![0],
+        encodeURIComponent(files![0].name),
+      );
+      multerFile(formData);
+      setLoading(true);
+      e.target.value = '';
+    };
+  }
 
   //이미지저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    if(!(files?.length)){setFileModal(false)
-    }else{
-    const formData = new FormData();
-    formData.append(
-      'chatting',
-      files![0],
-      encodeURIComponent(files![0].name),
-    );
-    multerImage(formData);
-    setLoading(true)
-    e.target.value ='';
-   }
+    if (!(files?.length)) {
+      setFileModal(false)
+    } else {
+      const formData = new FormData();
+      formData.append(
+        'chatting',
+        files![0],
+        encodeURIComponent(files![0].name),
+      );
+      multerImage(formData);
+      setLoading(true)
+      e.target.value = '';
+    }
   };
 
 
@@ -402,8 +384,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   };
 
 
-  useEffect(()=>{
-    if(loading){
+  useEffect(() => {
+    if (loading) {
       loadingRef.current?.focus();
     }
   }, [loading])
@@ -456,15 +438,47 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       });
       //   console.log('temp', temp);
       setData(temp);
-      if(loading){
-        console.log('? 로딩켜져있어서 끈다')
-        setLoading(false)}
+
+
+
+
+      if (loading) {
+        setLoading(false);
+        console.log('img')
+        setTimeout(() => {
+          focusRef.current?.focus();
+
+          if (webInputRef.current) {
+            webInputRef.current.focus();
+          }
+          if (mobInputRef.current) {
+            mobInputRef.current.focus();
+          }
+        }, 300)  
+      } else {
+        console.log('chat')
+        setTimeout(() => {
+          focusRef.current?.focus();
+
+          if (webInputRef.current) {
+            webInputRef.current.focus();
+          }
+          if (mobInputRef.current) {
+            mobInputRef.current.focus();
+          }
+        }, 100)
+      }
+
+      listRefetch();
     }
+
+
   }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
+
 
   return (
     <Body ref={logs}>
-    {isModal && <Modal click={()=>setIsModal(false)} text={errorMessage} />}
+      {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
       <TopBox>
         <MypageHeader
           back={true}
@@ -480,10 +494,10 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
               <Image src={stopAlarm} layout="fill" />
             )}
           </IconWrap>
-          { router.query.entizen ? null :
-          <IconWrap onClick={() => setMoreModal(true)}>
-            <Image src={moreBtn} layout="fill" />
-          </IconWrap>
+          {router.query.entizen ? null :
+            <IconWrap onClick={() => setMoreModal(true)}>
+              <Image src={moreBtn} layout="fill" />
+            </IconWrap>
           }
         </IconBox>
         {moreModal && (
@@ -494,82 +508,85 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         )}
       </TopBox>
       <Inner>
-        {data.map((d, idx) => {
-          return (
-            <DateChatting key={idx}>
-              <Date>{d.date}</Date>
-              <List>
-                {d.logs.map((item, idx) => {
-                  if (item.messageType === 'SYSTEM') {
-                    return;
-                  } else {
-                    return (
-                      <ChatBox
-                        userChatting={userChatting}
-                        key={item.chattingLogIdx}
-                        className={`${item.fromMemberType === 'USER' ? 'user' : 'company'
-                          } chattingLog`}
-                        tabIndex={1}  
-                      >
-                          <ImageWrap className={item.fromMemberType === 'USER'? 'user' : 'company'} userChatting={userChatting}>
-                            { handleImg()? <img src={handleImg()}/> :
-                              <Image src={defaultImg} layout="fill" />}
-                          </ImageWrap>
-                        {item.content && (
-                          <Chat
+        <div className='wrap'>
+          {data.map((d, idx) => {
+            return (
+              <DateChatting key={idx}>
+                <Date>{d.date}</Date>
+                <List>
+                  {d.logs.map((item, idx) => {
+                    if (item.messageType === 'SYSTEM') {
+                      return;
+                    } else {
+                      return (
+                        <Wrap>
+                          <ChatBox
                             userChatting={userChatting}
-                            className={`${item.fromMemberType === 'USER'
-                                ? 'user'
-                                : 'company'
-                              }`}
-                            tabIndex={1}  
+                            className={`${item.fromMemberType === 'USER' ? 'user' : 'company'
+                              } chattingLog`}
                           >
-                            {item.content}
-                          </Chat>
-                        )}
-                        {item.messageType === 'FILE' && 
-                        <File>
-                           <FileDownload
-                            // onClick={DownloadFile}
-                            href={item?.fileUrl!}
-                            download={item?.fileOriginalName!}
-                            type={'blob'}
-                          >
-                            <Image src={fileImg} alt="file-icon" layout="intrinsic"/>
-                            {item?.fileOriginalName}
-                          </FileDownload>
-                        </File>
-                        }
+                            <ImageWrap className={item.fromMemberType === 'USER' ? 'user' : 'company'} userChatting={userChatting}>
+                              {handleImg() ? <img src={handleImg()} /> :
+                                <Image src={defaultImg} layout="fill" />}
+                            </ImageWrap>
+                            {item.content && (
+                              <Chat
+                                userChatting={userChatting}
+                                className={`${item.fromMemberType === 'USER'
+                                  ? 'user'
+                                  : 'company'
+                                  }`}
+                              //tabIndex={1}  
+                              >
+                                {item.content}
+                              </Chat>
+                            )}
+                            {item.messageType === 'FILE' &&
+                              <File>
+                                <FileDownload
+                                  // onClick={DownloadFile}
+                                  href={item?.fileUrl!}
+                                  download={item?.fileOriginalName!}
+                                  type={'blob'}
+                                >
+                                  <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+                                  {item?.fileOriginalName}
+                                </FileDownload>
+                              </File>
+                            }
 
-                        {item.messageType === 'IMAGE' && 
-                        <>
-                           <FileDownload
-                            href={item?.fileUrl!}
-                            download={item?.fileOriginalName!}
-                            type={'blob'}
-                          >
-                            <img src={item?.fileUrl!} style={{width: '112.5pt', maxHeight: '150pt', objectFit:'scale-down', background:'#0000001c'}}/>
-                          </FileDownload>
-                         {/* <div className='chattingLog' tabIndex={1} style={{width:'1pt', height:'1pt', position:'absolute', bottom:'-50pt'}}></div> */}
-                        </>
-                        }   
-                        <MessageDate>{handleTime(item.createdAt)}</MessageDate>
-                      </ChatBox>
-                    );
-                  }
-                })}
-              </List>
-            </DateChatting>
-          );
-        })}
-    { loading && 
-      <LoadingWrap tabIndex={1} ref={loadingRef}>
-      <img src="/images/loading.gif" alt="" className='loading'/>
-      </LoadingWrap>
-    }
+                            {item.messageType === 'IMAGE' &&
+                              <>
+                                <FileDownload
+                                  href={item?.fileUrl!}
+                                  download={item?.fileOriginalName!}
+                                  type={'blob'}
+                                >
+                                  <img src={item?.fileUrl!} style={{ width: '112.5pt', maxHeight: '150pt', objectFit: 'scale-down', background: '#0000001c' }} />
+                                </FileDownload>
+                              </>
+                            }
+                            <MessageDate>{handleTime(item.createdAt)}</MessageDate>
+                          </ChatBox>
+                        </Wrap>
+                      );
+                    }
+                  })}
+                </List>
+              </DateChatting>
+            );
+          })}
+
+          {loading &&
+            <LoadingWrap tabIndex={1} ref={loadingRef}>
+              <img src="/images/loading.gif" alt="" className='loading' />
+            </LoadingWrap>
+          }
+          <FocusBox tabIndex={1} ref={focusRef} className='target' />
+        </div>
+
       </Inner>
 
-      <FocusBox tabIndex={1} ref={focusRef}/>
       <BottomBox ref={mobBox}>
         <FlexBox onSubmit={onSubmitText}>
           <AddBtn onClick={handleButton}>
@@ -579,7 +596,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             placeholder="메세지를 입력하세요"
             value={text}
             onChange={onChangeText}
-            ref={mobInputtRef}
+            ref={mobInputRef}
           />
           <IconWrap2>
             <Image src={send} layout="fill" />
@@ -587,10 +604,10 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         </FlexBox>
         <div className="hidden">
           <IconWrap3 onClick={imgHandler}>
-            <Image src={chatPhotoAdd} layout="fill"/></IconWrap3>
-          <IconWrap3><Image src={chatCamera} layout="fill"/></IconWrap3>
+            <Image src={chatPhotoAdd} layout="fill" /></IconWrap3>
+          <IconWrap3><Image src={chatCamera} layout="fill" /></IconWrap3>
           <IconWrap3 onClick={fileHandler}>
-            <Image src={chatFileAdd} layout="fill"/></IconWrap3>
+            <Image src={chatFileAdd} layout="fill" /></IconWrap3>
         </div>
       </BottomBox>
       <WebBottomBox ref={webBox}>
@@ -638,7 +655,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
       )}
       {/* 나가기 모달 제어 */}
-      {quitModal && <QuitModal setModal={setQuitModal} deleteId={Number(routerId)}/>}
+      {quitModal && <QuitModal setModal={setQuitModal} deleteId={Number(routerId)} />}
     </Body>
   );
 };
@@ -798,18 +815,22 @@ const Inner = styled.div`
   padding-top: 36pt;
   height: 83vh;
   overflow-y: scroll;
+  .wrap{
+    position: relative;
+  }
   @media (min-width: 900pt) {
     margin-top: 105pt;
-    height: 320pt;
+    height: 350pt;
     overflow-y: scroll;
     padding: 0;
   }
 `;
 const LoadingWrap = styled.div`
 position: absolute;
-right: 0;
 width: 112.5pt;
 height: 112.5pt;
+right: 0;
+
 
 &:focus {
   outline: none;
@@ -823,6 +844,9 @@ top: 50%;
 left: 50%;
 transform: translate(-50%,-50%);
 }
+`
+const Wrap = styled.div`
+  
 `
 
 const DateChatting = styled.div`
@@ -887,9 +911,6 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
   margin-bottom: 9pt;
   gap: 6pt;
 
-  &:focus {
-  outline: none;
-}
   &.user {
     flex-direction: ${({ userChatting }) =>
     userChatting ? 'row-reverse' : 'row'};
@@ -899,7 +920,7 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
     userChatting ? 'row' : 'row-reverse'};
   }
 `;
-const ImageWrap = styled.div<{userChatting : boolean}>`
+const ImageWrap = styled.div<{ userChatting: boolean }>`
   width: 36pt;
   height: 36pt;
   position: relative;
@@ -910,10 +931,10 @@ const ImageWrap = styled.div<{userChatting : boolean}>`
     width: 100%;
   }
   &.user{
-    display: ${({userChatting})=> userChatting ? 'none' : 'block'};
+    display: ${({ userChatting }) => userChatting ? 'none' : 'block'};
   }
   &.company{
-    display: ${({userChatting})=> userChatting ? 'block' : 'none'}
+    display: ${({ userChatting }) => userChatting ? 'block' : 'none'}
   }
 `;
 
@@ -968,6 +989,14 @@ const IconWrap3 = styled(IconWrap2)`
 `
 const FocusBox = styled.div`
   width: 100%;
-  height: 40pt;
-  margin: 10pt 0;
+  height: 20pt;
+  position: relative;
+&:focus {
+outline: none;
+}
+
+@media (max-width: 899.25pt) {
+  height: 5pt;
+  }
 `
+

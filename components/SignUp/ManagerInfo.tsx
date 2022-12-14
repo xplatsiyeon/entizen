@@ -64,18 +64,19 @@ const ManagerInfo = ({
       let data = JSON.parse(key);
       setName(data.name);
       setPhoneNumber(data.phone);
-      if (data.isMember) {
+      if (data.isMember === true) {
         setIsModal(true);
         setModalMessage('이미 회원가입 하셨습니다.');
+      } else if (data.isMember === false) {
+        setLevel(level + 1);
       }
-      setLevel(level + 1);
     }
   };
   const onClickModal = () => {
-    setIsModal(false);
     if (modalMessage === '이미 회원가입 하셨습니다.') {
       router.replace('/signin');
     }
+    setIsModal(false);
   };
   // email 상태
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
