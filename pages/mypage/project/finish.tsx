@@ -70,32 +70,32 @@ const FinPage = () => {
   }
 
   console.log(projectData?.project?.isApprovedByAdmin);
-  const HandleOnClick = () => {
-    if (type === 'commu') {
-      const id = projectData?.project.companyMember.memberIdx;
-      router.push(`/chatting/${id}`);
-    } else {
-      router.push('/mypage');
-    }
-  };
-
-  //  'chatting-list' 타입에러 해결하면 이걸로 onClick링크 이동
   // const HandleOnClick = () => {
   //   if (type === 'commu') {
   //     const id = projectData?.project.companyMember.memberIdx;
   //     router.push(`/chatting/${id}`);
-  //   } else if (projectData?.project?.isApprovedByAdmin === false) {
-  //     router.push({
-  //       pathname: `/chatting/chattingRoom`,
-  //       query: {
-  //         chattingRoomIdx: chattingRoomIdx,
-  //         entizen: true,
-  //       },
-  //     });
   //   } else {
   //     router.push('/mypage');
   //   }
   // };
+
+  //  'chatting-list' 타입에러 해결하면 이걸로 onClick링크 이동
+  const HandleOnClick = () => {
+    if (type === 'commu') {
+      const id = projectData?.project.companyMember.memberIdx;
+      router.push(`/chatting/${id}`);
+    } else if (projectData?.project?.isApprovedByAdmin === false) {
+      router.push({
+        pathname: `/chatting/chattingRoom`,
+        query: {
+          chattingRoomIdx: chattingRoomIdx,
+          entizen: true,
+        },
+      });
+    } else {
+      router.push('/mypage');
+    }
+  };
 
   let title: string;
   let date: string;

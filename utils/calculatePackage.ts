@@ -177,11 +177,11 @@ export const dateFomat = (date: string) => {
     const beforeDate = new Date(date);
     const offset = beforeDate.getTimezoneOffset() * 60000;
     const dateOffset = new Date(beforeDate.getTime() - offset).toISOString();
-    console.log('dateOffset', dateOffset);
+    // console.log('dateOffset', dateOffset);
     const year = dateOffset.replace(/-/g, ' .').slice(0, 12);
-    console.log('year', year);
+    // console.log('year', year);
     const time = dateOffset.slice(11, 16);
-    console.log('time', time);
+    // console.log('time', time);
     result = year + ' ' + time;
   }
   return result;

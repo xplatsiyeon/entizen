@@ -42,6 +42,10 @@ const ComAsIndex = ({ num, now }: Props) => {
   }, [router]);
 
   useEffect(() => {
+    console.log(tabNumber);
+  }, [tabNumber]);
+
+  useEffect(() => {
     if (route.query.id !== undefined) {
       setTabNumber(Number(route.query.id));
     } /*else if( !(route.query.id) && (route.pathname === '/mypage')){ 

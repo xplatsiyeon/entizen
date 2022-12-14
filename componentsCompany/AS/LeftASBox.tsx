@@ -11,6 +11,7 @@ import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
 import NewASUnder from './NewASUnder';
 import NoAsHistyory from './noAsHistrory';
 import AsHistoryUnder from './AsHistoryUnder';
+import { useQueryClient } from 'react-query';
 
 type Props = {
   num?: number;
@@ -30,6 +31,7 @@ const LeftASBox = ({
   setComponentId,
 }: Props) => {
   const route = useRouter();
+  const queryClient = useQueryClient();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const TabType: string[] = ['신규 A/S', '히스토리'];
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
