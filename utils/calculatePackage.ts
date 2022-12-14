@@ -138,33 +138,51 @@ export const originDateFomat = (date: string) => {
   return result;
 };
 
+// export const dateFomat = (date: string) => {
+//   let result = '';
+//   let minute = '';
+//   let joinText = '';
+//   if (date) {
+//     const beforeDate = new Date(date);
+//     const newDate = new Intl.DateTimeFormat('ko-KR', {
+//       year: 'numeric',
+//       month: 'numeric',
+//       day: 'numeric',
+//       hour: 'numeric',
+//       minute: 'numeric',
+//       second: 'numeric',
+//       hour12: false,
+//       timeZone: 'asia/seoul',
+//     })?.format(beforeDate);
+
+//     if (newDate) {
+//       result = newDate.replace('시', ':').slice(0, -8);
+//       minute = newDate.slice(18, 20);
+//       if (minute.indexOf('분') === 1) {
+//         newDate.slice(18, 19);
+//         minute = '0' + newDate.slice(18, 19);
+//       }
+
+//       joinText = result + minute;
+//     }
+//   }
+//   return joinText;
+// };
+
 export const dateFomat = (date: string) => {
   let result = '';
-  let minute = '';
-  let joinText = '';
   if (date) {
+    //ms단위라 60000곱해줌
+    result = date;
     const beforeDate = new Date(date);
-    const newDate = new Intl.DateTimeFormat('ko-KR', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: false,
-      timeZone: 'asia/seoul',
-    })?.format(beforeDate);
-
-    if (newDate) {
-      result = newDate.replace('시', ':').slice(0, -8);
-      minute = newDate.slice(18, 20);
-      if (minute.indexOf('분') === 1) {
-        newDate.slice(18, 19);
-        minute = '0' + newDate.slice(18, 19);
-      }
-
-      joinText = result + minute;
-    }
+    const offset = beforeDate.getTimezoneOffset() * 60000;
+    const dateOffset = new Date(beforeDate.getTime() - offset).toISOString();
+    console.log('dateOffset', dateOffset);
+    const year = dateOffset.replace(/-/g, ' .').slice(0, 12);
+    console.log('year', year);
+    const time = dateOffset.slice(11, 16);
+    console.log('time', time);
+    result = year + ' ' + time;
   }
-  return joinText;
+  return result;
 };

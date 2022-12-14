@@ -50,6 +50,8 @@ const AsRequestPartner = ({ pb, data }: Props) => {
   const phone =
     data?.data?.afterSalesService?.afterSalesService?.project?.finalQuotation
       ?.preQuotation?.member?.phone;
+
+  //a링크에 넘길거
   const callPhone = hyphenFn(phone);
 
   return (

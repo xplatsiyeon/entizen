@@ -158,22 +158,24 @@ const LastWrite = (props: Props) => {
         convertKo(
           subscribeType,
           subscribeTypeEn,
-          quotationRequest.subscribeProduct,
+          quotationRequest?.subscribeProduct,
         ),
       );
-      setSubscribePeriod(quotationRequest.subscribePeriod.toString());
+      setSubscribePeriod(quotationRequest?.subscribePeriod?.toString());
       setProfitableInterestUser(
         Math.floor(Number(quotationRequest.investRate) * 100).toString(),
       );
       setChargePoint(
         Math.floor(100 - Number(quotationRequest.investRate) * 100).toString(),
       ); // 넣을 값이 없음
-      setSubscribePricePerMonth(preQuotation.subscribePricePerMonth.toString());
-      setConstructionPeriod(preQuotation.constructionPeriod.toString());
+      setSubscribePricePerMonth(
+        preQuotation?.subscribePricePerMonth.toString(),
+      );
+      setConstructionPeriod(preQuotation?.constructionPeriod.toString());
       setDueDiligenceResult(''); // 백엔드 api 추가 요청 필요
       setSubscribeProductFeature(
-        preQuotation.subscribeProductFeature
-          ? preQuotation.subscribeProductFeature
+        preQuotation?.subscribeProductFeature
+          ? preQuotation?.subscribeProductFeature
           : '',
       );
       setBusinessRegistration(relocation(businessRegistrationFiles));
@@ -181,53 +183,53 @@ const LastWrite = (props: Props) => {
       const arr = [];
       const arrEn = [];
       // 충전기 부분 스텝 2~6
-      while (count < quotationRequest.quotationRequestChargers.length) {
+      while (count < quotationRequest?.quotationRequestChargers?.length) {
         // console.log(preQuotation.preQuotationCharger.length - 2 - count);
 
         const quotationCharger =
-          quotationRequest.quotationRequestChargers[count];
+          quotationRequest?.quotationRequestChargers[count];
         const preQutationCharger =
-          preQuotation.preQuotationCharger[
-            preQuotation.preQuotationCharger.length - 1 - count
+          preQuotation?.preQuotationCharger[
+            preQuotation?.preQuotationCharger.length - 1 - count
           ];
         // 한국어값 담기
         const temp: chargers = {
-          idx: M5_LIST_EN.indexOf(quotationCharger.kind),
-          kind: convertKo(M5_LIST, M5_LIST_EN, quotationCharger.kind),
+          idx: M5_LIST_EN.indexOf(quotationCharger?.kind),
+          kind: convertKo(M5_LIST, M5_LIST_EN, quotationCharger?.kind),
           standType:
-            quotationCharger.standType === ''
+            quotationCharger?.standType === ''
               ? '-'
-              : convertKo(M6_LIST, M6_LIST_EN, quotationCharger.standType),
-          channel: convertKo(M7_LIST, M7_LIST_EN, quotationCharger.channel),
+              : convertKo(M6_LIST, M6_LIST_EN, quotationCharger?.standType),
+          channel: convertKo(M7_LIST, M7_LIST_EN, quotationCharger?.channel),
           count: convertKo(
             M8_LIST,
             M8_LIST_EN,
-            quotationCharger.count.toString(),
+            quotationCharger?.count.toString(),
           ),
-          chargePriceType: preQutationCharger.chargePriceType,
-          chargePrice: preQutationCharger.chargePrice.toString(),
+          chargePriceType: preQutationCharger?.chargePriceType,
+          chargePrice: preQutationCharger?.chargePrice.toString(),
           installationLocation: quotationRequest.installationLocation,
-          modelName: preQutationCharger.modelName,
-          manufacturer: preQutationCharger.manufacturer,
-          productFeature: preQutationCharger.productFeature,
-          chargerImageFiles: relocation(preQutationCharger.chargerImageFiles),
-          catalogFiles: relocation(preQutationCharger.catalogFiles),
+          modelName: preQutationCharger?.modelName,
+          manufacturer: preQutationCharger?.manufacturer,
+          productFeature: preQutationCharger?.productFeature,
+          chargerImageFiles: relocation(preQutationCharger?.chargerImageFiles),
+          catalogFiles: relocation(preQutationCharger?.catalogFiles),
         };
         // 영어값 담기
         const tempEn: chargers = {
           idx: M5_LIST_EN.indexOf(quotationCharger.kind),
           kind: quotationCharger.kind,
-          standType: quotationCharger.standType,
-          channel: quotationCharger.channel,
-          count: quotationCharger.count.toString(),
-          chargePriceType: preQutationCharger.chargePriceType,
-          chargePrice: preQutationCharger.chargePrice.toString(),
+          standType: quotationCharger?.standType,
+          channel: quotationCharger?.channel,
+          count: quotationCharger?.count.toString(),
+          chargePriceType: preQutationCharger?.chargePriceType,
+          chargePrice: preQutationCharger?.chargePrice.toString(),
           installationLocation: quotationRequest.installationLocation,
-          modelName: preQutationCharger.modelName,
-          manufacturer: preQutationCharger.manufacturer,
-          productFeature: preQutationCharger.productFeature,
-          chargerImageFiles: relocation(preQutationCharger.chargerImageFiles),
-          catalogFiles: relocation(preQutationCharger.catalogFiles),
+          modelName: preQutationCharger?.modelName,
+          manufacturer: preQutationCharger?.manufacturer,
+          productFeature: preQutationCharger?.productFeature,
+          chargerImageFiles: relocation(preQutationCharger?.chargerImageFiles),
+          catalogFiles: relocation(preQutationCharger?.catalogFiles),
         };
         arr.push(temp);
         arrEn.push(tempEn);
@@ -236,35 +238,35 @@ const LastWrite = (props: Props) => {
       setSelectedOption(arr);
       setSelectedOptionEn(arrEn);
     } else if (data && finalQuotationIdx) {
-      const { finalQuotation } = data?.sendQuotationRequest?.preQuotation;
+      const { finalQuotation } = data?.sendQuotationRequest?.preQuotation!;
       setSubscribeProduct(
         convertKo(
           subscribeType,
           subscribeTypeEn,
-          finalQuotation.subscribeProduct,
+          finalQuotation?.subscribeProduct!,
         ),
       );
-      setSubscribePeriod(finalQuotation.subscribePeriod.toString());
+      setSubscribePeriod(finalQuotation?.subscribePeriod?.toString());
       setProfitableInterestUser(
-        Math.floor(Number(finalQuotation.userInvestRate) * 100).toString(),
+        Math.floor(Number(finalQuotation?.userInvestRate) * 100).toString(),
       );
       setChargePoint(
-        Math.floor(Number(finalQuotation.chargingPointRate) * 100).toString(),
+        Math.floor(Number(finalQuotation?.chargingPointRate) * 100).toString(),
       ); // 넣을 값이 없음
       setSubscribePricePerMonth(
-        finalQuotation.subscribePricePerMonth.toString(),
+        finalQuotation?.subscribePricePerMonth?.toString(),
       );
-      setConstructionPeriod(finalQuotation.constructionPeriod.toString());
-      setDueDiligenceResult(finalQuotation.spotInspectionResult);
-      setSubscribeProductFeature(finalQuotation.subscribeProductFeature);
+      setConstructionPeriod(finalQuotation?.constructionPeriod?.toString());
+      setDueDiligenceResult(finalQuotation?.spotInspectionResult);
+      setSubscribeProductFeature(finalQuotation?.subscribeProductFeature);
       setBusinessRegistration(
-        relocation(finalQuotation.finalQuotationDetailFiles),
+        relocation(finalQuotation?.finalQuotationDetailFiles!),
       );
       let count = 0;
       const arr = [];
       const arrEn = [];
       // 충전기 부분 스텝 2~6
-      while (count < finalQuotation.finalQuotationChargers.length) {
+      while (count < finalQuotation?.finalQuotationChargers?.length!) {
         const finalQuotationCharger =
           finalQuotation.finalQuotationChargers[count];
         // 한국어값 담기
