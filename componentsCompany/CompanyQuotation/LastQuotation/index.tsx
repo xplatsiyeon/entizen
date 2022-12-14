@@ -161,7 +161,7 @@ const LastWrite = (props: Props) => {
           quotationRequest?.subscribeProduct,
         ),
       );
-      setSubscribePeriod(quotationRequest.subscribePeriod.toString());
+      setSubscribePeriod(quotationRequest?.subscribePeriod?.toString());
       setProfitableInterestUser(
         Math.floor(Number(quotationRequest.investRate) * 100).toString(),
       );
@@ -246,7 +246,7 @@ const LastWrite = (props: Props) => {
           finalQuotation?.subscribeProduct,
         ),
       );
-      setSubscribePeriod(finalQuotation.subscribePeriod.toString());
+      setSubscribePeriod(finalQuotation?.subscribePeriod?.toString());
       setProfitableInterestUser(
         Math.floor(Number(finalQuotation.userInvestRate) * 100).toString(),
       );
