@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
 import axios from 'axios';
+import Modal from 'components/Modal/Modal';
 
 type Props = {
   level: number;
@@ -43,9 +44,11 @@ const TermContent = ({
   userType,
 }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
-  const route = useRouter();
+  const router = useRouter();
 
   const [data, setData] = useState<any>();
+  const [isModal, setIsModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
 
   // ========================== 본인인증 창 띄우기
   const fnPopup = () => {
@@ -72,12 +75,17 @@ const TermContent = ({
       setName(data.name);
       setPhoneNumber(data.phone);
       if (data.isMember === true) {
-        alert('이미 회원가입 하셨습니다.');
-        route.push('/signin');
+        setIsModal(true);
+        setModalMessage('이미 회원가입 하셨습니다.');
       } else if (data.isMember === false) {
         setLevel(level + 1);
       }
     }
+  };
+
+  const onClickModal = () => {
+    setIsModal(false);
+    router.replace('/signin');
   };
 
   const justNextPage = () => {
@@ -88,7 +96,7 @@ const TermContent = ({
     const memberType = 'USER';
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -118,8 +126,8 @@ const TermContent = ({
   };
   useEffect(() => {
     console.log();
-    if (route.asPath.includes('Canceled')) {
-      route.push('/signin');
+    if (router.asPath.includes('Canceled')) {
+      router.push('/signin');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -137,6 +145,7 @@ const TermContent = ({
 
   return (
     <>
+      {isModal && <Modal text={modalMessage} click={onClickModal} />}
       <Notice variant="h3">
         엔티즌 약관에
         <br />

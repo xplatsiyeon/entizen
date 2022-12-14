@@ -36,6 +36,7 @@ const ManagerInfo = ({
   const [modalMessage, setModalMessage] = useState('');
   const [isModal, setIsModal] = useState(false);
   const loginTypeEnList: string[] = ['COMPANY', 'USER'];
+
   // 이메일 유효성 검사
   const reg_email =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
@@ -64,10 +65,16 @@ const ManagerInfo = ({
       setName(data.name);
       setPhoneNumber(data.phone);
       if (data.isMember) {
-        alert('이미 회원가입 하셨습니다.');
-        router.replace('/signin');
+        setIsModal(true);
+        setModalMessage('이미 회원가입 하셨습니다.');
       }
       setLevel(level + 1);
+    }
+  };
+  const onClickModal = () => {
+    setIsModal(false);
+    if (modalMessage === '이미 회원가입 하셨습니다.') {
+      router.replace('/signin');
     }
   };
   // email 상태
@@ -82,7 +89,7 @@ const ManagerInfo = ({
   // 이메일 인증
   const certifyEmail = () => {
     if (isEmailValid) {
-      const EMAIL_API = 'https://api.entizen.kr/api/mail/auth';
+      const EMAIL_API = 'https://test-api.entizen.kr/api/mail/auth';
       axios({
         method: 'post',
         url: EMAIL_API,
@@ -100,7 +107,7 @@ const ManagerInfo = ({
   // 이메일 인증코드 확인
   const certifyEmailCode = () => {
     if (isEmailCodeValid) {
-      const EMAIL_API = 'https://api.entizen.kr/api/mail/auth/validation';
+      const EMAIL_API = 'https://test-api.entizen.kr/api/mail/auth/validation';
       axios({
         method: 'post',
         url: EMAIL_API,
@@ -127,7 +134,7 @@ const ManagerInfo = ({
     console.log(memberType);
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -150,11 +157,7 @@ const ManagerInfo = ({
   return (
     <>
       {isModal && (
-        <Modal
-          text={modalMessage}
-          click={() => setIsModal(false)}
-          color={colors.sub4}
-        />
+        <Modal text={modalMessage} click={onClickModal} color={colors.sub4} />
       )}
       <Info>
         진행할 담당자 정보를
