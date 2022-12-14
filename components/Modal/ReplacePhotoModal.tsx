@@ -31,6 +31,7 @@ const ReplacePhotoModal = ({ spotData, isModal, setIsModal }: Props) => {
       onSuccess: (data) => {
         console.log(data);
         clinetQuery.invalidateQueries('spot-inspection');
+        clinetQuery.invalidateQueries('company');
         setIsModal(false);
       },
       onError: (error) => {

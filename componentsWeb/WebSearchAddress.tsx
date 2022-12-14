@@ -18,6 +18,7 @@ import { SlowFast } from 'pages/chargerMap';
 import WebChargerInfo from './WebChargerInfo';
 import Loader from 'components/Loader';
 import { coordinateAction } from 'store/lnglatSlice';
+import { checkSearchedWord } from 'utils/adrressFilter';
 
 type Props = {
   setType?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -131,7 +132,11 @@ const WebSearchAddress = ({
         setIsLoading(false);
       }
     };
-    findAddresss();
+    if (checkSearchedWord(keyWord) === true) {
+      findAddresss();
+    } else {
+      setSearchWord('');
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyWord]);

@@ -13,6 +13,7 @@ import { locationAction } from 'store/locationSlice';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import rootReducer, { RootState } from 'store/store';
+import { checkSearchedWord } from 'utils/adrressFilter';
 
 type Props = {
   setType?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -94,7 +95,11 @@ const SearchAddress = (props: Props) => {
         }
       }
     };
-    findAddresss();
+    if (checkSearchedWord(keyWord) === true) {
+      findAddresss();
+    } else {
+      setSearchWord('');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyWord]);
 

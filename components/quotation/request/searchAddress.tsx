@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { locationAction } from 'store/locationSlice';
 import { useRouter } from 'next/router';
+import { checkSearchedWord } from 'utils/adrressFilter';
 
 type Props = {
   isSearch?: boolean;
@@ -49,7 +50,7 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
   const [results, setResults] = useState<addressType[]>([]);
   const router = useRouter();
   const dispatch = useDispatch();
-  const keyWord = useDebounce(searchWord, 400);
+  const keyWord = useDebounce(searchWord, 300);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(() => e.target.value);
   };
@@ -89,7 +90,13 @@ const SearchAddress = ({ isSearch, setIsSearch }: Props) => {
         }
       }
     };
-    findAddresss();
+
+    if (checkSearchedWord(keyWord) === true) {
+      findAddresss();
+    } else {
+      setSearchWord('');
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyWord]);
   useEffect(() => {
