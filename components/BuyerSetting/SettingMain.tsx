@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
+import { handleLogoutOnClickModalClick } from 'api/logout';
 import axios from 'axios';
 import PasswordModal from 'components/Modal/PasswordModal';
 import RequestModal from 'components/Modal/RequestModal';
@@ -75,14 +76,14 @@ const SettingMain = ({
     });
   };
   // 일반회원 로그아웃
-  const handleLogoutOnClickModalClick = async () => {
+  const logoutOnClick = async () => {
     handleLogoutOnClickModalClick()
       .then((res) => router.push('/'))
       .catch((error) => alert(error));
   };
   // 회원탈퇴
   const ModalLeftControl = async () => {
-    const WITHDRAWAL_API = `https://api.entizen.kr/api/members/withdrawal`;
+    const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     console.log('탈퇴');
     try {
@@ -125,7 +126,7 @@ const SettingMain = ({
   const authPassowrd = () => {
     const memberType = selectedType;
     if (checkPassword) {
-      const LOGIN_API = 'https://api.entizen.kr/api/members/login';
+      const LOGIN_API = 'https://test-api.entizen.kr/api/members/login';
       const userId = JSON.parse(localStorage.getItem('USER_ID')!);
       const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
       try {
@@ -192,7 +193,7 @@ const SettingMain = ({
             rightBtnText={'네'}
             leftBtnColor={'#FF1B2D'}
             rightBtnColor={'#222222'}
-            rightBtnControl={handleLogoutOnClickModalClick}
+            rightBtnControl={logoutOnClick}
             leftBtnControl={() => setLogoutModal(false)}
           />
         )}
