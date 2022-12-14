@@ -295,6 +295,15 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (
+      data?.project?.isCompletedCompletionStep &&
+      !data?.project?.isApprovedByAdmin
+    ) {
+      console.log('관리자 승인 인증 받아야 됨');
+    }
+  }, [data]);
+
   if (dataChangeLoading || contractLoading || CompleteLoading) {
     return <Loader />;
   }
