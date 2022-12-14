@@ -55,7 +55,7 @@ const ProfileEditing = () => {
   //   const memberType = selectedType;
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType },
   //   })
   //     .then((res) => {
@@ -69,7 +69,7 @@ const ProfileEditing = () => {
   // }, []);
   // sns 체크
   useEffect(() => {
-    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       setCheckSns(snsMember);
     }

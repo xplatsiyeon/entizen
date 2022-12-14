@@ -7,7 +7,7 @@ const LOG_OUT_API = `${BASE_URL}/members/logout`;
 // 네이버 로그아웃
 export const NaverLogout = async () => {
   // 실제 url은 https://nid.naver.com/oauth2.0/token이지만 proxy를 적용하기 위해 도메인은 제거
-  const localToken = localStorage.getItem('com.naver.nid.access_token');
+  const localToken = sessionStorage.getItem('com.naver.nid.access_token');
   const res = await axios.get('/oauth2.0/token', {
     params: {
       grant_type: 'delete',
@@ -39,8 +39,8 @@ export const KakaoLogout = () => {
 };
 // 일반회원 로그아웃
 export const handleLogoutOnClickModalClick = async () => {
-  const isSns = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const isSns = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   await axios({
     method: 'post',
     url: LOG_OUT_API,
@@ -54,10 +54,10 @@ export const handleLogoutOnClickModalClick = async () => {
       NaverLogout();
       KakaoLogout();
     }
-    localStorage.removeItem('SNS_MEMBER');
-    localStorage.removeItem('ACCESS_TOKEN');
-    localStorage.removeItem('REFRESH_TOKEN');
-    localStorage.removeItem('USER_ID');
-    localStorage.removeItem('MEMBER_TYPE');
+    sessionStorage.removeItem('SNS_MEMBER');
+    sessionStorage.removeItem('ACCESS_TOKEN');
+    sessionStorage.removeItem('REFRESH_TOKEN');
+    sessionStorage.removeItem('USER_ID');
+    sessionStorage.removeItem('MEMBER_TYPE');
   });
 };

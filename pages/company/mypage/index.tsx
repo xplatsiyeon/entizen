@@ -54,7 +54,7 @@ const Mypage = ({ num, now }: Props) => {
   }, [nowWidth]);
   const TabType: string[] = ['진행 프로젝트', '완료 프로젝트'];
 
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
 
   const components: Components = {
@@ -96,7 +96,7 @@ const Mypage = ({ num, now }: Props) => {
               componentId={componentId}
               setComponentId={setComponentId}
             />
-            <div className='flexBox'>{components[tabNumber]}</div>
+            <div className="flexBox">{components[tabNumber]}</div>
           </WebRapper>
         </Container>
         <WebFooter />
@@ -148,8 +148,8 @@ const WebRapper = styled.div`
     width: 900pt;
     display: flex;
     justify-content: space-between;
-    gap:60pt;
-    .flexBox{
+    gap: 60pt;
+    .flexBox {
       flex: auto;
     }
   }

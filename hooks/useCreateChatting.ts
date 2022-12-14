@@ -14,13 +14,13 @@ const TAG = 'hooks/useCreateChatting.ts';
  */
 const useCreateChatting = () => {
   const router = useRouter();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   // ------------- 채팅방 생성하기 API ---------------
-  const {  mutate: createMutate, isLoading: createLoading } = useMutation(
+  const { mutate: createMutate, isLoading: createLoading } = useMutation(
     isTokenPostApi,
     {
-      onSuccess:(res) => {
+      onSuccess: (res) => {
         // 채팅방 아이디 값 추출
         const index = res?.data?.data?.chattingRoom?.chattingRoomIdx;
         // 유저면 유저 채팅방, 기업이면 기업 채팅방으로 이동
@@ -47,28 +47,28 @@ const useCreateChatting = () => {
       onError: async (error: any) => {
         // 채팅방이 존재하면 생성없이 바로 채팅방으로 이동
         const message = await error.response?.data?.message;
-  
-         if (message && message.includes('이미 채팅방이 존재합니다.')) {
-           // 채팅방 아이디 값 추출
-           const regex = /[^0-9]/g;
-           const index = await message.replace(regex, '');
-           // 유저면 유저 채팅방, 기업이면 기업 채팅방으로 이동
-           if (index && token && token.memberType === 'USER') {
-             router.push({
-               pathname: '/chatting/chattingRoom',
-               query: {
-                 chattingRoomIdx: index,
-               },
-             });
-           } else {
-             router.push({
-               pathname: '/company/chatting/chattingRoom',
-               query: {
-                 chattingRoomIdx: index,
-               },
-             });
-           }
-         }
+
+        if (message && message.includes('이미 채팅방이 존재합니다.')) {
+          // 채팅방 아이디 값 추출
+          const regex = /[^0-9]/g;
+          const index = await message.replace(regex, '');
+          // 유저면 유저 채팅방, 기업이면 기업 채팅방으로 이동
+          if (index && token && token.memberType === 'USER') {
+            router.push({
+              pathname: '/chatting/chattingRoom',
+              query: {
+                chattingRoomIdx: index,
+              },
+            });
+          } else {
+            router.push({
+              pathname: '/company/chatting/chattingRoom',
+              query: {
+                chattingRoomIdx: index,
+              },
+            });
+          }
+        }
       },
     },
   );

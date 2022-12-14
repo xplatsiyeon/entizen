@@ -32,15 +32,15 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   const [data, setData] = useState<any>();
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>();
-  const key: Key = JSON.parse(localStorage.getItem('key')!);
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
   const phoneNumber = profile?.phone
     .replace(/[^0-9]/g, '')
     .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
   // 휴대폰 변경
   const HandlePhone = async () => {
-    const key: Key = JSON.parse(localStorage.getItem('key')!);
+    const key: Key = JSON.parse(sessionStorage.getItem('key')!);
     const newnumber = key?.phone
       .replace(/[^0-9]/g, '')
       .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
@@ -49,8 +49,8 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
 
   const onClickBtn = () => {
     //수정완료 api
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members`;
+    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members`;
     try {
       axios({
         method: 'patch',
@@ -99,7 +99,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -113,7 +113,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   }, [data]);
   // sns 체크
   useEffect(() => {
-    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       setCheckSns(snsMember);
     }

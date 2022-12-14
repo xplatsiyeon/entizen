@@ -1,7 +1,7 @@
 function decryptResult(decryptResult) {
   console.log('decryptResult 입니다 !!! => ' + decryptResult);
   let cc = JSON.stringify(decryptResult);
-  localStorage.setItem('key', cc);
+  sessionStorage.setItem('key', cc);
 
   const first = document.querySelector('.firstNextPage');
   if (decryptResult) {

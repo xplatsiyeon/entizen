@@ -49,8 +49,8 @@ const MainPage = (props: Props) => {
   console.log(TAP + ' -> 메인 컴포넌트 시작');
   const router = useRouter();
   const dispatch = useDispatch();
-  const userID = localStorage.getItem('USER_ID');
-  const ACCESS_TOKEN = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const userID = sessionStorage.getItem('USER_ID');
+  const ACCESS_TOKEN = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, invalidate, isLoading } = useProfile(ACCESS_TOKEN);
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
@@ -95,7 +95,7 @@ const MainPage = (props: Props) => {
 
   // 초기화
   useEffect(() => {
-    localStorage.removeItem('key');
+    sessionStorage.removeItem('key');
     dispatch(quotationAction.init());
     dispatch(subsidyGuideAction.reset());
     dispatch(locationAction.reset());

@@ -34,7 +34,7 @@ const Alam = () => {
   const onClicklist = () => {
     router.push('/alarm/1-2');
   };
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   // 무한 스크롤
   const onIntersect = useCallback(
     async (entry: any, observer: any) => {

@@ -29,7 +29,7 @@ interface MenuList {
 }
 
 const WhyEntizenWeb = (props: Props) => {
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
   const router = useRouter();
   const menuList: MenuList[] = [
     {

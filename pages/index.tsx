@@ -6,7 +6,7 @@ import Main from '../components/Main/mainWeb';
 import CompanyMainPage from 'components/Main/companyMain';
 const TAB = '/index';
 const Home: NextPage = () => {
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   return (
     <>

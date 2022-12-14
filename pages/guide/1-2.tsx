@@ -196,8 +196,8 @@ const Guide1_2 = () => {
   // 버튼 온클릭
   const onClickButton = async () => {
     if (buttonActivate) {
-      const SUBSIDY_URL = 'https://api.entizen.kr/api/guide/subsidy';
-      const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+      const SUBSIDY_URL = 'https://test-api.entizen.kr/api/guide/subsidy';
+      const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
       try {
         await axios({
           method: 'post',

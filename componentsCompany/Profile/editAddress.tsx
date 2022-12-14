@@ -8,7 +8,7 @@ const EditAddress = ({ setComponent }: Props) => {
   // 원버튼 모달 온클릭
   //setComponent(4)
   //   const handleModalYes = () => {
-  //     localStorage.removeItem('key');
+  //     sessionStorage.removeItem('key');
 
   //     if () setComponent!(1);
   //     /*router.push('/signin'); */

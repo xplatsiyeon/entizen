@@ -33,8 +33,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
   const [authCode, setAuthCode] = useState<string>('');
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const key: Key = JSON.parse(localStorage.getItem('key')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile } = useProfile(accessToken);
   // 원버튼 모달
@@ -198,7 +198,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   useEffect(() => {
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType: token.memberType },
     })
       .then((res) => {

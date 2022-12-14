@@ -26,7 +26,7 @@ const DatePicker = ({}: Props) => {
   const router = useRouter();
   console.log('~line 23 router.query.preQuotation ');
   console.log(router.query.preQuotation);
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   const [selectedDays, SetSelectedDays] = useState<string>(''); // 클릭 날짜
   const [isValid, SetIsValid] = useState(false); // 버튼 유효성 검사
