@@ -41,28 +41,23 @@ export const KakaoLogout = () => {
 export const handleLogoutOnClickModalClick = async () => {
   const isSns = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  try {
-    await axios({
-      method: 'post',
-      url: LOG_OUT_API,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-      },
-      withCredentials: true,
-    }).then((res) => {
-      if (isSns) {
-        NaverLogout();
-        KakaoLogout();
-      }
-      localStorage.removeItem('SNS_MEMBER');
-      localStorage.removeItem('ACCESS_TOKEN');
-      localStorage.removeItem('REFRESH_TOKEN');
-      localStorage.removeItem('USER_ID');
-      localStorage.removeItem('MEMBER_TYPE');
-    });
-  } catch (error) {
-    console.log('요청 실패');
-    console.log(error);
-  }
+  await axios({
+    method: 'post',
+    url: LOG_OUT_API,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ContentType: 'application/json',
+    },
+    withCredentials: true,
+  }).then((res) => {
+    if (isSns) {
+      NaverLogout();
+      KakaoLogout();
+    }
+    localStorage.removeItem('SNS_MEMBER');
+    localStorage.removeItem('ACCESS_TOKEN');
+    localStorage.removeItem('REFRESH_TOKEN');
+    localStorage.removeItem('USER_ID');
+    localStorage.removeItem('MEMBER_TYPE');
+  });
 };

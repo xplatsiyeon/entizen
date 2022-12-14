@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import MessageBox from 'componentsCompany/Mypage/MessageBox';
 import Image from 'next/image';
 import { Data } from 'pages/company/mypage/runningProgress';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
@@ -145,8 +145,10 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [modalInfo, setModalInfo] =
     useState<UnConsentProjectDateChangeHistories>();
+  // const [modalType, setModalType] = useState<ModalType>('change');
   const [modalType, setModalType] = useState<ModalType>('change');
   const [toggleOpen, setToggleOpen] = useState<boolean[]>(initToggle);
+
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {
@@ -177,6 +179,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         console.log(error);
       },
     });
+
   // 완료 버튼
   const { mutate: CompleteMutate, isLoading: CompleteLoading } = useMutation(
     isTokenPostApi,
@@ -266,7 +269,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
           (el) => el.changedStep === 'READY' && el.processingStatus === false,
         );
         setModalInfo(target[0]);
-        setIsModal(true);
+        // setIsModal(true);
         setModalType('change');
       } else if (installationStepGoalDate === 'CHANGING') {
         const target = unConsentProjectDateChangeHistories.filter(
@@ -274,14 +277,14 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
             el.changedStep === 'INSTALLATION' && el.processingStatus === false,
         );
         setModalInfo(target[0]);
-        setIsModal(true);
+        // setIsModal(true);
         setModalType('change');
       } else if (examStepGoalDate === 'CHANGING') {
         const target = unConsentProjectDateChangeHistories.filter(
           (el) => el.changedStep === 'EXAM' && el.processingStatus === false,
         );
         setModalInfo(target[0]);
-        setIsModal(true);
+        // setIsModal(true);
         setModalType('change');
       } else if (completionStepGoalDate === 'CHANGING') {
         const target = unConsentProjectDateChangeHistories.filter(
@@ -289,17 +292,18 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
             el.changedStep === 'COMPLETION' && el.processingStatus === false,
         );
         setModalInfo(target[0]);
-        setIsModal(true);
+        // setIsModal(true);
         setModalType('change');
       }
     }
   }, [data]);
 
+  console.log('⭐️ 계약서 데이터 확인 ~line 315 ');
+  console.log(data);
+
   if (dataChangeLoading || contractLoading || CompleteLoading) {
     return <Loader />;
   }
-  console.log('⭐️ 계약서 데이터 확인 ~line 275 ');
-  console.log(data);
 
   return (
     <Wrapper0>
@@ -391,6 +395,12 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                       ? '#e2e5ed'
                       : colors.main
                   }
+                  onClick={() => {
+                    if (data?.project?.readyStepGoalDate === 'CHANGING') {
+                      setIsModal(true);
+                    }
+                  }}
+                  changeDate={data?.project?.readyStepGoalDate}
                 >
                   {data?.project?.readyStepGoalDate === 'CHANGING'
                     ? '목표일 변경 중'
@@ -452,6 +462,14 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                       ? '#e2e5ed'
                       : colors.main
                   }
+                  onClick={() => {
+                    if (
+                      data?.project?.installationStepGoalDate === 'CHANGING'
+                    ) {
+                      setIsModal(true);
+                    }
+                  }}
+                  changeDate={data?.project?.installationStepGoalDate}
                 >
                   {data?.project?.installationStepGoalDate === 'CHANGING'
                     ? '목표일 변경 중'
@@ -511,6 +529,12 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                   color={
                     data?.project?.isCompletedExamStep ? '#e2e5ed' : colors.main
                   }
+                  onClick={() => {
+                    if (data?.project?.examStepGoalDate === 'CHANGING') {
+                      setIsModal(true);
+                    }
+                  }}
+                  changeDate={data?.project?.examStepGoalDate}
                 >
                   {data?.project?.examStepGoalDate === 'CHANGING'
                     ? '변경 중'
@@ -572,6 +596,12 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                   color={
                     data?.project?.isCompletedExamStep ? colors.main : '#e2e5ed'
                   }
+                  onClick={() => {
+                    if (data?.project?.completionStepGoalDate === 'CHANGING') {
+                      setIsModal(true);
+                    }
+                  }}
+                  changeDate={data?.project?.completionStepGoalDate}
                 >
                   {data?.project?.completionStepGoalDate === 'CHANGING'
                     ? '변경 중'
@@ -736,7 +766,7 @@ const SetDate = styled.div`
   text-align: left;
 `;
 
-const PickedDate = styled.div`
+const PickedDate = styled.div<{ changeDate: string }>`
   padding: 4.5pt 7.5pt;
   font-family: 'Spoqa Han Sans Neo';
   font-size: 9pt;
@@ -747,6 +777,7 @@ const PickedDate = styled.div`
   color: ${(props) => {
     return props.color;
   }};
+  cursor: ${({ changeDate }) => (changeDate === 'CHANGING' ? 'pointer' : '')};
   border: 1px solid ${(props) => props.color};
   border-radius: 6pt;
 `;

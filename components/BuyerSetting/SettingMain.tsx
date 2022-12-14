@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
+import { handleLogoutOnClickModalClick } from 'api/logout';
 import axios from 'axios';
 import PasswordModal from 'components/Modal/PasswordModal';
 import RequestModal from 'components/Modal/RequestModal';
@@ -75,7 +76,7 @@ const SettingMain = ({
     });
   };
   // 일반회원 로그아웃
-  const handleLogoutOnClickModalClick = async () => {
+  const logoutOnClick = async () => {
     handleLogoutOnClickModalClick()
       .then((res) => router.push('/'))
       .catch((error) => alert(error));
@@ -192,7 +193,7 @@ const SettingMain = ({
             rightBtnText={'네'}
             leftBtnColor={'#FF1B2D'}
             rightBtnColor={'#222222'}
-            rightBtnControl={handleLogoutOnClickModalClick}
+            rightBtnControl={logoutOnClick}
             leftBtnControl={() => setLogoutModal(false)}
           />
         )}
