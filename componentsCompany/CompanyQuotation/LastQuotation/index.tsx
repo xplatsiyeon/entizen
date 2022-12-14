@@ -161,7 +161,7 @@ const LastWrite = (props: Props) => {
           quotationRequest?.subscribeProduct,
         ),
       );
-      setSubscribePeriod(quotationRequest.subscribePeriod.toString());
+      setSubscribePeriod(quotationRequest?.subscribePeriod?.toString());
       setProfitableInterestUser(
         Math.floor(Number(quotationRequest.investRate) * 100).toString(),
       );
@@ -238,35 +238,35 @@ const LastWrite = (props: Props) => {
       setSelectedOption(arr);
       setSelectedOptionEn(arrEn);
     } else if (data && finalQuotationIdx) {
-      const { finalQuotation } = data?.sendQuotationRequest?.preQuotation;
+      const { finalQuotation } = data?.sendQuotationRequest?.preQuotation!;
       setSubscribeProduct(
         convertKo(
           subscribeType,
           subscribeTypeEn,
-          finalQuotation?.subscribeProduct,
+          finalQuotation?.subscribeProduct!,
         ),
       );
-      setSubscribePeriod(finalQuotation.subscribePeriod.toString());
+      setSubscribePeriod(finalQuotation?.subscribePeriod?.toString());
       setProfitableInterestUser(
-        Math.floor(Number(finalQuotation.userInvestRate) * 100).toString(),
+        Math.floor(Number(finalQuotation?.userInvestRate) * 100).toString(),
       );
       setChargePoint(
-        Math.floor(Number(finalQuotation.chargingPointRate) * 100).toString(),
+        Math.floor(Number(finalQuotation?.chargingPointRate) * 100).toString(),
       ); // 넣을 값이 없음
       setSubscribePricePerMonth(
-        finalQuotation.subscribePricePerMonth.toString(),
+        finalQuotation?.subscribePricePerMonth?.toString(),
       );
-      setConstructionPeriod(finalQuotation.constructionPeriod.toString());
-      setDueDiligenceResult(finalQuotation.spotInspectionResult);
-      setSubscribeProductFeature(finalQuotation.subscribeProductFeature);
+      setConstructionPeriod(finalQuotation?.constructionPeriod?.toString());
+      setDueDiligenceResult(finalQuotation?.spotInspectionResult);
+      setSubscribeProductFeature(finalQuotation?.subscribeProductFeature);
       setBusinessRegistration(
-        relocation(finalQuotation.finalQuotationDetailFiles),
+        relocation(finalQuotation?.finalQuotationDetailFiles!),
       );
       let count = 0;
       const arr = [];
       const arrEn = [];
       // 충전기 부분 스텝 2~6
-      while (count < finalQuotation.finalQuotationChargers.length) {
+      while (count < finalQuotation?.finalQuotationChargers?.length!) {
         const finalQuotationCharger =
           finalQuotation.finalQuotationChargers[count];
         // 한국어값 담기
