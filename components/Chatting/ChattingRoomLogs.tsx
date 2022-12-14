@@ -109,6 +109,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
+  const focusRef = useRef<HTMLInputElement>(null);
 
   //   채팅방 내용 보기
   const {
@@ -153,11 +154,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   useLayoutEffect(() => {
     //window.scrollTo(0, document.body.scrollHeight);
-    const chattings = logs.current?.querySelectorAll('.chattingLog'); 
-    if(chattings){
-      const target = chattings[chattings.length - 1] as HTMLElement;
-      console.log(target);
-      target?.focus();
+    const target = focusRef.current;
+    if(target){
+      target.focus();
 
       //인풋박스로 포커스 이동
       const webInput = webInputRef.current;
@@ -562,6 +561,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             </DateChatting>
           );
         })}
+      <FocusBox tabIndex={1} ref={focusRef}/>
     { loading && 
       <LoadingWrap tabIndex={1} ref={loadingRef}>
       <img src="/images/loading.gif" alt="" className='loading'/>
@@ -963,4 +963,10 @@ const MessageDate = styled.p`
 
 const IconWrap3 = styled(IconWrap2)`
   background: transparent;
+`
+const FocusBox = styled.div`
+  width: 100%;
+  height: 80pt;
+
+  border:1px solid;
 `
