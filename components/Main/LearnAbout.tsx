@@ -29,7 +29,7 @@ interface MenuList {
 
 const LearnAbout = ({ borders }: Props) => {
   const router = useRouter();
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
   const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',

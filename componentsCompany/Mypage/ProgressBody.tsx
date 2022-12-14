@@ -47,7 +47,7 @@ const ProgressBody = ({
 }: Props) => {
   const router = useRouter();
   // -----진행중인 프로젝트 상세 리스트 api-----
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     loading: contractLoading,
     error: contractError,

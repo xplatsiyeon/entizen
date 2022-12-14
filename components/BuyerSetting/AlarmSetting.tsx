@@ -30,7 +30,7 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   });
 
   // 유저인지 회사인지
-  const memberType = JSON.parse(localStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked({

@@ -19,7 +19,7 @@ type Props = {
 };
 const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
   const route = useRouter();
-  // const UserId = JSON.parse(localStorage.getItem('USER_ID')!);
+  // const UserId = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const {
     data: userData,
     isError: userError,
@@ -88,7 +88,9 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
             <p>구독료</p>
             <PriceBox>
               <h1>
-                {PriceBasicCalculation(company.subscribePricePerMonth)? `${PriceBasicCalculation(company.subscribePricePerMonth)}원`:'무료'} 
+                {PriceBasicCalculation(company.subscribePricePerMonth)
+                  ? `${PriceBasicCalculation(company.subscribePricePerMonth)}원`
+                  : '무료'}
               </h1>
               <div>
                 <Image src={arrow} alt="arrow" layout="fill" />

@@ -9,6 +9,7 @@ import useDebounce from 'hooks/useDebounce';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { locationAction } from 'store/locationSlice';
+import { checkSearchedWord } from 'utils/adrressFilter';
 
 export interface addressType {
   admCd: string;
@@ -85,7 +86,11 @@ const CompanyAddress = ({
         }
       }
     };
-    findAddresss();
+    if (checkSearchedWord(keyWord) === true) {
+      findAddresss();
+    } else {
+      setSearchWord('');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyWord]);
 

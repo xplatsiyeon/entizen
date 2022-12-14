@@ -8,7 +8,7 @@ import NoAsHistyory from './noAsHistrory';
 import { useRouter } from 'next/router';
 import WebFilter from './webFilter';
 import useDebounce from 'hooks/useDebounce';
-import { useQuery } from 'react-query';
+import { QueryClient, useQueries, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 
@@ -23,26 +23,25 @@ export interface AfterSalesServices {
 export interface HisttoryResponse {
   isSuccess: true;
   data: {
-    afterSalesServiceHistories: [
-      {
-        finalQuotation: {
-          finalQuotationIdx: number;
-          preQuotation: {
-            preQuotationIdx: number;
-            quotationRequest: {
-              quotationRequestIdx: number;
-              installationAddress: string;
-            };
+    afterSalesServiceHistories: {
+      finalQuotation: {
+        finalQuotationIdx: number;
+        preQuotation: {
+          preQuotationIdx: number;
+          quotationRequest: {
+            quotationRequestIdx: number;
+            installationAddress: string;
           };
         };
-        afterSalesServices: AfterSalesServices[];
-      },
-    ];
+      };
+      afterSalesServices: AfterSalesServices[];
+    }[];
   };
 }
 const TAG = 'componentsCompany/AS/asHistroty.tsx';
 const AsHistory = () => {
   const router = useRouter();
+  const queryclient = useQueryClient();
   const [searchWord, setSearchWord] = useState<string>('');
   const [selected, setSelected] = useState<string>('현장별 보기');
   const [filterTypeEn, setFilterTypeEn] = useState('date');
@@ -50,10 +49,15 @@ const AsHistory = () => {
   const keyword = useDebounce(searchWord, 2000);
   // 기업 AS 리스트 보기
   const { data, isLoading, isError, error, refetch } =
-    useQuery<HisttoryResponse>('company-asList', () =>
-      isTokenGetApi(
-        `/after-sales-services/histories?sort=${filterTypeEn}&searchKeyword=${keyword}`,
-      ),
+    useQuery<HisttoryResponse>(
+      'company-asList',
+      () =>
+        isTokenGetApi(
+          `/after-sales-services/histories?sort=${filterTypeEn}&searchKeyword=${keyword}`,
+        ),
+      {
+        enabled: router.isReady,
+      },
     );
 
   const handleRoute = (afterSalesServiceIdx: number) => {
@@ -66,8 +70,9 @@ const AsHistory = () => {
   };
 
   useEffect(() => {
-    console.log(selected);
-
+    // console.log(`👀 히스토리 -69 -> ${TAG}`);
+    // console.log(data?.data?.afterSalesServiceHistories);
+    refetch();
     switch (selected) {
       case '현장별 보기':
         setFilterTypeEn('stie');
@@ -81,7 +86,7 @@ const AsHistory = () => {
       default:
         setFilterTypeEn('stie');
     }
-  }, [selected]);
+  }, [selected, data]);
 
   useEffect(() => {
     refetch();
@@ -117,7 +122,10 @@ const AsHistory = () => {
         </InputWrap>
       </Wrap>
       <List>
-        {data?.data?.afterSalesServiceHistories?.length! > 0 ? (
+        {data?.data?.afterSalesServiceHistories?.length! === 0 && (
+          <NoAsHistyory />
+        )}
+        {data?.data?.afterSalesServiceHistories?.length! > 0 && (
           <ListWrap>
             {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
               <ListBox
@@ -147,8 +155,6 @@ const AsHistory = () => {
             {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
             <BtnBox>A/S 히스토리 다운받기</BtnBox>
           </ListWrap>
-        ) : (
-          <NoAsHistyory />
         )}
       </List>
       {/* {arr.length > 0 && <BtnBox>A/S 히스토리 다운받기</BtnBox>} */}

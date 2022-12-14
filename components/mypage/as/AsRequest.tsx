@@ -45,7 +45,7 @@ const AsRequest = ({ data }: Props) => {
   // alert(id)
   const [open, setOpen] = useState<boolean>(false);
 
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     loading: projectLoading,
     error: projectError,

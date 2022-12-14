@@ -92,7 +92,7 @@ const AsRequestWrite = () => {
     },
   });
   // ---------------- 내 충전소 불러오기 ------------------
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     data: chargingData,
     loading: chargingLoading,

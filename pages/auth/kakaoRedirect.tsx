@@ -69,20 +69,20 @@ const Profile = () => {
             console.log('멤버 확인');
             console.log(resData);
             const token: JwtTokenType = jwt_decode(resData.accessToken);
-            localStorage.setItem(
+            sessionStorage.setItem(
               'SNS_MEMBER',
               JSON.stringify(token.isSnsMember),
             );
-            localStorage.setItem(
+            sessionStorage.setItem(
               'MEMBER_TYPE',
               JSON.stringify(token.memberType),
             );
-            localStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
-            localStorage.setItem(
+            sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+            sessionStorage.setItem(
               'ACCESS_TOKEN',
               JSON.stringify(resData.accessToken),
             );
-            localStorage.setItem(
+            sessionStorage.setItem(
               'REFRESH_TOKEN',
               JSON.stringify(resData.refreshToken),
             );

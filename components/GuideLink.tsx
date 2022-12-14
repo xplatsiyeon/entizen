@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import colors from 'styles/colors';
-import Link from 'next/link'
+import Link from 'next/link';
 
 type Props = {
   type: string;
@@ -41,16 +41,15 @@ const GuideLink = ({ type, num, now }: Props) => {
   }
 
   const handleLink = (idx: number) => {
-    const user = localStorage.getItem('USER_ID');
-    if (!user ){
+    const user = sessionStorage.getItem('USER_ID');
+    if (!user) {
       router.push('/signin');
     } else {
       if (type === 'guide') {
-        router.push(`/${linkUrl[idx]}`)
-      }else if( (type === 'mypage') && (idx === 0) ){
+        router.push(`/${linkUrl[idx]}`);
+      } else if (type === 'mypage' && idx === 0) {
         router.push('/mypage');
-      }
-      else {
+      } else {
         router.push({
           pathname: '/mypage',
           query: { id: idx },

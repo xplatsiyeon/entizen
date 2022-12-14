@@ -33,8 +33,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
   const [authCode, setAuthCode] = useState<string>('');
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  const key: Key = JSON.parse(localStorage.getItem('key')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile } = useProfile(accessToken);
   // 원버튼 모달
@@ -104,7 +104,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 원버튼 모달 확인
   const onClickModal = () => {
     if (modalMessage === '담당자가 변경되었습니다.') {
-      setComponent(1);
+      setComponent(0);
     } else {
       setIsModal(false);
     }
@@ -239,7 +239,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           handle={true}
           back={true}
           title={''}
-          handleOnClick={() => setComponent(1)}
+          handleOnClick={() => setComponent(0)}
         />
       </HeaderWrap>
       <Notice variant="h3">

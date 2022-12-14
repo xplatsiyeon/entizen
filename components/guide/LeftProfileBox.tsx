@@ -23,7 +23,7 @@ const LeftProfileBox = () => {
   const [data, setData] = useState<any>();
 
   const [checkSns, setCheckSns] = useState<boolean>(false);
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
 
   return (

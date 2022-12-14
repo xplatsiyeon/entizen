@@ -15,15 +15,19 @@ const ProfileIndex = () => {
   const [tabNumber, setTabNumber] = useState<number>(7);
   const [componentId, setComponentId] = useState<number>();
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
+  const [heightOn, setHeightOn] = useState<boolean>(false);
 
   const components = [
-    <ProfileEditing setComponent={setComponent} component={component} />, // 처음 통짜 프로필
+    <ProfileEditing setComponent={setComponent} component={component} setHeightOn={setHeightOn}/>,
+    <ProfileEditing setComponent={setComponent} component={component} isAddressOn={true}/>, // 지도
     <EditPW setComponent={setComponent} />, // 비밀번호 변경
     <EditCertificate setComponent={setComponent} />, // 사업자 번호 변경
     <SignUpManagerInfo setComponent={setComponent} />, // 담당자 정보 변경
-    <EditAddress setComponent={setComponent} />,
   ];
   console.log('component', component);
+
+  console.log(heightOn)
+  
 
   return (
     <WebBody>
@@ -34,18 +38,26 @@ const ProfileIndex = () => {
         componentId={componentId}
         openSubLink={openSubLink}
         setOpenSubLink={setOpenSubLink}
+        height={true}
       />
       <Wrapper>
-        {/* 프로필 하나 통으로만 있음 */}
-        {component === 1 && <FlexBox className="init">{components[0]}</FlexBox>}
+        {/* 맨 처음. 프로필 하나 통으로만 있음 */}
+        {component === 1 && <FlexBox heightOn={heightOn} className="init">{components[0]}</FlexBox>}
+       
+         {/* 맨 처음. 프로필 하나 통으로만 있음 */}
+          {component === 2 && <FlexBox heightOn={heightOn}>{components[1]}</FlexBox>}
 
-        {component > 1 && (
+        {/* '~변경' 버튼을 클릭하면 (conponent state가 변경되면서)처음의 컴포넌트는 사라지고, 
+        숨겨둔 프로필 컴포넌트와 '~ 변경' 컴포넌트가 나타난다  */}
+        {component > 2 && (
           <>
             <P>프로필 변경</P>
-            <HiddenBox className="hidden_comp">{components[0]}</HiddenBox>
+            <HiddenBox className="hidden_comp">
+            <ProfileEditing setComponent={setComponent} component={component} routeHandle={true} setHeightOn={setHeightOn}/>
+            </HiddenBox>
           </>
         )}
-        {component !== 1 && (
+        {component !== 1 && component !== 2 &&(
           <FlexBox2 className="new_comp">{components[component - 1]}</FlexBox2>
         )}
       </Wrapper>
@@ -60,6 +72,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   gap: 60pt;
+  height: 100%;
 
   @media (max-width: 899.25pt) {
     padding: 0;
@@ -73,7 +86,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const FlexBox = styled.div`
+const FlexBox = styled.div<{heightOn: boolean}>`
   display: block;
   position: relative;
   width: 282pt;
@@ -83,7 +96,7 @@ const FlexBox = styled.div`
   border-radius: 12pt;
   background: #ffff;
   padding: 32.25pt 31.5pt 42pt;
-  margin: 45.75pt 0;
+  margin: ${({heightOn})=> (heightOn?'20vh 0':'45.75pt 0')};
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -95,10 +108,25 @@ const FlexBox = styled.div`
     background: none;
   }
 `;
-const FlexBox2 = styled(FlexBox)`
+const FlexBox2 = styled.div`
+ display: block;
+  position: relative;
+  box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
+  border-radius: 12pt;
+  background: #ffff;
   width: 560pt;
   padding: 32.25pt 22.5pt 42pt;
   margin: 120pt 0 47.5pt;
+
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: 0 auto;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+  }
 `;
 const HiddenBox = styled.div`
   display: block;
@@ -130,15 +158,10 @@ const WebBody = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   background: #fcfcfc;
-  @media (max-height: 800pt) {
-    display: block;
-  }
-  @media (min-width: 900pt) {
-    height: 100%;
-  }
+
 `;
 
 const P = styled.p`

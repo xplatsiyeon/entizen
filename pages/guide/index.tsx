@@ -35,7 +35,7 @@ import UserRightMenu from 'components/UserRightMenu';
 const Guide1 = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
 
   const { accessToken, refreshToken, userId } = useSelector(
     (state: RootState) => state.originUserData,
@@ -63,7 +63,7 @@ const Guide1 = () => {
       setState({ ...state, [anchor]: open });
     };
   useEffect(() => {
-    if (localStorage.getItem('USER_ID')) {
+    if (sessionStorage.getItem('USER_ID')) {
       console.log('login check !');
       setIsLogin(true);
     } else {

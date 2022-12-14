@@ -16,7 +16,7 @@ interface Props {
 
 const CommunicationBox = ({ id, text }: Props) => {
   const router = useRouter();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
 
   const { createChatting, createLoading } = useCreateChatting();
@@ -25,7 +25,6 @@ const CommunicationBox = ({ id, text }: Props) => {
     if (id) {
       // 채팅방 생성 후 채팅방 이동 or 채팅방이 존재하면 바로 채팅방 이동
       createChatting(id!);
-      
     } else {
       if (token.memberType === 'USER') {
         router.push('/chatting');

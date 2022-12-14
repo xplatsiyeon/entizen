@@ -23,6 +23,7 @@ type Props = {
   openSubLink?: boolean;
   getComponentId?: number;
   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
+  height?: boolean;
 };
 
 const WebBuyerHeader = ({
@@ -32,7 +33,7 @@ const WebBuyerHeader = ({
   num,
   now,
   openSubLink,
-  setOpenSubLink,
+  setOpenSubLink, height
 }: Props) => {
   const [linklist, setLinklist] = useState<boolean>(true);
   const [isHovering, setIsHovered] = useState(false);
@@ -41,7 +42,7 @@ const WebBuyerHeader = ({
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
   const router = useRouter();
-  const isUser = localStorage.getItem('USER_ID');
+  const isUser = sessionStorage.getItem('USER_ID');
 
   const logout = () => {
     handleLogoutOnClickModalClick()
@@ -131,7 +132,7 @@ const WebBuyerHeader = ({
 
   return (
     <>
-      <Wrapper>
+      <Wrapper height={height}>
         <MainLink>
           <Inner>
             <Box1>
@@ -258,9 +259,10 @@ const WebBuyerHeader = ({
 
 export default WebBuyerHeader;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{height?: boolean}>`
   position: relative;
   width: 100%;
+  height: ${({height})=>(height? '70.5pt' : 'auto')}; 
   //margin-bottom: 45.75pt;
   border-bottom: 1px solid #e9eaee;
   background: #ffff;

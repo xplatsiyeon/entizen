@@ -52,7 +52,7 @@ const LeftProjectQuotationBox = ({
   componentId,
 }: Props) => {
   // const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, isLoading, invalidate } = useProfile(accessToken);
   const [tab, setTab] = useState<string>('');
 

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import defaultImg from 'public/images/default-img.png';
+import defaultImg from 'public/images/defaultImg.png';
 import { TouchEvent, useEffect, useRef, useState } from 'react';
 import unChecked from 'public/images/unChecked.png';
 import checked from 'public/images/checked.png';
@@ -14,7 +14,7 @@ import hiddenUnChecked from 'public/images/hiddenUnChecked.png';
 import hiddenChecked from 'public/images/hiddenChecked.png';
 import hiddenStopAlarm from 'public/images/hiddenStopAlarm.png';
 import hiddenAlarm from 'public/images/hiddenAlarm.png';
-import chatEntizen from 'public/images/chatEntizen.png';
+import newChatEntizen from 'public/images/newChatEntizen.png';
 import { handleTime } from 'utils/messageTime';
 
 type Props = {
@@ -246,7 +246,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
                 <ImageWrap>
-                  <Image src={chatEntizen} layout="fill" />
+                  <Image src={newChatEntizen} layout="fill" />
                 </ImageWrap>
               </ChattingRoomImage>
               <ChattingRoomPreview>

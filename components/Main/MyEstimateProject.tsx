@@ -13,7 +13,7 @@ type Props = {
 };
 
 const MyEstimateProject = ({ borders, quotationData, projectData }: Props) => {
-  const userID = localStorage.getItem('USER_ID');
+  const userID = sessionStorage.getItem('USER_ID');
   const router = useRouter();
   return (
     <Wrapper>

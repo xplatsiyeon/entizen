@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import MypageHeader from 'components/mypage/request/header';
-import defaultImg from 'public/images/default-img.png';
+import defaultImg from 'public/images/defaultImg.png';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -33,8 +33,6 @@ import chatFileAdd from 'public/images/chatFileAdd.png';
 import chatCamera from 'public/images/chatCamera.png';
 import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
 import { ChattingListResponse } from './ChattingLists';
-import chatEntizen from 'public/images/chatEntizen.png';
-import { height } from '@mui/system';
 
 type ChattingLogs = {
   createdAt: string;
@@ -232,7 +230,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   const handleImg = () => {
     if (router.query.entizen) {
-      return '/images/chatEntizen.png';
+      return '/images/newChatEntizen.png';
     } else {
       if (userChatting) {
         //console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
@@ -440,8 +438,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       setData(temp);
 
 
-
-
       if (loading) {
         setLoading(false);
         console.log('img')
@@ -474,6 +470,23 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
 
   }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
+
+  useEffect(()=>{
+    setTimeout(() => {
+      console.log('처음에만');
+      focusRef.current?.focus();
+    }, 1000)
+
+    setTimeout(() => {
+      console.log('처음에만');
+      if (webInputRef.current) {
+        webInputRef.current.focus();
+      }
+      if (mobInputRef.current) {
+        mobInputRef.current.focus();
+      }
+    }, 2000)
+  },[])
 
 
   return (
@@ -562,7 +575,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                                   download={item?.fileOriginalName!}
                                   type={'blob'}
                                 >
-                                  <img src={item?.fileUrl!} style={{ width: '112.5pt', maxHeight: '150pt', objectFit: 'scale-down', background: '#0000001c' }} />
+                                  <img src={item?.fileUrl!} style={{ maxWidth: '112.5pt', maxHeight: '150pt', objectFit: 'cover', background: '#0000001c' }} />
                                 </FileDownload>
                               </>
                             }
@@ -645,7 +658,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         style={{ display: 'none' }}
         ref={fileRef}
         type="file"
-        accept="xlsx"
+        accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
         onChange={saveFile}
       />
 
@@ -674,6 +687,7 @@ const WebBottomBox = styled.div`
   left: 0;
   width: 100%;
   padding: 3pt 0pt 16.5pt;
+  background: white;
   button.typing {
     width: 18.75pt;
     height: 20.6pt;

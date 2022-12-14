@@ -117,7 +117,7 @@ const Estimate = ({listUp}:Props) => {
       )}
       {/* 히스토리 */}
       {data?.historyQuotationRequests.length! > 0 && (
-        <History>
+        <History listUp={Boolean(listUp)}>
           <Label>
             히스토리{' '}
             <span className="num">
@@ -188,7 +188,9 @@ const Proceeding = styled.section`
     padding-top: 0;
   }
 `;
-const History = styled.section``;
+const History = styled.section<{listUp:boolean }>`
+display: ${({listUp})=> (listUp?'none':'block')};
+`;
 
 const Carousel = styled.div<{ length: number, listUp:boolean }>`
   display: grid;

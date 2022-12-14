@@ -17,15 +17,19 @@ import jwt_decode from 'jwt-decode';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
+  setHeightOn?: React.Dispatch<React.SetStateAction<boolean>>;
   component: number;
+  routeHandle?: boolean;
+  isAddressOn?: boolean;
 };
 const TAG = 'componentsCompany/Profile/profileEditing.tsx';
-const ProfileEditing = ({ setComponent, component }: Props) => {
+const ProfileEditing = ({ setComponent, component, routeHandle, isAddressOn, setHeightOn }: Props) => {
+
   const [companyAddress, setCompanyAddress] = useState<string>('');
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState(false);
   const [data, setData] = useState<string>('');
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
   // 에러 모달
@@ -95,10 +99,11 @@ const ProfileEditing = ({ setComponent, component }: Props) => {
   };
   // 비밀번호 변경
   const HandlePassword = async () => {
-    // let key = localStorage.getItem('key');
+    // let key = sessionStorage.getItem('key');
     // let data = JSON.parse(key!);
-    setComponent(2);
+    setComponent(3);
   };
+
   // // 나이스 인증
   // const fnPopup = (event: any) => {
   //   console.log('나이스 인증');
@@ -136,9 +141,19 @@ const ProfileEditing = ({ setComponent, component }: Props) => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [data]);
 
-  // sns 체크
+  const handleAddress = ()=>{
+    if(routeHandle){
+      setComponent(2)
+    }else{
+      setAddressOn(true);
+    }
+    if(setHeightOn)setHeightOn(true)
+    // 나중에 프포필 변경 기본으로 돌아가는 ( setComponent(0) ) 기능이 생기면
+    // 그 때 setHeightOn(false) 로 바꿔줘야 함.
+  }
+
   useEffect(() => {
-    const snsMember = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
+    const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
       setCheckSns(snsMember);
     }
@@ -149,7 +164,7 @@ const ProfileEditing = ({ setComponent, component }: Props) => {
   }, []);
 
   const [postNumber, setPostNumber] = useState<string>('');
-  const [addressOn, setAddressOn] = useState<boolean>(false);
+  const [addressOn, setAddressOn] = useState<boolean>(Boolean(isAddressOn));
   const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
 
   if (addressOn) {
@@ -215,7 +230,7 @@ const ProfileEditing = ({ setComponent, component }: Props) => {
               // onClick={() => setAddressOn(true)}
             />
             {/* <InputBtn onClick={() => setAddressOn(true)}> */}
-            <InputBtn onClick={() => setAddressOn(true)}>
+            <InputBtn onClick={handleAddress}>
               <span>주소찾기</span>
             </InputBtn>
           </InputWrap>
@@ -247,7 +262,7 @@ const ProfileEditing = ({ setComponent, component }: Props) => {
           </ImageWrap>
         </Div>
 
-        <Div onClick={() => setComponent(3)}>
+        <Div onClick={() => setComponent(4)}>
           <span>사업자 등록 변경</span>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
@@ -275,7 +290,7 @@ const ProfileEditing = ({ setComponent, component }: Props) => {
           value={profile?.companyMemberAdditionalInfo?.managerEmail}
         />
 
-        <MBtn onClick={() => setComponent(4)}>담당자 변경하기</MBtn>
+        <MBtn onClick={() => setComponent(5)}>담당자 변경하기</MBtn>
       </Wrap>
     </Wrapper>
   );

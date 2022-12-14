@@ -83,7 +83,7 @@ const ChargingPlace = () => {
 
   const [hideTopBox, setHideTopBox] = useState<boolean>(true);
 
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     data: chargingData,
     loading: chargingLoading,
@@ -97,16 +97,6 @@ const ChargingPlace = () => {
       },
     },
   });
-
-  const handleRoute = (idx: string) => {
-    //mob일 때 router.push();
-    router.push({
-      pathname: '/mypage/place',
-      query: {
-        id: idx,
-      },
-    });
-  };
 
   if (chargingLoading) {
     return <Loader />;
@@ -128,7 +118,7 @@ const ChargingPlace = () => {
   return (
     <>
       <Body bgColor={open}>
-        <WebHeader num={3} now={'mypage'} sub={true} />
+        <WebHeader num={3} now={'mypage'} />
         <UserRightMenu />
         <Inner>
           <FlexBox>

@@ -24,7 +24,7 @@ const ProjectInProgress = ({
   componentId,
 }: Props) => {
   const router = useRouter();
-  const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { loading, error, data } = useQuery<Response>(GET_InProgressProjects, {
     context: {
       headers: {
@@ -88,7 +88,7 @@ const ProjectInProgress = ({
       {componentId === undefined && (
         <div>
           {tabNumber === 0 && data?.inProgressProjects?.length! > 0 && (
-            <ContentsContainer className='???'>
+            <ContentsContainer className="???">
               {data?.inProgressProjects?.map((el, index) => (
                 <div key={index}>
                   <Contents
