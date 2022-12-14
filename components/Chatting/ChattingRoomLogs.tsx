@@ -34,6 +34,7 @@ import chatCamera from 'public/images/chatCamera.png';
 import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
 import { ChattingListResponse } from './ChattingLists';
 import chatEntizen from 'public/images/chatEntizen.png';
+import { height } from '@mui/system';
 
 type ChattingLogs = {
   createdAt: string;
@@ -547,7 +548,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                             download={item?.fileOriginalName!}
                             type={'blob'}
                           >
-                            <img src={item?.fileUrl!} style={{width: '112.5pt', objectFit:'scale-down', background:'#0000001c'}}/>
+                            <img src={item?.fileUrl!} style={{width: '112.5pt', maxHeight: '150pt', objectFit:'scale-down', background:'#0000001c'}}/>
                           </FileDownload>
                          {/* <div className='chattingLog' tabIndex={1} style={{width:'1pt', height:'1pt', position:'absolute', bottom:'-50pt'}}></div> */}
                         </>
@@ -561,13 +562,14 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
             </DateChatting>
           );
         })}
-      <FocusBox tabIndex={1} ref={focusRef}/>
     { loading && 
       <LoadingWrap tabIndex={1} ref={loadingRef}>
       <img src="/images/loading.gif" alt="" className='loading'/>
       </LoadingWrap>
     }
       </Inner>
+
+      <FocusBox tabIndex={1} ref={focusRef}/>
       <BottomBox ref={mobBox}>
         <FlexBox onSubmit={onSubmitText}>
           <AddBtn onClick={handleButton}>
@@ -817,7 +819,7 @@ height: 112.5pt;
 position: absolute;
 width: 50%;
 height: 50%;
-top: 30%;
+top: 50%;
 left: 50%;
 transform: translate(-50%,-50%);
 }
@@ -966,7 +968,6 @@ const IconWrap3 = styled(IconWrap2)`
 `
 const FocusBox = styled.div`
   width: 100%;
-  height: 80pt;
-
-  border:1px solid;
+  height: 40pt;
+  margin: 10pt 0;
 `
