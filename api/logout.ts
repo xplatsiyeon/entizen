@@ -1,6 +1,8 @@
+import { BASE_URL } from 'api';
 import axios from 'axios';
-import { selectAction } from 'store/loginTypeSlice';
 import { kakaoInit } from 'utils/kakao';
+
+const LOG_OUT_API = `${BASE_URL}/members/logout`;
 
 // 네이버 로그아웃
 export const NaverLogout = async () => {
@@ -37,31 +39,25 @@ export const KakaoLogout = () => {
 };
 // 일반회원 로그아웃
 export const handleLogoutOnClickModalClick = async () => {
-  const LOG_OUT_API = `https://test-api.entizen.kr/api/members/logout`;
   const isSns = JSON.parse(localStorage.getItem('SNS_MEMBER')!);
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-  try {
-    await axios({
-      method: 'post',
-      url: LOG_OUT_API,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-      },
-      withCredentials: true,
-    }).then((res) => {
-      if (isSns) {
-        NaverLogout();
-        KakaoLogout();
-      }
-      localStorage.removeItem('SNS_MEMBER');
-      localStorage.removeItem('ACCESS_TOKEN');
-      localStorage.removeItem('REFRESH_TOKEN');
-      localStorage.removeItem('USER_ID');
-      localStorage.removeItem('MEMBER_TYPE');
-    });
-  } catch (error) {
-    console.log('요청 실패');
-    console.log(error);
-  }
+  await axios({
+    method: 'post',
+    url: LOG_OUT_API,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ContentType: 'application/json',
+    },
+    withCredentials: true,
+  }).then((res) => {
+    if (isSns) {
+      NaverLogout();
+      KakaoLogout();
+    }
+    localStorage.removeItem('SNS_MEMBER');
+    localStorage.removeItem('ACCESS_TOKEN');
+    localStorage.removeItem('REFRESH_TOKEN');
+    localStorage.removeItem('USER_ID');
+    localStorage.removeItem('MEMBER_TYPE');
+  });
 };

@@ -20,7 +20,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { subscribeProduct, investRate, chargersKo } = useSelector(
+  const { subscribeProduct, investRate, chargersKo, chargers } = useSelector(
     (state: RootState) => state.quotationData,
   );
 
@@ -78,9 +78,10 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
 
   // 컴포넌트 이동 시에도 데이터 기억하기
   useEffect(() => {
-    const newValue = Number(investRate) * 100;
+    const newValue = Math.floor(Number(investRate) * 100);
+    const homeType = chargers.every((e) => e.kind === '7-HOME');
     if (subscribeProduct === 'ENTIRETY') {
-      if (investRate === '1') {
+      if (homeType) {
         setSubscribeNumber(0);
       } else {
         setSubscribeNumber(0);
@@ -89,7 +90,7 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
       }
     }
     if (subscribeProduct === 'PART') {
-      if (investRate === '1') {
+      if (homeType) {
         setSubscribeNumber(1);
       } else {
         setSubscribeNumber(1);

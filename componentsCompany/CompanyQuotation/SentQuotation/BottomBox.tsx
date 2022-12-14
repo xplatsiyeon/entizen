@@ -72,10 +72,10 @@ const BottomBox = ({ pb, data }: Props) => {
           {/* --- 수익지분 보류 --- */}
           <span className="name">수익지분</span>
           <span className="value">
-            {`${
+            {`${Math.floor(
               Number(data?.sendQuotationRequest?.quotationRequest?.investRate) *
-              100
-            } %`}
+                100,
+            )} %`}
           </span>
         </Item>
         <Item>

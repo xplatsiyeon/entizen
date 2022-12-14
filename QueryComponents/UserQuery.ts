@@ -10,6 +10,8 @@ export interface MyprojectList {
       companyName: string;
     };
   };
+  projectCompletionAgreementDate: string;
+  isApprovedByAdmin: boolean;
 }
 
 export interface MyprojectListResponse {
@@ -28,6 +30,8 @@ export const myprojectList = gql`
           companyName
         }
       }
+      projectCompletionAgreementDate
+      isApprovedByAdmin
     }
   }
 `;

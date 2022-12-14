@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ import Frame from 'public/images/Frame.png';
 import GuideLink from 'components/GuideLink';
 import ProfileUp from 'public/images/profile-up.png';
 import ProfileDown from 'public/images/profile-down.png';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { handleLogoutOnClickModalClick } from 'api/logout';
 
 type Props = {
@@ -21,29 +21,25 @@ type Props = {
 };
 
 const WebHeader = ({ num, now, sub }: Props) => {
+  const router = useRouter();
+  const isUser = localStorage.getItem('USER_ID');
   const [linklist, setLinklist] = useState<boolean>(Boolean(sub));
   const [type, setType] = useState<string>('');
   const [isHovering, setIsHovered] = useState(false);
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
 
-  const router = useRouter();
-
-  const isUser = localStorage.getItem('USER_ID');
-  // if(!isUser)localStorage.setItem('USER_ID','user'); // 유저 테스트용 코드
-
-  const handleLink = (st:string) => {
+  const logout = () => {
+    handleLogoutOnClickModalClick()
+      .then((res) => router.push('/'))
+      .catch((error) => alert(error));
+  };
+  const handleLink = (st: string) => {
     if (isUser) {
       router.push(`${st}`);
     } else {
       router.push('/signin');
     }
-  };
-
-  const logout = () => {
-    handleLogoutOnClickModalClick()
-      .then((res) => router.push('/'))
-      .catch((error) => alert(error));
   };
 
   return (
@@ -57,7 +53,9 @@ const WebHeader = ({ num, now, sub }: Props) => {
                   <Image src={Logos} alt="logo" layout="intrinsic" />
                 </Link>
               </LogoBox>
-              <DivBox onClick={()=>handleLink('/quotation/request')}>간편견적</DivBox>
+              <DivBox onClick={() => handleLink('/quotation/request')}>
+                간편견적
+              </DivBox>
               <DivBox
                 onClick={() => {
                   setLinklist(true);
@@ -66,9 +64,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
               >
                 가이드
               </DivBox>
-              <DivBox onClick={() => handleLink('/chatting')}>
-                소통하기
-              </DivBox>
+              <DivBox onClick={() => handleLink('/chatting')}>소통하기</DivBox>
               <DivBox
                 onClick={() => {
                   setLinklist(true);
@@ -159,7 +155,9 @@ const WebHeader = ({ num, now, sub }: Props) => {
             </Box2>
           </Inner>
         </MainLink>
-        {linklist ? <GuideLink type={sub?'mypage':type} num={num} now={now} /> : null}
+        {linklist ? (
+          <GuideLink type={sub ? 'mypage' : type} num={num} now={now} />
+        ) : null}
       </Wrapper>
     </>
   );

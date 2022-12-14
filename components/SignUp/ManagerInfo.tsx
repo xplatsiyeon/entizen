@@ -36,6 +36,7 @@ const ManagerInfo = ({
   const [modalMessage, setModalMessage] = useState('');
   const [isModal, setIsModal] = useState(false);
   const loginTypeEnList: string[] = ['COMPANY', 'USER'];
+
   // 이메일 유효성 검사
   const reg_email =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
@@ -64,10 +65,16 @@ const ManagerInfo = ({
       setName(data.name);
       setPhoneNumber(data.phone);
       if (data.isMember) {
-        alert('이미 회원가입 하셨습니다.');
-        router.replace('/signin');
+        setIsModal(true);
+        setModalMessage('이미 회원가입 하셨습니다.');
       }
       setLevel(level + 1);
+    }
+  };
+  const onClickModal = () => {
+    setIsModal(false);
+    if (modalMessage === '이미 회원가입 하셨습니다.') {
+      router.replace('/signin');
     }
   };
   // email 상태
@@ -150,11 +157,7 @@ const ManagerInfo = ({
   return (
     <>
       {isModal && (
-        <Modal
-          text={modalMessage}
-          click={() => setIsModal(false)}
-          color={colors.sub4}
-        />
+        <Modal text={modalMessage} click={onClickModal} color={colors.sub4} />
       )}
       <Info>
         진행할 담당자 정보를

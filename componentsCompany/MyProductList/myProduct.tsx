@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Button, TextareaAutosize, TextField } from '@mui/material';
 import Image from 'next/image';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CompanyHeader from './Header';
 import tempCar from 'public/images/temp-car.jpg';
@@ -104,6 +104,13 @@ const MyProduct = (props: Props) => {
   };
   console.log(TAG + '🔥 ~line 79 데이터 확인');
   console.log(data);
+
+  useEffect(() => {
+    return () => {
+      queryclient.removeQueries('productDetail');
+    };
+  }, []);
+
   if (isError) {
     console.log(TAG + '🔥 ~line 82 에러 발생');
     console.log(error);
@@ -176,7 +183,7 @@ const MyProduct = (props: Props) => {
                 </Item>
                 <FeatureBox
                   aria-label="chargerProduct feature"
-                  defaultValue={data?.chargerProduct?.feature}
+                  value={data?.chargerProduct?.feature}
                   readOnly={true}
                 />
               </>

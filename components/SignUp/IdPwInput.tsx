@@ -8,8 +8,7 @@ import colors from 'styles/colors';
 import Btn from './button';
 import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api, isTokenPostApi } from 'api';
-import useLogin from 'hooks/useLogin';
+import { api } from 'api';
 import Loader from 'components/Loader';
 
 type Props = {
@@ -100,14 +99,6 @@ const IdPwInput = ({
       },
     },
   );
-  // 로그인 mutate
-  const { loginLoading, signin } = useLogin({
-    userId: idInput,
-    memberType: loginTypeEnList[userType],
-    password: pwInput,
-    setErrorMessage: setModalMessage,
-    setErrorModal: setIsModal,
-  });
   // 일반 유저 회원가입 mutate
   const {
     mutate: userMutate,
@@ -115,13 +106,9 @@ const IdPwInput = ({
     error: userError,
   } = useMutation(api, {
     onSuccess: async () => {
-      setTimeout(() => {
-        console.log('성공');
-        queryClient.invalidateQueries();
-        signin();
-      }, 2000);
-
-      // router.push('/signUp/Complete');
+      console.log('성공');
+      queryClient.invalidateQueries();
+      router.push('/signUp/Complete');
     },
     onError: (error) => {
       console.log('----회원가입 실패----');
@@ -262,15 +249,25 @@ const IdPwInput = ({
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
-        <CancelRoundedIcon
+        <Typography
           onClick={() => setPwInput('')}
+          onMouseDown={handleMouseDownPassword}
           sx={{
-            color: '#E2E5ED',
-            width: '10.5pt',
-            marginRight: '9pt',
             cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-        />
+        >
+          <CancelRoundedIcon
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
+          />
+        </Typography>
         <Typography
           sx={{
             fontSize: '14px',
@@ -292,15 +289,25 @@ const IdPwInput = ({
   const secondIconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
-        <CancelRoundedIcon
+        <Typography
           onClick={() => setCheckPw('')}
+          onMouseDown={handleMouseDownPassword}
           sx={{
-            color: '#E2E5ED',
-            width: '10.5pt',
-            marginRight: '9pt',
             cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-        />
+        >
+          <CancelRoundedIcon
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
+          />
+        </Typography>
         <Typography
           sx={{
             fontSize: '14px',

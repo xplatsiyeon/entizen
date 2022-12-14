@@ -5,8 +5,6 @@ import PasswordModal from 'components/Modal/PasswordModal';
 import RequestModal from 'components/Modal/RequestModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/mypage/request/header';
-import WebFooter from 'componentsWeb/WebFooter';
-import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -22,7 +20,6 @@ type Props = {
 };
 
 const SettingMain = ({
-  tabNumber,
   setTabNumber,
   setLeftTabNumber,
   leftTabNumber,
@@ -79,32 +76,9 @@ const SettingMain = ({
   };
   // 일반회원 로그아웃
   const handleLogoutOnClickModalClick = async () => {
-    const LOG_OUT_API = `https://test-api.entizen.kr/api/members/logout`;
-    const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
-    try {
-      await axios({
-        method: 'post',
-        url: LOG_OUT_API,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
-      }).then((res) => {
-        localStorage.removeItem('SNS_MEMBER');
-        localStorage.removeItem('ACCESS_TOKEN');
-        localStorage.removeItem('REFRESH_TOKEN');
-        localStorage.removeItem('USER_ID');
-        localStorage.removeItem('MEMBER_TYPE');
-        setLogoutModal(false);
-        router.push('/');
-      });
-    } catch (error) {
-      console.log('요청 실패');
-      console.log(error);
-    }
-    NaverLogout();
-    KakaoLogout();
+    handleLogoutOnClickModalClick()
+      .then((res) => router.push('/'))
+      .catch((error) => alert(error));
   };
   // 회원탈퇴
   const ModalLeftControl = async () => {
