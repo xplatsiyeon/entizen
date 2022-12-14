@@ -72,10 +72,10 @@ const ManagerInfo = ({
     }
   };
   const onClickModal = () => {
-    setIsModal(false);
     if (modalMessage === '이미 회원가입 하셨습니다.') {
       router.replace('/signin');
     }
+    setIsModal(false);
   };
   // email 상태
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
