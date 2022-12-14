@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import MessageBox from 'componentsCompany/Mypage/MessageBox';
 import Image from 'next/image';
 import { Data } from 'pages/company/mypage/runningProgress';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
@@ -145,6 +145,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [modalInfo, setModalInfo] =
     useState<UnConsentProjectDateChangeHistories>();
+  // const [modalType, setModalType] = useState<ModalType>('change');
   const [modalType, setModalType] = useState<ModalType>('change');
   const [toggleOpen, setToggleOpen] = useState<boolean[]>(initToggle);
   // -----진행중인 프로젝트 상세 리스트 api-----
@@ -295,20 +296,12 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (
-      data?.project?.isCompletedCompletionStep &&
-      !data?.project?.isApprovedByAdmin
-    ) {
-      console.log('관리자 승인 인증 받아야 됨');
-    }
-  }, [data]);
+  console.log('⭐️ 계약서 데이터 확인 ~line 315 ');
+  console.log(data);
 
   if (dataChangeLoading || contractLoading || CompleteLoading) {
     return <Loader />;
   }
-  console.log('⭐️ 계약서 데이터 확인 ~line 275 ');
-  console.log(data);
 
   return (
     <Wrapper0>

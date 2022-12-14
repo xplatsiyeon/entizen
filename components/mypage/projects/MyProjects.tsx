@@ -9,14 +9,21 @@ import {
   MyprojectListResponse,
 } from 'QueryComponents/UserQuery';
 import Loader from 'components/Loader';
+import {
+  GET_InProgressProjectsDetail,
+  InProgressProjectsDetailResponse,
+} from 'QueryComponents/CompanyQuery';
+import { useEffect, useRef, useState } from 'react';
 
 const TAG = 'components/mpage/projects/MyProjects.tsx';
 
-type Props ={
-  listUp? : boolean;
-}
-const MyProjects = ({listUp}:Props) => {
+type Props = {
+  listUp?: boolean;
+};
+const MyProjects = ({ listUp }: Props) => {
   const router = useRouter();
+  const [id, setId] = useState<string>();
+  // -----진행중인 프로젝트 목록 리스트 api-----
   const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
   const {
     data: projectListData,
@@ -30,14 +37,29 @@ const MyProjects = ({listUp}:Props) => {
       },
     },
   });
-  const handleRoute = (projectIdx: string) => {
+
+  const handleRoute = (projectIdx: string, idx: number) => {
     //mob일 때 router.push();
-    router.push({
-      pathname: '/mypage/project',
-      query: {
-        projectIdx: projectIdx,
-      },
-    });
+    console.log(projectListData?.uncompletedProjects[idx]);
+
+    if (
+      !projectListData?.uncompletedProjects[idx]?.isApprovedByAdmin &&
+      projectListData?.uncompletedProjects[idx].projectCompletionAgreementDate
+    ) {
+      router.push({
+        pathname: '/mypage/project/finish',
+        query: {
+          projectIdx: projectIdx,
+        },
+      });
+    } else {
+      router.push({
+        pathname: '/mypage/project',
+        query: {
+          projectIdx: projectIdx,
+        },
+      });
+    }
   };
 
   if (projectListLoading) {
@@ -57,12 +79,12 @@ const MyProjects = ({listUp}:Props) => {
 
   return (
     <>
-      <List listUp={Boolean(listUp)} >
+      <List listUp={Boolean(listUp)}>
         {projectListData?.uncompletedProjects?.map((item, idx) => {
           return (
             <ProjectBox
               key={item?.projectIdx}
-              onClick={() => handleRoute(item.projectIdx)}
+              onClick={() => handleRoute(item.projectIdx, idx)}
             >
               <CommonBtn
                 text={item?.badge}
@@ -85,9 +107,9 @@ const MyProjects = ({listUp}:Props) => {
 
 export default MyProjects;
 
-const List = styled.ul<{listUp:boolean }>`
+const List = styled.ul<{ listUp: boolean }>`
   display: flex;
-  flex-direction: ${({listUp})=> (listUp?'column':'unset')};
+  flex-direction: ${({ listUp }) => (listUp ? 'column' : 'unset')};
   flex-wrap: wrap;
   margin: 30pt 0;
   padding: 15pt;
