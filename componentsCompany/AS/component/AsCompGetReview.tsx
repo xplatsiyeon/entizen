@@ -130,6 +130,10 @@ const RatingForm = styled.div`
     top: 25pt;
     gap: 6pt;
   }
+
+  @media (min-width: 900pt) {
+    margin-top: 24pt;
+  }
 `;
 
 const RBarBox = styled.div`
@@ -170,6 +174,15 @@ const Title = styled.p`
   text-align: center;
   margin-right: 9pt;
   width: 37.5pt;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+    width: 43pt;
+  }
 `;
 const TextArea = styled.textarea`
   font-family: 'Spoqa Han Sans Neo';
@@ -184,6 +197,7 @@ const TextArea = styled.textarea`
   border-radius: 6pt;
   resize: none;
   width: 100%;
+
   &.noneRivew {
     padding-left: 0;
   }
@@ -215,6 +229,15 @@ const ProejctTextArea = styled.textarea`
   padding: 12pt;
   border-radius: 6pt;
   resize: none;
+  @media (min-width: 900pt) {
+    width: 580.5pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 19.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
   &.noneRivew {
     padding-left: 0;
   }
@@ -241,6 +264,14 @@ const ReviewP = styled.p`
   font-size: 12pt;
   line-height: 12pt;
   color: #222222;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const AveScore = styled(ReviewP)`
   color: #5221cb; ;

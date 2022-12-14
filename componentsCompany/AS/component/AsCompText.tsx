@@ -46,6 +46,12 @@ const AsCompText = ({ data }: Props) => {
   const [isValidCompletion, setIsValidCompletion] = useState(false);
   // 이미지
   const [imgArr, setImgArr] = useState<ImgFile[]>([]);
+
+  //a링크에 넘길거
+  const callPhone = hyphenFn(
+    data?.data?.afterSalesService?.afterSalesService?.project?.finalQuotation
+      ?.preQuotation?.quotationRequest?.member?.phone!,
+  );
   // file s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
     MulterResponse,
@@ -236,13 +242,10 @@ const AsCompText = ({ data }: Props) => {
           </div>
           <div className="text-box">
             <span className="name">연락처</span>
-            <span className="text phone">
-              {hyphenFn(
-                data?.data?.afterSalesService?.afterSalesService?.project
-                  ?.finalQuotation?.preQuotation?.quotationRequest?.member
-                  ?.phone!,
-              )}
-            </span>
+            <a href={'tel:' + callPhone} className="text phone">
+              {callPhone}
+            </a>
+            <span className="text webPhone">{callPhone}</span>
           </div>
         </Contents>
 
@@ -535,9 +538,12 @@ const Contents = styled.div`
     align-items: center;
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
+      @media (min-width: 900pt) {
+        padding-top: 15pt;
+      }
     }
     .emailText {
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
       line-height: 12pt;
@@ -551,6 +557,14 @@ const Contents = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .text {
     font-weight: 500;
@@ -559,6 +573,14 @@ const Contents = styled.div`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .img-box {
     padding-top: 42pt;
@@ -568,17 +590,33 @@ const Contents = styled.div`
   .phone {
     text-decoration: underline;
     color: ${colors.main};
+    @media (min-width: 900pt) {
+      display: none;
+    }
+  }
+  .webPhone {
+    @media (max-width: 899.25pt) {
+      display: none;
+    }
   }
 `;
 
 const Customer = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: left;
   padding-bottom: 24pt;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const ReceiptTitle = styled.h1`
@@ -588,6 +626,31 @@ const ReceiptTitle = styled.h1`
   margin-top: 18pt;
   letter-spacing: -0.02em;
   color: ${colors.main2};
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+`;
+
+const ReceiptConfirmTitle = styled.h1`
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  margin-top: 18pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const SecondList = styled.ul<{ isLastChildren?: boolean }>`
@@ -596,6 +659,9 @@ const SecondList = styled.ul<{ isLastChildren?: boolean }>`
   gap: 12pt;
   border-bottom: ${({ isLastChildren }) =>
     isLastChildren === true ? 'none' : '1px solid #e9eaee'};
+  @media (min-width: 900pt) {
+    margin-top: 23.25pt;
+  }
 `;
 
 const Items = styled.li`
@@ -610,6 +676,14 @@ const Items = styled.li`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .value {
     width: 80%;
@@ -625,6 +699,14 @@ const Items = styled.li`
     flex-direction: column;
     justify-content: start;
     position: relative;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
 `;
 const InputBox = styled.div`
@@ -640,22 +722,46 @@ const InputBox = styled.div`
     color: #f75015;
   }
   & > .withTextNumber {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
     letter-spacing: -0.02em;
     text-align: left;
     position: relative;
+    & span:nth-of-type(1) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: 0em;
+      text-align: left;
+      @media (min-width: 900pt) {
+        font-family: 'Spoqa Han Sans Neo';
+        font-size: 15pt;
+        font-weight: 700;
+        line-height: 12pt;
+        letter-spacing: -0.02em;
+        text-align: left;
+      }
+    }
     & span:nth-of-type(2) {
       position: absolute;
       right: 0;
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 9pt;
       font-weight: 500;
       line-height: 12pt;
       letter-spacing: -0.02em;
       text-align: right;
+      @media (min-width: 900pt) {
+        font-family: 'Spoqa Han Sans Neo';
+        font-size: 10.5pt;
+        font-weight: 500;
+        line-height: 12pt;
+        letter-spacing: -0.02em;
+        text-align: right;
+      }
     }
   }
   & > .withAfter {
@@ -663,7 +769,7 @@ const InputBox = styled.div`
     & span:nth-of-type(2) {
       position: absolute;
       right: 0;
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 9pt;
       font-weight: 500;
       line-height: 12pt;
@@ -679,7 +785,7 @@ const InputBox = styled.div`
     gap: 12pt;
   }
   .requiredLabel {
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 9pt;
     font-weight: 500;
     line-height: 12pt;

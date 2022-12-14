@@ -45,6 +45,9 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
 
   // console.log('부분 구독', data?.finalQuotation?.subscribeProduct);
 
+  //a링크에 넘길거
+  const callPhone = hyphenFn(data?.member?.phone!);
+
   data?.finalQuotation;
   // const finalQuotation = data?.preQuotation?.finalQuotation;
   const finalQuotation = data?.finalQuotation;
@@ -355,7 +358,10 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
         </div>
         <div className="text-box">
           <span className="name">전화번호</span>
-          <span className="text phone">{hyphenFn(data?.member?.phone!)}</span>
+          <a href={'tel:' + callPhone} className="phone">
+            {callPhone}
+          </a>
+          <span className="webPhone">{callPhone}</span>
         </div>
       </Contents>
     </Wrapper>
@@ -807,8 +813,29 @@ const Contents = styled.div`
   }
 
   .phone {
-    text-decoration: underline;
-    color: ${colors.main};
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    color: #0057ff;
+    cursor: pointer;
+    @media (min-width: 900pt) {
+      display: none;
+    }
+  }
+
+  .webPhone {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    @media (max-width: 899.25pt) {
+      display: none;
+    }
   }
 `;
 

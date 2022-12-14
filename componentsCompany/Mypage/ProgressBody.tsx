@@ -638,7 +638,7 @@ const ContractBtnBox = styled.div<{ presentProgress: boolean }>`
     padding-top: 15pt;
     padding-bottom: 15pt;
     width: 100%;
-    font-family: Spoqa Han Sans Neo;
+    font-family: 'Spoqa Han Sans Neo';
     font-size: 10.5pt;
     font-weight: 700;
     line-height: 12pt;
@@ -648,6 +648,14 @@ const ContractBtnBox = styled.div<{ presentProgress: boolean }>`
     border-radius: 6pt;
     color: #a6a9b0;
     cursor: pointer;
+    /* @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 15pt;
+      letter-spacing: -0.02em;
+      text-align: center;
+    } */
     ${({ presentProgress }) =>
       presentProgress === true &&
       css`

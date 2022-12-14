@@ -41,6 +41,9 @@ const TopBox = ({
   data,
   type,
 }: Props) => {
+  //a링크에 넘길거
+  const callCompany = hyphenFn(data?.project?.companyMember?.phone);
+  const callUser = hyphenFn(data?.project?.userMember?.phone!);
   return (
     <>
       <Wrapper className={className !== undefined ? className : ''}>
@@ -153,7 +156,12 @@ const TopBox = ({
               {data?.project?.finalQuotation?.quotationRequest?.etcRequest
                 ?.length! >= 1 ? (
                 <>
-                  <div className="text-box">
+                  <ElseText
+                    dataLength={
+                      data?.project?.finalQuotation?.quotationRequest
+                        ?.etcRequest?.length!
+                    }
+                  >
                     <span className="name">기타 요청사항</span>
                     <span className="text">
                       {
@@ -161,7 +169,7 @@ const TopBox = ({
                           ?.etcRequest
                       }
                     </span>
-                  </div>
+                  </ElseText>
                 </>
               ) : (
                 <div className="text-box">
@@ -181,9 +189,10 @@ const TopBox = ({
                 </div>
                 <div className="text-box">
                   <span className="name">연락처</span>
-                  <span className="text phone">
-                    {hyphenFn(data?.project?.userMember?.phone!)}
-                  </span>
+                  <a href={'tel:' + callUser} className="mobilePhone">
+                    {callUser}
+                  </a>
+                  <span className="webPhone">{callUser}</span>
                 </div>
               </Contents>
             ) : (
@@ -215,9 +224,10 @@ const TopBox = ({
                 </div>
                 <div className="text-box">
                   <span className="name">연락처</span>
-                  <span className="text phone">
-                    {hyphenFn(data?.project?.companyMember?.phone)}
-                  </span>
+                  <a href={'tel:' + callCompany} className="mobilePhone">
+                    {callCompany}
+                  </a>
+                  <span className="webPhone">{callCompany}</span>
                 </div>
               </Contents>
             )}
@@ -267,6 +277,7 @@ const StoreName = styled(ListItemText)`
   padding-top: 21pt;
   padding-bottom: 16.5pt;
   margin-top: 4.5pt;
+
   & div {
     margin-top: 12pt;
     display: flex;
@@ -314,10 +325,13 @@ const Contents = styled.div`
     align-items: center;
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
+      @media (min-width: 900pt) {
+        padding-top: 15pt;
+      }
     }
 
     .emailText {
-      font-family: Spoqa Han Sans Neo;
+      font-family: 'Spoqa Han Sans Neo';
       font-size: 12pt;
       font-weight: 500;
       line-height: 12pt;
@@ -327,19 +341,37 @@ const Contents = styled.div`
   }
 
   .name {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .text {
+    font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 10.5pt;
     line-height: 12pt;
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .img-box {
     padding-top: 42pt;
@@ -351,16 +383,101 @@ const Contents = styled.div`
     text-decoration: underline;
     color: ${colors.main};
   }
+  .mobilePhone {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    color: #0057ff;
+    cursor: pointer;
+    @media (min-width: 900pt) {
+      display: none;
+    }
+  }
+
+  .webPhone {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    @media (max-width: 899.25pt) {
+      display: none;
+    }
+  }
+`;
+
+const ElseText = styled.div<{ dataLength: number }>`
+  padding-top: 19.5pt;
+  /* padding-bottom: 18pt; */
+
+  display: flex;
+  justify-content: ${({ dataLength }) =>
+    dataLength === 0 ? 'space-between' : ''};
+  flex-direction: ${({ dataLength }) => (dataLength === 0 ? '' : 'column')};
+  align-items: ${({ dataLength }) =>
+    dataLength === 0 ? 'center' : 'flex-start'};
+
+  :not(:nth-of-type(1)) {
+    padding-top: 12pt;
+    @media (min-width: 900pt) {
+      padding-top: 15pt;
+    }
+  }
+  .name {
+    font-family: 'Spoqa Han Sans Neo';
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .text {
+    font-family: 'Spoqa Han Sans Neo';
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    border: ${({ dataLength }) =>
+      dataLength > 0 ? '0.75pt solid #e2e5ed' : ''};
+    padding: 7.5pt;
+    border-radius: 6pt;
+    width: 97%;
+    height: auto;
+    margin-top: ${({ dataLength }) => (dataLength === 0 ? '' : '7.5pt')};
+    text-align: left;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 400;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
 `;
 
 const Partner = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: left;
-  padding-bottom: 24pt;
+  padding-bottom: 9pt;
 `;
 
 export default TopBox;

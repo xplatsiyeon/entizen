@@ -36,6 +36,7 @@ const FinishedTopBox = ({ data }: Props) => {
   );
 
   console.log(subscribePassed);
+  console.log('주소 찾아온나', data);
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -57,6 +58,7 @@ const FinishedTopBox = ({ data }: Props) => {
             )}
           </div>
           {/* <p>서울시 관악구 난곡로40길 30</p> */}
+          {/* <p>현재 data에 전체 주소가 안오고 있음 백엔드 수정 된다면 여기에 전체 주소 넣어주세용</p> */}
         </StoreName>
       </ItemButton>
       {/* Open */}
@@ -263,7 +265,7 @@ const StoreName = styled(ListItemText)`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: Spoqa Han Sans Neo;
+    font-family: ' Spoqa Han Sans Neo';
     font-size: 9pt;
     width: 70pt;
     font-weight: 500;
@@ -278,6 +280,14 @@ const StoreName = styled(ListItemText)`
     line-height: 15pt;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 15pt;
+      font-weight: 700;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   & div > img {
     display: flex;
@@ -310,6 +320,9 @@ const Contents = styled.div`
     align-items: center;
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
+      @media (min-width: 900pt) {
+        padding-top: 15pt;
+      }
     }
 
     .emailText {
@@ -327,6 +340,14 @@ const Contents = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .text {
     font-weight: 500;
@@ -335,6 +356,14 @@ const Contents = styled.div`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .img-box {
     padding-top: 42pt;

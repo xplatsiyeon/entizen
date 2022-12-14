@@ -820,6 +820,14 @@ const ClientP = styled.p<{ presentProgress: boolean }>`
   width: 100%;
   padding: 15pt 13.5pt;
   cursor: pointer;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
 `;
 
 const YetP = styled.p<{ presentProgress: boolean }>`

@@ -14,6 +14,7 @@ type Props = {
 };
 
 const FinishedBottomBox = ({ data }: Props) => {
+  const callPhone = hyphenFn(data?.userMember?.phone.toString());
   return (
     <>
       <Wrapper>
@@ -28,9 +29,10 @@ const FinishedBottomBox = ({ data }: Props) => {
           </div>
           <div className="text-box">
             <span className="name">연락처</span>
-            <span className="phone">
-              {hyphenFn(data?.userMember?.phone.toString())}
-            </span>
+            <a href={'tel:' + callPhone} className="phone">
+              {callPhone}
+            </a>
+            <span className="webPhone">{callPhone}</span>
           </div>
         </Contents>
         <BiggerText className="catalog">첨부 파일</BiggerText>
@@ -47,6 +49,7 @@ const FinishedBottomBox = ({ data }: Props) => {
               </FileDownloadBtn>
             )),
         )}
+        <Line />
         <ReviewBox>
           <AsCompGetReview review={data?.projectReview} isProject={true} />
         </ReviewBox>
@@ -63,6 +66,10 @@ const Wrapper = styled.div`
   .catalog {
     margin-top: 18pt;
     margin-bottom: 15pt;
+    @media (min-width: 900pt) {
+      margin-top: 30pt;
+      margin-bottom: 24pt;
+    }
   }
   .review {
     border-top: 1px solid #e9eaee;
@@ -81,12 +88,20 @@ const ReviewBox = styled.div`
 `;
 const BiggerText = styled.div`
   margin-top: 37.5pt;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: 0em;
   text-align: left;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const BtnBox = styled.div`
   position: fixed;
@@ -103,20 +118,33 @@ const Contents = styled.div`
   padding-top: 19.5pt;
   padding-bottom: 18pt;
   border-bottom: 1px solid #e9eaee;
+  @media (min-width: 900pt) {
+    padding-top: 24pt;
+    padding-bottom: 30pt;
+  }
   .text-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
+      @media (min-width: 900pt) {
+        padding-top: 15pt;
+      }
     }
     .emailText {
-      font-family: Spoqa Han Sans Neo;
-      font-size: 12pt;
       font-weight: 500;
+      font-size: 10.5pt;
       line-height: 12pt;
       letter-spacing: -0.02em;
-      text-align: right;
+      @media (min-width: 900pt) {
+        font-family: 'Spoqa Han Sans Neo';
+        font-size: 12pt;
+        font-weight: 500;
+        line-height: 12pt;
+        letter-spacing: -0.02em;
+        text-align: right;
+      }
     }
   }
   .name {
@@ -125,6 +153,14 @@ const Contents = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .text {
     font-weight: 500;
@@ -133,6 +169,14 @@ const Contents = styled.div`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .img-box {
     padding-top: 42pt;
@@ -142,7 +186,26 @@ const Contents = styled.div`
 
   .phone {
     text-decoration: underline;
-    color: ${colors.main};
+    color: #0057ff;
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    @media (min-width: 900pt) {
+      display: none;
+    }
+  }
+  .webPhone {
+    color: #222222;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    @media (max-width: 899.25pt) {
+      display: none;
+    }
   }
 `;
 const FileDownloadBtn = styled(Button)`
@@ -172,6 +235,11 @@ const FileName = styled.div`
   color: ${colors.dark2};
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+const Line = styled.div`
+  padding-top: 24pt;
+  border-bottom: 0.75pt solid #e9eaee;
 `;
 
 export default FinishedBottomBox;
