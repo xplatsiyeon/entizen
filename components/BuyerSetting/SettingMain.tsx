@@ -82,7 +82,7 @@ const SettingMain = ({
   };
   // 회원탈퇴
   const ModalLeftControl = async () => {
-    const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
+    const WITHDRAWAL_API = `https://api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
     console.log('탈퇴');
     try {
@@ -125,7 +125,7 @@ const SettingMain = ({
   const authPassowrd = () => {
     const memberType = selectedType;
     if (checkPassword) {
-      const LOGIN_API = 'https://test-api.entizen.kr/api/members/login';
+      const LOGIN_API = 'https://api.entizen.kr/api/members/login';
       const userId = JSON.parse(localStorage.getItem('USER_ID')!);
       const accessToken = JSON.parse(localStorage.getItem('ACCESS_TOKEN')!);
       try {
