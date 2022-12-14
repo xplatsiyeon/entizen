@@ -7,7 +7,7 @@ import colors from 'styles/colors';
 import CheckIcon from 'public/images/check-small.png';
 import CheckCircleOn from 'public/images/CheckCircle-on.png';
 import Image from 'next/image';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { isTokenPostApi } from 'api';
 import { SpotDataResponse } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
 
@@ -22,6 +22,7 @@ const ReplacePhotoModal = ({ spotData, isModal, setIsModal }: Props) => {
   const preQuotationIdx = router?.query?.preQuotationIdx;
   const dispatch = useDispatch();
   const outside = useRef();
+  const clinetQuery = useQueryClient();
 
   // api/quotations/pre/:preQuotationIdx/spot-inspection
 
@@ -29,6 +30,8 @@ const ReplacePhotoModal = ({ spotData, isModal, setIsModal }: Props) => {
     useMutation(isTokenPostApi, {
       onSuccess: (data) => {
         console.log(data);
+        clinetQuery.invalidateQueries('spot-inspection');
+        setIsModal(false);
       },
       onError: (error) => {
         console.log('에러 발생');
