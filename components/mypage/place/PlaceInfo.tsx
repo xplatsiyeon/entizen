@@ -32,7 +32,8 @@ const PlaceInfo = ({ data }: Props) => {
     }
   };
 
-  console;
+  //a링크에 넘길거
+  const callPhone = hyphenFn(data?.companyMember?.phone);
 
   return (
     <Wrapper>
@@ -60,7 +61,10 @@ const PlaceInfo = ({ data }: Props) => {
         </div>
         <div className="text-box">
           <span className="name">연락처</span>
-          <span className="text phone">
+          <a href={'tel:' + callPhone} className="textPhone">
+            {hyphenFn(data?.companyMember?.phone)}
+          </a>
+          <span className="webPhone">
             {hyphenFn(data?.companyMember?.phone)}
           </span>
         </div>
@@ -182,6 +186,32 @@ const Contents = styled.div`
       line-height: 12pt;
       letter-spacing: -0.02em;
       text-align: right;
+    }
+  }
+
+  .textPhone {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    color: #0057ff;
+    cursor: pointer;
+    @media (min-width: 900pt) {
+      display: none;
+    }
+  }
+
+  .webPhone {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    @media (max-width: 899.25pt) {
+      display: none;
     }
   }
 `;

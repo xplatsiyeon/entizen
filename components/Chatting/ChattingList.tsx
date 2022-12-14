@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import defaultImg from 'public/images/default-img.png';
+import defaultImg from 'public/images/defaultImg.png';
 import { Dispatch, SetStateAction, TouchEvent, useRef, useState } from 'react';
 import QuitModal from './QuitModal';
 import unChecked from 'public/images/unChecked.png';
@@ -11,7 +11,8 @@ import hiddenUnChecked from 'public/images/hiddenUnChecked.png';
 import hiddenChecked from 'public/images/hiddenChecked.png';
 import hiddenStopAlarm from 'public/images/hiddenStopAlarm.png';
 import hiddenAlarm from 'public/images/hiddenAlarm.png';
-import chatEntizen from 'public/images/chatEntizen.png';
+//import chatEntizen from 'public/images/chatEntizen.png';
+import newChatEntizen from 'public/images/newChatEntizen.png';
 import { ChattingListResponse } from 'pages/chatting';
 import {
   QueryObserverResult,
@@ -239,7 +240,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
                 <ImageWrap>
-                  <Image src={chatEntizen} layout="fill" />
+                  <Image src={newChatEntizen} layout="fill" />
                 </ImageWrap>
               </ChattingRoomImage>
               <ChattingRoomPreview>

@@ -48,7 +48,6 @@ const PlaceTopBox = ({ data }: Props) => {
 
   // 부분 구독 판별
   const partSubscribe = data?.finalQuotation?.subscribeProduct;
-  console.log('partSubscribe 부분구독 알아오셈', partSubscribe);
 
   return (
     <Wrapper>

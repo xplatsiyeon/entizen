@@ -65,7 +65,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                 가이드
               </DivBox>
               <DivBox onClick={() => handleLink('/chatting')}>소통하기</DivBox>
-              <DivBox
+              <DivBox className='mypage' now={now}
                 onClick={() => {
                   setLinklist(true);
                   setType('mypage');
@@ -251,7 +251,7 @@ const ProfileMenu = styled.ul`
   }
 `;
 
-const DivBox = styled.div`
+const DivBox = styled.div<{now?:string}>`
   margin-right: 30pt;
   display: flex;
   align-items: center;
@@ -270,6 +270,9 @@ const DivBox = styled.div`
     font-family: 'Spoqa Han Sans Neo';
     color: ${colors.main2};
     text-decoration: none;
+  }
+  &.mypage{
+    color: ${({ now }) => (now ==='mypage' ? colors.main1 : colors.main2)};
   }
 `;
 
