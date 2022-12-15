@@ -140,6 +140,7 @@ const EditPW = ({ setComponent }: Props) => {
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
+            cursor: 'pointer',
           }}
           variant="subtitle1"
           onClick={() => setPwShow(!pwShow)}

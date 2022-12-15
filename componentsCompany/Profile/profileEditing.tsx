@@ -23,8 +23,13 @@ type Props = {
   isAddressOn?: boolean;
 };
 const TAG = 'componentsCompany/Profile/profileEditing.tsx';
-const ProfileEditing = ({ setComponent, component, routeHandle, isAddressOn, setHeightOn }: Props) => {
-
+const ProfileEditing = ({
+  setComponent,
+  component,
+  routeHandle,
+  isAddressOn,
+  setHeightOn,
+}: Props) => {
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState(false);
   const [data, setData] = useState<string>('');
@@ -165,16 +170,16 @@ const ProfileEditing = ({ setComponent, component, routeHandle, isAddressOn, set
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [data]);
 
-  const handleAddress = ()=>{
-    if(routeHandle){
-      setComponent(2)
-    }else{
+  const handleAddress = () => {
+    if (routeHandle) {
+      setComponent(2);
+    } else {
       setAddressOn(true);
     }
-    if(setHeightOn)setHeightOn(true)
+    if (setHeightOn) setHeightOn(true);
     // 나중에 프포필 변경 기본으로 돌아가는 ( setComponent(0) ) 기능이 생기면
     // 그 때 setHeightOn(false) 로 바꿔줘야 함.
-  }
+  };
 
   useEffect(() => {
     const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
@@ -218,6 +223,7 @@ const ProfileEditing = ({ setComponent, component, routeHandle, isAddressOn, set
                 layout="fill"
                 priority={true}
                 unoptimized={true}
+                objectFit="cover"
               />
             </div>
             {/* 포토 이미지 */}

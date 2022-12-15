@@ -42,6 +42,10 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
   );
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
+  const callPhone = hyphenFn(
+    data?.sendQuotationRequest?.quotationRequest?.member?.phone,
+  );
+
   return (
     <Wrapper>
       <ItemButton onClick={handleClick}>
@@ -189,13 +193,13 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
                   {data?.sendQuotationRequest?.quotationRequest?.member?.name}
                 </span>
               </div>
+              {/* 어디서 쓰는 컴포넌트 일까 ㅠㅜ */}
               <div className="text-box">
                 <span className="name">연락처</span>
-                <span className="text phone">
-                  {hyphenFn(
-                    data?.sendQuotationRequest?.quotationRequest?.member?.phone,
-                  )}
-                </span>
+                <a href={'tel:' + callPhone} className="textPhone">
+                  {callPhone}
+                </a>
+                <span className="webPhone">{callPhone}</span>
               </div>
             </Contents>
           )}
@@ -343,9 +347,30 @@ const Contents = styled.div`
     text-align: center;
   }
 
-  .phone {
-    text-decoration: underline;
-    color: ${colors.main};
+  .textPhone {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 10.5pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    color: #0057ff;
+    cursor: pointer;
+    @media (min-width: 900pt) {
+      display: none;
+    }
+  }
+
+  .webPhone {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 500;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: right;
+    @media (max-width: 899.25pt) {
+      display: none;
+    }
   }
 `;
 

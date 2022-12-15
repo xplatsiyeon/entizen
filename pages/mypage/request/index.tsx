@@ -261,17 +261,15 @@ const Mypage1_3 = ({}: any) => {
   /**
    * 최종견적 낙찰 확정 api 호출 함수
    */
-  const quotationRequestIdx = router?.query?.quotationRequestIdx!;
   const finalItme = data?.preQuotations?.filter(
-    (e) => e.quotationRequestIdx === Number(quotationRequestIdx),
-  )[0];
+    (e) => e.quotationRequestIdx === Number(routerId),
+  )[isFinalItmeIndex];
   const finalIndex = finalItme?.finalQuotation?.finalQuotationIdx!;
 
   const onClickConfirmModal = async () => {
     confirmPatchMutate({
       url: `/quotations/final/${finalIndex}`,
     });
-    // }
   };
 
   const spotInspection = spotData?.data?.spotInspection!;

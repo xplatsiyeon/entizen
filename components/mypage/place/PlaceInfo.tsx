@@ -165,6 +165,14 @@ const Partner = styled.div`
   letter-spacing: 0em;
   text-align: left;
   padding-bottom: 24pt;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const Contents = styled.div`
@@ -181,17 +189,25 @@ const Contents = styled.div`
 
     .emailText {
       font-family: 'Spoqa Han Sans Neo';
-      font-size: 12pt;
+      font-size: 10.5pt;
       font-weight: 500;
       line-height: 12pt;
       letter-spacing: -0.02em;
       text-align: right;
+      @media (min-width: 900pt) {
+        font-family: 'Spoqa Han Sans Neo';
+        font-size: 12pt;
+        font-weight: 500;
+        line-height: 12pt;
+        letter-spacing: -0.02em;
+        text-align: left;
+      }
     }
   }
 
   .textPhone {
     font-family: 'Spoqa Han Sans Neo';
-    font-size: 12pt;
+    font-size: 10.5pt;
     font-weight: 500;
     line-height: 12pt;
     letter-spacing: -0.02em;
@@ -212,6 +228,40 @@ const Contents = styled.div`
     text-align: right;
     @media (max-width: 899.25pt) {
       display: none;
+    }
+  }
+
+  .name {
+    font-family: 'Spoqa Han Sans Neo';
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+
+  .text {
+    font-family: 'Spoqa Han Sans Neo';
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: #222222;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
     }
   }
 `;
@@ -283,6 +333,14 @@ const FinishedPhotoText = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   margin-top: 39pt;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const FinishedPhotoBox = styled.div`
   width: 100%;
@@ -331,6 +389,14 @@ const FileLabel = styled.div`
   text-align: left;
   margin-top: 39pt;
   padding-bottom: 15pt;
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 const FileDownloadBtn = styled(Button)`
   margin-bottom: 6pt;

@@ -120,7 +120,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   };
   // 담당자 정보 수정하기
   const onCickBtn = () => {
-    setIsTwoBtnModal(false);
+    setIsTwoBtnModal(true);
     console.log('profile', profile, key);
     /*  if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
@@ -296,9 +296,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           handleClick={fnPopup}
         />
       </form>
-      <Buttons className="firstNextPage" onClick={onClickNice}>
-        숨겨진 비밀번호 버튼
-      </Buttons>
+      {/* <Buttons className="firstNextPage" onClick={onClickNice}> */}
+      <Buttons className="firstNextPage">숨겨진 비밀번호 버튼</Buttons>
     </Wrapper>
   );
 };

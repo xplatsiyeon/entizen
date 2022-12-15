@@ -265,6 +265,9 @@ const Contents = styled.div`
     align-items: center;
     :not(:nth-of-type(1)) {
       padding-top: 12pt;
+      @media (min-width: 900pt) {
+        padding-top: 15pt;
+      }
     }
 
     .emailText {
@@ -283,6 +286,14 @@ const Contents = styled.div`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .text {
     font-weight: 500;
@@ -291,6 +302,14 @@ const Contents = styled.div`
     text-align: right;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
   }
   .img-box {
     padding-top: 42pt;

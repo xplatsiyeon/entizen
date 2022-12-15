@@ -114,7 +114,12 @@ const FindPassword = () => {
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
-          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
         />
         <Typography
           sx={{
@@ -124,6 +129,7 @@ const FindPassword = () => {
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
+            cursor: 'pointer',
           }}
           variant="subtitle1"
           onClick={() => setPwShow(!pwShow)}

@@ -206,7 +206,12 @@ const AsRequest = ({ data }: Props) => {
               {/* 기타 요청사항 */}
               {projectData?.project?.finalQuotation?.quotationRequest
                 ?.etcRequest.length! >= 1 ? (
-                <div className="text-box">
+                <ElseText
+                  dataLength={
+                    projectData?.project?.finalQuotation?.quotationRequest
+                      ?.etcRequest.length!
+                  }
+                >
                   <span className="name">기타 요청사항</span>
                   <span className="text">
                     {
@@ -214,7 +219,7 @@ const AsRequest = ({ data }: Props) => {
                         ?.etcRequest
                     }
                   </span>
-                </div>
+                </ElseText>
               ) : (
                 <div className="text-box">
                   <span className="name">기타 요청사항</span>
@@ -452,6 +457,66 @@ const Item = styled.li`
     .value {
       flex: none;
       text-align: right;
+    }
+  }
+`;
+
+const ElseText = styled.div<{ dataLength: number }>`
+  padding-top: 19.5pt;
+  /* padding-bottom: 18pt; */
+
+  display: flex;
+  justify-content: ${({ dataLength }) =>
+    dataLength === 0 ? 'space-between' : ''};
+  flex-direction: ${({ dataLength }) => (dataLength === 0 ? '' : 'column')};
+  align-items: ${({ dataLength }) =>
+    dataLength === 0 ? 'center' : 'flex-start'};
+
+  :not(:nth-of-type(1)) {
+    padding-top: 12pt;
+    @media (min-width: 900pt) {
+      padding-top: 15pt;
+    }
+  }
+  .name {
+    font-family: 'Spoqa Han Sans Neo';
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    color: ${colors.gray2};
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 500;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
+    }
+  }
+  .text {
+    font-family: 'Spoqa Han Sans Neo';
+    font-weight: 500;
+    font-size: 10.5pt;
+    line-height: 12pt;
+    text-align: right;
+    letter-spacing: -0.02em;
+    color: ${colors.main2};
+    border: ${({ dataLength }) =>
+      dataLength > 0 ? '0.75pt solid #e2e5ed' : ''};
+    padding: 7.5pt;
+    border-radius: 6pt;
+    width: 97%;
+    height: auto;
+    margin-top: ${({ dataLength }) => (dataLength === 0 ? '' : '7.5pt')};
+    text-align: left;
+    @media (min-width: 900pt) {
+      font-family: 'Spoqa Han Sans Neo';
+      font-size: 12pt;
+      font-weight: 400;
+      line-height: 12pt;
+      letter-spacing: -0.02em;
+      text-align: left;
     }
   }
 `;

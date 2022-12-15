@@ -13,6 +13,8 @@ type Prop = {
 const ManagerInfo = ({ name, phone, email }: Prop) => {
   const [isModal, setIsModal] = useState(false);
   const HandleModal = () => setIsModal((prev) => !prev);
+  //a링크에 넘길거
+  const callPhone = hyphenFn(phone);
   return (
     <Wrapper>
       {/* {isModal && <CallManager HandleModal={HandleModal} />} */}
@@ -28,7 +30,10 @@ const ManagerInfo = ({ name, phone, email }: Prop) => {
         </Item>
         <Item>
           <span className="name">전화번호</span>
-          <span className="phone" onClick={HandleModal}>
+          <a href={'tel:' + callPhone} className="phone" onClick={HandleModal}>
+            {hyphenFn(phone)}
+          </a>
+          <span className="webPhone" onClick={HandleModal}>
             {hyphenFn(phone)}
           </span>
         </Item>
@@ -108,14 +113,22 @@ const Item = styled.li`
     text-align: right;
     letter-spacing: -0.02em;
     text-decoration-line: underline;
+    cursor: pointer;
     color: ${colors.blue};
     @media (min-width: 900pt) {
-      font-weight: 500;
-      font-family: 'Spoqa Han Sans Neo';
-      font-size: 12pt;
-      line-height: 12pt;
-      letter-spacing: -0.02em;
-      text-align: left;
+      display: none;
+    }
+  }
+
+  .webPhone {
+    font-weight: 500;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    line-height: 12pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    @media (max-width: 899.25pt) {
+      display: none;
     }
   }
 `;

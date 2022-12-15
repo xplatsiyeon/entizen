@@ -200,6 +200,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                   className="test"
                   priority={true}
                   unoptimized={true}
+                  objectFit="cover"
                 />
               </div>
               {/* 포토 이미지 */}

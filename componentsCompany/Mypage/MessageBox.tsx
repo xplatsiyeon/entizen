@@ -79,6 +79,7 @@ const Wrapper = styled.div<{ presentProgress: boolean }>`
   display: flex;
   justify-content: space-between;
   position: relative;
+
   cursor: pointer;
 
   @media (min-width: 900pt) {
@@ -95,25 +96,43 @@ const LeftSideBox = styled.div<{ presentProgress: boolean }>`
 `;
 
 const BigText = styled.div`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 10.5pt;
   font-weight: 700;
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+  @media (min-width: 900pt) {
+    font-family: ' Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 15pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
 `;
 
 const List = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 9pt;
   font-weight: 400;
   line-height: 15pt;
   letter-spacing: -0.02em;
   text-align: left;
+
   & li {
     color: #747780;
+  }
+  @media (min-width: 900pt) {
+    padding-top: 12pt;
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 12pt;
+    font-weight: 400;
+    line-height: 21pt;
+    letter-spacing: -0.02em;
+    text-align: left;
   }
 `;
 
