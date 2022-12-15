@@ -1050,6 +1050,7 @@ const AddPhotos = styled.button`
   width: 56.0625pt;
   height: 56.0625pt;
   background-color: #ffffff;
+  border: 0.75pt solid #e2e5ed;
   border-radius: 6pt;
   @media (min-width: 900pt) {
     width: 77.25pt;
