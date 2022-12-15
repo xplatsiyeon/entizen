@@ -524,7 +524,7 @@ const SecondStep = ({
         </Wrapper>
         <Divide></Divide>
         <SecondWrapper>
-          <TopBox>
+          <TopBox style={{ border: '1px solid red' }}>
             <div>
               [선택사항] 내 제품 리스트에서 <div>가져오기</div>
             </div>

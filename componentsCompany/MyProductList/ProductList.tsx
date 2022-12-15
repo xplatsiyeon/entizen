@@ -100,6 +100,7 @@ const ProductList = (props: Props) => {
                   layout="fill"
                   priority={true}
                   unoptimized={true}
+                  objectFit="cover"
                 />
               </ImageBox>
             ) : (
