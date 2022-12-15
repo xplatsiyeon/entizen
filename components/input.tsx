@@ -40,6 +40,7 @@ const Box = styled.input`
   margin-top: 9pt;
   padding: 13.5pt 0;
   padding-left: 12pt;
+
   ::placeholder {
     color: ${colors.gray};
     font-weight: 500;

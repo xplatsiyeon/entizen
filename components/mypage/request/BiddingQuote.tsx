@@ -63,8 +63,8 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                         webHandleNum(idx);
                         setChargeIdx(index);
                       }}
-                      chargeIdx={chargeIdx}
-                      index={index}
+                      chargeIdx={idx}
+                      index={webIdx}
                     >
                       <div className="imgBox">
                         <Image
@@ -73,6 +73,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                           layout="fill"
                           priority={true}
                           unoptimized={true}
+                          objectFit="cover"
                         />
                       </div>
                     </WebLeftPhotos>
@@ -88,6 +89,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                   layout="fill"
                   priority={true}
                   unoptimized={true}
+                  objectFit="contain"
                 />
               </div>
             </WebRightPhotoBox>
@@ -104,6 +106,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                   priority={true}
                   unoptimized={true}
                   layout="fill"
+                  objectFit="cover"
                 />
               </ImageBox>
             ) : (
@@ -248,6 +251,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
               priority={true}
               unoptimized={true}
               layout="fill"
+              objectFit="cover"
             />
           </ImageBox>
         ) : (
@@ -430,6 +434,8 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                     layout="fill"
                     priority={true}
                     unoptimized={true}
+                    objectFit="cover"
+                    style={{ borderRadius: '6pt' }}
                   />
                 </GridItem>
               ))}
@@ -882,11 +888,17 @@ const WebLeftPhotos = styled.div<{ index: number; chargeIdx: number }>`
     margin-bottom: 9pt;
     width: 60pt;
     height: 60pt;
-    border-radius: 6pt;
+    /* border-radius: 6pt; */
     border: ${({ index, chargeIdx }) =>
       index === chargeIdx ? `0.75pt solid #5221cb` : 'none'};
     cursor: pointer;
+    & > span {
+      border-radius: 6pt;
+    }
     .imgBox {
+      & > span {
+        border-radius: 6pt;
+      }
       position: relative;
       width: 100%;
       height: 100%;

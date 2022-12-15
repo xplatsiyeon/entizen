@@ -78,6 +78,7 @@ const SubscriptionProduct = ({ data, setIsFinalItmeIndex }: Props) => {
                   priority={true}
                   unoptimized={true}
                   layout="fill"
+                  objectFit="cover"
                 />
               </div>
             ) : (

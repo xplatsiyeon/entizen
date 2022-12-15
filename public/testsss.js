@@ -5,7 +5,8 @@ function decryptResult(decryptResult) {
 
   const first = document.querySelector('.firstNextPage');
   if (decryptResult) {
-    if (first) {
+    const key = sessionStorage.getItem('key');
+    if (first ) {
       first.click();
     }
   }

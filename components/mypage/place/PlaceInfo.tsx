@@ -118,6 +118,7 @@ const PlaceInfo = ({ data }: Props) => {
                     layout="fill"
                     priority={true}
                     unoptimized={true}
+                    objectFit="cover"
                   />
                 </div>
               </WebLeftPhotos>
@@ -131,6 +132,7 @@ const PlaceInfo = ({ data }: Props) => {
                 layout="fill"
                 priority={true}
                 unoptimized={true}
+                objectFit="contain"
               />
             </div>
           </WebRightPhotoBox>
@@ -298,10 +300,11 @@ const WebLeftPhotos = styled.div<{ idx: number; webIdx: number }>`
   @media (min-width: 900pt) {
     width: 60pt;
     height: 60pt;
-    border-radius: 6pt;
+    /* border-radius: 6pt; */
     margin-bottom: 8pt;
     overflow: hidden;
     border: ${({ idx, webIdx }) => idx === webIdx && `0.75pt solid #5221cb`};
+    border-radius: 6pt;
     cursor: pointer;
     .imgBox {
       position: relative;

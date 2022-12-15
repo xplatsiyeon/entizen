@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import { Box, color } from '@mui/system';
 import Btn from 'components/button';
-import Header from 'components/header';
 import Input from 'components/input';
 import MypageHeader from 'components/mypage/request/header';
 import React, { useEffect, useState } from 'react';
@@ -16,9 +15,7 @@ import useProfile from 'hooks/useProfile';
 import { Key } from 'components/Profile/PasswordModify';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import { Router } from '@mui/icons-material';
 import { useRouter } from 'next/router';
-import { is } from 'immer/dist/internal';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
@@ -34,7 +31,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
   const [authCode, setAuthCode] = useState<string>('');
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile } = useProfile(accessToken);
   // 원버튼 모달
@@ -51,6 +47,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       onSuccess: (res) => {
         console.log(res);
         console.log(res.data.authCode);
+
         setModalMessage('이메일로 인증번호가 전송되었습니다.');
         setIsModal(true);
       },
@@ -118,7 +115,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   };
   // 담당자 정보 수정하기
   const onCickBtn = () => {
-    setIsTwoBtnModal(false);
+    //setIsTwoBtnModal(false);
+    const key: Key = JSON.parse(sessionStorage.getItem('key')!);
     console.log('profile', profile, key);
     /*  if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
@@ -140,7 +138,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           email: email,
         },
       });
-      console.log('온 클릭');
     } else {
       setModalMessage(
         '이름과 인증정보가 일치하지 않습니다.\n다시 입력해주세요.',
@@ -148,6 +145,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       setIsModal(true);
     }
   };
+
   // 이메일인증
   const onClickEmail = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -158,6 +156,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       },
     });
   };
+
   // 이메일 인증코드 확인
   const certifyEmailCode = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -219,7 +218,13 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   }, [email, authCode, name]);
   return (
     <Wrapper>
-      {isModal && <Modal text={modalMessage} click={onClickModal} />}
+      {isModal && (
+        <Modal
+          text={modalMessage}
+          click={onClickModal}
+          setIsModal={setIsModal}
+        />
+      )}
       {isTwoBtnModal && (
         <TwoBtnModal
           exit={TwoBtnModalExit}
@@ -246,7 +251,18 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         입력해주세요
       </Notice>
       <Remark variant="subtitle1">고객에게 전달되는 정보예요!</Remark>
-      <form name="form_chk" method="get" onSubmit={() => false}>
+      <form
+        name="form_chk"
+        method="get"
+        onSubmit={() => {
+          false;
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+          }
+        }}
+      >
         <input type="hidden" name="m" value="checkplusService" />
         {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
         <input type="hidden" id="encodeData" name="EncodeData" value={data} />
@@ -263,7 +279,14 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         </Form>
         <Form>
           <label>담당자 이메일</label>
-          <Input placeholder="이메일 입력" value={email} setValue={setEmail} />
+          <div>
+            <Input
+              placeholder="이메일 입력"
+              value={email}
+              setValue={setEmail}
+            />
+          </div>
+          <input type="hidden" name="test" value="" />
           <OverlapBtn
             style={{
               top: '25.5pt',
@@ -271,6 +294,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
             isEmailValid={isEmailValid}
             onClick={onClickEmail}
             type="button"
+            onSubmit={() => false}
           >
             인증
           </OverlapBtn>
@@ -294,8 +318,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           handleClick={fnPopup}
         />
       </form>
-      <Buttons className="firstNextPage" onClick={onClickNice}>
-        {/* <Buttons className="firstNextPage" onClick={onCickBtn}> */}
+      {/* <Buttons className="firstNextPage" onClick={onClickNice}> */}
+      <Buttons className="firstNextPage" onClick={onCickBtn}>
         숨겨진 비밀번호 버튼
       </Buttons>
     </Wrapper>

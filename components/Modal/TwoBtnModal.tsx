@@ -33,6 +33,7 @@ const TwoBtnModal = ({
       exit();
     }
   };
+
   return (
     <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <ModalBox>

@@ -699,10 +699,9 @@ const Line = styled.div<{ lineHeight: boolean }>`
   left: 22.5pt;
   width: 0.25pt;
   border: 0.75pt solid silver;
-
   @media (min-width: 900pt) {
     height: ${({ lineHeight }) =>
-      lineHeight ? `calc(100% - 130pt)` : `calc(100% - 15pt)`};
+      lineHeight ? `calc(100% - 165pt)` : `calc(100% - 15pt)`};
   }
 `;
 
