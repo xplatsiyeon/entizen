@@ -149,7 +149,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -200,6 +200,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                   className="test"
                   priority={true}
                   unoptimized={true}
+                  objectFit="cover"
                 />
               </div>
               {/* 포토 이미지 */}

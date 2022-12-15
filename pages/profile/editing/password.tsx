@@ -83,7 +83,7 @@ const FindPassword = () => {
   const handleClick = () => {
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     // const memberIdx = JSON.parse(sessionStorage.getItem('MEMBER_IDX')!);
-    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members/password/${key.memberIdx}`;
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
     try {
       axios({
         method: 'patch',
@@ -114,7 +114,12 @@ const FindPassword = () => {
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
-          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
         />
         <Typography
           sx={{
@@ -124,6 +129,7 @@ const FindPassword = () => {
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
+            cursor: 'pointer',
           }}
           variant="subtitle1"
           onClick={() => setPwShow(!pwShow)}

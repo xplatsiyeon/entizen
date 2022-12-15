@@ -133,7 +133,7 @@ const ProfileEditing = ({
   // useEffect(() => {
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType: token.memberType },
   //   })
   //     .then((res) => {
@@ -202,6 +202,7 @@ const ProfileEditing = ({
                 layout="fill"
                 priority={true}
                 unoptimized={true}
+                objectFit="cover"
               />
             </div>
             {/* 포토 이미지 */}

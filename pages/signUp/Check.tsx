@@ -92,7 +92,7 @@ const SignUpCheck = () => {
   };
   // 아이디 중복 체크
   const overlabCheck = () => {
-    const OVERLAB_CHECK_POST = `https://api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
+    const OVERLAB_CHECK_POST = `https://test-api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
     try {
       axios({
         method: 'get',
@@ -116,7 +116,12 @@ const SignUpCheck = () => {
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
-          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+          }}
         />
         <Typography
           sx={{
@@ -126,6 +131,7 @@ const SignUpCheck = () => {
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
+            cursor: 'pointer',
           }}
           variant="subtitle1"
           onClick={() => setPwShow(!pwShow)}

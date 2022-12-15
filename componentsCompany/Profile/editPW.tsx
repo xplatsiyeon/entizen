@@ -121,11 +121,22 @@ const EditPW = ({ setComponent }: Props) => {
     if (modalMessage === '비밀번호 변경이 완료되었습니다.') setComponent!(1);
     /*router.push('/signin'); */
   };
+
+  // x버튼 누르면 비밀번호 초기화
+  const removePW = () => {
+    setPwInput('');
+  };
   const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
         <CancelRoundedIcon
-          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
+          sx={{
+            color: '#E2E5ED',
+            width: '10.5pt',
+            marginRight: '9pt',
+            cursor: 'pointer',
+            border: '1px solid red',
+          }}
         />
         <Typography
           sx={{
@@ -135,6 +146,7 @@ const EditPW = ({ setComponent }: Props) => {
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
+            cursor: 'pointer',
           }}
           variant="subtitle1"
           onClick={() => setPwShow(!pwShow)}

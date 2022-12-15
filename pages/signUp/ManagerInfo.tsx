@@ -198,7 +198,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   useEffect(() => {
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType: token.memberType },
     })
       .then((res) => {
@@ -296,9 +296,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           handleClick={fnPopup}
         />
       </form>
-      <Buttons className="firstNextPage" onClick={onClickNice}>
-        숨겨진 비밀번호 버튼
-      </Buttons>
+      {/* <Buttons className="firstNextPage" onClick={onClickNice}> */}
+      <Buttons className="firstNextPage">숨겨진 비밀번호 버튼</Buttons>
     </Wrapper>
   );
 };
