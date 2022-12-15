@@ -6,12 +6,9 @@ function decryptResult(decryptResult) {
   const first = document.querySelector('.firstNextPage');
   if (decryptResult) {
     const key = sessionStorage.getItem('key');
-    if (first && key) {
+    if (first ) {
       first.click();
-    }else{
-      console.log('yet');
     }
-
   }
   // const second = document.querySelector('.secondNextPage');
   // if (decryptResult) {

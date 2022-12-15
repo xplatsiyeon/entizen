@@ -31,7 +31,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
   const [authCode, setAuthCode] = useState<string>('');
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile } = useProfile(accessToken);
   // 원버튼 모달
@@ -41,7 +40,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const [isTwoBtnModal, setIsTwoBtnModal] = useState(false);
   const [TwoBtnmodalMessage, setTwoBtnModalMessage] = useState('');
 
-  console.log('key',key)
 
   // 이메일 전송
   const { mutate: emailMutate, isLoading: emailLoading } = useMutation(
@@ -118,6 +116,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 담당자 정보 수정하기
   const onCickBtn = () => {
     //setIsTwoBtnModal(false);
+    const key: Key = JSON.parse(sessionStorage.getItem('key')!);
     console.log('profile', profile, key);
     /*  if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
@@ -139,7 +138,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           email: email,
         },
       });
-      console.log('온 클릭');
     } else {
       setModalMessage(
         '이름과 인증정보가 일치하지 않습니다.\n다시 입력해주세요.',
