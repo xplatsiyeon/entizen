@@ -15,8 +15,6 @@ type Props = {
 const Modal = ({ text, click, color, setIsModal }: Props) => {
   const outside = useRef();
 
-  console.log(router);
-
   const handleModalClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
