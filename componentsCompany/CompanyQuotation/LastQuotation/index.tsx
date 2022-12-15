@@ -62,6 +62,11 @@ const LastWrite = (props: Props) => {
   const [tabNumber, setTabNumber] = useState<number>(0);
   const [canNext, SetCanNext] = useState<boolean>(false);
   // step 1
+  // 충전기 설치비
+  const [
+    chargingStationInstallationPrice,
+    setChargingStationInstallationPrice,
+  ] = useState<string>('');
   // 구독상품
   const [subscribeProduct, setSubscribeProduct] = useState<string>('');
   // 구독기간
@@ -120,6 +125,12 @@ const LastWrite = (props: Props) => {
   const [BusinessRegistration, setBusinessRegistration] = useState<
     BusinessRegistrationType[]
   >([]);
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+  // 서브 카테고리 열렸는지 아닌지
+  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
+  // LeftBox component 바꿔주는거
+  const [underNum, setUnderNum] = useState<number>();
+  const [componentId, setComponentId] = useState<number>();
 
   // ----------- 보낸 견적 상세 페이지 api --------------
   const { data, isLoading, isError, error } = useQuery<SentRequestResponse>(
@@ -154,6 +165,9 @@ const LastWrite = (props: Props) => {
     console.log(data);
     if (data && !finalQuotationIdx) {
       console.log('수정 데이터 없다');
+      setChargingStationInstallationPrice(
+        preQuotation?.chargingStationInstallationPrice?.toString(),
+      );
       setSubscribeProduct(
         convertKo(
           subscribeType,
@@ -238,7 +252,12 @@ const LastWrite = (props: Props) => {
       setSelectedOption(arr);
       setSelectedOptionEn(arrEn);
     } else if (data && finalQuotationIdx) {
+      // 수정데이터가 있을 때
       const { finalQuotation } = data?.sendQuotationRequest?.preQuotation!;
+
+      setChargingStationInstallationPrice(
+        finalQuotation?.chargingStationInstallationPrice?.toString(),
+      );
       setSubscribeProduct(
         convertKo(
           subscribeType,
@@ -326,16 +345,16 @@ const LastWrite = (props: Props) => {
     }
   }, [data]);
 
+  // 구독상품 변경 시 충전소 설치비 초기화
+  useEffect(() => {
+    if (subscribeProduct === '전체구독') {
+      setChargingStationInstallationPrice('');
+    }
+  }, [subscribeProduct]);
+
   // 부분 구독 판별
   const partSubscribe =
     data?.sendQuotationRequest?.quotationRequest?.subscribeProduct!;
-
-  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-  // 서브 카테고리 열렸는지 아닌지
-  const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-  // LeftBox component 바꿔주는거
-  const [underNum, setUnderNum] = useState<number>();
-  const [componentId, setComponentId] = useState<number>();
 
   // LeftBox Border 바꿔주는거
   useEffect(() => {
@@ -421,6 +440,10 @@ const LastWrite = (props: Props) => {
         setChargeNum={setChargeNum}
         chargeNum={chargeNum}
         partSubscribe={partSubscribe!}
+        chargingStationInstallationPrice={chargingStationInstallationPrice}
+        setChargingStationInstallationPrice={
+          setChargingStationInstallationPrice
+        }
       />
     ),
     // 스텝 2
@@ -522,6 +545,7 @@ const LastWrite = (props: Props) => {
         constructionPeriod={constructionPeriod}
         spotInspectionResult={dueDiligenceResult}
         subscribeProductFeature={subscribeProductFeature}
+        chargingStationInstallationPrice={chargingStationInstallationPrice}
       />
     ),
   };

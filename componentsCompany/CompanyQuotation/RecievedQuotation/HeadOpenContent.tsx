@@ -120,6 +120,10 @@ const HeadOpenContent = () => {
     useState<string>('');
   const [constructionPeriod, setConstructionPeriod] = useState<string>('');
   const [firstPageTextArea, setFirstPageTextArea] = useState<string>('');
+  const [
+    chargingStationInstallationPrice,
+    setChargingStationInstallationPrice,
+  ] = useState<string>('');
   // 모달
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [componentId, setComponentId] = useState<number>();
@@ -293,6 +297,10 @@ const HeadOpenContent = () => {
           setFirstPageTextArea={setFirstPageTextArea}
           canNext={canNext}
           SetCanNext={SetCanNext}
+          chargingStationInstallationPrice={chargingStationInstallationPrice}
+          setChargingStationInstallationPrice={
+            setChargingStationInstallationPrice
+          }
         />
       </WebContainer>
     ),

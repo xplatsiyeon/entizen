@@ -37,6 +37,7 @@ const ProfileEditing = ({
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
+  console.log('프로필', profile);
 
   //주소
   const [addressOn, setAddressOn] = useState<boolean>(Boolean(isAddressOn));
@@ -48,8 +49,8 @@ const ProfileEditing = ({
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-
- {/* const {mutate: addressMutate} =  useMutation(isTokenPatchApi, {
+  {
+    /* const {mutate: addressMutate} =  useMutation(isTokenPatchApi, {
 
 })
     //주소 수정할 경우
@@ -61,7 +62,8 @@ const ProfileEditing = ({
           zipCode: postNumber,
         }
       })
-    } */}
+    } */
+  }
 
   const { mutate: profileMutae, isLoading: profileLoading } = useMutation(
     isTokenPatchApi,
@@ -190,7 +192,6 @@ const ProfileEditing = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   if (addressOn) {
     return (
       <CompanyAddress
@@ -249,7 +250,11 @@ const ProfileEditing = ({
           <InputWrap>
             <InputBox
               placeholder="회사 우편번호 입력"
-              value={postNumber? postNumber : profile?.companyMemberAdditionalInfo?.companyZipCode}
+              value={
+                postNumber
+                  ? postNumber
+                  : profile?.companyMemberAdditionalInfo?.companyZipCode
+              }
               name="id"
               readOnly={true}
               // onClick={() => setAddressOn(true)}
@@ -261,14 +266,22 @@ const ProfileEditing = ({
           </InputWrap>
           <InputBox
             placeholder="회사 주소 입력"
-            value={companyAddress? companyAddress: profile?.companyMemberAdditionalInfo?.companyAddress}
+            value={
+              companyAddress
+                ? companyAddress
+                : profile?.companyMemberAdditionalInfo?.companyAddress
+            }
             name="checkPw"
             readOnly={true}
             // onClick={() => setAddressOn(true)}
           />
           <InputBox
             placeholder="회사 상세주소 입력"
-            value={companyDetailAddress? companyAddress: profile?.companyMemberAdditionalInfo?.companyDetailAddress}
+            value={
+              companyDetailAddress
+                ? companyAddress
+                : profile?.companyMemberAdditionalInfo?.companyDetailAddress
+            }
             onChange={(e) => setCompanyDetailAddress(e.target.value)}
             name="checkPw"
           />

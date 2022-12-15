@@ -32,8 +32,7 @@ const FinalBottomBox = ({ pb, data }: Props) => {
 
   // 부분 구독 판독
   const partSubscribe =
-    data?.sendQuotationRequest?.quotationRequest?.subscribeProduct;
-
+    data?.sendQuotationRequest?.preQuotation?.finalQuotation?.subscribeProduct!;
   return (
     <Wrapper>
       {data?.sendQuotationRequest?.companyMemberAdditionalInfo
@@ -76,7 +75,11 @@ const FinalBottomBox = ({ pb, data }: Props) => {
         {partSubscribe === 'PART' && (
           <Item>
             <span className="name">충전소 설치비</span>
-            <span className="value">20 원</span>
+            <span className="value">
+              {`${PriceBasicCalculation(
+                finalQuotation?.chargingStationInstallationPrice,
+              )} 원`}
+            </span>
           </Item>
         )}
 
