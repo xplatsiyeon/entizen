@@ -4,7 +4,7 @@ import colors from 'styles/colors';
 import Btn from 'components/button';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import useDebounce from 'hooks/useDebounce';
 import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
@@ -121,12 +121,48 @@ const EditPW = ({ setComponent }: Props) => {
     if (modalMessage === '비밀번호 변경이 완료되었습니다.') setComponent!(1);
     /*router.push('/signin'); */
   };
-  const iconAdorment = {
+  const beforeIcon = {
     endAdornment: (
       <InputAdornment position="start">
-        <CancelRoundedIcon
-          sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }}
-        />
+        <CloseWrap 
+        onMouseDown={handleMouseDownPassword}
+        onClick={()=>setBeforePasswordInput('')}
+        >
+          <CancelRoundedIcon
+            sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }} 
+          />
+        </CloseWrap>
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+            cursor: 'pointer',
+          }}
+          variant="subtitle1"
+          onClick={() => setPwShow(!pwShow)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+
+  const icon = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CloseWrap 
+        onMouseDown={handleMouseDownPassword}
+        onClick={()=>setPwInput('')}
+        >
+          <CancelRoundedIcon
+            sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }} 
+          />
+        </CloseWrap>
         <Typography
           sx={{
             fontSize: '14px',
@@ -145,9 +181,39 @@ const EditPW = ({ setComponent }: Props) => {
       </InputAdornment>
     ),
   };
-  const beforeAdornment = beforePwSelected ? iconAdorment : {};
-  const iconAdornment = pwSelected ? iconAdorment : {};
-  const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+
+  const secondIcon = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CloseWrap 
+        onMouseDown={handleMouseDownPassword}
+        onClick={()=>setCheckPw('')}
+        >
+          <CancelRoundedIcon
+            sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }} 
+          />
+        </CloseWrap>
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+          }}
+          variant="subtitle1"
+          onClick={() => setPwShow(!pwShow)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+  const beforeAdornment = beforePwSelected ? beforeIcon : {};
+  const iconAdornment = pwSelected ? icon : {};
+  const secondIconAdornment = checkPwSelected ? secondIcon : {};
 
   return (
     <Wrapper>
@@ -314,3 +380,12 @@ const Input = styled(TextField)`
 //   justify-content: start;
 //   margin-top: 45pt;
 // `;
+
+const CloseWrap = styled.div`
+width: 10pt;
+height: 11pt;
+display: flex;
+justify-content: flex-start;
+align-items: center;
+margin-right: 5pt;
+`

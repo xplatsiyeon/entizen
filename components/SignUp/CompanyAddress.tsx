@@ -10,6 +10,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { locationAction } from 'store/locationSlice';
 import { checkSearchedWord } from 'utils/adrressFilter';
+import { useMutation } from 'react-query';
+import { isTokenPatchApi } from 'api';
 
 export interface addressType {
   admCd: string;
@@ -46,7 +48,7 @@ type Props = {
 const CompanyAddress = ({
   setPostNumber,
   setCompanyAddress,
-  setAddressOn,
+  setAddressOn, 
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
@@ -56,6 +58,7 @@ const CompanyAddress = ({
     setSearchWord(() => e.target.value);
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
+ 
     const { roadad, zip } = e.currentTarget.dataset;
     setCompanyAddress(roadad!);
     setPostNumber(zip!);

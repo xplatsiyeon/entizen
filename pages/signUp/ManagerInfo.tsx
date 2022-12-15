@@ -113,9 +113,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const TwoBtnModalExit = () => setIsTwoBtnModal(false);
   // 나이스 인증 후 클릭되는 함수 (투버튼 수락)
   const onClickNice = () => {
-    setTwoBtnModalMessage(
-      '담당자 정보를 수정하시려면 관리자의 승인을 다시 받아야합니다.수정하시겠습니까?',
-    );
+    setTwoBtnModalMessage('담당자 정보가 변경됐습니다.');
     setIsTwoBtnModal(true);
   };
   // 담당자 정보 수정하기
@@ -297,6 +295,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         />
       </form>
       <Buttons className="firstNextPage" onClick={onClickNice}>
+        {/* <Buttons className="firstNextPage" onClick={onCickBtn}> */}
         숨겨진 비밀번호 버튼
       </Buttons>
     </Wrapper>
