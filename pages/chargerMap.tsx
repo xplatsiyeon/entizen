@@ -19,6 +19,7 @@ import axios from 'axios';
 import ChargerInfo from 'components/ChargerInfo';
 import WebSearchAddress from 'componentsWeb/WebSearchAddress';
 import { locationAction } from 'store/locationSlice';
+import ChargerInfo2 from 'components/ChargerInfoCopy';
 
 type Props = {};
 export interface SlowFast {
@@ -234,7 +235,7 @@ const ChargerMap = (props: Props) => {
               />
             </WrapAddress>
           ) : (
-            <ChargerInfo
+            <ChargerInfo2
               checkHeight={checkHeight}
               selectedCharger={selectedCharger}
               setSelectedCharger={setSelectedCharger}
