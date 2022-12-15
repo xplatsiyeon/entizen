@@ -567,23 +567,6 @@ const HeadOpenContent = () => {
                   </List>
                 </Collapse>
               </Wrapper>
-              {tabNumber >= 0 && nowWidth >= 1200 && (
-                <WebProgressbar tabNumber={tabNumber}>
-                  <TabBox open={open}>
-                    {Object.keys(components).map((tab, index) => (
-                      <React.Fragment key={index}>
-                        {index <= quotationRequestChargers?.length! && (
-                          <TabLine
-                            idx={index.toString()}
-                            num={tabNumber.toString()}
-                            key={tab}
-                          />
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </TabBox>
-                </WebProgressbar>
-              )}
               {tabNumber === -1 && nowWidth >= 1200 && (
                 <Btn
                   isClick={true}
@@ -593,7 +576,24 @@ const HeadOpenContent = () => {
                 />
               )}
               {/* ------------내부 컴포넌트--------- */}
-              {<> {components[tabNumber]}</>}
+              {<TapWrapper tabNumber={tabNumber} className="tabnumber"> 
+                <TabBox open={open} className="target-list">
+                  {Object.keys(components).map((tab, index) => (
+                    <React.Fragment key={index}>
+                      {index <=
+                        data?.receivedQuotationRequest.quotationRequestChargers
+                          .length! && (
+                        <TabLine className='target'
+                          idx={index.toString()}
+                          num={tabNumber.toString()}
+                          key={tab}
+                        />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </TabBox>
+              {components[tabNumber]}
+              </TapWrapper>}
             </BtnWrapper>
           </WebRapper>
           {/* 가견적 작성하기 부분 */}
@@ -604,25 +604,6 @@ const HeadOpenContent = () => {
               text={'가견적 작성하기'}
               paddingOn={true}
             />
-          )}
-          {tabNumber >= 0 && nowWidth < 1200 && (
-            <WebProgressbar tabNumber={tabNumber}>
-              <TabBox open={open}>
-                {Object.keys(components).map((tab, index) => (
-                  <React.Fragment key={index}>
-                    {index <=
-                      data?.receivedQuotationRequest.quotationRequestChargers
-                        .length! && (
-                      <TabLine
-                        idx={index.toString()}
-                        num={tabNumber.toString()}
-                        key={tab}
-                      />
-                    )}
-                  </React.Fragment>
-                ))}
-              </TabBox>
-            </WebProgressbar>
           )}
         </Container>
         <WebFooter />
@@ -840,13 +821,14 @@ const TabBox = styled.div<{ open: boolean }>`
     display: flex;
     position: absolute;
     gap: 0.2pt;
-    top: ${({ open }) => (open === false ? '24%' : '71%')};
   }
 
   @media (min-width: 900pt) {
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
+    margin-top: 53pt;
+    padding-left: 25pt;
+    padding-right: 25pt;
   }
 `;
 const TabLine = styled.div<{ idx: string; num: string }>`
@@ -865,7 +847,7 @@ const TabLine = styled.div<{ idx: string; num: string }>`
     width: 100%;
   }
   @media (min-width: 900pt) {
-    width: 267pt;
+    width: 50%;
     border-bottom-width: 6pt;
     border-radius: 3pt;
   }
@@ -916,3 +898,8 @@ const MobileHide = styled.div`
   }
 `;
 export default HeadOpenContent;
+
+const TapWrapper = styled.div<{tabNumber : number}>`
+  position: relative;
+  display: ${({tabNumber})=> tabNumber===-1?'none' : 'block'};
+`
