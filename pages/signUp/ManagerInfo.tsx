@@ -294,8 +294,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           handleClick={fnPopup}
         />
       </form>
-      <Buttons className="firstNextPage" onClick={onClickNice}>
-        {/* <Buttons className="firstNextPage" onClick={onCickBtn}> */}
+      {/* <Buttons className="firstNextPage" onClick={onClickNice}> */}
+      <Buttons className="firstNextPage" onClick={onCickBtn}>
         숨겨진 비밀번호 버튼
       </Buttons>
     </Wrapper>
