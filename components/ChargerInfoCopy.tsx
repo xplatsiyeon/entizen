@@ -61,10 +61,49 @@ const ChargerInfo2 = ({
              </GoUpBox>*/}
              <Resizable className='target'
                 defaultSize={{
-                  width: 200,
-                  height: 200
+                  width: '100%',
+                  height: '50%'
                 }}
-                maxWidth={'200px'} 
+                maxHeight={'100%'}
+                minHeight={'50%'} 
+                handleStyles={{
+                  top: {
+                    top: 0,
+                    left: "0%",
+                    border: "3px solid #999",
+                    borderLeft: "none",
+                    borderRight: "none",
+                    borderBottom: "none",
+                    borderWidth: 5,
+                    borderColor: "transparent",
+                    width: '100%',
+                    height: 30,
+                    boxSizing: "border-box",
+                    zIndex: 1
+                  },
+                  topLeft: {
+                    display:'none'
+                  },
+                  left: {
+                    display:'none'
+                  },
+                  bottomLeft: {
+                    display:'none'
+                  },
+                  bottom: {
+                    display:'none'
+                  },
+                  bottomRight: {
+                    display:'none'
+                  },
+                  right: {
+                    display:'none'
+                  },
+                  topRight: {
+                    display:'none'
+                  }
+                }
+                }
                 >
           <Body className='resize-content'>
             <SelectChargerBox className="forScroll">
@@ -88,7 +127,7 @@ const ChargerInfo2 = ({
                 ))}
               </ChargerList>
             </SelectChargerBox>
-            <ScrollBox scrollHeight={checkHeight.toString()}>
+            <ScrollBox>
               <ChargerTypeNCountBox>
                 <ChargerTypeNCount>
                   {selectedCharger == 0
@@ -154,15 +193,17 @@ export default ChargerInfo2;
 
 const Wrap =styled.div`
 width: 100%;
-max-height: 100vh;
+height: 100vh;
 position: relative;
 overflow: hidden;
 z-index: 1;
+
 .target{
-background-color: beige;
+background: white;
 width:100%!important;
-position: absolute;
+position: absolute!important;
 bottom: 0;
+border-radius: 27pt;
 }
 `
 
@@ -172,7 +213,7 @@ const InfoBox = styled.div<{ checkHeight: string }>`
   flex-direction: column;
   align-items: center;
   z-index: 1000;
-  width: 281.25pt;
+  width: 500pt;
   height: 100%;
   /*div{
     &:nth-of-type(3){
@@ -203,14 +244,29 @@ const RndWraper = styled(Rnd)<{ isMobile: boolean }>`
 const Body = styled.div`
   overflow-y: scroll;
   height: 100%;
+  position: relative;
+
+  &::after{
+    position: absolute;
+    display: block;
+    content: '';
+    clear: both;
+    width: 16%;
+    height: 3pt;
+    background-color: #CACCD1;
+    top: 9pt;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 36pt;
+  }
 `;
 
-const ScrollBox = styled.div<{ scrollHeight: string }>`
+const ScrollBox = styled.div`
   position: relative;
   /* overflow-y: scroll; */
   display: flex;
   flex-direction: column;
-  height: ${({ scrollHeight }) => scrollHeight + 'pt'};
+  height: 500pt;
 `;
 const GoUpBox = styled.div`
   width: 100%;
@@ -399,6 +455,8 @@ const QuotationBtn = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   border-radius: 21.75pt;
+
+  z-index:5;
 
   & > span:first-of-type {
     position: relative;
