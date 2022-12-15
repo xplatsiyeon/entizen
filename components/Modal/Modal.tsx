@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
+import zIndex from '@mui/material/styles/zIndex';
+import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 import colors from 'styles/colors';
 
@@ -7,10 +9,13 @@ type Props = {
   text: string;
   click: () => void;
   color?: string;
+  setIsModal?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Modal = ({ text, click, color }: Props) => {
+const Modal = ({ text, click, color, setIsModal }: Props) => {
   const outside = useRef();
+
+  console.log(router);
 
   const handleModalClose = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -21,6 +26,14 @@ const Modal = ({ text, click, color }: Props) => {
       }
     }
   };
+
+  const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter') {
+      click();
+      setIsModal!(false);
+    }
+  };
+
   return (
     <ModalWrapper ref={outside} onClick={(e) => handleModalClose(e)}>
       <ModalBox>
@@ -31,6 +44,7 @@ const Modal = ({ text, click, color }: Props) => {
           <BtnText color={color} onClick={click}>
             확인
           </BtnText>
+          <Hide type="text" autoFocus onKeyDown={onKeyPress} />
         </BtnBox>
       </ModalBox>
     </ModalWrapper>
@@ -92,6 +106,15 @@ const BtnText = styled(Typography)<{ color?: string }>`
   letter-spacing: -2%;
   text-align: right;
   color: ${({ color }) => (color ? color : colors.main)};
+  height: 30pt;
+  background-color: #ffffff;
+  z-index: 10;
+`;
+
+const Hide = styled.input`
+  position: absolute;
+  z-index: 1;
+  top: 30%;
 `;
 
 export default Modal;

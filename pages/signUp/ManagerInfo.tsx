@@ -47,6 +47,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       onSuccess: (res) => {
         console.log(res);
         console.log(res.data.authCode);
+
         setModalMessage('이메일로 인증번호가 전송되었습니다.');
         setIsModal(true);
       },
@@ -144,6 +145,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       setIsModal(true);
     }
   };
+
   // 이메일인증
   const onClickEmail = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -154,6 +156,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
       },
     });
   };
+
   // 이메일 인증코드 확인
   const certifyEmailCode = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -192,7 +195,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   useEffect(() => {
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType: token.memberType },
     })
       .then((res) => {
@@ -215,7 +218,13 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   }, [email, authCode, name]);
   return (
     <Wrapper>
-      {isModal && <Modal text={modalMessage} click={onClickModal} />}
+      {isModal && (
+        <Modal
+          text={modalMessage}
+          click={onClickModal}
+          setIsModal={setIsModal}
+        />
+      )}
       {isTwoBtnModal && (
         <TwoBtnModal
           exit={TwoBtnModalExit}
@@ -242,7 +251,18 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         입력해주세요
       </Notice>
       <Remark variant="subtitle1">고객에게 전달되는 정보예요!</Remark>
-      <form name="form_chk" method="get" onSubmit={() => false}>
+      <form
+        name="form_chk"
+        method="get"
+        onSubmit={() => {
+          false;
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+          }
+        }}
+      >
         <input type="hidden" name="m" value="checkplusService" />
         {/* <!-- 필수 데이타로, 누락하시면 안됩니다. --> */}
         <input type="hidden" id="encodeData" name="EncodeData" value={data} />
@@ -259,7 +279,14 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         </Form>
         <Form>
           <label>담당자 이메일</label>
-          <Input placeholder="이메일 입력" value={email} setValue={setEmail} />
+          <div>
+            <Input
+              placeholder="이메일 입력"
+              value={email}
+              setValue={setEmail}
+            />
+          </div>
+          <input type="hidden" name="test" value="" />
           <OverlapBtn
             style={{
               top: '25.5pt',
@@ -267,6 +294,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
             isEmailValid={isEmailValid}
             onClick={onClickEmail}
             type="button"
+            onSubmit={() => false}
           >
             인증
           </OverlapBtn>
