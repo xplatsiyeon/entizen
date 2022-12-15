@@ -114,7 +114,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 나이스 인증 후 클릭되는 함수 (투버튼 수락)
   const onClickNice = () => {
     setTwoBtnModalMessage('담당자 정보가 변경됐습니다.');
-    // setIsTwoBtnModal(true);
+    setIsTwoBtnModal(true);
   };
   // 담당자 정보 수정하기
   const onCickBtn = () => {
