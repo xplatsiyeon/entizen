@@ -81,6 +81,7 @@ export interface FinalQuotationDetailFiles {
 export interface FinalQuotations {
   createdAt: string;
   finalQuotationIdx: number;
+  chargingStationInstallationPrice: number;
   subscribeProduct: string;
   subscribePeriod: number;
   userInvestRate: string;
@@ -97,6 +98,7 @@ export interface FinalQuotations {
 export interface PreQuotation {
   createdAt: string;
   preQuotationIdx: number;
+  chargingStationInstallationPrice: number;
   subscribePricePerMonth: number;
   constructionPeriod: number;
   subscribeProductFeature: string;

@@ -91,6 +91,7 @@ export interface FinalQuotationChargers {
 export interface FinalQuotation {
   createdAt: string;
   finalQuotationIdx: number;
+  chargingStationInstallationPrice: number;
   subscribeProduct: string;
   subscribePeriod: number;
   userInvestRate: string;
@@ -108,6 +109,7 @@ export interface PreQuotation {
   createdAt: string;
   preQuotationIdx: number;
   subscribePricePerMonth: number;
+  chargingStationInstallationPrice: number;
   constructionPeriod: number;
   subscribeProductFeature: string;
   preQuotationStatus: string;
@@ -438,11 +440,17 @@ const SentQuoatationFirst = () => {
                 {data?.sendQuotationRequest?.badge?.includes('견적마감') ||
                   (data?.sendQuotationRequest?.badge?.includes('선택대기') && (
                     <BtnBox>
+                      {/* 부분 구독 판별 */}
                       <EditBtn
                         onClick={() =>
                           router.push({
                             pathname: '/company/recievedRequest',
                             query: {
+                              part:
+                                data?.sendQuotationRequest?.quotationRequest
+                                  ?.subscribeProduct === 'PART'
+                                  ? true
+                                  : false,
                               edit: true,
                               quotationRequestIdx: routerId,
                             },

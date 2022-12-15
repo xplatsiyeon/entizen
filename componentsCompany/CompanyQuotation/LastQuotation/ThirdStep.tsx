@@ -46,6 +46,7 @@ type Props = {
   constructionPeriod: string;
   spotInspectionResult: string;
   subscribeProductFeature: string;
+  chargingStationInstallationPrice: string;
 };
 const TAG = 'componentsCompany/CompanQuotation/LastQuotation/ThirdStep.tsx';
 const ThirdStep = ({
@@ -67,6 +68,7 @@ const ThirdStep = ({
   constructionPeriod,
   spotInspectionResult,
   subscribeProductFeature,
+  chargingStationInstallationPrice,
 }: Props) => {
   const router = useRouter();
 
@@ -230,11 +232,14 @@ const ThirdStep = ({
         subscribeTypeEn,
         subscribeProduct,
       ),
+      chargingStationInstallationPrice: Math.floor(
+        Number(chargingStationInstallationPrice.replaceAll(',', '')),
+      ),
       subscribePeriod: subscribePeriod.slice(0, 2),
-      userInvestRate: Number(userInvestRate) / 100 + '',
-      chargingPointRate: Number(chargingPointRate) / 100 + '',
-      subscribePricePerMonth: Number(
-        subscribePricePerMonth.replaceAll(',', ''),
+      userInvestRate: Math.floor(Number(userInvestRate) / 100) + '',
+      chargingPointRate: Math.floor(Number(chargingPointRate) / 100) + '',
+      subscribePricePerMonth: Math.floor(
+        Number(subscribePricePerMonth.replaceAll(',', '')),
       ),
       chargers: changeCharger,
       detailQuotationFiles: BusinessRegistration,
@@ -262,11 +267,14 @@ const ThirdStep = ({
             subscribeTypeEn,
             subscribeProduct,
           ),
+          chargingStationInstallationPrice: Math.floor(
+            Number(chargingStationInstallationPrice.replaceAll(',', '')),
+          ),
           subscribePeriod: subscribePeriod.slice(0, 2),
-          userInvestRate: Number(userInvestRate) / 100 + '',
-          chargingPointRate: Number(chargingPointRate) / 100 + '',
-          subscribePricePerMonth: Number(
-            subscribePricePerMonth.replaceAll(',', ''),
+          userInvestRate: Math.floor(Number(userInvestRate) / 100) + '',
+          chargingPointRate: Math.floor(Number(chargingPointRate) / 100) + '',
+          subscribePricePerMonth: Math.floor(
+            Number(subscribePricePerMonth.replaceAll(',', '')),
           ),
           chargers: changeCharger,
           detailQuotationFiles: BusinessRegistration,

@@ -50,6 +50,8 @@ type Props = {
   chargeNum?: number;
   sendData: SentRequestResponse;
   partSubscribe?: string;
+  chargingStationInstallationPrice: string;
+  setChargingStationInstallationPrice: Dispatch<SetStateAction<string>>;
 };
 const subScribe = ['전체구독', '부분구독'];
 
@@ -83,6 +85,8 @@ const FirstStep = ({
   chargeNum,
   sendData,
   partSubscribe,
+  chargingStationInstallationPrice,
+  setChargingStationInstallationPrice,
 }: Props) => {
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
@@ -261,6 +265,13 @@ const FirstStep = ({
   // 유효성 검사
   useEffect(() => {
     if (
+      subscribeProduct === '부분구독' &&
+      chargingStationInstallationPrice === ''
+    ) {
+      SetCanNext(false);
+      return;
+    }
+    if (
       subscribeProduct !== '' &&
       subscribePeriod !== '' &&
       profitableInterestUser !== '' &&
@@ -284,6 +295,7 @@ const FirstStep = ({
     chargePoint,
     dueDiligenceResult,
     subscribePricePerMonth,
+    chargingStationInstallationPrice,
   ]);
 
   // 수익 지분 100% 맞춰 주는 업데이트 useEffect
@@ -390,18 +402,19 @@ const FirstStep = ({
             </FirstBox>
           </ProfitBox>
         </InputBox>
-        {partSubscribe === 'PART' && (
+        {(partSubscribe === 'PART' || subscribeProduct === '부분구독') && (
           <PartSubscribeVisible subscribeProduct={subscribeProduct}>
             <InputBox>
               <div className="withAfter">충전소 설치비</div>
               <div className="monthFlex">
                 <Input
-                  // onChange={(e) =>
-                  //   setSubscribePricePerMonth(inputPriceFormat(e.target.value))
-                  // }
-                  // value={subscribePricePerMonth}
-                  // name="chargeInstall"
-                  value="10000"
+                  onChange={(e) =>
+                    setChargingStationInstallationPrice(
+                      inputPriceFormat(e.target.value),
+                    )
+                  }
+                  value={chargingStationInstallationPrice}
+                  name="chargeInstall"
                 />
                 <AfterWord>원</AfterWord>
               </div>
@@ -507,7 +520,7 @@ const FirstStep = ({
         <InputBox>
           <div className="withAfter withTextNumber">
             <span>현장실사 결과</span>
-            <span>{dueDiligenceResult.length}/500</span>
+            <span>{dueDiligenceResult?.length}/500</span>
           </div>
           <div className="monthFlex">
             <TextArea

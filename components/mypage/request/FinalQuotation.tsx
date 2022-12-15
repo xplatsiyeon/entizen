@@ -90,7 +90,11 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
         {data?.finalQuotation?.subscribeProduct === 'PART' && (
           <Item>
             <span className="name">충전소 설치비</span>
-            <span className="value">20 원</span>
+            <span className="value">
+              {`${PriceBasicCalculation(
+                data?.finalQuotation?.chargingStationInstallationPrice,
+              )} 원`}
+            </span>
           </Item>
         )}
 

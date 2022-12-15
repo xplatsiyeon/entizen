@@ -27,6 +27,7 @@ export interface chargers {
 
 // 1스텝 + 2스텝
 interface StateType {
+  chargingStationInstallationPrice: number;
   subscribePricePerMonth: number;
   constructionPeriod: number;
   subscribeProductFeature: string;
@@ -34,6 +35,7 @@ interface StateType {
 }
 
 const initialState: StateType = {
+  chargingStationInstallationPrice: 0,
   subscribePricePerMonth: 0,
   constructionPeriod: 0,
   subscribeProductFeature: '',
@@ -94,6 +96,8 @@ const slice = createSlice({
       state.subscribePricePerMonth = action.payload.subscribePricePerMonth;
       state.constructionPeriod = action.payload.constructionPeriod;
       state.subscribeProductFeature = action.payload.subscribeProductFeature;
+      state.chargingStationInstallationPrice =
+        action.payload.chargingStationInstallationPrice;
     },
     addCharge(state, action) {
       state.chargers.push(action.payload);

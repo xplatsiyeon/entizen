@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { EditSharp } from '@mui/icons-material';
 import { TextField } from '@mui/material';
+import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
@@ -21,6 +22,8 @@ type Props = {
   SetCanNext: Dispatch<SetStateAction<boolean>>;
   editData: SentRequestResponse;
   partSubscribe?: string;
+  chargingStationInstallationPrice: string;
+  setChargingStationInstallationPrice: Dispatch<SetStateAction<string>>;
 };
 
 const FirstStep = ({
@@ -36,8 +39,13 @@ const FirstStep = ({
   SetCanNext,
   editData,
   partSubscribe,
+  chargingStationInstallationPrice,
+  setChargingStationInstallationPrice,
 }: Props) => {
+  console.log(partSubscribe);
+
   const dispatch = useDispatch();
+  const router = useRouter();
   useEffect(() => {
     if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
       SetCanNext(true);
@@ -47,14 +55,20 @@ const FirstStep = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [monthlySubscribePrice, constructionPeriod]);
 
+  // 다음 버튼 클릭
   const buttonOnClick = () => {
     if (canNext) {
       dispatch(
         myEstimateAction.addFisrtData({
-          subscribePricePerMonth: Number(
-            monthlySubscribePrice?.replaceAll(',', ''),
+          chargingStationInstallationPrice: Math.floor(
+            Number(chargingStationInstallationPrice?.replaceAll(',', '')),
           ),
-          constructionPeriod: Number(constructionPeriod?.replaceAll(',', '')),
+          subscribePricePerMonth: Math.floor(
+            Number(monthlySubscribePrice?.replaceAll(',', '')),
+          ),
+          constructionPeriod: Math.floor(
+            Number(constructionPeriod?.replaceAll(',', '')),
+          ),
           subscribeProductFeature: firstPageTextArea,
         }),
       );
@@ -62,10 +76,15 @@ const FirstStep = ({
     }
   };
 
+  // 수정하기
   useEffect(() => {
     if (editData) {
       const { preQuotation } = editData?.sendQuotationRequest;
-
+      console.log(`👀 수정하기 가견적 데이터 확인 ~81 ->> `);
+      console.log(preQuotation);
+      setChargingStationInstallationPrice(
+        preQuotation?.chargingStationInstallationPrice?.toString(),
+      );
       setMonthleSubscribePrice(
         preQuotation?.subscribePricePerMonth?.toString(),
       );
@@ -87,15 +106,17 @@ const FirstStep = ({
       </TopStep>
       <SubWord>월 구독료와 특장점을 입력해주세요.</SubWord>
       {/* 부분구독은 충전기 설치비 추가로 생겨야함 */}
-      {partSubscribe === 'PART' && (
+      {(partSubscribe === 'PART' || router.query.part === 'true') && (
         <InputBox>
           <div className="withAfter">충전소 설치비</div>
           <div>
             <Input
-              // onChange={(e) =>
-              //   setMonthleSubscribePrice(inputPriceFormat(e.target.value))
-              // }
-              // value={monthlySubscribePrice}
+              onChange={(e) =>
+                setChargingStationInstallationPrice(
+                  inputPriceFormat(e.target.value),
+                )
+              }
+              value={chargingStationInstallationPrice}
               name="chargeInstall"
             />
             <div>원</div>

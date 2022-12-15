@@ -59,6 +59,7 @@ export interface FinalQuotation {
   subscribeProduct: string;
   userInvestRate: string;
   subscribePricePerMonth: number;
+  chargingStationInstallationPrice: number;
   finalQuotationChargers: FinalQuotationChargers[];
   quotationRequest: {
     installationPurpose: string;
@@ -123,6 +124,7 @@ export const chargingStations = gql`
         subscribeProduct
         userInvestRate
         subscribePricePerMonth
+        chargingStationInstallationPrice
         # 최종견적 충전기
         finalQuotationChargers {
           finalQuotationChargerIdx
