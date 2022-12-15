@@ -5,9 +5,13 @@ function decryptResult(decryptResult) {
 
   const first = document.querySelector('.firstNextPage');
   if (decryptResult) {
-    if (first) {
+    const key = sessionStorage.getItem('key');
+    if (first && key) {
       first.click();
+    }else{
+      console.log('yet');
     }
+
   }
   // const second = document.querySelector('.secondNextPage');
   // if (decryptResult) {
