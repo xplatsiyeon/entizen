@@ -48,7 +48,7 @@ const PasswordModal = ({
           </ContentText>
         </Content>
         <Inputs value={passwordInput} onChange={onChange} type="password" />
-        {passowrdValid && <Alert>올바르지 않는 비밀번호입니다.</Alert>}
+        {passowrdValid && <Alert>올바르지 않은 비밀번호입니다.</Alert>}
         <BtnBox>
           <CheckBtn
             checkPassword={checkPassword}

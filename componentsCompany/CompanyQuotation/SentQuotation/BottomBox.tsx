@@ -66,10 +66,9 @@ const BottomBox = ({ pb, data }: Props) => {
         <Item>
           <span className="name">월 구독료</span>
           <span className="value">
-            {PriceBasicCalculation(
+            {`${PriceBasicCalculation(
               data?.sendQuotationRequest?.preQuotation?.subscribePricePerMonth,
-            )}
-            원
+            )} 원`}
           </span>
         </Item>
         <Item>

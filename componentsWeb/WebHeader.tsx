@@ -49,9 +49,17 @@ const WebHeader = ({ num, now, sub }: Props) => {
           <Inner>
             <Box1>
               <LogoBox>
-                <Link href="/">
-                  <Image src={Logos} alt="logo" layout="intrinsic" />
-                </Link>
+                <div>
+                  <Image
+                    src={Logos}
+                    alt="logo"
+                    layout="intrinsic"
+                    onClick={() => {
+                      router.push('/');
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  />
+                </div>
               </LogoBox>
               <DivBox onClick={() => handleLink('/quotation/request')}>
                 간편견적
@@ -203,7 +211,6 @@ const LogoBox = styled.div`
   display: flex;
   align-items: center;
   margin-right: 54pt;
-  cursor: pointer;
 `;
 
 const IconBox = styled.div`
