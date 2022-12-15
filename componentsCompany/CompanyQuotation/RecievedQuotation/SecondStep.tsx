@@ -1275,6 +1275,7 @@ const AddPhotos = styled.button`
     background-color: #ffffff;
     width: 77.25pt;
     height: 77.25pt;
+    margin-right: 10pt;
   }
 `;
 
@@ -1284,7 +1285,7 @@ const ImgSpanBox = styled.div`
     width: 444.75;
     display: grid;
     grid-template-columns: 230pt 1fr;
-    gap: 9pt;
+    gap: 6pt;
   }
   @media (max-width: 899.25pt) {
     position: relative;
@@ -1304,7 +1305,9 @@ const ImgSpan = styled.div`
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
-  gap: 9pt;
+  & > span {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     margin-bottom: 0pt;
     width: 216pt;
