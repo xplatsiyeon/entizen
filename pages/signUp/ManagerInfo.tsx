@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import { Box, color } from '@mui/system';
 import Btn from 'components/button';
-import Header from 'components/header';
 import Input from 'components/input';
 import MypageHeader from 'components/mypage/request/header';
 import React, { useEffect, useState } from 'react';
@@ -16,9 +15,7 @@ import useProfile from 'hooks/useProfile';
 import { Key } from 'components/Profile/PasswordModify';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import { Router } from '@mui/icons-material';
 import { useRouter } from 'next/router';
-import { is } from 'immer/dist/internal';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
@@ -43,6 +40,8 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 투버튼 모달
   const [isTwoBtnModal, setIsTwoBtnModal] = useState(false);
   const [TwoBtnmodalMessage, setTwoBtnModalMessage] = useState('');
+
+  console.log('key',key)
 
   // 이메일 전송
   const { mutate: emailMutate, isLoading: emailLoading } = useMutation(
@@ -118,7 +117,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   };
   // 담당자 정보 수정하기
   const onCickBtn = () => {
-    setIsTwoBtnModal(false);
+    //setIsTwoBtnModal(false);
     console.log('profile', profile, key);
     /*  if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
