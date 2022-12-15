@@ -1035,7 +1035,7 @@ const PhotosBox = styled.div`
   }
 `;
 const PhotosBoxs = styled.div`
-  height: 56.0625pt;
+  //height: 56.0625pt;
   margin-top: 9pt;
   display: flex;
   flex-direction: column;
