@@ -42,6 +42,7 @@ const BottomBox = ({ pb, data }: Props) => {
             layout="fill"
             priority={true}
             unoptimized={true}
+            objectFit="cover"
           />
         </ImageBox>
       ) : (
@@ -220,6 +221,7 @@ const BottomBox = ({ pb, data }: Props) => {
                       layout="fill"
                       priority={true}
                       unoptimized={true}
+                      objectFit="cover"
                     />
                   </GridItem>
                 ))}

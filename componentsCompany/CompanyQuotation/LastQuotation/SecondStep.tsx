@@ -524,7 +524,7 @@ const SecondStep = ({
         </Wrapper>
         <Divide></Divide>
         <SecondWrapper>
-          <TopBox style={{ border: '1px solid red' }}>
+          <TopBox>
             <div>
               [선택사항] 내 제품 리스트에서 <div>가져오기</div>
             </div>
@@ -587,6 +587,7 @@ const SecondStep = ({
                         src={item.url}
                         priority={true}
                         unoptimized={true}
+                        objectFit="cover"
                       />
                       <Xbox onClick={handlePhotoDelete} data-name={index}>
                         <Image
@@ -987,7 +988,6 @@ const RemainderInputBox = styled.div`
   flex-direction: column;
   display: flex;
   margin-top: 24pt;
-  /* border: 2px solid red; */
 `;
 const RemainderInputBoxs = styled.div`
   flex-direction: column;
@@ -1027,12 +1027,10 @@ const PhotosBox = styled.div`
   display: flex;
   gap: 9.1875pt;
   align-items: center;
-  @media (min-width: 900pt) {
-    display: flex;
-    align-items: inherit;
-    height: auto;
-    width: 100%;
-  }
+  display: flex;
+  align-items: inherit;
+  height: auto;
+  width: 100%;
 `;
 const PhotosBoxs = styled.div`
   //height: 56.0625pt;
@@ -1051,10 +1049,9 @@ const AddPhotos = styled.button`
   display: inline-block;
   width: 56.0625pt;
   height: 56.0625pt;
-  border: 1px solid #e2e5ed;
+  background-color: #ffffff;
   border-radius: 6pt;
   @media (min-width: 900pt) {
-    background-color: #ffffff;
     width: 77.25pt;
     height: 77.25pt;
   }
@@ -1080,11 +1077,15 @@ const ImgSpan = styled.div`
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  border: 0.75pt solid #e2e5ed;
+  & > span {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     margin-bottom: 10pt;
     width: 216pt;
     height: 135pt;
-    border: 0.75pt solid #e2e5ed;
+    gap: 6pt;
   }
 `;
 const Xbox = styled.div`
