@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Select, TextField } from '@mui/material';
 import React, {
   Dispatch,
   SetStateAction,
@@ -18,7 +18,7 @@ import AddImg from 'public/images/add-img.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
-import { chargerData, myEstimateAction } from 'storeCompany/myQuotation';
+import { myEstimateAction } from 'storeCompany/myQuotation';
 import { useMutation, useQuery } from 'react-query';
 import { isTokenGetApi, isTokenPostApi, isTokenPutApi, multerApi } from 'api';
 import { useRouter } from 'next/router';
@@ -78,7 +78,6 @@ const SecondStep = ({
   data,
   editData,
 }: Props) => {
-  // 사진을 위한 ref
   const dispatch = useDispatch();
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
@@ -98,7 +97,6 @@ const SecondStep = ({
   // 내 제품 리스트 종류
   const [productItem, setProductItem] = useState<string>();
   const [productId, setProductId] = useState<number | null>(null);
-
   const [isChangeProduct, setIsChangeProduct] = useState<boolean>(false);
   // 제조사
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
@@ -118,6 +116,7 @@ const SecondStep = ({
     subscribeProductFeature,
     constructionPeriod,
     subscribePricePerMonth,
+    chargingStationInstallationPrice,
   } = useSelector((state: RootState) => state.companymyEstimateData);
   const companymyEstimateData = useSelector(
     (state: RootState) => state.companymyEstimateData,
@@ -428,10 +427,13 @@ const SecondStep = ({
       });
 
       const newData = {
+        chargingStationInstallationPrice: chargingStationInstallationPrice,
         subscribePricePerMonth: subscribePricePerMonth,
         constructionPeriod: constructionPeriod,
         chargers: newChargers,
       };
+      console.log(newData);
+
       if (subscribeProductFeature.length < 1) {
         postMutate({
           url: `/quotations/pre/${router?.query?.quotationRequestIdx}`,
@@ -483,6 +485,7 @@ const SecondStep = ({
         return result;
       });
       const newData = {
+        chargingStationInstallationPrice: chargingStationInstallationPrice,
         subscribePricePerMonth: subscribePricePerMonth,
         constructionPeriod: constructionPeriod,
         chargers: newChargers,

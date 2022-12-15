@@ -116,7 +116,9 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
               {partSubscribe === 'PART' && (
                 <WebItem>
                   <span className="name">충전소 설치비</span>
-                  <span className="value">원</span>
+                  <span className="value">{`${PriceBasicCalculation(
+                    data?.preQuotation?.chargingStationInstallationPrice!,
+                  )} 원`}</span>
                 </WebItem>
               )}
               <WebItem>
@@ -258,7 +260,9 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
           {partSubscribe === 'PART' && (
             <Item>
               <span className="name">충전소 설치비</span>
-              <span className="value">원</span>
+              <span className="value">{`${PriceBasicCalculation(
+                data?.preQuotation?.chargingStationInstallationPrice!,
+              )} 원`}</span>
             </Item>
           )}
           <Item>

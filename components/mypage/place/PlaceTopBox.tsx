@@ -49,6 +49,8 @@ const PlaceTopBox = ({ data }: Props) => {
   // 부분 구독 판별
   const partSubscribe = data?.finalQuotation?.subscribeProduct;
 
+  console.log('👀 내 충전소 데이터 확인 ~53 --> ');
+  console.log(data);
   return (
     <Wrapper>
       <ItemButton onClick={() => setOpen(!open)}>
@@ -106,7 +108,11 @@ const PlaceTopBox = ({ data }: Props) => {
             {partSubscribe === 'PART' && (
               <div className="text-box">
                 <span className="name">충전소 설치비</span>
-                <span className="text">원</span>
+                <span className="text">
+                  {`${PriceBasicCalculation(
+                    data?.finalQuotation?.chargingStationInstallationPrice,
+                  )} 원`}
+                </span>
               </div>
             )}
             <div className="text-box">
