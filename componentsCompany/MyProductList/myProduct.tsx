@@ -204,6 +204,8 @@ const MyProduct = (props: Props) => {
                       layout="fill"
                       priority={true}
                       unoptimized={true}
+                      objectFit="cover"
+                      style={{ borderRadius: '6pt' }}
                     />
                   </GridItem>
                 ))}
@@ -450,7 +452,8 @@ const GridItem = styled.div`
   position: relative;
   border-radius: 6pt;
   width: 81pt;
-  height: 97.5pt;
+  /* height: 97.5pt; */
+  height: 81pt;
   @media (min-width: 900pt) {
     border-radius: 6pt;
   }

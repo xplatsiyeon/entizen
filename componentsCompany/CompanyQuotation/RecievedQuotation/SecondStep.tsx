@@ -777,6 +777,7 @@ const SecondStep = ({
                       src={item.url}
                       priority={true}
                       unoptimized={true}
+                      objectFit="cover"
                     />
                     <Xbox onClick={handlePhotoDelete} data-name={index}>
                       <Image
@@ -1189,6 +1190,10 @@ const RemainderInputBox = styled.div`
   flex-direction: column;
   display: flex;
   margin-top: 24pt;
+  @media (max-width: 899.25pt) {
+    height: auto;
+    position: relative;
+  }
 `;
 const RemainderInputBoxs = styled.div`
   flex-direction: column;
@@ -1196,6 +1201,7 @@ const RemainderInputBoxs = styled.div`
   width: 100%;
   display: flex;
   margin-top: 24pt;
+
   & .file-preview {
     display: flex;
     width: 100%;
@@ -1251,8 +1257,8 @@ const PhotosBoxs = styled.div`
 `;
 
 const AddPhotos = styled.button`
-  display: inline-block;
-  width: 70.0625pt;
+  /* display: inline-block; */
+  width: 56.0625pt;
   height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
@@ -1273,11 +1279,15 @@ const ImgSpanBox = styled.div`
     grid-template-columns: 230pt 1fr;
   }
   @media (max-width: 899.25pt) {
-    display: grid;
-    grid-auto-flow: column;
-    width: 224.25pt;
-    height: 56.0625pt;
-    overflow-x: scroll;
+    position: relative;
+    display: flex;
+    /* grid-auto-flow: column; */
+    width: 100%;
+    /* height: auto; */
+    height: 100%;
+    /* overflow-x: scroll; */
+    flex-wrap: wrap;
+    gap: 9pt;
   }
 `;
 
@@ -1288,7 +1298,7 @@ const ImgSpan = styled.div`
   border-radius: 6pt;
   gap: 9pt;
   @media (min-width: 900pt) {
-    margin-bottom: 10pt;
+    margin-bottom: 0pt;
     width: 216pt;
     height: 135pt;
     border: 0.75pt solid #e2e5ed;
