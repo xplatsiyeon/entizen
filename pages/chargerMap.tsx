@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import axios from 'axios';
-import ChargerInfo from 'components/ChargerInfoCopy';
+import ChargerInfo from 'components/ChargerInfo';
 import WebSearchAddress from 'componentsWeb/WebSearchAddress';
 import { locationAction } from 'store/locationSlice';
 
