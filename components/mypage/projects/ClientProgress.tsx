@@ -23,12 +23,14 @@ import {
   OperationVariables,
   useQuery,
 } from '@apollo/client';
+import { useQuery as reactQuery } from 'react-query';
 import { isTokenPatchApi, isTokenPostApi } from 'api';
 import { useMutation } from 'react-query';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
 import CommunicationBox from 'components/CommunicationBox';
 import { height } from '@mui/system';
+import { getDocument } from 'api/getDocument';
 
 type Props = {
   data: InProgressProjectsDetailResponse;
@@ -222,17 +224,32 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
     }
   };
 
+  interface documentResponse {
+    embeddedUrl: string;
+  }
+
+  const {
+    data: contractDocumentData,
+    isLoading: contractDocumentLoading,
+    isError: contractDocumentError,
+  } = reactQuery<documentResponse>('contract', () =>
+    getDocument(contractData?.project?.contract?.documentId!),
+  );
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    if (contractData) {
-      router.push({
-        pathname: '/contract',
-        query: {
-          id: router?.query?.projectIdx,
-          documentId: contractData?.project?.contract?.documentId,
-        },
-      });
-    }
+    // 새탭방식
+    window.open(contractDocumentData?.embeddedUrl);
+
+    // 임베디드 방식
+    // if (contractData) {
+    //   router.push({
+    //     pathname: '/contract',
+    //     query: {
+    //       id: router?.query?.projectIdx,
+    //       documentId: contractData?.project?.contract?.documentId,
+    //     },
+    //   });
+    // }
   };
 
   // 유저 날짜 동의하기

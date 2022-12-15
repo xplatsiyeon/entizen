@@ -18,6 +18,8 @@ import askDate from 'public/images/askDate.png';
 import { Router, useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { useQuery } from '@apollo/client';
+import { useQuery as reactQuery } from 'react-query';
+import { getDocument } from 'api/getDocument';
 
 type Props = {
   dateArr: boolean[];
@@ -103,18 +105,32 @@ const ProgressBody = ({
       setDateArr(copyArr);
     }
   };
+  interface documentResponse {
+    embeddedUrl: string;
+  }
 
+  const {
+    data: contractDocumentData,
+    isLoading: contractDocumentLoading,
+    isError: contractDocumentError,
+  } = reactQuery<documentResponse>('contract', () =>
+    getDocument(contractData?.project?.contract?.documentId!),
+  );
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    if (contractData) {
-      router.replace({
-        pathname: '/company/contract',
-        query: {
-          id: router?.query?.projectIdx,
-          documentId: contractData?.project?.contract?.documentId,
-        },
-      });
-    }
+    // 새탭으로 열기
+    window.open(contractDocumentData?.embeddedUrl);
+
+    // 임베디드 방식
+    // if (contractData) {
+    //   router.replace({
+    //     pathname: '/company/contract',
+    //     query: {
+    //       id: router?.query?.projectIdx,
+    //       documentId: contractData?.project?.contract?.documentId,
+    //     },
+    //   });
+    // }
   };
 
   let textArr;
