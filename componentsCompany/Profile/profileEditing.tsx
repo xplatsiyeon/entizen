@@ -25,16 +25,40 @@ type Props = {
 const TAG = 'componentsCompany/Profile/profileEditing.tsx';
 const ProfileEditing = ({ setComponent, component, routeHandle, isAddressOn, setHeightOn }: Props) => {
 
-  const [companyAddress, setCompanyAddress] = useState<string>('');
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState(false);
   const [data, setData] = useState<string>('');
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile, invalidate, isLoading } = useProfile(accessToken);
+
+
+  console.log('프로필', profile)
+
+  //주소
+  const [addressOn, setAddressOn] = useState<boolean>(Boolean(isAddressOn));
+  const [postNumber, setPostNumber] = useState<string>('');
+  const [companyAddress, setCompanyAddress] = useState<string>('');
+  const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
+
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+
+ {/* const {mutate: addressMutate} =  useMutation(isTokenPatchApi, {
+
+})
+    //주소 수정할 경우
+      addressMutate({
+        url: '/members/address',
+        data: {
+          address: companyAddress,
+          detailAddress: "",
+          zipCode: postNumber,
+        }
+      })
+    } */}
 
   const { mutate: profileMutae, isLoading: profileLoading } = useMutation(
     isTokenPatchApi,
@@ -128,7 +152,7 @@ const ProfileEditing = ({ setComponent, component, routeHandle, isAddressOn, set
   // useEffect(() => {
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType: token.memberType },
   //   })
   //     .then((res) => {
@@ -163,9 +187,6 @@ const ProfileEditing = ({ setComponent, component, routeHandle, isAddressOn, set
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [postNumber, setPostNumber] = useState<string>('');
-  const [addressOn, setAddressOn] = useState<boolean>(Boolean(isAddressOn));
-  const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
 
   if (addressOn) {
     return (
@@ -224,7 +245,7 @@ const ProfileEditing = ({ setComponent, component, routeHandle, isAddressOn, set
           <InputWrap>
             <InputBox
               placeholder="회사 우편번호 입력"
-              value={profile?.companyMemberAdditionalInfo?.companyZipCode}
+              value={postNumber? postNumber : profile?.companyMemberAdditionalInfo?.companyZipCode}
               name="id"
               readOnly={true}
               // onClick={() => setAddressOn(true)}
@@ -236,14 +257,14 @@ const ProfileEditing = ({ setComponent, component, routeHandle, isAddressOn, set
           </InputWrap>
           <InputBox
             placeholder="회사 주소 입력"
-            value={profile?.companyMemberAdditionalInfo?.companyAddress}
+            value={companyAddress? companyAddress: profile?.companyMemberAdditionalInfo?.companyAddress}
             name="checkPw"
             readOnly={true}
             // onClick={() => setAddressOn(true)}
           />
           <InputBox
             placeholder="회사 상세주소 입력"
-            value={profile?.companyMemberAdditionalInfo?.companyDetailAddress}
+            value={companyDetailAddress? companyAddress: profile?.companyMemberAdditionalInfo?.companyDetailAddress}
             onChange={(e) => setCompanyDetailAddress(e.target.value)}
             name="checkPw"
           />
