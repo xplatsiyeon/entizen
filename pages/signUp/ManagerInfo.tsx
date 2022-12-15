@@ -41,7 +41,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const [isTwoBtnModal, setIsTwoBtnModal] = useState(false);
   const [TwoBtnmodalMessage, setTwoBtnModalMessage] = useState('');
 
-  console.log('key',key)
 
   // 이메일 전송
   const { mutate: emailMutate, isLoading: emailLoading } = useMutation(
@@ -294,7 +293,10 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         />
       </form>
       {/* <Buttons className="firstNextPage" onClick={onClickNice}> */}
-      <Buttons className="firstNextPage" onClick={onCickBtn}>
+      <Buttons className="firstNextPage" onClick={()=>{
+        console.log(key);
+        if(key)onCickBtn;
+        }}>
         숨겨진 비밀번호 버튼
       </Buttons>
     </Wrapper>

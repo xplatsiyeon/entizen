@@ -7,6 +7,7 @@ function decryptResult(decryptResult) {
   if (decryptResult) {
     const key = sessionStorage.getItem('key');
     if (first && key) {
+      console.log('key',key)
       first.click();
     }else{
       console.log('yet');

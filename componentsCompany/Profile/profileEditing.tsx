@@ -38,8 +38,6 @@ const ProfileEditing = ({
   const { profile, invalidate, isLoading } = useProfile(accessToken);
 
 
-  console.log('프로필', profile)
-
   //주소
   const [addressOn, setAddressOn] = useState<boolean>(Boolean(isAddressOn));
   const [postNumber, setPostNumber] = useState<string>('');
