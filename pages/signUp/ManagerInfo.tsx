@@ -40,7 +40,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const [isTwoBtnModal, setIsTwoBtnModal] = useState(false);
   const [TwoBtnmodalMessage, setTwoBtnModalMessage] = useState('');
 
-
   // 이메일 전송
   const { mutate: emailMutate, isLoading: emailLoading } = useMutation(
     isTokenPostApi,
@@ -193,7 +192,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   useEffect(() => {
     axios({
       method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
+      url: 'https://api.entizen.kr/api/auth/nice',
       data: { memberType: token.memberType },
     })
       .then((res) => {
