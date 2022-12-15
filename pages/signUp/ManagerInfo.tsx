@@ -31,7 +31,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
   const [authCode, setAuthCode] = useState<string>('');
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const key: Key = JSON.parse(sessionStorage.getItem('key')!);
   const token: JwtTokenType = jwt_decode(accessToken);
   const { profile } = useProfile(accessToken);
   // 원버튼 모달
@@ -117,6 +116,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
   // 담당자 정보 수정하기
   const onCickBtn = () => {
     //setIsTwoBtnModal(false);
+    const key: Key = JSON.parse(sessionStorage.getItem('key')!);
     console.log('profile', profile, key);
     /*  if (profile?.phone.toString() === key?.phone.toString()) {
       changeMutate({
@@ -138,7 +138,6 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           email: email,
         },
       });
-      console.log('온 클릭');
     } else {
       setModalMessage(
         '이름과 인증정보가 일치하지 않습니다.\n다시 입력해주세요.',
@@ -293,10 +292,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
         />
       </form>
       {/* <Buttons className="firstNextPage" onClick={onClickNice}> */}
-      <Buttons className="firstNextPage" onClick={()=>{
-        console.log(key);
-        if(key)onCickBtn;
-        }}>
+      <Buttons className="firstNextPage" onClick={onCickBtn}>
         숨겨진 비밀번호 버튼
       </Buttons>
     </Wrapper>
