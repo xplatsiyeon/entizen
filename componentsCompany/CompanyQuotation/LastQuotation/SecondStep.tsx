@@ -61,6 +61,12 @@ const SecondStep = ({
     'PURCHASER_AUTONOMY',
     'OPERATION_BUSINESS_CARRIER_INPUT',
   ];
+
+  // 충전기 특장점 글자수
+  const [textLength, setTextLength] = useState<number>(
+    selectedOptionEn[tabNumber - 1]?.productFeature.length,
+  );
+
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
@@ -241,6 +247,7 @@ const SecondStep = ({
     };
 
     setSelectedOptionEn(temp);
+    setTextLength(temp[tabNumber - 1].productFeature.length);
   };
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -442,11 +449,13 @@ const SecondStep = ({
     };
   }, [nowWidth]);
 
+  useEffect(() => {
+    setTextLength(selectedOptionEn[tabNumber - 1]?.productFeature.length);
+  }, [selectedOptionEn]);
+
   console.log('🔥 최종견적 선택된 옵션 리스트 목록 -> ');
   console.log(selectedOption[maxIndex! - 1]);
   console.log(maxIndex);
-  console.log('여기에 뭐나옴???', selectedOption);
-  console.log('productId는 뭐나옴?', productId);
 
   return (
     <>
@@ -549,7 +558,10 @@ const SecondStep = ({
             </div>
           </BottomInputBox>
           <InputBox className="secondChargerText">
-            <div>충전기 특장점</div>
+            <FlexText>
+              <div>충전기 특장점</div>
+              <div>{textLength}/500</div>
+            </FlexText>
             <div>
               <TextArea
                 onChange={onChangeProductFeature}
@@ -1271,6 +1283,12 @@ const FileName = styled.div`
   color: ${colors.dark2};
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+const FlexText = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 export default SecondStep;

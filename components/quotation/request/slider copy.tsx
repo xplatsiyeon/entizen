@@ -112,7 +112,7 @@ const SliderSizes = ({
 
   // 간편 견적 포스트
   const predictionApi = async () => {
-    const PREDICTION_POST = `https://api.entizen.kr/api/quotations/prediction`;
+    const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
     try {
       await axios({
         method: 'post',

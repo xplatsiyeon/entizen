@@ -102,6 +102,7 @@ const SecondStep = ({
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
   // 충전기 특장점
   const [chargeFeatures, setChargeFeatures] = useState<string>('');
+
   // 사진 첨부
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   // 충전기 카탈로그
@@ -739,7 +740,10 @@ const SecondStep = ({
           </div>
         </BottomInputBox>
         <InputBox className="secondChargerText">
-          <div>충전기 특장점</div>
+          <FlexText>
+            <div>충전기 특장점</div>
+            <div>{chargeFeatures.length}/500</div>
+          </FlexText>
           <div>
             <TextArea
               onChange={(e) => setChargeFeatures(e.target.value)}
@@ -1280,6 +1284,7 @@ const ImgSpanBox = styled.div`
     width: 444.75;
     display: grid;
     grid-template-columns: 230pt 1fr;
+    gap: 9pt;
   }
   @media (max-width: 899.25pt) {
     position: relative;
@@ -1460,7 +1465,8 @@ const TwoBtn = styled.div`
     width: 560.25pt;
     position: relative;
     margin: 0 auto;
-    margin-bottom: 40pt;
+    margin-bottom: 50pt;
+    padding-bottom: 20pt;
   }
 `;
 
@@ -1476,6 +1482,12 @@ const FileName = styled.div`
   color: ${colors.dark2};
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+const FlexText = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 export default SecondStep;
