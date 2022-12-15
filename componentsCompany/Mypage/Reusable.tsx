@@ -373,29 +373,32 @@ Props) => {
                     multiple
                   />
                   {/* <Preview> */}
-                  {imgArr?.map((img, index) => (
-                    <ImgSpan key={index} data-name={index}>
-                      <Image
-                        layout="fill"
-                        alt="preview"
-                        data-name={index}
-                        key={index}
-                        src={img.url}
-                        priority={true}
-                        unoptimized={true}
-                      />
-                      <Xbox onClick={handlePhotoDelete} data-name={index}>
+                  <ImgSpanBox>
+                    {imgArr?.map((img, index) => (
+                      <ImgSpan key={index} data-name={index}>
                         <Image
-                          src={CloseImg}
+                          layout="fill"
+                          alt="preview"
                           data-name={index}
-                          layout="intrinsic"
-                          alt="closeBtn"
-                          width={24}
-                          height={24}
+                          key={index}
+                          src={img.url}
+                          priority={true}
+                          unoptimized={true}
+                          objectFit="cover"
                         />
-                      </Xbox>
-                    </ImgSpan>
-                  ))}
+                        <Xbox onClick={handlePhotoDelete} data-name={index}>
+                          <Image
+                            src={CloseImg}
+                            data-name={index}
+                            layout="intrinsic"
+                            alt="closeBtn"
+                            width={24}
+                            height={24}
+                          />
+                        </Xbox>
+                      </ImgSpan>
+                    ))}
+                  </ImgSpanBox>
                   {/* </Preview> */}
                 </PhotosBox>
               </RemainderInputBox>
@@ -595,28 +598,37 @@ const Label = styled.label`
 `;
 const PhotosBox = styled.div`
   width: 100%;
-  height: 56.0625pt;
+  height: auto;
   margin-top: 9pt;
   display: flex;
   gap: 9.1875pt;
-  align-items: center;
+  align-items: inherit;
+
   @media (min-width: 900pt) {
-    height: 83.1pt;
+    height: auto;
   }
 `;
 
 const AddPhotos = styled.button`
   display: inline-block;
-  width: 56.0625pt;
+  width: 65.0625pt;
   height: 56.0625pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
   cursor: pointer;
+
   background-color: #ffffff;
   @media (min-width: 900pt) {
-    width: 83.1pt;
+    width: 92.1pt;
     height: 83.1pt;
   }
+`;
+const ImgSpanBox = styled.div`
+  display: flex;
+  gap: 9pt;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
 `;
 
 const ImgSpan = styled.div`
@@ -624,6 +636,9 @@ const ImgSpan = styled.div`
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
+  & span {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     width: 83.1pt;
     height: 83.1pt;
@@ -634,6 +649,7 @@ const Xbox = styled.div`
   position: absolute;
   top: -7pt;
   right: -7pt;
+  cursor: pointer;
 `;
 
 const Button = styled.div<{ finalStep?: boolean; onValid: boolean }>`
