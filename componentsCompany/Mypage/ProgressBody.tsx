@@ -113,8 +113,12 @@ const ProgressBody = ({
     data: contractDocumentData,
     isLoading: contractDocumentLoading,
     isError: contractDocumentError,
-  } = reactQuery<documentResponse>('contract', () =>
-    getDocument(contractData?.project?.contract?.documentId!),
+  } = reactQuery<documentResponse>(
+    'contract',
+    () => getDocument(contractData?.project?.contract?.documentId!),
+    {
+      enabled: contractData?.project?.contract?.documentId ? true : false,
+    },
   );
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
