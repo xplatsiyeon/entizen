@@ -10,6 +10,7 @@ import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { api } from 'api';
 import Loader from 'components/Loader';
+import useLogin from 'hooks/useLogin';
 
 type Props = {
   idInput: string;
@@ -81,6 +82,12 @@ const IdPwInput = ({
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
+
+  const { loginError, loginLoading, signin } = useLogin(
+    idInput,
+    setIsModal,
+    setModalMessage,
+  );
 
   const loginTypeEnList = ['USER', 'COMPANY'];
   const { data, refetch } = useQuery<ValidatedId>(
@@ -163,7 +170,7 @@ const IdPwInput = ({
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
-      userMutate({
+      await userMutate({
         method: 'POST',
         endpoint: '/members/join',
         data: {
@@ -180,6 +187,8 @@ const IdPwInput = ({
           ],
         },
       });
+
+      signin(idInput, 'USER', checkPw);
     }
   };
   // 기업 회원가입 온클릭
