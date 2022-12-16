@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { InputAdornment, TextField } from '@mui/material';
 import { isTokenGetApi } from 'api';
 import BottomNavigation from 'components/BottomNavigation';
-import ChattingList from 'components/Chatting/ChattingListCopy2';
+import ChattingList from 'components/Chatting/ChattingList';
 import Loader from 'components/Loader';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
