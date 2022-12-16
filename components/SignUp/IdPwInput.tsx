@@ -117,7 +117,7 @@ const IdPwInput = ({
       queryClient.invalidateQueries();
       setTimeout(() => {
         signin(idInput, 'USER', checkPw);
-      }, 3000);
+      }, 100);
 
       // router.push('/signUp/Complete');
     },
