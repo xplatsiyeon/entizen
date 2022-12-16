@@ -198,6 +198,7 @@ const ComContranct = ({}: Props) => {
   const onClickModal = () => {
     if (modalMessage === '자체 계약서를 전송하였습니다.') {
       inProgressRefetch();
+      setIsModal(false);
     } else {
       router.push('/company/mypage?id=0');
     }

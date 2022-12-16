@@ -113,6 +113,10 @@ export interface InProgressProjectsDetail {
   subscribeStartDate: string;
   contract: {
     documentId: string;
+    contractContent: string;
+    // {
+    //   title?: string;
+    // };
   };
 }
 export interface InProgressProjectsDetailResponse {
@@ -211,6 +215,7 @@ export const GET_InProgressProjectsDetail = gql`
       }
       contract {
         documentId
+        contractContent
       }
     }
   }
