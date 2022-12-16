@@ -567,7 +567,7 @@ const HeadOpenContent = () => {
                             )}
                         </span>
                       </div>
-                      {etcRequest !== '' ? (
+                      {etcRequest?.length > 0 ? (
                         <ElseTextBox>
                           <span className="name">기타 요청사항</span>
                           <ElseText>{etcRequest}</ElseText>
