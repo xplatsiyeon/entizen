@@ -301,6 +301,7 @@ const AsCompText = ({ data }: Props) => {
                 name="firstPageTextArea"
                 placeholder="추정 원인 및 대응 계획에 대해 입력 후 &#13;&#10;접수 확인을 클릭해주세요!"
                 rows={5}
+                maxLength={500}
               />
             </div>
           </InputBox>
@@ -347,6 +348,7 @@ const AsCompText = ({ data }: Props) => {
                   name="firstPageTextArea"
                   placeholder="A/S 결과를 입력해주세요"
                   rows={5}
+                  maxLength={500}
                 />
               </div>
             </InputBox>

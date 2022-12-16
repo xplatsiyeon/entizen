@@ -751,6 +751,7 @@ const SecondStep = ({
               name="firstPageTextArea"
               placeholder="선택 입력사항"
               rows={7}
+              maxLength={500}
             />
           </div>
         </InputBox>
@@ -1468,7 +1469,7 @@ const TwoBtn = styled.div`
     width: 560.25pt;
     position: relative;
     margin: 0 auto;
-   // padding-bottom: 40pt;
+    // padding-bottom: 40pt;
     margin-bottom: 50pt;
     padding-bottom: 20pt;
   }

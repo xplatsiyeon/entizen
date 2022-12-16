@@ -171,6 +171,7 @@ const FirstStep = ({
             name="firstPageTextArea"
             placeholder="선택 입력사항"
             rows={5}
+            maxLength={500}
           />
         </div>
       </InputBox2>
