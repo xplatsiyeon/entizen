@@ -182,6 +182,10 @@ const WebBody = styled.div`
     display: block;
     height: 100%;
   }
+
+  @media (max-width: 899.25pt) {
+    background: white;
+  }
 `;
 
 const Inner = styled.div`
@@ -241,6 +245,7 @@ const SettingTitle = styled.div`
 `;
 
 const BoxAlign = styled.div`
+
   @media (min-width: 900pt) {
     display: flex;
     justify-content: space-between;

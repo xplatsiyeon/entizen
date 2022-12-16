@@ -232,6 +232,8 @@ const SettingMain = ({
             <VersionInfoText>버전 정보</VersionInfoText>
             <VersionNumber>V.8.33</VersionNumber>
           </Version>
+          <ListWrapper>
+
           <SettingList
             onClick={() => {
               setTabNumber(1);
@@ -288,6 +290,7 @@ const SettingMain = ({
           {userID && (
             <Secession onClick={HandleWidthdrawal}>탈퇴하기</Secession>
           )}
+          </ListWrapper>
         </Wrapper>
       </WebRapper>
     </>
@@ -349,12 +352,12 @@ const WebRapper = styled.div<{ leftTabNumber: number }>`
 const Wrapper = styled.div`
   position: relative;
   height: 100%;
-  padding-left: 15pt;
-  padding-right: 15pt;
 `;
 const Version = styled.div`
   padding-top: 18pt;
   padding-bottom: 18pt;
+  padding-left: 15pt;
+  padding-right: 15pt;
   display: flex;
   gap: 9pt;
   flex-direction: column;
@@ -455,3 +458,7 @@ const Secession = styled.div`
     top: 130pt;
   }
 `;
+
+const ListWrapper =styled.div`
+  padding: 0 15pt;
+`

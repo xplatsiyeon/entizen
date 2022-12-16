@@ -471,22 +471,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
 
-  useEffect(()=>{
-    setTimeout(() => {
-      console.log('처음에만');
-      focusRef.current?.focus();
-    }, 1000)
-
-    setTimeout(() => {
-      console.log('처음에만');
-      if (webInputRef.current) {
-        webInputRef.current.focus();
-      }
-      if (mobInputRef.current) {
-        mobInputRef.current.focus();
-      }
-    }, 2000)
-  },[])
 
 
   return (
