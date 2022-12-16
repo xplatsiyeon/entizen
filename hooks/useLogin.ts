@@ -7,21 +7,11 @@ import { useDispatch } from 'react-redux';
 import { originUserAction } from 'store/userInfoSlice';
 import { useRouter } from 'next/router';
 
-interface Props {
-  userId: string;
-  memberType: string;
-  password: string;
-  setErrorModal: Dispatch<SetStateAction<boolean>>;
-  setErrorMessage: Dispatch<SetStateAction<string>>;
-}
-
-function useLogin({
-  userId,
-  memberType,
-  password,
-  setErrorModal,
-  setErrorMessage,
-}: Props) {
+function useLogin(
+  userId: string,
+  setErrorModal: Dispatch<SetStateAction<boolean>>,
+  setErrorMessage: Dispatch<SetStateAction<string>>,
+) {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -60,7 +50,7 @@ function useLogin({
     },
   });
 
-  const signin = () => {
+  const signin = (userId: string, memberType: string, password: string) => {
     loginMutate({
       url: '/members/login',
       data: {
