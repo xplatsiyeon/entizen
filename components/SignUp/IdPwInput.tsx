@@ -10,6 +10,7 @@ import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { api } from 'api';
 import Loader from 'components/Loader';
+import useLogin from 'hooks/useLogin';
 
 type Props = {
   idInput: string;
@@ -82,6 +83,13 @@ const IdPwInput = ({
   const [initIdAlert, setInitIdAlert] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
 
+  const { loginError, loginLoading, signin } = useLogin(
+    idInput,
+    setIsModal,
+    setModalMessage,
+    true,
+  );
+
   const loginTypeEnList = ['USER', 'COMPANY'];
   const { data, refetch } = useQuery<ValidatedId>(
     'ValidIdCheck',
@@ -106,9 +114,11 @@ const IdPwInput = ({
     error: userError,
   } = useMutation(api, {
     onSuccess: async () => {
-      console.log('성공');
+      console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
-      router.push('/signUp/Complete');
+      signin(idInput, 'USER', checkPw);
+
+      // router.push('/signUp/Complete');
     },
     onError: (error) => {
       console.log('----회원가입 실패----');
@@ -163,7 +173,7 @@ const IdPwInput = ({
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
-      userMutate({
+      await userMutate({
         method: 'POST',
         endpoint: '/members/join',
         data: {
@@ -241,10 +251,10 @@ const IdPwInput = ({
   }, [data]);
 
   // 로딩처리
-  if (userLoading || companyLoading) {
-    // console.log('로딩중...');
-    return <Loader />;
-  }
+  // if (userLoading || companyLoading) {
+  //   // console.log('로딩중...');
+  //   return <Loader />;
+  // }
 
   const iconAdorment = {
     endAdornment: (

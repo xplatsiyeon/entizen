@@ -7,21 +7,12 @@ import { useDispatch } from 'react-redux';
 import { originUserAction } from 'store/userInfoSlice';
 import { useRouter } from 'next/router';
 
-interface Props {
-  userId: string;
-  memberType: string;
-  password: string;
-  setErrorModal: Dispatch<SetStateAction<boolean>>;
-  setErrorMessage: Dispatch<SetStateAction<string>>;
-}
-
-function useLogin({
-  userId,
-  memberType,
-  password,
-  setErrorModal,
-  setErrorMessage,
-}: Props) {
+function useLogin(
+  userId: string,
+  setErrorModal: Dispatch<SetStateAction<boolean>>,
+  setErrorMessage: Dispatch<SetStateAction<string>>,
+  signUp: boolean,
+) {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -44,7 +35,7 @@ function useLogin({
       );
       sessionStorage.setItem('USER_ID', JSON.stringify(userId));
       dispatch(originUserAction.set(userId));
-      await router.push('/');
+      (await signUp) ? router.push('/signUp/Complete') : router.push('/');
     },
     onError: async (error: any) => {
       const { message } = error.response.data;
@@ -60,7 +51,7 @@ function useLogin({
     },
   });
 
-  const signin = () => {
+  const signin = (userId: string, memberType: string, password: string) => {
     loginMutate({
       url: '/members/login',
       data: {

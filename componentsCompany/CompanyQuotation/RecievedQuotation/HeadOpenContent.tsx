@@ -576,24 +576,27 @@ const HeadOpenContent = () => {
                 />
               )}
               {/* ------------내부 컴포넌트--------- */}
-              {<TapWrapper tabNumber={tabNumber} className="tabnumber"> 
-                <TabBox open={open} className="target-list">
-                  {Object.keys(components).map((tab, index) => (
-                    <React.Fragment key={index}>
-                      {index <=
-                        data?.receivedQuotationRequest.quotationRequestChargers
-                          .length! && (
-                        <TabLine className='target'
-                          idx={index.toString()}
-                          num={tabNumber.toString()}
-                          key={tab}
-                        />
-                      )}
-                    </React.Fragment>
-                  ))}
-                </TabBox>
-              {components[tabNumber]}
-              </TapWrapper>}
+              {
+                <TapWrapper tabNumber={tabNumber} className="tabnumber">
+                  <TabBox open={open} className="target-list">
+                    {Object.keys(components).map((tab, index) => (
+                      <React.Fragment key={index}>
+                        {index <=
+                          data?.receivedQuotationRequest
+                            .quotationRequestChargers.length! && (
+                          <TabLine
+                            className="target"
+                            idx={index.toString()}
+                            num={tabNumber.toString()}
+                            key={tab}
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </TabBox>
+                  {components[tabNumber]}
+                </TapWrapper>
+              }
             </BtnWrapper>
           </WebRapper>
           {/* 가견적 작성하기 부분 */}
@@ -899,7 +902,7 @@ const MobileHide = styled.div`
 `;
 export default HeadOpenContent;
 
-const TapWrapper = styled.div<{tabNumber : number}>`
+const TapWrapper = styled.div<{ tabNumber: number }>`
   position: relative;
-  display: ${({tabNumber})=> tabNumber===-1?'none' : 'block'};
-`
+  display: ${({ tabNumber }) => (tabNumber === -1 ? 'none' : 'block')};
+`;
