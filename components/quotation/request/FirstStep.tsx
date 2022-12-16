@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
-import AddIcon from 'public/images/add-img.svg';
+import AddIcon from 'public/images/add-img2.svg';
 import Arrow from 'public/guide/Arrow.svg';
 import XCircle from 'public/guide/XCircle.svg';
 import {

@@ -13,7 +13,7 @@ import {
 } from 'assets/selectList';
 import colors from 'styles/colors';
 import { M5_CHANNEL_SET, M5_TYPE_SET } from 'assets/selectList';
-import AddIcon from 'public/images/add-img.svg';
+import AddIcon from 'public/images/add-img2.svg';
 import XCircle from 'public/guide/XCircle.svg';
 import Image from 'next/image';
 import { inputPriceFormat } from 'utils/calculatePackage';
@@ -536,7 +536,7 @@ const FirstStep = ({
         <InputBox className="lastInputBox">
           <div className="withTextNumber">
             <span>구독상품 특장점</span>
-            <span>{subscribeProductFeature.length}/500</span>
+            <span>{subscribeProductFeature?.length!}/500</span>
           </div>
           <div className="monthFlex">
             <TextArea

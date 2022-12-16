@@ -87,7 +87,7 @@ const RecieveRequestUnder = ({
                 />
               </DdayBox>
               <AddressBox>
-                {el?.quotationRequest?.installationAddress}
+                {el?.quotationRequest?.maskingInstallationAddress}
               </AddressBox>
             </DdayNAddress>
             <IconBox>

@@ -56,12 +56,22 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
           />
 
           <div>
-            <h1>
-              {
-                data?.sendQuotationRequest?.quotationRequest
-                  ?.installationAddress
-              }
-            </h1>
+            {data?.sendQuotationRequest?.badge! === '선택대기' ? (
+              <h1>
+                {
+                  data?.sendQuotationRequest?.quotationRequest
+                    ?.maskingInstallationAddress
+                }
+              </h1>
+            ) : (
+              <h1>
+                {
+                  data?.sendQuotationRequest?.quotationRequest
+                    ?.installationAddress
+                }
+              </h1>
+            )}
+
             {open ? (
               <ArrowImg>
                 <Image src={DownArrow} alt="down_arrow" layout="fill" />

@@ -20,6 +20,9 @@ import { css } from '@emotion/react';
 import { useQuery } from '@apollo/client';
 import { useQuery as reactQuery } from 'react-query';
 import { getDocument } from 'api/getDocument';
+import useCreateChatting from 'hooks/useCreateChatting';
+import { JwtTokenType } from 'pages/signin';
+import jwt_decode from 'jwt-decode';
 
 type Props = {
   dateArr: boolean[];
@@ -48,6 +51,7 @@ const ProgressBody = ({
   badge,
 }: Props) => {
   const router = useRouter();
+  const contractContent = JSON.parse(data?.project?.contract?.contractContent!);
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
@@ -120,6 +124,22 @@ const ProgressBody = ({
       enabled: contractData?.project?.contract?.documentId ? true : false,
     },
   );
+  const { createChatting, createLoading } = useCreateChatting();
+  const token: JwtTokenType = jwt_decode(accessToken);
+
+  // 채팅방으로 이동
+  const onClickBtn = () => {
+    if (data?.project?.userMember?.memberIdx) {
+      // 채팅방 생성 후 채팅방 이동 or 채팅방이 존재하면 바로 채팅방 이동
+      createChatting(data?.project?.userMember?.memberIdx);
+    } else {
+      if (token.memberType === 'USER') {
+        router.push('/chatting');
+      } else {
+        router.push('/company/chatting');
+      }
+    }
+  };
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
     // 새탭으로 열기
@@ -243,7 +263,9 @@ const ProgressBody = ({
           {/* 펼쳐지는 부분 */}
           {toggleOpen[0] && (
             <ContractBtnBox
-              onClick={onClickContract}
+              onClick={
+                !Array.isArray(contractContent) ? onClickContract : onClickBtn
+              }
               presentProgress={
                 data?.project?.badge === '계약대기' ? true : false
               }

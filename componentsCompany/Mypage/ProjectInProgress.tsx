@@ -105,8 +105,8 @@ const ProjectInProgress = ({
                     <DdayNAddress>
                       <DdayBox>
                         <CommonBtn
-                          text={el.badge}
-                          backgroundColor={handleColor(el.badge)}
+                          text={el?.badge}
+                          backgroundColor={handleColor(el?.badge)}
                           bottom={'12pt'}
                         />
                       </DdayBox>

@@ -74,6 +74,7 @@ export interface QuotationsDetailResponse {
     etcRequest: string;
     memberIdx: number;
     quotationRequestChargers: QuotationRequestChargers[];
+    maskingInstallationAddress: string;
   };
 }
 type ChargeType = '' | '구매자 자율' | '운영사업자 입력';
@@ -292,6 +293,11 @@ const HeadOpenContent = () => {
     data?.receivedQuotationRequest?.quotationRequestChargers! ||
     editData?.sendQuotationRequest?.quotationRequest?.quotationRequestChargers!;
 
+  const maskingInstallationAddress =
+    data?.receivedQuotationRequest.maskingInstallationAddress! ||
+    editData?.sendQuotationRequest?.quotationRequest
+      ?.maskingInstallationAddress!;
+
   // step별 컴포넌트
   const components: Components = {
     // 기본
@@ -465,20 +471,28 @@ const HeadOpenContent = () => {
                     />
                     <div>
                       <StoreNameText tabNumber={tabNumber}>
-                        {installationAddress}
+                        {maskingInstallationAddress}
                       </StoreNameText>
-                      {open ? (
-                        <ArrowImg>
-                          <Image
-                            src={DownArrow}
-                            alt="down_arrow"
-                            layout="fill"
-                          />
-                        </ArrowImg>
-                      ) : (
-                        <ArrowImg>
-                          <Image src={UpArrow} alt="up_arrow" layout="fill" />
-                        </ArrowImg>
+                      {tabNumber !== -1 && (
+                        <>
+                          {open ? (
+                            <ArrowImg>
+                              <Image
+                                src={DownArrow}
+                                alt="down_arrow"
+                                layout="fill"
+                              />
+                            </ArrowImg>
+                          ) : (
+                            <ArrowImg>
+                              <Image
+                                src={UpArrow}
+                                alt="up_arrow"
+                                layout="fill"
+                              />
+                            </ArrowImg>
+                          )}
+                        </>
                       )}
                     </div>
                   </StoreName>
