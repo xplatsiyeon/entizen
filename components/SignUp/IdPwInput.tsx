@@ -87,6 +87,7 @@ const IdPwInput = ({
     idInput,
     setIsModal,
     setModalMessage,
+    true,
   );
 
   const loginTypeEnList = ['USER', 'COMPANY'];
@@ -115,9 +116,7 @@ const IdPwInput = ({
     onSuccess: async () => {
       console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
-      setTimeout(() => {
-        signin(idInput, 'USER', checkPw);
-      }, 100);
+      signin(idInput, 'USER', checkPw);
 
       // router.push('/signUp/Complete');
     },
@@ -252,10 +251,10 @@ const IdPwInput = ({
   }, [data]);
 
   // 로딩처리
-  if (userLoading || companyLoading) {
-    // console.log('로딩중...');
-    return <Loader />;
-  }
+  // if (userLoading || companyLoading) {
+  //   // console.log('로딩중...');
+  //   return <Loader />;
+  // }
 
   const iconAdorment = {
     endAdornment: (

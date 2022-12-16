@@ -11,6 +11,7 @@ function useLogin(
   userId: string,
   setErrorModal: Dispatch<SetStateAction<boolean>>,
   setErrorMessage: Dispatch<SetStateAction<string>>,
+  signUp: boolean,
 ) {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -34,7 +35,7 @@ function useLogin(
       );
       sessionStorage.setItem('USER_ID', JSON.stringify(userId));
       dispatch(originUserAction.set(userId));
-      await router.push('/');
+      (await signUp) ? router.push('/signUp/Complete') : router.push('/');
     },
     onError: async (error: any) => {
       const { message } = error.response.data;
