@@ -529,6 +529,7 @@ const FirstStep = ({
               name="firstPageTextArea"
               placeholder="현장실사 결과를 입력해주세요."
               rows={7}
+              maxLength={500}
             />
           </div>
         </InputBox>
@@ -544,6 +545,7 @@ const FirstStep = ({
               name="firstPageTextArea"
               placeholder="선택 입력 사항."
               rows={5}
+              maxLength={500}
             />
           </div>
         </InputBox>
