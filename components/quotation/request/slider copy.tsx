@@ -160,9 +160,10 @@ const SliderSizes = ({
   return (
     <SliderCustom width={'97%'} disabled={disabled} client={true.toString()}>
       {/* 안내 메시지 */}
-      {subscribeNumber === 0 && disabled && (
-        <BubbleMessage>바를 움직여 주세요</BubbleMessage>
-      )}
+      {/* {subscribeNumber === 0 && disabled && (
+        <BubbleMessage>바를 움직여 주세요 과연</BubbleMessage>
+      )} */}
+      {disabled && <BubbleMessage>바를 움직여 주세요 과연</BubbleMessage>}
 
       {/* 슬라이더 */}
       <Slider

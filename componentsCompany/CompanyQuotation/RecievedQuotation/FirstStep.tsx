@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { EditSharp } from '@mui/icons-material';
 import { TextField } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { myEstimateAction } from 'storeCompany/myQuotation';
 import colors from 'styles/colors';
@@ -46,6 +46,9 @@ const FirstStep = ({
 
   const dispatch = useDispatch();
   const router = useRouter();
+  // 글자수 변환
+  const [textLength, setTextLength] = useState<number>(0);
+
   useEffect(() => {
     if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
       SetCanNext(true);
@@ -90,8 +93,11 @@ const FirstStep = ({
       );
       setConstructionPeriod(preQuotation?.constructionPeriod?.toString());
       setFirstPageTextArea(preQuotation?.subscribeProductFeature!);
+      setTextLength(preQuotation?.subscribeProductFeature!.length);
     }
   }, [editData]);
+
+  console.log('textLength', textLength);
 
   // 페이지 최상단으로 이동
   useEffect(() => {
@@ -148,10 +154,19 @@ const FirstStep = ({
         </div>
       </InputBox>
       <InputBox2>
-        <div>구독상품 특장점</div>
+        <TextFlex>
+          <div>구독상품 특장점</div>
+          <div>
+            {textLength}
+            /500
+          </div>
+        </TextFlex>
         <div>
           <TextArea
-            onChange={(e) => setFirstPageTextArea(e.target.value)}
+            onChange={(e) => {
+              setFirstPageTextArea(e.target.value);
+              setTextLength(e.target.value.length);
+            }}
             value={firstPageTextArea}
             name="firstPageTextArea"
             placeholder="선택 입력사항"
@@ -354,5 +369,10 @@ const Btn = styled.div<{ buttonActivate: boolean; tabNumber?: number }>`
   }
 `;
 
+const TextFlex = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export default FirstStep;
-//

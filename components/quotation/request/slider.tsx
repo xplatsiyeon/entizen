@@ -96,9 +96,10 @@ const SliderSizes = ({
       sliderDisable={sliderDisable!}
     >
       {/* 안내 메시지 */}
-      {subscribeNumber === 0 && disabled && (
+      {/* {subscribeNumber === 0 && disabled && (
         <BubbleMessage>바를 움직여 주세요</BubbleMessage>
-      )}
+      )} */}
+      {disabled && <BubbleMessage>바를 움직여 주세요</BubbleMessage>}
 
       {/* 슬라이더 */}
       <Slider
