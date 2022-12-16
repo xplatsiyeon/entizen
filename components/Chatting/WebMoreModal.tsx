@@ -11,9 +11,10 @@ import QuitModal from './QuitModal';
 interface Props {
   setMoreModal: Dispatch<SetStateAction<boolean>>;
   setQuitModal: Dispatch<SetStateAction<boolean>>;
+  alarm?: boolean;
 }
 
-const WebMoreModal = ({ setMoreModal, setQuitModal }: Props) => {
+const WebMoreModal = ({ setMoreModal, setQuitModal, alarm }: Props) => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
   const queryClinet = useQueryClient();
@@ -41,7 +42,7 @@ const WebMoreModal = ({ setMoreModal, setQuitModal }: Props) => {
     <>
       <Box>
         <div className="list fisrt" onClick={() => onClickAlarm(routerId)}>
-          알람끄기
+        {alarm?'알람끄기':'알람켜기'}
         </div>
         <div
           className="list"

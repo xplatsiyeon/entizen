@@ -3,7 +3,7 @@ import Carousel from 'components/mypage/projects/Carousel';
 import Image from 'next/image';
 import CaretDown24 from 'public/images/CaretDown24.png';
 import { ProjectCompletionFiles } from 'QueryComponents/CompanyQuery';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
@@ -30,16 +30,6 @@ const MessageBox = ({
   file,
 }: Props) => {
   const [idx, setIdx] = useState<number>(1);
-
-  console.log(presentProgress);
-
-  const handleNum = () => {
-    if (idx === 1) {
-      setIdx(2);
-    } else {
-      setIdx(1);
-    }
-  };
 
   return (
     <Wrapper onClick={handleClick} presentProgress={presentProgress}>

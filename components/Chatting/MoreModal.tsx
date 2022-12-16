@@ -6,14 +6,14 @@ import Phone from 'public/mypage/Phone.svg';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
-import QuitModal from './QuitModal';
 
 interface Props {
   setMoreModal: Dispatch<SetStateAction<boolean>>;
   setQuitModal: Dispatch<SetStateAction<boolean>>;
+  alarm?: boolean;
 }
 
-const MoreModal = ({ setMoreModal, setQuitModal }: Props) => {
+const MoreModal = ({ setMoreModal, setQuitModal, alarm }: Props) => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
   const queryClinet = useQueryClient();
@@ -38,27 +38,29 @@ const MoreModal = ({ setMoreModal, setQuitModal }: Props) => {
     });
   };
   return (
-    <Wrapper>
-      <Box>
-        <div className="list fisrt" onClick={() => onClickAlarm(routerId)}>
-          알람끄기
-        </div>
-        <div
-          className="list"
-          onClick={() => {
-            setMoreModal(false);
-            setQuitModal(true);
-          }}
-        >
-          채팅방 나가기
-        </div>
-      </Box>
-      <BottomBtn onClick={() => setMoreModal(false)}>취소</BottomBtn>
-    </Wrapper>
+    <Body>
+    <Wrapper onClick={() => setMoreModal(false)} />
+    <Box>
+    <div className="list fisrt" onClick={() => onClickAlarm(routerId)}>
+      {alarm?'알람끄기':'알람켜기'}
+    </div>
+    <div
+      className="list"
+      onClick={() => {
+        setMoreModal(false);
+        setQuitModal(true);
+      }}
+    >
+      채팅방 나가기
+    </div>
+    <BottomBtn onClick={() => setMoreModal(false)}>취소</BottomBtn>
+    </Box>
+    </Body>
   );
 };
 
 export default MoreModal;
+
 
 const Wrapper = styled.div`
   position: fixed;
@@ -67,6 +69,31 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.65);
+  z-index:50;
+
+  @media (min-width: 900pt) {
+    display: none;
+  }
+
+`;
+
+const Body = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  @media (min-width: 900pt) {
+    display: none;
+  }
+`;
+
+const Box = styled.div`
+  position: fixed;
+  bottom: 0;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 9pt;
+
   display: flex;
   justify-content: end;
   align-items: center;
@@ -74,16 +101,6 @@ const Wrapper = styled.div`
   gap: 6.75pt;
   z-index: 100;
 
-  @media (min-width: 900pt) {
-    display: none;
-  }
-
-`;
-const Box = styled.div`
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  border-radius: 9pt;
   .list {
     width: 100%;
     background: ${colors.lightWhite};

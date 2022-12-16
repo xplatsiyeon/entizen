@@ -181,13 +181,14 @@ const Wrapper = styled.div`
 const FlexBox = styled.div`
   border: 1px solid #e2e5ed;
   border-radius: 12pt;
-  height: 423pt;
+  height: 340pt;
   width: 216pt;
   padding: 42pt 19.5pt;
 
   @media (max-width: 899.25pt) {
     border: none;
     width: auto;
+    height: auto;
     padding: 0;
   }
 `;
