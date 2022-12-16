@@ -18,8 +18,14 @@ type Props = {
 };
 
 const stepTypeType = ['READY', 'INSTALLATION', 'EXAM', 'COMPLETION'];
-const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
 
+const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
+  const preStepDate = [
+    data?.project?.readyStepGoalDate!,
+    data?.project?.installationStepGoalDate!,
+    data?.project?.examStepGoalDate!,
+    data?.project?.completionStepGoalDate!,
+  ];
 
   let initToggle;
 
@@ -72,9 +78,13 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
 
   useEffect(() => {
     console.log('🔥 ~ line 58 ~ 달력 모달 dateOn 데이트 확인');
-    console.log(dateArr);
-  }, [dateArr]);
+    console.log(data);
+  }, [data]);
 
+  console.log('---------------------------------');
+
+  console.log(preStepDate[dateArr.indexOf(true)]);
+  console.log(preStepDate[dateArr.indexOf(true)] + 1);
   return (
     <>
       {/* 목표일 설정 */}
@@ -84,6 +94,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
           SetSelectedDays={SetSelectedDays}
           exit={handleExit}
           stepType={stepTypeType[dateArr.indexOf(true)]}
+          beforeStepDate={preStepDate[dateArr.indexOf(true) - 1]}
           inProgressRefetch={inProgressRefetch}
           //info.planed 배열 필터로 교체하는 함수 추가.
         />
@@ -134,6 +145,8 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             CompletionDate={data?.project?.readyStepCompletionDate!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
+            // beforeStepDate={preStepDate[dateArr.indexOf(true) - 1]}
+            afterStepDate={preStepDate[1]}
           />
         )}
         {progressNum === 2 && (
@@ -152,6 +165,8 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             CompletionDate={data?.project?.installationStepCompletionDate!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
+            beforeStepDate={preStepDate[0]}
+            afterStepDate={preStepDate[2]}
           />
         )}
         {progressNum === 3 && (
@@ -170,6 +185,8 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             CompletionDate={data?.project?.examStepCompletionDate!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
+            beforeStepDate={preStepDate[1]}
+            afterStepDate={preStepDate[3]}
           />
         )}
         {progressNum === 4 && (
@@ -191,6 +208,7 @@ const Progress = ({ data, info, setData, inProgressRefetch }: Props) => {
             CompletionDate={data?.project?.completionStepCompletionDate!!}
             stepType={stepTypeType[progressNum - 1]}
             setProgressNum={setProgressNum}
+            beforeStepDate={preStepDate[2]}
           />
         )}
       </Wrapper>

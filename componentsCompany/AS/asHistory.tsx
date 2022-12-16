@@ -78,9 +78,7 @@ const AsHistory = () => {
       queryclient.removeQueries('company-asList');
     };
   }, []);
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+
   if (isError) {
     console.log('🔥 에러 발생 ~line 66 ->' + TAG);
     console.log(error);
@@ -96,6 +94,7 @@ const AsHistory = () => {
           type={'historyAS'}
         />
       )}
+
       <Wrap>
         <MobFilter onClick={() => setModal(true)}>
           <span>{selected}</span>
@@ -112,52 +111,56 @@ const AsHistory = () => {
           <Search searchWord={searchWord} setSearchWord={setSearchWord} />
         </InputWrap>
       </Wrap>
-      <List>
-        {/* 데이터 없을 때 */}
-        {data && data?.data?.afterSalesServiceHistories?.length! === 0 && (
-          <NoAsHistyory />
-        )}
-        {/* 데이터 있을 때 */}
-        {data && data?.data?.afterSalesServiceHistories?.length >= 1 && (
-          <ListWrap>
-            {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
-              <React.Fragment key={idx}>
-                <ListBox key={idx}>
-                  <StoreName>
-                    {
-                      el?.finalQuotation?.preQuotation?.quotationRequest
-                        ?.installationAddress
-                    }
-                  </StoreName>
-                  {el?.afterSalesServices?.map(
-                    (afterSalesService, afterSalesServiceIdx) => (
-                      <FlexWrap
-                        key={afterSalesServiceIdx}
-                        onClick={() =>
-                          handleRoute(
-                            el?.afterSalesServices[afterSalesServiceIdx]
-                              ?.afterSalesServiceIdx,
-                          )
-                        }
-                      >
-                        <Text>{afterSalesService.requestTitle}</Text>
-                        <Score>
-                          {afterSalesService.afterSalesServiceReview
-                            ?.averagePoint
-                            ? `평점 ${afterSalesService.afterSalesServiceReview?.averagePoint}`
-                            : null}
-                        </Score>
-                      </FlexWrap>
-                    ),
-                  )}
-                </ListBox>
-              </React.Fragment>
-            ))}
-            {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
-            <BtnBox>A/S 히스토리 다운받기</BtnBox>
-          </ListWrap>
-        )}
-      </List>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <List>
+          {/* 데이터 없을 때 */}
+          {data && data?.data?.afterSalesServiceHistories?.length! === 0 && (
+            <NoAsHistyory />
+          )}
+          {/* 데이터 있을 때 */}
+          {data && data?.data?.afterSalesServiceHistories?.length > 0 && (
+            <ListWrap>
+              {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
+                <React.Fragment key={idx}>
+                  <ListBox key={idx}>
+                    <StoreName>
+                      {
+                        el?.finalQuotation?.preQuotation?.quotationRequest
+                          ?.installationAddress
+                      }
+                    </StoreName>
+                    {el?.afterSalesServices?.map(
+                      (afterSalesService, afterSalesServiceIdx) => (
+                        <FlexWrap
+                          key={afterSalesServiceIdx}
+                          onClick={() =>
+                            handleRoute(
+                              el?.afterSalesServices[afterSalesServiceIdx]
+                                ?.afterSalesServiceIdx,
+                            )
+                          }
+                        >
+                          <Text>{afterSalesService.requestTitle}</Text>
+                          <Score>
+                            {afterSalesService.afterSalesServiceReview
+                              ?.averagePoint
+                              ? `평점 ${afterSalesService.afterSalesServiceReview?.averagePoint}`
+                              : null}
+                          </Score>
+                        </FlexWrap>
+                      ),
+                    )}
+                  </ListBox>
+                </React.Fragment>
+              ))}
+              {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
+              <BtnBox>A/S 히스토리 다운받기</BtnBox>
+            </ListWrap>
+          )}
+        </List>
+      )}
     </Body>
   );
 };
@@ -170,6 +173,7 @@ const Body = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
 
 const Wrap = styled.div`
@@ -254,6 +258,9 @@ const FlexWrap = styled.div`
   justify-content: space-between;
   align-items: baseline;
   cursor: pointer;
+  :hover {
+    box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
+  }
 `;
 
 const ListWrap = styled.div`

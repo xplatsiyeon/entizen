@@ -663,7 +663,7 @@ const PickedDate = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   color: ${(props) => {
-    console.log(props);
+    // console.log(props);
     return props.color;
   }};
   border: 0.75pt solid ${(props) => props.color};

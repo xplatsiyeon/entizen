@@ -45,6 +45,8 @@ type Props = {
   preStepState: boolean;
   CompletionDate: string;
   setProgressNum: Dispatch<SetStateAction<number>>;
+  beforeStepDate?: string;
+  afterStepDate?: string;
   inProgressRefetch: (
     variables?: Partial<OperationVariables> | undefined,
   ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
@@ -81,6 +83,8 @@ const Reusable = ({
   inProgressRefetch,
   setProgressNum,
   CompletionDate,
+  beforeStepDate,
+  afterStepDate,
 }: // setBadgeState,
 // setData,
 
@@ -285,6 +289,8 @@ Props) => {
           stepType={stepType}
           setModalOpen={setModalOpen}
           inProgressRefetch={inProgressRefetch}
+          beforeStepDate={beforeStepDate!}
+          afterStepDate={afterStepDate!}
         />
       )}
       {/* ------------- 프로젝트 완료하기 클릭시 보이는 곳  -------------*/}

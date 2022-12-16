@@ -4,7 +4,12 @@ import {
   InProgressProjectsDetailResponse,
   UnConsentProjectDateChangeHistories,
 } from 'QueryComponents/CompanyQuery';
-import React from 'react';
+import React, {
+  BaseSyntheticEvent,
+  HtmlHTMLAttributes,
+  MouseEvent,
+  useRef,
+} from 'react';
 import colors from 'styles/colors';
 import changeArrow from 'public/images/date-change-arrow.png';
 import { getDayOfWeek } from 'utils/calculatePackage';
@@ -27,9 +32,15 @@ const ClientProjectModal = ({
   onClickCompleteData,
   data,
 }: Props) => {
-  console.log(changeData);
+  const backRef = useRef<HTMLDivElement>(null);
+  const onClickBack = (event: any) => {
+    if (event.target.id === 'background') {
+      setIsModal(false);
+    }
+  };
+
   return (
-    <Wrap onClick={() => setIsModal(false)}>
+    <Wrap onClick={onClickBack} id="background" ref={backRef}>
       <Body>
         <P>{type === 'finish' ? '내 프로젝트' : '일정 변경 요청'}</P>
         {type === 'finish' ? (
