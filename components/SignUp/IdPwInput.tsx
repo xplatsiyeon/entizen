@@ -113,7 +113,7 @@ const IdPwInput = ({
     error: userError,
   } = useMutation(api, {
     onSuccess: async () => {
-      console.log('성공');
+      console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
       signin(idInput, 'USER', checkPw);
       // router.push('/signUp/Complete');
