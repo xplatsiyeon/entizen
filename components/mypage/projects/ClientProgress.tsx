@@ -1,14 +1,12 @@
 import styled from '@emotion/styled';
 import MessageBox from 'componentsCompany/Mypage/MessageBox';
 import Image from 'next/image';
-import { Data } from 'pages/company/mypage/runningProgress';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import DoubleArrow from 'public/mypage/CaretDoubleDown.svg';
 import progressCircle from 'public/images/progressCircle.png';
 import progressBlueCircle from 'public/images/progressBlueCircle.png';
 import UpArrow from 'public/images/smallUpArrow.png';
 import DownArrow from 'public/images/smallDownArrow.png';
-import icon_chats from 'public/images/icon_chats.png';
 import colors from 'styles/colors';
 import ClientProjectModal from './ClientProjectModal';
 import {
@@ -29,8 +27,10 @@ import { useMutation } from 'react-query';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
 import CommunicationBox from 'components/CommunicationBox';
-import { height } from '@mui/system';
 import { getDocument } from 'api/getDocument';
+import useCreateChatting from 'hooks/useCreateChatting';
+import { JwtTokenType } from 'pages/signin';
+import jwt_decode from 'jwt-decode';
 
 type Props = {
   data: InProgressProjectsDetailResponse;
@@ -46,6 +46,10 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   // const presentProgress = info.state;
   const router = useRouter();
   const routerId = router?.query?.projectIdx!;
+
+  const contractContent =
+    data?.project?.contract &&
+    JSON.parse(data?.project?.contract?.contractContent!);
   let textArr;
   let initToggle;
 
@@ -239,6 +243,22 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
       enabled: contractData?.project?.contract?.documentId ? true : false,
     },
   );
+
+  const { createChatting, createLoading } = useCreateChatting();
+  const token: JwtTokenType = jwt_decode(accessToken);
+
+  const onClickBtn = () => {
+    if (data?.project?.companyMember?.memberIdx) {
+      // 채팅방 생성 후 채팅방 이동 or 채팅방이 존재하면 바로 채팅방 이동
+      createChatting(data?.project?.companyMember?.memberIdx!);
+    } else {
+      if (token.memberType === 'USER') {
+        router.push('/chatting');
+      } else {
+        router.push('/company/chatting');
+      }
+    }
+  };
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
     console.log(contractDocumentData?.embeddedUrl);
@@ -377,7 +397,11 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                       ? true
                       : false
                   }
-                  onClick={onClickContract}
+                  onClick={
+                    !Array.isArray(contractContent)
+                      ? onClickContract
+                      : onClickBtn
+                  }
                 >
                   계약서 보기
                 </ClientP>

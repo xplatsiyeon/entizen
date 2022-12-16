@@ -7,6 +7,8 @@ export interface RequesQuotationtData {
   maxTotalSubscribePrice: number;
   minSubscribePricePerMonth: number;
   minTotalSubscribePrice: number;
+  minChargingStationInstallationPrice: number;
+  maxChargingStationInstallationPrice: number;
   predictedProfitTime: string;
 }
 

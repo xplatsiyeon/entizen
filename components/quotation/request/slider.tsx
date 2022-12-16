@@ -26,6 +26,8 @@ interface Props {
       maxTotalSubscribePrice: number;
       minSubscribePricePerMonth: number;
       minTotalSubscribePrice: number;
+      minChargingStationInstallationPrice: number;
+      maxChargingStationInstallationPrice: number;
     }>
   >;
 }
@@ -68,6 +70,16 @@ const SliderSizes = ({
         value,
         Math.floor(Number(quotationData?.requestData?.investRate) * 100),
       ),
+      minChargingStationInstallationPrice: setPriceByRate(
+        quotationData?.requestData?.minChargingStationInstallationPrice!,
+        value,
+        Math.floor(Number(quotationData?.requestData?.investRate) * 100),
+      ),
+      maxChargingStationInstallationPrice: setPriceByRate(
+        quotationData?.requestData?.maxChargingStationInstallationPrice!,
+        value,
+        Math.floor(Number(quotationData?.requestData?.investRate) * 100),
+      ),
       investRate: value,
     };
     if (setCalculatedValue) {
@@ -76,6 +88,10 @@ const SliderSizes = ({
         maxTotalSubscribePrice: ret.maxTotalSubscribePrice!,
         minSubscribePricePerMonth: ret.minSubscribePricePerMonth!,
         minTotalSubscribePrice: ret.minTotalSubscribePrice!,
+        minChargingStationInstallationPrice:
+          ret.minChargingStationInstallationPrice!,
+        maxChargingStationInstallationPrice:
+          ret.maxChargingStationInstallationPrice!,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
