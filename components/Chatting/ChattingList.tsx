@@ -24,9 +24,6 @@ import {
 import { isTokenPatchApi } from 'api';
 import { handleTime } from 'utils/messageTime';
 
-import Slider from 'react-slick';
-
-
 type Props = {
   data: ChattingListResponse;
   setName?: Dispatch<SetStateAction<string>> | undefined;
@@ -37,13 +34,13 @@ type Props = {
   chattingRoom?:boolean;
 };
 
-const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
+
+const ChattingList2 = ({ data, refetch,chattingRoom }: Props) => {
   const router = useRouter();
   const queryClinet = useQueryClient();
 
   const [modal, setModal] = useState<boolean>(false);
   const [deleteId, setDeleteId] = useState<number>();
-
   // 채팅방 알림 에러
   const {
     mutate: patchMutate,
@@ -59,6 +56,111 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
       console.log(error);
     },
   });
+
+  /* 드래그 조절 함수 */
+  const chattingList = useRef<HTMLDivElement>(null);
+  let pressed = false;
+  let prev: number;
+  let start: string;
+  const touchStart = (e: TouchEvent<HTMLElement>) => {
+    if (pressed) {
+      return;
+    } else {
+      pressed = true;
+      prev = e.changedTouches[0].clientX;
+      if (!e.currentTarget.style.marginLeft) {
+        e.currentTarget.style.marginLeft = '-40%'; //맨 처음, 값 초기화.
+      }
+      start = e.currentTarget.style.marginLeft.slice(0, -1);
+      console.log('s', start);
+    }
+  };
+  const touchMove = (e: TouchEvent<HTMLElement>, idx?: number) => {
+    if (!pressed) {
+      return;
+    } else {
+      const now = e.changedTouches[0].clientX;
+
+      //현재 스타일의 marginLeft 객체의 값에서 숫자만 남기기.
+      const nowNum = e.currentTarget.style.marginLeft.slice(0, -1);
+
+      //드래그되는 속도 조절 부분. 숫자가 클수록 속도가 빨라진다.
+      let n = prev - now > 0 ? -1 : 1;
+
+      if (start === '-40') {
+        if (prev - now > 10) {
+          const newNum = Number(nowNum) + n;
+          const num = newNum < -60 ? -60 : newNum;
+          // console.log('??', newNum)
+          e.currentTarget.style.marginLeft = `${num}%`;
+        } else if (prev - now < -10) {
+          //오른쪽으로
+          const newNum = Number(nowNum) + n;
+          const num = newNum > 0 ? 0 : newNum;
+          e.currentTarget.style.marginLeft = `${num}%`;
+        }
+      }
+
+      if (start === '0') {
+        n = prev - now > 0 ? -2 : 2;
+        if (prev - now > 10) {
+          const newNum = Number(nowNum) + n;
+          const num = newNum < -40 ? -40 : newNum;
+          //console.log('??', num)
+          e.currentTarget.style.marginLeft = `${num}%`;
+        }
+      }
+
+      if (start === '-60') {
+        if (prev - now < -10) {
+          const newNum = Number(nowNum) + n;
+          const num = newNum > -40 ? -40 : newNum;
+          e.currentTarget.style.marginLeft = `${num}%`;
+        }
+      }
+    }
+  };
+  const touchEnd = (e: TouchEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    const now = e.changedTouches[0].clientX;
+
+    if (start === '-40') {
+      if (prev - now > 0) {
+        e.currentTarget.style.transition = '0.2s';
+        e.currentTarget.style.marginLeft = '-60%';
+      } else if (prev - now < -0) {
+        e.currentTarget.style.transition = '0.2s';
+        e.currentTarget.style.marginLeft = '-0%';
+      } else {
+        e.currentTarget.style.marginLeft = `${start}%`;
+      }
+    }
+
+    if (start === '0') {
+      if (prev - now > 0) {
+        e.currentTarget.style.transition = '0.4s';
+        e.currentTarget.style.marginLeft = '-40%';
+      } else {
+        e.currentTarget.style.marginLeft = `${start}%`;
+      }
+    }
+
+    if (start === '-60') {
+      if (prev - now < 0) {
+        e.currentTarget.style.transition = '0.4s';
+        e.currentTarget.style.marginLeft = '-40%';
+      } else {
+        e.currentTarget.style.marginLeft = `${start}%`;
+      }
+    }
+
+    //e.currentTarget.style.transition = 'none';
+
+    setTimeout(() => {
+      target.style.transition = 'none';
+      pressed = false;
+    }, 450);
+  };
 
   // 채팅 즐겨찾기 함수
   const onClickFavorite = (chattingRoomIdx: number) => {
@@ -93,34 +195,16 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
    }
    };
 
-   const settings = {
-    infinite: false,
-    speed: 500,
-    slidesToScroll: 1,
-    variableWidth: true,
-    centerMode: true,
-    responsive: [
-      {
-        breakpoint: 1199,
-        settings: {
-          variableWidth: true,
-          centerMode: false
-        }
-      }
-    ]
-  };
-
-
-  console.log('slick')
-
   return (
-    <Body>
+    <Body ref={chattingList}>
       { data?.data?.chattingRooms?.entizenChattingRoom &&
       /* 엔티젠. 상위 고정 && 채팅방 나가기 불가.*/
       <Chatting
             className="chattingRoom"
+            onTouchStart={(e) => touchStart(e)}
+            onTouchMove={(e) => touchMove(e)}
+            onTouchEnd={touchEnd}
           >
-              <Slider {...settings} className="target">
             <HiddenBox1>
               {/* 버튼에 즐겨찾기 설정 api함수 */}
               <FavoriteBtn
@@ -183,9 +267,9 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 </Box>
               </ChattingRoomInfo>
             </ChattingRoom>
-            </Slider>
       </Chatting>
       }
+
 
       {/* 유저 채팅방.*/}
       {data?.data?.chattingRooms?.userChattingRooms?.map((chatting, idx) => {
@@ -193,8 +277,10 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
           <Chatting
             className="chattingRoom"
             key={idx}
+            onTouchStart={(e) => touchStart(e)}
+            onTouchMove={(e) => touchMove(e, idx)}
+            onTouchEnd={touchEnd}
           >
-             <Slider {...settings} className="target">
             <HiddenBox1>
               {/* 버튼에 즐겨찾기 설정 api함수 */}
               <FavoriteBtn
@@ -273,7 +359,6 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 <span> 나가기 </span>
               </QuitBtn>
             </HiddenBox2>
-            </Slider>
           </Chatting>
         );
       })}
@@ -282,7 +367,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
   );
 };
 
-export default ChattingList;
+export default ChattingList2;
 
 const Body = styled.div`
   font-family: 'Spoqa Han Sans Neo';
@@ -290,28 +375,9 @@ const Body = styled.div`
 `;
 
 const Chatting = styled.div`
- display: flex;
-  width: 100%;
-  //일단.. 드래그시 덜컹거리면 삭제하자. 그리고 터치엔드 함수로 transition 주기
-  //transition: 0.4s;
-  .target {
-    width: 100% !important;
-    .slick-track {
-      width: 160% !important;
-      margin-left: 0% !important;
-      .slick-slide {
-        &:nth-of-type(1) {
-          width: 32% !important;
-        }
-        &:nth-of-type(2) {
-          width: 16% !important;
-        }
-        &:nth-of-type(3) {
-          width: 52% !important;
-        }
-      }
-    }
-  }
+  display: flex;
+  width: 160%;
+  margin-left: -40%;
 `;
 const ChattingRoom = styled.div`
   display: flex;

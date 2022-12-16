@@ -46,8 +46,6 @@ const FirstStep = ({
 
   const dispatch = useDispatch();
   const router = useRouter();
-  // 글자수 변환
-  const [textLength, setTextLength] = useState<number>(0);
 
   useEffect(() => {
     if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
@@ -93,11 +91,8 @@ const FirstStep = ({
       );
       setConstructionPeriod(preQuotation?.constructionPeriod?.toString());
       setFirstPageTextArea(preQuotation?.subscribeProductFeature!);
-      setTextLength(preQuotation?.subscribeProductFeature!.length);
     }
   }, [editData]);
-
-  console.log('textLength', textLength);
 
   // 페이지 최상단으로 이동
   useEffect(() => {
@@ -157,7 +152,7 @@ const FirstStep = ({
         <TextFlex>
           <div>구독상품 특장점</div>
           <div>
-            {textLength}
+            {firstPageTextArea.length}
             /500
           </div>
         </TextFlex>
@@ -165,7 +160,6 @@ const FirstStep = ({
           <TextArea
             onChange={(e) => {
               setFirstPageTextArea(e.target.value);
-              setTextLength(e.target.value.length);
             }}
             value={firstPageTextArea}
             name="firstPageTextArea"
