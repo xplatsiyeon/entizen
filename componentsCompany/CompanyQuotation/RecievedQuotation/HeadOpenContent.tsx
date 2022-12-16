@@ -467,18 +467,26 @@ const HeadOpenContent = () => {
                       <StoreNameText tabNumber={tabNumber}>
                         {installationAddress}
                       </StoreNameText>
-                      {open ? (
-                        <ArrowImg>
-                          <Image
-                            src={DownArrow}
-                            alt="down_arrow"
-                            layout="fill"
-                          />
-                        </ArrowImg>
-                      ) : (
-                        <ArrowImg>
-                          <Image src={UpArrow} alt="up_arrow" layout="fill" />
-                        </ArrowImg>
+                      {tabNumber !== -1 && (
+                        <>
+                          {open ? (
+                            <ArrowImg>
+                              <Image
+                                src={DownArrow}
+                                alt="down_arrow"
+                                layout="fill"
+                              />
+                            </ArrowImg>
+                          ) : (
+                            <ArrowImg>
+                              <Image
+                                src={UpArrow}
+                                alt="up_arrow"
+                                layout="fill"
+                              />
+                            </ArrowImg>
+                          )}
+                        </>
                       )}
                     </div>
                   </StoreName>
