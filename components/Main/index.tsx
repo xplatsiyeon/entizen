@@ -35,6 +35,7 @@ import { useQueries, useQuery } from 'react-query';
 import { isTokenApi, isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
+import BellNormal from 'public/images/BellNormal.svg';
 
 type Props = {};
 
@@ -127,7 +128,11 @@ const MainPage = (props: Props) => {
           </LogoBox>
           <IconWrapper>
             <FirstIconBox onClick={() => router.push('/alarm')}>
-              <Image src={Ring} alt="alarmIcon" />
+              {userID ? (
+                <Image src={Ring} alt="alarmIcon" />
+              ) : (
+                <Image src={BellNormal} alt="alarmIcon" />
+              )}
             </FirstIconBox>
             {(['right'] as const).map((anchor) => (
               <React.Fragment key={anchor}>

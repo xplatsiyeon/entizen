@@ -30,6 +30,7 @@ import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import HamburgerChat from 'public/images/HamburgerChat.svg';
 import useProfile from 'hooks/useProfile';
+import BellNormal from 'public/images/BellNormal.svg';
 
 type Props = {
   anchor: string;
@@ -147,7 +148,11 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
               userID ? router.push('/alarm') : router.push('/signin')
             }
           >
-            <Image src={Bell} alt="bellBtn" />
+            {userID ? (
+              <Image src={Bell} alt="bellBtn" />
+            ) : (
+              <Image src={BellNormal} alt="BellNormal" />
+            )}
           </Imagewrap>
           <Imagewrap
             onClick={() =>
