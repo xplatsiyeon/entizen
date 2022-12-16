@@ -16,30 +16,27 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   const router = useRouter();
   // 유저인지 회사인지
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
-  const [checked, setChecked] = useState({
-    appPush: false,
-    kakao: false,
-    easy: false,
-    project: false,
-    as: false,
-    communicate: false,
-    charging: false,
+  const [kakaoChecked, setKakaoChecked] = useState({
+    appPush: true,
+    kakao: true,
+    easy: true,
+    project: true,
+    as: true,
+    communicate: true,
+    charging: true,
     DoNotDisturb: false,
-    event: false,
+    event: true,
   });
   const [mailChecked, setMailChecked] = useState({
-    appPush: false,
-    email: false,
-    easy: false,
-    project: false,
-    as: false,
-    communicate: false,
-    charging: false,
-    event: false,
+    appPush: true,
+    email: true,
+    easy: true,
+    project: true,
+    as: true,
+    communicate: true,
+    charging: true,
+    event: true,
   });
-
-  console.log('checked 어케 나와용 웹', checked);
-  console.log('mailChecked 어케 나와용 웹', checked);
 
   // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   if ((event.target.type = 'kakao')) {
@@ -55,18 +52,22 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   //   }
   // };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked({
-      ...checked,
+    let temp = { ...kakaoChecked };
+    setKakaoChecked({
+      ...kakaoChecked,
       [event.target.name]: event.target.checked,
     });
   };
 
   const handleMailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let temp = { ...mailChecked };
     setMailChecked({
-      ...mailChecked,
+      ...temp,
       [event.target.name]: event.target.checked,
     });
   };
+
+  console.log('mailChecked', mailChecked);
 
   return (
     <Wrapper>
@@ -84,11 +85,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             <CheckBox>
               <span className="text">전체 알림</span>
               <SwitchWrapper memberType={memberType}>
-                <CustomSwitch
-                  name="kakao"
-                  onChange={handleChange}
-                  checked={checked.kakao}
-                />
                 {memberType === 'COMPANY' && (
                   <CustomSwitch
                     name="email"
@@ -96,6 +92,11 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                     checked={mailChecked.email}
                   />
                 )}
+                <CustomSwitch
+                  name="kakao"
+                  onChange={handleChange}
+                  checked={kakaoChecked.kakao}
+                />
               </SwitchWrapper>
             </CheckBox>
           </AlamForm>
@@ -105,11 +106,11 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="DoNotDisturb"
                 onChange={handleChange}
-                checked={checked.DoNotDisturb}
+                checked={kakaoChecked.DoNotDisturb}
                 inputProps={{ 'aria-label': 'controlled' }}
               />
             </CheckBox>
-            {checked.DoNotDisturb && (
+            {kakaoChecked.DoNotDisturb && (
               <OptionContainer>
                 <OptionBox>
                   <span>시작 시간</span>
@@ -126,12 +127,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             <CheckBox>
               <span>이벤트 및 혜택 알림</span>
               <SwitchWrapper memberType={memberType}>
-                <CustomSwitch
-                  name="event"
-                  onChange={handleChange}
-                  checked={checked.event}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
                 {memberType === 'COMPANY' && (
                   <CustomSwitch
                     name="event"
@@ -140,6 +135,12 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                     inputProps={{ 'aria-label': 'controlled' }}
                   />
                 )}
+                <CustomSwitch
+                  name="event"
+                  onChange={handleChange}
+                  checked={kakaoChecked.event}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
               </SwitchWrapper>
             </CheckBox>
           </EventForm>
@@ -154,11 +155,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <div className="remark">견적 진행상황 알림</div>
             </div>
             <SwitchWrapper memberType={memberType}>
-              <CustomSwitch
-                name="easy"
-                onChange={handleChange}
-                checked={checked.easy}
-              />
               {memberType === 'COMPANY' && (
                 <CustomSwitch
                   name="easy"
@@ -166,6 +162,11 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   checked={mailChecked.easy}
                 />
               )}
+              <CustomSwitch
+                name="easy"
+                onChange={handleChange}
+                checked={kakaoChecked.easy}
+              />
             </SwitchWrapper>
           </CheckBox>
           <CheckBox>
@@ -173,11 +174,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <span className="text">내 프로젝트 알림</span>
             </div>
             <SwitchWrapper memberType={memberType}>
-              <CustomSwitch
-                name="project"
-                onChange={handleChange}
-                checked={checked.project}
-              />
               {memberType === 'COMPANY' && (
                 <CustomSwitch
                   name="project"
@@ -185,6 +181,11 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   checked={mailChecked.project}
                 />
               )}
+              <CustomSwitch
+                name="project"
+                onChange={handleChange}
+                checked={kakaoChecked.project}
+              />
             </SwitchWrapper>
           </CheckBox>
           <CheckBox>
@@ -192,11 +193,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <span className="text">A/S 알림</span>
             </div>
             <SwitchWrapper memberType={memberType}>
-              <CustomSwitch
-                name="as"
-                onChange={handleChange}
-                checked={checked.as}
-              />
               {memberType === 'COMPANY' && (
                 <CustomSwitch
                   name="as"
@@ -204,6 +200,11 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   checked={mailChecked.as}
                 />
               )}
+              <CustomSwitch
+                name="as"
+                onChange={handleChange}
+                checked={kakaoChecked.as}
+              />
             </SwitchWrapper>
           </CheckBox>
           <CheckBox>
@@ -212,11 +213,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <div className="remark">신규 메세지 알림</div>
             </div>
             <SwitchWrapper memberType={memberType}>
-              <CustomSwitch
-                name="charging"
-                onChange={handleChange}
-                checked={checked.charging}
-              />
               {memberType === 'COMPANY' && (
                 <CustomSwitch
                   name="charging"
@@ -224,6 +220,11 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   checked={mailChecked.charging}
                 />
               )}
+              <CustomSwitch
+                name="charging"
+                onChange={handleChange}
+                checked={kakaoChecked.charging}
+              />
             </SwitchWrapper>
           </CheckBox>
           <CheckBox>
@@ -232,11 +233,6 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <div className="remark">구독종료 미리 알림</div>
             </div>
             <SwitchWrapper memberType={memberType}>
-              <CustomSwitch
-                name="communicate"
-                onChange={handleChange}
-                checked={checked.communicate}
-              />
               {memberType === 'COMPANY' && (
                 <CustomSwitch
                   name="communicate"
@@ -244,6 +240,11 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   checked={mailChecked.communicate}
                 />
               )}
+              <CustomSwitch
+                name="communicate"
+                onChange={handleChange}
+                checked={kakaoChecked.communicate}
+              />
             </SwitchWrapper>
           </CheckBox>
         </FuntionForm>
