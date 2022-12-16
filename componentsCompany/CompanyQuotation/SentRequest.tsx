@@ -135,7 +135,7 @@ const SentRequest = ({}: Props) => {
                     bottom={'12pt'}
                   />
                 </DdayBox>
-                {el.badge === '선택대기' ? (
+                {el?.badge === '선택대기' ? (
                   <AddressBox>
                     {el?.quotationRequest.maskingInstallationAddress}
                   </AddressBox>
