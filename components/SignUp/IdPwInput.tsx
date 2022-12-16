@@ -115,7 +115,8 @@ const IdPwInput = ({
     onSuccess: async () => {
       console.log('성공');
       queryClient.invalidateQueries();
-      router.push('/signUp/Complete');
+      signin(idInput, 'USER', checkPw);
+      // router.push('/signUp/Complete');
     },
     onError: (error) => {
       console.log('----회원가입 실패----');
