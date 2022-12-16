@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { selectAction } from 'store/loginTypeSlice';
 import Loader from 'components/Loader';
 import useLogin from 'hooks/useLogin';
+import { ConstructionOutlined } from '@mui/icons-material';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -64,6 +65,7 @@ const Signin = () => {
   const [isPassword, setIsPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
+
   // 로그인 mutate
   const { loginLoading, signin } = useLogin(
     userId,
@@ -274,6 +276,7 @@ const Signin = () => {
   if (loginLoading) {
     return <Loader />;
   }
+  console.log('signin');
 
   return (
     <React.Fragment>
@@ -362,6 +365,7 @@ const Signin = () => {
               >
                 <Box sx={{ textAlign: 'center' }}>
                   <TextFields
+                    value={userId}
                     id="outlined-basic"
                     placeholder="아이디 입력"
                     onChange={(e) => {
