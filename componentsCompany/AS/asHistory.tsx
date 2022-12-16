@@ -113,12 +113,12 @@ const AsHistory = () => {
         </InputWrap>
       </Wrap>
       <List>
-        {/* 데이터 없을 때 */}
+        {/* 데이터 없을 때
         {data && data?.data?.afterSalesServiceHistories?.length! === 0 && (
           <NoAsHistyory />
-        )}
+        )} */}
         {/* 데이터 있을 때 */}
-        {data && data?.data?.afterSalesServiceHistories?.length >= 1 && (
+        {data && data?.data?.afterSalesServiceHistories?.length > 0 ? (
           <ListWrap>
             {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
               <React.Fragment key={idx}>
@@ -156,6 +156,8 @@ const AsHistory = () => {
             {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
             <BtnBox>A/S 히스토리 다운받기</BtnBox>
           </ListWrap>
+        ) : (
+          <NoAsHistyory />
         )}
       </List>
     </Body>
@@ -254,6 +256,9 @@ const FlexWrap = styled.div`
   justify-content: space-between;
   align-items: baseline;
   cursor: pointer;
+  :hover {
+    box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
+  }
 `;
 
 const ListWrap = styled.div`

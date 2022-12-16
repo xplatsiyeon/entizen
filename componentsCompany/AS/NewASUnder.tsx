@@ -111,7 +111,7 @@ const Body = styled.div`
 
 const List = styled.div`
   margin: 18pt auto;
-  height: 170pt;
+  max-height: 170pt;
   overflow-y: scroll;
 `;
 
