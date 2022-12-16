@@ -6,11 +6,7 @@ import colors from 'styles/colors';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 import useProfile from 'hooks/useProfile';
-import { useQuery } from '@apollo/client';
-import { GET_InProgressProjects, Response } from 'QueryComponents/CompanyQuery';
 import NewASUnder from './NewASUnder';
-import NoAsHistyory from './noAsHistrory';
-import AsHistoryUnder from './AsHistoryUnder';
 import { useQueryClient } from 'react-query';
 
 type Props = {
@@ -21,9 +17,6 @@ type Props = {
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
   tabNumber: number;
 };
-interface Components {
-  [key: number]: JSX.Element;
-}
 const LeftASBox = ({
   tabNumber,
   setTabNumber,
@@ -31,7 +24,6 @@ const LeftASBox = ({
   setComponentId,
 }: Props) => {
   const route = useRouter();
-  const queryClient = useQueryClient();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const TabType: string[] = ['신규 A/S', '히스토리'];
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
@@ -71,7 +63,7 @@ const LeftASBox = ({
     }
   }, [router]);
 
-  console.log('adas', router.pathname);
+  // console.log('adas', router.pathname);
   const nowRouter = router.pathname;
 
   // 나중에 AS 밑에 오는 부분

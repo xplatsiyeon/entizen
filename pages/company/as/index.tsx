@@ -1,8 +1,4 @@
 import styled from '@emotion/styled';
-import BottomNavigation from 'components/BottomNavigation';
-import colors from 'styles/colors';
-import Nut from 'public/images/Nut.svg';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import AsHistory from 'componentsCompany/AS/asHistory';
@@ -19,17 +15,12 @@ interface Components {
 
 const ComAsIndex = ({ num, now }: Props) => {
   // forK테스트 주석
-  const route = useRouter();
-  const TabType: string[] = ['신규 A/S', '히스토리'];
+  const router = useRouter();
   const [tabNumber, setTabNumber] = useState<number>(0);
-
   // 내 프로젝트에서 진행 프로젝트랑 완료 프로젝트 뭐 눌렀는지 받아오는 state
   const [componentId, setComponentId] = useState<number | undefined>();
-
   // 서브 카테고리 열렸는지 아닌지
   const [openSubLink, setOpenSubLink] = useState<boolean>(true);
-
-  const router = useRouter();
 
   // url에서 id 가져와서 tabNumber에 업데이트 해서 컴포넌트 바꿔줌
   useEffect(() => {
@@ -39,19 +30,13 @@ const ComAsIndex = ({ num, now }: Props) => {
     } else if (router.pathname === `/company/as`) {
       setTabNumber(0);
     }
-  }, [router]);
+  }, [router, tabNumber]);
 
   useEffect(() => {
-    console.log(tabNumber);
-  }, [tabNumber]);
-
-  useEffect(() => {
-    if (route.query.id !== undefined) {
-      setTabNumber(Number(route.query.id));
-    } /*else if( !(route.query.id) && (route.pathname === '/mypage')){ 
-          setTabNumber(0)
-        }*/
-  }, [route.query.id]);
+    if (router.query.id !== undefined) {
+      setTabNumber(Number(router.query.id));
+    }
+  }, [router.query.id]);
 
   const components: Components = {
     0: <NewAs />,

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Search from 'componentsCompany/CompanyQuotation/Search';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import blackDownArrow from 'public/images/blackDownArrow16.png';
 import Image from 'next/image';
 import FilterModal from './filterModal';
@@ -44,11 +44,11 @@ const AsHistory = () => {
   const queryclient = useQueryClient();
   const [searchWord, setSearchWord] = useState<string>('');
   const [selected, setSelected] = useState<string>('현장별 보기');
-  const [filterTypeEn, setFilterTypeEn] = useState('date');
+  const [filterTypeEn, setFilterTypeEn] = useState('site');
   const [modal, setModal] = useState<boolean>(false);
   const keyword = useDebounce(searchWord, 2000);
   // 기업 AS 리스트 보기
-  const { data, isLoading, isError, error, refetch } =
+  const { data, isLoading, isError, error, refetch, remove } =
     useQuery<HisttoryResponse>(
       'company-asList',
       () =>
@@ -68,33 +68,19 @@ const AsHistory = () => {
       },
     });
   };
+  useEffect(() => {
+    console.log(data);
+    refetch();
+  }, [filterTypeEn, keyword, data]);
 
   useEffect(() => {
-    // console.log(`👀 히스토리 -69 -> ${TAG}`);
-    // console.log(data?.data?.afterSalesServiceHistories);
-    refetch();
-    switch (selected) {
-      case '현장별 보기':
-        setFilterTypeEn('stie');
-        break;
-      case '낮은 평점순 보기':
-        setFilterTypeEn('lowRate');
-        break;
-      case '높은 평점순 보기':
-        setFilterTypeEn('highRate');
-        break;
-      default:
-        setFilterTypeEn('stie');
-    }
-  }, [selected, data]);
-
-  useEffect(() => {
-    refetch();
-  }, [filterTypeEn, keyword]);
-
-  if (isLoading) {
-    return <Loader />;
-  }
+    return () => {
+      queryclient.removeQueries('company-asList');
+    };
+  }, []);
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
   if (isError) {
     console.log('🔥 에러 발생 ~line 66 ->' + TAG);
     console.log(error);
@@ -106,6 +92,7 @@ const AsHistory = () => {
         <FilterModal
           setModal={setModal}
           setSelected={setSelected}
+          setFilterTypeEn={setFilterTypeEn}
           type={'historyAS'}
         />
       )}
@@ -116,48 +103,61 @@ const AsHistory = () => {
             <Image src={blackDownArrow} alt="rijgtArrow" />
           </IconBox>
         </MobFilter>
-        <WebFilter setSelected={setSelected} type={'historyAS'} />
+        <WebFilter
+          setSelected={setSelected}
+          setFilterTypeEn={setFilterTypeEn}
+          type={'historyAS'}
+        />
         <InputWrap>
           <Search searchWord={searchWord} setSearchWord={setSearchWord} />
         </InputWrap>
       </Wrap>
       <List>
-        {data?.data?.afterSalesServiceHistories?.length! === 0 && (
+        {/* 데이터 없을 때 */}
+        {data && data?.data?.afterSalesServiceHistories?.length! === 0 && (
           <NoAsHistyory />
         )}
-        {data?.data?.afterSalesServiceHistories?.length! > 0 && (
+        {/* 데이터 있을 때 */}
+        {data && data?.data?.afterSalesServiceHistories?.length >= 1 && (
           <ListWrap>
             {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
-              <ListBox
-                key={el?.finalQuotation?.finalQuotationIdx}
-                onClick={() =>
-                  handleRoute(el.afterSalesServices[0].afterSalesServiceIdx)
-                }
-              >
-                <StoreName>
-                  {
-                    el?.finalQuotation?.preQuotation?.quotationRequest
-                      ?.installationAddress
-                  }
-                </StoreName>
-                {el.afterSalesServices.map((el) => (
-                  <FlexWrap key={el.afterSalesServiceIdx}>
-                    <Text>{el.requestTitle}</Text>
-                    <Score>
-                      {el.afterSalesServiceReview?.averagePoint
-                        ? `평점 ${el.afterSalesServiceReview?.averagePoint}`
-                        : null}
-                    </Score>
-                  </FlexWrap>
-                ))}
-              </ListBox>
+              <React.Fragment key={idx}>
+                <ListBox key={idx}>
+                  <StoreName>
+                    {
+                      el?.finalQuotation?.preQuotation?.quotationRequest
+                        ?.installationAddress
+                    }
+                  </StoreName>
+                  {el?.afterSalesServices?.map(
+                    (afterSalesService, afterSalesServiceIdx) => (
+                      <FlexWrap
+                        key={afterSalesServiceIdx}
+                        onClick={() =>
+                          handleRoute(
+                            el?.afterSalesServices[afterSalesServiceIdx]
+                              ?.afterSalesServiceIdx,
+                          )
+                        }
+                      >
+                        <Text>{afterSalesService.requestTitle}</Text>
+                        <Score>
+                          {afterSalesService.afterSalesServiceReview
+                            ?.averagePoint
+                            ? `평점 ${afterSalesService.afterSalesServiceReview?.averagePoint}`
+                            : null}
+                        </Score>
+                      </FlexWrap>
+                    ),
+                  )}
+                </ListBox>
+              </React.Fragment>
             ))}
             {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
             <BtnBox>A/S 히스토리 다운받기</BtnBox>
           </ListWrap>
         )}
       </List>
-      {/* {arr.length > 0 && <BtnBox>A/S 히스토리 다운받기</BtnBox>} */}
     </Body>
   );
 };
@@ -165,7 +165,7 @@ const AsHistory = () => {
 export default AsHistory;
 
 const Body = styled.div`
-  flex: 1;
+  /* flex: 1; */
   margin: 0 15pt;
   font-family: 'Spoqa Han Sans Neo';
   display: flex;
@@ -222,7 +222,6 @@ const ListBox = styled.div`
   border-radius: 6pt;
   padding: 13.5pt;
   margin-bottom: 9pt;
-  cursor: pointer;
 `;
 const StoreName = styled.p`
   font-style: normal;
@@ -254,6 +253,7 @@ const FlexWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  cursor: pointer;
 `;
 
 const ListWrap = styled.div`
@@ -278,3 +278,5 @@ const BtnBox = styled.div`
     margin-bottom: 0;
   }
 `;
+
+// lowRate: 낮은 평점순, highRate: 높은 평점 site: 현장 순
