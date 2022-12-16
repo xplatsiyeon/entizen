@@ -187,7 +187,11 @@ const HeadOpenContent = () => {
     },
   );
 
-  const handleClick = () => setOpen(!open);
+  const handleClick = () => {
+    if (tabNumber !== -1) {
+      setOpen(!open);
+    }
+  };
   const handleBackClick = () => router.back();
   const changeRequest = () => setTabNumber(tabNumber + 1);
   const handleModalOpen = () => setModalOpen(true);
@@ -223,6 +227,15 @@ const HeadOpenContent = () => {
       setTabNumber(0);
     }
   }, [routerEdit]);
+
+  // 열렸다 닫혔다
+  useEffect(() => {
+    if (tabNumber === -1) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [tabNumber]);
 
   // 1번째 탭 초기화
   useEffect(() => {
@@ -444,14 +457,16 @@ const HeadOpenContent = () => {
             )}
             <BtnWrapper>
               <Wrapper>
-                <ItemButton onClick={handleClick}>
+                <ItemButton onClick={handleClick} tabNumber={tabNumber}>
                   <StoreName>
                     <CommonBtns
                       text={badge}
                       backgroundColor={HandleColor(badge)}
                     />
                     <div>
-                      <h1>{installationAddress}</h1>
+                      <StoreNameText tabNumber={tabNumber}>
+                        {installationAddress}
+                      </StoreNameText>
                       {open ? (
                         <ArrowImg>
                           <Image
@@ -699,13 +714,25 @@ const Badge = styled.span`
   font-size: 9pt;
   line-height: 9pt;
 `;
-const ItemButton = styled(ListItemButton)`
+// const ItemButton = styled(ListItemButton)`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 0;
+//   & div {
+//     margin: 0;
+//   }
+// `;
+
+const ItemButton = styled.div<{ tabNumber: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
+
+  cursor: ${({ tabNumber }) => (tabNumber === -1 ? '' : 'pointer')};
   & div {
-    margin: 0;
+    margin-top: ${({ tabNumber }) => (tabNumber === -1 ? '' : '12pt')};
   }
 `;
 const StoreName = styled(ListItemText)`
@@ -737,6 +764,14 @@ const StoreName = styled(ListItemText)`
     letter-spacing: -0.02em;
     color: ${colors.main2};
   }
+`;
+
+const StoreNameText = styled.div<{ tabNumber: number }>`
+  font-weight: 700;
+  font-size: 15pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  color: ${colors.main2};
 `;
 const ArrowImg = styled.div`
   position: relative;

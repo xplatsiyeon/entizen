@@ -231,64 +231,68 @@ const SettingMain = ({
         <VersionNumber>V.8.33</VersionNumber>
       </Version>
       <Wrapper>
-        <SettingList
-          onClick={() => {
-            setTabNumber(1);
-            setLeftTabNumber(1);
-            router.push({
-              pathname: '/setting',
-              query: { id: 1 },
-            });
-          }}
-        >
-          알림 설정
-        </SettingList>
-        <SettingList
-          onClick={() => {
-            setTabNumber(2);
-            setLeftTabNumber(1);
-            router.push({
-              pathname: '/setting',
-              query: { id: 2 },
-            });
-          }}
-        >
-          1:1 문의
-        </SettingList>
-        <SettingList
-          onClick={() => {
-            if (memberType === 'USER') {
-              router.push('/faq');
-            } else if (memberType === 'COMPANY') {
-              router.push('/company/faq');
-            }
-          }}
-        >
-          자주 묻는 질문
-        </SettingList>
-        <SettingList
-          onClick={() => {
-            setTabNumber(3);
-            setLeftTabNumber(1);
-            router.push({
-              pathname: '/setting',
-              query: { id: 3 },
-            });
-          }}
-        >
-          이용약관
-        </SettingList>
+        <ListWrapper>
+          <SettingList
+            onClick={() => {
+              setTabNumber(1);
+              setLeftTabNumber(1);
+              router.push({
+                pathname: '/setting',
+                query: { id: 1 },
+              });
+            }}
+          >
+            알림 설정
+          </SettingList>
+          <SettingList
+            onClick={() => {
+              setTabNumber(2);
+              setLeftTabNumber(1);
+              router.push({
+                pathname: '/setting',
+                query: { id: 2 },
+              });
+            }}
+          >
+            1:1 문의
+          </SettingList>
+          <SettingList
+            onClick={() => {
+              if (memberType === 'USER') {
+                router.push('/faq');
+              } else if (memberType === 'COMPANY') {
+                router.push('/company/faq');
+              }
+            }}
+          >
+            자주 묻는 질문
+          </SettingList>
+          <SettingList
+            onClick={() => {
+              setTabNumber(3);
+              setLeftTabNumber(1);
+              router.push({
+                pathname: '/setting',
+                query: { id: 3 },
+              });
+            }}
+          >
+            이용약관
+          </SettingList>
 
-        {userID && (
-          <SettingListRed onClick={() => setLogoutModal(true)}>
-            로그아웃
-          </SettingListRed>
-        )}
-        {userID && (
-          <Secession>
-            <SecessionText onClick={HandleWidthdrawal}>탈퇴하기</SecessionText>
-          </Secession>
-        )}
+          {userID && (
+            <SettingListRed onClick={() => setLogoutModal(true)}>
+              로그아웃
+            </SettingListRed>
+          )}
+          {userID && (
+            <Secession>
+              <SecessionText onClick={HandleWidthdrawal}>
+                탈퇴하기
+              </SecessionText>
+            </Secession>
+          )}
+        </ListWrapper>
       </Wrapper>
     </WebRapper>
   );
@@ -312,8 +316,6 @@ const WebRapper = styled.div<{ leftTabNumber: number }>`
 
 const Wrapper = styled.div`
   position: relative;
-  padding-left: 15pt;
-  padding-right: 15pt;
   @media (max-width: 899.25pt) {
     height: 100%;
     display: block;
@@ -424,4 +426,8 @@ const SecessionText = styled.div`
   text-align: left;
   text-decoration-line: underline;
   color: #a6a9b0;
+`;
+
+const ListWrapper = styled.div`
+  padding: 0 15pt;
 `;
