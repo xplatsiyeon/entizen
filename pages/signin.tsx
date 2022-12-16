@@ -65,13 +65,11 @@ const Signin = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
   // 로그인 mutate
-  const { loginLoading, signin } = useLogin({
-    userId: userId,
-    memberType: loginTypeEnList[selectedLoginType],
-    password: password,
-    setErrorMessage: setErrorMessage,
-    setErrorModal: setErrorModal,
-  });
+  const { loginLoading, signin } = useLogin(
+    userId,
+    setErrorModal,
+    setErrorMessage,
+  );
 
   // 안내문
   const handleAlert = () => {
@@ -79,7 +77,7 @@ const Signin = () => {
   };
   // 기본 로그인
   const originLogin = async () => {
-    await signin();
+    await signin(userId, loginTypeEnList[selectedLoginType], password);
   };
 
   // 엔터키 이벤트
