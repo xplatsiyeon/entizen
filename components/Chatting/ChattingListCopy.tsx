@@ -35,7 +35,7 @@ type Props = {
 };
 
 
-const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
+const ChattingList2 = ({ data, refetch,chattingRoom }: Props) => {
   const router = useRouter();
   const queryClinet = useQueryClient();
 
@@ -367,7 +367,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
   );
 };
 
-export default ChattingList;
+export default ChattingList2;
 
 const Body = styled.div`
   font-family: 'Spoqa Han Sans Neo';
