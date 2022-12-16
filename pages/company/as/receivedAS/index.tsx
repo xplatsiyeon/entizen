@@ -127,9 +127,13 @@ const ReceivedAS = (props: Props) => {
             <MypageHeader back={true} title={'신규 A/S'} />
             <WebBox className="content">
               <AsCompTop data={data!} />
-              <Inner>
-                <AsCompText data={data!} />
-              </Inner>
+              {isLoading ? (
+                <Loader />
+              ) : (
+                <Inner>
+                  <AsCompText data={data!} />
+                </Inner>
+              )}
             </WebBox>
           </WebRapper>
         </Container>

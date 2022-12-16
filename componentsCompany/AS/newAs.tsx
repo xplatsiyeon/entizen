@@ -106,42 +106,48 @@ const NewAs = () => {
           <Search searchWord={searchWord} setSearchWord={setSearchWord} />
         </InputWrap>
       </Wrap>
-      <List>
-        {/* 데이터 없을 때 */}
-        {data?.data?.newReceivedAfterSalesServices?.length! === 0 && (
-          <NoAsHistyory />
-        )}
-        {/* 데이터 있을 때 */}
-        {data?.data?.newReceivedAfterSalesServices?.length! > 0 &&
-          data?.data?.newReceivedAfterSalesServices?.map((el, idx) => {
-            return (
-              <ListBox
-                key={idx}
-                onClick={() =>
-                  router.push({
-                    pathname: '/company/as/receivedAS/',
-                    query: {
-                      afterSalesServiceIdx:
-                        el?.afterSalesService?.afterSalesServiceIdx,
-                    },
-                  })
-                }
-              >
-                <StoreName>
-                  {
-                    el?.afterSalesService?.project?.finalQuotation?.preQuotation
-                      ?.quotationRequest?.installationAddress
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <List>
+          {/* 데이터 없을 때 */}
+          {data?.data?.newReceivedAfterSalesServices?.length! === 0 && (
+            <NoAsHistyory />
+          )}
+          {/* 데이터 있을 때 */}
+          {data?.data?.newReceivedAfterSalesServices?.length! > 0 &&
+            data?.data?.newReceivedAfterSalesServices?.map((el, idx) => {
+              return (
+                <ListBox
+                  key={idx}
+                  onClick={() =>
+                    router.push({
+                      pathname: '/company/as/receivedAS/',
+                      query: {
+                        afterSalesServiceIdx:
+                          el?.afterSalesService?.afterSalesServiceIdx,
+                      },
+                    })
                   }
-                </StoreName>
-                <Text>{el?.afterSalesService?.requestTitle}</Text>
-                <FlexWrap>
-                  <Badge bgColor={handleColorAS(el?.badge)}>{el?.badge}</Badge>
-                  <Date>{dateFomat(el?.afterSalesService?.createdAt)}</Date>
-                </FlexWrap>
-              </ListBox>
-            );
-          })}
-      </List>
+                >
+                  <StoreName>
+                    {
+                      el?.afterSalesService?.project?.finalQuotation
+                        ?.preQuotation?.quotationRequest?.installationAddress
+                    }
+                  </StoreName>
+                  <Text>{el?.afterSalesService?.requestTitle}</Text>
+                  <FlexWrap>
+                    <Badge bgColor={handleColorAS(el?.badge)}>
+                      {el?.badge}
+                    </Badge>
+                    <Date>{dateFomat(el?.afterSalesService?.createdAt)}</Date>
+                  </FlexWrap>
+                </ListBox>
+              );
+            })}
+        </List>
+      )}
     </Body>
   );
 };
@@ -152,6 +158,7 @@ const Body = styled.div`
   /* flex: 1; */
   margin: 0 15pt;
   font-family: 'Spoqa Han Sans Neo';
+  height: 100%;
 `;
 
 const Wrap = styled.div`

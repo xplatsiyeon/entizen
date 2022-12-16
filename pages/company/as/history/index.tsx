@@ -16,6 +16,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { AsDetailReseponse } from 'pages/mypage/as';
 import { isTokenGetApi } from 'api';
 import CommunicationBox from 'components/CommunicationBox';
+import Loader from 'components/Loader';
 
 const AsHistory = () => {
   const router = useRouter();
@@ -79,33 +80,36 @@ const AsHistory = () => {
               setComponentId={setComponentId}
             />
           )}
-          <Body>
-            <MypageHeader title={'A/S 히스토리'} back={true} />
-            {/* 상단 상세 페이지 */}
-            <AsCompTop data={data!} />
-            <Inner className="inner">
-              {/* 하단 페이지 */}
-              <AsCompText data={data!} />
-              {/* 리뷰 */}
-              <AsCompGetReview
-                review={
-                  data?.data?.afterSalesService?.afterSalesService
-                    ?.afterSalesServiceReview!
-                }
-              />
-            </Inner>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <Body>
+              <MypageHeader title={'A/S 히스토리'} back={true} />
+              {/* 상단 상세 페이지 */}
+              <AsCompTop data={data!} />
+              <Inner className="inner">
+                {/* 하단 페이지 */}
+                <AsCompText data={data!} />
+                {/* 리뷰 */}
+                <AsCompGetReview
+                  review={
+                    data?.data?.afterSalesService?.afterSalesService
+                      ?.afterSalesServiceReview!
+                  }
+                />
+              </Inner>
 
-            <CommunicationWrapper>
-              <CommunicationBox
-                text={'고객과 소통하기'}
-                id={
-                  data?.data?.afterSalesService?.afterSalesService?.project
-                    ?.finalQuotation?.preQuotation?.quotationRequest?.member
-                    ?.memberIdx
-                }
-              />
-            </CommunicationWrapper>
-            {/* <Button onClick={() => alert('소통하기로')}>
+              <CommunicationWrapper>
+                <CommunicationBox
+                  text={'고객과 소통하기'}
+                  id={
+                    data?.data?.afterSalesService?.afterSalesService?.project
+                      ?.finalQuotation?.preQuotation?.quotationRequest?.member
+                      ?.memberIdx
+                  }
+                />
+              </CommunicationWrapper>
+              {/* <Button onClick={() => alert('소통하기로')}>
                 <div>
                   <Image src={CommunicationIcon} alt="right-arrow" />
                 </div>
@@ -114,7 +118,8 @@ const AsHistory = () => {
                   <Image src={RightArrow} alt="right-arrow" />
                 </div>
               </Button> */}
-          </Body>
+            </Body>
+          )}
         </WebRapper>
       </Container>
       <WebFooter />
@@ -128,6 +133,7 @@ const WebBody = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
+
   @media (max-height: 500pt) {
     height: 100%;
     display: block;
@@ -200,7 +206,7 @@ const WebBox = styled.div`
 
 const Body = styled.div`
   position: relative;
-
+  height: 100%;
   @media (min-width: 900pt) {
     width: 580.5pt;
   }
