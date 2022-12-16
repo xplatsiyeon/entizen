@@ -68,28 +68,12 @@ const NewAs = () => {
     );
 
   useEffect(() => {
-    switch (selected) {
-      case '등록일순 보기':
-        setFilterTypeEn('date');
-        break;
-      case '현장별 보기':
-        setFilterTypeEn('site');
-        break;
-      case '상태순 보기':
-        setFilterTypeEn('state');
-        break;
-      default:
-        setFilterTypeEn('date');
-    }
-  }, [selected]);
-
-  useEffect(() => {
     refetch();
   }, [filterTypeEn, keyword]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
   if (isError) {
     console.log('🔥 에러 발생 ~line 66 ->' + TAG);
     console.log(error);
@@ -102,6 +86,7 @@ const NewAs = () => {
         <FilterModal
           setModal={setModal}
           setSelected={setSelected}
+          setFilterTypeEn={setFilterTypeEn}
           type={'receivedAS'}
         />
       )}
@@ -112,7 +97,11 @@ const NewAs = () => {
             <Image src={blackDownArrow} alt="rijgtArrow" />
           </IconBox>
         </MobFilter>
-        <WebFilter setSelected={setSelected} type={'receivedAS'} />
+        <WebFilter
+          setSelected={setSelected}
+          setFilterTypeEn={setFilterTypeEn}
+          type={'receivedAS'}
+        />
         <InputWrap>
           <Search searchWord={searchWord} setSearchWord={setSearchWord} />
         </InputWrap>

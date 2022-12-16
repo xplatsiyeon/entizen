@@ -5,10 +5,17 @@ import { Dispatch, MouseEvent, SetStateAction, useRef } from 'react';
 type Props = {
   setModal: Dispatch<SetStateAction<boolean>>;
   setSelected: Dispatch<SetStateAction<string>>;
+  setFilterTypeEn: Dispatch<SetStateAction<string>>;
+
   type: string;
 };
 
-const FilterModal = ({ setModal, setSelected, type }: Props) => {
+const FilterModal = ({
+  setModal,
+  setSelected,
+  setFilterTypeEn,
+  type,
+}: Props) => {
   const wrapper = useRef<HTMLDivElement>(null);
   const modal = useRef<HTMLDivElement>(null);
 

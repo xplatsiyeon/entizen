@@ -193,7 +193,7 @@ const AsCompText = ({ data }: Props) => {
   if (acceptanceIsLoading) {
     return <Loader />;
   }
-  console.log('adadfsd', data?.data?.afterSalesService?.badge);
+  // console.log('adadfsd', data?.data?.afterSalesService?.badge);
 
   return (
     <>
