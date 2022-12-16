@@ -61,24 +61,25 @@ const RequestMain = (props: props) => {
   }
 
   const handleList = (n:number)=>{
-    const index = myPageIndex.current!;
-    const target = index.querySelector('.list');
-    console.log(tabNumber, n, target)
+
     if(n === 0){
-      //리스트 토글.
-      if(target?.classList.contains('on')){
-        target.classList.remove('on');
-      }else{target?.classList.add('on')}
-    }else{
+      const target = myPageIndex.current?.querySelector('.list') as HTMLElement;
+      if(target)target.classList.remove('on');
+      setTimeout(()=>{
         route.push({
           pathname: '/mypage',
           query: { id: n },
         })
+      },100)
+    }else{
+      setTabNumber(n);
+      route.push({
+        pathname: '/mypage',
+        query: { id: n },
+      })
+
     }
-    if(tabNumber !== n){
-      setTabNumber(n)
-      target?.classList.add('on')
-    }
+      
   }
 
   return (

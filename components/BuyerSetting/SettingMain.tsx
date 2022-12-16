@@ -231,6 +231,7 @@ const SettingMain = ({
         <VersionNumber>V.8.33</VersionNumber>
       </Version>
       <Wrapper>
+        <ListWrapper>
         <SettingList
           onClick={() => {
             setTabNumber(1);
@@ -289,6 +290,7 @@ const SettingMain = ({
             <SecessionText onClick={HandleWidthdrawal}>탈퇴하기</SecessionText>
           </Secession>
         )}
+        </ListWrapper>
       </Wrapper>
     </WebRapper>
   );
@@ -312,8 +314,6 @@ const WebRapper = styled.div<{ leftTabNumber: number }>`
 
 const Wrapper = styled.div`
   position: relative;
-  padding-left: 15pt;
-  padding-right: 15pt;
   @media (max-width: 899.25pt) {
     height: 100%;
     display: block;
@@ -425,3 +425,7 @@ const SecessionText = styled.div`
   text-decoration-line: underline;
   color: #a6a9b0;
 `;
+
+const ListWrapper =styled.div`
+  padding: 0 15pt;
+`

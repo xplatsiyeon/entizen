@@ -1468,6 +1468,7 @@ const TwoBtn = styled.div`
     width: 560.25pt;
     position: relative;
     margin: 0 auto;
+   // padding-bottom: 40pt;
     margin-bottom: 50pt;
     padding-bottom: 20pt;
   }

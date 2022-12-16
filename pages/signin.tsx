@@ -69,6 +69,8 @@ const Signin = () => {
     userId,
     setErrorModal,
     setErrorMessage,
+    loginTypeEnList[selectedLoginType] as 'USER',
+    false,
   );
 
   // 안내문
@@ -77,7 +79,7 @@ const Signin = () => {
   };
   // 기본 로그인
   const originLogin = async () => {
-    await signin(userId, loginTypeEnList[selectedLoginType], password);
+    await signin(password);
   };
 
   // 엔터키 이벤트

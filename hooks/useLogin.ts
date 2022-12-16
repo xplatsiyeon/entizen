@@ -1,5 +1,5 @@
 import { isTokenPostApi } from 'api';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useMutation } from 'react-query';
 import jwt_decode from 'jwt-decode';
 import { JwtTokenType } from 'pages/signin';
@@ -11,6 +11,8 @@ function useLogin(
   userId: string,
   setErrorModal: Dispatch<SetStateAction<boolean>>,
   setErrorMessage: Dispatch<SetStateAction<string>>,
+  memberType: 'USER' | 'COMPANY',
+  signUp: boolean,
 ) {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -34,7 +36,14 @@ function useLogin(
       );
       sessionStorage.setItem('USER_ID', JSON.stringify(userId));
       dispatch(originUserAction.set(userId));
-      await router.push('/');
+
+      if (signUp && memberType === 'USER') {
+        await router.push('/signUp/Complete');
+      } else if (signUp && memberType === 'USER') {
+        await router.push('/signUp/CompleteCompany');
+      } else {
+        await router.push('/');
+      }
     },
     onError: async (error: any) => {
       const { message } = error.response.data;
@@ -50,7 +59,7 @@ function useLogin(
     },
   });
 
-  const signin = (userId: string, memberType: string, password: string) => {
+  const signin = (password: string) => {
     loginMutate({
       url: '/members/login',
       data: {

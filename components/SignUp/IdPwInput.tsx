@@ -82,14 +82,16 @@ const IdPwInput = ({
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
+  const loginTypeEnList = ['USER', 'COMPANY'];
 
   const { loginError, loginLoading, signin } = useLogin(
     idInput,
     setIsModal,
     setModalMessage,
+    loginTypeEnList[userType] as 'USER' | 'COMPANY',
+    true,
   );
 
-  const loginTypeEnList = ['USER', 'COMPANY'];
   const { data, refetch } = useQuery<ValidatedId>(
     'ValidIdCheck',
     () =>
@@ -115,7 +117,7 @@ const IdPwInput = ({
     onSuccess: async () => {
       console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
-      signin(idInput, 'USER', checkPw);
+      signin(checkPw);
       // router.push('/signUp/Complete');
     },
     onError: (error) => {
@@ -133,7 +135,8 @@ const IdPwInput = ({
     onSuccess: () => {
       console.log('성공');
       queryClient.invalidateQueries();
-      router.push('/signUp/CompleteCompany');
+      signin(checkPw);
+      // router.push('/signUp/CompleteCompany');
     },
     onError: (error) => {
       console.log('----회원가입 실패----');
@@ -188,8 +191,6 @@ const IdPwInput = ({
           ],
         },
       });
-
-      signin(idInput, 'USER', checkPw);
     }
   };
   // 기업 회원가입 온클릭
@@ -251,10 +252,10 @@ const IdPwInput = ({
   }, [data]);
 
   // 로딩처리
-  if (userLoading || companyLoading) {
-    // console.log('로딩중...');
-    return <Loader />;
-  }
+  // if (userLoading || companyLoading) {
+  //   // console.log('로딩중...');
+  //   return <Loader />;
+  // }
 
   const iconAdorment = {
     endAdornment: (
