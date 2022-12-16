@@ -115,7 +115,10 @@ const IdPwInput = ({
     onSuccess: async () => {
       console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
-      signin(idInput, 'USER', checkPw);
+      setTimeout(() => {
+        signin(idInput, 'USER', checkPw);
+      }, 3000);
+
       // router.push('/signUp/Complete');
     },
     onError: (error) => {
@@ -188,8 +191,6 @@ const IdPwInput = ({
           ],
         },
       });
-
-      signin(idInput, 'USER', checkPw);
     }
   };
   // 기업 회원가입 온클릭
