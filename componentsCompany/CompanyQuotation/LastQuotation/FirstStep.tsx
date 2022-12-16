@@ -13,7 +13,7 @@ import {
 } from 'assets/selectList';
 import colors from 'styles/colors';
 import { M5_CHANNEL_SET, M5_TYPE_SET } from 'assets/selectList';
-import AddIcon from 'public/images/add-img.svg';
+import AddIcon from 'public/images/add-img2.svg';
 import XCircle from 'public/guide/XCircle.svg';
 import Image from 'next/image';
 import { inputPriceFormat } from 'utils/calculatePackage';

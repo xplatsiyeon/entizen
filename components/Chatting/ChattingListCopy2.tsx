@@ -26,6 +26,9 @@ import { handleTime } from 'utils/messageTime';
 
 import Slider from 'react-slick';
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 type Props = {
   data: ChattingListResponse;
@@ -97,9 +100,9 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
     infinite: false,
     speed: 500,
     slidesToScroll: 1,
-    variableWidth: true,
-    centerMode: true,
+    initialSlide : 1,
     responsive: [
+      
       {
         breakpoint: 1199,
         settings: {
@@ -110,10 +113,176 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
     ]
   };
 
-
-  console.log('slick')
-
   return (
+    <>
+
+    <Web>
+    <Body>
+      { data?.data?.chattingRooms?.entizenChattingRoom &&
+      /* 엔티젠. 상위 고정 && 채팅방 나가기 불가.*/
+      <Chatting
+            className="chattingRoom"
+          >
+            <HiddenBox1>
+              {/* 버튼에 즐겨찾기 설정 api함수 */}
+              <FavoriteBtn
+                onClick={() => onClickFavorite(data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx!)}
+              >
+                {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorite ? (
+                  <HiddenIconWrap>
+                    <Image src={hiddenChecked} layout="fill" />
+                  </HiddenIconWrap>
+                ) : (
+                  <HiddenIconWrap>
+                    <Image src={hiddenUnChecked} layout="fill" />
+                  </HiddenIconWrap>
+                )}
+              </FavoriteBtn>
+              {/* 버튼에 알림 설정 api함수 */}
+              <AlramBtn onClick={() => onClickAlarm(data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx!)}>
+                {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomNotification.isSetNotification ? (
+                  <HiddenIconWrap>
+                    <Image src={hiddenAlarm} layout="fill" />
+                  </HiddenIconWrap>
+                ) : (
+                  <HiddenIconWrap>
+                    <Image src={hiddenStopAlarm} layout="fill" />
+                  </HiddenIconWrap>
+                )}
+              </AlramBtn>
+            </HiddenBox1>
+            <ChattingRoom
+              className="content-box"
+              onClick={() => handleRoute(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomIdx, true)}
+            >
+              <ChattingRoomImage>
+                {/* 이미지 파일 src가 없으면 */}
+                <ImageWrap>
+                  <Image src={newChatEntizen} layout="fill" />
+                </ImageWrap>
+              </ChattingRoomImage>
+              <ChattingRoomPreview>
+                <FromMember>
+                  엔티즌
+                </FromMember>
+                <Previw>{data?.data.chattingRooms.entizenChattingRoom?.chattingLog?.content}</Previw>
+              </ChattingRoomPreview>
+              <ChattingRoomInfo>
+                <Created>
+                  {handleTime(data?.data.chattingRooms.entizenChattingRoom?.chattingLog?.createdAt)}
+                </Created>
+                <Box>
+                  <UnRead
+                    wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog?.wasRead!}
+                  />
+                  <Favorite>
+                    {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorite? (
+                      <Image src={checked} layout="fill" />
+                    ) : (
+                      <Image src={unChecked} layout="fill" />
+                    )}
+                  </Favorite>
+                </Box>
+              </ChattingRoomInfo>
+            </ChattingRoom>
+      </Chatting>
+      }
+
+
+      {/* 유저 채팅방.*/}
+      {data?.data?.chattingRooms?.userChattingRooms?.map((chatting, idx) => {
+        return (
+          <Chatting
+            className="chattingRoom"
+            key={idx}
+          >
+            <HiddenBox1>
+              {/* 버튼에 즐겨찾기 설정 api함수 */}
+              <FavoriteBtn
+                onClick={() => onClickFavorite(chatting.chattingRoomIdx!)}
+              >
+                {chatting.chattingRoomFavorite.isFavorite ? (
+                  <HiddenIconWrap>
+                    <Image src={hiddenChecked} layout="fill" />
+                  </HiddenIconWrap>
+                ) : (
+                  <HiddenIconWrap>
+                    <Image src={hiddenUnChecked} layout="fill" />
+                  </HiddenIconWrap>
+                )}
+              </FavoriteBtn>
+              {/* 버튼에 알림 설정 api함수 */}
+              <AlramBtn onClick={() => onClickAlarm(chatting.chattingRoomIdx!)}>
+                {chatting.chattingRoomNotification.isSetNotification ? (
+                  <HiddenIconWrap>
+                    <Image src={hiddenAlarm} layout="fill" />
+                  </HiddenIconWrap>
+                ) : (
+                  <HiddenIconWrap>
+                    <Image src={hiddenStopAlarm} layout="fill" />
+                  </HiddenIconWrap>
+                )}
+              </AlramBtn>
+            </HiddenBox1>
+            <ChattingRoom
+              className="content-box"
+              onClick={() => handleRoute(chatting.chattingRoomIdx)}
+            >
+              <ChattingRoomImage>
+                {/* 이미지 파일 src가 없으면 */}
+                <ImageWrap>
+                  { chatting.companyMember.companyMemberAdditionalInfo?.companyLogoImageUrl
+                  ?<img src={chatting.companyMember.companyMemberAdditionalInfo?.companyLogoImageUrl} />
+                  :<Image src={defaultImg} layout="fill" />
+                  }
+                </ImageWrap>
+              </ChattingRoomImage>
+              <ChattingRoomPreview>
+                <FromMember>
+                  {
+                    chatting.companyMember.companyMemberAdditionalInfo
+                      .companyName
+                  }
+                </FromMember>
+                <Previw>{chatting?.chattingLogs?.content}</Previw>
+              </ChattingRoomPreview>
+              <ChattingRoomInfo>
+                <Created>
+                  {handleTime(chatting?.chattingLogs?.createdAt!)}
+                </Created>
+                <Box>
+                  <UnRead
+                    wasRead={chatting?.chattingLogs === null? true : chatting?.chattingLogs.wasRead}
+                  />
+                  <Favorite>
+                    {chatting.chattingRoomFavorite.isFavorite ? (
+                      <Image src={checked} layout="fill" />
+                    ) : (
+                      <Image src={unChecked} layout="fill" />
+                    )}
+                  </Favorite>
+                </Box>
+              </ChattingRoomInfo>
+            </ChattingRoom>
+            <HiddenBox2>
+              <QuitBtn
+                onClick={() => {
+                  setDeleteId(chatting?.chattingRoomIdx!);
+                  setModal(true);
+                }}
+              >
+                <span> 나가기 </span>
+              </QuitBtn>
+            </HiddenBox2>
+          </Chatting>
+        );
+      })}
+      {modal && <QuitModal deleteId={Number(deleteId)} setModal={setModal} />}
+    </Body>
+    </Web>
+
+
+    <Mob>
     <Body>
       { data?.data?.chattingRooms?.entizenChattingRoom &&
       /* 엔티젠. 상위 고정 && 채팅방 나가기 불가.*/
@@ -279,10 +448,26 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
       })}
       {modal && <QuitModal deleteId={Number(deleteId)} setModal={setModal} />}
     </Body>
+    </Mob>    
+    
+    </>
+
+
   );
 };
 
 export default ChattingList;
+
+const Web = styled.div`
+@media (max-width: 899.25pt) {
+  display: none;
+  }
+`
+const Mob = styled.div`
+@media (min-width: 900pt) {
+  display: none;
+  }
+`
 
 const Body = styled.div`
   font-family: 'Spoqa Han Sans Neo';
@@ -292,32 +477,52 @@ const Body = styled.div`
 const Chatting = styled.div`
  display: flex;
   width: 100%;
+  @media (min-width: 900pt) {
+    width: 160%;
+  }
   //일단.. 드래그시 덜컹거리면 삭제하자. 그리고 터치엔드 함수로 transition 주기
   //transition: 0.4s;
   .target {
     width: 100% !important;
     .slick-track {
-      width: 160% !important;
-      margin-left: 0% !important;
+      width: 199% !important;
+      margin-left: 0% !important; 
+
       .slick-slide {
         &:nth-of-type(1) {
-          width: 32% !important;
+          width: 20% !important;
+          >div{
+            width: 100%;
+            position: relative;
+          }
         }
         &:nth-of-type(2) {
-          width: 16% !important;
+          width: 15% !important;
+          >div{
+            width: 100%;
+            position: relative;
+          }
         }
         &:nth-of-type(3) {
-          width: 52% !important;
+          width: 55% !important;
+          >div{
+            width: 100%;
+            position: relative;
+          }
         }
       }
     }
   }
 `;
 const ChattingRoom = styled.div`
-  display: flex;
+  display: flex!important;
   padding: 13.5pt 1pt 13.5pt 0;
   border-bottom: 1px solid #e2e5ed;
   width: calc((100% / 8) * 5);
+
+  @media (max-width: 899pt) {
+    width: 340%!important;
+  }
 `;
 const ChattingRoomImage = styled.div`
   margin-left: 21pt;
@@ -403,14 +608,33 @@ const Favorite = styled.div`
 `;
 
 const HiddenBox1 = styled.div`
-  display: flex;
+  display: flex!important;;
   width: 25%;
   position: relative;
+
+  >div{
+    flex: 1;
+  }
+  
+  display: none!important;
+
+  @media (max-width: 899.25pt) {
+  display: flex!important;
+    height: 65.25pt;
+  }
+
 `;
 const HiddenBox2 = styled.div`
-  display: flex;
+  display: flex!important;;
   width: 12.5%;
   position: relative;
+
+  @media (max-width: 899pt) {
+    width: 28%!important;
+    position: absolute;
+    height: 65.25pt;
+    right: 8%;
+  }
 `;
 
 const HiddenIconWrap = styled.div`

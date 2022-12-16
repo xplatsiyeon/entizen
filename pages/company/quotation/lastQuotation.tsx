@@ -22,6 +22,7 @@ export interface QuotationRequest {
   quotationStatus: string;
   subscribePeriod: number;
   subscribeProduct: string;
+  maskingInstallationAddress: string;
 }
 export interface PreQuotation {
   changedDate: string;

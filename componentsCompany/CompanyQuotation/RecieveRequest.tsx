@@ -35,6 +35,7 @@ const RecieveRequest = ({
   data,
 }: Props) => {
   const router = useRouter();
+  console.log('data 별표 처리 주소 찾아온나', data);
   return (
     <>
       <Sort
@@ -76,7 +77,7 @@ const RecieveRequest = ({
                   />
                 </DdayBox>
                 <AddressBox>
-                  {el?.quotationRequest?.installationAddress}
+                  {el?.quotationRequest?.maskingInstallationAddress}
                 </AddressBox>
               </DdayNAddress>
               <IconBox>
