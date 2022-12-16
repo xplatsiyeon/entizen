@@ -1,50 +1,32 @@
 import styled from '@emotion/styled';
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Typography,
-} from '@mui/material';
-import checkSvg from 'public/images/check-small.png';
-import blackDownArrow from 'public/images/blackDownArrow16.png';
-import { filterType } from 'pages/company/quotation';
 import Image from 'next/image';
 import SortArrow from '../../public/quotation/SortArrow.png';
-import { Rotate90DegreesCcw } from '@mui/icons-material';
-import React, {
-  Dispatch,
-  MouseEvent,
-  MouseEventHandler,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 type Props = {
   setSelected: Dispatch<SetStateAction<string>>;
+  setFilterTypeEn: Dispatch<SetStateAction<string>>;
   type: string;
 };
 
-const WebFilter = ({ setSelected, type }: Props) => {
+const WebFilter = ({ setSelected, setFilterTypeEn, type }: Props) => {
   // 신규 A/S sort
   const receivedText = ['등록일순 보기', '현장별 보기', '상태순 보기'];
-
+  const receivedEnText = ['date', 'site', 'status'];
   // 히스토리 sort
   const historyText = ['현장별 보기', '낮은 평점순 보기', '높은 평점순 보기'];
+  const historyEnText = ['site', 'lowRate', 'highRate'];
 
   const handleSelect = (idx: number) => {
     if (type === 'historyAS') {
       setSelected(historyText[idx]);
+      setFilterTypeEn(historyEnText[idx]);
     } else if (type === 'receivedAS') {
       setSelected(receivedText[idx]);
+      setFilterTypeEn(receivedEnText[idx]);
     }
     // 선택된 옵션에 맞게 정렬 api 호출.
   };
-  const [state, setState] = useState({ bottom: false });
 
   const [selectName, setSelectName] = useState<string>('현장별 보기');
   const [selectNewName, setSelectNewName] = useState<string>('등록일순 보기');
@@ -55,13 +37,6 @@ const WebFilter = ({ setSelected, type }: Props) => {
   const userCurrent: HTMLElement | null = userMenu.current;
 
   const [hide, setHide] = useState<boolean>(false);
-
-  //   const modalCloseHandler = (event: React.MouseEvent<HTMLElement>) => {
-  //     if (hide && !userCurrent?.contains(event.target as Node)) {
-  //       setHide(false);
-  //     }
-  //   };
-
   // 나중에 event type 수정 예정
   const modalCloseHandler = (event: any): void => {
     if (hide && !userCurrent?.contains(event.target as Node)) {

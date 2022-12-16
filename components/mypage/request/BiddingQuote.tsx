@@ -127,10 +127,9 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
               <WebItem>
                 <span className="name">월 구독료</span>
                 <span className="value">
-                  {PriceBasicCalculation(
+                  {`${PriceBasicCalculation(
                     data?.preQuotation?.subscribePricePerMonth!,
-                  )}
-                  원
+                  )} 원`}
                 </span>
               </WebItem>
               <WebItem>
@@ -272,10 +271,9 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
           <Item>
             <span className="name">월 구독료</span>
             <span className="value">
-              {PriceBasicCalculation(
+              {`${PriceBasicCalculation(
                 data?.preQuotation?.subscribePricePerMonth!,
-              )}
-              원
+              )} 원`}
             </span>
           </Item>
           <Item>

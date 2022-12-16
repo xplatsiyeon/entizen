@@ -80,6 +80,7 @@ const FinPage = () => {
   // };
 
   //  'chatting-list' 타입에러 해결하면 이걸로 onClick링크 이동
+  // 여기 조건문이 제대로 작동 안함
   const HandleOnClick = () => {
     if (type === 'commu') {
       const id = projectData?.project.companyMember.memberIdx;

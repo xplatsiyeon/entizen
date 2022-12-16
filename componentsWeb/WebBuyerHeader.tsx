@@ -33,7 +33,8 @@ const WebBuyerHeader = ({
   num,
   now,
   openSubLink,
-  setOpenSubLink, height
+  setOpenSubLink,
+  height,
 }: Props) => {
   const [linklist, setLinklist] = useState<boolean>(true);
   const [isHovering, setIsHovered] = useState(false);
@@ -137,9 +138,17 @@ const WebBuyerHeader = ({
           <Inner>
             <Box1>
               <LogoBox>
-                <Link href="/">
-                  <Image src={Logos} alt="logo" layout="intrinsic" />
-                </Link>
+                <div>
+                  <Image
+                    src={Logos}
+                    alt="logo"
+                    layout="intrinsic"
+                    onClick={() => {
+                      router.push('/');
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  />
+                </div>
               </LogoBox>
               {HeaderMenu.map((el, idx) => {
                 return (
@@ -259,10 +268,10 @@ const WebBuyerHeader = ({
 
 export default WebBuyerHeader;
 
-const Wrapper = styled.div<{height?: boolean}>`
+const Wrapper = styled.div<{ height?: boolean }>`
   position: relative;
   width: 100%;
-  height: ${({height})=>(height? '70.5pt' : 'auto')}; 
+  height: ${({ height }) => (height ? '70.5pt' : 'auto')};
   //margin-bottom: 45.75pt;
   border-bottom: 1px solid #e9eaee;
   background: #ffff;
@@ -295,7 +304,6 @@ const LogoBox = styled.div`
   display: flex;
   align-items: center;
   margin-right: 54pt;
-  cursor: pointer;
 `;
 
 const IconBox = styled.div`

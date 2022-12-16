@@ -95,7 +95,7 @@ const FinishedTopBox = ({ data }: Props) => {
               <span className="name">월 구독료</span>
               <span className="text">{`${formatter.format(
                 Number(data?.finalQuotation?.subscribePricePerMonth!),
-              )} 월`}</span>
+              )} 원`}</span>
             </div>
             <div className="text-box">
               <span className="name">충전요금</span>

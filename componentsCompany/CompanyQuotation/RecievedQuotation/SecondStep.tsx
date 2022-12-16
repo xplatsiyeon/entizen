@@ -102,6 +102,7 @@ const SecondStep = ({
   const [manufacturingCompany, setManufacturingCompany] = useState<string>('');
   // 충전기 특장점
   const [chargeFeatures, setChargeFeatures] = useState<string>('');
+
   // 사진 첨부
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   // 충전기 카탈로그
@@ -739,7 +740,10 @@ const SecondStep = ({
           </div>
         </BottomInputBox>
         <InputBox className="secondChargerText">
-          <div>충전기 특장점</div>
+          <FlexText>
+            <div>충전기 특장점</div>
+            <div>{chargeFeatures.length}/500</div>
+          </FlexText>
           <div>
             <TextArea
               onChange={(e) => setChargeFeatures(e.target.value)}
@@ -1271,6 +1275,7 @@ const AddPhotos = styled.button`
     background-color: #ffffff;
     width: 77.25pt;
     height: 77.25pt;
+    margin-right: 10pt;
   }
 `;
 
@@ -1280,6 +1285,7 @@ const ImgSpanBox = styled.div`
     width: 444.75;
     display: grid;
     grid-template-columns: 230pt 1fr;
+    gap: 6pt;
   }
   @media (max-width: 899.25pt) {
     position: relative;
@@ -1299,7 +1305,9 @@ const ImgSpan = styled.div`
   width: 56.0625pt;
   height: 56.0625pt;
   border-radius: 6pt;
-  gap: 9pt;
+  & > span {
+    border-radius: 6pt;
+  }
   @media (min-width: 900pt) {
     margin-bottom: 0pt;
     width: 216pt;
@@ -1460,7 +1468,9 @@ const TwoBtn = styled.div`
     width: 560.25pt;
     position: relative;
     margin: 0 auto;
-    padding-bottom: 40pt;
+   // padding-bottom: 40pt;
+    margin-bottom: 50pt;
+    padding-bottom: 20pt;
   }
 `;
 
@@ -1476,6 +1486,12 @@ const FileName = styled.div`
   color: ${colors.dark2};
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+const FlexText = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 export default SecondStep;
