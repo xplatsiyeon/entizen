@@ -111,6 +111,9 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
     ]
   };
 
+
+  console.log('slick')
+
   return (
     <Body>
       { data?.data?.chattingRooms?.entizenChattingRoom &&
