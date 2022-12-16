@@ -22,6 +22,8 @@ interface CalculateValue {
   maxTotalSubscribePrice: number;
   minSubscribePricePerMonth: number;
   minTotalSubscribePrice: number;
+  minChargingStationInstallationPrice: number;
+  maxChargingStationInstallationPrice: number;
 }
 const TAG = '1-7.tsx';
 const Request1_7 = (props: Props) => {
@@ -37,6 +39,8 @@ const Request1_7 = (props: Props) => {
     maxTotalSubscribePrice: 0,
     minSubscribePricePerMonth: 0,
     minTotalSubscribePrice: 0,
+    minChargingStationInstallationPrice: 0,
+    maxChargingStationInstallationPrice: 0,
   });
   // react-query // api 호출
   const { mutate, error, isError, isLoading } = useMutation(isTokenPostApi, {
@@ -89,6 +93,10 @@ const Request1_7 = (props: Props) => {
       maxTotalSubscribePrice: requestData?.maxTotalSubscribePrice!,
       minSubscribePricePerMonth: requestData?.minSubscribePricePerMonth!,
       minTotalSubscribePrice: requestData?.minTotalSubscribePrice!,
+      minChargingStationInstallationPrice:
+        requestData?.minChargingStationInstallationPrice!,
+      maxChargingStationInstallationPrice:
+        requestData?.maxChargingStationInstallationPrice!,
     });
   }, []);
 
@@ -157,6 +165,19 @@ const Request1_7 = (props: Props) => {
                 setCalculatedValue={setCalculatedValue}
               />
               <ContentsWrapper>
+                <div className="contents-box">
+                  <span className="name">EV충전소 설치비용</span>
+                  <span>
+                    <span className="price">
+                      {`${PriceCalculation(
+                        calculatedValue?.minChargingStationInstallationPrice!,
+                      )} ~ ${PriceCalculation(
+                        calculatedValue?.maxChargingStationInstallationPrice!,
+                      )}`}
+                    </span>
+                  </span>
+                </div>
+                <div className="line" />
                 <div className="contents-box">
                   <span className="name">
                     <span className="accent">월</span> 구독료

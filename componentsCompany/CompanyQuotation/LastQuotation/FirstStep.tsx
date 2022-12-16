@@ -536,7 +536,7 @@ const FirstStep = ({
         <InputBox className="lastInputBox">
           <div className="withTextNumber">
             <span>구독상품 특장점</span>
-            <span>{subscribeProductFeature.length}/500</span>
+            <span>{subscribeProductFeature?.length!}/500</span>
           </div>
           <div className="monthFlex">
             <TextArea

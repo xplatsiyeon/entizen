@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
-import { RecivedCountResponse } from './Main/companyMain/QuotationCenter';
+import { ReceivedRequest } from 'pages/company/quotation';
 
 type Props = {};
 const TAG = 'componsts/BottomNavigation.tsx';
@@ -29,9 +29,9 @@ const BottomNavigation = ({}: Props) => {
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
 
-  const { data, isLoading, isError, error } = useQuery<RecivedCountResponse>(
+  const { data, isLoading, isError, error } = useQuery<ReceivedRequest>(
     'count',
-    () => isTokenGetApi('/quotations/received-request/count'),
+    () => isTokenGetApi('/quotations/received-request?keyword=&sort=deadline'),
     {
       staleTime: 5000,
       cacheTime: Infinity,
@@ -80,6 +80,8 @@ const BottomNavigation = ({}: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabNumber]);
 
+  console.log(data?.receivedQuotationRequests);
+
   return (
     <Wrapper>
       {memberType === 'COMPANY' ? (
@@ -106,7 +108,7 @@ const BottomNavigation = ({}: Props) => {
                 router.push('/company/quotation');
               }}
             >
-              {data?.receivedQuotationRequestCount! === 0 && (
+              {data?.receivedQuotationRequests?.length! === 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -119,7 +121,7 @@ const BottomNavigation = ({}: Props) => {
                   />
                 </ImgBox>
               )}
-              {data?.receivedQuotationRequestCount! > 0 && (
+              {data?.receivedQuotationRequests?.length! > 0 && (
                 <ImgBox>
                   <Image
                     src={
@@ -131,7 +133,7 @@ const BottomNavigation = ({}: Props) => {
                     layout="fill"
                   />
                   <CountQuotation>
-                    {data?.receivedQuotationRequestCount}
+                    {data?.receivedQuotationRequests?.length}
                   </CountQuotation>
                 </ImgBox>
               )}
