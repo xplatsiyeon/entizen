@@ -165,6 +165,7 @@ export interface QuotationRequest {
   memberIdx: number;
   quotationRequestChargers: QuotationRequestChargers[];
   member: Member;
+  maskingInstallationAddress: string;
 }
 export interface SentRequestResponse {
   isSuccess: boolean;

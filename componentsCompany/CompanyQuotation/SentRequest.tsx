@@ -32,6 +32,7 @@ export interface QuotationRequest {
   quotationStatus: string;
   subscribePeriod: number;
   subscribeProduct: string;
+  maskingInstallationAddress: string;
 }
 export interface PreQuotation {
   changedDate: string;
@@ -92,7 +93,9 @@ const SentRequest = ({}: Props) => {
   console.log(TAG + `🌈 보낸 견적 데이터 로그 ~ 라인 89 `);
   console.log(data);
 
-  //
+  console.log('badge', data?.sendQuotationRequests);
+
+  //maskingInstallationAddress
   return (
     <>
       <Sort
@@ -132,9 +135,15 @@ const SentRequest = ({}: Props) => {
                     bottom={'12pt'}
                   />
                 </DdayBox>
-                <AddressBox>
-                  {el?.quotationRequest.installationAddress}
-                </AddressBox>
+                {el.badge === '선택대기' ? (
+                  <AddressBox>
+                    {el?.quotationRequest.maskingInstallationAddress}
+                  </AddressBox>
+                ) : (
+                  <AddressBox>
+                    {el?.quotationRequest.installationAddress}
+                  </AddressBox>
+                )}
               </DdayNAddress>
               <IconBox>
                 <ArrowIconBox>
