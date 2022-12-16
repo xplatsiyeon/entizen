@@ -92,7 +92,7 @@ const WebBody = styled.div`
   width: 100%;
   margin: 0 auto;
   //height: 810pt;
-  background: #fcfcfc;
+  background-color: #ffffff;
 
   @media (max-height: 800pt) {
     display: block;
