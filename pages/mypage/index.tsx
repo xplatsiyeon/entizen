@@ -181,7 +181,7 @@ const Wrapper = styled.div`
 const FlexBox = styled.div`
   border: 1px solid #e2e5ed;
   border-radius: 12pt;
-  max-height: 423pt;
+  height: 423pt;
   width: 216pt;
   padding: 42pt 19.5pt;
 
