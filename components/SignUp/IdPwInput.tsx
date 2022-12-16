@@ -82,6 +82,7 @@ const IdPwInput = ({
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const loginTypeEnList = ['USER', 'COMPANY'];
 
   const { loginError, loginLoading, signin } = useLogin(
@@ -117,7 +118,12 @@ const IdPwInput = ({
     onSuccess: async () => {
       console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
-      signin(checkPw);
+      setIsLoading(true);
+      setTimeout(() => {
+        signin(checkPw);
+        setIsLoading(false);
+      }, 2000);
+
       // router.push('/signUp/Complete');
     },
     onError: (error) => {
@@ -135,7 +141,11 @@ const IdPwInput = ({
     onSuccess: () => {
       console.log('성공');
       queryClient.invalidateQueries();
-      signin(checkPw);
+      setIsLoading(true);
+      setTimeout(() => {
+        signin(checkPw);
+        setIsLoading(false);
+      }, 2000);
       // router.push('/signUp/CompleteCompany');
     },
     onError: (error) => {
@@ -253,9 +263,10 @@ const IdPwInput = ({
 
   // 로딩처리
   // if (userLoading || companyLoading) {
-  //   // console.log('로딩중...');
-  //   return <Loader />;
-  // }
+  if (isLoading) {
+    // console.log('로딩중...');
+    return <Loader />;
+  }
 
   const iconAdorment = {
     endAdornment: (
