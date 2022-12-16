@@ -82,15 +82,16 @@ const IdPwInput = ({
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
+  const loginTypeEnList = ['USER', 'COMPANY'];
 
   const { loginError, loginLoading, signin } = useLogin(
     idInput,
     setIsModal,
     setModalMessage,
+    loginTypeEnList[userType] as 'USER' | 'COMPANY',
     true,
   );
 
-  const loginTypeEnList = ['USER', 'COMPANY'];
   const { data, refetch } = useQuery<ValidatedId>(
     'ValidIdCheck',
     () =>
@@ -116,8 +117,7 @@ const IdPwInput = ({
     onSuccess: async () => {
       console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
-      signin(idInput, 'USER', checkPw);
-
+      signin(checkPw);
       // router.push('/signUp/Complete');
     },
     onError: (error) => {
@@ -135,7 +135,8 @@ const IdPwInput = ({
     onSuccess: () => {
       console.log('성공');
       queryClient.invalidateQueries();
-      router.push('/signUp/CompleteCompany');
+      signin(checkPw);
+      // router.push('/signUp/CompleteCompany');
     },
     onError: (error) => {
       console.log('----회원가입 실패----');
