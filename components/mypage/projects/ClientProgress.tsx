@@ -311,7 +311,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
           (el) => el.changedStep === 'READY' && el.processingStatus === false,
         );
         setModalInfo(target[0]);
-        // setIsModal(true);
+        setIsModal(true);
         setModalType('change');
       } else if (installationStepGoalDate === 'CHANGING') {
         const target = unConsentProjectDateChangeHistories.filter(
@@ -319,14 +319,14 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
             el.changedStep === 'INSTALLATION' && el.processingStatus === false,
         );
         setModalInfo(target[0]);
-        // setIsModal(true);
+        setIsModal(true);
         setModalType('change');
       } else if (examStepGoalDate === 'CHANGING') {
         const target = unConsentProjectDateChangeHistories.filter(
           (el) => el.changedStep === 'EXAM' && el.processingStatus === false,
         );
         setModalInfo(target[0]);
-        // setIsModal(true);
+        setIsModal(true);
         setModalType('change');
       } else if (completionStepGoalDate === 'CHANGING') {
         const target = unConsentProjectDateChangeHistories.filter(
@@ -334,7 +334,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
             el.changedStep === 'COMPLETION' && el.processingStatus === false,
         );
         setModalInfo(target[0]);
-        // setIsModal(true);
+        setIsModal(true);
         setModalType('change');
       }
     }
