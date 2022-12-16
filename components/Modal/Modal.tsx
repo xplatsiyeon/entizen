@@ -28,7 +28,7 @@ const Modal = ({ text, click, color, setIsModal }: Props) => {
   const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
       click();
-      setIsModal!(false);
+      // setIsModal!(false);
     }
   };
 
