@@ -9,7 +9,7 @@ interface PropsApi {
   data?: any;
 }
 
-export const BASE_URL = 'https://api.entizen.kr/api';
+export const BASE_URL = 'https://test-api.entizen.kr/api';
 // 로컬에서 사용할때만 활성화 시키기
 // export const BASE_URL = `/api`;
 
