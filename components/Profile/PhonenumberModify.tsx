@@ -50,7 +50,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
   const onClickBtn = () => {
     //수정완료 api
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members`;
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members`;
     try {
       axios({
         method: 'patch',
@@ -99,7 +99,7 @@ const PhoneNumberModify = ({ setTabNumber }: Props) => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -241,10 +241,12 @@ const WebBody = styled.div`
   @media (max-height: 809pt) {
     display: block;
   }
-
   @media (min-width: 900pt) {
     width: 580.5pt;
     height: auto;
+  }
+  @media (max-width: 899.25pt) {
+    width: 100vw;
   }
 `;
 
@@ -262,6 +264,7 @@ const Inner = styled.div`
     position: relative;
     margin: 0;
     padding: 0;
+    border-radius: 0;
   }
 
   @media (min-width: 900pt) {
