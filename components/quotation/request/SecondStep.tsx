@@ -64,6 +64,33 @@ const SecondStep = ({ tabNumber }: Props) => {
       // setTabNumber(tabNumber + 1);
     }
   };
+  const goToGuide = () => {
+    if (buttonActivate) {
+      // 홈충전기 그래프 선택 불가 상품일 경우
+      if (unavailableGraph) {
+        dispatch(
+          quotationAction.setStep2({
+            subscribeProduct: subscribeTypeEn[subscribeNumber],
+            investRate: '0',
+          }),
+        );
+        // 일반 경우
+      } else {
+        dispatch(
+          quotationAction.setStep2({
+            subscribeProduct: subscribeTypeEn[subscribeNumber],
+            investRate: (value / 100).toString(),
+          }),
+        );
+      }
+    }
+    router.push({
+      pathname: '/guide/1-4',
+      query: {
+        id: 1,
+      },
+    });
+  };
   // 버튼 유효성 검사
   useEffect(() => {
     setButtonActivate(false);
@@ -167,17 +194,7 @@ const SecondStep = ({ tabNumber }: Props) => {
         </SliderBox>
       )}
       <ChargeGuide>
-        <span
-          className="text"
-          onClick={() => {
-            router.push({
-              pathname: '/guide/1-4',
-              query: {
-                id: 1,
-              },
-            });
-          }}
-        >
+        <span className="text" onClick={goToGuide}>
           구독 가이드
         </span>
         <div className="arrow-icon">
