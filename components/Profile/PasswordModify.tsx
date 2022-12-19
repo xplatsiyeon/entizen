@@ -370,10 +370,7 @@ const Inner = styled.div`
     border-radius: 0;
     margin: 0;
     padding: 0;
-    border: 1px solid tomato;
-  }
-
-  @media (min-width: 900pt) {
+    border-radius: 0;
   }
 `;
 
