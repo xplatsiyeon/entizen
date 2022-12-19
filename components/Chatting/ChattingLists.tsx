@@ -123,7 +123,9 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
         `/chatting?searchKeyword=${keyword}&filter=${TabListEn[index]}`,
       ),
     {
-      enabled: false,
+      //enabled: false,
+      enabled: router.isReady,
+      refetchInterval: 3000,
     },
   );
 
