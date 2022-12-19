@@ -59,6 +59,8 @@ const Mypage2_3 = () => {
 
   // 수락하기 버튼
   const acceptModal = () => {
+    console.log(tabNumber)
+    if(tabNumber===0){
     mutate({
       url: `/quotations/pre/${spotId}/spot-inspection`,
       data: {
@@ -70,6 +72,8 @@ const Mypage2_3 = () => {
         isConfirmed: true,
       },
     });
+  }
+  //? 수락할 날짜 선택하라는 메세지??
   };
   const anotherData = spotData?.data?.spotInspection.spotInspectionDate;
   const anotherData2 = spotData?.data?.spotInspection.createdAt;
