@@ -7,9 +7,10 @@ import colors from 'styles/colors';
 interface Props {
   date: string;
   spotId: number;
+  routerId: string | string[] | undefined;
 }
 
-const ScheduleConfirm = ({ date, spotId }: Props) => {
+const ScheduleConfirm = ({ date, spotId, routerId }: Props) => {
   const route = useRouter();
 
   return (
@@ -21,6 +22,7 @@ const ScheduleConfirm = ({ date, spotId }: Props) => {
           route.push({
             pathname: '/mypage/request/changeDate',
             query: {
+              quotationRequestIdx: routerId,
               spotId: spotId,
             },
           });
@@ -41,6 +43,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 8px;
   text-align: center;
+
   @media (max-width: 899.25pt) {
     margin: 30pt 15pt 0 15pt;
   }
