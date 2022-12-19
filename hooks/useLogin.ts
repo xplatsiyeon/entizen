@@ -11,7 +11,7 @@ function useLogin(
   userId: string,
   setErrorModal: Dispatch<SetStateAction<boolean>>,
   setErrorMessage: Dispatch<SetStateAction<string>>,
-  setUserCompleteModal: Dispatch<SetStateAction<boolean | string>>,
+  setUserCompleteModal: Dispatch<SetStateAction<boolean>>,
   memberType: 'USER' | 'COMPANY',
   signUp: boolean,
 ) {
@@ -26,7 +26,7 @@ function useLogin(
     onSuccess: async (res) => {
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
       console.log(
-        'res.data.isInitialLogin 뭐나오나욤',
+        'res.data.isInitialLogin 초기값 뭐나오나욤',
         res.data.isInitialLogin,
       );
       setUserCompleteModal(res.data.isInitialLogin);
