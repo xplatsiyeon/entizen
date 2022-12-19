@@ -25,8 +25,12 @@ function useLogin(
   } = useMutation(isTokenPostApi, {
     onSuccess: async (res) => {
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
-
-      if (res.data.isInitialLogin === false && token.memberType === 'COMPANY') {
+      console.log(
+        'res.data.isInitialLogin 뭐나오나욤',
+        res.data.isInitialLogin,
+      );
+      if (res.data.isInitialLogin === false) {
+        alert('res.data.isInitialLogin false면');
         setUserCompleteModal(true);
       }
       sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
