@@ -306,7 +306,7 @@ Props) => {
                 {/* {planed ? planed : '목표일을 정해주세요'} */}
                 {planed
                   ? planed === 'CHANGING'
-                    ? '변경중'
+                    ? '목표일 변경 중'
                     : changeDataFn(planed)
                   : '목표일을 정해주세요'}
               </FinishedDate>
@@ -351,7 +351,7 @@ Props) => {
               <Date>
                 {planed
                   ? planed === 'CHANGING'
-                    ? '변경중'
+                    ? '목표일 변경 중'
                     : changeDataFn(CompletionDate ? CompletionDate : planed)
                   : '목표일을 정해주세요'}
               </Date>

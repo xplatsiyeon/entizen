@@ -153,6 +153,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
     useState<UnConsentProjectDateChangeHistories>();
   // const [modalType, setModalType] = useState<ModalType>('change');
   const [modalType, setModalType] = useState<ModalType>('change');
+  const [modalStep, setModalStep] = useState('');
   const [toggleOpen, setToggleOpen] = useState<boolean[]>(initToggle);
 
   // -----진행중인 프로젝트 상세 리스트 api-----
@@ -295,6 +296,16 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
       });
     }
   };
+
+  const handleDateBtn = (
+    step: 'READY' | 'INSTALLATION' | 'EXAM' | 'COMPLETION',
+  ) => {
+    setIsModal(true);
+    const target = data?.project?.unConsentProjectDateChangeHistories.filter(
+      (el) => el.changedStep === step && el.processingStatus === false,
+    );
+    setModalInfo(target[0]);
+  };
   // 일정 변경 모달 관련 상태관리
   useEffect(() => {
     if (data?.project) {
@@ -338,7 +349,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         setModalType('change');
       }
     }
-  }, [data]);
+  }, [data, modalStep]);
 
   console.log('⭐️ 계약서 데이터 확인 ~line 315 ');
   console.log(data);
@@ -442,9 +453,17 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                       : colors.main
                   }
                   onClick={() => {
-                    if (data?.project?.readyStepGoalDate === 'CHANGING') {
-                      setIsModal(true);
-                    }
+                    handleDateBtn('READY');
+                    // if (data?.project?.readyStepGoalDate === 'CHANGING') {
+                    //   setIsModal(true);
+                    //   const target =
+                    //     data?.project?.unConsentProjectDateChangeHistories.filter(
+                    //       (el) =>
+                    //         el.changedStep === 'READY' &&
+                    //         el.processingStatus === false,
+                    //     );
+                    //   setModalInfo(target[0]);
+                    // }
                   }}
                   changeDate={data?.project?.readyStepGoalDate}
                 >
@@ -509,11 +528,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                       : colors.main
                   }
                   onClick={() => {
-                    if (
-                      data?.project?.installationStepGoalDate === 'CHANGING'
-                    ) {
-                      setIsModal(true);
-                    }
+                    handleDateBtn('INSTALLATION');
                   }}
                   changeDate={data?.project?.installationStepGoalDate}
                 >
@@ -576,14 +591,12 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
                     data?.project?.isCompletedExamStep ? '#e2e5ed' : colors.main
                   }
                   onClick={() => {
-                    if (data?.project?.examStepGoalDate === 'CHANGING') {
-                      setIsModal(true);
-                    }
+                    handleDateBtn('EXAM');
                   }}
                   changeDate={data?.project?.examStepGoalDate}
                 >
                   {data?.project?.examStepGoalDate === 'CHANGING'
-                    ? '변경 중'
+                    ? '목표일 변경 중'
                     : changeDataFn(
                         data?.project?.examStepCompletionDate
                           ? data?.project?.examStepCompletionDate
@@ -639,16 +652,14 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
               </ProgressName>
               {data?.project?.completionStepGoalDate ? (
                 <PickedDate
-                  color={ colors.main }
+                  color={colors.main}
                   onClick={() => {
-                    if (data?.project?.completionStepGoalDate === 'CHANGING') {
-                      setIsModal(true);
-                    }
+                    handleDateBtn('COMPLETION');
                   }}
                   changeDate={data?.project?.completionStepGoalDate}
                 >
                   {data?.project?.completionStepGoalDate === 'CHANGING'
-                    ? '변경 중'
+                    ? '목표일 변경 중'
                     : changeDataFn(
                         data?.project?.completionStepCompletionDate
                           ? data?.project?.completionStepCompletionDate
@@ -716,6 +727,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
       {/* 완료 동의하기 모달창  */}
       {isModal && (
         <ClientProjectModal
+          modalStep={modalStep}
           setIsModal={setIsModal}
           type={modalType}
           changeData={modalInfo}

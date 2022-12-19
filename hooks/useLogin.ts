@@ -11,6 +11,7 @@ function useLogin(
   userId: string,
   setErrorModal: Dispatch<SetStateAction<boolean>>,
   setErrorMessage: Dispatch<SetStateAction<string>>,
+
   memberType: 'USER' | 'COMPANY',
   signUp: boolean,
 ) {

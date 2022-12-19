@@ -22,6 +22,7 @@ type Props = {
   onClickChangeData: () => void;
   onClickCompleteData: () => void;
   data: InProgressProjectsDetailResponse;
+  modalStep: string;
 };
 
 const ClientProjectModal = ({
@@ -31,8 +32,12 @@ const ClientProjectModal = ({
   onClickChangeData,
   onClickCompleteData,
   data,
+  modalStep,
 }: Props) => {
   const backRef = useRef<HTMLDivElement>(null);
+
+  console.log('--------------------------');
+  console.log(data);
   const onClickBack = (event: any) => {
     if (event.target.id === 'background') {
       setIsModal(false);
