@@ -37,6 +37,11 @@ const SignUpContainer = (props: Props) => {
   const [pwInput, setPwInput] = useState<string>('');
   const [checkPw, setCheckPw] = useState<string>('');
 
+  // 기업로그인 가입 후 첫 로그인
+  const [userCompleteModal, setUserCompleteModal] = useState<string | boolean>(
+    '',
+  );
+
   const [pwSelected, setPwSelected] = useState<boolean>(false);
   const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkedPw, setCheckedPw] = useState<boolean>(false);

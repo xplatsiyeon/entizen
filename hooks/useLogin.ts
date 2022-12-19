@@ -11,7 +11,7 @@ function useLogin(
   userId: string,
   setErrorModal: Dispatch<SetStateAction<boolean>>,
   setErrorMessage: Dispatch<SetStateAction<string>>,
-  setUserCompleteModal: Dispatch<SetStateAction<boolean>>,
+  setUserCompleteModal: Dispatch<SetStateAction<boolean | string>>,
   memberType: 'USER' | 'COMPANY',
   signUp: boolean,
 ) {
@@ -30,7 +30,6 @@ function useLogin(
         res.data.isInitialLogin,
       );
       if (res.data.isInitialLogin === false) {
-        alert('res.data.isInitialLogin false면');
         setUserCompleteModal(true);
       }
       sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));

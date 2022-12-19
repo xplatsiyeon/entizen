@@ -28,7 +28,7 @@ type Props = {
   setCheckSamePw: Dispatch<SetStateAction<boolean>>;
   setModalMessage: Dispatch<SetStateAction<string>>;
   setIsModal: Dispatch<SetStateAction<boolean>>;
-  setUserCompleteModal: Dispatch<SetStateAction<boolean>>;
+  setUserCompleteModal: Dispatch<SetStateAction<boolean | string>>;
   name: string;
   phoneNumber: string;
   fullTerms: boolean;
@@ -72,8 +72,8 @@ const IdPwInput = ({
   companyDetailAddress,
   businessRegistration,
   setModalMessage,
-  setUserCompleteModal,
   setIsModal,
+  setUserCompleteModal,
 }: Props) => {
   const router = useRouter();
   const queryClient = useQueryClient();
