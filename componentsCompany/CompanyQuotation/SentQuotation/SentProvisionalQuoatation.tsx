@@ -240,6 +240,8 @@ const SentQuoatationFirst = () => {
     isLoading: spotLoading,
     isError: spotIsError,
     error: spotError,
+    refetch: spotRefetch,
+    remove: spotRemove,
   } = useQuery<SpotDataResponse>(
     'spot-inspection',
     () =>
@@ -328,11 +330,17 @@ const SentQuoatationFirst = () => {
   }, [router]);
 
   useEffect(() => {
-    if (router.isReady) refetch();
+    if (router.isReady) {
+      spotRefetch();
+      refetch();
+    }
   }, [routerId, historyId]);
 
   useEffect(() => {
-    return () => remove();
+    return () => {
+      spotRemove();
+      remove();
+    };
   }, []);
 
   if (isLoading) {
