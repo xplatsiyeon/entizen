@@ -32,7 +32,6 @@ interface Purpose {
 }
 interface Props {
   tabNumber: number;
-  setTabNumber: Dispatch<SetStateAction<number>>;
 }
 const purpose: Purpose[] = [
   {
@@ -76,9 +75,9 @@ const purpose: Purpose[] = [
   },
 ];
 
-const PREDICTION_POST = `https://api.entizen.kr/api/quotations/prediction`;
+const PREDICTION_POST = `https://test-api.entizen.kr/api/quotations/prediction`;
 
-const SixthStep = ({ setTabNumber }: Props) => {
+const SixthStep = ({ tabNumber }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(-1);
@@ -107,7 +106,7 @@ const SixthStep = ({ setTabNumber }: Props) => {
 
   // 이전버튼
   const HandlePrevBtn = () => {
-    setTabNumber((prev) => prev - 1);
+    dispatch(quotationAction.setTabNumber(tabNumber - 1));
   };
   // 간편 견적 포스트
   const predictionApi = async () => {

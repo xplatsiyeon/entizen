@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GuideHeader from 'components/guide/header';
 import SubcribeGraph from 'components/guide/subcribeGraph';
 import Share from 'components/guide/share';
@@ -9,6 +9,9 @@ import { useRouter } from 'next/router';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
+import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
+import Loader from 'components/Loader';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -18,6 +21,8 @@ const Guide1_4 = () => {
   const router = useRouter();
   const [tabNumber, setTabNumber] = useState(0);
   const TabType: string[] = ['구독상품', '수익지분', '계약'];
+  const dispatch = useDispatch();
+
   const components: Components = {
     0: <SubcribeGraph />,
     1: <Share />,
@@ -25,6 +30,20 @@ const Guide1_4 = () => {
   };
 
   const handleTab = (index: number) => setTabNumber(index);
+
+  const handleRouterBack = () => {
+    console.log(router.query.id);
+    if (router.query.id) {
+      dispatch(quotationAction.setTabNumber(Number(router.query.id)));
+    }
+    router.back();
+  };
+
+  useEffect(() => {
+    if (router.query.tab) {
+      setTabNumber(Number(router.query.tab));
+    }
+  }, [router.isReady]);
 
   return (
     <Body>
@@ -34,7 +53,7 @@ const Guide1_4 = () => {
         <Wrapper>
           <GuideHeader
             title={'구독 가이드'}
-            leftOnClick={() => router.back()}
+            leftOnClick={handleRouterBack}
             rightOnClick={() => router.push('/')}
           />
           <TabContainer>

@@ -16,11 +16,11 @@ import { quotationAction } from 'store/quotationSlice';
 
 interface Props {
   tabNumber: number;
-  setTabNumber: Dispatch<SetStateAction<number>>;
+
   setHiddenTag: Dispatch<SetStateAction<boolean>>;
 }
 const TAG = 'componets/quotation/request/FourthStep.tsx';
-const FourthStep = ({ tabNumber, setTabNumber, setHiddenTag }: Props) => {
+const FourthStep = ({ tabNumber, setHiddenTag }: Props) => {
   const dispatch = useDispatch();
   const { locationList } = useSelector(
     (state: RootState) => state.locationList,
@@ -42,13 +42,13 @@ const FourthStep = ({ tabNumber, setTabNumber, setHiddenTag }: Props) => {
   };
   // 이전버튼
   const HandlePrevBtn = () => {
-    setTabNumber(tabNumber - 1);
+    dispatch(quotationAction.setTabNumber(tabNumber - 1));
   };
   // 다음버튼
   const HandleNextBtn = () => {
     if (buttonActivate) {
       dispatch(quotationAction.setStep4(location[buildingNumber]));
-      setTabNumber(tabNumber + 1);
+      dispatch(quotationAction.setTabNumber(tabNumber + 1));
     }
   };
   // 버튼 활성화

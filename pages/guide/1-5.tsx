@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import UserRightMenu from 'components/UserRightMenu';
+import { useDispatch } from 'react-redux';
+import { quotationAction } from 'store/quotationSlice';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -16,14 +18,22 @@ interface Components {
 
 const Guide1_5 = () => {
   const router = useRouter();
-  const [tabNumber, setTabNumber] = useState(0);
+  const dispatch = useDispatch();
+  const [tabNum, setTabNum] = useState(0);
   const TabType: string[] = ['완속/중속', '급속/초급속', '공통사항'];
   const components: Components = {
     0: <MediumSpeedGraph />,
     1: <ExpressSpeedGraph />,
     2: <Common />,
   };
-  const handleTab = (index: number) => setTabNumber(index);
+  const handleTab = (index: number) => setTabNum(index);
+
+  const handleRouterBack = () => {
+    if (router.query.id) {
+      dispatch(quotationAction.setTabNumber(Number(router.query.id)));
+    }
+    router.back();
+  };
 
   return (
     <Body>
@@ -32,24 +42,24 @@ const Guide1_5 = () => {
       <Inner>
         <GuideHeader
           title="충전기 가이드"
-          leftOnClick={() => router.back()}
+          leftOnClick={handleRouterBack}
           rightOnClick={() => router.push('/')}
         />
         <TabContainer>
           {TabType.map((tab, index) => (
             <TabItem
               key={index}
-              tab={tabNumber.toString()}
+              tab={tabNum.toString()}
               index={index.toString()}
               onClick={() => handleTab(index)}
             >
               {tab}
-              <Line tab={tabNumber.toString()} index={index.toString()}></Line>
+              <Line tab={tabNum.toString()} index={index.toString()}></Line>
             </TabItem>
           ))}
         </TabContainer>
         {/* 메인 */}
-        <Main>{components[tabNumber]}</Main>
+        <Main>{components[tabNum]}</Main>
       </Inner>
       <WebFooter />
     </Body>

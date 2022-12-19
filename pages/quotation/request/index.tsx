@@ -15,31 +15,32 @@ import Request1_7 from './1-7';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 
+import rootReducer, { RootState } from 'store/store';
+import { useSelector } from 'react-redux';
+
 interface Components {
   [key: number]: JSX.Element;
 }
 
 const Quotation1_1 = () => {
   const route = useRouter();
-  const [tabNumber, setTabNumber] = useState<number>(0);
+  // const [tabNumber, setTabNumber] = useState<number>(0);
   const [isModal, setIsModal] = useState(false);
   const [hiddenTag, setHiddenTag] = useState(false);
+
+  const { tabNumber } = useSelector((state: RootState) => state.quotationData);
+
+  console.log(tabNumber);
 
   const HandleModal = () => setIsModal((prev) => !prev);
 
   const components: Components = {
-    0: <FirstStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
-    1: <SecondStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
-    2: <ThirdStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
-    3: (
-      <FourthStep
-        tabNumber={tabNumber}
-        setTabNumber={setTabNumber}
-        setHiddenTag={setHiddenTag}
-      />
-    ),
-    4: <FifthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
-    5: <SixthStep tabNumber={tabNumber} setTabNumber={setTabNumber} />,
+    0: <FirstStep tabNumber={tabNumber} />,
+    1: <SecondStep tabNumber={tabNumber} />,
+    2: <ThirdStep tabNumber={tabNumber} />,
+    3: <FourthStep tabNumber={tabNumber} setHiddenTag={setHiddenTag} />,
+    4: <FifthStep tabNumber={tabNumber} />,
+    5: <SixthStep tabNumber={tabNumber} />,
   };
 
   return (

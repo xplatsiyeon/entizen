@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface RequesQuotationtData {
   investRate: string;
@@ -26,6 +26,7 @@ export interface OptionKo {
   count: string;
 }
 export interface Data {
+  tabNumber: number;
   requestData?: RequesQuotationtData;
   chargers: Option[];
   chargersKo: OptionKo[];
@@ -38,6 +39,7 @@ export interface Data {
 }
 
 const initialState: Data = {
+  tabNumber: 0,
   requestData: undefined,
   chargers: [
     {
@@ -68,6 +70,9 @@ const slice = createSlice({
   name: 'quotationData',
   initialState,
   reducers: {
+    setTabNumber(state, action: PayloadAction<number>) {
+      state.tabNumber = action.payload;
+    },
     setRequestData(state, action) {
       state.requestData = action.payload;
     },

@@ -25,7 +25,7 @@ import SelectComponents from 'components/Select';
 
 interface Props {
   tabNumber: number;
-  setTabNumber: Dispatch<SetStateAction<number>>;
+  // setTabNumber: Dispatch<SetStateAction<number>>;
 }
 
 export interface SelectedOption {
@@ -36,7 +36,7 @@ export interface SelectedOption {
   count: string;
 }
 
-const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
+const FirstStep = ({ tabNumber }: Props) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { chargersKo, chargers } = useSelector(
@@ -165,7 +165,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
     if (isValid && tabNumber !== 5) {
       dispatch(quotationAction.setChargers(selectedOptionEn));
       dispatch(quotationAction.setChargersKo(selectedOption));
-      setTabNumber(tabNumber + 1);
+      dispatch(quotationAction.setTabNumber(tabNumber + 1));
     }
   };
   // 버튼 유효성 검사
@@ -179,6 +179,19 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
       }
     }
   };
+  const goToGuide = () => {
+    if (isValid && tabNumber !== 5) {
+      dispatch(quotationAction.setChargers(selectedOptionEn));
+      dispatch(quotationAction.setChargersKo(selectedOption));
+    }
+    router.push({
+      pathname: '/guide/1-5',
+      query: {
+        id: 0,
+      },
+    });
+  };
+
   // 버튼 on/off
   useEffect(() => {
     setIsValid(true);
@@ -267,7 +280,7 @@ const FirstStep = ({ tabNumber, setTabNumber }: Props) => {
         </div>
       ))}
       <ChargeGuide>
-        <span className="text" onClick={() => router.push('/guide/1-5')}>
+        <span className="text" onClick={goToGuide}>
           충전기 가이드
         </span>
         <div className="arrow-icon">

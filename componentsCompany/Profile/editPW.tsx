@@ -33,7 +33,7 @@ const EditPW = ({ setComponent }: Props) => {
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
   const [pwInput, setPwInput] = useState<string>('');
-  const [pwShow, setPwShow] = useState<boolean>(false);
+  const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
   const [pwSelected, setPwSelected] = useState<boolean>(false);
   const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
@@ -121,15 +121,61 @@ const EditPW = ({ setComponent }: Props) => {
     if (modalMessage === '비밀번호 변경이 완료되었습니다.') setComponent!(1);
     /*router.push('/signin'); */
   };
+
+  const handleShowBtn = (id: number) => {
+    let temp = [...pwShow];
+    temp[id] = !temp[id];
+    setPwShow(temp);
+  };
   const beforeIcon = {
     endAdornment: (
       <InputAdornment position="start">
-        <CloseWrap 
-        onMouseDown={handleMouseDownPassword}
-        onClick={()=>setBeforePasswordInput('')}
+        <CloseWrap
+          onMouseDown={handleMouseDownPassword}
+          onClick={() => setBeforePasswordInput('')}
         >
           <CancelRoundedIcon
-            sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }} 
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
+          />
+        </CloseWrap>
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+          }}
+          variant="subtitle1"
+          onClick={() => handleShowBtn(0)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow[0] ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+
+  const icon = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CloseWrap
+          onMouseDown={handleMouseDownPassword}
+          onClick={() => setPwInput('')}
+        >
+          <CancelRoundedIcon
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
           />
         </CloseWrap>
         <Typography
@@ -143,40 +189,10 @@ const EditPW = ({ setComponent }: Props) => {
             cursor: 'pointer',
           }}
           variant="subtitle1"
-          onClick={() => setPwShow(!pwShow)}
+          onClick={() => handleShowBtn(1)}
           onMouseDown={handleMouseDownPassword}
         >
-          {pwShow ? '미표시' : '표시'}
-        </Typography>
-      </InputAdornment>
-    ),
-  };
-
-  const icon = {
-    endAdornment: (
-      <InputAdornment position="start">
-        <CloseWrap 
-        onMouseDown={handleMouseDownPassword}
-        onClick={()=>setPwInput('')}
-        >
-          <CancelRoundedIcon
-            sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }} 
-          />
-        </CloseWrap>
-        <Typography
-          sx={{
-            fontSize: '14px',
-            fontWeight: '400',
-            lineHeight: '16px',
-            letterSpacing: '-0.02em',
-            textAlign: 'left',
-            color: `${colors.main}`,
-          }}
-          variant="subtitle1"
-          onClick={() => setPwShow(!pwShow)}
-          onMouseDown={handleMouseDownPassword}
-        >
-          {pwShow ? '미표시' : '표시'}
+          {pwShow[1] ? '미표시' : '표시'}
         </Typography>
       </InputAdornment>
     ),
@@ -185,12 +201,17 @@ const EditPW = ({ setComponent }: Props) => {
   const secondIcon = {
     endAdornment: (
       <InputAdornment position="start">
-        <CloseWrap 
-        onMouseDown={handleMouseDownPassword}
-        onClick={()=>setCheckPw('')}
+        <CloseWrap
+          onMouseDown={handleMouseDownPassword}
+          onClick={() => setCheckPw('')}
         >
           <CancelRoundedIcon
-            sx={{ color: '#E2E5ED', width: '10.5pt', marginRight: '9pt' }} 
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
           />
         </CloseWrap>
         <Typography
@@ -201,12 +222,13 @@ const EditPW = ({ setComponent }: Props) => {
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
+            cursor: 'pointer',
           }}
           variant="subtitle1"
-          onClick={() => setPwShow(!pwShow)}
+          onClick={() => handleShowBtn(2)}
           onMouseDown={handleMouseDownPassword}
         >
-          {pwShow ? '미표시' : '표시'}
+          {pwShow[2] ? '미표시' : '표시'}
         </Typography>
       </InputAdornment>
     ),
@@ -240,7 +262,7 @@ const EditPW = ({ setComponent }: Props) => {
         <Input
           placeholder="기존 비밀번호 입력"
           onChange={handleIdChange}
-          type={pwShow ? 'text' : 'password'}
+          type={pwShow[0] ? 'text' : 'password'}
           value={beforePasswordInput}
           name="beforePw"
           hiddenLabel
@@ -253,7 +275,7 @@ const EditPW = ({ setComponent }: Props) => {
         <Input
           placeholder="비밀번호 입력"
           onChange={handleIdChange}
-          type={pwShow ? 'text' : 'password'}
+          type={pwShow[1] ? 'text' : 'password'}
           value={pwInput}
           name="pw"
           hiddenLabel
@@ -278,7 +300,7 @@ const EditPW = ({ setComponent }: Props) => {
         <Input
           placeholder="비밀번호 재입력"
           onChange={handleIdChange}
-          type={pwShow ? 'text' : 'password'}
+          type={pwShow[2] ? 'text' : 'password'}
           value={checkPw}
           name="checkPw"
           InputProps={secondIconAdornment}
@@ -374,18 +396,11 @@ const Input = styled(TextField)`
   }
 `;
 
-// const InputBox = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: start;
-//   margin-top: 45pt;
-// `;
-
 const CloseWrap = styled.div`
-width: 10pt;
-height: 11pt;
-display: flex;
-justify-content: flex-start;
-align-items: center;
-margin-right: 5pt;
-`
+  width: 10pt;
+  height: 11pt;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 5pt;
+`;
