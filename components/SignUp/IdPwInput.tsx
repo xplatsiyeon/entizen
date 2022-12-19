@@ -142,7 +142,6 @@ const IdPwInput = ({
     onSuccess: () => {
       console.log('성공');
       queryClient.invalidateQueries();
-      // signin(checkPw);
       router.push('/signUp/CompleteCompany');
     },
     onError: (error) => {

@@ -7,12 +7,13 @@ import RequestModal from 'components/Modal/RequestModal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
+import { JwtTokenType } from 'pages/signin';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import colors from 'styles/colors';
 import { kakaoInit } from 'utils/kakao';
-
+import jwt_decode from 'jwt-decode';
 type Props = {
   tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
@@ -124,7 +125,10 @@ const SettingMain = ({
   };
   // 회원탈퇴 시 original user 비밀번호 체크 함수
   const authPassowrd = () => {
-    const memberType = selectedType;
+    // const memberType = selectedType;
+    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+    const token: JwtTokenType = jwt_decode(accessToken);
+
     if (checkPassword) {
       const LOGIN_API = 'https://test-api.entizen.kr/api/members/login';
       const userId = JSON.parse(sessionStorage.getItem('USER_ID')!);
@@ -134,7 +138,7 @@ const SettingMain = ({
           method: 'post',
           url: LOGIN_API,
           data: {
-            memberType,
+            memberType: token.memberType,
             id: userId,
             password: passwordInput,
           },
