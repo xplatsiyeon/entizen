@@ -426,6 +426,7 @@ const SecessionText = styled.div`
   text-align: left;
   text-decoration-line: underline;
   color: #a6a9b0;
+  cursor: pointer;
 `;
 
 const ListWrapper = styled.div`

@@ -67,7 +67,9 @@ const Signin = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
   // 기업로그인 가입 후 첫 로그인
-  const [userCompleteModal, setUserCompleteModal] = useState(true);
+  const [userCompleteModal, setUserCompleteModal] = useState<string | boolean>(
+    '',
+  );
 
   // 로그인 mutate
   const { loginLoading, signin } = useLogin(
