@@ -99,7 +99,7 @@ const SignUpContainer = (props: Props) => {
       )}
       {/* ------------일반---------- */}
       {/* 약관 동의 */}
-      {level === 2 && userType === 1 && (
+      {level === 1 && userType === 1 && (
         <>
           <MypageHeader
             back={true}
@@ -129,7 +129,7 @@ const SignUpContainer = (props: Props) => {
         </>
       )}
       {/* 아이디 / 비밀번호 입력*/}
-      {level === 1 && userType === 1 && (
+      {level === 2 && userType === 1 && (
         <>
           <MypageHeader
             back={true}

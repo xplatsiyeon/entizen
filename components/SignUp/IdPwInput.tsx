@@ -281,6 +281,7 @@ const IdPwInput = ({
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
+            cursor: 'pointer',
           }}
           variant="subtitle1"
           onClick={() => handleShowBtn(0)}
@@ -321,6 +322,7 @@ const IdPwInput = ({
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
+            cursor: 'pointer',
           }}
           variant="subtitle1"
           onClick={() => handleShowBtn(1)}
