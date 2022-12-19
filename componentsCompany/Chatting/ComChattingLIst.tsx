@@ -576,7 +576,7 @@ const UnRead = styled.div<{ wasRead: boolean | null}>`
 width: 6pt;
 height: 6pt;
 border-radius: 50%;
-background: ${({ wasRead }) => {console.log(wasRead); return(wasRead === false ? `none` : `#5221CB`)}};
+background: ${({ wasRead }) => {console.log(wasRead); return(Boolean(wasRead) ?`#5221CB` : `none` )}};
 `;
 
 const Favorite = styled.div`
