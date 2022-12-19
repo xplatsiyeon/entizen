@@ -37,9 +37,6 @@ const SignUpContainer = (props: Props) => {
   const [pwInput, setPwInput] = useState<string>('');
   const [checkPw, setCheckPw] = useState<string>('');
 
-  // 패스워드 보여주기 true false
-  const [pwShow, setPwShow] = useState<boolean>(false);
-
   const [pwSelected, setPwSelected] = useState<boolean>(false);
   const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
@@ -150,8 +147,6 @@ const SignUpContainer = (props: Props) => {
               setPwInput={setPwInput}
               checkPw={checkPw}
               setCheckPw={setCheckPw}
-              pwShow={pwShow}
-              setPwShow={setPwShow}
               pwSelected={pwSelected}
               setPwSelected={setPwSelected}
               checkPwSelected={checkPwSelected}
@@ -278,8 +273,6 @@ const SignUpContainer = (props: Props) => {
               setPwInput={setPwInput}
               checkPw={checkPw}
               setCheckPw={setCheckPw}
-              pwShow={pwShow}
-              setPwShow={setPwShow}
               pwSelected={pwSelected}
               setPwSelected={setPwSelected}
               checkPwSelected={checkPwSelected}

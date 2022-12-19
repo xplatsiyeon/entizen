@@ -30,6 +30,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
   const [pwInput, setPwInput] = useState<string>('');
   const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
+  const [pwShowId, setPwShowId] = useState<number>(0);
   const [pwSelected, setPwSelected] = useState<boolean>(false);
   const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
@@ -62,12 +63,6 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     console.log(password, checkPassword);
   }, [password, checkPassword]);
 
-  const handleShowBtn = (id: number) => {
-    let temp = [...pwShow];
-    temp[id] = !temp[id];
-    setPwShow(temp);
-  };
-
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'pw') {
       setPwInput(e.target.value);
@@ -88,10 +83,35 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     e.preventDefault();
   };
 
+  const handleShowBtn = () => {
+    let id = 0;
+    if (pwSelected === true) {
+      id = 1;
+      setPwShowId(1);
+    } else if (checkPwSelected === true) {
+      id = 2;
+      setPwShowId(2);
+    } else {
+      id = 0;
+      setPwShowId(0);
+    }
+
+    let temp = [...pwShow];
+    temp[id] = !temp[id];
+    setPwShow(temp);
+  };
+  const handlePassowrd = () => {
+    if (pwSelected === true) {
+      setPwInput('');
+    } else if (checkPwSelected === true) {
+      setCheckPw('');
+    } else {
+      setBeforePasswordInput('');
+    }
+  };
   // 비밀번호 변경 api
   const handleClick = () => {
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    // const memberIdx = JSON.parse(sessionStorage.getItem('MEMBER_IDX')!);
     const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
     try {
       axios({
@@ -120,47 +140,12 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     router.push('/signin');
   };
 
-  const beforeIcon = {
+  const iconAdorment = {
     endAdornment: (
       <InputAdornment position="start">
         <CloseWrap
           onMouseDown={handleMouseDownPassword}
-          onClick={() => setBeforePasswordInput('')}
-        >
-          <CancelRoundedIcon
-            sx={{
-              color: '#E2E5ED',
-              width: '10.5pt',
-              marginRight: '9pt',
-              cursor: 'pointer',
-            }}
-          />
-        </CloseWrap>
-        <Typography
-          sx={{
-            fontSize: '14px',
-            fontWeight: '400',
-            lineHeight: '16px',
-            letterSpacing: '-0.02em',
-            textAlign: 'left',
-            color: `${colors.main}`,
-          }}
-          variant="subtitle1"
-          onClick={() => handleShowBtn(0)}
-          onMouseDown={handleMouseDownPassword}
-        >
-          {pwShow[0] ? '미표시' : '표시'}
-        </Typography>
-      </InputAdornment>
-    ),
-  };
-
-  const icon = {
-    endAdornment: (
-      <InputAdornment position="start">
-        <CloseWrap
-          onMouseDown={handleMouseDownPassword}
-          onClick={() => setPwInput('')}
+          onClick={handlePassowrd}
         >
           <CancelRoundedIcon
             sx={{
@@ -182,53 +167,17 @@ const PasswordModify = ({ setTabNumber }: Props) => {
             cursor: 'pointer',
           }}
           variant="subtitle1"
-          onClick={() => handleShowBtn(1)}
+          onClick={handleShowBtn}
           onMouseDown={handleMouseDownPassword}
         >
-          {pwShow[1] ? '미표시' : '표시'}
+          {pwShow[pwShowId] ? '미표시' : '표시'}
         </Typography>
       </InputAdornment>
     ),
   };
-
-  const secondIcon = {
-    endAdornment: (
-      <InputAdornment position="start">
-        <CloseWrap
-          onMouseDown={handleMouseDownPassword}
-          onClick={() => setCheckPw('')}
-        >
-          <CancelRoundedIcon
-            sx={{
-              color: '#E2E5ED',
-              width: '10.5pt',
-              marginRight: '9pt',
-              cursor: 'pointer',
-            }}
-          />
-        </CloseWrap>
-        <Typography
-          sx={{
-            fontSize: '14px',
-            fontWeight: '400',
-            lineHeight: '16px',
-            letterSpacing: '-0.02em',
-            textAlign: 'left',
-            color: `${colors.main}`,
-            cursor: 'pointer',
-          }}
-          variant="subtitle1"
-          onClick={() => handleShowBtn(2)}
-          onMouseDown={handleMouseDownPassword}
-        >
-          {pwShow[2] ? '미표시' : '표시'}
-        </Typography>
-      </InputAdornment>
-    ),
-  };
-  const beforeAdornment = beforePwSelected ? beforeIcon : {};
-  const iconAdornment = pwSelected ? icon : {};
-  const secondIconAdornment = checkPwSelected ? secondIcon : {};
+  const beforeAdornment = beforePwSelected ? iconAdorment : {};
+  const iconAdornment = pwSelected ? iconAdorment : {};
+  const secondIconAdornment = checkPwSelected ? iconAdorment : {};
 
   return (
     <React.Fragment>
@@ -272,7 +221,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
               <Input
                 placeholder="기존 비밀번호 입력"
                 onChange={handleIdChange}
-                type={pwShow ? 'text' : 'password'}
+                type={pwShow[0] ? 'text' : 'password'}
                 value={beforePasswordInput}
                 name="beforePw"
                 hiddenLabel
@@ -285,7 +234,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
               <Input
                 placeholder="비밀번호 입력"
                 onChange={handleIdChange}
-                type={pwShow ? 'text' : 'password'}
+                type={pwShow[1] ? 'text' : 'password'}
                 value={pwInput}
                 name="pw"
                 hiddenLabel
@@ -310,7 +259,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
               <Input
                 placeholder="비밀번호 재입력"
                 onChange={handleIdChange}
-                type={pwShow ? 'text' : 'password'}
+                type={pwShow[2] ? 'text' : 'password'}
                 value={checkPw}
                 name="checkPw"
                 InputProps={secondIconAdornment}
@@ -399,6 +348,9 @@ const WebBody = styled.div`
   @media (min-width: 900pt) {
     height: auto;
   }
+  @media (max-width: 899.25pt) {
+    width: 100vw;
+  }
 `;
 
 const Inner = styled.div`
@@ -418,6 +370,7 @@ const Inner = styled.div`
     border-radius: 0;
     margin: 0;
     padding: 0;
+    border: 1px solid tomato;
   }
 
   @media (min-width: 900pt) {
@@ -488,7 +441,6 @@ const BtnBox = styled.div`
     position: relative;
   }
 `;
-
 const CloseWrap = styled.div`
   width: 10pt;
   height: 11pt;

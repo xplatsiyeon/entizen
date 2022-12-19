@@ -9,7 +9,6 @@ import Btn from './button';
 import { BusinessRegistrationType } from '.';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { api } from 'api';
-import Loader from 'components/Loader';
 import useLogin from 'hooks/useLogin';
 
 type Props = {
@@ -19,8 +18,6 @@ type Props = {
   setPwInput: Dispatch<SetStateAction<string>>;
   checkPw: string;
   setCheckPw: Dispatch<SetStateAction<string>>;
-  pwShow: boolean;
-  setPwShow: Dispatch<SetStateAction<boolean>>;
   pwSelected: boolean;
   setPwSelected: Dispatch<SetStateAction<boolean>>;
   checkPwSelected: boolean;
@@ -56,8 +53,6 @@ const IdPwInput = ({
   setPwInput,
   checkPw,
   setCheckPw,
-  pwShow,
-  setPwShow,
   pwSelected,
   setPwSelected,
   checkPwSelected,
@@ -82,7 +77,9 @@ const IdPwInput = ({
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // 패스워드 보여주기 true false
+  const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
+
   const loginTypeEnList = ['USER', 'COMPANY'];
 
   const { loginError, loginLoading, signin } = useLogin(
@@ -225,6 +222,11 @@ const IdPwInput = ({
       });
     }
   };
+  const handleShowBtn = (id: number) => {
+    let temp = [...pwShow];
+    temp[id] = !temp[id];
+    setPwShow(temp);
+  };
   // 유효성 검사
   useEffect(() => {
     if (passwords) {
@@ -248,15 +250,6 @@ const IdPwInput = ({
       setIsChangeColor(false);
     }
   }, [initIdAlert, idInput]);
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
-  // 로딩처리
-  // if (userLoading || companyLoading) {
-  //   // console.log('로딩중...');
-  //   return <Loader />;
-  // }
 
   const iconAdorment = {
     endAdornment: (
@@ -288,12 +281,13 @@ const IdPwInput = ({
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
+            cursor: 'pointer',
           }}
           variant="subtitle1"
-          onClick={() => setPwShow(!pwShow)}
+          onClick={() => handleShowBtn(0)}
           onMouseDown={handleMouseDownPassword}
         >
-          {pwShow ? '미표시' : '표시'}
+          {pwShow[0] ? '미표시' : '표시'}
         </Typography>
       </InputAdornment>
     ),
@@ -328,12 +322,13 @@ const IdPwInput = ({
             letterSpacing: '-0.02em',
             textAlign: 'left',
             color: `${colors.main}`,
+            cursor: 'pointer',
           }}
           variant="subtitle1"
-          onClick={() => setPwShow(!pwShow)}
+          onClick={() => handleShowBtn(1)}
           onMouseDown={handleMouseDownPassword}
         >
-          {pwShow ? '미표시' : '표시'}
+          {pwShow[1] ? '미표시' : '표시'}
         </Typography>
       </InputAdornment>
     ),
@@ -395,7 +390,7 @@ const IdPwInput = ({
         <Input
           placeholder="비밀번호 입력"
           onChange={handleIdChange}
-          type={pwShow ? 'text' : 'password'}
+          type={pwShow[0] ? 'text' : 'password'}
           value={pwInput}
           name="pw"
           hiddenLabel
@@ -413,7 +408,7 @@ const IdPwInput = ({
         <Input
           placeholder="비밀번호 재입력"
           onChange={handleIdChange}
-          type={pwShow ? 'text' : 'password'}
+          type={pwShow[1] ? 'text' : 'password'}
           value={checkPw}
           name="checkPw"
           InputProps={secondIconAdornment}
