@@ -66,18 +66,18 @@ const Signin = () => {
   const [isPassword, setIsPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
+  // 기업로그인 가입 후 첫 로그인
+  const [userCompleteModal, setUserCompleteModal] = useState(true);
 
   // 로그인 mutate
   const { loginLoading, signin } = useLogin(
     userId,
     setErrorModal,
     setErrorMessage,
+    setUserCompleteModal,
     loginTypeEnList[selectedLoginType] as 'USER',
     false,
   );
-
-  // 기업로그인 가입 후 첫 로그인
-  const [userCompleteModal, SetUserCompleteModal] = useState(false);
 
   // 안내문
   const handleAlert = () => {
@@ -297,7 +297,7 @@ const Signin = () => {
         <Inner>
           <WebWrapper>
             {/* 기업로그인으로 가입 후 관리자 승인 받고 첫 로그인 하면 뜨는 모달 */}
-            {userCompleteModal && (
+            {userCompleteModal === false && (
               <CompleteModal
                 isModal={userCompleteModal}
                 setIsModal={() => router.push('/')}
