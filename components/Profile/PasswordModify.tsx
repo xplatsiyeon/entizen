@@ -29,7 +29,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const [beforePasswordInput, setBeforePasswordInput] = useState<string>('');
   const [beforePwSelected, setBeforePwSelected] = useState<boolean>(false);
   const [pwInput, setPwInput] = useState<string>('');
-  const [pwShow, setPwShow] = useState<boolean>(false);
+  const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
   const [pwSelected, setPwSelected] = useState<boolean>(false);
   const [checkPwSelected, setCheckPwSelected] = useState<boolean>(false);
   const [checkedPw, setCheckedPw] = useState<boolean>(false);
@@ -61,6 +61,12 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     }
     console.log(password, checkPassword);
   }, [password, checkPassword]);
+
+  const handleShowBtn = (id: number) => {
+    let temp = [...pwShow];
+    temp[id] = !temp[id];
+    setPwShow(temp);
+  };
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'pw') {
@@ -113,17 +119,58 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     setOpenModal(false);
     router.push('/signin');
   };
-  const iconAdorment = {
+  
+  const beforeIcon = {
     endAdornment: (
       <InputAdornment position="start">
-        <CancelRoundedIcon
+        <CloseWrap
+          onMouseDown={handleMouseDownPassword}
+          onClick={() => setBeforePasswordInput('')}
+        >
+          <CancelRoundedIcon
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
+          />
+        </CloseWrap>
+        <Typography
           sx={{
-            color: '#E2E5ED',
-            width: '10.5pt',
-            marginRight: '9pt',
-            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
           }}
-        />
+          variant="subtitle1"
+          onClick={() => handleShowBtn(0)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow[0] ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+
+  const icon = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CloseWrap
+          onMouseDown={handleMouseDownPassword}
+          onClick={() => setPwInput('')}
+        >
+          <CancelRoundedIcon
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
+          />
+        </CloseWrap>
         <Typography
           sx={{
             fontSize: '14px',
@@ -135,17 +182,53 @@ const PasswordModify = ({ setTabNumber }: Props) => {
             cursor: 'pointer',
           }}
           variant="subtitle1"
-          onClick={() => setPwShow(!pwShow)}
+          onClick={() => handleShowBtn(1)}
           onMouseDown={handleMouseDownPassword}
         >
-          {pwShow ? '미표시' : '표시'}
+          {pwShow[1] ? '미표시' : '표시'}
         </Typography>
       </InputAdornment>
     ),
   };
-  const beforeAdornment = beforePwSelected ? iconAdorment : {};
-  const iconAdornment = pwSelected ? iconAdorment : {};
-  const secondIconAdornment = checkPwSelected ? iconAdorment : {};
+
+  const secondIcon = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <CloseWrap
+          onMouseDown={handleMouseDownPassword}
+          onClick={() => setCheckPw('')}
+        >
+          <CancelRoundedIcon
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
+          />
+        </CloseWrap>
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+            cursor: 'pointer',
+          }}
+          variant="subtitle1"
+          onClick={() => handleShowBtn(2)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow[2] ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+  const beforeAdornment = beforePwSelected ? beforeIcon : {};
+  const iconAdornment = pwSelected ? icon : {};
+  const secondIconAdornment = checkPwSelected ? secondIcon : {};
 
   return (
     <React.Fragment>
@@ -404,4 +487,13 @@ const BtnBox = styled.div`
   @media (max-width: 899.25pt) {
     position: relative;
   }
+`;
+
+const CloseWrap = styled.div`
+  width: 10pt;
+  height: 11pt;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 5pt;
 `;
