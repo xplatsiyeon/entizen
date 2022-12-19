@@ -55,7 +55,7 @@ const ProfileEditing = () => {
   //   const memberType = selectedType;
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType },
   //   })
   //     .then((res) => {
@@ -91,28 +91,38 @@ const ProfileEditing = () => {
       {tabNumber === 2 && <Header back={true} title="프로필 변경" />}
       <WebBody>
         <WebHeader />
-        {/* ---------------모바일-------------- */}
+        {tabNumber < 2 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
+        <WebRapper tabNumber={tabNumber}>
+          <Inner tabNumber={tabNumber}>
+            {/* 프로필 변경 컴포넌트 */}
+            <ProfileModify setTabNumber={setTabNumber} />
+          </Inner>
+
+          {tabNumber === 2 && <ProfileModify setTabNumber={setTabNumber} />}
+          {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
+        </WebRapper>
+        {/*
         {!mobile ? (
-          <WebHide>
-            {tabNumber === 2 && <ProfileModify setTabNumber={setTabNumber} />}
-            {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
-          </WebHide>
+          <></>
+          // <WebHide>
+          //   {tabNumber === 2 && <ProfileModify setTabNumber={setTabNumber} />}
+          //   {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
+          // </WebHide>
         ) : (
-          // --------------웹-------------
           <>
             {tabNumber < 2 && (
               <ChangeProfileText>프로필 변경</ChangeProfileText>
             )}
             <WebRapper tabNumber={tabNumber}>
               <Inner tabNumber={tabNumber}>
-                {/* 프로필 변경 컴포넌트 */}
+              프로필 변경 컴포넌트 
                 <ProfileModify setTabNumber={setTabNumber} />
               </Inner>
               {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
             </WebRapper>
           </>
         )}
-
+*/}
         <WebFooter />
       </WebBody>
     </React.Fragment>
@@ -133,12 +143,6 @@ const ChangeProfileText = styled.div`
   padding-left: 40pt;
   margin-top: 66pt;
   @media (max-width: 899.25pt) {
-    display: none;
-  }
-`;
-
-const WebHide = styled.div`
-  @media (min-width: 900pt) {
     display: none;
   }
 `;
@@ -179,6 +183,7 @@ const Inner = styled.div<{ tabNumber: number }>`
     margin: 0;
     box-shadow: none;
     background: none;
+    display: none;
   }
 
   @media (min-width: 900pt) {
@@ -196,95 +201,8 @@ const WebRapper = styled.div<{ tabNumber: number }>`
   gap: 30pt;
 
   @media (max-width: 899.25pt) {
-    display: none;
+    /* display: none; */
+    border: 1px solid red;
+    width: 100%;
   }
-`;
-
-const MobileComponent = styled.div<{ tabNumber: number }>`
-  @media (max-width: 899.25pt) {
-    display: ${({ tabNumber }) => tabNumber !== 2 && 'none'};
-  }
-`;
-
-const Wrapper = styled.div`
-  position: relative;
-  margin: 0 31.875pt;
-
-  @media (max-width: 899.25pt) {
-    height: 100%;
-    margin: 0;
-  }
-`;
-const Body = styled.div`
-  padding: 27pt 15pt 96pt 15pt;
-`;
-const Avatar = styled.div`
-  display: flex;
-  justify-content: center;
-  .img-bg {
-    position: relative;
-  }
-  .avatar-bg {
-    position: relative;
-    width: 75pt;
-    height: 75pt;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-  .avatar-photo {
-    position: absolute;
-    cursor: pointer;
-    bottom: 0;
-    right: 0;
-  }
-  .file-input {
-    display: none;
-  }
-`;
-const Label = styled.h3<{ mt: number }>`
-  font-weight: 500;
-  font-size: 12pt;
-  line-height: 12pt;
-  margin-top: ${({ mt }) => mt + 'pt'};
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-`;
-const InputBox = styled.input`
-  box-sizing: border-box;
-  width: 100%;
-  padding: 13.5pt 16pt;
-  margin-top: 9pt;
-  font-weight: 500;
-  font-size: 12pt;
-  line-height: 12pt;
-  border-radius: 6pt;
-  letter-spacing: -0.02em;
-  /* color: ${colors.main2}; */
-  border: 0.75pt solid ${colors.gray};
-  ::placeholder {
-    color: ${colors.lightGray3};
-  }
-`;
-const Form = styled.div`
-  margin-top: 30pt;
-  border-bottom: 0.75pt solid ${colors.gray};
-  padding-bottom: 18pt;
-  cursor: pointer;
-`;
-const TitleSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-`;
-const Text = styled.p`
-  font-weight: 400;
-  font-size: 9pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  padding-top: 9pt;
-  color: ${colors.gray2};
-`;
-const Buttons = styled.button`
-  display: none;
 `;
