@@ -94,11 +94,11 @@ const ProfileEditing = () => {
         {tabNumber < 2 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
         <WebRapper tabNumber={tabNumber}>
           <Inner tabNumber={tabNumber}>
-            {/* 프로필 변경 컴포넌트 */}
             <ProfileModify setTabNumber={setTabNumber} />
           </Inner>
-
-          {tabNumber === 2 && <ProfileModify setTabNumber={setTabNumber} />}
+          {!mobile && tabNumber === 2 && (
+            <ProfileModify setTabNumber={setTabNumber} />
+          )}
           {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
         </WebRapper>
         {/*
@@ -181,6 +181,7 @@ const Inner = styled.div<{ tabNumber: number }>`
     position: relative;
     padding: 0;
     margin: 0;
+
     box-shadow: none;
     background: none;
     display: none;
@@ -202,7 +203,7 @@ const WebRapper = styled.div<{ tabNumber: number }>`
 
   @media (max-width: 899.25pt) {
     /* display: none; */
-    border: 1px solid red;
     width: 100%;
+    margin-top: 0;
   }
 `;

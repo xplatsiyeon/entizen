@@ -112,6 +112,7 @@ const DateModal = ({
         for (let i = 0; i < dateTotalCount; i++) {
           dayArr.push(
             <Day
+              className={`day ${i}`}
               selectedDay={selectedDay(i + 1)}
               key={i + 1}
               onClick={() => HandleSelectedDay(i + 1)}
@@ -145,8 +146,11 @@ const DateModal = ({
   };
   // 선택된 이전 날짜 차이 계산
   const beforeCalculateDifference = (day: number) => {
+    console.log('before', beforeStepDate)
     if (beforeStepDate === '') {
       return 1;
+    }else if(!beforeStepDate){
+      return 0;
     } else {
       const selectedAdd = new Date(selectedYear, selectedMonth, day);
       // const preDay = new Date(2022, 12, 16);
@@ -156,10 +160,11 @@ const DateModal = ({
       const btMs = newPreDay.getTime() - selectedAdd.getTime();
       const btDay = btMs / (1000 * 60 * 60 * 24);
       return btDay;
-    }
+    } 
   };
   // 날짜 선택하기
   const HandleSelectedDay = (day: number) => {
+    console.log(day);
     const differenceDate = calculateDifference(day);
     const differenceBeforeDate = beforeCalculateDifference(day);
     // 년,월,일 날짜

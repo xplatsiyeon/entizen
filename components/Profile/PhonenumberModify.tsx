@@ -241,10 +241,12 @@ const WebBody = styled.div`
   @media (max-height: 809pt) {
     display: block;
   }
-
   @media (min-width: 900pt) {
     width: 580.5pt;
     height: auto;
+  }
+  @media (max-width: 899.25pt) {
+    width: 100vw;
   }
 `;
 
@@ -262,6 +264,7 @@ const Inner = styled.div`
     position: relative;
     margin: 0;
     padding: 0;
+    border-radius: 0;
   }
 
   @media (min-width: 900pt) {
