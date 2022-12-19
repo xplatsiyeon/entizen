@@ -89,7 +89,7 @@ const SignUpTerms = () => {
       try {
         await axios({
           method: 'post',
-          url: 'https://test-api.entizen.kr/api/members/join/sns',
+          url: 'https://api.entizen.kr/api/members/join/sns',
           data: {
             name: a.name,
             phone: a.phone,
@@ -152,7 +152,7 @@ const SignUpTerms = () => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
+      url: 'https://api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
