@@ -80,7 +80,7 @@ const IdPwInput = ({
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
 
-  const loginTypeEnList = ['USER', 'COMPANY'];
+  const loginTypeEnList = ['COMPANY', 'USER'];
 
   const { loginError, loginLoading, signin } = useLogin(
     idInput,
@@ -112,10 +112,16 @@ const IdPwInput = ({
     isLoading: userLoading,
     error: userError,
   } = useMutation(api, {
-    onSuccess: async () => {
+    onSuccess: async (res) => {
       console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
-      signin(checkPw);
+      console.log(res);
+
+      if (res?.isSuccess === true) {
+        signin(checkPw);
+      } else {
+        console.log('에러');
+      }
       // router.push('/signUp/Complete');
     },
     onError: (error) => {
