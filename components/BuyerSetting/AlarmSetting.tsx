@@ -17,16 +17,16 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   const router = useRouter();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const [checked, setChecked] = useState({
-    appPush: false,
-    email: false,
-    kakao: false,
-    easy: false,
-    project: false,
-    as: false,
-    communicate: false,
-    charging: false,
-    DoNotDisturb: false,
-    event: false,
+    appPush: true,
+    email: true,
+    kakao: true,
+    easy: true,
+    project: true,
+    as: true,
+    communicate: true,
+    charging: true,
+    DoNotDisturb: true,
+    event: true,
   });
 
   // 유저인지 회사인지
