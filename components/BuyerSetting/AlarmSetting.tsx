@@ -25,7 +25,7 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     as: true,
     communicate: true,
     charging: true,
-    DoNotDisturb: true,
+    DoNotDisturb: false,
     event: true,
   });
 

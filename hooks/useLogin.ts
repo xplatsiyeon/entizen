@@ -49,6 +49,8 @@ function useLogin(
         await router.push('/signUp/CompleteCompany');
       } else if (res.data.isInitialLogin === false) {
         await router.push('/');
+      } else if (res.data.isInitialLogin === undefined) {
+        await router.push('/');
       }
       // else if (res.data.isInitialLogin === true) {
       //   await router.push('/signin');
