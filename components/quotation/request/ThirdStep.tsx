@@ -41,6 +41,22 @@ const ThirdStep = ({ tabNumber }: Props) => {
       dispatch(quotationAction.setTabNumber(tabNumber + 1));
     }
   };
+  const handleGuide = () => {
+    if (buttonActivate) {
+      if (isMessage) {
+        dispatch(quotationAction.setStep3(subscribeType[0]));
+      } else {
+        dispatch(quotationAction.setStep3(subscribeType[monthNumber]));
+      }
+    }
+    router.push({
+      pathname: '/guide/1-4',
+      query: {
+        id: 2,
+        tab: 2,
+      },
+    });
+  };
   // 클릭한 값 기억하기
   useEffect(() => {
     if (subscribePeriod) {
@@ -91,18 +107,7 @@ const ThirdStep = ({ tabNumber }: Props) => {
         ))}
       </TypeBox>
       <ChargeGuide>
-        <span
-          className="text"
-          onClick={() =>
-            router.push({
-              pathname: '/guide/1-4',
-              query: {
-                id: 2,
-                tab: 2,
-              },
-            })
-          }
-        >
+        <span className="text" onClick={handleGuide}>
           구독 가이드
         </span>
         <div className="arrow-icon">
