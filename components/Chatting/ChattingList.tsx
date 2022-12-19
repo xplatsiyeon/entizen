@@ -173,7 +173,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                    wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog?.wasRead!}
+                     wasRead={data?.data?.chattingRooms?.entizenChattingRoom.chattingLog?.fromMemberIdx === data?.data?.chattingRooms?.entizenChattingRoom.chattingRoomIdx && !Boolean(data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.wasRead)?true:false}
                   />
                   <Favorite>
                     {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorite? (
@@ -252,8 +252,9 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                    wasRead={chatting?.chattingLogs === null? true : chatting?.chattingLogs.wasRead}
-                  />
+                    //wasRead={chatting?.chattingLogs === null? true : chatting?.chattingLogs.wasRead}
+                    wasRead={ chatting?.chattingLogs?.fromMemberIdx !== chatting?.userMember.memberIdx&& chatting?.chattingLogs?.wasRead === false?true:false}
+                    />
                   <Favorite>
                     {chatting.chattingRoomFavorite.isFavorite ? (
                       <Image src={checked} layout="fill" />
@@ -599,7 +600,7 @@ const UnRead = styled.div<{ wasRead: boolean | null}>`
 width: 6pt;
 height: 6pt;
 border-radius: 50%;
-background: ${({ wasRead }) => (wasRead === null || wasRead === true ? `none` : `#5221CB`)};
+background: ${({ wasRead }) => (Boolean(wasRead) ?`#5221CB` : `none` )};
 `;
 
 const Favorite = styled.div`
