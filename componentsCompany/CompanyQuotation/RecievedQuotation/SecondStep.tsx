@@ -261,7 +261,9 @@ const SecondStep = ({
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setFee(inputPriceFormat(value));
+    if (e.target.value[0] !== '0') {
+      setFee(inputPriceFormat(value));
+    } else setFee(inputPriceFormat(value.substring(1)));
   };
   const handleChargeTypeNumber = (index: number) => {
     setChargeTypeNumber(index);

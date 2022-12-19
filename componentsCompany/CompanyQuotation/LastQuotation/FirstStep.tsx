@@ -315,8 +315,6 @@ const FirstStep = ({
   // }, [selectedOption]);
   // console.log(`first step입니다`, selectedOption.length);
 
-  console.log('subscribeProduct 이거 뭐나옴?', subscribeProduct);
-
   return (
     <WebRapper>
       <Wrapper>
@@ -357,16 +355,20 @@ const FirstStep = ({
               <SubTitle>고객</SubTitle>
               <SmallInputBox>
                 <Input
-                  value={profitableInterestUser}
+                  value={
+                    profitableInterestUser[0] !== '0'
+                      ? profitableInterestUser
+                      : profitableInterestUser.substring(1)
+                  }
                   className="inputTextLeft"
-                  onChange={(event) =>
+                  onChange={(event) => {
                     onChangeProfitableInterestUser(
                       event,
                       setProfitableInterestUser,
                       chargePoint,
                       setChargePoint,
-                    )
-                  }
+                    );
+                  }}
                   type="number"
                   placeholder="0"
                   name="subscribeMoney"
@@ -383,7 +385,11 @@ const FirstStep = ({
               </SubTitle>
               <SmallInputBox>
                 <Input
-                  value={chargePoint}
+                  value={
+                    chargePoint[0] !== '0'
+                      ? chargePoint
+                      : chargePoint.substring(1)
+                  }
                   className="inputTextLeft"
                   onChange={(event) => {
                     onChangeProfitableInterestUser(
@@ -408,11 +414,16 @@ const FirstStep = ({
               <div className="withAfter">충전소 설치비</div>
               <div className="monthFlex">
                 <Input
-                  onChange={(e) =>
-                    setChargingStationInstallationPrice(
-                      inputPriceFormat(e.target.value),
-                    )
-                  }
+                  onChange={(e) => {
+                    if (e.target.value[0] !== '0') {
+                      setChargingStationInstallationPrice(
+                        inputPriceFormat(e.target.value),
+                      );
+                    } else
+                      setChargingStationInstallationPrice(
+                        inputPriceFormat(e.target.value.substring(1)),
+                      );
+                  }}
                   value={chargingStationInstallationPrice}
                   name="chargeInstall"
                 />
@@ -425,9 +436,14 @@ const FirstStep = ({
           <div className="withAfter">월 구독료</div>
           <div className="monthFlex">
             <Input
-              onChange={(e) =>
-                setSubscribePricePerMonth(inputPriceFormat(e.target.value))
-              }
+              onChange={(e) => {
+                if (e.target.value[0] !== '0') {
+                  setSubscribePricePerMonth(inputPriceFormat(e.target.value));
+                } else
+                  setSubscribePricePerMonth(
+                    inputPriceFormat(e.target.value.substring(1)),
+                  );
+              }}
               value={subscribePricePerMonth}
               name="subscribeMoney"
             />
@@ -510,7 +526,11 @@ const FirstStep = ({
           <div className="withAfter">공사기간</div>
           <div className="monthFlex">
             <Input
-              onChange={(e) => setConstructionPeriod(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value[0] !== '0') {
+                  setConstructionPeriod(e.target.value);
+                } else setConstructionPeriod(e.target.value.substring(1));
+              }}
               value={constructionPeriod}
               name="subscribeMoney"
             />
