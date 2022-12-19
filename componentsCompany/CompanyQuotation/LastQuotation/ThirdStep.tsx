@@ -236,8 +236,8 @@ const ThirdStep = ({
         Number(chargingStationInstallationPrice.replaceAll(',', '')),
       ),
       subscribePeriod: subscribePeriod.slice(0, 2),
-      userInvestRate: Math.floor(Number(userInvestRate) / 100) + '',
-      chargingPointRate: Math.floor(Number(chargingPointRate) / 100) + '',
+      userInvestRate: Math.floor(Number(userInvestRate)) / 100 + '',
+      chargingPointRate: Math.floor(Number(chargingPointRate)) / 100 + '',
       subscribePricePerMonth: Math.floor(
         Number(subscribePricePerMonth.replaceAll(',', '')),
       ),
@@ -247,6 +247,10 @@ const ThirdStep = ({
       spotInspectionResult: spotInspectionResult,
       subscribeProductFeature: subscribeProductFeature,
     };
+
+    console.log(data);
+    console.log(userInvestRate);
+    console.log(chargingPointRate);
     if (canNext) {
       postMutate({
         url: '/quotations/final',
@@ -271,8 +275,8 @@ const ThirdStep = ({
             Number(chargingStationInstallationPrice.replaceAll(',', '')),
           ),
           subscribePeriod: subscribePeriod.slice(0, 2),
-          userInvestRate: Math.floor(Number(userInvestRate) / 100) + '',
-          chargingPointRate: Math.floor(Number(chargingPointRate) / 100) + '',
+          userInvestRate: Math.floor(Number(userInvestRate)) / 100 + '',
+          chargingPointRate: Math.floor(Number(chargingPointRate)) / 100 + '',
           subscribePricePerMonth: Math.floor(
             Number(subscribePricePerMonth.replaceAll(',', '')),
           ),

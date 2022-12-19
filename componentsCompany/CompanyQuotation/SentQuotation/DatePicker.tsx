@@ -114,7 +114,7 @@ const DatePicker = ({}: Props) => {
     console.log(spotError);
   }
 
-  const { spotInspectionDate } = spotData?.data?.spotInspection!;
+  const spotInspectionDate = spotData?.data?.spotInspection.spotInspectionDate!;
   const days = spotInspectionDate?.map((date) => date?.replaceAll('-', '.'));
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
   const [tabNumber, setTabNumber] = useState<number>(7);
@@ -166,7 +166,7 @@ const DatePicker = ({}: Props) => {
             <CompanyCalendar
               selectedDays={selectedDays}
               SetSelectedDays={SetSelectedDays}
-              days={days!.sort()}
+              days={days?.sort()}
               types={'customer'}
             />
             {memberType !== 'COMPANy' && (
