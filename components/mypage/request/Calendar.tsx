@@ -55,6 +55,11 @@ const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
   //알짜 반화
   const returnDay = useCallback(() => {
     let dayArr: JSX.Element[] = [];
+    const selectedDate = selected? selected[0].split('-'):['','',''];
+    const selectedY = selectedDate[0];
+    const selectedM = selectedDate[1];
+    const selectedD = selectedDate[2];
+    console.log(selectedY,selectedM, selectedD)
     for (const nowDay of week) {
       const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
       // 달력 날짜 추가
@@ -65,6 +70,10 @@ const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
               selectedDay={selectedDay(i + 1)}
               key={i + 1}
               onClick={() => HandleSelectedDay(i + 1)}
+              className={`${
+                selectedY === String(selectedYear) 
+                && selectedM ===  String(selectedMonth) 
+                && selectedD === String(i+1)? `picked`:''}`}
             >
               <div className="item">{i + 1}</div>
             </Day>,
@@ -218,6 +227,10 @@ const Day = styled.div<{ selectedDay?: boolean }>`
   font-size: 10.5pt;
   line-height: 16.5pt;
   color: ${colors.main2};
+  &.picked{
+    text-decoration: line-through;
+    color: #A6A9B0;
+  }
   .item {
     padding: 2pt;
     width: 22px;
