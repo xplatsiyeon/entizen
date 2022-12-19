@@ -25,6 +25,7 @@ function useLogin(
   } = useMutation(isTokenPostApi, {
     onSuccess: async (res) => {
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
+
       if (res.data.isInitialLogin === false && token.memberType === 'COMPANY') {
         setUserCompleteModal(true);
       }
