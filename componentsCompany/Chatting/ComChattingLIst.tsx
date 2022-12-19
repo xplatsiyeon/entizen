@@ -318,7 +318,8 @@ const ComChattingList = ({ data, refetch }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                    wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog === null ? null : true}
+                    //메세지 보낸이 === 엔티즌 && 메세지 읽음 여부 ? true : false
+                    wasRead={data?.data?.chattingRooms?.entizenChattingRoom.chattingLog?.fromMemberIdx === data?.data?.chattingRooms?.entizenChattingRoom.chattingRoomIdx && !Boolean(data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.wasRead)?true:false}
                   />
                   <Favorite>
                     {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorite? (
@@ -394,7 +395,10 @@ const ComChattingList = ({ data, refetch }: Props) => {
                 </Created>
                 <Box>
                   <UnRead  
-                  wasRead={chatting?.chattingLogs === null ? null : Boolean(chatting?.chattingLogs?.wasRead)}
+                  //wasRead={chatting?.chattingLogs === null ? null : Boolean(chatting?.chattingLogs?.wasRead)}
+
+                  //메세지 보낸 멤버와 컴퍼니 유저가 다름 && 상대방이 메세지를 읽지않음 ? true : false;
+                  wasRead={ (chatting?.chattingLogs?.fromMemberIdx !== chatting?.companyMember.memberIdx) && (chatting?.chattingLogs?.wasRead === false) ?true:false}
                   />
                   <Favorite>
                     {chatting.chattingRoomFavorite.isFavorite ? (
@@ -572,7 +576,7 @@ const UnRead = styled.div<{ wasRead: boolean | null}>`
 width: 6pt;
 height: 6pt;
 border-radius: 50%;
-background: ${({ wasRead }) => (wasRead === null || wasRead === true ? `none` : `#5221CB`)};
+background: ${({ wasRead }) => {console.log(wasRead); return(Boolean(wasRead) ?`#5221CB` : `none` )}};
 `;
 
 const Favorite = styled.div`

@@ -497,6 +497,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         webInputRef.current.focus();
       }
     }, 2000)
+
+    listRefetch();
   },[])
 
 

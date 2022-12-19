@@ -419,10 +419,14 @@ const FirstStep = ({
                       setChargingStationInstallationPrice(
                         inputPriceFormat(e.target.value),
                       );
-                    } else
+                    } else if (
+                      e.target.value.length > 1 &&
+                      e.target.value[0] === '0'
+                    ) {
                       setChargingStationInstallationPrice(
-                        inputPriceFormat(e.target.value.substring(1)),
+                        inputPriceFormat(e.target.value.replace(/(^0+)/, '')),
                       );
+                    }
                   }}
                   value={chargingStationInstallationPrice}
                   name="chargeInstall"
@@ -437,12 +441,22 @@ const FirstStep = ({
           <div className="monthFlex">
             <Input
               onChange={(e) => {
+                console.log('월구독료 길이', e.target.value.length);
                 if (e.target.value[0] !== '0') {
                   setSubscribePricePerMonth(inputPriceFormat(e.target.value));
-                } else
+                } else if (
+                  e.target.value.length > 1 &&
+                  e.target.value[0] === '0'
+                ) {
                   setSubscribePricePerMonth(
-                    inputPriceFormat(e.target.value.substring(1)),
+                    inputPriceFormat(e.target.value.replace(/(^0+)/, '')),
                   );
+                } else if (
+                  e.target.value.length === 1 &&
+                  e.target.value[0] === '0'
+                ) {
+                  setSubscribePricePerMonth(inputPriceFormat(e.target.value));
+                }
               }}
               value={subscribePricePerMonth}
               name="subscribeMoney"
@@ -529,7 +543,12 @@ const FirstStep = ({
               onChange={(e) => {
                 if (e.target.value[0] !== '0') {
                   setConstructionPeriod(e.target.value);
-                } else setConstructionPeriod(e.target.value.substring(1));
+                } else if (
+                  e.target.value.length > 1 &&
+                  e.target.value[0] === '0'
+                ) {
+                  setConstructionPeriod(e.target.value.replace(/(^0+)/, ''));
+                }
               }}
               value={constructionPeriod}
               name="subscribeMoney"

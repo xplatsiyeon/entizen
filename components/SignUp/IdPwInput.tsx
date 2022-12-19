@@ -28,7 +28,7 @@ type Props = {
   setCheckSamePw: Dispatch<SetStateAction<boolean>>;
   setModalMessage: Dispatch<SetStateAction<string>>;
   setIsModal: Dispatch<SetStateAction<boolean>>;
-  setUserCompleteModal: Dispatch<SetStateAction<boolean | string>>;
+  setUserCompleteModal: Dispatch<SetStateAction<boolean>>;
   name: string;
   phoneNumber: string;
   fullTerms: boolean;
