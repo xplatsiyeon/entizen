@@ -25,6 +25,7 @@ import { selectAction } from 'store/loginTypeSlice';
 import Loader from 'components/Loader';
 import useLogin from 'hooks/useLogin';
 import { ConstructionOutlined } from '@mui/icons-material';
+import CompleteModal from 'components/Modal/CompleteModal';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -74,6 +75,9 @@ const Signin = () => {
     loginTypeEnList[selectedLoginType] as 'USER',
     false,
   );
+
+  // 기업로그인 가입 후 첫 로그인
+  const [userCompleteModal, SetUserCompleteModal] = useState(false);
 
   // 안내문
   const handleAlert = () => {
@@ -292,6 +296,13 @@ const Signin = () => {
         <WebHeader />
         <Inner>
           <WebWrapper>
+            {/* 기업로그인으로 가입 후 관리자 승인 받고 첫 로그인 하면 뜨는 모달 */}
+            {userCompleteModal && (
+              <CompleteModal
+                isModal={userCompleteModal}
+                setIsModal={() => router.push('/')}
+              />
+            )}
             <Container
               disableGutters
               sx={{

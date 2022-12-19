@@ -25,7 +25,7 @@ export const login = (
     }, // 로그인 버튼 설정
   });
 
-  naverLogin.init();
+  naverLogin?.init();
 
   callBack(naverLogin);
 };

@@ -33,7 +33,7 @@ const Index: NextPage = () => {
         }, // 로그인 버튼 설정
       });
 
-      naverLogin.init();
+      naverLogin?.init();
     };
 
     const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
