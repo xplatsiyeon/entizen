@@ -39,7 +39,7 @@ const WebBuyerHeader = ({
   const [linklist, setLinklist] = useState<boolean>(true);
   const [isHovering, setIsHovered] = useState(false);
   const [type, setType] = useState<string>('');
-  const [tab, setTab] = useState<number>(0);
+  const [tab, setTab] = useState<number>();
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
   const router = useRouter();
@@ -363,7 +363,7 @@ const DivBox = styled.div<{ tab: number; index: number }>`
   line-height: 13.5pt;
   font-family: 'Spoqa Han Sans Neo';
   color: ${({ tab, index }) =>
-    tab === index ? colors.main : colors.lightGray};
+    tab === index ? colors.main : colors.main2};
   text-decoration: none;
   a {
     font-weight: bold;

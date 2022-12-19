@@ -14,10 +14,10 @@ import zIndex from '@mui/material/styles/zIndex';
 
 interface Props {
   tabNumber: number;
-  setTabNumber: Dispatch<SetStateAction<number>>;
+  // setTabNumber: Dispatch<SetStateAction<number>>;
 }
 
-const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
+const ThirdStep = ({ tabNumber }: Props) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { subscribeProduct, subscribePeriod, investRate, chargersKo } =
@@ -28,7 +28,8 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
   const subscribeType: string[] = ['24', '36', '48', '60'];
 
   // 이전버튼
-  const HandlePrevBtn = () => setTabNumber(tabNumber - 1);
+  const HandlePrevBtn = () =>
+    dispatch(quotationAction.setTabNumber(tabNumber - 1));
   // 다음버튼
   const HandleNextBtn = () => {
     if (buttonActivate) {
@@ -37,8 +38,24 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
       } else {
         dispatch(quotationAction.setStep3(subscribeType[monthNumber]));
       }
-      setTabNumber(tabNumber + 1);
+      dispatch(quotationAction.setTabNumber(tabNumber + 1));
     }
+  };
+  const handleGuide = () => {
+    if (buttonActivate) {
+      if (isMessage) {
+        dispatch(quotationAction.setStep3(subscribeType[0]));
+      } else {
+        dispatch(quotationAction.setStep3(subscribeType[monthNumber]));
+      }
+    }
+    router.push({
+      pathname: '/guide/1-4',
+      query: {
+        id: 2,
+        tab: 2,
+      },
+    });
   };
   // 클릭한 값 기억하기
   useEffect(() => {
@@ -90,7 +107,7 @@ const ThirdStep = ({ tabNumber, setTabNumber }: Props) => {
         ))}
       </TypeBox>
       <ChargeGuide>
-        <span className="text" onClick={() => router.push('/guide/1-4')}>
+        <span className="text" onClick={handleGuide}>
           구독 가이드
         </span>
         <div className="arrow-icon">

@@ -12,11 +12,11 @@ import { RootState } from 'store/store';
 import { useRouter } from 'next/router';
 
 interface Props {
-  setTabNumber: Dispatch<SetStateAction<number>>;
+  // setTabNumber: Dispatch<SetStateAction<number>>;
   tabNumber: number;
 }
 
-const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
+const SecondStep = ({ tabNumber }: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -34,7 +34,10 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
 
   // 이전
   const HandlePrevBtn = () => {
-    if (tabNumber > 0) setTabNumber(tabNumber - 1);
+    if (tabNumber > 0) {
+      dispatch(quotationAction.setTabNumber(tabNumber - 1));
+    }
+    // setTabNumber(tabNumber - 1);
   };
 
   // 다음버튼
@@ -57,7 +60,8 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
           }),
         );
       }
-      setTabNumber(tabNumber + 1);
+      dispatch(quotationAction.setTabNumber(tabNumber + 1));
+      // setTabNumber(tabNumber + 1);
     }
   };
   // 버튼 유효성 검사
@@ -166,7 +170,12 @@ const SecondStep = ({ tabNumber, setTabNumber }: Props) => {
         <span
           className="text"
           onClick={() => {
-            router.push('/guide/1-4');
+            router.push({
+              pathname: '/guide/1-4',
+              query: {
+                id: 1,
+              },
+            });
           }}
         >
           구독 가이드

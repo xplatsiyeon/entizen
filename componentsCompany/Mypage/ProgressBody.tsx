@@ -547,6 +547,7 @@ const ProgressBody = ({
                 firstText={'사용 전 검사 및 점검'}
                 secondText={'신고 및 사용 승인'}
                 thirdText={'완료현장 사진 기록'}
+                file={data?.project?.projectCompletionFiles}
               />
             </ToggleWrapper>
           )}
@@ -662,7 +663,7 @@ const PickedDate = styled.div`
   letter-spacing: -0.02em;
   text-align: left;
   color: ${(props) => {
-    console.log(props);
+    // console.log(props);
     return props.color;
   }};
   border: 0.75pt solid ${(props) => props.color};

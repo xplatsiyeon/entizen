@@ -160,7 +160,7 @@ const StyledLink = styled.li<{ tab: string; index: string }>`
   line-height: 13.5pt;
   letter-spacing: -0.02em;
   color: ${({ tab, index }) =>
-    tab === index ? colors.main : colors.lightGray};
+    tab === index ? colors.main : colors.main2};
   text-decoration: none;
   cursor: pointer;
   &:hover {

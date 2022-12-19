@@ -9,7 +9,6 @@ import SelectComponents from 'components/Select';
 
 interface Props {
   tabNumber: number;
-  setTabNumber: Dispatch<SetStateAction<number>>;
 }
 
 export const M11_LIST = [
@@ -31,7 +30,7 @@ export const M11_LIST_EN = [
   'GUARANTEE',
 ];
 
-const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
+const FifthStep = ({ tabNumber }: Props) => {
   const dispatch = useDispatch();
   const { installationPoints } = useSelector(
     (state: RootState) => state.quotationData,
@@ -72,13 +71,13 @@ const FifthStep = ({ tabNumber, setTabNumber }: Props) => {
 
   // 이전버튼
   const HandlePrevBtn = () => {
-    setTabNumber(tabNumber - 1);
+    dispatch(quotationAction.setTabNumber(tabNumber - 1));
   };
   // 다음버튼
   const HandleNextBtn = () => {
     if (buttonActivate) {
       dispatch(quotationAction.setStep5([fisrtDataEn, secondDataEn]));
-      setTabNumber(tabNumber + 1);
+      dispatch(quotationAction.setTabNumber(tabNumber + 1));
     }
   };
 

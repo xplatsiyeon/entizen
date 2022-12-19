@@ -24,6 +24,7 @@ interface Props {
   SetSelectedDays: Dispatch<SetStateAction<string>>;
   exit: () => void;
   stepType: string;
+  beforeStepDate: string;
   inProgressRefetch: (
     variables?: Partial<OperationVariables> | undefined,
   ) => Promise<ApolloQueryResult<InProgressProjectsDetailResponse>>;
@@ -34,6 +35,7 @@ const DateModal = ({
   SetSelectedDays,
   exit,
   stepType,
+  beforeStepDate,
   inProgressRefetch,
 }: Props) => {
   const outside = useRef(null);
@@ -106,7 +108,6 @@ const DateModal = ({
     let dayArr: JSX.Element[] = [];
     for (const nowDay of week) {
       const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
-      // 달력 날짜 추가
       if (week[day] === nowDay) {
         for (let i = 0; i < dateTotalCount; i++) {
           dayArr.push(
@@ -134,7 +135,7 @@ const DateModal = ({
     return selectedDays === date ? true : false;
   };
   // 날짜 차이 계산
-  const CalculateDifference = (day: number) => {
+  const calculateDifference = (day: number) => {
     const { year, month, date } = today;
     const todayAdd = new Date(year, month, date);
     const selectedAdd = new Date(selectedYear, selectedMonth, day);
@@ -142,13 +143,29 @@ const DateModal = ({
     const btDay = btMs / (1000 * 60 * 60 * 24);
     return btDay;
   };
+  // 선택된 이전 날짜 차이 계산
+  const beforeCalculateDifference = (day: number) => {
+    if (beforeStepDate === '') {
+      return 1;
+    } else {
+      const selectedAdd = new Date(selectedYear, selectedMonth, day);
+      // const preDay = new Date(2022, 12, 16);
+      const preDay = beforeStepDate?.split('-').map((e) => parseInt(e));
+      console.log(preDay);
+      const newPreDay = new Date(preDay[0], preDay[1], preDay[2]);
+      const btMs = newPreDay.getTime() - selectedAdd.getTime();
+      const btDay = btMs / (1000 * 60 * 60 * 24);
+      return btDay;
+    }
+  };
   // 날짜 선택하기
   const HandleSelectedDay = (day: number) => {
-    const differencerDate = CalculateDifference(day);
+    const differenceDate = calculateDifference(day);
+    const differenceBeforeDate = beforeCalculateDifference(day);
     // 년,월,일 날짜
     const selectedDate = selectedYear + '.' + selectedMonth + '.' + day;
     // 이전 날짜 클릭 금지 조건문
-    if (differencerDate > 0) return;
+    if (differenceDate > 0 || differenceBeforeDate > 0) return;
     // 클릭 취소
     if (selectedDays === selectedDate) {
       SetSelectedDays('');

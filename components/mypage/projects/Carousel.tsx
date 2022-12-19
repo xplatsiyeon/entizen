@@ -17,12 +17,17 @@ interface Props {
 }
 const Carousel = ({ file }: Props) => {
   const [swiper, setSwiper] = useState(null);
+  const [fileArr , setFileArr] = useState<ProjectCompletionFiles[]>([]);
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const navigationPrevRef = useRef(null);
   const navigationNextRef = useRef(null);
   useEffect(() => {
-    console.log('캐러쉘');
-    console.log(file);
+    console.log('캐러쉘', file);
+    if(file){
+    const copy = [...file!].reverse();
+    setFileArr(copy)
+    console.log('new', copy)
+    }
   }, []);
   SwipeCore.use([Navigation]);
   // const swiperParams = {
@@ -43,7 +48,8 @@ const Carousel = ({ file }: Props) => {
       modules={[Pagination]}
       className="mySwiper"
     >
-      {file?.map((el) => (
+      {fileArr?.map((el) => { 
+        return(
         <Slider key={el?.projectCompletionFileIdx}>
           <div className="imgBox">
             {/* <Image
@@ -56,7 +62,7 @@ const Carousel = ({ file }: Props) => {
             <SliderImg src={el?.url} alt={el?.originalName} />
           </div>
         </Slider>
-      ))}
+      )} )}
       <div className="swiper-button-prev">
         <Image src={LeftNext} alt={LeftNext} layout="fill" />
       </div>
