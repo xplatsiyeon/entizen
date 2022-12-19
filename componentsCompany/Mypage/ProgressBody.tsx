@@ -379,7 +379,7 @@ const ProgressBody = ({
                   }
                 >
                   {data?.project?.installationStepGoalDate === 'CHANGING'
-                    ? '변경 중'
+                    ? '목표일 변경 중'
                     : changeDataFn(
                         data?.project?.installationStepCompletionDate
                           ? data?.project?.installationStepCompletionDate
@@ -448,7 +448,7 @@ const ProgressBody = ({
                   }
                 >
                   {data?.project?.examStepGoalDate === 'CHANGING'
-                    ? '변경 중'
+                    ? '목표일 변경 중'
                     : changeDataFn(
                         data?.project?.examStepCompletionDate
                           ? data?.project?.examStepCompletionDate
@@ -513,7 +513,7 @@ const ProgressBody = ({
               {data?.project?.completionStepGoalDate ? (
                 <PickedDate color={colors.main}>
                   {data?.project?.completionStepGoalDate === 'CHANGING'
-                    ? '변경 중'
+                    ? '목표일 변경 중'
                     : changeDataFn(
                         data?.project?.completionStepCompletionDate
                           ? data?.project?.completionStepGoalDate

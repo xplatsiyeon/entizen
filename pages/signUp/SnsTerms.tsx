@@ -20,6 +20,9 @@ import { RootState } from 'store/store';
 import axios from 'axios';
 import { userAction } from 'store/userSlice';
 import Modal from 'components/Modal/Modal';
+import { JwtTokenType } from 'pages/signin';
+import jwt_decode from 'jwt-decode';
+import { originUserAction } from 'store/userInfoSlice';
 
 interface Terms {
   all: boolean;
@@ -89,7 +92,6 @@ const SignUpTerms = () => {
           url: 'https://test-api.entizen.kr/api/members/join/sns',
           data: {
             name: a.name,
-            // email: user.email,
             phone: a.phone,
             optionalTermsConsentStatus: [
               {
@@ -123,6 +125,79 @@ const SignUpTerms = () => {
         setErrorModal(true);
       }
     }
+  };
+  // 카카오 백엔드 API
+  const KaKaApi = async (data: any) => {
+    const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+    // try {
+    await axios({
+      method: 'post',
+      url: KAKAO_POST,
+      data: {
+        uuid: '' + data.id,
+        snsType: 'KAKAO',
+        snsResponse: JSON.stringify(data),
+        email: data.kakao_account.email,
+      },
+      headers: {
+        ContentType: 'application/json',
+      },
+      withCredentials: true,
+    })
+      .then((res) => {
+        let resData = res.data;
+        let jsonData = JSON.parse(res.config.data);
+        dispatch(
+          userAction.add({
+            ...user,
+            uuid: jsonData.uuid,
+            email: jsonData.email,
+            snsType: jsonData.snsType,
+            snsLoginIdx: resData.snsLoginIdx,
+            isMember: resData.isMember,
+          }),
+        );
+        if (resData.isMember === true) {
+          // 로그인
+          console.log('멤버 확인');
+          console.log(resData);
+          const token: JwtTokenType = jwt_decode(resData.accessToken);
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(token.isSnsMember),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(token.memberType),
+          );
+          sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(resData.accessToken),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(resData.refreshToken),
+          );
+          dispatch(originUserAction.set(jsonData.email));
+          router.push('/');
+        } else {
+          // 회원가입
+          router.push('/signUp/SnsTerms');
+        }
+      })
+      .catch((error) => {
+        const { message } = error.response.data;
+        if (message === '탈퇴된 회원입니다.') {
+          setErrorModal(true);
+          setErrorMessage(
+            '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+          );
+        } else {
+          setErrorModal(true);
+          setErrorMessage(message);
+        }
+      });
   };
   // 모달창 핸들러
   const onClickModal = () => {

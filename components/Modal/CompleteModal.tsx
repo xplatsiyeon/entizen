@@ -80,6 +80,12 @@ const ModalBox = styled(Box)`
   padding-right: 15pt;
   background-color: ${colors.lightWhite};
   box-shadow: 3pt 0 7.5pt rgba(137, 163, 201, 0.2);
+  @media (min-width: 900pt) {
+    width: 560px;
+    height: 282px;
+    border-radius: 16px;
+    top: 40%;
+  }
 `;
 const ImageBox = styled.div`
   padding-top: 21.9975pt;
@@ -135,6 +141,7 @@ const Btn = styled(Box)`
   background-color: ${colors.main};
   color: ${colors.lightWhite};
   border-radius: 6pt;
+  cursor: pointer;
 `;
 const BtnText = styled.div`
   position: relative;

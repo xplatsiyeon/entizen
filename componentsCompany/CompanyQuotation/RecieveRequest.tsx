@@ -35,7 +35,7 @@ const RecieveRequest = ({
   data,
 }: Props) => {
   const router = useRouter();
-  console.log('data 별표 처리 주소 찾아온나', data);
+
   return (
     <>
       <Sort

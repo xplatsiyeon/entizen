@@ -126,10 +126,14 @@ const FirstStep = ({
                   setChargingStationInstallationPrice(
                     inputPriceFormat(e.target.value),
                   );
-                } else
+                } else if (
+                  e.target.value.length > 1 &&
+                  e.target.value[0] === '0'
+                ) {
                   setChargingStationInstallationPrice(
-                    inputPriceFormat(e.target.value.substring(1)),
+                    inputPriceFormat(e.target.value.replace(/(^0+)/, '')),
                   );
+                }
               }}
               value={chargingStationInstallationPrice}
               name="chargeInstall"
@@ -145,10 +149,19 @@ const FirstStep = ({
             onChange={(e) => {
               if (e.target.value[0] !== '0') {
                 setMonthleSubscribePrice(inputPriceFormat(e.target.value));
-              } else
+              } else if (
+                e.target.value.length > 1 &&
+                e.target.value[0] === '0'
+              ) {
                 setMonthleSubscribePrice(
-                  inputPriceFormat(e.target.value.substring(1)),
+                  inputPriceFormat(e.target.value.replace(/(^0+)/, '')),
                 );
+              } else if (
+                e.target.value.length === 1 &&
+                e.target.value[0] === '0'
+              ) {
+                setMonthleSubscribePrice(inputPriceFormat(e.target.value));
+              }
             }}
             value={monthlySubscribePrice}
             name="subscribeMoney"
@@ -163,7 +176,12 @@ const FirstStep = ({
             onChange={(e) => {
               if (e.target.value[0] !== '0') {
                 setConstructionPeriod(e.target.value);
-              } else setConstructionPeriod(e.target.value.substring(1));
+              } else if (
+                e.target.value.length > 1 &&
+                e.target.value[0] === '0'
+              ) {
+                setConstructionPeriod(e.target.value.replace(/(^0+)/, ''));
+              }
             }}
             value={constructionPeriod}
             name="constructionPeriod"
