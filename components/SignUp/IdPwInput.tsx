@@ -116,8 +116,12 @@ const IdPwInput = ({
       console.log('회원가입 후 로그인 테스트중');
       queryClient.invalidateQueries();
       console.log(res);
-      // if(res.data.isSuccess)
-      signin(checkPw);
+
+      if (res?.isSuccess === true) {
+        signin(checkPw);
+      } else {
+        console.log('에러');
+      }
       // router.push('/signUp/Complete');
     },
     onError: (error) => {
