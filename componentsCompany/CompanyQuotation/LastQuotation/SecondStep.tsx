@@ -197,11 +197,17 @@ const SecondStep = ({
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const temp = [...selectedOptionEn];
-
-    temp[tabNumber - 1] = {
-      ...temp[tabNumber - 1],
-      chargePrice: inputPriceFormat(value),
-    };
+    if (value[0] !== '0') {
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        chargePrice: inputPriceFormat(value),
+      };
+    } else if (value.length > 1 && value[0] === '0') {
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        chargePrice: inputPriceFormat(value.replace(/(^0+)/, '')),
+      };
+    }
     setSelectedOptionEn(temp);
   };
   // 충전기 설치 위치 탭
