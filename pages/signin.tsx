@@ -79,6 +79,8 @@ const Signin = () => {
     false,
   );
 
+  console.log('userCompleteModal 여기는 signin', userCompleteModal);
+
   // 안내문
   const handleAlert = () => {
     alert('현재 개발 중 입니다.');

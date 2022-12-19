@@ -54,6 +54,9 @@ const SignUpContainer = (props: Props) => {
   const [modalMessage, setModalMessage] = useState('');
   const [isModal, setIsModal] = useState(false);
 
+  // 기업로그인 가입 후 첫 로그인
+  const [userCompleteModal, setUserCompleteModal] = useState(true);
+
   const onClickModal = () => {
     router.push('/signUp/Complete');
   };
@@ -161,6 +164,7 @@ const SignUpContainer = (props: Props) => {
               userType={userType}
               setModalMessage={setModalMessage}
               setIsModal={setIsModal}
+              setUserCompleteModal={setUserCompleteModal}
             />
           </Wrapper>
         </>
@@ -288,6 +292,7 @@ const SignUpContainer = (props: Props) => {
               businessRegistration={businessRegistration}
               setModalMessage={setModalMessage}
               setIsModal={setIsModal}
+              setUserCompleteModal={setUserCompleteModal}
             />
           </Wrapper>
         </>
