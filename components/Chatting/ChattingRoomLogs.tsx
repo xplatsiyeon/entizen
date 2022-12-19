@@ -498,7 +498,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       }
     }, 2000)
 
-    //listRefetch();
+    listRefetch();
   },[])
 
 
