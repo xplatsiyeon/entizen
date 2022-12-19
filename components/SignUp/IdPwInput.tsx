@@ -82,9 +82,6 @@ const IdPwInput = ({
 
   const loginTypeEnList = ['COMPANY', 'USER'];
 
-  console.log(userType);
-  console.log(loginTypeEnList[userType]);
-
   const { loginError, loginLoading, signin } = useLogin(
     idInput,
     setIsModal,
