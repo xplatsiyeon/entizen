@@ -145,6 +145,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     onSuccess: async () => {
       setText('');
       await queryClient.invalidateQueries('chatting-data');
+      if(mobInputRef.current)mobInputRef.current.focus();
     },
     onError: (error) => {
       console.log('🔥 채팅방 POST 에러 발생');
@@ -467,9 +468,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           if (webInputRef.current) {
             webInputRef.current.focus();
           }
-          if (mobInputRef.current) {
-            mobInputRef.current.focus();
-          }
         }, 300)  
       } else {
         console.log('chat')
@@ -479,13 +477,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           if (webInputRef.current) {
             webInputRef.current.focus();
           }
-          if (mobInputRef.current) {
-            mobInputRef.current.focus();
-          }
         }, 100)
       }
-
-      listRefetch();
     }
 
 
@@ -614,7 +607,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
               <img src="/images/loading.gif" alt="" className='loading' />
             </LoadingWrap>
           }
-          <FocusBox tabIndex={1} className='target' ref={focusRef} />
+
+        <FocusBox tabIndex={1} className='target' ref={focusRef} />
         </div>
 
       </Inner>

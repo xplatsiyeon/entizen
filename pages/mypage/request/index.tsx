@@ -163,7 +163,7 @@ const Mypage1_3 = ({}: any) => {
       console.log('refetch2');
       quotationRefetch();
     }
-  }, [data?.quotationRequest.currentInProgressPreQuotationIdx]);
+  }, [data?.quotationRequest?.currentInProgressPreQuotationIdx]);
 
   // ---------- 현장 실사 날짜 api ------------
   const {
@@ -393,6 +393,7 @@ const Mypage1_3 = ({}: any) => {
                           data?.quotationRequest
                             ?.currentInProgressPreQuotationIdx!
                         }
+                        routerId={routerId}
                       />
                     ) : hasReceivedSpotInspectionDates === true &&
                       spotInspection?.isNewPropose ? (

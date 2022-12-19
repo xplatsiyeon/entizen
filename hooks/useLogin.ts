@@ -11,7 +11,7 @@ function useLogin(
   userId: string,
   setErrorModal: Dispatch<SetStateAction<boolean>>,
   setErrorMessage: Dispatch<SetStateAction<string>>,
-
+  setUserCompleteModal: Dispatch<SetStateAction<boolean | string>>,
   memberType: 'USER' | 'COMPANY',
   signUp: boolean,
 ) {
@@ -25,6 +25,13 @@ function useLogin(
   } = useMutation(isTokenPostApi, {
     onSuccess: async (res) => {
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
+      console.log(
+        'res.data.isInitialLogin 뭐나오나욤',
+        res.data.isInitialLogin,
+      );
+      if (res.data.isInitialLogin === false) {
+        setUserCompleteModal(true);
+      }
       sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
       sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
       sessionStorage.setItem(

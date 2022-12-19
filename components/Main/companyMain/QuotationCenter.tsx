@@ -46,7 +46,6 @@ const QuotationCenter = ({}: Props) => {
     return <Loader />;
   }
 
-  console.log('받은 요청 데이터만 찾아오자', newReceived);
   return (
     <Wrapper>
       <ImgBox>

@@ -9,7 +9,7 @@ import { css } from '@emotion/react';
 interface Props {
   selectedDays: string[];
   SetSelectedDays: Dispatch<SetStateAction<string[]>>;
-  selected?: string[]; 
+  selected?: string[];
 }
 
 const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
@@ -55,11 +55,11 @@ const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
   //알짜 반화
   const returnDay = useCallback(() => {
     let dayArr: JSX.Element[] = [];
-    const selectedDate = selected? selected[0].split('-'):['','',''];
+    const selectedDate = selected ? selected[0]?.split('-') : ['', '', ''];
     const selectedY = selectedDate[0];
     const selectedM = selectedDate[1];
     const selectedD = selectedDate[2];
-    console.log(selectedY,selectedM, selectedD)
+    console.log(selectedY, selectedM, selectedD);
     for (const nowDay of week) {
       const day = new Date(selectedYear, selectedMonth - 1, 1).getDay();
       // 달력 날짜 추가
@@ -71,9 +71,12 @@ const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
               key={i + 1}
               onClick={() => HandleSelectedDay(i + 1)}
               className={`${
-                selectedY === String(selectedYear) 
-                && selectedM ===  String(selectedMonth) 
-                && selectedD === String(i+1)? `picked`:''}`}
+                selectedY === String(selectedYear) &&
+                selectedM === String(selectedMonth) &&
+                selectedD === String(i + 1)
+                  ? `picked`
+                  : ''
+              }`}
             >
               <div className="item">{i + 1}</div>
             </Day>,
@@ -110,9 +113,9 @@ const Calendar = ({ selectedDays, SetSelectedDays, selected }: Props) => {
     // 이전 날짜 클릭 금지 조건문
     if (differencerDate > 0) return;
     // 현장 실사 날짜 수정용 조건문. 전에 선택했던 날짜 클릭 금지(전에 선택한 날짜가 1개인 전제로)
-    if(selected && ( selected.length > 0 )){
+    if (selected && selected.length > 0) {
       const newDate = selectedYear + '-' + selectedMonth + '-' + day;
-      if(newDate === selected[0]){
+      if (newDate === selected[0]) {
         return;
       }
     }
@@ -227,9 +230,9 @@ const Day = styled.div<{ selectedDay?: boolean }>`
   font-size: 10.5pt;
   line-height: 16.5pt;
   color: ${colors.main2};
-  &.picked{
+  &.picked {
     text-decoration: line-through;
-    color: #A6A9B0;
+    color: #a6a9b0;
   }
   .item {
     padding: 2pt;

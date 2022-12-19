@@ -72,7 +72,12 @@ const ModalWrapper = styled(Box)`
   justify-content: center;
   align-items: center;
   z-index: 100;
+  @media (min-width: 900pt) {
+    top: 0;
+    left: 0;
+  }
 `;
+
 const ModalBox = styled(Box)`
   padding: 21pt 15pt;
   border-radius: 6pt;
@@ -81,6 +86,9 @@ const ModalBox = styled(Box)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media (min-width: 900pt) {
+    margin-top: 10%;
+  }
 `;
 
 const ContentText = styled(Typography)`

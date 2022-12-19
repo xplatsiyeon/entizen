@@ -82,7 +82,6 @@ const LeftProjectBox = ({
   // 왼쪽 열리고 닫히고
   const [progress, setProgress] = useState<boolean>(true);
   const [success, setSuccess] = useState<boolean>(false);
-  console.log('뭐나오길래 그럼 ㅠㅜ', progress);
 
   useEffect(() => {
     if (
