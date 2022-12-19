@@ -639,9 +639,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
               </ProgressName>
               {data?.project?.completionStepGoalDate ? (
                 <PickedDate
-                  color={
-                    data?.project?.isCompletedExamStep ? colors.main : '#e2e5ed'
-                  }
+                  color={ colors.main }
                   onClick={() => {
                     if (data?.project?.completionStepGoalDate === 'CHANGING') {
                       setIsModal(true);
@@ -685,8 +683,8 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         </FlexBox>
         <Line
           lineHeight={toggleOpen[4]}
-          height={badge === '완료 대기' ? 330 : 130.5}
-          webHeight={badge === '완료 대기' && nowWidth > 1200 ? 385 : 130.5}
+          height={badge === '완료 대기' ? 220 : 130.5}
+          webHeight={badge === '완료 대기' && nowWidth > 1200 ? 385 : 167}
         ></Line>
       </Wrapper>
       {data?.project?.isCompletedCompletionStep ? (
