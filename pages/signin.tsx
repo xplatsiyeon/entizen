@@ -67,9 +67,7 @@ const Signin = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [errorModal, setErrorModal] = useState(false);
   // 기업로그인 가입 후 첫 로그인
-  const [userCompleteModal, setUserCompleteModal] = useState<string | boolean>(
-    '',
-  );
+  const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
   // 로그인 mutate
   const { loginLoading, signin } = useLogin(
@@ -81,7 +79,10 @@ const Signin = () => {
     false,
   );
 
-  console.log('userCompleteModal 여기는 signin', userCompleteModal);
+  console.log(
+    'userCompleteModal 여기는 signin 초기값 뭐나옴?',
+    userCompleteModal,
+  );
 
   // 안내문
   const handleAlert = () => {

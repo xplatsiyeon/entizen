@@ -46,6 +46,8 @@ const TopBox = ({ data, spotData, open, setOpen, handleClick }: Props) => {
     data?.sendQuotationRequest?.quotationRequest?.member?.phone,
   );
 
+  console.log('수익지분 찾아아오셈', data?.sendQuotationRequest);
+
   return (
     <Wrapper>
       <ItemButton onClick={handleClick}>

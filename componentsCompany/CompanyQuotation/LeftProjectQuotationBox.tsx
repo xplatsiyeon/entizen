@@ -10,7 +10,7 @@ import {
   filterTypeEn,
   ReceivedRequest,
 } from 'pages/company/quotation';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi } from 'api';
 import SendRequestUnder from './SendRequestUnder';
 import { SentrequestResponse } from './SentRequest';
@@ -56,6 +56,7 @@ const LeftProjectQuotationBox = ({
   const { profile, isLoading, invalidate } = useProfile(accessToken);
   const [tab, setTab] = useState<string>('');
 
+  const clinetQuery = useQueryClient();
   // 실시간으로 width 받아오는 함수
   // const handleResize = () => {
   //   setNowWidth(window.innerWidth);
