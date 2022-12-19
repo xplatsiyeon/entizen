@@ -92,7 +92,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   const handleClick = () => {
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     // const memberIdx = JSON.parse(sessionStorage.getItem('MEMBER_IDX')!);
-    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members/password/${key.memberIdx}`;
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
     try {
       axios({
         method: 'patch',
@@ -119,7 +119,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
     setOpenModal(false);
     router.push('/signin');
   };
-  
+
   const beforeIcon = {
     endAdornment: (
       <InputAdornment position="start">
