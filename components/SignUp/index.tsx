@@ -129,6 +129,7 @@ const SignUpContainer = (props: Props) => {
               nextBtn={nextBtn}
               setNextBtn={setNextBtn}
               userType={userType}
+              setUserType={setUserType}
             />
           </Wrapper>
         </>

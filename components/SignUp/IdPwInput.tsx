@@ -78,6 +78,8 @@ const IdPwInput = ({
   const router = useRouter();
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
+  const [idLength, setIdLength] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
@@ -157,6 +159,8 @@ const IdPwInput = ({
   const checkPassword = useDebounce(checkPw, 500);
   // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInitIdAlert(false);
+    setIsChecked(false);
     const { value } = e.target;
     const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
     if (e.target.name === 'id') {
@@ -173,10 +177,13 @@ const IdPwInput = ({
   };
 
   const overlabCheck = () => {
-    if (isChangeColor) {
       setInitIdAlert(true);
       refetch();
-    }
+      if(data?.isMember){
+        setIsChecked(true)
+      }else{
+        setIsChecked(false)
+      }
   };
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -254,9 +261,12 @@ const IdPwInput = ({
   }, [passwords, checkPassword]);
   // 중복확인 버튼 비활성화
   useEffect(() => {
-    if (idInput.length < 4) {
-      setInitIdAlert(false);
+    if (idInput.length <= 4) {
       setIsChangeColor(false);
+      setIdLength(true) 
+    }else{
+      setIdLength(false) 
+      setIsChangeColor(true);
     }
   }, [initIdAlert, idInput]);
 
@@ -380,11 +390,14 @@ const IdPwInput = ({
           }}
         />
         <Box>
-          {data?.isMember === false && initIdAlert && (
+          {data?.isMember === false && initIdAlert && !idLength && (
             <MessageId>사용가능한 아이디입니다.</MessageId>
           )}
-          {data?.isMember === true && initIdAlert && (
+          {data?.isMember === true && initIdAlert && !idLength && (
             <MessageErrId>이미 사용중인 아이디입니다.</MessageErrId>
+          )} 
+          {data?.isMember === false && initIdAlert&& idLength && (
+            <MessageErrId>5글자 이상 입력해주세요</MessageErrId>
           )}
           {/* {data?.isMember === true &&
               initIdAlert &&
@@ -433,7 +446,7 @@ const IdPwInput = ({
         )}
       </BoxPW>
       <Btn
-        isClick={checkedPw && checkSamePw && idInput.length > 4 ? true : false}
+        isClick={isChecked &&checkedPw && checkSamePw && idInput.length > 4 ? true : false}
         text={'가입 완료'}
         marginTop={77.25}
         handleClick={userType === 0 ? handleCompanyClick : handleClick}

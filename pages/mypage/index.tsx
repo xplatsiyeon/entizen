@@ -71,7 +71,7 @@ const Request = () => {
           2: <AsIndex />,
           }; num, page는 이 부분의 인덱스 넘버.ß
         */}
-      <WebHeader num={tabNumber} now={'mypage'} sub={true}/>
+      <WebHeader num={tabNumber} now={'mypage'} sub={'mypage'}/>
       <UserRightMenu />
       <Wrapper>
         <FlexBox>

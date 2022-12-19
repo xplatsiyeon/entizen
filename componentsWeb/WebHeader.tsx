@@ -17,7 +17,7 @@ import { handleLogoutOnClickModalClick } from 'api/logout';
 type Props = {
   num?: number;
   now?: string;
-  sub?: boolean;
+  sub?: string;
 };
 
 const WebHeader = ({ num, now, sub }: Props) => {
@@ -66,7 +66,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
               </DivBox>
               <DivBox
                 onClick={() => {
-                  setLinklist(true);
+                  setLinklist(true) 
                   setType('guide');
                 }}
               >
@@ -166,7 +166,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
           </Inner>
         </MainLink>
         {linklist ? (
-          <GuideLink type={sub ? 'mypage' : type} num={num} now={now} />
+          <GuideLink type={ type ? type : String(sub)} num={num} now={now} />
         ) : null}
       </Wrapper>
     </>
