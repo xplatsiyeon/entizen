@@ -89,7 +89,7 @@ const SignUpTerms = () => {
       try {
         await axios({
           method: 'post',
-          url: 'https://api.entizen.kr/api/members/join/sns',
+          url: 'https://test-api.entizen.kr/api/members/join/sns',
           data: {
             name: a.name,
             phone: a.phone,
@@ -128,7 +128,7 @@ const SignUpTerms = () => {
   };
   // 카카오 백엔드 API
   const KaKaApi = async (data: any) => {
-    const KAKAO_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     // try {
     await axios({
       method: 'post',
@@ -229,7 +229,7 @@ const SignUpTerms = () => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
