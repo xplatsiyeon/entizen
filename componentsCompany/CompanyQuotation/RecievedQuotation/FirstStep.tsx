@@ -46,6 +46,10 @@ const FirstStep = ({
 
   const dispatch = useDispatch();
   const router = useRouter();
+  console.log(
+    'chargingStationInstallationPrice 뭐나옴?',
+    chargingStationInstallationPrice,
+  );
 
   useEffect(() => {
     if (monthlySubscribePrice !== '' && constructionPeriod !== '') {
@@ -83,6 +87,7 @@ const FirstStep = ({
       const { preQuotation } = editData?.sendQuotationRequest;
       console.log(`👀 수정하기 가견적 데이터 확인 ~81 ->> `);
       console.log(preQuotation);
+
       setChargingStationInstallationPrice(
         preQuotation?.chargingStationInstallationPrice?.toString(),
       );
@@ -91,6 +96,10 @@ const FirstStep = ({
       );
       setConstructionPeriod(preQuotation?.constructionPeriod?.toString());
       setFirstPageTextArea(preQuotation?.subscribeProductFeature!);
+    }
+
+    if (chargingStationInstallationPrice[0] === '0' || 0) {
+      chargingStationInstallationPrice.substring(1);
     }
   }, [editData]);
 
@@ -112,11 +121,16 @@ const FirstStep = ({
           <div className="withAfter">충전소 설치비</div>
           <div>
             <Input
-              onChange={(e) =>
-                setChargingStationInstallationPrice(
-                  inputPriceFormat(e.target.value),
-                )
-              }
+              onChange={(e) => {
+                if (e.target.value[0] !== '0') {
+                  setChargingStationInstallationPrice(
+                    inputPriceFormat(e.target.value),
+                  );
+                } else
+                  setChargingStationInstallationPrice(
+                    inputPriceFormat(e.target.value.substring(1)),
+                  );
+              }}
               value={chargingStationInstallationPrice}
               name="chargeInstall"
             />
@@ -128,9 +142,14 @@ const FirstStep = ({
         <div className="withAfter">월 구독료</div>
         <div>
           <Input
-            onChange={(e) =>
-              setMonthleSubscribePrice(inputPriceFormat(e.target.value))
-            }
+            onChange={(e) => {
+              if (e.target.value[0] !== '0') {
+                setMonthleSubscribePrice(inputPriceFormat(e.target.value));
+              } else
+                setMonthleSubscribePrice(
+                  inputPriceFormat(e.target.value.substring(1)),
+                );
+            }}
             value={monthlySubscribePrice}
             name="subscribeMoney"
           />
@@ -141,7 +160,11 @@ const FirstStep = ({
         <div className="withAfter">공사기간</div>
         <div>
           <Input
-            onChange={(e) => setConstructionPeriod(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value[0] !== '0') {
+                setConstructionPeriod(e.target.value);
+              } else setConstructionPeriod(e.target.value.substring(1));
+            }}
             value={constructionPeriod}
             name="constructionPeriod"
           />
