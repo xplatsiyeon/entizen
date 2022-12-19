@@ -29,9 +29,7 @@ function useLogin(
         'res.data.isInitialLogin 뭐나오나욤',
         res.data.isInitialLogin,
       );
-      if (res.data.isInitialLogin === false) {
-        setUserCompleteModal(true);
-      }
+      setUserCompleteModal(res.data.isInitialLogin);
       sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
       sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
       sessionStorage.setItem(

@@ -405,8 +405,8 @@ const LastWrite = (props: Props) => {
     }
   }, [profitableInterestUser, chargePoint]);
 
-  console.log(data);
-  console.log(`⭐️ 보낸 견적 데이터 확인 ~263 -> ${TAG}`);
+  // console.log(data);
+  // console.log(`⭐️ 보낸 견적 데이터 확인 ~263 -> ${TAG}`);
 
   const components: Components = {
     // 기본

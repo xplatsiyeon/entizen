@@ -301,7 +301,7 @@ const Signin = () => {
         <Inner>
           <WebWrapper>
             {/* 기업로그인으로 가입 후 관리자 승인 받고 첫 로그인 하면 뜨는 모달 */}
-            {userCompleteModal === false && (
+            {userCompleteModal === true && (
               <CompleteModal
                 isModal={userCompleteModal}
                 setIsModal={() => router.push('/')}
