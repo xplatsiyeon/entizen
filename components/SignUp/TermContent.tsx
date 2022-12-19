@@ -26,6 +26,7 @@ type Props = {
   nextBtn: boolean;
   setNextBtn: Dispatch<SetStateAction<boolean>>;
   userType?: number;
+  setUserType?: React.Dispatch<React.SetStateAction<number>>
 };
 
 const TermContent = ({
@@ -41,7 +42,7 @@ const TermContent = ({
   setSelectTerms,
   nextBtn,
   setNextBtn,
-  userType,
+  userType, setUserType
 }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const router = useRouter();
@@ -246,9 +247,12 @@ const TermContent = ({
             <Btn
               text="본인인증하기"
               name={'form_chk'}
-              handleClick={fnPopup}
+              //handleClick={fnPopup}
               marginTop={42.5}
               isClick={nextBtn}
+              handleClick={()=>{
+              setLevel(2)  
+              if(setUserType)setUserType(1)}}
             />
           </form>
           <Buttons className="firstNextPage" onClick={handleForceClick}>

@@ -24,7 +24,7 @@ const Guide1_3 = () => {
 
   return (
     <Body>
-      <WebHeader num={4} now={'guide'} />
+      <WebHeader num={4} now={'guide'} sub={'guide'}/>
       <UserRightMenu />
       <Inner>
         <GuideHeader

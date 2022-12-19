@@ -318,6 +318,13 @@ const FirstStep = ({
   // }, [selectedOption]);
   // console.log(`first step입니다`, selectedOption.length);
 
+  console.log(
+    'profitableInterestUser 수정하기 왜 안나옴?',
+    profitableInterestUser,
+  );
+
+  console.log('chargePoint 어케나옴?', chargePoint);
+
   return (
     <WebRapper>
       <Wrapper>
@@ -361,8 +368,9 @@ const FirstStep = ({
                   value={
                     profitableInterestUser[0] !== '0'
                       ? profitableInterestUser
-                      : profitableInterestUser.substring(1)
+                      : profitableInterestUser.replace(/(^0+)/, '')
                   }
+                  // value={profitableInterestUser}
                   className="inputTextLeft"
                   onChange={(event) => {
                     onChangeProfitableInterestUser(
@@ -391,8 +399,9 @@ const FirstStep = ({
                   value={
                     chargePoint[0] !== '0'
                       ? chargePoint
-                      : chargePoint.substring(1)
+                      : chargePoint.replace(/(^0+)/, '')
                   }
+                  // value={chargePoint}
                   className="inputTextLeft"
                   onChange={(event) => {
                     onChangeProfitableInterestUser(

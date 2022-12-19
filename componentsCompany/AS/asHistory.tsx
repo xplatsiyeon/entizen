@@ -84,6 +84,11 @@ const AsHistory = () => {
     console.log(error);
   }
 
+  console.log(
+    '길이 가져왕...',
+    data?.data?.afterSalesServiceHistories[0].afterSalesServices,
+  );
+
   return (
     <Body>
       {modal && (
@@ -140,6 +145,10 @@ const AsHistory = () => {
                               el?.afterSalesServices[afterSalesServiceIdx]
                                 ?.afterSalesServiceIdx,
                             )
+                          }
+                          afterSalesService={
+                            data?.data?.afterSalesServiceHistories[idx]
+                              ?.afterSalesServices.length
                           }
                         >
                           <Text>{afterSalesService.requestTitle}</Text>
@@ -233,7 +242,8 @@ const StoreName = styled.p`
   font-size: 12pt;
   line-height: 15pt;
   color: #222222;
-  margin-bottom: 6pt;
+  /* margin-bottom: 6pt; */
+  margin-bottom: 14pt;
 `;
 const Text = styled.p`
   font-style: normal;
@@ -253,13 +263,24 @@ const Score = styled.p`
   width: 50pt;
 `;
 
-const FlexWrap = styled.div`
+const FlexWrap = styled.div<{ afterSalesService: number }>`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   cursor: pointer;
   :hover {
     box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
+  }
+
+  &:not(:first-of-type) {
+    border-top: ${({ afterSalesService }) =>
+      afterSalesService === 1 ? '' : '0.75pt dashed #CACCD1'};
+    padding-top: ${({ afterSalesService }) =>
+      afterSalesService === 1 ? '' : '9.75pt '};
+  }
+  &:not(:last-of-type) {
+    padding-bottom: ${({ afterSalesService }) =>
+      afterSalesService === 1 ? '' : '9.75pt '};
   }
 `;
 

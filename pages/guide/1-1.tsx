@@ -34,7 +34,7 @@ const Guide1_1 = () => {
 
   return (
     <>
-      <WebHeader num={0} now={'guide'} />
+      <WebHeader num={0} now={'guide'} sub={'guide'}/>
       <Wrapper>
         {/* 링크 리스트 */}
         <UserRightMenu />
