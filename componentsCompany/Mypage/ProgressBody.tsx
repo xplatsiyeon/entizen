@@ -547,6 +547,7 @@ const ProgressBody = ({
                 firstText={'사용 전 검사 및 점검'}
                 secondText={'신고 및 사용 승인'}
                 thirdText={'완료현장 사진 기록'}
+                file={data?.project?.projectCompletionFiles}
               />
             </ToggleWrapper>
           )}

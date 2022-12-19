@@ -45,15 +45,16 @@ const BottomNavigation = ({}: Props) => {
   }
 
   useEffect(() => {
+    console.log(router.pathname)
     if (memberType === 'COMPANY') {
       switch (pathname) {
         case '/':
           return setTabNumber(0);
         case '/company/quotation':
           return setTabNumber(1);
-        case '/chatting':
+        case '/company/chatting':
           return setTabNumber(2);
-        case '/as':
+        case '/company/as':
           return setTabNumber(3);
         case '/company/mypage':
           return setTabNumber(4);
@@ -147,7 +148,11 @@ const BottomNavigation = ({}: Props) => {
                 router.push('/company/chatting');
               }}
             >
-              <Image src={estimate} alt="estimate" width={32} height={32} />
+              <Image  src={
+                      tabNumber === 2
+                        ? chattingOn
+                        : chatting
+                    }alt="chatting" width={32} height={32} />
               <H3 clicked={false}>소통하기</H3>
             </div>
             {/* AS */}

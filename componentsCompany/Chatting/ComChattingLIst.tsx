@@ -488,7 +488,7 @@ const Chatting = styled.div`
 `;
 
 const ChattingRoom = styled.div`
-  display: flex;
+  display: flex!important;
   cursor: pointer;
   padding: 13.5pt 1pt 13.5pt 0;
   border-bottom: 1px solid #e2e5ed;
@@ -507,7 +507,6 @@ const ChattingRoomImage = styled.div`
 const ChattingRoomPreview = styled.div`
   flex: auto;
   margin: 0 12pt;
-
   position: relative;
 `;
 const ChattingRoomInfo = styled.div`
@@ -584,7 +583,7 @@ const Favorite = styled.div`
 `;
 
 const HiddenBox1 = styled.div`
-  display: flex;
+display: flex!important;
   width: 25%;
   position: relative;
 
@@ -601,7 +600,7 @@ const HiddenBox1 = styled.div`
 `;
 
 const HiddenBox2 = styled.div`
-  display: flex;
+display: flex!important;
   width: 12.5%;
   position: relative;
 

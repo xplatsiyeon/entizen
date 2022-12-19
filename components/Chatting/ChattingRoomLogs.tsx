@@ -22,7 +22,7 @@ import stopAlarm from 'public/images/stopAlarm.png';
 import alarmBtn from 'public/images/alarm.png';
 import moreBtn from 'public/images/moreBtn.png';
 import { QueryObserverResult, useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi, isTokenPostApi, multerApi } from 'api';
+import { isTokenGetApi, isTokenPatchApi, isTokenPostApi, multerApi } from 'api';
 import WebMoreModal from './WebMoreModal';
 import WebFileModal from './WebFileModal';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
@@ -171,6 +171,27 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     });
   };
 
+  // 알람 설정
+  const {
+    mutate: patchMutate,
+  } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('chatting-data');
+      setMoreModal(false);
+    },
+    onError: (error) => {
+      console.log('채팅 알림 기능 에러');
+      console.log(error);
+      setMoreModal(false);
+    },
+  });
+
+  const onClickAlarm = () => {
+    patchMutate({
+      url: `/chatting/${routerId}/notification`,
+    });
+  };
+
   /* 웹에서 글자 입력될때 마다 send 버튼 색상 변경*/
   const webBox = useRef<HTMLDivElement>(null);
   const imgChange = (n: boolean) => {
@@ -257,7 +278,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       return `오전 ${am}`;
     }
   };
-
 
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -442,7 +462,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         setLoading(false);
         console.log('img')
         setTimeout(() => {
-          focusRef.current?.focus();
+          focusRef.current?.scrollIntoView()
 
           if (webInputRef.current) {
             webInputRef.current.focus();
@@ -454,7 +474,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       } else {
         console.log('chat')
         setTimeout(() => {
-          focusRef.current?.focus();
+          focusRef.current?.scrollIntoView()
 
           if (webInputRef.current) {
             webInputRef.current.focus();
@@ -474,16 +494,14 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   useEffect(()=>{
     setTimeout(() => {
       console.log('처음에만');
-      focusRef.current?.focus();
+      //focusRef.current?.focus();
+      focusRef.current?.scrollIntoView()
     }, 1000)
 
     setTimeout(() => {
       console.log('처음에만');
       if (webInputRef.current) {
         webInputRef.current.focus();
-      }
-      if (mobInputRef.current) {
-        mobInputRef.current.focus();
       }
     }, 2000)
   },[])
@@ -500,7 +518,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           handleOnClick={handleRoute}
         />
         <IconBox>
-          <IconWrap className="alarm">
+          <IconWrap className="alarm" onClick={onClickAlarm}>
             {chattingData?.data?.chattingRoomNotification?.isSetNotification ? (
               <Image src={alarmBtn} layout="fill" />
             ) : (
@@ -517,10 +535,11 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           <WebMoreModal
             setMoreModal={setMoreModal}
             setQuitModal={setQuitModal}
+            alarm={chattingData?.data?.chattingRoomNotification.isSetNotification} 
           />
         )}
       </TopBox>
-      <Inner>
+      <Inner >
         <div className='wrap'>
           {data.map((d, idx) => {
             return (
@@ -595,7 +614,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
               <img src="/images/loading.gif" alt="" className='loading' />
             </LoadingWrap>
           }
-          <FocusBox tabIndex={1} ref={focusRef} className='target' />
+          <FocusBox tabIndex={1} className='target' ref={focusRef} />
         </div>
 
       </Inner>
@@ -665,7 +684,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       {fileModal && <WebFileModal setFileModal={setFileModal} imgClick={imgHandler} fileClick={fileHandler} />}
       {/* 더보기 모달 제어 */}
       {moreModal && (
-        <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} />
+        <MoreModal setMoreModal={setMoreModal} setQuitModal={setQuitModal} alarm={chattingData?.data.chattingRoomNotification.isSetNotification} />
       )}
       {/* 나가기 모달 제어 */}
       {quitModal && <QuitModal setModal={setQuitModal} deleteId={Number(routerId)} />}
@@ -813,15 +832,12 @@ const IconBox = styled.div`
 `;
 const IconWrap = styled.div`
   position: relative;
-  width: 12pt;
-  height: 13.5pt;
+  width: 18pt;
+  height: 18pt;
   cursor: pointer;
-  &.alarm {
-    cursor: auto;
-  }
   @media (min-width: 900pt) {
-    width: 20.5pt;
-    height: 20.5pt;
+    width: 21pt;
+    height: 21pt;
   }
 `;
 const Inner = styled.div`
