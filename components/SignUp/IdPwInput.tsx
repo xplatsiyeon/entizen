@@ -80,7 +80,7 @@ const IdPwInput = ({
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
 
-  const loginTypeEnList = ['USER', 'COMPANY'];
+  const loginTypeEnList = ['COMPANY', 'USER'];
 
   const { loginError, loginLoading, signin } = useLogin(
     idInput,
