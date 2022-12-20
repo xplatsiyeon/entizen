@@ -51,17 +51,7 @@ const UserTable = (props: Props) => {
 
     setDataArr(temp);
     // 의존성 배열에 api.get()dml data넣기.
-  }, [page])
-
-  useEffect(() => {
-    const temp: any = [];
-    data?.data?.members.forEach((ele, idx) => {
-      const arrEle = [`${page-1}${idx + 1}`, ele.id, ele.name, ele.phone, ele.createdAt,''];
-      temp.push(arrEle);
-    });
-    setDataArr(temp);
-    // 의존성 배열에 api.get()dml data넣기.
-  }, [])
+  }, [page, data])
 
   return (
     <StyledBody className="user-table">
