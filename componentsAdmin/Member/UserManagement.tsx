@@ -7,6 +7,7 @@ import AdminHeader from 'componentsAdmin/Header';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import colors from 'styles/colors';
 import UserDetail from './UserDetail';
+import UserTable from 'componentsAdmin/userTable';
 
 type Props = {};
 
@@ -44,6 +45,7 @@ const UserManagement = (props: Props) => {
             <Btn>조회</Btn>
           </li>
         </Manager>
+        <UserTable/>
       </Wrapper>
     </>
   );
