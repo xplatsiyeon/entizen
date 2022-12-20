@@ -2,8 +2,8 @@ import React from 'react';
 
 type Props = {};
 
-const table = (props: Props) => {
+const Table = (props: Props) => {
   return <div>table</div>;
 };
 
-export default table;
+export default Table;
