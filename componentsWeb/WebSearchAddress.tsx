@@ -72,8 +72,9 @@ const WebSearchAddress = ({
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
+
   const keyWord = useDebounce(searchWord, 300);
-  const { searchKeyword } = useSelector(
+  const { searchKeyword, locationList } = useSelector(
     (state: RootState) => state.locationList,
   );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,6 +108,7 @@ const WebSearchAddress = ({
         siNm: results[0]?.siNm,
       }),
     );
+    setFakeWord(locationList.jibunAddr);
   }, [results]);
 
   useEffect(() => {
