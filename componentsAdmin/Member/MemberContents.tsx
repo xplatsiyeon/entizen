@@ -2,12 +2,15 @@ import styled from '@emotion/styled';
 import React from 'react';
 import FileImg from 'public/adminImages/File.png';
 import Image from 'next/image';
+import { CompanyResposne, UserRespnse } from './CommonDetail';
 
 type Props = {
   type: 'USER' | 'COMPANY';
+  data: UserRespnse | CompanyResposne;
 };
 
-const MemberContents = ({ type }: Props) => {
+const MemberContents = ({ type, data }: Props) => {
+  console.log(data);
   return (
     <Contents>
       {type === 'USER' ? (

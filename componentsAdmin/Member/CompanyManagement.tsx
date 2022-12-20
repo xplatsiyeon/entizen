@@ -2,28 +2,35 @@ import styled from '@emotion/styled';
 import ComTable from 'componentsAdmin/comTable';
 import CalendarsDateRangePicker from 'componentsAdmin/DatePicker';
 import AdminHeader from 'componentsAdmin/Header';
-import React from 'react';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
+import CommonDetail from './CommonDetail';
 
 type Props = {};
 
 const CompanyManagement = (props: Props) => {
+  const [isDetail, setIsDetail] = useState(false);
   return (
-    <Wrapper>
-      <AdminHeader title="역경매 관리" type="main" />
+    <>
+      {isDetail ? (
+        <CommonDetail setIsDetail={setIsDetail} type={'COMPANY'} />
+      ) : (
+        <Wrapper>
+          <AdminHeader title="역경매 관리" type="main" />
 
-      <Manager>
-        <li>
-          <label>기간검색</label>
-          <CalendarsDateRangePicker />
-        </li>
-        <Btn>조회</Btn>
-      </Manager>
-
-      <ComTable/>
-
-    </Wrapper>
-
+          <Manager>
+            <li>
+              <label>기간검색</label>
+              {/* 달력 컴포넌트 */}
+              <CalendarsDateRangePicker />
+            </li>
+            <Btn>조회</Btn>
+          </Manager>
+          {/* 테이블 컴포넌트 */}
+          <ComTable setIsDetail={setIsDetail} />
+        </Wrapper>
+      )}
+    </>
   );
 };
 

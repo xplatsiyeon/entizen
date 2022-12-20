@@ -5,17 +5,93 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import colors from 'styles/colors';
 import MemberContents from './MemberContents';
 import ExitBtn from 'public/adminImages/Group.png';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import Loader from 'components/Loader';
 
 type Props = {
-  setIsDeatil: Dispatch<SetStateAction<boolean>>;
+  setIsDetail: Dispatch<SetStateAction<boolean>>;
+  type: 'USER' | 'COMPANY';
+  memberIdx: number | string;
 };
 
-const UserDetail = ({ setIsDeatil }: Props) => {
-  const [type, setType] = useState<'USER' | 'COMPANY'>('COMPANY');
+export interface UserRespnse {
+  isSuccess: boolean;
+  data: {
+    member: {
+      memberIdx: number;
+      profileImageUrl: string;
+      id: string;
+      name: string;
+      phone: string;
+      etc: string;
+      createdAt: string;
+      deletedAt: string;
+    };
+  };
+}
+export interface CompanyResposne {
+  isSuccess: boolean;
+  data: {
+    member: {
+      memberIdx: number;
+      id: string;
+      name: string;
+      phone: string;
+      etc: null;
+      isAdminJoinApproved: boolean;
+      createdAt: string;
+      deletedAt: string;
+      companyMemberAdditionalInfo: {
+        companyMemberAdditionalInfoIdx: number;
+        companyLogoImageUrl: string;
+        companyName: string;
+        managerEmail: string;
+        companyAddress: string;
+        companyDetailAddress: string;
+        companyZipCode: string;
+      };
+      businessRegistrationFiles: [
+        {
+          businessRegistrationFileIdx: number;
+          originalName: string;
+          url: string;
+          size: number;
+        },
+      ];
+    };
+  };
+}
+
+const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
+  const {
+    data: userData,
+    isLoading: userLoading,
+    isError: userError,
+  } = useQuery<UserRespnse>(
+    'user-detail',
+    () => isTokenGetApi(`/admin/members/users/${memberIdx}`),
+    {
+      enabled: type === 'USER',
+    },
+  );
+  const {
+    data: companyData,
+    isLoading: companyLoading,
+    isError: companyError,
+  } = useQuery<CompanyResposne>(
+    'company-detail',
+    () => isTokenGetApi(`/admin/members/users/${memberIdx}`),
+    {
+      enabled: type === 'COMPANY',
+    },
+  );
 
   const handleBackBtn = () => {
-    setIsDeatil(true);
+    setIsDetail(false);
   };
+
+  const loading = userLoading || companyLoading;
   return (
     <Wrapper>
       <AdminHeader
@@ -32,7 +108,14 @@ const UserDetail = ({ setIsDeatil }: Props) => {
           </span>
         </Avatar>
         {/* 회원 정보 불러오는 컴포넌트 */}
-        <MemberContents type={type} />
+        {loading ? (
+          <Loader />
+        ) : (
+          <MemberContents
+            type={type}
+            data={type === 'USER' ? userData! : companyData!}
+          />
+        )}
       </InfoBox>
       <TextAreaContainer>
         <label>관리자 전용 특이사항</label>
@@ -46,7 +129,7 @@ const UserDetail = ({ setIsDeatil }: Props) => {
   );
 };
 
-export default UserDetail;
+export default CommonDetail;
 
 const Wrapper = styled.div`
   /* width: 100%; */

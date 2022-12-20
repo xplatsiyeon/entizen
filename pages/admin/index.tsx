@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import CompanyManagement from 'componentsAdmin/Member/CompanyManagement';
-import UserDetail from 'componentsAdmin/Member/UserDetail';
+import UserDetail from 'componentsAdmin/Member/CommonDetail';
 import UserManagement from 'componentsAdmin/Member/UserManagement';
 import UserTable from 'componentsAdmin/userTable';
 import Workspace from 'componentsAdmin/workspace';
@@ -13,8 +13,7 @@ const index = (props: Props) => {
   return (
     <Background>
       <Workspace setNumber={setNumber} />
-      {/* {number === 1 && <UserManagement />} */}
-      {/* {number === 1 && <UserDetail />} */}
+      {number === 1 && <UserManagement />}
       {number === 2 && <CompanyManagement />}
     </Background>
   );
