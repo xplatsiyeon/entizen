@@ -80,7 +80,6 @@ const Workspace = ({ setNumber }: Props) => {
                   <ListItemIcon>
                     <ChevronRightIcon fontSize="medium" color="action" />
                   </ListItemIcon>
-
                   <ListItemText primary={closeList[idx][innerIdx]} />
                 </ListItemButton>
               ))}
