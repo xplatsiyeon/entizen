@@ -6,7 +6,8 @@ import CalendarsDateRangePicker from 'componentsAdmin/DatePicker';
 import AdminHeader from 'componentsAdmin/Header';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import colors from 'styles/colors';
-import UserDetail from './CommonDetail';
+import CommonDetail from './CommonDetail';
+import ComTable from 'componentsAdmin/comTable';
 
 type Props = {};
 
@@ -22,7 +23,9 @@ const UserManagement = (props: Props) => {
 
   return (
     <>
-      {isDetail && <UserDetail setIsDetail={setIsDetail} type="USER" />}
+      {isDetail && (
+        <CommonDetail setIsDetail={setIsDetail} type="USER" memberIdx={1} />
+      )}
       <Wrapper>
         <AdminHeader title="회원관리" subTitle="일반회원" type="main" />
         <Manager>
@@ -44,6 +47,7 @@ const UserManagement = (props: Props) => {
             <Btn>조회</Btn>
           </li>
         </Manager>
+        <ComTable setIsDetail={setIsDetail} />
       </Wrapper>
     </>
   );

@@ -33,15 +33,16 @@ const UserTable = (props: Props) => {
   const {data, refetch} = useQuery<Data>('userInfo', 
   ()=>api({
     method: 'GET',
-    endpoint:`/admin/members/users?page=${page}&limit=10&startDate=${'2022-12-19'}&endDate=${'2022-12-19'}`
+    endpoint:`/admin/members/users?page=${page}&limit=10&startDate=2022-12-19&endDate=2022-12-19`
   }), {
     enabled: false,
-    onSuccess:(data)=>console.log(data.data.members),
+    onSuccess:(data)=>console.log(data),
     onError:(error)=> console.log(error),
   }
   );
 
   useEffect(() => {
+    console.log('data', data)
     refetch();
     const temp: any = [];
     data?.data?.members.forEach((ele, idx) => {
@@ -63,17 +64,14 @@ const UserTable = (props: Props) => {
             [
               '번호',  '아이디', '이름', '전화번호',
               , {
-                name:'가입날짜', formatter:(cell)=> _(<div className='wide'>{`${cell}`}</div>)}
-              , 
-                {name: '',
+                name:'가입날짜', formatter:(cell)=> _(<div className='wide'>{`${cell}`}</div>)}, 
+                {name: '', id:'userInfo-down',
                 formatter: ()=> _(<button className='down' onClick={()=>alert('엑셀')}>보기</button>)
               }
             ]
           }
         /> : <div></div> }
-
-          
-
+        
     </StyledBody>
   )
 };

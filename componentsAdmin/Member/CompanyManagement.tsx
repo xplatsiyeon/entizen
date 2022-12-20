@@ -13,7 +13,11 @@ const CompanyManagement = (props: Props) => {
   return (
     <>
       {isDetail ? (
-        <CommonDetail setIsDetail={setIsDetail} type={'COMPANY'} />
+        <CommonDetail
+          setIsDetail={setIsDetail}
+          type={'COMPANY'}
+          memberIdx={1}
+        />
       ) : (
         <Wrapper>
           <AdminHeader title="역경매 관리" type="main" />
