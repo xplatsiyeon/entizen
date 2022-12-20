@@ -69,13 +69,15 @@ const AsHistory = () => {
     });
   };
   useEffect(() => {
+    console.log(
+      '---------------------as 히스토리 refetch 되고 있습니다.------------------------',
+    );
     refetch();
   }, [filterTypeEn, keyword, data]);
 
   useEffect(() => {
     return () => {
-      remove();
-      // queryclient.removeQueries('company-asList');
+      queryclient.removeQueries('company-asList');
     };
   }, []);
 
@@ -120,7 +122,7 @@ const AsHistory = () => {
             <NoAsHistyory />
           )}
           {/* 데이터 있을 때 */}
-          {data && data?.data?.afterSalesServiceHistories?.length > 0 && (
+          {data && data?.data?.afterSalesServiceHistories?.length! > 0 && (
             <ListWrap>
               {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
                 <React.Fragment key={idx}>
