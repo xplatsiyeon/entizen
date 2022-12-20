@@ -8,9 +8,10 @@ type Props = {
   type: 'main' | 'detail';
   title: string;
   subTitle?: string;
+  backBtn?: () => void;
 };
 
-const AdminHeader = ({ type, title, subTitle }: Props) => {
+const AdminHeader = ({ type, title, subTitle, backBtn }: Props) => {
   return (
     <>
       {type === 'main' && (
@@ -21,7 +22,7 @@ const AdminHeader = ({ type, title, subTitle }: Props) => {
       )}
       {type === 'detail' && (
         <DetailWrapper>
-          <button className="backBtn">
+          <button className="backBtn" onClick={backBtn}>
             <div className="imgBox">
               <Image src={Back} alt={'back'} layout="fill" />
             </div>
@@ -108,6 +109,7 @@ const DetailWrapper = styled.div`
     font-size: 14px;
     line-height: 150%;
     color: ${colors.gray2};
+    padding: 3px 6px;
   }
   .title {
     display: flex;

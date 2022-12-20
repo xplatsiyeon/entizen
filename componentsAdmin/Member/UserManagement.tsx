@@ -6,7 +6,7 @@ import CalendarsDateRangePicker from 'componentsAdmin/DatePicker';
 import AdminHeader from 'componentsAdmin/Header';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import colors from 'styles/colors';
-import UserTable from 'componentsAdmin/userTable';
+import UserDetail from './UserDetail';
 
 type Props = {};
 
@@ -14,34 +14,38 @@ const selectOption = ['이름 검색', '아이디 검색'];
 const UserManagement = (props: Props) => {
   const [selectValue, setSelectValue] = useState('');
   const [keyword, setKeyword] = useState('');
+  const [isDetail, setIsDetail] = useState(false);
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     console.log(event);
     setSelectValue(event.target.value as string);
   };
+
   return (
-    <Wrapper>
-      <AdminHeader title="회원관리" subTitle="일반회원" type="main" />
-
-      <Manager>
-        <li>
-          <label>회원 검색</label>
-          <SelectBox value={selectValue} onChange={handleChange}>
-            {selectOption.map((el, idx) => (
-              <MenuItem key={idx} value={selectOption[idx]}>{selectOption[idx]}</MenuItem>
-            ))}
-          </SelectBox>
-          <input type="text" value={keyword} className="searchInput"></input>
-          <Btn>검색</Btn>
-        </li>
-        <li>
-          <label>기간검색</label>
-          <CalendarsDateRangePicker />
-          <Btn>조회</Btn>
-        </li>
-      </Manager>
-
-      <UserTable/>
-    </Wrapper>
+    <>
+      {isDetail && <UserDetail setIsDeatil={setIsDetail} />}
+      <Wrapper>
+        <AdminHeader title="회원관리" subTitle="일반회원" type="main" />
+        <Manager>
+          <li>
+            <label>회원 검색</label>
+            <SelectBox value={selectValue} onChange={handleChange}>
+              {selectOption.map((el, idx) => (
+                <MenuItem value={selectOption[idx]}>
+                  {selectOption[idx]}
+                </MenuItem>
+              ))}
+            </SelectBox>
+            <input type="text" value={keyword} className="searchInput"></input>
+            <Btn>검색</Btn>
+          </li>
+          <li>
+            <label>기간검색</label>
+            <CalendarsDateRangePicker />
+            <Btn>조회</Btn>
+          </li>
+        </Manager>
+      </Wrapper>
+    </>
   );
 };
 
@@ -49,12 +53,13 @@ export default UserManagement;
 
 const Wrapper = styled.div`
   /* border: 1px solid red; */
-  width: 100%;
+  /* width: 100%; */
+
   margin: 0 18pt;
 `;
 const Manager = styled.ul`
-/* width: 1200px;
-margin: 0 auto; */
+  width: 946px;
+
   label {
     padding-right: 39.75pt;
   }
@@ -66,6 +71,7 @@ margin: 0 auto; */
     border: 1px solid ${colors.lightWhite3};
     height: 30pt;
     padding: 4pt 0 4pt 12pt;
+    width: 100%;
   }
   .searchInput {
     border: 1px solid ${colors.lightWhite3};
