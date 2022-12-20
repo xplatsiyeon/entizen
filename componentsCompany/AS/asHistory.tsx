@@ -86,7 +86,7 @@ const AsHistory = () => {
 
   console.log(
     '길이 가져왕...',
-    data?.data?.afterSalesServiceHistories[0].afterSalesServices,
+    // data?.data?.afterSalesServiceHistories[0]?.afterSalesServices,
   );
 
   return (
