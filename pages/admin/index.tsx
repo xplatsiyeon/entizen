@@ -1,9 +1,14 @@
+import UserTable from 'componentsAdmin/userTable';
 import React from 'react';
 
 type Props = {};
 
-const index = (props: Props) => {
-  return <div>index</div>;
+const Index = (props: Props) => {
+  return (
+    <div>
+      <UserTable/>
+    </div>
+  )
 };
 
-export default index;
+export default Index;
