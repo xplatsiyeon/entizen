@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -42,6 +42,9 @@ const WebHeader = ({ num, now, sub }: Props) => {
     }
   };
 
+  useEffect(() => {
+    console.log(linklist);
+  }, [linklist]);
   return (
     <>
       <Wrapper>
@@ -66,8 +69,8 @@ const WebHeader = ({ num, now, sub }: Props) => {
               </DivBox>
               <DivBox
                 onClick={() => {
-                  setLinklist(true) 
-                  setType('guide');
+                  handleLink('/guide');
+                  setLinklist(true);
                 }}
               >
                 가이드
@@ -166,7 +169,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
           </Inner>
         </MainLink>
         {linklist ? (
-          <GuideLink type={ type ? type : String(sub)} num={num} now={now} />
+          <GuideLink type={type ? type : String(sub)} num={num} now={now} />
         ) : null}
       </Wrapper>
     </>

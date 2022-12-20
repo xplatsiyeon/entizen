@@ -108,7 +108,12 @@ const Guide1 = () => {
             </span>
             <span>간편견적</span>
           </WhiteAreaMenus>
-          <WhiteAreaMenus onClick={() => router.push('/guide')}>
+          <WhiteAreaMenus
+            onClick={() =>
+              // setLinklist(true)
+              router.push('/guide')
+            }
+          >
             <span>
               <Image src={guide} alt="가이드" />
             </span>
@@ -184,7 +189,7 @@ const Guide1 = () => {
 
   return (
     <Body>
-      <WebHeader />
+      <WebHeader sub="guide" />
       <Inner>
         <Wrapper>
           <Header>

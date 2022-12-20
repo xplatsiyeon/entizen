@@ -58,6 +58,7 @@ const PlaceTopBox = ({ data }: Props) => {
           <CommonBtns
             text={data?.badge}
             backgroundColor={handleColor(data?.badge)}
+            // backgroundColor={'black'}
           />
           <div>
             <h1>{data?.projectName}</h1>
