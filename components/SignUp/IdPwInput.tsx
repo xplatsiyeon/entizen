@@ -158,11 +158,11 @@ const IdPwInput = ({
   const checkPassword = useDebounce(checkPw, 500);
   // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInitIdAlert(false);
-    setIsChecked(false);
     const { value } = e.target;
     const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
     if (e.target.name === 'id') {
+      setInitIdAlert(false);
+      setIsChecked(false);
       setIdInput(value);
       idRegExp.test(value) ? setIsChangeColor(true) : setIsChangeColor(false);
     }
@@ -179,13 +179,16 @@ const IdPwInput = ({
       setInitIdAlert(true);
       refetch();
       if(data?.isMember){
+        console.log('user', data?.isMember)
         setIsChecked(true)
       }else{
+        console.log('user', data?.isMember)
         setIsChecked(false)
       }
   };
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    alert('!!')
     if (checkSamePw) {
       await userMutate({
         method: 'POST',
@@ -258,6 +261,8 @@ const IdPwInput = ({
     console.log(passwords, checkPassword);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passwords, checkPassword]);
+
+
   // 중복확인 버튼 비활성화
   useEffect(() => {
     if (idInput.length <= 4) {
@@ -445,7 +450,7 @@ const IdPwInput = ({
         )}
       </BoxPW>
       <Btn
-        isClick={isChecked &&checkedPw && checkSamePw && idInput.length > 4 ? true : false}
+        isClick={!isChecked && checkedPw && checkSamePw && initIdAlert ? true : false}
         text={'가입 완료'}
         marginTop={77.25}
         handleClick={userType === 0 ? handleCompanyClick : handleClick}
