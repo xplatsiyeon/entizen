@@ -7,6 +7,7 @@ import React, {
   useState,
 } from 'react';
 import { Grid, _ } from 'gridjs-react';
+import { dateFormat, hyphenFn } from 'utils/calculatePackage';
 
 type Fake = {
   isSuccess: boolean;
@@ -88,9 +89,9 @@ const ComTable = ({ setIsDetail }: Props) => {
         ele.id,
         ele.name,
         ele.managerEmail,
-        ele.phone,
+        hyphenFn(ele.phone),
         ele.signUp,
-        ele.createdAt,
+        dateFormat(ele.createdAt),
         `${ele.deletedAt ? ele.deletedAt : `-`}`,
       ];
       temp.push(arrEle);

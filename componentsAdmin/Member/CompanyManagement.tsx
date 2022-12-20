@@ -12,28 +12,28 @@ const CompanyManagement = (props: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   return (
     <>
-      {isDetail ? (
+      {isDetail && (
         <CommonDetail
           setIsDetail={setIsDetail}
           type={'COMPANY'}
-          memberIdx={1}
+          memberIdx={113}
         />
-      ) : (
-        <Wrapper>
-          <AdminHeader title="역경매 관리" type="main" />
-
-          <Manager>
-            <li>
-              <label>기간검색</label>
-              {/* 달력 컴포넌트 */}
-              <CalendarsDateRangePicker />
-            </li>
-            <Btn>조회</Btn>
-          </Manager>
-          {/* 테이블 컴포넌트 */}
-          <ComTable setIsDetail={setIsDetail} />
-        </Wrapper>
       )}
+
+      <Wrapper>
+        <AdminHeader title="역경매 관리" type="main" />
+
+        <Manager>
+          <li>
+            <label>기간검색</label>
+            {/* 달력 컴포넌트 */}
+            <CalendarsDateRangePicker />
+          </li>
+          <Btn>조회</Btn>
+        </Manager>
+        {/* 테이블 컴포넌트 */}
+        <ComTable setIsDetail={setIsDetail} />
+      </Wrapper>
     </>
   );
 };
@@ -41,7 +41,7 @@ const CompanyManagement = (props: Props) => {
 export default CompanyManagement;
 
 const Wrapper = styled.div`
-  width: 100%;
+  /* width: 100%; */
   margin: 0 18pt;
 `;
 const Manager = styled.ul`
@@ -49,6 +49,7 @@ const Manager = styled.ul`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 946px;
   label {
     padding-right: 39.75pt;
   }

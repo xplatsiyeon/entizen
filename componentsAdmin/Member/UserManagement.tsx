@@ -24,7 +24,7 @@ const UserManagement = (props: Props) => {
   return (
     <>
       {isDetail && (
-        <CommonDetail setIsDetail={setIsDetail} type="USER" memberIdx={1} />
+        <CommonDetail setIsDetail={setIsDetail} type="USER" memberIdx={28} />
       )}
       <Wrapper>
         <AdminHeader title="회원관리" subTitle="일반회원" type="main" />
@@ -33,7 +33,7 @@ const UserManagement = (props: Props) => {
             <label>회원 검색</label>
             <SelectBox value={selectValue} onChange={handleChange}>
               {selectOption.map((el, idx) => (
-                <MenuItem value={selectOption[idx]}>
+                <MenuItem key={idx} value={selectOption[idx]}>
                   {selectOption[idx]}
                 </MenuItem>
               ))}

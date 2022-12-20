@@ -72,6 +72,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     'user-detail',
     () => isTokenGetApi(`/admin/members/users/${memberIdx}`),
     {
+      // enabled: false,
       enabled: type === 'USER',
     },
   );
@@ -81,8 +82,9 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     isError: companyError,
   } = useQuery<CompanyResposne>(
     'company-detail',
-    () => isTokenGetApi(`/admin/members/users/${memberIdx}`),
+    () => isTokenGetApi(`/admin/members/companies/${memberIdx}`),
     {
+      // enabled: false,
       enabled: type === 'COMPANY',
     },
   );
@@ -102,7 +104,22 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
       />
       <InfoBox>
         <Avatar>
-          <Image src={''} alt="avatar" layout="fill" />
+          {type === 'USER' ? (
+            <Image
+              src={userData?.data?.member?.profileImageUrl! || ''}
+              alt="avatar"
+              layout="fill"
+            />
+          ) : (
+            <Image
+              src={
+                companyData?.data?.member?.companyMemberAdditionalInfo
+                  ?.companyLogoImageUrl! || ''
+              }
+              alt="avatar"
+              layout="fill"
+            />
+          )}
           <span className="exitImgBox">
             <Image src={ExitBtn} alt="exit" layout="fill" />
           </span>
@@ -113,13 +130,18 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
         ) : (
           <MemberContents
             type={type}
-            data={type === 'USER' ? userData! : companyData!}
+            userData={userData!}
+            CompanyData={companyData!}
           />
         )}
       </InfoBox>
       <TextAreaContainer>
         <label>관리자 전용 특이사항</label>
-        <textarea rows={10} cols={30}></textarea>
+        <textarea rows={10} cols={30}>
+          {type === 'USER'
+            ? userData?.data?.member?.etc
+            : companyData?.data?.member?.etc}
+        </textarea>
       </TextAreaContainer>
       <ButtonBox>
         <button>회원삭제</button>
@@ -133,7 +155,12 @@ export default CommonDetail;
 
 const Wrapper = styled.div`
   /* width: 100%; */
-  margin: 0 18pt;
+  background-color: ${colors.lightWhite};
+  width: 100%;
+  padding: 0 18pt;
+  position: absolute;
+  left: 154.5pt;
+  z-index: 999;
 `;
 const InfoBox = styled.div`
   width: 100%;

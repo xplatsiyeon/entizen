@@ -3,79 +3,106 @@ import React from 'react';
 import FileImg from 'public/adminImages/File.png';
 import Image from 'next/image';
 import { CompanyResposne, UserRespnse } from './CommonDetail';
+import { dateFormat, hyphenFn } from 'utils/calculatePackage';
 
 type Props = {
   type: 'USER' | 'COMPANY';
-  data: UserRespnse | CompanyResposne;
+  userData: UserRespnse;
+  CompanyData: CompanyResposne;
 };
 
-const MemberContents = ({ type, data }: Props) => {
-  console.log(data);
+const MemberContents = ({ type, userData, CompanyData }: Props) => {
+  console.log(CompanyData);
   return (
     <Contents>
       {type === 'USER' ? (
         <>
           <li>
             <label className="label">아이디</label>
-            <InputBox type="text" readOnly value={'subin1'} />
+            <InputBox type="text" readOnly value={userData?.data?.member?.id} />
           </li>
           <li>
             <label className="label">이름</label>
-            <span>수빈</span>
+            <span>{userData?.data?.member?.name}</span>
           </li>
           <li>
             <label className="label">전화번호</label>
-            <span>010-4998-8965</span>
+            <span>{hyphenFn(userData?.data?.member?.phone)}</span>
           </li>
           <li>
             <label className="label">가입날짜</label>
-            <span>2011.11.12</span>
+            <span>{dateFormat(userData?.data?.member?.createdAt)}</span>
           </li>
         </>
       ) : (
         <Company>
           <li>
             <label className="comapny label">기업명</label>
-            <InputBox type="text" value={'엔티즌'} />
+            <InputBox
+              type="text"
+              value={
+                CompanyData?.data?.member?.companyMemberAdditionalInfo
+                  ?.companyName
+              }
+            />
           </li>
           <li>
             <label className="comapny label">아이디</label>
-            <InputBox type="text" value={'subin1'} />
+            <InputBox type="text" value={CompanyData?.data?.member?.id} />
           </li>
           <li>
             <label className="comapny label">담당자</label>
-            <span>홍길동</span>
+            <span>{CompanyData?.data?.member?.name}</span>
           </li>
           <li>
             <label className="comapny label">이메일</label>
-            <InputBox type="text" value={'whljm1003@naver.com'} />
+            <InputBox
+              type="text"
+              value={
+                CompanyData?.data?.member?.companyMemberAdditionalInfo
+                  ?.managerEmail
+              }
+            />
           </li>
           <li>
             <label className="comapny label">전화번호</label>
-            <span>010-4998-8965</span>
+            <span>{hyphenFn(CompanyData?.data?.member?.phone)}</span>
           </li>
           <li>
             <label className="comapny label">주소</label>
             <InputBox
               type="text"
               readOnly
-              value={'공황대로'}
+              value={
+                CompanyData?.data?.member?.companyMemberAdditionalInfo
+                  ?.companyDetailAddress
+              }
               className="address"
             />
           </li>
           <li>
             <label className="comapny label">사업자 등록증</label>
             <div className="business">
-              <span className="businessName">
-                <Image src={FileImg} alt="file-img" width={16} height={16} />
-                사입자 등록증.jpg
-              </span>
+              {CompanyData?.data?.member?.businessRegistrationFiles?.map(
+                (item, index) => (
+                  <span className="businessName" key={index}>
+                    <Image
+                      src={FileImg}
+                      alt="file-img"
+                      width={16}
+                      height={16}
+                    />
+                    {item.originalName}
+                  </span>
+                ),
+              )}
+
               <button className="businessBtn">삭제</button>
             </div>
           </li>
           <li>
             <label className="comapny label">가입날짜</label>
-            <span>2011.11.12</span>
+            <span>{dateFormat(CompanyData?.data?.member?.createdAt)}</span>
           </li>
           <li>
             <label className="comapny label">가입승인</label>
