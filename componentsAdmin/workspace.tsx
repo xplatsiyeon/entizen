@@ -14,16 +14,20 @@ import StarBorder from '@mui/icons-material/StarBorder';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useRouter } from 'next/router';
 // import React from 'react';
 
-type Props = {};
+type Props = {
+  setNumber: React.Dispatch<React.SetStateAction<number>>;
+};
 const openList = ['회원관리', '역경매 관리', '프로젝트'];
 const closeList = [
   ['일반회원', '기업회원'],
   ['역경매관리 리스트'],
   ['프로젝트 리스트'],
 ];
-const Workspace = (props: Props) => {
+const Workspace = ({ setNumber }: Props) => {
+  const router = useRouter();
   const [open, setOpen] = React.useState<boolean[]>(
     Array.from({ length: openList.length }, () => false),
   );
@@ -32,13 +36,32 @@ const Workspace = (props: Props) => {
     temp[id] = !temp[id];
     setOpen(temp);
   };
+  const handleRouter = (name: string) => {
+    switch (name) {
+      case '일반회원':
+        setNumber(1);
+        break;
+      case '기업회원':
+        setNumber(2);
+        break;
+      case '역경매관리 리스트':
+        setNumber(3);
+        break;
+      case '프로젝트 리스트':
+        setNumber(4);
+        break;
+      default:
+        setNumber(0);
+        break;
+    }
+  };
 
   return (
     <Wrapper aria-labelledby="nested-list-subheader">
       <Name>이정민님</Name>
       <LogoutBtn>로그아웃</LogoutBtn>
       {openList.map((item, idx) => (
-        <NavContainer>
+        <NavContainer key={idx}>
           {/* close */}
           <ListItemButton onClick={() => handleClick(idx)}>
             <ListItemIcon></ListItemIcon>
@@ -48,13 +71,17 @@ const Workspace = (props: Props) => {
           {/* open */}
           <ListOpen in={open[idx]} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {closeList[idx].map((e, idx2) => (
-                <ListItemButton sx={{ pl: 4 }}>
+              {closeList[idx].map((name, innerIdx) => (
+                <ListItemButton
+                  sx={{ pl: 4 }}
+                  onClick={() => handleRouter(name)}
+                  key={innerIdx}
+                >
                   <ListItemIcon>
                     <ChevronRightIcon fontSize="medium" color="action" />
                   </ListItemIcon>
 
-                  <ListItemText primary={closeList[idx][idx2]} />
+                  <ListItemText primary={closeList[idx][innerIdx]} />
                 </ListItemButton>
               ))}
             </List>
