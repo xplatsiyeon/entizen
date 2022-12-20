@@ -2,98 +2,88 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useRef, useState } from 'react';
 import { Grid, _ } from "gridjs-react";
+import { useQuery } from 'react-query';
+import { api, isTokenApi } from 'api';
 
 type Props = {};
 
-type Fake = {
-  isSuccess: boolean,
-  number: number,
-  id: string,
-  name: string,
-  phone: string,
-  profileImageUrl: null | string,
-  createdAt: string,
-  deletedAt: string | null,
-  signUp: boolean,
-  companyMemberAdditionalInfoIdx: number,
-  companyLogoImageUrl: string,
-  companyName: string,
-  companyAddress: string,
-  companyDetailAddress: string,
-  companyZipCode: string,
-  managerEmail: string,
-  memberIdx: number
+
+type Data = {
+isSuccess: boolean,
+data: {
+    members: MemberInfo[],
+    totalCount: number,
+}
+}
+type MemberInfo = {
+    memberIdx: number,
+    id:string,
+    name: string,
+    phone: string,
+    createdAt: string,
+    deletedAt: null | string
 }
 
-
 const UserTable = (props: Props) => {
-
-
-  const fake: Fake[] = [
-    {
-      "isSuccess": true,
-      "number": 1,
-      "id": "test12345",
-      "name": "홍길동",
-      "phone": "01012341234",
-      "profileImageUrl": null,
-      "createdAt": "2022-10-18T10:18:40.365Z",
-      "deletedAt": null,
-      "signUp": true,
-      "companyMemberAdditionalInfoIdx": 8,
-      "companyLogoImageUrl": "https://test.test.com",
-      "companyName": "네이버",
-      "companyAddress": "서울 강서구 공항대로 185",
-      "companyDetailAddress": "292호",
-      "companyZipCode": "45233",
-      "managerEmail": "test@test.com",
-      "memberIdx": 36
-    }
-  ]
 
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
 
-  useEffect(() => {
-    console.log(page)
 
+  const {data, refetch} = useQuery<Data>('userInfo', 
+  ()=>api({
+    method: 'GET',
+    endpoint:`/admin/members/users?page=${page}&limit=10&startDate=${'2022-12-19'}&endDate=${'2022-12-19'}`
+  }), {
+    enabled: false,
+    onSuccess:(data)=>console.log(data.data.members),
+    onError:(error)=> console.log(error),
+  }
+  );
+
+  useEffect(() => {
+    refetch();
     const temp: any = [];
-    fake.forEach((ele, idx) => {
-      const arrEle = [ele.number, ele.companyName, ele.id, ele.name, ele.managerEmail, ele.phone, ele.signUp, ele.createdAt,`${ele.deletedAt? ele.deletedAt : `-` }`, ];
+    data?.data?.members.forEach((ele, idx) => {
+      const arrEle = [`${page-1}${idx + 1}`, ele.id, ele.name, ele.phone, ele.createdAt,''];
       temp.push(arrEle);
     });
 
     setDataArr(temp);
-
     // 의존성 배열에 api.get()dml data넣기.
   }, [page])
 
+  useEffect(() => {
+    const temp: any = [];
+    data?.data?.members.forEach((ele, idx) => {
+      const arrEle = [`${page-1}${idx + 1}`, ele.id, ele.name, ele.phone, ele.createdAt,''];
+      temp.push(arrEle);
+    });
+    setDataArr(temp);
+    // 의존성 배열에 api.get()dml data넣기.
+  }, [])
+
   return (
     <StyledBody className="user-table">
+     <FlexBox> <P>결과 {data?.data.totalCount!}</P> <Button>엑셀 다운로드</Button> </FlexBox>
       { dataArr.length > 0 ?
         <Grid
           data={dataArr}
           columns={
             [
-              '번호', '기업명', '아이디', '담당자', '이메일', '전화번호',
-              { name: '승인',
-              formatter: (cell) => _(
-              <select defaultValue={`${cell}`}>
-                <option value='true'>승인</option>
-                <option value='false'>미숭인</option>
-              </select>
-              )}
+              '번호',  '아이디', '이름', '전화번호',
               , {
-                name:'가입날짜', formatter:(cell)=> _(<div className='wide'>{`${cell}`}</div>)}, 
-                {
-                  name: '탈퇴날짜', formatter:(cell)=> _(<div className='wide'>{`${cell}`}</div>)}, 
-                {
-                name: '',
+                name:'가입날짜', formatter:(cell)=> _(<div className='wide'>{`${cell}`}</div>)}
+              , 
+                {name: '',
                 formatter: ()=> _(<button className='down' onClick={()=>alert('엑셀')}>보기</button>)
               }
             ]
           }
         /> : <div></div> }
+
+          
+
     </StyledBody>
   )
 };
@@ -101,11 +91,12 @@ const UserTable = (props: Props) => {
 export default UserTable;
 
 const StyledBody = styled.div`
+  margin: 32px 0 0;
+  min-width:1200px;
   .hidden{
     visibility: hidden;
   }
   table{
-    border: 1px solid yellowgreen;
     width: 100%;
     text-align: center;
 
@@ -132,3 +123,15 @@ const StyledBody = styled.div`
     }
   }
 `
+
+const FlexBox = styled.div`
+display: flex;
+justify-content: space-between;
+margin-bottom: 8px;
+`
+const P = styled.p``
+  
+const Button = styled.button`
+  
+`
+

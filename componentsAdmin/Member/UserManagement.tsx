@@ -27,7 +27,7 @@ const UserManagement = (props: Props) => {
           <label>회원 검색</label>
           <SelectBox value={selectValue} onChange={handleChange}>
             {selectOption.map((el, idx) => (
-              <MenuItem value={selectOption[idx]}>{selectOption[idx]}</MenuItem>
+              <MenuItem key={idx} value={selectOption[idx]}>{selectOption[idx]}</MenuItem>
             ))}
           </SelectBox>
           <input type="text" value={keyword} className="searchInput"></input>
@@ -53,6 +53,8 @@ const Wrapper = styled.div`
   margin: 0 18pt;
 `;
 const Manager = styled.ul`
+/* width: 1200px;
+margin: 0 auto; */
   label {
     padding-right: 39.75pt;
   }
