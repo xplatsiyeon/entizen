@@ -247,9 +247,13 @@ const TermContent = ({
             <Btn
               text="본인인증하기"
               name={'form_chk'}
-              handleClick={fnPopup}
+              //handleClick={fnPopup}
               marginTop={42.5}
               isClick={nextBtn}
+             /* handleClick={()=>{
+                setLevel(2);
+              if(setUserType)setUserType(1)}
+            }*/
             />
           </form>
           <Buttons className="firstNextPage" onClick={handleForceClick}>

@@ -79,7 +79,6 @@ const IdPwInput = ({
   const queryClient = useQueryClient();
   const [initIdAlert, setInitIdAlert] = useState(false);
   const [idLength, setIdLength] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
@@ -162,7 +161,6 @@ const IdPwInput = ({
     const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
     if (e.target.name === 'id') {
       setInitIdAlert(false);
-      setIsChecked(false);
       setIdInput(value);
       idRegExp.test(value) ? setIsChangeColor(true) : setIsChangeColor(false);
     }
@@ -178,13 +176,6 @@ const IdPwInput = ({
   const overlabCheck = () => {
       setInitIdAlert(true);
       refetch();
-      if(data?.isMember){
-        console.log('user', data?.isMember)
-        setIsChecked(true)
-      }else{
-        console.log('user', data?.isMember)
-        setIsChecked(false)
-      }
   };
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -450,7 +441,7 @@ const IdPwInput = ({
         )}
       </BoxPW>
       <Btn
-        isClick={!isChecked && checkedPw && checkSamePw && initIdAlert ? true : false}
+        isClick={data?.isMember === false && checkedPw && checkSamePw && initIdAlert ?true : false}
         text={'가입 완료'}
         marginTop={77.25}
         handleClick={userType === 0 ? handleCompanyClick : handleClick}
