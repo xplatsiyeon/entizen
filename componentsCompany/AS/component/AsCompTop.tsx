@@ -152,7 +152,7 @@ const AsCompTop = ({ id, data }: Props) => {
               )}
 
               {/* 충전기 설치 위치  1개 */}
-              {projectData?.project.finalQuotation.finalQuotationChargers
+              {projectData?.project?.finalQuotation?.finalQuotationChargers
                 .length === 1 && (
                 <div className="text-box">
                   <span className="name">충전기 설치 위치</span>
@@ -161,7 +161,7 @@ const AsCompTop = ({ id, data }: Props) => {
                       location,
                       locationEn,
                       projectData?.project.finalQuotation
-                        .finalQuotationChargers[0].installationLocation,
+                        ?.finalQuotationChargers[0]?.installationLocation,
                     )}
                   </span>
                 </div>
@@ -202,8 +202,8 @@ const AsCompTop = ({ id, data }: Props) => {
               )}
 
               {/* 충전기 제조사 2개 이상 일 때 */}
-              {projectData?.project.finalQuotation.finalQuotationChargers
-                .length! !== 1 && (
+              {projectData?.project.finalQuotation?.finalQuotationChargers
+                ?.length! !== 1 && (
                 <>
                   <MultiSection>
                     <BorderTop></BorderTop>
