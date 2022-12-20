@@ -158,11 +158,11 @@ const IdPwInput = ({
   const checkPassword = useDebounce(checkPw, 500);
   // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInitIdAlert(false);
-    setIsChecked(false);
     const { value } = e.target;
     const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
     if (e.target.name === 'id') {
+      setInitIdAlert(false);
+      setIsChecked(false);
       setIdInput(value);
       idRegExp.test(value) ? setIsChangeColor(true) : setIsChangeColor(false);
     }
@@ -261,6 +261,8 @@ const IdPwInput = ({
     console.log(passwords, checkPassword);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passwords, checkPassword]);
+
+
   // 중복확인 버튼 비활성화
   useEffect(() => {
     if (idInput.length <= 4) {
