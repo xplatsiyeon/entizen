@@ -179,13 +179,16 @@ const IdPwInput = ({
       setInitIdAlert(true);
       refetch();
       if(data?.isMember){
+        console.log('user', data?.isMember)
         setIsChecked(true)
       }else{
+        console.log('user', data?.isMember)
         setIsChecked(false)
       }
   };
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    alert('!!')
     if (checkSamePw) {
       await userMutate({
         method: 'POST',
@@ -445,7 +448,7 @@ const IdPwInput = ({
         )}
       </BoxPW>
       <Btn
-        isClick={isChecked &&checkedPw && checkSamePw && idInput.length > 4 ? true : false}
+        isClick={!isChecked && checkedPw && checkSamePw && idInput.length > 4 ? true : false}
         text={'가입 완료'}
         marginTop={77.25}
         handleClick={userType === 0 ? handleCompanyClick : handleClick}

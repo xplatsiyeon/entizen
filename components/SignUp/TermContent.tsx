@@ -26,6 +26,7 @@ type Props = {
   nextBtn: boolean;
   setNextBtn: Dispatch<SetStateAction<boolean>>;
   userType?: number;
+  setUserType?: React.Dispatch<React.SetStateAction<number>>
 };
 
 const TermContent = ({
@@ -41,7 +42,7 @@ const TermContent = ({
   setSelectTerms,
   nextBtn,
   setNextBtn,
-  userType,
+  userType, setUserType
 }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const router = useRouter();
@@ -96,7 +97,7 @@ const TermContent = ({
     const memberType = 'USER';
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
