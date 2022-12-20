@@ -73,7 +73,8 @@ const AsHistory = () => {
       '---------------------as 히스토리 refetch 되고 있습니다.------------------------',
     );
     refetch();
-  }, [filterTypeEn, keyword, data]);
+    console.log(data);
+  }, [filterTypeEn, keyword, data, router.isReady]);
 
   useEffect(() => {
     return () => {
