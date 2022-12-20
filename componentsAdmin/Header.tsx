@@ -110,6 +110,7 @@ const DetailWrapper = styled.div`
     line-height: 150%;
     color: ${colors.gray2};
     padding: 3px 6px;
+    cursor: pointer;
   }
   .title {
     display: flex;
