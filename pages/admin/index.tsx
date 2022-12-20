@@ -12,7 +12,7 @@ const index = (props: Props) => {
   return (
     <Background>
       <Workspace setNumber={setNumber} />
-      {/* {number === 1 && <UserManagement />} */}
+      {number === 1 && <UserManagement />}
       {/* {number === 1 && <UserDetail />} */}
       {number === 2 && <CompanyManagement />}
     </Background>

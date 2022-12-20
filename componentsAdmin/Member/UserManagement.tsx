@@ -53,10 +53,13 @@ export default UserManagement;
 
 const Wrapper = styled.div`
   /* border: 1px solid red; */
-  width: 100%;
+  /* width: 100%; */
+
   margin: 0 18pt;
 `;
 const Manager = styled.ul`
+  width: 946px;
+
   label {
     padding-right: 39.75pt;
   }
@@ -68,6 +71,7 @@ const Manager = styled.ul`
     border: 1px solid ${colors.lightWhite3};
     height: 30pt;
     padding: 4pt 0 4pt 12pt;
+    width: 100%;
   }
   .searchInput {
     border: 1px solid ${colors.lightWhite3};
