@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import ComTable from 'componentsAdmin/comTable';
 import CalendarsDateRangePicker from 'componentsAdmin/DatePicker';
 import AdminHeader from 'componentsAdmin/Header';
 import React from 'react';
@@ -18,7 +19,11 @@ const CompanyManagement = (props: Props) => {
         </li>
         <Btn>조회</Btn>
       </Manager>
+
+      <ComTable/>
+
     </Wrapper>
+
   );
 };
 

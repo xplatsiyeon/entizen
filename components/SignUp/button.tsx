@@ -30,10 +30,6 @@ const Btn = ({
     console.log(propsGet);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paddingOn]);
-
-  
-  console.log(isClick)
-
   return (
     <ButtonBox propsGet={propsGet === true ? propsGet : false} bottom={bottom}>
       <Button
