@@ -50,7 +50,7 @@ const phone = () => {
   const onClickBtn = () => {
     //수정완료 api
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    const PASSWORD_CHANGE = `https://api.entizen.krn.kr/api/members`;
+    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members`;
     try {
       axios({
         method: 'patch',
@@ -100,7 +100,7 @@ const phone = () => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.krn.kr/api/auth/nice',
+      url: 'https://api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
