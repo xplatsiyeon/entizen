@@ -299,7 +299,10 @@ const FirstStep = ({
   ]);
 
   // 수익 지분 100% 맞춰 주는 업데이트 useEffect
-  useEffect(() => {}, [profitableInterestUser, chargePoint]);
+  useEffect(() => {
+    console.log(profitableInterestUser);
+    console.log(chargePoint);
+  }, [profitableInterestUser, chargePoint]);
   // 충전기 개수
   useEffect(() => {
     const num = selectedOption.length;

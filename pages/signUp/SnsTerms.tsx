@@ -107,10 +107,6 @@ const SignUpTerms = () => {
           withCredentials: true,
         })
           .then((res) => {
-            console.log('서버에 sns 로그인결과 보내는 곳입니다. ======');
-            console.log(res);
-          })
-          .then((res) => {
             router.push('/signUp/Complete');
           })
           .catch((error) => {

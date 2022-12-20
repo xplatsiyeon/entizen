@@ -42,7 +42,7 @@ const CompanyCalendar = ({
 
   let temp: string[][] = [];
   const getDate = () => {
-    for (let i = 0; i < days.length; i++) {
+    for (let i = 0; i < days?.length; i++) {
       temp.push(days[i].split('.'));
     }
   };
