@@ -90,7 +90,7 @@ const ManagerInfo = ({
   // 이메일 인증
   const certifyEmail = () => {
     if (isEmailValid) {
-      const EMAIL_API = 'https://test-api.entizen.kr/api/mail/auth';
+      const EMAIL_API = 'https://api.entizen.krn.kr/api/mail/auth';
       axios({
         method: 'post',
         url: EMAIL_API,
@@ -108,7 +108,7 @@ const ManagerInfo = ({
   // 이메일 인증코드 확인
   const certifyEmailCode = () => {
     if (isEmailCodeValid) {
-      const EMAIL_API = 'https://test-api.entizen.kr/api/mail/auth/validation';
+      const EMAIL_API = 'https://api.entizen.krn.kr/api/mail/auth/validation';
       axios({
         method: 'post',
         url: EMAIL_API,
@@ -135,7 +135,7 @@ const ManagerInfo = ({
     console.log(memberType);
     axios({
       method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
+      url: 'https://api.entizen.krn.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {

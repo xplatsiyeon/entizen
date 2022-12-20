@@ -69,13 +69,13 @@ const AsHistory = () => {
     });
   };
   useEffect(() => {
-    console.log(data);
     refetch();
   }, [filterTypeEn, keyword, data]);
 
   useEffect(() => {
     return () => {
-      queryclient.removeQueries('company-asList');
+      remove();
+      // queryclient.removeQueries('company-asList');
     };
   }, []);
 
@@ -83,11 +83,6 @@ const AsHistory = () => {
     console.log('🔥 에러 발생 ~line 66 ->' + TAG);
     console.log(error);
   }
-
-  console.log(
-    '길이 가져왕...',
-    // data?.data?.afterSalesServiceHistories[0]?.afterSalesServices,
-  );
 
   return (
     <Body>

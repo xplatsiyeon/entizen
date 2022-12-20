@@ -13,7 +13,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient());
 
   const client = new ApolloClient({
-    uri: 'https://test-api.entizen.kr/api/graphql',
+    uri: 'https://api.entizen.krn.kr/api/graphql',
     cache: new InMemoryCache(),
   });
 
