@@ -65,7 +65,7 @@ const UserTable = (props: Props) => {
               '번호',  '아이디', '이름', '전화번호',
               , {
                 name:'가입날짜', formatter:(cell)=> _(<div className='wide'>{`${cell}`}</div>)}, 
-                {name: '',
+                {name: '', id:'userInfo-down',
                 formatter: ()=> _(<button className='down' onClick={()=>alert('엑셀')}>보기</button>)
               }
             ]
