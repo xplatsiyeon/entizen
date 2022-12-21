@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import ComTable from 'componentsAdmin/comTable';
-import CalendarsDateRangePicker from 'componentsAdmin/DatePicker';
 import AdminHeader from 'componentsAdmin/Header';
 import React, { useState } from 'react';
+import { DateRangePicker } from 'rsuite';
+import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 
@@ -10,6 +11,16 @@ type Props = {};
 
 const CompanyManagement = (props: Props) => {
   const [isDetail, setIsDetail] = useState(false);
+
+  // 달력 날짜 변경 함수
+  const handleDateChange = (
+    value: DateRange | null,
+    event: React.SyntheticEvent<Element, Event>,
+  ) => {
+    console.log(value);
+    console.log(event);
+  };
+
   return (
     <>
       {isDetail && (
@@ -24,10 +35,14 @@ const CompanyManagement = (props: Props) => {
         <AdminHeader title="역경매 관리" type="main" />
 
         <Manager>
-          <li>
+          <li className="search">
             <label>기간검색</label>
             {/* 달력 컴포넌트 */}
-            <CalendarsDateRangePicker />
+            <DateRangePicker
+              placeholder={'년-월-일 ~ 년-월-일'}
+              size={'sm'}
+              onChange={handleDateChange}
+            />
           </li>
           <Btn>조회</Btn>
         </Manager>
@@ -41,15 +56,15 @@ const CompanyManagement = (props: Props) => {
 export default CompanyManagement;
 
 const Wrapper = styled.div`
-  /* width: 100%; */
+  width: 100%;
   margin: 0 18pt;
 `;
 const Manager = styled.ul`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 946px;
+  align-items: flex-start;
+
   label {
     padding-right: 39.75pt;
   }
@@ -67,6 +82,9 @@ const Manager = styled.ul`
     border: 1px solid ${colors.lightWhite3};
     height: 100%;
     width: 274.5pt;
+  }
+  .search {
+    width: 946px;
   }
 `;
 const Btn = styled.button`
