@@ -102,7 +102,7 @@ export default FinalQuotaion;
 
 const Contatiner = styled.div`
   width: 946px;
-  border: 2px solid ${colors.lightGray5};
+  /* border: 2px solid ${colors.lightGray5}; */
   border-radius: 4px;
 `;
 const MainList = styled.ul`
@@ -135,7 +135,7 @@ const Item = styled.li`
 const Line = styled.div`
   margin: 0 15px;
   height: 2px;
-  background: ${colors.lightGray6};
+  /* background: ${colors.lightGray6}; */
 `;
 const ImgList = styled.div`
   padding-top: 14px;
