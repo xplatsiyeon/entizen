@@ -725,7 +725,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         </FinButton>
       ) : null}
       {/* 완료 동의하기 모달창  */}
-      {isModal && (
+      {isModal && modalInfo && (
         <ClientProjectModal
           modalStep={modalStep}
           setIsModal={setIsModal}

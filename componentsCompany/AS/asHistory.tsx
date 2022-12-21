@@ -69,9 +69,12 @@ const AsHistory = () => {
     });
   };
   useEffect(() => {
-    console.log(data);
+    console.log(
+      '---------------------as 히스토리 refetch 되고 있습니다.------------------------',
+    );
     refetch();
-  }, [filterTypeEn, keyword, data]);
+    console.log(data);
+  }, [filterTypeEn, keyword, data, router.isReady]);
 
   useEffect(() => {
     return () => {
@@ -83,11 +86,6 @@ const AsHistory = () => {
     console.log('🔥 에러 발생 ~line 66 ->' + TAG);
     console.log(error);
   }
-
-  console.log(
-    '길이 가져왕...',
-    data?.data?.afterSalesServiceHistories[0].afterSalesServices,
-  );
 
   return (
     <Body>
@@ -125,7 +123,7 @@ const AsHistory = () => {
             <NoAsHistyory />
           )}
           {/* 데이터 있을 때 */}
-          {data && data?.data?.afterSalesServiceHistories?.length > 0 && (
+          {data && data?.data?.afterSalesServiceHistories?.length! > 0 && (
             <ListWrap>
               {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
                 <React.Fragment key={idx}>

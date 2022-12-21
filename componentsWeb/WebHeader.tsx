@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,7 +17,7 @@ import { handleLogoutOnClickModalClick } from 'api/logout';
 type Props = {
   num?: number;
   now?: string;
-  sub?: boolean;
+  sub?: string;
 };
 
 const WebHeader = ({ num, now, sub }: Props) => {
@@ -42,6 +42,9 @@ const WebHeader = ({ num, now, sub }: Props) => {
     }
   };
 
+  useEffect(() => {
+    console.log(linklist);
+  }, [linklist]);
   return (
     <>
       <Wrapper>
@@ -66,8 +69,8 @@ const WebHeader = ({ num, now, sub }: Props) => {
               </DivBox>
               <DivBox
                 onClick={() => {
+                  handleLink('/guide');
                   setLinklist(true);
-                  setType('guide');
                 }}
               >
                 가이드
@@ -166,7 +169,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
           </Inner>
         </MainLink>
         {linklist ? (
-          <GuideLink type={sub ? 'mypage' : type} num={num} now={now} />
+          <GuideLink type={type ? type : String(sub)} num={num} now={now} />
         ) : null}
       </Wrapper>
     </>

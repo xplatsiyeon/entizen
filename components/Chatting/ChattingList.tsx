@@ -341,7 +341,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                    wasRead={data?.data.chattingRooms?.entizenChattingRoom.chattingLog?.wasRead!}
+                   wasRead={data?.data?.chattingRooms?.entizenChattingRoom.chattingLog?.fromMemberIdx === data?.data?.chattingRooms?.entizenChattingRoom.chattingRoomIdx && !Boolean(data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.wasRead)?true:false}
                   />
                   <Favorite>
                     {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorite? (
@@ -421,7 +421,7 @@ const ChattingList = ({ data, refetch,chattingRoom }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                    wasRead={chatting?.chattingLogs === null? true : chatting?.chattingLogs.wasRead}
+             wasRead={ chatting?.chattingLogs?.fromMemberIdx !== chatting?.userMember.memberIdx&& chatting?.chattingLogs?.wasRead === false?true:false}
                   />
                   <Favorite>
                     {chatting.chattingRoomFavorite.isFavorite ? (

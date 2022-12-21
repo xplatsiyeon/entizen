@@ -24,6 +24,7 @@ const LeftASBox = ({
   setComponentId,
 }: Props) => {
   const route = useRouter();
+  const queryclient = useQueryClient();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
   const TabType: string[] = ['신규 A/S', '히스토리'];
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
@@ -138,11 +139,12 @@ const LeftASBox = ({
               historyUnder={historyUnder}
               nowRouter={nowRouter}
               onClick={() => {
-                if (router.pathname !== `/company/as?id=1`) {
-                  router.push(`/company/as?id=1`);
-                  setNewAS(!newAS);
-                  setHistoryUnder(!historyUnder);
-                }
+                // if (router.pathname !== `/company/as?id=1`) {
+                router.push(`/company/as?id=1`);
+                setNewAS(!newAS);
+                setHistoryUnder(!historyUnder);
+                queryclient.invalidateQueries('company-asList');
+                // }
               }}
             >
               히스토리

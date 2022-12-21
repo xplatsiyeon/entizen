@@ -29,7 +29,7 @@ const GuideLink = ({ type, num, now }: Props) => {
         `/guide/1-1`,
         `/guide/1-4`,
         '/guide/1-5',
-        '/guide/1-2-4',
+        '/guide/1-2',
         '/guide/1-3',
       ];
       break;

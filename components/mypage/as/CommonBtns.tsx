@@ -30,7 +30,7 @@ const StatusBtn = styled.span<{ backgroundColor: string }>`
     line-height: 9pt;
     letter-spacing: -0.02em;
     top: 1pt;
-    color: #ffffff;
+    color: #ffffff !important;
   }
 `;
 

@@ -190,7 +190,9 @@ const ChargerMap = (props: Props) => {
             )}
             {!web && (
               <Input
-                value={locationList.roadAddrPart}
+                value={
+                  locationList.roadAddrPart ? locationList.roadAddrPart : ''
+                }
                 type="submit"
                 className="searchInput"
                 onClick={() => router.push('/searchAddress')}

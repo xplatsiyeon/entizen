@@ -101,7 +101,7 @@ const AnotherSuggest = (props: Props) => {
     console.log(spotError);
   }
 
-  const { spotInspectionDate } = spotData?.data?.spotInspection!;
+  const spotInspectionDate = spotData?.data?.spotInspection.spotInspectionDate!;
   const days = spotInspectionDate?.map((date) => date.replaceAll('-', '.'));
 
   return (
