@@ -254,6 +254,13 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
       case 'comUserData':
         comUserDataRefetch();
         break;
+
+        case 'quetationListData' :
+          quetationListRefetch();
+          break;
+          case 'projectListData' :
+            projectListRefetch();
+            break; 
     }
     // 의존성 배열에 api.get()dml data넣기.
   }, []);
@@ -267,6 +274,14 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
       case 'comUserData':
         comUserDataRefetch();
         break;
+
+      case 'quetationListData' :
+        quetationListRefetch();
+        break;
+
+        case 'projectListData' :
+          projectListRefetch();
+          break;
     }
   }, [page]);
 
