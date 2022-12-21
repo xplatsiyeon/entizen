@@ -4,6 +4,8 @@ import { css } from '@emotion/react';
 import colors from 'styles/colors';
 import { Grid, _ } from 'gridjs-react';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
+import { isTokenGetApi, isTokenPostApi } from 'api';
+import { useQuery } from 'react-query';
 
 type Fake = {
   isSuccess: boolean;
@@ -19,6 +21,37 @@ type Fake = {
   contract: string;
   memberIdx: number;
 };
+
+export interface CompanyPreQuotationResponse {
+  isSuccess: true;
+  data: {
+    preQuotations: [
+      {
+        preQuotationIdx: number;
+        createdAt: string;
+        member: {
+          memberIdx: number;
+          name: string;
+          phone: string;
+          companyMemberAdditionalInfo: {
+            companyMemberAdditionalInfoIdx: number;
+            companyName: string;
+            managerEmail: string;
+          };
+        };
+        // nullable
+        finalQuotation: {
+          finalQuotationIdx: number;
+          // nullable
+          project: {
+            projectIdx: number;
+            isCompletedContractStep: string;
+          };
+        };
+      },
+    ];
+  };
+}
 
 const fake: Fake[] = [
   {
@@ -96,6 +129,21 @@ const fake: Fake[] = [
 const CompanyPreQuotation = () => {
   const [dataArr, setDataArr] = useState<[]>([]);
 
+  // --------------------- AS detail API ------------------------------
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const routerId = 330;
+  //   const routerId = 329;
+
+  const { data, isLoading, isError, error } =
+    useQuery<CompanyPreQuotationResponse>('userPreQuotation', () =>
+      isTokenGetApi(
+        `/admin/quotations/quotation-requests/${routerId}/pre-quotations`,
+      ),
+    );
+  console.log('data 뭐나옴??', data?.data?.preQuotations);
+  //   const newArray: any = [data?.data?.preQuotations];
+  //   console.log('newArray', newArray);
+  console.log('fake', fake);
   useEffect(() => {
     const temp: any = [];
     fake.forEach((ele, idx) => {

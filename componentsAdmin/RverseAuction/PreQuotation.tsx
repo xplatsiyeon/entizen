@@ -290,7 +290,7 @@ const LoaderContainer = styled.div`
   flex-direction: column;
 `;
 const Contatiner = styled.div`
-  border: 2px solid ${colors.lightGray5};
+  /* border: 2px solid ${colors.lightGray5}; */
   border-radius: 4px;
   width: 946px;
 `;
@@ -329,7 +329,7 @@ const Item = styled.li`
 const Line = styled.div`
   margin: 0 15px;
   height: 2px;
-  background: ${colors.lightGray6};
+  /* background: ${colors.lightGray6}; */
 `;
 const ImgList = styled.div`
   padding-top: 14px;
