@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import UserPreQuotation from './UserPreQuotation';
-import Qutation from './Qutation';
+import CompanyPreQuotation from './CompanyPreQuotation';
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;
   //   type: 'USER' | 'COMPANY';
@@ -23,10 +23,8 @@ const DetailQuotation = ({ setIsDetail }: Props) => {
           backBtn={handleBackBtn}
           exelHide={false}
         />
-        <Qutation />
-
-        {/* <UserPreQuotation /> */}
-       
+        <UserPreQuotation />
+        <CompanyPreQuotation />
       </Wrapper>
     </Background>
   );
@@ -36,25 +34,16 @@ export default DetailQuotation;
 
 const Background = styled.div`
   width: 100%;
+  height: 100vh;
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
-  position: absolute;
+  /* position: absolute; */
   left: 154.5pt;
-  z-index: 999;
+  z-index: 10;
+  overflow-y: scroll;
+  padding-bottom: 75px;
 `;
 
 const Wrapper = styled.div`
-  width: 946px;
+  min-width: 964px;
 `;
-
-const QuotationTitle = styled.div`
-  font-family: 'Spoqa Han Sans Neo';
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 150%;
-  color: ${colors.dark2};
-  text-align: left;
-`;
-
-const SelectBox = styled.select``;
-const SelectValue = styled.option``;

@@ -10,14 +10,14 @@ import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
-  tableType : string;
+  tableType: string;
 };
 
 
 const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [columns, setColumns] = useState<any[]>([])
+  const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
 
   const { data: userData, refetch: userDataRefetch } = useQuery<UserData>(
@@ -74,9 +74,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         setLength(userData?.data?.totalCount? userData?.data?.totalCount : 0);
       }
       },
-      onError: (error) => alert(
-        '다시 시도해주세요'
-      ),
+      onError: (error) => alert('다시 시도해주세요'),
     },
   );
 
@@ -195,30 +193,30 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
   )
 
   useEffect(() => {
-    console.log('props', tableType)
-    switch(tableType){
-      case 'userData' : 
-      userDataRefetch();
-      break;
+    console.log('props', tableType);
+    switch (tableType) {
+      case 'userData':
+        userDataRefetch();
+        break;
 
-      case 'comUserData' : 
-      comUserDataRefetch();
-      break;
+      case 'comUserData':
+        comUserDataRefetch();
+        break;
     }
     // 의존성 배열에 api.get()dml data넣기.
   }, []);
 
-  useEffect(()=>{
-    switch(tableType){
-      case 'userData' : 
-      userDataRefetch();
-      break;
+  useEffect(() => {
+    switch (tableType) {
+      case 'userData':
+        userDataRefetch();
+        break;
 
-      case 'comUserData' : 
-      comUserDataRefetch();
-      break;
+      case 'comUserData':
+        comUserDataRefetch();
+        break;
     }
-  }, [page])
+  }, [page]);
 
 
   return (
@@ -227,23 +225,20 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         <P>결과 {length}</P> <Button>엑셀 다운로드</Button>{' '}
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 && (
-        <Grid
-          data={dataArr}
-          columns={columns}
-        />
+        <Grid data={dataArr} columns={columns} />
       )}
-    <WrapPage>
-      <Pagination
-        prev
-        next
-        size='md'
-        total={length?length:0}
-        limit={10}
-        maxButtons={5}
-        activePage={page}
-        onChangePage={setPage}
-      />
-    </WrapPage>
+      <WrapPage>
+        <Pagination
+          prev
+          next
+          size="md"
+          total={length ? length : 0}
+          limit={10}
+          maxButtons={5}
+          activePage={page}
+          onChangePage={setPage}
+        />
+      </WrapPage>
     </StyledBody>
   );
 };
@@ -259,7 +254,6 @@ const StyledBody = styled.div`
   table {
     width: 100%;
     text-align: center;
-
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-size: 16px;
@@ -299,14 +293,14 @@ const WrapPage = styled.div`
     justify-content: center;
   }
 
-.rs-pagination-btn{
-  color: lightgrey;
-  border:none;
-  &.rs-pagination-btn-active{
-    color: black;
-    &:focus{
+  .rs-pagination-btn {
+    color: lightgrey;
+    border: none;
+    &.rs-pagination-btn-active {
       color: black;
+      &:focus {
+        color: black;
+      }
     }
   }
-}
-`
+`;

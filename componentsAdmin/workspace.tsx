@@ -80,7 +80,10 @@ const Workspace = ({ setNumber }: Props) => {
                   <ListItemIcon>
                     <ChevronRightIcon fontSize="medium" color="action" />
                   </ListItemIcon>
-                  <ListItemText primary={closeList[idx][innerIdx]} />
+                  <ListItemText
+                    primary={closeList[idx][innerIdx]}
+                    className="innerText"
+                  />
                 </ListItemButton>
               ))}
             </List>
@@ -95,20 +98,23 @@ export default Workspace;
 
 const Wrapper = styled(List)`
   min-width: 154.5pt;
-
   background-color: ${colors.main1};
   height: 100vh;
   padding: 0;
   .css-cveggr-MuiListItemIcon-root {
     min-width: 0;
   }
-  .css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root {
-    font-family: 'Spoqa Han Sans Neo';
-    font-style: normal;
-    font-weight: 500;
+  .MuiListItemButton-root {
+    font-weight: 600;
     font-size: 12pt;
     line-height: 150%;
     color: ${colors.lightWhite};
+  }
+  .innerText {
+    font-weight: 600;
+    font-size: 12pt;
+    line-height: 150%;
+    color: ${colors.main2};
   }
 `;
 const Name = styled.div`
@@ -134,9 +140,9 @@ const NavContainer = styled.div``;
 const ListOpen = styled(Collapse)`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 12pt;
   line-height: 150%;
   background: ${colors.lightWhite3};
-  color: ${colors.dark2};
+  color: ${colors.dark2} !important;
 `;
