@@ -18,14 +18,25 @@ type Props = {
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
   tableType: string;
   detatilId?: string;
+  selectedFilter?: number;
+  keyword?: string;
 };
 
-const Table = ({ setIsDetail, setDetailId, tableType, detatilId }: Props) => {
+const Table = ({
+  setIsDetail,
+  setDetailId,
+  tableType,
+  detatilId,
+  selectedFilter,
+  keyword,
+}: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
-  const routerId = 330;
+
+  console.log('keyword dasd', keyword);
+  console.log('selectedFilter af', selectedFilter);
 
   /*
   
@@ -42,7 +53,7 @@ const Table = ({ setIsDetail, setDetailId, tableType, detatilId }: Props) => {
     () =>
       api({
         method: 'GET',
-        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=2022-12-19&endDate=2022-12-19`,
+        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=2022-12-19&endDate=2022-12-19&searchType=${selectedFilter}&searchKeyword=${keyword}`,
       }),
     {
       enabled: false,
@@ -380,11 +391,6 @@ const Table = ({ setIsDetail, setDetailId, tableType, detatilId }: Props) => {
         onError: () => alert('다시 시도해주세요'),
       },
     );
-
-  console.log(
-    'companyPreQuotation ㅇㄴㅁㅇㅁㄴ',
-    companyPreQuotation?.data?.preQuotations,
-  );
 
   useEffect(() => {
     console.log('props', tableType);
