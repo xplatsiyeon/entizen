@@ -288,9 +288,9 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
 
 
   return (
-    <StyledBody className="user-table">
+    <StyledBody className="table">
       <FlexBox>
-        <P>결과 {length}</P> <Button>엑셀 다운로드</Button>{' '}
+        <P>결과 {length}</P> <Button>엑셀 다운로드</Button>
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 && (
         <Grid data={dataArr} columns={columns} />
@@ -343,6 +343,19 @@ const StyledBody = styled.div`
       .wide {
       }
     }
+    .detail{
+      font-family: 'Spoqa Han Sans Neo';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 150%;
+      text-align: center;
+      color: #747780;
+      background: #E2E5ED;
+      border: 1px solid #747780;
+      padding: 3px 19px;
+      border-radius: 4px;
+    }
   }
 `;
 
@@ -353,7 +366,16 @@ const FlexBox = styled.div`
 `;
 const P = styled.p``;
 
-const Button = styled.button``;
+const Button = styled.button`
+font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 150%;
+color: #747780;
+text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+padding: 3px 6px;
+`;
 
 const WrapPage = styled.div`
   margin: 50px auto;
