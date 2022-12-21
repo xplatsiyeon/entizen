@@ -17,8 +17,11 @@ const index = (props: Props) => {
       <Workspace setNumber={setNumber} />
       {number === 1 && <UserManagement />}
       {number === 2 && <CompanyManagement />}
-      {number === 4 && <ProjectList />}
       {number === 3 && <ReverseAuctionList />}
+      {number === 4 && <ProjectList />}
+      {/* {number === 4 && (
+        <ProjectDetail setIsDetail={setIsDetail} projectIdx={50} />
+      )} */}
     </Background>
   );
 };

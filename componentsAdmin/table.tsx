@@ -6,15 +6,17 @@ import { api } from 'api';
 import { Pagination } from 'rsuite';
 import { ComUserData, ProjectList, Quotations, UserData } from 'types/tableDataType';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
+import { DateRange } from 'rsuite/esm/DateRangePicker';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
   tableType: string;
+  pickedDate? : DateRange;
 };
 
 
-const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
+const Table = ({ setIsDetail, setDetailId, tableType, pickedDate }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
@@ -114,7 +116,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
             ele?.isAdminJoinApproved,
             dateFomat(ele.createdAt),
             `${ele.deletedAt?  dateFomat(ele.deletedAt) : '-'}`,
-            ''
+            ele.memberIdx
           ];
           temp.push(arrEle);
         });
@@ -180,7 +182,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         quetationListData?.data.quotationRequests.forEach((ele, idx)=>{
           const eleArr = [
             `${(page - 1) === 0 || idx === 9 ?'': page-1}${ (idx + 1) === 10 ? page*10 : idx+1 }`, 
-            ele.badge!, ele?.member?.id!, ele.installationAddress!, dateFomat(ele.createdAt!), '보기'];
+            ele.badge!, ele?.member?.id!, ele.installationAddress!, dateFomat(ele.createdAt!), ele.quotationRequestIdx];
           temp.push(eleArr);
         })
         setDataArr(temp);
@@ -209,7 +211,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
   const {data: projectListData, refetch : projectListRefetch } = useQuery<ProjectList>(
     'projectList', ()=> api({
       method: 'GET',
-      endpoint: `/admin/projects?page=${page}&limit=10&startDate=2022-10-01&endDate=2022-12-15`
+      endpoint: `/admin/projects?page=${page}&limit=10&startDate=${pickedDate? pickedDate[0]: '2022-10-01'}&endDate=${pickedDate? pickedDate[1] :'2022-12-15'}`
     }),{
       enabled: false,
       onSuccess:(projectListData)=>{
@@ -218,7 +220,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         projectListData?.data?.projects.forEach((ele, idx)=>{
           const eleArr = [
             `${(page - 1) === 0 || idx === 9 ?'': page-1}${ (idx + 1) === 10 ? page*10 : idx+1 }`, 
-            ele.projectNumber!, ele.userMember.id!, ele.companyMember.id!, ele.currentStep!, ele.projectName, dateFomat(ele.createdAt), '보기'];
+            ele.projectNumber!, ele.userMember.id!, ele.companyMember.id!, ele.currentStep!, ele.projectName, dateFomat(ele.createdAt), ele.projectIdx!];
           temp.push(eleArr);
         })
         setDataArr(temp);
@@ -284,7 +286,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
           projectListRefetch();
           break;
     }
-  }, [page]);
+  }, [page, pickedDate]);
 
 
   return (
