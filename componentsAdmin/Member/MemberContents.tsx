@@ -3,7 +3,7 @@ import React from 'react';
 import FileImg from 'public/adminImages/File.png';
 import Image from 'next/image';
 import { CompanyResposne, UserRespnse } from './CommonDetail';
-import { dateFomat, hyphenFn } from 'utils/calculatePackage';
+import { adminDateFomat, hyphenFn } from 'utils/calculatePackage';
 
 type Props = {
   type: 'USER' | 'COMPANY';
@@ -31,7 +31,7 @@ const MemberContents = ({ type, userData, CompanyData }: Props) => {
           </li>
           <li>
             <label className="label">가입날짜</label>
-            <span>{dateFomat(userData?.data?.member?.createdAt)}</span>
+            <span>{adminDateFomat(userData?.data?.member?.createdAt)}</span>
           </li>
         </>
       ) : (
@@ -102,7 +102,7 @@ const MemberContents = ({ type, userData, CompanyData }: Props) => {
           </li>
           <li>
             <label className="comapny label">가입날짜</label>
-            <span>{dateFomat(CompanyData?.data?.member?.createdAt)}</span>
+            <span>{adminDateFomat(CompanyData?.data?.member?.createdAt)}</span>
           </li>
           <li>
             <label className="comapny label">가입승인</label>

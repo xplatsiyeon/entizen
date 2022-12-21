@@ -187,7 +187,7 @@ export const dateFomat = (date: string) => {
   return result;
 };
 // 관리자 페이지에서 사용하는 날짜변환 함수
-export const dateFormat = (date: string) => {
+export const adminDateFomat = (date: string) => {
   const newDate = new Date(date);
   return new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000)
     .toISOString()
