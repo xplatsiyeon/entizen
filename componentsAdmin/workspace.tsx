@@ -98,7 +98,6 @@ export default Workspace;
 
 const Wrapper = styled(List)`
   min-width: 154.5pt;
-
   background-color: ${colors.main1};
   height: 100vh;
   padding: 0;

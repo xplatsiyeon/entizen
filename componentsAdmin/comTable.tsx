@@ -106,7 +106,7 @@ const ComTable = ({ setIsDetail, setDetailId }: Props) => {
   return (
     <StyledBody className="user-table">
       <FlexBox>
-        <P>결과</P> <Button>엑셀 다운로드</Button>{' '}
+        <P>결과</P> <Button>엑셀 다운로드</Button>
       </FlexBox>
       {dataArr.length > 0 ? (
         <Grid
@@ -124,7 +124,7 @@ const ComTable = ({ setIsDetail, setDetailId }: Props) => {
                 _(
                   <select defaultValue={`${cell}`}>
                     <option value="true">승인</option>
-                    <option value="false">미숭인</option>
+                    <option value="false">미승인</option>
                   </select>,
                 ),
             },
