@@ -57,7 +57,9 @@ export interface UserPreQuotationResponse {
   };
 }
 
-const UserPreQuotation = () => {
+type Props = { detatilId: string };
+
+const UserPreQuotation = ({ detatilId }: Props) => {
   // --------------------- AS detail API ------------------------------
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const routerId = 330;
@@ -65,7 +67,7 @@ const UserPreQuotation = () => {
 
   const { data, isLoading, isError, error } =
     useQuery<UserPreQuotationResponse>('userPreQuotation', () =>
-      isTokenGetApi(`/admin/quotations/quotation-requests/${routerId}`),
+      isTokenGetApi(`/admin/quotations/quotation-requests/${detatilId}`),
     );
 
   console.log(
