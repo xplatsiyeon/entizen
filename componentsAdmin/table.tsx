@@ -47,7 +47,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         const temp: any = [];
         userData?.data?.members.forEach((ele, idx) => {
           const arrEle = [
-            `${(page - 1) === 0 ?'': page-1}${ (idx + 1) === page*10 ? 0 : idx+1 }`,
+            `${(page - 1) === 0 || idx === 9 ? '': page-1}${ (idx + 1) === 10 ? page*10 : idx+1 }`,
             ele.id,
             ele.name,
             hyphenFn(ele.phone),
@@ -105,7 +105,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         const temp: any = [];
         comUserData?.data?.members.forEach((ele, idx) => {
           const arrEle = [
-            `${(page - 1) === 0 ?'': page-1}${ (idx + 1) === page*10 ? 0 : idx+1 }`,
+            `${(page - 1) === 0 || idx === 9 ?'': page-1}${ (idx + 1) === 10 ? page*10 : idx+1 }`,
             ele?.companyMemberAdditionalInfo?.companyName!,
             ele.id,
             ele.name,
@@ -171,7 +171,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
   const {data: quetationListData, refetch : quetationListRefetch } = useQuery<Quotations>(
     'quetationList', ()=> api({
       method: 'GET',
-      endpoint: `/admin/quotations/quotation-requests?page=${1}&limit=10&startDate=2022-12-10&endDate=2022-12-20`
+      endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=2022-12-10&endDate=2022-12-20`
     }),{
       enabled: false,
       onSuccess:(quetationListData)=>{
@@ -179,7 +179,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         const temp:any = [];
         quetationListData?.data.quotationRequests.forEach((ele, idx)=>{
           const eleArr = [
-            `${(page - 1) === 0 ?'': page-1}${ (idx + 1) === page*10 ? 0 : idx+1 }`, 
+            `${(page - 1) === 0 || idx === 9 ?'': page-1}${ (idx + 1) === 10 ? page*10 : idx+1 }`, 
             ele.badge!, ele?.member?.id!, ele.installationAddress!, dateFomat(ele.createdAt!), '보기'];
           temp.push(eleArr);
         })
@@ -217,7 +217,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         const temp:any = [];
         projectListData?.data?.projects.forEach((ele, idx)=>{
           const eleArr = [
-            `${(page - 1) === 0 ?'': page-1}${ (idx + 1) === page*10 ? 0 : idx+1 }`, 
+            `${(page - 1) === 0 || idx === 9 ?'': page-1}${ (idx + 1) === 10 ? page*10 : idx+1 }`, 
             ele.projectNumber!, ele.userMember.id!, ele.companyMember.id!, ele.currentStep!, ele.projectName, dateFomat(ele.createdAt), '보기'];
           temp.push(eleArr);
         })
@@ -266,6 +266,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
   }, []);
 
   useEffect(() => {
+    console.log('page', page)
     switch (tableType) {
       case 'userData':
         userDataRefetch();

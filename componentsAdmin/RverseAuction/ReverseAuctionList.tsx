@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
 import colors from 'styles/colors';
+import DetailQuotation from './DetailQuotation';
 
 const ReverseAuctionList = () => {
 
@@ -24,6 +25,10 @@ const ReverseAuctionList = () => {
 
   return (
     <Wrapper>
+      {isDetail && (
+        <DetailQuotation
+        />
+      )}
       <AdminHeader title="역경매 관리" type="main" />
         <Manager>
         <li className="search">
@@ -34,8 +39,8 @@ const ReverseAuctionList = () => {
             size={'sm'}
             onChange={handleDateChange}
             />
-        </li>
         <Btn>조회</Btn>
+        </li>
         </Manager>
         <Table setDetailId={setDetailId} setIsDetail={setIsDetail} tableType={'quetationListData'} />
     </Wrapper>
@@ -45,13 +50,9 @@ const ReverseAuctionList = () => {
 export default ReverseAuctionList;
 
 const Wrapper = styled.div`
-  /* width: 100%; */
-  background-color: ${colors.lightWhite};
   width: 100%;
-  padding: 0 18pt;
-  position: absolute;
-  left: 154.5pt;
-  z-index: 999;
+
+  margin: 0 18pt;
 `;
 
 const Manager = styled.ul`
@@ -94,5 +95,4 @@ const Btn = styled.button`
   height: 19.5pt;
   color: ${colors.lightWhite};
   background: #464646;
-  margin-top: 15px;
 `;
