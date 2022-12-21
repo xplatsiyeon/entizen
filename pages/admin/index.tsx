@@ -6,6 +6,7 @@ import Workspace from 'componentsAdmin/workspace';
 import React, { useState } from 'react';
 import ProjectList from 'componentsAdmin/ProjectList/ProjectList';
 import DetailQuotation from 'componentsAdmin/RverseAuction/DetailQuotation';
+import ProjectDetail from 'componentsAdmin/ProjectList/ProjectDetail';
 
 type Props = {};
 
@@ -20,7 +21,9 @@ const index = (props: Props) => {
       {number === 1 && <UserManagement />}
       {number === 2 && <CompanyManagement />}
       {number === 4 && <ProjectList />}
-      {number === 3 && <DetailQuotation setIsDetail={setIsDetail} />}
+      {/* {number === 4 && (
+        <ProjectDetail setIsDetail={setIsDetail} projectIdx={50} />
+      )} */}
     </Background>
   );
 };
