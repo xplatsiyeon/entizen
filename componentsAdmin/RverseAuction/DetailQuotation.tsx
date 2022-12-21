@@ -26,6 +26,7 @@ const DetailQuotation = ({ setIsDetail }: Props) => {
         <Qutation />
 
         {/* <UserPreQuotation /> */}
+       
       </Wrapper>
     </Background>
   );

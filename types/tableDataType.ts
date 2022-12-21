@@ -22,7 +22,7 @@ export type UserData = {
       totalCount: number;
     };
   };
-  
+
   export type ComUserMemberInfo = {
     memberIdx: number;
     id: string;
@@ -37,3 +37,25 @@ export type UserData = {
         managerEmail: string;
     }
   };
+
+  export type Quotations = {
+    isSuccess: boolean,
+    data: {
+        totalCount: number,
+        quotationRequests: QuotationRequest[];
+  }
+}
+
+  export type QuotationRequest ={
+      quotationRequestIdx: number,
+      quotationStatus: string,
+      installationAddress: string,
+      expiredAt: string,
+      createdAt: string,
+      member: {
+          memberIdx: number,
+          id: string,
+      },
+      badge: string,
+  }
+  
