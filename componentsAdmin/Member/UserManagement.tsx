@@ -4,9 +4,9 @@ import AdminHeader from 'componentsAdmin/Header';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
-import UserTable from 'componentsAdmin/userTable';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
+import Table from 'componentsAdmin/table';
 
 type Props = {};
 
@@ -64,7 +64,7 @@ const UserManagement = (props: Props) => {
             <Btn>조회</Btn>
           </li>
         </Manager>
-        <UserTable setIsDetail={setIsDetail} setDetailId={setDetailId} tableType={'userData'}/>
+        <Table setIsDetail={setIsDetail} setDetailId={setDetailId} tableType={'userData'}/>
       </Wrapper>
     </>
   );

@@ -4,27 +4,23 @@ import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import UserPreQuotation from './UserPreQuotation';
 import CompanyPreQuotation from './CompanyPreQuotation';
+import Qutation from './Qutation';
 type Props = {
-  setIsDetail: Dispatch<SetStateAction<boolean>>;
-  //   type: 'USER' | 'COMPANY';
-  //   memberIdx: number | string;
 };
 
-const DetailQuotation = ({ setIsDetail }: Props) => {
-  const handleBackBtn = () => {
-    setIsDetail(false);
-  };
+const DetailQuotation = () => {
+ 
   return (
     <Background>
       <Wrapper>
         <AdminHeader
           title="역경매 관리"
           type="detail"
-          backBtn={handleBackBtn}
           exelHide={false}
         />
-        <UserPreQuotation />
-        <CompanyPreQuotation />
+        {/* <UserPreQuotation /> */}
+        {/* <CompanyPreQuotation /> */}
+        <Qutation />
       </Wrapper>
     </Background>
   );
