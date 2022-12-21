@@ -31,9 +31,10 @@ type Fake = {
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  setDetailId: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const ComTable = ({ setIsDetail }: Props) => {
+const ComTable = ({ setIsDetail, setDetailId }: Props) => {
   const fake: Fake[] = [
     {
       isSuccess: true,
@@ -139,7 +140,13 @@ const ComTable = ({ setIsDetail }: Props) => {
               name: '',
               formatter: () =>
                 _(
-                  <button className="down" onClick={() => setIsDetail(true)}>
+                  <button
+                    className="down"
+                    onClick={() => {
+                      // setDetailId(cell?.toString()!);
+                      setIsDetail(true);
+                    }}
+                  >
                     보기
                   </button>,
                 ),

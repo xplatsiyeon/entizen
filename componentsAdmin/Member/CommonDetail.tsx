@@ -73,7 +73,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     () => isTokenGetApi(`/admin/members/users/${memberIdx}`),
     {
       // enabled: false,
-      enabled: type === 'USER',
+      enabled: type === 'USER' && memberIdx ? true : false,
     },
   );
   const {
@@ -85,7 +85,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     () => isTokenGetApi(`/admin/members/companies/${memberIdx}`),
     {
       // enabled: false,
-      enabled: type === 'COMPANY',
+      enabled: type === 'COMPANY' && memberIdx ? true : false,
     },
   );
 

@@ -11,6 +11,7 @@ type Props = {};
 
 const CompanyManagement = (props: Props) => {
   const [isDetail, setIsDetail] = useState(false);
+  const [detatilId, setDetailId] = useState<string>('');
 
   // 달력 날짜 변경 함수
   const handleDateChange = (
@@ -27,7 +28,7 @@ const CompanyManagement = (props: Props) => {
         <CommonDetail
           setIsDetail={setIsDetail}
           type={'COMPANY'}
-          memberIdx={113}
+          memberIdx={detatilId}
         />
       )}
 
@@ -47,7 +48,7 @@ const CompanyManagement = (props: Props) => {
           <Btn>조회</Btn>
         </Manager>
         {/* 테이블 컴포넌트 */}
-        <ComTable setIsDetail={setIsDetail} />
+        <ComTable setIsDetail={setIsDetail} setDetailId={setDetailId} />
       </Wrapper>
     </>
   );

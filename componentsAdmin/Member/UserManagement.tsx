@@ -4,7 +4,7 @@ import AdminHeader from 'componentsAdmin/Header';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
-import ComTable from 'componentsAdmin/comTable';
+import UserTable from 'componentsAdmin/userTable';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 
@@ -15,6 +15,7 @@ const UserManagement = (props: Props) => {
   const [selectValue, setSelectValue] = useState('');
   const [keyword, setKeyword] = useState('');
   const [isDetail, setIsDetail] = useState(false);
+  const [detatilId, setDetailId] = useState<string>('');
   // 셀렉트 박스 변경함수
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     setSelectValue(event.target.value as string);
@@ -31,7 +32,11 @@ const UserManagement = (props: Props) => {
   return (
     <>
       {isDetail && (
-        <CommonDetail setIsDetail={setIsDetail} type="USER" memberIdx={28} />
+        <CommonDetail
+          setIsDetail={setIsDetail}
+          type="USER"
+          memberIdx={detatilId}
+        />
       )}
       <Wrapper>
         <AdminHeader title="회원관리" subTitle="일반회원" type="main" />
@@ -59,7 +64,7 @@ const UserManagement = (props: Props) => {
             <Btn>조회</Btn>
           </li>
         </Manager>
-        <ComTable setIsDetail={setIsDetail} />
+        <UserTable setIsDetail={setIsDetail} setDetailId={setDetailId} />
       </Wrapper>
     </>
   );
