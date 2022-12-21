@@ -8,6 +8,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 import ComTable from 'componentsAdmin/comTable';
+import UserTable from 'componentsAdmin/userTable';
 
 type Props = {};
 
@@ -47,7 +48,7 @@ const UserManagement = (props: Props) => {
             <Btn>조회</Btn>
           </li>
         </Manager>
-        <ComTable setIsDetail={setIsDetail} />
+        <UserTable/>
       </Wrapper>
     </>
   );
