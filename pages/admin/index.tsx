@@ -6,11 +6,13 @@ import UserTable from 'componentsAdmin/userTable';
 import Workspace from 'componentsAdmin/workspace';
 import React, { useState } from 'react';
 import ProjectList from 'componentsAdmin/ProjectList/ProjectList';
+import DetailQuotation from 'componentsAdmin/RverseAuction/DetailQuotation';
 
 type Props = {};
 
 const index = (props: Props) => {
   const [number, setNumber] = useState(0);
+  const [isDetail, setIsDetail] = useState<boolean>(false);
   console.log('number 가져오셈', number);
   return (
     <Background>
@@ -18,6 +20,7 @@ const index = (props: Props) => {
       {number === 1 && <UserManagement />}
       {number === 2 && <CompanyManagement />}
       {number === 4 && <ProjectList />}
+      {/* {number === 3 && <DetailQuotation setIsDetail={setIsDetail} />} */}
     </Background>
   );
 };

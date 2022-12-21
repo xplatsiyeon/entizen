@@ -158,7 +158,6 @@ export default CommonDetail;
 const Background = styled.div`
   width: 100%;
   background-color: ${colors.lightWhite};
-
   padding: 0 18pt;
   position: absolute;
   left: 154.5pt;

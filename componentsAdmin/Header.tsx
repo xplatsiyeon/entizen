@@ -9,9 +9,10 @@ type Props = {
   title: string;
   subTitle?: string;
   backBtn?: () => void;
+  exelHide?: boolean;
 };
 
-const AdminHeader = ({ type, title, subTitle, backBtn }: Props) => {
+const AdminHeader = ({ type, title, subTitle, backBtn, exelHide }: Props) => {
   return (
     <>
       {type === 'main' && (
@@ -34,7 +35,7 @@ const AdminHeader = ({ type, title, subTitle, backBtn }: Props) => {
               <h1>{title}</h1>
               <p>{subTitle}</p>
             </span>
-            <button className="excelBtn">엑셀 다운로드</button>
+            {exelHide && <button className="excelBtn">엑셀 다운로드</button>}
           </div>
         </DetailWrapper>
       )}

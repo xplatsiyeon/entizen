@@ -105,7 +105,6 @@ const ComTable = ({ setIsDetail }: Props) => {
   return (
     <StyledBody className="user-table">
       <FlexBox>
-        {' '}
         <P>결과</P> <Button>엑셀 다운로드</Button>{' '}
       </FlexBox>
       {dataArr.length > 0 ? (
