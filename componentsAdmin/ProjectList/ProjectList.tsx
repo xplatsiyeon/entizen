@@ -1,29 +1,38 @@
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import Table from 'componentsAdmin/table';
-import React, {useState } from 'react';
+import React, {useRef, useState } from 'react';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
 import colors from 'styles/colors';
+import ProjectDetail from './ProjectDetail';
+import { Dayjs } from 'dayjs';
 
 const ProjectList = () => {
 
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
+  const [pickedDate, setPickedDate] = useState<DateRange>();
+
+  const dateRef = useRef<DateRange>();
+
+  const handleDate =()=>{
+    const date = dateRef.current;
+    console.log(date)
+  }
 
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
     event: React.SyntheticEvent<Element, Event>,
   ) => {
-    console.log(value);
-    console.log(event);
-  };
+    console.log('ref',dateRef.current);
+    }
 
 
   return (
     <Wrapper>
-    {isDetail && <></>}
+    {isDetail && <ProjectDetail setIsDetail={setIsDetail} projectIdx={Number(detatilId!)}/>}
       <AdminHeader title="프로젝트" type="main" />
       <Manager>
         <li className="search">
@@ -34,10 +43,10 @@ const ProjectList = () => {
             size={'sm'}
             onChange={handleDateChange}
             />
-        <Btn>조회</Btn>
+        <Btn onClick={handleDate}>조회</Btn>
         </li>
         </Manager>
-        <Table setDetailId={setDetailId} setIsDetail={setIsDetail} tableType={'projectListData'} />
+        <Table setDetailId={setDetailId} setIsDetail={setIsDetail} tableType={'projectListData'} pickedDate={pickedDate} />
     </Wrapper>
   );
 };

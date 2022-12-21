@@ -12,11 +12,13 @@ import {
   CompanyPreQuotationResponse,
 } from 'types/tableDataType';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
+import { DateRange } from 'rsuite/esm/DateRangePicker';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
   tableType: string;
+  pickedDate?: DateRange;
   detatilId?: string;
   selectedFilter?: number;
   keyword?: string;
@@ -29,6 +31,7 @@ const Table = ({
   detatilId,
   selectedFilter,
   keyword,
+  pickedDate,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -127,8 +130,8 @@ const Table = ({
             const temp: any = [];
             comUserData?.data?.members.forEach((ele, idx) => {
               const arrEle = [
-                `${page - 1 === 0 ? '' : page - 1}${
-                  idx + 1 === page * 10 ? 0 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele?.companyMemberAdditionalInfo?.companyName!,
                 ele.id,
@@ -138,7 +141,7 @@ const Table = ({
                 ele?.isAdminJoinApproved,
                 dateFomat(ele.createdAt),
                 `${ele.deletedAt ? dateFomat(ele.deletedAt) : '-'}`,
-                '',
+                ele.memberIdx,
               ];
               temp.push(arrEle);
             });
@@ -192,133 +195,6 @@ const Table = ({
             );
           }
         },
-        onError: (error) => alert('다시 시도해주세요'),
-      },
-    );
-
-  const { data: quetationListData, refetch: quetationListRefetch } =
-    useQuery<Quotations>(
-      'quetationList',
-      () =>
-        api({
-          method: 'GET',
-          endpoint: `/admin/quotations/quotation-requests?page=${1}&limit=10&startDate=2022-12-10&endDate=2022-12-20`,
-        }),
-      {
-        enabled: false,
-        onSuccess: (quetationListData) => {
-          if (tableType === 'quetationListData') {
-            const temp: any = [];
-            quetationListData?.data.quotationRequests.forEach((ele, idx) => {
-              const eleArr = [
-                `${page - 1 === 0 ? '' : page - 1}${
-                  idx + 1 === page * 10 ? 0 : idx + 1
-                }`,
-                ele.badge!,
-                ele?.member?.id!,
-                ele.installationAddress!,
-                dateFomat(ele.createdAt!),
-                '보기',
-              ];
-              temp.push(eleArr);
-            });
-            setDataArr(temp);
-            setColumns([
-              '번호',
-              '진행상태',
-              '작성자(아이디)',
-              '견적제목',
-              '작성날짜',
-              {
-                name: '',
-                id: 'quetationList-Detail',
-                formatter: (cell: string) =>
-                  _(
-                    <button
-                      className="detail"
-                      onClick={() => {
-                        setDetailId(cell);
-                        setIsDetail(true);
-                      }}
-                    >
-                      보기
-                    </button>,
-                  ),
-              },
-            ]);
-            setLength(
-              quetationListData.data.totalCount
-                ? quetationListData.data.totalCount
-                : 0,
-            );
-          }
-        },
-        onError: () => alert('다시 시도해주세요'),
-      },
-    );
-
-  const { data: projectListData, refetch: projectListRefetch } =
-    useQuery<ProjectList>(
-      'projectList',
-      () =>
-        api({
-          method: 'GET',
-          endpoint: `/admin/projects?page=${page}&limit=10&startDate=2022-10-01&endDate=2022-12-15`,
-        }),
-      {
-        enabled: false,
-        onSuccess: (projectListData) => {
-          if (tableType === 'projectListData') {
-            const temp: any = [];
-            projectListData?.data?.projects.forEach((ele, idx) => {
-              const eleArr = [
-                `${page - 1 === 0 ? '' : page - 1}${
-                  idx + 1 === page * 10 ? 0 : idx + 1
-                }`,
-                ele.projectNumber!,
-                ele.userMember.id!,
-                ele.companyMember.id!,
-                ele.currentStep!,
-                ele.projectName,
-                dateFomat(ele.createdAt),
-                '보기',
-              ];
-              temp.push(eleArr);
-            });
-            setDataArr(temp);
-            setColumns([
-              '번호',
-              '프로젝트 번호',
-              '작성자(아이디)',
-              '기업회원(아이디)',
-              '진행단계',
-              '프로젝트_제목',
-              '프로젝트_생성일',
-              {
-                name: '',
-                id: 'quetationList-Detail',
-                formatter: (cell: string) =>
-                  _(
-                    <button
-                      className="detail"
-                      onClick={() => {
-                        setDetailId(cell);
-                        setIsDetail(true);
-                      }}
-                    >
-                      보기
-                    </button>,
-                  ),
-              },
-            ]);
-            setLength(
-              projectListData.data.totalCount
-                ? projectListData.data.totalCount
-                : 0,
-            );
-          }
-        },
-        onError: () => alert('다시 시도해주세요'),
       },
     );
   const [total, setTotal] = useState<boolean>(false);
@@ -392,6 +268,139 @@ const Table = ({
       },
     );
 
+  console.log(
+    'companyPreQuotation ㅇㄴㅁㅇㅁㄴ',
+    companyPreQuotation?.data?.preQuotations,
+  );
+
+  const { data: quetationListData, refetch: quetationListRefetch } =
+    useQuery<Quotations>(
+      'quetationList',
+      () =>
+        api({
+          method: 'GET',
+          endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=2022-12-10&endDate=2022-12-20`,
+        }),
+      {
+        enabled: false,
+        onSuccess: (quetationListData) => {
+          if (tableType === 'quetationListData') {
+            const temp: any = [];
+            quetationListData?.data.quotationRequests.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+                ele.badge!,
+                ele?.member?.id!,
+                ele.installationAddress!,
+                dateFomat(ele.createdAt!),
+                ele.quotationRequestIdx,
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '진행상태',
+              '작성자(아이디)',
+              '견적제목',
+              '작성날짜',
+              {
+                name: '',
+                id: 'quetationList-Detail',
+                formatter: (cell: string) =>
+                  _(
+                    <button
+                      className="detail"
+                      onClick={() => {
+                        setDetailId(cell);
+                        setIsDetail(true);
+                      }}
+                    >
+                      보기
+                    </button>,
+                  ),
+              },
+            ]);
+            setLength(
+              quetationListData.data.totalCount
+                ? quetationListData.data.totalCount
+                : 0,
+            );
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
+
+  const { data: projectListData, refetch: projectListRefetch } =
+    useQuery<ProjectList>(
+      'projectList',
+      () =>
+        api({
+          method: 'GET',
+          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-10-01'
+          }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
+        }),
+      {
+        enabled: false,
+        onSuccess: (projectListData) => {
+          if (tableType === 'projectListData') {
+            const temp: any = [];
+            projectListData?.data?.projects.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+                ele.projectNumber!,
+                ele.userMember.id!,
+                ele.companyMember.id!,
+                ele.currentStep!,
+                ele.projectName,
+                dateFomat(ele.createdAt),
+                ele.projectIdx!,
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '프로젝트 번호',
+              '작성자(아이디)',
+              '기업회원(아이디)',
+              '진행단계',
+              '프로젝트_제목',
+              '프로젝트_생성일',
+              {
+                name: '',
+                id: 'quetationList-Detail',
+                formatter: (cell: string) =>
+                  _(
+                    <button
+                      className="detail"
+                      onClick={() => {
+                        setDetailId(cell);
+                        setIsDetail(true);
+                      }}
+                    >
+                      보기
+                    </button>,
+                  ),
+              },
+            ]);
+            setLength(
+              projectListData.data.totalCount
+                ? projectListData.data.totalCount
+                : 0,
+            );
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
+
   useEffect(() => {
     console.log('props', tableType);
     switch (tableType) {
@@ -440,7 +449,7 @@ const Table = ({
         companyPreQuotationRefetch();
         break;
     }
-  }, [page]);
+  }, [page, pickedDate]);
 
   return (
     <StyledBody className="user-table">
