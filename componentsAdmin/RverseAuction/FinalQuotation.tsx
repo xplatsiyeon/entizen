@@ -91,12 +91,14 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
   );
 
   const onChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setConstructionPeriod(Number(event.currentTarget.value));
+    const { value } = event.currentTarget;
+    Number(value);
+    setConstructionPeriod(Number(value));
   };
 
   useLayoutEffect(() => {
     setConstructionPeriod(data?.data?.finalQuotation?.constructionPeriod);
-  }, []);
+  }, [data]);
   console.log('🔥 최종견적 데이트 확인 -> ' + TAG);
   console.log(data);
   return (
@@ -233,7 +235,7 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
 
             {data?.data?.finalQuotation?.finalQuotationChargers?.map(
               (charger, index) => (
-                <Item>
+                <Item key={index}>
                   <label className="label">
                     {index > 0 ? '' : '충전기 제조사'}
                   </label>
@@ -271,50 +273,54 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
           <Line />
           <ImgList>
             <label className="label">충전기 이미지</label>
-            {data?.data?.finalQuotation?.finalQuotationChargers?.map(
-              (charger, index) => (
-                <div className="container" key={index}>
-                  {charger?.finalQuotationChargerFiles?.map(
-                    (innerCharger, innerIndex) =>
-                      innerCharger.productFileType === 'IMAGE' && (
-                        <div className="imgBox" key={innerIndex}>
-                          <Image
-                            src={innerCharger.url!}
-                            alt="charge-img"
-                            priority={true}
-                            unoptimized={true}
-                            layout="fill"
-                          />
-                          <div className="imgExit">
-                            <Image src={ExitBtn} alt="exit" layout="fill" />
+            <div className="container">
+              {data?.data?.finalQuotation?.finalQuotationChargers?.map(
+                (charger, index) => (
+                  <React.Fragment key={index}>
+                    {charger?.finalQuotationChargerFiles?.map(
+                      (innerCharger, innerIndex) =>
+                        innerCharger.productFileType === 'IMAGE' && (
+                          <div className="imgBox" key={innerIndex}>
+                            <Image
+                              src={innerCharger.url!}
+                              alt="charge-img"
+                              priority={true}
+                              unoptimized={true}
+                              layout="fill"
+                            />
+                            <div className="imgExit">
+                              <Image src={ExitBtn} alt="exit" layout="fill" />
+                            </div>
                           </div>
-                        </div>
-                      ),
-                  )}
-                </div>
-              ),
-            )}
+                        ),
+                    )}
+                  </React.Fragment>
+                ),
+              )}
+            </div>
           </ImgList>
           <Line />
           <BusinessList>
             <label className="label">첨부파일</label>
-            {data?.data?.finalQuotation?.finalQuotationChargers?.map(
-              (charger, index) => (
-                <React.Fragment key={index}>
-                  {charger?.finalQuotationChargerFiles?.map(
-                    (innerCharger, innerIndex) =>
-                      innerCharger.productFileType === 'CATALOG' && (
-                        <div className="fileBox" key={innerIndex}>
-                          <p className="businessName">
-                            Charge Porint 카탈로그_7KW.pdf
-                          </p>
-                          <button className="businessBtn">삭제</button>
-                        </div>
-                      ),
-                  )}
-                </React.Fragment>
-              ),
-            )}
+            <div className="fileContainer">
+              {data?.data?.finalQuotation?.finalQuotationChargers?.map(
+                (charger, index) => (
+                  <React.Fragment key={index}>
+                    {charger?.finalQuotationChargerFiles?.map(
+                      (innerCharger, innerIndex) =>
+                        innerCharger.productFileType === 'CATALOG' && (
+                          <div className="fileBox" key={innerIndex}>
+                            <p className="businessName">
+                              Charge Porint 카탈로그_7KW.pdf
+                            </p>
+                            <button className="businessBtn">삭제</button>
+                          </div>
+                        ),
+                    )}
+                  </React.Fragment>
+                ),
+              )}
+            </div>
           </BusinessList>
         </Contatiner>
       )}
@@ -386,7 +392,7 @@ const ImgList = styled.div`
     background-color: gray;
     margin-top: 10px;
     border-radius: 4px;
-    :not(:nth-last-child()) {
+    :not(:nth-last-of-type()) {
       margin-right: 10px;
     }
   }
@@ -446,5 +452,10 @@ const BusinessList = styled.div`
     text-decoration-line: underline;
 
     color: #747780;
+  }
+  .fileContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 `;

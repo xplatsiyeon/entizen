@@ -41,6 +41,7 @@ const Menu = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
+  width: 946px;
   .selectBox {
     width: 134px;
     height: 36px;
