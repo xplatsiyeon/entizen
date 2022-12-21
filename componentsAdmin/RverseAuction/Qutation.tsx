@@ -3,34 +3,32 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
 import ExitBtn from 'public/adminImages/Group.png';
-import FinalQuotaion from './FinalQuotaion';
-import Prequotion from './Prequotion';
+import FinalQuotaion from './FinalQuotation';
+import Prequotion from './PreQuotation';
 
 type Props = {};
 
 const Qutation = (props: Props) => {
-  const [optionValue, setOptionValue] = useState<'가견적서' | '최종견적서'>();
-  const onChangeSelect = (event: any) => {
+  const [optionValue, setOptionValue] = useState<string>();
+  const onChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    event.preventDefault();
     console.log(event);
-    setOptionValue(event?.target.value);
+    setOptionValue(event?.target?.value);
   };
   return (
     <Wrapper>
       <Menu>
         <select className="selectBox" onChange={onChangeSelect}>
-          <option value="가견적서" onChange={onChangeSelect}>
-            가견적서
-          </option>
-          <option value="최종견적서" onChange={onChangeSelect}>
-            최종견적서
-          </option>
+          <option value="가견적서">가견적서</option>
+          <option value="최종견적서">최종견적서</option>
         </select>
         <Btn>수정</Btn>
       </Menu>
       {/* 가견적 */}
-      {optionValue === '가견적서' && <Prequotion />}
+
+      {optionValue === '가견적서' && <Prequotion preQuotationIdx={304} />}
       {/* 최종견적 */}
-      {optionValue === '최종견적서' && <FinalQuotaion />}
+      {optionValue === '최종견적서' && <FinalQuotaion finalQuotationIdx={88} />}
     </Wrapper>
   );
 };

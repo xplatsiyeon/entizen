@@ -188,10 +188,14 @@ export const dateFomat = (date: string) => {
 };
 // 관리자 페이지에서 사용하는 날짜변환 함수
 export const adminDateFomat = (date: string) => {
-  const newDate = new Date(date);
-  return new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000)
-    .toISOString()
-    .split('T', 1)
-    .toString()
-    .replaceAll('-', '.');
+  if (date) {
+    const newDate = new Date(date);
+    return new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000)
+      ?.toISOString()
+      ?.split('T', 1)
+      ?.toString()
+      ?.replaceAll('-', '.');
+  } else {
+    return '';
+  }
 };
