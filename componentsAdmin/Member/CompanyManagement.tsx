@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import ComTable from 'componentsAdmin/comTable';
 import AdminHeader from 'componentsAdmin/Header';
+import UserTable from 'componentsAdmin/userTable';
 import React, { useState } from 'react';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
@@ -48,7 +49,7 @@ const CompanyManagement = (props: Props) => {
           <Btn>조회</Btn>
         </Manager>
         {/* 테이블 컴포넌트 */}
-        <ComTable setIsDetail={setIsDetail} setDetailId={setDetailId} />
+        <UserTable setIsDetail={setIsDetail} setDetailId={setDetailId} tableType={'comUserData'}/>
       </Wrapper>
     </>
   );
