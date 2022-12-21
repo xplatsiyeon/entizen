@@ -226,36 +226,38 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
           <Line />
           <ImgList>
             <label className="label">충전기 이미지</label>
-            {data?.data?.preQuotation?.preQuotationChargers?.map(
-              (charger, index) => (
-                <div className="container" key={index}>
-                  {charger?.preQuotationFiles?.map(
-                    (innerCharger, innerIndex) =>
-                      innerCharger.productFileType === 'IMAGE' && (
-                        <div className="imgBox" key={innerIndex}>
-                          <Image
-                            src={innerCharger.url!}
-                            alt="charge-img"
-                            priority={true}
-                            unoptimized={true}
-                            layout="fill"
-                          />
-                          <div className="imgExit">
-                            <Image src={ExitBtn} alt="exit" layout="fill" />
+            <div className="container">
+              {data?.data?.preQuotation?.preQuotationChargers?.map(
+                (charger, index) => (
+                  <React.Fragment key={index}>
+                    {charger?.preQuotationFiles?.map(
+                      (innerCharger, innerIndex) =>
+                        innerCharger.productFileType === 'IMAGE' && (
+                          <div className="imgBox" key={innerIndex}>
+                            <Image
+                              src={innerCharger.url!}
+                              alt="charge-img"
+                              priority={true}
+                              unoptimized={true}
+                              layout="fill"
+                            />
+                            <div className="imgExit">
+                              <Image src={ExitBtn} alt="exit" layout="fill" />
+                            </div>
                           </div>
-                        </div>
-                      ),
-                  )}
-                </div>
-              ),
-            )}
+                        ),
+                    )}
+                  </React.Fragment>
+                ),
+              )}
+            </div>
           </ImgList>
           <Line />
           <BusinessList>
             <label className="label">첨부파일</label>
             {data?.data?.preQuotation?.preQuotationChargers?.map(
               (charger, index) => (
-                <React.Fragment key={index}>
+                <div key={index} className="fileContainer">
                   {charger?.preQuotationFiles?.map(
                     (innerCharger, innerIndex) =>
                       innerCharger.productFileType === 'CATALOG' && (
@@ -267,7 +269,7 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
                         </div>
                       ),
                   )}
-                </React.Fragment>
+                </div>
               ),
             )}
           </BusinessList>
@@ -288,9 +290,9 @@ const LoaderContainer = styled.div`
   flex-direction: column;
 `;
 const Contatiner = styled.div`
-  border: 1px solid red;
   border: 2px solid ${colors.lightGray5};
   border-radius: 4px;
+  width: 946px;
 `;
 const MainList = styled.ul`
   display: flex;
@@ -346,7 +348,7 @@ const ImgList = styled.div`
     background-color: gray;
     margin-top: 10px;
     border-radius: 4px;
-    :not(:nth-last-child()) {
+    :not(:nth-last-of-type()) {
       margin-right: 10px;
     }
   }
@@ -406,5 +408,10 @@ const BusinessList = styled.div`
     text-decoration-line: underline;
 
     color: #747780;
+  }
+  .fileContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 `;
