@@ -64,7 +64,7 @@ const UserManagement = (props: Props) => {
             <Btn>조회</Btn>
           </li>
         </Manager>
-        <UserTable setIsDetail={setIsDetail} setDetailId={setDetailId} />
+        <UserTable setIsDetail={setIsDetail} setDetailId={setDetailId} tableType={'userData'}/>
       </Wrapper>
     </>
   );
