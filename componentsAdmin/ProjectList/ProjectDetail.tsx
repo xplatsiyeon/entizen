@@ -284,16 +284,16 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
             </List>
             <List>
               <Label>첨부파일</Label>
-              {data?.data?.project?.finalQuotation?.finalQuotationDetailFiles?.map(
-                (file, index) => (
-                  <FileContainer key={index}>
-                    <div className="fileBox">
+              <FileContainer>
+                {data?.data?.project?.finalQuotation?.finalQuotationDetailFiles?.map(
+                  (file, index) => (
+                    <div className="fileBox" key={index}>
                       <p className="businessName">{file?.originalName}</p>
                       <button className="businessBtn">삭제</button>
                     </div>
-                  </FileContainer>
-                ),
-              )}
+                  ),
+                )}
+              </FileContainer>
             </List>
             <List>
               <Label>프로젝트 생성일</Label>
