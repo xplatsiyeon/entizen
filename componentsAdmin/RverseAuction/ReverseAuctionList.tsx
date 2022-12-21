@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
 import colors from 'styles/colors';
-import DetailQuotation from 'componentsAdmin/RverseAuction/DetailQuotation';
+import DetailQuotation from './DetailQuotation';
 
 const ReverseAuctionList = () => {
   const [isDetail, setIsDetail] = useState(false);
@@ -54,13 +54,9 @@ const ReverseAuctionList = () => {
 export default ReverseAuctionList;
 
 const Wrapper = styled.div`
-  /* width: 100%; */
-  background-color: ${colors.lightWhite};
   width: 100%;
-  padding: 0 18pt;
-  position: absolute;
-  left: 154.5pt;
-  z-index: 999;
+
+  margin: 0 18pt;
 `;
 
 const Manager = styled.ul`
@@ -103,5 +99,4 @@ const Btn = styled.button`
   height: 19.5pt;
   color: ${colors.lightWhite};
   background: #464646;
-  margin-top: 15px;
 `;
