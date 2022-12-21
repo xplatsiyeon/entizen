@@ -95,72 +95,77 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
 
   const loading = userLoading || companyLoading;
   return (
-    <Wrapper>
-      <AdminHeader
-        title="회원관리"
-        subTitle="일반회원"
-        type="detail"
-        backBtn={handleBackBtn}
-      />
-      <InfoBox>
-        <Avatar>
-          {type === 'USER' ? (
-            <Image
-              src={userData?.data?.member?.profileImageUrl! || ''}
-              alt="avatar"
-              layout="fill"
-            />
+    <Background>
+      <Wrapper>
+        <AdminHeader
+          title="회원관리"
+          subTitle="일반회원"
+          type="detail"
+          backBtn={handleBackBtn}
+        />
+        <InfoBox>
+          <Avatar>
+            {type === 'USER' ? (
+              <Image
+                src={userData?.data?.member?.profileImageUrl! || ''}
+                alt="avatar"
+                layout="fill"
+              />
+            ) : (
+              <Image
+                src={
+                  companyData?.data?.member?.companyMemberAdditionalInfo
+                    ?.companyLogoImageUrl! || ''
+                }
+                alt="avatar"
+                layout="fill"
+              />
+            )}
+            <span className="exitImgBox">
+              <Image src={ExitBtn} alt="exit" layout="fill" />
+            </span>
+          </Avatar>
+          {/* 회원 정보 불러오는 컴포넌트 */}
+          {loading ? (
+            <Loader />
           ) : (
-            <Image
-              src={
-                companyData?.data?.member?.companyMemberAdditionalInfo
-                  ?.companyLogoImageUrl! || ''
-              }
-              alt="avatar"
-              layout="fill"
+            <MemberContents
+              type={type}
+              userData={userData!}
+              CompanyData={companyData!}
             />
           )}
-          <span className="exitImgBox">
-            <Image src={ExitBtn} alt="exit" layout="fill" />
-          </span>
-        </Avatar>
-        {/* 회원 정보 불러오는 컴포넌트 */}
-        {loading ? (
-          <Loader />
-        ) : (
-          <MemberContents
-            type={type}
-            userData={userData!}
-            CompanyData={companyData!}
-          />
-        )}
-      </InfoBox>
-      <TextAreaContainer>
-        <label>관리자 전용 특이사항</label>
-        <textarea rows={10} cols={30}>
-          {type === 'USER'
-            ? userData?.data?.member?.etc
-            : companyData?.data?.member?.etc}
-        </textarea>
-      </TextAreaContainer>
-      <ButtonBox>
-        <button>회원삭제</button>
-        <button>수정</button>
-      </ButtonBox>
-    </Wrapper>
+        </InfoBox>
+        <TextAreaContainer>
+          <label>관리자 전용 특이사항</label>
+          <textarea rows={10} cols={30}>
+            {type === 'USER'
+              ? userData?.data?.member?.etc
+              : companyData?.data?.member?.etc}
+          </textarea>
+        </TextAreaContainer>
+        <ButtonBox>
+          <button>회원삭제</button>
+          <button>수정</button>
+        </ButtonBox>
+      </Wrapper>
+    </Background>
   );
 };
 
 export default CommonDetail;
 
-const Wrapper = styled.div`
-  /* width: 100%; */
-  background-color: ${colors.lightWhite};
+const Background = styled.div`
   width: 100%;
+  background-color: ${colors.lightWhite};
+
   padding: 0 18pt;
   position: absolute;
   left: 154.5pt;
   z-index: 999;
+`;
+const Wrapper = styled.div`
+  width: 946px;
 `;
 const InfoBox = styled.div`
   width: 100%;

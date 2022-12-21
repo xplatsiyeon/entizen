@@ -1,13 +1,11 @@
 import styled from '@emotion/styled';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { addDays } from 'date-fns';
-import SelectComponents from 'components/Select';
-import CalendarsDateRangePicker from 'componentsAdmin/DatePicker';
 import AdminHeader from 'componentsAdmin/Header';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 import ComTable from 'componentsAdmin/comTable';
+import { DateRangePicker } from 'rsuite';
 
 type Props = {};
 
@@ -29,7 +27,7 @@ const UserManagement = (props: Props) => {
       <Wrapper>
         <AdminHeader title="회원관리" subTitle="일반회원" type="main" />
         <Manager>
-          <li>
+          <li className="search">
             <label>회원 검색</label>
             <SelectBox value={selectValue} onChange={handleChange}>
               {selectOption.map((el, idx) => (
@@ -41,9 +39,9 @@ const UserManagement = (props: Props) => {
             <input type="text" value={keyword} className="searchInput"></input>
             <Btn>검색</Btn>
           </li>
-          <li>
+          <li className="search">
             <label>기간검색</label>
-            <CalendarsDateRangePicker />
+            <DateRangePicker />
             <Btn>조회</Btn>
           </li>
         </Manager>
@@ -57,13 +55,11 @@ export default UserManagement;
 
 const Wrapper = styled.div`
   /* border: 1px solid red; */
-  /* width: 100%; */
+  width: 100%;
 
   margin: 0 18pt;
 `;
 const Manager = styled.ul`
-  width: 946px;
-
   label {
     padding-right: 39.75pt;
   }
@@ -81,6 +77,9 @@ const Manager = styled.ul`
     border: 1px solid ${colors.lightWhite3};
     height: 100%;
     width: 274.5pt;
+  }
+  .search {
+    width: 946px;
   }
 `;
 const SelectBox = styled(Select)`

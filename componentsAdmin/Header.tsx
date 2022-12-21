@@ -52,6 +52,7 @@ const Wrapper = styled.div`
   justify-content: start;
   align-items: center;
   gap: 6pt;
+
   h1 {
     font-weight: 500;
     font-size: 18pt;

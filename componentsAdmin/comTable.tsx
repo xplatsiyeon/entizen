@@ -158,6 +158,8 @@ export default ComTable;
 
 const StyledBody = styled.div`
   margin-top: 32px;
+  min-width: 946px;
+  /* width: 100%; */
   .hidden {
     visibility: hidden;
   }
