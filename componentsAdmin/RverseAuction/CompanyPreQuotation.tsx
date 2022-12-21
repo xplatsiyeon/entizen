@@ -1,200 +1,34 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import { api } from 'api';
 import colors from 'styles/colors';
 import { Grid, _ } from 'gridjs-react';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { isTokenGetApi, isTokenPostApi } from 'api';
 import { useQuery } from 'react-query';
+import Table from 'componentsAdmin/table';
 
-type Fake = {
-  isSuccess: boolean;
-  number: number;
-  companyName: string;
-  id: string;
-  name: string;
-  phone: string;
-  managerEmail: string;
-  createdAt: string;
-  deletedAt: string | null;
-  signUp: boolean;
-  contract: string;
-  memberIdx: number;
+type Props = {
+  detatilId: string;
+  setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  setDetailId: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export interface CompanyPreQuotationResponse {
-  isSuccess: true;
-  data: {
-    preQuotations: [
-      {
-        preQuotationIdx: number;
-        createdAt: string;
-        member: {
-          memberIdx: number;
-          name: string;
-          phone: string;
-          companyMemberAdditionalInfo: {
-            companyMemberAdditionalInfoIdx: number;
-            companyName: string;
-            managerEmail: string;
-          };
-        };
-        // nullable
-        finalQuotation: {
-          finalQuotationIdx: number;
-          // nullable
-          project: {
-            projectIdx: number;
-            isCompletedContractStep: string;
-          };
-        };
-      },
-    ];
-  };
-}
-
-const fake: Fake[] = [
-  {
-    isSuccess: true,
-    number: 1,
-    companyName: 'LS용산주유소',
-    id: 'entizen1',
-    name: '홍길동',
-    phone: '01011111111',
-    managerEmail: 'entizen@naver.com',
-    createdAt: '2022-10-18T10:18:40.365Z',
-    deletedAt: null,
-    signUp: true,
-    contract: '계약완료',
-    memberIdx: 36,
-  },
-  {
-    isSuccess: true,
-    number: 2,
-    companyName: 'LS마곡주유소',
-    id: 'helloH',
-    name: '홍흥부',
-    phone: '01022222222',
-    managerEmail: 'stevelabs@naver.com',
-    createdAt: '2022-11-18T10:18:40.365Z',
-    deletedAt: null,
-    signUp: true,
-    contract: '',
-    memberIdx: 37,
-  },
-  {
-    isSuccess: true,
-    number: 3,
-    companyName: 'LS마포주유소',
-    id: 'Good1234',
-    name: '홍놀부',
-    phone: '01033333333',
-    managerEmail: 'entizen@naver.com',
-    createdAt: '2022-10-18T10:18:40.365Z',
-    deletedAt: null,
-    signUp: true,
-    contract: '',
-    memberIdx: 38,
-  },
-  {
-    isSuccess: true,
-    number: 4,
-    companyName: 'LS발산주유소',
-    id: 'Bad1234',
-    name: '홍놀부',
-    phone: '01044444444',
-    managerEmail: 'entizen@naver.com',
-    createdAt: '2022-10-18T10:18:40.365Z',
-    deletedAt: null,
-    signUp: true,
-    contract: '',
-    memberIdx: 39,
-  },
-  {
-    isSuccess: true,
-    number: 5,
-    companyName: 'LS용산주유소',
-    id: 'soso1234',
-    name: '홍홍홍',
-    phone: '01055555555',
-    managerEmail: 'entizen@naver.com',
-    createdAt: '2022-11-12T10:18:40.365Z',
-    deletedAt: null,
-    signUp: true,
-    contract: '',
-    memberIdx: 40,
-  },
-];
-
-const CompanyPreQuotation = () => {
-  const [dataArr, setDataArr] = useState<[]>([]);
-
-  // --------------------- AS detail API ------------------------------
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const routerId = 330;
-  //   const routerId = 329;
-
-  const { data, isLoading, isError, error } =
-    useQuery<CompanyPreQuotationResponse>('userPreQuotation', () =>
-      isTokenGetApi(
-        `/admin/quotations/quotation-requests/${routerId}/pre-quotations`,
-      ),
-    );
-  console.log('data 뭐나옴??', data?.data?.preQuotations);
-  //   const newArray: any = [data?.data?.preQuotations];
-  //   console.log('newArray', newArray);
-  console.log('fake', fake);
-  useEffect(() => {
-    const temp: any = [];
-    fake.forEach((ele, idx) => {
-      const arrEle = [
-        ele.number,
-        ele.companyName,
-        ele.id,
-        ele.name,
-        hyphenFn(ele.phone),
-        ele.managerEmail,
-        dateFomat(ele.createdAt),
-        ele.contract,
-        `${ele.deletedAt ? ele.deletedAt : `-`}`,
-      ];
-      temp.push(arrEle);
-    });
-
-    setDataArr(temp);
-
-    // 의존성 배열에 api.get()dml data넣기.
-  }, []);
+const CompanyPreQuotation = ({
+  detatilId,
+  setIsDetail,
+  setDetailId,
+}: Props) => {
   return (
     <StyledBody>
       <QuotationTitle>기업회원 견적서 항목</QuotationTitle>
-      {dataArr.length > 0 ? (
-        <Grid
-          data={dataArr}
-          columns={[
-            '번호',
-            '기업명',
-            '아이디',
-            '담당자',
-            '전화번호',
-            '이메일',
-            '신청일자',
-            '채택여부',
-            {
-              name: '',
-              formatter: () =>
-                _(
-                  <div>
-                    <button className="button">삭제</button>
-                    <button className="button">보기</button>
-                  </div>,
-                ),
-            },
-          ]}
-        />
-      ) : (
-        <div></div>
-      )}
+      <Table
+        detatilId={detatilId}
+        setDetailId={setDetailId}
+        setIsDetail={setIsDetail}
+        tableType={'companyPreQuotation'}
+      />
     </StyledBody>
   );
 };

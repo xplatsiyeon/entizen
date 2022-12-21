@@ -1,4 +1,3 @@
-
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import Table from 'componentsAdmin/table';
@@ -9,7 +8,6 @@ import colors from 'styles/colors';
 import DetailQuotation from './DetailQuotation';
 
 const ReverseAuctionList = () => {
-
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
 
@@ -22,27 +20,33 @@ const ReverseAuctionList = () => {
     console.log(event);
   };
 
-
   return (
     <Wrapper>
       {isDetail && (
         <DetailQuotation
+          detatilId={detatilId}
+          setDetailId={setDetailId}
+          setIsDetail={setIsDetail}
         />
       )}
       <AdminHeader title="역경매 관리" type="main" />
-        <Manager>
+      <Manager>
         <li className="search">
-            <label>기간검색</label>
-            {/* 달력 컴포넌트 */}
-            <DateRangePicker
+          <label>기간검색</label>
+          {/* 달력 컴포넌트 */}
+          <DateRangePicker
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
             onChange={handleDateChange}
-            />
-        <Btn>조회</Btn>
+          />
         </li>
-        </Manager>
-        <Table setDetailId={setDetailId} setIsDetail={setIsDetail} tableType={'quetationListData'} />
+        <Btn>조회</Btn>
+      </Manager>
+      <Table
+        setDetailId={setDetailId}
+        setIsDetail={setIsDetail}
+        tableType={'quetationListData'}
+      />
     </Wrapper>
   );
 };

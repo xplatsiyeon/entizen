@@ -6,21 +6,23 @@ import UserPreQuotation from './UserPreQuotation';
 import CompanyPreQuotation from './CompanyPreQuotation';
 import Qutation from './Qutation';
 type Props = {
+  detatilId: string;
+  setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  setDetailId: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const DetailQuotation = () => {
- 
+const DetailQuotation = ({ detatilId, setIsDetail, setDetailId }: Props) => {
   return (
     <Background>
       <Wrapper>
-        <AdminHeader
-          title="역경매 관리"
-          type="detail"
-          exelHide={false}
+        <AdminHeader title="역경매 관리" type="detail" exelHide={false} />
+        <UserPreQuotation detatilId={detatilId} />
+        <CompanyPreQuotation
+          detatilId={detatilId}
+          setIsDetail={setIsDetail}
+          setDetailId={setDetailId}
         />
-        {/* <UserPreQuotation /> */}
-        {/* <CompanyPreQuotation /> */}
-        <Qutation />
+        {/* <Qutation /> */}
       </Wrapper>
     </Background>
   );

@@ -10,7 +10,6 @@ type Props = {};
 
 const index = (props: Props) => {
   const [number, setNumber] = useState(0);
-  // 지금 당장 리스트에서 모달창 못 띄워서 임으로 만든 state임 나중에 지워야 함
 
   return (
     <Background>
@@ -19,9 +18,6 @@ const index = (props: Props) => {
       {number === 2 && <CompanyManagement />}
       {number === 3 && <ReverseAuctionList />}
       {number === 4 && <ProjectList />}
-      {/* {number === 4 && (
-        <ProjectDetail setIsDetail={setIsDetail} projectIdx={50} />
-      )} */}
     </Background>
   );
 };

@@ -4,7 +4,13 @@ import { Grid, _ } from 'gridjs-react';
 import { useQuery } from 'react-query';
 import { api } from 'api';
 import { Pagination } from 'rsuite';
-import { ComUserData, ProjectList, Quotations, UserData } from 'types/tableDataType';
+import {
+  ComUserData,
+  ProjectList,
+  Quotations,
+  UserData,
+  CompanyPreQuotationResponse,
+} from 'types/tableDataType';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 
@@ -13,14 +19,16 @@ type Props = {
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
   tableType: string;
   pickedDate? : DateRange;
+  detatilId?: string;
 };
 
 
-const Table = ({ setIsDetail, setDetailId, tableType, pickedDate }: Props) => {
+const Table = ({ setIsDetail, setDetailId, tableType, pickedDate, detatilId }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
+  //const routerId = 330;
 
   /*
   
@@ -32,8 +40,6 @@ const Table = ({ setIsDetail, setDetailId, tableType, pickedDate }: Props) => {
   
   */
 
-
-
   const { data: userData, refetch: userDataRefetch } = useQuery<UserData>(
     'userInfo',
     () =>
@@ -44,49 +50,54 @@ const Table = ({ setIsDetail, setDetailId, tableType, pickedDate }: Props) => {
     {
       enabled: false,
       onSuccess: (userData) => {
-        if(tableType === 'userData'){
-        console.log('userData');
-        const temp: any = [];
-        userData?.data?.members.forEach((ele, idx) => {
-          const arrEle = [
-            `${(page - 1) === 0 || idx === 9 ? '': page-1}${ (idx + 1) === 10 ? page*10 : idx+1 }`,
-            ele.id,
-            ele.name,
-            hyphenFn(ele.phone),
-            dateFomat(ele.createdAt),
-            ele.memberIdx,
-          ];
-          temp.push(arrEle);
-        });
-        setDataArr(temp);
-        setColumns([
-          '번호',
-          {name: '아이디', width:'20%'},
-          '이름',
-          '전화번호',
-          ,
-          {
-            name: '가입날짜', width:'30%'
-          },
-          {
-            name: '',
-            id: 'userDetail',
-            formatter: (cell:string) =>
-              _(
-                <button
-                  className="detail"
-                  onClick={() => {
-                    setDetailId(cell?.toString()!);
-                    setIsDetail(true);
-                  }}
-                >
-                  보기
-                </button>
-              ),
-          },
-        ])
-        setLength(userData?.data?.totalCount? userData?.data?.totalCount : 0);
-      }
+        if (tableType === 'userData') {
+          console.log('userData');
+          const temp: any = [];
+          userData?.data?.members.forEach((ele, idx) => {
+            const arrEle = [
+              `${page - 1 === 0 ? '' : page - 1}${
+                idx + 1 === page * 10 ? 0 : idx + 1
+              }`,
+              ele.id,
+              ele.name,
+              hyphenFn(ele.phone),
+              dateFomat(ele.createdAt),
+              ele.memberIdx,
+            ];
+            temp.push(arrEle);
+          });
+          setDataArr(temp);
+          setColumns([
+            '번호',
+            { name: '아이디', width: '20%' },
+            '이름',
+            '전화번호',
+            ,
+            {
+              name: '가입날짜',
+              width: '30%',
+            },
+            {
+              name: '',
+              id: 'userDetail',
+              formatter: (cell: string) =>
+                _(
+                  <button
+                    className="detail"
+                    onClick={() => {
+                      setDetailId(cell?.toString()!);
+                      setIsDetail(true);
+                    }}
+                  >
+                    보기
+                  </button>,
+                ),
+            },
+          ]);
+          setLength(
+            userData?.data?.totalCount ? userData?.data?.totalCount : 0,
+          );
+        }
       },
       onError: (error) => alert('다시 시도해주세요'),
     },
@@ -164,10 +175,82 @@ const Table = ({ setIsDetail, setDetailId, tableType, pickedDate }: Props) => {
         setLength(comUserData?.data?.totalCount?comUserData.data.totalCount : 0 );
       }
       },
-      onError: (error) => alert(
-        '다시 시도해주세요'
-      ),
-    },
+    }
+    );
+  const [total, setTotal] = useState<boolean>(false);
+  const { data: companyPreQuotation, refetch: companyPreQuotationRefetch } =
+    useQuery<CompanyPreQuotationResponse>(
+      'companyPreQuotation',
+      () =>
+        api({
+          method: 'GET',
+          endpoint: `/admin/quotations/quotation-requests/${detatilId}/pre-quotations`,
+        }),
+      {
+        enabled: false,
+        onSuccess: (companyPreQuotation) => {
+          const totalLength = companyPreQuotation?.data?.preQuotations;
+
+          if (tableType === 'companyPreQuotation') {
+            const temp: any = [];
+            companyPreQuotation?.data?.preQuotations?.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 ? '' : page - 1}${
+                  idx + 1 === page * 10 ? 0 : idx + 1
+                }`,
+
+                ele.member.companyMemberAdditionalInfo.companyName!,
+                ele.member.id,
+                ele.member.name,
+                hyphenFn(ele.member.phone),
+                ele.member.companyMemberAdditionalInfo.managerEmail!,
+                dateFomat(ele.createdAt),
+                `${
+                  ele.finalQuotation?.project?.isCompletedContractStep !==
+                    null &&
+                  ele.finalQuotation?.project?.isCompletedContractStep ===
+                    'COMPLETION'
+                    ? '계약완료'
+                    : '-'
+                }`,
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '기업명',
+              '아이디',
+              '담당자',
+              '전화번호',
+              '이메일',
+              '신청일자',
+              '채택여부',
+              {
+                name: '',
+                formatter: () =>
+                  _(
+                    <div>
+                      <button className="button">삭제</button>
+                      <button className="button">보기</button>
+                    </div>,
+                  ),
+              },
+            ]);
+            setLength(
+              totalLength === undefined
+                ? 0
+                : companyPreQuotation?.data?.preQuotations?.length,
+            );
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
+
+  console.log(
+    'companyPreQuotation ㅇㄴㅁㅇㅁㄴ',
+    companyPreQuotation?.data?.preQuotations,
   );
 
   const {data: quetationListData, refetch : quetationListRefetch } = useQuery<Quotations>(
@@ -257,18 +340,22 @@ const Table = ({ setIsDetail, setDetailId, tableType, pickedDate }: Props) => {
         comUserDataRefetch();
         break;
 
-        case 'quetationListData' :
-          quetationListRefetch();
-          break;
-          case 'projectListData' :
-            projectListRefetch();
-            break; 
+      case 'quetationListData':
+        quetationListRefetch();
+        break;
+
+      case 'projectListData':
+        projectListRefetch();
+        break;
+
+      case 'companyPreQuotation':
+        companyPreQuotationRefetch();
+        break;
     }
     // 의존성 배열에 api.get()dml data넣기.
   }, []);
 
   useEffect(() => {
-    console.log('page', page)
     switch (tableType) {
       case 'userData':
         userDataRefetch();
@@ -278,19 +365,22 @@ const Table = ({ setIsDetail, setDetailId, tableType, pickedDate }: Props) => {
         comUserDataRefetch();
         break;
 
-      case 'quetationListData' :
+      case 'quetationListData':
         quetationListRefetch();
         break;
 
-        case 'projectListData' :
-          projectListRefetch();
-          break;
+      case 'projectListData':
+        projectListRefetch();
+        break;
+
+      case 'companyPreQuotation':
+        companyPreQuotationRefetch();
+        break;
     }
   }, [page, pickedDate]);
 
-
   return (
-    <StyledBody className="table">
+    <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P> <Button>엑셀 다운로드</Button>
       </FlexBox>
@@ -345,19 +435,6 @@ const StyledBody = styled.div`
       .wide {
       }
     }
-    .detail{
-      font-family: 'Spoqa Han Sans Neo';
-      font-style: normal;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 150%;
-      text-align: center;
-      color: #747780;
-      background: #E2E5ED;
-      border: 1px solid #747780;
-      padding: 3px 19px;
-      border-radius: 4px;
-    }
   }
 `;
 
@@ -368,16 +445,7 @@ const FlexBox = styled.div`
 `;
 const P = styled.p``;
 
-const Button = styled.button`
-font-family: 'Spoqa Han Sans Neo';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 150%;
-color: #747780;
-text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-padding: 3px 6px;
-`;
+const Button = styled.button``;
 
 const WrapPage = styled.div`
   margin: 50px auto;
