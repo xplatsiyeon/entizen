@@ -193,17 +193,27 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
                   <label className="label">
                     {index > 0 ? '' : '충전기 종류 및 수량'}
                   </label>
-                  <span>{`${convertKo(
-                    M5_LIST,
-                    M5_LIST_EN,
-                    charger?.kind,
-                  )} : ${convertKo(
-                    M6_LIST,
-                    M6_LIST_EN,
-                    charger?.standType,
-                  )},${convertKo(M7_LIST, M7_LIST_EN, charger?.channel)},${
-                    charger?.count
-                  }대`}</span>
+                  {charger?.standType === null ? (
+                    <span>{`${convertKo(
+                      M5_LIST,
+                      M5_LIST_EN,
+                      charger?.kind,
+                    )} : ${convertKo(M7_LIST, M7_LIST_EN, charger?.channel)},${
+                      charger?.count
+                    }대`}</span>
+                  ) : (
+                    <span>{`${convertKo(
+                      M5_LIST,
+                      M5_LIST_EN,
+                      charger?.kind,
+                    )} : ${convertKo(
+                      M6_LIST,
+                      M6_LIST_EN,
+                      charger?.standType,
+                    )},${convertKo(M7_LIST, M7_LIST_EN, charger?.channel)},${
+                      charger?.count
+                    }대`}</span>
+                  )}
                 </Item>
               ),
             )}
@@ -307,12 +317,10 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
                 (charger, index) => (
                   <React.Fragment key={index}>
                     {charger?.finalQuotationChargerFiles?.map(
-                      (innerCharger, innerIndex) =>
-                        innerCharger.productFileType === 'CATALOG' && (
+                      (file, innerIndex) =>
+                        file.productFileType === 'CATALOG' && (
                           <div className="fileBox" key={innerIndex}>
-                            <p className="businessName">
-                              Charge Porint 카탈로그_7KW.pdf
-                            </p>
+                            <p className="businessName">{file.originalName}</p>
                             <button className="businessBtn">삭제</button>
                           </div>
                         ),
@@ -392,7 +400,7 @@ const ImgList = styled.div`
     background-color: gray;
     margin-top: 10px;
     border-radius: 4px;
-    :not(:nth-last-of-type()) {
+    :not(:nth-last-of-type(1)) {
       margin-right: 10px;
     }
   }
