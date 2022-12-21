@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import CompanyManagement from 'componentsAdmin/Member/CompanyManagement';
 import UserDetail from 'componentsAdmin/Member/CommonDetail';
 import UserManagement from 'componentsAdmin/Member/UserManagement';
-import UserTable from 'componentsAdmin/userTable';
 import Workspace from 'componentsAdmin/workspace';
 import React, { useState } from 'react';
 import ProjectList from 'componentsAdmin/ProjectList/ProjectList';
