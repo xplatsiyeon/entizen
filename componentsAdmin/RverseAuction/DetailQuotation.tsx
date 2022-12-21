@@ -4,6 +4,7 @@ import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import UserPreQuotation from './UserPreQuotation';
 import CompanyPreQuotation from './CompanyPreQuotation';
+import Qutation from './Qutation';
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;
   //   type: 'USER' | 'COMPANY';
@@ -23,8 +24,9 @@ const DetailQuotation = ({ setIsDetail }: Props) => {
           backBtn={handleBackBtn}
           exelHide={false}
         />
-        <UserPreQuotation />
-        <CompanyPreQuotation />
+        {/* <UserPreQuotation /> */}
+        {/* <CompanyPreQuotation /> */}
+        <Qutation />
       </Wrapper>
     </Background>
   );

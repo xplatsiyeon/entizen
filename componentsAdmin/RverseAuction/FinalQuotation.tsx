@@ -1,22 +1,102 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ExitBtn from 'public/adminImages/Group.png';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
+import {
+  adminDateFomat,
+  convertKo,
+  hyphenFn,
+  PriceBasicCalculation,
+} from 'utils/calculatePackage';
+import {
+  location,
+  locationEn,
+  M5_LIST,
+  M5_LIST_EN,
+  M6_LIST,
+  M6_LIST_EN,
+  M7_LIST,
+  M7_LIST_EN,
+  subscribeType,
+  subscribeTypeEn,
+} from 'assets/selectList';
 
 type Props = {
   finalQuotationIdx: number;
 };
 
+interface FinalQuotationResponse {
+  isSuccess: boolean;
+  data: {
+    finalQuotation: {
+      finalQuotationIdx: number;
+      createdAt: string;
+      subscribeProduct: string;
+      subscribePeriod: number;
+      userInvestRate: string;
+      subscribePricePerMonth: number;
+      chargingStationInstallationPrice: number;
+      constructionPeriod: number;
+      preQuotation: {
+        preQuotationIdx: number;
+        member: {
+          memberIdx: number;
+          name: string;
+          phone: string;
+          companyMemberAdditionalInfo: {
+            companyMemberAdditionalInfoIdx: number;
+            companyName: string;
+            companyAddress: string;
+            companyDetailAddress: string;
+            companyZipCode: string;
+            managerEmail: string;
+          };
+        };
+      };
+      finalQuotationChargers: [
+        {
+          finalQuotationChargerIdx: number;
+          kind: string;
+          standType: string;
+          channel: string;
+          count: number;
+          chargePriceType: string;
+          chargePrice: number;
+          installationLocation: string;
+          manufacturer: string;
+          productFeature: string;
+          finalQuotationChargerFiles: {
+            finalQuotationChargerFileIdx: number;
+            productFileType: string;
+            originalName: string;
+            url: string;
+          }[];
+        },
+      ];
+    };
+  };
+}
+
 const TAG = 'components/Admin/RverseAuction/FinalQuotation.tsx';
 const FinalQuotation = ({ finalQuotationIdx }: Props) => {
-  const { data, isLoading, isError } = useQuery('preQuotaion', () =>
-    isTokenGetApi(`/admin/quotations/final-quotations/${finalQuotationIdx}`),
+  const [constructionPeriod, setConstructionPeriod] = useState<number>();
+  const { data, isLoading, isError } = useQuery<FinalQuotationResponse>(
+    'preQuotaion',
+    () =>
+      isTokenGetApi(`/admin/quotations/final-quotations/${finalQuotationIdx}`),
   );
 
+  const onChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setConstructionPeriod(Number(event.currentTarget.value));
+  };
+
+  useLayoutEffect(() => {
+    setConstructionPeriod(data?.data?.finalQuotation?.constructionPeriod);
+  }, []);
   console.log('🔥 최종견적 데이트 확인 -> ' + TAG);
   console.log(data);
   return (
@@ -29,88 +109,212 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
         <Contatiner>
           <MainList>
             <Item>
-              <label className="label">item</label>
-              <span>LS용산주유소</span>
+              <label className="label">기업명</label>
+              <span>
+                {
+                  data?.data?.finalQuotation?.preQuotation?.member
+                    ?.companyMemberAdditionalInfo?.companyName
+                }
+              </span>
             </Item>
             <Item>
               <label className="label">기업주소</label>
-              <span>서울특별시 강남구 123-45</span>
+              <span>
+                {
+                  data?.data?.finalQuotation?.preQuotation?.member
+                    ?.companyMemberAdditionalInfo?.companyAddress
+                }
+              </span>
             </Item>
             <Item>
               <label className="label">담당자 이름</label>
-              <span>홍길동</span>
+              <span>
+                {' '}
+                {data?.data?.finalQuotation?.preQuotation?.member?.name}
+              </span>
             </Item>
             <Item>
               <label className="label">전화번호</label>
-              <span>010-2222-3333</span>
+              <span>
+                {hyphenFn(
+                  data?.data?.finalQuotation?.preQuotation?.member?.phone!,
+                )}
+              </span>
             </Item>
             <Item>
               <label className="label">이메일 주소</label>
-              <span>entizen@co.kr</span>
+              <span>
+                {
+                  data?.data?.finalQuotation?.preQuotation?.member
+                    ?.companyMemberAdditionalInfo?.managerEmail
+                }
+              </span>
             </Item>
             <Item>
               <label className="label">신청일자</label>
-              <span>2022.11.12</span>
+              <span>
+                {adminDateFomat(data?.data?.finalQuotation?.createdAt!)}
+              </span>
             </Item>
             <Item>
               <label className="label">구독상품</label>
-              <span>2022.11.12</span>
+              <span>
+                {convertKo(
+                  subscribeType,
+                  subscribeTypeEn,
+                  data?.data?.finalQuotation?.subscribeProduct,
+                )}
+              </span>
             </Item>
             <Item>
               <label className="label">구독기간</label>
-              <span>2022.11.12</span>
+              <span>{`${data?.data?.finalQuotation?.subscribePeriod}개월`}</span>
             </Item>
             <Item>
               <label className="label">월 구독료</label>
-              <span>195,000 원</span>
+              <span>{`${PriceBasicCalculation(
+                data?.data?.finalQuotation?.subscribePricePerMonth!,
+              )} 원`}</span>
             </Item>
             <Item>
               <label className="label">수익지분</label>
-              <span>70%</span>
+              <span>
+                {`${Math.floor(
+                  Number(data?.data?.finalQuotation?.userInvestRate!) * 100,
+                )}`}
+              </span>
             </Item>
-            <Item>
-              <label className="label">충전기 종류 및 수량</label>
-              <span>7KW 충전기 (공용) : 벽걸이,싱글,2대</span>
-            </Item>
+
+            {data?.data?.finalQuotation?.finalQuotationChargers?.map(
+              (charger, index) => (
+                <Item key={index}>
+                  <label className="label">
+                    {index > 0 ? '' : '충전기 종류 및 수량'}
+                  </label>
+                  <span>{`${convertKo(
+                    M5_LIST,
+                    M5_LIST_EN,
+                    charger?.kind,
+                  )} : ${convertKo(
+                    M6_LIST,
+                    M6_LIST_EN,
+                    charger?.standType,
+                  )},${convertKo(M7_LIST, M7_LIST_EN, charger?.channel)},${
+                    charger?.count
+                  }대`}</span>
+                </Item>
+              ),
+            )}
+
             <Item>
               <label className="label">공사기간</label>
-              <input className="input" defaultValue={'21일'} />
+              <input
+                className="input"
+                value={constructionPeriod}
+                onChange={onChangePeriod}
+              />
             </Item>
-            <Item>
-              <label className="label">충전요금</label>
-              <span>7 kw 충전기 (공용) 250 원 / KW</span>
-            </Item>
-            <Item>
-              <label className="label">충전기 제조사</label>
-              <span>LS ELECTRIC</span>
-            </Item>
-            <Item>
-              <label className="label">충전기 설치 위치</label>
-              <span>LS ELECTRIC</span>
-            </Item>
-            <Item>
-              <label className="label">특장점</label>
-              <span>메모</span>
-            </Item>
+
+            {data?.data?.finalQuotation?.finalQuotationChargers?.map(
+              (charger, index) => (
+                <Item key={index}>
+                  <label className="label">{index > 0 ? '' : '충전요금'}</label>
+                  <span>
+                    <span className="chargerName">
+                      {convertKo(M5_LIST, M5_LIST_EN, charger?.kind)}
+                    </span>
+                    <span className="chargerPrice">{`${PriceBasicCalculation(
+                      charger?.chargePrice,
+                    )} 원 / kW`}</span>
+                  </span>
+                </Item>
+              ),
+            )}
+
+            {data?.data?.finalQuotation?.finalQuotationChargers?.map(
+              (charger, index) => (
+                <Item>
+                  <label className="label">
+                    {index > 0 ? '' : '충전기 제조사'}
+                  </label>
+                  <span>{charger?.manufacturer}</span>
+                </Item>
+              ),
+            )}
+
+            {data?.data?.finalQuotation?.finalQuotationChargers?.map(
+              (charger, index) => (
+                <Item key={index}>
+                  <label className="label">
+                    {index > 0 ? '' : '충전기 설치 위치'}
+                  </label>
+                  <span>
+                    {convertKo(
+                      location,
+                      locationEn,
+                      charger?.installationLocation,
+                    )}
+                  </span>
+                </Item>
+              ),
+            )}
+
+            {data?.data?.finalQuotation?.finalQuotationChargers?.map(
+              (charger, index) => (
+                <Item key={index}>
+                  <label className="label">{index > 0 ? '' : '특장점'}</label>
+                  <span>{charger?.productFeature}</span>
+                </Item>
+              ),
+            )}
           </MainList>
           <Line />
           <ImgList>
             <label className="label">충전기 이미지</label>
-
-            <div className="imgBox">
-              <Image src={''} alt="charge-img" />
-              <div className="imgExit">
-                <Image src={ExitBtn} alt="exit" layout="fill" />
-              </div>
-            </div>
+            {data?.data?.finalQuotation?.finalQuotationChargers?.map(
+              (charger, index) => (
+                <div className="container" key={index}>
+                  {charger?.finalQuotationChargerFiles?.map(
+                    (innerCharger, innerIndex) =>
+                      innerCharger.productFileType === 'IMAGE' && (
+                        <div className="imgBox" key={innerIndex}>
+                          <Image
+                            src={innerCharger.url!}
+                            alt="charge-img"
+                            priority={true}
+                            unoptimized={true}
+                            layout="fill"
+                          />
+                          <div className="imgExit">
+                            <Image src={ExitBtn} alt="exit" layout="fill" />
+                          </div>
+                        </div>
+                      ),
+                  )}
+                </div>
+              ),
+            )}
           </ImgList>
           <Line />
           <BusinessList>
             <label className="label">첨부파일</label>
-            <div className="fileBox">
-              <p className="businessName">Charge Porint 카탈로그_7KW.pdf</p>
-              <button className="businessBtn">삭제</button>
-            </div>
+            {data?.data?.finalQuotation?.finalQuotationChargers?.map(
+              (charger, index) => (
+                <React.Fragment key={index}>
+                  {charger?.finalQuotationChargerFiles?.map(
+                    (innerCharger, innerIndex) =>
+                      innerCharger.productFileType === 'CATALOG' && (
+                        <div className="fileBox" key={innerIndex}>
+                          <p className="businessName">
+                            Charge Porint 카탈로그_7KW.pdf
+                          </p>
+                          <button className="businessBtn">삭제</button>
+                        </div>
+                      ),
+                  )}
+                </React.Fragment>
+              ),
+            )}
           </BusinessList>
         </Contatiner>
       )}
@@ -194,6 +398,13 @@ const ImgList = styled.div`
     width: 20px;
     height: 20px;
     cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    background-color: ${colors.lightGray2};
+  }
+  .container {
+    display: flex;
+    gap: 10px;
   }
 `;
 

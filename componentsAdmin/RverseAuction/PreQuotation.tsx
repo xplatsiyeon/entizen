@@ -79,9 +79,7 @@ interface PreQuotationRespnse {
 }
 const TAG = 'components/Admin/RverseAuction/PreQuotation.tsx';
 const PreQuotation = ({ preQuotationIdx }: Props) => {
-  const [constructionPeriod, setConstructionPeriod] = useState<
-    number | undefined
-  >();
+  const [constructionPeriod, setConstructionPeriod] = useState<number>();
   const { data, isLoading, isError } = useQuery<PreQuotationRespnse>(
     'preQuotaion',
     () => isTokenGetApi(`/admin/quotations/pre-quotations/${preQuotationIdx}`),
@@ -261,7 +259,7 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
                   {charger?.preQuotationFiles?.map(
                     (innerCharger, innerIndex) =>
                       innerCharger.productFileType === 'CATALOG' && (
-                        <div className="fileBox">
+                        <div className="fileBox" key={innerIndex}>
                           <p className="businessName">
                             Charge Porint 카탈로그_7KW.pdf
                           </p>
