@@ -9,6 +9,8 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import Loader from 'components/Loader';
 import 'rsuite/dist/rsuite.min.css';
+import { CustomProvider } from 'rsuite';
+import koKR from 'rsuite/locales/ko_KR';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient());
@@ -35,10 +37,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <ApolloProvider client={client}>
         <QueryClientProvider client={queryClient}>
           <PersistGate persistor={persistor} loading={<div>loading...</div>}>
+            {/* <CustomProvider locale={koKR}> */}
             <Head>
               <meta charSet="utf-8" />
               <title>Next Naver maps</title>
             </Head>
+            {/* </CustomProvider> */}
             <Component {...pageProps} />
           </PersistGate>
           <ReactQueryDevtools initialIsOpen={true} />

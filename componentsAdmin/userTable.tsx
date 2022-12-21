@@ -66,7 +66,6 @@ const UserTable = ({ setIsDetail, setDetailId }: Props) => {
   return (
     <StyledBody className="user-table">
       <FlexBox>
-        {' '}
         <P>결과 {data?.data.totalCount!}</P> <Button>엑셀 다운로드</Button>{' '}
       </FlexBox>
       {dataArr.length > 0 ? (
@@ -118,7 +117,6 @@ const StyledBody = styled.div`
   table {
     width: 100%;
     text-align: center;
-
     font-family: 'Spoqa Han Sans Neo';
     font-style: normal;
     font-size: 16px;
