@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import Loader from 'components/Loader';
+import 'rsuite/dist/rsuite.min.css';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient());
