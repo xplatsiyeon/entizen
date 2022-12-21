@@ -6,6 +6,7 @@ import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 import ComTable from 'componentsAdmin/comTable';
 import { DateRangePicker } from 'rsuite';
+import { DateRange } from 'rsuite/esm/DateRangePicker';
 
 type Props = {};
 
@@ -14,9 +15,17 @@ const UserManagement = (props: Props) => {
   const [selectValue, setSelectValue] = useState('');
   const [keyword, setKeyword] = useState('');
   const [isDetail, setIsDetail] = useState(false);
+  // 셀렉트 박스 변경함수
   const handleChange = (event: SelectChangeEvent<unknown>) => {
-    console.log(event);
     setSelectValue(event.target.value as string);
+  };
+  // 달력 날짜 변경 함수
+  const handleDateChange = (
+    value: DateRange | null,
+    event: React.SyntheticEvent<Element, Event>,
+  ) => {
+    console.log(value);
+    console.log(event);
   };
 
   return (
@@ -41,7 +50,12 @@ const UserManagement = (props: Props) => {
           </li>
           <li className="search">
             <label>기간검색</label>
-            <DateRangePicker />
+            {/* 레인지 달력 */}
+            <DateRangePicker
+              placeholder={'년-월-일 ~ 년-월-일'}
+              size={'sm'}
+              onChange={handleDateChange}
+            />
             <Btn>조회</Btn>
           </li>
         </Manager>

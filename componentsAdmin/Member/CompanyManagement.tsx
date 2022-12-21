@@ -3,6 +3,7 @@ import ComTable from 'componentsAdmin/comTable';
 import AdminHeader from 'componentsAdmin/Header';
 import React, { useState } from 'react';
 import { DateRangePicker } from 'rsuite';
+import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 
@@ -10,6 +11,16 @@ type Props = {};
 
 const CompanyManagement = (props: Props) => {
   const [isDetail, setIsDetail] = useState(false);
+
+  // 달력 날짜 변경 함수
+  const handleDateChange = (
+    value: DateRange | null,
+    event: React.SyntheticEvent<Element, Event>,
+  ) => {
+    console.log(value);
+    console.log(event);
+  };
+
   return (
     <>
       {isDetail && (
@@ -27,7 +38,11 @@ const CompanyManagement = (props: Props) => {
           <li className="search">
             <label>기간검색</label>
             {/* 달력 컴포넌트 */}
-            <DateRangePicker />
+            <DateRangePicker
+              placeholder={'년-월-일 ~ 년-월-일'}
+              size={'sm'}
+              onChange={handleDateChange}
+            />
           </li>
           <Btn>조회</Btn>
         </Manager>
