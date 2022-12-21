@@ -56,8 +56,13 @@ const Workspace = ({ setNumber }: Props) => {
     }
   };
 
+  console.log(window.document.documentElement.clientHeight);
+
   return (
-    <Wrapper aria-labelledby="nested-list-subheader">
+    <Wrapper
+      aria-labelledby="nested-list-subheader"
+      windowHeight={window.document.documentElement.clientHeight}
+    >
       <Name>이정민님</Name>
       <LogoutBtn>로그아웃</LogoutBtn>
       {openList.map((item, idx) => (
@@ -96,7 +101,7 @@ const Workspace = ({ setNumber }: Props) => {
 
 export default Workspace;
 
-const Wrapper = styled(List)`
+const Wrapper = styled(List)<{ windowHeight: number }>`
   min-width: 154.5pt;
   background-color: ${colors.main1};
   height: 100vh;
