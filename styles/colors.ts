@@ -10,6 +10,8 @@ const colors = {
   lightGray2: '#a6a9b0',
   lightGray3: '#caccd1',
   lightGray4: '#dcdde1',
+  lightGray5: '#e7e7e7',
+  lightGray6: '#d9d9d9',
 
   sub4: '#F75015',
   gray: '#E2E5ED',

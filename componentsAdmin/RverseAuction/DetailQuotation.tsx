@@ -2,6 +2,8 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
+import UserPreQuotation from './UserPreQuotation';
+import Qutation from './Qutation';
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;
   //   type: 'USER' | 'COMPANY';
@@ -21,7 +23,9 @@ const DetailQuotation = ({ setIsDetail }: Props) => {
           backBtn={handleBackBtn}
           exelHide={false}
         />
-        <QuotationTitle>일반회원 간편견적서</QuotationTitle>
+        <Qutation />
+
+        {/* <UserPreQuotation /> */}
       </Wrapper>
     </Background>
   );
