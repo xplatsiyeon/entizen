@@ -4,7 +4,7 @@ import { Grid, _ } from 'gridjs-react';
 import { useQuery } from 'react-query';
 import { api } from 'api';
 import { Pagination } from 'rsuite';
-import { ComUserData, Quotations, UserData } from 'types/tableDataType';
+import { ComUserData, ProjectList, Quotations, UserData } from 'types/tableDataType';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 
 type Props = {
@@ -19,6 +19,18 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
+
+  /*
+  
+   필터에 limit 기능이 생기면, 갯수에 따라 게시글 번호 계산해주는 함수 만들어야 함.
+
+   일단, 10개 제한일때 
+   : 기본은 {page -1}{idx +1}. idx가 10*page가 되면 idx = 0 처리.   
+  
+  
+  */
+
+
 
   const { data: userData, refetch: userDataRefetch } = useQuery<UserData>(
     'userInfo',
@@ -35,7 +47,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         const temp: any = [];
         userData?.data?.members.forEach((ele, idx) => {
           const arrEle = [
-            `${page - 1}${idx + 1}`,
+            `${(page - 1) === 0 ?'': page-1}${ (idx + 1) === page*10 ? 0 : idx+1 }`,
             ele.id,
             ele.name,
             hyphenFn(ele.phone),
@@ -60,7 +72,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
             formatter: (cell:string) =>
               _(
                 <button
-                  className="down"
+                  className="detail"
                   onClick={() => {
                     setDetailId(cell?.toString()!);
                     setIsDetail(true);
@@ -93,7 +105,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         const temp: any = [];
         comUserData?.data?.members.forEach((ele, idx) => {
           const arrEle = [
-            `${page - 1}${idx + 1}`,
+            `${(page - 1) === 0 ?'': page-1}${ (idx + 1) === page*10 ? 0 : idx+1 }`,
             ele?.companyMemberAdditionalInfo?.companyName!,
             ele.id,
             ele.name,
@@ -136,7 +148,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
             formatter: (cell:string) =>
               _(
                 <button
-                  className="down"
+                  className="detail"
                   onClick={() => {
                     setDetailId(cell);
                     setIsDetail(true);
@@ -166,7 +178,9 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
         if(tableType === 'quetationListData'){
         const temp:any = [];
         quetationListData?.data.quotationRequests.forEach((ele, idx)=>{
-          const eleArr = [`${page-1}${idx+1}`, ele.badge!, ele?.member?.id!, ele.installationAddress!, ele.createdAt!, '보기'];
+          const eleArr = [
+            `${(page - 1) === 0 ?'': page-1}${ (idx + 1) === page*10 ? 0 : idx+1 }`, 
+            ele.badge!, ele?.member?.id!, ele.installationAddress!, dateFomat(ele.createdAt!), '보기'];
           temp.push(eleArr);
         })
         setDataArr(temp);
@@ -175,7 +189,7 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
             name:'', id:'quetationList-Detail',  formatter: (cell:string) =>
             _(
               <button
-                className="down"
+                className="detail"
                 onClick={() => {
                   setDetailId(cell);
                   setIsDetail(true);
@@ -186,6 +200,44 @@ const Table = ({ setIsDetail, setDetailId, tableType }: Props) => {
             )}
         ]);
         setLength(quetationListData.data.totalCount? quetationListData.data.totalCount : 0);
+      }
+      },
+      onError:()=>alert('다시 시도해주세요')
+    }
+  )
+
+  const {data: projectListData, refetch : projectListRefetch } = useQuery<ProjectList>(
+    'projectList', ()=> api({
+      method: 'GET',
+      endpoint: `/admin/projects?page=${page}&limit=10&startDate=2022-10-01&endDate=2022-12-15`
+    }),{
+      enabled: false,
+      onSuccess:(projectListData)=>{
+        if(tableType === 'projectListData'){
+        const temp:any = [];
+        projectListData?.data?.projects.forEach((ele, idx)=>{
+          const eleArr = [
+            `${(page - 1) === 0 ?'': page-1}${ (idx + 1) === page*10 ? 0 : idx+1 }`, 
+            ele.projectNumber!, ele.userMember.id!, ele.companyMember.id!, ele.currentStep!, ele.projectName, dateFomat(ele.createdAt), '보기'];
+          temp.push(eleArr);
+        })
+        setDataArr(temp);
+        setColumns([
+          '번호', '프로젝트 번호', '작성자(아이디)', '기업회원(아이디)', '진행단계', '프로젝트_제목', '프로젝트_생성일', {
+            name:'', id:'quetationList-Detail',  formatter: (cell:string) =>
+            _(
+              <button
+                className="detail"
+                onClick={() => {
+                  setDetailId(cell);
+                  setIsDetail(true);
+                }}
+              >
+                보기
+              </button>
+            )}
+        ]);
+        setLength(projectListData.data.totalCount? projectListData.data.totalCount : 0);
       }
       },
       onError:()=>alert('다시 시도해주세요')
