@@ -99,10 +99,9 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
       <Wrapper>
         <AdminHeader
           title="회원관리"
-          subTitle={type === 'USER' ? '일반회원' : '기업회원'}
+          subTitle="일반회원"
           type="detail"
           backBtn={handleBackBtn}
-          exelHide={true}
         />
         <InfoBox>
           <Avatar>
