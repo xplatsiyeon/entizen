@@ -6,7 +6,7 @@ import ExitBtn from 'public/adminImages/Group.png';
 
 type Props = {};
 
-const Prequotion = (props: Props) => {
+const FinalQuotaion = (props: Props) => {
   return (
     <Contatiner>
       <MainList>
@@ -35,6 +35,14 @@ const Prequotion = (props: Props) => {
           <span>2022.11.12</span>
         </Item>
         <Item>
+          <label className="label">구독상품</label>
+          <span>2022.11.12</span>
+        </Item>
+        <Item>
+          <label className="label">구독기간</label>
+          <span>2022.11.12</span>
+        </Item>
+        <Item>
           <label className="label">월 구독료</label>
           <span>195,000 원</span>
         </Item>
@@ -57,6 +65,14 @@ const Prequotion = (props: Props) => {
         <Item>
           <label className="label">충전기 제조사</label>
           <span>LS ELECTRIC</span>
+        </Item>
+        <Item>
+          <label className="label">충전기 설치 위치</label>
+          <span>LS ELECTRIC</span>
+        </Item>
+        <Item>
+          <label className="label">특장점</label>
+          <span>메모</span>
         </Item>
       </MainList>
       <Line />
@@ -82,7 +98,7 @@ const Prequotion = (props: Props) => {
   );
 };
 
-export default Prequotion;
+export default FinalQuotaion;
 
 const Contatiner = styled.div`
   width: 946px;
