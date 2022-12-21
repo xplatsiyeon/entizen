@@ -20,7 +20,7 @@ const index = (props: Props) => {
       {number === 1 && <UserManagement />}
       {number === 2 && <CompanyManagement />}
       {number === 4 && <ProjectList />}
-      {/* {number === 3 && <DetailQuotation setIsDetail={setIsDetail} />} */}
+      {number === 3 && <DetailQuotation setIsDetail={setIsDetail} />}
     </Background>
   );
 };
