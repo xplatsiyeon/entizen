@@ -7,6 +7,7 @@ import CommonDetail from './CommonDetail';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import Table from 'componentsAdmin/table';
+import {keyframes } from '@emotion/react'
 import useDebounce from 'hooks/useDebounce';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import { originDateFomat } from 'utils/calculatePackage';
@@ -46,7 +47,10 @@ const UserManagement = (props: Props) => {
       ?.querySelector('.datePicker-input')
       ?.querySelector('input')?.value;
     console.log('input?', inputValue);
-    //dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+    setTimeout(()=>{
+    dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    }, 600)
   };
 
   const handleDate = () => {
@@ -61,9 +65,8 @@ const UserManagement = (props: Props) => {
       setPickedDate(newDate);
     } else {
       setPickedDate(undefined);
-    }
-    /*dateRef.current?.querySelector('.date-btn')?.classList.remove('on'); */
-  };
+     }
+  }
 
   // console.log('selectedFilter 아이디 나오냐???', selectedFilter);
   // console.log('keyword', keyword);
@@ -179,4 +182,28 @@ const Manager = styled.ul`
 const SelectBox = styled(Select)`
   width: 87pt;
   height: 100%;
+`;
+const blink = keyframes`
+  50% {
+    opacity: 50%;
+  }
+  `
+
+const Btn = styled.button`
+ cursor: default;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  /* identical to box height, or 21px */
+  outline: none;
+  text-align: center;
+  border-radius: 3pt;
+  padding: 1.5pt 14.25pt;
+  height: 19.5pt;
+  color: #747780;
+  /* background-color: red; */
+  &.on{
+    animation: ${blink} 0.5s step-end 1;
+    cursor: pointer;
+  }
 `;

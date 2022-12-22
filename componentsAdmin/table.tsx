@@ -15,6 +15,7 @@ import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
+import { resolve } from 'path';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,6 +41,7 @@ const Table = ({
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
 
+  // 오늘 닐짜.
   const today = new Date();
   console.log(adminDateFomat(String(today)));
   console.log('selectedFilter af', selectedFilter);
@@ -67,7 +69,7 @@ const Table = ({
       api({
         method: 'GET',
         endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${
-          pickedDate ? pickedDate[0] : '2022--05'
+          pickedDate ? pickedDate[0] : '2022-09-05'
         }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
           changeSearchType[selectedFilter!]
         }&searchKeyword=${userSearch}`,
@@ -135,7 +137,7 @@ const Table = ({
         api({
           method: 'GET',
           endpoint: `/admin/members/companies?page=${page}&limit=10&startDate=${
-            pickedDate ? pickedDate[0] : '2022--05'
+            pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
             changeSearchType[selectedFilter!]
           }&searchKeyword=${userSearch}`,
@@ -211,6 +213,7 @@ const Table = ({
             setLength(
               comUserData?.data?.totalCount ? comUserData.data.totalCount : 0,
             );
+            return temp;
           }
         },
       },
@@ -303,7 +306,9 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=2022-12-10&endDate=2022-12-20`,
+          endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
       {
         enabled: false,
@@ -365,8 +370,8 @@ const Table = ({
         api({
           method: 'GET',
           endpoint: `/admin/projects?page=${page}&limit=10&startDate=${
-            pickedDate ? pickedDate[0] : '2022-10-01'
-          }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
       {
         enabled: false,
@@ -479,8 +484,20 @@ const Table = ({
       <FlexBox>
         <P>결과 {length}</P> <Button>엑셀 다운로드</Button>
       </FlexBox>
-      {dataArr.length > 0 && columns.length > 0 && (
-        <Grid data={dataArr} columns={columns} />
+      {dataArr.length > 0 && columns.length > 0 ? (
+        <Div>
+          <Grid
+            data={() => {
+              //화면의 덜컹거림을 줄이기 위해서 0.1초 기다림( =>setState들로 인한 페이지 전환 다 끝난 후 데이터 삽입).
+              return new Promise((resolve) => {
+                setTimeout(() => resolve(dataArr), 130);
+              });
+            }}
+            columns={columns}
+          />
+        </Div>
+      ) : (
+        <Div></Div>
       )}
       <WrapPage>
         <Pagination
@@ -527,6 +544,11 @@ const StyledBody = styled.div`
       td {
         padding: 8px 0;
       }
+    }
+    .gridjs-loading {
+      min-width: 1200px;
+      height: 490px;
+      color: white;
     }
 
     .detail {
@@ -580,4 +602,9 @@ const WrapPage = styled.div`
       }
     }
   }
+`;
+
+const Div = styled.div`
+  min-width: 1200px;
+  height: 490px;
 `;
