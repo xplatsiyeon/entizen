@@ -44,6 +44,10 @@ const Home = ({ userAgent, header }: Props) => {
         (window as any)['webkit'].messageHandlers.test.postMessage(
           'Hello Native Callback',
         );
+      } else {
+        (window as any)['webkit'].messageHandlers.test.postMessage(
+          'Hello Native Callback',
+        );
       }
       // (window as any).entizen!.callJavaScriptFunction();
     }
