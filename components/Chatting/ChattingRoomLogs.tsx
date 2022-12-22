@@ -498,7 +498,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         focusRef.current?.scrollIntoView();
       }
       console.log(focusRef.current)
-    }, 1000)
+    }, 600)
 
     setTimeout(() => {
       console.log('처음에만');
@@ -547,7 +547,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         <div className='wrap'>
           {data.map((d, idx) => {
             return (
-              <DateChatting key={idx}>
+              <DateChatting key={idx} className={`${idx === data.length-1?'target-p':''}`}>
                 <Date>{d.date}</Date>
                 <List>
                   {d.logs.map((item, idx) => {
@@ -602,7 +602,10 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                                 </FileDownload>
                               </>
                             }
+                            <WrapDate>
+                            <P className={`${item.fromMemberType==='USER'?'user-p':'company-p'} ${idx===d.logs.length-1?'p-target':''}`} userChatting={userChatting}>{item.wasRead?'읽음':'안읽음'}</P>
                             <MessageDate>{handleTime(item.createdAt)}</MessageDate>
+                            </WrapDate>
                           </ChatBox>
                         </Wrap>
                       );
@@ -766,7 +769,7 @@ const BottomBox = styled.div`
     left: 11.5pt;
     transition: 0.3s;
     background-color: white;
-    border: 0.75pt solid #D3D3D3;
+    //border: 0.75pt solid #D3D3D3;
     border-radius: 16.5pt;
     display: flex;
     flex-direction: column;
@@ -853,7 +856,6 @@ const Inner = styled.div`
   .wrap{
     position: relative;
   }
-  border: 1px solid green;
   @media (min-width: 900pt) {
     margin-top: 105pt;
     height: 330pt;
@@ -882,7 +884,6 @@ transform: translate(-50%,-50%);
 }
 `
 const Wrap = styled.div`
-  
 `
 
 const DateChatting = styled.div`
@@ -913,6 +914,18 @@ const DateChatting = styled.div`
     top: 15pt;
     right: 0;
     z-index: -1;
+  }
+  &.target-p{
+  .user-p{
+    &.p-target{
+    display: block;
+    }
+  }
+  .company-p{
+    &.p-target{
+    display: block;
+    }
+  }
   }
 `;
 const Date = styled.span`
@@ -946,6 +959,7 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
   align-items: center;
   margin-bottom: 9pt;
   gap: 6pt;
+  align-items: end;
 
   &.user {
     flex-direction: ${({ userChatting }) =>
@@ -1017,7 +1031,7 @@ const MessageDate = styled.p`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: #caccd1;
-  margin-top: 12pt;
+  //margin-top: 12pt;
 `;
 
 const IconWrap3 = styled(IconWrap2)`
@@ -1027,12 +1041,24 @@ const FocusBox = styled.div`
   width: 100%;
   height: 10pt;
   position: relative;
-&:focus {
-outline: auto;
-}
+  &:focus {
+  outline: none;
+  }
 
 @media (max-width: 899.25pt) {
-  height: 15pt;
+  height: 5pt;
   }
 `
-
+const WrapDate = styled.div`
+  display: flex;
+  flex-direction: column;
+` 
+const P = styled.p<{userChatting:boolean}>`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 7.5pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: #caccd1;
+  display: none;
+  `

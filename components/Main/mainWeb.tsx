@@ -72,9 +72,6 @@ const Main = () => {
     console.log('에러 발생');
   }
 
-  function testEntizen(id: string) {
-    alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  }
   return (
     <>
       {isModal && (
