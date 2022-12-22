@@ -20,12 +20,19 @@ import { useRouter } from 'next/router';
 type Props = {
   setNumber: React.Dispatch<React.SetStateAction<number>>;
 };
-const openList = ['회원관리', '역경매 관리', '프로젝트', 'A/S 전체'];
+const openList = [
+  '회원관리',
+  '역경매 관리',
+  '프로젝트',
+  'A/S 전체',
+  '소통하기',
+];
 const closeList = [
   ['일반회원', '기업회원'],
   ['역경매관리 리스트'],
   ['프로젝트 리스트'],
   ['AS 상세'],
+  ['소통하기 리스트', '1대1 문의'],
 ];
 const Workspace = ({ setNumber }: Props) => {
   const router = useRouter();
@@ -54,6 +61,14 @@ const Workspace = ({ setNumber }: Props) => {
 
       case 'AS 상세':
         setNumber(5);
+        break;
+
+      case '소통하기 리스트':
+        setNumber(6);
+        break;
+
+      case '1대1 문의':
+        setNumber(7);
         break;
 
       default:

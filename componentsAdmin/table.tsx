@@ -499,7 +499,8 @@ const Table = ({
     },
   );
 
-  console.log('asData 진행단계 찾아온나', asData);
+  // 여기는 소통하기 api 들어갈 자리임
+  // /admin/chatting/members?page=1&limit=10&startDate=2022-10-01&endDate=2022-12-22
 
   useEffect(() => {
     switch (tableType) {

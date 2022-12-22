@@ -5,8 +5,9 @@ import Workspace from 'componentsAdmin/workspace';
 import React, { useState } from 'react';
 import ProjectList from 'componentsAdmin/ProjectList/ProjectList';
 import ReverseAuctionList from 'componentsAdmin/RverseAuction/ReverseAuctionList';
-import ProjectDetail from 'componentsAdmin/ProjectList/ProjectDetail';
 import ASDetail from 'componentsAdmin/AllAs/ASDetail';
+import CommunicationList from 'componentsAdmin/Communication/CommunicationList';
+import OneOnOneQuestion from 'componentsAdmin/Communication/OneOnOneQuestion';
 
 type Props = {};
 
@@ -23,9 +24,8 @@ const index = (props: Props) => {
       {number === 3 && <ReverseAuctionList />}
       {number === 4 && <ProjectList />}
       {number === 5 && <ASDetail />}
-      {/* {number === 4 && (
-        <ProjectDetail setIsDetail={setIsDetail} projectIdx={25} />
-      )} */}
+      {number === 6 && <CommunicationList />}
+      {number === 7 && <OneOnOneQuestion />}
     </Background>
   );
 };

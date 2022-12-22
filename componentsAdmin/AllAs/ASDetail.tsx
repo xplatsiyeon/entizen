@@ -29,20 +29,38 @@ const ASDetail = () => {
   // id 값 넘겨 오셈
   const [afterSalesServiceIdx, setAfterSalesServiceIdx] = useState<number>(0);
 
-  const dateRef = useRef<DateRange>();
-
-  const handleDate = () => {
-    const date = dateRef.current;
-    console.log(date);
-  };
+  const dateRef = useRef<HTMLLIElement>(null);
 
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
     event: React.SyntheticEvent<Element, Event>,
   ) => {
-    console.log('ref', dateRef.current);
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('input?', inputValue);
+    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+    setTimeout(() => {
+      dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    }, 600);
   };
+
+  const handleDate = () => {
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('날짜조회 클릭', inputValue);
+
+    if (inputValue) {
+      console.log(inputValue);
+      const newDate = inputValue.split('~');
+      setPickedDate(newDate);
+    } else {
+      setPickedDate(undefined);
+    }
+  };
+
   return (
     <Wrapper>
       {isDetail && (
