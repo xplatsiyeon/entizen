@@ -111,7 +111,7 @@ const MainPage = (props: Props) => {
   }
 
   function testEntizen(id: string) {
-    return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
+    alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   }
 
   return (
