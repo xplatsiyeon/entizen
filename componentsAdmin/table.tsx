@@ -257,7 +257,9 @@ const Table = ({
                   _(
                     <div>
                       <button className="button">삭제</button>
-                      <button className="button">보기</button>
+                      <button className="button" onClick={() => {}}>
+                        보기
+                      </button>
                     </div>,
                   ),
               },
