@@ -14,6 +14,7 @@ const index = (props: Props) => {
   const [number, setNumber] = useState(0);
 
   const [isDetail, setIsDetail] = useState(false);
+  console.log('number', number);
   return (
     <Background>
       <Workspace setNumber={setNumber} />
