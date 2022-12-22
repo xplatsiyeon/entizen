@@ -51,6 +51,7 @@ const Home = ({ userAgent, header }: Props) => {
     // alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
     return <div>ios 테스트중입니다.</div>;
   }
+
   return (
     <>
       {memberType === 'COMPANY' ? (

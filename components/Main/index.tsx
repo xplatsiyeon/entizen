@@ -115,8 +115,10 @@ const MainPage = (props: Props) => {
     return <div>ios 테스트중입니다.</div>;
   }
 
+  // testEntizen('123');
   return (
     <>
+      {testEntizen('11')}
       <Container>
         <HeadWrapper>
           <LogoBox>
