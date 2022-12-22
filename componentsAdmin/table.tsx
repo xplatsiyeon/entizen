@@ -68,11 +68,9 @@ const Table = ({
     () =>
       api({
         method: 'GET',
-        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${
-          pickedDate ? pickedDate[0] : '2022--05'
-        }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
-          changeSearchType[selectedFilter!]
-        }&searchKeyword=${userSearch}`,
+        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${changeSearchType[selectedFilter!]
+          }&searchKeyword=${userSearch}`,
       }),
     {
       enabled: false,
@@ -82,8 +80,7 @@ const Table = ({
           const temp: any = [];
           userData?.data?.members.forEach((ele, idx) => {
             const arrEle = [
-              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                idx + 1 === 10 ? page * 10 : idx + 1
+              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
               }`,
               ele.id,
               ele.name,
@@ -136,11 +133,9 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/members/companies?page=${page}&limit=10&startDate=${
-            pickedDate ? pickedDate[0] : '2022--05'
-          }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
-            changeSearchType[selectedFilter!]
-          }&searchKeyword=${userSearch}`,
+          endpoint: `/admin/members/companies?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
+        }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${changeSearchType[selectedFilter!]
+            }&searchKeyword=${userSearch}`,
         }),
       {
         enabled: false,
@@ -150,8 +145,7 @@ const Table = ({
             const temp: any = [];
             comUserData?.data?.members.forEach((ele, idx) => {
               const arrEle = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                  idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele?.companyMemberAdditionalInfo?.companyName!,
                 ele.id,
@@ -237,8 +231,7 @@ const Table = ({
             const temp: any = [];
             companyPreQuotation?.data?.preQuotations?.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 ? '' : page - 1}${
-                  idx + 1 === page * 10 ? 0 : idx + 1
+                `${page - 1 === 0 ? '' : page - 1}${idx + 1 === page * 10 ? 0 : idx + 1
                 }`,
 
                 ele.member.companyMemberAdditionalInfo.companyName!,
@@ -247,16 +240,15 @@ const Table = ({
                 hyphenFn(ele.member.phone),
                 ele.member.companyMemberAdditionalInfo.managerEmail!,
                 dateFomat(ele.createdAt),
-                `${
-                  ele.finalQuotation?.project?.isCompletedContractStep !==
-                    null &&
+                `${ele.finalQuotation?.project?.isCompletedContractStep !==
+                  null &&
                   ele.finalQuotation?.project?.isCompletedContractStep ===
-                    'COMPLETION'
-                    ? '계약완료'
-                    : '-'
+                  'COMPLETION'
+                  ? '계약완료'
+                  : '-'
                 }`,
                 ele?.preQuotationIdx,
-            
+
               ];
               temp.push(eleArr);
             });
@@ -273,7 +265,7 @@ const Table = ({
 
               {
                 name: '',
-                formatter: (cell:number) =>
+                formatter: (cell: number) =>
                   _(
                     <div>
                       <button className="button">삭제</button>
@@ -306,7 +298,8 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=2022-12-10&endDate=2022-12-20`,
+          endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
+        }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
       {
         enabled: false,
@@ -315,8 +308,7 @@ const Table = ({
             const temp: any = [];
             quetationListData?.data.quotationRequests.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                  idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele.badge!,
                 ele?.member?.id!,
@@ -367,9 +359,8 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${
-            pickedDate ? pickedDate[0] : '2022-10-01'
-          }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
+          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
+        }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
       {
         enabled: false,
@@ -378,8 +369,7 @@ const Table = ({
             const temp: any = [];
             projectListData?.data?.projects.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                  idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele.projectNumber!,
                 ele.userMember.id!,
@@ -485,15 +475,15 @@ const Table = ({
         <P>결과 {length}</P> <Button>엑셀 다운로드</Button>
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? <Div>
-        <Grid data= { /*() => {
-    return new Promise(resolve => {
-      setTimeout(() =>
-        resolve(dataArr), 30000);
-    });
-  }*/
-    dataArr
-    } columns={columns} /></Div>
-      : <Div></Div>
+        <Grid data={() => {
+          //화면의 덜컹거림을 줄이기 위해서 0.1초 기다림( =>setState들로 인한 페이지 전환 다 끝난 후 데이터 삽입).
+          return new Promise(resolve => {
+            setTimeout(() =>
+              resolve(dataArr), 130);
+          });
+        }
+        } columns={columns} /></Div>
+        : <Div></Div>
       }
       <WrapPage>
         <Pagination

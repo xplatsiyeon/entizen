@@ -14,20 +14,37 @@ const ProjectList = () => {
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
 
-  const dateRef = useRef<DateRange>();
-
-  const handleDate = () => {
-    const date = dateRef.current;
-    console.log(date);
-  };
+  const dateRef = useRef<HTMLLIElement>(null);
 
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
     event: React.SyntheticEvent<Element, Event>,
   ) => {
-    console.log('ref', dateRef.current);
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('input?', inputValue);
+    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+    setTimeout(()=>{
+    dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    }, 600)
   };
+
+  const handleDate = () => {
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('날짜조회 클릭', inputValue);
+
+    if (inputValue) {
+      console.log(inputValue);
+      const newDate = inputValue.split('~');
+      setPickedDate(newDate);
+    } else {
+      setPickedDate(undefined);
+     }
+  }
 
   return (
     <Wrapper>
@@ -39,10 +56,11 @@ const ProjectList = () => {
       )}
       <AdminHeader title="프로젝트" type="main" />
       <Manager>
-        <li className="search">
+        <li className="search" ref={dateRef}>
           <label>기간검색</label>
           {/* 달력 컴포넌트 */}
           <DateRangePicker
+            className="datePicker-input"
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
             onChange={handleDateChange}

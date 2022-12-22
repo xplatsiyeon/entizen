@@ -3,7 +3,7 @@ import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Table from 'componentsAdmin/table';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
@@ -24,6 +24,10 @@ const CompanyManagement = (props: Props) => {
 
   // onClick 할때 값이 바뀌도록
   const [companySearch, setCompanySearch] = useState<string>('');
+  
+  
+  const [pickedDate, setPickedDate] = useState<string[]>();
+  const dateRef = useRef<HTMLLIElement>(null);
 
   // 셀렉트 박스 변경함수
   const handleChange = (event: SelectChangeEvent<unknown>) => {
@@ -35,9 +39,30 @@ const CompanyManagement = (props: Props) => {
     value: DateRange | null,
     event: React.SyntheticEvent<Element, Event>,
   ) => {
-    console.log(value);
-    console.log(event);
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('input?', inputValue);
+    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+    setTimeout(()=>{
+    dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    }, 600)
   };
+
+  const handleDate = () => {
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('날짜조회 클릭', inputValue);
+
+    if (inputValue) {
+      console.log(inputValue);
+      const newDate = inputValue.split('~');
+      setPickedDate(newDate);
+    } else {
+      setPickedDate(undefined);
+     }
+  }
 
   return (
     <>
@@ -89,15 +114,16 @@ const CompanyManagement = (props: Props) => {
               검색
             </AdminBtn>
           </li>
-          <li className="search">
+          <li className="search" ref={dateRef}>
             <label>기간검색</label>
             {/* 레인지 달력 */}
-            <DateRangePicker
+            <DateRangePicker  
+              className="datePicker-input"
               placeholder={'년-월-일 ~ 년-월-일'}
               size={'sm'}
               onChange={handleDateChange}
             />
-            <AdminBtn>조회</AdminBtn>
+            <AdminBtn onClick={handleDate}>조회</AdminBtn>
           </li>
         </Manager>
         {/* 테이블 컴포넌트 */}
@@ -106,6 +132,7 @@ const CompanyManagement = (props: Props) => {
           setIsDetail={setIsDetail}
           setDetailId={setDetailId}
           tableType={'comUserData'}
+          pickedDate={pickedDate}
           userSearch={companySearch}
         />
       </Wrapper>

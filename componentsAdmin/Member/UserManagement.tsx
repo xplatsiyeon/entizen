@@ -129,9 +129,9 @@ const UserManagement = (props: Props) => {
               size={'sm'}
               onChange={handleDateChange}
             />
-            <Btn onClick={handleDate} className="date-btn">
+            <AdminBtn onClick={handleDate} className="date-btn">
               조회
-            </Btn>
+            </AdminBtn>
           </li>
         </Manager>
         <Table
