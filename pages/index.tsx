@@ -15,17 +15,17 @@ const Home = ({ userAgent, header }: Props) => {
   console.log('index page', userAgent);
   const arrAgent = userAgent?.split(' ');
   const ANGENT = arrAgent![arrAgent?.length - 1];
-  const [messageFromAndroid, setMessageFromAndroid] = useState(
-    'Hello Vite + React!',
-  );
+  // const [messageFromAndroid, setMessageFromAndroid] = useState(
+  //   'Hello Vite + React!',
+  // );
 
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   useEffect(() => {
-    const eventFromAndroid = async (event: any) => {
-      setMessageFromAndroid(event.detail.data);
-    };
-    window.addEventListener('javascriptFunction', eventFromAndroid);
+    // const eventFromAndroid = async (event: any) => {
+    //   setMessageFromAndroid(event.detail.data);
+    // };
+    // window.addEventListener('javascriptFunction', eventFromAndroid);
 
     if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
       sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
