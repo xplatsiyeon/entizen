@@ -44,9 +44,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
     window.addEventListener('javascriptFunction', eventFromAndroid);
 
-    if (window.entizen!) {
-      window.entizen!.test('Hello Native Callback');
-      window.entizen!.callJavaScriptFunction();
+    if ((window as any).entizen!) {
+      (window as any).entizen!.test('Hello Native Callback');
+      (window as any).entizen!.callJavaScriptFunction();
     }
 
     return () => {
