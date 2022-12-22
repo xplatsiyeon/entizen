@@ -7,7 +7,9 @@ import CompanyMainPage from 'components/Main/companyMain';
 const TAB = '/index';
 const Home: NextPage = () => {
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
-
+  function testEntizen(id: string) {
+    alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
+  }
   return (
     <>
       {memberType === 'COMPANY' ? (
