@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery } from 'react-query';
 import { api } from 'api';
@@ -403,6 +403,7 @@ const Table = ({
 
   useEffect(() => {
     console.log('props', tableType);
+    console.log('------------------------------', tableType);
     switch (tableType) {
       case 'userData':
         userDataRefetch();
@@ -428,23 +429,21 @@ const Table = ({
   }, []);
 
   useEffect(() => {
+    console.log('----------------table useeffect 실행---------------');
+    console.log(userSearch);
     switch (tableType) {
       case 'userData':
         userDataRefetch();
         break;
-
       case 'comUserData':
         comUserDataRefetch();
         break;
-
       case 'quetationListData':
         quetationListRefetch();
         break;
-
       case 'projectListData':
         projectListRefetch();
         break;
-
       case 'companyPreQuotation':
         companyPreQuotationRefetch();
         break;
@@ -475,7 +474,7 @@ const Table = ({
   );
 };
 
-export default Table;
+export default React.memo(Table);
 
 const StyledBody = styled.div`
   margin: 32px 0 0;

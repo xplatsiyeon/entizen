@@ -8,12 +8,13 @@ import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import Table from 'componentsAdmin/table';
 import useDebounce from 'hooks/useDebounce';
+import { AdminBtn } from 'componentsAdmin/Layout';
 
 type Props = {};
 
 const selectOption = ['이름 검색', '아이디 검색'];
 const UserManagement = (props: Props) => {
-  const [selectValue, setSelectValue] = useState('');
+  const [selectValue, setSelectValue] = useState('이름 검색');
 
   //이름검색인지 아이디검색인지 판별
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
@@ -81,13 +82,13 @@ const UserManagement = (props: Props) => {
                 }
               }}
             />
-            <Btn
+            <AdminBtn
               onClick={() => {
                 setUserSearch(inputValue);
               }}
             >
               검색
-            </Btn>
+            </AdminBtn>
           </li>
           <li className="search">
             <label>기간검색</label>
@@ -97,7 +98,7 @@ const UserManagement = (props: Props) => {
               size={'sm'}
               onChange={handleDateChange}
             />
-            <Btn>조회</Btn>
+            <AdminBtn>조회</AdminBtn>
           </li>
         </Manager>
         <Table
@@ -138,6 +139,7 @@ const Manager = styled.ul`
     border: 1px solid ${colors.lightWhite3};
     height: 100%;
     width: 274.5pt;
+    padding-left: 10px;
   }
   .search {
     width: 946px;
@@ -146,18 +148,4 @@ const Manager = styled.ul`
 const SelectBox = styled(Select)`
   width: 87pt;
   height: 100%;
-`;
-const Btn = styled.button`
-  cursor: pointer;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-  /* identical to box height, or 21px */
-  outline: none;
-  text-align: center;
-  border-radius: 3pt;
-  padding: 1.5pt 14.25pt;
-  height: 19.5pt;
-  color: #747780;
-  /* background-color: red; */
 `;
