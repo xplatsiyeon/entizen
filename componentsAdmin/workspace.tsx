@@ -20,11 +20,12 @@ import { useRouter } from 'next/router';
 type Props = {
   setNumber: React.Dispatch<React.SetStateAction<number>>;
 };
-const openList = ['회원관리', '역경매 관리', '프로젝트'];
+const openList = ['회원관리', '역경매 관리', '프로젝트', 'A/S 전체'];
 const closeList = [
   ['일반회원', '기업회원'],
   ['역경매관리 리스트'],
   ['프로젝트 리스트'],
+  ['AS 상세'],
 ];
 const Workspace = ({ setNumber }: Props) => {
   const router = useRouter();

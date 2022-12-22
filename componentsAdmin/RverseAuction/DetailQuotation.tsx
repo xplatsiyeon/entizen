@@ -35,7 +35,7 @@ const Background = styled.div`
   height: 100vh;
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
-  /* position: absolute; */
+  position: absolute;
   left: 154.5pt;
   z-index: 10;
   overflow-y: scroll;
