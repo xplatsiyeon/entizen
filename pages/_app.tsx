@@ -18,14 +18,14 @@ interface Props {
   userAgent?: string;
 }
 const MyApp = ({ Component, pageProps, userAgent, header }: any) => {
+  const [queryClient] = useState(() => new QueryClient());
+
   // console.log('index page', userAgent);
   // const arrAgent = userAgent?.split(' ');
   // const ANGENT = arrAgent![arrAgent?.length - 1];
-
-  const [queryClient] = useState(() => new QueryClient());
-  const [messageFromAndroid, setMessageFromAndroid] = useState(
-    'Hello Vite + React!',
-  );
+  // const [messageFromAndroid, setMessageFromAndroid] = useState(
+  //   'Hello Vite + React!',
+  // );
 
   const client = new ApolloClient({
     uri: 'https://test-api.entizen.kr/api/graphql',
