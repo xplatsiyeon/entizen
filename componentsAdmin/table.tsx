@@ -22,6 +22,7 @@ type Props = {
   detatilId?: string;
   selectedFilter?: number;
   keyword?: string;
+  userSearch?: string;
 };
 
 const Table = ({
@@ -30,16 +31,19 @@ const Table = ({
   tableType,
   detatilId,
   selectedFilter,
-  keyword,
   pickedDate,
+  userSearch,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
 
-  console.log('keyword dasd', keyword);
-  console.log('selectedFilter af', selectedFilter);
+  // 유저 회원 검색 필터 뭐 눌렀는지
+  const changeSearchType = ['name', 'id'];
+
+  console.log('changeSearchType 테이블에서', changeSearchType[selectedFilter!]);
+  console.log('selectedFilter 테이블에서', userSearch);
 
   /*
   
@@ -56,7 +60,9 @@ const Table = ({
     () =>
       api({
         method: 'GET',
-        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=2022-12-19&endDate=2022-12-19&searchType=${selectedFilter}&searchKeyword=${keyword}`,
+        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=2022-12-19&endDate=2022-12-19&searchType=${
+          changeSearchType[selectedFilter!]
+        }&searchKeyword=${userSearch}`,
       }),
     {
       enabled: false,
@@ -267,11 +273,6 @@ const Table = ({
         onError: () => alert('다시 시도해주세요'),
       },
     );
-
-  console.log(
-    'companyPreQuotation ㅇㄴㅁㅇㅁㄴ',
-    companyPreQuotation?.data?.preQuotations,
-  );
 
   const { data: quetationListData, refetch: quetationListRefetch } =
     useQuery<Quotations>(
