@@ -2,7 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { ASReviewPoint } from './ASDetailView';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { scrypt } from 'crypto';
 
 type Props = {
   setReviewModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -93,7 +92,7 @@ const RatingFormWrapper = styled.div`
   background: white;
   box-shadow: 3pt 0px 7.5pt rgba(137, 163, 201, 0.5);
   position: absolute;
-  top: 25%;
+  top: 23%;
   left: 10%;
   z-index: 500;
 `;
