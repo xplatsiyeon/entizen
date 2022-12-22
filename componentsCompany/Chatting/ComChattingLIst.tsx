@@ -137,7 +137,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
             </HiddenBox1>
             <ChattingRoom
               className="content-box"
-              onClick={() => handleRoute(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomIdx!, true)}
+              onClick={() => handleRoute(data?.data?.chattingRooms.entizenChattingRoom?.chattingRoomIdx!, true)}
             >
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
@@ -149,11 +149,11 @@ const ComChattingList = ({ data, refetch }: Props) => {
                 <FromMember>
                   엔티즌
                 </FromMember>
-                <Previw>{data?.data.chattingRooms.entizenChattingRoom?.chattingLog?.content}</Previw>
+                <Previw>{data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.content!}</Previw>
               </ChattingRoomPreview>
               <ChattingRoomInfo>
                 <Created>
-                  {handleTime(data?.data.chattingRooms.entizenChattingRoom?.chattingLog?.createdAt)}
+                  {handleTime(data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.createdAt!)}
                 </Created>
                 <Box>
                   <UnRead
@@ -298,7 +298,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
             </HiddenBox1>
             <ChattingRoom
               className="content-box"
-              onClick={() => handleRoute(data?.data.chattingRooms.entizenChattingRoom?.chattingRoomIdx!, true)}
+              onClick={() => handleRoute(data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx!, true)}
             >
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
@@ -310,11 +310,11 @@ const ComChattingList = ({ data, refetch }: Props) => {
                 <FromMember>
                   엔티즌
                 </FromMember>
-                <Previw>{data?.data.chattingRooms.entizenChattingRoom?.chattingLog?.content}</Previw>
+                <Previw>{data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.content!}</Previw>
               </ChattingRoomPreview>
               <ChattingRoomInfo>
                 <Created>
-                  {handleTime(data?.data.chattingRooms.entizenChattingRoom?.chattingLog?.createdAt)}
+                  {handleTime(data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.createdAt!)}
                 </Created>
                 <Box>
                   <UnRead
