@@ -12,19 +12,19 @@ interface Props {
   header: any;
 }
 const Home = ({ userAgent, header }: Props) => {
-  console.log('index page', userAgent);
-  const arrAgent = userAgent.split(' ');
+  // console.log('index page', userAgent);
+  // const arrAgent = userAgent.split(' ');
 
-  if (
-    'Android_App' === arrAgent[arrAgent.length - 1] ||
-    'iOS_App' === arrAgent[arrAgent.length - 1]
-  ) {
-    sessionStorage.setItem(
-      'ANGENT',
-      JSON.stringify(arrAgent[arrAgent.length - 1]),
-    );
-  }
-  console.log('header', header);
+  // if (
+  //   'Android_App' === arrAgent[arrAgent.length - 1] ||
+  //   'iOS_App' === arrAgent[arrAgent.length - 1]
+  // ) {
+  //   sessionStorage.setItem(
+  //     'ANGENT',
+  //     JSON.stringify(arrAgent[arrAgent.length - 1]),
+  //   );
+  // }
+  // console.log('header', header);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   function testEntizen(id: string) {
@@ -77,7 +77,7 @@ const MobWrap = styled.div`
   }
 `;
 
-export const getServerSideProps = ({ req }: any) => {
-  const userAgent = req.headers['user-agent'];
-  return { props: { userAgent, header: req.headers } };
-};
+// export const getServerSideProps = ({ req }: any) => {
+//   const userAgent = req.headers['user-agent'];
+//   return { props: { userAgent, header: req.headers } };
+// };

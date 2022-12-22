@@ -17,8 +17,8 @@ import { Android } from '@mui/icons-material';
 interface Props {
   userAgent?: string;
 }
-const MyApp = ({ Component, pageProps, userAgent }: any) => {
-  console.log('-------------------index-------------------', userAgent);
+const MyApp = ({ Component, pageProps, userAgent, header }: any) => {
+  const arrAgent = userAgent.split(' ');
   const [queryClient] = useState(() => new QueryClient());
 
   const [messageFromAndroid, setMessageFromAndroid] = useState(
@@ -48,7 +48,11 @@ const MyApp = ({ Component, pageProps, userAgent }: any) => {
       setMessageFromAndroid(event.detail.data);
     };
     window.addEventListener('javascriptFunction', eventFromAndroid);
-    const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
+    const ANGENT = arrAgent[arrAgent.length - 1];
+    // const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
+    if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
+      sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
+    }
     console.log('ANGENT 값 확인 --->   ' + ANGENT);
     if ((window as any).entizen!) {
       if (ANGENT === 'Android_App') {
@@ -61,9 +65,9 @@ const MyApp = ({ Component, pageProps, userAgent }: any) => {
       // (window as any).entizen!.callJavaScriptFunction();
     }
 
-    return () => {
-      window.removeEventListener('javascriptFunction', eventFromAndroid);
-    };
+    // return () => {
+    //   window.removeEventListener('javascriptFunction', eventFromAndroid);
+    // };
   }, []);
 
   return (
@@ -88,13 +92,7 @@ const MyApp = ({ Component, pageProps, userAgent }: any) => {
 
 export default wrapper.withRedux(MyApp);
 
-// Android_App
-// iOS_App
-export const getStaticProps = ({ req }: any) => {
-  const userAgent =
-    typeof navigator === 'undefined'
-      ? req.headers['user-agent']
-      : navigator.userAgent;
-
-  return { props: { userAgent } };
+export const getServerSideProps = ({ req }: any) => {
+  const userAgent = req.headers['user-agent'];
+  return { props: { userAgent, header: req.headers } };
 };
