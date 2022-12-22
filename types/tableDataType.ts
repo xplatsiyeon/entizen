@@ -118,3 +118,32 @@ export interface CompanyPreQuotationResponse {
     }[];
   };
 }
+
+export interface ASListResponse {
+  isSuccess: true;
+  data: {
+    totalCount: number;
+
+    afterSalesServices: {
+      acceptanceDate: string;
+      afterSalesServiceCompletionConsentStatus: string;
+      afterSalesServiceIdx: number;
+      afterSalesServiceResultDate: string;
+      createdAt: string;
+      currentStep: string;
+      project: {
+        projectIdx: number;
+        projectNumber: string;
+        projectName: string;
+        companyMember: {
+          memberIdx: number;
+          id: string;
+        };
+        userMember: {
+          memberIdx: number;
+          id: string;
+        };
+      };
+    }[];
+  };
+}
