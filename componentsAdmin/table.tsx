@@ -10,6 +10,7 @@ import {
   Quotations,
   UserData,
   CompanyPreQuotationResponse,
+  ASListResponse,
 } from 'types/tableDataType';
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
@@ -25,6 +26,7 @@ type Props = {
   detatilId?: string;
   selectedFilter?: number;
   userSearch?: string;
+  setAfterSalesServiceIdx?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const Table = ({
@@ -35,6 +37,7 @@ const Table = ({
   selectedFilter,
   pickedDate,
   userSearch,
+  setAfterSalesServiceIdx,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -430,6 +433,74 @@ const Table = ({
       },
     );
 
+  // as 관련 데이터
+  // /admin/after-sales-services?page=1&limit=10&startDate=2022-01-01&endDate=2022-12-22&searchKeyword=test6000
+  // afterSalesServices
+  const { data: asData, refetch: asRefetch } = useQuery<ASListResponse>(
+    'asData',
+    () =>
+      api({
+        method: 'GET',
+        endpoint: `/admin/after-sales-services?page=${page}&limit=10&startDate=${
+          pickedDate ? pickedDate[0] : '2022-10-01'
+        }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
+      }),
+    {
+      enabled: false,
+      onSuccess: (asData) => {
+        if (tableType === 'asData') {
+          const temp: any = [];
+          asData?.data?.afterSalesServices?.forEach((ele, idx) => {
+            const eleArr = [
+              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                idx + 1 === 10 ? page * 10 : idx + 1
+              }`,
+              ele.currentStep,
+              ele.project.projectNumber!,
+              ele.project.userMember.id!,
+              ele.project.companyMember.id,
+              dateFomat(ele.createdAt),
+              ele.afterSalesServiceIdx,
+            ];
+            temp.push(eleArr);
+          });
+          setDataArr(temp);
+          setColumns([
+            '번호',
+            '진행단계',
+            '프로젝트번호',
+            '작성자(아이디)',
+            '기업회원(아이디)',
+            'A/S요청일',
+            {
+              name: '',
+              id: 'quetationList-Detail',
+              formatter: (cell: string) =>
+                _(
+                  <button
+                    className="detail"
+                    onClick={() => {
+                      setDetailId(cell);
+                      setIsDetail(true);
+                      if (setAfterSalesServiceIdx) {
+                        setAfterSalesServiceIdx(Number(cell));
+                      }
+                    }}
+                  >
+                    보기
+                  </button>,
+                ),
+            },
+          ]);
+          setLength(asData.data.totalCount ? asData.data.totalCount : 0);
+        }
+      },
+      onError: () => alert('다시 시도해주세요'),
+    },
+  );
+
+  console.log('asData 진행단계 찾아온나', asData);
+
   useEffect(() => {
     switch (tableType) {
       case 'userData':
@@ -450,6 +521,10 @@ const Table = ({
 
       case 'companyPreQuotation':
         companyPreQuotationRefetch();
+        break;
+
+      case 'asData':
+        asRefetch();
         break;
     }
     // 의존성 배열에 api.get()dml data넣기.
@@ -471,6 +546,10 @@ const Table = ({
         break;
       case 'companyPreQuotation':
         companyPreQuotationRefetch();
+        break;
+
+      case 'asData':
+        asRefetch();
         break;
     }
   }, [page, pickedDate, userSearch]);

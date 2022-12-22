@@ -51,6 +51,11 @@ const Workspace = ({ setNumber }: Props) => {
       case '프로젝트 리스트':
         setNumber(4);
         break;
+
+      case 'AS 상세':
+        setNumber(5);
+        break;
+
       default:
         setNumber(0);
         break;

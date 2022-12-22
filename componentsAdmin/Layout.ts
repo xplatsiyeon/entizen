@@ -1,16 +1,18 @@
 import styled from '@emotion/styled';
 
 export const AdminBtn = styled.button`
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  border-radius: 3pt;
+  padding: 5px 17px;
+  height: 26px;
+  width: 64px;
+  background: #e2e5ed;
+  border: 1px solid #747780;
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
-  /* identical to box height, or 21px */
   outline: none;
   text-align: center;
-  border-radius: 3pt;
-  padding: 1.5pt 14.25pt;
-  height: 19.5pt;
-  color: #747780;
-  /* background-color: red; */
 `;
