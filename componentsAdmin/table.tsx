@@ -15,6 +15,7 @@ import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
+import { resolve } from 'path';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,6 +41,7 @@ const Table = ({
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
 
+  // 오늘 닐짜.
   const today = new Date();
   console.log(adminDateFomat(String(today)));
   console.log('selectedFilter af', selectedFilter);
@@ -211,6 +213,7 @@ const Table = ({
             setLength(
               comUserData?.data?.totalCount ? comUserData.data.totalCount : 0,
             );
+            return temp;
           }
         },
       },
@@ -252,7 +255,8 @@ const Table = ({
                     ? '계약완료'
                     : '-'
                 }`,
-                setPreQuotationIdx(ele?.preQuotationIdx),
+                ele?.preQuotationIdx,
+            
               ];
               temp.push(eleArr);
             });
@@ -269,14 +273,14 @@ const Table = ({
 
               {
                 name: '',
-                formatter: () =>
+                formatter: (cell:number) =>
                   _(
                     <div>
                       <button className="button">삭제</button>
                       <button
                         className="button"
                         onClick={() => {
-                          dispatch(adminReverseAction.setDate(preQuotationIdx));
+                          dispatch(adminReverseAction.setDate(cell));
                         }}
                       >
                         보기
@@ -473,14 +477,24 @@ const Table = ({
     }
   }, [page, pickedDate, userSearch]);
 
+
+
   return (
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P> <Button>엑셀 다운로드</Button>
       </FlexBox>
-      {dataArr.length > 0 && columns.length > 0 && (
-        <Grid data={dataArr} columns={columns} />
-      )}
+      {dataArr.length > 0 && columns.length > 0 ? <Div>
+        <Grid data= { /*() => {
+    return new Promise(resolve => {
+      setTimeout(() =>
+        resolve(dataArr), 30000);
+    });
+  }*/
+    dataArr
+    } columns={columns} /></Div>
+      : <Div></Div>
+      }
       <WrapPage>
         <Pagination
           prev
@@ -526,6 +540,11 @@ const StyledBody = styled.div`
       td {
         padding: 8px 0;
       }
+    }
+    .gridjs-loading{
+      min-width: 1200px;
+      height: 490px;
+      color: white;
     }
 
     .detail {
@@ -580,3 +599,8 @@ const WrapPage = styled.div`
     }
   }
 `;
+
+const Div = styled.div`
+  min-width: 1200px;
+  height: 490px;
+`
