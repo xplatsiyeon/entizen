@@ -54,10 +54,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     };
   }, []);
 
-  function testEntizen(id: string) {
-    alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  }
-
   return (
     <Suspense fallback={<Loader />}>
       <ApolloProvider client={client}>
