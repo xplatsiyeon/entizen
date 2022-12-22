@@ -19,8 +19,9 @@ interface Props {
 }
 const MyApp = ({ Component, pageProps, userAgent, header }: any) => {
   const arrAgent = userAgent.split(' ');
-  const [queryClient] = useState(() => new QueryClient());
+  const ANGENT = arrAgent[arrAgent.length - 1];
 
+  const [queryClient] = useState(() => new QueryClient());
   const [messageFromAndroid, setMessageFromAndroid] = useState(
     'Hello Vite + React!',
   );
@@ -48,7 +49,7 @@ const MyApp = ({ Component, pageProps, userAgent, header }: any) => {
       setMessageFromAndroid(event.detail.data);
     };
     window.addEventListener('javascriptFunction', eventFromAndroid);
-    const ANGENT = arrAgent[arrAgent.length - 1];
+
     // const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
     // if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
     //   sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
