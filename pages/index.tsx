@@ -21,10 +21,6 @@ const Home = ({ userAgent, header }: Props) => {
 
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
-  function testEntizen(id: string) {
-    alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  }
-
   useEffect(() => {
     const eventFromAndroid = async (event: any) => {
       setMessageFromAndroid(event.detail.data);
@@ -44,7 +40,6 @@ const Home = ({ userAgent, header }: Props) => {
           'Hello Native Callback' + ANGENT,
         );
       }
-
       // (window as any).entizen!.callJavaScriptFunction();
     }
     // return () => {
@@ -52,6 +47,9 @@ const Home = ({ userAgent, header }: Props) => {
     // };
   }, []);
 
+  function testEntizen(id: string) {
+    alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
+  }
   return (
     <>
       {memberType === 'COMPANY' ? (

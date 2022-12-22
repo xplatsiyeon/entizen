@@ -18,7 +18,7 @@ const SubscribeRequest = ({ borders }: Props) => {
   const handleLink = () => {
     const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
     (window as any).webkit.messageHandlers.test.postMessage(
-      'Hello Native Callback' + ANGENT,
+      'Hello Native Callback --> ' + ANGENT,
     );
     // const user = sessionStorage.getItem('USER_ID');
     // if (user) {
