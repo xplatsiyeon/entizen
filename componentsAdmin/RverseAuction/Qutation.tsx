@@ -1,21 +1,29 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ExitBtn from 'public/adminImages/Group.png';
 import FinalQuotaion from './FinalQuotation';
 import Prequotion from './PreQuotation';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { useDispatch } from 'react-redux';
+import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 
 type Props = {};
 
 const Qutation = (props: Props) => {
   const [optionValue, setOptionValue] = useState<string>();
+  const dispatch = useDispatch();
+  const { quotationRequestIdx, isCompanyDetail } = useSelector(
+    (state: RootState) => state.adminReverseData,
+  );
   const onChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     console.log(event);
     setOptionValue(event?.target?.value);
   };
-  // 테이블에서 onClick 하면 여기로 id 값 넘겨주기!
+
   return (
     <Wrapper>
       <Menu>
@@ -27,9 +35,13 @@ const Qutation = (props: Props) => {
       </Menu>
       {/* 가견적 */}
 
-      {optionValue === '가견적서' && <Prequotion preQuotationIdx={304} />}
+      {optionValue === '가견적서' && (
+        <Prequotion preQuotationIdx={quotationRequestIdx} />
+      )}
       {/* 최종견적 */}
-      {optionValue === '최종견적서' && <FinalQuotaion finalQuotationIdx={88} />}
+      {optionValue === '최종견적서' && (
+        <FinalQuotaion finalQuotationIdx={quotationRequestIdx} />
+      )}
     </Wrapper>
   );
 };

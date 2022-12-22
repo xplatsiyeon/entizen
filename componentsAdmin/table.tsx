@@ -216,7 +216,7 @@ const Table = ({
       },
     );
 
-  // 가견적 데이터
+  // 간편견적의 가견적 리스트 조회
   const { data: companyPreQuotation, refetch: companyPreQuotationRefetch } =
     useQuery<CompanyPreQuotationResponse>(
       'companyPreQuotation',
@@ -252,7 +252,7 @@ const Table = ({
                     ? '계약완료'
                     : '-'
                 }`,
-                setPreQuotationIdx(ele?.preQuotationIdx),
+                ele?.preQuotationIdx,
               ];
               temp.push(eleArr);
             });
@@ -269,14 +269,15 @@ const Table = ({
 
               {
                 name: '',
-                formatter: () =>
+                formatter: (cell: number) =>
                   _(
                     <div>
                       <button className="button">삭제</button>
                       <button
                         className="button"
                         onClick={() => {
-                          dispatch(adminReverseAction.setDate(preQuotationIdx));
+                          dispatch(adminReverseAction.setDate(cell));
+                          dispatch(adminReverseAction.setIsCompanyDetail(true));
                         }}
                       >
                         보기
@@ -425,8 +426,6 @@ const Table = ({
     );
 
   useEffect(() => {
-    console.log('props', tableType);
-    console.log('------------------------------', tableType);
     switch (tableType) {
       case 'userData':
         userDataRefetch();
@@ -452,8 +451,6 @@ const Table = ({
   }, []);
 
   useEffect(() => {
-    console.log('----------------table useeffect 실행---------------');
-    console.log(userSearch);
     switch (tableType) {
       case 'userData':
         userDataRefetch();
@@ -472,6 +469,10 @@ const Table = ({
         break;
     }
   }, [page, pickedDate, userSearch]);
+
+  useEffect(() => {
+    console.log('preQuotationIdx------->>> 🔥' + preQuotationIdx);
+  }, [preQuotationIdx]);
 
   return (
     <StyledBody className="user-table">

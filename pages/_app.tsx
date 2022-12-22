@@ -15,6 +15,10 @@ import koKR from 'rsuite/locales/ko_KR';
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient());
 
+  const [messageFromAndroid, setMessageFromAndroid] = useState(
+    'Hello Vite + React!',
+  );
+
   const client = new ApolloClient({
     uri: 'https://test-api.entizen.kr/api/graphql',
     cache: new InMemoryCache(),
@@ -32,6 +36,23 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       queryClient.invalidateQueries(errorsKeys); // API Error 모달이 닫힐 때, 캐싱된 error response만을 삭제한다
     };
   }, [queryClient]);
+
+  useEffect(() => {
+    const eventFromAndroid = async (event: any) => {
+      setMessageFromAndroid(event.detail.data);
+    };
+
+    window.addEventListener('javascriptFunction', eventFromAndroid);
+
+    if (window.entizen!) {
+      window.entizen!.test('Hello Native Callback');
+      window.entizen!.callJavaScriptFunction();
+    }
+
+    return () => {
+      window.removeEventListener('javascriptFunction', eventFromAndroid);
+    };
+  });
   return (
     <Suspense fallback={<Loader />}>
       <ApolloProvider client={client}>
