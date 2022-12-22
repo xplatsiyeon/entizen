@@ -15,6 +15,7 @@ const Qutation = (props: Props) => {
     console.log(event);
     setOptionValue(event?.target?.value);
   };
+  // 테이블에서 onClick 하면 여기로 id 값 넘겨주기!
   return (
     <Wrapper>
       <Menu>

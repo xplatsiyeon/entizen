@@ -13,6 +13,8 @@ import {
 } from 'types/tableDataType';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
+import { useDispatch } from 'react-redux';
+import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,11 +40,12 @@ const Table = ({
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
 
+  // 역경매 견적서 보기에 넘겨줄 아이디값
+  const dispatch = useDispatch();
+  const [preQuotationIdx, setPreQuotationIdx] = useState<number>();
+
   // 유저 회원 검색 필터 뭐 눌렀는지
   const changeSearchType = ['name', 'id'];
-
-  console.log('changeSearchType 테이블에서', changeSearchType[selectedFilter!]);
-  console.log('selectedFilter 테이블에서', userSearch);
 
   /*
   
@@ -238,6 +241,7 @@ const Table = ({
                     ? '계약완료'
                     : '-'
                 }`,
+                setPreQuotationIdx(ele?.preQuotationIdx),
               ];
               temp.push(eleArr);
             });
@@ -251,13 +255,19 @@ const Table = ({
               '이메일',
               '신청일자',
               '채택여부',
+
               {
                 name: '',
                 formatter: () =>
                   _(
                     <div>
                       <button className="button">삭제</button>
-                      <button className="button" onClick={() => {}}>
+                      <button
+                        className="button"
+                        onClick={() => {
+                          dispatch(adminReverseAction.setDate(preQuotationIdx));
+                        }}
+                      >
                         보기
                       </button>
                     </div>,
