@@ -22,7 +22,7 @@ const Home = ({ userAgent, header }: Props) => {
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   function testEntizen(id: string) {
-    return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
+    alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   }
 
   useEffect(() => {
@@ -54,7 +54,6 @@ const Home = ({ userAgent, header }: Props) => {
       }
       // (window as any).entizen!.callJavaScriptFunction();
     }
-
     // return () => {
     //   window.removeEventListener('javascriptFunction', eventFromAndroid);
     // };
