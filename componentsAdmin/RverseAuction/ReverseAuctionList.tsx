@@ -39,8 +39,9 @@ const ReverseAuctionList = () => {
             size={'sm'}
             onChange={handleDateChange}
           />
-        </li>
+
         <Btn>조회</Btn>
+        </li>
       </Manager>
       <Table
         setDetailId={setDetailId}
