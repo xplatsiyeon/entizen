@@ -68,9 +68,11 @@ const Table = ({
     () =>
       api({
         method: 'GET',
-        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
-          }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${changeSearchType[selectedFilter!]
-          }&searchKeyword=${userSearch}`,
+        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${
+          pickedDate ? pickedDate[0] : '2022-09-05'
+        }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
+          changeSearchType[selectedFilter!]
+        }&searchKeyword=${userSearch}`,
       }),
     {
       enabled: false,
@@ -80,7 +82,8 @@ const Table = ({
           const temp: any = [];
           userData?.data?.members.forEach((ele, idx) => {
             const arrEle = [
-              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                idx + 1 === 10 ? page * 10 : idx + 1
               }`,
               ele.id,
               ele.name,
@@ -133,9 +136,11 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/members/companies?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
-        }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${changeSearchType[selectedFilter!]
-            }&searchKeyword=${userSearch}`,
+          endpoint: `/admin/members/companies?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
+            changeSearchType[selectedFilter!]
+          }&searchKeyword=${userSearch}`,
         }),
       {
         enabled: false,
@@ -145,7 +150,8 @@ const Table = ({
             const temp: any = [];
             comUserData?.data?.members.forEach((ele, idx) => {
               const arrEle = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele?.companyMemberAdditionalInfo?.companyName!,
                 ele.id,
@@ -213,7 +219,7 @@ const Table = ({
       },
     );
 
-  // 가견적 데이터
+  // 간편견적의 가견적 리스트 조회
   const { data: companyPreQuotation, refetch: companyPreQuotationRefetch } =
     useQuery<CompanyPreQuotationResponse>(
       'companyPreQuotation',
@@ -231,7 +237,8 @@ const Table = ({
             const temp: any = [];
             companyPreQuotation?.data?.preQuotations?.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 ? '' : page - 1}${idx + 1 === page * 10 ? 0 : idx + 1
+                `${page - 1 === 0 ? '' : page - 1}${
+                  idx + 1 === page * 10 ? 0 : idx + 1
                 }`,
 
                 ele.member.companyMemberAdditionalInfo.companyName!,
@@ -240,15 +247,15 @@ const Table = ({
                 hyphenFn(ele.member.phone),
                 ele.member.companyMemberAdditionalInfo.managerEmail!,
                 dateFomat(ele.createdAt),
-                `${ele.finalQuotation?.project?.isCompletedContractStep !==
-                  null &&
+                `${
+                  ele.finalQuotation?.project?.isCompletedContractStep !==
+                    null &&
                   ele.finalQuotation?.project?.isCompletedContractStep ===
-                  'COMPLETION'
-                  ? '계약완료'
-                  : '-'
+                    'COMPLETION'
+                    ? '계약완료'
+                    : '-'
                 }`,
                 ele?.preQuotationIdx,
-
               ];
               temp.push(eleArr);
             });
@@ -273,6 +280,7 @@ const Table = ({
                         className="button"
                         onClick={() => {
                           dispatch(adminReverseAction.setDate(cell));
+                          dispatch(adminReverseAction.setIsCompanyDetail(true));
                         }}
                       >
                         보기
@@ -298,8 +306,9 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
-        }&endDate=${pickedDate ? pickedDate[1] : today}`,
+          endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
       {
         enabled: false,
@@ -308,7 +317,8 @@ const Table = ({
             const temp: any = [];
             quetationListData?.data.quotationRequests.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele.badge!,
                 ele?.member?.id!,
@@ -359,8 +369,9 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
-        }&endDate=${pickedDate ? pickedDate[1] : today}`,
+          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
       {
         enabled: false,
@@ -369,7 +380,8 @@ const Table = ({
             const temp: any = [];
             projectListData?.data?.projects.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele.projectNumber!,
                 ele.userMember.id!,
@@ -419,8 +431,6 @@ const Table = ({
     );
 
   useEffect(() => {
-    console.log('props', tableType);
-    console.log('------------------------------', tableType);
     switch (tableType) {
       case 'userData':
         userDataRefetch();
@@ -446,8 +456,6 @@ const Table = ({
   }, []);
 
   useEffect(() => {
-    console.log('----------------table useeffect 실행---------------');
-    console.log(userSearch);
     switch (tableType) {
       case 'userData':
         userDataRefetch();
@@ -467,24 +475,30 @@ const Table = ({
     }
   }, [page, pickedDate, userSearch]);
 
-
+  useEffect(() => {
+    console.log('preQuotationIdx------->>> 🔥' + preQuotationIdx);
+  }, [preQuotationIdx]);
 
   return (
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P> <Button>엑셀 다운로드</Button>
       </FlexBox>
-      {dataArr.length > 0 && columns.length > 0 ? <Div>
-        <Grid data={() => {
-          //화면의 덜컹거림을 줄이기 위해서 0.1초 기다림( =>setState들로 인한 페이지 전환 다 끝난 후 데이터 삽입).
-          return new Promise(resolve => {
-            setTimeout(() =>
-              resolve(dataArr), 130);
-          });
-        }
-        } columns={columns} /></Div>
-        : <Div></Div>
-      }
+      {dataArr.length > 0 && columns.length > 0 ? (
+        <Div>
+          <Grid
+            data={() => {
+              //화면의 덜컹거림을 줄이기 위해서 0.1초 기다림( =>setState들로 인한 페이지 전환 다 끝난 후 데이터 삽입).
+              return new Promise((resolve) => {
+                setTimeout(() => resolve(dataArr), 130);
+              });
+            }}
+            columns={columns}
+          />
+        </Div>
+      ) : (
+        <Div></Div>
+      )}
       <WrapPage>
         <Pagination
           prev
@@ -531,7 +545,7 @@ const StyledBody = styled.div`
         padding: 8px 0;
       }
     }
-    .gridjs-loading{
+    .gridjs-loading {
       min-width: 1200px;
       height: 490px;
       color: white;
@@ -593,4 +607,4 @@ const WrapPage = styled.div`
 const Div = styled.div`
   min-width: 1200px;
   height: 490px;
-`
+`;
