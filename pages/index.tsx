@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
@@ -10,6 +10,11 @@ const Home: NextPage = () => {
   function testEntizen(id: string) {
     return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   }
+
+  useEffect(() => {
+    // testEntizen();
+  }, []);
+
   return (
     <>
       {memberType === 'COMPANY' ? (
