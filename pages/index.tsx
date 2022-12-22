@@ -31,10 +31,9 @@ const Home = ({ userAgent, header }: Props) => {
     };
     window.addEventListener('javascriptFunction', eventFromAndroid);
 
-    // const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
-    // if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
-    //   sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
-    // }
+    if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
+      sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
+    }
 
     console.log('ANGENT 값 확인 --->   ' + ANGENT);
     if ((window as any).entizen!) {
