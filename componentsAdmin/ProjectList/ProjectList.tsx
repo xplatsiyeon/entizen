@@ -12,7 +12,7 @@ import { AdminBtn } from 'componentsAdmin/Layout';
 const ProjectList = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
-  const [pickedDate, setPickedDate] = useState<DateRange>();
+  const [pickedDate, setPickedDate] = useState<string[]>();
 
   const dateRef = useRef<DateRange>();
 

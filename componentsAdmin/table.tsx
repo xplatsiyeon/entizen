@@ -11,14 +11,16 @@ import {
   UserData,
   CompanyPreQuotationResponse,
 } from 'types/tableDataType';
-import { dateFomat, hyphenFn } from 'utils/calculatePackage';
+import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
+import { useDispatch } from 'react-redux';
+import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
   tableType: string;
-  pickedDate?: DateRange;
+  pickedDate?: string[];
   detatilId?: string;
   selectedFilter?: number;
   userSearch?: string;
@@ -38,11 +40,15 @@ const Table = ({
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
 
+  const today = new Date();
+  console.log(adminDateFomat(String(today)))
+  console.log('selectedFilter af', selectedFilter);
+  // 역경매 견적서 보기에 넘겨줄 아이디값
+  const dispatch = useDispatch();
+  const [preQuotationIdx, setPreQuotationIdx] = useState<number>();
+
   // 유저 회원 검색 필터 뭐 눌렀는지
   const changeSearchType = ['name', 'id'];
-
-  console.log('changeSearchType 테이블에서', changeSearchType[selectedFilter!]);
-  console.log('selectedFilter 테이블에서', userSearch);
 
   /*
   
@@ -59,7 +65,7 @@ const Table = ({
     () =>
       api({
         method: 'GET',
-        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=2022-12-19&endDate=2022-12-19&searchType=${
+        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${pickedDate?pickedDate[0]:'2022--05'}&endDate=${pickedDate?pickedDate[1]:today}&searchType=${
           changeSearchType[selectedFilter!]
         }&searchKeyword=${userSearch}`,
       }),
@@ -71,8 +77,8 @@ const Table = ({
           const temp: any = [];
           userData?.data?.members.forEach((ele, idx) => {
             const arrEle = [
-              `${page - 1 === 0 ? '' : page - 1}${
-                idx + 1 === page * 10 ? 0 : idx + 1
+              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                idx + 1 === 10 ? page * 10 : idx + 1
               }`,
               ele.id,
               ele.name,
@@ -84,10 +90,10 @@ const Table = ({
           });
           setDataArr(temp);
           setColumns([
-            '번호',
+            {name:'번호', width: '5%'},
             { name: '아이디', width: '20%' },
-            '이름',
-            '전화번호',
+            {name:'이름',width:'10%'},
+            {name:'전화번호',width:'10%'},
             ,
             {
               name: '가입날짜',
@@ -119,8 +125,7 @@ const Table = ({
     },
   );
 
-  const { data: comUserData, refetch: comUserDataRefetch } =
-    useQuery<ComUserData>(
+  const { data: comUserData, refetch: comUserDataRefetch } = useQuery<ComUserData>(
       'comUserInfo',
       () =>
         api({
@@ -202,6 +207,7 @@ const Table = ({
         },
       },
     );
+
   const [total, setTotal] = useState<boolean>(false);
   const { data: companyPreQuotation, refetch: companyPreQuotationRefetch } =
     useQuery<CompanyPreQuotationResponse>(
@@ -238,6 +244,7 @@ const Table = ({
                     ? '계약완료'
                     : '-'
                 }`,
+                setPreQuotationIdx(ele?.preQuotationIdx),
               ];
               temp.push(eleArr);
             });
@@ -251,13 +258,21 @@ const Table = ({
               '이메일',
               '신청일자',
               '채택여부',
+
               {
                 name: '',
                 formatter: () =>
                   _(
                     <div>
                       <button className="button">삭제</button>
-                      <button className="button">보기</button>
+                      <button
+                        className="button"
+                        onClick={() => {
+                          dispatch(adminReverseAction.setDate(preQuotationIdx));
+                        }}
+                      >
+                        보기
+                      </button>
                     </div>,
                   ),
               },
@@ -503,8 +518,20 @@ const StyledBody = styled.div`
       td {
         padding: 8px 0;
       }
-      .wide {
-      }
+    }
+
+  .detail{
+      font-family: 'Spoqa Han Sans Neo';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 150%;
+      text-align: center;
+      color: #747780;
+      background: #E2E5ED;
+      border: 1px solid #747780;
+      padding: 3px 19px;
+      border-radius: 4px;
     }
   }
 `;
@@ -516,10 +543,22 @@ const FlexBox = styled.div`
 `;
 const P = styled.p``;
 
-const Button = styled.button``;
+const Button = styled.button`
+
+font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 150%;
+color: #747780;
+text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+padding: 3px 6px;
+
+`;
 
 const WrapPage = styled.div`
   margin: 50px auto;
+  
   .rs-pagination-group {
     justify-content: center;
   }
@@ -534,4 +573,5 @@ const WrapPage = styled.div`
       }
     }
   }
+
 `;

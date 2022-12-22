@@ -22,7 +22,6 @@ const DetailQuotation = ({ detatilId, setIsDetail, setDetailId }: Props) => {
           setIsDetail={setIsDetail}
           setDetailId={setDetailId}
         />
-        {/* <Qutation /> */}
       </Wrapper>
     </Background>
   );
@@ -43,5 +42,5 @@ const Background = styled.div`
 `;
 
 const Wrapper = styled.div`
-  min-width: 964px;
+  width: 964px;
 `;
