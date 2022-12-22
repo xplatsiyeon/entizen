@@ -18,30 +18,41 @@ const Home = ({ userAgent, header }: Props) => {
 
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
+  // useEffect(() => {
+  //   // const eventFromAndroid = async (event: any) => {
+  //   //   setMessageFromAndroid(event.detail.data);
+  //   // };
+  //   // window.addEventListener('javascriptFunction', eventFromAndroid);
+
+  //   if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
+  //     sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
+  //   }
+
+  //   console.log('ANGENT 값 확인 --->   ' + ANGENT);
+  //   if ((window as any).entizen!) {
+  //     if (ANGENT === 'Android_App') {
+  //       (window as any).entizen!.test('Hello Native Callback');
+  //     } else if (ANGENT === 'iOS_App') {
+  //       (window as any).webkit.messageHandlers.test.postMessage(
+  //         'Hello Native Callback' + ANGENT,
+  //       );
+  //     }
+  //     // (window as any).entizen!.callJavaScriptFunction();
+  //   }
+  //   // return () => {
+  //   //   window.removeEventListener('javascriptFunction', eventFromAndroid);
+  //   // };
+  // }, []);
   useEffect(() => {
-    // const eventFromAndroid = async (event: any) => {
-    //   setMessageFromAndroid(event.detail.data);
-    // };
-    // window.addEventListener('javascriptFunction', eventFromAndroid);
+    (window as any).tsetEntizen = {
+      test: () => {
+        // (window as any).webkit.messageHandlers.test.postMessage(
+        //   'Hello Native Callback' + ANGENT,
+        // );
 
-    if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
-      sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
-    }
-
-    console.log('ANGENT 값 확인 --->   ' + ANGENT);
-    if ((window as any).entizen!) {
-      if (ANGENT === 'Android_App') {
-        (window as any).entizen!.test('Hello Native Callback');
-      } else if (ANGENT === 'iOS_App') {
-        (window as any).webkit.messageHandlers.test.postMessage(
-          'Hello Native Callback' + ANGENT,
-        );
-      }
-      // (window as any).entizen!.callJavaScriptFunction();
-    }
-    // return () => {
-    //   window.removeEventListener('javascriptFunction', eventFromAndroid);
-    // };
+        alert('안드로이드 테스트 중');
+      },
+    };
   }, []);
 
   const testEntizen = (id: string) => {
