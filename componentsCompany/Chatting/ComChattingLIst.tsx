@@ -157,7 +157,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
                 </Created>
                 <Box>
                   <UnRead
-                  wasRead={data?.data?.chattingRooms?.entizenChattingRoom.chattingLog?.fromMemberIdx === data?.data?.chattingRooms?.entizenChattingRoom.chattingRoomIdx && !Boolean(data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.wasRead)?true:false}
+                  wasRead={data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.fromMemberIdx === data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx && !Boolean(data?.data?.chattingRooms?.entizenChattingRoom?.chattingLog?.wasRead)?true:false}
                   />
                   <Favorite>
                     {data?.data.chattingRooms.entizenChattingRoom?.chattingRoomFavorite.isFavorite? (
@@ -208,7 +208,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
             <ChattingRoom
               className="content-box"
               /* 자신의 Id, 상대방 id, name, alarm여부(채팅목록에는 알람여부 정보가 없어서) */
-              onClick={() => handleRoute(chatting.chattingRoomIdx)}
+              onClick={() => handleRoute(chatting.chattingRoomIdx!)}
             >
               <ChattingRoomImage>
                 {/* 이미지 파일 src가 없으면 */}
@@ -220,7 +220,7 @@ const ComChattingList = ({ data, refetch }: Props) => {
                 </ImageWrap>
               </ChattingRoomImage>
               <ChattingRoomPreview>
-                <FromMember>{chatting.userMember.name}</FromMember>
+                <FromMember>{chatting.userMember?.name}</FromMember>
                 <Previw>{chatting.chattingLogs?.content}</Previw>
               </ChattingRoomPreview>
               <ChattingRoomInfo>
