@@ -15,10 +15,16 @@ type Props = {};
 const selectOption = ['이름 검색', '아이디 검색'];
 const UserManagement = (props: Props) => {
   const [selectValue, setSelectValue] = useState('');
+
+  //이름검색인지 아이디검색인지 판별
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
+
+  //검색창에 입력되는 값
   const [inputValue, setInputValue] = useState<string>('');
-  // const [keyword, setKeyword] = useState('');
-  const keyword = useDebounce(inputValue, 2000);
+
+  // onClick 할때 값이 바뀌도록
+  const [userSearch, setUserSearch] = useState<string>('');
+
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -92,8 +98,19 @@ const UserManagement = (props: Props) => {
               onChange={(e) => {
                 setInputValue(e.target.value);
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setUserSearch(inputValue);
+                }
+              }}
             />
-            <Btn>검색</Btn>
+            <Btn
+              onClick={() => {
+                setUserSearch(inputValue);
+              }}
+            >
+              검색
+            </Btn>
           </li>
           <li className="search" ref={dateRef}>
             <label>기간검색</label>
@@ -107,12 +124,12 @@ const UserManagement = (props: Props) => {
           </li>
         </Manager>
         <Table
-          keyword={keyword}
           selectedFilter={selectedFilter}
           setIsDetail={setIsDetail}
           setDetailId={setDetailId}
           tableType={'userData'}
           pickedDate={pickedDate}
+          userSearch={userSearch}
         />
       </Wrapper>
     </>

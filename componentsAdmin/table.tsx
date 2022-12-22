@@ -13,6 +13,8 @@ import {
 } from 'types/tableDataType';
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
+import { useDispatch } from 'react-redux';
+import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +23,7 @@ type Props = {
   pickedDate?: string[];
   detatilId?: string;
   selectedFilter?: number;
-  keyword?: string;
+  userSearch?: string;
 };
 
 const Table = ({
@@ -30,8 +32,8 @@ const Table = ({
   tableType,
   detatilId,
   selectedFilter,
-  keyword,
   pickedDate,
+  userSearch,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -40,8 +42,13 @@ const Table = ({
 
   const today = new Date();
   console.log(adminDateFomat(String(today)))
-  console.log('keyword dasd', keyword);
   console.log('selectedFilter af', selectedFilter);
+  // 역경매 견적서 보기에 넘겨줄 아이디값
+  const dispatch = useDispatch();
+  const [preQuotationIdx, setPreQuotationIdx] = useState<number>();
+
+  // 유저 회원 검색 필터 뭐 눌렀는지
+  const changeSearchType = ['name', 'id'];
 
   /*
   
@@ -58,7 +65,9 @@ const Table = ({
     () =>
       api({
         method: 'GET',
-        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${pickedDate?pickedDate[0]:'2022--05'}&endDate=${pickedDate?pickedDate[1]:today}&searchType=${selectedFilter}&searchKeyword=${keyword}`,
+        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${pickedDate?pickedDate[0]:'2022--05'}&endDate=${pickedDate?pickedDate[1]:today}&searchType=${
+          changeSearchType[selectedFilter!]
+        }&searchKeyword=${userSearch}`,
       }),
     {
       enabled: false,
@@ -235,6 +244,7 @@ const Table = ({
                     ? '계약완료'
                     : '-'
                 }`,
+                setPreQuotationIdx(ele?.preQuotationIdx),
               ];
               temp.push(eleArr);
             });
@@ -248,13 +258,21 @@ const Table = ({
               '이메일',
               '신청일자',
               '채택여부',
+
               {
                 name: '',
                 formatter: () =>
                   _(
                     <div>
                       <button className="button">삭제</button>
-                      <button className="button">보기</button>
+                      <button
+                        className="button"
+                        onClick={() => {
+                          dispatch(adminReverseAction.setDate(preQuotationIdx));
+                        }}
+                      >
+                        보기
+                      </button>
                     </div>,
                   ),
               },
@@ -269,11 +287,6 @@ const Table = ({
         onError: () => alert('다시 시도해주세요'),
       },
     );
-
-  console.log(
-    'companyPreQuotation ㅇㄴㅁㅇㅁㄴ',
-    companyPreQuotation?.data?.preQuotations,
-  );
 
   const { data: quetationListData, refetch: quetationListRefetch } =
     useQuery<Quotations>(
@@ -451,7 +464,7 @@ const Table = ({
         companyPreQuotationRefetch();
         break;
     }
-  }, [page, pickedDate]);
+  }, [page, pickedDate, userSearch]);
 
   return (
     <StyledBody className="user-table">

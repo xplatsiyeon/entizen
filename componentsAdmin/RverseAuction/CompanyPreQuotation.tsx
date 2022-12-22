@@ -94,6 +94,5 @@ const QuotationTitle = styled.div`
   line-height: 150%;
   color: ${colors.dark2};
   text-align: left;
-  padding-bottom: 15px;
   margin-top: 35px;
 `;

@@ -22,7 +22,6 @@ const DetailQuotation = ({ detatilId, setIsDetail, setDetailId }: Props) => {
           setIsDetail={setIsDetail}
           setDetailId={setDetailId}
         />
-        {/* <Qutation /> */}
       </Wrapper>
     </Background>
   );
@@ -35,7 +34,7 @@ const Background = styled.div`
   height: 100vh;
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
-  /* position: absolute; */
+  position: absolute;
   left: 154.5pt;
   z-index: 10;
   overflow-y: scroll;
@@ -43,5 +42,5 @@ const Background = styled.div`
 `;
 
 const Wrapper = styled.div`
-  min-width: 964px;
+  width: 964px;
 `;
