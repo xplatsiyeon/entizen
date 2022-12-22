@@ -54,7 +54,6 @@ const MainPage = (props: Props) => {
   const ACCESS_TOKEN = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, invalidate, isLoading } = useProfile(ACCESS_TOKEN);
   const [isLogin, setIsLogin] = useState(false);
-  const [test, setTest] = useState(false);
   const [state, setState] = useState({
     right: false,
   });
@@ -111,16 +110,22 @@ const MainPage = (props: Props) => {
     console.log('에러 발생');
   }
 
-  const testEntizen = {
-    test: (id: string) => {
-      setTest(true);
-      alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-      return <div>ios 테스트중입니다.</div>;
-    },
+  const testEntizen = (id: string) => {
+    console.log('testEntizen 호출');
+    return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   };
+  // const testEntizen = {
+  //   test: (id: string) => {
+  //     setTest(true);
+  //     alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
+  //   },
+  // };
+  // testEntizen.test();
+
+  // testEntizen('ios');
+
   return (
     <>
-      {test && testEntizen.test('test')}
       <Container>
         <HeadWrapper>
           <LogoBox>
