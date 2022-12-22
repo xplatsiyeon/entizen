@@ -8,12 +8,15 @@ import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import Table from 'componentsAdmin/table';
 import {keyframes } from '@emotion/react'
+import useDebounce from 'hooks/useDebounce';
+import { AdminBtn } from 'componentsAdmin/Layout';
+import { originDateFomat } from 'utils/calculatePackage';
 
 type Props = {};
 
 const selectOption = ['이름 검색', '아이디 검색'];
 const UserManagement = (props: Props) => {
-  const [selectValue, setSelectValue] = useState('');
+  const [selectValue, setSelectValue] = useState('이름 검색');
 
   //이름검색인지 아이디검색인지 판별
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
@@ -28,7 +31,7 @@ const UserManagement = (props: Props) => {
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
 
-  const dateRef = useRef<HTMLLIElement>(null)
+  const dateRef = useRef<HTMLLIElement>(null);
 
   // 셀렉트 박스 변경함수
   const handleChange = (event: SelectChangeEvent<unknown>) => {
@@ -40,7 +43,9 @@ const UserManagement = (props: Props) => {
     value: DateRange | null,
     event: React.SyntheticEvent<Element, Event>,
   ) => {
-    const inputValue = dateRef.current?.querySelector('.datePicker-input')?.querySelector('input')?.value;
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
     console.log('input?', inputValue);
     dateRef.current?.querySelector('.date-btn')?.classList.add('on');
     setTimeout(()=>{
@@ -48,18 +53,19 @@ const UserManagement = (props: Props) => {
     }, 600)
   };
 
-  const handleDate =()=>{
-    const inputValue = dateRef.current?.querySelector('.datePicker-input')?.querySelector('input')?.value;
-    console.log('날짜조회 클릭', inputValue)
- 
-     if(inputValue){
-       console.log(inputValue);
-       const newDate = inputValue.split('~');
-       setPickedDate(newDate);
-     }else{
+  const handleDate = () => {
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('날짜조회 클릭', inputValue);
+
+    if (inputValue) {
+      console.log(inputValue);
+      const newDate = inputValue.split('~');
+      setPickedDate(newDate);
+    } else {
       setPickedDate(undefined);
      }
-
   }
 
   // console.log('selectedFilter 아이디 나오냐???', selectedFilter);
@@ -106,23 +112,26 @@ const UserManagement = (props: Props) => {
                 }
               }}
             />
-            <Btn
+            <AdminBtn
               onClick={() => {
                 setUserSearch(inputValue);
               }}
             >
               검색
-            </Btn>
+            </AdminBtn>
           </li>
           <li className="search" ref={dateRef}>
             <label>기간검색</label>
             {/* 레인지 달력 */}
-            <DateRangePicker className='datePicker-input'
+            <DateRangePicker
+              className="datePicker-input"
               placeholder={'년-월-일 ~ 년-월-일'}
               size={'sm'}
               onChange={handleDateChange}
             />
-            <Btn onClick={handleDate} className='date-btn'>조회</Btn>
+            <AdminBtn onClick={handleDate} className="date-btn">
+              조회
+            </AdminBtn>
           </li>
         </Manager>
         <Table
@@ -164,6 +173,7 @@ const Manager = styled.ul`
     border: 1px solid ${colors.lightWhite3};
     height: 100%;
     width: 274.5pt;
+    padding-left: 10px;
   }
   .search {
     width: 946px;

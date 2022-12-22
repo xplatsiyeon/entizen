@@ -6,6 +6,7 @@ import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
 import colors from 'styles/colors';
 import DetailQuotation from './DetailQuotation';
+import { AdminBtn } from 'componentsAdmin/Layout';
 
 const ReverseAuctionList = () => {
   const [isDetail, setIsDetail] = useState(false);
@@ -39,8 +40,7 @@ const ReverseAuctionList = () => {
             size={'sm'}
             onChange={handleDateChange}
           />
-
-        <Btn>조회</Btn>
+          <AdminBtn>조회</AdminBtn>
         </li>
       </Manager>
       <Table
@@ -87,17 +87,4 @@ const Manager = styled.ul`
   .search {
     width: 946px;
   }
-`;
-const Btn = styled.button`
-  cursor: pointer;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-  outline: none;
-  text-align: center;
-  border-radius: 3pt;
-  padding: 5px 17px;
-  height: 19.5pt;
-  color: ${colors.lightWhite};
-  background: #464646;
 `;

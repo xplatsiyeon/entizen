@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
+import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import AdminHeader from 'componentsAdmin/Header';
+import { AdminBtn } from 'componentsAdmin/Layout';
 import Table from 'componentsAdmin/table';
 import React, { useState } from 'react';
 import { DateRangePicker } from 'rsuite';
@@ -9,9 +11,24 @@ import CommonDetail from './CommonDetail';
 
 type Props = {};
 
+const selectOption = ['이름 검색', '아이디 검색'];
 const CompanyManagement = (props: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
+  const [selectValue, setSelectValue] = useState('이름 검색');
+  //이름검색인지 아이디검색인지 판별
+  const [selectedFilter, setSelectedFilter] = useState<number>(0);
+
+  //검색창에 입력되는 값
+  const [inputValue, setInputValue] = useState<string>('');
+
+  // onClick 할때 값이 바뀌도록
+  const [companySearch, setCompanySearch] = useState<string>('');
+
+  // 셀렉트 박스 변경함수
+  const handleChange = (event: SelectChangeEvent<unknown>) => {
+    setSelectValue(event.target.value as string);
+  };
 
   // 달력 날짜 변경 함수
   const handleDateChange = (
@@ -33,22 +50,64 @@ const CompanyManagement = (props: Props) => {
       )}
 
       <Wrapper>
-        <AdminHeader title="역경매 관리" type="main" />
-
+        <AdminHeader title="회원관리" subTitle="기업회원" type="main" />
         <Manager>
           <li className="search">
+            <label>회원 검색</label>
+            <SelectBox value={selectValue} onChange={handleChange} displayEmpty>
+              {selectOption.map((el, idx) => (
+                <MenuItem
+                  key={idx}
+                  value={selectOption[idx]}
+                  onClick={() => {
+                    setSelectedFilter(idx);
+                  }}
+                >
+                  {selectOption[idx]}
+                </MenuItem>
+              ))}
+            </SelectBox>
+            {/* <input type="text" value={keyword} className="searchInput" /> */}
+            <input
+              type="text"
+              placeholder="검색"
+              className="searchInput"
+              onChange={(e) => {
+                setInputValue(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setCompanySearch(inputValue);
+                }
+              }}
+            />
+            <AdminBtn
+              onClick={() => {
+                setCompanySearch(inputValue);
+              }}
+            >
+              검색
+            </AdminBtn>
+          </li>
+          <li className="search">
             <label>기간검색</label>
-            {/* 달력 컴포넌트 */}
+            {/* 레인지 달력 */}
             <DateRangePicker
               placeholder={'년-월-일 ~ 년-월-일'}
               size={'sm'}
               onChange={handleDateChange}
             />
+            <AdminBtn>조회</AdminBtn>
           </li>
-          <Btn>조회</Btn>
         </Manager>
         {/* 테이블 컴포넌트 */}
-        <Table setIsDetail={setIsDetail} setDetailId={setDetailId} tableType={'comUserData'}/>
+        <Table
+          selectedFilter={selectedFilter}
+          setIsDetail={setIsDetail}
+          setDetailId={setDetailId}
+          tableType={'comUserData'}
+          userSearch={companySearch}
+        />
       </Wrapper>
     </>
   );
@@ -83,22 +142,13 @@ const Manager = styled.ul`
     border: 1px solid ${colors.lightWhite3};
     height: 100%;
     width: 274.5pt;
+    padding-left: 10px;
   }
   .search {
     width: 946px;
   }
 `;
-const Btn = styled.button`
-  cursor: pointer;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-  outline: none;
-  text-align: center;
-  border-radius: 3pt;
-  padding: 5px 17px;
-  height: 19.5pt;
-  color: ${colors.lightWhite};
-  background: #464646;
-  margin-top: 15px;
+const SelectBox = styled(Select)`
+  width: 87pt;
+  height: 100%;
 `;

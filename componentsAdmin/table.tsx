@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery } from 'react-query';
 import { api } from 'api';
@@ -41,7 +41,7 @@ const Table = ({
   const [length, setLength] = useState<number>();
 
   const today = new Date();
-  console.log(adminDateFomat(String(today)))
+  console.log(adminDateFomat(String(today)));
   console.log('selectedFilter af', selectedFilter);
   // 역경매 견적서 보기에 넘겨줄 아이디값
   const dispatch = useDispatch();
@@ -60,12 +60,15 @@ const Table = ({
   
   */
 
+  //  유저 데이터
   const { data: userData, refetch: userDataRefetch } = useQuery<UserData>(
     'userInfo',
     () =>
       api({
         method: 'GET',
-        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${pickedDate?pickedDate[0]:'2022--05'}&endDate=${pickedDate?pickedDate[1]:today}&searchType=${
+        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${
+          pickedDate ? pickedDate[0] : '2022--05'
+        }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
           changeSearchType[selectedFilter!]
         }&searchKeyword=${userSearch}`,
       }),
@@ -90,10 +93,10 @@ const Table = ({
           });
           setDataArr(temp);
           setColumns([
-            {name:'번호', width: '5%'},
+            { name: '번호', width: '5%' },
             { name: '아이디', width: '20%' },
-            {name:'이름',width:'10%'},
-            {name:'전화번호',width:'10%'},
+            { name: '이름', width: '10%' },
+            { name: '전화번호', width: '10%' },
             ,
             {
               name: '가입날짜',
@@ -124,13 +127,18 @@ const Table = ({
       onError: (error) => alert('다시 시도해주세요'),
     },
   );
-
-  const { data: comUserData, refetch: comUserDataRefetch } = useQuery<ComUserData>(
+  // 회사 데이터
+  const { data: comUserData, refetch: comUserDataRefetch } =
+    useQuery<ComUserData>(
       'comUserInfo',
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/members/companies?page=${page}&limit=10&startDate=2022-12-19&endDate=2022-12-19`,
+          endpoint: `/admin/members/companies?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022--05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
+            changeSearchType[selectedFilter!]
+          }&searchKeyword=${userSearch}`,
         }),
       {
         enabled: false,
@@ -208,7 +216,7 @@ const Table = ({
       },
     );
 
-  const [total, setTotal] = useState<boolean>(false);
+  // 가견적 데이터
   const { data: companyPreQuotation, refetch: companyPreQuotationRefetch } =
     useQuery<CompanyPreQuotationResponse>(
       'companyPreQuotation',
@@ -287,7 +295,7 @@ const Table = ({
         onError: () => alert('다시 시도해주세요'),
       },
     );
-
+  // 견적 리스트 데이터
   const { data: quetationListData, refetch: quetationListRefetch } =
     useQuery<Quotations>(
       'quetationList',
@@ -348,7 +356,7 @@ const Table = ({
         onError: () => alert('다시 시도해주세요'),
       },
     );
-
+  // 프로젝트 리스트 데이터
   const { data: projectListData, refetch: projectListRefetch } =
     useQuery<ProjectList>(
       'projectList',
@@ -418,6 +426,7 @@ const Table = ({
 
   useEffect(() => {
     console.log('props', tableType);
+    console.log('------------------------------', tableType);
     switch (tableType) {
       case 'userData':
         userDataRefetch();
@@ -443,23 +452,21 @@ const Table = ({
   }, []);
 
   useEffect(() => {
+    console.log('----------------table useeffect 실행---------------');
+    console.log(userSearch);
     switch (tableType) {
       case 'userData':
         userDataRefetch();
         break;
-
       case 'comUserData':
         comUserDataRefetch();
         break;
-
       case 'quetationListData':
         quetationListRefetch();
         break;
-
       case 'projectListData':
         projectListRefetch();
         break;
-
       case 'companyPreQuotation':
         companyPreQuotationRefetch();
         break;
@@ -490,7 +497,7 @@ const Table = ({
   );
 };
 
-export default Table;
+export default React.memo(Table);
 
 const StyledBody = styled.div`
   margin: 32px 0 0;
@@ -521,7 +528,7 @@ const StyledBody = styled.div`
       }
     }
 
-  .detail{
+    .detail {
       font-family: 'Spoqa Han Sans Neo';
       font-style: normal;
       font-weight: 400;
@@ -529,7 +536,7 @@ const StyledBody = styled.div`
       line-height: 150%;
       text-align: center;
       color: #747780;
-      background: #E2E5ED;
+      background: #e2e5ed;
       border: 1px solid #747780;
       padding: 3px 19px;
       border-radius: 4px;
@@ -545,21 +552,19 @@ const FlexBox = styled.div`
 const P = styled.p``;
 
 const Button = styled.button`
-
-font-family: 'Spoqa Han Sans Neo';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 150%;
-color: #747780;
-text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-padding: 3px 6px;
-
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #747780;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 3px 6px;
 `;
 
 const WrapPage = styled.div`
   margin: 50px auto;
-  
+
   .rs-pagination-group {
     justify-content: center;
   }
@@ -574,5 +579,4 @@ const WrapPage = styled.div`
       }
     }
   }
-
 `;
