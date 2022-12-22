@@ -1,25 +1,36 @@
 import styled from '@emotion/styled';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import AdminHeader from 'componentsAdmin/Header';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import Table from 'componentsAdmin/table';
+import useDebounce from 'hooks/useDebounce';
 
 type Props = {};
 
 const selectOption = ['이름 검색', '아이디 검색'];
 const UserManagement = (props: Props) => {
   const [selectValue, setSelectValue] = useState('');
-  const [keyword, setKeyword] = useState('');
+
+  //이름검색인지 아이디검색인지 판별
+  const [selectedFilter, setSelectedFilter] = useState<number>(0);
+
+  //검색창에 입력되는 값
+  const [inputValue, setInputValue] = useState<string>('');
+
+  // onClick 할때 값이 바뀌도록
+  const [userSearch, setUserSearch] = useState<string>('');
+
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   // 셀렉트 박스 변경함수
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     setSelectValue(event.target.value as string);
   };
+
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
@@ -45,13 +56,38 @@ const UserManagement = (props: Props) => {
             <label>회원 검색</label>
             <SelectBox value={selectValue} onChange={handleChange}>
               {selectOption.map((el, idx) => (
-                <MenuItem key={idx} value={selectOption[idx]}>
+                <MenuItem
+                  key={idx}
+                  value={selectOption[idx]}
+                  onClick={() => {
+                    setSelectedFilter(idx);
+                  }}
+                >
                   {selectOption[idx]}
                 </MenuItem>
               ))}
             </SelectBox>
-            <input type="text" value={keyword} className="searchInput"></input>
-            <Btn>검색</Btn>
+            {/* <input type="text" value={keyword} className="searchInput" /> */}
+            <input
+              type="text"
+              placeholder="검색"
+              className="searchInput"
+              onChange={(e) => {
+                setInputValue(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setUserSearch(inputValue);
+                }
+              }}
+            />
+            <Btn
+              onClick={() => {
+                setUserSearch(inputValue);
+              }}
+            >
+              검색
+            </Btn>
           </li>
           <li className="search">
             <label>기간검색</label>
@@ -64,7 +100,13 @@ const UserManagement = (props: Props) => {
             <Btn>조회</Btn>
           </li>
         </Manager>
-        <Table setIsDetail={setIsDetail} setDetailId={setDetailId} tableType={'userData'}/>
+        <Table
+          selectedFilter={selectedFilter}
+          setIsDetail={setIsDetail}
+          setDetailId={setDetailId}
+          tableType={'userData'}
+          userSearch={userSearch}
+        />
       </Wrapper>
     </>
   );
