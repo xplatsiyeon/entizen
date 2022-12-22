@@ -13,7 +13,7 @@ import { selectSlice } from './loginTypeSlice';
 import { myEstimateSlice } from 'storeCompany/myQuotation';
 import { companyRequestFilterNumberSlice } from 'storeCompany/requestTabSlice';
 import { finalQuotationSlice } from 'storeCompany/finalQuotation';
-import { adminDateSlice } from 'storeAdmin/dateSlice';
+import { adminReverseSlice } from 'storeAdmin/adminReverseSlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -32,7 +32,7 @@ const rootReducer = combineReducers({
   companymyEstimateData: myEstimateSlice.reducer,
   companyRequestFilterNumberData: companyRequestFilterNumberSlice.reducer,
   companyFinalQuotationData: finalQuotationSlice.reducer,
-  adminDate: adminDateSlice.reducer,
+  adminReverseData: adminReverseSlice.reducer,
 });
 
 export default rootReducer;
