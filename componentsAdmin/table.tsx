@@ -21,7 +21,6 @@ type Props = {
   pickedDate?: DateRange;
   detatilId?: string;
   selectedFilter?: number;
-  keyword?: string;
   userSearch?: string;
 };
 
@@ -450,7 +449,7 @@ const Table = ({
         companyPreQuotationRefetch();
         break;
     }
-  }, [page, pickedDate]);
+  }, [page, pickedDate, userSearch]);
 
   return (
     <StyledBody className="user-table">
