@@ -110,9 +110,19 @@ const MainPage = (props: Props) => {
     console.log('에러 발생');
   }
 
-  function testEntizen(id: string) {
+  const testEntizen = (id: string) => {
+    console.log('testEntizen 호출');
     return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  }
+  };
+  // const testEntizen = {
+  //   test: (id: string) => {
+  //     setTest(true);
+  //     alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
+  //   },
+  // };
+  // testEntizen.test();
+
+  // testEntizen('ios');
 
   return (
     <>

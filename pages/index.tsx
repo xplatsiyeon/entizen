@@ -15,44 +15,40 @@ const Home = ({ userAgent, header }: Props) => {
   console.log('index page', userAgent);
   const arrAgent = userAgent?.split(' ');
   const ANGENT = arrAgent![arrAgent?.length - 1];
-  const [messageFromAndroid, setMessageFromAndroid] = useState(
-    'Hello Vite + React!',
-  );
 
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
-  function testEntizen(id: string) {
-    return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  }
-
   useEffect(() => {
-    const eventFromAndroid = async (event: any) => {
-      setMessageFromAndroid(event.detail.data);
-    };
-    window.addEventListener('javascriptFunction', eventFromAndroid);
+    // const eventFromAndroid = async (event: any) => {
+    //   setMessageFromAndroid(event.detail.data);
+    // };
+    // window.addEventListener('javascriptFunction', eventFromAndroid);
 
-    // const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
-    // if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
-    //   sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
-    // }
+    if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
+      sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
+    }
 
     console.log('ANGENT 값 확인 --->   ' + ANGENT);
     if ((window as any).entizen!) {
       if (ANGENT === 'Android_App') {
         (window as any).entizen!.test('Hello Native Callback');
       } else if (ANGENT === 'iOS_App') {
-        (window as any).webkit.messageHanlders.test.postMessage(
-          'Hello Native Callback',
+        (window as any).webkit.messageHandlers.test.postMessage(
+          'Hello Native Callback' + ANGENT,
         );
       }
       // (window as any).entizen!.callJavaScriptFunction();
     }
-
     // return () => {
     //   window.removeEventListener('javascriptFunction', eventFromAndroid);
     // };
   }, []);
 
+  const testEntizen = (id: string) => {
+    console.log('testEntizen 호출');
+    return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
+  };
+  testEntizen('id 확인');
   return (
     <>
       {memberType === 'COMPANY' ? (

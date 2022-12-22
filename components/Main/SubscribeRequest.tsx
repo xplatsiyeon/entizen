@@ -13,15 +13,24 @@ type Props = {
 };
 
 const SubscribeRequest = ({ borders }: Props) => {
-  const router = useRouter();
-
   const handleLink = () => {
-    const user = sessionStorage.getItem('USER_ID');
-    if (user) {
-      router.push('/quotation/request');
-    } else {
-      router.push('/signin');
+    const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
+    if (ANGENT === 'Android_App') {
+      (window as any).entizen!.test('Hello Native Callback --> ' + ANGENT);
+    } else if (ANGENT === 'iOS_App') {
+      (window as any).webkit.messageHandlers.test.postMessage(
+        'Hello Native Callback --> ' + ANGENT,
+      );
     }
+    // (window as any).webkit.messageHandlers.test.postMessage(
+    //   'Hello Native Callback --> ' + ANGENT,
+    // );
+    // const user = sessionStorage.getItem('USER_ID');
+    // if (user) {
+    //   router.push('/quotation/request');
+    // } else {
+    //   router.push('/signin');
+    // }
   };
 
   return (

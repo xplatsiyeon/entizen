@@ -1,17 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { isTokenGetApi } from 'api';
-import {
-  location,
-  locationEn,
-  M5_LIST,
-  M5_LIST_EN,
-  M6_LIST,
-  M6_LIST_EN,
-  M7_LIST,
-  M7_LIST_EN,
-  subscribeType,
-  subscribeTypeEn,
-} from 'assets/selectList';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import AdminHeader from 'componentsAdmin/Header';
@@ -21,6 +9,7 @@ import { adminDateFomat, convertKo, hyphenFn } from 'utils/calculatePackage';
 import { useQuery } from 'react-query';
 import Image from 'next/image';
 import RatingForm from './RatingForm';
+import DropDownBtn from 'componentsAdmin/DropDownBtn';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
@@ -97,6 +86,10 @@ export interface ASDetailViewResponse {
 const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
   // 리뷰 모달 열리고 닫히고
   const [reviewModal, setReviewModal] = useState<boolean>(false);
+
+  // 드랍다운에 보내줄거
+  const dropDownValue = ['접수요청', '접수확인', '완료'];
+
   const { data, isLoading, isError } = useQuery<ASDetailViewResponse>(
     'asDetailView',
     () => isTokenGetApi(`/admin/after-sales-services/${afterSalesServiceIdx}`),
@@ -104,8 +97,10 @@ const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
   const handleBackBtn = () => {
     setIsDetail!(false);
   };
-  console.log('data 충전소 찾아와요', data?.data?.afterSalesService);
 
+  // 진행단계, 드랍다운에 보내줄거
+  const currentStep = data?.data?.afterSalesService?.currentStep;
+  // 리뷰데이터
   const reviewData = data?.data?.afterSalesService?.afterSalesServiceReview;
 
   return (
@@ -210,7 +205,10 @@ const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
           <ProjectInfoContainer>
             <List>
               <Label>진행단계</Label>
-              <Contents>{data?.data?.afterSalesService?.currentStep}</Contents>
+              <DropDownBtn
+                dropDownValue={dropDownValue}
+                currentStep={currentStep!}
+              />
             </List>
             <List>
               <Label>프로젝트 번호</Label>
