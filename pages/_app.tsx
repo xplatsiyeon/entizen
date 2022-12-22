@@ -11,8 +11,14 @@ import Loader from 'components/Loader';
 import 'rsuite/dist/rsuite.min.css';
 import { CustomProvider } from 'rsuite';
 import koKR from 'rsuite/locales/ko_KR';
+import { NextPageContext } from 'next';
+import { Android } from '@mui/icons-material';
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+interface Props {
+  userAgent?: string;
+}
+const MyApp = ({ Component, pageProps, userAgent }: any) => {
+  console.log('-------------------index-------------------', userAgent);
   const [queryClient] = useState(() => new QueryClient());
 
   const [messageFromAndroid, setMessageFromAndroid] = useState(
@@ -41,14 +47,17 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     const eventFromAndroid = async (event: any) => {
       setMessageFromAndroid(event.detail.data);
     };
-
     window.addEventListener('javascriptFunction', eventFromAndroid);
-
+    const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
+    console.log('ANGENT 값 확인 --->   ' + ANGENT);
     if ((window as any).entizen!) {
-      (window as any).entizen!.test('Hello Native Callback');
-      (window as any).webkit.messageHanlders.test.postMessage(
-        'Hello Native Callback',
-      );
+      if (ANGENT === 'Android_App') {
+        (window as any).entizen!.test('Hello Native Callback');
+      } else if (ANGENT === 'iOS_App') {
+        (window as any).webkit.messageHanlders.test.postMessage(
+          'Hello Native Callback',
+        );
+      }
       // (window as any).entizen!.callJavaScriptFunction();
     }
 
@@ -78,3 +87,14 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 };
 
 export default wrapper.withRedux(MyApp);
+
+// Android_App
+// iOS_App
+export const getStaticProps = ({ req }: any) => {
+  const userAgent =
+    typeof navigator === 'undefined'
+      ? req.headers['user-agent']
+      : navigator.userAgent;
+
+  return { props: { userAgent } };
+};
