@@ -12,27 +12,16 @@ import Logos from 'public/images/entizenLogo.png';
 import Ring from 'public/images/guide-bell.svg';
 import Hamburger from 'public/images/list-bar.svg';
 import colors from 'styles/colors';
-import xBtn from 'public/images/X.png';
-import whiteRight from 'public/images/whiteRight20.png';
-import simpleEstimate from 'public/images/simpleEstimate.png';
-import mypageIcon from 'public/images/mypageIcon.png';
-import guide from 'public/images/guide.png';
-import conversation from 'public/images/conversation.png';
-import grayInsta from 'public/images/grayCircleInsta.png';
-import grayNaver from 'public/images/grayCircleNaver.png';
 import Image from 'next/image';
-import { Divider, Drawer } from '@mui/material';
+import { Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
 import BottomNavigation from 'components/BottomNavigation';
 import { quotationAction } from 'store/quotationSlice';
 import { useDispatch } from 'react-redux';
-import Nut from 'public/images/Nut.png';
-import Bell from 'public/images/mobBell.png';
 import { subsidyGuideAction } from 'store/subsidyGuideSlice';
 import { locationAction } from 'store/locationSlice';
-import useProfile from 'hooks/useProfile';
-import { useQueries, useQuery } from 'react-query';
-import { isTokenApi, isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
 import BellNormal from 'public/images/BellNormal.svg';
@@ -52,7 +41,6 @@ const MainPage = (props: Props) => {
   const dispatch = useDispatch();
   const userID = sessionStorage.getItem('USER_ID');
   const ACCESS_TOKEN = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const { profile, invalidate, isLoading } = useProfile(ACCESS_TOKEN);
   const [isLogin, setIsLogin] = useState(false);
   const [state, setState] = useState({
     right: false,
@@ -110,19 +98,10 @@ const MainPage = (props: Props) => {
     console.log('에러 발생');
   }
 
-  const testEntizen = (id: string) => {
-    console.log('testEntizen 호출');
-    return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  };
-  // const testEntizen = {
-  //   test: (id: string) => {
-  //     setTest(true);
-  //     alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  //   },
+  // const testEntizen = (id: string) => {
+  //   console.log('testEntizen 호출');
+  //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   // };
-  // testEntizen.test();
-
-  // testEntizen('ios');
 
   return (
     <>
@@ -182,7 +161,6 @@ const MainPage = (props: Props) => {
         <SubscribeRequest />
         <WhyEntizen />
         {/* <WhyEntizenWeb /> */}
-
         <LearnAbout />
         <EntizenLibrary />
       </Container>
