@@ -498,7 +498,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         focusRef.current?.scrollIntoView();
       }
       console.log(focusRef.current)
-    }, 1000)
+    }, 600)
 
     setTimeout(() => {
       console.log('처음에만');
@@ -602,7 +602,10 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                                 </FileDownload>
                               </>
                             }
+                            <WrapDate>
+                            <P className={`${item.fromMemberType==='USER'?'user-p':'company-p'} ${idx===d.logs.length-1?'p-target':''}`} userChatting={userChatting}>{item.wasRead?'읽음':'안읽음'}</P>
                             <MessageDate>{handleTime(item.createdAt)}</MessageDate>
+                            </WrapDate>
                           </ChatBox>
                         </Wrap>
                       );
@@ -882,7 +885,14 @@ transform: translate(-50%,-50%);
 }
 `
 const Wrap = styled.div`
-  
+    &:nth-last-of-type(1){
+      .user-p{
+        display: block;
+      }
+      .company-p{ 
+        display: block;
+      }
+  }
 `
 
 const DateChatting = styled.div`
@@ -914,6 +924,7 @@ const DateChatting = styled.div`
     right: 0;
     z-index: -1;
   }
+
 `;
 const Date = styled.span`
   display: inline-block;
@@ -946,6 +957,7 @@ const ChatBox = styled.div<{ userChatting: boolean }>`
   align-items: center;
   margin-bottom: 9pt;
   gap: 6pt;
+  align-items: end;
 
   &.user {
     flex-direction: ${({ userChatting }) =>
@@ -1017,7 +1029,7 @@ const MessageDate = styled.p`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: #caccd1;
-  margin-top: 12pt;
+  //margin-top: 12pt;
 `;
 
 const IconWrap3 = styled(IconWrap2)`
@@ -1036,3 +1048,28 @@ outline: auto;
   }
 `
 
+const WrapDate = styled.div`
+  display: flex;
+  flex-direction: column;
+` 
+const P = styled.p<{userChatting:boolean}>`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 7.5pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: #caccd1;
+
+  &.user-p{
+    display: none;
+    &.p-target{
+    display: ${({ userChatting }) => userChatting ? 'block!important' : 'none!important'};
+    }
+  }
+  &.company-p{
+    display: none;
+    &.p-target{
+    display: ${({ userChatting }) => userChatting ? 'none!important' : 'block!important'}
+    }
+  }
+  `
