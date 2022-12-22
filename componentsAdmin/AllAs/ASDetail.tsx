@@ -19,7 +19,7 @@ type Props = {};
 const ASDetail = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
-  const [pickedDate, setPickedDate] = useState<DateRange>();
+  const [pickedDate, setPickedDate] = useState<string[]>();
 
   //검색창에 입력되는 값
   const [inputValue, setInputValue] = useState<string>('');
