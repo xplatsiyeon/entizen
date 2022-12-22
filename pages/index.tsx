@@ -48,7 +48,7 @@ const Home = ({ userAgent, header }: Props) => {
     console.log('testEntizen 호출');
     return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   };
-  testEntizen('id 확인');
+  // testEntizen('id 확인');
   return (
     <>
       {memberType === 'COMPANY' ? (
