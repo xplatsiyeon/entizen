@@ -40,9 +40,6 @@ const Home = ({ userAgent, header }: Props) => {
     if ((window as any).entizen!) {
       if (ANGENT === 'Android_App') {
         (window as any).entizen!.test('Hello Native Callback');
-        (window as any).webkit.messageHanlders.test.postMessage(
-          'Hello Native Callback',
-        );
       } else if (ANGENT === 'iOS_App') {
         (window as any).webkit.messageHanlders.test.postMessage(
           'Hello Native Callback',
