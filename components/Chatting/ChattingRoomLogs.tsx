@@ -145,7 +145,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     onSuccess: async () => {
       setText('');
       await queryClient.invalidateQueries('chatting-data');
+      setTimeout(()=>{
       if(mobInputRef.current)mobInputRef.current.focus();
+      }, 300)
     },
     onError: (error) => {
       console.log('🔥 채팅방 POST 에러 발생');
@@ -463,7 +465,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         setLoading(false);
         console.log('img')
         setTimeout(() => {
-          focusRef.current?.scrollIntoView()
+          focusRef.current?.focus()
 
           if (webInputRef.current) {
             webInputRef.current.focus();
@@ -472,7 +474,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       } else {
         console.log('chat')
         setTimeout(() => {
-          focusRef.current?.scrollIntoView()
+          focusRef.current?.focus()
 
           if (webInputRef.current) {
             webInputRef.current.focus();
@@ -488,7 +490,14 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     setTimeout(() => {
       console.log('처음에만');
       //focusRef.current?.focus();
-      focusRef.current?.scrollIntoView()
+      const width = window.innerWidth;
+      console.log(width);
+      if(width > 1200){
+      focusRef.current?.focus()}
+      else{
+        focusRef.current?.scrollIntoView();
+      }
+      console.log(focusRef.current)
     }, 1000)
 
     setTimeout(() => {
@@ -844,9 +853,10 @@ const Inner = styled.div`
   .wrap{
     position: relative;
   }
+  border: 1px solid green;
   @media (min-width: 900pt) {
     margin-top: 105pt;
-    height: 350pt;
+    height: 330pt;
     overflow-y: scroll;
     padding: 0;
   }
@@ -1015,14 +1025,14 @@ const IconWrap3 = styled(IconWrap2)`
 `
 const FocusBox = styled.div`
   width: 100%;
-  height: 20pt;
+  height: 10pt;
   position: relative;
 &:focus {
-outline: none;
+outline: auto;
 }
 
 @media (max-width: 899.25pt) {
-  height: 5pt;
+  height: 15pt;
   }
 `
 
