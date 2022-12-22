@@ -7,8 +7,7 @@ import CommonDetail from './CommonDetail';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import Table from 'componentsAdmin/table';
-import useDebounce from 'hooks/useDebounce';
-import { originDateFomat } from 'utils/calculatePackage';
+import {keyframes } from '@emotion/react'
 
 type Props = {};
 
@@ -43,7 +42,10 @@ const UserManagement = (props: Props) => {
   ) => {
     const inputValue = dateRef.current?.querySelector('.datePicker-input')?.querySelector('input')?.value;
     console.log('input?', inputValue);
-    //dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+    setTimeout(()=>{
+    dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    }, 600)
   };
 
   const handleDate =()=>{
@@ -57,7 +59,7 @@ const UserManagement = (props: Props) => {
      }else{
       setPickedDate(undefined);
      }
-    /*dateRef.current?.querySelector('.date-btn')?.classList.remove('on'); */
+
   }
 
   // console.log('selectedFilter 아이디 나오냐???', selectedFilter);
@@ -171,6 +173,12 @@ const SelectBox = styled(Select)`
   width: 87pt;
   height: 100%;
 `;
+const blink = keyframes`
+  50% {
+    opacity: 50%;
+  }
+  `
+
 const Btn = styled.button`
  cursor: default;
   font-weight: 400;
@@ -185,7 +193,7 @@ const Btn = styled.button`
   color: #747780;
   /* background-color: red; */
   &.on{
-    background: #464646;
+    animation: ${blink} 0.5s step-end 1;
     cursor: pointer;
   }
 `;
