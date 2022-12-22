@@ -46,7 +46,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
     if ((window as any).entizen!) {
       (window as any).entizen!.test('Hello Native Callback');
-      (window as any).entizen!.callJavaScriptFunction();
+      // (window as any).entizen!.callJavaScriptFunction();
     }
 
     return () => {
