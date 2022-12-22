@@ -111,14 +111,16 @@ const MainPage = (props: Props) => {
     console.log('에러 발생');
   }
 
-  const testEntizen = (id: string) => {
-    setTest(true);
-    alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-    return <div>ios 테스트중입니다.</div>;
+  const testEntizen = {
+    test: (id: string) => {
+      setTest(true);
+      alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
+      return <div>ios 테스트중입니다.</div>;
+    },
   };
   return (
     <>
-      {test && testEntizen('11')}
+      {test && testEntizen.test('test')}
       <Container>
         <HeadWrapper>
           <LogoBox>
