@@ -54,6 +54,7 @@ const MainPage = (props: Props) => {
   const ACCESS_TOKEN = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const { profile, invalidate, isLoading } = useProfile(ACCESS_TOKEN);
   const [isLogin, setIsLogin] = useState(false);
+  const [test, setTest] = useState(false);
   const [state, setState] = useState({
     right: false,
   });
@@ -111,6 +112,7 @@ const MainPage = (props: Props) => {
   }
 
   function testEntizen(id: string) {
+    setTest(true);
     // alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
     return <div>ios 테스트중입니다.</div>;
   }
@@ -118,7 +120,7 @@ const MainPage = (props: Props) => {
   // testEntizen('123');
   return (
     <>
-      {testEntizen('11')}
+      {test && testEntizen('11')}
       <Container>
         <HeadWrapper>
           <LogoBox>
