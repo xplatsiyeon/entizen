@@ -18,10 +18,10 @@ const SubscribeRequest = ({ borders }: Props) => {
   const handleLink = () => {
     const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
     if (ANGENT === 'Android_App') {
-      (window as any).entizen!.test('Hello Native Callback');
+      (window as any).entizen!.test('Hello Native Callback --> ' + ANGENT);
     } else if (ANGENT === 'iOS_App') {
       (window as any).webkit.messageHandlers.test.postMessage(
-        'Hello Native Callback' + ANGENT,
+        'Hello Native Callback --> ' + ANGENT,
       );
     }
     // (window as any).webkit.messageHandlers.test.postMessage(
