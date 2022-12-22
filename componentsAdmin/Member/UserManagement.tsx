@@ -1,19 +1,22 @@
 import styled from '@emotion/styled';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import AdminHeader from 'componentsAdmin/Header';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import Table from 'componentsAdmin/table';
+import {keyframes } from '@emotion/react'
 import useDebounce from 'hooks/useDebounce';
+import { AdminBtn } from 'componentsAdmin/Layout';
+import { originDateFomat } from 'utils/calculatePackage';
 
 type Props = {};
 
 const selectOption = ['이름 검색', '아이디 검색'];
 const UserManagement = (props: Props) => {
-  const [selectValue, setSelectValue] = useState('');
+  const [selectValue, setSelectValue] = useState('이름 검색');
 
   //이름검색인지 아이디검색인지 판별
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
@@ -26,6 +29,10 @@ const UserManagement = (props: Props) => {
 
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
+  const [pickedDate, setPickedDate] = useState<string[]>();
+
+  const dateRef = useRef<HTMLLIElement>(null);
+
   // 셀렉트 박스 변경함수
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     setSelectValue(event.target.value as string);
@@ -36,9 +43,33 @@ const UserManagement = (props: Props) => {
     value: DateRange | null,
     event: React.SyntheticEvent<Element, Event>,
   ) => {
-    console.log(value);
-    console.log(event);
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('input?', inputValue);
+    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+    setTimeout(()=>{
+    dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    }, 600)
   };
+
+  const handleDate = () => {
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('날짜조회 클릭', inputValue);
+
+    if (inputValue) {
+      console.log(inputValue);
+      const newDate = inputValue.split('~');
+      setPickedDate(newDate);
+    } else {
+      setPickedDate(undefined);
+     }
+  }
+
+  // console.log('selectedFilter 아이디 나오냐???', selectedFilter);
+  // console.log('keyword', keyword);
 
   return (
     <>
@@ -81,23 +112,26 @@ const UserManagement = (props: Props) => {
                 }
               }}
             />
-            <Btn
+            <AdminBtn
               onClick={() => {
                 setUserSearch(inputValue);
               }}
             >
               검색
-            </Btn>
+            </AdminBtn>
           </li>
-          <li className="search">
+          <li className="search" ref={dateRef}>
             <label>기간검색</label>
             {/* 레인지 달력 */}
             <DateRangePicker
+              className="datePicker-input"
               placeholder={'년-월-일 ~ 년-월-일'}
               size={'sm'}
               onChange={handleDateChange}
             />
-            <Btn>조회</Btn>
+            <AdminBtn onClick={handleDate} className="date-btn">
+              조회
+            </AdminBtn>
           </li>
         </Manager>
         <Table
@@ -105,6 +139,7 @@ const UserManagement = (props: Props) => {
           setIsDetail={setIsDetail}
           setDetailId={setDetailId}
           tableType={'userData'}
+          pickedDate={pickedDate}
           userSearch={userSearch}
         />
       </Wrapper>
@@ -138,6 +173,7 @@ const Manager = styled.ul`
     border: 1px solid ${colors.lightWhite3};
     height: 100%;
     width: 274.5pt;
+    padding-left: 10px;
   }
   .search {
     width: 946px;
@@ -147,8 +183,14 @@ const SelectBox = styled(Select)`
   width: 87pt;
   height: 100%;
 `;
+const blink = keyframes`
+  50% {
+    opacity: 50%;
+  }
+  `
+
 const Btn = styled.button`
-  cursor: pointer;
+ cursor: default;
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
@@ -160,4 +202,8 @@ const Btn = styled.button`
   height: 19.5pt;
   color: #747780;
   /* background-color: red; */
+  &.on{
+    animation: ${blink} 0.5s step-end 1;
+    cursor: pointer;
+  }
 `;

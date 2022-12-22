@@ -1,52 +1,79 @@
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import Table from 'componentsAdmin/table';
-import React, {useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
 import colors from 'styles/colors';
 import ProjectDetail from './ProjectDetail';
 import { Dayjs } from 'dayjs';
+import { AdminBtn } from 'componentsAdmin/Layout';
 
 const ProjectList = () => {
-
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
-  const [pickedDate, setPickedDate] = useState<DateRange>();
+  const [pickedDate, setPickedDate] = useState<string[]>();
 
-  const dateRef = useRef<DateRange>();
-
-  const handleDate =()=>{
-    const date = dateRef.current;
-    console.log(date)
-  }
+  const dateRef = useRef<HTMLLIElement>(null);
 
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
     event: React.SyntheticEvent<Element, Event>,
   ) => {
-    console.log('ref',dateRef.current);
-    }
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('input?', inputValue);
+    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+    setTimeout(()=>{
+    dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    }, 600)
+  };
 
+  const handleDate = () => {
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('날짜조회 클릭', inputValue);
+
+    if (inputValue) {
+      console.log(inputValue);
+      const newDate = inputValue.split('~');
+      setPickedDate(newDate);
+    } else {
+      setPickedDate(undefined);
+     }
+  }
 
   return (
     <Wrapper>
-    {isDetail && <ProjectDetail setIsDetail={setIsDetail} projectIdx={Number(detatilId!)}/>}
+      {isDetail && (
+        <ProjectDetail
+          setIsDetail={setIsDetail}
+          projectIdx={Number(detatilId!)}
+        />
+      )}
       <AdminHeader title="프로젝트" type="main" />
       <Manager>
-        <li className="search">
-            <label>기간검색</label>
-            {/* 달력 컴포넌트 */}
-            <DateRangePicker
+        <li className="search" ref={dateRef}>
+          <label>기간검색</label>
+          {/* 달력 컴포넌트 */}
+          <DateRangePicker
+            className="datePicker-input"
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
             onChange={handleDateChange}
-            />
-        <Btn onClick={handleDate}>조회</Btn>
+          />
+          <AdminBtn onClick={handleDate}>조회</AdminBtn>
         </li>
-        </Manager>
-        <Table setDetailId={setDetailId} setIsDetail={setIsDetail} tableType={'projectListData'} pickedDate={pickedDate} />
+      </Manager>
+      <Table
+        setDetailId={setDetailId}
+        setIsDetail={setIsDetail}
+        tableType={'projectListData'}
+        pickedDate={pickedDate}
+      />
     </Wrapper>
   );
 };
@@ -57,7 +84,6 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 0 18pt;
 `;
-
 
 const Manager = styled.ul`
   display: flex;
@@ -86,17 +112,4 @@ const Manager = styled.ul`
   .search {
     width: 946px;
   }
-`;
-const Btn = styled.button`
-  cursor: pointer;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-  outline: none;
-  text-align: center;
-  border-radius: 3pt;
-  padding: 5px 17px;
-  height: 19.5pt;
-  color: ${colors.lightWhite};
-  background: #464646;
 `;

@@ -75,6 +75,14 @@ interface ProjectDetailResponse {
         subscribePeriod: number;
         userInvestRate: string;
         chargingPointRate: string;
+        preQuotation: {
+          preQuotationIdx: number;
+          quotationRequest: {
+            quotationRequestIdx: number;
+            installationPurpose: string;
+            etcRequest: string;
+          };
+        };
         finalQuotationChargers: {
           finalQuotationChargerIdx: number;
           kind: string;
@@ -270,14 +278,24 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
             <List>
               {/* API 없음 수정필요합니다. */}
               <Label>충전기 설치 목적</Label>
-              {/* <Contents>{data?.data?.project?.finalQuotation?.</Contents> */}
+              <Contents>
+                {
+                  data?.data?.project?.finalQuotation?.preQuotation
+                    ?.quotationRequest?.installationPurpose
+                }
+              </Contents>
               <Contents>API 요청필요</Contents>
             </List>
 
             {/* API 없음 수정필요합니다. */}
             <List>
               <Label>기타 요청사항</Label>
-              <TextBox maxLength={500} value={'없음'}></TextBox>
+              <TextBox maxLength={500} value={'없음'}>
+                {
+                  data?.data?.project?.finalQuotation?.preQuotation
+                    ?.quotationRequest?.etcRequest
+                }
+              </TextBox>
             </List>
             <List>
               <Label>계약서 정보</Label>
