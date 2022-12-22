@@ -50,9 +50,10 @@ const MyApp = ({ Component, pageProps, userAgent, header }: any) => {
     window.addEventListener('javascriptFunction', eventFromAndroid);
     const ANGENT = arrAgent[arrAgent.length - 1];
     // const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
-    if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
-      sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
-    }
+    // if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
+    //   sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
+    // }
+
     console.log('ANGENT 값 확인 --->   ' + ANGENT);
     if ((window as any).entizen!) {
       if (ANGENT === 'Android_App') {
