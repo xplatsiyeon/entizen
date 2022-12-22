@@ -44,7 +44,7 @@ const Home = ({ userAgent, header }: Props) => {
     // };
   }, []);
   useEffect(() => {
-    (window as any).tsetEntizen = {
+    (window as any).testEntizen = {
       test: () => {
         // (window as any).webkit.messageHandlers.test.postMessage(
         //   'Hello Native Callback' + ANGENT,
