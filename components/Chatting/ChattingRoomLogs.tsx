@@ -547,7 +547,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         <div className='wrap'>
           {data.map((d, idx) => {
             return (
-              <DateChatting key={idx}>
+              <DateChatting key={idx} className={`${idx === data.length-1?'target-p':''}`}>
                 <Date>{d.date}</Date>
                 <List>
                   {d.logs.map((item, idx) => {
@@ -769,7 +769,7 @@ const BottomBox = styled.div`
     left: 11.5pt;
     transition: 0.3s;
     background-color: white;
-    border: 0.75pt solid #D3D3D3;
+    //border: 0.75pt solid #D3D3D3;
     border-radius: 16.5pt;
     display: flex;
     flex-direction: column;
@@ -856,7 +856,6 @@ const Inner = styled.div`
   .wrap{
     position: relative;
   }
-  border: 1px solid green;
   @media (min-width: 900pt) {
     margin-top: 105pt;
     height: 330pt;
@@ -885,14 +884,6 @@ transform: translate(-50%,-50%);
 }
 `
 const Wrap = styled.div`
-    &:nth-last-of-type(1){
-      .user-p{
-        display: block;
-      }
-      .company-p{ 
-        display: block;
-      }
-  }
 `
 
 const DateChatting = styled.div`
@@ -924,7 +915,18 @@ const DateChatting = styled.div`
     right: 0;
     z-index: -1;
   }
-
+  &.target-p{
+  .user-p{
+    &.p-target{
+    display: block;
+    }
+  }
+  .company-p{
+    &.p-target{
+    display: block;
+    }
+  }
+  }
 `;
 const Date = styled.span`
   display: inline-block;
@@ -1039,15 +1041,14 @@ const FocusBox = styled.div`
   width: 100%;
   height: 10pt;
   position: relative;
-&:focus {
-outline: auto;
-}
+  &:focus {
+  outline: none;
+  }
 
 @media (max-width: 899.25pt) {
-  height: 15pt;
+  height: 5pt;
   }
 `
-
 const WrapDate = styled.div`
   display: flex;
   flex-direction: column;
@@ -1059,17 +1060,5 @@ const P = styled.p<{userChatting:boolean}>`
   line-height: 12pt;
   letter-spacing: -0.02em;
   color: #caccd1;
-
-  &.user-p{
-    display: none;
-    &.p-target{
-    display: ${({ userChatting }) => userChatting ? 'block!important' : 'none!important'};
-    }
-  }
-  &.company-p{
-    display: none;
-    &.p-target{
-    display: ${({ userChatting }) => userChatting ? 'none!important' : 'block!important'}
-    }
-  }
+  display: none;
   `
