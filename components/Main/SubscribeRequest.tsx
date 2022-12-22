@@ -15,6 +15,9 @@ type Props = {
 const SubscribeRequest = ({ borders }: Props) => {
   const router = useRouter();
 
+  function testEntizen() {
+    alert('ios 테스트중입니다.');
+  }
   const handleLink = () => {
     const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
     if (ANGENT === 'Android_App') {
