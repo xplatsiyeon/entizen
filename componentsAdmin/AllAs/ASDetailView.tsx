@@ -191,7 +191,7 @@ const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
                 {data?.data?.afterSalesService?.afterSalesServiceReview ===
                 null ? (
                   <ReviewBtn>
-                    <BtnText>빈값입니당</BtnText>
+                    <BtnText>리뷰가 없습니다</BtnText>
                   </ReviewBtn>
                 ) : (
                   <ReviewBtn
@@ -200,7 +200,7 @@ const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
                       setReviewModal(true);
                     }}
                   >
-                    <BtnText>값있습니당</BtnText>
+                    <BtnText>리뷰현황 보기</BtnText>
                   </ReviewBtn>
                 )}
               </Contents>
@@ -388,7 +388,7 @@ const Xbox = styled.div`
 `;
 
 const ReviewBtn = styled.div<{ cursor?: boolean }>`
-  width: 100px;
+  width: 120px;
   background-color: #e2e5ed;
   border: 1px solid #747780;
   display: flex;

@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { ASReviewPoint } from './ASDetailView';
+import { AdminBtn } from 'componentsAdmin/Layout';
+import { scrypt } from 'crypto';
 
 type Props = {
   setReviewModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,6 +57,15 @@ const RatingForm = ({ setReviewModal, reviewData }: Props) => {
           required
           readOnly={true}
         />
+        <BtnWrapper>
+          <AdminBtn
+            onClick={() => {
+              setReviewModal(false);
+            }}
+          >
+            닫기
+          </AdminBtn>
+        </BtnWrapper>
       </RatingFormWrapper>
     </>
   );
@@ -73,17 +84,17 @@ const ReviewTitle = styled.p`
 `;
 
 const RatingFormWrapper = styled.div`
-  padding: 25px 15px;
+  padding: 30px 15px 25px 15px;
   display: flex;
   flex-direction: column;
   gap: 6pt;
   width: 734px;
-  height: 386px;
+  height: 500px;
   background: white;
   box-shadow: 3pt 0px 7.5pt rgba(137, 163, 201, 0.5);
   position: absolute;
   top: 25%;
-  left: 30%;
+  left: 10%;
   z-index: 500;
 `;
 
@@ -156,4 +167,10 @@ const AverageText = styled.div`
   font-size: 16px;
   text-align: right;
   color: #5221cb;
+`;
+
+const BtnWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
 `;
