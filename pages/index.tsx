@@ -40,17 +40,11 @@ const Home = ({ userAgent, header }: Props) => {
       if (ANGENT === 'Android_App') {
         (window as any).entizen!.test('Hello Native Callback');
       } else if (ANGENT === 'iOS_App') {
-        (window as any)['webkit'].messageHandlers.test.postMessage(
-          'Hello Native Callback ' + ANGENT,
-        );
-      } else {
         (window as any).webkit.messageHandlers.test.postMessage(
           'Hello Native Callback' + ANGENT,
         );
-        (window as any)['webkit'].messageHandlers.test.postMessage(
-          'Hello Native Callback' + ANGENT,
-        );
       }
+
       // (window as any).entizen!.callJavaScriptFunction();
     }
     // return () => {
