@@ -1,18 +1,60 @@
-import { NextPage } from 'next';
-import React, { useEffect } from 'react';
+import { NextPage, NextPageContext } from 'next';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
 import CompanyMainPage from 'components/Main/companyMain';
+
 const TAB = '/index';
-const Home: NextPage = () => {
+
+interface Props {
+  userAgent: string;
+  header: any;
+}
+const Home = ({ userAgent, header }: Props) => {
+  console.log('index page', userAgent);
+  const arrAgent = userAgent?.split(' ');
+  const ANGENT = arrAgent![arrAgent?.length - 1];
+  const [messageFromAndroid, setMessageFromAndroid] = useState(
+    'Hello Vite + React!',
+  );
+
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+
   function testEntizen(id: string) {
     return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   }
 
   useEffect(() => {
-    // testEntizen();
+    const eventFromAndroid = async (event: any) => {
+      setMessageFromAndroid(event.detail.data);
+    };
+    window.addEventListener('javascriptFunction', eventFromAndroid);
+
+    // const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
+    // if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
+    //   sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
+    // }
+
+    console.log('ANGENT 값 확인 --->   ' + ANGENT);
+    if ((window as any).entizen!) {
+      if (ANGENT === 'Android_App') {
+        (window as any).entizen!.test('Hello Native Callback');
+      } else if (ANGENT === 'iOS_App') {
+        (window as any)['webkit'].messageHandlers.test.postMessage(
+          'Hello Native Callback',
+        );
+      } else {
+        (window as any)['webkit'].messageHandlers.test.postMessage(
+          'Hello Native Callback',
+        );
+      }
+      // (window as any).entizen!.callJavaScriptFunction();
+    }
+
+    // return () => {
+    //   window.removeEventListener('javascriptFunction', eventFromAndroid);
+    // };
   }, []);
 
   return (
@@ -56,3 +98,8 @@ const MobWrap = styled.div`
     display: block;
   }
 `;
+
+export const getServerSideProps = ({ req }: any) => {
+  const userAgent = req.headers['user-agent'];
+  return { props: { userAgent, header: req.headers } };
+};
