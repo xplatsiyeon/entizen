@@ -28,27 +28,38 @@ const Home = ({ userAgent, header }: Props) => {
       sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
     }
 
-    console.log('ANGENT 값 확인 --->   ' + ANGENT);
-    if ((window as any).entizen!) {
-      if (ANGENT === 'Android_App') {
-        (window as any).entizen!.test('Hello Native Callback');
-      } else if (ANGENT === 'iOS_App') {
-        (window as any).webkit.messageHandlers.test.postMessage(
-          'Hello Native Callback' + ANGENT,
-        );
-      }
-      // (window as any).entizen!.callJavaScriptFunction();
-    }
+    // console.log('ANGENT 값 확인 --->   ' + ANGENT);
+    // if ((window as any).entizen!) {
+    //   if (ANGENT === 'Android_App') {
+    //     (window as any).entizen!.test('Hello Native Callback');
+    //   } else if (ANGENT === 'iOS_App') {
+    //     (window as any).webkit.messageHandlers.test.postMessage(
+    //       'Hello Native Callback' + ANGENT,
+    //     );
+    //   }
+    // (window as any).entizen!.callJavaScriptFunction();
+    // }
     // return () => {
     //   window.removeEventListener('javascriptFunction', eventFromAndroid);
     // };
+  }, []);
+  useEffect(() => {
+    (window as any).testEntizen = {
+      test: () => {
+        // (window as any).webkit.messageHandlers.test.postMessage(
+        //   'Hello Native Callback' + ANGENT,
+        // );
+
+        alert('안드로이드 테스트 중');
+      },
+    };
   }, []);
 
   const testEntizen = (id: string) => {
     console.log('testEntizen 호출');
     return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   };
-  testEntizen('id 확인');
+  // testEntizen('id 확인');
   return (
     <>
       {memberType === 'COMPANY' ? (
