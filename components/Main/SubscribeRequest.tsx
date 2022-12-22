@@ -16,12 +16,15 @@ const SubscribeRequest = ({ borders }: Props) => {
   const router = useRouter();
 
   const handleLink = () => {
-    const user = sessionStorage.getItem('USER_ID');
-    if (user) {
-      router.push('/quotation/request');
-    } else {
-      router.push('/signin');
-    }
+    (window as any).webkit.messageHandlers.test.postMessage(
+      'Hello Native Callback',
+    );
+    // const user = sessionStorage.getItem('USER_ID');
+    // if (user) {
+    //   router.push('/quotation/request');
+    // } else {
+    //   router.push('/signin');
+    // }
   };
 
   return (
