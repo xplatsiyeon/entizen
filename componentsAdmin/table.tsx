@@ -12,10 +12,17 @@ import {
   CompanyPreQuotationResponse,
   ASListResponse,
   UserChattingListResponse,
+  EntixenLibraryResponse,
 } from 'types/tableDataType';
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
+import { resolve } from 'path';
+import { AdminBtn } from 'componentsAdmin/Layout';
+import Image from 'next/image';
+// 도서관 목데이터 나중에 지우셈...
+import { LIBRARYDATA } from './EntizenLibrary/LIBRARY-MOCK-DATA';
+import LibraryImageTest from 'public/adminImages/libraryTestImage.png';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -577,6 +584,94 @@ const Table = ({
       },
     );
 
+  // 도서관 리스트 조회
+
+  const plusArray = () => {
+    const temp = [];
+  };
+  const { data: entizenLibrary, refetch: entizenLibraryRefetch } =
+    useQuery<EntixenLibraryResponse>(
+      'entizenLibrary',
+      () =>
+        api({
+          method: 'GET',
+          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}`,
+        }),
+      // LIBRARYDATA,
+      {
+        enabled: false,
+        onSuccess: (entizenLibrary) => {
+          if (tableType === 'entizenLibrary') {
+            const temp: any = [];
+            LIBRARYDATA?.data?.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+                ele.entizenImage,
+                ele.title,
+                ele.link,
+                dateFomat(ele.createdAt),
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              {
+                name: '이미지',
+                id: 'entizenLibraryImg',
+                formatter: (cell: string) =>
+                  _(
+                    <LibraryImage>
+                      <Image
+                        src={LibraryImageTest}
+                        alt="arrow"
+                        objectFit="contain"
+                      />
+                    </LibraryImage>,
+                  ),
+              },
+              {
+                name: '제목',
+                id: 'entizenLibraryTitle',
+                formatter: (cell: string) => _(<TitleBox>{cell}</TitleBox>),
+              },
+              {
+                name: '링크',
+                id: 'entizenLibraryLink',
+                formatter: (cell: string) => _(<LinkBox>{cell}</LinkBox>),
+              },
+              '등록일',
+              {
+                name: '',
+                id: 'entizenLibrary',
+                formatter: (cell: string) =>
+                  _(
+                    <button
+                      className="detail"
+                      onClick={() => {
+                        setDetailId(cell);
+                        setIsDetail(true);
+                      }}
+                    >
+                      보기
+                    </button>,
+                  ),
+              },
+            ]);
+            setLength(
+              // entizenLibrary.totalCount ? entizenLibrary.totalCount : 0,
+              0,
+            );
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
+
   useEffect(() => {
     switch (tableType) {
       case 'userData':
@@ -605,6 +700,10 @@ const Table = ({
 
       case 'userChatting':
         userChattingRefetch();
+        break;
+
+      case 'entizenLibrary':
+        entizenLibraryRefetch();
         break;
     }
     // 의존성 배열에 api.get()dml data넣기.
@@ -634,6 +733,10 @@ const Table = ({
 
       case 'userChatting':
         userChattingRefetch();
+        break;
+
+      case 'entizenLibrary':
+        entizenLibraryRefetch();
         break;
     }
   }, [page, pickedDate, userSearch]);
@@ -704,8 +807,11 @@ const StyledBody = styled.div`
     }
     tbody {
       font-weight: 400;
-      td {
-        padding: 8px 0;
+
+      tr {
+        td {
+          padding: 8px 0;
+        }
       }
     }
     .gridjs-loading {
@@ -775,4 +881,29 @@ const Div = styled.div`
 const BtnGap = styled.div`
   display: flex;
   gap: 10px;
+`;
+
+const LibraryImage = styled.div`
+  width: 82px;
+  height: 82px;
+`;
+
+const TitleBox = styled.div`
+  background-color: #fbfcff;
+  border: 1px solid #e2e5ed;
+  padding: 8px 10px;
+  width: 200px;
+  height: 82px;
+  overflow-y: scroll;
+  text-align: center;
+`;
+
+const LinkBox = styled.div`
+  background-color: #fbfcff;
+  border: 1px solid #e2e5ed;
+  padding: 8px 10px;
+  width: 394px;
+  height: 82px;
+  overflow-y: scroll;
+  text-align: center;
 `;

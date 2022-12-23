@@ -105,6 +105,8 @@ Props) => {
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  console.log('이미지 데이터 어케오노', data?.project);
+
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
     MulterResponse,

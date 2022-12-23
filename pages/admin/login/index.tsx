@@ -15,7 +15,7 @@ const AdLogin =()=>{
     isLoading: loginLoading,
     isError: loginError,
   } = useMutation(async(apiInfo: PropsApi)=>{
-    const {url, data} = apiInfo
+    const {url, data} = apiInfo;
     return await axios({
         method: 'POST',
         url: `/api${url}`,
