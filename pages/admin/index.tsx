@@ -8,6 +8,7 @@ import ReverseAuctionList from 'componentsAdmin/RverseAuction/ReverseAuctionList
 import ASDetail from 'componentsAdmin/AllAs/ASDetail';
 import CommunicationList from 'componentsAdmin/Communication/CommunicationList';
 import OneOnOneQuestion from 'componentsAdmin/Communication/OneOnOneQuestion';
+import EntizenLibrary from 'componentsAdmin/EntizenLibrary/EntizenLibrary';
 
 type Props = {};
 
@@ -26,6 +27,7 @@ const index = (props: Props) => {
       {number === 5 && <ASDetail />}
       {number === 6 && <CommunicationList />}
       {number === 7 && <OneOnOneQuestion />}
+      {number === 8 && <EntizenLibrary />}
     </Background>
   );
 };
