@@ -9,7 +9,6 @@ interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({ userAgent }: Props) => {
-  const [isTest, setIsTset] = useState(false);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   // 안드로이드 && iOS Bridge 연결하기
@@ -47,15 +46,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
     } else if (ANGENT === 'iOS_App') {
       (window as any).testEntizen = {
         testtest: () => {
-          const testData = JSON.stringify(ANGENT);
-          window.open(
-            'http://www.naver.com',
-            '_blank',
-            'top=10, left=10, width=500, height=500',
-          );
-          setIsTset(true);
           alert('아이폰 테스트 중..');
-          return testData;
         },
       };
     } else {
