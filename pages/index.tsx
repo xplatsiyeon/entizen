@@ -34,31 +34,46 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   }, []);
 
   // 앱 -> 웹으로 호출하는 함수
+  // useEffect(() => {
+  //   // 안드로이드 호출 테스트
+  //   if (ANGENT === 'Android_App') {
+  //     (window as any).testEntizen = {
+  //       test: () => {
+  //         alert('안드로이드 테스트 중..');
+  //       },
+  //     };
+  //     // 아이폰 호출 테스트
+  //   } else if (ANGENT === 'iOS_App') {
+  //     (window as any).testEntizen = {
+  //       testtest: () => {
+  //         alert('아이폰 테스트 중..');
+  //       },
+  //     };
+  //   } else {
+  //     // 테스트용
+  //     (window as any).testEntizen = {
+  //       test: () => {
+  //         alert('ANGENT 체크 없이 테스트 중..');
+  //       },
+  //     };
+  //   }
+  // }, []);
+
   useEffect(() => {
-    // 안드로이드 호출 테스트
-    if (ANGENT === 'Android_App') {
-      (window as any).testEntizen = {
-        test: () => {
-          alert('안드로이드 테스트 중..');
-        },
-      };
-      // 아이폰 호출 테스트
-    } else if (ANGENT === 'iOS_App') {
-      (window as any).testEntizen = {
-        testtest: () => {
-          alert('아이폰 테스트 중..');
-        },
-      };
-    } else {
-      // 테스트용
-      (window as any).testEntizen = {
-        test: () => {
-          alert('ANGENT 체크 없이 테스트 중..');
-        },
-      };
-    }
+    (window as any).sayHello = new CustomEvent('NativeEvent');
+    const nativeEventCallback = (event: any) => {
+      alert(`event receive from Native`);
+    };
+
+    window.addEventListener('NativeEvent', nativeEventCallback);
+
+    // event listener clean up
+    return () => {
+      window.removeEventListener('NativeEvent', nativeEventCallback);
+    };
   }, []);
 
+  // testtest();
   // const testEntizen = (id: string) => {
   //   console.log('testEntizen 호출');
   //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
