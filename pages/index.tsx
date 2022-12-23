@@ -1,5 +1,5 @@
 import { NextPage, NextPageContext } from 'next';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
@@ -9,27 +9,33 @@ interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({ userAgent }: Props) => {
+  const [isTest, setIsTset] = useState(false);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   // 안드로이드 && iOS Bridge 연결하기
+  const arrAgent = userAgent?.split(' ');
+  const ANGENT = arrAgent![arrAgent?.length - 1];
+
+  // 웹 -> 앱으로 호출하는 함수
   useEffect(() => {
-    const arrAgent = userAgent?.split(' ');
-    const ANGENT = arrAgent![arrAgent?.length - 1];
     console.log('🔥 ANGENT 값 확인하기 --->' + ANGENT);
 
     if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
       sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
     }
-    // if ((window as any).entizen!) {
-    //   if (ANGENT === 'Android_App') {
-    //     (window as any).entizen!.test('Hello Native Callback');
-    //   } else if (ANGENT === 'iOS_App') {
-    //     (window as any).webkit.messageHandlers.test.postMessage(
-    //       'Hello Native Callback' + ANGENT,
-    //     );
-    //   }
-    // }
+    if ((window as any).entizen!) {
+      if (ANGENT === 'Android_App') {
+        (window as any).entizen!.test('Hello Native Callback');
+      } else if (ANGENT === 'iOS_App') {
+        (window as any).webkit.messageHandlers.test.postMessage(
+          'Hello Native Callback' + ANGENT,
+        );
+      }
+    }
+  }, []);
 
+  // 앱 -> 웹으로 호출하는 함수
+  useEffect(() => {
     // 안드로이드 호출 테스트
     if (ANGENT === 'Android_App') {
       (window as any).testEntizen = {
@@ -41,22 +47,31 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
     } else if (ANGENT === 'iOS_App') {
       (window as any).testEntizen = {
         test: () => {
+          setIsTset(true);
+          const testData = JSON.stringify(ANGENT);
+          window.open(
+            'http://www.naver.com',
+            '_blank',
+            'top=10, left=10, width=500, height=500',
+          );
           alert('아이폰 테스트 중..');
+          return testData;
+        },
+      };
+    } else {
+      // 테스트용
+      (window as any).testEntizen = {
+        test: () => {
+          alert('ANGENT 체크 없이 테스트 중..');
         },
       };
     }
-    // 테스트용
-    (window as any).testEntizen = {
-      test: () => {
-        alert('ANGENT 체크 없이 테스트 중..');
-      },
-    };
   }, []);
-
   // const testEntizen = (id: string) => {
   //   console.log('testEntizen 호출');
   //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   // };
+
   return (
     <>
       {memberType === 'COMPANY' ? (
@@ -68,6 +83,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
             <Main />
           </WebWrap>
           <MobWrap>
+            {isTest && <div>테스트중입니다</div>}
             <MainPage />
           </MobWrap>
         </>

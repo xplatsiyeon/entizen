@@ -204,21 +204,18 @@ const Container = styled.div`
 const Box = styled.div`
   width: 100%;
 `;
-
 const WholeBox = styled(Box)`
   display: flex;
   flex-direction: column;
   position: relative;
   /* height: 100vh; */
 `;
-
 const ListBox = styled.div`
   position: relative;
   width: 179pt;
   padding-left: 24pt;
   padding-right: 24pt;
   height: 100vh;
-
   background-color: ${colors.main};
 `;
 const XBtnWrapper = styled.div`
@@ -226,7 +223,6 @@ const XBtnWrapper = styled.div`
   justify-content: end;
   margin-top: 44.25pt;
 `;
-
 const WhetherLogin = styled.div`
   display: flex;
   align-items: center;

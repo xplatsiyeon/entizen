@@ -43,46 +43,46 @@ const MyApp = ({ Component, pageProps, userAgent, header }: any) => {
   }, [queryClient]);
 
   // 안드로이드 && iOS Bridge 연결하기
-  useEffect(() => {
-    const arrAgent = userAgent?.split(' ');
-    const ANGENT = arrAgent![arrAgent?.length - 1];
-    console.log('🔥 ANGENT 값 확인하기 --->' + ANGENT);
+  // useEffect(() => {
+  //   const arrAgent = userAgent?.split(' ');
+  //   const ANGENT = arrAgent![arrAgent?.length - 1];
+  //   console.log('🔥 ANGENT 값 확인하기 --->' + ANGENT);
 
-    if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
-      sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
-    }
-    // if ((window as any).entizen!) {
-    //   if (ANGENT === 'Android_App') {
-    //     (window as any).entizen!.test('Hello Native Callback');
-    //   } else if (ANGENT === 'iOS_App') {
-    //     (window as any).webkit.messageHandlers.test.postMessage(
-    //       'Hello Native Callback' + ANGENT,
-    //     );
-    //   }
-    // }
+  //   if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
+  //     sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
+  //   }
+  //   // if ((window as any).entizen!) {
+  //   //   if (ANGENT === 'Android_App') {
+  //   //     (window as any).entizen!.test('Hello Native Callback');
+  //   //   } else if (ANGENT === 'iOS_App') {
+  //   //     (window as any).webkit.messageHandlers.test.postMessage(
+  //   //       'Hello Native Callback' + ANGENT,
+  //   //     );
+  //   //   }
+  //   // }
 
-    // 안드로이드 호출 테스트
-    if (ANGENT === 'Android_App') {
-      (window as any).testEntizen = {
-        test: () => {
-          alert('안드로이드 테스트 중..');
-        },
-      };
-      // 아이폰 호출 테스트
-    } else if (ANGENT === 'iOS_App') {
-      (window as any).testEntizen = {
-        test: () => {
-          alert('아이폰 테스트 중..');
-        },
-      };
-    }
-    // 테스트용
-    (window as any).testEntizen = {
-      test: () => {
-        alert('ANGENT 체크 없이 테스트 중..');
-      },
-    };
-  }, []);
+  //   // 안드로이드 호출 테스트
+  //   if (ANGENT === 'Android_App') {
+  //     (window as any).testEntizen = {
+  //       test: () => {
+  //         alert('안드로이드 테스트 중..');
+  //       },
+  //     };
+  //     // 아이폰 호출 테스트
+  //   } else if (ANGENT === 'iOS_App') {
+  //     (window as any).testEntizen = {
+  //       test: () => {
+  //         alert('아이폰 테스트 중..');
+  //       },
+  //     };
+  //   }
+  //   // 테스트용
+  //   (window as any).testEntizen = {
+  //     test: () => {
+  //       alert('ANGENT 체크 없이 테스트 중..');
+  //     },
+  //   };
+  // }, []);
 
   // const testEntizen = (id: string) => {
   //   console.log('testEntizen 호출');
