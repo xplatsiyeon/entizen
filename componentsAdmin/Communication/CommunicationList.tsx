@@ -64,7 +64,7 @@ const CommunicationList = () => {
       <Table
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
-        tableType={''}
+        tableType={'userChatting'}
         pickedDate={pickedDate}
       />
     </Wrapper>

@@ -147,3 +147,27 @@ export interface ASListResponse {
     }[];
   };
 }
+
+export interface UserChattingListResponse {
+  isSuccess: true;
+  data: {
+    totalCount: number;
+    chattingRooms: {
+      userMember: {
+        memberIdx: number;
+        id: string;
+      };
+      companyMember: {
+        memberIdx: number;
+        id: string;
+      };
+      chattingRoom: {
+        chattingRoomIdx: number;
+        chattingLog: {
+          chattingLogIdx: number;
+          createdAt: string;
+        };
+      };
+    }[];
+  };
+}

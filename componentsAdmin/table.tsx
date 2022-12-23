@@ -11,12 +11,14 @@ import {
   UserData,
   CompanyPreQuotationResponse,
   ASListResponse,
+  UserChattingListResponse,
 } from 'types/tableDataType';
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 import { resolve } from 'path';
+import { AdminBtn } from 'componentsAdmin/Layout';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -340,7 +342,7 @@ const Table = ({
               '작성날짜',
               {
                 name: '',
-                id: 'quetationList-Detail',
+                id: 'quetationListData',
                 formatter: (cell: string) =>
                   _(
                     <button
@@ -407,7 +409,7 @@ const Table = ({
               '프로젝트_생성일',
               {
                 name: '',
-                id: 'quetationList-Detail',
+                id: 'projectListData',
                 formatter: (cell: string) =>
                   _(
                     <button
@@ -499,8 +501,84 @@ const Table = ({
     },
   );
 
-  // 여기는 소통하기 api 들어갈 자리임
-  // /admin/chatting/members?page=1&limit=10&startDate=2022-10-01&endDate=2022-12-22
+  // 소통하기 UserListapi 들어갈 자리임
+  // /admin/chatting/members?page=1&limit=10&startDate=2022-12-19&endDate=2022-12-19
+
+  const { data: userChatting, refetch: userChattingRefetch } =
+    useQuery<UserChattingListResponse>(
+      'userChatting',
+      () =>
+        api({
+          method: 'GET',
+          endpoint: `/admin/chatting/members?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-10-01'
+          }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
+        }),
+      {
+        enabled: false,
+        onSuccess: (userChatting) => {
+          if (tableType === 'userChatting') {
+            const temp: any = [];
+            userChatting?.data?.chattingRooms?.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+                ele.userMember.id,
+                ele.companyMember.id,
+                dateFomat(ele.chattingRoom.chattingLog.createdAt),
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '일반회원(아이디)',
+              '기업회원(아이디)',
+              '최종 수정일',
+              {
+                name: '',
+                id: 'userChatting',
+                formatter: (cell: string) =>
+                  _(
+                    <>
+                      <button
+                        className="detail"
+                        onClick={() => {
+                          setDetailId(cell);
+                          setIsDetail(true);
+                          if (setAfterSalesServiceIdx) {
+                            setAfterSalesServiceIdx(Number(cell));
+                          }
+                        }}
+                      >
+                        엑셀 다운로드
+                      </button>
+                      <button
+                        className="detail"
+                        style={{ marginLeft: '10px' }}
+                        onClick={() => {
+                          setDetailId(cell);
+                          setIsDetail(true);
+                          if (setAfterSalesServiceIdx) {
+                            setAfterSalesServiceIdx(Number(cell));
+                          }
+                        }}
+                      >
+                        삭제
+                      </button>
+                    </>,
+                  ),
+              },
+            ]);
+            setLength(
+              userChatting.data.totalCount ? userChatting.data.totalCount : 0,
+            );
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
 
   useEffect(() => {
     switch (tableType) {
@@ -526,6 +604,10 @@ const Table = ({
 
       case 'asData':
         asRefetch();
+        break;
+
+      case 'userChatting':
+        userChattingRefetch();
         break;
     }
     // 의존성 배열에 api.get()dml data넣기.
@@ -551,6 +633,10 @@ const Table = ({
 
       case 'asData':
         asRefetch();
+        break;
+
+      case 'userChatting':
+        userChattingRefetch();
         break;
     }
   }, [page, pickedDate, userSearch]);
@@ -687,4 +773,9 @@ const WrapPage = styled.div`
 const Div = styled.div`
   min-width: 1200px;
   height: 490px;
+`;
+
+const BtnGap = styled.div`
+  display: flex;
+  gap: 10px;
 `;
