@@ -68,13 +68,15 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
       };
       // 아이폰 호출 테스트
     } else if (ANGENT === 'iOS_App') {
-      window.testEntizen.testtest = () => {
-        // testtest: () => {
-        alert('아이폰 테스트 중..');
-        testFution();
-        return '호출 OK';
-        // },
-      };
+      if (window.testEntizen.testtest) {
+        window.testEntizen.testtest = () => {
+          // testtest: () => {
+          alert('아이폰 테스트 중..');
+          testFution();
+          return '호출 OK';
+          // },
+        };
+      }
     }
     // else {
     //   // 테스트용
