@@ -75,7 +75,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
       };
 
       if ((window as any).testEntizen) {
-        alert('아이폰 테스트 중..');
+        alert((window as any).testEntizen.testtest);
       }
       // (window as any).testEntizen = () => {
       //   alert('아이폰 테스트 중..');
