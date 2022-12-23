@@ -68,19 +68,21 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
       };
       // 아이폰 호출 테스트
     } else if (ANGENT === 'iOS_App') {
-      window.testEntizen = {
-        testtest: () => {
-          alert('아이폰 테스트 중..');
-          testFution();
-          return 'OK';
-        },
+      window.testEntizen.testtest = () => {
+        // testtest: () => {
+        alert('아이폰 테스트 중..');
+        testFution();
+        return 'OK';
+        // },
       };
     } else {
       // 테스트용
-      window.testEntizen = {
-        test: () => {
-          alert('ANGENT 체크 없이 테스트 중..');
-        },
+      window.testEntizen.testtest = () => {
+        // testtest: () => {
+        alert('아이폰 테스트 중..');
+        testFution();
+        return 'OK';
+        // },
       };
     }
   }, []);
@@ -90,7 +92,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   //   console.log('testEntizen 호출');
   //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   // };
-  testFution();
+
   return (
     <>
       {memberType === 'COMPANY' ? (
