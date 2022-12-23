@@ -14,6 +14,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   // 안드로이드 && iOS Bridge 연결하기
   const arrAgent = userAgent?.split(' ');
   const ANGENT = arrAgent![arrAgent?.length - 1];
+
   useEffect(() => {
     console.log('🔥 ANGENT 값 확인하기 --->' + ANGENT);
 
@@ -43,7 +44,9 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
     } else if (ANGENT === 'iOS_App') {
       (window as any).testEntizen = {
         test: () => {
+          const testData = JSON.stringify(ANGENT);
           alert('아이폰 테스트 중..');
+          return testData;
         },
       };
     } else {
