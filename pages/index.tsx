@@ -72,7 +72,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
         // testtest: () => {
         alert('아이폰 테스트 중..');
         testFution();
-        return 'OK';
+        return '호출 OK';
         // },
       };
     }
