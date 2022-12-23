@@ -50,6 +50,14 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
 
   // 앱 -> 웹으로 호출하는 함수
 
+  const testFution = () => {
+    const iosTest: any = window.document.querySelectorAll('.iosTest');
+    if (iosTest[0]) {
+      iosTest[0].style.color = 'red';
+      // window.document.querySelectorAll('.iosTest')[0]?.style.color = 'red';
+    }
+  };
+
   useEffect(() => {
     // 안드로이드 호출 테스트
     if (ANGENT === 'Android_App') {
@@ -63,6 +71,8 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
       window.testEntizen = {
         testtest: () => {
           alert('아이폰 테스트 중..');
+          testFution();
+          return 'OK';
         },
       };
     } else {
@@ -80,12 +90,14 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   //   console.log('testEntizen 호출');
   //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   // };
+  testFution();
   return (
     <>
       {memberType === 'COMPANY' ? (
         <CompanyMainPage />
       ) : (
         <>
+          <h1 className="iosTest">iOS 용페이지</h1>
           {/* 브라우저 너비에 따라 웹 메인 페이지, 모바일 메인페이지로 갈린다. */}
           <WebWrap>
             <Main />
