@@ -75,16 +75,17 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
         return 'OK';
         // },
       };
-    } else {
-      // 테스트용
-      window.testEntizen.testtest = () => {
-        // testtest: () => {
-        alert('아이폰 테스트 중..');
-        testFution();
-        return 'OK';
-        // },
-      };
     }
+    // else {
+    //   // 테스트용
+    //   window.testEntizen.testtest = () => {
+    //     // testtest: () => {
+    //     alert('아이폰 테스트 중..');
+    //     testFution();
+    //     return 'OK';
+    //     // },
+    //   };
+    // }
   }, []);
 
   // testtest();
