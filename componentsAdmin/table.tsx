@@ -14,11 +14,8 @@ import {
   UserChattingListResponse,
 } from 'types/tableDataType';
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
-import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
-import { resolve } from 'path';
-import { AdminBtn } from 'componentsAdmin/Layout';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
