@@ -621,7 +621,7 @@ const Table = ({
             setColumns([
               '번호',
               {
-                name: '이미지',
+                name: '이미지', width:'10%',
                 id: 'entizenLibraryImg',
                 formatter: (cell: string) =>
                   _(
@@ -635,12 +635,12 @@ const Table = ({
                   ),
               },
               {
-                name: '제목',
+                name: '제목', width:'20%',
                 id: 'entizenLibraryTitle',
-                formatter: (cell: string) => _(<TitleBox>{cell}</TitleBox>),
+                formatter: (cell: string) => _(<TitleBox><p>{cell}</p></TitleBox>),
               },
               {
-                name: '링크',
+                name: '링크', width:'20%',
                 id: 'entizenLibraryLink',
                 formatter: (cell: string) => _(<LinkBox>{cell}</LinkBox>),
               },
@@ -811,6 +811,7 @@ const StyledBody = styled.div`
       tr {
         td {
           padding: 8px 0;
+          position: relative;
         }
       }
     }
@@ -886,6 +887,10 @@ const BtnGap = styled.div`
 const LibraryImage = styled.div`
   width: 82px;
   height: 82px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 `;
 
 const TitleBox = styled.div`
