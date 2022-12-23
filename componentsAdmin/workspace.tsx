@@ -26,6 +26,7 @@ const openList = [
   '프로젝트',
   'A/S 전체',
   '소통하기',
+  '엔티즌 도서관',
 ];
 const closeList = [
   ['일반회원', '기업회원'],
@@ -33,6 +34,7 @@ const closeList = [
   ['프로젝트 리스트'],
   ['AS 상세'],
   ['소통하기 리스트', '1대1 문의'],
+  ['리스트 조회'],
 ];
 const Workspace = ({ setNumber }: Props) => {
   const router = useRouter();
@@ -69,6 +71,10 @@ const Workspace = ({ setNumber }: Props) => {
 
       case '1대1 문의':
         setNumber(7);
+        break;
+
+      case '리스트 조회':
+        setNumber(8);
         break;
 
       default:
