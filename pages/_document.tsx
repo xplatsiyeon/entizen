@@ -10,10 +10,10 @@ import Script from 'next/script';
 
 declare global {
   interface Window {
-    testEntizen: {
-      test?: () => void;
-      testtest?: () => void;
-    };
+    // testEntizen: {
+    //   test?: () => void;
+    //   testtest?: () => void;
+    // };
   }
 }
 class MyDocument extends Document {

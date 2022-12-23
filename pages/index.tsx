@@ -61,22 +61,30 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   useEffect(() => {
     // 안드로이드 호출 테스트
     if (ANGENT === 'Android_App') {
-      window.testEntizen = {
+      (window as any).testEntizen = {
         test: () => {
           alert('안드로이드 테스트 중..');
         },
       };
       // 아이폰 호출 테스트
     } else if (ANGENT === 'iOS_App') {
-      if (window.testEntizen.testtest) {
-        window.testEntizen.testtest = () => {
-          // testtest: () => {
-          alert('아이폰 테스트 중..');
-          testFution();
-          return '호출 OK';
-          // },
-        };
+      (window as any).testEntizen = {
+        testtest: () => {
+          alert('ios 테스트중입니다.');
+        },
+      };
+
+      if ((window as any).testEntizen) {
+        alert('아이폰 테스트 중..');
       }
+      // (window as any).testEntizen = () => {
+      //   alert('아이폰 테스트 중..');
+      // };
+      // testtest: () => {
+      //   alert('아이폰 테스트 중..');
+      //   testFution();
+      //   return '호출 OK';
+      // },
     }
     // else {
     //   // 테스트용
