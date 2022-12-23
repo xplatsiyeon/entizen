@@ -1,10 +1,47 @@
 import styled from "@emotion/styled";
+import { PropsApi } from "api";
+import axios from "axios";
+import { useMutation } from "react-query";
 
 
 const AdLogin =()=>{
 
     //유효성 체크 => alert('아이디와 비밀번호를 입력해주세요')
     //유효성 체크 => alert('아이디와 비밀번호를 확인해주세요')
+
+
+  const {
+    mutate: loginMutate,
+    isLoading: loginLoading,
+    isError: loginError,
+  } = useMutation(async(apiInfo: PropsApi)=>{
+    const {url, data} = apiInfo
+    return await axios({
+        method: 'POST',
+        url: `/api${url}`,
+        data,
+        withCredentials: true,
+      }).then((res) => res);
+  }, {
+    onSuccess:(data)=>{
+        console.log('로그인성공', data)
+    },
+    onError: (err)=>{
+        console.log(err);
+        alert('ektl')
+    }
+  })
+
+    const signin = () => {
+        loginMutate({
+          url: '/members/login',
+          data: {
+            memberType: 'COMPANY',
+            id: 'jsm0000',
+            password: 'steve1234!',
+          },
+        });
+      };
 
     return(
         <Body>
@@ -14,7 +51,7 @@ const AdLogin =()=>{
                     <p>로그인</p>
                     <InputID type='text' placeholder="아이디"/>
                     <InputPW type='password' placeholder="비밀번호"/>
-                    <Button> <span>로그인</span> </Button>
+                    <Button onClick={signin}> <span>로그인</span> </Button>
                 </Wrapper>
             </Inner>
         </Body>
