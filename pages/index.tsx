@@ -45,15 +45,16 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
       };
       // 아이폰 호출 테스트
     } else if (ANGENT === 'iOS_App') {
+      alert('iOS 테스트 중..');
       (window as any).testEntizen = {
         test: () => {
-          setIsTset(true);
           const testData = JSON.stringify(ANGENT);
           window.open(
             'http://www.naver.com',
             '_blank',
             'top=10, left=10, width=500, height=500',
           );
+          setIsTset(true);
           alert('아이폰 테스트 중..');
           return testData;
         },
@@ -67,11 +68,11 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
       };
     }
   }, []);
+
   // const testEntizen = (id: string) => {
   //   console.log('testEntizen 호출');
   //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   // };
-
   return (
     <>
       {memberType === 'COMPANY' ? (
@@ -83,7 +84,6 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
             <Main />
           </WebWrap>
           <MobWrap>
-            {isTest && <div>테스트중입니다</div>}
             <MainPage />
           </MobWrap>
         </>
