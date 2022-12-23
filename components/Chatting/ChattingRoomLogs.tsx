@@ -603,7 +603,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                               </>
                             }
                             <WrapDate>
-                            <P className={`${item.fromMemberType==='USER'?'user-p':'company-p'} ${idx===d.logs.length-1?'p-target':''}`} userChatting={userChatting}>{item.wasRead?'읽음':'안읽음'}</P>
+                            <P className={`${item.fromMemberType==='USER'?'user-p':'company-p'} ${idx===d.logs.length-1?'p-target':''}`} userChatting={userChatting}>{item.wasRead?'읽음':''}</P>
                             <MessageDate>{handleTime(item.createdAt)}</MessageDate>
                             </WrapDate>
                           </ChatBox>
