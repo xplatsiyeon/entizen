@@ -9,7 +9,6 @@ interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({ userAgent }: Props) => {
-  const [isTest, setIsTset] = useState(false);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   // 안드로이드 && iOS Bridge 연결하기
@@ -34,44 +33,53 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
     }
   }, []);
 
+  // 1번째 방법
+  // useEffect(() => {
+  //   (window as any).sayHello = new CustomEvent('NativeEvent');
+  //   const nativeEventCallback = (event: any) => {
+  //     alert(`event receive from Native`);
+  //   };
+
+  //   window.addEventListener('NativeEvent', nativeEventCallback);
+
+  //   // event listener clean up
+  //   return () => {
+  //     window.removeEventListener('NativeEvent', nativeEventCallback);
+  //   };
+  // }, []);
+
   // 앱 -> 웹으로 호출하는 함수
+
   useEffect(() => {
     // 안드로이드 호출 테스트
     if (ANGENT === 'Android_App') {
-      (window as any).testEntizen = {
+      window.testEntizen = {
         test: () => {
           alert('안드로이드 테스트 중..');
         },
       };
       // 아이폰 호출 테스트
     } else if (ANGENT === 'iOS_App') {
-      (window as any).testEntizen = {
-        test: () => {
-          setIsTset(true);
-          const testData = JSON.stringify(ANGENT);
-          window.open(
-            'http://www.naver.com',
-            '_blank',
-            'top=10, left=10, width=500, height=500',
-          );
+      window.testEntizen = {
+        testtest: () => {
           alert('아이폰 테스트 중..');
-          return testData;
         },
       };
     } else {
       // 테스트용
-      (window as any).testEntizen = {
+      window.testEntizen = {
         test: () => {
           alert('ANGENT 체크 없이 테스트 중..');
         },
       };
     }
   }, []);
+
+  // testtest();
   // const testEntizen = (id: string) => {
   //   console.log('testEntizen 호출');
   //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
   // };
-
   return (
     <>
       {memberType === 'COMPANY' ? (
@@ -83,7 +91,6 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
             <Main />
           </WebWrap>
           <MobWrap>
-            {isTest && <div>테스트중입니다</div>}
             <MainPage />
           </MobWrap>
         </>
