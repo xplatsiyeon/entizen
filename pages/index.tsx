@@ -1,5 +1,5 @@
 import { NextPage, NextPageContext } from 'next';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
@@ -9,6 +9,7 @@ interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({ userAgent }: Props) => {
+  const [isTest, setIsTset] = useState(false);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   // 안드로이드 && iOS Bridge 연결하기
@@ -46,6 +47,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
     } else if (ANGENT === 'iOS_App') {
       (window as any).testEntizen = {
         test: () => {
+          setIsTset(true);
           const testData = JSON.stringify(ANGENT);
           window.open(
             'http://www.naver.com',
@@ -81,6 +83,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
             <Main />
           </WebWrap>
           <MobWrap>
+            {isTest && <div>테스트중입니다</div>}
             <MainPage />
           </MobWrap>
         </>
