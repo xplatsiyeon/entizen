@@ -4,7 +4,7 @@ interface ApiProps {
   endpoint: string;
   data?: any;
 }
-interface PropsApi {
+export interface PropsApi {
   url: string;
   data?: any;
 }
