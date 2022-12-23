@@ -33,69 +33,31 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
     }
   }, []);
 
-  // 1번째 방법
-  // useEffect(() => {
-  //   (window as any).sayHello = new CustomEvent('NativeEvent');
-  //   const nativeEventCallback = (event: any) => {
-  //     alert(`event receive from Native`);
-  //   };
-
-  //   window.addEventListener('NativeEvent', nativeEventCallback);
-
-  //   // event listener clean up
-  //   return () => {
-  //     window.removeEventListener('NativeEvent', nativeEventCallback);
-  //   };
-  // }, []);
-
   // 앱 -> 웹으로 호출하는 함수
-
-  const testFution = () => {
-    const iosTest: any = window.document.querySelectorAll('.iosTest');
-    if (iosTest[0]) {
-      iosTest[0].style.color = 'red';
-      // window.document.querySelectorAll('.iosTest')[0]?.style.color = 'red';
-    }
-  };
+  // const testFution = () => {
+  //   const iosTest: any = window.document.querySelectorAll('.iosTest');
+  //   if (iosTest[0]) {
+  //     iosTest[0].style.color = 'red';
+  //     // window.document.querySelectorAll('.iosTest')[0]?.style.color = 'red';
+  //   }
+  // };
 
   useEffect(() => {
     // 안드로이드 호출 테스트
     if (ANGENT === 'Android_App') {
-      (window as any).testEntizen = {
+      window.testEntizen = {
         test: () => {
           alert('안드로이드 테스트 중..');
         },
       };
       // 아이폰 호출 테스트
     } else if (ANGENT === 'iOS_App') {
-      (window as any).testEntizen = {
+      window.testEntizen = {
         testtest: () => {
           alert('ios 테스트중입니다.');
         },
       };
-
-      if ((window as any).testEntizen) {
-        (window as any).testEntizen.testtest();
-      }
-      // (window as any).testEntizen = () => {
-      //   alert('아이폰 테스트 중..');
-      // };
-      // testtest: () => {
-      //   alert('아이폰 테스트 중..');
-      //   testFution();
-      //   return '호출 OK';
-      // },
     }
-    // else {
-    //   // 테스트용
-    //   window.testEntizen.testtest = () => {
-    //     // testtest: () => {
-    //     alert('아이폰 테스트 중..');
-    //     testFution();
-    //     return 'OK';
-    //     // },
-    //   };
-    // }
   }, []);
 
   // testtest();
@@ -110,7 +72,6 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
         <CompanyMainPage />
       ) : (
         <>
-          <h1 className="iosTest">iOS 용페이지</h1>
           {/* 브라우저 너비에 따라 웹 메인 페이지, 모바일 메인페이지로 갈린다. */}
           <WebWrap>
             <Main />
