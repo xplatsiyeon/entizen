@@ -45,9 +45,8 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
       };
       // 아이폰 호출 테스트
     } else if (ANGENT === 'iOS_App') {
-      alert('iOS 테스트 중..');
       (window as any).testEntizen = {
-        test: () => {
+        testtest: () => {
           const testData = JSON.stringify(ANGENT);
           window.open(
             'http://www.naver.com',
