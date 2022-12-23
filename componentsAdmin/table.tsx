@@ -585,32 +585,29 @@ const Table = ({
     );
 
   // 도서관 리스트 조회
+  // /admin/libraries?page=1&limit=10&startDate=2022-12-01&endDate=2022-12-31&searchKeyword=
 
-  const plusArray = () => {
-    const temp = [];
-  };
   const { data: entizenLibrary, refetch: entizenLibraryRefetch } =
     useQuery<EntixenLibraryResponse>(
       'entizenLibrary',
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${
+          endpoint: `/admin/libraries?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
-      // LIBRARYDATA,
       {
         enabled: false,
         onSuccess: (entizenLibrary) => {
           if (tableType === 'entizenLibrary') {
             const temp: any = [];
-            LIBRARYDATA?.data?.forEach((ele, idx) => {
+            entizenLibrary?.data?.forEach((ele, idx) => {
               const eleArr = [
                 `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
                   idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
-                ele.entizenImage,
+                ele.imageUrl,
                 ele.title,
                 ele.link,
                 dateFomat(ele.createdAt),
@@ -626,10 +623,10 @@ const Table = ({
                 formatter: (cell: string) =>
                   _(
                     <LibraryImage>
-                      <Image
-                        src={LibraryImageTest}
+                      <img
+                        src={cell}
                         alt="arrow"
-                        objectFit="contain"
+                        style={{ objectFit: 'contain' }}
                       />
                     </LibraryImage>,
                   ),
@@ -662,10 +659,7 @@ const Table = ({
                   ),
               },
             ]);
-            setLength(
-              // entizenLibrary.totalCount ? entizenLibrary.totalCount : 0,
-              0,
-            );
+            setLength(entizenLibrary.data ? entizenLibrary.data.length : 0);
           }
         },
         onError: () => alert('다시 시도해주세요'),
