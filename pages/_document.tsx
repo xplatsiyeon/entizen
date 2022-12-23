@@ -8,6 +8,14 @@ import Document, {
 } from 'next/document';
 import Script from 'next/script';
 
+declare global {
+  interface Window {
+    // testEntizen: {
+    //   test?: () => void;
+    //   testtest?: () => void;
+    // };
+  }
+}
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);

@@ -4,6 +4,7 @@ import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Table from 'componentsAdmin/table';
+import OOQDetail from './OOQDetail';
 
 type CheckoBox = {
   id: number;
@@ -127,6 +128,9 @@ const OneOnOneQuestion = () => {
         tableType={''}
         userSearch={userSearch}
       />
+
+      {inputValue && <OOQDetail/>}
+
     </Wrapper>
   );
 };
@@ -136,6 +140,7 @@ export default OneOnOneQuestion;
 const Wrapper = styled.div`
   width: 100%;
   padding: 0 18pt;
+  position: relative;
 `;
 
 const TitleWrapper = styled.div`
