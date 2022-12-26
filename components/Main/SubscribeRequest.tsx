@@ -17,7 +17,7 @@ type Props = {
 const SubscribeRequest = ({ borders }: Props) => {
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const handleLink = () => {
-    // 브릿지 연결 테스트중
+    // 브릿지 연결 테스트 중
     if (userAgent === 'Android_App') {
       (window as any).entizen!.test('Hello Native Callback --> ' + userAgent);
     } else if (userAgent === 'iOS_App') {

@@ -18,19 +18,19 @@ const Home: NextPage<Props> = ({}: Props) => {
   // const ANGENT = arrAgent![arrAgent?.length - 1];
 
   // 웹 -> 앱
-  useEffect(() => {
-    if (userAgent === 'Android_App' || userAgent === 'iOS_App') {
-    }
-    if ((window as any).entizen!) {
-      if (userAgent === 'Android_App') {
-        (window as any).entizen!.test('Hello Native Callback');
-      } else if (userAgent === 'iOS_App') {
-        (window as any).webkit.messageHandlers.test.postMessage(
-          'Hello Native Callback' + userAgent,
-        );
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (userAgent === 'Android_App' || userAgent === 'iOS_App') {
+  //   }
+  //   if ((window as any).entizen!) {
+  //     if (userAgent === 'Android_App') {
+  //       (window as any).entizen!.test('Hello Native Callback');
+  //     } else if (userAgent === 'iOS_App') {
+  //       (window as any).webkit.messageHandlers.test.postMessage(
+  //         'Hello Native Callback' + userAgent,
+  //       );
+  //     }
+  //   }
+  // }, []);
 
   // 앱 -> 웹으로 호출하는 함수
   // const testFution = () => {
@@ -42,24 +42,24 @@ const Home: NextPage<Props> = ({}: Props) => {
   // };
 
   // 앱 -> 웹
-  useEffect(() => {
-    // 안드로이드 호출 테스트
-    if (userAgent === 'Android_App') {
-      (window as any).test = () => {
-        alert('안드로이드 테스트 중..');
-      };
-      // 아이폰 호출 테스트
-    } else if (userAgent === 'iOS_App') {
-      window.testEntizen = {
-        testtest: () => {
-          alert('iOS 테스트 중..');
-        },
-      };
-      // (window as any).test = () => {
-      //   alert('iOS 테스트 중..');
-      // };
-    }
-  }, []);
+  // useEffect(() => {
+  //   // 안드로이드 호출 테스트
+  //   if (userAgent === 'Android_App') {
+  //     (window as any).test = () => {
+  //       alert('안드로이드 테스트 중..');
+  //     };
+  //     // 아이폰 호출 테스트
+  //   } else if (userAgent === 'iOS_App') {
+  //     window.testEntizen = {
+  //       testtest: () => {
+  //         alert('iOS 테스트 중..');
+  //       },
+  //     };
+  //     // (window as any).test = () => {
+  //     //   alert('iOS 테스트 중..');
+  //     // };
+  //   }
+  // }, []);
 
   return (
     <>
