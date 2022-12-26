@@ -237,7 +237,7 @@ const ChargerMap = (props: Props) => {
               />
             </WrapAddress>
           ) : (
-            <ChargerInfo2
+            <ChargerInfo
               checkHeight={checkHeight}
               selectedCharger={selectedCharger}
               setSelectedCharger={setSelectedCharger}

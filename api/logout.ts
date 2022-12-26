@@ -1,3 +1,4 @@
+import { googleLogout } from '@react-oauth/google';
 import { BASE_URL } from 'api';
 import axios from 'axios';
 import { kakaoInit } from 'utils/kakao';
@@ -53,6 +54,7 @@ export const handleLogoutOnClickModalClick = async () => {
     if (isSns) {
       NaverLogout();
       KakaoLogout();
+      googleLogout();
     }
     sessionStorage.removeItem('SNS_MEMBER');
     sessionStorage.removeItem('ACCESS_TOKEN');

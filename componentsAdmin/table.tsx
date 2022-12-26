@@ -674,7 +674,38 @@ const Table = ({
       },
     );
 
-  console.log('entizenLibrary', entizenLibrary);
+  //파트너 등록 제품
+  const partnerProduct = [
+    '번호',
+    '업체명',
+    '제조사명',
+    {
+      name: '이미지',
+      formatter: (cell: string) => _(<img src={cell} alt="image" />),
+    },
+    { name: '충전모달', width: '10%' },
+    { name: '충전방식모달', width: '10%' },
+    '체널',
+    '담당자',
+    { name: '담당자연락처', width: '10%' },
+    { name: '등록일', width: '10%' },
+    {
+      name: '',
+      id: 'PP-detail',
+      formatter: (cell: string) =>
+        _(
+          <button
+            className="detail"
+            onClick={() => {
+              setDetailId(cell);
+              setIsDetail(true);
+            }}
+          >
+            보기
+          </button>,
+        ),
+    },
+  ];
 
   useEffect(() => {
     switch (tableType) {
@@ -905,6 +936,9 @@ const TitleBox = styled.div`
   height: 82px;
   overflow-y: scroll;
   text-align: center;
+
+  display: flex;
+  align-items: center;
 `;
 
 const LinkBox = styled.div`
@@ -915,4 +949,7 @@ const LinkBox = styled.div`
   height: 82px;
   overflow-y: scroll;
   text-align: center;
+
+  display: flex;
+  align-items: center;
 `;

@@ -1,15 +1,17 @@
 import styled from "@emotion/styled";
 import { PropsApi } from "api";
 import axios from "axios";
+import { useRef, useState } from "react";
 import { useMutation } from "react-query";
 
 
 const AdLogin =()=>{
 
-    //유효성 체크 => alert('아이디와 비밀번호를 입력해주세요')
-    //유효성 체크 => alert('아이디와 비밀번호를 확인해주세요')
+    const idRef = useRef<HTMLInputElement>(null);
+    const pwRef = useRef<HTMLInputElement>(null);
 
-
+    const [err, setErr] = useState<Boolean>(false);
+ 
   const {
     mutate: loginMutate,
     isLoading: loginLoading,
@@ -28,7 +30,7 @@ const AdLogin =()=>{
     },
     onError: (err)=>{
         console.log(err);
-        alert('ektl')
+        setErr(true);
     }
   })
 
@@ -37,11 +39,24 @@ const AdLogin =()=>{
           url: '/members/login',
           data: {
             memberType: 'COMPANY',
-            id: 'jsm0000',
-            password: 'steve1234!',
+            id: idRef?.current?.value!,
+            password: pwRef?.current?.value!,
           },
         });
       };
+
+    const changeValue=(e:React.ChangeEvent<HTMLInputElement>)=>{
+        const {type} = e.target;
+        setErr(false);
+        if(idRef.current && type === 'text'){
+            idRef.current.value= e.target.value;
+            //console.log(idRef.current.value)
+
+        }else if(pwRef.current&& type == 'password'){
+            pwRef.current.value = e.target.value;
+            //console.log(pwRef.current.value)
+        }
+    }
 
     return(
         <Body>
@@ -49,8 +64,9 @@ const AdLogin =()=>{
                 <Wrapper>
                     <h1>엔티즌 관리자 시스템</h1>
                     <p>로그인</p>
-                    <InputID type='text' placeholder="아이디"/>
-                    <InputPW type='password' placeholder="비밀번호"/>
+                    <InputID type='text' placeholder="아이디" onChange={(e)=>changeValue(e)} ref={idRef}/>
+                    <InputPW type='password' placeholder="비밀번호" onChange={(e)=>changeValue(e)} ref={pwRef}/>
+                    {err&&<ErrP className="err"><img src='/images/Attention.png' alt="err"/>아이디 또는 비밀번호가 일치하지 않습니다.</ErrP>}
                     <Button onClick={signin}> <span>로그인</span> </Button>
                 </Wrapper>
             </Inner>
@@ -92,7 +108,7 @@ line-height: 150%;
 color: #5221CB;
 text-align: center;
 }
-p{
+>p{
     font-style: normal;
 font-weight: 500;
 font-size: 20px;
@@ -152,5 +168,24 @@ margin-top: 40px;
     font-size: 16px;
     line-height: 150%;
     padding: 7px 0; 
+}
+`
+const ErrP = styled.p`
+position: relative;
+display: flex;
+align-items: center;
+&.err{
+    margin-top:8px;
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 150%;
+color: #F75015;
+}
+img{
+    position: relative;
+    width:16px;
+    height: 16px;
+    margin-right: 4px;
 }
 `
