@@ -33,6 +33,7 @@ const index = (props: Props) => {
       {number === 10 && <CommunicationList />}
       {number === 11 && <OneOnOneQuestion />}
       {number === 12 && <EntizenLibrary />}
+      {number === 13 && <PartnerProductsList />}
     </Background>
   );
 };

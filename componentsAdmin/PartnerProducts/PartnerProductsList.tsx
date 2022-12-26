@@ -3,12 +3,18 @@ import { M5_LIST } from "assets/selectList";
 import { CHARGING_METHOD } from "companyAssets/selectList";
 import DropDownBtn from "componentsAdmin/DropDownBtn";
 import AdminHeader from "componentsAdmin/Header";
+import { DarkAdminBtn } from "componentsAdmin/Layout";
+import { useState } from "react";
 import colors from "styles/colors";
+import ModalPartnerProduct from "./ModalPartnerProduct";
 
 const PartnerProductsList = () => {
 
+    const [isDetail, setIsDetail] = useState(false);
+
     return (
-        <Body>
+        <Body >
+            {isDetail && <ModalPartnerProduct/>}
             <AdminHeader title="파트너 등록 제품" type="main" />
             <Search>
                 <li className="search">
@@ -31,13 +37,14 @@ const PartnerProductsList = () => {
                     </li>
                     <li>
                         <label>충전방식모달</label>
-                        <DropDownBtn width="125px" currentStep="충전방식모달" dropDownValue={CHARGING_METHOD} />
+                        <DropDownBtn width="130px" currentStep="충전방식모달" dropDownValue={CHARGING_METHOD} />
                     </li>
                     <li>
                         <label>채널</label> <DropDownBtn width="70px" currentStep="채널" dropDownValue={['싱글', '듀얼', '3모드']} />
                     </li>
                 </Wrap>
             </Search>
+            <DarkAdminBtn onClick={()=>setIsDetail(!isDetail)}>조회</DarkAdminBtn>
         </Body>
     )
 }
@@ -138,7 +145,7 @@ const Wrap = styled.ul`
             border-right: none;
         }
         >label{
-            padding-left: 24px;
+            padding-left: 15px;
             margin-right: 10px;
         }
     }
