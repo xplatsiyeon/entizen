@@ -26,7 +26,7 @@ const MyApp = ({ Component, pageProps, userAgent, header }: any) => {
   // );
 
   const client = new ApolloClient({
-    uri: 'https://test-api.entizen.kr/api/graphql',
+    uri: 'https://api.entizen.kr/api/graphql',
     cache: new InMemoryCache(),
   });
 

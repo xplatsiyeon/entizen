@@ -48,9 +48,9 @@ export interface FindKey {
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
 // 테스트 리다이렉트 주소
-const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
+const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
 // 라이브 리다이렉트 주소
-// const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
+// const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = () => {
@@ -193,7 +193,7 @@ const Signin = () => {
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
     try {
       await axios({
         method: 'post',
@@ -330,7 +330,7 @@ const Signin = () => {
     const memberType = loginTypeEnList[selectedLoginType];
     axios({
       method: 'post',
-      url: 'https://test-api.entizen.kr/api/auth/nice',
+      url: 'https://api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
