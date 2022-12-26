@@ -3,10 +3,6 @@ import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import colors from 'styles/colors';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
-import { useDispatch } from 'react-redux';
-import { requestAction } from 'store/requestSlice';
 import React from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
@@ -59,21 +55,21 @@ const Mypage2_3 = () => {
 
   // 수락하기 버튼
   const acceptModal = () => {
-    console.log(tabNumber)
-    if(tabNumber===0){
-    mutate({
-      url: `/quotations/pre/${spotId}/spot-inspection`,
-      data: {
-        spotInspectionDates: [
-          spotData?.data?.spotInspection?.spotInspectionDate[tabNumber],
-        ],
-        isReplacedPicture: false,
-        isNewPropose: false,
-        isConfirmed: true,
-      },
-    });
-  }
-  //? 수락할 날짜 선택하라는 메세지??
+    console.log(tabNumber);
+    if (tabNumber === 0) {
+      mutate({
+        url: `/quotations/pre/${spotId}/spot-inspection`,
+        data: {
+          spotInspectionDates: [
+            spotData?.data?.spotInspection?.spotInspectionDate[tabNumber],
+          ],
+          isReplacedPicture: false,
+          isNewPropose: false,
+          isConfirmed: true,
+        },
+      });
+    }
+    //? 수락할 날짜 선택하라는 메세지??
   };
   const anotherData = spotData?.data?.spotInspection.spotInspectionDate;
   const anotherData2 = spotData?.data?.spotInspection.createdAt;

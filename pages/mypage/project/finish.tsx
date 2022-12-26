@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import WhyEntizenHorizontal from 'components/Main/WhyEntizenHorizontal';
-import WhyEntizenWeb from 'components/Main/WhyEntizenWeb';
 import MypageHeader from 'components/mypage/request/header';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
@@ -16,7 +15,6 @@ import {
 import colors from 'styles/colors';
 import { changeDataFn } from 'utils/calculatePackage';
 import CheckImg from '/public/images/CheckCircle.svg';
-import useCreateChatting from 'hooks/useCreateChatting';
 import { isTokenGetApi } from 'api';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 

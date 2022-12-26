@@ -15,7 +15,11 @@ declare global {
       testtest?: () => void;
     };
   }
+  interface Document {
+    form_chk: HTMLFormElement;
+  }
 }
+
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);

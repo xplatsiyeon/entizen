@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
-import Header from 'components/header';
 import colors from 'styles/colors';
-// import Btn from 'components/button';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { useEffect, useState } from 'react';

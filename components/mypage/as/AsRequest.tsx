@@ -67,6 +67,14 @@ const AsRequest = ({ data }: Props) => {
   // console.log(projectData);
 
   const handleClick = () => setOpen(!open);
+  const headerOnClick = () => {
+    router.push({
+      pathname: '/mypage',
+      query: {
+        id: '2',
+      },
+    });
+  };
   console.log('mobile 뭐아', mobile);
   return (
     <Body>
@@ -75,14 +83,8 @@ const AsRequest = ({ data }: Props) => {
           title={'A/S'}
           back={true}
           handle={true}
-          handleOnClick={() => {
-            router.push({
-              pathname: '/mypage',
-              query: {
-                id: '2',
-              },
-            });
-          }}
+          handleOnClick={headerOnClick}
+          handleBackClick={headerOnClick}
         />
       )}
       <Wrapper>

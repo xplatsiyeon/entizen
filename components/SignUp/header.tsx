@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import BackImg from 'public/images/back-btn.svg';
-import ExitImg from 'public/images/X.svg';
 import colors from 'styles/colors';
 import Home from 'public/images/home.svg';
 
@@ -17,7 +16,7 @@ interface Props {
   handleBackClick?: () => void;
 }
 
-const MypageHeader = ({
+const SignUpHeader = ({
   title,
   back = false,
   cancel,
@@ -53,7 +52,7 @@ const MypageHeader = ({
   );
 };
 
-export default MypageHeader;
+export default SignUpHeader;
 
 const Header = styled.div`
   display: flex;

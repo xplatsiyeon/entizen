@@ -8,7 +8,7 @@ import {
   GET_InProgressProjectsDetail,
   InProgressProjectsDetailResponse,
 } from 'QueryComponents/CompanyQuery';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from '@emotion/styled';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';

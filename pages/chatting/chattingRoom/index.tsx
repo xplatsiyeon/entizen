@@ -1,33 +1,13 @@
 import styled from '@emotion/styled';
-import MypageHeader from 'components/mypage/request/header';
-import defaultImg from 'public/images/default-img.png';
-import dayjs from 'dayjs';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React, {
-  MouseEvent,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
-import send from 'public/images/send.png';
-import MoreModal from 'components/Chatting/MoreModal';
-import QuitModal from 'components/Chatting/QuitModal';
-import sendBlue from 'public/images/send-blue.png';
-import fileBtn from 'public/images/fileBtn.png';
-import addBtn from 'public/images/addBtn.png';
-import stopAlarm from 'public/images/stopAlarm.png';
-import alarmBtn from 'public/images/alarm.png';
-import moreBtn from 'public/images/moreBtn.png';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi, isTokenPostApi } from 'api';
-import Loader from 'components/Loader';
+import React, { useEffect } from 'react';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
-import ChattingLists, { ChattingListResponse } from 'components/Chatting/ChattingLists';
+import ChattingLists, {
+  ChattingListResponse,
+} from 'components/Chatting/ChattingLists';
 import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
-import ChattingList from 'components/Chatting/ChattingList';
 import UserRightMenu from 'components/UserRightMenu';
 
 type ChattingLogs = {
@@ -71,22 +51,18 @@ export interface ChattingResponse {
 type Props = {};
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
-const ChattingRoom = ({ }: Props) => {
-
+const ChattingRoom = ({}: Props) => {
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
-    () =>
-      isTokenGetApi(
-        `/chatting?searchKeyword=&filter=all`,
-      ),
+    () => isTokenGetApi(`/chatting?searchKeyword=&filter=all`),
     {
       enabled: false,
     },
   );
 
-  useEffect(()=>{
+  useEffect(() => {
     refetch();
-  },[])
+  }, []);
 
   return (
     <WebBody>
@@ -95,9 +71,9 @@ const ChattingRoom = ({ }: Props) => {
       <Wrapper>
         <Body>
           <MobWrap>
-            <ChattingLists chattingRoom={true} userChatting={true}/>
+            <ChattingLists chattingRoom={true} userChatting={true} />
           </MobWrap>
-          <ChattingRoomLogs userChatting={true} listRefetch={refetch}/>
+          <ChattingRoomLogs userChatting={true} listRefetch={refetch} />
         </Body>
       </Wrapper>
       <WebFooter />
@@ -108,18 +84,18 @@ const ChattingRoom = ({ }: Props) => {
 export default ChattingRoom;
 
 const WebBody = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-width: 100%;
-height: 100vh;
-margin: 0 auto;
-background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #ffffff;
 
-@media (max-height: 809pt) {
-  display: block;
-  height: 100%;
-}
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -140,20 +116,20 @@ const Wrapper = styled.div`
 `;
 
 const Body = styled.div`
-font-family: 'Spoqa Han Sans Neo';
-width: 100%;
+  font-family: 'Spoqa Han Sans Neo';
+  width: 100%;
 
-@media (min-width: 900pt) {
-display: flex;
-border: 1px solid #E2E5ED;
-border-radius: 12pt;
-height: 495pt;
-overflow: hidden;
-}
-`
+  @media (min-width: 900pt) {
+    display: flex;
+    border: 1px solid #e2e5ed;
+    border-radius: 12pt;
+    height: 495pt;
+    overflow: hidden;
+  }
+`;
 
 const MobWrap = styled.div`
-@media (max-width: 899.25pt) {
-  display: none;
-}
-`
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;

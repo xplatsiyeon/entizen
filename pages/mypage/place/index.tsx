@@ -2,8 +2,7 @@ import { testArr } from 'components/mypage/place/Charging';
 import PlaceTopBox from 'components/mypage/place/PlaceTopBox';
 import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-
+import { useState } from 'react';
 import PlaceInfo from 'components/mypage/place/PlaceInfo';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
@@ -19,7 +18,6 @@ import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
 import UserRightMenu from 'components/UserRightMenu';
-import { bgcolor } from '@mui/system';
 
 export interface testArr2 extends testArr {
   address: string;

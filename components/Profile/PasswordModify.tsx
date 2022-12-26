@@ -5,7 +5,6 @@ import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { useEffect, useState } from 'react';
 import useDebounce from 'hooks/useDebounce';
-import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import React from 'react';

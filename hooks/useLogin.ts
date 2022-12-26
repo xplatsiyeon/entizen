@@ -1,4 +1,4 @@
-import { isTokenPostApi } from 'api';
+import { isPostApi, isTokenPostApi } from 'api';
 import { Dispatch, SetStateAction } from 'react';
 import { useMutation } from 'react-query';
 import jwt_decode from 'jwt-decode';
@@ -22,7 +22,7 @@ function useLogin(
     mutate: loginMutate,
     isLoading: loginLoading,
     isError: loginError,
-  } = useMutation(isTokenPostApi, {
+  } = useMutation(isPostApi, {
     onSuccess: async (res) => {
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
       console.log(

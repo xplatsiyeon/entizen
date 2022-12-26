@@ -59,7 +59,7 @@ const TermContent = ({
         'popupChk',
         'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
       );
-      let cloneDocument = document as any;
+      let cloneDocument = document;
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
@@ -246,9 +246,9 @@ const TermContent = ({
             <Btn
               text="본인인증하기"
               name={'form_chk'}
-              handleClick={fnPopup}
               marginTop={42.5}
               isClick={nextBtn}
+              handleClick={fnPopup}
               /* handleClick={()=>{
                 setLevel(2);
               if(setUserType)setUserType(1)}

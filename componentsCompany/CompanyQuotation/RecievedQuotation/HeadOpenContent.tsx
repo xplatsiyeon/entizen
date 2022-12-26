@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Collapse, List, ListItemText } from '@mui/material';
 import UpArrow from 'public/guide/up_arrow.svg';
 import DownArrow from 'public/guide/down_arrow.svg';
 import Image from 'next/image';
@@ -7,7 +7,7 @@ import { useState } from 'react';
 import colors from 'styles/colors';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import MypageHeader from 'components/SignUp/header';
+import SignUpHeader from 'components/SignUp/header';
 import CommonBtns from 'components/mypage/as/CommonBtns';
 import Btn from 'components/SignUp/button';
 import FirstStep from './FirstStep';
@@ -437,14 +437,14 @@ const HeadOpenContent = () => {
             />
           )}
           {tabNumber === -1 && nowWidth < 1200 && (
-            <MypageHeader
+            <SignUpHeader
               back={true}
               title={'받은 요청'}
               handleBackClick={handleBackClick}
             />
           )}
           {tabNumber >= 0 && nowWidth < 1200 && (
-            <MypageHeader
+            <SignUpHeader
               back={true}
               title={'가견적 작성'}
               handleBackClick={handleModalOpen}
