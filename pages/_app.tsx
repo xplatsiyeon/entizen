@@ -1,4 +1,3 @@
-import { AppProps } from 'next/app';
 import '../styles/globals.css';
 import Head from 'next/head';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -9,40 +8,13 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import Loader from 'components/Loader';
 import 'rsuite/dist/rsuite.min.css';
-import { NextPage, NextPageContext } from 'next';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { AppProps } from 'next/app';
+import { useDispatch } from 'react-redux';
+import { userAgentAction } from 'store/userAgent';
 
-interface Props {
-  userAgent?: string;
-}
-const MyApp = ({ Component, pageProps, userAgent }: any) => {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient());
-
-  // 안드로이드 && iOS Bridge 연결하기
-  // useEffect(() => {
-  //   const arrAgent = userAgent?.split(' ');
-  //   const ANGENT = arrAgent![arrAgent?.length - 1];
-  //   console.log('🔥 ANGENT 값 확인하기 --->' + ANGENT);
-
-  //   if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
-  //     sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
-  //   }
-  //   if ((window as any).entizen!) {
-  //     if (ANGENT === 'Android_App') {
-  //       (window as any).entizen!.test('Hello Native Callback');
-  //     } else if (ANGENT === 'iOS_App') {
-  //       (window as any).webkit.messageHandlers.test.postMessage(
-  //         'Hello Native Callback' + ANGENT,
-  //       );
-  //     }
-  //   }
-  // }, []);
-
-  // const testEntizen = (id: string) => {
-  //   console.log('testEntizen 호출');
-  //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  // };
-
   const client = new ApolloClient({
     uri: 'https://test-api.entizen.kr/api/graphql',
     cache: new InMemoryCache(),
@@ -59,6 +31,14 @@ const MyApp = ({ Component, pageProps, userAgent }: any) => {
       queryClient.invalidateQueries(errorsKeys); // API Error 모달이 닫힐 때, 캐싱된 error response만을 삭제한다
     };
   }, [queryClient]);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const iOS = navigator.userAgent.match(/iOS_App/i);
+    const Android = navigator.userAgent.match(/Android_App/i);
+    if (iOS) dispatch(userAgentAction.set('iOS_App'));
+    if (Android) dispatch(userAgentAction.set('Android_App'));
+  }, []);
 
   return (
     <Suspense fallback={<Loader />}>
@@ -87,8 +67,3 @@ const MyApp = ({ Component, pageProps, userAgent }: any) => {
 };
 
 export default wrapper.withRedux(MyApp);
-
-// export const getServerSideProps = ({ req }: NextPageContext) => {
-//   const userAgent = req?.headers['user-agent'];
-//   return { props: { userAgent, header: req?.headers } };
-// };

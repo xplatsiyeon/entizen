@@ -11,7 +11,6 @@ import WhyEntizen from './WhyEntizen';
 import Logos from 'public/images/entizenLogo.png';
 import Ring from 'public/images/guide-bell.svg';
 import Hamburger from 'public/images/list-bar.svg';
-import colors from 'styles/colors';
 import Image from 'next/image';
 import { Drawer } from '@mui/material';
 import { useRouter } from 'next/router';
@@ -25,6 +24,8 @@ import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
 import BellNormal from 'public/images/BellNormal.svg';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {};
 
@@ -36,12 +37,11 @@ export interface Count {
 }
 const TAP = 'components/Main/index.tsx';
 const MainPage = (props: Props) => {
-  console.log(TAP + ' -> 메인 컴포넌트 시작');
   const router = useRouter();
   const dispatch = useDispatch();
   const userID = sessionStorage.getItem('USER_ID');
   const ACCESS_TOKEN = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const [isLogin, setIsLogin] = useState(false);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [state, setState] = useState({
     right: false,
   });
@@ -77,11 +77,36 @@ const MainPage = (props: Props) => {
       setState({ ...state, [anchor]: open });
     };
 
+  // ------------------브릿지-------------------
+  // 웹 -> 앱
   useEffect(() => {
-    userID ? setIsLogin(true) : setIsLogin(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userID]);
-
+    if (window.entizen!) {
+      if (userAgent === 'Android_App') {
+        window.entizen!.test('Hello Native Callback');
+      } else if (userAgent === 'iOS_App') {
+        window.webkit.messageHandlers.test.postMessage(
+          'Hello Native Callback' + userAgent,
+        );
+      }
+    }
+  }, []);
+  // 앱 -> 웹
+  useEffect(() => {
+    // 안드로이드 호출 테스트
+    if (userAgent === 'Android_App') {
+      window.test = () => {
+        alert('안드로이드 테스트 중..');
+      };
+      // 아이폰 호출 테스트
+    } else if (userAgent === 'iOS_App') {
+      window.testEntizen = {
+        testtest: () => {
+          alert('iOS 테스트 중..');
+        },
+      };
+    }
+  }, []);
+  // ----------------브릿지---------------------------
   // 초기화
   useEffect(() => {
     sessionStorage.removeItem('key');
@@ -97,11 +122,6 @@ const MainPage = (props: Props) => {
   if (quotationIsError || projectIsError) {
     console.log('에러 발생');
   }
-
-  // const testEntizen = (id: string) => {
-  //   console.log('testEntizen 호출');
-  //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  // };
 
   return (
     <>
@@ -204,145 +224,7 @@ const Container = styled.div`
 const Box = styled.div`
   width: 100%;
 `;
-const WholeBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  /* height: 100vh; */
-`;
-const ListBox = styled.div`
-  position: relative;
-  width: 179pt;
-  padding-left: 24pt;
-  padding-right: 24pt;
-  height: 100vh;
-  background-color: ${colors.main};
-`;
-const XBtnWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  margin-top: 44.25pt;
-`;
-const WhetherLogin = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 27.75pt;
-  & span {
-  }
-  & span:first-of-type {
-    font-family: 'Spoqa Han Sans Neo';
-    font-size: 15pt;
-    font-weight: 700;
-    line-height: 15pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-    color: #ffffff;
-    margin-right: 6pt;
-  }
-  & span {
-  }
-  .label {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: ${colors.lightGray3};
-  }
-  .arrow-img {
-    position: relative;
-    width: 15pt;
-    height: 15pt;
-  }
-`;
-const WhetherLoginComplete = styled.div`
-  display: flex;
-  align-items: flex-end;
-  margin-top: 9.75pt;
-  position: relative;
-  & span:first-of-type {
-    font-family: 'Spoqa Han Sans Neo';
-    font-size: 15pt;
-    font-weight: 700;
-    line-height: 15pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-    color: #ffffff;
-    margin-right: 6pt;
-    display: flex;
-    flex-direction: column;
-    gap: 6pt;
-  }
-  .label {
-    font-weight: 500;
-    font-size: 10.5pt;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    color: ${colors.lightGray3};
-  }
-  .arrow-img {
-    position: relative;
-    width: 15pt;
-    height: 15pt;
-  }
-`;
-
-const WhiteArea = styled.div`
-  position: absolute;
-  width: 100%;
-  border-radius: 15pt 15pt 0 0;
-  width: 179pt;
-  padding: 15pt 24pt 34.5pt 24pt;
-  left: 0;
-  top: 127.5pt;
-  background-color: #ffffff;
-`;
 
 const HamburgerOn = styled.div``;
-
-const WhiteAreaMenus = styled.div`
-  display: flex;
-  align-items: center;
-  padding-top: 12pt;
-  padding-bottom: 12pt;
-
-  & span:first-of-type {
-    margin-right: 6pt;
-  }
-`;
-const WhiteAreaBottomMenus = styled.div`
-  display: flex;
-  align-items: center;
-  z-index: 10000;
-  margin-top: 51pt;
-  & span:first-of-type {
-    margin-right: 15pt;
-  }
-`;
-const WhiteAreaBottomText = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 15pt;
-  & span {
-    font-family: 'Spoqa Han Sans Neo';
-    font-size: 10.5pt;
-    font-weight: 400;
-    line-height: 12pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-    color: #a6a9b0;
-  }
-  & span:first-of-type {
-  }
-`;
-
-const Imagewrap = styled.div`
-  width: 18pt;
-  height: 18pt;
-  margin-right: 9pt;
-  &:nth-last-of-type(1) {
-    margin-right: 0;
-  }
-`;
 
 export default MainPage;

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Typography } from '@mui/material';
 import AlarmSetting from 'components/BuyerSetting/AlarmSetting';
 import AlarmWebSetting from 'components/BuyerSetting/AlarmWebSetting';
 import QuestionInPerson from 'components/BuyerSetting/QuestionInPerson';
@@ -43,8 +42,6 @@ const Setting = () => {
 
   // 왼쪽 컴포넌트 변동해주는거
   const [leftTabNumber, setLeftTabNumber] = useState<number>(0);
-
-  const [tabCompNumber, setTabCompNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
 
@@ -166,23 +163,19 @@ const WebBody = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
-
   @media (max-height: 809pt) {
     display: block;
     height: 100%;
   }
-
   @media (max-width: 899.25pt) {
     background: white;
   }
 `;
-
 const Inner = styled.div`
   display: block;
   position: relative;
   width: 900pt;
   margin: 45.75pt auto;
-
   @media (max-width: 899.25pt) {
     width: 100%;
     height: 100vh;
@@ -190,35 +183,6 @@ const Inner = styled.div`
     margin: 0 auto;
   }
 `;
-
-const Container = styled.div`
-  display: block;
-  position: relative;
-  margin: 45.75pt auto;
-  border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
-  @media (max-width: 899.25pt) {
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    top: 0;
-    left: 0%;
-    transform: none;
-    padding: 0;
-    box-shadow: none;
-    background: none;
-    margin: 0;
-  }
-  @media (max-height: 500pt) {
-    height: 100%;
-  }
-
-  @media (min-width: 900pt) {
-    margin-top: 54pt;
-    padding-top: 0;
-  }
-`;
-
 const SettingTitle = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   font-size: 21pt;
@@ -232,131 +196,12 @@ const SettingTitle = styled.div`
     display: none;
   }
 `;
-
 const BoxAlign = styled.div`
   @media (min-width: 900pt) {
     display: flex;
     justify-content: space-between;
   }
 `;
-
-const WebRapper = styled.div`
-  @media (min-width: 900pt) {
-    /* padding: 32px 150px 180px 51px; */
-    padding: 32px 500px 180px 51px;
-    border-radius: 12pt;
-    box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
-  }
-`;
-
-const Wrapper = styled.div`
-  position: relative;
-  height: 100%;
-  padding-left: 15pt;
-  padding-right: 15pt;
-`;
-const Version = styled.div`
-  padding-top: 18pt;
-  padding-bottom: 18pt;
-  display: flex;
-  gap: 9pt;
-  flex-direction: column;
-  background-color: #fbfcff;
-  margin-bottom: 7.5pt;
-  @media (min-width: 900pt) {
-    display: flex;
-    flex-direction: row;
-    padding-top: 18pt;
-    padding-bottom: 24pt;
-    margin-bottom: 0;
-    background-color: #ffffff;
-  }
-`;
-const VersionInfoText = styled(Typography)`
-  font-family: Spoqa Han Sans Neo;
-  font-size: 12pt;
-  font-weight: 500;
-  line-height: 12pt;
-  letter-spacing: 0em;
-  text-align: left;
-  @media (min-width: 900pt) {
-    font-size: 13.5pt;
-    font-weight: 500;
-    line-height: 15pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-    padding-right: 10pt;
-  }
-`;
-const VersionNumber = styled(Typography)`
-  font-family: Noto Sans KR;
-  font-size: 12pt;
-  font-weight: 500;
-  line-height: 12pt;
-  letter-spacing: 0em;
-  text-align: left;
-  @media (min-width: 900pt) {
-    font-size: 13.5pt;
-    font-weight: 400;
-    line-height: 15pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-    color: #a6a9b0;
-  }
-`;
-const SettingList = styled.div`
-  position: relative;
-  padding-top: 10.5pt;
-  padding-bottom: 10.5pt;
-  &:nth-child(7) {
-    color: #f75015;
-  }
-  @media (min-width: 900pt) {
-    padding-top: 24pt;
-    padding-bottom: 24pt;
-    font-size: 13.5pt;
-    font-weight: 500;
-    line-height: 15pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-  }
-`;
-
-const SettingListRed = styled.div`
-  position: relative;
-  padding-top: 10.5pt;
-  padding-bottom: 10.5pt;
-  color: #f75015;
-  @media (min-width: 900pt) {
-    padding-top: 24pt;
-    padding-bottom: 24pt;
-    font-size: 13.5pt;
-    font-weight: 500;
-    line-height: 15pt;
-    letter-spacing: -0.02em;
-    text-align: left;
-  }
-`;
-const Secession = styled.div`
-  position: fixed;
-  padding-top: 10.5pt;
-  padding-bottom: 10.5pt;
-  margin-bottom: 19.5pt;
-  bottom: 0;
-  font-family: Spoqa Han Sans Neo;
-  font-size: 12pt;
-  font-weight: 400;
-  line-height: 18pt;
-  letter-spacing: -0.02em;
-  text-align: left;
-  text-decoration-line: underline;
-  color: #a6a9b0;
-  @media (min-width: 900pt) {
-    position: relative;
-    top: 130pt;
-  }
-`;
-
 const WebBox = styled.div`
   @media (max-width: 899.25pt) {
     display: none;

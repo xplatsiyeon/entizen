@@ -18,6 +18,8 @@ function useLogin(
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
+
   const {
     mutate: loginMutate,
     isLoading: loginLoading,
@@ -43,6 +45,7 @@ function useLogin(
       sessionStorage.setItem('USER_ID', JSON.stringify(userId));
       dispatch(originUserAction.set(userId));
 
+      // 브릿지 연결
       const userInfo = {
         SNS_MEMBER: token.isSnsMember,
         MEMBER_TYPE: token.memberType,
@@ -50,9 +53,14 @@ function useLogin(
         REFRESH_TOKEN: res.data.refreshToken,
         USER_ID: userId,
       };
-      console.log(JSON.stringify(userInfo));
-      if ((window as any).entizen!) {
-        (window as any).entizen!.setUserInfo(JSON.stringify(userInfo));
+      if (window.entizen!) {
+        if (ANGENT === 'Android_App') {
+          window.entizen!.setUserInfo(JSON.stringify(userInfo));
+        } else if (ANGENT === 'iOS_App') {
+          window.webkit.messageHandlers.setUserInfo.postMessage(
+            JSON.stringify(userInfo),
+          );
+        }
       }
 
       if (signUp && memberType === 'USER') {
@@ -63,12 +71,11 @@ function useLogin(
         await router.push('/');
       } else if (res.data.isInitialLogin === undefined) {
         await router.push('/');
+      } else if (res.data.isInitialLogin === true) {
+        await router.push('/signin');
+      } else {
+        await router.push('/');
       }
-      // else if (res.data.isInitialLogin === true) {
-      //   await router.push('/signin');
-      // } else {
-      //   await router.push('/');
-      // }
     },
     onError: async (error: any) => {
       const { message } = error.response.data;
@@ -97,25 +104,6 @@ function useLogin(
       },
     });
   };
-
-  // useEffect(() => {
-  //   console.log('🔥 ANGENT 값 확인하기 --->' + ANGENT);
-
-  //   (window as any).entizen!.test('Hello Native Callback');
-
-  //   if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
-  //     sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
-  //   }
-  //   if ((window as any).entizen!) {
-  //     if (ANGENT === 'Android_App') {
-  //       (window as any).entizen!.test('Hello Native Callback');
-  //     } else if (ANGENT === 'iOS_App') {
-  //       (window as any).webkit.messageHandlers.test.postMessage(
-  //         'Hello Native Callback' + ANGENT,
-  //       );
-  //     }
-  //   }
-  // }, []);
 
   return {
     signin,

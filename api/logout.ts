@@ -1,6 +1,8 @@
 import { googleLogout } from '@react-oauth/google';
 import { BASE_URL } from 'api';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 import { kakaoInit } from 'utils/kakao';
 
 const LOG_OUT_API = `${BASE_URL}/members/logout`;
@@ -42,6 +44,8 @@ export const KakaoLogout = () => {
 export const handleLogoutOnClickModalClick = async () => {
   const isSns = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+
   await axios({
     method: 'post',
     url: LOG_OUT_API,
@@ -61,5 +65,12 @@ export const handleLogoutOnClickModalClick = async () => {
     sessionStorage.removeItem('REFRESH_TOKEN');
     sessionStorage.removeItem('USER_ID');
     sessionStorage.removeItem('MEMBER_TYPE');
+
+    // 로그아웃 브릿지 연결
+    if (userAgent === 'Android_App') {
+      (window as any).entizen!.logout();
+    } else if (userAgent === 'iOS_App') {
+      (window as any).webkit.messageHandlers.logout.postMessage();
+    }
   });
 };
