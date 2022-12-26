@@ -7,7 +7,6 @@ export const AdminBtn = styled.button`
   border-radius: 3pt;
   padding: 5px 17px;
   height: 26px;
-  width: 64px;
   background: #e2e5ed;
   border: 1px solid #747780;
   font-weight: 400;
@@ -21,7 +20,7 @@ export const DetailWrapper = styled.div`
   position: absolute;
 `;
 
-export const DarkAdminBtn = styled.button<{margin?:string}>`
+export const DarkAdminBtn = styled.button<{ margin?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +36,7 @@ export const DarkAdminBtn = styled.button<{margin?:string}>`
   line-height: 150%;
   outline: none;
   color: white;
-  margin: ${({margin}) => ( margin ? margin : '0 auto')};
+  margin: ${({ margin }) => (margin ? margin : '0 auto')};
 `;
 
 export const GrayBtn = styled.button`

@@ -5,14 +5,22 @@ import Back from 'public/adminImages/Back.png';
 import Image from 'next/image';
 
 type Props = {
-  type: 'main' | 'detail';
+  type: 'main' | 'detail' | 'text';
   title: string;
   subTitle?: string;
   backBtn?: () => void;
   exelHide?: boolean;
+  WriteModalHandle?: () => void;
 };
 
-const AdminHeader = ({ type, title, subTitle, backBtn, exelHide }: Props) => {
+const AdminHeader = ({
+  type,
+  title,
+  subTitle,
+  backBtn,
+  exelHide,
+  WriteModalHandle,
+}: Props) => {
   return (
     <>
       {type === 'main' && (
@@ -36,6 +44,24 @@ const AdminHeader = ({ type, title, subTitle, backBtn, exelHide }: Props) => {
               <p>{subTitle}</p>
             </span>
             {exelHide && <button className="excelBtn">엑셀 다운로드</button>}
+          </div>
+        </DetailWrapper>
+      )}
+
+      {type === 'text' && (
+        <DetailWrapper>
+          <button className="backBtn" onClick={WriteModalHandle}>
+            <div className="imgBox">
+              <Image src={Back} alt={'back'} layout="fill" />
+            </div>
+            이전 페이지
+          </button>
+
+          <div className="sencondLine">
+            <span className="title">
+              <h1>{title}</h1>
+              <p>{subTitle}</p>
+            </span>
           </div>
         </DetailWrapper>
       )}

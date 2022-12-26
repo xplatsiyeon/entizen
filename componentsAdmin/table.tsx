@@ -13,12 +13,15 @@ import {
   ASListResponse,
   UserChattingListResponse,
   EntizenLibraryResponse,
+  AdminTermsListResponse,
 } from 'types/tableDataType';
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
+// 약관 가데이터
+import { TERMS } from 'componentsAdmin/Adminterms/TERMSMOCK';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -53,7 +56,7 @@ const Table = ({
   // 오늘 닐짜.
   const today = new Date();
   console.log(adminDateFomat(String(today)));
-  console.log('selectedFilter af', selectedFilter);
+
   // 역경매 견적서 보기에 넘겨줄 아이디값
   const dispatch = useDispatch();
   const [preQuotationIdx, setPreQuotationIdx] = useState<number>();
@@ -716,6 +719,66 @@ const Table = ({
     },
   ];
 
+  // 약관 리스트
+  // const { data: termsList, refetch: termsListRefetch } =
+  //   useQuery<AdminTermsListResponse>(
+  //     'termsList',
+  //     () =>
+  //       // api({
+  //       //   method: 'GET',
+  //       //   endpoint: `/admin/chatting/members?page=${page}&limit=10&startDate=${
+  //       //     pickedDate ? pickedDate[0] : '2022-10-01'
+  //       //   }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
+  //       // }),
+
+  //       TERMS,
+  //     {
+  //       enabled: false,
+  //       onSuccess: (termsList) => {
+  //         if (tableType === 'termsList') {
+  //           const temp: any = [];
+  //           termsList?.data?.forEach((ele, idx) => {
+  //             const eleArr = [
+  //               `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+  //                 idx + 1 === 10 ? page * 10 : idx + 1
+  //               }`,
+  //               ele.title,
+  //               dateFomat(ele.createdAt),
+  //             ];
+  //             temp.push(eleArr);
+  //           });
+  //           setDataArr(temp);
+  //           setColumns([
+  //             '번호',
+  //             '약관명',
+  //             '등록일',
+  //             {
+  //               name: '',
+  //               id: 'entizenLibrary',
+  //               formatter: (cell: string) =>
+  //                 _(
+  //                   <button
+  //                     className="detail"
+  //                     onClick={() => {
+  //                       setDetailId(cell);
+  //                       setIsDetail(true);
+  //                       if (setAfterSalesServiceIdx) {
+  //                         setAfterSalesServiceIdx(Number(cell));
+  //                       }
+  //                     }}
+  //                   >
+  //                     보기
+  //                   </button>,
+  //                 ),
+  //             },
+  //           ]);
+  //           setLength(termsList?.data ? termsList?.data?.length : 0);
+  //         }
+  //       },
+  //       onError: () => alert('다시 시도해주세요'),
+  //     },
+  //   );
+
   useEffect(() => {
     switch (tableType) {
       case 'userData':
@@ -749,6 +812,10 @@ const Table = ({
       case 'entizenLibrary':
         entizenLibraryRefetch();
         break;
+
+      // case 'termsList':
+      //   termsListRefetch();
+      //   break;
     }
     // 의존성 배열에 api.get()dml data넣기.
   }, [entizenLibrary]);
@@ -782,6 +849,10 @@ const Table = ({
       case 'entizenLibrary':
         entizenLibraryRefetch();
         break;
+
+      // case 'termsList':
+      //   termsListRefetch();
+      //   break;
     }
   }, [page, pickedDate, userSearch]);
 

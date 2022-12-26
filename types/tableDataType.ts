@@ -182,3 +182,12 @@ export interface EntizenLibraryResponse {
     link: string;
   }[];
 }
+
+// 약관 리스트
+export interface AdminTermsListResponse {
+  isSuccess: true;
+  data: {
+    createdAt: string;
+    title: string;
+  }[];
+}
