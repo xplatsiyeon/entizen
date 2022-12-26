@@ -18,6 +18,8 @@ function useLogin(
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
+
   const {
     mutate: loginMutate,
     isLoading: loginLoading,
@@ -50,9 +52,16 @@ function useLogin(
         REFRESH_TOKEN: res.data.refreshToken,
         USER_ID: userId,
       };
-      console.log(JSON.stringify(userInfo));
+
+      // 브릿지 연결
       if ((window as any).entizen!) {
-        (window as any).entizen!.setUserInfo(JSON.stringify(userInfo));
+        if (ANGENT === 'Android_App') {
+          (window as any).entizen!.setUserInfo(JSON.stringify(userInfo));
+        } else if (ANGENT === 'iOS_App') {
+          (window as any).webkit.messageHandlers.setUserInfo.postMessage(
+            JSON.stringify(userInfo),
+          );
+        }
       }
 
       if (signUp && memberType === 'USER') {
