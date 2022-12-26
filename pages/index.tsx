@@ -56,12 +56,6 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
     }
   }, []);
 
-  // testtest();
-  // const testEntizen = (id: string) => {
-  //   console.log('testEntizen 호출');
-  //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  // };
-
   return (
     <>
       {memberType === 'COMPANY' ? (

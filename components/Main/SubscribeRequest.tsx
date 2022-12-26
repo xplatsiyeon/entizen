@@ -19,7 +19,10 @@ const SubscribeRequest = ({ borders }: Props) => {
       (window as any).entizen!.test('Hello Native Callback --> ' + ANGENT);
     } else if (ANGENT === 'iOS_App') {
       (window as any).webkit.messageHandlers.test.postMessage(
-        'login 했을 때 열리는 함수' + ANGENT,
+        'test 함수 실행 -->' + ANGENT,
+      );
+      (window as any).webkit.messageHandlers.setUserInfo.postMessage(
+        'setUserInfo 함수 실행 -->' + ANGENT,
       );
     }
     // (window as any).webkit.messageHandlers.test.postMessage(
