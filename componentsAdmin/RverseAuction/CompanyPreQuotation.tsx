@@ -15,6 +15,7 @@ const CompanyPreQuotation = ({
   setIsDetail,
   setDetailId,
 }: Props) => {
+  const handleCommon = () => {};
   return (
     <StyledBody>
       <QuotationTitle>기업회원 견적서 항목</QuotationTitle>
@@ -24,6 +25,7 @@ const CompanyPreQuotation = ({
         setIsDetail={setIsDetail}
         tableType={'companyPreQuotation'}
         commonBtn={'엑셀 다운로드'}
+        handleCommon={handleCommon}
       />
     </StyledBody>
   );
