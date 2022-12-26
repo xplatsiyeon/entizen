@@ -45,17 +45,13 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   useEffect(() => {
     // 안드로이드 호출 테스트
     if (ANGENT === 'Android_App') {
-      window.testEntizen = {
-        test: () => {
-          alert('안드로이드 테스트 중..');
-        },
+      (window as any).test = () => {
+        alert('안드로이드 테스트 중..');
       };
       // 아이폰 호출 테스트
     } else if (ANGENT === 'iOS_App') {
-      window.testEntizen = {
-        testtest: () => {
-          alert('ios 테스트중입니다.');
-        },
+      (window as any).test = () => {
+        alert('ios 테스트중입니다.');
       };
     }
   }, []);

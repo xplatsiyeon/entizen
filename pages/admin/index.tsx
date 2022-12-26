@@ -12,6 +12,7 @@ import EntizenLibrary from 'componentsAdmin/EntizenLibrary/EntizenLibrary';
 import PartnerProductsList from 'componentsAdmin/PartnerProducts/PartnerProductsList';
 import Statistics from 'componentsAdmin/MainDashboard/Statistics';
 import ProjectSituation from 'componentsAdmin/MainDashboard/ProjectSituation';
+import AdminTermsList from 'componentsAdmin/Adminterms/AdminTermsList';
 
 type Props = {};
 
@@ -20,6 +21,7 @@ const index = (props: Props) => {
 
   const [isDetail, setIsDetail] = useState(false);
   console.log('number', number);
+
   return (
     <Background>
       <Workspace setNumber={setNumber} />
@@ -36,6 +38,7 @@ const index = (props: Props) => {
       {number === 11 && <OneOnOneQuestion />}
       {number === 12 && <EntizenLibrary />}
       {number === 13 && <PartnerProductsList />}
+      {number === 14 && <AdminTermsList />}
     </Background>
   );
 };

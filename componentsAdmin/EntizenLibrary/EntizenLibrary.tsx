@@ -56,6 +56,11 @@ const EntizenLibrary = () => {
       setPickedDate(undefined);
     }
   };
+
+  const handleCommon = () => {
+    setIsDetail(true);
+  };
+
   return (
     <Wrapper>
       {isDetail && (
@@ -64,6 +69,7 @@ const EntizenLibrary = () => {
           setIsDetail={setIsDetail}
         />
       )}
+
       <AdminHeader title="엔티즌 도서관" type="main" />
       <Search>
         <li className="search">
@@ -109,6 +115,8 @@ const EntizenLibrary = () => {
         tableType={'entizenLibrary'}
         pickedDate={pickedDate}
         setAfterSalesServiceIdx={setAfterSalesServiceIdx}
+        commonBtn={'추가'}
+        handleCommon={handleCommon}
       />
     </Wrapper>
   );

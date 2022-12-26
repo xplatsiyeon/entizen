@@ -26,9 +26,9 @@ const ProjectList = () => {
       ?.querySelector('input')?.value;
     console.log('input?', inputValue);
     dateRef.current?.querySelector('.date-btn')?.classList.add('on');
-    setTimeout(()=>{
-    dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
-    }, 600)
+    setTimeout(() => {
+      dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    }, 600);
   };
 
   const handleDate = () => {
@@ -43,8 +43,11 @@ const ProjectList = () => {
       setPickedDate(newDate);
     } else {
       setPickedDate(undefined);
-     }
-  }
+    }
+  };
+
+  // 엑셀 다운로드
+  const handleCommon = () => {};
 
   return (
     <Wrapper>
@@ -73,6 +76,8 @@ const ProjectList = () => {
         setIsDetail={setIsDetail}
         tableType={'projectListData'}
         pickedDate={pickedDate}
+        commonBtn={'엑셀 다운로드'}
+        handleCommon={handleCommon}
       />
     </Wrapper>
   );

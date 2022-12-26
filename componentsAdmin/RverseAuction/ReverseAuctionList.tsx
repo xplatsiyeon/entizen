@@ -25,9 +25,9 @@ const ReverseAuctionList = () => {
       ?.querySelector('input')?.value;
     console.log('input?', inputValue);
     dateRef.current?.querySelector('.date-btn')?.classList.add('on');
-    setTimeout(()=>{
-    dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
-    }, 600)
+    setTimeout(() => {
+      dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    }, 600);
   };
 
   const handleDate = () => {
@@ -42,8 +42,11 @@ const ReverseAuctionList = () => {
       setPickedDate(newDate);
     } else {
       setPickedDate(undefined);
-     }
-  }
+    }
+  };
+
+  // 엑셀 다운로드
+  const handleCommon = () => {};
 
   return (
     <Wrapper>
@@ -56,10 +59,10 @@ const ReverseAuctionList = () => {
       )}
       <AdminHeader title="역경매 관리" type="main" />
       <Manager>
-          <li className="search" ref={dateRef}>
+        <li className="search" ref={dateRef}>
           <label>기간검색</label>
           {/* 달력 컴포넌트 */}
-          <DateRangePicker 
+          <DateRangePicker
             className="datePicker-input"
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
@@ -73,6 +76,8 @@ const ReverseAuctionList = () => {
         setIsDetail={setIsDetail}
         tableType={'quetationListData'}
         pickedDate={pickedDate}
+        commonBtn={'엑셀 다운로드'}
+        handleCommon={handleCommon}
       />
     </Wrapper>
   );

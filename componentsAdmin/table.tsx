@@ -29,6 +29,8 @@ type Props = {
   selectedFilter?: number;
   userSearch?: string;
   setAfterSalesServiceIdx?: React.Dispatch<React.SetStateAction<number>>;
+  commonBtn: string;
+  handleCommon: () => void;
 };
 
 const Table = ({
@@ -40,6 +42,8 @@ const Table = ({
   pickedDate,
   userSearch,
   setAfterSalesServiceIdx,
+  commonBtn,
+  handleCommon,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -755,7 +759,7 @@ const Table = ({
   return (
     <StyledBody className="user-table">
       <FlexBox>
-        <P>결과 {length}</P> <Button>엑셀 다운로드</Button>
+        <P>결과 {length}</P> <Button onClick={handleCommon}>{commonBtn}</Button>
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

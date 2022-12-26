@@ -42,6 +42,10 @@ const CommunicationList = () => {
       setPickedDate(undefined);
     }
   };
+
+  // 엑셀 다운로드
+  const handleCommon = () => {};
+
   return (
     <Wrapper>
       <TitleWrapper>
@@ -66,6 +70,8 @@ const CommunicationList = () => {
         setIsDetail={setIsDetail}
         tableType={'userChatting'}
         pickedDate={pickedDate}
+        commonBtn={'엑셀 다운로드'}
+        handleCommon={handleCommon}
       />
     </Wrapper>
   );

@@ -188,6 +188,39 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     });
   };
 
+  // 도서관 추가 api
+
+  const {
+    mutate: postMutate,
+    isLoading: postLoading,
+    isError: postError,
+  } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      //   queryclient.invalidateQueries('user-mypage');
+
+      setIsModal(true);
+      setMessage('추가가 완료 됐습니다.');
+    },
+    onError: () => {
+      setIsModal(true);
+      setMessage('추가 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const modalPostBtnControll = () => {
+    if (data === undefined) {
+      postMutate({
+        url: `/admin/libraries`,
+        data: {
+          title: title,
+          link: link,
+          imageUrl: imgUrl,
+        },
+      });
+    }
+  };
+
   // 제목
   const handleTitleArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(() => e.target.value);
@@ -219,10 +252,6 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     refetch();
   }, [data]);
 
-  console.log('firstImgUrl', firstImgUrl);
-  console.log('imgUrl', imgUrl);
-  console.log('checkAll', checkAll);
-
   return (
     <Modal>
       {isModal && <AlertModal setIsModal={setIsModal} message={message} />}
@@ -250,7 +279,9 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
                   {imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
                 </ImageTitleBox>
               ) : (
-                <ImageTitleBox>이미지 첨부</ImageTitleBox>
+                <ImageTitleBox>
+                  {imgUrl !== undefined ? imgUrl : '이미지 첨부'}
+                </ImageTitleBox>
               )}
 
               <DeleteTitle>삭제</DeleteTitle>
@@ -276,7 +307,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
             />
           ) : (
             <img
-              src={normal}
+              src={imgUrl !== undefined ? imgUrl : normal}
               style={{ objectFit: 'cover', width: '82px', height: '82px' }}
             />
           )}
@@ -310,7 +341,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
         </FlexHorizontal>
         <FlexWrap>
           <div />
-          <BtnBox>
+          <BtnBox width={data !== undefined ? 135 : 65}>
             {data !== undefined && (
               <AdminBtn
                 style={{
@@ -344,6 +375,9 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
                   background: '#747780',
                   border: '1px solid #464646',
                   color: '#ffffff',
+                }}
+                onClick={() => {
+                  modalPostBtnControll();
                 }}
               >
                 추가
@@ -494,22 +528,6 @@ const InputText = styled.input`
   overflow-y: scroll;
 `;
 
-const TextArea = styled(Typography)`
-  text-align: center;
-  font-family: 'Spoqa Han Sans Neo';
-  font-size: 25.5pt;
-  font-weight: 700;
-  line-height: 37.5pt;
-  letter-spacing: -0.02em;
-  text-align: center;
-  margin: 0 auto 58.5pt;
-  & span {
-    color: ${colors.main};
-    font-weight: 700;
-    letter-spacing: -2%;
-  }
-`;
-
 const Input = styled(TextField)`
   width: 246px;
   height: 76px;
@@ -541,8 +559,8 @@ const Input = styled(TextField)`
   }
 `;
 
-const BtnBox = styled.div`
-  width: 135px;
+const BtnBox = styled.div<{ width: number }>`
+  width: ${({ width }) => `${width}px`};
   display: flex;
   justify-content: space-between;
   align-items: center;
