@@ -23,6 +23,7 @@ const CompanyPreQuotation = ({
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'companyPreQuotation'}
+        commonBtn={'엑셀 다운로드'}
       />
     </StyledBody>
   );

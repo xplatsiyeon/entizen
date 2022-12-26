@@ -20,6 +20,7 @@ const index = (props: Props) => {
 
   const [isDetail, setIsDetail] = useState(false);
   console.log('number', number);
+
   return (
     <Background>
       <Workspace setNumber={setNumber} />
@@ -35,6 +36,7 @@ const index = (props: Props) => {
       {number === 10 && <CommunicationList />}
       {number === 11 && <OneOnOneQuestion />}
       {number === 12 && <EntizenLibrary />}
+      {number === 13 && <PartnerProductsList />}
     </Background>
   );
 };

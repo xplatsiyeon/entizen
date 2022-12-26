@@ -4,16 +4,25 @@ import colors from 'styles/colors';
 import Image from 'next/image';
 import { css } from '@emotion/react';
 import CloseModal from 'public/adminImages/libraryClose.svg';
+import normal from 'public/adminImages/undefinedImg.svg';
 import CloseImg from 'public/images/XCircle.svg';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import { InputAdornment, TextField, Typography } from '@mui/material';
-import { isTokenGetApi, multerApi, isTokenPostApi, isTokenPutApi } from 'api';
+import {
+  isTokenGetApi,
+  multerApi,
+  isTokenPostApi,
+  isTokenPutApi,
+  isTokenPatchApi,
+  isTokenDeleteApi,
+} from 'api';
 import { useMutation, useQuery } from 'react-query';
 import {
   ImgFile,
   MulterResponse,
 } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
+import AlertModal from 'componentsAdmin/AlertModal';
 type Props = {
   afterSalesServiceIdx: number;
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,22 +44,22 @@ interface LibraryResponse {
 const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
   const [review, setReview] = useState<ImgFile[]>([]);
   const [isModal, setIsModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [imgName, setImgName] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
+  const [message, setMessage] = useState('');
   const [checkAll, setCheckAll] = useState<boolean>(false);
 
-  const { data, isLoading, isError } = useQuery<LibraryResponse>(
+  const { data, isLoading, isError, refetch } = useQuery<LibraryResponse>(
     'entizenLibraryDetail',
     () => isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
   );
 
-  const [title, setTitle] = useState<string | undefined>(
-    data?.data?.library?.title,
-  );
-  const [link, setLink] = useState<string | undefined>(
-    data?.data?.library?.link,
-  );
+  const firstTitle = data?.data?.library?.title;
+  const firstLink = data?.data?.library?.link;
+  const firstImgUrl = data?.data?.library?.imageUrl;
+
+  const [title, setTitle] = useState<string | undefined>(firstTitle);
+  const [link, setLink] = useState<string | undefined>(firstLink);
+  const [imgUrl, setImgUrl] = useState<string | undefined>(firstImgUrl);
+  const [imgName, setImgName] = useState<string | undefined>('');
 
   // file s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
@@ -75,13 +84,13 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     },
     onError: (error: any) => {
       if (error.response.data.message) {
-        setErrorMessage(error.response.data.message);
+        setMessage(error.response.data.message);
         setIsModal(true);
       } else if (error.response.status === 413) {
-        setErrorMessage('용량이 너무 큽니다.');
+        setMessage('용량이 너무 큽니다.');
         setIsModal(true);
       } else {
-        setErrorMessage('다시 시도해주세요');
+        setMessage('다시 시도해주세요');
         setIsModal(true);
       }
     },
@@ -129,11 +138,11 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     {
       onSuccess: () => {
         setIsModal(true);
-        setErrorMessage('수정이 완료됐습니다!');
+        setMessage('수정이 완료됐습니다!');
       },
       onError: (error: any) => {
         setIsModal(true);
-        setErrorMessage('조회 요청을 실패했습니다.\n다시 시도해주세요.');
+        setMessage('수정 요청을 실패했습니다.\n다시 시도해주세요.');
         // router.back();
       },
     },
@@ -141,15 +150,75 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
 
   // 도서관 수정하기 버튼
   const onClickModifiedBtn = () => {
-    modifiedMutate({
+    if (checkAll) {
+      modifiedMutate({
+        url: `/admin/libraries/${afterSalesServiceIdx}`,
+        data: {
+          title: title,
+          link: link,
+          imageUrl: imgUrl,
+        },
+      });
+    }
+  };
+
+  // 도서관 삭제 api
+
+  const {
+    mutate: patchMutate,
+    isLoading: patchLoading,
+    isError: patchError,
+  } = useMutation(isTokenDeleteApi, {
+    onSuccess: () => {
+      //   queryclient.invalidateQueries('user-mypage');
+
+      setIsModal(true);
+      setMessage('삭제가 완료 됐습니다.');
+    },
+    onError: () => {
+      setIsModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const modalDeleteBtnControll = () => {
+    patchMutate({
       url: `/admin/libraries/${afterSalesServiceIdx}`,
-      data: {
-        title: title,
-        link: link,
-        libraryIdx: afterSalesServiceIdx,
-        imageUrl: review,
-      },
     });
+  };
+
+  // 도서관 추가 api
+
+  const {
+    mutate: postMutate,
+    isLoading: postLoading,
+    isError: postError,
+  } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      //   queryclient.invalidateQueries('user-mypage');
+
+      setIsModal(true);
+      setMessage('추가가 완료 됐습니다.');
+    },
+    onError: () => {
+      setIsModal(true);
+      setMessage('추가 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const modalPostBtnControll = () => {
+    if (data === undefined) {
+      postMutate({
+        url: `/admin/libraries`,
+        data: {
+          title: title,
+          link: link,
+          imageUrl: imgUrl,
+        },
+      });
+    }
   };
 
   // 제목
@@ -162,8 +231,30 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     setLink(() => e.target.value);
   };
 
+  // input text 초기값
+  useEffect(() => {
+    setTitle(firstTitle);
+    setLink(firstLink);
+    setImgUrl(firstImgUrl);
+  }, [data]);
+
+  useEffect(() => {
+    if (title !== firstTitle) {
+      setCheckAll(true);
+    } else if (link !== firstLink) {
+      setCheckAll(true);
+    } else if (imgUrl !== firstImgUrl) {
+      setCheckAll(true);
+    }
+  }, [title, link, imgUrl]);
+
+  useEffect(() => {
+    refetch();
+  }, [data]);
+
   return (
     <Modal>
+      {isModal && <AlertModal setIsModal={setIsModal} message={message} />}
       <ModalBox>
         <TitleBox>
           <TitleText>엔티즌 도서관 보기</TitleText>
@@ -183,14 +274,16 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
           <ImageSubBox>
             <SubTitle>이미지</SubTitle>
             <ImageDeleteBox>
-              {imgName !== '' ? (
-                <ImageTitleBox>{imgName}</ImageTitleBox>
+              {data !== undefined ? (
+                <ImageTitleBox>
+                  {imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
+                </ImageTitleBox>
               ) : (
-                <ImageTitleBox>{data?.data?.library?.imageUrl}</ImageTitleBox>
+                <ImageTitleBox>
+                  {imgUrl !== undefined ? imgUrl : '이미지 첨부'}
+                </ImageTitleBox>
               )}
-              {imgName === '' && data === undefined && (
-                <ImageTitleBox>이미지 첨부</ImageTitleBox>
-              )}
+
               <DeleteTitle>삭제</DeleteTitle>
             </ImageDeleteBox>
           </ImageSubBox>
@@ -207,10 +300,17 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
           />
         </FlexWrap>
         <Preview>
-          <img
-            src={imgUrl !== '' ? imgUrl : data?.data?.library?.imageUrl}
-            style={{ objectFit: 'cover', width: '82px', height: '82px' }}
-          />
+          {data !== undefined ? (
+            <img
+              src={imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
+              style={{ objectFit: 'cover', width: '82px', height: '82px' }}
+            />
+          ) : (
+            <img
+              src={imgUrl !== undefined ? imgUrl : normal}
+              style={{ objectFit: 'cover', width: '82px', height: '82px' }}
+            />
+          )}
           <Xbox onClick={handlePhotoDelete}>
             <Image
               src={CloseImg}
@@ -241,13 +341,16 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
         </FlexHorizontal>
         <FlexWrap>
           <div />
-          <BtnBox>
+          <BtnBox width={data !== undefined ? 135 : 65}>
             {data !== undefined && (
               <AdminBtn
                 style={{
                   background: '#747780',
                   border: '1px solid #464646',
                   color: '#ffffff',
+                }}
+                onClick={() => {
+                  modalDeleteBtnControll();
                 }}
               >
                 삭제
@@ -261,7 +364,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
                   color: '#ffffff',
                 }}
                 onClick={() => {
-                  onClickModifiedBtn;
+                  onClickModifiedBtn();
                 }}
               >
                 수정
@@ -272,6 +375,9 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
                   background: '#747780',
                   border: '1px solid #464646',
                   color: '#ffffff',
+                }}
+                onClick={() => {
+                  modalPostBtnControll();
                 }}
               >
                 추가
@@ -422,22 +528,6 @@ const InputText = styled.input`
   overflow-y: scroll;
 `;
 
-const TextArea = styled(Typography)`
-  text-align: center;
-  font-family: 'Spoqa Han Sans Neo';
-  font-size: 25.5pt;
-  font-weight: 700;
-  line-height: 37.5pt;
-  letter-spacing: -0.02em;
-  text-align: center;
-  margin: 0 auto 58.5pt;
-  & span {
-    color: ${colors.main};
-    font-weight: 700;
-    letter-spacing: -2%;
-  }
-`;
-
 const Input = styled(TextField)`
   width: 246px;
   height: 76px;
@@ -469,8 +559,8 @@ const Input = styled(TextField)`
   }
 `;
 
-const BtnBox = styled.div`
-  width: 135px;
+const BtnBox = styled.div<{ width: number }>`
+  width: ${({ width }) => `${width}px`};
   display: flex;
   justify-content: space-between;
   align-items: center;

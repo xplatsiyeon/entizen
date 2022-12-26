@@ -6,5 +6,5 @@ export const CHARGING_METHOD = [
   'DC Combo2',
   'CHAdeMO',
   'AC 급속',
-  '기타 (콘센트 등)',
+  '기타(콘센트 등)',
 ];

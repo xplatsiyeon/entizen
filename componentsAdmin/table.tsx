@@ -29,6 +29,8 @@ type Props = {
   selectedFilter?: number;
   userSearch?: string;
   setAfterSalesServiceIdx?: React.Dispatch<React.SetStateAction<number>>;
+  commonBtn: string;
+  handleCommon: () => void;
 };
 
 const Table = ({
@@ -40,6 +42,8 @@ const Table = ({
   pickedDate,
   userSearch,
   setAfterSalesServiceIdx,
+  commonBtn,
+  handleCommon,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -625,7 +629,11 @@ const Table = ({
                       <img
                         src={cell}
                         alt="library"
-                        style={{ objectFit: 'contain' }}
+                        style={{
+                          objectFit: 'cover',
+                          width: '82px',
+                          height: '82px',
+                        }}
                       />
                     </LibraryImage>,
                   ),
@@ -743,7 +751,7 @@ const Table = ({
         break;
     }
     // 의존성 배열에 api.get()dml data넣기.
-  }, []);
+  }, [entizenLibrary]);
 
   useEffect(() => {
     switch (tableType) {
@@ -784,7 +792,7 @@ const Table = ({
   return (
     <StyledBody className="user-table">
       <FlexBox>
-        <P>결과 {length}</P> <Button>엑셀 다운로드</Button>
+        <P>결과 {length}</P> <Button onClick={handleCommon}>{commonBtn}</Button>
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>
@@ -921,8 +929,6 @@ const BtnGap = styled.div`
 `;
 
 const LibraryImage = styled.div`
-  width: 82px;
-  height: 82px;
   position: absolute;
   top: 50%;
   left: 50%;

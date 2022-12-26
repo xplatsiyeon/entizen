@@ -68,8 +68,8 @@ const UserManagement = (props: Props) => {
     }
   };
 
-  // console.log('selectedFilter 아이디 나오냐???', selectedFilter);
-  // console.log('keyword', keyword);
+  // 엑셀 다운로드
+  const handleCommon = () => {};
 
   return (
     <>
@@ -141,6 +141,8 @@ const UserManagement = (props: Props) => {
           tableType={'userData'}
           pickedDate={pickedDate}
           userSearch={userSearch}
+          commonBtn={'엑셀 다운로드'}
+          handleCommon={handleCommon}
         />
       </Wrapper>
     </>

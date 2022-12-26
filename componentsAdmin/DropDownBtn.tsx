@@ -90,12 +90,13 @@ const DropDownBox = styled.div<{width?:string}>`
   position: absolute;
   z-index: 100;
   background-color: #ffffff;
-  border: 1px solid #747780;
+  border: 1px solid ${colors.lightWhite3};
   border-radius: 6px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   top: 100%;
+  left:0;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
 `;
 
