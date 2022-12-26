@@ -9,6 +9,7 @@ import ASDetail from 'componentsAdmin/AllAs/ASDetail';
 import CommunicationList from 'componentsAdmin/Communication/CommunicationList';
 import OneOnOneQuestion from 'componentsAdmin/Communication/OneOnOneQuestion';
 import EntizenLibrary from 'componentsAdmin/EntizenLibrary/EntizenLibrary';
+import PartnerProductsList from 'componentsAdmin/PartnerProducts/PartnerProductsList';
 
 type Props = {};
 
