@@ -53,14 +53,19 @@ function useLogin(
         USER_ID: userId,
       };
 
+      console.log(JSON.stringify(userInfo));
+
       // 브릿지 연결
       if ((window as any).entizen!) {
         if (ANGENT === 'Android_App') {
           (window as any).entizen!.setUserInfo(JSON.stringify(userInfo));
         } else if (ANGENT === 'iOS_App') {
-          (window as any).webkit.messageHandlers.setUserInfo.postMessage(
-            JSON.stringify(userInfo),
+          (window as any).webkit.messageHandlers.test.postMessage(
+            'Hello Native Callback' + ANGENT,
           );
+          // (window as any).webkit.messageHandlers.setUserInfo.postMessage(
+          //   JSON.stringify(userInfo),
+          // );
         }
       }
 
