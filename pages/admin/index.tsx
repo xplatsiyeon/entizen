@@ -10,6 +10,8 @@ import CommunicationList from 'componentsAdmin/Communication/CommunicationList';
 import OneOnOneQuestion from 'componentsAdmin/Communication/OneOnOneQuestion';
 import EntizenLibrary from 'componentsAdmin/EntizenLibrary/EntizenLibrary';
 import PartnerProductsList from 'componentsAdmin/PartnerProducts/PartnerProductsList';
+import Statistics from 'componentsAdmin/MainDashboard/Statistics';
+import ProjectSituation from 'componentsAdmin/MainDashboard/ProjectSituation';
 
 type Props = {};
 
@@ -23,8 +25,8 @@ const index = (props: Props) => {
       <Workspace setNumber={setNumber} />
       {number === 1 && <div>관리자 등록</div>}
       {number === 2 && <div>관리자 리스트 조회</div>}
-      {number === 3 && <div>프로젝트 현황</div>}
-      {number === 4 && <div>통계</div>}
+      {number === 3 && <ProjectSituation />}
+      {number === 4 && <Statistics />}
       {number === 5 && <UserManagement />}
       {number === 6 && <CompanyManagement />}
       {number === 7 && <ReverseAuctionList />}
