@@ -625,7 +625,11 @@ const Table = ({
                       <img
                         src={cell}
                         alt="library"
-                        style={{ objectFit: 'contain' }}
+                        style={{
+                          objectFit: 'cover',
+                          width: '82px',
+                          height: '82px',
+                        }}
                       />
                     </LibraryImage>,
                   ),
@@ -743,7 +747,7 @@ const Table = ({
         break;
     }
     // 의존성 배열에 api.get()dml data넣기.
-  }, []);
+  }, [entizenLibrary]);
 
   useEffect(() => {
     switch (tableType) {
@@ -921,8 +925,6 @@ const BtnGap = styled.div`
 `;
 
 const LibraryImage = styled.div`
-  width: 82px;
-  height: 82px;
   position: absolute;
   top: 50%;
   left: 50%;
