@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Image from 'next/image';
@@ -7,9 +7,13 @@ import CloseModal from 'public/adminImages/libraryClose.svg';
 import CloseImg from 'public/images/XCircle.svg';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import { InputAdornment, TextField, Typography } from '@mui/material';
-import { isTokenGetApi } from 'api';
-import { useQuery } from 'react-query';
-
+import { isTokenGetApi, multerApi, isTokenPostApi, isTokenPutApi } from 'api';
+import { useMutation, useQuery } from 'react-query';
+import {
+  ImgFile,
+  MulterResponse,
+} from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
 type Props = {
   afterSalesServiceIdx: number;
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,14 +33,128 @@ interface LibraryResponse {
 }
 
 const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
-  // 도서관 상세 api
+  const [review, setReview] = useState<ImgFile[]>([]);
+  const [isModal, setIsModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [imgName, setImgName] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [title, setTitle] = useState<string>('');
+  const [link, setLink] = useState<string>('');
 
-  const { data, isLoading, isError } = useQuery<LibraryResponse>(
-    'entizenLibrary',
-    () => isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
+  const [checkAll, setCheckAll] = useState<boolean>(false);
+  // 도서관 상세 api
+  const {
+    data: library,
+    isLoading: libraryIsLoading,
+    isError: libraryIsError,
+  } = useQuery<LibraryResponse>('entizenLibrary', () =>
+    isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
   );
 
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      // console.log(res);
+      const newFile = [...review];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+        setImgName(decodeURIComponent(img.originalName));
+        setImgUrl(img.url);
+      });
+      setReview(newFile);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+
+  // 사진 온클릭
+  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    imgRef?.current?.click();
+  };
+
   // 이미지 첨부 api
+  const imgRef = useRef<any>(null);
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 1;
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append('library', files![i], encodeURIComponent(files![i].name));
+    }
+    multerImage(formData);
+    e.target.value = '';
+  };
+
+  // 사진 삭제
+  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    setImgName('');
+    setImgUrl('');
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...review];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setReview(copyArr);
+      }
+    }
+  };
+
+  // -------------------------도서관 조회 (수정하기) -------------------
+  const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        setIsModal(true);
+        setErrorMessage('수정하시겠습니까?');
+      },
+      onError: (error: any) => {
+        setIsModal(true);
+        setErrorMessage('조회 요청을 실패했습니다.\n다시 시도해주세요.');
+        // router.back();
+      },
+    },
+  );
+
+  // 도서관 수정하기 버튼
+  const onClickModifiedBtn = () => {
+    if (checkAll) {
+      modifiedMutate({
+        url: `/admin/libraries/${afterSalesServiceIdx}`,
+        data: {
+          title: title,
+          link: link,
+          libraryIdx: afterSalesServiceIdx,
+          imageUrl: review,
+        },
+      });
+    }
+  };
+
+  console.log('imgName 머나옴???', imgName);
+
   return (
     <Modal>
       <ModalBox>
@@ -58,15 +176,37 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
           <ImageSubBox>
             <SubTitle>이미지</SubTitle>
             <ImageDeleteBox>
-              <ImageTitleBox>{data?.data?.library?.imageUrl}</ImageTitleBox>
+              {imgName !== '' ? (
+                <ImageTitleBox>{imgName}</ImageTitleBox>
+              ) : (
+                <ImageTitleBox>
+                  {library?.data?.library?.imageUrl}
+                </ImageTitleBox>
+              )}
+              {imgName === '' && library === undefined && (
+                <ImageTitleBox>이미지 첨부</ImageTitleBox>
+              )}
               <DeleteTitle>삭제</DeleteTitle>
             </ImageDeleteBox>
           </ImageSubBox>
-          <AdminBtn style={{ width: '85px' }}>사진첨부</AdminBtn>
+          <AdminBtn style={{ width: '85px' }} onClick={imgHandler}>
+            사진첨부
+          </AdminBtn>
+          <input
+            style={{ display: 'none' }}
+            ref={imgRef}
+            type="file"
+            accept="image/*"
+            onChange={saveFileImage}
+            multiple
+          />
         </FlexWrap>
         <Preview>
-          <img src={data?.data?.library?.imageUrl} />
-          <Xbox>
+          <img
+            src={imgUrl !== '' ? imgUrl : library?.data?.library?.imageUrl}
+            style={{ objectFit: 'cover', width: '82px', height: '82px' }}
+          />
+          <Xbox onClick={handlePhotoDelete}>
             <Image
               src={CloseImg}
               layout="intrinsic"
@@ -78,33 +218,47 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
         </Preview>
         <FlexHorizontal>
           <SubTitle>제목</SubTitle>
-          <Input value={data?.data?.library?.title} />
+          <Input value={library?.data?.library?.title} />
         </FlexHorizontal>
         <FlexHorizontal>
           <SubTitle>링크</SubTitle>
-          <Input value={data?.data?.library?.link} />
+          <Input value={library?.data?.library?.link} />
         </FlexHorizontal>
         <FlexWrap>
           <div />
           <BtnBox>
-            <AdminBtn
-              style={{
-                background: '#747780',
-                border: '1px solid #464646',
-                color: '#ffffff',
-              }}
-            >
-              삭제
-            </AdminBtn>
-            <AdminBtn
-              style={{
-                background: '#747780',
-                border: '1px solid #464646',
-                color: '#ffffff',
-              }}
-            >
-              수정
-            </AdminBtn>
+            {library !== undefined && (
+              <AdminBtn
+                style={{
+                  background: '#747780',
+                  border: '1px solid #464646',
+                  color: '#ffffff',
+                }}
+              >
+                삭제
+              </AdminBtn>
+            )}
+            {library !== undefined ? (
+              <AdminBtn
+                style={{
+                  background: '#747780',
+                  border: '1px solid #464646',
+                  color: '#ffffff',
+                }}
+              >
+                수정
+              </AdminBtn>
+            ) : (
+              <AdminBtn
+                style={{
+                  background: '#747780',
+                  border: '1px solid #464646',
+                  color: '#ffffff',
+                }}
+              >
+                추가
+              </AdminBtn>
+            )}
           </BtnBox>
         </FlexWrap>
       </ModalBox>
@@ -231,7 +385,6 @@ const Preview = styled.div`
   position: relative;
   width: 82px;
   height: 82px;
-  border: 1px solid red;
   margin-left: 102px;
   margin-top: 8px;
 `;
