@@ -66,6 +66,7 @@ const CommunicationList = () => {
         setIsDetail={setIsDetail}
         tableType={'userChatting'}
         pickedDate={pickedDate}
+        commonBtn={'엑셀 다운로드'}
       />
     </Wrapper>
   );

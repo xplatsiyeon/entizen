@@ -141,6 +141,7 @@ const UserManagement = (props: Props) => {
           tableType={'userData'}
           pickedDate={pickedDate}
           userSearch={userSearch}
+          commonBtn={'엑셀 다운로드'}
         />
       </Wrapper>
     </>

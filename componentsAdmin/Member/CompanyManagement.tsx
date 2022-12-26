@@ -24,8 +24,7 @@ const CompanyManagement = (props: Props) => {
 
   // onClick 할때 값이 바뀌도록
   const [companySearch, setCompanySearch] = useState<string>('');
-  
-  
+
   const [pickedDate, setPickedDate] = useState<string[]>();
   const dateRef = useRef<HTMLLIElement>(null);
 
@@ -44,9 +43,9 @@ const CompanyManagement = (props: Props) => {
       ?.querySelector('input')?.value;
     console.log('input?', inputValue);
     dateRef.current?.querySelector('.date-btn')?.classList.add('on');
-    setTimeout(()=>{
-    dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
-    }, 600)
+    setTimeout(() => {
+      dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    }, 600);
   };
 
   const handleDate = () => {
@@ -61,8 +60,8 @@ const CompanyManagement = (props: Props) => {
       setPickedDate(newDate);
     } else {
       setPickedDate(undefined);
-     }
-  }
+    }
+  };
 
   return (
     <>
@@ -117,7 +116,7 @@ const CompanyManagement = (props: Props) => {
           <li className="search" ref={dateRef}>
             <label>기간검색</label>
             {/* 레인지 달력 */}
-            <DateRangePicker  
+            <DateRangePicker
               className="datePicker-input"
               placeholder={'년-월-일 ~ 년-월-일'}
               size={'sm'}
@@ -134,6 +133,7 @@ const CompanyManagement = (props: Props) => {
           tableType={'comUserData'}
           pickedDate={pickedDate}
           userSearch={companySearch}
+          commonBtn={'엑셀 다운로드'}
         />
       </Wrapper>
     </>
