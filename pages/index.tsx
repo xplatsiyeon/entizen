@@ -4,30 +4,29 @@ import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
 import CompanyMainPage from 'components/Main/companyMain';
+import { RootState } from 'store/store';
+import { useSelector } from 'react-redux';
 
 interface Props {
   userAgent: string;
 }
-const Home: NextPage<Props> = ({ userAgent }: Props) => {
+const Home: NextPage<Props> = ({}: Props) => {
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
-
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   // 안드로이드 && iOS Bridge 연결하기
-  const arrAgent = userAgent?.split(' ');
-  const ANGENT = arrAgent![arrAgent?.length - 1];
+  // const arrAgent = userAgent?.split(' ');
+  // const ANGENT = arrAgent![arrAgent?.length - 1];
 
   // 웹 -> 앱
   useEffect(() => {
-    console.log('🔥 ANGENT 값 확인하기 --->' + ANGENT);
-
-    if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
-      sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
+    if (userAgent === 'Android_App' || userAgent === 'iOS_App') {
     }
     if ((window as any).entizen!) {
-      if (ANGENT === 'Android_App') {
+      if (userAgent === 'Android_App') {
         (window as any).entizen!.test('Hello Native Callback');
-      } else if (ANGENT === 'iOS_App') {
+      } else if (userAgent === 'iOS_App') {
         (window as any).webkit.messageHandlers.test.postMessage(
-          'Hello Native Callback' + ANGENT,
+          'Hello Native Callback' + userAgent,
         );
       }
     }
@@ -45,12 +44,12 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   // 앱 -> 웹
   useEffect(() => {
     // 안드로이드 호출 테스트
-    if (ANGENT === 'Android_App') {
+    if (userAgent === 'Android_App') {
       (window as any).test = () => {
         alert('안드로이드 테스트 중..');
       };
       // 아이폰 호출 테스트
-    } else if (ANGENT === 'iOS_App') {
+    } else if (userAgent === 'iOS_App') {
       window.testEntizen = {
         testtest: () => {
           alert('iOS 테스트 중..');
@@ -95,7 +94,7 @@ const MobWrap = styled.div`
     display: block;
   }
 `;
-export const getServerSideProps = ({ req }: NextPageContext) => {
-  const userAgent = req?.headers['user-agent'];
-  return { props: { userAgent, header: req?.headers } };
-};
+// export const getServerSideProps = ({ req }: NextPageContext) => {
+//   const userAgent = req?.headers['user-agent'];
+//   return { props: { userAgent, header: req?.headers } };
+// };

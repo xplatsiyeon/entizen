@@ -7,19 +7,22 @@ import img_subs from 'public/images/img_subs.png';
 import Image from 'next/image';
 import Banner from 'public/images/Main-Banner.png';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   borders?: number | undefined;
 };
 
 const SubscribeRequest = ({ borders }: Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const handleLink = () => {
-    const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
-    if (ANGENT === 'Android_App') {
-      (window as any).entizen!.test('Hello Native Callback --> ' + ANGENT);
-    } else if (ANGENT === 'iOS_App') {
+    // 브릿지 연결 테스트중
+    if (userAgent === 'Android_App') {
+      (window as any).entizen!.test('Hello Native Callback --> ' + userAgent);
+    } else if (userAgent === 'iOS_App') {
       (window as any).webkit.messageHandlers.test.postMessage(
-        'Hello Native Callback --> ' + ANGENT,
+        'Hello Native Callback --> ' + userAgent,
       );
     }
 
