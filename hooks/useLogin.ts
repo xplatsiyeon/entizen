@@ -43,6 +43,18 @@ function useLogin(
       sessionStorage.setItem('USER_ID', JSON.stringify(userId));
       dispatch(originUserAction.set(userId));
 
+      const userInfo = {
+        SNS_MEMBER: token.isSnsMember,
+        MEMBER_TYPE: token.memberType,
+        ACCESS_TOKEN: res.data.accessToken,
+        REFRESH_TOKEN: res.data.refreshToken,
+        USER_ID: userId,
+      };
+      console.log(JSON.stringify(userInfo));
+      if ((window as any).entizen!) {
+        (window as any).entizen!.setUserInfo(JSON.stringify(userInfo));
+      }
+
       if (signUp && memberType === 'USER') {
         await router.push('/signUp/Complete');
       } else if (signUp && memberType === 'USER') {
@@ -85,6 +97,25 @@ function useLogin(
       },
     });
   };
+
+  // useEffect(() => {
+  //   console.log('🔥 ANGENT 값 확인하기 --->' + ANGENT);
+
+  //   (window as any).entizen!.test('Hello Native Callback');
+
+  //   if ('Android_App' === ANGENT || 'iOS_App' === ANGENT) {
+  //     sessionStorage.setItem('ANGENT', JSON.stringify(ANGENT));
+  //   }
+  //   if ((window as any).entizen!) {
+  //     if (ANGENT === 'Android_App') {
+  //       (window as any).entizen!.test('Hello Native Callback');
+  //     } else if (ANGENT === 'iOS_App') {
+  //       (window as any).webkit.messageHandlers.test.postMessage(
+  //         'Hello Native Callback' + ANGENT,
+  //       );
+  //     }
+  //   }
+  // }, []);
 
   return {
     signin,
