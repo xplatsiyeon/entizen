@@ -15,7 +15,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   const arrAgent = userAgent?.split(' ');
   const ANGENT = arrAgent![arrAgent?.length - 1];
 
-  // 웹 -> 앱으로 호출하는 함수
+  // 웹 -> 앱
   useEffect(() => {
     console.log('🔥 ANGENT 값 확인하기 --->' + ANGENT);
 
@@ -26,9 +26,9 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
       if (ANGENT === 'Android_App') {
         (window as any).entizen!.test('Hello Native Callback');
       } else if (ANGENT === 'iOS_App') {
-        // (window as any).webkit.messageHandlers.test.postMessage(
-        //   'Hello Native Callback' + ANGENT,
-        // );
+        (window as any).webkit.messageHandlers.test.postMessage(
+          'Hello Native Callback' + ANGENT,
+        );
       }
     }
   }, []);
@@ -51,9 +51,14 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
       };
       // 아이폰 호출 테스트
     } else if (ANGENT === 'iOS_App') {
-      (window as any).test = () => {
-        alert('ios 테스트중입니다.');
+      window.testEntizen = {
+        testtest: () => {
+          alert('iOS 테스트 중..');
+        },
       };
+      // (window as any).test = () => {
+      //   alert('iOS 테스트 중..');
+      // };
     }
   }, []);
 

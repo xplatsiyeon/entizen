@@ -26,63 +26,59 @@ function useLogin(
     isError: loginError,
   } = useMutation(isPostApi, {
     onSuccess: async (res) => {
-      // const token: JwtTokenType = jwt_decode(res.data.accessToken);
-      // console.log(
-      //   'res.data.isInitialLogin 초기값 뭐나오나욤',
-      //   res.data.isInitialLogin,
-      // );
-      // setUserCompleteModal(res.data.isInitialLogin);
-      // sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-      // sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-      // sessionStorage.setItem(
-      //   'ACCESS_TOKEN',
-      //   JSON.stringify(res.data.accessToken),
-      // );
-      // sessionStorage.setItem(
-      //   'REFRESH_TOKEN',
-      //   JSON.stringify(res.data.refreshToken),
-      // );
-      // sessionStorage.setItem('USER_ID', JSON.stringify(userId));
-      // dispatch(originUserAction.set(userId));
+      const token: JwtTokenType = jwt_decode(res.data.accessToken);
+      console.log(
+        'res.data.isInitialLogin 초기값 뭐나오나욤',
+        res.data.isInitialLogin,
+      );
+      setUserCompleteModal(res.data.isInitialLogin);
+      sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+      sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
+      sessionStorage.setItem(
+        'ACCESS_TOKEN',
+        JSON.stringify(res.data.accessToken),
+      );
+      sessionStorage.setItem(
+        'REFRESH_TOKEN',
+        JSON.stringify(res.data.refreshToken),
+      );
+      sessionStorage.setItem('USER_ID', JSON.stringify(userId));
+      dispatch(originUserAction.set(userId));
 
-      // const userInfo = {
-      //   SNS_MEMBER: token.isSnsMember,
-      //   MEMBER_TYPE: token.memberType,
-      //   ACCESS_TOKEN: res.data.accessToken,
-      //   REFRESH_TOKEN: res.data.refreshToken,
-      //   USER_ID: userId,
-      // };
+      const userInfo = {
+        SNS_MEMBER: token.isSnsMember,
+        MEMBER_TYPE: token.memberType,
+        ACCESS_TOKEN: res.data.accessToken,
+        REFRESH_TOKEN: res.data.refreshToken,
+        USER_ID: userId,
+      };
 
-      // console.log(JSON.stringify(userInfo));
+      console.log(JSON.stringify(userInfo));
 
       // 브릿지 연결
       if ((window as any).entizen!) {
         if (ANGENT === 'Android_App') {
-          // (window as any).entizen!.setUserInfo(JSON.stringify(userInfo));
+          (window as any).entizen!.setUserInfo(JSON.stringify(userInfo));
         } else if (ANGENT === 'iOS_App') {
-          (window as any).webkit.messageHandlers.test.postMessage(
-            'login 했을 때 열리는 함수' + ANGENT,
+          (window as any).webkit.messageHandlers.setUserInfo.postMessage(
+            JSON.stringify(userInfo),
           );
-          // (window as any).webkit.messageHandlers.setUserInfo.postMessage(
-          //   JSON.stringify(userInfo),
-          // );
         }
       }
 
-      // if (signUp && memberType === 'USER') {
-      //   await router.push('/signUp/Complete');
-      // } else if (signUp && memberType === 'USER') {
-      //   await router.push('/signUp/CompleteCompany');
-      // } else if (res.data.isInitialLogin === false) {
-      //   await router.push('/');
-      // } else if (res.data.isInitialLogin === undefined) {
-      //   await router.push('/');
-      // }
-      // else if (res.data.isInitialLogin === true) {
-      //   await router.push('/signin');
-      // } else {
-      //   await router.push('/');
-      // }
+      if (signUp && memberType === 'USER') {
+        await router.push('/signUp/Complete');
+      } else if (signUp && memberType === 'USER') {
+        await router.push('/signUp/CompleteCompany');
+      } else if (res.data.isInitialLogin === false) {
+        await router.push('/');
+      } else if (res.data.isInitialLogin === undefined) {
+        await router.push('/');
+      } else if (res.data.isInitialLogin === true) {
+        await router.push('/signin');
+      } else {
+        await router.push('/');
+      }
     },
     onError: async (error: any) => {
       const { message } = error.response.data;
