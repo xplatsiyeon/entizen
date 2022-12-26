@@ -92,7 +92,7 @@ const Workspace = ({ setNumber }: Props) => {
         break;
 
       case '회사별 리스트':
-      setNumber(9);
+      setNumber(13);
       break;
 
       default:

@@ -1,40 +1,67 @@
 import styled from "@emotion/styled";
+import { M5_LIST } from "assets/selectList";
+import { CHARGING_METHOD } from "companyAssets/selectList";
+import DropDownBtn from "componentsAdmin/DropDownBtn";
+import AdminHeader from "componentsAdmin/Header";
 import colors from "styles/colors";
 
-const PartnerProductsList =()=>{
+const PartnerProductsList = () => {
 
-    return(
-        <>
-           <Search>
-        <li className="search">
-          <label>검색</label>
-          <SearchBox
-            type="text"
-            placeholder="검색"
-          />
-          <Btn>
-            <Text
-            >
-              조회
-            </Text>
-          </Btn>
-        </li>
-      </Search>
-        </>
+    return (
+        <Body>
+            <AdminHeader title="파트너 등록 제품" type="main" />
+            <Search>
+                <li className="search">
+                    <label>업체명 검색</label>
+                    <SearchBox
+                        type="text"
+                        placeholder="검색"
+                    />
+                    <Btn>
+                        <Text>
+                            조회
+                        </Text>
+                    </Btn>
+                </li>
+                <Wrap>
+                    <label className="ul-label">선택 조회</label>
+                    <li>
+                        <label>충전모달</label>
+                        <DropDownBtn width="208px" currentStep="충전모달" dropDownValue={M5_LIST} />
+                    </li>
+                    <li>
+                        <label>충전방식모달</label>
+                        <DropDownBtn width="125px" currentStep="충전방식모달" dropDownValue={CHARGING_METHOD} />
+                    </li>
+                    <li>
+                        <label>채널</label> <DropDownBtn width="70px" currentStep="채널" dropDownValue={['싱글', '듀얼', '3모드']} />
+                    </li>
+                </Wrap>
+            </Search>
+        </Body>
     )
 }
 
 export default PartnerProductsList;
 
+const Body = styled.div`
+    margin:15px;
+`
 
 const Search = styled.ul`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  font-family: 'Spoqa Han Sans Neo';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 150%;
+
+color: #000000;
   label {
-    width: 50px;
-    margin-right: 39.75pt;
+    margin-right: 38pt;
   }
   li {
     gap: 7.5pt;
@@ -85,3 +112,39 @@ const SearchBox = styled.input`
     padding-left: 10px;
   }
 `;
+
+const Wrap = styled.ul`
+    display: flex;
+    width: 946px;
+    border: 1px solid ${colors.lightWhite3};
+    border-top:none;
+    align-items: center;
+    >li{
+        width: 284px;
+        padding: 0;
+        border-right: none;
+        border-top: none;
+        border-bottom: none;
+        border-left: 1px solid ${colors.lightWhite3};
+        &:nth-of-type(1){
+            width: 316px;
+            border-left: none;
+            label{
+                padding-left: 0;
+            }
+        }
+        &:nth-last-of-type(1){ 
+            width: 217px;
+            border-right: none;
+        }
+        >label{
+            padding-left: 24px;
+            margin-right: 10px;
+        }
+    }
+    .ul-label{
+        padding-left: 13px;
+        margin-right: 28px;
+        width: 130px;
+    }
+`
