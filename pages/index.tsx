@@ -15,7 +15,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   const arrAgent = userAgent?.split(' ');
   const ANGENT = arrAgent![arrAgent?.length - 1];
 
-  // 웹 -> 앱으로 호출하는 함수
+  // 웹 -> 앱
   useEffect(() => {
     console.log('🔥 ANGENT 값 확인하기 --->' + ANGENT);
 
@@ -42,6 +42,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   //   }
   // };
 
+  // 앱 -> 웹
   useEffect(() => {
     // 안드로이드 호출 테스트
     if (ANGENT === 'Android_App') {
@@ -50,17 +51,16 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
       };
       // 아이폰 호출 테스트
     } else if (ANGENT === 'iOS_App') {
-      (window as any).test = () => {
-        alert('ios 테스트중입니다.');
+      window.testEntizen = {
+        testtest: () => {
+          alert('iOS 테스트 중..');
+        },
       };
+      // (window as any).test = () => {
+      //   alert('iOS 테스트 중..');
+      // };
     }
   }, []);
-
-  // testtest();
-  // const testEntizen = (id: string) => {
-  //   console.log('testEntizen 호출');
-  //   return alert('안드로이드 테스트 엔티즌 아이디 확인 --> ' + id);
-  // };
 
   return (
     <>

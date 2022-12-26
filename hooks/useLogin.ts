@@ -53,6 +53,8 @@ function useLogin(
         USER_ID: userId,
       };
 
+      console.log(JSON.stringify(userInfo));
+
       // 브릿지 연결
       if ((window as any).entizen!) {
         if (ANGENT === 'Android_App') {
@@ -72,12 +74,11 @@ function useLogin(
         await router.push('/');
       } else if (res.data.isInitialLogin === undefined) {
         await router.push('/');
+      } else if (res.data.isInitialLogin === true) {
+        await router.push('/signin');
+      } else {
+        await router.push('/');
       }
-      // else if (res.data.isInitialLogin === true) {
-      //   await router.push('/signin');
-      // } else {
-      //   await router.push('/');
-      // }
     },
     onError: async (error: any) => {
       const { message } = error.response.data;
