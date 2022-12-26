@@ -6,7 +6,7 @@ import { Bar } from 'react-chartjs-2';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
-import { data, options } from './Chart';
+import ChartBar from './Chart';
 
 type Props = {};
 
@@ -91,7 +91,7 @@ const Statistics = (props: Props) => {
             ))}
           </div>
         </div>
-        <Bar options={options} data={data} />
+        <ChartBar />
       </ChartContainer>
     </Wrapper>
   );
