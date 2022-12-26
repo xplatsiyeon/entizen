@@ -45,6 +45,9 @@ const ReverseAuctionList = () => {
     }
   };
 
+  // 엑셀 다운로드
+  const handleCommon = () => {};
+
   return (
     <Wrapper>
       {isDetail && (
@@ -74,6 +77,7 @@ const ReverseAuctionList = () => {
         tableType={'quetationListData'}
         pickedDate={pickedDate}
         commonBtn={'엑셀 다운로드'}
+        handleCommon={handleCommon}
       />
     </Wrapper>
   );

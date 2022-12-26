@@ -63,6 +63,9 @@ const CompanyManagement = (props: Props) => {
     }
   };
 
+  // 엑셀 다운로드
+  const handleCommon = () => {};
+
   return (
     <>
       {isDetail && (
@@ -134,6 +137,7 @@ const CompanyManagement = (props: Props) => {
           pickedDate={pickedDate}
           userSearch={companySearch}
           commonBtn={'엑셀 다운로드'}
+          handleCommon={handleCommon}
         />
       </Wrapper>
     </>

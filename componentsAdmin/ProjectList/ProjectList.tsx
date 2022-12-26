@@ -46,6 +46,9 @@ const ProjectList = () => {
     }
   };
 
+  // 엑셀 다운로드
+  const handleCommon = () => {};
+
   return (
     <Wrapper>
       {isDetail && (
@@ -74,6 +77,7 @@ const ProjectList = () => {
         tableType={'projectListData'}
         pickedDate={pickedDate}
         commonBtn={'엑셀 다운로드'}
+        handleCommon={handleCommon}
       />
     </Wrapper>
   );
