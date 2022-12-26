@@ -585,32 +585,29 @@ const Table = ({
     );
 
   // 도서관 리스트 조회
+  // /admin/libraries?page=1&limit=10&startDate=2022-12-01&endDate=2022-12-31&searchKeyword=
 
-  const plusArray = () => {
-    const temp = [];
-  };
   const { data: entizenLibrary, refetch: entizenLibraryRefetch } =
     useQuery<EntixenLibraryResponse>(
       'entizenLibrary',
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${
+          endpoint: `/admin/libraries?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
-      // LIBRARYDATA,
       {
         enabled: false,
         onSuccess: (entizenLibrary) => {
           if (tableType === 'entizenLibrary') {
             const temp: any = [];
-            LIBRARYDATA?.data?.forEach((ele, idx) => {
+            entizenLibrary?.data?.forEach((ele, idx) => {
               const eleArr = [
                 `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
                   idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
-                ele.entizenImage,
+                ele.imageUrl,
                 ele.title,
                 ele.link,
                 dateFomat(ele.createdAt),
@@ -621,26 +618,26 @@ const Table = ({
             setColumns([
               '번호',
               {
-                name: '이미지',
+                name: '이미지', width:'10%',
                 id: 'entizenLibraryImg',
                 formatter: (cell: string) =>
                   _(
                     <LibraryImage>
-                      <Image
-                        src={LibraryImageTest}
+                      <img
+                        src={cell}
                         alt="arrow"
-                        objectFit="contain"
+                        style={{ objectFit: 'contain' }}
                       />
                     </LibraryImage>,
                   ),
               },
               {
-                name: '제목',
+                name: '제목', width:'20%',
                 id: 'entizenLibraryTitle',
-                formatter: (cell: string) => _(<TitleBox>{cell}</TitleBox>),
+                formatter: (cell: string) => _(<TitleBox><p>{cell}</p></TitleBox>),
               },
               {
-                name: '링크',
+                name: '링크', width:'20%',
                 id: 'entizenLibraryLink',
                 formatter: (cell: string) => _(<LinkBox>{cell}</LinkBox>),
               },
@@ -662,10 +659,7 @@ const Table = ({
                   ),
               },
             ]);
-            setLength(
-              // entizenLibrary.totalCount ? entizenLibrary.totalCount : 0,
-              0,
-            );
+            setLength(entizenLibrary.data ? entizenLibrary.data.length : 0);
           }
         },
         onError: () => alert('다시 시도해주세요'),
@@ -811,6 +805,7 @@ const StyledBody = styled.div`
       tr {
         td {
           padding: 8px 0;
+          position: relative;
         }
       }
     }
@@ -886,6 +881,10 @@ const BtnGap = styled.div`
 const LibraryImage = styled.div`
   width: 82px;
   height: 82px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 `;
 
 const TitleBox = styled.div`

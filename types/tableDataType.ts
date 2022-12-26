@@ -175,22 +175,11 @@ export interface UserChattingListResponse {
 // 엔티즌 도서관 mock-data 타입 나중에 지우셈
 export interface EntixenLibraryResponse {
   isSuccess: true;
-  totalCount: number;
-  data: [
-    {
-      createdAt: string;
-      entizenLibraryIdx: number;
-      title: string;
-      link: string;
-      entizenImage: {
-        createdAt: string;
-        chargerProductFileIdx: number;
-        productFileType: string;
-        originalName: string;
-        url: string;
-        size: number;
-        chargerProductIdx: number;
-      };
-    }[],
-  ];
+  data: {
+    createdAt: string;
+    libraryIdx: number;
+    imageUrl: string;
+    title: string;
+    link: string;
+  }[];
 }
