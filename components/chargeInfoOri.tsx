@@ -37,46 +37,27 @@ const ChargerInfo = ({
   const mobile = useMediaQuery({
     query: '(min-width:810pt)',
   });
-
-  const ref = useRef<HTMLDivElement>(null);
-  const sRef = useRef<number>(0);
-  const sRef2 = useRef<number>(0);
-  
-  const start =(e:React.TouchEvent)=>{
-     sRef.current = e.changedTouches[0].clientY;
-  }
-
-   const end = (e:React.TouchEvent)=>{
-    const endY = e.changedTouches[0].clientY;
-    if(sRef.current - endY > 0 && ref.current){
-      ref.current.style.height = '500px';
-    }
-   }
- 
-   const handle =(e:React.TouchEvent)=>{
-    const target = e.currentTarget as HTMLElement;
-    console.log(target.scrollTop)
-    if(target.scrollTop !== 0 && ref.current){
-      sRef2.current = 1;
-    }
-    if(target.scrollTop === 0 && ref.current ){
-     // console.log('!')
-      if(sRef2.current !== 0){
-        sRef2.current = 0;
-        console.log('now',sRef2.current)
-      }else{
-        ref.current.style.height = '0px';
-        console.log('now',sRef2.current)
-      }
-   }
-  }
-
-
   return (
-           <InfoBox >
-            <Wrap  onTouchStart={start} onTouchEnd={end} />
-            <Wrapper ref={ref} onTouchEnd={handle}>
-              <Content >
+          <>
+           <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
+             <RndWraper
+               className="draggable"
+               isMobile={mobile}
+               default={{
+                 x: 0,
+                 y: 0,
+                 width: '100%',
+                 height: '100%',
+               }}
+               disableDragging={true}
+               maxHeight={window.innerHeight - 130}
+               minHeight={checkHeight.toString()}
+               allowAnyClick={true}
+             >
+               <GoUpBox>
+                 <GoUp />
+             </GoUpBox>
+          <Body>
             <SelectChargerBox className="forScroll">
               <ChargerList>
                 {clickType.map((el, index) => (
@@ -150,24 +131,34 @@ const ChargerInfo = ({
                 </span>
               </QuotationBtn>
             </ScrollBox>
-            </Content>
-            </Wrapper>
+          </Body>
+        </RndWraper>
       </InfoBox>
-  )
+      </>
+  );
 };
 
 export default ChargerInfo;
 
 const Wrap =styled.div`
-  height:80px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-
-  background-color: yellowgreen;
+width: 100%;
+max-height: 100vh;
+position: relative;
+overflow: hidden;
+.target{
+background-color: beige;
+width:100%!important;
+position: absolute;
+bottom: 0;
+}
+div{
+  &:nth-last-of-type(1){
+    
+  }
+}
 `
 
-const InfoBox = styled.div`
+const InfoBox = styled.div<{ checkHeight: string }>`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -186,10 +177,11 @@ const InfoBox = styled.div`
     }
   }*/
   @media (max-width: 899.25pt) {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
-    height: 400px;
+    height: 500px;
+    height: ${({ checkHeight }) => checkHeight + 'pt'};
   }
 `;
 
@@ -201,14 +193,8 @@ const RndWraper = styled(Rnd)<{ isMobile: boolean }>`
 `;
 
 const Body = styled.div`
-  //overflow-y: scroll;
-  height: 0px;
-  width: 300px;
-  position: relative;
-  //bottom: 0;
-  //transition: 1s;
-
-  background-color: white;
+  overflow-y: scroll;
+  height: 100%;
 `;
 
 const ScrollBox = styled.div<{ scrollHeight: string }>`
@@ -422,20 +408,3 @@ const QuotationBtn = styled.div`
     flex-grow: 0;
   }
 `;
-
-const Wrapper = styled.div`
-overscroll-behavior: contain;
-
-  border:1px solid green;
-  position: absolute;
-  background-color: white;
-  bottom:0;
-  //left: 0;
-  height: 0px;
-  width: 100%;
-  overflow: scroll;
-  transition: 0.5s;
-`
-const Content = styled.div`
-  height: 600px;
-`
