@@ -12,7 +12,7 @@ import {
   CompanyPreQuotationResponse,
   ASListResponse,
   UserChattingListResponse,
-  EntixenLibraryResponse,
+  EntizenLibraryResponse,
 } from 'types/tableDataType';
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
@@ -584,7 +584,7 @@ const Table = ({
   // /admin/libraries?page=1&limit=10&startDate=2022-12-01&endDate=2022-12-31&searchKeyword=
 
   const { data: entizenLibrary, refetch: entizenLibraryRefetch } =
-    useQuery<EntixenLibraryResponse>(
+    useQuery<EntizenLibraryResponse>(
       'entizenLibrary',
       () =>
         api({
@@ -596,8 +596,7 @@ const Table = ({
       {
         enabled: false,
         onSuccess: (entizenLibrary) => {
-
-          console.log(entizenLibrary)
+          console.log(entizenLibrary);
           if (tableType === 'entizenLibrary') {
             const temp: any = [];
             entizenLibrary?.data?.forEach((ele, idx) => {
@@ -626,7 +625,11 @@ const Table = ({
                       <img
                         src={cell}
                         alt="library"
-                        style={{ objectFit: 'contain' }}
+                        style={{
+                          objectFit: 'cover',
+                          width: '82px',
+                          height: '82px',
+                        }}
                       />
                     </LibraryImage>,
                   ),
@@ -744,7 +747,7 @@ const Table = ({
         break;
     }
     // 의존성 배열에 api.get()dml data넣기.
-  }, []);
+  }, [entizenLibrary]);
 
   useEffect(() => {
     switch (tableType) {
@@ -922,8 +925,6 @@ const BtnGap = styled.div`
 `;
 
 const LibraryImage = styled.div`
-  width: 82px;
-  height: 82px;
   position: absolute;
   top: 50%;
   left: 50%;

@@ -1,15 +1,28 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useRef, useEffect } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Image from 'next/image';
 import { css } from '@emotion/react';
 import CloseModal from 'public/adminImages/libraryClose.svg';
+import normal from 'public/adminImages/undefinedImg.svg';
 import CloseImg from 'public/images/XCircle.svg';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import { InputAdornment, TextField, Typography } from '@mui/material';
-import { isTokenGetApi } from 'api';
-import { useQuery } from 'react-query';
-
+import {
+  isTokenGetApi,
+  multerApi,
+  isTokenPostApi,
+  isTokenPutApi,
+  isTokenPatchApi,
+  isTokenDeleteApi,
+} from 'api';
+import { useMutation, useQuery } from 'react-query';
+import {
+  ImgFile,
+  MulterResponse,
+} from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
+import AlertModal from 'componentsAdmin/AlertModal';
 type Props = {
   afterSalesServiceIdx: number;
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,16 +42,190 @@ interface LibraryResponse {
 }
 
 const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
-  // 도서관 상세 api
+  const [review, setReview] = useState<ImgFile[]>([]);
+  const [isModal, setIsModal] = useState(false);
+  const [message, setMessage] = useState('');
+  const [checkAll, setCheckAll] = useState<boolean>(false);
 
-  const { data, isLoading, isError } = useQuery<LibraryResponse>(
+  const { data, isLoading, isError, refetch } = useQuery<LibraryResponse>(
     'entizenLibraryDetail',
     () => isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
   );
 
+  const firstTitle = data?.data?.library?.title;
+  const firstLink = data?.data?.library?.link;
+  const firstImgUrl = data?.data?.library?.imageUrl;
+
+  const [title, setTitle] = useState<string | undefined>(firstTitle);
+  const [link, setLink] = useState<string | undefined>(firstLink);
+  const [imgUrl, setImgUrl] = useState<string | undefined>(firstImgUrl);
+  const [imgName, setImgName] = useState<string | undefined>('');
+
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      // console.log(res);
+      const newFile = [...review];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+        setImgName(decodeURIComponent(img.originalName));
+        setImgUrl(img.url);
+      });
+      setReview(newFile);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+
+  // 사진 온클릭
+  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    imgRef?.current?.click();
+  };
+
   // 이미지 첨부 api
+  const imgRef = useRef<any>(null);
+  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 1;
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append('library', files![i], encodeURIComponent(files![i].name));
+    }
+    multerImage(formData);
+    e.target.value = '';
+  };
+
+  // 사진 삭제
+  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    setImgName('');
+    setImgUrl('');
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...review];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setReview(copyArr);
+      }
+    }
+  };
+
+  // -------------------------도서관 조회 (수정하기) -------------------
+  const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        setIsModal(true);
+        setMessage('수정이 완료됐습니다!');
+      },
+      onError: (error: any) => {
+        setIsModal(true);
+        setMessage('수정 요청을 실패했습니다.\n다시 시도해주세요.');
+        // router.back();
+      },
+    },
+  );
+
+  // 도서관 수정하기 버튼
+  const onClickModifiedBtn = () => {
+    if (checkAll) {
+      modifiedMutate({
+        url: `/admin/libraries/${afterSalesServiceIdx}`,
+        data: {
+          title: title,
+          link: link,
+          imageUrl: imgUrl,
+        },
+      });
+    }
+  };
+
+  // 도서관 삭제 api
+
+  const {
+    mutate: patchMutate,
+    isLoading: patchLoading,
+    isError: patchError,
+  } = useMutation(isTokenDeleteApi, {
+    onSuccess: () => {
+      //   queryclient.invalidateQueries('user-mypage');
+
+      setIsModal(true);
+      setMessage('삭제가 완료 됐습니다.');
+    },
+    onError: () => {
+      setIsModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const modalDeleteBtnControll = () => {
+    patchMutate({
+      url: `/admin/libraries/${afterSalesServiceIdx}`,
+    });
+  };
+
+  // 제목
+  const handleTitleArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTitle(() => e.target.value);
+  };
+
+  // 링크
+  const handleLinkArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLink(() => e.target.value);
+  };
+
+  // input text 초기값
+  useEffect(() => {
+    setTitle(firstTitle);
+    setLink(firstLink);
+    setImgUrl(firstImgUrl);
+  }, [data]);
+
+  useEffect(() => {
+    if (title !== firstTitle) {
+      setCheckAll(true);
+    } else if (link !== firstLink) {
+      setCheckAll(true);
+    } else if (imgUrl !== firstImgUrl) {
+      setCheckAll(true);
+    }
+  }, [title, link, imgUrl]);
+
+  useEffect(() => {
+    refetch();
+  }, [data]);
+
+  console.log('firstImgUrl', firstImgUrl);
+  console.log('imgUrl', imgUrl);
+  console.log('checkAll', checkAll);
+
   return (
     <Modal>
+      {isModal && <AlertModal setIsModal={setIsModal} message={message} />}
       <ModalBox>
         <TitleBox>
           <TitleText>엔티즌 도서관 보기</TitleText>
@@ -58,15 +245,42 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
           <ImageSubBox>
             <SubTitle>이미지</SubTitle>
             <ImageDeleteBox>
-              <ImageTitleBox>{data?.data?.library?.imageUrl}</ImageTitleBox>
+              {data !== undefined ? (
+                <ImageTitleBox>
+                  {imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
+                </ImageTitleBox>
+              ) : (
+                <ImageTitleBox>이미지 첨부</ImageTitleBox>
+              )}
+
               <DeleteTitle>삭제</DeleteTitle>
             </ImageDeleteBox>
           </ImageSubBox>
-          <AdminBtn style={{ width: '85px' }}>사진첨부</AdminBtn>
+          <AdminBtn style={{ width: '85px' }} onClick={imgHandler}>
+            사진첨부
+          </AdminBtn>
+          <input
+            style={{ display: 'none' }}
+            ref={imgRef}
+            type="file"
+            accept="image/*"
+            onChange={saveFileImage}
+            multiple
+          />
         </FlexWrap>
         <Preview>
-          <img src={data?.data?.library?.imageUrl} />
-          <Xbox>
+          {data !== undefined ? (
+            <img
+              src={imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
+              style={{ objectFit: 'cover', width: '82px', height: '82px' }}
+            />
+          ) : (
+            <img
+              src={normal}
+              style={{ objectFit: 'cover', width: '82px', height: '82px' }}
+            />
+          )}
+          <Xbox onClick={handlePhotoDelete}>
             <Image
               src={CloseImg}
               layout="intrinsic"
@@ -78,33 +292,63 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
         </Preview>
         <FlexHorizontal>
           <SubTitle>제목</SubTitle>
-          <Input value={data?.data?.library?.title} />
+          <Input
+            value={title}
+            placeholder="제목을 써주세요."
+            onChange={handleTitleArea}
+            required
+          />
         </FlexHorizontal>
         <FlexHorizontal>
           <SubTitle>링크</SubTitle>
-          <Input value={data?.data?.library?.link} />
+          <Input
+            value={link}
+            placeholder="링크를 넣어주세요."
+            onChange={handleLinkArea}
+            required
+          />
         </FlexHorizontal>
         <FlexWrap>
           <div />
           <BtnBox>
-            <AdminBtn
-              style={{
-                background: '#747780',
-                border: '1px solid #464646',
-                color: '#ffffff',
-              }}
-            >
-              삭제
-            </AdminBtn>
-            <AdminBtn
-              style={{
-                background: '#747780',
-                border: '1px solid #464646',
-                color: '#ffffff',
-              }}
-            >
-              수정
-            </AdminBtn>
+            {data !== undefined && (
+              <AdminBtn
+                style={{
+                  background: '#747780',
+                  border: '1px solid #464646',
+                  color: '#ffffff',
+                }}
+                onClick={() => {
+                  modalDeleteBtnControll();
+                }}
+              >
+                삭제
+              </AdminBtn>
+            )}
+            {data !== undefined ? (
+              <AdminBtn
+                style={{
+                  background: '#747780',
+                  border: '1px solid #464646',
+                  color: '#ffffff',
+                }}
+                onClick={() => {
+                  onClickModifiedBtn();
+                }}
+              >
+                수정
+              </AdminBtn>
+            ) : (
+              <AdminBtn
+                style={{
+                  background: '#747780',
+                  border: '1px solid #464646',
+                  color: '#ffffff',
+                }}
+              >
+                추가
+              </AdminBtn>
+            )}
           </BtnBox>
         </FlexWrap>
       </ModalBox>
@@ -231,7 +475,6 @@ const Preview = styled.div`
   position: relative;
   width: 82px;
   height: 82px;
-  border: 1px solid red;
   margin-left: 102px;
   margin-top: 8px;
 `;
