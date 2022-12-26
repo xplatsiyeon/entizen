@@ -61,7 +61,7 @@ function useLogin(
           (window as any).entizen!.setUserInfo(JSON.stringify(userInfo));
         } else if (ANGENT === 'iOS_App') {
           (window as any).webkit.messageHandlers.test.postMessage(
-            'Hello Native Callback' + ANGENT,
+            'login 했을 때 열리는 함수' + ANGENT,
           );
           // (window as any).webkit.messageHandlers.setUserInfo.postMessage(
           //   JSON.stringify(userInfo),
