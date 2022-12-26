@@ -7,6 +7,7 @@ import { Pagination } from 'rsuite';
 import {
   PartnerProductData,
 } from 'types/tableDataType';
+import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,6 +30,8 @@ const PPTable = ({
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
 
+  console.log(selected)
+
   // 유저 회원 검색 필터 뭐 눌렀는지
   const changeSearchType = ['name', 'id'];
 
@@ -47,48 +50,78 @@ const PPTable = ({
   const {data, refetch } =useQuery<PartnerProductData>('PPData',
   ()=>api({
     method: 'GET',
-    endpoint: `/admin/products?page=${page}&limit=10&searchKeyword=&chargerKind=${selected[0]}N&chargerMethods[]=${selected[1]}&chargerChannel=${selected[2]}`,
-  }),
+    endpoint: `/admin/products?page=${page}&limit=10&searchKeyword=&chargerKind=${selected[0]}&chargerMethods[]=${selected[1]}&chargerChannel=${selected[2]}`,
+  }),{
+    enabled:false,
+    onSuccess:(data)=>{
+      console.log(data);
+      const temp: any = [];
+      data?.data?.products.forEach((ele, idx) => {
+        const arrEle = [
+          `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+            idx + 1 === 10 ? page * 10 : idx + 1
+          }`,
+          ele?.member?.companyMemberAdditionalInfo?.companyName!,
+          ele?.manufacturer!,
+          ele?.chargerProductFiles[0]?.url!,
+          ele?.kind!,
+          ele?.method!,
+          ele?.channel!,
+          ele?.member?.name!,
+          hyphenFn(ele?.member?.phone!),
+          dateFomat(ele?.createdAt!),
+          ele?.chargerProductIdx!
+        ];
+        temp.push(arrEle);
+      })
+      setDataArr(temp);
+      setColumns([
+        '번호',
+        '업체명',
+        '제조사명',
+        {
+          name: '이미지',
+          formatter: (cell: string) => _(<img src={cell} alt="image" />),
+        },
+        { name: '충전모달', width: '10%' },
+        { name: '충전방식모달', width: '10%' },
+        '체널',
+        '담당자',
+        { name: '담당자연락처', width: '10%' },
+        { name: '등록일', width: '10%' },
+        {
+          name: '',
+          id: 'PP-detail',
+          formatter: (cell: number) =>
+            _(
+              <button
+                className="detail"
+                onClick={() => {
+                  setDetailId(cell);
+                  setIsDetail(true);
+                }}
+              >
+                보기
+              </button>,
+            ),
+        },
+      ])
+      setLength(data.data.totalCount? data.data.totalCount : 0);
+    },
+    onError:(err)=>{
+      console.log(err);
+      alert('다시 시도해주세요')
+    }
+  }
   )
-  const partnerProduct = [
-    '번호',
-    '업체명',
-    '제조사명',
-    {
-      name: '이미지',
-      formatter: (cell: string) => _(<img src={cell} alt="image" />),
-    },
-    { name: '충전모달', width: '10%' },
-    { name: '충전방식모달', width: '10%' },
-    '체널',
-    '담당자',
-    { name: '담당자연락처', width: '10%' },
-    { name: '등록일', width: '10%' },
-    {
-      name: '',
-      id: 'PP-detail',
-      formatter: (cell: number) =>
-        _(
-          <button
-            className="detail"
-            onClick={() => {
-              setDetailId(cell);
-              setIsDetail(true);
-            }}
-          >
-            보기
-          </button>,
-        ),
-    },
-  ];
 
   useEffect(() => {
     refetch();
   }, []);
 
   useEffect(() => {
-
-  }, [page, ]);
+    refetch();
+  }, [page, selected]);
 
   return (
     <StyledBody className="user-table">
@@ -101,7 +134,7 @@ const PPTable = ({
             data={() => {
               //화면의 덜컹거림을 줄이기 위해서 0.1초 기다림( =>setState들로 인한 페이지 전환 다 끝난 후 데이터 삽입).
               return new Promise((resolve) => {
-                setTimeout(() => resolve(dataArr), 130);
+                setTimeout(() => resolve(dataArr), 300);
               });
             }}
             columns={columns}
@@ -166,6 +199,11 @@ const StyledBody = styled.div`
       color: white;
     }
 
+    img{
+      width:100px;
+      height: 100px;
+    }
+
     .detail {
       font-family: 'Spoqa Han Sans Neo';
       font-style: normal;
@@ -221,6 +259,6 @@ const WrapPage = styled.div`
 
 const Div = styled.div`
   min-width: 1200px;
-  height: 490px;
+  min-height: 490px;
 `;
 

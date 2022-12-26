@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { M5_LIST } from "assets/selectList";
 import { CHARGING_METHOD } from "companyAssets/selectList";
+import ChargerDropDownBtn from "componentsAdmin/ChargerDropDownBtn";
 import DropDownBtn from "componentsAdmin/DropDownBtn";
 import AdminHeader from "componentsAdmin/Header";
 import { DarkAdminBtn } from "componentsAdmin/Layout";
@@ -27,8 +28,9 @@ const PartnerProductsList = () => {
 
     return (
         <Body >
-            {isDetail && <ModalPartnerProduct/>}
+            {isDetail && <ModalPartnerProduct setIsDetail={setIsDetail}/>}
             <AdminHeader title="파트너 등록 제품" type="main" />
+            <Wrapper>
             <Search>
                 <li className="search">
                     <label>업체명 검색</label>
@@ -41,18 +43,19 @@ const PartnerProductsList = () => {
                     <label className="ul-label">선택 조회</label>
                     <li>
                         <label>충전모달</label>
-                        <DropDownBtn width="208px" currentStep="충전모달" dropDownValue={M5_LIST} chargeKind={true} setEnChargeKind={setEnChargeKind}/>
+                        <ChargerDropDownBtn width="208px" currentStep="충전모달" dropDownValue={M5_LIST} chargeKind={true} setEnChargeKind={setEnChargeKind}/>
                     </li>
                     <li>
                         <label>충전방식모달</label>
-                        <DropDownBtn width="130px" currentStep="충전방식모달" dropDownValue={CHARGING_METHOD} setChargeMethod={setChargeMethod}/>
+                        <ChargerDropDownBtn width="130px" currentStep="충전방식모달" dropDownValue={CHARGING_METHOD} setChargeMethod={setChargeMethod}/>
                     </li>
                     <li>
-                        <label>채널</label> <DropDownBtn width="70px" currentStep="채널" dropDownValue={['싱글', '듀얼', '3모드']} chargeChannel={true} setEnChargeChannel={setEnChargeChannel}/>
+                        <label>채널</label> <ChargerDropDownBtn width="70px" currentStep="채널" dropDownValue={['싱글', '듀얼', '3모드']} chargeChannel={true} setEnChargeChannel={setEnChargeChannel}/>
                     </li>
                 </Wrap>
             </Search>
-            <DarkAdminBtn onClick={handle}>조회</DarkAdminBtn>
+            <DarkAdminBtn onClick={handle} margin='10px auto'>조회</DarkAdminBtn>
+            </Wrapper>
             <PPTable setIsDetail={setIsDetail} setDetailId={setDetailId} selected={selected} />
         </Body>
     )
@@ -61,20 +64,25 @@ const PartnerProductsList = () => {
 export default PartnerProductsList;
 
 const Body = styled.div`
-    margin:15px;
+    margin: 0 15px;
+    width: 100%;
+    position: relative;
+`
+const Wrapper =styled.div`
+    width: 950px;
+    position: relative;
 `
 
 const Search = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  font-family: 'Spoqa Han Sans Neo';
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+font-family: 'Spoqa Han Sans Neo';
 font-style: normal;
 font-weight: 500;
 font-size: 16px;
 line-height: 150%;
-
 color: #000000;
   label {
     margin-right: 38pt;
