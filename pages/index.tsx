@@ -42,6 +42,7 @@ const Home: NextPage<Props> = ({ userAgent }: Props) => {
   //   }
   // };
 
+  // 앱 -> 웹
   useEffect(() => {
     // 안드로이드 호출 테스트
     if (ANGENT === 'Android_App') {
