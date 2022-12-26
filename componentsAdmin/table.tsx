@@ -17,12 +17,8 @@ import {
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
-import { resolve } from 'path';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
-// 도서관 목데이터 나중에 지우셈...
-import { LIBRARYDATA } from './EntizenLibrary/LIBRARY-MOCK-DATA';
-import LibraryImageTest from 'public/adminImages/libraryTestImage.png';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -611,6 +607,7 @@ const Table = ({
                 ele.title,
                 ele.link,
                 dateFomat(ele.createdAt),
+                ele.libraryIdx,
               ];
               temp.push(eleArr);
             });
@@ -618,26 +615,34 @@ const Table = ({
             setColumns([
               '번호',
               {
-                name: '이미지', width:'10%',
+                name: '이미지',
+                width: '10%',
                 id: 'entizenLibraryImg',
                 formatter: (cell: string) =>
                   _(
                     <LibraryImage>
                       <img
                         src={cell}
-                        alt="arrow"
+                        alt="library"
                         style={{ objectFit: 'contain' }}
                       />
                     </LibraryImage>,
                   ),
               },
               {
-                name: '제목', width:'20%',
+                name: '제목',
+                width: '20%',
                 id: 'entizenLibraryTitle',
-                formatter: (cell: string) => _(<TitleBox><p>{cell}</p></TitleBox>),
+                formatter: (cell: string) =>
+                  _(
+                    <TitleBox>
+                      <p>{cell}</p>
+                    </TitleBox>,
+                  ),
               },
               {
-                name: '링크', width:'20%',
+                name: '링크',
+                width: '20%',
                 id: 'entizenLibraryLink',
                 formatter: (cell: string) => _(<LinkBox>{cell}</LinkBox>),
               },
@@ -652,6 +657,9 @@ const Table = ({
                       onClick={() => {
                         setDetailId(cell);
                         setIsDetail(true);
+                        if (setAfterSalesServiceIdx) {
+                          setAfterSalesServiceIdx(Number(cell));
+                        }
                       }}
                     >
                       보기
@@ -665,6 +673,8 @@ const Table = ({
         onError: () => alert('다시 시도해주세요'),
       },
     );
+
+  console.log('entizenLibrary', entizenLibrary);
 
   useEffect(() => {
     switch (tableType) {
@@ -884,7 +894,7 @@ const LibraryImage = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 `;
 
 const TitleBox = styled.div`
