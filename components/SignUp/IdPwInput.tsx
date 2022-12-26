@@ -174,12 +174,12 @@ const IdPwInput = ({
   };
 
   const overlabCheck = () => {
-      setInitIdAlert(true);
-      refetch();
+    setInitIdAlert(true);
+    refetch();
   };
   // 일반 회원가입 온클릭
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    alert('!!')
+    // alert('!!')
     if (checkSamePw) {
       await userMutate({
         method: 'POST',
@@ -253,14 +253,13 @@ const IdPwInput = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passwords, checkPassword]);
 
-
   // 중복확인 버튼 비활성화
   useEffect(() => {
     if (idInput.length <= 4) {
       setIsChangeColor(false);
-      setIdLength(true) 
-    }else{
-      setIdLength(false) 
+      setIdLength(true);
+    } else {
+      setIdLength(false);
       setIsChangeColor(true);
     }
   }, [initIdAlert, idInput]);
@@ -390,8 +389,8 @@ const IdPwInput = ({
           )}
           {data?.isMember === true && initIdAlert && !idLength && (
             <MessageErrId>이미 사용중인 아이디입니다.</MessageErrId>
-          )} 
-          {data?.isMember === false && initIdAlert&& idLength && (
+          )}
+          {data?.isMember === false && initIdAlert && idLength && (
             <MessageErrId>5글자 이상 입력해주세요</MessageErrId>
           )}
           {/* {data?.isMember === true &&
@@ -441,7 +440,11 @@ const IdPwInput = ({
         )}
       </BoxPW>
       <Btn
-        isClick={data?.isMember === false && checkedPw && checkSamePw && initIdAlert ?true : false}
+        isClick={
+          data?.isMember === false && checkedPw && checkSamePw && initIdAlert
+            ? true
+            : false
+        }
         text={'가입 완료'}
         marginTop={77.25}
         handleClick={userType === 0 ? handleCompanyClick : handleClick}

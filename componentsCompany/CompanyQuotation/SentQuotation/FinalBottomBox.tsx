@@ -183,6 +183,25 @@ const FinalBottomBox = ({ pb, data }: Props) => {
               ))}
             </MultiSection>
             <MultiSection>
+              <Subtitle>충전기 설치 위치</Subtitle>
+              {finalQuotation?.finalQuotationChargers?.map((item, index) => (
+                <MultiBox key={item.finalQuotationChargerIdx}>
+                  <Item>
+                    <span className="name">
+                      {convertKo(M5_LIST, M5_LIST_EN, item?.kind)}
+                    </span>
+                    <span className="value">
+                      {convertKo(
+                        location,
+                        locationEn,
+                        item?.installationLocation,
+                      )}
+                    </span>
+                  </Item>
+                </MultiBox>
+              ))}
+            </MultiSection>
+            <MultiSection>
               <Subtitle>충전기 제조사</Subtitle>
               {finalQuotation?.finalQuotationChargers?.map((item, index) => (
                 <MultiBox key={item.finalQuotationChargerIdx}>

@@ -7,9 +7,6 @@ import LeftProjectBox from 'componentsCompany/Mypage/LeftProjectBox';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import WebFooter from 'componentsWeb/WebFooter';
-import Image from 'next/image';
-import ChatsIcon from 'public/mypage/myProjectChats.png';
-import arrowRGr from 'public/mypage/ChatsArrow.png';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import {
   GET_historyProjectsDetail,

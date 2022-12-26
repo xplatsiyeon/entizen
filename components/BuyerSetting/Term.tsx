@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import MypageHeader from 'components/mypage/request/header';
 import colors from 'styles/colors';
 import Image from 'next/image';
 import React from 'react';

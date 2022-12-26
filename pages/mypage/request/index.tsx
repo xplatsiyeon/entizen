@@ -238,6 +238,7 @@ const Mypage1_3 = ({}: any) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const handleOnClick = () => setModalOpen(!modalOpen);
+  const handleBackOnClick = () => router.push('/mypage');
   const onClickConfirm = (num: number, contents: string) => {
     setModalNumber(num);
     setPartnerModal(true);
@@ -356,7 +357,9 @@ const Mypage1_3 = ({}: any) => {
                 title="내 견적서"
                 cancel="견적 취소"
                 back={true}
+                handle={true}
                 handleOnClick={handleOnClick}
+                handleBackClick={handleBackOnClick}
               />
               {/*--------------------- 상단 박스 ---------------------------------*/}
               <EstimateContainer data={data!} />

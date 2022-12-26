@@ -1,20 +1,16 @@
 import styled from '@emotion/styled';
-import Header from 'components/header';
 import colors from 'styles/colors';
 import Btn from 'components/button';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import { MouseEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useDebounce from 'hooks/useDebounce';
 import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
 import React from 'react';
-import WebFooter from 'componentsWeb/WebFooter';
-import WebHeader from 'componentsWeb/WebHeader';
-import axios from 'axios';
 import { useMutation } from 'react-query';
-import { isTokenPatchApi, isTokenPostApi } from 'api';
+import { isTokenPatchApi } from 'api';
 import { JwtTokenType } from 'pages/signin';
 import jwt_decode from 'jwt-decode';
 interface Key {
@@ -246,6 +242,7 @@ const EditPW = ({ setComponent }: Props) => {
           back={true}
           title={'비밀번호 변경'}
           handleOnClick={setComponent ? () => setComponent(1) : undefined}
+          handleBackClick={setComponent ? () => setComponent(1) : undefined}
         />
       </Wrap>
 

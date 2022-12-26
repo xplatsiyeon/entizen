@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ChooseUserType from './chooseUserType';
 import CompanyDetailInfo from './CompanyDetailInfo';
-import MypageHeader from './header';
+import SignUpHeader from './header';
 import IdPwInput from './IdPwInput';
 import ManagerInfo from './ManagerInfo';
 import TermContent from './TermContent';
@@ -85,7 +85,7 @@ const SignUpContainer = (props: Props) => {
       {/* 일반/기업 선택란 */}
       {level === 0 && (
         <>
-          <MypageHeader
+          <SignUpHeader
             back={true}
             title={''}
             handleBackClick={handleBackClick}
@@ -104,7 +104,7 @@ const SignUpContainer = (props: Props) => {
       {/* 약관 동의 */}
       {level === 1 && userType === 1 && (
         <>
-          <MypageHeader
+          <SignUpHeader
             back={true}
             homeBtn={true}
             title={''}
@@ -134,7 +134,7 @@ const SignUpContainer = (props: Props) => {
       {/* 아이디 / 비밀번호 입력*/}
       {level === 2 && userType === 1 && (
         <>
-          <MypageHeader
+          <SignUpHeader
             back={true}
             homeBtn={true}
             title={''}
@@ -173,7 +173,7 @@ const SignUpContainer = (props: Props) => {
       {/* 약관 동의*/}
       {level === 2 && userType === 0 && (
         <>
-          <MypageHeader
+          <SignUpHeader
             back={true}
             homeBtn={true}
             title={''}
@@ -203,7 +203,7 @@ const SignUpContainer = (props: Props) => {
       {/* 상세 내용*/}
       {level === 1 && userType === 0 && (
         <>
-          <MypageHeader
+          <SignUpHeader
             back={true}
             homeBtn={true}
             title={''}
@@ -232,7 +232,7 @@ const SignUpContainer = (props: Props) => {
       {/* 담당자 정보 */}
       {level === 3 && userType === 0 && (
         <>
-          <MypageHeader
+          <SignUpHeader
             back={true}
             homeBtn={true}
             title={''}
@@ -256,7 +256,7 @@ const SignUpContainer = (props: Props) => {
       {/* 아이디/비밀번호 입력 */}
       {level === 4 && userType === 0 && (
         <>
-          <MypageHeader
+          <SignUpHeader
             back={true}
             homeBtn={true}
             title={''}

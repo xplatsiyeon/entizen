@@ -10,6 +10,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import Loader from 'components/Loader';
 import 'rsuite/dist/rsuite.min.css';
 import { NextPage, NextPageContext } from 'next';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 interface Props {
   userAgent?: string;
@@ -94,13 +95,19 @@ const MyApp = ({ Component, pageProps, userAgent, header }: any) => {
       <ApolloProvider client={client}>
         <QueryClientProvider client={queryClient}>
           <PersistGate persistor={persistor} loading={<div>loading...</div>}>
-            {/* <CustomProvider locale={koKR}> */}
-            <Head>
-              <meta charSet="utf-8" />
-              <title>Next Naver maps</title>
-            </Head>
-            {/* </CustomProvider> */}
-            <Component {...pageProps} />
+            <GoogleOAuthProvider
+              clientId={
+                '648537683223-gn7j135rk9b1scqroj2botm8t746ci9i.apps.googleusercontent.com'
+              }
+            >
+              {/* <CustomProvider locale={koKR}> */}
+              <Head>
+                <meta charSet="utf-8" />
+                <title>Next Naver maps</title>
+              </Head>
+              {/* </CustomProvider> */}
+              <Component {...pageProps} />
+            </GoogleOAuthProvider>
           </PersistGate>
           <ReactQueryDevtools initialIsOpen={true} />
         </QueryClientProvider>

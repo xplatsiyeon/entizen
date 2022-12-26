@@ -1,7 +1,7 @@
 import MypageHeader from 'components/mypage/request/header';
 import LastWrite from 'componentsCompany/CompanyQuotation/LastQuotation';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 type Props = {
   setComponentId?: React.Dispatch<React.SetStateAction<number | undefined>>;

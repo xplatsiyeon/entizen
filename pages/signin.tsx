@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { Box, Container, Typography, TextField, Divider } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -24,8 +24,11 @@ import Link from 'next/link';
 import { selectAction } from 'store/loginTypeSlice';
 import Loader from 'components/Loader';
 import useLogin from 'hooks/useLogin';
-import { ConstructionOutlined } from '@mui/icons-material';
 import CompleteModal from 'components/Modal/CompleteModal';
+import { useGoogleLogin } from '@react-oauth/google';
+import { GoogleSignUpData } from './auth/google';
+import { useMutation } from 'react-query';
+import { isPostApi } from 'api';
 export interface JwtTokenType {
   exp: number;
   iat: number;
@@ -69,6 +72,95 @@ const Signin = () => {
   // 기업로그인 가입 후 첫 로그인
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
+  // 구글 로그인 버튼 온클릭
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse.access_token);
+      // 구글에서 받아온 토큰값으로 유저정보 받아옴.
+      // axios랑 fetch로는 CORS 에러 발생해서 XMLHTTP로 연결.
+      const userInfo: any = await new Promise((resolve) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `https://www.googleapis.com/oauth2/v3/userinfo`);
+        xhr.setRequestHeader(
+          'Authorization',
+          `Bearer ${tokenResponse.access_token}`,
+        );
+        xhr.onload = function () {
+          if (this.status >= 200 && this.status < 300)
+            resolve(JSON.parse(this.responseText));
+          else resolve({ err: '404' });
+        };
+        xhr.send();
+      });
+      // 유저 정보를 잘 받아왔다면, 서버에 POST API를 보내 로그인 or 회원가입 절차 진행
+      if (userInfo) {
+        handleGoogleSignUp(userInfo);
+      } else {
+        setErrorMessage('구글 로그인을 실패하였습니다.\n다시 시도해주세요.');
+        setErrorModal(true);
+      }
+    },
+    onError: () => {
+      console.log('구글 로그인 실패');
+      setErrorMessage('구글 로그인을 실패하였습니다.\n다시 시도해주세요.');
+      setErrorModal(true);
+    },
+    flow: 'implicit',
+  });
+  // 구글 로그인 mutate
+  const { mutate: googleLoginMutate } = useMutation(isPostApi, {
+    onSuccess: (res) => {
+      let resData = res.data;
+      let jsonData = JSON.parse(res.config.data);
+      console.log('onSuccess date check -->>>');
+      console.log(resData);
+
+      dispatch(
+        userAction.add({
+          ...user,
+          uuid: jsonData.uuid,
+          email: jsonData.email,
+          snsType: jsonData.snsType,
+          snsLoginIdx: resData.snsLoginIdx,
+          isMember: resData.isMember,
+        }),
+      );
+      if (resData.isMember === true) {
+        // 로그인
+        console.log('멤버 확인');
+        console.log(resData);
+        const token: JwtTokenType = jwt_decode(resData.accessToken);
+        sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+        sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
+        sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+        sessionStorage.setItem(
+          'ACCESS_TOKEN',
+          JSON.stringify(resData.accessToken),
+        );
+        sessionStorage.setItem(
+          'REFRESH_TOKEN',
+          JSON.stringify(resData.refreshToken),
+        );
+        dispatch(originUserAction.set(jsonData.email));
+        router.push('/');
+      } else {
+        // 회원가입
+        router.push('/signUp/SnsTerms');
+      }
+    },
+    onError: (error: any) => {
+      const { message } = error?.response?.data;
+      if (data.message === '탈퇴된 회원입니다.') {
+        setErrorModal(true);
+        setErrorMessage(
+          '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+        );
+      } else {
+        setErrorModal(true);
+        setErrorMessage(data.message);
+      }
+    },
+  });
   // 로그인 mutate
   const { loginLoading, signin } = useLogin(
     userId,
@@ -78,26 +170,26 @@ const Signin = () => {
     loginTypeEnList[selectedLoginType] as 'USER',
     false,
   );
-
   console.log(
     'userCompleteModal 여기는 signin 초기값 뭐나옴?',
     userCompleteModal,
   );
 
-  // 안내문
-  const handleAlert = () => {
-    alert('현재 개발 중 입니다.');
-  };
   // 기본 로그인
   const originLogin = async () => {
     await signin(password);
   };
-
-  // 엔터키 이벤트
-  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      originLogin();
-    }
+  // 구글 로그인 후 서버로 회원가입 처리
+  const handleGoogleSignUp = async (data: GoogleSignUpData) => {
+    googleLoginMutate({
+      url: '/members/login/sns',
+      data: {
+        uuid: data.sub,
+        snsType: 'GOOGLE',
+        snsResponse: JSON.stringify(data),
+        email: data.email,
+      },
+    });
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
@@ -160,8 +252,14 @@ const Signin = () => {
       console.log(error);
     }
   };
-  // 나이스 인증
-  const fnPopup = (event: any) => {
+  // 네이버 온클릭
+  const handleNaver = async () => {
+    if (naverRef) {
+      naverRef.current.children[0].click();
+    }
+  };
+  // 나이스 인증 온클릭 함수
+  const fnPopup = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log('check');
     console.log(event?.currentTarget.value);
     const { value } = event.currentTarget;
@@ -180,7 +278,7 @@ const Signin = () => {
         'popupChk',
         'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no',
       );
-      let cloneDocument = document as any;
+      let cloneDocument = document;
       cloneDocument.form_chk.action =
         'https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb';
       cloneDocument.form_chk.target = 'popupChk';
@@ -217,6 +315,16 @@ const Signin = () => {
       setErrorModal((prev) => !prev);
     }
   };
+  // 안내문
+  const handleAlert = () => {
+    alert('현재 개발 중 입니다.');
+  };
+  // 엔터키 이벤트
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      originLogin();
+    }
+  };
   // 나이스 인증
   useEffect(() => {
     const memberType = loginTypeEnList[selectedLoginType];
@@ -234,7 +342,6 @@ const Signin = () => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
-
   // 네이버 로그인
   useEffect(() => {
     login(naverLogin, function (naverLogin) {
@@ -266,7 +373,7 @@ const Signin = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  // 유저타입 확인하는 useEffect
   useEffect(() => {
     if (selectedLoginType === 0) {
       dispatch(selectAction.select('USER'));
@@ -276,16 +383,10 @@ const Signin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
 
-  const handleNaver = async () => {
-    if (naverRef) {
-      naverRef.current.children[0].click();
-    }
-  };
-
   if (loginLoading) {
-    return <Loader />;
+    console.log('loading..');
+    // return <Loader />;
   }
-  console.log('signin');
 
   return (
     <React.Fragment>
@@ -504,14 +605,14 @@ const Signin = () => {
                       </Box>
                       <NaverBox>
                         <Box id="naverIdLogin" ref={naverRef}></Box>
-                        {/* <Image onClick={handleNaver} src={naver} alt="naver" /> */}
                         <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
-                      <Box
-                        sx={{ height: '33pt', cursor: 'pointer' }}
-                        onClick={handleAlert}
-                      >
-                        <Image src={google} alt="google" />
+                      <Box sx={{ height: '33pt', cursor: 'pointer' }}>
+                        <Image
+                          src={google}
+                          alt="google"
+                          onClick={() => googleLogin()}
+                        />
                       </Box>
                     </Box>
                     <Box
@@ -588,7 +689,6 @@ const Body = styled.div`
   width: 100%;
   height: 100vh;
   margin: 0 auto;
-  //height: 810pt;
   background: #fcfcfc;
   @media (max-height: 809pt) {
     display: block;
@@ -611,7 +711,6 @@ const Inner = styled.div`
   display: block;
   position: relative;
   width: 345pt;
-  //width: 281.25pt;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;

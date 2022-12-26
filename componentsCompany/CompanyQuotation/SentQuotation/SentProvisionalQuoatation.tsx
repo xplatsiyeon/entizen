@@ -11,7 +11,7 @@ import { isTokenGetApi, isTokenPatchApi } from 'api';
 import FinalBottomBox from './FinalBottomBox';
 import Modal from 'components/Modal/Modal';
 import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import MypageHeader from 'components/SignUp/header';
+import SignUpHeader from 'components/SignUp/header';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import LeftProjectQuotationBox from '../LeftProjectQuotationBox';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -368,7 +368,7 @@ const SentQuoatationFirst = () => {
       />
       <Wrapper>
         {nowWidth < 1200 && (
-          <MypageHeader
+          <SignUpHeader
             back={true}
             title={'보낸 견적'}
             handleBackClick={onClickBackBtn}
@@ -509,15 +509,6 @@ const SentQuoatationFirst = () => {
                   id={data?.sendQuotationRequest?.quotationRequest?.memberIdx}
                 />
               </CommunicationWrapper>
-              // <Button onClick={() => alert('2차 작업 범위입니다')}>
-              //   <div>
-              //     <Image src={CommunicationIcon} alt="right-arrow" />
-              //   </div>
-              //   고객과 소통하기
-              //   <div>
-              //     <Image src={RightArrow} alt="right-arrow" />
-              //   </div>
-              // </Button>
             )}
           </WebColumnContainer>
         </WebRapper>

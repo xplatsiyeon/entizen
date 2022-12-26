@@ -5,7 +5,6 @@ import Calendar from 'components/mypage/request/Calendar';
 import ScheduleIcon from 'public/mypage/schedule-icon.svg';
 import colors from 'styles/colors';
 import Image from 'next/image';
-import { Button } from '@mui/material';
 import Modal from 'components/Modal/Modal';
 import React from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
@@ -124,7 +123,8 @@ const changeDate = () => {
             />
 
             <NoticeP>
-            * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며, 담당자로부터 현장사진을 요청받을 수 있습니다.
+              * 일부 현장의 경우 현장사진으로 현장실사가 대체될 수 있으며,
+              담당자로부터 현장사진을 요청받을 수 있습니다.
             </NoticeP>
 
             <UL className="ex-date">
@@ -246,7 +246,7 @@ const UL = styled.ul`
 
   &.ex-date {
     padding: 24pt 15pt 20pt;
-    border-top: 0.75pt solid #E9EAEE;
+    border-top: 0.75pt solid #e9eaee;
 
     @media (max-width: 899.25pt) {
       padding: 24pt 15pt 0pt;
@@ -379,9 +379,9 @@ const NoticeP = styled.p`
   font-size: 10pt;
   line-height: 18pt;
   letter-spacing: -0.02em;
-  color: #A6A9B0;
+  color: #a6a9b0;
   padding: 33pt 15pt 30pt;
   @media (max-width: 899.25pt) {
-  padding: 18pt 15pt 18pt;
+    padding: 18pt 15pt 18pt;
   }
-`
+`;

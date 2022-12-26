@@ -12,6 +12,7 @@ interface Props {
   cancel?: string;
   exitBtn?: boolean;
   homeBtn?: boolean;
+  handleBackClick?: () => void;
   handleOnClick?: () => void;
   handleHomeClick?: () => void;
   handle?: boolean;
@@ -23,6 +24,7 @@ const MypageHeader = ({
   cancel,
   exitBtn = false,
   homeBtn = false,
+  handleBackClick,
   handleOnClick,
   handleHomeClick,
   handle,
@@ -35,7 +37,8 @@ const MypageHeader = ({
       {back && (
         <div
           className="back-img"
-          onClick={!handle ? () => route.back() : handleOnClick}
+          // onClick={!handle ? () => route.back() : handleOnClick}
+          onClick={!handle ? () => route.back() : handleBackClick}
         >
           <Image src={BackImg} alt="btn-icon" />
         </div>

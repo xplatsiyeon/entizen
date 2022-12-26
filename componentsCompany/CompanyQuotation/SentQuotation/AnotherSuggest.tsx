@@ -1,13 +1,10 @@
 import styled from '@emotion/styled';
-import Calendar from 'components/mypage/request/Calendar';
 import MypageHeader from 'components/mypage/request/header';
 import WebHeader from 'componentsWeb/WebHeader';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import ScheduleIcon from 'public/mypage/schedule-icon.svg';
-import { requestAction } from 'store/requestSlice';
 import colors from 'styles/colors';
 import WebFooter from 'componentsWeb/WebFooter';
 import Modal from 'components/Modal/Modal';
@@ -17,7 +14,6 @@ import { isTokenGetApi, isTokenPostApi } from 'api';
 import Loader from 'components/Loader';
 import { SpotDataResponse } from './SentProvisionalQuoatation';
 import BackImg from 'public/images/back-btn.svg';
-import ExitImg from 'public/images/X.svg';
 
 type Props = {};
 

@@ -243,6 +243,7 @@ const SignUpManagerInfo = ({ setComponent }: Props) => {
           back={true}
           title={''}
           handleOnClick={() => setComponent(1)}
+          handleBackClick={() => setComponent(1)}
         />
       </HeaderWrap>
       <Notice variant="h3">

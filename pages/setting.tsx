@@ -1,19 +1,12 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
-import axios from 'axios';
 import AlarmSetting from 'components/BuyerSetting/AlarmSetting';
 import AlarmWebSetting from 'components/BuyerSetting/AlarmWebSetting';
-import FAQ from 'components/BuyerSetting/FAQ';
-import Faq from 'components/BuyerSetting/FAQ';
 import QuestionInPerson from 'components/BuyerSetting/QuestionInPerson';
 import QuestionInPersonWeb from 'components/BuyerSetting/QuestionInPersonWeb';
 import SettingMain from 'components/BuyerSetting/SettingMain';
 import Term from 'components/BuyerSetting/Term';
 import LeftProfileBox from 'components/guide/LeftProfileBox';
-import PasswordModal from 'components/Modal/PasswordModal';
-import RequestModal from 'components/Modal/RequestModal';
-import TwoBtnModal from 'components/Modal/TwoBtnModal';
-import MypageHeader from 'components/mypage/request/header';
 import UserRightMenu from 'components/UserRightMenu';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
@@ -21,10 +14,6 @@ import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
-import colors from 'styles/colors';
-import { kakaoInit } from 'utils/kakao';
 
 interface Components {
   [key: number]: JSX.Element;
@@ -245,7 +234,6 @@ const SettingTitle = styled.div`
 `;
 
 const BoxAlign = styled.div`
-
   @media (min-width: 900pt) {
     display: flex;
     justify-content: space-between;

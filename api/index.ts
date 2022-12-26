@@ -68,7 +68,22 @@ export const isTokenGetApi = async (url: string) => {
     withCredentials: true,
   }).then((res) => res.data);
 };
-// -----------------------------post-api--------------------------------------
+// -----------------------------post-api (token X)--------------------------------------
+// API 호출 (토큰 O)
+// export const isTokenPostApi = async (url: string, data: any) => {
+export const isPostApi = async (apiInfo: PropsApi): Promise<any> => {
+  const { url, data } = apiInfo;
+  return await axios({
+    method: 'POST',
+    url: `${BASE_URL}${url}`,
+    data,
+    headers: {
+      ContentType: 'application/json',
+    },
+    withCredentials: true,
+  }).then((res) => res);
+};
+// -----------------------------post-api (token O)--------------------------------------
 // API 호출 (토큰 O)
 // export const isTokenPostApi = async (url: string, data: any) => {
 export const isTokenPostApi = async (apiInfo: PropsApi): Promise<any> => {

@@ -1,6 +1,5 @@
-import MypageHeader from 'components/mypage/request/header';
 import SentProvisionalQuoatation from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 type Props = {};
 

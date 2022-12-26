@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import MypageHeader from 'components/mypage/request/header';
 import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import BackImg from 'public/images/back-btn.svg';
