@@ -21,6 +21,8 @@ type Props = {
   setNumber: React.Dispatch<React.SetStateAction<number>>;
 };
 const openList = [
+  '관리자 관리',
+  '메인대시보드',
   '회원관리',
   '역경매 관리',
   '프로젝트',
@@ -29,6 +31,8 @@ const openList = [
   '엔티즌 도서관',
 ];
 const closeList = [
+  ['관리자 등록', '관리자 리스트 조회'],
+  ['프로젝트 현황', '통계'],
   ['일반회원', '기업회원'],
   ['역경매관리 리스트'],
   ['프로젝트 리스트'],
@@ -48,33 +52,41 @@ const Workspace = ({ setNumber }: Props) => {
   };
   const handleRouter = (name: string) => {
     switch (name) {
-      case '일반회원':
+      case '관리자 등록':
         setNumber(1);
         break;
-      case '기업회원':
+      case '관리자 리스트 조회':
         setNumber(2);
         break;
-      case '역경매관리 리스트':
+      case '프로젝트 현황':
         setNumber(3);
         break;
-      case '프로젝트 리스트':
+      case '통계':
         setNumber(4);
         break;
-
-      case 'AS 상세':
+      case '일반회원':
         setNumber(5);
         break;
-
-      case '소통하기 리스트':
+      case '기업회원':
         setNumber(6);
         break;
-
-      case '1대1 문의':
+      case '역경매관리 리스트':
         setNumber(7);
         break;
-
-      case '리스트 조회':
+      case '프로젝트 리스트':
         setNumber(8);
+        break;
+      case 'AS 상세':
+        setNumber(9);
+        break;
+      case '소통하기 리스트':
+        setNumber(10);
+        break;
+      case '1대1 문의':
+        setNumber(11);
+        break;
+      case '리스트 조회':
+        setNumber(12);
         break;
 
       default:

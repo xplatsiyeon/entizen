@@ -16,3 +16,7 @@ export const AdminBtn = styled.button`
   outline: none;
   text-align: center;
 `;
+
+export const DetailWrapper = styled.div`
+  position: absolute;
+`;
