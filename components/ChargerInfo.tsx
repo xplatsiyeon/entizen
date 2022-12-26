@@ -424,6 +424,8 @@ const QuotationBtn = styled.div`
 `;
 
 const Wrapper = styled.div`
+overscroll-behavior: contain;
+
   border:1px solid green;
   position: absolute;
   background-color: white;
