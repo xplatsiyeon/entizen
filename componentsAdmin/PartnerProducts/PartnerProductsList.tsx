@@ -4,13 +4,26 @@ import { CHARGING_METHOD } from "companyAssets/selectList";
 import DropDownBtn from "componentsAdmin/DropDownBtn";
 import AdminHeader from "componentsAdmin/Header";
 import { DarkAdminBtn } from "componentsAdmin/Layout";
-import { useState } from "react";
+import PPTable from "componentsAdmin/PPtable";
+import { on } from "events";
+import { useRef, useState } from "react";
 import colors from "styles/colors";
 import ModalPartnerProduct from "./ModalPartnerProduct";
 
 const PartnerProductsList = () => {
 
     const [isDetail, setIsDetail] = useState(false);
+    const [detatilId, setDetailId] = useState<number>(0);
+    const [EnchargeKind, setEnChargeKind] = useState<string>('');
+    const [chargeMethod, setChargeMethod] = useState<string>('');
+    const [EnchargeChannel, setEnChargeChannel] = useState<string>('');
+
+    const [selected, setSelected] = useState<string[]>(['','','']); 
+
+    const handle=()=>{
+        setSelected([EnchargeKind,chargeMethod,EnchargeChannel])
+    }
+
 
     return (
         <Body >
@@ -23,28 +36,24 @@ const PartnerProductsList = () => {
                         type="text"
                         placeholder="검색"
                     />
-                    <Btn>
-                        <Text>
-                            조회
-                        </Text>
-                    </Btn>
                 </li>
                 <Wrap>
                     <label className="ul-label">선택 조회</label>
                     <li>
                         <label>충전모달</label>
-                        <DropDownBtn width="208px" currentStep="충전모달" dropDownValue={M5_LIST} />
+                        <DropDownBtn width="208px" currentStep="충전모달" dropDownValue={M5_LIST} chargeKind={true} setEnChargeKind={setEnChargeKind}/>
                     </li>
                     <li>
                         <label>충전방식모달</label>
-                        <DropDownBtn width="130px" currentStep="충전방식모달" dropDownValue={CHARGING_METHOD} />
+                        <DropDownBtn width="130px" currentStep="충전방식모달" dropDownValue={CHARGING_METHOD} setChargeMethod={setChargeMethod}/>
                     </li>
                     <li>
-                        <label>채널</label> <DropDownBtn width="70px" currentStep="채널" dropDownValue={['싱글', '듀얼', '3모드']} />
+                        <label>채널</label> <DropDownBtn width="70px" currentStep="채널" dropDownValue={['싱글', '듀얼', '3모드']} chargeChannel={true} setEnChargeChannel={setEnChargeChannel}/>
                     </li>
                 </Wrap>
             </Search>
-            <DarkAdminBtn onClick={()=>setIsDetail(!isDetail)}>조회</DarkAdminBtn>
+            <DarkAdminBtn onClick={handle}>조회</DarkAdminBtn>
+            <PPTable setIsDetail={setIsDetail} setDetailId={setDetailId} selected={selected} />
         </Body>
     )
 }

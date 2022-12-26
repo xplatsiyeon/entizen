@@ -182,3 +182,36 @@ export interface EntizenLibraryResponse {
     link: string;
   }[];
 }
+
+export type PartnerProductData = {
+  isSuccess: boolean;
+  data: {
+    totalCount: number;
+    products:PartnerProducts[];
+  };
+};
+
+export type PartnerProducts =
+{
+    chargerProductIdx: number,
+    manufacturer: string,
+    kind: string,
+    method: string[],
+    channel: string,
+    createdAt: string,
+    member: {
+        memberIdx: number,
+        name: string,
+        phone: string,
+        companyMemberAdditionalInfo: {
+            companyMemberAdditionalInfoIdx: number,
+            companyName: string
+        }
+    },
+    chargerProductFiles: [
+        {
+            chargerProductFileIdx: number,
+            url:string
+        }
+    ]
+}
