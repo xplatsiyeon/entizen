@@ -21,15 +21,18 @@ const index = (props: Props) => {
   return (
     <Background>
       <Workspace setNumber={setNumber} />
-      {number === 1 && <UserManagement />}
-      {number === 2 && <CompanyManagement />}
-      {number === 3 && <ReverseAuctionList />}
-      {number === 4 && <ProjectList />}
-      {number === 5 && <ASDetail />}
-      {number === 6 && <CommunicationList />}
-      {number === 7 && <OneOnOneQuestion />}
-      {number === 8 && <EntizenLibrary />}
-      {number === 9 && <PartnerProductsList />}
+      {number === 1 && <div>관리자 등록</div>}
+      {number === 2 && <div>관리자 리스트 조회</div>}
+      {number === 3 && <div>프로젝트 현황</div>}
+      {number === 4 && <div>통계</div>}
+      {number === 5 && <UserManagement />}
+      {number === 6 && <CompanyManagement />}
+      {number === 7 && <ReverseAuctionList />}
+      {number === 8 && <ProjectList />}
+      {number === 9 && <ASDetail />}
+      {number === 10 && <CommunicationList />}
+      {number === 11 && <OneOnOneQuestion />}
+      {number === 12 && <EntizenLibrary />}
     </Background>
   );
 };
