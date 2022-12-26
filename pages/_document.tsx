@@ -10,6 +10,9 @@ import Script from 'next/script';
 
 declare global {
   interface Window {
+    entizen?: any;
+    webkit?: any;
+    test?: () => void;
     testEntizen: {
       test?: () => void;
       testtest?: () => void;

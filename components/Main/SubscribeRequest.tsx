@@ -19,9 +19,9 @@ const SubscribeRequest = ({ borders }: Props) => {
   const handleLink = () => {
     // 브릿지 연결 테스트 중
     if (userAgent === 'Android_App') {
-      (window as any).entizen!.test('Hello Native Callback --> ' + userAgent);
+      window.entizen!.test('Hello Native Callback --> ' + userAgent);
     } else if (userAgent === 'iOS_App') {
-      (window as any).webkit.messageHandlers.test.postMessage(
+      window.webkit.messageHandlers.test.postMessage(
         'Hello Native Callback --> ' + userAgent,
       );
     }
