@@ -32,7 +32,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
   // 도서관 상세 api
 
   const { data, isLoading, isError } = useQuery<LibraryResponse>(
-    'entizenLibrary',
+    'entizenLibraryDetail',
     () => isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
   );
 

@@ -596,6 +596,8 @@ const Table = ({
       {
         enabled: false,
         onSuccess: (entizenLibrary) => {
+
+          console.log(entizenLibrary)
           if (tableType === 'entizenLibrary') {
             const temp: any = [];
             entizenLibrary?.data?.forEach((ele, idx) => {
