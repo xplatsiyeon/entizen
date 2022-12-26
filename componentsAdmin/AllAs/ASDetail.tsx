@@ -61,6 +61,9 @@ const ASDetail = () => {
     }
   };
 
+  // 엑셀 다운로드
+  const handleCommon = () => {};
+
   return (
     <Wrapper>
       {isDetail && (
@@ -114,6 +117,8 @@ const ASDetail = () => {
         tableType={'asData'}
         pickedDate={pickedDate}
         setAfterSalesServiceIdx={setAfterSalesServiceIdx}
+        commonBtn={'엑셀 다운로드'}
+        handleCommon={handleCommon}
       />
     </Wrapper>
   );
