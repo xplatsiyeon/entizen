@@ -1,39 +1,72 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import adminDropnDown from 'public/adminImages/adminDropdown.svg';
 import adminDropnDownUp from 'public/adminImages/adminDropdownUp.svg';
+import { M5_LIST_EN } from 'assets/selectList';
 
 type Props = {
   dropDownValue: string[];
   currentStep: string;
   width? : string;
-  
+
+  //충전모달 셀렉트, 채널 셀렉트 전용 props.
+  chargeKind?: boolean;
+  chargeChannel?: boolean;
+  setEnChargeKind?: Dispatch<SetStateAction<string>>;
+  setEnChargeChannel?: Dispatch<SetStateAction<string>>;
+  setChargeMethod?:Dispatch<SetStateAction<string>>;
 };
 
-const DropDownBtn = ({ dropDownValue, currentStep, width }: Props) => {
+const ChargerDropDownBtn = ({ dropDownValue, currentStep, width, chargeKind, chargeChannel, setEnChargeChannel, setEnChargeKind, setChargeMethod }: Props) => {
   // props로 받아야 하는거 최초 초기 단계 => currentStep
   // 드랍 다운에 들어가는 option 값 => dropDownValue
 
   //드랍다운 열리고 닫히고
   const [dropDown, setDropDown] = useState<boolean>(false);
   const [selectValue, setSelectValue] = useState<string>('');
+
   return (
     <DropDownWrapper width={width}>
       {dropDown && (
         <DropDownBox width={width}>
-          {dropDownValue.map((item, idx) => (
+          {['전체', ...dropDownValue].map((item, idx) => {
+            const enChannel = ['SINGLE','DUAL','3_MODE']
+            return(
             <DropDownText
               key={idx}
               onClick={() => {
                 setSelectValue(item);
-                setDropDown(false);
+                if(item==='전체'){
+                  if(chargeChannel&&setEnChargeChannel){
+                    setEnChargeChannel('')
+                  }
+                  if(chargeKind&&setEnChargeKind){
+                    setEnChargeKind('')
+                  }
+                  if(setChargeMethod){
+                    setChargeMethod('')
+                  }
+                }else{
+                if(chargeChannel&&setEnChargeChannel){
+                  setEnChargeChannel(enChannel[idx])
+                }
+                if(chargeKind&&setEnChargeKind){
+                  setEnChargeKind(M5_LIST_EN[idx])
+                }
+                if(setChargeMethod){
+                  setChargeMethod(item)
+                }
+              }
+              setDropDown(false);
               }}
             >
               {item}
             </DropDownText>
-          ))}
+            )
+          }
+          )}
         </DropDownBox>
       )}
 
@@ -64,7 +97,7 @@ const DropDownBtn = ({ dropDownValue, currentStep, width }: Props) => {
   );
 };
 
-export default DropDownBtn;
+export default ChargerDropDownBtn;
 
 const DropDownWrapper = styled.div<{width?:string}>`
   width: ${({width}) => (width? width :'85px')};
