@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useRef } from 'react';
+import React, { useLayoutEffect, useState, useRef, useEffect } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import Image from 'next/image';
@@ -38,17 +38,18 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [imgName, setImgName] = useState('');
   const [imgUrl, setImgUrl] = useState('');
-  const [title, setTitle] = useState<string>('');
-  const [link, setLink] = useState<string>('');
-
   const [checkAll, setCheckAll] = useState<boolean>(false);
-  // 도서관 상세 api
-  const {
-    data: library,
-    isLoading: libraryIsLoading,
-    isError: libraryIsError,
-  } = useQuery<LibraryResponse>('entizenLibrary', () =>
-    isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
+
+  const { data, isLoading, isError } = useQuery<LibraryResponse>(
+    'entizenLibraryDetail',
+    () => isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
+  );
+
+  const [title, setTitle] = useState<string | undefined>(
+    data?.data?.library?.title,
+  );
+  const [link, setLink] = useState<string | undefined>(
+    data?.data?.library?.link,
   );
 
   // file s3 multer 저장 API (with useMutation)
@@ -128,7 +129,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     {
       onSuccess: () => {
         setIsModal(true);
-        setErrorMessage('수정하시겠습니까?');
+        setErrorMessage('수정이 완료됐습니다!');
       },
       onError: (error: any) => {
         setIsModal(true);
@@ -140,20 +141,26 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
 
   // 도서관 수정하기 버튼
   const onClickModifiedBtn = () => {
-    if (checkAll) {
-      modifiedMutate({
-        url: `/admin/libraries/${afterSalesServiceIdx}`,
-        data: {
-          title: title,
-          link: link,
-          libraryIdx: afterSalesServiceIdx,
-          imageUrl: review,
-        },
-      });
-    }
+    modifiedMutate({
+      url: `/admin/libraries/${afterSalesServiceIdx}`,
+      data: {
+        title: title,
+        link: link,
+        libraryIdx: afterSalesServiceIdx,
+        imageUrl: review,
+      },
+    });
   };
 
-  console.log('imgName 머나옴???', imgName);
+  // 제목
+  const handleTitleArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTitle(() => e.target.value);
+  };
+
+  // 링크
+  const handleLinkArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLink(() => e.target.value);
+  };
 
   return (
     <Modal>
@@ -179,11 +186,9 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
               {imgName !== '' ? (
                 <ImageTitleBox>{imgName}</ImageTitleBox>
               ) : (
-                <ImageTitleBox>
-                  {library?.data?.library?.imageUrl}
-                </ImageTitleBox>
+                <ImageTitleBox>{data?.data?.library?.imageUrl}</ImageTitleBox>
               )}
-              {imgName === '' && library === undefined && (
+              {imgName === '' && data === undefined && (
                 <ImageTitleBox>이미지 첨부</ImageTitleBox>
               )}
               <DeleteTitle>삭제</DeleteTitle>
@@ -203,7 +208,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
         </FlexWrap>
         <Preview>
           <img
-            src={imgUrl !== '' ? imgUrl : library?.data?.library?.imageUrl}
+            src={imgUrl !== '' ? imgUrl : data?.data?.library?.imageUrl}
             style={{ objectFit: 'cover', width: '82px', height: '82px' }}
           />
           <Xbox onClick={handlePhotoDelete}>
@@ -218,16 +223,26 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
         </Preview>
         <FlexHorizontal>
           <SubTitle>제목</SubTitle>
-          <Input value={library?.data?.library?.title} />
+          <Input
+            value={title}
+            placeholder="제목을 써주세요."
+            onChange={handleTitleArea}
+            required
+          />
         </FlexHorizontal>
         <FlexHorizontal>
           <SubTitle>링크</SubTitle>
-          <Input value={library?.data?.library?.link} />
+          <Input
+            value={link}
+            placeholder="링크를 넣어주세요."
+            onChange={handleLinkArea}
+            required
+          />
         </FlexHorizontal>
         <FlexWrap>
           <div />
           <BtnBox>
-            {library !== undefined && (
+            {data !== undefined && (
               <AdminBtn
                 style={{
                   background: '#747780',
@@ -238,12 +253,15 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
                 삭제
               </AdminBtn>
             )}
-            {library !== undefined ? (
+            {data !== undefined ? (
               <AdminBtn
                 style={{
                   background: '#747780',
                   border: '1px solid #464646',
                   color: '#ffffff',
+                }}
+                onClick={() => {
+                  onClickModifiedBtn;
                 }}
               >
                 수정

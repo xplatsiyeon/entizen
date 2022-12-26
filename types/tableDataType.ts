@@ -172,7 +172,7 @@ export interface UserChattingListResponse {
   };
 }
 
-export interface EntixenLibraryResponse {
+export interface EntizenLibraryResponse {
   isSuccess: true;
   data: {
     createdAt: string;
