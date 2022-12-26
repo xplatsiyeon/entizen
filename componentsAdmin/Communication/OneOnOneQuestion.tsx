@@ -55,6 +55,8 @@ const OneOnOneQuestion = () => {
     }
   };
 
+  const handleCommon = () => {};
+
   return (
     <Wrapper>
       <TitleWrapper>
@@ -127,10 +129,11 @@ const OneOnOneQuestion = () => {
         setDetailId={setDetailId}
         tableType={''}
         userSearch={userSearch}
+        commonBtn={'엑셀 다운로드'}
+        handleCommon={handleCommon}
       />
 
-      {inputValue && <OOQDetail/>}
-
+      {inputValue && <OOQDetail />}
     </Wrapper>
   );
 };
