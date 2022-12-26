@@ -683,39 +683,6 @@ const Table = ({
       },
     );
 
-  //파트너 등록 제품
-  const partnerProduct = [
-    '번호',
-    '업체명',
-    '제조사명',
-    {
-      name: '이미지',
-      formatter: (cell: string) => _(<img src={cell} alt="image" />),
-    },
-    { name: '충전모달', width: '10%' },
-    { name: '충전방식모달', width: '10%' },
-    '체널',
-    '담당자',
-    { name: '담당자연락처', width: '10%' },
-    { name: '등록일', width: '10%' },
-    {
-      name: '',
-      id: 'PP-detail',
-      formatter: (cell: string) =>
-        _(
-          <button
-            className="detail"
-            onClick={() => {
-              setDetailId(cell);
-              setIsDetail(true);
-            }}
-          >
-            보기
-          </button>,
-        ),
-    },
-  ];
-
   useEffect(() => {
     switch (tableType) {
       case 'userData':
