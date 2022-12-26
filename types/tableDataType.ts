@@ -172,8 +172,7 @@ export interface UserChattingListResponse {
   };
 }
 
-// 엔티즌 도서관 mock-data 타입 나중에 지우셈
-export interface EntixenLibraryResponse {
+export interface EntizenLibraryResponse {
   isSuccess: true;
   data: {
     createdAt: string;

@@ -5,7 +5,8 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
-import { DateRangePicker } from 'rsuite';
+import { DateRangePicker, Modal } from 'rsuite';
+import ModalLibrary from './ModalLibrary';
 
 type Props = {};
 
@@ -21,6 +22,8 @@ const EntizenLibrary = () => {
 
   // id 값 넘겨 오셈
   const [afterSalesServiceIdx, setAfterSalesServiceIdx] = useState<number>(0);
+
+  console.log('afterSalesServiceIdx', afterSalesServiceIdx);
 
   const dateRef = useRef<HTMLLIElement>(null);
 
@@ -55,6 +58,12 @@ const EntizenLibrary = () => {
   };
   return (
     <Wrapper>
+      {isDetail && (
+        <ModalLibrary
+          afterSalesServiceIdx={afterSalesServiceIdx}
+          setIsDetail={setIsDetail}
+        />
+      )}
       <AdminHeader title="엔티즌 도서관" type="main" />
       <Search>
         <li className="search">

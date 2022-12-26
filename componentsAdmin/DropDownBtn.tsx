@@ -8,9 +8,10 @@ import adminDropnDownUp from 'public/adminImages/adminDropdownUp.svg';
 type Props = {
   dropDownValue: string[];
   currentStep: string;
+  width? : string;
 };
 
-const DropDownBtn = ({ dropDownValue, currentStep }: Props) => {
+const DropDownBtn = ({ dropDownValue, currentStep, width }: Props) => {
   // props로 받아야 하는거 최초 초기 단계 => currentStep
   // 드랍 다운에 들어가는 option 값 => dropDownValue
 
@@ -18,9 +19,9 @@ const DropDownBtn = ({ dropDownValue, currentStep }: Props) => {
   const [dropDown, setDropDown] = useState<boolean>(false);
   const [selectValue, setSelectValue] = useState<string>('');
   return (
-    <DropDownWrapper>
+    <DropDownWrapper width={width}>
       {dropDown && (
-        <DropDownBox>
+        <DropDownBox width={width}>
           {dropDownValue.map((item, idx) => (
             <DropDownText
               key={idx}
@@ -64,11 +65,14 @@ const DropDownBtn = ({ dropDownValue, currentStep }: Props) => {
 
 export default DropDownBtn;
 
-const DropDownWrapper = styled.div`
-  width: 85px;
+const DropDownWrapper = styled.div<{width?:string}>`
+  width: ${({width}) => (width? width :'85px')};
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  padding:1px 3px;
+  border: 1px solid ${colors.lightWhite3};
 `;
 
 const MainText = styled.div`
@@ -80,9 +84,9 @@ const MainText = styled.div`
   text-align: left;
 `;
 
-const DropDownBox = styled.div`
+const DropDownBox = styled.div<{width?:string}>`
   padding: 7px 12px;
-  width: 90px;
+  width:  ${({width}) => (width? '100%' :'90px')};
   position: absolute;
   z-index: 100;
   background-color: #ffffff;
@@ -91,7 +95,7 @@ const DropDownBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  top: 57.5%;
+  top: 100%;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
 `;
 

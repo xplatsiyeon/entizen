@@ -12,17 +12,13 @@ import {
   CompanyPreQuotationResponse,
   ASListResponse,
   UserChattingListResponse,
-  EntixenLibraryResponse,
+  EntizenLibraryResponse,
 } from 'types/tableDataType';
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
-import { resolve } from 'path';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
-// 도서관 목데이터 나중에 지우셈...
-import { LIBRARYDATA } from './EntizenLibrary/LIBRARY-MOCK-DATA';
-import LibraryImageTest from 'public/adminImages/libraryTestImage.png';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -77,9 +73,11 @@ const Table = ({
     () =>
       api({
         method: 'GET',
-        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
-          }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${changeSearchType[selectedFilter!]
-          }&searchKeyword=${userSearch}`,
+        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${
+          pickedDate ? pickedDate[0] : '2022-09-05'
+        }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
+          changeSearchType[selectedFilter!]
+        }&searchKeyword=${userSearch}`,
       }),
     {
       enabled: false,
@@ -89,7 +87,8 @@ const Table = ({
           const temp: any = [];
           userData?.data?.members.forEach((ele, idx) => {
             const arrEle = [
-              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                idx + 1 === 10 ? page * 10 : idx + 1
               }`,
               ele.id,
               ele.name,
@@ -142,9 +141,11 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/members/companies?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
-            }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${changeSearchType[selectedFilter!]
-            }&searchKeyword=${userSearch}`,
+          endpoint: `/admin/members/companies?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
+            changeSearchType[selectedFilter!]
+          }&searchKeyword=${userSearch}`,
         }),
       {
         enabled: false,
@@ -154,7 +155,8 @@ const Table = ({
             const temp: any = [];
             comUserData?.data?.members.forEach((ele, idx) => {
               const arrEle = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele?.companyMemberAdditionalInfo?.companyName!,
                 ele.id,
@@ -240,7 +242,8 @@ const Table = ({
             const temp: any = [];
             companyPreQuotation?.data?.preQuotations?.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 ? '' : page - 1}${idx + 1 === page * 10 ? 0 : idx + 1
+                `${page - 1 === 0 ? '' : page - 1}${
+                  idx + 1 === page * 10 ? 0 : idx + 1
                 }`,
 
                 ele.member.companyMemberAdditionalInfo.companyName!,
@@ -249,12 +252,13 @@ const Table = ({
                 hyphenFn(ele.member.phone),
                 ele.member.companyMemberAdditionalInfo.managerEmail!,
                 dateFomat(ele.createdAt),
-                `${ele.finalQuotation?.project?.isCompletedContractStep !==
-                  null &&
+                `${
+                  ele.finalQuotation?.project?.isCompletedContractStep !==
+                    null &&
                   ele.finalQuotation?.project?.isCompletedContractStep ===
-                  'COMPLETION'
-                  ? '계약완료'
-                  : '-'
+                    'COMPLETION'
+                    ? '계약완료'
+                    : '-'
                 }`,
                 ele?.preQuotationIdx,
               ];
@@ -307,8 +311,9 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
-            }&endDate=${pickedDate ? pickedDate[1] : today}`,
+          endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
       {
         enabled: false,
@@ -317,7 +322,8 @@ const Table = ({
             const temp: any = [];
             quetationListData?.data.quotationRequests.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele.badge!,
                 ele?.member?.id!,
@@ -368,8 +374,9 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
-            }&endDate=${pickedDate ? pickedDate[1] : today}`,
+          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
       {
         enabled: false,
@@ -378,7 +385,8 @@ const Table = ({
             const temp: any = [];
             projectListData?.data?.projects.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele.projectNumber!,
                 ele.userMember.id!,
@@ -435,8 +443,9 @@ const Table = ({
     () =>
       api({
         method: 'GET',
-        endpoint: `/admin/after-sales-services?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-10-01'
-          }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
+        endpoint: `/admin/after-sales-services?page=${page}&limit=10&startDate=${
+          pickedDate ? pickedDate[0] : '2022-10-01'
+        }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
       }),
     {
       enabled: false,
@@ -445,7 +454,8 @@ const Table = ({
           const temp: any = [];
           asData?.data?.afterSalesServices?.forEach((ele, idx) => {
             const eleArr = [
-              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                idx + 1 === 10 ? page * 10 : idx + 1
               }`,
               ele.currentStep,
               ele.project.projectNumber!,
@@ -500,8 +510,9 @@ const Table = ({
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/chatting/members?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-10-01'
-            }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
+          endpoint: `/admin/chatting/members?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-10-01'
+          }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
         }),
       {
         enabled: false,
@@ -510,7 +521,8 @@ const Table = ({
             const temp: any = [];
             userChatting?.data?.chattingRooms?.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele.userMember.id,
                 ele.companyMember.id,
@@ -572,27 +584,31 @@ const Table = ({
   // /admin/libraries?page=1&limit=10&startDate=2022-12-01&endDate=2022-12-31&searchKeyword=
 
   const { data: entizenLibrary, refetch: entizenLibraryRefetch } =
-    useQuery<EntixenLibraryResponse>(
+    useQuery<EntizenLibraryResponse>(
       'entizenLibrary',
       () =>
         api({
           method: 'GET',
-          endpoint: `/admin/libraries?page=${page}&limit=10&startDate=${pickedDate ? pickedDate[0] : '2022-09-05'
-            }&endDate=${pickedDate ? pickedDate[1] : today}`,
+          endpoint: `/admin/libraries?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${pickedDate ? pickedDate[1] : today}`,
         }),
       {
         enabled: false,
         onSuccess: (entizenLibrary) => {
+          console.log(entizenLibrary);
           if (tableType === 'entizenLibrary') {
             const temp: any = [];
             entizenLibrary?.data?.forEach((ele, idx) => {
               const eleArr = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${idx + 1 === 10 ? page * 10 : idx + 1
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
                 ele.imageUrl,
                 ele.title,
                 ele.link,
                 dateFomat(ele.createdAt),
+                ele.libraryIdx,
               ];
               temp.push(eleArr);
             });
@@ -600,26 +616,34 @@ const Table = ({
             setColumns([
               '번호',
               {
-                name: '이미지', width: '10%',
+                name: '이미지',
+                width: '10%',
                 id: 'entizenLibraryImg',
                 formatter: (cell: string) =>
                   _(
                     <LibraryImage>
                       <img
                         src={cell}
-                        alt="arrow"
+                        alt="library"
                         style={{ objectFit: 'contain' }}
                       />
                     </LibraryImage>,
                   ),
               },
               {
-                name: '제목', width: '20%',
+                name: '제목',
+                width: '20%',
                 id: 'entizenLibraryTitle',
-                formatter: (cell: string) => _(<TitleBox><p>{cell}</p></TitleBox>),
+                formatter: (cell: string) =>
+                  _(
+                    <TitleBox>
+                      <p>{cell}</p>
+                    </TitleBox>,
+                  ),
               },
               {
-                name: '링크', width: '20%',
+                name: '링크',
+                width: '20%',
                 id: 'entizenLibraryLink',
                 formatter: (cell: string) => _(<LinkBox>{cell}</LinkBox>),
               },
@@ -634,6 +658,9 @@ const Table = ({
                       onClick={() => {
                         setDetailId(cell);
                         setIsDetail(true);
+                        if (setAfterSalesServiceIdx) {
+                          setAfterSalesServiceIdx(Number(cell));
+                        }
                       }}
                     >
                       보기
@@ -654,8 +681,8 @@ const Table = ({
     '업체명',
     '제조사명',
     {
-      name: '이미지', formatter: (cell: string) =>
-        _(<img src={cell} alt='image' />)
+      name: '이미지',
+      formatter: (cell: string) => _(<img src={cell} alt="image" />),
     },
     { name: '충전모달', width: '10%' },
     { name: '충전방식모달', width: '10%' },
@@ -664,7 +691,9 @@ const Table = ({
     { name: '담당자연락처', width: '10%' },
     { name: '등록일', width: '10%' },
     {
-      name: '', id: 'PP-detail', formatter: (cell: string) =>
+      name: '',
+      id: 'PP-detail',
+      formatter: (cell: string) =>
         _(
           <button
             className="detail"
@@ -675,10 +704,9 @@ const Table = ({
           >
             보기
           </button>,
-        )
+        ),
     },
-  ]
-
+  ];
 
   useEffect(() => {
     switch (tableType) {
@@ -898,7 +926,7 @@ const LibraryImage = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 `;
 
 const TitleBox = styled.div`
@@ -922,7 +950,6 @@ const LinkBox = styled.div`
   height: 82px;
   overflow-y: scroll;
   text-align: center;
-
 
   display: flex;
   align-items: center;
