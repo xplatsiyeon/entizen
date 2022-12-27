@@ -23,6 +23,7 @@ import {
 } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
 import AlertModal from 'componentsAdmin/AlertModal';
+
 type Props = {
   afterSalesServiceIdx: number;
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;

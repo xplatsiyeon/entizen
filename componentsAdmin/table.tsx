@@ -18,10 +18,13 @@ import {
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
+import {
+  dropDownValueEn,
+  dropDownValue,
+} from '../componentsAdmin/Adminterms/AdminTermsEditor';
+
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
-// 약관 가데이터
-import { TERMS } from 'componentsAdmin/Adminterms/TERMSMOCK';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -720,64 +723,62 @@ const Table = ({
   ];
 
   // 약관 리스트
-  // const { data: termsList, refetch: termsListRefetch } =
-  //   useQuery<AdminTermsListResponse>(
-  //     'termsList',
-  //     () =>
-  //       // api({
-  //       //   method: 'GET',
-  //       //   endpoint: `/admin/chatting/members?page=${page}&limit=10&startDate=${
-  //       //     pickedDate ? pickedDate[0] : '2022-10-01'
-  //       //   }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
-  //       // }),
-
-  //       TERMS,
-  //     {
-  //       enabled: false,
-  //       onSuccess: (termsList) => {
-  //         if (tableType === 'termsList') {
-  //           const temp: any = [];
-  //           termsList?.data?.forEach((ele, idx) => {
-  //             const eleArr = [
-  //               `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-  //                 idx + 1 === 10 ? page * 10 : idx + 1
-  //               }`,
-  //               ele.title,
-  //               dateFomat(ele.createdAt),
-  //             ];
-  //             temp.push(eleArr);
-  //           });
-  //           setDataArr(temp);
-  //           setColumns([
-  //             '번호',
-  //             '약관명',
-  //             '등록일',
-  //             {
-  //               name: '',
-  //               id: 'entizenLibrary',
-  //               formatter: (cell: string) =>
-  //                 _(
-  //                   <button
-  //                     className="detail"
-  //                     onClick={() => {
-  //                       setDetailId(cell);
-  //                       setIsDetail(true);
-  //                       if (setAfterSalesServiceIdx) {
-  //                         setAfterSalesServiceIdx(Number(cell));
-  //                       }
-  //                     }}
-  //                   >
-  //                     보기
-  //                   </button>,
-  //                 ),
-  //             },
-  //           ]);
-  //           setLength(termsList?.data ? termsList?.data?.length : 0);
-  //         }
-  //       },
-  //       onError: () => alert('다시 시도해주세요'),
-  //     },
-  //   );
+  // /admin/terms
+  const { data: termsList, refetch: termsListRefetch } =
+    useQuery<AdminTermsListResponse>(
+      'termsList',
+      () =>
+        api({
+          method: 'GET',
+          endpoint: `/admin/terms?${page}&limit=10`,
+        }),
+      {
+        enabled: false,
+        onSuccess: (termsList) => {
+          if (tableType === 'termsList') {
+            const temp: any = [];
+            termsList?.data?.terms?.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+                dropDownValue[dropDownValueEn.indexOf(ele.type)],
+                dateFomat(ele.createdAt),
+                ele.termIdx,
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '약관명',
+              '등록일',
+              {
+                name: '',
+                id: 'termsListIdx',
+                formatter: (cell: string) =>
+                  _(
+                    <button
+                      className="detail"
+                      onClick={() => {
+                        setDetailId(cell);
+                        setIsDetail(true);
+                        if (setAfterSalesServiceIdx) {
+                          setAfterSalesServiceIdx(Number(cell));
+                        }
+                      }}
+                    >
+                      보기
+                    </button>,
+                  ),
+              },
+            ]);
+            setLength(termsList?.data ? termsList?.data?.terms?.length : 0);
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
 
   useEffect(() => {
     switch (tableType) {
@@ -813,9 +814,9 @@ const Table = ({
         entizenLibraryRefetch();
         break;
 
-      // case 'termsList':
-      //   termsListRefetch();
-      //   break;
+      case 'termsList':
+        termsListRefetch();
+        break;
     }
     // 의존성 배열에 api.get()dml data넣기.
   }, [entizenLibrary]);
@@ -850,9 +851,9 @@ const Table = ({
         entizenLibraryRefetch();
         break;
 
-      // case 'termsList':
-      //   termsListRefetch();
-      //   break;
+      case 'termsList':
+        termsListRefetch();
+        break;
     }
   }, [page, pickedDate, userSearch]);
 

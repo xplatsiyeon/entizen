@@ -11,10 +11,14 @@ const AdminTermsList = () => {
   const [detatilId, setDetailId] = useState<string>('');
 
   // 등록 다운로드
-  const handleCommon = () => {};
+  const handleCommon = () => {
+    setIsDetail(true);
+  };
   return (
     <Wrapper>
-      {isDetail && <AdminTermsEditor setIsDetail={setIsDetail} />}
+      {isDetail && (
+        <AdminTermsEditor setIsDetail={setIsDetail} detatilId={detatilId} />
+      )}
       <TitleWrapper>
         <AdminHeader title="정보 수정" type="main" />
         <SubText>약관</SubText>

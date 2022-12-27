@@ -8,26 +8,46 @@ import adminDropnDownUp from 'public/adminImages/adminDropdownUp.svg';
 type Props = {
   dropDownValue: string[];
   currentStep: string;
-  width? : string;
-  
+  width?: string;
+  setSelectValue?: React.Dispatch<React.SetStateAction<string>>;
+  selectValue?: string;
+  background?: string;
+  border?: string;
 };
 
-const DropDownBtn = ({ dropDownValue, currentStep, width }: Props) => {
+const DropDownBtn = ({
+  dropDownValue,
+  currentStep,
+  width,
+  setSelectValue,
+  selectValue,
+  background,
+  border,
+}: Props) => {
   // props로 받아야 하는거 최초 초기 단계 => currentStep
   // 드랍 다운에 들어가는 option 값 => dropDownValue
 
   //드랍다운 열리고 닫히고
   const [dropDown, setDropDown] = useState<boolean>(false);
-  const [selectValue, setSelectValue] = useState<string>('');
+
   return (
-    <DropDownWrapper width={width}>
+    <DropDownWrapper
+      width={width}
+      border={border}
+      background={background}
+      onClick={() => {
+        setDropDown(!dropDown);
+      }}
+    >
       {dropDown && (
         <DropDownBox width={width}>
           {dropDownValue.map((item, idx) => (
             <DropDownText
               key={idx}
               onClick={() => {
-                setSelectValue(item);
+                if (setSelectValue) {
+                  setSelectValue(item);
+                }
                 setDropDown(false);
               }}
             >
@@ -37,7 +57,13 @@ const DropDownBtn = ({ dropDownValue, currentStep, width }: Props) => {
         </DropDownBox>
       )}
 
-      <MainText>{selectValue === '' ? currentStep : selectValue}</MainText>
+      <MainText
+        onClick={() => {
+          setDropDown(!dropDown);
+        }}
+      >
+        {selectValue === '' ? currentStep : selectValue}
+      </MainText>
       {/* 나중에 드랍다운되면 화살표 방향 돌려벌여 */}
       {dropDown === false ? (
         <Image
@@ -66,14 +92,21 @@ const DropDownBtn = ({ dropDownValue, currentStep, width }: Props) => {
 
 export default DropDownBtn;
 
-const DropDownWrapper = styled.div<{width?:string}>`
-  width: ${({width}) => (width? width :'85px')};
+const DropDownWrapper = styled.div<{
+  width?: string;
+  border?: string;
+  background?: string;
+}>`
+  width: ${({ width }) => (width ? width : '85px')};
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
-  padding:1px 3px;
-  border: 1px solid ${colors.lightWhite3};
+  padding: 1px 3px;
+  cursor: pointer;
+  background-color: ${({ background }) => (background ? background : '')};
+  border: ${({ border }) =>
+    border ? `1px solid ${border}` : `1px solid ${colors.lightWhite3}`};
 `;
 
 const MainText = styled.div`
@@ -82,22 +115,23 @@ const MainText = styled.div`
   font-size: 16px;
   line-height: 150%;
   color: ${colors.main2};
-  text-align: left;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
 `;
 
-const DropDownBox = styled.div<{width?:string}>`
+const DropDownBox = styled.div<{ width?: string }>`
   padding: 7px 12px;
-  width:  ${({width}) => (width? '100%' :'90px')};
+  width: ${({ width }) => (width ? '100%' : '90px')};
   position: absolute;
   z-index: 100;
   background-color: #ffffff;
   border: 1px solid ${colors.lightWhite3};
-  border-radius: 6px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  top: 100%;
-  left:0;
+  top: 103%;
+  left: 0;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
 `;
 

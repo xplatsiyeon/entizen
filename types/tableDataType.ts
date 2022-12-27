@@ -187,9 +187,13 @@ export interface EntizenLibraryResponse {
 export interface AdminTermsListResponse {
   isSuccess: true;
   data: {
-    createdAt: string;
-    title: string;
-  }[];
+    terms: {
+      createdAt: string;
+      termIdx: number;
+      type: string;
+      content: string;
+    }[];
+  };
 }
 export type PartnerProductData = {
   isSuccess: boolean;
