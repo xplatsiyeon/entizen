@@ -947,7 +947,7 @@ const ImgSpanBox = styled.div`
   }
   @media (min-width: 900pt) {
     height: auto;
-    width: 444.75;
+    width: 444.75pt;
     display: grid;
     grid-template-columns: 230pt 1fr;
   }

@@ -2,8 +2,9 @@ import styled from '@emotion/styled';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery } from 'react-query';
-import { api } from 'api';
+import { api, getApi } from 'api';
 import { Pagination } from 'rsuite';
+import { css } from '@emotion/react';
 import {
   ComUserData,
   ProjectList,
@@ -14,6 +15,7 @@ import {
   UserChattingListResponse,
   EntizenLibraryResponse,
   AdminTermsListResponse,
+  AdminNoticeListResponse,
 } from 'types/tableDataType';
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
@@ -23,8 +25,12 @@ import {
   dropDownValue,
 } from '../componentsAdmin/Adminterms/AdminTermsEditor';
 
+// 공지사항 목데이터
+import { ADMINNOTICE } from '../componentsAdmin/AdminNotice/ADMINNOTICE';
+
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
+import { CoPresentSharp } from '@mui/icons-material';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,6 +43,12 @@ type Props = {
   setAfterSalesServiceIdx?: React.Dispatch<React.SetStateAction<number>>;
   commonBtn: string;
   handleCommon: () => void;
+  onClickToggle?: (id: number) => void;
+};
+
+type NewSell = {
+  name: boolean;
+  id: number;
 };
 
 const Table = ({
@@ -50,13 +62,14 @@ const Table = ({
   setAfterSalesServiceIdx,
   commonBtn,
   handleCommon,
+  onClickToggle,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
 
-  // 오늘 닐짜.
+  // 오늘 날짜.
   const today = new Date();
   console.log(adminDateFomat(String(today)));
 
@@ -81,14 +94,13 @@ const Table = ({
   const { data: userData, refetch: userDataRefetch } = useQuery<UserData>(
     'userInfo',
     () =>
-      api({
-        method: 'GET',
-        endpoint: `/admin/members/users?page=${page}&limit=10&startDate=${
+      getApi(
+        `/admin/members/users?page=${page}&limit=10&startDate=${
           pickedDate ? pickedDate[0] : '2022-09-05'
         }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
           changeSearchType[selectedFilter!]
         }&searchKeyword=${userSearch}`,
-      }),
+      ),
     {
       enabled: false,
       onSuccess: (userData) => {
@@ -149,14 +161,13 @@ const Table = ({
     useQuery<ComUserData>(
       'comUserInfo',
       () =>
-        api({
-          method: 'GET',
-          endpoint: `/admin/members/companies?page=${page}&limit=10&startDate=${
+        getApi(
+          `/admin/members/companies?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
             changeSearchType[selectedFilter!]
           }&searchKeyword=${userSearch}`,
-        }),
+        ),
       {
         enabled: false,
         onSuccess: (comUserData) => {
@@ -239,10 +250,9 @@ const Table = ({
     useQuery<CompanyPreQuotationResponse>(
       'companyPreQuotation',
       () =>
-        api({
-          method: 'GET',
-          endpoint: `/admin/quotations/quotation-requests/${detatilId}/pre-quotations`,
-        }),
+        getApi(
+          `/admin/quotations/quotation-requests/${detatilId}/pre-quotations`,
+        ),
       {
         enabled: false,
         onSuccess: (companyPreQuotation) => {
@@ -319,12 +329,11 @@ const Table = ({
     useQuery<Quotations>(
       'quetationList',
       () =>
-        api({
-          method: 'GET',
-          endpoint: `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${
+        getApi(
+          `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${pickedDate ? pickedDate[1] : today}`,
-        }),
+        ),
       {
         enabled: false,
         onSuccess: (quetationListData) => {
@@ -382,12 +391,11 @@ const Table = ({
     useQuery<ProjectList>(
       'projectList',
       () =>
-        api({
-          method: 'GET',
-          endpoint: `/admin/projects?page=${page}&limit=10&startDate=${
+        getApi(
+          `/admin/projects?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${pickedDate ? pickedDate[1] : today}`,
-        }),
+        ),
       {
         enabled: false,
         onSuccess: (projectListData) => {
@@ -451,12 +459,11 @@ const Table = ({
   const { data: asData, refetch: asRefetch } = useQuery<ASListResponse>(
     'asData',
     () =>
-      api({
-        method: 'GET',
-        endpoint: `/admin/after-sales-services?page=${page}&limit=10&startDate=${
+      getApi(
+        `/admin/after-sales-services?page=${page}&limit=10&startDate=${
           pickedDate ? pickedDate[0] : '2022-10-01'
         }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
-      }),
+      ),
     {
       enabled: false,
       onSuccess: (asData) => {
@@ -518,12 +525,11 @@ const Table = ({
     useQuery<UserChattingListResponse>(
       'userChatting',
       () =>
-        api({
-          method: 'GET',
-          endpoint: `/admin/chatting/members?page=${page}&limit=10&startDate=${
+        getApi(
+          `/admin/chatting/members?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-10-01'
           }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
-        }),
+        ),
       {
         enabled: false,
         onSuccess: (userChatting) => {
@@ -597,12 +603,11 @@ const Table = ({
     useQuery<EntizenLibraryResponse>(
       'entizenLibrary',
       () =>
-        api({
-          method: 'GET',
-          endpoint: `/admin/libraries?page=${page}&limit=10&startDate=${
+        getApi(
+          `/admin/libraries?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${pickedDate ? pickedDate[1] : today}`,
-        }),
+        ),
       {
         enabled: false,
         onSuccess: (entizenLibrary) => {
@@ -727,11 +732,7 @@ const Table = ({
   const { data: termsList, refetch: termsListRefetch } =
     useQuery<AdminTermsListResponse>(
       'termsList',
-      () =>
-        api({
-          method: 'GET',
-          endpoint: `/admin/terms?${page}&limit=10`,
-        }),
+      () => getApi(`/admin/terms?${page}&limit=10`),
       {
         enabled: false,
         onSuccess: (termsList) => {
@@ -780,6 +781,84 @@ const Table = ({
       },
     );
 
+  // 공지사항 리스트
+  const { data: adminNoticeList, refetch: adminNoticeListRefetch } =
+    useQuery<AdminNoticeListResponse>(
+      'adminNoticeList',
+      () => getApi(`/admin/notices`),
+      // () => ADMINNOTICE,
+      {
+        enabled: false,
+        onSuccess: (adminNoticeList) => {
+          if (tableType === 'adminNoticeList') {
+            const temp: any = [];
+            ADMINNOTICE?.data?.notices?.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+                ,
+                ele.title,
+                {
+                  name: ele.isVisible,
+                  id: ele.noticeIdx,
+                },
+                dateFomat(ele.createdAt),
+                ele.noticeIdx,
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '공지사항',
+              {
+                name: '노출여부',
+                id: 'noticeVisible',
+                formatter: ({ name, id }: NewSell) =>
+                  _(
+                    <ToggleContainer>
+                      <ToggleBtn
+                        onClick={() => {
+                          if (onClickToggle) {
+                            onClickToggle(id);
+                          }
+                        }}
+                        cell={name}
+                      >
+                        <Circle cell={name} />
+                      </ToggleBtn>
+                    </ToggleContainer>,
+                  ),
+              },
+              '등록일',
+              {
+                name: '',
+                id: 'noticeIdx',
+                formatter: (cell: string) =>
+                  _(
+                    <button
+                      className="detail"
+                      onClick={() => {
+                        setDetailId(cell);
+                        setIsDetail(true);
+                        if (setAfterSalesServiceIdx) {
+                          setAfterSalesServiceIdx(Number(cell));
+                        }
+                      }}
+                    >
+                      보기
+                    </button>,
+                  ),
+              },
+            ]);
+            setLength(ADMINNOTICE?.data ? ADMINNOTICE?.data?.totalCount : 0);
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
+
   useEffect(() => {
     switch (tableType) {
       case 'userData':
@@ -816,6 +895,10 @@ const Table = ({
 
       case 'termsList':
         termsListRefetch();
+        break;
+
+      case 'adminNoticeList':
+        adminNoticeListRefetch();
         break;
     }
     // 의존성 배열에 api.get()dml data넣기.
@@ -854,6 +937,10 @@ const Table = ({
       case 'termsList':
         termsListRefetch();
         break;
+
+      case 'adminNoticeList':
+        adminNoticeListRefetch();
+        break;
     }
   }, [page, pickedDate, userSearch]);
 
@@ -864,7 +951,14 @@ const Table = ({
   return (
     <StyledBody className="user-table">
       <FlexBox>
-        <P>결과 {length}</P> <Button onClick={handleCommon}>{commonBtn}</Button>
+        <P>결과 {length}</P>{' '}
+        <Button
+          onClick={() => {
+            handleCommon();
+          }}
+        >
+          {commonBtn}
+        </Button>
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>
@@ -1028,7 +1122,40 @@ const LinkBox = styled.div`
   height: 82px;
   overflow-y: scroll;
   text-align: center;
-
   display: flex;
   align-items: center;
+`;
+
+const ToggleContainer = styled.div`
+  position: absolute;
+  left: 44%;
+  top: 30%;
+`;
+
+const ToggleBtn = styled.button<{ cell: boolean }>`
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background-color: ${({ cell }) => (cell === true ? '#FFC043' : '#747780')};
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s ease-in-out;
+`;
+const Circle = styled.div<{ cell: boolean }>`
+  background-color: white;
+  width: 14px;
+  height: 14px;
+  border-radius: 10px;
+  position: absolute;
+  right: ${({ cell }) => (cell === true ? '10%' : '50%')};
+  transition: all 0.5s ease-in-out;
+  ${({ cell }) =>
+    !cell &&
+    css`
+      transition: all 0.5s ease-in-out;
+    `}
 `;

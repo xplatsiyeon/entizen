@@ -226,3 +226,18 @@ export type PartnerProducts = {
     },
   ];
 };
+
+// 공지사항
+export interface AdminNoticeListResponse {
+  isSuccess: boolean;
+  data: {
+    totalCount: number;
+    notices: {
+      createdAt: string;
+      noticeIdx: number;
+      title: string;
+      content: string;
+      isVisible: boolean;
+    }[];
+  };
+}

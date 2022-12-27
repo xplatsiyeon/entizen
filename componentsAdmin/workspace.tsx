@@ -42,7 +42,7 @@ const closeList = [
   ['소통하기 리스트', '1대1 문의'],
   ['리스트 조회'],
   ['회사별 리스트'],
-  ['약관', '공지사항', '배너', '좌측메뉴', '가이드', 'FAQ', '설정'],
+  ['약관', '공지사항', '배너', '가이드', 'FAQ', '설정'],
 ];
 const Workspace = ({ setNumber }: Props) => {
   const router = useRouter();
@@ -109,20 +109,16 @@ const Workspace = ({ setNumber }: Props) => {
         setNumber(16);
         break;
 
-      case '좌측메뉴':
+      case '가이드':
         setNumber(17);
         break;
 
-      case '가이드':
+      case 'FAQ':
         setNumber(18);
         break;
 
-      case 'FAQ':
-        setNumber(19);
-        break;
-
       case '설정':
-        setNumber(20);
+        setNumber(29);
         break;
 
       default:

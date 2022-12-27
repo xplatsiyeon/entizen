@@ -13,6 +13,7 @@ import PartnerProductsList from 'componentsAdmin/PartnerProducts/PartnerProducts
 import Statistics from 'componentsAdmin/MainDashboard/Statistics';
 import ProjectSituation from 'componentsAdmin/MainDashboard/ProjectSituation';
 import AdminTermsList from 'componentsAdmin/Adminterms/AdminTermsList';
+import AdminNoticeList from 'componentsAdmin/AdminNotice/AdminNoticeList';
 
 type Props = {};
 
@@ -39,6 +40,7 @@ const index = (props: Props) => {
       {number === 12 && <EntizenLibrary />}
       {number === 13 && <PartnerProductsList />}
       {number === 14 && <AdminTermsList />}
+      {number === 15 && <AdminNoticeList />}
     </Background>
   );
 };
