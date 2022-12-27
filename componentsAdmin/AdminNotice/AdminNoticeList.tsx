@@ -5,14 +5,7 @@ import Table from 'componentsAdmin/table';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import AdminNoticeEditor from './AdminNoticeEditor';
-import {
-  isTokenGetApi,
-  multerApi,
-  isTokenPostApi,
-  isTokenPutApi,
-  isTokenPatchApi,
-  isTokenDeleteApi,
-} from 'api';
+import { isTokenPatchApi } from 'api';
 import {
   QueryObserverResult,
   useMutation,
@@ -45,7 +38,7 @@ const AdminNoticeList = () => {
     });
   };
 
-  // 등록 다운로드
+  // 등록
   const handleCommon = () => {
     setIsDetail(true);
   };
@@ -89,33 +82,4 @@ const SubText = styled.div`
   margin-top: 60pt;
   margin-bottom: 12pt;
   font-weight: 500;
-`;
-
-const Manager = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-
-  label {
-    padding-right: 39.75pt;
-  }
-  li {
-    gap: 7.5pt;
-    display: flex;
-    align-items: center;
-    background: #ffffff;
-    border: 1px solid ${colors.lightWhite3};
-    height: 30pt;
-    padding: 4pt 0 4pt 12pt;
-    width: 100%;
-  }
-  .searchInput {
-    border: 1px solid ${colors.lightWhite3};
-    height: 100%;
-    width: 274.5pt;
-  }
-  .search {
-    width: 946px;
-  }
 `;
