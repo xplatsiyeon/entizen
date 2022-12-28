@@ -186,7 +186,7 @@ const AdminTermsEditor = ({ setIsDetail, detatilId }: Props) => {
       <Wrapper>
         {messageModal && (
           <AlertModal
-            setIsModal={setMessageModal}
+            setIsModal={setIsModal}
             message={message}
             setIsDetail={setIsDetail}
           />
@@ -222,17 +222,17 @@ const AdminTermsEditor = ({ setIsDetail, detatilId }: Props) => {
             background={'#E2E5ED'}
             border={'#747780'}
           />
-          <TitleBox>
+          {/* <TitleBox>
             <TitleText>제목</TitleText>
             <TitleArea
               type="text"
-              value={bodyText}
+              value={title}
               placeholder="제목을 입력해주세요"
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
             />
-          </TitleBox>
+          </TitleBox> */}
         </TitleContainer>
         <MainTextArea
           placeholder="내용을 입력해주세요"

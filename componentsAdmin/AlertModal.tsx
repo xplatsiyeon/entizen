@@ -22,6 +22,9 @@ const AlertModal = ({ setIsModal, message, setIsDetail }: Props) => {
             } else if (message === '수정이 완료됐습니다!' && setIsDetail) {
               setIsModal(false);
               setIsDetail(false);
+            } else if (message === '삭제가 완료 됐습니다.' && setIsDetail) {
+              setIsModal(false);
+              setIsDetail(false);
             }
           }}
         >

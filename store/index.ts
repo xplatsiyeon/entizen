@@ -17,6 +17,7 @@ const persistConfig = {
     'userList',
     'subsidyGuideData',
     'companymyEstimateData',
+    'adminReverseData',
   ],
 };
 // userList

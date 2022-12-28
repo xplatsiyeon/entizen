@@ -11,15 +11,9 @@ type Props = {
   detatilId: string;
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
-  nowHeight: number;
 };
 
-const DetailQuotation = ({
-  detatilId,
-  setIsDetail,
-  setDetailId,
-  nowHeight,
-}: Props) => {
+const DetailQuotation = ({ detatilId, setIsDetail, setDetailId }: Props) => {
   const { quotationRequestIdx, isCompanyDetail } = useSelector(
     (state: RootState) => state.adminReverseData,
   );
@@ -43,13 +37,9 @@ const DetailQuotation = ({
   // 테이블에서 onClick 하면 여기로 id 값 넘겨주기!
 
   console.log('---------------------');
-  console.log('quotationRequestIdx', quotationRequestIdx.preQuotationIdx);
-  console.log('quotationRequestIdx', quotationRequestIdx.finalQuotationIdx);
-
-  console.log('Detail nowHeight', nowHeight);
 
   return (
-    <Background nowHeight={nowHeight}>
+    <Background>
       <Wrapper>
         <AdminHeader
           title="역경매 관리"
@@ -58,9 +48,7 @@ const DetailQuotation = ({
           backBtn={backBtn}
         />
         {/* 기업 디테일 페이지 */}
-        {isCompanyDetail && (
-          <Qutation showSubMenu={showSubMenu} nowHeight={nowHeight} />
-        )}
+        {isCompanyDetail && <Qutation showSubMenu={showSubMenu} />}
         {/* 유저 가견적 */}
         <UserPreQuotation detatilId={detatilId} />
         {/* 기업 리스트 */}
@@ -76,10 +64,10 @@ const DetailQuotation = ({
 
 export default DetailQuotation;
 
-const Background = styled.div<{ nowHeight: number }>`
+const Background = styled.div`
   width: 100%;
-  /* height: 100vh; */
-  height: ${({ nowHeight }) => `${nowHeight}px`};
+  min-height: 100vh;
+  height: 100%;
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
   position: absolute;

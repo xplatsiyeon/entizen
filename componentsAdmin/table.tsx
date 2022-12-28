@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { api, getApi } from 'api';
 import { Pagination } from 'rsuite';
 import { css } from '@emotion/react';
@@ -16,6 +16,7 @@ import {
   EntizenLibraryResponse,
   AdminTermsListResponse,
   AdminNoticeListResponse,
+  AdminBannerListResponse,
 } from 'types/tableDataType';
 import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
@@ -26,10 +27,7 @@ import {
 } from '../componentsAdmin/Adminterms/AdminTermsEditor';
 
 import { QuotationObject } from '../storeAdmin/adminReverseSlice';
-
-// 공지사항 목데이터
-import { ADMINNOTICE } from '../componentsAdmin/AdminNotice/ADMINNOTICE';
-
+import { NewCell } from './AdminNotice/AdminNoticeList';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
 import { CoPresentSharp } from '@mui/icons-material';
@@ -47,11 +45,9 @@ type Props = {
   handleCommon: () => void;
   onClickToggle?: (id: number) => void;
   hide?: boolean;
-};
-
-type NewSell = {
-  name: boolean;
-  id: number;
+  userType?: string;
+  setToggle?: React.Dispatch<React.SetStateAction<NewCell>>;
+  toggle?: NewCell;
 };
 
 const Table = ({
@@ -67,6 +63,9 @@ const Table = ({
   handleCommon,
   onClickToggle,
   hide,
+  userType,
+  setToggle,
+  toggle,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -79,7 +78,6 @@ const Table = ({
 
   // 역경매 견적서 보기에 넘겨줄 아이디값
   const dispatch = useDispatch();
-  const [preQuotationIdx, setPreQuotationIdx] = useState<number>();
 
   // 유저 회원 검색 필터 뭐 눌렀는지
   const changeSearchType = ['name', 'id'];
@@ -331,6 +329,7 @@ const Table = ({
         onError: () => alert('다시 시도해주세요'),
       },
     );
+
   // 견적 리스트 데이터
   const { data: quetationListData, refetch: quetationListRefetch } =
     useQuery<Quotations>(
@@ -739,7 +738,7 @@ const Table = ({
   const { data: termsList, refetch: termsListRefetch } =
     useQuery<AdminTermsListResponse>(
       'termsList',
-      () => getApi(`/admin/terms?${page}&limit=10`),
+      () => getApi(`/admin/terms`),
       {
         enabled: false,
         onSuccess: (termsList) => {
@@ -793,21 +792,19 @@ const Table = ({
     useQuery<AdminNoticeListResponse>(
       'adminNoticeList',
       () => getApi(`/admin/notices`),
-      // () => ADMINNOTICE,
       {
         enabled: false,
         onSuccess: (adminNoticeList) => {
           if (tableType === 'adminNoticeList') {
             const temp: any = [];
-            ADMINNOTICE?.data?.notices?.forEach((ele, idx) => {
+            adminNoticeList?.data?.notices.forEach((ele, idx) => {
               const eleArr = [
                 `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
                   idx + 1 === 10 ? page * 10 : idx + 1
                 }`,
-                ,
-                ele.title,
+                ele?.title,
                 {
-                  name: ele.isVisible,
+                  isVisible: ele.isVisible,
                   id: ele.noticeIdx,
                 },
                 dateFomat(ele.createdAt),
@@ -821,19 +818,19 @@ const Table = ({
               '공지사항',
               {
                 name: '노출여부',
-                id: 'noticeVisible',
-                formatter: ({ name, id }: NewSell) =>
+                id: 'bannerVisible',
+                formatter: (cell: NewCell) =>
                   _(
                     <ToggleContainer>
                       <ToggleBtn
+                        visible={cell?.isVisible}
                         onClick={() => {
-                          if (onClickToggle) {
-                            onClickToggle(id);
+                          if (setToggle) {
+                            setToggle(cell);
                           }
                         }}
-                        cell={name}
                       >
-                        <Circle cell={name} />
+                        <Circle visible={cell?.isVisible} />
                       </ToggleBtn>
                     </ToggleContainer>,
                   ),
@@ -841,7 +838,7 @@ const Table = ({
               '등록일',
               {
                 name: '',
-                id: 'noticeIdx',
+                id: 'termsListIdx',
                 formatter: (cell: string) =>
                   _(
                     <button
@@ -859,13 +856,96 @@ const Table = ({
                   ),
               },
             ]);
-            setLength(ADMINNOTICE?.data ? ADMINNOTICE?.data?.totalCount : 0);
+            setLength(
+              adminNoticeList?.data ? adminNoticeList?.data?.totalCount : 0,
+            );
           }
         },
         onError: () => alert('다시 시도해주세요'),
       },
     );
 
+  // 배너 리스트
+  const { data: bannerList, refetch: bannerListRefetch } =
+    useQuery<AdminBannerListResponse>(
+      'bannerList',
+      () => getApi(`/admin/banners?targetMemberType=${userType}`),
+      {
+        enabled: false,
+        onSuccess: (bannerList) => {
+          if (tableType === 'bannerList') {
+            const temp: any = [];
+            bannerList?.data?.banners?.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+                ele?.title,
+                {
+                  isVisible: ele.isVisible,
+                  id: ele.bannerIdx,
+                },
+                dateFomat(ele.createdAt),
+                ele.bannerIdx,
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '배너명',
+              {
+                name: '노출여부',
+                id: 'bannerListVisible',
+                formatter: (cell: NewCell) =>
+                  _(
+                    <ToggleContainer>
+                      <ToggleBtn
+                        visible={cell?.isVisible}
+                        onClick={() => {
+                          if (setToggle) {
+                            setToggle(cell);
+                          }
+                        }}
+                      >
+                        <Circle visible={cell?.isVisible} />
+                      </ToggleBtn>
+                    </ToggleContainer>,
+                  ),
+              },
+              '등록일',
+              {
+                name: '',
+                id: 'termsListIdx',
+                formatter: (cell: string) =>
+                  _(
+                    <button
+                      className="detail"
+                      onClick={() => {
+                        setDetailId(cell);
+                        setIsDetail(true);
+                        if (setAfterSalesServiceIdx) {
+                          setAfterSalesServiceIdx(Number(cell));
+                        }
+                      }}
+                    >
+                      보기
+                    </button>,
+                  ),
+              },
+            ]);
+            setLength(bannerList?.data ? bannerList?.data?.banners?.length : 0);
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
+
+  console.log(
+    '🐳adminNoticeList.isVisible🐳',
+    adminNoticeList?.data.notices[0].isVisible,
+  );
+
   useEffect(() => {
     switch (tableType) {
       case 'userData':
@@ -906,10 +986,14 @@ const Table = ({
 
       case 'adminNoticeList':
         adminNoticeListRefetch();
+        break;
+
+      case 'bannerList':
+        bannerListRefetch();
         break;
     }
     // 의존성 배열에 api.get()dml data넣기.
-  }, [entizenLibrary]);
+  }, [entizenLibrary, userType]);
 
   useEffect(() => {
     switch (tableType) {
@@ -948,12 +1032,12 @@ const Table = ({
       case 'adminNoticeList':
         adminNoticeListRefetch();
         break;
-    }
-  }, [page, pickedDate, userSearch]);
 
-  useEffect(() => {
-    console.log('preQuotationIdx------->>> 🔥' + preQuotationIdx);
-  }, [preQuotationIdx]);
+      case 'bannerList':
+        bannerListRefetch();
+        break;
+    }
+  }, [page, pickedDate, userSearch, userType]);
 
   return (
     <StyledBody className="user-table">
@@ -1141,30 +1225,26 @@ const ToggleContainer = styled.div`
   top: 30%;
 `;
 
-const ToggleBtn = styled.button<{ cell: boolean }>`
+const ToggleBtn = styled.button<{ visible?: boolean }>`
   width: 36px;
   height: 20px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  background-color: ${({ cell }) => (cell === true ? '#FFC043' : '#747780')};
+  background-color: ${({ visible }) => (visible ? '#ffc043' : '#747780')};
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: all 0.5s ease-in-out;
 `;
-const Circle = styled.div<{ cell: boolean }>`
+
+const Circle = styled.div<{ visible?: boolean }>`
   background-color: white;
   width: 14px;
   height: 14px;
   border-radius: 10px;
   position: absolute;
-  right: ${({ cell }) => (cell === true ? '10%' : '50%')};
+  right: ${({ visible }) => (visible ? '10%' : '55%')};
   transition: all 0.5s ease-in-out;
-  ${({ cell }) =>
-    !cell &&
-    css`
-      transition: all 0.5s ease-in-out;
-    `}
 `;

@@ -11,10 +11,10 @@ import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 import AdminHeader from 'componentsAdmin/Header';
 
-type Props = { showSubMenu?: boolean; nowHeight: number };
+type Props = { showSubMenu?: boolean };
 
-const Qutation = ({ showSubMenu, nowHeight }: Props) => {
-  const [optionValue, setOptionValue] = useState<string>();
+const Qutation = ({ showSubMenu }: Props) => {
+  const [optionValue, setOptionValue] = useState<string>('가견적서');
   const dispatch = useDispatch();
   const { quotationRequestIdx, isCompanyDetail } = useSelector(
     (state: RootState) => state.adminReverseData,
@@ -29,11 +29,8 @@ const Qutation = ({ showSubMenu, nowHeight }: Props) => {
     dispatch(adminReverseAction.setIsCompanyDetail(false));
   };
 
-  console.log('Quotation nowHeight', nowHeight);
-  console.log('quotationRequestIdx🐙', quotationRequestIdx);
-
   return (
-    <Background nowHeight={nowHeight}>
+    <Background>
       <Wrapper>
         <AdminHeader
           title=""
@@ -71,9 +68,10 @@ const Qutation = ({ showSubMenu, nowHeight }: Props) => {
 
 export default Qutation;
 
-const Background = styled.div<{ nowHeight: number }>`
+const Background = styled.div`
   width: 100%;
-  height: ${({ nowHeight }) => `${nowHeight}px`};
+  min-height: 100vh;
+  height: 100%;
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
   position: absolute;

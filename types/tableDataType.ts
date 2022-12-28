@@ -241,3 +241,42 @@ export interface AdminNoticeListResponse {
     }[];
   };
 }
+
+// 배너리스트
+
+export interface AdminBannerListResponse {
+  isSuccess: boolean;
+  data: {
+    banners: {
+      bannerIdx: number;
+      title: string;
+      isVisible: boolean;
+      createdAt: string;
+    }[];
+  };
+}
+export interface AdminBannerDetailResponse {
+  isSuccess: boolean;
+  data: {
+    banner: {
+      bannerIdx: number;
+      targetMemberType: string;
+      title: string;
+      url: string;
+      mainImage: {
+        createdAt: string;
+        bannerImageIdx: number;
+        originalName: string;
+        url: string;
+        size: number;
+      };
+      innerImages: {
+        createdAt: string;
+        bannerImageIdx: number;
+        originalName: string;
+        url: string;
+        size: number;
+      }[];
+    };
+  };
+}

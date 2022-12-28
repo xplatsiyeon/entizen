@@ -35,12 +35,23 @@ type Props = {
   detatilId?: string;
 };
 
+type NoticeDetail = {
+  isSuccess: true;
+  data: {
+    createdAt: string;
+    noticeIdx: number;
+    title: string;
+    content: string;
+    isVisible: boolean;
+  };
+};
+
 const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
   const queryClinet = useQueryClient();
-  const { data, isLoading, isError, refetch } =
-    useQuery<AdminNoticeListResponse>('adminNoticeDetail', () =>
-      isTokenGetApi(`/admin/notices/${detatilId}`),
-    );
+  const { data, isLoading, isError, refetch } = useQuery<NoticeDetail>(
+    'adminNoticeDetail',
+    () => isTokenGetApi(`/admin/notices/${detatilId}`),
+  );
 
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -61,6 +72,11 @@ const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
   const [bodyText, setBodyText] = useState<string | undefined>('');
 
   const firstImgUrl = '';
+  const firstTitle = data?.data?.title;
+  const firstBodyText = data?.data?.content;
+
+  console.log('🐙title🐙', title);
+  console.log('🐙firstTitle🐙', firstTitle);
 
   const [imgArr, setImgArr] = useState<ImgFile[]>([]);
   const [imgUrl, setImgUrl] = useState<string | undefined>(firstImgUrl);
@@ -229,16 +245,30 @@ const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
 
   const modalDeleteBtnControll = () => {
     patchMutate({
-      url: `/admin/terms/${detatilId}`,
+      url: `/admin/notices/${detatilId}`,
     });
   };
+
+  useEffect(() => {
+    setBodyText(firstBodyText);
+    setTitle(firstTitle);
+  }, [data]);
+
+  // 데이터 보내는 버튼 활성화 여부
+  useEffect(() => {
+    if (bodyText !== firstBodyText) {
+      setCheckAll(true);
+    } else if (title !== firstTitle) {
+      setCheckAll(true);
+    }
+  }, [bodyText, title]);
 
   return (
     <Background>
       <Wrapper>
         {messageModal && (
           <AlertModal
-            setIsModal={setMessageModal}
+            setIsModal={setIsModal}
             message={message}
             setIsDetail={setIsDetail}
           />
@@ -426,6 +456,7 @@ const TitleArea = styled.input`
   outline: none;
   resize: none;
   background: none;
+  width: 900px;
 `;
 
 const MainTextArea = styled.textarea`

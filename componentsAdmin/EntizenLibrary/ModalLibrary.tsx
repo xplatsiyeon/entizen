@@ -16,7 +16,7 @@ import {
   isTokenPatchApi,
   isTokenDeleteApi,
 } from 'api';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   ImgFile,
   MulterResponse,
@@ -43,6 +43,7 @@ interface LibraryResponse {
 }
 
 const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
+  const queryClinet = useQueryClient();
   const [review, setReview] = useState<ImgFile[]>([]);
   const [isModal, setIsModal] = useState(false);
   const [message, setMessage] = useState('');
@@ -138,6 +139,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     isTokenPutApi,
     {
       onSuccess: () => {
+        queryClinet.invalidateQueries('entizenLibrary');
         setIsModal(true);
         setMessage('수정이 완료됐습니다!');
       },
@@ -171,8 +173,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     isError: patchError,
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
-      //   queryclient.invalidateQueries('user-mypage');
-
+      queryClinet.invalidateQueries('entizenLibrary');
       setIsModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },
@@ -197,8 +198,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     isError: postError,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      //   queryclient.invalidateQueries('user-mypage');
-
+      queryClinet.invalidateQueries('entizenLibrary');
       setIsModal(true);
       setMessage('추가가 완료 됐습니다.');
     },
@@ -255,7 +255,13 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
 
   return (
     <Modal>
-      {isModal && <AlertModal setIsModal={setIsModal} message={message} />}
+      {isModal && (
+        <AlertModal
+          setIsModal={setIsModal}
+          message={message}
+          setIsDetail={setIsDetail}
+        />
+      )}
       <ModalBox>
         <TitleBox>
           <TitleText>엔티즌 도서관 보기</TitleText>

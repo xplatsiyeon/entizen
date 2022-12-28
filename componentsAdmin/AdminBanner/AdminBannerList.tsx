@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
@@ -12,13 +12,19 @@ import {
 } from 'react-query';
 import AdminBannerEditor from './AdminBannerEditor';
 import Table from 'componentsAdmin/table';
+import { NewCell } from 'componentsAdmin/AdminNotice/AdminNoticeList';
 
 const AdminBannerLIst = () => {
   const queryClient = useQueryClient();
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
+  const userTypeEn = ['USER', 'COMPANY'];
   const userType = ['일반회원', '기업회원 '];
   const [userNum, setUserNum] = useState(0);
+  const [toggle, setToggle] = useState<NewCell>({
+    isVisible: true,
+    id: 0,
+  });
 
   // 등록
   const handleCommon = () => {
@@ -29,7 +35,7 @@ const AdminBannerLIst = () => {
 
   const { mutate: patchUserMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
-      queryClient.invalidateQueries('adminBannerList');
+      queryClient.invalidateQueries('bannerList');
     },
     onError: (error) => {
       console.log('토글 버튼 에러');
@@ -37,29 +43,12 @@ const AdminBannerLIst = () => {
     },
   });
 
-  const onClickUserToggle = (id: number) => {
+  useEffect(() => {
     patchUserMutate({
-      url: ``,
+      url: `/admin/banners/${toggle.id}/exposure`,
     });
-  };
+  }, [toggle]);
 
-  // 토글 버튼 백엔드에 보내는 함수(Company)
-
-  const { mutate: patchCompanyMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('adminBannerList');
-    },
-    onError: (error) => {
-      console.log('토글 버튼 에러');
-      console.log(error);
-    },
-  });
-
-  const onClickCompanyToggle = (id: number) => {
-    patchCompanyMutate({
-      url: ``,
-    });
-  };
   return (
     <Wrapper>
       {isDetail && (
@@ -91,20 +80,23 @@ const AdminBannerLIst = () => {
         <Table
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
-          tableType={''}
+          tableType={'bannerList'}
           commonBtn={'등록'}
           handleCommon={handleCommon}
-          onClickToggle={onClickUserToggle}
+          setToggle={setToggle}
+          toggle={toggle}
+          userType={userTypeEn[userNum]}
         />
       )}
       {userNum === 1 && (
         <Table
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
-          tableType={''}
+          tableType={'bannerList'}
           commonBtn={'등록'}
           handleCommon={handleCommon}
-          onClickToggle={onClickCompanyToggle}
+          toggle={toggle}
+          userType={userTypeEn[userNum]}
         />
       )}
     </Wrapper>

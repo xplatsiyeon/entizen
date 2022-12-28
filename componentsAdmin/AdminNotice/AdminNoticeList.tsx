@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import Table from 'componentsAdmin/table';
@@ -13,14 +13,20 @@ import {
   useQueryClient,
 } from 'react-query';
 
+export type NewCell = {
+  isVisible: boolean;
+  id: number;
+};
+
 const AdminNoticeList = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
-  const [toggle, setToggle] = useState<boolean>(false);
+  const [toggle, setToggle] = useState<NewCell>({
+    isVisible: true,
+    id: 0,
+  });
   const queryClient = useQueryClient();
-  const clickedToggle = () => {
-    setToggle((prev) => !prev);
-  };
+
   // /admin/notices/:noticeIdx/exposure 토글 버튼 수정
   const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
@@ -32,16 +38,20 @@ const AdminNoticeList = () => {
     },
   });
 
-  const onClickToggle = (id: number) => {
+  console.log('🌸 toggleId 🌸', toggle?.id);
+
+  useEffect(() => {
     patchMutate({
-      url: `/admin/notices/${id}/exposure`,
+      url: `/admin/notices/${toggle?.id}/exposure`,
     });
-  };
+  }, [toggle]);
 
   // 등록
   const handleCommon = () => {
     setIsDetail(true);
   };
+
+  console.log('🎀toggle.isVisible🎀', toggle.isVisible);
   return (
     <Wrapper>
       {isDetail && (
@@ -57,7 +67,8 @@ const AdminNoticeList = () => {
         tableType={'adminNoticeList'}
         commonBtn={'등록'}
         handleCommon={handleCommon}
-        onClickToggle={onClickToggle}
+        setToggle={setToggle}
+        toggle={toggle}
       />
     </Wrapper>
   );

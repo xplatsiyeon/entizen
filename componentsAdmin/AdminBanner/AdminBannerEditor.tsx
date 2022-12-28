@@ -28,8 +28,8 @@ import {
 } from 'componentsCompany/MyProductList/ProductAddComponent';
 import Image from 'next/image';
 import CloseImg from 'public/images/XCircle.svg';
-import { AdminNoticeListResponse } from 'types/tableDataType';
 import { Label } from '@mui/icons-material';
+import { AdminBannerDetailResponse } from '../../types/tableDataType';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,7 +37,16 @@ type Props = {
 };
 
 const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
+  const queryClinet = useQueryClient();
+  const { data, isLoading, isError, refetch } =
+    useQuery<AdminBannerDetailResponse>('bannerDetail', () =>
+      isTokenGetApi(`/admin/banners/${detatilId}`),
+    );
+  const imgRef = useRef<any>(null);
+  const userTypeEn = ['USER', 'COMPANY'];
   const userType = ['일반회원', '기업회원 '];
+  const [userNum, setUserNum] = useState(0);
+
   const [checkValue, setCheckValue] = useState('일반회원');
 
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
@@ -58,9 +67,6 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
   // url
   const [url, setUrl] = useState<string | undefined>('');
 
-  // 본문
-  const [bodyText, setBodyText] = useState<string | undefined>('');
-
   const [insideImgArr, setInsideImgArr] = useState<ImgFile[]>([]);
   const [insideImgUrl, setInsideImgUrl] = useState<string | undefined>('');
   const [insideImgName, setInsideImgName] = useState<string | undefined>('');
@@ -68,8 +74,46 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
   const [outsideImgUrl, setOutsideImgUrl] = useState<string | undefined>('');
   const [outsideImgName, setOutsideImgName] = useState<string | undefined>('');
 
+  const firstTitle = data?.data?.banner?.title;
+  const firstUrl = data?.data?.banner?.url;
+  const targetMemberType = data?.data?.banner?.targetMemberType;
+
   // file s3 multer 저장 API (with useMutation)
-  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+  const { mutate: outImage, isLoading: multerOutImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
+      // console.log(res);
+      const newFile = [...outsideImgArr];
+      res?.uploadedFiles.forEach((img) => {
+        newFile.push({
+          url: img.url,
+          size: img.size,
+          originalName: decodeURIComponent(img.originalName),
+        });
+        setOutsideImgName(decodeURIComponent(img.originalName));
+        setOutsideImgUrl(img.url);
+      });
+      setOutsideImgArr(newFile);
+    },
+    onError: (error: any) => {
+      if (error.response.data.message) {
+        setMessage(`첫번째 에러:${error.response.data.message}`);
+        setMessageModal(true);
+      } else if (error.response.status === 413) {
+        setMessage('용량이 너무 큽니다.');
+        setMessageModal(true);
+      } else {
+        setMessage('다시 시도해주세요');
+        setMessageModal(true);
+      }
+    },
+  });
+
+  const { mutate: inImage, isLoading: multerInImageLoading } = useMutation<
     MulterResponse,
     AxiosError,
     FormData
@@ -92,26 +136,19 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
     onError: (error: any) => {
       if (error.response.data.message) {
         setMessage(error.response.data.message);
-        setIsModal(true);
+        setMessageModal(true);
       } else if (error.response.status === 413) {
         setMessage('용량이 너무 큽니다.');
-        setIsModal(true);
+        setMessageModal(true);
       } else {
         setMessage('다시 시도해주세요');
-        setIsModal(true);
+        setMessageModal(true);
       }
     },
   });
 
-  // 사진 온클릭
-  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    imgRef?.current?.click();
-  };
-
   // 이미지 첨부 api
-  const imgRef = useRef<any>(null);
-  const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const saveFileOutsideImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 1;
     const formData = new FormData();
@@ -119,14 +156,41 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
       if (files![i] === undefined) {
         break;
       }
-      formData.append('library', files![i], encodeURIComponent(files![i].name));
+      formData.append('banners', files![i], encodeURIComponent(files![i].name));
     }
-    multerImage(formData);
+    outImage(formData);
+    e.target.value = '';
+  };
+
+  const saveFileInsideImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    const maxLength = 3;
+    const formData = new FormData();
+    for (let i = 0; i < maxLength; i += 1) {
+      if (files![i] === undefined) {
+        break;
+      }
+      formData.append('banners', files![i], encodeURIComponent(files![i].name));
+    }
+    inImage(formData);
     e.target.value = '';
   };
 
   // 사진 삭제
-  const handlePhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleOutPhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
+    setOutsideImgName('');
+    setOutsideImgUrl('');
+    const name = Number(e.currentTarget.dataset.name);
+    const copyArr = [...outsideImgArr];
+    for (let i = 0; i < copyArr.length; i++) {
+      if (i === name) {
+        copyArr.splice(i, 1);
+        return setOutsideImgArr(copyArr);
+      }
+    }
+  };
+
+  const handleInPhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     setInsideImgName('');
     setInsideImgUrl('');
     const name = Number(e.currentTarget.dataset.name);
@@ -137,6 +201,112 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
         return setInsideImgArr(copyArr);
       }
     }
+  };
+
+  // 사진 온클릭
+  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    imgRef?.current?.click();
+  };
+
+  // -------------------------배너리스트 조회 (수정하기) -------------------
+  const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        queryClinet.invalidateQueries('entizenLibrary');
+        setIsModal(true);
+        setMessage('수정이 완료됐습니다!');
+      },
+      onError: (error: any) => {
+        setIsModal(true);
+        setMessage('수정 요청을 실패했습니다.\n다시 시도해주세요.');
+        // router.back();
+      },
+    },
+  );
+
+  // 배너리스트 수정하기 버튼
+  const onClickModifiedBtn = () => {
+    if (checkAll) {
+      modifiedMutate({
+        url: `/admin/banners/${detatilId}`,
+        data: {
+          targetMemberType: userTypeEn[userNum],
+          title: title,
+          url: null,
+          mainImage: {
+            url: outsideImgUrl,
+            size: 123,
+            originalName: outsideImgName,
+          },
+          innerImages: insideImgArr,
+        },
+      });
+    }
+  };
+
+  console.log('detatilId 🎀', detatilId);
+
+  // 배너리스트 등록 api
+  const {
+    mutate: postMutate,
+    isLoading: postLoading,
+    isError: postError,
+  } = useMutation(isTokenPostApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('bannerList');
+      setMessageModal(true);
+      setMessage('추가가 완료 됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('추가 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const modalPostBtnControll = () => {
+    if (detatilId === '') {
+      postMutate({
+        url: `/admin/banners`,
+        data: {
+          targetMemberType: userTypeEn[userNum],
+          title: title,
+          url: null,
+          mainImage: {
+            url: outsideImgUrl,
+            size: 123,
+            originalName: outsideImgName,
+          },
+          innerImages: insideImgArr,
+        },
+      });
+    }
+  };
+
+  // 배너리스트 삭제 api
+
+  const {
+    mutate: patchMutate,
+    isLoading: patchLoading,
+    isError: patchError,
+  } = useMutation(isTokenDeleteApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('bannerList');
+      setIsModal(true);
+      setMessage('삭제가 완료 됐습니다.');
+    },
+    onError: () => {
+      setIsModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const modalDeleteBtnControll = () => {
+    patchMutate({
+      url: `/admin/banners/${detatilId}`,
+    });
   };
 
   const WriteModalHandle = () => {
@@ -151,7 +321,14 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
     setIsModal(false);
   };
 
-  console.log('checkValue', checkValue);
+  useEffect(() => {
+    setTitle(firstTitle);
+    setUrl(firstUrl);
+    if (targetMemberType !== undefined && detatilId !== '') {
+      setUserNum(userTypeEn.indexOf(targetMemberType));
+    }
+  }, [data]);
+
   return (
     <Background>
       <Wrapper>
@@ -198,6 +375,16 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
                   onChange={(e) => {
                     setCheckValue(e.target.value);
                   }}
+                  onClick={() => {
+                    if (detatilId !== '') {
+                      false;
+                    } else {
+                      setUserNum(idx);
+                    }
+                  }}
+                  checked={
+                    detatilId !== '' ? item === userType[userNum] : undefined
+                  }
                 />
                 {item}
               </Select>
@@ -229,19 +416,19 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
         <ImgWrapper>
           <AddImg>
             <AddImgText>메인 이미지 추가</AddImgText>
-            <AdminBtn>사진첨부</AdminBtn>
+            <AdminBtn onClick={imgHandler}>사진첨부</AdminBtn>
           </AddImg>
           <input
             style={{ display: 'none' }}
             ref={imgRef}
             type="file"
             accept="image/*"
-            onChange={saveFileImage}
+            onChange={saveFileOutsideImage}
             multiple
           />
           {/* <Preview> */}
           <ImgSpanBox>
-            {insideImgArr?.map((img, index) => (
+            {outsideImgArr?.map((img, index) => (
               <ImgSpan>
                 <Image
                   layout="fill"
@@ -252,7 +439,7 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
                   priority={true}
                   unoptimized={true}
                 />
-                <Xbox onClick={handlePhotoDelete} data-name={index}>
+                <Xbox onClick={handleOutPhotoDelete} data-name={index}>
                   <Image
                     src={CloseImg}
                     layout="intrinsic"
@@ -268,14 +455,14 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
         <ImgWrapper>
           <AddImg>
             <AddImgText>내부 이미지 추가</AddImgText>
-            <AdminBtn>사진첨부</AdminBtn>
+            <AdminBtn onClick={imgHandler}>사진첨부</AdminBtn>
           </AddImg>
           <input
             style={{ display: 'none' }}
             ref={imgRef}
             type="file"
             accept="image/*"
-            onChange={saveFileImage}
+            onChange={saveFileInsideImage}
             multiple
           />
           {/* <Preview> */}
@@ -291,7 +478,7 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
                   priority={true}
                   unoptimized={true}
                 />
-                <Xbox onClick={handlePhotoDelete} data-name={index}>
+                <Xbox onClick={handleInPhotoDelete} data-name={index}>
                   <Image
                     src={CloseImg}
                     layout="intrinsic"
@@ -307,11 +494,29 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
         <BtnBox>
           {detatilId !== '' ? (
             <>
-              <AdminBtn onClick={() => {}}>삭제</AdminBtn>
-              <AdminBtn onClick={() => {}}>수정</AdminBtn>
+              <AdminBtn
+                onClick={() => {
+                  modalDeleteBtnControll();
+                }}
+              >
+                삭제
+              </AdminBtn>
+              <AdminBtn
+                onClick={() => {
+                  onClickModifiedBtn();
+                }}
+              >
+                수정
+              </AdminBtn>
             </>
           ) : (
-            <AdminBtn onClick={() => {}}>등록</AdminBtn>
+            <AdminBtn
+              onClick={() => {
+                modalPostBtnControll();
+              }}
+            >
+              등록
+            </AdminBtn>
           )}
         </BtnBox>
       </Wrapper>
@@ -391,6 +596,7 @@ const TitleArea = styled.input`
   outline: none;
   resize: none;
   background: none;
+  width: 900px;
 `;
 
 const MainTextArea = styled.textarea`
