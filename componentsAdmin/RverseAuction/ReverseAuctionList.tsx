@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import Table from 'componentsAdmin/table';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
 import colors from 'styles/colors';
@@ -9,6 +9,7 @@ import DetailQuotation from './DetailQuotation';
 import { AdminBtn } from 'componentsAdmin/Layout';
 
 const ReverseAuctionList = () => {
+  const [nowHeight, setNowHeight] = useState<number>(window.innerHeight);
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
 
@@ -45,6 +46,20 @@ const ReverseAuctionList = () => {
     }
   };
 
+  // 실시간으로 width 받아오는 함수
+  const handleResize = () => {
+    setNowHeight(window.innerHeight);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [nowHeight]);
+
+  console.log('First nowHeight', nowHeight);
+
   // 엑셀 다운로드
   const handleCommon = () => {};
 
@@ -55,6 +70,7 @@ const ReverseAuctionList = () => {
           detatilId={detatilId}
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
+          nowHeight={nowHeight}
         />
       )}
       <AdminHeader title="역경매 관리" type="main" />

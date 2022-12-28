@@ -9,10 +9,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
+import AdminHeader from 'componentsAdmin/Header';
 
-type Props = {};
+type Props = { showSubMenu?: boolean; nowHeight: number };
 
-const Qutation = (props: Props) => {
+const Qutation = ({ showSubMenu, nowHeight }: Props) => {
   const [optionValue, setOptionValue] = useState<string>();
   const dispatch = useDispatch();
   const { quotationRequestIdx, isCompanyDetail } = useSelector(
@@ -24,37 +25,77 @@ const Qutation = (props: Props) => {
     setOptionValue(event?.target?.value);
   };
 
-  return (
-    <Wrapper>
-      <Menu>
-        <select className="selectBox" onChange={onChangeSelect}>
-          <option value="가견적서">가견적서</option>
-          <option value="최종견적서">최종견적서</option>
-        </select>
-        <Btn>수정</Btn>
-      </Menu>
-      {/* 가견적 */}
+  const backBtn = () => {
+    dispatch(adminReverseAction.setIsCompanyDetail(false));
+  };
 
-      {optionValue === '가견적서' && (
-        <Prequotion preQuotationIdx={quotationRequestIdx} />
-      )}
-      {/* 최종견적 */}
-      {optionValue === '최종견적서' && (
-        <FinalQuotaion finalQuotationIdx={quotationRequestIdx} />
-      )}
-    </Wrapper>
+  console.log('Quotation nowHeight', nowHeight);
+  console.log('quotationRequestIdx🐙', quotationRequestIdx);
+
+  return (
+    <Background nowHeight={nowHeight}>
+      <Wrapper>
+        <AdminHeader
+          title=""
+          type="text"
+          exelHide={false}
+          WriteModalHandle={backBtn}
+        />
+        <Menu showSubMenu={showSubMenu}>
+          <select className="selectBox" onChange={onChangeSelect}>
+            <option value="가견적서">가견적서</option>
+            {quotationRequestIdx?.finalQuotationIdx !== undefined && (
+              <option value="최종견적서">최종견적서</option>
+            )}
+          </select>
+          <TwoBtn>
+            <Btn>수정</Btn>
+            <Btn>삭제</Btn>
+          </TwoBtn>
+        </Menu>
+        {/* 가견적 */}
+
+        {optionValue === '가견적서' && (
+          <Prequotion preQuotationIdx={quotationRequestIdx?.preQuotationIdx} />
+        )}
+        {/* 최종견적 */}
+        {optionValue === '최종견적서' && (
+          <FinalQuotaion
+            finalQuotationIdx={quotationRequestIdx?.finalQuotationIdx}
+          />
+        )}
+      </Wrapper>
+    </Background>
   );
 };
 
 export default Qutation;
 
-const Wrapper = styled.div``;
-const Menu = styled.div`
+const Background = styled.div<{ nowHeight: number }>`
+  width: 100%;
+  height: ${({ nowHeight }) => `${nowHeight}px`};
+  background-color: ${colors.lightWhite};
+  padding: 0 18pt;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  overflow-y: scroll;
+  padding-bottom: 75px;
+`;
+
+const Wrapper = styled.div`
+  width: 964px;
+  display: flex;
+  flex-direction: column;
+`;
+const Menu = styled.div<{ showSubMenu?: boolean }>`
+  display: ${({ showSubMenu }) => showSubMenu && 'none'};
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-  width: 946px;
+  width: 964px;
   .selectBox {
     width: 134px;
     height: 36px;
@@ -76,4 +117,11 @@ const Btn = styled.div`
   height: 26px;
   padding-top: 2px;
   cursor: pointer;
+`;
+
+const TwoBtn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 11px;
 `;

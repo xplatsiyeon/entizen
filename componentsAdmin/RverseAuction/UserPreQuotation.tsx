@@ -70,11 +70,6 @@ const UserPreQuotation = ({ detatilId }: Props) => {
       isTokenGetApi(`/admin/quotations/quotation-requests/${detatilId}`),
     );
 
-  console.log(
-    'data idx 찾아온나',
-    data?.data?.quotationRequest?.quotationRequestIdx,
-  );
-
   // 달력 날짜 변경 함수
   const handleDateChange = () => {};
 
@@ -262,7 +257,7 @@ const DetailBox = styled.div`
   /* padding: 28px 510px 28px 14px; */
   padding: 28px 0 28px 14px;
   border-radius: 4px;
-  min-width: 1200px;
+  min-width: 964px;
 `;
 
 const FlexList = styled.div`

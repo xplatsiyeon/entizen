@@ -92,6 +92,7 @@ const AdminElseList = () => {
         setIsDetail={setIsDetail}
         tableType={''}
         handleCommon={handleCommon}
+        hide={true}
       />
     </Wrapper>
   );

@@ -25,6 +25,8 @@ import {
   dropDownValue,
 } from '../componentsAdmin/Adminterms/AdminTermsEditor';
 
+import { QuotationObject } from '../storeAdmin/adminReverseSlice';
+
 // 공지사항 목데이터
 import { ADMINNOTICE } from '../componentsAdmin/AdminNotice/ADMINNOTICE';
 
@@ -44,6 +46,7 @@ type Props = {
   commonBtn?: string;
   handleCommon: () => void;
   onClickToggle?: (id: number) => void;
+  hide?: boolean;
 };
 
 type NewSell = {
@@ -63,6 +66,7 @@ const Table = ({
   commonBtn,
   handleCommon,
   onClickToggle,
+  hide,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -280,7 +284,10 @@ const Table = ({
                     ? '계약완료'
                     : '-'
                 }`,
-                ele?.preQuotationIdx,
+                {
+                  preQuotationIdx: ele?.preQuotationIdx,
+                  finalQuotationIdx: ele?.finalQuotation?.finalQuotationIdx,
+                },
               ];
               temp.push(eleArr);
             });
@@ -297,7 +304,7 @@ const Table = ({
 
               {
                 name: '',
-                formatter: (cell: number) =>
+                formatter: (cell: QuotationObject) =>
                   _(
                     <div>
                       <button className="button">삭제</button>
@@ -956,6 +963,7 @@ const Table = ({
           onClick={() => {
             handleCommon();
           }}
+          hide={hide}
         >
           {commonBtn}
         </Button>
@@ -1054,7 +1062,7 @@ const FlexBox = styled.div`
 `;
 const P = styled.p``;
 
-const Button = styled.button`
+const Button = styled.button<{ hide?: boolean }>`
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 400;
@@ -1063,6 +1071,7 @@ const Button = styled.button`
   color: #747780;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   padding: 3px 6px;
+  display: ${({ hide }) => hide && 'none'};
 `;
 
 const WrapPage = styled.div`

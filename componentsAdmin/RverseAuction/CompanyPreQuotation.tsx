@@ -26,6 +26,7 @@ const CompanyPreQuotation = ({
         tableType={'companyPreQuotation'}
         commonBtn={'엑셀 다운로드'}
         handleCommon={handleCommon}
+        hide={true}
       />
     </StyledBody>
   );
@@ -33,9 +34,15 @@ const CompanyPreQuotation = ({
 
 export default CompanyPreQuotation;
 
+const Background = styled.div`
+  width: 964px;
+  background-color: ${colors.lightWhite};
+`;
+
 const StyledBody = styled.div`
   margin-top: 32px 0 0;
   min-width: 964px;
+
   .hidden {
     visibility: hidden;
   }
