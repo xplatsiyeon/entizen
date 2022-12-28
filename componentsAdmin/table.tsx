@@ -41,7 +41,7 @@ type Props = {
   selectedFilter?: number;
   userSearch?: string;
   setAfterSalesServiceIdx?: React.Dispatch<React.SetStateAction<number>>;
-  commonBtn: string;
+  commonBtn?: string;
   handleCommon: () => void;
   onClickToggle?: (id: number) => void;
 };

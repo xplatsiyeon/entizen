@@ -15,6 +15,9 @@ import ProjectSituation from 'componentsAdmin/MainDashboard/ProjectSituation';
 import AdminTermsList from 'componentsAdmin/Adminterms/AdminTermsList';
 import AdminNoticeList from 'componentsAdmin/AdminNotice/AdminNoticeList';
 import AdminBannerLIst from 'componentsAdmin/AdminBanner/AdminBannerList';
+import AdminGuideList from 'componentsAdmin/AdminGuide/AdminGuideList';
+import AdminFAQList from 'componentsAdmin/AdminFAQ/AdminFAQList';
+import AdminElseList from 'componentsAdmin/AdminElse/AdminElseList';
 
 type Props = {};
 
@@ -43,6 +46,9 @@ const index = (props: Props) => {
       {number === 14 && <AdminTermsList />}
       {number === 15 && <AdminNoticeList />}
       {number === 16 && <AdminBannerLIst />}
+      {number === 17 && <AdminGuideList />}
+      {number === 18 && <AdminFAQList />}
+      {number === 23 && <AdminElseList />}
     </Background>
   );
 };

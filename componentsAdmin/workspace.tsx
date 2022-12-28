@@ -31,6 +31,10 @@ const openList = [
   '엔티즌 도서관',
   '파트너 등록 제품',
   '정보수정',
+  '알림',
+  'DATA 업데이트',
+  'DATA 다운로드',
+  '기타',
 ];
 const closeList = [
   ['관리자 등록', '관리자 리스트 조회'],
@@ -43,6 +47,10 @@ const closeList = [
   ['리스트 조회'],
   ['회사별 리스트'],
   ['약관', '공지사항', '배너', '가이드', 'FAQ', '설정'],
+  ['알림'],
+  ['DATA 업데이트'],
+  ['DATA 다운로드'],
+  ['블락'],
 ];
 const Workspace = ({ setNumber }: Props) => {
   const router = useRouter();
@@ -118,7 +126,23 @@ const Workspace = ({ setNumber }: Props) => {
         break;
 
       case '설정':
-        setNumber(29);
+        setNumber(19);
+        break;
+
+      case '알림':
+        setNumber(20);
+        break;
+
+      case 'DATA 업데이트':
+        setNumber(21);
+        break;
+
+      case 'DATA 다운로드':
+        setNumber(22);
+        break;
+
+      case '블락':
+        setNumber(23);
         break;
 
       default:

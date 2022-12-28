@@ -4,27 +4,30 @@ import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Table from 'componentsAdmin/table';
-import OOQDetail from './OOQDetail';
 
 type CheckBox = {
   id: number;
   title: string;
 };
 
-const OneOnOneQuestion = () => {
-  const communicationState: CheckBox[] = [
-    { id: 0, title: '상담종료' },
-    { id: 1, title: '상담진행중' },
-  ];
-
-  const userCheckBox: CheckBox[] = [
-    { id: 0, title: '일반회원' },
-    { id: 1, title: '기업회원' },
-  ];
-
+const AdminElseList = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
-  const [pickedDate, setPickedDate] = useState<string[]>();
+  const blockState: CheckBox[] = [
+    { id: 0, title: '블락사유 1' },
+    { id: 1, title: '블락사유 2' },
+    { id: 3, title: '블락사유 3' },
+  ];
+
+  // 상담상태 체크박스에 값 넣고 빼기
+  const [blockCheck, setBlockCheck] = useState<Array<string>>([]);
+  const checkBlockHandle = (checked: boolean, commu: string) => {
+    if (checked) {
+      setBlockCheck((prev) => [...prev, commu]);
+    } else {
+      setBlockCheck(blockCheck.filter((el) => el !== commu));
+    }
+  };
 
   //검색창에 입력되는 값
   const [inputValue, setInputValue] = useState<string>('');
@@ -32,49 +35,26 @@ const OneOnOneQuestion = () => {
   // onClick 할때 값이 바뀌도록
   const [userSearch, setUserSearch] = useState<string>('');
 
-  // 체크박스 선택 여부
-  const [isChecked, setIsChecked] = useState(true);
-
-  // user체크박스에 값 넣고 빼기
-  const [userCheck, setUserCheck] = useState<Array<string>>([]);
-  const checkHandle = (checked: boolean, user: string) => {
-    if (checked) {
-      setUserCheck((prev) => [...prev, user]);
-    } else {
-      setUserCheck(userCheck.filter((el) => el !== user));
-    }
-  };
-
-  // 상담상태 체크박스에 값 넣고 빼기
-  const [commuCheck, setCommuCheck] = useState<Array<string>>([]);
-  const checkCommuHandle = (checked: boolean, commu: string) => {
-    if (checked) {
-      setCommuCheck((prev) => [...prev, commu]);
-    } else {
-      setCommuCheck(commuCheck.filter((el) => el !== commu));
-    }
-  };
-
+  // 블락해제
   const handleCommon = () => {};
-
   return (
     <Wrapper>
       <TitleWrapper>
-        <AdminHeader title="소통하기" type="main" />
-        <SubText>1대1 문의</SubText>
+        <AdminHeader title="기타" type="main" />
+        <SubText>블락</SubText>
       </TitleWrapper>
       <Manager>
         <li className="search">
           <label>상담 상태</label>
           <CheckBoxWrapper>
-            {communicationState.map((data) => (
+            {blockState.map((data) => (
               <CheckBoxLabel key={data.title}>
                 <CheckBox
                   type="checkbox"
                   id={data.title}
                   value={data.title}
                   onChange={(e) => {
-                    checkCommuHandle(e.currentTarget.checked, e.target.id);
+                    checkBlockHandle(e.currentTarget.checked, e.target.id);
                   }}
                 />
                 <CheckBoxText>{data.title}</CheckBoxText>
@@ -83,25 +63,7 @@ const OneOnOneQuestion = () => {
           </CheckBoxWrapper>
         </li>
         <li className="search">
-          <label>회원 구분</label>
-          <CheckBoxWrapper>
-            {userCheckBox.map((data) => (
-              <CheckBoxLabel key={data.title}>
-                <CheckBox
-                  type="checkbox"
-                  id={data.title}
-                  value={data.title}
-                  onChange={(e) => {
-                    checkHandle(e.currentTarget.checked, e.target.id);
-                  }}
-                />
-                <CheckBoxText>{data.title}</CheckBoxText>
-              </CheckBoxLabel>
-            ))}
-          </CheckBoxWrapper>
-        </li>
-        <li className="search">
-          <label>아이디 검색</label>
+          <label className="idSearch">아이디 검색</label>
           <input
             type="text"
             placeholder="검색"
@@ -126,31 +88,27 @@ const OneOnOneQuestion = () => {
         </li>
       </Manager>
       <Table
-        setIsDetail={setIsDetail}
         setDetailId={setDetailId}
+        setIsDetail={setIsDetail}
         tableType={''}
-        userSearch={userSearch}
-        commonBtn={'엑셀 다운로드'}
         handleCommon={handleCommon}
       />
-
-      {inputValue && <OOQDetail />}
     </Wrapper>
   );
 };
 
-export default OneOnOneQuestion;
+export default AdminElseList;
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 0 18pt;
-  position: relative;
+  margin: 0 18pt;
 `;
 
 const TitleWrapper = styled.div`
   display: flex;
   align-items: baseline;
 `;
+
 const SubText = styled.div`
   font-family: 'Spoqa Han Sans Neo';
   font-size: 16px;
@@ -186,6 +144,10 @@ const Manager = styled.ul`
   }
   .search {
     width: 946px;
+  }
+
+  .idSearch {
+    padding-right: 32pt;
   }
 `;
 
