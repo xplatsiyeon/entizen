@@ -318,13 +318,6 @@ const FirstStep = ({
   // }, [selectedOption]);
   // console.log(`first step입니다`, selectedOption.length);
 
-  console.log(
-    'profitableInterestUser 수정하기 왜 안나옴?',
-    profitableInterestUser,
-  );
-
-  console.log('chargePoint 어케나옴?', chargePoint);
-
   return (
     <WebRapper>
       <Wrapper>

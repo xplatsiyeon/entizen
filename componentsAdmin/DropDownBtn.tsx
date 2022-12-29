@@ -13,6 +13,7 @@ type Props = {
   selectValue?: string;
   background?: string;
   border?: string;
+  handleSelectBox?: (value: string, name: string, index: number) => void;
 };
 
 const DropDownBtn = ({
@@ -23,6 +24,7 @@ const DropDownBtn = ({
   selectValue,
   background,
   border,
+  handleSelectBox,
 }: Props) => {
   // props로 받아야 하는거 최초 초기 단계 => currentStep
   // 드랍 다운에 들어가는 option 값 => dropDownValue
@@ -37,6 +39,7 @@ const DropDownBtn = ({
       background={background}
       onClick={() => {
         setDropDown(!dropDown);
+        handleSelectBox;
       }}
     >
       {dropDown && (

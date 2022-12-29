@@ -41,6 +41,7 @@ export interface ImgFile {
   chargerProductIdx?: number | undefined;
   createdAt?: string | undefined;
   productFileType?: string | undefined;
+  bannerImageIdx?: number;
 }
 export interface MulterResponse {
   isSuccess: boolean;

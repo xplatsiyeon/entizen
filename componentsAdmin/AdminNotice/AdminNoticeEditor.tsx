@@ -75,9 +75,6 @@ const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
   const firstTitle = data?.data?.title;
   const firstBodyText = data?.data?.content;
 
-  console.log('🐙title🐙', title);
-  console.log('🐙firstTitle🐙', firstTitle);
-
   const [imgArr, setImgArr] = useState<ImgFile[]>([]);
   const [imgUrl, setImgUrl] = useState<string | undefined>(firstImgUrl);
   const [imgName, setImgName] = useState<string | undefined>('');

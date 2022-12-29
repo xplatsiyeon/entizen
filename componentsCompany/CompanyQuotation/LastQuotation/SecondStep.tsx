@@ -38,7 +38,7 @@ type Props = {
   setSelectedOptionEn: Dispatch<SetStateAction<chargers[]>>;
 };
 
-const TAG = 'omponentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
+const TAG = 'componentsCompany/CompanyQuotation/RecievedQuoatation/SecondStep';
 
 const SecondStep = ({
   tabNumber,
@@ -86,7 +86,6 @@ const SecondStep = ({
   >(multerApi, {
     onSuccess: (res) => {
       console.log(TAG + ' 👀 ~ line 95 multer onSuccess');
-
       const temp = [...selectedOptionEn];
       const newArr = [...temp[tabNumber - 1].chargerImageFiles];
       res?.uploadedFiles.forEach((img) => {
@@ -462,6 +461,7 @@ const SecondStep = ({
   console.log('🔥 최종견적 선택된 옵션 리스트 목록 -> ');
   console.log(selectedOption[maxIndex! - 1]);
   console.log(maxIndex);
+  console.log('🦋 selectedOptionEn 🦋', selectedOptionEn[maxIndex! - 1]);
 
   return (
     <>

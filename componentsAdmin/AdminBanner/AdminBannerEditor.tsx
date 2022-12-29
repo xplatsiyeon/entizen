@@ -36,6 +36,14 @@ type Props = {
   detatilId?: string;
 };
 
+type IMG = {
+  originalName: string;
+  size: number;
+  url: string;
+  createdAt?: string;
+  bannerImageIdx?: number;
+};
+
 const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
   const queryClinet = useQueryClient();
   const { data, isLoading, isError, refetch } =
@@ -67,16 +75,30 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
   // url
   const [url, setUrl] = useState<string | undefined>('');
 
-  const [insideImgArr, setInsideImgArr] = useState<ImgFile[]>([]);
+  const [insideImgArr, setInsideImgArr] = useState<IMG[]>([]);
   const [insideImgUrl, setInsideImgUrl] = useState<string | undefined>('');
   const [insideImgName, setInsideImgName] = useState<string | undefined>('');
-  const [outsideImgArr, setOutsideImgArr] = useState<ImgFile[]>([]);
+  const [outsideImgArr, setOutsideImgArr] = useState<IMG[]>([]);
   const [outsideImgUrl, setOutsideImgUrl] = useState<string | undefined>('');
   const [outsideImgName, setOutsideImgName] = useState<string | undefined>('');
+  const [outsideImgSize, setOutsideImgSize] = useState<number | undefined>();
 
   const firstTitle = data?.data?.banner?.title;
   const firstUrl = data?.data?.banner?.url;
   const targetMemberType = data?.data?.banner?.targetMemberType;
+  const firstOutsideImgArr = data?.data?.banner?.mainImage;
+  const firstInsideImgArr = data?.data?.banner?.innerImages?.map((e) => {
+    const { createdAt, bannerImageIdx, ...rest } = e;
+    return { ...rest };
+  });
+
+  console.log('firstInsideImgArr', firstInsideImgArr);
+
+  console.log('🐳 firstOutsideImgArr 🐳', firstOutsideImgArr);
+
+  console.log('🎀 outsideImgArr 🎀', outsideImgArr);
+
+  console.log('url', url);
 
   // file s3 multer 저장 API (with useMutation)
   const { mutate: outImage, isLoading: multerOutImageLoading } = useMutation<
@@ -87,7 +109,11 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
     onSuccess: (res) => {
       // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
       // console.log(res);
-      const newFile = [...outsideImgArr];
+      const preFile = outsideImgArr;
+      const newFile = preFile.map((e) => {
+        const { createdAt, bannerImageIdx, ...rest } = e;
+        return { ...rest };
+      });
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
           url: img.url,
@@ -96,6 +122,7 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
         });
         setOutsideImgName(decodeURIComponent(img.originalName));
         setOutsideImgUrl(img.url);
+        setOutsideImgSize(img.size);
       });
       setOutsideImgArr(newFile);
     },
@@ -121,7 +148,11 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
     onSuccess: (res) => {
       // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
       // console.log(res);
-      const newFile = [...insideImgArr];
+      const preFile = insideImgArr;
+      const newFile = preFile.map((e) => {
+        const { createdAt, bannerImageIdx, ...rest } = e;
+        return { ...rest };
+      });
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
           url: img.url,
@@ -156,7 +187,7 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
       if (files![i] === undefined) {
         break;
       }
-      formData.append('banners', files![i], encodeURIComponent(files![i].name));
+      formData.append('library', files![i], encodeURIComponent(files![i].name));
     }
     outImage(formData);
     e.target.value = '';
@@ -170,7 +201,7 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
       if (files![i] === undefined) {
         break;
       }
-      formData.append('banners', files![i], encodeURIComponent(files![i].name));
+      formData.append('banner', files![i], encodeURIComponent(files![i].name));
     }
     inImage(formData);
     e.target.value = '';
@@ -180,6 +211,7 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
   const handleOutPhotoDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     setOutsideImgName('');
     setOutsideImgUrl('');
+    setOutsideImgSize(0);
     const name = Number(e.currentTarget.dataset.name);
     const copyArr = [...outsideImgArr];
     for (let i = 0; i < copyArr.length; i++) {
@@ -204,7 +236,11 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
   };
 
   // 사진 온클릭
-  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const imgOutHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    imgRef?.current?.click();
+  };
+
+  const imgInHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     imgRef?.current?.click();
   };
 
@@ -214,11 +250,11 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
     {
       onSuccess: () => {
         queryClinet.invalidateQueries('entizenLibrary');
-        setIsModal(true);
+        setMessageModal(true);
         setMessage('수정이 완료됐습니다!');
       },
       onError: (error: any) => {
-        setIsModal(true);
+        setMessageModal(true);
         setMessage('수정 요청을 실패했습니다.\n다시 시도해주세요.');
         // router.back();
       },
@@ -227,25 +263,17 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
 
   // 배너리스트 수정하기 버튼
   const onClickModifiedBtn = () => {
-    if (checkAll) {
-      modifiedMutate({
-        url: `/admin/banners/${detatilId}`,
-        data: {
-          targetMemberType: userTypeEn[userNum],
-          title: title,
-          url: null,
-          mainImage: {
-            url: outsideImgUrl,
-            size: 123,
-            originalName: outsideImgName,
-          },
-          innerImages: insideImgArr,
-        },
-      });
-    }
+    modifiedMutate({
+      url: `/admin/banners/${detatilId}`,
+      data: {
+        targetMemberType: userTypeEn[userNum],
+        title: title,
+        url: url,
+        mainImage: outsideImgArr,
+        innerImages: insideImgArr,
+      },
+    });
   };
-
-  console.log('detatilId 🎀', detatilId);
 
   // 배너리스트 등록 api
   const {
@@ -272,12 +300,8 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
         data: {
           targetMemberType: userTypeEn[userNum],
           title: title,
-          url: null,
-          mainImage: {
-            url: outsideImgUrl,
-            size: 123,
-            originalName: outsideImgName,
-          },
+          url: url,
+          mainImage: outsideImgArr,
           innerImages: insideImgArr,
         },
       });
@@ -293,11 +317,11 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('bannerList');
-      setIsModal(true);
+      setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },
     onError: () => {
-      setIsModal(true);
+      setMessageModal(true);
       setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
     },
     onSettled: () => {},
@@ -324,6 +348,8 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
   useEffect(() => {
     setTitle(firstTitle);
     setUrl(firstUrl);
+    setOutsideImgArr([firstOutsideImgArr!]);
+    setInsideImgArr(firstInsideImgArr!);
     if (targetMemberType !== undefined && detatilId !== '') {
       setUserNum(userTypeEn.indexOf(targetMemberType));
     }
@@ -416,7 +442,7 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
         <ImgWrapper>
           <AddImg>
             <AddImgText>메인 이미지 추가</AddImgText>
-            <AdminBtn onClick={imgHandler}>사진첨부</AdminBtn>
+            <AdminBtn onClick={imgOutHandler}>사진첨부</AdminBtn>
           </AddImg>
           <input
             style={{ display: 'none' }}
@@ -435,9 +461,10 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
                   alt="preview"
                   data-name={index}
                   key={index}
-                  src={img.url}
+                  src={img?.url}
                   priority={true}
                   unoptimized={true}
+                  objectFit="cover"
                 />
                 <Xbox onClick={handleOutPhotoDelete} data-name={index}>
                   <Image
@@ -455,7 +482,7 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
         <ImgWrapper>
           <AddImg>
             <AddImgText>내부 이미지 추가</AddImgText>
-            <AdminBtn onClick={imgHandler}>사진첨부</AdminBtn>
+            <AdminBtn onClick={imgInHandler}>사진첨부</AdminBtn>
           </AddImg>
           <input
             style={{ display: 'none' }}
@@ -474,9 +501,10 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
                   alt="preview"
                   data-name={index}
                   key={index}
-                  src={img.url}
+                  src={img?.url}
                   priority={true}
                   unoptimized={true}
+                  objectFit="cover"
                 />
                 <Xbox onClick={handleInPhotoDelete} data-name={index}>
                   <Image
@@ -635,9 +663,11 @@ const AddImg = styled.div`
 
 const ImgSpanBox = styled.div`
   height: auto;
-  width: 800px;
+  width: 790px;
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
+  margin-left: 10px;
 `;
 
 const ImgSpan = styled.div`
