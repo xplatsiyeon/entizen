@@ -17,17 +17,23 @@ import {
   AdminTermsListResponse,
   AdminNoticeListResponse,
   AdminBannerListResponse,
+  AdminFAQListResponse,
 } from 'types/tableDataType';
-import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
+import {
+  adminDateFomat,
+  dateFomat,
+  hyphenFn,
+  convertKo,
+} from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 import {
   dropDownValueEn,
   dropDownValue,
 } from '../componentsAdmin/Adminterms/AdminTermsEditor';
-
 import { QuotationObject } from '../storeAdmin/adminReverseSlice';
 import { NewCell } from './AdminNotice/AdminNoticeList';
+import { ServiceKr, ServiceEn } from './AdminFAQ/AdminFAQList';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
 import { CoPresentSharp } from '@mui/icons-material';
@@ -941,10 +947,84 @@ const Table = ({
       },
     );
 
-  console.log(
-    '🐳adminNoticeList.isVisible🐳',
-    adminNoticeList?.data.notices[0].isVisible,
-  );
+  // faq 리스트
+  const { data: adminFaqList, refetch: adminFaqListRefetch } =
+    useQuery<AdminFAQListResponse>(
+      'adminFaqList',
+      () => getApi(`/admin/faqs`),
+      {
+        enabled: false,
+        onSuccess: (adminFaqList) => {
+          if (tableType === 'adminFaqList') {
+            const temp: any = [];
+            adminFaqList?.data?.faqs.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+
+                convertKo(ServiceKr, ServiceEn, ele?.faqKind),
+                ele?.question,
+                {
+                  isVisible: ele.isVisible,
+                  id: ele.faqIdx,
+                },
+                dateFomat(ele.createdAt),
+                ele.faqIdx,
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '카테고리',
+              'FAQ',
+              {
+                name: '노출여부',
+                id: 'adminFaqListVisible',
+                formatter: (cell: NewCell) =>
+                  _(
+                    <ToggleContainer>
+                      <ToggleBtn
+                        visible={cell?.isVisible}
+                        onClick={() => {
+                          if (setToggle) {
+                            setToggle(cell);
+                          }
+                        }}
+                      >
+                        <Circle visible={cell?.isVisible} />
+                      </ToggleBtn>
+                    </ToggleContainer>,
+                  ),
+              },
+              '등록일',
+              {
+                name: '',
+                id: 'faqsListIdx',
+                formatter: (cell: string) =>
+                  _(
+                    <button
+                      className="detail"
+                      onClick={() => {
+                        setDetailId(cell);
+                        setIsDetail(true);
+                        if (setAfterSalesServiceIdx) {
+                          setAfterSalesServiceIdx(Number(cell));
+                        }
+                      }}
+                    >
+                      보기
+                    </button>,
+                  ),
+              },
+            ]);
+            setLength(adminFaqList?.data ? adminFaqList?.data?.totalCount : 0);
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
 
   useEffect(() => {
     switch (tableType) {
@@ -990,6 +1070,10 @@ const Table = ({
 
       case 'bannerList':
         bannerListRefetch();
+        break;
+
+      case 'adminFaqList':
+        adminFaqListRefetch();
         break;
     }
     // 의존성 배열에 api.get()dml data넣기.
@@ -1035,6 +1119,10 @@ const Table = ({
 
       case 'bannerList':
         bannerListRefetch();
+        break;
+
+      case 'adminFaqList':
+        adminFaqListRefetch();
         break;
     }
   }, [page, pickedDate, userSearch, userType]);

@@ -280,3 +280,20 @@ export interface AdminBannerDetailResponse {
     };
   };
 }
+
+// faq 리스트 조회
+export interface AdminFAQListResponse {
+  isSuccess: boolean;
+  data: {
+    faqs: {
+      createdAt: string;
+      faqIdx: number;
+      faqKind: string;
+      question: string;
+      answer: string;
+      isVisible: boolean;
+    }[];
+
+    totalCount: number;
+  };
+}

@@ -38,8 +38,6 @@ const AdminNoticeList = () => {
     },
   });
 
-  console.log('🌸 toggleId 🌸', toggle?.id);
-
   useEffect(() => {
     patchMutate({
       url: `/admin/notices/${toggle?.id}/exposure`,

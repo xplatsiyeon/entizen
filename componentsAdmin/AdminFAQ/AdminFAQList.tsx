@@ -1,16 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import Table from 'componentsAdmin/table';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import AdminFAQEditor from './AdminFAQEditor';
+import { isTokenPatchApi } from 'api';
+import { NewCell } from 'componentsAdmin/AdminNotice/AdminNoticeList';
+import {
+  QueryObserverResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from 'react-query';
+
+export const ServiceKr: string[] = ['서비스 이용', '회원정보', '신고'];
+export const ServiceEn: string[] = ['MEMBER', 'SERVICE', 'REPORT'];
 
 const AdminFAQList = () => {
+  const queryClient = useQueryClient();
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
+  const [toggle, setToggle] = useState<NewCell>({
+    isVisible: true,
+    id: 0,
+  });
 
-  // 등록 다운로드
+  // /admin/faqs/:faqIdx/exposure 토글 버튼 수정
+  const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('adminFaqList');
+    },
+    onError: (error) => {
+      console.log('토글 버튼 에러');
+      console.log(error);
+    },
+  });
+
+  useEffect(() => {
+    patchMutate({
+      url: `/admin/faqs/${toggle?.id}/exposure`,
+    });
+  }, [toggle]);
+
+  // 등록
   const handleCommon = () => {
     setIsDetail(true);
   };
@@ -26,9 +59,11 @@ const AdminFAQList = () => {
       <Table
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
-        tableType={''}
+        tableType={'adminFaqList'}
         commonBtn={'등록'}
         handleCommon={handleCommon}
+        setToggle={setToggle}
+        toggle={toggle}
       />
     </Wrapper>
   );

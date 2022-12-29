@@ -95,6 +95,7 @@ const AdminBannerLIst = () => {
           tableType={'bannerList'}
           commonBtn={'등록'}
           handleCommon={handleCommon}
+          setToggle={setToggle}
           toggle={toggle}
           userType={userTypeEn[userNum]}
         />
