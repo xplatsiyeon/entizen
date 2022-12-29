@@ -72,6 +72,7 @@ const Background = styled.div`
   width: 100%;
   min-height: 100vh;
   height: 100%;
+  border: 1px solid red;
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
   position: absolute;
@@ -84,6 +85,8 @@ const Background = styled.div`
 
 const Wrapper = styled.div`
   width: 964px;
+  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 `;

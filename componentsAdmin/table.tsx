@@ -214,7 +214,7 @@ const Table = ({
                   _(
                     <select defaultValue={cell}>
                       <option value="true">승인</option>
-                      <option value="false">미숭인</option>
+                      <option value="false">미승인</option>
                     </select>,
                   ),
               },
