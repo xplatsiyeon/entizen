@@ -201,7 +201,11 @@ const Wrapper = styled(List)<{ windowHeight: number }>`
   background-color: ${colors.main1};
   height: 100vh;
   padding: 0;
+  //1f8bwsm
   .css-cveggr-MuiListItemIcon-root {
+    min-width: 0;
+  }
+  .css-1f8bwsm-MuiListItemIcon-root {
     min-width: 0;
   }
   .MuiListItemButton-root {
