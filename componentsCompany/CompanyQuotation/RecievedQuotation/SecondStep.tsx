@@ -90,6 +90,7 @@ const SecondStep = ({
 
   const charger =
     data?.receivedQuotationRequest?.quotationRequestChargers[StepIndex]!;
+
   // 충전 요금 종류
   const [chargeTypeNumber, setChargeTypeNumber] = useState<number>(-1);
   // 충전 요금

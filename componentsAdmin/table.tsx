@@ -19,6 +19,7 @@ import {
   AdminBannerListResponse,
   AdminFAQListResponse,
   OneOnOneChatResponse,
+  AdminAccountList,
 } from 'types/tableDataType';
 import {
   adminDateFomat,
@@ -1103,6 +1104,68 @@ const Table = ({
       },
     );
 
+  // 관리자 리스트 조회
+  const { data: adminAccountList, refetch: adminAccountListRefetch } =
+    useQuery<AdminAccountList>(
+      'adminAccountList',
+      () => getApi(`/admin/managers`),
+      {
+        enabled: false,
+        onSuccess: (adminAccountList) => {
+          const totalLength = adminAccountList?.data?.managers;
+          if (tableType === 'adminAccountList') {
+            const temp: any = [];
+            adminAccountList?.data?.managers?.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 ? '' : page - 1}${
+                  idx + 1 === page * 10 ? 0 : idx + 1
+                }`,
+
+                ele.id,
+                ele.name,
+                hyphenFn(ele.phone),
+                ele.email,
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '아이디',
+              '이름',
+              '전화번호',
+              '이메일',
+
+              {
+                name: '',
+                formatter: (cell: string) =>
+                  _(
+                    <button
+                      className="detail"
+                      onClick={() => {
+                        setDetailId(cell);
+                        setIsDetail(true);
+                        if (setAfterSalesServiceIdx) {
+                          setAfterSalesServiceIdx(Number(cell));
+                        }
+                      }}
+                    >
+                      보기
+                    </button>,
+                  ),
+              },
+            ]);
+            setLength(
+              totalLength === undefined
+                ? 0
+                : adminAccountList?.data?.totalCount,
+            );
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
+
   useEffect(() => {
     switch (tableType) {
       case 'userData':
@@ -1155,6 +1218,10 @@ const Table = ({
 
       case 'userChattingOneOnOne':
         userChattingOneOnOneRefetch();
+        break;
+
+      case 'adminAccountList':
+        adminAccountListRefetch();
         break;
     }
     // 의존성 배열에 api.get()dml data넣기.
@@ -1208,6 +1275,10 @@ const Table = ({
 
       case 'userChattingOneOnOne':
         userChattingOneOnOneRefetch();
+        break;
+
+      case 'adminAccountList':
+        adminAccountListRefetch();
         break;
     }
   }, [page, pickedDate, userSearch, userType, userCheck, commuCheck]);

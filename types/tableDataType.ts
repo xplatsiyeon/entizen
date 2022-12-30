@@ -311,3 +311,17 @@ export interface OneOnOneChatResponse {
     }[];
   };
 }
+// 관리자 리스트 조회
+export interface AdminAccountList {
+  isSuccess: boolean;
+  data: {
+    totalCount: number;
+    managers: {
+      managerIdx: number;
+      id: string;
+      name: string;
+      phone: string;
+      email: string;
+    }[];
+  };
+}

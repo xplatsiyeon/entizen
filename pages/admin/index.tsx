@@ -18,6 +18,8 @@ import AdminBannerLIst from 'componentsAdmin/AdminBanner/AdminBannerList';
 import AdminGuideList from 'componentsAdmin/AdminGuide/AdminGuideList';
 import AdminFAQList from 'componentsAdmin/AdminFAQ/AdminFAQList';
 import AdminElseList from 'componentsAdmin/AdminElse/AdminElseList';
+import AddAdminAccount from 'componentsAdmin/AdminAccount/AddAdminAccount';
+import AdminAccountList from 'componentsAdmin/AdminAccount/AdminAccountList';
 
 type Props = {};
 
@@ -29,8 +31,8 @@ const index = (props: Props) => {
   return (
     <Background>
       <Workspace setNumber={setNumber} />
-      {number === 1 && <div>관리자 등록</div>}
-      {number === 2 && <div>관리자 리스트 조회</div>}
+      {number === 1 && <AddAdminAccount />}
+      {number === 2 && <AdminAccountList />}
       {number === 3 && <ProjectSituation />}
       {number === 4 && <Statistics />}
       {number === 5 && <UserManagement />}
