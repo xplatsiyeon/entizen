@@ -202,12 +202,12 @@ const Wrapper = styled(List)<{ windowHeight: number }>`
   height: 100vh;
   padding: 0;
   //1f8bwsm
-  .css-cveggr-MuiListItemIcon-root {
+  /* .css-cveggr-MuiListItemIcon-root {
     min-width: 0;
   }
   .css-1f8bwsm-MuiListItemIcon-root {
     min-width: 0;
-  }
+  } */
   .MuiListItemButton-root {
     font-weight: 600;
     font-size: 12pt;
