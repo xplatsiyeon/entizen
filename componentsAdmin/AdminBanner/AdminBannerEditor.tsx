@@ -40,8 +40,8 @@ type IMG = {
   originalName: string;
   size: number;
   url: string;
-  createdAt?: string;
-  bannerImageIdx?: number;
+  createdAt?: string | undefined;
+  bannerImageIdx?: number | undefined;
 };
 
 const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
@@ -92,11 +92,9 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
     return { ...rest };
   });
 
-  console.log('firstInsideImgArr', firstInsideImgArr);
+  // 메인이미지에 추가해도 preview에 내부 이미지로 들어가는거 수정...
 
-  console.log('🐳 firstOutsideImgArr 🐳', firstOutsideImgArr);
-
-  console.log('🎀 outsideImgArr 🎀', outsideImgArr);
+  console.log('🎀 outsideImgUrl 🎀', outsideImgUrl);
 
   console.log('url', url);
 
@@ -109,11 +107,11 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
     onSuccess: (res) => {
       // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
       // console.log(res);
-      const preFile = outsideImgArr;
-      const newFile = preFile.map((e) => {
-        const { createdAt, bannerImageIdx, ...rest } = e;
-        return { ...rest };
-      });
+      const newFile = outsideImgArr;
+      // const newFile = preFile.map((e) => {
+      //   const { createdAt, bannerImageIdx, ...rest } = e;
+      //   return { ...rest };
+      // });
       res?.uploadedFiles.forEach((img) => {
         newFile.push({
           url: img.url,
@@ -269,7 +267,11 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
         targetMemberType: userTypeEn[userNum],
         title: title,
         url: url,
-        mainImage: outsideImgArr,
+        mainImage: {
+          originalName: outsideImgName,
+          url: outsideImgUrl,
+          size: outsideImgSize,
+        },
         innerImages: insideImgArr,
       },
     });
@@ -301,7 +303,11 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
           targetMemberType: userTypeEn[userNum],
           title: title,
           url: url,
-          mainImage: outsideImgArr,
+          mainImage: {
+            originalName: outsideImgName,
+            url: outsideImgUrl,
+            size: outsideImgSize,
+          },
           innerImages: insideImgArr,
         },
       });
@@ -349,6 +355,9 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
     setTitle(firstTitle);
     setUrl(firstUrl);
     setOutsideImgArr([firstOutsideImgArr!]);
+    setOutsideImgUrl(firstOutsideImgArr?.url);
+    setOutsideImgName(firstOutsideImgArr?.originalName);
+    setOutsideImgSize(firstOutsideImgArr?.size);
     setInsideImgArr(firstInsideImgArr!);
     if (targetMemberType !== undefined && detatilId !== '') {
       setUserNum(userTypeEn.indexOf(targetMemberType));
@@ -453,7 +462,7 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
             multiple
           />
           {/* <Preview> */}
-          <ImgSpanBox>
+          {/* <ImgSpanBox>
             {outsideImgArr?.map((img, index) => (
               <ImgSpan>
                 <Image
@@ -477,6 +486,27 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
                 </Xbox>
               </ImgSpan>
             ))}
+          </ImgSpanBox> */}
+          <ImgSpanBox>
+            <ImgSpan>
+              <Image
+                layout="fill"
+                alt="preview"
+                src={outsideImgUrl!}
+                priority={true}
+                unoptimized={true}
+                objectFit="cover"
+              />
+              <Xbox onClick={handleOutPhotoDelete}>
+                <Image
+                  src={CloseImg}
+                  layout="intrinsic"
+                  alt="closeBtn"
+                  width={24}
+                  height={24}
+                />
+              </Xbox>
+            </ImgSpan>
           </ImgSpanBox>
         </ImgWrapper>
         <ImgWrapper>

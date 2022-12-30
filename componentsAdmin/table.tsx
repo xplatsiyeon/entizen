@@ -18,6 +18,7 @@ import {
   AdminNoticeListResponse,
   AdminBannerListResponse,
   AdminFAQListResponse,
+  OneOnOneChatResponse,
 } from 'types/tableDataType';
 import {
   adminDateFomat,
@@ -34,6 +35,12 @@ import {
 import { QuotationObject } from '../storeAdmin/adminReverseSlice';
 import { NewCell } from './AdminNotice/AdminNoticeList';
 import { ServiceKr, ServiceEn } from './AdminFAQ/AdminFAQList';
+import {
+  communicationState,
+  communicationStateEn,
+  userCheckBox,
+  userCheckBoxEn,
+} from './Communication/OneOnOneQuestion';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
 import { CoPresentSharp } from '@mui/icons-material';
@@ -54,6 +61,8 @@ type Props = {
   userType?: string;
   setToggle?: React.Dispatch<React.SetStateAction<NewCell>>;
   toggle?: NewCell;
+  commuCheck?: string;
+  userCheck?: string;
 };
 
 const Table = ({
@@ -72,6 +81,8 @@ const Table = ({
   userType,
   setToggle,
   toggle,
+  commuCheck,
+  userCheck,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -97,6 +108,8 @@ const Table = ({
   
   
   */
+
+  console.log('🐳 userCheck 🐳', userCheck);
 
   //  유저 데이터
   const { data: userData, refetch: userDataRefetch } = useQuery<UserData>(
@@ -530,7 +543,7 @@ const Table = ({
     },
   );
 
-  // 소통하기 UserListapi 들어갈 자리임
+  // 소통하기 리스트 조회
   // /admin/chatting/members?page=1&limit=10&startDate=2022-12-19&endDate=2022-12-19
 
   const { data: userChatting, refetch: userChattingRefetch } =
@@ -601,6 +614,70 @@ const Table = ({
             ]);
             setLength(
               userChatting.data.totalCount ? userChatting.data.totalCount : 0,
+            );
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
+
+  // 소통하기  1:1 문의
+  // /admin/chatting/consultations?page=1&limit=10&searchId=test&memberType=company
+  // 나중에 상담상태도 추가 하셈 'commuCheck'
+  const { data: userChattingOneOnOne, refetch: userChattingOneOnOneRefetch } =
+    useQuery<OneOnOneChatResponse>(
+      'userChattingOneOnOne',
+      () =>
+        getApi(
+          `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}`,
+        ),
+      {
+        enabled: false,
+        onSuccess: (userChattingOneOnOne) => {
+          if (tableType === 'userChattingOneOnOne') {
+            const temp: any = [];
+            userChattingOneOnOne?.data?.consultations?.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+                convertKo(userCheckBox, userCheckBoxEn, ele.memberType),
+                ele.memberId,
+                ele.consultStatus,
+              ];
+              temp.push(eleArr);
+            });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '구분',
+              '아이디',
+              '상담 상태',
+              {
+                name: '',
+                id: 'userChatting',
+                formatter: (cell: string) =>
+                  _(
+                    <button
+                      className="detail"
+                      style={{ marginLeft: '10px' }}
+                      onClick={() => {
+                        setDetailId(cell);
+                        setIsDetail(true);
+                        if (setAfterSalesServiceIdx) {
+                          setAfterSalesServiceIdx(Number(cell));
+                        }
+                      }}
+                    >
+                      보기
+                    </button>,
+                  ),
+              },
+            ]);
+            setLength(
+              userChattingOneOnOne.data
+                ? userChattingOneOnOne.data.consultations.length
+                : 0,
             );
           }
         },
@@ -1075,6 +1152,10 @@ const Table = ({
       case 'adminFaqList':
         adminFaqListRefetch();
         break;
+
+      case 'userChattingOneOnOne':
+        userChattingOneOnOneRefetch();
+        break;
     }
     // 의존성 배열에 api.get()dml data넣기.
   }, [entizenLibrary, userType]);
@@ -1124,8 +1205,12 @@ const Table = ({
       case 'adminFaqList':
         adminFaqListRefetch();
         break;
+
+      case 'userChattingOneOnOne':
+        userChattingOneOnOneRefetch();
+        break;
     }
-  }, [page, pickedDate, userSearch, userType]);
+  }, [page, pickedDate, userSearch, userType, userCheck, commuCheck]);
 
   return (
     <StyledBody className="user-table">

@@ -297,3 +297,17 @@ export interface AdminFAQListResponse {
     totalCount: number;
   };
 }
+
+// 1:1채팅 조회
+export interface OneOnOneChatResponse {
+  isSuccess: boolean;
+  data: {
+    consultations: {
+      memberType: string;
+      memberIdx: number;
+      memberId: string;
+      consultStatus: string;
+      chattingRoomIdx: number;
+    }[];
+  };
+}

@@ -5,23 +5,26 @@ import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Table from 'componentsAdmin/table';
 import OOQDetail from './OOQDetail';
+import {
+  adminDateFomat,
+  dateFomat,
+  hyphenFn,
+  convertKo,
+  convertEn,
+} from 'utils/calculatePackage';
 
 type CheckBox = {
   id: number;
   title: string;
 };
 
+export const communicationState = ['상담종료', '상담진행중'];
+export const communicationStateEn = ['', ''];
+
+export const userCheckBox = ['일반회원', '기업회원'];
+export const userCheckBoxEn = ['USER', 'COMPANY'];
+
 const OneOnOneQuestion = () => {
-  const communicationState: CheckBox[] = [
-    { id: 0, title: '상담종료' },
-    { id: 1, title: '상담진행중' },
-  ];
-
-  const userCheckBox: CheckBox[] = [
-    { id: 0, title: '일반회원' },
-    { id: 1, title: '기업회원' },
-  ];
-
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -57,6 +60,8 @@ const OneOnOneQuestion = () => {
 
   const handleCommon = () => {};
 
+  console.log('🌸 userCheck 🌸', userCheck);
+
   return (
     <Wrapper>
       <TitleWrapper>
@@ -67,17 +72,17 @@ const OneOnOneQuestion = () => {
         <li className="search">
           <label>상담 상태</label>
           <CheckBoxWrapper>
-            {communicationState.map((data) => (
-              <CheckBoxLabel key={data.title}>
+            {communicationState.map((data, idx) => (
+              <CheckBoxLabel key={data}>
                 <CheckBox
                   type="checkbox"
-                  id={data.title}
-                  value={data.title}
+                  id={data}
+                  value={data}
                   onChange={(e) => {
                     checkCommuHandle(e.currentTarget.checked, e.target.id);
                   }}
                 />
-                <CheckBoxText>{data.title}</CheckBoxText>
+                <CheckBoxText>{data}</CheckBoxText>
               </CheckBoxLabel>
             ))}
           </CheckBoxWrapper>
@@ -85,17 +90,17 @@ const OneOnOneQuestion = () => {
         <li className="search">
           <label>회원 구분</label>
           <CheckBoxWrapper>
-            {userCheckBox.map((data) => (
-              <CheckBoxLabel key={data.title}>
+            {userCheckBox.map((data, idx) => (
+              <CheckBoxLabel key={data}>
                 <CheckBox
                   type="checkbox"
-                  id={data.title}
-                  value={data.title}
+                  id={data}
+                  value={data}
                   onChange={(e) => {
                     checkHandle(e.currentTarget.checked, e.target.id);
                   }}
                 />
-                <CheckBoxText>{data.title}</CheckBoxText>
+                <CheckBoxText>{data}</CheckBoxText>
               </CheckBoxLabel>
             ))}
           </CheckBoxWrapper>
@@ -128,13 +133,24 @@ const OneOnOneQuestion = () => {
       <Table
         setIsDetail={setIsDetail}
         setDetailId={setDetailId}
-        tableType={''}
+        tableType={'userChattingOneOnOne'}
         userSearch={userSearch}
         commonBtn={'엑셀 다운로드'}
         handleCommon={handleCommon}
+        hide={true}
+        userCheck={convertEn(
+          userCheckBox,
+          userCheckBoxEn,
+          userCheck.toString(),
+        )}
+        commuCheck={convertEn(
+          communicationState,
+          communicationStateEn,
+          commuCheck.toString(),
+        )}
       />
 
-      {inputValue && <OOQDetail />}
+      {isDetail && <OOQDetail detatilId={detatilId} />}
     </Wrapper>
   );
 };

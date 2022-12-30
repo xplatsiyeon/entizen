@@ -53,7 +53,9 @@ export interface ChattingResponse {
   };
 }
 
-const OOQDetail = () => {
+type Props = { detatilId: string };
+
+const OOQDetail = ({ detatilId }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;

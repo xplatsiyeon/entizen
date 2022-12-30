@@ -5,9 +5,11 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import colors from 'styles/colors';
 import MemberContents from './MemberContents';
 import ExitBtn from 'public/adminImages/Group.png';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import Loader from 'components/Loader';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import AlertModal from 'componentsAdmin/AlertModal';
+import WriteModal from 'componentsAdmin/WriteModal';
 
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;
@@ -64,6 +66,15 @@ export interface CompanyResposne {
 }
 
 const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
+  const queryClinet = useQueryClient();
+  // 수정 등록 버튼 누를때 나오는 모달창
+  const [messageModal, setMessageModal] = useState<boolean>(false);
+  // 경고창에 보내는 메세지
+  const [message, setMessage] = useState('');
+
+  // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
+  const [isModal, setIsModal] = useState<boolean>(false);
+
   const {
     data: userData,
     isLoading: userLoading,
@@ -89,19 +100,82 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     },
   );
 
+  const WriteModalHandle = () => {
+    setIsModal(true);
+  };
+
+  // 일반회원 프로필 삭제
+
+  const {
+    mutate: patchMutate,
+    isLoading: patchLoading,
+    isError: patchError,
+  } = useMutation(isTokenDeleteApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('user-mypage');
+      setMessageModal(true);
+      setMessage('삭제가 완료 됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const modalDeleteUserBtnControll = () => {
+    patchMutate({
+      url: `/admin/members/users/${memberIdx}/profile-image`,
+    });
+  };
+
+  // 기업회원 프로필 삭제
+  const modalDeleteCompanyBtnControll = () => {
+    patchMutate({
+      url: `/admin/members/companies/${memberIdx}/profile-image`,
+    });
+  };
+
   const handleBackBtn = () => {
     setIsDetail(false);
   };
+
+  const leftBtnHandle = () => {
+    setIsModal(false);
+    setIsDetail(false);
+  };
+  const rightBtnHandle = () => {
+    setIsModal(false);
+  };
+
+  console.log('isModal', isModal);
 
   const loading = userLoading || companyLoading;
   return (
     <Background>
       <Wrapper>
+        {messageModal && (
+          <AlertModal
+            setIsModal={setMessageModal}
+            message={message}
+            setIsDetail={setIsDetail}
+          />
+        )}
+        {isModal && (
+          <WriteModal
+            message={'작성 내용이 등록되지 않았습니다.'}
+            subMessage={'페이지를 나가시겠습니까?'}
+            leftBtn={'예'}
+            rightBtn={'아니오'}
+            leftBtnHandle={leftBtnHandle}
+            rightBtnHandle={rightBtnHandle}
+          />
+        )}
         <AdminHeader
           title="회원관리"
           subTitle={type === 'USER' ? '일반회원' : '기업회원'}
           type="detail"
-          backBtn={handleBackBtn}
+          backBtn={WriteModalHandle}
           exelHide={true}
         />
         <InfoBox>
@@ -123,7 +197,18 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
               />
             )}
             <span className="exitImgBox">
-              <Image src={ExitBtn} alt="exit" layout="fill" />
+              <Image
+                src={ExitBtn}
+                alt="exit"
+                layout="fill"
+                onClick={() => {
+                  if (type === 'USER') {
+                    modalDeleteUserBtnControll();
+                  } else {
+                    modalDeleteCompanyBtnControll();
+                  }
+                }}
+              />
             </span>
           </Avatar>
           {/* 회원 정보 불러오는 컴포넌트 */}
