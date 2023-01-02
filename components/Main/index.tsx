@@ -93,9 +93,50 @@ const MainPage = (props: Props) => {
   useEffect(() => {
     if (window.entizen!) {
       if (userAgent === 'Android_App') {
-        window.entizen!.getUserInfo();
+        const getUserInfo = window.entizen!.getUserInfo();
+        const jsonGetUserInfo = JSON.parse(getUserInfo);
+        if (jsonGetUserInfo.length > 1) {
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(jsonGetUserInfo.userInfo.SNS_MEMBER),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(jsonGetUserInfo.userInfo.MEMBER_TYPE),
+          );
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(jsonGetUserInfo.userInfo.ACCESS_TOKEN),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(jsonGetUserInfo.userInfo.REFRESH_TOKEN),
+          );
+          sessionStorage.setItem('USER_ID', jsonGetUserInfo.userInfo.USER_ID);
+        }
       } else if (userAgent === 'iOS_App') {
         window.webkit.messageHandlers.getUserInfo.postMessage();
+        // const getUserInfo = window.entizen!.getUserInfo();
+        // const jsonGetUserInfo = JSON.parse(getUserInfo);
+        // if (jsonGetUserInfo.length > 1) {
+        //   sessionStorage.setItem(
+        //     'SNS_MEMBER',
+        //     JSON.stringify(jsonGetUserInfo.userInfo.SNS_MEMBER),
+        //   );
+        //   sessionStorage.setItem(
+        //     'MEMBER_TYPE',
+        //     JSON.stringify(jsonGetUserInfo.userInfo.MEMBER_TYPE),
+        //   );
+        //   sessionStorage.setItem(
+        //     'ACCESS_TOKEN',
+        //     JSON.stringify(jsonGetUserInfo.userInfo.ACCESS_TOKEN),
+        //   );
+        //   sessionStorage.setItem(
+        //     'REFRESH_TOKEN',
+        //     JSON.stringify(jsonGetUserInfo.userInfo.REFRESH_TOKEN),
+        //   );
+        //   sessionStorage.setItem('USER_ID', jsonGetUserInfo.userInfo.USER_ID);
+        // }
       }
     }
   }, []);

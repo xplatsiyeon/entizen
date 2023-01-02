@@ -56,16 +56,17 @@ function useLogin(
         REFRESH_TOKEN: res.data.refreshToken,
         USER_ID: userId,
       };
+      console.log('** userInfo **');
       console.log(userInfo);
       if (window.entizen!) {
         if (userAgent === 'Android_App') {
           window.entizen!.setUserInfo(JSON.stringify(userInfo));
-          window.entizen!.getUserInfo();
+          // window.entizen!.getUserInfo();
         } else if (userAgent === 'iOS_App') {
           window.webkit.messageHandlers.setUserInfo.postMessage(
             JSON.stringify(userInfo),
           );
-          window.webkit.messageHandlers.getUserInfo.postMessage();
+          // window.webkit.messageHandlers.getUserInfo.postMessage();
         }
       }
 
