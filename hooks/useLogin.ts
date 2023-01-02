@@ -56,6 +56,7 @@ function useLogin(
         REFRESH_TOKEN: res.data.refreshToken,
         USER_ID: userId,
       };
+      console.log(userInfo);
       if (window.entizen!) {
         if (userAgent === 'Android_App') {
           window.entizen!.setUserInfo(JSON.stringify(userInfo));
