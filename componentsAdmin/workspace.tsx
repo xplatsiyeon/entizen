@@ -34,7 +34,7 @@ const openList = [
   // '알림',
   // 'DATA 업데이트',
   // 'DATA 다운로드',
-  '기타',
+  // '기타',
 ];
 const closeList = [
   ['관리자 등록', '관리자 리스트 조회'],
@@ -50,7 +50,7 @@ const closeList = [
   // ['알림'],
   // ['DATA 업데이트'],
   // ['DATA 다운로드'],
-  ['블락'],
+  // ['블락'],
 ];
 const Workspace = ({ setNumber }: Props) => {
   const router = useRouter();

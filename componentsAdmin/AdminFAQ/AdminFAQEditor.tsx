@@ -131,6 +131,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
     isTokenPutApi,
     {
       onSuccess: () => {
+        queryClinet.invalidateQueries('adminFaqList');
         setMessageModal(true);
         setMessage('수정이 완료됐습니다!');
       },
@@ -164,7 +165,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
     isError: patchError,
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('user-mypage');
+      queryClinet.invalidateQueries('adminFaqList');
       setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },
