@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { Box, InputAdornment, TextField, Typography } from '@mui/material';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import Warning from 'public/adminImages/exclamation-mark.svg';
@@ -10,8 +11,9 @@ import useDebounce from 'hooks/useDebounce';
 import { api } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-interface ValidatedId {
-  isMember: boolean;
+interface Validated {
+  message: string;
+  errorCode: number;
   isSuccess: boolean;
 }
 
@@ -32,7 +34,9 @@ const AddAdminAccount = () => {
   const [emailSecond, setEmailSecond] = useState<string>('');
   const [idLength, setIdLength] = useState(false);
   const [isChangeColor, setIsChangeColor] = useState(false);
+  const [isEmailChangeColor, setIsEmailChangeColor] = useState(false);
   const [initIdAlert, setInitIdAlert] = useState(false);
+  const [initEmailAlert, setInitEmailAlert] = useState(false);
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
 
@@ -40,17 +44,49 @@ const AddAdminAccount = () => {
   // 이메일 중복 검사도 해야함
   // 관리자 아이디 생성하기 눌렀을때 나오는 모달창 추가
 
-  const { data, refetch } = useQuery<ValidatedId>(
+  const { data: idCheck, refetch: idRefetch } = useQuery<Validated>(
     'ValidIdCheck',
     () =>
       api({
-        method: 'GET',
+        method: 'POST',
         endpoint: `/admin/managers`,
+        data: {
+          id: idInput,
+          passwords: checkPw,
+          name: name,
+          phone: `010${phoneFirst}${phoneSecond}`,
+          email: `${emailFirst}@${emailSecond}`,
+        },
       }),
     {
       enabled: false,
       onError: (error) => {
         console.log('----아이디 중복체크----');
+        console.log(error);
+        alert('다시 시도해주세요.');
+      },
+    },
+  );
+
+  // 이메일 중복 확인
+  const { data: validEmail, refetch: validEmailRefetch } = useQuery<Validated>(
+    'ValidEmailCheck',
+    () =>
+      api({
+        method: 'POST',
+        endpoint: `/admin/managers`,
+        data: {
+          id: idInput,
+          passwords: checkPw,
+          name: name,
+          phone: `010${phoneFirst}${phoneSecond}`,
+          email: `${emailFirst}@${emailSecond}`,
+        },
+      }),
+    {
+      enabled: false,
+      onError: (error) => {
+        console.log('----이메일 중복체크----');
         console.log(error);
         alert('다시 시도해주세요.');
       },
@@ -76,6 +112,7 @@ const AddAdminAccount = () => {
   // 디바운스를 이용한 유효성 검사
   const passwords = useDebounce(pwInput, 500);
   const checkPassword = useDebounce(checkPw, 500);
+
   // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -89,6 +126,7 @@ const AddAdminAccount = () => {
     if (e.target.name === 'checkPw') setCheckPw(value);
   };
 
+  // replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/, '')
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
     e.isPropagationStopped();
@@ -96,10 +134,36 @@ const AddAdminAccount = () => {
 
   const overlabCheck = () => {
     setInitIdAlert(true);
-    refetch();
+    idRefetch();
   };
 
-  // 기업 회원가입 온클릭
+  const overEmailCheck = () => {
+    validEmailRefetch();
+  };
+
+  const handleEmailCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    // 이메일 유효성 검사
+    // 문제: 한글입력 안되게 했는데 첫번째 문자가 안지워짐...
+    const idRegExp = /[a-zA-Z0-9]/;
+    if (e.target.name === 'emailFirst' && idRegExp.test(value)) {
+      setEmailFirst(e.target.value);
+      idRegExp.test(value)
+        ? setIsEmailChangeColor(true)
+        : setIsEmailChangeColor(false);
+    }
+    if (e.target.name === 'emailSecond' && idRegExp.test(value)) {
+      setEmailSecond(e.target.value);
+      idRegExp.test(value)
+        ? setIsEmailChangeColor(true)
+        : setIsEmailChangeColor(false);
+    }
+  };
+
+  console.log('🎀 emailFirst 🎀', emailFirst);
+  console.log('🎀 emailSecond 🎀', emailSecond);
+
+  // 회원가입 온클릭
   const handleCompanyClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
       adminAccountMutate({
@@ -110,7 +174,7 @@ const AddAdminAccount = () => {
           password: checkPw,
           name: name,
           phone: `010${phoneFirst}${phoneSecond}`,
-          email: `${emailFirst}${emailSecond}`,
+          email: `${emailFirst}@${emailSecond}`,
         },
       });
     }
@@ -137,7 +201,7 @@ const AddAdminAccount = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passwords, checkPassword]);
 
-  // 중복확인 버튼 비활성화
+  // 아이디 중복확인 버튼 비활성화
   useEffect(() => {
     if (idInput.length <= 3) {
       setIsChangeColor(false);
@@ -148,37 +212,162 @@ const AddAdminAccount = () => {
     }
   }, [initIdAlert, idInput]);
 
+  // 이메일 중복확인 버튼 비활성화
+  useEffect(() => {
+    if (emailFirst.length <= 3 && emailSecond.length <= 3) {
+      setIsEmailChangeColor(false);
+    } else {
+      setIsEmailChangeColor(true);
+    }
+  }, [emailFirst, emailSecond]);
+
+  const iconAdorment = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <Typography
+          onClick={() => setPwInput('')}
+          onMouseDown={handleMouseDownPassword}
+          sx={{
+            cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CancelRoundedIcon
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
+          />
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+            cursor: 'pointer',
+          }}
+          variant="subtitle1"
+          onClick={() => handleShowBtn(0)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow[0] ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+
+  const secondIconAdorment = {
+    endAdornment: (
+      <InputAdornment position="start">
+        <Typography
+          onClick={() => setCheckPw('')}
+          onMouseDown={handleMouseDownPassword}
+          sx={{
+            cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CancelRoundedIcon
+            sx={{
+              color: '#E2E5ED',
+              width: '10.5pt',
+              marginRight: '9pt',
+              cursor: 'pointer',
+            }}
+          />
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: '14px',
+            fontWeight: '400',
+            lineHeight: '16px',
+            letterSpacing: '-0.02em',
+            textAlign: 'left',
+            color: `${colors.main}`,
+            cursor: 'pointer',
+          }}
+          variant="subtitle1"
+          onClick={() => handleShowBtn(1)}
+          onMouseDown={handleMouseDownPassword}
+        >
+          {pwShow[1] ? '미표시' : '표시'}
+        </Typography>
+      </InputAdornment>
+    ),
+  };
+  const iconAdornment = pwSelected ? iconAdorment : {};
+  const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
+
   return (
     <Wrapper>
       <AdminHeader type="main" title="관리자 관리" subTitle="관리자 등록" />
       <Manager>
         <li className="row">
           <label className="label">아이디</label>
-          <Input
+          {/* <Input
             placeholder="아이디"
             onChange={handleIdChange}
             value={idInput}
             width={364}
+          /> */}
+          <Input
+            placeholder="아이디 입력"
+            onChange={handleIdChange}
+            value={idInput}
+            name="id"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
+                    <ButtonText className="checkOverlap" onClick={overlabCheck}>
+                      중복확인
+                    </ButtonText>
+                  </OverlapBtn>
+                </InputAdornment>
+              ),
+            }}
           />
           {/* <Image src={Warning} alt="warning" /> */}
         </li>
-        <NoticeText>아이디는 2자 이상 입력해주세요</NoticeText>
-        {data?.isMember === false && initIdAlert && !idLength && (
+
+        <NoticeText>아이디는 4글자 이상 입력해주세요</NoticeText>
+
+        {idCheck?.isSuccess === true && initIdAlert && !idLength && (
           <NoticeText>사용가능한 아이디입니다.</NoticeText>
         )}
-        {data?.isMember === true && initIdAlert && !idLength && (
+        {idCheck?.isSuccess === false && initIdAlert && !idLength && (
           <NoticeText>이미 사용중인 아이디입니다.</NoticeText>
         )}
-        {data?.isMember === false && initIdAlert && idLength && (
-          <NoticeText>2글자 이상 입력해주세요</NoticeText>
+        {idCheck?.isSuccess === true && initIdAlert && idLength && (
+          <NoticeText>4글자 이상 입력해주세요</NoticeText>
         )}
         <li className="row">
           <label className="label">비밀번호</label>
-          <Input
+          {/* <Input
             placeholder="비밀번호"
             width={364}
             onChange={handleIdChange}
             value={pwInput}
+            onFocus={(e) => setPwSelected(true)}
+            onBlur={(e) => setPwSelected(false)}
+          /> */}
+          <Input
+            placeholder="비밀번호 입력"
+            onChange={handleIdChange}
+            type={pwShow[0] ? 'text' : 'password'}
+            value={pwInput}
+            name="pw"
+            hiddenLabel
+            InputProps={iconAdornment}
             onFocus={(e) => setPwSelected(true)}
             onBlur={(e) => setPwSelected(false)}
           />
@@ -186,20 +375,30 @@ const AddAdminAccount = () => {
             <Image src={Warning} alt="warning" />
           )}
         </li>
-        <NoticeText>비밀번호는 8자 이상 16자 이하로 입력해주세요.</NoticeText>
+        {/* <NoticeText>비밀번호는 8자 이상 16자 이하로 입력해주세요.</NoticeText> */}
         {!checkedPw && pwInput.length > 4 ? (
           <NoticeText>영문,숫자,특수문자 조합 10자 이상</NoticeText>
         ) : (
-          <></>
+          <NoticeText>비밀번호는 8자 이상 16자 이하로 입력해주세요.</NoticeText>
         )}
 
         <li className="row">
           <label className="label">비밀번호 확인</label>
-          <Input
+          {/* <Input
             placeholder="비밀번호 확인"
             width={364}
             value={checkPw}
             onChange={handleIdChange}
+            onFocus={(e) => setCheckPwSelected(true)}
+            onBlur={(e) => setCheckPwSelected(false)}
+          /> */}
+          <Input
+            placeholder="비밀번호 재입력"
+            onChange={handleIdChange}
+            type={pwShow[1] ? 'text' : 'password'}
+            value={checkPw}
+            name="checkPw"
+            InputProps={secondIconAdornment}
             onFocus={(e) => setCheckPwSelected(true)}
             onBlur={(e) => setCheckPwSelected(false)}
           />
@@ -257,23 +456,49 @@ const AddAdminAccount = () => {
         </li>
         <li className="row">
           <label className="label">이메일</label>
-          <TextInput
+          {/* <TextInput
             placeholder="E-mail"
             width={168}
             onChange={(e) => {
               setEmailFirst(e.target.value);
             }}
+          /> */}
+          <Input
+            placeholder="E-mail"
+            name="emailFirst"
+            width={168}
+            onChange={handleEmailCheck}
+            value={emailFirst}
           />
           <EmailText>@</EmailText>
-          <TextInput
+          <Input
+            value={emailSecond}
+            placeholder=""
+            name="emailSecond"
+            width={168}
+            onChange={handleEmailCheck}
+          />
+          {/* <TextInput
             placeholder=""
             width={168}
             onChange={(e) => {
               setEmailSecond(e.target.value);
             }}
-          />
-          {/* <Image src={Warning} alt="warning" /> */}
+          /> */}
+          <InputAdornment position="end">
+            <OverlapBtn className="overlap" isChangeColor={isEmailChangeColor}>
+              <ButtonText className="checkOverlap" onClick={overEmailCheck}>
+                중복확인
+              </ButtonText>
+            </OverlapBtn>
+          </InputAdornment>
+          {validEmail?.isSuccess === false && (
+            <Image src={Warning} alt="warning" />
+          )}
         </li>
+        {validEmail?.isSuccess === false && (
+          <NoticeText>이미 사용중인 아이디입니다.</NoticeText>
+        )}
       </Manager>
       <BtnBox>
         <Btn onClick={handleCompanyClick}>관리자 아이디 생성하기</Btn>
@@ -319,6 +544,7 @@ const Manager = styled.ul`
     display: flex;
     align-items: center;
     background: #ffffff;
+
     /* border: 1px solid ${colors.lightWhite3}; */
     height: 30pt;
     padding: 4pt 0 4pt 12pt;
@@ -371,21 +597,44 @@ const Btn = styled.button`
   line-height: 150%;
 `;
 
+// const Input = styled(TextField)<{ width?: number; warning?: boolean }>`
+//   /* width: 364px; */
+//   width: ${({ width }) => `${width}px`};
+//   height: 18px;
+//   outline: none;
+//   resize: none;
+//   background: none;
+//   /* border: 1px solid #e2e5ed; */
+//   margin-right: 10px;
+//   border: ${({ warning }) =>
+//     warning ? '1px solid #F75015' : '1px solid #e2e5ed'};
+//   border-radius: 2px;
+//   ::placeholder {
+//     padding-left: 5px;
+//     color: #a6a9b0;
+//   }
+// `;
+
 const Input = styled(TextField)<{ width?: number; warning?: boolean }>`
-  /* width: 364px; */
-  width: ${({ width }) => `${width}px`};
-  height: 18px;
-  outline: none;
-  resize: none;
-  background: none;
-  /* border: 1px solid #e2e5ed; */
-  margin-right: 10px;
-  border: ${({ warning }) =>
-    warning ? '1px solid #F75015' : '1px solid #e2e5ed'};
   border-radius: 2px;
+
+  & input {
+    padding: 3pt 0 3pt 12pt;
+    font-size: 12pt;
+    line-height: 12pt;
+  }
+  & .MuiInputBase-root {
+    padding-right: 9pt;
+  }
   ::placeholder {
-    padding-left: 5px;
-    color: #a6a9b0;
+    color: ${colors.gray};
+    font-weight: 500;
+  }
+  & .remove {
+    display: none;
+  }
+  :focus > .remove {
+    display: block;
   }
 `;
 
@@ -435,4 +684,30 @@ const EmailText = styled.div`
   color: #747780;
   line-height: 150%;
   margin: 0 5px;
+`;
+
+const OverlapBtn = styled.button<{ isChangeColor: boolean }>`
+  & .checkOverlap {
+    padding: 3pt 9pt;
+    cursor: pointer;
+  }
+  margin-right: 0;
+  color: ${colors.lightWhite};
+  border-radius: 4px;
+  font-size: 10.5pt;
+  font-weight: 500;
+  line-height: 12pt;
+
+  background-color: ${({ isChangeColor }) =>
+    isChangeColor ? colors.main : colors.gray};
+`;
+
+const ButtonText = styled(Typography)`
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+  color: #ffffff;
 `;

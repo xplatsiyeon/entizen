@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ExitBtn from 'public/adminImages/Group.png';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import Loader from 'components/Loader';
 import {
   adminDateFomat,
@@ -22,6 +22,7 @@ import {
   M8_LIST,
   M8_LIST_EN,
 } from 'assets/selectList';
+import AlertModal from 'componentsAdmin/AlertModal';
 
 type Props = {
   preQuotationIdx: number;
@@ -33,7 +34,7 @@ interface QuotationRequestCharger {
   chargePrice: number;
   manufacturer: string;
   preQuotationFiles: {
-    chargerProductFileIdx: number;
+    preQuotationFileIdx: number;
     productFileType: string;
     originalName: string;
     url: string;
@@ -79,7 +80,16 @@ interface PreQuotationRespnse {
 }
 const TAG = 'components/Admin/RverseAuction/PreQuotation.tsx';
 const PreQuotation = ({ preQuotationIdx }: Props) => {
+  const queryClinet = useQueryClient();
   const [constructionPeriod, setConstructionPeriod] = useState<number>();
+  // 수정 등록 버튼 누를때 나오는 모달창
+  const [messageModal, setMessageModal] = useState<boolean>(false);
+  // 경고창에 보내는 메세지
+  const [message, setMessage] = useState('');
+
+  // 삭제 하고 싶은 파일 id 값 업데이트
+  const [fileIdx, setFileIdx] = useState<number | undefined>();
+
   const { data, isLoading, isError } = useQuery<PreQuotationRespnse>(
     'preQuotaion',
     () => isTokenGetApi(`/admin/quotations/pre-quotations/${preQuotationIdx}`),
@@ -94,6 +104,39 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
   }, []);
   console.log('🔥 가견적서 데이터 확인 -> ' + TAG);
   console.log(data);
+
+  const {
+    mutate: patchMutate,
+    isLoading: patchLoading,
+    isError: patchError,
+  } = useMutation(isTokenDeleteApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('preQuotaion');
+      setMessageModal(true);
+      setMessage('삭제가 완료 됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  // 가견적서 파일 삭제
+  const modalDeleteFileBtnControll = () => {
+    patchMutate({
+      url: `/admin/quotations/pre-quotation-files/${fileIdx}`,
+    });
+  };
+
+  useEffect(() => {
+    if (fileIdx) {
+      modalDeleteFileBtnControll();
+    }
+  }, [fileIdx]);
+
+  console.log('🌸 fileIdx 🌸', fileIdx);
+
   return (
     <>
       {isLoading ? (
@@ -102,6 +145,9 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
         </LoaderContainer>
       ) : (
         <Contatiner>
+          {messageModal && (
+            <AlertModal setIsModal={setMessageModal} message={message} />
+          )}
           <MainList>
             <Item>
               <label className="label">기업명</label>
@@ -254,7 +300,14 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
                               layout="fill"
                             />
                             <div className="imgExit">
-                              <Image src={ExitBtn} alt="exit" layout="fill" />
+                              <Image
+                                src={ExitBtn}
+                                alt="exit"
+                                layout="fill"
+                                onClick={() => {
+                                  setFileIdx(innerCharger?.preQuotationFileIdx);
+                                }}
+                              />
                             </div>
                           </div>
                         ),
@@ -275,7 +328,14 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
                       file.productFileType === 'CATALOG' && (
                         <div className="fileBox" key={innerIndex}>
                           <p className="businessName">{file?.originalName}</p>
-                          <button className="businessBtn">삭제</button>
+                          <button
+                            className="businessBtn"
+                            onClick={() => {
+                              setFileIdx(file?.preQuotationFileIdx);
+                            }}
+                          >
+                            삭제
+                          </button>
                         </div>
                       ),
                   )}

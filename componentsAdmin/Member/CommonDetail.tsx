@@ -112,7 +112,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     isError: patchError,
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('user-mypage');
+      queryClinet.invalidateQueries('user-detail');
       setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },

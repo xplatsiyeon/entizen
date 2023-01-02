@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ExitBtn from 'public/adminImages/Group.png';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import Loader from 'components/Loader';
 import {
   adminDateFomat,
@@ -24,6 +24,7 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
+import AlertModal from 'componentsAdmin/AlertModal';
 
 type Props = {
   finalQuotationIdx: number;
@@ -83,9 +84,21 @@ interface FinalQuotationResponse {
 
 const TAG = 'components/Admin/RverseAuction/FinalQuotation.tsx';
 const FinalQuotation = ({ finalQuotationIdx }: Props) => {
+  const queryClinet = useQueryClient();
   const [constructionPeriod, setConstructionPeriod] = useState<number>();
+  // 수정 등록 버튼 누를때 나오는 모달창
+  const [messageModal, setMessageModal] = useState<boolean>(false);
+  // 경고창에 보내는 메세지
+  const [message, setMessage] = useState('');
+
+  // 삭제 하고 싶은 파일 id 값 업데이트
+  const [fileIdx, setFileIdx] = useState<number | undefined>();
+
+  // 삭제 하고 싶은 충전기 이미지 id 값 업데이트
+  const [chargerIdx, serChargerIdx] = useState<number | undefined>();
+
   const { data, isLoading, isError } = useQuery<FinalQuotationResponse>(
-    'preQuotaion',
+    'finalQuotaion',
     () =>
       isTokenGetApi(`/admin/quotations/final-quotations/${finalQuotationIdx}`),
   );
@@ -95,6 +108,46 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
     Number(value);
     setConstructionPeriod(Number(value));
   };
+
+  const {
+    mutate: patchMutate,
+    isLoading: patchLoading,
+    isError: patchError,
+  } = useMutation(isTokenDeleteApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('finalQuotaion');
+      setMessageModal(true);
+      setMessage('삭제가 완료 됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  // 최종 견적서 파일 삭제
+  const modalDeleteFileBtnControll = () => {
+    patchMutate({
+      url: `/admin/quotations/final-quotations/detail/files/${fileIdx}`,
+    });
+  };
+
+  // 최종 견적서 충전기 이미지 삭제
+  const modalDeleteChargerImgBtnControll = () => {
+    patchMutate({
+      url: `/admin/quotations/final-quotations/charger/files/${chargerIdx}`,
+    });
+  };
+
+  useEffect(() => {
+    if (fileIdx) {
+      modalDeleteFileBtnControll();
+    }
+    if (chargerIdx) {
+      modalDeleteChargerImgBtnControll();
+    }
+  }, [fileIdx, chargerIdx]);
 
   useLayoutEffect(() => {
     setConstructionPeriod(data?.data?.finalQuotation?.constructionPeriod);
@@ -109,6 +162,9 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
         </LoaderContainer>
       ) : (
         <Contatiner>
+          {messageModal && (
+            <AlertModal setIsModal={setMessageModal} message={message} />
+          )}
           <MainList>
             <Item>
               <label className="label">기업명</label>
@@ -299,7 +355,16 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
                               layout="fill"
                             />
                             <div className="imgExit">
-                              <Image src={ExitBtn} alt="exit" layout="fill" />
+                              <Image
+                                src={ExitBtn}
+                                alt="exit"
+                                layout="fill"
+                                onClick={() => {
+                                  serChargerIdx(
+                                    innerCharger?.finalQuotationChargerFileIdx,
+                                  );
+                                }}
+                              />
                             </div>
                           </div>
                         ),
@@ -321,7 +386,14 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
                         file.productFileType === 'CATALOG' && (
                           <div className="fileBox" key={innerIndex}>
                             <p className="businessName">{file.originalName}</p>
-                            <button className="businessBtn">삭제</button>
+                            <button
+                              className="businessBtn"
+                              onClick={() => {
+                                setFileIdx(file?.finalQuotationChargerFileIdx);
+                              }}
+                            >
+                              삭제
+                            </button>
                           </div>
                         ),
                     )}
