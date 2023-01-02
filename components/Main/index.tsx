@@ -130,6 +130,7 @@ const MainPage = (props: Props) => {
           sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
         }
       };
+
       // 아이폰 호출 테스트
     } else if (userAgent === 'iOS_App') {
       window.testEntizen = {
