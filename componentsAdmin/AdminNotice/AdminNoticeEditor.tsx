@@ -169,7 +169,7 @@ const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
     isError: postError,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      //   queryclient.invalidateQueries('user-mypage');
+      queryClinet.invalidateQueries('adminNoticeList');
       setMessageModal(true);
       setMessage('추가가 완료 됐습니다.');
     },
@@ -193,11 +193,11 @@ const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
   };
 
   // 수정 api
-
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
     isTokenPutApi,
     {
       onSuccess: () => {
+        queryClinet.invalidateQueries('adminNoticeList');
         setMessageModal(true);
         setMessage('수정이 완료됐습니다!');
       },
@@ -223,9 +223,9 @@ const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
 
   // 삭제 api
   const {
-    mutate: patchMutate,
-    isLoading: patchLoading,
-    isError: patchError,
+    mutate: deleteMutate,
+    isLoading: deleteLoading,
+    isError: deleteError,
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('adminNoticeList');
@@ -241,7 +241,7 @@ const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
   });
 
   const modalDeleteBtnControll = () => {
-    patchMutate({
+    deleteMutate({
       url: `/admin/notices/${detatilId}`,
     });
   };

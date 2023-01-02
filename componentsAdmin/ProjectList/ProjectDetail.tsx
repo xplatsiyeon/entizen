@@ -17,8 +17,8 @@ import AdminHeader from 'componentsAdmin/Header';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
-
 import { adminDateFomat, convertKo, hyphenFn } from 'utils/calculatePackage';
+import CompleteRating from './CompleteRating';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
@@ -117,12 +117,18 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
 
+  // 리뷰 모달 열리고 닫히고
+  const [reviewModal, setReviewModal] = useState<boolean>(false);
+
   // 삭제 하고 싶은 파일 id 값 업데이트
   const [fileIdx, setFileIdx] = useState<number | undefined>();
   const { data, isLoading, isError } = useQuery<ProjectDetailResponse>(
     'projectDetail',
     () => isTokenGetApi(`/admin/projects/${projectIdx}`),
   );
+
+  // 리뷰데이터
+  const reviewData = data?.data?.project?.projectReview;
 
   const {
     mutate: deleteMutate,
@@ -158,12 +164,17 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
     }
   }, [fileIdx]);
 
-  console.log(data);
   return (
     <Background>
       <Wrapper>
         {messageModal && (
           <AlertModal setIsModal={setMessageModal} message={message} />
+        )}
+        {reviewModal && (
+          <CompleteRating
+            setReviewModal={setReviewModal}
+            reviewData={reviewData!}
+          />
         )}
         <AdminHeader
           title="프로젝트"
@@ -227,7 +238,20 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
               <Label>리뷰현황</Label>
               <Contents>
                 {/* 추가 작업 필요합니다. */}
-                {data?.data?.project?.projectReview === null ? '-' : ''}
+                {data?.data?.project?.projectReview === null ? (
+                  <ReviewBtn>
+                    <BtnText>리뷰가 없습니다</BtnText>
+                  </ReviewBtn>
+                ) : (
+                  <ReviewBtn
+                    cursor={true}
+                    onClick={() => {
+                      setReviewModal(true);
+                    }}
+                  >
+                    <BtnText>리뷰현황 보기</BtnText>
+                  </ReviewBtn>
+                )}
               </Contents>
             </List>
           </CompanyInfoContainer>
@@ -319,7 +343,6 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
             )}
 
             <List>
-              {/* API 없음 수정필요합니다. */}
               <Label>충전기 설치 목적</Label>
               <Contents>
                 {
@@ -330,7 +353,6 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
               <Contents>API 요청필요</Contents>
             </List>
 
-            {/* API 없음 수정필요합니다. */}
             <List>
               <Label>기타 요청사항</Label>
               <TextBox maxLength={500} value={'없음'}>
@@ -347,14 +369,16 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
             <List>
               <Label>첨부파일</Label>
               <FileContainer>
-                {data?.data?.project?.finalQuotation?.finalQuotationDetailFiles?.map(
+                {data?.data?.project?.projectCompletionFiles?.map(
                   (file, index) => (
                     <div className="fileBox" key={index}>
-                      <p className="businessName">{file?.originalName}</p>
+                      <div className="businessName">
+                        <p className="businessNameText">{file?.url}</p>
+                      </div>
                       <button
                         className="businessBtn"
                         onClick={() => {
-                          setFileIdx(file?.finalQuotationDetailFileIdx);
+                          setFileIdx(file?.projectCompletionFileIdx);
                         }}
                       >
                         삭제
@@ -483,6 +507,13 @@ const FileContainer = styled.div`
     padding: 4px 14px 4px 10px;
     gap: 8px;
     margin-right: 10px;
+    width: 500px;
+
+    .businessNameText {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
   .businessBtn {
     font-weight: 400;
@@ -494,4 +525,23 @@ const FileContainer = styled.div`
 
     color: #747780;
   }
+`;
+
+const ReviewBtn = styled.div<{ cursor?: boolean }>`
+  width: 120px;
+  background-color: #e2e5ed;
+  border: 1px solid #747780;
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: ${({ cursor }) => cursor === true && 'pointer'};
+`;
+
+const BtnText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: #747780;
+  padding: 2px 8px;
 `;

@@ -94,10 +94,6 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
 
   // 메인이미지에 추가해도 preview에 내부 이미지로 들어가는거 수정...
 
-  console.log('🎀 outsideImgUrl 🎀', outsideImgUrl);
-
-  console.log('url', url);
-
   // file s3 multer 저장 API (with useMutation)
   const { mutate: outImage, isLoading: multerOutImageLoading } = useMutation<
     MulterResponse,
@@ -247,7 +243,7 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
     isTokenPutApi,
     {
       onSuccess: () => {
-        queryClinet.invalidateQueries('entizenLibrary');
+        queryClinet.invalidateQueries('bannerList');
         setMessageModal(true);
         setMessage('수정이 완료됐습니다!');
       },

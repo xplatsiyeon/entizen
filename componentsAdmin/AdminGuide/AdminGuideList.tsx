@@ -21,7 +21,8 @@ const AdminGuideList = () => {
   const clickedToggle = () => {
     setToggle((prev) => !prev);
   };
-  // /admin/notices/:noticeIdx/exposure 토글 버튼 수정
+
+  // 추후에 가이드 부분 api 추가 되면 연결 및 테이블 UI 수정
   const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminNoticeList');

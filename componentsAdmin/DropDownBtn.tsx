@@ -110,6 +110,9 @@ const DropDownWrapper = styled.div<{
   background-color: ${({ background }) => (background ? background : '')};
   border: ${({ border }) =>
     border ? `1px solid ${border}` : `1px solid ${colors.lightWhite3}`};
+  :not(:first-of-type) {
+    margin-top: 10px;
+  }
 `;
 
 const MainText = styled.div`
