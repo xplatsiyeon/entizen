@@ -29,6 +29,7 @@ const SettingMain = ({
   const router = useRouter();
   const userID = sessionStorage.getItem('USER_ID');
   const { selectedType } = useSelector((state: RootState) => state.selectType);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [logoutModal, setLogoutModal] = useState<boolean>(false);
   const [alertModal, setAlertModal] = useState(false);
   const [secessionFirstModal, setSecessionFirstModal] =
@@ -78,7 +79,7 @@ const SettingMain = ({
   };
   // 일반회원 로그아웃
   const logoutOnClick = async () => {
-    handleLogoutOnClickModalClick()
+    handleLogoutOnClickModalClick(userAgent)
       .then((res) => router.push('/'))
       .catch((error) => alert(error));
   };

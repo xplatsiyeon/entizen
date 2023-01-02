@@ -79,14 +79,23 @@ const MainPage = (props: Props) => {
 
   // ------------------브릿지-------------------
   // 웹 -> 앱
+  // useEffect(() => {
+  //   if (window.entizen!) {
+  //     if (userAgent === 'Android_App') {
+  //       window.entizen!.test('Hello Native Callback');
+  //     } else if (userAgent === 'iOS_App') {
+  //       window.webkit.messageHandlers.test.postMessage(
+  //         'Hello Native Callback' + userAgent,
+  //       );
+  //     }
+  //   }
+  // }, []);
   useEffect(() => {
     if (window.entizen!) {
       if (userAgent === 'Android_App') {
-        window.entizen!.test('Hello Native Callback');
+        window.entizen!.getUserInfo();
       } else if (userAgent === 'iOS_App') {
-        window.webkit.messageHandlers.test.postMessage(
-          'Hello Native Callback' + userAgent,
-        );
+        window.webkit.messageHandlers.getUserInfo.postMessage();
       }
     }
   }, []);

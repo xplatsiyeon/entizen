@@ -41,10 +41,9 @@ export const KakaoLogout = () => {
   });
 };
 // 일반회원 로그아웃
-export const handleLogoutOnClickModalClick = async () => {
+export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
   const isSns = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
 
   await axios({
     method: 'post',
@@ -67,10 +66,12 @@ export const handleLogoutOnClickModalClick = async () => {
     sessionStorage.removeItem('MEMBER_TYPE');
 
     // 로그아웃 브릿지 연결
-    if (userAgent === 'Android_App') {
-      (window as any).entizen!.logout();
-    } else if (userAgent === 'iOS_App') {
-      (window as any).webkit.messageHandlers.logout.postMessage();
+    if (userAgent) {
+      if (userAgent === 'Android_App') {
+        window.entizen!.logout();
+      } else if (userAgent === 'iOS_App') {
+        window.webkit.messageHandlers.logout.postMessage();
+      }
     }
   });
 };
