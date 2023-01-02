@@ -110,9 +110,9 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
   };
 
   const {
-    mutate: patchMutate,
-    isLoading: patchLoading,
-    isError: patchError,
+    mutate: delelteMutate,
+    isLoading: delelteLoading,
+    isError: delelteError,
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('finalQuotaion');
@@ -128,14 +128,14 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
 
   // 최종 견적서 파일 삭제
   const modalDeleteFileBtnControll = () => {
-    patchMutate({
+    delelteMutate({
       url: `/admin/quotations/final-quotation-files/${fileIdx}`,
     });
   };
 
   // 최종 견적서 충전기 이미지 삭제
   const modalDeleteChargerImgBtnControll = () => {
-    patchMutate({
+    delelteMutate({
       url: `/admin/quotations/final-quotation-files/${chargerIdx}`,
     });
   };

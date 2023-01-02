@@ -1,15 +1,16 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { isTokenGetApi } from 'api';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
 import CloseImg from 'public/images/XCircle.svg';
 import { adminDateFomat, convertKo, hyphenFn } from 'utils/calculatePackage';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Image from 'next/image';
 import RatingForm from './RatingForm';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
+import AlertModal from 'componentsAdmin/AlertModal';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
@@ -74,21 +75,27 @@ export interface ASDetailViewResponse {
           afterSalesServiceRequestFileIdx: number;
           url: string;
         },
-        {
-          afterSalesServiceRequestFileIdx: number;
-          url: string;
-        },
       ];
     };
   };
 }
 
 const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
+  const queryClinet = useQueryClient();
+  // 수정 등록 버튼 누를때 나오는 모달창
+  const [messageModal, setMessageModal] = useState<boolean>(false);
+  // 경고창에 보내는 메세지
+  const [message, setMessage] = useState('');
+
+  // 삭제 하고 싶은 파일 id 값 업데이트
+  const [fileIdx, setFileIdx] = useState<number | undefined>();
+
   // 리뷰 모달 열리고 닫히고
   const [reviewModal, setReviewModal] = useState<boolean>(false);
 
   // 드랍다운에 보내줄거
   const dropDownValue = ['접수요청', '접수확인', '완료'];
+  const [selectValue, setSelectValue] = useState('');
 
   const { data, isLoading, isError } = useQuery<ASDetailViewResponse>(
     'asDetailView',
@@ -97,6 +104,36 @@ const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
   const handleBackBtn = () => {
     setIsDetail!(false);
   };
+  // as 첨부파일 삭제 이미지
+  const {
+    mutate: deleteMutate,
+    isLoading: deleteIsLoading,
+    isError: deleteIsError,
+  } = useMutation(isTokenDeleteApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('asDetailView');
+      setMessageModal(true);
+      setMessage('삭제가 완료 됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  // as 첨부파일 삭제
+  const modalDeleteFileBtnControll = () => {
+    deleteMutate({
+      url: `/admin/after-sales-services/${afterSalesServiceIdx}/requests/files/${fileIdx}`,
+    });
+  };
+
+  useEffect(() => {
+    if (fileIdx) {
+      modalDeleteFileBtnControll();
+    }
+  }, [fileIdx]);
 
   // 진행단계, 드랍다운에 보내줄거
   const currentStep = data?.data?.afterSalesService?.currentStep;
@@ -107,6 +144,9 @@ const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
     <Background>
       {reviewModal && (
         <RatingForm setReviewModal={setReviewModal} reviewData={reviewData!} />
+      )}
+      {messageModal && (
+        <AlertModal setIsModal={setMessageModal} message={message} />
       )}
       <Wrapper>
         <AdminHeader
@@ -208,6 +248,8 @@ const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
               <DropDownBtn
                 dropDownValue={dropDownValue}
                 currentStep={currentStep!}
+                setSelectValue={setSelectValue}
+                selectValue={selectValue}
               />
             </List>
             <List>
@@ -264,6 +306,9 @@ const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
                           alt="closeBtn"
                           width={24}
                           height={24}
+                          onClick={() => {
+                            setFileIdx(img?.afterSalesServiceRequestFileIdx);
+                          }}
                         />
                       </Xbox>
                     </ImgSpan>

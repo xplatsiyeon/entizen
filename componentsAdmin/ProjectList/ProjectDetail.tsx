@@ -125,9 +125,9 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
   );
 
   const {
-    mutate: patchMutate,
-    isLoading: patchLoading,
-    isError: patchError,
+    mutate: deleteMutate,
+    isLoading: deleteIsLoading,
+    isError: deleteIsError,
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('projectDetail');
@@ -140,13 +140,14 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
     },
     onSettled: () => {},
   });
+
   const handleBackBtn = () => {
     setIsDetail!(false);
   };
 
   // 프로젝트 첨부파일 삭제
   const modalDeleteFileBtnControll = () => {
-    patchMutate({
+    deleteMutate({
       url: `/admin/projects/${projectIdx}/completion/files/${fileIdx}`,
     });
   };
@@ -156,9 +157,6 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
       modalDeleteFileBtnControll();
     }
   }, [fileIdx]);
-
-  console.log('🦋 fileIdx 🦋', fileIdx);
-  console.log('🦋 projectIdx 🦋', projectIdx);
 
   console.log(data);
   return (
