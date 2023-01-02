@@ -604,8 +604,13 @@ const Signin = () => {
                         <Image src={apple} alt="apple" />
                       </Box>
                       <NaverBox>
-                        <Box id="naverIdLogin" ref={naverRef}></Box>
-                        <Image onClick={handleNaver} src={naver} alt="naver" />
+                        <Box
+                          id="naverIdLogin"
+                          ref={naverRef}
+                          onClick={handleNaver}
+                        >
+                          <Image src={naver} alt="naver" />
+                        </Box>
                       </NaverBox>
                       <Box sx={{ height: '33pt', cursor: 'pointer' }}>
                         <Image
