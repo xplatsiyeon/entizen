@@ -21,10 +21,10 @@ const Carousel = () => {
   const bridgeTestOnClick = () => {
     if (window.entizen!) {
       if (userAgent === 'Android_App') {
-        window.entizen!.openExternalBrowser('www.naver.com');
+        window.entizen!.openExternalBrowser('https://www.naver.com');
       } else if (userAgent === 'iOS_App') {
         window.webkit.messageHandlers.openExternalBrowser.postMessage(
-          'www.naver.com',
+          'https://www.naver.com',
         );
       }
     }
