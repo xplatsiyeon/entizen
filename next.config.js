@@ -6,7 +6,7 @@ const nextConfig = {
       's3.amazonaws.com',
     ],
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   env: {
     BASE_URL: process.env.BASE_URL,

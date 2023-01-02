@@ -94,7 +94,6 @@ const MainPage = (props: Props) => {
     if (window.entizen!) {
       if (userAgent === 'Android_App') {
         window.entizen!.getUserInfo();
-        console.log(window.entizen!.getUserInfo());
       } else if (userAgent === 'iOS_App') {
         window.webkit.messageHandlers.getUserInfo.postMessage();
       }

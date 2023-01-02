@@ -56,10 +56,12 @@ function useLogin(
       if (window.entizen!) {
         if (ANGENT === 'Android_App') {
           window.entizen!.setUserInfo(JSON.stringify(userInfo));
+          window.entizen!.getUserInfo();
         } else if (ANGENT === 'iOS_App') {
           window.webkit.messageHandlers.setUserInfo.postMessage(
             JSON.stringify(userInfo),
           );
+          window.webkit.messageHandlers.getUserInfo.postMessage();
         }
       }
 
