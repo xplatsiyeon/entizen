@@ -222,7 +222,6 @@ const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
             <List>
               <Label>리뷰현황</Label>
               <Contents>
-                {/* 추가 작업 필요합니다. */}
                 {data?.data?.afterSalesService?.afterSalesServiceReview ===
                 null ? (
                   <ReviewBtn>

@@ -630,7 +630,7 @@ const Table = ({
       'userChattingOneOnOne',
       () =>
         getApi(
-          `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}`,
+          `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}`,
         ),
       {
         enabled: false,

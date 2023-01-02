@@ -19,7 +19,7 @@ type CheckBox = {
 };
 
 export const communicationState = ['상담종료', '상담진행중'];
-export const communicationStateEn = ['', ''];
+export const communicationStateEn = ['done', 'inProgress'];
 
 export const userCheckBox = ['일반회원', '기업회원'];
 export const userCheckBoxEn = ['USER', 'COMPANY'];

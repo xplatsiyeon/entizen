@@ -10,6 +10,7 @@ import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import { chargers } from 'storeCompany/finalQuotation';
 import Image from 'next/image';
 import ExitBtn from 'public/adminImages/Group.png';
+import { CHARGING_METHOD } from 'companyAssets/selectList';
 import {
   adminDateFomat,
   dateFomat,
@@ -78,6 +79,8 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
   const [selectedOptionEn, setSelectedOptionEn] = useState<chargers[]>([]);
   const [selectValue, setSelectValue] = useState<string>('');
   const [selectChannelValue, setSelectChannelValue] = useState<string>('');
+
+  const chargeMethod = data?.data?.method;
 
   // 삭제 하고 싶은 파일 id 값 업데이트
   const [fileIdx, setFileIdx] = useState<number | undefined>();
@@ -195,14 +198,14 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
     onSettled: () => {},
   });
 
-  // 최종 견적서 파일 삭제
+  //  파트너 등록 제품 첨부파일 삭제
   const modalDeleteFileBtnControll = () => {
     delelteMutate({
       url: `/admin/products/${detatilId}/files/${fileIdx}`,
     });
   };
 
-  // 최종 견적서 충전기 이미지 삭제
+  // 파트너 등록 제품 충전기 이미지 삭제
   const modalDeleteChargerImgBtnControll = () => {
     delelteMutate({
       url: `/admin/products/${detatilId}/files/${chargerImgIdx}`,
@@ -285,7 +288,18 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
             <List>
               <Label>충전방식</Label>
               <Contents>
-                {/* <DropDownBtn currentStep={data?.data?.method} width={'300px'} /> */}
+                {chargeMethod &&
+                  chargeMethod?.map((item, index) => (
+                    <Fragment key={index}>
+                      <DropDownBtn
+                        currentStep={item}
+                        width={'300px'}
+                        setSelectValue={setSelectValue}
+                        selectValue={selectValue}
+                        dropDownValue={CHARGING_METHOD}
+                      />
+                    </Fragment>
+                  ))}
               </Contents>
             </List>
             <List>
@@ -312,7 +326,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
               </RequestContents>
             </List>
             <ImgList>
-              <label className="label">충전기 이미지</label>
+              <label className="label">제품 이미지</label>
               <div className="container">
                 {data?.data?.chargerProductFiles?.map(
                   (img, index) =>
@@ -460,6 +474,7 @@ const BusinessList = styled.div`
   padding-bottom: 24px;
   display: flex;
   align-items: initial;
+  margin-top: 10px;
   .label {
     font-weight: 500;
     font-size: 16px;
@@ -507,7 +522,8 @@ const ImgList = styled.div`
   padding-top: 14px;
   padding-bottom: 14px;
   display: flex;
-  align-items: center;
+  align-items: unset;
+  margin-top: 10px;
   .label {
     font-weight: 500;
     font-size: 16px;
@@ -519,7 +535,7 @@ const ImgList = styled.div`
     width: 173px;
     height: 130px;
     background-color: gray;
-    margin-top: 10px;
+
     border-radius: 4px;
     :not(:nth-last-of-type(1)) {
       margin-right: 10px;
@@ -540,6 +556,6 @@ const ImgList = styled.div`
   .container {
     display: flex;
     gap: 10px;
-    margin-left: 75px;
+    margin-left: 90px;
   }
 `;
