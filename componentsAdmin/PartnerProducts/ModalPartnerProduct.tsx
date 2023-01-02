@@ -2,12 +2,14 @@ import styled from '@emotion/styled';
 import CancleModal from 'componentsAdmin/CancleModal';
 import AdminHeader from 'componentsAdmin/Header';
 import { GrayBtn } from 'componentsAdmin/Layout';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { css } from '@emotion/react';
-import { useQuery } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import { chargers } from 'storeCompany/finalQuotation';
+import Image from 'next/image';
+import ExitBtn from 'public/adminImages/Group.png';
 import {
   adminDateFomat,
   dateFomat,
@@ -28,6 +30,7 @@ import {
   M5_TYPE_SET,
 } from 'assets/selectList';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
+import AlertModal from 'componentsAdmin/AlertModal';
 
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;
@@ -65,6 +68,7 @@ type AdminProductListDetail = {
   };
 };
 const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
+  const queryClinet = useQueryClient();
   const { data, isLoading, isError } = useQuery<AdminProductListDetail>(
     'ProductListDetail',
     () => isTokenGetApi(`/admin/products/${detatilId}`),
@@ -74,6 +78,17 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
   const [selectedOptionEn, setSelectedOptionEn] = useState<chargers[]>([]);
   const [selectValue, setSelectValue] = useState<string>('');
   const [selectChannelValue, setSelectChannelValue] = useState<string>('');
+
+  // 삭제 하고 싶은 파일 id 값 업데이트
+  const [fileIdx, setFileIdx] = useState<number | undefined>();
+
+  // 삭제 하고 싶은  이미지 id 값 업데이트
+  const [chargerImgIdx, setChargerImgIdx] = useState<number | undefined>();
+
+  // 수정 등록 버튼 누를때 나오는 모달창
+  const [messageModal, setMessageModal] = useState<boolean>(false);
+  // 경고창에 보내는 메세지
+  const [message, setMessage] = useState('');
 
   // 셀렉터 옵션 체인지
   const handleSelectBox = (value: string, name: string, index: number) => {
@@ -163,12 +178,53 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
     setIsDetail(false);
   };
 
-  console.log('🌸 충전기 방식은 뭐나옵니까? 🌸', data?.data?.channel);
+  const {
+    mutate: delelteMutate,
+    isLoading: delelteLoading,
+    isError: delelteError,
+  } = useMutation(isTokenDeleteApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('ProductListDetail');
+      setMessageModal(true);
+      setMessage('삭제가 완료 됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  // 최종 견적서 파일 삭제
+  const modalDeleteFileBtnControll = () => {
+    delelteMutate({
+      url: `/admin/products/${detatilId}/files/${fileIdx}`,
+    });
+  };
+
+  // 최종 견적서 충전기 이미지 삭제
+  const modalDeleteChargerImgBtnControll = () => {
+    delelteMutate({
+      url: `/admin/products/${detatilId}/files/${chargerImgIdx}`,
+    });
+  };
+
+  useEffect(() => {
+    if (fileIdx) {
+      modalDeleteFileBtnControll();
+    }
+    if (chargerImgIdx) {
+      modalDeleteChargerImgBtnControll();
+    }
+  }, [fileIdx, chargerImgIdx]);
 
   return (
     <Body>
       <Wrap>
         {modal && <CancleModal setModal={setModal} rightBtn={rightBtn} />}
+        {messageModal && (
+          <AlertModal setIsModal={setMessageModal} message={message} />
+        )}
         <Box>
           <AdminHeader
             title="파트너 등록 제품"
@@ -255,14 +311,56 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
                 {data?.data?.feature}
               </RequestContents>
             </List>
-            <List>
-              <Label>제품이미지</Label>
-              <Contents>이미지 자리</Contents>
-            </List>
-            <List>
-              <Label>카탈로그 첨부파일</Label>
-              <Contents>카탈로그 첨부 자리</Contents>
-            </List>
+            <ImgList>
+              <label className="label">충전기 이미지</label>
+              <div className="container">
+                {data?.data?.chargerProductFiles?.map(
+                  (img, index) =>
+                    img.productFileType === 'IMAGE' && (
+                      <div className="imgBox" key={index}>
+                        <Image
+                          src={img?.url}
+                          alt="charge-img"
+                          priority={true}
+                          unoptimized={true}
+                          layout="fill"
+                        />
+                        <div className="imgExit">
+                          <Image
+                            src={ExitBtn}
+                            alt="exit"
+                            layout="fill"
+                            onClick={() => {
+                              setChargerImgIdx(img?.chargerProductFileIdx);
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ),
+                )}
+              </div>
+            </ImgList>
+            <BusinessList>
+              <label className="label">첨부파일</label>
+              <div className="fileContainer">
+                {data?.data?.chargerProductFiles?.map(
+                  (file, index) =>
+                    file.productFileType === 'CATALOG' && (
+                      <div className="fileBox" key={index}>
+                        <p className="businessName">{file.originalName}</p>
+                        <button
+                          className="businessBtn"
+                          onClick={() => {
+                            setFileIdx(file?.chargerProductFileIdx);
+                          }}
+                        >
+                          삭제
+                        </button>
+                      </div>
+                    ),
+                )}
+              </div>
+            </BusinessList>
           </InnerFlexBox>
         </Inner>
       </Wrap>
@@ -355,4 +453,93 @@ const RequestContents = styled.textarea<{ height?: number }>`
   resize: none;
   background: none;
   height: ${({ height }) => `${height}px`};
+`;
+
+const BusinessList = styled.div`
+  padding-top: 14px;
+  padding-bottom: 24px;
+  display: flex;
+  align-items: initial;
+  .label {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: ${colors.dark2};
+  }
+  .fileBox {
+    display: flex;
+    align-items: center;
+  }
+  .businessName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    /* identical to box height, or 24px */
+    color: #747780;
+    border: 1px solid #a6a9b0;
+    border-radius: 2px;
+    padding: 4px 14px 4px 10px;
+    gap: 8px;
+    margin-right: 10px;
+  }
+  .businessBtn {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    /* identical to box height, or 21px */
+    background: none;
+    text-decoration-line: underline;
+
+    color: #747780;
+  }
+  .fileContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 105px;
+  }
+`;
+
+const ImgList = styled.div`
+  padding-top: 14px;
+  padding-bottom: 14px;
+  display: flex;
+  align-items: center;
+  .label {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: ${colors.dark2};
+  }
+  .imgBox {
+    position: relative;
+    width: 173px;
+    height: 130px;
+    background-color: gray;
+    margin-top: 10px;
+    border-radius: 4px;
+    :not(:nth-last-of-type(1)) {
+      margin-right: 10px;
+    }
+  }
+  .imgExit {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    border: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    background-color: ${colors.lightGray2};
+  }
+  .container {
+    display: flex;
+    gap: 10px;
+    margin-left: 75px;
+  }
 `;
