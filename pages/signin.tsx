@@ -254,6 +254,8 @@ const Signin = () => {
   };
   // 네이버 온클릭
   const handleNaver = async () => {
+    console.log('네이버 온클릭');
+    console.log(naverRef);
     if (naverRef) {
       naverRef.current.children[0].click();
     }
@@ -604,12 +606,12 @@ const Signin = () => {
                         <Image src={apple} alt="apple" />
                       </Box>
                       <NaverBox>
-                        <Box
-                          id="naverIdLogin"
-                          ref={naverRef}
-                          onClick={handleNaver}
-                        >
-                          <Image src={naver} alt="naver" />
+                        <Box id="naverIdLogin" ref={naverRef}>
+                          <Image
+                            src={naver}
+                            alt="naver"
+                            onClick={handleNaver}
+                          />
                         </Box>
                       </NaverBox>
                       <Box sx={{ height: '33pt', cursor: 'pointer' }}>
