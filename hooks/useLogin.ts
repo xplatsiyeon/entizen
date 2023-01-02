@@ -6,6 +6,8 @@ import { JwtTokenType } from 'pages/signin';
 import { useDispatch } from 'react-redux';
 import { originUserAction } from 'store/userInfoSlice';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 function useLogin(
   userId: string,
@@ -18,7 +20,8 @@ function useLogin(
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
+  // const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
 
   const {
     mutate: loginMutate,
@@ -54,10 +57,10 @@ function useLogin(
         USER_ID: userId,
       };
       if (window.entizen!) {
-        if (ANGENT === 'Android_App') {
+        if (userAgent === 'Android_App') {
           window.entizen!.setUserInfo(JSON.stringify(userInfo));
           window.entizen!.getUserInfo();
-        } else if (ANGENT === 'iOS_App') {
+        } else if (userAgent === 'iOS_App') {
           window.webkit.messageHandlers.setUserInfo.postMessage(
             JSON.stringify(userInfo),
           );
