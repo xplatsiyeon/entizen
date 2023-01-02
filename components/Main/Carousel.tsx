@@ -12,11 +12,28 @@ import MoneyPhoto from 'public/images/MainMoney.png';
 import { Pagination, Navigation } from 'swiper';
 import Image from 'next/image';
 import colors from 'styles/colors';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 const Carousel = () => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // bridge 테스트
+  const bridgeTestOnClick = () => {
+    if (window.entizen!) {
+      if (userAgent === 'Android_App') {
+        // window.entizen!.openExternalBrowser('https://www.naver.com');
+        window.open('https://post.naver.com/entizen_ev', 'entizen_post');
+      } else if (userAgent === 'iOS_App') {
+        window.webkit.messageHandlers.openExternalBrowser.postMessage(
+          'https://www.naver.com',
+        );
+      }
+    }
+  };
+
   return (
     <>
-      <SliderWrapper>
+      <SliderWrapper onClick={bridgeTestOnClick}>
         <Swiper
           spaceBetween={0}
           pagination={{
