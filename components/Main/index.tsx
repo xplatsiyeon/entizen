@@ -101,21 +101,21 @@ const MainPage = (props: Props) => {
           const jsonGetUserInfo = JSON.parse(getUserInfo);
           sessionStorage.setItem(
             'SNS_MEMBER',
-            JSON.stringify(jsonGetUserInfo.userInfo.SNS_MEMBER),
+            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
           );
           sessionStorage.setItem(
             'MEMBER_TYPE',
-            JSON.stringify(jsonGetUserInfo.userInfo.MEMBER_TYPE),
+            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
           );
           sessionStorage.setItem(
             'ACCESS_TOKEN',
-            JSON.stringify(jsonGetUserInfo.userInfo.ACCESS_TOKEN),
+            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
           );
           sessionStorage.setItem(
             'REFRESH_TOKEN',
-            JSON.stringify(jsonGetUserInfo.userInfo.REFRESH_TOKEN),
+            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
           );
-          sessionStorage.setItem('USER_ID', jsonGetUserInfo.userInfo.USER_ID);
+          sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
         }
       } else if (userAgent === 'iOS_App') {
         window.webkit.messageHandlers.getUserInfo.postMessage();
