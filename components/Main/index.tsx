@@ -90,12 +90,15 @@ const MainPage = (props: Props) => {
   //     }
   //   }
   // }, []);
+
+  // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useEffect(() => {
     if (window.entizen!) {
       if (userAgent === 'Android_App') {
         const getUserInfo = window.entizen!.getUserInfo();
-        const jsonGetUserInfo = JSON.parse(getUserInfo);
-        if (jsonGetUserInfo.length > 1) {
+
+        if (getUserInfo.length > 1) {
+          const jsonGetUserInfo = JSON.parse(getUserInfo);
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.userInfo.SNS_MEMBER),
