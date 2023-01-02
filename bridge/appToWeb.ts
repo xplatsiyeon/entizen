@@ -1,5 +1,4 @@
 // 웹 ---> 앱
-
 export const requestPermissionCheck = (
   userAgent: string,
   type: 'photo' | 'file',

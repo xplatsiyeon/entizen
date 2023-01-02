@@ -81,7 +81,7 @@ const SecondStep = ({
 }: Props) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const imgRef = useRef<HTMLInputElement>(null);
+  const imgRef = useRef<any>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
   const chargeTypeListEn: string[] = [
@@ -803,7 +803,9 @@ const SecondStep = ({
                 type="file"
                 accept="image/*"
                 onChange={saveFileImage}
+                capture={true}
                 multiple
+
                 // disabled={checkImg}
               />
               {/* <Preview> */}
