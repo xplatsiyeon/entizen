@@ -13,6 +13,7 @@ declare global {
     entizen?: any;
     webkit?: any;
     test?: () => void;
+    returnUserInfo?: (getUserInfo: any) => void;
     testEntizen: {
       test?: () => void;
       testtest?: () => void;

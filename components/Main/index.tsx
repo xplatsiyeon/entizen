@@ -95,9 +95,21 @@ const MainPage = (props: Props) => {
   useEffect(() => {
     if (window.entizen!) {
       if (userAgent === 'Android_App') {
-        const getUserInfo = window.entizen!.getUserInfo();
-
-        if (getUserInfo.length > 1) {
+        window.entizen!.getUserInfo();
+      } else if (userAgent === 'iOS_App') {
+        window.webkit.messageHandlers.getUserInfo.postMessage();
+      }
+    }
+  }, []);
+  // 앱 -> 웹
+  useEffect(() => {
+    // 안드로이드 호출 테스트
+    if (userAgent === 'Android_App') {
+      // window.test = () => {
+      //   alert('안드로이드 테스트 중..');
+      // };
+      window.returnUserInfo = (getUserInfo) => {
+        if (getUserInfo && getUserInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(getUserInfo);
           sessionStorage.setItem(
             'SNS_MEMBER',
@@ -117,38 +129,6 @@ const MainPage = (props: Props) => {
           );
           sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
         }
-      } else if (userAgent === 'iOS_App') {
-        window.webkit.messageHandlers.getUserInfo.postMessage();
-        // const getUserInfo = window.entizen!.getUserInfo();
-        // const jsonGetUserInfo = JSON.parse(getUserInfo);
-        // if (jsonGetUserInfo.length > 1) {
-        //   sessionStorage.setItem(
-        //     'SNS_MEMBER',
-        //     JSON.stringify(jsonGetUserInfo.userInfo.SNS_MEMBER),
-        //   );
-        //   sessionStorage.setItem(
-        //     'MEMBER_TYPE',
-        //     JSON.stringify(jsonGetUserInfo.userInfo.MEMBER_TYPE),
-        //   );
-        //   sessionStorage.setItem(
-        //     'ACCESS_TOKEN',
-        //     JSON.stringify(jsonGetUserInfo.userInfo.ACCESS_TOKEN),
-        //   );
-        //   sessionStorage.setItem(
-        //     'REFRESH_TOKEN',
-        //     JSON.stringify(jsonGetUserInfo.userInfo.REFRESH_TOKEN),
-        //   );
-        //   sessionStorage.setItem('USER_ID', jsonGetUserInfo.userInfo.USER_ID);
-        // }
-      }
-    }
-  }, []);
-  // 앱 -> 웹
-  useEffect(() => {
-    // 안드로이드 호출 테스트
-    if (userAgent === 'Android_App') {
-      window.test = () => {
-        alert('안드로이드 테스트 중..');
       };
       // 아이폰 호출 테스트
     } else if (userAgent === 'iOS_App') {
