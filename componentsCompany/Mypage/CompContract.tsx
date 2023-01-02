@@ -20,16 +20,21 @@ import { modusignCancel } from 'api/cancelSign';
 import FileSelectModal from 'components/Modal/FileSelectModal';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { requestPermissionCheck } from 'bridge/appToWeb';
 
 type Props = {};
 type ImageType = 'IMAGE' | 'FILE';
 const TAG = 'componentsCompany/Mypage/CompContract.tsx';
 const ComContranct = ({}: Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+
   const router = useRouter();
   const routerId = router.query.projectIdx!;
-  const queryClient = useQueryClient();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   // 자체 계약서 파일 모달
@@ -203,6 +208,45 @@ const ComContranct = ({}: Props) => {
       router.push('/company/mypage?id=0');
     }
   };
+
+  // 사진 온클릭
+  const imgHandler = () => {
+    setType('IMAGE');
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
+  };
+  //파일 온클릭
+  const handleFileClick = () => {
+    setType('FILE');
+    if (userAgent === '') {
+      fileRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'file');
+    }
+  };
+
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    }
+  }, []);
+
   if (modusignIsLoading || contractsIsLoading || multerImageLoading) {
     return <Loader />;
   }
@@ -214,14 +258,8 @@ const ComContranct = ({}: Props) => {
           fileText="앨범에서 가져오기"
           photoText="파일에서 가져오기"
           cencleBtn={() => setOpenSelfContract(false)}
-          onClickFile={() => {
-            setType('FILE');
-            fileRef?.current?.click();
-          }}
-          onClickPhoto={() => {
-            setType('IMAGE');
-            imgRef?.current?.click();
-          }}
+          onClickFile={handleFileClick}
+          onClickPhoto={imgHandler}
         />
       )}
       {isModal && <Modal click={onClickModal} text={modalMessage} />}
@@ -234,6 +272,7 @@ const ComContranct = ({}: Props) => {
         accept="image/*"
         onChange={saveFileImage}
         multiple
+        capture={true}
       />
       {/* 파일 input */}
       <input

@@ -300,11 +300,13 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   const handleDateBtn = (
     step: 'READY' | 'INSTALLATION' | 'EXAM' | 'COMPLETION',
   ) => {
-    setIsModal(true);
     const target = data?.project?.unConsentProjectDateChangeHistories.filter(
       (el) => el.changedStep === step && el.processingStatus === false,
     );
-    setModalInfo(target[0]);
+    if (target.length > 0) {
+      setIsModal(true);
+      setModalInfo(target[0]);
+    }
   };
   // 일정 변경 모달 관련 상태관리
   useEffect(() => {
@@ -725,7 +727,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
         </FinButton>
       ) : null}
       {/* 완료 동의하기 모달창  */}
-      {isModal && modalInfo && (
+      {isModal && (
         <ClientProjectModal
           modalStep={modalStep}
           setIsModal={setIsModal}

@@ -86,6 +86,7 @@ const UnderBox = ({ id }: Props) => {
 
       <>
         <WebBtnWrapper>
+          {/* 계약서 선택란*/}
           <ComContranct />
         </WebBtnWrapper>
         <CommunityBtnBox>

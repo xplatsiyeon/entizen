@@ -23,6 +23,9 @@ import { convertEn, getByteSize } from 'utils/calculatePackage';
 import { subscribeType, subscribeTypeEn } from 'assets/selectList';
 import { BusinessRegistrationFiles } from '../SentQuotation/SentProvisionalQuoatation';
 import Loader from 'components/Loader';
+import { requestPermissionCheck } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   tabNumber: number;
@@ -70,6 +73,8 @@ const ThirdStep = ({
   subscribeProductFeature,
   chargingStationInstallationPrice,
 }: Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+
   const router = useRouter();
 
   const routerId = router?.query?.finalQuotationIdx!;
@@ -175,7 +180,11 @@ const ThirdStep = ({
 
   //파일 온클릭
   const handleFileClick = () => {
-    fileRef?.current?.click();
+    if (userAgent === '') {
+      fileRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'file');
+    }
   };
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -294,12 +303,6 @@ const ThirdStep = ({
     setTabNumber(maxIndex);
   };
 
-  const handleNextBtn = (e: any) => {
-    if (canNext) {
-      router.push('/company/quotation/sentProvisionalQuotaionComplete');
-    }
-  };
-
   useEffect(() => {
     if (BusinessRegistration.length >= 1) {
       SetCanNext(true);
@@ -307,6 +310,19 @@ const ThirdStep = ({
       SetCanNext(false);
     }
   }, [BusinessRegistration]);
+
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    }
+  }, []);
 
   return (
     <>

@@ -25,6 +25,9 @@ import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddCompon
 import { chargers } from 'storeCompany/finalQuotation';
 import SelectComponents from 'components/Select';
 import { ProductListRepsonse } from 'componentsCompany/MyProductList/ProductList';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { requestPermissionCheck } from 'bridge/appToWeb';
 
 type Props = {
   tabNumber: number;
@@ -54,6 +57,7 @@ const SecondStep = ({
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const chargeLocationTypeList: string[] = ['건물 안', '건물 밖'];
   const chargeLocationTypeListEn: string[] = ['INSIDE', 'OUTSIDE'];
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
@@ -257,7 +261,11 @@ const SecondStep = ({
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    imgRef?.current?.click();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
   };
   // 사진 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -268,7 +276,7 @@ const SecondStep = ({
     for (let i = 0; i < maxLength; i += 1) {
       if (files![i] === undefined) break;
       formData.append(
-        'chargerProduct',
+        'finalQuotation',
         files![i],
         encodeURIComponent(files![i].name),
       );
@@ -289,7 +297,11 @@ const SecondStep = ({
   };
   //파일 온클릭
   const handleFileClick = () => {
-    fileRef?.current?.click();
+    if (userAgent === '') {
+      fileRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'file');
+    }
   };
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -302,7 +314,7 @@ const SecondStep = ({
         break;
       }
       formData.append(
-        'chargerProduct',
+        'finalQuotation',
         files![i],
         encodeURIComponent(files![i].name),
       );
@@ -458,6 +470,25 @@ const SecondStep = ({
     setTextLength(selectedOptionEn[tabNumber - 1]?.productFeature.length);
   }, [selectedOptionEn]);
 
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    }
+  }, []);
+
   console.log('🔥 최종견적 선택된 옵션 리스트 목록 -> ');
   console.log(selectedOption[maxIndex! - 1]);
   console.log(maxIndex);
@@ -592,6 +623,7 @@ const SecondStep = ({
                 accept="image/*"
                 onChange={saveFileImage}
                 multiple
+                capture={true}
               />
               {/* <Preview> */}
               <ImgSpanBox>

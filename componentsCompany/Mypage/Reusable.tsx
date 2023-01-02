@@ -27,6 +27,9 @@ import Modal from 'components/Modal/Modal';
 import { ApolloQueryResult, OperationVariables } from '@apollo/client';
 import { changeDataFn } from 'utils/calculatePackage';
 import Carousel from 'components/mypage/projects/Carousel';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { requestPermissionCheck } from 'bridge/appToWeb';
 
 type Props = {
   type?: 'READY' | 'INSTALLATION' | 'EXAM' | 'COMPLETION';
@@ -89,6 +92,7 @@ const Reusable = ({
 // setData,
 
 Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
   // img ref
@@ -207,7 +211,11 @@ Props) => {
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    imgRef?.current?.click();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
   };
   // 일정 변경 요청
   const changeData = () => {
@@ -379,6 +387,7 @@ Props) => {
                     accept="image/*"
                     onChange={saveFileImage}
                     multiple
+                    capture={true}
                   />
                   {/* <Preview> */}
                   <ImgSpanBox>

@@ -275,7 +275,7 @@ const SecondStep = ({
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (userAgent === '') {
-      fileRef?.current?.click();
+      imgRef?.current?.click();
     } else {
       requestPermissionCheck(userAgent, 'photo');
     }
@@ -805,8 +805,6 @@ const SecondStep = ({
                 onChange={saveFileImage}
                 capture={true}
                 multiple
-
-                // disabled={checkImg}
               />
               {/* <Preview> */}
               <ImgSpanBox>
