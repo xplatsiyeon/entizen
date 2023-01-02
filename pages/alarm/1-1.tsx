@@ -261,7 +261,6 @@ const CustomSwitch = styled(Switch)`
   .MuiSwitch-root {
   }
   .MuiSwitch-input {
-    border: 1px solid red;
   }
   .MuiSwitch-thumb {
     color: white;

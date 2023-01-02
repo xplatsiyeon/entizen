@@ -147,7 +147,7 @@ const ListBox = styled.div`
   box-shadow: 0px 0px 10px 0px #89a3c933;
   position: relative;
   border-radius: 6pt;
-  /* background-color: red; */
+
   /* padding-left: 13.5pt;
   padding-right: 13.5pt; */
   cursor: pointer;

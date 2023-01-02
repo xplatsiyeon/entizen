@@ -129,14 +129,14 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
   // 최종 견적서 파일 삭제
   const modalDeleteFileBtnControll = () => {
     patchMutate({
-      url: `/admin/quotations/final-quotations/detail/files/${fileIdx}`,
+      url: `/admin/quotations/final-quotation-files/${fileIdx}`,
     });
   };
 
   // 최종 견적서 충전기 이미지 삭제
   const modalDeleteChargerImgBtnControll = () => {
     patchMutate({
-      url: `/admin/quotations/final-quotations/charger/files/${chargerIdx}`,
+      url: `/admin/quotations/final-quotation-files/${chargerIdx}`,
     });
   };
 

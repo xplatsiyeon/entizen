@@ -133,7 +133,6 @@ const Preview = styled.div`
     width: 60pt;
     height: 60pt;
     border-radius: 6pt;
-    border: 1px solid red;
   }
 `;
 

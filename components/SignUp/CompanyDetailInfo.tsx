@@ -498,7 +498,6 @@ const PhotosBox = styled.div`
     gap: 6pt;
   }
   .file-preivew {
-    border: 1px solid red;
     background-color: red;
   }
 `;
@@ -508,7 +507,7 @@ const ImgSpan = styled.div`
   height: 60pt;
   border-radius: 6pt;
   /* height: 100pt;
-  border: 1px solid red;
+
   background-color: red; */
 `;
 const Xbox = styled.div`

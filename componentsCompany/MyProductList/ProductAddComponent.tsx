@@ -1093,7 +1093,7 @@ const FileBox = styled.div`
     line-height: 9pt;
     letter-spacing: -0.02em;
     color: ${colors.dark2};
-    border: 1px solid red;
+
     width: 230px;
     text-overflow: ellipsis;
   }

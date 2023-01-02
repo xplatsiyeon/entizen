@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { isTokenGetApi } from 'api';
+import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import {
   location,
   locationEn,
@@ -12,9 +12,10 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
+import AlertModal from 'componentsAdmin/AlertModal';
 import AdminHeader from 'componentsAdmin/Header';
-import React, { Dispatch, SetStateAction } from 'react';
-import { useQuery } from 'react-query';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
 
 import { adminDateFomat, convertKo, hyphenFn } from 'utils/calculatePackage';
@@ -110,18 +111,62 @@ interface ProjectDetailResponse {
   };
 }
 const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
+  const queryClinet = useQueryClient();
+  // 수정 등록 버튼 누를때 나오는 모달창
+  const [messageModal, setMessageModal] = useState<boolean>(false);
+  // 경고창에 보내는 메세지
+  const [message, setMessage] = useState('');
+
+  // 삭제 하고 싶은 파일 id 값 업데이트
+  const [fileIdx, setFileIdx] = useState<number | undefined>();
   const { data, isLoading, isError } = useQuery<ProjectDetailResponse>(
     'projectDetail',
     () => isTokenGetApi(`/admin/projects/${projectIdx}`),
   );
+
+  const {
+    mutate: patchMutate,
+    isLoading: patchLoading,
+    isError: patchError,
+  } = useMutation(isTokenDeleteApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('projectDetail');
+      setMessageModal(true);
+      setMessage('삭제가 완료 됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
   const handleBackBtn = () => {
     setIsDetail!(false);
   };
+
+  // 프로젝트 첨부파일 삭제
+  const modalDeleteFileBtnControll = () => {
+    patchMutate({
+      url: `/admin/projects/${projectIdx}/completion/files/${fileIdx}`,
+    });
+  };
+
+  useEffect(() => {
+    if (fileIdx) {
+      modalDeleteFileBtnControll();
+    }
+  }, [fileIdx]);
+
+  console.log('🦋 fileIdx 🦋', fileIdx);
+  console.log('🦋 projectIdx 🦋', projectIdx);
 
   console.log(data);
   return (
     <Background>
       <Wrapper>
+        {messageModal && (
+          <AlertModal setIsModal={setMessageModal} message={message} />
+        )}
         <AdminHeader
           title="프로젝트"
           type="detail"
@@ -308,7 +353,14 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
                   (file, index) => (
                     <div className="fileBox" key={index}>
                       <p className="businessName">{file?.originalName}</p>
-                      <button className="businessBtn">삭제</button>
+                      <button
+                        className="businessBtn"
+                        onClick={() => {
+                          setFileIdx(file?.finalQuotationDetailFileIdx);
+                        }}
+                      >
+                        삭제
+                      </button>
                     </div>
                   ),
                 )}

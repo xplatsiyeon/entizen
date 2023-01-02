@@ -26,7 +26,7 @@ const QuitModal = ({ setModal, deleteId }: Props) => {
 
   // 채팅방 삭제
   const onClickDelete = () => {
-    console.log(deleteId)
+    console.log(deleteId);
     if (deleteId) {
       deleteMutate({
         url: `/chatting/${deleteId}`,
@@ -35,7 +35,7 @@ const QuitModal = ({ setModal, deleteId }: Props) => {
   };
   return (
     <Body>
-      <Wrapper onClick={() => setModal(false)}/>
+      <Wrapper onClick={() => setModal(false)} />
       <Modal>
         <P>{`채팅방에서 나가시겠습니까? \n 나가기를 하면 채팅 목록 및 대화 내용이 모두 삭제 됩니다.`}</P>
         <Box>
@@ -61,12 +61,11 @@ const Body = styled.div`
   position: fixed;
   top: 0;
   z-index: 5;
-  
+
   @media (min-width: 900pt) {
     position: absolute;
     background-color: #6b6b6b2e;
   }
-
 `;
 const Wrapper = styled.div`
   position: fixed;
@@ -75,11 +74,10 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   background: #22222261;
-  
+
   @media (min-width: 900pt) {
     background-color: transparent;
   }
-
 `;
 const Modal = styled.div`
   background: white;
@@ -140,14 +138,12 @@ const Btn = styled.button`
   }
 
   @media (min-width: 900pt) {
-
-    border: 1px solid red;
     margin: 0pt 30pt 30pt 0;
     border-radius: 6pt;
-    &:nth-of-type(1){
+    &:nth-of-type(1) {
       margin: 0pt 12pt 30pt 30pt;
     }
-    &.quit{
+    &.quit {
       border-radius: 6pt;
     }
   }

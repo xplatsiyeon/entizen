@@ -133,7 +133,6 @@ const ImageBox = styled.div`
 `;
 
 const MobWrap = styled.div`
-  //border: 1px solid red;
   //height: calc(100% - 147pt);
   @media (min-width: 900pt) {
     display: none;
