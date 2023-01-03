@@ -163,7 +163,6 @@ const FirstStep = ({
                 setMonthleSubscribePrice(inputPriceFormat(e.target.value));
               }
             }}
-            type="number"
             value={monthlySubscribePrice}
             name="subscribeMoney"
           />
