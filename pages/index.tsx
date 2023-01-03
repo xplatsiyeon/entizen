@@ -35,9 +35,9 @@ const Home: NextPage<Props> = ({}: Props) => {
   useEffect(() => {
     // 안드로이드 호출 테스트
     if (userAgent === 'Android_App') {
-      window.returnUserInfo = (getUserInfo) => {
-        if (getUserInfo && getUserInfo.length > 1) {
-          const jsonGetUserInfo = JSON.parse(getUserInfo);
+      window.returnUserInfo = (userInfo) => {
+        if (userInfo && userInfo.length > 1) {
+          const jsonGetUserInfo = JSON.parse(userInfo);
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
@@ -63,9 +63,9 @@ const Home: NextPage<Props> = ({}: Props) => {
       };
       // 아이폰 호출 테스트
     } else if (userAgent === 'iOS_App') {
-      window.returnUserInfo = (getUserInfo) => {
-        if (getUserInfo && getUserInfo.length > 1) {
-          const jsonGetUserInfo = JSON.parse(getUserInfo);
+      window.returnUserInfo = (userInfo) => {
+        if (userInfo && userInfo.length > 1) {
+          const jsonGetUserInfo = JSON.parse(userInfo);
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),

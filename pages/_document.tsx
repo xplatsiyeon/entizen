@@ -13,7 +13,7 @@ declare global {
     entizen?: any;
     webkit?: any;
     test?: () => void;
-    returnUserInfo?: (getUserInfo: any) => void;
+    returnUserInfo?: (userInfo: any) => void;
     openGallery?: () => void;
     openFileUpload?: () => void;
     testEntizen: {
