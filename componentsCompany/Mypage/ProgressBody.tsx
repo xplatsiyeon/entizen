@@ -161,9 +161,12 @@ const ProgressBody = ({
 
     // 브릿지
     if (userAgent === 'Android_App') {
+      window.entizen!.openExternalBrowser(contractDocumentData?.embeddedUrl);
       window.open(contractDocumentData?.embeddedUrl);
     } else if (userAgent === 'iOS_App') {
-      window.open(contractDocumentData?.embeddedUrl);
+      window.webkit.messageHandlers.openExternalBrowser.postMessage(
+        contractDocumentData?.embeddedUrl,
+      );
     }
   };
 
