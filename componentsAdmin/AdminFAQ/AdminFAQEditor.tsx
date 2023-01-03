@@ -50,7 +50,10 @@ interface FaqsUpdate {
 
 const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
   const queryClinet = useQueryClient();
-
+  const { data, isLoading, isError, refetch } = useQuery<FaqsUpdate>(
+    'adminFaqsDetail',
+    () => isTokenGetApi(`/admin/faqs/${detatilId}`),
+  );
   // 수정된 value가 있는지 없는지
   const [checkAll, setCheckAll] = useState<boolean>(false);
 
@@ -62,10 +65,11 @@ const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
   // 경고창에 보내는 메세지
   const [message, setMessage] = useState('');
 
-  const { data, isLoading, isError, refetch } = useQuery<FaqsUpdate>(
-    'adminFaqsDetail',
-    () => isTokenGetApi(`/admin/faqs/${detatilId}`),
-  );
+  const userTypeEn = ['USER', 'COMPANY'];
+  const userType = ['일반회원', '기업회원 '];
+  const [userNum, setUserNum] = useState(0);
+
+  const [checkValue, setCheckValue] = useState('일반회원');
 
   // 본문 초기값
   const firstTitle = data?.data?.faq?.question;
@@ -112,6 +116,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
     onSettled: () => {},
   });
 
+  // 여기에 나중에 userType 추가 해야함 →userTypeEn[userNum]
   const modalPostBtnControll = () => {
     if (detatilId === '') {
       postMutate({
@@ -143,6 +148,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
     },
   );
 
+  // 여기에 나중에 userType 추가 해야함 →userTypeEn[userNum]
   const onClickModifiedBtn = () => {
     if (checkAll) {
       modifiedMutate({
@@ -227,6 +233,37 @@ const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
           <SubText>FAQ</SubText>
         </TitleWrapper>
         <SubText>FAQ 등록</SubText>
+        <TitleBox1>
+          <TitleText>구분</TitleText>
+          <SelectBox>
+            {userType.map((item, idx) => (
+              <Select>
+                <input
+                  type="radio"
+                  key={idx}
+                  style={{ marginRight: '5px', cursor: 'pointer' }}
+                  value={item}
+                  id={item}
+                  name="userType"
+                  onChange={(e) => {
+                    setCheckValue(e.target.value);
+                  }}
+                  onClick={() => {
+                    if (detatilId !== '') {
+                      false;
+                    } else {
+                      setUserNum(idx);
+                    }
+                  }}
+                  checked={
+                    detatilId !== '' ? item === userType[userNum] : undefined
+                  }
+                />
+                {item}
+              </Select>
+            ))}
+          </SelectBox>
+        </TitleBox1>
         <TitleContainer>
           <DropDownBtn
             dropDownValue={ServiceKr}
@@ -359,6 +396,17 @@ const TitleBox = styled.div`
   padding: 0 6px;
 `;
 
+const TitleBox1 = styled.div`
+  width: 964px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e2e5ed;
+  border-radius: 3px;
+  padding: 0 6px;
+  margin-bottom: 10px;
+`;
+
 const TitleText = styled.span`
   font-family: 'Spoqa Han Sans Neo';
   font-size: 14px;
@@ -440,4 +488,16 @@ const BtnBox = styled.div`
   display: flex;
   gap: 8px;
   justify-content: flex-end;
+`;
+
+const SelectBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+`;
+
+const Select = styled.label`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 16px;
+  font-weight: 400;
 `;

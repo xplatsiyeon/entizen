@@ -11,10 +11,16 @@ import QuitModal from './QuitModal';
 interface Props {
   setMoreModal: Dispatch<SetStateAction<boolean>>;
   setQuitModal: Dispatch<SetStateAction<boolean>>;
+  setReportModal: Dispatch<SetStateAction<boolean>>;
   alarm?: boolean;
 }
 
-const WebMoreModal = ({ setMoreModal, setQuitModal, alarm }: Props) => {
+const WebMoreModal = ({
+  setMoreModal,
+  setQuitModal,
+  alarm,
+  setReportModal,
+}: Props) => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
   const queryClinet = useQueryClient();
@@ -42,16 +48,24 @@ const WebMoreModal = ({ setMoreModal, setQuitModal, alarm }: Props) => {
     <>
       <Box>
         <div className="list fisrt" onClick={() => onClickAlarm(routerId)}>
-        {alarm?'알람끄기':'알람켜기'}
+          {alarm ? '알람끄기' : '알람켜기'}
         </div>
         <div
-          className="list"
+          className="list fisrt"
           onClick={() => {
             setMoreModal(false);
             setQuitModal(true);
           }}
         >
           채팅방 나가기
+        </div>
+        <div
+          className="list"
+          onClick={() => {
+            setReportModal(true);
+          }}
+        >
+          신고하기
         </div>
       </Box>
       <Wrapper onClick={() => setMoreModal(false)} />
@@ -76,7 +90,6 @@ const Wrapper = styled.div`
   @media (max-width: 899.25pt) {
     display: none;
   }
-
 `;
 const Box = styled.div`
   position: absolute;

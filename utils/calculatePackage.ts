@@ -197,3 +197,21 @@ export const adminDateFomat = (date: string) => {
     return '';
   }
 };
+
+// 승인 미승인 계산하는 함수
+export const isAdminJoinApproved = (value: boolean) => {
+  if (value === true) {
+    return '승인';
+  } else if (value === false) {
+    return '미승인';
+  }
+};
+
+// 백엔드에 보내는 승인, 미승인 boolean 값
+export const isAdminJoinApprovedBoolean = (value: string) => {
+  if (value === '승인') {
+    return true;
+  } else if (value === '미승인') {
+    return false;
+  }
+};

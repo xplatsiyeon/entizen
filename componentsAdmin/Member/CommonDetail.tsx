@@ -1,15 +1,16 @@
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import MemberContents from './MemberContents';
 import ExitBtn from 'public/adminImages/Group.png';
-import { isTokenGetApi, isTokenDeleteApi } from 'api';
+import { isTokenGetApi, isTokenDeleteApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AlertModal from 'componentsAdmin/AlertModal';
 import WriteModal from 'componentsAdmin/WriteModal';
+import { isAdminJoinApproved } from 'utils/calculatePackage';
 
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;
@@ -104,8 +105,12 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     setIsModal(true);
   };
 
-  // 일반회원 프로필 삭제
+  const currentApprove = companyData?.data?.member?.isAdminJoinApproved!;
 
+  // 승인 미승인 값 담아 오슈...
+  const [approve, setApprove] = useState<boolean>(currentApprove);
+
+  // 일반회원 프로필 삭제
   const {
     mutate: patchMutate,
     isLoading: patchLoading,
@@ -113,6 +118,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('user-detail');
+      queryClinet.invalidateQueries('company-detail');
       setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },
@@ -123,6 +129,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     onSettled: () => {},
   });
 
+  // 일반회원 프로필 삭제
   const modalDeleteUserBtnControll = () => {
     patchMutate({
       url: `/admin/members/users/${memberIdx}/profile-image`,
@@ -136,8 +143,30 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     });
   };
 
-  const handleBackBtn = () => {
-    setIsDetail(false);
+  // 기업회원 승인 api (PATCH)
+  // /admin/members/companies/:memberIdx/approval
+  const {
+    mutate: patchApproveMutate,
+    isLoading: patchApproveLoading,
+    isError: patchApproveError,
+  } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('comUserData');
+      queryClinet.invalidateQueries('comUserInfo');
+      setMessageModal(true);
+      setMessage('승인이 변경 됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('승인변경 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const adminJoinApprove = () => {
+    patchApproveMutate({
+      url: `/admin/members/companies/${memberIdx}/approval`,
+    });
   };
 
   const leftBtnHandle = () => {
@@ -148,7 +177,11 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     setIsModal(false);
   };
 
-  console.log('isModal', isModal);
+  useEffect(() => {
+    if (companyData?.data?.member?.isAdminJoinApproved !== approve) {
+      adminJoinApprove();
+    }
+  }, [approve]);
 
   const loading = userLoading || companyLoading;
   return (
@@ -219,6 +252,9 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
               type={type}
               userData={userData!}
               CompanyData={companyData!}
+              setApprove={setApprove}
+              approve={approve}
+              currentApprove={isAdminJoinApproved(currentApprove)}
             />
           )}
         </InfoBox>
