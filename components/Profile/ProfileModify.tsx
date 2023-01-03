@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import AvatarIcon from 'public/images/avatar.png';
 import AvatarPhoto from 'public/images/avatar-photo.png';
 import colors from 'styles/colors';
@@ -12,6 +12,7 @@ import { useMutation } from 'react-query';
 import { isTokenPatchApi, multerApi } from 'api';
 import Modal from 'components/Modal/Modal';
 import useProfile from 'hooks/useProfile';
+import { requestPermissionCheck } from 'bridge/appToWeb';
 
 export interface ImgFile {
   originalName: string;
@@ -28,6 +29,9 @@ type Props = {
 };
 const TAG = 'components/Profile/ProfileModify.tsx';
 const ProfileModify = ({ setTabNumber }: Props) => {
+  const imgRef = useRef<HTMLInputElement>(null);
+
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [data, setData] = useState<any>();
   const [isPassword, setIsPassword] = useState(false);
@@ -83,20 +87,20 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     },
   });
 
+  // 사진 온클릭
+  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
+  };
+
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const maxLength = 1;
-    // max길이 보다 짧으면 멈춤
-    // 이미지 미리보기
-    // const fileReader: any = new FileReader();
-    // if (!files) return;
-    // fileReader.readAsDataURL(files[0]);
-    // fileReader.onload = () => {
-    //   if (fileReader.readyState === 2) {
-    //     setAvatar(fileReader.result);
-    //   }
-    // };
     // 이미지 저장
     const formData = new FormData();
     for (let i = 0; i < maxLength; i += 1) {
@@ -206,10 +210,12 @@ const ProfileModify = ({ setTabNumber }: Props) => {
               {/* 포토 이미지 */}
               <label className="avatar-photo">
                 <input
+                  ref={imgRef}
                   className="file-input"
                   type={'file'}
                   accept="image/*"
                   onChange={onImgInputBtnClick}
+                  capture={userAgent === 'Android_App' && true}
                 />
                 <Image src={AvatarPhoto} alt="avatar-photo" />
               </label>
