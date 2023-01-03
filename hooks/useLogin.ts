@@ -55,6 +55,7 @@ function useLogin(
       };
       console.log('** userInfo **');
       setTimeout(() => {
+        alert('setTimeOut');
         if (window.entizen!) {
           alert('window.entizen');
           if (userAgent === 'Android_App') {
