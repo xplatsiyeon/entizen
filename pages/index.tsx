@@ -13,7 +13,7 @@ interface Props {
 const Home: NextPage<Props> = ({}: Props) => {
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [isLoading, setIsLoading] = useState(false);
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
 
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;

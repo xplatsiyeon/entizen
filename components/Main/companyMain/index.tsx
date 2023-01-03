@@ -19,14 +19,12 @@ import MainImageWrap from './MainImageWrap';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 
 type Props = { num?: number; now?: string };
 
 const CompanyMainPage = ({ num, now }: Props) => {
   const router = useRouter();
-  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
+  const userID = JSON.parse(sessionStorage?.getItem('USER_ID')!);
   const dispatch = useDispatch();
   const [tabNumber, setTabNumber] = useState<number>(-1);
   const [componentId, setComponentId] = useState<number>();
