@@ -23,10 +23,12 @@ const Home: NextPage<Props> = ({}: Props) => {
       setLoginChecking(true);
       window.entizen!.getUserInfo();
     }
-    if (userAgent === 'iOS_App') {
-      setLoginChecking(true);
-      window.webkit.messageHandlers.getUserInfo.postMessage();
-    }
+    setTimeout(() => {
+      if (userAgent === 'iOS_App') {
+        setLoginChecking(true);
+        window.webkit.messageHandlers.getUserInfo.postMessage();
+      }
+    }, 3000);
   }, []);
   // 앱 -> 웹
   useEffect(() => {
