@@ -163,7 +163,9 @@ const FirstStep = ({
                 setMonthleSubscribePrice(inputPriceFormat(e.target.value));
               }
             }}
-            value={monthlySubscribePrice}
+            type="number"
+            // value={monthlySubscribePrice}
+            value={inputPriceFormat(monthlySubscribePrice)}
             name="subscribeMoney"
           />
           <div>원</div>

@@ -1,15 +1,91 @@
 import { NextPage } from 'next';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
 import CompanyMainPage from 'components/Main/companyMain';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({}: Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const [isLoading, setIsLoading] = useState(false);
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+
+  //  ------------------브릿지-------------------
+  // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
+  useEffect(() => {
+    if (userAgent && userAgent.length > 1) {
+      if (userAgent === 'Android_App') {
+        window.entizen!.getUserInfo();
+      } else if (userAgent === 'iOS_App') {
+        // window.webkit.messageHandlers.getUserInfo.postMessage();
+      }
+    }
+  }, []);
+  // 앱 -> 웹
+  useEffect(() => {
+    // 안드로이드 호출 테스트
+    if (userAgent && userAgent.length > 1) {
+      if (userAgent === 'Android_App') {
+        window.returnUserInfo = (getUserInfo) => {
+          if (getUserInfo && getUserInfo.length > 1) {
+            const jsonGetUserInfo = JSON.parse(getUserInfo);
+            sessionStorage.setItem(
+              'SNS_MEMBER',
+              JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+            );
+            sessionStorage.setItem(
+              'MEMBER_TYPE',
+              JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+            );
+            sessionStorage.setItem(
+              'ACCESS_TOKEN',
+              JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+            );
+            sessionStorage.setItem(
+              'REFRESH_TOKEN',
+              JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+            );
+            sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
+          }
+        };
+
+        // 아이폰 호출 테스트
+      } else if (userAgent === 'iOS_App') {
+        // window.returnUserInfo = (getUserInfo) => {
+        //   if (getUserInfo && getUserInfo.length > 1) {
+        //     const jsonGetUserInfo = JSON.parse(getUserInfo);
+        //     sessionStorage.setItem(
+        //       'SNS_MEMBER',
+        //       JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+        //     );
+        //     sessionStorage.setItem(
+        //       'MEMBER_TYPE',
+        //       JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+        //     );
+        //     sessionStorage.setItem(
+        //       'ACCESS_TOKEN',
+        //       JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+        //     );
+        //     sessionStorage.setItem(
+        //       'REFRESH_TOKEN',
+        //       JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+        //     );
+        //     sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
+        //   }
+        // };
+        // window.testEntizen = {
+        //   testtest: () => {
+        //     alert('iOS 테스트 중..');
+        //   },
+        // };
+      }
+    }
+  }, []);
 
   return (
     <>
