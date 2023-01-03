@@ -803,7 +803,7 @@ const SecondStep = ({
                 type="file"
                 accept="image/*"
                 onChange={saveFileImage}
-                capture={true}
+                capture={userAgent === 'Android_App' && true}
                 multiple
               />
               {/* <Preview> */}

@@ -596,7 +596,7 @@ const ProductAddComponent = (props: Props) => {
                     accept="image/*"
                     onChange={saveFileImage}
                     multiple
-                    capture={true}
+                    capture={userAgent === 'Android_App' && true}
                   />
                   {/* <Preview> */}
                   {imgArr?.map((img, index) => (

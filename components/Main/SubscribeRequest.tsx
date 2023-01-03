@@ -1,12 +1,9 @@
 import styled from '@emotion/styled';
-import { color } from '@mui/system';
 import React from 'react';
 import colors from 'styles/colors';
 import blueArrow from 'public/images/blueArrow16.png';
 import img_subs from 'public/images/img_subs.png';
 import Image from 'next/image';
-import Banner from 'public/images/Main-Banner.png';
-import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
@@ -18,12 +15,12 @@ const SubscribeRequest = ({ borders }: Props) => {
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const handleLink = () => {
     // 브릿지 연결 테스트 중
+    // alert(userAgent);
     if (userAgent === 'Android_App') {
-      window.entizen!.test('Hello Native Callback --> ' + userAgent);
+      // window.entizen!.test('Hello Native Callback --> ' + userAgent);
     } else if (userAgent === 'iOS_App') {
-      window.webkit.messageHandlers.test.postMessage(
-        'Hello Native Callback --> ' + userAgent,
-      );
+      window.webkit.messageHandlers.getUserInfo.postMessage('');
+      window.webkit.messageHandlers.requestPermissionCheck.postMessage('type');
     }
 
     // const user = sessionStorage.getItem('USER_ID');

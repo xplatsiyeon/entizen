@@ -18,26 +18,22 @@ const Home: NextPage<Props> = ({}: Props) => {
 
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (userAgent === 'Android_App') {
-      console.log('-----------------');
-      alert('userAgent ->>' + userAgent);
       setLoginChecking(true);
       window.entizen!.getUserInfo();
     } else if (userAgent === 'iOS_App') {
-      console.log('-----------------');
-      alert('userAgent ->>' + userAgent);
       setLoginChecking(true);
-      window.webkit.messageHandlers.getUserInfo.postMessage();
+      window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
-  }, [userAgent]);
+  }, []);
   // 앱 -> 웹
-  useEffect(() => {
+  useLayoutEffect(() => {
     // 안드로이드 호출 테스트
     if (userAgent === 'Android_App') {
-      window.returnUserInfo = (getUserInfo) => {
-        if (getUserInfo && getUserInfo.length > 1) {
-          const jsonGetUserInfo = JSON.parse(getUserInfo);
+      window.returnUserInfo = (userInfo) => {
+        if (userInfo.length > 1) {
+          const jsonGetUserInfo = JSON.parse(userInfo);
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
@@ -63,29 +59,29 @@ const Home: NextPage<Props> = ({}: Props) => {
       };
       // 아이폰 호출 테스트
     } else if (userAgent === 'iOS_App') {
-      window.returnUserInfo = (getUserInfo) => {
-        if (getUserInfo && getUserInfo.length > 1) {
-          const jsonGetUserInfo = JSON.parse(getUserInfo);
+      window.returnUserInfo = (userInfo) => {
+        // alert('iOS 테스트 중..');
+        if (typeof userInfo === 'object') {
+          // alert('userInfo 호출');
+          // const jsonGetUserInfo = JSON.parse(userInfo);
+          // alert(userInfo.USER_ID);
           sessionStorage.setItem(
             'SNS_MEMBER',
-            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+            JSON.stringify(userInfo.SNS_MEMBER),
           );
           sessionStorage.setItem(
             'MEMBER_TYPE',
-            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+            JSON.stringify(userInfo.MEMBER_TYPE),
           );
           sessionStorage.setItem(
             'ACCESS_TOKEN',
-            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+            JSON.stringify(userInfo.ACCESS_TOKEN),
           );
           sessionStorage.setItem(
             'REFRESH_TOKEN',
-            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+            JSON.stringify(userInfo.REFRESH_TOKEN),
           );
-          sessionStorage.setItem(
-            'USER_ID',
-            JSON.stringify(jsonGetUserInfo.USER_ID),
-          );
+          sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
         }
         setLoginChecking(false);
       };
