@@ -18,8 +18,8 @@ import {
   isTokenDeleteApi,
 } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import WriteModal from 'componentsAdmin/WriteModal';
-import AlertModal from 'componentsAdmin/AlertModal';
+import WriteModal from 'componentsAdmin/Modal/WriteModal';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
 import { css } from '@emotion/react';
 import {

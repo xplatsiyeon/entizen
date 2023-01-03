@@ -20,6 +20,9 @@ import {
   AdminFAQListResponse,
   OneOnOneChatResponse,
   AdminAccountList,
+  ProjectListSituation,
+  ReverseAuctionSituation,
+  ASListSitutation,
 } from 'types/tableDataType';
 import {
   adminDateFomat,
@@ -33,10 +36,13 @@ import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 import {
   dropDownValueEn,
   dropDownValue,
-} from '../componentsAdmin/Adminterms/AdminTermsEditor';
+} from './AdminInformationNotify/Adminterms/AdminTermsEditor';
 import { QuotationObject } from '../storeAdmin/adminReverseSlice';
-import { NewCell } from './AdminNotice/AdminNoticeList';
-import { ServiceKr, ServiceEn } from './AdminFAQ/AdminFAQList';
+import { NewCell } from './AdminInformationNotify/AdminNotice/AdminNoticeList';
+import {
+  ServiceKr,
+  ServiceEn,
+} from './AdminInformationNotify/AdminFAQ/AdminFAQList';
 import {
   communicationState,
   communicationStateEn,
@@ -65,6 +71,25 @@ type Props = {
   toggle?: NewCell;
   commuCheck?: string;
   userCheck?: string;
+  statusCheck?: (
+    | 'awaitingContract'
+    | 'completionAgreement'
+    | 'completion'
+    | undefined
+  )[];
+  quotationRequestStatus?: (
+    | 'new'
+    | 'awaitingBid'
+    | 'closed'
+    | 'cancel'
+    | undefined
+  )[];
+  asStatusCheck?: (
+    | 'completion'
+    | 'request'
+    | 'awaitingCompletion'
+    | undefined
+  )[];
 };
 
 const Table = ({
@@ -85,6 +110,9 @@ const Table = ({
   toggle,
   commuCheck,
   userCheck,
+  statusCheck,
+  quotationRequestStatus,
+  asStatusCheck,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);

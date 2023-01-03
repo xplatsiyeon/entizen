@@ -11,6 +11,7 @@ import { keyframes } from '@emotion/react';
 import useDebounce from 'hooks/useDebounce';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import { originDateFomat } from 'utils/calculatePackage';
+import UserManagementTable from './UserManagementTable';
 
 type Props = {};
 
@@ -134,7 +135,7 @@ const UserManagement = (props: Props) => {
             </AdminBtn>
           </li>
         </Manager>
-        <Table
+        <UserManagementTable
           selectedFilter={selectedFilter}
           setIsDetail={setIsDetail}
           setDetailId={setDetailId}

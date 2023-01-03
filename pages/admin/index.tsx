@@ -11,15 +11,17 @@ import OneOnOneQuestion from 'componentsAdmin/Communication/OneOnOneQuestion';
 import EntizenLibrary from 'componentsAdmin/EntizenLibrary/EntizenLibrary';
 import PartnerProductsList from 'componentsAdmin/PartnerProducts/PartnerProductsList';
 import Statistics from 'componentsAdmin/MainDashboard/Statistics';
-import ProjectSituation from 'componentsAdmin/MainDashboard/ProjectSituation';
-import AdminTermsList from 'componentsAdmin/Adminterms/AdminTermsList';
-import AdminNoticeList from 'componentsAdmin/AdminNotice/AdminNoticeList';
-import AdminBannerLIst from 'componentsAdmin/AdminBanner/AdminBannerList';
-import AdminGuideList from 'componentsAdmin/AdminGuide/AdminGuideList';
-import AdminFAQList from 'componentsAdmin/AdminFAQ/AdminFAQList';
 import AdminElseList from 'componentsAdmin/AdminElse/AdminElseList';
 import AddAdminAccount from 'componentsAdmin/AdminAccount/AddAdminAccount';
 import AdminAccountList from 'componentsAdmin/AdminAccount/AdminAccountList';
+import ReverseAuctionSituation from 'componentsAdmin/MainDashboard/ReverseAuctionSituation/ReverseAuctionSituation';
+import ASSituation from 'componentsAdmin/MainDashboard/ASSituation/ASSituation';
+import ProjectSituation from 'componentsAdmin/MainDashboard/ProjectSituation/ProjectSituation';
+import AdminTermsList from 'componentsAdmin/AdminInformationNotify/Adminterms/AdminTermsList';
+import AdminNoticeList from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
+import AdminBannerLIst from 'componentsAdmin/AdminInformationNotify/AdminBanner/AdminBannerList';
+import AdminGuideList from 'componentsAdmin/AdminInformationNotify/AdminGuide/AdminGuideList';
+import AdminFAQList from 'componentsAdmin/AdminInformationNotify/AdminFAQ/AdminFAQList';
 
 type Props = {};
 
@@ -50,6 +52,8 @@ const index = (props: Props) => {
       {number === 17 && <AdminGuideList />}
       {number === 18 && <AdminFAQList />}
       {number === 23 && <AdminElseList />}
+      {number === 24 && <ReverseAuctionSituation />}
+      {number === 25 && <ASSituation />}
     </Background>
   );
 };

@@ -22,7 +22,7 @@ import {
   M8_LIST,
   M8_LIST_EN,
 } from 'assets/selectList';
-import AlertModal from 'componentsAdmin/AlertModal';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 type Props = {
   preQuotationIdx: number;

@@ -3,13 +3,12 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
-import Table from 'componentsAdmin/table';
-import AddAdminAccount from './AddAdminAccount';
+import AdimAccountListTable from './AdimAccountListTable';
 
 const AdminAccountList = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
-
+  // 엑셀 다운로드 버튼
   const handleCommon = () => {};
   return (
     <Wrapper>
@@ -19,7 +18,7 @@ const AdminAccountList = () => {
         title="관리자 관리"
         subTitle="관리자 리스트 조회"
       />
-      <Table
+      <AdimAccountListTable
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'adminAccountList'}

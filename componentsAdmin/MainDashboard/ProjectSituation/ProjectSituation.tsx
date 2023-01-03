@@ -1,23 +1,56 @@
 import styled from '@emotion/styled';
+import DashBoardTable from 'componentsAdmin/MainDashboard/DashBoardTable';
 import AdminHeader from 'componentsAdmin/Header';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
+import {
+  adminDateFomat,
+  dateFomat,
+  hyphenFn,
+  convertKo,
+  convertEn,
+} from 'utils/calculatePackage';
 
 type Props = {};
-
-const projectStateType = ['전체', '신규', '낙찰대기', '계약대기', '완료'];
-const asStateType = ['접수요청', '완료대기'];
+// awaitingContract: 계약 대기, completion: 완료, completionAgreement: 완료동의
+const projectStateType = ['계약대기', '완료동의', '완료'];
+const projectStateTypeEn = [
+  'awaitingContract',
+  'completionAgreement',
+  'completion',
+];
 
 const ProjectSituation = (props: Props) => {
+  const [isDetail, setIsDetail] = useState(false);
+  const [detatilId, setDetailId] = useState<string>('');
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 
-  const [projectState, setProjectState] = useState(
-    Array(projectStateType.length).fill(false),
-  );
-  const [asState, setAsState] = useState(Array(asStateType.length).fill(false));
+  // const [projectState, setProjectState] = useState(
+  //   Array(projectStateType.length).fill(false),
+  // );
+  const [projectState, setProjectState] = useState<Array<string>>([]);
+
+  const checkStatusHandle = (checked: boolean, status: string) => {
+    if (checked) {
+      setProjectState((prev) => [...prev, status]);
+    } else {
+      setProjectState(projectState.filter((el) => el !== status));
+    }
+  };
+
+  // 백엔드에 체크박스 선택값 배열에 영문으로 보내줌
+  const changeEn = projectState.map((data) => {
+    if (data === '계약대기') {
+      return 'awaitingContract';
+    } else if (data === '완료동의') {
+      return 'completionAgreement';
+    } else if (data === '완료') {
+      return 'completion';
+    }
+  });
 
   // 달력 날짜 변경 함수
   const handleDateChange = (
@@ -35,24 +68,19 @@ const ProjectSituation = (props: Props) => {
   };
 
   // 프로젝트 체크 박스 변경 함수
-  const onChangeProjectCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
-    const index = Number(event.target.dataset.index);
-    const temp = [...projectState];
-    temp[index] = !temp[index];
-    setProjectState(temp);
-  };
-  // as 체크 박스 변경 함수
-  const onChangeAsCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
-    const index = Number(event.target.dataset.index);
-    const temp = [...asState];
-    temp[index] = !temp[index];
-    setAsState(temp);
-  };
+  // const onChangeProjectCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const index = Number(event.target.dataset.index);
+  //   const temp = [...projectState];
+  //   temp[index] = !temp[index];
+  //   setProjectState(temp);
+  // };
+
+  // 엑셀 다운로드 버튼
+  const handleCommon = () => {};
 
   useEffect(() => {
-    console.log(asState);
     console.log(projectState);
-  }, [asState, projectState]);
+  }, [projectState]);
 
   return (
     <Wrapper>
@@ -67,22 +95,11 @@ const ProjectSituation = (props: Props) => {
                 type={'checkbox'}
                 className="checkBox"
                 data-index={index}
-                onChange={onChangeProjectCheckBox}
-              />
-              <span>{state}</span>
-            </span>
-          ))}
-        </li>
-        {/* a/s row */}
-        <li className="row">
-          <label className="label">A/S</label>
-          {asStateType.map((state, index) => (
-            <span className="checkBoxContainer" key={state + index}>
-              <input
-                type={'checkbox'}
-                className="checkBox"
-                data-index={index}
-                onChange={onChangeAsCheckBox}
+                id={state}
+                // onChange={onChangeProjectCheckBox}
+                onChange={(e) => {
+                  checkStatusHandle(e.currentTarget.checked, e.target.id);
+                }}
               />
               <span>{state}</span>
             </span>
@@ -102,6 +119,14 @@ const ProjectSituation = (props: Props) => {
       <BtnBox>
         <Btn>조회</Btn>
       </BtnBox>
+      <DashBoardTable
+        setDetailId={setDetailId}
+        setIsDetail={setIsDetail}
+        tableType={'projectListSituation'}
+        handleCommon={handleCommon}
+        statusCheck={changeEn}
+        commonBtn={'엑셀 다운로드'}
+      />
     </Wrapper>
   );
 };

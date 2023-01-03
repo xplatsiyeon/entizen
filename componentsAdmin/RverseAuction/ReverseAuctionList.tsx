@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import Table from 'componentsAdmin/table';
 import React, { useEffect, useRef, useState } from 'react';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
@@ -9,6 +8,7 @@ import DetailQuotation from './DetailQuotation';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import ReverseAuctionTable from './ReverseAuctionTable';
 
 const ReverseAuctionList = () => {
   const [isDetail, setIsDetail] = useState(false);
@@ -77,7 +77,7 @@ const ReverseAuctionList = () => {
           <AdminBtn onClick={handleDate}>조회</AdminBtn>
         </li>
       </Manager>
-      <Table
+      <ReverseAuctionTable
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'quetationListData'}

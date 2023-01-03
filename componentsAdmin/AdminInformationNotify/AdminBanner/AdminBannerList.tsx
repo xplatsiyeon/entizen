@@ -12,7 +12,7 @@ import {
 } from 'react-query';
 import AdminBannerEditor from './AdminBannerEditor';
 import Table from 'componentsAdmin/table';
-import { NewCell } from 'componentsAdmin/AdminNotice/AdminNoticeList';
+import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
 
 const AdminBannerLIst = () => {
   const queryClient = useQueryClient();

@@ -2,12 +2,12 @@ import styled from '@emotion/styled';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import Table from 'componentsAdmin/table';
 import React, { useRef, useState } from 'react';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
+import UserManagementTable from './UserManagementTable';
 
 type Props = {};
 
@@ -129,7 +129,7 @@ const CompanyManagement = (props: Props) => {
           </li>
         </Manager>
         {/* 테이블 컴포넌트 */}
-        <Table
+        <UserManagementTable
           selectedFilter={selectedFilter}
           setIsDetail={setIsDetail}
           setDetailId={setDetailId}

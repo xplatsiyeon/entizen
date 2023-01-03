@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import Table from 'componentsAdmin/table';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
@@ -7,6 +6,7 @@ import AdminHeader from 'componentsAdmin/Header';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker, Modal } from 'rsuite';
 import ModalLibrary from './ModalLibrary';
+import EntizenLibraryTable from './EntizenLibraryTable';
 
 type Props = {};
 
@@ -109,7 +109,7 @@ const EntizenLibrary = () => {
           </Btn>
         </li>
       </Search>
-      <Table
+      <EntizenLibraryTable
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'entizenLibrary'}

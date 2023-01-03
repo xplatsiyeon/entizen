@@ -5,7 +5,7 @@ import ChargerDropDownBtn from 'componentsAdmin/ChargerDropDownBtn';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
 import AdminHeader from 'componentsAdmin/Header';
 import { DarkAdminBtn } from 'componentsAdmin/Layout';
-import PPTable from 'componentsAdmin/PPtable';
+import PPTable from 'componentsAdmin/PartnerProducts/PPtable';
 import { on } from 'events';
 import { useRef, useState } from 'react';
 import colors from 'styles/colors';

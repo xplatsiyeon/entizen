@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import Table from 'componentsAdmin/table';
-
 type CheckBox = {
   id: number;
   title: string;
@@ -87,13 +85,6 @@ const AdminElseList = () => {
           </AdminBtn>
         </li>
       </Manager>
-      <Table
-        setDetailId={setDetailId}
-        setIsDetail={setIsDetail}
-        tableType={''}
-        handleCommon={handleCommon}
-        hide={true}
-      />
     </Wrapper>
   );
 };

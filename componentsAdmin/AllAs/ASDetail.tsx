@@ -8,11 +8,11 @@ import React, {
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import colors from 'styles/colors';
-import Table from 'componentsAdmin/table';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
 import AdminHeader from 'componentsAdmin/Header';
 import ASDetailView from './ASDetailView';
+import ASListTable from './ASListTable';
 
 type Props = {};
 
@@ -111,7 +111,7 @@ const ASDetail = () => {
           </Btn>
         </li>
       </Search>
-      <Table
+      <ASListTable
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'asData'}

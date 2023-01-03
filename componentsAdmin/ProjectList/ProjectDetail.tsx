@@ -12,7 +12,7 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
-import AlertModal from 'componentsAdmin/AlertModal';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import AdminHeader from 'componentsAdmin/Header';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';

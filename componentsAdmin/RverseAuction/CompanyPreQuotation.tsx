@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import colors from 'styles/colors';
-import Table from 'componentsAdmin/table';
+import ReverseAuctionTable from './ReverseAuctionTable';
 
 type Props = {
   detatilId: string;
@@ -19,7 +19,7 @@ const CompanyPreQuotation = ({
   return (
     <StyledBody>
       <QuotationTitle>기업회원 견적서 항목</QuotationTitle>
-      <Table
+      <ReverseAuctionTable
         detatilId={detatilId}
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
