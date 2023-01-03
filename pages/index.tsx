@@ -61,7 +61,7 @@ const Home: NextPage<Props> = ({}: Props) => {
     } else if (userAgent === 'iOS_App') {
       window.returnUserInfo = (userInfo) => {
         alert('iOS 테스트 중..');
-        if (userInfo.length > 1) {
+        if (typeof userInfo === 'object') {
           alert('userInfo 호출');
           const jsonGetUserInfo = JSON.parse(userInfo);
           alert(jsonGetUserInfo.USER_ID);
