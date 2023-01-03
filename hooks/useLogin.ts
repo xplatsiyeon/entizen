@@ -56,23 +56,21 @@ function useLogin(
       console.log('** userInfo **');
       setTimeout(() => {
         alert('setTimeOut');
-
-        if (window.entizen!) {
-          alert('window.entizen');
-          if (userAgent === 'Android_App') {
-            window.entizen!.setUserInfo(JSON.stringify(userInfo));
-          } else if (userAgent === 'iOS_App') {
-            alert('iOS_App');
-            window.webkit.messageHandlers.setUserInfo.postMessage(
-              JSON.stringify(userInfo),
-            );
-          }
-        }
+        window.webkit.messageHandlers.setUserInfo.postMessage(
+          JSON.stringify(userInfo),
+        );
+        // if (window.entizen!) {
+        //   alert('window.entizen');
+        //   if (userAgent === 'Android_App') {
+        //     window.entizen!.setUserInfo(JSON.stringify(userInfo));
+        //   } else if (userAgent === 'iOS_App') {
+        //     alert('iOS_App');
+        //     window.webkit.messageHandlers.setUserInfo.postMessage(
+        //       JSON.stringify(userInfo),
+        //     );
+        //   }
+        // }
       }, 3000);
-
-      // await window.webkit.messageHandlers.setUserInfo.postMessage(
-      //   JSON.stringify(userInfo),
-      // );
 
       // if (signUp && memberType === 'USER') {
       //   await router.push('/signUp/Complete');
