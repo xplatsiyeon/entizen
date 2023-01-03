@@ -69,7 +69,7 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     if (userAgent === 'Android_App') {
       window.entizen!.logout();
     } else if (userAgent === 'iOS_App') {
-      window.webkit.messageHandlers.logout.postMessage();
+      window.webkit.messageHandlers.logout.postMessage('');
     }
   });
 };
