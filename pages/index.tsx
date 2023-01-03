@@ -26,7 +26,7 @@ const Home: NextPage<Props> = ({}: Props) => {
       setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
-  }, [userAgent]);
+  }, []);
   // 앱 -> 웹
   useLayoutEffect(() => {
     // 안드로이드 호출 테스트
