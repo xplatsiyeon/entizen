@@ -164,8 +164,7 @@ const FirstStep = ({
               }
             }}
             type="number"
-            // value={monthlySubscribePrice}
-            value={inputPriceFormat(monthlySubscribePrice)}
+            value={monthlySubscribePrice}
             name="subscribeMoney"
           />
           <div>원</div>
