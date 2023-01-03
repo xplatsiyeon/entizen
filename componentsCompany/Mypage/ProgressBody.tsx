@@ -23,6 +23,8 @@ import { getDocument } from 'api/getDocument';
 import useCreateChatting from 'hooks/useCreateChatting';
 import { JwtTokenType } from 'pages/signin';
 import jwt_decode from 'jwt-decode';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   dateArr: boolean[];
@@ -52,6 +54,7 @@ const ProgressBody = ({
 }: Props) => {
   const router = useRouter();
   const contractContent = JSON.parse(data?.project?.contract?.contractContent!);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
@@ -143,7 +146,7 @@ const ProgressBody = ({
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
     // 새탭으로 열기
-    window.open(contractDocumentData?.embeddedUrl);
+    // window.open(contractDocumentData?.embeddedUrl);
 
     // 임베디드 방식
     // if (contractData) {
@@ -155,6 +158,13 @@ const ProgressBody = ({
     //     },
     //   });
     // }
+
+    // 브릿지
+    if (userAgent === 'Android_App') {
+      window.open(contractDocumentData?.embeddedUrl);
+    } else if (userAgent === 'iOS_App') {
+      window.open(contractDocumentData?.embeddedUrl);
+    }
   };
 
   let textArr;
