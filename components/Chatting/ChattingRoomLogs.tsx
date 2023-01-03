@@ -39,6 +39,8 @@ import chatCamera from 'public/images/chatCamera.png';
 import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
 import { ChattingListResponse } from './ChattingLists';
 import ReportModal from './ReportModal';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type ChattingLogs = {
   createdAt: string;
@@ -95,7 +97,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
-
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   //나가기 모달
   const [moreModal, setMoreModal] = useState<boolean>(false);
   const [quitModal, setQuitModal] = useState<boolean>(false);
@@ -218,13 +220,15 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const handleButton = (e: MouseEvent<HTMLElement>) => {
     const target = e.currentTarget;
     const hiddenBox = mobBox.current?.querySelector('.hidden') as HTMLElement;
+
     if (target.classList.contains('on') && hiddenBox) {
       target.classList.remove('on');
       hiddenBox.style.height = '0';
       hiddenBox.style.border = `none`;
     } else if (!target.classList.contains('on') && hiddenBox) {
       target.classList.add('on');
-      hiddenBox.style.height = '97pt';
+      // hiddenBox.style.height = '97pt';
+      hiddenBox.style.height = '60pt';
       hiddenBox.style.border = `0.75pt solid #D3D3D3`;
     }
   };
@@ -696,9 +700,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           <IconWrap3 onClick={imgHandler}>
             <Image src={chatPhotoAdd} layout="fill" />
           </IconWrap3>
-          <IconWrap3>
+          {/* <IconWrap3>
             <Image src={chatCamera} layout="fill" />
-          </IconWrap3>
+          </IconWrap3> */}
           <IconWrap3 onClick={fileHandler}>
             <Image src={chatFileAdd} layout="fill" />
           </IconWrap3>
@@ -735,6 +739,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         type="file"
         accept="image/*"
         onChange={saveFileImage}
+        capture={userAgent === 'Android_App' && true}
       />
       <input
         style={{ display: 'none' }}

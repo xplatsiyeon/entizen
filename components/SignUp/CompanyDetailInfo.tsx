@@ -23,6 +23,9 @@ import { AxiosError } from 'axios';
 import { multerApi } from 'api';
 import { useRouter } from 'next/router';
 import Modal from 'components/Modal/Modal';
+import { requestPermissionCheck } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   businessRegistration: BusinessRegistrationType[];
@@ -56,6 +59,7 @@ const CompanyDetailInfo = ({
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
 
   const [nextPageOn, setNextPageOn] = useState<boolean>(false);
   const [addressOn, setAddressOn] = useState<boolean>(false);
@@ -112,15 +116,21 @@ const CompanyDetailInfo = ({
 
   // 파일 클릭
   const onClickFile = () => {
-    fileRef?.current?.click();
     setFileModal(false);
-    // setFilePreview(true);
+    if (userAgent === '') {
+      fileRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'file');
+    }
   };
   // 이미지 클릭
   const onClickPhoto = () => {
-    imgRef?.current?.click();
     setFileModal(false);
-    // setImgPreview(true);
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
   };
   // 사진 || 파일 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -199,6 +209,25 @@ const CompanyDetailInfo = ({
       setFilePreview(false);
     }
   }, [businessRegistration]);
+
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    }
+  }, []);
 
   // 주소검색
   if (addressOn) {
@@ -307,6 +336,7 @@ const CompanyDetailInfo = ({
             accept="image/*"
             onChange={saveFileImage}
             multiple
+            capture={userAgent === 'Android_App' && true}
           />
           {/* 파일 input */}
           <input
