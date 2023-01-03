@@ -22,7 +22,8 @@ const SubscribeRequest = ({ borders }: Props) => {
     if (userAgent === 'Android_App') {
       // window.entizen!.test('Hello Native Callback --> ' + userAgent);
     } else if (userAgent === 'iOS_App') {
-      window.webkit.messageHandlers.getUserInfo.postMessage();
+      window.webkit.messageHandlers.getUserInfo.postMessage('');
+      window.webkit.messageHandlers.requestPermissionCheck.postMessage('type');
     }
 
     // const user = sessionStorage.getItem('USER_ID');
