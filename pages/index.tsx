@@ -63,6 +63,7 @@ const Home: NextPage<Props> = ({}: Props) => {
         if (userInfo.length > 1) {
           alert('userInfo 호출');
           const jsonGetUserInfo = JSON.parse(userInfo);
+          alert(jsonGetUserInfo.USER_ID);
           sessionStorage.setItem(
             'SNS_MEMBER',
             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
