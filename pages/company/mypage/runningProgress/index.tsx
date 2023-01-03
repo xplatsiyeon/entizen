@@ -30,7 +30,6 @@ export interface Data {
 const TAG = 'pages/compnay/mypage/runningProgress.tsx';
 const RunningProgress = (props: Props) => {
   const router = useRouter();
-  const routerId = router?.query?.id!;
   const [open, setOpen] = useState<boolean>(false);
   // 계약서 유무
   // const [openContract, setOpenContract] = useState<boolean>(false);
@@ -80,10 +79,6 @@ const RunningProgress = (props: Props) => {
       setHeaderTab(3);
     }
   }, [router.query.projectIdx]);
-
-  useEffect(() => {}, []);
-
-  // console.log(`🐲 진행 프로젝트 102번째 줄`, componentId);
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {

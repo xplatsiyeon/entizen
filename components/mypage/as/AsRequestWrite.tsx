@@ -30,6 +30,9 @@ import { useQuery } from '@apollo/client';
 import Loader from 'components/Loader';
 import { AsDetailReseponse } from 'pages/mypage/as';
 import { useMediaQuery } from 'react-responsive';
+import { requestPermissionCheck } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 export interface DateType {
   new (): Date;
@@ -40,6 +43,7 @@ export interface Charger {
 }
 const TAG = 'components/mypage/as/AsResquestWrite.tsx';
 const AsRequestWrite = () => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
   const imgRef = useRef<any>(null);
@@ -169,7 +173,11 @@ const AsRequestWrite = () => {
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    imgRef?.current?.click();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
   };
   // 사진 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,7 +189,7 @@ const AsRequestWrite = () => {
         break;
       }
       formData.append(
-        'chargerProduct',
+        'afterSalesServiceRequest',
         files![i],
         encodeURIComponent(files![i].name),
       );
@@ -288,14 +296,21 @@ const AsRequestWrite = () => {
     } else {
       setCheckAll(false);
     }
-
-    //
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption, review, title, reqeustText]);
 
-  // if (chargingLoading || asIsLoading) {
-  //   return <Loader />;
-  // }
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    }
+  }, []);
 
   if (chargingError || detailIsError) {
     console.log('🔥 ~line 107 ~ AS 충전소 리스트 ' + TAG);
@@ -305,9 +320,6 @@ const AsRequestWrite = () => {
   // console.log('🔥 ~line 107 ~ AS 충전소 리스트 데이터 확인 ' + TAG);
   // console.log(chargingData);
 
-  useEffect(() => {
-    console.log(checkAll);
-  }, [checkAll]);
   return (
     <>
       {/* 에러 모달 */}
@@ -357,6 +369,7 @@ const AsRequestWrite = () => {
               accept="image/*"
               onChange={saveFileImage}
               multiple
+              capture={true}
             />
             {/* <Preview> */}
             {review?.map((img, index) => (

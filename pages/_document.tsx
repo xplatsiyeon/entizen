@@ -14,6 +14,8 @@ declare global {
     webkit?: any;
     test?: () => void;
     returnUserInfo?: (getUserInfo: any) => void;
+    openGallery?: () => void;
+    openFileUpload?: () => void;
     testEntizen: {
       test?: () => void;
       testtest?: () => void;

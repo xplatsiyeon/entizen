@@ -33,6 +33,9 @@ import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import ReactLoading from 'react-loading';
+import { requestPermissionCheck } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 export interface ImgFile {
   originalName: string;
   size: number;
@@ -51,6 +54,7 @@ export interface MulterResponse {
 type Props = {};
 const TAG = 'componentsCompany/MyProductList/ProductAddComponents.tsx';
 const ProductAddComponent = (props: Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const router = useRouter();
   const routerId = router?.query?.chargerProductIdx;
 
@@ -284,7 +288,11 @@ const ProductAddComponent = (props: Props) => {
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    imgRef?.current?.click();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
   };
   // 사진 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -321,7 +329,11 @@ const ProductAddComponent = (props: Props) => {
   };
   //파일 온클릭
   const handleFileClick = () => {
-    fileRef?.current?.click();
+    if (userAgent === '') {
+      fileRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'file');
+    }
   };
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -407,19 +419,37 @@ const ProductAddComponent = (props: Props) => {
     ]);
   }, [modelName, chargerType, chargingChannel, chargingMethod, manufacturer]);
 
-  useEffect(() => {
-    console.log('🚀 디테일 데이터 확인 라인 328 -> ' + TAG);
-    console.log(detailData);
-    console.log(modelName);
-    console.log(chargerType);
-    console.log(chargingChannel);
-    console.log(chargingMethod);
-    console.log(manufacturer);
-    console.log(advantages);
-    console.log(imgArr);
-    console.log(fileArr);
-  }, [imgArr]);
+  // useEffect(() => {
+  //   console.log('🚀 디테일 데이터 확인 라인 328 -> ' + TAG);
+  //   console.log(detailData);
+  //   console.log(modelName);
+  //   console.log(chargerType);
+  //   console.log(chargingChannel);
+  //   console.log(chargingMethod);
+  //   console.log(manufacturer);
+  //   console.log(advantages);
+  //   console.log(imgArr);
+  //   console.log(fileArr);
+  // }, [imgArr]);
 
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    }
+  }, []);
   if (detailLoaidng) {
     return <Loader />;
   }
@@ -566,6 +596,7 @@ const ProductAddComponent = (props: Props) => {
                     accept="image/*"
                     onChange={saveFileImage}
                     multiple
+                    capture={true}
                   />
                   {/* <Preview> */}
                   {imgArr?.map((img, index) => (

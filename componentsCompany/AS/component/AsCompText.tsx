@@ -23,6 +23,9 @@ import {
 } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
 import CommunicationBox from 'components/CommunicationBox';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { requestPermissionCheck } from 'bridge/appToWeb';
 
 type Props = {
   data: AsDetailReseponse;
@@ -30,7 +33,7 @@ type Props = {
 
 const AsCompText = ({ data }: Props) => {
   //dummy text
-
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
   const imgRef = useRef<any>(null);
@@ -110,7 +113,11 @@ const AsCompText = ({ data }: Props) => {
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    imgRef?.current?.click();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
   };
   // 사진 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,7 +129,7 @@ const AsCompText = ({ data }: Props) => {
         break;
       }
       formData.append(
-        'chargerProduct',
+        'afterSalesServiceCompletion',
         files![i],
         encodeURIComponent(files![i].name),
       );
@@ -189,6 +196,19 @@ const AsCompText = ({ data }: Props) => {
       ? setIsValidCompletion(true)
       : setIsValidCompletion(false);
   }, [acceptanceContent, afterSalesServiceResultContent]);
+
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+    }
+  }, []);
 
   if (acceptanceIsLoading) {
     return <Loader />;
@@ -366,6 +386,7 @@ const AsCompText = ({ data }: Props) => {
                   accept="image/*"
                   onChange={saveFileImage}
                   multiple
+                  capture={true}
                 />
                 {/* <Preview> */}
                 <ImgSpanBox>

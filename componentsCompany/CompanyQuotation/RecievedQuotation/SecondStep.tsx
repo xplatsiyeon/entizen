@@ -43,6 +43,7 @@ import {
 import { ProductListRepsonse } from 'componentsCompany/MyProductList/ProductList';
 import { SentRequestResponse } from '../SentQuotation/SentProvisionalQuoatation';
 import Loader from 'components/Loader';
+import { requestPermissionCheck } from 'bridge/appToWeb';
 
 type Props = {
   tabNumber: number;
@@ -80,7 +81,7 @@ const SecondStep = ({
 }: Props) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const imgRef = useRef<HTMLInputElement>(null);
+  const imgRef = useRef<any>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const chargeTypeList: string[] = ['구매자 자율', '운영사업자 입력'];
   const chargeTypeListEn: string[] = [
@@ -108,6 +109,7 @@ const SecondStep = ({
   const [imgArr, setImgArr] = useState<BusinessRegistrationType[]>([]);
   // 충전기 카탈로그
   const [fileArr, setFileArr] = useState<BusinessRegistrationType[]>([]);
+
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
   const [networkError, setNetworkError] = useState(false);
@@ -124,7 +126,7 @@ const SecondStep = ({
     (state: RootState) => state.companymyEstimateData,
   );
   const newCharge = chargers.slice(0, maxIndex);
-
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   // image s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
     MulterResponse,
@@ -272,7 +274,11 @@ const SecondStep = ({
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    imgRef?.current?.click();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
   };
   // 사진 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -305,7 +311,11 @@ const SecondStep = ({
   };
   //파일 온클릭
   const handleFileClick = () => {
-    fileRef?.current?.click();
+    if (userAgent === '') {
+      fileRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'file');
+    }
   };
   // 파일 저장
   const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -649,6 +659,25 @@ const SecondStep = ({
     window.scrollTo(0, 0);
   }, [tabNumber]);
 
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    }
+  }, []);
+
   return (
     <>
       {/* 에러 모달 */}
@@ -774,6 +803,7 @@ const SecondStep = ({
                 type="file"
                 accept="image/*"
                 onChange={saveFileImage}
+                capture={true}
                 multiple
               />
               {/* <Preview> */}
