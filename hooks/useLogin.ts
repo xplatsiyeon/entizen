@@ -19,17 +19,13 @@ function useLogin(
 ) {
   const dispatch = useDispatch();
   const router = useRouter();
-
-  // const ANGENT = JSON.parse(sessionStorage.getItem('ANGENT')!);
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  // console.log('userAgent -->', userAgent);
   const {
     mutate: loginMutate,
     isLoading: loginLoading,
     isError: loginError,
   } = useMutation(isPostApi, {
     onSuccess: async (res) => {
-      alert('onSuccess , userAnget ->' + userAgent);
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
       setUserCompleteModal(res.data.isInitialLogin);
       sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));

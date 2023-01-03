@@ -79,19 +79,6 @@ const MainPage = (props: Props) => {
     };
 
   // ------------------브릿지-------------------
-  // 웹 -> 앱
-  // useEffect(() => {
-  //   if (window.entizen!) {
-  //     if (userAgent === 'Android_App') {
-  //       window.entizen!.test('Hello Native Callback');
-  //     } else if (userAgent === 'iOS_App') {
-  //       window.webkit.messageHandlers.test.postMessage(
-  //         'Hello Native Callback' + userAgent,
-  //       );
-  //     }
-  //   }
-  // }, []);
-
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useEffect(() => {
     if (userAgent && userAgent.length > 1) {
@@ -162,7 +149,7 @@ const MainPage = (props: Props) => {
       }
     }
   }, []);
-  // ----------------브릿지---------------------------
+  // ----------------img bridge test---------------------------
 
   const imgRef = useRef<any>(null);
   const fileRef = useRef<any>(null);
@@ -346,8 +333,6 @@ const HamburgerOn = styled.div``;
 
 const Test = styled.div`
   width: 100%;
-  /* height: 300px; */
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   gap: 20px;

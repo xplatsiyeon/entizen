@@ -113,9 +113,6 @@ const Signin = () => {
     onSuccess: (res) => {
       let resData = res.data;
       let jsonData = JSON.parse(res.config.data);
-      console.log('onSuccess date check -->>>');
-      console.log(resData);
-
       dispatch(
         userAction.add({
           ...user,
@@ -128,8 +125,6 @@ const Signin = () => {
       );
       if (resData.isMember === true) {
         // 로그인
-        console.log('멤버 확인');
-        console.log(resData);
         const token: JwtTokenType = jwt_decode(resData.accessToken);
         sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
         sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
@@ -171,11 +166,6 @@ const Signin = () => {
     loginTypeEnList[selectedLoginType] as 'USER',
     false,
   );
-  console.log(
-    'userCompleteModal 여기는 signin 초기값 뭐나옴?',
-    userCompleteModal,
-  );
-
   // 기본 로그인
   const originLogin = async () => {
     await signin(password);
@@ -263,8 +253,6 @@ const Signin = () => {
   };
   // 나이스 인증 온클릭 함수
   const fnPopup = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('check');
-    console.log(event?.currentTarget.value);
     const { value } = event.currentTarget;
     if (value === 'id') {
       setIsId(true);
@@ -345,6 +333,7 @@ const Signin = () => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
+
   // 네이버 로그인
   useEffect(() => {
     login(naverLogin, function (naverLogin) {
