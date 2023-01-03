@@ -95,7 +95,7 @@ const Home: NextPage<Props> = ({}: Props) => {
   }, []);
 
   if (loginChecking) {
-    return <Loader />;
+    // return <Loader />;
   }
 
   return (

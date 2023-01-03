@@ -256,6 +256,7 @@ const Signin = () => {
     const { value } = event.currentTarget;
     if (value === 'id') {
       setIsId(true);
+      console.log(data);
       console.log('id입니다');
     }
     if (value === 'password') {
@@ -325,6 +326,8 @@ const Signin = () => {
       data: { memberType },
     })
       .then((res) => {
+        console.log('-------res--------');
+        console.log(res);
         setData(res.data.executedData);
       })
       .catch((error) => {
