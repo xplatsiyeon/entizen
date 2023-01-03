@@ -12,7 +12,7 @@ import EntizenLibrary from 'componentsAdmin/EntizenLibrary/EntizenLibrary';
 import PartnerProductsList from 'componentsAdmin/PartnerProducts/PartnerProductsList';
 import Statistics from 'componentsAdmin/MainDashboard/Statistics';
 import AdminElseList from 'componentsAdmin/AdminElse/AdminElseList';
-import AddAdminAccount from 'componentsAdmin/AdminAccount/AddAdminAccount';
+
 import AdminAccountList from 'componentsAdmin/AdminAccount/AdminAccountList';
 import ReverseAuctionSituation from 'componentsAdmin/MainDashboard/ReverseAuctionSituation/ReverseAuctionSituation';
 import ASSituation from 'componentsAdmin/MainDashboard/ASSituation/ASSituation';
@@ -22,6 +22,7 @@ import AdminNoticeList from 'componentsAdmin/AdminInformationNotify/AdminNotice/
 import AdminBannerLIst from 'componentsAdmin/AdminInformationNotify/AdminBanner/AdminBannerList';
 import AdminGuideList from 'componentsAdmin/AdminInformationNotify/AdminGuide/AdminGuideList';
 import AdminFAQList from 'componentsAdmin/AdminInformationNotify/AdminFAQ/AdminFAQList';
+import AddAdminAccount from 'componentsAdmin/AdminAccount/AddAdminAccount';
 
 type Props = {};
 

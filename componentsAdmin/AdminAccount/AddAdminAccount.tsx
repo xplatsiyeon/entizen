@@ -10,6 +10,7 @@ import Image from 'next/image';
 import useDebounce from 'hooks/useDebounce';
 import { api } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 interface Validated {
   message: string;
@@ -17,7 +18,12 @@ interface Validated {
   isSuccess: boolean;
 }
 
-const AddAdminAccount = () => {
+type Props = {
+  setIsDetail?: React.Dispatch<React.SetStateAction<boolean>>;
+  detatilId?: string;
+};
+
+const AddAdminAccount = ({ setIsDetail, detatilId }: Props) => {
   const queryClient = useQueryClient();
   const [idInput, setIdInput] = useState<string>('');
   const [pwInput, setPwInput] = useState<string>('');
@@ -40,22 +46,33 @@ const AddAdminAccount = () => {
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
 
+  // 수정 등록 버튼 누를때 나오는 모달창
+  const [messageModal, setMessageModal] = useState<boolean>(false);
+
+  // 경고창에 보내는 메세지
+  const [message, setMessage] = useState('');
+
+  // 이메일 유효성 검사
+
+  const [isEmailCodeValid, setIsEmailCodeValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const reg_email =
+    /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+  const email = `${emailFirst}@${emailSecond}`;
+
   // 아이디 중복 검사 및 비밀번호 유효성 검사 해야함
   // 이메일 중복 검사도 해야함
   // 관리자 아이디 생성하기 눌렀을때 나오는 모달창 추가
 
+  // 아이디 중복 검사
   const { data: idCheck, refetch: idRefetch } = useQuery<Validated>(
     'ValidIdCheck',
     () =>
       api({
         method: 'POST',
-        endpoint: `/admin/managers`,
+        endpoint: `/admin/managers/id`,
         data: {
           id: idInput,
-          passwords: checkPw,
-          name: name,
-          phone: `010${phoneFirst}${phoneSecond}`,
-          email: `${emailFirst}@${emailSecond}`,
         },
       }),
     {
@@ -74,13 +91,9 @@ const AddAdminAccount = () => {
     () =>
       api({
         method: 'POST',
-        endpoint: `/admin/managers`,
+        endpoint: `/admin/managers/email`,
         data: {
-          id: idInput,
-          passwords: checkPw,
-          name: name,
-          phone: `010${phoneFirst}${phoneSecond}`,
-          email: `${emailFirst}@${emailSecond}`,
+          email: email,
         },
       }),
     {
@@ -99,13 +112,15 @@ const AddAdminAccount = () => {
     error: adminAccountError,
   } = useMutation(api, {
     onSuccess: () => {
-      console.log('성공');
       queryClient.invalidateQueries();
+      setMessageModal(true);
+      setMessage('추가가 완료 됐습니다.');
     },
     onError: (error) => {
       console.log('----회원가입 실패----');
       console.log(error);
-      alert('회원가입 실패했습니다. 다시 시도해주세요.');
+      setMessageModal(true);
+      setMessage('추가 요청을 실패했습니다.\n다시 시도해주세요.');
     },
   });
 
@@ -138,6 +153,7 @@ const AddAdminAccount = () => {
   };
 
   const overEmailCheck = () => {
+    setInitEmailAlert(true);
     validEmailRefetch();
   };
 
@@ -145,25 +161,16 @@ const AddAdminAccount = () => {
     const { value } = e.target;
     // 이메일 유효성 검사
     // 문제: 한글입력 안되게 했는데 첫번째 문자가 안지워짐...
-    const idRegExp = /[a-zA-Z0-9]/;
-    if (e.target.name === 'emailFirst' && idRegExp.test(value)) {
-      setEmailFirst(e.target.value);
-      idRegExp.test(value)
-        ? setIsEmailChangeColor(true)
-        : setIsEmailChangeColor(false);
-    }
-    if (e.target.name === 'emailSecond' && idRegExp.test(value)) {
-      setEmailSecond(e.target.value);
-      idRegExp.test(value)
-        ? setIsEmailChangeColor(true)
-        : setIsEmailChangeColor(false);
+    if (e.target.name === 'emailFirst') {
+      setEmailFirst(value);
+      setInitEmailAlert(false);
+    } else if (e.target.name === 'emailSecond') {
+      setEmailSecond(value);
+      setInitEmailAlert(false);
     }
   };
 
-  console.log('🎀 emailFirst 🎀', emailFirst);
-  console.log('🎀 emailSecond 🎀', emailSecond);
-
-  // 회원가입 온클릭
+  // 관리자 등록  온클릭
   const handleCompanyClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (checkSamePw) {
       adminAccountMutate({
@@ -184,7 +191,7 @@ const AddAdminAccount = () => {
     temp[id] = !temp[id];
     setPwShow(temp);
   };
-  // 유효성 검사
+  // 비밀번호 유효성 검사
   useEffect(() => {
     if (passwords) {
       let check1 =
@@ -214,12 +221,25 @@ const AddAdminAccount = () => {
 
   // 이메일 중복확인 버튼 비활성화
   useEffect(() => {
-    if (emailFirst.length <= 3 && emailSecond.length <= 3) {
-      setIsEmailChangeColor(false);
-    } else {
+    if (
+      emailFirst.length > 4 &&
+      emailSecond.length > 4 &&
+      isEmailValid === true
+    ) {
       setIsEmailChangeColor(true);
+    } else {
+      setIsEmailChangeColor(false);
     }
-  }, [emailFirst, emailSecond]);
+  }, [emailFirst, emailSecond, isEmailValid]);
+
+  // 유효성 검사
+  useEffect(() => {
+    reg_email.test(email) ? setIsEmailValid(true) : setIsEmailValid(false);
+  }, [email]);
+
+  console.log('🦋 idCheck 🦋', idCheck);
+
+  console.log('🌸 validEmail 🌸', validEmail);
 
   const iconAdorment = {
     endAdornment: (
@@ -309,6 +329,13 @@ const AddAdminAccount = () => {
 
   return (
     <Wrapper>
+      {messageModal && (
+        <AlertModal
+          setIsModal={setMessageModal}
+          message={message}
+          setIsDetail={setIsDetail}
+        />
+      )}
       <AdminHeader type="main" title="관리자 관리" subTitle="관리자 등록" />
       <Manager>
         <li className="row">
@@ -328,7 +355,14 @@ const AddAdminAccount = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
-                    <ButtonText className="checkOverlap" onClick={overlabCheck}>
+                    <ButtonText
+                      className="checkOverlap"
+                      onClick={() => {
+                        if (isChangeColor === true) {
+                          overlabCheck();
+                        }
+                      }}
+                    >
                       중복확인
                     </ButtonText>
                   </OverlapBtn>
@@ -339,15 +373,17 @@ const AddAdminAccount = () => {
           {/* <Image src={Warning} alt="warning" /> */}
         </li>
 
-        <NoticeText>아이디는 4글자 이상 입력해주세요</NoticeText>
+        {idInput.length < 4 && (
+          <NoticeText>아이디는 4글자 이상 입력해주세요</NoticeText>
+        )}
 
-        {idCheck?.isSuccess === true && initIdAlert && !idLength && (
+        {idCheck?.isSuccess === false && initIdAlert && !idLength && (
           <NoticeText>사용가능한 아이디입니다.</NoticeText>
         )}
-        {idCheck?.isSuccess === false && initIdAlert && !idLength && (
+        {idCheck?.isSuccess === true && initIdAlert && !idLength && (
           <NoticeText>이미 사용중인 아이디입니다.</NoticeText>
         )}
-        {idCheck?.isSuccess === true && initIdAlert && idLength && (
+        {idCheck?.isSuccess === false && initIdAlert && idLength && (
           <NoticeText>4글자 이상 입력해주세요</NoticeText>
         )}
         <li className="row">
@@ -375,11 +411,15 @@ const AddAdminAccount = () => {
             <Image src={Warning} alt="warning" />
           )}
         </li>
-        {/* <NoticeText>비밀번호는 8자 이상 16자 이하로 입력해주세요.</NoticeText> */}
-        {!checkedPw && pwInput.length > 4 ? (
-          <NoticeText>영문,숫자,특수문자 조합 10자 이상</NoticeText>
-        ) : (
+
+        {!checkedPw && pwInput.length > 7 && (
+          <NoticeText>영문,숫자,특수문자 조합 8자 이상</NoticeText>
+        )}
+        {pwInput.length < 4 && (
           <NoticeText>비밀번호는 8자 이상 16자 이하로 입력해주세요.</NoticeText>
+        )}
+        {checkedPw && pwInput.length > 7 && pwInput.length < 17 && (
+          <NoticeText>사용 가능한 비밀번호입니다.</NoticeText>
         )}
 
         <li className="row">
@@ -404,11 +444,15 @@ const AddAdminAccount = () => {
           />
           {/* <Image src={Warning} alt="warning" /> */}
         </li>
-        <NoticeText>비밀번호 확인을 위해 한번 더 입력해주세요.</NoticeText>
-        {!checkSamePw && checkPw.length > 4 ? (
+        {/* <NoticeText>비밀번호 확인을 위해 한번 더 입력해주세요.</NoticeText> */}
+        {checkPw.length < 4 && (
+          <NoticeText>비밀번호 확인을 위해 한번 더 입력해주세요.</NoticeText>
+        )}
+        {!checkSamePw && checkPw.length > 4 && (
           <NoticeText>비밀번호를 확인해주세요</NoticeText>
-        ) : (
-          <></>
+        )}
+        {checkSamePw && checkPw.length < 17 && checkPw.length > 7 && (
+          <NoticeText>비밀번호가 일치합니다.</NoticeText>
         )}
         <li className="row">
           <label className="label">이름</label>
@@ -464,11 +508,11 @@ const AddAdminAccount = () => {
             }}
           /> */}
           <Input
+            value={emailFirst}
             placeholder="E-mail"
             name="emailFirst"
             width={168}
             onChange={handleEmailCheck}
-            value={emailFirst}
           />
           <EmailText>@</EmailText>
           <Input
@@ -487,7 +531,14 @@ const AddAdminAccount = () => {
           /> */}
           <InputAdornment position="end">
             <OverlapBtn className="overlap" isChangeColor={isEmailChangeColor}>
-              <ButtonText className="checkOverlap" onClick={overEmailCheck}>
+              <ButtonText
+                className="checkOverlap"
+                onClick={() => {
+                  if (isEmailChangeColor === true) {
+                    overEmailCheck();
+                  }
+                }}
+              >
                 중복확인
               </ButtonText>
             </OverlapBtn>
@@ -496,8 +547,11 @@ const AddAdminAccount = () => {
             <Image src={Warning} alt="warning" />
           )}
         </li>
-        {validEmail?.isSuccess === false && (
-          <NoticeText>이미 사용중인 아이디입니다.</NoticeText>
+        {validEmail?.isSuccess === true && initEmailAlert === true && (
+          <NoticeText>중복된 이메일입니다.</NoticeText>
+        )}
+        {validEmail?.isSuccess === false && isEmailChangeColor === true && (
+          <NoticeText>사용가능한 이메일입니다.</NoticeText>
         )}
       </Manager>
       <BtnBox>
