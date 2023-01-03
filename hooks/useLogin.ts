@@ -68,7 +68,7 @@ function useLogin(
       //   }
       // }
 
-      window.webkit.messageHandlers.setUserInfo.postMessage(
+      await window.webkit.messageHandlers.setUserInfo.postMessage(
         JSON.stringify(userInfo),
       );
 
