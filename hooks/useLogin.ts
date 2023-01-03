@@ -29,6 +29,7 @@ function useLogin(
     isError: loginError,
   } = useMutation(isPostApi, {
     onSuccess: async (res) => {
+      alert('onSuccess');
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
       setUserCompleteModal(res.data.isInitialLogin);
       sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
@@ -55,9 +56,11 @@ function useLogin(
       console.log('** userInfo **');
       console.log(userInfo);
       if (window.entizen!) {
+        alert('window.entizen');
         if (userAgent === 'Android_App') {
           window.entizen!.setUserInfo(JSON.stringify(userInfo));
         } else if (userAgent === 'iOS_App') {
+          alert('iOS_App');
           window.webkit.messageHandlers.setUserInfo.postMessage(
             JSON.stringify(userInfo),
           );
@@ -68,19 +71,19 @@ function useLogin(
       //   JSON.stringify(userInfo),
       // );
 
-      if (signUp && memberType === 'USER') {
-        await router.push('/signUp/Complete');
-      } else if (signUp && memberType === 'USER') {
-        await router.push('/signUp/CompleteCompany');
-      } else if (res.data.isInitialLogin === false) {
-        await router.push('/');
-      } else if (res.data.isInitialLogin === undefined) {
-        await router.push('/');
-      } else if (res.data.isInitialLogin === true) {
-        await router.push('/signin');
-      } else {
-        await router.push('/');
-      }
+      // if (signUp && memberType === 'USER') {
+      //   await router.push('/signUp/Complete');
+      // } else if (signUp && memberType === 'USER') {
+      //   await router.push('/signUp/CompleteCompany');
+      // } else if (res.data.isInitialLogin === false) {
+      //   await router.push('/');
+      // } else if (res.data.isInitialLogin === undefined) {
+      //   await router.push('/');
+      // } else if (res.data.isInitialLogin === true) {
+      //   await router.push('/signin');
+      // } else {
+      //   await router.push('/');
+      // }
     },
     onError: async (error: any) => {
       const { message } = error.response.data;
