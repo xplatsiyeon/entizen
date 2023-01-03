@@ -29,11 +29,6 @@ const Home: NextPage<Props> = ({}: Props) => {
       alert('userAgent ->>' + userAgent);
       setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage();
-    } else {
-      console.log('-----------------');
-      alert('userAgent ->>' + userAgent);
-      setLoginChecking(true);
-      window.webkit.messageHandlers.getUserInfo.postMessage();
     }
   }, [userAgent]);
   // 앱 -> 웹
