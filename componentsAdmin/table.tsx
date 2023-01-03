@@ -26,6 +26,7 @@ import {
   dateFomat,
   hyphenFn,
   convertKo,
+  isAdminJoinApproved,
 } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
@@ -109,8 +110,6 @@ const Table = ({
   
   
   */
-
-  console.log('🐳 userCheck 🐳', userCheck);
 
   //  유저 데이터
   const { data: userData, refetch: userDataRefetch } = useQuery<UserData>(
@@ -206,7 +205,7 @@ const Table = ({
                 ele.name,
                 ele?.companyMemberAdditionalInfo?.managerEmail,
                 hyphenFn(ele.phone),
-                ele?.isAdminJoinApproved,
+                isAdminJoinApproved(ele?.isAdminJoinApproved),
                 dateFomat(ele.createdAt),
                 `${ele.deletedAt ? dateFomat(ele.deletedAt) : '-'}`,
                 ele.memberIdx,
@@ -222,16 +221,17 @@ const Table = ({
               '담당자',
               '이메일',
               '전화번호',
-              {
-                name: '승인',
-                formatter: (cell: string) =>
-                  _(
-                    <select defaultValue={cell}>
-                      <option value="true">승인</option>
-                      <option value="false">미승인</option>
-                    </select>,
-                  ),
-              },
+              '승인',
+              // {
+              //   name: '승인',
+              //   formatter: (cell: string) =>
+              //     _(
+              //       <select defaultValue={cell} style={{ cursor: 'pointer' }}>
+              //         <option value="true">승인</option>
+              //         <option value="false">미승인</option>
+              //       </select>,
+              //     ),
+              // },
               {
                 name: '가입날짜',
                 width: '15%',
@@ -949,7 +949,7 @@ const Table = ({
       },
     );
 
-  // 배너 리스트
+  // 배너 리스트(기업이냐, 유저에 따라 받는 데이터 다름)
   const { data: bannerList, refetch: bannerListRefetch } =
     useQuery<AdminBannerListResponse>(
       'bannerList',
@@ -1025,7 +1025,7 @@ const Table = ({
       },
     );
 
-  // faq 리스트
+  // faq 리스트(기업이냐, 유저에 따라 받는 데이터 다름, 추후에 userType api 주소에 추가)
   const { data: adminFaqList, refetch: adminFaqListRefetch } =
     useQuery<AdminFAQListResponse>(
       'adminFaqList',

@@ -1,18 +1,33 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import FileImg from 'public/adminImages/File.png';
 import Image from 'next/image';
 import { CompanyResposne, UserRespnse } from './CommonDetail';
-import { adminDateFomat, hyphenFn } from 'utils/calculatePackage';
+import {
+  adminDateFomat,
+  hyphenFn,
+  isAdminJoinApprovedBoolean,
+} from 'utils/calculatePackage';
 
 type Props = {
   type: 'USER' | 'COMPANY';
   userData: UserRespnse;
   CompanyData: CompanyResposne;
+  setApprove?: React.Dispatch<React.SetStateAction<boolean>>;
+  approve?: boolean;
+  currentApprove?: string;
 };
 
-const MemberContents = ({ type, userData, CompanyData }: Props) => {
+const MemberContents = ({
+  type,
+  userData,
+  CompanyData,
+  setApprove,
+  approve,
+  currentApprove,
+}: Props) => {
   console.log(CompanyData);
+
   return (
     <Contents>
       {type === 'USER' ? (
@@ -106,9 +121,23 @@ const MemberContents = ({ type, userData, CompanyData }: Props) => {
           </li>
           <li>
             <label className="comapny label">가입승인</label>
-            <select name="" className="selectBox">
-              <option value="">미승인</option>
-              <option value="">승인</option>
+            <select
+              name=""
+              style={{ cursor: 'pointer' }}
+              value={currentApprove}
+              className="selectBox"
+              onChange={(e) => {
+                const { value } = e.target;
+                if (setApprove && value !== undefined) {
+                  const approveBoolean = isAdminJoinApprovedBoolean(value);
+                  if (approveBoolean !== undefined) {
+                    setApprove(approveBoolean);
+                  }
+                }
+              }}
+            >
+              <option value="미승인">미승인</option>
+              <option value="승인">승인</option>
             </select>
           </li>
         </Company>

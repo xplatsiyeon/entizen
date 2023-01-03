@@ -18,6 +18,9 @@ export const ServiceKr: string[] = ['서비스 이용', '회원정보', '신고'
 export const ServiceEn: string[] = ['MEMBER', 'SERVICE', 'REPORT'];
 
 const AdminFAQList = () => {
+  const userTypeEn = ['USER', 'COMPANY'];
+  const userType = ['일반회원', '기업회원 '];
+  const [userNum, setUserNum] = useState(0);
   const queryClient = useQueryClient();
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
@@ -56,15 +59,49 @@ const AdminFAQList = () => {
         <AdminHeader title="정보 수정" type="main" />
         <SubText>FAQ</SubText>
       </TitleWrapper>
-      <Table
-        setDetailId={setDetailId}
-        setIsDetail={setIsDetail}
-        tableType={'adminFaqList'}
-        commonBtn={'등록'}
-        handleCommon={handleCommon}
-        setToggle={setToggle}
-        toggle={toggle}
-      />
+      <UserList>
+        {userType.map((item, idx) => (
+          <>
+            <UserText
+              key={idx}
+              onClick={() => {
+                setUserNum(idx);
+              }}
+              userNum={userNum}
+              idx={idx}
+            >
+              {item}
+            </UserText>
+            <TextUnderLine userNum={userNum} isDetail={isDetail} />
+          </>
+        ))}
+      </UserList>
+      {/* 일반회원 리스트 */}
+      {userNum === 0 && (
+        <Table
+          setDetailId={setDetailId}
+          setIsDetail={setIsDetail}
+          tableType={'adminFaqList'}
+          commonBtn={'등록'}
+          handleCommon={handleCommon}
+          setToggle={setToggle}
+          toggle={toggle}
+          userType={userTypeEn[userNum]}
+        />
+      )}
+      {/* 기업회원 리스트 */}
+      {userNum === 1 && (
+        <Table
+          setDetailId={setDetailId}
+          setIsDetail={setIsDetail}
+          tableType={'adminFaqList'}
+          commonBtn={'등록'}
+          handleCommon={handleCommon}
+          setToggle={setToggle}
+          toggle={toggle}
+          userType={userTypeEn[userNum]}
+        />
+      )}
     </Wrapper>
   );
 };
@@ -90,31 +127,36 @@ const SubText = styled.div`
   font-weight: 500;
 `;
 
-const Manager = styled.ul`
+const UserList = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  padding-left: 8px;
+`;
 
-  label {
-    padding-right: 39.75pt;
-  }
-  li {
-    gap: 7.5pt;
-    display: flex;
-    align-items: center;
-    background: #ffffff;
-    border: 1px solid ${colors.lightWhite3};
-    height: 30pt;
-    padding: 4pt 0 4pt 12pt;
-    width: 100%;
-  }
-  .searchInput {
-    border: 1px solid ${colors.lightWhite3};
-    height: 100%;
-    width: 274.5pt;
-  }
-  .search {
-    width: 946px;
-  }
+const UserText = styled.div<{ userNum: number; idx: number }>`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 150%;
+  color: ${({ userNum, idx }) => (userNum === idx ? '#222222' : '#747780')};
+  cursor: pointer;
+`;
+
+const UnderLine = styled.div`
+  width: 946px;
+  height: 4px;
+  background-color: #e2e5ed;
+`;
+
+const TextUnderLine = styled.div<{ userNum: number; isDetail: boolean }>`
+  position: absolute;
+  z-index: 10;
+  width: 76px;
+  height: 4px;
+  background-color: #464646;
+  margin-top: 27px;
+  left: ${({ userNum }) => (userNum === 0 ? '0' : '80px')};
+  display: ${({ isDetail }) => (isDetail ? 'none' : '')};
 `;

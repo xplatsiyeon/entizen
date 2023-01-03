@@ -38,6 +38,7 @@ import chatFileAdd from 'public/images/chatFileAdd.png';
 import chatCamera from 'public/images/chatCamera.png';
 import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
 import { ChattingListResponse } from './ChattingLists';
+import ReportModal from './ReportModal';
 
 type ChattingLogs = {
   createdAt: string;
@@ -98,6 +99,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   //나가기 모달
   const [moreModal, setMoreModal] = useState<boolean>(false);
   const [quitModal, setQuitModal] = useState<boolean>(false);
+
+  // 신고하기 누르면 나오는 모달
+  const [reportModal, setReportModal] = useState<boolean>(false);
 
   // 에러 모달
   const [isModal, setIsModal] = useState(false);
@@ -541,6 +545,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
           <WebMoreModal
             setMoreModal={setMoreModal}
             setQuitModal={setQuitModal}
+            setReportModal={setReportModal}
             alarm={
               chattingData?.data?.chattingRoomNotification.isSetNotification
             }
@@ -751,6 +756,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
         <MoreModal
           setMoreModal={setMoreModal}
           setQuitModal={setQuitModal}
+          setReportModal={setReportModal}
           alarm={chattingData?.data.chattingRoomNotification.isSetNotification}
         />
       )}
@@ -758,6 +764,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       {quitModal && (
         <QuitModal setModal={setQuitModal} deleteId={Number(routerId)} />
       )}
+
+      {/* 신고하기 누르면 나오는 모달 추가 수정 필요 */}
+      {reportModal && <ReportModal setModal={setReportModal} />}
     </Body>
   );
 };

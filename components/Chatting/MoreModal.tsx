@@ -10,10 +10,16 @@ import colors from 'styles/colors';
 interface Props {
   setMoreModal: Dispatch<SetStateAction<boolean>>;
   setQuitModal: Dispatch<SetStateAction<boolean>>;
+  setReportModal: Dispatch<SetStateAction<boolean>>;
   alarm?: boolean;
 }
 
-const MoreModal = ({ setMoreModal, setQuitModal, alarm }: Props) => {
+const MoreModal = ({
+  setMoreModal,
+  setQuitModal,
+  alarm,
+  setReportModal,
+}: Props) => {
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx!;
   const queryClinet = useQueryClient();
@@ -39,28 +45,36 @@ const MoreModal = ({ setMoreModal, setQuitModal, alarm }: Props) => {
   };
   return (
     <Body>
-    <Wrapper onClick={() => setMoreModal(false)} />
-    <Box>
-    <div className="list fisrt" onClick={() => onClickAlarm(routerId)}>
-      {alarm?'알람끄기':'알람켜기'}
-    </div>
-    <div
-      className="list"
-      onClick={() => {
-        setMoreModal(false);
-        setQuitModal(true);
-      }}
-    >
-      채팅방 나가기
-    </div>
-    <BottomBtn onClick={() => setMoreModal(false)}>취소</BottomBtn>
-    </Box>
+      <Wrapper onClick={() => setMoreModal(false)} />
+      <Box>
+        <div className="list fisrt" onClick={() => onClickAlarm(routerId)}>
+          {alarm ? '알람끄기' : '알람켜기'}
+        </div>
+        <div
+          className="list"
+          onClick={() => {
+            setMoreModal(false);
+            setQuitModal(true);
+          }}
+        >
+          채팅방 나가기
+        </div>
+        <div
+          className="list"
+          onClick={() => {
+            setMoreModal(false);
+            setReportModal(true);
+          }}
+        >
+          신고하기
+        </div>
+        <BottomBtn onClick={() => setMoreModal(false)}>취소</BottomBtn>
+      </Box>
     </Body>
   );
 };
 
 export default MoreModal;
-
 
 const Wrapper = styled.div`
   position: fixed;
@@ -69,12 +83,11 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.65);
-  z-index:50;
+  z-index: 50;
 
   @media (min-width: 900pt) {
     display: none;
   }
-
 `;
 
 const Body = styled.div`
