@@ -41,7 +41,7 @@ function useLogin(
       sessionStorage.setItem('USER_ID', JSON.stringify(userId));
       dispatch(originUserAction.set(userId));
 
-      // 브릿지 연결
+      // ================브릿지 연결=====================
       const userInfo = {
         SNS_MEMBER: token.isSnsMember,
         MEMBER_TYPE: token.memberType,

@@ -26,7 +26,6 @@ type Props = { num?: number; now?: string };
 
 const CompanyMainPage = ({ num, now }: Props) => {
   const router = useRouter();
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
   const [tabNumber, setTabNumber] = useState<number>(-1);
@@ -51,77 +50,12 @@ const CompanyMainPage = ({ num, now }: Props) => {
       setState({ ...state, [anchor]: open });
     };
 
-  // ------------------브릿지-------------------
-  // 웹 -> 앱
-  // useEffect(() => {
-  //   if (window.entizen!) {
-  //     if (userAgent === 'Android_App') {
-  //       window.entizen!.test('Hello Native Callback');
-  //     } else if (userAgent === 'iOS_App') {
-  //       window.webkit.messageHandlers.test.postMessage(
-  //         'Hello Native Callback' + userAgent,
-  //       );
-  //     }
-  //   }
-  // }, []);
-
-  // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
-  // useEffect(() => {
-  //   if (window.entizen!) {
-  //     if (userAgent === 'Android_App') {
-  //       window.entizen!.getUserInfo();
-  //     } else if (userAgent === 'iOS_App') {
-  //       window.webkit.messageHandlers.getUserInfo.postMessage();
-  //     }
-  //   }
-  // }, []);
-  // // 앱 -> 웹
-  // useEffect(() => {
-  //   // 안드로이드 호출 테스트
-  //   if (userAgent === 'Android_App') {
-  //     // window.test = () => {
-  //     //   alert('안드로이드 테스트 중..');
-  //     // };
-  //     window.returnUserInfo = (getUserInfo) => {
-  //       if (getUserInfo && getUserInfo.length > 1) {
-  //         const jsonGetUserInfo = JSON.parse(getUserInfo);
-  //         sessionStorage.setItem(
-  //           'SNS_MEMBER',
-  //           JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-  //         );
-  //         sessionStorage.setItem(
-  //           'MEMBER_TYPE',
-  //           JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-  //         );
-  //         sessionStorage.setItem(
-  //           'ACCESS_TOKEN',
-  //           JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-  //         );
-  //         sessionStorage.setItem(
-  //           'REFRESH_TOKEN',
-  //           JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-  //         );
-  //         sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
-  //       }
-  //     };
-
-  //     // 아이폰 호출 테스트
-  //   } else if (userAgent === 'iOS_App') {
-  //     window.testEntizen = {
-  //       testtest: () => {
-  //         alert('iOS 테스트 중..');
-  //       },
-  //     };
-  //   }
-  // }, []);
-  // ----------------브릿지---------------------------
-
   useEffect(() => {
     dispatch(myEstimateAction.reset());
     sessionStorage.removeItem('key');
   }, []);
   useEffect(() => {
-    if (sessionStorage.getItem('USER_ID')) {
+    if (sessionStorage?.getItem('USER_ID')) {
       console.log('login check!');
       setIsLogin(true);
     } else {
