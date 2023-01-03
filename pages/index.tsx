@@ -19,12 +19,14 @@ const Home: NextPage<Props> = ({}: Props) => {
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useEffect(() => {
-    console.log('-----------------');
-    alert('userAgent ->>' + userAgent);
     if (userAgent === 'Android_App') {
+      console.log('-----------------');
+      alert('userAgent ->>' + userAgent);
       setLoginChecking(true);
       window.entizen!.getUserInfo();
     } else if (userAgent === 'iOS_App') {
+      console.log('-----------------');
+      alert('userAgent ->>' + userAgent);
       setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage();
     }
