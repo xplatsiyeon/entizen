@@ -60,32 +60,33 @@ const Home: NextPage<Props> = ({}: Props) => {
       // 아이폰 호출 테스트
     } else if (userAgent === 'iOS_App') {
       window.returnUserInfo = (userInfo) => {
-        if (userInfo.length > 1) {
-          alert('userInfo 호출');
-          const jsonGetUserInfo = JSON.parse(userInfo);
-          alert(jsonGetUserInfo.USER_ID);
-          sessionStorage.setItem(
-            'SNS_MEMBER',
-            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-          );
-          sessionStorage.setItem(
-            'MEMBER_TYPE',
-            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-          );
-          sessionStorage.setItem(
-            'ACCESS_TOKEN',
-            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-          );
-          sessionStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-          );
-          sessionStorage.setItem(
-            'USER_ID',
-            JSON.stringify(jsonGetUserInfo.USER_ID),
-          );
-        }
-        setLoginChecking(false);
+        alert('iOS 테스트 중..');
+        // if (userInfo.length > 1) {
+        //   alert('userInfo 호출');
+        //   const jsonGetUserInfo = JSON.parse(userInfo);
+        //   alert(jsonGetUserInfo.USER_ID);
+        //   sessionStorage.setItem(
+        //     'SNS_MEMBER',
+        //     JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+        //   );
+        //   sessionStorage.setItem(
+        //     'MEMBER_TYPE',
+        //     JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+        //   );
+        //   sessionStorage.setItem(
+        //     'ACCESS_TOKEN',
+        //     JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+        //   );
+        //   sessionStorage.setItem(
+        //     'REFRESH_TOKEN',
+        //     JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+        //   );
+        //   sessionStorage.setItem(
+        //     'USER_ID',
+        //     JSON.stringify(jsonGetUserInfo.USER_ID),
+        //   );
+        // }
+        // setLoginChecking(false);
       };
       // window.testEntizen = {
       //   testtest: () => {
