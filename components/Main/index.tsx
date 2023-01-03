@@ -163,6 +163,27 @@ const MainPage = (props: Props) => {
       requestPermissionCheck(userAgent, 'file');
     }
   };
+
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    }
+  }, []);
+
+  // ---------------------브릿지-------------------------
   // 초기화
   useEffect(() => {
     sessionStorage.removeItem('key');
