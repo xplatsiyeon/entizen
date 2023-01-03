@@ -262,7 +262,7 @@ const MainPage = (props: Props) => {
             type="file"
             accept="image/*"
             multiple
-            capture={true}
+            // capture={true}
           />
           <button onClick={imgHandler}>사진 업로드</button>
           <input
