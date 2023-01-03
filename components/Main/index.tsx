@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Carousel from './Carousel';
 import EntizenLibrary from './EntizenLibrary';
 import Footer from './Footer';
@@ -26,6 +26,7 @@ import HamburgerBar from 'componentsWeb/HamburgerBar';
 import BellNormal from 'public/images/BellNormal.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { requestPermissionCheck } from 'bridge/appToWeb';
 
 type Props = {};
 
@@ -141,6 +142,27 @@ const MainPage = (props: Props) => {
     }
   }, []);
   // ----------------브릿지---------------------------
+
+  const imgRef = useRef<any>(null);
+  const fileRef = useRef<any>(null);
+  // 사진 온클릭
+  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
+  };
+
+  //파일 온클릭
+  const handleFileClick = () => {
+    if (userAgent === '') {
+      fileRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'file');
+    }
+  };
   // 초기화
   useEffect(() => {
     sessionStorage.removeItem('key');
@@ -206,6 +228,25 @@ const MainPage = (props: Props) => {
           </IconWrapper>
         </HeadWrapper>
         {/* <Header /> */}
+        <Test>
+          <input
+            style={{ display: 'none' }}
+            ref={imgRef}
+            type="file"
+            accept="image/*"
+            multiple
+            capture={true}
+          />
+          <button onClick={imgHandler}>사진 업로드</button>
+          <input
+            style={{ display: 'none' }}
+            ref={fileRef}
+            type="file"
+            accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
+            multiple
+          />
+          <button onClick={handleFileClick}>파일 업로드</button>
+        </Test>
         <Carousel />
         <SalesProjection />
         <MyEstimateProject
@@ -261,4 +302,12 @@ const Box = styled.div`
 
 const HamburgerOn = styled.div``;
 
+const Test = styled.div`
+  width: 100%;
+  /* height: 300px; */
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
 export default MainPage;

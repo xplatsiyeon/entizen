@@ -188,9 +188,7 @@ const Signin = () => {
     //       alert('window.entizen! 존재 테스트 중'),
     //     );
     //   }
-    // } else {
-    //   window.webkit.messageHandlers.setUserInfo.postMessage(alert('테스트 중'));
-    // }
+
     await signin(password);
   };
   // 구글 로그인 후 서버로 회원가입 처리
