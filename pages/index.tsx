@@ -18,7 +18,7 @@ const Home: NextPage<Props> = ({}: Props) => {
 
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (userAgent === 'Android_App') {
       setLoginChecking(true);
       window.entizen!.getUserInfo();
@@ -28,7 +28,7 @@ const Home: NextPage<Props> = ({}: Props) => {
     }
   }, []);
   // 앱 -> 웹
-  useLayoutEffect(() => {
+  useEffect(() => {
     // 안드로이드 호출 테스트
     if (userAgent === 'Android_App') {
       window.returnUserInfo = (getUserInfo) => {
