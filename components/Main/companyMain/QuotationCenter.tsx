@@ -3,15 +3,13 @@ import Image from 'next/image';
 import lightning from 'public/images/lightning.png';
 import clipboardText from 'public/images/ClipboardText.png';
 import emptyClipboardText from 'public/images/EmptyClipboardText.png';
-import React, { useState } from 'react';
+import React from 'react';
 import colors from 'styles/colors';
 import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import Loader from 'components/Loader';
-import { Router } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import { ReceivedRequest } from 'pages/company/quotation';
-import useDebounce from 'hooks/useDebounce';
 
 export interface RecivedCountResponse {
   isSuccess: boolean;
@@ -22,10 +20,6 @@ type Props = {};
 const TAG = 'commponents/Main/companyMain/QuotationCenter';
 const QuotationCenter = ({}: Props) => {
   const router = useRouter();
-  const [searchWord, setSearchWord] = useState<string>('');
-  const keyword = useDebounce(searchWord, 2000);
-  const filterTypeEn = ['deadline', 'status', 'date'];
-  const [checkedFilterIndex, setcheckedFilterIndex] = useState<number>(0);
 
   // 실제 새롭게 받은 요청 개수
   // api 호출
@@ -33,8 +27,6 @@ const QuotationCenter = ({}: Props) => {
     data: newReceived,
     isLoading: receivedIsLoading,
     isError: receivedIsError,
-    error,
-    refetch,
   } = useQuery<ReceivedRequest>('received-request', () =>
     isTokenGetApi(`/quotations/received-request?keyword&sort=date`),
   );

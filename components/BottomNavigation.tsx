@@ -24,8 +24,8 @@ type Props = {};
 const TAG = 'componsts/BottomNavigation.tsx';
 const BottomNavigation = ({}: Props) => {
   const router = useRouter();
-  const user_ID = sessionStorage.getItem('USER_ID');
-  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const user_ID = sessionStorage?.getItem('USER_ID')!;
+  const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
   const { pathname } = router;
   const [tabNumber, setTabNumber] = useState(0);
 
@@ -45,7 +45,7 @@ const BottomNavigation = ({}: Props) => {
   }
 
   useEffect(() => {
-    console.log(router.pathname)
+    console.log(router.pathname);
     if (memberType === 'COMPANY') {
       switch (pathname) {
         case '/':
@@ -80,8 +80,6 @@ const BottomNavigation = ({}: Props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabNumber]);
-
-  console.log(data?.receivedQuotationRequests);
 
   return (
     <Wrapper>
@@ -148,11 +146,12 @@ const BottomNavigation = ({}: Props) => {
                 router.push('/company/chatting');
               }}
             >
-              <Image  src={
-                      tabNumber === 2
-                        ? chattingOn
-                        : chatting
-                    }alt="chatting" width={32} height={32} />
+              <Image
+                src={tabNumber === 2 ? chattingOn : chatting}
+                alt="chatting"
+                width={32}
+                height={32}
+              />
               <H3 clicked={false}>소통하기</H3>
             </div>
             {/* AS */}

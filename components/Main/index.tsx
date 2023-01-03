@@ -78,70 +78,76 @@ const MainPage = (props: Props) => {
       setState({ ...state, [anchor]: open });
     };
 
-  // ------------------브릿지-------------------
-  // 웹 -> 앱
+  // // ------------------브릿지-------------------
+  // // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.entizen!.getUserInfo();
+    } else if (userAgent === 'iOS_App') {
+      window.webkit.messageHandlers.getUserInfo.postMessage();
+    }
+  }, []);
+  // // 앱 -> 웹
   // useEffect(() => {
-  //   if (window.entizen!) {
+  //   // 안드로이드 호출 테스트
+  //   if (userAgent && userAgent.length > 1) {
   //     if (userAgent === 'Android_App') {
-  //       window.entizen!.test('Hello Native Callback');
+  //       window.returnUserInfo = (getUserInfo) => {
+  //         if (getUserInfo && getUserInfo.length > 1) {
+  //           const jsonGetUserInfo = JSON.parse(getUserInfo);
+  //           sessionStorage.setItem(
+  //             'SNS_MEMBER',
+  //             JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+  //           );
+  //           sessionStorage.setItem(
+  //             'MEMBER_TYPE',
+  //             JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+  //           );
+  //           sessionStorage.setItem(
+  //             'ACCESS_TOKEN',
+  //             JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+  //           );
+  //           sessionStorage.setItem(
+  //             'REFRESH_TOKEN',
+  //             JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+  //           );
+  //           sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
+  //         }
+  //       };
+
+  //       // 아이폰 호출 테스트
   //     } else if (userAgent === 'iOS_App') {
-  //       window.webkit.messageHandlers.test.postMessage(
-  //         'Hello Native Callback' + userAgent,
-  //       );
+  //       // window.returnUserInfo = (getUserInfo) => {
+  //       //   if (getUserInfo && getUserInfo.length > 1) {
+  //       //     const jsonGetUserInfo = JSON.parse(getUserInfo);
+  //       //     sessionStorage.setItem(
+  //       //       'SNS_MEMBER',
+  //       //       JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+  //       //     );
+  //       //     sessionStorage.setItem(
+  //       //       'MEMBER_TYPE',
+  //       //       JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+  //       //     );
+  //       //     sessionStorage.setItem(
+  //       //       'ACCESS_TOKEN',
+  //       //       JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+  //       //     );
+  //       //     sessionStorage.setItem(
+  //       //       'REFRESH_TOKEN',
+  //       //       JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+  //       //     );
+  //       //     sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
+  //       //   }
+  //       // };
+  //       // window.testEntizen = {
+  //       //   testtest: () => {
+  //       //     alert('iOS 테스트 중..');
+  //       //   },
+  //       // };
   //     }
   //   }
   // }, []);
-
-  // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
-  useEffect(() => {
-    if (window.entizen!) {
-      if (userAgent === 'Android_App') {
-        window.entizen!.getUserInfo();
-      } else if (userAgent === 'iOS_App') {
-        window.webkit.messageHandlers.getUserInfo.postMessage();
-      }
-    }
-  }, []);
-  // 앱 -> 웹
-  useEffect(() => {
-    // 안드로이드 호출 테스트
-    if (userAgent === 'Android_App') {
-      // window.test = () => {
-      //   alert('안드로이드 테스트 중..');
-      // };
-      window.returnUserInfo = (getUserInfo) => {
-        if (getUserInfo && getUserInfo.length > 1) {
-          const jsonGetUserInfo = JSON.parse(getUserInfo);
-          sessionStorage.setItem(
-            'SNS_MEMBER',
-            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-          );
-          sessionStorage.setItem(
-            'MEMBER_TYPE',
-            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-          );
-          sessionStorage.setItem(
-            'ACCESS_TOKEN',
-            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-          );
-          sessionStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-          );
-          sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
-        }
-      };
-
-      // 아이폰 호출 테스트
-    } else if (userAgent === 'iOS_App') {
-      window.testEntizen = {
-        testtest: () => {
-          alert('iOS 테스트 중..');
-        },
-      };
-    }
-  }, []);
-  // ----------------브릿지---------------------------
+  // ---------------- img bridge test ---------------------------
 
   const imgRef = useRef<any>(null);
   const fileRef = useRef<any>(null);
@@ -163,6 +169,27 @@ const MainPage = (props: Props) => {
       requestPermissionCheck(userAgent, 'file');
     }
   };
+
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    }
+  }, []);
+
+  // --------------------- img bridge test -------------------------
   // 초기화
   useEffect(() => {
     sessionStorage.removeItem('key');
@@ -304,8 +331,6 @@ const HamburgerOn = styled.div``;
 
 const Test = styled.div`
   width: 100%;
-  /* height: 300px; */
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   gap: 20px;
