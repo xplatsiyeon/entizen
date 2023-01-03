@@ -32,6 +32,7 @@ const Home: NextPage<Props> = ({}: Props) => {
     } else {
       console.log('-----------------');
       alert('userAgent ->>' + userAgent);
+      setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage();
     }
   }, [userAgent]);
