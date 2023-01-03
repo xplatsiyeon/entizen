@@ -111,6 +111,7 @@ const WhyEntizen = () => {
 const Wrapper = styled.div`
   margin-top: 30pt;
   width: 100%;
+
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -124,6 +125,7 @@ const WhyBox = styled(Typography)`
   line-height: 33pt;
   letter-spacing: -0.02em;
   color: #222222;
+
   & span {
     color: ${colors.main};
   }

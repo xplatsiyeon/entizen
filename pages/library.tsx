@@ -21,10 +21,10 @@ const Library = () => {
         <MypageHeader back={true} title={'엔티즌 도서관'} />
         <WebInnerHeader>엔티즌 도서관</WebInnerHeader>
         <Body>
-          {[1, 1, 1, 1, 1, 1, 1].map((_, index) => (
+          {/* {[1, 1, 1, 1, 1, 1, 1].map((_, index) => (
             <List key={index} onClick={HandleOnClick}>
               <div className="badge-img">
-                {/* <Image src={} alt="badge" /> */}
+                <Image src={} alt="badge" />
               </div>
               <div className="text-box">
                 <div>엔티즌을 더 잘 쓰는 꿀팁 확인하기</div>
@@ -36,12 +36,42 @@ const Library = () => {
                   </span>
                 </div>
               </div>
-              {/* 뉴 아이콘 */}
-              {/* <NewIcon>
+       
+              <NewIcon>
+              <Image src={newImg} alt="new-icon" />
+            </NewIcon>
+            </List>
+          ))} */}
+          <List onClick={HandleOnClick}>
+            <div className="badge-img">
+              <ImgDiv src="/images/entizenLibrarySample.png" />
+            </div>
+            <div className="text-box">
+              <div>엔티즌 도서관 둘러보기</div>
+              <div className="color-box">
+                <div
+                  className="color-text"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() =>
+                    window.open(
+                      'http://post.naver.com/entizen_ev',
+                      'entizen_post',
+                    )
+                  }
+                >
+                  자세히 보기
+                </div>
+
+                <span className="arrow-img">
+                  <Image src={arrowImg} alt="arrow" layout="fill" />
+                </span>
+              </div>
+            </div>
+            {/* 뉴 아이콘 */}
+            {/* <NewIcon>
               <Image src={newImg} alt="new-icon" />
             </NewIcon> */}
-            </List>
-          ))}
+          </List>
         </Body>
       </Inner>
       <WebFooter />
@@ -182,6 +212,15 @@ const List = styled.li`
 `;
 const NewIcon = styled.div`
   position: absolute;
+`;
+
+const ImgDiv = styled.img`
+  width: 75pt;
+  height: 75pt;
+  border: 1px solid #e2e5ed;
+  border-radius: 50%;
+  margin-right: 15pt;
+  object-fit: cover;
 `;
 
 /*
