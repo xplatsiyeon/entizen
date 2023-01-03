@@ -272,7 +272,7 @@ const ComContranct = ({}: Props) => {
         accept="image/*"
         onChange={saveFileImage}
         multiple
-        capture={true}
+        capture={userAgent === 'Android_App' && true}
       />
       {/* 파일 input */}
       <input
