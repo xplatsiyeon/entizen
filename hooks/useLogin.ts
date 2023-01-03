@@ -53,7 +53,6 @@ function useLogin(
         REFRESH_TOKEN: res.data.refreshToken,
         USER_ID: userId,
       };
-      console.log('** userInfo **');
       if (userAgent === 'Android_App') {
         window.entizen!.setUserInfo(JSON.stringify(userInfo));
       } else if (userAgent === 'iOS_App') {
@@ -62,37 +61,19 @@ function useLogin(
         );
       }
 
-      // setTimeout(() => {
-      //   alert('setTimeOut');
-      //   window.webkit.messageHandlers.setUserInfo.postMessage(
-      //     JSON.stringify(userInfo),
-      //   );
-      // if (window.entizen!) {
-      //   alert('window.entizen');
-      //   if (userAgent === 'Android_App') {
-      //     window.entizen!.setUserInfo(JSON.stringify(userInfo));
-      //   } else if (userAgent === 'iOS_App') {
-      //     alert('iOS_App');
-      //     window.webkit.messageHandlers.setUserInfo.postMessage(
-      //       JSON.stringify(userInfo),
-      //     );
-      //   }
-      // }
-      // }, 3000);
-
-      // if (signUp && memberType === 'USER') {
-      //   await router.push('/signUp/Complete');
-      // } else if (signUp && memberType === 'USER') {
-      //   await router.push('/signUp/CompleteCompany');
-      // } else if (res.data.isInitialLogin === false) {
-      //   await router.push('/');
-      // } else if (res.data.isInitialLogin === undefined) {
-      //   await router.push('/');
-      // } else if (res.data.isInitialLogin === true) {
-      //   await router.push('/signin');
-      // } else {
-      //   await router.push('/');
-      // }
+      if (signUp && memberType === 'USER') {
+        await router.push('/signUp/Complete');
+      } else if (signUp && memberType === 'USER') {
+        await router.push('/signUp/CompleteCompany');
+      } else if (res.data.isInitialLogin === false) {
+        await router.push('/');
+      } else if (res.data.isInitialLogin === undefined) {
+        await router.push('/');
+      } else if (res.data.isInitialLogin === true) {
+        await router.push('/signin');
+      } else {
+        await router.push('/');
+      }
     },
     onError: async (error: any) => {
       const { message } = error.response.data;
