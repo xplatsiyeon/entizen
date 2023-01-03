@@ -80,15 +80,13 @@ const MainPage = (props: Props) => {
 
   // // ------------------브릿지-------------------
   // // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
-  // useEffect(() => {
-  //   if (userAgent && userAgent.length > 1) {
-  //     if (userAgent === 'Android_App') {
-  //       window.entizen!.getUserInfo();
-  //     } else if (userAgent === 'iOS_App') {
-  //       // window.webkit.messageHandlers.getUserInfo.postMessage();
-  //     }
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.entizen!.getUserInfo();
+    } else if (userAgent === 'iOS_App') {
+      window.webkit.messageHandlers.getUserInfo.postMessage();
+    }
+  }, []);
   // // 앱 -> 웹
   // useEffect(() => {
   //   // 안드로이드 호출 테스트
