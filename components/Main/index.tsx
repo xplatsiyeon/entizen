@@ -94,7 +94,7 @@ const MainPage = (props: Props) => {
 
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
   useEffect(() => {
-    if (userAgent.length > 1) {
+    if (userAgent && userAgent.length > 1) {
       if (userAgent === 'Android_App') {
         window.entizen!.getUserInfo();
       } else if (userAgent === 'iOS_App') {
@@ -105,7 +105,7 @@ const MainPage = (props: Props) => {
   // 앱 -> 웹
   useEffect(() => {
     // 안드로이드 호출 테스트
-    if (userAgent.length > 1) {
+    if (userAgent && userAgent.length > 1) {
       if (userAgent === 'Android_App') {
         window.returnUserInfo = (getUserInfo) => {
           if (getUserInfo && getUserInfo.length > 1) {

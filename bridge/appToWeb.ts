@@ -3,7 +3,7 @@ export const requestPermissionCheck = (
   userAgent: string,
   type: 'photo' | 'file',
 ) => {
-  if (userAgent.length > 1) {
+  if (userAgent && userAgent.length > 1) {
     if (userAgent === 'Android_App') {
       window.entizen!.requestPermissionCheck(type);
     } else if (userAgent === 'iOS_App') {
