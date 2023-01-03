@@ -6,6 +6,8 @@ import blackRightArrow from 'public/images/blackLittleRightArrow.png';
 import React from 'react';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   fontSize?: number;
@@ -14,16 +16,25 @@ type Props = {
 
 const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
   const router = useRouter();
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+
+  const onClickLibrary = () => {
+    if (userAgent === 'Android_App') {
+      window.entizen!.openExternalBrowser('http://post.naver.com/entizen_ev');
+    } else if (userAgent === 'iOS_App') {
+      window.webkit.messageHandlers.openExternalBrowser.postMessage(
+        'http://post.naver.com/entizen_ev',
+      );
+    } else {
+      window.open('http://post.naver.com/entizen_ev', 'entizen_post');
+    }
+  };
   return (
     <>
       <Wrapper>
         <LearnText>엔티즌 도서관</LearnText>
         <BoardBox>
-          <LibraryList
-            onClick={() =>
-              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
-            }
-          >
+          <LibraryList onClick={onClickLibrary}>
             <ProfileImg>
               <div></div>
             </ProfileImg>
@@ -39,11 +50,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
               </DetailView>
             </TitleNDetail>
           </LibraryList>
-          <LibraryList
-            onClick={() =>
-              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
-            }
-          >
+          <LibraryList onClick={onClickLibrary}>
             <ProfileImg>
               <div></div>
             </ProfileImg>
@@ -52,18 +59,14 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
                 추후 문구 추가
               </LibraryTitle>
               <DetailView smallfont={smallfont ? smallfont : 0}>
-                자세히 보기{' '}
+                자세히 보기
                 <span>
                   <Image src={rightArrow} alt="icon" />
                 </span>
               </DetailView>
             </TitleNDetail>
           </LibraryList>
-          <LibraryList
-            onClick={() =>
-              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
-            }
-          >
+          <LibraryList onClick={onClickLibrary}>
             <ProfileImg>
               <div></div>
             </ProfileImg>
@@ -72,18 +75,14 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
                 추후 문구 추가
               </LibraryTitle>
               <DetailView smallfont={smallfont ? smallfont : 0}>
-                자세히 보기{' '}
+                자세히 보기
                 <span>
                   <Image src={rightArrow} alt="icon" />
                 </span>
               </DetailView>
             </TitleNDetail>
           </LibraryList>
-          <LibraryList
-            onClick={() =>
-              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
-            }
-          >
+          <LibraryList onClick={onClickLibrary}>
             <ProfileImg>
               <div></div>
             </ProfileImg>
@@ -92,7 +91,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
                 추후 문구 추가
               </LibraryTitle>
               <DetailView smallfont={smallfont ? smallfont : 0}>
-                자세히 보기{' '}
+                자세히 보기
                 <span>
                   <Image src={rightArrow} alt="icon" />
                 </span>
