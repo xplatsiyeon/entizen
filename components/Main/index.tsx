@@ -98,7 +98,7 @@ const MainPage = (props: Props) => {
       if (userAgent === 'Android_App') {
         window.entizen!.getUserInfo();
       } else if (userAgent === 'iOS_App') {
-        window.webkit.messageHandlers.getUserInfo.postMessage();
+        // window.webkit.messageHandlers.getUserInfo.postMessage();
       }
     }
   }, []);
