@@ -56,6 +56,7 @@ const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST
 const Signin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   let naverLogin: any;
   const naverRef = useRef<HTMLElement | null | any>(null);
   const { user } = useSelector((state: RootState) => state.userList);
@@ -177,7 +178,20 @@ const Signin = () => {
 
   // 기본 로그인
   const originLogin = async () => {
-    await signin(password);
+    if (window.entizen!) {
+      if (userAgent === 'iOS_App') {
+        window.webkit.messageHandlers.setUserInfo.postMessage(
+          alert('iOS 테스트 중'),
+        );
+      } else {
+        window.webkit.messageHandlers.setUserInfo.postMessage(
+          alert('window.entizen! 존재 테스트 중'),
+        );
+      }
+    } else {
+      window.webkit.messageHandlers.setUserInfo.postMessage(alert('테스트 중'));
+    }
+    // await signin(password);
   };
   // 구글 로그인 후 서버로 회원가입 처리
   const handleGoogleSignUp = async (data: GoogleSignUpData) => {
