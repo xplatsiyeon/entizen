@@ -63,28 +63,25 @@ const Home: NextPage<Props> = ({}: Props) => {
         alert('iOS 테스트 중..');
         if (typeof userInfo === 'object') {
           alert('userInfo 호출');
-          const jsonGetUserInfo = JSON.parse(userInfo);
-          alert(jsonGetUserInfo.USER_ID);
+          // const jsonGetUserInfo = JSON.parse(userInfo);
+          alert(userInfo.USER_ID);
           sessionStorage.setItem(
             'SNS_MEMBER',
-            JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+            JSON.stringify(userInfo.SNS_MEMBER),
           );
           sessionStorage.setItem(
             'MEMBER_TYPE',
-            JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+            JSON.stringify(userInfo.MEMBER_TYPE),
           );
           sessionStorage.setItem(
             'ACCESS_TOKEN',
-            JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+            JSON.stringify(userInfo.ACCESS_TOKEN),
           );
           sessionStorage.setItem(
             'REFRESH_TOKEN',
-            JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+            JSON.stringify(userInfo.REFRESH_TOKEN),
           );
-          sessionStorage.setItem(
-            'USER_ID',
-            JSON.stringify(jsonGetUserInfo.USER_ID),
-          );
+          sessionStorage.setItem('USER_ID', JSON.stringify(userInfo.USER_ID));
         }
         setLoginChecking(false);
       };
