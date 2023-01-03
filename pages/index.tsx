@@ -1,33 +1,34 @@
 import { NextPage } from 'next';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import MainPage from 'components/Main';
 import Main from '../components/Main/mainWeb';
 import CompanyMainPage from 'components/Main/companyMain';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import Loader from 'components/Loader';
 
 interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({}: Props) => {
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loginChecking, setLoginChecking] = useState(false);
   const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
 
   //  ------------------브릿지-------------------
   // 휴대폰에 데이터 저장되어 있으면, 웹 세션 스토리지에 저장;
-  useEffect(() => {
-    if (userAgent && userAgent.length > 1) {
-      if (userAgent === 'Android_App') {
-        window.entizen!.getUserInfo();
-      } else if (userAgent === 'iOS_App') {
-        // window.webkit.messageHandlers.getUserInfo.postMessage();
-      }
+  useLayoutEffect(() => {
+    if (userAgent === 'Android_App') {
+      setLoginChecking(true);
+      window.entizen!.getUserInfo();
+    } else if (userAgent === 'iOS_App') {
+      // setMobile(true)
+      // window.webkit.messageHandlers.getUserInfo.postMessage();
     }
   }, []);
   // 앱 -> 웹
-  useEffect(() => {
+  useLayoutEffect(() => {
     // 안드로이드 호출 테스트
     if (userAgent === 'Android_App') {
       window.returnUserInfo = (getUserInfo) => {
@@ -54,6 +55,7 @@ const Home: NextPage<Props> = ({}: Props) => {
             JSON.stringify(jsonGetUserInfo.USER_ID),
           );
         }
+        setLoginChecking(false);
       };
 
       // 아이폰 호출 테스트
@@ -82,6 +84,7 @@ const Home: NextPage<Props> = ({}: Props) => {
       //       JSON.stringify(jsonGetUserInfo.USER_ID),
       //     );
       //   }
+      //   setLoginChecking(false);
       // };
       // window.testEntizen = {
       //   testtest: () => {
@@ -90,6 +93,10 @@ const Home: NextPage<Props> = ({}: Props) => {
       // };
     }
   }, []);
+
+  if (loginChecking) {
+    return <Loader />;
+  }
 
   return (
     <>
