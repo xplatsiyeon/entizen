@@ -1,12 +1,9 @@
 import styled from '@emotion/styled';
-import { color } from '@mui/system';
 import React from 'react';
 import colors from 'styles/colors';
 import blueArrow from 'public/images/blueArrow16.png';
 import img_subs from 'public/images/img_subs.png';
 import Image from 'next/image';
-import Banner from 'public/images/Main-Banner.png';
-import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 

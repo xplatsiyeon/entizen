@@ -21,12 +21,12 @@ const Home: NextPage<Props> = ({}: Props) => {
   useEffect(() => {
     if (userAgent === 'Android_App') {
       console.log('-----------------');
-      alert('userAgent ->>' + userAgent);
+      // alert('userAgent ->>' + userAgent);
       setLoginChecking(true);
       window.entizen!.getUserInfo();
     } else if (userAgent === 'iOS_App') {
       console.log('-----------------');
-      alert('userAgent ->>' + userAgent);
+      // alert('userAgent ->>' + userAgent);
       setLoginChecking(true);
       window.webkit.messageHandlers.getUserInfo.postMessage('');
     }
