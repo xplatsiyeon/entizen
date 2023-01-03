@@ -61,6 +61,7 @@ const Home: NextPage<Props> = ({}: Props) => {
     } else if (userAgent === 'iOS_App') {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
+          alert('userInfo 호출');
           const jsonGetUserInfo = JSON.parse(userInfo);
           sessionStorage.setItem(
             'SNS_MEMBER',
