@@ -68,19 +68,19 @@ function useLogin(
         }
       }
 
-      if (signUp && memberType === 'USER') {
-        await router.push('/signUp/Complete');
-      } else if (signUp && memberType === 'USER') {
-        await router.push('/signUp/CompleteCompany');
-      } else if (res.data.isInitialLogin === false) {
-        await router.push('/');
-      } else if (res.data.isInitialLogin === undefined) {
-        await router.push('/');
-      } else if (res.data.isInitialLogin === true) {
-        await router.push('/signin');
-      } else {
-        await router.push('/');
-      }
+      // if (signUp && memberType === 'USER') {
+      //   await router.push('/signUp/Complete');
+      // } else if (signUp && memberType === 'USER') {
+      //   await router.push('/signUp/CompleteCompany');
+      // } else if (res.data.isInitialLogin === false) {
+      //   await router.push('/');
+      // } else if (res.data.isInitialLogin === undefined) {
+      //   await router.push('/');
+      // } else if (res.data.isInitialLogin === true) {
+      //   await router.push('/signin');
+      // } else {
+      //   await router.push('/');
+      // }
     },
     onError: async (error: any) => {
       const { message } = error.response.data;
