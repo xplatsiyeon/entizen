@@ -24,7 +24,7 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
-import AlertModal from 'componentsAdmin/AlertModal';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 type Props = {
   finalQuotationIdx: number;

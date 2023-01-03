@@ -38,7 +38,7 @@ const openList = [
 ];
 const closeList = [
   ['관리자 등록', '관리자 리스트 조회'],
-  ['프로젝트 현황', '통계'],
+  ['역경매 현황', '프로젝트 현황', 'A/S 현황', '통계'],
   ['일반회원', '기업회원'],
   ['역경매관리 리스트'],
   ['프로젝트 리스트'],
@@ -143,6 +143,14 @@ const Workspace = ({ setNumber }: Props) => {
 
       case '블락':
         setNumber(23);
+        break;
+
+      case '역경매 현황':
+        setNumber(24);
+        break;
+
+      case 'A/S 현황':
+        setNumber(25);
         break;
 
       default:

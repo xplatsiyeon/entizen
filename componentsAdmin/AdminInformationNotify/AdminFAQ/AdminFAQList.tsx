@@ -6,7 +6,7 @@ import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import AdminFAQEditor from './AdminFAQEditor';
 import { isTokenPatchApi } from 'api';
-import { NewCell } from 'componentsAdmin/AdminNotice/AdminNoticeList';
+import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
 import {
   QueryObserverResult,
   useMutation,

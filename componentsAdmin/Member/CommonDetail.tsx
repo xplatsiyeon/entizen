@@ -8,8 +8,8 @@ import ExitBtn from 'public/adminImages/Group.png';
 import { isTokenGetApi, isTokenDeleteApi, isTokenPatchApi } from 'api';
 import Loader from 'components/Loader';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import AlertModal from 'componentsAdmin/AlertModal';
-import WriteModal from 'componentsAdmin/WriteModal';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
+import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import { isAdminJoinApproved } from 'utils/calculatePackage';
 
 type Props = {

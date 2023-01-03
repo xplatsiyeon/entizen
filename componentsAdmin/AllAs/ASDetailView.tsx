@@ -10,7 +10,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Image from 'next/image';
 import RatingForm from './RatingForm';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
-import AlertModal from 'componentsAdmin/AlertModal';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;

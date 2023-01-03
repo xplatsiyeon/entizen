@@ -18,8 +18,8 @@ import {
   isTokenDeleteApi,
 } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import WriteModal from 'componentsAdmin/WriteModal';
-import AlertModal from 'componentsAdmin/AlertModal';
+import WriteModal from 'componentsAdmin/Modal/WriteModal';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import { AxiosError } from 'axios';
 import { css } from '@emotion/react';
 import {
@@ -29,7 +29,7 @@ import {
 import Image from 'next/image';
 import CloseImg from 'public/images/XCircle.svg';
 import { Label } from '@mui/icons-material';
-import { AdminBannerDetailResponse } from '../../types/tableDataType';
+import { AdminBannerDetailResponse } from '../../../types/tableDataType';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;

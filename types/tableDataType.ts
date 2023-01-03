@@ -325,3 +325,89 @@ export interface AdminAccountList {
     }[];
   };
 }
+
+// 프로젝트 현황 리스트 조회
+export interface ProjectListSituation {
+  isSuccess: boolean;
+  data: {
+    totalCount: number;
+    projects: {
+      projectIdx: number;
+      projectNumber: string;
+      projectName: string;
+      createdAt: string;
+      isCompletedContractStep: string;
+      isCompletedReadyStep: boolean;
+      isCompletedInstallationStep: boolean;
+      isCompletedExamStep: boolean;
+      isApprovedByAdmin: boolean;
+      subscribeStartDate: string;
+      isCancel: boolean;
+      companyMember: {
+        memberIdx: number;
+        id: string;
+      };
+      userMember: {
+        memberIdx: number;
+        id: string;
+      };
+      badge: string;
+    }[];
+  };
+}
+
+// 역경매 현황 리스트 조회
+export interface ReverseAuctionSituation {
+  isSuccess: boolean;
+  data: {
+    totalCount: number;
+    quotationRequests: {
+      quotationRequestIdx: number;
+      createdAt: string;
+      expiredAt: string;
+      installationAddress: string;
+      quotationStatus: string;
+      member: {
+        memberIdx: number;
+        name: string;
+      };
+      quotationStatusHistories: {
+        quotationStatusHistoryIdx: number;
+        quotationRequestStatus: string;
+      }[];
+      badge: string;
+    }[];
+  };
+}
+
+// as 현황 리스트 조회
+export interface ASListSitutation {
+  isSuccess: boolean;
+  data: {
+    totalCount: number;
+    afterSalesServices: {
+      afterSalesServiceIdx: number;
+      createdAt: string;
+      afterSalesServiceCompletionConsentStatus: boolean;
+      afterSalesServiceResultDate: string;
+      acceptanceDate: string;
+      project: {
+        projectIdx: number;
+        projectName: string;
+        companyMember: {
+          memberIdx: number;
+          id: 'yky95';
+          companyMemberAdditionalInfo: {
+            companyMemberAdditionalInfoIdx: number;
+            companyName: string;
+          };
+        };
+        userMember: {
+          memberIdx: number;
+          id: string;
+        };
+      };
+      badge: string;
+    }[];
+  };
+}

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import CancleModal from 'componentsAdmin/CancleModal';
+import CancleModal from 'componentsAdmin/Modal/CancleModal';
 import AdminHeader from 'componentsAdmin/Header';
 import { GrayBtn } from 'componentsAdmin/Layout';
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
@@ -31,7 +31,7 @@ import {
   M5_TYPE_SET,
 } from 'assets/selectList';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
-import AlertModal from 'componentsAdmin/AlertModal';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;

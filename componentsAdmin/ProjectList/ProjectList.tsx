@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import Table from 'componentsAdmin/table';
 import React, { useRef, useState } from 'react';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
 import colors from 'styles/colors';
 import ProjectDetail from './ProjectDetail';
-import { Dayjs } from 'dayjs';
 import { AdminBtn } from 'componentsAdmin/Layout';
+import ProjectListTable from './ProjectListTable';
 
 const ProjectList = () => {
   const [isDetail, setIsDetail] = useState(false);
@@ -71,7 +70,7 @@ const ProjectList = () => {
           <AdminBtn onClick={handleDate}>조회</AdminBtn>
         </li>
       </Manager>
-      <Table
+      <ProjectListTable
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'projectListData'}

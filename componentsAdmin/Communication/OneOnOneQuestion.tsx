@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import Table from 'componentsAdmin/table';
 import OOQDetail from './OOQDetail';
 import {
   adminDateFomat,
@@ -12,6 +11,7 @@ import {
   convertKo,
   convertEn,
 } from 'utils/calculatePackage';
+import CommunicationTable from './CommunicationTable';
 
 type CheckBox = {
   id: number;
@@ -130,7 +130,7 @@ const OneOnOneQuestion = () => {
           </AdminBtn>
         </li>
       </Manager>
-      <Table
+      <CommunicationTable
         setIsDetail={setIsDetail}
         setDetailId={setDetailId}
         tableType={'userChattingOneOnOne'}

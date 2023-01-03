@@ -5,7 +5,7 @@ import AdminHeader from 'componentsAdmin/Header';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import Table from 'componentsAdmin/table';
+import CommunicationTable from './CommunicationTable';
 
 const CommunicationList = () => {
   const [isDetail, setIsDetail] = useState(false);
@@ -65,7 +65,7 @@ const CommunicationList = () => {
           <AdminBtn onClick={handleDate}>조회</AdminBtn>
         </li>
       </Manager>
-      <Table
+      <CommunicationTable
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'userChatting'}

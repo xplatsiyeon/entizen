@@ -22,7 +22,7 @@ import {
   MulterResponse,
 } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
-import AlertModal from 'componentsAdmin/AlertModal';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 type Props = {
   afterSalesServiceIdx: number;
