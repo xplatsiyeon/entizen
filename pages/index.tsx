@@ -49,7 +49,10 @@ const Home: NextPage<Props> = ({}: Props) => {
             'REFRESH_TOKEN',
             JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
           );
-          sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
+          sessionStorage.setItem(
+            'USER_ID',
+            JSON.stringify(jsonGetUserInfo.USER_ID),
+          );
         }
       };
 
@@ -74,7 +77,10 @@ const Home: NextPage<Props> = ({}: Props) => {
       //       'REFRESH_TOKEN',
       //       JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
       //     );
-      //     sessionStorage.setItem('USER_ID', jsonGetUserInfo.USER_ID);
+      //     sessionStorage.setItem(
+      //       'USER_ID',
+      //       JSON.stringify(jsonGetUserInfo.USER_ID),
+      //     );
       //   }
       // };
       // window.testEntizen = {
