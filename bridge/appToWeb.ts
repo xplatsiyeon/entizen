@@ -9,3 +9,13 @@ export const requestPermissionCheck = (
     window.webkit.messageHandlers.requestPermissionCheck.postMessage(type);
   }
 };
+
+export const bridgeTestOnClick = (userAgent: string, url: string) => {
+  if (userAgent === 'Android_App') {
+    window.entizen!.openExternalBrowser('https://www.naver.com');
+  } else if (userAgent === 'iOS_App') {
+    window.webkit.messageHandlers.openExternalBrowser.postMessage(
+      'https://www.naver.com',
+    );
+  }
+};

@@ -566,7 +566,7 @@ const Signin = () => {
                     )}
                   </Box>
                 </Box>
-                {selectedLoginType === 0 && (
+                {/* {selectedLoginType === 0 && (
                   <>
                     <Box
                       sx={{
@@ -652,7 +652,7 @@ const Signin = () => {
                       ></Divider>
                     </Box>
                   </>
-                )}
+                )} */}
                 <Box
                   sx={{
                     margin: '18pt 18pt 0 18pt',

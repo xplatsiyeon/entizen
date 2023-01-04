@@ -30,7 +30,6 @@ type Props = {
 const TAG = 'components/Profile/ProfileModify.tsx';
 const ProfileModify = ({ setTabNumber }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
-
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const { selectedType } = useSelector((state: RootState) => state.selectType);
   const [data, setData] = useState<any>();
@@ -86,7 +85,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
       }
     },
   });
-
   // 사진 온클릭
   const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -96,7 +94,6 @@ const ProfileModify = ({ setTabNumber }: Props) => {
       requestPermissionCheck(userAgent, 'photo');
     }
   };
-
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -192,7 +189,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
           <Avatar>
             <div className="img-bg">
               {/* 아바타 */}
-              <div className="avatar-bg">
+              <button className="avatar-bg" onClick={imgHandler}>
                 <Image
                   src={
                     profile?.profileImageUrl?.length! > 1
@@ -206,7 +203,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                   unoptimized={true}
                   objectFit="cover"
                 />
-              </div>
+              </button>
               {/* 포토 이미지 */}
               <label className="avatar-photo">
                 <input
@@ -216,6 +213,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
                   accept="image/*"
                   onChange={onImgInputBtnClick}
                   capture={userAgent === 'Android_App' && true}
+                  style={{ display: 'none' }}
                 />
                 <Image src={AvatarPhoto} alt="avatar-photo" />
               </label>

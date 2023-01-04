@@ -17,6 +17,9 @@ import FileSelectModal from 'components/Modal/FileSelectModal';
 import { Router, WrapText } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import Loader from 'components/Loader';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { requestPermissionCheck } from 'bridge/appToWeb';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
@@ -26,6 +29,7 @@ const EditCertificate = ({ setComponent }: Props) => {
   const router = useRouter();
   const imgRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
 
   const [businessRegistration, setBusinessRegistration] = useState<
     BusinessRegistrationType[]
@@ -94,17 +98,27 @@ const EditCertificate = ({ setComponent }: Props) => {
       },
     });
   };
-  // 파일 클릭
-  const onClickFile = () => {
-    fileRef?.current?.click();
-    setFileModal(false);
-    setFilePreview(true);
-  };
+
   // 이미지 클릭
   const onClickPhoto = () => {
-    imgRef?.current?.click();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
     setFileModal(false);
     setImgPreview(true);
+  };
+  // 파일 클릭
+  const onClickFile = () => {
+    if (userAgent === '') {
+      fileRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'file');
+    }
+
+    setFileModal(false);
+    setFilePreview(true);
   };
   // 사진 || 파일 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -163,6 +177,25 @@ const EditCertificate = ({ setComponent }: Props) => {
     setIsModal(false);
   };
 
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    }
+  }, []);
+
   useEffect(() => {
     if (businessRegistration.length < 1) {
       setImgPreview(false);
@@ -190,7 +223,7 @@ const EditCertificate = ({ setComponent }: Props) => {
           handle={true}
           back={true}
           title="사업자 등록증 수정"
-          handleOnClick={() => setComponent(1)}
+          handleBackClick={() => setComponent(1)}
         />
       </Wrap>
       <RemainderInputBox>
@@ -213,6 +246,7 @@ const EditCertificate = ({ setComponent }: Props) => {
             accept="image/*"
             onChange={saveFileImage}
             multiple
+            capture={userAgent === 'Android_App' && true}
           />
           {/* 파일 input */}
           <input
