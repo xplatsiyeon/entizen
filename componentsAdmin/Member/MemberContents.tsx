@@ -55,6 +55,7 @@ const MemberContents = ({
             <label className="comapny label">기업명</label>
             <InputBox
               type="text"
+              readOnly
               value={
                 CompanyData?.data?.member?.companyMemberAdditionalInfo
                   ?.companyName
@@ -63,7 +64,11 @@ const MemberContents = ({
           </li>
           <li>
             <label className="comapny label">아이디</label>
-            <InputBox type="text" value={CompanyData?.data?.member?.id} />
+            <InputBox
+              type="text"
+              readOnly
+              value={CompanyData?.data?.member?.id}
+            />
           </li>
           <li>
             <label className="comapny label">담당자</label>
@@ -73,6 +78,7 @@ const MemberContents = ({
             <label className="comapny label">이메일</label>
             <InputBox
               type="text"
+              readOnly
               value={
                 CompanyData?.data?.member?.companyMemberAdditionalInfo
                   ?.managerEmail
@@ -112,7 +118,14 @@ const MemberContents = ({
                 ),
               )}
 
-              <button className="businessBtn">삭제</button>
+              <button
+                className="businessBtn"
+                onClick={() => {
+                  alert('2차 작업범위입니다.');
+                }}
+              >
+                삭제
+              </button>
             </div>
           </li>
           <li>

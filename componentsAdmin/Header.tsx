@@ -43,7 +43,16 @@ const AdminHeader = ({
               <h1>{title}</h1>
               <p>{subTitle}</p>
             </span>
-            {exelHide && <button className="excelBtn">엑셀 다운로드</button>}
+            {exelHide && (
+              <button
+                className="excelBtn"
+                onClick={() => {
+                  alert('2차 작업범위입니다');
+                }}
+              >
+                엑셀 다운로드
+              </button>
+            )}
           </div>
         </DetailWrapper>
       )}

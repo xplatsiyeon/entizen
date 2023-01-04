@@ -20,8 +20,18 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
-
-const ChartBar = () => {
+type Props = {
+  chartData?:
+    | {
+        date: string;
+        slow: number;
+        normal: number;
+        fast: number;
+        superFast: number;
+      }[]
+    | undefined;
+};
+const ChartBar = ({ chartData }: Props) => {
   const options = {
     maxBarThickness: 7,
     responsive: true,

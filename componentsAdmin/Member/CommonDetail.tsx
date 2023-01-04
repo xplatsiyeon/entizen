@@ -260,15 +260,27 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
         </InfoBox>
         <TextAreaContainer>
           <label>관리자 전용 특이사항</label>
-          <textarea rows={10} cols={30}>
+          <textarea rows={10} cols={30} readOnly>
             {type === 'USER'
               ? userData?.data?.member?.etc
               : companyData?.data?.member?.etc}
           </textarea>
         </TextAreaContainer>
         <ButtonBox>
-          <button>회원삭제</button>
-          <button>수정</button>
+          <button
+            onClick={() => {
+              alert('2차 작업범위입니다');
+            }}
+          >
+            회원삭제
+          </button>
+          <button
+            onClick={() => {
+              alert('2차 작업범위입니다');
+            }}
+          >
+            수정
+          </button>
         </ButtonBox>
       </Wrapper>
     </Background>
