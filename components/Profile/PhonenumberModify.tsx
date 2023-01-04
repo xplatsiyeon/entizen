@@ -322,6 +322,7 @@ const Input = styled.input`
   letter-spacing: -0.02em;
   color: ${colors.lightGray3};
   padding-left: 15pt;
+  width: 100%;
 `;
 const BtnBox = styled.div`
   position: fixed;
@@ -330,6 +331,7 @@ const BtnBox = styled.div`
   bottom: 30pt;
   width: 100%;
   padding: 0 15pt;
+  /* width: 100%; */
   @media (min-width: 900pt) {
     position: relative;
     top: 300pt;
@@ -366,6 +368,7 @@ const InputBtn = styled.span`
   top: 15pt;
   right: 21pt;
   cursor: pointer;
+
   :hover {
     background-color: ${colors.main1};
   }
