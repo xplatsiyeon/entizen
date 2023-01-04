@@ -32,8 +32,11 @@ const Alam = () => {
   const loadRef = useRef(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const tabHandler = (num: number) => setTab(num);
-  const onClicklist = () => {
+  const onClicklist1 = () => {
     router.push('/alarm/1-2');
+  };
+  const onClicklist2 = () => {
+    router.push('/alarm/1-3');
   };
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   // 무한 스크롤
@@ -148,14 +151,9 @@ const Alam = () => {
           {tab === 0 && (
             <Main>
               {list.map((_, index) => (
-                <ContensBox key={index} onClick={onClicklist}>
-                  <label className="label">[entizen 서비스 오픈]</label>
-                  <p className="contents">
-                    안녕하세요. entizen 입니다. 새로 오픈한 entizen
-                    잘부탁드립니다.
-                    <br />
-                    이용시 불편사항은 언제든 문의부탁드립니다. 감사합니다.
-                  </p>
+                <ContensBox key={index} onClick={onClicklist1}>
+                  {/* <label className="label">[entizen 서비스 오픈]</label> */}
+                  <p className="contents">entizen 서비스 오픈</p>
                   <div className="period">1주 전</div>
                   <div className="line"></div>
                 </ContensBox>
@@ -165,11 +163,8 @@ const Alam = () => {
           {tab === 1 && (
             <Main>
               {list.map((_, index) => (
-                <ContensBox key={index} onClick={onClicklist}>
-                  <p className="contents">
-                    서비스 이용 알림 드립니다. 개명 또는 기업명 변경 신청 시
-                    1:1문의 부탁드립니다.
-                  </p>
+                <ContensBox key={index} onClick={onClicklist2}>
+                  <p className="contents">서비스 이용 알림 드립니다</p>
                   <div className="period">1주 전</div>
                   <div className="line"></div>
                 </ContensBox>
