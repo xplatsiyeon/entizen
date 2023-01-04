@@ -19,6 +19,11 @@ const Carousel = () => {
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   // bridge 테스트
   const bridgeTestOnClick = () => {
+    // window.open(
+    //   'http://post.naver.com/entizen_ev',
+    //   'popupChk',
+    //   'width=500, height=550',
+    // );
     if (userAgent === 'Android_App') {
       window.open('http://post.naver.com/entizen_ev', 'entizen_post');
       // window.entizen!.openExternalBrowser('https://www.naver.com');
@@ -27,6 +32,8 @@ const Carousel = () => {
       // window.webkit.messageHandlers.openExternalBrowser.postMessage(
       //   'https://www.naver.com',
       // );
+    } else {
+      window.open('http://post.naver.com/entizen_ev', 'entizen_post');
     }
   };
 
@@ -40,12 +47,12 @@ const Carousel = () => {
           }}
           navigation={true}
           modules={[Pagination, Navigation]}
-          loop={true}
+          loop={false}
           //className="mySwiper"
         >
           <SwiperSlide>
             <SliderContent>
-              <Top>블라블라</Top>
+              <Top></Top>
               <Center>
                 엔티즌 회원
                 <br />
