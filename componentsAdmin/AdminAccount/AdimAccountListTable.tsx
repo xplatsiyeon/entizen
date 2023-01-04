@@ -54,7 +54,7 @@ const AdimAccountListTable = ({
   
   */
 
-  // 🎀 관리자 리스트 조회
+  //  관리자 리스트 조회
   const { data: adminAccountList, refetch: adminAccountListRefetch } =
     useQuery<AdminAccountList>(
       'adminAccountList',
@@ -95,6 +95,7 @@ const AdimAccountListTable = ({
                       onClick={() => {
                         setDetailId(cell);
                         setIsDetail(true);
+                        alert('2차 작업범위입니다.');
                       }}
                     >
                       보기

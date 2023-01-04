@@ -52,6 +52,9 @@ const ProjectSituation = (props: Props) => {
     }
   });
 
+  // 백엔드에 붙여주는 쿼리
+  const projectString = changeEn.map((e) => `&projectStatus[]=${e}`).join('');
+
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
@@ -102,6 +105,7 @@ const ProjectSituation = (props: Props) => {
                 onChange={(e) => {
                   checkStatusHandle(e.currentTarget.checked, e.target.id);
                 }}
+                style={{ cursor: 'pointer' }}
               />
               <span>{state}</span>
             </span>
@@ -126,7 +130,7 @@ const ProjectSituation = (props: Props) => {
         setIsDetail={setIsDetail}
         tableType={'projectListSituation'}
         handleCommon={handleCommon}
-        statusCheck={changeEn}
+        statusCheck={projectString}
         commonBtn={'엑셀 다운로드'}
       />
     </Wrapper>

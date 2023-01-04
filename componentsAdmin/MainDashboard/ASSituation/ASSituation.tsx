@@ -24,11 +24,9 @@ const ASSituation = (props: Props) => {
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 
-  // const [projectState, setProjectState] = useState(
-  //   Array(projectStateType.length).fill(false),
-  // );
-  const [projectState, setProjectState] = useState<Array<string>>([]);
+  const [projectState, setProjectState] = useState<string[]>([]);
 
+  // 체크박스 함수
   const checkStatusHandle = (checked: boolean, status: string) => {
     if (checked) {
       setProjectState((prev) => [...prev, status]);
@@ -48,6 +46,11 @@ const ASSituation = (props: Props) => {
     }
   });
 
+  // 백엔드에 붙여주는 쿼리
+  const asString = changeEn
+    .map((e) => `&afterSalesServiceStatus[]=${e}`)
+    .join('');
+
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
@@ -63,14 +66,6 @@ const ASSituation = (props: Props) => {
     }, 600);
   };
 
-  // 프로젝트 체크 박스 변경 함수
-  // const onChangeProjectCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const index = Number(event.target.dataset.index);
-  //   const temp = [...projectState];
-  //   temp[index] = !temp[index];
-  //   setProjectState(temp);
-  // };
-
   // 엑셀 다운로드 버튼
   const handleCommon = () => {
     alert('2차 작업범위입니다.');
@@ -78,7 +73,9 @@ const ASSituation = (props: Props) => {
 
   useEffect(() => {
     console.log(projectState);
-  }, [, projectState]);
+  }, [projectState]);
+
+  console.log('🌸 asString 🌸', asString);
 
   return (
     <Wrapper>
@@ -98,6 +95,7 @@ const ASSituation = (props: Props) => {
                 onChange={(e) => {
                   checkStatusHandle(e.currentTarget.checked, e.target.id);
                 }}
+                style={{ cursor: 'pointer' }}
               />
               <span>{state}</span>
             </span>
@@ -122,7 +120,7 @@ const ASSituation = (props: Props) => {
         setIsDetail={setIsDetail}
         tableType={'asListSituationList'}
         handleCommon={handleCommon}
-        asStatusCheck={changeEn}
+        asStatusCheck={asString}
         commonBtn={'엑셀 다운로드'}
       />
     </Wrapper>

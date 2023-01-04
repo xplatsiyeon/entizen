@@ -27,6 +27,7 @@ import AddAdminAccount from 'componentsAdmin/AdminAccount/AddAdminAccount';
 type Props = {};
 
 const index = (props: Props) => {
+  // 관리자 계정 초기 세팅값
   const [number, setNumber] = useState(0);
 
   const [isDetail, setIsDetail] = useState(false);

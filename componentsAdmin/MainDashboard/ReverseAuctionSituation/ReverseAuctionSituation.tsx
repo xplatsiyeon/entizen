@@ -49,6 +49,11 @@ const ReverseAuctionSituation = (props: Props) => {
     }
   });
 
+  // 백엔드에 보내주는 쿼리
+  const reverseAuctionString = changeEn
+    .map((e) => `&quotationRequestStatus[]=${e}`)
+    .join('');
+
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
@@ -79,7 +84,7 @@ const ReverseAuctionSituation = (props: Props) => {
 
   useEffect(() => {
     console.log(projectState);
-  }, [, projectState]);
+  }, [projectState]);
 
   return (
     <Wrapper>
@@ -99,6 +104,7 @@ const ReverseAuctionSituation = (props: Props) => {
                 onChange={(e) => {
                   checkStatusHandle(e.currentTarget.checked, e.target.id);
                 }}
+                style={{ cursor: 'pointer' }}
               />
               <span>{state}</span>
             </span>
@@ -123,7 +129,7 @@ const ReverseAuctionSituation = (props: Props) => {
         setIsDetail={setIsDetail}
         tableType={'reverseAuctionSituation'}
         handleCommon={handleCommon}
-        quotationRequestStatus={changeEn}
+        quotationRequestStatus={reverseAuctionString}
         commonBtn={'엑셀 다운로드'}
       />
     </Wrapper>

@@ -24,25 +24,9 @@ type Props = {
   handleCommon: () => void;
   hide?: boolean;
   userCheck?: string;
-  statusCheck?: (
-    | 'awaitingContract'
-    | 'completionAgreement'
-    | 'completion'
-    | undefined
-  )[];
-  quotationRequestStatus?: (
-    | 'new'
-    | 'awaitingBid'
-    | 'closed'
-    | 'cancel'
-    | undefined
-  )[];
-  asStatusCheck?: (
-    | 'completion'
-    | 'request'
-    | 'awaitingCompletion'
-    | undefined
-  )[];
+  statusCheck?: string;
+  quotationRequestStatus?: string;
+  asStatusCheck?: string;
 };
 
 const DashBoardTable = ({
@@ -91,9 +75,7 @@ const DashBoardTable = ({
         getApi(
           `/admin/dashboards/projects?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
-          }&endDate=${
-            pickedDate ? pickedDate[1] : today
-          }&projectStatus[]=${statusCheck}`,
+          }&endDate=${pickedDate ? pickedDate[1] : today}${statusCheck}`,
         ),
       {
         enabled: false,
@@ -159,7 +141,7 @@ const DashBoardTable = ({
           pickedDate ? pickedDate[0] : '2022-09-05'
         }&endDate=${
           pickedDate ? pickedDate[1] : today
-        }&quotationRequestStatus[]=${quotationRequestStatus}`,
+        }${quotationRequestStatus}`,
       ),
     {
       enabled: false,
@@ -220,9 +202,7 @@ const DashBoardTable = ({
         getApi(
           `/admin/dashboards/after-sales-services?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
-          }&endDate=${
-            pickedDate ? pickedDate[1] : today
-          }&afterSalesServiceStatus[]=${asStatusCheck}`,
+          }&endDate=${pickedDate ? pickedDate[1] : today}${asStatusCheck}`,
         ),
       {
         enabled: false,
@@ -245,8 +225,9 @@ const DashBoardTable = ({
                         )
                       : '-'
                   }`,
-                  ele?.project?.userMember,
-                  ele?.project?.companyMember,
+                  ele?.project?.userMember?.id,
+                  ele?.project?.companyMember?.companyMemberAdditionalInfo
+                    ?.companyName,
                   ele?.project?.projectName,
                   ele?.badge,
                 ];

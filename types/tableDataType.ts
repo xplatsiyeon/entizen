@@ -396,7 +396,7 @@ export interface ASListSitutation {
         projectName: string;
         companyMember: {
           memberIdx: number;
-          id: 'yky95';
+          id: string;
           companyMemberAdditionalInfo: {
             companyMemberAdditionalInfoIdx: number;
             companyName: string;
