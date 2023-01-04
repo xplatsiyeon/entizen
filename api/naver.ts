@@ -60,7 +60,7 @@ export const getToken = (naverLogin: any, callBack: (result: any) => void) => {
   }
 };
 const NaverApi = async (data: any, callBack: (result: any) => void) => {
-  const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
+  const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
   try {
     await axios({
       method: 'post',
