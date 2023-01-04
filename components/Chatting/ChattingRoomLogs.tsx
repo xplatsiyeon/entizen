@@ -41,6 +41,7 @@ import { ChattingListResponse } from './ChattingLists';
 import ReportModal from './ReportModal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { requestPermissionCheck } from 'bridge/appToWeb';
 
 type ChattingLogs = {
   createdAt: string;
@@ -411,11 +412,19 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   //이미지 온클릭
   const imgHandler = () => {
-    imgRef?.current?.click();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
   };
   //파일 온클릭
   const fileHandler = () => {
-    fileRef?.current?.click();
+    if (userAgent === '') {
+      fileRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'file');
+    }
   };
 
   useEffect(() => {
@@ -518,6 +527,25 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
     }, 2000);
 
     listRefetch();
+  }, []);
+
+  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.openGallery = () => {
+        imgRef?.current?.click();
+      };
+      window.openFileUpload = () => {
+        fileRef?.current?.click();
+      };
+    }
   }, []);
 
   return (

@@ -52,7 +52,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             >
               {/* <CustomProvider locale={koKR}> */}
               <Head>
-                <meta charSet="utf-8" />
+                {/* <meta charSet="utf-8" /> */}
+                <meta
+                  name="viewport"
+                  content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
+                />
                 <title>Next Naver maps</title>
               </Head>
               {/* </CustomProvider> */}
