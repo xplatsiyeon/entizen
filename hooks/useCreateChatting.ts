@@ -15,7 +15,7 @@ const TAG = 'hooks/useCreateChatting.ts';
 const useCreateChatting = () => {
   const router = useRouter();
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  const token: JwtTokenType = jwt_decode(accessToken);
+  const token: JwtTokenType = accessToken && jwt_decode(accessToken!);
   // ------------- 채팅방 생성하기 API ---------------
   const { mutate: createMutate, isLoading: createLoading } = useMutation(
     isTokenPostApi,
@@ -27,7 +27,7 @@ const useCreateChatting = () => {
         console.log('🔥 채팅방 생성 데이터 확인!! ', res);
         console.log('🔥 채팅방 생성 데이터 확인!! ', index);
         console.log('🔥 채팅방 생성 토큰 확인!! ', token);
-        if (index && token && token.memberType === 'USER') {
+        if (index && token && token?.memberType === 'USER') {
           console.log('🔥 채팅방 생성 인덱스 확인!! ', index);
           router.push({
             pathname: '/chatting/chattingRoom',
@@ -35,7 +35,7 @@ const useCreateChatting = () => {
               chattingRoomIdx: index,
             },
           });
-        } else if (index && token && token.memberType === 'COMPANY') {
+        } else if (index && token && token?.memberType === 'COMPANY') {
           router.push({
             pathname: '/company/chatting/chattingRoom',
             query: {

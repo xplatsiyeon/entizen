@@ -346,8 +346,8 @@ const Wrapper = styled.div`
   padding-bottom: 30pt;
 
   @media (max-width: 899.25pt) {
-    height: 100%;
     background-color: #fafcff;
+    padding-bottom: 150pt;
   }
 `;
 const Header = styled(Box)`
@@ -644,6 +644,7 @@ const WholeBox = styled(Box)`
   display: flex;
   flex-direction: column;
   position: relative;
+
   /* height: 100vh; */
 `;
 

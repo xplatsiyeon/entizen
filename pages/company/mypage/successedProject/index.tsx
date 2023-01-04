@@ -77,48 +77,51 @@ const successedProject = (props: Props) => {
     }
   }, [router.query.projectIdx]);
 
-  // if (!accessToken) {
-  //   return router.push('/signin');
-  // }
-
-  return (
-    <WebBody>
-      <WebBuyerHeader
-        setOpenSubLink={setOpenSubLink}
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        componentId={componentId}
-        openSubLink={openSubLink}
-      />
-      <CompanyRightMenu />
-      <WebRapper>
-        {nowWidth >= 1200 && (
-          <LeftProjectBox
-            setTabNumber={setTabNumber}
-            tabNumber={tabNumber}
-            componentId={componentId}
-            setComponentId={setComponentId}
-          />
-        )}
-        <WebContainer>
-          <WebBox>
-            <MypageHeader back={true} title={'완료 프로젝트'} />
-            {/* 상단 세부 내용 */}
-            <FinishedTopBox data={historyDetailData!} />
-            {/* 하단 세부 내용 */}
-            <FinishedBottomBox data={historyDetailData!} />
-          </WebBox>
-          <CommunicationWrapper>
-            {/* <CommunicationBox
-              text={'고객과 소통하기'}
-              id={historyDetailData?.userMember?.memberIdx}
-            /> */}
-          </CommunicationWrapper>
-        </WebContainer>
-      </WebRapper>
-      <WebFooter />
-    </WebBody>
-  );
+  if (!accessToken) {
+    console.log('what?!!!!!!!!!!!!');
+    router.push('/signin');
+  } else {
+    return (
+      <WebBody>
+        <WebBuyerHeader
+          setOpenSubLink={setOpenSubLink}
+          setTabNumber={setTabNumber}
+          tabNumber={tabNumber}
+          componentId={componentId}
+          openSubLink={openSubLink}
+        />
+        <CompanyRightMenu />
+        <WebRapper>
+          {nowWidth >= 1200 && (
+            <LeftProjectBox
+              setTabNumber={setTabNumber}
+              tabNumber={tabNumber}
+              componentId={componentId}
+              setComponentId={setComponentId}
+            />
+          )}
+          <WebContainer>
+            <WebBox>
+              <MypageHeader back={true} title={'완료 프로젝트'} />
+              {/* 상단 세부 내용 */}
+              <FinishedTopBox data={historyDetailData!} />
+              {/* 하단 세부 내용 */}
+              <FinishedBottomBox data={historyDetailData!} />
+            </WebBox>
+            <CommunicationWrapper>
+              {accessToken && (
+                <CommunicationBox
+                  text={'고객과 소통하기'}
+                  id={historyDetailData?.userMember?.memberIdx}
+                />
+              )}
+            </CommunicationWrapper>
+          </WebContainer>
+        </WebRapper>
+        <WebFooter />
+      </WebBody>
+    );
+  }
 };
 
 export default successedProject;

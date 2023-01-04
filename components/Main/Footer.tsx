@@ -11,22 +11,22 @@ const Footer = (props: Props) => {
         <InfoWrapper>
           <LabelBox>
             <Labels>대표이사</Labels>
-            <Labels>사업자 등록번호</Labels>
-            <Labels>호스팅 사업자</Labels>
+            {/* <Labels>사업자 등록번호</Labels> */}
+            {/* <Labels>호스팅 사업자</Labels> */}
             <Labels>통신판매업</Labels>
-            <Labels>이메일</Labels>
-            <Labels>고객센터</Labels>
+            {/* <Labels>이메일</Labels> */}
+            {/* <Labels>고객센터</Labels> */}
             <Labels>운영시간</Labels>
             <Labels>&nbsp;</Labels>
             <Labels>주소</Labels>
           </LabelBox>
           <InfoBox>
             <Infos>윤민호, 오성흥</Infos>
-            <Infos>0000-000-0000</Infos>
-            <Infos>블라블라</Infos>
+            {/* <Infos>0000-000-0000</Infos> */}
+            {/* <Infos>블라블라</Infos> */}
             <Infos>2021-서울강남-2345</Infos>
-            <Infos>블라블라@블라</Infos>
-            <Infos>0000-0000</Infos>
+            {/* <Infos>블라블라@블라</Infos> */}
+            {/* <Infos>0000-0000</Infos> */}
             <Infos>
               평일 10:00~17:00
               <br />
@@ -35,7 +35,7 @@ const Footer = (props: Props) => {
             <Infos>서울 강남구 테헤란로 393 LS 빌딩</Infos>
           </InfoBox>
         </InfoWrapper>
-        <MenuBox>
+        {/* <MenuBox>
           <Menus>사업자 정보 확인</Menus>
           <Divider></Divider>
           <Menus>이용약관</Menus>
@@ -43,7 +43,7 @@ const Footer = (props: Props) => {
           <Menus>개인정보 처리 방침</Menus>
           <Divider></Divider>
           <Menus>1:1문의</Menus>
-        </MenuBox>
+        </MenuBox> */}
         <CopyRight>
           Copyright © 2022 Entizen Inc. All rights reserved.
         </CopyRight>
@@ -58,6 +58,9 @@ const Container = styled.div`
   position: absolute;
   width: 100%;
   padding-bottom: 1pt;
+  /* @media (max-width: 899.25pt) {
+    visibility: hidden;
+  } */
 `;
 
 const FooterBox = styled.div`

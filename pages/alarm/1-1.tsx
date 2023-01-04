@@ -45,14 +45,14 @@ const Alam1_1 = () => {
       </Header>
       <AlamLabel>알림</AlamLabel>
       <AlamForm>
-        <CheckBox>
+        {/* <CheckBox>
           <span className="text">앱 푸쉬</span>
           <CustomSwitch
             name="appPush"
             onChange={handleChange}
             checked={checked.appPush}
           />
-        </CheckBox>
+        </CheckBox> */}
         <CheckBox>
           <span className="text">카카오톡</span>
           <CustomSwitch
