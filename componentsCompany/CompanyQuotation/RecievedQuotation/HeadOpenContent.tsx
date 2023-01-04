@@ -301,7 +301,7 @@ const HeadOpenContent = () => {
   // step별 컴포넌트
   const components: Components = {
     // 기본
-    0: (
+    1: (
       <WebContainer>
         <FirstStep
           partSubscribe={partSubscribe}
@@ -324,7 +324,7 @@ const HeadOpenContent = () => {
       </WebContainer>
     ),
     // 스텝 2
-    1: (
+    0: (
       <WebContainer>
         <SecondStep
           tabNumber={tabNumber}

@@ -248,8 +248,8 @@ const ProfileImg = styled.div`
   justify-content: center;
   padding-left: 32.5pt;
   & > div {
-    width: 75pt;
-    height: 75pt;
+    /* width: 75pt;
+    height: 75pt; */
     border: 1px solid #e2e5ed;
     border-radius: 50%;
     margin-right: 15pt;
@@ -378,6 +378,10 @@ const ImgDiv = styled.img`
   border-radius: 50%;
   margin-right: 15pt;
   object-fit: cover;
+  @media (max-width: 899.25pt) {
+    width: 50pt;
+    height: 50pt;
+  }
 `;
 
 export default EntizenLibrary;
