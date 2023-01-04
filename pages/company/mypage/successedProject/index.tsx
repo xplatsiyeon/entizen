@@ -35,6 +35,7 @@ const successedProject = (props: Props) => {
   const { loading, error, data } = useQuery<ResponseHistoryProjectsDetail>(
     GET_historyProjectsDetail,
     {
+      skip: !accessToken,
       variables: {
         searchKeyword: '',
         sort: 'SUBSCRIBE_END',
@@ -76,6 +77,10 @@ const successedProject = (props: Props) => {
     }
   }, [router.query.projectIdx]);
 
+  // if (!accessToken) {
+  //   return router.push('/signin');
+  // }
+
   return (
     <WebBody>
       <WebBuyerHeader
@@ -104,10 +109,10 @@ const successedProject = (props: Props) => {
             <FinishedBottomBox data={historyDetailData!} />
           </WebBox>
           <CommunicationWrapper>
-            <CommunicationBox
+            {/* <CommunicationBox
               text={'고객과 소통하기'}
               id={historyDetailData?.userMember?.memberIdx}
-            />
+            /> */}
           </CommunicationWrapper>
         </WebContainer>
       </WebRapper>
