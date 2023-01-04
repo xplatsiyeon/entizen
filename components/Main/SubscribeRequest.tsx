@@ -4,31 +4,21 @@ import colors from 'styles/colors';
 import blueArrow from 'public/images/blueArrow16.png';
 import img_subs from 'public/images/img_subs.png';
 import Image from 'next/image';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
+import { useRouter } from 'next/router';
 
 type Props = {
   borders?: number | undefined;
 };
 
 const SubscribeRequest = ({ borders }: Props) => {
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const router = useRouter();
   const handleLink = () => {
-    // 브릿지 연결 테스트 중
-    // alert(userAgent);
-    if (userAgent === 'Android_App') {
-      // window.entizen!.test('Hello Native Callback --> ' + userAgent);
-    } else if (userAgent === 'iOS_App') {
-      window.webkit.messageHandlers.getUserInfo.postMessage('');
-      window.webkit.messageHandlers.requestPermissionCheck.postMessage('type');
+    const user = sessionStorage.getItem('USER_ID');
+    if (user) {
+      router.push('/quotation/request');
+    } else {
+      router.push('/signin');
     }
-
-    // const user = sessionStorage.getItem('USER_ID');
-    // if (user) {
-    //   router.push('/quotation/request');
-    // } else {
-    //   router.push('/signin');
-    // }
   };
 
   return (

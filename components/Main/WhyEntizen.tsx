@@ -64,17 +64,17 @@ const WhyEntizen = () => {
       width: '52.5pt',
       height: '39pt',
     },
-    {
-      headText: '보조금 가이드',
-      arrowIcon: blackWhiteArrow,
-      arrowIcon2: mainArrow1,
-      background: '#FFFFFF',
-      color: '#222222',
-      bigIcon: carnation,
-      menuText: '전기차 충전소\nA 부터 Z까지',
-      width: '32.25pt',
-      height: '42.75pt',
-    },
+    // {
+    //   headText: '보조금 가이드',
+    //   arrowIcon: blackWhiteArrow,
+    //   arrowIcon2: mainArrow1,
+    //   background: '#FFFFFF',
+    //   color: '#222222',
+    //   bigIcon: carnation,
+    //   menuText: '전기차 충전소\nA 부터 Z까지',
+    //   width: '32.25pt',
+    //   height: '42.75pt',
+    // },
   ];
 
   const movePage = (el: MenuList) => {

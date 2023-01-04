@@ -15,6 +15,7 @@ import { companyRequestFilterNumberSlice } from 'storeCompany/requestTabSlice';
 import { finalQuotationSlice } from 'storeCompany/finalQuotation';
 import { adminReverseSlice } from 'storeAdmin/adminReverseSlice';
 import { userAgentSlice } from './userAgent';
+import { redirectSlice } from './redirectUrlSlice';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   companyFinalQuotationData: finalQuotationSlice.reducer,
   adminReverseData: adminReverseSlice.reducer,
   userAgent: userAgentSlice.reducer,
+  redirectSlice: redirectSlice.reducer,
 });
 
 export default rootReducer;

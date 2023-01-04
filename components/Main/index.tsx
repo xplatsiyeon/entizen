@@ -26,7 +26,8 @@ import HamburgerBar from 'componentsWeb/HamburgerBar';
 import BellNormal from 'public/images/BellNormal.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { requestPermissionCheck } from 'bridge/appToWeb';
+import { fileDownload, requestPermissionCheck } from 'bridge/appToWeb';
+import colors from 'styles/colors';
 
 type Props = {};
 
@@ -186,8 +187,8 @@ const MainPage = (props: Props) => {
           </IconWrapper>
         </HeadWrapper>
         {/* 브릿지 테스트용 코드 */}
-        {/* <Test>
-          <input
+        <Test>
+          {/* <input
             style={{ display: 'none' }}
             ref={imgRef}
             type="file"
@@ -203,8 +204,23 @@ const MainPage = (props: Props) => {
             accept=".xlsx,.pdf,.pptx,.ppt,.ppt,.xls,.doc,.docm,.docx,.txt,.hwp"
             multiple
           />
-          <button onClick={handleFileClick}>파일 업로드</button>
-        </Test> */}
+          <button onClick={handleFileClick}>파일 업로드</button> */}
+          <FileDownload
+            // download={'FileDownload'}
+            // href={
+            //   'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chargerProduct/1669886978_cf946488-6122-4d45-8a7e-6e8e1e66f4f0.png'
+            // }
+            onClick={() => {
+              fileDownload(
+                userAgent,
+                '1669886978_cf946488-6122-4d45-8a7e-6e8e1e66f4f0.png',
+                'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chargerProduct/1669886978_cf946488-6122-4d45-8a7e-6e8e1e66f4f0.png',
+              );
+            }}
+          >
+            FileDownload
+          </FileDownload>
+        </Test>
         <Carousel />
         <SalesProjection />
         <MyEstimateProject
@@ -224,6 +240,18 @@ const MainPage = (props: Props) => {
     </>
   );
 };
+
+const FileDownload = styled.a`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 3pt;
+  color: ${colors.gray2};
+  // 글자수 넘어갈때 ... 처리하는거 필수값: width, text-overflow, overflow
+  width: 150pt;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;
 
 const HeadWrapper = styled.div`
   width: 100%;

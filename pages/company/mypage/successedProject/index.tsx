@@ -15,12 +15,15 @@ import {
 } from 'QueryComponents/CompanyQuery';
 import { useQuery } from '@apollo/client';
 import CommunicationBox from 'components/CommunicationBox';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 
 type Props = {};
 
 const TAG = 'pages/company/mypage/successedProject.index.tsx';
 const successedProject = (props: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const routerId = router?.query?.projectIdx;
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [componentId, setComponentId] = useState<number>();
@@ -35,6 +38,7 @@ const successedProject = (props: Props) => {
   const { loading, error, data } = useQuery<ResponseHistoryProjectsDetail>(
     GET_historyProjectsDetail,
     {
+      skip: !accessToken,
       variables: {
         searchKeyword: '',
         sort: 'SUBSCRIBE_END',
@@ -76,44 +80,52 @@ const successedProject = (props: Props) => {
     }
   }, [router.query.projectIdx]);
 
-  return (
-    <WebBody>
-      <WebBuyerHeader
-        setOpenSubLink={setOpenSubLink}
-        setTabNumber={setTabNumber}
-        tabNumber={tabNumber}
-        componentId={componentId}
-        openSubLink={openSubLink}
-      />
-      <CompanyRightMenu />
-      <WebRapper>
-        {nowWidth >= 1200 && (
-          <LeftProjectBox
-            setTabNumber={setTabNumber}
-            tabNumber={tabNumber}
-            componentId={componentId}
-            setComponentId={setComponentId}
-          />
-        )}
-        <WebContainer>
-          <WebBox>
-            <MypageHeader back={true} title={'완료 프로젝트'} />
-            {/* 상단 세부 내용 */}
-            <FinishedTopBox data={historyDetailData!} />
-            {/* 하단 세부 내용 */}
-            <FinishedBottomBox data={historyDetailData!} />
-          </WebBox>
-          <CommunicationWrapper>
-            <CommunicationBox
-              text={'고객과 소통하기'}
-              id={historyDetailData?.userMember?.memberIdx}
+  // url정보기 기억하고 로그인 페이지로 리다이렉트
+  if (!accessToken) {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+  } else {
+    return (
+      <WebBody>
+        <WebBuyerHeader
+          setOpenSubLink={setOpenSubLink}
+          setTabNumber={setTabNumber}
+          tabNumber={tabNumber}
+          componentId={componentId}
+          openSubLink={openSubLink}
+        />
+        <CompanyRightMenu />
+        <WebRapper>
+          {nowWidth >= 1200 && (
+            <LeftProjectBox
+              setTabNumber={setTabNumber}
+              tabNumber={tabNumber}
+              componentId={componentId}
+              setComponentId={setComponentId}
             />
-          </CommunicationWrapper>
-        </WebContainer>
-      </WebRapper>
-      <WebFooter />
-    </WebBody>
-  );
+          )}
+          <WebContainer>
+            <WebBox>
+              <MypageHeader back={true} title={'완료 프로젝트'} />
+              {/* 상단 세부 내용 */}
+              <FinishedTopBox data={historyDetailData!} />
+              {/* 하단 세부 내용 */}
+              <FinishedBottomBox data={historyDetailData!} />
+            </WebBox>
+            <CommunicationWrapper>
+              {accessToken && (
+                <CommunicationBox
+                  text={'고객과 소통하기'}
+                  id={historyDetailData?.userMember?.memberIdx}
+                />
+              )}
+            </CommunicationWrapper>
+          </WebContainer>
+        </WebRapper>
+        <WebFooter />
+      </WebBody>
+    );
+  }
 };
 
 export default successedProject;

@@ -33,7 +33,7 @@ const SalesProjection = ({ text, setText }: Props) => {
           <br /> 확인해보세요!
         </TextArea>
         <SearchMapArea>
-          {mobile && (
+          {/* {mobile && (
             <Input
               value="주소 입력 후 간단 체크!"
               type="submit"
@@ -55,7 +55,7 @@ const SalesProjection = ({ text, setText }: Props) => {
                 ),
               }}
             />
-          )}
+          )} */}
           {!mobile && (
             <Input
               placeholder="주소 입력 후 간단 체크!"
@@ -120,7 +120,7 @@ const TextArea = styled(Typography)`
 
 const SearchMapArea = styled.div`
   width: 100%;
-  height: 50pt;
+  /* height: 50pt; */
   position: relative;
   margin-top: 10.5pt;
 `;

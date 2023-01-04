@@ -71,14 +71,14 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
           </Header>
           <AlamLabel>알림</AlamLabel>
           <AlamForm>
-            <CheckBox>
+            {/* <CheckBox>
               <span className="text">앱 푸쉬</span>
               <CustomSwitch
                 name="appPush"
                 onChange={handleChange}
                 checked={checked.appPush}
               />
-            </CheckBox>
+            </CheckBox> */}
             {memberType === 'COMPANY' && (
               <CheckBox>
                 <span className="text">이메일</span>
