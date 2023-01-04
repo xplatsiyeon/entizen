@@ -163,7 +163,7 @@ const DashBoardTable = ({
                 }`,
                 ele?.member?.name,
                 ele.installationAddress,
-                ele.badge,
+                `${ele.badge === '' ? '신규' : ele.badge}`,
               ];
               temp.push(eleArr);
             },
@@ -263,16 +263,9 @@ const DashBoardTable = ({
   // console.log('🎀 프로젝트 현황 statusCheck 🎀', statusCheck);
 
   console.log(
-    '🌸 역경매 현황 quotationRequestStatus 🌸',
-    quotationRequestStatus,
+    '🐳 reverseAuctionSituation 🐳',
+    reverseAuctionSituation?.data?.quotationRequests,
   );
-
-  console.log(
-    '🎀 프로젝트 현황 reverseAuctionSituation 🎀',
-    reverseAuctionSituation,
-  );
-
-  // console.log('🐳 as 현황 asStatusCheck 🐳', asStatusCheck);
 
   useEffect(() => {
     switch (tableType) {

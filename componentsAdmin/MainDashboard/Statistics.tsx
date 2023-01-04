@@ -7,24 +7,47 @@ import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import ChartBar from './Chart';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { isTokenGetApi, isTokenDeleteApi } from 'api';
+import { adminDateFomat, dateFomat } from 'utils/calculatePackage';
 
 type Props = {};
 
-const GridList = [
-  '방문자',
-  '신규가입',
-  '신규 역경매 요청',
-  '신규 프로젝트',
-  '견적 취소 역경매',
-  '신규 내 충전소',
-  'A/S 요청',
-];
+type StatisticsResponse = {
+  isSuccess: boolean;
+  data: {
+    statistics: {
+      visitorsCount: number;
+      newMembersCount: number;
+      newQuotationRequestsCount: number;
+      newProjectsCount: number;
+      canceledQuotationRequestsCount: number;
+      newChargingStationsCount: number;
+      newAfterSalesServicesCount: number;
+      chargers: {
+        date: string;
+        slow: number;
+        normal: number;
+        fast: number;
+        superFast: number;
+      }[];
+    };
+  };
+};
+
 const ChartList = ['완속', '중속', '급속', '초급속'];
 const ChartColor = ['#B096EF', '#FFC043', '#A6A9B0', '#F75015'];
 
 const Statistics = (props: Props) => {
+  const queryClinet = useQueryClient();
+
   const [pickedDate, setPickedDate] = useState<string[]>();
   const dateRef = useRef<HTMLDivElement>(null);
+
+  // 오늘 날짜.
+  const today = new Date();
+  console.log(adminDateFomat(String(today)));
+
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
@@ -54,6 +77,35 @@ const Statistics = (props: Props) => {
     }
   };
 
+  // 통계 리스트 조회
+  // /admin/dashboards/statistics?startDate=2022-12-01&endDate=2022-12-29
+  const { data, isLoading, isError } = useQuery<StatisticsResponse>(
+    'asDetailView',
+    () =>
+      isTokenGetApi(
+        `/admin/dashboards/statistics?startDate=${
+          pickedDate ? pickedDate[0] : '2022-09-05'
+        }&endDate=${pickedDate ? pickedDate[1] : today}`,
+      ),
+  );
+  const getData = data?.data?.statistics;
+
+  const GridList = [
+    { title: '방문자', count: getData?.visitorsCount },
+    { title: '신규가입', count: getData?.newMembersCount },
+    { title: '신규 역경매 요청', count: getData?.newQuotationRequestsCount },
+    { title: '신규 프로젝트', count: getData?.newProjectsCount },
+    {
+      title: '견적 취소 역경매',
+      count: getData?.canceledQuotationRequestsCount,
+    },
+    { title: '신규 내 충전소', count: getData?.newChargingStationsCount },
+    { title: 'A/S 요청', count: getData?.newAfterSalesServicesCount },
+  ];
+
+  // ChartBar에 그래프로 내려주는 수치(배열임)
+  const chartData = data?.data?.statistics?.chargers;
+
   return (
     <Wrapper>
       <AdminHeader type="main" title="메인대시보드" subTitle="통계" />
@@ -72,9 +124,13 @@ const Statistics = (props: Props) => {
       {/* Grid Container */}
       <GridContainer>
         {GridList.map((item, idx) => (
-          <div className="item" key={item + idx}>
-            <label className="name">{item}</label>
-            <h1 className="count">3건</h1>
+          <div className="item" key={idx}>
+            <label className="name">{item.title}</label>
+            <h1 className="count" key={idx}>
+              {`${item?.count
+                ?.toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+            </h1>
           </div>
         ))}
       </GridContainer>
@@ -91,7 +147,7 @@ const Statistics = (props: Props) => {
             ))}
           </div>
         </div>
-        <ChartBar />
+        <ChartBar chartData={chartData} />
       </ChartContainer>
     </Wrapper>
   );
