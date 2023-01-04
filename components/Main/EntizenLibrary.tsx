@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import { isTokenGetApi } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import entizenLibrarySample from 'public/images/entizenLibrarySample.png';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   fontSize?: number;
@@ -35,6 +37,19 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
 
   console.log('🐳 data 🐳', data?.data);
 
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+
+  const onClickLibrary = () => {
+    if (userAgent === 'Android_App') {
+      window.entizen!.openExternalBrowser('http://post.naver.com/entizen_ev');
+    } else if (userAgent === 'iOS_App') {
+      window.webkit.messageHandlers.openExternalBrowser.postMessage(
+        'http://post.naver.com/entizen_ev',
+      );
+    } else {
+      window.open('http://post.naver.com/entizen_ev', 'entizen_post');
+    }
+  };
   return (
     <>
       <Wrapper>
@@ -64,11 +79,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
           ))}
         </BoardBox> */}
         <BoardBox>
-          <LibraryList
-            onClick={() =>
-              window.open('http://post.naver.com/entizen_ev', 'entizen_post')
-            }
-          >
+          <LibraryList onClick={onClickLibrary}>
             <ProfileImg>
               <ImgDiv src="/images/entizenLibrarySample.png" />
             </ProfileImg>

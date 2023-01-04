@@ -143,7 +143,9 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                router.push('/company/chatting');
+                user_ID
+                  ? router.push('/company/chatting')
+                  : router.push('/signin');
               }}
             >
               <Image
@@ -243,7 +245,7 @@ const BottomNavigation = ({}: Props) => {
             <div
               className="img-wrapper"
               onClick={() => {
-                router.push('/chatting');
+                user_ID ? router.push('/chatting') : router.push('/signin');
               }}
             >
               <ImgBox>
