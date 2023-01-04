@@ -24,6 +24,11 @@ const PartnerProductsList = () => {
     setSelected([EnchargeKind, chargeMethod, EnchargeChannel]);
   };
 
+  // 엑셀 다운로드 버튼
+  const handleCommon = () => {
+    alert('2차 작업범위입니다.');
+  };
+
   return (
     <Body>
       {isDetail && (
@@ -77,6 +82,7 @@ const PartnerProductsList = () => {
         setIsDetail={setIsDetail}
         setDetailId={setDetailId}
         selected={selected}
+        handleCommon={handleCommon}
       />
     </Body>
   );

@@ -41,13 +41,18 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
 
   const onClickLibrary = () => {
     if (userAgent === 'Android_App') {
-      window.entizen!.openExternalBrowser('http://post.naver.com/entizen_ev');
+      window.entizen!.openExternalBrowser(
+        'https://post.naver.com/myProfile.naver?memberNo=58867144',
+      );
     } else if (userAgent === 'iOS_App') {
       window.webkit.messageHandlers.openExternalBrowser.postMessage(
-        'http://post.naver.com/entizen_ev',
+        'https://post.naver.com/myProfile.naver?memberNo=58867144',
       );
     } else {
-      window.open('http://post.naver.com/entizen_ev', 'entizen_post');
+      window.open(
+        'https://post.naver.com/myProfile.naver?memberNo=58867144',
+        'entizen_post',
+      );
     }
   };
   return (

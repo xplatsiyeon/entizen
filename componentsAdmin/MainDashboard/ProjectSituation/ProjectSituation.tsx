@@ -76,7 +76,9 @@ const ProjectSituation = (props: Props) => {
   // };
 
   // 엑셀 다운로드 버튼
-  const handleCommon = () => {};
+  const handleCommon = () => {
+    alert('2차 작업범위입니다.');
+  };
 
   useEffect(() => {
     console.log(projectState);

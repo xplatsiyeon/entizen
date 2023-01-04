@@ -46,7 +46,9 @@ const ProjectList = () => {
   };
 
   // 엑셀 다운로드
-  const handleCommon = () => {};
+  const handleCommon = () => {
+    alert('2차 작업범위입니다.');
+  };
 
   return (
     <Wrapper>

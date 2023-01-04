@@ -58,9 +58,9 @@ const OneOnOneQuestion = () => {
     }
   };
 
-  const handleCommon = () => {};
-
-  console.log('🌸 userCheck 🌸', userCheck);
+  const handleCommon = () => {
+    alert('2차 작업범위입니다.');
+  };
 
   return (
     <Wrapper>

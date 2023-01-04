@@ -21,7 +21,8 @@ const Alam = () => {
   const router = useRouter();
   const tabList: string[] = ['전체 알림', '공지사항'];
   const [tab, setTab] = useState<number>(0);
-  const [list, setList] = useState(arr.slice(0, 5));
+  // const [list, setList] = useState(arr.slice(0, 5));
+  const [list, setList] = useState(arr.slice(0, 1));
   const [isLoading, setIsLoading] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
@@ -49,22 +50,22 @@ const Alam = () => {
     [arr],
   );
   // 무한 스크롤
-  useEffect(() => {
-    if (loadRef.current && !isLoading && list.length !== arr.length) {
-      setIsScroll(true);
-      observerRef.current = new IntersectionObserver(onIntersect, {
-        threshold: 0.4,
-      });
-      if (isScroll) {
-        observerRef.current.observe(loadRef.current);
-      }
-    }
-    return () => {
-      setIsScroll(false);
-      observerRef.current && observerRef.current.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [list, arr, isScroll, isLoading, onIntersect]);
+  // useEffect(() => {
+  //   if (loadRef.current && !isLoading && list.length !== arr.length) {
+  //     setIsScroll(true);
+  //     observerRef.current = new IntersectionObserver(onIntersect, {
+  //       threshold: 0.4,
+  //     });
+  //     if (isScroll) {
+  //       observerRef.current.observe(loadRef.current);
+  //     }
+  //   }
+  //   return () => {
+  //     setIsScroll(false);
+  //     observerRef.current && observerRef.current.disconnect();
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [list, arr, isScroll, isLoading, onIntersect]);
 
   useEffect(() => {
     if (router.query.id) {
@@ -148,9 +149,12 @@ const Alam = () => {
             <Main>
               {list.map((_, index) => (
                 <ContensBox key={index} onClick={onClicklist}>
-                  <label className="label">[견적마감]</label>
+                  <label className="label">[entizen 서비스 오픈]</label>
                   <p className="contents">
-                    서비스 이용 약관 개정 안내드립니다.
+                    안녕하세요. entizen 입니다. 새로 오픈한 entizen
+                    잘부탁드립니다.
+                    <br />
+                    이용시 불편사항은 언제든 문의부탁드립니다. 감사합니다.
                   </p>
                   <div className="period">1주 전</div>
                   <div className="line"></div>
@@ -163,7 +167,8 @@ const Alam = () => {
               {list.map((_, index) => (
                 <ContensBox key={index} onClick={onClicklist}>
                   <p className="contents">
-                    서비스 이용 약관 개정 안내드립니다.
+                    서비스 이용 알림 드립니다. 개명 또는 기업명 변경 신청 시
+                    1:1문의 부탁드립니다.
                   </p>
                   <div className="period">1주 전</div>
                   <div className="line"></div>
