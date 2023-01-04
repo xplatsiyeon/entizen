@@ -22,9 +22,10 @@ const Carousel = () => {
     if (userAgent === 'Android_App') {
       window.entizen!.openExternalBrowser('https://www.naver.com');
     } else if (userAgent === 'iOS_App') {
-      window.webkit.messageHandlers.openExternalBrowser.postMessage(
-        'https://www.naver.com',
-      );
+      window.open('http://post.naver.com/entizen_ev', 'entizen_post');
+      // window.webkit.messageHandlers.openExternalBrowser.postMessage(
+      //   'https://www.naver.com',
+      // );
     }
   };
 
@@ -54,7 +55,7 @@ const Carousel = () => {
               </WithImage>
             </SliderContent>
           </SwiperSlide>
-          <SwiperSlide>
+          {/* <SwiperSlide>
             <SliderContent>
               <Top>블라블라</Top>
               <Center>
@@ -105,7 +106,7 @@ const Carousel = () => {
                 <Image src={MoneyPhoto} alt="money" />
               </WithImage>
             </SliderContent>
-          </SwiperSlide>
+          </SwiperSlide> */}
         </Swiper>
       </SliderWrapper>
     </>
