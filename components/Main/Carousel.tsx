@@ -24,17 +24,17 @@ const Carousel = () => {
     //   'popupChk',
     //   'width=500, height=550',
     // );
-    if (userAgent === 'Android_App') {
-      window.open('http://post.naver.com/entizen_ev', 'entizen_post');
-      // window.entizen!.openExternalBrowser('https://www.naver.com');
-    } else if (userAgent === 'iOS_App') {
-      window.open('http://post.naver.com/entizen_ev', 'entizen_post');
-      // window.webkit.messageHandlers.openExternalBrowser.postMessage(
-      //   'https://www.naver.com',
-      // );
-    } else {
-      window.open('http://post.naver.com/entizen_ev', 'entizen_post');
-    }
+    // if (userAgent === 'Android_App') {
+    //   window.open('http://post.naver.com/entizen_ev', 'entizen_post');
+    //   // window.entizen!.openExternalBrowser('https://www.naver.com');
+    // } else if (userAgent === 'iOS_App') {
+    //   window.open('http://post.naver.com/entizen_ev', 'entizen_post');
+    //   // window.webkit.messageHandlers.openExternalBrowser.postMessage(
+    //   //   'https://www.naver.com',
+    //   // );
+    // } else {
+    //   window.open('http://post.naver.com/entizen_ev', 'entizen_post');
+    // }
   };
 
   return (
