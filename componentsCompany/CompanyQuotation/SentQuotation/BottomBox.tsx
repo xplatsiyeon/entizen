@@ -11,6 +11,9 @@ import {
 } from './SentProvisionalQuoatation';
 import { convertKo, PriceBasicCalculation } from 'utils/calculatePackage';
 import { M5_LIST, M5_LIST_EN } from 'assets/selectList';
+import { fileDownload } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   pb?: number;
@@ -18,6 +21,7 @@ type Props = {
 };
 
 const BottomBox = ({ pb, data }: Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   // 부분 구독 판별
   const partSubscribe =
     data?.sendQuotationRequest?.quotationRequest?.subscribeProduct;
@@ -240,9 +244,11 @@ const BottomBox = ({ pb, data }: Props) => {
               {item.catalogFiles.map((file, index) => (
                 <FileDownloadBtn key={file.chargerProductFileIdx}>
                   <FileDownload
-                    // onClick={DownloadFile}
                     download={file.originalName}
-                    href={file.url}
+                    // href={file.url}
+                    onClick={() => {
+                      fileDownload(userAgent, file.originalName, file.url);
+                    }}
                   >
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                     <FileName>{file.originalName}</FileName>

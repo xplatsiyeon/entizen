@@ -41,7 +41,7 @@ import { ChattingListResponse } from './ChattingLists';
 import ReportModal from './ReportModal';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { requestPermissionCheck } from 'bridge/appToWeb';
+import { fileDownload, requestPermissionCheck } from 'bridge/appToWeb';
 
 type ChattingLogs = {
   createdAt: string;
@@ -639,8 +639,15 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                               <File>
                                 <FileDownload
                                   // onClick={DownloadFile}
-                                  href={item?.fileUrl!}
+                                  // href={item?.fileUrl!}
                                   download={item?.fileOriginalName!}
+                                  onClick={() => {
+                                    fileDownload(
+                                      userAgent,
+                                      item?.fileOriginalName!,
+                                      item?.fileUrl!,
+                                    );
+                                  }}
                                   type={'blob'}
                                 >
                                   <Image
@@ -656,9 +663,16 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                             {item.messageType === 'IMAGE' && (
                               <>
                                 <FileDownload
-                                  href={item?.fileUrl!}
+                                  // href={item?.fileUrl!}
                                   download={item?.fileOriginalName!}
                                   type={'blob'}
+                                  onClick={() => {
+                                    fileDownload(
+                                      userAgent,
+                                      item?.fileOriginalName!,
+                                      item?.fileUrl!,
+                                    );
+                                  }}
                                 >
                                   <img
                                     src={item?.fileUrl!}

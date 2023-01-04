@@ -235,9 +235,10 @@ const Day = styled.div<{ selectedDay?: boolean }>`
     color: #a6a9b0;
   }
   .item {
-    padding: 2pt;
-    width: 22px;
-    height: 22px;
+    width: 16.5pt;
+    height: 16.5pt;
+    margin-top: 2px;
+    padding-bottom: 2px;
     ${({ selectedDay }) =>
       selectedDay &&
       css`

@@ -15,6 +15,8 @@ import Charging from 'components/mypage/place/Charging';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import UserRightMenu from 'components/UserRightMenu';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 
 export interface UserInfo {
   isSuccess: boolean;
@@ -27,17 +29,12 @@ interface Components {
 }
 const TAG = 'page/mypage/index.tsx';
 const Request = () => {
-  const route = useRouter();
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const [tabNumber, setTabNumber] = useState<number>();
-
-  useEffect(() => {
-    if (route.query.id !== undefined) {
-      setTabNumber(Number(route.query.id));
-    } else if (!route.query.id && route.pathname === '/mypage') {
-      setTabNumber(0);
-    }
-  }, [route.query.id]);
 
   const TabType: string[] = ['내 견적서', '내 프로젝트', 'A/S', '내 충전소'];
   const components: Components = {
@@ -53,8 +50,16 @@ const Request = () => {
     isError: userError,
     isLoading: userLoading,
   } = useQuery<UserInfo>('user-info', () => isTokenGetApi('/members/info'), {
-    // enabled: false
+    enabled: accessToken ? true : false,
   });
+
+  useEffect(() => {
+    if (router.query.id !== undefined) {
+      setTabNumber(Number(router.query.id));
+    } else if (!router.query.id && router.pathname === '/mypage') {
+      setTabNumber(0);
+    }
+  }, [router.query.id]);
 
   if (userLoading) {
     return <Loader />;
@@ -63,86 +68,91 @@ const Request = () => {
     console.log('유저 정보 에러');
   }
 
-  return (
-    <WebBody>
-      {/* 피그마 마이페이지/A/S/4. 마이페이지 링크바 A/S 부분을 표시하기 위해서 num={2}를 넘긴다. (내 견적서는 0).
+  if (!accessToken && memberType !== 'USER') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+  } else {
+    return (
+      <WebBody>
+        {/* 피그마 마이페이지/A/S/4. 마이페이지 링크바 A/S 부분을 표시하기 위해서 num={2}를 넘긴다. (내 견적서는 0).
           const components: Components = {
           0: <WebEstimate/>,  
           2: <AsIndex />,
           }; num, page는 이 부분의 인덱스 넘버.ß
         */}
-      <WebHeader num={tabNumber} now={'mypage'} sub={'mypage'}/>
-      <UserRightMenu />
-      <Wrapper>
-        <FlexBox>
-          <Header>
-            <span>
-              <h1>{`${userData?.name}님,`}</h1>
-              <h2>안녕하세요!</h2>
-            </span>
-            <div className="img" onClick={() => route.push('/setting')}>
-              <Image src={Nut} alt="nut-icon" />
-            </div>
-          </Header>
-          <Body>
-            <span
-              className="profile-icon"
-              onClick={() => route.push('profile/editing')}
-            >
-              프로필 변경
-            </span>
-            <Line />
-            <TabContainer>
-              {typeof tabNumber === 'number' &&
-                TabType.map((tab, index) => {
-                  if (index === 0) {
-                    return (
-                      <TabItem
-                        key={index}
-                        tab={tabNumber.toString()}
-                        index={index.toString()}
-                        onClick={() => route.push('/mypage')}
-                      >
-                        <span>{tab}</span>
-                        <Dot
+        <WebHeader num={tabNumber} now={'mypage'} sub={'mypage'} />
+        <UserRightMenu />
+        <Wrapper>
+          <FlexBox>
+            <Header>
+              <span>
+                <h1>{`${userData?.name}님,`}</h1>
+                <h2>안녕하세요!</h2>
+              </span>
+              <div className="img" onClick={() => router.push('/setting')}>
+                <Image src={Nut} alt="nut-icon" />
+              </div>
+            </Header>
+            <Body>
+              <span
+                className="profile-icon"
+                onClick={() => router.push('profile/editing')}
+              >
+                프로필 변경
+              </span>
+              <Line />
+              <TabContainer>
+                {typeof tabNumber === 'number' &&
+                  TabType.map((tab, index) => {
+                    if (index === 0) {
+                      return (
+                        <TabItem
+                          key={index}
                           tab={tabNumber.toString()}
                           index={index.toString()}
-                        />
-                      </TabItem>
-                    );
-                  } else {
-                    return (
-                      <TabItem
-                        key={index}
-                        tab={tabNumber.toString()}
-                        index={index.toString()}
-                        onClick={() =>
-                          route.push({
-                            pathname: '/mypage',
-                            query: { id: index },
-                          })
-                        }
-                      >
-                        <span>{tab}</span>
-                        <Dot
+                          onClick={() => router.push('/mypage')}
+                        >
+                          <span>{tab}</span>
+                          <Dot
+                            tab={tabNumber.toString()}
+                            index={index.toString()}
+                          />
+                        </TabItem>
+                      );
+                    } else {
+                      return (
+                        <TabItem
+                          key={index}
                           tab={tabNumber.toString()}
                           index={index.toString()}
-                        />
-                      </TabItem>
-                    );
-                  }
-                })}
-            </TabContainer>
-          </Body>
-        </FlexBox>
-        <Wrap className="right-content">
-          {typeof tabNumber === 'number' && components[tabNumber]}
-        </Wrap>
-        <BottomNavigation />
-      </Wrapper>
-      <WebFooter />
-    </WebBody>
-  );
+                          onClick={() =>
+                            router.push({
+                              pathname: '/mypage',
+                              query: { id: index },
+                            })
+                          }
+                        >
+                          <span>{tab}</span>
+                          <Dot
+                            tab={tabNumber.toString()}
+                            index={index.toString()}
+                          />
+                        </TabItem>
+                      );
+                    }
+                  })}
+              </TabContainer>
+            </Body>
+          </FlexBox>
+          <Wrap className="right-content">
+            {typeof tabNumber === 'number' && components[tabNumber]}
+          </Wrap>
+          <BottomNavigation />
+        </Wrapper>
+        <WebFooter />
+      </WebBody>
+    );
+  }
 };
 
 export default Request;

@@ -17,6 +17,9 @@ import { convertKo } from 'utils/calculatePackage';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import { fileDownload } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 export interface ImgFile {
   createdAt: string;
@@ -53,6 +56,8 @@ const MyProduct = (props: Props) => {
   const queryclient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chargerProductIdx!;
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -218,8 +223,11 @@ const MyProduct = (props: Props) => {
                   (file, index) => (
                     <FileDownload
                       key={index}
-                      href={file.url}
+                      // href={file.url}
                       download={file.originalName}
+                      onClick={() => {
+                        fileDownload(userAgent, file.originalName, file.url);
+                      }}
                     >
                       <FileBtn>
                         <Image src={fileImg} alt="file-icon" />

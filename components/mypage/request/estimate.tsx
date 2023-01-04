@@ -48,11 +48,11 @@ export interface Response {
 }
 const TAG = 'componets/mypage/request/estimate.tsx';
 
-type Props ={
-  listUp? : boolean;
-}
+type Props = {
+  listUp?: boolean;
+};
 
-const Estimate = ({listUp}:Props) => {
+const Estimate = ({ listUp }: Props) => {
   const router = useRouter();
 
   // 내견적 목록 API
@@ -76,15 +76,15 @@ const Estimate = ({listUp}:Props) => {
   ) {
     return <NoHistory />;
   }
-  const handleRoute = (n:number)=>{
+  const handleRoute = (n: number) => {
     //alert(n)
     router.push({
       pathname: '/mypage/request',
       query: {
-        quotationRequestIdx: n
+        quotationRequestIdx: n,
       },
-    })
-  }
+    });
+  };
 
   return (
     <Wrapper>
@@ -97,9 +97,13 @@ const Estimate = ({listUp}:Props) => {
               {data?.inProgressQuotationRequests.length}
             </span>
           </Label>
-          <Carousel length={data?.inProgressQuotationRequests.length!} listUp={Boolean(listUp)}>
+          <Carousel
+            length={data?.inProgressQuotationRequests.length!}
+            listUp={Boolean(listUp)}
+          >
             {data?.inProgressQuotationRequests.map((data, index) => (
-              <CarouselItem listUp={Boolean(listUp)}
+              <CarouselItem
+                listUp={Boolean(listUp)}
                 key={index}
                 onClick={() => handleRoute(data.quotationRequestIdx)}
               >
@@ -124,10 +128,14 @@ const Estimate = ({listUp}:Props) => {
               {data?.historyQuotationRequests.length!}
             </span>
           </Label>
-          <Carousel length={data?.historyQuotationRequests?.length!} listUp={Boolean(listUp)}>
+          <Carousel
+            length={data?.historyQuotationRequests?.length!}
+            listUp={Boolean(listUp)}
+          >
             {data?.historyQuotationRequests?.map((data, index) => (
               // 히스토리 부분 수정 필요
-              <CarouselItem listUp={Boolean(listUp)}
+              <CarouselItem
+                listUp={Boolean(listUp)}
                 key={index}
                 onClick={() =>
                   router.push({
@@ -182,17 +190,18 @@ const Label = styled.label`
 `;
 const Proceeding = styled.section`
   padding-top: 21pt;
-  margin-bottom: 60pt;
+  margin-bottom: 0;
   @media (min-width: 900pt) {
     padding-right: 5pt;
     padding-top: 0;
+    margin-bottom: 60pt;
   }
 `;
-const History = styled.section<{listUp:boolean }>`
-display: ${({listUp})=> (listUp?'none':'block')};
+const History = styled.section<{ listUp: boolean }>`
+  display: ${({ listUp }) => (listUp ? 'none' : 'block')};
 `;
 
-const Carousel = styled.div<{ length: number, listUp:boolean }>`
+const Carousel = styled.div<{ length: number; listUp: boolean }>`
   display: grid;
   overflow-x: scroll;
   grid-template-columns: ${({ length }) => `repeat(${length}, 1fr)`};
@@ -200,17 +209,17 @@ const Carousel = styled.div<{ length: number, listUp:boolean }>`
   padding: 6pt 15pt 30pt 15pt;
 
   @media (min-width: 900pt) {
-    display: ${({listUp})=> (listUp?'flex':'grid')};
-    flex-direction: ${({listUp})=> (listUp?'column':'unset')};
+    display: ${({ listUp }) => (listUp ? 'flex' : 'grid')};
+    flex-direction: ${({ listUp }) => (listUp ? 'column' : 'unset')};
     grid-template-columns: 1fr 1fr 1fr;
-    gap: ${({listUp})=> (listUp?'9pt':'22.5pt')};
+    gap: ${({ listUp }) => (listUp ? '9pt' : '22.5pt')};
     padding: 6pt 4pt 30pt;
-    width: ${({listUp})=> (listUp?'100%':'580.5pt')};
+    width: ${({ listUp }) => (listUp ? '100%' : '580.5pt')};
     padding-right: 5pt;
     padding-top: 21pt;
   }
 `;
-const CarouselItem = styled.div<{listUp:boolean }>`
+const CarouselItem = styled.div<{ listUp: boolean }>`
   width: 105pt;
   height: 135pt;
   padding-left: 9pt;
@@ -238,15 +247,15 @@ const CarouselItem = styled.div<{listUp:boolean }>`
     line-height: 12pt;
     letter-spacing: -0.02em;
     color: ${colors.lightGray3};
-    display: ${({listUp})=> (listUp?'none':'block')};;
+    display: ${({ listUp }) => (listUp ? 'none' : 'block')};
   }
 
   @media (min-width: 899.25pt) {
     width: 163.5pt;
-    height: ${({listUp})=> (listUp?'auto':'99pt')};
+    height: ${({ listUp }) => (listUp ? 'auto' : '99pt')};
     padding-left: 15pt;
     padding-top: 15pt;
-    padding-bottom: ${({listUp})=> (listUp?'12pt':'0')};;
+    padding-bottom: ${({ listUp }) => (listUp ? '12pt' : '0')};
   }
 `;
 const Badge = styled.span<{ color: string }>`

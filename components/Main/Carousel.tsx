@@ -7,39 +7,15 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import MoneyPhoto from 'public/images/MainMoney.png';
-
 // import required modules
 import { Pagination, Navigation } from 'swiper';
 import Image from 'next/image';
 import colors from 'styles/colors';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 
 const Carousel = () => {
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  // bridge 테스트
-  const bridgeTestOnClick = () => {
-    // window.open(
-    //   'http://post.naver.com/entizen_ev',
-    //   'popupChk',
-    //   'width=500, height=550',
-    // );
-    // if (userAgent === 'Android_App') {
-    //   window.open('http://post.naver.com/entizen_ev', 'entizen_post');
-    //   // window.entizen!.openExternalBrowser('https://www.naver.com');
-    // } else if (userAgent === 'iOS_App') {
-    //   window.open('http://post.naver.com/entizen_ev', 'entizen_post');
-    //   // window.webkit.messageHandlers.openExternalBrowser.postMessage(
-    //   //   'https://www.naver.com',
-    //   // );
-    // } else {
-    //   window.open('http://post.naver.com/entizen_ev', 'entizen_post');
-    // }
-  };
-
   return (
     <>
-      <SliderWrapper onClick={bridgeTestOnClick}>
+      <SliderWrapper>
         <Swiper
           spaceBetween={0}
           pagination={{
@@ -48,7 +24,6 @@ const Carousel = () => {
           navigation={true}
           modules={[Pagination, Navigation]}
           loop={false}
-          //className="mySwiper"
         >
           <SwiperSlide>
             <SliderContent>
@@ -63,58 +38,6 @@ const Carousel = () => {
               </WithImage>
             </SliderContent>
           </SwiperSlide>
-          {/* <SwiperSlide>
-            <SliderContent>
-              <Top>블라블라</Top>
-              <Center>
-                엔티즌 회원
-                <br />
-                전기차 충전 시 50 % 할인
-              </Center>
-              <WithImage>
-                <Image src={MoneyPhoto} alt="money" />
-              </WithImage>
-            </SliderContent>
-          </SwiperSlide>
-          <SwiperSlide>
-            <SliderContent>
-              <Top>블라블라</Top>
-              <Center>
-                엔티즌 회원
-                <br />
-                전기차 충전 시 50 % 할인
-              </Center>
-              <WithImage>
-                <Image src={MoneyPhoto} alt="money" />
-              </WithImage>
-            </SliderContent>
-          </SwiperSlide>
-          <SwiperSlide>
-            <SliderContent>
-              <Top>블라블라</Top>
-              <Center>
-                엔티즌 회원
-                <br />
-                전기차 충전 시 50 % 할인
-              </Center>
-              <WithImage>
-                <Image src={MoneyPhoto} alt="money" />
-              </WithImage>
-            </SliderContent>
-          </SwiperSlide>
-          <SwiperSlide>
-            <SliderContent>
-              <Top>블라블라</Top>
-              <Center>
-                엔티즌 회원
-                <br />
-                전기차 충전 시 50 % 할인
-              </Center>
-              <WithImage>
-                <Image src={MoneyPhoto} alt="money" />
-              </WithImage>
-            </SliderContent>
-          </SwiperSlide> */}
         </Swiper>
       </SliderWrapper>
     </>

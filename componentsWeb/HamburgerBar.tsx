@@ -31,7 +31,7 @@ import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import HamburgerChat from 'public/images/HamburgerChat.svg';
 import useProfile from 'hooks/useProfile';
 import BellNormal from 'public/images/BellNormal.svg';
-import { bridgeTestOnClick } from 'bridge/appToWeb';
+import { openExternalBrowser } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
@@ -336,7 +336,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
             }}
           />
           <WhiteAreaBottomMenus>
-            {/* 인스타 그램 막기 */}
+            {/* 인스타 그램 임시로 막기 */}
             {/* <span
               onClick={() =>
                 window.open(
@@ -352,7 +352,10 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
               //   window.open('http://post.naver.com/entizen_ev', 'entizen_post')
               // }
               onClick={() =>
-                bridgeTestOnClick(userAgent, 'http://post.naver.com/entizen_ev')
+                openExternalBrowser(
+                  userAgent,
+                  'http://post.naver.com/entizen_ev',
+                )
               }
             >
               <Image src={grayNaver} alt="네이버"></Image>

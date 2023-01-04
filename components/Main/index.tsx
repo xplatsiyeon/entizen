@@ -79,49 +79,6 @@ const MainPage = (props: Props) => {
       setState({ ...state, [anchor]: open });
     };
 
-  // ---------------- img bridge test ---------------------------
-
-  const imgRef = useRef<any>(null);
-  const fileRef = useRef<any>(null);
-  // 사진 온클릭
-  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (userAgent === '') {
-      imgRef?.current?.click();
-    } else {
-      requestPermissionCheck(userAgent, 'photo');
-    }
-  };
-
-  //파일 온클릭
-  const handleFileClick = () => {
-    if (userAgent === '') {
-      fileRef?.current?.click();
-    } else {
-      requestPermissionCheck(userAgent, 'file');
-    }
-  };
-
-  // 앱에서 이미지 or 파일 온클릭 (앱->웹)
-  useEffect(() => {
-    if (userAgent === 'Android_App') {
-      window.openGallery = () => {
-        imgRef?.current?.click();
-      };
-      window.openFileUpload = () => {
-        fileRef?.current?.click();
-      };
-    } else if (userAgent === 'iOS_App') {
-      window.openGallery = () => {
-        imgRef?.current?.click();
-      };
-      window.openFileUpload = () => {
-        fileRef?.current?.click();
-      };
-    }
-  }, []);
-
-  // --------------------- img bridge test -------------------------
   // 초기화
   useEffect(() => {
     sessionStorage.removeItem('key');

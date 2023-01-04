@@ -29,6 +29,9 @@ import {
 import ManagerInfo from './ManagerInfo';
 import { log } from 'console';
 import { PreQuotations } from 'pages/mypage/request';
+import { RootState } from 'store/store';
+import { useSelector } from 'react-redux';
+import { fileDownload } from 'bridge/appToWeb';
 
 interface Props {
   pb?: number;
@@ -39,6 +42,7 @@ interface Props {
 
 const TAG = 'components/mypage/request/FinalQuotation.tsx';
 const FinalQuotation = ({ pb, data, isSpot }: Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   console.log(TAG + '🔥 ~line 35 ~ 받아온 data값 확인 ');
   console.log(data);
   // console.log('구매자 자율', data?.preQuotation);
@@ -325,9 +329,11 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
             {item.catalogFiles.map((file, index) => (
               <FileDownloadBtn key={file.finalQuotationChargerFileIdx}>
                 <FileDownload
-                  // onClick={DownloadFile}
                   download={file.originalName}
-                  href={file.url}
+                  // href={file.url}
+                  onClick={() => {
+                    fileDownload(userAgent, file.originalName, file.url);
+                  }}
                 >
                   <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                   <FileName>{file.originalName}</FileName>
@@ -341,7 +347,10 @@ const FinalQuotation = ({ pb, data, isSpot }: Props) => {
             <FileDownload
               // onClick={DownloadFile}
               download={item.originalName}
-              href={item.url}
+              // href={item.url}
+              onClick={() => {
+                fileDownload(userAgent, item.originalName, item.url);
+              }}
             >
               <Image src={fileImg} alt="file-icon" layout="intrinsic" />
               {item.originalName}

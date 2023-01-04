@@ -19,6 +19,9 @@ import {
   subscribeType,
   subscribeTypeEn,
 } from 'assets/selectList';
+import { fileDownload } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   pb?: number;
@@ -27,6 +30,7 @@ type Props = {
 const TAG =
   'componentsCompany/CompanyQuotation/SentQuotation/FinalBottomBox.tsx';
 const FinalBottomBox = ({ pb, data }: Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const finalQuotation =
     data?.sendQuotationRequest?.preQuotation?.finalQuotation!;
 
@@ -288,7 +292,10 @@ const FinalBottomBox = ({ pb, data }: Props) => {
                   <FileDownload
                     // onClick={DownloadFile}
                     download={file.originalName}
-                    href={file.url}
+                    // href={file.url}
+                    onClick={() => {
+                      fileDownload(userAgent, file.originalName, file.url);
+                    }}
                   >
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                     <FileName>{file.originalName}</FileName>
@@ -304,7 +311,10 @@ const FinalBottomBox = ({ pb, data }: Props) => {
             <FileDownload
               // onClick={DownloadFile}
               download={item.originalName}
-              href={item.url}
+              // href={item.url}
+              onClick={() => {
+                fileDownload(userAgent, item.originalName, item.url);
+              }}
             >
               <Image src={fileImg} alt="file-icon" layout="intrinsic" />
               {item.originalName}

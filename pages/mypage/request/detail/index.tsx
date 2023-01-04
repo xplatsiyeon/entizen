@@ -1,14 +1,13 @@
 import MypageHeader from 'components/mypage/request/header';
 import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import TwoButton from 'components/mypage/request/TwoButton';
 import RequestModal from 'components/Modal/RequestModal';
 import BiddingQuote from 'components/mypage/request/BiddingQuote';
 import styled from '@emotion/styled';
-
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
-import { Query, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import { AxiosError } from 'axios';
@@ -18,10 +17,6 @@ import {
   QuotationRequest,
   SpotDataResponse,
 } from 'componentsCompany/CompanyQuotation/SentQuotation/SentProvisionalQuoatation';
-import ScheduleConfirm from 'components/mypage/request/ScheduleConfirm';
-import ScheduleChange from 'components/mypage/request/ScheduleChange';
-import Checking from 'components/mypage/request/Checking';
-import ManagerInfo from 'components/SignUp/ManagerInfo';
 export interface PreQuotationChargers {
   createdAt: string;
   preQuotationChargerIdx: number;
@@ -121,7 +116,6 @@ const TAG = 'page/mypage/request/detail/[id].tsx';
 const MypageDetail = () => {
   const [isModal, setModal] = useState(false);
   const router = useRouter();
-  // const routerId = router?.query?.id;
   const routerId = router?.query?.preQuotationIdx;
   const handleOnClick = () => router.back();
 

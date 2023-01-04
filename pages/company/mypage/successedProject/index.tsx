@@ -25,6 +25,7 @@ const successedProject = (props: Props) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const routerId = router?.query?.projectIdx;
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [componentId, setComponentId] = useState<number>();
   const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
@@ -81,7 +82,7 @@ const successedProject = (props: Props) => {
   }, [router.query.projectIdx]);
 
   // url정보기 기억하고 로그인 페이지로 리다이렉트
-  if (!accessToken) {
+  if (!accessToken && memberType !== 'COMPANY') {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');
   } else {

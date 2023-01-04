@@ -12,7 +12,9 @@ import useDebounce from 'hooks/useDebounce';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 import { RootState } from 'store/store';
 import Header from '../../../componentsCompany/CompanyQuotation/Header';
 import SentRequest from '../../../componentsCompany/CompanyQuotation/SentRequest';
@@ -53,6 +55,10 @@ export const filterTypeEn = ['deadline', 'status', 'date'];
 const TAG = 'company/quotation/index.tsx';
 const CompanyQuotations = ({ num, now }: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+
   const [tabNumber, setTabNumber] = useState(0);
   const [searchWord, setSearchWord] = useState<string>('');
   // 현재 페이지 url이 /quotation boolean 판단
@@ -149,34 +155,39 @@ const CompanyQuotations = ({ num, now }: Props) => {
   console.log('🔥 api 데이터 확인 ~line  68 ' + TAG);
   console.log(data);
 
-  return (
-    <WebBody>
-      {/* 웹일때 보이는 헤더 */}
-      <WebBox>
-        <WebBuyerHeader
-          setTabNumber={setTabNumber}
-          tabNumber={tabNumber}
-          num={num}
-          now={now}
-          openSubLink={openSubLink}
-          setOpenSubLink={setOpenSubLink}
-        />
-        <Container>
-          {/* 모바일탭  */}
-          {nowWidth < 1200 && (
-            <>
-              <Header />
-              <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
-            </>
-          )}
-          <CompanyRightMenu />
-          <Mobile>{components[tabNumber]}</Mobile>
-          <BottomNavigation />
-        </Container>
-      </WebBox>
-      <WebFooter />
-    </WebBody>
-  );
+  if (!accessToken && memberType !== 'COMPANY') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+  } else {
+    return (
+      <WebBody>
+        {/* 웹일때 보이는 헤더 */}
+        <WebBox>
+          <WebBuyerHeader
+            setTabNumber={setTabNumber}
+            tabNumber={tabNumber}
+            num={num}
+            now={now}
+            openSubLink={openSubLink}
+            setOpenSubLink={setOpenSubLink}
+          />
+          <Container>
+            {/* 모바일탭  */}
+            {nowWidth < 1200 && (
+              <>
+                <Header />
+                <Tab tabNumber={tabNumber} setTabNumber={setTabNumber} />
+              </>
+            )}
+            <CompanyRightMenu />
+            <Mobile>{components[tabNumber]}</Mobile>
+            <BottomNavigation />
+          </Container>
+        </WebBox>
+        <WebFooter />
+      </WebBody>
+    );
+  }
 };
 
 const WebBody = styled.div`

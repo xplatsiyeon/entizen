@@ -15,6 +15,9 @@ import ManagerInfo from './ManagerInfo';
 import { SolarPower } from '@mui/icons-material';
 import TwoButton from './TwoButton';
 import { reverse } from 'dns';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { fileDownload } from 'bridge/appToWeb';
 
 interface Props {
   pb?: number;
@@ -25,6 +28,7 @@ interface Props {
 
 const TAG = 'components/mypage/request/BiddingQuote.tsx';
 const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [chargeIdx, setChargeIdx] = useState<number>(0);
   const [webIdx, setWebIdx] = useState<number>(0);
   const [rightUrl, setRightUrl] = useState<string>();
@@ -46,6 +50,8 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
   const preQuotationChargers = data?.preQuotation?.preQuotationChargers!;
   const reverseNewArr: PreQuotationChargers[] = [];
   preQuotationChargers?.forEach((el, idx) => reverseNewArr.unshift(el));
+
+  const handleFileDownload = () => {};
 
   return (
     <Wrapper>
@@ -450,7 +456,13 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
             <React.Fragment key={index}>
               {item.catalogFiles.map((file, index) => (
                 <FileDownloadBtn key={index}>
-                  <FileDownload download={file.originalName} href={file.url}>
+                  <FileDownload
+                    download={file.originalName}
+                    // href={file.url}
+                    onClick={() => {
+                      fileDownload(userAgent, file.originalName, file.url);
+                    }}
+                  >
                     <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                     <FileName> {file.originalName}</FileName>
                   </FileDownload>
