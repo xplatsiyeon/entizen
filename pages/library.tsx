@@ -7,15 +7,19 @@ import arrowImg from 'public/images/blueArrow.png';
 import { useRouter } from 'next/router';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { bridgeTestOnClick } from 'bridge/appToWeb';
 
 const Library = () => {
   const route = useRouter();
-  const HandleOnClick = () => {
-    window.open(
-      'https://post.naver.com/myProfile.naver?memberNo=58867144',
-      'entizen_post',
-    );
-  };
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  // const HandleOnClick = () => {
+  //   window.open(
+  //     'https://post.naver.com/myProfile.naver?memberNo=58867144',
+  //     'entizen_post',
+  //   );
+  // };
 
   return (
     <WebBody>
@@ -45,23 +49,22 @@ const Library = () => {
             </NewIcon>
             </List>
           ))} */}
-          <List onClick={HandleOnClick}>
+          {/* <List onClick={HandleOnClick}> */}
+          <List
+            onClick={() => {
+              bridgeTestOnClick(
+                userAgent,
+                'https://post.naver.com/myProfile.naver?memberNo=58867144',
+              );
+            }}
+          >
             <div className="badge-img">
-              <ImgDiv src="/images/entizenLibrarySample.png" />
+              <ImgDiv src="/images/entizenLibrarySample.png" layout="fill" />
             </div>
             <div className="text-box">
               <div>엔티즌 도서관 둘러보기</div>
               <div className="color-box">
-                <div
-                  className="color-text"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() =>
-                    window.open(
-                      'https://post.naver.com/myProfile.naver?memberNo=58867144',
-                      'entizen_post',
-                    )
-                  }
-                >
+                <div className="color-text" style={{ cursor: 'pointer' }}>
                   자세히 보기
                 </div>
 
@@ -150,8 +153,9 @@ const List = styled.li`
   align-items: center;
   margin-bottom: 22.5pt;
   .badge-img {
-    width: 75pt;
-    height: 75pt;
+    position: relative;
+    width: 50%;
+    height: 50%;
     margin-left: 22.5pt;
     border-radius: 50%;
     background: ${colors.lightWhite};
@@ -217,7 +221,7 @@ const NewIcon = styled.div`
   position: absolute;
 `;
 
-const ImgDiv = styled.img`
+const ImgDiv = styled(Image)`
   width: 75pt;
   height: 75pt;
   border: 1px solid #e2e5ed;

@@ -12,10 +12,10 @@ export const requestPermissionCheck = (
 
 export const bridgeTestOnClick = (userAgent: string, url: string) => {
   if (userAgent === 'Android_App') {
-    window.entizen!.openExternalBrowser('https://www.naver.com');
+    window.entizen!.openExternalBrowser(url);
   } else if (userAgent === 'iOS_App') {
-    window.webkit.messageHandlers.openExternalBrowser.postMessage(
-      'https://www.naver.com',
-    );
+    window.webkit.messageHandlers.openExternalBrowser.postMessage(url);
+  } else {
+    window.open(url);
   }
 };
