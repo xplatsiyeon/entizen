@@ -11,6 +11,7 @@ import colors from 'styles/colors';
 import Btn from './button';
 import axios from 'axios';
 import Modal from 'components/Modal/Modal';
+import { NAME, PHONE } from 'assets/selectList';
 
 type Props = {
   level: number;
@@ -51,6 +52,13 @@ const TermContent = ({
   const [modalMessage, setModalMessage] = useState<string>('');
 
   // ========================== 본인인증 창 띄우기
+  // 브릿지용 테스트 클릭
+  const testClick = () => {
+    setName(NAME[Math.floor(Math.random() * NAME.length)]);
+    setPhoneNumber(PHONE[Math.floor(Math.random() * PHONE.length)]);
+    setLevel(level + 1);
+  };
+
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -248,11 +256,8 @@ const TermContent = ({
               name={'form_chk'}
               marginTop={42.5}
               isClick={nextBtn}
-              handleClick={fnPopup}
-              /* handleClick={()=>{
-                setLevel(2);
-              if(setUserType)setUserType(1)}
-            }*/
+              handleClick={testClick}
+              // handleClick={fnPopup}
             />
           </form>
           <Buttons className="firstNextPage" onClick={handleForceClick}>
