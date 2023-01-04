@@ -20,7 +20,8 @@ const Carousel = () => {
   // bridge 테스트
   const bridgeTestOnClick = () => {
     if (userAgent === 'Android_App') {
-      window.entizen!.openExternalBrowser('https://www.naver.com');
+      window.open('http://post.naver.com/entizen_ev', 'entizen_post');
+      // window.entizen!.openExternalBrowser('https://www.naver.com');
     } else if (userAgent === 'iOS_App') {
       window.open('http://post.naver.com/entizen_ev', 'entizen_post');
       // window.webkit.messageHandlers.openExternalBrowser.postMessage(
