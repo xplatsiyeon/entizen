@@ -59,7 +59,7 @@ const EntizenLibraryTable = ({
   
   */
 
-  // 🎀 도서관 리스트 조회
+  //  도서관 리스트 조회
   // /admin/libraries?page=1&limit=10&startDate=2022-12-01&endDate=2022-12-31&searchKeyword=
 
   const { data: entizenLibrary, refetch: entizenLibraryRefetch } =
@@ -156,6 +156,8 @@ const EntizenLibraryTable = ({
         onError: () => alert('다시 시도해주세요'),
       },
     );
+
+  console.log('pickedDate', pickedDate);
 
   useEffect(() => {
     switch (tableType) {

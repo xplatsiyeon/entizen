@@ -40,23 +40,43 @@ const Qutation = ({ showSubMenu }: Props) => {
         />
         <Menu showSubMenu={showSubMenu}>
           <select className="selectBox" onChange={onChangeSelect}>
-            <option value="가견적서">가견적서</option>
-            {quotationRequestIdx?.finalQuotationIdx !== undefined && (
+            {/* <option value="가견적서">가견적서</option> */}
+            {quotationRequestIdx?.finalQuotationIdx !== undefined ? (
               <option value="최종견적서">최종견적서</option>
+            ) : (
+              <option value="가견적서">가견적서</option>
             )}
           </select>
           <TwoBtn>
-            <Btn>수정</Btn>
-            <Btn>삭제</Btn>
+            <Btn
+              onClick={() => {
+                alert('2차 작업범위입니다.');
+              }}
+            >
+              수정
+            </Btn>
+            <Btn
+              onClick={() => {
+                alert('2차 작업범위입니다.');
+              }}
+            >
+              삭제
+            </Btn>
           </TwoBtn>
         </Menu>
         {/* 가견적 */}
-
-        {optionValue === '가견적서' && (
+        {/* {optionValue === '가견적서' && (
           <Prequotion preQuotationIdx={quotationRequestIdx?.preQuotationIdx} />
-        )}
+        )} */}
         {/* 최종견적 */}
-        {optionValue === '최종견적서' && (
+        {/* {optionValue === '최종견적서' && (
+          <FinalQuotaion
+            finalQuotationIdx={quotationRequestIdx?.finalQuotationIdx}
+          />
+        )} */}
+        {quotationRequestIdx?.finalQuotationIdx !== undefined ? (
+          <Prequotion preQuotationIdx={quotationRequestIdx?.preQuotationIdx} />
+        ) : (
           <FinalQuotaion
             finalQuotationIdx={quotationRequestIdx?.finalQuotationIdx}
           />
@@ -72,7 +92,6 @@ const Background = styled.div`
   width: 100%;
   min-height: 100vh;
   height: 100%;
-
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
   position: absolute;

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import Table from 'componentsAdmin/table';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import AdminTermsEditor from './AdminTermsEditor';
+import AdminNotifyTable from '../AdminNotifyTable';
 
 const AdminTermsList = () => {
   const [isDetail, setIsDetail] = useState(false);
@@ -23,7 +23,7 @@ const AdminTermsList = () => {
         <AdminHeader title="정보 수정" type="main" />
         <SubText>약관</SubText>
       </TitleWrapper>
-      <Table
+      <AdminNotifyTable
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'termsList'}

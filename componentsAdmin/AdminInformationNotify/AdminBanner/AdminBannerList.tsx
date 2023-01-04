@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { isTokenPatchApi } from 'api';
+import { isTokenPatchApi, isTokenGetApi } from 'api';
 import {
   QueryObserverResult,
   useMutation,
@@ -11,8 +11,9 @@ import {
   useQueryClient,
 } from 'react-query';
 import AdminBannerEditor from './AdminBannerEditor';
-import Table from 'componentsAdmin/table';
 import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
+import AdminNotifyTable from '../AdminNotifyTable';
+import { AdminBannerDetailResponse } from 'types/tableDataType';
 
 const AdminBannerLIst = () => {
   const queryClient = useQueryClient();
@@ -26,13 +27,17 @@ const AdminBannerLIst = () => {
     id: 0,
   });
 
+  const { data, isLoading, isError, refetch, remove } =
+    useQuery<AdminBannerDetailResponse>('bannerDetail', () =>
+      isTokenGetApi(`/admin/banners/${detatilId}`),
+    );
+
   // 등록
   const handleCommon = () => {
     setIsDetail(true);
   };
 
   // 토글 버튼 백엔드에 보내는 함수(User)
-
   const { mutate: patchUserMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('bannerList');
@@ -44,10 +49,24 @@ const AdminBannerLIst = () => {
   });
 
   useEffect(() => {
-    patchUserMutate({
-      url: `/admin/banners/${toggle.id}/exposure`,
-    });
+    if (toggle?.id) {
+      patchUserMutate({
+        url: `/admin/banners/${toggle.id}/exposure`,
+      });
+    }
   }, [toggle]);
+
+  useEffect(() => {
+    if (isDetail === false) {
+      console.log(isDetail);
+      setDetailId('');
+      remove();
+    }
+  }, [isDetail]);
+
+  useEffect(() => {
+    refetch();
+  }, [toggle?.id, data]);
 
   return (
     <Wrapper>
@@ -77,7 +96,7 @@ const AdminBannerLIst = () => {
       </UserList>
       <UnderLine />
       {userNum === 0 && (
-        <Table
+        <AdminNotifyTable
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
           tableType={'bannerList'}
@@ -89,7 +108,7 @@ const AdminBannerLIst = () => {
         />
       )}
       {userNum === 1 && (
-        <Table
+        <AdminNotifyTable
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
           tableType={'bannerList'}

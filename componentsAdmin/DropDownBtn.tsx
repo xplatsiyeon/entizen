@@ -38,8 +38,9 @@ const DropDownBtn = ({
       border={border}
       background={background}
       onClick={() => {
-        setDropDown(!dropDown);
-        handleSelectBox;
+        // setDropDown(!dropDown);
+        // handleSelectBox;
+        alert('2차 작업범위입니다.');
       }}
     >
       {dropDown && (
@@ -51,7 +52,7 @@ const DropDownBtn = ({
                 if (setSelectValue) {
                   setSelectValue(item);
                 }
-                setDropDown(false);
+                // setDropDown(false);
               }}
             >
               {item}
@@ -62,7 +63,7 @@ const DropDownBtn = ({
 
       <MainText
         onClick={() => {
-          setDropDown(!dropDown);
+          // setDropDown(!dropDown);
         }}
       >
         {selectValue === '' ? currentStep : selectValue}
@@ -75,7 +76,7 @@ const DropDownBtn = ({
           alt="dropDown"
           style={{ cursor: 'pointer' }}
           onClick={() => {
-            setDropDown(!dropDown);
+            // setDropDown(!dropDown);
           }}
         />
       ) : (
@@ -85,7 +86,7 @@ const DropDownBtn = ({
           alt="dropDownUp"
           style={{ cursor: 'pointer' }}
           onClick={() => {
-            setDropDown(!dropDown);
+            // setDropDown(!dropDown);
           }}
         />
       )}
