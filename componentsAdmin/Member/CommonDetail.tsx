@@ -291,7 +291,7 @@ export default CommonDetail;
 
 const Background = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 120vh;
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
   position: absolute;
@@ -328,6 +328,7 @@ const TextAreaContainer = styled.div`
   flex-direction: column;
   width: 936px;
   margin-top: 40px;
+
   label {
     margin-bottom: 8px;
     font-weight: 500;

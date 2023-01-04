@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import Table from 'componentsAdmin/table';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import { isTokenPatchApi } from 'api';
@@ -12,6 +11,7 @@ import {
   useQueryClient,
 } from 'react-query';
 import AdminGuideEditor from './AdminGuideEditor';
+import AdminNotifyTable from '../AdminNotifyTable';
 
 const AdminGuideList = () => {
   const [isDetail, setIsDetail] = useState(false);
@@ -52,7 +52,7 @@ const AdminGuideList = () => {
         <AdminHeader title="정보 수정" type="main" />
         <SubText>가이드</SubText>
       </TitleWrapper>
-      <Table
+      <AdminNotifyTable
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={''}

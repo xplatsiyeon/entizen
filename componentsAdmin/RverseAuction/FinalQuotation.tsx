@@ -187,7 +187,6 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
             <Item>
               <label className="label">담당자 이름</label>
               <span>
-                {' '}
                 {data?.data?.finalQuotation?.preQuotation?.member?.name}
               </span>
             </Item>
@@ -277,9 +276,11 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
             <Item>
               <label className="label">공사기간</label>
               <input
+                type="text"
                 className="input"
                 value={constructionPeriod}
-                onChange={onChangePeriod}
+                // onChange={onChangePeriod}
+                readOnly
               />
             </Item>
 

@@ -168,6 +168,7 @@ const Contents = styled.ul`
   color: #000000;
   list-style: none;
   padding-left: 0px;
+
   li {
     display: flex;
     gap: 34px;

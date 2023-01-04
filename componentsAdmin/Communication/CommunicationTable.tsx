@@ -114,9 +114,7 @@ const CommunicationTable = ({
                         onClick={() => {
                           setDetailId(cell);
                           setIsDetail(true);
-                          // if (setAfterSalesServiceIdx) {
-                          //   setAfterSalesServiceIdx(Number(cell));
-                          // }
+                          alert('2차 작업범위입니다.');
                         }}
                       >
                         엑셀 다운로드
@@ -127,9 +125,7 @@ const CommunicationTable = ({
                         onClick={() => {
                           setDetailId(cell);
                           setIsDetail(true);
-                          // if (setAfterSalesServiceIdx) {
-                          //   setAfterSalesServiceIdx(Number(cell));
-                          // }
+                          alert('2차 작업범위입니다.');
                         }}
                       >
                         삭제
@@ -189,10 +185,8 @@ const CommunicationTable = ({
                       style={{ marginLeft: '10px' }}
                       onClick={() => {
                         setDetailId(cell);
-                        setIsDetail(true);
-                        // if (setAfterSalesServiceIdx) {
-                        //   setAfterSalesServiceIdx(Number(cell));
-                        // }
+                        // setIsDetail(true);
+                        alert('2차 작업범위입니다.');
                       }}
                     >
                       보기

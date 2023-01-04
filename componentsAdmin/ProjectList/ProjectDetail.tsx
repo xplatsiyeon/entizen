@@ -237,11 +237,8 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
             <List>
               <Label>리뷰현황</Label>
               <Contents>
-                {/* 추가 작업 필요합니다. */}
                 {data?.data?.project?.projectReview === null ? (
-                  <ReviewBtn>
-                    <BtnText>리뷰가 없습니다</BtnText>
-                  </ReviewBtn>
+                  <ReviewBtn>리뷰가 없습니다</ReviewBtn>
                 ) : (
                   <ReviewBtn
                     cursor={true}
@@ -249,7 +246,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
                       setReviewModal(true);
                     }}
                   >
-                    <BtnText>리뷰현황 보기</BtnText>
+                    리뷰현황 보기
                   </ReviewBtn>
                 )}
               </Contents>
@@ -267,7 +264,13 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
             </List>
             <List>
               <Label>단계별 일정</Label>
-              <ButtnBox>단계별일정수정</ButtnBox>
+              <ButtnBox
+                onClick={() => {
+                  alert('2차 작업범위입니다.');
+                }}
+              >
+                단계별일정수정
+              </ButtnBox>
             </List>
             <List>
               <Label>프로젝트 제목</Label>
@@ -355,7 +358,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
 
             <List>
               <Label>기타 요청사항</Label>
-              <TextBox maxLength={500} value={'없음'}>
+              <TextBox maxLength={500} value={'없음'} readOnly>
                 {
                   data?.data?.project?.finalQuotation?.preQuotation
                     ?.quotationRequest?.etcRequest
@@ -364,7 +367,13 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
             </List>
             <List>
               <Label>계약서 정보</Label>
-              <ButtnBox>계약서 보기</ButtnBox>
+              <ButtnBox
+                onClick={() => {
+                  alert('2차 작업범위입니다.');
+                }}
+              >
+                계약서 보기
+              </ButtnBox>
             </List>
             <List>
               <Label>첨부파일</Label>
@@ -528,12 +537,15 @@ const FileContainer = styled.div`
 `;
 
 const ReviewBtn = styled.div<{ cursor?: boolean }>`
-  width: 120px;
-  background-color: #e2e5ed;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  text-align: center;
+  color: #747780;
+  padding: 4px 5px;
+  background: #e2e5ed;
   border: 1px solid #747780;
-  display: flex;
-  justify-content: center;
-  border-radius: 4px;
+  border-radius: 2px;
   cursor: ${({ cursor }) => cursor === true && 'pointer'};
 `;
 

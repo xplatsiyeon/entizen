@@ -82,8 +82,20 @@ const UserPreQuotation = ({ detatilId }: Props) => {
       <TitleBox>
         <QuotationTitle>일반회원 간편견적서</QuotationTitle>
         <TwoBtn>
-          <Btn>수정</Btn>
-          <Btn>삭제</Btn>
+          <Btn
+            onClick={() => {
+              alert('2차 작업범위입니다.');
+            }}
+          >
+            수정
+          </Btn>
+          <Btn
+            onClick={() => {
+              alert('2차 작업범위입니다.');
+            }}
+          >
+            삭제
+          </Btn>
         </TwoBtn>
       </TitleBox>
       <DetailBox>
@@ -111,6 +123,7 @@ const UserPreQuotation = ({ detatilId }: Props) => {
             size={'sm'}
             onChange={handleDateChange}
             placeholder={expiredAt}
+            readOnly
           />
         </FlexList>
         <FlexList>

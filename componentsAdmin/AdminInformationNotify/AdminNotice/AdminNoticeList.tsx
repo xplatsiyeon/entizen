@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import Table from 'componentsAdmin/table';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import AdminNoticeEditor from './AdminNoticeEditor';
@@ -12,6 +11,7 @@ import {
   useQuery,
   useQueryClient,
 } from 'react-query';
+import AdminNotifyTable from '../AdminNotifyTable';
 
 export type NewCell = {
   isVisible: boolean;
@@ -39,9 +39,11 @@ const AdminNoticeList = () => {
   });
 
   useEffect(() => {
-    patchMutate({
-      url: `/admin/notices/${toggle?.id}/exposure`,
-    });
+    if (toggle?.id) {
+      patchMutate({
+        url: `/admin/notices/${toggle?.id}/exposure`,
+      });
+    }
   }, [toggle]);
 
   // 등록
@@ -59,7 +61,7 @@ const AdminNoticeList = () => {
         <AdminHeader title="정보 수정" type="main" />
         <SubText>공지사항</SubText>
       </TitleWrapper>
-      <Table
+      <AdminNotifyTable
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'adminNoticeList'}

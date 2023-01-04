@@ -13,9 +13,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 interface Validated {
-  message: string;
-  errorCode: number;
   isSuccess: boolean;
+  data: { isDuplicated: boolean };
 }
 
 type Props = {
@@ -377,13 +376,13 @@ const AddAdminAccount = ({ setIsDetail, detatilId }: Props) => {
           <NoticeText>아이디는 4글자 이상 입력해주세요</NoticeText>
         )}
 
-        {idCheck?.isSuccess === false && initIdAlert && !idLength && (
+        {idCheck?.data?.isDuplicated === false && initIdAlert && !idLength && (
           <NoticeText>사용가능한 아이디입니다.</NoticeText>
         )}
-        {idCheck?.isSuccess === true && initIdAlert && !idLength && (
+        {idCheck?.data?.isDuplicated === true && initIdAlert && !idLength && (
           <NoticeText>이미 사용중인 아이디입니다.</NoticeText>
         )}
-        {idCheck?.isSuccess === false && initIdAlert && idLength && (
+        {idCheck?.data?.isDuplicated === false && initIdAlert && idLength && (
           <NoticeText>4글자 이상 입력해주세요</NoticeText>
         )}
         <li className="row">
@@ -543,16 +542,17 @@ const AddAdminAccount = ({ setIsDetail, detatilId }: Props) => {
               </ButtonText>
             </OverlapBtn>
           </InputAdornment>
-          {validEmail?.isSuccess === false && (
+          {validEmail?.data?.isDuplicated === true && (
             <Image src={Warning} alt="warning" />
           )}
         </li>
-        {validEmail?.isSuccess === true && initEmailAlert === true && (
+        {validEmail?.data?.isDuplicated === true && initEmailAlert === true && (
           <NoticeText>중복된 이메일입니다.</NoticeText>
         )}
-        {validEmail?.isSuccess === false && isEmailChangeColor === true && (
-          <NoticeText>사용가능한 이메일입니다.</NoticeText>
-        )}
+        {validEmail?.data?.isDuplicated === false &&
+          isEmailChangeColor === true && (
+            <NoticeText>사용가능한 이메일입니다.</NoticeText>
+          )}
       </Manager>
       <BtnBox>
         <Btn onClick={handleCompanyClick}>관리자 아이디 생성하기</Btn>

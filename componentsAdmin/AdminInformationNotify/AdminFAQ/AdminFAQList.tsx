@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import Table from 'componentsAdmin/table';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import AdminFAQEditor from './AdminFAQEditor';
-import { isTokenPatchApi } from 'api';
+import { isTokenGetApi, isTokenPatchApi } from 'api';
 import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
 import {
   QueryObserverResult,
@@ -13,6 +12,8 @@ import {
   useQuery,
   useQueryClient,
 } from 'react-query';
+import AdminNotifyTable from '../AdminNotifyTable';
+import { AdminBannerDetailResponse } from 'types/tableDataType';
 
 export const ServiceKr: string[] = ['서비스 이용', '회원정보', '신고'];
 export const ServiceEn: string[] = ['MEMBER', 'SERVICE', 'REPORT'];
@@ -41,14 +42,17 @@ const AdminFAQList = () => {
   });
 
   useEffect(() => {
-    patchMutate({
-      url: `/admin/faqs/${toggle?.id}/exposure`,
-    });
+    if (toggle?.id) {
+      patchMutate({
+        url: `/admin/faqs/${toggle?.id}/exposure`,
+      });
+    }
   }, [toggle]);
 
   // 등록
   const handleCommon = () => {
     setIsDetail(true);
+    setDetailId('');
   };
   return (
     <Wrapper>
@@ -79,7 +83,7 @@ const AdminFAQList = () => {
       <UnderLine />
       {/* 일반회원 리스트 */}
       {userNum === 0 && (
-        <Table
+        <AdminNotifyTable
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
           tableType={'adminFaqList'}
@@ -92,7 +96,7 @@ const AdminFAQList = () => {
       )}
       {/* 기업회원 리스트 */}
       {userNum === 1 && (
-        <Table
+        <AdminNotifyTable
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
           tableType={'adminFaqList'}
