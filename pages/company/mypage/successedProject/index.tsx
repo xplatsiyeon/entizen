@@ -15,12 +15,15 @@ import {
 } from 'QueryComponents/CompanyQuery';
 import { useQuery } from '@apollo/client';
 import CommunicationBox from 'components/CommunicationBox';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 
 type Props = {};
 
 const TAG = 'pages/company/mypage/successedProject.index.tsx';
 const successedProject = (props: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const routerId = router?.query?.projectIdx;
   const [tabNumber, setTabNumber] = useState<number>(1);
   const [componentId, setComponentId] = useState<number>();
@@ -77,8 +80,9 @@ const successedProject = (props: Props) => {
     }
   }, [router.query.projectIdx]);
 
+  // url정보기 기억하고 로그인 페이지로 리다이렉트
   if (!accessToken) {
-    console.log('what?!!!!!!!!!!!!');
+    dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');
   } else {
     return (

@@ -1,19 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface LoginType {
-  selectedType: 'USER' | 'COMPANY';
+  url: string;
 }
 
 const initialState: LoginType = {
-  selectedType: 'USER',
+  url: '',
 };
 
 const slice = createSlice({
   name: 'selectedType',
   initialState,
   reducers: {
-    select(state, action) {
-      console.log(state.selectedType);
+    addUrl(state, action: PayloadAction<string>) {
+      state.url = action.payload;
     },
     reset(state, action) {
       Object.assign(state, initialState);
@@ -21,5 +21,5 @@ const slice = createSlice({
   },
 });
 
-export const redirectSliceAction = slice.actions;
+export const redirectAction = slice.actions;
 export const redirectSlice = slice;

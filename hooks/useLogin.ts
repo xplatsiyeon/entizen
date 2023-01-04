@@ -20,6 +20,7 @@ function useLogin(
   const dispatch = useDispatch();
   const router = useRouter();
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const { url } = useSelector((state: RootState) => state.redirectSlice);
   const {
     mutate: loginMutate,
     isLoading: loginLoading,
@@ -57,7 +58,9 @@ function useLogin(
         );
       }
 
-      if (signUp && memberType === 'USER') {
+      if (url.length > 0) {
+        router.push(url);
+      } else if (signUp && memberType === 'USER') {
         await router.push('/signUp/Complete');
       } else if (signUp && memberType === 'USER') {
         await router.push('/signUp/CompleteCompany');
