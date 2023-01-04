@@ -31,6 +31,9 @@ import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import HamburgerChat from 'public/images/HamburgerChat.svg';
 import useProfile from 'hooks/useProfile';
 import BellNormal from 'public/images/BellNormal.svg';
+import { bridgeTestOnClick } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   anchor: string;
@@ -52,6 +55,7 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
   const router = useRouter();
   const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   const dispatch = useDispatch();
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [tabNumber, setTabNumber] = useState<number>(-1);
   const [componentId, setComponentId] = useState<number>();
   // 서브 카테고리 열렸는지 아닌지
@@ -332,7 +336,8 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
             }}
           />
           <WhiteAreaBottomMenus>
-            <span
+            {/* 인스타 그램 막기 */}
+            {/* <span
               onClick={() =>
                 window.open(
                   'https://instagram.com/entizen.ev/',
@@ -341,10 +346,13 @@ const HamburgerBar = ({ anchor, toggleDrawer, setState, state }: Props) => {
               }
             >
               <Image src={grayInsta} alt="인스타"></Image>
-            </span>
+            </span> */}
             <span
+              // onClick={() =>
+              //   window.open('http://post.naver.com/entizen_ev', 'entizen_post')
+              // }
               onClick={() =>
-                window.open('http://post.naver.com/entizen_ev', 'entizen_post')
+                bridgeTestOnClick(userAgent, 'http://post.naver.com/entizen_ev')
               }
             >
               <Image src={grayNaver} alt="네이버"></Image>

@@ -185,8 +185,8 @@ const MainPage = (props: Props) => {
             ))}
           </IconWrapper>
         </HeadWrapper>
-        {/* <Header /> */}
-        <Test>
+        {/* 브릿지 테스트용 코드 */}
+        {/* <Test>
           <input
             style={{ display: 'none' }}
             ref={imgRef}
@@ -204,7 +204,7 @@ const MainPage = (props: Props) => {
             multiple
           />
           <button onClick={handleFileClick}>파일 업로드</button>
-        </Test>
+        </Test> */}
         <Carousel />
         <SalesProjection />
         <MyEstimateProject

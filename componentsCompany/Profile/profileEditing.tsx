@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Header from 'components/mypage/request/header';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import AvatarIcon from 'public/images/avatar.png';
 import AvatarPhoto from 'public/images/avatar-photo.png';
 import colors from 'styles/colors';
@@ -14,6 +14,9 @@ import useProfile from 'hooks/useProfile';
 import { UploadFileResponse } from 'components/Profile/ProfileModify';
 import { JwtTokenType } from 'pages/signin';
 import jwt_decode from 'jwt-decode';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { requestPermissionCheck } from 'bridge/appToWeb';
 
 type Props = {
   setComponent: React.Dispatch<React.SetStateAction<number>>;
@@ -30,6 +33,8 @@ const ProfileEditing = ({
   isAddressOn,
   setHeightOn,
 }: Props) => {
+  const imgRef = useRef<HTMLInputElement>(null);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [checkSns, setCheckSns] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState(false);
   const [data, setData] = useState<string>('');
@@ -108,6 +113,15 @@ const ProfileEditing = ({
       }
     },
   });
+  // 사진 온클릭
+  const imgHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (userAgent === '') {
+      imgRef?.current?.click();
+    } else {
+      requestPermissionCheck(userAgent, 'photo');
+    }
+  };
   // 프로필 이미지 변경
   const onImgInputBtnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -210,7 +224,7 @@ const ProfileEditing = ({
         <Avatar>
           <div className="img-bg">
             {/* 아바타 */}
-            <div className="avatar-bg">
+            <button className="avatar-bg" onClick={imgHandler}>
               <Image
                 src={
                   profile?.companyMemberAdditionalInfo?.companyLogoImageUrl
@@ -224,14 +238,17 @@ const ProfileEditing = ({
                 unoptimized={true}
                 objectFit="cover"
               />
-            </div>
+            </button>
             {/* 포토 이미지 */}
             <label className="avatar-photo">
               <input
+                ref={imgRef}
                 className="file-input"
                 type={'file'}
                 accept="image/*"
                 onChange={onImgInputBtnClick}
+                capture={userAgent === 'Android_App' && true}
+                style={{ display: 'none' }}
               />
               <Image src={AvatarPhoto} alt="avatar-photo" />
             </label>
