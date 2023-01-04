@@ -28,7 +28,7 @@ export const fileDownload = (
   if (userAgent === 'Android_App') {
     window.entizen!.fileDownload(fileName, url);
   } else if (userAgent === 'iOS_App') {
-    window.webkit.messageHandlers.fileDownload.postMessage(fileName, url);
+    window.webkit.messageHandlers.fileDownload.postMessage([fileName, url]);
   } else {
     // window.open(url);
   }

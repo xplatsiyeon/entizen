@@ -206,14 +206,14 @@ const MainPage = (props: Props) => {
           />
           <button onClick={handleFileClick}>파일 업로드</button> */}
           <FileDownload
-            download={'FileDownload'}
-            href={
-              'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chargerProduct/1669886978_cf946488-6122-4d45-8a7e-6e8e1e66f4f0.png'
-            }
+            // download={'FileDownload'}
+            // href={
+            //   'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chargerProduct/1669886978_cf946488-6122-4d45-8a7e-6e8e1e66f4f0.png'
+            // }
             onClick={() => {
               fileDownload(
                 userAgent,
-                'FileDownload',
+                '1669886978_cf946488-6122-4d45-8a7e-6e8e1e66f4f0.png',
                 'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chargerProduct/1669886978_cf946488-6122-4d45-8a7e-6e8e1e66f4f0.png',
               );
             }}
