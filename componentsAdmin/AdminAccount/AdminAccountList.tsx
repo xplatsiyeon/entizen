@@ -9,7 +9,9 @@ const AdminAccountList = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   // 엑셀 다운로드 버튼
-  const handleCommon = () => {};
+  const handleCommon = () => {
+    alert('2차 작업범위입니다.');
+  };
   return (
     <Wrapper>
       {/* {isDetail && <AddAdminAccount />} */}

@@ -11,7 +11,10 @@ import WebFooter from 'componentsWeb/WebFooter';
 const Library = () => {
   const route = useRouter();
   const HandleOnClick = () => {
-    window.open('http://post.naver.com/entizen_ev', 'entizen_post');
+    window.open(
+      'https://post.naver.com/myProfile.naver?memberNo=58867144',
+      'entizen_post',
+    );
   };
 
   return (
@@ -54,7 +57,7 @@ const Library = () => {
                   style={{ cursor: 'pointer' }}
                   onClick={() =>
                     window.open(
-                      'http://post.naver.com/entizen_ev',
+                      'https://post.naver.com/myProfile.naver?memberNo=58867144',
                       'entizen_post',
                     )
                   }

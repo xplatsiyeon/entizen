@@ -76,6 +76,7 @@ const AdminFAQList = () => {
           </>
         ))}
       </UserList>
+      <UnderLine />
       {/* 일반회원 리스트 */}
       {userNum === 0 && (
         <Table
@@ -145,7 +146,7 @@ const UserText = styled.div<{ userNum: number; idx: number }>`
 `;
 
 const UnderLine = styled.div`
-  width: 946px;
+  width: 100%;
   height: 4px;
   background-color: #e2e5ed;
 `;

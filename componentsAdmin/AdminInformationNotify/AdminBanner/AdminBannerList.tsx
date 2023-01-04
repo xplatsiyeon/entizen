@@ -143,7 +143,7 @@ const UserText = styled.div<{ userNum: number; idx: number }>`
 `;
 
 const UnderLine = styled.div`
-  width: 946px;
+  width: 100%;
   height: 4px;
   background-color: #e2e5ed;
 `;

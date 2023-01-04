@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import BackImg from 'public/images/back-btn.svg';
 import colors from 'styles/colors';
-const Alam1_2 = () => {
+const Alam1_3 = () => {
   const router = useRouter();
   return (
     <Wrapper>
@@ -25,24 +25,24 @@ const Alam1_2 = () => {
             alt="btn"
           />
         </div>
-        <span className="text">전체 알림</span>
+        <span className="text">공지 사항</span>
       </Header>
-      <Title>entizen 서비스 오픈</Title>
+      <Title>서비스 이용 알림 드립니다.</Title>
       <Date>2022.12.28</Date>
       <Line></Line>
       <BodyContainer>
         {/* <h3 className="name">1. 충전기 종류</h3> */}
         <p className="contents">
-          안녕하세요 . entizen 입니다. 새로 오픈한 entizen 잘부탁드립니다.
+          서비스 이용 알림 드립니다.
           <br />
-          이용시 불편사항은 언제든 문의부탁드립니다. 감사합니다.
+          개명 또는 기업명 변경 신청 시 1:1문의 부탁드립니다.
         </p>
       </BodyContainer>
     </Wrapper>
   );
 };
 
-export default Alam1_2;
+export default Alam1_3;
 const Wrapper = styled.div`
   padding-bottom: 20pt;
 `;
