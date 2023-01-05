@@ -25,6 +25,7 @@ import { JwtTokenType } from 'pages/signin';
 import jwt_decode from 'jwt-decode';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { openExternalBrowser } from 'bridge/appToWeb';
 
 type Props = {
   dateArr: boolean[];
@@ -160,13 +161,7 @@ const ProgressBody = ({
     // }
 
     // 브릿지
-    if (userAgent === 'Android_App') {
-      window.entizen!.openExternalBrowser(contractDocumentData?.embeddedUrl);
-    } else if (userAgent === 'iOS_App') {
-      window.webkit.messageHandlers.openExternalBrowser.postMessage(
-        contractDocumentData?.embeddedUrl,
-      );
-    }
+    openExternalBrowser(userAgent, contractDocumentData?.embeddedUrl!);
   };
 
   let textArr;

@@ -8,6 +8,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import CallManager from 'components/Modal/CallManager';
 import { AsDetailReseponse } from 'pages/mypage/as';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
+import { fileDownload } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 interface Props {
   pb?: number;
@@ -15,6 +18,7 @@ interface Props {
 }
 const TAG = 'components/mypage/as/AsRequestPartner.tsx';
 const AsRequestPartner = ({ pb, data }: Props) => {
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [modalOpen, setModalOpen] = useState<boolean>();
   const HandleModal = () => {
     setModalOpen(false);
@@ -117,7 +121,13 @@ const AsRequestPartner = ({ pb, data }: Props) => {
               {data?.data?.afterSalesService?.afterSalesService?.afterSalesServiceRequestFiles?.map(
                 (file, index) => (
                   <FileDownloadBtn key={index}>
-                    <FileDownload download={file.originalName} href={file.url}>
+                    <FileDownload
+                      download={file.originalName}
+                      // href={file.url}
+                      onClick={() => {
+                        fileDownload(userAgent, file.originalName, file.url);
+                      }}
+                    >
                       <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                       <FileName>{file.originalName}</FileName>
                     </FileDownload>
@@ -193,7 +203,14 @@ const AsRequestPartner = ({ pb, data }: Props) => {
                       <FileDownloadBtn key={index}>
                         <FileDownload
                           download={file.originalName}
-                          href={file.url}
+                          // href={file.url}
+                          onClick={() => {
+                            fileDownload(
+                              userAgent,
+                              file.originalName,
+                              file.url,
+                            );
+                          }}
                         >
                           <Image
                             src={fileImg}

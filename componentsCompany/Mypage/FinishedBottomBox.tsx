@@ -8,6 +8,9 @@ import { Button } from '@mui/material';
 import { HistoryProjectsDetail } from 'QueryComponents/CompanyQuery';
 import { hyphenFn } from 'utils/calculatePackage';
 import AsCompGetReview from 'componentsCompany/AS/component/AsCompGetReview';
+import { fileDownload } from 'bridge/appToWeb';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {
   data: HistoryProjectsDetail;
@@ -15,6 +18,7 @@ type Props = {
 
 const FinishedBottomBox = ({ data }: Props) => {
   const callPhone = hyphenFn(data?.userMember?.phone.toString());
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   return (
     <>
       <Wrapper>
@@ -42,7 +46,13 @@ const FinishedBottomBox = ({ data }: Props) => {
             .concat(data?.finalQuotation?.finalQuotationDetailFiles as any)
             .map((file, fileIdx) => (
               <FileDownloadBtn key={fileIdx}>
-                <FileDownload download={file.originalName} href={file.url}>
+                <FileDownload
+                  download={file.originalName}
+                  // href={file.url}
+                  onClick={() => {
+                    fileDownload(userAgent, file.originalName, file.url);
+                  }}
+                >
                   <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                   <FileName>{file.originalName}</FileName>
                 </FileDownload>

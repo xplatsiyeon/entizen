@@ -25,7 +25,7 @@ import { AxiosError } from 'axios';
 import CommunicationBox from 'components/CommunicationBox';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { requestPermissionCheck } from 'bridge/appToWeb';
+import { fileDownload, requestPermissionCheck } from 'bridge/appToWeb';
 
 type Props = {
   data: AsDetailReseponse;
@@ -297,7 +297,13 @@ const AsCompText = ({ data }: Props) => {
               {data?.data?.afterSalesService?.afterSalesService?.afterSalesServiceRequestFiles?.map(
                 (file, index) => (
                   <FileDownloadBtn key={index}>
-                    <FileDownload download={file.originalName} href={file.url}>
+                    <FileDownload
+                      download={file.originalName}
+                      // href={file.url}
+                      onClick={() => {
+                        fileDownload(userAgent, file.originalName, file.url);
+                      }}
+                    >
                       <Image src={fileImg} alt="file-icon" layout="intrinsic" />
                       <FileName>{file.originalName}</FileName>
                     </FileDownload>
@@ -470,7 +476,14 @@ const AsCompText = ({ data }: Props) => {
                       <FileDownloadBtn key={index}>
                         <FileDownload
                           download={file.originalName}
-                          href={file.url}
+                          // href={file.url}
+                          onClick={() => {
+                            fileDownload(
+                              userAgent,
+                              file.originalName,
+                              file.url,
+                            );
+                          }}
                         >
                           <Image
                             src={fileImg}

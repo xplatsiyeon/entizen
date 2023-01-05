@@ -9,7 +9,7 @@ import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { bridgeTestOnClick } from 'bridge/appToWeb';
+import { openExternalBrowser } from 'bridge/appToWeb';
 
 const Library = () => {
   const route = useRouter();
@@ -52,7 +52,7 @@ const Library = () => {
           {/* <List onClick={HandleOnClick}> */}
           <List
             onClick={() => {
-              bridgeTestOnClick(
+              openExternalBrowser(
                 userAgent,
                 'https://post.naver.com/myProfile.naver?memberNo=58867144',
               );
