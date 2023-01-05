@@ -58,15 +58,10 @@ const AdminBannerLIst = () => {
 
   useEffect(() => {
     if (isDetail === false) {
-      console.log(isDetail);
       setDetailId('');
       remove();
     }
   }, [isDetail]);
-
-  useEffect(() => {
-    refetch();
-  }, [toggle?.id, data]);
 
   return (
     <Wrapper>

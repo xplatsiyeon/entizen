@@ -33,6 +33,14 @@ const index = (props: Props) => {
 
   const [isDetail, setIsDetail] = useState(false);
 
+  const localNumber = localStorage.getItem('number');
+
+  useEffect(() => {
+    if (localNumber) {
+      setNumber(Number(localNumber));
+    }
+  }, []);
+
   return (
     <Background>
       <Workspace setNumber={setNumber} />

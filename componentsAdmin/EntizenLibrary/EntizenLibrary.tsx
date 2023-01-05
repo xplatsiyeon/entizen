@@ -1,12 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker, Modal } from 'rsuite';
-import ModalLibrary from './ModalLibrary';
 import EntizenLibraryTable from './EntizenLibraryTable';
+import { isTokenPatchApi, isTokenGetApi } from 'api';
+import { useQuery, useQueryClient } from 'react-query';
+import ModalLibrary, { LibraryResponse } from './ModalLibrary';
 
 type Props = {};
 
@@ -14,6 +16,9 @@ const EntizenLibrary = () => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+
+  // 오늘 날짜.
+  const today = new Date();
 
   //검색창에 입력되는 값
   const [inputValue, setInputValue] = useState<string>('');
@@ -23,7 +28,10 @@ const EntizenLibrary = () => {
   // id 값 넘겨 오셈
   const [afterSalesServiceIdx, setAfterSalesServiceIdx] = useState<number>(0);
 
-  console.log('afterSalesServiceIdx', afterSalesServiceIdx);
+  const { data, isLoading, isError, refetch, remove } =
+    useQuery<LibraryResponse>('entizenLibraryDetail', () =>
+      isTokenGetApi(`/admin/libraries/${detatilId}`),
+    );
 
   const dateRef = useRef<HTMLLIElement>(null);
 
@@ -60,6 +68,12 @@ const EntizenLibrary = () => {
   const handleCommon = () => {
     setIsDetail(true);
   };
+
+  useEffect(() => {
+    if (isDetail === false) {
+      remove();
+    }
+  }, [isDetail]);
 
   return (
     <Wrapper>

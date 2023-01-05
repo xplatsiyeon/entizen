@@ -393,25 +393,25 @@ const AdminNotifyTable = ({
     // 의존성 배열에 api.get()dml data넣기.
   }, [userType, termsList, adminFaqList, bannerList, adminNoticeList]);
 
-  useEffect(() => {
-    switch (tableType) {
-      case 'termsList':
-        termsListRefetch();
-        break;
+  // useEffect(() => {
+  //   switch (tableType) {
+  //     case 'termsList':
+  //       termsListRefetch();
+  //       break;
 
-      case 'adminNoticeList':
-        adminNoticeListRefetch();
-        break;
+  //     case 'adminNoticeList':
+  //       adminNoticeListRefetch();
+  //       break;
 
-      case 'bannerList':
-        bannerListRefetch();
-        break;
+  //     case 'bannerList':
+  //       bannerListRefetch();
+  //       break;
 
-      case 'adminFaqList':
-        adminFaqListRefetch();
-        break;
-    }
-  }, [page, pickedDate, userSearch, userType, userCheck, commuCheck]);
+  //     case 'adminFaqList':
+  //       adminFaqListRefetch();
+  //       break;
+  //   }
+  // }, [page, pickedDate, userSearch, userType, userCheck, commuCheck]);
 
   return (
     <StyledBody className="user-table">

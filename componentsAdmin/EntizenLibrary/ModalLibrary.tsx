@@ -29,7 +29,7 @@ type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-interface LibraryResponse {
+export interface LibraryResponse {
   isSuccess: true;
   data: {
     library: {
@@ -49,18 +49,22 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
   const [message, setMessage] = useState('');
   const [checkAll, setCheckAll] = useState<boolean>(false);
 
-  const { data, isLoading, isError, refetch } = useQuery<LibraryResponse>(
-    'entizenLibraryDetail',
-    () => isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
-  );
+  const { data, isLoading, isError, refetch, remove } =
+    useQuery<LibraryResponse>('entizenLibraryDetail', () =>
+      isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
+    );
+
+  const [title, setTitle] = useState<string | undefined>('');
+  const [link, setLink] = useState<string | undefined>('');
+  const [imgUrl, setImgUrl] = useState<string | undefined>('');
 
   const firstTitle = data?.data?.library?.title;
   const firstLink = data?.data?.library?.link;
   const firstImgUrl = data?.data?.library?.imageUrl;
 
-  const [title, setTitle] = useState<string | undefined>(firstTitle);
-  const [link, setLink] = useState<string | undefined>(firstLink);
-  const [imgUrl, setImgUrl] = useState<string | undefined>(firstImgUrl);
+  // const [title, setTitle] = useState<string | undefined>(firstTitle);
+  // const [link, setLink] = useState<string | undefined>(firstLink);
+  // const [imgUrl, setImgUrl] = useState<string | undefined>(firstImgUrl);
   const [imgName, setImgName] = useState<string | undefined>('');
 
   // file s3 multer 저장 API (with useMutation)
@@ -306,8 +310,9 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
             multiple
           />
         </FlexWrap>
+
         <Preview>
-          {data !== undefined ? (
+          {/* {data !== undefined ? (
             <img
               src={imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
               style={{ objectFit: 'cover', width: '82px', height: '82px' }}
@@ -317,7 +322,11 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
               src={imgUrl !== undefined ? imgUrl : normal}
               style={{ objectFit: 'cover', width: '82px', height: '82px' }}
             />
-          )}
+          )} */}
+          <img
+            src={imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
+            style={{ objectFit: 'cover', width: '82px', height: '82px' }}
+          />
           <Xbox onClick={handlePhotoDelete}>
             <Image
               src={CloseImg}
@@ -328,6 +337,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
             />
           </Xbox>
         </Preview>
+
         <FlexHorizontal>
           <SubTitle>제목</SubTitle>
           <Input
