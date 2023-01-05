@@ -80,6 +80,7 @@ const ASDetail = ({ setNowHeight }: Props) => {
         <ASDetailView
           setIsDetail={setIsDetail}
           afterSalesServiceIdx={afterSalesServiceIdx}
+          setNowHeight={setNowHeight}
         />
       )}
       <AdminHeader title="A/S" type="main" />

@@ -131,8 +131,12 @@ const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
   // 인풋 값 변화, 중복확인 색 변경
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+
     const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
     if (e.target.name === 'id') {
+      console.log('🥶 value 🥶', value);
+      console.log('isChangeColor', isChangeColor);
+
       setInitIdAlert(false);
       setIdInput(value);
       idRegExp.test(value) ? setIsChangeColor(true) : setIsChangeColor(false);
@@ -211,13 +215,11 @@ const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
   // 아이디 중복확인 버튼 비활성화
   useEffect(() => {
     if (idInput.length <= 3) {
-      setIsChangeColor(false);
       setIdLength(true);
     } else {
       setIdLength(false);
-      setIsChangeColor(true);
     }
-  }, [initIdAlert, idInput]);
+  }, [idInput]);
 
   // 이메일 중복확인 버튼 비활성화
   useEffect(() => {
@@ -236,8 +238,6 @@ const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
   useEffect(() => {
     reg_email.test(email) ? setIsEmailValid(true) : setIsEmailValid(false);
   }, [email]);
-
-  console.log('🥶', window.document.documentElement.scrollHeight);
 
   useEffect(() => {
     if (setNowHeight) {
@@ -355,25 +355,39 @@ const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
             onChange={handleIdChange}
             value={idInput}
             name="id"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
-                    <ButtonText
-                      className="checkOverlap"
-                      onClick={() => {
-                        if (isChangeColor === true) {
-                          overlabCheck();
-                        }
-                      }}
-                    >
-                      중복확인
-                    </ButtonText>
-                  </OverlapBtn>
-                </InputAdornment>
-              ),
-            }}
+            // InputProps={{
+            //   endAdornment: (
+            //     <InputAdornment position="end">
+            //       <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
+            //         <ButtonText
+            //           className="checkOverlap"
+            //           onClick={() => {
+            //             if (isChangeColor === true) {
+            //               overlabCheck();
+            //             }
+            //           }}
+            //         >
+            //           중복확인
+            //         </ButtonText>
+            //       </OverlapBtn>
+            //     </InputAdornment>
+            //   ),
+            // }}
           />
+          <InputAdornment position="end">
+            <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
+              <ButtonText
+                className="checkOverlap"
+                onClick={() => {
+                  if (isChangeColor === true) {
+                    overlabCheck();
+                  }
+                }}
+              >
+                중복확인
+              </ButtonText>
+            </OverlapBtn>
+          </InputAdornment>
           {/* <Image src={Warning} alt="warning" /> */}
         </li>
 
