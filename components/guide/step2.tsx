@@ -311,7 +311,8 @@ const SelectBox = styled(Select)`
   }
 `;
 const SelectSmall = styled(Select)`
-  width: 100%;
+  /* width: 100%; */
+  flex: 1;
   border: 1px solid #e2e5ed;
   border-radius: 8px;
   margin-top: 9pt;
@@ -324,6 +325,7 @@ const SelectSmall = styled(Select)`
     padding-left: 12pt;
     padding-top: 13.5pt;
     padding-bottom: 13.5pt;
+    padding-right: 0 !important;
   }
   & svg {
     padding-right: 12pt;
