@@ -310,6 +310,9 @@ const Mypage1_3 = ({}: any) => {
   //   return <Loader />;
   // }
 
+  console.log('🔥 data 확인 ~line 315');
+  console.log(data?.badge);
+
   if (isError || spotIsError) {
     return (
       <Modal
@@ -364,10 +367,12 @@ const Mypage1_3 = ({}: any) => {
               <Wrap2>
                 <MypageHeader
                   title="내 견적서"
-                  // cancel="견적 취소"
+                  cancel={data?.badge !== '견적취소' ? '견적 취소' : undefined}
                   back={true}
                   handle={true}
-                  // handleOnClick={handleOnClick}
+                  handleOnClick={
+                    data?.badge !== '견적취소' ? handleOnClick : undefined
+                  }
                   handleBackClick={handleBackOnClick}
                 />
                 {/*--------------------- 상단 박스 ---------------------------------*/}
