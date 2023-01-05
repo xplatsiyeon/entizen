@@ -111,7 +111,8 @@ const questionInPerson = () => {
               <Image src={RightArrow} alt="right-arrow" />
             </div>
           </SettingBox>
-          <SettingBox>
+          {/* 앱 심사로 인해 일시적으로 주석 처리 */}
+          {/* <SettingBox>
             <SettingList
               onClick={() => {
                 setCallBtnModal(true);
@@ -122,7 +123,7 @@ const questionInPerson = () => {
             <div>
               <Image src={RightArrow} alt="right-arrow" />
             </div>
-          </SettingBox>
+          </SettingBox> */}
           <MailCopyBtn mailOn={mailOn}>
             이메일 주소가 복사 되었습니다.
           </MailCopyBtn>

@@ -120,7 +120,8 @@ const QuestionInPerson = ({ tabNumber, setTabNumber }: Props) => {
               <Image src={RightArrow} alt="right-arrow" />
             </div>
           </SettingBox>
-          <CallBox href="tel:9818-8856">
+          {/* 앱 심사로 인해 일시적으로 주석 처리 */}
+          {/* <CallBox href="tel:9818-8856">
             <SettingList
             // onClick={() => {
             //   setCallBtnModal(true);
@@ -132,7 +133,7 @@ const QuestionInPerson = ({ tabNumber, setTabNumber }: Props) => {
             <div>
               <Image src={RightArrow} alt="right-arrow" />
             </div>
-          </CallBox>
+          </CallBox> */}
           <MailCopyBtn mailOn={mailOn}>
             이메일 주소가 복사 되었습니다.
           </MailCopyBtn>
