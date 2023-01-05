@@ -23,6 +23,8 @@ import AdminBannerLIst from 'componentsAdmin/AdminInformationNotify/AdminBanner/
 import AdminGuideList from 'componentsAdmin/AdminInformationNotify/AdminGuide/AdminGuideList';
 import AdminFAQList from 'componentsAdmin/AdminInformationNotify/AdminFAQ/AdminFAQList';
 import AddAdminAccount from 'componentsAdmin/AdminAccount/AddAdminAccount';
+import { useQuery } from 'react-query';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
@@ -33,38 +35,54 @@ const index = (props: Props) => {
 
   const [isDetail, setIsDetail] = useState(false);
 
-  const localNumber = localStorage.getItem('number');
+  const [nowHeight, setNowHeight] = useState<number>();
+
+  const sessionNumber = sessionStorage.getItem('number');
+
+  const router = useRouter();
 
   useEffect(() => {
-    if (localNumber) {
-      setNumber(Number(localNumber));
+    if (sessionNumber) {
+      setNumber(Number(sessionNumber));
+      setNowHeight(window.document.documentElement.scrollHeight);
+      // unmount 됐을때 초기값 넣어줌
+      return () => {
+        sessionStorage.setItem('number', '4');
+        setNowHeight(window.document.documentElement.scrollHeight);
+      };
     }
   }, []);
 
+  useEffect(() => {
+    setNowHeight(window.document.documentElement.scrollHeight);
+  }, [number, sessionNumber]);
+
+  console.log('💔 인덱스 nowHeight 💔', nowHeight);
+
   return (
     <Background>
-      <Workspace setNumber={setNumber} />
-      {number === 1 && <AddAdminAccount />}
-      {number === 2 && <AdminAccountList />}
-      {number === 3 && <ProjectSituation />}
-      {number === 4 && <Statistics />}
-      {number === 5 && <UserManagement />}
-      {number === 6 && <CompanyManagement />}
-      {number === 7 && <ReverseAuctionList />}
-      {number === 8 && <ProjectList />}
-      {number === 9 && <ASDetail />}
-      {number === 10 && <CommunicationList />}
-      {number === 11 && <OneOnOneQuestion />}
-      {number === 12 && <EntizenLibrary />}
-      {number === 13 && <PartnerProductsList />}
-      {number === 14 && <AdminTermsList />}
-      {number === 15 && <AdminNoticeList />}
-      {number === 16 && <AdminBannerLIst />}
-      {number === 17 && <AdminGuideList />}
-      {number === 18 && <AdminFAQList />}
-      {number === 23 && <AdminElseList />}
-      {number === 24 && <ReverseAuctionSituation />}
-      {number === 25 && <ASSituation />}
+      <Workspace setNumber={setNumber} nowHeight={nowHeight} />
+      {number === 1 && <AddAdminAccount setNowHeight={setNowHeight} />}
+      {number === 2 && <AdminAccountList setNowHeight={setNowHeight} />}
+      {number === 3 && <ProjectSituation setNowHeight={setNowHeight} />}
+      {number === 4 && <Statistics setNowHeight={setNowHeight} />}
+      {number === 5 && <UserManagement setNowHeight={setNowHeight} />}
+      {number === 6 && <CompanyManagement setNowHeight={setNowHeight} />}
+      {number === 7 && <ReverseAuctionList setNowHeight={setNowHeight} />}
+      {number === 8 && <ProjectList setNowHeight={setNowHeight} />}
+      {number === 9 && <ASDetail setNowHeight={setNowHeight} />}
+      {number === 10 && <CommunicationList setNowHeight={setNowHeight} />}
+      {number === 11 && <OneOnOneQuestion setNowHeight={setNowHeight} />}
+      {number === 12 && <EntizenLibrary setNowHeight={setNowHeight} />}
+      {number === 13 && <PartnerProductsList setNowHeight={setNowHeight} />}
+      {number === 14 && <AdminTermsList setNowHeight={setNowHeight} />}
+      {number === 15 && <AdminNoticeList setNowHeight={setNowHeight} />}
+      {number === 16 && <AdminBannerLIst setNowHeight={setNowHeight} />}
+      {number === 17 && <AdminGuideList setNowHeight={setNowHeight} />}
+      {number === 18 && <AdminFAQList setNowHeight={setNowHeight} />}
+      {number === 23 && <AdminElseList setNowHeight={setNowHeight} />}
+      {number === 24 && <ReverseAuctionSituation setNowHeight={setNowHeight} />}
+      {number === 25 && <ASSituation setNowHeight={setNowHeight} />}
     </Background>
   );
 };
@@ -74,4 +92,5 @@ export default index;
 const Background = styled.div`
   display: flex;
   justify-content: start;
+  height: max-content;
 `;

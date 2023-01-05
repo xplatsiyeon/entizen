@@ -11,9 +11,12 @@ import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 import AdminHeader from 'componentsAdmin/Header';
 
-type Props = { showSubMenu?: boolean };
+type Props = {
+  showSubMenu?: boolean;
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
 
-const Qutation = ({ showSubMenu }: Props) => {
+const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
   const [optionValue, setOptionValue] = useState<string>('가견적서');
   const dispatch = useDispatch();
   const { quotationRequestIdx, isCompanyDetail } = useSelector(
@@ -29,8 +32,16 @@ const Qutation = ({ showSubMenu }: Props) => {
     dispatch(adminReverseAction.setIsCompanyDetail(false));
   };
 
+  useEffect(() => {
+    if (setNowHeight && isCompanyDetail === true) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, [isCompanyDetail]);
+
+  const now = window.document.documentElement.scrollHeight;
+
   return (
-    <Background>
+    <Background now={now}>
       <Wrapper>
         <AdminHeader
           title=""
@@ -50,14 +61,14 @@ const Qutation = ({ showSubMenu }: Props) => {
           <TwoBtn>
             <Btn
               onClick={() => {
-                alert('2차 작업범위입니다.');
+                alert('개발중입니다.');
               }}
             >
               수정
             </Btn>
             <Btn
               onClick={() => {
-                alert('2차 작업범위입니다.');
+                alert('개발중입니다.');
               }}
             >
               삭제
@@ -88,10 +99,10 @@ const Qutation = ({ showSubMenu }: Props) => {
 
 export default Qutation;
 
-const Background = styled.div`
+const Background = styled.div<{ now?: number }>`
   width: 100%;
-  min-height: 100vh;
-  height: 100%;
+  /* height: 100%; */
+  height: ${({ now }) => (now ? `${now}px` : `100%`)};
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
   position: absolute;

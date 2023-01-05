@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import AdminTermsEditor from './AdminTermsEditor';
+import AdminTermsEditor, { TermsUpdate } from './AdminTermsEditor';
 import AdminNotifyTable from '../AdminNotifyTable';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { isTokenGetApi } from 'api';
 
-const AdminTermsList = () => {
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
+
+const AdminTermsList = ({ setNowHeight }: Props) => {
+  const queryClinet = useQueryClient();
+  const { data, isLoading, isError, refetch, remove } = useQuery<TermsUpdate>(
+    'adminTermsDetail',
+    () => isTokenGetApi(`/admin/terms/${detatilId}`),
+  );
+
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
 
   // 등록 다운로드
   const handleCommon = () => {
     setIsDetail(true);
+    setDetailId('');
+    remove();
   };
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
+
   return (
     <Wrapper>
       {isDetail && (

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import { getApi } from 'api';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import AdminNoticeEditor from './AdminNoticeEditor';
-import { isTokenPatchApi } from 'api';
+import AdminNoticeEditor, { NoticeDetail } from './AdminNoticeEditor';
+import { isTokenPatchApi, isTokenGetApi } from 'api';
 import {
   QueryObserverResult,
   useMutation,
@@ -12,13 +13,23 @@ import {
   useQueryClient,
 } from 'react-query';
 import AdminNotifyTable from '../AdminNotifyTable';
+import { AdminNoticeListResponse } from 'types/tableDataType';
+
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
 
 export type NewCell = {
   isVisible: boolean;
   id: number;
 };
 
-const AdminNoticeList = () => {
+const AdminNoticeList = ({ setNowHeight }: Props) => {
+  const { data, isLoading, isError, refetch, remove } = useQuery<NoticeDetail>(
+    'adminNoticeDetail',
+    () => isTokenGetApi(`/admin/notices/${detatilId}`),
+  );
+
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [toggle, setToggle] = useState<NewCell>({
@@ -31,6 +42,7 @@ const AdminNoticeList = () => {
   const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminNoticeList');
+      // adminNoticeListRefetch();
     },
     onError: (error) => {
       console.log('토글 버튼 에러');
@@ -49,7 +61,15 @@ const AdminNoticeList = () => {
   // 등록
   const handleCommon = () => {
     setIsDetail(true);
+    setDetailId('');
+    remove();
   };
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   console.log('🎀toggle.isVisible🎀', toggle.isVisible);
   return (

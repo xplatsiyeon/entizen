@@ -23,6 +23,7 @@ type Props = {
   commonBtn?: string;
   handleCommon: () => void;
   hide?: boolean;
+  pagenationHide?: boolean;
 };
 
 const ReverseAuctionTable = ({
@@ -34,6 +35,7 @@ const ReverseAuctionTable = ({
   commonBtn,
   handleCommon,
   hide,
+  pagenationHide,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -121,7 +123,7 @@ const ReverseAuctionTable = ({
                       <button
                         className="button"
                         onClick={() => {
-                          alert('2차 작업범위입니다.');
+                          alert('개발중입니다.');
                         }}
                       >
                         삭제
@@ -268,18 +270,21 @@ const ReverseAuctionTable = ({
       ) : (
         <Div></Div>
       )}
-      <WrapPage>
-        <Pagination
-          prev
-          next
-          size="md"
-          total={length ? length : 0}
-          limit={10}
-          maxButtons={5}
-          activePage={page}
-          onChangePage={setPage}
-        />
-      </WrapPage>
+
+      {pagenationHide === false && (
+        <WrapPage>
+          <Pagination
+            prev
+            next
+            size="md"
+            total={length ? length : 0}
+            limit={10}
+            maxButtons={5}
+            activePage={page}
+            onChangePage={setPage}
+          />
+        </WrapPage>
+      )}
     </StyledBody>
   );
 };
@@ -288,7 +293,8 @@ export default React.memo(ReverseAuctionTable);
 
 const StyledBody = styled.div`
   margin: 32px 0 0;
-  min-width: 1200px;
+  min-width: 964px;
+
   .hidden {
     visibility: hidden;
   }

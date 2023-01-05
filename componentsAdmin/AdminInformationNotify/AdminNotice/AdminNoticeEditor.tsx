@@ -26,6 +26,7 @@ import {
   ImgFile,
   MulterResponse,
 } from 'componentsCompany/MyProductList/ProductAddComponent';
+import { getApi } from 'api';
 import Image from 'next/image';
 import CloseImg from 'public/images/XCircle.svg';
 import { AdminNoticeListResponse } from 'types/tableDataType';
@@ -35,7 +36,7 @@ type Props = {
   detatilId?: string;
 };
 
-type NoticeDetail = {
+export type NoticeDetail = {
   isSuccess: true;
   data: {
     createdAt: string;
@@ -48,6 +49,13 @@ type NoticeDetail = {
 
 const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
   const queryClinet = useQueryClient();
+  // 리스트 페이지
+
+  const { data: adminNoticeList, refetch: adminNoticeListRefetch } =
+    useQuery<AdminNoticeListResponse>('adminNoticeList', () =>
+      getApi(`/admin/notices`),
+    );
+
   const { data, isLoading, isError, refetch } = useQuery<NoticeDetail>(
     'adminNoticeDetail',
     () => isTokenGetApi(`/admin/notices/${detatilId}`),
@@ -170,6 +178,7 @@ const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('adminNoticeList');
+      adminNoticeListRefetch();
       setMessageModal(true);
       setMessage('추가가 완료 됐습니다.');
     },
@@ -200,6 +209,7 @@ const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
         queryClinet.invalidateQueries('adminNoticeList');
         setMessageModal(true);
         setMessage('수정이 완료됐습니다!');
+        adminNoticeListRefetch();
       },
       onError: (error: any) => {
         setMessageModal(true);

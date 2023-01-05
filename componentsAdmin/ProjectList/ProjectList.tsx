@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import { DateRangePicker } from 'rsuite';
 import colors from 'styles/colors';
@@ -8,7 +8,11 @@ import ProjectDetail from './ProjectDetail';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import ProjectListTable from './ProjectListTable';
 
-const ProjectList = () => {
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
+
+const ProjectList = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -47,8 +51,14 @@ const ProjectList = () => {
 
   // 엑셀 다운로드
   const handleCommon = () => {
-    alert('2차 작업범위입니다.');
+    alert('개발중입니다.');
   };
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Wrapper>

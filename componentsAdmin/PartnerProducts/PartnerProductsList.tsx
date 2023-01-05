@@ -7,11 +7,15 @@ import AdminHeader from 'componentsAdmin/Header';
 import { DarkAdminBtn } from 'componentsAdmin/Layout';
 import PPTable from 'componentsAdmin/PartnerProducts/PPtable';
 import { on } from 'events';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import colors from 'styles/colors';
 import ModalPartnerProduct from './ModalPartnerProduct';
 
-const PartnerProductsList = () => {
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
+
+const PartnerProductsList = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<number>(0);
   const [EnchargeKind, setEnChargeKind] = useState<string>('');
@@ -26,8 +30,19 @@ const PartnerProductsList = () => {
 
   // 엑셀 다운로드 버튼
   const handleCommon = () => {
-    alert('2차 작업범위입니다.');
+    alert('개발중입니다.');
   };
+
+  console.log(
+    '🦋 제품리스트입니다',
+    window.document.documentElement.scrollHeight,
+  );
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Body>

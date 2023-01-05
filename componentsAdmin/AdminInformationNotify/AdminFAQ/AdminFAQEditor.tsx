@@ -34,7 +34,7 @@ type Props = {
 };
 import { ServiceKr, ServiceEn } from './AdminFAQList';
 
-interface FaqsUpdate {
+export interface FaqsUpdate {
   isSuccess: true;
   data: {
     faq: {

@@ -13,12 +13,14 @@ import {
   convertEn,
 } from 'utils/calculatePackage';
 
-type Props = {};
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
 // awaitingContract: 계약 대기, completion: 완료, completionAgreement: 완료동의
 const projectStateType = ['접수요청', '완료대기', '완료'];
 const projectStateTypeEn = ['request', 'awaitingCompletion', 'completion'];
 
-const ASSituation = (props: Props) => {
+const ASSituation = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   //검색창에 입력되는 값
@@ -68,14 +70,18 @@ const ASSituation = (props: Props) => {
 
   // 엑셀 다운로드 버튼
   const handleCommon = () => {
-    alert('2차 작업범위입니다.');
+    alert('개발중입니다.');
   };
 
   useEffect(() => {
     console.log(projectState);
   }, [projectState]);
 
-  console.log('🌸 asString 🌸', asString);
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Wrapper>

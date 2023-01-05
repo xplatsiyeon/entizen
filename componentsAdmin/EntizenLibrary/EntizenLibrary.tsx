@@ -10,9 +10,11 @@ import { isTokenPatchApi, isTokenGetApi } from 'api';
 import { useQuery, useQueryClient } from 'react-query';
 import ModalLibrary, { LibraryResponse } from './ModalLibrary';
 
-type Props = {};
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
 
-const EntizenLibrary = () => {
+const EntizenLibrary = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -26,11 +28,11 @@ const EntizenLibrary = () => {
   const [userSearch, setUserSearch] = useState<string>('');
 
   // id 값 넘겨 오셈
-  const [afterSalesServiceIdx, setAfterSalesServiceIdx] = useState<number>(0);
+  const [afterSalesServiceIdx, setAfterSalesServiceIdx] = useState<string>('');
 
   const { data, isLoading, isError, refetch, remove } =
     useQuery<LibraryResponse>('entizenLibraryDetail', () =>
-      isTokenGetApi(`/admin/libraries/${detatilId}`),
+      isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
     );
 
   const dateRef = useRef<HTMLLIElement>(null);
@@ -67,6 +69,8 @@ const EntizenLibrary = () => {
 
   const handleCommon = () => {
     setIsDetail(true);
+    remove();
+    setAfterSalesServiceIdx('');
   };
 
   useEffect(() => {
@@ -74,6 +78,12 @@ const EntizenLibrary = () => {
       remove();
     }
   }, [isDetail]);
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Wrapper>

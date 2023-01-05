@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
@@ -11,7 +11,9 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import { adminDateFomat, dateFomat } from 'utils/calculatePackage';
 
-type Props = {};
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
 
 type StatisticsResponse = {
   isSuccess: boolean;
@@ -38,7 +40,7 @@ type StatisticsResponse = {
 const ChartList = ['완속', '중속', '급속', '초급속'];
 const ChartColor = ['#B096EF', '#FFC043', '#A6A9B0', '#F75015'];
 
-const Statistics = (props: Props) => {
+const Statistics = ({ setNowHeight }: Props) => {
   const queryClinet = useQueryClient();
 
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -105,6 +107,12 @@ const Statistics = (props: Props) => {
 
   // ChartBar에 그래프로 내려주는 수치(배열임)
   const chartData = data?.data?.statistics?.chargers;
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Wrapper>

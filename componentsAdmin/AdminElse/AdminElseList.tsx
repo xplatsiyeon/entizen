@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
@@ -8,7 +8,11 @@ type CheckBox = {
   title: string;
 };
 
-const AdminElseList = () => {
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
+
+const AdminElseList = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const blockState: CheckBox[] = [
@@ -35,6 +39,12 @@ const AdminElseList = () => {
 
   // 블락해제
   const handleCommon = () => {};
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
   return (
     <Wrapper>
       <TitleWrapper>

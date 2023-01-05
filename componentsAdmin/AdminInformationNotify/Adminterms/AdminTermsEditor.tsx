@@ -28,7 +28,7 @@ export const dropDownValue = [
   '서비스 이용 약관',
 ];
 
-interface TermsUpdate {
+export interface TermsUpdate {
   isSuccess: true;
   data: { type: string; content: string; createdAt: string; termIdx: number };
 }

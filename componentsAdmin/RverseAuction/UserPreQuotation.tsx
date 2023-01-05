@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import colors from 'styles/colors';
@@ -57,7 +57,9 @@ export interface UserPreQuotationResponse {
   };
 }
 
-type Props = { detatilId: string };
+type Props = {
+  detatilId: string;
+};
 
 const UserPreQuotation = ({ detatilId }: Props) => {
   // --------------------- AS detail API ------------------------------
@@ -84,14 +86,14 @@ const UserPreQuotation = ({ detatilId }: Props) => {
         <TwoBtn>
           <Btn
             onClick={() => {
-              alert('2차 작업범위입니다.');
+              alert('개발중입니다.');
             }}
           >
             수정
           </Btn>
           <Btn
             onClick={() => {
-              alert('2차 작업범위입니다.');
+              alert('개발중입니다.');
             }}
           >
             삭제

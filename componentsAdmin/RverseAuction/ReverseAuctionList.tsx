@@ -10,7 +10,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import ReverseAuctionTable from './ReverseAuctionTable';
 
-const ReverseAuctionList = () => {
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
+
+const ReverseAuctionList = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
 
@@ -53,8 +57,14 @@ const ReverseAuctionList = () => {
 
   // 엑셀 다운로드
   const handleCommon = () => {
-    alert('2차 작업범위입니다.');
+    alert('개발중입니다.');
   };
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Wrapper>
@@ -63,6 +73,7 @@ const ReverseAuctionList = () => {
           detatilId={detatilId}
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
+          setNowHeight={setNowHeight}
         />
       )}
       <AdminHeader title="역경매 관리" type="main" />
@@ -86,6 +97,7 @@ const ReverseAuctionList = () => {
         pickedDate={pickedDate}
         commonBtn={'엑셀 다운로드'}
         handleCommon={handleCommon}
+        pagenationHide={false}
       />
     </Wrapper>
   );

@@ -99,9 +99,6 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
 
   // 메인이미지에 추가해도 preview에 내부 이미지로 들어가는거 수정...
 
-  console.log('🦋 outsideImgArr 🦋', outsideImgArr);
-  console.log('🦋 insideImgArr 🦋', insideImgArr);
-
   // file s3 multer 저장 API (with useMutation)
   const { mutate: outImage, isLoading: multerOutImageLoading } = useMutation<
     MulterResponse,
@@ -371,8 +368,6 @@ const AdminBannerEditor = ({ setIsDetail, detatilId }: Props) => {
       setUserNum(userTypeEn.indexOf(targetMemberType));
     }
   }, [data]);
-
-  console.log('🐳 outsideImgUrl 🐳', outsideImgUrl);
 
   return (
     <Background>

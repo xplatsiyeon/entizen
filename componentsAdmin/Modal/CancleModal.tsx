@@ -38,12 +38,14 @@ const Wrap = styled.div`
   position: fixed;
   min-width: 946px;
   height: 100%;
+  z-index: 50;
 `;
 const BackGround = styled.div`
   position: absolute;
   min-width: 946px;
   height: 100%;
 `;
+
 const Body = styled.div`
   position: absolute;
   top: 274px;
@@ -62,8 +64,10 @@ const Message = styled.div`
   display: flex;
   width: 400px;
   padding: 36px 0 24px 24px;
+  background-color: white;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
+
 const P = styled.div`
   display: flex;
   flex-direction: column;
@@ -86,4 +90,8 @@ const BtnBox = styled.div`
   gap: 8px;
   padding: 10px 16px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+`;
+
+const BtnBack = styled.div`
+  background-color: white;
 `;

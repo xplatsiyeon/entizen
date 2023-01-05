@@ -18,7 +18,7 @@ type Props = {
   tableType: string;
   pickedDate?: string[];
   detatilId?: string;
-  setAfterSalesServiceIdx?: React.Dispatch<React.SetStateAction<number>>;
+  setAfterSalesServiceIdx?: React.Dispatch<React.SetStateAction<string>>;
   commonBtn?: string;
   handleCommon: () => void;
   onClickToggle?: (id: number) => void;
@@ -141,7 +141,7 @@ const EntizenLibraryTable = ({
                         setDetailId(cell);
                         setIsDetail(true);
                         if (setAfterSalesServiceIdx) {
-                          setAfterSalesServiceIdx(Number(cell));
+                          setAfterSalesServiceIdx(cell);
                         }
                       }}
                     >

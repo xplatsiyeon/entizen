@@ -95,7 +95,7 @@ const AdimAccountListTable = ({
                       onClick={() => {
                         setDetailId(cell);
                         setIsDetail(true);
-                        alert('2차 작업범위입니다.');
+                        alert('개발중입니다.');
                       }}
                     >
                       보기

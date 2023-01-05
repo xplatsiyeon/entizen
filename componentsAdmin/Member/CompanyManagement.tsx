@@ -2,17 +2,19 @@ import styled from '@emotion/styled';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 import UserManagementTable from './UserManagementTable';
 
-type Props = {};
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
 
 const selectOption = ['이름 검색', '아이디 검색'];
-const CompanyManagement = (props: Props) => {
+const CompanyManagement = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [selectValue, setSelectValue] = useState('이름 검색');
@@ -65,8 +67,14 @@ const CompanyManagement = (props: Props) => {
 
   // 엑셀 다운로드
   const handleCommon = () => {
-    alert('2차 작업범위입니다.');
+    alert('개발중입니다.');
   };
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
@@ -13,6 +13,10 @@ import {
 } from 'utils/calculatePackage';
 import CommunicationTable from './CommunicationTable';
 
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
+
 type CheckBox = {
   id: number;
   title: string;
@@ -24,7 +28,7 @@ export const communicationStateEn = ['done', 'inProgress'];
 export const userCheckBox = ['일반회원', '기업회원'];
 export const userCheckBoxEn = ['USER', 'COMPANY'];
 
-const OneOnOneQuestion = () => {
+const OneOnOneQuestion = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -59,8 +63,14 @@ const OneOnOneQuestion = () => {
   };
 
   const handleCommon = () => {
-    alert('2차 작업범위입니다.');
+    alert('개발중입니다.');
   };
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Wrapper>

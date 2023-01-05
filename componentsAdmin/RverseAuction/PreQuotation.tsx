@@ -135,8 +135,6 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
     }
   }, [fileIdx]);
 
-  console.log('🌸 fileIdx 🌸', fileIdx);
-
   return (
     <>
       {isLoading ? (

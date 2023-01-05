@@ -14,9 +14,11 @@ import AdminHeader from 'componentsAdmin/Header';
 import ASDetailView from './ASDetailView';
 import ASListTable from './ASListTable';
 
-type Props = {};
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
 
-const ASDetail = () => {
+const ASDetail = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -63,8 +65,14 @@ const ASDetail = () => {
 
   // 엑셀 다운로드
   const handleCommon = () => {
-    alert('2차 작업범위입니다.');
+    alert('개발중입니다.');
   };
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Wrapper>
