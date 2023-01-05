@@ -24,7 +24,7 @@ export interface UserChattingRooms {
     memberIdx: number;
     companyMemberAdditionalInfo: {
       companyName: string;
-      companyLogoImageUrl : string | null;
+      companyLogoImageUrl: string | null;
     };
   };
   userMember: {

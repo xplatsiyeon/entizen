@@ -9,6 +9,9 @@ import ChattingLists, {
 } from 'components/Chatting/ChattingLists';
 import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
 import UserRightMenu from 'components/UserRightMenu';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 
 type ChattingLogs = {
   createdAt: string;
@@ -52,11 +55,16 @@ type Props = {};
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
 const ChattingRoom = ({}: Props) => {
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
     () => isTokenGetApi(`/chatting?searchKeyword=&filter=all`),
     {
-      enabled: false,
+      enabled: false && accessToken ? true : false,
     },
   );
 
@@ -64,21 +72,26 @@ const ChattingRoom = ({}: Props) => {
     refetch();
   }, []);
 
-  return (
-    <WebBody>
-      <WebHeader />
-      <UserRightMenu />
-      <Wrapper>
-        <Body>
-          <MobWrap>
-            <ChattingLists chattingRoom={true} userChatting={true} />
-          </MobWrap>
-          <ChattingRoomLogs userChatting={true} listRefetch={refetch} />
-        </Body>
-      </Wrapper>
-      <WebFooter />
-    </WebBody>
-  );
+  if (!accessToken && memberType !== 'USER') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+  } else {
+    return (
+      <WebBody>
+        <WebHeader />
+        <UserRightMenu />
+        <Wrapper>
+          <Body>
+            <MobWrap>
+              <ChattingLists chattingRoom={true} userChatting={true} />
+            </MobWrap>
+            <ChattingRoomLogs userChatting={true} listRefetch={refetch} />
+          </Body>
+        </Wrapper>
+        <WebFooter />
+      </WebBody>
+    );
+  }
 };
 
 export default ChattingRoom;

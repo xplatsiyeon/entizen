@@ -13,6 +13,8 @@ import {
   InProgressProjectsDetailResponse,
 } from 'QueryComponents/CompanyQuery';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 import Progress from '../projectProgress';
 
 type Props = {};
@@ -30,6 +32,9 @@ export interface Data {
 const TAG = 'pages/compnay/mypage/runningProgress.tsx';
 const RunningProgress = (props: Props) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [open, setOpen] = useState<boolean>(false);
   // 계약서 유무
   // const [openContract, setOpenContract] = useState<boolean>(false);
@@ -53,13 +58,13 @@ const RunningProgress = (props: Props) => {
     address: '',
   });
   // -----진행중인 프로젝트 상세 리스트 api-----
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     loading,
     error,
     data: inProgressData,
     refetch: inProgressRefetch,
   } = useQuery<InProgressProjectsDetailResponse>(GET_InProgressProjectsDetail, {
+    skip: !accessToken ? true : false,
     variables: {
       projectIdx: router?.query?.projectIdx!,
     },
@@ -95,58 +100,63 @@ const RunningProgress = (props: Props) => {
     };
   }, [nowWidth]);
 
-  return (
-    <>
-      <WebBody>
-        <WebBuyerHeader
-          setTabNumber={setTabNumber}
-          tabNumber={tabNumber}
-          componentId={componentId}
-          openSubLink={openSubLink}
-          setOpenSubLink={setOpenSubLink}
-        />
-        <Container>
-          <CompanyRightMenu />
-          <WebRapper>
-            {nowWidth >= 1200 && (
-              <LeftProjectBox
-                setTabNumber={setTabNumber}
-                tabNumber={tabNumber}
-                componentId={componentId}
-                setComponentId={setComponentId}
-              />
-            )}
-            <MypageHeader back={true} title={'진행 프로젝트'} />
-            <WebBox className="content">
-              <TopBox
-                open={open}
-                setOpen={setOpen}
-                handleClick={handleClick}
-                data={inProgressData!}
-                type={'COMPANY'}
-              />
-              {/* 계약서 발송 버튼 클릭 시 프로그레스 컴포넌트로 변경 */}
-              {/* 프로젝트 진행 */}
-              {inProgressData?.project?.contract?.documentId?.length! > 0 ? (
-                <Progress
-                  data={inProgressData!}
-                  inProgressRefetch={inProgressRefetch}
-                  info={data}
-                  setData={setData}
-                />
-              ) : (
-                //  프로젝트 진행없을 때
-                <UnderBox
-                  id={inProgressData?.project?.userMember?.memberIdx!}
+  if (!accessToken && memberType !== 'COMPANY') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+  } else {
+    return (
+      <>
+        <WebBody>
+          <WebBuyerHeader
+            setTabNumber={setTabNumber}
+            tabNumber={tabNumber}
+            componentId={componentId}
+            openSubLink={openSubLink}
+            setOpenSubLink={setOpenSubLink}
+          />
+          <Container>
+            <CompanyRightMenu />
+            <WebRapper>
+              {nowWidth >= 1200 && (
+                <LeftProjectBox
+                  setTabNumber={setTabNumber}
+                  tabNumber={tabNumber}
+                  componentId={componentId}
+                  setComponentId={setComponentId}
                 />
               )}
-            </WebBox>
-          </WebRapper>
-        </Container>
-        <WebFooter />
-      </WebBody>
-    </>
-  );
+              <MypageHeader back={true} title={'진행 프로젝트'} />
+              <WebBox className="content">
+                <TopBox
+                  open={open}
+                  setOpen={setOpen}
+                  handleClick={handleClick}
+                  data={inProgressData!}
+                  type={'COMPANY'}
+                />
+                {/* 계약서 발송 버튼 클릭 시 프로그레스 컴포넌트로 변경 */}
+                {/* 프로젝트 진행 */}
+                {inProgressData?.project?.contract?.documentId?.length! > 0 ? (
+                  <Progress
+                    data={inProgressData!}
+                    inProgressRefetch={inProgressRefetch}
+                    info={data}
+                    setData={setData}
+                  />
+                ) : (
+                  //  프로젝트 진행없을 때
+                  <UnderBox
+                    id={inProgressData?.project?.userMember?.memberIdx!}
+                  />
+                )}
+              </WebBox>
+            </WebRapper>
+          </Container>
+          <WebFooter />
+        </WebBody>
+      </>
+    );
+  }
 };
 
 export default RunningProgress;

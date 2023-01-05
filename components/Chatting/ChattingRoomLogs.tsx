@@ -875,6 +875,7 @@ const BottomBox = styled.div`
   bottom: 0;
   padding: 3pt 0pt 36pt;
   width: 100%;
+  /* border: 1px solid red; */
   @media (min-width: 900pt) {
     position: absolute;
     display: none;
@@ -898,6 +899,7 @@ const BottomBox = styled.div`
 const FlexBox = styled.form`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10.5pt;
   padding: 0 15pt;
 `;
@@ -914,14 +916,15 @@ const AddBtn = styled.div`
   }
 `;
 const TextInput = styled.input`
-  flex: auto;
+  flex: 2;
   border-radius: 37.5pt;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;
   font-weight: 400;
-  font-size: 12pt;
+  /* font-size: 12pt; */
   line-height: 9pt;
   letter-spacing: -0.02em;
+  width: 50px;
   padding: 6pt 7.8pt;
   ::placeholder {
     color: #d3d3d3;
@@ -929,6 +932,7 @@ const TextInput = styled.input`
 `;
 const IconWrap2 = styled.button`
   position: relative;
+  min-width: 18.75pt;
   width: 18.75pt;
   height: 20.7pt;
 `;

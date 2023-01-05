@@ -21,7 +21,6 @@ import { Box, Divider, Drawer } from '@mui/material';
 import HamburgerBar from 'componentsWeb/HamburgerBar';
 import { UserChattingRooms } from 'pages/chatting';
 
-
 export interface ChattingListResponse {
   isSuccess: true;
   data: {
@@ -136,10 +135,10 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
   };
 
   const handle = () => {
-    if(userChatting){
-      router.push('/faq')
-    }else{
-      router.push('/company/faq')
+    if (userChatting) {
+      router.push('/faq');
+    } else {
+      router.push('/company/faq');
     }
   };
 
@@ -154,62 +153,64 @@ const ChattingLists = ({ chattingRoom, userChatting }: Props) => {
   useEffect(() => {
     // queryClinet.invalidateQueries('chatting-list');
     refetch();
-    console.log(data)
+    console.log(data);
   }, [index, keyword]);
 
-  {/* // 페이지 이동시 스크롤 최상단으로 이동
+  {
+    /* // 페이지 이동시 스크롤 최상단으로 이동
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [router.query.chattingRoomIdx]); */}
+  }, [router.query.chattingRoomIdx]); */
+  }
 
   const [state, setState] = useState({
     right: false,
   });
 
   const toggleDrawer =
-  (anchor: string, open: boolean) =>
-  (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' ||
-        (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
-    setState({ ...state, [anchor]: open });
-  };
+    (anchor: string, open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+      setState({ ...state, [anchor]: open });
+    };
 
   return (
     <Body className="chatt-body" chattingRoom={Boolean(chattingRoom)}>
       <Header>
         <H2>소통하기</H2>
-          <IconWrapper>
-            <IconWrap onClick={() => router.push('/alarm')}>
-              <Image src={bell} alt="alarmIcon" layout='fill'/>
-            </IconWrap>
-            {(['right'] as const).map((anchor) => (
-              <React.Fragment key={anchor}>
-                <HamburgerOn onClick={toggleDrawer(anchor, true)}>
-                  <IconBox>
-                    <Image src={Hamburger} alt="listIcon" />
-                  </IconBox>
-                </HamburgerOn>
-                <Drawer
+        <IconWrapper>
+          <IconWrap onClick={() => router.push('/alarm')}>
+            <Image src={bell} alt="alarmIcon" layout="fill" />
+          </IconWrap>
+          {(['right'] as const).map((anchor) => (
+            <React.Fragment key={anchor}>
+              <HamburgerOn onClick={toggleDrawer(anchor, true)}>
+                <IconBox>
+                  <Image src={Hamburger} alt="listIcon" />
+                </IconBox>
+              </HamburgerOn>
+              <Drawer
+                anchor={anchor}
+                open={state[anchor]}
+                onClose={toggleDrawer(anchor, false)}
+                // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
+              >
+                <HamburgerBar
                   anchor={anchor}
-                  open={state[anchor]}
-                  onClose={toggleDrawer(anchor, false)}
-                  // PaperProps={{ style: { borderRadius: '20pt 20pt 0 0' } }}
-                >
-                  <HamburgerBar
-                    anchor={anchor}
-                    toggleDrawer={toggleDrawer}
-                    setState={setState}
-                    state={state}
-                  />
-                </Drawer>
-              </React.Fragment>
-            ))}
-          </IconWrapper>
+                  toggleDrawer={toggleDrawer}
+                  setState={setState}
+                  state={state}
+                />
+              </Drawer>
+            </React.Fragment>
+          ))}
+        </IconWrapper>
       </Header>
       <FlexBox chattingRoom={Boolean(chattingRoom)}>
         <WebBox>
@@ -446,7 +447,6 @@ const IconWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-
 
 const FirstIconBox = styled.div`
   margin-top: 9pt;

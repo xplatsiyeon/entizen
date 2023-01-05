@@ -423,14 +423,15 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                             : false
                         }
                       />
-                      <Favorite>
+                      {/* 앱 심사로 인해 일시적으로 주석 처리 */}
+                      {/* <Favorite>
                         {data?.data.chattingRooms.entizenChattingRoom
                           ?.chattingRoomFavorite.isFavorite ? (
                           <Image src={checked} layout="fill" />
                         ) : (
                           <Image src={unChecked} layout="fill" />
                         )}
-                      </Favorite>
+                      </Favorite> */}
                     </Box>
                   </ChattingRoomInfo>
                 </ChattingRoom>
@@ -520,13 +521,14 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                                 : false
                             }
                           />
-                          <Favorite>
+                          {/* 앱 심사로 인해 일시적으로 주석 처리 */}
+                          {/* <Favorite>
                             {chatting.chattingRoomFavorite.isFavorite ? (
                               <Image src={checked} layout="fill" />
                             ) : (
                               <Image src={unChecked} layout="fill" />
                             )}
-                          </Favorite>
+                          </Favorite> */}
                         </Box>
                       </ChattingRoomInfo>
                     </ChattingRoom>

@@ -6,10 +6,11 @@ const Tab1 = () => {
   return (
     <Container>
       <Image src={ChargeInfo} alt="charging-img" />
-      <Message>
+      {/* 앱 심사로 인해 일시적으로 주석 처리 */}
+      {/* <Message>
         <p>표를 확대하시면 더 자세히 볼 수 있습니다.</p>
         <Image src={Icon} alt="icon" />
-      </Message>
+      </Message> */}
     </Container>
   );
 };

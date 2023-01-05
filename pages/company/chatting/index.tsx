@@ -20,8 +20,13 @@ import { useQuery, useQueryClient } from 'react-query';
 import ChattingLists from 'components/Chatting/ChattingLists';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 const Chatting = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const routerId = router?.query?.chattingRoomIdx!;
   const queryClinet = useQueryClient();
   const tabList = ['전체', '안 읽음', '즐겨찾기'];
@@ -38,7 +43,7 @@ const Chatting = () => {
         `/chatting?searchKeyword=${keyword}&filter=${TabListEn[index]}`,
       ),
     {
-      enabled: false,
+      enabled: false && accessToken ? true : false,
     },
   );
 
@@ -47,23 +52,28 @@ const Chatting = () => {
     refetch();
   }, [index, keyword]);
 
-  console.log('list', data)
+  console.log('list', data);
 
   const handle = () => {};
 
   if (isLoading) {
     return <Loader />;
   }
-  return (
-    <WebBody>
-      <WebBuyerHeader setOpenSubLink={()=>{}}/>
-      <CompanyRightMenu />
-      <Wrapper>
-        <ChattingLists userChatting={false}/>
-      </Wrapper>
-      <WebFooter />
-    </WebBody>
-  );
+  if (!accessToken && memberType !== 'COMPANY') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+  } else {
+    return (
+      <WebBody>
+        <WebBuyerHeader setOpenSubLink={() => {}} />
+        <CompanyRightMenu />
+        <Wrapper>
+          <ChattingLists userChatting={false} />
+        </Wrapper>
+        <WebFooter />
+      </WebBody>
+    );
+  }
 };
 
 export default Chatting;
@@ -131,12 +141,12 @@ const IconBox = styled.div`
   @media (min-width: 900pt) {
     display: none;
   }
-`
+`;
 const IconWrap = styled.div`
   position: relative;
   width: 18pt;
   height: 18pt;
-`
+`;
 
 const H2 = styled.h2`
   font-style: normal;
@@ -282,5 +292,3 @@ const FAQBtn = styled.button`
     display: none;
   }
 `;
-
-

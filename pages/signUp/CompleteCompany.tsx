@@ -38,6 +38,7 @@ const CompleteCopany = (props: Props) => {
         )}
         <Nav>
           <Image
+            onClick={() => router.push('/')}
             style={{
               cursor: 'pointer',
             }}

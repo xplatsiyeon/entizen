@@ -144,8 +144,7 @@ const MainPage = (props: Props) => {
           </IconWrapper>
         </HeadWrapper>
         {/* 브릿지 테스트용 코드 */}
-        <Test>
-          {/* <input
+        {/* <input
             style={{ display: 'none' }}
             ref={imgRef}
             type="file"
@@ -162,11 +161,8 @@ const MainPage = (props: Props) => {
             multiple
           />
           <button onClick={handleFileClick}>파일 업로드</button> */}
-          <FileDownload
-            // download={'FileDownload'}
-            // href={
-            //   'https://test-entizen.s3.ap-northeast-2.amazonaws.com/chargerProduct/1669886978_cf946488-6122-4d45-8a7e-6e8e1e66f4f0.png'
-            // }
+        {/* <FileDownload
+    
             onClick={() => {
               fileDownload(
                 userAgent,
@@ -176,8 +172,7 @@ const MainPage = (props: Props) => {
             }}
           >
             FileDownload
-          </FileDownload>
-        </Test>
+          </FileDownload> */}
         <Carousel />
         <SalesProjection />
         <MyEstimateProject

@@ -12,6 +12,8 @@ import WebHeader from 'componentsWeb/WebHeader';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 import colors from 'styles/colors';
 export interface File {
   createdAt: string;
@@ -85,8 +87,11 @@ export interface AsDetailReseponse {
 
 const TAG = 'pages/mypage/as/index.tsx';
 const asNumber = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const routerId = router?.query?.afterSalesServiceIdx;
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [isReview, setIsReview] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
@@ -97,7 +102,7 @@ const asNumber = () => {
       'as-detail',
       () => isTokenGetApi(`/after-sales-services/${routerId}`),
       {
-        enabled: router.isReady,
+        enabled: router.isReady && accessToken ? true : false,
       },
     );
 
@@ -166,97 +171,103 @@ const asNumber = () => {
   // console.log('🔥 as 상세페이지 데이터 확인 ~line 134 ' + TAG);
   // console.log(data);
 
-  return (
-    <Body>
-      {isModal && <Modal text={modalMessage} click={handleModal} />}
-      {/* 피그마 마이페이지/A/S/4. 마이페이지 링크바 A/S 부분을 표시하기 위해서 num={2}를 넘긴다. (내 견적서는 0).
+  if (!accessToken && memberType !== 'USER') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+  } else {
+    return (
+      <Body>
+        {isModal && <Modal text={modalMessage} click={handleModal} />}
+        {/* 피그마 마이페이지/A/S/4. 마이페이지 링크바 A/S 부분을 표시하기 위해서 num={2}를 넘긴다. (내 견적서는 0).
           const components: Components = {
           0: <WebEstimate/>,  
           2: <AsIndex />,
           }; num, page는 이 부분의 인덱스 넘버.
         */}
-      <WebHeader num={2} now={'mypage'} />
-      <Inner>
-        <FlexBox>
-          <Wrap1 isReview={isReview}>
-            {/* 회원 메뉴에 A/S 카테고리를 펼치기 위해 page={2}를 넘긴다. (내 견적서는 0).
+        <WebHeader num={2} now={'mypage'} />
+        <Inner>
+          <FlexBox>
+            <Wrap1 isReview={isReview}>
+              {/* 회원 메뉴에 A/S 카테고리를 펼치기 위해 page={2}를 넘긴다. (내 견적서는 0).
                 [id].tsx에서 리스트 호출하고 그 리스트를 RequestMain 컴포넌트에 넘겨줘야함,
               */}
-            {!isReview && <RequestMain page={2} />}
-          </Wrap1>
-          <Wrap2>
-            {/* AS 상단 부분 */}
-            {<AsRequest data={data!} />}
-            {/* 하단 부분 내용 */}
-            {isReview ? (
-              <AsWriteReview
-                id={routerId}
-                setIsModal={setIsModal}
-                setModalMessage={setModalMessage}
-              />
-            ) : (
-              <AsRequestPartner data={data!} />
-            )}
-            <Wrap3>
-              {/* 파트너와 소통하기 문구 */}
-              {!isReview && (
-                <Footer>
-                  <AsRequestFooter
-                    id={
-                      data?.data?.afterSalesService?.afterSalesService?.project
-                        ?.finalQuotation?.preQuotation?.member.memberIdx!
-                    }
-                  />
-                </Footer>
+              {!isReview && <RequestMain page={2} />}
+            </Wrap1>
+            <Wrap2>
+              {/* AS 상단 부분 */}
+              {<AsRequest data={data!} />}
+              {/* 하단 부분 내용 */}
+              {isReview ? (
+                <AsWriteReview
+                  id={routerId}
+                  setIsModal={setIsModal}
+                  setModalMessage={setModalMessage}
+                />
+              ) : (
+                <AsRequestPartner data={data!} />
               )}
-              {/* 수정하기 */}
-              {!isReview &&
-                data?.data.afterSalesService.badge.includes('요청') && (
-                  <Btn onClick={() => handleClick('requestAS')}>
-                    <span>수정하기</span>
-                  </Btn>
+              <Wrap3>
+                {/* 파트너와 소통하기 문구 */}
+                {!isReview && (
+                  <Footer>
+                    <AsRequestFooter
+                      id={
+                        data?.data?.afterSalesService?.afterSalesService
+                          ?.project?.finalQuotation?.preQuotation?.member
+                          .memberIdx!
+                      }
+                    />
+                  </Footer>
                 )}
-              {/* A/S 완료하기 */}
-              {!isReview &&
-                data?.data.afterSalesService.badge.includes('대기') && (
-                  <BtnBox onClick={onClickCompleteBtn}>
-                    <p className="text">A/S 완료하기</p>
-                  </BtnBox>
-                )}
-              {/* 리뷰 작성 */}
-              {!isReview &&
-                data?.data.afterSalesService.badge.includes('A/S') &&
-                !data?.data.afterSalesService.afterSalesService
-                  .afterSalesServiceReview && (
-                  <Btn
-                    className="isColor"
-                    onClick={() => {
-                      setIsReview(true);
-                      window.scrollTo(0, 0);
-                    }}
-                  >
-                    <span>A/S 리뷰하기</span>
-                  </Btn>
-                )}
-              {/* 내 리뷰 보기 */}
-              {!isReview &&
-                data?.data.afterSalesService.badge.includes('A/S') &&
-                data?.data.afterSalesService.afterSalesService
-                  .afterSalesServiceReview && (
-                  <Btn
-                    className="review"
-                    onClick={() => handleClick('myReview')}
-                  >
-                    <span>내 리뷰 보기</span>
-                  </Btn>
-                )}
-            </Wrap3>
-          </Wrap2>
-        </FlexBox>
-      </Inner>
-      <WebFooter />
-    </Body>
-  );
+                {/* 수정하기 */}
+                {!isReview &&
+                  data?.data.afterSalesService.badge.includes('요청') && (
+                    <Btn onClick={() => handleClick('requestAS')}>
+                      <span>수정하기</span>
+                    </Btn>
+                  )}
+                {/* A/S 완료하기 */}
+                {!isReview &&
+                  data?.data.afterSalesService.badge.includes('대기') && (
+                    <BtnBox onClick={onClickCompleteBtn}>
+                      <p className="text">A/S 완료하기</p>
+                    </BtnBox>
+                  )}
+                {/* 리뷰 작성 */}
+                {!isReview &&
+                  data?.data.afterSalesService.badge.includes('A/S') &&
+                  !data?.data.afterSalesService.afterSalesService
+                    .afterSalesServiceReview && (
+                    <Btn
+                      className="isColor"
+                      onClick={() => {
+                        setIsReview(true);
+                        window.scrollTo(0, 0);
+                      }}
+                    >
+                      <span>A/S 리뷰하기</span>
+                    </Btn>
+                  )}
+                {/* 내 리뷰 보기 */}
+                {!isReview &&
+                  data?.data.afterSalesService.badge.includes('A/S') &&
+                  data?.data.afterSalesService.afterSalesService
+                    .afterSalesServiceReview && (
+                    <Btn
+                      className="review"
+                      onClick={() => handleClick('myReview')}
+                    >
+                      <span>내 리뷰 보기</span>
+                    </Btn>
+                  )}
+              </Wrap3>
+            </Wrap2>
+          </FlexBox>
+        </Inner>
+        <WebFooter />
+      </Body>
+    );
+  }
 };
 
 export default asNumber;

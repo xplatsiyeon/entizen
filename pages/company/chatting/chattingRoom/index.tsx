@@ -1,14 +1,17 @@
 import styled from '@emotion/styled';
-import {
-  useEffect,
-} from 'react';
-import { useQuery} from 'react-query';
+import { useEffect } from 'react';
+import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import ChattingRoomLogs from 'components/Chatting/ChattingRoomLogs';
 import WebFooter from 'componentsWeb/WebFooter';
-import ChattingLists, { ChattingListResponse } from 'components/Chatting/ChattingLists';
+import ChattingLists, {
+  ChattingListResponse,
+} from 'components/Chatting/ChattingLists';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 
 type ChattingLogs = {
   createdAt: string;
@@ -29,37 +32,43 @@ export interface ChattingRoom {
 type Props = {};
 
 const ChattingRoom = ({}: Props) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
-    () =>
-      isTokenGetApi(
-        `/chatting?searchKeyword=&filter=all`,
-      ),
+    () => isTokenGetApi(`/chatting?searchKeyword=&filter=all`),
     {
-      enabled: false,
+      enabled: false && accessToken ? true : false,
     },
   );
 
-  useEffect(()=>{
+  useEffect(() => {
     refetch();
-  },[])
+  }, []);
 
-  return (
-    <WebBody>
-      <WebBuyerHeader setOpenSubLink={() => {}} />
-      <CompanyRightMenu />
-      <Wrapper>
-        <Body>
-          <MobWrap>
-            <ChattingLists chattingRoom={true} userChatting={false} />
-          </MobWrap>
-          <ChattingRoomLogs userChatting={false} listRefetch={refetch}/>
-        </Body>
-      </Wrapper>
-      <WebFooter />
-    </WebBody>
-  );
+  if (!accessToken && memberType !== 'COMPANY') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+  } else {
+    return (
+      <WebBody>
+        <WebBuyerHeader setOpenSubLink={() => {}} />
+        <CompanyRightMenu />
+        <Wrapper>
+          <Body>
+            <MobWrap>
+              <ChattingLists chattingRoom={true} userChatting={false} />
+            </MobWrap>
+            <ChattingRoomLogs userChatting={false} listRefetch={refetch} />
+          </Body>
+        </Wrapper>
+        <WebFooter />
+      </WebBody>
+    );
+  }
 };
 
 export default ChattingRoom;

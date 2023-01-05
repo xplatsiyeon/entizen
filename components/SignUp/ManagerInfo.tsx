@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
 import Modal from 'components/Modal/Modal';
+import { NAME, PHONE } from 'assets/selectList';
 
 type Props = {
   email: string;
@@ -42,6 +43,13 @@ const ManagerInfo = ({
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
   // --- 본인인증 창 띄우기 ----
+  // 브릿지용 테스트 클릭
+  const testClick = () => {
+    setName(NAME[Math.floor(Math.random() * NAME.length)]);
+    setPhoneNumber(PHONE[Math.floor(Math.random() * PHONE.length)]);
+    setLevel(level + 1);
+  };
+
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -235,7 +243,8 @@ const ManagerInfo = ({
             isClick={isValid}
             // name={'form_chk'}
             text={'본인인증하기'}
-            handleClick={fnPopup}
+            // handleClick={fnPopup}
+            handleClick={testClick}
             marginTop={59.25}
           />
         </form>

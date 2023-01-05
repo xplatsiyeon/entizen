@@ -29,6 +29,7 @@ import { useRouter } from 'next/router';
 type Props = {};
 
 const index = (props: Props) => {
+  const a = 1;
   // 관리자 계정 초기 세팅값
   const [number, setNumber] = useState(4);
 

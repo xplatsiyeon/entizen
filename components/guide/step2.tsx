@@ -158,8 +158,8 @@ const Step2 = ({
             <SelectSmall
               value={item.standType}
               name="standType"
-              onChange={(event) => handleOptionChange(event, index)}
               displayEmpty
+              onChange={(event) => handleOptionChange(event, index)}
               IconComponent={() => <SelectIcon />}
             >
               <MenuItem value="">
@@ -174,9 +174,9 @@ const Step2 = ({
             <SelectSmall
               value={item.channel}
               name="channel"
+              displayEmpty
               onChange={(event) => handleOptionChange(event, index)}
               IconComponent={() => <SelectIcon />}
-              displayEmpty
             >
               <MenuItem value="">
                 <Placeholder>타입</Placeholder>
@@ -190,9 +190,9 @@ const Step2 = ({
             <SelectSmall
               value={item.count}
               name="count"
+              displayEmpty
               onChange={(event) => handleOptionChange(event, index)}
               IconComponent={() => <SelectIcon />}
-              displayEmpty
             >
               <MenuItem value="">
                 <Placeholder>타입</Placeholder>
@@ -311,6 +311,8 @@ const SelectBox = styled(Select)`
   }
 `;
 const SelectSmall = styled(Select)`
+  /* width: 100%; */
+  flex: 1;
   border: 1px solid #e2e5ed;
   border-radius: 8px;
   margin-top: 9pt;
@@ -318,14 +320,12 @@ const SelectSmall = styled(Select)`
   font-size: 12px;
   letter-spacing: -0.02em;
   color: ${colors.main2};
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+  cursor: all-scroll;
   & div {
     padding-left: 12pt;
     padding-top: 13.5pt;
     padding-bottom: 13.5pt;
-    width: 0;
+    padding-right: 0 !important;
   }
   & svg {
     padding-right: 12pt;
