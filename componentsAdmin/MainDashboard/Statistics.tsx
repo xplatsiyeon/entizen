@@ -155,7 +155,7 @@ const Statistics = ({ setNowHeight }: Props) => {
             ))}
           </div>
         </div>
-        <ChartBar chartData={chartData} />
+        <ChartBar chartData={chartData!} />
       </ChartContainer>
     </Wrapper>
   );

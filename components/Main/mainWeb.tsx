@@ -164,7 +164,7 @@ const ContentWrap = styled.section`
 const SalesForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 322pt;
+  /* width: 322pt; */
   padding: 0 56.25pt;
   margin-right: 22.5pt;
   border: 1.5pt solid #e2e5ed;
@@ -188,6 +188,7 @@ const Button = styled.button`
   line-height: 12pt;
   letter-spacing: -0.02em;
   margin-bottom: 69pt;
+  margin-top: 6pt;
   cursor: pointer;
 `;
 
