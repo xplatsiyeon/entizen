@@ -26,6 +26,7 @@ import { handleColorAS } from 'utils/changeValue';
 import { dateFomat } from 'utils/calculatePackage';
 import useDebounce from 'hooks/useDebounce';
 import Loader from 'components/Loader';
+import Modal from 'components/Modal/Modal';
 
 interface AfterSalesService {
   afterSalesService: {
@@ -79,6 +80,10 @@ const AsIndex = ({ listUp }: Props) => {
   const filterList: string[] = ['등록일순 보기', '현장별 보기', '상태순 보기'];
   const filterListEn: string[] = ['register', 'site', 'status'];
   const keyword = useDebounce(keywordSearch, 2000);
+  // ------------모달------------
+  const [isModal, setIsModal] = useState(false);
+  const [isModalMessage, setIsModalMessage] = useState('');
+
   // ----------------- AS 리스트 GET -----------------------
   const { data, isError, isLoading, refetch, error, remove } =
     useQuery<AsResposne>('asList', () =>
@@ -136,7 +141,14 @@ const AsIndex = ({ listUp }: Props) => {
 
       setState({ ...state, [anchor]: open });
     };
-  const handlerBtn = () => router.push('/mypage/as/requestAS');
+  const handlerBtn = () => {
+    if (data?.data?.afterSalesServices?.length! > 0) {
+      router.push('/mypage/as/requestAS');
+    } else {
+      setIsModal(true);
+      setIsModalMessage('충전소가 없습니다.');
+    }
+  };
   const handleAsListClick = (afterSalesServiceIdx: number) => {
     //alert(afterSalesServiceIdx)
     router.push({
@@ -195,6 +207,14 @@ const AsIndex = ({ listUp }: Props) => {
 
   return (
     <Wrapper>
+      {isModal && (
+        <Modal
+          text={isModalMessage}
+          click={() => {
+            setIsModal(false);
+          }}
+        />
+      )}
       <Wrap listUp={Boolean(listUp)}>
         {/* 모바일 필터박스 */}
         <FilterBtnBox>
