@@ -42,7 +42,7 @@ const Modal = ({ text, click, color, setIsModal }: Props) => {
           <BtnText color={color} onClick={click}>
             확인
           </BtnText>
-          <Hide type="text" autoFocus onKeyDown={onKeyPress} />
+          <Hide type="text" autoFocus onKeyDown={onKeyPress} readOnly />
         </BtnBox>
       </ModalBox>
     </ModalWrapper>
