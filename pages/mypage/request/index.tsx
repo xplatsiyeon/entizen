@@ -213,7 +213,7 @@ const Mypage1_3 = ({}: any) => {
       queryclient.invalidateQueries('user-mypage');
     },
     onError: () => {
-      alert('삭제 실패');
+      // alert('삭제 실패');
     },
     onSettled: () => {},
   });
@@ -364,10 +364,10 @@ const Mypage1_3 = ({}: any) => {
               <Wrap2>
                 <MypageHeader
                   title="내 견적서"
-                  cancel="견적 취소"
+                  // cancel="견적 취소"
                   back={true}
                   handle={true}
-                  handleOnClick={handleOnClick}
+                  // handleOnClick={handleOnClick}
                   handleBackClick={handleBackOnClick}
                 />
                 {/*--------------------- 상단 박스 ---------------------------------*/}
