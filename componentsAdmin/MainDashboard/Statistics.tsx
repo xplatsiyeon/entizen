@@ -147,7 +147,7 @@ const Statistics = (props: Props) => {
             ))}
           </div>
         </div>
-        <ChartBar chartData={chartData} />
+        <ChartBar chartData={chartData!} />
       </ChartContainer>
     </Wrapper>
   );

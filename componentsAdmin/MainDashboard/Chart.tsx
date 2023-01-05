@@ -21,17 +21,17 @@ ChartJS.register(
   Legend,
 );
 type Props = {
-  chartData?:
-    | {
-        date: string;
-        slow: number;
-        normal: number;
-        fast: number;
-        superFast: number;
-      }[]
-    | undefined;
+  chartData: {
+    date: string;
+    slow: number;
+    normal: number;
+    fast: number;
+    superFast: number;
+  }[];
 };
 const ChartBar = ({ chartData }: Props) => {
+  console.log('🔥 chartData ==>');
+  // console.log(chartData[0]);
   const options = {
     maxBarThickness: 7,
     responsive: true,
@@ -60,41 +60,32 @@ const ChartBar = ({ chartData }: Props) => {
     },
   };
 
-  const labels = [
-    '12.02',
-    '12.02',
-    '12.02',
-    '12.02',
-    '12.02',
-    '12.02',
-    '12.02',
-    '12.02',
-    '12.02',
-    '12.02',
-    '12.02',
-  ];
+  const labels = chartData?.map((el) => {
+    const temp = el.date.split('-');
+    return temp[1] + '.' + temp[2];
+  });
   const ChartColor = ['#B096EF', '#FFC043', '#A6A9B0', '#F75015'];
   const data = {
     labels,
     datasets: [
       {
         label: '완속',
-        data: labels.map(() => faker.datatype.number({ min: 0, max: 500 })),
+        data: chartData?.map((e) => e.slow),
         backgroundColor: ChartColor[0],
       },
       {
         label: '중속',
-        data: labels.map(() => faker.datatype.number({ min: 0, max: 500 })),
+        data: chartData?.map((e) => e.normal),
         backgroundColor: ChartColor[1],
       },
       {
         label: '급속',
-        data: labels.map(() => faker.datatype.number({ min: 0, max: 500 })),
+        data: chartData?.map((e) => e.fast),
         backgroundColor: ChartColor[2],
       },
       {
         label: '초급속',
-        data: labels.map(() => faker.datatype.number({ min: 0, max: 500 })),
+        data: chartData?.map((e) => e.fast),
         backgroundColor: ChartColor[3],
       },
     ],

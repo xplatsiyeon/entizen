@@ -69,6 +69,7 @@ const ButtonBox = styled.div`
   @media (max-width: 899.25pt) {
     left: 15pt;
     bottom: 15pt;
+    width: auto;
   }
 `;
 
@@ -84,7 +85,7 @@ const BtnText = styled.div`
 
 const BtnIcon = styled.div`
   position: relative;
-  top: 1pt;
+  top: 2pt;
 `;
 
 const ImageWrap = styled.div`
