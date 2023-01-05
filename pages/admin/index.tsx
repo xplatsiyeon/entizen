@@ -53,9 +53,9 @@ const index = (props: Props) => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   setNowHeight(window.document.documentElement.scrollHeight);
-  // }, [number, sessionNumber]);
+  useEffect(() => {
+    setNowHeight(window.document.documentElement.scrollHeight);
+  }, [number, sessionNumber]);
 
   console.log('💔 인덱스 nowHeight 💔', nowHeight);
 

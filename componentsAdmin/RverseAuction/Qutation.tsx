@@ -38,8 +38,10 @@ const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
     }
   }, [isCompanyDetail]);
 
+  const now = window.document.documentElement.scrollHeight;
+
   return (
-    <Background>
+    <Background now={now}>
       <Wrapper>
         <AdminHeader
           title=""
@@ -97,9 +99,10 @@ const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
 
 export default Qutation;
 
-const Background = styled.div`
+const Background = styled.div<{ now?: number }>`
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
+  height: ${({ now }) => (now ? `${now}px` : `100%`)};
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
   position: absolute;

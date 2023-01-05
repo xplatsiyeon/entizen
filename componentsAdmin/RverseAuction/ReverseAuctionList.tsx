@@ -60,6 +60,12 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
     alert('개발중입니다.');
   };
 
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
+
   return (
     <Wrapper>
       {isDetail && (

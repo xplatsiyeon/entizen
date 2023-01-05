@@ -50,6 +50,14 @@ const DetailQuotation = ({
 
   // console.log(window.document.documentElement.clientHeight);
 
+  const nowHeight = window.document.documentElement.scrollHeight;
+
+  useEffect(() => {
+    if (detatilId && setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, [detatilId]);
+
   return (
     <Background>
       <Wrapper>
