@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import colors from 'styles/colors';
 import Btn from './button';
 import Modal from 'components/Modal/Modal';
+import { NAME, PHONE } from 'assets/selectList';
 
 type Props = {
   email: string;
@@ -42,6 +43,13 @@ const ManagerInfo = ({
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
   // --- 본인인증 창 띄우기 ----
+  // 브릿지용 테스트 클릭
+  const testClick = () => {
+    setName(NAME[Math.floor(Math.random() * NAME.length)]);
+    setPhoneNumber(PHONE[Math.floor(Math.random() * PHONE.length)]);
+    setLevel(level + 1);
+  };
+
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -90,7 +98,7 @@ const ManagerInfo = ({
   // 이메일 인증
   const certifyEmail = () => {
     if (isEmailValid) {
-      const EMAIL_API = 'https://api.entizen.kr/api/mail/auth';
+      const EMAIL_API = 'https://test-api.entizen.kr/api/mail/auth';
       axios({
         method: 'post',
         url: EMAIL_API,
@@ -108,7 +116,7 @@ const ManagerInfo = ({
   // 이메일 인증코드 확인
   const certifyEmailCode = () => {
     if (isEmailCodeValid) {
-      const EMAIL_API = 'https://api.entizen.kr/api/mail/auth/validation';
+      const EMAIL_API = 'https://test-api.entizen.kr/api/mail/auth/validation';
       axios({
         method: 'post',
         url: EMAIL_API,
@@ -135,7 +143,7 @@ const ManagerInfo = ({
     console.log(memberType);
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -235,7 +243,8 @@ const ManagerInfo = ({
             isClick={isValid}
             // name={'form_chk'}
             text={'본인인증하기'}
-            handleClick={fnPopup}
+            // handleClick={fnPopup}
+            handleClick={testClick}
             marginTop={59.25}
           />
         </form>
