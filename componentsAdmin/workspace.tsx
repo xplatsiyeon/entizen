@@ -62,99 +62,137 @@ const Workspace = ({ setNumber }: Props) => {
     temp[id] = !temp[id];
     setOpen(temp);
   };
+
   const handleRouter = (name: string) => {
     switch (name) {
       case '관리자 등록':
         setNumber(1);
+        localStorage.setItem('number', '1');
         break;
+
       case '관리자 리스트 조회':
         setNumber(2);
+        localStorage.setItem('number', '2');
         break;
+
       case '프로젝트 현황':
         setNumber(3);
+        localStorage.setItem('number', '3');
         break;
+
       case '통계':
         setNumber(4);
+        localStorage.setItem('number', '4');
         break;
+
       case '일반회원':
         setNumber(5);
+        localStorage.setItem('number', '5');
         break;
+
       case '기업회원':
         setNumber(6);
+        localStorage.setItem('number', '6');
         break;
+
       case '역경매관리 리스트':
         setNumber(7);
+        localStorage.setItem('number', '7');
         break;
+
       case '프로젝트 리스트':
         setNumber(8);
+        localStorage.setItem('number', '8');
         break;
+
       case 'AS 상세':
         setNumber(9);
+        localStorage.setItem('number', '9');
         break;
+
       case '소통하기 리스트':
         setNumber(10);
+        localStorage.setItem('number', '10');
         break;
+
       case '1대1 문의':
         setNumber(11);
+        localStorage.setItem('number', '11');
         break;
+
       case '리스트 조회':
         setNumber(12);
+        localStorage.setItem('number', '12');
         break;
 
       case '회사별 리스트':
         setNumber(13);
+        localStorage.setItem('number', '13');
         break;
 
       case '약관':
         setNumber(14);
+        localStorage.setItem('number', '14');
         break;
 
       case '공지사항':
         setNumber(15);
+        localStorage.setItem('number', '15');
         break;
 
       case '배너':
         setNumber(16);
+        localStorage.setItem('number', '16');
         break;
 
       case '가이드':
         setNumber(17);
+        localStorage.setItem('number', '17');
         break;
 
       case 'FAQ':
         setNumber(18);
+        localStorage.setItem('number', '18');
         break;
 
       case '설정':
         setNumber(19);
+        localStorage.setItem('number', '19');
         break;
 
       case '알림':
         setNumber(20);
+        localStorage.setItem('number', '20');
         break;
 
       case 'DATA 업데이트':
         setNumber(21);
+        localStorage.setItem('number', '21');
         break;
 
       case 'DATA 다운로드':
         setNumber(22);
+        localStorage.setItem('number', '22');
         break;
 
       case '블락':
         setNumber(23);
+        localStorage.setItem('number', '23');
         break;
 
       case '역경매 현황':
         setNumber(24);
+        localStorage.setItem('number', '24');
         break;
 
       case 'A/S 현황':
         setNumber(25);
+        localStorage.setItem('number', '25');
         break;
 
       default:
         setNumber(0);
+        localStorage.setItem('number', '0');
         break;
     }
   };

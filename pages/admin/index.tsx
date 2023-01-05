@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import CompanyManagement from 'componentsAdmin/Member/CompanyManagement';
 import UserManagement from 'componentsAdmin/Member/UserManagement';
 import Workspace from 'componentsAdmin/workspace';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProjectList from 'componentsAdmin/ProjectList/ProjectList';
 import ReverseAuctionList from 'componentsAdmin/RverseAuction/ReverseAuctionList';
 import ASDetail from 'componentsAdmin/AllAs/ASDetail';
@@ -31,6 +31,14 @@ const index = (props: Props) => {
   const [number, setNumber] = useState(4);
 
   const [isDetail, setIsDetail] = useState(false);
+
+  const localNumber = localStorage.getItem('number');
+
+  useEffect(() => {
+    if (localNumber) {
+      setNumber(Number(localNumber));
+    }
+  }, []);
 
   return (
     <Background>
