@@ -15,6 +15,7 @@ import AlertModal from 'componentsAdmin/Modal/AlertModal';
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
   afterSalesServiceIdx?: number;
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
 export interface ASReviewPoint {
@@ -80,7 +81,11 @@ export interface ASDetailViewResponse {
   };
 }
 
-const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
+const ASDetailView = ({
+  setIsDetail,
+  afterSalesServiceIdx,
+  setNowHeight,
+}: Props) => {
   const queryClinet = useQueryClient();
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
@@ -139,6 +144,12 @@ const ASDetailView = ({ setIsDetail, afterSalesServiceIdx }: Props) => {
   const currentStep = data?.data?.afterSalesService?.currentStep;
   // 리뷰데이터
   const reviewData = data?.data?.afterSalesService?.afterSalesServiceReview;
+
+  useEffect(() => {
+    if (setNowHeight && afterSalesServiceIdx) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Background>

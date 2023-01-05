@@ -324,7 +324,12 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
                   {charger?.preQuotationFiles?.map(
                     (file, innerIndex) =>
                       file.productFileType === 'CATALOG' && (
-                        <div className="fileBox" key={innerIndex}>
+                        <a
+                          className="fileBox"
+                          key={innerIndex}
+                          download={file?.originalName}
+                          href={file?.url}
+                        >
                           <p className="businessName">{file?.originalName}</p>
                           <button
                             className="businessBtn"
@@ -334,7 +339,7 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
                           >
                             삭제
                           </button>
-                        </div>
+                        </a>
                       ),
                   )}
                 </div>
@@ -442,6 +447,9 @@ const BusinessList = styled.div`
   padding-top: 14px;
   padding-left: 16px;
   padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   .label {
     font-weight: 500;
     font-size: 16px;
@@ -451,6 +459,8 @@ const BusinessList = styled.div`
   .fileBox {
     display: flex;
     align-items: center;
+    cursor: pointer;
+    text-decoration-line: none;
   }
   .businessName {
     display: flex;

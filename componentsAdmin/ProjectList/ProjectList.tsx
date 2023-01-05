@@ -66,6 +66,7 @@ const ProjectList = ({ setNowHeight }: Props) => {
         <ProjectDetail
           setIsDetail={setIsDetail}
           projectIdx={Number(detatilId!)}
+          setNowHeight={setNowHeight}
         />
       )}
       <AdminHeader title="프로젝트" type="main" />

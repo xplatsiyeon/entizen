@@ -23,6 +23,7 @@ import CompleteRating from './CompleteRating';
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
   projectIdx: number;
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 interface ProjectDetailResponse {
   isSuccess: boolean;
@@ -110,7 +111,7 @@ interface ProjectDetailResponse {
     };
   };
 }
-const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
+const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   const queryClinet = useQueryClient();
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
@@ -163,6 +164,12 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
       modalDeleteFileBtnControll();
     }
   }, [fileIdx]);
+
+  useEffect(() => {
+    if (setNowHeight && projectIdx) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Background>
@@ -380,7 +387,12 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
               <FileContainer>
                 {data?.data?.project?.projectCompletionFiles?.map(
                   (file, index) => (
-                    <div className="fileBox" key={index}>
+                    <a
+                      className="fileBox"
+                      key={index}
+                      download={file?.url}
+                      href={file?.url}
+                    >
                       <div className="businessName">
                         <p className="businessNameText">{file?.url}</p>
                       </div>
@@ -392,7 +404,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
                       >
                         삭제
                       </button>
-                    </div>
+                    </a>
                   ),
                 )}
               </FileContainer>
@@ -501,6 +513,8 @@ const FileContainer = styled.div`
   .fileBox {
     display: flex;
     align-items: center;
+    cursor: pointer;
+    text-decoration-line: none;
   }
   .businessName {
     display: flex;

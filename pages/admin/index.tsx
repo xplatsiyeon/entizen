@@ -57,8 +57,6 @@ const index = (props: Props) => {
     setNowHeight(window.document.documentElement.scrollHeight);
   }, [number, sessionNumber]);
 
-  console.log('💔 인덱스 nowHeight 💔', nowHeight);
-
   return (
     <Background>
       <Workspace setNumber={setNumber} nowHeight={nowHeight} />

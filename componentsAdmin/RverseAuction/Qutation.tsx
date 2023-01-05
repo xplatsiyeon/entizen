@@ -32,13 +32,13 @@ const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
     dispatch(adminReverseAction.setIsCompanyDetail(false));
   };
 
-  useEffect(() => {
-    if (setNowHeight && isCompanyDetail === true) {
-      setNowHeight(window.document.documentElement.scrollHeight);
-    }
-  }, [isCompanyDetail]);
-
   const now = window.document.documentElement.scrollHeight;
+
+  useEffect(() => {
+    if (setNowHeight && quotationRequestIdx) {
+      setNowHeight(now);
+    }
+  }, [quotationRequestIdx]);
 
   return (
     <Background now={now}>
@@ -86,11 +86,11 @@ const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
           />
         )} */}
         {quotationRequestIdx?.finalQuotationIdx !== undefined ? (
-          <Prequotion preQuotationIdx={quotationRequestIdx?.preQuotationIdx} />
-        ) : (
           <FinalQuotaion
             finalQuotationIdx={quotationRequestIdx?.finalQuotationIdx}
           />
+        ) : (
+          <Prequotion preQuotationIdx={quotationRequestIdx?.preQuotationIdx} />
         )}
       </Wrapper>
     </Background>

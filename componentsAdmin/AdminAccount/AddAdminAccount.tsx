@@ -355,25 +355,39 @@ const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
             onChange={handleIdChange}
             value={idInput}
             name="id"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
-                    <ButtonText
-                      className="checkOverlap"
-                      onClick={() => {
-                        if (isChangeColor === true) {
-                          overlabCheck();
-                        }
-                      }}
-                    >
-                      중복확인
-                    </ButtonText>
-                  </OverlapBtn>
-                </InputAdornment>
-              ),
-            }}
+            // InputProps={{
+            //   endAdornment: (
+            //     <InputAdornment position="end">
+            //       <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
+            //         <ButtonText
+            //           className="checkOverlap"
+            //           onClick={() => {
+            //             if (isChangeColor === true) {
+            //               overlabCheck();
+            //             }
+            //           }}
+            //         >
+            //           중복확인
+            //         </ButtonText>
+            //       </OverlapBtn>
+            //     </InputAdornment>
+            //   ),
+            // }}
           />
+          <InputAdornment position="end">
+            <OverlapBtn className="overlap" isChangeColor={isChangeColor}>
+              <ButtonText
+                className="checkOverlap"
+                onClick={() => {
+                  if (isChangeColor === true) {
+                    overlabCheck();
+                  }
+                }}
+              >
+                중복확인
+              </ButtonText>
+            </OverlapBtn>
+          </InputAdornment>
           {/* <Image src={Warning} alt="warning" /> */}
         </li>
 
