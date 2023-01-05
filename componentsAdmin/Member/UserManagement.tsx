@@ -13,10 +13,12 @@ import { AdminBtn } from 'componentsAdmin/Layout';
 import { originDateFomat } from 'utils/calculatePackage';
 import UserManagementTable from './UserManagementTable';
 
-type Props = {};
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
 
 const selectOption = ['이름 검색', '아이디 검색'];
-const UserManagement = (props: Props) => {
+const UserManagement = ({ setNowHeight }: Props) => {
   const [selectValue, setSelectValue] = useState('이름 검색');
 
   //이름검색인지 아이디검색인지 판별
@@ -71,8 +73,14 @@ const UserManagement = (props: Props) => {
 
   // 엑셀 다운로드
   const handleCommon = () => {
-    alert('2차 작업범위입니다.');
+    alert('개발중입니다.');
   };
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <>

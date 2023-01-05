@@ -266,7 +266,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
               <Label>단계별 일정</Label>
               <ButtnBox
                 onClick={() => {
-                  alert('2차 작업범위입니다.');
+                  alert('개발중입니다.');
                 }}
               >
                 단계별일정수정
@@ -369,7 +369,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx }: Props) => {
               <Label>계약서 정보</Label>
               <ButtnBox
                 onClick={() => {
-                  alert('2차 작업범위입니다.');
+                  alert('개발중입니다.');
                 }}
               >
                 계약서 보기

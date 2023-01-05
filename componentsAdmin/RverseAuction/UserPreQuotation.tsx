@@ -84,14 +84,14 @@ const UserPreQuotation = ({ detatilId }: Props) => {
         <TwoBtn>
           <Btn
             onClick={() => {
-              alert('2차 작업범위입니다.');
+              alert('개발중입니다.');
             }}
           >
             수정
           </Btn>
           <Btn
             onClick={() => {
-              alert('2차 작업범위입니다.');
+              alert('개발중입니다.');
             }}
           >
             삭제

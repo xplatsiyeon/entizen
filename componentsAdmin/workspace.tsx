@@ -19,6 +19,7 @@ import { useRouter } from 'next/router';
 
 type Props = {
   setNumber: React.Dispatch<React.SetStateAction<number>>;
+  nowHeight?: number;
 };
 const openList = [
   '관리자 관리',
@@ -52,11 +53,18 @@ const closeList = [
   // ['DATA 다운로드'],
   // ['블락'],
 ];
-const Workspace = ({ setNumber }: Props) => {
+const Workspace = ({ setNumber, nowHeight }: Props) => {
+  // window.document.documentElement.scrollHeight
+  // window.screen.height
   const router = useRouter();
+
+  // const [nowHeight, setNowHeight] = React.useState<number>(
+  //   window.document.documentElement.scrollHeight,
+  // );
   const [open, setOpen] = React.useState<boolean[]>(
     Array.from({ length: openList.length }, () => false),
   );
+
   const handleClick = (id: number) => {
     let temp = [...open];
     temp[id] = !temp[id];
@@ -67,143 +75,153 @@ const Workspace = ({ setNumber }: Props) => {
     switch (name) {
       case '관리자 등록':
         setNumber(1);
-        localStorage.setItem('number', '1');
+        sessionStorage.setItem('number', '1');
         break;
 
       case '관리자 리스트 조회':
         setNumber(2);
-        localStorage.setItem('number', '2');
+        sessionStorage.setItem('number', '2');
         break;
 
       case '프로젝트 현황':
         setNumber(3);
-        localStorage.setItem('number', '3');
+        sessionStorage.setItem('number', '3');
         break;
 
       case '통계':
         setNumber(4);
-        localStorage.setItem('number', '4');
+        sessionStorage.setItem('number', '4');
         break;
 
       case '일반회원':
         setNumber(5);
-        localStorage.setItem('number', '5');
+        sessionStorage.setItem('number', '5');
         break;
 
       case '기업회원':
         setNumber(6);
-        localStorage.setItem('number', '6');
+        sessionStorage.setItem('number', '6');
         break;
 
       case '역경매관리 리스트':
         setNumber(7);
-        localStorage.setItem('number', '7');
+        sessionStorage.setItem('number', '7');
         break;
 
       case '프로젝트 리스트':
         setNumber(8);
-        localStorage.setItem('number', '8');
+        sessionStorage.setItem('number', '8');
         break;
 
       case 'AS 상세':
         setNumber(9);
-        localStorage.setItem('number', '9');
+        sessionStorage.setItem('number', '9');
         break;
 
       case '소통하기 리스트':
         setNumber(10);
-        localStorage.setItem('number', '10');
+        sessionStorage.setItem('number', '10');
         break;
 
       case '1대1 문의':
         setNumber(11);
-        localStorage.setItem('number', '11');
+        sessionStorage.setItem('number', '11');
         break;
 
       case '리스트 조회':
         setNumber(12);
-        localStorage.setItem('number', '12');
+        sessionStorage.setItem('number', '12');
         break;
 
       case '회사별 리스트':
         setNumber(13);
-        localStorage.setItem('number', '13');
+        sessionStorage.setItem('number', '13');
         break;
 
       case '약관':
         setNumber(14);
-        localStorage.setItem('number', '14');
+        sessionStorage.setItem('number', '14');
         break;
 
       case '공지사항':
         setNumber(15);
-        localStorage.setItem('number', '15');
+        sessionStorage.setItem('number', '15');
         break;
 
       case '배너':
         setNumber(16);
-        localStorage.setItem('number', '16');
+        sessionStorage.setItem('number', '16');
         break;
 
       case '가이드':
         setNumber(17);
-        localStorage.setItem('number', '17');
+        sessionStorage.setItem('number', '17');
         break;
 
       case 'FAQ':
         setNumber(18);
-        localStorage.setItem('number', '18');
+        sessionStorage.setItem('number', '18');
         break;
 
       case '설정':
         setNumber(19);
-        localStorage.setItem('number', '19');
+        sessionStorage.setItem('number', '19');
         break;
 
       case '알림':
         setNumber(20);
-        localStorage.setItem('number', '20');
+        sessionStorage.setItem('number', '20');
         break;
 
       case 'DATA 업데이트':
         setNumber(21);
-        localStorage.setItem('number', '21');
+        sessionStorage.setItem('number', '21');
         break;
 
       case 'DATA 다운로드':
         setNumber(22);
-        localStorage.setItem('number', '22');
+        sessionStorage.setItem('number', '22');
         break;
 
       case '블락':
         setNumber(23);
-        localStorage.setItem('number', '23');
+        sessionStorage.setItem('number', '23');
         break;
 
       case '역경매 현황':
         setNumber(24);
-        localStorage.setItem('number', '24');
+        sessionStorage.setItem('number', '24');
         break;
 
       case 'A/S 현황':
         setNumber(25);
-        localStorage.setItem('number', '25');
+        sessionStorage.setItem('number', '25');
         break;
 
       default:
         setNumber(0);
-        localStorage.setItem('number', '0');
+        sessionStorage.setItem('number', '0');
         break;
     }
   };
 
-  console.log(window.document.documentElement.clientHeight);
+  React.useEffect(() => {
+    if (router.asPath !== '/admin') {
+      sessionStorage.setItem('number', '4');
+    }
+  }, [router]);
+
+  // React.useEffect(() => {
+  //   window.addEventListener('resize', handleResize);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, [nowHeight]);
+
+  console.log('💔 워크스페이스 nowHeight 💔', nowHeight);
 
   return (
-    <Wrapper
-      aria-labelledby="nested-list-subheader"
-      windowHeight={window.document.documentElement.clientHeight}
-    >
+    <Wrapper aria-labelledby="nested-list-subheader" nowHeight={nowHeight}>
       <Name>이정민님</Name>
       <LogoutBtn>로그아웃</LogoutBtn>
       {openList.map((item, idx) => (
@@ -211,7 +229,8 @@ const Workspace = ({ setNumber }: Props) => {
           {/* close */}
           <ListItemButton onClick={() => handleClick(idx)}>
             <ListItemIcon></ListItemIcon>
-            {open ? <ExpandLess /> : <ExpandMore />}
+
+            {open[idx] ? <ExpandLess /> : <ExpandMore />}
             <ListItemText primary={item} />
           </ListItemButton>
           {/* open */}
@@ -242,11 +261,11 @@ const Workspace = ({ setNumber }: Props) => {
 
 export default Workspace;
 
-const Wrapper = styled(List)<{ windowHeight: number }>`
+const Wrapper = styled(List)<{ nowHeight?: number }>`
   min-width: 154.5pt;
   background-color: ${colors.main1};
-  height: 100vh;
   padding: 0;
+  height: ${({ nowHeight }) => nowHeight && `${nowHeight}px`};
   //1f8bwsm
   .MuiListItemIcon-root {
     min-width: 0;

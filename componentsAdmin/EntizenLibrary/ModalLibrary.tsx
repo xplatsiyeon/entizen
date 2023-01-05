@@ -25,7 +25,7 @@ import { AxiosError } from 'axios';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 type Props = {
-  afterSalesServiceIdx: number;
+  afterSalesServiceIdx: string;
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -62,9 +62,6 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
   const firstLink = data?.data?.library?.link;
   const firstImgUrl = data?.data?.library?.imageUrl;
 
-  // const [title, setTitle] = useState<string | undefined>(firstTitle);
-  // const [link, setLink] = useState<string | undefined>(firstLink);
-  // const [imgUrl, setImgUrl] = useState<string | undefined>(firstImgUrl);
   const [imgName, setImgName] = useState<string | undefined>('');
 
   // file s3 multer 저장 API (with useMutation)
@@ -311,32 +308,23 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
           />
         </FlexWrap>
 
-        <Preview>
-          {/* {data !== undefined ? (
+        {imgUrl !== undefined && (
+          <Preview>
             <img
               src={imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
               style={{ objectFit: 'cover', width: '82px', height: '82px' }}
             />
-          ) : (
-            <img
-              src={imgUrl !== undefined ? imgUrl : normal}
-              style={{ objectFit: 'cover', width: '82px', height: '82px' }}
-            />
-          )} */}
-          <img
-            src={imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
-            style={{ objectFit: 'cover', width: '82px', height: '82px' }}
-          />
-          <Xbox onClick={handlePhotoDelete}>
-            <Image
-              src={CloseImg}
-              layout="intrinsic"
-              alt="closeBtn"
-              width={24}
-              height={24}
-            />
-          </Xbox>
-        </Preview>
+            <Xbox onClick={handlePhotoDelete}>
+              <Image
+                src={CloseImg}
+                layout="intrinsic"
+                alt="closeBtn"
+                width={24}
+                height={24}
+              />
+            </Xbox>
+          </Preview>
+        )}
 
         <FlexHorizontal>
           <SubTitle>제목</SubTitle>
@@ -436,8 +424,8 @@ const Modal = styled.div`
 
 const ModalBox = styled.div`
   background-color: #ffffff;
-  top: 10%;
-  left: 20%;
+  top: 20%;
+  left: 40%;
   position: absolute;
   display: flex;
   flex-direction: column;

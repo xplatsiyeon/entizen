@@ -262,11 +262,6 @@ const DashBoardTable = ({
 
   // console.log('🎀 프로젝트 현황 statusCheck 🎀', statusCheck);
 
-  console.log(
-    '🐳 reverseAuctionSituation 🐳',
-    reverseAuctionSituation?.data?.quotationRequests,
-  );
-
   useEffect(() => {
     switch (tableType) {
       case 'projectListSituation':

@@ -264,7 +264,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
             </List>
             <List>
               <Label>제조사</Label>
-              <RequestContents height={33} maxLength={50}>
+              <RequestContents height={33} maxLength={50} readOnly>
                 {data?.data?.manufacturer}
               </RequestContents>
             </List>
@@ -321,7 +321,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
             </List>
             <List>
               <Label>특장점</Label>
-              <RequestContents height={200} maxLength={500}>
+              <RequestContents height={200} maxLength={500} readOnly>
                 {data?.data?.feature}
               </RequestContents>
             </List>
@@ -535,7 +535,6 @@ const ImgList = styled.div`
     width: 173px;
     height: 130px;
     background-color: gray;
-
     border-radius: 4px;
     :not(:nth-last-of-type(1)) {
       margin-right: 10px;

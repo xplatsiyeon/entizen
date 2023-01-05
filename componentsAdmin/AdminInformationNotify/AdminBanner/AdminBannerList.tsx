@@ -15,7 +15,11 @@ import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/Admi
 import AdminNotifyTable from '../AdminNotifyTable';
 import { AdminBannerDetailResponse } from 'types/tableDataType';
 
-const AdminBannerLIst = () => {
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
+
+const AdminBannerLIst = ({ setNowHeight }: Props) => {
   const queryClient = useQueryClient();
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
@@ -62,6 +66,12 @@ const AdminBannerLIst = () => {
       remove();
     }
   }, [isDetail]);
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   return (
     <Wrapper>

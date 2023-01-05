@@ -184,8 +184,10 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   }, [approve]);
 
   const loading = userLoading || companyLoading;
+
+  const nowHeight = window.document.documentElement.scrollHeight;
   return (
-    <Background>
+    <Background nowHeight={nowHeight}>
       <Wrapper>
         {messageModal && (
           <AlertModal
@@ -269,14 +271,14 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
         <ButtonBox>
           <button
             onClick={() => {
-              alert('2차 작업범위입니다');
+              alert('개발중입니다.');
             }}
           >
             회원삭제
           </button>
           <button
             onClick={() => {
-              alert('2차 작업범위입니다');
+              alert('개발중입니다.');
             }}
           >
             수정
@@ -289,9 +291,10 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
 
 export default CommonDetail;
 
-const Background = styled.div`
+const Background = styled.div<{ nowHeight: number }>`
   width: 100%;
-  height: 120vh;
+  /* height: 100vh; */
+  height: ${({ nowHeight }) => `${nowHeight}px`};
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
   position: absolute;

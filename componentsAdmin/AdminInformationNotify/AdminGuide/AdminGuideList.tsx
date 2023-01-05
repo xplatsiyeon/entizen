@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
@@ -13,7 +13,11 @@ import {
 import AdminGuideEditor from './AdminGuideEditor';
 import AdminNotifyTable from '../AdminNotifyTable';
 
-const AdminGuideList = () => {
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
+
+const AdminGuideList = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [toggle, setToggle] = useState<boolean>(false);
@@ -43,6 +47,13 @@ const AdminGuideList = () => {
   const handleCommon = () => {
     setIsDetail(true);
   };
+
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
+
   return (
     <Wrapper>
       {isDetail && (

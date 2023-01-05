@@ -11,9 +11,15 @@ type Props = {
   detatilId: string;
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-const DetailQuotation = ({ detatilId, setIsDetail, setDetailId }: Props) => {
+const DetailQuotation = ({
+  detatilId,
+  setIsDetail,
+  setDetailId,
+  setNowHeight,
+}: Props) => {
   const { quotationRequestIdx, isCompanyDetail } = useSelector(
     (state: RootState) => state.adminReverseData,
   );
@@ -21,6 +27,12 @@ const DetailQuotation = ({ detatilId, setIsDetail, setDetailId }: Props) => {
   // 버튼 연동 보여주고 숨기고
   const [showSubMenu, setShowSubMenu] = useState<boolean>(false);
 
+  // 높이 함 해보자
+  const [qutationHeight, setQutationHeight] = useState<number>();
+  const [userPreQuotationHeight, setUserPreQuotationHeight] =
+    useState<number>();
+  const [companyPreQuotationHeight, setCompanyPreQuotationHeight] =
+    useState<number>();
   useEffect(() => {
     if (isCompanyDetail) {
       setShowSubMenu(true);
@@ -32,11 +44,11 @@ const DetailQuotation = ({ detatilId, setIsDetail, setDetailId }: Props) => {
     setIsDetail(false);
   };
 
-  console.log('isCompanyDetail', isCompanyDetail);
-
   // 테이블에서 onClick 하면 여기로 id 값 넘겨주기!
 
   console.log('---------------------');
+
+  // console.log(window.document.documentElement.clientHeight);
 
   return (
     <Background>
@@ -48,7 +60,9 @@ const DetailQuotation = ({ detatilId, setIsDetail, setDetailId }: Props) => {
           backBtn={backBtn}
         />
         {/* 기업 디테일 페이지 */}
-        {isCompanyDetail && <Qutation showSubMenu={showSubMenu} />}
+        {isCompanyDetail && (
+          <Qutation showSubMenu={showSubMenu} setNowHeight={setNowHeight} />
+        )}
         {/* 유저 가견적 */}
         <UserPreQuotation detatilId={detatilId} />
         {/* 기업 리스트 */}
@@ -66,8 +80,6 @@ export default DetailQuotation;
 
 const Background = styled.div`
   width: 100%;
-  min-height: 100vh;
-  height: 100%;
   background-color: ${colors.lightWhite};
   padding: 0 18pt;
   position: absolute;

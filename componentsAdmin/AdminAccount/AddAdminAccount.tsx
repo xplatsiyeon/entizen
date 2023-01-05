@@ -20,9 +20,10 @@ interface Validated {
 type Props = {
   setIsDetail?: React.Dispatch<React.SetStateAction<boolean>>;
   detatilId?: string;
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-const AddAdminAccount = ({ setIsDetail, detatilId }: Props) => {
+const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
   const queryClient = useQueryClient();
   const [idInput, setIdInput] = useState<string>('');
   const [pwInput, setPwInput] = useState<string>('');
@@ -236,9 +237,13 @@ const AddAdminAccount = ({ setIsDetail, detatilId }: Props) => {
     reg_email.test(email) ? setIsEmailValid(true) : setIsEmailValid(false);
   }, [email]);
 
-  console.log('🦋 idCheck 🦋', idCheck);
+  console.log('🥶', window.document.documentElement.scrollHeight);
 
-  console.log('🌸 validEmail 🌸', validEmail);
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
 
   const iconAdorment = {
     endAdornment: (

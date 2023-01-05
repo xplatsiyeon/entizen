@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import AdminFAQEditor from './AdminFAQEditor';
+import AdminFAQEditor, { FaqsUpdate } from './AdminFAQEditor';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
 import {
@@ -18,7 +18,15 @@ import { AdminBannerDetailResponse } from 'types/tableDataType';
 export const ServiceKr: string[] = ['서비스 이용', '회원정보', '신고'];
 export const ServiceEn: string[] = ['MEMBER', 'SERVICE', 'REPORT'];
 
-const AdminFAQList = () => {
+type Props = {
+  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
+
+const AdminFAQList = ({ setNowHeight }: Props) => {
+  const { data, isLoading, isError, refetch, remove } = useQuery<FaqsUpdate>(
+    'adminFaqsDetail',
+    () => isTokenGetApi(`/admin/faqs/${detatilId}`),
+  );
   const userTypeEn = ['USER', 'COMPANY'];
   const userType = ['일반회원', '기업회원 '];
   const [userNum, setUserNum] = useState(0);
@@ -49,10 +57,17 @@ const AdminFAQList = () => {
     }
   }, [toggle]);
 
-  // 등록
+  useEffect(() => {
+    if (setNowHeight) {
+      setNowHeight(window.document.documentElement.scrollHeight);
+    }
+  }, []);
+
+  // 등록 (editor에 담겨 있던 값을 reset 해줌)
   const handleCommon = () => {
     setIsDetail(true);
     setDetailId('');
+    remove();
   };
   return (
     <Wrapper>
