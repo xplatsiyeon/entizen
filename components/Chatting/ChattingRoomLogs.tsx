@@ -924,6 +924,7 @@ const TextInput = styled.input`
   /* font-size: 12pt; */
   line-height: 9pt;
   letter-spacing: -0.02em;
+  width: 50px;
   padding: 6pt 7.8pt;
   ::placeholder {
     color: #d3d3d3;

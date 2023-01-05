@@ -16,7 +16,7 @@ import { userAgentAction } from 'store/userAgent';
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient());
   const client = new ApolloClient({
-    uri: 'https://api.entizen.kr/api/graphql',
+    uri: 'https:///test-api.entizen.kr/api/graphql',
     cache: new InMemoryCache(),
   });
   // 에러 캐싱 방지 (테스트 필요)
