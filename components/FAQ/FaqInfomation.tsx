@@ -43,9 +43,9 @@ const FaqInfomation = ({ data, tabNumber, tabCompNumber }: Props) => {
             <QText>Q</QText>
             <ListItemText primary={list.name} />
             {open[list.id] ? (
-              <Image src={UpArrow} alt="up_arrow" />
-            ) : (
               <Image src={DownArrow} alt="down_arrow" />
+            ) : (
+              <Image src={UpArrow} alt="up_arrow" />
             )}
           </ItemButton>
           {/* Open */}

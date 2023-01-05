@@ -916,7 +916,7 @@ const AddBtn = styled.div`
   }
 `;
 const TextInput = styled.input`
-  flex: auto;
+  flex: 2;
   border-radius: 37.5pt;
   font-family: 'Spoqa Han Sans Neo';
   font-style: normal;

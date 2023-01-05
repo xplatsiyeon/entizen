@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import Loader from 'components/Loader';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
   chargingStations,
@@ -8,6 +9,7 @@ import {
 } from 'QueryComponents/UserQuery';
 import { handleColor, handleColor2 } from 'utils/changeValue';
 import CommonBtn from '../as/CommonBtn';
+import noAs from 'public/images/noAs.png';
 
 export interface testArr {
   id: number;
@@ -70,26 +72,32 @@ const Charging = ({ listUp }: Props) => {
   return (
     <>
       <List listUp={Boolean(listUp)}>
-        {chargingData?.chargingStations?.map((el, idx) => {
-          return (
-            <ProjectBox key={idx} onClick={() => handleRoute(el?.projectIdx)}>
-              <CommonBtn
-                /* badge의 값이 4인 데이터만 '구독시작' 이다. 나머지는 '구독종료' */
-                text={el?.badge}
-                // 뱃지 관련 컬러는 나중에 수정
-                // backgroundColor={handleColor2(el?.badge)}
-                backgroundColor={handleColor(el?.badge)}
-                bottom={'12pt'}
-                top={'4.5pt'}
-                left={'0pt'}
-              />
-              <P>{el?.projectName}</P>
-              <P2>
-                {el?.companyMember?.companyMemberAdditionalInfo?.companyName}
-              </P2>
-            </ProjectBox>
-          );
-        })}
+        {chargingData?.chargingStations?.length! > 0 ? (
+          chargingData?.chargingStations?.map((el, idx) => {
+            return (
+              <ProjectBox key={idx} onClick={() => handleRoute(el?.projectIdx)}>
+                <CommonBtn
+                  /* badge의 값이 4인 데이터만 '구독시작' 이다. 나머지는 '구독종료' */
+                  text={el?.badge}
+                  // 뱃지 관련 컬러는 나중에 수정
+                  // backgroundColor={handleColor2(el?.badge)}
+                  backgroundColor={handleColor(el?.badge)}
+                  bottom={'12pt'}
+                  top={'4.5pt'}
+                  left={'0pt'}
+                />
+                <P>{el?.projectName}</P>
+                <P2>
+                  {el?.companyMember?.companyMemberAdditionalInfo?.companyName}
+                </P2>
+              </ProjectBox>
+            );
+          })
+        ) : (
+          <NoCharging>
+            <p>충전소가 없습니다.</p>
+          </NoCharging>
+        )}
       </List>
     </>
   );
@@ -104,6 +112,7 @@ const List = styled.ul<{ listUp: boolean }>`
   margin: 30pt 0;
   padding: 15pt;
   gap: 11pt;
+  /* border: 1px solid blue; */
   @media (min-width: 900pt) {
     width: 580.5pt;
     padding-top: 0;
@@ -154,4 +163,20 @@ const P2 = styled.p`
   bottom: 12pt;
   position: absolute;
   color: #caccd1;
+`;
+
+const NoCharging = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 12pt;
+  font-weight: 500;
+  font-size: 12pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #a6a9b0;
+  flex-direction: column;
 `;
