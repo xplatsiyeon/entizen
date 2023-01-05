@@ -14,22 +14,19 @@ import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
 import RequestMain from 'components/mypage/request/requestMain';
 import UserRightMenu from 'components/UserRightMenu';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 const TAG = 'pages/mypage/project/index.tsx';
 const ProjectInfo = () => {
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
   const handleClick = () => setOpen(!open);
 
-  // useEffect(() => {
-  //   console.log('index', router.query.id);
-  //   if (router.query.id) {
-  //     const num = Number(router.query.id);
-  //   }
-  // }, [router.query.id]);
-
   // -----진행중인 프로젝트 상세 리스트 api-----
-  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
   const {
     loading: projectLoading,
     error: projectError,
@@ -39,6 +36,7 @@ const ProjectInfo = () => {
     variables: {
       projectIdx: routerId!,
     },
+    skip: !accessToken ? true : false,
     context: {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -60,43 +58,47 @@ const ProjectInfo = () => {
   console.log(routerId);
 
   console.log(projectData);
-
-  return (
-    <>
-      <Body>
-        <WebHeader num={1} now={'mypage'} />
-        <UserRightMenu />
-        <Inner>
-          <FlexBox>
-            <Wrap1>
-              <RequestMain page={1} />
-            </Wrap1>
-            <Wrap2>
-              <MypageHeader back={true} title={'내 프로젝트'} />
-              {typeof router?.query?.projectIdx === 'string' ? (
-                <>
-                  <TopBox
-                    type="USER"
-                    open={open}
-                    setOpen={setOpen}
-                    handleClick={handleClick}
-                    data={projectData!}
-                  />
-                  {/* 프로젝트 진행 컴포넌트 */}
-                  <ClientProgress
-                    badge={projectData?.project?.badge!}
-                    data={projectData!}
-                    projectRefetch={projectRefetch}
-                  />
-                </>
-              ) : null}
-            </Wrap2>
-          </FlexBox>
-        </Inner>
-        <WebFooter />
-      </Body>
-    </>
-  );
+  if (!accessToken && memberType !== 'USER') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+  } else {
+    return (
+      <>
+        <Body>
+          <WebHeader num={1} now={'mypage'} />
+          <UserRightMenu />
+          <Inner>
+            <FlexBox>
+              <Wrap1>
+                <RequestMain page={1} />
+              </Wrap1>
+              <Wrap2>
+                <MypageHeader back={true} title={'내 프로젝트'} />
+                {typeof router?.query?.projectIdx === 'string' ? (
+                  <>
+                    <TopBox
+                      type="USER"
+                      open={open}
+                      setOpen={setOpen}
+                      handleClick={handleClick}
+                      data={projectData!}
+                    />
+                    {/* 프로젝트 진행 컴포넌트 */}
+                    <ClientProgress
+                      badge={projectData?.project?.badge!}
+                      data={projectData!}
+                      projectRefetch={projectRefetch}
+                    />
+                  </>
+                ) : null}
+              </Wrap2>
+            </FlexBox>
+          </Inner>
+          <WebFooter />
+        </Body>
+      </>
+    );
+  }
 };
 
 const Body = styled.div`

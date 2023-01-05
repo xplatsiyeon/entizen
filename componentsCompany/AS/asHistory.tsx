@@ -11,6 +11,8 @@ import useDebounce from 'hooks/useDebounce';
 import { QueryClient, useQueries, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 
 export interface AfterSalesServices {
   requestTitle: string;
@@ -41,7 +43,10 @@ export interface HisttoryResponse {
 const TAG = 'componentsCompany/AS/asHistroty.tsx';
 const AsHistory = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const queryclient = useQueryClient();
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [searchWord, setSearchWord] = useState<string>('');
   const [selected, setSelected] = useState<string>('현장별 보기');
   const [filterTypeEn, setFilterTypeEn] = useState('site');
@@ -56,7 +61,7 @@ const AsHistory = () => {
           `/after-sales-services/histories?sort=${filterTypeEn}&searchKeyword=${keyword}`,
         ),
       {
-        enabled: router.isReady,
+        enabled: router.isReady && accessToken ? true : false,
       },
     );
 
@@ -86,90 +91,95 @@ const AsHistory = () => {
     console.log('🔥 에러 발생 ~line 66 ->' + TAG);
     console.log(error);
   }
+  if (!accessToken && memberType !== 'COMPANY') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+    return <div></div>;
+  } else {
+    return (
+      <Body>
+        {modal && (
+          <FilterModal
+            setModal={setModal}
+            setSelected={setSelected}
+            setFilterTypeEn={setFilterTypeEn}
+            type={'historyAS'}
+          />
+        )}
 
-  return (
-    <Body>
-      {modal && (
-        <FilterModal
-          setModal={setModal}
-          setSelected={setSelected}
-          setFilterTypeEn={setFilterTypeEn}
-          type={'historyAS'}
-        />
-      )}
-
-      <Wrap>
-        <MobFilter onClick={() => setModal(true)}>
-          <span>{selected}</span>
-          <IconBox>
-            <Image src={blackDownArrow} alt="rijgtArrow" />
-          </IconBox>
-        </MobFilter>
-        <WebFilter
-          setSelected={setSelected}
-          setFilterTypeEn={setFilterTypeEn}
-          type={'historyAS'}
-        />
-        <InputWrap>
-          <Search searchWord={searchWord} setSearchWord={setSearchWord} />
-        </InputWrap>
-      </Wrap>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <List>
-          {/* 데이터 없을 때 */}
-          {data && data?.data?.afterSalesServiceHistories?.length! === 0 && (
-            <NoAsHistyory />
-          )}
-          {/* 데이터 있을 때 */}
-          {data && data?.data?.afterSalesServiceHistories?.length! > 0 && (
-            <ListWrap>
-              {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
-                <React.Fragment key={idx}>
-                  <ListBox key={idx}>
-                    <StoreName>
-                      {
-                        el?.finalQuotation?.preQuotation?.quotationRequest
-                          ?.installationAddress
-                      }
-                    </StoreName>
-                    {el?.afterSalesServices?.map(
-                      (afterSalesService, afterSalesServiceIdx) => (
-                        <FlexWrap
-                          key={afterSalesServiceIdx}
-                          onClick={() =>
-                            handleRoute(
-                              el?.afterSalesServices[afterSalesServiceIdx]
-                                ?.afterSalesServiceIdx,
-                            )
-                          }
-                          afterSalesService={
-                            data?.data?.afterSalesServiceHistories[idx]
-                              ?.afterSalesServices.length
-                          }
-                        >
-                          <Text>{afterSalesService.requestTitle}</Text>
-                          <Score>
-                            {afterSalesService.afterSalesServiceReview
-                              ?.averagePoint
-                              ? `평점 ${afterSalesService.afterSalesServiceReview?.averagePoint}`
-                              : null}
-                          </Score>
-                        </FlexWrap>
-                      ),
-                    )}
-                  </ListBox>
-                </React.Fragment>
-              ))}
-              {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
-              <BtnBox>A/S 히스토리 다운받기</BtnBox>
-            </ListWrap>
-          )}
-        </List>
-      )}
-    </Body>
-  );
+        <Wrap>
+          <MobFilter onClick={() => setModal(true)}>
+            <span>{selected}</span>
+            <IconBox>
+              <Image src={blackDownArrow} alt="rijgtArrow" />
+            </IconBox>
+          </MobFilter>
+          <WebFilter
+            setSelected={setSelected}
+            setFilterTypeEn={setFilterTypeEn}
+            type={'historyAS'}
+          />
+          <InputWrap>
+            <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+          </InputWrap>
+        </Wrap>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <List>
+            {/* 데이터 없을 때 */}
+            {data && data?.data?.afterSalesServiceHistories?.length! === 0 && (
+              <NoAsHistyory />
+            )}
+            {/* 데이터 있을 때 */}
+            {data && data?.data?.afterSalesServiceHistories?.length! > 0 && (
+              <ListWrap>
+                {data?.data?.afterSalesServiceHistories?.map((el, idx) => (
+                  <React.Fragment key={idx}>
+                    <ListBox key={idx}>
+                      <StoreName>
+                        {
+                          el?.finalQuotation?.preQuotation?.quotationRequest
+                            ?.installationAddress
+                        }
+                      </StoreName>
+                      {el?.afterSalesServices?.map(
+                        (afterSalesService, afterSalesServiceIdx) => (
+                          <FlexWrap
+                            key={afterSalesServiceIdx}
+                            onClick={() =>
+                              handleRoute(
+                                el?.afterSalesServices[afterSalesServiceIdx]
+                                  ?.afterSalesServiceIdx,
+                              )
+                            }
+                            afterSalesService={
+                              data?.data?.afterSalesServiceHistories[idx]
+                                ?.afterSalesServices.length
+                            }
+                          >
+                            <Text>{afterSalesService.requestTitle}</Text>
+                            <Score>
+                              {afterSalesService.afterSalesServiceReview
+                                ?.averagePoint
+                                ? `평점 ${afterSalesService.afterSalesServiceReview?.averagePoint}`
+                                : null}
+                            </Score>
+                          </FlexWrap>
+                        ),
+                      )}
+                    </ListBox>
+                  </React.Fragment>
+                ))}
+                {/* 히스토리 다운 받는 로직 추가 해야합니다! */}
+                <BtnBox>A/S 히스토리 다운받기</BtnBox>
+              </ListWrap>
+            )}
+          </List>
+        )}
+      </Body>
+    );
+  }
 };
 
 export default AsHistory;

@@ -18,6 +18,8 @@ import WebFooter from 'componentsWeb/WebFooter';
 import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import CommunicationBox from 'components/CommunicationBox';
 import Loader from 'components/Loader';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 
 export interface ChargerFiles {
   createdAt: string;
@@ -199,8 +201,11 @@ const TAG =
 // 본체
 const SentQuoatationFirst = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const routerId = router?.query?.preQuotationIdx!;
   const historyId = router?.query?.historyIdx!;
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   // 현장실사 완료 모달
   const [isConfirmModal, setIsConfirmModal] = useState(false);
   // 에러 모달
@@ -229,7 +234,7 @@ const SentQuoatationFirst = () => {
       'company',
       () => isTokenGetApi(`/quotations/sent-request/${routerId || historyId}`),
       {
-        enabled: router.isReady,
+        enabled: router.isReady && accessToken ? true : false,
         // suspense: true,
         // enabled: false,
       },
@@ -247,7 +252,7 @@ const SentQuoatationFirst = () => {
     () =>
       isTokenGetApi(`/quotations/pre/${routerId || historyId}/spot-inspection`),
     {
-      enabled: router.isReady,
+      enabled: router.isReady && accessToken ? true : false,
       // enabled: false,
     },
   );
@@ -357,165 +362,173 @@ const SentQuoatationFirst = () => {
   console.log(TAG + '\n🔥 ~line 138 보낸견적 상세페이지');
   console.log(data);
 
-  return (
-    <>
-      <WebBuyerHeader
-        tabNumber={tabNumber}
-        setTabNumber={setTabNumber}
-        componentId={componentId}
-        openSubLink={openSubLink}
-        setOpenSubLink={setOpenSubLink}
-      />
-      <Wrapper>
-        {nowWidth < 1200 && (
-          <SignUpHeader
-            back={true}
-            title={'보낸 견적'}
-            handleBackClick={onClickBackBtn}
-          />
-        )}
-        {/* 현장실사 완료 모달 */}
-        {isConfirmModal && (
-          <TwoBtnModal
-            exit={() => setIsConfirmModal(false)}
-            leftBtnText={'취소'}
-            leftBtnColor={colors.main2}
-            leftBtnControl={() => setIsConfirmModal(false)}
-            rightBtnText={'완료하기'}
-            rightBtnColor={colors.main}
-            rightBtnControl={onClickSpot}
-            text={'현장실사를 완료하시겠습니까?'}
-          />
-        )}
-        {/* 에러 모달 */}
-        {isModal && <Modal click={onClickModal} text={errorMessage} />}
-        <CompanyRightMenu />
-        {nowWidth < 1200 && (
-          <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
-        )}
-        <WebRapper>
-          {nowWidth >= 1200 && (
-            <LeftProjectQuotationBox
-              underNum={underNum}
-              setUnderNum={setUnderNum}
-              componentId={componentId}
-              setComponentId={setComponentId}
+  if (!accessToken && memberType !== 'COMPANY') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+    return <div></div>;
+  } else {
+    return (
+      <>
+        <WebBuyerHeader
+          tabNumber={tabNumber}
+          setTabNumber={setTabNumber}
+          componentId={componentId}
+          openSubLink={openSubLink}
+          setOpenSubLink={setOpenSubLink}
+        />
+        <Wrapper>
+          {nowWidth < 1200 && (
+            <SignUpHeader
+              back={true}
+              title={'보낸 견적'}
+              handleBackClick={onClickBackBtn}
             />
           )}
-          {/* 구매자 견적 정보 */}
-          <WebColumnContainer>
-            {nowWidth >= 1200 && (
-              <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
-            )}
-            <TopBox
-              handleClick={handleClick}
-              open={open}
-              setOpen={setOpen}
-              data={data!}
-              spotData={spotData!}
+          {/* 현장실사 완료 모달 */}
+          {isConfirmModal && (
+            <TwoBtnModal
+              exit={() => setIsConfirmModal(false)}
+              leftBtnText={'취소'}
+              leftBtnColor={colors.main2}
+              leftBtnControl={() => setIsConfirmModal(false)}
+              rightBtnText={'완료하기'}
+              rightBtnColor={colors.main}
+              rightBtnControl={onClickSpot}
+              text={'현장실사를 완료하시겠습니까?'}
             />
-            {/* 일정 변경 컴포넌트 */}
-            <CenterBox data={data!} spotData={spotData!} />
-            {/* 하단 내용 - 최종 견적 작성 후 생김*/}
-            {data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
-              <>
-                <FinalBottomBox data={data!} />
-                {data?.sendQuotationRequest?.badge === '낙찰대기 중' && (
-                  <BtnBox>
-                    <EditBtn
-                      onClick={() =>
-                        router.push({
-                          pathname: '/company/quotation/lastQuotation',
-                          query: {
-                            preQuotation: routerId,
-                            finalQuotationIdx:
-                              data?.sendQuotationRequest?.preQuotation
-                                ?.finalQuotation?.finalQuotationIdx,
-                          },
-                        })
-                      }
-                    >
-                      수정하기
-                    </EditBtn>
-                  </BtnBox>
-                )}
-              </>
+          )}
+          {/* 에러 모달 */}
+          {isModal && <Modal click={onClickModal} text={errorMessage} />}
+          <CompanyRightMenu />
+          {nowWidth < 1200 && (
+            <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
+          )}
+          <WebRapper>
+            {nowWidth >= 1200 && (
+              <LeftProjectQuotationBox
+                underNum={underNum}
+                setUnderNum={setUnderNum}
+                componentId={componentId}
+                setComponentId={setComponentId}
+              />
             )}
-            {/* 하단 내용 - 가견적 작성 후 생김 */}
-            {!data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
-              <>
-                <BottomBox data={data!} />
-                {/* 가견적 수정하기 버튼 */}
-                {data?.sendQuotationRequest?.badge?.includes('견적마감') ||
-                  (data?.sendQuotationRequest?.badge?.includes('선택대기') && (
+            {/* 구매자 견적 정보 */}
+            <WebColumnContainer>
+              {nowWidth >= 1200 && (
+                <CustomerRequestContent>고객 요청 내용</CustomerRequestContent>
+              )}
+              <TopBox
+                handleClick={handleClick}
+                open={open}
+                setOpen={setOpen}
+                data={data!}
+                spotData={spotData!}
+              />
+              {/* 일정 변경 컴포넌트 */}
+              <CenterBox data={data!} spotData={spotData!} />
+              {/* 하단 내용 - 최종 견적 작성 후 생김*/}
+              {data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
+                <>
+                  <FinalBottomBox data={data!} />
+                  {data?.sendQuotationRequest?.badge === '낙찰대기 중' && (
                     <BtnBox>
-                      {/* 부분 구독 판별 */}
                       <EditBtn
                         onClick={() =>
                           router.push({
-                            pathname: '/company/recievedRequest',
+                            pathname: '/company/quotation/lastQuotation',
                             query: {
-                              part:
-                                data?.sendQuotationRequest?.quotationRequest
-                                  ?.subscribeProduct === 'PART'
-                                  ? true
-                                  : false,
-                              edit: true,
-                              quotationRequestIdx: routerId,
+                              preQuotation: routerId,
+                              finalQuotationIdx:
+                                data?.sendQuotationRequest?.preQuotation
+                                  ?.finalQuotation?.finalQuotationIdx,
                             },
                           })
                         }
                       >
-                        가견적 수정하기
+                        수정하기
                       </EditBtn>
                     </BtnBox>
-                  ))}
-              </>
-            )}
-            {/* 현장실사 예약 완료 -> 현장 실사 완료 버튼 생성*/}
-            {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
-              <LastQuotationBtnBox2>
-                {/* <Blur />
+                  )}
+                </>
+              )}
+              {/* 하단 내용 - 가견적 작성 후 생김 */}
+              {!data?.sendQuotationRequest?.preQuotation?.finalQuotation && (
+                <>
+                  <BottomBox data={data!} />
+                  {/* 가견적 수정하기 버튼 */}
+                  {data?.sendQuotationRequest?.badge?.includes('견적마감') ||
+                    (data?.sendQuotationRequest?.badge?.includes(
+                      '선택대기',
+                    ) && (
+                      <BtnBox>
+                        {/* 부분 구독 판별 */}
+                        <EditBtn
+                          onClick={() =>
+                            router.push({
+                              pathname: '/company/recievedRequest',
+                              query: {
+                                part:
+                                  data?.sendQuotationRequest?.quotationRequest
+                                    ?.subscribeProduct === 'PART'
+                                    ? true
+                                    : false,
+                                edit: true,
+                                quotationRequestIdx: routerId,
+                              },
+                            })
+                          }
+                        >
+                          가견적 수정하기
+                        </EditBtn>
+                      </BtnBox>
+                    ))}
+                </>
+              )}
+              {/* 현장실사 예약 완료 -> 현장 실사 완료 버튼 생성*/}
+              {data?.sendQuotationRequest?.badge === '현장실사 예약 완료' && (
+                <LastQuotationBtnBox2>
+                  {/* <Blur />
                 <BlurTwo /> */}
-                <LastBtn onClick={() => setIsConfirmModal(true)}>
-                  현장실사 완료
-                </LastBtn>
-              </LastQuotationBtnBox2>
-            )}
-            {/* 최종견적 입력 중 -> 최종견적 작성 페이지로 이동 버튼 생성 */}
-            {data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
-              <LastQuotationBtnBox>
-                <Blur />
-                <BlurTwo />
-                <LastBtn
-                  onClick={() =>
-                    router.push({
-                      pathname: '/company/quotation/lastQuotation',
-                      query: {
-                        preQuotation: routerId,
-                      },
-                    })
-                  }
-                >
-                  최종견적 작성
-                </LastBtn>
-              </LastQuotationBtnBox>
-            )}
-            {/* // 고객과 소통하기 -> 현장실사 일정 나오면 생김 */}
-            {spotData?.data?.spotInspection && (
-              <CommunicationWrapper>
-                <CommunicationBox
-                  text={'고객과 소통하기'}
-                  id={data?.sendQuotationRequest?.quotationRequest?.memberIdx}
-                />
-              </CommunicationWrapper>
-            )}
-          </WebColumnContainer>
-        </WebRapper>
-      </Wrapper>
-      <WebFooter />
-    </>
-  );
+                  <LastBtn onClick={() => setIsConfirmModal(true)}>
+                    현장실사 완료
+                  </LastBtn>
+                </LastQuotationBtnBox2>
+              )}
+              {/* 최종견적 입력 중 -> 최종견적 작성 페이지로 이동 버튼 생성 */}
+              {data?.sendQuotationRequest?.badge === '최종견적 입력 중' && (
+                <LastQuotationBtnBox>
+                  <Blur />
+                  <BlurTwo />
+                  <LastBtn
+                    onClick={() =>
+                      router.push({
+                        pathname: '/company/quotation/lastQuotation',
+                        query: {
+                          preQuotation: routerId,
+                        },
+                      })
+                    }
+                  >
+                    최종견적 작성
+                  </LastBtn>
+                </LastQuotationBtnBox>
+              )}
+              {/* // 고객과 소통하기 -> 현장실사 일정 나오면 생김 */}
+              {spotData?.data?.spotInspection && (
+                <CommunicationWrapper>
+                  <CommunicationBox
+                    text={'고객과 소통하기'}
+                    id={data?.sendQuotationRequest?.quotationRequest?.memberIdx}
+                  />
+                </CommunicationWrapper>
+              )}
+            </WebColumnContainer>
+          </WebRapper>
+        </Wrapper>
+        <WebFooter />
+      </>
+    );
+  }
 };
 
 const WebBody = styled.div`

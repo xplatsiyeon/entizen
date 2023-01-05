@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import CompanyManagement from 'componentsAdmin/Member/CompanyManagement';
 import UserManagement from 'componentsAdmin/Member/UserManagement';
 import Workspace from 'componentsAdmin/workspace';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProjectList from 'componentsAdmin/ProjectList/ProjectList';
 import ReverseAuctionList from 'componentsAdmin/RverseAuction/ReverseAuctionList';
 import ASDetail from 'componentsAdmin/AllAs/ASDetail';
@@ -27,6 +27,7 @@ import AddAdminAccount from 'componentsAdmin/AdminAccount/AddAdminAccount';
 type Props = {};
 
 const index = (props: Props) => {
+  const a = 1;
   // 관리자 계정 초기 세팅값
   const [number, setNumber] = useState(4);
 

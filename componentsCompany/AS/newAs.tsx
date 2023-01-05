@@ -15,6 +15,8 @@ import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import { dateFomat } from 'utils/calculatePackage';
 import useDebounce from 'hooks/useDebounce';
+import { useDispatch } from 'react-redux';
+import { redirectAction } from 'store/redirectUrlSlice';
 
 export interface NewReceivedAfterSalesServices {
   afterSalesService: {
@@ -49,6 +51,9 @@ export interface CompanyAsListResposne {
 const TAG = 'componentsCompany/AS/newAs.tsx';
 const NewAs = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   const [searchWord, setSearchWord] = useState<string>('');
   const [selected, setSelected] = useState<string>('등록일순 보기');
   const [filterTypeEn, setFilterTypeEn] = useState('date');
@@ -63,7 +68,7 @@ const NewAs = () => {
           `/after-sales-services/new?sort=${filterTypeEn}&searchKeyword=${keyword}`,
         ),
       {
-        enabled: router.isReady,
+        enabled: router.isReady && accessToken ? true : false,
       },
     );
 
@@ -80,76 +85,82 @@ const NewAs = () => {
   }
   // console.log('🔥 기업 AS 리스트 데이터 확인 ~line 69 -> ' + TAG);
   // console.log(data);
-  return (
-    <Body>
-      {modal && (
-        <FilterModal
-          setModal={setModal}
-          setSelected={setSelected}
-          setFilterTypeEn={setFilterTypeEn}
-          type={'receivedAS'}
-        />
-      )}
-      <Wrap>
-        <MobFilter onClick={() => setModal(true)}>
-          <span>{selected}</span>
-          <IconBox>
-            <Image src={blackDownArrow} alt="rijgtArrow" />
-          </IconBox>
-        </MobFilter>
-        <WebFilter
-          setSelected={setSelected}
-          setFilterTypeEn={setFilterTypeEn}
-          type={'receivedAS'}
-        />
-        <InputWrap>
-          <Search searchWord={searchWord} setSearchWord={setSearchWord} />
-        </InputWrap>
-      </Wrap>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <List>
-          {/* 데이터 없을 때 */}
-          {data?.data?.newReceivedAfterSalesServices?.length! === 0 && (
-            <NoAsHistyory />
-          )}
-          {/* 데이터 있을 때 */}
-          {data?.data?.newReceivedAfterSalesServices?.length! > 0 &&
-            data?.data?.newReceivedAfterSalesServices?.map((el, idx) => {
-              return (
-                <ListBox
-                  key={idx}
-                  onClick={() =>
-                    router.push({
-                      pathname: '/company/as/receivedAS/',
-                      query: {
-                        afterSalesServiceIdx:
-                          el?.afterSalesService?.afterSalesServiceIdx,
-                      },
-                    })
-                  }
-                >
-                  <StoreName>
-                    {
-                      el?.afterSalesService?.project?.finalQuotation
-                        ?.preQuotation?.quotationRequest?.installationAddress
+  if (!accessToken && memberType !== 'COMPANY') {
+    dispatch(redirectAction.addUrl(router.asPath));
+    router.push('/signin');
+    return <div></div>;
+  } else {
+    return (
+      <Body>
+        {modal && (
+          <FilterModal
+            setModal={setModal}
+            setSelected={setSelected}
+            setFilterTypeEn={setFilterTypeEn}
+            type={'receivedAS'}
+          />
+        )}
+        <Wrap>
+          <MobFilter onClick={() => setModal(true)}>
+            <span>{selected}</span>
+            <IconBox>
+              <Image src={blackDownArrow} alt="rijgtArrow" />
+            </IconBox>
+          </MobFilter>
+          <WebFilter
+            setSelected={setSelected}
+            setFilterTypeEn={setFilterTypeEn}
+            type={'receivedAS'}
+          />
+          <InputWrap>
+            <Search searchWord={searchWord} setSearchWord={setSearchWord} />
+          </InputWrap>
+        </Wrap>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <List>
+            {/* 데이터 없을 때 */}
+            {data?.data?.newReceivedAfterSalesServices?.length! === 0 && (
+              <NoAsHistyory />
+            )}
+            {/* 데이터 있을 때 */}
+            {data?.data?.newReceivedAfterSalesServices?.length! > 0 &&
+              data?.data?.newReceivedAfterSalesServices?.map((el, idx) => {
+                return (
+                  <ListBox
+                    key={idx}
+                    onClick={() =>
+                      router.push({
+                        pathname: '/company/as/receivedAS/',
+                        query: {
+                          afterSalesServiceIdx:
+                            el?.afterSalesService?.afterSalesServiceIdx,
+                        },
+                      })
                     }
-                  </StoreName>
-                  <Text>{el?.afterSalesService?.requestTitle}</Text>
-                  <FlexWrap>
-                    <Badge bgColor={handleColorAS(el?.badge)}>
-                      {el?.badge}
-                    </Badge>
-                    <Date>{dateFomat(el?.afterSalesService?.createdAt)}</Date>
-                  </FlexWrap>
-                </ListBox>
-              );
-            })}
-        </List>
-      )}
-    </Body>
-  );
+                  >
+                    <StoreName>
+                      {
+                        el?.afterSalesService?.project?.finalQuotation
+                          ?.preQuotation?.quotationRequest?.installationAddress
+                      }
+                    </StoreName>
+                    <Text>{el?.afterSalesService?.requestTitle}</Text>
+                    <FlexWrap>
+                      <Badge bgColor={handleColorAS(el?.badge)}>
+                        {el?.badge}
+                      </Badge>
+                      <Date>{dateFomat(el?.afterSalesService?.createdAt)}</Date>
+                    </FlexWrap>
+                  </ListBox>
+                );
+              })}
+          </List>
+        )}
+      </Body>
+    );
+  }
 };
 
 export default NewAs;
