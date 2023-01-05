@@ -11,9 +11,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import { adminDateFomat, dateFomat } from 'utils/calculatePackage';
 
-type Props = {
-  setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
-};
+type Props = {};
 
 type StatisticsResponse = {
   isSuccess: boolean;
@@ -40,7 +38,7 @@ type StatisticsResponse = {
 const ChartList = ['완속', '중속', '급속', '초급속'];
 const ChartColor = ['#B096EF', '#FFC043', '#A6A9B0', '#F75015'];
 
-const Statistics = ({ setNowHeight }: Props) => {
+const Statistics = (props: Props) => {
   const queryClinet = useQueryClient();
 
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -55,33 +53,43 @@ const Statistics = ({ setNowHeight }: Props) => {
     value: DateRange | null,
     event: React.SyntheticEvent<Element, Event>,
   ) => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    console.log('input?', inputValue);
-    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
-    setTimeout(() => {
-      dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
-    }, 600);
+    console.log('==================value=======================');
+
+    if (value?.length === 2) {
+      setPickedDate([
+        adminDateFomat(value![0] as unknown as string),
+        adminDateFomat(value![1] as unknown as string),
+      ]);
+    }
+    // const inputValue = dateRef.current
+    //   ?.querySelector('.datePicker-input')
+    //   ?.querySelector('input')?.value;
+    // console.log('input?', inputValue);
+    // dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+    // setTimeout(() => {
+    //   dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+    // }, 600);
   };
   const handleDate = () => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    console.log('날짜조회 클릭', inputValue);
+    queryClinet.removeQueries('asDetailView');
+    refetch();
 
-    if (inputValue) {
-      console.log(inputValue);
-      const newDate = inputValue.split('~');
-      setPickedDate(newDate);
-    } else {
-      setPickedDate(undefined);
-    }
+    // queryClinet.invalidateQueries('asDetailView');
+    // const inputValue = dateRef.current
+
+    // console.log('날짜조회 클릭', inputValue);
+    // if (inputValue) {
+    //   console.log(inputValue);
+    //   const newDate = inputValue.split('~');
+    //   setPickedDate(newDate);
+    // } else {
+    //   setPickedDate(undefined);
+    // }
   };
 
   // 통계 리스트 조회
   // /admin/dashboards/statistics?startDate=2022-12-01&endDate=2022-12-29
-  const { data, isLoading, isError } = useQuery<StatisticsResponse>(
+  const { data, isLoading, isError, refetch } = useQuery<StatisticsResponse>(
     'asDetailView',
     () =>
       isTokenGetApi(
@@ -108,11 +116,11 @@ const Statistics = ({ setNowHeight }: Props) => {
   // ChartBar에 그래프로 내려주는 수치(배열임)
   const chartData = data?.data?.statistics?.chargers;
 
-  useEffect(() => {
-    if (setNowHeight) {
-      setNowHeight(window.document.documentElement.scrollHeight);
-    }
-  }, []);
+  // useEffect(() => {
+  //   console.log('----------------pickedDate-----------------');
+  //   console.log(pickedDate);
+  //   // queryClinet.invalidateQueries('asDetailView');
+  // }, [data, pickedDate]);
 
   return (
     <Wrapper>
