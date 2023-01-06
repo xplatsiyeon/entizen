@@ -345,7 +345,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
 
         <FlexHorizontal>
           <SubTitle>제목</SubTitle>
-          <Input
+          <InputText
             value={title}
             placeholder="제목을 써주세요."
             onChange={handleTitleArea}
@@ -354,7 +354,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
         </FlexHorizontal>
         <FlexHorizontal>
           <SubTitle>링크</SubTitle>
-          <Input
+          <InputText
             value={link}
             placeholder="링크를 넣어주세요."
             onChange={handleLinkArea}
@@ -397,6 +397,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
                   background: '#747780',
                   border: '1px solid #464646',
                   color: '#ffffff',
+                  marginLeft: '-20px',
                 }}
                 onClick={() => {
                   modalPostBtnControll();
@@ -544,10 +545,19 @@ const TextInput = styled.div`
   padding: 3px;
 `;
 
-const InputText = styled.input`
-  width: 243px;
-  height: 73px;
+const InputText = styled.textarea`
+  width: 246px;
+  height: 76px;
+  border: none;
   overflow-y: scroll;
+  outline: none;
+  resize: none;
+  border: 1px solid #e2e5ed;
+  background-color: #fbfcff;
+  border-radius: 2px;
+  color: ${colors.lightGray3};
+  font-weight: 400;
+  padding: 5px;
 `;
 
 const Input = styled(TextField)`
@@ -556,23 +566,19 @@ const Input = styled(TextField)`
   border-radius: 2px;
   border: 1px solid #e2e5ed;
   background-color: #fbfcff;
-  word-break: break-all;
+  /* overflow-x: scroll; */
   overflow-y: scroll;
+  word-break: break-all;
 
-  /* display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box; */
-  .MuiInputBase-root {
+  /* .MuiInputBase-root {
     padding: 3px 3px;
-  }
-  & input {
+  } */
+  /* & input {
     ${Text}
     color: #222222;
     text-align: left;
     padding: 0;
-  }
+  } */
 
   ::placeholder {
     color: ${colors.lightGray3};
