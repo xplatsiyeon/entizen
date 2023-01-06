@@ -179,7 +179,7 @@ const EntizenLibraryTable = ({
   return (
     <StyledBody className="user-table">
       <FlexBox>
-        <P>결과 {length}</P>{' '}
+        <P>결과{length}</P>
         <Button
           onClick={() => {
             handleCommon();
@@ -225,6 +225,8 @@ export default React.memo(EntizenLibraryTable);
 const StyledBody = styled.div`
   margin: 32px 0 0;
   min-width: 1200px;
+  width: 100%;
+
   .hidden {
     visibility: hidden;
   }
@@ -238,19 +240,55 @@ const StyledBody = styled.div`
     color: #000000;
 
     thead {
+      tr {
+        min-width: 1200px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
       font-weight: 500;
       background: lightgray;
+
       .gridjs-th-content {
-        padding: 8px 0;
+        padding: 8px 3px;
+      }
+      th:nth-child(1) {
+      }
+      th:nth-child(2) {
+        .gridjs-th-content {
+        }
+      }
+      th:nth-child(3) {
+      }
+      th:nth-child(4) {
+      }
+      th:nth-child(5) {
       }
     }
     tbody {
       font-weight: 400;
-
       tr {
+        display: flex;
+        min-width: 1200px;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+
         td {
           padding: 8px 0;
-          position: relative;
+        }
+        td:nth-child(1) {
+        }
+        td:nth-child(2) {
+        }
+        td:nth-child(3) {
+        }
+        td:nth-child(4) {
+        }
+        td:nth-child(5) {
+        }
+        td:nth-child(6) {
         }
       }
     }
@@ -325,10 +363,10 @@ const BtnGap = styled.div`
 `;
 
 const LibraryImage = styled.div`
-  position: absolute;
-  top: 50%;
+  /* position: absolute; */
+  /* top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); */
 `;
 
 const TitleBox = styled.div`
@@ -339,9 +377,10 @@ const TitleBox = styled.div`
   height: 82px;
   overflow-y: scroll;
   text-align: center;
-
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 `;
 
 const LinkBox = styled.div`
@@ -354,6 +393,7 @@ const LinkBox = styled.div`
   text-align: center;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const ToggleContainer = styled.div`
