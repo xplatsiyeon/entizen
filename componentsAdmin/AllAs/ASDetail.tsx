@@ -34,6 +34,7 @@ const ASDetail = ({ setNowHeight }: Props) => {
   const dateRef = useRef<HTMLLIElement>(null);
 
   // 달력 날짜 변경 함수
+  // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
     event: React.SyntheticEvent<Element, Event>,
@@ -85,16 +86,18 @@ const ASDetail = ({ setNowHeight }: Props) => {
       )}
       <AdminHeader title="A/S" type="main" />
       <Search>
-        <li className="search">
+        <li className="search" ref={dateRef}>
           <label>기간검색</label>
           {/* 달력 컴포넌트 */}
           <DateRangePicker
+            className="datePicker-input"
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
             onChange={handleDateChange}
+            style={{ cursor: 'pointer' }}
           />
-          <Btn>
-            <Text onClick={handleDate}>조회</Text>
+          <Btn onClick={handleDate}>
+            <Text>조회</Text>
           </Btn>
         </li>
         <li className="search">
@@ -139,7 +142,6 @@ export default ASDetail;
 
 const Wrapper = styled.div`
   width: 100%;
-
   margin: 0 18pt;
 `;
 

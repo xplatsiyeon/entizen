@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
+import { getApi } from 'api';
 import AdminFAQEditor, { FaqsUpdate } from './AdminFAQEditor';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
@@ -13,20 +14,32 @@ import {
   useQueryClient,
 } from 'react-query';
 import AdminNotifyTable from '../AdminNotifyTable';
-import { AdminBannerDetailResponse } from 'types/tableDataType';
+import {
+  AdminBannerDetailResponse,
+  AdminFAQListResponse,
+} from 'types/tableDataType';
 
 export const ServiceKr: string[] = ['서비스 이용', '회원정보', '신고'];
 export const ServiceEn: string[] = ['MEMBER', 'SERVICE', 'REPORT'];
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setNumber: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const AdminFAQList = ({ setNowHeight }: Props) => {
+const AdminFAQList = ({ setNowHeight, setNumber }: Props) => {
+  // FAQ 에디터 데이터 불러오는 api
   const { data, isLoading, isError, refetch, remove } = useQuery<FaqsUpdate>(
     'adminFaqsDetail',
     () => isTokenGetApi(`/admin/faqs/${detatilId}`),
   );
+
+  // FAQ 리스트 불러오는 api
+  const { data: adminFaqList, refetch: adminFaqListRefetch } =
+    useQuery<AdminFAQListResponse>('adminFaqList', () => getApi(`/admin/faqs`));
+
+  // 등록, 추가, 삭제 했을때 리스트 페이지로 이동 할거임
+  const [changeNumber, setChangeNumber] = useState(false);
   const userTypeEn = ['USER', 'COMPANY'];
   const userType = ['일반회원', '기업회원 '];
   const [userNum, setUserNum] = useState(0);
@@ -42,6 +55,7 @@ const AdminFAQList = ({ setNowHeight }: Props) => {
   const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminFaqList');
+      adminFaqListRefetch();
     },
     onError: (error) => {
       console.log('토글 버튼 에러');
@@ -69,10 +83,22 @@ const AdminFAQList = ({ setNowHeight }: Props) => {
     setDetailId('');
     remove();
   };
+
+  // 등록, 추가, 삭제 했을때 리스트 페이지로 넘길거임
+  useEffect(() => {
+    if (changeNumber) {
+      setNumber(17);
+      sessionStorage.setItem('number', '17');
+    }
+  }, [changeNumber]);
   return (
     <Wrapper>
       {isDetail && (
-        <AdminFAQEditor setIsDetail={setIsDetail} detatilId={detatilId} />
+        <AdminFAQEditor
+          setIsDetail={setIsDetail}
+          detatilId={detatilId}
+          setChangeNumber={setChangeNumber}
+        />
       )}
       <TitleWrapper>
         <AdminHeader title="정보 수정" type="main" />

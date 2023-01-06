@@ -22,6 +22,7 @@ const projectStateType = ['신규', '낙찰대기', '견적마감', '견적취�
 const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
+  const [pickedDate, setPickedDate] = useState<string[]>();
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 
@@ -71,6 +72,20 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
     }, 600);
   };
 
+  const handleDate = () => {
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('날짜조회 클릭', inputValue);
+
+    if (inputValue) {
+      console.log(inputValue);
+      const newDate = inputValue.split('~');
+      setPickedDate(newDate);
+    } else {
+      setPickedDate(undefined);
+    }
+  };
   // 프로젝트 체크 박스 변경 함수
   // const onChangeProjectCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
   //   const index = Number(event.target.dataset.index);
@@ -126,10 +141,11 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
             onChange={handleDateChange}
+            style={{ cursor: 'pointer' }}
           />
         </li>
       </Manager>
-      <BtnBox>
+      <BtnBox onClick={handleDate}>
         <Btn>조회</Btn>
       </BtnBox>
       <DashBoardTable
@@ -139,6 +155,7 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
         handleCommon={handleCommon}
         quotationRequestStatus={reverseAuctionString}
         commonBtn={'엑셀 다운로드'}
+        pickedDate={pickedDate}
       />
     </Wrapper>
   );

@@ -18,6 +18,7 @@ const EntizenLibrary = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const dateRef = useRef<HTMLLIElement>(null);
 
   // 오늘 날짜.
   const today = new Date();
@@ -34,8 +35,6 @@ const EntizenLibrary = ({ setNowHeight }: Props) => {
     useQuery<LibraryResponse>('entizenLibraryDetail', () =>
       isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
     );
-
-  const dateRef = useRef<HTMLLIElement>(null);
 
   // 달력 날짜 변경 함수
   const handleDateChange = (
@@ -96,10 +95,11 @@ const EntizenLibrary = ({ setNowHeight }: Props) => {
 
       <AdminHeader title="엔티즌 도서관" type="main" />
       <Search>
-        <li className="search">
+        <li className="search" ref={dateRef}>
           <label>기간검색</label>
           {/* 달력 컴포넌트 */}
           <DateRangePicker
+            className="datePicker-input"
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
             onChange={handleDateChange}

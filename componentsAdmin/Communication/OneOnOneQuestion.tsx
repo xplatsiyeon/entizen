@@ -39,9 +39,6 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
   // onClick 할때 값이 바뀌도록
   const [userSearch, setUserSearch] = useState<string>('');
 
-  // 체크박스 선택 여부
-  const [isChecked, setIsChecked] = useState(true);
-
   // user체크박스에 값 넣고 빼기
   const [userCheck, setUserCheck] = useState<Array<string>>([]);
   const checkHandle = (checked: boolean, user: string) => {
@@ -145,7 +142,6 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
         setDetailId={setDetailId}
         tableType={'userChattingOneOnOne'}
         userSearch={userSearch}
-        commonBtn={'엑셀 다운로드'}
         handleCommon={handleCommon}
         hide={true}
         userCheck={convertEn(

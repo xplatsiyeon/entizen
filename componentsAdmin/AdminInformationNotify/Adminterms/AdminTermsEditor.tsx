@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
+import { api, getApi } from 'api';
 import {
   isTokenGetApi,
   multerApi,
@@ -15,10 +16,12 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
+import { AdminTermsListResponse } from 'types/tableDataType';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   detatilId?: string;
+  setChangeNumber: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const dropDownValueEn = ['LOCATION', 'PERSONAL_INFO', 'SERVICE'];
@@ -33,9 +36,16 @@ export interface TermsUpdate {
   data: { type: string; content: string; createdAt: string; termIdx: number };
 }
 
-const AdminTermsEditor = ({ setIsDetail, detatilId }: Props) => {
+const AdminTermsEditor = ({
+  setIsDetail,
+  detatilId,
+  setChangeNumber,
+}: Props) => {
   const queryClinet = useQueryClient();
-  // 임의로 백엔드에 보내줄거 만듬
+  // 공지사항 등록, 수정시 refetch
+  // 리스트 페이지 데이터 불러오는 api 임
+  const { data: termsList, refetch: termsListRefetch } =
+    useQuery<AdminTermsListResponse>('termsList', () => getApi(`/admin/terms`));
 
   // 제목
   const [title, setTitle] = useState<string>('');
@@ -88,7 +98,7 @@ const AdminTermsEditor = ({ setIsDetail, detatilId }: Props) => {
     isError: postError,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      //   queryclient.invalidateQueries('user-mypage');
+      termsListRefetch();
       setMessageModal(true);
       setMessage('추가가 완료 됐습니다.');
     },
@@ -118,6 +128,7 @@ const AdminTermsEditor = ({ setIsDetail, detatilId }: Props) => {
     {
       onSuccess: () => {
         setMessageModal(true);
+        termsListRefetch();
         setMessage('수정이 완료됐습니다!');
       },
       onError: (error: any) => {
@@ -189,6 +200,7 @@ const AdminTermsEditor = ({ setIsDetail, detatilId }: Props) => {
             setIsModal={setIsModal}
             message={message}
             setIsDetail={setIsDetail}
+            setChangeNumber={setChangeNumber}
           />
         )}
         {isModal && (

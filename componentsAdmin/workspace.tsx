@@ -218,8 +218,6 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
   //   };
   // }, [nowHeight]);
 
-  console.log('💔 워크스페이스 nowHeight 💔', nowHeight);
-
   return (
     <Wrapper aria-labelledby="nested-list-subheader" nowHeight={nowHeight}>
       <Name>이정민님</Name>

@@ -10,9 +10,10 @@ import { isTokenGetApi } from 'api';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setNumber: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const AdminTermsList = ({ setNowHeight }: Props) => {
+const AdminTermsList = ({ setNowHeight, setNumber }: Props) => {
   const queryClinet = useQueryClient();
   const { data, isLoading, isError, refetch, remove } = useQuery<TermsUpdate>(
     'adminTermsDetail',
@@ -21,6 +22,9 @@ const AdminTermsList = ({ setNowHeight }: Props) => {
 
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
+
+  // 등록, 추가, 삭제 했을때 리스트 페이지로 이동 할거임
+  const [changeNumber, setChangeNumber] = useState(false);
 
   // 등록 다운로드
   const handleCommon = () => {
@@ -35,10 +39,22 @@ const AdminTermsList = ({ setNowHeight }: Props) => {
     }
   }, []);
 
+  // 등록, 추가, 삭제 했을때 리스트 페이지로 넘길거임
+  useEffect(() => {
+    if (changeNumber) {
+      setNumber(14);
+      sessionStorage.setItem('number', '14');
+    }
+  }, [changeNumber]);
+
   return (
     <Wrapper>
       {isDetail && (
-        <AdminTermsEditor setIsDetail={setIsDetail} detatilId={detatilId} />
+        <AdminTermsEditor
+          setIsDetail={setIsDetail}
+          detatilId={detatilId}
+          setChangeNumber={setChangeNumber}
+        />
       )}
       <TitleWrapper>
         <AdminHeader title="정보 수정" type="main" />

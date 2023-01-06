@@ -12,7 +12,6 @@ import EntizenLibrary from 'componentsAdmin/EntizenLibrary/EntizenLibrary';
 import PartnerProductsList from 'componentsAdmin/PartnerProducts/PartnerProductsList';
 import Statistics from 'componentsAdmin/MainDashboard/Statistics';
 import AdminElseList from 'componentsAdmin/AdminElse/AdminElseList';
-
 import AdminAccountList from 'componentsAdmin/AdminAccount/AdminAccountList';
 import ReverseAuctionSituation from 'componentsAdmin/MainDashboard/ReverseAuctionSituation/ReverseAuctionSituation';
 import ASSituation from 'componentsAdmin/MainDashboard/ASSituation/ASSituation';
@@ -29,7 +28,6 @@ import { useRouter } from 'next/router';
 type Props = {};
 
 const index = (props: Props) => {
-  const a = 1;
   // 관리자 계정 초기 세팅값
   const [number, setNumber] = useState(4);
 
@@ -40,6 +38,9 @@ const index = (props: Props) => {
   const sessionNumber = sessionStorage.getItem('number');
 
   const router = useRouter();
+
+  console.log('🎀 인덱스임 number 🎀', number);
+  console.log('🎀 인덱스임 sessionNumber 🎀', sessionNumber);
 
   useEffect(() => {
     if (sessionNumber) {
@@ -54,13 +55,20 @@ const index = (props: Props) => {
   }, []);
 
   useEffect(() => {
+    setNumber(number);
+    setNumber(Number(sessionNumber));
+  }, [number, sessionNumber]);
+
+  useEffect(() => {
     setNowHeight(window.document.documentElement.scrollHeight);
   }, [number, sessionNumber]);
 
   return (
     <Background>
       <Workspace setNumber={setNumber} nowHeight={nowHeight} />
-      {number === 1 && <AddAdminAccount setNowHeight={setNowHeight} />}
+      {number === 1 && (
+        <AddAdminAccount setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
       {number === 2 && <AdminAccountList setNowHeight={setNowHeight} />}
       {number === 3 && <ProjectSituation setNowHeight={setNowHeight} />}
       {number === 4 && <Statistics setNowHeight={setNowHeight} />}
@@ -73,11 +81,19 @@ const index = (props: Props) => {
       {number === 11 && <OneOnOneQuestion setNowHeight={setNowHeight} />}
       {number === 12 && <EntizenLibrary setNowHeight={setNowHeight} />}
       {number === 13 && <PartnerProductsList setNowHeight={setNowHeight} />}
-      {number === 14 && <AdminTermsList setNowHeight={setNowHeight} />}
-      {number === 15 && <AdminNoticeList setNowHeight={setNowHeight} />}
-      {number === 16 && <AdminBannerLIst setNowHeight={setNowHeight} />}
+      {number === 14 && (
+        <AdminTermsList setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
+      {number === 15 && (
+        <AdminNoticeList setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
+      {number === 16 && (
+        <AdminBannerLIst setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
       {number === 17 && <AdminGuideList setNowHeight={setNowHeight} />}
-      {number === 18 && <AdminFAQList setNowHeight={setNowHeight} />}
+      {number === 18 && (
+        <AdminFAQList setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
       {number === 23 && <AdminElseList setNowHeight={setNowHeight} />}
       {number === 24 && <ReverseAuctionSituation setNowHeight={setNowHeight} />}
       {number === 25 && <ASSituation setNowHeight={setNowHeight} />}

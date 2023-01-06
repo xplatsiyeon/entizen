@@ -27,6 +27,7 @@ const projectStateTypeEn = [
 const ProjectSituation = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
+  const [pickedDate, setPickedDate] = useState<string[]>();
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 
@@ -70,6 +71,21 @@ const ProjectSituation = ({ setNowHeight }: Props) => {
     setTimeout(() => {
       dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
     }, 600);
+  };
+
+  const handleDate = () => {
+    const inputValue = dateRef.current
+      ?.querySelector('.datePicker-input')
+      ?.querySelector('input')?.value;
+    console.log('날짜조회 클릭', inputValue);
+
+    if (inputValue) {
+      console.log(inputValue);
+      const newDate = inputValue.split('~');
+      setPickedDate(newDate);
+    } else {
+      setPickedDate(undefined);
+    }
   };
 
   // 프로젝트 체크 박스 변경 함수
@@ -131,7 +147,7 @@ const ProjectSituation = ({ setNowHeight }: Props) => {
         </li>
       </Manager>
       <BtnBox>
-        <Btn>조회</Btn>
+        <Btn onClick={handleDate}>조회</Btn>
       </BtnBox>
       <DashBoardTable
         setDetailId={setDetailId}
@@ -140,6 +156,7 @@ const ProjectSituation = ({ setNowHeight }: Props) => {
         handleCommon={handleCommon}
         statusCheck={projectString}
         commonBtn={'엑셀 다운로드'}
+        pickedDate={pickedDate}
       />
     </Wrapper>
   );
