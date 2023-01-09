@@ -9,6 +9,7 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
+import { getApi } from 'api';
 import {
   isTokenGetApi,
   multerApi,
@@ -31,8 +32,10 @@ import { convertEn, convertKo } from 'utils/calculatePackage';
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   detatilId?: string;
+  setChangeNumber: React.Dispatch<React.SetStateAction<boolean>>;
 };
 import { ServiceKr, ServiceEn } from './AdminFAQList';
+import { AdminFAQListResponse } from 'types/tableDataType';
 
 export interface FaqsUpdate {
   isSuccess: true;
@@ -48,12 +51,19 @@ export interface FaqsUpdate {
   };
 }
 
-const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
+const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
   const queryClinet = useQueryClient();
+
+  // FAQ 에디터 데아터 불러오는 api
   const { data, isLoading, isError, refetch } = useQuery<FaqsUpdate>(
     'adminFaqsDetail',
     () => isTokenGetApi(`/admin/faqs/${detatilId}`),
   );
+
+  // FAQ 리스트 불러오는 api
+  const { data: adminFaqList, refetch: adminFaqListRefetch } =
+    useQuery<AdminFAQListResponse>('adminFaqList', () => getApi(`/admin/faqs`));
+
   // 수정된 value가 있는지 없는지
   const [checkAll, setCheckAll] = useState<boolean>(false);
 
@@ -106,6 +116,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('adminFaqList');
+      adminFaqListRefetch();
       setMessageModal(true);
       setMessage('추가가 완료 됐습니다.');
     },
@@ -137,6 +148,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
     {
       onSuccess: () => {
         queryClinet.invalidateQueries('adminFaqList');
+        adminFaqListRefetch();
         setMessageModal(true);
         setMessage('수정이 완료됐습니다!');
       },
@@ -171,6 +183,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
     isError: patchError,
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
+      adminFaqListRefetch();
       queryClinet.invalidateQueries('adminFaqList');
       setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');
@@ -210,6 +223,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId }: Props) => {
             setIsModal={setMessageModal}
             message={message}
             setIsDetail={setIsDetail}
+            setChangeNumber={setChangeNumber}
           />
         )}
         {isModal && (

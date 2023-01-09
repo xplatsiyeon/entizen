@@ -34,6 +34,7 @@ import { AdminNoticeListResponse } from 'types/tableDataType';
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   detatilId?: string;
+  setChangeNumber: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type NoticeDetail = {
@@ -47,7 +48,11 @@ export type NoticeDetail = {
   };
 };
 
-const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
+const AdminNoticeEditor = ({
+  setIsDetail,
+  detatilId,
+  setChangeNumber,
+}: Props) => {
   const queryClinet = useQueryClient();
   // 리스트 페이지
 
@@ -278,6 +283,7 @@ const AdminNoticeEditor = ({ setIsDetail, detatilId }: Props) => {
             setIsModal={setIsModal}
             message={message}
             setIsDetail={setIsDetail}
+            setChangeNumber={setChangeNumber}
           />
         )}
         {isModal && (

@@ -17,6 +17,7 @@ import { AdminNoticeListResponse } from 'types/tableDataType';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setNumber: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export type NewCell = {
@@ -24,12 +25,21 @@ export type NewCell = {
   id: number;
 };
 
-const AdminNoticeList = ({ setNowHeight }: Props) => {
+const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
+  // 공지사항 에디터 데이터 api
   const { data, isLoading, isError, refetch, remove } = useQuery<NoticeDetail>(
     'adminNoticeDetail',
     () => isTokenGetApi(`/admin/notices/${detatilId}`),
   );
 
+  // 공지사항 리스트 api
+  const { data: adminNoticeList, refetch: adminNoticeListRefetch } =
+    useQuery<AdminNoticeListResponse>('adminNoticeList', () =>
+      getApi(`/admin/notices`),
+    );
+
+  // 등록, 추가, 삭제 했을때 리스트 페이지로 이동 할거임
+  const [changeNumber, setChangeNumber] = useState(false);
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [toggle, setToggle] = useState<NewCell>({
@@ -42,7 +52,7 @@ const AdminNoticeList = ({ setNowHeight }: Props) => {
   const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminNoticeList');
-      // adminNoticeListRefetch();
+      adminNoticeListRefetch();
     },
     onError: (error) => {
       console.log('토글 버튼 에러');
@@ -71,11 +81,23 @@ const AdminNoticeList = ({ setNowHeight }: Props) => {
     }
   }, []);
 
-  console.log('🎀toggle.isVisible🎀', toggle.isVisible);
+  // 등록, 추가, 삭제 했을때 리스트 페이지로 넘길거임
+  useEffect(() => {
+    if (changeNumber) {
+      setNumber(15);
+      sessionStorage.setItem('number', '15');
+    }
+  }, [changeNumber]);
+
+  // console.log('🎀toggle.isVisible🎀', toggle.isVisible);
   return (
     <Wrapper>
       {isDetail && (
-        <AdminNoticeEditor setIsDetail={setIsDetail} detatilId={detatilId} />
+        <AdminNoticeEditor
+          setIsDetail={setIsDetail}
+          detatilId={detatilId}
+          setChangeNumber={setChangeNumber}
+        />
       )}
       <TitleWrapper>
         <AdminHeader title="정보 수정" type="main" />

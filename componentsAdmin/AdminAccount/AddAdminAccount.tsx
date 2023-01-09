@@ -21,10 +21,19 @@ type Props = {
   setIsDetail?: React.Dispatch<React.SetStateAction<boolean>>;
   detatilId?: string;
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setNumber: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
+const AddAdminAccount = ({
+  setIsDetail,
+  detatilId,
+  setNowHeight,
+  setNumber,
+}: Props) => {
   const queryClient = useQueryClient();
+  // 관리자 추가 성공했을때 컴포넌트 바꿀거임
+  const [changeNumber, setChangeNumber] = useState(false);
+
   const [idInput, setIdInput] = useState<string>('');
   const [pwInput, setPwInput] = useState<string>('');
   const [checkPw, setCheckPw] = useState<string>('');
@@ -134,9 +143,6 @@ const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
 
     const idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
     if (e.target.name === 'id') {
-      console.log('🥶 value 🥶', value);
-      console.log('isChangeColor', isChangeColor);
-
       setInitIdAlert(false);
       setIdInput(value);
       idRegExp.test(value) ? setIsChangeColor(true) : setIsChangeColor(false);
@@ -208,7 +214,7 @@ const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
       if (passwords !== checkPassword) setCheckSamePw(false);
       else setCheckSamePw(true);
     }
-    console.log(passwords, checkPassword);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [passwords, checkPassword]);
 
@@ -244,6 +250,14 @@ const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
       setNowHeight(window.document.documentElement.scrollHeight);
     }
   }, []);
+
+  // 관리자 등록 완료 되고 확인버튼 누르면 관리자 리스트 목록 페이지로 이동
+  useEffect(() => {
+    if (changeNumber) {
+      setNumber(2);
+      sessionStorage.setItem('number', '2');
+    }
+  }, [changeNumber]);
 
   const iconAdorment = {
     endAdornment: (
@@ -338,6 +352,7 @@ const AddAdminAccount = ({ setIsDetail, detatilId, setNowHeight }: Props) => {
           setIsModal={setMessageModal}
           message={message}
           setIsDetail={setIsDetail}
+          setChangeNumber={setChangeNumber}
         />
       )}
       <AdminHeader type="main" title="관리자 관리" subTitle="관리자 등록" />

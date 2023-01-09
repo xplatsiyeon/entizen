@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { AdminBtn } from 'componentsAdmin/Layout';
 
@@ -6,9 +6,15 @@ type Props = {
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
   message: string;
   setIsDetail?: React.Dispatch<React.SetStateAction<boolean>>;
+  setChangeNumber?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AlertModal = ({ setIsModal, message, setIsDetail }: Props) => {
+const AlertModal = ({
+  setIsModal,
+  message,
+  setIsDetail,
+  setChangeNumber,
+}: Props) => {
   return (
     <Modal>
       <ModalBox>
@@ -16,6 +22,9 @@ const AlertModal = ({ setIsModal, message, setIsDetail }: Props) => {
         <AdminBtn
           onClick={() => {
             setIsModal(false);
+            if (setChangeNumber) {
+              setChangeNumber(true);
+            }
             if (message === '추가가 완료 됐습니다.' && setIsDetail) {
               setIsModal(false);
               setIsDetail(false);

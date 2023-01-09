@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
+import { api, getApi } from 'api';
 import { isTokenPatchApi, isTokenGetApi } from 'api';
 import {
   QueryObserverResult,
@@ -13,14 +14,26 @@ import {
 import AdminBannerEditor from './AdminBannerEditor';
 import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
 import AdminNotifyTable from '../AdminNotifyTable';
-import { AdminBannerDetailResponse } from 'types/tableDataType';
+import {
+  AdminBannerDetailResponse,
+  AdminBannerListResponse,
+} from 'types/tableDataType';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setNumber: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const AdminBannerLIst = ({ setNowHeight }: Props) => {
+const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
   const queryClient = useQueryClient();
+  // 리스트 불러오는 api
+  const { data: bannerList, refetch: bannerListRefetch } =
+    useQuery<AdminBannerListResponse>('bannerList', () =>
+      getApi(`/admin/banners?targetMemberType=`),
+    );
+
+  // 등록, 추가, 삭제 했을때 리스트 페이지로 이동 할거임
+  const [changeNumber, setChangeNumber] = useState(false);
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const userTypeEn = ['USER', 'COMPANY'];
@@ -44,6 +57,8 @@ const AdminBannerLIst = ({ setNowHeight }: Props) => {
   // 토글 버튼 백엔드에 보내는 함수(User)
   const { mutate: patchUserMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
+      bannerListRefetch();
+      console.log('토글 버튼 수정 성공');
       queryClient.invalidateQueries('bannerList');
     },
     onError: (error) => {
@@ -73,10 +88,24 @@ const AdminBannerLIst = ({ setNowHeight }: Props) => {
     }
   }, []);
 
+  // 등록, 추가, 삭제 했을때 리스트 페이지로 넘길거임
+  useEffect(() => {
+    if (changeNumber) {
+      bannerListRefetch();
+      setNumber(16);
+      sessionStorage.setItem('number', '16');
+    }
+  }, [changeNumber]);
+
   return (
     <Wrapper>
       {isDetail && (
-        <AdminBannerEditor setIsDetail={setIsDetail} detatilId={detatilId} />
+        <AdminBannerEditor
+          setIsDetail={setIsDetail}
+          detatilId={detatilId}
+          setChangeNumber={setChangeNumber}
+          userTypeRefetch={userTypeEn[userNum]}
+        />
       )}
       <TitleWrapper>
         <AdminHeader title="정보 수정" type="main" />

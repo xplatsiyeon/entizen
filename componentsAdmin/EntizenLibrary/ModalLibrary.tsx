@@ -4,6 +4,7 @@ import colors from 'styles/colors';
 import Image from 'next/image';
 import { css } from '@emotion/react';
 import CloseModal from 'public/adminImages/libraryClose.svg';
+import { api, getApi } from 'api';
 import normal from 'public/adminImages/undefinedImg.svg';
 import CloseImg from 'public/images/XCircle.svg';
 import { AdminBtn } from 'componentsAdmin/Layout';
@@ -23,6 +24,7 @@ import {
 } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { AxiosError } from 'axios';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
+import { EntizenLibraryResponse } from 'types/tableDataType';
 
 type Props = {
   afterSalesServiceIdx: string;
@@ -49,6 +51,15 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
   const [message, setMessage] = useState('');
   const [checkAll, setCheckAll] = useState<boolean>(false);
 
+  // 도서관 리스트
+  const { data: entizenLibrary, refetch: entizenLibraryRefetch } =
+    useQuery<EntizenLibraryResponse>('entizenLibrary', () =>
+      getApi(
+        `/admin/libraries?page=1&limit=10&startDate=2022-12-01&endDate=2022-12-31&searchKeyword=`,
+      ),
+    );
+
+  // 도서관 모달 디테일
   const { data, isLoading, isError, refetch, remove } =
     useQuery<LibraryResponse>('entizenLibraryDetail', () =>
       isTokenGetApi(`/admin/libraries/${afterSalesServiceIdx}`),
@@ -141,6 +152,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     {
       onSuccess: () => {
         queryClinet.invalidateQueries('entizenLibrary');
+        entizenLibraryRefetch();
         setIsModal(true);
         setMessage('수정이 완료됐습니다!');
       },
@@ -175,6 +187,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('entizenLibrary');
+      entizenLibraryRefetch();
       setIsModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },
@@ -202,6 +215,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
       queryClinet.invalidateQueries('entizenLibrary');
       setIsModal(true);
       setMessage('추가가 완료 됐습니다.');
+      entizenLibraryRefetch();
     },
     onError: () => {
       setIsModal(true);
@@ -211,7 +225,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
   });
 
   const modalPostBtnControll = () => {
-    if (data === undefined) {
+    if (data?.data?.library === undefined) {
       postMutate({
         url: `/admin/libraries`,
         data: {
@@ -253,6 +267,9 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
   useEffect(() => {
     refetch();
   }, [data]);
+
+  console.log('🐳 data 🐳', data?.data?.library);
+  console.log('🌸 isModal 🌸', isModal);
 
   return (
     <Modal>
@@ -328,7 +345,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
 
         <FlexHorizontal>
           <SubTitle>제목</SubTitle>
-          <Input
+          <InputText
             value={title}
             placeholder="제목을 써주세요."
             onChange={handleTitleArea}
@@ -337,7 +354,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
         </FlexHorizontal>
         <FlexHorizontal>
           <SubTitle>링크</SubTitle>
-          <Input
+          <InputText
             value={link}
             placeholder="링크를 넣어주세요."
             onChange={handleLinkArea}
@@ -347,7 +364,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
         <FlexWrap>
           <div />
           <BtnBox width={data !== undefined ? 135 : 65}>
-            {data !== undefined && (
+            {data?.data?.library !== undefined && (
               <AdminBtn
                 style={{
                   background: '#747780',
@@ -361,7 +378,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
                 삭제
               </AdminBtn>
             )}
-            {data !== undefined ? (
+            {data?.data?.library !== undefined ? (
               <AdminBtn
                 style={{
                   background: '#747780',
@@ -380,6 +397,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
                   background: '#747780',
                   border: '1px solid #464646',
                   color: '#ffffff',
+                  marginLeft: '-20px',
                 }}
                 onClick={() => {
                   modalPostBtnControll();
@@ -527,10 +545,19 @@ const TextInput = styled.div`
   padding: 3px;
 `;
 
-const InputText = styled.input`
-  width: 243px;
-  height: 73px;
+const InputText = styled.textarea`
+  width: 246px;
+  height: 76px;
+  border: none;
   overflow-y: scroll;
+  outline: none;
+  resize: none;
+  border: 1px solid #e2e5ed;
+  background-color: #fbfcff;
+  border-radius: 2px;
+  color: ${colors.lightGray3};
+  font-weight: 400;
+  padding: 5px;
 `;
 
 const Input = styled(TextField)`
@@ -539,20 +566,19 @@ const Input = styled(TextField)`
   border-radius: 2px;
   border: 1px solid #e2e5ed;
   background-color: #fbfcff;
-  /* display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box; */
-  .MuiInputBase-root {
+  /* overflow-x: scroll; */
+  overflow-y: scroll;
+  word-break: break-all;
+
+  /* .MuiInputBase-root {
     padding: 3px 3px;
-  }
-  & input {
+  } */
+  /* & input {
     ${Text}
     color: #222222;
     text-align: left;
     padding: 0;
-  }
+  } */
 
   ::placeholder {
     color: ${colors.lightGray3};

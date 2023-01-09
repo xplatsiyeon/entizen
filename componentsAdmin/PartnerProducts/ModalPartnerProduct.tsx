@@ -11,6 +11,7 @@ import { chargers } from 'storeCompany/finalQuotation';
 import Image from 'next/image';
 import ExitBtn from 'public/adminImages/Group.png';
 import { CHARGING_METHOD } from 'companyAssets/selectList';
+import { api, getApi } from 'api';
 import {
   adminDateFomat,
   dateFomat,
@@ -32,6 +33,7 @@ import {
 } from 'assets/selectList';
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
+import { PartnerProductData } from 'types/tableDataType';
 
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;
@@ -70,6 +72,14 @@ type AdminProductListDetail = {
 };
 const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
   const queryClinet = useQueryClient();
+
+  // 모달리스트 불러오는 부분
+  const { data: partnerProductList, refetch: partnerProductListRefetch } =
+    useQuery<PartnerProductData>('PPData', () =>
+      getApi(
+        `/admin/products?page=1&limit=10&limit=10&searchKeyword=&chargerKind=&chargerMethods[]=&chargerChannel=`,
+      ),
+    );
   const { data, isLoading, isError } = useQuery<AdminProductListDetail>(
     'ProductListDetail',
     () => isTokenGetApi(`/admin/products/${detatilId}`),
@@ -187,7 +197,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
     isError: delelteError,
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('ProductListDetail');
+      partnerProductListRefetch();
       setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },
