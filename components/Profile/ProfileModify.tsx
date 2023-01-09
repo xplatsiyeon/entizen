@@ -120,13 +120,9 @@ const ProfileModify = ({ setTabNumber }: Props) => {
   };
   // 나이스 인증
   const fnPopup = (event: any) => {
-    console.log('나이스 인증');
-    console.log(event);
     const { id } = event.currentTarget;
-    console.log(`id -> ${id}`);
     if (id === 'password') {
       setIsPassword(true);
-      console.log('passowrd입니다');
     }
     if (typeof window !== 'object') return;
     else {

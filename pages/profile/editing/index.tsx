@@ -16,7 +16,7 @@ interface Components {
 
 const ProfileEditing = () => {
   const [checkSns, setCheckSns] = useState<boolean>(false);
-  const mobile = useMediaQuery({
+  const web = useMediaQuery({
     query: '(min-width:900pt)',
   });
 
@@ -49,10 +49,10 @@ const ProfileEditing = () => {
         <WebHeader />
         {tabNumber < 2 && <ChangeProfileText>프로필 변경</ChangeProfileText>}
         <WebRapper tabNumber={tabNumber}>
-          {/* <Inner tabNumber={tabNumber}>
-            <ProfileModify setTabNumber={setTabNumber} />
-          </Inner> */}
-          {!mobile && tabNumber === 2 && (
+          <Inner tabNumber={tabNumber}>
+            {web && <ProfileModify setTabNumber={setTabNumber} />}
+          </Inner>
+          {!web && tabNumber === 2 && (
             <ProfileModify setTabNumber={setTabNumber} />
           )}
           {tabNumber !== 2 && <div>{components[tabNumber]}</div>}
