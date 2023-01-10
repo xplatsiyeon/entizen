@@ -27,8 +27,9 @@ import WebHeader from 'componentsWeb/WebHeader';
 import axios from 'axios';
 import Modal from 'components/Modal/Modal';
 import UserRightMenu from 'components/UserRightMenu';
+import { Option } from 'store/quotationSlice';
 
-export interface Option {
+export interface SelectedOption {
   idx: number;
   kind: string;
   standType: string;
@@ -65,7 +66,7 @@ const Guide1_2 = () => {
   const [isValid, setIsValid] = useState(true);
   const [m5Index, setM5Index] = useState(0);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<Option[]>([
+  const [selectedOption, setSelectedOption] = useState<SelectedOption[]>([
     {
       idx: 0,
       kind: '',
@@ -75,7 +76,7 @@ const Guide1_2 = () => {
     },
   ]);
   // 백엔드에 보내줄 이름
-  const [selectedOptionEn, setSelectedOptionEn] = useState<OptionEn[]>([
+  const [selectedOptionEn, setSelectedOptionEn] = useState<Option[]>([
     {
       kind: '',
       standType: '',
@@ -92,10 +93,9 @@ const Guide1_2 = () => {
   const handlePurposeOnClick = (index: number) => setClicked(index);
   // STEP 2 충전기 옵션 체인지
   // 셀렉터 옵션 체인지
-  const handleChange = (event: any, index: number) => {
-    const { name, value } = event.target;
-    let copy: Option[] = [...selectedOption];
-    let copyEn: OptionEn[] = [...selectedOptionEn];
+  const handleSelectBox = (value: string, name: string, index: number) => {
+    let copy: SelectedOption[] = [...selectedOption];
+    let copyEn: Option[] = [...selectedOptionEn];
     // 영어 값 추출
     let valueEn: string;
     // 충전기 종류
@@ -120,7 +120,6 @@ const Guide1_2 = () => {
       // 타입
     } else if (copy[index].kind.length > 1 && name === 'standType') {
       const idx = M6_LIST.indexOf(value);
-      // console.log('index -> ' + idx);
       if (value === '-') {
         valueEn = '';
       } else {
@@ -182,8 +181,7 @@ const Guide1_2 = () => {
     setSelectedOption(copy);
   };
   // 지역 옵션 체인지
-  const HandleRegionChange = (event: SelectChangeEvent<unknown>) => {
-    const { name, value } = event.target;
+  const HandleRegionChange = (value: string, name: string) => {
     const copy = selectedRegion;
     if (name === 'm9') {
       copy.m10 = '';
@@ -294,7 +292,7 @@ const Guide1_2 = () => {
           <Step2
             selectedRegion={selectedRegion}
             selectedOption={selectedOption}
-            handleOptionChange={handleChange}
+            handleSelectBox={handleSelectBox}
             HandleRegionChange={HandleRegionChange}
             onClickAdd={onClickAdd}
             onClickMinus={onClickMinus}

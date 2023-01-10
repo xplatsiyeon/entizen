@@ -6,7 +6,7 @@ import XCircle from 'public/guide/XCircle.svg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { MenuItem } from '@mui/material';
-import { Option, Region } from 'pages/guide/1-2';
+import { Region, SelectedOption } from 'pages/guide/1-2';
 import {
   Seoul,
   Busan,
@@ -29,6 +29,8 @@ import {
 } from 'assets/region';
 import { M5_LIST, M5_TYPE_SET, M5_CHANNEL_SET } from 'assets/selectList';
 import { useState } from 'react';
+import SelectComponents from 'components/Select';
+import { Option } from 'store/quotationSlice';
 export const M8_LIST = [
   '1대',
   '2대',
@@ -43,12 +45,9 @@ export const M8_LIST = [
 ];
 
 interface Props {
-  selectedOption: Option[];
-  handleOptionChange: (
-    event: SelectChangeEvent<unknown>,
-    index: number,
-  ) => void;
-  HandleRegionChange: (event: SelectChangeEvent<unknown>) => void;
+  selectedOption: SelectedOption[];
+  handleSelectBox: (item: string, name: string, index: number) => void;
+  HandleRegionChange: (item: string, name: string) => void;
   selectedRegion: Region;
   onClickAdd: () => void;
   onClickMinus: (index: number) => void;
@@ -57,7 +56,7 @@ interface Props {
 
 const Step2 = ({
   selectedOption,
-  handleOptionChange,
+  handleSelectBox,
   selectedRegion,
   HandleRegionChange,
   onClickAdd,
@@ -135,112 +134,67 @@ const Step2 = ({
               </div>
             )}
           </QuantityBox>
-          <SelectContainer>
-            <SelectBox
+          <SelectBoxWrapper>
+            <SelectComponents
               value={item.kind}
+              option={M5_LIST}
               name="kind"
-              displayEmpty
-              onChange={(event) => handleOptionChange(event, index)}
-              IconComponent={() => <SelectIcon />}
-            >
-              <MenuItem value="">
-                <Placeholder>충전기 종류</Placeholder>
-              </MenuItem>
-              {M5_LIST.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </SelectBox>
-          </SelectContainer>
-
-          <SelectContainer>
-            <SelectSmall
+              placeholder="충전기 종류"
+              index={index}
+              onClickCharger={handleSelectBox}
+            />
+          </SelectBoxWrapper>
+          {/* 타입,채널,수량 옵션 박스 */}
+          <SelectComponentsContainer>
+            <SelectComponents
               value={item.standType}
+              option={M5_TYPE_SET[item.idx]}
               name="standType"
-              displayEmpty
-              onChange={(event) => handleOptionChange(event, index)}
-              IconComponent={() => <SelectIcon />}
-            >
-              <MenuItem value="">
-                <Placeholder>타입</Placeholder>
-              </MenuItem>
-              {M5_TYPE_SET[item.idx].map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </SelectSmall>
-            <SelectSmall
+              placeholder="타입"
+              index={index}
+              onClickCharger={handleSelectBox}
+              fontSize={'small'}
+            />
+            <SelectComponents
               value={item.channel}
+              option={M5_CHANNEL_SET[item.idx]}
               name="channel"
-              displayEmpty
-              onChange={(event) => handleOptionChange(event, index)}
-              IconComponent={() => <SelectIcon />}
-            >
-              <MenuItem value="">
-                <Placeholder>타입</Placeholder>
-              </MenuItem>
-              {M5_CHANNEL_SET[item.idx].map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </SelectSmall>
-            <SelectSmall
+              placeholder="채널"
+              index={index}
+              onClickCharger={handleSelectBox}
+              fontSize={'small'}
+            />
+            <SelectComponents
               value={item.count}
+              option={M8_LIST}
               name="count"
-              displayEmpty
-              onChange={(event) => handleOptionChange(event, index)}
-              IconComponent={() => <SelectIcon />}
-            >
-              <MenuItem value="">
-                <Placeholder>타입</Placeholder>
-              </MenuItem>
-              {M8_LIST.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </SelectSmall>
-          </SelectContainer>
+              placeholder="수량"
+              index={index}
+              onClickCharger={handleSelectBox}
+              fontSize={'small'}
+            />
+          </SelectComponentsContainer>
         </div>
       ))}
-      <Label>충전기 설치 지역</Label>
-      <SelectContainer>
-        <SelectBox
+      <Label className="chargerRegion">충전기 설치 지역</Label>
+      <SelectBoxWrapper>
+        <SelectComponents
           value={selectedRegion.m9}
+          option={M9_LIST}
           name="m9"
-          onChange={HandleRegionChange}
-          IconComponent={() => <SelectIcon />}
-          displayEmpty
-        >
-          <MenuItem value="">
-            <Placeholder>타입</Placeholder>
-          </MenuItem>
-          {M9_LIST.map((option, index) => (
-            <MenuItem key={index} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </SelectBox>
-        <SelectBox
+          placeholder="타입"
+          onClickCharger={HandleRegionChange}
+          fontSize={'small'}
+        />
+        <SelectComponents
           value={selectedRegion.m10}
+          option={HandleM10()}
           name="m10"
-          onChange={HandleRegionChange}
-          IconComponent={() => <SelectIcon />}
-          displayEmpty
-        >
-          <MenuItem value="">
-            <Placeholder>타입</Placeholder>
-          </MenuItem>
-          {HandleM10()?.map((option, index) => (
-            <MenuItem key={index} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </SelectBox>
-      </SelectContainer>
+          placeholder="타입"
+          onClickCharger={HandleRegionChange}
+          fontSize={'small'}
+        />
+      </SelectBoxWrapper>
     </>
   );
 };
@@ -276,69 +230,19 @@ const QuantityBox = styled.div`
     color: ${colors.main2};
   }
 `;
-const SelectIcon = styled(KeyboardArrowDownIcon)`
-  width: 24px;
-  height: 24px;
-  color: ${colors.dark};
-`;
-const Placeholder = styled.em`
-  font-weight: 400;
-  font-size: 12pt;
-  line-height: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.lightGray3};
-`;
-const SelectBox = styled(Select)`
-  width: 100%;
-  border: 0.75pt solid #e2e5ed;
-  border-radius: 8px;
-  margin-top: 9pt;
-  font-weight: 400;
-  font-size: 12pt;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-  cursor: all-scroll;
-  & div {
-    padding-left: 12.75pt;
-    padding-top: 13.5pt;
-    padding-bottom: 13.5pt;
-  }
-  & fieldset {
-    border: none;
-  }
-  & svg {
-    padding-right: 11.25pt;
-  }
-`;
-const SelectSmall = styled(Select)`
-  /* width: 100%; */
-  flex: 1;
-  border: 1px solid #e2e5ed;
-  border-radius: 8px;
-  margin-top: 9pt;
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: -0.02em;
-  color: ${colors.main2};
-  cursor: all-scroll;
-  & div {
-    padding-left: 12pt;
-    padding-top: 13.5pt;
-    padding-bottom: 13.5pt;
-    padding-right: 0 !important;
-  }
-  & svg {
-    padding-right: 12pt;
-  }
-  & fieldset {
-    border: none;
-  }
-`;
-const SelectContainer = styled.div`
+const SelectBoxWrapper = styled.div`
   width: 100%;
   display: flex;
   gap: 8.25pt;
 `;
+
+const SelectComponentsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 9pt;
+  gap: 9pt;
+`;
+
 const Label = styled.div`
   font-weight: 700;
   font-size: 10.5pt;
@@ -346,4 +250,7 @@ const Label = styled.div`
   letter-spacing: -0.02em;
   color: ${colors.main2};
   margin-top: 33pt;
+  &.chargerRegion {
+    margin-bottom: 9pt;
+  }
 `;
