@@ -6,10 +6,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import send from 'public/images/send.png';
 import sendBlue from 'public/images/send-blue.png';
 import fileBtn from 'public/images/fileBtn.png';
-import { useQuery, useQueryClient } from 'react-query';
 import Modal from 'components/Modal/Modal';
 import WebFileModal from 'components/Chatting/WebFileModal';
 import AdminHeader from 'componentsAdmin/Header';
+import {
+  QueryObserverResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from 'react-query';
 import {
   isTokenGetApi,
   multerApi,
@@ -123,9 +128,40 @@ const OOQDetail = ({ detatilId, setNowHeight }: Props) => {
   const loadingRef = useRef<HTMLDivElement>(null);
   const focusRef = useRef<HTMLInputElement>(null);
 
+  //   채팅 POST
+  const {
+    mutate: chattingPostMutate,
+    isLoading: chattingPostIsLoading,
+    isError: chattingPostIsError,
+  } = useMutation(isTokenPostApi, {
+    onSuccess: async () => {
+      setText('');
+      await queryClient.invalidateQueries('chatting-data');
+      setTimeout(() => {
+        if (mobInputRef.current) mobInputRef.current.focus();
+      }, 300);
+    },
+    onError: (error) => {
+      console.log('🔥 채팅방 POST 에러 발생');
+      console.log(error);
+    },
+  });
+
   // 인풋 텍스트 입력
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.currentTarget.value);
+  };
+
+  // 채팅 onsubmit
+  const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    chattingPostMutate({
+      url: `/chatting/${detatilId}`,
+      data: {
+        content: text,
+        files: null,
+      },
+    });
   };
 
   const handleTime = (st: string) => {
@@ -297,7 +333,11 @@ const OOQDetail = ({ detatilId, setNowHeight }: Props) => {
       <Wrapper className="OOQ-innerWrap">
         <TopBox className="OOQ-innerTop">
           <P>{OOQDetailData?.data?.chattingLogs?.member?.id}</P>
-          <QuitBtn>
+          <QuitBtn
+            onClick={() => {
+              setText('상담이 종료되었습니다.');
+            }}
+          >
             <span>상담 종료</span>
           </QuitBtn>
         </TopBox>
@@ -313,7 +353,7 @@ const OOQDetail = ({ detatilId, setNowHeight }: Props) => {
         </Inner>
 
         <WebBottomBox className="OOQ-bottom">
-          <FlexBox2>
+          <FlexBox2 onSubmit={onSubmitText}>
             <InputWrap>
               <FileIconWrap onClick={() => setFileModal(true)}>
                 <Image src={fileBtn} layout="fill" />
