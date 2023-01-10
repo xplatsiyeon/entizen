@@ -6,18 +6,36 @@ import React, { useEffect, useRef, useState } from 'react';
 import send from 'public/images/send.png';
 import sendBlue from 'public/images/send-blue.png';
 import fileBtn from 'public/images/fileBtn.png';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import Modal from 'components/Modal/Modal';
 import WebFileModal from 'components/Chatting/WebFileModal';
 import AdminHeader from 'componentsAdmin/Header';
+import {
+  isTokenGetApi,
+  multerApi,
+  isTokenPostApi,
+  isTokenPutApi,
+  isTokenPatchApi,
+  isTokenDeleteApi,
+} from 'api';
+
+// type ChattingLogs = {
+//   createdAt: string;
+//   chattingLogIdx: number;
+//   fromMemberIdx: number;
+//   fromMemberType: string;
+//   content: string | null;
+//   messageType: string;
+//   fileUrl: string | null;
+//   fileSize: null | number;
+//   fileOriginalName: null | string;
+//   wasRead: boolean;
+// };
 
 type ChattingLogs = {
   createdAt: string;
   chattingLogIdx: number;
-  fromMemberIdx: number;
-  fromMemberType: string;
   content: string | null;
-  messageType: string;
   fileUrl: string | null;
   fileSize: null | number;
   fileOriginalName: null | string;
@@ -30,38 +48,62 @@ export interface ChattingRoom {
 }
 
 export interface ChattingResponse {
-  isSuccess: true;
+  isSuccess: boolean;
   data: {
-    chattingRoomIdx: number;
-    userMember: {
-      memberIdx: number;
-      name: string;
-      profileImageUrl: null | string;
-    };
-    companyMember: {
-      memberIdx: number;
-      companyMemberAdditionalInfo: {
-        companyName: string;
-        companyLogoImageUrl: null | string;
+    chattingLogs: {
+      member: {
+        memberIdx: number;
+        id: string;
+        companyMemberAdditionalInfo: {
+          companyMemberAdditionalInfoIdx: number;
+          companyLogoImageUrl: string;
+        };
       };
+      chattingLogs: ChattingLogs[];
     };
-    chattingRoomNotification: {
-      chattingRoomNotificationIdx: number;
-      isSetNotification: boolean;
-    };
-    chattingLogs: ChattingLogs[];
   };
 }
 
-type Props = { detatilId: string };
+type Props = {
+  detatilId: string;
+  setNowHeight:
+    | React.Dispatch<React.SetStateAction<number | undefined>>
+    | undefined;
+};
 
-const OOQDetail = ({ detatilId }: Props) => {
+const OOQDetail = ({ detatilId, setNowHeight }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
+
+  // 채팅 내역 불러오는 api
+  const {
+    data: OOQDetailData,
+    isLoading: OOQDetailIsLoading,
+    isError: OOQDetailIsError,
+    refetch: OOQDetailRefetch,
+  } = useQuery<ChattingResponse>(
+    'OOQDetail',
+    () => {
+      return isTokenGetApi(
+        `/admin/chatting/consultations/${detatilId}?page=1&limit=10`,
+      );
+    },
+    {
+      enabled: router.isReady,
+      // 몇초마다 갱신 해줄 것인가.
+      refetchInterval: 3000,
+    },
+  );
+
+  useEffect(() => {
+    if (detatilId) {
+      OOQDetailRefetch();
+    }
+  }, [detatilId]);
 
   //나가기 모달
   const [moreModal, setMoreModal] = useState<boolean>(false);
@@ -156,8 +198,92 @@ const OOQDetail = ({ detatilId }: Props) => {
     }
   }, [loading]);
 
+  /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
+  useEffect(() => {
+    console.log('쿼리아이디, 데이타 변경됨');
+    if (!OOQDetailIsLoading && OOQDetailData?.isSuccess === true) {
+      const sortArr = Array.from(
+        OOQDetailData?.data?.chattingLogs?.chattingLogs!,
+      );
+      sortArr.sort((a, b) => {
+        const fomatedA = dayjs(a.createdAt).format('YYYY.MM.DD HH:mm:ss');
+        const fomatedB = dayjs(b.createdAt).format('YYYY.MM.DD HH:mm:ss');
+        if (fomatedA > fomatedB) {
+          return 1;
+        }
+        if (fomatedA < fomatedB) {
+          return -1;
+        }
+        return 0;
+      });
+      //console.log(sortArr)
+
+      /* 날짜 최신순으로 정렬된 배열을 날짜 기준으로 다시 묶기. 
+            순서가 보장되었기 때문에 , 모든 요소 하나하나와 비교하지않고, 바로 전의 요소와만 비교해도 된다.
+        */
+      const temp: ChattingRoom[] = [];
+      sortArr.forEach((a, idx) => {
+        const date1 = dayjs(a.createdAt).format('YYYY.MM.DD');
+        /*맨 처음 배열 요소는 그냥 push*/
+        if (idx === 0) {
+          temp.push({
+            date: date1,
+            logs: [a],
+          });
+          /* 배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 같으면, temp배열의 가장 마지막 인덱스 요소(Logs)에 푸쉬. 
+                  배열의 바로 전 요소 날짜값과 현재 요소의 날짜값이 다르면, temp 배열에 새롭게 Push.
+                */
+        } else {
+          if (
+            dayjs(sortArr[idx - 1].createdAt).format('YYYY.MM.DD') === date1
+          ) {
+            temp[temp.length - 1].logs.push(a);
+          } else {
+            temp.push({
+              date: date1,
+              logs: [a],
+            });
+          }
+        }
+      });
+      //   console.log('temp', temp);
+      setData(temp);
+
+      if (loading) {
+        setLoading(false);
+        console.log('img');
+        setTimeout(() => {
+          focusRef.current?.focus();
+
+          if (webInputRef.current) {
+            webInputRef.current.focus();
+          }
+        }, 300);
+      } else {
+        console.log('chat');
+        setTimeout(() => {
+          focusRef.current?.focus();
+
+          if (webInputRef.current) {
+            webInputRef.current.focus();
+          }
+        }, 100);
+      }
+    }
+  }, [detatilId, OOQDetailData]); //의존성 배열, 호출할때만으로 정해야 함.
+
+  const now = window.document.documentElement.scrollHeight;
+
+  useEffect(() => {
+    if (setNowHeight && detatilId) {
+      setNowHeight(now);
+    }
+  }, [detatilId]);
+
+  console.log('🎀 지금 뭐나옴??? 🎀', OOQDetailData?.data);
+
   return (
-    <Body ref={logs}>
+    <Body ref={logs} now={now}>
       {isModal && <Modal click={() => setIsModal(false)} text={errorMessage} />}
 
       <AdminHeader
@@ -170,7 +296,7 @@ const OOQDetail = ({ detatilId }: Props) => {
 
       <Wrapper className="OOQ-innerWrap">
         <TopBox className="OOQ-innerTop">
-          <P>회원이름</P>
+          <P>{OOQDetailData?.data?.chattingLogs?.member?.id}</P>
           <QuitBtn>
             <span>상담 종료</span>
           </QuitBtn>
@@ -182,7 +308,6 @@ const OOQDetail = ({ detatilId }: Props) => {
                 <img src="/images/loading.gif" alt="" className="loading" />
               </LoadingWrap>
             )}
-
             <FocusBox tabIndex={1} className="target" ref={focusRef} />
           </div>
         </Inner>
@@ -238,10 +363,11 @@ const OOQDetail = ({ detatilId }: Props) => {
 
 export default OOQDetail;
 
-const Body = styled.div`
+const Body = styled.div<{ now?: number }>`
   position: absolute;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
+  height: ${({ now }) => (now ? `${now}px` : `100%`)};
   padding: 0 18pt;
   background: white;
   top: 0;
@@ -257,7 +383,7 @@ const Wrapper = styled.div`
 `;
 const QuitBtn = styled.button`
   position: absolute;
-  top: 9px;
+  top: 20%;
   right: 16px;
   display: flex;
   justify-content: center;
@@ -318,6 +444,7 @@ const FileIconWrap = styled.div`
   width: 14.5pt;
   height: 15.45pt;
   margin: 0 0 0 13.5pt;
+  cursor: pointer;
 `;
 const TextInput = styled.input`
   flex: auto;

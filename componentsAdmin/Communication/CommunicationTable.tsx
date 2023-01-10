@@ -145,7 +145,7 @@ const CommunicationTable = ({
 
   // 🎀 소통하기  1:1 문의
   // /admin/chatting/consultations?page=1&limit=10&searchId=test&memberType=company
-  // 나중에 상담상태도 추가 하셈 'commuCheck'
+
   const { data: userChattingOneOnOne, refetch: userChattingOneOnOneRefetch } =
     useQuery<OneOnOneChatResponse>(
       'userChattingOneOnOne',
@@ -166,6 +166,7 @@ const CommunicationTable = ({
                 convertKo(userCheckBox, userCheckBoxEn, ele.memberType),
                 ele.memberId,
                 ele.consultStatus,
+                ele.chattingRoomIdx,
               ];
               temp.push(eleArr);
             });
@@ -185,8 +186,7 @@ const CommunicationTable = ({
                       style={{ marginLeft: '10px' }}
                       onClick={() => {
                         setDetailId(cell);
-                        // setIsDetail(true);
-                        alert('개발중입니다.');
+                        setIsDetail(true);
                       }}
                     >
                       보기

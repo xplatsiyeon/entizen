@@ -26,11 +26,6 @@ type Props = {
 
 const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
   const queryClient = useQueryClient();
-  // 리스트 불러오는 api
-  const { data: bannerList, refetch: bannerListRefetch } =
-    useQuery<AdminBannerListResponse>('bannerList', () =>
-      getApi(`/admin/banners?targetMemberType=`),
-    );
 
   // 등록, 추가, 삭제 했을때 리스트 페이지로 이동 할거임
   const [changeNumber, setChangeNumber] = useState(false);
@@ -44,9 +39,17 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
     id: 0,
   });
 
+  const [sendUserType, setSendUserType] = useState<string>('');
+
   const { data, isLoading, isError, refetch, remove } =
     useQuery<AdminBannerDetailResponse>('bannerDetail', () =>
       isTokenGetApi(`/admin/banners/${detatilId}`),
+    );
+
+  // 리스트 불러오는 api
+  const { data: bannerList, refetch: bannerListRefetch } =
+    useQuery<AdminBannerListResponse>('bannerList', () =>
+      getApi(`/admin/banners?targetMemberType=${sendUserType}`),
     );
 
   // 등록
@@ -87,6 +90,10 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
       setNowHeight(window.document.documentElement.scrollHeight);
     }
   }, []);
+
+  useEffect(() => {
+    setSendUserType(userTypeEn[userNum]);
+  }, [userNum]);
 
   // 등록, 추가, 삭제 했을때 리스트 페이지로 넘길거임
   useEffect(() => {

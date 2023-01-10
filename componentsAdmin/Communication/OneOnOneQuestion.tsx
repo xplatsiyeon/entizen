@@ -60,7 +60,8 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
   };
 
   const handleCommon = () => {
-    alert('개발중입니다.');
+    // alert('개발중입니다.');
+    setIsDetail(true);
   };
 
   useEffect(() => {
@@ -156,7 +157,9 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
         )}
       />
 
-      {isDetail && <OOQDetail detatilId={detatilId} />}
+      {isDetail && (
+        <OOQDetail detatilId={detatilId} setNowHeight={setNowHeight} />
+      )}
     </Wrapper>
   );
 };
