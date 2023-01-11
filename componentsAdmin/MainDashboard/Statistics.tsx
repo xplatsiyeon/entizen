@@ -16,6 +16,7 @@ import ChartBar from './Chart';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import { adminDateFomat, dateFomat } from 'utils/calculatePackage';
+import { useRouter } from 'next/router';
 
 type Props = {
   setNowHeight: Dispatch<SetStateAction<number | undefined>>;
@@ -48,6 +49,7 @@ const ChartColor = ['#B096EF', '#FFC043', '#A6A9B0', '#F75015'];
 
 const Statistics = ({ setNowHeight }: Props) => {
   const queryClinet = useQueryClient();
+  const router = useRouter();
 
   const [pickedDate, setPickedDate] = useState<string[]>();
   const dateRef = useRef<HTMLDivElement>(null);

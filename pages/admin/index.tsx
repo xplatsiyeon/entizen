@@ -39,8 +39,16 @@ const index = (props: Props) => {
 
   const router = useRouter();
 
-  console.log('🎀 인덱스임 number 🎀', number);
-  console.log('🎀 인덱스임 sessionNumber 🎀', sessionNumber);
+  // console.log('🎀 인덱스임 number 🎀', number);
+  // console.log('🎀 인덱스임 sessionNumber 🎀', sessionNumber);
+
+  const accessToken = sessionStorage.getItem('ADMIN_ACCESS_TOKEN');
+
+  useEffect(() => {
+    if (!accessToken) {
+      router.push('/admin/login');
+    }
+  }, []);
 
   useEffect(() => {
     if (sessionNumber) {
