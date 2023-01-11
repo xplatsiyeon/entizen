@@ -10,7 +10,7 @@ import {
   adminDateFomat,
   dateFomat,
   hyphenFn,
-  isAdminJoinApproved,
+  isAdminJoinApprovedString,
 } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { AdminBtn } from 'componentsAdmin/Layout';
@@ -160,7 +160,7 @@ const UserManagementTable = ({
                 ele.name,
                 ele?.companyMemberAdditionalInfo?.managerEmail,
                 hyphenFn(ele.phone),
-                isAdminJoinApproved(ele?.isAdminJoinApproved),
+                isAdminJoinApprovedString(ele?.isAdminJoinApproved),
                 dateFomat(ele.createdAt),
                 `${ele.deletedAt ? dateFomat(ele.deletedAt) : '-'}`,
                 ele.memberIdx,

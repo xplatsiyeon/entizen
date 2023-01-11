@@ -13,9 +13,11 @@ type Props = {
   type: 'USER' | 'COMPANY';
   userData: UserRespnse;
   CompanyData: CompanyResposne;
-  setApprove?: React.Dispatch<React.SetStateAction<boolean>>;
-  approve?: boolean;
+  setApprove: React.Dispatch<React.SetStateAction<boolean>>;
+  approve: boolean;
   currentApprove?: string;
+  setSelectValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+  selectValue?: string;
 };
 
 const MemberContents = ({
@@ -25,9 +27,9 @@ const MemberContents = ({
   setApprove,
   approve,
   currentApprove,
+  setSelectValue,
+  selectValue,
 }: Props) => {
-  console.log(CompanyData);
-
   return (
     <Contents>
       {type === 'USER' ? (
@@ -137,12 +139,13 @@ const MemberContents = ({
             <select
               name=""
               style={{ cursor: 'pointer' }}
-              value={currentApprove}
+              value={selectValue}
               className="selectBox"
               onChange={(e) => {
                 const { value } = e.target;
-                if (setApprove && value !== undefined) {
+                if (value !== undefined) {
                   const approveBoolean = isAdminJoinApprovedBoolean(value);
+                  setSelectValue(value);
                   if (approveBoolean !== undefined) {
                     setApprove(approveBoolean);
                   }
