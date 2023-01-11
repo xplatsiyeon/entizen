@@ -12,8 +12,10 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AppProps } from 'next/app';
 import { useDispatch } from 'react-redux';
 import { userAgentAction } from 'store/userAgent';
+import { useRouter } from 'next/router';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter();
   const [queryClient] = useState(() => new QueryClient());
   const client = new ApolloClient({
     uri: 'https://test-api.entizen.kr/api/graphql',

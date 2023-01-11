@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
-import { useQuery, useQueryClient } from 'react-query';
-import { api, getApi } from 'api';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { api, getApi, isTokenPatchApi } from 'api';
 import { Pagination } from 'rsuite';
 import { css } from '@emotion/react';
 import {
@@ -64,13 +64,12 @@ const AdminNotifyTable = ({
   const [page, setPage] = useState<number>(1);
   const [columns, setColumns] = useState<any[]>([]);
   const [length, setLength] = useState<number>();
-
+  let test = [];
   // 오늘 날짜.
   const today = new Date();
-  console.log(adminDateFomat(String(today)));
+  // console.log(adminDateFomat(String(today)));
 
   // 역경매 견적서 보기에 넘겨줄 아이디값
-  const dispatch = useDispatch();
 
   // 유저 회원 검색 필터 뭐 눌렀는지
   const changeSearchType = ['name', 'id'];
@@ -82,11 +81,23 @@ const AdminNotifyTable = ({
    일단, 10개 제한일때 
    : 기본은 {page -1}{idx +1}. idx가 10*page가 되면 idx = 0 처리.   
   
-  
+
   */
 
-  // 약관 리스트
-  // /admin/terms
+  // /admin/notices/:noticeIdx/exposure 토글 버튼 수정
+  const queryClient = useQueryClient();
+  const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('adminNoticeList');
+      // adminNoticeListRefetch();
+    },
+    onError: (error) => {
+      console.log('토글 버튼 에러');
+      console.log(error);
+    },
+  });
+  // // 약관 리스트
+  // // /admin/terms
   const {
     data: termsList,
     refetch: termsListRefetch,
@@ -151,11 +162,11 @@ const AdminNotifyTable = ({
     'adminNoticeList',
     () => getApi(`/admin/notices`),
     {
-      enabled: false,
-      onSuccess: (adminNoticeList) => {
+      enabled: tableType === 'adminNoticeList',
+      onSuccess: (resposne) => {
         if (tableType === 'adminNoticeList') {
           const temp: any = [];
-          adminNoticeList?.data?.notices.forEach((ele, idx) => {
+          resposne?.data?.notices.forEach((ele, idx) => {
             const eleArr = [
               `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
                 idx + 1 === 10 ? page * 10 : idx + 1
@@ -171,6 +182,7 @@ const AdminNotifyTable = ({
             temp.push(eleArr);
           });
           setDataArr(temp);
+          test = temp;
           setColumns([
             '번호',
             '공지사항',
@@ -183,9 +195,12 @@ const AdminNotifyTable = ({
                     <ToggleBtn
                       visible={cell?.isVisible}
                       onClick={() => {
-                        if (setToggle) {
-                          setToggle(cell);
-                        }
+                        patchMutate({
+                          url: `/admin/notices/${cell?.id}/exposure`,
+                        });
+                        // if (setToggle) {
+                        //   setToggle(cell);
+                        // }
                       }}
                     >
                       <Circle visible={cell?.isVisible} />
@@ -223,7 +238,7 @@ const AdminNotifyTable = ({
     },
   );
 
-  // 배너 리스트(기업이냐, 유저에 따라 받는 데이터 다름)
+  // // 배너 리스트(기업이냐, 유저에 따라 받는 데이터 다름)
   const {
     data: bannerList,
     refetch: bannerListRefetch,
@@ -302,7 +317,7 @@ const AdminNotifyTable = ({
     },
   );
 
-  // faq 리스트(기업이냐, 유저에 따라 받는 데이터 다름, 추후에 userType api 주소에 추가)
+  // // faq 리스트(기업이냐, 유저에 따라 받는 데이터 다름, 추후에 userType api 주소에 추가)
   const {
     data: adminFaqList,
     refetch: adminFaqListRefetch,
@@ -431,9 +446,10 @@ const AdminNotifyTable = ({
     adminBannerLoading ||
     adminFaqLoading;
 
-  if (isLoading) {
+  if (adminNoticeLoading) {
     return <div>로딩중..</div>;
   }
+
   return (
     <StyledBody className="user-table">
       <FlexBox>
@@ -450,13 +466,13 @@ const AdminNotifyTable = ({
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>
           <Grid
-            // data={() => {
-            //   //화면의 덜컹거림을 줄이기 위해서 0.1초 기다림( =>setState들로 인한 페이지 전환 다 끝난 후 데이터 삽입).
-            //   return new Promise((resolve) => {
-            //     setTimeout(() => resolve(dataArr), 130);
-            //   });
-            // }}
-            data={dataArr}
+            data={() => {
+              //화면의 덜컹거림을 줄이기 위해서 0.1초 기다림( =>setState들로 인한 페이지 전환 다 끝난 후 데이터 삽입).
+              return new Promise((resolve) => {
+                setTimeout(() => resolve(dataArr), 200);
+              });
+            }}
+            // data={dataArr}
             columns={columns}
           />
         </Div>
