@@ -29,7 +29,7 @@ import {
   dateFomat,
   hyphenFn,
   convertKo,
-  isAdminJoinApproved,
+  isAdminJoinApprovedString,
 } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
@@ -233,7 +233,7 @@ const Table = ({
                 ele.name,
                 ele?.companyMemberAdditionalInfo?.managerEmail,
                 hyphenFn(ele.phone),
-                isAdminJoinApproved(ele?.isAdminJoinApproved),
+                isAdminJoinApprovedString(ele?.isAdminJoinApproved),
                 dateFomat(ele.createdAt),
                 `${ele.deletedAt ? dateFomat(ele.deletedAt) : '-'}`,
                 ele.memberIdx,
