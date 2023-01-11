@@ -6,7 +6,11 @@ import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import { css } from '@emotion/react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi, isTokenDeleteApi } from 'api';
+import {
+  isTokenAdminDeleteApi,
+  isTokenAdminGetApi,
+  isTokenDeleteApi,
+} from 'api';
 import { chargers } from 'storeCompany/finalQuotation';
 import Image from 'next/image';
 import ExitBtn from 'public/adminImages/Group.png';
@@ -82,7 +86,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
     );
   const { data, isLoading, isError } = useQuery<AdminProductListDetail>(
     'ProductListDetail',
-    () => isTokenGetApi(`/admin/products/${detatilId}`),
+    () => isTokenAdminGetApi(`/admin/products/${detatilId}`),
   );
   const [modal, setModal] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<chargers[]>([]);
@@ -195,7 +199,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
     mutate: delelteMutate,
     isLoading: delelteLoading,
     isError: delelteError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       partnerProductListRefetch();
       setMessageModal(true);

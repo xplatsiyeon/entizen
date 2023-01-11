@@ -1,5 +1,9 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { isTokenGetApi, isTokenDeleteApi } from 'api';
+import {
+  isTokenDeleteApi,
+  isTokenAdminGetApi,
+  isTokenAdminDeleteApi,
+} from 'api';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import AdminHeader from 'componentsAdmin/Header';
@@ -104,7 +108,8 @@ const ASDetailView = ({
 
   const { data, isLoading, isError } = useQuery<ASDetailViewResponse>(
     'asDetailView',
-    () => isTokenGetApi(`/admin/after-sales-services/${afterSalesServiceIdx}`),
+    () =>
+      isTokenAdminGetApi(`/admin/after-sales-services/${afterSalesServiceIdx}`),
   );
   const handleBackBtn = () => {
     setIsDetail!(false);
@@ -114,7 +119,7 @@ const ASDetailView = ({
     mutate: deleteMutate,
     isLoading: deleteIsLoading,
     isError: deleteIsError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('asDetailView');
       setMessageModal(true);

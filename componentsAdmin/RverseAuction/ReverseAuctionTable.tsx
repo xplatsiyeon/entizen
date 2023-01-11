@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery, useQueryClient } from 'react-query';
-import { api, getApi } from 'api';
+import { api, getApi, isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { css } from '@emotion/react';
 import { Quotations, CompanyPreQuotationResponse } from 'types/tableDataType';
@@ -67,7 +67,7 @@ const ReverseAuctionTable = ({
     useQuery<CompanyPreQuotationResponse>(
       'companyPreQuotation',
       () =>
-        getApi(
+        isTokenAdminGetApi(
           `/admin/quotations/quotation-requests/${detatilId}/pre-quotations`,
         ),
       {
@@ -157,7 +157,7 @@ const ReverseAuctionTable = ({
     useQuery<Quotations>(
       'quetationList',
       () =>
-        getApi(
+        isTokenAdminGetApi(
           `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${pickedDate ? pickedDate[1] : today}`,

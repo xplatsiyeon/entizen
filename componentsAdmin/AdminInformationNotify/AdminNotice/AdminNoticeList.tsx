@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { getApi } from 'api';
+import { getApi, isTokenAdminGetApi, isTokenAdminPatchApi } from 'api';
 import AdminHeader from 'componentsAdmin/Header';
-import colors from 'styles/colors';
-import { AdminBtn } from 'componentsAdmin/Layout';
 import AdminNoticeEditor, { NoticeDetail } from './AdminNoticeEditor';
-import { isTokenPatchApi, isTokenGetApi } from 'api';
-import {
-  QueryObserverResult,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
-import AdminNotifyTable from '../AdminNotifyTable';
-import { AdminNoticeListResponse } from 'types/tableDataType';
+import { isTokenPatchApi } from 'api';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AdminNoticeTable from './AdminNoticeTable';
 
 type Props = {
@@ -30,7 +21,7 @@ const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
   // 공지사항 에디터 데이터 api
   const { data, isLoading, isError, refetch, remove } = useQuery<NoticeDetail>(
     'adminNoticeDetail',
-    () => isTokenGetApi(`/admin/notices/${detatilId}`),
+    () => isTokenAdminGetApi(`/admin/notices/${detatilId}`),
   );
 
   // 공지사항 리스트 api
@@ -50,7 +41,7 @@ const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
   const queryClient = useQueryClient();
 
   // /admin/notices/:noticeIdx/exposure 토글 버튼 수정
-  const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
+  const { mutate: patchMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminNoticeList');
       // adminNoticeListRefetch();

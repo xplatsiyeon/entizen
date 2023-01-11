@@ -5,7 +5,13 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import MemberContents from './MemberContents';
 import ExitBtn from 'public/adminImages/Group.png';
-import { isTokenGetApi, isTokenDeleteApi, isTokenPatchApi } from 'api';
+import {
+  isTokenAdminDeleteApi,
+  isTokenAdminGetApi,
+  isTokenAdminPatchApi,
+  isTokenDeleteApi,
+  isTokenPatchApi,
+} from 'api';
 import Loader from 'components/Loader';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
@@ -82,7 +88,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     isError: userError,
   } = useQuery<UserRespnse>(
     'user-detail',
-    () => isTokenGetApi(`/admin/members/users/${memberIdx}`),
+    () => isTokenAdminGetApi(`/admin/members/users/${memberIdx}`),
     {
       // enabled: false,
       enabled: type === 'USER' && memberIdx ? true : false,
@@ -94,7 +100,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     isError: companyError,
   } = useQuery<CompanyResposne>(
     'company-detail',
-    () => isTokenGetApi(`/admin/members/companies/${memberIdx}`),
+    () => isTokenAdminGetApi(`/admin/members/companies/${memberIdx}`),
     {
       // enabled: false,
       enabled: type === 'COMPANY' && memberIdx ? true : false,
@@ -115,7 +121,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     mutate: patchMutate,
     isLoading: patchLoading,
     isError: patchError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('user-detail');
       queryClinet.invalidateQueries('company-detail');
@@ -149,7 +155,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     mutate: patchApproveMutate,
     isLoading: patchApproveLoading,
     isError: patchApproveError,
-  } = useMutation(isTokenPatchApi, {
+  } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('comUserData');
       queryClinet.invalidateQueries('comUserInfo');

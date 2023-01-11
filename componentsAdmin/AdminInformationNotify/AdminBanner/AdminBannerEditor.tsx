@@ -9,9 +9,16 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { api, getApi } from 'api';
 import {
-  isTokenGetApi,
+  api,
+  getApi,
+  isTokenAdminDeleteApi,
+  isTokenAdminGetApi,
+  isTokenAdminPostApi,
+  isTokenAdminPutApi,
+  multerAdminApi,
+} from 'api';
+import {
   multerApi,
   isTokenPostApi,
   isTokenPutApi,
@@ -67,7 +74,7 @@ const AdminBannerEditor = ({
   // 에디터 불러오는 api
   const { data, isLoading, isError, refetch, remove } =
     useQuery<AdminBannerDetailResponse>('bannerDetail', () =>
-      isTokenGetApi(`/admin/banners/${detatilId}`),
+      isTokenAdminGetApi(`/admin/banners/${detatilId}`),
     );
   const outsideImgRef = useRef<any>(null);
   const insideImgRef = useRef<any>(null);
@@ -123,7 +130,7 @@ const AdminBannerEditor = ({
     MulterResponse,
     AxiosError,
     FormData
-  >(multerApi, {
+  >(multerAdminApi, {
     onSuccess: (res) => {
       // console.log(TAG + ' 👀 ~ line 104 multer onSuccess');
       // console.log(res);
@@ -162,7 +169,7 @@ const AdminBannerEditor = ({
     MulterResponse,
     AxiosError,
     FormData
-  >(multerApi, {
+  >(multerAdminApi, {
     onSuccess: (res) => {
       // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
 
@@ -266,7 +273,7 @@ const AdminBannerEditor = ({
 
   // -------------------------배너리스트 조회 (수정하기) -------------------
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
-    isTokenPutApi,
+    isTokenAdminPutApi,
     {
       onSuccess: () => {
         queryClient.invalidateQueries('bannerList');
@@ -304,7 +311,7 @@ const AdminBannerEditor = ({
     mutate: postMutate,
     isLoading: postLoading,
     isError: postError,
-  } = useMutation(isTokenPostApi, {
+  } = useMutation(isTokenAdminPostApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('bannerList');
       setMessageModal(true);
@@ -342,7 +349,7 @@ const AdminBannerEditor = ({
     mutate: patchMutate,
     isLoading: patchLoading,
     isError: patchError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('bannerList');
       setMessageModal(true);

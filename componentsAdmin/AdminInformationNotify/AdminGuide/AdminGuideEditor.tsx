@@ -10,12 +10,16 @@ import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import {
-  isTokenGetApi,
   multerApi,
   isTokenPostApi,
   isTokenPutApi,
   isTokenPatchApi,
   isTokenDeleteApi,
+  isTokenAdminGetApi,
+  isTokenAdminDeleteApi,
+  isTokenAdminPutApi,
+  isTokenAdminPostApi,
+  multerAdminApi,
 } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
@@ -39,7 +43,7 @@ const AdminGuideEditor = ({ setIsDetail, detatilId }: Props) => {
   const queryClinet = useQueryClient();
   const { data, isLoading, isError, refetch } =
     useQuery<AdminNoticeListResponse>('adminNoticeDetail', () =>
-      isTokenGetApi(`/admin/notices/${detatilId}`),
+      isTokenAdminGetApi(`/admin/notices/${detatilId}`),
     );
 
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
@@ -71,7 +75,7 @@ const AdminGuideEditor = ({ setIsDetail, detatilId }: Props) => {
     MulterResponse,
     AxiosError,
     FormData
-  >(multerApi, {
+  >(multerAdminApi, {
     onSuccess: (res) => {
       // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
       // console.log(res);
@@ -154,7 +158,7 @@ const AdminGuideEditor = ({ setIsDetail, detatilId }: Props) => {
     mutate: postMutate,
     isLoading: postLoading,
     isError: postError,
-  } = useMutation(isTokenPostApi, {
+  } = useMutation(isTokenAdminPostApi, {
     onSuccess: () => {
       //   queryclient.invalidateQueries('user-mypage');
       setMessageModal(true);
@@ -182,7 +186,7 @@ const AdminGuideEditor = ({ setIsDetail, detatilId }: Props) => {
   // 수정 api
 
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
-    isTokenPutApi,
+    isTokenAdminPutApi,
     {
       onSuccess: () => {
         setMessageModal(true);
@@ -213,7 +217,7 @@ const AdminGuideEditor = ({ setIsDetail, detatilId }: Props) => {
     mutate: patchMutate,
     isLoading: patchLoading,
     isError: patchError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('adminNoticeList');
 

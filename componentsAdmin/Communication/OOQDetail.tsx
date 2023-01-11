@@ -12,20 +12,8 @@ import WebFileModal from 'components/Chatting/WebFileModal';
 import AdminHeader from 'componentsAdmin/Header';
 import defaultImg from 'public/images/defaultImg.png';
 import fileImg from 'public/mypage/file-icon.svg';
-import {
-  QueryObserverResult,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
-import {
-  isTokenGetApi,
-  multerApi,
-  isTokenPostApi,
-  isTokenPutApi,
-  isTokenPatchApi,
-  isTokenDeleteApi,
-} from 'api';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { isTokenAdminGetApi, isTokenAdminPostApi } from 'api';
 
 // type ChattingLogs = {
 //   createdAt: string;
@@ -117,7 +105,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
   } = useQuery<ChattingResponse>(
     'OOQDetail',
     () => {
-      return isTokenGetApi(
+      return isTokenAdminGetApi(
         `/admin/chatting/consultations/${detatilId}?page=1&limit=10`,
       );
     },
@@ -157,7 +145,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
     mutate: chattingPostMutate,
     isLoading: chattingPostIsLoading,
     isError: chattingPostIsError,
-  } = useMutation(isTokenPostTempoApi, {
+  } = useMutation(isTokenAdminPostApi, {
     onSuccess: async () => {
       setText('');
       await queryClient.invalidateQueries('chatting-data');

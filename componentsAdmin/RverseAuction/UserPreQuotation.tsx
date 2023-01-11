@@ -20,7 +20,7 @@ import {
   subscribeTypeEn,
 } from 'assets/selectList';
 import { useQuery } from 'react-query';
-import { isTokenGetApi, isTokenPostApi } from 'api';
+import { isTokenAdminGetApi, isTokenPostApi } from 'api';
 import { dateFomat, hyphenFn, convertKo } from 'utils/calculatePackage';
 import index from 'pages/admin';
 
@@ -69,7 +69,7 @@ const UserPreQuotation = ({ detatilId }: Props) => {
 
   const { data, isLoading, isError, error } =
     useQuery<UserPreQuotationResponse>('userPreQuotation', () =>
-      isTokenGetApi(`/admin/quotations/quotation-requests/${detatilId}`),
+      isTokenAdminGetApi(`/admin/quotations/quotation-requests/${detatilId}`),
     );
 
   // 달력 날짜 변경 함수

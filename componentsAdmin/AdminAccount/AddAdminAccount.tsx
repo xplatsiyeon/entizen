@@ -433,6 +433,7 @@ const AddAdminAccount = ({
             onBlur={(e) => setPwSelected(false)}
           /> */}
           <Input
+            className={!checkedPw && pwInput.length > 4 ? 'warning' : ''}
             placeholder="비밀번호 입력"
             onChange={handleIdChange}
             type={pwShow[0] ? 'text' : 'password'}
@@ -708,7 +709,6 @@ const Btn = styled.button`
 
 const Input = styled(TextField)<{ width?: number; warning?: boolean }>`
   border-radius: 2px;
-
   & input {
     padding: 3pt 0 3pt 12pt;
     font-size: 12pt;
@@ -716,6 +716,7 @@ const Input = styled(TextField)<{ width?: number; warning?: boolean }>`
   }
   & .MuiInputBase-root {
     padding-right: 9pt;
+    margin-right: 5px;
   }
   ::placeholder {
     color: ${colors.gray};

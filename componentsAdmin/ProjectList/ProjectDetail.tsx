@@ -1,5 +1,11 @@
 import styled from '@emotion/styled';
-import { isTokenGetApi, isTokenDeleteApi, isTokenPatchApi } from 'api';
+import {
+  isTokenDeleteApi,
+  isTokenPatchApi,
+  isTokenAdminGetApi,
+  isTokenAdminPatchApi,
+  isTokenAdminDeleteApi,
+} from 'api';
 import {
   location,
   locationEn,
@@ -132,7 +138,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   const [fileIdx, setFileIdx] = useState<number | undefined>();
   const { data, isLoading, isError } = useQuery<ProjectDetailResponse>(
     'projectDetail',
-    () => isTokenGetApi(`/admin/projects/${projectIdx}`),
+    () => isTokenAdminGetApi(`/admin/projects/${projectIdx}`),
   );
 
   // 리뷰데이터
@@ -143,7 +149,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     mutate: deleteMutate,
     isLoading: deleteIsLoading,
     isError: deleteIsError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('projectDetail');
       setMessageModal(true);
@@ -172,7 +178,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     mutate: patchMutate,
     isLoading: patchIsLoading,
     isError: patchIsError,
-  } = useMutation(isTokenPatchApi, {
+  } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('projectDetail');
       setMessageModal(true);

@@ -4,7 +4,13 @@ import colors from 'styles/colors';
 import Toggle from 'rsuite/Toggle';
 import { Pagination } from 'rsuite';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api, getApi, isTokenPatchApi } from 'api';
+import {
+  api,
+  getApi,
+  isTokenAdminGetApi,
+  isTokenAdminPatchApi,
+  isTokenPatchApi,
+} from 'api';
 import { AdminNoticeListResponse } from 'types/tableDataType';
 import { adminDateFomat } from 'utils/calculatePackage';
 
@@ -26,14 +32,14 @@ const AdminNoticeTable = ({
   const { data: adminNoticeList, refetch: adminNoticeListRefetch } =
     useQuery<AdminNoticeListResponse>(
       'adminNoticeList',
-      () => getApi(`/admin/notices`),
+      () => isTokenAdminGetApi(`/admin/notices`),
       {
         onSuccess: (res) => {
           setLength(res.data ? res?.data?.totalCount : 0);
         },
       },
     );
-  const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
+  const { mutate: patchMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminNoticeList');
       // adminNoticeListRefetch();
@@ -137,7 +143,7 @@ const Header = styled.div`
 `;
 const TableContatiner = styled.ul`
   margin-top: 8px;
-  height: 490px;
+  min-height: 490px;
 `;
 const List = styled.li`
   font-family: 'Spoqa Han Sans Neo';

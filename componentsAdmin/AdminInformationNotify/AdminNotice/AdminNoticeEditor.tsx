@@ -16,6 +16,11 @@ import {
   isTokenPutApi,
   isTokenPatchApi,
   isTokenDeleteApi,
+  isTokenAdminGetApi,
+  isTokenAdminDeleteApi,
+  isTokenAdminPutApi,
+  isTokenAdminPostApi,
+  multerAdminApi,
 } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
@@ -63,7 +68,7 @@ const AdminNoticeEditor = ({
 
   const { data, isLoading, isError, refetch } = useQuery<NoticeDetail>(
     'adminNoticeDetail',
-    () => isTokenGetApi(`/admin/notices/${detatilId}`),
+    () => isTokenAdminGetApi(`/admin/notices/${detatilId}`),
   );
 
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
@@ -97,7 +102,7 @@ const AdminNoticeEditor = ({
     MulterResponse,
     AxiosError,
     FormData
-  >(multerApi, {
+  >(multerAdminApi, {
     onSuccess: (res) => {
       // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
       // console.log(res);
@@ -180,7 +185,7 @@ const AdminNoticeEditor = ({
     mutate: postMutate,
     isLoading: postLoading,
     isError: postError,
-  } = useMutation(isTokenPostApi, {
+  } = useMutation(isTokenAdminPostApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminNoticeList');
       adminNoticeListRefetch();
@@ -208,7 +213,7 @@ const AdminNoticeEditor = ({
 
   // 수정 api
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
-    isTokenPutApi,
+    isTokenAdminPutApi,
     {
       onSuccess: () => {
         queryClient.invalidateQueries('adminNoticeList');
@@ -241,7 +246,7 @@ const AdminNoticeEditor = ({
     mutate: deleteMutate,
     isLoading: deleteLoading,
     isError: deleteError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminNoticeList');
 

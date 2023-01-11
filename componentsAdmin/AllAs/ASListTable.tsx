@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery, useQueryClient } from 'react-query';
-import { api, getApi } from 'api';
+import { api, getApi, isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { css } from '@emotion/react';
 import { ASListResponse } from 'types/tableDataType';
@@ -64,7 +64,7 @@ const ASListTable = ({
   const { data: asData, refetch: asRefetch } = useQuery<ASListResponse>(
     'asData',
     () =>
-      getApi(
+      isTokenAdminGetApi(
         `/admin/after-sales-services?page=${page}&limit=10&startDate=${
           pickedDate ? pickedDate[0] : '2022-10-01'
         }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,

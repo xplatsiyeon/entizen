@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery, useQueryClient } from 'react-query';
-import { api, getApi } from 'api';
+import { isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { css } from '@emotion/react';
 import {
@@ -72,7 +72,7 @@ const DashBoardTable = ({
     useQuery<ProjectListSituation>(
       'projectListSituation',
       () =>
-        getApi(
+        isTokenAdminGetApi(
           `/admin/dashboards/projects?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${pickedDate ? pickedDate[1] : today}${statusCheck}`,
@@ -136,7 +136,7 @@ const DashBoardTable = ({
   } = useQuery<ReverseAuctionSituation>(
     'reverseAuctionSituation',
     () =>
-      getApi(
+      isTokenAdminGetApi(
         `/admin/dashboards/quotation-requests?page=${page}&limit=10&startDate=${
           pickedDate ? pickedDate[0] : '2022-09-05'
         }&endDate=${
@@ -201,7 +201,7 @@ const DashBoardTable = ({
     useQuery<ASListSitutation>(
       'asListSituationList',
       () =>
-        getApi(
+        isTokenAdminGetApi(
           `/admin/dashboards/after-sales-services?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${pickedDate ? pickedDate[1] : today}${asStatusCheck}`,

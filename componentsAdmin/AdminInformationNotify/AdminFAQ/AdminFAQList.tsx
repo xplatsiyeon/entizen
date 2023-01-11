@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import { getApi } from 'api';
+import { getApi, isTokenAdminGetApi, isTokenAdminPatchApi } from 'api';
 import AdminFAQEditor, { FaqsUpdate } from './AdminFAQEditor';
-import { isTokenGetApi, isTokenPatchApi } from 'api';
+import { isTokenPatchApi } from 'api';
 import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AdminFAQTable from './AdminFAQTable';
@@ -25,7 +25,7 @@ const AdminFAQList = ({ setNowHeight, setNumber }: Props) => {
   // FAQ 에디터 데이터 불러오는 api
   const { data, isLoading, isError, refetch, remove } = useQuery<FaqsUpdate>(
     'adminFaqsDetail',
-    () => isTokenGetApi(`/admin/faqs/${detatilId}`),
+    () => isTokenAdminGetApi(`/admin/faqs/${detatilId}`),
   );
 
   // FAQ 리스트 불러오는 api
@@ -46,7 +46,7 @@ const AdminFAQList = ({ setNowHeight, setNumber }: Props) => {
   });
 
   // /admin/faqs/:faqIdx/exposure 토글 버튼 수정
-  const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
+  const { mutate: patchMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminFaqList');
       adminFaqListRefetch();

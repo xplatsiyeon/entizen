@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery } from 'react-query';
-import { getApi } from 'api';
+import { getApi, isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { AdminTermsListResponse } from 'types/tableDataType';
 import { dateFomat } from 'utils/calculatePackage';
@@ -17,6 +17,7 @@ type Props = {
   handleCommon: () => void;
   hide?: boolean;
   userType?: string;
+  onClickToggle?: (id: number) => void;
 };
 
 const AdminNotifyTable = ({
@@ -28,6 +29,7 @@ const AdminNotifyTable = ({
   handleCommon,
   hide,
   userType,
+  onClickToggle,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -60,7 +62,7 @@ const AdminNotifyTable = ({
     isLoading: adminTermsLoading,
   } = useQuery<AdminTermsListResponse>(
     'termsList',
-    () => getApi(`/admin/terms`),
+    () => isTokenAdminGetApi(`/admin/terms`),
     {
       enabled: false,
       onSuccess: (termsList) => {

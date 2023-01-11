@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery, useQueryClient } from 'react-query';
-import { api, getApi } from 'api';
+import { api, getApi, isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { css } from '@emotion/react';
 import {
@@ -76,7 +76,7 @@ const CommunicationTable = ({
     useQuery<UserChattingListResponse>(
       'userChatting',
       () =>
-        getApi(
+        isTokenAdminGetApi(
           `/admin/chatting/members?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-10-01'
           }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
@@ -150,7 +150,7 @@ const CommunicationTable = ({
     useQuery<OneOnOneChatResponse>(
       'userChattingOneOnOne',
       () =>
-        getApi(
+        isTokenAdminGetApi(
           `/admin/chatting/consultations?page=${page}&limit=10&searchId=${userSearch}&memberType=${userCheck?.toLowerCase()}&consultStatus=${commuCheck}`,
         ),
       {

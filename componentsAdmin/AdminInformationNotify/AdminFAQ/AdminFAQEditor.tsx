@@ -9,9 +9,14 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { getApi } from 'api';
 import {
-  isTokenGetApi,
+  getApi,
+  isTokenAdminDeleteApi,
+  isTokenAdminGetApi,
+  isTokenAdminPostApi,
+  isTokenAdminPutApi,
+} from 'api';
+import {
   multerApi,
   isTokenPostApi,
   isTokenPutApi,
@@ -57,7 +62,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
   // FAQ 에디터 데아터 불러오는 api
   const { data, isLoading, isError, refetch } = useQuery<FaqsUpdate>(
     'adminFaqsDetail',
-    () => isTokenGetApi(`/admin/faqs/${detatilId}`),
+    () => isTokenAdminGetApi(`/admin/faqs/${detatilId}`),
   );
 
   // FAQ 리스트 불러오는 api
@@ -113,7 +118,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
     mutate: postMutate,
     isLoading: postLoading,
     isError: postError,
-  } = useMutation(isTokenPostApi, {
+  } = useMutation(isTokenAdminPostApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminFaqList');
       adminFaqListRefetch();
@@ -144,7 +149,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
   // 수정 api
 
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
-    isTokenPutApi,
+    isTokenAdminPutApi,
     {
       onSuccess: () => {
         queryClient.invalidateQueries('adminFaqList');
@@ -181,7 +186,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
     mutate: patchMutate,
     isLoading: patchLoading,
     isError: patchError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       adminFaqListRefetch();
       queryClient.invalidateQueries('adminFaqList');

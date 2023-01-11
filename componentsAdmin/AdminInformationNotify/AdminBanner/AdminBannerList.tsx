@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { api, getApi } from 'api';
-import { isTokenPatchApi, isTokenGetApi } from 'api';
+import { api, getApi, isTokenAdminGetApi } from 'api';
+import { isTokenPatchApi } from 'api';
 import {
   QueryObserverResult,
   useMutation,
@@ -48,14 +48,14 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
 
   const { data, isLoading, isError, refetch, remove } =
     useQuery<AdminBannerDetailResponse>('bannerDetail', () =>
-      isTokenGetApi(`/admin/banners/${detatilId}`),
+      isTokenAdminGetApi(`/admin/banners/${detatilId}`),
     );
 
   // 리스트 불러오는 api
-  const { data: bannerList, refetch: bannerListRefetch } =
-    useQuery<AdminBannerListResponse>('bannerList', () =>
-      getApi(`/admin/banners?targetMemberType=${sendUserType}`),
-    );
+  // const { data: bannerList, refetch: bannerListRefetch } =
+  //   useQuery<AdminBannerListResponse>('bannerList', () =>
+  //     isTokenAdminGetApi(`/admin/banners?targetMemberType=${sendUserType}`),
+  //   );
 
   // 등록
   const handleCommon = () => {
@@ -82,7 +82,7 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
   // 등록, 추가, 삭제 했을때 리스트 페이지로 넘길거임
   useEffect(() => {
     if (changeNumber) {
-      bannerListRefetch();
+      // bannerListRefetch();
       dispatch(adminPageNumberAction.setIsAdminPage(16));
     }
   }, [changeNumber]);

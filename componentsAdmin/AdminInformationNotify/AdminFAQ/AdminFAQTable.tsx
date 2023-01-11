@@ -4,7 +4,13 @@ import colors from 'styles/colors';
 import Toggle from 'rsuite/Toggle';
 import { Pagination } from 'rsuite';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api, getApi, isTokenGetApi, isTokenPatchApi } from 'api';
+import {
+  api,
+  getApi,
+  isTokenAdminGetApi,
+  isTokenAdminPatchApi,
+  isTokenPatchApi,
+} from 'api';
 import {
   AdminBannerListResponse,
   AdminFAQListResponse,
@@ -40,14 +46,14 @@ const AdminFAQTable = ({
   // 공지사항 리스트
   const { data: adminFaqList } = useQuery<AdminFAQListResponse>(
     'adminFaqList',
-    () => getApi(`/admin/faqs`),
+    () => isTokenAdminGetApi(`/admin/faqs`),
     {
       onSuccess: (res) => {
         setLength(res.data ? res?.data?.totalCount : 0);
       },
     },
   );
-  const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
+  const { mutate: patchMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminFaqList');
     },
@@ -159,7 +165,7 @@ const Header = styled.div`
 `;
 const TableContatiner = styled.ul`
   margin-top: 8px;
-  height: 490px;
+  min-height: 490px;
 `;
 const List = styled.li`
   font-family: 'Spoqa Han Sans Neo';

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
 import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { isTokenPatchApi } from 'api';
+import { isTokenAdminPatchApi, isTokenPatchApi } from 'api';
 import {
   QueryObserverResult,
   useMutation,
@@ -27,7 +27,7 @@ const AdminGuideList = ({ setNowHeight }: Props) => {
   };
 
   // 추후에 가이드 부분 api 추가 되면 연결 및 테이블 UI 수정
-  const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
+  const { mutate: patchMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminNoticeList');
     },

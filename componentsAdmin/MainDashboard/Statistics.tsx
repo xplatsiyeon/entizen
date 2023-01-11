@@ -14,9 +14,9 @@ import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import ChartBar from './Chart';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi, isTokenDeleteApi } from 'api';
 import { adminDateFomat, dateFomat } from 'utils/calculatePackage';
 import { useRouter } from 'next/router';
+import { isTokenAdminGetApi } from 'api';
 
 type Props = {
   setNowHeight: Dispatch<SetStateAction<number | undefined>>;
@@ -102,7 +102,7 @@ const Statistics = ({ setNowHeight }: Props) => {
   const { data, isLoading, isError, refetch } = useQuery<StatisticsResponse>(
     'asDetailView',
     () =>
-      isTokenGetApi(
+      isTokenAdminGetApi(
         `/admin/dashboards/statistics?startDate=${
           pickedDate ? pickedDate[0] : '2022-09-05'
         }&endDate=${pickedDate ? pickedDate[1] : today}`,

@@ -4,11 +4,13 @@ import colors from 'styles/colors';
 import Toggle from 'rsuite/Toggle';
 
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api, getApi, isTokenPatchApi } from 'api';
 import {
-  AdminBannerListResponse,
-  AdminNoticeListResponse,
-} from 'types/tableDataType';
+  getApi,
+  isTokenAdminGetApi,
+  isTokenAdminPatchApi,
+  isTokenPatchApi,
+} from 'api';
+import { AdminBannerListResponse } from 'types/tableDataType';
 import { adminDateFomat } from 'utils/calculatePackage';
 import { Pagination } from 'rsuite';
 
@@ -26,19 +28,22 @@ const AdminBannerTable = ({
   userType,
 }: Props) => {
   const queryClient = useQueryClient();
-  const [page, setPage] = useState<number>(1);
-  const [length, setLength] = useState<number>();
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(0);
+  const [length, setLength] = useState<number>(0); // total
+  const offset = (page - 1) * length;
+
   // 공지사항 리스트
   const { data: bannerList } = useQuery<AdminBannerListResponse>(
     'bannerList',
-    () => getApi(`/admin/banners?targetMemberType=${userType}`),
+    () => isTokenAdminGetApi(`/admin/banners?targetMemberType=${userType}`),
     {
       onSuccess: (res) => {
         setLength(res.data ? res?.data?.banners?.length : 0);
       },
     },
   );
-  const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
+  const { mutate: patchMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('bannerList');
     },
@@ -55,7 +60,7 @@ const AdminBannerTable = ({
   };
 
   console.log('bannerList');
-  console.log(bannerList);
+  console.log(bannerList?.data?.banners?.slice(offset, offset + limit));
   return (
     <Wrapper>
       <Header>
@@ -76,6 +81,8 @@ const AdminBannerTable = ({
           <span className="date">등록일</span>
           <button className="detailBtn">보기</button>
         </List>
+
+        {/* ?.slice(offset, offset + limit) */}
         {bannerList?.data?.banners?.map((item, index) => (
           <List key={index}>
             <span className="num">{index + 1}</span>
@@ -148,7 +155,7 @@ const Header = styled.div`
 `;
 const TableContatiner = styled.ul`
   margin-top: 8px;
-  height: 490px;
+  min-height: 490px;
 `;
 const List = styled.li`
   font-family: 'Spoqa Han Sans Neo';

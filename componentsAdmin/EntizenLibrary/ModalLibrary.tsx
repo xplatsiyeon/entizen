@@ -4,7 +4,14 @@ import colors from 'styles/colors';
 import Image from 'next/image';
 import { css } from '@emotion/react';
 import CloseModal from 'public/adminImages/libraryClose.svg';
-import { api, getApi } from 'api';
+import {
+  api,
+  getApi,
+  isTokenAdminDeleteApi,
+  isTokenAdminPostApi,
+  isTokenAdminPutApi,
+  multerAdminApi,
+} from 'api';
 import normal from 'public/adminImages/undefinedImg.svg';
 import CloseImg from 'public/images/XCircle.svg';
 import { AdminBtn } from 'componentsAdmin/Layout';
@@ -80,7 +87,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     MulterResponse,
     AxiosError,
     FormData
-  >(multerApi, {
+  >(multerAdminApi, {
     onSuccess: (res) => {
       // console.log(TAG + ' 👀 ~ line 84 multer onSuccess');
       // console.log(res);
@@ -148,7 +155,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
 
   // -------------------------도서관 조회 (수정하기) -------------------
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
-    isTokenPutApi,
+    isTokenAdminPutApi,
     {
       onSuccess: () => {
         queryClinet.invalidateQueries('entizenLibrary');
@@ -184,7 +191,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     mutate: patchMutate,
     isLoading: patchLoading,
     isError: patchError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('entizenLibrary');
       entizenLibraryRefetch();
@@ -210,7 +217,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
     mutate: postMutate,
     isLoading: postLoading,
     isError: postError,
-  } = useMutation(isTokenPostApi, {
+  } = useMutation(isTokenAdminPostApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('entizenLibrary');
       setIsModal(true);

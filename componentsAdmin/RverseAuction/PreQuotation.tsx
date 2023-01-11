@@ -4,7 +4,11 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import colors from 'styles/colors';
 import ExitBtn from 'public/adminImages/Group.png';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi, isTokenDeleteApi } from 'api';
+import {
+  isTokenAdminDeleteApi,
+  isTokenAdminGetApi,
+  isTokenDeleteApi,
+} from 'api';
 import Loader from 'components/Loader';
 import {
   adminDateFomat,
@@ -92,7 +96,8 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
 
   const { data, isLoading, isError } = useQuery<PreQuotationRespnse>(
     'preQuotaion',
-    () => isTokenGetApi(`/admin/quotations/pre-quotations/${preQuotationIdx}`),
+    () =>
+      isTokenAdminGetApi(`/admin/quotations/pre-quotations/${preQuotationIdx}`),
   );
 
   const onChangePeriod = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +114,7 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
     mutate: patchMutate,
     isLoading: patchLoading,
     isError: patchError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('preQuotaion');
       setMessageModal(true);
