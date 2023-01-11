@@ -222,6 +222,11 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
   React.useEffect(() => {
     if (router.asPath !== '/admin') {
       sessionStorage.setItem('number', '4');
+      setNumber(4);
+      return () => {
+        sessionStorage.setItem('number', '4');
+        setNumber(4);
+      };
     }
   }, [router]);
 
