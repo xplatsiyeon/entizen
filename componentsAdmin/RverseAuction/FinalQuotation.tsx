@@ -426,7 +426,7 @@ const LoaderContainer = styled.div`
 `;
 const Contatiner = styled.div`
   width: 946px;
-  /* border: 2px solid ${colors.lightGray5}; */
+  border: 2px solid ${colors.lightGray5};
   border-radius: 4px;
 `;
 const MainList = styled.ul`

@@ -258,6 +258,7 @@ const ASDetailView = ({
                 currentStep={currentStep!}
                 setSelectValue={setSelectValue}
                 selectValue={selectValue}
+                width={'110px'}
               />
             </List>
             <List>

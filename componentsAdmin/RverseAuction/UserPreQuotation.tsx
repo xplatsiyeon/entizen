@@ -200,11 +200,11 @@ const UserPreQuotation = ({ detatilId }: Props) => {
         <FlexList3>
           <DetailText type={'left'}>기타요청사항</DetailText>
           {data?.data?.quotationRequest?.etcRequest?.length === 0 ? (
-            <DetailText type={'right'} border={true}>
-              없음
-            </DetailText>
+            <ElseTextArea>없음</ElseTextArea>
           ) : (
-            <ElseText>{data?.data?.quotationRequest?.etcRequest}</ElseText>
+            <ElseTextArea>
+              {data?.data?.quotationRequest?.etcRequest}
+            </ElseTextArea>
           )}
         </FlexList3>
       </DetailBox>
@@ -309,6 +309,16 @@ const ElseText = styled.div`
 const ChargeText = styled.div`
   ${Text}
   display: flex;
+`;
+
+const ElseTextArea = styled.div`
+  ${Text}
+  width: 748px;
+  height: 196px;
+  padding: 5px 10px 5px 10px;
+  border: 1px solid #e2e5ed;
+  border-radius: 5px;
+  overflow-y: scroll;
 `;
 
 const DetailText = styled.div<{

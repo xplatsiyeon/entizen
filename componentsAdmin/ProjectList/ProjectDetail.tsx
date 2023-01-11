@@ -224,6 +224,15 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     }
   }, [data]);
 
+  console.log(
+    '💔 기타 요청 사항 💔',
+    data?.data?.project?.finalQuotation?.preQuotation?.quotationRequest
+      ?.etcRequest,
+  );
+  const elseRequest =
+    data?.data?.project?.finalQuotation?.preQuotation?.quotationRequest
+      ?.etcRequest;
+
   return (
     <Background>
       <Wrapper>
@@ -425,11 +434,17 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
 
             <List>
               <Label>기타 요청사항</Label>
-              <TextBox maxLength={500} value={'없음'} readOnly>
-                {
-                  data?.data?.project?.finalQuotation?.preQuotation
-                    ?.quotationRequest?.etcRequest
-                }
+              <TextBox
+                maxLength={500}
+                value={elseRequest === '' ? '없음' : elseRequest}
+                readOnly
+              >
+                {/* <TextP>
+                  {
+                    data?.data?.project?.finalQuotation?.preQuotation
+                      ?.quotationRequest?.etcRequest
+                  }
+                </TextP> */}
               </TextBox>
             </List>
             <List>
@@ -556,7 +571,12 @@ const TextBox = styled.textarea`
   border-radius: 2px;
   padding-top: 2px;
   padding-left: 8px;
+  color: #222222;
 `;
+const TextP = styled.p`
+  color: #222222;
+`;
+
 const List = styled.li`
   display: flex;
   :not(:nth-last-of-type(1)) {

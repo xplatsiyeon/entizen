@@ -50,14 +50,19 @@ const Qutation = ({ showSubMenu, setNowHeight }: Props) => {
           WriteModalHandle={backBtn}
         />
         <Menu showSubMenu={showSubMenu}>
-          <select className="selectBox" onChange={onChangeSelect}>
-            {/* <option value="가견적서">가견적서</option> */}
+          {/* <select className="selectBox" onChange={onChangeSelect}>
+           //  <option value="가견적서">가견적서</option>
             {quotationRequestIdx?.finalQuotationIdx !== undefined ? (
               <option value="최종견적서">최종견적서</option>
             ) : (
               <option value="가견적서">가견적서</option>
             )}
-          </select>
+          </select> */}
+          {quotationRequestIdx?.finalQuotationIdx !== undefined ? (
+            <QutationText>최종견적서</QutationText>
+          ) : (
+            <QutationText>가견적서</QutationText>
+          )}
           <TwoBtn>
             <Btn
               onClick={() => {
@@ -126,7 +131,7 @@ const Menu = styled.div<{ showSubMenu?: boolean }>`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-  width: 964px;
+  width: 946px;
   .selectBox {
     width: 134px;
     height: 36px;
@@ -155,4 +160,12 @@ const TwoBtn = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 11px;
+`;
+
+const QutationText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 150%;
+  color: #222222;
 `;
