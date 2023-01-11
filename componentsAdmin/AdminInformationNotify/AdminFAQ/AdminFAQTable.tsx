@@ -4,39 +4,52 @@ import colors from 'styles/colors';
 import Toggle from 'rsuite/Toggle';
 import { Pagination } from 'rsuite';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api, getApi, isTokenPatchApi } from 'api';
-import { AdminNoticeListResponse } from 'types/tableDataType';
+import { api, getApi, isTokenGetApi, isTokenPatchApi } from 'api';
+import {
+  AdminBannerListResponse,
+  AdminFAQListResponse,
+  AdminNoticeListResponse,
+} from 'types/tableDataType';
 import { adminDateFomat } from 'utils/calculatePackage';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
   handleCommon: () => void;
+  userType?: string;
 };
 
-const AdminNoticeTable = ({
+// const test = [
+//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+//   1, 1, 1, 1, 1, 1, 1, 1, 1,
+// ];
+const AdminFAQTable = ({
   setIsDetail,
   setDetailId,
   handleCommon,
+  userType,
 }: Props) => {
   const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(1);
   const [length, setLength] = useState<number>();
   // 공지사항 리스트
-  const { data: adminNoticeList, refetch: adminNoticeListRefetch } =
-    useQuery<AdminNoticeListResponse>(
-      'adminNoticeList',
-      () => getApi(`/admin/notices`),
-      {
-        onSuccess: (res) => {
-          setLength(res.data ? res?.data?.totalCount : 0);
-        },
+  const { data: adminFaqList } = useQuery<AdminFAQListResponse>(
+    'adminFaqList',
+    () => getApi(`/admin/faqs`),
+    {
+      onSuccess: (res) => {
+        setLength(res.data ? res?.data?.totalCount : 0);
       },
-    );
+    },
+  );
   const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
-      queryClient.invalidateQueries('adminNoticeList');
-      // adminNoticeListRefetch();
+      queryClient.invalidateQueries('adminFaqList');
     },
     onError: (error) => {
       console.log('토글 버튼 에러');
@@ -46,13 +59,16 @@ const AdminNoticeTable = ({
 
   const onClickToggle = (id: number) => {
     patchMutate({
-      url: `/admin/notices/${id}/exposure`,
+      url: `/admin/faqs/${id}/exposure`,
     });
   };
+
+  console.log('page');
+  console.log(page);
   return (
-    <div>
+    <Wrapper>
       <Header>
-        <span>결과 {adminNoticeList?.data?.notices?.length}건</span>
+        <span>결과 {adminFaqList?.data?.faqs?.length}건</span>
         <button
           onClick={() => {
             handleCommon();
@@ -64,26 +80,28 @@ const AdminNoticeTable = ({
       <TableContatiner>
         <List className="title">
           <span className="num">번호</span>
-          <span className="notice">공지사항</span>
+          <span className="banner">배너명</span>
           <span className="toggle">노출여부</span>
           <span className="date">등록일</span>
           <button className="detailBtn">보기</button>
         </List>
-        {adminNoticeList?.data?.notices?.map((item, index) => (
+        {/* {test.map((item, index) => ( */}
+        {adminFaqList?.data?.faqs?.map((item, index) => (
           <List key={index}>
+            {/* <div>123</div> */}
             <span className="num">{index + 1}</span>
-            <span className="notice">{item.title}</span>
+            <span className="banner">{item.question}</span>
             <span className="toggle">
               <Toggle
                 checked={item.isVisible}
-                onClick={() => onClickToggle(item.noticeIdx)}
+                onClick={() => onClickToggle(item.faqIdx)}
               />
             </span>
             <span className="date">{adminDateFomat(item.createdAt)}</span>
             <button
               className="detailBtn"
               onClick={() => {
-                setDetailId(item.noticeIdx.toString());
+                setDetailId(item.faqIdx.toString());
                 setIsDetail(true);
               }}
             >
@@ -104,11 +122,15 @@ const AdminNoticeTable = ({
           onChangePage={setPage}
         />
       </WrapPage>
-    </div>
+    </Wrapper>
   );
 };
 
-export default AdminNoticeTable;
+export default AdminFAQTable;
+
+const Wrapper = styled.div`
+  padding-top: 16px;
+`;
 
 const Header = styled.div`
   display: flex;
@@ -162,7 +184,7 @@ const List = styled.li`
     display: inline-block;
     width: 54px;
   }
-  .notice {
+  .banner {
     display: inline-block;
     width: 700px;
   }

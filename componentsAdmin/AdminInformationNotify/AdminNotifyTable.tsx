@@ -1,64 +1,33 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api, getApi, isTokenPatchApi } from 'api';
+import { useQuery } from 'react-query';
+import { getApi } from 'api';
 import { Pagination } from 'rsuite';
-import { css } from '@emotion/react';
-import {
-  AdminTermsListResponse,
-  AdminNoticeListResponse,
-  AdminBannerListResponse,
-  AdminFAQListResponse,
-} from 'types/tableDataType';
-import { adminDateFomat, dateFomat, convertKo } from 'utils/calculatePackage';
-import { useDispatch } from 'react-redux';
-import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
+import { AdminTermsListResponse } from 'types/tableDataType';
+import { dateFomat } from 'utils/calculatePackage';
 import { dropDownValueEn, dropDownValue } from './Adminterms/AdminTermsEditor';
-import { QuotationObject } from '../../storeAdmin/adminReverseSlice';
-import { NewCell } from './AdminNotice/AdminNoticeList';
-import { ServiceKr, ServiceEn } from './AdminFAQ/AdminFAQList';
-import { AdminBtn } from 'componentsAdmin/Layout';
-import Image from 'next/image';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
   tableType: string;
-  pickedDate?: string[];
-  detatilId?: string;
-  selectedFilter?: number;
-  userSearch?: string;
   setAfterSalesServiceIdx?: React.Dispatch<React.SetStateAction<number>>;
   commonBtn?: string;
   handleCommon: () => void;
-  onClickToggle?: (id: number) => void;
   hide?: boolean;
   userType?: string;
-  setToggle?: React.Dispatch<React.SetStateAction<NewCell>>;
-  toggle?: NewCell;
-  commuCheck?: string;
-  userCheck?: string;
 };
 
 const AdminNotifyTable = ({
   setIsDetail,
   setDetailId,
   tableType,
-  detatilId,
-  selectedFilter,
-  pickedDate,
-  userSearch,
   setAfterSalesServiceIdx,
   commonBtn,
   handleCommon,
-  onClickToggle,
   hide,
   userType,
-  setToggle,
-  toggle,
-  commuCheck,
-  userCheck,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -83,19 +52,6 @@ const AdminNotifyTable = ({
   
 
   */
-
-  // /admin/notices/:noticeIdx/exposure 토글 버튼 수정
-  const queryClient = useQueryClient();
-  const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('adminNoticeList');
-      // adminNoticeListRefetch();
-    },
-    onError: (error) => {
-      console.log('토글 버튼 에러');
-      console.log(error);
-    },
-  });
   // // 약관 리스트
   // // /admin/terms
   const {
@@ -153,300 +109,18 @@ const AdminNotifyTable = ({
     },
   );
 
-  // 공지사항 리스트
-  const {
-    data: adminNoticeList,
-    refetch: adminNoticeListRefetch,
-    isLoading: adminNoticeLoading,
-  } = useQuery<AdminNoticeListResponse>(
-    'adminNoticeList',
-    () => getApi(`/admin/notices`),
-    {
-      enabled: tableType === 'adminNoticeList',
-      onSuccess: (resposne) => {
-        if (tableType === 'adminNoticeList') {
-          const temp: any = [];
-          resposne?.data?.notices.forEach((ele, idx) => {
-            const eleArr = [
-              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                idx + 1 === 10 ? page * 10 : idx + 1
-              }`,
-              ele?.title,
-              {
-                isVisible: ele.isVisible,
-                id: ele.noticeIdx,
-              },
-              dateFomat(ele.createdAt),
-              ele.noticeIdx,
-            ];
-            temp.push(eleArr);
-          });
-          setDataArr(temp);
-          test = temp;
-          setColumns([
-            '번호',
-            '공지사항',
-            {
-              name: '노출여부',
-              id: 'bannerVisible',
-              formatter: (cell: NewCell) =>
-                _(
-                  <ToggleContainer>
-                    <ToggleBtn
-                      visible={cell?.isVisible}
-                      onClick={() => {
-                        patchMutate({
-                          url: `/admin/notices/${cell?.id}/exposure`,
-                        });
-                        // if (setToggle) {
-                        //   setToggle(cell);
-                        // }
-                      }}
-                    >
-                      <Circle visible={cell?.isVisible} />
-                    </ToggleBtn>
-                  </ToggleContainer>,
-                ),
-            },
-            '등록일',
-            {
-              name: '',
-              id: 'termsListIdx',
-              formatter: (cell: string) =>
-                _(
-                  <button
-                    className="detail"
-                    onClick={() => {
-                      setDetailId(cell);
-                      setIsDetail(true);
-                      if (setAfterSalesServiceIdx) {
-                        setAfterSalesServiceIdx(Number(cell));
-                      }
-                    }}
-                  >
-                    보기
-                  </button>,
-                ),
-            },
-          ]);
-          setLength(
-            adminNoticeList?.data ? adminNoticeList?.data?.totalCount : 0,
-          );
-        }
-      },
-      onError: () => alert('다시 시도해주세요'),
-    },
-  );
-
-  // // 배너 리스트(기업이냐, 유저에 따라 받는 데이터 다름)
-  const {
-    data: bannerList,
-    refetch: bannerListRefetch,
-    isLoading: adminBannerLoading,
-  } = useQuery<AdminBannerListResponse>(
-    'bannerList',
-    () => getApi(`/admin/banners?targetMemberType=${userType}`),
-    {
-      enabled: false,
-      onSuccess: (bannerList) => {
-        if (tableType === 'bannerList') {
-          const temp: any = [];
-          bannerList?.data?.banners?.forEach((ele, idx) => {
-            const eleArr = [
-              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                idx + 1 === 10 ? page * 10 : idx + 1
-              }`,
-              ele?.title,
-              {
-                isVisible: ele.isVisible,
-                id: ele.bannerIdx,
-              },
-              dateFomat(ele.createdAt),
-              ele.bannerIdx,
-            ];
-            temp.push(eleArr);
-          });
-          setDataArr(temp);
-          setColumns([
-            '번호',
-            '배너명',
-            {
-              name: '노출여부',
-              id: 'bannerListVisible',
-              formatter: (cell: NewCell) =>
-                _(
-                  <ToggleContainer>
-                    <ToggleBtn
-                      visible={cell?.isVisible}
-                      onClick={() => {
-                        if (setToggle) {
-                          setToggle(cell);
-                        }
-                      }}
-                    >
-                      <Circle visible={cell?.isVisible} />
-                    </ToggleBtn>
-                  </ToggleContainer>,
-                ),
-            },
-            '등록일',
-            {
-              name: '',
-              id: 'termsListIdx',
-              formatter: (cell: string) =>
-                _(
-                  <button
-                    className="detail"
-                    onClick={() => {
-                      setDetailId(cell);
-                      setIsDetail(true);
-                      if (setAfterSalesServiceIdx) {
-                        setAfterSalesServiceIdx(Number(cell));
-                      }
-                    }}
-                  >
-                    보기
-                  </button>,
-                ),
-            },
-          ]);
-          setLength(bannerList?.data ? bannerList?.data?.banners?.length : 0);
-        }
-      },
-      onError: () => alert('다시 시도해주세요'),
-    },
-  );
-
-  // // faq 리스트(기업이냐, 유저에 따라 받는 데이터 다름, 추후에 userType api 주소에 추가)
-  const {
-    data: adminFaqList,
-    refetch: adminFaqListRefetch,
-    isLoading: adminFaqLoading,
-  } = useQuery<AdminFAQListResponse>(
-    'adminFaqList',
-    () => getApi(`/admin/faqs`),
-    {
-      enabled: false,
-      onSuccess: (adminFaqList) => {
-        if (tableType === 'adminFaqList') {
-          const temp: any = [];
-          adminFaqList?.data?.faqs.forEach((ele, idx) => {
-            const eleArr = [
-              `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                idx + 1 === 10 ? page * 10 : idx + 1
-              }`,
-
-              convertKo(ServiceKr, ServiceEn, ele?.faqKind),
-              ele?.question,
-              {
-                isVisible: ele.isVisible,
-                id: ele.faqIdx,
-              },
-              dateFomat(ele.createdAt),
-              ele.faqIdx,
-            ];
-            temp.push(eleArr);
-          });
-          setDataArr(temp);
-          setColumns([
-            '번호',
-            '카테고리',
-            'FAQ',
-            {
-              name: '노출여부',
-              id: 'adminFaqListVisible',
-              formatter: (cell: NewCell) =>
-                _(
-                  <ToggleContainer>
-                    <ToggleBtn
-                      visible={cell?.isVisible}
-                      onClick={() => {
-                        if (setToggle) {
-                          setToggle(cell);
-                        }
-                      }}
-                    >
-                      <Circle visible={cell?.isVisible} />
-                    </ToggleBtn>
-                  </ToggleContainer>,
-                ),
-            },
-            '등록일',
-            {
-              name: '',
-              id: 'faqsListIdx',
-              formatter: (cell: string) =>
-                _(
-                  <button
-                    className="detail"
-                    onClick={() => {
-                      setDetailId(cell);
-                      setIsDetail(true);
-                      if (setAfterSalesServiceIdx) {
-                        setAfterSalesServiceIdx(Number(cell));
-                      }
-                    }}
-                  >
-                    보기
-                  </button>,
-                ),
-            },
-          ]);
-          setLength(adminFaqList?.data ? adminFaqList?.data?.totalCount : 0);
-        }
-      },
-      onError: () => alert('다시 시도해주세요'),
-    },
-  );
-
   useEffect(() => {
     switch (tableType) {
       case 'termsList':
         termsListRefetch();
         break;
-
-      case 'adminNoticeList':
-        adminNoticeListRefetch();
-        break;
-
-      case 'bannerList':
-        bannerListRefetch();
-        break;
-
-      case 'adminFaqList':
-        adminFaqListRefetch();
-        break;
     }
     // 의존성 배열에 api.get()dml data넣기.
-  }, [userType, termsList, adminFaqList, bannerList, adminNoticeList]);
+  }, [userType, termsList]);
 
-  // useEffect(() => {
-  //   switch (tableType) {
-  //     case 'termsList':
-  //       termsListRefetch();
-  //       break;
+  const isLoading = adminTermsLoading;
 
-  //     case 'adminNoticeList':
-  //       adminNoticeListRefetch();
-  //       break;
-
-  //     case 'bannerList':
-  //       bannerListRefetch();
-  //       break;
-
-  //     case 'adminFaqList':
-  //       adminFaqListRefetch();
-  //       break;
-  //   }
-  // }, [page, pickedDate, userSearch, userType, userCheck, commuCheck]);
-
-  const isLoading =
-    adminTermsLoading ||
-    adminNoticeLoading ||
-    adminBannerLoading ||
-    adminFaqLoading;
-
-  if (adminNoticeLoading) {
+  if (isLoading) {
     return <div>로딩중..</div>;
   }
 
@@ -465,16 +139,7 @@ const AdminNotifyTable = ({
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>
-          <Grid
-            data={() => {
-              //화면의 덜컹거림을 줄이기 위해서 0.1초 기다림( =>setState들로 인한 페이지 전환 다 끝난 후 데이터 삽입).
-              return new Promise((resolve) => {
-                setTimeout(() => resolve(dataArr), 200);
-              });
-            }}
-            // data={dataArr}
-            columns={columns}
-          />
+          <Grid data={dataArr} columns={columns} />
         </Div>
       ) : (
         <Div></Div>
@@ -592,40 +257,4 @@ const WrapPage = styled.div`
 const Div = styled.div`
   min-width: 1200px;
   height: 490px;
-`;
-
-const BtnGap = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const ToggleContainer = styled.div`
-  position: absolute;
-  /* left: 44%; */
-  left: 37%;
-  top: 30%;
-`;
-
-const ToggleBtn = styled.button<{ visible?: boolean }>`
-  width: 36px;
-  height: 20px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background-color: ${({ visible }) => (visible ? '#ffc043' : '#747780')};
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.5s ease-in-out;
-`;
-
-const Circle = styled.div<{ visible?: boolean }>`
-  background-color: white;
-  width: 14px;
-  height: 14px;
-  border-radius: 10px;
-  position: absolute;
-  right: ${({ visible }) => (visible ? '10%' : '55%')};
-  transition: all 0.5s ease-in-out;
 `;

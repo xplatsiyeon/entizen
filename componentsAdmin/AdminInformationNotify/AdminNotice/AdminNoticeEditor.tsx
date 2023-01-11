@@ -53,7 +53,7 @@ const AdminNoticeEditor = ({
   detatilId,
   setChangeNumber,
 }: Props) => {
-  const queryClinet = useQueryClient();
+  const queryClient = useQueryClient();
   // 리스트 페이지
 
   const { data: adminNoticeList, refetch: adminNoticeListRefetch } =
@@ -182,7 +182,7 @@ const AdminNoticeEditor = ({
     isError: postError,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('adminNoticeList');
+      queryClient.invalidateQueries('adminNoticeList');
       adminNoticeListRefetch();
       setMessageModal(true);
       setMessage('추가가 완료 됐습니다.');
@@ -211,7 +211,7 @@ const AdminNoticeEditor = ({
     isTokenPutApi,
     {
       onSuccess: () => {
-        queryClinet.invalidateQueries('adminNoticeList');
+        queryClient.invalidateQueries('adminNoticeList');
         setMessageModal(true);
         setMessage('수정이 완료됐습니다!');
         adminNoticeListRefetch();
@@ -243,7 +243,7 @@ const AdminNoticeEditor = ({
     isError: deleteError,
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('adminNoticeList');
+      queryClient.invalidateQueries('adminNoticeList');
 
       setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');

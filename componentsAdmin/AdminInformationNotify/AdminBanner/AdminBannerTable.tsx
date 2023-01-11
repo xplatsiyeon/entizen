@@ -2,41 +2,45 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import colors from 'styles/colors';
 import Toggle from 'rsuite/Toggle';
-import { Pagination } from 'rsuite';
+
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { api, getApi, isTokenPatchApi } from 'api';
-import { AdminNoticeListResponse } from 'types/tableDataType';
+import {
+  AdminBannerListResponse,
+  AdminNoticeListResponse,
+} from 'types/tableDataType';
 import { adminDateFomat } from 'utils/calculatePackage';
+import { Pagination } from 'rsuite';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
   handleCommon: () => void;
+  userType?: string;
 };
 
-const AdminNoticeTable = ({
+const AdminBannerTable = ({
   setIsDetail,
   setDetailId,
   handleCommon,
+  userType,
 }: Props) => {
   const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(1);
   const [length, setLength] = useState<number>();
   // 공지사항 리스트
-  const { data: adminNoticeList, refetch: adminNoticeListRefetch } =
-    useQuery<AdminNoticeListResponse>(
-      'adminNoticeList',
-      () => getApi(`/admin/notices`),
-      {
-        onSuccess: (res) => {
-          setLength(res.data ? res?.data?.totalCount : 0);
-        },
+  const { data: bannerList } = useQuery<AdminBannerListResponse>(
+    'bannerList',
+    () => getApi(`/admin/banners?targetMemberType=${userType}`),
+    {
+      onSuccess: (res) => {
+        setLength(res.data ? res?.data?.banners?.length : 0);
       },
-    );
+    },
+  );
   const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
-      queryClient.invalidateQueries('adminNoticeList');
-      // adminNoticeListRefetch();
+      queryClient.invalidateQueries('bannerList');
     },
     onError: (error) => {
       console.log('토글 버튼 에러');
@@ -46,13 +50,16 @@ const AdminNoticeTable = ({
 
   const onClickToggle = (id: number) => {
     patchMutate({
-      url: `/admin/notices/${id}/exposure`,
+      url: `/admin/banners/${id}/exposure`,
     });
   };
+
+  console.log('bannerList');
+  console.log(bannerList);
   return (
-    <div>
+    <Wrapper>
       <Header>
-        <span>결과 {adminNoticeList?.data?.notices?.length}건</span>
+        <span>결과 {bannerList?.data?.banners?.length}건</span>
         <button
           onClick={() => {
             handleCommon();
@@ -64,26 +71,26 @@ const AdminNoticeTable = ({
       <TableContatiner>
         <List className="title">
           <span className="num">번호</span>
-          <span className="notice">공지사항</span>
+          <span className="banner">배너명</span>
           <span className="toggle">노출여부</span>
           <span className="date">등록일</span>
           <button className="detailBtn">보기</button>
         </List>
-        {adminNoticeList?.data?.notices?.map((item, index) => (
+        {bannerList?.data?.banners?.map((item, index) => (
           <List key={index}>
             <span className="num">{index + 1}</span>
-            <span className="notice">{item.title}</span>
+            <span className="banner">{item.title}</span>
             <span className="toggle">
               <Toggle
                 checked={item.isVisible}
-                onClick={() => onClickToggle(item.noticeIdx)}
+                onClick={() => onClickToggle(item.bannerIdx)}
               />
             </span>
             <span className="date">{adminDateFomat(item.createdAt)}</span>
             <button
               className="detailBtn"
               onClick={() => {
-                setDetailId(item.noticeIdx.toString());
+                setDetailId(item.bannerIdx.toString());
                 setIsDetail(true);
               }}
             >
@@ -104,11 +111,15 @@ const AdminNoticeTable = ({
           onChangePage={setPage}
         />
       </WrapPage>
-    </div>
+    </Wrapper>
   );
 };
 
-export default AdminNoticeTable;
+export default AdminBannerTable;
+
+const Wrapper = styled.div`
+  padding-top: 16px;
+`;
 
 const Header = styled.div`
   display: flex;
@@ -162,7 +173,7 @@ const List = styled.li`
     display: inline-block;
     width: 54px;
   }
-  .notice {
+  .banner {
     display: inline-block;
     width: 700px;
   }

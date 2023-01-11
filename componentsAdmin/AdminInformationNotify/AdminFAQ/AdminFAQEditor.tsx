@@ -52,7 +52,7 @@ export interface FaqsUpdate {
 }
 
 const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
-  const queryClinet = useQueryClient();
+  const queryClient = useQueryClient();
 
   // FAQ 에디터 데아터 불러오는 api
   const { data, isLoading, isError, refetch } = useQuery<FaqsUpdate>(
@@ -115,7 +115,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
     isError: postError,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('adminFaqList');
+      queryClient.invalidateQueries('adminFaqList');
       adminFaqListRefetch();
       setMessageModal(true);
       setMessage('추가가 완료 됐습니다.');
@@ -147,7 +147,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
     isTokenPutApi,
     {
       onSuccess: () => {
-        queryClinet.invalidateQueries('adminFaqList');
+        queryClient.invalidateQueries('adminFaqList');
         adminFaqListRefetch();
         setMessageModal(true);
         setMessage('수정이 완료됐습니다!');
@@ -184,7 +184,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
       adminFaqListRefetch();
-      queryClinet.invalidateQueries('adminFaqList');
+      queryClient.invalidateQueries('adminFaqList');
       setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },
