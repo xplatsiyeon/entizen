@@ -135,6 +135,7 @@ const UserManagement = ({ setNowHeight }: Props) => {
             <label>기간검색</label>
             {/* 레인지 달력 */}
             <DateRangePicker
+              defaultValue={[new Date('2022-09-05'), new Date()]}
               className="datePicker-input"
               placeholder={'년-월-일 ~ 년-월-일'}
               size={'sm'}
