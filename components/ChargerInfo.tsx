@@ -14,8 +14,6 @@ type Props = {
   // scrollHeight: number;
   // changeHeight: boolean;
   // setChangeHeight: Dispatch<SetStateAction<boolean>>;
-  selectedCharger: number;
-  setSelectedCharger: Dispatch<SetStateAction<number>>;
   slowCharger: SlowFast[];
   fastCharger: SlowFast[];
 };
@@ -25,8 +23,6 @@ const ChargerInfo = ({
   // scrollHeight,
   // changeHeight,
   // setChangeHeight,
-  selectedCharger,
-  setSelectedCharger,
   slowCharger,
   fastCharger,
 }: Props) => {
@@ -41,6 +37,9 @@ const ChargerInfo = ({
   const ref = useRef<HTMLDivElement>(null);
   const sRef = useRef<number>(0);
   const sRef2 = useRef<number>(0);
+  const check = useRef<number>(0);
+  const selectedCharger = useRef<number>(0);
+  const chargerText = useRef<HTMLDivElement>(null);
   
   const start =(e:React.TouchEvent)=>{
      sRef.current = e.changedTouches[0].clientY;
@@ -48,123 +47,148 @@ const ChargerInfo = ({
 
    const end = (e:React.TouchEvent)=>{
     const endY = e.changedTouches[0].clientY;
-    if(sRef.current - endY > 0 && ref.current){
+    if(sRef.current - endY > 30 && ref.current){
+      console.log('??')
       ref.current.style.height = '500px';
     }
+   }
+
+   const handleStart = (e:React.TouchEvent)=>{
+    const startY = e.changedTouches[0].clientY;
+    sRef2.current = startY;
    }
  
    const handle =(e:React.TouchEvent)=>{
     const target = e.currentTarget as HTMLElement;
-    console.log(target.scrollTop)
-    if(target.scrollTop !== 0 && ref.current){
-      sRef2.current = 1;
-    }
-    if(target.scrollTop === 0 && ref.current ){
-     // console.log('!')
-      if(sRef2.current !== 0){
-        sRef2.current = 0;
-        console.log('now',sRef2.current)
-      }else{
-        ref.current.style.height = '0px';
-        console.log('now',sRef2.current)
+    console.log(target)
+    console.log('타겟의 스크롤탑',target.scrollTop)
+    const endY = e.changedTouches[0].clientY;
+    console.log('s:',sRef2.current,' end:',endY )
+
+    if( Math.abs(sRef2.current - endY) > 30 ){
+      console.log('드래그')
+        if(target.scrollTop !== 0 && ref.current){
+          check.current = 1;
+        }
+        if((target.scrollTop < 30) && ref.current){
+          if(check.current !== 0){
+            check.current = 0;
+            console.log('now',check.current)
+          }else{
+            ref.current.style.height = '0px';
+            console.log('now',check.current)
+          }
       }
-   }
+     }else{
+       console.log('그냥 터치')
+     }
+  }
+
+  const changeCharger = (index:number)=>{
+    selectedCharger.current = index;
+  
+    ref.current?.querySelectorAll('.charger')[0].classList.remove('on');
+    ref.current?.querySelectorAll('.charger')[1].classList.remove('on');
+    ref.current?.querySelectorAll('.charger')[index].classList.add('on');
+
+    if(chargerText.current && (index === 0) ){
+      chargerText.current.innerHTML = '완속 충전기 7kW / 1대';
+    }
+    if(chargerText.current && (index === 1) ){
+      chargerText.current.innerHTML = '급속 충전기 100kW / 1대'
+    }
   }
 
 
   return (
            <InfoBox >
-            <Wrap  onTouchStart={start} onTouchEnd={end} />
-            <Wrapper ref={ref} onTouchEnd={handle}>
+            <Wrap onTouchStart={start} onTouchEnd={end} >
+              <DecoLine/>
+            </Wrap>
+            <Wrapper className='handle' ref={ref} onTouchStart={handleStart} onTouchEnd={handle}>
               <Content >
-            <SelectChargerBox className="forScroll">
-              <ChargerList>
-                {clickType.map((el, index) => (
-                  <Charger
-                    key={index}
-                    onClick={() => setSelectedCharger(() => index)}
-                    style={{
-                      color: selectedCharger === index ? '#595757' : '#A6A9B0',
-                      backgroundColor:
-                        selectedCharger === index ? '#ffffff' : '#F3F4F7',
-                      boxShadow:
-                        selectedCharger === index
-                          ? '0px 0px 6pt rgba(137, 163, 201, 0.2)'
-                          : 'none',
-                    }}
-                  >
-                    {el}
-                  </Charger>
-                ))}
-              </ChargerList>
-            </SelectChargerBox>
-            <ScrollBox scrollHeight={checkHeight.toString()}>
-              <ChargerTypeNCountBox>
-                <ChargerTypeNCount>
-                  {selectedCharger == 0
-                    ? '완속 충전기 7kW / 1대'
-                    : '급속 충전기 100kW / 1대'}
-                </ChargerTypeNCount>
-              <ChargerNotice>
-                  * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
-                  사용해주시기 바랍니다.
-                </ChargerNotice>
-              </ChargerTypeNCountBox>
-              <PredictBoxWrapper>
-                {selectedCharger == 0 &&
-                  slowCharger.map((el, index) => (
-                    <PredictBox key={index}>
-                      <div>{el.year}</div>
-                      <div>충전량 (월)</div>
-                      <div>{el.chargeQuantity.toLocaleString()}kW</div>
-                      <div>매출 (월)</div>
-                      <div>{el.sales.toLocaleString()} 원</div>
-                    </PredictBox>
-                  ))}
-                {selectedCharger == 1 &&
-                  fastCharger.map((el, index) => (
-                    <PredictBox key={index}>
-                      <div>{el.year}</div>
-                      <div>충전량 (월)</div>
-                      <div>{el.chargeQuantity.toLocaleString()} kW</div>
-                      <div>매출 (월)</div>
-                      <div>{el.sales.toLocaleString()} 원</div>
-                    </PredictBox>
-                  ))}
-              </PredictBoxWrapper>
-              <DidHelp>도움이 되셨나요?</DidHelp>
-              <Guide>
-                간편견적 확인하고, 상품 비교뷰터 충전 사업까지
-                <br />A to Z 서비스를 받아보세요!
-              </Guide>
-              <QuotationBtn>
-                <span
-                  onClick={() => {
-                    router.push('/quotation/request');
-                  }}
-                >
-                  간편견적 확인하기
-                </span>
-                <span>
-                  <Image src={whiteArrow} alt="arrow" />
-                </span>
-              </QuotationBtn>
-            </ScrollBox>
-            </Content>
+              <DecoLine/>
+                <SelectChargerBox className="forScroll">
+                  <ChargerList>
+                    {clickType.map((el, index) => (
+                      <Charger className={selectedCharger.current === index? 'charger on' : 'charger'}
+                        key={index}
+                        onClick={() => changeCharger(index)}
+                      >
+                        {el}
+                      </Charger>
+                    ))}
+                  </ChargerList>
+                </SelectChargerBox>
+                <ScrollBox scrollHeight={checkHeight.toString()}>
+                  <ChargerTypeNCountBox>
+                    <ChargerTypeNCount ref={chargerText}>
+                      {selectedCharger.current === 0
+                        ? '완속 충전기 7kW / 1대'
+                        : '급속 충전기 100kW / 1대'}
+                    </ChargerTypeNCount>
+                  <ChargerNotice>
+                      * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
+                      사용해주시기 바랍니다.
+                    </ChargerNotice>
+                  </ChargerTypeNCountBox>
+                  <PredictBoxWrapper>
+                    {selectedCharger.current == 0 &&
+                      slowCharger.map((el, index) => (
+                        <PredictBox key={index}>
+                          <div>{el.year}</div>
+                          <div>충전량 (월)</div>
+                          <div>{el.chargeQuantity.toLocaleString()}kW</div>
+                          <div>매출 (월)</div>
+                          <div>{el.sales.toLocaleString()} 원</div>
+                        </PredictBox>
+                      ))}
+                    {selectedCharger.current == 1 &&
+                      fastCharger.map((el, index) => (
+                        <PredictBox key={index}>
+                          <div>{el.year}</div>
+                          <div>충전량 (월)</div>
+                          <div>{el.chargeQuantity.toLocaleString()} kW</div>
+                          <div>매출 (월)</div>
+                          <div>{el.sales.toLocaleString()} 원</div>
+                        </PredictBox>
+                      ))}
+                  </PredictBoxWrapper>
+                  <DidHelp>도움이 되셨나요?</DidHelp>
+                  <Guide>
+                    간편견적 확인하고, 상품 비교뷰터 충전 사업까지
+                    <br />A to Z 서비스를 받아보세요!
+                  </Guide>
+                  <QuotationBtn>
+                    <span
+                      onClick={() => {
+                        router.push('/quotation/request');
+                      }}
+                    >
+                      간편견적 확인하기
+                    </span>
+                    <span>
+                      <Image src={whiteArrow} alt="arrow" />
+                    </span>
+                  </QuotationBtn>
+                </ScrollBox>
+              </Content>
             </Wrapper>
-      </InfoBox>
+          </InfoBox>
   )
 };
 
 export default ChargerInfo;
 
 const Wrap =styled.div`
-  height:80px;
+  height:50px;
   width: 100%;
   position: absolute;
   bottom: 0;
 
-  background-color: yellowgreen;
+  box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 36px 36px 0px 0px;
+  background-color: white;
 `
 
 const InfoBox = styled.div`
@@ -248,6 +272,7 @@ const ChargerList = styled.div`
   border-radius: 21.375pt;
   @media (max-width: 899.25pt) {
     padding: 3pt;
+    margin-top: 12pt;
   }
 `;
 
@@ -264,6 +289,15 @@ const Charger = styled.div`
   letter-spacing: -0.02em;
   border-radius: 21.375pt;
   cursor: pointer;
+  color: #A6A9B0;
+  background-color: #F3F4F7;
+  box-shadow: none;
+
+  &.on{
+  color : #595757;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 6pt rgba(137, 163, 201, 0.2);
+  }
 `;
 
 const ChargerTypeNCountBox = styled.div`
@@ -426,7 +460,7 @@ const QuotationBtn = styled.div`
 const Wrapper = styled.div`
 overscroll-behavior: contain;
 
-  border:1px solid green;
+  //border:1px solid green;
   position: absolute;
   background-color: white;
   bottom:0;
@@ -435,7 +469,16 @@ overscroll-behavior: contain;
   width: 100%;
   overflow: scroll;
   transition: 0.5s;
+  box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 36px 36px 0px 0px;
 `
 const Content = styled.div`
   height: 600px;
+`
+
+const DecoLine = styled.div`
+  width: 60px;
+  margin: 12px auto 0;
+  border-radius: 12px;
+  border: 4px solid #CACCD1;
 `
