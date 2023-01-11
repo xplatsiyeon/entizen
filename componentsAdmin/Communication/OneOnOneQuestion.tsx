@@ -158,7 +158,11 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
       />
 
       {isDetail && (
-        <OOQDetail detatilId={detatilId} setNowHeight={setNowHeight} />
+        <OOQDetail
+          detatilId={detatilId}
+          setNowHeight={setNowHeight}
+          setIsDetail={setIsDetail}
+        />
       )}
     </Wrapper>
   );

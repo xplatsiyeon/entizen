@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -9,6 +10,8 @@ import fileBtn from 'public/images/fileBtn.png';
 import Modal from 'components/Modal/Modal';
 import WebFileModal from 'components/Chatting/WebFileModal';
 import AdminHeader from 'componentsAdmin/Header';
+import defaultImg from 'public/images/defaultImg.png';
+import fileImg from 'public/mypage/file-icon.svg';
 import {
   QueryObserverResult,
   useMutation,
@@ -40,11 +43,13 @@ import {
 type ChattingLogs = {
   createdAt: string;
   chattingLogIdx: number;
+  fromMemberType: string;
   content: string | null;
   fileUrl: string | null;
   fileSize: null | number;
   fileOriginalName: null | string;
   wasRead: boolean;
+  messageType: string;
 };
 
 export interface ChattingRoom {
@@ -59,6 +64,7 @@ export interface ChattingResponse {
       member: {
         memberIdx: number;
         id: string;
+        profileImageUrl: string;
         companyMemberAdditionalInfo: {
           companyMemberAdditionalInfoIdx: number;
           companyLogoImageUrl: string;
@@ -71,18 +77,36 @@ export interface ChattingResponse {
 
 type Props = {
   detatilId: string;
+  setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setNowHeight:
     | React.Dispatch<React.SetStateAction<number | undefined>>
     | undefined;
 };
 
-const OOQDetail = ({ detatilId, setNowHeight }: Props) => {
+const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
+  const accessToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWR4IjoyLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NzI4MjE0NzcsImV4cCI6MTY3NTQxMzQ3NywiaXNzIjoiZW50aXplbi5rciJ9.pSbxSlPu8JiIyJa4ladTwADwgkr3o039lirhtOnnA_A';
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
+  // 관리자 로그인 전까지 이걸로 해바...
+  const isTokenPostTempoApi = async (apiInfo: any): Promise<any> => {
+    // const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+    const { url, data } = apiInfo;
+    return await axios({
+      method: 'POST',
+      url: `/api${url}`,
+      data,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+      withCredentials: true,
+    }).then((res) => res);
+  };
 
   // 채팅 내역 불러오는 api
   const {
@@ -133,7 +157,7 @@ const OOQDetail = ({ detatilId, setNowHeight }: Props) => {
     mutate: chattingPostMutate,
     isLoading: chattingPostIsLoading,
     isError: chattingPostIsError,
-  } = useMutation(isTokenPostApi, {
+  } = useMutation(isTokenPostTempoApi, {
     onSuccess: async () => {
       setText('');
       await queryClient.invalidateQueries('chatting-data');
@@ -162,6 +186,18 @@ const OOQDetail = ({ detatilId, setNowHeight }: Props) => {
         files: null,
       },
     });
+  };
+
+  // 채팅종료
+  const onSubmitEndText = () => {
+    chattingPostMutate({
+      url: `/chatting/${detatilId}`,
+      data: {
+        content: '상담이 종료되었습니다.',
+        files: null,
+      },
+    });
+    // setIsDetail(false);
   };
 
   const handleTime = (st: string) => {
@@ -225,8 +261,24 @@ const OOQDetail = ({ detatilId, setNowHeight }: Props) => {
   };
 
   const handleBackBtn = () => {
-    //setIsDetail(false);
+    setIsDetail(false);
   };
+
+  // const handleImg = () => {
+  //   if (OOQDetailData?.data?.chattingLogs?.chattingLogs) {
+  //     return '/images/newChatEntizen.png';
+  //   } else {
+  //     if (userChatting) {
+  //       //console.log(chattingData?.data?.companyMember?.companyMemberAdditionalInfo?.companyLogoImageUrl!)
+  //       return chattingData?.data?.companyMember?.companyMemberAdditionalInfo
+  //         ?.companyLogoImageUrl!;
+  //     } else {
+  //       //console.log(chattingData?.data?.userMember?.profileImageUrl!)
+  //       return chattingData?.data?.userMember?.profileImageUrl!;
+  //     }
+  //   }
+
+  // };
 
   useEffect(() => {
     if (loading) {
@@ -335,7 +387,7 @@ const OOQDetail = ({ detatilId, setNowHeight }: Props) => {
           <P>{OOQDetailData?.data?.chattingLogs?.member?.id}</P>
           <QuitBtn
             onClick={() => {
-              setText('상담이 종료되었습니다.');
+              onSubmitEndText();
             }}
           >
             <span>상담 종료</span>
@@ -343,6 +395,131 @@ const OOQDetail = ({ detatilId, setNowHeight }: Props) => {
         </TopBox>
         <Inner className="OOQ-inner">
           <div className="wrap">
+            {data.map((d, idx) => {
+              return (
+                <DateChatting
+                  key={idx}
+                  className={`${idx === data.length - 1 ? 'target-p' : ''}`}
+                >
+                  <Date>{d.date}</Date>
+                  <List>
+                    {d?.logs?.map((item, idx) => {
+                      return (
+                        <Wrap>
+                          <ChatBox
+                            userChatting={item?.fromMemberType}
+                            className={`${
+                              item.fromMemberType === 'ADMIN' ? 'admin' : 'user'
+                            } chattingLog`}
+                          >
+                            <ImageWrap
+                              className={
+                                item.fromMemberType === 'ADMIN'
+                                  ? 'admin'
+                                  : 'user'
+                              }
+                              userChatting={item?.fromMemberType}
+                            >
+                              {item?.fromMemberType !== 'ADMIN' ? (
+                                <img
+                                  src={
+                                    OOQDetailData?.data?.chattingLogs?.member
+                                      ?.profileImageUrl
+                                  }
+                                />
+                              ) : (
+                                <Image src={defaultImg} layout="fill" />
+                              )}
+                            </ImageWrap>
+                            {item.content && (
+                              <Chat
+                                userChatting={item?.fromMemberType}
+                                className={`${
+                                  item.fromMemberType === 'ADMIN'
+                                    ? 'admin'
+                                    : 'user'
+                                }`}
+                                //tabIndex={1}
+                              >
+                                {item.content}
+                              </Chat>
+                            )}
+                            {item.messageType === 'FILE' && (
+                              <File>
+                                <FileDownload
+                                  // onClick={DownloadFile}
+                                  href={item?.fileUrl!}
+                                  download={item?.fileOriginalName!}
+                                  // onClick={() => {
+                                  //   fileDownload(
+                                  //     userAgent,
+                                  //     item?.fileOriginalName!,
+                                  //     item?.fileUrl!,
+                                  //   );
+                                  // }}
+                                  type={'blob'}
+                                >
+                                  <Image
+                                    src={fileImg}
+                                    alt="file-icon"
+                                    layout="intrinsic"
+                                  />
+                                  {item?.fileOriginalName}
+                                </FileDownload>
+                              </File>
+                            )}
+
+                            {item.messageType === 'IMAGE' && (
+                              <>
+                                <FileDownload
+                                  href={item?.fileUrl!}
+                                  download={item?.fileOriginalName!}
+                                  type={'blob'}
+                                  // onClick={() => {
+                                  //   fileDownload(
+                                  //     userAgent,
+                                  //     item?.fileOriginalName!,
+                                  //     item?.fileUrl!,
+                                  //   );
+                                  // }}
+                                >
+                                  <img
+                                    src={item?.fileUrl!}
+                                    style={{
+                                      maxWidth: '112.5pt',
+                                      maxHeight: '150pt',
+                                      objectFit: 'cover',
+                                      background: '#0000001c',
+                                    }}
+                                  />
+                                </FileDownload>
+                              </>
+                            )}
+                            <WrapDate userChatting={item?.fromMemberType}>
+                              <IsRead
+                                className={`${
+                                  item.fromMemberType === 'ADMIN'
+                                    ? 'admin-p'
+                                    : 'user-p'
+                                } ${
+                                  idx === d.logs.length - 1 ? 'p-target' : ''
+                                }`}
+                                userChatting={item?.fromMemberType}
+                              >
+                                {item.wasRead ? '읽음' : ''}
+                              </IsRead>
+                              <MessageDate>
+                                {handleTime(item.createdAt)}
+                              </MessageDate>
+                            </WrapDate>
+                          </ChatBox>
+                        </Wrap>
+                      );
+                    })}
+                  </List>
+                </DateChatting>
+              );
+            })}
             {loading && (
               <LoadingWrap tabIndex={1} ref={loadingRef}>
                 <img src="/images/loading.gif" alt="" className="loading" />
@@ -456,7 +633,7 @@ const TopBox = styled.div`
   border-bottom: 1px solid #e2e5ed;
 `;
 
-const P = styled.p`
+const P = styled.p<{ userChatting?: string }>`
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -464,6 +641,16 @@ const P = styled.p`
   text-align: center;
   color: #000000;
   padding: 9pt 0;
+`;
+
+const IsRead = styled.p<{ userChatting?: string }>`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 8pt;
+  line-height: 150%;
+  text-align: center;
+  /* color: #000000; */
+  color: #caccd1;
 `;
 
 const FlexBox2 = styled.form`
@@ -551,4 +738,179 @@ const WebBottomBox = styled.div`
       display: block;
     }
   }
+`;
+
+const Wrap = styled.div``;
+
+const DateChatting = styled.div`
+  width: 100%;
+  font-family: 'Spoqa Han Sans Neo';
+  text-align: center;
+  position: relative;
+  &::before {
+    display: block;
+    content: '';
+    clear: both;
+    width: 50%;
+    height: 1px;
+    background: #e2e5ed;
+    position: absolute;
+    top: 15pt;
+    left: 0;
+    z-index: -1;
+  }
+  &::after {
+    display: block;
+    content: '';
+    clear: both;
+    width: 50%;
+    height: 1px;
+    background: #e2e5ed;
+    position: absolute;
+    top: 15pt;
+    right: 0;
+    z-index: -1;
+  }
+  &.target-p {
+    .admin-p {
+      &.p-target {
+        display: block;
+      }
+    }
+    .user-p {
+      &.p-target {
+        display: block;
+      }
+    }
+  }
+`;
+const Date = styled.span`
+  display: inline-block;
+  padding: 9pt;
+  background: white;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10.5pt;
+  line-height: 12pt;
+  letter-spacing: -0.02em;
+  color: #a6a9b0;
+  position: relative;
+
+  @media (min-width: 900pt) {
+    border: 1px solid #e2e5ed;
+    border-radius: 12pt;
+    padding: 6pt 9pt;
+  }
+`;
+
+const List = styled.div`
+  margin: 0 15pt;
+  @media (min-width: 900pt) {
+    margin: 0 21pt;
+  }
+`;
+
+const ChatBox = styled.div<{ userChatting: string }>`
+  display: flex;
+  align-items: center;
+  margin-bottom: 50pt;
+  gap: 6pt;
+  align-items: end;
+
+  &.admin {
+    flex-direction: ${({ userChatting }) =>
+      userChatting === 'ADMIN' ? 'row-reverse' : 'row'};
+  }
+  &.user {
+    flex-direction: ${({ userChatting }) =>
+      userChatting !== 'ADMIN' ? 'row' : 'row-reverse'};
+  }
+`;
+const ImageWrap = styled.div<{ userChatting: string }>`
+  width: 36pt;
+  height: 36pt;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 0.75pt solid #d3d3d3;
+  > img {
+    width: 100%;
+  }
+  &.admin {
+    display: ${({ userChatting }) =>
+      userChatting === 'ADMIN' ? 'none' : 'block'};
+  }
+  &.user {
+    display: ${({ userChatting }) =>
+      userChatting !== 'ADMIN' ? 'block' : 'none'};
+  }
+`;
+
+const Chat = styled.div<{ userChatting: string }>`
+  border-radius: 6pt;
+  padding: 7.5pt 6pt;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12pt;
+  line-height: 16.5pt;
+  letter-spacing: -0.02em;
+
+  &.admin {
+    color: ${({ userChatting }) =>
+      userChatting === 'ADMIN' ? 'white' : '#222222'};
+    background: ${({ userChatting }) =>
+      userChatting === 'ADMIN' ? '#5221cb' : '#f3f4f7'};
+  }
+  &.user {
+    color: ${({ userChatting }) =>
+      userChatting !== 'ADMIN' ? '#222222' : 'white'};
+    background: ${({ userChatting }) =>
+      userChatting !== 'ADMIN' ? '#f3f4f7' : '#5221cb'};
+  }
+`;
+const FileDownload = styled.a`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 3pt;
+  color: '#E2E5ED';
+  cursor: pointer;
+`;
+const File = styled.button`
+  margin-bottom: 6pt;
+  margin-right: 6pt;
+  padding: 7.5pt 6pt;
+  border: 0.75pt solid '#999999';
+  border-radius: 8px;
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const MessageDate = styled.p`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 7.5pt;
+  line-height: 15pt;
+  letter-spacing: -0.02em;
+  color: #caccd1;
+`;
+
+const IconWrap2 = styled.button`
+  position: relative;
+  min-width: 18.75pt;
+  width: 18.75pt;
+  height: 20.7pt;
+`;
+
+const IconWrap3 = styled(IconWrap2)`
+  background: transparent;
+`;
+
+const WrapDate = styled.div<{ userChatting: string }>`
+  display: flex;
+  flex-direction: column;
+  align-items: ${({ userChatting }) =>
+    userChatting === 'ADMIN' ? 'flex-end' : 'flex-start'};
 `;

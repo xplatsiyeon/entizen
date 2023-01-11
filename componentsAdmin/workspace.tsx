@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
+import { handleLogoutOnClickAdmin } from 'api/logout';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -15,6 +16,7 @@ import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useRouter } from 'next/router';
+import useProfile from 'hooks/useProfile';
 // import React from 'react';
 
 type Props = {
@@ -70,6 +72,21 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
     temp[id] = !temp[id];
     setOpen(temp);
   };
+
+  const logoutOnClick = async () => {
+    handleLogoutOnClickAdmin()
+      .then((res) => router.push('/admin/login'))
+      .catch((error) => alert(error));
+  };
+
+  // 이름 가져오기
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+
+  const {
+    profile: profileData,
+    isLoading: profileIsLoading,
+    invalidate: profileInvalidate,
+  } = useProfile(accessToken);
 
   const handleRouter = (name: string) => {
     switch (name) {
@@ -220,8 +237,8 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
 
   return (
     <Wrapper aria-labelledby="nested-list-subheader" nowHeight={nowHeight}>
-      <Name>이정민님</Name>
-      <LogoutBtn>로그아웃</LogoutBtn>
+      <Name> {`${profileData?.name} 님`}</Name>
+      <LogoutBtn onClick={logoutOnClick}>로그아웃</LogoutBtn>
       {openList.map((item, idx) => (
         <NavContainer key={idx}>
           {/* close */}

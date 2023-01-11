@@ -73,3 +73,22 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     }
   });
 };
+
+// 관리자 로그아웃
+export const handleLogoutOnClickAdmin = async () => {
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+
+  await axios({
+    method: 'post',
+    url: LOG_OUT_API,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ContentType: 'application/json',
+    },
+    withCredentials: true,
+  }).then((res) => {
+    sessionStorage.removeItem('ADMIN_ACCESS_TOKEN');
+    sessionStorage.removeItem('ADMIN_REFRESH_TOKEN');
+    sessionStorage.removeItem('ADMIN_NAME');
+  });
+};
