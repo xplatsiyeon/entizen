@@ -87,6 +87,12 @@ const AdLogin = () => {
     }
   };
 
+  const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter') {
+      signin();
+    }
+  };
+
   return (
     <Body>
       <Inner>
@@ -104,6 +110,7 @@ const AdLogin = () => {
             placeholder="비밀번호"
             onChange={(e) => changeValue(e)}
             ref={pwRef}
+            onKeyDown={onKeyPress}
           />
           {err && (
             <ErrP className="err">

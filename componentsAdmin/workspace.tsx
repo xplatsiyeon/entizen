@@ -83,7 +83,18 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
 
   // 이름 가져오기
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const token: AdminJwtTokenType = jwt_decode(accessToken);
+  const isToken = (accessToken: string) => {
+    if (accessToken) {
+      const newToken: AdminJwtTokenType = jwt_decode(accessToken);
+      return newToken?.name;
+    }
+  };
+  let token = '';
+  React.useEffect(() => {
+    if (accessToken !== null) {
+      const newToken: AdminJwtTokenType = jwt_decode(accessToken);
+    }
+  }, []);
 
   const handleRouter = (name: string) => {
     switch (name) {
@@ -237,9 +248,11 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
   //   };
   // }, [nowHeight]);
 
+  console.log('🌸 accessToken 🌸', accessToken);
+
   return (
     <Wrapper aria-labelledby="nested-list-subheader" nowHeight={nowHeight}>
-      <Name> {`${token?.name} 님`}</Name>
+      {accessToken !== null && <Name> {`${isToken(accessToken)} 님`}</Name>}
       <LogoutBtn onClick={logoutOnClick}>로그아웃</LogoutBtn>
       {openList.map((item, idx) => (
         <NavContainer key={idx}>
