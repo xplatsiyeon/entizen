@@ -363,7 +363,7 @@ const LoaderContainer = styled.div`
   flex-direction: column;
 `;
 const Contatiner = styled.div`
-  /* border: 2px solid ${colors.lightGray5}; */
+  border: 2px solid ${colors.lightGray5};
   border-radius: 4px;
   width: 946px;
 `;

@@ -332,7 +332,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
             <List>
               <Label>특장점</Label>
               <RequestContents height={200} maxLength={500} readOnly>
-                {data?.data?.feature}
+                {data?.data?.feature === '' ? '없음' : data?.data?.feature}
               </RequestContents>
             </List>
             <ImgList>

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { isTokenGetApi, isTokenDeleteApi } from 'api';
+import { isTokenGetApi, isTokenDeleteApi, isTokenPatchApi } from 'api';
 import {
   location,
   locationEn,
@@ -19,6 +19,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
 import { adminDateFomat, convertKo, hyphenFn } from 'utils/calculatePackage';
 import CompleteRating from './CompleteRating';
+import ProjectAlertModal from './ProjectAlertModal';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
@@ -35,7 +36,7 @@ interface ProjectDetailResponse {
       isCompletedInstallationStep: boolean;
       isCompletedExamStep: boolean;
       isApprovedByAdmin: boolean;
-      isCancel: false;
+      isCancel: boolean;
       readyStepGoalDate: string;
       installationStepGoalDate: string;
       examStepGoalDate: string;
@@ -43,7 +44,10 @@ interface ProjectDetailResponse {
       createdAt: string;
       projectName: string;
       projectNumber: string;
+      userMemberIdx: number;
+      companyMemberIdx: number;
       subscribeStartDate: string;
+      projectCompletionAgreementDate: string;
       companyMember: {
         memberIdx: number;
         id: string;
@@ -69,7 +73,6 @@ interface ProjectDetailResponse {
         satisfactionPoint: number;
         averagePoint: string;
         opinion: string;
-        projectIdx: number;
       };
       finalQuotation: {
         finalQuotationIdx: number;
@@ -121,6 +124,10 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   // 리뷰 모달 열리고 닫히고
   const [reviewModal, setReviewModal] = useState<boolean>(false);
 
+  // 최종 승인 완료 모달 열리고 닫히고
+  const [projectModal, setProjectModal] = useState<boolean>(false);
+  const [finalApprove, setFinalApprove] = useState<boolean>(false);
+
   // 삭제 하고 싶은 파일 id 값 업데이트
   const [fileIdx, setFileIdx] = useState<number | undefined>();
   const { data, isLoading, isError } = useQuery<ProjectDetailResponse>(
@@ -131,6 +138,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   // 리뷰데이터
   const reviewData = data?.data?.project?.projectReview;
 
+  // 삭제
   const {
     mutate: deleteMutate,
     isLoading: deleteIsLoading,
@@ -148,14 +156,39 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     onSettled: () => {},
   });
 
-  const handleBackBtn = () => {
-    setIsDetail!(false);
-  };
-
   // 프로젝트 첨부파일 삭제
   const modalDeleteFileBtnControll = () => {
     deleteMutate({
       url: `/admin/projects/${projectIdx}/completion/files/${fileIdx}`,
+    });
+  };
+
+  const handleBackBtn = () => {
+    setIsDetail!(false);
+  };
+
+  // 프로젝트 최종승인
+  const {
+    mutate: patchMutate,
+    isLoading: patchIsLoading,
+    isError: patchIsError,
+  } = useMutation(isTokenPatchApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('projectDetail');
+      setMessageModal(true);
+      setMessage('최종 승인이 완료됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  // 프로젝트 최종 승인
+  const finalApproved = () => {
+    patchMutate({
+      url: `/admin/projects/${projectIdx}/approval`,
     });
   };
 
@@ -171,6 +204,35 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     }
   }, []);
 
+  // 최종 승인 가능한지 여부
+  useEffect(() => {
+    if (
+      data?.data?.project?.isCompletedExamStep === true &&
+      data?.data?.project?.isApprovedByAdmin === false
+    ) {
+      setFinalApprove(true);
+    } else if (
+      data?.data?.project?.isCompletedExamStep === true &&
+      data?.data?.project?.isApprovedByAdmin === true
+    ) {
+      setFinalApprove(false);
+    } else if (
+      data?.data?.project?.isCompletedExamStep === false &&
+      data?.data?.project?.isApprovedByAdmin === false
+    ) {
+      setFinalApprove(false);
+    }
+  }, [data]);
+
+  console.log(
+    '💔 기타 요청 사항 💔',
+    data?.data?.project?.finalQuotation?.preQuotation?.quotationRequest
+      ?.etcRequest,
+  );
+  const elseRequest =
+    data?.data?.project?.finalQuotation?.preQuotation?.quotationRequest
+      ?.etcRequest;
+
   return (
     <Background>
       <Wrapper>
@@ -181,6 +243,13 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
           <CompleteRating
             setReviewModal={setReviewModal}
             reviewData={reviewData!}
+          />
+        )}
+        {projectModal && (
+          <ProjectAlertModal
+            setProjectModal={setProjectModal}
+            rightBtn={finalApproved}
+            finalApprove={finalApprove}
           />
         )}
         <AdminHeader
@@ -271,13 +340,13 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
             </List>
             <List>
               <Label>단계별 일정</Label>
-              <ButtnBox
+              <ButtonBox
                 onClick={() => {
                   alert('개발중입니다.');
                 }}
               >
                 단계별일정수정
-              </ButtnBox>
+              </ButtonBox>
             </List>
             <List>
               <Label>프로젝트 제목</Label>
@@ -365,22 +434,28 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
 
             <List>
               <Label>기타 요청사항</Label>
-              <TextBox maxLength={500} value={'없음'} readOnly>
-                {
-                  data?.data?.project?.finalQuotation?.preQuotation
-                    ?.quotationRequest?.etcRequest
-                }
+              <TextBox
+                maxLength={500}
+                value={elseRequest === '' ? '없음' : elseRequest}
+                readOnly
+              >
+                {/* <TextP>
+                  {
+                    data?.data?.project?.finalQuotation?.preQuotation
+                      ?.quotationRequest?.etcRequest
+                  }
+                </TextP> */}
               </TextBox>
             </List>
             <List>
               <Label>계약서 정보</Label>
-              <ButtnBox
+              <ButtonBox
                 onClick={() => {
                   alert('개발중입니다.');
                 }}
               >
                 계약서 보기
-              </ButtnBox>
+              </ButtonBox>
             </List>
             <List>
               <Label>첨부파일</Label>
@@ -416,6 +491,14 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
               </Contents>
             </List>
           </ProjectInfoContainer>
+
+          <FinalButtonBox
+            onClick={() => {
+              setProjectModal(true);
+            }}
+          >
+            최종승인 완료
+          </FinalButtonBox>
         </Main>
       </Wrapper>
     </Background>
@@ -488,14 +571,19 @@ const TextBox = styled.textarea`
   border-radius: 2px;
   padding-top: 2px;
   padding-left: 8px;
+  color: #222222;
 `;
+const TextP = styled.p`
+  color: #222222;
+`;
+
 const List = styled.li`
   display: flex;
   :not(:nth-last-of-type(1)) {
     margin-bottom: 14px;
   }
 `;
-const ButtnBox = styled.button`
+const ButtonBox = styled.button`
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
@@ -506,6 +594,23 @@ const ButtnBox = styled.button`
   border: 1px solid #747780;
   border-radius: 2px;
 `;
+
+const FinalButtonBox = styled.button`
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  text-align: center;
+  color: #747780;
+  padding: 4px 5px;
+  background: #e2e5ed;
+  border: 1px solid #747780;
+  border-radius: 2px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  position: absolute;
+  left: 883px;
+`;
+
 const FileContainer = styled.div`
   display: flex;
   flex-direction: column;

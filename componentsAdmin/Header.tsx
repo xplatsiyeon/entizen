@@ -47,7 +47,7 @@ const AdminHeader = ({
               <button
                 className="excelBtn"
                 onClick={() => {
-                  alert('2차 작업범위입니다');
+                  alert('개발중입니다.');
                 }}
               >
                 엑셀 다운로드
