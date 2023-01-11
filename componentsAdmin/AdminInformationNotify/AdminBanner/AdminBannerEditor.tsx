@@ -62,7 +62,7 @@ const AdminBannerEditor = ({
   setChangeNumber,
   userTypeRefetch,
 }: Props) => {
-  const queryClinet = useQueryClient();
+  const queryClient = useQueryClient();
 
   // 에디터 불러오는 api
   const { data, isLoading, isError, refetch, remove } =
@@ -269,7 +269,7 @@ const AdminBannerEditor = ({
     isTokenPutApi,
     {
       onSuccess: () => {
-        bannerListRefetch();
+        queryClient.invalidateQueries('bannerList');
         setMessageModal(true);
         setMessage('수정이 완료됐습니다!');
       },
@@ -306,7 +306,7 @@ const AdminBannerEditor = ({
     isError: postError,
   } = useMutation(isTokenPostApi, {
     onSuccess: () => {
-      bannerListRefetch();
+      queryClient.invalidateQueries('bannerList');
       setMessageModal(true);
       setMessage('추가가 완료 됐습니다.');
     },
@@ -344,7 +344,7 @@ const AdminBannerEditor = ({
     isError: patchError,
   } = useMutation(isTokenDeleteApi, {
     onSuccess: () => {
-      bannerListRefetch();
+      queryClient.invalidateQueries('bannerList');
       setMessageModal(true);
       setMessage('삭제가 완료 됐습니다.');
     },

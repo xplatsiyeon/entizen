@@ -18,6 +18,7 @@ import {
   AdminBannerDetailResponse,
   AdminBannerListResponse,
 } from 'types/tableDataType';
+import AdminBannerTable from './AdminBannerTable';
 import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
@@ -60,27 +61,6 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
   const handleCommon = () => {
     setIsDetail(true);
   };
-
-  // 토글 버튼 백엔드에 보내는 함수(User)
-  const { mutate: patchUserMutate } = useMutation(isTokenPatchApi, {
-    onSuccess: () => {
-      bannerListRefetch();
-      console.log('토글 버튼 수정 성공');
-      queryClient.invalidateQueries('bannerList');
-    },
-    onError: (error) => {
-      console.log('토글 버튼 에러');
-      console.log(error);
-    },
-  });
-
-  useEffect(() => {
-    if (toggle?.id) {
-      patchUserMutate({
-        url: `/admin/banners/${toggle.id}/exposure`,
-      });
-    }
-  }, [toggle]);
 
   useEffect(() => {
     if (isDetail === false) {
@@ -140,26 +120,18 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
       </UserList>
       <UnderLine />
       {userNum === 0 && (
-        <AdminNotifyTable
+        <AdminBannerTable
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
-          tableType={'bannerList'}
-          commonBtn={'등록'}
           handleCommon={handleCommon}
-          setToggle={setToggle}
-          toggle={toggle}
           userType={userTypeEn[userNum]}
         />
       )}
       {userNum === 1 && (
-        <AdminNotifyTable
+        <AdminBannerTable
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
-          tableType={'bannerList'}
-          commonBtn={'등록'}
           handleCommon={handleCommon}
-          setToggle={setToggle}
-          toggle={toggle}
           userType={userTypeEn[userNum]}
         />
       )}

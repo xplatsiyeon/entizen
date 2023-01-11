@@ -1,23 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import colors from 'styles/colors';
-import { AdminBtn } from 'componentsAdmin/Layout';
 import { getApi } from 'api';
 import AdminFAQEditor, { FaqsUpdate } from './AdminFAQEditor';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
-import {
-  QueryObserverResult,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
-import AdminNotifyTable from '../AdminNotifyTable';
-import {
-  AdminBannerDetailResponse,
-  AdminFAQListResponse,
-} from 'types/tableDataType';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import AdminFAQTable from './AdminFAQTable';
+import { AdminFAQListResponse } from 'types/tableDataType';
 import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
@@ -109,7 +99,7 @@ const AdminFAQList = ({ setNowHeight, setNumber }: Props) => {
       </TitleWrapper>
       <UserList>
         {userType.map((item, idx) => (
-          <>
+          <React.Fragment key={idx}>
             <UserText
               key={idx}
               onClick={() => {
@@ -121,33 +111,25 @@ const AdminFAQList = ({ setNowHeight, setNumber }: Props) => {
               {item}
             </UserText>
             <TextUnderLine userNum={userNum} isDetail={isDetail} />
-          </>
+          </React.Fragment>
         ))}
       </UserList>
       <UnderLine />
       {/* 일반회원 리스트 */}
       {userNum === 0 && (
-        <AdminNotifyTable
+        <AdminFAQTable
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
-          tableType={'adminFaqList'}
-          commonBtn={'등록'}
           handleCommon={handleCommon}
-          setToggle={setToggle}
-          toggle={toggle}
           userType={userTypeEn[userNum]}
         />
       )}
       {/* 기업회원 리스트 */}
       {userNum === 1 && (
-        <AdminNotifyTable
+        <AdminFAQTable
           setDetailId={setDetailId}
           setIsDetail={setIsDetail}
-          tableType={'adminFaqList'}
-          commonBtn={'등록'}
           handleCommon={handleCommon}
-          setToggle={setToggle}
-          toggle={toggle}
           userType={userTypeEn[userNum]}
         />
       )}
