@@ -18,6 +18,8 @@ import colors from 'styles/colors';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useRouter } from 'next/router';
 import { AdminJwtTokenType } from 'pages/signin';
+import { useDispatch } from 'react-redux';
+import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
 // import React from 'react';
 
@@ -58,6 +60,7 @@ const closeList = [
   // ['블락'],
 ];
 const Workspace = ({ setNumber, nowHeight }: Props) => {
+  const dispatch = useDispatch();
   // window.document.documentElement.scrollHeight
   // window.screen.height
   const router = useRouter();
@@ -83,149 +86,158 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
 
   // 이름 가져오기
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const token: AdminJwtTokenType = jwt_decode(accessToken);
+  const isToken = (accessToken: string) => {
+    if (accessToken) {
+      const newToken: AdminJwtTokenType = jwt_decode(accessToken);
+      return newToken?.name;
+    }
+  };
+  let token = '';
+  React.useEffect(() => {
+    if (accessToken !== null) {
+      const newToken: AdminJwtTokenType = jwt_decode(accessToken);
+    }
+  }, []);
 
   const handleRouter = (name: string) => {
     switch (name) {
       case '관리자 등록':
-        setNumber(1);
-        sessionStorage.setItem('number', '1');
+        // setNumber(1);
+        dispatch(adminPageNumberAction.setIsAdminPage(1));
         break;
 
       case '관리자 리스트 조회':
-        setNumber(2);
-        sessionStorage.setItem('number', '2');
+        // setNumber(2);
+        dispatch(adminPageNumberAction.setIsAdminPage(2));
         break;
 
       case '프로젝트 현황':
-        setNumber(3);
-        sessionStorage.setItem('number', '3');
+        // setNumber(3);
+        dispatch(adminPageNumberAction.setIsAdminPage(3));
         break;
 
       case '통계':
-        setNumber(4);
-        sessionStorage.setItem('number', '4');
+        // setNumber(4);
+        dispatch(adminPageNumberAction.setIsAdminPage(4));
         break;
 
       case '일반회원':
-        setNumber(5);
-        sessionStorage.setItem('number', '5');
+        // setNumber(5);
+        dispatch(adminPageNumberAction.setIsAdminPage(5));
         break;
 
       case '기업회원':
-        setNumber(6);
-        sessionStorage.setItem('number', '6');
+        // setNumber(6);
+        dispatch(adminPageNumberAction.setIsAdminPage(6));
         break;
 
       case '역경매관리 리스트':
-        setNumber(7);
-        sessionStorage.setItem('number', '7');
+        // setNumber(7);
+        dispatch(adminPageNumberAction.setIsAdminPage(7));
         break;
 
       case '프로젝트 리스트':
-        setNumber(8);
-        sessionStorage.setItem('number', '8');
+        // setNumber(8);
+        dispatch(adminPageNumberAction.setIsAdminPage(8));
         break;
 
       case 'AS 상세':
-        setNumber(9);
-        sessionStorage.setItem('number', '9');
+        // setNumber(9);
+        dispatch(adminPageNumberAction.setIsAdminPage(9));
         break;
 
       case '소통하기 리스트':
-        setNumber(10);
-        sessionStorage.setItem('number', '10');
+        // setNumber(10);
+        dispatch(adminPageNumberAction.setIsAdminPage(10));
         break;
 
       case '1대1 문의':
-        setNumber(11);
-        sessionStorage.setItem('number', '11');
+        // setNumber(11);
+        dispatch(adminPageNumberAction.setIsAdminPage(11));
         break;
 
       case '리스트 조회':
-        setNumber(12);
-        sessionStorage.setItem('number', '12');
+        // setNumber(12);
+        dispatch(adminPageNumberAction.setIsAdminPage(12));
         break;
 
       case '회사별 리스트':
-        setNumber(13);
-        sessionStorage.setItem('number', '13');
+        // setNumber(13);
+        dispatch(adminPageNumberAction.setIsAdminPage(13));
         break;
 
       case '약관':
-        setNumber(14);
-        sessionStorage.setItem('number', '14');
+        // setNumber(14);
+        dispatch(adminPageNumberAction.setIsAdminPage(14));
         break;
 
       case '공지사항':
-        setNumber(15);
-        sessionStorage.setItem('number', '15');
+        // setNumber(15);
+        dispatch(adminPageNumberAction.setIsAdminPage(15));
         break;
 
       case '배너':
-        setNumber(16);
-        sessionStorage.setItem('number', '16');
+        // setNumber(16);
+        dispatch(adminPageNumberAction.setIsAdminPage(16));
         break;
 
       case '가이드':
-        setNumber(17);
-        sessionStorage.setItem('number', '17');
+        // setNumber(17);
+        dispatch(adminPageNumberAction.setIsAdminPage(17));
         break;
 
       case 'FAQ':
-        setNumber(18);
-        sessionStorage.setItem('number', '18');
+        // setNumber(18);
+        dispatch(adminPageNumberAction.setIsAdminPage(18));
         break;
 
       case '설정':
-        setNumber(19);
-        sessionStorage.setItem('number', '19');
+        // setNumber(19);
+        dispatch(adminPageNumberAction.setIsAdminPage(19));
         break;
 
       case '알림':
-        setNumber(20);
-        sessionStorage.setItem('number', '20');
+        // setNumber(20);
+        dispatch(adminPageNumberAction.setIsAdminPage(20));
         break;
 
       case 'DATA 업데이트':
-        setNumber(21);
-        sessionStorage.setItem('number', '21');
+        // setNumber(21);
+        dispatch(adminPageNumberAction.setIsAdminPage(21));
         break;
 
       case 'DATA 다운로드':
-        setNumber(22);
-        sessionStorage.setItem('number', '22');
+        // setNumber(22);
+        dispatch(adminPageNumberAction.setIsAdminPage(22));
         break;
 
       case '블락':
-        setNumber(23);
-        sessionStorage.setItem('number', '23');
+        // setNumber(23);
+        dispatch(adminPageNumberAction.setIsAdminPage(23));
         break;
 
       case '역경매 현황':
-        setNumber(24);
-        sessionStorage.setItem('number', '24');
+        // setNumber(24);
+        dispatch(adminPageNumberAction.setIsAdminPage(24));
         break;
 
       case 'A/S 현황':
-        setNumber(25);
-        sessionStorage.setItem('number', '25');
+        // setNumber(25);
+        dispatch(adminPageNumberAction.setIsAdminPage(25));
         break;
 
       default:
-        setNumber(0);
-        sessionStorage.setItem('number', '0');
+        // setNumber(0);
+        dispatch(adminPageNumberAction.setIsAdminPage(0));
         break;
     }
   };
 
   React.useEffect(() => {
     if (router.asPath !== '/admin') {
-      sessionStorage.setItem('number', '4');
-      setNumber(4);
+      dispatch(adminPageNumberAction.setIsAdminPage(25));
       return () => {
-        sessionStorage.setItem('number', '4');
-        setNumber(4);
+        dispatch(adminPageNumberAction.setIsAdminPage(25));
       };
     }
   }, [router]);
@@ -239,7 +251,7 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
 
   return (
     <Wrapper aria-labelledby="nested-list-subheader" nowHeight={nowHeight}>
-      <Name> {`${token?.name} 님`}</Name>
+      {accessToken !== null && <Name> {`${isToken(accessToken)} 님`}</Name>}
       <LogoutBtn onClick={logoutOnClick}>로그아웃</LogoutBtn>
       {openList.map((item, idx) => (
         <NavContainer key={idx}>

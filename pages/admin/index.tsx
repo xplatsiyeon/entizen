@@ -24,12 +24,21 @@ import AdminFAQList from 'componentsAdmin/AdminInformationNotify/AdminFAQ/AdminF
 import AddAdminAccount from 'componentsAdmin/AdminAccount/AddAdminAccount';
 import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type Props = {};
 
 const index = (props: Props) => {
+  // 리덕스로 페이지값 관리
+  const { isAdminPage } = useSelector(
+    (state: RootState) => state.adminPageNumber,
+  );
+
+  console.log('💔 isAdminPage 🎀', isAdminPage);
+
   // 관리자 계정 초기 세팅값
-  const [number, setNumber] = useState(4);
+  const [number, setNumber] = useState(isAdminPage);
 
   const [isDetail, setIsDetail] = useState(false);
 
@@ -40,11 +49,19 @@ const index = (props: Props) => {
   const router = useRouter();
 
   console.log('🎀 인덱스임 number 🎀', number);
-  console.log('🎀 인덱스임 sessionNumber 🎀', sessionNumber);
+  // console.log('🎀 인덱스임 sessionNumber 🎀', sessionNumber);
+
+  const accessToken = sessionStorage.getItem('ADMIN_ACCESS_TOKEN');
 
   useEffect(() => {
-    if (sessionNumber) {
-      setNumber(Number(sessionNumber));
+    if (!accessToken) {
+      router.push('/admin/login');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isAdminPage) {
+      setNumber(isAdminPage);
       setNowHeight(window.document.documentElement.scrollHeight);
       // unmount 됐을때 초기값 넣어줌
       // return () => {
@@ -52,11 +69,7 @@ const index = (props: Props) => {
       //   setNowHeight(window.document.documentElement.scrollHeight);
       // };
     }
-  }, []);
-
-  useEffect(() => {
-    setNowHeight(window.document.documentElement.scrollHeight);
-  }, [number, sessionNumber]);
+  }, [isAdminPage]);
 
   return (
     <Background>

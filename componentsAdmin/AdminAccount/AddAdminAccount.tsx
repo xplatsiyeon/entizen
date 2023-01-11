@@ -11,6 +11,8 @@ import useDebounce from 'hooks/useDebounce';
 import { api } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
+import { useDispatch } from 'react-redux';
+import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
 interface Validated {
   isSuccess: boolean;
@@ -31,6 +33,8 @@ const AddAdminAccount = ({
   setNumber,
 }: Props) => {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
+
   // 관리자 추가 성공했을때 컴포넌트 바꿀거임
   const [changeNumber, setChangeNumber] = useState(false);
 
@@ -254,8 +258,7 @@ const AddAdminAccount = ({
   // 관리자 등록 완료 되고 확인버튼 누르면 관리자 리스트 목록 페이지로 이동
   useEffect(() => {
     if (changeNumber) {
-      setNumber(2);
-      sessionStorage.setItem('number', '2');
+      dispatch(adminPageNumberAction.setIsAdminPage(2));
     }
   }, [changeNumber]);
 

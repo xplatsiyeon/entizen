@@ -6,8 +6,10 @@ import AdminFAQEditor, { FaqsUpdate } from './AdminFAQEditor';
 import { isTokenGetApi, isTokenPatchApi } from 'api';
 import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { AdminFAQListResponse } from 'types/tableDataType';
 import AdminFAQTable from './AdminFAQTable';
+import { AdminFAQListResponse } from 'types/tableDataType';
+import { useDispatch } from 'react-redux';
+import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
 export const ServiceKr: string[] = ['서비스 이용', '회원정보', '신고'];
 export const ServiceEn: string[] = ['MEMBER', 'SERVICE', 'REPORT'];
@@ -18,6 +20,8 @@ type Props = {
 };
 
 const AdminFAQList = ({ setNowHeight, setNumber }: Props) => {
+  const dispatch = useDispatch();
+
   // FAQ 에디터 데이터 불러오는 api
   const { data, isLoading, isError, refetch, remove } = useQuery<FaqsUpdate>(
     'adminFaqsDetail',
@@ -77,8 +81,7 @@ const AdminFAQList = ({ setNowHeight, setNumber }: Props) => {
   // 등록, 추가, 삭제 했을때 리스트 페이지로 넘길거임
   useEffect(() => {
     if (changeNumber) {
-      setNumber(17);
-      sessionStorage.setItem('number', '17');
+      dispatch(adminPageNumberAction.setIsAdminPage(18));
     }
   }, [changeNumber]);
   return (
