@@ -75,6 +75,7 @@ const ProjectList = ({ setNowHeight }: Props) => {
           <label>기간검색</label>
           {/* 달력 컴포넌트 */}
           <DateRangePicker
+            defaultValue={[new Date('2022-09-05'), new Date()]}
             className="datePicker-input"
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}

@@ -136,6 +136,7 @@ const Statistics = ({ setNowHeight }: Props) => {
       {/* 검색박스 */}
       <SearchBox ref={dateRef}>
         <DateRangePicker
+          defaultValue={[new Date('2022-09-05'), new Date()]}
           className="datePicker-input"
           placeholder={'년-월-일 ~ 년-월-일'}
           size={'sm'}
@@ -147,13 +148,17 @@ const Statistics = ({ setNowHeight }: Props) => {
       </SearchBox>
       {/* Grid Container */}
       <GridContainer>
-        {GridList.map((item, idx) => (
+        {GridList?.map((item, idx) => (
           <div className="item" key={idx}>
             <label className="name">{item.title}</label>
             <h1 className="count" key={idx}>
-              {`${item?.count
-                ?.toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+              {`${
+                isLoading
+                  ? 0
+                  : item?.count
+                      ?.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              }`}
             </h1>
           </div>
         ))}
@@ -195,7 +200,7 @@ const GridContainer = styled.div`
   padding-top: 16px;
 
   .item {
-    cursor: pointer;
+    /* cursor: pointer; */
     width: 208px;
     height: 208px;
     background: ${colors.lightWhite3};
