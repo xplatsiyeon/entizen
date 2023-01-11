@@ -17,16 +17,15 @@ function useAdminLogin(
 ) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  //   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const { url } = useSelector((state: RootState) => state.redirectSlice);
   const {
-    mutate: loginMutate,
-    isLoading: loginLoading,
-    isError: loginError,
+    mutate: adminLoginMutate,
+    isLoading: adminLoginLoading,
+    isError: adminLoginError,
   } = useMutation(isPostApi, {
     onSuccess: async (res) => {
       const token: JwtTokenType = jwt_decode(res.data.accessToken);
-
       sessionStorage.setItem(
         'ADMIN_ACCESS_TOKEN',
         JSON.stringify(res.data.accessToken),
@@ -57,18 +56,23 @@ function useAdminLogin(
         setErrorMessage(
           '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
         );
+        console.log(
+          '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+        );
       } else if (message === '올바르지 않는 비밀번호입니다.') {
         setErrorModal(true);
         setErrorMessage('올바르지 않은 비밀번호 입니다.');
+        console.log('올바르지 않은 비밀번호 입니다.');
       } else {
         setErrorModal(true);
         setErrorMessage(message);
+        console.log('error: ' + JSON.stringify(sessionStorage));
       }
     },
   });
 
-  const signin = (password: string) => {
-    loginMutate({
+  const signinAdmin = (password: string) => {
+    adminLoginMutate({
       url: '/admin/auth/login',
       data: {
         id: userId,
@@ -78,9 +82,9 @@ function useAdminLogin(
   };
 
   return {
-    signin,
-    loginLoading,
-    loginError,
+    signinAdmin,
+    adminLoginLoading,
+    adminLoginError,
   };
 }
 

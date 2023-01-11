@@ -37,6 +37,15 @@ export interface JwtTokenType {
   memberIdx: number;
   memberType: string;
 }
+
+export interface AdminJwtTokenType {
+  exp: number;
+  iat: number;
+  isAdmin: true;
+  iss: string;
+  managerIdx: number;
+  name: string;
+}
 export interface FindKey {
   id: string;
   isMember: boolean;

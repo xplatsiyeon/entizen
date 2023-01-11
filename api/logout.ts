@@ -6,6 +6,8 @@ import { RootState } from 'store/store';
 import { kakaoInit } from 'utils/kakao';
 
 const LOG_OUT_API = `${BASE_URL}/members/logout`;
+// 관리자 로그아웃 API
+const ADMIN_LOG_OUT_API = `${BASE_URL}`;
 
 // 네이버 로그아웃
 export const NaverLogout = async () => {
@@ -77,10 +79,9 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
 // 관리자 로그아웃
 export const handleLogoutOnClickAdmin = async () => {
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-
   await axios({
     method: 'post',
-    url: LOG_OUT_API,
+    url: ADMIN_LOG_OUT_API,
     headers: {
       Authorization: `Bearer ${accessToken}`,
       ContentType: 'application/json',

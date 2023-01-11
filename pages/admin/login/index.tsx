@@ -5,6 +5,8 @@ import useAdminLogin from 'hooks/useAdminLogin';
 import { Router, useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { useMutation } from 'react-query';
+import jwt_decode from 'jwt-decode';
+import { JwtTokenType } from 'pages/signin';
 
 const AdLogin = () => {
   const router = useRouter();
@@ -15,52 +17,63 @@ const AdLogin = () => {
 
   const [err, setErr] = useState<Boolean>(false);
 
-  const { loginLoading, signin } = useAdminLogin(
-    idRef?.current?.value!,
-    setErrorModal,
-    setErrorMessage,
-    false,
-  );
-  // 기본 로그인
-  const originLogin = async () => {
-    await signin(pwRef?.current?.value!);
-  };
-
-  //   const {
-  //     mutate: loginMutate,
-  //     isLoading: loginLoading,
-  //     isError: loginError,
-  //   } = useMutation(
-  //     async (apiInfo: PropsApi) => {
-  //       const { url, data } = apiInfo;
-  //       return await axios({
-  //         method: 'POST',
-  //         url: `/api${url}`,
-  //         data,
-  //         withCredentials: true,
-  //       }).then((res) => res);
-  //     },
-  //     {
-  //       onSuccess: (data) => {
-  //         console.log('로그인성공', data);
-  //         router.push('/admin');
-  //       },
-  //       onError: (err) => {
-  //         console.log(err);
-  //         setErr(true);
-  //       },
-  //     },
+  //   const { adminLoginLoading, signinAdmin } = useAdminLogin(
+  //     idRef?.current?.value!,
+  //     setErrorModal,
+  //     setErrorMessage,
+  //     false,
   //   );
-
-  //   const signin = () => {
-  //     loginMutate({
-  //       url: '/admin/auth/login',
-  //       data: {
-  //         id: idRef?.current?.value!,
-  //         password: pwRef?.current?.value!,
-  //       },
-  //     });
+  //   // 기본 로그인
+  //   const originLogin = async () => {
+  //     await signinAdmin(pwRef?.current?.value!);
   //   };
+
+  const {
+    mutate: loginMutate,
+    isLoading: loginLoading,
+    isError: loginError,
+  } = useMutation(
+    async (apiInfo: PropsApi) => {
+      const { url, data } = apiInfo;
+      return await axios({
+        method: 'POST',
+        url: `/api${url}`,
+        data,
+        withCredentials: true,
+      }).then((res) => res);
+    },
+    {
+      onSuccess: (res) => {
+        sessionStorage.setItem('number', '4');
+        sessionStorage.setItem(
+          'ADMIN_ACCESS_TOKEN',
+          JSON.stringify(res.data.data.accessToken),
+        );
+        sessionStorage.setItem(
+          'ADMIN_REFRESH_TOKEN',
+          JSON.stringify(res.data.data.refreshToken),
+        );
+        // sessionStorage.setItem('ADMIN_NAME', JSON.stringify(data.data.userId));
+        console.log('로그인성공', res.data);
+        router.push('/admin');
+      },
+      onError: (err) => {
+        console.log(err);
+        setErr(true);
+      },
+    },
+  );
+
+  const signin = () => {
+    console.log('=======signin fn 호출=======');
+    loginMutate({
+      url: '/admin/auth/login',
+      data: {
+        id: idRef?.current?.value!,
+        password: pwRef?.current?.value!,
+      },
+    });
+  };
 
   const changeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { type } = e.target;
@@ -98,7 +111,7 @@ const AdLogin = () => {
               아이디 또는 비밀번호가 일치하지 않습니다.
             </ErrP>
           )}
-          <Button onClick={originLogin}>
+          <Button onClick={signin}>
             <span>로그인</span>
           </Button>
         </Wrapper>
