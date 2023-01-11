@@ -7,7 +7,7 @@ import { kakaoInit } from 'utils/kakao';
 
 const LOG_OUT_API = `${BASE_URL}/members/logout`;
 // 관리자 로그아웃 API
-const ADMIN_LOG_OUT_API = `${BASE_URL}`;
+const ADMIN_LOG_OUT_API = `${BASE_URL}/admin/auth/logout`;
 
 // 네이버 로그아웃
 export const NaverLogout = async () => {
@@ -90,6 +90,5 @@ export const handleLogoutOnClickAdmin = async () => {
   }).then((res) => {
     sessionStorage.removeItem('ADMIN_ACCESS_TOKEN');
     sessionStorage.removeItem('ADMIN_REFRESH_TOKEN');
-    sessionStorage.removeItem('ADMIN_NAME');
   });
 };
