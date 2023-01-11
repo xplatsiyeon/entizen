@@ -7,6 +7,8 @@ import AdminTermsEditor, { TermsUpdate } from './AdminTermsEditor';
 import AdminNotifyTable from '../AdminNotifyTable';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi } from 'api';
+import { useDispatch } from 'react-redux';
+import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -15,6 +17,7 @@ type Props = {
 
 const AdminTermsList = ({ setNowHeight, setNumber }: Props) => {
   const queryClinet = useQueryClient();
+  const dispatch = useDispatch();
   const { data, isLoading, isError, refetch, remove } = useQuery<TermsUpdate>(
     'adminTermsDetail',
     () => isTokenGetApi(`/admin/terms/${detatilId}`),
@@ -42,8 +45,7 @@ const AdminTermsList = ({ setNowHeight, setNumber }: Props) => {
   // 등록, 추가, 삭제 했을때 리스트 페이지로 넘길거임
   useEffect(() => {
     if (changeNumber) {
-      setNumber(14);
-      sessionStorage.setItem('number', '14');
+      dispatch(adminPageNumberAction.setIsAdminPage(14));
     }
   }, [changeNumber]);
 

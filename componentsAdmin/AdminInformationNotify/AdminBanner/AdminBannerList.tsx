@@ -18,6 +18,8 @@ import {
   AdminBannerDetailResponse,
   AdminBannerListResponse,
 } from 'types/tableDataType';
+import { useDispatch } from 'react-redux';
+import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -26,6 +28,8 @@ type Props = {
 
 const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
   const queryClient = useQueryClient();
+
+  const dispatch = useDispatch();
 
   // 등록, 추가, 삭제 했을때 리스트 페이지로 이동 할거임
   const [changeNumber, setChangeNumber] = useState(false);
@@ -99,8 +103,7 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
   useEffect(() => {
     if (changeNumber) {
       bannerListRefetch();
-      setNumber(16);
-      sessionStorage.setItem('number', '16');
+      dispatch(adminPageNumberAction.setIsAdminPage(16));
     }
   }, [changeNumber]);
 

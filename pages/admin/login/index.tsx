@@ -7,8 +7,11 @@ import { useRef, useState } from 'react';
 import { useMutation } from 'react-query';
 import jwt_decode from 'jwt-decode';
 import { JwtTokenType } from 'pages/signin';
+import { useDispatch } from 'react-redux';
+import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
 const AdLogin = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const idRef = useRef<HTMLInputElement>(null);
   const pwRef = useRef<HTMLInputElement>(null);
@@ -44,7 +47,7 @@ const AdLogin = () => {
     },
     {
       onSuccess: (res) => {
-        sessionStorage.setItem('number', '4');
+        dispatch(adminPageNumberAction.setIsAdminPage(4));
         sessionStorage.setItem(
           'ADMIN_ACCESS_TOKEN',
           JSON.stringify(res.data.data.accessToken),
@@ -53,7 +56,7 @@ const AdLogin = () => {
           'ADMIN_REFRESH_TOKEN',
           JSON.stringify(res.data.data.refreshToken),
         );
-        // sessionStorage.setItem('ADMIN_NAME', JSON.stringify(data.data.userId));
+
         console.log('로그인성공', res.data);
         router.push('/admin');
       },
