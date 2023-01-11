@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
 import DashBoardTable from 'componentsAdmin/MainDashboard/DashBoardTable';
 import AdminHeader from 'componentsAdmin/Header';
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
-import {
-  adminDateFomat,
-  dateFomat,
-  hyphenFn,
-  convertKo,
-  convertEn,
-} from 'utils/calculatePackage';
+import * as XLSX from 'xlsx';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -95,9 +95,26 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
   // };
 
   // 엑셀 다운로드 버튼
-  const handleCommon = () => {
+  const handleCommon = useCallback(() => {
     alert('개발중입니다.');
-  };
+    // const excelHandler = {
+    //   getExcelFileName: () => {
+    //     return 'originalResultData.xlsx';
+    //   },
+    //   getSheetName: () => {
+    //     return 'originResults';
+    //   },
+    //   getExcelData: () => {
+    //     // return originalResults;
+    //   },
+    //   getWorksheet: () => {
+    //     // return XLSX.utils.json_to_sheet(excelHandler.getExcelData());
+    //   },
+    // };
+
+    // const datas = excelHandler.getWorksheet();
+    // const workbook = XLSX.utils.json_to_sheet(excelHandler.getSheetName());
+  }, []);
 
   useEffect(() => {
     console.log(projectState);

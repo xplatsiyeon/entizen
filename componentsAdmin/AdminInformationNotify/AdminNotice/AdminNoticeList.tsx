@@ -52,7 +52,7 @@ const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
   const { mutate: patchMutate } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminNoticeList');
-      adminNoticeListRefetch();
+      // adminNoticeListRefetch();
     },
     onError: (error) => {
       console.log('토글 버튼 에러');
@@ -61,6 +61,7 @@ const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
   });
 
   useEffect(() => {
+    console.log(toggle);
     if (toggle?.id) {
       patchMutate({
         url: `/admin/notices/${toggle?.id}/exposure`,

@@ -48,10 +48,18 @@ const index = (props: Props) => {
       setNowHeight(window.document.documentElement.scrollHeight);
       // unmount 됐을때 초기값 넣어줌
       return () => {
+        console.log(
+          '============== useEffect 안 언마운트=========================',
+        );
         sessionStorage.setItem('number', '4');
         setNowHeight(window.document.documentElement.scrollHeight);
       };
     }
+    return () => {
+      console.log('==============언마운트=========================');
+      sessionStorage.setItem('number', '4');
+      setNowHeight(window.document.documentElement.scrollHeight);
+    };
   }, []);
 
   useEffect(() => {
