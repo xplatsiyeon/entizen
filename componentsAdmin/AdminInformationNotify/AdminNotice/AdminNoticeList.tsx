@@ -106,7 +106,11 @@ const AdminNoticeList = ({ setNowHeight, setNumber }: Props) => {
         <AdminHeader title="정보 수정" type="main" />
         <SubText>공지사항</SubText>
       </TitleWrapper>
-      <AdminNoticeTable />
+      <AdminNoticeTable
+        handleCommon={handleCommon}
+        setDetailId={setDetailId}
+        setIsDetail={setIsDetail}
+      />
 
       {/* <AdminNotifyTable
         setDetailId={setDetailId}

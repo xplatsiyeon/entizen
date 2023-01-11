@@ -8,9 +8,17 @@ import { api, getApi, isTokenPatchApi } from 'api';
 import { AdminNoticeListResponse } from 'types/tableDataType';
 import { adminDateFomat } from 'utils/calculatePackage';
 
-type Props = {};
+type Props = {
+  setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  setDetailId: React.Dispatch<React.SetStateAction<string>>;
+  handleCommon: () => void;
+};
 
-const AdminNoticeTable = (props: Props) => {
+const AdminNoticeTable = ({
+  setIsDetail,
+  setDetailId,
+  handleCommon,
+}: Props) => {
   const queryClient = useQueryClient();
   // 공지사항 리스트
   const { data: adminNoticeList, refetch: adminNoticeListRefetch } =
@@ -37,7 +45,13 @@ const AdminNoticeTable = (props: Props) => {
     <div>
       <Header>
         <span>결과 {adminNoticeList?.data?.notices?.length}건</span>
-        <button>등록</button>
+        <button
+          onClick={() => {
+            handleCommon();
+          }}
+        >
+          등록
+        </button>
       </Header>
       <TableContatiner>
         <List className="title">
@@ -45,6 +59,7 @@ const AdminNoticeTable = (props: Props) => {
           <span className="notice">공지사항</span>
           <span className="toggle">노출여부</span>
           <span className="date">등록일</span>
+          <button className="detailBtn">보기</button>
         </List>
         {adminNoticeList?.data?.notices?.map((item, index) => (
           <List key={index}>
@@ -57,6 +72,15 @@ const AdminNoticeTable = (props: Props) => {
               />
             </span>
             <span className="date">{adminDateFomat(item.createdAt)}</span>
+            <button
+              className="detailBtn"
+              onClick={() => {
+                setDetailId(item.noticeIdx.toString());
+                setIsDetail(true);
+              }}
+            >
+              보기
+            </button>
           </List>
         ))}
       </TableContatiner>
@@ -110,6 +134,9 @@ const List = styled.li`
     background-color: #e2e5ed;
     padding: 8px 40px;
   }
+  &.title > .detailBtn {
+    visibility: hidden;
+  }
   .num {
     display: inline-block;
     width: 54px;
@@ -125,5 +152,18 @@ const List = styled.li`
   .date {
     display: inline-block;
     width: 108px;
+  }
+  .detailBtn {
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    text-align: center;
+    color: ${colors.gray2};
+    padding: 3px 19px;
+    background: #e2e5ed;
+    border: 1px solid ${colors.gray2};
+    border-radius: 2px;
   }
 `;
