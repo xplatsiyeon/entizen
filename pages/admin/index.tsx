@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import CompanyManagement from 'componentsAdmin/Member/CompanyManagement';
 import UserManagement from 'componentsAdmin/Member/UserManagement';
 import Workspace from 'componentsAdmin/workspace';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ProjectList from 'componentsAdmin/ProjectList/ProjectList';
 import ReverseAuctionList from 'componentsAdmin/RverseAuction/ReverseAuctionList';
 import ASDetail from 'componentsAdmin/AllAs/ASDetail';
@@ -47,25 +47,12 @@ const index = (props: Props) => {
       setNumber(Number(sessionNumber));
       setNowHeight(window.document.documentElement.scrollHeight);
       // unmount 됐을때 초기값 넣어줌
-      return () => {
-        console.log(
-          '============== useEffect 안 언마운트=========================',
-        );
-        sessionStorage.setItem('number', '4');
-        setNowHeight(window.document.documentElement.scrollHeight);
-      };
+      // return () => {
+      //   sessionStorage.setItem('number', '4');
+      //   setNowHeight(window.document.documentElement.scrollHeight);
+      // };
     }
-    return () => {
-      console.log('==============언마운트=========================');
-      sessionStorage.setItem('number', '4');
-      setNowHeight(window.document.documentElement.scrollHeight);
-    };
   }, []);
-
-  useEffect(() => {
-    setNumber(number);
-    setNumber(Number(sessionNumber));
-  }, [number, sessionNumber]);
 
   useEffect(() => {
     setNowHeight(window.document.documentElement.scrollHeight);
