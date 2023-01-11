@@ -239,8 +239,6 @@ const ChargerMap = (props: Props) => {
           ) : (
             <ChargerInfo
               checkHeight={checkHeight}
-              selectedCharger={selectedCharger}
-              setSelectedCharger={setSelectedCharger}
               slowCharger={slowCharger}
               fastCharger={fastCharger}
             />
@@ -279,6 +277,7 @@ const WrapAddress = styled.div`
     position: fixed;
     top: 0;
   }
+
 `;
 
 const WholeMap = styled.div`
@@ -359,7 +358,6 @@ const Input = styled(TextField)`
   }
 
   @media (max-width: 899.25pt) {
-    width: calc(100% - 30pt);
     margin: 0;
   }
 `;
