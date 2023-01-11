@@ -14,6 +14,7 @@ import { myEstimateSlice } from 'storeCompany/myQuotation';
 import { companyRequestFilterNumberSlice } from 'storeCompany/requestTabSlice';
 import { finalQuotationSlice } from 'storeCompany/finalQuotation';
 import { adminReverseSlice } from 'storeAdmin/adminReverseSlice';
+import { adminPageNumberSlice } from 'storeAdmin/adminPageNumberSlice';
 import { userAgentSlice } from './userAgent';
 import { redirectSlice } from './redirectUrlSlice';
 
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   companyRequestFilterNumberData: companyRequestFilterNumberSlice.reducer,
   companyFinalQuotationData: finalQuotationSlice.reducer,
   adminReverseData: adminReverseSlice.reducer,
+  adminPageNumber: adminPageNumberSlice.reducer,
   userAgent: userAgentSlice.reducer,
   redirectSlice: redirectSlice.reducer,
 });
