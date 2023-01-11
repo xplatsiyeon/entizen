@@ -75,6 +75,8 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
 
   const [imgName, setImgName] = useState<string | undefined>('');
 
+  console.log('💔 imgUrl 💔', typeof imgUrl);
+
   // file s3 multer 저장 API (with useMutation)
   const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
     MulterResponse,
@@ -325,7 +327,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
           />
         </FlexWrap>
 
-        {imgUrl !== undefined && (
+        {imgUrl !== undefined && imgUrl !== '' && (
           <Preview>
             <img
               src={imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}

@@ -10,7 +10,7 @@ import Loader from 'components/Loader';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
-import { isAdminJoinApproved } from 'utils/calculatePackage';
+import { isAdminJoinApprovedString } from 'utils/calculatePackage';
 
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;
@@ -80,6 +80,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     data: userData,
     isLoading: userLoading,
     isError: userError,
+    refetch: CommonDetailRefetch,
   } = useQuery<UserRespnse>(
     'user-detail',
     () => isTokenGetApi(`/admin/members/users/${memberIdx}`),
@@ -106,6 +107,11 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   };
 
   const currentApprove = companyData?.data?.member?.isAdminJoinApproved!;
+
+  // value 뭐 선택했는지
+  const [selectValue, setSelectValue] = useState<string | undefined>(
+    isAdminJoinApprovedString(currentApprove),
+  );
 
   // 승인 미승인 값 담아 오슈...
   const [approve, setApprove] = useState<boolean>(currentApprove);
@@ -151,8 +157,6 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     isError: patchApproveError,
   } = useMutation(isTokenPatchApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('comUserData');
-      queryClinet.invalidateQueries('comUserInfo');
       setMessageModal(true);
       setMessage('승인이 변경 됐습니다.');
     },
@@ -177,15 +181,26 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     setIsModal(false);
   };
 
-  useEffect(() => {
-    if (companyData?.data?.member?.isAdminJoinApproved !== approve) {
-      adminJoinApprove();
-    }
-  }, [approve]);
+  // useEffect(() => {
+  //   if (companyData?.data?.member?.isAdminJoinApproved !== approve) {
+  //     adminJoinApprove();
+  //   }
+  // }, [approve]);
+
+  // useEffect(() => {
+  //   if (currentApprove !== undefined) {
+  //     setSelectValue(isAdminJoinApprovedString(currentApprove));
+  //   }
+  // }, []);
 
   const loading = userLoading || companyLoading;
 
   const nowHeight = window.document.documentElement.scrollHeight;
+
+  const userAvatar = userData?.data?.member?.profileImageUrl;
+  const companyAvatar =
+    companyData?.data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl;
+
   return (
     <Background nowHeight={nowHeight}>
       <Wrapper>
@@ -214,38 +229,43 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
           exelHide={true}
         />
         <InfoBox>
-          <Avatar>
-            {type === 'USER' ? (
-              <Image
-                src={userData?.data?.member?.profileImageUrl! || ''}
-                alt="avatar"
-                layout="fill"
-              />
-            ) : (
-              <Image
-                src={
-                  companyData?.data?.member?.companyMemberAdditionalInfo
-                    ?.companyLogoImageUrl! || ''
-                }
-                alt="avatar"
-                layout="fill"
-              />
-            )}
-            <span className="exitImgBox">
-              <Image
-                src={ExitBtn}
-                alt="exit"
-                layout="fill"
-                onClick={() => {
-                  if (type === 'USER') {
-                    modalDeleteUserBtnControll();
-                  } else {
-                    modalDeleteCompanyBtnControll();
+          {userAvatar !== null && companyAvatar !== null ? (
+            <Avatar>
+              {type === 'USER' ? (
+                <Image
+                  src={userData?.data?.member?.profileImageUrl! || ''}
+                  alt="avatar"
+                  layout="fill"
+                />
+              ) : (
+                <Image
+                  src={
+                    companyData?.data?.member?.companyMemberAdditionalInfo
+                      ?.companyLogoImageUrl! || ''
                   }
-                }}
-              />
-            </span>
-          </Avatar>
+                  alt="avatar"
+                  layout="fill"
+                />
+              )}
+              <span className="exitImgBox">
+                <Image
+                  src={ExitBtn}
+                  alt="exit"
+                  layout="fill"
+                  onClick={() => {
+                    if (type === 'USER') {
+                      modalDeleteUserBtnControll();
+                    } else {
+                      modalDeleteCompanyBtnControll();
+                    }
+                  }}
+                />
+              </span>
+            </Avatar>
+          ) : (
+            <NoAvatar />
+          )}
+
           {/* 회원 정보 불러오는 컴포넌트 */}
           {loading ? (
             <Loader />
@@ -256,7 +276,9 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
               CompanyData={companyData!}
               setApprove={setApprove}
               approve={approve}
-              currentApprove={isAdminJoinApproved(currentApprove)}
+              currentApprove={isAdminJoinApprovedString(currentApprove)}
+              setSelectValue={setSelectValue}
+              selectValue={selectValue}
             />
           )}
         </InfoBox>
@@ -278,7 +300,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
           </button>
           <button
             onClick={() => {
-              alert('개발중입니다.');
+              adminJoinApprove();
             }}
           >
             수정
@@ -324,6 +346,13 @@ const Avatar = styled.span`
     height: 20px;
     cursor: pointer;
   }
+`;
+
+const NoAvatar = styled.span`
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background-color: #a6a9b0;
 `;
 
 const TextAreaContainer = styled.div`

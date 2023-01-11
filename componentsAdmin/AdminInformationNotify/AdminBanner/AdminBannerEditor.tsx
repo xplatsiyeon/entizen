@@ -513,7 +513,7 @@ const AdminBannerEditor = ({
             ))}
           </ImgSpanBox> */}
           <ImgSpanBox>
-            {outsideImgUrl !== undefined && (
+            {outsideImgUrl !== undefined && outsideImgUrl !== '' && (
               <ImgSpan>
                 <Image
                   layout="fill"

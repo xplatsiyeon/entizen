@@ -199,7 +199,7 @@ export const adminDateFomat = (date: string) => {
 };
 
 // 승인 미승인 계산하는 함수
-export const isAdminJoinApproved = (value: boolean) => {
+export const isAdminJoinApprovedString = (value: boolean) => {
   if (value === true) {
     return '승인';
   } else if (value === false) {
