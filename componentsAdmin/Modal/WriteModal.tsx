@@ -4,6 +4,7 @@ import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
 import Attention from 'public/adminImages/Attention.svg';
 import { off } from 'process';
+import { css } from '@emotion/react';
 
 type Props = {
   message?: string;
@@ -12,6 +13,7 @@ type Props = {
   rightBtn?: string;
   leftBtnHandle?: () => void;
   rightBtnHandle?: () => void;
+  size?: 'sm' | 'md' | 'lg';
 };
 
 const WriteModal = ({
@@ -21,10 +23,11 @@ const WriteModal = ({
   rightBtn,
   leftBtnHandle,
   rightBtnHandle,
+  size = 'md',
 }: Props) => {
   return (
     <Modal>
-      <ModalBox>
+      <ModalBox size={size}>
         <MainMessage>
           <Image src={Attention} alt="Attention" />
           <SubMessage>
@@ -33,7 +36,7 @@ const WriteModal = ({
           </SubMessage>
         </MainMessage>
         <Line />
-        <BtnBox>
+        <BtnBox size={size}>
           {leftBtn && (
             <AdminBtn
               onClick={() => {
@@ -87,7 +90,7 @@ const Modal = styled.div`
   z-index: 200;
 `;
 
-const ModalBox = styled.div`
+const ModalBox = styled.div<{ size: 'sm' | 'md' | 'lg' }>`
   background-color: #ffffff;
   top: 30%;
   left: 27%;
@@ -100,6 +103,13 @@ const ModalBox = styled.div`
   height: 160px;
   border-radius: 8px;
   padding: 10px;
+  ${({ size }) =>
+    size === 'lg' &&
+    css`
+      width: 430px;
+      height: 219px;
+      padding: 20px;
+    `};
 `;
 
 const MessageText = styled.div`
@@ -142,9 +152,15 @@ const SubMessage = styled.div`
   margin-left: 8px;
 `;
 
-const BtnBox = styled.div`
+const BtnBox = styled.div<{ size: 'sm' | 'md' | 'lg' }>`
   display: flex;
   align-items: center;
   gap: 8px;
   margin-left: 240px;
+  ${({ size }) =>
+    size === 'lg' &&
+    css`
+      margin-left: 220px;
+      width: 180px;
+    `};
 `;

@@ -14,9 +14,28 @@ type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
+export const processStatus = ['견적마감', '견적취소'];
+export const processStatusEn = ['USER', 'COMPANY'];
+
 const ReverseAuctionList = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
+
+  //검색창에 입력되는 값
+  const [inputValue, setInputValue] = useState<string>('');
+
+  // onClick 할때 값이 바뀌도록
+  const [userSearch, setUserSearch] = useState<string>('');
+
+  // 진행상태 체크박스에 값 넣고 빼기
+  const [process, setProcess] = useState<Array<string>>([]);
+  const checkProcessHandle = (checked: boolean, user: string) => {
+    if (checked) {
+      setProcess((prev) => [...prev, user]);
+    } else {
+      setProcess(process.filter((el) => el !== user));
+    }
+  };
 
   const [pickedDate, setPickedDate] = useState<string[]>();
   const dateRef = useRef<HTMLLIElement>(null);
@@ -90,6 +109,48 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
           />
           <AdminBtn onClick={handleDate}>조회</AdminBtn>
         </li>
+        <li className="search">
+          <label>진행 상태</label>
+          <CheckBoxWrapper>
+            {processStatus.map((data, idx) => (
+              <CheckBoxLabel key={data}>
+                <CheckBox
+                  type="checkbox"
+                  id={data}
+                  value={data}
+                  onChange={(e) => {
+                    checkProcessHandle(e.currentTarget.checked, e.target.id);
+                  }}
+                />
+                <CheckBoxText>{data}</CheckBoxText>
+              </CheckBoxLabel>
+            ))}
+          </CheckBoxWrapper>
+        </li>
+        <li className="search">
+          <label className="idsearch">아이디 검색</label>
+          <input
+            type="text"
+            placeholder="검색"
+            className="searchInput"
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                setUserSearch(inputValue);
+              }
+            }}
+            style={{ paddingLeft: '8px' }}
+          />
+          <AdminBtn
+            onClick={() => {
+              setUserSearch(inputValue);
+            }}
+          >
+            검색
+          </AdminBtn>
+        </li>
       </Manager>
       <ReverseAuctionTable
         setDetailId={setDetailId}
@@ -121,6 +182,9 @@ const Manager = styled.ul`
   label {
     padding-right: 39.75pt;
   }
+  .idsearch {
+    padding-right: 30pt;
+  }
   li {
     gap: 7.5pt;
     display: flex;
@@ -135,8 +199,45 @@ const Manager = styled.ul`
     border: 1px solid ${colors.lightWhite3};
     height: 100%;
     width: 274.5pt;
+    border-radius: 4px;
   }
   .search {
     width: 946px;
   }
+`;
+
+const CheckBoxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const CheckBoxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  user-select: none;
+`;
+
+const CheckBox = styled.input`
+  appearance: none;
+  margin-right: 5px;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #464646;
+  border-radius: 3px;
+  cursor: pointer;
+  &:checked {
+    border-color: transparent;
+    background-image: url(/images/CheckBoxWhiteCheck.svg);
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: #464646;
+    cursor: pointer;
+  }
+`;
+
+const CheckBoxText = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: normal;
+  font-size: 16px;
+  color: #000000;
 `;
