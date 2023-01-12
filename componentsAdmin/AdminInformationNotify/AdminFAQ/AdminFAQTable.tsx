@@ -4,18 +4,8 @@ import colors from 'styles/colors';
 import Toggle from 'rsuite/Toggle';
 import { Pagination } from 'rsuite';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import {
-  api,
-  getApi,
-  isTokenAdminGetApi,
-  isTokenAdminPatchApi,
-  isTokenPatchApi,
-} from 'api';
-import {
-  AdminBannerListResponse,
-  AdminFAQListResponse,
-  AdminNoticeListResponse,
-} from 'types/tableDataType';
+import { isTokenAdminGetApi, isTokenAdminPatchApi } from 'api';
+import { AdminFAQListResponse } from 'types/tableDataType';
 import { adminDateFomat } from 'utils/calculatePackage';
 
 type Props = {
@@ -25,15 +15,6 @@ type Props = {
   userType?: string;
 };
 
-// const test = [
-//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-//   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-//   1, 1, 1, 1, 1, 1, 1, 1, 1,
-// ];
 const AdminFAQTable = ({
   setIsDetail,
   setDetailId,
@@ -41,17 +22,14 @@ const AdminFAQTable = ({
   userType,
 }: Props) => {
   const queryClient = useQueryClient();
-  const [page, setPage] = useState<number>(1);
-  const [length, setLength] = useState<number>();
+  const limit = 10;
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
+
   // 공지사항 리스트
   const { data: adminFaqList } = useQuery<AdminFAQListResponse>(
     'adminFaqList',
     () => isTokenAdminGetApi(`/admin/faqs`),
-    {
-      onSuccess: (res) => {
-        setLength(res.data ? res?.data?.totalCount : 0);
-      },
-    },
   );
   const { mutate: patchMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
@@ -69,8 +47,6 @@ const AdminFAQTable = ({
     });
   };
 
-  console.log('page');
-  console.log(page);
   return (
     <Wrapper>
       <Header>
@@ -91,37 +67,37 @@ const AdminFAQTable = ({
           <span className="date">등록일</span>
           <button className="detailBtn">보기</button>
         </List>
-        {/* {test.map((item, index) => ( */}
-        {adminFaqList?.data?.faqs?.map((item, index) => (
-          <List key={index}>
-            {/* <div>123</div> */}
-            <span className="num">{index + 1}</span>
-            <span className="banner">{item.question}</span>
-            <span className="toggle">
-              <Toggle
-                checked={item.isVisible}
-                onClick={() => onClickToggle(item.faqIdx)}
-              />
-            </span>
-            <span className="date">{adminDateFomat(item.createdAt)}</span>
-            <button
-              className="detailBtn"
-              onClick={() => {
-                setDetailId(item.faqIdx.toString());
-                setIsDetail(true);
-              }}
-            >
-              보기
-            </button>
-          </List>
-        ))}
+        {adminFaqList?.data?.faqs
+          ?.slice(offset, offset + limit)
+          ?.map((item, index) => (
+            <List key={index}>
+              <span className="num">{index + 1}</span>
+              <span className="banner">{item.question}</span>
+              <span className="toggle">
+                <Toggle
+                  checked={item.isVisible}
+                  onClick={() => onClickToggle(item.faqIdx)}
+                />
+              </span>
+              <span className="date">{adminDateFomat(item.createdAt)}</span>
+              <button
+                className="detailBtn"
+                onClick={() => {
+                  setDetailId(item.faqIdx.toString());
+                  setIsDetail(true);
+                }}
+              >
+                보기
+              </button>
+            </List>
+          ))}
       </TableContatiner>
       <WrapPage>
         <Pagination
           prev
           next
           size="md"
-          total={length ? length : 0}
+          total={adminFaqList ? adminFaqList?.data?.faqs?.length : 0}
           limit={10}
           maxButtons={5}
           activePage={page}

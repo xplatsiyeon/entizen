@@ -4,13 +4,7 @@ import colors from 'styles/colors';
 import Toggle from 'rsuite/Toggle';
 import { Pagination } from 'rsuite';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import {
-  api,
-  getApi,
-  isTokenAdminGetApi,
-  isTokenAdminPatchApi,
-  isTokenPatchApi,
-} from 'api';
+import { isTokenAdminGetApi, isTokenAdminPatchApi } from 'api';
 import { AdminNoticeListResponse } from 'types/tableDataType';
 import { adminDateFomat } from 'utils/calculatePackage';
 
@@ -26,23 +20,17 @@ const AdminNoticeTable = ({
   handleCommon,
 }: Props) => {
   const queryClient = useQueryClient();
-  const [page, setPage] = useState<number>(1);
-  const [length, setLength] = useState<number>();
+  const limit = 10;
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
   // 공지사항 리스트
   const { data: adminNoticeList, refetch: adminNoticeListRefetch } =
-    useQuery<AdminNoticeListResponse>(
-      'adminNoticeList',
-      () => isTokenAdminGetApi(`/admin/notices`),
-      {
-        onSuccess: (res) => {
-          setLength(res.data ? res?.data?.totalCount : 0);
-        },
-      },
+    useQuery<AdminNoticeListResponse>('adminNoticeList', () =>
+      isTokenAdminGetApi(`/admin/notices`),
     );
   const { mutate: patchMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
       queryClient.invalidateQueries('adminNoticeList');
-      // adminNoticeListRefetch();
     },
     onError: (error) => {
       console.log('토글 버튼 에러');
@@ -75,35 +63,37 @@ const AdminNoticeTable = ({
           <span className="date">등록일</span>
           <button className="detailBtn">보기</button>
         </List>
-        {adminNoticeList?.data?.notices?.map((item, index) => (
-          <List key={index}>
-            <span className="num">{index + 1}</span>
-            <span className="notice">{item.title}</span>
-            <span className="toggle">
-              <Toggle
-                checked={item.isVisible}
-                onClick={() => onClickToggle(item.noticeIdx)}
-              />
-            </span>
-            <span className="date">{adminDateFomat(item.createdAt)}</span>
-            <button
-              className="detailBtn"
-              onClick={() => {
-                setDetailId(item.noticeIdx.toString());
-                setIsDetail(true);
-              }}
-            >
-              보기
-            </button>
-          </List>
-        ))}
+        {adminNoticeList?.data?.notices
+          ?.slice(offset, offset + limit)
+          ?.map((item, index) => (
+            <List key={index}>
+              <span className="num">{index + 1}</span>
+              <span className="notice">{item.title}</span>
+              <span className="toggle">
+                <Toggle
+                  checked={item.isVisible}
+                  onClick={() => onClickToggle(item.noticeIdx)}
+                />
+              </span>
+              <span className="date">{adminDateFomat(item.createdAt)}</span>
+              <button
+                className="detailBtn"
+                onClick={() => {
+                  setDetailId(item.noticeIdx.toString());
+                  setIsDetail(true);
+                }}
+              >
+                보기
+              </button>
+            </List>
+          ))}
       </TableContatiner>
       <WrapPage>
         <Pagination
           prev
           next
           size="md"
-          total={length ? length : 0}
+          total={adminNoticeList ? adminNoticeList?.data?.notices.length : 0}
           limit={10}
           maxButtons={5}
           activePage={page}

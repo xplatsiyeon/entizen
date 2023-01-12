@@ -4,12 +4,7 @@ import colors from 'styles/colors';
 import Toggle from 'rsuite/Toggle';
 
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import {
-  getApi,
-  isTokenAdminGetApi,
-  isTokenAdminPatchApi,
-  isTokenPatchApi,
-} from 'api';
+import { isTokenAdminGetApi, isTokenAdminPatchApi } from 'api';
 import { AdminBannerListResponse } from 'types/tableDataType';
 import { adminDateFomat } from 'utils/calculatePackage';
 import { Pagination } from 'rsuite';
@@ -28,20 +23,14 @@ const AdminBannerTable = ({
   userType,
 }: Props) => {
   const queryClient = useQueryClient();
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-  const [length, setLength] = useState<number>(0); // total
-  const offset = (page - 1) * length;
+  const limit = 10;
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
   // 공지사항 리스트
   const { data: bannerList } = useQuery<AdminBannerListResponse>(
     'bannerList',
     () => isTokenAdminGetApi(`/admin/banners?targetMemberType=${userType}`),
-    {
-      onSuccess: (res) => {
-        setLength(res.data ? res?.data?.banners?.length : 0);
-      },
-    },
   );
   const { mutate: patchMutate } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
@@ -58,9 +47,6 @@ const AdminBannerTable = ({
       url: `/admin/banners/${id}/exposure`,
     });
   };
-
-  console.log('bannerList');
-  console.log(bannerList?.data?.banners?.slice(offset, offset + limit));
   return (
     <Wrapper>
       <Header>
@@ -82,36 +68,37 @@ const AdminBannerTable = ({
           <button className="detailBtn">보기</button>
         </List>
 
-        {/* ?.slice(offset, offset + limit) */}
-        {bannerList?.data?.banners?.map((item, index) => (
-          <List key={index}>
-            <span className="num">{index + 1}</span>
-            <span className="banner">{item.title}</span>
-            <span className="toggle">
-              <Toggle
-                checked={item.isVisible}
-                onClick={() => onClickToggle(item.bannerIdx)}
-              />
-            </span>
-            <span className="date">{adminDateFomat(item.createdAt)}</span>
-            <button
-              className="detailBtn"
-              onClick={() => {
-                setDetailId(item.bannerIdx.toString());
-                setIsDetail(true);
-              }}
-            >
-              보기
-            </button>
-          </List>
-        ))}
+        {bannerList?.data?.banners
+          ?.slice(offset, offset + limit)
+          .map((item, index) => (
+            <List key={index}>
+              <span className="num">{index + 1}</span>
+              <span className="banner">{item.title}</span>
+              <span className="toggle">
+                <Toggle
+                  checked={item.isVisible}
+                  onClick={() => onClickToggle(item.bannerIdx)}
+                />
+              </span>
+              <span className="date">{adminDateFomat(item.createdAt)}</span>
+              <button
+                className="detailBtn"
+                onClick={() => {
+                  setDetailId(item.bannerIdx.toString());
+                  setIsDetail(true);
+                }}
+              >
+                보기
+              </button>
+            </List>
+          ))}
       </TableContatiner>
       <WrapPage>
         <Pagination
           prev
           next
           size="md"
-          total={length ? length : 0}
+          total={bannerList ? bannerList?.data?.banners?.length : 0}
           limit={10}
           maxButtons={5}
           activePage={page}

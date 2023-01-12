@@ -1,23 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import colors from 'styles/colors';
-import { AdminBtn } from 'componentsAdmin/Layout';
-import { api, getApi, isTokenAdminGetApi } from 'api';
-import { isTokenPatchApi } from 'api';
-import {
-  QueryObserverResult,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
+import { isTokenAdminGetApi } from 'api';
+import { useQuery, useQueryClient } from 'react-query';
 import AdminBannerEditor from './AdminBannerEditor';
 import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
-import AdminNotifyTable from '../AdminNotifyTable';
-import {
-  AdminBannerDetailResponse,
-  AdminBannerListResponse,
-} from 'types/tableDataType';
+import { AdminBannerDetailResponse } from 'types/tableDataType';
 import AdminBannerTable from './AdminBannerTable';
 import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
@@ -28,8 +16,6 @@ type Props = {
 };
 
 const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
-  const queryClient = useQueryClient();
-
   const dispatch = useDispatch();
 
   // 등록, 추가, 삭제 했을때 리스트 페이지로 이동 할거임
@@ -39,10 +25,6 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
   const userTypeEn = ['USER', 'COMPANY'];
   const userType = ['일반회원', '기업회원 '];
   const [userNum, setUserNum] = useState(0);
-  const [toggle, setToggle] = useState<NewCell>({
-    isVisible: true,
-    id: 0,
-  });
 
   const [sendUserType, setSendUserType] = useState<string>('');
 
@@ -103,7 +85,7 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
       </TitleWrapper>
       <UserList>
         {userType.map((item, idx) => (
-          <>
+          <React.Fragment key={idx}>
             <UserText
               key={idx}
               onClick={() => {
@@ -115,7 +97,7 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
               {item}
             </UserText>
             <TextUnderLine userNum={userNum} isDetail={isDetail} />
-          </>
+          </React.Fragment>
         ))}
       </UserList>
       <UnderLine />
