@@ -417,10 +417,10 @@ const AddAdminAccount = ({
           <NoticeText>사용가능한 아이디입니다.</NoticeText>
         )}
         {idCheck?.data?.isDuplicated === true && initIdAlert && !idLength && (
-          <NoticeText>이미 사용중인 아이디입니다.</NoticeText>
+          <NoticeText warning={true}>이미 사용중인 아이디입니다.</NoticeText>
         )}
         {idCheck?.data?.isDuplicated === false && initIdAlert && idLength && (
-          <NoticeText>4글자 이상 입력해주세요</NoticeText>
+          <NoticeText warning={true}>4글자 이상 입력해주세요</NoticeText>
         )}
         <li className="row">
           <label className="label">비밀번호</label>
@@ -450,7 +450,9 @@ const AddAdminAccount = ({
         </li>
 
         {!checkedPw && pwInput.length > 7 && (
-          <NoticeText>영문,숫자,특수문자 조합 8자 이상</NoticeText>
+          <NoticeText warning={true}>
+            영문,숫자,특수문자 조합 8자 이상
+          </NoticeText>
         )}
         {pwInput.length < 4 && (
           <NoticeText>비밀번호는 8자 이상 16자 이하로 입력해주세요.</NoticeText>
@@ -486,7 +488,7 @@ const AddAdminAccount = ({
           <NoticeText>비밀번호 확인을 위해 한번 더 입력해주세요.</NoticeText>
         )}
         {!checkSamePw && checkPw.length > 4 && (
-          <NoticeText>비밀번호를 확인해주세요</NoticeText>
+          <NoticeText warning={true}>비밀번호를 확인해주세요</NoticeText>
         )}
         {checkSamePw && checkPw.length < 17 && checkPw.length > 7 && (
           <NoticeText>비밀번호가 일치합니다.</NoticeText>
@@ -585,7 +587,7 @@ const AddAdminAccount = ({
           )}
         </li>
         {validEmail?.data?.isDuplicated === true && initEmailAlert === true && (
-          <NoticeText>중복된 이메일입니다.</NoticeText>
+          <NoticeText warning={true}>중복된 이메일입니다.</NoticeText>
         )}
         {validEmail?.data?.isDuplicated === false &&
           isEmailChangeColor === true && (
@@ -764,7 +766,7 @@ const NoticeText = styled.div<{ warning?: boolean }>`
   font-family: 'Spoqa Han Sans Neo';
   font-weight: 400;
   /* color: #747780; */
-  color: ${({ warning }) => (warning ? 'F75015' : '#747780')};
+  color: ${({ warning }) => (warning ? '#F75015' : '#747780')};
   line-height: 150%;
   padding-left: 135px;
   padding-bottom: 20px;

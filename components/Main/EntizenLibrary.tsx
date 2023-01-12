@@ -18,7 +18,7 @@ type Props = {
   smallfont?: number;
 };
 
-type EntizenLibraryResponse = {
+export type EntizenLibraryResponse = {
   isSuccess: boolean;
   data: {
     createdAt: string;
@@ -42,31 +42,37 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
     <>
       <Wrapper>
         <LearnText>엔티즌 도서관</LearnText>
-        {/* <BoardBox>
-          {data?.data?.map((item, idx) => (
-            <div key={idx}>
-              <LibraryList
-                onClick={() => window.open(`${item?.link}`, 'entizen_post')}
-              >
-                <ProfileImg>
-                  <div>이미지 들어갈 자리</div>
-                </ProfileImg>
-                <TitleNDetail>
-                  <LibraryTitle fontSize={fontSize ? fontSize : 0}>
-                    {item.title}
-                  </LibraryTitle>
-                  <DetailView smallfont={smallfont ? smallfont : 0}>
-                    자세히 보기
-                    <span>
-                      <Image src={rightArrow} alt="icon" />
-                    </span>
-                  </DetailView>
-                </TitleNDetail>
-              </LibraryList>
-            </div>
-          ))}
-        </BoardBox> */}
         <BoardBox>
+          {data?.data?.map((item, idx) => {
+            const number = (idx + 1) % 2;
+            return (
+              <div key={idx}>
+                <LibraryList
+                  onClick={() => {
+                    openExternalBrowser(userAgent, `${item.link}`);
+                  }}
+                  index={number}
+                >
+                  <ProfileImg>
+                    <ImgDiv src={`${item?.imageUrl}`} />
+                  </ProfileImg>
+                  <TitleNDetail>
+                    <LibraryTitle fontSize={fontSize ? fontSize : 0}>
+                      {item.title}
+                    </LibraryTitle>
+                    <DetailView smallfont={smallfont ? smallfont : 0}>
+                      자세히 보기
+                      <span>
+                        <Image src={rightArrow} alt="icon" />
+                      </span>
+                    </DetailView>
+                  </TitleNDetail>
+                </LibraryList>
+              </div>
+            );
+          })}
+        </BoardBox>
+        {/* <BoardBox>
           <LibraryList
             onClick={() =>
               openExternalBrowser(
@@ -90,7 +96,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
               </DetailView>
             </TitleNDetail>
           </LibraryList>
-          {/* <LibraryList
+          <LibraryList
             onClick={() =>
               window.open('http://post.naver.com/entizen_ev', 'entizen_post')
             }
@@ -149,8 +155,8 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
                 </span>
               </DetailView>
             </TitleNDetail>
-          </LibraryList> */}
-        </BoardBox>
+          </LibraryList>
+        </BoardBox> */}
         <ShowAllBtnBox>
           <ShowAllBtn onClick={() => router.push('/library')}>
             <div>도서관</div>
@@ -198,11 +204,12 @@ const LearnText = styled(Typography)`
 
 const BoardBox = styled.div`
   margin-top: 12.75pt;
-  padding-right: 10.5pt;
+  /* padding-right: 10.5pt; */
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-
+  height: 280pt;
+  overflow-y: hidden;
   @media (max-width: 899.25pt) {
     padding-left: 0;
     padding-right: 0;
@@ -212,19 +219,15 @@ const BoardBox = styled.div`
   }
 `;
 
-const LibraryList = styled.div`
+const LibraryList = styled.div<{ index: number }>`
   display: flex;
-  width: 436.5pt;
+  width: 433pt;
   height: 120pt;
-  margin: 0 22.5pt 22.5pt 0;
+  margin: ${({ index }) =>
+    index === 0 ? '5pt 0 22.5pt 0' : '5pt 22.5pt 22.5pt 5pt'};
+  /* margin-bottom: 22.5pt; */
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 16px;
-  &:first-of-type {
-    border-top: none;
-  }
-  &:nth-of-type(even) {
-    margin-right: 0;
-  }
 
   @media (max-width: 899.25pt) {
     width: 100%;

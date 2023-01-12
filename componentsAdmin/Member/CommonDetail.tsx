@@ -5,6 +5,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import MemberContents from './MemberContents';
 import ExitBtn from 'public/adminImages/Group.png';
+import { ComUserData, UserData } from 'types/tableDataType';
 import {
   isTokenAdminDeleteApi,
   isTokenAdminGetApi,
@@ -152,6 +153,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   const modalDeleteCompanyBtnControll = () => {
     patchMutate({
       url: `/admin/members/companies/${memberIdx}/profile-image`,
+      data: { isAdminJoinApproved: approve },
     });
   };
 
@@ -163,6 +165,8 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     isError: patchApproveError,
   } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
+      queryClinet.fetchQuery('comUserInfo');
+      queryClinet.invalidateQueries('company-detail');
       setMessageModal(true);
       setMessage('승인이 변경 됐습니다.');
     },
@@ -176,6 +180,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   const adminJoinApprove = () => {
     patchApproveMutate({
       url: `/admin/members/companies/${memberIdx}/approval`,
+      data: { isAdminJoinApproved: approve },
     });
   };
 
@@ -306,7 +311,9 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
           </button>
           <button
             onClick={() => {
-              adminJoinApprove();
+              if (approve !== undefined) {
+                adminJoinApprove();
+              }
             }}
           >
             수정
