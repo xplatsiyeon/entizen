@@ -9,9 +9,9 @@ export interface PropsApi {
   data?: any;
 }
 
-export const BASE_URL = 'https://test-api.entizen.kr/api';
+//export const BASE_URL = 'https://test-api.entizen.kr/api';
 // 로컬에서 사용할때만 활성화 시키기
-// export const BASE_URL = `/api`;
+ export const BASE_URL = `/api`;
 
 // API 호출 (토큰 O)
 export const isTokenApi = async (apiInfo: ApiProps) => {
@@ -116,6 +116,7 @@ export const isTokenPatchApi = async (apiInfo: PropsApi) => {
     withCredentials: true,
   }).then((res) => res.data);
 };
+//
 // -----------------------------put-api--------------------------------------
 // API 호출 (토큰 O)
 export const isTokenPutApi = async (apiInfo: PropsApi) => {
@@ -152,97 +153,6 @@ export const isTokenDeleteApi = async (apiInfo: PropsApi) => {
 // ---------------------------------- multer Img -----------------------------------
 export async function multerApi(formData: any): Promise<any> {
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-  return axios({
-    method: 'POST',
-    url: `${BASE_URL}/files`,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'multipart/form-data; charset=EUC-KR',
-      Accept: '*/*',
-    },
-    data: formData,
-    withCredentials: true,
-  }).then((res) => res.data);
-}
-
-// ------------------------------admin------------------------------------
-
-// API 호출 (토큰 O)
-export const isTokenAdminGetApi = async (url: string) => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  return await axios({
-    method: 'GET',
-    url: `${BASE_URL}${url}`,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
-  }).then((res) => res.data);
-};
-export const isTokenAdminPostApi = async (apiInfo: PropsApi): Promise<any> => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const { url, data } = apiInfo;
-  return await axios({
-    method: 'POST',
-    url: `${BASE_URL}${url}`,
-    data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
-  }).then((res) => res);
-};
-// API 호출 (토큰 O)
-export const isTokenAdminPatchApi = async (apiInfo: PropsApi) => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const { url, data } = apiInfo;
-  return await axios({
-    method: 'PATCH',
-    url: `${BASE_URL}${url}`,
-    data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
-  }).then((res) => res.data);
-};
-// API 호출 (토큰 O)
-export const isTokenAdminPutApi = async (apiInfo: PropsApi) => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const { url, data } = apiInfo;
-  return await axios({
-    method: 'PUT',
-    url: `${BASE_URL}${url}`,
-    data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
-  }).then((res) => res.data);
-};
-// API 호출 (토큰 O)
-export const isTokenAdminDeleteApi = async (apiInfo: PropsApi) => {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const { url, data } = apiInfo;
-  return await axios({
-    method: 'DELETE',
-    url: `${BASE_URL}${url}`,
-    // data,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      ContentType: 'application/json',
-    },
-    withCredentials: true,
-  }).then((res) => res.data);
-};
-
-// ---------------------------------- multer Img -----------------------------------
-export async function multerAdminApi(formData: any): Promise<any> {
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
   return axios({
     method: 'POST',
     url: `${BASE_URL}/files`,
