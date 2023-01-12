@@ -67,15 +67,18 @@ const ChargerInfo = ({
     setTimeout(()=>{
       //드래그 움직임이 완전히 끝난 후의 스크롤탑을 기준으로 애니메이션이 작동해야 한다,
       console.log('타겟의 스크롤탑2',target.scrollTop, target2.scrollTop);
+      alert(target2.scrollTop)
       const endY = e.changedTouches[0].clientY;
       if( Math.abs(sRef2.current - endY) > 30 ){
           if(target.scrollTop !== 0 && ref.current){
             check.current = 1;
+            alert( check.current )
           }
           if((target.scrollTop < 30) && ref.current){
             if(check.current !== 0){
               check.current = 0;
               console.log('now',check.current)
+              alert( check.current )
             }else{
               ref.current.style.height = '0px';
             }
