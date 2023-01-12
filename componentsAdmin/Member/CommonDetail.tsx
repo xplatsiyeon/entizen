@@ -74,15 +74,6 @@ export interface CompanyResposne {
 }
 
 const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
-  // 기업회원 리스트 조회
-  const { data: comUserData, refetch: comUserDataRefetch } =
-    useQuery<ComUserData>('comUserInfo', () =>
-      isTokenAdminGetApi(
-        `/admin/members/companies?page=10&limit=10&startDate= '2022-09-05'
-          }&endDate=&searchType=&searchKeyword=`,
-      ),
-    );
-
   const queryClinet = useQueryClient();
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
@@ -174,7 +165,8 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     isError: patchApproveError,
   } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('comUserInfo');
+      queryClinet.fetchQuery('comUserInfo');
+      queryClinet.invalidateQueries('company-detail');
       setMessageModal(true);
       setMessage('승인이 변경 됐습니다.');
     },
