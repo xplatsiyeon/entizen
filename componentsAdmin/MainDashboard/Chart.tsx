@@ -29,12 +29,13 @@ type Props = {
     superFast: number;
   }[];
 };
+
 const ChartBar = ({ chartData }: Props) => {
   console.log('🔥 chartData ==>');
-  // console.log(chartData[0]);
   const options = {
     maxBarThickness: 7,
     responsive: true,
+    maintainAspectRatio: false,
     type: 'line',
     scales: {
       x: {
@@ -92,7 +93,7 @@ const ChartBar = ({ chartData }: Props) => {
   };
   return (
     <Container>
-      <Bar options={options} data={data} />
+      <Chart options={options} data={data} />
     </Container>
   );
 };
@@ -100,5 +101,12 @@ export default ChartBar;
 
 const Container = styled.div`
   position: relative;
-  width: 100%;
+  /* width: 100%; */
+  width: 900px;
+  height: 450px;
+  overflow-x: scroll;
+`;
+const Chart = styled(Bar)`
+  min-width: 900px;
+  width: 1000px !important;
 `;
