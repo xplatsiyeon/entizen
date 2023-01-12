@@ -7,9 +7,12 @@ import arrowImg from 'public/images/blueArrow.png';
 import { useRouter } from 'next/router';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebFooter from 'componentsWeb/WebFooter';
+import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { openExternalBrowser } from 'bridge/appToWeb';
+import { EntizenLibraryResponse } from 'components/Main/EntizenLibrary';
+import { isTokenGetApi } from 'api';
 
 const Library = () => {
   const route = useRouter();
@@ -21,6 +24,12 @@ const Library = () => {
   //   );
   // };
 
+  // 도서관 get api
+  const { data, isLoading, isError, refetch } =
+    useQuery<EntizenLibraryResponse>('entizenLibraryList', () =>
+      isTokenGetApi(`/libraries?page=1&limit=10`),
+    );
+
   return (
     <WebBody>
       <WebHeader />
@@ -28,56 +37,31 @@ const Library = () => {
         <MypageHeader back={true} title={'엔티즌 도서관'} />
         <WebInnerHeader>엔티즌 도서관</WebInnerHeader>
         <Body>
-          {/* {[1, 1, 1, 1, 1, 1, 1].map((_, index) => (
-            <List key={index} onClick={HandleOnClick}>
-              <div className="badge-img">
-                <Image src={} alt="badge" />
-              </div>
-              <div className="text-box">
-                <div>엔티즌을 더 잘 쓰는 꿀팁 확인하기</div>
-                <div className="color-box">
-                  <div className="color-text">자세히 보기</div>
+          {data?.data?.map((item, idx) => {
+            return (
+              <List
+                onClick={() => {
+                  openExternalBrowser(userAgent, `${item.link}`);
+                }}
+              >
+                <ProfileImg>
+                  <ImgDiv src={`${item.imageUrl}`} />
+                </ProfileImg>
+                <div className="text-box">
+                  <div>{item.title}</div>
+                  <div className="color-box">
+                    <div className="color-text" style={{ cursor: 'pointer' }}>
+                      자세히 보기
+                    </div>
 
-                  <span className="arrow-img">
-                    <Image src={arrowImg} alt="arrow" layout="fill" />
-                  </span>
+                    <span className="arrow-img">
+                      <Image src={arrowImg} alt="arrow" layout="fill" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-       
-              <NewIcon>
-              <Image src={newImg} alt="new-icon" />
-            </NewIcon>
-            </List>
-          ))} */}
-          {/* <List onClick={HandleOnClick}> */}
-          <List
-            onClick={() => {
-              openExternalBrowser(
-                userAgent,
-                'https://post.naver.com/myProfile.naver?memberNo=58867144',
-              );
-            }}
-          >
-            <div className="badge-img">
-              <ImgDiv src="/images/entizenLibrarySample.png" layout="fill" />
-            </div>
-            <div className="text-box">
-              <div>엔티즌 도서관 둘러보기</div>
-              <div className="color-box">
-                <div className="color-text" style={{ cursor: 'pointer' }}>
-                  자세히 보기
-                </div>
-
-                <span className="arrow-img">
-                  <Image src={arrowImg} alt="arrow" layout="fill" />
-                </span>
-              </div>
-            </div>
-            {/* 뉴 아이콘 */}
-            {/* <NewIcon>
-              <Image src={newImg} alt="new-icon" />
-            </NewIcon> */}
-          </List>
+              </List>
+            );
+          })}
         </Body>
       </Inner>
       <WebFooter />
@@ -152,6 +136,7 @@ const List = styled.li`
   border-radius: 16px;
   align-items: center;
   margin-bottom: 22.5pt;
+
   .badge-img {
     position: relative;
     width: 50%;
@@ -193,6 +178,7 @@ const List = styled.li`
     width: 100%;
     margin-bottom: 0;
     border-radius: 0;
+
     height: auto;
     gap: 7.5pt;
     border-bottom: 0.75pt solid ${colors.lightGray};
@@ -217,17 +203,47 @@ const List = styled.li`
     }
   }
 `;
+
+const ProfileImg = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 32.5pt;
+  & > div {
+    /* width: 75pt;
+    height: 75pt; */
+    border: 1px solid #e2e5ed;
+    border-radius: 50%;
+    margin-right: 15pt;
+  }
+  @media (max-width: 899.25pt) {
+    padding-top: 13.5pt;
+    padding-bottom: 13.5pt;
+    padding-right: 12pt;
+    padding-left: 6pt;
+    & > div {
+      width: 33pt;
+      height: 33pt;
+      margin-right: 0;
+    }
+  }
+`;
+
 const NewIcon = styled.div`
   position: absolute;
 `;
 
-const ImgDiv = styled(Image)`
+const ImgDiv = styled.img`
   width: 75pt;
   height: 75pt;
   border: 1px solid #e2e5ed;
   border-radius: 50%;
   margin-right: 15pt;
   object-fit: cover;
+  @media (max-width: 899.25pt) {
+    width: 50pt;
+    height: 50pt;
+  }
 `;
 
 /*
