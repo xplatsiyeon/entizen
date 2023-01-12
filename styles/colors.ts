@@ -18,6 +18,7 @@ const colors = {
   gray2: '#747780',
   gray3: '#F3F4F7',
   gray4: '#e5e5e5',
+  gray5: '#464646',
   gold: '#FFD369',
   white: '#EEEEEE',
   lightWhite: '#FFFFFF',

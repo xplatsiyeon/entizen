@@ -5,11 +5,12 @@ import Back from 'public/adminImages/Back.png';
 import Image from 'next/image';
 
 type Props = {
-  type: 'main' | 'detail' | 'text';
+  type: 'main' | 'detail' | 'text' | 'admin';
   title: string;
   subTitle?: string;
   backBtn?: () => void;
   exelHide?: boolean;
+  deleteBtn?: boolean;
   WriteModalHandle?: () => void;
 };
 
@@ -19,6 +20,7 @@ const AdminHeader = ({
   subTitle,
   backBtn,
   exelHide,
+  deleteBtn,
   WriteModalHandle,
 }: Props) => {
   return (
@@ -56,7 +58,33 @@ const AdminHeader = ({
           </div>
         </DetailWrapper>
       )}
+      {type === 'admin' && (
+        <DetailWrapper>
+          <button className="backBtn" onClick={backBtn}>
+            <div className="imgBox">
+              <Image src={Back} alt={'back'} layout="fill" />
+            </div>
+            이전 페이지
+          </button>
 
+          <div className="sencondLine">
+            <span className="title">
+              <h1>{title}</h1>
+              <p>{subTitle}</p>
+            </span>
+            {deleteBtn && (
+              <button
+                className="deleteBtn"
+                onClick={() => {
+                  alert('개발중입니다.');
+                }}
+              >
+                아이디 삭제
+              </button>
+            )}
+          </div>
+        </DetailWrapper>
+      )}
       {type === 'text' && (
         <DetailWrapper>
           <button className="backBtn" onClick={WriteModalHandle}>
@@ -148,6 +176,17 @@ const DetailWrapper = styled.div`
     color: ${colors.gray2};
     padding: 3px 6px;
     cursor: pointer;
+  }
+  .deleteBtn {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    padding: 3px 6px;
+    cursor: pointer;
+    border: 1px solid ${colors.gray5};
+    border-radius: 4px;
+    color: ${colors.lightWhite};
+    background: ${colors.gray2};
   }
   .title {
     display: flex;

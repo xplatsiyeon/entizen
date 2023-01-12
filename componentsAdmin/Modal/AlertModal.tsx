@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { AdminBtn } from 'componentsAdmin/Layout';
+import { css } from '@emotion/react';
 
 type Props = {
   setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
   message: string;
   setIsDetail?: React.Dispatch<React.SetStateAction<boolean>>;
   setChangeNumber?: React.Dispatch<React.SetStateAction<boolean>>;
+  size?: 'sm' | 'md' | 'lg';
 };
 
 const AlertModal = ({
@@ -14,10 +16,11 @@ const AlertModal = ({
   message,
   setIsDetail,
   setChangeNumber,
+  size = 'md',
 }: Props) => {
   return (
     <Modal>
-      <ModalBox>
+      <ModalBox size={size}>
         <MessageText>{message}</MessageText>
         <AdminBtn
           onClick={() => {
@@ -61,7 +64,7 @@ const Modal = styled.div`
   z-index: 200;
 `;
 
-const ModalBox = styled.div`
+const ModalBox = styled.div<{ size: 'sm' | 'md' | 'lg' }>`
   background-color: #ffffff;
   top: 30%;
   left: 27%;
@@ -74,6 +77,13 @@ const ModalBox = styled.div`
   height: 138px;
   border-radius: 8px;
   padding: 10px;
+  ${({ size }) =>
+    size === 'lg' &&
+    css`
+      width: 400px;
+      height: 155px;
+      gap: 25px;
+    `};
 `;
 
 const MessageText = styled.div`

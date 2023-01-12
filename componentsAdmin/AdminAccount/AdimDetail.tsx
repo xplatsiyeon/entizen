@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import colors from 'styles/colors';
 
 type Props = {
@@ -9,42 +10,80 @@ type Props = {
 };
 
 const AdimDetail = ({ setIsDetail }: Props) => {
+  const [alertModal, setAlertModal] = useState(false);
+  const [writeModal, setWriteModal] = useState(false);
+
+  // 상세페이지 모달 클릭 이벤트
   const onClickBack = () => {
     setIsDetail((prev) => !prev);
   };
-  const onClickLeftModal = () => {};
-  const onClickRightModal = () => {};
+  // 안내 메시지 모달 클릭 이벤트
+  const onClickChangeBtn = () => {
+    setWriteModal(true);
+  };
+  // 변경 진행 여부 모달 왼쪽 클릭 이벤트
+  const onClickLeftModal = () => {
+    setWriteModal(false);
+  };
+  // 변경 진행 여부 모달 오른쪽 클릭 이벤트
+  const onClickRightModal = () => {
+    // 변경 api 호출
+    alert('개발중입니다.');
+    setWriteModal(false);
+    // setAlertModal(true);
+  };
   return (
     <Background>
-      <WriteModal
-        message="관리자 등급 변경을 진행하시겠습니까?"
-        subMessage={`관리자 등급 변경 진행 시 슈퍼관리자 권한은 \n권한을 부여받은 관리자에게 모두 넘어가게 됩니\n다. 계속 진행하시겠습니까?`}
-        leftBtn="취소"
-        leftBtnHandle={onClickLeftModal}
-        rightBtn="등급변경 진행"
-        rightBtnHandle={onClickRightModal}
-        size={'lg'}
-      />
+      {/* 안내 메세지 모달 */}
+      {alertModal && (
+        <AlertModal
+          size="lg"
+          message="관리자 등급 변경이 완료되었습니다."
+          setIsModal={setAlertModal}
+        />
+      )}
+      {/* 변경 진행 여부 모달 */}
+      {writeModal && (
+        <WriteModal
+          message="관리자 등급 변경을 진행하시겠습니까?"
+          subMessage={`관리자 등급 변경 진행 시 슈퍼관리자 권한은 \n권한을 부여받은 관리자에게 모두 넘어가게 됩니다.\n 계속 진행하시겠습니까?`}
+          leftBtn="취소"
+          leftBtnHandle={onClickLeftModal}
+          rightBtn="등급변경 진행"
+          rightBtnHandle={onClickRightModal}
+          size={'lg'}
+        />
+      )}
       <Wrapper>
+        {/* 헤더 */}
         <AdminHeader
           title="관리자 관리"
           subTitle="관리자 조회 상세"
-          type="detail"
+          type="admin"
+          deleteBtn={true}
           backBtn={onClickBack}
-          exelHide={false}
         />
+        {/* 본문 */}
+        {/* 2023.01.12(ljm) API 없어 가데이터로 view만 완료된 상태 */}
         <Line>
           <label>관리자 등급</label>
           <CheckBoxContainer>
             <div className="raidoBoxWrapper">
-              <input type={'radio'} className="radioBox" name="adminClass" />
+              <input
+                type={'radio'}
+                className="radioBox"
+                name="adminClass"
+                checked
+              />
               <span>일반관리자</span>
             </div>
             <div className="raidoBoxWrapper">
               <input type={'radio'} className="radioBox" name="adminClass" />
               <span>슈퍼관리자</span>
             </div>
-            <button className="adminBtn">변경</button>
+            <button className="adminBtn" onClick={onClickChangeBtn}>
+              변경
+            </button>
           </CheckBoxContainer>
         </Line>
         <Line>
@@ -93,7 +132,6 @@ const Line = styled.div`
   font-size: 16px;
   line-height: 150%;
   color: ${colors.main2};
-
   & > label {
     width: 90px;
     font-weight: 500;
@@ -107,6 +145,7 @@ const CheckBoxContainer = styled.div`
     margin-right: 4px;
     width: 16px;
     height: 16px;
+    cursor: pointer;
   }
   .raidoBoxWrapper {
     display: flex;
