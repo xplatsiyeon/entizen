@@ -49,7 +49,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
               <div key={idx}>
                 <LibraryList
                   onClick={() => {
-                    openExternalBrowser(userAgent, `${item.link}`);
+                    openExternalBrowser(userAgent, `${item?.link}`);
                   }}
                   index={number}
                 >
@@ -58,7 +58,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
                   </ProfileImg>
                   <TitleNDetail>
                     <LibraryTitle fontSize={fontSize ? fontSize : 0}>
-                      {item.title}
+                      {item?.title}
                     </LibraryTitle>
                     <DetailView smallfont={smallfont ? smallfont : 0}>
                       자세히 보기

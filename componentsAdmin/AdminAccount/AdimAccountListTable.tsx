@@ -70,7 +70,7 @@ const AdimAccountListTable = ({
                 `${page - 1 === 0 ? '' : page - 1}${
                   idx + 1 === page * 10 ? 0 : idx + 1
                 }`,
-
+                // '일반 관리자',
                 ele.id,
                 ele.name,
                 hyphenFn(ele.phone),
@@ -81,6 +81,7 @@ const AdimAccountListTable = ({
             setDataArr(temp);
             setColumns([
               '번호',
+              // '관리자 등급',
               '아이디',
               '이름',
               '전화번호',
@@ -95,7 +96,6 @@ const AdimAccountListTable = ({
                       onClick={() => {
                         setDetailId(cell);
                         setIsDetail(true);
-                        alert('개발중입니다.');
                       }}
                     >
                       보기

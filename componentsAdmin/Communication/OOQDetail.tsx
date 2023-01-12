@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -13,7 +13,8 @@ import AdminHeader from 'componentsAdmin/Header';
 import defaultImg from 'public/images/defaultImg.png';
 import fileImg from 'public/mypage/file-icon.svg';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenAdminGetApi, isTokenAdminPostApi } from 'api';
+import { isTokenAdminGetApi, isTokenAdminPostApi, multerApi } from 'api';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 
 // type ChattingLogs = {
 //   createdAt: string;
@@ -76,7 +77,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWR4IjoyLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NzI4MjE0NzcsImV4cCI6MTY3NTQxMzQ3NywiaXNzIjoiZW50aXplbi5rciJ9.pSbxSlPu8JiIyJa4ladTwADwgkr3o039lirhtOnnA_A';
   const queryClient = useQueryClient();
   const router = useRouter();
-  const routerId = router?.query?.chattingRoomIdx;
+  //const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
@@ -95,7 +96,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
       withCredentials: true,
     }).then((res) => res);
   };
-
+  
   // 채팅 내역 불러오는 api
   const {
     data: OOQDetailData,
@@ -159,6 +160,92 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
     },
   });
 
+  // image s3 multer 저장 API (with useMutation)
+  const { mutate: multerImage, isLoading: multerImageLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      chattingPostMutate({
+        url: `/chatting/${detatilId}`,
+        // url: `/chatting/2`,
+        data: {
+          content: null,
+          files: [
+            {
+              type: 'IMAGE',
+              url: res.uploadedFiles[0].url,
+              size: res.uploadedFiles[0].size,
+              originalName: decodeURIComponent(
+                res.uploadedFiles[0].originalName,
+              ),
+            },
+          ],
+        },
+      });
+      OOQDetailRefetch();
+      //setLoading(false)
+      setFileModal(false);
+    },
+    onError: (error: any) => {
+      setFileModal(false);
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+  // file s3 multer 저장 API (with useMutation)
+  const { mutate: multerFile, isLoading: multerFileLoading } = useMutation<
+    MulterResponse,
+    AxiosError,
+    FormData
+  >(multerApi, {
+    onSuccess: (res) => {
+      console.log(res);
+      chattingPostMutate({
+        url: `/chatting/${detatilId}`,
+        // url: `/chatting/2`,
+        data: {
+          content: null,
+          files: [
+            {
+              type: 'FILE',
+              url: res.uploadedFiles[0].url,
+              size: res.uploadedFiles[0].size,
+              originalName: decodeURIComponent(
+                res.uploadedFiles[0].originalName,
+              ),
+            },
+          ],
+        },
+      });
+      OOQDetailRefetch();
+      setFileModal(false);
+    },
+    onError: (error: any) => {
+      setFileModal(false);
+      if (error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+        setIsModal(true);
+      } else if (error.response.status === 413) {
+        setErrorMessage('용량이 너무 큽니다.');
+        setIsModal(true);
+      } else {
+        setErrorMessage('다시 시도해주세요');
+        setIsModal(true);
+      }
+    },
+  });
+
+
   // 인풋 텍스트 입력
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.currentTarget.value);
@@ -215,8 +302,8 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
         files![0],
         encodeURIComponent(files![0].name),
       );
-      // multerFile(formData);
-      // setLoading(true);
+       multerFile(formData);
+       setLoading(true);
       e.target.value = '';
     }
   };
@@ -233,8 +320,8 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
         files![0],
         encodeURIComponent(files![0].name),
       );
-      //  multerImage(formData);
-      //  setLoading(true)
+        multerImage(formData);
+        setLoading(true)
       e.target.value = '';
     }
   };

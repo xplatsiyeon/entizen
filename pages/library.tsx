@@ -41,14 +41,14 @@ const Library = () => {
             return (
               <List
                 onClick={() => {
-                  openExternalBrowser(userAgent, `${item.link}`);
+                  openExternalBrowser(userAgent, `${item?.link}`);
                 }}
               >
                 <ProfileImg>
-                  <ImgDiv src={`${item.imageUrl}`} />
+                  <ImgDiv src={`${item?.imageUrl}`} />
                 </ProfileImg>
                 <div className="text-box">
-                  <div>{item.title}</div>
+                  <div>{item?.title}</div>
                   <div className="color-box">
                     <div className="color-text" style={{ cursor: 'pointer' }}>
                       자세히 보기

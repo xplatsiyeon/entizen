@@ -194,7 +194,7 @@ const ChattingList = ({ data, refetch, chattingRoom }: Props) => {
                     <UnRead
                       wasRead={
                         data?.data?.chattingRooms?.entizenChattingRoom
-                          ?.chattingLog?.fromMemberIdx ===
+                          ?.chattingLog?.fromMemberIdx !==
                           data?.data?.chattingRooms?.entizenChattingRoom
                             ?.chattingRoomIdx! &&
                         !Boolean(
