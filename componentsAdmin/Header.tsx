@@ -5,7 +5,7 @@ import Back from 'public/adminImages/Back.png';
 import Image from 'next/image';
 
 type Props = {
-  type: 'main' | 'detail' | 'text';
+  type: 'main' | 'detail' | 'text' | 'adminAccount';
   title: string;
   subTitle?: string;
   backBtn?: () => void;
@@ -71,6 +71,32 @@ const AdminHeader = ({
               <h1>{title}</h1>
               <p>{subTitle}</p>
             </span>
+          </div>
+        </DetailWrapper>
+      )}
+      {type === 'adminAccount' && (
+        <DetailWrapper>
+          <button className="backBtn" onClick={backBtn}>
+            <div className="imgBox">
+              <Image src={Back} alt={'back'} layout="fill" />
+            </div>
+            이전 페이지
+          </button>
+
+          <div className="sencondLine">
+            <span className="title">
+              <h1>{title}</h1>
+              <p>{subTitle}</p>
+            </span>
+
+            <button
+              className="excelBtn"
+              onClick={() => {
+                alert('개발중입니다.');
+              }}
+            >
+              아이디 삭제
+            </button>
           </div>
         </DetailWrapper>
       )}
