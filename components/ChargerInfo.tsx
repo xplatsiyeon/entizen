@@ -460,6 +460,7 @@ const QuotationBtn = styled.div`
 
 const Wrapper = styled.div`
 overscroll-behavior: contain;
+ -webkit-overflow-scrolling: touch;
 
   //border:1px solid green;
   position: absolute;
