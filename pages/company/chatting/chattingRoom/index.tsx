@@ -12,6 +12,7 @@ import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { redirectAction } from 'store/redirectUrlSlice';
+import ChattingRoomLogsEntizen from 'components/Chatting/ChattingRoomLogsEntizen';
 
 type ChattingLogs = {
   createdAt: string;
@@ -53,6 +54,7 @@ const ChattingRoom = ({}: Props) => {
     dispatch(redirectAction.addUrl(router.asPath));
     router.push('/signin');
   } else {
+       console.log('앤타준? ', router.query.entizen) 
     return (
       <WebBody>
         <WebBuyerHeader setOpenSubLink={() => {}} />
@@ -62,7 +64,7 @@ const ChattingRoom = ({}: Props) => {
             <MobWrap>
               <ChattingLists chattingRoom={true} userChatting={false} />
             </MobWrap>
-            <ChattingRoomLogs userChatting={false} listRefetch={refetch} />
+           {router.query.entizen? <ChattingRoomLogsEntizen userChatting={true} listRefetch={refetch}/> : <ChattingRoomLogs userChatting={false} listRefetch={refetch} /> }
           </Body>
         </Wrapper>
         <WebFooter />

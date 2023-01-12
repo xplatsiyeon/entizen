@@ -35,6 +35,7 @@ import { AxiosError } from 'axios';
 import fileImg from 'public/mypage/file-icon.svg';
 import Modal from 'components/Modal/Modal';
 import chatFileAdd from 'public/images/chatFileAdd.png';
+import chatCamera from 'public/images/chatCamera.png';
 import chatPhotoAdd from 'public/images/chatPhotoAdd.png';
 import { ChattingListResponse } from './ChattingLists';
 import ReportModal from './ReportModal';
@@ -90,7 +91,7 @@ type Props = {
 };
 
 const TAG = 'pages/chatting/chattingRomm/index.tsx';
-const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
+const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const routerId = router?.query?.chattingRoomIdx;
@@ -98,7 +99,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  
   //나가기 모달
   const [moreModal, setMoreModal] = useState<boolean>(false);
   const [quitModal, setQuitModal] = useState<boolean>(false);
@@ -106,7 +106,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   // 신고하기 누르면 나오는 모달
   const [reportModal, setReportModal] = useState<boolean>(false);
 
-  // 에러 모달
+  // 에러 모달listRefetch
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -120,6 +120,8 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const loadingRef = useRef<HTMLDivElement>(null);
   const focusRef = useRef<HTMLInputElement>(null);
 
+  // console.log('앤타준? ', router.query) 
+  //{chattingRoomIdx: '14', entizen: 'true'}
 
   //   채팅방 내용 보기
   const {
@@ -508,6 +510,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
 
   useEffect(() => {
     setTimeout(() => {
+      listRefetch();
       console.log('처음에만');
       //focusRef.current?.focus();
       const width = window.innerWidth;
@@ -527,7 +530,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       }
     }, 2000);
 
-    listRefetch();
   }, []);
 
   // 앱에서 이미지 or 파일 온클릭 (앱->웹)
@@ -604,16 +606,16 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                           <ChatBox
                             userChatting={userChatting}
                             className={`${
-                              item.fromMemberType === 'USER'
-                                ? 'user'
-                                : 'company'
+                              item.fromMemberType === 'ADMIN'
+                                ? 'company'
+                                : 'user'
                             } chattingLog`}
                           >
                             <ImageWrap
                               className={
-                                item.fromMemberType === 'USER'
-                                  ? 'user'
-                                  : 'company'
+                                item.fromMemberType === 'ADMIN'
+                                  ? 'company'
+                                  : 'user'
                               }
                               userChatting={userChatting}
                             >
@@ -627,9 +629,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                               <Chat
                                 userChatting={userChatting}
                                 className={`${
-                                  item.fromMemberType === 'USER'
-                                    ? 'user'
-                                    : 'company'
+                                  item.fromMemberType === 'ADMIN'
+                                  ? 'company'
+                                  : 'user'
                                 }`}
                                 //tabIndex={1}
                               >
@@ -690,9 +692,9 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                             <WrapDate>
                               <P
                                 className={`${
-                                  item.fromMemberType === 'USER'
-                                    ? 'user-p'
-                                    : 'company-p'
+                                  item.fromMemberType === 'ADMIN'
+                                  ? 'company-p'
+                                  : 'user-p'
                                 } ${
                                   idx === d.logs.length - 1 ? 'p-target' : ''
                                 }`}
@@ -819,7 +821,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   );
 };
 
-export default ChattingRoomLogs;
+export default ChattingRoomLogsEntizen;
 
 const Body = styled.div`
   position: relative;
