@@ -34,6 +34,9 @@ const AlertModal = ({
             } else if (message === '삭제가 완료 됐습니다.' && setIsDetail) {
               setIsModal(false);
               setIsDetail(false);
+            } else if (message === '승인이 변경 됐습니다.' && setIsDetail) {
+              setIsModal(false);
+              setIsDetail(false);
             }
           }}
         >

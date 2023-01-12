@@ -1,13 +1,16 @@
 import styled from '@emotion/styled';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { useQuery, useQueryClient } from 'react-query';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import React, { useEffect, useRef, useState } from 'react';
+import { isTokenAdminGetApi } from 'api';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 import UserManagementTable from './UserManagementTable';
+import { ComUserData, UserData } from 'types/tableDataType';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;

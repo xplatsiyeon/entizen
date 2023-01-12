@@ -5,6 +5,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import MemberContents from './MemberContents';
 import ExitBtn from 'public/adminImages/Group.png';
+import { ComUserData, UserData } from 'types/tableDataType';
 import {
   isTokenAdminDeleteApi,
   isTokenAdminGetApi,
@@ -73,6 +74,15 @@ export interface CompanyResposne {
 }
 
 const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
+  // 기업회원 리스트 조회
+  const { data: comUserData, refetch: comUserDataRefetch } =
+    useQuery<ComUserData>('comUserInfo', () =>
+      isTokenAdminGetApi(
+        `/admin/members/companies?page=10&limit=10&startDate= '2022-09-05'
+          }&endDate=&searchType=&searchKeyword=`,
+      ),
+    );
+
   const queryClinet = useQueryClient();
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
@@ -152,6 +162,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   const modalDeleteCompanyBtnControll = () => {
     patchMutate({
       url: `/admin/members/companies/${memberIdx}/profile-image`,
+      data: { isAdminJoinApproved: approve },
     });
   };
 
@@ -163,6 +174,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     isError: patchApproveError,
   } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
+      queryClinet.invalidateQueries('comUserInfo');
       setMessageModal(true);
       setMessage('승인이 변경 됐습니다.');
     },
@@ -176,6 +188,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   const adminJoinApprove = () => {
     patchApproveMutate({
       url: `/admin/members/companies/${memberIdx}/approval`,
+      data: { isAdminJoinApproved: approve },
     });
   };
 
@@ -306,7 +319,9 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
           </button>
           <button
             onClick={() => {
-              adminJoinApprove();
+              if (approve !== undefined) {
+                adminJoinApprove();
+              }
             }}
           >
             수정
