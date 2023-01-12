@@ -4,6 +4,7 @@ import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
 import Attention from 'public/adminImages/Attention.svg';
 import { off } from 'process';
+import { css } from '@emotion/react';
 
 type Props = {
   message?: string;
@@ -12,6 +13,7 @@ type Props = {
   rightBtn?: string;
   leftBtnHandle?: () => void;
   rightBtnHandle?: () => void;
+  size: 'sm' | 'md' | 'lg';
 };
 
 const WriteModal = ({
@@ -21,6 +23,7 @@ const WriteModal = ({
   rightBtn,
   leftBtnHandle,
   rightBtnHandle,
+  size = 'md',
 }: Props) => {
   return (
     <Modal>
@@ -33,7 +36,7 @@ const WriteModal = ({
           </SubMessage>
         </MainMessage>
         <Line />
-        <BtnBox>
+        <BtnBox size={size}>
           {leftBtn && (
             <AdminBtn
               onClick={() => {
@@ -142,9 +145,15 @@ const SubMessage = styled.div`
   margin-left: 8px;
 `;
 
-const BtnBox = styled.div`
+const BtnBox = styled.div<{ size: 'sm' | 'md' | 'lg' }>`
   display: flex;
   align-items: center;
   gap: 8px;
   margin-left: 240px;
+  ${({ size }) =>
+    size === 'lg' &&
+    css`
+      border: 1px solid red;
+      width: 200px;
+    `};
 `;
