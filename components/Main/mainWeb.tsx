@@ -1,6 +1,6 @@
 import Carousel from 'components/Main/Carousel';
 import SalesProjection from 'components/Main/SalesProjection';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import LearnAbout from 'components/Main/LearnAbout';
@@ -28,6 +28,7 @@ import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 import UserRightMenu from 'components/UserRightMenu';
 import MainSlider from 'components/MainSlider';
+import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
 const Main = () => {
   const router = useRouter();
@@ -71,6 +72,11 @@ const Main = () => {
   if (quotationIsError || projectIsError) {
     console.log('에러 발생');
   }
+
+  // admin 페이지 리셋
+  useEffect(() => {
+    dispatch(adminPageNumberAction.reset());
+  }, []);
 
   return (
     <>

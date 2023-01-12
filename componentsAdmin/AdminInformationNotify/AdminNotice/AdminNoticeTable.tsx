@@ -67,7 +67,7 @@ const AdminNoticeTable = ({
           ?.slice(offset, offset + limit)
           ?.map((item, index) => (
             <List key={index}>
-              <span className="num">{index + 1}</span>
+              <span className="num">{page * 10 - 10 + (index + 1)}</span>
               <span className="notice">{item.title}</span>
               <span className="toggle">
                 <Toggle

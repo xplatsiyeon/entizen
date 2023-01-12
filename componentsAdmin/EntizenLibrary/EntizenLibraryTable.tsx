@@ -1,16 +1,11 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
-import { useQuery, useQueryClient } from 'react-query';
-import { api, getApi } from 'api';
+import { useQuery } from 'react-query';
+import { getApi } from 'api';
 import { Pagination } from 'rsuite';
-import { css } from '@emotion/react';
 import { EntizenLibraryResponse } from 'types/tableDataType';
 import { adminDateFomat, dateFomat } from 'utils/calculatePackage';
-import { useDispatch } from 'react-redux';
-import { NewCell } from '../AdminInformationNotify/AdminNotice/AdminNoticeList';
-import { AdminBtn } from 'componentsAdmin/Layout';
-import Image from 'next/image';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,12 +24,10 @@ const EntizenLibraryTable = ({
   setIsDetail,
   setDetailId,
   tableType,
-  detatilId,
   pickedDate,
   setAfterSalesServiceIdx,
   commonBtn,
   handleCommon,
-  onClickToggle,
   hide,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
@@ -45,9 +38,6 @@ const EntizenLibraryTable = ({
   // 오늘 날짜.
   const today = new Date();
   console.log(adminDateFomat(String(today)));
-
-  // 역경매 견적서 보기에 넘겨줄 아이디값
-  const dispatch = useDispatch();
 
   /*
   
@@ -95,7 +85,7 @@ const EntizenLibraryTable = ({
               '번호',
               {
                 name: '이미지',
-                width: '10%',
+                width: '150px',
                 id: 'entizenLibraryImg',
                 formatter: (cell: string) =>
                   _(
@@ -114,7 +104,7 @@ const EntizenLibraryTable = ({
               },
               {
                 name: '제목',
-                width: '20%',
+                width: '200px',
                 id: 'entizenLibraryTitle',
                 formatter: (cell: string) =>
                   _(
@@ -125,13 +115,13 @@ const EntizenLibraryTable = ({
               },
               {
                 name: '링크',
-                width: '20%',
+                width: '394px',
                 id: 'entizenLibraryLink',
                 formatter: (cell: string) => _(<LinkBox>{cell}</LinkBox>),
               },
               '등록일',
               {
-                name: '',
+                name: '보기버튼',
                 id: 'entizenLibrary',
                 formatter: (cell: string) =>
                   _(
@@ -226,7 +216,6 @@ const StyledBody = styled.div`
   margin: 32px 0 0;
   min-width: 1200px;
   width: 100%;
-
   .hidden {
     visibility: hidden;
   }
@@ -238,13 +227,13 @@ const StyledBody = styled.div`
     font-size: 16px;
     line-height: 150%;
     color: #000000;
-
     thead {
       tr {
         min-width: 1200px;
         width: 100%;
         display: flex;
         align-items: center;
+        padding: 0 20px;
         justify-content: space-between;
       }
       font-weight: 500;
@@ -265,6 +254,9 @@ const StyledBody = styled.div`
       }
       th:nth-child(5) {
       }
+      th:nth-child(6) {
+        visibility: hidden;
+      }
     }
     tbody {
       font-weight: 400;
@@ -273,6 +265,7 @@ const StyledBody = styled.div`
         min-width: 1200px;
         width: 100%;
         align-items: center;
+        padding: 0 20px;
         justify-content: space-between;
 
         td {
@@ -363,6 +356,7 @@ const BtnGap = styled.div`
 `;
 
 const LibraryImage = styled.div`
+  width: 245px;
   /* position: absolute; */
   /* top: 50%;
   left: 50%;
@@ -370,13 +364,13 @@ const LibraryImage = styled.div`
 `;
 
 const TitleBox = styled.div`
+  /* border: 1px solid red; */
   background-color: #fbfcff;
   border: 1px solid #e2e5ed;
   padding: 8px 10px;
   width: 200px;
   height: 82px;
   overflow-y: scroll;
-  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
