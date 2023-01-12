@@ -66,17 +66,17 @@ const Main = () => {
     }
   };
 
+  // admin 페이지 리셋
+  useEffect(() => {
+    dispatch(adminPageNumberAction.reset());
+  }, []);
+
   if (quotationIsLoading || projectIsLoading) {
     return <Loader />;
   }
   if (quotationIsError || projectIsError) {
     console.log('에러 발생');
   }
-
-  // admin 페이지 리셋
-  useEffect(() => {
-    dispatch(adminPageNumberAction.reset());
-  }, []);
 
   return (
     <>
