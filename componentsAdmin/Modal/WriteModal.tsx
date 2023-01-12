@@ -13,7 +13,7 @@ type Props = {
   rightBtn?: string;
   leftBtnHandle?: () => void;
   rightBtnHandle?: () => void;
-  size: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg';
 };
 
 const WriteModal = ({

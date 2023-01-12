@@ -11,7 +11,7 @@ type Props = {
 };
 
 const AdminAccountList = ({ setNowHeight }: Props) => {
-  const [isDetail, setIsDetail] = useState(true);
+  const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   // 엑셀 다운로드 버튼
   const handleCommon = () => {
