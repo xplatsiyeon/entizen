@@ -356,7 +356,7 @@ const BtnGap = styled.div`
 `;
 
 const LibraryImage = styled.div`
-  width: 260px;
+  width: 245px;
   /* position: absolute; */
   /* top: 50%;
   left: 50%;
