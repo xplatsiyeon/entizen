@@ -72,13 +72,13 @@ const ChargerInfo = ({
       if( Math.abs(sRef2.current - endY) > 30 ){
           if(target.scrollTop !== 0 && ref.current){
             check.current = 1;
-            alert( check.current )
+            alert( '1' )
           }
           if((target.scrollTop < 30) && ref.current){
             if(check.current !== 0){
               check.current = 0;
               console.log('now',check.current)
-              alert( check.current )
+              alert( '00' )
             }else{
               ref.current.style.height = '0px';
             }
