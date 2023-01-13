@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
+import { css } from '@emotion/react';
 import { handleLogoutOnClickModalClick } from 'api/logout';
 import axios from 'axios';
 import PasswordModal from 'components/Modal/PasswordModal';
@@ -14,6 +15,7 @@ import { RootState } from 'store/store';
 import colors from 'styles/colors';
 import { kakaoInit } from 'utils/kakao';
 import jwt_decode from 'jwt-decode';
+import { Padding } from '@mui/icons-material';
 type Props = {
   tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
@@ -38,6 +40,8 @@ const SettingMain = ({
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [checkPassword, setCheckPassword] = useState<boolean>(false);
   const [passowrdValid, setPassowrdValid] = useState(false);
+
+  console.log('leftTabNumber', leftTabNumber);
 
   // 네이버 로그아웃
   const NaverLogout = async () => {
@@ -177,7 +181,7 @@ const SettingMain = ({
   // 판매자인지 구매자인지
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
   return (
-    <WebRapper leftTabNumber={leftTabNumber}>
+    <WebRapper leftTabNumber={leftTabNumber} userID={userID}>
       {passwordModal && (
         <PasswordModal
           passowrdValid={passowrdValid}
@@ -237,36 +241,42 @@ const SettingMain = ({
       </Version>
       <Wrapper>
         <ListWrapper>
-          <SettingList
-            onClick={() => {
-              setTabNumber(1);
-              setLeftTabNumber(1);
-              router.push({
-                pathname: '/setting',
-                query: { id: 1 },
-              });
-            }}
-          >
-            알림 설정
-          </SettingList>
-          <SettingList
-            onClick={() => {
-              setTabNumber(2);
-              setLeftTabNumber(1);
-              router.push({
-                pathname: '/setting',
-                query: { id: 2 },
-              });
-            }}
-          >
-            1:1 문의
-          </SettingList>
+          {userID && (
+            <SettingList
+              onClick={() => {
+                setTabNumber(1);
+                setLeftTabNumber(1);
+                router.push({
+                  pathname: '/setting',
+                  query: { id: 1 },
+                });
+              }}
+            >
+              알림 설정
+            </SettingList>
+          )}
+          {userID && (
+            <SettingList
+              onClick={() => {
+                setTabNumber(2);
+                setLeftTabNumber(1);
+                router.push({
+                  pathname: '/setting',
+                  query: { id: 2 },
+                });
+              }}
+            >
+              1:1 문의
+            </SettingList>
+          )}
           <SettingList
             onClick={() => {
               if (memberType === 'USER') {
                 router.push('/faq');
               } else if (memberType === 'COMPANY') {
                 router.push('/company/faq');
+              } else if (userID !== undefined) {
+                router.push('/faq');
               }
             }}
           >
@@ -305,14 +315,19 @@ const SettingMain = ({
 
 export default SettingMain;
 
-const WebRapper = styled.div<{ leftTabNumber: number }>`
+const WebRapper = styled.div<{ leftTabNumber: number; userID: string | null }>`
   @media (min-width: 900pt) {
     /* padding: 32px 150px 180px 51px; */
     /* padding: 32px 550px 180px 51px; */
     padding: ${({ leftTabNumber }) =>
       leftTabNumber === 1
-        ? '24pt 81.75pt 135pt 38.25pt'
+        ? '24pt 81.75pt 245pt 38.25pt'
         : '24pt 412.5pt 135pt 38.25pt'};
+    ${({ userID }) =>
+      userID === null &&
+      css`
+        padding: 24pt 81.75pt 452pt 38.25pt;
+      `}
     border-radius: 12pt;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     background-color: #ffffff;
@@ -321,6 +336,7 @@ const WebRapper = styled.div<{ leftTabNumber: number }>`
 
 const Wrapper = styled.div`
   position: relative;
+
   @media (max-width: 899.25pt) {
     height: 100%;
     display: block;

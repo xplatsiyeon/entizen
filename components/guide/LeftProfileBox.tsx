@@ -108,7 +108,8 @@ const Inner = styled.div`
   position: relative;
   margin: 45.75pt auto;
   width: 255pt;
-  height: 597pt;
+  /* height: 597pt; */
+  height: 535pt;
   overflow-y: scroll;
   //width: 281.25pt;
   background: #ffff;

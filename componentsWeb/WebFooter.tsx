@@ -6,8 +6,10 @@ import Insta from 'public/images/insta.png';
 import Pencil from 'public/images/pencil.png';
 import apple from 'public/images/appleLogo.png';
 import google from 'public/images/googlePlayIcon.png';
+import { useRouter } from 'next/router';
 
 const WebFooter = () => {
+  const router = useRouter();
   return (
     <Wrapper>
       <Inner>
@@ -16,8 +18,8 @@ const WebFooter = () => {
             <Link href="/">
               <li>사업자 정보 확인</li>
             </Link>
-            <Link href="/">
-              <li>이용약관</li>
+            <Link href="/setting?id=3">
+              <li style={{ cursor: 'pointer' }}>이용약관</li>
             </Link>
             <Link href="/">
               <li>개인정보 처리방침</li>
