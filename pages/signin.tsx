@@ -587,16 +587,7 @@ const Signin = () => {
                     )}
                   </Box>
                 </Box>
-                <div id="appleid-signin" data-color="black" data-border="true" data-type="sign in" onClick={()=>{
-                  //handle successful response 
-                  document.addEventListener('AppleIDSignInOnSuccess', (data) => {
-                    alert("성공");
-                  });
-                  //Listen for authorization failures
-                  document.addEventListener('AppleIDSignInOnFailure', (error) => {
-                    alert("실패");
-                  });
-                }}></div>
+                {/*<div id="appleid-signin" data-color="black" data-border="true" data-type="sign in"></div>*/}
                 {/* {selectedLoginType === 0 && (
                   <>
                     <Box
