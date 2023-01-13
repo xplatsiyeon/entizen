@@ -178,7 +178,6 @@ const Wrapper = styled.div`
   display: flex;
   gap: 60pt;
   flex-direction: row;
-
   @media (max-width: 899.25pt) {
     padding-bottom: 60pt;
     flex-direction: column;
@@ -191,7 +190,7 @@ const Wrapper = styled.div`
 const FlexBox = styled.div`
   border: 1px solid #e2e5ed;
   border-radius: 12pt;
-  height: 340pt;
+  height: 400pt;
   width: 216pt;
   padding: 42pt 19.5pt;
 
@@ -207,7 +206,7 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 21pt 15pt 0 15pt;
+  padding: 0 15pt 0 15pt;
   & h1 {
     font-weight: 700;
     font-size: 21pt;
@@ -232,6 +231,7 @@ const Header = styled.header`
 `;
 const Body = styled.div`
   padding-top: 15pt;
+
   .profile-icon {
     margin-left: 15pt;
     font-weight: 400;

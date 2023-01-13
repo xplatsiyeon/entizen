@@ -396,8 +396,11 @@ const Signin = () => {
   return (
     <React.Fragment>
       <Head>
-      <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
-      {/* 만약 팝업을 사용할 수 있다면 애플 로그인을 그냥 js 를 통해서 사용할 수 있겠지만, 
+        <script
+          type="text/javascript"
+          src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"
+        ></script>
+        {/* 만약 팝업을 사용할 수 있다면 애플 로그인을 그냥 js 를 통해서 사용할 수 있겠지만, 
         하이브리드 앱의 경우엔 인앱 브라우저 기능을 통해서 해당 페이지를 띄우므로 
         인앱 브라우저 상에서 팝업 기능을 사용하는 것이 제한되는 경우가 많았습니다. 
         따라서 저는 아래와 같은 세팅으로 popup 을 false 처리 한 후 라이브러리를 이용하였습니다. */}

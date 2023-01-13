@@ -262,6 +262,7 @@ const Wrapper = styled.div`
     width: 580.5pt;
     box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
     border-radius: 12pt;
+    padding-bottom: 25pt;
   }
   @media (max-width: 899.25pt) {
     display: none;

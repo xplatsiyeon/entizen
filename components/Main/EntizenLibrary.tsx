@@ -43,7 +43,7 @@ const EntizenLibrary = ({ fontSize, smallfont }: Props) => {
       <Wrapper>
         <LearnText>엔티즌 도서관</LearnText>
         <BoardBox>
-          {data?.data?.map((item, idx) => {
+          {data?.data?.slice(0, 4).map((item, idx) => {
             const number = (idx + 1) % 2;
             return (
               <div key={idx}>
@@ -208,8 +208,7 @@ const BoardBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  height: 280pt;
-  overflow-y: hidden;
+
   @media (max-width: 899.25pt) {
     padding-left: 0;
     padding-right: 0;

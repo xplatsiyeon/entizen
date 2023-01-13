@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
 import colors from 'styles/colors';
+import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import blackWhiteArrow from 'public/images/blackWhiteArrow40.png';
 import whiteBlackArrow from 'public/images/whiteBlackArrow40.png';
 import bulb from 'public/images/bulb.png';
@@ -13,6 +14,8 @@ import mainArrow1 from 'public/images/mainArrow1.png';
 import mainArrow2 from 'public/images/mainArrow2.png';
 import mainArrow3 from 'public/images/mainArrow3.png';
 import router, { useRouter } from 'next/router';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
 
 type Props = {};
 
@@ -31,6 +34,15 @@ interface MenuList {
 const WhyEntizenHorizontal = (props: Props) => {
   const userID = sessionStorage.getItem('USER_ID');
   const router = useRouter();
+  // 제휴문의 채팅방 보내기
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+  );
+
+  const chattingRoomIdx =
+    data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
+
   const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',
@@ -83,11 +95,19 @@ const WhyEntizenHorizontal = (props: Props) => {
       case '플랫폼 가이드':
         return router.push('/guide/1-1');
       case '구독 가이드':
-        return userID ? router.push('/guide/1-2') : router.push('/signin');
+        return userID ? router.push('/mypage') : router.push('/signin');
       case '충전기 가이드':
-        return router.push('/guide/1-4');
+        return userID
+          ? router.push({
+              pathname: `/chatting/chattingRoom`,
+              query: {
+                chattingRoomIdx: chattingRoomIdx,
+                entizen: true,
+              },
+            })
+          : router.push('/signin');
       case '보조금 가이드':
-        return router.push('/chargerMap');
+        return userID ? router.push('/mypage?id=3') : router.push('/signin');
       default:
         break;
     }

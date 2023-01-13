@@ -185,6 +185,17 @@ const FindPassword = () => {
                 width: '100%',
               }}
             >
+              <HeadWrapper>
+                <HeaderText
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    router.push('/signin');
+                  }}
+                >{`${'<'}`}</HeaderText>
+                <HeaderText style={{ margin: '0 auto' }}>
+                  아이디 / 비밀번호 찾기
+                </HeaderText>
+              </HeadWrapper>
               <NewPassword>새 비밀번호를 설정해주세요</NewPassword>
               <Input
                 placeholder="비밀번호 입력"
@@ -265,6 +276,23 @@ const WebBody = styled.div`
   }
 `;
 
+const HeadWrapper = styled.div`
+  display: flex;
+  @media (max-width: 899.25pt) {
+    display: none;
+  }
+`;
+
+const HeaderText = styled.div`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 18pt;
+  font-weight: 700;
+  line-height: 21pt;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #222222;
+`;
+
 const Inner = styled.div`
   display: block;
   position: relative;
@@ -274,7 +302,7 @@ const Inner = styled.div`
   background: #ffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
-  padding: 32.25pt 0 42pt;
+  padding: 5.25pt 0 42pt;
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -293,13 +321,25 @@ const BeforePassword = styled.p`
   text-align: left;
 `;
 const NewPassword = styled.p`
-  font-family: Spoqa Han Sans Neo;
+  font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 500;
   margin-top: 30pt;
   line-height: 12pt;
   letter-spacing: -0.02em;
   text-align: left;
+
+  @media (min-width: 900pt) {
+    font-family: 'Spoqa Han Sans Neo';
+    font-size: 15pt;
+    font-weight: 700;
+    line-height: 22.5pt;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #222222;
+    padding-bottom: 21pt;
+    margin-top: 45.75pt;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -344,6 +384,10 @@ const BtnBox = styled.div`
   bottom: 35pt;
   width: 100%;
   padding: 0 15pt;
+  @media (min-width: 900pt) {
+    position: static;
+    padding: 30pt 0 0 0;
+  }
 `;
 const Btn = styled.button`
   background: ${colors.main};
