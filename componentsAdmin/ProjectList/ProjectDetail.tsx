@@ -230,11 +230,6 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     }
   }, [data]);
 
-  console.log(
-    '💔 기타 요청 사항 💔',
-    data?.data?.project?.finalQuotation?.preQuotation?.quotationRequest
-      ?.etcRequest,
-  );
   const elseRequest =
     data?.data?.project?.finalQuotation?.preQuotation?.quotationRequest
       ?.etcRequest;
@@ -320,21 +315,32 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
               <Label>리뷰현황</Label>
               <Contents>
                 {data?.data?.project?.projectReview === null ? (
-                  <ReviewBtn>리뷰가 없습니다</ReviewBtn>
+                  <ProjectBtn>리뷰가 없습니다</ProjectBtn>
                 ) : (
-                  <ReviewBtn
+                  <ProjectBtn
                     cursor={true}
                     onClick={() => {
                       setReviewModal(true);
                     }}
                   >
                     리뷰현황 보기
-                  </ReviewBtn>
+                  </ProjectBtn>
                 )}
               </Contents>
             </List>
           </CompanyInfoContainer>
-          <Name className="notFirst">프로젝트 정보</Name>
+          <ButtonFlex>
+            <Name className="projectInfo">프로젝트 정보</Name>
+            <ProjectBtn
+              onClick={() => {
+                setProjectModal(true);
+              }}
+              margin={true}
+              cursor={true}
+            >
+              최종승인 완료
+            </ProjectBtn>
+          </ButtonFlex>
           <ProjectInfoContainer>
             <List>
               <Label>프로젝트 번호</Label>
@@ -342,7 +348,12 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
             </List>
             <List>
               <Label>진행단계</Label>
-              <Contents>{data?.data?.project?.currentStep}</Contents>
+              {/* <Contents>{data?.data?.project?.currentStep}</Contents> */}
+              {finalApprove === true ? (
+                <Contents approve={true}>관리자 승인 대기 중</Contents>
+              ) : (
+                <Contents>{data?.data?.project?.currentStep}</Contents>
+              )}
             </List>
             <List>
               <Label>단계별 일정</Label>
@@ -497,14 +508,6 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
               </Contents>
             </List>
           </ProjectInfoContainer>
-
-          <FinalButtonBox
-            onClick={() => {
-              setProjectModal(true);
-            }}
-          >
-            최종승인 완료
-          </FinalButtonBox>
         </Main>
       </Wrapper>
     </Background>
@@ -536,6 +539,9 @@ const Name = styled.h2`
   &.notFirst {
     margin-top: 32px;
   }
+  &.projectInfo {
+    margin-top: 0;
+  }
 `;
 const UserInfoContainer = styled.ul`
   border: 2px solid ${colors.lightGray5};
@@ -561,11 +567,12 @@ const Label = styled.label`
   width: 129px;
   margin-right: 37px;
 `;
-const Contents = styled.span`
+const Contents = styled.span<{ approve?: boolean }>`
   font-weight: 500;
   font-size: 16px;
   line-height: 150%;
-  color: ${colors.main2};
+  color: ${({ approve }) => (approve === true ? '#F75015' : `${colors.main2}`)};
+  font-weight: ${({ approve }) => approve && '700'};
 `;
 const TextBox = styled.textarea`
   width: 748px;
@@ -611,10 +618,7 @@ const FinalButtonBox = styled.button`
   background: #e2e5ed;
   border: 1px solid #747780;
   border-radius: 2px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  position: absolute;
-  left: 883px;
+  height: 30px;
 `;
 
 const FileContainer = styled.div`
@@ -661,7 +665,7 @@ const FileContainer = styled.div`
   }
 `;
 
-const ReviewBtn = styled.div<{ cursor?: boolean }>`
+const ProjectBtn = styled.div<{ cursor?: boolean; margin?: boolean }>`
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
@@ -672,6 +676,15 @@ const ReviewBtn = styled.div<{ cursor?: boolean }>`
   border: 1px solid #747780;
   border-radius: 2px;
   cursor: ${({ cursor }) => cursor === true && 'pointer'};
+  height: 30px;
+  margin-bottom: ${({ margin }) => margin === true && '5px'};
+`;
+
+const ButtonFlex = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32px;
 `;
 
 const BtnText = styled.div`
