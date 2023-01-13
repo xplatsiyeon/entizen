@@ -27,7 +27,7 @@ const WriteModal = ({
 }: Props) => {
   return (
     <Modal>
-      <ModalBox>
+      <ModalBox size={size}>
         <MainMessage>
           <Image src={Attention} alt="Attention" />
           <SubMessage>
@@ -90,7 +90,7 @@ const Modal = styled.div`
   z-index: 200;
 `;
 
-const ModalBox = styled.div`
+const ModalBox = styled.div<{ size: 'sm' | 'md' | 'lg' }>`
   background-color: #ffffff;
   top: 30%;
   left: 27%;
@@ -103,6 +103,13 @@ const ModalBox = styled.div`
   height: 160px;
   border-radius: 8px;
   padding: 10px;
+  ${({ size }) =>
+    size === 'lg' &&
+    css`
+      width: 430px;
+      height: 219px;
+      padding: 20px;
+    `};
 `;
 
 const MessageText = styled.div`
@@ -153,7 +160,7 @@ const BtnBox = styled.div<{ size: 'sm' | 'md' | 'lg' }>`
   ${({ size }) =>
     size === 'lg' &&
     css`
-      border: 1px solid red;
-      width: 200px;
+      margin-left: 220px;
+      width: 180px;
     `};
 `;

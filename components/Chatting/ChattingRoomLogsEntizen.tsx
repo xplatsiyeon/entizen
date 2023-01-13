@@ -507,7 +507,6 @@ const ChattingRoomLogsEntizen = ({ userChatting, listRefetch }: Props) => {
       }
     }
   }, [routerId, chattingData]); //의존성 배열, 호출할때만으로 정해야 함.
-
   useEffect(() => {
     setTimeout(() => {
       listRefetch();
@@ -1046,7 +1045,7 @@ const DateChatting = styled.div`
     }
     .company-p {
       &.p-target {
-        display: block;
+        display: none;
       }
     }
   }

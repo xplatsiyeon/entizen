@@ -695,7 +695,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
                                     : 'company-p'
                                 } ${
                                   idx === d.logs.length - 1 ? 'p-target' : ''
-                                }`}
+                                } ???`}
                                 userChatting={userChatting}
                               >
                                 {item.wasRead ? '읽음' : ''}
@@ -1036,18 +1036,6 @@ const DateChatting = styled.div`
     right: 0;
     z-index: -1;
   }
-  &.target-p {
-    .user-p {
-      &.p-target {
-        display: block;
-      }
-    }
-    .company-p {
-      &.p-target {
-        display: block;
-      }
-    }
-  }
 `;
 const Date = styled.span`
   display: inline-block;
@@ -1182,4 +1170,16 @@ const P = styled.p<{ userChatting: boolean }>`
   letter-spacing: -0.02em;
   color: #caccd1;
   display: none;
+
+    &.user-p {
+      &.p-target {
+        display: ${({ userChatting }) => (userChatting ? 'block' : 'none')};
+      }
+    }
+    &.company-p {
+      &.p-target {
+        display: ${({ userChatting }) => (userChatting ? 'none' : 'block')};
+      }
+    }
+  
 `;

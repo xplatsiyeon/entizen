@@ -238,6 +238,8 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
           type="detail"
           backBtn={WriteModalHandle}
           exelHide={true}
+          detailApprove={approve}
+          detailModify={adminJoinApprove}
         />
         <InfoBox>
           {userAvatar !== null && companyAvatar !== null ? (
@@ -301,7 +303,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
               : companyData?.data?.member?.etc}
           </textarea>
         </TextAreaContainer>
-        <ButtonBox>
+        {/* <ButtonBox>
           <button
             onClick={() => {
               alert('개발중입니다.');
@@ -318,7 +320,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
           >
             수정
           </button>
-        </ButtonBox>
+        </ButtonBox> */}
       </Wrapper>
     </Background>
   );

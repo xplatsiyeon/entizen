@@ -5,12 +5,15 @@ import Back from 'public/adminImages/Back.png';
 import Image from 'next/image';
 
 type Props = {
-  type: 'main' | 'detail' | 'text' | 'adminAccount';
+  type: 'main' | 'detail' | 'text' | 'admin';
   title: string;
   subTitle?: string;
   backBtn?: () => void;
   exelHide?: boolean;
+  deleteBtn?: boolean;
   WriteModalHandle?: () => void;
+  detailApprove?: boolean;
+  detailModify?: () => void;
 };
 
 const AdminHeader = ({
@@ -19,7 +22,10 @@ const AdminHeader = ({
   subTitle,
   backBtn,
   exelHide,
+  deleteBtn,
   WriteModalHandle,
+  detailApprove,
+  detailModify,
 }: Props) => {
   return (
     <>
@@ -44,19 +50,66 @@ const AdminHeader = ({
               <p>{subTitle}</p>
             </span>
             {exelHide && (
+              <ButtonBox>
+                <button
+                  className="excelBtn"
+                  onClick={() => {
+                    alert('개발중입니다.');
+                  }}
+                >
+                  엑셀 다운로드
+                </button>
+                {/* <button
+                  className="btn"
+                  onClick={() => {
+                    alert('개발중입니다.');
+                  }}
+                >
+                  회원삭제
+                </button> */}
+
+                <button
+                  className="btn"
+                  onClick={() => {
+                    if (detailApprove !== undefined) {
+                      detailModify!();
+                    }
+                  }}
+                >
+                  수정
+                </button>
+              </ButtonBox>
+            )}
+          </div>
+        </DetailWrapper>
+      )}
+      {type === 'admin' && (
+        <DetailWrapper>
+          <button className="backBtn" onClick={backBtn}>
+            <div className="imgBox">
+              <Image src={Back} alt={'back'} layout="fill" />
+            </div>
+            이전 페이지
+          </button>
+
+          <div className="sencondLine">
+            <span className="title">
+              <h1>{title}</h1>
+              <p>{subTitle}</p>
+            </span>
+            {deleteBtn && (
               <button
-                className="excelBtn"
+                className="deleteBtn"
                 onClick={() => {
                   alert('개발중입니다.');
                 }}
               >
-                엑셀 다운로드
+                아이디 삭제
               </button>
             )}
           </div>
         </DetailWrapper>
       )}
-
       {type === 'text' && (
         <DetailWrapper>
           <button className="backBtn" onClick={WriteModalHandle}>
@@ -71,32 +124,6 @@ const AdminHeader = ({
               <h1>{title}</h1>
               <p>{subTitle}</p>
             </span>
-          </div>
-        </DetailWrapper>
-      )}
-      {type === 'adminAccount' && (
-        <DetailWrapper>
-          <button className="backBtn" onClick={backBtn}>
-            <div className="imgBox">
-              <Image src={Back} alt={'back'} layout="fill" />
-            </div>
-            이전 페이지
-          </button>
-
-          <div className="sencondLine">
-            <span className="title">
-              <h1>{title}</h1>
-              <p>{subTitle}</p>
-            </span>
-
-            <button
-              className="excelBtn"
-              onClick={() => {
-                alert('개발중입니다.');
-              }}
-            >
-              아이디 삭제
-            </button>
           </div>
         </DetailWrapper>
       )}
@@ -175,6 +202,17 @@ const DetailWrapper = styled.div`
     padding: 3px 6px;
     cursor: pointer;
   }
+  .deleteBtn {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    padding: 3px 6px;
+    cursor: pointer;
+    border: 1px solid ${colors.gray5};
+    border-radius: 4px;
+    color: ${colors.lightWhite};
+    background: ${colors.gray2};
+  }
   .title {
     display: flex;
     gap: 6pt;
@@ -186,5 +224,33 @@ const DetailWrapper = styled.div`
     display: flex;
     width: 12px;
     height: 12px;
+  }
+`;
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  /* width: 100%; */
+  gap: 12px;
+  margin-top: 16px;
+  .btn {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    text-align: center;
+    color: ${colors.lightWhite};
+    min-width: 64px;
+    height: 26px;
+    background: #747780;
+    border: 1px solid #464646;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .excelBtn {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    color: ${colors.gray2};
+    padding: 3px 6px;
+    cursor: pointer;
   }
 `;
