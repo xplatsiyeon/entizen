@@ -405,10 +405,7 @@ const Signin = () => {
         인앱 브라우저 상에서 팝업 기능을 사용하는 것이 제한되는 경우가 많았습니다. 
         따라서 저는 아래와 같은 세팅으로 popup 을 false 처리 한 후 라이브러리를 이용하였습니다. */}
         <meta name="appleid-signin-client-id" content="com.entizen.applekey" />
-        <meta
-          name="appleid-signin-redirect-uri"
-          content="https://test-api.entizen.kr/signin"
-        />
+        <meta name="appleid-signin-redirect-uri" content="https://test-api.entizen.kr/api/auth/apple" />
         <meta name="appleid-signin-state" content="" />
         <meta name="appleid-signin-use-popup" content="false" />
       </Head>
@@ -593,12 +590,7 @@ const Signin = () => {
                     )}
                   </Box>
                 </Box>
-                {/* <div
-                  id="appleid-signin"
-                  data-color="black"
-                  data-border="true"
-                  data-type="sign in"
-                ></div> */}
+                <div id="appleid-signin" data-color="black" data-border="true" data-type="sign in"></div>
                 {/* {selectedLoginType === 0 && (
                   <>
                     <Box
