@@ -82,9 +82,12 @@ const Charging = ({ listUp }: Props) => {
                   // 뱃지 관련 컬러는 나중에 수정
                   // backgroundColor={handleColor2(el?.badge)}
                   backgroundColor={handleColor(el?.badge)}
+                  // bottom={'12pt'}
+                  // top={'4.5pt'}
+                  // left={'0pt'}
                   bottom={'12pt'}
-                  top={'4.5pt'}
-                  left={'0pt'}
+                  top={'12pt'}
+                  left={'12pt'}
                 />
                 <P>{el?.projectName}</P>
                 <P2>
@@ -112,46 +115,86 @@ const List = styled.ul<{ listUp: boolean }>`
   margin: 30pt 0;
   padding: 15pt;
   gap: 11pt;
-  /* border: 1px solid blue; */
   @media (min-width: 900pt) {
-    width: 580.5pt;
+    /* width: 580.5pt;
     padding-top: 0;
     margin: 0;
     display: grid;
     grid-template-columns: repeat(3, 178.5pt);
+    gap: 22.5pt; */
+    width: 580.5pt;
+    margin: 0;
+    padding: 0 0 15pt 0;
     gap: 22.5pt;
   }
 `;
 
 const ProjectBox = styled.li`
-  width: 96pt;
+  /* width: 96pt;
   height: 111pt;
   padding: 12pt;
   background: #ffffff;
   box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 6pt;
   position: relative;
+
   @media (min-width: 900pt) {
     width: 155pt;
+    padding: 12pt;
     height: 91pt;
     cursor: pointer;
+  } */
+  width: 120pt;
+  height: 135pt;
+  background: #ffffff;
+  box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
+  border-radius: 6pt;
+  position: relative;
+  cursor: pointer;
+  @media (min-width: 900pt) {
+    width: 178.5pt;
+    height: 99pt;
   }
 `;
+// const P = styled.p`
+//   font-family: 'Spoqa Han Sans Neo';
+//   font-size: 12pt;
+//   font-weight: 700;
+//   line-height: 15pt;
+//   letter-spacing: -0.02em;
+//   top: 43.5pt;
+//   left: 12pt;
+//   max-width: 96pt;
+//   position: absolute;
+//   @media (min-width: 900pt) {
+//     font-size: 12pt;
+//     max-width: 150pt;
+//   }
+// `;
+
 const P = styled.p`
   font-family: 'Spoqa Han Sans Neo';
   font-size: 12pt;
   font-weight: 700;
   line-height: 15pt;
   letter-spacing: -0.02em;
-  top: 43.5pt;
+  top: 39pt;
   left: 12pt;
-  max-width: 96pt;
   position: absolute;
-  @media (min-width: 900pt) {
-    font-size: 12pt;
-    max-width: 150pt;
-  }
+  padding-right: 12.75pt;
 `;
+
+// const P2 = styled.p`
+//   font-family: 'Spoqa Han Sans Neo';
+//   font-size: 10.5pt;
+//   font-weight: 400;
+//   line-height: 12pt;
+//   letter-spacing: -0.02em;
+//   left: 12pt;
+//   bottom: 12pt;
+//   position: absolute;
+//   color: #caccd1;
+// `;
 
 const P2 = styled.p`
   font-family: 'Spoqa Han Sans Neo';

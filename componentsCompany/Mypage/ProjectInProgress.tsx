@@ -139,7 +139,8 @@ const ContentsContainer = styled.div`
   @media (min-width: 900pt) {
     display: grid;
     grid-template-columns: repeat(3, 178.5pt);
-    grid-column-gap: 22.5pt;
+    grid-column-gap: 25.5pt;
+    grid-row-gap: 20pt;
     margin: 0 auto;
   }
 `;
@@ -153,16 +154,26 @@ const Contents = styled.div`
   border-radius: 6pt;
   cursor: pointer;
   @media (min-width: 900pt) {
-    height: 80pt;
+    /* padding: 29.3pt 13.5pt; */
+    padding: 19.3pt 13.5pt 29.3pt 13.5pt;
   }
 `;
 
 const DdayBox = styled.div`
   margin-bottom: 16.5pt;
   cursor: pointer;
+
+  @media (min-width: 900pt) {
+    margin-bottom: 0;
+  }
 `;
 const DdayNAddress = styled.div`
   position: relative;
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 `;
 
 const AddressBox = styled.div`
@@ -175,6 +186,9 @@ const AddressBox = styled.div`
   text-align: left;
   margin-top: 12pt;
   color: ${colors.main2};
+  @media (min-width: 900pt) {
+    padding-top: 10pt;
+  }
 `;
 
 const IconBox = styled.div`

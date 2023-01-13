@@ -13,6 +13,9 @@ import mainArrow1 from 'public/images/mainArrow1.png';
 import mainArrow2 from 'public/images/mainArrow2.png';
 import mainArrow3 from 'public/images/mainArrow3.png';
 import router, { useRouter } from 'next/router';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
+import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 
 type Props = {};
 
@@ -29,6 +32,14 @@ interface MenuList {
 }
 
 const WhyEntizenWeb = (props: Props) => {
+  // 제휴문의 채팅방 보내기
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+  );
+
+  const chattingRoomIdx =
+    data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
   const userID = sessionStorage.getItem('USER_ID');
   const router = useRouter();
   const menuList: MenuList[] = [
@@ -83,11 +94,19 @@ const WhyEntizenWeb = (props: Props) => {
       case '플랫폼 가이드':
         return router.push('/guide/1-1');
       case '구독 가이드':
-        return userID ? router.push('/guide/1-2') : router.push('/signin');
+        return userID ? router.push('/mypage') : router.push('/signin');
       case '충전기 가이드':
-        return router.push('/guide/1-4');
+        return userID
+          ? router.push({
+              pathname: `/chatting/chattingRoom`,
+              query: {
+                chattingRoomIdx: chattingRoomIdx,
+                entizen: true,
+              },
+            })
+          : router.push('/signin');
       case '보조금 가이드':
-        return router.push('/chargerMap');
+        return userID ? router.push('/mypage?id=3') : router.push('/signin');
       default:
         break;
     }
@@ -160,7 +179,8 @@ const GridBox = styled.div`
 
 const GridElement = styled.div`
   /* width: 100%; */
-  height: 123.75pt;
+  /* height: 123.75pt; */
+  height: 180pt;
   padding: 26.25pt 25.5pt 27pt 28.5pt;
   background-color: ${(props) => props.color};
   border-radius: 12pt;

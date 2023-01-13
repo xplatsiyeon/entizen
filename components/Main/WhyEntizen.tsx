@@ -14,6 +14,9 @@ import mainArrow1 from 'public/images/mainArrow1.png';
 import mainArrow2 from 'public/images/mainArrow2.png';
 import mainArrow3 from 'public/images/mainArrow3.png';
 import { useRouter } from 'next/router';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
+import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 
 interface MenuList {
   headText: string;
@@ -28,6 +31,14 @@ interface MenuList {
 }
 
 const WhyEntizen = () => {
+  // 제휴문의 채팅방 보내기
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+  );
+
+  const chattingRoomIdx =
+    data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
   const userID = sessionStorage.getItem('USER_ID');
   const router = useRouter();
   const menuList: MenuList[] = [
@@ -64,17 +75,17 @@ const WhyEntizen = () => {
       width: '52.5pt',
       height: '39pt',
     },
-    // {
-    //   headText: '보조금 가이드',
-    //   arrowIcon: blackWhiteArrow,
-    //   arrowIcon2: mainArrow1,
-    //   background: '#FFFFFF',
-    //   color: '#222222',
-    //   bigIcon: carnation,
-    //   menuText: '전기차 충전소\nA 부터 Z까지',
-    //   width: '32.25pt',
-    //   height: '42.75pt',
-    // },
+    {
+      headText: '보조금 가이드',
+      arrowIcon: blackWhiteArrow,
+      arrowIcon2: mainArrow1,
+      background: '#FFFFFF',
+      color: '#222222',
+      bigIcon: carnation,
+      menuText: '전기차 충전소\nA 부터 Z까지',
+      width: '32.25pt',
+      height: '42.75pt',
+    },
   ];
 
   const movePage = (el: MenuList) => {
@@ -82,11 +93,19 @@ const WhyEntizen = () => {
       case '플랫폼 가이드':
         return router.push('/guide/1-1');
       case '구독 가이드':
-        return userID ? router.push('/guide/1-2') : router.push('/signin');
+        return userID ? router.push('/mypage') : router.push('/signin');
       case '충전기 가이드':
-        return router.push('/guide/1-4');
+        return userID
+          ? router.push({
+              pathname: `/chatting/chattingRoom`,
+              query: {
+                chattingRoomIdx: chattingRoomIdx,
+                entizen: true,
+              },
+            })
+          : router.push('/signin');
       case '보조금 가이드':
-        return router.push('/chargerMap');
+        return userID ? router.push('/mypage?id=3') : router.push('/signin');
       default:
         break;
     }

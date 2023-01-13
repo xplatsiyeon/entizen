@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import Nut from 'public/images/Nut.svg';
 import colors from 'styles/colors';
 import { useRouter } from 'next/router';
@@ -15,7 +15,6 @@ import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
 import Loader from 'components/Loader';
 
-
 interface Components {
   [key: number]: JSX.Element;
 }
@@ -25,7 +24,7 @@ type props = {
 };
 
 const RequestMain = (props: props) => {
-  const { page} = props;
+  const { page } = props;
   const route = useRouter();
 
   {
@@ -38,10 +37,10 @@ const RequestMain = (props: props) => {
 
   const myPageIndex = useRef<HTMLDivElement>(null);
   const components: Components = {
-    0: <Estimate listUp={true}/>,
-   // 1: <MyProjects listUp={true} />,
-   // 2: <AsIndex listUp={true} />,
-   // 3: <Charging listUp={true} />,
+    0: <Estimate listUp={true} />,
+    // 1: <MyProjects listUp={true} />,
+    // 2: <AsIndex listUp={true} />,
+    // 3: <Charging listUp={true} />,
   };
 
   // 유저 정보 API
@@ -60,27 +59,24 @@ const RequestMain = (props: props) => {
     console.log('유저 정보 에러');
   }
 
-  const handleList = (n:number)=>{
-
-    if(n === 0){
+  const handleList = (n: number) => {
+    if (n === 0) {
       const target = myPageIndex.current?.querySelector('.list') as HTMLElement;
-      if(target)target.classList.remove('on');
-      setTimeout(()=>{
+      if (target) target.classList.remove('on');
+      setTimeout(() => {
         route.push({
           pathname: '/mypage',
           query: { id: n },
-        })
-      },100)
-    }else{
+        });
+      }, 100);
+    } else {
       setTabNumber(n);
       route.push({
         pathname: '/mypage',
         query: { id: n },
-      })
-
+      });
     }
-      
-  }
+  };
 
   return (
     <Wrapper
@@ -112,20 +108,24 @@ const RequestMain = (props: props) => {
           {TabType.map((tab, index) => (
             <React.Fragment key={index}>
               <Tab>
-              <Wrap>
-                <TabItem
-                  key={index}
-                  tab={tabNumber?.toString()}
-                  index={index.toString()}
-                  onClick={() => { 
-                    handleList(index);
-                  }}
-                >
-                  {tab}
-                </TabItem>
-                <Dot tab={tabNumber?.toString()} index={index.toString()} />
-              </Wrap>
-                {tabNumber === 0? <List className={`list ${tabNumber === index && 'on'}`} >{components[tabNumber]}</List>:null}
+                <Wrap>
+                  <TabItem
+                    key={index}
+                    tab={tabNumber?.toString()}
+                    index={index.toString()}
+                    onClick={() => {
+                      handleList(index);
+                    }}
+                  >
+                    {tab}
+                  </TabItem>
+                  <Dot tab={tabNumber?.toString()} index={index.toString()} />
+                </Wrap>
+                {tabNumber === 0 ? (
+                  <List className={`list ${tabNumber === index && 'on'}`}>
+                    {components[tabNumber]}
+                  </List>
+                ) : null}
               </Tab>
             </React.Fragment>
           ))}
@@ -143,8 +143,7 @@ const Wrapper = styled.div`
   position: relative;
   width: 255pt;
   height: 413pt;
-
-  overflow-y:scroll;
+  overflow-y: scroll;
 `;
 const Header = styled.header`
   display: flex;
@@ -201,7 +200,7 @@ const TabContainer = styled.div`
   margin: 20pt 0;
 `;
 
-const Tab = styled.div``
+const Tab = styled.div``;
 
 const Wrap = styled.div`
   display: flex;
@@ -217,7 +216,7 @@ const TabItem = styled.span<{ tab: string; index: string }>`
   letter-spacing: -0.02em;
   color: ${({ tab, index }) =>
     tab === index ? colors.main : colors.lightGray};
-    cursor: pointer;
+  cursor: pointer;
 `;
 const Dot = styled.div<{ tab: string; index: string }>`
   width: 3pt;
@@ -226,11 +225,10 @@ const Dot = styled.div<{ tab: string; index: string }>`
   margin: 0 9pt;
   background-color: ${({ tab, index }) => tab === index && `${colors.main}`};
 `;
-const List =styled.div`
-height: 0;
-overflow: hidden;
-&.on{
-  height: auto;
-}
-
-`
+const List = styled.div`
+  height: 0;
+  overflow: hidden;
+  &.on {
+    height: auto;
+  }
+`;

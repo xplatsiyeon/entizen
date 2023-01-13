@@ -11,6 +11,9 @@ import message from 'public/images/message.png';
 import mail from 'public/images/mail.png';
 import carnation from 'public/images/carnation.png';
 import { useRouter } from 'next/router';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
+import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 
 interface MenuList {
   headText: string;
@@ -25,6 +28,15 @@ interface MenuList {
 
 const WhyEntizen = () => {
   const router = useRouter();
+  // 제휴문의 채팅방 보내기
+  const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
+    'chatting-list',
+    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+  );
+
+  const chattingRoomIdx =
+    data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
+  const userID = sessionStorage.getItem('USER_ID');
   const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',
@@ -71,13 +83,21 @@ const WhyEntizen = () => {
   const movePage = (el: MenuList) => {
     switch (el.headText) {
       case '플랫폼 가이드':
-        return router.push('/guide');
+        return router.push('/guide/1-1');
       case '구독 가이드':
-        return router.push('/mypage');
+        return userID ? router.push('/mypage') : router.push('/signin');
       case '충전기 가이드':
-        return alert('2차 작업 범위 페이지입니다.');
+        return userID
+          ? router.push({
+              pathname: `/chatting/chattingRoom`,
+              query: {
+                chattingRoomIdx: chattingRoomIdx,
+                entizen: true,
+              },
+            })
+          : router.push('/signin');
       case '보조금 가이드':
-        return router.push('/quotation/request');
+        return userID ? router.push('/mypage?id=3') : router.push('/signin');
       default:
         break;
     }
