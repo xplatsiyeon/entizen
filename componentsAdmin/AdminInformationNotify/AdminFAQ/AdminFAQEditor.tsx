@@ -59,7 +59,7 @@ export interface FaqsUpdate {
 const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
   const queryClient = useQueryClient();
 
-  // FAQ 에디터 데아터 불러오는 api
+  // FAQ 에디터 데이터 불러오는 api
   const { data, isLoading, isError, refetch } = useQuery<FaqsUpdate>(
     'adminFaqsDetail',
     () => isTokenAdminGetApi(`/admin/faqs/${detatilId}`),
@@ -141,6 +141,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
           faqKind: convertEn(ServiceKr, ServiceEn, selectValue),
           answer: bodyText,
           question: title,
+          visibleTarget: userTypeEn[userNum],
         },
       });
     }
@@ -176,6 +177,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
             : data?.data?.faq?.faqKind,
           answer: bodyText,
           question: title,
+          visibleTarget: userTypeEn[userNum],
         },
       });
     }
@@ -219,6 +221,8 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
       setCheckAll(true);
     }
   }, [bodyText, title]);
+
+  console.log('🐳 userTypeEn[userNum] 🐳', userTypeEn[userNum]);
 
   return (
     <Background>

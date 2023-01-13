@@ -36,7 +36,7 @@ const MemberContents = ({
         <>
           <li>
             <label className="label">아이디</label>
-            <InputBox type="text" readOnly value={userData?.data?.member?.id} />
+            <span>{userData?.data?.member?.id}</span>
           </li>
           <li>
             <label className="label">이름</label>
@@ -66,11 +66,7 @@ const MemberContents = ({
           </li>
           <li>
             <label className="comapny label">아이디</label>
-            <InputBox
-              type="text"
-              readOnly
-              value={CompanyData?.data?.member?.id}
-            />
+            <span>{CompanyData?.data?.member?.id}</span>
           </li>
           <li>
             <label className="comapny label">담당자</label>
@@ -78,14 +74,12 @@ const MemberContents = ({
           </li>
           <li>
             <label className="comapny label">이메일</label>
-            <InputBox
-              type="text"
-              readOnly
-              value={
+            <span>
+              {
                 CompanyData?.data?.member?.companyMemberAdditionalInfo
                   ?.managerEmail
               }
-            />
+            </span>
           </li>
           <li>
             <label className="comapny label">전화번호</label>

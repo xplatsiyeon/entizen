@@ -116,21 +116,24 @@ const UserPreQuotation = ({ detatilId }: Props) => {
         <FlexList>
           <DetailText type={'left'}>견적신청일</DetailText>
           <DetailText type={'right'}>
-            {dateFomat(data?.data?.quotationRequest?.createdAt!)}
+            {dateFomat(data?.data?.quotationRequest?.createdAt!).slice(0, 12)}
           </DetailText>
         </FlexList>
         <FlexList>
           <DetailText type={'left'}>견적마감일</DetailText>
-          <DatePicker
+          {/* <DatePicker
             size={'sm'}
             onChange={handleDateChange}
             placeholder={expiredAt}
             readOnly
-          />
+          /> */}
+          <DetailText type={'right'}>
+            {dateFomat(data?.data?.quotationRequest?.expiredAt!).slice(0, 12)}
+          </DetailText>
         </FlexList>
         <FlexList>
           <DetailText type={'left'}>견적제목</DetailText>
-          <DetailText type={'right'} border={true}>
+          <DetailText type={'right'}>
             {data?.data?.quotationRequest?.installationAddress}
           </DetailText>
         </FlexList>

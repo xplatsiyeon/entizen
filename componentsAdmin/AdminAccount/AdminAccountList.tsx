@@ -24,9 +24,15 @@ const AdminAccountList = ({ setNowHeight }: Props) => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log('detatilId==>>', detatilId);
+  }, [detatilId]);
+
   return (
     <Wrapper>
-      {isDetail && <AdimDetail setIsDetail={setIsDetail} />}
+      {isDetail && (
+        <AdimDetail setIsDetail={setIsDetail} detatilId={detatilId} />
+      )}
       <AdminHeader
         type="main"
         title="관리자 관리"

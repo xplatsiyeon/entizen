@@ -245,11 +245,16 @@ const PreQuotation = ({ preQuotationIdx }: Props) => {
             </Item>
             <Item>
               <label className="label">공사기간</label>
-              <input
+              {/* <input
                 className="input"
                 value={constructionPeriod}
                 onChange={onChangePeriod}
-              />
+              /> */}
+              {data?.data?.preQuotation?.constructionPeriod !== undefined ? (
+                <span>{`${data?.data?.preQuotation?.constructionPeriod} 일`}</span>
+              ) : (
+                <span>미정</span>
+              )}
             </Item>
             <Item>
               {data?.data?.preQuotation?.quotationRequest?.quotationRequestChargers?.map(

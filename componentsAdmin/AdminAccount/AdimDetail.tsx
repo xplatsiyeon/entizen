@@ -1,18 +1,28 @@
 import styled from '@emotion/styled';
+import { isTokenAdminGetApi } from 'api';
 import AdminHeader from 'componentsAdmin/Header';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import { useQuery } from 'react-query';
 import colors from 'styles/colors';
 
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;
+  detatilId: string;
 };
 
-const AdimDetail = ({ setIsDetail }: Props) => {
+const AdimDetail = ({ detatilId, setIsDetail }: Props) => {
   const [alertModal, setAlertModal] = useState(false);
   const [writeModal, setWriteModal] = useState(false);
 
+  // managerIdx
+  // const { data, isLoading, isError } = useQuery('adminDetail', () =>
+  //   isTokenAdminGetApi(`/admin/managers/${detatilId}`),
+  // );
+
+  // console.log('🔥 data ===>');
+  // console.log(data);
   // 상세페이지 모달 클릭 이벤트
   const onClickBack = () => {
     setIsDetail((prev) => !prev);

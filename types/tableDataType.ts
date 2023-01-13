@@ -322,6 +322,7 @@ export interface AdminAccountList {
       name: string;
       phone: string;
       email: string;
+      isRepresentativeAdmin: boolean;
     }[];
   };
 }

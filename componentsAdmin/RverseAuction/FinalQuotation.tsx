@@ -281,13 +281,14 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
 
             <Item>
               <label className="label">공사기간</label>
-              <input
+              {/* <input
                 type="text"
                 className="input"
                 value={constructionPeriod}
-                // onChange={onChangePeriod}
+                onChange={onChangePeriod}
                 readOnly
-              />
+              /> */}
+              <span>{`${data?.data?.finalQuotation?.constructionPeriod} 일`}</span>
             </Item>
 
             {data?.data?.finalQuotation?.finalQuotationChargers?.map(
