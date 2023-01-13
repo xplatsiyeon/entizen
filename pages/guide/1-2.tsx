@@ -276,7 +276,7 @@ const Guide1_2 = () => {
         />
       )}
 
-      <WebHeader />
+      <WebHeader num={3} now={'guide'} sub={'guide'} />
       <UserRightMenu />
       <Inner>
         <Wrapper>
@@ -381,6 +381,10 @@ const ChargeGuide = styled.div`
     position: relative;
     width: 12pt;
     height: 12pt;
+  }
+  @media (max-width: 899.25pt) {
+    padding-top: 30pt;
+    padding-bottom: 80pt;
   }
 `;
 const Btn = styled.div<{ buttonActivate: boolean }>`

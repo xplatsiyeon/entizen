@@ -37,7 +37,7 @@ const Guide1_2_4 = () => {
 
   return (
     <Body>
-      <WebHeader num={3} now={'guide'} sub={'guide'}/>
+      <WebHeader num={3} now={'guide'} sub={'guide'} />
       <Wrapper>
         <UserRightMenu />
         <GuideHeader
@@ -138,6 +138,7 @@ const Body = styled.div`
   height: 100vh;
   margin: 0 auto;
   background: #fcfcfc;
+  min-height: 650pt;
   @media (max-height: 809pt) {
     display: block;
     width: 100%;

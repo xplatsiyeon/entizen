@@ -113,4 +113,7 @@ const Header = styled.div<{ handle: boolean | undefined }>`
     display: flex;
     align-content: center;
   }
+  @media (min-width: 900pt) {
+    display: none;
+  }
 `;
