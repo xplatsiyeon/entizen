@@ -75,6 +75,7 @@ const AdimAccountListTable = ({
                 ele.name,
                 hyphenFn(ele.phone),
                 ele.email,
+                ele.managerIdx,
               ];
               temp.push(eleArr);
             });
@@ -94,7 +95,7 @@ const AdimAccountListTable = ({
                     <button
                       className="detail"
                       onClick={() => {
-                        console.log('cell', cell);
+                        // console.log('cell', cell);
                         setDetailId(cell);
                         setIsDetail(true);
                       }}

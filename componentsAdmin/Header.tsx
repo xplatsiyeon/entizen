@@ -11,6 +11,7 @@ type Props = {
   backBtn?: () => void;
   exelHide?: boolean;
   deleteBtn?: boolean;
+  deleteFn?: () => void;
   WriteModalHandle?: () => void;
   detailApprove?: boolean;
   detailModify?: () => void;
@@ -23,6 +24,7 @@ const AdminHeader = ({
   backBtn,
   exelHide,
   deleteBtn,
+  deleteFn,
   WriteModalHandle,
   detailApprove,
   detailModify,
@@ -98,12 +100,7 @@ const AdminHeader = ({
               <p>{subTitle}</p>
             </span>
             {deleteBtn && (
-              <button
-                className="deleteBtn"
-                onClick={() => {
-                  alert('개발중입니다.');
-                }}
-              >
+              <button className="deleteBtn" onClick={deleteFn}>
                 아이디 삭제
               </button>
             )}
