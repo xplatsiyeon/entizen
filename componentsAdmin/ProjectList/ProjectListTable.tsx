@@ -70,6 +70,11 @@ const ProjectListTable = ({
           if (tableType === 'projectListData') {
             const temp: any = [];
             projectListData?.data?.projects.forEach((ele, idx) => {
+              const approve =
+                ele?.isCompletedExamStep === true &&
+                ele.isApprovedByAdmin === false
+                  ? '승인대기'
+                  : ele.currentStep;
               const eleArr = [
                 `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
                   idx + 1 === 10 ? page * 10 : idx + 1
@@ -77,7 +82,7 @@ const ProjectListTable = ({
                 ele.projectNumber!,
                 ele.userMember.id!,
                 ele.companyMember.id!,
-                ele.currentStep!,
+                approve,
                 ele.projectName,
                 dateFomat(ele.createdAt),
                 ele.projectIdx!,
@@ -90,7 +95,20 @@ const ProjectListTable = ({
               '프로젝트 번호',
               '작성자(아이디)',
               '기업회원(아이디)',
-              '진행단계',
+              {
+                name: '진행단계',
+                id: 'projectListData',
+                formatter: (cell: string) =>
+                  _(
+                    <span
+                      className={`${
+                        cell === '승인대기' ? 'approve' : 'approveNot'
+                      }`}
+                    >
+                      {cell}
+                    </span>,
+                  ),
+              },
               '프로젝트_제목',
               '프로젝트_생성일',
               {
@@ -267,6 +285,24 @@ const StyledBody = styled.div`
       border: 1px solid #747780;
       padding: 3px 19px;
       border-radius: 4px;
+    }
+
+    .approve {
+      text-align: center;
+      font-family: 'Spoqa Han Sans Neo';
+      font-style: normal;
+      font-size: 16px;
+      line-height: 150%;
+      color: #f75015;
+      font-weight: 500;
+    }
+    .approveNot {
+      text-align: center;
+      font-family: 'Spoqa Han Sans Neo';
+      font-style: normal;
+      font-size: 16px;
+      line-height: 150%;
+      color: #000000;
     }
   }
 `;

@@ -46,7 +46,7 @@ const ProjectAlertModal = ({
               <DarkAdminBtn
                 margin="0"
                 onClick={() => {
-                  rightBtn;
+                  rightBtn();
                   setProjectModal(false);
                 }}
               >
