@@ -159,3 +159,5 @@ const Text = styled.div`
   font-size: 14pt;
   font-weight: 700;
 `;
+
+
