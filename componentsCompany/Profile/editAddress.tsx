@@ -33,38 +33,36 @@ const EditAddress = ({ setComponent }: Props) => {
     const {mutate: addressMutate} =  useMutation(isTokenPatchApi, {
       onSuccess: (res) => {
         console.log('주소 변경 성공 ', res);
-        //setComponent(0);
+        setComponent(0);
       },
       onError: (error) => {
         console.log('주소 변경 실패 ',error);
       },
     })
 
- 
-    const handleEditAddress =()=>{
-
-      //주소 수정할 경우
-      addressMutate({
-        url: '/members/address',
-        data: {
-          address: companyAddress,
-          detailAddress: "",
-          zipCode: postNumber,
-        }
-      }) 
-    
-      }
-      
       if (addressOn) {
         return (
           <CompanyAddress
             setPostNumber={setPostNumber}
             setCompanyAddress={setCompanyAddress}
             setAddressOn={setAddressOn}
-            handleEditAddress={handleEditAddress}
           />
         );
       }
+
+      const handleEditAddress =()=>{
+
+          //주소 수정할 경우
+          addressMutate({
+            url: '/members/address',
+            data: {
+              address: companyAddress,
+              detailAddress: companyDetailAddress,
+              zipCode: postNumber,
+            }
+          }) 
+      
+        }
 
   return (
     <>
@@ -109,6 +107,9 @@ const EditAddress = ({ setComponent }: Props) => {
             name="checkPw"
           />
         </Address>
+
+        <EditAdressBtn onClick={handleEditAddress}
+        >주소변경 </EditAdressBtn>
     </>
   )
 };
@@ -164,3 +165,6 @@ const InputBtn = styled.button`
     color: #ffffff;
   }
 `;
+
+const EditAdressBtn = styled.button`
+`

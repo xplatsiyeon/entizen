@@ -44,13 +44,11 @@ type Props = {
   setPostNumber: React.Dispatch<React.SetStateAction<string>>;
   setCompanyAddress: React.Dispatch<React.SetStateAction<string>>;
   setAddressOn: React.Dispatch<React.SetStateAction<boolean>>;
-  handleEditAddress?: ()=> void;
 };
 const CompanyAddress = ({
   setPostNumber,
   setCompanyAddress,
   setAddressOn, 
-  handleEditAddress
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
@@ -135,10 +133,6 @@ const CompanyAddress = ({
           </AddressBox>
         </SearchResult>
       ))}
-      <EditAdressBtn onClick={()=>{
-        if(handleEditAddress)handleEditAddress();
-      }}
-      >주소변경 </EditAdressBtn>
     </Container>
   );
 };
@@ -211,7 +205,5 @@ const AddressBox = styled.div`
   }
 `;
 
-const EditAdressBtn = styled.button`
-`
 
 export default CompanyAddress;
