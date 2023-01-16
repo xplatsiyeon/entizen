@@ -18,6 +18,7 @@ import QuitModal from 'components/Chatting/QuitModal';
 import sendBlue from 'public/images/send-blue.png';
 import fileBtn from 'public/images/fileBtn.png';
 import addBtn from 'public/images/addBtn.png';
+import addBtnSvg from 'public/images/addBtnSvg.svg';
 import stopAlarm from 'public/images/stopAlarm.png';
 import alarmBtn from 'public/images/alarm.png';
 import moreBtn from 'public/images/moreBtn.png';
@@ -98,7 +99,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  
+
   //나가기 모달
   const [moreModal, setMoreModal] = useState<boolean>(false);
   const [quitModal, setQuitModal] = useState<boolean>(false);
@@ -119,7 +120,6 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
   const fileRef = useRef<HTMLInputElement>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
   const focusRef = useRef<HTMLInputElement>(null);
-
 
   //   채팅방 내용 보기
   const {
@@ -727,7 +727,7 @@ const ChattingRoomLogs = ({ userChatting, listRefetch }: Props) => {
       <BottomBox ref={mobBox}>
         <FlexBox onSubmit={onSubmitText}>
           <AddBtn onClick={handleButton}>
-            <Image src={addBtn} layout="intrinsic" />
+            <ImgTag src={'/images/addBtnSvg.svg'} />
           </AddBtn>
           <TextInput
             placeholder="메세지를 입력하세요"
@@ -906,8 +906,8 @@ const FlexBox = styled.form`
 `;
 const AddBtn = styled.div`
   position: relative;
-  width: 9pt;
-  height: 9pt;
+  width: 20pt;
+  height: 20pt;
   padding: 5pt 6pt 6pt;
   border-radius: 50%;
   background: #a6a9b0;
@@ -916,6 +916,15 @@ const AddBtn = styled.div`
     transform: rotate(45deg);
   }
 `;
+
+const ImgTag = styled.img`
+  position: absolute;
+  z-index: 5;
+  width: 65%;
+  left: 3.5pt;
+  top: 3.5pt;
+`;
+
 const TextInput = styled.input`
   flex: 2;
   border-radius: 37.5pt;
@@ -1171,15 +1180,14 @@ const P = styled.p<{ userChatting: boolean }>`
   color: #caccd1;
   display: none;
 
-    &.user-p {
-      &.p-target {
-        display: ${({ userChatting }) => (userChatting ? 'block' : 'none')};
-      }
+  &.user-p {
+    &.p-target {
+      display: ${({ userChatting }) => (userChatting ? 'block' : 'none')};
     }
-    &.company-p {
-      &.p-target {
-        display: ${({ userChatting }) => (userChatting ? 'none' : 'block')};
-      }
+  }
+  &.company-p {
+    &.p-target {
+      display: ${({ userChatting }) => (userChatting ? 'none' : 'block')};
     }
-  
+  }
 `;

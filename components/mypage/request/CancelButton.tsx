@@ -27,13 +27,13 @@ const BtnBox = styled.div`
     font-family: 'Spoqa Han Sans Neo';
     font-weight: 500;
     font-size: 12pt;
-    line-height: 18pt;
+    /* line-height: 18pt; */
     text-align: center;
     color: #747780;
     letter-spacing: -0.02em;
-    padding: 6pt 11.75pt;
-    width: 47.5pt;
-    height: 16pt;
+    padding: 6pt 3pt;
+    width: 75pt;
+    height: 28pt;
     border: 0.75pt solid #e2e5ed;
     border-radius: 6pt;
     cursor: pointer;

@@ -97,6 +97,7 @@ const ContentsContainer = styled.div`
   margin-top: 20pt;
   height: 150pt;
   overflow-y: scroll;
+  padding-left: 5pt;
   @media (max-width: 899.25pt) {
     display: none;
   }
@@ -114,7 +115,7 @@ const Contents = styled.div<{
   border-radius: 6pt;
   cursor: pointer;
   width: 171pt;
-  height: 45pt;
+  height: 80pt;
   border: ${({ projectIdx, componentId }) =>
     componentId === projectIdx ? `0.75pt solid #5221CB` : ``};
 `;
