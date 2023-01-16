@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
+import { isTokenPatchApi } from 'api';
 import CompanyAddress from 'components/SignUp/CompanyAddress';
 import useProfile from 'hooks/useProfile';
 import React, { useState } from 'react';
+import { useMutation } from 'react-query';
 import colors from 'styles/colors';
 
 type Props = {
@@ -28,17 +30,41 @@ const EditAddress = ({ setComponent }: Props) => {
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     const { profile, invalidate, isLoading } = useProfile(accessToken);
 
+    const {mutate: addressMutate} =  useMutation(isTokenPatchApi, {
+      onSuccess: (res) => {
+        console.log('주소 변경 성공 ', res);
+        //setComponent(0);
+      },
+      onError: (error) => {
+        console.log('주소 변경 실패 ',error);
+      },
+    })
 
-    if (addressOn) {
-      return (
-        <CompanyAddress
-          setPostNumber={setPostNumber}
-          setCompanyAddress={setCompanyAddress}
-          setAddressOn={setAddressOn}
-        />
-      );
-    }
+ 
+    const handleEditAddress =()=>{
 
+      //주소 수정할 경우
+      addressMutate({
+        url: '/members/address',
+        data: {
+          address: companyAddress,
+          detailAddress: "",
+          zipCode: postNumber,
+        }
+      }) 
+    
+      }
+      
+      if (addressOn) {
+        return (
+          <CompanyAddress
+            setPostNumber={setPostNumber}
+            setCompanyAddress={setCompanyAddress}
+            setAddressOn={setAddressOn}
+            handleEditAddress={handleEditAddress}
+          />
+        );
+      }
 
   return (
     <>
