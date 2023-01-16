@@ -44,16 +44,19 @@ type Props = {
   setPostNumber: React.Dispatch<React.SetStateAction<string>>;
   setCompanyAddress: React.Dispatch<React.SetStateAction<string>>;
   setAddressOn: React.Dispatch<React.SetStateAction<boolean>>;
+  handleEditAddress?: ()=> void;
 };
 const CompanyAddress = ({
   setPostNumber,
   setCompanyAddress,
   setAddressOn, 
+  handleEditAddress
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const keyWord = useDebounce(searchWord, 300);
 
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(() => e.target.value);
   };
@@ -64,6 +67,8 @@ const CompanyAddress = ({
     setPostNumber(zip!);
     setAddressOn(false);
   };
+
+
   useEffect(() => {
     const findAddresss = async () => {
       if (searchWord == '') {
@@ -130,6 +135,10 @@ const CompanyAddress = ({
           </AddressBox>
         </SearchResult>
       ))}
+      <EditAdressBtn onClick={()=>{
+        if(handleEditAddress)handleEditAddress();
+      }}
+      >주소변경 </EditAdressBtn>
     </Container>
   );
 };
@@ -201,5 +210,8 @@ const AddressBox = styled.div`
     color: ${colors.gray2};
   }
 `;
+
+const EditAdressBtn = styled.button`
+`
 
 export default CompanyAddress;
