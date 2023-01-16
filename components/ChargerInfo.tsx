@@ -69,7 +69,7 @@ const ChargerInfo = ({
       console.log('타겟의 스크롤탑2',target.scrollTop, target2.scrollTop);
       //alert(target2.scrollTop)
       const endY = e.changedTouches[0].clientY;
-      alert(endY)
+      //alert(endY)
       if( Math.abs(sRef2.current - endY) > 30 ){
           if(target.scrollTop !== 0 && ref.current){
             check.current = 1;
