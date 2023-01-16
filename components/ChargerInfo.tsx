@@ -69,6 +69,7 @@ const ChargerInfo = ({
       console.log('타겟의 스크롤탑2',target.scrollTop, target2.scrollTop);
       //alert(target2.scrollTop)
       const endY = e.changedTouches[0].clientY;
+      alert(endY)
       if( Math.abs(sRef2.current - endY) > 30 ){
           if(target.scrollTop !== 0 && ref.current){
             check.current = 1;
@@ -469,7 +470,7 @@ overscroll-behavior: contain;
   //left: 0;
   height: 0px;
   width: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
   transition: 0.5s;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 36px 36px 0px 0px;
