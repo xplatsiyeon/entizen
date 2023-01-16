@@ -64,10 +64,10 @@ const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = () => {
+  let naverLogin: any;
   const router = useRouter();
   const dispatch = useDispatch();
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  let naverLogin: any;
   const naverRef = useRef<HTMLElement | null | any>(null);
   const { user } = useSelector((state: RootState) => state.userList);
   const [userId, setUserId] = useState<string>('');
@@ -255,9 +255,8 @@ const Signin = () => {
   };
   // 네이버 온클릭
   const handleNaver = async () => {
-    console.log('네이버 온클릭');
-    console.log(naverRef);
     if (naverRef) {
+      console.log(naverRef.current.children[0]);
       naverRef.current.children[0].click();
     }
   };
@@ -378,6 +377,7 @@ const Signin = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   // 유저타입 확인하는 useEffect
   useEffect(() => {
     if (selectedLoginType === 0) {
@@ -388,27 +388,26 @@ const Signin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
 
-
   if (loginLoading) {
     console.log('loading..');
     // return <Loader />;
   }
 
   //애플 로그인 체크
-  useEffect(()=>{
-    document.addEventListener('AppleIDSignInOnSuccess', (data:any) => {
+  useEffect(() => {
+    document.addEventListener('AppleIDSignInOnSuccess', (data: any) => {
       //handle successful response
-        console.log("AppleIDSignInOnSuccess", data)
-        console.log(data.detail.authorization)
-        //todo success logic
+      console.log('AppleIDSignInOnSuccess', data);
+      console.log(data.detail.authorization);
+      //todo success logic
     });
     //애플로 로그인 실패 시.
     document.addEventListener('AppleIDSignInOnFailure', (error) => {
-        //handle error.
-        console.log("AppleIDSignInOnFailure")
-        //todo fail logic
+      //handle error.
+      console.log('AppleIDSignInOnFailure');
+      //todo fail logic
     });
-  },[])
+  }, []);
 
   return (
     <React.Fragment>
@@ -418,7 +417,10 @@ const Signin = () => {
           src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"
         ></script>
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
-        <meta name="appleid-signin-redirect-uri" content="https://test-api.entizen.kr/api/auth/apple" />
+        <meta
+          name="appleid-signin-redirect-uri"
+          content="https://test-api.entizen.kr/api/auth/apple"
+        />
         <meta name="appleid-signin-scope" content="name email" />
         <meta name="appleid-signin-state" content="" />
         <meta name="appleid-signin-use-popup" content="true" />
@@ -614,9 +616,8 @@ const Signin = () => {
                     data-mode="center-align">
                   </div> 
                     </TestWrap> */}
-             
 
-                {/* {selectedLoginType === 0 && (
+                {selectedLoginType === 0 && (
                   <>
                     <Box
                       sx={{
@@ -649,11 +650,11 @@ const Signin = () => {
                         <Image src={apple} alt="apple" />
                       </Box>
                       <NaverBox>
-                        <Box id="naverIdLogin" ref={naverRef}>
+                        <Box ref={naverRef} id="naverIdLogin">
                           <Image
+                            onClick={handleNaver}
                             src={naver}
                             alt="naver"
-                            onClick={handleNaver}
                           />
                         </Box>
                       </NaverBox>
@@ -702,7 +703,7 @@ const Signin = () => {
                       ></Divider>
                     </Box>
                   </>
-                )} */}
+                )}
                 <Box
                   sx={{
                     margin: '18pt 18pt 0 18pt',
@@ -853,4 +854,4 @@ const Buttons = styled.button`
 const TestWrap = styled.div`
   margin: 20pt auto;
   position: relative;
-`
+`;
