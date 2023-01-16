@@ -33,7 +33,7 @@ const EditAddress = ({ setComponent }: Props) => {
     const {mutate: addressMutate} =  useMutation(isTokenPatchApi, {
       onSuccess: (res) => {
         console.log('주소 변경 성공 ', res);
-        //setComponent(0);
+        setComponent(0);
       },
       onError: (error) => {
         console.log('주소 변경 실패 ',error);
