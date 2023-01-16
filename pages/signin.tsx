@@ -394,6 +394,18 @@ const Signin = () => {
     // return <Loader />;
   }
 
+    document.addEventListener('AppleIDSignInOnSuccess', (data) => {
+      //handle successful response
+        console.log("AppleIDSignInOnSuccess", data)
+        //todo success logic
+    });
+    //애플로 로그인 실패 시.
+    document.addEventListener('AppleIDSignInOnFailure', (error) => {
+        //handle error.
+        console.log("AppleIDSignInOnFailure")
+        //todo fail logic
+    });
+
   return (
     <React.Fragment>
       <Head>
@@ -408,7 +420,7 @@ const Signin = () => {
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
         <meta name="appleid-signin-redirect-uri" content="https://api.entizen.kr/api/auth/apple" />
         <meta name="appleid-signin-state" content="" />
-        <meta name="appleid-signin-use-popup" content="false" />
+        <meta name="appleid-signin-use-popup" content="true" />
       </Head>
       {/* 로그인 에러 안내 모달 */}
       {errorModal && (
