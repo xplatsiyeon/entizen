@@ -419,8 +419,7 @@ const Signin = () => {
         ></script>
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
         <meta name="appleid-signin-redirect-uri" content="https://api.entizen.kr/api/auth/apple" />
-        <meta name="appleid-signin-scope" content="name" />
-        <meta name="appleid-signin-scope" content="email" />
+        <meta name="appleid-signin-scope" content="name email" />
         <meta name="appleid-signin-state" content="" />
         <meta name="appleid-signin-use-popup" content="true" />
       </Head>
@@ -605,7 +604,7 @@ const Signin = () => {
                     )}
                   </Box>
                 </Box>
-                <TestWrap>
+                {/*<TestWrap>
                   <div id="appleid-signin" 
                     data-color="black" 
                     data-border="true" 
@@ -614,7 +613,7 @@ const Signin = () => {
                     data-height="32"
                     data-mode="center-align">
                   </div> 
-                </TestWrap>
+                    </TestWrap> */}
              
 
                 {/* {selectedLoginType === 0 && (
