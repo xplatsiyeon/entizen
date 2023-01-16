@@ -19,7 +19,11 @@ const AlertModal = ({
   size = 'md',
 }: Props) => {
   return (
-    <Modal>
+    <Modal
+      onClick={() => {
+        setIsModal(false);
+      }}
+    >
       <ModalBox size={size}>
         <MessageText>{message}</MessageText>
         <AdminBtn
@@ -40,6 +44,11 @@ const AlertModal = ({
             } else if (message === '승인이 변경 됐습니다.' && setIsDetail) {
               setIsModal(false);
               setIsDetail(false);
+            } else if (
+              message === '수정 요청을 실패했습니다.\n다시 시도해주세요.' &&
+              setIsDetail
+            ) {
+              setIsModal(false);
             }
           }}
         >

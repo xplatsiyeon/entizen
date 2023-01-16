@@ -5,6 +5,7 @@ import {
   isTokenAdminGetApi,
   isTokenAdminPatchApi,
   isTokenAdminDeleteApi,
+  isTokenAdminPutApi,
 } from 'api';
 import {
   location,
@@ -130,6 +131,9 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   // 리뷰 모달 열리고 닫히고
   const [reviewModal, setReviewModal] = useState<boolean>(false);
 
+  // 리뷰 수정하기
+  const [modifyReview, setModifyReview] = useState<string>('');
+
   // 최종 승인 완료 모달 열리고 닫히고
   const [projectModal, setProjectModal] = useState<boolean>(false);
   const [finalApprove, setFinalApprove] = useState<boolean>(false);
@@ -198,6 +202,44 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     });
   };
 
+  // 프로젝트 리뷰 수정하는 함수
+  const {
+    mutate: putMutate,
+    isLoading: putIsLoading,
+    isError: putIsError,
+  } = useMutation(isTokenAdminPutApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('projectDetail');
+      setMessageModal(true);
+      setMessage('리뷰가 수정됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('리뷰 수정에 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const reviewMified = () => {
+    putMutate({
+      url: `/admin/projects/${projectIdx}/review/${data?.data?.project?.projectReview?.projectReviewIdx}`,
+      data: {
+        attentivenessPoint:
+          data?.data?.project?.projectReview?.attentivenessPoint,
+
+        quicknessPoint: data?.data?.project?.projectReview?.quicknessPoint,
+
+        professionalismPoint:
+          data?.data?.project?.projectReview?.professionalismPoint,
+
+        satisfactionPoint:
+          data?.data?.project?.projectReview?.satisfactionPoint,
+
+        opinion: modifyReview,
+      },
+    });
+  };
+
   useEffect(() => {
     if (fileIdx) {
       modalDeleteFileBtnControll();
@@ -234,6 +276,10 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     data?.data?.project?.finalQuotation?.preQuotation?.quotationRequest
       ?.etcRequest;
 
+  useEffect(() => {
+    setModifyReview(data?.data?.project?.projectReview?.opinion!);
+  }, [data]);
+
   return (
     <Background>
       <Wrapper>
@@ -244,6 +290,9 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
           <CompleteRating
             setReviewModal={setReviewModal}
             reviewData={reviewData!}
+            setModifyReview={setModifyReview}
+            modifyReview={modifyReview}
+            reviewMified={reviewMified}
           />
         )}
         {projectModal && (

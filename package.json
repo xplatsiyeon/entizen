@@ -48,6 +48,7 @@
     "react-loading": "^2.0.3",
     "react-pdf": "^6.1.0",
     "react-query": "^3.39.2",
+    "react-quill": "^2.0.0",
     "react-redux": "^8.0.2",
     "react-responsive": "^9.0.0",
     "react-rnd": "^10.3.7",

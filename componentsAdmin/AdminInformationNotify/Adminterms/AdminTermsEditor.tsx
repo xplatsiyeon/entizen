@@ -1,16 +1,15 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
+import AdminTermsQuill from './AdminTermsQuill';
 import AdminHeader from 'componentsAdmin/Header';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import { api, getApi } from 'api';
 import {
-  isTokenGetApi,
-  multerApi,
-  isTokenPostApi,
-  isTokenPutApi,
-  isTokenPatchApi,
-  isTokenDeleteApi,
+  isTokenAdminGetApi,
+  isTokenAdminPostApi,
+  isTokenAdminPutApi,
+  isTokenAdminDeleteApi,
 } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import WriteModal from 'componentsAdmin/Modal/WriteModal';
@@ -45,7 +44,9 @@ const AdminTermsEditor = ({
   // 공지사항 등록, 수정시 refetch
   // 리스트 페이지 데이터 불러오는 api 임
   const { data: termsList, refetch: termsListRefetch } =
-    useQuery<AdminTermsListResponse>('termsList', () => getApi(`/admin/terms`));
+    useQuery<AdminTermsListResponse>('termsList', () =>
+      isTokenAdminGetApi(`/admin/terms`),
+    );
 
   // 제목
   const [title, setTitle] = useState<string>('');
@@ -63,14 +64,14 @@ const AdminTermsEditor = ({
 
   const { data, isLoading, isError, refetch } = useQuery<TermsUpdate>(
     'adminTermsDetail',
-    () => isTokenGetApi(`/admin/terms/${detatilId}`),
+    () => isTokenAdminGetApi(`/admin/terms/${detatilId}`),
   );
 
   // 본문 초기값
   const firstContent = data?.data?.content;
 
   // 본문
-  const [bodyText, setBodyText] = useState<string | undefined>('');
+  const [bodyText, setBodyText] = useState<string>('');
 
   // 약관 타입
   const [selectValue, setSelectValue] = useState<string>('');
@@ -96,7 +97,7 @@ const AdminTermsEditor = ({
     mutate: postMutate,
     isLoading: postLoading,
     isError: postError,
-  } = useMutation(isTokenPostApi, {
+  } = useMutation(isTokenAdminPostApi, {
     onSuccess: () => {
       termsListRefetch();
       setMessageModal(true);
@@ -124,7 +125,7 @@ const AdminTermsEditor = ({
   // 수정 api
 
   const { mutate: modifiedMutate, isLoading: modifiedIsLoading } = useMutation(
-    isTokenPutApi,
+    isTokenAdminPutApi,
     {
       onSuccess: () => {
         setMessageModal(true);
@@ -140,15 +141,13 @@ const AdminTermsEditor = ({
   );
 
   const onClickModifiedBtn = () => {
-    if (checkAll) {
-      modifiedMutate({
-        url: `/admin/terms/${detatilId}`,
-        data: {
-          type: selectValue ? dropDownValueEn[selctValueEn] : data?.data?.type,
-          content: bodyText,
-        },
-      });
-    }
+    modifiedMutate({
+      url: `/admin/terms/${detatilId}`,
+      data: {
+        type: selectValue ? dropDownValueEn[selctValueEn] : data?.data?.type,
+        content: bodyText,
+      },
+    });
   };
 
   // 삭제 api
@@ -156,7 +155,7 @@ const AdminTermsEditor = ({
     mutate: patchMutate,
     isLoading: patchLoading,
     isError: patchError,
-  } = useMutation(isTokenDeleteApi, {
+  } = useMutation(isTokenAdminDeleteApi, {
     onSuccess: () => {
       queryClinet.invalidateQueries('user-mypage');
       setMessageModal(true);
@@ -176,7 +175,10 @@ const AdminTermsEditor = ({
   };
 
   useEffect(() => {
-    setBodyText(firstContent);
+    setBodyText(data?.data?.content!);
+  }, [data]);
+
+  useEffect(() => {
     setSelctValueEn(dropDownValue.indexOf(selectValue));
     if (data !== undefined) {
       setSelctValueKr(dropDownValueEn.indexOf(data?.data?.type));
@@ -186,11 +188,12 @@ const AdminTermsEditor = ({
   }, [selctValueEn, selctValueKr, selectValue, data]);
 
   // 데이터 보내는 버튼 활성화 여부
-  useEffect(() => {
-    if (bodyText !== firstContent) {
-      setCheckAll(true);
-    }
-  }, [bodyText]);
+  // useEffect(() => {
+  //   if (bodyText !== firstContent) {
+  //     setCheckAll(true);
+  //   }
+
+  // }, [bodyText]);
 
   return (
     <Background>
@@ -246,12 +249,17 @@ const AdminTermsEditor = ({
             />
           </TitleBox> */}
         </TitleContainer>
-        <MainTextArea
+        {/* <MainTextArea
           placeholder="내용을 입력해주세요"
           value={bodyText}
           onChange={(e) => {
             setBodyText(e.target.value);
           }}
+        /> */}
+        <AdminTermsQuill
+          setBodyText={setBodyText}
+          bodyText={bodyText}
+          firstContent={firstContent!}
         />
         <BtnBox>
           {detatilId !== '' ? (
@@ -377,4 +385,5 @@ const BtnBox = styled.div`
   display: flex;
   gap: 8px;
   justify-content: flex-end;
+  margin-top: 60px;
 `;

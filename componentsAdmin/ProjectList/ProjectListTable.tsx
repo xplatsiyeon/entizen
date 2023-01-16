@@ -62,7 +62,9 @@ const ProjectListTable = ({
         isTokenAdminGetApi(
           `/admin/projects?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
-          }&endDate=${pickedDate ? pickedDate[1] : today}`,
+          }&endDate=${
+            pickedDate ? pickedDate[1] : today
+          }&searchType=projectNumber&searchKeyword=&steps[]=completion`,
         ),
       {
         enabled: false,
@@ -138,6 +140,8 @@ const ProjectListTable = ({
         onError: () => alert('다시 시도해주세요'),
       },
     );
+
+  console.log('projectListData', projectListData);
 
   //파트너 등록 제품
   const partnerProduct = [

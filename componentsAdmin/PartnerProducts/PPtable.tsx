@@ -69,7 +69,7 @@ Props) => {
             ele?.channel!,
             ele?.member?.name!,
             hyphenFn(ele?.member?.phone!),
-            dateFomat(ele?.createdAt!),
+            dateFomat(ele?.createdAt!).substring(0, 12),
             ele?.chargerProductIdx!,
           ];
           temp.push(arrEle);

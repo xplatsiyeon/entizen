@@ -15,9 +15,18 @@ type CompleteProjectReview = {
 type Props = {
   setReviewModal: React.Dispatch<React.SetStateAction<boolean>>;
   reviewData: CompleteProjectReview;
+  setModifyReview: React.Dispatch<React.SetStateAction<string>>;
+  modifyReview: string;
+  reviewMified: () => void;
 };
 
-const CompleteRating = ({ setReviewModal, reviewData }: Props) => {
+const CompleteRating = ({
+  setReviewModal,
+  reviewData,
+  setModifyReview,
+  modifyReview,
+  reviewMified,
+}: Props) => {
   const reviewPoint = ['친절함', '신속함', '전문성', '만족도'];
 
   const score = [
@@ -61,11 +70,21 @@ const CompleteRating = ({ setReviewModal, reviewData }: Props) => {
           // placeholder="[선택] 파트너의 어떤점이 기억에 남으시나요?"
           placeholder=""
           rows={8}
-          value={reviewData.opinion}
+          value={modifyReview === '' ? reviewData.opinion : modifyReview}
           required
-          readOnly={true}
+          onChange={(e) => {
+            setModifyReview(e.target.value);
+          }}
         />
         <BtnWrapper>
+          <AdminBtn
+            onClick={() => {
+              setReviewModal(false);
+              reviewMified();
+            }}
+          >
+            수정
+          </AdminBtn>
           <AdminBtn
             onClick={() => {
               setReviewModal(false);
@@ -181,4 +200,5 @@ const BtnWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 30px;
+  gap: 15px;
 `;

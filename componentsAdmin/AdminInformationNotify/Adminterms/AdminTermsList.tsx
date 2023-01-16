@@ -6,7 +6,7 @@ import { AdminBtn } from 'componentsAdmin/Layout';
 import AdminTermsEditor, { TermsUpdate } from './AdminTermsEditor';
 import AdminNotifyTable from '../AdminNotifyTable';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { isTokenGetApi } from 'api';
+import { isTokenAdminGetApi } from 'api';
 import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
@@ -20,7 +20,7 @@ const AdminTermsList = ({ setNowHeight, setNumber }: Props) => {
   const dispatch = useDispatch();
   const { data, isLoading, isError, refetch, remove } = useQuery<TermsUpdate>(
     'adminTermsDetail',
-    () => isTokenGetApi(`/admin/terms/${detatilId}`),
+    () => isTokenAdminGetApi(`/admin/terms/${detatilId}`),
   );
 
   const [isDetail, setIsDetail] = useState(false);

@@ -4,6 +4,10 @@ import Image from 'next/image';
 import React from 'react';
 import BackImg from 'public/images/back-btn.svg';
 import { Box, Switch } from '@mui/material';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 type Props = {
   tabNumber: number;
@@ -12,6 +16,12 @@ type Props = {
 };
 
 const Term = ({ tabNumber, setTabNumber, nowWidth }: Props) => {
+  const { data, isLoading, isError, refetch } = useQuery<any>(
+    'entizenTerms',
+    () => isTokenGetApi(`/terms/location`),
+  );
+
+  console.log('data', data);
   return (
     <WebRapper>
       {nowWidth < 1200 && (
@@ -32,7 +42,7 @@ const Term = ({ tabNumber, setTabNumber, nowWidth }: Props) => {
       )}
 
       <Wrapper>
-        <Title>
+        {/* <Title>
           <span>엔티즌 이용약관</span>
         </Title>
         <Subtitle>
@@ -69,7 +79,10 @@ const Term = ({ tabNumber, setTabNumber, nowWidth }: Props) => {
           제공하려는 ‘공급자’가 계약 파트너를 찾을 수 있도록 견적 요청, 정보
           공유 등이 이루어집니다. 이러한 엔티즌 플랫폼 이용에 는 기본적으로 본
           약관이 적용됩니다.
-        </Content>
+        </Content> */}
+        {/* <Contents wrap="hard" readOnly value={data} /> */}
+        {/* {data} */}
+        <div dangerouslySetInnerHTML={{ __html: data }} />
       </Wrapper>
     </WebRapper>
   );
@@ -90,6 +103,8 @@ const Wrapper = styled.div`
   padding-right: 15pt;
   @media (min-width: 900pt) {
     padding: 0 38.25pt;
+    max-height: 625px;
+    overflow-y: scroll;
   }
 `;
 
@@ -159,5 +174,7 @@ const Content = styled.div`
   text-align: left;
   color: #111111;
 `;
+
+const Contents = styled.div``;
 
 export default Term;

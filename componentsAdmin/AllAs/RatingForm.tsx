@@ -6,9 +6,18 @@ import { AdminBtn } from 'componentsAdmin/Layout';
 type Props = {
   setReviewModal: React.Dispatch<React.SetStateAction<boolean>>;
   reviewData: ASReviewPoint;
+  setModifyReview: React.Dispatch<React.SetStateAction<string>>;
+  modifyReview: string;
+  reviewMified: () => void;
 };
 
-const RatingForm = ({ setReviewModal, reviewData }: Props) => {
+const RatingForm = ({
+  setReviewModal,
+  reviewData,
+  setModifyReview,
+  modifyReview,
+  reviewMified,
+}: Props) => {
   const reviewPoint = ['친절함', '신속함', '전문성', '만족도'];
 
   const score = [

@@ -3,6 +3,7 @@ import {
   isTokenDeleteApi,
   isTokenAdminGetApi,
   isTokenAdminDeleteApi,
+  isTokenAdminPutApi,
 } from 'api';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
@@ -102,6 +103,9 @@ const ASDetailView = ({
   // 리뷰 모달 열리고 닫히고
   const [reviewModal, setReviewModal] = useState<boolean>(false);
 
+  // 리뷰 수정하기
+  const [modifyReview, setModifyReview] = useState<string>('');
+
   // 드랍다운에 보내줄거
   const dropDownValue = ['접수요청', '접수확인', '완료'];
   const [selectValue, setSelectValue] = useState('');
@@ -150,16 +154,67 @@ const ASDetailView = ({
   // 리뷰데이터
   const reviewData = data?.data?.afterSalesService?.afterSalesServiceReview;
 
+  // as 리뷰 수정하는 함수
+  const {
+    mutate: putMutate,
+    isLoading: putIsLoading,
+    isError: putIsError,
+  } = useMutation(isTokenAdminPutApi, {
+    onSuccess: () => {
+      queryClinet.invalidateQueries('projectDetail');
+      setMessageModal(true);
+      setMessage('리뷰가 수정됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('리뷰 수정에 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const reviewMified = () => {
+    // putMutate({
+    //   url: `/admin/projects/${projectIdx}/review/${data?.data?.afterSalesService?.afterSalesServiceReview?.afterSalesServiceReviewIdx}`,
+    //   data: {
+    //     attentivenessPoint:
+    //       data?.data?.afterSalesService?.afterSalesServiceReview
+    //         ?.attentivenessPoint,
+    //     quicknessPoint:
+    //       data?.data?.afterSalesService?.afterSalesServiceReview
+    //         ?.quicknessPoint,
+    //     professionalismPoint:
+    //       data?.data?.afterSalesService?.afterSalesServiceReview
+    //         ?.professionalismPoint,
+    //     satisfactionPoint:
+    //       data?.data?.afterSalesService?.afterSalesServiceReview
+    //         ?.satisfactionPoint,
+    //     opinion: modifyReview,
+    //   },
+    // });
+  };
+
   useEffect(() => {
     if (setNowHeight && afterSalesServiceIdx) {
       setNowHeight(window.document.documentElement.scrollHeight);
     }
   }, []);
 
+  useEffect(() => {
+    setModifyReview(
+      data?.data?.afterSalesService?.afterSalesServiceReview?.opinion!,
+    );
+  }, [data]);
+
   return (
     <Background>
       {reviewModal && (
-        <RatingForm setReviewModal={setReviewModal} reviewData={reviewData!} />
+        <RatingForm
+          setReviewModal={setReviewModal}
+          reviewData={reviewData!}
+          setModifyReview={setModifyReview}
+          modifyReview={modifyReview}
+          reviewMified={reviewMified}
+        />
       )}
       {messageModal && (
         <AlertModal setIsModal={setMessageModal} message={message} />
@@ -258,13 +313,14 @@ const ASDetailView = ({
           <ProjectInfoContainer>
             <List>
               <Label>진행단계</Label>
-              <DropDownBtn
+              {/* <DropDownBtn
                 dropDownValue={dropDownValue}
                 currentStep={currentStep!}
                 setSelectValue={setSelectValue}
                 selectValue={selectValue}
                 width={'110px'}
-              />
+              /> */}
+              <Contents>{data?.data?.afterSalesService?.currentStep}</Contents>
             </List>
             <List>
               <Label>프로젝트 번호</Label>
@@ -280,9 +336,10 @@ const ASDetailView = ({
             </List>
             <List>
               <Label>A/S 제목</Label>
-              <RequestContents>
+              {/* <RequestContents>
                 {data?.data?.afterSalesService?.requestTitle}
-              </RequestContents>
+              </RequestContents> */}
+              <Contents>{data?.data?.afterSalesService?.requestTitle}</Contents>
             </List>
             <List>
               <Label>충전소</Label>
