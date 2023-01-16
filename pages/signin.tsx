@@ -591,8 +591,8 @@ const Signin = () => {
                     )}
                   </Box>
                 </Box>
-                <div id="appleid-signin" data-color="black" data-border="true" data-type="sign in" data-width="100"
-  data-height="32"></div> 
+                {/*<div id="appleid-signin" data-color="black" data-border="true" data-type="sign in" data-width="100"
+  data-height="32"></div> */}
                 {/* {selectedLoginType === 0 && (
                   <>
                     <Box
