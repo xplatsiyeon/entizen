@@ -32,9 +32,9 @@ type NEWIMG = {
 };
 
 const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
-  const QuillWrapper = dynamic(() => import('react-quill'), {
+  const ReactQuill = dynamic(() => import('react-quill'), {
     ssr: false,
-    loading: () => <p>Loading ...</p>,
+    // loading: () => <p>Loading ...</p>,
   });
   const [insideImgArr, setInsideImgArr] = useState<IMG[]>([]);
   // 경고창에 보내는 메세지
@@ -183,11 +183,11 @@ const AdminTermsQuill = ({ setBodyText, bodyText, firstContent }: Props) => {
 
   return (
     <ReactQuill
-      ref={(element) => {
-        if (element !== null) {
-          QuillRef.current = element;
-        }
-      }}
+      //   ref={(element) => {
+      //     if (element !== null) {
+      //       QuillRef.current = element;
+      //     }
+      //   }}
       theme="snow"
       modules={modules}
       formats={formats}
