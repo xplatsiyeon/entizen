@@ -44,7 +44,7 @@ type Props = {
   setPostNumber: React.Dispatch<React.SetStateAction<string>>;
   setCompanyAddress: React.Dispatch<React.SetStateAction<string>>;
   setAddressOn: React.Dispatch<React.SetStateAction<boolean>>;
-  handleEditAddress: ()=> void;
+  handleEditAddress?: ()=> void;
 };
 const CompanyAddress = ({
   setPostNumber,
@@ -135,8 +135,9 @@ const CompanyAddress = ({
           </AddressBox>
         </SearchResult>
       ))}
-      <EditAdressBtn onClick={
-        handleEditAddress}
+      <EditAdressBtn onClick={()=>{
+        if(handleEditAddress)handleEditAddress();
+      }}
       >주소변경 </EditAdressBtn>
     </Container>
   );
