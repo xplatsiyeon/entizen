@@ -13,7 +13,7 @@ import { isTokenGetApi } from 'api';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
-import { CalcDate } from '/Users/stevelabs/Desktop/entizen-frontend-next/utils/calculatePackage';
+import { CalcDate } from 'utils/calculatePackage';
 
 type NoticeListResponse = {
   isSuccess: boolean;
