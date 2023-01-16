@@ -64,10 +64,9 @@ const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = () => {
+  let naverLogin: any;
   const router = useRouter();
   const dispatch = useDispatch();
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
-  let naverLogin: any;
   const naverRef = useRef<HTMLElement | null | any>(null);
   const { user } = useSelector((state: RootState) => state.userList);
   const [userId, setUserId] = useState<string>('');
@@ -255,8 +254,6 @@ const Signin = () => {
   };
   // 네이버 온클릭
   const handleNaver = async () => {
-    console.log('네이버 온클릭');
-    console.log(naverRef);
     if (naverRef) {
       naverRef.current.children[0].click();
     }
@@ -327,6 +324,7 @@ const Signin = () => {
       originLogin();
     }
   };
+
   // 나이스 인증
   useEffect(() => {
     const memberType = loginTypeEnList[selectedLoginType];
@@ -349,7 +347,7 @@ const Signin = () => {
 
   // 네이버 로그인
   useEffect(() => {
-    login(naverLogin, function (naverLogin) {
+    login(naverLogin, (naverLogin) => {
       const hash = router.asPath.split('#')[1]; // 네이버 로그인을 통해 전달받은 hash 값
       console.log('hash -> ' + hash);
 
@@ -378,6 +376,7 @@ const Signin = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   // 유저타입 확인하는 useEffect
   useEffect(() => {
     if (selectedLoginType === 0) {
@@ -393,6 +392,22 @@ const Signin = () => {
     // return <Loader />;
   }
 
+  //애플 로그인 체크
+  useEffect(() => {
+    document.addEventListener('AppleIDSignInOnSuccess', (data: any) => {
+      //handle successful response
+      console.log('AppleIDSignInOnSuccess', data);
+      console.log(data.detail.authorization);
+      //todo success logic
+    });
+    //애플로 로그인 실패 시.
+    document.addEventListener('AppleIDSignInOnFailure', (error) => {
+      //handle error.
+      console.log('AppleIDSignInOnFailure');
+      //todo fail logic
+    });
+  }, []);
+
   return (
     <React.Fragment>
       <Head>
@@ -400,14 +415,14 @@ const Signin = () => {
           type="text/javascript"
           src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"
         ></script>
-        {/* 만약 팝업을 사용할 수 있다면 애플 로그인을 그냥 js 를 통해서 사용할 수 있겠지만, 
-        하이브리드 앱의 경우엔 인앱 브라우저 기능을 통해서 해당 페이지를 띄우므로 
-        인앱 브라우저 상에서 팝업 기능을 사용하는 것이 제한되는 경우가 많았습니다. 
-        따라서 저는 아래와 같은 세팅으로 popup 을 false 처리 한 후 라이브러리를 이용하였습니다. */}
-        <meta name="appleid-signin-client-id" content="com.entizen.applekey" />
-        <meta name="appleid-signin-redirect-uri" content="https://test-api.entizen.kr/api/auth/apple" />
+        <meta name="appleid-signin-client-id" content="entizenapplekey" />
+        <meta
+          name="appleid-signin-redirect-uri"
+          content="https://test-api.entizen.kr/api/auth/apple"
+        />
+        <meta name="appleid-signin-scope" content="name email" />
         <meta name="appleid-signin-state" content="" />
-        <meta name="appleid-signin-use-popup" content="false" />
+        <meta name="appleid-signin-use-popup" content="true" />
       </Head>
       {/* 로그인 에러 안내 모달 */}
       {errorModal && (
@@ -590,8 +605,18 @@ const Signin = () => {
                     )}
                   </Box>
                 </Box>
-                <div id="appleid-signin" data-color="black" data-border="true" data-type="sign in"></div>
-                {/* {selectedLoginType === 0 && (
+                {/*<TestWrap>
+                  <div id="appleid-signin" 
+                    data-color="black" 
+                    data-border="true" 
+                    data-type="sign in" 
+                    data-width="100"
+                    data-height="32"
+                    data-mode="center-align">
+                  </div> 
+                    </TestWrap> */}
+
+                {selectedLoginType === 0 && (
                   <>
                     <Box
                       sx={{
@@ -624,13 +649,8 @@ const Signin = () => {
                         <Image src={apple} alt="apple" />
                       </Box>
                       <NaverBox>
-                        <Box id="naverIdLogin" ref={naverRef}>
-                          <Image
-                            src={naver}
-                            alt="naver"
-                            onClick={handleNaver}
-                          />
-                        </Box>
+                        <Box ref={naverRef} id="naverIdLogin" />
+                        <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
                       <Box sx={{ height: '33pt', cursor: 'pointer' }}>
                         <Image
@@ -677,7 +697,7 @@ const Signin = () => {
                       ></Divider>
                     </Box>
                   </>
-                )} */}
+                )}
                 <Box
                   sx={{
                     margin: '18pt 18pt 0 18pt',
@@ -824,4 +844,8 @@ const FindBtn = styled.button`
 `;
 const Buttons = styled.button`
   display: none;
+`;
+const TestWrap = styled.div`
+  margin: 20pt auto;
+  position: relative;
 `;

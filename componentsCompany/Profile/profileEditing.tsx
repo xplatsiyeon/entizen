@@ -54,22 +54,6 @@ const ProfileEditing = ({
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  {
-    /* const {mutate: addressMutate} =  useMutation(isTokenPatchApi, {
-
-})
-    //주소 수정할 경우
-      addressMutate({
-        url: '/members/address',
-        data: {
-          address: companyAddress,
-          detailAddress: "",
-          zipCode: postNumber,
-        }
-      })
-    } */
-  }
-
   const { mutate: profileMutae, isLoading: profileLoading } = useMutation(
     isTokenPatchApi,
     {
@@ -184,17 +168,7 @@ const ProfileEditing = ({
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [data]);
 
-  const handleAddress = () => {
-    if (routeHandle) {
-      setComponent(2);
-    } else {
-      setAddressOn(true);
-    }
-    if (setHeightOn) setHeightOn(true);
-    // 나중에 프포필 변경 기본으로 돌아가는 ( setComponent(0) ) 기능이 생기면
-    // 그 때 setHeightOn(false) 로 바꿔줘야 함.
-  };
-
+ 
   useEffect(() => {
     const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
@@ -205,16 +179,6 @@ const ProfileEditing = ({
     console.log(snsMember);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  if (addressOn) {
-    return (
-      <CompanyAddress
-        setPostNumber={setPostNumber}
-        setCompanyAddress={setCompanyAddress}
-        setAddressOn={setAddressOn}
-      />
-    );
-  }
 
   return (
     <Wrapper>
@@ -262,47 +226,13 @@ const ProfileEditing = ({
           readOnly
           placeholder={profile?.companyMemberAdditionalInfo?.companyName}
         />
-        <Address>
-          <p>기업 주소</p>
-          <InputWrap>
-            <InputBox
-              placeholder="회사 우편번호 입력"
-              value={
-                postNumber
-                  ? postNumber
-                  : profile?.companyMemberAdditionalInfo?.companyZipCode
-              }
-              name="id"
-              readOnly={true}
-              // onClick={() => setAddressOn(true)}
-            />
-            {/* <InputBtn onClick={() => setAddressOn(true)}> */}
-            <InputBtn onClick={handleAddress}>
-              <span>주소찾기</span>
-            </InputBtn>
-          </InputWrap>
-          <InputBox
-            placeholder="회사 주소 입력"
-            value={
-              companyAddress
-                ? companyAddress
-                : profile?.companyMemberAdditionalInfo?.companyAddress
-            }
-            name="checkPw"
-            readOnly={true}
-            // onClick={() => setAddressOn(true)}
-          />
-          <InputBox
-            placeholder="회사 상세주소 입력"
-            value={
-              companyDetailAddress
-                ? companyAddress
-                : profile?.companyMemberAdditionalInfo?.companyDetailAddress
-            }
-            onChange={(e) => setCompanyDetailAddress(e.target.value)}
-            name="checkPw"
-          />
-        </Address>
+           <Div onClick={() => setComponent(1)}>
+          <span>주소 변경</span>
+          <ImageWrap>
+            <Image src={arrowRight} layout="fill" />
+          </ImageWrap>
+        </Div>
+  
         {/* 나이스 인증 */}
         {/* <form name="form_chk" method="get">
           <input type="hidden" name="m" value="checkplusService" />
