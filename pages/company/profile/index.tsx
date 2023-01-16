@@ -11,7 +11,7 @@ import CompanyRightMenu from 'componentsWeb/CompanyRightMenu';
 import EditAddress from 'componentsCompany/Profile/editAddress';
 
 const ProfileIndex = () => {
-  const [component, setComponent] = useState<number>(1);
+  const [component, setComponent] = useState<number>(0);
   const [tabNumber, setTabNumber] = useState<number>(7);
   const [componentId, setComponentId] = useState<number>();
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
@@ -19,7 +19,8 @@ const ProfileIndex = () => {
 
   const components = [
     <ProfileEditing setComponent={setComponent} component={component} setHeightOn={setHeightOn}/>,
-    <ProfileEditing setComponent={setComponent} component={component} isAddressOn={true}/>, // 지도
+    //<ProfileEditing setComponent={setComponent} component={component} isAddressOn={true}/>, // 지도
+    <EditAddress setComponent={setComponent} />,
     <EditPW setComponent={setComponent} />, // 비밀번호 변경
     <EditCertificate setComponent={setComponent} />, // 사업자 번호 변경
     <SignUpManagerInfo setComponent={setComponent} />, // 담당자 정보 변경
@@ -42,14 +43,12 @@ const ProfileIndex = () => {
       />
       <Wrapper>
         {/* 맨 처음. 프로필 하나 통으로만 있음 */}
-        {component === 1 && <FlexBox heightOn={heightOn} className="init">{components[0]}</FlexBox>}
+        {component === 0 && <FlexBox heightOn={heightOn} className="init">{components[0]}</FlexBox>}
        
-         {/* 맨 처음. 프로필 하나 통으로만 있음 */}
-          {component === 2 && <FlexBox heightOn={heightOn}>{components[1]}</FlexBox>}
-
+        
         {/* '~변경' 버튼을 클릭하면 (conponent state가 변경되면서)처음의 컴포넌트는 사라지고, 
         숨겨둔 프로필 컴포넌트와 '~ 변경' 컴포넌트가 나타난다  */}
-        {component > 2 && (
+        {component > 0 && (
           <>
             <P>프로필 변경</P>
             <HiddenBox className="hidden_comp">
@@ -57,8 +56,8 @@ const ProfileIndex = () => {
             </HiddenBox>
           </>
         )}
-        {component !== 1 && component !== 2 &&(
-          <FlexBox2 className="new_comp">{components[component - 1]}</FlexBox2>
+        { component !== 0 &&(
+          <FlexBox2 className="new_comp">{components[component]}</FlexBox2>
         )}
       </Wrapper>
       <WebFooter />
