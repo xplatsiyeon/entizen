@@ -710,13 +710,8 @@ const Signin = () => {
                       </Box>
                       {/* <div id="naverIdLogin">테스트</div> */}
                       <NaverBox>
-                        <Box ref={naverRef} id="naverIdLogin">
-                          <Image
-                            onClick={handleNaver}
-                            src={naver}
-                            alt="naver"
-                          />
-                        </Box>
+                        <Box ref={naverRef} id="naverIdLogin" />
+                        <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
                       <Box sx={{ height: '33pt', cursor: 'pointer' }}>
                         <Image
