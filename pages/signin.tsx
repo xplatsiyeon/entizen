@@ -419,7 +419,8 @@ const Signin = () => {
         ></script>
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
         <meta name="appleid-signin-redirect-uri" content="https://api.entizen.kr/api/auth/apple" />
-        <meta name="appleid-signin-scope" content="name email" />
+        <meta name="appleid-signin-scope" content="name" />
+        <meta name="appleid-signin-scope" content="email" />
         <meta name="appleid-signin-state" content="" />
         <meta name="appleid-signin-use-popup" content="true" />
       </Head>
