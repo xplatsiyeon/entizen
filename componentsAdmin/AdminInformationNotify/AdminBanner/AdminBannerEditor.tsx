@@ -543,7 +543,7 @@ const AdminBannerEditor = ({
             )}
           </ImgSpanBox>
         </ImgWrapper>
-        <ImgWrapper>
+        {/* <ImgWrapper>
           <AddImg>
             <AddImgText>내부 이미지 추가</AddImgText>
             <AdminBtn onClick={imgInHandler}>사진첨부</AdminBtn>
@@ -556,7 +556,7 @@ const AdminBannerEditor = ({
             onChange={saveFileInsideImage}
             multiple
           />
-          {/* <Preview> */}
+          // <Preview>
           <ImgSpanBox>
             {insideImgArr?.map((img, index) => (
               <ImgSpan>
@@ -582,7 +582,7 @@ const AdminBannerEditor = ({
               </ImgSpan>
             ))}
           </ImgSpanBox>
-        </ImgWrapper>
+        </ImgWrapper> */}
         <BtnBox>
           {detatilId !== '' ? (
             <>

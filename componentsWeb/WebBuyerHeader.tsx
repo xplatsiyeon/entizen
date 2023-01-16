@@ -5,7 +5,9 @@ import Link from 'next/link';
 import colors from 'styles/colors';
 import Logos from 'public/images/webLogo.png';
 import Chat from 'public/images/chat.png';
+// 알림 0
 import Bell from 'public/images/bell.png';
+// 알림 0이상
 import BellOutline from 'public/images/Bell_outline.png';
 import MyprojectLink from 'componentsWeb/MyprojectLink';
 import Frame from 'public/images/Frame.png';
@@ -13,6 +15,8 @@ import ProfileUp from 'public/images/profile-up.png';
 import ProfileDown from 'public/images/profile-down.png';
 import { useRouter } from 'next/router';
 import { handleLogoutOnClickModalClick } from 'api/logout';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
 
 type Props = {
   num?: number;
@@ -24,6 +28,13 @@ type Props = {
   getComponentId?: number;
   setOpenSubLink: React.Dispatch<React.SetStateAction<boolean>>;
   height?: boolean;
+};
+
+type GetUnread = {
+  isSuccess: boolean;
+  data: {
+    unReadCount: number;
+  };
 };
 
 const WebBuyerHeader = ({
@@ -44,6 +55,17 @@ const WebBuyerHeader = ({
   const onMouseLeave = () => setIsHovered(false);
   const router = useRouter();
   const isUser = sessionStorage.getItem('USER_ID');
+
+  // 알람 조회
+  // alerts/histories/unread
+  const {
+    data: historyUnread,
+    isLoading: historyIsLoading,
+    isError: historyIIsError,
+    refetch: historyIsRefetch,
+  } = useQuery<GetUnread>('historyUnread', () =>
+    isTokenGetApi(`/alerts/histories/unread`),
+  );
 
   const logout = () => {
     handleLogoutOnClickModalClick()
@@ -183,11 +205,19 @@ const WebBuyerHeader = ({
                       />
                     </IconBox>
                     <IconBox>
-                      <Image
-                        src={BellOutline}
-                        alt="bell on"
-                        onClick={() => router.push('/alarm')}
-                      />
+                      {historyUnread?.data?.unReadCount === 0 ? (
+                        <Image
+                          src={Bell}
+                          alt="bell on"
+                          onClick={() => router.push('/alarm')}
+                        />
+                      ) : (
+                        <Image
+                          src={BellOutline}
+                          alt="bell on"
+                          onClick={() => router.push('/alarm')}
+                        />
+                      )}
                     </IconBox>
                     <ProfileBox
                       onMouseEnter={onMouseEnter}
@@ -362,8 +392,7 @@ const DivBox = styled.div<{ tab: number; index: number }>`
   font-size: 13.5pt;
   line-height: 13.5pt;
   font-family: 'Spoqa Han Sans Neo';
-  color: ${({ tab, index }) =>
-    tab === index ? colors.main : colors.main2};
+  color: ${({ tab, index }) => (tab === index ? colors.main : colors.main2)};
   text-decoration: none;
   a {
     font-weight: bold;

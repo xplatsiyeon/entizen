@@ -55,14 +55,20 @@ const MemberContents = ({
         <Company>
           <li>
             <label className="comapny label">기업명</label>
-            <InputBox
+            {/* <InputBox
               type="text"
               readOnly
               value={
                 CompanyData?.data?.member?.companyMemberAdditionalInfo
                   ?.companyName
               }
-            />
+              /> */}
+            <span>
+              {
+                CompanyData?.data?.member?.companyMemberAdditionalInfo
+                  ?.companyName
+              }
+            </span>
           </li>
           <li>
             <label className="comapny label">아이디</label>
@@ -87,7 +93,7 @@ const MemberContents = ({
           </li>
           <li>
             <label className="comapny label">주소</label>
-            <InputBox
+            {/* <InputBox
               type="text"
               readOnly
               value={
@@ -95,7 +101,13 @@ const MemberContents = ({
                   ?.companyDetailAddress
               }
               className="address"
-            />
+              /> */}
+            <span>
+              {
+                CompanyData?.data?.member?.companyMemberAdditionalInfo
+                  ?.companyDetailAddress
+              }
+            </span>
           </li>
           <li>
             <label className="comapny label">사업자 등록증</label>

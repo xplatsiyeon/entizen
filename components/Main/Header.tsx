@@ -2,14 +2,35 @@ import styled from '@emotion/styled';
 import React from 'react';
 import Logos from 'public/images/entizenLogo.png';
 import Ring from 'public/images/guide-bell.svg';
+import OnRing from 'public/images/bell-outline.svg';
 import Hamburger from 'public/images/list-bar.svg';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
 
 type Props = {};
 
+type GetUnread = {
+  isSuccess: boolean;
+  data: {
+    unReadCount: number;
+  };
+};
+
 const Header = (props: Props) => {
   const router = useRouter();
+  // 알람 조회
+  // alerts/histories/unread
+  const {
+    data: historyUnread,
+    isLoading: historyIsLoading,
+    isError: historyIIsError,
+    refetch: historyIsRefetch,
+  } = useQuery<GetUnread>('historyUnread', () =>
+    isTokenGetApi(`/alerts/histories/unread`),
+  );
+
   return (
     <HeadWrapper>
       <LogoBox>
@@ -26,7 +47,11 @@ const Header = (props: Props) => {
       </LogoBox>
       <IconWrapper>
         <IconBox>
-          <Image src={Ring} alt="alarmIcon" />
+          {historyUnread?.data?.unReadCount === 0 ? (
+            <Image src={Ring} alt="alarmIcon" />
+          ) : (
+            <Image src={OnRing} alt="alarmIcon" />
+          )}
         </IconBox>
         <IconBox>
           <Image src={Hamburger} alt="listIcon" />

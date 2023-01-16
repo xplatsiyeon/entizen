@@ -72,6 +72,8 @@ const UserPreQuotation = ({ detatilId }: Props) => {
       isTokenAdminGetApi(`/admin/quotations/quotation-requests/${detatilId}`),
     );
 
+  // 기타요청 사항 받는 set 함수
+  const [elseText, setElseText] = useState<string>('');
   // 달력 날짜 변경 함수
   const handleDateChange = () => {};
 
@@ -203,11 +205,24 @@ const UserPreQuotation = ({ detatilId }: Props) => {
         <FlexList3>
           <DetailText type={'left'}>기타요청사항</DetailText>
           {data?.data?.quotationRequest?.etcRequest?.length === 0 ? (
-            <ElseTextArea>없음</ElseTextArea>
+            <ElseText
+              maxLength={500}
+              readOnly
+              onChange={(e) => {
+                setElseText(e.target.value);
+              }}
+              value={elseText !== '' ? elseText : '없음'}
+            />
           ) : (
-            <ElseTextArea>
-              {data?.data?.quotationRequest?.etcRequest}
-            </ElseTextArea>
+            <ElseText
+              maxLength={500}
+              readOnly
+              value={
+                elseText !== ''
+                  ? elseText
+                  : data?.data?.quotationRequest?.etcRequest
+              }
+            />
           )}
         </FlexList3>
       </DetailBox>
@@ -301,12 +316,16 @@ const FlexList3 = styled.div`
   padding-bottom: 23px;
 `;
 
-const ElseText = styled.div`
+const ElseText = styled.textarea`
   ${Text}
-  width: 732px;
+  width: 748px;
+  height: 210px;
   border: 1px solid #e2e5ed;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 5px 10px 5px 10px;
+  border-radius: 5px;
+  resize: none;
+  background: #ffffff;
+  overflow-y: scroll;
 `;
 
 const ChargeText = styled.div`

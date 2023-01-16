@@ -215,3 +215,61 @@ export const isAdminJoinApprovedBoolean = (value: string) => {
     return false;
   }
 };
+
+// 며칠전, 몇주전 계산해주는 함수
+const koreaDate = (createdAt: string) => {
+  const offset = 1000 * 60 * 60 * 9;
+  return new Date(new Date(createdAt).getTime() + offset);
+};
+
+export const CalcDate = (endDate: string) => {
+  const seconds = 1;
+  // 분
+  const minute = seconds * 60;
+  // 시
+  const hour = minute * 60;
+  // 일
+  const day = hour * 24;
+
+  // 1주
+  const firstWeek = day * 7;
+  // 2주
+  const secondWeek = firstWeek * 2;
+  // 3주
+  const thirdWeek = firstWeek * 3;
+  // 4주
+  const fourthWeek = firstWeek * 4;
+  // 5주
+  const fifthWeek = firstWeek * 5;
+
+  const nowDate = new Date();
+  const today = koreaDate(nowDate.toString());
+  const newDate = koreaDate(endDate);
+  const elapsedTime = Math.trunc((today.getTime() - newDate.getTime()) / 1000);
+
+  let elapsedText = '';
+  if (elapsedTime < seconds) {
+    elapsedText = '방금 전';
+  } else if (elapsedTime < minute) {
+    elapsedText = elapsedTime + '초 전';
+  } else if (elapsedTime < hour) {
+    elapsedText = Math.trunc(elapsedTime / minute) + '분 전';
+  } else if (elapsedTime < day) {
+    elapsedText = Math.trunc(elapsedTime / hour) + '시간 전';
+  } else if (elapsedTime > firstWeek - 1 && elapsedTime < secondWeek) {
+    elapsedText = '1주 전';
+  } else if (elapsedTime > secondWeek && elapsedTime < thirdWeek) {
+    elapsedText = '2주 전';
+  } else if (elapsedTime > thirdWeek && elapsedTime < fourthWeek) {
+    elapsedText = '3주 전';
+  } else if (elapsedTime > fourthWeek && elapsedTime < fifthWeek) {
+    elapsedText = '4주 전';
+  } else if (elapsedTime < day * 28) {
+    elapsedText = Math.trunc(elapsedTime / day) + '일 전';
+  } else {
+    // elapsedText = adminDateFomat(newDate.toString()).substring(0, 12);
+    elapsedText = adminDateFomat(newDate.toString());
+  }
+
+  return elapsedText;
+};

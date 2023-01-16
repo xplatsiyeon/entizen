@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery } from 'react-query';
-import { api } from 'api';
+import { api, isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { PartnerProductData } from 'types/tableDataType';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
@@ -33,9 +33,6 @@ Props) => {
 
   console.log(selected);
 
-  // 유저 회원 검색 필터 뭐 눌렀는지
-  const changeSearchType = ['name', 'id'];
-
   /*
   
    필터에 limit 기능이 생기면, 갯수에 따라 게시글 번호 계산해주는 함수 만들어야 함.
@@ -51,16 +48,15 @@ Props) => {
   const { data, refetch } = useQuery<PartnerProductData>(
     'PPData',
     () =>
-      api({
-        method: 'GET',
-        endpoint: `/admin/products?page=${page}&limit=10&searchKeyword=&chargerKind=${selected[0]}&chargerMethods[]=${selected[1]}&chargerChannel=${selected[2]}`,
-      }),
+      isTokenAdminGetApi(
+        `/admin/products?page=${page}&limit=10&searchKeyword=&chargerKind=${selected[0]}&chargerMethods[]=${selected[1]}&chargerChannel=${selected[2]}`,
+      ),
     {
       enabled: false,
       onSuccess: (data) => {
         console.log(data);
         const temp: any = [];
-        data?.data?.products.forEach((ele, idx) => {
+        data?.data?.products?.forEach((ele, idx) => {
           const arrEle = [
             `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
               idx + 1 === 10 ? page * 10 : idx + 1
@@ -118,6 +114,41 @@ Props) => {
       },
     },
   );
+
+  //파트너 등록 제품
+  //  const partnerProduct = [
+  //   '번호',
+  //   '업체명',
+  //   '제조사명',
+  //   {
+  //     name: '이미지',
+  //     formatter: (cell: string) => _(<img src={cell} alt="image" />),
+  //   },
+  //   { name: '충전모달', width: '10%' },
+  //   { name: '충전방식모달', width: '10%' },
+  //   '채널',
+  //   '담당자',
+  //   { name: '담당자연락처', width: '10%' },
+  //   { name: '등록일', width: '10%' },
+  //   {
+  //     name: '',
+  //     id: 'PP-detail',
+  //     formatter: (cell: string) =>
+  //       _(
+  //         <button
+  //           className="detail"
+  //           onClick={() => {
+  //             setDetailId(cell);
+  //             setIsDetail(true);
+  //           }}
+  //         >
+  //           보기
+  //         </button>,
+  //       ),
+  //   },
+  //  ];
+
+  console.log('data', data);
 
   useEffect(() => {
     refetch();

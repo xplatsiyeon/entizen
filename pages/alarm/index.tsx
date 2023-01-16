@@ -8,11 +8,38 @@ import Nut from 'public/images/Nut.svg';
 import Bell from 'public/images/bell.svg';
 import Loader from 'components/Loader';
 import { useRouter } from 'next/router';
-
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
 import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import { CalcDate } from '/Users/stevelabs/Desktop/entizen-frontend-next/utils/calculatePackage';
 
+type NoticeListResponse = {
+  isSuccess: boolean;
+  data: {
+    totalCount: number;
+    notices: {
+      createdAt: string;
+      noticeIdx: number;
+      title: string;
+      content: string;
+    }[];
+  };
+};
+
+type HistoryAlertType = {
+  isSuccess: boolean;
+  data: {
+    alertHistories: {
+      alertHistoryIdx: number;
+      title: string;
+      body: string;
+      link: string;
+      createdAt: string;
+    }[];
+  };
+};
 const arr = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2,
   3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -21,9 +48,9 @@ const Alam = () => {
   const router = useRouter();
   const tabList: string[] = ['전체 알림', '공지사항'];
   const [tab, setTab] = useState<number>(0);
-  // const [list, setList] = useState(arr.slice(0, 5));
-  const [list, setList] = useState(arr.slice(0, 1));
-  const [isLoading, setIsLoading] = useState(false);
+
+  // const [list, setList] = useState(arr.slice(0, 1));
+  // const [isLoading, setIsLoading] = useState(false);
   const [isScroll, setIsScroll] = useState(false);
   const [openSubLink, setOpenSubLink] = useState<boolean>(false);
   const [componentId, setComponentId] = useState<number>();
@@ -35,26 +62,58 @@ const Alam = () => {
   const onClicklist1 = () => {
     router.push('/alarm/1-2');
   };
-  const onClicklist2 = () => {
-    router.push('/alarm/1-3');
-  };
+
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+
+  // /notices?page=1&limit=10
+  // 공지사항 get api
+  const {
+    data: noticeList,
+    isLoading: noticeIsLoading,
+    isError: noticeIsError,
+    refetch: noticeIsRefetch,
+  } = useQuery<NoticeListResponse>('noticesList', () =>
+    isTokenGetApi(`/notices?page=1&limit=10`),
+  );
+
+  // 전체 알림
+  // /alerts/histories
+  const {
+    data: historyList,
+    isLoading: historyIsLoading,
+    isError: historyIsError,
+    refetch: historyIsRefetch,
+  } = useQuery<HistoryAlertType>('historyAlertList', () =>
+    isTokenGetApi(`/alerts/histories`),
+  );
+
+  const [list, setList] = useState(noticeList?.data?.notices?.slice(0, 5));
+
   // 무한 스크롤
   const onIntersect = useCallback(
     async (entry: any, observer: any) => {
       if (entry[0].isIntersecting) {
         observer.unobserve(entry[0].target);
         await new Promise((resolve) => setTimeout(resolve, 500));
-        setList((list) => list.concat(arr.slice(list.length, list.length + 5)));
+        setList((list: any) =>
+          list?.concat(
+            noticeList?.data?.notices?.slice(list.length, list.length + 5),
+          ),
+        );
         observer.observe(entry[0].target);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [arr],
   );
+
   // 무한 스크롤
   // useEffect(() => {
-  //   if (loadRef.current && !isLoading && list.length !== arr.length) {
+  //   if (
+  //     loadRef.current &&
+  //     !noticeIsLoading &&
+  //     list?.length !== noticeList?.data?.totalCount
+  //   ) {
   //     setIsScroll(true);
   //     observerRef.current = new IntersectionObserver(onIntersect, {
   //       threshold: 0.4,
@@ -68,14 +127,22 @@ const Alam = () => {
   //     observerRef.current && observerRef.current.disconnect();
   //   };
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [list, arr, isScroll, isLoading, onIntersect]);
+  // }, [list, isScroll, noticeIsLoading, onIntersect]);
 
-  useEffect(() => {
-    if (router.query.id) {
-      const num = Number(router.query.id);
-      setTab(num);
-    }
-  }, [router.query.id]);
+  // useEffect(() => {
+  //   if (router.query.id) {
+  //     const num = Number(router.query.id);
+  //     setTab(num);
+  //   }
+  // }, [router.query.id]);
+
+  // useEffect(() => {
+  //   router.push('/alarm/1-3', {
+  //     query: {
+  //       noticesIdx: noticeIdx,
+  //     },
+  //   });
+  // }, [noticeIdx]);
 
   return (
     <WebBody>
@@ -142,37 +209,48 @@ const Alam = () => {
               </Text>
             ))}
           </Tab>
-          {list.length === 0 && (
+          {/* {list.length === 0 && (
             <Body>
               <Image src={Bell} alt="bell" />
               <p className="text">새로운 알림이 없습니다</p>
             </Body>
-          )}
+          )} */}
           {tab === 0 && (
             <Main>
-              {list.map((_, index) => (
+              {historyList?.data?.alertHistories?.map((item, index) => (
                 <ContensBox key={index} onClick={onClicklist1}>
-                  {/* <label className="label">[entizen 서비스 오픈]</label> */}
-                  <p className="contents">entizen 서비스 오픈</p>
-                  <div className="period">1주 전</div>
+                  // <label className="label">{[`${item.title}`]}</label>
+                  <p className="contents">{item.title}</p>
+                  <div className="period">{CalcDate(item?.createdAt)}</div>
                   <div className="line"></div>
                 </ContensBox>
               ))}
             </Main>
           )}
+          {/*  공지사항 리스트 여기에 연결 */}
           {tab === 1 && (
             <Main>
-              {list.map((_, index) => (
-                <ContensBox key={index} onClick={onClicklist2}>
-                  <p className="contents">서비스 이용 알림 드립니다</p>
-                  <div className="period">1주 전</div>
+              {noticeList?.data?.notices?.map((item, index) => (
+                <ContensBox
+                  key={index}
+                  onClick={() => {
+                    router.push({
+                      pathname: '/alarm/1-3',
+                      query: {
+                        noticesIdx: item?.noticeIdx,
+                      },
+                    });
+                  }}
+                >
+                  <p className="contents">{item?.title}</p>
+                  <div className="period">{CalcDate(item?.createdAt)}</div>
                   <div className="line"></div>
                 </ContensBox>
               ))}
             </Main>
           )}
 
-          <div ref={loadRef}>{isScroll && !isLoading && <Loader />}</div>
+          <div ref={loadRef}>{isScroll && !noticeIsLoading && <Loader />}</div>
         </Wrapper>
       </Inner>
       <WebFooter />

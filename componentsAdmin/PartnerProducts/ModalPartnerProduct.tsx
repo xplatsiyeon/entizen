@@ -9,6 +9,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   isTokenAdminDeleteApi,
   isTokenAdminGetApi,
+  isTokenAdminPatchApi,
+  isTokenAdminPutApi,
   isTokenDeleteApi,
 } from 'api';
 import { chargers } from 'storeCompany/finalQuotation';
@@ -77,16 +79,21 @@ type AdminProductListDetail = {
 const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
   const queryClinet = useQueryClient();
 
-  // 모달리스트 불러오는 부분
-  const { data: partnerProductList, refetch: partnerProductListRefetch } =
-    useQuery<PartnerProductData>('PPData', () =>
-      getApi(
-        `/admin/products?page=1&limit=10&limit=10&searchKeyword=&chargerKind=&chargerMethods[]=&chargerChannel=`,
-      ),
-    );
-  const { data, isLoading, isError } = useQuery<AdminProductListDetail>(
-    'ProductListDetail',
-    () => isTokenAdminGetApi(`/admin/products/${detatilId}`),
+  // 모달상세 불러오는 부분
+  const {
+    data: partnerProductList,
+    isLoading: partnerProductIsLoading,
+    isError: partnerProductIsError,
+    refetch: partnerProductListRefetch,
+  } = useQuery<AdminProductListDetail>('ProductListDetail', () =>
+    isTokenAdminGetApi(`/admin/products/${detatilId}`),
+  );
+
+  // 등록된 파트너 제품 리스트 조회
+  const { data, refetch } = useQuery<PartnerProductData>('PPData', () =>
+    isTokenAdminGetApi(
+      `/admin/products?page=1&limit=10&searchKeyword=&chargerKind=&chargerMethods[]=&chargerChannel=`,
+    ),
   );
   const [modal, setModal] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<chargers[]>([]);
@@ -94,7 +101,12 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
   const [selectValue, setSelectValue] = useState<string>('');
   const [selectChannelValue, setSelectChannelValue] = useState<string>('');
 
-  const chargeMethod = data?.data?.method;
+  // 특장점 수정 set
+  const [features, setFeatures] = useState<string>('');
+
+  console.log('💔 features 💔', features);
+
+  const chargeMethod = partnerProductList?.data?.method;
 
   // 삭제 하고 싶은 파일 id 값 업데이트
   const [fileIdx, setFileIdx] = useState<number | undefined>();
@@ -187,6 +199,35 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
     setSelectedOptionEn(copyEn);
   };
 
+  // 특장점 수정 api
+  // admin/products/:chargerProductIdx/feature
+  const { mutate: featureMutate, isLoading: featureIsLoading } = useMutation(
+    isTokenAdminPatchApi,
+    {
+      onSuccess: () => {
+        queryClinet.invalidateQueries('PPData');
+        refetch();
+        setMessageModal(true);
+        setMessage('수정이 완료됐습니다!');
+      },
+      onError: (error: any) => {
+        setMessageModal(true);
+        setMessage('수정 요청을 실패했습니다.\n다시 시도해주세요.');
+        // router.back();
+      },
+    },
+  );
+
+  // 수정 onClick
+  const onClickFeatureBtn = () => {
+    featureMutate({
+      url: `/admin/products/${detatilId}/feature`,
+      data: {
+        feature: features,
+      },
+    });
+  };
+
   const handle = () => {
     setModal(true);
   };
@@ -235,12 +276,20 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
     }
   }, [fileIdx, chargerImgIdx]);
 
+  useEffect(() => {
+    setFeatures(partnerProductList?.data?.feature!);
+  }, [partnerProductList]);
+
   return (
     <Body>
       <Wrap>
         {modal && <CancleModal setModal={setModal} rightBtn={rightBtn} />}
         {messageModal && (
-          <AlertModal setIsModal={setMessageModal} message={message} />
+          <AlertModal
+            setIsModal={setMessageModal}
+            message={message}
+            setIsDetail={setIsDetail}
+          />
         )}
         <Box>
           <AdminHeader
@@ -250,7 +299,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
           />
           <FlexBox>
             <GrayBtn>삭제</GrayBtn>
-            <GrayBtn>수정</GrayBtn>
+            <GrayBtn onClick={onClickFeatureBtn}>수정</GrayBtn>
           </FlexBox>
         </Box>
         <Inner>
@@ -259,27 +308,35 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
             <List>
               <Label>업체명</Label>
               <Contents>
-                {data?.data?.member?.companyMemberAdditionalInfo?.companyName}
+                {
+                  partnerProductList?.data?.member?.companyMemberAdditionalInfo
+                    ?.companyName
+                }
               </Contents>
             </List>
             <List>
               <Label>담당자</Label>
-              <Contents>{data?.data?.member?.name}</Contents>
+              <Contents>{partnerProductList?.data?.member?.name}</Contents>
             </List>
             <List>
               <Label>담당자 연락처</Label>
-              <Contents>{hyphenFn(data?.data?.member?.phone!)}</Contents>
+              <Contents>
+                {hyphenFn(partnerProductList?.data?.member?.phone!)}
+              </Contents>
             </List>
             <List>
               <Label>담당자 이메일</Label>
               <Contents>
-                {data?.data?.member?.companyMemberAdditionalInfo?.managerEmail}
+                {
+                  partnerProductList?.data?.member?.companyMemberAdditionalInfo
+                    ?.managerEmail
+                }
               </Contents>
             </List>
             <List>
               <Label>제조사</Label>
               <RequestContents height={33} maxLength={50} readOnly>
-                {data?.data?.manufacturer}
+                {partnerProductList?.data?.manufacturer}
               </RequestContents>
             </List>
             <List>
@@ -289,7 +346,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
                   currentStep={convertKo(
                     M5_LIST,
                     M5_LIST_EN,
-                    data?.data?.kind!,
+                    partnerProductList?.data?.kind!,
                   )}
                   dropDownValue={M5_LIST}
                   setSelectValue={setSelectValue}
@@ -323,7 +380,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
                   currentStep={convertKo(
                     M7_LIST,
                     M7_LIST_EN,
-                    data?.data?.channel!,
+                    partnerProductList?.data?.channel!,
                   )}
                   dropDownValue={M7_LIST}
                   width={'300px'}
@@ -335,14 +392,21 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
             </List>
             <List>
               <Label>특장점</Label>
-              <RequestContents height={200} maxLength={500} readOnly>
-                {data?.data?.feature === '' ? '없음' : data?.data?.feature}
+              <RequestContents
+                height={200}
+                maxLength={500}
+                value={features}
+                onChange={(e) => {
+                  setFeatures(e.target.value);
+                }}
+              >
+                {features === '' ? '없음' : features}
               </RequestContents>
             </List>
             <ImgList>
               <label className="label">제품 이미지</label>
               <div className="container">
-                {data?.data?.chargerProductFiles?.map(
+                {partnerProductList?.data?.chargerProductFiles?.map(
                   (img, index) =>
                     img.productFileType === 'IMAGE' && (
                       <div className="imgBox" key={index}>
@@ -371,7 +435,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
             <BusinessList>
               <label className="label">첨부파일</label>
               <div className="fileContainer">
-                {data?.data?.chargerProductFiles?.map(
+                {partnerProductList?.data?.chargerProductFiles?.map(
                   (file, index) =>
                     file.productFileType === 'CATALOG' && (
                       <div className="fileBox" key={index}>

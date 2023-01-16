@@ -1,48 +1,132 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
+import { isTokenGetApi } from 'api';
+import WebBuyerHeader from 'componentsWeb/WebBuyerHeader';
+import WebFooter from 'componentsWeb/WebFooter';
+import WebHeader from 'componentsWeb/WebHeader';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import BackImg from 'public/images/back-btn.svg';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 import colors from 'styles/colors';
+import { adminDateFomat } from 'utils/calculatePackage';
+
+type NoticeResponse = {
+  isSuccess: boolean;
+  data: {
+    createdAt: string;
+    noticeIdx: number;
+    title: string;
+    content: string;
+  };
+};
+
 const Alam1_3 = () => {
+  // /notices/:noticeIdx
   const router = useRouter();
+  const routerID = router.query.noticesIdx;
+
+  const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+
+  const {
+    data: notice,
+    isLoading: noticeIsLoading,
+    isError: noticeIsError,
+    refetch: noticeIsRefetch,
+  } = useQuery<NoticeResponse>('noticesList', () =>
+    isTokenGetApi(`/notices/${routerID}`),
+  );
+
+  const [openSubLink, setOpenSubLink] = useState<boolean>(false);
+  const [tabNumber, setTabNumber] = useState<number>(7);
+
   return (
-    <Wrapper>
-      <Header>
-        <div
-          className="img-item"
-          onClick={() => {
-            router.back();
-          }}
-        >
-          <Image
-            style={{
-              cursor: 'pointer',
-              width: '18pt',
-              height: '18pt',
-            }}
-            src={BackImg}
-            alt="btn"
-          />
-        </div>
-        <span className="text">공지 사항</span>
-      </Header>
-      <Title>서비스 이용 알림 드립니다.</Title>
-      <Date>2022.12.28</Date>
-      <Line></Line>
-      <BodyContainer>
-        {/* <h3 className="name">1. 충전기 종류</h3> */}
-        <p className="contents">
-          서비스 이용 알림 드립니다.
-          <br />
-          개명 또는 기업명 변경 신청 시 1:1문의 부탁드립니다.
-        </p>
-      </BodyContainer>
-    </Wrapper>
+    <WebBody>
+      {memberType === 'COMPANY' ? (
+        <WebBuyerHeader
+          setOpenSubLink={setOpenSubLink}
+          setTabNumber={setTabNumber}
+          tabNumber={7}
+          openSubLink={openSubLink}
+        />
+      ) : (
+        <WebHeader />
+      )}
+      <Inner>
+        <Wrapper>
+          <Header>
+            <div
+              className="img-item"
+              onClick={() => {
+                router.back();
+              }}
+            >
+              <Image
+                style={{
+                  cursor: 'pointer',
+                  width: '18pt',
+                  height: '18pt',
+                }}
+                src={BackImg}
+                alt="btn"
+              />
+            </div>
+            <span className="text">공지 사항</span>
+          </Header>
+          <Title>{notice?.data?.title}</Title>
+          <Date>{adminDateFomat(notice?.data?.createdAt!)}</Date>
+          <Line></Line>
+          <BodyContainer>
+            {/* <h3 className="name">1. 충전기 종류</h3> */}
+            <p className="contents">{notice?.data?.content}</p>
+          </BodyContainer>
+        </Wrapper>
+      </Inner>
+      <WebFooter />
+    </WebBody>
   );
 };
 
 export default Alam1_3;
+const WebBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fcfcfc;
+  @media (max-height: 809pt) {
+    display: block;
+    height: 100%;
+  }
+`;
+
+const Inner = styled.div`
+  display: block;
+  position: relative;
+  margin: 45.75pt auto;
+  width: 900pt;
+  border-radius: 12pt;
+  padding: 32.25pt 0 42pt;
+  @media (max-width: 899.25pt) {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    top: 0;
+    left: 0%;
+    transform: none;
+    padding: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+  }
+  @media (max-height: 500pt) {
+    height: 100%;
+  }
+`;
+
 const Wrapper = styled.div`
   padding-bottom: 20pt;
 `;
@@ -65,6 +149,10 @@ const Header = styled(Box)`
     text-align: center;
     letter-spacing: -0.02em;
     color: ${colors.main2};
+  }
+
+  @media (min-width: 900pt) {
+    display: none;
   }
 `;
 const Title = styled.p`

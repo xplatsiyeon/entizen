@@ -13,11 +13,20 @@ import ProfileUp from 'public/images/profile-up.png';
 import ProfileDown from 'public/images/profile-down.png';
 import { useRouter } from 'next/router';
 import { handleLogoutOnClickModalClick } from 'api/logout';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
 
 type Props = {
   num?: number;
   now?: string;
   sub?: string;
+};
+
+type GetUnread = {
+  isSuccess: boolean;
+  data: {
+    unReadCount: number;
+  };
 };
 
 const WebHeader = ({ num, now, sub }: Props) => {
@@ -28,6 +37,17 @@ const WebHeader = ({ num, now, sub }: Props) => {
   const [isHovering, setIsHovered] = useState(false);
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
+
+  // 알람 조회
+  // alerts/histories/unread
+  const {
+    data: historyUnread,
+    isLoading: historyIsLoading,
+    isError: historyIIsError,
+    refetch: historyIsRefetch,
+  } = useQuery<GetUnread>('historyUnread', () =>
+    isTokenGetApi(`/alerts/histories/unread`),
+  );
 
   const logout = () => {
     handleLogoutOnClickModalClick()
@@ -101,11 +121,19 @@ const WebHeader = ({ num, now, sub }: Props) => {
                       />
                     </IconBox>
                     <IconBox>
-                      <Image
-                        src={BellOutline}
-                        alt="bell on"
-                        onClick={() => router.push('/alarm')}
-                      />
+                      {historyUnread?.data?.unReadCount === 0 ? (
+                        <Image
+                          src={Bell}
+                          alt="bell on"
+                          onClick={() => router.push('/alarm')}
+                        />
+                      ) : (
+                        <Image
+                          src={BellOutline}
+                          alt="bell on"
+                          onClick={() => router.push('/alarm')}
+                        />
+                      )}
                     </IconBox>
                     <ProfileBox
                       onMouseEnter={onMouseEnter}
