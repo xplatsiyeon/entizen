@@ -63,15 +63,7 @@ const ProfileEditing = ({
         console.log('주소 변경 실패 ',error);
       },
     })
-    //주소 수정할 경우
-      addressMutate({
-        url: '/members/address',
-        data: {
-          address: companyAddress,
-          detailAddress: "",
-          zipCode: postNumber,
-        }
-      }) 
+ 
   
   const { mutate: profileMutae, isLoading: profileLoading } = useMutation(
     isTokenPatchApi,
