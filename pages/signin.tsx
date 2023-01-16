@@ -603,8 +603,17 @@ const Signin = () => {
                     )}
                   </Box>
                 </Box>
-                {<div id="appleid-signin" data-color="black" data-border="true" data-type="sign in" data-width="100"
-  data-height="32"></div> }
+                <TestWrap>
+                  <div id="appleid-signin" 
+                    data-color="black" 
+                    data-border="true" 
+                    data-type="sign in" 
+                    data-width="100"
+                    data-height="32">
+                  </div> 
+                </TestWrap>
+             
+
                 {/* {selectedLoginType === 0 && (
                   <>
                     <Box
@@ -839,3 +848,7 @@ const FindBtn = styled.button`
 const Buttons = styled.button`
   display: none;
 `;
+const TestWrap = styled.div`
+  margin: 20pt auto;
+  position: relative;
+`
