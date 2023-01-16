@@ -394,9 +394,11 @@ const Signin = () => {
     // return <Loader />;
   }
 
-    document.addEventListener('AppleIDSignInOnSuccess', (data) => {
+  useEffect(()=>{
+    document.addEventListener('AppleIDSignInOnSuccess', (data:any) => {
       //handle successful response
-        console.log("AppleIDSignInOnSuccess", data)
+        console.log("AppleIDSignInOnSuccess")
+        console.log(data.detail.authorization)
         //todo success logic
     });
     //애플로 로그인 실패 시.
@@ -405,6 +407,7 @@ const Signin = () => {
         console.log("AppleIDSignInOnFailure")
         //todo fail logic
     });
+  },[])
 
   return (
     <React.Fragment>
