@@ -54,7 +54,6 @@ const ProfileEditing = ({
   const [isModal, setIsModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  {
      const {mutate: addressMutate} =  useMutation(isTokenPatchApi, {
       onSuccess: (res) => {
         console.log('주소 변경 성공 ', res);
@@ -63,7 +62,7 @@ const ProfileEditing = ({
       onError: (error) => {
         console.log('주소 변경 실패 ',error);
       },
-})
+    })
     //주소 수정할 경우
       addressMutate({
         url: '/members/address',
@@ -72,10 +71,8 @@ const ProfileEditing = ({
           detailAddress: "",
           zipCode: postNumber,
         }
-      })
-    } 
+      }) 
   
-
   const { mutate: profileMutae, isLoading: profileLoading } = useMutation(
     isTokenPatchApi,
     {
