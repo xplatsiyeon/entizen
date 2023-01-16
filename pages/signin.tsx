@@ -388,6 +388,18 @@ const Signin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
 
+  useEffect(()=>{
+
+    const test = (data:any)=>{
+      console.log(data);
+    }
+    
+    document.addEventListener('AppleIDSignInOnSuccess', test
+    )
+
+    return document.removeEventListener('AppleIDSignInOnSuccess', test)
+  })
+
   if (loginLoading) {
     console.log('loading..');
     // return <Loader />;
@@ -590,7 +602,8 @@ const Signin = () => {
                     )}
                   </Box>
                 </Box>
-                <div id="appleid-signin" data-color="black" data-border="true" data-type="sign in"></div>
+                <div id="appleid-signin" data-color="black" data-border="true" data-type="sign in" data-width="100"
+  data-height="32"></div>
                 {/* {selectedLoginType === 0 && (
                   <>
                     <Box
