@@ -398,7 +398,7 @@ const Signin = () => {
   useEffect(()=>{
     document.addEventListener('AppleIDSignInOnSuccess', (data:any) => {
       //handle successful response
-        console.log("AppleIDSignInOnSuccess")
+        console.log("AppleIDSignInOnSuccess", data)
         console.log(data.detail.authorization)
         //todo success logic
     });
