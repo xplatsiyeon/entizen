@@ -214,7 +214,14 @@ const Signin = () => {
   };
 
   const onClickGoogle = () => {
-    console.log(document.querySelector('.googleBtn')?.childNodes);
+    const target: any = document.querySelector('.googleBtn');
+    console.log(target);
+
+    if (target) {
+      target.click();
+    }
+
+    // console.log();
     // alert('클릭');
     // googleLogin();
   };
@@ -587,6 +594,8 @@ const Signin = () => {
                   />
                 </Box>
                 <GoogleLogin
+                  shape="circle"
+                  type="icon"
                   onSuccess={() => {
                     alert('성공');
                   }}
@@ -702,14 +711,14 @@ const Signin = () => {
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
-                      <div className="googleBtn" style={{ display: 'none' }}>
+                      <button className="googleBtn" style={{ display: 'none' }}>
                         <GoogleLogin
                           onSuccess={() => {
                             alert('성공');
                           }}
                           ux_mode="redirect"
                         />
-                      </div>
+                      </button>
                       <Box sx={{ height: '33pt', cursor: 'pointer' }}>
                         <Image
                           src={google}
