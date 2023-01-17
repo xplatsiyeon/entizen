@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import FaqInfomation from 'components/FAQ/FaqInfomation';
 import GuideHeader from 'components/guide/header';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import Image from 'next/image';
@@ -15,6 +15,7 @@ import { isTokenGetApi } from 'api';
 import { useQuery } from 'react-query';
 import { ChattingListResponse } from 'components/Chatting/ChattingLists';
 import useDebounce from 'hooks/useDebounce';
+import { FaqListResponse } from 'pages/faq';
 
 export interface Contents {
   id: number;
@@ -146,28 +147,40 @@ const Faq = () => {
   const [tabNumber, setTabNumber] = useState<number>(7);
   const [tabCompNumber, setTabCompNumber] = useState<number>(0);
   const [componentId, setComponentId] = useState<number>();
-
   const TabType: string[] = ['서비스 이용', '회원 정보', '신고'];
+  const TabTypeEn: string[] = ['service', 'member', 'report'];
+
+  // faq 리스트 조회
+  const {
+    data: faqList,
+    isLoading: faqIsLoading,
+    isError: faqIsError,
+    refetch: faqRefetch,
+  } = useQuery<FaqListResponse>('faq-list', () =>
+    isTokenGetApi(`/faqs?faqKind=${TabTypeEn[tabCompNumber]}`),
+  );
+  const userID = sessionStorage.getItem('USER_ID');
+
   const components: Components = {
     0: (
       <FaqInfomation
-        data={contents}
+        faqList={faqList!}
         tabNumber={tabNumber}
-        tabCompNumber={tabCompNumber}
+        tabNumberFaq={0}
       />
     ),
     1: (
       <FaqInfomation
-        data={userInfo}
+        faqList={faqList!}
         tabNumber={tabNumber}
-        tabCompNumber={tabCompNumber}
+        tabNumberFaq={1}
       />
     ),
     2: (
       <FaqInfomation
-        data={report}
+        faqList={faqList!}
         tabNumber={tabNumber}
-        tabCompNumber={tabCompNumber}
+        tabNumberFaq={2}
       />
     ),
   };
@@ -184,11 +197,13 @@ const Faq = () => {
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
     () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+    {
+      enabled: userID !== null ? true : false,
+    },
   );
 
   const chattingRoomIdx =
     data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
-  console.log('data', data);
 
   return (
     <WebBody>

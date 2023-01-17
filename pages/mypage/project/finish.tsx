@@ -22,6 +22,7 @@ const FinPage = () => {
   const router = useRouter();
   const routerId = router?.query?.projectIdx;
   const type = router.query.id;
+  const userID = sessionStorage.getItem('USER_ID');
 
   // -----진행중인 프로젝트 상세 리스트 api-----
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
@@ -33,8 +34,12 @@ const FinPage = () => {
     isLoading: chatLoading,
     error: chatError,
     refetch: chatRefetch,
-  } = reactQuery<ChattingListResponse>('chatting-list', () =>
-    isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+  } = reactQuery<ChattingListResponse>(
+    'chatting-list',
+    () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+    {
+      enabled: userID !== null ? true : false,
+    },
   );
 
   const chattingRoomIdx =

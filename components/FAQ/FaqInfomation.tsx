@@ -5,19 +5,25 @@ import { Collapse, List, ListItemButton, ListItemText } from '@mui/material';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
-import { Contents } from 'pages/faq';
+import { Contents, FaqListResponse } from 'pages/faq';
 
 import { arrayBuffer } from 'stream/consumers';
 
 interface Props {
-  data: Contents[];
+  faqList: FaqListResponse;
   tabNumber: number;
   tabCompNumber?: number;
+  tabNumberFaq: number;
 }
 
-const FaqInfomation = ({ data, tabNumber, tabCompNumber }: Props) => {
+const FaqInfomation = ({
+  faqList,
+  tabNumber,
+  tabCompNumber,
+  tabNumberFaq,
+}: Props) => {
   const [open, setOpen] = useState<boolean[]>(
-    Array.from({ length: data.length }, () => false),
+    Array.from({ length: faqList?.data?.faqs?.length }, () => false),
   );
   console.log(open, 'open 25번줄');
   const handleClick = (id: number) => {
@@ -28,36 +34,99 @@ const FaqInfomation = ({ data, tabNumber, tabCompNumber }: Props) => {
 
   useEffect(() => {
     setOpen([false]);
-  }, [tabNumber, tabCompNumber]);
+  }, [tabNumberFaq]);
+
+  console.log('🐙 tabNumberFaq 🐙', tabNumberFaq);
 
   return (
     <div>
-      {data?.map((list) => (
-        <div key={list.id}>
-          {/* Close */}
-          <ItemButton
-            onClick={() => {
-              handleClick(list.id);
-            }}
-          >
-            <QText>Q</QText>
-            <ListItemText primary={list.name} />
-            {open[list.id] ? (
-              <Image src={DownArrow} alt="down_arrow" />
-            ) : (
-              <Image src={UpArrow} alt="up_arrow" />
-            )}
-          </ItemButton>
-          {/* Open */}
-          <Collapse in={open[list.id]} timeout="auto" unmountOnExit>
-            <List disablePadding>
-              <ItemText>
-                <p>{list.text}</p>
-              </ItemText>
-            </List>
-          </Collapse>
-        </div>
-      ))}
+      {tabNumberFaq === 0 &&
+        faqList?.data?.faqs
+          ?.filter((item) => item?.faqKind === 'SERVICE')
+          .map((list, idx) => (
+            <div key={idx}>
+              {/* Close */}
+              <ItemButton
+                onClick={() => {
+                  handleClick(list?.faqIdx);
+                }}
+              >
+                <QText>Q</QText>
+                <ListItemText primary={list?.question} />
+                {open[list?.faqIdx] ? (
+                  <Image src={DownArrow} alt="down_arrow" />
+                ) : (
+                  <Image src={UpArrow} alt="up_arrow" />
+                )}
+              </ItemButton>
+              {/* Open */}
+              <Collapse in={open[list?.faqIdx]} timeout="auto" unmountOnExit>
+                <List disablePadding>
+                  <ItemText>
+                    <p>{list?.answer}</p>
+                  </ItemText>
+                </List>
+              </Collapse>
+            </div>
+          ))}
+      {tabNumberFaq === 1 &&
+        faqList?.data?.faqs
+          ?.filter((item) => item?.faqKind === 'MEMBER')
+          .map((list, idx) => (
+            <div key={idx}>
+              {/* Close */}
+              <ItemButton
+                onClick={() => {
+                  handleClick(list?.faqIdx);
+                }}
+              >
+                <QText>Q</QText>
+                <ListItemText primary={list?.question} />
+                {open[list?.faqIdx] ? (
+                  <Image src={DownArrow} alt="down_arrow" />
+                ) : (
+                  <Image src={UpArrow} alt="up_arrow" />
+                )}
+              </ItemButton>
+              {/* Open */}
+              <Collapse in={open[list?.faqIdx]} timeout="auto" unmountOnExit>
+                <List disablePadding>
+                  <ItemText>
+                    <p>{list?.answer}</p>
+                  </ItemText>
+                </List>
+              </Collapse>
+            </div>
+          ))}
+      {tabNumberFaq === 2 &&
+        faqList?.data?.faqs
+          ?.filter((item) => item?.faqKind === 'REPORT')
+          .map((list, idx) => (
+            <div key={idx}>
+              {/* Close */}
+              <ItemButton
+                onClick={() => {
+                  handleClick(list?.faqIdx);
+                }}
+              >
+                <QText>Q</QText>
+                <ListItemText primary={list?.question} />
+                {open[list?.faqIdx] ? (
+                  <Image src={DownArrow} alt="down_arrow" />
+                ) : (
+                  <Image src={UpArrow} alt="up_arrow" />
+                )}
+              </ItemButton>
+              {/* Open */}
+              <Collapse in={open[list?.faqIdx]} timeout="auto" unmountOnExit>
+                <List disablePadding>
+                  <ItemText>
+                    <p>{list?.answer}</p>
+                  </ItemText>
+                </List>
+              </Collapse>
+            </div>
+          ))}
     </div>
   );
 };

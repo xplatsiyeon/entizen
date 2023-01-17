@@ -292,6 +292,7 @@ export interface AdminFAQListResponse {
       question: string;
       answer: string;
       isVisible: boolean;
+      visibleTarget: string;
     }[];
 
     totalCount: number;

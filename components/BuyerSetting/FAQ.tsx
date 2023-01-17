@@ -11,6 +11,9 @@ import BackImg from 'public/images/back-btn.svg';
 import { Box, Switch } from '@mui/material';
 import WebFooter from 'componentsWeb/WebFooter';
 import WebHeader from 'componentsWeb/WebHeader';
+import { FaqListResponse } from 'pages/faq';
+import { useQuery } from 'react-query';
+import { isTokenGetApi } from 'api';
 
 export interface Contents {
   id: number;
@@ -124,12 +127,41 @@ const report: Contents[] = [
 
 const FAQ = ({ tabNumber, setTabNumber }: Props) => {
   const route = useRouter();
-  const [tabNumberFaq, setTabNumberFaq] = useState<number>(0);
   const TabType: string[] = ['서비스 이용', '회원 정보', '신고'];
+  const TabTypeEn: string[] = ['service', 'member', 'report'];
+  const [tabNumberFaq, setTabNumberFaq] = useState<number>(0);
+
+  // faq 리스트 조회
+  const {
+    data: faqList,
+    isLoading: faqIsLoading,
+    isError: faqIsError,
+    refetch: faqRefetch,
+  } = useQuery<FaqListResponse>('faq-list', () =>
+    isTokenGetApi(`/faqs?faqKind=${TabTypeEn[tabNumber]}`),
+  );
   const components: Components = {
-    0: <FaqInfomation data={contents} tabNumber={tabNumber} />,
-    1: <FaqInfomation data={userInfo} tabNumber={tabNumber} />,
-    2: <FaqInfomation data={report} tabNumber={tabNumber} />,
+    0: (
+      <FaqInfomation
+        faqList={faqList!}
+        tabNumber={tabNumber}
+        tabNumberFaq={tabNumberFaq}
+      />
+    ),
+    1: (
+      <FaqInfomation
+        faqList={faqList!}
+        tabNumber={tabNumber}
+        tabNumberFaq={tabNumberFaq}
+      />
+    ),
+    2: (
+      <FaqInfomation
+        faqList={faqList!}
+        tabNumber={tabNumber}
+        tabNumberFaq={tabNumberFaq}
+      />
+    ),
   };
   const handleTab = (index: number) => setTabNumberFaq(index);
   const leftOnClick = () => {

@@ -63,8 +63,12 @@ const WebBuyerHeader = ({
     isLoading: historyIsLoading,
     isError: historyIIsError,
     refetch: historyIsRefetch,
-  } = useQuery<GetUnread>('historyUnread', () =>
-    isTokenGetApi(`/alerts/histories/unread`),
+  } = useQuery<GetUnread>(
+    'historyUnread',
+    () => isTokenGetApi(`/alerts/histories/unread`),
+    {
+      enabled: isUser !== null ? true : false,
+    },
   );
 
   const logout = () => {

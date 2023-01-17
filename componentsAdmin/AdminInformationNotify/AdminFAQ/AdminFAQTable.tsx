@@ -47,6 +47,8 @@ const AdminFAQTable = ({
     });
   };
 
+  console.log('🎀 adminFaqList 🎀', adminFaqList);
+
   return (
     <Wrapper>
       <Header>
@@ -67,7 +69,7 @@ const AdminFAQTable = ({
           <span className="date">등록일</span>
           <button className="detailBtn">보기</button>
         </List>
-        {adminFaqList?.data?.faqs
+        {/* {adminFaqList?.data?.faqs
           ?.slice(offset, offset + limit)
           ?.map((item, index) => (
             <List key={index}>
@@ -90,7 +92,59 @@ const AdminFAQTable = ({
                 보기
               </button>
             </List>
-          ))}
+          ))} */}
+        {userType === 'COMPANY' &&
+          adminFaqList?.data?.faqs
+            ?.filter((item) => item?.visibleTarget === 'COMPANY')
+            ?.slice(offset, offset + limit)
+            ?.map((item, index) => (
+              <List key={index}>
+                <span className="num">{page * 10 - 10 + (index + 1)}</span>
+                <span className="banner">{item.question}</span>
+                <span className="toggle">
+                  <Toggle
+                    checked={item.isVisible}
+                    onClick={() => onClickToggle(item.faqIdx)}
+                  />
+                </span>
+                <span className="date">{adminDateFomat(item.createdAt)}</span>
+                <button
+                  className="detailBtn"
+                  onClick={() => {
+                    setDetailId(item.faqIdx.toString());
+                    setIsDetail(true);
+                  }}
+                >
+                  보기
+                </button>
+              </List>
+            ))}
+        {userType === 'USER' &&
+          adminFaqList?.data?.faqs
+            ?.filter((item) => item?.visibleTarget === 'USER')
+            ?.slice(offset, offset + limit)
+            ?.map((item, index) => (
+              <List key={index}>
+                <span className="num">{page * 10 - 10 + (index + 1)}</span>
+                <span className="banner">{item.question}</span>
+                <span className="toggle">
+                  <Toggle
+                    checked={item.isVisible}
+                    onClick={() => onClickToggle(item.faqIdx)}
+                  />
+                </span>
+                <span className="date">{adminDateFomat(item.createdAt)}</span>
+                <button
+                  className="detailBtn"
+                  onClick={() => {
+                    setDetailId(item.faqIdx.toString());
+                    setIsDetail(true);
+                  }}
+                >
+                  보기
+                </button>
+              </List>
+            ))}
       </TableContatiner>
       <WrapPage>
         <Pagination
