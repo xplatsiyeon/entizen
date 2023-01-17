@@ -85,107 +85,107 @@ const Signin = () => {
   const [userCompleteModal, setUserCompleteModal] = useState<boolean>(false);
 
   // 구글 로그인 버튼 온클릭
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      alert('구글 로그인 성공!');
-      console.log(tokenResponse.access_token);
-      // 구글에서 받아온 토큰값으로 유저정보 받아옴.
-      // axios랑 fetch로는 CORS 에러 발생해서 XMLHTTP로 연결.
-      const userInfo: any = await new Promise((resolve) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `https://www.googleapis.com/oauth2/v3/userinfo`);
-        xhr.setRequestHeader(
-          'Authorization',
-          `Bearer ${tokenResponse.access_token}`,
-        );
-        xhr.onload = function () {
-          if (this.status >= 200 && this.status < 300)
-            resolve(JSON.parse(this.responseText));
-          else resolve({ err: '404' });
-        };
-        xhr.send();
-      });
-      // 유저 정보를 잘 받아왔다면, 서버에 POST API를 보내 로그인 or 회원가입 절차 진행
-      if (userInfo) {
-        handleGoogleSignUp(userInfo);
-      } else {
-        setErrorMessage('구글 로그인을 실패하였습니다.\n다시 시도해주세요.');
-        setErrorModal(true);
-      }
-    },
-    onError: () => {
-      console.log('구글 로그인 실패');
-      alert('구글 로그인 실패!');
-      setErrorMessage('구글 로그인을 실패하였습니다.\n다시 시도해주세요.');
-      setErrorModal(true);
-    },
-    flow: 'implicit',
-  });
-  // 구글 로그인 mutate
-  const { mutate: googleLoginMutate } = useMutation(isPostApi, {
-    onSuccess: (res) => {
-      let resData = res.data;
-      let jsonData = JSON.parse(res.config.data);
-      dispatch(
-        userAction.add({
-          ...user,
-          uuid: jsonData.uuid,
-          email: jsonData.email,
-          snsType: jsonData.snsType,
-          snsLoginIdx: resData.snsLoginIdx,
-          isMember: resData.isMember,
-        }),
-      );
-      if (resData.isMember === true) {
-        // 로그인
-        const token: JwtTokenType = jwt_decode(resData.accessToken);
-        sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
-        sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
-        sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
-        sessionStorage.setItem(
-          'ACCESS_TOKEN',
-          JSON.stringify(resData.accessToken),
-        );
-        sessionStorage.setItem(
-          'REFRESH_TOKEN',
-          JSON.stringify(resData.refreshToken),
-        );
-        dispatch(originUserAction.set(jsonData.email));
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     alert('구글 로그인 성공!');
+  //     console.log(tokenResponse.access_token);
+  //     // 구글에서 받아온 토큰값으로 유저정보 받아옴.
+  //     // axios랑 fetch로는 CORS 에러 발생해서 XMLHTTP로 연결.
+  //     const userInfo: any = await new Promise((resolve) => {
+  //       const xhr = new XMLHttpRequest();
+  //       xhr.open('GET', `https://www.googleapis.com/oauth2/v3/userinfo`);
+  //       xhr.setRequestHeader(
+  //         'Authorization',
+  //         `Bearer ${tokenResponse.access_token}`,
+  //       );
+  //       xhr.onload = function () {
+  //         if (this.status >= 200 && this.status < 300)
+  //           resolve(JSON.parse(this.responseText));
+  //         else resolve({ err: '404' });
+  //       };
+  //       xhr.send();
+  //     });
+  //     // 유저 정보를 잘 받아왔다면, 서버에 POST API를 보내 로그인 or 회원가입 절차 진행
+  //     if (userInfo) {
+  //       handleGoogleSignUp(userInfo);
+  //     } else {
+  //       setErrorMessage('구글 로그인을 실패하였습니다.\n다시 시도해주세요.');
+  //       setErrorModal(true);
+  //     }
+  //   },
+  //   onError: () => {
+  //     console.log('구글 로그인 실패');
+  //     alert('구글 로그인 실패!');
+  //     setErrorMessage('구글 로그인을 실패하였습니다.\n다시 시도해주세요.');
+  //     setErrorModal(true);
+  //   },
+  //   flow: 'implicit',
+  // });
+  // // 구글 로그인 mutate
+  // const { mutate: googleLoginMutate } = useMutation(isPostApi, {
+  //   onSuccess: (res) => {
+  //     let resData = res.data;
+  //     let jsonData = JSON.parse(res.config.data);
+  //     dispatch(
+  //       userAction.add({
+  //         ...user,
+  //         uuid: jsonData.uuid,
+  //         email: jsonData.email,
+  //         snsType: jsonData.snsType,
+  //         snsLoginIdx: resData.snsLoginIdx,
+  //         isMember: resData.isMember,
+  //       }),
+  //     );
+  //     if (resData.isMember === true) {
+  //       // 로그인
+  //       const token: JwtTokenType = jwt_decode(resData.accessToken);
+  //       sessionStorage.setItem('SNS_MEMBER', JSON.stringify(token.isSnsMember));
+  //       sessionStorage.setItem('MEMBER_TYPE', JSON.stringify(token.memberType));
+  //       sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+  //       sessionStorage.setItem(
+  //         'ACCESS_TOKEN',
+  //         JSON.stringify(resData.accessToken),
+  //       );
+  //       sessionStorage.setItem(
+  //         'REFRESH_TOKEN',
+  //         JSON.stringify(resData.refreshToken),
+  //       );
+  //       dispatch(originUserAction.set(jsonData.email));
 
-        // ================ 브릿지 연결 =====================
-        const userInfo = {
-          SNS_MEMBER: token.isSnsMember,
-          MEMBER_TYPE: token.memberType,
-          ACCESS_TOKEN: resData.accessToken,
-          REFRESH_TOKEN: resData.refreshToken,
-          USER_ID: jsonData.email,
-        };
-        if (userAgent === 'Android_App') {
-          window.entizen!.setUserInfo(JSON.stringify(userInfo));
-        } else if (userAgent === 'iOS_App') {
-          window.webkit.messageHandlers.setUserInfo.postMessage(
-            JSON.stringify(userInfo),
-          );
-        }
-        router.push('/');
-      } else {
-        // 회원가입
-        router.push('/signUp/SnsTerms');
-      }
-    },
-    onError: (error: any) => {
-      const { message } = error?.response?.data;
-      if (data.message === '탈퇴된 회원입니다.') {
-        setErrorModal(true);
-        setErrorMessage(
-          '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
-        );
-      } else {
-        setErrorModal(true);
-        setErrorMessage(data.message);
-      }
-    },
-  });
+  //       // ================ 브릿지 연결 =====================
+  //       const userInfo = {
+  //         SNS_MEMBER: token.isSnsMember,
+  //         MEMBER_TYPE: token.memberType,
+  //         ACCESS_TOKEN: resData.accessToken,
+  //         REFRESH_TOKEN: resData.refreshToken,
+  //         USER_ID: jsonData.email,
+  //       };
+  //       if (userAgent === 'Android_App') {
+  //         window.entizen!.setUserInfo(JSON.stringify(userInfo));
+  //       } else if (userAgent === 'iOS_App') {
+  //         window.webkit.messageHandlers.setUserInfo.postMessage(
+  //           JSON.stringify(userInfo),
+  //         );
+  //       }
+  //       router.push('/');
+  //     } else {
+  //       // 회원가입
+  //       router.push('/signUp/SnsTerms');
+  //     }
+  //   },
+  //   onError: (error: any) => {
+  //     const { message } = error?.response?.data;
+  //     if (data.message === '탈퇴된 회원입니다.') {
+  //       setErrorModal(true);
+  //       setErrorMessage(
+  //         '탈퇴한 계정입니다.\n엔티즌 이용을 원하시면\n 다시 가입해주세요.',
+  //       );
+  //     } else {
+  //       setErrorModal(true);
+  //       setErrorMessage(data.message);
+  //     }
+  //   },
+  // });
   // 로그인 mutate
   const { loginLoading, signin } = useLogin(
     userId,
@@ -200,17 +200,18 @@ const Signin = () => {
     await signin(password);
   };
   // 구글 로그인 후 서버로 회원가입 처리
-  const handleGoogleSignUp = async (data: GoogleSignUpData) => {
-    alert('클릭');
-    googleLoginMutate({
-      url: '/members/login/sns',
-      data: {
-        uuid: data.sub,
-        snsType: 'GOOGLE',
-        snsResponse: JSON.stringify(data),
-        email: data.email,
-      },
-    });
+  // const handleGoogleSignUp = async (data: GoogleSignUpData) => {
+  const handleGoogleSignUp = async (data: any) => {
+    console.log(data);
+    // googleLoginMutate({
+    //   url: '/members/login/sns',
+    //   data: {
+    //     uuid: data.sub,
+    //     snsType: 'GOOGLE',
+    //     snsResponse: JSON.stringify(data),
+    //     email: data.email,
+    //   },
+    // });
   };
 
   const onClickGoogle = () => {
@@ -593,17 +594,9 @@ const Signin = () => {
                     onKeyDown={onKeyPress}
                   />
                 </Box>
-                <GoogleLogin
-                  shape="circle"
-                  type="icon"
-                  onSuccess={() => {
-                    alert('성공');
-                  }}
-                  ux_mode="redirect"
-                />
-                {/* <LoginBtn onClick={originLogin}>
+                <LoginBtn onClick={originLogin}>
                   <BtnSpan>로그인</BtnSpan>
-                </LoginBtn> */}
+                </LoginBtn>
                 <Box
                   sx={{
                     textAlign: 'center',
@@ -711,22 +704,41 @@ const Signin = () => {
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
-                      <button className="googleBtn" style={{ display: 'none' }}>
+                      {/* <button className="googleBtn" style={{ display: 'none' }}>
                         <GoogleLogin
                           onSuccess={() => {
                             alert('성공');
                           }}
                           ux_mode="redirect"
                         />
-                      </button>
-                      <Box sx={{ height: '33pt', cursor: 'pointer' }}>
+                      </button> */}
+                      {/* 구글 로그인 */}
+                      <GoogleLogin
+                        shape="circle"
+                        type="icon"
+                        size="large"
+                        ux_mode="redirect"
+                        login_uri="/"
+                        onSuccess={(credentialResponse) => {
+                          alert('성공');
+                          console.log(
+                            '===============================================',
+                          );
+                          console.log(credentialResponse);
+                        }}
+                        onError={() => {
+                          alert('실패');
+                        }}
+                      />
+                      {/* 구글 커스텀 아이콘 */}
+                      {/* <Box sx={{ height: '33pt', cursor: 'pointer' }}>
                         <Image
                           src={google}
                           alt="google"
                           // onClick={() => googleLogin()}
                           onClick={onClickGoogle}
                         />
-                      </Box>
+                      </Box> */}
                     </Box>
                     <Box
                       sx={{
