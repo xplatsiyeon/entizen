@@ -98,7 +98,7 @@ const ManagerInfo = ({
   // 이메일 인증
   const certifyEmail = () => {
     if (isEmailValid) {
-      const EMAIL_API = 'https://api.entizen.kr/api/mail/auth';
+      const EMAIL_API = 'https://test-api.entizen.kr/api/mail/auth';
       axios({
         method: 'post',
         url: EMAIL_API,
@@ -116,7 +116,7 @@ const ManagerInfo = ({
   // 이메일 인증코드 확인
   const certifyEmailCode = () => {
     if (isEmailCodeValid) {
-      const EMAIL_API = 'https://api.entizen.kr/api/mail/auth/validation';
+      const EMAIL_API = 'https://test-api.entizen.kr/api/mail/auth/validation';
       axios({
         method: 'post',
         url: EMAIL_API,
@@ -143,7 +143,7 @@ const ManagerInfo = ({
     console.log(memberType);
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -243,8 +243,8 @@ const ManagerInfo = ({
             isClick={isValid}
             // name={'form_chk'}
             text={'본인인증하기'}
-            // handleClick={fnPopup}
-            handleClick={testClick}
+            handleClick={fnPopup}
+            // handleClick={testClick}
             marginTop={59.25}
           />
         </form>
