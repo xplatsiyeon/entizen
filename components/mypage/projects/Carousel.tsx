@@ -17,16 +17,16 @@ interface Props {
 }
 const Carousel = ({ file }: Props) => {
   const [swiper, setSwiper] = useState(null);
-  const [fileArr , setFileArr] = useState<ProjectCompletionFiles[]>([]);
+  const [fileArr, setFileArr] = useState<ProjectCompletionFiles[]>([]);
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const navigationPrevRef = useRef(null);
   const navigationNextRef = useRef(null);
   useEffect(() => {
     console.log('캐러쉘', file);
-    if(file){
-    const copy = [...file!].reverse();
-    setFileArr(copy)
-    console.log('new', copy)
+    if (file) {
+      const copy = [...file!].reverse();
+      setFileArr(copy);
+      console.log('new', copy);
     }
   }, []);
   SwipeCore.use([Navigation]);
@@ -48,21 +48,22 @@ const Carousel = ({ file }: Props) => {
       modules={[Pagination]}
       className="mySwiper"
     >
-      {fileArr?.map((el) => { 
-        return(
-        <Slider key={el?.projectCompletionFileIdx}>
-          <div className="imgBox">
-            {/* <Image
+      {fileArr?.map((el) => {
+        return (
+          <Slider key={el?.projectCompletionFileIdx}>
+            <div className="imgBox">
+              {/* <Image
               src={el?.url}
               alt={el?.originalName}
               layout="fill"
               priority={true}
               unoptimized={true}
             /> */}
-            <SliderImg src={el?.url} alt={el?.originalName} />
-          </div>
-        </Slider>
-      )} )}
+              <SliderImg src={el?.url} alt={el?.originalName} />
+            </div>
+          </Slider>
+        );
+      })}
       <div className="swiper-button-prev">
         <Image src={LeftNext} alt={LeftNext} layout="fill" />
       </div>

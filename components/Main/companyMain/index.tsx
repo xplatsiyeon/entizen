@@ -115,9 +115,8 @@ const CompanyMainPage = ({ num, now }: Props) => {
             ))}
           </IconWrapper>
         </HeadWrapper>
-        <CarouselWrap>
-          <Carousel />
-        </CarouselWrap>
+
+        <Carousel />
 
         {/* 메인 페이지 컴포넌트*/}
         <QuotationCenter />
