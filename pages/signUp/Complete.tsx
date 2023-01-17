@@ -29,9 +29,8 @@ const SignUpComplete = () => {
           buttonWeb={`간편견적 확인하기 〉`}
           handleOnClick={() => router.push('/')}
         />
-        <Wrap>
-          <WhyEntizen />
-        </Wrap>
+        {/* 임시로 막음 */}
+        {/* <Wrap>{mobile && <WhyEntizen />}</Wrap> */}
       </Inner>
       <WebFooter />
     </Body>

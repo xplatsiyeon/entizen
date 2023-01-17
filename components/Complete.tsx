@@ -69,7 +69,8 @@ const Complete = ({
           </WebText>
         </WebTextArea>
         <BuyerContainer user={user!}>
-          <WhyEntizenHorizontal />
+          {/* 임시로 막음 */}
+          {/* <WhyEntizenHorizontal /> */}
         </BuyerContainer>
       </Wrapper>
     </>
