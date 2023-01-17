@@ -45,7 +45,7 @@ const SignUpTerms = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.userList);
 
-  // ========================== 본인인증 창 띄우기
+  // ========================== 본인인증 창 띄우기 =====================
   const fnPopup = () => {
     if (typeof window !== 'object') return;
     else {
@@ -236,6 +236,7 @@ const SignUpTerms = () => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   useEffect(() => {
     if (router.asPath.includes('Canceled')) {
       router.push('/signin');
