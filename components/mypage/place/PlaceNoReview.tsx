@@ -91,7 +91,7 @@ const Wrap = styled.div`
   margin: 0 15pt;
   @media (min-width: 900pt) {
     margin: 0 auto;
-    width: 251.25pt;
+    width: 350pt;
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 12pt;

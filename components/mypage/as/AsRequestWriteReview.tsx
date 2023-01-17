@@ -70,10 +70,8 @@ const AsRequestWriteReview = ({
         <Image src={DoubleArrow} alt="double-arrow" />
       </DownArrowBox>
       <ReviewTitleBox>
-        <ReviewTitle>제공받은 A/S가 어떠셨나요?</ReviewTitle>
-        <OpinionThanks>
-          소중한 의견 하나하나가 엔티즌에게 큰 힘이 됩니다.
-        </OpinionThanks>
+        <ReviewTitle>파트너와의 경험은 어떠셨나요?</ReviewTitle>
+        <OpinionThanks>고객님의 이야기를 들려주세요.</OpinionThanks>
       </ReviewTitleBox>
       <RatingForm>
         <RatingBar
@@ -121,6 +119,7 @@ const AsRequestWriteReview = ({
 
 const Wrapper = styled.div`
   position: relative;
+
   @media (max-width: 899.25pt) {
     //padding-left: 15pt;
     //padding-right: 15pt;

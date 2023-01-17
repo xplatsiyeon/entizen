@@ -75,6 +75,7 @@ const ModalBox = styled(Box)`
   justify-content: center;
   align-items: center;
   width: 251.25pt;
+
   border-radius: 20pt 20pt 0 0;
   padding-left: 15pt;
   padding-right: 15pt;
