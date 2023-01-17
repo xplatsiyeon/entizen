@@ -155,7 +155,7 @@ const ProfileEditing = ({
   // useEffect(() => {
   //   axios({
   //     method: 'post',
-  //     url: 'https://test-api.entizen.kr/api/auth/nice',
+  //     url: 'https://api.entizen.kr/api/auth/nice',
   //     data: { memberType: token.memberType },
   //   })
   //     .then((res) => {
@@ -168,7 +168,6 @@ const ProfileEditing = ({
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [data]);
 
- 
   useEffect(() => {
     const snsMember = JSON.parse(sessionStorage.getItem('SNS_MEMBER')!);
     if (snsMember) {
@@ -226,13 +225,13 @@ const ProfileEditing = ({
           readOnly
           placeholder={profile?.companyMemberAdditionalInfo?.companyName}
         />
-           <Div onClick={() => setComponent(1)}>
+        <Div onClick={() => setComponent(1)}>
           <span>주소 변경</span>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
           </ImageWrap>
         </Div>
-  
+
         {/* 나이스 인증 */}
         {/* <form name="form_chk" method="get">
           <input type="hidden" name="m" value="checkplusService" />

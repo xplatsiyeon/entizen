@@ -78,7 +78,7 @@ const ChargerMap = (props: Props) => {
 
   const callInfo = async (speed: string) => {
     try {
-      const res = await axios.get('https://test-api.entizen.kr/api/charge', {
+      const res = await axios.get('https://api.entizen.kr/api/charge', {
         params: {
           siDo: locationList.siNm,
           siGunGu: locationList.sggNm ? locationList.sggNm : '',
@@ -277,7 +277,6 @@ const WrapAddress = styled.div`
     position: fixed;
     top: 0;
   }
-
 `;
 
 const WholeMap = styled.div`
