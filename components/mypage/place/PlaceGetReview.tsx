@@ -85,7 +85,7 @@ const Wrap = styled.div`
   margin: 0 15pt;
   @media (min-width: 900pt) {
     margin: 0 auto;
-    width: 251.25pt;
+    width: 350pt;
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(137, 163, 201, 0.2);
     border-radius: 12pt;
@@ -131,7 +131,7 @@ const RBarBox = styled.div`
   border: 1px solid #e2e5ed;
   border-radius: 8px;
   padding: 12pt;
-  height: 10.5pt;
+  /* height: 10.5pt; */
   display: flex;
   gap: 1.5pt;
   background-color: #ffffff;
@@ -189,6 +189,7 @@ const TextArea = styled.textarea`
   padding-left: 12pt;
   border: 1px solid #e2e5ed;
   border-radius: 6pt;
+  resize: none;
 `;
 
 const Btn2 = styled.button`

@@ -270,6 +270,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   useEffect(() => {
     if (
       data?.data?.project?.isCompletedExamStep === true &&
+      data?.data?.project?.projectCompletionAgreementDate !== '' &&
       data?.data?.project?.isApprovedByAdmin === false
     ) {
       setFinalApprove(true);
