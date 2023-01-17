@@ -25,7 +25,7 @@ import { selectAction } from 'store/loginTypeSlice';
 import Loader from 'components/Loader';
 import useLogin from 'hooks/useLogin';
 import CompleteModal from 'components/Modal/CompleteModal';
-import { useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import { GoogleSignUpData } from './auth/google';
 import { useMutation } from 'react-query';
 import { isPostApi } from 'api';
@@ -694,14 +694,20 @@ const Signin = () => {
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
-                      <button onClick={onClickGoogle}>
+                      {/* <button onClick={onClickGoogle}>
                         앱 구글 로그인 테스트
-                      </button>
+                      </button> */}
                       <Box sx={{ height: '33pt', cursor: 'pointer' }}>
-                        <Image
+                        {/* <Image
                           src={google}
                           alt="google"
                           onClick={() => googleLogin()}
+                        /> */}
+                        <GoogleLogin
+                          onSuccess={() => {
+                            alert('성공');
+                          }}
+                          ux_mode="redirect"
                         />
                       </Box>
                     </Box>
