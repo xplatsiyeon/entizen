@@ -149,7 +149,7 @@ const Signin = () => {
         );
         dispatch(originUserAction.set(jsonData.email));
 
-        // ================브릿지 연결=====================
+        // ================ 브릿지 연결 =====================
         const userInfo = {
           SNS_MEMBER: token.isSnsMember,
           MEMBER_TYPE: token.memberType,
@@ -198,6 +198,7 @@ const Signin = () => {
   };
   // 구글 로그인 후 서버로 회원가입 처리
   const handleGoogleSignUp = async (data: GoogleSignUpData) => {
+    alert('클릭');
     googleLoginMutate({
       url: '/members/login/sns',
       data: {
@@ -207,6 +208,9 @@ const Signin = () => {
         email: data.email,
       },
     });
+  };
+  const onClickGoogle = () => {
+    alert('클릭');
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
@@ -685,6 +689,9 @@ const Signin = () => {
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
+                      <button onClick={onClickGoogle}>
+                        앱 구글 로그인 테스트
+                      </button>
                       <Box sx={{ height: '33pt', cursor: 'pointer' }}>
                         <Image
                           src={google}
