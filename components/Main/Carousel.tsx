@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import React from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -10,6 +9,8 @@ import 'swiper/css/navigation';
 import MoneyPhoto from 'public/images/MainMoney.png';
 // import required modules
 import SwipeCore, { Pagination, Navigation } from 'swiper';
+import RightNext from 'public/images/RightNextEllipse.svg';
+import LeftNext from 'public/images/LeftNextEllipse.svg';
 import Image from 'next/image';
 import colors from 'styles/colors';
 import { useQuery } from 'react-query';
@@ -81,15 +82,23 @@ const Carousel = () => {
 
   return (
     <>
-      <Swiper
+      <Wrapper
         spaceBetween={0}
+        // pagination={{
+        //   clickable: true,
+        // }}
         pagination={{
-          clickable: true,
+          type: 'fraction',
         }}
-        navigation={true}
-        modules={[Pagination, Navigation]}
-        loop={false}
-        style={{ height: '360pt' }}
+        // navigation={true}
+        navigation={{
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        }}
+        // modules={[Pagination, Navigation]}
+        modules={[Pagination]}
+        className="mySwiper"
+        // loop={false}
       >
         {accessToken === null &&
           bannerList?.data?.banners
@@ -158,13 +167,20 @@ const Carousel = () => {
           </Center>
           <WithImage><Image src={el?.url} alt="money" /></WithImage>
         </SliderContent> */}
-      </Swiper>
+        <div className="swiper-button-prev">
+          <Image src={LeftNext} alt={LeftNext} layout="fill" />
+        </div>
+        <div className="swiper-button-next">
+          <Image src={RightNext} alt={RightNext} layout="fill" />
+        </div>
+      </Wrapper>
     </>
   );
 };
 
 const SliderWrapper = styled.div`
   max-width: 900pt;
+
   position: relative;
   .swiper {
     border-radius: 8pt;
@@ -316,6 +332,59 @@ const SliderImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+
+const Wrapper = styled(Swiper)`
+  /* height: 100%; */
+  height: 360pt;
+  @media (max-width: 899.25pt) {
+    height: 99pt;
+    border-radius: 6pt;
+  }
+  .swiper-pagination {
+    width: fit-content;
+    right: 9.75pt;
+    left: auto;
+    font-family: 'Spoqa Han Sans Neo';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 7.5pt;
+    line-height: 9pt;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+
+    padding: 1.5pt 4.5pt;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 7.5pt;
+  }
+
+  .swiper-wrapper {
+    width: 0;
+  }
+
+  .swiper-button-next {
+    background-size: 50% auto;
+    background-position: center;
+    position: absolute;
+    width: 21pt;
+    height: 21pt;
+    @media (max-width: 899.25pt) {
+      display: none;
+    }
+  }
+
+  .swiper-button-prev {
+    width: 21pt;
+    height: 21pt;
+    position: absolute;
+    @media (max-width: 899.25pt) {
+      display: none;
+    }
+  }
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    display: none;
+  }
 `;
 
 export default Carousel;
