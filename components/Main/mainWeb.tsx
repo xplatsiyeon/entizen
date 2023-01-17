@@ -89,9 +89,10 @@ const Main = () => {
       <WebHeader />
       <UserRightMenu />
       {/* 배너 */}
-      <CarouselWrap>
+      {/* <CarouselWrap>
         <Carousel />
-      </CarouselWrap>
+      </CarouselWrap> */}
+      <Carousel />
       {/* 기능 부분 */}
       <ContentWrap>
         {/*예상 매출 검색 */}

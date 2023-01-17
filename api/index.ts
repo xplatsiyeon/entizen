@@ -55,6 +55,7 @@ export const getApi = async (url: string) => {
     withCredentials: true,
   }).then((res) => res.data);
 };
+
 // API 호출 (토큰 O)
 export const isTokenGetApi = async (url: string) => {
   const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);

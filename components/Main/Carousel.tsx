@@ -2,44 +2,163 @@ import styled from '@emotion/styled';
 import React from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import MoneyPhoto from 'public/images/MainMoney.png';
 // import required modules
-import { Pagination, Navigation } from 'swiper';
+import SwipeCore, { Pagination, Navigation } from 'swiper';
 import Image from 'next/image';
 import colors from 'styles/colors';
+import { useQuery } from 'react-query';
+import { getApi, isTokenGetApi } from 'api';
+
+export type BannerList = {
+  isSuccess: boolean;
+
+  data: {
+    banners: {
+      bannerIdx: number;
+      title: string;
+      isVisible: boolean;
+      url: string;
+      createdAt: string;
+      bannerImages: {
+        bannerImageIdx: number;
+        isMainImage: boolean;
+        originalName: string;
+        url: string;
+        size: number;
+      }[];
+    }[];
+  };
+};
 
 const Carousel = () => {
+  const accessToken = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+
+  // /banners?tartgetMemberType=USER
+  // 배너 조회
+  const {
+    data: bannerList,
+    isLoading: bannerListLoading,
+    isError: bannerListError,
+    refetch: bannerListRefetch,
+  } = useQuery<BannerList>('faq-list', () =>
+    getApi(`/banners?tartgetMemberType=USER`),
+  );
+
+  const {
+    data: companyBannerList,
+    isLoading: companyBannerLoading,
+    isError: companyBannerError,
+    refetch: companyBannerRefetch,
+  } = useQuery<BannerList>(
+    'faq-list',
+    () => getApi(`/banners?tartgetMemberType=COMPANY`),
+    {
+      enabled: accessToken === 'COMPANY' ? true : false,
+    },
+  );
+
+  console.log('companyBannerList', companyBannerList);
+
+  SwipeCore.use([Navigation]);
+
+  // <SliderContent>
+  //   <Top></Top>
+  //   <Center>
+  //     엔티즌 회원
+  //     <br />
+  //     전기차 충전 시 50 % 할인
+  //   </Center>
+  //   <WithImage>
+  //     <Image src={el?.url} alt="money" />
+  //   </WithImage>
+  // </SliderContent>
+
   return (
     <>
-      <SliderWrapper>
-        <Swiper
-          spaceBetween={0}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Pagination, Navigation]}
-          loop={false}
-        >
-          <SwiperSlide>
-            <SliderContent>
-              <Top></Top>
-              <Center>
-                엔티즌 회원
-                <br />
-                전기차 충전 시 50 % 할인
-              </Center>
-              <WithImage>
-                <Image src={MoneyPhoto} alt="money" />
-              </WithImage>
-            </SliderContent>
-          </SwiperSlide>
-        </Swiper>
-      </SliderWrapper>
+      <Swiper
+        spaceBetween={0}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        modules={[Pagination, Navigation]}
+        loop={false}
+        style={{ height: '360pt' }}
+      >
+        {accessToken === null &&
+          bannerList?.data?.banners
+            ?.filter((item) => item.isVisible === true)
+            .map((el, idx) => (
+              <Slider key={idx}>
+                {/* <Top></Top>
+                    <Center>{el?.title}</Center> */}
+                {/* <Center>제발 뭐라도 좀 나와라</Center> */}
+                {/* <SliderImg src={el?.url} alt={'이미지'} /> */}
+                {/* <link href={el?.url} /> */}
+                <a href={el?.url}>
+                  {el?.bannerImages?.map((img) => (
+                    <SliderImg
+                      key={img?.bannerImageIdx}
+                      src={img?.url}
+                      alt={img?.originalName}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  ))}
+                </a>
+              </Slider>
+            ))}
+
+        {accessToken === 'COMPANY' &&
+          companyBannerList?.data?.banners
+            ?.filter((item) => item.isVisible === true)
+            .map((el, idx) => (
+              // <SwiperSlide>
+              //   <SliderContent key={idx}>
+              //     <Top></Top>
+
+              //     <WithImage>
+              //       <Image src={el?.url} alt="money" />
+              //       <link href={el?.url} />
+              //     </WithImage>
+              //   </SliderContent>
+              // </SwiperSlide>
+              <Slider key={idx}>
+                {/* <Top></Top>
+                    <Center>{el?.title}</Center> */}
+                {/* <Center>제발 뭐라도 좀 나와라</Center> */}
+                {/* <SliderImg src={el?.url} alt={'이미지'} /> */}
+
+                {el?.bannerImages?.map((img) => (
+                  <WithImage key={img?.bannerImageIdx}>
+                    <SliderImg
+                      src={img?.url}
+                      alt={img?.originalName}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  </WithImage>
+                ))}
+
+                <link href={el?.url} />
+              </Slider>
+            ))}
+
+        {/* </SwiperSlide> */}
+        {/* <SliderContent>
+          <Top></Top>
+          <Center>
+            엔티즌 회원
+            <br />
+            전기차 충전 시 50 % 할인
+          </Center>
+          <WithImage><Image src={el?.url} alt="money" /></WithImage>
+        </SliderContent> */}
+      </Swiper>
     </>
   );
 };
@@ -109,6 +228,7 @@ const WithImage = styled.div`
   display: none;
   position: absolute;
   right: 10pt;
+  /* height: 360pt; */
 
   @media (max-width: 899.25pt) {
     display: block;
@@ -174,6 +294,28 @@ const SliderContent = styled.div`
     height: 99pt;
     justify-content: unset;
   }
+`;
+
+const Slider = styled(SwiperSlide)`
+  .imgBox {
+    width: 100%;
+    /* width: 627px; */
+    height: 360pt;
+    /* 16:9 적용 */
+    /* padding-top: calc(100% / 16 * 9); */
+    /* padding-top: 627px; */
+    margin: auto;
+    overflow: hidden;
+    @media (max-width: 899.25pt) {
+      height: 91.5pt;
+    }
+  }
+`;
+
+const SliderImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export default Carousel;

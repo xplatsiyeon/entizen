@@ -36,8 +36,6 @@ const FaqInfomation = ({
     setOpen([false]);
   }, [tabNumberFaq]);
 
-  console.log('🐙 tabNumberFaq 🐙', tabNumberFaq);
-
   return (
     <div>
       {tabNumberFaq === 0 &&
