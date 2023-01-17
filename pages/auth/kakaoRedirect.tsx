@@ -16,6 +16,7 @@ import colors from 'styles/colors';
 const Profile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const { user } = useSelector((state: RootState) => state.userList);
   const [errorModal, setErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -83,6 +84,22 @@ const Profile = () => {
             JSON.stringify(resData.refreshToken),
           );
           dispatch(originUserAction.set(jsonData.email));
+
+          // ================브릿지 연결=====================
+          const userInfo = {
+            SNS_MEMBER: token.isSnsMember,
+            MEMBER_TYPE: token.memberType,
+            ACCESS_TOKEN: resData.accessToken,
+            REFRESH_TOKEN: resData.refreshToken,
+            USER_ID: jsonData.email,
+          };
+          if (userAgent === 'Android_App') {
+            window.entizen!.setUserInfo(JSON.stringify(userInfo));
+          } else if (userAgent === 'iOS_App') {
+            window.webkit.messageHandlers.setUserInfo.postMessage(
+              JSON.stringify(userInfo),
+            );
+          }
           router.push('/');
         } else {
           // 회원가입

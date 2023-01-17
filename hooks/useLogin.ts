@@ -84,6 +84,12 @@ function useLogin(
       } else if (message === '올바르지 않는 비밀번호입니다.') {
         setErrorModal(true);
         setErrorMessage('올바르지 않은 비밀번호 입니다.');
+      } else if (message === '"id" is not allowed to be empty') {
+        setErrorModal(true);
+        setErrorMessage('아이디를 입력해주세요.');
+      } else if (message === '"password" is not allowed to be empty') {
+        setErrorModal(true);
+        setErrorMessage('비밀번호를 입력해주세요.');
       } else {
         setErrorModal(true);
         setErrorMessage(message);

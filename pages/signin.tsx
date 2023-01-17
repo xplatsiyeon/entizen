@@ -65,6 +65,7 @@ const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST
 
 const Signin = () => {
   let naverLogin: any;
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const router = useRouter();
   const dispatch = useDispatch();
   const naverRef = useRef<HTMLElement | null | any>(null);
@@ -147,6 +148,22 @@ const Signin = () => {
           JSON.stringify(resData.refreshToken),
         );
         dispatch(originUserAction.set(jsonData.email));
+
+        // ================브릿지 연결=====================
+        const userInfo = {
+          SNS_MEMBER: token.isSnsMember,
+          MEMBER_TYPE: token.memberType,
+          ACCESS_TOKEN: resData.accessToken,
+          REFRESH_TOKEN: resData.refreshToken,
+          USER_ID: jsonData.email,
+        };
+        if (userAgent === 'Android_App') {
+          window.entizen!.setUserInfo(JSON.stringify(userInfo));
+        } else if (userAgent === 'iOS_App') {
+          window.webkit.messageHandlers.setUserInfo.postMessage(
+            JSON.stringify(userInfo),
+          );
+        }
         router.push('/');
       } else {
         // 회원가입
@@ -242,6 +259,22 @@ const Signin = () => {
             JSON.stringify(c.refreshToken),
           );
           dispatch(originUserAction.set(data.user.email));
+
+          // ================브릿지 연결=====================
+          const userInfo = {
+            SNS_MEMBER: token.isSnsMember,
+            MEMBER_TYPE: token.memberType,
+            ACCESS_TOKEN: res.data.accessToken,
+            REFRESH_TOKEN: res.data.refreshToken,
+            USER_ID: data.user.email,
+          };
+          if (userAgent === 'Android_App') {
+            window.entizen!.setUserInfo(JSON.stringify(userInfo));
+          } else if (userAgent === 'iOS_App') {
+            window.webkit.messageHandlers.setUserInfo.postMessage(
+              JSON.stringify(userInfo),
+            );
+          }
           router.push('/');
         } else {
           router.push('/signUp/SnsTerms');
