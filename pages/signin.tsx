@@ -25,7 +25,7 @@ import { selectAction } from 'store/loginTypeSlice';
 import Loader from 'components/Loader';
 import useLogin from 'hooks/useLogin';
 import CompleteModal from 'components/Modal/CompleteModal';
-import { useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import { GoogleSignUpData } from './auth/google';
 import { useMutation } from 'react-query';
 import { isPostApi } from 'api';
@@ -86,6 +86,7 @@ const Signin = () => {
   // 구글 로그인 버튼 온클릭
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
+      alert('구글 로그인 성공!');
       console.log(tokenResponse.access_token);
       // 구글에서 받아온 토큰값으로 유저정보 받아옴.
       // axios랑 fetch로는 CORS 에러 발생해서 XMLHTTP로 연결.
@@ -113,6 +114,7 @@ const Signin = () => {
     },
     onError: () => {
       console.log('구글 로그인 실패');
+      alert('구글 로그인 실패!');
       setErrorMessage('구글 로그인을 실패하였습니다.\n다시 시도해주세요.');
       setErrorModal(true);
     },
@@ -209,9 +211,12 @@ const Signin = () => {
       },
     });
   };
+
   const onClickGoogle = () => {
     alert('클릭');
+    googleLogin();
   };
+
   // 네이버 로그인
   const NaverApi = async (data: any) => {
     const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
@@ -689,14 +694,20 @@ const Signin = () => {
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
-                      <button onClick={onClickGoogle}>
+                      {/* <button onClick={onClickGoogle}>
                         앱 구글 로그인 테스트
-                      </button>
+                      </button> */}
                       <Box sx={{ height: '33pt', cursor: 'pointer' }}>
-                        <Image
+                        {/* <Image
                           src={google}
                           alt="google"
                           onClick={() => googleLogin()}
+                        /> */}
+                        <GoogleLogin
+                          onSuccess={() => {
+                            alert('성공');
+                          }}
+                          ux_mode="redirect"
                         />
                       </Box>
                     </Box>
