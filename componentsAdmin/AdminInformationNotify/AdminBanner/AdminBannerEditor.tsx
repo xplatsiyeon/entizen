@@ -85,10 +85,10 @@ const AdminBannerEditor = ({
   const [checkValue, setCheckValue] = useState('일반회원');
 
   // 리스트 불러오는 api
-  const { data: bannerList, refetch: bannerListRefetch } =
-    useQuery<AdminBannerListResponse>('bannerList', () =>
-      getApi(`/admin/banners?targetMemberType=`),
-    );
+  // const { data: bannerList, refetch: bannerListRefetch } =
+  //   useQuery<AdminBannerListResponse>('bannerList', () =>
+  //     isTokenAdminGetApi(`/admin/banners?targetMemberType=`),
+  //   );
 
   // 이전페이지 누르면 나오는 경고 모달창 열고 닫고
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -301,7 +301,7 @@ const AdminBannerEditor = ({
           url: outsideImgUrl,
           size: outsideImgSize,
         },
-        innerImages: insideImgArr,
+        // innerImages: insideImgArr,
       },
     });
   };
@@ -337,7 +337,7 @@ const AdminBannerEditor = ({
             url: outsideImgUrl,
             size: outsideImgSize,
           },
-          innerImages: insideImgArr,
+          // innerImages: insideImgArr,
         },
       });
     }

@@ -33,12 +33,6 @@ const AdminBannerLIst = ({ setNowHeight, setNumber }: Props) => {
       isTokenAdminGetApi(`/admin/banners/${detatilId}`),
     );
 
-  // 리스트 불러오는 api
-  // const { data: bannerList, refetch: bannerListRefetch } =
-  //   useQuery<AdminBannerListResponse>('bannerList', () =>
-  //     isTokenAdminGetApi(`/admin/banners?targetMemberType=${sendUserType}`),
-  //   );
-
   // 등록
   const handleCommon = () => {
     setIsDetail(true);

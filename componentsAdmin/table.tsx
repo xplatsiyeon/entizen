@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery, useQueryClient } from 'react-query';
-import { api, getApi } from 'api';
+import { api, getApi, isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { css } from '@emotion/react';
 import {
@@ -978,80 +978,80 @@ const Table = ({
     );
 
   // 배너 리스트(기업이냐, 유저에 따라 받는 데이터 다름)
-  const { data: bannerList, refetch: bannerListRefetch } =
-    useQuery<AdminBannerListResponse>(
-      'bannerList',
-      () => getApi(`/admin/banners?targetMemberType=${userType}`),
-      {
-        enabled: false,
-        onSuccess: (bannerList) => {
-          if (tableType === 'bannerList') {
-            const temp: any = [];
-            bannerList?.data?.banners?.forEach((ele, idx) => {
-              const eleArr = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                  idx + 1 === 10 ? page * 10 : idx + 1
-                }`,
-                ele?.title,
-                {
-                  isVisible: ele.isVisible,
-                  id: ele.bannerIdx,
-                },
-                dateFomat(ele.createdAt),
-                ele.bannerIdx,
-              ];
-              temp.push(eleArr);
-            });
-            setDataArr(temp);
-            setColumns([
-              '번호',
-              '배너명',
-              {
-                name: '노출여부',
-                id: 'bannerListVisible',
-                formatter: (cell: NewCell) =>
-                  _(
-                    <ToggleContainer>
-                      <ToggleBtn
-                        visible={cell?.isVisible}
-                        onClick={() => {
-                          if (setToggle) {
-                            setToggle(cell);
-                          }
-                        }}
-                      >
-                        <Circle visible={cell?.isVisible} />
-                      </ToggleBtn>
-                    </ToggleContainer>,
-                  ),
-              },
-              '등록일',
-              {
-                name: '',
-                id: 'termsListIdx',
-                formatter: (cell: string) =>
-                  _(
-                    <button
-                      className="detail"
-                      onClick={() => {
-                        setDetailId(cell);
-                        setIsDetail(true);
-                        if (setAfterSalesServiceIdx) {
-                          setAfterSalesServiceIdx(Number(cell));
-                        }
-                      }}
-                    >
-                      보기
-                    </button>,
-                  ),
-              },
-            ]);
-            setLength(bannerList?.data ? bannerList?.data?.banners?.length : 0);
-          }
-        },
-        onError: () => alert('다시 시도해주세요'),
-      },
-    );
+  // const { data: bannerList, refetch: bannerListRefetch } =
+  //   useQuery<AdminBannerListResponse>(
+  //     'bannerList',
+  //     () => isTokenAdminGetApi(`/admin/banners?targetMemberType=${userType}`),
+  //     {
+  //       enabled: false,
+  //       onSuccess: (bannerList) => {
+  //         if (tableType === 'bannerList') {
+  //           const temp: any = [];
+  //           bannerList?.data?.banners?.forEach((ele, idx) => {
+  //             const eleArr = [
+  //               `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+  //                 idx + 1 === 10 ? page * 10 : idx + 1
+  //               }`,
+  //               ele?.title,
+  //               {
+  //                 isVisible: ele.isVisible,
+  //                 id: ele.bannerIdx,
+  //               },
+  //               dateFomat(ele.createdAt),
+  //               ele.bannerIdx,
+  //             ];
+  //             temp.push(eleArr);
+  //           });
+  //           setDataArr(temp);
+  //           setColumns([
+  //             '번호',
+  //             '배너명',
+  //             {
+  //               name: '노출여부',
+  //               id: 'bannerListVisible',
+  //               formatter: (cell: NewCell) =>
+  //                 _(
+  //                   <ToggleContainer>
+  //                     <ToggleBtn
+  //                       visible={cell?.isVisible}
+  //                       onClick={() => {
+  //                         if (setToggle) {
+  //                           setToggle(cell);
+  //                         }
+  //                       }}
+  //                     >
+  //                       <Circle visible={cell?.isVisible} />
+  //                     </ToggleBtn>
+  //                   </ToggleContainer>,
+  //                 ),
+  //             },
+  //             '등록일',
+  //             {
+  //               name: '',
+  //               id: 'termsListIdx',
+  //               formatter: (cell: string) =>
+  //                 _(
+  //                   <button
+  //                     className="detail"
+  //                     onClick={() => {
+  //                       setDetailId(cell);
+  //                       setIsDetail(true);
+  //                       if (setAfterSalesServiceIdx) {
+  //                         setAfterSalesServiceIdx(Number(cell));
+  //                       }
+  //                     }}
+  //                   >
+  //                     보기
+  //                   </button>,
+  //                 ),
+  //             },
+  //           ]);
+  //           setLength(bannerList?.data ? bannerList?.data?.banners?.length : 0);
+  //         }
+  //       },
+  //       onError: () => alert('다시 시도해주세요'),
+  //     },
+  //   );
 
   // faq 리스트(기업이냐, 유저에 따라 받는 데이터 다름, 추후에 userType api 주소에 추가)
   const { data: adminFaqList, refetch: adminFaqListRefetch } =
@@ -1236,9 +1236,9 @@ const Table = ({
         adminNoticeListRefetch();
         break;
 
-      case 'bannerList':
-        bannerListRefetch();
-        break;
+      // case 'bannerList':
+      //   bannerListRefetch();
+      //   break;
 
       case 'adminFaqList':
         adminFaqListRefetch();
@@ -1293,9 +1293,9 @@ const Table = ({
         adminNoticeListRefetch();
         break;
 
-      case 'bannerList':
-        bannerListRefetch();
-        break;
+      // case 'bannerList':
+      //   bannerListRefetch();
+      //   break;
 
       case 'adminFaqList':
         adminFaqListRefetch();
