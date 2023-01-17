@@ -69,6 +69,7 @@ const Signin = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const naverRef = useRef<HTMLElement | null | any>(null);
+  const googleRef = useRef<any>(null);
   const { user } = useSelector((state: RootState) => state.userList);
   const [userId, setUserId] = useState<string>('');
   const [data, setData] = useState<any>();
@@ -213,8 +214,9 @@ const Signin = () => {
   };
 
   const onClickGoogle = () => {
-    alert('클릭');
-    googleLogin();
+    console.log(document.querySelector('.googleBtn')?.childNodes);
+    // alert('클릭');
+    // googleLogin();
   };
 
   // 네이버 로그인
@@ -584,9 +586,15 @@ const Signin = () => {
                     onKeyDown={onKeyPress}
                   />
                 </Box>
-                <LoginBtn onClick={originLogin}>
+                <GoogleLogin
+                  onSuccess={() => {
+                    alert('성공');
+                  }}
+                  ux_mode="redirect"
+                />
+                {/* <LoginBtn onClick={originLogin}>
                   <BtnSpan>로그인</BtnSpan>
-                </LoginBtn>
+                </LoginBtn> */}
                 <Box
                   sx={{
                     textAlign: 'center',
@@ -694,20 +702,20 @@ const Signin = () => {
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
-                      {/* <button onClick={onClickGoogle}>
-                        앱 구글 로그인 테스트
-                      </button> */}
-                      <Box sx={{ height: '33pt', cursor: 'pointer' }}>
-                        {/* <Image
-                          src={google}
-                          alt="google"
-                          onClick={() => googleLogin()}
-                        /> */}
+                      <div className="googleBtn" style={{ display: 'none' }}>
                         <GoogleLogin
                           onSuccess={() => {
                             alert('성공');
                           }}
                           ux_mode="redirect"
+                        />
+                      </div>
+                      <Box sx={{ height: '33pt', cursor: 'pointer' }}>
+                        <Image
+                          src={google}
+                          alt="google"
+                          // onClick={() => googleLogin()}
+                          onClick={onClickGoogle}
                         />
                       </Box>
                     </Box>
