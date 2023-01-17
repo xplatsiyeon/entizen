@@ -38,6 +38,7 @@ export type BannerList = {
 };
 
 const Carousel = () => {
+  // 멤버타입 조회
   const accessToken = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
   // /banners?tartgetMemberType=USER
@@ -47,8 +48,12 @@ const Carousel = () => {
     isLoading: bannerListLoading,
     isError: bannerListError,
     refetch: bannerListRefetch,
-  } = useQuery<BannerList>('faq-list', () =>
-    getApi(`/banners?tartgetMemberType=USER`),
+  } = useQuery<BannerList>(
+    'banner-list',
+    () => getApi(`/banners?targetMemberType=USER`),
+    {
+      enabled: accessToken === null || accessToken === 'USER' ? true : false,
+    },
   );
 
   const {
@@ -57,14 +62,16 @@ const Carousel = () => {
     isError: companyBannerError,
     refetch: companyBannerRefetch,
   } = useQuery<BannerList>(
-    'faq-list',
-    () => getApi(`/banners?tartgetMemberType=COMPANY`),
+    'banner-list-company',
+    () => getApi(`/banners?targetMemberType=COMPANY`),
     {
       enabled: accessToken === 'COMPANY' ? true : false,
     },
   );
 
   console.log('companyBannerList', companyBannerList);
+  console.log('bannerList', bannerList);
+  console.log('accessToken', accessToken);
 
   SwipeCore.use([Navigation]);
 
@@ -80,6 +87,16 @@ const Carousel = () => {
   //   </WithImage>
   // </SliderContent>
 
+  // <SwiperSlide>
+  //   <SliderContent key={idx}>
+  //     <Top></Top>
+
+  //     <WithImage>
+  //       <Image src={el?.url} alt="money" />
+  //       <link href={el?.url} />
+  //     </WithImage>
+  //   </SliderContent>
+  // </SwiperSlide>
   return (
     <>
       <Wrapper
@@ -100,62 +117,70 @@ const Carousel = () => {
         className="mySwiper"
         // loop={false}
       >
-        {accessToken === null &&
-          bannerList?.data?.banners
-            ?.filter((item) => item.isVisible === true)
-            .map((el, idx) => (
-              <Slider key={idx}>
-                {/* <Top></Top>
-                    <Center>{el?.title}</Center> */}
-                {/* <Center>제발 뭐라도 좀 나와라</Center> */}
-                {/* <SliderImg src={el?.url} alt={'이미지'} /> */}
-                {/* <link href={el?.url} /> */}
-                <a href={el?.url}>
-                  {el?.bannerImages?.map((img) => (
-                    <SliderImg
-                      key={img?.bannerImageIdx}
-                      src={img?.url}
-                      alt={img?.originalName}
-                      style={{ cursor: 'pointer' }}
-                    />
-                  ))}
-                </a>
-              </Slider>
-            ))}
-
-        {accessToken === 'COMPANY' &&
-          companyBannerList?.data?.banners
-            ?.filter((item) => item.isVisible === true)
-            .map((el, idx) => (
-              // <SwiperSlide>
-              //   <SliderContent key={idx}>
-              //     <Top></Top>
-
-              //     <WithImage>
-              //       <Image src={el?.url} alt="money" />
-              //       <link href={el?.url} />
-              //     </WithImage>
-              //   </SliderContent>
-              // </SwiperSlide>
-              <Slider key={idx}>
-                {/* <Top></Top>
-                    <Center>{el?.title}</Center> */}
-                {/* <Center>제발 뭐라도 좀 나와라</Center> */}
-                {/* <SliderImg src={el?.url} alt={'이미지'} /> */}
-
+        {/* {bannerList?.data?.banners
+          ?.filter((item) => item.isVisible === true)
+          .map((el, idx) => (
+            <Slider key={idx}>
+              <Top></Top>
+                    <Center>{el?.title}</Center>
+              <Center>제발 뭐라도 좀 나와라</Center>
+              <SliderImg src={el?.url} alt={'이미지'} />
+              <link href={el?.url} />
+              <a href={el?.url}>
                 {el?.bannerImages?.map((img) => (
-                  <WithImage key={img?.bannerImageIdx}>
-                    <SliderImg
-                      src={img?.url}
-                      alt={img?.originalName}
-                      style={{ cursor: 'pointer' }}
-                    />
-                  </WithImage>
+                  <SliderImg
+                    key={img?.bannerImageIdx}
+                    src={img?.url}
+                    alt={img?.originalName}
+                    style={{ cursor: 'pointer' }}
+                  />
                 ))}
+              </a>
+            </Slider>
+          ))} */}
 
-                <link href={el?.url} />
-              </Slider>
-            ))}
+        {accessToken === 'COMPANY'
+          ? companyBannerList?.data?.banners
+              ?.filter((item) => item.isVisible === true)
+              .map((el, idx) => (
+                <Slider key={idx}>
+                  {/* <Top></Top>
+                    <Center>{el?.title}</Center> */}
+                  {/* <Center>제발 뭐라도 좀 나와라</Center> */}
+                  {/* <SliderImg src={el?.url} alt={'이미지'} /> */}
+                  <a href={el?.url}>
+                    {el?.bannerImages?.map((img) => (
+                      <SliderImg
+                        key={img?.bannerImageIdx}
+                        src={img?.url}
+                        alt={img?.originalName}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    ))}
+                  </a>
+                </Slider>
+              ))
+          : bannerList?.data?.banners
+              ?.filter((item) => item.isVisible === true)
+              .map((el, idx) => (
+                <Slider key={idx}>
+                  {/* <Top></Top>
+                        <Center>{el?.title}</Center> */}
+                  {/* <Center>제발 뭐라도 좀 나와라</Center> */}
+                  {/* <SliderImg src={el?.url} alt={'이미지'} /> */}
+                  {/* <link href={el?.url} /> */}
+                  <a href={el?.url}>
+                    {el?.bannerImages?.map((img) => (
+                      <SliderImg
+                        key={img?.bannerImageIdx}
+                        src={img?.url}
+                        alt={img?.originalName}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    ))}
+                  </a>
+                </Slider>
+              ))}
 
         {/* </SwiperSlide> */}
         {/* <SliderContent>
