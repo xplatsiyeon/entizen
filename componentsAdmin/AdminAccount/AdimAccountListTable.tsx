@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Grid, _ } from 'gridjs-react';
 import { useQuery, useQueryClient } from 'react-query';
-import { api, getApi } from 'api';
+import { api, getApi, isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { css } from '@emotion/react';
 import { AdminAccountList } from 'types/tableDataType';
@@ -58,7 +58,7 @@ const AdimAccountListTable = ({
   const { data: adminAccountList, refetch: adminAccountListRefetch } =
     useQuery<AdminAccountList>(
       'adminAccountList',
-      () => getApi(`/admin/managers`),
+      () => isTokenAdminGetApi(`/admin/managers`),
       {
         enabled: false,
         onSuccess: (adminAccountList) => {

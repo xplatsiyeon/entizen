@@ -98,7 +98,7 @@ const index = (props: Props) => {
       {number === 16 && (
         <AdminBannerLIst setNowHeight={setNowHeight} setNumber={setNumber} />
       )}
-      {number === 17 && <AdminGuideList setNowHeight={setNowHeight} />}
+      {/* {number === 17 && <AdminGuideList setNowHeight={setNowHeight} />} */}
       {number === 18 && (
         <AdminFAQList setNowHeight={setNowHeight} setNumber={setNumber} />
       )}

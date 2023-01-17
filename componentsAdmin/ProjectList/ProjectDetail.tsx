@@ -33,6 +33,8 @@ type Props = {
   projectIdx: number;
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
+
+// '',YYYY-MM-DD | CHANGING
 interface ProjectDetailResponse {
   isSuccess: boolean;
   data: {
@@ -147,6 +149,18 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
 
   // 리뷰데이터
   const reviewData = data?.data?.project?.projectReview;
+
+  console.log('💀 project 💀', data?.data?.project);
+
+  const goalDate = (goal: string) => {
+    if (goal === '') {
+      return '목표일 입력중입니다.';
+    } else if (goal === 'CHANGING') {
+      return '변경중입니다.';
+    } else {
+      return goal;
+    }
+  };
 
   // 삭제
   const {
@@ -406,13 +420,39 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
             </List>
             <List>
               <Label>단계별 일정</Label>
-              <ButtonBox
+              {/* <ButtonBox
                 onClick={() => {
                   alert('개발중입니다.');
                 }}
               >
                 단계별일정수정
-              </ButtonBox>
+              </ButtonBox> */}
+              <GoalDateFlex>
+                <GoalDateAlign>
+                  <GoalDateLabel>준비:</GoalDateLabel>
+                  <Contents>
+                    {goalDate(data?.data?.project?.readyStepGoalDate!)}
+                  </Contents>
+                </GoalDateAlign>
+                <GoalDateAlign>
+                  <GoalDateLabel>설치:</GoalDateLabel>
+                  <Contents>
+                    {goalDate(data?.data?.project?.installationStepGoalDate!)}
+                  </Contents>
+                </GoalDateAlign>
+                <GoalDateAlign>
+                  <GoalDateLabel>검수:</GoalDateLabel>
+                  <Contents>
+                    {goalDate(data?.data?.project?.examStepGoalDate!)}
+                  </Contents>
+                </GoalDateAlign>
+                <GoalDateAlign>
+                  <GoalDateLabel>완료:</GoalDateLabel>
+                  <Contents>
+                    {goalDate(data?.data?.project?.completionStepGoalDate!)}
+                  </Contents>
+                </GoalDateAlign>
+              </GoalDateFlex>
             </List>
             <List>
               <Label>프로젝트 제목</Label>
@@ -743,4 +783,24 @@ const BtnText = styled.div`
   line-height: 150%;
   color: #747780;
   padding: 2px 8px;
+`;
+
+const GoalDateFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const GoalDateAlign = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const GoalDateLabel = styled.label`
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: ${colors.main2};
+  width: 40px;
+  /* margin-right: 10px; */
 `;

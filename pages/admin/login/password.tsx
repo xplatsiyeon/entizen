@@ -10,7 +10,7 @@ import { JwtTokenType } from 'pages/signin';
 import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 
-const AdLogin = () => {
+const PasswordNotifyPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const idRef = useRef<HTMLInputElement>(null);
@@ -100,21 +100,47 @@ const AdLogin = () => {
     <Body>
       <Inner>
         <Wrapper>
-          <h1>엔티즌 관리자 시스템</h1>
-          <p>로그인</p>
-          <InputID
-            type="text"
-            placeholder="아이디"
-            onChange={(e) => changeValue(e)}
-            ref={idRef}
-          />
-          <InputPW
-            type="password"
-            placeholder="비밀번호"
-            onChange={(e) => changeValue(e)}
-            ref={pwRef}
-            onKeyDown={onKeyPress}
-          />
+          <TitleWrapper>
+            <span className="leftText">엔티즌 관리자 시스템</span>
+            <span className="rightText">비밀번호 재설정</span>
+          </TitleWrapper>
+          <InputWrapper>
+            <InputBox>
+              <LeftTitle>로그인</LeftTitle>
+              <InputID
+                type="text"
+                placeholder="아이디"
+                onChange={(e) => changeValue(e)}
+                ref={idRef}
+              />
+            </InputBox>
+            <InputBox>
+              <LeftTitle>이름</LeftTitle>
+              <InputName
+                type="text"
+                placeholder="이름"
+                onChange={(e) => changeValue(e)}
+                ref={idRef}
+              />
+            </InputBox>
+            <InputBox>
+              <LeftTitle>이메일</LeftTitle>
+              <InputEmail
+                type="text"
+                placeholder="E-mail"
+                onChange={(e) => changeValue(e)}
+                ref={idRef}
+              />
+              <span style={{ padding: '0 5px' }}>@</span>
+              <InputEmail
+                type="text"
+                placeholder=""
+                onChange={(e) => changeValue(e)}
+                ref={idRef}
+              />
+            </InputBox>
+          </InputWrapper>
+
           {err && (
             <ErrP className="err">
               <img src="/images/Attention.png" alt="err" />
@@ -122,22 +148,15 @@ const AdLogin = () => {
             </ErrP>
           )}
           <Button onClick={signin}>
-            <span>로그인</span>
+            <span>조회</span>
           </Button>
-          {/* <PasswordNotify
-            onClick={() => {
-              router.push('/admin/password');
-            }}
-          >
-            <span>비밀번호 재설정</span>
-          </PasswordNotify> */}
         </Wrapper>
       </Inner>
     </Body>
   );
 };
 
-export default AdLogin;
+export default PasswordNotifyPage;
 
 const Body = styled.div`
   font-family: 'Spoqa Han Sans Neo';
@@ -147,28 +166,22 @@ const Body = styled.div`
   position: relative;
 `;
 const Inner = styled.div`
-  width: 572px;
+  width: 694px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -65%);
-
   background: #ffffff;
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.16);
   border-radius: 4px;
 `;
 
 const Wrapper = styled.div`
-  padding: 80px 126px 104px;
-  h1 {
-    margin-bottom: 48px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 150%;
-    color: #5221cb;
-    text-align: center;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px 50px 60px;
+
   > p {
     font-style: normal;
     font-weight: 500;
@@ -179,15 +192,14 @@ const Wrapper = styled.div`
   }
 `;
 const InputID = styled.input`
-  width: 100%;
-  height: 36px;
+  width: 64%;
+  height: 28px;
   margin-bottom: 8px;
   padding-left: 10px;
-
   color: #000000;
   background: #ffffff;
-  border: 1px solid #a6a9b0;
-
+  border: 1px solid #e2e5ed;
+  border-radius: 2px;
   &::placeholder {
     font-style: normal;
     font-weight: 400;
@@ -197,14 +209,32 @@ const InputID = styled.input`
   }
 `;
 
-const InputPW = styled.input`
-  width: 100%;
-  height: 36px;
+const InputName = styled.input`
+  width: 50%;
+  height: 28px;
   padding-left: 10px;
   color: #000000;
   background: #ffffff;
-  border: 1px solid #a6a9b0;
+  border: 1px solid #e2e5ed;
+  margin-bottom: 8px;
+  border-radius: 2px;
+  &::placeholder {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: #a6a9b0;
+  }
+`;
 
+const InputEmail = styled.input`
+  width: 30%;
+  height: 28px;
+  padding-left: 10px;
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #e2e5ed;
+  border-radius: 2px;
   &::placeholder {
     font-style: normal;
     font-weight: 400;
@@ -219,9 +249,10 @@ const Button = styled.button`
   justify-content: center;
   align-content: center;
   width: 100%;
-  background: #5221cb;
-  margin-top: 40px;
-
+  background: #464646;
+  margin: 40px auto 0;
+  width: 94px;
+  height: 40px;
   > span {
     color: white;
     font-style: normal;
@@ -238,7 +269,7 @@ const PasswordNotify = styled.div`
   align-content: center;
   width: 100%;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 300;
   font-size: 16px;
   line-height: 150%;
   padding: 7px 0;
@@ -266,4 +297,49 @@ const ErrP = styled.p`
     height: 16px;
     margin-right: 4px;
   }
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-items: inherit;
+  margin-bottom: 30px;
+  gap: 15px;
+  .leftText {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 150%;
+    color: #222222;
+    text-align: left;
+  }
+  .rightText {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: #222222;
+    text-align: left;
+    margin-top: 6px;
+  }
+`;
+
+const LeftTitle = styled.p`
+  font-style: normal;
+  /* font-weight: 500; */
+  font-size: 16px;
+  line-height: 150%;
+  color: #000000;
+  margin-bottom: 8px;
+  width: 50px;
+  margin-right: 105px;
+`;
+
+const InputBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const InputWrapper = styled.div`
+  margin: 0 auto;
+  padding: 30px 0;
 `;

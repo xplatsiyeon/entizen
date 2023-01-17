@@ -21,6 +21,9 @@ type Props = {
   commonBtn?: string;
   handleCommon: () => void;
   hide?: boolean;
+  searchType: string;
+  searchKeyword: string;
+  projectQueryString: string;
 };
 
 const ProjectListTable = ({
@@ -31,6 +34,9 @@ const ProjectListTable = ({
   commonBtn,
   handleCommon,
   hide,
+  searchType,
+  searchKeyword,
+  projectQueryString,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -53,7 +59,7 @@ const ProjectListTable = ({
   
   
   */
-
+  // &steps[]=
   // 🎀 프로젝트 리스트 데이터
   const { data: projectListData, refetch: projectListRefetch } =
     useQuery<ProjectList>(
@@ -64,7 +70,9 @@ const ProjectListTable = ({
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${
             pickedDate ? pickedDate[1] : today
-          }&searchType=projectNumber&searchKeyword=&steps[]=completion`,
+          }&searchType=${searchType}&searchKeyword=${searchKeyword}${
+            projectQueryString ? projectQueryString : '&steps[]=undefined'
+          }`,
         ),
       {
         enabled: false,
@@ -73,10 +81,7 @@ const ProjectListTable = ({
             const temp: any = [];
             projectListData?.data?.projects.forEach((ele, idx) => {
               const approve =
-                ele?.isCompletedExamStep === true &&
-                ele.isApprovedByAdmin === false
-                  ? '승인대기'
-                  : ele.currentStep;
+                ele?.currentStep === '승인 대기' ? '승인대기' : ele.currentStep;
               const eleArr = [
                 `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
                   idx + 1 === 10 ? page * 10 : idx + 1
@@ -191,7 +196,7 @@ const ProjectListTable = ({
         projectListRefetch();
         break;
     }
-  }, [page, pickedDate]);
+  }, [page, pickedDate, searchKeyword, projectQueryString, searchType]);
 
   return (
     <StyledBody className="user-table">
