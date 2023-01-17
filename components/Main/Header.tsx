@@ -20,6 +20,7 @@ type GetUnread = {
 
 const Header = (props: Props) => {
   const router = useRouter();
+  const userID = sessionStorage.getItem('USER_ID');
   // 알람 조회
   // alerts/histories/unread
   const {
@@ -27,9 +28,15 @@ const Header = (props: Props) => {
     isLoading: historyIsLoading,
     isError: historyIIsError,
     refetch: historyIsRefetch,
-  } = useQuery<GetUnread>('historyUnread', () =>
-    isTokenGetApi(`/alerts/histories/unread`),
+  } = useQuery<GetUnread>(
+    'historyUnread',
+    () => isTokenGetApi(`/alerts/histories/unread`),
+    {
+      enabled: userID !== null ? true : false,
+    },
   );
+
+  console.log('💔 userID 💔', userID);
 
   return (
     <HeadWrapper>

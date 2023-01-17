@@ -32,15 +32,19 @@ interface MenuList {
 }
 
 const WhyEntizenWeb = (props: Props) => {
+  const userID = sessionStorage.getItem('USER_ID');
   // 제휴문의 채팅방 보내기
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
     () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+    {
+      enabled: userID !== null ? true : false,
+    },
   );
 
   const chattingRoomIdx =
     data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
-  const userID = sessionStorage.getItem('USER_ID');
+
   const router = useRouter();
   const menuList: MenuList[] = [
     {

@@ -28,15 +28,18 @@ interface MenuList {
 
 const WhyEntizen = () => {
   const router = useRouter();
+  const userID = JSON.parse(sessionStorage.getItem('USER_ID')!);
   // 제휴문의 채팅방 보내기
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
     () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+    {
+      enabled: userID !== null ? true : false,
+    },
   );
 
   const chattingRoomIdx =
     data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
-  const userID = sessionStorage.getItem('USER_ID');
   const menuList: MenuList[] = [
     {
       headText: '플랫폼 가이드',

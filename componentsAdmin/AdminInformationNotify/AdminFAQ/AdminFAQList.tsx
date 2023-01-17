@@ -30,7 +30,9 @@ const AdminFAQList = ({ setNowHeight, setNumber }: Props) => {
 
   // FAQ 리스트 불러오는 api
   const { data: adminFaqList, refetch: adminFaqListRefetch } =
-    useQuery<AdminFAQListResponse>('adminFaqList', () => getApi(`/admin/faqs`));
+    useQuery<AdminFAQListResponse>('adminFaqList', () =>
+      isTokenAdminGetApi(`/admin/faqs`),
+    );
 
   // 등록, 추가, 삭제 했을때 리스트 페이지로 이동 할거임
   const [changeNumber, setChangeNumber] = useState(false);

@@ -38,6 +38,9 @@ const WhyEntizenHorizontal = (props: Props) => {
   const { data, isLoading, isError, refetch } = useQuery<ChattingListResponse>(
     'chatting-list',
     () => isTokenGetApi(`/chatting?searchKeyword&filter=all`),
+    {
+      enabled: userID !== null ? true : false,
+    },
   );
 
   const chattingRoomIdx =
