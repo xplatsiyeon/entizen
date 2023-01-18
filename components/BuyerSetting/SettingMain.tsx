@@ -92,31 +92,28 @@ const SettingMain = ({
   const ModalLeftControl = async () => {
     const WITHDRAWAL_API = `https://api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    console.log('탈퇴');
-    try {
-      await axios({
-        method: 'post',
-        url: WITHDRAWAL_API,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          ContentType: 'application/json',
-        },
-        withCredentials: true,
+    await axios({
+      method: 'post',
+      url: WITHDRAWAL_API,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+      withCredentials: true,
+    })
+      .then((res) => {
+        sessionStorage.removeItem('SNS_MEMBER');
+        sessionStorage.removeItem('ACCESS_TOKEN');
+        sessionStorage.removeItem('REFRESH_TOKEN');
+        sessionStorage.removeItem('USER_ID');
+        sessionStorage.removeItem('MEMBER_TYPE');
+        setLogoutModal(false);
+        setAlertModal(false);
       })
-        .then((res) => {
-          sessionStorage.removeItem('SNS_MEMBER');
-          sessionStorage.removeItem('ACCESS_TOKEN');
-          sessionStorage.removeItem('REFRESH_TOKEN');
-          sessionStorage.removeItem('USER_ID');
-          sessionStorage.removeItem('MEMBER_TYPE');
-          setLogoutModal(false);
-          setAlertModal(false);
-        })
-        .then((res) => router.push('/'));
-    } catch (error) {
-      console.log('요청 실패');
-      console.log(error);
-    }
+      .then((res) => router.push('/'));
+
+    // ============ 로그아웃 브릿지 =================
+    appLogout(userAgent);
   };
   // SNS/일반회원 구별
   const HandleWidthdrawal = async () => {
@@ -128,9 +125,6 @@ const SettingMain = ({
       // 일반 회원탈퇴
       setPasswordModal(true);
     }
-
-    // ============ 로그아웃 브릿지 =================
-    appLogout(userAgent);
   };
   // 회원탈퇴 시 original user 비밀번호 체크 함수
   const authPassowrd = () => {

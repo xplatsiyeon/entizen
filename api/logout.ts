@@ -1,7 +1,7 @@
 import { googleLogout } from '@react-oauth/google';
 import { BASE_URL } from 'api';
 import axios from 'axios';
-import { appLogout } from 'bridge/appToWeb';
+import { appLogout, googleUnlink } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { kakaoInit } from 'utils/kakao';
@@ -65,9 +65,16 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     //   window.webkit.messageHandlers.logout.postMessage('');
     // }
     if (isSns) {
-      NaverLogout();
-      KakaoLogout();
-      googleLogout();
+      // ================== 브릿지 =================
+      if (userAgent === 'Android_App') {
+        window.entizen!.googleUnlink();
+      } else if (userAgent === 'iOS_App') {
+        // window.webkit.messageHandlers.googleUnlink.postMessage('');
+      } else {
+        NaverLogout();
+        KakaoLogout();
+        googleLogout();
+      }
     }
     sessionStorage.removeItem('SNS_MEMBER');
     sessionStorage.removeItem('ACCESS_TOKEN');
