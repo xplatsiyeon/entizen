@@ -69,12 +69,12 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     sessionStorage.removeItem('MEMBER_TYPE');
 
     // 로그아웃 브릿지 연결
-    appLogout(userAgent as string);
-    // if (userAgent === 'Android_App') {
-    //   window.entizen!.logout();
-    // } else if (userAgent === 'iOS_App') {
-    //   window.webkit.messageHandlers.logout.postMessage('');
-    // }
+    // appLogout(userAgent as string);
+    if (userAgent === 'Android_App') {
+      window.entizen!.logout();
+    } else if (userAgent === 'iOS_App') {
+      window.webkit.messageHandlers.logout.postMessage('');
+    }
   });
 };
 
