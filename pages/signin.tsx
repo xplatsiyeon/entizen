@@ -206,13 +206,14 @@ const Signin = () => {
   };
   // 구글 아이콘 온클릭 (with 브릿지)
   const onClickGoogle = () => {
-    alert(userAgent);
+    // alert(userAgent);
     if (userAgent === 'Android_App') {
       window.entizen!.requestGoogleLogin(); // 수정필요
     } else if (userAgent === 'iOS_App') {
       alert(userAgent);
-      window.webkit.messageHandlers.requestGoogleLogin.postMessage(); // 수정필요
-      window.webkit.messageHandlers.requestGoogleLogin.postMessage(''); // 수정필요
+      // window.webkit.messageHandlers.requestGoogleLogin.postMessage(); // 수정필요
+      // window.webkit.messageHandlers.requestGoogleLogin.postMessage(''); // 수정필요
+      window.webkit.messageHandlers.requestPermissionCheck.postMessage('photo');
     } else {
       googleLogin();
     }
