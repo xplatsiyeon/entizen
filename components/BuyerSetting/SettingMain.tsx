@@ -16,6 +16,7 @@ import colors from 'styles/colors';
 import { kakaoInit } from 'utils/kakao';
 import jwt_decode from 'jwt-decode';
 import { Padding } from '@mui/icons-material';
+import { appLogout } from 'bridge/appToWeb';
 type Props = {
   tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
@@ -127,6 +128,9 @@ const SettingMain = ({
       // 일반 회원탈퇴
       setPasswordModal(true);
     }
+
+    // ============ 로그아웃 브릿지 =================
+    appLogout(userAgent);
   };
   // 회원탈퇴 시 original user 비밀번호 체크 함수
   const authPassowrd = () => {

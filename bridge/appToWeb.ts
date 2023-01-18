@@ -53,3 +53,16 @@ export const fileDownload = (
     location.href = url;
   }
 };
+
+/**
+ * 앱 정보 삭제를 위한 로그아웃 브릿지
+ * @param userAgent 유저 정보
+ */
+export const appLogout = (userAgent: string) => {
+  // 로그아웃 브릿지 연결
+  if (userAgent === 'Android_App') {
+    window.entizen!.logout();
+  } else if (userAgent === 'iOS_App') {
+    window.webkit.messageHandlers.logout.postMessage('');
+  }
+};

@@ -1,6 +1,7 @@
 import { googleLogout } from '@react-oauth/google';
 import { BASE_URL } from 'api';
 import axios from 'axios';
+import { appLogout } from 'bridge/appToWeb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { kakaoInit } from 'utils/kakao';
@@ -68,11 +69,12 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     sessionStorage.removeItem('MEMBER_TYPE');
 
     // 로그아웃 브릿지 연결
-    if (userAgent === 'Android_App') {
-      window.entizen!.logout();
-    } else if (userAgent === 'iOS_App') {
-      window.webkit.messageHandlers.logout.postMessage('');
-    }
+    appLogout(userAgent as string);
+    // if (userAgent === 'Android_App') {
+    //   window.entizen!.logout();
+    // } else if (userAgent === 'iOS_App') {
+    //   window.webkit.messageHandlers.logout.postMessage('');
+    // }
   });
 };
 
