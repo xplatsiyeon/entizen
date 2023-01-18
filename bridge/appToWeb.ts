@@ -72,6 +72,6 @@ export const googleUnlink = (userAgent: string) => {
   if (userAgent === 'Android_App') {
     window.entizen!.googleUnlink();
   } else if (userAgent === 'iOS_App') {
-    // window.webkit.messageHandlers.googleUnlink.postMessage('');
+    window.webkit.messageHandlers.googleUnlink.postMessage('');
   }
 };

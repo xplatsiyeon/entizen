@@ -55,7 +55,7 @@ export interface FindKey {
 }
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
+const REDIRECT_URI = 'https://test-api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = () => {
@@ -206,9 +206,12 @@ const Signin = () => {
   };
   // 구글 아이콘 온클릭 (with 브릿지)
   const onClickGoogle = () => {
+    alert(userAgent);
     if (userAgent === 'Android_App') {
       window.entizen!.requestGoogleLogin(); // 수정필요
     } else if (userAgent === 'iOS_App') {
+      alert(userAgent);
+      window.webkit.messageHandlers.requestGoogleLogin.postMessage(); // 수정필요
       window.webkit.messageHandlers.requestGoogleLogin.postMessage(''); // 수정필요
     } else {
       googleLogin();
@@ -216,7 +219,7 @@ const Signin = () => {
   };
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
       await axios({
         method: 'post',
@@ -368,7 +371,7 @@ const Signin = () => {
     const memberType = loginTypeEnList[selectedLoginType];
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -489,7 +492,7 @@ const Signin = () => {
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
         <meta
           name="appleid-signin-redirect-uri"
-          content="https://api.entizen.kr/api/auth/apple"
+          content="https://test-api.entizen.kr/api/auth/apple"
         />
         <meta name="appleid-signin-scope" content="name email" />
         <meta name="appleid-signin-state" content="" />
