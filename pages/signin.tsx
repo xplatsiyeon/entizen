@@ -407,15 +407,19 @@ const Signin = () => {
         id: String,
         email: String,
       ) => {
-        googleLoginMutate({
-          url: '/members/login/sns',
-          data: {
-            uuid: id,
-            snsType: 'GOOGLE',
-            snsResponse: JSON.stringify({ id, email }),
-            email: email,
-          },
-        });
+        if (isSuccess === 'true') {
+          googleLoginMutate({
+            url: '/members/login/sns',
+            data: {
+              uuid: id,
+              snsType: 'GOOGLE',
+              snsResponse: JSON.stringify({ id, email }),
+              email: email,
+            },
+          });
+        } else if (isSuccess === 'false') {
+          alert('로그인 실패했습니다.');
+        }
       };
     }
   }, []);

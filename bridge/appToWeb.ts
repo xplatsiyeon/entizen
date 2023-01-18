@@ -64,6 +64,7 @@ export const appLogout = (userAgent: string) => {
     window.entizen!.googleUnlink();
     window.entizen!.logout();
   } else if (userAgent === 'iOS_App') {
+    // window.webkit.messageHandlers.googleUnlink.postMessage('');
     window.webkit.messageHandlers.logout.postMessage('');
   }
 };
