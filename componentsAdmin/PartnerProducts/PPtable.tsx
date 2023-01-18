@@ -6,13 +6,14 @@ import { api, isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { PartnerProductData } from 'types/tableDataType';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
+import { excelDownloadFile } from 'hooks/excelDown';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<number>>;
   detatilId?: string;
   selected: string[];
-  handleCommon?: () => void;
+  productsExcel: string;
   // selectedFilter?: number;
   // userSearch?: string;
 };
@@ -22,7 +23,7 @@ const PPTable = ({
   setDetailId,
   detatilId,
   selected,
-  handleCommon,
+  productsExcel,
 }: // selectedFilter,
 // userSearch,
 Props) => {
@@ -69,7 +70,7 @@ Props) => {
             ele?.channel!,
             ele?.member?.name!,
             hyphenFn(ele?.member?.phone!),
-            dateFomat(ele?.createdAt!).substring(0, 12),
+            dateFomat(ele?.createdAt!).substring(0, 11),
             ele?.chargerProductIdx!,
           ];
           temp.push(arrEle);
@@ -162,7 +163,13 @@ Props) => {
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P>
-        {/* <Button onClick={handleCommon}>엑셀 다운로드</Button> */}
+        {/* <Button
+          onClick={() => {
+            excelDownloadFile(productsExcel);
+          }}
+        >
+          엑셀 다운로드
+        </Button> */}
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

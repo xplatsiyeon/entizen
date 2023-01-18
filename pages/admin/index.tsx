@@ -26,6 +26,9 @@ import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import IncomeSimul from 'componentsAdmin/AdminDataDownload/IncomeSimul/IncomeSimul';
+import Subsidy from 'componentsAdmin/AdminDataDownload/Subsidy/Subsidy';
+import PreQuotationExel from 'componentsAdmin/AdminDataDownload/PreQuotationExel/PreQuotationExel';
 
 type Props = {};
 
@@ -105,6 +108,15 @@ const index = (props: Props) => {
       {number === 23 && <AdminElseList setNowHeight={setNowHeight} />}
       {number === 24 && <ReverseAuctionSituation setNowHeight={setNowHeight} />}
       {number === 25 && <ASSituation setNowHeight={setNowHeight} />}
+      {number === 22 && (
+        <IncomeSimul setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
+      {number === 26 && (
+        <Subsidy setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
+      {number === 27 && (
+        <PreQuotationExel setNowHeight={setNowHeight} setNumber={setNumber} />
+      )}
     </Background>
   );
 };

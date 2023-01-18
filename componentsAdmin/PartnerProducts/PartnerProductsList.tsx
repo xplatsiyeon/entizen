@@ -28,10 +28,10 @@ const PartnerProductsList = ({ setNowHeight }: Props) => {
     setSelected([EnchargeKind, chargeMethod, EnchargeChannel]);
   };
 
+  const productsExcel = `/admin/products/excel?searchKeyword=&chargerKind=&chargerMethods[]=&chargerChannel`;
+
   // 엑셀 다운로드 버튼
-  const handleCommon = () => {
-    alert('개발중입니다.');
-  };
+  const handleCommon = () => {};
 
   console.log(
     '🦋 제품리스트입니다',
@@ -97,7 +97,7 @@ const PartnerProductsList = ({ setNowHeight }: Props) => {
         setIsDetail={setIsDetail}
         setDetailId={setDetailId}
         selected={selected}
-        handleCommon={handleCommon}
+        productsExcel={productsExcel}
       />
     </Body>
   );

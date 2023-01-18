@@ -40,7 +40,7 @@ const openList = [
   '정보수정',
   // '알림',
   // 'DATA 업데이트',
-  // 'DATA 다운로드',
+  'DATA 다운로드',
   // '기타',
 ];
 const closeList = [
@@ -57,7 +57,7 @@ const closeList = [
   // ['약관', '공지사항', '배너', '가이드', 'FAQ'],
   // ['알림'],
   // ['DATA 업데이트'],
-  // ['DATA 다운로드'],
+  ['수익 SIMUL', '보조금', '간편견적'],
   // ['블락'],
 ];
 const Workspace = ({ setNumber, nowHeight }: Props) => {
@@ -207,9 +207,19 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
         dispatch(adminPageNumberAction.setIsAdminPage(21));
         break;
 
-      case 'DATA 다운로드':
+      case '수익 SIMUL':
         // setNumber(22);
         dispatch(adminPageNumberAction.setIsAdminPage(22));
+        break;
+
+      case '보조금':
+        // setNumber(26);
+        dispatch(adminPageNumberAction.setIsAdminPage(26));
+        break;
+
+      case '간편견적':
+        // setNumber(27);
+        dispatch(adminPageNumberAction.setIsAdminPage(27));
         break;
 
       case '블락':

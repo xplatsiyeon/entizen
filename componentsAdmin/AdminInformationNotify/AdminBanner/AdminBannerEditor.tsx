@@ -483,7 +483,10 @@ const AdminBannerEditor = ({
         <ImgWrapper>
           <AddImg>
             <AddImgText>메인 이미지 추가</AddImgText>
-            <AdminBtn onClick={imgOutHandler}>사진첨부</AdminBtn>
+            <SizeText>1920px X 480px</SizeText>
+            <AdminBtn onClick={imgOutHandler} style={{ marginTop: '13px' }}>
+              사진첨부
+            </AdminBtn>
           </AddImg>
           <input
             style={{ display: 'none' }}
@@ -714,7 +717,7 @@ const ImgWrapper = styled.div`
 
 const AddImgText = styled.div`
   ${smallText}
-  margin-bottom: 8px;
+  margin-bottom: 1px;
 `;
 
 const AddImg = styled.div`
@@ -768,4 +771,12 @@ const Select = styled.label`
   font-family: 'Spoqa Han Sans Neo';
   font-size: 16px;
   font-weight: 400;
+`;
+
+const SizeText = styled.p`
+  font-family: 'Spoqa Han Sans Neo';
+  font-size: 7px;
+  font-weight: 400;
+  text-align: left;
+  padding-top: 3px;
 `;

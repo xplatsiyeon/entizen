@@ -15,6 +15,7 @@ import fileImg from 'public/mypage/file-icon.svg';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenAdminGetApi, isTokenAdminPostApi, multerApi } from 'api';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
+import { excelDownloadFile } from 'hooks/excelDown';
 
 // type ChattingLogs = {
 //   createdAt: string;
@@ -73,30 +74,22 @@ type Props = {
 };
 
 const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
-  const accessToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYW5hZ2VySWR4IjoyLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NzI4MjE0NzcsImV4cCI6MTY3NTQxMzQ3NywiaXNzIjoiZW50aXplbi5rciJ9.pSbxSlPu8JiIyJa4ladTwADwgkr3o039lirhtOnnA_A';
   const queryClient = useQueryClient();
   const router = useRouter();
   //const routerId = router?.query?.chattingRoomIdx;
   const [data, setData] = useState<ChattingRoom[]>([]);
   const [text, setText] = useState('');
   const [fileModal, setFileModal] = useState<boolean>(false);
-  // 관리자 로그인 전까지 이걸로 해바...
-  const isTokenPostTempoApi = async (apiInfo: any): Promise<any> => {
-    // const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    const { url, data } = apiInfo;
-    return await axios({
-      method: 'POST',
-      url: `/api${url}`,
-      data,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        ContentType: 'application/json',
-      },
-      withCredentials: true,
-    }).then((res) => res);
-  };
-  
+
+  // 엑셀 다운로드
+  // /api/admin/chatting/consultations/:chattingRoomIdx/excel
+  // const { data: chattingExcel } = useQuery<any>('chattingExcel', () =>
+  //   isTokenAdminGetApi(`/admin/chatting/consultations/${detatilId}/excel`),
+  // );
+  // console.log('chattingExcel', chattingExcel);
+
+  const chattingExcel = `/admin/chatting/consultations/${detatilId}/excel`;
+
   // 채팅 내역 불러오는 api
   const {
     data: OOQDetailData,
@@ -245,7 +238,6 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
     },
   });
 
-
   // 인풋 텍스트 입력
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.currentTarget.value);
@@ -302,8 +294,8 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
         files![0],
         encodeURIComponent(files![0].name),
       );
-       multerFile(formData);
-       setLoading(true);
+      multerFile(formData);
+      setLoading(true);
       e.target.value = '';
     }
   };
@@ -320,8 +312,8 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
         files![0],
         encodeURIComponent(files![0].name),
       );
-        multerImage(formData);
-        setLoading(true)
+      multerImage(formData);
+      setLoading(true);
       e.target.value = '';
     }
   };
@@ -455,6 +447,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
         subTitle="1대1 문의"
         backBtn={handleBackBtn}
         exelHide={true}
+        excelData={chattingExcel}
       />
 
       <Wrapper className="OOQ-innerWrap">
