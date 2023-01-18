@@ -16,7 +16,7 @@ declare global {
     returnUserInfo?: (userInfo: any) => void;
     openGallery?: () => void;
     openFileUpload?: () => void;
-    google?: (res: any) => void;
+    responseGoogleLogin?: (isSuccess: String, result: String) => void;
     testEntizen: {
       test?: () => void;
       testtest?: () => void;

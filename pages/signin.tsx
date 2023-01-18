@@ -207,9 +207,9 @@ const Signin = () => {
   // 구글 아이콘 온클릭 (with 브릿지)
   const onClickGoogle = () => {
     if (userAgent === 'Android_App') {
-      window.entizen!.googleLogin(); // 수정필요
+      window.entizen!.requestGoogleLogin(); // 수정필요
     } else if (userAgent === 'iOS_App') {
-      window.webkit.messageHandlers.googleLogin.postMessage(''); // 수정필요
+      window.webkit.messageHandlers.requestGoogleLogin.postMessage(''); // 수정필요
     } else {
       googleLogin();
     }
@@ -274,6 +274,8 @@ const Signin = () => {
             REFRESH_TOKEN: res.data.refreshToken,
             USER_ID: data.user.email,
           };
+          console.log('==========userInfo==========');
+          console.log(userInfo);
           if (userAgent === 'Android_App') {
             window.entizen!.setUserInfo(JSON.stringify(userInfo));
           } else if (userAgent === 'iOS_App') {
@@ -385,60 +387,66 @@ const Signin = () => {
   // 구글 브릿지 연결 (앱 -> 웹)
   useEffect(() => {
     if (userAgent === 'Android_App') {
-      window.google = (res: any) => {
-        let resData = res.data;
-        let jsonData = JSON.parse(res.config.data);
-        dispatch(
-          userAction.add({
-            ...user,
-            uuid: jsonData.uuid,
-            email: jsonData.email,
-            snsType: jsonData.snsType,
-            snsLoginIdx: resData.snsLoginIdx,
-            isMember: resData.isMember,
-          }),
-        );
-        if (resData.isMember === true) {
-          // 로그인
-          const token: JwtTokenType = jwt_decode(resData.accessToken);
-          sessionStorage.setItem(
-            'SNS_MEMBER',
-            JSON.stringify(token.isSnsMember),
-          );
-          sessionStorage.setItem(
-            'MEMBER_TYPE',
-            JSON.stringify(token.memberType),
-          );
-          sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
-          sessionStorage.setItem(
-            'ACCESS_TOKEN',
-            JSON.stringify(resData.accessToken),
-          );
-          sessionStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(resData.refreshToken),
-          );
-          dispatch(originUserAction.set(jsonData.email));
-
-          // ================ 브릿지 연결 =====================
-          const userInfo = {
-            SNS_MEMBER: token.isSnsMember,
-            MEMBER_TYPE: token.memberType,
-            ACCESS_TOKEN: resData.accessToken,
-            REFRESH_TOKEN: resData.refreshToken,
-            USER_ID: jsonData.email,
-          };
-          if (userAgent === 'Android_App') {
-            window.entizen!.setUserInfo(JSON.stringify(userInfo));
-          }
-          router.push('/');
-        } else {
-          // 회원가입
-          router.push('/signUp/SnsTerms');
+      window.responseGoogleLogin = (isSuccess: String, result: String) => {
+        if (isSuccess === 'true') {
+          alert(result);
+          // let res: any = result as any; // 타입 에러를 위한 임시 함수
+          // let resData = res.data;
+          // let jsonData = JSON.parse(res.config.data);
+          // dispatch(
+          //   userAction.add({
+          //     ...user,
+          //     uuid: jsonData.uuid,
+          //     email: jsonData.email,
+          //     snsType: jsonData.snsType,
+          //     snsLoginIdx: resData.snsLoginIdx,
+          //     isMember: resData.isMember,
+          //   }),
+          // );
+          // if (resData.isMember === true) {
+          //   // 로그인
+          //   const token: JwtTokenType = jwt_decode(resData.accessToken);
+          //   sessionStorage.setItem(
+          //     'SNS_MEMBER',
+          //     JSON.stringify(token.isSnsMember),
+          //   );
+          //   sessionStorage.setItem(
+          //     'MEMBER_TYPE',
+          //     JSON.stringify(token.memberType),
+          //   );
+          //   sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+          //   sessionStorage.setItem(
+          //     'ACCESS_TOKEN',
+          //     JSON.stringify(resData.accessToken),
+          //   );
+          //   sessionStorage.setItem(
+          //     'REFRESH_TOKEN',
+          //     JSON.stringify(resData.refreshToken),
+          //   );
+          //   dispatch(originUserAction.set(jsonData.email));
+          //   // ================ 브릿지 연결 =====================
+          //   const userInfo = {
+          //     SNS_MEMBER: token.isSnsMember,
+          //     MEMBER_TYPE: token.memberType,
+          //     ACCESS_TOKEN: resData.accessToken,
+          //     REFRESH_TOKEN: resData.refreshToken,
+          //     USER_ID: jsonData.email,
+          //   };
+          //   if (userAgent === 'Android_App') {
+          //     window.entizen!.setUserInfo(JSON.stringify(userInfo));
+          //   }
+          //   router.push('/');
+          // } else {
+          //   // 회원가입
+          //   router.push('/signUp/SnsTerms');
+          // }
+        } else if (isSuccess === 'false') {
+          alert('로그인 실패했습니다.');
         }
       };
     } else if (userAgent === 'iOS_App') {
-      window.google = (res: any) => {
+      window.responseGoogleLogin = (isSuccess: String, result: String) => {
+        let res: any = result as any; // 타입 에러를 위한 임시 함수
         let resData = res.data;
         let jsonData = JSON.parse(res.config.data);
         dispatch(
