@@ -206,12 +206,9 @@ const Signin = () => {
   };
   // 구글 아이콘 온클릭 (with 브릿지)
   const onClickGoogle = () => {
-    // alert(userAgent);
     if (userAgent === 'Android_App') {
       window.entizen!.requestGoogleLogin();
     } else if (userAgent === 'iOS_App') {
-      alert(userAgent);
-      // window.webkit.messageHandlers.requestPermissionCheck.postMessage('photo');
       window.webkit.messageHandlers.requestGoogleLogin.postMessage('');
     } else {
       googleLogin();
