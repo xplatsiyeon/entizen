@@ -208,12 +208,12 @@ const Signin = () => {
   const onClickGoogle = () => {
     // alert(userAgent);
     if (userAgent === 'Android_App') {
-      window.entizen!.requestGoogleLogin(); // 수정필요
+      window.entizen!.requestGoogleLogin();
     } else if (userAgent === 'iOS_App') {
       alert(userAgent);
-      // window.webkit.messageHandlers.requestGoogleLogin.postMessage(); // 수정필요
-      // window.webkit.messageHandlers.requestGoogleLogin.postMessage(''); // 수정필요
       window.webkit.messageHandlers.requestPermissionCheck.postMessage('photo');
+      // window.webkit.messageHandlers.requestGoogleLogin.postMessage();
+      window.webkit.messageHandlers.requestGoogleLogin.postMessage('');
     } else {
       googleLogin();
     }
