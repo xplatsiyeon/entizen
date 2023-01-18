@@ -141,27 +141,9 @@ const FAQ = ({ tabNumber, setTabNumber }: Props) => {
     isTokenGetApi(`/faqs?faqKind=${TabTypeEn[tabNumber]}`),
   );
   const components: Components = {
-    0: (
-      <FaqInfomation
-        faqList={faqList!}
-        tabNumber={tabNumber}
-        tabNumberFaq={tabNumberFaq}
-      />
-    ),
-    1: (
-      <FaqInfomation
-        faqList={faqList!}
-        tabNumber={tabNumber}
-        tabNumberFaq={tabNumberFaq}
-      />
-    ),
-    2: (
-      <FaqInfomation
-        faqList={faqList!}
-        tabNumber={tabNumber}
-        tabNumberFaq={tabNumberFaq}
-      />
-    ),
+    0: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,
+    1: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,
+    2: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,
   };
   const handleTab = (index: number) => setTabNumberFaq(index);
   const leftOnClick = () => {
