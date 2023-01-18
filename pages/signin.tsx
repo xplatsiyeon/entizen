@@ -361,9 +361,7 @@ const Signin = () => {
   };
   // 엔터키 이벤트
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      originLogin();
-    }
+    if (e.key === 'Enter') originLogin();
   };
   // 나이스 인증
   useEffect(() => {
@@ -374,12 +372,9 @@ const Signin = () => {
       data: { memberType },
     })
       .then((res) => {
-        console.log('-------res--------');
-        console.log(res);
         setData(res.data.executedData);
       })
       .catch((error) => {
-        console.error(' 2 곳 입니까?');
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -387,9 +382,21 @@ const Signin = () => {
   // 구글 브릿지 연결 (앱 -> 웹)
   useEffect(() => {
     if (userAgent === 'Android_App') {
-      window.responseGoogleLogin = (isSuccess: String, result: String) => {
+      window.responseGoogleLogin = (
+        isSuccess: String,
+        id: String,
+        email: String,
+      ) => {
         if (isSuccess === 'true') {
-          alert(result);
+          googleLoginMutate({
+            url: '/members/login/sns',
+            data: {
+              uuid: id,
+              snsType: 'GOOGLE',
+              snsResponse: JSON.stringify({ id, email }),
+              email: email,
+            },
+          });
           // let res: any = result as any; // 타입 에러를 위한 임시 함수
           // let resData = res.data;
           // let jsonData = JSON.parse(res.config.data);

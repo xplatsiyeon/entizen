@@ -12,15 +12,19 @@ declare global {
   interface Window {
     entizen?: any;
     webkit?: any;
-    test?: () => void;
+    // test?: () => void;
     returnUserInfo?: (userInfo: any) => void;
     openGallery?: () => void;
     openFileUpload?: () => void;
-    responseGoogleLogin?: (isSuccess: String, result: String) => void;
-    testEntizen: {
-      test?: () => void;
-      testtest?: () => void;
-    };
+    responseGoogleLogin?: (
+      isSuccess: String,
+      id: String,
+      email: String,
+    ) => void;
+    // testEntizen: {
+    //   test?: () => void;
+    //   testtest?: () => void;
+    // };
   }
   interface Document {
     form_chk: HTMLFormElement;
