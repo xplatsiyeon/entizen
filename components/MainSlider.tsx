@@ -11,34 +11,33 @@ import colors from 'styles/colors';
 
 const MainSlider = () => {
   return (
-    <SlideWrap> 
+    <SlideWrap>
       <div className="wrapper">
-      <P>{`전기차 충전기,\n이렇게\n활용해 보세요`}</P>
-     
-  <SwiperWrapper
-    slidesPerView={3}
-    centeredSlides={true}
-    spaceBetween={30}
-    grabCursor={true}
-    className="mySwiper"
-  >
-    <SwiperSlide>
-      <Image src={MainSliderImg1} alt="MainSliderImg1" layout='fill'/>
-    </SwiperSlide>
-    <SwiperSlide>   
-      <Image src={MainSliderImg2} alt="MainSliderImg2" layout='fill'/>
-    </SwiperSlide>
-    <SwiperSlide>
-      <Image src={MainSliderImg1} alt="MainSliderImg1" layout='fill'/>
-    </SwiperSlide>
-    <SwiperSlide>
-      <Image src={MainSliderImg2} alt="MainSliderImg2" layout='fill'/>
-    </SwiperSlide>
-    <SwiperSlide>
-      <Image src={MainSliderImg1} alt="MainSliderImg1" layout='fill'/>
+        <P>{`전기차 충전기,\n이렇게\n활용해 보세요`}</P>
 
-    </SwiperSlide>
-  </SwiperWrapper>
+        <SwiperWrapper
+          slidesPerView={3}
+          centeredSlides={true}
+          spaceBetween={30}
+          grabCursor={true}
+          className="mySwiper"
+        >
+          <SwiperSlide>
+            <Image src={MainSliderImg1} alt="MainSliderImg1" layout="fill" />
+          </SwiperSlide>
+          <SwiperSlide>
+            <Image src={MainSliderImg2} alt="MainSliderImg2" layout="fill" />
+          </SwiperSlide>
+          <SwiperSlide>
+            <Image src={MainSliderImg1} alt="MainSliderImg1" layout="fill" />
+          </SwiperSlide>
+          <SwiperSlide>
+            <Image src={MainSliderImg2} alt="MainSliderImg2" layout="fill" />
+          </SwiperSlide>
+          <SwiperSlide>
+            <Image src={MainSliderImg1} alt="MainSliderImg1" layout="fill" />
+          </SwiperSlide>
+        </SwiperWrapper>
       </div>
     </SlideWrap>
   );
@@ -49,14 +48,15 @@ export default MainSlider;
 const SlideWrap = styled.div`
   width: 100%;
   position: relative;
-  .wrapper{
+
+  .wrapper {
     position: relative;
     height: 405pt;
-    padding: 120pt 0;
+    padding: 50pt 0;
     display: flex;
     align-content: center;
   }
-`
+`;
 const P = styled.p`
   margin-left: 20%;
   white-space: pre-wrap;
@@ -67,18 +67,20 @@ const P = styled.p`
   line-height: 52.5pt;
   letter-spacing: -0.02em;
   color: #222222;
-`
+`;
 const SwiperWrapper = styled(Swiper)`
-position: absolute;
-left: 45%;
-height: 405pt;
-width: 1000pt;
-overflow: hidden;
-.swiper-wrapper{
-  justify-content: center!important;
-  align-items: center;
-  object-fit: cover;
-  margin-left: 2%;
-}
-`
-  
+  position: absolute;
+  left: 45%;
+  height: 305pt;
+  width: 800pt;
+  overflow: hidden;
+
+  .swiper-wrapper {
+    justify-content: center !important;
+    align-items: center;
+    object-fit: cover;
+    margin-left: 2%;
+  }
+`;
+
+const ImgWrapper = styled.div``;
