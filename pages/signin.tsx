@@ -211,8 +211,7 @@ const Signin = () => {
       window.entizen!.requestGoogleLogin();
     } else if (userAgent === 'iOS_App') {
       alert(userAgent);
-      window.webkit.messageHandlers.requestPermissionCheck.postMessage('photo');
-      // window.webkit.messageHandlers.requestGoogleLogin.postMessage();
+      // window.webkit.messageHandlers.requestPermissionCheck.postMessage('photo');
       window.webkit.messageHandlers.requestGoogleLogin.postMessage('');
     } else {
       googleLogin();
