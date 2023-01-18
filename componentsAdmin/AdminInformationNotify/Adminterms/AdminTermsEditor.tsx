@@ -237,7 +237,7 @@ const AdminTermsEditor = ({
             background={'#E2E5ED'}
             border={'#747780'}
           />
-          {/* <TitleBox>
+          <TitleBox>
             <TitleText>제목</TitleText>
             <TitleArea
               type="text"
@@ -247,20 +247,20 @@ const AdminTermsEditor = ({
                 setTitle(e.target.value);
               }}
             />
-          </TitleBox> */}
+          </TitleBox>
         </TitleContainer>
-        {/* <MainTextArea
+        <MainTextArea
           placeholder="내용을 입력해주세요"
           value={bodyText}
           onChange={(e) => {
             setBodyText(e.target.value);
           }}
-        /> */}
-        <AdminTermsQuill
+        />
+        {/* <AdminTermsQuill
           setBodyText={setBodyText}
           bodyText={bodyText}
           firstContent={firstContent!}
-        />
+        /> */}
         <BtnBox>
           {detatilId !== '' ? (
             <>
