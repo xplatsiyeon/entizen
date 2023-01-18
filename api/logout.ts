@@ -57,24 +57,18 @@ export const handleLogoutOnClickModalClick = async (userAgent?: string) => {
     },
     withCredentials: true,
   }).then((res) => {
-    if (isSns) {
-      NaverLogout();
-      KakaoLogout();
-      googleLogout();
-    }
     sessionStorage.removeItem('SNS_MEMBER');
     sessionStorage.removeItem('ACCESS_TOKEN');
     sessionStorage.removeItem('REFRESH_TOKEN');
     sessionStorage.removeItem('USER_ID');
     sessionStorage.removeItem('MEMBER_TYPE');
-
     // 로그아웃 브릿지 연결
     appLogout(userAgent as string);
-    // if (userAgent === 'Android_App') {
-    //   window.entizen!.logout();
-    // } else if (userAgent === 'iOS_App') {
-    //   window.webkit.messageHandlers.logout.postMessage('');
-    // }
+    if (isSns) {
+      NaverLogout();
+      KakaoLogout();
+      googleLogout();
+    }
   });
 };
 

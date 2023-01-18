@@ -61,8 +61,18 @@ export const fileDownload = (
 export const appLogout = (userAgent: string) => {
   // 로그아웃 브릿지 연결
   if (userAgent === 'Android_App') {
+    window.entizen!.googleUnlink();
     window.entizen!.logout();
   } else if (userAgent === 'iOS_App') {
+    window.webkit.messageHandlers.googleUnlink.postMessage('');
     window.webkit.messageHandlers.logout.postMessage('');
+  }
+};
+export const googleUnlink = (userAgent: string) => {
+  // 로그아웃 브릿지 연결
+  if (userAgent === 'Android_App') {
+    window.entizen!.googleUnlink();
+  } else if (userAgent === 'iOS_App') {
+    window.webkit.messageHandlers.googleUnlink.postMessage('');
   }
 };

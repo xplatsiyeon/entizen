@@ -18,7 +18,11 @@ const ProfileIndex = () => {
   const [heightOn, setHeightOn] = useState<boolean>(false);
 
   const components = [
-    <ProfileEditing setComponent={setComponent} component={component} setHeightOn={setHeightOn}/>,
+    <ProfileEditing
+      setComponent={setComponent}
+      component={component}
+      setHeightOn={setHeightOn}
+    />,
     //<ProfileEditing setComponent={setComponent} component={component} isAddressOn={true}/>, // 지도
     <EditAddress setComponent={setComponent} />,
     <EditPW setComponent={setComponent} />, // 비밀번호 변경
@@ -27,8 +31,7 @@ const ProfileIndex = () => {
   ];
   console.log('component', component);
 
-  console.log(heightOn)
-  
+  console.log(heightOn);
 
   return (
     <WebBody>
@@ -43,20 +46,28 @@ const ProfileIndex = () => {
       />
       <Wrapper>
         {/* 맨 처음. 프로필 하나 통으로만 있음 */}
-        {component === 0 && <FlexBox heightOn={heightOn} className="init">{components[0]}</FlexBox>}
-       
-        
+        {component === 0 && (
+          <FlexBox heightOn={heightOn} className="init">
+            {components[0]}
+          </FlexBox>
+        )}
+
         {/* '~변경' 버튼을 클릭하면 (conponent state가 변경되면서)처음의 컴포넌트는 사라지고, 
         숨겨둔 프로필 컴포넌트와 '~ 변경' 컴포넌트가 나타난다  */}
         {component > 0 && (
           <>
             <P>프로필 변경</P>
             <HiddenBox className="hidden_comp">
-            <ProfileEditing setComponent={setComponent} component={component} routeHandle={true} setHeightOn={setHeightOn}/>
+              <ProfileEditing
+                setComponent={setComponent}
+                component={component}
+                routeHandle={true}
+                setHeightOn={setHeightOn}
+              />
             </HiddenBox>
           </>
         )}
-        { component !== 0 &&(
+        {component !== 0 && (
           <FlexBox2 className="new_comp">{components[component]}</FlexBox2>
         )}
       </Wrapper>
@@ -85,17 +96,18 @@ const Wrapper = styled.div`
   }
 `;
 
-const FlexBox = styled.div<{heightOn: boolean}>`
+const FlexBox = styled.div<{ heightOn: boolean }>`
   display: block;
   position: relative;
-  width: 282pt;
+  width: 345pt;
+  /* width: 282pt; */
 
   //width: 281.25pt;
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
   background: #ffff;
   padding: 32.25pt 31.5pt 42pt;
-  margin: ${({heightOn})=> (heightOn?'20vh 0':'45.75pt 0')};
+  margin: ${({ heightOn }) => (heightOn ? '20vh 0' : '45.75pt 0')};
 
   @media (max-width: 899.25pt) {
     width: 100%;
@@ -108,7 +120,7 @@ const FlexBox = styled.div<{heightOn: boolean}>`
   }
 `;
 const FlexBox2 = styled.div`
- display: block;
+  display: block;
   position: relative;
   box-shadow: 0px 0px 7.5pt rgba(137, 163, 201, 0.2);
   border-radius: 12pt;
@@ -160,7 +172,6 @@ const WebBody = styled.div`
   height: 100%;
   margin: 0 auto;
   background: #fcfcfc;
-
 `;
 
 const P = styled.p`

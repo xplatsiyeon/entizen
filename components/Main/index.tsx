@@ -26,7 +26,11 @@ import HamburgerBar from 'componentsWeb/HamburgerBar';
 import BellNormal from 'public/images/BellNormal.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { fileDownload, requestPermissionCheck } from 'bridge/appToWeb';
+import {
+  fileDownload,
+  googleUnlink,
+  requestPermissionCheck,
+} from 'bridge/appToWeb';
 import colors from 'styles/colors';
 
 type Props = {};
@@ -78,6 +82,10 @@ const MainPage = (props: Props) => {
       }
       setState({ ...state, [anchor]: open });
     };
+
+  const onClickTest = () => {
+    googleUnlink(userAgent);
+  };
 
   // 초기화
   useEffect(() => {
@@ -144,6 +152,7 @@ const MainPage = (props: Props) => {
           </IconWrapper>
         </HeadWrapper>
         {/* 브릿지 테스트용 코드 */}
+        {/* <button onClick={onClickTest}>구글 테스트 버튼</button> */}
         {/* <input
             style={{ display: 'none' }}
             ref={imgRef}

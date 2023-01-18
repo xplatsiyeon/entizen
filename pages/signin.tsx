@@ -207,9 +207,9 @@ const Signin = () => {
   // 구글 아이콘 온클릭 (with 브릿지)
   const onClickGoogle = () => {
     if (userAgent === 'Android_App') {
-      window.entizen!.googleLogin(); // 수정필요
+      window.entizen!.requestGoogleLogin();
     } else if (userAgent === 'iOS_App') {
-      window.webkit.messageHandlers.googleLogin.postMessage(''); // 수정필요
+      window.webkit.messageHandlers.requestGoogleLogin.postMessage('');
     } else {
       googleLogin();
     }
@@ -274,6 +274,8 @@ const Signin = () => {
             REFRESH_TOKEN: res.data.refreshToken,
             USER_ID: data.user.email,
           };
+          console.log('==========userInfo==========');
+          console.log(userInfo);
           if (userAgent === 'Android_App') {
             window.entizen!.setUserInfo(JSON.stringify(userInfo));
           } else if (userAgent === 'iOS_App') {
@@ -359,9 +361,7 @@ const Signin = () => {
   };
   // 엔터키 이벤트
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      originLogin();
-    }
+    if (e.key === 'Enter') originLogin();
   };
   // 나이스 인증
   useEffect(() => {
@@ -372,12 +372,9 @@ const Signin = () => {
       data: { memberType },
     })
       .then((res) => {
-        console.log('-------res--------');
-        console.log(res);
         setData(res.data.executedData);
       })
       .catch((error) => {
-        console.error(' 2 곳 입니까?');
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -385,111 +382,43 @@ const Signin = () => {
   // 구글 브릿지 연결 (앱 -> 웹)
   useEffect(() => {
     if (userAgent === 'Android_App') {
-      window.google = (res: any) => {
-        let resData = res.data;
-        let jsonData = JSON.parse(res.config.data);
-        dispatch(
-          userAction.add({
-            ...user,
-            uuid: jsonData.uuid,
-            email: jsonData.email,
-            snsType: jsonData.snsType,
-            snsLoginIdx: resData.snsLoginIdx,
-            isMember: resData.isMember,
-          }),
-        );
-        if (resData.isMember === true) {
-          // 로그인
-          const token: JwtTokenType = jwt_decode(resData.accessToken);
-          sessionStorage.setItem(
-            'SNS_MEMBER',
-            JSON.stringify(token.isSnsMember),
-          );
-          sessionStorage.setItem(
-            'MEMBER_TYPE',
-            JSON.stringify(token.memberType),
-          );
-          sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
-          sessionStorage.setItem(
-            'ACCESS_TOKEN',
-            JSON.stringify(resData.accessToken),
-          );
-          sessionStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(resData.refreshToken),
-          );
-          dispatch(originUserAction.set(jsonData.email));
-
-          // ================ 브릿지 연결 =====================
-          const userInfo = {
-            SNS_MEMBER: token.isSnsMember,
-            MEMBER_TYPE: token.memberType,
-            ACCESS_TOKEN: resData.accessToken,
-            REFRESH_TOKEN: resData.refreshToken,
-            USER_ID: jsonData.email,
-          };
-          if (userAgent === 'Android_App') {
-            window.entizen!.setUserInfo(JSON.stringify(userInfo));
-          }
-          router.push('/');
-        } else {
-          // 회원가입
-          router.push('/signUp/SnsTerms');
+      window.responseGoogleLogin = (
+        isSuccess: String,
+        id: String,
+        email: String,
+      ) => {
+        if (isSuccess === 'true') {
+          googleLoginMutate({
+            url: '/members/login/sns',
+            data: {
+              uuid: id,
+              snsType: 'GOOGLE',
+              snsResponse: JSON.stringify({ id, email }),
+              email: email,
+            },
+          });
+        } else if (isSuccess === 'false') {
+          alert('로그인 실패했습니다.');
         }
       };
     } else if (userAgent === 'iOS_App') {
-      window.google = (res: any) => {
-        let resData = res.data;
-        let jsonData = JSON.parse(res.config.data);
-        dispatch(
-          userAction.add({
-            ...user,
-            uuid: jsonData.uuid,
-            email: jsonData.email,
-            snsType: jsonData.snsType,
-            snsLoginIdx: resData.snsLoginIdx,
-            isMember: resData.isMember,
-          }),
-        );
-        if (resData.isMember === true) {
-          // 로그인
-          const token: JwtTokenType = jwt_decode(resData.accessToken);
-          sessionStorage.setItem(
-            'SNS_MEMBER',
-            JSON.stringify(token.isSnsMember),
-          );
-          sessionStorage.setItem(
-            'MEMBER_TYPE',
-            JSON.stringify(token.memberType),
-          );
-          sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
-          sessionStorage.setItem(
-            'ACCESS_TOKEN',
-            JSON.stringify(resData.accessToken),
-          );
-          sessionStorage.setItem(
-            'REFRESH_TOKEN',
-            JSON.stringify(resData.refreshToken),
-          );
-          dispatch(originUserAction.set(jsonData.email));
-
-          // ================ 브릿지 연결 =====================
-          const userInfo = {
-            SNS_MEMBER: token.isSnsMember,
-            MEMBER_TYPE: token.memberType,
-            ACCESS_TOKEN: resData.accessToken,
-            REFRESH_TOKEN: resData.refreshToken,
-            USER_ID: jsonData.email,
-          };
-          if (userAgent === 'iOS_App') {
-            window.webkit.messageHandlers.setUserInfo.postMessage(
-              JSON.stringify(userInfo),
-            );
-          }
-          router.push('/');
-        } else {
-          // 회원가입
-          router.push('/signUp/SnsTerms');
+      window.responseGoogleLogin = (
+        isSuccess: String,
+        id: String,
+        email: String,
+      ) => {
+        if (isSuccess === 'true') {
+          googleLoginMutate({
+            url: '/members/login/sns',
+            data: {
+              uuid: id,
+              snsType: 'GOOGLE',
+              snsResponse: JSON.stringify({ id, email }),
+              email: email,
+            },
+          });
+        } else if (isSuccess === 'false') {
+          alert('로그인 실패했습니다.');
         }
       };
     }
@@ -784,7 +713,8 @@ const Signin = () => {
                           <Image src={kakao} alt="kakao" />
                         </Link>
                       </Box>
-                      <Box
+                      {/* 애플 로그인 앱 심사로 인해 잠시 주석처리 */}
+                      {/* <Box
                         sx={{
                           height: '33pt',
                           marginRight: '15pt',
@@ -793,7 +723,7 @@ const Signin = () => {
                         onClick={handleAlert}
                       >
                         <Image src={apple} alt="apple" />
-                      </Box>
+                      </Box> */}
                       <NaverBox>
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />

@@ -20,102 +20,106 @@ const EditAddress = ({ setComponent }: Props) => {
   //     /*router.push('/signin'); */
   //   };
 
-    //주소
+  //주소
 
-    const [addressOn, setAddressOn] = useState<boolean>(false);
-    const [postNumber, setPostNumber] = useState<string>('');
-    const [companyAddress, setCompanyAddress] = useState<string>('');
-    const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
-  
-    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    const { profile, invalidate, isLoading } = useProfile(accessToken);
+  const [addressOn, setAddressOn] = useState<boolean>(false);
+  const [postNumber, setPostNumber] = useState<string>('');
+  const [companyAddress, setCompanyAddress] = useState<string>('');
+  const [companyDetailAddress, setCompanyDetailAddress] = useState<string>('');
 
-    const {mutate: addressMutate} =  useMutation(isTokenPatchApi, {
-      onSuccess: (res) => {
-        console.log('주소 변경 성공 ', res);
-        setComponent(0);
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const { profile, invalidate, isLoading } = useProfile(accessToken);
+
+  const { mutate: addressMutate } = useMutation(isTokenPatchApi, {
+    onSuccess: (res) => {
+      console.log('주소 변경 성공 ', res);
+      setComponent(0);
+    },
+    onError: (error) => {
+      console.log('주소 변경 실패 ', error);
+    },
+  });
+
+  if (addressOn) {
+    return (
+      <CompanyAddress
+        setPostNumber={setPostNumber}
+        setCompanyAddress={setCompanyAddress}
+        setAddressOn={setAddressOn}
+      />
+    );
+  }
+
+  const handleEditAddress = () => {
+    //주소 수정할 경우
+    addressMutate({
+      url: '/members/address',
+      data: {
+        address: companyAddress,
+        detailAddress: companyDetailAddress,
+        zipCode: postNumber,
       },
-      onError: (error) => {
-        console.log('주소 변경 실패 ',error);
-      },
-    })
-
-      if (addressOn) {
-        return (
-          <CompanyAddress
-            setPostNumber={setPostNumber}
-            setCompanyAddress={setCompanyAddress}
-            setAddressOn={setAddressOn}
-          />
-        );
-      }
-
-      const handleEditAddress =()=>{
-
-          //주소 수정할 경우
-          addressMutate({
-            url: '/members/address',
-            data: {
-              address: companyAddress,
-              detailAddress: companyDetailAddress,
-              zipCode: postNumber,
-            }
-          }) 
-      
-        }
+    });
+  };
 
   return (
-    <>
-          <Address>
-          <p>기업 주소</p>
-          <InputWrap>
-            <InputBox
-              placeholder="회사 우편번호 입력"
-              value={
-                postNumber
-                  ? postNumber
-                  : profile?.companyMemberAdditionalInfo?.companyZipCode
-              }
-              name="id"
-              readOnly={true}
-              // onClick={() => setAddressOn(true)}
-            />
-            {/* <InputBtn onClick={() => setAddressOn(true)}> */}
-            <InputBtn onClick={()=>setAddressOn(true)}>
-              <span>주소찾기</span>
-            </InputBtn>
-          </InputWrap>
+    <Wrapper>
+      <Address>
+        <p>기업 주소</p>
+        <InputWrap>
           <InputBox
-            placeholder="회사 주소 입력"
+            placeholder="회사 우편번호 입력"
             value={
-              companyAddress
-                ? companyAddress
-                : profile?.companyMemberAdditionalInfo?.companyAddress
+              postNumber
+                ? postNumber
+                : profile?.companyMemberAdditionalInfo?.companyZipCode
             }
-            name="checkPw"
+            name="id"
             readOnly={true}
             // onClick={() => setAddressOn(true)}
           />
-          <InputBox
-            placeholder="회사 상세주소 입력"
-            value={
-              companyDetailAddress
-                ? companyAddress
-                : profile?.companyMemberAdditionalInfo?.companyDetailAddress
-            }
-            onChange={(e) => setCompanyDetailAddress(e.target.value)}
-            name="checkPw"
-          />
-        </Address>
+          {/* <InputBtn onClick={() => setAddressOn(true)}> */}
+          <InputBtn onClick={() => setAddressOn(true)}>
+            <span>주소찾기</span>
+          </InputBtn>
+        </InputWrap>
+        <InputBox
+          placeholder="회사 주소 입력"
+          value={
+            companyAddress
+              ? companyAddress
+              : profile?.companyMemberAdditionalInfo?.companyAddress
+          }
+          name="checkPw"
+          readOnly={true}
+          // onClick={() => setAddressOn(true)}
+        />
+        <InputBox
+          placeholder="회사 상세주소 입력"
+          value={
+            companyDetailAddress
+              ? companyAddress
+              : profile?.companyMemberAdditionalInfo?.companyDetailAddress
+          }
+          onChange={(e) => setCompanyDetailAddress(e.target.value)}
+          name="checkPw"
+        />
+      </Address>
 
-        <EditAdressBtn onClick={handleEditAddress}
-        >주소변경 </EditAdressBtn>
-    </>
-  )
+      <EditAdressBtn onClick={handleEditAddress}>주소변경 </EditAdressBtn>
+    </Wrapper>
+  );
 };
 
 export default EditAddress;
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+`;
 
 const InputBox = styled.input`
   box-sizing: border-box;
@@ -127,7 +131,6 @@ const InputBox = styled.input`
   line-height: 12pt;
   border-radius: 6pt;
   letter-spacing: -0.02em;
-  /* color: ${colors.main2}; */
   border: 0.75pt solid ${colors.gray};
   ::placeholder {
     color: ${colors.lightGray3};
@@ -138,6 +141,7 @@ const Address = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 30px;
+  width: 100%;
 `;
 
 const InputWrap = styled.div`
@@ -167,4 +171,17 @@ const InputBtn = styled.button`
 `;
 
 const EditAdressBtn = styled.button`
-`
+  border-radius: 8px;
+  font-family: 'Spoqa Han Sans Neo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 12pt;
+  text-align: center;
+  letter-spacing: -0.02em;
+  background: ${colors.main1};
+  color: ${colors.lightWhite};
+  padding: 15pt 0;
+  width: 100%;
+  /* margin-top: 315pt; */
+`;

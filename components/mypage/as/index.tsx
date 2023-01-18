@@ -20,13 +20,18 @@ import NoAs from './NoAs';
 import CommonBtn from './CommonBtn';
 import { useRouter } from 'next/router';
 import checkSvg from 'public/images/check-small.png';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery as reactQuery, useQueryClient } from 'react-query';
 import { isTokenGetApi } from 'api';
 import { handleColorAS } from 'utils/changeValue';
 import { dateFomat } from 'utils/calculatePackage';
 import useDebounce from 'hooks/useDebounce';
 import Loader from 'components/Loader';
 import Modal from 'components/Modal/Modal';
+import {
+  chargingStations,
+  ChargingStationsResponse,
+} from 'QueryComponents/UserQuery';
+import { useQuery } from '@apollo/client';
 
 interface AfterSalesService {
   afterSalesService: {
@@ -84,9 +89,23 @@ const AsIndex = ({ listUp }: Props) => {
   const [isModal, setIsModal] = useState(false);
   const [isModalMessage, setIsModalMessage] = useState('');
 
+  // -------------------------- 내충전소 GET ------------------------------
+  const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+  const {
+    data: chargingData,
+    loading: chargingLoading,
+    error: chargingError,
+  } = useQuery<ChargingStationsResponse>(chargingStations, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
   // ----------------- AS 리스트 GET -----------------------
   const { data, isError, isLoading, refetch, error, remove } =
-    useQuery<AsResposne>('asList', () =>
+    reactQuery<AsResposne>('asList', () =>
       isTokenGetApi(
         `/after-sales-services?sort=${filterListEn[checkedFilterIndex]}&searchKeyword=${keyword}`,
       ),
@@ -141,8 +160,9 @@ const AsIndex = ({ listUp }: Props) => {
 
       setState({ ...state, [anchor]: open });
     };
+  // as 요청하기 버튼
   const handlerBtn = () => {
-    if (data?.data?.afterSalesServices?.length! > 0) {
+    if (chargingData?.chargingStations.length! > 0) {
       router.push('/mypage/as/requestAS');
     } else {
       setIsModal(true);
