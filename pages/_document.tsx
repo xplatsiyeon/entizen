@@ -16,6 +16,7 @@ declare global {
     returnUserInfo?: (userInfo: any) => void;
     openGallery?: () => void;
     openFileUpload?: () => void;
+    google?: (res: any) => void;
     testEntizen: {
       test?: () => void;
       testtest?: () => void;

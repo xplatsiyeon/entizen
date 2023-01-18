@@ -29,7 +29,7 @@ const Home: NextPage<Props> = ({}: Props) => {
   }, []);
   // 앱 -> 웹
   useLayoutEffect(() => {
-    // 안드로이드 호출 테스트
+    // 안드로이드 호출
     if (userAgent === 'Android_App') {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
@@ -57,7 +57,7 @@ const Home: NextPage<Props> = ({}: Props) => {
         }
         setLoginChecking(false);
       };
-      // 아이폰 호출 테스트
+      // 아이폰 호출
     } else if (userAgent === 'iOS_App') {
       window.returnUserInfo = (userInfo) => {
         if (typeof userInfo === 'object') {

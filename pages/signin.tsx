@@ -22,10 +22,9 @@ import { findUserInfoAction } from 'store/findSlice';
 import Modal from 'components/Modal/Modal';
 import Link from 'next/link';
 import { selectAction } from 'store/loginTypeSlice';
-import Loader from 'components/Loader';
 import useLogin from 'hooks/useLogin';
 import CompleteModal from 'components/Modal/CompleteModal';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import { GoogleSignUpData } from './auth/google';
 import { useMutation } from 'react-query';
 import { isPostApi } from 'api';
@@ -38,7 +37,6 @@ export interface JwtTokenType {
   memberIdx: number;
   memberType: string;
 }
-
 export interface AdminJwtTokenType {
   exp: number;
   iat: number;
@@ -57,26 +55,22 @@ export interface FindKey {
 }
 
 const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
-// 테스트 리다이렉트 주소
 const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
-// 라이브 리다이렉트 주소
-// const REDIRECT_URI = 'https://api.entizen.kr/auth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const Signin = () => {
   let naverLogin: any;
-  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const router = useRouter();
   const dispatch = useDispatch();
   const naverRef = useRef<HTMLElement | null | any>(null);
-  const googleRef = useRef<any>(null);
+  const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
+  const loginTypeEnList: string[] = ['USER', 'COMPANY'];
   const { user } = useSelector((state: RootState) => state.userList);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [userId, setUserId] = useState<string>('');
   const [data, setData] = useState<any>();
   const [password, setPassword] = useState<string>('');
   const [selectedLoginType, setSelectedLoginType] = useState<number>(0);
-  const loginTypeList: string[] = ['일반회원 로그인', '기업회원 로그인'];
-  const loginTypeEnList: string[] = ['USER', 'COMPANY'];
   const [isId, setIsId] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -121,6 +115,7 @@ const Signin = () => {
   });
   // 구글 로그인 mutate
   const { mutate: googleLoginMutate } = useMutation(isPostApi, {
+    // 구글 로그인 (2)
     onSuccess: (res) => {
       let resData = res.data;
       let jsonData = JSON.parse(res.config.data);
@@ -197,7 +192,7 @@ const Signin = () => {
   const originLogin = async () => {
     await signin(password);
   };
-  // 구글 로그인 후 서버로 회원가입 처리
+  // 구글 로그인 후 서버로 회원가입 처리 (1)
   const handleGoogleSignUp = async (data: GoogleSignUpData) => {
     googleLoginMutate({
       url: '/members/login/sns',
@@ -209,24 +204,19 @@ const Signin = () => {
       },
     });
   };
-
+  // 구글 아이콘 온클릭 (with 브릿지)
   const onClickGoogle = () => {
-    let target: any = document.querySelectorAll('#gsi_434059_999051');
-    console.log(target);
-
-    if (target) {
-      router.push('');
+    if (userAgent === 'Android_App') {
+      window.entizen!.googleLogin(); // 수정필요
+    } else if (userAgent === 'iOS_App') {
+      window.webkit.messageHandlers.googleLogin.postMessage(''); // 수정필요
+    } else {
+      googleLogin();
     }
-    // let test: any = document;
-    // const google = test.querySelector('.nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb');
-    // if (google) {
-    //   google.click();
-    // }
   };
-
   // 네이버 로그인
   const NaverApi = async (data: any) => {
-    const NAVER_POST = `https://api.entizen.kr/api/members/login/sns`;
+    const NAVER_POST = `https://test-api.entizen.kr/api/members/login/sns`;
     try {
       await axios({
         method: 'post',
@@ -373,13 +363,12 @@ const Signin = () => {
       originLogin();
     }
   };
-
   // 나이스 인증
   useEffect(() => {
     const memberType = loginTypeEnList[selectedLoginType];
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -393,7 +382,118 @@ const Signin = () => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
+  // 구글 브릿지 연결 (앱 -> 웹)
+  useEffect(() => {
+    if (userAgent === 'Android_App') {
+      window.google = (res: any) => {
+        let resData = res.data;
+        let jsonData = JSON.parse(res.config.data);
+        dispatch(
+          userAction.add({
+            ...user,
+            uuid: jsonData.uuid,
+            email: jsonData.email,
+            snsType: jsonData.snsType,
+            snsLoginIdx: resData.snsLoginIdx,
+            isMember: resData.isMember,
+          }),
+        );
+        if (resData.isMember === true) {
+          // 로그인
+          const token: JwtTokenType = jwt_decode(resData.accessToken);
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(token.isSnsMember),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(token.memberType),
+          );
+          sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(resData.accessToken),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(resData.refreshToken),
+          );
+          dispatch(originUserAction.set(jsonData.email));
 
+          // ================ 브릿지 연결 =====================
+          const userInfo = {
+            SNS_MEMBER: token.isSnsMember,
+            MEMBER_TYPE: token.memberType,
+            ACCESS_TOKEN: resData.accessToken,
+            REFRESH_TOKEN: resData.refreshToken,
+            USER_ID: jsonData.email,
+          };
+          if (userAgent === 'Android_App') {
+            window.entizen!.setUserInfo(JSON.stringify(userInfo));
+          }
+          router.push('/');
+        } else {
+          // 회원가입
+          router.push('/signUp/SnsTerms');
+        }
+      };
+    } else if (userAgent === 'iOS_App') {
+      window.google = (res: any) => {
+        let resData = res.data;
+        let jsonData = JSON.parse(res.config.data);
+        dispatch(
+          userAction.add({
+            ...user,
+            uuid: jsonData.uuid,
+            email: jsonData.email,
+            snsType: jsonData.snsType,
+            snsLoginIdx: resData.snsLoginIdx,
+            isMember: resData.isMember,
+          }),
+        );
+        if (resData.isMember === true) {
+          // 로그인
+          const token: JwtTokenType = jwt_decode(resData.accessToken);
+          sessionStorage.setItem(
+            'SNS_MEMBER',
+            JSON.stringify(token.isSnsMember),
+          );
+          sessionStorage.setItem(
+            'MEMBER_TYPE',
+            JSON.stringify(token.memberType),
+          );
+          sessionStorage.setItem('USER_ID', JSON.stringify(jsonData.email));
+          sessionStorage.setItem(
+            'ACCESS_TOKEN',
+            JSON.stringify(resData.accessToken),
+          );
+          sessionStorage.setItem(
+            'REFRESH_TOKEN',
+            JSON.stringify(resData.refreshToken),
+          );
+          dispatch(originUserAction.set(jsonData.email));
+
+          // ================ 브릿지 연결 =====================
+          const userInfo = {
+            SNS_MEMBER: token.isSnsMember,
+            MEMBER_TYPE: token.memberType,
+            ACCESS_TOKEN: resData.accessToken,
+            REFRESH_TOKEN: resData.refreshToken,
+            USER_ID: jsonData.email,
+          };
+          if (userAgent === 'iOS_App') {
+            window.webkit.messageHandlers.setUserInfo.postMessage(
+              JSON.stringify(userInfo),
+            );
+          }
+          router.push('/');
+        } else {
+          // 회원가입
+          router.push('/signUp/SnsTerms');
+        }
+      };
+    }
+  }, []);
   // 네이버 로그인
   useEffect(() => {
     login(naverLogin, (naverLogin) => {
@@ -425,22 +525,6 @@ const Signin = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // 유저타입 확인하는 useEffect
-  useEffect(() => {
-    if (selectedLoginType === 0) {
-      dispatch(selectAction.select('USER'));
-    } else if (selectedLoginType === 1) {
-      dispatch(selectAction.select('COMPANY'));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedLoginType]);
-
-  if (loginLoading) {
-    console.log('loading..');
-    // return <Loader />;
-  }
-
   //애플 로그인 체크
   useEffect(() => {
     document.addEventListener('AppleIDSignInOnSuccess', (data: any) => {
@@ -456,6 +540,19 @@ const Signin = () => {
       //todo fail logic
     });
   }, []);
+  // 유저타입 확인하는 useEffect
+  useEffect(() => {
+    if (selectedLoginType === 0) {
+      dispatch(selectAction.select('USER'));
+    } else if (selectedLoginType === 1) {
+      dispatch(selectAction.select('COMPANY'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedLoginType]);
+  if (loginLoading) {
+    console.log('loading..');
+    // return <Loader />;
+  }
 
   return (
     <React.Fragment>
@@ -467,7 +564,7 @@ const Signin = () => {
         <meta name="appleid-signin-client-id" content="entizenapplekey" />
         <meta
           name="appleid-signin-redirect-uri"
-          content="https://api.entizen.kr/api/auth/apple"
+          content="https://test-api.entizen.kr/api/auth/apple"
         />
         <meta name="appleid-signin-scope" content="name email" />
         <meta name="appleid-signin-state" content="" />
@@ -702,25 +799,11 @@ const Signin = () => {
                         <Image onClick={handleNaver} src={naver} alt="naver" />
                       </NaverBox>
                       {/* 구글 로그인 */}
-                      {/* <GoogleLogin
-                        shape="circle"
-                        type="icon"
-                        size="large"
-                        ux_mode="redirect"
-                        prompt_parent_id={'testgoogle'}
-                        onSuccess={(credentialResponse) => {
-                          console.log(credentialResponse);
-                        }}
-                        onError={() => {}}
-                      /> */}
-                      {/* </div> */}
-                      {/* 구글 커스텀 아이콘 */}
                       <Box sx={{ height: '33pt', cursor: 'pointer' }}>
                         <Image
                           src={google}
                           alt="google"
-                          onClick={() => googleLogin()}
-                          // onClick={onClickGoogle}
+                          onClick={onClickGoogle}
                         />
                       </Box>
                     </Box>
@@ -784,10 +867,6 @@ const Signin = () => {
     </React.Fragment>
   );
 };
-
-{
-  /* 덜 된 부분: 글자크기, 간격 */
-}
 
 export default Signin;
 
