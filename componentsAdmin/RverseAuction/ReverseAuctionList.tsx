@@ -157,7 +157,7 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
         setIsDetail={setIsDetail}
         tableType={'quetationListData'}
         pickedDate={pickedDate}
-        commonBtn={'엑셀 다운로드'}
+        // commonBtn={'엑셀 다운로드'}
         handleCommon={handleCommon}
         pagenationHide={false}
       />

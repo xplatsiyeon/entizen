@@ -172,7 +172,7 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
         tableType={'reverseAuctionSituation'}
         handleCommon={handleCommon}
         quotationRequestStatus={reverseAuctionString}
-        commonBtn={'엑셀 다운로드'}
+        // commonBtn={'엑셀 다운로드'}
         pickedDate={pickedDate}
       />
     </Wrapper>

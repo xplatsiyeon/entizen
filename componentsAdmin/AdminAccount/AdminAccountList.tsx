@@ -43,7 +43,7 @@ const AdminAccountList = ({ setNowHeight }: Props) => {
         setIsDetail={setIsDetail}
         tableType={'adminAccountList'}
         hide={true}
-        handleCommon={handleCommon}
+        // handleCommon={handleCommon}
       />
     </Wrapper>
   );

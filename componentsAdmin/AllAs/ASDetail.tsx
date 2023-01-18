@@ -132,7 +132,7 @@ const ASDetail = ({ setNowHeight }: Props) => {
         tableType={'asData'}
         pickedDate={pickedDate}
         setAfterSalesServiceIdx={setAfterSalesServiceIdx}
-        commonBtn={'엑셀 다운로드'}
+        // commonBtn={'엑셀 다운로드'}
         handleCommon={handleCommon}
       />
     </Wrapper>

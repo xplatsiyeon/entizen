@@ -162,7 +162,7 @@ Props) => {
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P>
-        <Button onClick={handleCommon}>엑셀 다운로드</Button>
+        {/* <Button onClick={handleCommon}>엑셀 다운로드</Button> */}
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

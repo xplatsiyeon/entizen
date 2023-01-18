@@ -53,14 +53,14 @@ const AdminHeader = ({
             </span>
             {exelHide && (
               <ButtonBox>
-                <button
+                {/* <button
                   className="excelBtn"
                   onClick={() => {
                     alert('개발중입니다.');
                   }}
                 >
                   엑셀 다운로드
-                </button>
+                </button> */}
                 {/* <button
                   className="btn"
                   onClick={() => {

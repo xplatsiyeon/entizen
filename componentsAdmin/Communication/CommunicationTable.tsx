@@ -234,14 +234,14 @@ const CommunicationTable = ({
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P>{' '}
-        <Button
+        {/* <Button
           onClick={() => {
             handleCommon();
           }}
           hide={hide}
         >
           {commonBtn}
-        </Button>
+        </Button> */}
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

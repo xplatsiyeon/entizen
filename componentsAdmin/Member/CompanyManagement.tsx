@@ -150,7 +150,7 @@ const CompanyManagement = ({ setNowHeight }: Props) => {
           tableType={'comUserData'}
           pickedDate={pickedDate}
           userSearch={companySearch}
-          commonBtn={'엑셀 다운로드'}
+          // commonBtn={'엑셀 다운로드'}
           handleCommon={handleCommon}
         />
       </Wrapper>

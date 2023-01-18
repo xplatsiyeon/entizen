@@ -153,7 +153,7 @@ const UserManagement = ({ setNowHeight }: Props) => {
           tableType={'userData'}
           pickedDate={pickedDate}
           userSearch={userSearch}
-          commonBtn={'엑셀 다운로드'}
+          // commonBtn={'엑셀 다운로드'}
           handleCommon={handleCommon}
         />
       </Wrapper>

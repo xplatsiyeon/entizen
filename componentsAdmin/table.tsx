@@ -612,7 +612,7 @@ const Table = ({
                 formatter: (cell: string) =>
                   _(
                     <>
-                      <button
+                      {/* <button
                         className="detail"
                         onClick={() => {
                           setDetailId(cell);
@@ -623,7 +623,7 @@ const Table = ({
                         }}
                       >
                         엑셀 다운로드
-                      </button>
+                      </button> */}
                       <button
                         className="detail"
                         style={{ marginLeft: '10px' }}
