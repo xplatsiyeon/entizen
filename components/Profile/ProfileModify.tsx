@@ -146,7 +146,7 @@ const ProfileModify = ({ setTabNumber }: Props) => {
     const memberType = selectedType;
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
@@ -316,6 +316,7 @@ const Wrapper = styled.div`
 
   @media (max-width: 899.25pt) {
     height: 100%;
+    width: 100%;
     margin: 0;
   }
 `;
