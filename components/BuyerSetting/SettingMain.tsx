@@ -102,6 +102,8 @@ const SettingMain = ({
       withCredentials: true,
     })
       .then((res) => {
+        // ============ 로그아웃 브릿지 =================
+        appLogout(userAgent);
         sessionStorage.removeItem('SNS_MEMBER');
         sessionStorage.removeItem('ACCESS_TOKEN');
         sessionStorage.removeItem('REFRESH_TOKEN');
@@ -111,9 +113,6 @@ const SettingMain = ({
         setAlertModal(false);
       })
       .then((res) => router.push('/'));
-
-    // ============ 로그아웃 브릿지 =================
-    appLogout(userAgent);
   };
   // SNS/일반회원 구별
   const HandleWidthdrawal = async () => {

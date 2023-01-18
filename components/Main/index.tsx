@@ -152,7 +152,7 @@ const MainPage = (props: Props) => {
           </IconWrapper>
         </HeadWrapper>
         {/* 브릿지 테스트용 코드 */}
-        <button onClick={onClickTest}>구글 테스트 버튼</button>
+        {/* <button onClick={onClickTest}>구글 테스트 버튼</button> */}
         {/* <input
             style={{ display: 'none' }}
             ref={imgRef}
