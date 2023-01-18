@@ -330,7 +330,7 @@ const AdminNoticeEditor = ({
             setBodyText(e.target.value);
           }}
         />
-        <ImgWrapper>
+        {/* <ImgWrapper>
           <AddImg>
             <AddImgText>이미지 첨부</AddImgText>
             <AdminBtn>사진첨부</AdminBtn>
@@ -342,9 +342,9 @@ const AdminNoticeEditor = ({
             accept="image/*"
             onChange={saveFileImage}
             multiple
-          />
-          {/* <Preview> */}
-          <ImgSpanBox>
+          /> */}
+        {/* <Preview> */}
+        {/* <ImgSpanBox>
             {imgArr?.map((img, index) => (
               <ImgSpan>
                 <Image
@@ -368,7 +368,7 @@ const AdminNoticeEditor = ({
               </ImgSpan>
             ))}
           </ImgSpanBox>
-        </ImgWrapper>
+        </ImgWrapper> */}
         <BtnBox>
           {detatilId !== '' ? (
             <>
