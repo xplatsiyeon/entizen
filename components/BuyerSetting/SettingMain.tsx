@@ -16,6 +16,7 @@ import colors from 'styles/colors';
 import { kakaoInit } from 'utils/kakao';
 import jwt_decode from 'jwt-decode';
 import { Padding } from '@mui/icons-material';
+import { appLogout } from 'bridge/appToWeb';
 type Props = {
   tabNumber: number;
   setTabNumber: React.Dispatch<React.SetStateAction<number>>;
@@ -89,7 +90,7 @@ const SettingMain = ({
   };
   // 회원탈퇴
   const ModalLeftControl = async () => {
-    const WITHDRAWAL_API = `https://api.entizen.kr/api/members/withdrawal`;
+    const WITHDRAWAL_API = `https://test-api.entizen.kr/api/members/withdrawal`;
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     console.log('탈퇴');
     try {
@@ -127,6 +128,9 @@ const SettingMain = ({
       // 일반 회원탈퇴
       setPasswordModal(true);
     }
+
+    // ============ 로그아웃 브릿지 =================
+    appLogout(userAgent);
   };
   // 회원탈퇴 시 original user 비밀번호 체크 함수
   const authPassowrd = () => {
@@ -135,7 +139,7 @@ const SettingMain = ({
     const token: JwtTokenType = jwt_decode(accessToken);
 
     if (checkPassword) {
-      const LOGIN_API = 'https://api.entizen.kr/api/members/login';
+      const LOGIN_API = 'https://test-api.entizen.kr/api/members/login';
       const userId = JSON.parse(sessionStorage.getItem('USER_ID')!);
       const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
       try {
