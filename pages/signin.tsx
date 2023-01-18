@@ -709,7 +709,8 @@ const Signin = () => {
                           <Image src={kakao} alt="kakao" />
                         </Link>
                       </Box>
-                      <Box
+                      {/* 애플 로그인 앱 심사로 인해 잠시 주석처리 */}
+                      {/* <Box
                         sx={{
                           height: '33pt',
                           marginRight: '15pt',
@@ -718,7 +719,7 @@ const Signin = () => {
                         onClick={handleAlert}
                       >
                         <Image src={apple} alt="apple" />
-                      </Box>
+                      </Box> */}
                       <NaverBox>
                         <Box ref={naverRef} id="naverIdLogin" />
                         <Image onClick={handleNaver} src={naver} alt="naver" />
