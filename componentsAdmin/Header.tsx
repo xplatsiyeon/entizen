@@ -3,6 +3,7 @@ import React from 'react';
 import colors from 'styles/colors';
 import Back from 'public/adminImages/Back.png';
 import Image from 'next/image';
+import { excelDownloadFile } from 'hooks/excelDown';
 
 type Props = {
   type: 'main' | 'detail' | 'text' | 'admin';
@@ -15,6 +16,7 @@ type Props = {
   WriteModalHandle?: () => void;
   detailApprove?: boolean;
   detailModify?: () => void;
+  excelData?: any;
 };
 
 const AdminHeader = ({
@@ -28,11 +30,12 @@ const AdminHeader = ({
   WriteModalHandle,
   detailApprove,
   detailModify,
+  excelData,
 }: Props) => {
   return (
     <>
       {type === 'main' && (
-        <Wrapper>
+        <Wrapper onClick={() => {}}>
           <h1>{title}</h1>
           <p>{subTitle}</p>
         </Wrapper>
@@ -53,10 +56,20 @@ const AdminHeader = ({
             </span>
             {exelHide && (
               <ButtonBox>
+                {/* <a
+                  className="excelBtn"
+                  // onClick={() => {
+                  //   alert('개발중입니다.');
+                  // }}
+                  href={excelData}
+                  download
+                >
+                  엑셀 다운로드
+                </a> */}
                 <button
                   className="excelBtn"
                   onClick={() => {
-                    alert('개발중입니다.');
+                    excelDownloadFile(excelData);
                   }}
                 >
                   엑셀 다운로드
@@ -195,7 +208,8 @@ const DetailWrapper = styled.div`
     font-weight: 400;
     font-size: 14px;
     line-height: 150%;
-    color: ${colors.gray2};
+    background: ${colors.gray2};
+    color: ${colors.lightWhite};
     padding: 3px 6px;
     cursor: pointer;
   }
