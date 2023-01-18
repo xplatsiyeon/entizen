@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import FaqInfomation from 'components/FAQ/FaqInfomation';
 import GuideHeader from 'components/guide/header';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import RightArrow from 'public/images/black-right-arrow.svg';
 import Image from 'next/image';
@@ -151,30 +151,14 @@ const Faq = () => {
   );
 
   const components: Components = {
-    0: (
-      <FaqInfomation
-        faqList={faqList!}
-        tabNumber={tabNumber}
-        tabNumberFaq={0}
-      />
-    ),
-    1: (
-      <FaqInfomation
-        faqList={faqList!}
-        tabNumber={tabNumber}
-        tabNumberFaq={1}
-      />
-    ),
-    2: (
-      <FaqInfomation
-        faqList={faqList!}
-        tabNumber={tabNumber}
-        tabNumberFaq={2}
-      />
-    ),
+    0: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,
+    1: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,
+    2: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,
   };
 
-  const handleTab = (index: number) => setTabNumber(index);
+  const handleTab = (index: number) => {
+    setTabNumber(index);
+  };
   const leftOnClick = () => {
     router.back();
   };
@@ -190,6 +174,10 @@ const Faq = () => {
       enabled: userID !== null ? true : false,
     },
   );
+
+  useEffect(() => {
+    faqRefetch();
+  }, [tabNumber]);
 
   const chattingRoomIdx =
     data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
@@ -222,7 +210,10 @@ const Faq = () => {
                 </TabItem>
               ))}
             </TabContainer>
-            <Main>{components[tabNumber]}</Main>
+            {/* <Main>{components[tabNumber]}</Main> */}
+            <Main>
+              <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />
+            </Main>
           </FlexWrap>
           <FlexWrap>
             <InfoText>

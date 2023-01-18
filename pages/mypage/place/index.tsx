@@ -167,7 +167,7 @@ const ChargingPlace = () => {
                       >
                         <span>
                           {/* 작성된 리뷰 여부 */}
-                          {target![0].projectReview ? '리뷰보기' : '리뷰쓰기'}
+                          {target![0]?.projectReview ? '리뷰보기' : '리뷰쓰기'}
                         </span>
                       </BtnMob>
                     </Wrap>
