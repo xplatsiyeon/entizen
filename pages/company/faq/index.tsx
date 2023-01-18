@@ -162,29 +162,13 @@ const Faq = () => {
   const userID = sessionStorage.getItem('USER_ID');
 
   const components: Components = {
-    0: (
-      <FaqInfomation
-        faqList={faqList!}
-        tabNumber={tabNumber}
-        tabNumberFaq={0}
-      />
-    ),
-    1: (
-      <FaqInfomation
-        faqList={faqList!}
-        tabNumber={tabNumber}
-        tabNumberFaq={1}
-      />
-    ),
-    2: (
-      <FaqInfomation
-        faqList={faqList!}
-        tabNumber={tabNumber}
-        tabNumberFaq={2}
-      />
-    ),
+    0: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,
+    1: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,
+    2: <FaqInfomation faqList={faqList!} tabNumber={tabNumber} />,
   };
-  const handleTab = (index: number) => setTabCompNumber(index);
+  const handleTab = (index: number) => {
+    setTabCompNumber(index);
+  };
   const leftOnClick = () => {
     router.back();
   };
@@ -201,6 +185,10 @@ const Faq = () => {
       enabled: userID !== null ? true : false,
     },
   );
+
+  useEffect(() => {
+    faqRefetch();
+  }, [tabCompNumber]);
 
   const chattingRoomIdx =
     data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
@@ -239,7 +227,10 @@ const Faq = () => {
                 </TabItem>
               ))}
             </TabContainer>
-            <Main>{components[tabCompNumber]}</Main>
+            {/* <Main>{components[tabCompNumber]}</Main> */}
+            <Main>
+              <FaqInfomation faqList={faqList!} tabNumber={tabCompNumber} />
+            </Main>
           </FlexWrap>
           <FlexWrap>
             <InfoText>

@@ -13,15 +13,9 @@ interface Props {
   faqList: FaqListResponse;
   tabNumber: number;
   tabCompNumber?: number;
-  tabNumberFaq: number;
 }
 
-const FaqInfomation = ({
-  faqList,
-  tabNumber,
-  tabCompNumber,
-  tabNumberFaq,
-}: Props) => {
+const FaqInfomation = ({ faqList, tabNumber, tabCompNumber }: Props) => {
   const [open, setOpen] = useState<boolean[]>(
     Array.from({ length: faqList?.data?.faqs?.length }, () => false),
   );
@@ -34,11 +28,11 @@ const FaqInfomation = ({
 
   useEffect(() => {
     setOpen([false]);
-  }, [tabNumberFaq]);
+  }, [tabNumber]);
 
   return (
     <div>
-      {tabNumberFaq === 0 &&
+      {tabNumber === 0 &&
         faqList?.data?.faqs
           ?.filter((item) => item?.faqKind === 'SERVICE')
           .map((list, idx) => (
@@ -67,7 +61,7 @@ const FaqInfomation = ({
               </Collapse>
             </div>
           ))}
-      {tabNumberFaq === 1 &&
+      {tabNumber === 1 &&
         faqList?.data?.faqs
           ?.filter((item) => item?.faqKind === 'MEMBER')
           .map((list, idx) => (
@@ -96,7 +90,7 @@ const FaqInfomation = ({
               </Collapse>
             </div>
           ))}
-      {tabNumberFaq === 2 &&
+      {tabNumber === 2 &&
         faqList?.data?.faqs
           ?.filter((item) => item?.faqKind === 'REPORT')
           .map((list, idx) => (
