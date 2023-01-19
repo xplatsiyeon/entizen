@@ -9,7 +9,7 @@ export interface PropsApi {
   data?: any;
 }
 
-export const BASE_URL = 'https://api.entizen.kr/api';
+export const BASE_URL = 'https://test-api.entizen.kr/api';
 // 로컬에서 사용할때만 활성화 시키기
 // export const BASE_URL = `/api`;
 
@@ -225,6 +225,25 @@ export const isTokenAdminPutApi = async (apiInfo: PropsApi) => {
     withCredentials: true,
   }).then((res) => res.data);
 };
+
+// API 호출 (토큰 O)
+export const isTokenAdminPutExcelApi = async (apiInfo: PropsApi) => {
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const { url, data } = apiInfo;
+  return await axios({
+    method: 'PUT',
+    url: `${BASE_URL}${url}`,
+    data,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      contentType: false,
+      processData: false,
+      enctype: 'multipart/form-data',
+    },
+    withCredentials: true,
+  }).then((res) => res.data);
+};
+
 // API 호출 (토큰 O)
 export const isTokenAdminDeleteApi = async (apiInfo: PropsApi) => {
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);

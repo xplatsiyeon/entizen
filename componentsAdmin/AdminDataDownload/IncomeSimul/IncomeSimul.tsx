@@ -1,14 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import AdminHeader from 'componentsAdmin/Header';
-import { isTokenAdminGetApi } from 'api';
-import { useQuery, useQueryClient } from 'react-query';
+import {
+  isTokenAdminGetApi,
+  isTokenAdminPutApi,
+  isTokenAdminPutExcelApi,
+  multerAdminApi,
+} from 'api';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
-import { NewCell } from 'componentsAdmin/AdminInformationNotify/AdminNotice/AdminNoticeList';
-import { AdminBannerDetailResponse } from 'types/tableDataType';
+import { css } from '@emotion/react';
+import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
+import { AxiosError } from 'axios';
 import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 import IncomeSimulTable from './IncomeSimulTable';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { requestPermissionCheck } from 'bridge/appToWeb';
+import Image from 'next/image';
+import fileImg from 'public/mypage/file-icon.svg';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -37,7 +49,7 @@ type Income = {
 // TRAFFIC_CULTURE_INDEX
 // URBAN_AREA
 // VEHICLE_REGISTRATION
-type IncomeSimulResponse = {
+export type IncomeSimulResponse = {
   isSuccess: true;
   data: {
     accumulatedElectricVehicleRegistration: Income[];
@@ -59,20 +71,119 @@ type IncomeSimulResponse = {
 
 const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
   const dispatch = useDispatch();
+  const [fileModal, setFileModal] = useState<boolean>(false);
+  const [filePreview, setFilePreview] = useState<boolean>(false);
+  const { userAgent } = useSelector((state: RootState) => state.userAgent);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   // 등록, 추가, 삭제 했을때 리스트 페이지로 이동 할거임
   const [changeNumber, setChangeNumber] = useState(false);
   const [isDetail, setIsDetail] = useState(false);
+
   const [detatilId, setDetailId] = useState<string>('');
   const [sendUserType, setSendUserType] = useState<string>('');
 
-  // admin/simulations/charge
-  const { data, isLoading, isError, refetch, remove } =
-    useQuery<IncomeSimulResponse>('incomeSimul', () =>
-      isTokenAdminGetApi(`/admin/simulations/charge`),
-    );
+  const [isModal, setIsModal] = useState(false);
+  const [message, setMessage] = useState('');
 
-  console.log(data, 'data');
+  const [success, setSuccess] = useState<string>('');
+
+  // admin/simulations/charge
+  const {
+    data: simulData,
+    isLoading,
+    isError,
+    refetch,
+    remove,
+  } = useQuery<IncomeSimulResponse>('incomeSimul', () =>
+    isTokenAdminGetApi(`/admin/simulations/charge`),
+  );
+
+  // 파일 업로드 PUT
+  const {
+    mutate: simulationExcel,
+    isLoading: simulationExcelIsLoading,
+    isError: simulationExcelIsError,
+  } = useMutation(isTokenAdminPutExcelApi, {
+    onSuccess: async () => {
+      setMessage('엑셀파일 업로드가 완료 됐습니다.');
+      setIsModal(true);
+      setSuccess('성공');
+    },
+    onError: (error) => {
+      setFileModal(false);
+      setMessage('엑셀파일 업로드에 실패했습니다');
+      console.log(error);
+    },
+  });
+
+  // file s3 multer 저장 API (with useMutation)
+  // const { mutate: multerFile, isLoading: multerFileLoading } = useMutation<
+  //   MulterResponse,
+  //   AxiosError,
+  //   FormData
+  // >(multerAdminApi, {
+  //   onSuccess: (res) => {
+  //     setMessage('엑셀파일 업로드가 완료 됐습니다.');
+  //     setIsModal(true);
+  //     simulationExcel({
+  //       url: `/admin/simulations/charge`,
+  //       data: {
+  //         file: '',
+  //       },
+  //     });
+  //     refetch();
+  //     setFileModal(false);
+  //   },
+  //   onError: (error: any) => {
+  //     setFileModal(false);
+  //     if (error.response.data.message) {
+  //       setMessage(error.response.data.message);
+  //       setIsModal(true);
+  //     } else if (error.response.status === 413) {
+  //       setMessage('용량이 너무 큽니다.');
+  //       setIsModal(true);
+  //     } else {
+  //       setMessage('다시 시도해주세요');
+  //       setIsModal(true);
+  //     }
+  //   },
+  // });
+
+  // 파일 저장
+  const saveFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+
+    if (!files?.length) {
+      setFileModal(false);
+    } else {
+      const formData = new FormData();
+      const maxLength = 1;
+
+      for (let i = 0; i < maxLength; i += 1) {
+        if (files![i] === undefined) {
+          break;
+        }
+        formData.append(
+          'file', // 어디로 해야 할까
+          files![i],
+          encodeURIComponent(files![i].name),
+        );
+      }
+
+      simulationExcel({
+        url: '/admin/simulations/subsidy',
+        data: formData,
+      });
+      // setLoading(true);
+      e.target.value = '';
+    }
+  };
+
+  //파일 온클릭
+  const fileHandler = () => {
+    fileRef?.current?.click();
+  };
 
   // 등록
   const handleCommon = () => {
@@ -100,22 +211,55 @@ const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
     }
   }, [changeNumber]);
 
+  useEffect(() => {
+    if (success === '성공') {
+      refetch();
+    }
+  }, [success]);
+
   return (
     <Wrapper>
+      {isModal && (
+        <AlertModal
+          setIsModal={setIsModal}
+          message={message}
+          setIsDetail={setIsDetail}
+        />
+      )}
       <TitleWrapper>
         <TitleBox>
           <AdminHeader title="DATA 다운로드" type="main" />
           <SubText>수익 SIMUL</SubText>
         </TitleBox>
-        <ExelButton
-          onClick={() => {
-            handleCommon();
-          }}
-        >
-          엑셀 업로드
-        </ExelButton>
+        <ExelButton onClick={fileHandler}>엑셀 업로드</ExelButton>
+        <input
+          style={{ display: 'none' }}
+          ref={fileRef}
+          type="file"
+          accept=".xlsx,.xls"
+          onChange={saveFile}
+        />
       </TitleWrapper>
-      <IncomeSimulTable handleCommon={handleCommon} />
+      <IncomeSimulTable handleCommon={handleCommon} simulData={simulData!} />
+      <File>
+        <FileDownload
+        // onClick={DownloadFile}
+        // href={item?.fileUrl!}
+        // download={item?.fileOriginalName!}
+        // onClick={() => {
+        //   fileDownload(item?.fileOriginalName!, item?.fileUrl!);
+        // }}
+        // type={'blob'}
+        >
+          <Image
+            src={fileImg}
+            alt="file-icon"
+            layout="intrinsic"
+            style={{ marginRight: '10px' }}
+          />
+          엑셀파일
+        </FileDownload>
+      </File>
       {/* <UnderLine /> */}
     </Wrapper>
   );
@@ -195,4 +339,28 @@ const ExelButton = styled.div`
   border-radius: 2px;
   height: 28px;
   margin-top: 60pt;
+  cursor: pointer;
+`;
+
+const File = styled.button`
+  margin-bottom: 6pt;
+  margin-right: 6pt;
+  padding: 7.5pt 6pt;
+  border: 0.75pt solid '#999999';
+  border-radius: 8px;
+  @media (min-width: 900pt) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const FileDownload = styled.div`
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 3pt;
+  color: '#E2E5ED';
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 200px;
 `;
