@@ -321,36 +321,41 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
               <DeleteTitle>삭제</DeleteTitle>
             </ImageDeleteBox>
           </ImageSubBox>
-          <AdminBtn style={{ width: '85px' }} onClick={imgHandler}>
-            사진첨부
-          </AdminBtn>
-          <input
-            style={{ display: 'none' }}
-            ref={imgRef}
-            type="file"
-            accept="image/*"
-            onChange={saveFileImage}
-            multiple
-          />
-        </FlexWrap>
-
-        {imgUrl !== undefined && imgUrl !== '' && (
-          <Preview>
-            <img
-              src={imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
-              style={{ objectFit: 'cover', width: '82px', height: '82px' }}
+          <FlexWrap3>
+            <AdminBtn
+              style={{ width: '65px', marginTop: '10px' }}
+              onClick={imgHandler}
+            >
+              사진첨부
+            </AdminBtn>
+            <input
+              style={{ display: 'none' }}
+              ref={imgRef}
+              type="file"
+              accept="image/*"
+              onChange={saveFileImage}
+              multiple
             />
-            <Xbox onClick={handlePhotoDelete}>
-              <Image
-                src={CloseImg}
-                layout="intrinsic"
-                alt="closeBtn"
-                width={24}
-                height={24}
-              />
-            </Xbox>
-          </Preview>
-        )}
+
+            {imgUrl !== undefined && imgUrl !== '' && (
+              <Preview>
+                <img
+                  src={imgUrl !== firstImgUrl ? imgUrl : firstImgUrl}
+                  style={{ objectFit: 'cover', width: '82px', height: '82px' }}
+                />
+                <Xbox onClick={handlePhotoDelete}>
+                  <Image
+                    src={CloseImg}
+                    layout="intrinsic"
+                    alt="closeBtn"
+                    width={24}
+                    height={24}
+                  />
+                </Xbox>
+              </Preview>
+            )}
+          </FlexWrap3>
+        </FlexWrap>
 
         <FlexHorizontal>
           <SubTitle>제목</SubTitle>
@@ -371,15 +376,16 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
             required
           />
         </FlexHorizontal>
-        <FlexWrap>
+        <FlexWrap2>
           <div />
-          <BtnBox width={data !== undefined ? 135 : 65}>
+          <BtnBox width={data !== undefined ? 160 : 65}>
             {data?.data?.library !== undefined && (
               <AdminBtn
                 style={{
                   background: '#747780',
                   border: '1px solid #464646',
                   color: '#ffffff',
+                  width: '75px',
                 }}
                 onClick={() => {
                   modalDeleteBtnControll();
@@ -394,6 +400,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
                   background: '#747780',
                   border: '1px solid #464646',
                   color: '#ffffff',
+                  width: '75px',
                 }}
                 onClick={() => {
                   onClickModifiedBtn();
@@ -407,7 +414,8 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
                   background: '#747780',
                   border: '1px solid #464646',
                   color: '#ffffff',
-                  marginLeft: '-20px',
+                  marginLeft: '85px',
+                  width: '75px',
                 }}
                 onClick={() => {
                   modalPostBtnControll();
@@ -417,7 +425,7 @@ const ModalLibrary = ({ afterSalesServiceIdx, setIsDetail }: Props) => {
               </AdminBtn>
             )}
           </BtnBox>
-        </FlexWrap>
+        </FlexWrap2>
       </ModalBox>
     </Modal>
   );
@@ -453,12 +461,12 @@ const Modal = styled.div`
 const ModalBox = styled.div`
   background-color: #ffffff;
   top: 20%;
-  left: 40%;
+  left: 30%;
   position: absolute;
   display: flex;
   flex-direction: column;
-  width: 372px;
-  height: 438px;
+  width: 770px;
+  height: 528px;
   border-radius: 8px;
 `;
 
@@ -485,12 +493,29 @@ const SubTitle = styled.div`
 
 const FlexWrap = styled.div`
   ${Flex}
-  align-items: center;
+  flex-direction: column;
+`;
+
+const FlexWrap2 = styled.div`
+  /* ${Flex} */
+  display: flex;
+  align-items: initial;
+  justify-content: flex-end;
+  margin-right: 70px;
+`;
+
+const FlexWrap3 = styled.div`
+  display: flex;
+  align-items: initial;
 `;
 
 const FlexHorizontal = styled.div`
-  ${Flex}
+  display: flex;
+  align-items: center;
+  gap: 48px;
   align-items: initial;
+  padding: 0 24px;
+  padding-top: 17px;
 `;
 
 const ImageSubBox = styled.div`
@@ -542,7 +567,7 @@ const Preview = styled.div`
   position: relative;
   width: 82px;
   height: 82px;
-  margin-left: 102px;
+  margin-left: 13px;
   margin-top: 8px;
 `;
 
@@ -556,8 +581,8 @@ const TextInput = styled.div`
 `;
 
 const InputText = styled.textarea`
-  width: 246px;
-  height: 76px;
+  width: 598px;
+  height: 128px;
   border: none;
   overflow-y: scroll;
   outline: none;

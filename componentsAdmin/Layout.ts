@@ -6,7 +6,7 @@ export const AdminBtn = styled.button`
   justify-content: center;
   cursor: pointer;
   border-radius: 3pt;
-  padding: 5px 10px;
+  padding: 5px 5px;
   height: 26px;
   background: #e2e5ed;
   border: 1px solid #747780;

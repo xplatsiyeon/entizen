@@ -40,7 +40,7 @@ const openList = [
   '정보수정',
   // '알림',
   // 'DATA 업데이트',
-  'DATA 다운로드',
+  // 'DATA 다운로드',
   // '기타',
 ];
 const closeList = [
@@ -57,7 +57,7 @@ const closeList = [
   // ['약관', '공지사항', '배너', '가이드', 'FAQ'],
   // ['알림'],
   // ['DATA 업데이트'],
-  ['수익 SIMUL', '보조금', '간편견적'],
+  // ['수익 SIMUL', '보조금', '간편견적'],
   // ['블락'],
 ];
 const Workspace = ({ setNumber, nowHeight }: Props) => {
