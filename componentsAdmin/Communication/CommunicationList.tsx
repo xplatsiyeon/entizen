@@ -83,7 +83,7 @@ const CommunicationList = ({ setNowHeight }: Props) => {
         setIsDetail={setIsDetail}
         tableType={'userChatting'}
         pickedDate={pickedDate}
-        commonBtn={'엑셀 다운로드'}
+        // commonBtn={'엑셀 다운로드'}
         handleCommon={handleCommon}
       />
     </Wrapper>

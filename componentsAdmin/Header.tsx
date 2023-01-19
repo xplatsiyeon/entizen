@@ -66,14 +66,14 @@ const AdminHeader = ({
                 >
                   엑셀 다운로드
                 </a> */}
-                <button
+                {/* <button
                   className="excelBtn"
                   onClick={() => {
                     excelDownloadFile(excelData);
                   }}
                 >
                   엑셀 다운로드
-                </button>
+                </button>  */}
                 {/* <button
                   className="btn"
                   onClick={() => {

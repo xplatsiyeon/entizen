@@ -19,7 +19,7 @@ type Props = {
   tableType: string;
   detatilId?: string;
   commonBtn?: string;
-  handleCommon: () => void;
+  // handleCommon: () => void;
   hide?: boolean;
 };
 
@@ -29,7 +29,7 @@ const AdimAccountListTable = ({
   tableType,
   detatilId,
   commonBtn,
-  handleCommon,
+  // handleCommon,
   hide,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
@@ -137,14 +137,14 @@ const AdimAccountListTable = ({
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P>{' '}
-        <Button
+        {/* <Button
           onClick={() => {
             handleCommon();
           }}
           hide={hide}
         >
           {commonBtn}
-        </Button>
+        </Button> */}
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

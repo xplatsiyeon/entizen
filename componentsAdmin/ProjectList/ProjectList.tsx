@@ -193,7 +193,7 @@ const ProjectList = ({ setNowHeight }: Props) => {
         setIsDetail={setIsDetail}
         tableType={'projectListData'}
         pickedDate={pickedDate}
-        commonBtn={'엑셀 다운로드'}
+        // commonBtn={'엑셀 다운로드'}
         handleCommon={handleCommon}
         searchKeyword={searchKeyword}
         projectQueryString={projectQueryString}

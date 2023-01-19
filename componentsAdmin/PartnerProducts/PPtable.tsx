@@ -163,13 +163,13 @@ Props) => {
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P>
-        <Button
+        {/* <Button
           onClick={() => {
             excelDownloadFile(productsExcel);
           }}
         >
           엑셀 다운로드
-        </Button>
+        </Button> */}
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>
