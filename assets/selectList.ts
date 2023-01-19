@@ -17,7 +17,6 @@ export const PHONE = [
 ];
 
 export const M5_LIST = [
-  '3.5 kW 휴대용 충전기',
   '3.5 kW 과금형 콘센트',
   '7 kW 홈 충전기 (가정용)',
   '7 kW 충전기 (공용, 경제형)',
@@ -38,7 +37,6 @@ export const M5_LIST = [
 ];
 export const M5_LIST_EN = [
   '3.5-CHARGING_CONSENT',
-  '3.5-CHARGING_CONSENT',
   '7-HOME',
   '7-COMMON_ECONOMY',
   '7-COMMON',
@@ -58,7 +56,6 @@ export const M5_LIST_EN = [
 ];
 export const M5_TYPE_SET = [
   ['-'],
-  ['-'],
   ['벽걸이', '스탠드'],
   ['벽걸이', '스탠드', '키오스크'],
   ['벽걸이', '스탠드', '키오스크'],
@@ -77,7 +74,6 @@ export const M5_TYPE_SET = [
   ['파워뱅크 분리형'],
 ];
 export const M5_CHANNEL_SET = [
-  ['싱글'],
   ['싱글'],
   ['싱글'],
   ['싱글'],
