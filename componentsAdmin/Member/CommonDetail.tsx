@@ -212,6 +212,9 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   const companyAvatar =
     companyData?.data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl;
 
+  console.log('💔 userAvatar', userAvatar);
+  console.log('🐳 companyAvatar', companyAvatar);
+
   return (
     <Background nowHeight={nowHeight}>
       <Wrapper>
@@ -246,18 +249,24 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
             <Avatar>
               {type === 'USER' ? (
                 <Image
-                  src={userData?.data?.member?.profileImageUrl! || ''}
+                  src={userData?.data?.member?.profileImageUrl!}
                   alt="avatar"
                   layout="fill"
+                  priority={true}
+                  unoptimized={true}
+                  objectFit="cover"
                 />
               ) : (
                 <Image
                   src={
                     companyData?.data?.member?.companyMemberAdditionalInfo
-                      ?.companyLogoImageUrl! || ''
+                      ?.companyLogoImageUrl!
                   }
                   alt="avatar"
                   layout="fill"
+                  priority={true}
+                  unoptimized={true}
+                  objectFit="cover"
                 />
               )}
               <span className="exitImgBox">

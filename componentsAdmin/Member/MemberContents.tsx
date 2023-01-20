@@ -121,19 +121,19 @@ const MemberContents = ({
                       width={16}
                       height={16}
                     />
-                    {item.originalName}
+
+                    <BusinessName>{item.originalName}</BusinessName>
+                    <button
+                      className="businessBtn"
+                      onClick={() => {
+                        alert('개발중입니다.');
+                      }}
+                    >
+                      삭제
+                    </button>
                   </span>
                 ),
               )}
-
-              <button
-                className="businessBtn"
-                onClick={() => {
-                  alert('개발중입니다.');
-                }}
-              >
-                삭제
-              </button>
             </div>
           </li>
           <li>
@@ -216,8 +216,7 @@ const InputBox = styled.input`
 const Company = styled.div`
   .business {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     gap: 10px;
   }
   .businessName {
@@ -227,6 +226,9 @@ const Company = styled.div`
     font-weight: 400;
     font-size: 16px;
     line-height: 150%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     /* identical to box height, or 24px */
     color: #747780;
     border: 1px solid #a6a9b0;
@@ -254,4 +256,12 @@ const Company = styled.div`
 
     color: #000000;
   }
+`;
+
+const BusinessName = styled.p`
+  width: 200px;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
