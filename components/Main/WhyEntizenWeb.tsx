@@ -43,7 +43,7 @@ const WhyEntizenWeb = (props: Props) => {
   );
 
   const chattingRoomIdx =
-    data?.data.chattingRooms.entizenChattingRoom.chattingRoomIdx;
+    data?.data?.chattingRooms?.entizenChattingRoom?.chattingRoomIdx;
 
   const router = useRouter();
   const menuList: MenuList[] = [
