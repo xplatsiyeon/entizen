@@ -5,7 +5,9 @@ import Link from 'next/link';
 import colors from 'styles/colors';
 import Logos from 'public/images/webLogo.png';
 import Chat from 'public/images/chat.png';
+//알람 꺼짐
 import Bell from 'public/images/bell.png';
+// 알람 켜짐
 import BellOutline from 'public/images/Bell_outline.png';
 import Frame from 'public/images/Frame.png';
 import GuideLink from 'components/GuideLink';
@@ -25,7 +27,11 @@ type Props = {
 type GetUnread = {
   isSuccess: boolean;
   data: {
-    unReadCount: number;
+    wasReadQuotation: boolean;
+    wasReadAfterSalesService: boolean;
+    wasReadProject: boolean;
+    wasReadChatting: boolean;
+    wasReadAlert: boolean;
   };
 };
 
@@ -53,6 +59,8 @@ const WebHeader = ({ num, now, sub }: Props) => {
     },
   );
 
+  const allAlert = historyUnread?.data;
+
   const logout = () => {
     handleLogoutOnClickModalClick()
       .then((res) => router.push('/'))
@@ -69,6 +77,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
   useEffect(() => {
     console.log(linklist);
   }, [linklist]);
+
   return (
     <>
       <Wrapper>
@@ -99,7 +108,12 @@ const WebHeader = ({ num, now, sub }: Props) => {
               >
                 가이드
               </DivBox>
-              <DivBox onClick={() => handleLink('/chatting')}>소통하기</DivBox>
+              <DivBox onClick={() => handleLink('/chatting')}>
+                소통하기
+                {isUser && allAlert?.wasReadChatting === false && (
+                  <BellOnText />
+                )}
+              </DivBox>
               <DivBox
                 className="mypage"
                 now={now}
@@ -109,6 +123,7 @@ const WebHeader = ({ num, now, sub }: Props) => {
                 }}
               >
                 마이페이지
+                {isUser && allAlert?.wasReadProject === false && <BellOnText />}
               </DivBox>
             </Box1>
             <Box2>
@@ -125,10 +140,10 @@ const WebHeader = ({ num, now, sub }: Props) => {
                       />
                     </IconBox>
                     <IconBox>
-                      {historyUnread?.data?.unReadCount === 0 ? (
+                      {allAlert?.wasReadAlert === true ? (
                         <Image
                           src={Bell}
-                          alt="bell on"
+                          alt="bell off"
                           onClick={() => router.push('/alarm')}
                         />
                       ) : (
@@ -337,4 +352,13 @@ const DivBox2 = styled.div`
     color: ${colors.main2};
     text-decoration: none;
   }
+`;
+
+const BellOnText = styled.div`
+  background-color: #5221cb;
+  width: 4.5pt;
+  height: 4.5pt;
+  border-radius: 50%;
+  margin-bottom: 19pt;
+  margin-left: 4.5pt;
 `;

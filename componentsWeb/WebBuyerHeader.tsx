@@ -33,7 +33,11 @@ type Props = {
 type GetUnread = {
   isSuccess: boolean;
   data: {
-    unReadCount: number;
+    wasReadQuotation: boolean;
+    wasReadAfterSalesService: boolean;
+    wasReadProject: boolean;
+    wasReadChatting: boolean;
+    wasReadAlert: boolean;
   };
 };
 
@@ -70,6 +74,8 @@ const WebBuyerHeader = ({
       enabled: isUser !== null ? true : false,
     },
   );
+
+  const allAlert = historyUnread?.data;
 
   const logout = () => {
     handleLogoutOnClickModalClick()
@@ -122,32 +128,36 @@ const WebBuyerHeader = ({
     type: string;
     menu: string;
     linkUrl: string;
+    alert?: boolean;
   };
   const HeaderMenu: Menu[] = [
     {
       id: 0,
-
       type: 'estimate',
       menu: '내견적',
       linkUrl: '/company/quotation',
+      alert: allAlert?.wasReadQuotation,
     },
     {
       id: 1,
       type: 'communication',
       menu: '소통하기',
       linkUrl: '/company/chatting',
+      alert: allAlert?.wasReadChatting,
     },
     {
       id: 2,
       type: 'as',
       menu: 'A/S',
       linkUrl: '/company/as',
+      alert: allAlert?.wasReadAfterSalesService,
     },
     {
       id: 3,
       type: 'myProject',
       menu: '내 프로젝트',
       linkUrl: '/company/mypage',
+      alert: allAlert?.wasReadProject,
     },
   ];
 
@@ -192,6 +202,7 @@ const WebBuyerHeader = ({
                     }}
                   >
                     {el.menu}
+                    {isUser && el.alert === false && <BellOnText />}
                   </DivBox>
                 );
               })}
@@ -209,10 +220,10 @@ const WebBuyerHeader = ({
                       />
                     </IconBox>
                     <IconBox>
-                      {historyUnread?.data?.unReadCount === 0 ? (
+                      {allAlert?.wasReadAlert === true ? (
                         <Image
                           src={Bell}
-                          alt="bell on"
+                          alt="bell off"
                           onClick={() => router.push('/alarm')}
                         />
                       ) : (
@@ -425,4 +436,13 @@ const DivBox2 = styled.div`
     color: ${colors.main2};
     text-decoration: none;
   }
+`;
+
+const BellOnText = styled.div`
+  background-color: #5221cb;
+  width: 4.5pt;
+  height: 4.5pt;
+  border-radius: 50%;
+  margin-bottom: 19pt;
+  margin-left: 4.5pt;
 `;

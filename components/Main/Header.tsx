@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Logos from 'public/images/entizenLogo.png';
 import Ring from 'public/images/guide-bell.svg';
 import OnRing from 'public/images/bell-outline.svg';
@@ -8,19 +8,25 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { isTokenGetApi } from 'api';
+import { TroubleshootOutlined } from '@mui/icons-material';
 
 type Props = {};
 
 type GetUnread = {
   isSuccess: boolean;
   data: {
-    unReadCount: number;
+    wasReadQuotation: boolean;
+    wasReadAfterSalesService: boolean;
+    wasReadProject: boolean;
+    wasReadChatting: boolean;
+    wasReadAlert: boolean;
   };
 };
 
 const Header = (props: Props) => {
   const router = useRouter();
   const userID = sessionStorage.getItem('USER_ID');
+
   // 알람 조회
   // alerts/histories/unread
   const {
@@ -36,7 +42,7 @@ const Header = (props: Props) => {
     },
   );
 
-  console.log('💔 userID 💔', userID);
+  const allAlert = historyUnread?.data;
 
   return (
     <HeadWrapper>
@@ -54,10 +60,10 @@ const Header = (props: Props) => {
       </LogoBox>
       <IconWrapper>
         <IconBox>
-          {historyUnread?.data?.unReadCount === 0 ? (
-            <Image src={Ring} alt="alarmIcon" />
+          {allAlert?.wasReadAlert === true ? (
+            <Image src={Ring} alt="alarmOff" />
           ) : (
-            <Image src={OnRing} alt="alarmIcon" />
+            <Image src={OnRing} alt="alarmOn" />
           )}
         </IconBox>
         <IconBox>
