@@ -143,7 +143,6 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
         setDetailId={setDetailId}
         tableType={'userChattingOneOnOne'}
         userSearch={userSearch}
-        handleCommon={handleCommon}
         hide={true}
         userCheck={convertEn(
           userCheckBox,
