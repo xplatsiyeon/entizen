@@ -27,7 +27,7 @@ type Props = {
   pickedDate?: string[];
   detatilId?: string;
   commonBtn?: string;
-  excelUrl: string;
+  excelUrl?: string;
   hide?: boolean;
   pagenationHide?: boolean;
 };
@@ -256,7 +256,7 @@ const ReverseAuctionTable = ({
         <P>결과 {length}</P>
         <Button
           onClick={() => {
-            excelDownloadFile(excelUrl);
+            excelDownloadFile(excelUrl!);
           }}
           hide={hide}
         >

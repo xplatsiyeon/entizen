@@ -26,7 +26,7 @@ const CompanyPreQuotation = ({
         setIsDetail={setIsDetail}
         tableType={'companyPreQuotation'}
         // commonBtn={'엑셀 다운로드'}
-        handleCommon={handleCommon}
+
         hide={true}
         pagenationHide={true}
       />
