@@ -15,6 +15,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
+import { excelDownloadFile } from 'hooks/excelDown';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,11 +23,12 @@ type Props = {
   tableType: string;
   pickedDate?: string[];
   detatilId?: string;
-  selectedFilter?: number;
+
   userSearch?: string;
   commonBtn?: string;
-  handleCommon: () => void;
+  excelUrl: string;
   hide?: boolean;
+  searchType?: string;
 };
 
 const UserManagementTable = ({
@@ -34,12 +36,13 @@ const UserManagementTable = ({
   setDetailId,
   tableType,
   detatilId,
-  selectedFilter,
+
   pickedDate,
   userSearch,
   commonBtn,
-  handleCommon,
+  excelUrl,
   hide,
+  searchType,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -52,9 +55,6 @@ const UserManagementTable = ({
 
   // 역경매 견적서 보기에 넘겨줄 아이디값
   const dispatch = useDispatch();
-
-  // 유저 회원 검색 필터 뭐 눌렀는지
-  const changeSearchType = ['name', 'id'];
 
   /*
   
@@ -73,9 +73,9 @@ const UserManagementTable = ({
       isTokenAdminGetApi(
         `/admin/members/users?page=${page}&limit=10&startDate=${
           pickedDate ? pickedDate[0] : '2022-09-05'
-        }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
-          changeSearchType[selectedFilter!]
-        }&searchKeyword=${userSearch}`,
+        }&endDate=${
+          pickedDate ? pickedDate[1] : today
+        }&searchType=${searchType}&searchKeyword=${userSearch}`,
       ),
     {
       enabled: false,
@@ -140,9 +140,9 @@ const UserManagementTable = ({
         isTokenAdminGetApi(
           `/admin/members/companies?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
-          }&endDate=${pickedDate ? pickedDate[1] : today}&searchType=${
-            changeSearchType[selectedFilter!]
-          }&searchKeyword=${userSearch}`,
+          }&endDate=${
+            pickedDate ? pickedDate[1] : today
+          }&searchType=${searchType}&searchKeyword=${userSearch}`,
         ),
       {
         enabled: false,
@@ -250,14 +250,14 @@ const UserManagementTable = ({
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P>{' '}
-        {/* <Button
+        <Button
           onClick={() => {
-            handleCommon();
+            excelDownloadFile(excelUrl);
           }}
           hide={hide}
         >
           {commonBtn}
-        </Button> */}
+        </Button>
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

@@ -25,6 +25,8 @@ const projectStateTypeEn = [
 ];
 
 const ProjectSituation = ({ setNowHeight }: Props) => {
+  const excelUrl =
+    '/admin/dashboards/projects/excel?page=1&limit=10&startDate=2022-12-01&endDate=2023-12-29&projectStatus[]=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -154,7 +156,7 @@ const ProjectSituation = ({ setNowHeight }: Props) => {
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'projectListSituation'}
-        handleCommon={handleCommon}
+        excelUrl={excelUrl}
         statusCheck={projectString}
         commonBtn={'엑셀 다운로드'}
         pickedDate={pickedDate}

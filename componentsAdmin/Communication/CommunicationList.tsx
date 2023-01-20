@@ -16,7 +16,7 @@ const CommunicationList = ({ setNowHeight }: Props) => {
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
   const dateRef = useRef<HTMLLIElement>(null);
-
+  const excelUrl = `/admin/chatting/members/${detatilId}/excel`;
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
@@ -45,11 +45,6 @@ const CommunicationList = ({ setNowHeight }: Props) => {
     } else {
       setPickedDate(undefined);
     }
-  };
-
-  // 엑셀 다운로드
-  const handleCommon = () => {
-    alert('개발중입니다.');
   };
 
   useEffect(() => {
@@ -83,8 +78,8 @@ const CommunicationList = ({ setNowHeight }: Props) => {
         setIsDetail={setIsDetail}
         tableType={'userChatting'}
         pickedDate={pickedDate}
-        // commonBtn={'엑셀 다운로드'}
-        handleCommon={handleCommon}
+        commonBtn={'엑셀 다운로드'}
+        excelUrl={excelUrl}
       />
     </Wrapper>
   );

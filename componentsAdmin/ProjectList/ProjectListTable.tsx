@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
 import { CoPresentSharp } from '@mui/icons-material';
+import { excelDownloadFile } from 'hooks/excelDown';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,11 +20,11 @@ type Props = {
   pickedDate?: string[];
   detatilId?: string;
   commonBtn?: string;
-  handleCommon: () => void;
   hide?: boolean;
   searchType: string;
   searchKeyword: string;
   projectQueryString: string;
+  excelUrl: string;
 };
 
 const ProjectListTable = ({
@@ -32,7 +33,7 @@ const ProjectListTable = ({
   tableType,
   pickedDate,
   commonBtn,
-  handleCommon,
+  excelUrl,
   hide,
   searchType,
   searchKeyword,
@@ -201,15 +202,15 @@ const ProjectListTable = ({
   return (
     <StyledBody className="user-table">
       <FlexBox>
-        <P>결과 {length}</P>{' '}
-        {/* <Button
+        <P>결과 {length}</P>
+        <Button
           onClick={() => {
-            handleCommon();
+            excelDownloadFile(excelUrl);
           }}
           hide={hide}
         >
           {commonBtn}
-        </Button> */}
+        </Button>
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

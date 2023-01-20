@@ -14,6 +14,8 @@ const projectStateType = ['접수요청', '완료대기', '완료'];
 const projectStateTypeEn = ['request', 'awaitingCompletion', 'completion'];
 
 const ASSituation = ({ setNowHeight }: Props) => {
+  const excelUrl =
+    '/admin/dashboards/after-sales-services/excel?page=1&limit=1000&startDate=2022-11-01&endDate=2023-12-29&afterSalesServiceStatus[]=request&afterSalesServiceStatus[]=completion';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -135,9 +137,9 @@ const ASSituation = ({ setNowHeight }: Props) => {
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'asListSituationList'}
-        handleCommon={handleCommon}
+        excelUrl={excelUrl}
         asStatusCheck={asString}
-        // commonBtn={'엑셀 다운로드'}
+        commonBtn={'엑셀 다운로드'}
         pickedDate={pickedDate}
       />
     </Wrapper>

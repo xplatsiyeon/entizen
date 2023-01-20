@@ -198,6 +198,19 @@ export const adminDateFomat = (date: string) => {
   }
 };
 
+// url 데이터 보낼때 오늘 날짜 변경
+export const adminNoPickDateFomat = (date: string) => {
+  if (date) {
+    const newDate = new Date(date);
+    return new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000)
+      ?.toISOString()
+      ?.split('T', 1)
+      ?.toString();
+  } else {
+    return '';
+  }
+};
+
 // 승인 미승인 계산하는 함수
 export const isAdminJoinApprovedString = (value: boolean) => {
   if (value === true) {

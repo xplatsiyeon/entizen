@@ -18,6 +18,8 @@ export const processStatus = ['견적마감', '견적취소'];
 export const processStatusEn = ['USER', 'COMPANY'];
 
 const ReverseAuctionList = ({ setNowHeight }: Props) => {
+  const excelUrl =
+    '/admin/quotations/quotation-requests/excel?page=1&limit=1000&startDate=2022-12-10&endDate=2023-01-18&searchKeyword=&inProgressStatuses[]=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
 
@@ -157,8 +159,8 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
         setIsDetail={setIsDetail}
         tableType={'quetationListData'}
         pickedDate={pickedDate}
-        // commonBtn={'엑셀 다운로드'}
-        handleCommon={handleCommon}
+        commonBtn={'엑셀 다운로드'}
+        excelUrl={excelUrl}
         pagenationHide={false}
       />
     </Wrapper>

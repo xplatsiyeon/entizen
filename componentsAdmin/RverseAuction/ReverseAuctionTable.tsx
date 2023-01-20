@@ -6,13 +6,19 @@ import { api, getApi, isTokenAdminGetApi } from 'api';
 import { Pagination } from 'rsuite';
 import { css } from '@emotion/react';
 import { Quotations, CompanyPreQuotationResponse } from 'types/tableDataType';
-import { adminDateFomat, dateFomat, hyphenFn } from 'utils/calculatePackage';
+import {
+  adminDateFomat,
+  dateFomat,
+  hyphenFn,
+  adminNoPickDateFomat,
+} from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { adminReverseAction } from 'storeAdmin/adminReverseSlice';
 import { QuotationObject } from '../../storeAdmin/adminReverseSlice';
 import { NewCell } from '../AdminInformationNotify/AdminNotice/AdminNoticeList';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
+import { excelDownloadFile } from 'hooks/excelDown';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +27,7 @@ type Props = {
   pickedDate?: string[];
   detatilId?: string;
   commonBtn?: string;
-  handleCommon: () => void;
+  excelUrl: string;
   hide?: boolean;
   pagenationHide?: boolean;
 };
@@ -33,7 +39,7 @@ const ReverseAuctionTable = ({
   detatilId,
   pickedDate,
   commonBtn,
-  handleCommon,
+  excelUrl,
   hide,
   pagenationHide,
 }: Props) => {
@@ -44,7 +50,7 @@ const ReverseAuctionTable = ({
 
   // 오늘 날짜.
   const today = new Date();
-  console.log(adminDateFomat(String(today)));
+  // console.log('🌸', adminNoPickDateFomat(String(today)));
 
   // 역경매 견적서 보기에 넘겨줄 아이디값
   const dispatch = useDispatch();
@@ -160,7 +166,9 @@ const ReverseAuctionTable = ({
         isTokenAdminGetApi(
           `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
-          }&endDate=${pickedDate ? pickedDate[1] : today}`,
+          }&endDate=${
+            pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
+          }`,
         ),
       {
         enabled: false,
@@ -245,15 +253,15 @@ const ReverseAuctionTable = ({
   return (
     <StyledBody className="user-table">
       <FlexBox>
-        <P>결과 {length}</P>{' '}
-        {/* <Button
+        <P>결과 {length}</P>
+        <Button
           onClick={() => {
-            handleCommon();
+            excelDownloadFile(excelUrl);
           }}
           hide={hide}
         >
           {commonBtn}
-        </Button> */}
+        </Button>
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

@@ -9,13 +9,19 @@ import {
   UserChattingListResponse,
   OneOnOneChatResponse,
 } from 'types/tableDataType';
-import { adminDateFomat, dateFomat, convertKo } from 'utils/calculatePackage';
+import {
+  adminDateFomat,
+  dateFomat,
+  convertKo,
+  adminNoPickDateFomat,
+} from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { NewCell } from '../AdminInformationNotify/AdminNotice/AdminNoticeList';
 import { userCheckBox, userCheckBoxEn } from './OneOnOneQuestion';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
 import { CoPresentSharp } from '@mui/icons-material';
+import { excelDownloadFile } from 'hooks/excelDown';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,7 +31,7 @@ type Props = {
   detatilId?: string;
   userSearch?: string;
   commonBtn?: string;
-  handleCommon: () => void;
+  excelUrl?: string;
   hide?: boolean;
   commuCheck?: string;
   userCheck?: string;
@@ -39,7 +45,7 @@ const CommunicationTable = ({
   pickedDate,
   userSearch,
   commonBtn,
-  handleCommon,
+  excelUrl,
   hide,
   commuCheck,
   userCheck,
@@ -51,7 +57,7 @@ const CommunicationTable = ({
 
   // 오늘 날짜.
   const today = new Date();
-  console.log(adminDateFomat(String(today)));
+  // console.log(adminNoPickDateFomat(String(today)));
 
   // 역경매 견적서 보기에 넘겨줄 아이디값
   const dispatch = useDispatch();
@@ -78,8 +84,10 @@ const CommunicationTable = ({
       () =>
         isTokenAdminGetApi(
           `/admin/chatting/members?page=${page}&limit=10&startDate=${
-            pickedDate ? pickedDate[0] : '2022-10-01'
-          }&endDate=${pickedDate ? pickedDate[1] : '2022-12-15'}`,
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${
+            pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
+          }`,
         ),
       {
         enabled: false,
@@ -94,6 +102,7 @@ const CommunicationTable = ({
                 ele.userMember.id,
                 ele.companyMember.id,
                 dateFomat(ele.chattingRoom.chattingLog.createdAt),
+                ele?.chattingRoom?.chattingRoomIdx,
               ];
               temp.push(eleArr);
             });
@@ -114,12 +123,12 @@ const CommunicationTable = ({
                         onClick={() => {
                           setDetailId(cell);
                           setIsDetail(true);
-                          alert('개발중입니다.');
+                          excelDownloadFile(excelUrl!);
                         }}
                       >
                         엑셀 다운로드
                       </button>
-                      <button
+                      {/* <button
                         className="detail"
                         style={{ marginLeft: '10px' }}
                         onClick={() => {
@@ -129,7 +138,7 @@ const CommunicationTable = ({
                         }}
                       >
                         삭제
-                      </button>
+                      </button> */}
                     </>,
                   ),
               },

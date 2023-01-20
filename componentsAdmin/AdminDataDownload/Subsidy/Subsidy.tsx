@@ -211,6 +211,11 @@ const Subsidy = ({ setNowHeight, setNumber }: Props) => {
     }
   };
 
+  console.log(
+    '🐳 subsidyData?.data?.originalName🐳',
+    subsidyData?.data?.originalName,
+  );
+
   //파일 온클릭
   const fileHandler = () => {
     fileRef?.current?.click();
@@ -278,15 +283,15 @@ const Subsidy = ({ setNowHeight, setNumber }: Props) => {
         setTabNumber={setTabNumber}
         tabNumber={tabNumber}
       />
-      <File>
+      {/* <File>
         <FileDownload
-        // onClick={DownloadFile}
-        // href={item?.fileUrl!}
-        // download={item?.fileOriginalName!}
-        // onClick={() => {
-        //   fileDownload(item?.fileOriginalName!, item?.fileUrl!);
-        // }}
-        // type={'blob'}
+        onClick={DownloadFile}
+        href={item?.fileUrl!}
+        download={item?.fileOriginalName!}
+        onClick={() => {
+          fileDownload(item?.fileOriginalName!, item?.fileUrl!);
+        }}
+        type={'blob'}
         >
           <Image
             src={fileImg}
@@ -296,6 +301,10 @@ const Subsidy = ({ setNowHeight, setNumber }: Props) => {
           />
           {subsidyData?.data?.originalName}
         </FileDownload>
+      </File> */}
+      <File>
+        <Image src={fileImg} alt="file-icon" layout="intrinsic" />
+        <FileText>{subsidyData?.data?.originalName}</FileText>
       </File>
       {/* <UnderLine /> */}
     </Wrapper>
@@ -385,10 +394,17 @@ const File = styled.div`
   padding: 7.5pt 6pt;
   border: 0.75pt solid '#999999';
   border-radius: 8px;
-  @media (min-width: 900pt) {
-    display: flex;
-    flex-direction: column;
-  }
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const FileText = styled.p`
+  display: block;
+  width: 300px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 `;
 
 const FileDownload = styled.div`

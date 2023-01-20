@@ -10,6 +10,7 @@ import { adminDateFomat, dateFomat } from 'utils/calculatePackage';
 import { useDispatch } from 'react-redux';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import Image from 'next/image';
+import { excelDownloadFile } from 'hooks/excelDown';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,8 +20,8 @@ type Props = {
   detatilId?: string;
   setAfterSalesServiceIdx?: React.Dispatch<React.SetStateAction<number>>;
   commonBtn?: string;
-  handleCommon: () => void;
   hide?: boolean;
+  excelUrl: string;
 };
 
 const ASListTable = ({
@@ -30,8 +31,8 @@ const ASListTable = ({
   pickedDate,
   setAfterSalesServiceIdx,
   commonBtn,
-  handleCommon,
   hide,
+  excelUrl,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -132,6 +133,8 @@ const ASListTable = ({
     // 의존성 배열에 api.get()dml data넣기.
   }, []);
 
+  console.log('asData', asData);
+
   useEffect(() => {
     switch (tableType) {
       case 'asData':
@@ -144,14 +147,14 @@ const ASListTable = ({
     <StyledBody className="user-table">
       <FlexBox>
         <P>결과 {length}</P>{' '}
-        {/* <Button
+        <Button
           onClick={() => {
-            handleCommon();
+            excelDownloadFile(excelUrl);
           }}
           hide={hide}
         >
           {commonBtn}
-        </Button> */}
+        </Button>
       </FlexBox>
       {dataArr.length > 0 && columns.length > 0 ? (
         <Div>

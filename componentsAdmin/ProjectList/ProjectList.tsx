@@ -19,6 +19,8 @@ export const searchType = ['프로젝트 번호', '작성자 아이디', '기업
 export const searchTypeEn = ['projectNumber', 'userId', 'companyId'];
 
 const ProjectList = ({ setNowHeight }: Props) => {
+  const excelUrl =
+    '/admin/projects/excel?page=1&limit=1000&startDate=2022-11-01&endDate=2023-01-20&searchType=projectNumber&searchKeyword=&steps[]=completion';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -193,10 +195,10 @@ const ProjectList = ({ setNowHeight }: Props) => {
         setIsDetail={setIsDetail}
         tableType={'projectListData'}
         pickedDate={pickedDate}
-        // commonBtn={'엑셀 다운로드'}
-        handleCommon={handleCommon}
+        commonBtn={'엑셀 다운로드'}
         searchKeyword={searchKeyword}
         projectQueryString={projectQueryString}
+        excelUrl={excelUrl}
       />
     </Wrapper>
   );

@@ -20,6 +20,8 @@ type Props = {
 const projectStateType = ['신규', '낙찰대기', '견적마감', '견적취소'];
 
 const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
+  const excelUrl =
+    '/admin/dashboards/quotation-requests/excel?page=1&limit=1000&startDate=2022-11-01&endDate=2023-12-29&quotationRequestStatus[]=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -170,9 +172,9 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
         tableType={'reverseAuctionSituation'}
-        handleCommon={handleCommon}
+        excelUrl={excelUrl}
         quotationRequestStatus={reverseAuctionString}
-        // commonBtn={'엑셀 다운로드'}
+        commonBtn={'엑셀 다운로드'}
         pickedDate={pickedDate}
       />
     </Wrapper>

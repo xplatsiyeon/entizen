@@ -17,11 +17,15 @@ type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-const selectOption = ['이름 검색', '아이디 검색'];
+const selectOption = ['아이디 검색', '연락처 검색'];
+const selectOptionEn = ['id', 'phone'];
 const UserManagement = ({ setNowHeight }: Props) => {
-  const [selectValue, setSelectValue] = useState('이름 검색');
+  const [selectValue, setSelectValue] = useState('아이디 검색');
 
-  //이름검색인지 아이디검색인지 판별
+  const excelUrl =
+    '/admin/members/users/excel?page=1&limit=10&startDate=2022-12-01&endDate=2023-01-31&searchType=id&searchKeyword=';
+
+  //이름검색인지 연락처 검색인지 판별
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
 
   //검색창에 입력되는 값
@@ -112,7 +116,11 @@ const UserManagement = ({ setNowHeight }: Props) => {
             {/* <input type="text" value={keyword} className="searchInput" /> */}
             <input
               type="text"
-              placeholder="검색"
+              placeholder={
+                selectValue === '연락처 검색'
+                  ? '연락처 검색시 숫자만 입력해주세요.'
+                  : '검색'
+              }
               className="searchInput"
               onChange={(e) => {
                 setInputValue(e.target.value);
@@ -147,14 +155,14 @@ const UserManagement = ({ setNowHeight }: Props) => {
           </li>
         </Manager>
         <UserManagementTable
-          selectedFilter={selectedFilter}
           setIsDetail={setIsDetail}
           setDetailId={setDetailId}
           tableType={'userData'}
           pickedDate={pickedDate}
           userSearch={userSearch}
-          // commonBtn={'엑셀 다운로드'}
-          handleCommon={handleCommon}
+          commonBtn={'엑셀 다운로드'}
+          excelUrl={excelUrl}
+          searchType={selectOptionEn[selectedFilter]}
         />
       </Wrapper>
     </>
@@ -193,6 +201,6 @@ const Manager = styled.ul`
   }
 `;
 const SelectBox = styled(Select)`
-  width: 87pt;
+  width: 100pt;
   height: 100%;
 `;

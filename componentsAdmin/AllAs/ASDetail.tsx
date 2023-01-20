@@ -19,6 +19,8 @@ type Props = {
 };
 
 const ASDetail = ({ setNowHeight }: Props) => {
+  const excelUrl =
+    '/admin/after-sales-services/excel?page=1&limit=10&startDate=2022-01-01&endDate=2023-12-22&searchKeyword=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
@@ -132,8 +134,8 @@ const ASDetail = ({ setNowHeight }: Props) => {
         tableType={'asData'}
         pickedDate={pickedDate}
         setAfterSalesServiceIdx={setAfterSalesServiceIdx}
-        // commonBtn={'엑셀 다운로드'}
-        handleCommon={handleCommon}
+        commonBtn={'엑셀 다운로드'}
+        excelUrl={excelUrl}
       />
     </Wrapper>
   );

@@ -16,12 +16,21 @@ type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-const selectOption = ['이름 검색', '아이디 검색'];
+const selectOption = [
+  '아이디 검색',
+  '회사명 검색',
+  '매니저 검색',
+  '이메일 검색',
+  '연락처 검색',
+];
+const selectOptionEn = ['id', 'companyName', 'managerName', 'email', 'phone'];
 const CompanyManagement = ({ setNowHeight }: Props) => {
+  const excelUrl =
+    '/admin/members/companies/excel?page=1&limit=10&startDate=2022-12-19&endDate=2023-12-19&searchType=name&searchKeyword=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
-  const [selectValue, setSelectValue] = useState('이름 검색');
-  //이름검색인지 아이디검색인지 판별
+  const [selectValue, setSelectValue] = useState('아이디 검색');
+  //검색 필터 판별
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
 
   //검색창에 입력되는 값
@@ -68,11 +77,6 @@ const CompanyManagement = ({ setNowHeight }: Props) => {
     }
   };
 
-  // 엑셀 다운로드
-  const handleCommon = () => {
-    alert('개발중입니다.');
-  };
-
   useEffect(() => {
     if (setNowHeight) {
       setNowHeight(window.document.documentElement.scrollHeight);
@@ -110,7 +114,11 @@ const CompanyManagement = ({ setNowHeight }: Props) => {
             {/* <input type="text" value={keyword} className="searchInput" /> */}
             <input
               type="text"
-              placeholder="검색"
+              placeholder={
+                selectValue === '연락처 검색'
+                  ? '연락처 검색시 숫자만 입력해주세요.'
+                  : '검색'
+              }
               className="searchInput"
               onChange={(e) => {
                 setInputValue(e.target.value);
@@ -144,14 +152,14 @@ const CompanyManagement = ({ setNowHeight }: Props) => {
         </Manager>
         {/* 테이블 컴포넌트 */}
         <UserManagementTable
-          selectedFilter={selectedFilter}
           setIsDetail={setIsDetail}
           setDetailId={setDetailId}
           tableType={'comUserData'}
           pickedDate={pickedDate}
           userSearch={companySearch}
-          // commonBtn={'엑셀 다운로드'}
-          handleCommon={handleCommon}
+          commonBtn={'엑셀 다운로드'}
+          excelUrl={excelUrl}
+          searchType={selectOptionEn[selectedFilter]}
         />
       </Wrapper>
     </>
@@ -194,6 +202,6 @@ const Manager = styled.ul`
   }
 `;
 const SelectBox = styled(Select)`
-  width: 87pt;
+  width: 100pt;
   height: 100%;
 `;

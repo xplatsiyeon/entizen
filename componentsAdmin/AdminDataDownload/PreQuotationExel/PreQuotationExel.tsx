@@ -236,15 +236,15 @@ const PreQuotationExel = ({ setNowHeight, setNumber }: Props) => {
         handleCommon={handleCommon}
         preQuotationExcelData={preQuotationExcelData!}
       />
-      <File>
+      {/* <File>
         <FileDownload
-        // onClick={DownloadFile}
-        // href={item?.fileUrl!}
-        // download={item?.fileOriginalName!}
-        // onClick={() => {
-        //   fileDownload(item?.fileOriginalName!, item?.fileUrl!);
-        // }}
-        // type={'blob'}
+        onClick={DownloadFile}
+        href={item?.fileUrl!}
+        download={item?.fileOriginalName!}
+        onClick={() => {
+          fileDownload(item?.fileOriginalName!, item?.fileUrl!);
+        }}
+        type={'blob'}
         >
           <Image
             src={fileImg}
@@ -254,6 +254,15 @@ const PreQuotationExel = ({ setNowHeight, setNumber }: Props) => {
           />
           {preQuotationExcelData?.data?.originalName}
         </FileDownload>
+      </File> */}
+      <File>
+        <Image
+          src={fileImg}
+          alt="file-icon"
+          layout="intrinsic"
+          style={{ marginRight: '10px', border: '1px solid red' }}
+        />
+        <FileText>{preQuotationExcelData?.data?.originalName}</FileText>
       </File>
       {/* <UnderLine /> */}
     </Wrapper>
@@ -343,10 +352,17 @@ const File = styled.div`
   padding: 7.5pt 6pt;
   border: 0.75pt solid '#999999';
   border-radius: 8px;
-  @media (min-width: 900pt) {
-    display: flex;
-    flex-direction: column;
-  }
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const FileText = styled.p`
+  display: block;
+  width: 300px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 `;
 
 const FileDownload = styled.div`
