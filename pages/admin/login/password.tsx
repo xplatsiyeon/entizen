@@ -1,24 +1,116 @@
 import styled from '@emotion/styled';
-import { PropsApi } from 'api';
+import { getApi, PropsApi } from 'api';
 import axios from 'axios';
 import useAdminLogin from 'hooks/useAdminLogin';
 import { Router, useRouter } from 'next/router';
-import { useRef, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useEffect, useRef, useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import { JwtTokenType } from 'pages/signin';
 import { useDispatch } from 'react-redux';
 import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import AdminPasswordModal from 'componentsAdmin/Modal/AdminPasswordModal';
+import { css } from '@emotion/react';
+
+type Existence = {
+  isSuccess: boolean;
+  data: {
+    isExistedManager: boolean;
+  };
+};
 
 const PasswordNotifyPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const idRef = useRef<HTMLInputElement>(null);
-  const pwRef = useRef<HTMLInputElement>(null);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [errorModal, setErrorModal] = useState(false);
+  const [modal, setModal] = useState<boolean>(false);
 
-  const [err, setErr] = useState<Boolean>(false);
+  const [name, setName] = useState<string>('');
+  const [id, setId] = useState<string>('');
+  const [firstEmail, setFirstEmail] = useState('');
+  const [secondEmail, setSecondEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rePassword, setRePassword] = useState('');
+  const [checkPassword, setCheckPassword] = useState<boolean>(true);
+  const [checkRePassword, setCheckRePassword] = useState<boolean>(true);
+
+  // 관리자 조회시 데이터 저장
+  const [success, setSuccess] = useState<Existence>();
+
+  // 관리자 조회 하는지 안하는지
+  const [existence, setExistence] = useState<boolean>(false);
+
+  // 이름, 이메일, 아이디 전부 입력해야 조회 버튼 클릭가능
+  const [sendStatus, setSendStatus] = useState<boolean>(false);
+
+  const {
+    mutate: passwordMutate,
+    isLoading: passwordLoading,
+    isError: passwordError,
+  } = useMutation(
+    async (apiInfo: PropsApi) => {
+      const { url, data } = apiInfo;
+      return await axios({
+        method: 'GET',
+        url: `/api${url}`,
+        // withCredentials: true,
+      }).then((res) => res);
+    },
+    {
+      onSuccess: (res) => {
+        setSuccess(res.data);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    },
+  );
+
+  const adminExistence = () => {
+    console.log('=======관리자 유무 호출=======');
+    if (sendStatus === true) {
+      console.log('=======관리자 유무 호출 조건 충족=======');
+      passwordMutate({
+        url: `/admin/managers/existence?id=${id}&name=${name}&email=${firstEmail}@${secondEmail}`,
+      });
+    }
+  };
+
+  const {
+    mutate: rePasswordMutate,
+    isLoading: rePasswordLoading,
+    isError: rePasswordError,
+  } = useMutation(
+    async (apiInfo: PropsApi) => {
+      const { url, data } = apiInfo;
+      return await axios({
+        method: 'POST',
+        url: `/api${url}`,
+        data: {},
+        // withCredentials: true,
+      }).then((res) => res);
+    },
+    {
+      onSuccess: (res) => {
+        router.push('/admin');
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    },
+  );
+
+  // const signin = () => {
+  //   console.log('=======signin fn 호출=======');
+  //   loginMutate({
+  //     url: '/admin/auth/login',
+  //     data: {
+  //       id: idRef?.current?.value!,
+  //       password: pwRef?.current?.value!,
+  //     },
+  //   });
+  // };
+
+  // admin/managers/existence?id=iammanager&name=이관리&email=mznx0192@naver.com
 
   //   const { adminLoginLoading, signinAdmin } = useAdminLogin(
   //     idRef?.current?.value!,
@@ -31,125 +123,177 @@ const PasswordNotifyPage = () => {
   //     await signinAdmin(pwRef?.current?.value!);
   //   };
 
-  const {
-    mutate: loginMutate,
-    isLoading: loginLoading,
-    isError: loginError,
-  } = useMutation(
-    async (apiInfo: PropsApi) => {
-      const { url, data } = apiInfo;
-      return await axios({
-        method: 'POST',
-        url: `/api${url}`,
-        data,
-        withCredentials: true,
-      }).then((res) => res);
-    },
-    {
-      onSuccess: (res) => {
-        dispatch(adminPageNumberAction.setIsAdminPage(4));
-        sessionStorage.setItem(
-          'ADMIN_ACCESS_TOKEN',
-          JSON.stringify(res.data.data.accessToken),
-        );
-        sessionStorage.setItem(
-          'ADMIN_REFRESH_TOKEN',
-          JSON.stringify(res.data.data.refreshToken),
-        );
+  // const changeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { type } = e.target;
+  //   setErr(false);
+  //   if (idRef.current && type === 'text') {
+  //     idRef.current.value = e.target.value;
+  //     //console.log(idRef.current.value)
+  //   } else if (pwRef.current && type == 'password') {
+  //     pwRef.current.value = e.target.value;
+  //     //console.log(pwRef.current.value)
+  //   }
+  // };
 
-        console.log('로그인성공', res.data);
-        router.push('/admin');
-      },
-      onError: (err) => {
-        console.log(err);
-        setErr(true);
-      },
-    },
-  );
+  // const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  //   if (e.key === 'Enter') {
+  //     signin();
+  //   }
+  // };
 
-  const signin = () => {
-    console.log('=======signin fn 호출=======');
-    loginMutate({
-      url: '/admin/auth/login',
-      data: {
-        id: idRef?.current?.value!,
-        password: pwRef?.current?.value!,
-      },
-    });
-  };
-
-  const changeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { type } = e.target;
-    setErr(false);
-    if (idRef.current && type === 'text') {
-      idRef.current.value = e.target.value;
-      //console.log(idRef.current.value)
-    } else if (pwRef.current && type == 'password') {
-      pwRef.current.value = e.target.value;
-      //console.log(pwRef.current.value)
+  useEffect(() => {
+    if (id !== '' && name !== '' && firstEmail !== '' && secondEmail !== '') {
+      setSendStatus(true);
+    } else {
+      setSendStatus(false);
     }
-  };
+  }, [id, name, firstEmail, secondEmail]);
 
-  const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter') {
-      signin();
+  useEffect(() => {
+    if (success?.data?.isExistedManager === false) {
+      setModal(true);
+      setExistence(false);
+    } else if (success === undefined) {
+      setExistence(false);
+    } else if (success?.data?.isExistedManager === true) {
+      setExistence(true);
     }
-  };
+  }, [success]);
+
+  useEffect(() => {
+    if (1 < password.length && password.length < 8) {
+      setCheckPassword(false);
+    } else if (17 < password.length) {
+      setCheckPassword(false);
+    } else {
+      setCheckPassword(true);
+    }
+    if (password !== rePassword) {
+      setCheckRePassword(false);
+    }
+  }, [password, rePassword]);
 
   return (
     <Body>
       <Inner>
         <Wrapper>
+          {modal && <AdminPasswordModal setModal={setModal} />}
           <TitleWrapper>
             <span className="leftText">엔티즌 관리자 시스템</span>
             <span className="rightText">비밀번호 재설정</span>
           </TitleWrapper>
-          <InputWrapper>
-            <InputBox>
-              <LeftTitle>로그인</LeftTitle>
-              <InputID
-                type="text"
-                placeholder="아이디"
-                onChange={(e) => changeValue(e)}
-                ref={idRef}
-              />
-            </InputBox>
-            <InputBox>
-              <LeftTitle>이름</LeftTitle>
-              <InputName
-                type="text"
-                placeholder="이름"
-                onChange={(e) => changeValue(e)}
-                ref={idRef}
-              />
-            </InputBox>
-            <InputBox>
-              <LeftTitle>이메일</LeftTitle>
-              <InputEmail
-                type="text"
-                placeholder="E-mail"
-                onChange={(e) => changeValue(e)}
-                ref={idRef}
-              />
-              <span style={{ padding: '0 5px' }}>@</span>
-              <InputEmail
-                type="text"
-                placeholder=""
-                onChange={(e) => changeValue(e)}
-                ref={idRef}
-              />
-            </InputBox>
-          </InputWrapper>
-
-          {err && (
-            <ErrP className="err">
-              <img src="/images/Attention.png" alt="err" />
-              아이디 또는 비밀번호가 일치하지 않습니다.
-            </ErrP>
+          {existence === false && (
+            <InputWrapper>
+              <InputBox>
+                <LeftTitle>아이디</LeftTitle>
+                <InputID
+                  type="text"
+                  placeholder="아이디"
+                  // onChange={(e) => changeValue(e)}
+                  // ref={idRef}
+                  onChange={(e) =>
+                    setId(e.target.value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, ''))
+                  }
+                />
+              </InputBox>
+              <InputBox>
+                <LeftTitle>이름</LeftTitle>
+                <InputName
+                  type="text"
+                  placeholder="이름"
+                  // onChange={(e) => changeValue(e)}
+                  // ref={nameRef}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </InputBox>
+              <InputBox>
+                <LeftTitle>이메일</LeftTitle>
+                <InputEmail
+                  type="text"
+                  placeholder="E-mail"
+                  onChange={(e) => setFirstEmail(e.target.value)}
+                />
+                <span style={{ padding: '0 5px' }}>@</span>
+                <InputEmail
+                  type="text"
+                  placeholder=""
+                  onChange={(e) => setSecondEmail(e.target.value)}
+                />
+              </InputBox>
+            </InputWrapper>
           )}
-          <Button onClick={signin}>
-            <span>조회</span>
-          </Button>
+          {existence === true && (
+            <InputWrapper>
+              <InputContainer style={{ marginBottom: '40px' }}>
+                <LeftTitlePw>재설정 비밀번호</LeftTitlePw>
+                <InputBox2>
+                  <InputPassword
+                    type="text"
+                    placeholder="비밀번호"
+                    // onChange={(e) => changeValue(e)}
+                    // ref={idRef}
+                    value={password}
+                    onChange={
+                      (e) =>
+                        setPassword(
+                          e.target.value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, ''),
+                        )
+                      // setPassword(e.target.value)
+                    }
+                    maxLength={16}
+                    checkPassword={checkPassword}
+                  />
+                  <Notice checkPassword={checkPassword}>
+                    비밀번호는 8자 이상 16자 이하로 입력해주세요.
+                  </Notice>
+                </InputBox2>
+              </InputContainer>
+              <InputContainer>
+                <LeftTitlePw>비밀번호 재확인</LeftTitlePw>
+                <InputBox2>
+                  <InputPassword
+                    type="text"
+                    pattern="[A-Za-z]+"
+                    placeholder="비밀번호 재확인"
+                    maxLength={16}
+                    value={rePassword}
+                    // onChange={(e) => changeValue(e)}
+                    // ref={nameRef}
+                    onChange={(e) =>
+                      setRePassword(
+                        e.target.value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, ''),
+                      )
+                    }
+                    checkRePassword={checkRePassword}
+                  />
+                  {checkRePassword === false ? (
+                    <Notice checkRePassword={checkRePassword}>
+                      입력하신 비밀번호가 일치하지 않습니다.
+                    </Notice>
+                  ) : (
+                    <Notice>비밀번호 확인을 위해 한번 더 입력해주세요.</Notice>
+                  )}
+                </InputBox2>
+              </InputContainer>
+            </InputWrapper>
+          )}
+          {existence === false ? (
+            <Button
+              onClick={() => {
+                adminExistence();
+              }}
+            >
+              <span>조회</span>
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                adminExistence();
+              }}
+            >
+              <span>재설정</span>
+            </Button>
+          )}
         </Wrapper>
       </Inner>
     </Body>
@@ -234,6 +378,37 @@ const InputEmail = styled.input`
   color: #000000;
   background: #ffffff;
   border: 1px solid #e2e5ed;
+  border-radius: 2px;
+  &::placeholder {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: #a6a9b0;
+  }
+`;
+
+const InputPassword = styled.input<{
+  checkPassword?: boolean;
+  checkRePassword?: boolean;
+}>`
+  width: 364px;
+  height: 28px;
+  padding-left: 10px;
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #e2e5ed;
+  ${({ checkPassword }) =>
+    checkPassword === false &&
+    css`
+      border: 1px solid #f75015;
+    `}
+  ${({ checkRePassword }) =>
+    checkRePassword === false &&
+    css`
+      border: 1px solid #f75015;
+    `}
+  margin-bottom: 8px;
   border-radius: 2px;
   &::placeholder {
     font-style: normal;
@@ -334,6 +509,17 @@ const LeftTitle = styled.p`
   margin-right: 105px;
 `;
 
+const LeftTitlePw = styled.p`
+  font-style: normal;
+  /* font-weight: 500; */
+  font-size: 16px;
+  line-height: 150%;
+  color: #000000;
+  margin-bottom: 8px;
+  width: 130px;
+  margin-right: 50px;
+`;
+
 const InputBox = styled.div`
   display: flex;
   align-items: center;
@@ -342,4 +528,35 @@ const InputBox = styled.div`
 const InputWrapper = styled.div`
   margin: 0 auto;
   padding: 30px 0;
+`;
+
+const Notice = styled.p<{ checkPassword?: boolean; checkRePassword?: boolean }>`
+  color: #747780;
+  /* #f75015 */
+  font-size: 14px;
+  ${({ checkPassword }) =>
+    checkPassword === false &&
+    css`
+      color: #f75015;
+    `}
+  ${({ checkRePassword }) =>
+    checkRePassword === false &&
+    css`
+      color: #f75015;
+    `}
+`;
+
+const NoticePw = styled.p`
+  color: #747780;
+  font-size: 14px;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: inherit;
+`;
+
+const InputBox2 = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

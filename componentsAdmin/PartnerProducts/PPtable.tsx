@@ -116,6 +116,8 @@ Props) => {
     },
   );
 
+  console.log('data', data);
+
   //파트너 등록 제품
   //  const partnerProduct = [
   //   '번호',

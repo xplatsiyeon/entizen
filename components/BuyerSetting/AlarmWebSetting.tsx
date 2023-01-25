@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import BackImg from 'public/images/back-btn.svg';
 import { useRouter } from 'next/router';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPostApi } from 'api';
 
 type Props = {
   tabNumber: number;
@@ -14,7 +16,7 @@ type Props = {
 
 type Alert = {
   [key: string]: any;
-  alertSubsidy: boolean;
+  alertQuotationRequest: boolean;
   alertProject: boolean;
   alertAfterSalesService: boolean;
   alertChatting: boolean;
@@ -22,24 +24,79 @@ type Alert = {
   alertEvent: boolean;
 };
 
+// type: EMAIL, APP, KAKAO
+
+type AlertsResponse = {
+  isSuccess: boolean;
+  data: {
+    alertSettings: {
+      alertSettingIdx: number;
+      type: string;
+      alertQuotationRequest: boolean;
+      alertProject: boolean;
+      alertAfterSalesService: boolean;
+      alertChatting: boolean;
+      alertChargingStation: boolean;
+      alertEvent: boolean;
+      alertNoDisturbanceTime: boolean;
+      noDisturbanceStartTime: string;
+      noDisturbanceEndTime: string;
+    }[];
+  };
+};
+
 const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
+  // 알람 조회
+  const {
+    data: alertsList,
+    isLoading: alertsListIsLoading,
+    isError: alertsListIsError,
+    refetch: alertsListRefetch,
+  } = useQuery<AlertsResponse>('alert-list', () => isTokenGetApi(`/alerts`));
+
+  // 알람 POST
+  const { mutate: postMutate, isLoading: postLoading } = useMutation(
+    isTokenPostApi,
+    {
+      onSuccess: () => {
+        console.log('알람 수정 성공');
+      },
+      onError: (error: any) => {
+        const {
+          response: { data },
+        } = error;
+        if (data) {
+          console.log(data.message);
+        } else {
+          console.log('다시 시도해주세요');
+        }
+      },
+    },
+  );
+
   const router = useRouter();
   const [endTime, setEndTime] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('');
 
-  // 카카오 전체 알림
+  // 카카오 전체 알림(하나라도 flase면 토글 꺼짐)
   const [kakao, setKakao] = useState<boolean>(true);
+  // 카카오 전체 알림 클릭시 나머지 토글도 바꿔줌
+  const [clickKakao, setClickKakao] = useState<boolean>(true);
 
-  // 이메일 전체 알림
+  // 이메일 전체 알림(하나라도 flase면 토글 꺼짐)
   const [email, setEmail] = useState<boolean>(true);
+  // 이메일 전체 알림 클릭시 나머지 토글도 바꿔줌
+  const [clickEmail, setClickEmail] = useState<boolean>(true);
+  // 이메일 idx =
 
   //  방해금지 시간
   const [alertNoDisturbanceTime, setAlertNoDisturbanceTime] =
     useState<boolean>(false);
   // 유저인지 회사인지
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+
   const [kakaoChecked, setKakaoChecked] = useState<Alert>({
-    alertSubsidy: true,
+    alertQuotationRequest: true,
     alertProject: true,
     alertAfterSalesService: true,
     alertChatting: true,
@@ -48,7 +105,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   });
 
   const [mailChecked, setMailChecked] = useState<Alert>({
-    alertSubsidy: true,
+    alertQuotationRequest: true,
     alertProject: true,
     alertAfterSalesService: true,
     alertChatting: true,
@@ -56,24 +113,32 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     alertEvent: true,
   });
 
+  // 알람 submit  /alerts/:alertSettingIdx
+  const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    postMutate({
+      url: `/alerts/1`,
+      data: {
+        type: 'EMAIL',
+        alertQuotationRequest: false,
+        alertProject: false,
+        alertAfterSalesService: false,
+        alertChatting: false,
+        alertChargingStation: false,
+        alertEvent: false,
+        alertNoDisturbanceTime: false,
+        noDisturbanceStartTime: null,
+        noDisturbanceEndTime: null,
+      },
+    });
+  };
+
+  // kakaoChecked, mailChecked에 하나라도 false가 있는지 없는지 판독
   const resultKakao = Object.values(kakaoChecked).some(
     (item) => item === false,
   );
   const resultEmail = Object.values(mailChecked).some((item) => item === false);
 
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   if ((event.target.type = 'kakao')) {
-  //     setChecked({
-  //       ...checked,
-  //       [event.target.name]: event.target.checked,
-  //     });
-  //   } else if ((event.target.type = 'email')) {
-  //     setMailChecked({
-  //       ...mailChecked,
-  //       [event.target.name]: event.target.checked,
-  //     });
-  //   }
-  // };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let temp = { ...kakaoChecked };
     setKakaoChecked({
@@ -91,43 +156,87 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   };
 
   useEffect(() => {
-    if (resultKakao === true) {
-      setKakao(false);
-    } else {
-      setKakao(true);
-    }
+    alertsListRefetch();
+
     if (resultEmail === true) {
       setEmail(false);
     } else {
       setEmail(true);
     }
-  }, [kakaoChecked, mailChecked]);
+    postMutate({
+      url: `/alerts/1`,
+      data: {
+        type: 'EMAIL',
+        alertQuotationRequest: mailChecked.alertQuotationRequest,
+        alertProject: mailChecked.alertProject,
+        alertAfterSalesService: mailChecked.alertAfterSalesService,
+        alertChatting: mailChecked.alertChatting,
+        alertChargingStation: mailChecked.alertChargingStation,
+        alertEvent: mailChecked.alertEvent,
+        // alertNoDisturbanceTime: alertNoDisturbanceTime,
+        // noDisturbanceStartTime: startTime,
+        // noDisturbanceEndTime: endTime,
+      },
+    });
+  }, [mailChecked]);
+
+  useEffect(() => {
+    alertsListRefetch();
+    if (resultKakao === true) {
+      setKakao(false);
+    } else {
+      setKakao(true);
+
+      postMutate({
+        url: `/alerts/3`,
+        data: {
+          type: 'KAKAO',
+          alertQuotationRequest: kakaoChecked.alertQuotationRequest,
+          alertProject: kakaoChecked.alertProject,
+          alertAfterSalesService: kakaoChecked.alertAfterSalesService,
+          alertChatting: kakaoChecked.alertChatting,
+          alertChargingStation: kakaoChecked.alertChargingStation,
+          alertEvent: kakaoChecked.alertEvent,
+          alertNoDisturbanceTime: alertNoDisturbanceTime,
+          noDisturbanceStartTime: startTime,
+          noDisturbanceEndTime: endTime,
+        },
+      });
+    }
+  }, [kakaoChecked]);
 
   // 카카오 전체 알림
   useEffect(() => {
+    alertsListRefetch();
     const temp = { ...kakaoChecked };
     for (const value in kakaoChecked) {
-      if (kakao === true) {
+      if (clickKakao === true) {
         temp[value] = true;
       } else {
         temp[value] = false;
       }
       setKakaoChecked(temp);
     }
-  }, [kakao]);
+  }, [clickKakao]);
 
   // 메일 전체 알림
   useEffect(() => {
+    alertsListRefetch();
     const temp = { ...mailChecked };
     for (const value in mailChecked) {
-      if (email === true) {
+      if (clickEmail === true) {
         temp[value] = true;
       } else {
         temp[value] = false;
       }
       setMailChecked(temp);
     }
-  }, [email]);
+  }, [clickEmail]);
+
+  // useEffect(() => {
+  //   setStartTime()
+  //   setEndTime()
+  // }, [alertsList]);
 
   return (
     <Wrapper>
@@ -153,6 +262,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                     checked={email}
                     onChange={() => {
                       setEmail(!email);
+                      setClickEmail(!clickEmail);
                     }}
                   />
                 )}
@@ -163,6 +273,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   checked={kakao}
                   onChange={() => {
                     setKakao(!kakao);
+                    setClickKakao(!clickKakao);
                   }}
                 />
               </SwitchWrapper>
@@ -243,15 +354,15 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             <SwitchWrapper memberType={memberType}>
               {memberType === 'COMPANY' && (
                 <CustomSwitch
-                  name="alertSubsidy"
+                  name="alertQuotationRequest"
                   onChange={handleMailChange}
-                  checked={mailChecked.alertSubsidy}
+                  checked={mailChecked.alertQuotationRequest}
                 />
               )}
               <CustomSwitch
-                name="alertSubsidy"
+                name="alertQuotationRequest"
                 onChange={handleChange}
-                checked={kakaoChecked.alertSubsidy}
+                checked={kakaoChecked.alertQuotationRequest}
               />
             </SwitchWrapper>
           </CheckBox>

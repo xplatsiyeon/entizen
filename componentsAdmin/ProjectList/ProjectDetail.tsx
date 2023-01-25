@@ -554,7 +554,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
                 </TextP> */}
               </TextBox>
             </List>
-            <List>
+            {/* <List>
               <Label>계약서 정보</Label>
               <ButtonBox
                 onClick={() => {
@@ -563,7 +563,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
               >
                 계약서 보기
               </ButtonBox>
-            </List>
+            </List> */}
             <List>
               <Label>첨부파일</Label>
               <FileContainer>

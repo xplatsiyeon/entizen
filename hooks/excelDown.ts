@@ -4,12 +4,13 @@ import axios from 'axios';
 
 export const excelDownloadFile = async (propsUrl: string) => {
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  // export const BASE_URL = 'https://test-api.entizen.kr/api';
+  // export const BASE_URL = 'https://api.entizen.kr/api';
   // 로컬에서 사용할때만 활성화 시키기
   const BASE_URL = `/api`;
   await axios({
     method: 'GET',
     url: `${BASE_URL}${propsUrl}`, // 파일 다운로드 요청 URL
+
     responseType: 'blob', // 응답 데이터 타입 정의
     headers: {
       Authorization: `Bearer ${accessToken}`,

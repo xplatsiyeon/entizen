@@ -104,8 +104,6 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
   // 특장점 수정 set
   const [features, setFeatures] = useState<string>('');
 
-  console.log('💔 features 💔', features);
-
   const chargeMethod = partnerProductList?.data?.method;
 
   // 삭제 하고 싶은 파일 id 값 업데이트

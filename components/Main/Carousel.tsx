@@ -69,10 +69,6 @@ const Carousel = () => {
     },
   );
 
-  console.log('companyBannerList', companyBannerList);
-  console.log('bannerList', bannerList);
-  console.log('accessToken', accessToken);
-
   SwipeCore.use([Navigation]);
 
   // <SliderContent>

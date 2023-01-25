@@ -126,7 +126,7 @@ const AdLogin = () => {
           </Button>
           {/* <PasswordNotify
             onClick={() => {
-              router.push('/admin/password');
+              router.push('/admin/login/password');
             }}
           >
             <span>비밀번호 재설정</span>
