@@ -84,11 +84,7 @@ const TermContent = ({
       let data = JSON.parse(key);
       setName(data.name);
       setPhoneNumber(data.phone);
-      // setBirthday(data.birth)
-      console.log(
-        'data 🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃',
-        data,
-      );
+      setBirthday(data.birthDate);
 
       if (data.isMember === true) {
         setIsModal(true);

@@ -162,6 +162,7 @@ const SignUpContainer = (props: Props) => {
               setCheckSamePw={setCheckSamePw}
               name={name}
               phoneNumber={phoneNumber}
+              birthday={birthday}
               fullTerms={fullTerms}
               userType={userType}
               setModalMessage={setModalMessage}
@@ -290,6 +291,7 @@ const SignUpContainer = (props: Props) => {
               setCheckSamePw={setCheckSamePw}
               name={name}
               phoneNumber={phoneNumber}
+              birthday={birthday}
               fullTerms={fullTerms}
               userType={userType}
               businessRegistration={businessRegistration}

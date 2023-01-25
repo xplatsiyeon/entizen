@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import BackImg from 'public/images/back-btn.svg';
 import { useRouter } from 'next/router';
-import { descriptors } from 'chart.js/dist/core/core.defaults';
 
 type Props = {
   tabNumber: number;
@@ -104,14 +103,31 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     }
   }, [kakaoChecked, mailChecked]);
 
-  // useEffect(() => {
+  // 카카오 전체 알림
+  useEffect(() => {
+    const temp = { ...kakaoChecked };
+    for (const value in kakaoChecked) {
+      if (kakao === true) {
+        temp[value] = true;
+      } else {
+        temp[value] = false;
+      }
+      setKakaoChecked(temp);
+    }
+  }, [kakao]);
 
-  //     const temp = { ...kakaoChecked };
-  //     for (const value in kakaoChecked) {
-  //       if () { }
-  //     }
-
-  // });
+  // 메일 전체 알림
+  useEffect(() => {
+    const temp = { ...mailChecked };
+    for (const value in mailChecked) {
+      if (email === true) {
+        temp[value] = true;
+      } else {
+        temp[value] = false;
+      }
+      setMailChecked(temp);
+    }
+  }, [email]);
 
   return (
     <Wrapper>

@@ -31,6 +31,7 @@ type Props = {
   setUserCompleteModal: Dispatch<SetStateAction<boolean>>;
   name: string;
   phoneNumber: string;
+  birthday: string;
   fullTerms: boolean;
   userType: number;
   email?: string;
@@ -64,6 +65,7 @@ const IdPwInput = ({
   setCheckSamePw,
   name,
   phoneNumber,
+  birthday,
   fullTerms,
   userType,
   companyName,
@@ -188,6 +190,7 @@ const IdPwInput = ({
           memberType: 'USER',
           name: name,
           phone: phoneNumber,
+          birthDate: birthday,
           id: idInput,
           password: checkPw,
           optionalTermsConsentStatus: [
@@ -210,6 +213,7 @@ const IdPwInput = ({
           memberType: 'COMPANY',
           name: name,
           phone: phoneNumber,
+          birthDate: birthday,
           id: idInput,
           password: checkPw,
           optionalTermsConsentStatus: [
