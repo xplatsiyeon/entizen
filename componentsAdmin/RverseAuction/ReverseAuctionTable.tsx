@@ -30,6 +30,8 @@ type Props = {
   excelUrl?: string;
   hide?: boolean;
   pagenationHide?: boolean;
+  processQueryString?: string;
+  userSearch?: string;
 };
 
 const ReverseAuctionTable = ({
@@ -42,6 +44,8 @@ const ReverseAuctionTable = ({
   excelUrl,
   hide,
   pagenationHide,
+  processQueryString,
+  userSearch,
 }: Props) => {
   const [dataArr, setDataArr] = useState<[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -159,23 +163,23 @@ const ReverseAuctionTable = ({
     );
 
   // 🎀 견적 리스트 데이터
-  const { data: quetationListData, refetch: quetationListRefetch } =
+  const { data: quotationListData, refetch: quetationListRefetch } =
     useQuery<Quotations>(
-      'quetationList',
+      'quotationListData',
       () =>
         isTokenAdminGetApi(
           `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${
             pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
-          }`,
+          }&searchKeyword=${userSearch}${processQueryString}`,
         ),
       {
         enabled: false,
-        onSuccess: (quetationListData) => {
-          if (tableType === 'quetationListData') {
+        onSuccess: (quotationListData) => {
+          if (tableType === 'quotationListData') {
             const temp: any = [];
-            quetationListData?.data.quotationRequests.forEach((ele, idx) => {
+            quotationListData?.data.quotationRequests.forEach((ele, idx) => {
               const eleArr = [
                 `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
                   idx + 1 === 10 ? page * 10 : idx + 1
@@ -197,7 +201,7 @@ const ReverseAuctionTable = ({
               '작성날짜',
               {
                 name: '',
-                id: 'quetationListData',
+                id: 'quotationListData',
                 formatter: (cell: string) =>
                   _(
                     <button
@@ -213,8 +217,8 @@ const ReverseAuctionTable = ({
               },
             ]);
             setLength(
-              quetationListData.data.totalCount
-                ? quetationListData.data.totalCount
+              quotationListData.data.totalCount
+                ? quotationListData.data.totalCount
                 : 0,
             );
           }
@@ -223,9 +227,18 @@ const ReverseAuctionTable = ({
       },
     );
 
+  console.log(
+    '🌸 역경매 주소 확인 🌸',
+    `/admin/quotations/quotation-requests?page=${page}&limit=10&startDate=${
+      pickedDate ? pickedDate[0] : '2022-09-05'
+    }&endDate=${
+      pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
+    }&searchKeyword=${userSearch}${processQueryString}`,
+  );
+
   useEffect(() => {
     switch (tableType) {
-      case 'quetationListData':
+      case 'quotationListData':
         quetationListRefetch();
         break;
 
@@ -240,7 +253,7 @@ const ReverseAuctionTable = ({
     switch (tableType) {
       case 'userData':
 
-      case 'quetationListData':
+      case 'quotationListData':
         quetationListRefetch();
         break;
 
@@ -248,7 +261,7 @@ const ReverseAuctionTable = ({
         companyPreQuotationRefetch();
         break;
     }
-  }, [page, pickedDate]);
+  }, [page, pickedDate, userSearch, processQueryString]);
 
   return (
     <StyledBody className="user-table">

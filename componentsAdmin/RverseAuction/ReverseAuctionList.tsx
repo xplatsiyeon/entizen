@@ -14,8 +14,26 @@ type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-export const processStatus = ['견적마감', '견적취소'];
-export const processStatusEn = ['USER', 'COMPANY'];
+export const processStatus = [
+  '견적 대기중',
+  '견적 마감',
+  '견적 취소',
+  '현장 실사 조율중',
+  '현장실사 완료',
+  '최종 견적 대기중',
+  '낙찰 대기중',
+  '낙찰 완료',
+];
+export const processStatusEn = [
+  'IN_PROGRESS',
+  'CLOSED',
+  'CANCEL',
+  'DUE_DILIGENCE_COORDINATION',
+  'DUE_DILIGENCE_COMPLETED_RESERVATION',
+  'AWAITING_FINAL_QUOTATION',
+  'AWAITING_BID',
+  'COMPLETED_BID',
+];
 
 const ReverseAuctionList = ({ setNowHeight }: Props) => {
   const excelUrl =
@@ -38,6 +56,31 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
       setProcess(process.filter((el) => el !== user));
     }
   };
+
+  // 백엔드에 체크박스 선택값 배열에 영문으로 보내줌
+  const changeEn = process.map((data) => {
+    if (data === '견적 대기중') {
+      return 'IN_PROGRESS';
+    } else if (data === '견적 마감') {
+      return 'CLOSED';
+    } else if (data === '견적 취소') {
+      return 'CANCEL';
+    } else if (data === '현장 실사 조율중') {
+      return 'DUE_DILIGENCE_COORDINATION';
+    } else if (data === '현장실사 완료') {
+      return 'DUE_DILIGENCE_COMPLETED_RESERVATION';
+    } else if (data === '최종 견적 대기중') {
+      return 'AWAITING_FINAL_QUOTATION';
+    } else if (data === '낙찰 대기중') {
+      return 'AWAITING_BID';
+    } else if (data === '낙찰 완료') {
+      return 'COMPLETED_BID';
+    }
+  });
+
+  const processQueryString = changeEn
+    .map((e) => `&inProgressStatuses[]=${e}`)
+    .join('');
 
   const [pickedDate, setPickedDate] = useState<string[]>();
   const dateRef = useRef<HTMLLIElement>(null);
@@ -75,11 +118,6 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
   const { quotationRequestIdx, isCompanyDetail } = useSelector(
     (state: RootState) => state.adminReverseData,
   );
-
-  // 엑셀 다운로드
-  const handleCommon = () => {
-    alert('개발중입니다.');
-  };
 
   useEffect(() => {
     if (setNowHeight) {
@@ -157,11 +195,13 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
       <ReverseAuctionTable
         setDetailId={setDetailId}
         setIsDetail={setIsDetail}
-        tableType={'quetationListData'}
+        tableType={'quotationListData'}
         pickedDate={pickedDate}
         commonBtn={'엑셀 다운로드'}
         excelUrl={excelUrl}
         pagenationHide={false}
+        processQueryString={processQueryString}
+        userSearch={userSearch}
       />
     </Wrapper>
   );
@@ -182,7 +222,7 @@ const Manager = styled.ul`
   align-items: flex-start;
 
   label {
-    padding-right: 39.75pt;
+    padding-right: 20pt;
   }
   .idsearch {
     padding-right: 30pt;
@@ -204,7 +244,7 @@ const Manager = styled.ul`
     border-radius: 4px;
   }
   .search {
-    width: 946px;
+    width: 1150px;
   }
 `;
 
