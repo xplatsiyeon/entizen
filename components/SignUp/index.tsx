@@ -28,6 +28,7 @@ const SignUpContainer = (props: Props) => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [birthday, setBirthday] = useState<string>('');
   const [fullTerms, setFullTerms] = useState(false);
   const [requiredTerms, setRequiredTerms] = useState(false);
   const [selectTerms, setSelectTerms] = useState(false);
@@ -127,6 +128,7 @@ const SignUpContainer = (props: Props) => {
               nextBtn={nextBtn}
               setNextBtn={setNextBtn}
               userType={userType}
+              setBirthday={setBirthday}
             />
           </Wrapper>
         </>
@@ -196,6 +198,7 @@ const SignUpContainer = (props: Props) => {
               nextBtn={nextBtn}
               setNextBtn={setNextBtn}
               userType={userType}
+              setBirthday={setBirthday}
             />
           </Wrapper>
         </>

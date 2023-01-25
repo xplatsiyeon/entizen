@@ -27,6 +27,7 @@ type Props = {
   nextBtn: boolean;
   setNextBtn: Dispatch<SetStateAction<boolean>>;
   userType?: number;
+  setBirthday: Dispatch<SetStateAction<string>>;
 };
 
 const TermContent = ({
@@ -43,6 +44,7 @@ const TermContent = ({
   nextBtn,
   setNextBtn,
   userType,
+  setBirthday,
 }: Props) => {
   // console.log('테스트11입니다 => ' + test11());
   const router = useRouter();
@@ -82,6 +84,12 @@ const TermContent = ({
       let data = JSON.parse(key);
       setName(data.name);
       setPhoneNumber(data.phone);
+      // setBirthday(data.birth)
+      console.log(
+        'data 🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃🎃',
+        data,
+      );
+
       if (data.isMember === true) {
         setIsModal(true);
         setModalMessage('이미 회원가입 하셨습니다.');
@@ -104,7 +112,7 @@ const TermContent = ({
     const memberType = 'USER';
     axios({
       method: 'post',
-      url: 'https://api.entizen.kr/api/auth/nice',
+      url: 'https://test-api.entizen.kr/api/auth/nice',
       data: { memberType },
     })
       .then((res) => {
