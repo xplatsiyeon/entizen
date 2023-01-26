@@ -115,14 +115,16 @@ const MemberContents = ({
               {CompanyData?.data?.member?.businessRegistrationFiles?.map(
                 (item, index) => (
                   <span className="businessName" key={index}>
-                    <Image
-                      src={FileImg}
-                      alt="file-img"
-                      width={16}
-                      height={16}
-                    />
+                    <Atag href={item?.url} download={item?.originalName}>
+                      <Image
+                        src={FileImg}
+                        alt="file-img"
+                        width={16}
+                        height={16}
+                      />
 
-                    <BusinessName>{item.originalName}</BusinessName>
+                      <BusinessName>{item.originalName}</BusinessName>
+                    </Atag>
                     <button
                       className="businessBtn"
                       onClick={() => {
@@ -264,4 +266,15 @@ const BusinessName = styled.p`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+`;
+
+const Atag = styled.a`
+  display: flex;
+  align-items: center;
+  color: #222222;
+  gap: 10px;
+  cursor: pointer;
+  :hover {
+    color: #5a2dc9;
+  }
 `;
