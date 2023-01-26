@@ -6,7 +6,8 @@ import colors from 'styles/colors';
 import BackImg from 'public/images/back-btn.svg';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery } from 'react-query';
-import { isTokenGetApi, isTokenPostApi } from 'api';
+import { isTokenGetApi, isTokenPostApi, isTokenPutApi } from 'api';
+import AlarmDropDown, { DropDownTime } from './AlarmDropDown';
 
 type Props = {
   tabNumber: number;
@@ -14,34 +15,41 @@ type Props = {
   leftTabNumber: number;
 };
 
-type Alert = {
-  [key: string]: any;
-  alertQuotationRequest: boolean;
-  alertProject: boolean;
-  alertAfterSalesService: boolean;
-  alertChatting: boolean;
-  alertChargingStation: boolean;
-  alertEvent: boolean;
+export type NewAlert = {
+  alertApp?: boolean;
+  alertKakao?: boolean;
+  alertEmail?: boolean;
+  alertQuotationRequest?: boolean;
+  alertProject?: boolean;
+  alertAfterSalesService?: boolean;
+  alertChatting?: boolean;
+  alertChargingStation?: boolean;
+  alertEvent?: boolean;
+  alertSubsidy?: boolean;
+  alertNoDisturbanceTime?: boolean;
 };
 
 // type: EMAIL, APP, KAKAO
 
-type AlertsResponse = {
+export type AlertsResponse = {
   isSuccess: boolean;
   data: {
-    alertSettings: {
+    alertSetting: {
       alertSettingIdx: number;
-      type: string;
+      alertApp: boolean;
+      alertKakao: boolean;
+      alertEmail: boolean;
       alertQuotationRequest: boolean;
       alertProject: boolean;
       alertAfterSalesService: boolean;
       alertChatting: boolean;
       alertChargingStation: boolean;
       alertEvent: boolean;
+      alertSubsidy: boolean;
       alertNoDisturbanceTime: boolean;
       noDisturbanceStartTime: string;
       noDisturbanceEndTime: string;
-    }[];
+    };
   };
 };
 
@@ -54,9 +62,9 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     refetch: alertsListRefetch,
   } = useQuery<AlertsResponse>('alert-list', () => isTokenGetApi(`/alerts`));
 
-  // 알람 POST
-  const { mutate: postMutate, isLoading: postLoading } = useMutation(
-    isTokenPostApi,
+  // 알람 PUT
+  const { mutate: putMutate, isLoading: putLoading } = useMutation(
+    isTokenPutApi,
     {
       onSuccess: () => {
         console.log('알람 수정 성공');
@@ -76,162 +84,78 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
 
   const router = useRouter();
   const [endTime, setEndTime] = useState<string>('');
+  const [sendEndTime, setSendEndTime] = useState<string>('10:00');
   const [startTime, setStartTime] = useState<string>('');
+  const [sendStartTime, setSendStartTime] = useState<string>('10:00');
+  // 드랍다운 박스
+  const [selectValue, setSelectValue] = useState('');
+  // 알람 idx
+  const [alertSettingIdx, setAlertSettingIdx] = useState(0);
 
-  // 카카오 전체 알림(하나라도 flase면 토글 꺼짐)
-  const [kakao, setKakao] = useState<boolean>(true);
-  // 카카오 전체 알림 클릭시 나머지 토글도 바꿔줌
-  const [clickKakao, setClickKakao] = useState<boolean>(true);
-
-  // 이메일 전체 알림(하나라도 flase면 토글 꺼짐)
-  const [email, setEmail] = useState<boolean>(true);
-  // 이메일 전체 알림 클릭시 나머지 토글도 바꿔줌
-  const [clickEmail, setClickEmail] = useState<boolean>(true);
-  // 이메일 idx =
-
-  //  방해금지 시간
-  const [alertNoDisturbanceTime, setAlertNoDisturbanceTime] =
-    useState<boolean>(false);
   // 유저인지 회사인지
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
 
-  const [kakaoChecked, setKakaoChecked] = useState<Alert>({
-    alertQuotationRequest: true,
-    alertProject: true,
-    alertAfterSalesService: true,
-    alertChatting: true,
-    alertChargingStation: true,
-    alertEvent: true,
+  const [alertChecked, setAlertChecked] = useState<NewAlert>({
+    alertApp: alertsList?.data?.alertSetting?.alertApp,
+    alertKakao: alertsList?.data?.alertSetting?.alertKakao,
+    alertEmail: alertsList?.data?.alertSetting?.alertEmail,
+    alertQuotationRequest:
+      alertsList?.data?.alertSetting?.alertQuotationRequest,
+    alertProject: alertsList?.data?.alertSetting?.alertProject,
+    alertAfterSalesService:
+      alertsList?.data?.alertSetting?.alertAfterSalesService,
+    alertChatting: alertsList?.data?.alertSetting?.alertChatting,
+    alertChargingStation: alertsList?.data?.alertSetting?.alertChargingStation,
+    alertEvent: alertsList?.data?.alertSetting?.alertEvent,
+    alertSubsidy: alertsList?.data?.alertSetting?.alertSubsidy,
+    alertNoDisturbanceTime:
+      alertsList?.data?.alertSetting?.alertNoDisturbanceTime,
   });
 
-  const [mailChecked, setMailChecked] = useState<Alert>({
-    alertQuotationRequest: true,
-    alertProject: true,
-    alertAfterSalesService: true,
-    alertChatting: true,
-    alertChargingStation: true,
-    alertEvent: true,
-  });
-
-  // 알람 submit  /alerts/:alertSettingIdx
-  const onSubmitText = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    postMutate({
-      url: `/alerts/1`,
-      data: {
-        type: 'EMAIL',
-        alertQuotationRequest: false,
-        alertProject: false,
-        alertAfterSalesService: false,
-        alertChatting: false,
-        alertChargingStation: false,
-        alertEvent: false,
-        alertNoDisturbanceTime: false,
-        noDisturbanceStartTime: null,
-        noDisturbanceEndTime: null,
-      },
-    });
-  };
-
-  // kakaoChecked, mailChecked에 하나라도 false가 있는지 없는지 판독
-  const resultKakao = Object.values(kakaoChecked).some(
-    (item) => item === false,
-  );
-  const resultEmail = Object.values(mailChecked).some((item) => item === false);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let temp = { ...kakaoChecked };
-    setKakaoChecked({
+  const handleAlertChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let temp = { ...alertChecked };
+    setAlertChecked({
       ...temp,
       [event.target.name]: event.target.checked,
     });
   };
 
-  const handleMailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let temp = { ...mailChecked };
-    setMailChecked({
-      ...temp,
-      [event.target.name]: event.target.checked,
+  // currentValue
+  const getTime = (time: string) => {
+    let newTime = '';
+    DropDownTime?.map((item) => {
+      if (item.send === time) {
+        return (newTime = item.show);
+      }
     });
+    return newTime;
   };
 
   useEffect(() => {
-    alertsListRefetch();
+    setAlertSettingIdx(alertsList?.data?.alertSetting?.alertSettingIdx!);
+  }, [alertsList]);
 
-    if (resultEmail === true) {
-      setEmail(false);
-    } else {
-      setEmail(true);
-    }
-    postMutate({
-      url: `/alerts/1`,
+  // 실시간으로 백엔드 전달
+  useEffect(() => {
+    putMutate({
+      url: `/alerts/${alertSettingIdx}`,
       data: {
-        type: 'EMAIL',
-        alertQuotationRequest: mailChecked.alertQuotationRequest,
-        alertProject: mailChecked.alertProject,
-        alertAfterSalesService: mailChecked.alertAfterSalesService,
-        alertChatting: mailChecked.alertChatting,
-        alertChargingStation: mailChecked.alertChargingStation,
-        alertEvent: mailChecked.alertEvent,
-        // alertNoDisturbanceTime: alertNoDisturbanceTime,
-        // noDisturbanceStartTime: startTime,
-        // noDisturbanceEndTime: endTime,
+        alertApp: alertsList?.data?.alertSetting?.alertApp,
+        alertKakao: alertChecked.alertKakao,
+        alertEmail: alertChecked.alertEmail,
+        alertQuotationRequest: alertChecked.alertQuotationRequest,
+        alertProject: alertChecked.alertProject,
+        alertAfterSalesService: alertChecked.alertAfterSalesService,
+        alertChatting: alertChecked.alertChatting,
+        alertChargingStation: alertChecked.alertChargingStation,
+        alertEvent: alertChecked.alertEvent,
+        alertSubsidy: alertChecked.alertSubsidy,
+        alertNoDisturbanceTime: alertChecked.alertNoDisturbanceTime,
+        noDisturbanceStartTime: sendStartTime,
+        noDisturbanceEndTime: sendEndTime,
       },
     });
-  }, [mailChecked]);
-
-  useEffect(() => {
-    alertsListRefetch();
-    if (resultKakao === true) {
-      setKakao(false);
-    } else {
-      setKakao(true);
-
-      postMutate({
-        url: `/alerts/3`,
-        data: {
-          type: 'KAKAO',
-          alertQuotationRequest: kakaoChecked.alertQuotationRequest,
-          alertProject: kakaoChecked.alertProject,
-          alertAfterSalesService: kakaoChecked.alertAfterSalesService,
-          alertChatting: kakaoChecked.alertChatting,
-          alertChargingStation: kakaoChecked.alertChargingStation,
-          alertEvent: kakaoChecked.alertEvent,
-          alertNoDisturbanceTime: alertNoDisturbanceTime,
-          noDisturbanceStartTime: startTime,
-          noDisturbanceEndTime: endTime,
-        },
-      });
-    }
-  }, [kakaoChecked]);
-
-  // 카카오 전체 알림
-  useEffect(() => {
-    alertsListRefetch();
-    const temp = { ...kakaoChecked };
-    for (const value in kakaoChecked) {
-      if (clickKakao === true) {
-        temp[value] = true;
-      } else {
-        temp[value] = false;
-      }
-      setKakaoChecked(temp);
-    }
-  }, [clickKakao]);
-
-  // 메일 전체 알림
-  useEffect(() => {
-    alertsListRefetch();
-    const temp = { ...mailChecked };
-    for (const value in mailChecked) {
-      if (clickEmail === true) {
-        temp[value] = true;
-      } else {
-        temp[value] = false;
-      }
-      setMailChecked(temp);
-    }
-  }, [clickEmail]);
+  }, [alertChecked, sendEndTime, sendStartTime]);
 
   // useEffect(() => {
   //   setStartTime()
@@ -243,206 +167,205 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
       <Header>
         <span className="text">알림 설정</span>
       </Header>
-      <TitleWrapper memberType={memberType}>
-        {memberType === 'COMPANY' && <EmailText>이메일</EmailText>}
-        <KaKaoTalkText memberType={memberType}>카카오톡</KaKaoTalkText>
-      </TitleWrapper>
+
       <FlexWrap>
         <AlamLabel>알림</AlamLabel>
         <PaddingBox>
-          <AlamForm>
-            <CheckBox>
-              <span className="text">전체 알림</span>
-              <SwitchWrapper memberType={memberType}>
-                {memberType === 'COMPANY' && (
-                  <CustomSwitch
-                    name="email"
-                    // onChange={handleMailChange}
-                    // checked={mailChecked.email}
-                    checked={email}
-                    onChange={() => {
-                      setEmail(!email);
-                      setClickEmail(!clickEmail);
-                    }}
-                  />
-                )}
+          {memberType === 'COMPANY' && (
+            <AlamForm>
+              <CheckBox>
+                <span className="text">이메일</span>
                 <CustomSwitch
-                  name="kakao"
+                  name="alertEmail"
                   // onChange={handleChange}
                   // checked={kakaoChecked.kakao}
-                  checked={kakao}
-                  onChange={() => {
-                    setKakao(!kakao);
-                    setClickKakao(!clickKakao);
-                  }}
+                  onChange={handleAlertChange}
+                  checked={alertChecked.alertEmail}
                 />
-              </SwitchWrapper>
-            </CheckBox>
-          </AlamForm>
-          <EventForm>
+              </CheckBox>
+            </AlamForm>
+          )}
+          <AlamForm>
             <CheckBox>
-              <span>방해금지시간 설정</span>
+              <span className="text">카카오톡</span>
               <CustomSwitch
-                name="alertNoDisturbanceTime"
-                // onChange={handleChange}
-                // checked={kakaoChecked.alertNoDisturbanceTime}
-                onChange={() => {
-                  setAlertNoDisturbanceTime(!alertNoDisturbanceTime);
-                }}
-                checked={alertNoDisturbanceTime}
-                inputProps={{ 'aria-label': 'controlled' }}
+                name="alertKakao"
+                // onChange={handleMailChange}
+                // checked={mailChecked.email}
+                onChange={handleAlertChange}
+                checked={alertChecked.alertKakao}
               />
             </CheckBox>
-            {alertNoDisturbanceTime && (
-              <OptionContainer>
-                <OptionBox>
-                  <span>시작 시간</span>
-                  <input
-                    type="time"
-                    className="time"
-                    required
-                    onChange={(e) => {
-                      setStartTime(e.target.value);
-                    }}
-                  />
-                </OptionBox>
-                <OptionBox>
-                  <span>종료 시간</span>
-                  <label>
-                    <input
-                      type="time"
-                      className="time"
-                      required
-                      onChange={(e) => {
-                        setEndTime(e.target.value);
-                      }}
-                    />
-                  </label>
-                </OptionBox>
-              </OptionContainer>
-            )}
-            <CheckBox>
-              <span>이벤트 및 혜택 알림</span>
-              <SwitchWrapper memberType={memberType}>
-                {memberType === 'COMPANY' && (
-                  <CustomSwitch
-                    name="alertEvent"
-                    onChange={handleMailChange}
-                    checked={mailChecked.alertEvent}
-                    inputProps={{ 'aria-label': 'controlled' }}
-                  />
-                )}
-                <CustomSwitch
-                  name="alertEvent"
-                  onChange={handleChange}
-                  checked={kakaoChecked.alertEvent}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-              </SwitchWrapper>
-            </CheckBox>
-          </EventForm>
+          </AlamForm>
         </PaddingBox>
       </FlexWrap>
+      <Line2 />
       <FlexWrap>
         <FunctionLabel>기능</FunctionLabel>
         <FuntionForm>
-          <CheckBox>
-            <div>
-              <span className="text">간편견적 알림</span>
-              <div className="remark">견적 진행상황 알림</div>
-            </div>
-            <SwitchWrapper memberType={memberType}>
-              {memberType === 'COMPANY' && (
-                <CustomSwitch
-                  name="alertQuotationRequest"
-                  onChange={handleMailChange}
-                  checked={mailChecked.alertQuotationRequest}
-                />
-              )}
+          {memberType === 'COMPANY' && (
+            <CheckBox>
+              <div>
+                <span className="text">내 견적 알림</span>
+                <div className="remark">견적 요청, 진행상황 알림</div>
+              </div>
               <CustomSwitch
                 name="alertQuotationRequest"
-                onChange={handleChange}
-                checked={kakaoChecked.alertQuotationRequest}
+                onChange={handleAlertChange}
+                checked={alertChecked.alertQuotationRequest}
               />
-            </SwitchWrapper>
-          </CheckBox>
+            </CheckBox>
+          )}
+          {memberType === 'USER' && (
+            <CheckBox>
+              <div>
+                <span className="text">간편견적 알림</span>
+                <div className="remark">견적 진행상황 알림</div>
+              </div>
+              <CustomSwitch
+                name="alertQuotationRequest"
+                onChange={handleAlertChange}
+                checked={alertChecked.alertQuotationRequest}
+              />
+            </CheckBox>
+          )}
           <CheckBox>
             <div>
               <span className="text">내 프로젝트 알림</span>
             </div>
-            <SwitchWrapper memberType={memberType}>
-              {memberType === 'COMPANY' && (
-                <CustomSwitch
-                  name="alertProject"
-                  onChange={handleMailChange}
-                  checked={mailChecked.alertProject}
-                />
-              )}
-              <CustomSwitch
-                name="alertProject"
-                onChange={handleChange}
-                checked={kakaoChecked.alertProject}
-              />
-            </SwitchWrapper>
+
+            <CustomSwitch
+              name="alertProject"
+              onChange={handleAlertChange}
+              checked={alertChecked.alertProject}
+            />
           </CheckBox>
           <CheckBox>
             <div>
               <span className="text">A/S 알림</span>
             </div>
-            <SwitchWrapper memberType={memberType}>
-              {memberType === 'COMPANY' && (
-                <CustomSwitch
-                  name="alertAfterSalesService"
-                  onChange={handleMailChange}
-                  checked={mailChecked.alertAfterSalesService}
-                />
-              )}
-              <CustomSwitch
-                name="alertAfterSalesService"
-                onChange={handleChange}
-                checked={kakaoChecked.alertAfterSalesService}
-              />
-            </SwitchWrapper>
+
+            <CustomSwitch
+              name="alertAfterSalesService"
+              onChange={handleAlertChange}
+              checked={alertChecked.alertAfterSalesService}
+            />
           </CheckBox>
           <CheckBox>
             <div>
               <span className="text">소통하기 알림</span>
               <div className="remark">신규 메세지 알림</div>
             </div>
-            <SwitchWrapper memberType={memberType}>
-              {memberType === 'COMPANY' && (
-                <CustomSwitch
-                  name="alertChatting"
-                  onChange={handleMailChange}
-                  checked={mailChecked.alertChatting}
-                />
-              )}
+
+            <CustomSwitch
+              name="alertChatting"
+              onChange={handleAlertChange}
+              checked={alertChecked.alertChatting}
+            />
+          </CheckBox>
+          {memberType === 'USER' && (
+            <CheckBox>
+              <div>
+                <span className="text">내 충전소 알림</span>
+                <div className="remark">구독종료 미리 알림</div>
+              </div>
+
               <CustomSwitch
                 name="alertChatting"
-                onChange={handleChange}
-                checked={kakaoChecked.alertChatting}
+                onChange={handleAlertChange}
+                checked={alertChecked.alertChargingStation}
               />
-            </SwitchWrapper>
-          </CheckBox>
-          <CheckBox>
-            <div>
-              <span className="text">내 충전소 알림</span>
-              <div className="remark">구독종료 미리 알림</div>
-            </div>
-            <SwitchWrapper memberType={memberType}>
-              {memberType === 'COMPANY' && (
-                <CustomSwitch
-                  name="alertChargingStation"
-                  onChange={handleMailChange}
-                  checked={mailChecked.alertChargingStation}
-                />
-              )}
+            </CheckBox>
+          )}
+          {memberType === 'USER' && (
+            <CheckBox>
+              <div>
+                <span className="text">보조금 알림</span>
+                <div className="remark">신규 보조금 공고 알림</div>
+              </div>
+
               <CustomSwitch
-                name="alertChargingStation"
-                onChange={handleChange}
-                checked={kakaoChecked.alertChargingStation}
+                name="alertSubsidy"
+                onChange={handleAlertChange}
+                checked={alertChecked.alertSubsidy}
               />
-            </SwitchWrapper>
+            </CheckBox>
+          )}
+        </FuntionForm>
+      </FlexWrap>
+      <Line2 />
+      <FlexWrap>
+        <FunctionLabel></FunctionLabel>
+        <FuntionForm>
+          <CheckBox>
+            <span>방해금지시간 설정</span>
+            <CustomSwitch
+              name="alertNoDisturbanceTime"
+              // onChange={handleChange}
+              // checked={kakaoChecked.alertNoDisturbanceTime}
+              // onChange={() => {
+              //   setAlertNoDisturbanceTime(!alertNoDisturbanceTime);
+              // }}
+              // checked={alertNoDisturbanceTime}
+              onChange={handleAlertChange}
+              checked={alertChecked.alertNoDisturbanceTime}
+              inputProps={{ 'aria-label': 'controlled' }}
+            />
+          </CheckBox>
+          {alertChecked.alertNoDisturbanceTime === true && (
+            <OptionContainer>
+              <OptionBox>
+                <span>시작 시간</span>
+                {/* <input
+                  type="time"
+                  className="time"
+                  required
+                  onChange={(e) => {
+                    setStartTime(e.target.value);
+                  }}
+                  value={startTime}
+                /> */}
+                <AlarmDropDown
+                  setSelectValue={setStartTime}
+                  selectValue={startTime}
+                  currentStep={getTime(
+                    alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
+                  )}
+                  setSendTime={setSendStartTime}
+                />
+              </OptionBox>
+              <OptionBox>
+                <span>종료 시간</span>
+                <AlarmDropDown
+                  setSelectValue={setEndTime}
+                  selectValue={endTime}
+                  currentStep={getTime(
+                    alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
+                  )}
+                  setSendTime={setSendEndTime}
+                />
+                {/* <label>
+                  <input
+                    type="time"
+                    className="time"
+                    required
+                    onChange={(e) => {
+                      setEndTime(e.target.value);
+                    }}
+                    value={endTime}
+                  />
+                </label> */}
+              </OptionBox>
+            </OptionContainer>
+          )}
+          <CheckBox>
+            <span>이벤트 및 혜택 알림</span>
+            <CustomSwitch
+              name="alertEvent"
+              onChange={handleAlertChange}
+              checked={alertChecked.alertEvent}
+              inputProps={{ 'aria-label': 'controlled' }}
+            />
           </CheckBox>
         </FuntionForm>
       </FlexWrap>
@@ -594,6 +517,7 @@ const OptionBox = styled(Box)`
   line-height: 15pt;
   letter-spacing: -0.02em;
   color: #222222;
+
   .time {
     color: ${colors.main};
   }
@@ -629,4 +553,10 @@ const SwitchWrapper = styled.div<{ memberType: string }>`
   align-items: center;
   justify-content: space-between;
   width: ${({ memberType }) => (memberType === 'COMPANY' ? '115.5pt' : '')};
+`;
+
+const Line2 = styled.div`
+  width: 100%;
+  height: 3pt;
+  background-color: #f3f4f7;
 `;

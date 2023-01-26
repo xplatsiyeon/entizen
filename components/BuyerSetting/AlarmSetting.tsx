@@ -5,6 +5,10 @@ import { useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import BackImg from 'public/images/back-btn.svg';
 import { useRouter } from 'next/router';
+import { useMutation, useQuery } from 'react-query';
+import { isTokenGetApi, isTokenPostApi, isTokenPutApi } from 'api';
+import { AlertsResponse, NewAlert } from './AlarmWebSetting';
+import AlarmDropDown, { DropDownTime } from './AlarmDropDown';
 
 type Props = {
   tabNumber: number;
@@ -14,35 +18,112 @@ type Props = {
 };
 
 const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
+  // 알람 조회
+  const {
+    data: alertsList,
+    isLoading: alertsListIsLoading,
+    isError: alertsListIsError,
+    refetch: alertsListRefetch,
+  } = useQuery<AlertsResponse>('alert-list', () => isTokenGetApi(`/alerts`));
+
+  // 알람 PUT
+  const { mutate: putMutate, isLoading: putLoading } = useMutation(
+    isTokenPutApi,
+    {
+      onSuccess: () => {
+        console.log('알람 수정 성공');
+      },
+      onError: (error: any) => {
+        const {
+          response: { data },
+        } = error;
+        if (data) {
+          console.log(data.message);
+        } else {
+          console.log('다시 시도해주세요');
+        }
+      },
+    },
+  );
   const router = useRouter();
-  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
-  const [checked, setChecked] = useState({
-    appPush: true,
-    email: true,
-    kakao: true,
-    easy: true,
-    project: true,
-    as: true,
-    communicate: true,
-    charging: true,
-    DoNotDisturb: false,
-    event: true,
-  });
+  const [endTime, setEndTime] = useState<string>('');
+  const [sendEndTime, setSendEndTime] = useState<string>('10:00');
+  const [startTime, setStartTime] = useState<string>('');
+  const [sendStartTime, setSendStartTime] = useState<string>('10:00');
+  // 드랍다운 박스
+  const [selectValue, setSelectValue] = useState('');
+  // 알람 idx
+  const [alertSettingIdx, setAlertSettingIdx] = useState(0);
 
   // 유저인지 회사인지
   const memberType = JSON.parse(sessionStorage.getItem('MEMBER_TYPE')!);
+  const [nowWidth, setNowWidth] = useState<number>(window.innerWidth);
+  const [alertChecked, setAlertChecked] = useState<NewAlert>({
+    alertApp: alertsList?.data?.alertSetting?.alertApp,
+    alertKakao: alertsList?.data?.alertSetting?.alertKakao,
+    alertEmail: alertsList?.data?.alertSetting?.alertEmail,
+    alertQuotationRequest:
+      alertsList?.data?.alertSetting?.alertQuotationRequest,
+    alertProject: alertsList?.data?.alertSetting?.alertProject,
+    alertAfterSalesService:
+      alertsList?.data?.alertSetting?.alertAfterSalesService,
+    alertChatting: alertsList?.data?.alertSetting?.alertChatting,
+    alertChargingStation: alertsList?.data?.alertSetting?.alertChargingStation,
+    alertEvent: alertsList?.data?.alertSetting?.alertEvent,
+    alertSubsidy: alertsList?.data?.alertSetting?.alertSubsidy,
+    alertNoDisturbanceTime:
+      alertsList?.data?.alertSetting?.alertNoDisturbanceTime,
+  });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked({
-      ...checked,
+  const handleAlertChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let temp = { ...alertChecked };
+    setAlertChecked({
+      ...temp,
       [event.target.name]: event.target.checked,
     });
+  };
+
+  // currentValue
+  const getTime = (time: string) => {
+    let newTime = '';
+    DropDownTime?.map((item) => {
+      if (item.send === time) {
+        return (newTime = item.show);
+      }
+    });
+    return newTime;
   };
 
   // 실시간으로 width 받아오는 함수
   const handleResize = () => {
     setNowWidth(window.innerWidth);
   };
+
+  useEffect(() => {
+    setAlertSettingIdx(alertsList?.data?.alertSetting?.alertSettingIdx!);
+  }, [alertsList]);
+
+  // 실시간으로 백엔드 전달
+  useEffect(() => {
+    putMutate({
+      url: `/alerts/${alertSettingIdx}`,
+      data: {
+        alertApp: alertsList?.data?.alertSetting?.alertApp,
+        alertKakao: alertChecked.alertKakao,
+        alertEmail: alertChecked.alertEmail,
+        alertQuotationRequest: alertChecked.alertQuotationRequest,
+        alertProject: alertChecked.alertProject,
+        alertAfterSalesService: alertChecked.alertAfterSalesService,
+        alertChatting: alertChecked.alertChatting,
+        alertChargingStation: alertChecked.alertChargingStation,
+        alertEvent: alertChecked.alertEvent,
+        alertSubsidy: alertChecked.alertSubsidy,
+        alertNoDisturbanceTime: alertChecked.alertNoDisturbanceTime,
+        noDisturbanceStartTime: sendStartTime,
+        noDisturbanceEndTime: sendEndTime,
+      },
+    });
+  }, [alertChecked, sendEndTime, sendStartTime]);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -79,47 +160,71 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 checked={checked.appPush}
               />
             </CheckBox> */}
+            <CheckBox>
+              <span className="text">앱 푸시</span>
+              <CustomSwitch
+                name="alertApp"
+                onChange={handleAlertChange}
+                checked={alertChecked.alertApp}
+              />
+            </CheckBox>
             {memberType === 'COMPANY' && (
               <CheckBox>
                 <span className="text">이메일</span>
                 <CustomSwitch
-                  name="email"
-                  onChange={handleChange}
-                  checked={checked.email}
+                  name="alertEmail"
+                  onChange={handleAlertChange}
+                  checked={alertChecked.alertEmail}
                 />
               </CheckBox>
             )}
             <CheckBox>
               <span className="text">카카오톡</span>
               <CustomSwitch
-                name="kakao"
-                onChange={handleChange}
-                checked={checked.kakao}
+                name="alertKakao"
+                onChange={handleAlertChange}
+                checked={alertChecked.alertKakao}
               />
             </CheckBox>
           </AlamForm>
-          <Line />
+          {/* <Line /> */}
+          <Line2 />
           <FunctionLabel>기능</FunctionLabel>
           <FuntionForm>
-            <CheckBox>
-              <div>
-                <span className="text">간편견적 알림</span>
-                <div className="remark">견적 진행상황 알림</div>
-              </div>
-              <CustomSwitch
-                name="easy"
-                onChange={handleChange}
-                checked={checked.easy}
-              />
-            </CheckBox>
+            {memberType === 'COMPANY' && (
+              <CheckBox>
+                <div>
+                  <span className="text">내 견적 알림</span>
+                  <div className="remark">견적 요청, 진행상황 알림</div>
+                </div>
+                <CustomSwitch
+                  name="alertQuotationRequest"
+                  onChange={handleAlertChange}
+                  checked={alertChecked.alertQuotationRequest}
+                />
+              </CheckBox>
+            )}
+            {memberType === 'USER' && (
+              <CheckBox>
+                <div>
+                  <span className="text">간편견적 알림</span>
+                  <div className="remark">견적 진행상황 알림</div>
+                </div>
+                <CustomSwitch
+                  name="alertQuotationRequest"
+                  onChange={handleAlertChange}
+                  checked={alertChecked.alertQuotationRequest}
+                />
+              </CheckBox>
+            )}
             <CheckBox>
               <div>
                 <span className="text">내 프로젝트 알림</span>
               </div>
               <CustomSwitch
-                name="project"
-                onChange={handleChange}
-                checked={checked.project}
+                name="alertProject"
+                onChange={handleAlertChange}
+                checked={alertChecked.alertProject}
               />
             </CheckBox>
             <CheckBox>
@@ -127,9 +232,9 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <span className="text">A/S 알림</span>
               </div>
               <CustomSwitch
-                name="as"
-                onChange={handleChange}
-                checked={checked.as}
+                name="alertAfterSalesService"
+                onChange={handleAlertChange}
+                checked={alertChecked.alertAfterSalesService}
               />
             </CheckBox>
             <CheckBox>
@@ -138,45 +243,74 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <div className="remark">신규 메세지 알림</div>
               </div>
               <CustomSwitch
-                name="charging"
-                onChange={handleChange}
-                checked={checked.charging}
+                name="alertChatting"
+                onChange={handleAlertChange}
+                checked={alertChecked.alertChatting}
               />
             </CheckBox>
-            <CheckBox>
-              <div>
-                <span className="text">내 충전소 알림</span>
-                <div className="remark">구독종료 미리 알림</div>
-              </div>
-              <CustomSwitch
-                name="communicate"
-                onChange={handleChange}
-                checked={checked.communicate}
-              />
-            </CheckBox>
+            {memberType === 'USER' && (
+              <CheckBox>
+                <div>
+                  <span className="text">내 충전소 알림</span>
+                  <div className="remark">구독종료 미리 알림</div>
+                </div>
+
+                <CustomSwitch
+                  name="alertChatting"
+                  onChange={handleAlertChange}
+                  checked={alertChecked.alertChargingStation}
+                />
+              </CheckBox>
+            )}
+            {memberType === 'USER' && (
+              <CheckBox>
+                <div>
+                  <span className="text">보조금 알림</span>
+                  <div className="remark">신규 보조금 공고 알림</div>
+                </div>
+
+                <CustomSwitch
+                  name="alertSubsidy"
+                  onChange={handleAlertChange}
+                  checked={alertChecked.alertSubsidy}
+                />
+              </CheckBox>
+            )}
           </FuntionForm>
-          <Line />
+          <Line2 />
           <EventForm>
             <CheckBox>
               <span>방해금지시간 설정</span>
               <CustomSwitch
-                name="DoNotDisturb"
-                onChange={handleChange}
-                checked={checked.DoNotDisturb}
+                name="alertNoDisturbanceTime"
+                onChange={handleAlertChange}
+                checked={alertChecked.alertNoDisturbanceTime}
                 inputProps={{ 'aria-label': 'controlled' }}
               />
             </CheckBox>
-            {checked.DoNotDisturb && (
+            {alertChecked.alertNoDisturbanceTime === true && (
               <>
                 <OptionBox>
                   <span>시작 시간</span>
-                  <input type="time" className="time" required />
+                  <AlarmDropDown
+                    setSelectValue={setStartTime}
+                    selectValue={startTime}
+                    currentStep={getTime(
+                      alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
+                    )}
+                    setSendTime={setSendStartTime}
+                  />
                 </OptionBox>
                 <OptionBox>
                   <span>종료 시간</span>
-                  <label>
-                    <input type="time" className="time" required />
-                  </label>
+                  <AlarmDropDown
+                    setSelectValue={setEndTime}
+                    selectValue={endTime}
+                    currentStep={getTime(
+                      alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
+                    )}
+                    setSendTime={setSendEndTime}
+                  />
                 </OptionBox>
               </>
             )}
@@ -184,8 +318,8 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <span>이벤트 및 혜택 알림</span>
               <CustomSwitch
                 name="event"
-                onChange={handleChange}
-                checked={checked.event}
+                onChange={handleAlertChange}
+                checked={alertChecked.alertEvent}
                 inputProps={{ 'aria-label': 'controlled' }}
               />
             </CheckBox>
@@ -320,4 +454,11 @@ const CustomSwitch = styled(Switch)`
     background-color: ${colors.main} !important;
     opacity: 1 !important;
   }
+`;
+
+const Line2 = styled.div`
+  width: 100%;
+  height: 3pt;
+  background-color: #f3f4f7;
+  margin: 30pt 0;
 `;

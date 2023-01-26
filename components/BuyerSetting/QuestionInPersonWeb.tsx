@@ -186,7 +186,7 @@ const SpeechBubble = styled.div`
   padding-left: 13.875pt;
   padding-right: 15.75pt;
   border-radius: 21.75pt;
-  width: 120.125pt;
+  width: 150.125pt;
   height: 33pt;
   background-color: #f3f4f7;
   cursor: pointer;
