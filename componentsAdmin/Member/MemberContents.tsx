@@ -125,14 +125,15 @@ const MemberContents = ({
 
                       <BusinessName>{item.originalName}</BusinessName>
                     </Atag>
-                    <button
+                    {/* api 없음 */}
+                    {/* <button
                       className="businessBtn"
                       onClick={() => {
                         alert('개발중입니다.');
                       }}
                     >
                       삭제
-                    </button>
+                    </button> */}
                   </span>
                 ),
               )}
