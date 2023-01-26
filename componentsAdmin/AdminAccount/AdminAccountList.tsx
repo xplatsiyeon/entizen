@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import colors from 'styles/colors';
 import AdminHeader from 'componentsAdmin/Header';
 import AdimAccountListTable from './AdimAccountListTable';
-import AdimDetail from './AdimDetail';
+import AdminDetail from './AdminDetail';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -31,7 +31,7 @@ const AdminAccountList = ({ setNowHeight }: Props) => {
   return (
     <Wrapper>
       {isDetail && (
-        <AdimDetail setIsDetail={setIsDetail} detatilId={detatilId} />
+        <AdminDetail setIsDetail={setIsDetail} detatilId={detatilId} />
       )}
       <AdminHeader
         type="main"

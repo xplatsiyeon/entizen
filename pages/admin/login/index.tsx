@@ -124,13 +124,13 @@ const AdLogin = () => {
           <Button onClick={signin}>
             <span>로그인</span>
           </Button>
-          {/* <PasswordNotify
+          <PasswordNotify
             onClick={() => {
               router.push('/admin/login/password');
             }}
           >
             <span>비밀번호 재설정</span>
-          </PasswordNotify> */}
+          </PasswordNotify>
         </Wrapper>
       </Inner>
     </Body>

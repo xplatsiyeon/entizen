@@ -8,7 +8,7 @@ import AdminHeader from 'componentsAdmin/Header';
 import Warning from 'public/adminImages/exclamation-mark.svg';
 import Image from 'next/image';
 import useDebounce from 'hooks/useDebounce';
-import { api } from 'api';
+import { api, isTokenAdminPostApi } from 'api';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import { useDispatch } from 'react-redux';
@@ -24,6 +24,13 @@ type Props = {
   detatilId?: string;
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
   setNumber: React.Dispatch<React.SetStateAction<number>>;
+};
+
+type IDDupl = {
+  isSuccess: boolean;
+  data: {
+    isDuplicated: boolean;
+  };
 };
 
 const AddAdminAccount = ({
@@ -59,6 +66,12 @@ const AddAdminAccount = ({
   // 패스워드 보여주기 true false
   const [pwShow, setPwShow] = useState<boolean[]>([false, false, false]);
 
+  // 백엔드에서 아이디 & 이메일 중복검사 성공시 저장
+  const [idDuplicate, setIdDuplicated] = useState<IDDupl>();
+  const [emailDuplicate, setEmailDuplicated] = useState<IDDupl>();
+
+  const [finalCheck, setFinalCheck] = useState(false);
+
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
 
@@ -77,53 +90,65 @@ const AddAdminAccount = ({
   // 이메일 중복 검사도 해야함
   // 관리자 아이디 생성하기 눌렀을때 나오는 모달창 추가
 
-  // 아이디 중복 검사
-  const { data: idCheck, refetch: idRefetch } = useQuery<Validated>(
-    'ValidIdCheck',
-    () =>
-      api({
-        method: 'POST',
-        endpoint: `/admin/managers/id`,
-        data: {
-          id: idInput,
-        },
-      }),
-    {
-      enabled: false,
-      onError: (error) => {
-        console.log('----아이디 중복체크----');
-        console.log(error);
-        alert('다시 시도해주세요.');
-      },
+  // 아이디 중복검사
+  const {
+    mutate: postIdMutate,
+    isLoading: postLoading,
+    isError: postError,
+  } = useMutation(isTokenAdminPostApi, {
+    onSuccess: (res) => {
+      console.log('----아이디 중복체크 성공----');
+      setIdDuplicated(res.data);
     },
-  );
+    onError: (error) => {
+      console.log('----아이디 중복체크 실패----');
+      console.log(error);
+      alert('다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
 
-  // 이메일 중복 확인
-  const { data: validEmail, refetch: validEmailRefetch } = useQuery<Validated>(
-    'ValidEmailCheck',
-    () =>
-      api({
-        method: 'POST',
-        endpoint: `/admin/managers/email`,
-        data: {
-          email: email,
-        },
-      }),
-    {
-      enabled: false,
-      onError: (error) => {
-        console.log('----이메일 중복체크----');
-        console.log(error);
-        alert('다시 시도해주세요.');
+  const idPostBtnControll = () => {
+    postIdMutate({
+      url: `/admin/managers/id`,
+      data: {
+        id: idInput,
       },
+    });
+  };
+
+  // 이메일 중복검사
+  const {
+    mutate: postEmailMutate,
+    isLoading: postEmailLoading,
+    isError: postEmailError,
+  } = useMutation(isTokenAdminPostApi, {
+    onSuccess: (res) => {
+      console.log('----아이디 중복체크 성공----');
+      setEmailDuplicated(res.data);
     },
-  );
+    onError: (error) => {
+      console.log('----아이디 중복체크 실패----');
+      console.log(error);
+      alert('다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  const emailPostBtnControll = () => {
+    postEmailMutate({
+      url: `/admin/managers/email`,
+      data: {
+        email: email,
+      },
+    });
+  };
 
   const {
     mutate: adminAccountMutate,
     isLoading: adminAccountLoading,
     error: adminAccountError,
-  } = useMutation(api, {
+  } = useMutation(isTokenAdminPostApi, {
     onSuccess: () => {
       queryClient.invalidateQueries();
       setMessageModal(true);
@@ -163,12 +188,11 @@ const AddAdminAccount = ({
 
   const overlabCheck = () => {
     setInitIdAlert(true);
-    idRefetch();
+    // idRefetch();
   };
 
   const overEmailCheck = () => {
     setInitEmailAlert(true);
-    validEmailRefetch();
   };
 
   const handleEmailCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -186,10 +210,9 @@ const AddAdminAccount = ({
 
   // 관리자 등록  온클릭
   const handleCompanyClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (checkSamePw) {
+    if (finalCheck) {
       adminAccountMutate({
-        method: 'POST',
-        endpoint: '/admin/managers',
+        url: '/admin/managers',
         data: {
           id: idInput,
           password: checkPw,
@@ -261,6 +284,38 @@ const AddAdminAccount = ({
       dispatch(adminPageNumberAction.setIsAdminPage(2));
     }
   }, [changeNumber]);
+
+  // 모든 요건 충족되면 관리자 아이디 생성 가능
+  useEffect(() => {
+    if (
+      idDuplicate?.data?.isDuplicated === false &&
+      initIdAlert === true &&
+      idLength === false &&
+      isEmailChangeColor === true &&
+      emailDuplicate?.data?.isDuplicated === false &&
+      checkSamePw === true &&
+      name.length !== 0 &&
+      phoneFirst.length === 4 &&
+      phoneSecond.length === 4
+    ) {
+      setFinalCheck(true);
+    } else {
+      setFinalCheck(false);
+    }
+  }, [
+    idDuplicate,
+    emailDuplicate,
+    checkSamePw,
+    name,
+    phoneFirst,
+    phoneSecond,
+    isEmailChangeColor,
+  ]);
+
+  console.log(
+    ' emailDuplicate?.data?.isDuplicated',
+    emailDuplicate?.data?.isDuplicated,
+  );
 
   const iconAdorment = {
     endAdornment: (
@@ -348,6 +403,8 @@ const AddAdminAccount = ({
   const iconAdornment = pwSelected ? iconAdorment : {};
   const secondIconAdornment = checkPwSelected ? secondIconAdorment : {};
 
+  console.log('idDuplicate', idDuplicate);
+
   return (
     <Wrapper>
       {messageModal && (
@@ -399,6 +456,7 @@ const AddAdminAccount = ({
                 onClick={() => {
                   if (isChangeColor === true) {
                     overlabCheck();
+                    idPostBtnControll();
                   }
                 }}
               >
@@ -413,15 +471,19 @@ const AddAdminAccount = ({
           <NoticeText>아이디는 4글자 이상 입력해주세요</NoticeText>
         )}
 
-        {idCheck?.data?.isDuplicated === false && initIdAlert && !idLength && (
-          <NoticeText>사용가능한 아이디입니다.</NoticeText>
-        )}
-        {idCheck?.data?.isDuplicated === true && initIdAlert && !idLength && (
-          <NoticeText warning={true}>이미 사용중인 아이디입니다.</NoticeText>
-        )}
-        {idCheck?.data?.isDuplicated === false && initIdAlert && idLength && (
-          <NoticeText warning={true}>4글자 이상 입력해주세요</NoticeText>
-        )}
+        {idDuplicate?.data?.isDuplicated === false &&
+          initIdAlert &&
+          !idLength && <NoticeText>사용가능한 아이디입니다.</NoticeText>}
+        {idDuplicate?.data?.isDuplicated === true &&
+          initIdAlert &&
+          !idLength && (
+            <NoticeText warning={true}>이미 사용중인 아이디입니다.</NoticeText>
+          )}
+        {idDuplicate?.data?.isDuplicated === false &&
+          initIdAlert &&
+          idLength && (
+            <NoticeText warning={true}>4글자 이상 입력해주세요</NoticeText>
+          )}
         <li className="row">
           <label className="label">비밀번호</label>
           {/* <Input
@@ -575,6 +637,7 @@ const AddAdminAccount = ({
                 onClick={() => {
                   if (isEmailChangeColor === true) {
                     overEmailCheck();
+                    emailPostBtnControll();
                   }
                 }}
               >
@@ -582,20 +645,23 @@ const AddAdminAccount = ({
               </ButtonText>
             </OverlapBtn>
           </InputAdornment>
-          {validEmail?.data?.isDuplicated === true && (
+          {emailDuplicate?.data?.isDuplicated === true && (
             <Image src={Warning} alt="warning" />
           )}
         </li>
-        {validEmail?.data?.isDuplicated === true && initEmailAlert === true && (
-          <NoticeText warning={true}>중복된 이메일입니다.</NoticeText>
-        )}
-        {validEmail?.data?.isDuplicated === false &&
+        {emailDuplicate?.data?.isDuplicated === true &&
+          initEmailAlert === true && (
+            <NoticeText warning={true}>중복된 이메일입니다.</NoticeText>
+          )}
+        {emailDuplicate?.data?.isDuplicated === false &&
           isEmailChangeColor === true && (
             <NoticeText>사용가능한 이메일입니다.</NoticeText>
           )}
       </Manager>
       <BtnBox>
-        <Btn onClick={handleCompanyClick}>관리자 아이디 생성하기</Btn>
+        <Btn onClick={handleCompanyClick} finalCheck={finalCheck}>
+          관리자 아이디 생성하기
+        </Btn>
       </BtnBox>
     </Wrapper>
   );
@@ -681,9 +747,11 @@ const BtnBox = styled.div`
   align-items: center;
   margin-top: 30px;
 `;
-const Btn = styled.button`
+const Btn = styled.button<{ finalCheck: boolean }>`
   padding: 5px 19px;
-  background: #464646;
+  /* background: #464646; */
+  background: ${({ finalCheck }) =>
+    finalCheck === true ? '#5221CB' : '#464646'};
   border: none;
   color: ${colors.lightWhite};
   font-weight: 500;

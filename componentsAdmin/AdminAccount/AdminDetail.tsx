@@ -32,7 +32,7 @@ interface AdminDetailResponse {
   isSuccess: boolean;
 }
 
-const AdimDetail = ({ detatilId, setIsDetail }: Props) => {
+const AdminDetail = ({ detatilId, setIsDetail }: Props) => {
   const clientQuery = useQueryClient();
   const [alertModal, setAlertModal] = useState(false);
   const [alertModalMessage, setAlertModalMessage] = useState('');
@@ -209,7 +209,7 @@ const AdimDetail = ({ detatilId, setIsDetail }: Props) => {
   );
 };
 
-export default AdimDetail;
+export default AdminDetail;
 
 const Background = styled.div`
   width: 100%;

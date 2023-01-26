@@ -11,11 +11,20 @@ import { adminPageNumberAction } from 'storeAdmin/adminPageNumberSlice';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import AdminPasswordModal from 'componentsAdmin/Modal/AdminPasswordModal';
 import { css } from '@emotion/react';
+import AdminRepasswordModal from 'componentsAdmin/Modal/AdminRepasswordModal';
 
 type Existence = {
   isSuccess: boolean;
   data: {
     isExistedManager: boolean;
+    manager: {
+      managerIdx: number;
+      id: string;
+      name: string;
+      phone: string;
+      email: string;
+      isRepresentativeAdmin: boolean;
+    };
   };
 };
 
@@ -23,7 +32,7 @@ const PasswordNotifyPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [modal, setModal] = useState<boolean>(false);
-
+  const [alertModal, setAlertModal] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [id, setId] = useState<string>('');
   const [firstEmail, setFirstEmail] = useState('');
@@ -32,6 +41,7 @@ const PasswordNotifyPage = () => {
   const [rePassword, setRePassword] = useState('');
   const [checkPassword, setCheckPassword] = useState<boolean>(true);
   const [checkRePassword, setCheckRePassword] = useState<boolean>(true);
+  const [message, setMessage] = useState('');
 
   // 관리자 조회시 데이터 저장
   const [success, setSuccess] = useState<Existence>();
@@ -83,32 +93,41 @@ const PasswordNotifyPage = () => {
     async (apiInfo: PropsApi) => {
       const { url, data } = apiInfo;
       return await axios({
-        method: 'POST',
+        method: 'PATCH',
         url: `/api${url}`,
-        data: {},
+        data,
         // withCredentials: true,
       }).then((res) => res);
     },
     {
       onSuccess: (res) => {
-        router.push('/admin');
+        setAlertModal(true);
+        setMessage(
+          '비밀번호 변경이 완료됐습니다.\n확인 버튼을 누르면 로그인 페이지로 이동합니다.',
+        );
       },
       onError: (err) => {
         console.log(err);
+        setAlertModal(true);
+        setMessage(
+          '비밀번호 변경에 실패했습니다.\n다시 한번 확인 부탁드립니다.',
+        );
       },
     },
   );
 
-  // const signin = () => {
-  //   console.log('=======signin fn 호출=======');
-  //   loginMutate({
-  //     url: '/admin/auth/login',
-  //     data: {
-  //       id: idRef?.current?.value!,
-  //       password: pwRef?.current?.value!,
-  //     },
-  //   });
-  // };
+  const repassword = () => {
+    console.log('=======repassword fn 호출=======');
+    if (checkPassword === true && checkRePassword === true) {
+      console.log('=======repassword 조건 충족=======');
+      rePasswordMutate({
+        url: `/admin/managers/${success?.data?.manager?.managerIdx}/password`,
+        data: {
+          password: rePassword,
+        },
+      });
+    }
+  };
 
   // admin/managers/existence?id=iammanager&name=이관리&email=mznx0192@naver.com
 
@@ -170,6 +189,8 @@ const PasswordNotifyPage = () => {
     }
     if (password !== rePassword) {
       setCheckRePassword(false);
+    } else {
+      setCheckRePassword(true);
     }
   }, [password, rePassword]);
 
@@ -224,6 +245,13 @@ const PasswordNotifyPage = () => {
           )}
           {existence === true && (
             <InputWrapper>
+              {alertModal && (
+                <AdminRepasswordModal
+                  setAlertModal={setAlertModal}
+                  message={message}
+                  size={'lg'}
+                />
+              )}
               <InputContainer style={{ marginBottom: '40px' }}>
                 <LeftTitlePw>재설정 비밀번호</LeftTitlePw>
                 <InputBox2>
@@ -270,8 +298,10 @@ const PasswordNotifyPage = () => {
                     <Notice checkRePassword={checkRePassword}>
                       입력하신 비밀번호가 일치하지 않습니다.
                     </Notice>
-                  ) : (
+                  ) : rePassword.length === 0 ? (
                     <Notice>비밀번호 확인을 위해 한번 더 입력해주세요.</Notice>
+                  ) : (
+                    <Notice>비밀번호가 일치합니다.</Notice>
                   )}
                 </InputBox2>
               </InputContainer>
@@ -288,7 +318,7 @@ const PasswordNotifyPage = () => {
           ) : (
             <Button
               onClick={() => {
-                adminExistence();
+                repassword();
               }}
             >
               <span>재설정</span>
