@@ -21,6 +21,7 @@ import { AxiosError } from 'axios';
 import Image from 'next/image';
 import fileImg from 'public/mypage/file-icon.svg';
 import SubsidyTable from './SubsidyTable';
+import Loader from 'components/Loader';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -229,7 +230,7 @@ const Subsidy = ({ setNowHeight, setNumber }: Props) => {
   useEffect(() => {
     if (isDetail === false) {
       setDetailId('');
-      remove();
+      // remove();
     }
   }, [isDetail]);
 
@@ -243,7 +244,7 @@ const Subsidy = ({ setNowHeight, setNumber }: Props) => {
   useEffect(() => {
     if (changeNumber) {
       // bannerListRefetch();
-      dispatch(adminPageNumberAction.setIsAdminPage(16));
+      // dispatch(adminPageNumberAction.setIsAdminPage(16));
     }
   }, [changeNumber]);
 
@@ -254,6 +255,10 @@ const Subsidy = ({ setNowHeight, setNumber }: Props) => {
     }
   }, [tabNumber, success]);
 
+  if (simulationExcelIsLoading) {
+    return <Loader />;
+  }
+
   return (
     <Wrapper>
       {isModal && (
@@ -261,6 +266,7 @@ const Subsidy = ({ setNowHeight, setNumber }: Props) => {
           setIsModal={setIsModal}
           message={message}
           setIsDetail={setIsDetail}
+          size={'lg'}
         />
       )}
       <TitleWrapper>

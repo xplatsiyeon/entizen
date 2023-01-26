@@ -21,6 +21,7 @@ import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddCompon
 import { AxiosError } from 'axios';
 import Image from 'next/image';
 import fileImg from 'public/mypage/file-icon.svg';
+import Loader from 'components/Loader';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -185,7 +186,7 @@ const PreQuotationExel = ({ setNowHeight, setNumber }: Props) => {
   useEffect(() => {
     if (isDetail === false) {
       setDetailId('');
-      remove();
+      // remove();
     }
   }, [isDetail]);
 
@@ -199,7 +200,7 @@ const PreQuotationExel = ({ setNowHeight, setNumber }: Props) => {
   useEffect(() => {
     if (changeNumber) {
       // bannerListRefetch();
-      dispatch(adminPageNumberAction.setIsAdminPage(16));
+      // dispatch(adminPageNumberAction.setIsAdminPage(16));
     }
   }, [changeNumber]);
 
@@ -209,6 +210,10 @@ const PreQuotationExel = ({ setNowHeight, setNumber }: Props) => {
     }
   }, [success]);
 
+  if (simulationExcelIsLoading) {
+    return <Loader />;
+  }
+
   return (
     <Wrapper>
       {isModal && (
@@ -216,6 +221,7 @@ const PreQuotationExel = ({ setNowHeight, setNumber }: Props) => {
           setIsModal={setIsModal}
           message={message}
           setIsDetail={setIsDetail}
+          size={'lg'}
         />
       )}
       <TitleWrapper>

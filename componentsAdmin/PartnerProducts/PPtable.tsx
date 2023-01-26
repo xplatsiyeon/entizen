@@ -7,6 +7,8 @@ import { Pagination } from 'rsuite';
 import { PartnerProductData } from 'types/tableDataType';
 import { dateFomat, hyphenFn } from 'utils/calculatePackage';
 import { excelDownloadFile } from 'hooks/excelDown';
+import entizenLogoPng from 'public/images/entizenProductList.png';
+import entizenLogoSvg from 'public/images/entizenProductList.svg';
 
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,7 +57,6 @@ Props) => {
     {
       enabled: false,
       onSuccess: (data) => {
-        console.log(data);
         const temp: any = [];
         data?.data?.products?.forEach((ele, idx) => {
           const arrEle = [
@@ -82,7 +83,14 @@ Props) => {
           '제조사명',
           {
             name: '이미지',
-            formatter: (cell: string) => _(<img src={cell} alt="image" />),
+            formatter: (cell: string) =>
+              _(
+                cell === undefined ? (
+                  <ImgTag src={'/images/entizenProductList.png'} alt="image" />
+                ) : (
+                  <ImgTag src={cell} alt="image" />
+                ),
+              ),
           },
           { name: '충전모달', width: '10%' },
           { name: '충전방식모달', width: '10%' },
@@ -247,6 +255,7 @@ const StyledBody = styled.div`
     img {
       width: 100px;
       height: 100px;
+      object-fit: cover;
     }
 
     .detail {
@@ -305,4 +314,10 @@ const WrapPage = styled.div`
 const Div = styled.div`
   min-width: 1200px;
   min-height: 490px;
+`;
+
+const ImgTag = styled.img`
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 `;

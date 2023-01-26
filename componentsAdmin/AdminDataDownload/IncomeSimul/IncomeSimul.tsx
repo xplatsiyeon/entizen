@@ -21,6 +21,7 @@ import { requestPermissionCheck } from 'bridge/appToWeb';
 import Image from 'next/image';
 import fileImg from 'public/mypage/file-icon.svg';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
+import Loader from 'components/Loader';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -72,6 +73,7 @@ export type IncomeSimulResponse = {
 
 const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const [fileModal, setFileModal] = useState<boolean>(false);
   const [filePreview, setFilePreview] = useState<boolean>(false);
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
@@ -92,10 +94,10 @@ const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
   // admin/simulations/charge
   const {
     data: simulData,
-    isLoading,
-    isError,
-    refetch,
-    remove,
+    isLoading: simulLoading,
+    isError: simulIsError,
+    refetch: simulRefetch,
+    remove: simulRemove,
   } = useQuery<IncomeSimulResponse>('incomeSimul', () =>
     isTokenAdminGetApi(`/admin/simulations/charge`),
   );
@@ -108,6 +110,7 @@ const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
   } = useMutation(isTokenAdminPutExcelApi, {
     onSuccess: async () => {
       setMessage('엑셀파일 업로드가 완료 됐습니다.');
+      queryClient.invalidateQueries('incomeSimul');
       setIsModal(true);
       setSuccess('성공');
     },
@@ -192,9 +195,15 @@ const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
   };
 
   useEffect(() => {
+    if (success === '성공') {
+      simulRefetch();
+    }
+  }, [success]);
+
+  useEffect(() => {
     if (isDetail === false) {
       setDetailId('');
-      remove();
+      // simulRemove();
     }
   }, [isDetail]);
 
@@ -208,15 +217,15 @@ const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
   useEffect(() => {
     if (changeNumber) {
       // bannerListRefetch();
-      dispatch(adminPageNumberAction.setIsAdminPage(16));
+      // dispatch(adminPageNumberAction.setIsAdminPage(16));
     }
   }, [changeNumber]);
 
-  useEffect(() => {
-    if (success === '성공') {
-      refetch();
-    }
-  }, [success]);
+  console.log('💔 simulData 인덱스에서 💔', simulData);
+
+  if (simulationExcelIsLoading) {
+    return <Loader />;
+  }
 
   return (
     <Wrapper>
@@ -225,6 +234,7 @@ const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
           setIsModal={setIsModal}
           message={message}
           setIsDetail={setIsDetail}
+          size={'lg'}
         />
       )}
       <TitleWrapper>
