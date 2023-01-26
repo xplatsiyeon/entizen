@@ -214,6 +214,7 @@ const AdminTermsEditor = ({
             rightBtn={'아니오'}
             leftBtnHandle={leftBtnHandle}
             rightBtnHandle={rightBtnHandle}
+            setWriteModal={setIsModal}
           />
         )}
         <AdminHeader

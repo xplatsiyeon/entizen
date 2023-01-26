@@ -146,6 +146,7 @@ const AdimDetail = ({ detatilId, setIsDetail }: Props) => {
           rightBtn={rightBtnMessage}
           rightBtnHandle={onClickRightModal}
           size={'lg'}
+          setWriteModal={setWriteModal}
         />
       )}
       <Wrapper>

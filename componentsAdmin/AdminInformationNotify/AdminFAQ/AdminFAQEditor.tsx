@@ -243,6 +243,7 @@ const AdminFAQEditor = ({ setIsDetail, detatilId, setChangeNumber }: Props) => {
             rightBtn={'아니오'}
             leftBtnHandle={leftBtnHandle}
             rightBtnHandle={rightBtnHandle}
+            setWriteModal={setIsModal}
           />
         )}
         <AdminHeader

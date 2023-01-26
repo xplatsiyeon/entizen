@@ -233,6 +233,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
             rightBtn={'아니오'}
             leftBtnHandle={leftBtnHandle}
             rightBtnHandle={rightBtnHandle}
+            setWriteModal={setIsModal}
           />
         )}
         <AdminHeader

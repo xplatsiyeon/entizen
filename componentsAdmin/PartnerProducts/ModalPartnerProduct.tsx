@@ -40,6 +40,7 @@ import {
 import DropDownBtn from 'componentsAdmin/DropDownBtn';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import { PartnerProductData } from 'types/tableDataType';
+import WriteModal from 'componentsAdmin/Modal/WriteModal';
 
 type Props = {
   setIsDetail: Dispatch<SetStateAction<boolean>>;
@@ -265,6 +266,14 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
     });
   };
 
+  const leftBtnHandle = () => {
+    setModal(false);
+    setIsDetail(false);
+  };
+  const rightBtnHandle = () => {
+    setModal(false);
+  };
+
   useEffect(() => {
     if (fileIdx) {
       modalDeleteFileBtnControll();
@@ -281,7 +290,18 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
   return (
     <Body>
       <Wrap>
-        {modal && <CancleModal setModal={setModal} rightBtn={rightBtn} />}
+        {/* {modal && <CancleModal setModal={setModal} rightBtn={rightBtn} />} */}
+        {modal && (
+          <WriteModal
+            message={'작성 내용이 등록되지 않았습니다.'}
+            subMessage={'페이지를 나가시겠습니까?'}
+            leftBtn={'예'}
+            rightBtn={'아니오'}
+            leftBtnHandle={leftBtnHandle}
+            rightBtnHandle={rightBtnHandle}
+            setWriteModal={setModal}
+          />
+        )}
         {messageModal && (
           <AlertModal
             setIsModal={setMessageModal}
