@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 import arrowR from 'public/images/grayRightArrow20.png';
 import EntizenContractIcon from 'public/images/EntizenContractIcon.png';
 import AnyContracIcon from 'public/images/AnyContracIcon.png';
@@ -23,6 +22,10 @@ import { AxiosError } from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { requestPermissionCheck } from 'bridge/appToWeb';
+import {
+  GET_ModuSignResponse,
+  ModuSignResponse,
+} from 'QueryComponents/ModuSignQuery';
 
 type Props = {};
 type ImageType = 'IMAGE' | 'FILE';
@@ -60,6 +63,25 @@ const ComContranct = ({}: Props) => {
     },
   });
 
+  // -------모두싸인 GET API-------
+
+  const {
+    loading: inModuSignLoading,
+    error: inModuSignErroe,
+    data: inModuSignData,
+    refetch: inModuSignRefetch,
+  } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
+    variables: {
+      projectIdx: router?.query?.projectIdx!,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
   // -------모두싸인 POST API------
   const {
     mutate: modusignMutate,
@@ -69,7 +91,7 @@ const ComContranct = ({}: Props) => {
   } = useMutation(modusign, {
     onSuccess: (modusignData: any) => {
       console.log('data 확인');
-      console.log(modusignData);
+      console.log(modusignData, '💔');
       // 백엔드에 보내줄 API 연결
       const apiData: any = {
         ...modusignData,
@@ -175,7 +197,7 @@ const ComContranct = ({}: Props) => {
 
   console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
   console.log(modusignData);
-  const handleContr = () => modusignMutate(inProgressData!);
+  const handleContr = () => modusignMutate(inModuSignData!);
 
   // 사진 || 파일 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
