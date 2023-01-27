@@ -215,11 +215,12 @@ const Alam = () => {
               <p className="text">새로운 알림이 없습니다</p>
             </Body>
           )} */}
+          {/* 전체 알림 데이터 */}
           {tab === 0 && (
             <Main>
               {historyList?.data?.alertHistories?.map((item, index) => (
                 <ContensBox key={index} onClick={onClicklist1}>
-                  // <label className="label">{[`${item.title}`]}</label>
+                  <label className="label">{[`${item.title}`]}</label>
                   <p className="contents">{item.title}</p>
                   <div className="period">{CalcDate(item?.createdAt)}</div>
                   <div className="line"></div>
