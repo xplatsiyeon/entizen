@@ -168,7 +168,7 @@ const Statistics = ({ setNowHeight }: Props) => {
       {/* Chart Container */}
       <ChartContainer>
         <div className="titleBox">
-          <h2 className="name">누적 전력요청 충전기 대수</h2>
+          <h2 className="name">누적 견적요청 충전기 대 수</h2>
           <div className="speedBox">
             {ChartList.map((item, index) => (
               <SpeedItem key={item + index} color={ChartColor[index]}>

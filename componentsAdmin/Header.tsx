@@ -17,6 +17,7 @@ type Props = {
   detailApprove?: boolean;
   detailModify?: () => void;
   excelData?: any;
+  etcModify?: () => void;
 };
 
 const AdminHeader = ({
@@ -31,6 +32,7 @@ const AdminHeader = ({
   detailApprove,
   detailModify,
   excelData,
+  etcModify,
 }: Props) => {
   return (
     <>
@@ -88,6 +90,9 @@ const AdminHeader = ({
                   onClick={() => {
                     if (detailApprove !== undefined) {
                       detailModify!();
+                    }
+                    if (etcModify) {
+                      etcModify();
                     }
                   }}
                 >

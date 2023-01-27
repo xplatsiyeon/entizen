@@ -2,12 +2,15 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import FileImg from 'public/adminImages/File.png';
 import Image from 'next/image';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { CompanyResposne, UserRespnse } from './CommonDetail';
 import {
   adminDateFomat,
   hyphenFn,
   isAdminJoinApprovedBoolean,
 } from 'utils/calculatePackage';
+import { isTokenAdminDeleteApi, isTokenAdminGetApi } from 'api';
+import AlertModal from 'componentsAdmin/Modal/AlertModal';
 
 type Props = {
   type: 'USER' | 'COMPANY';
@@ -18,6 +21,7 @@ type Props = {
   currentApprove?: string;
   setSelectValue: React.Dispatch<React.SetStateAction<string | undefined>>;
   selectValue?: string;
+  memberIdx?: number | string;
 };
 
 const MemberContents = ({
@@ -29,7 +33,52 @@ const MemberContents = ({
   currentApprove,
   setSelectValue,
   selectValue,
+  memberIdx,
 }: Props) => {
+  const [message, setMessage] = useState('');
+  const [messageModal, setMessageModal] = useState(false);
+  const [isDetail, setIsDetail] = useState(false);
+  const [fileIdx, setFileIdx] = useState(0);
+
+  // 기업 상세보기 refetch
+  const {
+    data: companyData,
+    isLoading: companyLoading,
+    isError: companyError,
+    refetch: companyRefetch,
+  } = useQuery<CompanyResposne>(
+    'company-detail',
+    () => isTokenAdminGetApi(`/admin/members/companies/${memberIdx}`),
+    {
+      // enabled: false,
+      enabled: type === 'COMPANY' && memberIdx ? true : false,
+    },
+  );
+
+  const {
+    mutate: delelteMutate,
+    isLoading: delelteLoading,
+    isError: delelteError,
+  } = useMutation(isTokenAdminDeleteApi, {
+    onSuccess: () => {
+      companyRefetch();
+      setMessageModal(true);
+      setMessage('삭제가 완료 됐습니다.');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('삭제 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
+  //  파트너 등록 제품 첨부파일 삭제
+  const modalDeleteFileBtnControll = () => {
+    delelteMutate({
+      url: `/admin/members/companies/${memberIdx}/business-registration/${fileIdx}`,
+    });
+  };
+
   return (
     <Contents>
       {type === 'USER' ? (
@@ -53,6 +102,13 @@ const MemberContents = ({
         </>
       ) : (
         <Company>
+          {messageModal && (
+            <AlertModal
+              setIsModal={setMessageModal}
+              message={message}
+              setIsDetail={setIsDetail}
+            />
+          )}
           <li>
             <label className="comapny label">기업명</label>
             {/* <InputBox
@@ -125,15 +181,15 @@ const MemberContents = ({
 
                       <BusinessName>{item.originalName}</BusinessName>
                     </Atag>
-                    {/* api 없음 */}
-                    {/* <button
+                    <button
                       className="businessBtn"
                       onClick={() => {
-                        alert('개발중입니다.');
+                        setFileIdx(item?.businessRegistrationFileIdx);
+                        modalDeleteFileBtnControll();
                       }}
                     >
                       삭제
-                    </button> */}
+                    </button>
                   </span>
                 ),
               )}
@@ -246,7 +302,6 @@ const Company = styled.div`
     /* identical to box height, or 21px */
     background: none;
     text-decoration-line: underline;
-
     color: #747780;
   }
   .selectBox {

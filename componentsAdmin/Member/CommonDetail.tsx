@@ -48,7 +48,7 @@ export interface CompanyResposne {
       id: string;
       name: string;
       phone: string;
-      etc: null;
+      etc: string;
       isAdminJoinApproved: boolean;
       createdAt: string;
       deletedAt: string;
@@ -100,6 +100,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     data: companyData,
     isLoading: companyLoading,
     isError: companyError,
+    refetch: companyRefetch,
   } = useQuery<CompanyResposne>(
     'company-detail',
     () => isTokenAdminGetApi(`/admin/members/companies/${memberIdx}`),
@@ -115,13 +116,20 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
 
   const currentApprove = companyData?.data?.member?.isAdminJoinApproved!;
 
-  // value 뭐 선택했는지
+  // 승인, 미승인 value 뭐 선택했는지
   const [selectValue, setSelectValue] = useState<string | undefined>(
     isAdminJoinApprovedString(currentApprove),
   );
 
   // 승인 미승인 값 담아 오슈...
   const [approve, setApprove] = useState<boolean>(currentApprove);
+
+  console.log(selectValue, 'selectValue', '💔');
+  console.log(approve, 'approve', '💔');
+  console.log(currentApprove, 'currentApprove', '💔');
+
+  // 관리자 전용 특이사항
+  const [specialNote, setSpecialNote] = useState<string | undefined>();
 
   // 일반회원 프로필 삭제
   const {
@@ -177,10 +185,37 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     onSettled: () => {},
   });
 
+  // 회원 관리자 전용 특이사항
+  const {
+    mutate: patchSpecialNoteMutate,
+    isLoading: patchSpecialNoteLoading,
+    isError: patchSpecialNoteError,
+  } = useMutation(isTokenAdminPatchApi, {
+    onSuccess: () => {
+      type === 'COMPANY' ? companyRefetch() : CommonDetailRefetch();
+      setMessageModal(true);
+      setMessage('수정이 완료됐습니다!');
+    },
+    onError: () => {
+      setMessageModal(true);
+      setMessage('수정 요청을 실패했습니다.\n다시 시도해주세요.');
+    },
+    onSettled: () => {},
+  });
+
   const adminJoinApprove = () => {
-    patchApproveMutate({
-      url: `/admin/members/companies/${memberIdx}/approval`,
-      data: { isAdminJoinApproved: approve },
+    if (approve !== undefined && currentApprove !== approve) {
+      patchApproveMutate({
+        url: `/admin/members/companies/${memberIdx}/approval`,
+        data: { isAdminJoinApproved: approve },
+      });
+    }
+  };
+
+  const adminSpecialNote = () => {
+    patchSpecialNoteMutate({
+      url: `/admin/members/${memberIdx}/etc`,
+      data: { etc: specialNote },
     });
   };
 
@@ -212,9 +247,6 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
   const companyAvatar =
     companyData?.data?.member?.companyMemberAdditionalInfo?.companyLogoImageUrl;
 
-  console.log('💔 userAvatar', userAvatar);
-  console.log('🐳 companyAvatar', companyAvatar);
-
   return (
     <Background nowHeight={nowHeight}>
       <Wrapper>
@@ -244,6 +276,7 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
           exelHide={true}
           detailApprove={approve}
           detailModify={adminJoinApprove}
+          etcModify={adminSpecialNote}
         />
         <InfoBox>
           {userAvatar !== null && companyAvatar !== null ? (
@@ -302,16 +335,43 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
               currentApprove={isAdminJoinApprovedString(currentApprove)}
               setSelectValue={setSelectValue}
               selectValue={selectValue}
+              memberIdx={memberIdx!}
             />
           )}
         </InfoBox>
         <TextAreaContainer>
           <label>관리자 전용 특이사항</label>
-          <textarea rows={10} cols={30} readOnly>
-            {type === 'USER'
-              ? userData?.data?.member?.etc
-              : companyData?.data?.member?.etc}
-          </textarea>
+          {type === 'USER' ? (
+            <textarea
+              rows={10}
+              cols={30}
+              // value={
+              //   specialNote !== undefined
+              //     ? specialNote
+              //     : userData?.data?.member?.etc
+              // }
+              onChange={(e) => {
+                setSpecialNote(e.target.value);
+              }}
+            >
+              {userData?.data?.member?.etc}
+            </textarea>
+          ) : (
+            <textarea
+              rows={10}
+              cols={30}
+              // value={
+              //   specialNote !== undefined
+              //     ? specialNote
+              //     : companyData?.data?.member?.etc
+              // }
+              onChange={(e) => {
+                setSpecialNote(e.target.value);
+              }}
+            >
+              {companyData?.data?.member?.etc}
+            </textarea>
+          )}
         </TextAreaContainer>
         {/* <ButtonBox>
           <button
