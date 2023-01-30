@@ -45,8 +45,6 @@ const WebProjectInProgressUnder = ({
 
   const router = useRouter();
 
-  console.log(`data 아래에서 가져오니..???`, data);
-
   return (
     <>
       <div>
