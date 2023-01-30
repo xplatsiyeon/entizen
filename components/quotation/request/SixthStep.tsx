@@ -83,7 +83,7 @@ const SixthStep = ({ tabNumber }: Props) => {
   const [clicked, setClicked] = useState(-1);
   const [errorModal, setErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [installationPurpose, setInstallationPurpose] = useState('');
+  // const [installationPurpose, setInstallationPurpose] = useState('');
 
   const handlePurposeOnClick = (index: number) => setClicked(index);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -91,7 +91,7 @@ const SixthStep = ({ tabNumber }: Props) => {
     (state: RootState) => state,
   );
 
-  console.log('💔 installationPurpose 💔', installationPurpose);
+  // console.log('💔 installationPurpose 💔', installationPurpose);
 
   const { mutate: predictionMutate, isLoading: predictionLoading } =
     useMutation(isTokenPostApi, {
@@ -125,6 +125,7 @@ const SixthStep = ({ tabNumber }: Props) => {
         installationLocation: quotationData.installationLocation,
         installationPoints: quotationData.installationPoints,
         installationPurpose: purpose[clicked].name,
+        etcRequest: '',
       },
     });
   };
@@ -145,7 +146,7 @@ const SixthStep = ({ tabNumber }: Props) => {
       setButtonActivate(true);
       // console.log(purpose[clicked].name);
     }
-    setInstallationPurpose(purpose[clicked].name);
+    // setInstallationPurpose(purpose[clicked].name);
   }, [clicked]);
 
   return (
