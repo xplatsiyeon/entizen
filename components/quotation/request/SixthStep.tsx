@@ -149,7 +149,17 @@ const SixthStep = ({ tabNumber }: Props) => {
       setButtonActivate(true);
       // console.log(purpose[clicked].name);
     }
+
+    async () => {
+      if (buttonActivate) {
+        const name = purpose[clicked].name;
+        dispatch(quotationAction.setStep6(name));
+        // console.log('파트');
+        await predictionApi();
+      }
+    };
   }, [clicked]);
+
   return (
     <Wrraper>
       {errorModal && (
