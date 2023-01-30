@@ -64,7 +64,6 @@ const ComContranct = ({}: Props) => {
   });
 
   // -------모두싸인 GET API-------
-
   const {
     loading: inModuSignLoading,
     error: inModuSignErroe,
@@ -82,8 +81,6 @@ const ComContranct = ({}: Props) => {
     },
   });
 
-  console.log('💔 inModuSignData 💔', inModuSignData);
-
   // -------모두싸인 POST API------
   const {
     mutate: modusignMutate,
@@ -92,9 +89,8 @@ const ComContranct = ({}: Props) => {
     data: modusignData,
   } = useMutation(modusign, {
     onSuccess: (modusignData: any) => {
-      console.log('data 확인');
-      console.log(modusignData, '💔');
       // 백엔드에 보내줄 API 연결
+
       const apiData: any = {
         ...modusignData,
         projectIdx: router?.query?.projectIdx,
