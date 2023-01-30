@@ -126,7 +126,7 @@ const SixthStep = ({ tabNumber }: Props) => {
         installationAddress: locationList.locationList.roadAddrPart,
         installationLocation: quotationData.installationLocation,
         installationPoints: quotationData.installationPoints,
-        installationPurpose: quotationData.installationPurpose,
+        installationPurpose: purpose[clicked].name,
       },
     });
   };
