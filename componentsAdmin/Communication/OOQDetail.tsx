@@ -16,6 +16,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { isTokenAdminGetApi, isTokenAdminPostApi, multerApi } from 'api';
 import { MulterResponse } from 'componentsCompany/MyProductList/ProductAddComponent';
 import { excelDownloadFile } from 'hooks/excelDown';
+import UserProfile from './UserProfile';
 
 // type ChattingLogs = {
 //   createdAt: string;
@@ -142,6 +143,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
   const fileRef = useRef<HTMLInputElement>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
   const focusRef = useRef<HTMLInputElement>(null);
+
 
   //   채팅 POST
   const {
@@ -356,6 +358,18 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
 
   // };
 
+
+  const getProfile =(detatilId:string)=>{
+    const popupX =  (document.body.offsetWidth / 2)
+    const popupY = window.screen.height;
+    console.log(popupX, popupY);
+
+    const style = `left: ${popupX - 200},top: ${popupY - 250},`
+    console.log(style)              
+
+    window.open(`/admin/getUserProfile/${detatilId}`,'_blank',`width=300, height=500, scrollbars=yes`);
+  }
+
   useEffect(() => {
     if (loading) {
       loadingRef.current?.focus();
@@ -463,6 +477,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
       <Wrapper className="OOQ-innerWrap">
         <TopBox className="OOQ-innerTop">
           <P>{OOQDetailData?.data?.chattingLogs?.member?.id}</P>
+          <button onClick={()=>getProfile(detatilId)}>test</button>
           <QuitBtn
             onClick={() => {
               if (endChat === false) {
