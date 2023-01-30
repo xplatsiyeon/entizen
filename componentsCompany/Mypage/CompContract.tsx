@@ -64,7 +64,6 @@ const ComContranct = ({}: Props) => {
   });
 
   // -------모두싸인 GET API-------
-
   const {
     loading: inModuSignLoading,
     error: inModuSignErroe,
@@ -81,6 +80,10 @@ const ComContranct = ({}: Props) => {
       },
     },
   });
+
+  if (inModuSignErroe) {
+    console.log(inModuSignErroe);
+  }
 
   // -------모두싸인 POST API------
   const {

@@ -4,39 +4,43 @@ import { gql } from '@apollo/client';
  * 판매자 - 프로젝트 리스트
  */
 export const GET_ModuSignResponse = gql`
-  query Query {
-    # 전기차 충전소 명칭 / 위탁사 주소
-    projectName
-    projectNumber
-    projectIdx
-    finalQuotation {
-      subscribeProduct
-      chargingPointRate
-      userInvestRate
-      chargingStationInstallationPrice
-      subscribePeriod
-      finalQuotationChargers {
-        channel
-        chargePrice
-        standType
-        kind
-        installationLocation
-        count
-      }
-      # 기타 요청사항
-      quotationRequest {
-        etcRequest
-      }
-    }
-    userMember {
-      name
-      phone
-    }
-    companyMember {
-      name
-      phone
-      companyMemberAdditionalInfo {
-        companyAddress
+  query Query($projectIdx: ID!) {
+    data(projectIdx: $projectIdx) {
+      inProgressProjects {
+        # 전기차 충전소 명칭 / 위탁사 주소
+        projectName
+        projectNumber
+        projectIdx
+        finalQuotation {
+          subscribeProduct
+          chargingPointRate
+          userInvestRate
+          chargingStationInstallationPrice
+          subscribePeriod
+          finalQuotationChargers {
+            channel
+            chargePrice
+            standType
+            kind
+            installationLocation
+            count
+          }
+          # 기타 요청사항
+          quotationRequest {
+            etcRequest
+          }
+        }
+        userMember {
+          name
+          phone
+        }
+        companyMember {
+          name
+          phone
+          companyMemberAdditionalInfo {
+            companyAddress
+          }
+        }
       }
     }
   }
