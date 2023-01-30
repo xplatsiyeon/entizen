@@ -83,6 +83,7 @@ const SixthStep = ({ tabNumber }: Props) => {
   const [clicked, setClicked] = useState(-1);
   const [errorModal, setErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [installationPurpose, setInstallationPurpose] = useState('');
 
   const handlePurposeOnClick = (index: number) => setClicked(index);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -126,7 +127,7 @@ const SixthStep = ({ tabNumber }: Props) => {
         installationAddress: locationList.locationList.roadAddrPart,
         installationLocation: quotationData.installationLocation,
         installationPoints: quotationData.installationPoints,
-        installationPurpose: quotationData.installationPurpose,
+        installationPurpose: installationPurpose,
       },
     });
   };
@@ -147,15 +148,7 @@ const SixthStep = ({ tabNumber }: Props) => {
       setButtonActivate(true);
       // console.log(purpose[clicked].name);
     }
-
-    async () => {
-      if (buttonActivate) {
-        const name = purpose[clicked].name;
-        dispatch(quotationAction.setStep6(name));
-        // console.log('파트');
-        await predictionApi();
-      }
-    };
+    setInstallationPurpose(purpose[clicked].name);
   }, [clicked]);
 
   return (
