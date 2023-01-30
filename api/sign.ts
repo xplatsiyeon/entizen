@@ -57,6 +57,7 @@ export const modusign = (data: ModuSignResponse) => {
   // afterCharger는 아예 데이터 x, 그래서 나중에 백엔드 만들어지면 마찬가지로 grapql, 타입스크립트, value 수정해야함!
   // chargePrice는 월구독료임 아직 백엔드에 추가 안돼서 추가되면 grapql 및 타입스크립트 수정해야함, value 값도!
 
+  console.log('================= 라인 62 =======================');
   const options = {
     method: 'POST',
     headers: {
