@@ -90,8 +90,6 @@ const SixthStep = ({ tabNumber }: Props) => {
     (state: RootState) => state,
   );
 
-  console.log('배열로 담아 오나...??? 💔', quotationData.installationPoints);
-
   const { mutate: predictionMutate, isLoading: predictionLoading } =
     useMutation(isTokenPostApi, {
       onSuccess: (resposnse) => {
@@ -123,6 +121,7 @@ const SixthStep = ({ tabNumber }: Props) => {
         installationAddress: locationList.locationList.roadAddrPart,
         installationLocation: quotationData.installationLocation,
         installationPoints: quotationData.installationPoints,
+        installationPurpose: quotationData.installationPurpose,
       },
     });
   };
