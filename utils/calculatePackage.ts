@@ -286,3 +286,24 @@ export const CalcDate = (endDate: string) => {
 
   return elapsedText;
 };
+
+// ---------------- 모두 싸인 년, 월, 일 -------------
+export const moduSignDate = (date: string) => {
+  if (date) {
+    const newDate = new Date(date);
+    let fullDate = '';
+    let year = '';
+    let month = '';
+    let day = '';
+    fullDate = new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000)
+      ?.toISOString()
+      ?.split('T', 1)
+      ?.toString();
+    year = `${fullDate.slice(0, 4)}년 `;
+    month = `${fullDate.slice(5, 7)}월 `;
+    day = `${fullDate.slice(8, 10)}일`;
+    return `${year + month + day}`;
+  } else {
+    return '';
+  }
+};
