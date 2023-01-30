@@ -17,6 +17,8 @@ import {
 } from 'assets/selectList';
 
 export const modusign = (data: ModuSignResponse) => {
+  console.log('data===>>');
+  console.log(data);
   const fetch = require('node-fetch');
   const url = 'https://api.modusign.co.kr/documents/request-with-template';
   const projectInProgress = data?.project;
