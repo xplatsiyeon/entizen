@@ -76,6 +76,7 @@ export const modusign = (data: ModuSignResponse) => {
     },
     body: JSON.stringify({
       document: {
+        title: '엔티즌계약서',
         participantMappings: [
           // 유저
           {
@@ -105,14 +106,14 @@ export const modusign = (data: ModuSignResponse) => {
             name: projectInProgress?.companyMember?.name,
           },
           // 엔티즌
-          {
-            excluded: false,
-            signingMethod: { type: 'EMAIL', value: 'mznx0192@naver.com' },
-            signingDuration: 20160,
-            locale: 'ko',
-            role: '관리자',
-            name: '엔티즌',
-          },
+          // {
+          //   excluded: false,
+          //   signingMethod: { type: 'EMAIL', value: 'mznx0192@naver.com' },
+          //   signingDuration: 20160,
+          //   locale: 'ko',
+          //   role: '관리자',
+          //   name: '엔티즌',
+          // },
         ],
         requesterInputMappings: [
           {
@@ -800,7 +801,6 @@ export const modusign = (data: ModuSignResponse) => {
             value: projectInProgress?.companyMember?.name,
           },
         ],
-        title: '엔티즌계약서',
       },
       // templateId: '767b58a0-66f1-11ed-92dc-eb196f6b079e',
       templateId: '280ebbc0-9e06-11ed-bc2e-a93d3faece59',

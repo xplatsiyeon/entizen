@@ -48,6 +48,16 @@ const SliderSizes = ({
     return Math.round((target * rate) / standardRate);
   };
 
+  // chargingStationInstallPrice: 1352875000
+  maxChargingStationInstallationPrice: 1555806250;
+  maxSubscribePricePerMonth: 8983720;
+  maxTotalSubscribePrice: 215609268;
+  // minChargingStationInstallationPrice: 1217587500
+  minSubscribePricePerMonth: 7030737;
+  minTotalSubscribePrice: 168737688;
+  // subscribePricePerMonth: 7811930
+  // totalSubscribePrice: 187486320
+
   useLayoutEffect(() => {
     const ret = {
       maxSubscribePricePerMonth: setPriceByRate(
@@ -82,6 +92,9 @@ const SliderSizes = ({
       ),
       investRate: value,
     };
+
+    console.log(ret);
+
     if (setCalculatedValue) {
       setCalculatedValue({
         maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,
