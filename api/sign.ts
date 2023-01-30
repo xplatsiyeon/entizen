@@ -26,7 +26,7 @@ export const modusign = (data: ModuSignResponse) => {
 
   const fetch = require('node-fetch');
   const url = 'https://api.modusign.co.kr/documents/request-with-template';
-  const projectInProgress = data?.project?.data?.project;
+  const projectInProgress = data?.project;
   const chargerString =
     projectInProgress?.finalQuotation?.finalQuotationChargers;
 
@@ -148,21 +148,23 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'charger1',
             // value: '7kw 충전기(공용), 벽걸이, 싱글, 2대',
-            value: chargerString[0]?.standType
-              ? ` ${convertKo(
-                  M6_LIST,
-                  M6_LIST_EN,
-                  chargerString[0]?.standType,
-                )}, ${convertKo(
-                  M7_LIST,
-                  M7_LIST_EN,
-                  chargerString[0]?.channel,
-                )}, ${chargerString[0]?.count} 대`
-              : `: ${convertKo(
-                  M7_LIST,
-                  M7_LIST_EN,
-                  chargerString[0]?.channel,
-                )}, ${chargerString[0]?.count} 대`,
+            value: chargerString[0]
+              ? chargerString[0]?.standType
+                ? ` ${convertKo(
+                    M6_LIST,
+                    M6_LIST_EN,
+                    chargerString[0]?.standType,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[0]?.channel,
+                  )}, ${chargerString[0]?.count} 대`
+                : `: ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[0]?.channel,
+                  )}, ${chargerString[0]?.count} 대`
+              : '',
           },
           {
             dataLabel: 'charger2',
@@ -269,21 +271,23 @@ export const modusign = (data: ModuSignResponse) => {
           },
           {
             dataLabel: 'charger2_1',
-            value: chargerString[0].standType
-              ? ` ${convertKo(
-                  M6_LIST,
-                  M6_LIST_EN,
-                  chargerString[0]?.standType,
-                )}, ${convertKo(
-                  M7_LIST,
-                  M7_LIST_EN,
-                  chargerString[0]?.channel,
-                )}, ${chargerString[0]?.count} 대`
-              : `: ${convertKo(
-                  M7_LIST,
-                  M7_LIST_EN,
-                  chargerString[0]?.channel,
-                )}, ${chargerString[0]?.count} 대`,
+            value: chargerString[0]
+              ? chargerString[0]?.standType
+                ? ` ${convertKo(
+                    M6_LIST,
+                    M6_LIST_EN,
+                    chargerString[0]?.standType,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[0]?.channel,
+                  )}, ${chargerString[0]?.count} 대`
+                : `: ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[0]?.channel,
+                  )}, ${chargerString[0]?.count} 대`
+              : '',
           },
           {
             dataLabel: 'charger2_2',
@@ -509,21 +513,23 @@ export const modusign = (data: ModuSignResponse) => {
           // afterCharger는 아예 데이터 x, 그래서 나중에 백엔드 만들어지면 마찬가지로 grapql, 타입스크립트, value 수정해야함!
           {
             dataLabel: 'afterCharger1',
-            value: chargerString[0].standType
-              ? ` ${convertKo(
-                  M6_LIST,
-                  M6_LIST_EN,
-                  chargerString[0]?.standType,
-                )}, ${convertKo(
-                  M7_LIST,
-                  M7_LIST_EN,
-                  chargerString[0]?.channel,
-                )}, ${chargerString[0]?.count} 대`
-              : `: ${convertKo(
-                  M7_LIST,
-                  M7_LIST_EN,
-                  chargerString[0]?.channel,
-                )}, ${chargerString[0]?.count} 대`,
+            value: chargerString[0]
+              ? chargerString[0]?.standType
+                ? ` ${convertKo(
+                    M6_LIST,
+                    M6_LIST_EN,
+                    chargerString[0]?.standType,
+                  )}, ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[0]?.channel,
+                  )}, ${chargerString[0]?.count} 대`
+                : `: ${convertKo(
+                    M7_LIST,
+                    M7_LIST_EN,
+                    chargerString[0]?.channel,
+                  )}, ${chargerString[0]?.count} 대`
+              : '',
           },
           {
             dataLabel: 'afterCharger2',
