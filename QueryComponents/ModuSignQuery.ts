@@ -40,7 +40,6 @@ export const GET_ModuSignResponse = gql`
       }
     }
   }
-  }
 `;
 
 export interface ModuSignResponse {
