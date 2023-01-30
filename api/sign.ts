@@ -17,22 +17,15 @@ import {
 } from 'assets/selectList';
 
 export const modusign = (data: ModuSignResponse) => {
-  console.log('=================data=====================');
-  console.log(data);
-
-  console.log(
-    '======================모두싸인 POST API 호출===========================',
-  );
-
+  // console.log('data===>>');
+  // console.log(data);
   const fetch = require('node-fetch');
   const url = 'https://api.modusign.co.kr/documents/request-with-template';
   const projectInProgress = data?.project;
   const chargerString =
     projectInProgress?.finalQuotation?.finalQuotationChargers;
 
-  console.log('chargerString');
-  console.log(chargerString);
-  // 계약하는 날짜 당일
+  // // 계약하는 날짜 당일
   const today = new Date();
 
   // 오늘 날짜 가지고 오는 함수
@@ -64,7 +57,6 @@ export const modusign = (data: ModuSignResponse) => {
   // afterCharger는 아예 데이터 x, 그래서 나중에 백엔드 만들어지면 마찬가지로 grapql, 타입스크립트, value 수정해야함!
   // chargePrice는 월구독료임 아직 백엔드에 추가 안돼서 추가되면 grapql 및 타입스크립트 수정해야함, value 값도!
 
-  console.log('================= 라인 62 =======================');
   const options = {
     method: 'POST',
     headers: {
@@ -75,35 +67,37 @@ export const modusign = (data: ModuSignResponse) => {
         'Basic ZW50aXplbkBlbnRpemVuLmtyOk5XWXpPRGc0WldNdE1Ua3haQzAwWkRnMkxUaGpPR010T1dOaVpEWTROR0l6TlRZMA==',
     },
     body: JSON.stringify({
+      templateId: '280ebbc0-9e06-11ed-bc2e-a93d3faece59',
       document: {
         title: '엔티즌계약서',
         participantMappings: [
           // 유저
           {
             excluded: false,
-            signingMethod: {
-              type: 'KAKAO',
-              // value: '01049988965',
-              value: projectInProgress?.userMember?.phone,
-            },
             signingDuration: 20160,
             locale: 'ko',
             role: '유저',
             // name: '문수정',
             name: projectInProgress?.userMember?.name,
+            signingMethod: {
+              type: 'KAKAO',
+              // value: '01049988965',
+              value: projectInProgress?.userMember?.phone,
+            },
           },
           // 기업
           {
             excluded: false,
-            // signingMethod: { type: 'KAKAO', value: '01091163962' },
-            signingMethod: {
-              type: 'KAKAO',
-              value: projectInProgress?.companyMember?.phone,
-            },
             signingDuration: 20160,
             locale: 'ko',
             role: '기업',
             name: projectInProgress?.companyMember?.name,
+            // name: '윤경연',
+            signingMethod: {
+              type: 'KAKAO',
+              value: projectInProgress?.companyMember?.phone,
+              // value: '01033920580',
+            },
           },
           // 엔티즌
           // {
@@ -140,11 +134,17 @@ export const modusign = (data: ModuSignResponse) => {
           },
           {
             dataLabel: 'subscribePeriod',
-            value: projectInProgress?.finalQuotation?.constructionPeriod,
+            value: String(
+              projectInProgress?.finalQuotation?.constructionPeriod,
+            ),
           },
           {
             dataLabel: 'userInvestRate',
-            value: projectInProgress?.finalQuotation?.userInvestRate,
+            value: String(
+              Math.floor(
+                Number(projectInProgress?.finalQuotation?.userInvestRate) * 100,
+              ),
+            ),
           },
           {
             dataLabel: 'charger1',
@@ -159,12 +159,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[0]?.channel,
-                  )}, ${chargerString[0]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[0]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[0]?.channel,
-                  )}, ${chargerString[0]?.count} 대`
+                  )}, ${chargerString[0]?.count}대`
               : '',
           },
           {
@@ -179,12 +179,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[1]?.channel,
-                  )}, ${chargerString[1]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[1]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[1]?.channel,
-                  )}, ${chargerString[1]?.count} 대`
+                  )}, ${chargerString[1]?.count}대`
               : '',
           },
           {
@@ -199,12 +199,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[2]?.channel,
-                  )}, ${chargerString[2]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[2]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[2]?.channel,
-                  )}, ${chargerString[2]?.count} 대`
+                  )}, ${chargerString[2]?.count}대`
               : '',
           },
           {
@@ -219,12 +219,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[3]?.channel,
-                  )}, ${chargerString[3]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[3]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[3]?.channel,
-                  )}, ${chargerString[3]?.count} 대`
+                  )}, ${chargerString[3]?.count}대`
               : '',
           },
           {
@@ -239,17 +239,21 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[4]?.channel,
-                  )}, ${chargerString[4]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[4]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[4]?.channel,
-                  )}, ${chargerString[4]?.count} 대`
+                  )}, ${chargerString[4]?.count}대`
               : '',
           },
           {
             dataLabel: 'installationLocation',
-            value: chargerString[0]?.installationLocation,
+            value: convertKo(
+              location,
+              locationEn,
+              chargerString[0]?.installationLocation,
+            ),
           },
           {
             dataLabel: 'etcRequest',
@@ -260,7 +264,9 @@ export const modusign = (data: ModuSignResponse) => {
           },
           {
             dataLabel: 'period',
-            value: projectInProgress?.finalQuotation?.constructionPeriod,
+            value: String(
+              projectInProgress?.finalQuotation?.constructionPeriod,
+            ),
           },
           // { dataLabel: 'constructionPeriod', value: '1,000,000,000' },
           {
@@ -282,12 +288,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[0]?.channel,
-                  )}, ${chargerString[0]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[0]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[0]?.channel,
-                  )}, ${chargerString[0]?.count} 대`
+                  )}, ${chargerString[0]?.count}대`
               : '',
           },
           {
@@ -302,12 +308,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[1]?.channel,
-                  )}, ${chargerString[1]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[1]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[1]?.channel,
-                  )}, ${chargerString[1]?.count} 대`
+                  )}, ${chargerString[1]?.count}대`
               : '',
           },
           {
@@ -322,12 +328,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[2]?.channel,
-                  )}, ${chargerString[2]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[2]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[2]?.channel,
-                  )}, ${chargerString[2]?.count} 대`
+                  )}, ${chargerString[2]?.count}대`
               : '',
           },
           {
@@ -342,12 +348,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[3]?.channel,
-                  )}, ${chargerString[3]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[3]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[3]?.channel,
-                  )}, ${chargerString[3]?.count} 대`
+                  )}, ${chargerString[3]?.count}대`
               : '',
           },
           {
@@ -362,12 +368,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[4]?.channel,
-                  )}, ${chargerString[4]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[4]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[4]?.channel,
-                  )}, ${chargerString[4]?.count} 대`
+                  )}, ${chargerString[4]?.count}대`
               : '',
           },
           // chargePrice는 월구독료임 아직 백엔드에 추가 안돼서 추가되면 grapql 및 타입스크립트 수정해야함, value 값도!
@@ -375,7 +381,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'chargePrice2_1',
             value: `${
               chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -383,7 +389,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'chargePrice2_2',
             value: `${
               chargerString[1]?.chargePrice
-                ? `${chargerString[1]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -391,7 +397,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'chargePrice2_3',
             value: `${
               chargerString[2]?.chargePrice
-                ? `${chargerString[2]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[2]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -399,7 +405,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'chargePrice2_4',
             value: `${
               chargerString[3]?.chargePrice
-                ? `${chargerString[3]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -407,7 +413,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'chargePrice2_5',
             value: `${
               chargerString[4]?.chargePrice
-                ? `${chargerString[4]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -415,7 +421,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'count2_1',
             value: `${
               chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.count} 대`
+                ? `${chargerString[0]?.count}대`
                 : ''
             }`,
           },
@@ -423,7 +429,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'count2_2',
             value: `${
               chargerString[1]?.chargePrice
-                ? `${chargerString[1]?.count} 대`
+                ? `${chargerString[1]?.count}대`
                 : ''
             }`,
           },
@@ -431,7 +437,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'count2_3',
             value: `${
               chargerString[2]?.chargePrice
-                ? `${chargerString[2]?.count} 대`
+                ? `${chargerString[2]?.count}대`
                 : ''
             }`,
           },
@@ -439,7 +445,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'count2_4',
             value: `${
               chargerString[3]?.chargePrice
-                ? `${chargerString[3]?.count} 대`
+                ? `${chargerString[3]?.count}대`
                 : ''
             }`,
           },
@@ -447,35 +453,45 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'count2_5',
             value: `${
               chargerString[4]?.chargePrice
-                ? `${chargerString[4]?.count} 대`
+                ? `${chargerString[4]?.count}대`
                 : ''
             }`,
           },
           {
             dataLabel: 'subscribePeriod2_1',
-            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
+            value: chargerString[0]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              : '',
           },
           {
             dataLabel: 'subscribePeriod2_2',
-            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
+            value: chargerString[1]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              : '',
           },
           {
             dataLabel: 'subscribePeriod2_3',
-            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
+            value: chargerString[2]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              : '',
           },
           {
             dataLabel: 'subscribePeriod2_4',
-            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
+            value: chargerString[3]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              : '',
           },
           {
             dataLabel: 'subscribePeriod2_5',
-            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
+            value: chargerString[4]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              : '',
           },
           {
             dataLabel: 'chargeSum2_1',
             value: `${
               chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -483,7 +499,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'chargeSum2_2',
             value: `${
               chargerString[1]?.chargePrice
-                ? `${chargerString[1]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -491,7 +507,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'chargeSum2_3',
             value: `${
               chargerString[2]?.chargePrice
-                ? `${chargerString[2]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[2]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -499,7 +515,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'chargeSum2_4',
             value: `${
               chargerString[3]?.chargePrice
-                ? `${chargerString[3]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -507,7 +523,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'chargeSum2_5',
             value: `${
               chargerString[4]?.chargePrice
-                ? `${chargerString[4]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -524,12 +540,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[0]?.channel,
-                  )}, ${chargerString[0]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[0]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[0]?.channel,
-                  )}, ${chargerString[0]?.count} 대`
+                  )}, ${chargerString[0]?.count}대`
               : '',
           },
           {
@@ -544,12 +560,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[1]?.channel,
-                  )}, ${chargerString[1]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[1]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[1]?.channel,
-                  )}, ${chargerString[1]?.count} 대`
+                  )}, ${chargerString[1]?.count}대`
               : '',
           },
           {
@@ -564,12 +580,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[2]?.channel,
-                  )}, ${chargerString[2]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[2]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[2]?.channel,
-                  )}, ${chargerString[2]?.count} 대`
+                  )}, ${chargerString[2]?.count}대`
               : '',
           },
           {
@@ -584,12 +600,12 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[3]?.channel,
-                  )}, ${chargerString[3]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[3]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[3]?.channel,
-                  )}, ${chargerString[3]?.count} 대`
+                  )}, ${chargerString[3]?.count}대`
               : '',
           },
           {
@@ -604,19 +620,19 @@ export const modusign = (data: ModuSignResponse) => {
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[4]?.channel,
-                  )}, ${chargerString[4]?.count} 대`
-                : `: ${convertKo(
+                  )}, ${chargerString[4]?.count}대`
+                : ` ${convertKo(
                     M7_LIST,
                     M7_LIST_EN,
                     chargerString[4]?.channel,
-                  )}, ${chargerString[4]?.count} 대`
+                  )}, ${chargerString[4]?.count}대`
               : '',
           },
           {
             dataLabel: 'afterChargePrice1',
             value: `${
               chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -624,7 +640,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterChargePrice2',
             value: `${
               chargerString[1]?.chargePrice
-                ? `${chargerString[1]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -632,7 +648,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterChargePrice3',
             value: `${
               chargerString[2]?.chargePrice
-                ? `${chargerString[2]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[2]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -640,7 +656,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterChargePrice4',
             value: `${
               chargerString[3]?.chargePrice
-                ? `${chargerString[3]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -648,7 +664,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterChargePrice5',
             value: `${
               chargerString[4]?.chargePrice
-                ? `${chargerString[4]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -656,7 +672,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterCount1',
             value: `${
               chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.count} 대`
+                ? `${chargerString[0]?.count}대`
                 : ''
             }`,
           },
@@ -664,7 +680,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterCount2',
             value: `${
               chargerString[1]?.chargePrice
-                ? `${chargerString[1]?.count} 대`
+                ? `${chargerString[1]?.count}대`
                 : ''
             }`,
           },
@@ -672,7 +688,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterCount3',
             value: `${
               chargerString[2]?.chargePrice
-                ? `${chargerString[2]?.count} 대`
+                ? `${chargerString[2]?.count}대`
                 : ''
             }`,
           },
@@ -680,7 +696,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterCount4',
             value: `${
               chargerString[3]?.chargePrice
-                ? `${chargerString[3]?.count} 대`
+                ? `${chargerString[3]?.count}대`
                 : ''
             }`,
           },
@@ -688,35 +704,45 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterCount5',
             value: `${
               chargerString[4]?.chargePrice
-                ? `${chargerString[4]?.count} 대`
+                ? `${chargerString[4]?.count}대`
                 : ''
             }`,
           },
           {
             dataLabel: 'afterSubscribePeriod1',
-            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
+            value: chargerString[0]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              : '',
           },
           {
             dataLabel: 'afterSubscribePeriod2',
-            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
+            value: chargerString[1]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              : '',
           },
           {
             dataLabel: 'afterSubscribePeriod3',
-            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
+            value: chargerString[2]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              : '',
           },
           {
             dataLabel: 'afterSubscribePeriod4',
-            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
+            value: chargerString[3]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              : '',
           },
           {
             dataLabel: 'afterSubscribePeriod5',
-            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
+            value: chargerString[4]
+              ? `${projectInProgress?.finalQuotation?.constructionPeriod}개월`
+              : '',
           },
           {
             dataLabel: 'afterChargeSum1',
             value: `${
               chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -724,7 +750,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterChargeSum2',
             value: `${
               chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -732,7 +758,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterChargeSum3',
             value: `${
               chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -740,7 +766,7 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterChargeSum4',
             value: `${
               chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
@@ -748,25 +774,40 @@ export const modusign = (data: ModuSignResponse) => {
             dataLabel: 'afterChargeSum5',
             value: `${
               chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()} 원`
+                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
           {
             dataLabel: 'userInvestRate2',
-            value: projectInProgress?.finalQuotation?.userInvestRate,
+            value: String(
+              Math.floor(
+                Number(projectInProgress?.finalQuotation?.userInvestRate) * 100,
+              ),
+            ),
           },
           {
-            dataLabel: 'chargingPointRate2',
-            value: projectInProgress?.finalQuotation?.chargingPointRate,
+            dataLabel: 'chargingPointRate',
+            value: String(
+              Math.floor(
+                Number(projectInProgress?.finalQuotation?.chargingPointRate) *
+                  100,
+              ),
+            ),
           },
           {
             dataLabel: 'subscribePeriod2',
-            value: projectInProgress?.finalQuotation?.constructionPeriod,
+            value: String(
+              projectInProgress?.finalQuotation?.constructionPeriod,
+            ),
           },
           {
             dataLabel: 'userInvestRate3',
-            value: projectInProgress?.finalQuotation?.userInvestRate,
+            value: String(
+              Math.floor(
+                Number(projectInProgress?.finalQuotation?.userInvestRate) * 100,
+              ),
+            ),
           },
           //날짜
           {
@@ -802,10 +843,7 @@ export const modusign = (data: ModuSignResponse) => {
           },
         ],
       },
-      // templateId: '767b58a0-66f1-11ed-92dc-eb196f6b079e',
-      templateId: '280ebbc0-9e06-11ed-bc2e-a93d3faece59',
     }),
   };
-
   return fetch(url, options).then((res: Response) => res.json());
 };

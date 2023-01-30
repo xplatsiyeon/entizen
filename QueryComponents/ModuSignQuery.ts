@@ -68,16 +68,16 @@ export interface ModuSignResponse {
     };
     finalQuotation: {
       chargingPointRate: string;
-      chargingStationInstallationPrice: number;
-      constructionPeriod: number;
+      chargingStationInstallationPrice: number | string;
+      constructionPeriod: number | string;
       userInvestRate: string;
       subscribeProduct: string;
-      subscribePricePerMonth: number;
+      subscribePricePerMonth: number | string;
       finalQuotationChargers: {
         channel: string;
-        chargePrice: number;
+        chargePrice: number | string;
         chargePriceType: string;
-        count: number;
+        count: number | string;
         installationLocation: string;
         kind: string;
         standType: string;
