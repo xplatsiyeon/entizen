@@ -38,10 +38,10 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
   };
 
   // 오른쪽 큰 이미지
-  const DataFilter =
-    data?.preQuotation?.preQuotationChargers[chargeIdx]?.chargerImageFiles[
-      webIdx
-    ]?.url;
+  // const DataFilter =
+  //   data?.preQuotation?.preQuotationChargers[chargeIdx]?.chargerImageFiles[
+  //     webIdx
+  //   ]?.url;
 
   // 부분 구독 판별
   const partSubscribe = data?.quotationRequest?.subscribeProduct;
@@ -51,6 +51,14 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
   const reverseNewArr: PreQuotationChargers[] = [];
   preQuotationChargers?.forEach((el, idx) => reverseNewArr.unshift(el));
 
+  // chargerImageFiles 하나의 배열로 만들기
+  const newChargerImageFiles = data?.preQuotation?.preQuotationChargers
+    .map((item) => item.chargerImageFiles.map((el) => el.url))
+    .flat();
+
+  // 오른쪽 큰 사진
+  const DataFilter = newChargerImageFiles![webIdx];
+
   const handleFileDownload = () => {};
 
   return (
@@ -59,7 +67,7 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
         <TopWebRapper>
           {/* 웹 사진이 들어갈 공간*/}
           <WebFinishedPhotoWrapper>
-            <WebLeftPhotoWrapper>
+            {/* <WebLeftPhotoWrapper>
               {data?.preQuotation.preQuotationChargers.map((item, index) => (
                 <WebLeftPhotoBox key={index}>
                   {item.chargerImageFiles.map((img, idx) => (
@@ -86,6 +94,43 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
                   ))}
                 </WebLeftPhotoBox>
               ))}
+            </WebLeftPhotoWrapper>
+            <WebRightPhotoBox>
+              <div className="imgBox">
+                <Image
+                  src={DataFilter!}
+                  alt="img-icon"
+                  layout="fill"
+                  priority={true}
+                  unoptimized={true}
+                  objectFit="contain"
+                />
+              </div>
+            </WebRightPhotoBox> */}
+            <WebLeftPhotoWrapper>
+              <WebLeftPhotoBox>
+                {newChargerImageFiles?.map((item, idx) => (
+                  <WebLeftPhotos
+                    key={idx}
+                    onClick={() => {
+                      webHandleNum(idx);
+                    }}
+                    chargeIdx={idx}
+                    index={webIdx}
+                  >
+                    <div className="imgBox">
+                      <Image
+                        src={item}
+                        alt="img-icon"
+                        layout="fill"
+                        priority={true}
+                        unoptimized={true}
+                        objectFit="cover"
+                      />
+                    </div>
+                  </WebLeftPhotos>
+                ))}
+              </WebLeftPhotoBox>
             </WebLeftPhotoWrapper>
             <WebRightPhotoBox>
               <div className="imgBox">

@@ -19,7 +19,7 @@ import {
 export const modusign = (data: ModuSignResponse) => {
   const fetch = require('node-fetch');
   const url = 'https://api.modusign.co.kr/documents/request-with-template';
-  const projectInProgress = data?.data?.inProgressProjects[0];
+  const projectInProgress = data?.data?.project;
   const chargerString =
     projectInProgress?.finalQuotation?.finalQuotationChargers;
 
@@ -129,7 +129,7 @@ export const modusign = (data: ModuSignResponse) => {
           },
           {
             dataLabel: 'subscribePeriod',
-            value: projectInProgress?.finalQuotation?.subscribePeriod,
+            value: projectInProgress?.finalQuotation?.constructionPeriod,
           },
           {
             dataLabel: 'userInvestRate',
@@ -247,7 +247,7 @@ export const modusign = (data: ModuSignResponse) => {
           },
           {
             dataLabel: 'period',
-            value: projectInProgress?.finalQuotation?.subscribePeriod,
+            value: projectInProgress?.finalQuotation?.constructionPeriod,
           },
           // { dataLabel: 'constructionPeriod', value: '1,000,000,000' },
           {
@@ -438,23 +438,23 @@ export const modusign = (data: ModuSignResponse) => {
           },
           {
             dataLabel: 'subscribePeriod2_1',
-            value: `${projectInProgress?.finalQuotation?.subscribePeriod} 개월`,
+            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
           },
           {
             dataLabel: 'subscribePeriod2_2',
-            value: `${projectInProgress?.finalQuotation?.subscribePeriod} 개월`,
+            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
           },
           {
             dataLabel: 'subscribePeriod2_3',
-            value: `${projectInProgress?.finalQuotation?.subscribePeriod} 개월`,
+            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
           },
           {
             dataLabel: 'subscribePeriod2_4',
-            value: `${projectInProgress?.finalQuotation?.subscribePeriod} 개월`,
+            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
           },
           {
             dataLabel: 'subscribePeriod2_5',
-            value: `${projectInProgress?.finalQuotation?.subscribePeriod} 개월`,
+            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
           },
           {
             dataLabel: 'chargeSum2_1',
@@ -677,23 +677,23 @@ export const modusign = (data: ModuSignResponse) => {
           },
           {
             dataLabel: 'afterSubscribePeriod1',
-            value: `${projectInProgress?.finalQuotation?.subscribePeriod} 개월`,
+            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
           },
           {
             dataLabel: 'afterSubscribePeriod2',
-            value: `${projectInProgress?.finalQuotation?.subscribePeriod} 개월`,
+            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
           },
           {
             dataLabel: 'afterSubscribePeriod3',
-            value: `${projectInProgress?.finalQuotation?.subscribePeriod} 개월`,
+            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
           },
           {
             dataLabel: 'afterSubscribePeriod4',
-            value: `${projectInProgress?.finalQuotation?.subscribePeriod} 개월`,
+            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
           },
           {
             dataLabel: 'afterSubscribePeriod5',
-            value: `${projectInProgress?.finalQuotation?.subscribePeriod} 개월`,
+            value: `${projectInProgress?.finalQuotation?.constructionPeriod} 개월`,
           },
           {
             dataLabel: 'afterChargeSum1',
@@ -745,7 +745,7 @@ export const modusign = (data: ModuSignResponse) => {
           },
           {
             dataLabel: 'subscribePeriod2',
-            value: projectInProgress?.finalQuotation?.subscribePeriod,
+            value: projectInProgress?.finalQuotation?.constructionPeriod,
           },
           {
             dataLabel: 'userInvestRate3',
@@ -759,29 +759,29 @@ export const modusign = (data: ModuSignResponse) => {
           // 서명
           {
             dataLabel: 'signUserName',
-            value: data?.data?.inProgressProjects[0]?.userMember?.name,
+            value: projectInProgress?.userMember?.name,
           },
           {
             dataLabel: 'signUserAddress',
-            value: data?.data?.inProgressProjects[0]?.projectName,
+            value: projectInProgress?.projectName,
           },
           {
             dataLabel: 'signUserName2',
-            value: data?.data?.inProgressProjects[0]?.userMember?.name,
+            value: projectInProgress?.userMember?.name,
           },
           {
             dataLabel: 'signCompanyName',
-            value: data?.data?.inProgressProjects[0]?.companyMember?.name,
+            value: projectInProgress?.companyMember?.name,
           },
           {
             dataLabel: 'signCompanyAddress',
             value:
-              data?.data?.inProgressProjects[0]?.companyMember
-                ?.companyMemberAdditionalInfo?.companyAddress,
+              projectInProgress?.companyMember?.companyMemberAdditionalInfo
+                ?.companyAddress,
           },
           {
             dataLabel: 'signCompanyName2',
-            value: data?.data?.inProgressProjects[0]?.companyMember?.name,
+            value: projectInProgress?.companyMember?.name,
           },
         ],
         title: '엔티즌계약서',
