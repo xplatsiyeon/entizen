@@ -131,8 +131,6 @@ const SixthStep = ({ tabNumber }: Props) => {
     });
   };
 
-  console.log('💔purpose[clicked].name💔', purpose[clicked].name);
-
   // 다음버튼
   const HandleNextBtn = async () => {
     if (buttonActivate) {
