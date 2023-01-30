@@ -81,9 +81,7 @@ const ComContranct = ({}: Props) => {
     },
   });
 
-  if (inModuSignErroe) {
-    console.log(inModuSignErroe);
-  }
+  console.log('💔 inModuSignData 💔', inModuSignData);
 
   // -------모두싸인 POST API------
   const {

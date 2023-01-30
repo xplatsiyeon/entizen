@@ -5,41 +5,42 @@ import { gql } from '@apollo/client';
  */
 export const GET_ModuSignResponse = gql`
   query Query($projectIdx: ID!) {
-    data(projectIdx: $projectIdx) {
-      inProgressProjects {
-        # 전기차 충전소 명칭 / 위탁사 주소
-        projectName
-        projectNumber
-        projectIdx
-        finalQuotation {
-          subscribeProduct
-          chargingPointRate
-          userInvestRate
-          chargingStationInstallationPrice
-          subscribePeriod
-          finalQuotationChargers {
-            channel
-            chargePrice
-            standType
-            kind
-            installationLocation
-            count
-          }
-          # 기타 요청사항
-          quotationRequest {
-            etcRequest
-          }
+    project(projectIdx: $projectIdx) {
+      projectName
+      projectNumber
+      projectIdx
+      companyMember {
+        name
+        phone
+        memberIdx
+        companyMemberAdditionalInfo {
+          companyAddress
+          companyDetailAddress
         }
-        userMember {
-          name
-          phone
+      }
+      userMember {
+        phone
+        name
+        memberIdx
+      }
+      finalQuotation {
+        chargingPointRate
+        chargingStationInstallationPrice
+        constructionPeriod
+        userInvestRate
+        subscribeProduct
+        subscribePricePerMonth
+        finalQuotationChargers {
+          channel
+          chargePrice
+          chargePriceType
+          count
+          installationLocation
+          kind
+          standType
         }
-        companyMember {
-          name
-          phone
-          companyMemberAdditionalInfo {
-            companyAddress
-          }
+        quotationRequest {
+          etcRequest
         }
       }
     }
@@ -47,41 +48,47 @@ export const GET_ModuSignResponse = gql`
 `;
 
 export interface ModuSignResponse {
-  data: {
-    inProgressProjects: {
-      projectName: string;
-      projectNumber: string;
-      projectIdx: string;
-      finalQuotation: {
-        subscribeProduct: string;
-        chargingPointRate: string;
-        userInvestRate: string;
-        chargingStationInstallationPrice: number;
-        subscribePeriod: string;
-        finalQuotationChargers: {
-          channel: string;
-          chargePrice: number;
-          standType: string;
-          kind: string;
-          installationLocation: string;
-          count: number;
-        }[];
-
-        quotationRequest: {
-          etcRequest: string;
+  project: {
+    data: {
+      project: {
+        projectName: string;
+        projectNumber: string;
+        projectIdx: string;
+        companyMember: {
+          name: string;
+          phone: string;
+          memberIdx: string;
+          companyMemberAdditionalInfo: {
+            companyAddress: string;
+            companyDetailAddress: string;
+          };
+        };
+        userMember: {
+          phone: string;
+          name: string;
+          memberIdx: string;
+        };
+        finalQuotation: {
+          chargingPointRate: string;
+          chargingStationInstallationPrice: number;
+          constructionPeriod: number;
+          userInvestRate: string;
+          subscribeProduct: string;
+          subscribePricePerMonth: number;
+          finalQuotationChargers: {
+            channel: string;
+            chargePrice: number;
+            chargePriceType: string;
+            count: number;
+            installationLocation: string;
+            kind: string;
+            standType: string;
+          }[];
+          quotationRequest: {
+            etcRequest: string;
+          };
         };
       };
-      userMember: {
-        name: string;
-        phone: string;
-      };
-      companyMember: {
-        name: string;
-        phone: string;
-        companyMemberAdditionalInfo: {
-          companyAddress: string;
-        };
-      };
-    }[];
+    };
   };
 }
