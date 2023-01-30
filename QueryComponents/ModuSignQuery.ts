@@ -48,43 +48,45 @@ export const GET_ModuSignResponse = gql`
 `;
 
 export interface ModuSignResponse {
-  data: {
-    project: {
-      projectName: string;
-      projectNumber: string;
-      projectIdx: string;
-      companyMember: {
-        name: string;
-        phone: string;
-        memberIdx: string;
-        companyMemberAdditionalInfo: {
-          companyAddress: string;
-          companyDetailAddress: string;
+  project: {
+    data: {
+      project: {
+        projectName: string;
+        projectNumber: string;
+        projectIdx: string;
+        companyMember: {
+          name: string;
+          phone: string;
+          memberIdx: string;
+          companyMemberAdditionalInfo: {
+            companyAddress: string;
+            companyDetailAddress: string;
+          };
         };
-      };
-      userMember: {
-        phone: string;
-        name: string;
-        memberIdx: string;
-      };
-      finalQuotation: {
-        chargingPointRate: string;
-        chargingStationInstallationPrice: number;
-        constructionPeriod: number;
-        userInvestRate: string;
-        subscribeProduct: string;
-        subscribePricePerMonth: number;
-        finalQuotationChargers: {
-          channel: string;
-          chargePrice: number;
-          chargePriceType: string;
-          count: number;
-          installationLocation: string;
-          kind: string;
-          standType: string;
-        }[];
-        quotationRequest: {
-          etcRequest: string;
+        userMember: {
+          phone: string;
+          name: string;
+          memberIdx: string;
+        };
+        finalQuotation: {
+          chargingPointRate: string;
+          chargingStationInstallationPrice: number;
+          constructionPeriod: number;
+          userInvestRate: string;
+          subscribeProduct: string;
+          subscribePricePerMonth: number;
+          finalQuotationChargers: {
+            channel: string;
+            chargePrice: number;
+            chargePriceType: string;
+            count: number;
+            installationLocation: string;
+            kind: string;
+            standType: string;
+          }[];
+          quotationRequest: {
+            etcRequest: string;
+          };
         };
       };
     };

@@ -19,7 +19,7 @@ import {
 export const modusign = (data: ModuSignResponse) => {
   const fetch = require('node-fetch');
   const url = 'https://api.modusign.co.kr/documents/request-with-template';
-  const projectInProgress = data?.data?.project;
+  const projectInProgress = data?.project?.data?.project;
   const chargerString =
     projectInProgress?.finalQuotation?.finalQuotationChargers;
 
