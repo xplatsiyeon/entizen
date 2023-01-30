@@ -83,6 +83,7 @@ const SixthStep = ({ tabNumber }: Props) => {
   const [clicked, setClicked] = useState(-1);
   const [errorModal, setErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [installationPurpose, setInstallationPurpose] = useState('');
 
   const handlePurposeOnClick = (index: number) => setClicked(index);
   const [buttonActivate, setButtonActivate] = useState<boolean>(false);
@@ -90,10 +91,7 @@ const SixthStep = ({ tabNumber }: Props) => {
     (state: RootState) => state,
   );
 
-  console.log(
-    '💔 quotationData.installationPurpose 💔',
-    quotationData.installationPurpose,
-  );
+  console.log('💔 installationPurpose 💔', installationPurpose);
 
   const { mutate: predictionMutate, isLoading: predictionLoading } =
     useMutation(isTokenPostApi, {
@@ -147,15 +145,7 @@ const SixthStep = ({ tabNumber }: Props) => {
       setButtonActivate(true);
       // console.log(purpose[clicked].name);
     }
-
-    async () => {
-      if (buttonActivate) {
-        const name = purpose[clicked].name;
-        dispatch(quotationAction.setStep6(name));
-        // console.log('파트');
-        await predictionApi();
-      }
-    };
+    setInstallationPurpose(purpose[clicked].name);
   }, [clicked]);
 
   return (
