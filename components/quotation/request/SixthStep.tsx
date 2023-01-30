@@ -90,6 +90,11 @@ const SixthStep = ({ tabNumber }: Props) => {
     (state: RootState) => state,
   );
 
+  console.log(
+    '💔 quotationData.installationPurpose 💔',
+    quotationData.installationPurpose,
+  );
+
   const { mutate: predictionMutate, isLoading: predictionLoading } =
     useMutation(isTokenPostApi, {
       onSuccess: (resposnse) => {
