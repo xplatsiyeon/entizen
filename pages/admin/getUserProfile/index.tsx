@@ -3,32 +3,42 @@ import { isTokenAdminGetApi } from "api";
 import { UserRespnse } from "componentsAdmin/Member/CommonDetail";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 
 const UserProfile = ()=>{
 
   const router = useRouter();  
-  console.log(router)
+  const userId = router.query.id;
   
   const {
     data: userData,
-    isError: userError
+    refetch: userDataRefetch
   } = useQuery<UserRespnse>(
     'user-detail',
-    () => isTokenAdminGetApi(`/admin/members/users/${router.query}`),
-    {
-    onError:(e)=>{
-        console.log(e);
-        alert('존재하지않는 회원입니다.')
-    },
-      // enabled: false,
+    () => isTokenAdminGetApi(`/admin/members/users/${userId}`),
+    { onSuccess:()=>{
+
+      },
+      onError:(e)=>{
+          console.log(e);
+      },
       enabled: false,
+      staleTime:30000,
+      cacheTime:30000
     },
   );
 
+  useEffect(()=>{
+    if(userId){
+      userDataRefetch();
+    }
+  },[userId])
+
     return (
-        <>
+        <>{userId?
+          <>
           <InfoBox>
             {userData?.data?.member?.profileImageUrl!?
             <Avatar>
@@ -48,6 +58,7 @@ const UserProfile = ()=>{
             <textarea
               rows={10}
               cols={30}
+              readOnly={true}
               // value={
               //   specialNote !== undefined
               //     ? specialNote
@@ -57,6 +68,8 @@ const UserProfile = ()=>{
               {userData?.data?.member?.etc}
             </textarea>
         </TextAreaContainer>
+        </> : <></>
+        }
         </>
     )
 }

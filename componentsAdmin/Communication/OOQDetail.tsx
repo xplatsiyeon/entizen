@@ -367,7 +367,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
     const style = `left: ${popupX - 200},top: ${popupY - 250},`
     console.log(style)              
 
-    window.open(`/admin/getUserProfile/${detatilId}`,'_blank',`width=300, height=500, scrollbars=yes`);
+    window.open(`/admin/getUserProfile?id=${detatilId}`,'_blank',`width=500, height=600, scrollbars=yes`);
   }
 
   useEffect(() => {
