@@ -1,3 +1,5 @@
+
+
 import styled from '@emotion/styled';
 import { TextField } from '@mui/material';
 import Image from 'next/image';
@@ -12,6 +14,7 @@ import { locationAction } from 'store/locationSlice';
 import { checkSearchedWord } from 'utils/adrressFilter';
 import { useMutation } from 'react-query';
 import { isTokenPatchApi } from 'api';
+import EditAddress from 'componentsCompany/Profile/editAddress';
 
 export interface addressType {
   admCd: string;
@@ -48,24 +51,26 @@ type Props = {
 const CompanyAddress = ({
   setPostNumber,
   setCompanyAddress,
-  setAddressOn, 
+  setAddressOn,
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);
   const keyWord = useDebounce(searchWord, 300);
+  const [editAddress, setEditAddress] = useState(false);
 
-  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(() => e.target.value);
   };
   const handleOnClick = async (e: React.MouseEvent<HTMLDivElement>) => {
- 
     const { roadad, zip } = e.currentTarget.dataset;
     setCompanyAddress(roadad!);
     setPostNumber(zip!);
     setAddressOn(false);
   };
 
+  // if (editAddress === true) {
+  //   <EditAddress setComponent={setComponent} />;
+  // }
 
   useEffect(() => {
     const findAddresss = async () => {
@@ -104,6 +109,14 @@ const CompanyAddress = ({
     <Container>
       {/* 검색창 */}
       <HeaderBox>
+        <Image
+          onClick={() => {
+            setAddressOn(false);
+          }}
+          src={''}
+          alt="AddressBackBtn"
+          style={{ cursor: 'pointer' }}
+        />
         <FindAddress
           placeholder="상호명 또는 주소 검색"
           onChange={handleChange}
@@ -133,7 +146,6 @@ const CompanyAddress = ({
           </AddressBox>
         </SearchResult>
       ))}
-      <button onClick={()=>setAddressOn(false)}>test</button>
     </Container>
   );
 };
@@ -205,6 +217,5 @@ const AddressBox = styled.div`
     color: ${colors.gray2};
   }
 `;
-
 
 export default CompanyAddress;
