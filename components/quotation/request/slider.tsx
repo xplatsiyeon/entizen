@@ -12,6 +12,15 @@ import { css } from '@emotion/react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
+interface Ret {
+  maxSubscribePricePerMonth: number;
+  maxTotalSubscribePrice: number;
+  minSubscribePricePerMonth: number;
+  minTotalSubscribePrice: number;
+  minChargingStationInstallationPrice: number;
+  maxChargingStationInstallationPrice: number;
+  investRate: number;
+}
 interface Props {
   value: number;
   setValue: Dispatch<SetStateAction<number>>;
@@ -42,46 +51,113 @@ const SliderSizes = ({
   setCalculatedValue,
   subscribeNumber,
 }: Props) => {
-  const { quotationData } = useSelector((state: RootState) => state);
+  const { requestData } = useSelector(
+    (state: RootState) => state.quotationData,
+  );
 
-  const setPriceByRate = (target: any, rate: any, standardRate: any) => {
-    return Math.round((target * rate) / standardRate);
+  const setPriceByRate = (
+    target: number | undefined,
+    rate: number | undefined,
+    standardRate: number | undefined,
+  ) => {
+    return Math.round((target! * rate!) / standardRate!);
   };
 
   useLayoutEffect(() => {
-    const ret = {
-      maxSubscribePricePerMonth: setPriceByRate(
-        quotationData?.requestData?.maxSubscribePricePerMonth,
-        value,
-        Math.floor(Number(quotationData?.requestData?.investRate) * 100),
-      ),
-      maxTotalSubscribePrice: setPriceByRate(
-        quotationData?.requestData?.maxTotalSubscribePrice!,
-        value,
-        Math.floor(Number(quotationData?.requestData?.investRate) * 100),
-      ),
-      minSubscribePricePerMonth: setPriceByRate(
-        quotationData?.requestData?.minSubscribePricePerMonth!,
-        value,
-        Math.floor(Number(quotationData?.requestData?.investRate) * 100),
-      ),
-      minTotalSubscribePrice: setPriceByRate(
-        quotationData?.requestData?.minTotalSubscribePrice!,
-        value,
-        Math.floor(Number(quotationData?.requestData?.investRate) * 100),
-      ),
-      minChargingStationInstallationPrice: setPriceByRate(
-        quotationData?.requestData?.minChargingStationInstallationPrice!,
-        value,
-        Math.floor(Number(quotationData?.requestData?.investRate) * 100),
-      ),
-      maxChargingStationInstallationPrice: setPriceByRate(
-        quotationData?.requestData?.maxChargingStationInstallationPrice!,
-        value,
-        Math.floor(Number(quotationData?.requestData?.investRate) * 100),
-      ),
-      investRate: value,
+    const investRate = Math.floor(Number(requestData?.investRate) * 100);
+
+    let ret: Ret = {
+      maxSubscribePricePerMonth: 0,
+      maxTotalSubscribePrice: 0,
+      minSubscribePricePerMonth: 0,
+      minTotalSubscribePrice: 0,
+      minChargingStationInstallationPrice: 0,
+      maxChargingStationInstallationPrice: 0,
+      investRate: 0,
     };
+
+    if (requestData?.subscribeProduct === 'ENTIRETY') {
+      console.log('⭐️ 전체구독');
+
+      ret = {
+        maxSubscribePricePerMonth: setPriceByRate(
+          requestData?.entiretyMinAndMaxSubscribePrice
+            ?.maxSubscribePricePerMonth,
+          value,
+          investRate,
+        ),
+        maxTotalSubscribePrice: setPriceByRate(
+          requestData?.entiretyMinAndMaxSubscribePrice?.maxTotalSubscribePrice!,
+          value,
+          investRate,
+        ),
+        minSubscribePricePerMonth: setPriceByRate(
+          requestData?.entiretyMinAndMaxSubscribePrice
+            ?.minSubscribePricePerMonth!,
+          value,
+          investRate,
+        ),
+        minTotalSubscribePrice: setPriceByRate(
+          requestData?.entiretyMinAndMaxSubscribePrice?.minTotalSubscribePrice!,
+          value,
+          investRate,
+        ),
+        minChargingStationInstallationPrice: setPriceByRate(
+          requestData?.entiretyMinAndMaxSubscribePrice
+            ?.minChargingStationInstallationPrice!,
+          value,
+          investRate,
+        ),
+        maxChargingStationInstallationPrice: setPriceByRate(
+          requestData?.entiretyMinAndMaxSubscribePrice
+            ?.maxChargingStationInstallationPrice!,
+          value,
+          investRate,
+        ),
+        investRate: value,
+      };
+    } else {
+      console.log('⭐️ 부분구독');
+      ret = {
+        maxSubscribePricePerMonth: setPriceByRate(
+          requestData?.partMinAndMaxSubscribePrice?.maxSubscribePricePerMonth,
+          value,
+          investRate,
+        ),
+        maxTotalSubscribePrice: setPriceByRate(
+          requestData?.partMinAndMaxSubscribePrice?.maxTotalSubscribePrice!,
+          value,
+          investRate,
+        ),
+        minSubscribePricePerMonth: setPriceByRate(
+          requestData?.partMinAndMaxSubscribePrice?.minSubscribePricePerMonth!,
+          value,
+          investRate,
+        ),
+        minTotalSubscribePrice: setPriceByRate(
+          requestData?.partMinAndMaxSubscribePrice?.minTotalSubscribePrice!,
+          value,
+          investRate,
+        ),
+        minChargingStationInstallationPrice: setPriceByRate(
+          requestData?.partMinAndMaxSubscribePrice
+            ?.minChargingStationInstallationPrice!,
+          value,
+          investRate,
+        ),
+        maxChargingStationInstallationPrice: setPriceByRate(
+          requestData?.partMinAndMaxSubscribePrice
+            ?.maxChargingStationInstallationPrice!,
+          value,
+          investRate,
+        ),
+        investRate: value,
+      };
+    }
+
+    console.log('⭐️ ret ~line 158');
+    console.log(ret);
+
     if (setCalculatedValue) {
       setCalculatedValue({
         maxSubscribePricePerMonth: ret.maxSubscribePricePerMonth!,

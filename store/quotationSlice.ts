@@ -1,15 +1,45 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface RequesQuotationtData {
-  investRate: string;
+  // investRate: string;
+  // isSuccess: boolean;
+  // maxSubscribePricePerMonth: number;
+  // maxTotalSubscribePrice: number;
+  // minSubscribePricePerMonth: number;
+  // minTotalSubscribePrice: number;
+  // minChargingStationInstallationPrice: number;
+  // maxChargingStationInstallationPrice: number;
+  // predictedProfitTime: string;
+
   isSuccess: boolean;
-  maxSubscribePricePerMonth: number;
-  maxTotalSubscribePrice: number;
-  minSubscribePricePerMonth: number;
-  minTotalSubscribePrice: number;
-  minChargingStationInstallationPrice: number;
-  maxChargingStationInstallationPrice: number;
-  predictedProfitTime: string;
+  investRate: string;
+  predictedProfitTime: {
+    year: number;
+    month: number;
+  };
+  entiretyMinAndMaxSubscribePrice: {
+    minChargingStationInstallationPrice: number;
+    maxChargingStationInstallationPrice: number;
+    minSubscribePricePerMonth: number;
+    maxSubscribePricePerMonth: number;
+    minTotalSubscribePrice: number;
+    maxTotalSubscribePrice: number;
+    chargingStationInstallPrice: number;
+    subscribePricePerMonth: number;
+    totalSubscribePrice: number;
+  };
+  partMinAndMaxSubscribePrice: {
+    minChargingStationInstallationPrice: number;
+    maxChargingStationInstallationPrice: number;
+    minSubscribePricePerMonth: number;
+    maxSubscribePricePerMonth: number;
+    minTotalSubscribePrice: number;
+    maxTotalSubscribePrice: number;
+    chargingStationInstallPrice: number;
+    subscribePricePerMonth: number;
+    totalSubscribePrice: number;
+  };
+  subscribeProduct: 'ENTIRETY' | 'PART';
 }
 
 export interface Option {

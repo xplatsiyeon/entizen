@@ -88,15 +88,24 @@ const Request1_7 = (props: Props) => {
       setSliderDisable(false);
       setDisabled(false);
     }
+
     setCalculatedValue({
-      maxSubscribePricePerMonth: requestData?.maxSubscribePricePerMonth!,
-      maxTotalSubscribePrice: requestData?.maxTotalSubscribePrice!,
-      minSubscribePricePerMonth: requestData?.minSubscribePricePerMonth!,
-      minTotalSubscribePrice: requestData?.minTotalSubscribePrice!,
+      maxSubscribePricePerMonth:
+        requestData?.entiretyMinAndMaxSubscribePrice
+          ?.maxSubscribePricePerMonth!,
+      maxTotalSubscribePrice:
+        requestData?.entiretyMinAndMaxSubscribePrice?.maxTotalSubscribePrice!,
+      minSubscribePricePerMonth:
+        requestData?.entiretyMinAndMaxSubscribePrice
+          ?.minSubscribePricePerMonth!,
+      minTotalSubscribePrice:
+        requestData?.entiretyMinAndMaxSubscribePrice?.minTotalSubscribePrice!,
       minChargingStationInstallationPrice:
-        requestData?.minChargingStationInstallationPrice!,
+        requestData?.entiretyMinAndMaxSubscribePrice
+          ?.minChargingStationInstallationPrice!,
       maxChargingStationInstallationPrice:
-        requestData?.maxChargingStationInstallationPrice!,
+        requestData?.entiretyMinAndMaxSubscribePrice
+          ?.maxChargingStationInstallationPrice!,
     });
   }, []);
 
