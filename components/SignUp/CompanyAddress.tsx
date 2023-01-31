@@ -133,6 +133,7 @@ const CompanyAddress = ({
           </AddressBox>
         </SearchResult>
       ))}
+      <button onClick={()=>setAddressOn(false)}>test</button>
     </Container>
   );
 };

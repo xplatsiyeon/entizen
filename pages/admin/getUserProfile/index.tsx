@@ -10,7 +10,8 @@ import { useQuery } from "react-query";
 const UserProfile = ()=>{
 
   const router = useRouter();  
-  const userId = router.query.id;
+  const userId = router.query.USER;
+  console.log(router.query)
   
   const {
     data: userData,
@@ -27,10 +28,14 @@ const UserProfile = ()=>{
       enabled: false,
       staleTime:30000,
       cacheTime:30000
+      /*  enabled: router.isReady,
+      // 몇초마다 갱신 해줄 것인가.
+      refetchInterval: 3000, */
     },
   );
 
   useEffect(()=>{
+    //유저 아이디가 읽힌 후에 useQuer호출(refetch()로).
     if(userId){
       userDataRefetch();
     }

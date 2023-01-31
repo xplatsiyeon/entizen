@@ -72,9 +72,10 @@ type Props = {
   setNowHeight:
     | React.Dispatch<React.SetStateAction<number | undefined>>
     | undefined;
+  userType: string;   
 };
 
-const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
+const OOQDetail = ({ detatilId, setNowHeight, setIsDetail, userType }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   //const routerId = router?.query?.chattingRoomIdx;
@@ -367,7 +368,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
     const style = `left: ${popupX - 200},top: ${popupY - 250},`
     console.log(style)              
 
-    window.open(`/admin/getUserProfile?id=${detatilId}`,'_blank',`width=500, height=600, scrollbars=yes`);
+    window.open(`/admin/getUserProfile?${userType}=${detatilId}`,'_blank',`width=500, height=600, scrollbars=yes`);
   }
 
   useEffect(() => {
@@ -500,6 +501,10 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
                   <Date>{d.date}</Date>
                   <List>
                     {d?.logs?.map((item, idx) => {
+                      console.log(item.messageType)
+                        if (item.messageType === 'SYSTEM') {
+                      return;
+                    } else {
                       return (
                         <Wrap>
                           <ChatBox
@@ -611,7 +616,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
                           </ChatBox>
                         </Wrap>
                       );
-                    })}
+                    }})}
                   </List>
                 </DateChatting>
               );

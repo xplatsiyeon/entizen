@@ -31,7 +31,7 @@ export const userCheckBoxEn = ['USER', 'COMPANY'];
 const OneOnOneQuestion = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
-  const [pickedDate, setPickedDate] = useState<string[]>();
+  const [userType, setUserType] =useState<string>('');
 
   //검색창에 입력되는 값
   const [inputValue, setInputValue] = useState<string>('');
@@ -154,6 +154,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
           communicationStateEn,
           commuCheck.toString(),
         )}
+        setUserType={setUserType}
       />
 
       {isDetail && (
@@ -161,6 +162,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
           detatilId={detatilId}
           setNowHeight={setNowHeight}
           setIsDetail={setIsDetail}
+          userType={userType}
         />
       )}
     </Wrapper>
