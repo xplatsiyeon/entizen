@@ -234,7 +234,7 @@ const Request1_7 = (props: Props) => {
                   충전기로 얻은 수익이 <br />
                 </span>
                 <span className="title">
-                  {date?.year !== null ? `${date?.year}년` : ''}
+                  {date?.year !== 0 ? `${date?.year}년` : ''}
                   {date?.month !== null ? `${date?.month}개월 후` : ''}
                 </span>
                 <span className="income">
