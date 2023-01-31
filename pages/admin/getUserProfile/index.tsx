@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { isTokenAdminGetApi } from "api";
-import { UserRespnse } from "componentsAdmin/Member/CommonDetail";
+import { CompanyResposne, UserRespnse } from "componentsAdmin/Member/CommonDetail";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -10,11 +10,15 @@ import { useQuery } from "react-query";
 const UserProfile = ()=>{
 
   const router = useRouter();  
-  const userId = router.query.id;
+  const userId = router.query['USER'];
+  const comUserId = router.query['COMPANY'];
+  console.log(router.query);
+  console.log(comUserId)
+  
   
   const {
     data: userData,
-    refetch: userDataRefetch
+    refetch: userRefetch
   } = useQuery<UserRespnse>(
     'user-detail',
     () => isTokenAdminGetApi(`/admin/members/users/${userId}`),
@@ -27,14 +31,34 @@ const UserProfile = ()=>{
       enabled: false,
       staleTime:30000,
       cacheTime:30000
+      /*  enabled: router.isReady,
+      // 몇초마다 갱신 해줄 것인가.
+      refetchInterval: 3000, */
     },
   );
 
+  // 기업 상세보기 refetch
+  const {
+    data: companyData,
+    isLoading: companyLoading,
+    refetch: companyRefetch,
+  } = useQuery<CompanyResposne>(
+    'company-detail',
+    () => isTokenAdminGetApi(`/admin/members/companies/${comUserId}`),
+    {
+      enabled: false,
+    },
+  );
   useEffect(()=>{
+    //유저 아이디가 읽힌 후에 useQuer호출(refetch()로).
     if(userId){
-      userDataRefetch();
+      userRefetch();
     }
-  },[userId])
+     //기업 아이디가 읽힌 후에 useQuer호출(refetch()로).
+    if(comUserId){
+      companyRefetch();
+    }
+  },[router.query])
 
     return (
         <>{userId?

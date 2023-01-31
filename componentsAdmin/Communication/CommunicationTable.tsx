@@ -26,6 +26,7 @@ import { excelDownloadFile } from 'hooks/excelDown';
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
+  setUserType?: React.Dispatch<React.SetStateAction<string>>;
   tableType: string;
   pickedDate?: string[];
   detatilId?: string;
@@ -40,6 +41,7 @@ type Props = {
 const CommunicationTable = ({
   setIsDetail,
   setDetailId,
+  setUserType,
   tableType,
   detatilId,
   pickedDate,
@@ -176,7 +178,7 @@ const CommunicationTable = ({
                 convertKo(userCheckBox, userCheckBoxEn, ele.memberType),
                 ele.memberId,
                 ele.consultStatus,
-                ele.chattingRoomIdx,
+                [String(ele.chattingRoomIdx),ele.memberType],
               ];
               temp.push(eleArr);
             });
@@ -189,14 +191,15 @@ const CommunicationTable = ({
               {
                 name: '',
                 id: 'userChatting',
-                formatter: (cell: string) =>
+                formatter: (cell:[string,string]) =>
                   _(
                     <button
                       className="detail"
                       style={{ marginLeft: '10px' }}
                       onClick={() => {
-                        setDetailId(cell);
+                        setDetailId(cell[0]);
                         setIsDetail(true);
+                        if(setUserType)setUserType(cell[1])
                       }}
                     >
                       보기

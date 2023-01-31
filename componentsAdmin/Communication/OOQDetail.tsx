@@ -72,9 +72,15 @@ type Props = {
   setNowHeight:
     | React.Dispatch<React.SetStateAction<number | undefined>>
     | undefined;
+  userType: string;
 };
 
-const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
+const OOQDetail = ({
+  detatilId,
+  setNowHeight,
+  setIsDetail,
+  userType,
+}: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   //const routerId = router?.query?.chattingRoomIdx;
@@ -370,7 +376,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
     console.log(style);
 
     window.open(
-      `/admin/getUserProfile?id=${detatilId}`,
+      `/admin/getUserProfile?${userType}=${detatilId}`,
       '_blank',
       `width=500, height=600, scrollbars=yes`,
     );
