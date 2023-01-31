@@ -518,117 +518,123 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail }: Props) => {
                   <Date>{d.date}</Date>
                   <List>
                     {d?.logs?.map((item, idx) => {
-                      return (
-                        <Wrap>
-                          <ChatBox
-                            userChatting={item?.fromMemberType}
-                            className={`${
-                              item.fromMemberType === 'ADMIN' ? 'admin' : 'user'
-                            } chattingLog`}
-                          >
-                            <ImageWrap
-                              className={
+                      if (item.messageType === 'SYSTEM') {
+                        return;
+                      } else {
+                        return (
+                          <Wrap>
+                            <ChatBox
+                              userChatting={item?.fromMemberType}
+                              className={`${
                                 item.fromMemberType === 'ADMIN'
                                   ? 'admin'
                                   : 'user'
-                              }
-                              userChatting={item?.fromMemberType}
+                              } chattingLog`}
                             >
-                              {item?.fromMemberType !== 'ADMIN' ? (
-                                <img
-                                  src={
-                                    OOQDetailData?.data?.chattingLogs?.member
-                                      ?.profileImageUrl
-                                  }
-                                />
-                              ) : (
-                                <Image src={defaultImg} layout="fill" />
-                              )}
-                            </ImageWrap>
-                            {item.content && (
-                              <Chat
-                                userChatting={item?.fromMemberType}
-                                className={`${
+                              <ImageWrap
+                                className={
                                   item.fromMemberType === 'ADMIN'
                                     ? 'admin'
                                     : 'user'
-                                }`}
-                                //tabIndex={1}
-                              >
-                                {item.content}
-                              </Chat>
-                            )}
-                            {item.messageType === 'FILE' && (
-                              <File>
-                                <FileDownload
-                                  // onClick={DownloadFile}
-                                  href={item?.fileUrl!}
-                                  download={item?.fileOriginalName!}
-                                  // onClick={() => {
-                                  //   fileDownload(
-                                  //     userAgent,
-                                  //     item?.fileOriginalName!,
-                                  //     item?.fileUrl!,
-                                  //   );
-                                  // }}
-                                  type={'blob'}
-                                >
-                                  <Image
-                                    src={fileImg}
-                                    alt="file-icon"
-                                    layout="intrinsic"
-                                  />
-                                  {item?.fileOriginalName}
-                                </FileDownload>
-                              </File>
-                            )}
-
-                            {item.messageType === 'IMAGE' && (
-                              <>
-                                <FileDownload
-                                  href={item?.fileUrl!}
-                                  download={item?.fileOriginalName!}
-                                  type={'blob'}
-                                  // onClick={() => {
-                                  //   fileDownload(
-                                  //     userAgent,
-                                  //     item?.fileOriginalName!,
-                                  //     item?.fileUrl!,
-                                  //   );
-                                  // }}
-                                >
-                                  <img
-                                    src={item?.fileUrl!}
-                                    style={{
-                                      maxWidth: '112.5pt',
-                                      maxHeight: '150pt',
-                                      objectFit: 'cover',
-                                      background: '#0000001c',
-                                    }}
-                                  />
-                                </FileDownload>
-                              </>
-                            )}
-                            <WrapDate userChatting={item?.fromMemberType}>
-                              <IsRead
-                                className={`${
-                                  item.fromMemberType === 'ADMIN'
-                                    ? 'admin-p'
-                                    : 'user-p'
-                                } ${
-                                  idx === d.logs.length - 1 ? 'p-target' : ''
-                                }`}
+                                }
                                 userChatting={item?.fromMemberType}
                               >
-                                {item.wasRead ? '읽음' : ''}
-                              </IsRead>
-                              <MessageDate>
-                                {handleTime(item.createdAt)}
-                              </MessageDate>
-                            </WrapDate>
-                          </ChatBox>
-                        </Wrap>
-                      );
+                                {item?.fromMemberType !== 'ADMIN' ? (
+                                  <img
+                                    src={
+                                      OOQDetailData?.data?.chattingLogs?.member
+                                        ?.profileImageUrl
+                                    }
+                                  />
+                                ) : (
+                                  <Image src={defaultImg} layout="fill" />
+                                )}
+                              </ImageWrap>
+                              {item.content && (
+                                <Chat
+                                  userChatting={item?.fromMemberType}
+                                  className={`${
+                                    item.fromMemberType === 'ADMIN'
+                                      ? 'admin'
+                                      : 'user'
+                                  }`}
+                                  //tabIndex={1}
+                                >
+                                  {item.content}
+                                </Chat>
+                              )}
+                              {item.messageType === 'FILE' && (
+                                <File>
+                                  <FileDownload
+                                    // onClick={DownloadFile}
+                                    href={item?.fileUrl!}
+                                    download={item?.fileOriginalName!}
+                                    // onClick={() => {
+                                    //   fileDownload(
+                                    //     userAgent,
+                                    //     item?.fileOriginalName!,
+                                    //     item?.fileUrl!,
+                                    //   );
+                                    // }}
+                                    type={'blob'}
+                                  >
+                                    <Image
+                                      src={fileImg}
+                                      alt="file-icon"
+                                      layout="intrinsic"
+                                    />
+                                    {item?.fileOriginalName}
+                                  </FileDownload>
+                                </File>
+                              )}
+
+                              {item.messageType === 'IMAGE' && (
+                                <>
+                                  <FileDownload
+                                    href={item?.fileUrl!}
+                                    download={item?.fileOriginalName!}
+                                    type={'blob'}
+                                    // onClick={() => {
+                                    //   fileDownload(
+                                    //     userAgent,
+                                    //     item?.fileOriginalName!,
+                                    //     item?.fileUrl!,
+                                    //   );
+                                    // }}
+                                  >
+                                    <img
+                                      src={item?.fileUrl!}
+                                      style={{
+                                        maxWidth: '112.5pt',
+                                        maxHeight: '150pt',
+                                        objectFit: 'cover',
+                                        background: '#0000001c',
+                                      }}
+                                    />
+                                  </FileDownload>
+                                </>
+                              )}
+                              <WrapDate userChatting={item?.fromMemberType}>
+                                <IsRead
+                                  className={`${
+                                    item.fromMemberType === 'ADMIN'
+                                      ? 'admin-p'
+                                      : 'user-p'
+                                  } ${
+                                    idx === d.logs.length - 1 ? 'p-target' : ''
+                                  }`}
+                                  userChatting={item?.fromMemberType}
+                                >
+                                  {item.wasRead ? '읽음' : ''}
+                                </IsRead>
+                                <MessageDate>
+                                  {handleTime(item.createdAt)}
+                                </MessageDate>
+                              </WrapDate>
+                            </ChatBox>
+                          </Wrap>
+                        );
+                      }
                     })}
                   </List>
                 </DateChatting>

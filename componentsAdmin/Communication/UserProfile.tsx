@@ -1,61 +1,56 @@
-import styled from "@emotion/styled";
-import { isTokenAdminGetApi } from "api";
-import { UserRespnse } from "componentsAdmin/Member/CommonDetail";
-import Image from "next/image";
-import { useQuery } from "react-query";
+import styled from '@emotion/styled';
+import { isTokenAdminGetApi } from 'api';
+import { UserRespnse } from 'componentsAdmin/Member/CommonDetail';
+import Image from 'next/image';
+import { useQuery } from 'react-query';
 
-
-const UserProfile = (memberIdx:{memberIdx:number})=>{
-
-  const {
-    data: userData,
-    isError: userError
-  } = useQuery<UserRespnse>(
+const UserProfile = (memberIdx: { memberIdx: number }) => {
+  const { data: userData, isError: userError } = useQuery<UserRespnse>(
     'user-detail',
     () => isTokenAdminGetApi(`/admin/members/users/${memberIdx}`),
     {
-    onError:(e)=>{
+      onError: (e) => {
         console.log(e);
-        alert('없는 회원입니다.')
-    },
+        alert('없는 회원입니다.');
+      },
       // enabled: false,
       enabled: false,
     },
   );
 
-    return (
-        <>
-          <InfoBox>
-            {userData?.data?.member?.profileImageUrl!?
-            <Avatar>
-                <Image
-                  src={userData?.data?.member?.profileImageUrl!}
-                  alt="avatar"
-                  layout="fill"
-                  objectFit="cover"
-                />
-            </Avatar>
-           : 
-            <NoAvatar />
-          }
-        </InfoBox>
-        <TextAreaContainer>
-          <label>관리자 전용 특이사항</label>
-            <textarea
-              rows={10}
-              cols={30}
-              // value={
-              //   specialNote !== undefined
-              //     ? specialNote
-              //     : userData?.data?.member?.etc
-              // }
-            >
-              {userData?.data?.member?.etc}
-            </textarea>
-        </TextAreaContainer>
-        </>
-    )
-}
+  return (
+    <>
+      <InfoBox>
+        {userData?.data?.member?.profileImageUrl! ? (
+          <Avatar>
+            <Image
+              src={userData?.data?.member?.profileImageUrl!}
+              alt="avatar"
+              layout="fill"
+              objectFit="cover"
+            />
+          </Avatar>
+        ) : (
+          <NoAvatar />
+        )}
+      </InfoBox>
+      <TextAreaContainer>
+        <label>관리자 전용 특이사항</label>
+        <textarea
+          rows={10}
+          cols={30}
+          // value={
+          //   specialNote !== undefined
+          //     ? specialNote
+          //     : userData?.data?.member?.etc
+          // }
+        >
+          {userData?.data?.member?.etc}
+        </textarea>
+      </TextAreaContainer>
+    </>
+  );
+};
 
 export default UserProfile;
 
@@ -106,5 +101,28 @@ const TextAreaContainer = styled.div`
     background: #ffffff;
     border: 2px solid #e7e7e7;
     border-radius: 4px;
+  }
+`;
+
+const Contents = styled.ul`
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: #000000;
+  list-style: none;
+  padding-left: 0px;
+
+  li {
+    display: flex;
+    gap: 34px;
+    :not(:last-child) {
+      margin-bottom: 14px;
+    }
+  }
+  .label {
+    width: 59px;
+  }
+  .comapny {
+    width: 92px;
   }
 `;
