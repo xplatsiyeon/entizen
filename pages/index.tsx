@@ -7,11 +7,16 @@ import CompanyMainPage from 'components/Main/companyMain';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import Loader from 'components/Loader';
+import { useRouter } from 'next/router';
 
 interface Props {
   userAgent: string;
 }
 const Home: NextPage<Props> = ({}: Props) => {
+  const router = useRouter();
+  console.log('=================window.location.href==================');
+  console.log(window.location.href);
+
   const { userAgent } = useSelector((state: RootState) => state.userAgent);
   const [loginChecking, setLoginChecking] = useState(false);
   const memberType = JSON.parse(sessionStorage?.getItem('MEMBER_TYPE')!);
