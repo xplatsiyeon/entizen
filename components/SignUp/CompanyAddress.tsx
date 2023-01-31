@@ -46,13 +46,11 @@ type Props = {
   setPostNumber: React.Dispatch<React.SetStateAction<string>>;
   setCompanyAddress: React.Dispatch<React.SetStateAction<string>>;
   setAddressOn: React.Dispatch<React.SetStateAction<boolean>>;
-  setComponent: React.Dispatch<React.SetStateAction<number>>;
 };
 const CompanyAddress = ({
   setPostNumber,
   setCompanyAddress,
   setAddressOn,
-  setComponent,
 }: Props) => {
   const [searchWord, setSearchWord] = useState<string>('');
   const [results, setResults] = useState<addressType[]>([]);

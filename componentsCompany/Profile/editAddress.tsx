@@ -48,7 +48,6 @@ const EditAddress = ({ setComponent }: Props) => {
         setPostNumber={setPostNumber}
         setCompanyAddress={setCompanyAddress}
         setAddressOn={setAddressOn}
-        setComponent={setComponent}
       />
     );
   }
