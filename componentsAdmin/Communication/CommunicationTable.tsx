@@ -26,7 +26,7 @@ import { excelDownloadFile } from 'hooks/excelDown';
 type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
-  setUserType: React.Dispatch<React.SetStateAction<string>>;
+  setUserType?: React.Dispatch<React.SetStateAction<string>>;
   tableType: string;
   pickedDate?: string[];
   detatilId?: string;
@@ -199,7 +199,7 @@ const CommunicationTable = ({
                       onClick={() => {
                         setDetailId(cell[0]);
                         setIsDetail(true);
-                        setUserType(cell[1])
+                        if(setUserType)setUserType(cell[1])
                       }}
                     >
                       보기
