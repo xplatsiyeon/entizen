@@ -14,6 +14,7 @@ import { locationAction } from 'store/locationSlice';
 import { checkSearchedWord } from 'utils/adrressFilter';
 import { useMutation } from 'react-query';
 import { isTokenPatchApi } from 'api';
+import AddressBackBtn from 'public/images/AddressBackBtn.svg';
 import EditAddress from 'componentsCompany/Profile/editAddress';
 
 export interface addressType {
@@ -113,7 +114,7 @@ const CompanyAddress = ({
           onClick={() => {
             setAddressOn(false);
           }}
-          src={''}
+          src={AddressBackBtn}
           alt="AddressBackBtn"
           style={{ cursor: 'pointer' }}
         />

@@ -112,12 +112,16 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail, userType }: Props) =>
     },
   );
 
-  const chat = OOQDetailData?.data?.chattingLogs?.chattingLogs;
-  const endChatLogic = chat
-    ?.map((item, idx) => item?.content?.includes('상담이 종료되었습니다.'))
-    .some((el) => {
-      return el === true;
-    });
+  const chat = OOQDetailData?.data?.chattingLogs?.chattingLogs!;
+
+  console.log('chat', chat);
+
+  // const endChatLogic = chat
+  //   ?.map((item, idx) => item?.content?.includes('상담이 종료되었습니다.'))
+  //   .some((el) => {
+  //     return el === true;
+  //   });
+
   const [endChat, setEndChat] = useState(false);
   // 채팅 내용 중에 상담종료 있는지 없는지 판단
 
@@ -144,7 +148,6 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail, userType }: Props) =>
   const fileRef = useRef<HTMLInputElement>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
   const focusRef = useRef<HTMLInputElement>(null);
-
 
   //   채팅 POST
   const {
@@ -359,14 +362,13 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail, userType }: Props) =>
 
   // };
 
-
-  const getProfile =(detatilId:string)=>{
-    const popupX =  (document.body.offsetWidth / 2)
+  const getProfile = (detatilId: string) => {
+    const popupX = document.body.offsetWidth / 2;
     const popupY = window.screen.height;
     console.log(popupX, popupY);
 
-    const style = `left: ${popupX - 200},top: ${popupY - 250},`
-    console.log(style)              
+    const style = `left: ${popupX - 200},top: ${popupY - 250},`;
+    console.log(style);
 
     window.open(`/admin/getUserProfile?${userType}=${detatilId}`,'_blank',`width=500, height=600, scrollbars=yes`);
   }
@@ -380,9 +382,10 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail, userType }: Props) =>
   /* 호출되는 데이터는 최신순 정렬. 제일 오래된 데이터가 맨 위로 가도록 정렬 후, 같은 날자끼리 묶는 함수*/
   useEffect(() => {
     console.log('쿼리아이디, 데이타 변경됨');
-    if (endChatLogic !== undefined) {
-      setEndChat(endChatLogic);
-    }
+    // if (endChatLogic !== undefined) {
+    //   setEndChat(endChatLogic);
+    // }
+
     if (!OOQDetailIsLoading && OOQDetailData?.isSuccess === true) {
       const sortArr = Array.from(
         OOQDetailData?.data?.chattingLogs?.chattingLogs!,
@@ -454,6 +457,17 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail, userType }: Props) =>
     }
   }, [detatilId, OOQDetailData]); //의존성 배열, 호출할때만으로 정해야 함.
 
+  useEffect(() => {
+    if (
+      OOQDetailData?.data?.chattingLogs?.chattingLogs[0]?.content ===
+      '상담이 종료되었습니다.'
+    ) {
+      setEndChat(true);
+    } else {
+      setEndChat(false);
+    }
+  }, [detatilId, OOQDetailData]);
+
   const now = window.document.documentElement.scrollHeight;
 
   useEffect(() => {
@@ -478,7 +492,7 @@ const OOQDetail = ({ detatilId, setNowHeight, setIsDetail, userType }: Props) =>
       <Wrapper className="OOQ-innerWrap">
         <TopBox className="OOQ-innerTop">
           <P>{OOQDetailData?.data?.chattingLogs?.member?.id}</P>
-          <button onClick={()=>getProfile(detatilId)}>test</button>
+          <button onClick={() => getProfile(detatilId)}>test</button>
           <QuitBtn
             onClick={() => {
               if (endChat === false) {

@@ -125,7 +125,15 @@ interface ProjectDetailResponse {
     };
   };
 }
-const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
+const ProjectCompleteDetail = ({
+  setIsDetail,
+  projectIdx,
+  setNowHeight,
+}: Props) => {
+  // 표기 순서: 구독시작일 - 구독종료일 - 충전소 설치비 - 월 구독료 - 충전요금(프로젝트 생성일 빼고 구독시작일, 구독종료일)
+  // 진행단계: 구독종료 D-n
+  // 필요 자료: 카탈로그, 견적서, 사업자등록증 등 역경매 프로세스에서 등록된 자료들이 모두 업로드
+
   const queryClinet = useQueryClient();
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
@@ -604,7 +612,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
   );
 };
 
-export default ProjectDetail;
+export default ProjectCompleteDetail;
 
 const Background = styled.div`
   width: 100%;

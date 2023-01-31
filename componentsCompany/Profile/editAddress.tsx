@@ -40,6 +40,8 @@ const EditAddress = ({ setComponent }: Props) => {
     },
   });
 
+  console.log('addressOn', addressOn);
+
   if (addressOn) {
     return (
       <CompanyAddress

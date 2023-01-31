@@ -25,6 +25,11 @@ interface CalculateValue {
   minChargingStationInstallationPrice: number;
   maxChargingStationInstallationPrice: number;
 }
+
+interface PredictedProfitTime {
+  year?: number;
+  month?: number;
+}
 const TAG = '1-7.tsx';
 const Request1_7 = (props: Props) => {
   const router = useRouter();
@@ -42,6 +47,10 @@ const Request1_7 = (props: Props) => {
     minChargingStationInstallationPrice: 0,
     maxChargingStationInstallationPrice: 0,
   });
+
+  const [simulVisible, setSimulVisible] = useState(false);
+
+  const [date, setDate] = useState<PredictedProfitTime>({ year: 0, month: 0 });
   // react-query // api 호출
   const { mutate, error, isError, isLoading } = useMutation(isTokenPostApi, {
     onSuccess: (res) => {
@@ -107,6 +116,15 @@ const Request1_7 = (props: Props) => {
         requestData?.entiretyMinAndMaxSubscribePrice
           ?.maxChargingStationInstallationPrice!,
     });
+
+    setDate({
+      year: requestData?.predictedProfitTime?.year,
+      month: requestData?.predictedProfitTime?.month,
+    });
+
+    if (date?.month !== null || date?.year !== null) {
+      setSimulVisible(true);
+    }
   }, []);
 
   const onClickModal = () => {
@@ -131,9 +149,10 @@ const Request1_7 = (props: Props) => {
   }
 
   useEffect(() => {
-    console.log(value);
-    console.log(calculatedValue);
+    console.log('🌸 value 🌸', value);
+    console.log('💔 calculatedValue 💔', calculatedValue);
   }, [value, calculatedValue]);
+
   return (
     <React.Fragment>
       <WebBody>
@@ -217,6 +236,30 @@ const Request1_7 = (props: Props) => {
                   </span>
                 </div>
               </ContentsWrapper>
+              {simulVisible && (
+                <>
+                  <SimulContainer>
+                    <span className="income">
+                      충전기로 얻은 수익이 <br />
+                    </span>
+                    <span className="title">
+                      {date?.year !== 0 || date?.year !== null
+                        ? `${date?.year}년`
+                        : ''}
+                      {date?.month !== null || date?.month !== 0
+                        ? `${date?.month}개월 후`
+                        : ''}
+                    </span>
+                    <span className="income">
+                      총 투자비용보다 많아질 것으로 기대됩니다.
+                    </span>
+                  </SimulContainer>
+                  <Notice>
+                    * 해당 결과는 실제와 다를 수 있으니 참고용으로 사용해주시기
+                    바랍니다.
+                  </Notice>
+                </>
+              )}
               <RequestForm>
                 <div className="name">
                   <span>기타 요청사항 (선택)</span>
@@ -371,8 +414,10 @@ const ContentsWrapper = styled.div`
   }
 `;
 const RequestForm = styled.form`
-  padding-top: 60pt;
-
+  padding-top: 45pt;
+  @media (max-width: 899.25pt) {
+    padding-top: 27pt;
+  }
   .name {
     display: flex;
     justify-content: space-between;
@@ -417,7 +462,7 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
   letter-spacing: -0.02em;
   color: ${colors.lightWhite};
   background-color: ${colors.main};
-  border-radius: 8px;
+  border-radius: 6pt;
   cursor: pointer;
   //margin-bottom: 20pt;
 
@@ -428,5 +473,63 @@ const Btn = styled.div<{ buttonActivate: boolean }>`
     margin: 0pt;
     width: 100%;
     border-radius: 0;
+  }
+`;
+
+const SimulContainer = styled.div`
+  background-color: #5221cb;
+  padding: 21pt 16.5pt;
+  border-radius: 6pt;
+  margin: 30pt auto 15pt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .income {
+    font-family: 'Spoqa Han Sans Neo';
+    font-weight: 500;
+    font-size: 12pt;
+    line-height: 15pt;
+    letter-spacing: -2%;
+    text-align: center;
+    color: #ffffff;
+    white-space: pre;
+    opacity: 0.5;
+    @media (max-width: 899.25pt) {
+      font-size: 10.5pt;
+    }
+  }
+  .title {
+    font-family: 'Spoqa Han Sans Neo';
+    font-weight: 700;
+    font-size: 18pt;
+    line-height: 15pt;
+    letter-spacing: -2%;
+    text-align: center;
+    color: #ffffff;
+    padding: 12pt 0;
+    white-space: pre;
+    @media (max-width: 899.25pt) {
+      font-size: 18pt;
+    }
+  }
+  @media (max-width: 899.25pt) {
+    margin: 27pt auto 6pt;
+  }
+`;
+
+const Notice = styled.span`
+  font-weight: 400;
+  font-size: 9pt;
+  line-height: 12pt;
+  letter-spacing: -2%;
+  text-align: right;
+  color: #747780;
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  @media (max-width: 899.25pt) {
+    font-size: 7.5pt;
+    justify-content: flex-end;
   }
 `;
