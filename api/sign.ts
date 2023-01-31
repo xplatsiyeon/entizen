@@ -100,14 +100,14 @@ export const modusign = (data: ModuSignResponse) => {
             },
           },
           // 엔티즌
-          {
-            excluded: false,
-            signingMethod: { type: 'EMAIL', value: 'mznx0192@naver.com' },
-            signingDuration: 20160,
-            locale: 'ko',
-            role: '관리자',
-            name: '엔티즌',
-          },
+          // {
+          //   excluded: false,
+          //   signingMethod: { type: 'EMAIL', value: 'mznx0192@naver.com' },
+          //   signingDuration: 20160,
+          //   locale: 'ko',
+          //   role: '관리자',
+          //   name: '엔티즌',
+          // },
         ],
         requesterInputMappings: [
           {
