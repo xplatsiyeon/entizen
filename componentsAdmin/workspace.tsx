@@ -48,7 +48,7 @@ const closeList = [
   ['역경매 현황', '프로젝트 현황', 'A/S 현황', '통계'],
   ['일반회원', '기업회원'],
   ['역경매관리 리스트'],
-  ['프로젝트 리스트'],
+  ['진행프로젝트 리스트', '완료프로젝트 리스트'],
   ['AS 상세'],
   ['소통하기 리스트', '1대1 문의'],
   ['리스트 조회'],
@@ -137,7 +137,7 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
         dispatch(adminPageNumberAction.setIsAdminPage(7));
         break;
 
-      case '프로젝트 리스트':
+      case '진행프로젝트 리스트':
         // setNumber(8);
         dispatch(adminPageNumberAction.setIsAdminPage(8));
         break;
@@ -235,6 +235,11 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
       case 'A/S 현황':
         // setNumber(25);
         dispatch(adminPageNumberAction.setIsAdminPage(25));
+        break;
+
+      case '완료프로젝트 리스트':
+        // setNumber(26);
+        dispatch(adminPageNumberAction.setIsAdminPage(28));
         break;
 
       default:

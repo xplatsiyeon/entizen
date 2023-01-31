@@ -159,10 +159,7 @@ const MemberContents = ({
               className="address"
               /> */}
             <span>
-              {
-                CompanyData?.data?.member?.companyMemberAdditionalInfo
-                  ?.companyDetailAddress
-              }
+              {`${CompanyData?.data?.member?.companyMemberAdditionalInfo?.companyAddress} ${CompanyData?.data?.member?.companyMemberAdditionalInfo?.companyDetailAddress}`}
             </span>
           </li>
           <li>

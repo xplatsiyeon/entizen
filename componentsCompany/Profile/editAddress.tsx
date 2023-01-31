@@ -40,12 +40,15 @@ const EditAddress = ({ setComponent }: Props) => {
     },
   });
 
+  console.log('addressOn', addressOn);
+
   if (addressOn) {
     return (
       <CompanyAddress
         setPostNumber={setPostNumber}
         setCompanyAddress={setCompanyAddress}
         setAddressOn={setAddressOn}
+        setComponent={setComponent}
       />
     );
   }

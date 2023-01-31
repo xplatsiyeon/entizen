@@ -80,23 +80,27 @@ const ProjectListTable = ({
         onSuccess: (projectListData) => {
           if (tableType === 'projectListData') {
             const temp: any = [];
-            projectListData?.data?.projects.forEach((ele, idx) => {
-              const approve =
-                ele?.currentStep === '승인 대기' ? '승인대기' : ele.currentStep;
-              const eleArr = [
-                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                  idx + 1 === 10 ? page * 10 : idx + 1
-                }`,
-                ele.projectNumber!,
-                ele.userMember.id!,
-                ele.companyMember.id!,
-                approve,
-                ele.projectName,
-                dateFomat(ele.createdAt),
-                ele.projectIdx!,
-              ];
-              temp.push(eleArr);
-            });
+            projectListData?.data?.projects
+              ?.filter((item) => item?.currentStep !== '완료')
+              .forEach((ele, idx) => {
+                const approve =
+                  ele?.currentStep === '승인 대기'
+                    ? '승인대기'
+                    : ele.currentStep;
+                const eleArr = [
+                  `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                    idx + 1 === 10 ? page * 10 : idx + 1
+                  }`,
+                  ele.projectNumber!,
+                  ele.userMember.id!,
+                  ele.companyMember.id!,
+                  approve,
+                  ele.projectName,
+                  dateFomat(ele.createdAt),
+                  ele.projectIdx!,
+                ];
+                temp.push(eleArr);
+              });
             setDataArr(temp);
             setColumns([
               '번호',
@@ -147,7 +151,89 @@ const ProjectListTable = ({
       },
     );
 
-  console.log('projectListData', projectListData);
+  // 완료는 프로젝트 생성일이 아니라 구독시작일 & 구독종료일
+  // 진행단계에 구독종료 D-n으로 보여주기
+
+  const { data: projectCompleteData, refetch: projectCompleteListRefetch } =
+    useQuery<ProjectList>(
+      'projectCompleteList',
+      () =>
+        isTokenAdminGetApi(
+          `/admin/projects?page=${page}&limit=10&startDate=${
+            pickedDate ? pickedDate[0] : '2022-09-05'
+          }&endDate=${
+            pickedDate ? pickedDate[1] : today
+          }&searchType=${searchType}&searchKeyword=${searchKeyword}${
+            projectQueryString ? projectQueryString : '&steps[]=undefined'
+          }`,
+        ),
+      {
+        enabled: false,
+        onSuccess: (projectCompleteData) => {
+          if (tableType === 'projectCompleteData') {
+            const temp: any = [];
+            projectCompleteData?.data?.projects
+              ?.filter((item) => item?.currentStep === '완료')
+              .forEach((ele, idx) => {
+                const approve =
+                  ele?.currentStep === '승인 대기'
+                    ? '승인대기'
+                    : ele.currentStep;
+                const eleArr = [
+                  `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                    idx + 1 === 10 ? page * 10 : idx + 1
+                  }`,
+                  ele.projectNumber!,
+                  ele.userMember.id!,
+                  ele.companyMember.id!,
+                  approve,
+                  ele.projectName,
+                  dateFomat(ele.createdAt),
+                  ele.projectIdx!,
+                ];
+                temp.push(eleArr);
+              });
+            setDataArr(temp);
+            setColumns([
+              '번호',
+              '프로젝트 번호',
+              '작성자(아이디)',
+              '기업회원(아이디)',
+              {
+                name: '구독종료',
+                id: 'projectCompleteData',
+                formatter: (cell: string) =>
+                  _(<span className="approveNot">{cell}</span>),
+              },
+              '프로젝트_제목',
+              '프로젝트_생성일',
+              {
+                name: '',
+                id: 'projectCompleteData',
+                formatter: (cell: string) =>
+                  _(
+                    <button
+                      className="detail"
+                      onClick={() => {
+                        setDetailId(cell);
+                        setIsDetail(true);
+                      }}
+                    >
+                      보기
+                    </button>,
+                  ),
+              },
+            ]);
+            setLength(
+              projectCompleteData.data.totalCount
+                ? projectCompleteData.data.totalCount
+                : 0,
+            );
+          }
+        },
+        onError: () => alert('다시 시도해주세요'),
+      },
+    );
 
   //파트너 등록 제품
   const partnerProduct = [
@@ -187,6 +273,10 @@ const ProjectListTable = ({
       case 'projectListData':
         projectListRefetch();
         break;
+
+      case 'projectCompleteData':
+        projectCompleteListRefetch();
+        break;
     }
     // 의존성 배열에 api.get()dml data넣기.
   }, []);
@@ -195,6 +285,10 @@ const ProjectListTable = ({
     switch (tableType) {
       case 'projectListData':
         projectListRefetch();
+        break;
+
+      case 'projectCompleteData':
+        projectCompleteListRefetch();
         break;
     }
   }, [page, pickedDate, searchKeyword, projectQueryString, searchType]);

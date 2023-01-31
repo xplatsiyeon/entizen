@@ -29,6 +29,7 @@ import { RootState } from 'store/store';
 import IncomeSimul from 'componentsAdmin/AdminDataDownload/IncomeSimul/IncomeSimul';
 import Subsidy from 'componentsAdmin/AdminDataDownload/Subsidy/Subsidy';
 import PreQuotationExel from 'componentsAdmin/AdminDataDownload/PreQuotationExel/PreQuotationExel';
+import ProjectCompleteList from 'componentsAdmin/ProjectList/ProjectCompleteList';
 
 type Props = {};
 
@@ -87,6 +88,7 @@ const index = (props: Props) => {
       {number === 6 && <CompanyManagement setNowHeight={setNowHeight} />}
       {number === 7 && <ReverseAuctionList setNowHeight={setNowHeight} />}
       {number === 8 && <ProjectList setNowHeight={setNowHeight} />}
+      {number === 28 && <ProjectCompleteList setNowHeight={setNowHeight} />}
       {number === 9 && <ASDetail setNowHeight={setNowHeight} />}
       {number === 10 && <CommunicationList setNowHeight={setNowHeight} />}
       {number === 11 && <OneOnOneQuestion setNowHeight={setNowHeight} />}
