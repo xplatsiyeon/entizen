@@ -147,8 +147,6 @@ const Request1_7 = (props: Props) => {
     console.log('💔 calculatedValue 💔', calculatedValue);
   }, [value, calculatedValue]);
 
-  console.log('🎃 date?.year 🎃', date?.year);
-
   return (
     <React.Fragment>
       <WebBody>
