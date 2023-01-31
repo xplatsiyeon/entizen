@@ -401,7 +401,9 @@ const ContentsWrapper = styled.div`
 `;
 const RequestForm = styled.form`
   padding-top: 45pt;
-
+  @media (max-width: 899.25pt) {
+    padding-top: 27pt;
+  }
   .name {
     display: flex;
     justify-content: space-between;
@@ -479,6 +481,9 @@ const SimulContainer = styled.div`
     color: #ffffff;
     white-space: pre;
     opacity: 0.5;
+    @media (max-width: 899.25pt) {
+      font-size: 10.5pt;
+    }
   }
   .title {
     font-family: 'Spoqa Han Sans Neo';
@@ -490,6 +495,12 @@ const SimulContainer = styled.div`
     color: #ffffff;
     padding: 12pt 0;
     white-space: pre;
+    @media (max-width: 899.25pt) {
+      font-size: 18pt;
+    }
+  }
+  @media (max-width: 899.25pt) {
+    margin: 27pt auto 6pt;
   }
 `;
 
@@ -503,4 +514,8 @@ const Notice = styled.span`
   white-space: nowrap;
   display: flex;
   justify-content: center;
+  @media (max-width: 899.25pt) {
+    font-size: 7.5pt;
+    justify-content: flex-end;
+  }
 `;
