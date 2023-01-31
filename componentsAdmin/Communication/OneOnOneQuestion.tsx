@@ -31,7 +31,10 @@ export const userCheckBoxEn = ['USER', 'COMPANY'];
 const OneOnOneQuestion = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
-  const [userType, setUserType] =useState<string>('');
+  const [userType, setUserType] = useState<string>('');
+
+  // 윈도우 팝업에서 필요한 id 값
+  const [memberIdx, setMemberIdx] = useState('');
 
   //검색창에 입력되는 값
   const [inputValue, setInputValue] = useState<string>('');
@@ -155,6 +158,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
           commuCheck.toString(),
         )}
         setUserType={setUserType}
+        setMemberIdx={setMemberIdx}
       />
 
       {isDetail && (
@@ -163,6 +167,7 @@ const OneOnOneQuestion = ({ setNowHeight }: Props) => {
           setNowHeight={setNowHeight}
           setIsDetail={setIsDetail}
           userType={userType}
+          memberIdx={memberIdx}
         />
       )}
     </Wrapper>

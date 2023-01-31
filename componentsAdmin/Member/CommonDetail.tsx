@@ -110,6 +110,8 @@ const CommonDetail = ({ setIsDetail, type, memberIdx }: Props) => {
     },
   );
 
+  console.log('memberIdx 🎃', memberIdx);
+
   const WriteModalHandle = () => {
     setIsModal(true);
   };

@@ -27,6 +27,7 @@ type Props = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
   setDetailId: React.Dispatch<React.SetStateAction<string>>;
   setUserType?: React.Dispatch<React.SetStateAction<string>>;
+  setMemberIdx?: React.Dispatch<React.SetStateAction<string>>;
   tableType: string;
   pickedDate?: string[];
   detatilId?: string;
@@ -42,6 +43,7 @@ const CommunicationTable = ({
   setIsDetail,
   setDetailId,
   setUserType,
+  setMemberIdx,
   tableType,
   detatilId,
   pickedDate,
@@ -178,7 +180,7 @@ const CommunicationTable = ({
                 convertKo(userCheckBox, userCheckBoxEn, ele.memberType),
                 ele.memberId,
                 ele.consultStatus,
-                [String(ele.chattingRoomIdx),ele.memberType],
+                [String(ele.chattingRoomIdx), ele.memberType, ele.memberIdx],
               ];
               temp.push(eleArr);
             });
@@ -191,7 +193,7 @@ const CommunicationTable = ({
               {
                 name: '',
                 id: 'userChatting',
-                formatter: (cell:[string,string]) =>
+                formatter: (cell: [string, string, string]) =>
                   _(
                     <button
                       className="detail"
@@ -199,7 +201,10 @@ const CommunicationTable = ({
                       onClick={() => {
                         setDetailId(cell[0]);
                         setIsDetail(true);
-                        if(setUserType)setUserType(cell[1])
+                        if (setUserType) setUserType(cell[1]);
+                        if (setMemberIdx) {
+                          setMemberIdx(cell[2]);
+                        }
                       }}
                     >
                       보기

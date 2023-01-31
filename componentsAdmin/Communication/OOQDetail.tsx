@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import send from 'public/images/send.png';
 import sendBlue from 'public/images/send-blue.png';
 import fileBtn from 'public/images/fileBtn.png';
@@ -73,6 +73,7 @@ type Props = {
     | React.Dispatch<React.SetStateAction<number | undefined>>
     | undefined;
   userType: string;
+  memberIdx?: string;
 };
 
 const OOQDetail = ({
@@ -80,6 +81,7 @@ const OOQDetail = ({
   setNowHeight,
   setIsDetail,
   userType,
+  memberIdx,
 }: Props) => {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -367,7 +369,8 @@ const OOQDetail = ({
 
   // };
 
-  const getProfile = (detatilId: string) => {
+  // 윈도우 팝업
+  const getProfile = (memberIdx: string) => {
     const popupX = document.body.offsetWidth / 2;
     const popupY = window.screen.height;
     console.log(popupX, popupY);
@@ -376,11 +379,19 @@ const OOQDetail = ({
     console.log(style);
 
     window.open(
-      `/admin/getUserProfile?${userType}=${detatilId}`,
+      `/admin/getUserProfile?${userType}=${memberIdx}`,
       '_blank',
       `width=500, height=600, scrollbars=yes`,
     );
   };
+
+  useEffect(() => {
+    window.open(
+      `/admin/getUserProfile?${userType}=${memberIdx}`,
+      '_blank',
+      `width=500, height=600, scrollbars=yes`,
+    );
+  }, []);
 
   useEffect(() => {
     if (loading) {
@@ -501,7 +512,7 @@ const OOQDetail = ({
       <Wrapper className="OOQ-innerWrap">
         <TopBox className="OOQ-innerTop">
           <P>{OOQDetailData?.data?.chattingLogs?.member?.id}</P>
-          <button onClick={() => getProfile(detatilId)}>test</button>
+          {/* <button onClick={() => getProfile(memberIdx!)}>test</button> */}
           <QuitBtn
             onClick={() => {
               if (endChat === false) {
@@ -544,6 +555,12 @@ const OOQDetail = ({
                                     : 'user'
                                 }
                                 userChatting={item?.fromMemberType}
+                                style={{
+                                  cursor: 'pointer',
+                                }}
+                                onClick={() => {
+                                  getProfile(memberIdx!);
+                                }}
                               >
                                 {item?.fromMemberType !== 'ADMIN' ? (
                                   <img
