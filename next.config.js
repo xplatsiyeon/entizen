@@ -17,7 +17,7 @@ const nextConfig = {
       // 로컬에서 사용할때만 활성화 시키기
       // {
       //   source: '/:path*',
-      //   destination: `https://test-api.entizen.kr/:path*`,
+      //   destination: `https://api.entizen.kr/:path*`,
       // },
       {
         source: '/oauth2.0/:path*', // url이 source에 해당될 경우
@@ -25,7 +25,7 @@ const nextConfig = {
       },
       // {
       //   source: `https://test.entizen.kr/landing`,
-      //   destination: `https://test-api.entizen.kr/landing`,
+      //   destination: `https://api.entizen.kr/landing`,
       // }
     ];
   },
