@@ -70,6 +70,8 @@ const UserProfile = () => {
                     src={userData?.data?.member?.profileImageUrl!}
                     alt="avatar"
                     layout="fill"
+                    priority={true}
+                    unoptimized={true}
                     objectFit="cover"
                   />
                 </Avatar>
@@ -129,6 +131,8 @@ const UserProfile = () => {
                     }
                     alt="avatar"
                     layout="fill"
+                    priority={true}
+                    unoptimized={true}
                     objectFit="cover"
                   />
                 </Avatar>

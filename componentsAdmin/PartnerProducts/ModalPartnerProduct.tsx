@@ -353,13 +353,14 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
             </List>
             <List>
               <Label>제조사</Label>
-              <RequestContents height={33} maxLength={50} readOnly>
+              {/* <RequestContents height={33} maxLength={50} readOnly>
                 {partnerProductList?.data?.manufacturer}
-              </RequestContents>
+              </RequestContents> */}
+              <Contents>{partnerProductList?.data?.manufacturer}</Contents>
             </List>
             <List>
               <Label>충전모달</Label>
-              <Contents>
+              {/* <Contents>
                 <DropDownBtn
                   currentStep={convertKo(
                     M5_LIST,
@@ -372,11 +373,18 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
                   width={'300px'}
                   handleSelectBox={handleSelectBox}
                 />
+              </Contents> */}
+              <Contents>
+                {convertKo(
+                  M5_LIST,
+                  M5_LIST_EN,
+                  partnerProductList?.data?.kind!,
+                )}
               </Contents>
             </List>
             <List>
               <Label>충전방식</Label>
-              <Contents>
+              {/* <Contents>
                 {chargeMethod &&
                   chargeMethod?.map((item, index) => (
                     <Fragment key={index}>
@@ -389,11 +397,14 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
                       />
                     </Fragment>
                   ))}
-              </Contents>
+              </Contents> */}
+
+              {chargeMethod &&
+                chargeMethod?.map((item, index) => <Contents>{item}</Contents>)}
             </List>
             <List>
               <Label>채널</Label>
-              <Contents>
+              {/* <Contents>
                 <DropDownBtn
                   currentStep={convertKo(
                     M7_LIST,
@@ -406,6 +417,13 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
                   setSelectValue={setSelectChannelValue}
                   selectValue={selectChannelValue}
                 />
+              </Contents> */}
+              <Contents>
+                {convertKo(
+                  M7_LIST,
+                  M7_LIST_EN,
+                  partnerProductList?.data?.channel!,
+                )}
               </Contents>
             </List>
             <List>

@@ -7,6 +7,8 @@ import {
   isTokenAdminDeleteApi,
   isTokenAdminPutApi,
 } from 'api';
+import Image from 'next/image';
+import ExitBtn from 'public/adminImages/Group.png';
 import {
   InstallationPurposeType,
   InstallationPurposeTypeEn,
@@ -26,7 +28,12 @@ import AdminHeader from 'componentsAdmin/Header';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import colors from 'styles/colors';
-import { adminDateFomat, convertKo, hyphenFn } from 'utils/calculatePackage';
+import {
+  adminDateFomat,
+  convertKo,
+  hyphenFn,
+  PriceBasicCalculation,
+} from 'utils/calculatePackage';
 import CompleteRating from './CompleteRating';
 import ProjectAlertModal from './ProjectAlertModal';
 
@@ -93,6 +100,17 @@ interface ProjectDetailResponse {
           companyName: string;
           managerEmail: string;
         };
+        // 사업자 등록증
+        businessRegistrationFiles: {
+          createdAt: string;
+          updatedAt: string;
+          deletedAt: string;
+          businessRegistrationFileIdx: number;
+          originalName: string;
+          url: string;
+          size: 3604475;
+          memberIdx: number;
+        }[];
       };
       userMember: {
         memberIdx: number;
@@ -139,6 +157,7 @@ interface ProjectDetailResponse {
           manufacturer: string;
           productFeature: string;
           finalQuotationChargerFiles: {
+            // 충전기 카탈로그랑 충전기 이미지 사진 같이 데이터 옴
             finalQuotationChargerFileIdx: number;
             productFileType: string;
             originalName: string;
@@ -146,13 +165,14 @@ interface ProjectDetailResponse {
           }[];
         }[];
         finalQuotationDetailFiles: {
+          // 사업자 등록증
           finalQuotationDetailFileIdx: number;
-          productFileType: string;
           originalName: string;
           url: string;
         }[];
       };
       currentStep: string;
+      // 완료 된 현장사진
       projectCompletionFiles: {
         projectCompletionFileIdx: number;
         url: string;
@@ -185,12 +205,22 @@ const ProjectCompleteDetail = ({
   const [projectModal, setProjectModal] = useState<boolean>(false);
   const [finalApprove, setFinalApprove] = useState<boolean>(false);
 
-  // 삭제 하고 싶은 파일 id 값 업데이트
+  // 삭제 하고 싶은 사업자 등록증 idx
+  const [fileDetailIdx, setFileDetailIdx] = useState<number | undefined>();
+  const [companyIdx, setCompanyIdx] = useState<number | undefined>();
+
+  // 삭제 하고 싶은 카탈로그 파일 id 값 업데이트
   const [fileIdx, setFileIdx] = useState<number | undefined>();
 
-  // 삭제 하고 싶은 첨부파일 id 값
-  const [fileDetailIdx, setFileDetailIdx] = useState<number | undefined>();
-  const { data, isLoading, isError } = useQuery<ProjectDetailResponse>(
+  // 삭제 하고 싶은 충전기 이미지 id 값 업데이트
+  const [chargerIdx, serChargerIdx] = useState<number | undefined>();
+
+  // 삭제 하고 싶은 완료 현장 이미지 사진
+  const [projectCompletionFileIdx, setProjectCompletionFileIdx] = useState<
+    number | undefined
+  >();
+
+  const { data, isLoading, isError, refetch } = useQuery<ProjectDetailResponse>(
     'projectDetail',
     () => isTokenAdminGetApi(`/admin/projects/${projectIdx}`),
   );
@@ -226,12 +256,32 @@ const ProjectCompleteDetail = ({
     onSettled: () => {},
   });
 
-  // 프로젝트 첨부파일 삭제
-  const modalDeleteFileBtnControll = () => {
+  // 사업자 등록증 삭제
+  const modalDeleteBusinessFileBtnControll = () => {
     deleteMutate({
-      url: `/admin/projects/${projectIdx}/completion/files/${
-        fileIdx ? fileIdx : fileDetailIdx
-      }`,
+      url: `/admin/members/companies/${companyIdx}/business-registration/${fileDetailIdx}`,
+    });
+  };
+
+  // 카탈로그 파일 삭제
+  const modalCatalogDeleteFileBtnControll = () => {
+    deleteMutate({
+      url: `/admin/quotations/final-quotation-files/${fileIdx}`,
+    });
+  };
+
+  // 충전기 이미지 삭제
+  const modalDeleteChargerImgBtnControll = () => {
+    deleteMutate({
+      url: `/admin/quotations/final-quotation-files/${chargerIdx}`,
+    });
+  };
+
+  // 완료 현장 사진 삭제
+  // admin/projects/:projectIdx/completion/files/:projectCompletionFileIdx
+  const modalDeleteCompleteImgBtnControll = () => {
+    deleteMutate({
+      url: `/admin/projects/${data?.data?.project?.projectIdx}/completion/files/${projectCompletionFileIdx}`,
     });
   };
 
@@ -246,7 +296,7 @@ const ProjectCompleteDetail = ({
     isError: patchIsError,
   } = useMutation(isTokenAdminPatchApi, {
     onSuccess: () => {
-      queryClinet.invalidateQueries('projectDetail');
+      queryClinet.invalidateQueries('projectCompleteList');
       setMessageModal(true);
       setMessage('최종 승인이 완료됐습니다.');
     },
@@ -303,10 +353,22 @@ const ProjectCompleteDetail = ({
   };
 
   useEffect(() => {
-    if (fileIdx) {
-      modalDeleteFileBtnControll();
+    // 사업자 등록증 삭제
+    if (fileDetailIdx) {
+      modalDeleteBusinessFileBtnControll();
     }
-  }, [fileIdx]);
+    // 충전기 카탈로그 삭제
+    else if (fileIdx) {
+      modalCatalogDeleteFileBtnControll();
+    }
+    // 충전기 이미지 삭제
+    else if (chargerIdx) {
+      modalDeleteChargerImgBtnControll();
+    } else if (projectCompletionFileIdx) {
+      modalDeleteCompleteImgBtnControll();
+    }
+    refetch();
+  }, [fileDetailIdx, fileIdx, chargerIdx, projectCompletionFileIdx]);
 
   useEffect(() => {
     if (setNowHeight && projectIdx) {
@@ -343,6 +405,12 @@ const ProjectCompleteDetail = ({
     setModifyReview(data?.data?.project?.projectReview?.opinion!);
   }, [data]);
 
+  console.log(
+    'asdasdasda',
+    data?.data?.project?.finalQuotation?.finalQuotationChargers[0]
+      ?.finalQuotationChargerFiles,
+  );
+
   return (
     <Background>
       <Wrapper>
@@ -368,6 +436,7 @@ const ProjectCompleteDetail = ({
         <AdminHeader
           title="프로젝트"
           type="detail"
+          subTitle="완료 프로젝트 상세"
           backBtn={handleBackBtn}
           exelHide={true}
         />
@@ -530,7 +599,25 @@ const ProjectCompleteDetail = ({
                 </List>
               ),
             )}
-
+            {data?.data?.project?.finalQuotation?.finalQuotationChargers?.map(
+              (charger, index) => (
+                <List key={index}>
+                  <Label>{index > 0 ? '' : '충전요금'}</Label>
+                  <Contents>{`${PriceBasicCalculation(
+                    charger?.chargePrice,
+                  )} 원 / kW`}</Contents>
+                  <Contents></Contents>
+                </List>
+              ),
+            )}
+            {data?.data?.project?.finalQuotation?.finalQuotationChargers?.map(
+              (charger, index) => (
+                <List key={index}>
+                  <Label>{index > 0 ? '' : '충전기 제조사'}</Label>
+                  <Contents>{charger?.manufacturer}</Contents>
+                </List>
+              ),
+            )}
             {data?.data?.project?.finalQuotation?.finalQuotationChargers?.map(
               (charger, index) => (
                 <List key={index}>
@@ -545,7 +632,16 @@ const ProjectCompleteDetail = ({
                 </List>
               ),
             )}
-
+            {data?.data?.project?.finalQuotation?.finalQuotationChargers?.map(
+              (charger, index) => (
+                <List key={index}>
+                  <Label>{index > 0 ? '' : '특장점'}</Label>
+                  <Contents>
+                    {index !== 0 ? charger?.productFeature : '없음'}
+                  </Contents>
+                </List>
+              ),
+            )}
             <List>
               <Label>충전기 설치 목적</Label>
               <Contents>
@@ -582,10 +678,54 @@ const ProjectCompleteDetail = ({
                 계약서 보기
               </ButtonBox>
             </List> */}
+            <ImgList
+              dataLength={
+                data?.data?.project?.finalQuotation?.finalQuotationChargers[0]
+                  ?.finalQuotationChargerFiles?.length
+              }
+            >
+              <Label style={{ marginRight: '60px' }}>충전기 이미지</Label>
+              <div className="container">
+                {data?.data?.project?.finalQuotation?.finalQuotationChargers?.map(
+                  (charger) =>
+                    charger?.finalQuotationChargerFiles?.length === 0 ? (
+                      <Contents>충전기 이미지가 없습니다.</Contents>
+                    ) : (
+                      charger?.finalQuotationChargerFiles?.map(
+                        (innerCharger, innerIndex) =>
+                          innerCharger.productFileType === 'IMAGE' && (
+                            <div className="imgBox" key={innerIndex}>
+                              <Image
+                                src={innerCharger.url}
+                                alt="charge-img"
+                                priority={true}
+                                unoptimized={true}
+                                layout="fill"
+                                objectFit="cover"
+                              />
+                              <div className="imgExit">
+                                <Image
+                                  src={ExitBtn}
+                                  alt="exit"
+                                  layout="fill"
+                                  onClick={() => {
+                                    serChargerIdx(
+                                      innerCharger?.finalQuotationChargerFileIdx,
+                                    );
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          ),
+                      )
+                    ),
+                )}
+              </div>
+            </ImgList>
             <List>
               <Label>첨부파일</Label>
               <FileContainer>
-                {data?.data?.project?.finalQuotation?.finalQuotationDetailFiles?.map(
+                {data?.data?.project?.companyMember?.businessRegistrationFiles?.map(
                   (file, index) => (
                     <a
                       className="fileBox"
@@ -599,7 +739,10 @@ const ProjectCompleteDetail = ({
                       <button
                         className="businessBtn"
                         onClick={() => {
-                          setFileDetailIdx(file?.finalQuotationDetailFileIdx);
+                          setCompanyIdx(
+                            data?.data?.project?.companyMember?.memberIdx,
+                          );
+                          setFileDetailIdx(file?.businessRegistrationFileIdx);
                         }}
                       >
                         삭제
@@ -636,6 +779,46 @@ const ProjectCompleteDetail = ({
                 )}
               </FileContainer>
             </List>
+            <ImgList>
+              {data?.data?.project?.projectCompletionFiles.length === 0 ? (
+                <List>
+                  <Label>완료현장 사진</Label>
+                  <Contents>완료현장 사진이 없습니다.</Contents>
+                </List>
+              ) : (
+                <>
+                  <Label style={{ marginRight: '60px' }}>완료현장 사진</Label>
+                  <div className="container">
+                    {data?.data?.project?.projectCompletionFiles.map(
+                      (item, index) => (
+                        <div className="imgBox">
+                          <Image
+                            src={item?.url}
+                            alt="charge-img"
+                            priority={true}
+                            unoptimized={true}
+                            layout="fill"
+                            objectFit="cover"
+                          />
+                          <div className="imgExit">
+                            <Image
+                              src={ExitBtn}
+                              alt="exit"
+                              layout="fill"
+                              onClick={() => {
+                                setProjectCompletionFileIdx(
+                                  item?.projectCompletionFileIdx,
+                                );
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </>
+              )}
+            </ImgList>
             <List>
               <Label>프로젝트 생성일</Label>
               <Contents>
@@ -851,4 +1034,78 @@ const GoalDateLabel = styled.label`
   color: ${colors.main2};
   width: 40px;
   /* margin-right: 10px; */
+`;
+const ImgList = styled.div<{ dataLength?: number }>`
+  padding: 14px 0px 14px 0px;
+  border-top: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+  margin-bottom: 16px; /* margin: 0 16px; */
+  display: flex;
+
+  .label {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: ${colors.main2};
+    width: 129px;
+    margin-right: 37px;
+  }
+  .text {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: ${colors.main2};
+  }
+
+  .imgBox {
+    position: relative;
+    width: 173px;
+    min-width: 173px;
+    height: 130px;
+    background-color: gray;
+    /* margin-top: 10px; */
+    border-radius: 4px;
+    & > span {
+      border-radius: 4px;
+    }
+    :not(:nth-last-of-type(1)) {
+      margin-right: 10px;
+    }
+  }
+  .imgExit {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    border: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    background-color: ${colors.lightGray2};
+  }
+  .container {
+    display: flex;
+    gap: 10px;
+    overflow-x: scroll;
+    width: 920px;
+
+    ::-webkit-scrollbar {
+      display: initial;
+      width: 8px;
+      height: 8px;
+      cursor: pointer;
+    }
+    ::-webkit-scrollbar-track {
+      // 뒷배경
+      background: ${({ dataLength }) =>
+        dataLength !== 0 && 'rgba(33, 122, 244, 0.1)'};
+    }
+    ::-webkit-scrollbar-thumb {
+      // 막대
+      background: #217af4;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+  }
 `;
