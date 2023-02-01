@@ -17,7 +17,7 @@ const nextConfig = {
       // 로컬에서 사용할때만 활성화 시키기
       // {
       //   source: '/:path*',
-      //   destination: `https://api.entizen.kr/:path*`,
+      //   destination: `https://test-api.entizen.kr/:path*`,
       // },
       {
         source: '/oauth2.0/:path*', // url이 source에 해당될 경우
@@ -25,12 +25,8 @@ const nextConfig = {
       },
       // 랜딩 페이지 마스킹
       {
-        source: 'https://test.entizen.kr/landing',
-        destination: 'https://test.entizen.kr',
-      },
-      {
-        source: 'https://www.test.entizen.kr/landing',
-        destination: 'https://www.test.entizen.kr',
+        source: '/landing',
+        destination: '/',
       },
     ];
   },
