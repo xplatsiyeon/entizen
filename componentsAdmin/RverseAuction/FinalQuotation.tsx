@@ -361,6 +361,7 @@ const FinalQuotation = ({ finalQuotationIdx }: Props) => {
                               priority={true}
                               unoptimized={true}
                               layout="fill"
+                              objectFit="cover"
                             />
                             <div className="imgExit">
                               <Image
@@ -504,6 +505,8 @@ const ImgList = styled.div`
   .container {
     display: flex;
     gap: 10px;
+    overflow-x: scroll;
+    width: 920px;
   }
 `;
 
@@ -527,9 +530,10 @@ const BusinessList = styled.div`
     text-decoration-line: none;
   }
   .businessName {
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
+    display: block;
     font-weight: 400;
     font-size: 16px;
     line-height: 150%;
@@ -540,6 +544,10 @@ const BusinessList = styled.div`
     padding: 4px 14px 4px 10px;
     gap: 8px;
     margin-right: 10px;
+    white-space: nowrap;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .businessBtn {
     font-weight: 400;

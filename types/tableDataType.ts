@@ -77,7 +77,10 @@ export type Projects = {
   isCompletedInstallationStep: boolean;
   isCompletedExamStep: boolean;
   isApprovedByAdmin: boolean;
+  projectCompletionAgreementDate?: string;
   isCancel: boolean;
+  subscribeStartDate?: string;
+  subscribeEndDate?: string;
   companyMember: {
     memberIdx: number;
     id: string;
@@ -87,6 +90,7 @@ export type Projects = {
     id: string;
   };
   currentStep: string;
+  subscribeLeftDays?: number;
 };
 
 export interface CompanyPreQuotationResponse {

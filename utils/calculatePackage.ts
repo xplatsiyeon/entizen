@@ -191,8 +191,8 @@ export const adminDateFomat = (date: string) => {
     return new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000)
       ?.toISOString()
       ?.split('T', 1)
-      ?.toString()
-      ?.replaceAll('-', '.');
+      ?.toString();
+    // ?.replaceAll('-', '.');
   } else {
     return '';
   }

@@ -42,23 +42,45 @@ interface ProjectDetailResponse {
   data: {
     project: {
       projectIdx: number;
+      // 계약 상태 여부
       isCompletedContractStep: string;
+      // 준비 단계 완료 여부
       isCompletedReadyStep: boolean;
+      // 설치 단계 완료 여부
       isCompletedInstallationStep: boolean;
+      // 검수 단계 완료 여부
       isCompletedExamStep: boolean;
+      // 관리자 승인 여부
       isApprovedByAdmin: boolean;
+      // 프로젝트 취소 여부
       isCancel: boolean;
+      // 준비 단계 목표일 여부 - YYYY-MM-DD | CHANGING
       readyStepGoalDate: string;
+      // 설치 단계 목표일 여부 - YYYY-MM-DD | CHANGING
       installationStepGoalDate: string;
+      // 검수 단계 목표일 여부 - YYYY-MM-DD | CHANGING
       examStepGoalDate: string;
+      // 완료 단계 목표일 여부 - YYYY-MM-DD | CHANGING
       completionStepGoalDate: string;
       createdAt: string;
       projectName: string;
       projectNumber: string;
       userMemberIdx: number;
       companyMemberIdx: number;
+      // 구독 시작일 - YYYY-MM-DD
       subscribeStartDate: string;
+      // 구독 종료일 - YYYY-MM-DD
+      subscribeEndDate: string;
+      // 프로젝트 완료 동의일 - YYYY-MM-DD
       projectCompletionAgreementDate: string;
+      // 완료 단계 완료일 - YYYY-MM-DD
+      completionStepCompletionDate: string;
+      // 검수 단계 완료일 - YYYY-MM-DD
+      examStepCompletionDate: string;
+      // 설치 단계 완료일 - YYYY-MM-DD
+      installationStepCompletionDate: string;
+      // 준비 단계 완료일 - YYYY-MM-DD
+      readyStepCompletionDate: string;
       companyMember: {
         memberIdx: number;
         id: string;
@@ -78,9 +100,13 @@ interface ProjectDetailResponse {
       };
       projectReview: {
         projectReviewIdx: number;
+        // 친절함
         attentivenessPoint: number;
+        // 신속함
         quicknessPoint: number;
+        // 전문성
         professionalismPoint: number;
+        // 만족감
         satisfactionPoint: number;
         averagePoint: string;
         opinion: string;
@@ -102,7 +128,7 @@ interface ProjectDetailResponse {
         finalQuotationChargers: {
           finalQuotationChargerIdx: number;
           kind: string;
-          standType: string;
+          standType: null;
           channel: string;
           count: number;
           chargePriceType: string;
@@ -112,7 +138,8 @@ interface ProjectDetailResponse {
           productFeature: string;
         }[];
         finalQuotationDetailFiles: {
-          finalQuotationDetailFileIdx: number;
+          finalQuotationChargerFileIdx: number;
+          productFileType: string;
           originalName: string;
           url: string;
         }[];

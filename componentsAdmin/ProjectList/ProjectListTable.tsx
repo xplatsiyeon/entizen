@@ -62,15 +62,16 @@ const ProjectListTable = ({
   */
   // &steps[]=
   // 🎀 프로젝트 리스트 데이터
+  // 진행중 프로젝트 리스트
   const { data: projectListData, refetch: projectListRefetch } =
     useQuery<ProjectList>(
       'projectList',
       () =>
         isTokenAdminGetApi(
-          `/admin/projects?page=${page}&limit=10&startDate=${
+          `/admin/projects/in-progress?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${
-            pickedDate ? pickedDate[1] : today
+            pickedDate ? pickedDate[1] : adminDateFomat(String(today))
           }&searchType=${searchType}&searchKeyword=${searchKeyword}${
             projectQueryString ? projectQueryString : '&steps[]=undefined'
           }`,
@@ -80,27 +81,23 @@ const ProjectListTable = ({
         onSuccess: (projectListData) => {
           if (tableType === 'projectListData') {
             const temp: any = [];
-            projectListData?.data?.projects
-              ?.filter((item) => item?.currentStep !== '완료')
-              .forEach((ele, idx) => {
-                const approve =
-                  ele?.currentStep === '승인 대기'
-                    ? '승인대기'
-                    : ele.currentStep;
-                const eleArr = [
-                  `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                    idx + 1 === 10 ? page * 10 : idx + 1
-                  }`,
-                  ele.projectNumber!,
-                  ele.userMember.id!,
-                  ele.companyMember.id!,
-                  approve,
-                  ele.projectName,
-                  dateFomat(ele.createdAt),
-                  ele.projectIdx!,
-                ];
-                temp.push(eleArr);
-              });
+            projectListData?.data?.projects.forEach((ele, idx) => {
+              const approve =
+                ele?.currentStep === '승인 대기' ? '승인대기' : ele.currentStep;
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+                ele.projectNumber!,
+                ele.userMember.id!,
+                ele.companyMember.id!,
+                approve,
+                ele.projectName,
+                dateFomat(ele.createdAt).substring(0, 12),
+                ele.projectIdx!,
+              ];
+              temp.push(eleArr);
+            });
             setDataArr(temp);
             setColumns([
               '번호',
@@ -153,46 +150,39 @@ const ProjectListTable = ({
 
   // 완료는 프로젝트 생성일이 아니라 구독시작일 & 구독종료일
   // 진행단계에 구독종료 D-n으로 보여주기
-
+  // 완료 프로젝트 리스트
   const { data: projectCompleteData, refetch: projectCompleteListRefetch } =
     useQuery<ProjectList>(
       'projectCompleteList',
       () =>
         isTokenAdminGetApi(
-          `/admin/projects?page=${page}&limit=10&startDate=${
+          `/admin/projects/completion?page=${page}&limit=10&startDate=${
             pickedDate ? pickedDate[0] : '2022-09-05'
           }&endDate=${
-            pickedDate ? pickedDate[1] : today
-          }&searchType=${searchType}&searchKeyword=${searchKeyword}${
-            projectQueryString ? projectQueryString : '&steps[]=undefined'
-          }`,
+            pickedDate ? pickedDate[1] : adminDateFomat(String(today))
+          }&searchType=${searchType}&searchKeyword=${searchKeyword}&subscribeDateSort=ASC`,
         ),
       {
         enabled: false,
         onSuccess: (projectCompleteData) => {
           if (tableType === 'projectCompleteData') {
             const temp: any = [];
-            projectCompleteData?.data?.projects
-              ?.filter((item) => item?.currentStep === '완료')
-              .forEach((ele, idx) => {
-                const approve =
-                  ele?.currentStep === '승인 대기'
-                    ? '승인대기'
-                    : ele.currentStep;
-                const eleArr = [
-                  `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
-                    idx + 1 === 10 ? page * 10 : idx + 1
-                  }`,
-                  ele.projectNumber!,
-                  ele.userMember.id!,
-                  ele.companyMember.id!,
-                  approve,
-                  ele.projectName,
-                  dateFomat(ele.createdAt),
-                  ele.projectIdx!,
-                ];
-                temp.push(eleArr);
-              });
+            projectCompleteData?.data?.projects.forEach((ele, idx) => {
+              const eleArr = [
+                `${page - 1 === 0 || idx === 9 ? '' : page - 1}${
+                  idx + 1 === 10 ? page * 10 : idx + 1
+                }`,
+                ele.projectNumber!,
+                ele.userMember.id!,
+                ele.companyMember.id!,
+                ele.subscribeLeftDays,
+                ele.projectName,
+                dateFomat(ele.subscribeStartDate!).substring(0, 12),
+                dateFomat(ele.subscribeEndDate!).substring(0, 12),
+                ele.projectIdx!,
+              ];
+              temp.push(eleArr);
+            });
             setDataArr(temp);
             setColumns([
               '번호',
@@ -203,10 +193,11 @@ const ProjectListTable = ({
                 name: '구독종료',
                 id: 'projectCompleteData',
                 formatter: (cell: string) =>
-                  _(<span className="approveNot">{cell}</span>),
+                  _(<span className="approveNot">{`구독종료 D-${cell}`}</span>),
               },
               '프로젝트_제목',
-              '프로젝트_생성일',
+              '구독시작일',
+              '구독종료일',
               {
                 name: '',
                 id: 'projectCompleteData',

@@ -13,8 +13,7 @@ type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-// export const projectState = ['계약', '검수', '승인 대기', '완료'];
-export const projectState = ['계약', '검수', '승인 대기'];
+// export const projectState = ['계약', '검수', '승인 대기'];
 
 export const searchType = ['프로젝트 번호', '작성자 아이디', '기업회원 아이디'];
 export const searchTypeEn = ['projectNumber', 'userId', 'companyId'];
@@ -172,7 +171,7 @@ const ProjectCompleteList = ({ setNowHeight }: Props) => {
             검색
           </AdminBtn>
         </li>
-        <li className="search">
+        {/* <li className="search">
           <label>진행 단계</label>
           <CheckBoxWrapper>
             {projectState.map((data, idx) => (
@@ -189,7 +188,7 @@ const ProjectCompleteList = ({ setNowHeight }: Props) => {
               </CheckBoxLabel>
             ))}
           </CheckBoxWrapper>
-        </li>
+        </li> */}
       </Manager>
       <ProjectListTable
         searchType={searchTypeEn[selectedFilter]}

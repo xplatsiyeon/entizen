@@ -53,11 +53,11 @@ const BiddingQuote = ({ pb, data, isSpot, onClcikModal }: Props) => {
 
   // chargerImageFiles 하나의 배열로 만들기
   const newChargerImageFiles = data?.preQuotation?.preQuotationChargers
-    .map((item) => item.chargerImageFiles.map((el) => el.url))
+    ?.map((item) => item.chargerImageFiles.map((el) => el.url))
     .flat();
 
   // 오른쪽 큰 사진
-  const DataFilter = newChargerImageFiles![webIdx];
+  const DataFilter = newChargerImageFiles ? newChargerImageFiles![webIdx] : '';
 
   const handleFileDownload = () => {};
 
