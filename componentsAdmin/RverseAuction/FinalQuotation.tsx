@@ -470,9 +470,10 @@ const Line = styled.div`
   /* background: ${colors.lightGray6}; */
 `;
 const ImgList = styled.div`
-  padding-top: 14px;
-  padding-left: 16px;
-  padding-bottom: 14px;
+  padding: 14px 0px 14px 0px;
+  border-top: 2px solid #d9d9d9;
+  border-bottom: 2px solid #d9d9d9;
+  margin: 0 16px;
   .label {
     font-weight: 500;
     font-size: 16px;

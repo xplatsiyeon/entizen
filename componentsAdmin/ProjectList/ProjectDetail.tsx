@@ -62,6 +62,8 @@ interface ProjectDetailResponse {
       examStepGoalDate: string;
       // 완료 단계 목표일 여부 - YYYY-MM-DD | CHANGING
       completionStepGoalDate: string;
+      // 남은 구독 기간
+      subscribeLeftDays?: number;
       createdAt: string;
       projectName: string;
       projectNumber: string;
@@ -603,7 +605,9 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
                       href={file?.url}
                     >
                       <div className="businessName">
-                        <p className="businessNameText">{file?.url}</p>
+                        <p className="businessNameText">
+                          {file?.projectCompletionFileIdx}
+                        </p>
                       </div>
                       <button
                         className="businessBtn"

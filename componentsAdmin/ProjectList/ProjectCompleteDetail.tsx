@@ -71,6 +71,8 @@ interface ProjectDetailResponse {
       subscribeStartDate: string;
       // 구독 종료일 - YYYY-MM-DD
       subscribeEndDate: string;
+      // 남은 구독 기간
+      subscribeLeftDays?: number;
       // 프로젝트 완료 동의일 - YYYY-MM-DD
       projectCompletionAgreementDate: string;
       // 완료 단계 완료일 - YYYY-MM-DD
@@ -136,9 +138,15 @@ interface ProjectDetailResponse {
           installationLocation: string;
           manufacturer: string;
           productFeature: string;
+          finalQuotationChargerFiles: {
+            finalQuotationChargerFileIdx: number;
+            productFileType: string;
+            originalName: string;
+            url: string;
+          }[];
         }[];
         finalQuotationDetailFiles: {
-          finalQuotationChargerFileIdx: number;
+          finalQuotationDetailFileIdx: number;
           productFileType: string;
           originalName: string;
           url: string;
@@ -179,6 +187,9 @@ const ProjectCompleteDetail = ({
 
   // 삭제 하고 싶은 파일 id 값 업데이트
   const [fileIdx, setFileIdx] = useState<number | undefined>();
+
+  // 삭제 하고 싶은 첨부파일 id 값
+  const [fileDetailIdx, setFileDetailIdx] = useState<number | undefined>();
   const { data, isLoading, isError } = useQuery<ProjectDetailResponse>(
     'projectDetail',
     () => isTokenAdminGetApi(`/admin/projects/${projectIdx}`),
@@ -218,7 +229,9 @@ const ProjectCompleteDetail = ({
   // 프로젝트 첨부파일 삭제
   const modalDeleteFileBtnControll = () => {
     deleteMutate({
-      url: `/admin/projects/${projectIdx}/completion/files/${fileIdx}`,
+      url: `/admin/projects/${projectIdx}/completion/files/${
+        fileIdx ? fileIdx : fileDetailIdx
+      }`,
     });
   };
 
@@ -428,7 +441,7 @@ const ProjectCompleteDetail = ({
               </Contents>
             </List>
           </CompanyInfoContainer>
-          <ButtonFlex>
+          {/* <ButtonFlex>
             <Name className="projectInfo">프로젝트 정보</Name>
             <ProjectBtn
               onClick={() => {
@@ -439,7 +452,8 @@ const ProjectCompleteDetail = ({
             >
               최종승인 완료
             </ProjectBtn>
-          </ButtonFlex>
+          </ButtonFlex> */}
+          <Name className="notFirst">완료 프로젝트 정보</Name>
           <ProjectInfoContainer>
             <List>
               <Label>프로젝트 번호</Label>
@@ -448,8 +462,8 @@ const ProjectCompleteDetail = ({
             <List>
               {/* 나중에 남은 구독일 넣으셈... */}
               <Label>진행단계</Label>
-              {/* { `D-${data?.data?.project?.}`} */}
-              D-1820
+              <Contents>{`D-${data?.data?.project
+                ?.subscribeLeftDays!}`}</Contents>
             </List>
             <List>
               <Label>프로젝트 제목</Label>
@@ -571,7 +585,7 @@ const ProjectCompleteDetail = ({
             <List>
               <Label>첨부파일</Label>
               <FileContainer>
-                {data?.data?.project?.projectCompletionFiles?.map(
+                {data?.data?.project?.finalQuotation?.finalQuotationDetailFiles?.map(
                   (file, index) => (
                     <a
                       className="fileBox"
@@ -580,18 +594,45 @@ const ProjectCompleteDetail = ({
                       href={file?.url}
                     >
                       <div className="businessName">
-                        <p className="businessNameText">{file?.url}</p>
+                        <p className="businessNameText">{file?.originalName}</p>
                       </div>
                       <button
                         className="businessBtn"
                         onClick={() => {
-                          setFileIdx(file?.projectCompletionFileIdx);
+                          setFileDetailIdx(file?.finalQuotationDetailFileIdx);
                         }}
                       >
                         삭제
                       </button>
                     </a>
                   ),
+                )}
+                {data?.data?.project?.finalQuotation?.finalQuotationChargers?.map(
+                  (item, index) =>
+                    item?.finalQuotationChargerFiles
+                      ?.filter((el) => el.productFileType === 'CATALOG')
+                      ?.map((ele, idx) => (
+                        <a
+                          className="fileBox"
+                          key={index}
+                          download={ele?.url}
+                          href={ele?.url}
+                        >
+                          <div className="businessName">
+                            <p className="businessNameText">
+                              {ele?.originalName}
+                            </p>
+                          </div>
+                          <button
+                            className="businessBtn"
+                            onClick={() => {
+                              setFileIdx(ele?.finalQuotationChargerFileIdx);
+                            }}
+                          >
+                            삭제
+                          </button>
+                        </a>
+                      )),
                 )}
               </FileContainer>
             </List>
@@ -739,9 +780,11 @@ const FileContainer = styled.div`
     padding: 4px 14px 4px 10px;
     gap: 8px;
     margin-right: 10px;
-    width: 500px;
+    width: 200px;
 
     .businessNameText {
+      display: block;
+      width: 200px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
