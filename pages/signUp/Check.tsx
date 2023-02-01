@@ -92,7 +92,7 @@ const SignUpCheck = () => {
   };
   // 아이디 중복 체크
   const overlabCheck = () => {
-    const OVERLAB_CHECK_POST = `https:/test-api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
+    const OVERLAB_CHECK_POST = `https:/api.entizen.kr/api/members?id=${idInput}&memberType=USER`;
     try {
       axios({
         method: 'get',
