@@ -257,8 +257,8 @@ const AddAdminAccount = ({
   // 이메일 중복확인 버튼 비활성화
   useEffect(() => {
     if (
-      emailFirst.length > 4 &&
-      emailSecond.length > 4 &&
+      emailFirst.length > 0 &&
+      emailSecond.length > 1 &&
       isEmailValid === true
     ) {
       setIsEmailChangeColor(true);
