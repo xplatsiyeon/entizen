@@ -452,6 +452,7 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
                           priority={true}
                           unoptimized={true}
                           layout="fill"
+                          objectFit="cover"
                         />
                         <div className="imgExit">
                           <Image
@@ -474,17 +475,23 @@ const ModalPartnerProduct = ({ setIsDetail, detatilId }: Props) => {
                 {partnerProductList?.data?.chargerProductFiles?.map(
                   (file, index) =>
                     file.productFileType === 'CATALOG' && (
-                      <div className="fileBox" key={index}>
-                        <p className="businessName">{file.originalName}</p>
-                        <button
-                          className="businessBtn"
-                          onClick={() => {
-                            setFileIdx(file?.chargerProductFileIdx);
-                          }}
-                        >
-                          삭제
-                        </button>
-                      </div>
+                      <a
+                        key={index}
+                        download={file?.originalName}
+                        href={file?.url}
+                      >
+                        <div className="fileBox" key={index}>
+                          <p className="businessName">{file.originalName}</p>
+                          <button
+                            className="businessBtn"
+                            onClick={() => {
+                              setFileIdx(file?.chargerProductFileIdx);
+                            }}
+                          >
+                            삭제
+                          </button>
+                        </div>
+                      </a>
                     ),
                 )}
               </div>

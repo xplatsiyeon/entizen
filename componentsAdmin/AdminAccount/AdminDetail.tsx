@@ -4,6 +4,8 @@ import {
   isTokenAdminGetApi,
   isTokenAdminPatchApi,
 } from 'api';
+import jwt_decode from 'jwt-decode';
+import { JwtTokenType } from 'pages/signin';
 import { AxiosDefaults } from 'axios';
 import AdminHeader from 'componentsAdmin/Header';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
@@ -41,6 +43,10 @@ const AdminDetail = ({ detatilId, setIsDetail }: Props) => {
   const [writeModalSubMessage, setWriteModalSubMessage] = useState('');
   const [rightBtnMessage, setRightBtnMessage] = useState('');
   const [isChecked, setIsChecked] = useState(false);
+
+  // 추후에 jwt에 관리자 등급있으면 슈퍼 관리자만 관리자 등록 및 관리자 등급 수정과 아이디 삭제가능
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const token: JwtTokenType = jwt_decode(accessToken);
 
   // managerIdx
   const { data, isLoading, isError } = useQuery<
