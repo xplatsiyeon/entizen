@@ -420,7 +420,7 @@ const IdPwInput = ({
         />
         {!checkedPw && pwInput.length > 4 ? (
           <Box>
-            <MessageErrPW>영문,숫자,특수문자 조합 10자 이상</MessageErrPW>
+            <MessageErrPW>영문,숫자,특수문자 조합 8자 이상</MessageErrPW>
           </Box>
         ) : (
           <></>

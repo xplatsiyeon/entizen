@@ -246,7 +246,7 @@ const SignUpCheck = () => {
                 onFocus={(e) => setPwSelected(true)}
                 onBlur={(e) => setPwSelected(false)}
               />
-              {!checkedPw && pwInput.length > 8 ? (
+              {!checkedPw && pwInput.length > 7 ? (
                 <Box>
                   <Typography
                     sx={{
@@ -255,7 +255,7 @@ const SignUpCheck = () => {
                       marginTop: '9pt',
                     }}
                   >
-                    영문,숫자,특수문자 조합 10자 이상
+                    영문,숫자,특수문자 조합 8자 이상
                   </Typography>
                 </Box>
               ) : (
@@ -271,7 +271,7 @@ const SignUpCheck = () => {
                 onFocus={(e) => setCheckPwSelected(true)}
                 onBlur={(e) => setCheckPwSelected(false)}
               />
-              {!checkSamePw && checkPw.length > 8 ? (
+              {!checkSamePw && checkPw.length > 7 ? (
                 <Box>
                   <Typography
                     sx={{
