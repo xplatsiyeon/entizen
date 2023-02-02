@@ -26,7 +26,11 @@ import {
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
 import AdminHeader from 'componentsAdmin/Header';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import {
+  useMutation,
+  useQuery as reactQuery,
+  useQueryClient,
+} from 'react-query';
 import colors from 'styles/colors';
 import {
   adminDateFomat,
@@ -36,12 +40,25 @@ import {
 } from 'utils/calculatePackage';
 import CompleteRating from './CompleteRating';
 import ProjectAlertModal from './ProjectAlertModal';
+import { Contract, GET_contract } from 'QueryComponents/CompanyQuery';
+import jwt_decode from 'jwt-decode';
+import {
+  ApolloQueryResult,
+  OperationVariables,
+  useQuery,
+} from '@apollo/client';
+import { useRouter } from 'next/router';
+import { getDocument } from 'api/getDocument';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
   projectIdx: number;
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
+
+interface documentResponse {
+  embeddedUrl: string;
+}
 
 // '',YYYY-MM-DD | CHANGING
 interface ProjectDetailResponse {
@@ -171,6 +188,10 @@ interface ProjectDetailResponse {
           url: string;
         }[];
       };
+      contract: {
+        contractIdx: number;
+        documentId: string;
+      };
       currentStep: string;
       // 완료 된 현장사진
       projectCompletionFiles: {
@@ -220,10 +241,68 @@ const ProjectCompleteDetail = ({
     number | undefined
   >();
 
-  const { data, isLoading, isError, refetch } = useQuery<ProjectDetailResponse>(
-    'projectDetail',
-    () => isTokenAdminGetApi(`/admin/projects/${projectIdx}`),
+  const { data, isLoading, isError, refetch } =
+    reactQuery<ProjectDetailResponse>('projectDetail', () =>
+      isTokenAdminGetApi(`/admin/projects/${projectIdx}`),
+    );
+
+  // -----진행중인 프로젝트 상세 리스트 api-----
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const {
+    loading: contractLoading,
+    error: contractError,
+    data: contractData,
+  } = useQuery<Contract>(GET_contract, {
+    variables: {
+      projectIdx: projectIdx,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
+  const {
+    data: contractDocumentData,
+    isLoading: contractDocumentLoading,
+    isError: contractDocumentError,
+  } = reactQuery<documentResponse>(
+    'contract',
+    () => getDocument(data?.data?.project?.contract?.documentId!),
+    {
+      enabled: data?.data?.project?.contract?.documentId ? true : false,
+    },
   );
+
+  console.log(
+    'data?.data?.project?.contract?.documentId 🌸',
+    data?.data?.project?.contract?.documentId,
+  );
+
+  // 계약서 보기 버튼 클릭
+  const onClickContract = () => {
+    if (contractDocumentData?.embeddedUrl !== undefined) {
+      console.log(contractDocumentData?.embeddedUrl);
+      // 새탭방식
+      window.open(contractDocumentData?.embeddedUrl);
+    } else {
+      setMessageModal(true);
+      setMessage('자체 계약서는 확인할 수 없습니다.');
+    }
+
+    // 임베디드 방식
+    // if (contractData) {
+    //   router.push({
+    //     pathname: '/contract',
+    //     query: {
+    //       id: router?.query?.projectIdx,
+    //       documentId: contractData?.project?.contract?.documentId,
+    //     },
+    //   });
+    // }
+  };
 
   // 리뷰데이터
   const reviewData = data?.data?.project?.projectReview;
@@ -404,12 +483,6 @@ const ProjectCompleteDetail = ({
   useEffect(() => {
     setModifyReview(data?.data?.project?.projectReview?.opinion!);
   }, [data]);
-
-  console.log(
-    'asdasdasda',
-    data?.data?.project?.finalQuotation?.finalQuotationChargers[0]
-      ?.finalQuotationChargerFiles,
-  );
 
   return (
     <Background>
@@ -668,16 +741,10 @@ const ProjectCompleteDetail = ({
                 </TextP> */}
               </TextBox>
             </List>
-            {/* <List>
+            <List>
               <Label>계약서 정보</Label>
-              <ButtonBox
-                onClick={() => {
-                  alert('개발중입니다.');
-                }}
-              >
-                계약서 보기
-              </ButtonBox>
-            </List> */}
+              <ButtonBox onClick={onClickContract}>계약서 보기</ButtonBox>
+            </List>
             <ImgList
               dataLength={
                 data?.data?.project?.finalQuotation?.finalQuotationChargers[0]
@@ -1094,7 +1161,6 @@ const ImgList = styled.div<{ dataLength?: number }>`
       display: initial;
       width: 8px;
       height: 8px;
-      cursor: pointer;
     }
     ::-webkit-scrollbar-track {
       // 뒷배경

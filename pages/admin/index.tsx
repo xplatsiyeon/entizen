@@ -30,6 +30,9 @@ import IncomeSimul from 'componentsAdmin/AdminDataDownload/IncomeSimul/IncomeSim
 import Subsidy from 'componentsAdmin/AdminDataDownload/Subsidy/Subsidy';
 import PreQuotationExel from 'componentsAdmin/AdminDataDownload/PreQuotationExel/PreQuotationExel';
 import ProjectCompleteList from 'componentsAdmin/ProjectList/ProjectCompleteList';
+import AdminDataExcel from 'componentsAdmin/AdminDataDownload/AdminDataExcel/AdminDataExcel';
+import AdimAccountListTable from 'componentsAdmin/AdminAccount/AdimAccountListTable';
+import AdminAllAlarm from 'componentsAdmin/AdminAllAlarm/AdminAllAlarm';
 
 type Props = {};
 
@@ -119,6 +122,8 @@ const index = (props: Props) => {
       {number === 27 && (
         <PreQuotationExel setNowHeight={setNowHeight} setNumber={setNumber} />
       )}
+      {number === 29 && <AdminDataExcel setNowHeight={setNowHeight} />}
+      {number === 20 && <AdminAllAlarm setNowHeight={setNowHeight} />}
     </Background>
   );
 };

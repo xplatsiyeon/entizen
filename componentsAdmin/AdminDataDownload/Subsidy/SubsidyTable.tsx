@@ -150,7 +150,7 @@ const SubsidyTable = ({
       </StandWrapper>
     );
   };
-
+  // 과금형 11번
   const RowName0 = [
     '신청기관',
     '설치지역',
@@ -219,8 +219,6 @@ const SubsidyTable = ({
       return 2021;
     }
   };
-
-  console.log('dadsdasd', selectYear(tabNumber));
 
   const Empty = Array.from({ length: 55 });
   return (
@@ -325,9 +323,11 @@ const SubsidyTable = ({
               </TableTD>
               {/* // 과금형 콘센트 추가되면 여기에 키 추가 해용 */}
               <TableTD siGunGuBoolean={false}>
-                {item?.maxInstallationCount === null
+                {item?.price_charging_consent === null
                   ? '-'
-                  : item?.maxInstallationCount}
+                  : item?.price_charging_consent
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
               </TableTD>
               {/* ------------------------------ */}
 

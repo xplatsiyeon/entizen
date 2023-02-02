@@ -45,6 +45,7 @@ export type SubsidyDataResponse = {
       siteApplyCount: number;
       minInstallationCount: number;
       maxInstallationCount: number;
+      price_charging_consent: number;
       price_7_home_wall_single: number;
       price_7_home_stand_single: number;
       price_7_common_economy_wall_single: number;
@@ -271,7 +272,7 @@ const Subsidy = ({ setNowHeight, setNumber }: Props) => {
       )}
       <TitleWrapper>
         <TitleBox>
-          <AdminHeader title="DATA 다운로드" type="main" />
+          <AdminHeader title="DATA 업데이트" type="main" />
           <SubText>보조금</SubText>
         </TitleBox>
         <ExelButton onClick={fileHandler}>엑셀 업로드</ExelButton>

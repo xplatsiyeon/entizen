@@ -118,13 +118,100 @@ const PreQuotationExcelTable = ({
     '',
   ];
 
+  const RowName2 = [
+    '최소(%)',
+    '최대(&)',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ];
+
+  const RowName3 = [
+    '연간성장률(%)',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ];
+
+  const RowName5 = [
+    '구분(kW)',
+    '요금',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ];
+
   const UnderRow = [
     '단가표',
     '전기_기본요금',
-    '',
-    '',
-    '',
-    '',
+    '구독료_수익비율',
+    '연간성장률',
+    '손익분기점_충전기_사용요금',
+    '손익분기점_전기_구입비',
     '',
     '',
     '',
@@ -158,6 +245,8 @@ const PreQuotationExcelTable = ({
       return '급속';
     } else if (item === 'SUPER_FAST') {
       return '초급속';
+    } else {
+      return item;
     }
   };
 
@@ -254,7 +343,40 @@ const PreQuotationExcelTable = ({
               ))}
             </TableTR>
           )}
+          {tabNumber === 2 && (
+            <TableTR>
+              <FirstTD />
+              {RowName2.map((item, idx) => (
+                <TableTopTD key={idx}>{item}</TableTopTD>
+              ))}
+            </TableTR>
+          )}
+          {tabNumber === 3 && (
+            <TableTR>
+              <FirstTD />
+              {RowName3.map((item, idx) => (
+                <TableTopTD key={idx}>{item}</TableTopTD>
+              ))}
+            </TableTR>
+          )}
+          {tabNumber === 4 && (
+            <TableTR>
+              <FirstTD />
+              {RowName5.map((item, idx) => (
+                <TableTopTD key={idx}>{item}</TableTopTD>
+              ))}
+            </TableTR>
+          )}
+          {tabNumber === 5 && (
+            <TableTR>
+              <FirstTD />
+              {RowName5.map((item, idx) => (
+                <TableTopTD key={idx}>{item}</TableTopTD>
+              ))}
+            </TableTR>
+          )}
         </TableThead>
+        {/* 단가표 */}
         {tabNumber === 0 &&
           preQuotationExcelData?.data?.chargerPriceTables?.map((item, idx) => (
             <TableTR key={idx}>
@@ -368,6 +490,7 @@ const PreQuotationExcelTable = ({
               ))}
             </TableTR>
           ))}
+        {/* 전기_기본요금 */}
         {tabNumber === 1 &&
           preQuotationExcelData?.data?.electricBasicRateTables?.map(
             (item, idx) => (
@@ -391,6 +514,71 @@ const PreQuotationExcelTable = ({
                   {item?.discountRate === null
                     ? '-'
                     : `${item?.discountRate} %`}
+                </TableTD>
+              </TableTR>
+            ),
+          )}
+        {/* 구독료_수익비율 */}
+        {tabNumber === 2 &&
+          preQuotationExcelData?.data?.subscribePriceRangeTables?.map(
+            (item, idx) => (
+              <TableTR key={idx}>
+                <TableTH>{`${idx + 1}`}</TableTH>
+                <TableTD siGunGuBoolean={false}>
+                  {item?.maxRate === null ? '-' : item?.maxRate.toString()}
+                </TableTD>
+                <TableTD siGunGuBoolean={false}>
+                  {item?.maxRate === null ? '-' : item?.maxRate.toString()}
+                </TableTD>
+              </TableTR>
+            ),
+          )}
+        {/* 연간 성장률 */}
+        {tabNumber === 3 && (
+          <TableTR>
+            <TableTH>1</TableTH>
+            <TableTD siGunGuBoolean={false}>
+              {preQuotationExcelData?.data?.annualGrowthRateTable?.value ===
+              null
+                ? '-'
+                : preQuotationExcelData?.data?.annualGrowthRateTable?.value}
+            </TableTD>
+          </TableTR>
+        )}
+        {/* 손익분기점_충전기_사용요금 */}
+        {tabNumber === 4 &&
+          preQuotationExcelData?.data?.chargerUsageFeeTables?.map(
+            (item, idx) => (
+              <TableTR key={idx}>
+                <TableTH>{`${idx + 1}`}</TableTH>
+                <TableTD siGunGuBoolean={false}>
+                  {item?.watt === null ? '-' : SpeedChange(item?.watt)}
+                </TableTD>
+                <TableTD siGunGuBoolean={false}>
+                  {item?.value === null
+                    ? '-'
+                    : item?.value
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </TableTD>
+              </TableTR>
+            ),
+          )}
+        {/* 손익분기점_전기_구입비 */}
+        {tabNumber === 5 &&
+          preQuotationExcelData?.data?.electricityPurchaseCostTables?.map(
+            (item, idx) => (
+              <TableTR key={idx}>
+                <TableTH>{`${idx + 1}`}</TableTH>
+                <TableTD siGunGuBoolean={false}>
+                  {item?.watt === null ? '-' : SpeedChange(item?.watt)}
+                </TableTD>
+                <TableTD siGunGuBoolean={false}>
+                  {item?.value === null
+                    ? '-'
+                    : item?.value
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                 </TableTD>
               </TableTR>
             ),
@@ -556,7 +744,7 @@ const TableTopTD = styled.td`
 `;
 
 const TableUnderTD = styled.td<{ idx: number; tabNumber: number }>`
-  min-width: 150px;
+  min-width: 200px;
   text-align: center;
   padding-top: 8px;
   background-color: #f3f4f7;
@@ -577,11 +765,11 @@ const ClickTab = styled.div<{ idx: number; tabNumber: number }>`
     idx === tabNumber &&
     css`
       position: absolute;
-      width: 130px;
+      width: 180px;
       height: 35px;
       z-index: 10;
       bottom: 4px;
-      left: 35px;
+      left: 10px;
       padding-top: 5px;
       border-left: 1px solid #e2e5ed;
       border-right: 1px solid #e2e5ed;

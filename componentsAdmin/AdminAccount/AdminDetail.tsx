@@ -5,7 +5,7 @@ import {
   isTokenAdminPatchApi,
 } from 'api';
 import jwt_decode from 'jwt-decode';
-import { JwtTokenType } from 'pages/signin';
+import { AdminJwtTokenType, JwtTokenType } from 'pages/signin';
 import { AxiosDefaults } from 'axios';
 import AdminHeader from 'componentsAdmin/Header';
 import AlertModal from 'componentsAdmin/Modal/AlertModal';
@@ -46,7 +46,9 @@ const AdminDetail = ({ detatilId, setIsDetail }: Props) => {
 
   // 추후에 jwt에 관리자 등급있으면 슈퍼 관리자만 관리자 등록 및 관리자 등급 수정과 아이디 삭제가능
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const token: JwtTokenType = jwt_decode(accessToken);
+  const token: AdminJwtTokenType = jwt_decode(accessToken);
+  // isRepresentativeAdmin true면 슈퍼관리자 false면 일반관리자
+  console.log('token', token);
 
   // managerIdx
   const { data, isLoading, isError } = useQuery<
@@ -166,34 +168,36 @@ const AdminDetail = ({ detatilId, setIsDetail }: Props) => {
           backBtn={onClickBack}
         />
         {/* 본문 */}
-        <Line>
-          <label>관리자 등급</label>
-          <CheckBoxContainer>
-            <div className="raidoBoxWrapper">
-              <input
-                type={'radio'}
-                className="radioBox"
-                name="adminClass"
-                checked={!isChecked}
-                onChange={() => setIsChecked((prev) => !prev)}
-              />
-              <span>일반관리자</span>
-            </div>
-            <div className="raidoBoxWrapper">
-              <input
-                type={'radio'}
-                className="radioBox"
-                name="adminClass"
-                checked={isChecked}
-                onChange={() => setIsChecked((prev) => !prev)}
-              />
-              <span>슈퍼관리자</span>
-            </div>
-            <button className="adminBtn" onClick={onClickChangeBtn}>
-              변경
-            </button>
-          </CheckBoxContainer>
-        </Line>
+        {token?.isRepresentativeAdmin === true && (
+          <Line>
+            <label>관리자 등급</label>
+            <CheckBoxContainer>
+              <div className="raidoBoxWrapper">
+                <input
+                  type={'radio'}
+                  className="radioBox"
+                  name="adminClass"
+                  checked={!isChecked}
+                  onChange={() => setIsChecked((prev) => !prev)}
+                />
+                <span>일반관리자</span>
+              </div>
+              <div className="raidoBoxWrapper">
+                <input
+                  type={'radio'}
+                  className="radioBox"
+                  name="adminClass"
+                  checked={isChecked}
+                  onChange={() => setIsChecked((prev) => !prev)}
+                />
+                <span>슈퍼관리자</span>
+              </div>
+              <button className="adminBtn" onClick={onClickChangeBtn}>
+                변경
+              </button>
+            </CheckBoxContainer>
+          </Line>
+        )}
         <Line>
           <label>아이디</label>
           <span>{data?.id}</span>
