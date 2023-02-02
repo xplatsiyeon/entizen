@@ -203,7 +203,7 @@ const IncomeSimulTable = ({ handleCommon, simulData }: Props) => {
                 onClick={() => handleValue(idx)}
                 valueBoolean={valueBoolean[idx] ? true : false}
               >
-                {item?.value}
+                {item?.value.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}
               </TableValueTD>
               {item?.siGunGu !== undefined
                 ? Empty.slice(0, 24).map((item, idx) => (

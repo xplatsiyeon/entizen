@@ -120,7 +120,7 @@ const PreQuotationExcelTable = ({
 
   const RowName2 = [
     '최소(%)',
-    '최대(&)',
+    '최대(%)',
     '',
     '',
     '',
@@ -513,7 +513,7 @@ const PreQuotationExcelTable = ({
                 <TableTD siGunGuBoolean={false}>
                   {item?.discountRate === null
                     ? '-'
-                    : `${item?.discountRate} %`}
+                    : `${Number(item?.discountRate) * 100} %`}
                 </TableTD>
               </TableTR>
             ),
@@ -525,10 +525,10 @@ const PreQuotationExcelTable = ({
               <TableTR key={idx}>
                 <TableTH>{`${idx + 1}`}</TableTH>
                 <TableTD siGunGuBoolean={false}>
-                  {item?.maxRate === null ? '-' : item?.maxRate.toString()}
+                  {item?.maxRate === null ? '-' : Number(item?.minRate) * 100}
                 </TableTD>
                 <TableTD siGunGuBoolean={false}>
-                  {item?.maxRate === null ? '-' : item?.maxRate.toString()}
+                  {item?.maxRate === null ? '-' : Number(item?.maxRate) * 100}
                 </TableTD>
               </TableTR>
             ),
@@ -541,7 +541,9 @@ const PreQuotationExcelTable = ({
               {preQuotationExcelData?.data?.annualGrowthRateTable?.value ===
               null
                 ? '-'
-                : preQuotationExcelData?.data?.annualGrowthRateTable?.value}
+                : Number(
+                    preQuotationExcelData?.data?.annualGrowthRateTable?.value,
+                  ) * 100}
             </TableTD>
           </TableTR>
         )}
