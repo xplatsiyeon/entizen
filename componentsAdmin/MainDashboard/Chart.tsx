@@ -31,7 +31,7 @@ type Props = {
 };
 
 const ChartBar = ({ chartData }: Props) => {
-  console.log('🔥 chartData ==>');
+  console.log('🔥 chartData ==>', chartData);
   const options = {
     maxBarThickness: 7,
     responsive: true,
@@ -86,7 +86,7 @@ const ChartBar = ({ chartData }: Props) => {
       },
       {
         label: '초급속',
-        data: chartData?.map((e) => e.fast),
+        data: chartData?.map((e) => e.superFast),
         backgroundColor: ChartColor[3],
       },
     ],
