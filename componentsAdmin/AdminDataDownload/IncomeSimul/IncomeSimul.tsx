@@ -176,7 +176,7 @@ const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
       }
 
       simulationExcel({
-        url: '/admin/simulations/subsidy',
+        url: '/admin/simulations/charge',
         data: formData,
       });
       // setLoading(true);

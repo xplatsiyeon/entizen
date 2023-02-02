@@ -181,7 +181,7 @@ const PreQuotationExel = ({ setNowHeight, setNumber }: Props) => {
       }
 
       simulationExcel({
-        url: '/admin/simulations/subsidy',
+        url: '/admin/simulations/quotation-prediction',
         data: formData,
       });
       // setLoading(true);
