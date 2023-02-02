@@ -17,8 +17,8 @@ type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-const selectOption = ['아이디 검색', '연락처 검색'];
-const selectOptionEn = ['id', 'phone'];
+const selectOption = ['아이디 검색', '연락처 검색', '이름 검색'];
+const selectOptionEn = ['id', 'phone', 'name'];
 const UserManagement = ({ setNowHeight }: Props) => {
   const [selectValue, setSelectValue] = useState('아이디 검색');
 
