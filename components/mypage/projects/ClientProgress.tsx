@@ -262,7 +262,7 @@ const ClientProgress = ({ data, badge, projectRefetch }: Props) => {
   };
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    console.log(contractDocumentData?.embeddedUrl);
+    console.log('contractDocumentData=>', contractDocumentData?.embeddedUrl);
     // 새탭방식
     window.open(contractDocumentData?.embeddedUrl);
 

@@ -1,4 +1,5 @@
 export const getDocument = (documentId: string) => {
+  // console.log('documentId=>', documentId);
   const fetch = require('node-fetch');
 
   const url = `https://api.modusign.co.kr/documents/${documentId}/embedded-view`;

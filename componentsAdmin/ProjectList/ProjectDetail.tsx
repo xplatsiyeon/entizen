@@ -248,6 +248,7 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     },
   });
 
+  console.log('🔥', data?.data?.project?.contract?.documentId);
   const {
     data: contractDocumentData,
     isLoading: contractDocumentLoading,
