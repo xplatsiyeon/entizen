@@ -85,7 +85,7 @@ const SignUpTerms = () => {
           snsType: fullTerms,
           name: data.name,
           phone: data.phone,
-          birthDate: data.birthday,
+          birthDate: data.birthDate,
         }),
       );
       // try {
@@ -95,7 +95,7 @@ const SignUpTerms = () => {
         data: {
           name: data.name,
           phone: data.phone,
-          birthDate: data.birthday,
+          birthDate: data.birthDate,
           optionalTermsConsentStatus: [
             {
               optionalTermsType: 'LOCATION',
