@@ -86,7 +86,7 @@ const ChartBar = ({ chartData }: Props) => {
       },
       {
         label: '초급속',
-        data: chartData?.map((e) => e.fast),
+        data: chartData?.map((e) => e.superFast),
         backgroundColor: ChartColor[3],
       },
     ],
