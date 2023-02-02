@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect } from 'react';
 import colors from 'styles/colors';
 import Back from 'public/adminImages/Back.png';
 import Image from 'next/image';
 import { excelDownloadFile } from 'hooks/excelDown';
 import jwt_decode from 'jwt-decode';
 import { AdminJwtTokenType } from 'pages/signin';
+import { useRouter } from 'next/router';
 
 type Props = {
   type: 'main' | 'detail' | 'text' | 'admin';
@@ -37,7 +38,11 @@ const AdminHeader = ({
   etcModify,
 }: Props) => {
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const token: AdminJwtTokenType = jwt_decode(accessToken);
+
+  const token: AdminJwtTokenType | undefined = accessToken
+    ? jwt_decode(accessToken!)
+    : undefined;
+
   // isRepresentativeAdmin true면 슈퍼관리자 false면 일반관리자
 
   return (
@@ -117,7 +122,7 @@ const AdminHeader = ({
             </div>
             이전 페이지
           </button>
-          {token?.isRepresentativeAdmin === true && (
+          {token && token?.isRepresentativeAdmin === true && (
             <div className="sencondLine">
               <span className="title">
                 <h1>{title}</h1>
