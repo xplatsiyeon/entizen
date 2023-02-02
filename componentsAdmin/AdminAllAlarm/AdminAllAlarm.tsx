@@ -78,10 +78,6 @@ const AdminAllAlarm = ({ setNowHeight }: Props) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log('detatilId==>>', detatilId);
-  }, [detatilId]);
-
   return (
     <Wrapper>
       {messageModal && (
