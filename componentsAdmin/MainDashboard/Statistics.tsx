@@ -126,12 +126,6 @@ const Statistics = ({ setNowHeight }: Props) => {
   // ChartBar에 그래프로 내려주는 수치(배열임)
   const chartData = data?.data?.statistics?.chargers;
 
-  // useEffect(() => {
-  //   console.log('----------------pickedDate-----------------');
-  //   console.log(pickedDate);
-  //   // queryClinet.invalidateQueries('asDetailView');
-  // }, [data, pickedDate]);
-
   return (
     <Wrapper>
       <AdminHeader type="main" title="메인대시보드" subTitle="통계" />

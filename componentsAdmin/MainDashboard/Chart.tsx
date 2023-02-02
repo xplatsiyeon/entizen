@@ -31,7 +31,7 @@ type Props = {
 };
 
 const ChartBar = ({ chartData }: Props) => {
-  console.log('🔥 chartData ==>');
+  console.log('🔥 chartData ==>', chartData);
   const options = {
     maxBarThickness: 7,
     responsive: true,
