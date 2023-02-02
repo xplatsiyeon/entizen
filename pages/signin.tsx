@@ -382,6 +382,7 @@ const Signin = () => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLoginType]);
+
   // 구글 브릿지 연결 (앱 -> 웹)
   useEffect(() => {
     if (userAgent === 'Android_App') {

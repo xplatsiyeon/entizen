@@ -253,6 +253,7 @@ const SignUpContainer = (props: Props) => {
               email={email}
               setEmail={setEmail}
               userType={userType}
+              setBirthday={setBirthday}
             />
           </Wrapper>
         </>

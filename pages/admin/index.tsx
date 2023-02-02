@@ -33,6 +33,7 @@ import ProjectCompleteList from 'componentsAdmin/ProjectList/ProjectCompleteList
 import AdminDataExcel from 'componentsAdmin/AdminDataDownload/AdminDataExcel/AdminDataExcel';
 import AdimAccountListTable from 'componentsAdmin/AdminAccount/AdimAccountListTable';
 import AdminAllAlarm from 'componentsAdmin/AdminAllAlarm/AdminAllAlarm';
+import OutstandingWork from 'componentsAdmin/MainDashboard/OutstandingWork/OutstandingWork';
 
 type Props = {};
 
@@ -123,6 +124,7 @@ const index = (props: Props) => {
         <PreQuotationExel setNowHeight={setNowHeight} setNumber={setNumber} />
       )}
       {number === 29 && <AdminDataExcel setNowHeight={setNowHeight} />}
+      {number === 30 && <OutstandingWork />}
       {number === 20 && <AdminAllAlarm setNowHeight={setNowHeight} />}
     </Background>
   );
