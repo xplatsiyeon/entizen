@@ -47,7 +47,9 @@ const openList = [
 const Workspace = ({ setNumber, nowHeight }: Props) => {
   // 이름 가져오기
   const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const token: AdminJwtTokenType = jwt_decode(accessToken);
+  const token: AdminJwtTokenType | undefined = accessToken
+    ? jwt_decode(accessToken!)
+    : undefined;
   const isToken = (accessToken: string) => {
     if (accessToken) {
       const newToken: AdminJwtTokenType = jwt_decode(accessToken);
@@ -58,7 +60,7 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
   // let token = '';
 
   const closeList = [
-    token?.isRepresentativeAdmin === true
+    token && token?.isRepresentativeAdmin === true
       ? ['관리자 등록', '관리자 리스트 조회']
       : ['관리자 리스트 조회'],
     ['역경매 현황', '프로젝트 현황', 'A/S 현황', '통계'],

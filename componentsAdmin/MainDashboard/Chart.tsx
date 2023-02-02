@@ -30,10 +30,15 @@ type Props = {
   }[];
 };
 
+// const chartData = [
+//   { date: '2023-01-17', fast: 0, normal: 0, slow: 2, superFast: 0 },
+// ];
+
 const ChartBar = ({ chartData }: Props) => {
   console.log('🔥 chartData ==>', chartData);
   const options = {
     maxBarThickness: 7,
+    // pointHitRadius: 5,
     responsive: true,
     maintainAspectRatio: false,
     type: 'line',
@@ -108,5 +113,6 @@ const Container = styled.div`
 `;
 const Chart = styled(Bar)`
   min-width: 900px;
-  width: 1000px !important;
+  /* width: 1000px !important; */
+  border: 1px solid red;
 `;
