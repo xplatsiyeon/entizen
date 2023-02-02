@@ -95,6 +95,7 @@ const SignUpTerms = () => {
         data: {
           name: data.name,
           phone: data.phone,
+          birthDate: data.birthday,
           optionalTermsConsentStatus: [
             {
               optionalTermsType: 'LOCATION',
