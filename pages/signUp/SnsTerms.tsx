@@ -77,13 +77,15 @@ const SignUpTerms = () => {
   const handleForceClick = async () => {
     let key = sessionStorage.getItem('key');
     if (key !== null) {
-      let a = JSON.parse(key);
+      let data = JSON.parse(key);
+      console.log('sns data==>>', data);
       dispatch(
         userAction.add({
           ...user,
           snsType: fullTerms,
-          name: a.name,
-          phone: a.phone,
+          name: data.name,
+          phone: data.phone,
+          birthDate: data.birthday,
         }),
       );
       // try {
@@ -91,8 +93,8 @@ const SignUpTerms = () => {
         method: 'post',
         url: 'https://test-api.entizen.kr/api/members/join/sns',
         data: {
-          name: a.name,
-          phone: a.phone,
+          name: data.name,
+          phone: data.phone,
           optionalTermsConsentStatus: [
             {
               optionalTermsType: 'LOCATION',
@@ -114,15 +116,9 @@ const SignUpTerms = () => {
           setErrorMessage(message);
           setErrorModal(true);
         });
-      // } catch (error: any) {
-      //   console.log('post 실패!!!!!!');
-      //   console.log(error);
-      //   setErrorMessage(error);
-      //   setErrorModal(true);
-      // }
     }
   };
-  // 카카오 백엔드 API
+
   // const KaKaApi = async (data: any) => {
   //   const KAKAO_POST = `https://test-api.entizen.kr/api/members/login/sns`;
   //   // try {

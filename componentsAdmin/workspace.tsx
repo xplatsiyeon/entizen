@@ -63,7 +63,7 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
     token && token?.isRepresentativeAdmin === true
       ? ['관리자 등록', '관리자 리스트 조회']
       : ['관리자 리스트 조회'],
-    ['역경매 현황', '프로젝트 현황', 'A/S 현황', '통계'],
+    ['미처리 업무', '역경매 현황', '프로젝트 현황', 'A/S 현황', '통계'],
     ['일반회원', '기업회원'],
     ['역경매관리 리스트'],
     ['진행프로젝트 리스트', '완료프로젝트 리스트'],
@@ -235,7 +235,6 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
         // setNumber(23);
         dispatch(adminPageNumberAction.setIsAdminPage(23));
         break;
-
       case '역경매 현황':
         // setNumber(24);
         dispatch(adminPageNumberAction.setIsAdminPage(24));
@@ -254,6 +253,10 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
       case 'DATA 다운로드':
         // setNumber(29);
         dispatch(adminPageNumberAction.setIsAdminPage(29));
+        break;
+
+      case '미처리 업무':
+        dispatch(adminPageNumberAction.setIsAdminPage(30));
         break;
 
       default:

@@ -16,6 +16,7 @@ type Props = {
   level: number;
   userType: number;
   setLevel: Dispatch<SetStateAction<number>>;
+  setBirthday: Dispatch<SetStateAction<string>>;
 };
 
 const ManagerInfo = ({
@@ -25,6 +26,7 @@ const ManagerInfo = ({
   setPhoneNumber,
   level,
   setLevel,
+  setBirthday,
   userType,
 }: Props) => {
   const TAB = 'components/SignUp/ManagerInfo';
@@ -72,6 +74,8 @@ const ManagerInfo = ({
       let data = JSON.parse(key);
       setName(data.name);
       setPhoneNumber(data.phone);
+      setBirthday(data.birthDate);
+
       if (data.isMember === true) {
         setIsModal(true);
         setModalMessage('이미 회원가입 하셨습니다.');
