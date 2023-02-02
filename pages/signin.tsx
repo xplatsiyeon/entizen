@@ -37,10 +37,13 @@ export interface JwtTokenType {
   memberIdx: number;
   memberType: string;
 }
+
 export interface AdminJwtTokenType {
   exp: number;
   iat: number;
   isAdmin: true;
+  // isRepresentativeAdmin true면 슈퍼관리자 false면 일반관리자
+  isRepresentativeAdmin: boolean;
   iss: string;
   managerIdx: number;
   name: string;

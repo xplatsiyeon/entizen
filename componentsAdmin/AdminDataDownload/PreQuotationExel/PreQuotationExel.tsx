@@ -60,6 +60,22 @@ export type PreQuotationExcelResponse = {
       highVolt: number;
       discountRate: string;
     }[];
+    subscribePriceRangeTables: {
+      subscribePriceRangeTableIdx: number;
+      maxRate: string;
+      minRate: string;
+    }[];
+    annualGrowthRateTable: {
+      value: string;
+    };
+    chargerUsageFeeTables: {
+      watt: string;
+      value: number;
+    }[];
+    electricityPurchaseCostTables: {
+      watt: string;
+      value: number;
+    }[];
   };
 };
 
@@ -226,7 +242,7 @@ const PreQuotationExel = ({ setNowHeight, setNumber }: Props) => {
       )}
       <TitleWrapper>
         <TitleBox>
-          <AdminHeader title="DATA 다운로드" type="main" />
+          <AdminHeader title="DATA 업데이트" type="main" />
           <SubText>간편견적</SubText>
         </TitleBox>
         <ExelButton onClick={fileHandler}>엑셀 업로드</ExelButton>

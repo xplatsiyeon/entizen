@@ -4,6 +4,8 @@ import colors from 'styles/colors';
 import Back from 'public/adminImages/Back.png';
 import Image from 'next/image';
 import { excelDownloadFile } from 'hooks/excelDown';
+import jwt_decode from 'jwt-decode';
+import { AdminJwtTokenType } from 'pages/signin';
 
 type Props = {
   type: 'main' | 'detail' | 'text' | 'admin';
@@ -34,6 +36,10 @@ const AdminHeader = ({
   excelData,
   etcModify,
 }: Props) => {
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const token: AdminJwtTokenType = jwt_decode(accessToken);
+  // isRepresentativeAdmin true면 슈퍼관리자 false면 일반관리자
+
   return (
     <>
       {type === 'main' && (
@@ -111,18 +117,19 @@ const AdminHeader = ({
             </div>
             이전 페이지
           </button>
-
-          <div className="sencondLine">
-            <span className="title">
-              <h1>{title}</h1>
-              <p>{subTitle}</p>
-            </span>
-            {deleteBtn && (
-              <button className="deleteBtn" onClick={deleteFn}>
-                아이디 삭제
-              </button>
-            )}
-          </div>
+          {token?.isRepresentativeAdmin === true && (
+            <div className="sencondLine">
+              <span className="title">
+                <h1>{title}</h1>
+                <p>{subTitle}</p>
+              </span>
+              {deleteBtn && (
+                <button className="deleteBtn" onClick={deleteFn}>
+                  아이디 삭제
+                </button>
+              )}
+            </div>
+          )}
         </DetailWrapper>
       )}
       {type === 'text' && (

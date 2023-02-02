@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
+import jwt_decode from 'jwt-decode';
 import { handleLogoutOnClickAdmin } from 'api/logout';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -12,7 +13,6 @@ import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
-import jwt_decode from 'jwt-decode';
 import styled from '@emotion/styled';
 import colors from 'styles/colors';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -38,29 +38,45 @@ const openList = [
   '엔티즌 도서관',
   '파트너 등록 제품',
   '정보수정',
-  // '알림',
+  '알림',
+  'DATA 다운로드',
   'DATA 업데이트',
-  // 'DATA 다운로드',
   // '기타',
 ];
-const closeList = [
-  ['관리자 등록', '관리자 리스트 조회'],
-  ['역경매 현황', '프로젝트 현황', 'A/S 현황', '통계'],
-  ['일반회원', '기업회원'],
-  ['역경매관리 리스트'],
-  ['진행프로젝트 리스트', '완료프로젝트 리스트'],
-  ['AS 상세'],
-  ['소통하기 리스트', '1대1 문의'],
-  ['리스트 조회'],
-  ['회사별 리스트'],
-  ['약관', '공지사항', '배너', 'FAQ'],
-  // ['약관', '공지사항', '배너', '가이드', 'FAQ'],
-  // ['알림'],
-  // ['DATA 다운로드'],
-  ['수익 SIMUL', '보조금', '간편견적'],
-  // ['블락'],
-];
+
 const Workspace = ({ setNumber, nowHeight }: Props) => {
+  // 이름 가져오기
+  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
+  const token: AdminJwtTokenType = jwt_decode(accessToken);
+  const isToken = (accessToken: string) => {
+    if (accessToken) {
+      const newToken: AdminJwtTokenType = jwt_decode(accessToken);
+      return newToken?.name;
+    }
+  };
+  // isRepresentativeAdmin true면 슈퍼관리자 false면 일반관리자
+  // let token = '';
+
+  const closeList = [
+    token?.isRepresentativeAdmin === true
+      ? ['관리자 등록', '관리자 리스트 조회']
+      : ['관리자 리스트 조회'],
+    ['역경매 현황', '프로젝트 현황', 'A/S 현황', '통계'],
+    ['일반회원', '기업회원'],
+    ['역경매관리 리스트'],
+    ['진행프로젝트 리스트', '완료프로젝트 리스트'],
+    ['AS 상세'],
+    ['소통하기 리스트', '1대1 문의'],
+    ['리스트 조회'],
+    ['회사별 리스트'],
+    ['약관', '공지사항', '배너', 'FAQ'],
+    // ['약관', '공지사항', '배너', '가이드', 'FAQ'],
+    ['알림'],
+    ['DATA 다운로드'],
+    ['수익 SIMUL', '보조금', '간편견적'],
+    // ['블락'],
+  ];
+
   const dispatch = useDispatch();
   // window.document.documentElement.scrollHeight
   // window.screen.height
@@ -85,15 +101,6 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
       .catch((error) => alert(error));
   };
 
-  // 이름 가져오기
-  const accessToken = JSON.parse(sessionStorage.getItem('ADMIN_ACCESS_TOKEN')!);
-  const isToken = (accessToken: string) => {
-    if (accessToken) {
-      const newToken: AdminJwtTokenType = jwt_decode(accessToken);
-      return newToken?.name;
-    }
-  };
-  let token = '';
   React.useEffect(() => {
     if (accessToken !== null) {
       const newToken: AdminJwtTokenType = jwt_decode(accessToken);
@@ -238,8 +245,13 @@ const Workspace = ({ setNumber, nowHeight }: Props) => {
         break;
 
       case '완료프로젝트 리스트':
-        // setNumber(26);
+        // setNumber(28);
         dispatch(adminPageNumberAction.setIsAdminPage(28));
+        break;
+
+      case 'DATA 다운로드':
+        // setNumber(29);
+        dispatch(adminPageNumberAction.setIsAdminPage(29));
         break;
 
       default:

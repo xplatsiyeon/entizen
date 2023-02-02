@@ -239,7 +239,7 @@ const IncomeSimul = ({ setNowHeight, setNumber }: Props) => {
       )}
       <TitleWrapper>
         <TitleBox>
-          <AdminHeader title="DATA 다운로드" type="main" />
+          <AdminHeader title="DATA 업데이트" type="main" />
           <SubText>수익 SIMUL</SubText>
         </TitleBox>
         <ExelButton onClick={fileHandler}>엑셀 업로드</ExelButton>
