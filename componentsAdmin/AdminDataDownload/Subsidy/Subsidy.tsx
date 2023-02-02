@@ -213,11 +213,6 @@ const Subsidy = ({ setNowHeight, setNumber }: Props) => {
     }
   };
 
-  console.log(
-    '🐳 subsidyData?.data?.originalName🐳',
-    subsidyData?.data?.originalName,
-  );
-
   //파일 온클릭
   const fileHandler = () => {
     fileRef?.current?.click();

@@ -225,6 +225,9 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     number | undefined
   >();
 
+  // 계약서 보기 버튼 활성화
+  const [moduSignContract, setModuSignContract] = useState(0);
+
   const { data, isLoading, isError, refetch } =
     reactQuery<ProjectDetailResponse>('projectDetail', () =>
       isTokenAdminGetApi(`/admin/projects/${projectIdx}`),
@@ -263,9 +266,17 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
 
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    console.log(contractDocumentData?.embeddedUrl);
-    // 새탭방식
-    window.open(contractDocumentData?.embeddedUrl);
+    if (moduSignContract === 2) {
+      // console.log(contractDocumentData?.embeddedUrl);
+      // 새탭방식
+      window.open(contractDocumentData?.embeddedUrl);
+    } else if (moduSignContract === 1) {
+      setMessageModal(true);
+      setMessage('자체 계약서는 확인할 수 없습니다.');
+    } else if (moduSignContract === 0) {
+      setMessageModal(true);
+      setMessage('계약서가 없습니다.');
+    }
 
     // 임베디드 방식
     // if (contractData) {
@@ -398,10 +409,17 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     });
   };
 
-  console.log(
-    '🎀',
-    data?.data?.project?.finalQuotation?.finalQuotationChargers,
-  );
+  useEffect(() => {
+    if (data?.data?.project?.contract?.documentId === undefined) {
+      setModuSignContract(0);
+    } else if (
+      data?.data?.project?.contract?.documentId?.substring(0, 7) === 'project'
+    ) {
+      setModuSignContract(1);
+    } else {
+      setModuSignContract(2);
+    }
+  }, [data]);
 
   useEffect(() => {
     // 사업자 등록증 삭제
@@ -463,7 +481,11 @@ const ProjectDetail = ({ setIsDetail, projectIdx, setNowHeight }: Props) => {
     <Background>
       <Wrapper>
         {messageModal && (
-          <AlertModal setIsModal={setMessageModal} message={message} />
+          <AlertModal
+            setIsModal={setMessageModal}
+            message={message}
+            size={'lg'}
+          />
         )}
         {reviewModal && (
           <CompleteRating

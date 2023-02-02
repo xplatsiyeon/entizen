@@ -241,6 +241,10 @@ const ProjectCompleteDetail = ({
     number | undefined
   >();
 
+  // 계약서 보기 버튼 활성화
+  // 0은 계약서 없음 / 1은 자체 계약서 / 2는 모두사인 계약서 있음
+  const [moduSignContract, setModuSignContract] = useState(0);
+
   const { data, isLoading, isError, refetch } =
     reactQuery<ProjectDetailResponse>('projectDetail', () =>
       isTokenAdminGetApi(`/admin/projects/${projectIdx}`),
@@ -278,18 +282,21 @@ const ProjectCompleteDetail = ({
 
   console.log(
     'data?.data?.project?.contract?.documentId 🌸',
-    data?.data?.project?.contract?.documentId,
+    data?.data?.project?.contract?.documentId?.substring(0, 7),
   );
 
   // 계약서 보기 버튼 클릭
   const onClickContract = () => {
-    if (contractDocumentData?.embeddedUrl !== undefined) {
+    if (moduSignContract === 2) {
       console.log(contractDocumentData?.embeddedUrl);
       // 새탭방식
       window.open(contractDocumentData?.embeddedUrl);
-    } else {
+    } else if (moduSignContract === 1) {
       setMessageModal(true);
       setMessage('자체 계약서는 확인할 수 없습니다.');
+    } else if (moduSignContract === 0) {
+      setMessageModal(true);
+      setMessage('계약서가 없습니다.');
     }
 
     // 임베디드 방식
@@ -303,6 +310,18 @@ const ProjectCompleteDetail = ({
     //   });
     // }
   };
+
+  useEffect(() => {
+    if (data?.data?.project?.contract?.documentId === undefined) {
+      setModuSignContract(0);
+    } else if (
+      data?.data?.project?.contract?.documentId?.substring(0, 7) === 'project'
+    ) {
+      setModuSignContract(1);
+    } else {
+      setModuSignContract(2);
+    }
+  }, [data]);
 
   // 리뷰데이터
   const reviewData = data?.data?.project?.projectReview;
@@ -488,7 +507,11 @@ const ProjectCompleteDetail = ({
     <Background>
       <Wrapper>
         {messageModal && (
-          <AlertModal setIsModal={setMessageModal} message={message} />
+          <AlertModal
+            setIsModal={setMessageModal}
+            message={message}
+            size={'lg'}
+          />
         )}
         {reviewModal && (
           <CompleteRating
