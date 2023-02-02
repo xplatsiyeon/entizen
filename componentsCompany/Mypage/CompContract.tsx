@@ -196,6 +196,7 @@ const ComContranct = ({}: Props) => {
   console.log(TAG + '🔥 ~line 68 ~내프로젝트 진행중인 프로젝트 리스트');
   console.log(modusignData);
   const handleContr = () => modusignMutate(inModuSignData!);
+  console.log('inModuSignData', inModuSignData?.project?.userMember?.name);
 
   // 사진 || 파일 저장
   const saveFileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
