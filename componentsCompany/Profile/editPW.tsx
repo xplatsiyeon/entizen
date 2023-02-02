@@ -91,7 +91,7 @@ const EditPW = ({ setComponent }: Props) => {
       setBeforePasswordInput(e.target.value);
     }
 
-    if (pwInput.length > 9 && checkPw === pwInput) {
+    if (pwInput.length > 7 && checkPw === pwInput) {
       setBtnActive(!btnActive);
     }
   };
@@ -288,7 +288,7 @@ const EditPW = ({ setComponent }: Props) => {
                 fontSize: '9pt',
               }}
             >
-              영문,숫자,특수문자 조합 10자 이상
+              영문,숫자,특수문자 조합 8자 이상
             </Typography>
           </Box>
         ) : (
@@ -321,7 +321,7 @@ const EditPW = ({ setComponent }: Props) => {
       </Box>
       <Btn
         isClick={
-          checkPw.length > 9 && pwInput.length > 9 && pwInput === checkPw
+          checkPw.length > 7 && pwInput.length > 7 && pwInput === checkPw
             ? true
             : false
         }

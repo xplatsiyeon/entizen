@@ -73,7 +73,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
       setBeforePasswordInput(e.target.value);
     }
 
-    if (pwInput.length > 9 && checkPw === pwInput) {
+    if (pwInput.length > 7 && checkPw === pwInput) {
       setBtnActive(!btnActive);
     }
   };
@@ -111,7 +111,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
   // 비밀번호 변경 api
   const handleClick = () => {
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
-    const PASSWORD_CHANGE = `https://api.entizen.kr/api/members/password/${key.memberIdx}`;
+    const PASSWORD_CHANGE = `https://test-api.entizen.kr/api/members/password/${key.memberIdx}`;
     try {
       axios({
         method: 'patch',
@@ -249,7 +249,7 @@ const PasswordModify = ({ setTabNumber }: Props) => {
                       fontSize: '9pt',
                     }}
                   >
-                    영문,숫자,특수문자 조합 10자 이상
+                    영문,숫자,특수문자 조합 8자 이상
                   </Typography>
                 </Box>
               ) : (
@@ -283,8 +283,8 @@ const PasswordModify = ({ setTabNumber }: Props) => {
             <BtnBox>
               <Btn
                 isClick={
-                  checkPw.length > 9 &&
-                  pwInput.length > 9 &&
+                  checkPw.length > 7 &&
+                  pwInput.length > 7 &&
                   pwInput === checkPw
                     ? true
                     : false
