@@ -132,6 +132,7 @@ const Statistics = ({ setNowHeight }: Props) => {
       {/* 검색박스 */}
       <SearchBox ref={dateRef}>
         <DateRangePicker
+          // onReset={() => {}}
           defaultValue={[new Date('2022-09-05'), new Date()]}
           className="datePicker-input"
           placeholder={'년-월-일 ~ 년-월-일'}
