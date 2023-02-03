@@ -128,7 +128,7 @@ const ProfileEditing = ({
   const HandlePassword = async () => {
     // let key = sessionStorage.getItem('key');
     // let data = JSON.parse(key!);
-    setComponent(3);
+    setComponent(2);
   };
 
   // // 나이스 인증
@@ -155,7 +155,7 @@ const ProfileEditing = ({
   // useEffect(() => {
   //   axios({
   //     method: 'post',
-  //     url: 'https://api.entizen.kr/api/auth/nice',
+  //     url: 'https://test-api.entizen.kr/api/auth/nice',
   //     data: { memberType: token.memberType },
   //   })
   //     .then((res) => {
@@ -246,7 +246,7 @@ const ProfileEditing = ({
           </ImageWrap>
         </Div>
 
-        <Div onClick={() => setComponent(4)}>
+        <Div onClick={() => setComponent(3)}>
           <span>사업자 등록 변경</span>
           <ImageWrap>
             <Image src={arrowRight} layout="fill" />
@@ -274,7 +274,7 @@ const ProfileEditing = ({
           value={profile?.companyMemberAdditionalInfo?.managerEmail}
         />
 
-        <MBtn onClick={() => setComponent(5)}>담당자 변경하기</MBtn>
+        <MBtn onClick={() => setComponent(4)}>담당자 변경하기</MBtn>
       </Wrap>
     </Wrapper>
   );
