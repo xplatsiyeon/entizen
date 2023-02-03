@@ -65,6 +65,8 @@ const Statistics = ({ setNowHeight }: Props) => {
     event: React.SyntheticEvent<Element, Event>,
   ) => {
     console.log('==================value=======================');
+    console.log('event==>>', event);
+    console.log('value==>>', value);
 
     if (value?.length === 2) {
       setPickedDate([
@@ -81,6 +83,11 @@ const Statistics = ({ setNowHeight }: Props) => {
     //   dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
     // }, 600);
   };
+
+  const onChecked = (date: Date) => {
+    console.log(date);
+  };
+
   const handleDate = () => {
     queryClinet.removeQueries('asDetailView');
     refetch();
@@ -133,24 +140,12 @@ const Statistics = ({ setNowHeight }: Props) => {
       {/* 검색박스 */}
       <SearchBox ref={dateRef}>
         <DateRangePicker
-          // onOpen={() => {
-          //   console.log('open');
-          //   const target: HTMLInputElement | null = document.querySelector(
-          //     '.rs-picker-toggle-textbox',
-          //   );
-          //   if (target) {
-          //     target.defaultValue = '';
-          //     target.value = '';
-          //   }
-          // }}
-          onSelect={() => {
-            console.log('선택됨');
-          }}
-          defaultValue={[new Date('2022-09-05'), new Date()]}
+          defaultCalendarValue={[new Date('2022-09-05'), new Date()]}
           className="datePicker-input"
           placeholder={'년-월-일 ~ 년-월-일'}
           size={'sm'}
           onChange={handleDateChange}
+          onSelect={onChecked}
         />
         <AdminBtn onClick={handleDate} className="date-btn">
           조회
