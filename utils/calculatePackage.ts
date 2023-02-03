@@ -136,37 +136,6 @@ export const originDateFomat = (date: string) => {
   return result;
 };
 
-// export const dateFomat = (date: string) => {
-//   let result = '';
-//   let minute = '';
-//   let joinText = '';
-//   if (date) {
-//     const beforeDate = new Date(date);
-//     const newDate = new Intl.DateTimeFormat('ko-KR', {
-//       year: 'numeric',
-//       month: 'numeric',
-//       day: 'numeric',
-//       hour: 'numeric',
-//       minute: 'numeric',
-//       second: 'numeric',
-//       hour12: false,
-//       timeZone: 'asia/seoul',
-//     })?.format(beforeDate);
-
-//     if (newDate) {
-//       result = newDate.replace('시', ':').slice(0, -8);
-//       minute = newDate.slice(18, 20);
-//       if (minute.indexOf('분') === 1) {
-//         newDate.slice(18, 19);
-//         minute = '0' + newDate.slice(18, 19);
-//       }
-
-//       joinText = result + minute;
-//     }
-//   }
-//   return joinText;
-// };
-
 export const dateFomat = (date: string) => {
   let result = '';
   if (date) {
@@ -226,6 +195,22 @@ export const isAdminJoinApprovedBoolean = (value: string) => {
     return true;
   } else if (value === '미승인') {
     return false;
+  }
+};
+
+// 생년월일 계산 콤마 함수
+export const addCommaBirthDay = (birthDay: string) => {
+  if (birthDay) {
+    const year = birthDay.slice(0, 4);
+    const month = birthDay.slice(4, 6);
+    const day = birthDay.slice(6, 8);
+    console.log(year);
+    console.log(month);
+    console.log(day);
+
+    return `${year}.${month}.${day}`;
+  } else {
+    return '-';
   }
 };
 
