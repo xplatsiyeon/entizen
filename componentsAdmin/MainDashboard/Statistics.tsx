@@ -52,6 +52,7 @@ const Statistics = ({ setNowHeight }: Props) => {
   const router = useRouter();
 
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const [isOnClean, setIsOnClean] = useState(true);
   const dateRef = useRef<HTMLDivElement>(null);
 
   // 오늘 날짜.
@@ -132,16 +133,18 @@ const Statistics = ({ setNowHeight }: Props) => {
       {/* 검색박스 */}
       <SearchBox ref={dateRef}>
         <DateRangePicker
-          // onClean={(event) => console.log(event)}
-          onOpen={() => {
-            console.log('open');
-            const target: HTMLInputElement | null = document.querySelector(
-              '.rs-picker-toggle-textbox',
-            );
-            if (target) {
-              target.defaultValue = '';
-              target.value = '';
-            }
+          // onOpen={() => {
+          //   console.log('open');
+          //   const target: HTMLInputElement | null = document.querySelector(
+          //     '.rs-picker-toggle-textbox',
+          //   );
+          //   if (target) {
+          //     target.defaultValue = '';
+          //     target.value = '';
+          //   }
+          // }}
+          onSelect={() => {
+            console.log('선택됨');
           }}
           defaultValue={[new Date('2022-09-05'), new Date()]}
           className="datePicker-input"

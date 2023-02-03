@@ -1,10 +1,7 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import colors from 'styles/colors';
-import { DatePicker } from 'rsuite';
-import { CustomProvider } from 'rsuite';
-import koKR from 'rsuite/locales/ko_KR';
 import {
   InstallationPurposeType,
   InstallationPurposeTypeEn,
@@ -20,40 +17,42 @@ import {
   subscribeTypeEn,
 } from 'assets/selectList';
 import { useQuery } from 'react-query';
-import { isTokenAdminGetApi, isTokenPostApi } from 'api';
+import { isTokenAdminGetApi } from 'api';
 import { dateFomat, hyphenFn, convertKo } from 'utils/calculatePackage';
-import index from 'pages/admin';
+import { AxiosError } from 'axios';
+
+export interface QuotationRequest {
+  quotationRequestIdx: number;
+  expiredAt: string;
+  installationAddress: string;
+  subscribeProduct: string;
+  subscribePeriod: number;
+  investRate: string;
+  installationLocation: string;
+  installationPurpose: string;
+  etcRequest: string;
+  createdAt: string;
+  member: {
+    memberIdx: number;
+    id: string;
+    name: string;
+    phone: string;
+  };
+  quotationRequestChargers: [
+    {
+      quotationRequestChargerIdx: number;
+      kind: string;
+      standType: string;
+      channel: string;
+      count: number;
+    },
+  ];
+}
 
 export interface UserPreQuotationResponse {
   isSuccess: true;
   data: {
-    quotationRequest: {
-      quotationRequestIdx: number;
-      expiredAt: string;
-      installationAddress: string;
-      subscribeProduct: string;
-      subscribePeriod: number;
-      investRate: string;
-      installationLocation: string;
-      installationPurpose: string;
-      etcRequest: string;
-      createdAt: string;
-      member: {
-        memberIdx: number;
-        id: string;
-        name: string;
-        phone: string;
-      };
-      quotationRequestChargers: [
-        {
-          quotationRequestChargerIdx: number;
-          kind: string;
-          standType: string;
-          channel: string;
-          count: number;
-        },
-      ];
-    };
+    quotationRequest: QuotationRequest;
   };
 }
 
@@ -67,19 +66,29 @@ const UserPreQuotation = ({ detatilId }: Props) => {
   const routerId = 330;
   // const routerId = 329;
 
-  const { data, isLoading, isError, error } =
-    useQuery<UserPreQuotationResponse>('userPreQuotation', () =>
+  const { data, isLoading, isError, error } = useQuery<
+    UserPreQuotationResponse,
+    AxiosError,
+    QuotationRequest
+  >(
+    'userPreQuotation',
+    () =>
       isTokenAdminGetApi(`/admin/quotations/quotation-requests/${detatilId}`),
-    );
+    {
+      select(data) {
+        return data.data.quotationRequest;
+      },
+    },
+  );
 
   // 기타요청 사항 받는 set 함수
   const [elseText, setElseText] = useState<string>('');
   // 달력 날짜 변경 함수
   const handleDateChange = () => {};
 
-  const expiredAt = dateFomat(
-    data?.data?.quotationRequest?.expiredAt!,
-  ).substring(0, 12);
+  const expiredAt = dateFomat(data?.expiredAt!).substring(0, 12);
+
+  console.log('data=>', data);
 
   return (
     <Background>
@@ -105,20 +114,22 @@ const UserPreQuotation = ({ detatilId }: Props) => {
       <DetailBox>
         <FlexList>
           <DetailText type={'left'}>작성자</DetailText>
-          <DetailText type={'right'}>entizen1</DetailText>
+          <DetailText type={'right'}>{data?.member?.id}</DetailText>
         </FlexList>
         <FlexList>
           <DetailText type={'left'}>이름</DetailText>
-          <DetailText type={'right'}>홍길동</DetailText>
+          <DetailText type={'right'}>{data?.member?.name}</DetailText>
         </FlexList>
         <FlexList>
           <DetailText type={'left'}>전화번호</DetailText>
-          <DetailText type={'right'}>010-1111-1111</DetailText>
+          <DetailText type={'right'}>
+            {hyphenFn(data?.member?.phone)}
+          </DetailText>
         </FlexList>
         <FlexList>
           <DetailText type={'left'}>견적신청일</DetailText>
           <DetailText type={'right'}>
-            {dateFomat(data?.data?.quotationRequest?.createdAt!).slice(0, 12)}
+            {dateFomat(data?.createdAt!).slice(0, 12)}
           </DetailText>
         </FlexList>
         <FlexList>
@@ -130,66 +141,61 @@ const UserPreQuotation = ({ detatilId }: Props) => {
             readOnly
           /> */}
           <DetailText type={'right'}>
-            {dateFomat(data?.data?.quotationRequest?.expiredAt!).slice(0, 12)}
+            {dateFomat(data?.expiredAt!).slice(0, 12)}
           </DetailText>
         </FlexList>
         <FlexList>
           <DetailText type={'left'}>견적제목</DetailText>
-          <DetailText type={'right'}>
-            {data?.data?.quotationRequest?.installationAddress}
-          </DetailText>
+          <DetailText type={'right'}>{data?.installationAddress}</DetailText>
         </FlexList>
         <FlexList>
           <DetailText type={'left'}>구독상품</DetailText>
-          <DetailText type={'right'}>부분구독</DetailText>
+
+          <DetailText type={'right'}>
+            {convertKo(subscribeType, subscribeTypeEn, data?.subscribeProduct)}
+          </DetailText>
         </FlexList>
         <FlexList>
           <DetailText type={'left'}>구독기간</DetailText>
-          <DetailText type={'right'}>36개월</DetailText>
+          <DetailText
+            type={'right'}
+          >{`${data?.subscribePeriod}개월`}</DetailText>
         </FlexList>
         <FlexList>
           <DetailText type={'left'}>수익지분</DetailText>
           <DetailText type={'right'}>
-            {`${Math.floor(
-              Number(data?.data?.quotationRequest?.investRate) * 100,
-            ).toString()}%`}
+            {`${Math.floor(Number(data?.investRate) * 100).toString()}%`}
           </DetailText>
         </FlexList>
         <>
-          {data?.data?.quotationRequest?.quotationRequestChargers?.map(
-            (item, index) => (
-              <FlexList2>
-                {index === 0 ? (
-                  <DetailText type={'left'}>충전기 종류 및 수량</DetailText>
-                ) : (
-                  <DetailText type={'left'} />
-                )}
-                <ChargeText>
-                  {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
-                  {item.standType
-                    ? `: ${convertKo(
-                        M6_LIST,
-                        M6_LIST_EN,
-                        item.standType,
-                      )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                        item.count
-                      } 대`
-                    : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
-                        item.count
-                      } 대`}
-                </ChargeText>
-              </FlexList2>
-            ),
-          )}
+          {data?.quotationRequestChargers?.map((item, index) => (
+            <FlexList2>
+              {index === 0 ? (
+                <DetailText type={'left'}>충전기 종류 및 수량</DetailText>
+              ) : (
+                <DetailText type={'left'} />
+              )}
+              <ChargeText>
+                {convertKo(M5_LIST, M5_LIST_EN, item.kind)}
+                {item.standType
+                  ? `: ${convertKo(
+                      M6_LIST,
+                      M6_LIST_EN,
+                      item.standType,
+                    )}, ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                      item.count
+                    } 대`
+                  : `: ${convertKo(M7_LIST, M7_LIST_EN, item.channel)}, ${
+                      item.count
+                    } 대`}
+              </ChargeText>
+            </FlexList2>
+          ))}
         </>
         <FlexList>
           <DetailText type={'left'}>충전기설치위치</DetailText>
           <DetailText type={'right'}>
-            {convertKo(
-              location,
-              locationEn,
-              data?.data?.quotationRequest?.installationLocation,
-            )}
+            {convertKo(location, locationEn, data?.installationLocation)}
           </DetailText>
         </FlexList>
         <FlexList>
@@ -198,13 +204,13 @@ const UserPreQuotation = ({ detatilId }: Props) => {
             {convertKo(
               InstallationPurposeType,
               InstallationPurposeTypeEn,
-              data?.data?.quotationRequest?.installationPurpose,
+              data?.installationPurpose,
             )}
           </DetailText>
         </FlexList>
         <FlexList3>
           <DetailText type={'left'}>기타요청사항</DetailText>
-          {data?.data?.quotationRequest?.etcRequest?.length === 0 ? (
+          {data?.etcRequest?.length === 0 ? (
             <ElseText
               maxLength={500}
               readOnly
@@ -217,11 +223,7 @@ const UserPreQuotation = ({ detatilId }: Props) => {
             <ElseText
               maxLength={500}
               readOnly
-              value={
-                elseText !== ''
-                  ? elseText
-                  : data?.data?.quotationRequest?.etcRequest
-              }
+              value={elseText !== '' ? elseText : data?.etcRequest}
             />
           )}
         </FlexList3>
