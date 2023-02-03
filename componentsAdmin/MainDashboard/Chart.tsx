@@ -30,57 +30,17 @@ type Props = {
   }[];
 };
 
-// const chartData = [
-//   { date: '2023-01-15', fast: 3, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-01-17', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-01-18', fast: 0, normal: 0, slow: 2, superFast: 2 },
-//   { date: '2023-01-19', fast: 4, normal: 3, slow: 2, superFast: 0 },
-//   { date: '2023-01-20', fast: 0, normal: 4, slow: 2, superFast: 0 },
-//   { date: '2023-01-21', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-01-22', fast: 0, normal: 5, slow: 2, superFast: 3 },
-//   { date: '2023-01-23', fast: 0, normal: 6, slow: 2, superFast: 0 },
-//   { date: '2023-01-24', fast: 6, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-01-25', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-01-26', fast: 1, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-01-27', fast: 0, normal: 0, slow: 2, superFast: 4 },
-//   { date: '2023-02-01', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-02-02', fast: 2, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-02-03', fast: 0, normal: 0, slow: 2, superFast: 6 },
-//   { date: '2023-02-04', fast: 0, normal: 7, slow: 2, superFast: 0 },
-//   { date: '2023-02-05', fast: 0, normal: 8, slow: 2, superFast: 0 },
-//   { date: '2023-02-06', fast: 0, normal: 0, slow: 2, superFast: 5 },
-//   { date: '2023-02-07', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-02-08', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-02-09', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-02-10', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-02-11', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-02-12', fast: 0, normal: 2, slow: 2, superFast: 2 },
-//   { date: '2023-02-13', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-02-14', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-01', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-02', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-03', fast: 0, normal: 0, slow: 2, superFast: 6 },
-//   { date: '2023-03-04', fast: 6, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-05', fast: 7, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-06', fast: 8, normal: 0, slow: 2, superFast: 7 },
-//   { date: '2023-03-07', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-08', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-09', fast: 0, normal: 0, slow: 2, superFast: 8 },
-//   { date: '2023-03-10', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-11', fast: 2, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-12', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-13', fast: 1, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-14', fast: 0, normal: 0, slow: 2, superFast: 0 },
-//   { date: '2023-03-15', fast: 4, normal: 0, slow: 2, superFast: 0 },
-// ];
-
 // const ChartBar = () => {
 const ChartBar = ({ chartData }: Props) => {
   console.log('🔥 chartData ==>', chartData);
   const options = {
+    interaction: {
+      mode: 'index' as const,
+      intersect: false,
+    },
+
     maxBarThickness: 7,
-    // pointHitRadius: 5,
-    responsive: true,
+    responsive: false,
     maintainAspectRatio: false,
     type: 'line',
     scales: {
@@ -139,7 +99,7 @@ const ChartBar = ({ chartData }: Props) => {
   };
   return (
     <Container>
-      <Chart options={options} data={data} />
+      <Chart options={options} data={data} width="1400" height="450" />
     </Container>
   );
 };
@@ -147,13 +107,8 @@ export default ChartBar;
 
 const Container = styled.div`
   position: relative;
-  /* width: 100%; */
   width: 900px;
   height: 450px;
   overflow-x: scroll;
 `;
-const Chart = styled(Bar)`
-  min-width: 900px;
-  width: 1000px !important;
-  /* border: 1px solid red; */
-`;
+const Chart = styled(Bar)``;
