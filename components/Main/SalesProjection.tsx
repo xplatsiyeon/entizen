@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { InputAdornment, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import colors from 'styles/colors';
 import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
@@ -21,9 +21,19 @@ const SalesProjection = ({ text, setText }: Props) => {
   const handleOnClick = () => {
     router.push('/searchAddress');
   };
+  const userID = sessionStorage.getItem('USER_ID');
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText!(e.target.value);
   };
+
+  // 엔티즌에서 기획변경으로 비로그인시 여기에 입력하면 로그인창으로 이동
+  useEffect(() => {
+    if (text) {
+      if (text.length > 0 && userID === null) {
+        router.push('/signin');
+      }
+    }
+  }, [text]);
 
   return (
     <>

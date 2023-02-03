@@ -21,7 +21,7 @@ const WebFooter = () => {
             <Link href="/setting?id=3">
               <li style={{ cursor: 'pointer' }}>이용약관</li>
             </Link>
-            <Link href="/">
+            <Link href="/setting?id=3">
               <li>개인정보 처리방침</li>
             </Link>
             <Link href="/">
