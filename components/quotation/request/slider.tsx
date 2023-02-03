@@ -182,7 +182,11 @@ const SliderSizes = ({
     }
   };
 
-  console.log('unavailableGraph 🎀', unavailableGraph);
+  useEffect(() => {
+    if (unavailableGraph === true) {
+      setDisabled(false);
+    }
+  }, [unavailableGraph]);
 
   return (
     <SliderCustom
