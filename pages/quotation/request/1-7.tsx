@@ -245,22 +245,24 @@ const Request1_7 = (props: Props) => {
               </ContentsWrapper>
               {simulVisible && (
                 <>
-                  <SimulContainer>
-                    <span className="income">
-                      충전기로 얻은 수익이 <br />
-                    </span>
-                    <span className="title">
-                      {date?.year !== 0 || date?.year !== null
-                        ? `${date?.year}년`
-                        : ''}
-                      {date?.month !== null || date?.month !== 0
-                        ? `${date?.month}개월 후`
-                        : ''}
-                    </span>
-                    <span className="income">
-                      총 투자비용보다 많아질 것으로 기대됩니다.
-                    </span>
-                  </SimulContainer>
+                  {date?.month !== null && date?.month !== null && (
+                    <SimulContainer>
+                      <span className="income">
+                        충전기로 얻은 수익이 <br />
+                      </span>
+                      <span className="title">
+                        {date?.year !== 0 && date?.year !== null
+                          ? `${date?.year}년`
+                          : ''}
+                        {date?.month !== null && date?.month !== 0
+                          ? `${date?.month}개월 후`
+                          : ''}
+                      </span>
+                      <span className="income">
+                        총 투자비용보다 많아질 것으로 기대됩니다.
+                      </span>
+                    </SimulContainer>
+                  )}
                   <Notice>
                     * 해당 결과는 실제와 다를 수 있으니 참고용으로 사용해주시기
                     바랍니다.
