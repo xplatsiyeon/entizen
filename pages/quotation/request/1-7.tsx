@@ -72,8 +72,14 @@ const Request1_7 = (props: Props) => {
   const { requestData } = useSelector(
     (state: RootState) => state.quotationData,
   );
+
+  const { unavailableGraph } = useSelector(
+    (state: RootState) => state.unavailableGraphBoolean,
+  );
   console.log('post 후 받은 request 데이터', requestData);
   console.log('리덕스 post 데이터', quotationData);
+  // 홈충전기인지 아닌지
+  console.log('unavailableGraph', unavailableGraph);
 
   const HandleTextValue = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const {
@@ -149,7 +155,7 @@ const Request1_7 = (props: Props) => {
   }
 
   useEffect(() => {
-    console.log('🌸 value 🌸', value);
+    console.log('🌸 requestData 홈충전기 key 찾아오셈 🌸', requestData);
     console.log('💔 calculatedValue 💔', calculatedValue);
   }, [value, calculatedValue]);
 
