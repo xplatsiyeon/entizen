@@ -195,8 +195,9 @@ const SliderSizes = ({
       {/* {subscribeNumber === 0 && disabled && (
         <BubbleMessage>바를 움직여 주세요</BubbleMessage>
       )} */}
-      {unavailableGraph === false ||
-        (disabled && <BubbleMessage>바를 움직여 주세요</BubbleMessage>)}
+      {(unavailableGraph === false || disabled) && (
+        <BubbleMessage>바를 움직여 주세요</BubbleMessage>
+      )}
 
       {/* 슬라이더 */}
       <Slider
