@@ -10,6 +10,7 @@ import { quotationAction } from 'store/quotationSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useRouter } from 'next/router';
+import { unavailableGraphAction } from 'store/ unavailableGraph';
 
 interface Props {
   // setTabNumber: Dispatch<SetStateAction<number>>;
@@ -138,8 +139,10 @@ const SecondStep = ({ tabNumber }: Props) => {
       chargersKo[0].kind === '7 kW 홈 충전기 (가정용)'
     ) {
       setUnavailableGraph(true);
+      dispatch(unavailableGraphAction.setUnavailableGraph(true));
     } else {
       setUnavailableGraph(false);
+      dispatch(unavailableGraphAction.setUnavailableGraph(false));
     }
   }, [chargersKo, subscribeNumber]);
 
