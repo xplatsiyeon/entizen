@@ -381,7 +381,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'chargePrice2_1',
             value: `${
-              chargerString[0]?.chargePrice
+              chargerString[0]
                 ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -389,7 +389,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'chargePrice2_2',
             value: `${
-              chargerString[1]?.chargePrice
+              chargerString[1]
                 ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -397,7 +397,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'chargePrice2_3',
             value: `${
-              chargerString[2]?.chargePrice
+              chargerString[2]
                 ? `${chargerString[2]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -405,7 +405,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'chargePrice2_4',
             value: `${
-              chargerString[3]?.chargePrice
+              chargerString[3]
                 ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -413,50 +413,30 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'chargePrice2_5',
             value: `${
-              chargerString[4]?.chargePrice
+              chargerString[4]
                 ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
           {
             dataLabel: 'count2_1',
-            value: `${
-              chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.count}대`
-                : ''
-            }`,
+            value: `${chargerString[0] ? `${chargerString[0]?.count}대` : ''}`,
           },
           {
             dataLabel: 'count2_2',
-            value: `${
-              chargerString[1]?.chargePrice
-                ? `${chargerString[1]?.count}대`
-                : ''
-            }`,
+            value: `${chargerString[1] ? `${chargerString[1]?.count}대` : ''}`,
           },
           {
             dataLabel: 'count2_3',
-            value: `${
-              chargerString[2]?.chargePrice
-                ? `${chargerString[2]?.count}대`
-                : ''
-            }`,
+            value: `${chargerString[2] ? `${chargerString[2]?.count}대` : ''}`,
           },
           {
             dataLabel: 'count2_4',
-            value: `${
-              chargerString[3]?.chargePrice
-                ? `${chargerString[3]?.count}대`
-                : ''
-            }`,
+            value: `${chargerString[3] ? `${chargerString[3]?.count}대` : ''}`,
           },
           {
             dataLabel: 'count2_5',
-            value: `${
-              chargerString[4]?.chargePrice
-                ? `${chargerString[4]?.count}대`
-                : ''
-            }`,
+            value: `${chargerString[4] ? `${chargerString[4]?.count}대` : ''}`,
           },
           {
             dataLabel: 'subscribePeriod2_1',
@@ -491,7 +471,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'chargeSum2_1',
             value: `${
-              chargerString[0]?.chargePrice
+              chargerString[0]
                 ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -499,7 +479,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'chargeSum2_2',
             value: `${
-              chargerString[1]?.chargePrice
+              chargerString[1]
                 ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -507,7 +487,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'chargeSum2_3',
             value: `${
-              chargerString[2]?.chargePrice
+              chargerString[2]
                 ? `${chargerString[2]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -515,7 +495,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'chargeSum2_4',
             value: `${
-              chargerString[3]?.chargePrice
+              chargerString[3]
                 ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -523,7 +503,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'chargeSum2_5',
             value: `${
-              chargerString[4]?.chargePrice
+              chargerString[4]
                 ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -632,7 +612,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'afterChargePrice1',
             value: `${
-              chargerString[0]?.chargePrice
+              chargerString[0]
                 ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -640,7 +620,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'afterChargePrice2',
             value: `${
-              chargerString[1]?.chargePrice
+              chargerString[1]
                 ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -656,7 +636,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'afterChargePrice4',
             value: `${
-              chargerString[3]?.chargePrice
+              chargerString[3]
                 ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -664,50 +644,30 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'afterChargePrice5',
             value: `${
-              chargerString[4]?.chargePrice
+              chargerString[4]
                 ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
           {
             dataLabel: 'afterCount1',
-            value: `${
-              chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.count}대`
-                : ''
-            }`,
+            value: `${chargerString[0] ? `${chargerString[0]?.count}대` : ''}`,
           },
           {
             dataLabel: 'afterCount2',
-            value: `${
-              chargerString[1]?.chargePrice
-                ? `${chargerString[1]?.count}대`
-                : ''
-            }`,
+            value: `${chargerString[1] ? `${chargerString[1]?.count}대` : ''}`,
           },
           {
             dataLabel: 'afterCount3',
-            value: `${
-              chargerString[2]?.chargePrice
-                ? `${chargerString[2]?.count}대`
-                : ''
-            }`,
+            value: `${chargerString[2] ? `${chargerString[2]?.count}대` : ''}`,
           },
           {
             dataLabel: 'afterCount4',
-            value: `${
-              chargerString[3]?.chargePrice
-                ? `${chargerString[3]?.count}대`
-                : ''
-            }`,
+            value: `${chargerString[3] ? `${chargerString[3]?.count}대` : ''}`,
           },
           {
             dataLabel: 'afterCount5',
-            value: `${
-              chargerString[4]?.chargePrice
-                ? `${chargerString[4]?.count}대`
-                : ''
-            }`,
+            value: `${chargerString[4] ? `${chargerString[4]?.count}대` : ''}`,
           },
           {
             dataLabel: 'afterSubscribePeriod1',
@@ -742,7 +702,7 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'afterChargeSum1',
             value: `${
-              chargerString[0]?.chargePrice
+              chargerString[0]
                 ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
@@ -750,32 +710,32 @@ export const modusign = (data: ModuSignResponse) => {
           {
             dataLabel: 'afterChargeSum2',
             value: `${
-              chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
+              chargerString[1]
+                ? `${chargerString[1]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
           {
             dataLabel: 'afterChargeSum3',
             value: `${
-              chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
+              chargerString[2]
+                ? `${chargerString[2]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
           {
             dataLabel: 'afterChargeSum4',
             value: `${
-              chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
+              chargerString[3]
+                ? `${chargerString[3]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
           {
             dataLabel: 'afterChargeSum5',
             value: `${
-              chargerString[0]?.chargePrice
-                ? `${chargerString[0]?.chargePrice.toLocaleString()}원`
+              chargerString[4]
+                ? `${chargerString[4]?.chargePrice.toLocaleString()}원`
                 : ''
             }`,
           },
