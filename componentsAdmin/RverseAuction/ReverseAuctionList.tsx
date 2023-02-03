@@ -15,14 +15,14 @@ type Props = {
 };
 
 export const processStatus = [
-  '견적 대기중',
-  '견적 마감',
-  '견적 취소',
-  '현장 실사 조율중',
-  '현장실사 완료',
-  '최종 견적 대기중',
-  '낙찰 대기중',
-  '낙찰 완료',
+  '견적대기',
+  '견적마감',
+  '견적취소',
+  '현장실사 조율 중',
+  '현장실사 예약 완료',
+  '최종견적 대기 중',
+  '낙찰대기 중',
+  '낙찰완료',
 ];
 export const processStatusEn = [
   'IN_PROGRESS',
@@ -59,21 +59,21 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
 
   // 백엔드에 체크박스 선택값 배열에 영문으로 보내줌
   const changeEn = process.map((data) => {
-    if (data === '견적 대기중') {
+    if (data === '견적대기') {
       return 'IN_PROGRESS';
-    } else if (data === '견적 마감') {
+    } else if (data === '견적마감') {
       return 'CLOSED';
-    } else if (data === '견적 취소') {
+    } else if (data === '견적취소') {
       return 'CANCEL';
-    } else if (data === '현장 실사 조율중') {
+    } else if (data === '현장실사 조율 중') {
       return 'DUE_DILIGENCE_COORDINATION';
-    } else if (data === '현장실사 완료') {
+    } else if (data === '현장실사 예약 완료') {
       return 'DUE_DILIGENCE_COMPLETED_RESERVATION';
-    } else if (data === '최종 견적 대기중') {
+    } else if (data === '최종견적 대기 중') {
       return 'AWAITING_FINAL_QUOTATION';
-    } else if (data === '낙찰 대기중') {
+    } else if (data === '낙찰대기 중') {
       return 'AWAITING_BID';
-    } else if (data === '낙찰 완료') {
+    } else if (data === '낙찰완료') {
       return 'COMPLETED_BID';
     }
   });

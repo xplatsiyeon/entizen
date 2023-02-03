@@ -182,7 +182,7 @@ const Step2 = ({
           value={selectedRegion.m9}
           option={M9_LIST}
           name="m9"
-          placeholder="타입"
+          placeholder="선택"
           onClickCharger={HandleRegionChange}
           fontSize={'small'}
         />
@@ -190,7 +190,7 @@ const Step2 = ({
           value={selectedRegion.m10}
           option={HandleM10()}
           name="m10"
-          placeholder="타입"
+          placeholder="선택"
           onClickCharger={HandleRegionChange}
           fontSize={'small'}
         />

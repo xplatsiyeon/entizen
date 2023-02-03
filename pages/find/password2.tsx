@@ -33,7 +33,7 @@ const FindPassword = () => {
   useEffect(() => {
     if (password) {
       let check1 =
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,20}$/.test(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,20}$/.test(
           password,
         );
       console.log(check1);
