@@ -197,6 +197,7 @@ const Request1_7 = (props: Props) => {
                 disabled={disabled} //안내메세지 유&무
                 setDisabled={setDisabled} //안내메세지 끄고 키는 기능.
                 setCalculatedValue={setCalculatedValue}
+                unavailableGraph={unavailableGraph}
               />
               <ContentsWrapper>
                 <div className="contents-box">

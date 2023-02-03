@@ -29,6 +29,7 @@ interface Props {
   sliderDisable?: boolean;
   difaultValue?: number;
   subscribeNumber?: number;
+  unavailableGraph?: boolean;
   setCalculatedValue?: Dispatch<
     SetStateAction<{
       maxSubscribePricePerMonth: number;
@@ -50,6 +51,7 @@ const SliderSizes = ({
   difaultValue,
   setCalculatedValue,
   subscribeNumber,
+  unavailableGraph,
 }: Props) => {
   const { requestData } = useSelector(
     (state: RootState) => state.quotationData,
@@ -191,7 +193,8 @@ const SliderSizes = ({
       {/* {subscribeNumber === 0 && disabled && (
         <BubbleMessage>바를 움직여 주세요</BubbleMessage>
       )} */}
-      {disabled && <BubbleMessage>바를 움직여 주세요</BubbleMessage>}
+      {unavailableGraph !== false ||
+        (disabled && <BubbleMessage>바를 움직여 주세요</BubbleMessage>)}
 
       {/* 슬라이더 */}
       <Slider
