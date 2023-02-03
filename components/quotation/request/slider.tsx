@@ -182,6 +182,8 @@ const SliderSizes = ({
     }
   };
 
+  console.log('unavailableGraph 🎀', unavailableGraph);
+
   return (
     <SliderCustom
       width={'97%'}
