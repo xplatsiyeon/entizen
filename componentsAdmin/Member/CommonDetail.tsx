@@ -35,6 +35,7 @@ export interface UserRespnse {
       name: string;
       phone: string;
       etc: string;
+      birthDate: string;
       createdAt: string;
       deletedAt: string;
     };

@@ -132,7 +132,17 @@ const Statistics = ({ setNowHeight }: Props) => {
       {/* 검색박스 */}
       <SearchBox ref={dateRef}>
         <DateRangePicker
-          // onReset={() => {}}
+          // onClean={(event) => console.log(event)}
+          onOpen={() => {
+            console.log('open');
+            const target: HTMLInputElement | null = document.querySelector(
+              '.rs-picker-toggle-textbox',
+            );
+            if (target) {
+              target.defaultValue = '';
+              target.value = '';
+            }
+          }}
           defaultValue={[new Date('2022-09-05'), new Date()]}
           className="datePicker-input"
           placeholder={'년-월-일 ~ 년-월-일'}

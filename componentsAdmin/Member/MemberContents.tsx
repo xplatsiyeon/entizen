@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { CompanyResposne, UserRespnse } from './CommonDetail';
 import {
+  addCommaBirthDay,
   adminDateFomat,
   hyphenFn,
   isAdminJoinApprovedBoolean,
@@ -79,6 +80,7 @@ const MemberContents = ({
     });
   };
 
+  console.log('userData==>>', userData);
   return (
     <Contents>
       {type === 'USER' ? (
@@ -94,6 +96,10 @@ const MemberContents = ({
           <li>
             <label className="label">전화번호</label>
             <span>{hyphenFn(userData?.data?.member?.phone)}</span>
+          </li>
+          <li>
+            <label className="label">생년월일</label>
+            <span>{addCommaBirthDay(userData?.data?.member?.birthDate!)}</span>
           </li>
           <li>
             <label className="label">가입날짜</label>
