@@ -99,7 +99,7 @@ const ChartBar = ({ chartData }: Props) => {
   };
   return (
     <Container>
-      <Chart options={options} data={data} width="1500" height="450" />
+      <Chart options={options} data={data} width="1400" height="450" />
     </Container>
   );
 };
