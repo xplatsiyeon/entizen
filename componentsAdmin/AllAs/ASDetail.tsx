@@ -13,6 +13,9 @@ import { DateRangePicker } from 'rsuite';
 import AdminHeader from 'componentsAdmin/Header';
 import ASDetailView from './ASDetailView';
 import ASListTable from './ASListTable';
+import AdminDateRange from 'componentsAdmin/AdminDateRange';
+import { Range } from 'react-date-range';
+import { adminDateFomat } from 'utils/calculatePackage';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -24,6 +27,14 @@ const ASDetail = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const [isDate, setIsDate] = useState(false);
+  const [dateState, setDateState] = useState<Range[]>([
+    {
+      startDate: new Date('2022-09-05'),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ]);
 
   //검색창에 입력되는 값
   const [inputValue, setInputValue] = useState<string>('');
@@ -36,39 +47,36 @@ const ASDetail = ({ setNowHeight }: Props) => {
   const dateRef = useRef<HTMLLIElement>(null);
 
   // 달력 날짜 변경 함수
-  // 달력 날짜 변경 함수
-  const handleDateChange = (
-    value: DateRange | null,
-    event: React.SyntheticEvent<Element, Event>,
-  ) => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    console.log('input?', inputValue);
-    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
-    setTimeout(() => {
-      dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
-    }, 600);
-  };
+  // const handleDateChange = (
+  //   value: DateRange | null,
+  //   event: React.SyntheticEvent<Element, Event>,
+  // ) => {
+  //   const inputValue = dateRef.current
+  //     ?.querySelector('.datePicker-input')
+  //     ?.querySelector('input')?.value;
+  //   console.log('input?', inputValue);
+  //   dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+  //   setTimeout(() => {
+  //     dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+  //   }, 600);
+  // };
 
   const handleDate = () => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    console.log('날짜조회 클릭', inputValue);
+    setPickedDate([
+      adminDateFomat(dateState[0].startDate!),
+      adminDateFomat(dateState[0].endDate!),
+    ]);
+    // const inputValue = dateRef.current
+    // ?.querySelector('.datePicker-input')
+    // ?.querySelector('input')?.value;
+    // console.log('날짜조회 클릭', inputValue);
 
-    if (inputValue) {
-      console.log(inputValue);
-      const newDate = inputValue.split('~');
-      setPickedDate(newDate);
-    } else {
-      setPickedDate(undefined);
-    }
-  };
-
-  // 엑셀 다운로드
-  const handleCommon = () => {
-    alert('개발중입니다.');
+    // if (inputValue) {
+    // console.log(inputValue);
+    // const newDate = inputValue.split('~');
+    // } else {
+    //   setPickedDate(undefined);
+    // }
   };
 
   useEffect(() => {
@@ -91,13 +99,20 @@ const ASDetail = ({ setNowHeight }: Props) => {
         <li className="search" ref={dateRef}>
           <label>기간검색</label>
           {/* 달력 컴포넌트 */}
-          <DateRangePicker
+          {/* <DateRangePicker
             defaultValue={[new Date('2022-09-05'), new Date()]}
             className="datePicker-input"
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
             onChange={handleDateChange}
             style={{ cursor: 'pointer' }}
+          /> */}
+          <AdminDateRange
+            dateState={dateState}
+            setDateState={setDateState}
+            isDate={isDate}
+            setIsDate={setIsDate}
+            setPickedDate={setPickedDate}
           />
           <Btn onClick={handleDate}>
             <Text>조회</Text>

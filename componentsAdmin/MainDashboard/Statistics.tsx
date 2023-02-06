@@ -52,7 +52,7 @@ const ChartColor = ['#B096EF', '#FFC043', '#A6A9B0', '#F75015'];
 const Statistics = ({ setNowHeight }: Props) => {
   const queryClinet = useQueryClient();
   const dateRef = useRef<HTMLDivElement>(null);
-  const [pickedDate, setPickedDate] = useState<string[]>([]);
+  const [pickedDate, setPickedDate] = useState<string[]>();
   const [isDate, setIsDate] = useState(false);
   const [dateState, setDateState] = useState<Range[]>([
     {
@@ -89,24 +89,16 @@ const Statistics = ({ setNowHeight }: Props) => {
   };
 
   // 통계 리스트 조회
-  // const { data, isLoading, isError, refetch } = useQuery<StatisticsResponse>(
-  //   'asDetailView',
-  //   () =>
-  //     isTokenAdminGetApi(
-  //       `/admin/dashboards/statistics?startDate=${
-  //         pickedDate ? pickedDate[0] : '2022-09-05'
-  //       }&endDate=${pickedDate ? pickedDate[1] : today}`,
-  //     ),
-  // );
   const { data, isLoading, isError, refetch } = useQuery<StatisticsResponse>(
     'asDetailView',
     () =>
       isTokenAdminGetApi(
-        `/admin/dashboards/statistics?startDate=${adminDateFomat(
-          dateState[0].startDate!,
-        )}&endDate=${adminDateFomat(dateState[0].endDate!)}`,
+        `/admin/dashboards/statistics?startDate=${
+          pickedDate ? pickedDate[0] : '2022-09-05'
+        }&endDate=${pickedDate ? pickedDate[1] : today}`,
       ),
   );
+
   const getData = data?.data?.statistics;
 
   const GridList = [
@@ -149,6 +141,7 @@ const Statistics = ({ setNowHeight }: Props) => {
           setDateState={setDateState}
           isDate={isDate}
           setIsDate={setIsDate}
+          setPickedDate={setPickedDate}
         />
         <AdminBtn onClick={handleDate} className="date-btn">
           조회

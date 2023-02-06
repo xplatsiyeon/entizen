@@ -10,8 +10,10 @@ import Table from 'componentsAdmin/table';
 import { keyframes } from '@emotion/react';
 import useDebounce from 'hooks/useDebounce';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { originDateFomat } from 'utils/calculatePackage';
+import { adminDateFomat, originDateFomat } from 'utils/calculatePackage';
 import UserManagementTable from './UserManagementTable';
+import AdminDateRange from 'componentsAdmin/AdminDateRange';
+import { Range } from 'react-date-range';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -37,6 +39,14 @@ const UserManagement = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const [isDate, setIsDate] = useState(false);
+  const [dateState, setDateState] = useState<Range[]>([
+    {
+      startDate: new Date('2022-09-05'),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ]);
 
   const dateRef = useRef<HTMLLIElement>(null);
 
@@ -61,18 +71,10 @@ const UserManagement = ({ setNowHeight }: Props) => {
   };
 
   const handleDate = () => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    console.log('날짜조회 클릭', inputValue);
-
-    if (inputValue) {
-      console.log(inputValue);
-      const newDate = inputValue.split('~');
-      setPickedDate(newDate);
-    } else {
-      setPickedDate(undefined);
-    }
+    setPickedDate([
+      adminDateFomat(dateState[0].startDate!),
+      adminDateFomat(dateState[0].endDate!),
+    ]);
   };
 
   // 엑셀 다운로드
@@ -142,12 +144,19 @@ const UserManagement = ({ setNowHeight }: Props) => {
           <li className="search" ref={dateRef}>
             <label>기간검색</label>
             {/* 레인지 달력 */}
-            <DateRangePicker
+            {/* <DateRangePicker
               defaultValue={[new Date('2022-09-05'), new Date()]}
               className="datePicker-input"
               placeholder={'년-월-일 ~ 년-월-일'}
               size={'sm'}
               onChange={handleDateChange}
+            /> */}
+            <AdminDateRange
+              dateState={dateState}
+              setDateState={setDateState}
+              isDate={isDate}
+              setIsDate={setIsDate}
+              setPickedDate={setPickedDate}
             />
             <AdminBtn onClick={handleDate} className="date-btn">
               조회

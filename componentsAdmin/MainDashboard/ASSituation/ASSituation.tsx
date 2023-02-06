@@ -5,6 +5,9 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
+import AdminDateRange from 'componentsAdmin/AdminDateRange';
+import { Range } from 'react-date-range';
+import { adminDateFomat } from 'utils/calculatePackage';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -19,6 +22,14 @@ const ASSituation = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const [isDate, setIsDate] = useState(false);
+  const [dateState, setDateState] = useState<Range[]>([
+    {
+      startDate: new Date('2022-09-05'),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ]);
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 
@@ -65,18 +76,10 @@ const ASSituation = ({ setNowHeight }: Props) => {
   };
 
   const handleDate = () => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    console.log('날짜조회 클릭', inputValue);
-
-    if (inputValue) {
-      console.log(inputValue);
-      const newDate = inputValue.split('~');
-      setPickedDate(newDate);
-    } else {
-      setPickedDate(undefined);
-    }
+    setPickedDate([
+      adminDateFomat(dateState[0].startDate!),
+      adminDateFomat(dateState[0].endDate!),
+    ]);
   };
 
   // 엑셀 다운로드 버튼
@@ -121,12 +124,19 @@ const ASSituation = ({ setNowHeight }: Props) => {
         {/* 레인지 달력 */}
         <li className="row" ref={dateRef}>
           <label className="label">기간검색</label>
-          <DateRangePicker
+          {/* <DateRangePicker
             defaultValue={[new Date('2022-09-05'), new Date()]}
             className="datePicker-input"
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
             onChange={handleDateChange}
+          /> */}
+          <AdminDateRange
+            dateState={dateState}
+            setDateState={setDateState}
+            isDate={isDate}
+            setIsDate={setIsDate}
+            setPickedDate={setPickedDate}
           />
         </li>
       </Manager>

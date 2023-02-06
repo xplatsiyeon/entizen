@@ -11,6 +11,9 @@ import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 import UserManagementTable from './UserManagementTable';
 import { ComUserData, UserData } from 'types/tableDataType';
+import AdminDateRange from 'componentsAdmin/AdminDateRange';
+import { Range } from 'react-date-range';
+import { adminDateFomat } from 'utils/calculatePackage';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -40,6 +43,15 @@ const CompanyManagement = ({ setNowHeight }: Props) => {
   const [companySearch, setCompanySearch] = useState<string>('');
 
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const [isDate, setIsDate] = useState(false);
+  const [dateState, setDateState] = useState<Range[]>([
+    {
+      startDate: new Date('2022-09-05'),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ]);
+
   const dateRef = useRef<HTMLLIElement>(null);
 
   // 셀렉트 박스 변경함수
@@ -48,33 +60,25 @@ const CompanyManagement = ({ setNowHeight }: Props) => {
   };
 
   // 달력 날짜 변경 함수
-  const handleDateChange = (
-    value: DateRange | null,
-    event: React.SyntheticEvent<Element, Event>,
-  ) => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    console.log('input?', inputValue);
-    dateRef.current?.querySelector('.date-btn')?.classList.add('on');
-    setTimeout(() => {
-      dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
-    }, 600);
-  };
+  // const handleDateChange = (
+  //   value: DateRange | null,
+  //   event: React.SyntheticEvent<Element, Event>,
+  // ) => {
+  //   const inputValue = dateRef.current
+  //     ?.querySelector('.datePicker-input')
+  //     ?.querySelector('input')?.value;
+  //   console.log('input?', inputValue);
+  //   dateRef.current?.querySelector('.date-btn')?.classList.add('on');
+  //   setTimeout(() => {
+  //     dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
+  //   }, 600);
+  // };
 
   const handleDate = () => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    console.log('날짜조회 클릭', inputValue);
-
-    if (inputValue) {
-      console.log(inputValue);
-      const newDate = inputValue.split('~');
-      setPickedDate(newDate);
-    } else {
-      setPickedDate(undefined);
-    }
+    setPickedDate([
+      adminDateFomat(dateState[0].startDate!),
+      adminDateFomat(dateState[0].endDate!),
+    ]);
   };
 
   useEffect(() => {
@@ -140,12 +144,19 @@ const CompanyManagement = ({ setNowHeight }: Props) => {
           <li className="search" ref={dateRef}>
             <label>기간검색</label>
             {/* 레인지 달력 */}
-            <DateRangePicker
+            {/* <DateRangePicker
               defaultValue={[new Date('2022-09-05'), new Date()]}
               className="datePicker-input"
               placeholder={'년-월-일 ~ 년-월-일'}
               size={'sm'}
               onChange={handleDateChange}
+            /> */}
+            <AdminDateRange
+              dateState={dateState}
+              setDateState={setDateState}
+              isDate={isDate}
+              setIsDate={setIsDate}
+              setPickedDate={setPickedDate}
             />
             <AdminBtn onClick={handleDate}>조회</AdminBtn>
           </li>
