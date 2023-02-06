@@ -9,6 +9,7 @@ import { AdminBtn } from 'componentsAdmin/Layout';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import ReverseAuctionTable from './ReverseAuctionTable';
+import { adminNoPickDateFomat } from 'utils/calculatePackage';
 import AdminDateRange from 'componentsAdmin/AdminDateRange';
 import { Range } from 'react-date-range';
 import { adminDateFomat } from 'utils/calculatePackage';
@@ -39,8 +40,6 @@ export const processStatusEn = [
 ];
 
 const ReverseAuctionList = ({ setNowHeight }: Props) => {
-  const excelUrl =
-    '/admin/quotations/quotation-requests/excel?page=1&limit=1000&startDate=2022-12-10&endDate=2023-01-18&searchKeyword=&inProgressStatuses[]=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
 
@@ -95,7 +94,12 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
     },
   ]);
   const dateRef = useRef<HTMLLIElement>(null);
-
+  const today = new Date();
+  const excelUrl = `/admin/quotations/quotation-requests/excel?page=1&limit=1000&startDate=${adminDateFomat(
+    dateState[0].startDate!,
+  )}&endDate=${adminDateFomat(
+    dateState[0].endDate!,
+  )}&searchKeyword=&inProgressStatuses[]=`;
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,

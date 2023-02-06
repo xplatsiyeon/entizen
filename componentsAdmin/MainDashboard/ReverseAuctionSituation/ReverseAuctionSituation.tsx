@@ -12,6 +12,7 @@ import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import * as XLSX from 'xlsx';
+import { adminNoPickDateFomat } from 'utils/calculatePackage';
 import AdminDateRange from 'componentsAdmin/AdminDateRange';
 import { adminDateFomat } from 'utils/calculatePackage';
 import { Range } from 'react-date-range';
@@ -23,11 +24,11 @@ type Props = {
 const projectStateType = ['신규', '낙찰대기', '견적마감', '견적취소'];
 
 const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
-  const excelUrl =
-    '/admin/dashboards/quotation-requests/excel?page=1&limit=1000&startDate=2022-11-01&endDate=2023-12-29&quotationRequestStatus[]=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const today = new Date();
+
   const [isDate, setIsDate] = useState(false);
   const [dateState, setDateState] = useState<Range[]>([
     {
@@ -36,6 +37,11 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
       key: 'selection',
     },
   ]);
+  const excelUrl = `/admin/dashboards/quotation-requests/excel?page=1&limit=1000&startDate=${adminDateFomat(
+    dateState[0].startDate!,
+  )}&endDate=${adminDateFomat(
+    dateState[0].endDate!,
+  )}&quotationRequestStatus[]=`;
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 

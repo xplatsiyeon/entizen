@@ -51,6 +51,10 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   const [sendEndTime, setSendEndTime] = useState<string>('10:00');
   const [startTime, setStartTime] = useState<string>('');
   const [sendStartTime, setSendStartTime] = useState<string>('10:00');
+  // 기업 전체 알림 off
+  const [companyAlerts, setComapanyAlerts] = useState(true);
+  // 일반 user 전테 알림 off
+  const [userAlerts, setUserAlerts] = useState(true);
   // 드랍다운 박스
   const [selectValue, setSelectValue] = useState('');
   // 알람 idx
@@ -133,6 +137,21 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
     };
   }, [nowWidth]);
 
+  useEffect(() => {
+    if (
+      alertsList?.data?.alertSetting?.alertKakao === false &&
+      alertsList?.data?.alertSetting?.alertEmail === false &&
+      alertsList?.data?.alertSetting?.alertApp === false
+    ) {
+      setComapanyAlerts(false);
+    } else if (
+      alertsList?.data?.alertSetting?.alertKakao === false &&
+      alertsList?.data?.alertSetting?.alertApp === false
+    ) {
+      setUserAlerts(false);
+    }
+  }, [alertsList]);
+
   return (
     <>
       {nowWidth < 1200 && (
@@ -201,7 +220,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <CustomSwitch
                   name="alertQuotationRequest"
                   onChange={handleAlertChange}
-                  checked={alertChecked.alertQuotationRequest}
+                  checked={
+                    companyAlerts === false
+                      ? false
+                      : alertChecked.alertQuotationRequest
+                  }
                 />
               </CheckBox>
             )}
@@ -214,7 +237,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <CustomSwitch
                   name="alertQuotationRequest"
                   onChange={handleAlertChange}
-                  checked={alertChecked.alertQuotationRequest}
+                  checked={
+                    userAlerts === false
+                      ? false
+                      : alertChecked.alertQuotationRequest
+                  }
                 />
               </CheckBox>
             )}
@@ -225,7 +252,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertProject"
                 onChange={handleAlertChange}
-                checked={alertChecked.alertProject}
+                checked={
+                  userAlerts === false || companyAlerts === false
+                    ? false
+                    : alertChecked.alertProject
+                }
               />
             </CheckBox>
             <CheckBox>
@@ -235,7 +266,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertAfterSalesService"
                 onChange={handleAlertChange}
-                checked={alertChecked.alertAfterSalesService}
+                checked={
+                  userAlerts === false || companyAlerts === false
+                    ? false
+                    : alertChecked.alertAfterSalesService
+                }
               />
             </CheckBox>
             <CheckBox>
@@ -246,7 +281,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertChatting"
                 onChange={handleAlertChange}
-                checked={alertChecked.alertChatting}
+                checked={
+                  userAlerts === false || companyAlerts === false
+                    ? false
+                    : alertChecked.alertChatting
+                }
               />
             </CheckBox>
             {memberType === 'USER' && (
@@ -259,7 +298,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <CustomSwitch
                   name="alertChargingStation"
                   onChange={handleAlertChange}
-                  checked={alertChecked.alertChargingStation}
+                  checked={
+                    userAlerts === false
+                      ? false
+                      : alertChecked.alertChargingStation
+                  }
                 />
               </CheckBox>
             )}
@@ -273,7 +316,9 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 <CustomSwitch
                   name="alertSubsidy"
                   onChange={handleAlertChange}
-                  checked={alertChecked.alertSubsidy}
+                  checked={
+                    userAlerts === false ? false : alertChecked.alertSubsidy
+                  }
                 />
               </CheckBox>
             )}
@@ -285,7 +330,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="alertNoDisturbanceTime"
                 onChange={handleAlertChange}
-                checked={alertChecked.alertNoDisturbanceTime}
+                checked={
+                  userAlerts === false || companyAlerts === false
+                    ? false
+                    : alertChecked.alertNoDisturbanceTime
+                }
                 inputProps={{ 'aria-label': 'controlled' }}
               />
             </CheckBox>
@@ -320,7 +369,11 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               <CustomSwitch
                 name="event"
                 onChange={handleAlertChange}
-                checked={alertChecked.alertEvent}
+                checked={
+                  userAlerts === false || companyAlerts === false
+                    ? false
+                    : alertChecked.alertEvent
+                }
                 inputProps={{ 'aria-label': 'controlled' }}
               />
             </CheckBox>

@@ -10,10 +10,11 @@ import Table from 'componentsAdmin/table';
 import { keyframes } from '@emotion/react';
 import useDebounce from 'hooks/useDebounce';
 import { AdminBtn } from 'componentsAdmin/Layout';
+import { Range } from 'react-date-range';
+import { adminNoPickDateFomat } from 'utils/calculatePackage';
 import { adminDateFomat, originDateFomat } from 'utils/calculatePackage';
 import UserManagementTable from './UserManagementTable';
 import AdminDateRange from 'componentsAdmin/AdminDateRange';
-import { Range } from 'react-date-range';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -23,9 +24,6 @@ const selectOption = ['아이디 검색', '연락처 검색', '이름 검색'];
 const selectOptionEn = ['id', 'phone', 'name'];
 const UserManagement = ({ setNowHeight }: Props) => {
   const [selectValue, setSelectValue] = useState('아이디 검색');
-
-  const excelUrl =
-    '/admin/members/users/excel?page=1&limit=10&startDate=2022-12-01&endDate=2023-01-31&searchType=id&searchKeyword=';
 
   //이름검색인지 연락처 검색인지 판별
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
@@ -39,6 +37,8 @@ const UserManagement = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const today = new Date();
+
   const [isDate, setIsDate] = useState(false);
   const [dateState, setDateState] = useState<Range[]>([
     {
@@ -47,6 +47,12 @@ const UserManagement = ({ setNowHeight }: Props) => {
       key: 'selection',
     },
   ]);
+
+  const excelUrl = `/admin/members/users/excel?page=1&limit=10&startDate=${adminDateFomat(
+    dateState[0].startDate!,
+  )}&endDate=${adminDateFomat(
+    dateState[0].endDate!,
+  )}&searchType=id&searchKeyword=`;
 
   const dateRef = useRef<HTMLLIElement>(null);
 

@@ -11,6 +11,7 @@ import {
   hyphenFn,
   convertKo,
   convertEn,
+  adminNoPickDateFomat,
 } from 'utils/calculatePackage';
 import AdminDateRange from 'componentsAdmin/AdminDateRange';
 import { Range } from 'react-date-range';
@@ -27,11 +28,11 @@ const projectStateTypeEn = [
 ];
 
 const ProjectSituation = ({ setNowHeight }: Props) => {
-  const excelUrl =
-    '/admin/dashboards/projects/excel?page=1&limit=10&startDate=2022-12-01&endDate=2023-12-29&projectStatus[]=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const today = new Date();
+
   const [isDate, setIsDate] = useState(false);
   const [dateState, setDateState] = useState<Range[]>([
     {
@@ -40,6 +41,10 @@ const ProjectSituation = ({ setNowHeight }: Props) => {
       key: 'selection',
     },
   ]);
+
+  const excelUrl = `/admin/dashboards/projects/excel?page=1&limit=10&startDate=${adminDateFomat(
+    dateState[0].startDate!,
+  )}&endDate=${adminDateFomat(dateState[0].endDate!)}&projectStatus[]=`;
 
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);

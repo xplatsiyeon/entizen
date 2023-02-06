@@ -13,6 +13,7 @@ import { DateRangePicker } from 'rsuite';
 import AdminHeader from 'componentsAdmin/Header';
 import ASDetailView from './ASDetailView';
 import ASListTable from './ASListTable';
+import { adminNoPickDateFomat } from 'utils/calculatePackage';
 import AdminDateRange from 'componentsAdmin/AdminDateRange';
 import { Range } from 'react-date-range';
 import { adminDateFomat } from 'utils/calculatePackage';
@@ -22,11 +23,11 @@ type Props = {
 };
 
 const ASDetail = ({ setNowHeight }: Props) => {
-  const excelUrl =
-    '/admin/after-sales-services/excel?page=1&limit=10&startDate=2022-01-01&endDate=2023-12-22&searchKeyword=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const today = new Date();
+
   const [isDate, setIsDate] = useState(false);
   const [dateState, setDateState] = useState<Range[]>([
     {
@@ -35,6 +36,10 @@ const ASDetail = ({ setNowHeight }: Props) => {
       key: 'selection',
     },
   ]);
+
+  const excelUrl = `/admin/after-sales-services/excel?page=1&limit=10&startDate=${adminDateFomat(
+    dateState[0].startDate!,
+  )}&endDate=${adminDateFomat(dateState[0].endDate!)}&searchKeyword=`;
 
   //검색창에 입력되는 값
   const [inputValue, setInputValue] = useState<string>('');
