@@ -20,6 +20,8 @@ import ChargerInfo from 'components/ChargerInfo';
 import WebSearchAddress from 'componentsWeb/WebSearchAddress';
 import { locationAction } from 'store/locationSlice';
 import ChargerInfo2 from 'components/ChargerInfoCopy';
+import { isTokenGetApi } from 'api';
+import { useQuery } from 'react-query';
 
 type Props = {};
 export interface SlowFast {
@@ -76,15 +78,23 @@ const ChargerMap = (props: Props) => {
     }
   }, [checkHeight, changeHeight]);
 
+  // 예상 매출 구하는 함수
   const callInfo = async (speed: string) => {
+    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     try {
       const res = await axios.get('https://test-api.entizen.kr/api/charge', {
         params: {
           siDo: locationList.siNm,
           siGunGu: locationList.sggNm ? locationList.sggNm : '',
           chargerSpeed: speed,
+          address: locationList.roadAddrPart,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          ContentType: 'application/json',
         },
       });
+
       if (speed === 'SLOW') {
         setSlowCharger(res.data.charge);
       }

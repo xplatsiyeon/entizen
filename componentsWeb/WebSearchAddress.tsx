@@ -149,11 +149,6 @@ const WebSearchAddress = ({
     }
   }, [searchKeyword, setSearchWord]);
 
-  useEffect(() => {
-    console.log(`searchWord ->> ${searchWord}`);
-    console.log(`fakeWord ->> ${fakeWord}`);
-  }, [searchWord, fakeWord]);
-
   return (
     <Container>
       <HeaderBox>

@@ -1,7 +1,13 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import colors from 'styles/colors';
 import whiteArrow from 'public/images/whiteArrow16.png';
 import { useRouter } from 'next/router';
@@ -38,152 +44,160 @@ const ChargerInfo = ({
   const sRef = useRef<number>(0);
   const sRef2 = useRef<number>(0);
   const check = useRef<number>(0);
-  const selectedCharger = useRef<number>(0);
   const chargerText = useRef<HTMLDivElement>(null);
-  
-  const start =(e:React.TouchEvent)=>{
-     sRef.current = e.changedTouches[0].clientY;
-  }
 
-   const end = (e:React.TouchEvent)=>{
+  const [selectedCharger, setSelectedCharger] = useState(0);
+
+  const start = (e: React.TouchEvent) => {
+    sRef.current = e.changedTouches[0].clientY;
+  };
+
+  const end = (e: React.TouchEvent) => {
     const endY = e.changedTouches[0].clientY;
-    if(sRef.current - endY > 30 && ref.current){
-      console.log('??')
+    if (sRef.current - endY > 30 && ref.current) {
+      console.log('??');
       ref.current.style.height = '500px';
     }
-   }
+  };
 
-   const handleStart = (e:React.TouchEvent)=>{
+  const handleStart = (e: React.TouchEvent) => {
     const startY = e.changedTouches[0].clientY;
     sRef2.current = startY;
-   }
- 
-   const handle =(e:React.TouchEvent)=>{
+  };
 
+  const handle = (e: React.TouchEvent) => {
     const target = e.currentTarget as HTMLElement;
     const target2 = e.target as HTMLElement;
-    console.log('타겟의 스크롤탑',target.scrollTop, target2.scrollTop)
+    console.log('타겟의 스크롤탑', target.scrollTop, target2.scrollTop);
 
-    setTimeout(()=>{
+    setTimeout(() => {
       //드래그 움직임이 완전히 끝난 후의 스크롤탑을 기준으로 애니메이션이 작동해야 한다,
-      console.log('타겟의 스크롤탑2',target.scrollTop, target2.scrollTop);
+      console.log('타겟의 스크롤탑2', target.scrollTop, target2.scrollTop);
       //alert(target2.scrollTop)
       const endY = e.changedTouches[0].clientY;
       //alert(endY)
-      if( Math.abs(sRef2.current - endY) > 30 ){
-          if(target.scrollTop !== 0 && ref.current){
-            check.current = 1;
+      if (Math.abs(sRef2.current - endY) > 30) {
+        if (target.scrollTop !== 0 && ref.current) {
+          check.current = 1;
+        }
+        if (target.scrollTop < 30 && ref.current) {
+          if (check.current !== 0) {
+            check.current = 0;
+            console.log('now', check.current);
+          } else {
+            ref.current.style.height = '0px';
           }
-          if((target.scrollTop < 30) && ref.current){
-            if(check.current !== 0){
-              check.current = 0;
-              console.log('now',check.current)
-            }else{
-              ref.current.style.height = '0px';
-            }
         }
       }
-    },200);
-  }
+    }, 200);
+  };
 
-  const changeCharger = (index:number)=>{
-    selectedCharger.current = index;
-  
+  const changeCharger = (index: number) => {
+    setSelectedCharger(index);
+
     ref.current?.querySelectorAll('.charger')[0].classList.remove('on');
     ref.current?.querySelectorAll('.charger')[1].classList.remove('on');
     ref.current?.querySelectorAll('.charger')[index].classList.add('on');
 
-    if(chargerText.current && (index === 0) ){
+    if (chargerText.current && index === 0) {
       chargerText.current.innerHTML = '완속 충전기 7kW / 1대';
     }
-    if(chargerText.current && (index === 1) ){
-      chargerText.current.innerHTML = '급속 충전기 100kW / 1대'
+    if (chargerText.current && index === 1) {
+      chargerText.current.innerHTML = '급속 충전기 100kW / 1대';
     }
-  }
-
+  };
 
   return (
-           <InfoBox >
-            <Wrap onTouchStart={start} onTouchEnd={end} >
-              <DecoLine/>
-            </Wrap>
-            <Wrapper className='handle' ref={ref} onTouchStart={handleStart} onTouchEnd={handle} draggable={false}>
-              <Content >
-              <DecoLine/>
-                <SelectChargerBox className="forScroll">
-                  <ChargerList>
-                    {clickType.map((el, index) => (
-                      <Charger className={selectedCharger.current === index? 'charger on' : 'charger'}
-                        key={index}
-                        onClick={() => changeCharger(index)}
-                      >
-                        {el}
-                      </Charger>
-                    ))}
-                  </ChargerList>
-                </SelectChargerBox>
-                <ScrollBox scrollHeight={checkHeight.toString()}>
-                  <ChargerTypeNCountBox>
-                    <ChargerTypeNCount ref={chargerText}>
-                      {selectedCharger.current === 0
-                        ? '완속 충전기 7kW / 1대'
-                        : '급속 충전기 100kW / 1대'}
-                    </ChargerTypeNCount>
-                  <ChargerNotice>
-                      * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
-                      사용해주시기 바랍니다.
-                    </ChargerNotice>
-                  </ChargerTypeNCountBox>
-                  <PredictBoxWrapper>
-                    {selectedCharger.current == 0 &&
-                      slowCharger.map((el, index) => (
-                        <PredictBox key={index}>
-                          <div>{el.year}</div>
-                          <div>충전량 (월)</div>
-                          <div>{el.chargeQuantity.toLocaleString()}kW</div>
-                          <div>매출 (월)</div>
-                          <div>{el.sales.toLocaleString()} 원</div>
-                        </PredictBox>
-                      ))}
-                    {selectedCharger.current == 1 &&
-                      fastCharger.map((el, index) => (
-                        <PredictBox key={index}>
-                          <div>{el.year}</div>
-                          <div>충전량 (월)</div>
-                          <div>{el.chargeQuantity.toLocaleString()} kW</div>
-                          <div>매출 (월)</div>
-                          <div>{el.sales.toLocaleString()} 원</div>
-                        </PredictBox>
-                      ))}
-                  </PredictBoxWrapper>
-                  <DidHelp>도움이 되셨나요?</DidHelp>
-                  <Guide>
-                    간편견적 확인하고, 상품 비교뷰터 충전 사업까지
-                    <br />A to Z 서비스를 받아보세요!
-                  </Guide>
-                  <QuotationBtn>
-                    <span
-                      onClick={() => {
-                        router.push('/quotation/request');
-                      }}
-                    >
-                      간편견적 확인하기
-                    </span>
-                    <span>
-                      <Image src={whiteArrow} alt="arrow" />
-                    </span>
-                  </QuotationBtn>
-                </ScrollBox>
-              </Content>
-            </Wrapper>
-          </InfoBox>
-  )
+    <InfoBox>
+      <Wrap onTouchStart={start} onTouchEnd={end}>
+        <DecoLine />
+      </Wrap>
+      <Wrapper
+        className="handle"
+        ref={ref}
+        onTouchStart={handleStart}
+        onTouchEnd={handle}
+        draggable={false}
+      >
+        <Content>
+          <DecoLine />
+          <SelectChargerBox className="forScroll">
+            <ChargerList>
+              {clickType.map((el, index) => (
+                <Charger
+                  className={
+                    selectedCharger === index ? 'charger on' : 'charger'
+                  }
+                  key={index}
+                  onClick={() => changeCharger(index)}
+                >
+                  {el}
+                </Charger>
+              ))}
+            </ChargerList>
+          </SelectChargerBox>
+          <ScrollBox scrollHeight={checkHeight.toString()}>
+            <ChargerTypeNCountBox>
+              <ChargerTypeNCount ref={chargerText}>
+                {selectedCharger === 0
+                  ? '완속 충전기 7kW / 1대'
+                  : '급속 충전기 100kW / 1대'}
+              </ChargerTypeNCount>
+              <ChargerNotice>
+                * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로 사용해주시기
+                바랍니다.
+              </ChargerNotice>
+            </ChargerTypeNCountBox>
+            <PredictBoxWrapper>
+              {selectedCharger === 0 &&
+                slowCharger.map((el, index) => (
+                  <PredictBox key={index}>
+                    <div>{el.year}</div>
+                    <div>충전량 (월)</div>
+                    <div>{el.chargeQuantity.toLocaleString()}kW</div>
+                    <div>매출 (월)</div>
+                    <div>{el.sales.toLocaleString()} 원</div>
+                  </PredictBox>
+                ))}
+              {selectedCharger === 1 &&
+                fastCharger.map((el, index) => (
+                  <PredictBox key={index}>
+                    <div>{el.year}</div>
+                    <div>충전량 (월)</div>
+                    <div>{el.chargeQuantity.toLocaleString()} kW</div>
+                    <div>매출 (월)</div>
+                    <div>{el.sales.toLocaleString()} 원</div>
+                  </PredictBox>
+                ))}
+            </PredictBoxWrapper>
+            <DidHelp>도움이 되셨나요?</DidHelp>
+            <Guide>
+              간편견적 확인하고, 상품 비교뷰터 충전 사업까지
+              <br />A to Z 서비스를 받아보세요!
+            </Guide>
+            <QuotationBtn>
+              <span
+                onClick={() => {
+                  router.push('/quotation/request');
+                }}
+              >
+                간편견적 확인하기
+              </span>
+              <span>
+                <Image src={whiteArrow} alt="arrow" />
+              </span>
+            </QuotationBtn>
+          </ScrollBox>
+        </Content>
+      </Wrapper>
+    </InfoBox>
+  );
 };
 
 export default ChargerInfo;
 
-const Wrap =styled.div`
-  height:50px;
+const Wrap = styled.div`
+  height: 50px;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -191,7 +205,7 @@ const Wrap =styled.div`
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 36px 36px 0px 0px;
   background-color: white;
-`
+`;
 
 const InfoBox = styled.div`
   position: relative;
@@ -291,14 +305,14 @@ const Charger = styled.div`
   letter-spacing: -0.02em;
   border-radius: 21.375pt;
   cursor: pointer;
-  color: #A6A9B0;
-  background-color: #F3F4F7;
+  color: #a6a9b0;
+  background-color: #f3f4f7;
   box-shadow: none;
 
-  &.on{
-  color : #595757;
-  background-color: #ffffff;
-  box-shadow: 0px 0px 6pt rgba(137, 163, 201, 0.2);
+  &.on {
+    color: #595757;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 6pt rgba(137, 163, 201, 0.2);
   }
 `;
 
@@ -460,13 +474,13 @@ const QuotationBtn = styled.div`
 `;
 
 const Wrapper = styled.div`
-overscroll-behavior: contain;
- -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 
   //border:1px solid green;
   position: absolute;
   background-color: white;
-  bottom:0;
+  bottom: 0;
   //left: 0;
   height: 0px;
   width: 100%;
@@ -474,14 +488,14 @@ overscroll-behavior: contain;
   transition: 0.5s;
   box-shadow: 4px 0px 10px rgba(137, 163, 201, 0.2);
   border-radius: 36px 36px 0px 0px;
-`
+`;
 const Content = styled.div`
   height: 600px;
-`
+`;
 
 const DecoLine = styled.div`
   width: 60px;
   margin: 12px auto 0;
   border-radius: 12px;
-  border: 4px solid #CACCD1;
-`
+  border: 4px solid #caccd1;
+`;

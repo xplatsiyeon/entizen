@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { SlowFast } from 'pages/chargerMap';
 import { Rnd } from 'react-rnd';
 import { useMediaQuery } from 'react-responsive';
-import { Resizable } from "re-resizable";
+import { Resizable } from 're-resizable';
 
 type Props = {
   checkHeight: number;
@@ -39,8 +39,8 @@ const ChargerInfo2 = ({
     query: '(min-width:810pt)',
   });
   return (
-        <Wrap className='resize-wrapper'>
-        {/* <>
+    <Wrap className="resize-wrapper">
+      {/* <>
            <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
              <RndWraper
                className="draggable"
@@ -59,153 +59,153 @@ const ChargerInfo2 = ({
                <GoUpBox>
                  <GoUp />
              </GoUpBox>*/}
-             <Resizable className='target'
-                defaultSize={{
-                  width: '100%',
-                  height: '50%'
-                }}
-                maxHeight={'100%'}
-                minHeight={'50%'} 
-                handleStyles={{
-                  top: {
-                    top: 0,
-                    left: "0%",
-                    border: "3px solid #999",
-                    borderLeft: "none",
-                    borderRight: "none",
-                    borderBottom: "none",
-                    borderWidth: 5,
-                    borderColor: "transparent",
-                    width: '100%',
-                    height: 30,
-                    boxSizing: "border-box",
-                    zIndex: 1
-                  },
-                  topLeft: {
-                    display:'none'
-                  },
-                  left: {
-                    display:'none'
-                  },
-                  bottomLeft: {
-                    display:'none'
-                  },
-                  bottom: {
-                    display:'none'
-                  },
-                  bottomRight: {
-                    display:'none'
-                  },
-                  right: {
-                    display:'none'
-                  },
-                  topRight: {
-                    display:'none'
-                  }
-                }
-                }
-                >
-          <Body className='resize-content'>
-            <SelectChargerBox className="forScroll">
-              <ChargerList>
-                {clickType.map((el, index) => (
-                  <Charger
-                    key={index}
-                    onClick={() => setSelectedCharger(() => index)}
-                    style={{
-                      color: selectedCharger === index ? '#595757' : '#A6A9B0',
-                      backgroundColor:
-                        selectedCharger === index ? '#ffffff' : '#F3F4F7',
-                      boxShadow:
-                        selectedCharger === index
-                          ? '0px 0px 6pt rgba(137, 163, 201, 0.2)'
-                          : 'none',
-                    }}
-                  >
-                    {el}
-                  </Charger>
-                ))}
-              </ChargerList>
-            </SelectChargerBox>
-            <ScrollBox>
-              <ChargerTypeNCountBox>
-                <ChargerTypeNCount>
-                  {selectedCharger == 0
-                    ? '완속 충전기 7kW / 1대'
-                    : '급속 충전기 100kW / 1대'}
-                </ChargerTypeNCount>
-                <ChargerNotice>
-                  * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
-                  사용해주시기 바랍니다.
-                </ChargerNotice>
-              </ChargerTypeNCountBox>
-              <PredictBoxWrapper>
-                {selectedCharger == 0 &&
-                  slowCharger.map((el, index) => (
-                    <PredictBox key={index}>
-                      <div>{el.year}</div>
-                      <div>충전량 (월)</div>
-                      <div>{el.chargeQuantity.toLocaleString()}kW</div>
-                      <div>매출 (월)</div>
-                      <div>{el.sales.toLocaleString()} 원</div>
-                    </PredictBox>
-                  ))}
-                {selectedCharger == 1 &&
-                  fastCharger.map((el, index) => (
-                    <PredictBox key={index}>
-                      <div>{el.year}</div>
-                      <div>충전량 (월)</div>
-                      <div>{el.chargeQuantity.toLocaleString()} kW</div>
-                      <div>매출 (월)</div>
-                      <div>{el.sales.toLocaleString()} 원</div>
-                    </PredictBox>
-                  ))}
-              </PredictBoxWrapper>
-              <DidHelp>도움이 되셨나요?</DidHelp>
-              <Guide>
-                간편견적 확인하고, 상품 비교뷰터 충전 사업까지
-                <br />A to Z 서비스를 받아보세요!
-              </Guide>
-              <QuotationBtn>
-                <span
-                  onClick={() => {
-                    router.push('/quotation/request');
+      <Resizable
+        className="target"
+        defaultSize={{
+          width: '100%',
+          height: '50%',
+        }}
+        maxHeight={'100%'}
+        minHeight={'50%'}
+        handleStyles={{
+          top: {
+            top: 0,
+            left: '0%',
+            border: '3px solid #999',
+            borderLeft: 'none',
+            borderRight: 'none',
+            borderBottom: 'none',
+            borderWidth: 5,
+            borderColor: 'transparent',
+            width: '100%',
+            height: 30,
+            boxSizing: 'border-box',
+            zIndex: 1,
+          },
+          topLeft: {
+            display: 'none',
+          },
+          left: {
+            display: 'none',
+          },
+          bottomLeft: {
+            display: 'none',
+          },
+          bottom: {
+            display: 'none',
+          },
+          bottomRight: {
+            display: 'none',
+          },
+          right: {
+            display: 'none',
+          },
+          topRight: {
+            display: 'none',
+          },
+        }}
+      >
+        <Body className="resize-content">
+          <SelectChargerBox className="forScroll">
+            <ChargerList>
+              {clickType.map((el, index) => (
+                <Charger
+                  key={index}
+                  onClick={() => setSelectedCharger(() => index)}
+                  style={{
+                    color: selectedCharger === index ? '#595757' : '#A6A9B0',
+                    backgroundColor:
+                      selectedCharger === index ? '#ffffff' : '#F3F4F7',
+                    boxShadow:
+                      selectedCharger === index
+                        ? '0px 0px 6pt rgba(137, 163, 201, 0.2)'
+                        : 'none',
                   }}
                 >
-                  간편견적 확인하기
-                </span>
-                <span>
-                  <Image src={whiteArrow} alt="arrow" />
-                </span>
-              </QuotationBtn>
-            </ScrollBox>
-          </Body>
-          {/*
+                  {el}
+                </Charger>
+              ))}
+            </ChargerList>
+          </SelectChargerBox>
+          <ScrollBox>
+            <ChargerTypeNCountBox>
+              <ChargerTypeNCount>
+                {selectedCharger === 0
+                  ? '완속 충전기 7kW / 1대'
+                  : '급속 충전기 100kW / 1대'}
+              </ChargerTypeNCount>
+              <ChargerNotice>
+                * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로 사용해주시기
+                바랍니다.
+              </ChargerNotice>
+            </ChargerTypeNCountBox>
+            <PredictBoxWrapper>
+              {selectedCharger == 0 &&
+                slowCharger.map((el, index) => (
+                  <PredictBox key={index}>
+                    <div>{el.year}</div>
+                    <div>충전량 (월)</div>
+                    <div>{el.chargeQuantity.toLocaleString()}kW</div>
+                    <div>매출 (월)</div>
+                    <div>{el.sales.toLocaleString()} 원</div>
+                  </PredictBox>
+                ))}
+              {selectedCharger === 1 &&
+                fastCharger.map((el, index) => (
+                  <PredictBox key={index}>
+                    <div>{el.year}</div>
+                    <div>충전량 (월)</div>
+                    <div>{el.chargeQuantity.toLocaleString()} kW</div>
+                    <div>매출 (월)</div>
+                    <div>{el.sales.toLocaleString()} 원</div>
+                  </PredictBox>
+                ))}
+            </PredictBoxWrapper>
+            <DidHelp>도움이 되셨나요?</DidHelp>
+            <Guide>
+              간편견적 확인하고, 상품 비교뷰터 충전 사업까지
+              <br />A to Z 서비스를 받아보세요!
+            </Guide>
+            <QuotationBtn>
+              <span
+                onClick={() => {
+                  router.push('/quotation/request');
+                }}
+              >
+                간편견적 확인하기
+              </span>
+              <span>
+                <Image src={whiteArrow} alt="arrow" />
+              </span>
+            </QuotationBtn>
+          </ScrollBox>
+        </Body>
+        {/*
         </RndWraper>
       </InfoBox>
                 </>*/}
-                </Resizable>
-          </Wrap>
+      </Resizable>
+    </Wrap>
   );
 };
 
 export default ChargerInfo2;
 
-const Wrap =styled.div`
-width: 100%;
-height: 100vh;
-position: relative;
-overflow: hidden;
-z-index: 1;
+const Wrap = styled.div`
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 
-.target{
-background: white;
-width:100%!important;
-position: absolute!important;
-bottom: 0;
-border-radius: 27pt;
-}
-`
+  .target {
+    background: white;
+    width: 100% !important;
+    position: absolute !important;
+    bottom: 0;
+    border-radius: 27pt;
+  }
+`;
 
 const InfoBox = styled.div<{ checkHeight: string }>`
   position: relative;
@@ -246,14 +246,14 @@ const Body = styled.div`
   height: 100%;
   position: relative;
 
-  &::after{
+  &::after {
     position: absolute;
     display: block;
     content: '';
     clear: both;
     width: 16%;
     height: 3pt;
-    background-color: #CACCD1;
+    background-color: #caccd1;
     top: 9pt;
     left: 50%;
     transform: translateX(-50%);
@@ -456,7 +456,7 @@ const QuotationBtn = styled.div`
   text-align: left;
   border-radius: 21.75pt;
 
-  z-index:5;
+  z-index: 5;
 
   & > span:first-of-type {
     position: relative;

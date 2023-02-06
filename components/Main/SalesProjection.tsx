@@ -21,14 +21,18 @@ type Props = {
 
 const SalesProjection = ({ text, setText }: Props) => {
   const router = useRouter();
+  const userID = sessionStorage.getItem('USER_ID');
   const mobile = useMediaQuery({
     query: '(max-width:810pt)',
   });
   const handleOnClick = () => {
-    router.push('/searchAddress');
+    if (userID === null) {
+      router.push('/signin');
+    } else {
+      router.push('/searchAddress');
+    }
   };
 
-  const userID = sessionStorage.getItem('USER_ID');
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText!(e.target.value);
   };
@@ -46,7 +50,7 @@ const SalesProjection = ({ text, setText }: Props) => {
 
   useEffect(() => {
     document.addEventListener('click', inputOnFocus);
-  }, []);
+  }, [userID]);
 
   // 엔티즌에서 기획변경으로 비로그인시 여기에 입력하면 로그인창으로 이동
   // useEffect(() => {
@@ -65,7 +69,7 @@ const SalesProjection = ({ text, setText }: Props) => {
           <br /> 확인해보세요!
         </TextArea>
         <SearchMapArea>
-          {/* {mobile && (
+          {mobile && (
             <Input
               value="주소 입력 후 간단 체크!"
               type="submit"
@@ -87,7 +91,7 @@ const SalesProjection = ({ text, setText }: Props) => {
                 ),
               }}
             />
-          )} */}
+          )}
           {!mobile && (
             <Input
               placeholder="주소 입력 후 간단 체크!"

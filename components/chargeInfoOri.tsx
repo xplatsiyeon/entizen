@@ -33,30 +33,31 @@ const ChargerInfo = ({
   const clickType: string[] = ['완속 충전기', '급속 충전기'];
   const router = useRouter();
 
-  console.log(checkHeight);
+  console.log('slowCharger=>>', slowCharger);
+  console.log('fastCharger=>>', fastCharger);
   const mobile = useMediaQuery({
     query: '(min-width:810pt)',
   });
   return (
-          <>
-           <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
-             <RndWraper
-               className="draggable"
-               isMobile={mobile}
-               default={{
-                 x: 0,
-                 y: 0,
-                 width: '100%',
-                 height: '100%',
-               }}
-               disableDragging={true}
-               maxHeight={window.innerHeight - 130}
-               minHeight={checkHeight.toString()}
-               allowAnyClick={true}
-             >
-               <GoUpBox>
-                 <GoUp />
-             </GoUpBox>
+    <>
+      <InfoBox className="wrap" checkHeight={checkHeight?.toString()}>
+        <RndWraper
+          className="draggable"
+          isMobile={mobile}
+          default={{
+            x: 0,
+            y: 0,
+            width: '100%',
+            height: '100%',
+          }}
+          disableDragging={true}
+          maxHeight={window.innerHeight - 130}
+          minHeight={checkHeight.toString()}
+          allowAnyClick={true}
+        >
+          <GoUpBox>
+            <GoUp />
+          </GoUpBox>
           <Body>
             <SelectChargerBox className="forScroll">
               <ChargerList>
@@ -82,17 +83,17 @@ const ChargerInfo = ({
             <ScrollBox scrollHeight={checkHeight.toString()}>
               <ChargerTypeNCountBox>
                 <ChargerTypeNCount>
-                  {selectedCharger == 0
+                  {selectedCharger === 0
                     ? '완속 충전기 7kW / 1대'
                     : '급속 충전기 100kW / 1대'}
                 </ChargerTypeNCount>
-              <ChargerNotice>
+                <ChargerNotice>
                   * 해당 분석 결과는 실제와 다를 수 있으니 참고용으로
                   사용해주시기 바랍니다.
                 </ChargerNotice>
               </ChargerTypeNCountBox>
               <PredictBoxWrapper>
-                {selectedCharger == 0 &&
+                {selectedCharger === 0 &&
                   slowCharger.map((el, index) => (
                     <PredictBox key={index}>
                       <div>{el.year}</div>
@@ -102,7 +103,7 @@ const ChargerInfo = ({
                       <div>{el.sales.toLocaleString()} 원</div>
                     </PredictBox>
                   ))}
-                {selectedCharger == 1 &&
+                {selectedCharger === 1 &&
                   fastCharger.map((el, index) => (
                     <PredictBox key={index}>
                       <div>{el.year}</div>
@@ -134,29 +135,28 @@ const ChargerInfo = ({
           </Body>
         </RndWraper>
       </InfoBox>
-      </>
+    </>
   );
 };
 
 export default ChargerInfo;
 
-const Wrap =styled.div`
-width: 100%;
-max-height: 100vh;
-position: relative;
-overflow: hidden;
-.target{
-background-color: beige;
-width:100%!important;
-position: absolute;
-bottom: 0;
-}
-div{
-  &:nth-last-of-type(1){
-    
+const Wrap = styled.div`
+  width: 100%;
+  max-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  .target {
+    background-color: beige;
+    width: 100% !important;
+    position: absolute;
+    bottom: 0;
   }
-}
-`
+  div {
+    &:nth-last-of-type(1) {
+    }
+  }
+`;
 
 const InfoBox = styled.div<{ checkHeight: string }>`
   position: relative;
