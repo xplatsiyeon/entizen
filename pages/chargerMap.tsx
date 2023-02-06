@@ -82,7 +82,7 @@ const ChargerMap = (props: Props) => {
   const callInfo = async (speed: string) => {
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     try {
-      const res = await axios.get('https://api.entizen.kr/api/charge', {
+      const res = await axios.get('https://test-api.entizen.kr/api/charge', {
         params: {
           siDo: locationList.siNm,
           siGunGu: locationList.sggNm ? locationList.sggNm : '',
