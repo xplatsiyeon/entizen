@@ -29,7 +29,6 @@ const SalesProjection = ({ text, setText }: Props) => {
   };
 
   const userID = sessionStorage.getItem('USER_ID');
-  console.log('userID', userID);
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText!(e.target.value);
   };

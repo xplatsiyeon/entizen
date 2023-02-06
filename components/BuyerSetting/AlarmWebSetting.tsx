@@ -271,7 +271,7 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               </div>
 
               <CustomSwitch
-                name="alertChatting"
+                name="alertChargingStation"
                 onChange={handleAlertChange}
                 checked={alertChecked.alertChargingStation}
               />
