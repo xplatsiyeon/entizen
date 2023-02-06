@@ -8,15 +8,17 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { DateRangePicker } from 'rsuite';
-import { DateRange } from 'rsuite/esm/DateRangePicker';
+// import { DateRangePicker } from 'rsuite';
+// import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import ChartBar from './Chart';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { adminDateFomat, dateFomat } from 'utils/calculatePackage';
-import { useRouter } from 'next/router';
+import { useQuery, useQueryClient } from 'react-query';
 import { isTokenAdminGetApi } from 'api';
+import { Range } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import AdminDateRange from 'componentsAdmin/AdminDateRange';
+import { adminDateFomat } from 'utils/calculatePackage';
 
 type Props = {
   setNowHeight: Dispatch<SetStateAction<number | undefined>>;
@@ -49,71 +51,60 @@ const ChartColor = ['#B096EF', '#FFC043', '#A6A9B0', '#F75015'];
 
 const Statistics = ({ setNowHeight }: Props) => {
   const queryClinet = useQueryClient();
-  const router = useRouter();
-
-  const [pickedDate, setPickedDate] = useState<string[]>();
-  const [isOnClean, setIsOnClean] = useState(true);
   const dateRef = useRef<HTMLDivElement>(null);
+  const [pickedDate, setPickedDate] = useState<string[]>([]);
+  const [isDate, setIsDate] = useState(false);
+  const [dateState, setDateState] = useState<Range[]>([
+    {
+      startDate: new Date('2022-09-05'),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ]);
 
   // 오늘 날짜.
   const today = new Date();
-  console.log(adminDateFomat(String(today)));
+  // console.log(adminDateFomat(String(today)));
 
   // 달력 날짜 변경 함수
-  const handleDateChange = (
-    value: DateRange | null,
-    event: React.SyntheticEvent<Element, Event>,
-  ) => {
-    console.log('==================value=======================');
-    console.log('event==>>', event);
-    console.log('value==>>', value);
+  // const handleDateChange = (
+  //   value: DateRange | null,
+  //   event: React.SyntheticEvent<Element, Event>,
+  // ) => {
+  //   console.log('==================value=======================');
+  //   console.log('event==>>', event);
+  //   console.log('value==>>', value);
 
-    if (value?.length === 2) {
-      setPickedDate([
-        adminDateFomat(value![0] as unknown as string),
-        adminDateFomat(value![1] as unknown as string),
-      ]);
-    }
-    // const inputValue = dateRef.current
-    //   ?.querySelector('.datePicker-input')
-    //   ?.querySelector('input')?.value;
-    // console.log('input?', inputValue);
-    // dateRef.current?.querySelector('.date-btn')?.classList.add('on');
-    // setTimeout(() => {
-    //   dateRef.current?.querySelector('.date-btn')?.classList.remove('on');
-    // }, 600);
-  };
-
-  const onChecked = (date: Date) => {
-    console.log(date);
-  };
+  //   if (value?.length === 2) {
+  //     setPickedDate([
+  //       adminDateFomat(value![0] as unknown as string),
+  //       adminDateFomat(value![1] as unknown as string),
+  //     ]);
+  //   }
+  // };
 
   const handleDate = () => {
     queryClinet.removeQueries('asDetailView');
     refetch();
-
-    // queryClinet.invalidateQueries('asDetailView');
-    // const inputValue = dateRef.current
-
-    // console.log('날짜조회 클릭', inputValue);
-    // if (inputValue) {
-    //   console.log(inputValue);
-    //   const newDate = inputValue.split('~');
-    //   setPickedDate(newDate);
-    // } else {
-    //   setPickedDate(undefined);
-    // }
   };
 
   // 통계 리스트 조회
-  // /admin/dashboards/statistics?startDate=2022-12-01&endDate=2022-12-29
+  // const { data, isLoading, isError, refetch } = useQuery<StatisticsResponse>(
+  //   'asDetailView',
+  //   () =>
+  //     isTokenAdminGetApi(
+  //       `/admin/dashboards/statistics?startDate=${
+  //         pickedDate ? pickedDate[0] : '2022-09-05'
+  //       }&endDate=${pickedDate ? pickedDate[1] : today}`,
+  //     ),
+  // );
   const { data, isLoading, isError, refetch } = useQuery<StatisticsResponse>(
     'asDetailView',
     () =>
       isTokenAdminGetApi(
-        `/admin/dashboards/statistics?startDate=${
-          pickedDate ? pickedDate[0] : '2022-09-05'
-        }&endDate=${pickedDate ? pickedDate[1] : today}`,
+        `/admin/dashboards/statistics?startDate=${adminDateFomat(
+          dateState[0].startDate!,
+        )}&endDate=${adminDateFomat(dateState[0].endDate!)}`,
       ),
   );
   const getData = data?.data?.statistics;
@@ -134,18 +125,30 @@ const Statistics = ({ setNowHeight }: Props) => {
   // ChartBar에 그래프로 내려주는 수치(배열임)
   const chartData = data?.data?.statistics?.chargers;
 
+  useEffect(() => {
+    console.log('dateState=>', dateState);
+  }, [dateState]);
+
   return (
     <Wrapper>
       <AdminHeader type="main" title="메인대시보드" subTitle="통계" />
       {/* 검색박스 */}
       <SearchBox ref={dateRef}>
-        <DateRangePicker
-          defaultCalendarValue={[new Date('2022-09-05'), new Date()]}
+        {/* <DateRangePicker
+          defaultValue={[new Date('2022-09-05'), new Date()]}
           className="datePicker-input"
           placeholder={'년-월-일 ~ 년-월-일'}
+          showOneCalendar
           size={'sm'}
           onChange={handleDateChange}
-          onSelect={onChecked}
+          cleanable={true}
+        /> */}
+        {/* react date picker range */}
+        <AdminDateRange
+          dateState={dateState}
+          setDateState={setDateState}
+          isDate={isDate}
+          setIsDate={setIsDate}
         />
         <AdminBtn onClick={handleDate} className="date-btn">
           조회
@@ -268,4 +271,30 @@ const SpeedItem = styled.div<{ color: string }>`
     border-radius: 50%;
     background-color: ${({ color }) => color && color};
   }
+`;
+
+const DateContainer = styled.div`
+  position: relative;
+`;
+const DateRangeBox = styled.div`
+  position: absolute;
+  z-index: 999;
+  top: 35px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  & > button {
+    height: 20px;
+  }
+  .DateButton {
+    height: 40px;
+    background-color: rgb(239, 242, 247);
+  }
+`;
+
+const DateBox = styled.div`
+  border: 1px solid ${colors.gray2};
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
 `;
