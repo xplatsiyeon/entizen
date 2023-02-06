@@ -13,6 +13,9 @@ import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
 import * as XLSX from 'xlsx';
 import { adminNoPickDateFomat } from 'utils/calculatePackage';
+import AdminDateRange from 'componentsAdmin/AdminDateRange';
+import { adminDateFomat } from 'utils/calculatePackage';
+import { Range } from 'react-date-range';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -26,11 +29,19 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
   const [pickedDate, setPickedDate] = useState<string[]>();
   const today = new Date();
 
-  const excelUrl = `/admin/dashboards/quotation-requests/excel?page=1&limit=1000&startDate=${
-    pickedDate ? pickedDate[0] : '2022-09-05'
-  }&endDate=${
-    pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
-  }&quotationRequestStatus[]=`;
+  const [isDate, setIsDate] = useState(false);
+  const [dateState, setDateState] = useState<Range[]>([
+    {
+      startDate: new Date('2022-09-05'),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ]);
+  const excelUrl = `/admin/dashboards/quotation-requests/excel?page=1&limit=1000&startDate=${adminDateFomat(
+    dateState[0].startDate!,
+  )}&endDate=${adminDateFomat(
+    dateState[0].endDate!,
+  )}&quotationRequestStatus[]=`;
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 
@@ -81,18 +92,10 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
   };
 
   const handleDate = () => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    console.log('날짜조회 클릭', inputValue);
-
-    if (inputValue) {
-      console.log(inputValue);
-      const newDate = inputValue.split('~');
-      setPickedDate(newDate);
-    } else {
-      setPickedDate(undefined);
-    }
+    setPickedDate([
+      adminDateFomat(dateState[0].startDate!),
+      adminDateFomat(dateState[0].endDate!),
+    ]);
   };
   // 프로젝트 체크 박스 변경 함수
   // const onChangeProjectCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
@@ -101,28 +104,6 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
   //   temp[index] = !temp[index];
   //   setProjectState(temp);
   // };
-
-  // 엑셀 다운로드 버튼
-  const handleCommon = useCallback(() => {
-    alert('개발중입니다.');
-    // const excelHandler = {
-    //   getExcelFileName: () => {
-    //     return 'originalResultData.xlsx';
-    //   },
-    //   getSheetName: () => {
-    //     return 'originResults';
-    //   },
-    //   getExcelData: () => {
-    //     // return originalResults;
-    //   },
-    //   getWorksheet: () => {
-    //     // return XLSX.utils.json_to_sheet(excelHandler.getExcelData());
-    //   },
-    // };
-
-    // const datas = excelHandler.getWorksheet();
-    // const workbook = XLSX.utils.json_to_sheet(excelHandler.getSheetName());
-  }, []);
 
   useEffect(() => {
     console.log(projectState);
@@ -161,13 +142,20 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
         {/* 레인지 달력 */}
         <li className="row" ref={dateRef}>
           <label className="label">기간검색</label>
-          <DateRangePicker
+          {/* <DateRangePicker
             defaultValue={[new Date('2022-09-05'), new Date()]}
             className="datePicker-input"
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
             onChange={handleDateChange}
             style={{ cursor: 'pointer' }}
+          /> */}
+          <AdminDateRange
+            dateState={dateState}
+            setDateState={setDateState}
+            isDate={isDate}
+            setIsDate={setIsDate}
+            setPickedDate={setPickedDate}
           />
         </li>
       </Manager>

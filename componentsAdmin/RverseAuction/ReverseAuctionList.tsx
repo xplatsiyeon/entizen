@@ -10,6 +10,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import ReverseAuctionTable from './ReverseAuctionTable';
 import { adminNoPickDateFomat } from 'utils/calculatePackage';
+import AdminDateRange from 'componentsAdmin/AdminDateRange';
+import { Range } from 'react-date-range';
+import { adminDateFomat } from 'utils/calculatePackage';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -82,13 +85,21 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
     .join('');
 
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const [isDate, setIsDate] = useState(false);
+  const [dateState, setDateState] = useState<Range[]>([
+    {
+      startDate: new Date('2022-09-05'),
+      endDate: new Date(),
+      key: 'selection',
+    },
+  ]);
   const dateRef = useRef<HTMLLIElement>(null);
   const today = new Date();
-  const excelUrl = `/admin/quotations/quotation-requests/excel?page=1&limit=1000&startDate=${
-    pickedDate ? pickedDate[0] : '2022-09-05'
-  }&endDate=${
-    pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
-  }&searchKeyword=&inProgressStatuses[]=`;
+  const excelUrl = `/admin/quotations/quotation-requests/excel?page=1&limit=1000&startDate=${adminDateFomat(
+    dateState[0].startDate!,
+  )}&endDate=${adminDateFomat(
+    dateState[0].endDate!,
+  )}&searchKeyword=&inProgressStatuses[]=`;
   // 달력 날짜 변경 함수
   const handleDateChange = (
     value: DateRange | null,
@@ -105,18 +116,10 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
   };
 
   const handleDate = () => {
-    const inputValue = dateRef.current
-      ?.querySelector('.datePicker-input')
-      ?.querySelector('input')?.value;
-    console.log('날짜조회 클릭', inputValue);
-
-    if (inputValue) {
-      console.log(inputValue);
-      const newDate = inputValue.split('~');
-      setPickedDate(newDate);
-    } else {
-      setPickedDate(undefined);
-    }
+    setPickedDate([
+      adminDateFomat(dateState[0].startDate!),
+      adminDateFomat(dateState[0].endDate!),
+    ]);
   };
 
   const { quotationRequestIdx, isCompanyDetail } = useSelector(
@@ -144,12 +147,19 @@ const ReverseAuctionList = ({ setNowHeight }: Props) => {
         <li className="search" ref={dateRef}>
           <label>기간검색</label>
           {/* 달력 컴포넌트 */}
-          <DateRangePicker
+          {/* <DateRangePicker
             defaultValue={[new Date('2022-09-05'), new Date()]}
             className="datePicker-input"
             placeholder={'년-월-일 ~ 년-월-일'}
             size={'sm'}
             onChange={handleDateChange}
+          /> */}
+          <AdminDateRange
+            dateState={dateState}
+            setDateState={setDateState}
+            isDate={isDate}
+            setIsDate={setIsDate}
+            setPickedDate={setPickedDate}
           />
           <AdminBtn onClick={handleDate}>조회</AdminBtn>
         </li>

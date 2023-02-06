@@ -13,6 +13,7 @@ import { adminDateFomat } from 'utils/calculatePackage';
 type Props = {
   isDate: boolean;
   setIsDate: Dispatch<SetStateAction<boolean>>;
+  setPickedDate: Dispatch<SetStateAction<string[] | undefined>>;
   dateState: Range[];
   setDateState: Dispatch<SetStateAction<Range[]>>;
 };
@@ -20,6 +21,7 @@ type Props = {
 export default function AdminDateRange({
   isDate,
   setIsDate,
+  setPickedDate,
   dateState,
   setDateState,
 }: Props) {
@@ -46,6 +48,14 @@ export default function AdminDateRange({
     },
     [dateContainerRef],
   );
+
+  // const onClickConfirmButton = () => {
+  //   setIsDate(false)
+  //   setPickedDate([
+  //     adminDateFomat(item.selection.startDate!),
+  //     adminDateFomat(item.selection.endDate!),
+  //   ]);
+  // }
 
   return (
     <DateContainer ref={dateContainerRef}>
@@ -94,12 +104,12 @@ const DateRangeBox = styled.div`
   }
   .DateButton {
     height: 40px;
-    background-color: rgb(239, 242, 247);
+    background-color: rgb(226, 229, 237);
   }
 `;
 const DateBox = styled.div`
   border: 1px solid ${colors.gray2};
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 3px 10px;
   cursor: pointer;
 `;

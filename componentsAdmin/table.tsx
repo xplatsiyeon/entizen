@@ -121,7 +121,7 @@ const Table = ({
 
   // 오늘 날짜.
   const today = new Date();
-  console.log(adminDateFomat(String(today)));
+  // console.log(adminDateFomat(String(today)));
 
   // 역경매 견적서 보기에 넘겨줄 아이디값
   const dispatch = useDispatch();

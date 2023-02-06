@@ -37,7 +37,7 @@ const EntizenLibraryTable = ({
 
   // 오늘 날짜.
   const today = new Date();
-  console.log(adminDateFomat(String(today)));
+  // console.log(adminDateFomat(String(today)));
 
   /*
   
