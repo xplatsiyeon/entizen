@@ -1,7 +1,13 @@
 import styled from '@emotion/styled';
 import { InputAdornment, TextField, Typography } from '@mui/material';
 import Image from 'next/image';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import colors from 'styles/colors';
 import search from 'public/images/search.png';
 import mapPin from 'public/images/MapPin.png';
@@ -21,19 +27,36 @@ const SalesProjection = ({ text, setText }: Props) => {
   const handleOnClick = () => {
     router.push('/searchAddress');
   };
+
   const userID = sessionStorage.getItem('USER_ID');
+  console.log('userID', userID);
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText!(e.target.value);
   };
 
-  // 엔티즌에서 기획변경으로 비로그인시 여기에 입력하면 로그인창으로 이동
-  useEffect(() => {
-    if (text) {
-      if (text.length > 0 && userID === null) {
+  // input창 비회원 로그인시 input창 클릭하면 sign in으로
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const inputOnFocus = ({ target }: MouseEvent) => {
+    if (userID === null) {
+      if (inputRef.current && !inputRef.current.contains(target as Node)) {
         router.push('/signin');
       }
     }
-  }, [text]);
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', inputOnFocus);
+  }, []);
+
+  // 엔티즌에서 기획변경으로 비로그인시 여기에 입력하면 로그인창으로 이동
+  // useEffect(() => {
+  //   if (text) {
+  //     if (text.length > 0 && userID === null) {
+  //       router.push('/signin');
+  //     }
+  //   }
+  // }, [text]);
 
   return (
     <>
@@ -72,6 +95,7 @@ const SalesProjection = ({ text, setText }: Props) => {
               type="text"
               onChange={onChangeInput}
               value={text}
+              ref={inputRef}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
