@@ -45,6 +45,7 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
       },
     },
   );
+
   const router = useRouter();
   const [endTime, setEndTime] = useState<string>('');
   const [sendEndTime, setSendEndTime] = useState<string>('10:00');
@@ -256,7 +257,7 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 </div>
 
                 <CustomSwitch
-                  name="alertChatting"
+                  name="alertChargingStation"
                   onChange={handleAlertChange}
                   checked={alertChecked.alertChargingStation}
                 />
