@@ -25,7 +25,11 @@ const SalesProjection = ({ text, setText }: Props) => {
     query: '(max-width:810pt)',
   });
   const handleOnClick = () => {
-    router.push('/searchAddress');
+    if (userID === null) {
+      router.push('/signin');
+    } else {
+      router.push('/searchAddress');
+    }
   };
 
   const userID = sessionStorage.getItem('USER_ID');
@@ -65,7 +69,7 @@ const SalesProjection = ({ text, setText }: Props) => {
           <br /> 확인해보세요!
         </TextArea>
         <SearchMapArea>
-          {/* {mobile && (
+          {mobile && (
             <Input
               value="주소 입력 후 간단 체크!"
               type="submit"
@@ -87,7 +91,7 @@ const SalesProjection = ({ text, setText }: Props) => {
                 ),
               }}
             />
-          )} */}
+          )}
           {!mobile && (
             <Input
               placeholder="주소 입력 후 간단 체크!"
