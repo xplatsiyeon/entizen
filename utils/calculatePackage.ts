@@ -158,7 +158,8 @@ export const dateFomat = (date: string) => {
   return result;
 };
 // 관리자 페이지에서 사용하는 날짜변환 함수
-export const adminDateFomat = (date: string) => {
+// export const adminDateFomat = (date: string) => {
+export const adminDateFomat = (date: Date) => {
   if (date) {
     const newDate = new Date(date);
     return new Date(newDate.getTime() - newDate.getTimezoneOffset() * 60000)
@@ -270,7 +271,8 @@ export const CalcDate = (endDate: string) => {
     elapsedText = Math.trunc(elapsedTime / day) + '일 전';
   } else {
     // elapsedText = adminDateFomat(newDate.toString()).substring(0, 12);
-    elapsedText = adminDateFomat(newDate.toString());
+    // elapsedText = adminDateFomat(newDate.toString());
+    elapsedText = adminDateFomat(newDate);
   }
 
   return elapsedText;

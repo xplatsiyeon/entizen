@@ -169,7 +169,7 @@ const UserPreQuotation = ({ detatilId }: Props) => {
         </FlexList>
         <>
           {data?.quotationRequestChargers?.map((item, index) => (
-            <FlexList2>
+            <FlexList2 key={index}>
               {index === 0 ? (
                 <DetailText type={'left'}>충전기 종류 및 수량</DetailText>
               ) : (
