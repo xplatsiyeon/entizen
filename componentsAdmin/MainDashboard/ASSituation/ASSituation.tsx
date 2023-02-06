@@ -5,6 +5,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { DateRangePicker } from 'rsuite';
 import { DateRange } from 'rsuite/esm/DateRangePicker';
 import colors from 'styles/colors';
+import { adminNoPickDateFomat } from 'utils/calculatePackage';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -14,11 +15,15 @@ const projectStateType = ['접수요청', '완료대기', '완료'];
 const projectStateTypeEn = ['request', 'awaitingCompletion', 'completion'];
 
 const ASSituation = ({ setNowHeight }: Props) => {
-  const excelUrl =
-    '/admin/dashboards/after-sales-services/excel?page=1&limit=1000&startDate=2022-11-01&endDate=2023-12-29&afterSalesServiceStatus[]=request&afterSalesServiceStatus[]=completion';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const today = new Date();
+  const excelUrl = `/admin/dashboards/after-sales-services/excel?page=1&limit=1000&startDate=${
+    pickedDate ? pickedDate[0] : '2022-09-05'
+  }&endDate=${
+    pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
+  }&afterSalesServiceStatus[]=request&afterSalesServiceStatus[]=completion`;
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 

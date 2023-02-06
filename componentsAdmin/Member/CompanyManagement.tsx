@@ -11,6 +11,7 @@ import colors from 'styles/colors';
 import CommonDetail from './CommonDetail';
 import UserManagementTable from './UserManagementTable';
 import { ComUserData, UserData } from 'types/tableDataType';
+import { adminNoPickDateFomat } from 'utils/calculatePackage';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -25,8 +26,6 @@ const selectOption = [
 ];
 const selectOptionEn = ['id', 'companyName', 'managerName', 'email', 'phone'];
 const CompanyManagement = ({ setNowHeight }: Props) => {
-  const excelUrl =
-    '/admin/members/companies/excel?page=1&limit=10&startDate=2022-12-19&endDate=2023-12-19&searchType=name&searchKeyword=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [selectValue, setSelectValue] = useState('아이디 검색');
@@ -41,6 +40,12 @@ const CompanyManagement = ({ setNowHeight }: Props) => {
 
   const [pickedDate, setPickedDate] = useState<string[]>();
   const dateRef = useRef<HTMLLIElement>(null);
+  const today = new Date();
+  const excelUrl = `/admin/members/companies/excel?page=1&limit=10&startDate=${
+    pickedDate ? pickedDate[0] : '2022-09-05'
+  }&endDate=${
+    pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
+  }&searchType=name&searchKeyword=`;
 
   // 셀렉트 박스 변경함수
   const handleChange = (event: SelectChangeEvent<unknown>) => {

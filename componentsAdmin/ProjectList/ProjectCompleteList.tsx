@@ -8,6 +8,7 @@ import colors from 'styles/colors';
 import { AdminBtn } from 'componentsAdmin/Layout';
 import ProjectListTable from './ProjectListTable';
 import ProjectCompleteDetail from './ProjectCompleteDetail';
+import { adminNoPickDateFomat } from 'utils/calculatePackage';
 
 type Props = {
   setNowHeight?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -19,11 +20,15 @@ export const searchType = ['프로젝트 번호', '작성자 아이디', '기업
 export const searchTypeEn = ['projectNumber', 'userId', 'companyId'];
 
 const ProjectCompleteList = ({ setNowHeight }: Props) => {
-  const excelUrl =
-    '/admin/projects/excel?page=1&limit=1000&startDate=2022-11-01&endDate=2023-01-20&searchType=projectNumber&searchKeyword=&steps[]=completion';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const today = new Date();
+  const excelUrl = `/admin/projects/excel?page=1&limit=1000&startDate=${
+    pickedDate ? pickedDate[0] : '2022-09-05'
+  }&endDate=${
+    pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
+  }&searchType=projectNumber&searchKeyword=&steps[]=completion`;
   // 검색 옵션
   const [selectValue, setSelectValue] = useState('프로젝트 번호');
 

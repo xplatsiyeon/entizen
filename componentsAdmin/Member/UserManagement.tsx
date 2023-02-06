@@ -10,7 +10,7 @@ import Table from 'componentsAdmin/table';
 import { keyframes } from '@emotion/react';
 import useDebounce from 'hooks/useDebounce';
 import { AdminBtn } from 'componentsAdmin/Layout';
-import { originDateFomat } from 'utils/calculatePackage';
+import { adminNoPickDateFomat, originDateFomat } from 'utils/calculatePackage';
 import UserManagementTable from './UserManagementTable';
 
 type Props = {
@@ -21,9 +21,6 @@ const selectOption = ['아이디 검색', '연락처 검색', '이름 검색'];
 const selectOptionEn = ['id', 'phone', 'name'];
 const UserManagement = ({ setNowHeight }: Props) => {
   const [selectValue, setSelectValue] = useState('아이디 검색');
-
-  const excelUrl =
-    '/admin/members/users/excel?page=1&limit=10&startDate=2022-12-01&endDate=2023-01-31&searchType=id&searchKeyword=';
 
   //이름검색인지 연락처 검색인지 판별
   const [selectedFilter, setSelectedFilter] = useState<number>(0);
@@ -37,6 +34,12 @@ const UserManagement = ({ setNowHeight }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const today = new Date();
+  const excelUrl = `/admin/members/users/excel?page=1&limit=10&startDate=${
+    pickedDate ? pickedDate[0] : '2022-09-05'
+  }&endDate=${
+    pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
+  }&searchType=id&searchKeyword=`;
 
   const dateRef = useRef<HTMLLIElement>(null);
 

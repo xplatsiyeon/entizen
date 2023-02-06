@@ -11,6 +11,7 @@ import {
   hyphenFn,
   convertKo,
   convertEn,
+  adminNoPickDateFomat,
 } from 'utils/calculatePackage';
 
 type Props = {
@@ -25,11 +26,15 @@ const projectStateTypeEn = [
 ];
 
 const ProjectSituation = ({ setNowHeight }: Props) => {
-  const excelUrl =
-    '/admin/dashboards/projects/excel?page=1&limit=10&startDate=2022-12-01&endDate=2023-12-29&projectStatus[]=';
   const [isDetail, setIsDetail] = useState(false);
   const [detatilId, setDetailId] = useState<string>('');
   const [pickedDate, setPickedDate] = useState<string[]>();
+  const today = new Date();
+  const excelUrl = `/admin/dashboards/projects/excel?page=1&limit=10&startDate=${
+    pickedDate ? pickedDate[0] : '2022-09-05'
+  }&endDate=${
+    pickedDate ? pickedDate[1] : adminNoPickDateFomat(String(today))
+  }&projectStatus[]=`;
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 
