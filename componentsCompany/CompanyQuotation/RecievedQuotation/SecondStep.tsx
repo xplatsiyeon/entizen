@@ -264,10 +264,14 @@ const SecondStep = ({
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    if (e.target.value[0] !== '0') {
-      setFee(inputPriceFormat(value));
-    } else setFee(inputPriceFormat(value.substring(1)));
+    if (e.target.value.length > 1 && e.target.value[0] === '0') {
+      setFee(inputPriceFormat(value.substring(1)));
+    } else setFee(inputPriceFormat(value));
+    // if (e.target.value[0] !== '0') {
+    //   setFee(inputPriceFormat(value));
+    // } else setFee(inputPriceFormat(value.substring(1)));
   };
+
   const handleChargeTypeNumber = (index: number) => {
     setChargeTypeNumber(index);
   };
