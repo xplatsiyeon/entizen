@@ -138,18 +138,23 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
   }, [nowWidth]);
 
   useEffect(() => {
-    if (
-      alertsList?.data?.alertSetting?.alertKakao === false &&
-      alertsList?.data?.alertSetting?.alertEmail === false &&
-      alertsList?.data?.alertSetting?.alertApp === false
-    ) {
-      setComapanyAlerts(false);
-    } else if (
-      alertsList?.data?.alertSetting?.alertKakao === false &&
-      alertsList?.data?.alertSetting?.alertApp === false
-    ) {
-      setUserAlerts(false);
-    }
+    setAlertChecked({
+      alertApp: alertsList?.data?.alertSetting?.alertApp,
+      alertKakao: alertsList?.data?.alertSetting?.alertKakao,
+      alertEmail: alertsList?.data?.alertSetting?.alertEmail,
+      alertQuotationRequest:
+        alertsList?.data?.alertSetting?.alertQuotationRequest,
+      alertProject: alertsList?.data?.alertSetting?.alertProject,
+      alertAfterSalesService:
+        alertsList?.data?.alertSetting?.alertAfterSalesService,
+      alertChatting: alertsList?.data?.alertSetting?.alertChatting,
+      alertChargingStation:
+        alertsList?.data?.alertSetting?.alertChargingStation,
+      alertEvent: alertsList?.data?.alertSetting?.alertEvent,
+      alertSubsidy: alertsList?.data?.alertSetting?.alertSubsidy,
+      alertNoDisturbanceTime:
+        alertsList?.data?.alertSetting?.alertNoDisturbanceTime,
+    });
   }, [alertsList]);
 
   return (
@@ -221,7 +226,9 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   name="alertQuotationRequest"
                   onChange={handleAlertChange}
                   checked={
-                    companyAlerts === false
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false &&
+                    alertChecked?.alertEmail === false
                       ? false
                       : alertChecked.alertQuotationRequest
                   }
@@ -238,56 +245,121 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   name="alertQuotationRequest"
                   onChange={handleAlertChange}
                   checked={
-                    userAlerts === false
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false
                       ? false
                       : alertChecked.alertQuotationRequest
                   }
                 />
               </CheckBox>
             )}
-            <CheckBox>
-              <div>
-                <span className="text">내 프로젝트 알림</span>
-              </div>
-              <CustomSwitch
-                name="alertProject"
-                onChange={handleAlertChange}
-                checked={
-                  userAlerts === false || companyAlerts === false
-                    ? false
-                    : alertChecked.alertProject
-                }
-              />
-            </CheckBox>
-            <CheckBox>
-              <div>
-                <span className="text">A/S 알림</span>
-              </div>
-              <CustomSwitch
-                name="alertAfterSalesService"
-                onChange={handleAlertChange}
-                checked={
-                  userAlerts === false || companyAlerts === false
-                    ? false
-                    : alertChecked.alertAfterSalesService
-                }
-              />
-            </CheckBox>
-            <CheckBox>
-              <div>
-                <span className="text">소통하기 알림</span>
-                <div className="remark">신규 메세지 알림</div>
-              </div>
-              <CustomSwitch
-                name="alertChatting"
-                onChange={handleAlertChange}
-                checked={
-                  userAlerts === false || companyAlerts === false
-                    ? false
-                    : alertChecked.alertChatting
-                }
-              />
-            </CheckBox>
+            {memberType === 'USER' && (
+              <CheckBox>
+                <div>
+                  <span className="text">내 프로젝트 알림</span>
+                </div>
+                <CustomSwitch
+                  name="alertProject"
+                  onChange={handleAlertChange}
+                  checked={
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false
+                      ? false
+                      : alertChecked.alertProject
+                  }
+                />
+              </CheckBox>
+            )}
+            {memberType === 'COMPANY' && (
+              <CheckBox>
+                <div>
+                  <span className="text">내 프로젝트 알림</span>
+                </div>
+                <CustomSwitch
+                  name="alertProject"
+                  onChange={handleAlertChange}
+                  checked={
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false &&
+                    alertChecked?.alertEmail === false
+                      ? false
+                      : alertChecked.alertProject
+                  }
+                />
+              </CheckBox>
+            )}
+            {memberType === 'USER' && (
+              <CheckBox>
+                <div>
+                  <span className="text">A/S 알림</span>
+                </div>
+                <CustomSwitch
+                  name="alertAfterSalesService"
+                  onChange={handleAlertChange}
+                  checked={
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false
+                      ? false
+                      : alertChecked.alertAfterSalesService
+                  }
+                />
+              </CheckBox>
+            )}
+            {memberType === 'COMPANY' && (
+              <CheckBox>
+                <div>
+                  <span className="text">A/S 알림</span>
+                </div>
+                <CustomSwitch
+                  name="alertAfterSalesService"
+                  onChange={handleAlertChange}
+                  checked={
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false &&
+                    alertChecked?.alertEmail === false
+                      ? false
+                      : alertChecked.alertAfterSalesService
+                  }
+                />
+              </CheckBox>
+            )}
+            {memberType === 'USER' && (
+              <CheckBox>
+                <div>
+                  <span className="text">소통하기 알림</span>
+                  <div className="remark">신규 메세지 알림</div>
+                </div>
+                <CustomSwitch
+                  name="alertChatting"
+                  onChange={handleAlertChange}
+                  checked={
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false
+                      ? false
+                      : alertChecked.alertChatting
+                  }
+                />
+              </CheckBox>
+            )}
+            {memberType === 'COMPANY' && (
+              <CheckBox>
+                <div>
+                  <span className="text">소통하기 알림</span>
+                  <div className="remark">신규 메세지 알림</div>
+                </div>
+                <CustomSwitch
+                  name="alertChatting"
+                  onChange={handleAlertChange}
+                  checked={
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false &&
+                    alertChecked?.alertEmail === false
+                      ? false
+                      : alertChecked.alertChatting
+                  }
+                />
+              </CheckBox>
+            )}
             {memberType === 'USER' && (
               <CheckBox>
                 <div>
@@ -299,7 +371,8 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   name="alertChargingStation"
                   onChange={handleAlertChange}
                   checked={
-                    userAlerts === false
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false
                       ? false
                       : alertChecked.alertChargingStation
                   }
@@ -317,7 +390,10 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                   name="alertSubsidy"
                   onChange={handleAlertChange}
                   checked={
-                    userAlerts === false ? false : alertChecked.alertSubsidy
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false
+                      ? false
+                      : alertChecked.alertSubsidy
                   }
                 />
               </CheckBox>
@@ -325,58 +401,131 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
           </FuntionForm>
           <Line2 />
           <EventForm>
-            <CheckBox>
-              <span>방해금지시간 설정</span>
-              <CustomSwitch
-                name="alertNoDisturbanceTime"
-                onChange={handleAlertChange}
-                checked={
-                  userAlerts === false || companyAlerts === false
-                    ? false
-                    : alertChecked.alertNoDisturbanceTime
-                }
-                inputProps={{ 'aria-label': 'controlled' }}
-              />
-            </CheckBox>
-            {alertChecked.alertNoDisturbanceTime === true && (
-              <>
-                <OptionBox>
-                  <span>시작 시간</span>
-                  <AlarmDropDown
-                    setSelectValue={setStartTime}
-                    selectValue={startTime}
-                    currentStep={getTime(
-                      alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
-                    )}
-                    setSendTime={setSendStartTime}
-                  />
-                </OptionBox>
-                <OptionBox>
-                  <span>종료 시간</span>
-                  <AlarmDropDown
-                    setSelectValue={setEndTime}
-                    selectValue={endTime}
-                    currentStep={getTime(
-                      alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
-                    )}
-                    setSendTime={setSendEndTime}
-                  />
-                </OptionBox>
-              </>
+            {memberType === 'USER' && (
+              <CheckBox>
+                <span>방해금지시간 설정</span>
+                <CustomSwitch
+                  name="alertNoDisturbanceTime"
+                  onChange={handleAlertChange}
+                  checked={
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false
+                      ? false
+                      : alertChecked.alertNoDisturbanceTime
+                  }
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </CheckBox>
             )}
-            <CheckBox>
-              <span>이벤트 및 혜택 알림</span>
-              <CustomSwitch
-                name="event"
-                onChange={handleAlertChange}
-                checked={
-                  userAlerts === false || companyAlerts === false
-                    ? false
-                    : alertChecked.alertEvent
-                }
-                inputProps={{ 'aria-label': 'controlled' }}
-              />
-            </CheckBox>
+            {memberType === 'COMPANY' && (
+              <CheckBox>
+                <span>방해금지시간 설정</span>
+                <CustomSwitch
+                  name="alertNoDisturbanceTime"
+                  onChange={handleAlertChange}
+                  checked={
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false &&
+                    alertChecked?.alertEmail === false
+                      ? false
+                      : alertChecked.alertNoDisturbanceTime
+                  }
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </CheckBox>
+            )}
+            {memberType === 'USER' &&
+              alertChecked.alertNoDisturbanceTime === true &&
+              alertChecked?.alertKakao === true &&
+              alertChecked?.alertApp === true && (
+                <>
+                  <OptionBox>
+                    <span>시작 시간</span>
+                    <AlarmDropDown
+                      setSelectValue={setStartTime}
+                      selectValue={startTime}
+                      currentStep={getTime(
+                        alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
+                      )}
+                      setSendTime={setSendStartTime}
+                    />
+                  </OptionBox>
+                  <OptionBox>
+                    <span>종료 시간</span>
+                    <AlarmDropDown
+                      setSelectValue={setEndTime}
+                      selectValue={endTime}
+                      currentStep={getTime(
+                        alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
+                      )}
+                      setSendTime={setSendEndTime}
+                    />
+                  </OptionBox>
+                </>
+              )}
+            {memberType === 'COMPANY' &&
+              alertChecked.alertNoDisturbanceTime === true &&
+              alertChecked?.alertKakao === true &&
+              alertChecked?.alertApp === true &&
+              alertChecked?.alertEmail === true && (
+                <>
+                  <OptionBox>
+                    <span>시작 시간</span>
+                    <AlarmDropDown
+                      setSelectValue={setStartTime}
+                      selectValue={startTime}
+                      currentStep={getTime(
+                        alertsList?.data?.alertSetting?.noDisturbanceStartTime!,
+                      )}
+                      setSendTime={setSendStartTime}
+                    />
+                  </OptionBox>
+                  <OptionBox>
+                    <span>종료 시간</span>
+                    <AlarmDropDown
+                      setSelectValue={setEndTime}
+                      selectValue={endTime}
+                      currentStep={getTime(
+                        alertsList?.data?.alertSetting?.noDisturbanceEndTime!,
+                      )}
+                      setSendTime={setSendEndTime}
+                    />
+                  </OptionBox>
+                </>
+              )}
+            {memberType === 'USER' && (
+              <CheckBox>
+                <span>이벤트 및 혜택 알림</span>
+                <CustomSwitch
+                  name="event"
+                  onChange={handleAlertChange}
+                  checked={
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false
+                      ? false
+                      : alertChecked.alertEvent
+                  }
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </CheckBox>
+            )}
+            {memberType === 'COMPANY' && (
+              <CheckBox>
+                <span>이벤트 및 혜택 알림</span>
+                <CustomSwitch
+                  name="event"
+                  onChange={handleAlertChange}
+                  checked={
+                    alertChecked?.alertKakao === false &&
+                    alertChecked?.alertApp === false &&
+                    alertChecked?.alertEmail === false
+                      ? false
+                      : alertChecked.alertEvent
+                  }
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </CheckBox>
+            )}
           </EventForm>
         </Wrapper>
       )}
