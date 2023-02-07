@@ -37,10 +37,20 @@ const Home: NextPage<Props> = ({}: Props) => {
     }
   }, []);
 
-  interface Response {
-    isSuccess: boolean;
-    message: string;
-  }
+  useEffect(() => {
+    const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
+    axios
+      .get(`https://test-api.entizen.kr/api/members/info`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      .then((res: any) => {
+        console.log(
+          '================res 데이터 확인==================================',
+        );
+        console.log(res);
+      });
+  }, []);
+
   // 앱 -> 웹
   useLayoutEffect(() => {
     // 안드로이드 호출
@@ -48,32 +58,42 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
-          axios.get(`${BASE_URL}/api/members/info`).then((res: any) => {
-            if (res.isSuccess === true) {
-              sessionStorage.setItem(
-                'SNS_MEMBER',
-                JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-              );
-              sessionStorage.setItem(
-                'MEMBER_TYPE',
-                JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-              );
-              sessionStorage.setItem(
-                'ACCESS_TOKEN',
-                JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-              );
-              sessionStorage.setItem(
-                'REFRESH_TOKEN',
-                JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-              );
-              sessionStorage.setItem(
-                'USER_ID',
-                JSON.stringify(jsonGetUserInfo.USER_ID),
-              );
-            } else {
-              appLogout(userAgent as string);
-            }
-          });
+          axios
+            .get(`https://test-api.entizen.kr/api/members/info`, {
+              headers: {
+                Authorization: `Bearer ${JSON.stringify(
+                  jsonGetUserInfo.ACCESS_TOKEN,
+                )}`,
+              },
+            })
+            .then((res: any) => {
+              if (res.isSuccess === true) {
+                sessionStorage.setItem(
+                  'SNS_MEMBER',
+                  JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+                );
+                sessionStorage.setItem(
+                  'MEMBER_TYPE',
+                  JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+                );
+                sessionStorage.setItem(
+                  'ACCESS_TOKEN',
+                  JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+                );
+                sessionStorage.setItem(
+                  'REFRESH_TOKEN',
+                  JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+                );
+                sessionStorage.setItem(
+                  'USER_ID',
+                  JSON.stringify(jsonGetUserInfo.USER_ID),
+                );
+              } else {
+                appLogout(userAgent as string);
+              }
+            });
+        } else {
+          appLogout(userAgent as string);
         }
         setLoginChecking(false);
       };
@@ -82,35 +102,44 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
-          axios.get(`${BASE_URL}/members/info`).then((res: any) => {
-            if (res.isSuccess === true) {
-              sessionStorage.setItem(
-                'SNS_MEMBER',
-                JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
-              );
-              sessionStorage.setItem(
-                'MEMBER_TYPE',
-                JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
-              );
-              sessionStorage.setItem(
-                'ACCESS_TOKEN',
-                JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
-              );
-              sessionStorage.setItem(
-                'REFRESH_TOKEN',
-                JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
-              );
-              sessionStorage.setItem(
-                'USER_ID',
-                JSON.stringify(jsonGetUserInfo.USER_ID),
-              );
-            } else {
-              appLogout(userAgent as string);
-            }
-          });
+          axios
+            .get(`https://test-api.entizen.kr/api/members/info`, {
+              headers: {
+                Authorization: `Bearer ${JSON.stringify(
+                  jsonGetUserInfo.ACCESS_TOKEN,
+                )}`,
+              },
+            })
+            .then((res: any) => {
+              if (res.isSuccess === true) {
+                sessionStorage.setItem(
+                  'SNS_MEMBER',
+                  JSON.stringify(jsonGetUserInfo.SNS_MEMBER),
+                );
+                sessionStorage.setItem(
+                  'MEMBER_TYPE',
+                  JSON.stringify(jsonGetUserInfo.MEMBER_TYPE),
+                );
+                sessionStorage.setItem(
+                  'ACCESS_TOKEN',
+                  JSON.stringify(jsonGetUserInfo.ACCESS_TOKEN),
+                );
+                sessionStorage.setItem(
+                  'REFRESH_TOKEN',
+                  JSON.stringify(jsonGetUserInfo.REFRESH_TOKEN),
+                );
+                sessionStorage.setItem(
+                  'USER_ID',
+                  JSON.stringify(jsonGetUserInfo.USER_ID),
+                );
+              } else {
+                appLogout(userAgent as string);
+              }
+            });
+        } else {
+          appLogout(userAgent as string);
         }
         setLoginChecking(false);
-        // if (typeof userInfo === 'object') {
         //   sessionStorage.setItem(
         //     'SNS_MEMBER',
         //     JSON.stringify(userInfo.SNS_MEMBER),
