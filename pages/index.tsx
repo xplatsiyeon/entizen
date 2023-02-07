@@ -58,11 +58,11 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
-          alert(jsonGetUserInfo);
+          alert(jsonGetUserInfo.ACCESS_TOKEN);
           axios
             .get(`https://api.entizen.kr/api/members/info`, {
               headers: {
-                Authorization: `Bearer ${jsonGetUserInfo.ACCESS_TOKEN},`,
+                Authorization: `Bearer ${jsonGetUserInfo.ACCESS_TOKEN}`,
               },
             })
             .then((res: any) => {
