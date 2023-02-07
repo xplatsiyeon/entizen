@@ -39,9 +39,7 @@ const ReverseAuctionSituation = ({ setNowHeight }: Props) => {
   ]);
   const excelUrl = `/admin/dashboards/quotation-requests/excel?page=1&limit=1000&startDate=${adminDateFomat(
     dateState[0].startDate!,
-  )}&endDate=${adminDateFomat(
-    dateState[0].endDate!,
-  )}&quotationRequestStatus[]=`;
+  )}&endDate=${adminDateFomat(dateState[0].endDate!)}`;
   //검색창에 입력되는 값
   const dateRef = useRef<HTMLLIElement>(null);
 
