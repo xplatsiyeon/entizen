@@ -43,6 +43,12 @@ export const GET_ModuSignResponse = gql`
           etcRequest
         }
       }
+      contract {
+        contractContent
+        documentId
+        contractHistory
+        projectIdx
+      }
     }
   }
 `;
@@ -85,6 +91,12 @@ export interface ModuSignResponse {
       quotationRequest: {
         etcRequest: string;
       };
+    };
+    contract: {
+      documentId: string;
+      contractContent: string;
+      contractHistory: string;
+      projectIdx: number;
     };
   };
 }

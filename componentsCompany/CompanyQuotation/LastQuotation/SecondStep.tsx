@@ -200,15 +200,26 @@ const SecondStep = ({
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const temp = [...selectedOptionEn];
-    if (value[0] !== '0') {
+    // if (value[0] !== '0') {
+    //   temp[tabNumber - 1] = {
+    //     ...temp[tabNumber - 1],
+    //     chargePrice: inputPriceFormat(value),
+    //   };
+    // } else if (value.length > 1 && value[0] === '0') {
+    //   temp[tabNumber - 1] = {
+    //     ...temp[tabNumber - 1],
+    //     chargePrice: inputPriceFormat(value.replace(/(^0+)/, '')),
+    //   };
+    // }
+    if (e.target.value.length > 1 && value[0] === '0') {
+      temp[tabNumber - 1] = {
+        ...temp[tabNumber - 1],
+        chargePrice: inputPriceFormat(value.substring(1)),
+      };
+    } else {
       temp[tabNumber - 1] = {
         ...temp[tabNumber - 1],
         chargePrice: inputPriceFormat(value),
-      };
-    } else if (value.length > 1 && value[0] === '0') {
-      temp[tabNumber - 1] = {
-        ...temp[tabNumber - 1],
-        chargePrice: inputPriceFormat(value.replace(/(^0+)/, '')),
       };
     }
     setSelectedOptionEn(temp);

@@ -49,6 +49,11 @@ import {
 } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { getDocument } from 'api/getDocument';
+import { modusignPDF } from 'components/mypage/place/PlaceInfo';
+import {
+  GET_ModuSignResponse,
+  ModuSignResponse,
+} from 'QueryComponents/ModuSignQuery';
 
 type Props = {
   setIsDetail?: Dispatch<SetStateAction<boolean>>;
@@ -189,8 +194,10 @@ interface ProjectDetailResponse {
         }[];
       };
       contract: {
-        contractIdx: number;
         documentId: string;
+        contractContent: string;
+        contractHistory: string;
+        projectIdx: number;
       };
       currentStep: string;
       // 완료 된 현장사진
@@ -209,7 +216,7 @@ const ProjectCompleteDetail = ({
   // 표기 순서: 구독시작일 - 구독종료일 - 충전소 설치비 - 월 구독료 - 충전요금(프로젝트 생성일 빼고 구독시작일, 구독종료일)
   // 진행단계: 구독종료 D-n
   // 필요 자료: 카탈로그, 견적서, 사업자등록증 등 역경매 프로세스에서 등록된 자료들이 모두 업로드
-
+  const router = useRouter();
   const queryClinet = useQueryClient();
   // 수정 등록 버튼 누를때 나오는 모달창
   const [messageModal, setMessageModal] = useState<boolean>(false);
@@ -244,7 +251,10 @@ const ProjectCompleteDetail = ({
   // 계약서 보기 버튼 활성화
   // 0은 계약서 없음 / 1은 자체 계약서 / 2는 모두사인 계약서 있음
   const [moduSignContract, setModuSignContract] = useState(0);
+  // 계약서 url 저장
+  const [getUrl, setGetUrl] = useState('');
 
+  // getData
   const { data, isLoading, isError, refetch } =
     reactQuery<ProjectDetailResponse>('projectDetail', () =>
       isTokenAdminGetApi(`/admin/projects/${projectIdx}`),
@@ -268,6 +278,24 @@ const ProjectCompleteDetail = ({
     },
   });
 
+  /// graphQl
+  const {
+    loading: inModuSignLoading,
+    error: inModuSignErroe,
+    data: inModuSignData,
+    refetch: inModuSignRefetch,
+  } = useQuery<ModuSignResponse>(GET_ModuSignResponse, {
+    variables: {
+      projectIdx: projectIdx,
+    },
+    context: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'application/json',
+      },
+    },
+  });
+
   const {
     data: contractDocumentData,
     isLoading: contractDocumentLoading,
@@ -280,20 +308,22 @@ const ProjectCompleteDetail = ({
     },
   );
 
-  console.log(
-    'data?.data?.project?.contract?.documentId 🌸',
-    data?.data?.project?.contract?.documentId?.substring(0, 7),
-  );
-
-  // 계약서 보기 버튼 클릭
+  // 계약서 다운로드 버튼 클릭
   const onClickContract = () => {
     if (moduSignContract === 2) {
       console.log(contractDocumentData?.embeddedUrl);
       // 새탭방식
-      window.open(contractDocumentData?.embeddedUrl);
-    } else if (moduSignContract === 1) {
+      // window.open(contractDocumentData?.embeddedUrl);
+      // setGetUrl(contractDocumentData?.embeddedUrl!);
       setMessageModal(true);
-      setMessage('자체 계약서는 확인할 수 없습니다.');
+      setMessage('계약서가 다운로드 됐습니다.');
+    } else if (moduSignContract === 1) {
+      // const contractUrl = JSON.parse(
+      //   data?.data?.project?.contract?.contractContent!,
+      // );
+      // setGetUrl(contractUrl[0]?.url);
+      setMessageModal(true);
+      setMessage('자체 계약서가 다운로드 됐습니다.');
     } else if (moduSignContract === 0) {
       setMessageModal(true);
       setMessage('계약서가 없습니다.');
@@ -311,17 +341,33 @@ const ProjectCompleteDetail = ({
     // }
   };
 
+  // 자체계약서인지 모두싸인 계약서인지 판별
   useEffect(() => {
     if (data?.data?.project?.contract?.documentId === undefined) {
       setModuSignContract(0);
     } else if (
-      data?.data?.project?.contract?.documentId?.substring(0, 7) === 'project'
+      data?.data?.project?.contract?.documentId === undefined &&
+      inModuSignData?.project?.contract?.contractContent === undefined
+    ) {
+      setModuSignContract(0);
+    } else if (
+      data?.data?.project?.contract?.documentId?.substring(0, 7) ===
+        'project' &&
+      inModuSignData?.project?.contract?.contractContent !== undefined
     ) {
       setModuSignContract(1);
+      if (inModuSignData?.project?.contract?.contractContent !== undefined) {
+        setGetUrl(
+          JSON.parse(inModuSignData?.project?.contract?.contractContent)[0].url,
+        );
+      }
     } else {
       setModuSignContract(2);
+      setGetUrl(contractDocumentData?.embeddedUrl!);
     }
-  }, [data]);
+  }, [data, inModuSignData]);
+
+  console.log('setModuSignContract', moduSignContract);
 
   // 리뷰데이터
   const reviewData = data?.data?.project?.projectReview;
@@ -494,6 +540,8 @@ const ProjectCompleteDetail = ({
       setFinalApprove(false);
     }
   }, [data]);
+
+  console.log('getUrl', getUrl);
 
   const elseRequest =
     data?.data?.project?.finalQuotation?.preQuotation?.quotationRequest
@@ -766,7 +814,32 @@ const ProjectCompleteDetail = ({
             </List>
             <List>
               <Label>계약서 정보</Label>
-              <ButtonBox onClick={onClickContract}>계약서 보기</ButtonBox>
+              {moduSignContract === 2 && (
+                <ButtonBox
+                  onClick={() => {
+                    modusignPDF(getUrl);
+                  }}
+                >
+                  계약서 다운로드
+                </ButtonBox>
+              )}
+              {/* {moduSignContract === 2 && (
+                <a href={getUrl} download={'계약서'}>
+                  <ButtonBox onClick={onClickContract}>
+                    계약서 다운로드
+                  </ButtonBox>
+                </a>
+              )} */}
+              {moduSignContract === 1 && (
+                <a href={getUrl} download={'계약서'}>
+                  <ButtonBox onClick={onClickContract}>
+                    계약서 다운로드
+                  </ButtonBox>
+                </a>
+              )}
+              {moduSignContract === 0 && (
+                <ButtonBox onClick={onClickContract}>계약서 다운로드</ButtonBox>
+              )}
             </List>
             <ImgList
               dataLength={
