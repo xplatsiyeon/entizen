@@ -322,7 +322,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
                 name="alertAfterSalesService"
                 onChange={handleAlertChange}
                 checked={
-                  alertChecked?.alertKakao === false && alertChecked?.alertEmail
+                  alertChecked?.alertKakao === false &&
+                  alertChecked?.alertEmail === false
                     ? false
                     : alertChecked.alertAfterSalesService
                 }
@@ -469,8 +470,8 @@ const AlarmWebSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             )}
           {memberType === 'COMPANY' &&
             alertChecked.alertNoDisturbanceTime === true &&
-            alertChecked?.alertKakao === true &&
-            alertChecked?.alertEmail === true && (
+            (alertChecked?.alertKakao === true ||
+              alertChecked?.alertEmail === true) && (
               <OptionContainer>
                 <OptionBox>
                   <span>시작 시간</span>

@@ -436,8 +436,8 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
             )}
             {memberType === 'USER' &&
               alertChecked.alertNoDisturbanceTime === true &&
-              alertChecked?.alertKakao === true &&
-              alertChecked?.alertApp === true && (
+              (alertChecked?.alertKakao === true ||
+                alertChecked?.alertApp === true) && (
                 <>
                   <OptionBox>
                     <span>시작 시간</span>
@@ -465,9 +465,9 @@ const AlarmSetting = ({ tabNumber, setTabNumber, leftTabNumber }: Props) => {
               )}
             {memberType === 'COMPANY' &&
               alertChecked.alertNoDisturbanceTime === true &&
-              alertChecked?.alertKakao === true &&
-              alertChecked?.alertApp === true &&
-              alertChecked?.alertEmail === true && (
+              (alertChecked?.alertKakao === true ||
+                alertChecked?.alertApp === true ||
+                alertChecked?.alertEmail === true) && (
                 <>
                   <OptionBox>
                     <span>시작 시간</span>
