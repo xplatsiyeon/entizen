@@ -62,9 +62,7 @@ const Home: NextPage<Props> = ({}: Props) => {
           axios
             .get(`https://api.entizen.kr/api/members/info`, {
               headers: {
-                Authorization: `Bearer ${JSON.stringify(
-                  jsonGetUserInfo.ACCESS_TOKEN,
-                )}`,
+                Authorization: `Bearer ${jsonGetUserInfo.ACCESS_TOKEN},`,
               },
             })
             .then((res: any) => {
