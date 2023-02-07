@@ -88,7 +88,7 @@ const Home: NextPage<Props> = ({}: Props) => {
               );
             })
             .catch((error) => {
-              setIsModal(false);
+              setIsModal(true);
               appLogout(userAgent as string);
             });
         }
@@ -127,7 +127,7 @@ const Home: NextPage<Props> = ({}: Props) => {
               );
             })
             .catch((error) => {
-              setIsModal(false);
+              setIsModal(true);
               appLogout(userAgent as string);
             });
         }
