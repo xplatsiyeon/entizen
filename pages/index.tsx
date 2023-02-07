@@ -58,6 +58,7 @@ const Home: NextPage<Props> = ({}: Props) => {
       window.returnUserInfo = (userInfo) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
+          alert(jsonGetUserInfo);
           axios
             .get(`https://api.entizen.kr/api/members/info`, {
               headers: {
@@ -90,7 +91,7 @@ const Home: NextPage<Props> = ({}: Props) => {
               );
             })
             .catch((error) => {
-              alert('실패 catch');
+              alert(error);
               appLogout(userAgent as string);
             });
         }
