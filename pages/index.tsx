@@ -40,7 +40,7 @@ const Home: NextPage<Props> = ({}: Props) => {
   useEffect(() => {
     const accessToken = JSON.parse(sessionStorage.getItem('ACCESS_TOKEN')!);
     axios
-      .get(`https://test-api.entizen.kr/api/members/info`, {
+      .get(`https://api.entizen.kr/api/members/info`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((res: any) => {
@@ -59,7 +59,7 @@ const Home: NextPage<Props> = ({}: Props) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
           axios
-            .get(`https://test-api.entizen.kr/api/members/info`, {
+            .get(`https://api.entizen.kr/api/members/info`, {
               headers: {
                 Authorization: `Bearer ${JSON.stringify(
                   jsonGetUserInfo.ACCESS_TOKEN,
@@ -103,7 +103,7 @@ const Home: NextPage<Props> = ({}: Props) => {
         if (userInfo.length > 1) {
           const jsonGetUserInfo = JSON.parse(userInfo);
           axios
-            .get(`https://test-api.entizen.kr/api/members/info`, {
+            .get(`https://api.entizen.kr/api/members/info`, {
               headers: {
                 Authorization: `Bearer ${JSON.stringify(
                   jsonGetUserInfo.ACCESS_TOKEN,
